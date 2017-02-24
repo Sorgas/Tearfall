@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.model.GameModel;
 
 public interface GameView {
+
     void showSnapshot();
 
     void setTileset(Texture img);

@@ -1,6 +1,7 @@
 package com.model.localmap;
 
 import com.model.objects.GameObject;
+import com.model.utils.Position;
 
 import java.util.ArrayList;
 import java.util.List;

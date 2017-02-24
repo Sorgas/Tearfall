@@ -1,8 +1,8 @@
-package com.model.generator;
+package com.model.generator.local;
 
 import com.model.localmap.LocalMap;
 import com.model.localmap.MapCell;
-import com.model.localmap.Position;
+import com.model.utils.Position;
 
 /**
  * factory class for creating LocalMap objects

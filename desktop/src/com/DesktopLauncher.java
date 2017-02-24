@@ -7,9 +7,10 @@ import com.frames.GameFrame;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.width = 2000;
+		config.width = 1000;
 		config.height = 900;
 		config.title = "Dwarf Destiny";
+        config.foregroundFPS = 3;
 		GameFrame frame = new GameFrame();
 		new GameMvcInitializer().initGame(frame);
 		new LwjglApplication(frame, config);

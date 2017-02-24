@@ -1,6 +1,6 @@
 package com.model.objects;
 
-import com.model.localmap.Position;
+import com.model.utils.Position;
 
 public abstract class GameObject {
 	private Position position;

@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.model.GameModel;
 import com.model.localmap.Level;
 import com.model.localmap.MapSnapshot;
-import com.model.localmap.Position;
+import com.model.utils.Position;
 
 public class SimpleView implements GameView {
     private GameModel model;
@@ -18,6 +18,7 @@ public class SimpleView implements GameView {
     private SpriteBatch batch;
     private Texture img;
     private TextureRegion block;
+    private float shadingStep = 0.08f;
 
     public SimpleView() {
     }
@@ -31,11 +32,13 @@ public class SimpleView implements GameView {
     @Override
     public void showSnapshot() {
         batch.begin();
-        Position camera = new Position(20, 20, 108);
+        Position camera = new Position(20, 20, 105);
         MapSnapshot snapshot = model.prepareSnapshot(camera);
         int lowestLevel = camera.getZ() - snapshot.getLayerCount();
         for (int z = lowestLevel; z < camera.getZ(); z++) {
+            float shading = (camera.getZ() - z ) * shadingStep;
             Level level = snapshot.getLevel(z - lowestLevel);
+            batch.setColor(1 - shading,1 - shading,1 - shading, 1);
             for (int x = 0; x < snapshot.getxSize(); x++) {
                 for (int y = 0; y < snapshot.getySize(); y++) {
                     Position onFramePos = centerPosition(transformPosition(new Position(x - camera.getX(), y - camera.getY(), z - camera.getZ())));
@@ -59,7 +62,7 @@ public class SimpleView implements GameView {
             if (id == 1) {
                 batch.draw(block, onFramePos.getX(), onFramePos.getY());
             } else {
-                batch.draw(new TextureRegion(img, (id - 2) * tileWidth, 8 * tileHeight, tileWidth, tileHeight), onFramePos.getX(), onFramePos.getY());
+                batch.draw(new TextureRegion(img, (id - 2) * tileWidth, 7 * tileHeight, tileWidth, tileHeight), onFramePos.getX(), onFramePos.getY());
             }
         }
     }

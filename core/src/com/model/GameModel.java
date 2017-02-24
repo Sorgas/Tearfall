@@ -1,7 +1,9 @@
 package com.model;
 
+import com.model.generator.world.WorldGenerator;
 import com.model.localmap.MapSnapshot;
-import com.model.localmap.Position;
+import com.model.utils.Position;
+import com.model.generator.world.WorldMap;
 
 public interface GameModel {
 	/**
@@ -12,4 +14,8 @@ public interface GameModel {
     MapSnapshot prepareSnapshot(Position camera);
 
 	void makeTurn();
+
+	WorldMap getWorldMap();
+
+	public WorldGenerator getWorldGenerator();
 }

@@ -1,5 +1,7 @@
 package com.model.localmap;
 
+import com.model.utils.Position;
+
 /**
  * Class for storing local map
  */

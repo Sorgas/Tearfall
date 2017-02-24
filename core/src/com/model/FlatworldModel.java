@@ -1,10 +1,12 @@
 package com.model;
 
-import com.model.generator.LocalMapGenerator;
+import com.model.generator.local.LocalMapGenerator;
 import com.model.localmap.Level;
 import com.model.localmap.LocalMap;
 import com.model.localmap.MapSnapshot;
-import com.model.localmap.Position;
+import com.model.utils.Position;
+import com.model.generator.world.WorldGenerator;
+import com.model.generator.world.WorldMap;
 
 /**
  * mock model class
@@ -12,14 +14,19 @@ import com.model.localmap.Position;
 public class FlatworldModel implements GameModel{
 	private LocalMap localMap;
 	private LocalMapGenerator localMapGenerator;
+	private WorldMap worldMap;
+	private WorldGenerator worldGenerator;
 
 	/**
 	 * model constructor. creates flat local with fixed size
 	 */
 	public FlatworldModel() {
-		this.localMapGenerator = new LocalMapGenerator();
+		localMapGenerator = new LocalMapGenerator();
 		localMapGenerator.createFlatMap(30,30);
 		localMap = localMapGenerator.getMap();
+		worldGenerator = new WorldGenerator();
+		worldGenerator.createMap(100,100);
+		worldMap = worldGenerator.getMap();
 	}
 	
 	@Override
@@ -38,5 +45,18 @@ public class FlatworldModel implements GameModel{
 	@Override
 	public void makeTurn() {
 		
+	}
+
+	public WorldMap getWorldMap() {
+		return worldMap;
+	}
+
+	public void setWorldMap(WorldMap worldMap) {
+		this.worldMap = worldMap;
+	}
+
+	@Override
+	public WorldGenerator getWorldGenerator() {
+		return worldGenerator;
 	}
 }
