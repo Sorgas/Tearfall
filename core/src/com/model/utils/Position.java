@@ -15,6 +15,13 @@ public class Position {
         this.z = z;
     }
 
+    public Position addVector(Vector vector) {
+    	Position endPoint = vector.getEndPoint();
+    	int xOffset = endPoint.getX() - vector.getStartPoint().getX();
+	    int yOffset = endPoint.getY() - vector.getStartPoint().getY();
+	    return new Position(x + xOffset, y + yOffset, z);
+    }
+
     public int getX() {
         return x;
     }

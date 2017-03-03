@@ -1,8 +1,10 @@
 package com.view;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.model.GameModel;
 import com.model.localmap.Level;
 import com.model.localmap.MapSnapshot;
@@ -19,6 +21,7 @@ public class SimpleView implements GameView {
     private Texture img;
     private TextureRegion block;
     private float shadingStep = 0.08f;
+    private BitmapFont font;
 
     public SimpleView() {
     }
@@ -98,4 +101,14 @@ public class SimpleView implements GameView {
     public void setSpriteBatch(SpriteBatch batch) {
         this.batch = batch;
     }
+
+	@Override
+	public void setShapeRenderer(ShapeRenderer shapeRenderer) {
+
+	}
+
+	@Override
+	public void setFont(BitmapFont font) {
+		this.font = font;
+	}
 }

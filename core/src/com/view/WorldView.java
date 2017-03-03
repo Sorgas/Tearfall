@@ -1,12 +1,13 @@
 package com.view;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.model.GameModel;
-import com.model.generator.world.Edge;
-import com.model.generator.world.Plate;
+import com.model.generator.world.world_objects.Edge;
+import com.model.generator.world.world_objects.Mountain;
+import com.model.generator.world.world_objects.Plate;
 import com.model.utils.Position;
 import com.model.utils.Vector;
 
@@ -17,26 +18,26 @@ public class WorldView implements GameView {
 	private GameModel model;
 	private int windowWidth;
 	private int windowHeight;
-	private int tileWidth = 8;
-	private int tileHeight = 8;
-	private int width = 100;
-	private int heigth = 100;
+	private int tileWidth = 4;
+	private int tileHeight = 4;
 	private SpriteBatch batch;
 	private Texture img;
 	private ShapeRenderer shapeRenderer;
+	private BitmapFont font;
 
 	public WorldView() {
 	}
 
 	@Override
 	public void showSnapshot() {
-		shapeRenderer = new ShapeRenderer();
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
 		shapeRenderer.setColor(1, 1, 1, 1);
 		drawDots();
 		shapeRenderer.setColor(0, 1, 0, 1);
 		drawEdges();
 		drawSpeedVectors();
+		shapeRenderer.setColor(1, 0, 0, 1);
+		drawElevationTops();
 		shapeRenderer.end();
 	}
 
@@ -44,7 +45,7 @@ public class WorldView implements GameView {
 		List<Position> list = model.getWorldGenerator().getFocuses();
 		for (int i = 0; i < list.size(); i++) {
 			Position pos = list.get(i);
-			shapeRenderer.rect(pos.getX() * tileWidth, pos.getY() * tileHeight, 2, 2);
+			drawPoint(pos.getX(), pos.getY());
 		}
 	}
 
@@ -54,7 +55,7 @@ public class WorldView implements GameView {
 			Plate plate = iterator.next();
 			for (Iterator<Edge> edgeIterator = plate.getEdges().iterator(); edgeIterator.hasNext(); ) {
 				Edge edge = edgeIterator.next();
-				shapeRenderer.line(edge.getPoint1().getX() * tileWidth, edge.getPoint1().getY() * tileHeight, edge.getPoint2().getX() * tileWidth, edge.getPoint2().getY() * tileHeight);
+				drawLine(edge.getPoint1().getX(), edge.getPoint1().getY(), edge.getPoint2().getX(), edge.getPoint2().getY());
 			}
 		}
 	}
@@ -64,23 +65,39 @@ public class WorldView implements GameView {
 		for (Iterator<Plate> iterator = plates.iterator(); iterator.hasNext(); ) {
 			Vector vector = iterator.next().getSpeedVector();
 			Position endPoint = vector.getEndPoint();
-			shapeRenderer.line(vector.getX() * tileWidth, vector.getY() * tileHeight, endPoint.getX() * tileWidth, endPoint.getY() * tileHeight);
+			drawLine(vector.getX(), vector.getY(), endPoint.getX(), endPoint.getY());
 		}
 	}
 
-	private void drawBorder() {
-		shapeRenderer.line(0, heigth * tileHeight + 3, width * tileWidth + 3, heigth * tileHeight + 3);
-		shapeRenderer.line(width * tileWidth + 3, heigth * tileHeight + 3, width * tileWidth + 3, 0);
-	}
-
-	private void drawTile(int x, int y, int id) {
-		batch.draw(new TextureRegion(img, 10, 10, tileWidth, tileHeight), x, y);
+	private void drawElevationTops() {
+		List<Edge> edges = model.getWorldGenerator().getEdges();
+		for (Iterator<Edge> iterator = edges.iterator(); iterator.hasNext(); ) {
+			Edge edge = iterator.next();
+			List<Mountain> mountains = edge.getMountains();
+			for (Iterator<Mountain> mountainIterator = mountains.iterator(); mountainIterator.hasNext(); ) {
+				Mountain mountain = mountainIterator.next();
+				Position top = mountain.getTop();
+				drawPoint(top.getX(), top.getY());
+				for (Iterator<Position> cornerIterator = mountain.getCorners().iterator(); cornerIterator.hasNext(); ) {
+					Position corner = cornerIterator.next();
+					drawLine(top.getX(), top.getY(), corner.getX(), corner.getY());
+				}
+			}
+		}
 	}
 
 	private Position center(int x, int y) {
 		int newX = windowWidth / 2 + x * tileWidth;
 		int newY = windowHeight / 2 + y * tileHeight;
 		return new Position(newX, newY, 0);
+	}
+
+	private void drawLine(int x1, int y1, int x2, int y2) {
+		shapeRenderer.line(x1 * tileWidth + tileWidth / 2, y1 * tileHeight + tileHeight / 2, x2 * tileWidth + tileWidth / 2, y2 * tileHeight + tileHeight / 2);
+	}
+
+	private void drawPoint(int x, int y) {
+		shapeRenderer.rect(x * tileWidth, y * tileHeight, tileWidth, tileHeight);
 	}
 
 	@Override
@@ -111,5 +128,16 @@ public class WorldView implements GameView {
 	@Override
 	public void setSpriteBatch(SpriteBatch batch) {
 		this.batch = batch;
+	}
+
+	public void setShapeRenderer(ShapeRenderer shapeRenderer) {
+		if (this.shapeRenderer != null) {
+			this.shapeRenderer.dispose();
+		}
+		this.shapeRenderer = shapeRenderer;
+	}
+
+	public void setFont(BitmapFont font) {
+		this.font = font;
 	}
 }

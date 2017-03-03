@@ -11,7 +11,7 @@ import com.model.generator.world.WorldMap;
 /**
  * mock model class
  */
-public class FlatworldModel implements GameModel{
+public class Model implements GameModel{
 	private LocalMap localMap;
 	private LocalMapGenerator localMapGenerator;
 	private WorldMap worldMap;
@@ -20,12 +20,12 @@ public class FlatworldModel implements GameModel{
 	/**
 	 * model constructor. creates flat local with fixed size
 	 */
-	public FlatworldModel() {
+	public Model() {
 		localMapGenerator = new LocalMapGenerator();
 		localMapGenerator.createFlatMap(30,30);
 		localMap = localMapGenerator.getMap();
 		worldGenerator = new WorldGenerator();
-		worldGenerator.createMap(100,100);
+		worldGenerator.createMap(200,200);
 		worldMap = worldGenerator.getMap();
 	}
 	

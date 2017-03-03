@@ -1,7 +1,9 @@
 package com.view;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.model.GameModel;
 
 public interface GameView {
@@ -19,4 +21,8 @@ public interface GameView {
     void freeResources();
 
     void setSpriteBatch(SpriteBatch batch);
+
+    void setShapeRenderer(ShapeRenderer shapeRenderer);
+
+    void setFont(BitmapFont font);
 }

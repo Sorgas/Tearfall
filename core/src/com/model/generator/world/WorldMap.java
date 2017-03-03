@@ -1,5 +1,7 @@
 package com.model.generator.world;
 
+import com.model.generator.world.world_objects.WorldCell;
+
 public class WorldMap {
     private WorldCell[][] map;
     private int width;
