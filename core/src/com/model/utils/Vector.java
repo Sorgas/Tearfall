@@ -53,13 +53,17 @@ public class Vector {
 	 * @return if
 	 */
 	public boolean isAtRight(Position point) {
-		Position endPoint = getEndPoint();
-		float value = (endPoint.getX() - x) * (point.getY() - y) -
-				(endPoint.getY() - y) * (point.getX() - x);
-		return value > 0;
+		return isAtRight(point.getX(), point.getY());
 	}
 
-    public int getX() {
+	public boolean isAtRight(int x, int y) {
+		Position endPoint = getEndPoint();
+		float value = (endPoint.getX() - this.x) * (y - this.y) -
+				(endPoint.getY() - this.y) * (x - this.x);
+		return value >= 0;
+	}
+
+	public int getX() {
         return x;
     }
 

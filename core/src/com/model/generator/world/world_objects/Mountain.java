@@ -14,7 +14,6 @@ public class Mountain {
 	private Position top;
 	private List<Position> corners;
 	private Edge edge;
-	private List<Vector> vectors;
 	private int minX;
 	private int maxX;
 	private int minY;
@@ -23,7 +22,6 @@ public class Mountain {
 
 	public Mountain() {
 		corners = new ArrayList<>();
-		vectors = new ArrayList<>();
 	}
 
 	public int[][] getHeightArray(Position point) {

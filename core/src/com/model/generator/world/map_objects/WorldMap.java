@@ -1,4 +1,4 @@
-package com.model.generator.world;
+package com.model.generator.world.map_objects;
 
 import com.model.generator.world.world_objects.WorldCell;
 

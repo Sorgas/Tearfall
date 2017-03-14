@@ -15,7 +15,8 @@ public class Edge {
 	private List<Vector> vectors;
 	private List<Integer> dynamics;
 	private List<Mountain> mountains;
-	private int pikeHeight;
+	private List<Mountain> valleys;
+	private float pikeHeight;
 	private Vector offsetVector;
 	private boolean isWorldBorder;
 
@@ -25,6 +26,8 @@ public class Edge {
 		vectors = new ArrayList<>();
 		dynamics = new ArrayList<>();
 		mountains = new ArrayList<>();
+		valleys = new ArrayList<>();
+		isWorldBorder = false;
 	}
 
 	public Position getPoint1() {
@@ -64,6 +67,11 @@ public class Edge {
 		dynamics.add(getDistance(new Position(vector.getX(), vector.getY(), 0)) -
 				getDistance(vector.getEndPoint()));
 		vectors.add(vector);
+		if(dynamics.size() > 1) {
+			isWorldBorder = false;
+		} else {
+			isWorldBorder = true;
+		}
 	}
 
 	private int getDistance(Position pos) {
@@ -111,11 +119,11 @@ public class Edge {
 		return dynamics;
 	}
 
-	public int getPikeHeight() {
+	public float getPikeHeight() {
 		return pikeHeight;
 	}
 
-	public void setPikeHeight(int pikeHeight) {
+	public void setPikeHeight(float pikeHeight) {
 		this.pikeHeight = pikeHeight;
 	}
 
@@ -133,5 +141,13 @@ public class Edge {
 
 	public void setWorldBorder(boolean worldBorder) {
 		isWorldBorder = worldBorder;
+	}
+
+	public List<Mountain> getValleys() {
+		return valleys;
+	}
+
+	public void addValley(Mountain valley) {
+		valleys.add(valley);
 	}
 }

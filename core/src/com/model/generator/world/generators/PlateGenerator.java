@@ -1,5 +1,6 @@
-package com.model.generator.world;
+package com.model.generator.world.generators;
 
+import com.model.generator.world.map_objects.WorldGenContainer;
 import com.model.generator.world.voronoi.datastructure.OpenList;
 import com.model.generator.world.voronoi.diagram.PowerDiagram;
 import com.model.generator.world.voronoi.j2d.PolygonSimple;
@@ -9,7 +10,6 @@ import com.model.generator.world.world_objects.Plate;
 import com.model.utils.Position;
 import com.model.utils.Vector;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
@@ -18,79 +18,65 @@ import java.util.Random;
  * Created by Alexander on 28.02.2017.
  */
 public class PlateGenerator {
-	private int width;
-	private int height;
-	private Random rand;
-	private PowerDiagram diagram;
-	private OpenList sites;
+	private WorldGenContainer container;
+	private Random random;
 	private List<Edge> edges;
 	private List<Plate> plates;
-	private boolean rejected;
 	private int plateNum;
+	private int minPlateSpeed;
+	private int maxPlateSpeed;
+	private float centerMargin;
 
-	public PlateGenerator(int width, int height, Random random) {
-		this.width = width;
-		this.height = height;
-		this.rand = random;
-		edges = new ArrayList<>();
-		plates = new ArrayList<>();
+	public PlateGenerator(WorldGenContainer container) {
+		this.container = container;
 	}
 
-	public void generatePlates(int plateNum) {
-		rejected = false;
-		this.plateNum = plateNum;
+	public boolean execute() {
+		boolean rejected = false;
+		extractContainer();
 		createPlates();
 		createPlateSpeed();
-		mergeEdges();
-		if (!rejected) applyVectorsToEdges();
-	}
-
-	public void setRand(Random rand) {
-		this.rand = rand;
-	}
-
-	public List<Edge> getEdges() {
-		return edges;
-	}
-
-	public List<Plate> getPlates() {
-		return plates;
-	}
-
-	public boolean isRejected() {
+		if(mergeEdges()) return true;
+		applyVectorsToEdges();
 		return rejected;
 	}
 
-	private void createPlates() {
-		diagram = new PowerDiagram();
-		// normal list based on an array
-		sites = new OpenList();
+	private void extractContainer() {
+		random = container.getConfig().getRandom();
+		plateNum = container.getConfig().getPlateDensity();
+		minPlateSpeed = container.getConfig().getMinPlateSpeed();
+		maxPlateSpeed = container.getConfig().getMaxPlateSpeed();
+		edges = container.getEdges();
+		plates = container.getPlates();
+		centerMargin = container.getConfig().getCenterMargin();
+	}
 
-		// create a root polygon which limits the voronoi diagram.
-		//  here it is just a rectangle.
+	private void createPlates() {
+		int width = container.getConfig().getWidth();
+		int height = container.getConfig().getHeight();
+
+		PowerDiagram diagram = new PowerDiagram();
+		OpenList sites = new OpenList();
+
 		PolygonSimple rootPolygon = new PolygonSimple();
 		rootPolygon.add(0, 0);
 		rootPolygon.add(width, 0);
 		rootPolygon.add(width, height);
 		rootPolygon.add(0, height);
-		// create 100 points (sites) and set random positions in the rectangle defined above.
-		int widthMargin = width / 10;
-		int heightMargin = height / 10;
+
+		int widthMargin = (int) (width * centerMargin);
+		int heightMargin = (int) (height * centerMargin);
 		for (int i = 0; i < plateNum; i++) {
-			Site site = new Site(widthMargin + rand.nextInt(width - 2 * widthMargin), heightMargin + rand.nextInt(width - 2 * heightMargin));
-			// we could also set a different weighting to some sites
-			// site.setWeight(30)
+			Site site = new Site(widthMargin + random.nextInt(width - 2 * widthMargin), heightMargin + random.nextInt(width - 2 * heightMargin));
 			sites.add(site);
 		}
-		// set the list of points (sites), necessary for the power diagram
 		diagram.setSites(sites);
-		// set the clipping polygon, which limits the power voronoi diagram
 		diagram.setClipPoly(rootPolygon);
-		// do the computation
 		diagram.computeDiagram();
-		// for each site we can no get the resulting polygon of its cell.
-		// note that the cell can also be empty, in this case there is no polygon for the corresponding site.
+		transformSitesToPlates(sites);
+	}
 
+	private void transformSitesToPlates(OpenList sites) {
 		for (int i = 0; i < sites.size; i++) {
 			Site site = sites.get(i);
 			PolygonSimple polygon = site.getPolygon();
@@ -115,13 +101,15 @@ public class PlateGenerator {
 		for (Iterator<Plate> iterator = plates.iterator(); iterator.hasNext(); ) {
 			Plate plate = iterator.next();
 			Position center = plate.getCenter();
-			Vector speed = new Vector(center.getX(), center.getY(), (float) rand.nextInt(360), (float) rand.nextInt(7));
+			float length = random.nextInt(maxPlateSpeed - minPlateSpeed) + minPlateSpeed;
+			Vector speed = new Vector(center.getX(), center.getY(), (float) random.nextInt(360), length);
 			plate.setSpeedVector(speed);
 		}
 	}
 
-	private void mergeEdges() {
+	private boolean mergeEdges() {
 		edges.clear();
+		boolean rejected = false;
 		for (int i = 0; i < plates.size(); i++) {
 			Plate plate = plates.get(i);
 			for (int j = 0; j < plate.getEdges().size(); j++) {
@@ -141,6 +129,7 @@ public class PlateGenerator {
 		if (edges.size() != 1 + 3 * plateNum) {
 			rejected = true;
 		}
+		return rejected;
 	}
 
 	private void applyVectorsToEdges() {

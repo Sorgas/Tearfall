@@ -5,8 +5,8 @@ import com.model.utils.Position;
 
 public class WorldCell {
     private Position position;
-    private int type;
     private int elevation;
+	private boolean isOcean;
 
     public Position getPosition() {
         return position;
@@ -22,21 +22,19 @@ public class WorldCell {
         position.setZ(z);
     }
 
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
-    }
-
     public int getElevation() {
         return elevation;
     }
 
     public void setElevation(int elevation) {
-        this.elevation = elevation;
+    	this.elevation = elevation;
     }
 
+	public boolean isOcean() {
+		return isOcean;
+	}
 
+	public void setOcean(boolean ocean) {
+		isOcean = ocean;
+	}
 }

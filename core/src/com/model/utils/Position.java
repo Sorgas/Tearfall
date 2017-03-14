@@ -69,4 +69,8 @@ public class Position {
 		result = 31 * result + z;
 		return result;
 	}
+
+	public Position clone() {
+		return new Position(x,y,z);
+	}
 }
