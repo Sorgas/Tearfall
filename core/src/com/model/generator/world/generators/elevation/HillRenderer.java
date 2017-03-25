@@ -81,9 +81,7 @@ public class HillRenderer {
 		}
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
-				//if (elevationBuffer[x][y] > container.getHillElevation(x, y)) {
 					container.setHillElevation(x, y, Math.round(elevationBuffer[x][y]));
-				//}
 			}
 		}
 	}

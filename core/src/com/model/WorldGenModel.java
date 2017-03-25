@@ -28,7 +28,7 @@ public class WorldGenModel implements GameModel {
 
 	private void generateWorld() {
 		WorldGenFactory factory = WorldGenFactory.getInstance();
-		WorldGenConfig config = new WorldGenConfig(200, 200);
+		WorldGenConfig config = new WorldGenConfig(200, 200 );
 		factory.initMapContainer(config);
 		generatorContainer = factory.getGeneratorContainer();
 		generatorContainer.runContainer();

@@ -2,6 +2,7 @@ package com.model.generator.world;
 
 import com.model.generator.world.generators.*;
 import com.model.generator.world.generators.drainage.OceanFiller;
+import com.model.generator.world.generators.drainage.RiverGenerator;
 import com.model.generator.world.generators.elevation.*;
 import com.model.generator.world.map_objects.WorldGenConfig;
 import com.model.generator.world.map_objects.WorldGenContainer;
@@ -43,6 +44,7 @@ public class WorldGenFactory {
 		generatorContainer.setValleyRenderer(new ValleyRenderer(worldGenContainer));
 		generatorContainer.setHillRenderer(new HillRenderer(worldGenContainer));
 		generatorContainer.setOceanFiller(new OceanFiller(worldGenContainer));
+		generatorContainer.setRiverGenerator(new RiverGenerator(worldGenContainer));
 	}
 
 	public GeneratorContainer getGeneratorContainer() {

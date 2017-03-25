@@ -20,13 +20,13 @@ public class WorldGenConfig {
 	// for mountain generator
 	// minimal distance between tops
 	private int mountainsTopsDensity = 3;
-	private float PlateSpeedToHeightModifier = 2.9f;
-	private float topOffsetModifier = 1.8f;
+	private float PlateSpeedToHeightModifier = 2.2f;
+	private float topOffsetModifier = 2f;
 
 	//for valleys generator
-	private int plateSpeedToDepthModifier = 3;
-	private int valleysTopsDensity = 3;
-	private int worldBorderDepth = -3;
+	private int plateSpeedToDepthModifier = 2;
+	private int valleysTopsDensity = 2;
+	private int worldBorderDepth = -2;
 
 	//for valleys renderer
 	private int smoothIterations = 1;
@@ -38,6 +38,9 @@ public class WorldGenConfig {
 
 	//for ocean filler
 	private int seaLevel = -1;
+
+	//for river generator
+	private int riverDensity = 1500;
 
 	public WorldGenConfig(long seed, int width, int height) {
 		System.out.println("seed: " + seed);
@@ -198,5 +201,13 @@ public class WorldGenConfig {
 
 	public void setHillMargin(float hillMargin) {
 		this.hillMargin = hillMargin;
+	}
+
+	public int getRiverDensity() {
+		return riverDensity;
+	}
+
+	public void setRiverDensity(int riverDensity) {
+		this.riverDensity = riverDensity;
 	}
 }

@@ -1,6 +1,7 @@
 package com.model.generator.world.generators;
 
 import com.model.generator.world.generators.drainage.OceanFiller;
+import com.model.generator.world.generators.drainage.RiverGenerator;
 import com.model.generator.world.generators.elevation.*;
 import com.model.generator.world.map_objects.WorldGenContainer;
 
@@ -9,6 +10,7 @@ public class GeneratorContainer {
 	int rejectCount;
 
 	private WorldGenContainer worldGenContainer;
+
 	private PlateGenerator plateGenerator;
 	private MountainGenerator mountainGenerator;
 	private ValleyGenerator valleyGenerator;
@@ -17,17 +19,21 @@ public class GeneratorContainer {
 	private HillGenerator hillGenerator;
 	private HillRenderer hillRenderer;
 	private OceanFiller oceanFiller;
+	private RiverGenerator riverGenerator;
 
 	public GeneratorContainer() {
 
 	}
 
 	public void runContainer() {
-		rejected = true;
-		for (rejectCount = 0; rejected == true; rejectCount++) {
-			worldGenContainer.reset();
+		do {
 			rejected = runGenerators();
-		}
+			if(rejected) {
+				worldGenContainer.reset();
+				rejectCount++;
+			}
+		} while(rejected);
+		System.out.println("rejected: " + rejectCount);
 	}
 
 	private boolean runGenerators() {
@@ -38,10 +44,16 @@ public class GeneratorContainer {
 		if (hillGenerator.execute()) return true;
 		mountainRenderer.execute();
 		valleyRenderer.execute();
-		hillRenderer.execute();
 		worldGenContainer.fillMap();
 		oceanFiller.execute();
+		riverGenerator.execute();
+		hillRenderer.execute();
+		worldGenContainer.fillMap();
 		return false;
+	}
+
+	public WorldGenContainer getWorldGenContainer() {
+		return worldGenContainer;
 	}
 
 	public void setPlateGenerator(PlateGenerator plateGenerator) {
@@ -58,10 +70,6 @@ public class GeneratorContainer {
 
 	public void setMountainRenderer(MountainRenderer mountainRenderer) {
 		this.mountainRenderer = mountainRenderer;
-	}
-
-	public WorldGenContainer getWorldGenContainer() {
-		return worldGenContainer;
 	}
 
 	public void setWorldGenContainer(WorldGenContainer worldGenContainer) {
@@ -82,5 +90,9 @@ public class GeneratorContainer {
 
 	public void setOceanFiller(OceanFiller oceanFiller) {
 		this.oceanFiller = oceanFiller;
+	}
+
+	public void setRiverGenerator(RiverGenerator riverGenerator) {
+		this.riverGenerator = riverGenerator;
 	}
 }

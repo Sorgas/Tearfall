@@ -26,6 +26,8 @@ public class WorldGenContainer {
 	private int[][] mountainElevation;
 	private int[][] valleyElevation;
 	private int[][] hillElevation;
+	private float[][] elevation;
+	private int[][] slopeAngles;
 
 	public WorldGenContainer(WorldGenConfig config) {
 		this.width = config.getWidth();
@@ -35,34 +37,22 @@ public class WorldGenContainer {
 	}
 
 	public void fillMap() {
-		addMountains();
-		addValleys();
-		addHills();
-	}
-
-	private void addMountains() {
-		for (int x = 0; x < mountainElevation.length; x++) {
-			for (int y = 0; y < mountainElevation[x].length; y++) {
-				WorldCell cell = map.getCell(x, y);
-				cell.setElevation(cell.getElevation() + mountainElevation[x][y]);
+		mergeElevation();
+		for (int x = 0; x < width; x++) {
+			for (int y = 0; y < height; y++) {
+				WorldCell cell= map.getCell(x,y);
+				cell.setElevation(Math.round(elevation[x][y]));
 			}
 		}
 	}
 
-	private void addValleys() {
-		for (int x = 0; x < valleyElevation.length; x++) {
-			for (int y = 0; y < valleyElevation[x].length; y++) {
-				WorldCell cell = map.getCell(x, y);
-				cell.setElevation(cell.getElevation() + valleyElevation[x][y]);
-			}
-		}
-	}
-
-	private void addHills() {
-		for (int x = 0; x < hillElevation.length; x++) {
-			for (int y = 0; y < hillElevation[x].length; y++) {
-				WorldCell cell = map.getCell(x, y);
-				cell.setElevation(cell.getElevation() + hillElevation[x][y]);
+	private void mergeElevation() {
+		elevation = new float[width][height];
+		for (int x = 0; x < width; x++) {
+			for (int y = 0; y < height; y++) {
+				elevation[x][y] += mountainElevation[x][y];
+				elevation[x][y] += valleyElevation[x][y];
+				elevation[x][y] += hillElevation[x][y];
 			}
 		}
 	}
@@ -121,6 +111,24 @@ public class WorldGenContainer {
 		return value;
 	}
 
+	public void setSlopeAngles(int x, int y, int value) {
+		if (x >= 0 && x < width) {
+			if (y >= 0 && y < height) {
+				slopeAngles[x][y] = value;
+			}
+		}
+	}
+
+	public int getSlopeAngles(int x, int y) {
+		int value = 0;
+		if (x >= 0 && x < width) {
+			if (y >= 0 && y < height) {
+				value = slopeAngles[x][y];
+			}
+		}
+		return value;
+	}
+
 	public List<Plate> getPlates() {
 		return plates;
 	}
@@ -149,11 +157,31 @@ public class WorldGenContainer {
 		mountainElevation = new int[width][height];
 		valleyElevation = new int[width][height];
 		hillElevation = new int[width][height];
+		elevation = new float[width][height];
+		slopeAngles = new int[width][height];
 		map = new WorldMap(width, height);
 		plates = new ArrayList<>();
 		edges = new ArrayList<>();
 		mountains = new ArrayList<>();
 		valleys = new ArrayList<>();
 		hills = new ArrayList<>();
+	}
+
+	public void setElevation(int x, int y, float value) {
+		if (x >= 0 && x < width) {
+			if (y >= 0 && y < height) {
+				elevation[x][y] = value;
+			}
+		}
+	}
+
+	public float getElevation(int x, int y) {
+		float value = 0;
+		if (x >= 0 && x < width) {
+			if (y >= 0 && y < height) {
+				value = elevation[x][y];
+			}
+		}
+		return value;
 	}
 }

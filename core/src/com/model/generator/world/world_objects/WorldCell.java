@@ -5,8 +5,9 @@ import com.model.utils.Position;
 
 public class WorldCell {
     private Position position;
-    private int elevation;
+    private float elevation;
 	private boolean isOcean;
+	private boolean isRiver;
 
     public Position getPosition() {
         return position;
@@ -22,11 +23,11 @@ public class WorldCell {
         position.setZ(z);
     }
 
-    public int getElevation() {
+    public float getElevation() {
         return elevation;
     }
 
-    public void setElevation(int elevation) {
+    public void setElevation(float elevation) {
     	this.elevation = elevation;
     }
 
@@ -36,5 +37,13 @@ public class WorldCell {
 
 	public void setOcean(boolean ocean) {
 		isOcean = ocean;
+	}
+
+	public boolean isRiver() {
+		return isRiver;
+	}
+
+	public void setRiver(boolean river) {
+		isRiver = river;
 	}
 }

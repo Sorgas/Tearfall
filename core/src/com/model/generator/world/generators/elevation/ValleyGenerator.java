@@ -154,8 +154,4 @@ public class ValleyGenerator {
 			}
 		}
 	}
-
-	private void offsetValleyCenter(Edge edge) {
-
-	}
 }

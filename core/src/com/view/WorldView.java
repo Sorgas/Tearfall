@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.model.WorldGenModel;
+import com.model.generator.world.map_objects.WorldGenContainer;
 import com.model.generator.world.map_objects.WorldMap;
 import com.model.generator.world.world_objects.Edge;
 import com.model.generator.world.world_objects.Mountain;
@@ -41,6 +42,8 @@ public class WorldView implements GameView {
 		shapeRenderer.setColor(1, 1, 1, 1);
 		drawElevation();
 		drawOceans();
+//		drawSlopes();
+		drawRivers();
 		shapeRenderer.end();
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
 		shapeRenderer.setColor(0, 1, 0, 1);
@@ -117,16 +120,16 @@ public class WorldView implements GameView {
 	}
 
 	private void drawElevation() {
-		int elevationMod = 25;
+		int elevationMod = 16;
 		WorldMap map = model.getMap();
 		for (int x = 0; x < map.getWidth(); x++) {
 			for (int y = 0; y < map.getHeight(); y++) {
-				int el = map.getCell(x, y).getElevation();
+				float el = map.getCell(x, y).getElevation();
 				if (el < 4) {
-					shapeRenderer.setColor(0.00f * (el + elevationMod), 0.009f * (el + elevationMod), 0.00f * (el + elevationMod), 1);
+					shapeRenderer.setColor(0.00f * (el + elevationMod), 0.013f * (el + elevationMod), 0.00f * (el + elevationMod), 1);
 				} else {
 					el -= 12;
-					float grey = 0.01f * (el + elevationMod);
+					float grey = 0.016f * (el + elevationMod);
 					shapeRenderer.setColor(grey, grey, grey, 1);
 				}
 				drawPoint(x, y);
@@ -140,9 +143,36 @@ public class WorldView implements GameView {
 			for (int y = 0; y < map.getHeight(); y++) {
 				WorldCell cell = map.getCell(x, y);
 				if (cell.isOcean()) {
-					int el = cell.getElevation() + 20;
-					shapeRenderer.setColor(0, 0, 0.012f * el, 1);
+					float el = cell.getElevation() + 20;
+					shapeRenderer.setColor(0, 0, 0.03f * el, 1);
 					drawPoint(x, y);
+				}
+			}
+		}
+	}
+
+	private void drawSlopes() {
+		WorldGenContainer container = model.getWorldGenContainer();
+		WorldMap map = model.getMap();
+		for (int x = 0; x < map.getWidth(); x++) {
+			for (int y = 0; y < map.getHeight(); y++) {
+				if (map.getCell(x, y).isOcean()) {
+					shapeRenderer.setColor(0, 0, 0.005f * Math.abs((container.getSlopeAngles(x, y) % 360) - 180), 1);
+				} else {
+					shapeRenderer.setColor(0, 0.005f * Math.abs((container.getSlopeAngles(x, y) % 360) - 180), 0, 1);
+				}
+				drawPoint(x, y);
+			}
+		}
+	}
+
+	private void drawRivers() {
+		WorldMap map = model.getMap();
+		for (int x = 0; x < map.getWidth(); x++) {
+			for (int y = 0; y < map.getHeight(); y++) {
+				if (map.getCell(x, y).isRiver()) {
+					shapeRenderer.setColor(0, 0, 1, 1);
+					drawPoint(x,y);
 				}
 			}
 		}
