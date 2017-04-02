@@ -12,23 +12,16 @@
  ******************************************************************************/
 package com.mvc.worldgen.generators.world.voronoi.j2d;
 
-import java.awt.*;
-
 /**
  * Extended Version of a site, which has relative Positions
  * @author Arlind Nocaj
  *
  */
 public class Site extends ASite {
-	double deltaX;
-	double deltaY;
-	double alpha;
 	/**
 	 * This attribute is used to mark the sites, which are only added to bound the Voronoi diagram.
 	 */
 	public boolean isDummy;
-	private Object data;
-	private double lastIncrease;
 	
 	/**
 	  * 
@@ -38,11 +31,7 @@ public class Site extends ASite {
 	 public Site(double x, double y){
 		super(x,y);
 	 }
-	 
-	 public Object getData(){
-		 return data;
-	 }
-	 
+
 	 /**
 	  * 
 	  * @param x x-coordinate
@@ -78,36 +67,5 @@ public class Site extends ASite {
 
 	public void setAsDummy() {
 		this.isDummy=true;
-	}
-
-	public void setData(Object child) {
-		this.data=child;
-	}
-
-	public void setLastIncrease(double increase) {
-		this.lastIncrease=increase;
-	}
-
-	public void paintLastIncrease(Graphics2D g, double radSize){
-		
-		
-		int radius = (int) ((lastIncrease-1)*radSize);
-		
-		if(radius>=0)
-		g.setColor(new Color(0,0,128,128));
-		else g.setColor(new Color(0,255,0,128));
-		radius=Math.abs(radius);
-		radius=Math.min((int)radSize, radius);
-		g.fillOval((int)this.getX()-radius, (int)this.getY()-radius, 2*radius, 2*radius);		
-		g.setColor(Color.BLUE);
-		g.drawOval((int)this.getX()-radius, (int)this.getY()-radius, 2*radius, 2*radius);
-		g.setColor(Color.black);
-		int width=1;
-		g.fillRect((int)this.getX()-width, (int)this.getY()-width, 2*width,2*width );
-		
-	}
-	
-	public double getLastIncrease() {
-		return lastIncrease;
 	}
 }

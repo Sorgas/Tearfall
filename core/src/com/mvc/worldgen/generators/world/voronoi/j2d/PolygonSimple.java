@@ -12,7 +12,6 @@
  ******************************************************************************/
 package com.mvc.worldgen.generators.world.voronoi.j2d;
 
-
 import com.mvc.worldgen.generators.world.voronoi.convexClip.ConvexClip;
 import com.mvc.worldgen.generators.world.voronoi.convexClip.cVertex;
 import com.mvc.worldgen.generators.world.voronoi.convexClip.cVertexList;
@@ -25,7 +24,6 @@ import java.awt.geom.Rectangle2D;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Random;
-
 
 /**
  * Implements a simple polygon with one continous region, by using two double arrays.
@@ -54,9 +52,7 @@ public class PolygonSimple implements Shape, Cloneable, Iterable<Point2D>{
 	protected double[] x; /** x-coordinates */
 	protected double[] y; /** y-coordinates */
 	public int length = 0;
-	
-	
-	
+
 	public PolygonSimple() {
 		x = new double[16];
 		y = new double[16];
@@ -105,9 +101,7 @@ public class PolygonSimple implements Shape, Cloneable, Iterable<Point2D>{
 		this.y = Arrays.copyOf(yPoints, length);
 		this.length = length;
 	}
-	
-	
-	
+
 	/**
 	 * Replaces the pointers of the coordinate arrays to show to the given coordinate arrays.
 	 */
@@ -188,7 +182,6 @@ public class PolygonSimple implements Shape, Cloneable, Iterable<Point2D>{
 		}
 		return bounds;
 	}
-
 
 	/**
 	 * Returns the path iterator for the shape(rather slow compared to using the point arrays directly).
@@ -385,7 +378,6 @@ public class PolygonSimple implements Shape, Cloneable, Iterable<Point2D>{
 		this.x[length] = x;
 		this.y[length] = y;
 		length++;
-
 	}
 
 	/**
@@ -430,7 +422,6 @@ public class PolygonSimple implements Shape, Cloneable, Iterable<Point2D>{
 		add(p.x, p.y);
 	}
 
-	
 	/**
 	 * Uses the linear time algorithm of O'Rourke to compute the intersection of
 	 * two convex polygons.
@@ -452,8 +443,6 @@ public class PolygonSimple implements Shape, Cloneable, Iterable<Point2D>{
 		cVertexList list1 = this.getVertexList();
 		cVertexList list2 = poly.getVertexList();
 		ConvexClip clipper = new ConvexClip();
-//		list1.PrintVertices();
-//		list2.PrintVertices();
 		clipper.Start(list1, list2);
 		PolygonSimple res = new PolygonSimple();
 		if (clipper.inters != null && clipper.inters.n > 0) {
@@ -500,7 +489,6 @@ public class PolygonSimple implements Shape, Cloneable, Iterable<Point2D>{
 					System.out.println(p);
 					inside=false;
 					return p;
-					
 				}
 			}
 			return null;
@@ -513,7 +501,6 @@ public class PolygonSimple implements Shape, Cloneable, Iterable<Point2D>{
 			list.InsertBeforeHead(vertex);
 		}
 		return list;
-
 	}
 
 	/**
@@ -599,7 +586,6 @@ public class PolygonSimple implements Shape, Cloneable, Iterable<Point2D>{
 		double cx = centroid.getX();
 		double cy = centroid.getY();
 		for (int i = 0; i < length; i++) {
-
 			double deltaX = x[i] - cx;
 			double deltaY = y[i] - cy;
 			double xnew = cx + deltaX * percentage;
@@ -607,54 +593,6 @@ public class PolygonSimple implements Shape, Cloneable, Iterable<Point2D>{
 			x[i] = xnew;
 			y[i] = ynew;
 		}
-
-		// /**
-		// * Method where you use the angle bisector of three points to shrink
-		// it.
-		// */
-		// double[] xnew = new double[x.length];
-		// double[] ynew=new double[y.length];
-		//	
-		// Point2D p0=null;
-		// Point2D p1=new Point2D.Double(x[length-1], y[length-1]);
-		// Point2D p2=new Point2D.Double(x[0],y[0]);
-		// double borderWidth=10;
-		// for (int i=1;i<=length;i++){
-		//			
-		// p0=p1;
-		// p1=p2;
-		// if (i==length){
-		// p2=new Point2D.Double(x[0],y[0]);
-		// }else{
-		// p2=new Point2D.Double(x[i], y[i]);
-		// }
-		//			
-		// double endPointX =(p0.getX()+p2.getX())/2;
-		// double endPointY=(p0.getY()+p2.getY())/2;
-		// double deltaX=endPointX-p1.getX();
-		// double deltaY=endPointY-p1.getY();
-		//			
-		// double euclidLength = Math.sqrt(deltaX*deltaX+deltaY*deltaY);
-		//			
-		//			
-		// deltaX=deltaX/euclidLength;
-		// deltaY=deltaY/euclidLength;
-		//			
-		// deltaX=deltaX*borderWidth;
-		// deltaY=deltaY*borderWidth;
-		//			
-		// xnew[i-1]=p1.getX()+deltaX;
-		// ynew[i-1]=p1.getY()+deltaY;
-		// // }
-		//			
-		//		
-		// }
-		// // xnew[length]=xnew[0];
-		// // ynew[length]=ynew[0];
-		//		
-		// x=xnew;
-		// y=ynew;
-
 	}
 	/**
 	 * We get a vector which describes where the point should be relative to the
@@ -665,9 +603,7 @@ public class PolygonSimple implements Shape, Cloneable, Iterable<Point2D>{
 	 *         as the given vector point
 	 */
 	public Point2D getRelativePosition(Point2D vector) {
-
 		getCentroid();
-
 		double endPointX = centroid.getX() + vector.getX();
 		double endPointY = centroid.getY() + vector.getY();
 		Point2D endPoint = new Point2D(endPointX, endPointY);
@@ -684,9 +620,7 @@ public class PolygonSimple implements Shape, Cloneable, Iterable<Point2D>{
 		Point2D p2 = new Point2D(x[0], y[0]);
 		Point2D result = null;
 		for (int i = 1; i <= length; i++) {
-
 			p1 = p2;
-			//TODO Keine Ahnung ob richtig
 			if(i == length){
 				p2 = new Point2D(0,0);
 			}else{
@@ -694,7 +628,6 @@ public class PolygonSimple implements Shape, Cloneable, Iterable<Point2D>{
 			}
 			Point2D intersection = getIntersection(p1, p2, centroid, endPoint);
 			if (intersection != null) {
-
 				double deltaX = intersection.getX() - centroid.getX();
 				double deltaY = intersection.getY() - centroid.getY();
 				double e = intersection.distance(centroid);
@@ -712,16 +645,12 @@ public class PolygonSimple implements Shape, Cloneable, Iterable<Point2D>{
 				if (contains(result)) {
 					return result;
 				}
-
 			}
 		}
 		if (result != null && contains(result))
 			return result;
 		else {
-			// System.out.println("Innerpoint");
-
 			return getInnerPoint();
-
 		}
 	}
 
@@ -777,11 +706,10 @@ public class PolygonSimple implements Shape, Cloneable, Iterable<Point2D>{
 	 */
 	public Point2D getInnerPoint() {
 		Rectangle b = getBounds();
-		double x = -1;
-		double y = -1;
+		double x;
+		double y;
 		do {
 			x = b.getMinX() + seed.nextDouble()*b.width;
-
 			y = b.getMinY() + seed.nextDouble()*b.height;
 		} while (!this.contains(x, y));
 
@@ -831,15 +759,14 @@ public class PolygonSimple implements Shape, Cloneable, Iterable<Point2D>{
 			Point2D p4) {
 	
 		// Bounding Box test
-		double x1 = 0;
-		double x2 = 0;
-		double y1 = 0;
-		double y2 = 0;
+		double x1;
+		double x2;
+		double y1;
+		double y2;
 
-		double x3 = 0;
-		double x4 = 0;
-		double y3 = 0;
-		double y4 = 0;
+		double x4;
+		double y3;
+		double y4;
 
 		if (p1.getX() < p2.getX()) {
 			x1 = p1.getX();
@@ -857,10 +784,8 @@ public class PolygonSimple implements Shape, Cloneable, Iterable<Point2D>{
 		}
 
 		if (p3.getX() < p4.getX()) {
-			x3 = p3.getX();
 			x4 = p4.getX();
 		} else {
-			x3 = p4.getX();
 			x4 = p3.getX();
 		}
 		if (p3.getY() < p4.getY()) {
@@ -988,13 +913,9 @@ public class PolygonSimple implements Shape, Cloneable, Iterable<Point2D>{
 				i++;				
 				return p; 
 			}
-
 			@Override
 			public void remove() {
-				
 			}
-			
-			
 		};
 	}
 	
@@ -1015,6 +936,4 @@ public class PolygonSimple implements Shape, Cloneable, Iterable<Point2D>{
 		x[length]=x[0];
 		return x;
 	}
-
-	
 }
