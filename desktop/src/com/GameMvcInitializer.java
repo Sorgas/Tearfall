@@ -1,6 +1,6 @@
 package com;
 
-import com.MVCcontainer.WorldGenMvc;
+import com.mvc.worldgen.WorldGenMvc;
 import com.frames.GameFrame;
 
 public class GameMvcInitializer {

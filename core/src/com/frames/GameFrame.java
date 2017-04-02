@@ -1,6 +1,6 @@
 package com.frames;
 
-import com.MVCcontainer.MvcContainer;
+import com.mvc.MvcContainer;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -8,8 +8,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.controller.GameController;
-import com.view.GameView;
+import com.mvc.GameController;
+import com.mvc.GameView;
 
 public class GameFrame implements ApplicationListener {
     private GameView view;
