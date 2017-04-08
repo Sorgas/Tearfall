@@ -1,6 +1,5 @@
 package com.mvc.worldgen;
 
-import com.mvc.GameModel;
 import com.mvc.MvcContainer;
 
 /**
@@ -30,8 +29,8 @@ public class WorldGenMvc implements MvcContainer {
 	}
 
 	@Override
-	public GameModel getModel() {
-		return null;
+	public WorldGenModel getModel() {
+		return model;
 	}
 
 	@Override
