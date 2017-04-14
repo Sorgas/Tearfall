@@ -7,7 +7,7 @@ import com.mvc.localgen.localmap.LocalMap;
 import com.mvc.localgen.localmap.MapSnapshot;
 import com.utils.Position;
 import com.mvc.worldgen.generators.world.GeneratorContainer;
-import com.mvc.worldgen.generators.world.map_objects.WorldMap;
+import com.mvc.worldgen.generators.world.WorldMap;
 import com.mvc.GameModel;
 import com.mvc.GameView;
 
@@ -65,11 +65,6 @@ public class Model implements GameModel {
 	}
 
 	public void setView(GameView view) {
-
-	}
-
-	@Override
-	public void showFrame() {
 
 	}
 }

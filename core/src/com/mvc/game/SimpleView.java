@@ -1,15 +1,15 @@
 package com.mvc.game;
 
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.mvc.GameModel;
-import com.utils.Position;
 import com.mvc.GameView;
+import com.utils.Position;
 
-public class SimpleView implements GameView {
+public class SimpleView implements GameView, Screen {
     private GameModel model;
     private int windowWidth;
     private int windowHeight;
@@ -23,37 +23,6 @@ public class SimpleView implements GameView {
     private BitmapFont font;
 
     public SimpleView() {
-    }
-
-    @Override
-    public void setTileset(Texture img) {
-        this.img = img;
-        block = new TextureRegion(img, 3 * tileWidth, 0 * tileHeight, tileWidth, tileHeight);
-    }
-
-	@Override
-	public void init() {
-
-	}
-
-	@Override
-    public void showFrame() {
-        batch.begin();
-        Position camera = new Position(20, 20, 105);
-//        MapSnapshot snapshot = model.prepareSnapshot(camera);
-//        int lowestLevel = camera.getZ() - snapshot.getLayerCount();
-//        for (int z = lowestLevel; z < camera.getZ(); z++) {
-//            float shading = (camera.getZ() - z ) * shadingStep;
-//            Level level = snapshot.getLevel(z - lowestLevel);
-//            batch.setColor(1 - shading,1 - shading,1 - shading, 1);
-//            for (int x = 0; x < snapshot.getxSize(); x++) {
-//                for (int y = 0; y < snapshot.getySize(); y++) {
-//                    Position onFramePos = centerPosition(transformPosition(new Position(x - camera.getX(), y - camera.getY(), z - camera.getZ())));
-//                    drawTile(onFramePos, level.getTile(x, y).getCellTypeId());
-//                }
-//            }
-//        }
-        batch.end();
     }
 
     public GameModel getModel() {
@@ -85,24 +54,54 @@ public class SimpleView implements GameView {
         return new Position(pos.getX() + (windowWidth / 2), pos.getY() + (windowHeight / 2), pos.getZ());
     }
 
-    @Override
-    public void setSpriteBatch(SpriteBatch batch) {
-        this.batch = batch;
-    }
-
 	@Override
-	public void setShapeRenderer(ShapeRenderer shapeRenderer) {
+	public void show() {
 
 	}
 
 	@Override
-	public void setFont(BitmapFont font) {
-		this.font = font;
+	public void render(float delta) {
+		batch.begin();
+		Position camera = new Position(20, 20, 105);
+//        MapSnapshot snapshot = model.prepareSnapshot(camera);
+//        int lowestLevel = camera.getZ() - snapshot.getLayerCount();
+//        for (int z = lowestLevel; z < camera.getZ(); z++) {
+//            float shading = (camera.getZ() - z ) * shadingStep;
+//            Level level = snapshot.getLevel(z - lowestLevel);
+//            batch.setColor(1 - shading,1 - shading,1 - shading, 1);
+//            for (int x = 0; x < snapshot.getxSize(); x++) {
+//                for (int y = 0; y < snapshot.getySize(); y++) {
+//                    Position onFramePos = centerPosition(transformPosition(new Position(x - camera.getX(), y - camera.getY(), z - camera.getZ())));
+//                    drawTile(onFramePos, level.getTile(x, y).getCellTypeId());
+//                }
+//            }
+//        }
+		batch.end();
 	}
 
 	@Override
-	public void setWindowSize(int width, int height) {
+	public void resize(int width, int height) {
 		windowWidth = width;
 		windowHeight = height;
+	}
+
+	@Override
+	public void pause() {
+
+	}
+
+	@Override
+	public void resume() {
+
+	}
+
+	@Override
+	public void hide() {
+
+	}
+
+	@Override
+	public void dispose() {
+
 	}
 }

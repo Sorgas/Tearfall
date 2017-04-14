@@ -16,16 +16,12 @@ public class Plate {
 
 	public Plate(Position center) {
 		this.center = center;
-		edges = new ArrayList<Edge>();
+		edges = new ArrayList<>();
 		this.speedVector = new Vector(center.getX(), center.getY(), 0, 0);
 	}
 
 	public Position getCenter() {
 		return center;
-	}
-
-	public void setCenter(Position center) {
-		this.center = center;
 	}
 
 	public List<Edge> getEdges() {
@@ -41,8 +37,7 @@ public class Plate {
 	}
 
 	public void setSpeedVector(Vector speedVector) {
-		this.speedVector.setAngle(speedVector.getAngle());
-		this.speedVector.setLength(speedVector.getLength());
+		this.speedVector = speedVector;
 	}
 
 	public void setEdge(int index, Edge edge) {

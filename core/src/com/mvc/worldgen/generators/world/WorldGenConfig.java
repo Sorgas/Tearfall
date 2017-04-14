@@ -12,10 +12,10 @@ public class WorldGenConfig {
 	private Random random;
 
 	//for plate generators
-	private int plateDensity = 8000;
+	private int plateDensity = 3500;
 	private int minPlateSpeed = 3;
 	private int maxPlateSpeed = 6;
-	private float centerMargin = 0.06f;
+	private float centerMargin = 0.07f;
 
 	// for mountain generators
 	// minimal distance between tops
@@ -24,9 +24,9 @@ public class WorldGenConfig {
 	private float topOffsetModifier = 2.5f;
 
 	//for valleys generators
-	private float plateSpeedToDepthModifier = 3.3f;
+	private float plateSpeedToDepthModifier = 3.0f;
 	private int valleysTopsDensity = 2;
-	private int worldBorderDepth = -5;
+	private float worldBorderDepth = -1.8f;
 
 	//for valleys renderer
 	private int smoothIterations = 0;
@@ -177,11 +177,11 @@ public class WorldGenConfig {
 		this.hillDensity = hillDensity;
 	}
 
-	public int getWorldBorderDepth() {
+	public float getWorldBorderDepth() {
 		return worldBorderDepth;
 	}
 
-	public void setWorldBorderDepth(int worldBorderDepth) {
+	public void setWorldBorderDepth(float worldBorderDepth) {
 		this.worldBorderDepth = worldBorderDepth;
 	}
 

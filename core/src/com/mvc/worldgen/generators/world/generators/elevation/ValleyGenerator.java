@@ -21,7 +21,7 @@ public class ValleyGenerator extends AbstractGenerator {
 	private float plateSpeedToDepthModifier;
 	private float topOffsetModifier;
 	private int topsDensity;
-	private int worldBorderDepth;
+	private float worldBorderDepth;
 
 	public ValleyGenerator(WorldGenContainer container) {
 		super(container);
@@ -99,7 +99,7 @@ public class ValleyGenerator extends AbstractGenerator {
 			}
 		} else {
 			createTops(edge);
-			int maxDepth = worldBorderDepth;
+			float maxDepth = worldBorderDepth;
 			maxDepth *= plateSpeedToDepthModifier;
 			edge.setPikeHeight(maxDepth);
 		}

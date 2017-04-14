@@ -1,8 +1,10 @@
-package com.mvc.worldgen.generators.world.map_objects;
+package com.mvc.worldgen.generators.world;
 
 import com.mvc.worldgen.generators.world.world_objects.WorldCell;
 
-public class WorldMap {
+import java.io.Serializable;
+
+public class WorldMap implements Serializable {
     private WorldCell[][] map;
     private int width;
     private int height;

@@ -3,7 +3,9 @@ package com.mvc.worldgen.generators.world.world_objects;
 
 import com.utils.Position;
 
-public class WorldCell {
+import java.io.Serializable;
+
+public class WorldCell implements Serializable {
     private Position position;
     private float elevation;
 	private float temperature;

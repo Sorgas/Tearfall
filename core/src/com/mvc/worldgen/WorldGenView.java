@@ -1,60 +1,74 @@
 package com.mvc.worldgen;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.mvc.GameView;
 import com.mvc.worldgen.generators.world.WorldGenContainer;
-import com.mvc.worldgen.generators.world.map_objects.WorldMap;
+import com.mvc.worldgen.generators.world.WorldMap;
 import com.mvc.worldgen.generators.world.world_objects.Edge;
 import com.mvc.worldgen.generators.world.world_objects.Mountain;
 import com.mvc.worldgen.generators.world.world_objects.Plate;
 import com.mvc.worldgen.generators.world.world_objects.WorldCell;
 import com.utils.Position;
 import com.utils.Vector;
-import com.mvc.GameView;
 
 import java.util.Iterator;
 import java.util.List;
 
-public class WorldGenView implements GameView {
+public class WorldGenView implements GameView, Screen {
 	private WorldGenModel model;
-	private int windowWidth;
-	private int windowHeight;
-	private int tileWidth = 2;
-	private int tileHeight = 2;
-	private SpriteBatch batch;
-	private Texture img;
+	private float tileSize = 2f;
+	private int tileOffsetX = 400;
+	private int tileOffsetY = 20;
 	private ShapeRenderer shapeRenderer;
-	private BitmapFont font;
 
-	public WorldGenView() {
+	@Override
+	public void show() {
+		shapeRenderer = new ShapeRenderer();
+		Gdx.input.setInputProcessor(model.getStage());
+	}
+
+	@Override
+	public void render(float delta) {
+		Gdx.gl.glClearColor(0, 0, 0, 1);
+		Gdx.gl.glClear(Gdx.gl20.GL_COLOR_BUFFER_BIT | Gdx.gl20.GL_DEPTH_BUFFER_BIT);
+		model.getStage().draw();
+		if (model.getMap() != null) {
+			shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+			drawElevation();
+			drawOceans();
+			drawRivers();
+			shapeRenderer.end();
+		}
+	}
+
+	@Override
+	public void resize(int width, int height) {
+		shapeRenderer.dispose();
+		shapeRenderer = new ShapeRenderer();
+		model.reset();
+		Gdx.input.setInputProcessor(model.getStage());
+	}
+
+	@Override
+	public void pause() {
 
 	}
 
 	@Override
-	public void init() {
+	public void resume() {
 
 	}
 
 	@Override
-	public void showFrame() {
-		Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
-		Gdx.graphics.getGL20().glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-//		drawDebug();
-		drawElevation();
-		drawOceans();
-//		drawSlopes();
-		drawRivers();
-//		drawLakes();
-		drawTemperature();
-//		drawPlates();
-//		drawDebug();
-		shapeRenderer.end();
-		Gdx.graphics.getGL20().glDisable(GL20.GL_BLEND);
+	public void hide() {
+		shapeRenderer.dispose();
+	}
+
+	@Override
+	public void dispose() {
+
 	}
 
 	private void drawPlates() {
@@ -113,7 +127,7 @@ public class WorldGenView implements GameView {
 		for (int x = 0; x < map.getWidth(); x++) {
 			for (int y = 0; y < map.getHeight(); y++) {
 				float el = map.getCell(x, y).getElevation();
-				if (el < 5) {
+				if (el < 7) {
 					shapeRenderer.setColor(0.00f * (el + elevationMod), 0.013f * (el + elevationMod), 0.00f * (el + elevationMod), 1f);
 				} else {
 					el -= 12;
@@ -179,17 +193,17 @@ public class WorldGenView implements GameView {
 		for (int x = 0; x < container.getConfig().getWidth(); x++) {
 			for (int y = 0; y < container.getConfig().getHeight(); y++) {
 				if (container.getTemperature(x, y) < -12) {
-					shapeRenderer.setColor(1,1,1,1); //
-				} else if(container.getTemperature(x, y) < -0){
-					shapeRenderer.setColor(0.3f,0.7f,1,1); //
-				} else if(container.getTemperature(x, y) < 8){
-					shapeRenderer.setColor(0.3f,1,0.6f,1); //
-				} else if(container.getTemperature(x, y) < 22){
-					shapeRenderer.setColor(0.8f,1,0.2f,1);
-				} else if(container.getTemperature(x, y) < 27){
-					shapeRenderer.setColor(1,0.8f,0,1);
+					shapeRenderer.setColor(1, 1, 1, 1); //
+				} else if (container.getTemperature(x, y) < -0) {
+					shapeRenderer.setColor(0.3f, 0.7f, 1, 1); //
+				} else if (container.getTemperature(x, y) < 8) {
+					shapeRenderer.setColor(0.3f, 1, 0.6f, 1); //
+				} else if (container.getTemperature(x, y) < 22) {
+					shapeRenderer.setColor(0.8f, 1, 0.2f, 1);
+				} else if (container.getTemperature(x, y) < 27) {
+					shapeRenderer.setColor(1, 0.8f, 0, 1);
 				} else {
-					shapeRenderer.setColor(1,0.4f,0,1);
+					shapeRenderer.setColor(1, 0.4f, 0, 1);
 				}
 //				shapeRenderer.setColor(0.01f * (container.getTemperature(x, y) + 40), 0, 0, 0.5f);
 				drawPoint(x + 500, y);
@@ -208,41 +222,17 @@ public class WorldGenView implements GameView {
 	}
 
 	private void drawLine(int x1, int y1, int x2, int y2) {
-		shapeRenderer.line(x1 * tileWidth + tileWidth / 2, y1 * tileHeight + tileHeight / 2, x2 * tileWidth + tileWidth / 2, y2 * tileHeight + tileHeight / 2);
+		shapeRenderer.line(x1 * tileSize + tileSize / 2 + tileOffsetX, y1 * tileSize + tileSize / 2 + tileOffsetY,
+				x2 * tileSize + tileSize / 2 + tileOffsetX, y2 * tileSize + tileSize / 2 + tileOffsetY);
 	}
 
 	private void drawPoint(int x, int y) {
-		shapeRenderer.rect(x * tileWidth, y * tileHeight, tileWidth, tileHeight);
-	}
-
-	@Override
-	public void setTileset(Texture img) {
-		this.img = img;
-	}
-
-	@Override
-	public void setSpriteBatch(SpriteBatch batch) {
-		this.batch = batch;
-	}
-
-	public void setShapeRenderer(ShapeRenderer shapeRenderer) {
-		if (this.shapeRenderer != null) {
-			this.shapeRenderer.dispose();
-		}
-		this.shapeRenderer = shapeRenderer;
-	}
-
-	public void setFont(BitmapFont font) {
-		this.font = font;
-	}
-
-	@Override
-	public void setWindowSize(int width, int height) {
-		windowWidth = width;
-		windowHeight = height;
+		shapeRenderer.rect(x * tileSize + tileOffsetX, y * tileSize + tileOffsetY,
+				tileSize, tileSize);
 	}
 
 	public void setModel(WorldGenModel model) {
 		this.model = model;
 	}
+
 }

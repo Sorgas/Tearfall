@@ -104,8 +104,8 @@ public class PlateGenerator extends AbstractGenerator{
 		for (Iterator<Plate> iterator = plates.iterator(); iterator.hasNext(); ) {
 			Plate plate = iterator.next();
 			Position center = plate.getCenter();
-			float length = random.nextInt(maxPlateSpeed - minPlateSpeed) + minPlateSpeed;
-			Vector speed = new Vector(center.getX(), center.getY(), (float) random.nextInt(360), length);
+			int length = random.nextInt(maxPlateSpeed - minPlateSpeed) + minPlateSpeed;
+			Vector speed = new Vector(center.getX(), center.getY(), random.nextInt(360), (float) length);
 			plate.setSpeedVector(speed);
 		}
 	}

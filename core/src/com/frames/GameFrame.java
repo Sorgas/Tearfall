@@ -47,10 +47,6 @@ public class GameFrame extends ApplicationAdapter {
 
 
 		camera.position.set(50, 50, 0);
-
-		view.setSpriteBatch(batch);
-		view.setTileset(img);
-		view.setFont(font);
 	}
 
 	@Override

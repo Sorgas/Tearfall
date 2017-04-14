@@ -2,7 +2,7 @@ package com.mvc.worldgen.generators.world.generators.drainage;
 
 import com.mvc.worldgen.generators.world.generators.AbstractGenerator;
 import com.mvc.worldgen.generators.world.WorldGenContainer;
-import com.mvc.worldgen.generators.world.map_objects.WorldMap;
+import com.mvc.worldgen.generators.world.WorldMap;
 
 import java.util.Random;
 

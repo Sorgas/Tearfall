@@ -12,8 +12,9 @@ public class DesktopLauncher {
 		config.width = 1400;
 		config.height = 800;
 		config.title = "TearFall";
-        config.foregroundFPS = 5;
+        config.foregroundFPS = 30;
 		Game game = new TearFall();
 		new LwjglApplication(game, config);
 	}
 }
+

@@ -1,10 +1,12 @@
 package com.utils;
 
+import java.io.Serializable;
+
 /**
  * Class for storing in game coordinates
  * simply stores x, y, z int values
  */
-public class Position {
+public class Position implements Serializable{
     private int x;
     private int y;
     private int z;

@@ -2,7 +2,7 @@ package com.mvc.worldgen.generators.world.generators.drainage;
 
 import com.mvc.worldgen.generators.world.generators.AbstractGenerator;
 import com.mvc.worldgen.generators.world.WorldGenContainer;
-import com.mvc.worldgen.generators.world.map_objects.WorldMap;
+import com.mvc.worldgen.generators.world.WorldMap;
 import com.utils.Position;
 import com.utils.Vector;
 
@@ -82,6 +82,7 @@ public class RiverGenerator extends AbstractGenerator {
 		int i = 0;
 		int seaLevel = container.getConfig().getSeaLevel() - 1;
 		int savedAngle = 0;
+		if(!inMap(x,y)) return;
 		Vector riverVector = new Vector(x, y, slopeAngles[x][y], 2.0f);
 		int turningCouner = 0;
 		while (i < maxLength && container.getElevation(x, y) > seaLevel && inMap(x, y)) {
@@ -123,8 +124,7 @@ public class RiverGenerator extends AbstractGenerator {
 			riverVector.setAngle(targetAngle);
 			x += getXProject(targetAngle); // getting next river point
 			y += getYProject(targetAngle);
-			if (!inMap(x, y) || map.getCell(x, y).isRiver() || elevationBuffer[x][y] - curElevation > 0.3f) {
-				if(elevationBuffer[x][y] - curElevation > 0.3f) System.out.println(x + " " + y);
+			if (!inMap(x, y) || map.getCell(x, y).isRiver() || (elevationBuffer[x][y] - curElevation > 0.3f)) {
 				break;
 			}
 			i++;

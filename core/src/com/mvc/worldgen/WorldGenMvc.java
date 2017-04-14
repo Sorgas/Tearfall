@@ -1,5 +1,6 @@
 package com.mvc.worldgen;
 
+import com.TearFall;
 import com.mvc.MvcContainer;
 
 /**
@@ -10,8 +11,8 @@ public class WorldGenMvc implements MvcContainer {
 	private WorldGenView view;
 	private WorldGenController controller;
 
-	public WorldGenMvc() {
-		this.model = new WorldGenModel();
+	public WorldGenMvc(TearFall game) {
+		this.model = new WorldGenModel(game);
 		this.view = new WorldGenView();
 		this.controller = new WorldGenController();
 		linkComponents();

@@ -8,23 +8,8 @@ import com.mvc.GameController;
 public class WorldGenController implements GameController {
 	private WorldGenModel model;
 
-	@Override
-	public void init() {
-
-	}
-
 	public void setModel(WorldGenModel model) {
 		this.model = model;
-	}
-
-	@Override
-	public void handleButtonPress() {
-
-	}
-
-	@Override
-	public void showFrame() {
-		model.showFrame();
 	}
 
 	public void generateWorld() {

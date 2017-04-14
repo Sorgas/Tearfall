@@ -1,7 +1,6 @@
 package com.mvc.worldgen.generators.world;
 
 import com.utils.Position;
-import com.mvc.worldgen.generators.world.map_objects.WorldMap;
 import com.mvc.worldgen.generators.world.world_objects.Edge;
 import com.mvc.worldgen.generators.world.world_objects.Mountain;
 import com.mvc.worldgen.generators.world.world_objects.Plate;
