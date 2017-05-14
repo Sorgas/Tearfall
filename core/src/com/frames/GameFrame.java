@@ -9,9 +9,9 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.mvc.GameController;
-import com.mvc.GameView;
-import com.mvc.MvcContainer;
+import com.torefine.GameController;
+import com.torefine.GameView;
+import com.torefine.MvcContainer;
 
 public class GameFrame extends ApplicationAdapter {
 	private GameView view;
