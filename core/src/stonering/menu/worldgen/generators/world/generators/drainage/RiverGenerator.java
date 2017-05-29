@@ -84,23 +84,22 @@ public class RiverGenerator extends AbstractGenerator {
 		int savedAngle = 0;
 		if(!inMap(x,y)) return;
 		Vector riverVector = new Vector(x, y, slopeAngles[x][y], 2.0f);
-		int turningCouner = 0;
+		int turningCounter = 0;
 		while (i < maxLength && container.getElevation(x, y) > seaLevel && inMap(x, y)) {
-			map.getCell(x, y).setRiver(true);  // set river in current point
 
 			float curElevation = elevationBuffer[x][y]; // getting elevation in current point
 
-			if (turningCouner == 0) {  // starting river turn
-				turningCouner = random.nextInt(14);
+			if (turningCounter == 0) {  // starting river turn
+				turningCounter = random.nextInt(14);
 			}
 
 			Vector slopeVector = new Vector(0, 0, slopeAngles[x][y], 1); // getting slope vector
 			riverVector = riverVector.sum(slopeVector); // applying slope to river
 			riverVector.setLength(riverVector.getLength() / 2); // decreasing river speed
-			if (turningCouner != 0) { // turning river
-				int mod = Math.round(Math.copySign(1, turningCouner - 7));
+			if (turningCounter != 0) { // turning river
+				int mod = Math.round(Math.copySign(1, turningCounter - 7));
 				riverVector.setAngle((riverVector.getAngle() + 15 * mod + 360) % 360);
-				turningCouner--;
+				turningCounter--;
 			}
 			// converting river angle to x45, and saving difference
 			riverVector.setAngle((riverVector.getAngle() + savedAngle + 360) % 360);
@@ -122,9 +121,11 @@ public class RiverGenerator extends AbstractGenerator {
 			}
 
 			riverVector.setAngle(targetAngle);
+			map.addRiverPoint(new Vector(x,y, riverVector.getAngle(), 1));  // set river in current point
+			System.out.println(riverVector.toString());
 			x += getXProject(targetAngle); // getting next river point
 			y += getYProject(targetAngle);
-			if (!inMap(x, y) || map.getCell(x, y).isRiver() || (elevationBuffer[x][y] - curElevation > 0.3f)) {
+			if (!inMap(x, y) || map.getRivers().containsKey(new Position(x,y,0)) || (elevationBuffer[x][y] - curElevation > 0.3f)) {
 				break;
 			}
 			i++;

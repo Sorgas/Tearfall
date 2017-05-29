@@ -25,6 +25,7 @@ import stonering.menu.worldgen.generators.world.voronoi.j2d.Site;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -39,7 +40,7 @@ public class PowerDiagram {
 	public static Graphics2D graphics;
 
 	protected JConvexHull hull = null;
-	protected OpenList sites;
+	protected List<Site> sites;
 	protected PolygonSimple clipPoly;
 	private Rectangle2D bb;
 	protected List<JFace> facets = null;
@@ -56,12 +57,12 @@ public class PowerDiagram {
 		clipPoly = null;
 	}
 
-	public PowerDiagram(OpenList sites, PolygonSimple clipPoly) {
+	public PowerDiagram(List sites, PolygonSimple clipPoly) {
 		setSites(sites);
 		setClipPoly(clipPoly);
 	}
 
-	public void setSites(OpenList sites) {
+	public void setSites(List sites) {
 		this.sites = sites;
 		hull = null;
 	}
@@ -88,20 +89,16 @@ public class PowerDiagram {
 		s4.setAsDummy();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see diagram.iPowerDiagram#computeDiagram()
-	 */
 	public void computeDiagram() {
 
-		if (sites.size > 0) {
-			sites.permutate();
+		if (sites.size() > 0) {
+			Collections.shuffle(sites);
 			hull = new JConvexHull();
-			Site[] array = sites.array;
-			int size = sites.size;
+			List<Site> array = new ArrayList<>();
+			array.addAll(sites);
+			int size = sites.size();
 			for (int z = 0; z < size; z++) {
-				Site s = array[z];
+				Site s = array.get(z);
 				if (Double.isNaN(s.getWeight())) {
 //					s.setWeight(0.001);
 					throw new RuntimeException(

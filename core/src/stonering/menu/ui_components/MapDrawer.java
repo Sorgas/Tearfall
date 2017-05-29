@@ -117,7 +117,7 @@ public class MapDrawer {
 		WorldMap map = container.getMap();
 		for (int x = 0; x < map.getWidth(); x++) {
 			for (int y = 0; y < map.getHeight(); y++) {
-				float el = map.getCell(x, y).getElevation();
+				float el = map.getElevation(x,y);
 				if (useTiles) {
 					if (el < 9) {
 						if (el < 3) {
@@ -150,17 +150,16 @@ public class MapDrawer {
 		WorldMap map = container.getMap();
 		for (int x = 0; x < map.getWidth(); x++) {
 			for (int y = 0; y < map.getHeight(); y++) {
-				WorldCell cell = map.getCell(x, y);
-				if (cell.isOcean()) {
-					float el = cell.getElevation();
+				int elevation = map.getElevation(x,y);
+				if (elevation < container.getConfig().getSeaLevel()) {
 					if(useTiles) {
-						if (el > -5) {
+						if (elevation > -5) {
 							drawTile(x, y, 0, 0);
 						} else {
 							drawTile(x, y, 0, 1);
 						}
 					} else {
-						shapeRenderer.setColor(0, 0, 0.03f * (15 + el), 1f);
+						shapeRenderer.setColor(0, 0, 0.03f * (15 + elevation), 1f);
 						drawPoint(x, y);
 					}
 
@@ -173,7 +172,7 @@ public class MapDrawer {
 		WorldMap map = container.getMap();
 		for (int x = 0; x < map.getWidth(); x++) {
 			for (int y = 0; y < map.getHeight(); y++) {
-				if (map.getCell(x, y).isOcean()) {
+				if (map.getElevation(x,y) < container.getConfig().getSeaLevel()) {
 					shapeRenderer.setColor(0, 0, 0.005f * Math.abs((container.getSlopeAngles(x, y) % 360) - 180), 1);
 				} else {
 					shapeRenderer.setColor(0, 0.005f * Math.abs((container.getSlopeAngles(x, y) % 360) - 180), 0, 1);
@@ -187,7 +186,7 @@ public class MapDrawer {
 		WorldMap map = container.getMap();
 		for (int x = 0; x < map.getWidth(); x++) {
 			for (int y = 0; y < map.getHeight(); y++) {
-				if (map.getCell(x, y).isRiver()) {
+				if (map.getRivers().containsKey(new Position(x,y,0))) {
 					if(useTiles) {
 
 					} else {

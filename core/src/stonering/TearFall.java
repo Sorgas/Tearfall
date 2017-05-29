@@ -60,6 +60,10 @@ public class TearFall extends Game {
 		setScreen(prepareExpeditionMenuMvc.getView());
 	}
 
+	public void switchToNewGame(WorldMap world, Position location) {
+
+	}
+
 	private void createFont() {
 		font = new BitmapFont();
 		font.setColor(0.2f, 0.2f, 0.2f, 1);

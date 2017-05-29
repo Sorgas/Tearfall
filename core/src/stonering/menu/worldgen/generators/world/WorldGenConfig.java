@@ -49,7 +49,6 @@ public class WorldGenConfig {
 	private float minTemperature = -15;
 
 	public WorldGenConfig(long seed, int width, int height) {
-		System.out.println("seed: " + seed);
 		this.seed = seed;
 		this.width = width;
 		this.height = height;

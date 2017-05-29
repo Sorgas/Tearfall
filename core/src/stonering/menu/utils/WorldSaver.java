@@ -13,6 +13,9 @@ public class WorldSaver {
 
 	public WorldMap loadWorld(String name) {
 		try {
+			if(name == null) {
+				return null;
+			}
 			File file = new File("saves/" + name + "/world.dat");
 			FileInputStream fis = new FileInputStream(file.getPath());
 			ObjectInputStream ois = new ObjectInputStream(fis);

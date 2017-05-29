@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import stonering.menu.GameView;
 import stonering.menu.ui_components.MiniMap;
+import stonering.menu.utils.WorldCellInfo;
 
 /**
  * Created by Alexander on 14.04.2017.
@@ -24,17 +25,19 @@ public class SelectLocationMenuView implements GameView, Screen {
 	private SelectLocationMenuModel model;
 	private Stage stage;
 	private MiniMap minimap;
+	private Label worldInfoLabel;
+	private WorldCellInfo worldCellInfo;
 
 
 	public SelectLocationMenuView(TearFall game) {
 		this.game = game;
+		worldCellInfo = new WorldCellInfo();
 	}
 
 	@Override
 	public void show() {
 		Gdx.input.setInputProcessor(stage);
-		stage = new Stage();
-		init();
+		//stage = new Stage();
 		Gdx.input.setInputProcessor(stage);
 	}
 
@@ -43,12 +46,13 @@ public class SelectLocationMenuView implements GameView, Screen {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(Gdx.gl20.GL_COLOR_BUFFER_BIT | Gdx.gl20.GL_DEPTH_BUFFER_BIT);
 		checkInput();
+		writeWorldInfoToLabel();
 		stage.draw();
 	}
 
 	@Override
 	public void resize(int width, int height) {
-		stage.dispose();
+		if(stage != null) stage.dispose();
 		stage = new Stage();
 		init();
 		Gdx.input.setInputProcessor(stage);
@@ -88,6 +92,7 @@ public class SelectLocationMenuView implements GameView, Screen {
 	private Table createMinimap() {
 		minimap = new MiniMap(new Texture("map_tiles.png"));
 		minimap.setMap(model.getWorld());
+		System.out.println(model.getWorld());
 		return minimap;
 	}
 
@@ -97,6 +102,10 @@ public class SelectLocationMenuView implements GameView, Screen {
 		menuTable.align(Align.bottomLeft);
 
 		menuTable.add(new Label("Select location", game.getSkin())).row();
+
+		worldInfoLabel = new Label("", game.getSkin());
+		menuTable.add(worldInfoLabel);
+		menuTable.row();
 
 		menuTable.add().expandY();
 		menuTable.row();
@@ -133,6 +142,14 @@ public class SelectLocationMenuView implements GameView, Screen {
 			minimap.moveFocus(0, 1);
 		} else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
 			minimap.moveFocus(0, -1);
+		}
+	}
+
+	private void writeWorldInfoToLabel() {
+		if (model.getWorld() != null) {
+			int x = minimap.getFocus().getX();
+			int y = minimap.getFocus().getY();
+			worldInfoLabel.setText(worldCellInfo.getCellInfo(x, y, model.getWorld().getElevation(x, y), model.getWorld().getTemperature(x, y)));
 		}
 	}
 

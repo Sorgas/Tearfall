@@ -2,7 +2,6 @@ package stonering.menu.worldgen.generators.world.generators;
 
 import stonering.menu.worldgen.generators.world.WorldGenConfig;
 import stonering.menu.worldgen.generators.world.WorldGenContainer;
-import stonering.menu.worldgen.generators.world.voronoi.datastructure.OpenList;
 import stonering.menu.worldgen.generators.world.voronoi.diagram.PowerDiagram;
 import stonering.menu.worldgen.generators.world.voronoi.j2d.PolygonSimple;
 import stonering.menu.worldgen.generators.world.voronoi.j2d.Site;
@@ -63,7 +62,7 @@ public class PlateGenerator extends AbstractGenerator {
 		int height = container.getConfig().getHeight();
 
 		PowerDiagram diagram = new PowerDiagram();
-		OpenList sites = new OpenList();
+		List sites = new ArrayList<Site>();
 
 		PolygonSimple rootPolygon = new PolygonSimple();
 		rootPolygon.add(0, 0);
@@ -83,8 +82,8 @@ public class PlateGenerator extends AbstractGenerator {
 		transformSitesToPlates(sites);
 	}
 
-	private void transformSitesToPlates(OpenList sites) {
-		for (int i = 0; i < sites.size; i++) {
+	private void transformSitesToPlates(List<Site> sites) {
+		for (int i = 0; i < sites.size(); i++) {
 			Site site = sites.get(i);
 			PolygonSimple polygon = site.getPolygon();
 			Plate plate = new Plate(new Position((int) site.getX(), (int) site.getY(), 0));

@@ -43,9 +43,8 @@ public class WorldGenContainer {
 	public void fillMap() {
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
-				WorldCell cell= map.getCell(x,y);
-				cell.setElevation(Math.round(elevation[x][y]));
-				cell.setTemperature(temperature[x][y]);
+				map.setElevation(x,y,Math.round(elevation[x][y]));
+				map.setTemperature(x,y,Math.round(temperature[x][y]));
 			}
 		}
 	}

@@ -29,8 +29,7 @@ public class OceanFiller extends AbstractGenerator {
 		float oceanCount = 0;
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
-				if (map.getCell(x, y).getElevation() < seaLevel) {
-					map.getCell(x, y).setOcean(true);
+				if (map.getElevation(x,y) < seaLevel) {
 					oceanCount++;
 				}
 			}

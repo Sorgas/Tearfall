@@ -21,6 +21,6 @@ import stonering.menu.worldgen.generators.world.voronoi.j2d.PolygonSimple;
  */
 public interface VoroCellObject {
 
-	public void setVoroPolygon(PolygonSimple polygon);
-	public void doFinalWork();
+//	public void setVoroPolygon(PolygonSimple polygon);
+//	public void doFinalWork();
 }

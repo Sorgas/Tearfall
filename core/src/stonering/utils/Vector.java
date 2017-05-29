@@ -1,9 +1,11 @@
 package stonering.utils;
 
+import java.io.Serializable;
+
 /**
  * Created by Alexander on 22.02.2017.
  */
-public class Vector {
+public class Vector implements Serializable{
 	private int x = 0;
 	private int y = 0;
 	private int endX = 0;
@@ -136,5 +138,9 @@ public class Vector {
 		if (this.angle < 0) {
 			this.angle += 360;
 		}
+	}
+
+	public Vector copy() {
+		return new Vector(x,y,endX,endY);
 	}
 }
