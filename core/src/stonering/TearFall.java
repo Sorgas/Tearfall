@@ -5,12 +5,15 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import stonering.game.core.GameMvc;
+import stonering.game.core.LocalMap;
 import stonering.menu.main.MainMenuMvc;
+import stonering.menu.new_game.local_generation.LocalGenerationMvc;
 import stonering.menu.new_game.prepare_expedition.PrepareExpeditionMenuMvc;
 import stonering.menu.new_game.select_location.SelectLocationMenuMvc;
 import stonering.menu.new_game.select_world.SelectWorldMenuMvc;
 import stonering.menu.worldgen.WorldGenMvc;
-import stonering.menu.worldgen.generators.world.WorldMap;
+import stonering.generators.worldgen.WorldMap;
 import stonering.utils.Position;
 
 /**s
@@ -22,6 +25,9 @@ public class TearFall extends Game {
 	private SelectWorldMenuMvc selectWorldMenuMvc;
 	private SelectLocationMenuMvc selectLocationMenuMvc;
 	private PrepareExpeditionMenuMvc prepareExpeditionMenuMvc;
+	private LocalGenerationMvc localGenerationMvc;
+	private GameMvc gameMvc;
+
 	private BitmapFont font;
 	private Skin skin;
 
@@ -60,8 +66,16 @@ public class TearFall extends Game {
 		setScreen(prepareExpeditionMenuMvc.getView());
 	}
 
-	public void switchToNewGame(WorldMap world, Position location) {
+	public void switchToLocalGen(WorldMap world, Position location) {
+		if(localGenerationMvc == null) localGenerationMvc = new LocalGenerationMvc(this);
+		localGenerationMvc.getModel().setWorld(world);
+		localGenerationMvc.getModel().setLocation(location);
+		setScreen(localGenerationMvc.getView());
+	}
 
+	public void switchToGame(LocalMap localMap) {
+		gameMvc = new GameMvc(localMap);
+		setScreen(gameMvc.getView());
 	}
 
 	private void createFont() {

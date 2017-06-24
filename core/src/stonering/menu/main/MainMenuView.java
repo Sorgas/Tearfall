@@ -2,7 +2,7 @@ package stonering.menu.main;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import stonering.menu.GameView;
+import stonering.game.mvc_interfaces.GameView;
 
 /**
  * Created by Alexander on 02.04.2017.

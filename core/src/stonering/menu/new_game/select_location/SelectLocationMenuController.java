@@ -1,7 +1,7 @@
 package stonering.menu.new_game.select_location;
 
 import stonering.TearFall;
-import stonering.menu.GameController;
+import stonering.game.mvc_interfaces.GameController;
 
 /**
  * Created by Alexander on 14.04.2017.

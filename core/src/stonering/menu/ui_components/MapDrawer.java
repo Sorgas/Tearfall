@@ -5,12 +5,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import stonering.menu.worldgen.WorldGenModel;
-import stonering.menu.worldgen.generators.world.WorldGenContainer;
-import stonering.menu.worldgen.generators.world.WorldMap;
-import stonering.menu.worldgen.generators.world.world_objects.Edge;
-import stonering.menu.worldgen.generators.world.world_objects.Mountain;
-import stonering.menu.worldgen.generators.world.world_objects.Plate;
-import stonering.menu.worldgen.generators.world.world_objects.WorldCell;
+import stonering.generators.worldgen.WorldGenContainer;
+import stonering.generators.worldgen.WorldMap;
+import stonering.generators.worldgen.world_objects.Edge;
+import stonering.generators.worldgen.world_objects.Mountain;
+import stonering.generators.worldgen.world_objects.Plate;
 import stonering.utils.Position;
 import stonering.utils.Vector;
 

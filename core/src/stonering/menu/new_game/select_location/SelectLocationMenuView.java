@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
-import stonering.menu.GameView;
+import stonering.game.mvc_interfaces.GameView;
 import stonering.menu.ui_components.MiniMap;
 import stonering.menu.utils.WorldCellInfo;
 

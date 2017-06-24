@@ -1,6 +1,6 @@
 package stonering.menu.utils;
 
-import stonering.menu.worldgen.generators.world.WorldMap;
+import stonering.generators.worldgen.WorldMap;
 
 import java.io.*;
 import java.util.HashSet;

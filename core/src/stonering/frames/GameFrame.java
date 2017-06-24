@@ -9,9 +9,9 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import stonering.menu.GameController;
-import stonering.menu.GameView;
-import stonering.menu.MvcContainer;
+import stonering.game.mvc_interfaces.GameController;
+import stonering.game.mvc_interfaces.GameView;
+import stonering.game.mvc_interfaces.MvcContainer;
 
 public class GameFrame extends ApplicationAdapter {
 	private GameView view;
@@ -19,7 +19,6 @@ public class GameFrame extends ApplicationAdapter {
 	private MvcContainer mvcContainer;
 
 	private SpriteBatch batch;
-	private Texture img;
 	private BitmapFont font;
 	private OrthographicCamera camera;
 	private Viewport viewport;
@@ -34,8 +33,6 @@ public class GameFrame extends ApplicationAdapter {
 		batch = new SpriteBatch();
 		font = new BitmapFont();
 
-		img = new Texture("core/assets/qwer.png");
-		world = new Sprite(img);
 		world.setPosition(0, 0);
 		world.setSize(worldWidth, worldHeigth);
 
@@ -81,7 +78,6 @@ public class GameFrame extends ApplicationAdapter {
 	@Override
 	public void dispose() {
 		batch.dispose();
-		img.dispose();
 		font.dispose();
 	}
 

@@ -1,7 +1,5 @@
 package stonering.menu.utils;
 
-import stonering.menu.worldgen.generators.world.world_objects.WorldCell;
-
 /**
  * Created by Alexander on 28.05.2017.
  */

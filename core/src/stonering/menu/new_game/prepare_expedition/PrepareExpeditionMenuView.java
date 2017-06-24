@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
-import stonering.menu.GameView;
+import stonering.game.mvc_interfaces.GameView;
 
 /**
  * Created by Alexander on 14.04.2017.
@@ -95,7 +95,7 @@ public class PrepareExpeditionMenuView implements GameView, Screen {
 		proceedButton.addListener(new ChangeListener() {
 			@Override
 			public void changed(ChangeEvent event, Actor actor) {
-//				game.
+			game.switchToLocalGen(model.getWorld(), model.getLocation());
 			}
 		});
 		menuTable.add(proceedButton);

@@ -1,7 +1,7 @@
 package stonering.menu.main;
 
 import stonering.TearFall;
-import stonering.menu.MvcContainer;
+import stonering.game.mvc_interfaces.MvcContainer;
 
 /**
  * Created by Alexander on 02.04.2017.

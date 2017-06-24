@@ -1,8 +1,8 @@
 package stonering.menu.worldgen;
 
 import stonering.TearFall;
-import stonering.menu.worldgen.generators.world.*;
-import stonering.menu.GameModel;
+import stonering.generators.worldgen.*;
+import stonering.game.mvc_interfaces.GameModel;
 
 import java.util.Random;
 
