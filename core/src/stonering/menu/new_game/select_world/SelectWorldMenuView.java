@@ -126,7 +126,7 @@ public class SelectWorldMenuView implements GameView, Screen {
     }
 
     private Table createMinimap() {
-        minimap = new MiniMap(new Texture("map_tiles.png"));
+        minimap = new MiniMap(new Texture("sprites/map_tiles.png"));
         WorldListItem item = worldList.getSelected();
         if (item != null) {
             WorldMap map = new WorldSaver().loadWorld(item.getTitle());

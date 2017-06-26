@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import stonering.game.core.GameMvc;
-import stonering.game.core.LocalMap;
+import stonering.game.core.model.LocalMap;
 import stonering.menu.main.MainMenuMvc;
 import stonering.menu.new_game.local_generation.LocalGenerationMvc;
 import stonering.menu.new_game.prepare_expedition.PrepareExpeditionMenuMvc;

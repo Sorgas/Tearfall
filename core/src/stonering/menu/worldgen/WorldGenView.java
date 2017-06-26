@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
-import stonering.menu.GameView;
+import stonering.game.mvc_interfaces.GameView;
 import stonering.menu.ui_components.MiniMap;
 import stonering.menu.utils.WorldCellInfo;
 
@@ -98,7 +98,7 @@ public class WorldGenView implements GameView, Screen {
     }
 
     private Table createMinimap() {
-        minimap = new MiniMap(new Texture("map_tiles.png"));
+        minimap = new MiniMap(new Texture("sprites/map_tiles.png"));
         minimap.setMap(model.getMap());
         return minimap;
     }

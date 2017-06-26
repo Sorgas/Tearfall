@@ -2,9 +2,8 @@ package stonering.menu.ui_components;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import stonering.menu.worldgen.generators.world.WorldGenConfig;
-import stonering.menu.worldgen.generators.world.WorldMap;
-import stonering.menu.worldgen.generators.world.world_objects.WorldCell;
+import stonering.generators.worldgen.WorldGenConfig;
+import stonering.generators.worldgen.WorldMap;
 import stonering.utils.Position;
 
 /**
@@ -15,7 +14,6 @@ public class TileChooser {
     private WorldMap map;
     private Texture tiles;
     private int tileSize;
-
 
     TextureRegion sea;
     TextureRegion ocean;

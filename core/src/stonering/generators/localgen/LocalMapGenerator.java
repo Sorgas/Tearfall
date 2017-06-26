@@ -1,6 +1,6 @@
 package stonering.generators.localgen;
 
-import stonering.game.core.LocalMap;
+import stonering.game.core.model.LocalMap;
 import stonering.game.enums.BlockType;
 import stonering.generators.worldgen.WorldMap;
 import stonering.utils.Position;
@@ -14,6 +14,7 @@ public class LocalMapGenerator {
     private WorldMap world;
     private Position location;
     private LocalGenConfig config;
+    private int progress;
 
     private float[][] poligonTops;
 
@@ -29,12 +30,10 @@ public class LocalMapGenerator {
         localMap = new LocalMap(config.getAreaSize(), config.getAreaSize(), config.getAreaHight());
         System.out.println();
         System.out.print("generating local");
+        progress = 0;
         int localElevation = world.getElevation(location.getX(), location.getY());
         if (validateWorldAndLocation()) {
             for (int x = 0; x < config.getAreaSize(); x++) {
-                if ((x + 1) % 10 == 0) {
-                    System.out.print(".");
-                }
                 for (int y = 0; y < config.getAreaSize(); y++) {
                     for (int z = 0; z < config.getAreaHight(); z++) {
                         if (z < localElevation) {
@@ -46,8 +45,6 @@ public class LocalMapGenerator {
                 }
             }
         }
-        System.out.println();
-        System.out.println("finished");
     }
 
     private void generatreMap() {
@@ -196,5 +193,9 @@ public class LocalMapGenerator {
 
     public void setLocation(Position location) {
         this.location = location;
+    }
+
+    public int getProgress() {
+        return progress;
     }
 }

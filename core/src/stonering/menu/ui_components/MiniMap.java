@@ -50,7 +50,6 @@ public class MiniMap extends Table {
 		if (map != null && size.getY() > map.getHeight()) {
 			size.setY(map.getHeight());
 		}
-//		System.out.println(getWidth() + " " + getHeight() + " " + size);
 	}
 
 	public void setFocus(int x, int y) {

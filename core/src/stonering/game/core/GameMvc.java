@@ -1,5 +1,8 @@
 package stonering.game.core;
 
+import stonering.game.core.controller.GameController;
+import stonering.game.core.model.GameContainer;
+import stonering.game.core.model.LocalMap;
 import stonering.game.core.view.GameView;
 
 /**
@@ -8,11 +11,13 @@ import stonering.game.core.view.GameView;
 public class GameMvc {
     private GameContainer container;
     private GameView view;
+    private GameController controller;
 
     public GameMvc(LocalMap localMap) {
         container = new GameContainer(localMap);
-        view = new GameView();
         container.setMap(localMap);
+        controller = new GameController(container);
+        view = new GameView(container, controller);
     }
 
     public GameContainer getContainer() {

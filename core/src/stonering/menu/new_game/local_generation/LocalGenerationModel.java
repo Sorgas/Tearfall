@@ -1,14 +1,14 @@
 package stonering.menu.new_game.local_generation;
 
 import stonering.generators.localgen.LocalMapGenerator;
-import stonering.game.core.LocalMap;
+import stonering.game.core.model.LocalMap;
 import stonering.generators.worldgen.WorldMap;
 import stonering.utils.Position;
 
 /**
  * Created by Alexander on 01.06.2017.
  */
-public class LocalGenerationModel {
+public class LocalGenerationModel{
     private LocalMapGenerator localMapGenerator;
 
     private WorldMap world;
@@ -37,5 +37,9 @@ public class LocalGenerationModel {
 
     public LocalMap getLocalMap() {
         return localMap;
+    }
+
+    public int getProgress() {
+        return localMapGenerator.getProgress();
     }
 }

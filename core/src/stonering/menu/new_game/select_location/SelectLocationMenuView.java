@@ -37,8 +37,6 @@ public class SelectLocationMenuView implements GameView, Screen {
 	@Override
 	public void show() {
 		Gdx.input.setInputProcessor(stage);
-		//stage = new Stage();
-		Gdx.input.setInputProcessor(stage);
 	}
 
 	@Override
@@ -53,7 +51,6 @@ public class SelectLocationMenuView implements GameView, Screen {
 	@Override
 	public void resize(int width, int height) {
 		if(stage != null) stage.dispose();
-		stage = new Stage();
 		init();
 		Gdx.input.setInputProcessor(stage);
 	}
@@ -79,6 +76,7 @@ public class SelectLocationMenuView implements GameView, Screen {
 	}
 
 	private void init() {
+		stage = new Stage();
 		stage.setDebugAll(true);
 		Table rootTable = new Table();
 		rootTable.setFillParent(true);
@@ -90,7 +88,7 @@ public class SelectLocationMenuView implements GameView, Screen {
 	}
 
 	private Table createMinimap() {
-		minimap = new MiniMap(new Texture("map_tiles.png"));
+		minimap = new MiniMap(new Texture("sprites/map_tiles.png"));
 		minimap.setMap(model.getWorld());
 		System.out.println(model.getWorld());
 		return minimap;

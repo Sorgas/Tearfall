@@ -10,5 +10,4 @@ public class WorldCellInfo {
         info += "temp(year): " + temperature + "\n";
         return info;
     }
-
 }
