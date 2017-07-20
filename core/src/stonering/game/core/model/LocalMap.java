@@ -36,7 +36,7 @@ public class LocalMap {
     }
 
     public byte getFlooding(int x, int y, int z) {
-        return (byte) (temperature[x][y][z] & 0x00001111);
+        return (byte) (temperature[x][y][z] & 0b00001111);
     }
 
     public byte getLightLevel(int x, int y, int z) {
@@ -45,7 +45,7 @@ public class LocalMap {
 
     public void setBlock(int x, int y, int z, BlockType blockType) {
         byte old = blockAndFlooding[x][y][z];
-        blockAndFlooding[x][y][z] = (byte) ((old & 0x00001111) | (blockType.getCode() << 4));
+        blockAndFlooding[x][y][z] = (byte) ((old & 0b00001111) | (blockType.getCode() << 4));
     }
 
     public int getxSize() {

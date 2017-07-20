@@ -28,7 +28,7 @@ public class LocalWorldDrawer {
     }
 
     public void drawWorld(GameContainer container, Position camera) {
-        map = container.getMap();
+        map = container.getLocalMap();
         batch.begin();
         int highX = camera.getX() + viewAreaWidth;
         if(highX > map.getxSize() - 1) {

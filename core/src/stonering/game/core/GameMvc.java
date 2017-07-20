@@ -15,7 +15,7 @@ public class GameMvc {
 
     public GameMvc(LocalMap localMap) {
         container = new GameContainer(localMap);
-        container.setMap(localMap);
+        container.setLocalMap(localMap);
         controller = new GameController(container);
         view = new GameView(container, controller);
     }

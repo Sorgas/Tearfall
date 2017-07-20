@@ -107,6 +107,7 @@ public class RiverGenerator extends AbstractGenerator {
 			targetAngle *= 45;
 			savedAngle = (int) ((riverVector.getAngle() - targetAngle + 360) % 360);
 
+			//branching river
 			if (i > 8 && branchingDepth > 0) {
 				if (random.nextInt(100) < 15) {
 					targetAngle = (targetAngle + 45) % 360;
@@ -121,8 +122,7 @@ public class RiverGenerator extends AbstractGenerator {
 			}
 
 			riverVector.setAngle(targetAngle);
-			map.addRiverPoint(new Vector(x,y, riverVector.getAngle(), 1));  // set river in current point
-			System.out.println(riverVector.toString());
+			map.addRiverVector(new Vector(x,y, x + getXProject(targetAngle),y + getYProject(targetAngle)));  // set river in current point
 			x += getXProject(targetAngle); // getting next river point
 			y += getYProject(targetAngle);
 			if (!inMap(x, y) || map.getRivers().containsKey(new Position(x,y,0)) || (elevationBuffer[x][y] - curElevation > 0.3f)) {

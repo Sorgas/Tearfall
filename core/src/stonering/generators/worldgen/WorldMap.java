@@ -4,13 +4,16 @@ import stonering.utils.Position;
 import stonering.utils.Vector;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class WorldMap implements Serializable {
     private int[][] elevation;
     private float[][] temperature;
-    private Map<Position, Vector> rivers;
+    private float[][] rainfall;
+    private Map<Position, List<Vector>> rivers;
     private int width;
     private int height;
 
@@ -19,6 +22,7 @@ public class WorldMap implements Serializable {
         this.height = ySize;
         elevation = new int[xSize][ySize];
         temperature = new float[xSize][ySize];
+        rainfall = new float[xSize][ySize];
         rivers = new HashMap<>();
     }
 
@@ -54,11 +58,26 @@ public class WorldMap implements Serializable {
         temperature[x][y] = val;
     }
 
-    public Map<Position, Vector> getRivers() {
+    public float getRainfall(int x, int y) {
+        return rainfall[x][y];
+    }
+
+    public void setRainfall(int x, int y, float val) {
+        rainfall[x][y] = val;
+    }
+
+    public Map<Position, List<Vector>> getRivers() {
         return rivers;
     }
 
-    public void addRiverPoint(Vector vector) {
-        rivers.put(new Position(vector.getX(), vector.getY(), 0), vector);
+    public void addRiverVector(Vector vector) {
+        List<Vector> list = rivers.get(new Position(vector.getX(), vector.getY(),0));
+        if(list != null) {
+            list.add(vector);
+        } else {
+            list = new ArrayList<>();
+            list.add(vector);
+            rivers.put(new Position(vector.getX(), vector.getY(),0), list);
+        }
     }
 }

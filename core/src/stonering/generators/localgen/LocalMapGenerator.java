@@ -3,6 +3,7 @@ package stonering.generators.localgen;
 import stonering.game.core.model.LocalMap;
 import stonering.game.enums.BlockType;
 import stonering.generators.worldgen.WorldMap;
+import stonering.utils.Plane;
 import stonering.utils.Position;
 import stonering.utils.Vector;
 
@@ -10,10 +11,14 @@ import stonering.utils.Vector;
  * factory class for creating LocalMap objects
  */
 public class LocalMapGenerator {
+    LocalRiverGenerator riverGenerator;
+
     private LocalMap localMap;
     private WorldMap world;
     private Position location;
     private LocalGenConfig config;
+    int localElevation;
+
     private int progress;
 
     private float[][] poligonTops;
@@ -23,15 +28,17 @@ public class LocalMapGenerator {
     }
 
     public void execute() {
+        localMap = new LocalMap(config.getAreaSize(), config.getAreaSize(), config.getAreaHight());
+        localElevation = world.getElevation(location.getX(), location.getY()) * config.getWorldToLocalElevationModifier();
         generateFlat();
+        riverGenerator = new LocalRiverGenerator(world, localMap, location, localElevation);
+        riverGenerator.execute();
     }
 
     private void generateFlat() {
-        localMap = new LocalMap(config.getAreaSize(), config.getAreaSize(), config.getAreaHight());
         System.out.println();
         System.out.print("generating local");
         progress = 0;
-        int localElevation = world.getElevation(location.getX(), location.getY());
         if (validateWorldAndLocation()) {
             for (int x = 0; x < config.getAreaSize(); x++) {
                 for (int y = 0; y < config.getAreaSize(); y++) {
@@ -45,6 +52,22 @@ public class LocalMapGenerator {
                 }
             }
         }
+    }
+
+    private void generateSurfaces() {
+        int areaSize = config.getAreaSize();
+        int elevationModifier = config.getWorldToLocalElevationModifier();
+        Position center = new Position(areaSize / 2, areaSize / 2, localElevation);
+        Position N = new Position(areaSize / 2, areaSize, (world.getElevation(location.getX(), location.getY() + 1) * elevationModifier + localElevation) / 2);
+        Position NE = new Position(areaSize, areaSize, (world.getElevation(location.getX() + 1, location.getY() + 1) * elevationModifier + localElevation) / 2);
+        Position E = new Position(areaSize, areaSize / 2, (world.getElevation(location.getX() + 1, location.getY()) * elevationModifier + localElevation) / 2);
+        Position SE = new Position(areaSize, 0, (world.getElevation(location.getX() + 1, location.getY() - 1) * elevationModifier + localElevation) / 2);
+        Position S = new Position(areaSize / 2, 0, (world.getElevation(location.getX(), location.getY() - 1) * elevationModifier + localElevation) / 2);
+        Position SW = new Position(0, 0, (world.getElevation(location.getX() - 1, location.getY() - 1) * elevationModifier + localElevation) / 2);
+        Position W = new Position(0, areaSize / 2, (world.getElevation(location.getX() - 1, location.getY()) * elevationModifier + localElevation) / 2);
+        Position NW = new Position(0, areaSize, (world.getElevation(location.getX() - 1, location.getY() + 1) * elevationModifier + localElevation) / 2);
+        Plane plane = new Plane(center, N, NE);
+
     }
 
     private void generatreMap() {
@@ -68,7 +91,6 @@ public class LocalMapGenerator {
                 poligonTops[x * 2][y * 2] = calculateMidElevation(location.getX() - 1 + x, location.getY() - 1 + y);
             }
         }
-
     }
 
     private float calculateMidElevation(int x, int y) {

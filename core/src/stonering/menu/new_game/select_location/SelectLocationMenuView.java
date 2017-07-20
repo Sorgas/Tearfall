@@ -147,7 +147,7 @@ public class SelectLocationMenuView implements GameView, Screen {
 		if (model.getWorld() != null) {
 			int x = minimap.getFocus().getX();
 			int y = minimap.getFocus().getY();
-			worldInfoLabel.setText(worldCellInfo.getCellInfo(x, y, model.getWorld().getElevation(x, y), model.getWorld().getTemperature(x, y)));
+			worldInfoLabel.setText(worldCellInfo.getCellInfo(x, y, model.getWorld().getElevation(x, y), model.getWorld().getTemperature(x, y), model.getWorld().getRainfall(x,y)));
 		}
 	}
 

@@ -1,5 +1,6 @@
 package stonering.generators.worldgen;
 
+import stonering.generators.worldgen.generators.drainage.RainfallGenerator;
 import stonering.generators.worldgen.generators.elevation.*;
 import stonering.generators.worldgen.generators.drainage.OceanFiller;
 import stonering.generators.worldgen.generators.drainage.RiverGenerator;
@@ -47,6 +48,7 @@ public class WorldGenFactory {
 		generatorContainer.setTemperatureGenerator(new TemperatureGenerator(worldGenContainer));
 		generatorContainer.setElevationGenerator(new ElevationGenerator(worldGenContainer));
 		generatorContainer.setDiamondSquareGenerator(new DiamondSquareGenerator(worldGenContainer));
+		generatorContainer.setRainfallGenerator(new RainfallGenerator(worldGenContainer));
 	}
 
 	public GeneratorContainer getGeneratorContainer() {

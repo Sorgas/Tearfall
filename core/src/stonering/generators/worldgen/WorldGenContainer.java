@@ -28,6 +28,7 @@ public class WorldGenContainer {
 	private float[][] elevation;
 	private int[][] slopeAngles;
 	private float[][] temperature;
+	private float[][] rainfall;
 	private float[][] debug;
 
 	private float landPart;
@@ -44,6 +45,7 @@ public class WorldGenContainer {
 			for (int y = 0; y < height; y++) {
 				map.setElevation(x,y,Math.round(elevation[x][y]));
 				map.setTemperature(x,y,Math.round(temperature[x][y]));
+                map.setRainfall(x,y,rainfall[x][y]);
 			}
 		}
 	}
@@ -94,6 +96,7 @@ public class WorldGenContainer {
 		elevation = new float[width][height];
 		slopeAngles = new int[width][height];
 		temperature = new float[width][height];
+		rainfall = new float[width][height];
 		debug = new float[width][height];
 		map = new WorldMap(width, height);
 		plates = new ArrayList<>();
@@ -153,6 +156,24 @@ public class WorldGenContainer {
 		if (x >= 0 && x < width) {
 			if (y >= 0 && y < height) {
 				value = temperature[x][y];
+			}
+		}
+		return value;
+	}
+
+	public void setRainfall(int x, int y, float value) {
+		if (x >= 0 && x < width) {
+			if (y >= 0 && y < height) {
+				rainfall[x][y] = value;
+			}
+		}
+	}
+
+	public float getRainfall(int x, int y) {
+		float value = 0;
+		if (x >= 0 && x < width) {
+			if (y >= 0 && y < height) {
+				value = rainfall[x][y];
 			}
 		}
 		return value;

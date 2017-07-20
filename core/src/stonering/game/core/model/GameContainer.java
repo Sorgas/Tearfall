@@ -1,6 +1,7 @@
 package stonering.game.core.model;
 
 import stonering.game.objects.Creature;
+import stonering.generators.worldgen.WorldMap;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,24 +10,29 @@ import java.util.List;
  * Created by Alexander on 10.06.2017.
  */
 public class GameContainer {
-    private LocalMap map;
+    private WorldMap worldMap;
+    private LocalMap localMap;
     private List<Creature> creatures;
 
-    public GameContainer(LocalMap map) {
-        this.map = map;
+    public GameContainer(LocalMap localMap) {
+        this.localMap = localMap;
         creatures = new ArrayList<>();
 
     }
 
-    public LocalMap getMap() {
-        return map;
+    public LocalMap getLocalMap() {
+        return localMap;
     }
 
     public List<Creature> getCreatures() {
         return creatures;
     }
 
-    public void setMap(LocalMap map) {
-        this.map = map;
+    public void setLocalMap(LocalMap localMap) {
+        this.localMap = localMap;
+    }
+
+    public void performTick() {
+
     }
 }

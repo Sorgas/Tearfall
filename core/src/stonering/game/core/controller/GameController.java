@@ -1,6 +1,10 @@
 package stonering.game.core.controller;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
+import stonering.game.core.controller.inputProcessors.CameraInputProcessor;
 import stonering.game.core.model.GameContainer;
+import stonering.global.NavigationInputBuffer;
 import stonering.utils.Position;
 
 /**
@@ -9,14 +13,36 @@ import stonering.utils.Position;
 public class GameController {
     private Position camera;
     private GameContainer container;
+    private InputProcessor activeInputProcessor;
+    private CameraInputProcessor cameraInputProcessor;
 
+    private NavigationInputBuffer navigationInputBuffer;
 
     public GameController(GameContainer container) {
         this.container = container;
-        camera = new Position(container.getMap().getxSize() / 2, container.getMap().getySize() / 2, 10);
+        camera = new Position(container.getLocalMap().getxSize() / 2, container.getLocalMap().getySize() / 2, 10);
+        navigationInputBuffer = new NavigationInputBuffer(4);
+        cameraInputProcessor = new CameraInputProcessor(this, navigationInputBuffer);
+        Gdx.input.setInputProcessor(cameraInputProcessor);
+    }
+
+    public void fetchInput() {
     }
 
     public Position getCamera() {
         return camera;
+    }
+
+    public void moveCamera(int dx, int dy, int dz) {
+        if((camera.getX() >= 0 && dx < 0) || (camera.getX() < container.getLocalMap().getxSize() && dx > 0)) {
+            camera.setX(camera.getX() + dx);
+        }
+        if((camera.getY() >= 0 && dy < 0) || (camera.getY() < container.getLocalMap().getySize() && dy > 0)) {
+            camera.setY(camera.getY() + dy);
+        }
+        if((camera.getZ() >= 0 && dz < 0) || (camera.getZ() < container.getLocalMap().getzSize() && dz > 0)) {
+            camera.setZ(camera.getZ() + dz);
+        }
+        System.out.println(camera.toString());
     }
 }
