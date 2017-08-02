@@ -12,16 +12,21 @@ import java.util.List;
 public class GameContainer {
     private WorldMap worldMap;
     private LocalMap localMap;
+    private LocalTileMap localTileMap;
     private List<Creature> creatures;
 
     public GameContainer(LocalMap localMap) {
         this.localMap = localMap;
         creatures = new ArrayList<>();
-
+        createLocalTileMap();
     }
 
     public LocalMap getLocalMap() {
         return localMap;
+    }
+
+    public LocalTileMap getLocalTileMap() {
+        return localTileMap;
     }
 
     public List<Creature> getCreatures() {
@@ -34,5 +39,16 @@ public class GameContainer {
 
     public void performTick() {
 
+    }
+
+    private void createLocalTileMap() {
+        localTileMap = new LocalTileMap(localMap.getxSize(), localMap.getySize(), localMap.getzSize());
+        for (int x = 0; x < localMap.getySize(); x++) {
+            for (int y = 0; y < localMap.getySize(); y++) {
+                for (int z = 0; z < localMap.getzSize(); z++) {
+                    //localTileMap.setTile(x,y,z,localMap.getBlockType(x,y,z),localMap.getMaterial(x,y,z),);
+                }
+            }
+        }
     }
 }
