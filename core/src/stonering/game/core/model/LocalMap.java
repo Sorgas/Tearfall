@@ -1,6 +1,6 @@
 package stonering.game.core.model;
 
-import stonering.game.enums.BlockTypesEnum;
+import stonering.enums.BlockTypesEnum;
 
 public class LocalMap {
     private byte[][][] material;
@@ -43,9 +43,10 @@ public class LocalMap {
         return lightlevel[x][y][z];
     }
 
-    public void setBlock(int x, int y, int z, BlockTypesEnum blockType) {
+    public void setBlock(int x, int y, int z, BlockTypesEnum blockType, int materialId) {
         byte old = blockAndFlooding[x][y][z];
         blockAndFlooding[x][y][z] = (byte) ((old & 0b00001111) | (blockType.getCode() << 4));
+      //  material[x][y][z] =  MaterialMap
     }
 
     public int getxSize() {
@@ -59,6 +60,4 @@ public class LocalMap {
     public int getzSize() {
         return zSize;
     }
-
-
 }

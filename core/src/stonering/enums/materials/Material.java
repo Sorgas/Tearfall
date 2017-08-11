@@ -1,4 +1,4 @@
-package stonering.game.enums.materials;
+package stonering.enums.materials;
 
 import com.badlogic.gdx.graphics.Color;
 
@@ -7,17 +7,17 @@ import com.badlogic.gdx.graphics.Color;
  */
 
 // STONE(0),
-//         SOIL(1),
-//         SAND(2),
-//         WOOD(3),
-//         BRICKS(5),
-//         PLANKS(6),
-//         GLASS(7),
-//         METAL(8);
+// SOIL(1),
+// SAND(2),
+// WOOD(3),
+// BRICKS(5),
+// PLANKS(6),
+// GLASS(7),
+// METAL(8);
 public class Material {
+    private int id;
     private String name;
     private Color color;
-    private int id;
 
     public Material(String name, Color color, int id) {
         this.name = name;

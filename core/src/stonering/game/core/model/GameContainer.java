@@ -1,5 +1,6 @@
 package stonering.game.core.model;
 
+import stonering.enums.materials.MaterialMap;
 import stonering.game.objects.Creature;
 import stonering.generators.worldgen.WorldMap;
 
@@ -14,10 +15,12 @@ public class GameContainer {
     private LocalMap localMap;
     private LocalTileMap localTileMap;
     private List<Creature> creatures;
+    private MaterialMap materialMap;
 
     public GameContainer(LocalMap localMap) {
         this.localMap = localMap;
         creatures = new ArrayList<>();
+        materialMap = new MaterialMap();
         createLocalTileMap();
     }
 
@@ -46,7 +49,7 @@ public class GameContainer {
         for (int x = 0; x < localMap.getySize(); x++) {
             for (int y = 0; y < localMap.getySize(); y++) {
                 for (int z = 0; z < localMap.getzSize(); z++) {
-                    //localTileMap.setTile(x,y,z,localMap.getBlockType(x,y,z),localMap.getMaterial(x,y,z),);
+                    localTileMap.setTile(x,y,z,localMap.getBlockType(x,y,z),localMap.getMaterial(x,y,z), (byte) 0);
                 }
             }
         }

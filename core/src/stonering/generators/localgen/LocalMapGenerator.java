@@ -1,7 +1,7 @@
 package stonering.generators.localgen;
 
 import stonering.game.core.model.LocalMap;
-import stonering.game.enums.BlockTypesEnum;
+import stonering.enums.BlockTypesEnum;
 import stonering.generators.worldgen.WorldMap;
 import stonering.utils.Plane;
 import stonering.utils.Position;
@@ -55,9 +55,9 @@ public class LocalMapGenerator {
                 for (int y = 0; y < config.getAreaSize(); y++) {
                     for (int z = 0; z < config.getAreaHight(); z++) {
                         if (z < localElevation) {
-                            localMap.setBlock(x, y, z, BlockTypesEnum.WALL);
+                            localMap.setBlock(x, y, z, BlockTypesEnum.WALL,1);
                         } else {
-                            localMap.setBlock(x, y, z, BlockTypesEnum.SPACE);
+                            localMap.setBlock(x, y, z, BlockTypesEnum.SPACE,1);
                         }
                     }
                 }
@@ -78,9 +78,9 @@ public class LocalMapGenerator {
                     }
                     for (int z = 0; z < config.getAreaHight(); z++) {
                         if (z < (localElevation + noise[x][y] * perlinModifier)) {
-                            localMap.setBlock(x, y, z, BlockTypesEnum.WALL);
+                            localMap.setBlock(x, y, z, BlockTypesEnum.WALL,1);
                         } else {
-                            localMap.setBlock(x, y, z, BlockTypesEnum.SPACE);
+                            localMap.setBlock(x, y, z, BlockTypesEnum.SPACE,1);
                         }
                     }
                 }
@@ -88,7 +88,7 @@ public class LocalMapGenerator {
         }
     }
 
-    public float[][] generateOctavedSimplexNoise(int width, int height, int octaves, float roughness, float scale) {
+    private float[][] generateOctavedSimplexNoise(int width, int height, int octaves, float roughness, float scale) {
         float[][] totalNoise = new float[width][height];
         float layerFrequency = scale;
         float layerWeight = 1;

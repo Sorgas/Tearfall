@@ -1,7 +1,7 @@
 package stonering.generators.localgen;
 
 import stonering.game.core.model.LocalMap;
-import stonering.game.enums.BlockTypesEnum;
+import stonering.enums.BlockTypesEnum;
 import stonering.generators.worldgen.WorldMap;
 import stonering.utils.Position;
 import stonering.utils.Vector;
@@ -44,7 +44,7 @@ public class LocalRiverGenerator {
         int x = localMap.getxSize() / 2;
         int y = localMap.getySize() / 2;
         while (inLocalMap(x, y)) {
-            localMap.setBlock(x, y, localElevation - 1, BlockTypesEnum.SPACE);
+            localMap.setBlock(x, y, localElevation - 1, BlockTypesEnum.SPACE,1);
             x += dx;
             y += dy;
         }

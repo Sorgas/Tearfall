@@ -1,8 +1,7 @@
 package stonering.game.core.model;
 
-import stonering.game.enums.BlockTypesEnum;
-import stonering.game.enums.materials.Material;
-import stonering.game.enums.materials.MaterialMap;
+import stonering.enums.materials.Material;
+import stonering.enums.materials.MaterialMap;
 
 /**
  * Created by Alexander on 03.08.2017.
