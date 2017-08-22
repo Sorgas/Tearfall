@@ -3,7 +3,7 @@ package stonering.generators.worldgen.generators.temperature;
 import stonering.generators.worldgen.WorldGenConfig;
 import stonering.generators.worldgen.WorldGenContainer;
 import stonering.generators.worldgen.generators.AbstractGenerator;
-import stonering.generators.worldgen.generators.PerlinNoiseGenerator;
+import stonering.generators.PerlinNoiseGenerator;
 
 /**
  * Created by Alexander on 26.03.2017.

@@ -3,6 +3,7 @@ package stonering.game.core.model;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.objects.Creature;
 import stonering.generators.worldgen.WorldMap;
+import stonering.global.FileLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,7 @@ public class GameContainer {
     public GameContainer(LocalMap localMap) {
         this.localMap = localMap;
         creatures = new ArrayList<>();
-        materialMap = new MaterialMap();
+        materialMap = new MaterialMap(FileLoader.getMaterialsFile());
         createLocalTileMap();
     }
 

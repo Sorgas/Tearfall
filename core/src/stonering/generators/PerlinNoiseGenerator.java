@@ -1,4 +1,4 @@
-package stonering.generators.worldgen.generators;
+package stonering.generators;
 
 import java.util.Random;
 
@@ -6,10 +6,6 @@ import java.util.Random;
  * Created by Alexander on 28.03.2017.
  */
 public class PerlinNoiseGenerator {
-	private int width;
-	private int height;
-	private Random random;
-	float[][] noise;
 	private static int perm[] = new int[512];
 
 	private static int grad3[][] = {{1, 1, 0}, {-1, 1, 0}, {1, -1, 0}, {-1, -1, 0},
@@ -36,12 +32,10 @@ public class PerlinNoiseGenerator {
 					totalNoise[x][y] += (float) noise(x * layerFrequency, y * layerFrequency) * layerWeight;
 				}
 			}
-
 			//Increase variables with each incrementing octave
 			layerFrequency *= 2;
 			weightSum += layerWeight;
 			layerWeight *= roughness;
-
 		}
 		return totalNoise;
 	}
