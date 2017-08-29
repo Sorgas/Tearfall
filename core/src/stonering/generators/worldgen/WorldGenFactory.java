@@ -16,7 +16,7 @@ public class WorldGenFactory {
 	WorldGenConfig config;
 
 	private WorldGenContainer worldGenContainer;
-	private GeneratorContainer generatorContainer;
+	private GlobalGeneratorContainer globalGeneratorContainer;
 
 	public static WorldGenFactory getInstance() {
 		if(instance == null) {
@@ -25,33 +25,33 @@ public class WorldGenFactory {
 		return instance;
 	}
 
-	public GeneratorContainer initMapContainer(WorldGenConfig config) {
+	public GlobalGeneratorContainer initMapContainer(WorldGenConfig config) {
 		this.config = config;
 		worldGenContainer = new WorldGenContainer(config);
 		initGenerators();
-		return generatorContainer;
+		return globalGeneratorContainer;
 	}
 
 	private void initGenerators() {
-		generatorContainer = new GeneratorContainer();
-		generatorContainer.setWorldGenContainer(worldGenContainer);
-		generatorContainer.setPlateGenerator(new PlateGenerator(worldGenContainer));
-		generatorContainer.setMountainGenerator(new MountainGenerator(worldGenContainer));
-		generatorContainer.setValleyGenerator(new ValleyGenerator(worldGenContainer));
-		generatorContainer.setHillGenerator(new HillGenerator(worldGenContainer));
+		globalGeneratorContainer = new GlobalGeneratorContainer();
+		globalGeneratorContainer.setWorldGenContainer(worldGenContainer);
+		globalGeneratorContainer.setPlateGenerator(new PlateGenerator(worldGenContainer));
+		globalGeneratorContainer.setMountainGenerator(new MountainGenerator(worldGenContainer));
+		globalGeneratorContainer.setValleyGenerator(new ValleyGenerator(worldGenContainer));
+		globalGeneratorContainer.setHillGenerator(new HillGenerator(worldGenContainer));
 
-		generatorContainer.setMountainRenderer(new MountainRenderer(worldGenContainer));
-		generatorContainer.setValleyRenderer(new ValleyRenderer(worldGenContainer));
-		generatorContainer.setHillRenderer(new HillRenderer(worldGenContainer));
-		generatorContainer.setOceanFiller(new OceanFiller(worldGenContainer));
-		generatorContainer.setRiverGenerator(new RiverGenerator(worldGenContainer));
-		generatorContainer.setTemperatureGenerator(new TemperatureGenerator(worldGenContainer));
-		generatorContainer.setElevationGenerator(new ElevationGenerator(worldGenContainer));
-		generatorContainer.setDiamondSquareGenerator(new DiamondSquareGenerator(worldGenContainer));
-		generatorContainer.setRainfallGenerator(new RainfallGenerator(worldGenContainer));
+		globalGeneratorContainer.setMountainRenderer(new MountainRenderer(worldGenContainer));
+		globalGeneratorContainer.setValleyRenderer(new ValleyRenderer(worldGenContainer));
+		globalGeneratorContainer.setHillRenderer(new HillRenderer(worldGenContainer));
+		globalGeneratorContainer.setOceanFiller(new OceanFiller(worldGenContainer));
+		globalGeneratorContainer.setRiverGenerator(new RiverGenerator(worldGenContainer));
+		globalGeneratorContainer.setTemperatureGenerator(new TemperatureGenerator(worldGenContainer));
+		globalGeneratorContainer.setElevationGenerator(new ElevationGenerator(worldGenContainer));
+		globalGeneratorContainer.setDiamondSquareGenerator(new DiamondSquareGenerator(worldGenContainer));
+		globalGeneratorContainer.setRainfallGenerator(new RainfallGenerator(worldGenContainer));
 	}
 
-	public GeneratorContainer getGeneratorContainer() {
-		return generatorContainer;
+	public GlobalGeneratorContainer getGlobalGeneratorContainer() {
+		return globalGeneratorContainer;
 	}
 }

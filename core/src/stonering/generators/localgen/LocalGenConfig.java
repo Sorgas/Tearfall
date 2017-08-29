@@ -5,7 +5,7 @@ package stonering.generators.localgen;
  */
 public class LocalGenConfig {
     private int worldToLocalElevationModifier = 8;
-    private int areaSize = 400;
+    private int areaSize = 96;
     private int areaHight = 400;
     private int localSeaLevel = 200;
 

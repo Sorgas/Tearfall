@@ -88,7 +88,7 @@ public class DiamondSquareGenerator {
                 if (y < numY) {
                     float midValue = elevationBuffer[x * bufferScale][y * bufferScale];
                     midValue += elevationBuffer[x * bufferScale][(y + 1) * bufferScale];
-                    int count = 2;
+                     int count = 2;
                     if (x > 0) {
                         midValue += elevationBuffer[x * bufferScale - bufferScale / 2][y * bufferScale + bufferScale / 2];
                         count++;

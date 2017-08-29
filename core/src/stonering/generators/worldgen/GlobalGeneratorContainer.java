@@ -7,7 +7,7 @@ import stonering.generators.worldgen.generators.PlateGenerator;
 import stonering.generators.worldgen.generators.drainage.RiverGenerator;
 import stonering.generators.worldgen.generators.temperature.TemperatureGenerator;
 
-public class GeneratorContainer {
+public class GlobalGeneratorContainer {
 	private boolean rejected;
 	int rejectCount;
 
@@ -27,7 +27,7 @@ public class GeneratorContainer {
 	private DiamondSquareGenerator diamondSquareGenerator;
 	private RainfallGenerator rainfallGenerator;
 
-	public GeneratorContainer() {
+	public GlobalGeneratorContainer() {
 
 	}
 

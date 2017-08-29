@@ -15,10 +15,10 @@ public enum BlockTypesEnum {
     FLOOR((byte) 2) {
 
     },
-    RAMP((byte) 3) {
+    STAIRS((byte) 3) {
 
     },
-    STAIRS((byte) 4) {
+    RAMP((byte) 4) {
 
     };
 

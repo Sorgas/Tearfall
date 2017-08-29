@@ -1,5 +1,6 @@
 package stonering.enums.materials;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.JsonReader;
 import stonering.exceptions.MaterialNotFoundException;
 
@@ -26,8 +27,8 @@ public class MaterialMap {
     private HashMap<String, Integer> ids;
 
     public MaterialMap(File materialsFile) {
-        materials = new HashMap<Integer, Material>();
-
+        materials = new HashMap<>();
+        materials.put(1, new Material("qwer", new Color(1,1,1,1), (byte) 0,1));
     }
 
     public Material getMaterial(int id) {
@@ -40,6 +41,10 @@ public class MaterialMap {
         } else {
             throw new MaterialNotFoundException();
         }
+    }
+
+    public byte getAtlasY(int id) {
+        return materials.get(id).getAtlasY();
     }
 
     private void fillMap(File file) {

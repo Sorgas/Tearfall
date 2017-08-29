@@ -1,6 +1,6 @@
 package stonering.menu.new_game.local_generation;
 
-import stonering.generators.localgen.LocalMapGenerator;
+import stonering.generators.localgen.LocalGeneratorContainer;
 import stonering.game.core.model.LocalMap;
 import stonering.generators.worldgen.WorldMap;
 import stonering.utils.Position;
@@ -9,16 +9,12 @@ import stonering.utils.Position;
  * Created by Alexander on 01.06.2017.
  */
 public class LocalGenerationModel{
-    private LocalMapGenerator localMapGenerator;
+    private LocalGeneratorContainer localGeneratorContainer;
 
     private WorldMap world;
     private Position location;
 
     private LocalMap localMap;
-
-    public LocalGenerationModel() {
-        localMapGenerator = new LocalMapGenerator();
-    }
 
     public void setWorld(WorldMap world) {
         this.world = world;
@@ -29,17 +25,12 @@ public class LocalGenerationModel{
     }
 
     public void generateLocal() {
-        localMapGenerator.setWorld(world);
-        localMapGenerator.setLocation(location);
-        localMapGenerator.execute();
-        localMap = localMapGenerator.getLocalMap();
+        localGeneratorContainer = new LocalGeneratorContainer(world,location);
+        localGeneratorContainer.execute();
+        localMap = localGeneratorContainer.getLocalMap();
     }
 
     public LocalMap getLocalMap() {
         return localMap;
-    }
-
-    public int getProgress() {
-        return localMapGenerator.getProgress();
     }
 }

@@ -11,131 +11,160 @@ import java.util.Random;
  */
 public class LocalHeightsGenerator {
     private WorldMap worldMap;
-    private LocalMap localMap;
     private LocalGenConfig config;
-    private int x;
-    private int y;
-    private int xSize;
-    private int ySize;
-    private int squareSize = 48;
-    private int[][] globalElevation;
+    private int localAreaSize;
+    private float[][] localHightMap;
 
     public LocalHeightsGenerator(WorldMap worldMap) {
         this.worldMap = worldMap;
         config = new LocalGenConfig();
+        localAreaSize = config.getAreaSize();
     }
 
-    public void generateHeights(int x, int y, int width, int heigth) {
-        adjustSize(x, y, width, heigth);
-
-    }
-
-    private void adjustSize(int x, int y, int width, int heigth) {
-        if (x < 0) x = 0;
-        if (y < 0) y = 0;
-        if (x + xSize > worldMap.getWidth()) xSize = worldMap.getWidth() - x;
-        if (y + ySize > worldMap.getHeight()) ySize = worldMap.getHeight() - y;
-    }
-
-    private void createMap() {
-        int localElavation = 0;
-        for (int x = this.x; x < this.x + xSize; x++) {
-            for (int y = this.y; y < this.y + ySize; y++) {
-                localElavation = Math.max(localElavation, worldMap.getElevation(x, y));
-            }
+    public void execute(int x, int y) {
+        localHightMap = new float[localAreaSize + 1][localAreaSize + 1];
+        for (int i = 0; i < localAreaSize + 1; i++) {
+            Arrays.fill(localHightMap[i], -1);
         }
-        localMap = new LocalMap(xSize * squareSize + 1, ySize * squareSize + 1, localElavation * config.getWorldToLocalElevationModifier() + 30);
+        calculateCorners(localHightMap, x, y);
+        calculateBorders(localHightMap, x, y);
+        diamondSquare(localHightMap);
+        fillHeights(localHightMap, 6);
     }
 
-    private void generateHights(int x, int y, int lx, int ly) {
-        //calculating corners
-        int[][] localHights = new int[squareSize + 1][squareSize + 1];
-        Arrays.fill(localHights, -1);
+    private void calculateCorners(float[][] localHights, int x, int y) {
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 2; j++) {
-                localHights[i * squareSize][j * squareSize] = calculateMidElevation(x + i, y + j);
+                localHights[i * localAreaSize][j * localAreaSize] = calculateMidElevation(x + i, y + j) * config.getWorldToLocalElevationModifier();
+                System.out.println(localHights[i * localAreaSize][j * localAreaSize]);
             }
         }
-        //calculating borders
-        recursiveMidpoint(localHights[0], 0, localHights[0].length, new Random(x * y + 1));
-        recursiveMidpoint(localHights[squareSize], 0, localHights[squareSize].length, new Random((x + 1) * y + 1));
-        int[] border = new int[squareSize + 1];
-        for (int i = 0; i < squareSize + 1; i++) {
+    }
+
+    private void calculateBorders(float[][] localHights, int x, int y) {
+        float[] border = new float[localAreaSize + 1];
+
+        //west border
+        for (int i = 0; i < localAreaSize + 1; i++) {
+            border[i] = localHights[0][i];
+        }
+        recursiveMidpoint(border, 0, localAreaSize, new Random(x * y + 1));
+
+        //east border
+        for (int i = 0; i < localAreaSize + 1; i++) {
+            localHights[0][i] = border[i];
+            border[i] = localHights[localAreaSize][i];
+        }
+        recursiveMidpoint(border, 0, localAreaSize, new Random((x + 1) * y + 1));
+
+        //south border
+        for (int i = 0; i < localAreaSize + 1; i++) {
+            localHights[localAreaSize][i] = border[i];
             border[i] = localHights[i][0];
         }
-        recursiveMidpoint(border, 0, border.length, new Random(x * y));
-        for (int i = 0; i < squareSize + 1; i++) {
+        recursiveMidpoint(border, 0, localAreaSize, new Random(x * y));
+
+        //north border
+        for (int i = 0; i < localAreaSize + 1; i++) {
             localHights[i][0] = border[i];
-            border[i] = localHights[i][squareSize];
+            border[i] = localHights[i][localAreaSize];
         }
-        recursiveMidpoint(border, 0, border.length, new Random(x * (y + 1)));
-        for (int i = 0; i < squareSize + 1; i++) {
-            localHights[i][squareSize] = border[i];
-        }
-        while (squareSize > 6) {
-            performSquare(localHights, squareSize);
-            performDiamond(localHights, squareSize);
-            squareSize /= 2;
-        }
-
-
-    }
-
-    private void performSquare(int[][] array, int step) {
-        for (int x = 0; x < array.length; x += step) {
-            for (int y = 0; y < array[0].length; y += step) {
-                float midValue = array[x][y];
-                midValue += array[x + step][y];
-                midValue += array[x][y + step];
-                midValue += array[x + step][y + step];
-                array[x + step / 2][y + step / 2] = (int) (midValue / 4);
-            }
+        recursiveMidpoint(border, 0, localAreaSize, new Random(x * (y + 1)));
+        for (int i = 0; i < localAreaSize + 1; i++) {
+            localHights[i][localAreaSize] = border[i];
         }
     }
 
-    private void performDiamond(int[][] array, int step) {
-        for (int x = 0; x < array.length - 1; x += step) {
-            for (int y = 0; y < array[0].length - 1; y += step) {
-                if (x + step < array.length - 1 && y > 0 && y < array[0].length - 1) {
-                    int midValue = array[x][y];
-                    midValue += array[x + step][y];
-                    midValue += array[x + step / 2][y - step / 2];
-                    midValue += array[x + step / 2][y + step / 2];
-                    array[x + step / 2][y] = midValue / 4;
-                }
-                if (y + step < array[0].length - 1 && x > 0 && x < array.length - 1) {
-                    int midValue = array[x][y];
-                    midValue += array[x][y + step];
-                    midValue += array[x + step / 2][y + step / 2];
-                    midValue += array[x - step / 2][y + step / 2];
-                    array[x][y + step / 2] = midValue / 4;
-                }
-            }
-        }
-    }
-
-    private void fillHeights(int[][] array, int step) {
-        for (int x = 0; x < array.length - 1; x += step) {
-            for (int y = 0; y < array[0].length - 1; y += step) {
-                for (int i = 0; i < step; i++) {
-                    for (int j = 0; j < step; j++) {
-                        
-                    }
-                }
-            }
-        }
-    }
-
-    private void recursiveMidpoint(int[] array, int left, int right, Random random) {
+    private void recursiveMidpoint(float[] array, int left, int right, Random random) {
         if (right - left > 6) {
-            array[(right + left) / 2] = (array[left] + array[right]) / 2 + random.nextInt(1);
+            array[(right + left) / 2] = (array[left] + array[right]) / 2 + random.nextInt(2) -1;
             recursiveMidpoint(array, left, (right + left) / 2, random);
-            recursiveMidpoint(array, (right + left), right / 2, random);
+            recursiveMidpoint(array, (right + left) / 2, right, random);
+            System.out.println(left + "   " + right + " | " + array[(right + left) / 2]);
         } else {
             for (int i = left + 1; i < right; i++) {
                 array[i] = array[left] + ((array[left] - array[right]) / (right - left)) * i;
             }
         }
+    }
+
+    private void diamondSquare(float[][] localHights) {
+        int step = localAreaSize;
+        while (step > 6) {
+            performSquare(localHights, step);
+            performDiamond(localHights, step);
+            step /= 2;
+        }
+    }
+
+    private void performSquare(float[][] array, int step) {
+        for (int x = 0; x + step < localAreaSize + 1; x += step) {
+            for (int y = 0; y + step < localAreaSize + 1; y += step) {
+                float midValue = array[x][y];
+                midValue += array[x + step][y];
+                midValue += array[x][y + step];
+                midValue += array[x + step][y + step];
+                array[x + step / 2][y + step / 2] = (int) (midValue / 4);
+//                System.out.println("s: " + (x + step / 2) + " " + (y + step / 2) + " " + " " + array[x + step / 2][y + step / 2]);
+            }
+        }
+    }
+
+    private void performDiamond(float[][] array, int step) {
+        for (int x = 0; x < localAreaSize + 1; x += step) {
+            for (int y = 0; y < localAreaSize + 1; y += step) {
+                if (x + step / 2 < localAreaSize + 1 && array[x + step / 2][y] < 0)
+                    calculateDiamond(array, step, x + step / 2, y);
+                if (y + step / 2 < localAreaSize + 1 && array[x][y + step / 2] < 0)
+                    calculateDiamond(array, step, x, y + step / 2);
+            }
+        }
+    }
+
+    private void calculateDiamond(float[][] array, int step, int x, int y) {
+        int arraySize = localAreaSize + 1;
+        array[x][y] = 0;
+        int count = 0;
+        if (x + step / 2 < arraySize) {
+            array[x][y] += array[x + step / 2][y];
+            count++;
+        }
+        if (x - step / 2 >= 0) {
+            array[x][y] += array[x - step / 2][y];
+            count++;
+        }
+        if (y + step / 2 < arraySize) {
+            array[x][y] += array[x][y + step / 2];
+            count++;
+        }
+        if (y - step / 2 >= 0) {
+            array[x][y] += array[x][y - step / 2];
+            count++;
+        }
+        array[x][y] /= count;
+    }
+
+    private void fillHeights(float[][] array, int step) {
+        for (int x = 0; x < localAreaSize; x += step) {
+            for (int y = 0; y < localAreaSize; y += step) {
+                fillSquare(array, x, y, step);
+            }
+        }
+    }
+
+    private void fillSquare(float[][] array, int x, int y, int step) {
+        for (int i = 0; i <= step; i++) {
+            for (int j = 0; j <= step; j++) {
+                array[x + i][y + j] = getMidValue(array[x][y], array[x + step][y],
+                        array[x][y + step], array[x + step][y + step], i, j);
+            }
+        }
+    }
+
+    private float getMidValue(float sw, float se, float nw, float ne, int x, int y) {
+        float n = nw + (ne - nw) * x / 6f;
+        float s = sw + (se - sw) * x / 6f;
+        return s + (n - s) * y / 6f;
     }
 
     private int calculateMidElevation(int x, int y) {
@@ -148,21 +177,13 @@ public class LocalHeightsGenerator {
         return elevation / 4;
     }
 
-//    private void createGlobalElevation() {
-//        Position SWcorner = new Position(x ,y,0);
-//        Position NEcorner = new Position(x + xSize,y + ySize,0);
-//
-//
-//        globalElevation = new int[xSize + 2][ySize + 2];
-//        for (int x = 0; x < xSize + 2; x++) {
-//            for (int y = 0; y < ySize + 2; y++) {
-//
-//            }
-//        }
-//    }
+    public int[][] getLocalHightMap() {
+        int[][] result = new int[localHightMap.length][localHightMap.length];
+        for (int x = 0; x < localHightMap.length; x++) {
+            for (int y = 0; y < localHightMap.length; y++) {
+                result[x][y] = Math.round(localHightMap[x][y]);
+            }
+        }
+        return result;
+    }
 }
-
-
-
-
-

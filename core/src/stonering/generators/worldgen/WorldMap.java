@@ -16,6 +16,7 @@ public class WorldMap implements Serializable {
     private Map<Position, List<Vector>> rivers;
     private int width;
     private int height;
+    private long seed;
 
     public WorldMap(int xSize, int ySize) {
         this.width = xSize;
@@ -79,5 +80,13 @@ public class WorldMap implements Serializable {
             list.add(vector);
             rivers.put(new Position(vector.getX(), vector.getY(),0), list);
         }
+    }
+
+    public long getSeed() {
+        return seed;
+    }
+
+    public void setSeed(long seed) {
+        this.seed = seed;
     }
 }

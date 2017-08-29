@@ -11,7 +11,7 @@ import java.util.Random;
  */
 public class WorldGenModel implements GameModel {
 	private WorldGenContainer worldGenContainer;
-	private GeneratorContainer generatorContainer;
+	private GlobalGeneratorContainer globalGeneratorContainer;
 	private WorldMap map;
 	private long seed;
 
@@ -34,9 +34,9 @@ public class WorldGenModel implements GameModel {
 		WorldGenFactory factory = WorldGenFactory.getInstance();
 		WorldGenConfig config = new WorldGenConfig(worldSize, worldSize);
 		factory.initMapContainer(config);
-		generatorContainer = factory.getGeneratorContainer();
-		generatorContainer.runContainer();
-		worldGenContainer = generatorContainer.getWorldGenContainer();
+		globalGeneratorContainer = factory.getGlobalGeneratorContainer();
+		globalGeneratorContainer.runContainer();
+		worldGenContainer = globalGeneratorContainer.getWorldGenContainer();
 		map = worldGenContainer.getMap();
 		System.out.println(map);
 	}
