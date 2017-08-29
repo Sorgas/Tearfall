@@ -16,7 +16,6 @@ public class WorldGenContainer {
 	private int width;
 	private int height;
 	private WorldMap map;
-	private WorldMap map2;
 
 	private List<Plate> plates;
 	private List<Edge> edges;
@@ -133,16 +132,6 @@ public class WorldGenContainer {
 		}
 	}
 
-	public float getDebug(int x, int y) {
-		float value = 0;
-		if (x >= 0 && x < width) {
-			if (y >= 0 && y < height) {
-				value = debug[x][y];
-			}
-		}
-		return value;
-	}
-
 	public void setTemperature(int x, int y, float value) {
 		if (x >= 0 && x < width) {
 			if (y >= 0 && y < height) {
@@ -177,14 +166,6 @@ public class WorldGenContainer {
 			}
 		}
 		return value;
-	}
-
-	public WorldMap getMap2() {
-		return map2;
-	}
-
-	public void setMap2(WorldMap map2) {
-		this.map2 = map2;
 	}
 
 	public List<Position> getLakes() {

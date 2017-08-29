@@ -37,30 +37,6 @@ public class MapDrawer {
 		this.tiles = tiles;
 	}
 
-	public void drawTiled() {
-		if (model.getWorldGenContainer() != null) {
-			useTiles = true;
-			container = model.getWorldGenContainer();
-			drawElevation();
-			drawOceans();
-			drawRivers();
-		}
-	}
-
-	public void drawPixels() {
-		if (model.getWorldGenContainer() != null) {
-			useTiles = false;
-			container = model.getWorldGenContainer();
-			drawElevation();
-			drawOceans();
-			drawRivers();
-//			shapeRenderer.setColor(1,1,1,1);
-//			drawPlates();
-//			drawValleys();
-		}
-	}
-
-
 	private void drawPlates() {
 		List<Plate> plates = container.getPlates();
 		for (Iterator<Plate> iterator = plates.iterator(); iterator.hasNext(); ) {

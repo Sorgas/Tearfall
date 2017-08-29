@@ -34,7 +34,7 @@ public class DiamondSquareGenerator {
         }
         System.out.println(bufferScale);
         fillBuffer();
-        container.setMap2(map2);
+//        container.setMap2(map2);
     }
 
     private void init() {

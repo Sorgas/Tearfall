@@ -8,117 +8,71 @@ import stonering.generators.worldgen.generators.drainage.RiverGenerator;
 import stonering.generators.worldgen.generators.temperature.TemperatureGenerator;
 
 public class GlobalGeneratorContainer {
-	private boolean rejected;
-	int rejectCount;
+    private boolean rejected;
+    int rejectCount;
 
-	private WorldGenContainer worldGenContainer;
+    private WorldGenContainer worldGenContainer;
 
-	private PlateGenerator plateGenerator;
-	private MountainGenerator mountainGenerator;
-	private ValleyGenerator valleyGenerator;
-	private MountainRenderer mountainRenderer;
-	private ValleyRenderer valleyRenderer;
-	private HillGenerator hillGenerator;
-	private HillRenderer hillRenderer;
-	private OceanFiller oceanFiller;
-	private RiverGenerator riverGenerator;
-	private TemperatureGenerator temperatureGenerator;
-	private ElevationGenerator elevationGenerator;
-	private DiamondSquareGenerator diamondSquareGenerator;
-	private RainfallGenerator rainfallGenerator;
+    private PlateGenerator plateGenerator;
+    private MountainGenerator mountainGenerator;
+    private ValleyGenerator valleyGenerator;
+    private MountainRenderer mountainRenderer;
+    private ValleyRenderer valleyRenderer;
+    private HillGenerator hillGenerator;
+    private HillRenderer hillRenderer;
+    private OceanFiller oceanFiller;
+    private RiverGenerator riverGenerator;
+    private TemperatureGenerator temperatureGenerator;
+    private ElevationGenerator elevationGenerator;
+    private RainfallGenerator rainfallGenerator;
 
-	public GlobalGeneratorContainer() {
+    public void init(WorldGenConfig config) {
+        worldGenContainer = new WorldGenContainer(config);
+        plateGenerator = new PlateGenerator(worldGenContainer);
+        mountainGenerator = new MountainGenerator(worldGenContainer);
+        valleyGenerator = new ValleyGenerator(worldGenContainer);
+        mountainRenderer = new MountainRenderer(worldGenContainer);
+        valleyRenderer = new ValleyRenderer(worldGenContainer);
+        hillGenerator = new HillGenerator(worldGenContainer);
+        hillRenderer = new HillRenderer(worldGenContainer);
+        oceanFiller = new OceanFiller(worldGenContainer);
+        riverGenerator = new RiverGenerator(worldGenContainer);
+        temperatureGenerator = new TemperatureGenerator(worldGenContainer);
+        elevationGenerator = new ElevationGenerator(worldGenContainer);
+        rainfallGenerator = new RainfallGenerator(worldGenContainer);
+    }
 
-	}
+    public void runContainer() {
+        do {
+            rejected = runGenerators();
+            if (rejected) {
+                worldGenContainer.reset();
+                rejectCount++;
+            }
+        } while (rejected);
+        System.out.println("rejected: " + rejectCount);
+    }
 
-	public void runContainer() {
-		do {
-			rejected = runGenerators();
-			if(rejected) {
-				worldGenContainer.reset();
-				rejectCount++;
-			}
-		} while(rejected);
-		System.out.println("rejected: " + rejectCount);
-	}
+    private boolean runGenerators() {
+        if (plateGenerator.execute()) return true;
+        if (mountainGenerator.execute()) return true;
+        if (valleyGenerator.execute()) return true;
+        if (hillGenerator.execute()) return true;
+        elevationGenerator.execute();
+        mountainRenderer.execute();
+        valleyRenderer.execute();
+        worldGenContainer.fillMap();
+        oceanFiller.execute();
+        riverGenerator.execute();
+        hillRenderer.execute();
+        temperatureGenerator.execute();
+        rainfallGenerator.execute();
+        worldGenContainer.fillMap();
 
-	private boolean runGenerators() {
-		if (plateGenerator.execute()) return true;
-		if (mountainGenerator.execute()) return true;
-		if (valleyGenerator.execute()) return true;
-		if (hillGenerator.execute()) return true;
-		elevationGenerator.execute();
-		mountainRenderer.execute();
-		valleyRenderer.execute();
-		worldGenContainer.fillMap();
-		oceanFiller.execute();
-		riverGenerator.execute();
-		hillRenderer.execute();
-		temperatureGenerator.execute();
-//		diamondSquareGenerator.execute();
-		rainfallGenerator.execute();
-		worldGenContainer.fillMap();
+        return false;
+    }
 
-		return false;
-	}
-
-	public WorldGenContainer getWorldGenContainer() {
-		return worldGenContainer;
-	}
-
-	public void setPlateGenerator(PlateGenerator plateGenerator) {
-		this.plateGenerator = plateGenerator;
-	}
-
-	public void setMountainGenerator(MountainGenerator mountainGenerator) {
-		this.mountainGenerator = mountainGenerator;
-	}
-
-	public void setValleyGenerator(ValleyGenerator valleyGenerator) {
-		this.valleyGenerator = valleyGenerator;
-	}
-
-	public void setMountainRenderer(MountainRenderer mountainRenderer) {
-		this.mountainRenderer = mountainRenderer;
-	}
-
-	public void setWorldGenContainer(WorldGenContainer worldGenContainer) {
-		this.worldGenContainer = worldGenContainer;
-	}
-
-	public void setValleyRenderer(ValleyRenderer valleyRenderer) {
-		this.valleyRenderer = valleyRenderer;
-	}
-
-	public void setHillGenerator(HillGenerator hillGenerator) {
-		this.hillGenerator = hillGenerator;
-	}
-
-	public void setHillRenderer(HillRenderer hillRenderer) {
-		this.hillRenderer = hillRenderer;
-	}
-
-	public void setOceanFiller(OceanFiller oceanFiller) {
-		this.oceanFiller = oceanFiller;
-	}
-
-	public void setRiverGenerator(RiverGenerator riverGenerator) {
-		this.riverGenerator = riverGenerator;
-	}
-
-	public void setDiamondSquareGenerator(DiamondSquareGenerator diamondSquareGenerator) {
-		this.diamondSquareGenerator = diamondSquareGenerator;
-	}
-
-	public void setTemperatureGenerator(TemperatureGenerator temperatureGenerator) {
-		this.temperatureGenerator = temperatureGenerator;
-	}
-
-	public void setElevationGenerator(ElevationGenerator elevationGenerator) {
-		this.elevationGenerator = elevationGenerator;
-	}
-
-	public void setRainfallGenerator(RainfallGenerator rainfallGenerator) {
-		this.rainfallGenerator = rainfallGenerator;
-	}
+    public WorldMap getWorldMap() {
+        return worldGenContainer.getMap();
+    }
 }
