@@ -13,7 +13,6 @@ public class LocalMap {
     private int ySize;
     private int zSize;
 
-
     public LocalMap(int xSize, int ySize, int zSize) {
         material = new int[xSize][ySize][zSize];
         blockAndFlooding = new byte[xSize][ySize][zSize];

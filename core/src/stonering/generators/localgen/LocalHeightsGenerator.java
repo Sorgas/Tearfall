@@ -1,6 +1,7 @@
 package stonering.generators.localgen;
 
 import stonering.game.core.model.LocalMap;
+import stonering.generators.worldgen.WorldGenContainer;
 import stonering.generators.worldgen.WorldMap;
 
 import java.util.Arrays;
@@ -15,13 +16,15 @@ public class LocalHeightsGenerator {
     private int localAreaSize;
     private float[][] localHightMap;
 
-    public LocalHeightsGenerator(WorldMap worldMap) {
-        this.worldMap = worldMap;
-        config = new LocalGenConfig();
+    public LocalHeightsGenerator(LocalGenContainer container) {
+        this.worldMap = container.getWorldMap();
+        config = container.getConfig();
         localAreaSize = config.getAreaSize();
     }
 
-    public void execute(int x, int y) {
+    public void execute() {
+        int x = config.getLocation().getX();
+        int y = config.getLocation().getY();
         localHightMap = new float[localAreaSize + 1][localAreaSize + 1];
         for (int i = 0; i < localAreaSize + 1; i++) {
             Arrays.fill(localHightMap[i], -1);

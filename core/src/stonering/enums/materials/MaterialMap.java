@@ -1,13 +1,12 @@
 package stonering.enums.materials;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.utils.JsonReader;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonWriter;
 import stonering.exceptions.MaterialNotFoundException;
+import stonering.global.FileLoader;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -25,18 +24,33 @@ import java.util.HashMap;
 public class MaterialMap {
     private HashMap<Integer, Material> materials;
     private HashMap<String, Integer> ids;
+    private Json json;
 
-    public MaterialMap(File materialsFile) {
+    public MaterialMap() {
         materials = new HashMap<>();
-        materials.put(1, new Material("qwer", new Color(1,1,1,1), (byte) 0,1));
+        ids = new HashMap<>();
+        json = new Json();
+        json.setOutputType(JsonWriter.OutputType.json);
+        json.addClassTag("color_c", Color.class);
+        loadMinerals();
+    }
+
+    private void loadMinerals() {
+        System.out.println("loading materials");
+        ArrayList<Material> elements = json.fromJson(ArrayList.class, Material.class, FileLoader.getMineralsFile());
+        for (Material material : elements) {
+            System.out.println(material.toString()+ " " + material.getAtlasY() + " " + material.getColor().toString() );
+            materials.put(material.getId(), material);
+            ids.put(material.getName(), material.getId());
+        }
     }
 
     public Material getMaterial(int id) {
         return materials.get(id);
     }
 
-    public int getId(String name) throws MaterialNotFoundException{
-        if(ids.containsKey(name)) {
+    public int getId(String name) throws MaterialNotFoundException {
+        if (ids.containsKey(name)) {
             return ids.get(name);
         } else {
             throw new MaterialNotFoundException();
@@ -45,14 +59,5 @@ public class MaterialMap {
 
     public byte getAtlasY(int id) {
         return materials.get(id).getAtlasY();
-    }
-
-    private void fillMap(File file) {
-        JsonReader reader = new JsonReader();
-        try {
-            reader.parse(new FileInputStream(file));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
     }
 }

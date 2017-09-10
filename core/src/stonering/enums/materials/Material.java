@@ -17,8 +17,16 @@ import com.badlogic.gdx.graphics.Color;
 public class Material {
     private int id;
     private String name;
+    private String description;
+
     private Color color;
     private byte atlasY;
+    private float density;
+    private int hardness;
+    private int melting_point;
+
+    public Material() {
+    }
 
     public Material(String name, Color color, byte atlasY, int id) {
         this.name = name;
@@ -57,5 +65,45 @@ public class Material {
 
     public void setAtlasY(byte atlasY) {
         this.atlasY = atlasY;
+    }
+
+    public float getDensity() {
+        return density;
+    }
+
+    public void setDensity(float density) {
+        this.density = density;
+    }
+
+    public int getHardness() {
+        return hardness;
+    }
+
+    public void setHardness(int hardness) {
+        this.hardness = hardness;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public int getMelting_point() {
+        return melting_point;
+    }
+
+    public void setMelting_point(int melting_point) {
+        this.melting_point = melting_point;
+    }
+
+    @Override
+    public String toString() {
+        return "Material{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

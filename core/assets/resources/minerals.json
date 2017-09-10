@@ -1,0 +1,212 @@
+[ //igneous
+  {
+    "id": "1",
+    "name": "granite",
+    "density": "2.7", //g/sm^3
+    "hardness": "100",
+    "melting_point": "1513", //K
+    "description": "",
+    "atlasY": "0",
+    "color": {
+      "class": "color_c",
+      "r": "0",
+      "g": "1",
+      "b": "1",
+      "a": "1"
+    }
+  },
+  {
+    "id": "2",
+    "name": "diorite",
+    "density": "2.8",
+    "hardness": "100",
+    "melting_point": "1523",
+    "description": "",
+    "atlasY": "0",
+    "color": {
+      "class": "color_c",
+      "r": "1",
+      "g": "1",
+      "b": "1",
+      "a": "1"
+    }
+  },
+  {
+    "id": "3",
+    "name": "gabbro",
+    "density": "3",
+    "hardness": "100",
+    "melting_point": "1523",
+    "description": "",
+    "atlasY": "0",
+    "color": {
+      "class": "color_c",
+      "r": "1",
+      "g": "1",
+      "b": "1",
+      "a": "1"
+    }
+  },
+  {
+    "id": "4",
+    "name": "peridotite",
+    "density": "3.1",
+    "hardness": "100",
+    "melting_point": "2173",
+    "description": "",
+    "atlasY": "0",
+    "color": {
+      "class": "color_c",
+      "r": "1",
+      "g": "1",
+      "b": "1",
+      "a": "1"
+    }
+  },
+  {
+    "id": "5",
+    "name": "rhyolite",
+    "density": "2.4",
+    "hardness": "100",
+    "melting_point": "1513",
+    "description": "",
+    "atlasY": "0",
+    "color": {
+      "class": "color_c",
+      "r": "1",
+      "g": "1",
+      "b": "1",
+      "a": "1"
+    }
+  },
+  {
+    "id": "6",
+    "name": "andesite",
+    "density": "2.7",
+    "hardness": "100",
+    "melting_point": "1473",
+    "description": "",
+    "atlasY": "0",
+    "color": {
+      "class": "color_c",
+      "r": "1",
+      "g": "1",
+      "b": "1",
+      "a": "1"
+    }
+  },
+  {
+    "id": "7",
+    "name": "basalt",
+    "density": "2.7",
+    "hardness": "100",
+    "melting_point": "1450",
+    "description": "",
+    "atlasY": "0",
+    "color": {
+      "class": "color_c",
+      "r": "1",
+      "g": "1",
+      "b": "1",
+      "a": "1"
+    }
+  },
+  //metamorfic components: quarz, fieldspar, talc, mica
+  {
+    "id": "8",
+    "name": "chlorite",
+    "density": "2.8",
+    "hardness": "100",
+    "melting_point": "1450",
+    "description": "",
+    "atlasY": "0",
+    "color": {
+      "class": "color_c",
+      "r": "1",
+      "g": "1",
+      "b": "1",
+      "a": "1"
+    }
+  },
+  {
+    "id": "9",
+    "name": "kaolinite",
+    "density": "2.8",
+    "hardness": "100",
+    "melting_point": "1450",
+    "description": "",
+    "atlasY": "0",
+    "color": {
+      "class": "color_c",
+      "r": "1",
+      "g": "1",
+      "b": "1",
+      "a": "1"
+    }
+  },
+  {
+    "id": "10",
+    "name": "phillite",
+    "density": "2.8",
+    "hardness": "100",
+    "melting_point": "1450",
+    "description": "",
+    "atlasY": "0",
+    "color": {
+      "class": "color_c",
+      "r": "1",
+      "g": "1",
+      "b": "1",
+      "a": "1"
+    }
+  },
+  {
+    "id": "11",
+    "name": "quarzite",
+    "density": "2.6",
+    "hardness": "100",
+    "melting_point": "1450",
+    "description": "",
+    "atlasY": "0",
+    "color": {
+      "class": "color_c",
+      "r": "1",
+      "g": "1",
+      "b": "1",
+      "a": "1"
+    }
+  },
+  {
+    "id": "12",
+    "name": "gneiss",
+    "density": "2.6",
+    "hardness": "100",
+    "melting_point": "1450",
+    "description": "",
+    "atlasY": "0",
+    "color": {
+      "class": "color_c",
+      "r": "1",
+      "g": "1",
+      "b": "1",
+      "a": "1"
+    }
+  },
+  //sedimentary
+  {
+    "id": "13",
+    "name": "gneiss",
+    "density": "2.6",
+    "hardness": "100",
+    "melting_point": "1450",
+    "description": "",
+    "atlasY": "0",
+    "color": {
+      "class": "color_c",
+      "r": "1",
+      "g": "1",
+      "b": "1",
+      "a": "1"
+    }
+  }
+]

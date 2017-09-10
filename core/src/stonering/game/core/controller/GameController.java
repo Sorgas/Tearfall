@@ -20,7 +20,7 @@ public class GameController {
 
     public GameController(GameContainer container) {
         this.container = container;
-        camera = new Position(container.getLocalMap().getxSize() / 2, container.getLocalMap().getySize() / 2, container.getLocalMap().getzSize() - 18);
+        camera = new Position(container.getLocalMap().getxSize() / 2, container.getLocalMap().getySize() / 2, 4);//container.getLocalMap().getzSize() / 2);
         navigationInputBuffer = new NavigationInputBuffer(4);
         cameraInputProcessor = new CameraInputProcessor(this, navigationInputBuffer);
         Gdx.input.setInputProcessor(cameraInputProcessor);

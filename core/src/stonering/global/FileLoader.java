@@ -1,14 +1,16 @@
 package stonering.global;
 
+import com.badlogic.gdx.files.FileHandle;
+
 import java.io.File;
 
 /**
  * Created by Alexander on 06.08.2017.
  */
 public class FileLoader {
-    private final static String MATERIALS_PATH = "resources/materials.json.json";
+    private final static String MINERALS_PATH = "resources/minerals.json";
 
-    public static File getMaterialsFile() {
-        return new File(MATERIALS_PATH);
+    public static FileHandle getMineralsFile() {
+        return new FileHandle(MINERALS_PATH);
     }
 }

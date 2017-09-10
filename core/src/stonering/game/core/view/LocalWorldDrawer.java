@@ -82,7 +82,6 @@ public class LocalWorldDrawer {
             batch.draw(new TextureRegion(tiles, map.getAtlasX(x, y, z) * tileWidth, map.getAtlasY(x, y, z) * tileHeight, tileWidth, tileHeight),
                     getScreenPosX(x - camera.getX(), y - camera.getY()),
                     getScreenPosY(x - camera.getX(), y - camera.getY(), z - camera.getZ()));
-//            System.out.println(map.getAtlasX(x, y, z) + " " + map.getAtlasY(x, y, z));
         }
     }
 

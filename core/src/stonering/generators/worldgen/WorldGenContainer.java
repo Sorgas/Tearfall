@@ -98,6 +98,7 @@ public class WorldGenContainer {
 		rainfall = new float[width][height];
 		debug = new float[width][height];
 		map = new WorldMap(width, height);
+		map.setSeed(config.getSeed());
 		plates = new ArrayList<>();
 		edges = new ArrayList<>();
 		mountains = new ArrayList<>();

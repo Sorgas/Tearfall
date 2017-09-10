@@ -1,5 +1,6 @@
 package stonering.menu.new_game.local_generation;
 
+import stonering.generators.localgen.LocalGenConfig;
 import stonering.generators.localgen.LocalGeneratorContainer;
 import stonering.game.core.model.LocalMap;
 import stonering.generators.worldgen.WorldMap;
@@ -25,7 +26,9 @@ public class LocalGenerationModel{
     }
 
     public void generateLocal() {
-        localGeneratorContainer = new LocalGeneratorContainer(world,location);
+        LocalGenConfig config = new LocalGenConfig();
+        config.setLocation(location);
+        localGeneratorContainer = new LocalGeneratorContainer(config, world);
         localGeneratorContainer.execute();
         localMap = localGeneratorContainer.getLocalMap();
     }

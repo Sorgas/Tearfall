@@ -21,7 +21,7 @@ public class GameContainer {
     public GameContainer(LocalMap localMap) {
         this.localMap = localMap;
         creatures = new ArrayList<>();
-        materialMap = new MaterialMap(FileLoader.getMaterialsFile());
+        materialMap = new MaterialMap();
         localTileMap = new LocalTileMap(localMap.getxSize(), localMap.getySize(), localMap.getzSize());
         createTileMapUpdater();
     }

@@ -2,54 +2,49 @@ package stonering.generators.localgen;
 
 import stonering.enums.BlockTypesEnum;
 import stonering.game.core.model.LocalMap;
-import stonering.generators.PerlinNoiseGenerator;
 import stonering.generators.worldgen.WorldMap;
 import stonering.utils.Plane;
 import stonering.utils.Position;
 import stonering.utils.Vector;
 
-import java.util.Random;
-
 /**
  * Created by Alexander on 27.08.2017.
  */
 public class LocalGeneratorContainer {
-    LocalHeightsGenerator localHeightsGenerator;
-    LocalRiverGenerator riverGenerator;
+    private LocalGenContainer localGenContainer;
+
+    private LocalHeightsGenerator localHeightsGenerator;
+    private LocalRiverGenerator riverGenerator;
 
     private WorldMap world;
     private LocalMap localMap;
     private Position location;
     private LocalGenConfig config;
-    private Random random = new Random();
     int localElevation;
 
-//    private int perlinModifier = 6;
-//    private static int perm[] = new int[512];
-//    private static int grad3[][] = {{1, 1, 0}, {-1, 1, 0}, {1, -1, 0}, {-1, -1, 0},
-//            {1, 0, 1}, {-1, 0, 1}, {1, 0, -1}, {-1, 0, -1},
-//            {0, 1, 1}, {0, -1, 1}, {0, 1, -1}, {0, -1, -1}};
-//    private float[][] poligonTops;
-
-    public LocalGeneratorContainer(WorldMap world, Position location) {
-        config = new LocalGenConfig();
+    public LocalGeneratorContainer(LocalGenConfig config, WorldMap world) {
         this.world = world;
-        this.location = location;
-        localHeightsGenerator = new LocalHeightsGenerator(world);
+        this.location = config.getLocation();
+        this.config = config;
+        init();
+    }
 
-//      LocalRiverGenerator = new LocalRiverGenerator();
+    public void init() {
+        localGenContainer = new LocalGenContainer(config, world);
+        localGenContainer.setConfig(config);
+        localHeightsGenerator = new LocalHeightsGenerator(localGenContainer);
     }
 
     public void execute() {
         createMap();
-        localHeightsGenerator.execute(location.getX(), location.getY());
+        localHeightsGenerator.execute();
         applyHightMap(localHeightsGenerator.getLocalHightMap());
     }
 
     private void createMap() {
-        int localElavation = world.getElevation(location.getX(),location.getY()) * config.getWorldToLocalElevationModifier() + 20;
-        localMap = new LocalMap(config.getAreaSize() + 1, config.getAreaSize() + 1, localElavation);
+        localMap = new LocalMap(config.getAreaSize(),config.getAreaSize(), config.getAreaHight());
     }
+
 
     private void applyHightMap(int[][] localHeightMap) {
         for (int x = 0; x < localMap.getxSize(); x++) {
@@ -65,30 +60,17 @@ public class LocalGeneratorContainer {
         }
     }
 
-//    private void generatePerlin() {
-//        for (int i = 0; i < 512; i++) {
-//            perm[i] = random.nextInt(256);
-//        }
-//        float[][] noise = (new PerlinNoiseGenerator()).generateOctavedSimplexNoise(config.getAreaSize(), config.getAreaSize(), 4, 0.3f, 0.013f);
-//        System.out.println();
-//        System.out.print("generating local");
-//        if (validateWorldAndLocation()) {
-//            for (int x = 0; x < config.getAreaSize(); x++) {
-//                for (int y = 0; y < config.getAreaSize(); y++) {
-//                    if (noise[x][y] < -0.5f) {
-//                        noise[x][y] = -0.5f;
-//                    }
-//                    for (int z = 0; z < config.getAreaHight(); z++) {
-//                        if (z < (localElevation + noise[x][y] * perlinModifier)) {
-//                            localMap.setBlock(x, y, z, BlockTypesEnum.WALL, 1);
-//                        } else {
-//                            localMap.setBlock(x, y, z, BlockTypesEnum.SPACE, 1);
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
+
+
+
+
+
+
+
+
+
+
+
 
     private void generateSurface() {
         int areaSize = config.getAreaSize();
@@ -105,29 +87,6 @@ public class LocalGeneratorContainer {
         Plane plane = new Plane(center, N, NE);
 
     }
-
-    private void generatreMap() {
-        if (validateWorldAndLocation()) {
-            localMap = new LocalMap(config.getAreaSize(), config.getAreaSize(), config.getAreaHight());
-            int elevation = world.getElevation(location.getX(), location.getY()) * config.getWorldToLocalElevationModifier() + config.getLocalSeaLevel();
-            for (int x = 0; x < config.getAreaSize(); x++) {
-                for (int y = 0; y < config.getAreaSize(); y++) {
-                    for (int z = 0; z < elevation; z++) {
-
-                    }
-                }
-            }
-        }
-    }
-
-//    private void countPoligonTops() {
-//        poligonTops = new float[3][3];
-//        for (int x = 0; x < 2; x++) {
-//            for (int y = 0; y < 2; y++) {
-//                poligonTops[x * 2][y * 2] = calculateMidElevation(location.getX() - 1 + x, location.getY() - 1 + y);
-//            }
-//        }
-//    }
 
     private float calculateMidElevation(int x, int y) {
         float midElevation = world.getElevation(x, y);
