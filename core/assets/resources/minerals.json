@@ -1,10 +1,11 @@
-[ //igneous
+[
+  //igneous intrusive "granite", "diorite", "gabbro", "peridotite", "pegmatite"
   {
     "id": "1",
     "name": "granite",
-    "density": "2.7", //g/sm^3
+    "density": "2.7",
     "hardness": "100",
-    "melting_point": "1513", //K
+    "melting_point": "1513",
     "description": "",
     "atlasY": "0",
     "color": {
@@ -65,6 +66,23 @@
   },
   {
     "id": "5",
+    "name": "pegmatite",
+    "density": "2.6",
+    "hardness": "100",
+    "melting_point": "2173",//
+    "description": "",
+    "atlasY": "0",
+    "color": {
+      "class": "color_c",
+      "r": "1",
+      "g": "1",
+      "b": "1",
+      "a": "1"
+    }
+  },
+  //extrusive "rhyolite", "andesite", "obsidian", "tuff", "basalt"
+  {
+    "id": "6",
     "name": "rhyolite",
     "density": "2.4",
     "hardness": "100",
@@ -80,7 +98,7 @@
     }
   },
   {
-    "id": "6",
+    "id": "7",
     "name": "andesite",
     "density": "2.7",
     "hardness": "100",
@@ -96,7 +114,7 @@
     }
   },
   {
-    "id": "7",
+    "id": "8",
     "name": "basalt",
     "density": "2.7",
     "hardness": "100",
@@ -111,29 +129,12 @@
       "a": "1"
     }
   },
-  //metamorfic components: quarz, fieldspar, talc, mica
-  {
-    "id": "8",
-    "name": "chlorite",
-    "density": "2.8",
-    "hardness": "100",
-    "melting_point": "1450",
-    "description": "",
-    "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
   {
     "id": "9",
-    "name": "kaolinite",
-    "density": "2.8",
+    "name": "obsidian",
+    "density": "2.6",
     "hardness": "100",
-    "melting_point": "1450",
+    "melting_point": "2873",
     "description": "",
     "atlasY": "0",
     "color": {
@@ -146,7 +147,40 @@
   },
   {
     "id": "10",
-    "name": "phillite",
+    "name": "tuff",
+    "density": "2.6",
+    "hardness": "100",
+    "melting_point": "2773",
+    "description": "",
+    "atlasY": "0",
+    "color": {
+      "class": "color_c",
+      "r": "1",
+      "g": "1",
+      "b": "1",
+      "a": "1"
+    }
+  },
+  //metamorfic components: "schist", "chlorite", "phyllite", "quarzite", "gneiss", "marble"
+  {
+    "id": "11",
+    "name": "chlorite",
+    "density": "3.1",
+    "hardness": "100",
+    "melting_point": "1450",///
+    "description": "",
+    "atlasY": "0",
+    "color": {
+      "class": "color_c",
+      "r": "1",
+      "g": "1",
+      "b": "1",
+      "a": "1"
+    }
+  },
+  {
+    "id": "12",
+    "name": "phyllite",
     "density": "2.8",
     "hardness": "100",
     "melting_point": "1450",
@@ -161,11 +195,11 @@
     }
   },
   {
-    "id": "11",
+    "id": "13",
     "name": "quarzite",
     "density": "2.6",
     "hardness": "100",
-    "melting_point": "1450",
+    "melting_point": "1873",
     "description": "",
     "atlasY": "0",
     "color": {
@@ -177,7 +211,7 @@
     }
   },
   {
-    "id": "12",
+    "id": "14",
     "name": "gneiss",
     "density": "2.6",
     "hardness": "100",
@@ -192,13 +226,141 @@
       "a": "1"
     }
   },
-  //sedimentary
   {
-    "id": "13",
-    "name": "gneiss",
+    "id": "15",
+    "name": "marble",
+    "density": "2.7",
+    "hardness": "100",
+    "melting_point": "1108",
+    "description": "",
+    "atlasY": "0",
+    "color": {
+      "class": "color_c",
+      "r": "1",
+      "g": "1",
+      "b": "1",
+      "a": "1"
+    }
+  },
+  {
+    "id": "16",
+    "name": "schist",
+    "density": "3",
+    "hardness": "100",
+    "melting_point": "1588",
+    "description": "",
+    "atlasY": "0",
+    "color": {
+      "class": "color_c",
+      "r": "1",
+      "g": "1",
+      "b": "1",
+      "a": "1"
+    }
+  },
+  //sedimentary "shale", "limestone", "sandstone", "dolomite", "chalk", "siltstone", "chert"
+  {
+    "id": "17",
+    "name": "shale",
+    "density": "2.6",
+    "hardness": "100",
+    "melting_point": "1100",
+    "description": "",
+    "atlasY": "0",
+    "color": {
+      "class": "color_c",
+      "r": "1",
+      "g": "1",
+      "b": "1",
+      "a": "1"
+    }
+  },
+  {
+    "id": "18",
+    "name": "limestone",
+    "density": "2.5",
+    "hardness": "100",
+    "melting_point": "1100",
+    "description": "",
+    "atlasY": "0",
+    "color": {
+      "class": "color_c",
+      "r": "1",
+      "g": "1",
+      "b": "1",
+      "a": "1"
+    }
+  },
+  {
+    "id": "19",
+    "name": "sandstone",
+    "density": "2.6",
+    "hardness": "100",
+    "melting_point": "1423",
+    "description": "",
+    "atlasY": "0",
+    "color": {
+      "class": "color_c",
+      "r": "1",
+      "g": "1",
+      "b": "1",
+      "a": "1"
+    }
+  },
+  {
+    "id": "20",
+    "name": "dolomite",
+    "density": "2.9",
+    "hardness": "100",
+    "melting_point": "3883",
+    "description": "",
+    "atlasY": "0",
+    "color": {
+      "class": "color_c",
+      "r": "1",
+      "g": "1",
+      "b": "1",
+      "a": "1"
+    }
+  },
+  {
+    "id": "21",
+    "name": "chalk",
+    "density": "2.5",
+    "hardness": "100",
+    "melting_point": "1100",
+    "description": "",
+    "atlasY": "0",
+    "color": {
+      "class": "color_c",
+      "r": "1",
+      "g": "1",
+      "b": "1",
+      "a": "1"
+    }
+  },
+  {
+    "id": "22",
+    "name": "siltstone",
     "density": "2.6",
     "hardness": "100",
     "melting_point": "1450",
+    "description": "",
+    "atlasY": "0",
+    "color": {
+      "class": "color_c",
+      "r": "1",
+      "g": "1",
+      "b": "1",
+      "a": "1"
+    }
+  },
+  {
+    "id": "23",
+    "name": "chert",
+    "density": "2.6",
+    "hardness": "100",
+    "melting_point": "2000",
     "description": "",
     "atlasY": "0",
     "color": {
@@ -209,4 +371,38 @@
       "a": "1"
     }
   }
+
+  {
+    "id": "24",
+    "name": "soil",
+    "density": "1.6",
+    "hardness": "100",
+    "melting_point": "800",
+    "description": "",
+    "atlasY": "1",
+    "color": {
+      "class": "color_c",
+      "r": "1",
+      "g": "1",
+      "b": "1",
+      "a": "1"
+    }
+  }
+  {
+    "id": "25",
+    "name": "sand",
+    "density": "2.8",
+    "hardness": "100",
+    "melting_point": "800",
+    "description": "",
+    "atlasY": "1",
+    "color": {
+      "class": "color_c",
+      "r": "1",
+      "g": "1",
+      "b": "1",
+      "a": "1"
+    }
+  }
 ]
+

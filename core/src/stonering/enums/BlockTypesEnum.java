@@ -40,7 +40,6 @@ public enum BlockTypesEnum {
         return code;
     }
 
-
     public static BlockTypesEnum getType(byte code) {
         return map.get(code);
     }

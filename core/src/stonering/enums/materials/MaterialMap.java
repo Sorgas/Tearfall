@@ -53,7 +53,7 @@ public class MaterialMap {
         if (ids.containsKey(name)) {
             return ids.get(name);
         } else {
-            throw new MaterialNotFoundException();
+            throw new MaterialNotFoundException("material with name '" + name + "' not found");
         }
     }
 

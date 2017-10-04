@@ -11,6 +11,7 @@ import java.util.Random;
  * Created by Alexander on 21.08.2017.
  */
 public class LocalHeightsGenerator {
+    private LocalGenContainer container;
     private WorldMap worldMap;
     private LocalGenConfig config;
     private int localAreaSize;
@@ -18,6 +19,7 @@ public class LocalHeightsGenerator {
 
     public LocalHeightsGenerator(LocalGenContainer container) {
         this.worldMap = container.getWorldMap();
+        this.container = container;
         config = container.getConfig();
         localAreaSize = config.getAreaSize();
     }
@@ -33,6 +35,7 @@ public class LocalHeightsGenerator {
         calculateBorders(localHightMap, x, y);
         diamondSquare(localHightMap);
         fillHeights(localHightMap, 6);
+        container.setHeightsMap(roundLocalHightMap());
     }
 
     private void calculateCorners(float[][] localHights, int x, int y) {
@@ -180,7 +183,7 @@ public class LocalHeightsGenerator {
         return elevation / 4;
     }
 
-    public int[][] getLocalHightMap() {
+    private int[][] roundLocalHightMap() {
         int[][] result = new int[localHightMap.length][localHightMap.length];
         for (int x = 0; x < localHightMap.length; x++) {
             for (int y = 0; y < localHightMap.length; y++) {

@@ -10,6 +10,10 @@ public class LocalGenConfig {
     private int areaSize = 96;
     private int areaHight = 400;
     private int localSeaLevel = 200;
+    private int[] sublayerMaxCount = {3,3,4,4};
+    private int[] sublayerMinThickness = {3,3,4,9};
+
+
     private Position location;
 
     public int getWorldToLocalElevationModifier() {
@@ -34,5 +38,13 @@ public class LocalGenConfig {
 
     public void setLocation(Position location) {
         this.location = location;
+    }
+
+    public int[] getSublayerMaxCount() {
+        return sublayerMaxCount;
+    }
+
+    public int[] getSublayerMinThickness() {
+        return sublayerMinThickness;
     }
 }

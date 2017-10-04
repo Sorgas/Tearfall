@@ -1,6 +1,5 @@
 package stonering.generators.localgen;
 
-import stonering.enums.BlockTypesEnum;
 import stonering.game.core.model.LocalMap;
 import stonering.generators.worldgen.WorldMap;
 import stonering.utils.Plane;
@@ -14,13 +13,13 @@ public class LocalGeneratorContainer {
     private LocalGenContainer localGenContainer;
 
     private LocalHeightsGenerator localHeightsGenerator;
+    private LocalStoneLayersGenerator localStoneLayersGenerator;
     private LocalRiverGenerator riverGenerator;
 
     private WorldMap world;
     private LocalMap localMap;
     private Position location;
     private LocalGenConfig config;
-    int localElevation;
 
     public LocalGeneratorContainer(LocalGenConfig config, WorldMap world) {
         this.world = world;
@@ -31,61 +30,14 @@ public class LocalGeneratorContainer {
 
     public void init() {
         localGenContainer = new LocalGenContainer(config, world);
-        localGenContainer.setConfig(config);
         localHeightsGenerator = new LocalHeightsGenerator(localGenContainer);
+        localStoneLayersGenerator = new LocalStoneLayersGenerator(localGenContainer);
+
     }
 
     public void execute() {
-        createMap();
         localHeightsGenerator.execute();
-        applyHightMap(localHeightsGenerator.getLocalHightMap());
-    }
-
-    private void createMap() {
-        localMap = new LocalMap(config.getAreaSize(),config.getAreaSize(), config.getAreaHight());
-    }
-
-
-    private void applyHightMap(int[][] localHeightMap) {
-        for (int x = 0; x < localMap.getxSize(); x++) {
-            for (int y = 0; y < localMap.getySize(); y++) {
-                for (int z = 0; z < localMap.getzSize(); z++) {
-                    if (z < localHeightMap[x][y]) {
-                        localMap.setBlock(x, y, z, BlockTypesEnum.WALL,1);
-                    } else {
-                        localMap.setBlock(x, y, z, BlockTypesEnum.SPACE,1);
-                    }
-                }
-            }
-        }
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-    private void generateSurface() {
-        int areaSize = config.getAreaSize();
-        int elevationModifier = config.getWorldToLocalElevationModifier();
-        Position center = new Position(areaSize / 2, areaSize / 2, localElevation);
-        Position N = new Position(areaSize / 2, areaSize, (world.getElevation(location.getX(), location.getY() + 1) * elevationModifier + localElevation) / 2);
-        Position NE = new Position(areaSize, areaSize, (world.getElevation(location.getX() + 1, location.getY() + 1) * elevationModifier + localElevation) / 2);
-        Position E = new Position(areaSize, areaSize / 2, (world.getElevation(location.getX() + 1, location.getY()) * elevationModifier + localElevation) / 2);
-        Position SE = new Position(areaSize, 0, (world.getElevation(location.getX() + 1, location.getY() - 1) * elevationModifier + localElevation) / 2);
-        Position S = new Position(areaSize / 2, 0, (world.getElevation(location.getX(), location.getY() - 1) * elevationModifier + localElevation) / 2);
-        Position SW = new Position(0, 0, (world.getElevation(location.getX() - 1, location.getY() - 1) * elevationModifier + localElevation) / 2);
-        Position W = new Position(0, areaSize / 2, (world.getElevation(location.getX() - 1, location.getY()) * elevationModifier + localElevation) / 2);
-        Position NW = new Position(0, areaSize, (world.getElevation(location.getX() - 1, location.getY() + 1) * elevationModifier + localElevation) / 2);
-        Plane plane = new Plane(center, N, NE);
-
+        localStoneLayersGenerator.execute();
     }
 
     private float calculateMidElevation(int x, int y) {
@@ -201,7 +153,7 @@ public class LocalGeneratorContainer {
     }
 
     public LocalMap getLocalMap() {
-        return localMap;
+        return localGenContainer.getLocalMap();
     }
 
     public void setWorld(WorldMap world) {
