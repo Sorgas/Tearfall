@@ -35,6 +35,7 @@ public class GameView implements Screen {
         Gdx.gl.glClear(Gdx.gl20.GL_COLOR_BUFFER_BIT | Gdx.gl20.GL_DEPTH_BUFFER_BIT);
         container.performTick();
         worldDrawer.drawWorld(container, camera);
+
     }
 
     @Override

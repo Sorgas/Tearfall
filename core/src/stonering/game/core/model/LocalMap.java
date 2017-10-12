@@ -4,7 +4,8 @@ import stonering.enums.BlockTypesEnum;
 
 public class LocalMap {
     private int[][][] material;
-    private byte[][][] blockAndFlooding;
+    private byte[][][] blockType;
+    private byte[][][] flooding;
     private byte[][][] temperature;
     private byte[][][] lightlevel;
     private LocalTileMapUpdater localTileMapUpdater;
@@ -15,7 +16,8 @@ public class LocalMap {
 
     public LocalMap(int xSize, int ySize, int zSize) {
         material = new int[xSize][ySize][zSize];
-        blockAndFlooding = new byte[xSize][ySize][zSize];
+        blockType = new byte[xSize][ySize][zSize];
+        flooding = new byte[xSize][ySize][zSize];
         temperature = new byte[xSize][ySize][zSize];
         lightlevel = new byte[xSize][ySize][zSize];
         this.xSize = xSize;
@@ -32,7 +34,7 @@ public class LocalMap {
     }
 
     public byte getBlockType(int x, int y, int z) {
-        return (byte) (blockAndFlooding[x][y][z] >> 4);
+        return (byte) (blockType[x][y][z] >> 4);
     }
 
     public byte getFlooding(int x, int y, int z) {
@@ -44,9 +46,8 @@ public class LocalMap {
     }
 
     public void setBlock(int x, int y, int z, BlockTypesEnum blockType, int materialId) {
-        byte old = blockAndFlooding[x][y][z];
-        blockAndFlooding[x][y][z] = (byte) ((old & 0b00001111) | (blockType.getCode() << 4));
-        material[x][y][z] =  materialId;
+        blockType = blockType;
+        material[x][y][z] = materialId;
         if (localTileMapUpdater != null)
             localTileMapUpdater.updateTile(x, y, z, blockType.getCode(), materialId);
     }
@@ -65,5 +66,18 @@ public class LocalMap {
 
     public void setLocalTileMapUpdater(LocalTileMapUpdater localTileMapUpdater) {
         this.localTileMapUpdater = localTileMapUpdater;
+    }
+
+    public boolean isPassable(int x, int y, int z) {
+        if (blockType[x][y][z] == BlockTypesEnum.WALL.getCode()) {
+            return false;
+        }
+        if (flooding[x][y][z] > 0) {
+            return false;
+        }
+        if (blockType[x][y][z] == BlockTypesEnum.SPACE.getCode()) {
+            return z > 0 && blockType[x][y][z] == BlockTypesEnum.WALL.getCode();
+        }
+        return true;
     }
 }

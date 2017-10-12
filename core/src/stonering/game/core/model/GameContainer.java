@@ -1,9 +1,8 @@
 package stonering.game.core.model;
 
 import stonering.enums.materials.MaterialMap;
-import stonering.game.objects.Creature;
+import stonering.game.objects.local_actors.Creature;
 import stonering.generators.worldgen.WorldMap;
-import stonering.global.FileLoader;
 
 import java.util.ArrayList;
 import java.util.List;

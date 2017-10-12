@@ -512,7 +512,7 @@ public class PolygonSimple implements Shape, Cloneable, Iterable<Point2D>{
 		}
 		double area = 0;
 		// we can implement it like this because the polygon is closed
-		// (point2D.get(0) = point2D.get(length + 1)
+		// (point2D.getStep(0) = point2D.getStep(length + 1)
 		int size = length - 1;
 		for (int i = 0; i < size; i++) {
 			area += (x[i] * y[i + 1] - x[i + 1] * y[i]);
@@ -595,7 +595,7 @@ public class PolygonSimple implements Shape, Cloneable, Iterable<Point2D>{
 		}
 	}
 	/**
-	 * We get a vector which describes where the point should be relative to the
+	 * We getStep a vector which describes where the point should be relative to the
 	 * center. We change the length of the vector so that the point fits in the
 	 * polygon. (reimplementation needed here)
 	 * 
@@ -655,7 +655,7 @@ public class PolygonSimple implements Shape, Cloneable, Iterable<Point2D>{
 	}
 
 	/**
-	 * We get a vector which describes where the point should be relative to the
+	 * We getStep a vector which describes where the point should be relative to the
 	 * center. We change the length of the vector so that the point fits in the
 	 * polygon. alpha is the percentage of the point when considering the line
 	 * to the border.
