@@ -1,46 +1,21 @@
 package stonering.game.core.view;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 
 /**
  * Created by Alexander on 12.10.2017.
  */
-public class UIDrawer implements Screen{
-
+public class UIDrawer {
+    private Stage stage;
     private TileStatusBar tileStatusBar;
 
-    @Override
-    public void show() {
-
+    public UIDrawer() {
+        stage = new Stage();
+        tileStatusBar = new TileStatusBar();
     }
 
-    @Override
-    public void render(float delta) {
-
-    }
-
-    @Override
-    public void resize(int width, int height) {
-
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
-    }
-
-    @Override
-    public void dispose() {
-
+    public Stage getStage() {
+        return stage;
     }
 }

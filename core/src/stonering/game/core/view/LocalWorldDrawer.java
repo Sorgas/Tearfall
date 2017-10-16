@@ -66,6 +66,7 @@ public class LocalWorldDrawer {
                 }
             }
         }
+        //batch.draw(new TextureRegion(tiles, 0,0, 100,100),200,200);
         batch.end();
     }
 
