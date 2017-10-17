@@ -1,4 +1,4 @@
-package stonering.generators.localgen;
+package stonering.generators.localgen.generators;
 
 import stonering.game.core.model.LocalMap;
 import stonering.enums.BlockTypesEnum;

@@ -34,7 +34,7 @@ public class LocalMap {
     }
 
     public byte getBlockType(int x, int y, int z) {
-        return (byte) (blockType[x][y][z] >> 4);
+        return blockType[x][y][z];
     }
 
     public byte getFlooding(int x, int y, int z) {
@@ -46,7 +46,7 @@ public class LocalMap {
     }
 
     public void setBlock(int x, int y, int z, BlockTypesEnum blockType, int materialId) {
-        blockType = blockType;
+        this.blockType[x][y][z] = blockType.getCode();
         material[x][y][z] = materialId;
         if (localTileMapUpdater != null)
             localTileMapUpdater.updateTile(x, y, z, blockType.getCode(), materialId);

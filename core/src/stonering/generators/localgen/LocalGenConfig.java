@@ -6,12 +6,12 @@ import stonering.utils.Position;
  * Created by Alexander on 03.06.2017.
  */
 public class LocalGenConfig {
-    private int worldToLocalElevationModifier = 8;
+    private int worldToLocalElevationModifier = 10;
     private int areaSize = 96;
     private int areaHight = 400;
     private int localSeaLevel = 200;
-    private int[] sublayerMaxCount = {3,3,4,4};
-    private int[] sublayerMinThickness = {3,3,4,9};
+    private int[] sublayerMaxCount = {5,5,6,6};
+    private int[] sublayerMinThickness = {4,4,6,8};
 
 
     private Position location;

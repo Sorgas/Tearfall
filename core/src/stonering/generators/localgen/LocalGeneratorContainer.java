@@ -1,8 +1,10 @@
 package stonering.generators.localgen;
 
 import stonering.game.core.model.LocalMap;
+import stonering.generators.localgen.generators.LocalHeightsGenerator;
+import stonering.generators.localgen.generators.LocalRiverGenerator;
+import stonering.generators.localgen.generators.LocalStoneLayersGenerator;
 import stonering.generators.worldgen.WorldMap;
-import stonering.utils.Plane;
 import stonering.utils.Position;
 import stonering.utils.Vector;
 

@@ -1,7 +1,7 @@
-package stonering.generators.localgen;
+package stonering.generators.localgen.generators;
 
-import stonering.game.core.model.LocalMap;
-import stonering.generators.worldgen.WorldGenContainer;
+import stonering.generators.localgen.LocalGenConfig;
+import stonering.generators.localgen.LocalGenContainer;
 import stonering.generators.worldgen.WorldMap;
 
 import java.util.Arrays;
@@ -18,8 +18,8 @@ public class LocalHeightsGenerator {
     private float[][] localHightMap;
 
     public LocalHeightsGenerator(LocalGenContainer container) {
-        this.worldMap = container.getWorldMap();
         this.container = container;
+        this.worldMap = container.getWorldMap();
         config = container.getConfig();
         localAreaSize = config.getAreaSize();
     }
@@ -41,8 +41,7 @@ public class LocalHeightsGenerator {
     private void calculateCorners(float[][] localHights, int x, int y) {
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 2; j++) {
-                localHights[i * localAreaSize][j * localAreaSize] = calculateMidElevation(x + i, y + j) * config.getWorldToLocalElevationModifier();
-                System.out.println(localHights[i * localAreaSize][j * localAreaSize]);
+                localHights[i * localAreaSize][j * localAreaSize] = calculateMidElevationForCorner(x + i, y + j);
             }
         }
     }
@@ -83,10 +82,10 @@ public class LocalHeightsGenerator {
 
     private void recursiveMidpoint(float[] array, int left, int right, Random random) {
         if (right - left > 6) {
-            array[(right + left) / 2] = (array[left] + array[right]) / 2 + random.nextInt(2) -1;
+            array[(right + left) / 2] = (array[left] + array[right]) / 2 + random.nextInt(2) - 1;
             recursiveMidpoint(array, left, (right + left) / 2, random);
             recursiveMidpoint(array, (right + left) / 2, right, random);
-            System.out.println(left + "   " + right + " | " + array[(right + left) / 2]);
+//            System.out.println(left + "   " + right + " | " + array[(right + left) / 2]);
         } else {
             for (int i = left + 1; i < right; i++) {
                 array[i] = array[left] + ((array[left] - array[right]) / (right - left)) * i;
@@ -173,14 +172,21 @@ public class LocalHeightsGenerator {
         return s + (n - s) * y / 6f;
     }
 
-    private int calculateMidElevation(int x, int y) {
+    //counts elevation for SW corner of world cell
+    private int calculateMidElevationForCorner(int x, int y) {
         int elevation = 0;
-        for (int i = x - 1; i < x + 1; i++) {
-            for (int j = y - 1; j < y + 1; j++) {
-                elevation += worldMap.getElevation(i, j);
+        int count = 0;
+        for (int i = x - 1; i <= x; i++) {
+            for (int j = y - 1; j <= y; j++) {
+                if (i >= 0 && j >= 0) {
+                    elevation += worldMap.getElevation(i, j);
+                    count++;
+                }
             }
         }
-        return elevation / 4;
+        elevation /=count;
+        elevation *=config.getWorldToLocalElevationModifier();
+        return elevation + config.getLocalSeaLevel();
     }
 
     private int[][] roundLocalHightMap() {

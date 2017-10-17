@@ -69,7 +69,8 @@
     "name": "pegmatite",
     "density": "2.6",
     "hardness": "100",
-    "melting_point": "2173",//
+    "melting_point": "2173",
+    //
     "description": "",
     "atlasY": "0",
     "color": {
@@ -167,7 +168,8 @@
     "name": "chlorite",
     "density": "3.1",
     "hardness": "100",
-    "melting_point": "1450",///
+    "melting_point": "1450",
+    ///
     "description": "",
     "atlasY": "0",
     "color": {
@@ -370,8 +372,7 @@
       "b": "1",
       "a": "1"
     }
-  }
-
+  },
   {
     "id": "24",
     "name": "soil",
@@ -387,7 +388,7 @@
       "b": "1",
       "a": "1"
     }
-  }
+  },
   {
     "id": "25",
     "name": "sand",
@@ -395,7 +396,7 @@
     "hardness": "100",
     "melting_point": "800",
     "description": "",
-    "atlasY": "1",
+    "atlasY": "2",
     "color": {
       "class": "color_c",
       "r": "1",
