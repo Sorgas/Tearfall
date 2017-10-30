@@ -1,4 +1,4 @@
-package stonering.game.objects.local_actors;
+package stonering.objects.local_actors;
 
 import stonering.utils.Position;
 

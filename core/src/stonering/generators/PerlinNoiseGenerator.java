@@ -13,7 +13,11 @@ public class PerlinNoiseGenerator {
 			{0, 1, 1}, {0, -1, 1}, {0, 1, -1}, {0, -1, -1}};
 
 	public PerlinNoiseGenerator() {
-		Random random = new Random();
+		this(new Random().nextInt(Integer.MAX_VALUE));
+	}
+
+	public PerlinNoiseGenerator(long seed) {
+		Random random = new Random(seed);
 		for (int i = 0; i < 512; i++) {
 			perm[i] = random.nextInt(256);
 		}

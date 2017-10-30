@@ -404,6 +404,23 @@
       "b": "1",
       "a": "1"
     }
-  }
+  },
+  //ores
+  {
+    "id": "25",
+    "name": "sand",
+    "density": "2.8",
+    "hardness": "100",
+    "melting_point": "800",
+    "description": "",
+    "atlasY": "2",
+    "color": {
+      "class": "color_c",
+      "r": "1",
+      "g": "1",
+      "b": "1",
+      "a": "1"
+    }
+  },
 ]
 

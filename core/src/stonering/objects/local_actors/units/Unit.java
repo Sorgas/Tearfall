@@ -1,6 +1,6 @@
-package stonering.game.objects.local_actors.units;
+package stonering.objects.local_actors.units;
 
-import stonering.game.objects.aspects.Aspect;
+import stonering.objects.aspects.Aspect;
 import stonering.utils.Position;
 
 import java.util.HashMap;

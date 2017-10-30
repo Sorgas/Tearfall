@@ -39,7 +39,6 @@ public class MaterialMap {
         System.out.println("loading materials");
         ArrayList<Material> elements = json.fromJson(ArrayList.class, Material.class, FileLoader.getMineralsFile());
         for (Material material : elements) {
-            System.out.println(material.toString()+ " " + material.getAtlasY() + " " + material.getColor().toString() );
             materials.put(material.getId(), material);
             ids.put(material.getName(), material.getId());
         }

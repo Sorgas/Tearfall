@@ -1,7 +1,7 @@
-package stonering.game.objects.aspects;
+package stonering.objects.aspects;
 
 import stonering.game.core.model.LocalMap;
-import stonering.game.objects.local_actors.units.Unit;
+import stonering.objects.local_actors.units.Unit;
 import stonering.utils.Position;
 
 /**

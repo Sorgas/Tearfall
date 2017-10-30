@@ -1,6 +1,6 @@
-package stonering.game.objects.aspects;
+package stonering.objects.aspects;
 
-import stonering.game.objects.local_actors.units.Unit;
+import stonering.objects.local_actors.units.Unit;
 
 /**
  * Created by Alexander on 10.10.2017.

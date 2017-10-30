@@ -1,4 +1,4 @@
-package stonering.game.objects.local_actors;
+package stonering.objects.local_actors;
 
 public abstract class Item extends GameObject{
 	private int id;

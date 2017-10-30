@@ -71,7 +71,7 @@ public class LocalStoneLayersGenerator {
     }
 
     private void countLayers() {
-        soilLayer = 5 - (surfaceLevel - 200) / 20;
+        soilLayer = 1 - (surfaceLevel - 200) / 20;
 
         intrusiveLayer = surfaceLevel - 150;
 

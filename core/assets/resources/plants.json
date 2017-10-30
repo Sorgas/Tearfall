@@ -1,0 +1,15 @@
+[
+  {
+    "id": "1",
+    "name": "grass",
+    "description": "Common grass",
+    "atlasY": "0",
+    "color": {
+      "class": "color_c",
+      "r": "0",
+      "g": "1",
+      "b": "0",
+      "a": "1"
+    }
+  }
+]
