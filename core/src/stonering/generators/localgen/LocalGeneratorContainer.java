@@ -1,10 +1,7 @@
 package stonering.generators.localgen;
 
 import stonering.game.core.model.LocalMap;
-import stonering.generators.localgen.generators.LocalCaveGenerator;
-import stonering.generators.localgen.generators.LocalHeightsGenerator;
-import stonering.generators.localgen.generators.LocalRiverGenerator;
-import stonering.generators.localgen.generators.LocalStoneLayersGenerator;
+import stonering.generators.localgen.generators.*;
 import stonering.generators.worldgen.WorldMap;
 import stonering.utils.Position;
 import stonering.utils.Vector;
@@ -19,6 +16,7 @@ public class LocalGeneratorContainer {
     private LocalStoneLayersGenerator localStoneLayersGenerator;
     private LocalRiverGenerator riverGenerator;
     private LocalCaveGenerator localCaveGenerator;
+    private LocalForestGenerator localForestGenerator;
 
     private WorldMap world;
     private LocalMap localMap;
@@ -37,12 +35,14 @@ public class LocalGeneratorContainer {
         localHeightsGenerator = new LocalHeightsGenerator(localGenContainer);
         localStoneLayersGenerator = new LocalStoneLayersGenerator(localGenContainer);
         localCaveGenerator = new LocalCaveGenerator(localGenContainer);
+        localForestGenerator = new LocalForestGenerator(localGenContainer);
     }
 
     public void execute() {
         localHeightsGenerator.execute();
         localStoneLayersGenerator.execute();
         localCaveGenerator.execute();
+        localForestGenerator.execute();
     }
 
     private float calculateMidElevation(int x, int y) {

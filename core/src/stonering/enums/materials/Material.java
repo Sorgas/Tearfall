@@ -1,6 +1,9 @@
 package stonering.enums.materials;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.ui.List;
+
+import java.util.ArrayList;
 
 /**
  * Created by Alexander on 04.06.2017.
@@ -17,13 +20,13 @@ import com.badlogic.gdx.graphics.Color;
 public class Material {
     private int id;
     private String name;
-    private String description;
-
-    private Color color;
-    private byte atlasY;
+    private ArrayList<String> types;
     private float density;
-    private int hardness;
-    private int melting_point;
+    private String[] reactions;
+    private String[] reaction_args;
+    private int value;
+    private byte atlasY;
+    private Color color;
 
     public Material() {
     }
@@ -35,14 +38,6 @@ public class Material {
         this.atlasY = atlasY;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public int getId() {
         return id;
     }
@@ -51,20 +46,20 @@ public class Material {
         this.id = id;
     }
 
-    public Color getColor() {
-        return color;
+    public String getName() {
+        return name;
     }
 
-    public void setColor(Color color) {
-        this.color = color;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public byte getAtlasY() {
-        return atlasY;
+    public ArrayList<String> getTypes() {
+        return types;
     }
 
-    public void setAtlasY(byte atlasY) {
-        this.atlasY = atlasY;
+    public void setTypes(ArrayList<String> types) {
+        this.types = types;
     }
 
     public float getDensity() {
@@ -75,28 +70,44 @@ public class Material {
         this.density = density;
     }
 
-    public int getHardness() {
-        return hardness;
+    public String[] getReactions() {
+        return reactions;
     }
 
-    public void setHardness(int hardness) {
-        this.hardness = hardness;
+    public void setReactions(String[] reactions) {
+        this.reactions = reactions;
     }
 
-    public String getDescription() {
-        return description;
+    public String[] getReaction_args() {
+        return reaction_args;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setReaction_args(String[] reaction_args) {
+        this.reaction_args = reaction_args;
     }
 
-    public int getMelting_point() {
-        return melting_point;
+    public int getValue() {
+        return value;
     }
 
-    public void setMelting_point(int melting_point) {
-        this.melting_point = melting_point;
+    public void setValue(int value) {
+        this.value = value;
+    }
+
+    public byte getAtlasY() {
+        return atlasY;
+    }
+
+    public void setAtlasY(byte atlasY) {
+        this.atlasY = atlasY;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
     }
 
     @Override

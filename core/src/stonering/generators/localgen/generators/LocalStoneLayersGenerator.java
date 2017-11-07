@@ -88,7 +88,7 @@ public class LocalStoneLayersGenerator {
     private void generateLayers() throws MaterialNotFoundException {
         int i = layerIds.length - 1;
         for (int soilIndex = 0; soilIndex < soilLayer; soilIndex++) {
-            layerIds[i] = materialMap.getId("soil");
+            layerIds[i] = materialMap.getId("obsidian");
             i--;
         }
 

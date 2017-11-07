@@ -17,8 +17,8 @@ public class LocalTileMapUpdater {
         for (int x = 0; x < localMap.getxSize(); x++) {
             for (int y = 0; y < localMap.getySize(); y++) {
                 for (int z = 0; z < localMap.getzSize(); z++) {
-//                    Material material = materialMap.getMaterial(localMap.getMaterial(x, y, z));
-//                    System.out.println(x + " " + y + " " + z + " " + localMap.getMaterial(x, y, z));
+//                    Material material = materialMap.getTreeType(localMap.getTreeType(x, y, z));
+//                    System.out.println(x + " " + y + " " + z + " " + localMap.getTreeType(x, y, z));
                     updateTile(x, y, z, localMap.getBlockType(x, y, z), localMap.getMaterial(x, y, z));
                 }
             }
