@@ -3,8 +3,8 @@ package stonering.generators.worldgen.generators.elevation;
 import stonering.generators.worldgen.generators.AbstractGenerator;
 import stonering.generators.worldgen.WorldGenContainer;
 import stonering.generators.worldgen.world_objects.Mountain;
-import stonering.utils.Position;
-import stonering.utils.Vector;
+import stonering.global.utils.Position;
+import stonering.global.utils.Vector;
 
 import java.util.List;
 import java.util.Random;

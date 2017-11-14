@@ -1,9 +1,8 @@
 package stonering.generators.localgen.generators;
 
-import stonering.enums.BlockTypesEnum;
+import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.core.model.LocalMap;
 import stonering.generators.localgen.LocalGenContainer;
-import stonering.utils.Position;
 
 /**
  * Created by Alexander on 17.10.2017.

@@ -1,7 +1,7 @@
 package stonering.generators.worldgen.world_objects;
 
 
-import stonering.utils.Position;
+import stonering.global.utils.Position;
 
 import java.io.Serializable;
 

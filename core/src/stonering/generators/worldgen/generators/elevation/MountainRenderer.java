@@ -5,7 +5,7 @@ import stonering.generators.worldgen.generators.AbstractGenerator;
 import stonering.generators.worldgen.world_objects.Edge;
 import stonering.generators.worldgen.world_objects.Mountain;
 import stonering.generators.worldgen.world_objects.Slope;
-import stonering.utils.Position;
+import stonering.global.utils.Position;
 
 /**
  * Created by Alexander on 03.03.2017.

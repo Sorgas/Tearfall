@@ -4,7 +4,7 @@ import stonering.TearFall;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
-import stonering.game.mvc_interfaces.GameModel;
+import stonering.menu.mvc_interfaces.GameModel;
 import stonering.generators.worldgen.WorldMap;
 import stonering.menu.ui_components.WorldListItem;
 

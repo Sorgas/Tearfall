@@ -1,4 +1,4 @@
-package stonering.game.mvc_interfaces;
+package stonering.menu.mvc_interfaces;
 
 /**
  * Created by Alexander on 08.03.2017.

@@ -1,10 +1,10 @@
 package stonering.generators.localgen.generators;
 
 import stonering.game.core.model.LocalMap;
-import stonering.enums.BlockTypesEnum;
+import stonering.enums.blocks.BlockTypesEnum;
 import stonering.generators.worldgen.WorldMap;
-import stonering.utils.Position;
-import stonering.utils.Vector;
+import stonering.global.utils.Position;
+import stonering.global.utils.Vector;
 
 /**
  * Created by Alexander on 10.07.2017.

@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.LocalTileMap;
-import stonering.utils.Position;
+import stonering.global.utils.Position;
 
 /**
  * Created by Alexander on 13.06.2017.

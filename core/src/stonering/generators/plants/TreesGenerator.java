@@ -1,7 +1,7 @@
 package stonering.generators.plants;
 
-import stonering.enums.TreeBlocksTypeEnum;
-import stonering.enums.TreeType;
+import stonering.enums.trees.TreeBlocksTypeEnum;
+import stonering.enums.trees.TreeType;
 import stonering.enums.materials.MaterialMap;
 import stonering.enums.materials.TreeTypeMap;
 import stonering.exceptions.MaterialNotFoundException;
@@ -9,7 +9,6 @@ import stonering.game.core.model.LocalMap;
 import stonering.generators.localgen.LocalGenConfig;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.generators.worldgen.WorldMap;
-import stonering.global.FileLoader;
 import stonering.objects.plants.Tree;
 
 import java.util.Random;

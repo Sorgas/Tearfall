@@ -1,12 +1,8 @@
 package stonering.generators.worldgen.generators.drainage;
 
-import stonering.generators.worldgen.WorldMap;
 import stonering.generators.worldgen.generators.AbstractGenerator;
 import stonering.generators.worldgen.WorldGenContainer;
-import stonering.utils.Position;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 /**

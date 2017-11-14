@@ -5,7 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import stonering.game.core.controller.GameController;
 import stonering.game.core.model.GameContainer;
-import stonering.utils.Position;
+import stonering.global.utils.Position;
 
 /**
  * Created by Alexander on 10.06.2017.

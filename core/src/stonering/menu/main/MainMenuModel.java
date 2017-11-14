@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import stonering.game.mvc_interfaces.GameModel;
+import stonering.menu.mvc_interfaces.GameModel;
 
 /**
  * Created by Alexander on 02.04.2017.

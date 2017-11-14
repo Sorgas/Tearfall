@@ -1,12 +1,12 @@
 package stonering.generators.localgen.generators;
 
-import stonering.enums.BlockTypesEnum;
+import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.core.model.LocalMap;
 import stonering.generators.PerlinNoiseGenerator;
 import stonering.generators.localgen.LocalGenConfig;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.generators.worldgen.WorldMap;
-import stonering.utils.Position;
+import stonering.global.utils.Position;
 
 import java.util.Random;
 

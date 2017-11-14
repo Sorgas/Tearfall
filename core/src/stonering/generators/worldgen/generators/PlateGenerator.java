@@ -7,8 +7,8 @@ import stonering.generators.worldgen.voronoi.j2d.PolygonSimple;
 import stonering.generators.worldgen.voronoi.j2d.Site;
 import stonering.generators.worldgen.world_objects.Edge;
 import stonering.generators.worldgen.world_objects.Plate;
-import stonering.utils.Position;
-import stonering.utils.Vector;
+import stonering.global.utils.Position;
+import stonering.global.utils.Vector;
 
 import java.util.ArrayList;
 import java.util.Iterator;

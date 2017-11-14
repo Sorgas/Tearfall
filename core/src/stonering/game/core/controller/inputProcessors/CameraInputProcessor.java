@@ -4,7 +4,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import stonering.game.core.controller.GameController;
 import stonering.global.NavigationInputBuffer;
-import stonering.settings.KeySettings;
+import stonering.global.settings.KeySettings;
 
 /**
  * Created by Alexander on 27.06.2017.

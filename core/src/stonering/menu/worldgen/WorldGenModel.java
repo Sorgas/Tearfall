@@ -2,7 +2,7 @@ package stonering.menu.worldgen;
 
 import stonering.TearFall;
 import stonering.generators.worldgen.*;
-import stonering.game.mvc_interfaces.GameModel;
+import stonering.menu.mvc_interfaces.GameModel;
 
 import java.util.Random;
 

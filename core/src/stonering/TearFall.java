@@ -14,7 +14,7 @@ import stonering.menu.new_game.select_location.SelectLocationMenuMvc;
 import stonering.menu.new_game.select_world.SelectWorldMenuMvc;
 import stonering.menu.worldgen.WorldGenMvc;
 import stonering.generators.worldgen.WorldMap;
-import stonering.utils.Position;
+import stonering.global.utils.Position;
 
 /**s
  * Created by Alexander on 08.04.2017.

@@ -3,7 +3,7 @@ package stonering.game.core.view;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import stonering.global.StaticSkin;
-import stonering.utils.Position;
+import stonering.global.utils.Position;
 
 /**
  * Created by Alexander on 12.10.2017.

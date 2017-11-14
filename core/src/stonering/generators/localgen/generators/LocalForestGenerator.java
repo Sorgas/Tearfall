@@ -1,6 +1,6 @@
 package stonering.generators.localgen.generators;
 
-import stonering.enums.BlockTypesEnum;
+import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.materials.MaterialMap;
 import stonering.enums.materials.TreeTypeMap;
 import stonering.exceptions.MaterialNotFoundException;

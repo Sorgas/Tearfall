@@ -1,7 +1,7 @@
 package stonering.generators.worldgen;
 
-import stonering.utils.Position;
-import stonering.utils.Vector;
+import stonering.global.utils.Position;
+import stonering.global.utils.Vector;
 
 import java.io.Serializable;
 import java.util.ArrayList;

@@ -5,7 +5,7 @@ import com.badlogic.gdx.InputProcessor;
 import stonering.game.core.controller.inputProcessors.CameraInputProcessor;
 import stonering.game.core.model.GameContainer;
 import stonering.global.NavigationInputBuffer;
-import stonering.utils.Position;
+import stonering.global.utils.Position;
 
 /**
  * Created by Alexander on 26.06.2017.

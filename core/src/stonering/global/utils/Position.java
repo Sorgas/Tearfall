@@ -1,4 +1,4 @@
-package stonering.utils;
+package stonering.global.utils;
 
 import java.io.Serializable;
 

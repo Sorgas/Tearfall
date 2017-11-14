@@ -1,6 +1,6 @@
 package stonering.menu.main;
 
-import stonering.game.mvc_interfaces.GameController;
+import stonering.menu.mvc_interfaces.GameController;
 
 /**
  * Created by Alexander on 02.04.2017.

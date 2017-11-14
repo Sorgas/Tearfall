@@ -1,7 +1,7 @@
 package stonering.menu.worldgen;
 
 import stonering.TearFall;
-import stonering.game.mvc_interfaces.GameController;
+import stonering.menu.mvc_interfaces.GameController;
 import stonering.menu.utils.WorldSaver;
 
 import java.util.Random;

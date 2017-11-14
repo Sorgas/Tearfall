@@ -3,8 +3,8 @@ package stonering.generators.localgen;
 import stonering.game.core.model.LocalMap;
 import stonering.generators.localgen.generators.*;
 import stonering.generators.worldgen.WorldMap;
-import stonering.utils.Position;
-import stonering.utils.Vector;
+import stonering.global.utils.Position;
+import stonering.global.utils.Vector;
 
 /**
  * Created by Alexander on 27.08.2017.

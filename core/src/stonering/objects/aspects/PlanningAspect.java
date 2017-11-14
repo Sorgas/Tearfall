@@ -1,7 +1,7 @@
 package stonering.objects.aspects;
 
 import stonering.objects.local_actors.units.Unit;
-import stonering.utils.Position;
+import stonering.global.utils.Position;
 
 import java.util.ArrayList;
 

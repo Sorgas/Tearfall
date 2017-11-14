@@ -1,6 +1,6 @@
 package stonering.objects.local_actors;
 
-import stonering.utils.Position;
+import stonering.global.utils.Position;
 
 public abstract class GameObject {
 	private Position position;

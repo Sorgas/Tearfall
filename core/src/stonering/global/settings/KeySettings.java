@@ -1,4 +1,4 @@
-package stonering.settings;
+package stonering.global.settings;
 
 import com.badlogic.gdx.Input;
 

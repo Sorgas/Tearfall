@@ -1,4 +1,4 @@
-package stonering.utils;
+package stonering.global.utils;
 
 /**
  * Created by Alexander on 03.03.2017.

@@ -1,6 +1,6 @@
 package stonering.game.core.model;
 
-import stonering.enums.BlockTypesEnum;
+import stonering.enums.blocks.BlockTypesEnum;
 
 public class LocalMap {
     private int[][][] material;

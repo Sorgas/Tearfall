@@ -3,7 +3,7 @@ package stonering.generators.worldgen;
 import stonering.generators.worldgen.world_objects.Edge;
 import stonering.generators.worldgen.world_objects.Mountain;
 import stonering.generators.worldgen.world_objects.Plate;
-import stonering.utils.Position;
+import stonering.global.utils.Position;
 
 import java.util.ArrayList;
 import java.util.List;

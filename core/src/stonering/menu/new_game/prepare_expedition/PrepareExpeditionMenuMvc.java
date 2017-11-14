@@ -1,7 +1,7 @@
 package stonering.menu.new_game.prepare_expedition;
 
 import stonering.TearFall;
-import stonering.game.mvc_interfaces.MvcContainer;
+import stonering.menu.mvc_interfaces.MvcContainer;
 
 /**
  * Created by Alexander on 14.04.2017.
