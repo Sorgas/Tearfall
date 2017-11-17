@@ -51,6 +51,8 @@ public class GameContainer {
     }
 
     public void performTick() {
+        for (Creature creature: creatures) {
 
+        }
     }
 }

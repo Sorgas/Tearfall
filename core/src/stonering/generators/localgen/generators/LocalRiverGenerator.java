@@ -2,6 +2,7 @@ package stonering.generators.localgen.generators;
 
 import stonering.game.core.model.LocalMap;
 import stonering.enums.blocks.BlockTypesEnum;
+import stonering.generators.localgen.LocalGenContainer;
 import stonering.generators.worldgen.WorldMap;
 import stonering.global.utils.Position;
 import stonering.global.utils.Vector;
@@ -13,13 +14,11 @@ public class LocalRiverGenerator {
     private WorldMap map;
     private LocalMap localMap;
     private Position location;
-    private int localElevation;
 
-    public LocalRiverGenerator(WorldMap map, LocalMap localMap, Position location, int localElevation) {
-        this.map = map;
-        this.localMap = localMap;
-        this.location = location;
-        this.localElevation = localElevation;
+    public LocalRiverGenerator(LocalGenContainer container) {
+        map = container.getWorldMap();
+        localMap = container.getLocalMap();
+        location = container.getConfig().getLocation();
     }
 
     public void execute() {
@@ -30,8 +29,8 @@ public class LocalRiverGenerator {
         int[][] rivers = checkRivers();
         for (int x = 0; x < 3; x++) {
             for (int y = 0; y < 3; y++) {
-                if (rivers[x][y] != 0) {
-                    if (x != 1 || y != 1) {
+                if (rivers[x][y] != 0 && x != 1 || y != 1) {
+                    if () {
                         placeRiver(x - 1, y - 1);
                     }
                 }
@@ -58,8 +57,7 @@ public class LocalRiverGenerator {
                 if (inWorldMap(location.getX() + x, location.getY() + y)) {
                     Position neighbourRegion = new Position(location.getX() + x, location.getY() + y, 0);
                     if (map.getRivers().containsKey(neighbourRegion)) {
-                        for (Vector vector : map.getRivers().get(neighbourRegion)
-                                ) {
+                        for (Vector vector : map.getRivers().get(neighbourRegion)) {
                             if (vector.getEndPoint().equals(location)) {
                                 rivers[x + 1][y + 1] = 1;
                             }

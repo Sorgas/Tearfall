@@ -34,26 +34,34 @@ public class TreesGenerator {
 
     public Tree generateTree(String speciment, int age) throws MaterialNotFoundException {
         TreeType treeType = treeTypeMap.getTreeType(speciment);
-        int materialId = materialMap.getId(treeType.getMaterialName());
-        Tree tree = new Tree(speciment, 10, materialId);
-        int[][][] treeBlocks = new int[1 + treeType.getCrownRadius() * 2][1 + treeType.getCrownRadius() * 2][treeType.getHeight() + treeType.getRootDepth() + 1];
-        int branchesStart = treeType.getHeight() / 2 + treeType.getRootDepth();
+        Tree tree = new Tree(speciment, 10, materialMap.getId(treeType.getMaterialName()));
+        Random random = new Random();
+        int treeCenter = treeType.getCrownRadius();
+        int rootsDepth = treeType.getRootDepth();
+        int treeWidth = 1 + treeCenter * 2;
+        int[][][] treeBlocks = new int[treeWidth][treeWidth][treeType.getHeight() + rootsDepth];
+        int branchesStart = treeType.getHeight() / 2 + rootsDepth;
         // stomp
-        treeBlocks[treeType.getCrownRadius()][treeType.getCrownRadius()][treeType.getRootDepth()] = TreeBlocksTypeEnum.STOMP.getCode();
+        treeBlocks[treeCenter][treeCenter][rootsDepth] = TreeBlocksTypeEnum.STOMP.getCode();
         // trunk
-        for (int i = treeType.getRootDepth(); i < treeBlocks[0][0].length - 1; i++) {
-            treeBlocks[treeType.getCrownRadius()][treeType.getCrownRadius()][i] = TreeBlocksTypeEnum.TRUNK.getCode();
+        for (int i = rootsDepth + 1; i < treeBlocks[0][0].length - 2; i++) {
+            treeBlocks[treeCenter][treeCenter][i] = TreeBlocksTypeEnum.TRUNK.getCode();
         }
         // roots
-        for (int i = 0; i < treeType.getRootDepth() - 1; i++) {
-            treeBlocks[treeType.getCrownRadius()][treeType.getCrownRadius()][i] = TreeBlocksTypeEnum.ROOT.getCode();
+        for (int i = 0; i < rootsDepth - 1; i++) {
+            treeBlocks[treeCenter][treeCenter][i] = TreeBlocksTypeEnum.ROOT.getCode();
         }
         // branches
-        treeBlocks[treeType.getCrownRadius() - 1][treeType.getCrownRadius()][branchesStart] = TreeBlocksTypeEnum.BRANCH.getCode();
-        treeBlocks[treeType.getCrownRadius() + 1][treeType.getCrownRadius()][branchesStart] = TreeBlocksTypeEnum.BRANCH.getCode();
-        treeBlocks[treeType.getCrownRadius()][treeType.getCrownRadius() - 1][branchesStart] = TreeBlocksTypeEnum.BRANCH.getCode();
-        treeBlocks[treeType.getCrownRadius()][treeType.getCrownRadius() + 1][branchesStart] = TreeBlocksTypeEnum.BRANCH.getCode();
-        //crown
+        treeBlocks[treeCenter][treeCenter][treeBlocks[0][0].length - 1] = TreeBlocksTypeEnum.BRANCH.getCode();
+        for (int z = rootsDepth; z < treeBlocks[0][0].length - 1; z++) {
+            for (int x = 0; x < treeWidth; x++) {
+                for (int y = 0; y < treeWidth; y++) {
+                    boolean rollBranch = Math.abs(treeCenter - x) == 1 || Math.abs(treeCenter - y) == 1 && random.nextInt(1) == 1;
+                    treeBlocks[x][y][z] = rollBranch ? TreeBlocksTypeEnum.BRANCH.getCode() : TreeBlocksTypeEnum.CROWN.getCode();
+                }
+            }
+        }
+        // crown
         for (int x = 0; x < treeBlocks.length; x++) {
             for (int y = 0; y < treeBlocks[0].length; y++) {
                 for (int z = branchesStart + 1; z < treeBlocks[0][0].length; z++) {
@@ -62,7 +70,7 @@ public class TreesGenerator {
             }
         }
         tree.setBlockTypes(treeBlocks);
-        tree.setStompZ(treeType.getRootDepth());
+        tree.setStompZ(rootsDepth);
         return tree;
     }
 }
