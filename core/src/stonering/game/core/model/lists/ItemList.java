@@ -1,4 +1,4 @@
-package stonering.game.core.model;
+package stonering.game.core.model.lists;
 
 /**
  * Created by Alexander on 14.06.2017.

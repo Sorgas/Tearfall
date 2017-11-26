@@ -6,21 +6,11 @@ import java.util.HashMap;
  * Created by Alexander on 30.10.2017.
  */
 public enum TreeBlocksTypeEnum {
-    STOMP((byte) 0) {
-    },
-
-    ROOT((byte) 1) {
-
-    },
-    TRUNK((byte) 2) {
-
-    },
-    BRANCH((byte) 3) {
-
-    },
-    CROWN((byte) 4) {
-
-    };
+    STOMP(10),
+    ROOT(11),
+    TRUNK(12),
+    BRANCH(13),
+    CROWN(14);
 
     private byte code;
     private static HashMap<Byte, TreeBlocksTypeEnum> map;
@@ -32,8 +22,8 @@ public enum TreeBlocksTypeEnum {
         }
     }
 
-    TreeBlocksTypeEnum(byte code) {
-        this.code = code;
+    TreeBlocksTypeEnum(int code) {
+        this.code = (byte) code;
     }
 
     public byte getCode() {

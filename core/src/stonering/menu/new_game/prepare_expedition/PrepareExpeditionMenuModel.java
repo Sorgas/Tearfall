@@ -4,7 +4,6 @@ import stonering.TearFall;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
-import stonering.menu.mvc_interfaces.GameModel;
 import stonering.generators.worldgen.WorldMap;
 import stonering.menu.ui_components.WorldListItem;
 import stonering.global.utils.Position;
@@ -14,7 +13,7 @@ import java.io.File;
 /**
  * Created by Alexander on 14.04.2017.
  */
-public class PrepareExpeditionMenuModel implements GameModel {
+public class PrepareExpeditionMenuModel {
 	private TearFall game;
 	private PrepareExpeditionMenuView view;
 	private Stage stage;
@@ -29,7 +28,6 @@ public class PrepareExpeditionMenuModel implements GameModel {
 		init();
 	}
 
-	@Override
 	public void init() {
 	}
 

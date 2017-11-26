@@ -7,12 +7,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import stonering.menu.mvc_interfaces.GameModel;
 
 /**
  * Created by Alexander on 02.04.2017.
  */
-public class MainMenuModel implements GameModel {
+public class MainMenuModel {
 	private TearFall game;
 	private MainMenuView view;
 	private Stage stage;
@@ -24,7 +23,6 @@ public class MainMenuModel implements GameModel {
 		init();
 	}
 
-	@Override
 	public void init() {
 		stage = new Stage();
 		stage.setDebugAll(true);

@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import stonering.exceptions.MaterialNotFoundException;
-import stonering.global.FileLoader;
+import stonering.utils.global.FileLoader;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,12 +32,12 @@ public class MaterialMap {
         json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
         json.addClassTag("color_c", Color.class);
-        loadMinerals();
+        loadMaterials();
     }
 
-    private void loadMinerals() {
+    private void loadMaterials() {
         System.out.println("loading materials");
-        ArrayList<Material> elements = json.fromJson(ArrayList.class, Material.class, FileLoader.getMineralsFile());
+        ArrayList<Material> elements = json.fromJson(ArrayList.class, Material.class, FileLoader.getMaterialsFile());
         for (Material material : elements) {
             materials.put(material.getId(), material);
             ids.put(material.getName(), material.getId());

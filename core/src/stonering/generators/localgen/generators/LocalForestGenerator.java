@@ -11,6 +11,7 @@ import stonering.generators.plants.TreesGenerator;
 import stonering.generators.worldgen.WorldMap;
 import stonering.objects.plants.Tree;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -39,9 +40,12 @@ public class LocalForestGenerator {
         random = new Random();
         for (int i = 0; i < 100; i++) {
             try {
-                int x = random.nextInt(localAreaSize - 10) + 5;
-                int y = random.nextInt(localAreaSize - 10) + 5;
-                placeTree(treesGenerator.generateTree("willow", 10), x, y);
+                Tree tree = treesGenerator.generateTree("willow", 10);
+                tree.setX(random.nextInt(localAreaSize - 10) + 5);
+                tree.setY(random.nextInt(localAreaSize - 10) + 5);
+                tree.setZ(container.getHeightsMap()[tree.getX()][tree.getY()]);
+                container.getTrees().add(tree);
+                placeTree(tree);
             } catch (MaterialNotFoundException e) {
                 e.printStackTrace();
                 break;
@@ -49,25 +53,20 @@ public class LocalForestGenerator {
         }
     }
 
-    private void placeTree(Tree tree, int treeX, int treeY) {
-        int treeZ = container.getHeightsMap()[treeX][treeY];
-        int[][][] treeBlocks = tree.getBlockTypes();
-        int treeRadius = (treeBlocks.length - 1) / 2;
-        int mapX = treeX - treeRadius;
-        for (int x = 0; x < treeBlocks.length; x++) {
-            int mapY = treeY - treeRadius;
-            for (int y = 0; y < treeBlocks[0].length; y++) {
-                int mapZ = treeZ - tree.getStompZ();
-                for (int z = 0; z < treeBlocks[0][0].length; z++) {
-                    if (treeBlocks[x][y][z] != 0 && inMap(mapX, mapY, mapZ)) {
-                        localMap.setBlock(mapX, mapY, mapZ, BlockTypesEnum.WALL, tree.getWoodMaterial());
-                        System.out.println("tree: " + mapX + " " + mapY + " " + mapZ);
+    private void placeTree(Tree tree) {
+        int treeRadius = tree.getBlockTypes().length / 2;
+        int treeDepth = tree.getStompZ();
+        for (int x = 0; x < tree.getBlockTypes().length; x++) {
+            for (int y = 0; y < tree.getBlockTypes()[x].length; y++) {
+                for (int z = 0; z < tree.getBlockTypes()[x][y].length; z++) {
+                    int mapX = tree.getX() + x - treeRadius;
+                    int mapY = tree.getY() + y - treeRadius;
+                    int mapZ = tree.getZ() + z - treeDepth;
+                    if (tree.getBlockTypes()[x][y][z] > 0 && localMap.getBlockType(mapX, mapY, mapZ) == 0) {
+                        localMap.setBlock(mapX, mapY, mapZ, (byte) tree.getBlockTypes()[x][y][z], tree.getWoodMaterial());
                     }
-                    mapZ++;
                 }
-                mapY++;
             }
-            mapX++;
         }
     }
 

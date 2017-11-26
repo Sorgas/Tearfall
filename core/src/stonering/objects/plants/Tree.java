@@ -12,6 +12,9 @@ public class Tree {
     private int[] lifeStages;
     private int woodMaterialId;
     private int stompZ;
+    private int x;
+    private int y;
+    private int z;
 
     public Tree(String specimen, int age, int woodMaterialId) {
         this.specimen = specimen;
@@ -49,5 +52,29 @@ public class Tree {
 
     public void setStompZ(int stompZ) {
         this.stompZ = stompZ;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public int getZ() {
+        return z;
+    }
+
+    public void setZ(int z) {
+        this.z = z;
     }
 }

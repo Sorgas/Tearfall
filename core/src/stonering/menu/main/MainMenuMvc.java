@@ -6,7 +6,7 @@ import stonering.menu.mvc_interfaces.MvcContainer;
 /**
  * Created by Alexander on 02.04.2017.
  */
-public class MainMenuMvc implements MvcContainer{
+public class MainMenuMvc {
 	private MainMenuModel model;
 	private MainMenuView view;
 	private MainMenuController controller;
@@ -24,17 +24,14 @@ public class MainMenuMvc implements MvcContainer{
 		view.setModel(model);
 	}
 
-	@Override
 	public MainMenuController getController() {
 		return controller;
 	}
 
-	@Override
 	public MainMenuView getView() {
 		return view;
 	}
 
-	@Override
 	public MainMenuModel getModel() {
 		return model;
 	}

@@ -1,12 +1,11 @@
 package stonering.menu.new_game.select_world;
 
 import stonering.TearFall;
-import stonering.menu.mvc_interfaces.MvcContainer;
 
 /**
  * Created by Alexander on 14.04.2017.
  */
-public class SelectWorldMenuMvc implements MvcContainer {
+public class SelectWorldMenuMvc {
 	private SelectWorldMenuModel model;
 	private SelectWorldMenuView view;
 	private SelectWorldMenuController controller;
@@ -24,17 +23,14 @@ public class SelectWorldMenuMvc implements MvcContainer {
 		view.setModel(model);
 	}
 
-	@Override
 	public SelectWorldMenuController getController() {
 		return controller;
 	}
 
-	@Override
 	public SelectWorldMenuView getView() {
 		return view;
 	}
 
-	@Override
 	public SelectWorldMenuModel getModel() {
 		return model;
 	}

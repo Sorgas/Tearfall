@@ -86,7 +86,7 @@ public class LocalGenerationView implements Screen{
         proceedButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.switchToGame(model.getLocalMap());
+                game.switchToGame(model.getLocalGeneratorContainer().getLocalGenContainer());
             }
         });
         menuTable.add(proceedButton).pad(0);

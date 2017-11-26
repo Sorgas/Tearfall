@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import stonering.game.core.GameMvc;
 import stonering.game.core.model.LocalMap;
+import stonering.generators.localgen.LocalGenContainer;
 import stonering.menu.main.MainMenuMvc;
 import stonering.menu.new_game.local_generation.LocalGenerationMvc;
 import stonering.menu.new_game.prepare_expedition.PrepareExpeditionMenuMvc;
@@ -73,8 +74,8 @@ public class TearFall extends Game {
 		setScreen(localGenerationMvc.getView());
 	}
 
-	public void switchToGame(LocalMap localMap) {
-		gameMvc = new GameMvc(localMap);
+	public void switchToGame(LocalGenContainer container) {
+		gameMvc = new GameMvc(container);
 		setScreen(gameMvc.getView());
 	}
 

@@ -1,6 +1,9 @@
 package stonering.game.core.model;
 
-import stonering.enums.materials.MaterialMap;
+import stonering.game.core.model.lists.PlantContainer;
+import stonering.game.core.model.tilemaps.LocalTileMap;
+import stonering.game.core.model.tilemaps.LocalTileMapUpdater;
+import stonering.generators.localgen.LocalGenContainer;
 import stonering.objects.local_actors.Creature;
 import stonering.generators.worldgen.WorldMap;
 
@@ -15,23 +18,21 @@ public class GameContainer {
     private LocalMap localMap;
     private LocalTileMap localTileMap;
     private List<Creature> creatures;
-    private MaterialMap materialMap;
+    private PlantContainer plantContainer;
 
-    public GameContainer(LocalMap localMap) {
-        this.localMap = localMap;
+    public GameContainer(LocalGenContainer container) {
+        this.localMap = container.getLocalMap();
         creatures = new ArrayList<>();
-        materialMap = new MaterialMap();
+        plantContainer = new PlantContainer(container.getTrees(), null);
         localTileMap = new LocalTileMap(localMap.getxSize(), localMap.getySize(), localMap.getzSize());
         createTileMapUpdater();
     }
 
     private void createTileMapUpdater() {
-        LocalTileMapUpdater localTileMapUpdater = new LocalTileMapUpdater();
+        LocalTileMapUpdater localTileMapUpdater = new LocalTileMapUpdater(this);
         localMap.setLocalTileMapUpdater(localTileMapUpdater);
-        localTileMapUpdater.setLocalMap(localMap);
-        localTileMapUpdater.setLocalTileMap(localTileMap);
-        localTileMapUpdater.setMaterialMap(materialMap);
         localTileMapUpdater.flushLocalMap();
+//        localTileMapUpdater.flushTrees();
     }
 
     public LocalMap getLocalMap() {
@@ -54,5 +55,9 @@ public class GameContainer {
         for (Creature creature: creatures) {
 
         }
+    }
+
+    public PlantContainer getPlantContainer() {
+        return plantContainer;
     }
 }

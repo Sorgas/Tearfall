@@ -2,10 +2,11 @@ package stonering.game.core.controller;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.core.controller.inputProcessors.CameraInputProcessor;
 import stonering.game.core.model.GameContainer;
-import stonering.global.NavigationInputBuffer;
 import stonering.global.utils.Position;
+import stonering.utils.global.NavigationInputBuffer;
 
 /**
  * Created by Alexander on 26.06.2017.
@@ -20,15 +21,10 @@ public class GameController {
 
     public GameController(GameContainer container) {
         this.container = container;
-        int x = container.getLocalMap().getxSize() / 2;
-        int y = x;
-        int z = container.getLocalMap().getzSize() - 1;
-        for (; z >= 0; z--) {
-            if (container.getLocalMap().getBlockType(x, y, z) != 0) {
-                break;
-            }
+        camera = new Position(container.getLocalMap().getxSize() / 2, container.getLocalMap().getySize() / 2, container.getLocalMap().getzSize() - 1);
+        while (container.getLocalMap().getBlockType(camera.getX(), camera.getY(), camera.getZ()) == BlockTypesEnum.SPACE.getCode()) {
+            camera.setZ(camera.getZ() - 1);
         }
-        camera = new Position(x, y, z);
         navigationInputBuffer = new NavigationInputBuffer(4);
         cameraInputProcessor = new CameraInputProcessor(this, navigationInputBuffer);
         Gdx.input.setInputProcessor(cameraInputProcessor);
@@ -42,15 +38,15 @@ public class GameController {
     }
 
     public void moveCamera(int dx, int dy, int dz) {
-        if ((camera.getX() > 0 && dx < 0) || (camera.getX() < (container.getLocalMap().getxSize() - 1) && dx > 0)) {
+        if ((camera.getX() >= 0 && dx < 0) || (camera.getX() < container.getLocalMap().getxSize() && dx > 0)) {
             camera.setX(camera.getX() + dx);
         }
-        if ((camera.getY() > 0 && dy < 0) || (camera.getY() < (container.getLocalMap().getySize() - 1) && dy > 0)) {
+        if ((camera.getY() >= 0 && dy < 0) || (camera.getY() < container.getLocalMap().getySize() && dy > 0)) {
             camera.setY(camera.getY() + dy);
         }
-        if ((camera.getZ() > 0 && dz < 0) || (camera.getZ() < (container.getLocalMap().getzSize() - 1) && dz > 0)) {
+        if ((camera.getZ() >= 0 && dz < 0) || (camera.getZ() < container.getLocalMap().getzSize() && dz > 0)) {
             camera.setZ(camera.getZ() + dz);
         }
-        System.out.println(camera.toString() + " " + container.getLocalMap().getBlockType(camera.getX(), camera.getY(), camera.getZ()));
+        System.out.println(camera.toString());
     }
 }

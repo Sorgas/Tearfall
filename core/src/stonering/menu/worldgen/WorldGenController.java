@@ -1,7 +1,6 @@
 package stonering.menu.worldgen;
 
 import stonering.TearFall;
-import stonering.menu.mvc_interfaces.GameController;
 import stonering.menu.utils.WorldSaver;
 
 import java.util.Random;
@@ -9,7 +8,7 @@ import java.util.Random;
 /**
  * Created by Alexander on 08.03.2017.
  */
-public class WorldGenController implements GameController {
+public class WorldGenController {
 	private TearFall game;
 	private WorldGenModel model;
 	private Random random;

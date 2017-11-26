@@ -1,12 +1,11 @@
 package stonering.menu.new_game.select_location;
 
 import stonering.TearFall;
-import stonering.menu.mvc_interfaces.GameController;
 
 /**
  * Created by Alexander on 14.04.2017.
  */
-public class SelectLocationMenuController implements GameController {
+public class SelectLocationMenuController {
 	private SelectLocationMenuModel model;
 
 	public SelectLocationMenuController(TearFall game) {

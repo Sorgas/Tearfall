@@ -1,12 +1,11 @@
 package stonering.menu.worldgen;
 
 import stonering.TearFall;
-import stonering.menu.mvc_interfaces.MvcContainer;
 
 /**
  * Created by Alexander on 08.03.2017.
  */
-public class WorldGenMvc implements MvcContainer {
+public class WorldGenMvc {
 	private WorldGenModel model;
 	private WorldGenView view;
 	private WorldGenController controller;
@@ -25,17 +24,14 @@ public class WorldGenMvc implements MvcContainer {
 		view.setController(controller);
 	}
 
-	@Override
 	public WorldGenView getView() {
 		return view;
 	}
 
-	@Override
 	public WorldGenModel getModel() {
 		return model;
 	}
 
-	@Override
 	public WorldGenController getController() {
 		return controller;
 	}

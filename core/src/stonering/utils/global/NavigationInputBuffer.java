@@ -1,9 +1,8 @@
-package stonering.global;
+package stonering.utils.global;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 

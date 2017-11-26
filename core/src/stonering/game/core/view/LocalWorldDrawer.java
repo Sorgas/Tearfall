@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import stonering.game.core.model.GameContainer;
-import stonering.game.core.model.LocalTileMap;
+import stonering.game.core.model.tilemaps.LocalTileMap;
 import stonering.global.utils.Position;
 
 /**
@@ -13,7 +13,7 @@ import stonering.global.utils.Position;
 public class LocalWorldDrawer {
     private LocalTileMap map;
     private SpriteBatch batch;
-    private Texture tiles;
+    private Texture[] atlases;
     private Position camera;
 
     private int viewAreaWidth;
@@ -26,7 +26,9 @@ public class LocalWorldDrawer {
     private int screenCenterY;
 
     public LocalWorldDrawer() {
-        tiles = new Texture("sprites/blocks.png");
+        atlases = new Texture[5];
+        atlases[0] = new Texture("sprites/blocks.png");
+        atlases[1] = new Texture("sprites/plants.png");
     }
 
     public void drawWorld(GameContainer container, Position camera) {
@@ -66,21 +68,16 @@ public class LocalWorldDrawer {
                 }
             }
         }
-        //batch.draw(new TextureRegion(tiles, 0,0, 100,100),200,200);
+        //batch.draw(new TextureRegion(atlases, 0,0, 100,100),200,200);
         batch.end();
     }
 
-    private int getScreenPosX(int x, int y) {
-        return (x - y) * tileWidth / 2 + screenCenterX;
-    }
-
-    private int getScreenPosY(int x, int y, int z) {
-        return -(x + y) * floorHeight / 2 + z * (tileHeight - floorHeight) + screenCenterY;
-    }
-
     private void drawTile(int x, int y, int z) {
-        if (map.getColor(x, y, z) != null) {
-            batch.draw(new TextureRegion(tiles, map.getAtlasX(x, y, z) * tileWidth, map.getAtlasY(x, y, z) * tileHeight, tileWidth, tileHeight),
+        if (map.getAtlasNum(x, y, z) >= 0) {
+            batch.draw(new TextureRegion(atlases[map.getAtlasNum(x, y, z)],
+                            map.getAtlasX(x, y, z) * tileWidth,
+                            map.getAtlasY(x, y, z) * tileHeight,
+                            tileWidth, tileHeight),
                     getScreenPosX(x - camera.getX(), y - camera.getY()),
                     getScreenPosY(x - camera.getX(), y - camera.getY(), z - camera.getZ()));
         }
@@ -104,5 +101,13 @@ public class LocalWorldDrawer {
 
     public void setBatch(SpriteBatch batch) {
         this.batch = batch;
+    }
+
+    private int getScreenPosX(int x, int y) {
+        return (x - y) * tileWidth / 2 + screenCenterX;
+    }
+
+    private int getScreenPosY(int x, int y, int z) {
+        return -(x + y) * floorHeight / 2 + z * (tileHeight - floorHeight) + screenCenterY;
     }
 }

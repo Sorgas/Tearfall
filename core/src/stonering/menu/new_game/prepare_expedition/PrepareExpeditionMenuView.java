@@ -10,12 +10,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
-import stonering.menu.mvc_interfaces.GameView;
 
 /**
  * Created by Alexander on 14.04.2017.
  */
-public class PrepareExpeditionMenuView implements GameView, Screen {
+public class PrepareExpeditionMenuView implements Screen {
 	private TearFall game;
 	private PrepareExpeditionMenuController controller;
 	private PrepareExpeditionMenuModel model;

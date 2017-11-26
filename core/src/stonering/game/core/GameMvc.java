@@ -4,6 +4,7 @@ import stonering.game.core.controller.GameController;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.LocalMap;
 import stonering.game.core.view.GameView;
+import stonering.generators.localgen.LocalGenContainer;
 
 /**
  * Created by Alexander on 10.06.2017.
@@ -13,11 +14,10 @@ public class GameMvc {
     private GameView view;
     private GameController controller;
 
-    public GameMvc(LocalMap localMap) {
-        container = new GameContainer(localMap);
-        container.setLocalMap(localMap);
-        controller = new GameController(container);
-        view = new GameView(container, controller);
+    public GameMvc(LocalGenContainer container) {
+        this.container = new GameContainer(container);
+        controller = new GameController(this.container);
+        view = new GameView(this.container, controller);
     }
 
     public GameContainer getContainer() {

@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import stonering.enums.trees.TreeType;
-import stonering.global.FileLoader;
+import stonering.utils.global.FileLoader;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,6 +1,7 @@
 package stonering.menu.new_game.local_generation;
 
 import stonering.generators.localgen.LocalGenConfig;
+import stonering.generators.localgen.LocalGenContainer;
 import stonering.generators.localgen.LocalGeneratorContainer;
 import stonering.game.core.model.LocalMap;
 import stonering.generators.worldgen.WorldMap;
@@ -11,10 +12,8 @@ import stonering.global.utils.Position;
  */
 public class LocalGenerationModel{
     private LocalGeneratorContainer localGeneratorContainer;
-
     private WorldMap world;
     private Position location;
-
     private LocalMap localMap;
 
     public void setWorld(WorldMap world) {
@@ -35,5 +34,9 @@ public class LocalGenerationModel{
 
     public LocalMap getLocalMap() {
         return localMap;
+    }
+
+    public LocalGeneratorContainer getLocalGeneratorContainer() {
+        return localGeneratorContainer;
     }
 }

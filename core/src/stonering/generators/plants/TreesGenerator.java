@@ -17,17 +17,10 @@ import java.util.Random;
  * Created by Alexander on 19.10.2017.
  */
 public class TreesGenerator {
-    private LocalGenContainer container;
     private MaterialMap materialMap;
-    private WorldMap worldMap;
-    private LocalGenConfig config;
-    private int localAreaSize;
-    private LocalMap localMap;
-    private Random random;
     private TreeTypeMap treeTypeMap;
 
     public TreesGenerator(LocalGenContainer container) {
-        this.container = container;
         this.materialMap = container.getMaterialMap();
         this.treeTypeMap = new TreeTypeMap();
     }
@@ -44,28 +37,36 @@ public class TreesGenerator {
         // stomp
         treeBlocks[treeCenter][treeCenter][rootsDepth] = TreeBlocksTypeEnum.STOMP.getCode();
         // trunk
-        for (int i = rootsDepth + 1; i < treeBlocks[0][0].length - 2; i++) {
+        for (int i = rootsDepth + 1; i < treeBlocks[0][0].length - 1; i++) {
             treeBlocks[treeCenter][treeCenter][i] = TreeBlocksTypeEnum.TRUNK.getCode();
         }
         // roots
-        for (int i = 0; i < rootsDepth - 1; i++) {
+        for (int i = 0; i < rootsDepth; i++) {
             treeBlocks[treeCenter][treeCenter][i] = TreeBlocksTypeEnum.ROOT.getCode();
         }
         // branches
         treeBlocks[treeCenter][treeCenter][treeBlocks[0][0].length - 1] = TreeBlocksTypeEnum.BRANCH.getCode();
-        for (int z = rootsDepth; z < treeBlocks[0][0].length - 1; z++) {
+        for (int z = branchesStart; z < treeBlocks[0][0].length - 1; z++) {
             for (int x = 0; x < treeWidth; x++) {
                 for (int y = 0; y < treeWidth; y++) {
-                    boolean rollBranch = Math.abs(treeCenter - x) == 1 || Math.abs(treeCenter - y) == 1 && random.nextInt(1) == 1;
-                    treeBlocks[x][y][z] = rollBranch ? TreeBlocksTypeEnum.BRANCH.getCode() : TreeBlocksTypeEnum.CROWN.getCode();
+                    if (treeBlocks[x][y][z] == 0) {
+                        boolean rollBranch = ((Math.abs(treeCenter - x) <= 1)
+                                && (Math.abs(treeCenter - y) <= 1))
+                                && (random.nextInt(3) < 2);
+                        if(rollBranch) {
+                            treeBlocks[x][y][z] = TreeBlocksTypeEnum.BRANCH.getCode();
+                        }
+                    }
                 }
             }
         }
         // crown
         for (int x = 0; x < treeBlocks.length; x++) {
             for (int y = 0; y < treeBlocks[0].length; y++) {
-                for (int z = branchesStart + 1; z < treeBlocks[0][0].length; z++) {
-                    treeBlocks[x][y][z] = TreeBlocksTypeEnum.CROWN.getCode();
+                for (int z = branchesStart; z < treeBlocks[0][0].length; z++) {
+                    if (treeBlocks[x][y][z] == 0) {
+                        treeBlocks[x][y][z] = TreeBlocksTypeEnum.CROWN.getCode();
+                    }
                 }
             }
         }

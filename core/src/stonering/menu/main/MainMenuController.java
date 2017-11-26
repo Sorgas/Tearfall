@@ -1,11 +1,10 @@
 package stonering.menu.main;
 
-import stonering.menu.mvc_interfaces.GameController;
 
 /**
  * Created by Alexander on 02.04.2017.
  */
-public class MainMenuController implements GameController {
+public class MainMenuController {
 	private MainMenuModel model;
 
 	public void setModel(MainMenuModel model) {

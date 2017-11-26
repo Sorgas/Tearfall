@@ -1,6 +1,9 @@
 package stonering.game.core.model;
 
 import stonering.enums.blocks.BlockTypesEnum;
+import stonering.game.core.model.tilemaps.LocalTileMapUpdater;
+
+import java.util.ArrayList;
 
 public class LocalMap {
     private int[][][] material;
@@ -8,6 +11,7 @@ public class LocalMap {
     private byte[][][] flooding;
     private byte[][][] temperature;
     private byte[][][] lightlevel;
+    private ArrayList<Object>[][][] objectArrayList;
     private LocalTileMapUpdater localTileMapUpdater;
 
     private int xSize;
@@ -20,6 +24,7 @@ public class LocalMap {
         flooding = new byte[xSize][ySize][zSize];
         temperature = new byte[xSize][ySize][zSize];
         lightlevel = new byte[xSize][ySize][zSize];
+        objectArrayList = new ArrayList[xSize][ySize][zSize];
         this.xSize = xSize;
         this.ySize = ySize;
         this.zSize = zSize;
@@ -46,11 +51,16 @@ public class LocalMap {
     }
 
     public void setBlock(int x, int y, int z, BlockTypesEnum blockType, int materialId) {
-        this.blockType[x][y][z] = blockType.getCode();
+        setBlock(x,y,z, blockType.getCode(), materialId);
+    }
+
+    public void setBlock(int x, int y, int z, byte blockType, int materialId) {
+        this.blockType[x][y][z] = blockType;
         material[x][y][z] = materialId;
         if (localTileMapUpdater != null)
-            localTileMapUpdater.updateTile(x, y, z, blockType.getCode(), materialId);
+            localTileMapUpdater.updateTile(x, y, z, blockType, materialId, (byte) 0);
     }
+
 
     public int getxSize() {
         return xSize;

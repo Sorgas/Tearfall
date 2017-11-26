@@ -1,4 +1,4 @@
-package stonering.global;
+package stonering.utils.global;
 
 import com.badlogic.gdx.files.FileHandle;
 
@@ -10,7 +10,7 @@ public class FileLoader {
     private final static String TREES_PATH = "resources/trees.json";
     private final static String PLANTS_PATH = "resources/plants.json";
 
-    public static FileHandle getMineralsFile() {
+    public static FileHandle getMaterialsFile() {
         return new FileHandle(MATERIALS_PATH);
     }
 
@@ -21,5 +21,4 @@ public class FileLoader {
     public static FileHandle getPlantsFile() {
         return new FileHandle(PLANTS_PATH);
     }
-
 }
