@@ -2,7 +2,6 @@ package stonering.game.core;
 
 import stonering.game.core.controller.GameController;
 import stonering.game.core.model.GameContainer;
-import stonering.game.core.model.LocalMap;
 import stonering.game.core.view.GameView;
 import stonering.generators.localgen.LocalGenContainer;
 
@@ -10,22 +9,22 @@ import stonering.generators.localgen.LocalGenContainer;
  * Created by Alexander on 10.06.2017.
  */
 public class GameMvc {
-    private GameContainer container;
+    private GameContainer model;
     private GameView view;
     private GameController controller;
 
     public GameMvc(LocalGenContainer container) {
-        this.container = new GameContainer(container);
-        controller = new GameController(this.container);
-        view = new GameView(this.container, controller);
+        model = new GameContainer(container);
+        controller = new GameController(this.model);
+        view = new GameView(this.model, controller);
     }
 
-    public GameContainer getContainer() {
-        return container;
+    public GameContainer getModel() {
+        return model;
     }
 
-    public void setContainer(GameContainer container) {
-        this.container = container;
+    public void setModel(GameContainer model) {
+        this.model = model;
     }
 
     public GameView getView() {

@@ -1,5 +1,6 @@
 package stonering.game.core.model;
 
+import com.badlogic.gdx.utils.Timer;
 import stonering.game.core.model.lists.PlantContainer;
 import stonering.game.core.model.tilemaps.LocalTileMap;
 import stonering.game.core.model.tilemaps.LocalTileMapUpdater;
@@ -19,6 +20,11 @@ public class GameContainer {
     private LocalTileMap localTileMap;
     private List<Creature> creatures;
     private PlantContainer plantContainer;
+    private Timer timer;
+
+
+    private boolean gameStarted;
+    private boolean paused;
 
     public GameContainer(LocalGenContainer container) {
         this.localMap = container.getLocalMap();
@@ -26,13 +32,25 @@ public class GameContainer {
         plantContainer = new PlantContainer(container.getTrees(), null);
         localTileMap = new LocalTileMap(localMap.getxSize(), localMap.getySize(), localMap.getzSize());
         createTileMapUpdater();
+        timer= new Timer();
+        gameStarted = true;
+        paused = false;
+        startContainer();
+    }
+
+    private void startContainer() {
+        timer.scheduleTask(new Timer.Task() {
+            @Override
+            public void run() {
+                performTick();
+            }
+        }, 0, 1f / 60);
     }
 
     private void createTileMapUpdater() {
         LocalTileMapUpdater localTileMapUpdater = new LocalTileMapUpdater(this);
         localMap.setLocalTileMapUpdater(localTileMapUpdater);
         localTileMapUpdater.flushLocalMap();
-//        localTileMapUpdater.flushTrees();
     }
 
     public LocalMap getLocalMap() {
@@ -51,13 +69,33 @@ public class GameContainer {
         this.localMap = localMap;
     }
 
-    public void performTick() {
-        for (Creature creature: creatures) {
-
-        }
+    private synchronized void performTick() {
+        System.out.println("tick");
     }
 
     public PlantContainer getPlantContainer() {
         return plantContainer;
+    }
+
+    public boolean isGameStarted() {
+        return gameStarted;
+    }
+
+    public void setGameStarted(boolean gameStarted) {
+        this.gameStarted = gameStarted;
+    }
+
+    public void pauseGame() {
+        pauseGame(!paused);
+    }
+
+    public void pauseGame(boolean pause) {
+        if(pause) {
+            timer.stop();
+            paused = true;
+        } else {
+            timer.start();
+            paused = false;
+        }
     }
 }

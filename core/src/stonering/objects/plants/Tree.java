@@ -1,13 +1,11 @@
 package stonering.objects.plants;
 
-import stonering.enums.materials.Material;
-
 /**
  * Created by Alexander on 19.10.2017.
  */
 public class Tree {
     private String specimen;
-    private int[][][] blockTypes;
+    private PlantBlock[][][] blocks;
     private int age;
     private int[] lifeStages;
     private int woodMaterialId;
@@ -22,12 +20,12 @@ public class Tree {
         this.woodMaterialId = woodMaterialId;
     }
 
-    public int[][][] getBlockTypes() {
-        return blockTypes;
+    public PlantBlock[][][] getBlocks() {
+        return blocks;
     }
 
-    public void setBlockTypes(int[][][] blockTypes) {
-        this.blockTypes = blockTypes;
+    public void setBlocks(PlantBlock[][][] blocks) {
+        this.blocks = blocks;
     }
 
     public int getAge() {

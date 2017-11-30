@@ -2,6 +2,7 @@ package stonering.game.core.model;
 
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.core.model.tilemaps.LocalTileMapUpdater;
+import stonering.objects.plants.PlantBlock;
 
 import java.util.ArrayList;
 
@@ -11,7 +12,7 @@ public class LocalMap {
     private byte[][][] flooding;
     private byte[][][] temperature;
     private byte[][][] lightlevel;
-    private ArrayList<Object>[][][] objectArrayList;
+    private PlantBlock[][][] plantBlocks;
     private LocalTileMapUpdater localTileMapUpdater;
 
     private int xSize;
@@ -24,7 +25,7 @@ public class LocalMap {
         flooding = new byte[xSize][ySize][zSize];
         temperature = new byte[xSize][ySize][zSize];
         lightlevel = new byte[xSize][ySize][zSize];
-        objectArrayList = new ArrayList[xSize][ySize][zSize];
+        plantBlocks = new PlantBlock[xSize][ySize][zSize];
         this.xSize = xSize;
         this.ySize = ySize;
         this.zSize = zSize;
@@ -58,7 +59,7 @@ public class LocalMap {
         this.blockType[x][y][z] = blockType;
         material[x][y][z] = materialId;
         if (localTileMapUpdater != null)
-            localTileMapUpdater.updateTile(x, y, z, blockType, materialId, (byte) 0);
+            localTileMapUpdater.updateTile(x, y, z);
     }
 
 
@@ -89,5 +90,13 @@ public class LocalMap {
             return z > 0 && blockType[x][y][z] == BlockTypesEnum.WALL.getCode();
         }
         return true;
+    }
+
+    public void setPlantBlock(int x, int y, int z, PlantBlock block) {
+        plantBlocks[x][y][z] = block;
+    }
+
+    public PlantBlock getPlantBlock(int x, int y, int z) {
+        return plantBlocks[x][y][z];
     }
 }

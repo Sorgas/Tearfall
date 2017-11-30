@@ -45,10 +45,10 @@ public class LocalTileMap {
         return atlasNum[x][y][z];
     }
 
-    public void setTile(int x, int y, int z, byte atlasX, byte atlasY, byte atlasNum, Color color) {
-        this.atlasX[x][y][z] = atlasX;
-        this.atlasY[x][y][z] = atlasY;
-        this.atlasNum[x][y][z] = atlasNum;
+    public void setTile(int x, int y, int z, int atlasX, int atlasY, int atlasNum, Color color) {
+        this.atlasX[x][y][z] = (byte) atlasX;
+        this.atlasY[x][y][z] = (byte) atlasY;
+        this.atlasNum[x][y][z] = (byte) atlasNum;
     }
 
     public int getxSize() {

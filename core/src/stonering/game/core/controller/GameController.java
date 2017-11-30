@@ -1,9 +1,11 @@
 package stonering.game.core.controller;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.core.controller.inputProcessors.CameraInputProcessor;
+import stonering.game.core.controller.inputProcessors.PauseInputProcessor;
 import stonering.game.core.model.GameContainer;
 import stonering.global.utils.Position;
 import stonering.utils.global.NavigationInputBuffer;
@@ -14,23 +16,26 @@ import stonering.utils.global.NavigationInputBuffer;
 public class GameController {
     private Position camera;
     private GameContainer container;
-    private InputProcessor activeInputProcessor;
-    private CameraInputProcessor cameraInputProcessor;
-
-    private NavigationInputBuffer navigationInputBuffer;
+    private InputMultiplexer inputMultiplexer;
 
     public GameController(GameContainer container) {
         this.container = container;
+        initCamera();
+        initInputMultiplexer();
+        Gdx.input.setInputProcessor(inputMultiplexer);
+    }
+
+    private void initInputMultiplexer() {
+        inputMultiplexer = new InputMultiplexer();
+        inputMultiplexer.addProcessor(new PauseInputProcessor(this));
+        inputMultiplexer.addProcessor(new CameraInputProcessor(this, new NavigationInputBuffer(4)));
+    }
+
+    private void initCamera() {
         camera = new Position(container.getLocalMap().getxSize() / 2, container.getLocalMap().getySize() / 2, container.getLocalMap().getzSize() - 1);
         while (container.getLocalMap().getBlockType(camera.getX(), camera.getY(), camera.getZ()) == BlockTypesEnum.SPACE.getCode()) {
             camera.setZ(camera.getZ() - 1);
         }
-        navigationInputBuffer = new NavigationInputBuffer(4);
-        cameraInputProcessor = new CameraInputProcessor(this, navigationInputBuffer);
-        Gdx.input.setInputProcessor(cameraInputProcessor);
-    }
-
-    public void fetchInput() {
     }
 
     public Position getCamera() {
@@ -48,5 +53,17 @@ public class GameController {
             camera.setZ(camera.getZ() + dz);
         }
         System.out.println(camera.toString());
+    }
+
+    public void switchPause() {
+        container.pauseGame();
+    }
+
+    public void pause() {
+        container.pauseGame(true);
+    }
+
+    public void unpause() {
+        container.pauseGame(false);
     }
 }

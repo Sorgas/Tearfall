@@ -1,17 +1,12 @@
 package stonering.generators.localgen.generators;
 
-import stonering.enums.blocks.BlockTypesEnum;
-import stonering.enums.materials.MaterialMap;
-import stonering.enums.materials.TreeTypeMap;
 import stonering.exceptions.MaterialNotFoundException;
 import stonering.game.core.model.LocalMap;
 import stonering.generators.localgen.LocalGenConfig;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.generators.plants.TreesGenerator;
-import stonering.generators.worldgen.WorldMap;
 import stonering.objects.plants.Tree;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -19,13 +14,10 @@ import java.util.Random;
  */
 public class LocalForestGenerator {
     private LocalGenContainer container;
-    private MaterialMap materialMap;
-    private WorldMap worldMap;
     private LocalGenConfig config;
     private int localAreaSize;
     private LocalMap localMap;
     private Random random;
-    private TreeTypeMap treeTypeMap;
     private TreesGenerator treesGenerator;
 
     public LocalForestGenerator(LocalGenContainer container) {
@@ -54,16 +46,16 @@ public class LocalForestGenerator {
     }
 
     private void placeTree(Tree tree) {
-        int treeRadius = tree.getBlockTypes().length / 2;
+        int treeRadius = tree.getBlocks().length / 2;
         int treeDepth = tree.getStompZ();
-        for (int x = 0; x < tree.getBlockTypes().length; x++) {
-            for (int y = 0; y < tree.getBlockTypes()[x].length; y++) {
-                for (int z = 0; z < tree.getBlockTypes()[x][y].length; z++) {
+        for (int x = 0; x < tree.getBlocks().length; x++) {
+            for (int y = 0; y < tree.getBlocks()[x].length; y++) {
+                for (int z = 0; z < tree.getBlocks()[x][y].length; z++) {
                     int mapX = tree.getX() + x - treeRadius;
                     int mapY = tree.getY() + y - treeRadius;
                     int mapZ = tree.getZ() + z - treeDepth;
-                    if (tree.getBlockTypes()[x][y][z] > 0 && localMap.getBlockType(mapX, mapY, mapZ) == 0) {
-                        localMap.setBlock(mapX, mapY, mapZ, (byte) tree.getBlockTypes()[x][y][z], tree.getWoodMaterial());
+                    if (tree.getBlocks()[x][y][z] != null && localMap.getBlockType(mapX, mapY, mapZ) == 0) {
+                        localMap.setPlantBlock(mapX, mapY, mapZ, tree.getBlocks()[x][y][z]);
                     }
                 }
             }
