@@ -23,4 +23,12 @@ public class Unit {
     public HashMap<String, Aspect> getAspects() {
         return aspects;
     }
+
+    public void addAspect(String name, Aspect aspect) {
+        aspects.put(name,aspect);
+    }
+
+    public void turn() {
+
+    }
 }

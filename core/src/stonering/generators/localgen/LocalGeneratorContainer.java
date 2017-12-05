@@ -17,6 +17,7 @@ public class LocalGeneratorContainer {
     private LocalCaveGenerator localCaveGenerator;
     private LocalForestGenerator localForestGenerator;
     private LocalRampPlacer localRampPlacer;
+    private LocalFaunaGenerator localFaunaGenerator;
 
     private WorldMap world;
     private LocalGenConfig config;
@@ -34,6 +35,7 @@ public class LocalGeneratorContainer {
         localCaveGenerator = new LocalCaveGenerator(localGenContainer);
         localRampPlacer = new LocalRampPlacer(localGenContainer);
         localForestGenerator = new LocalForestGenerator(localGenContainer);
+        localFaunaGenerator = new LocalFaunaGenerator(localGenContainer);
     }
 
     public void execute() {
@@ -42,6 +44,7 @@ public class LocalGeneratorContainer {
         localCaveGenerator.execute();
         localRampPlacer.execute();
         localForestGenerator.execute();
+        localFaunaGenerator.execute();
     }
 
     public LocalMap getLocalMap() {

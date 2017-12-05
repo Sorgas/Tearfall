@@ -1,6 +1,5 @@
 package stonering.objects.aspects;
 
-import com.badlogic.gdx.scenes.scene2d.ui.List;
 import stonering.objects.creatures.BodyPart;
 
 import java.util.ArrayList;
@@ -10,13 +9,30 @@ import java.util.ArrayList;
  */
 public class BodyAspect extends Aspect {
     private ArrayList<BodyPart> bodyParts;
+    private ArrayList<Integer> limbs;
 
     public BodyAspect() {
         bodyParts = new ArrayList<BodyPart>();
+
     }
 
     public void addBodyPart(BodyPart bodyPart) {
         bodyParts.add(bodyPart);
     }
 
+    public ArrayList<BodyPart> getBodyParts() {
+        return bodyParts;
+    }
+
+    public void setBodyParts(ArrayList<BodyPart> bodyParts) {
+        this.bodyParts = bodyParts;
+    }
+
+    public ArrayList<Integer> getLimbs() {
+        return limbs;
+    }
+
+    public void setLimbs(ArrayList<Integer> limbs) {
+        this.limbs = limbs;
+    }
 }

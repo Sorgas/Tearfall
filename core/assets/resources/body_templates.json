@@ -1,0 +1,83 @@
+[
+    {
+        "title":"beast",
+        "default_layers":["skin", "fat", "muscle", "bone"],
+        "body":[
+            {
+                "title":"upper torso",
+                "root":"body",
+                "internal":["left lung", "right lung", "heart"]
+            },
+            {
+                "title":"lower torso",
+                "root":"body",
+                "layers":["skin", "fat", "muscle"],
+                "internal":["stomach"]
+            },
+            {
+                "title":"neck",
+                "root":"torso",
+                "layers":["skin", "fat", "muscle"],
+                "internal":["neck part spine"]
+            },
+            {
+                "title":"head",
+                "root":"neck",
+                "internal":["brain", "tongue", "teeth"],
+                "external":["left eye", "right eye", "nose", "left ear", "right ear"]
+            },
+            {
+                "title":"left front upper leg",
+                "root":"upper body"
+            },
+            {
+                "title":"left front lower leg",
+                "root":"left front upper leg"
+            },
+            {
+                "title":"right front upper leg",
+                "root":"upper body"
+            },
+            {
+                "title":"right front lower leg",
+                "root":"right front upper leg"
+            },
+            {
+                "title":"left rear upper leg",
+                "root":"lower body"
+            },
+            {
+                "title":"left rear lower leg",
+                "root":"left rear upper leg"
+            },
+            {
+                "title":"right rear upper leg",
+                "root":"lower body"
+            },
+            {
+                "title":"right rear lower leg",
+                "root":"left rear upper leg"
+            },
+            {
+                "title":"left front paw",
+                "root":"left front lower leg"
+            },
+            {
+                "title":"right front paw",
+                "root":"right front lower leg"
+            },
+            {
+                "title":"left rear paw",
+                "root":"left rear lower leg"
+            },
+            {
+                "title":"right rear paw",
+                "root":"right rear lower leg"
+            },
+            {
+                "title":"tail",
+                "root":"lower body"
+            }
+        ]
+    }
+]
