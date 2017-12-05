@@ -6,6 +6,8 @@ import stonering.global.utils.Position;
 
 /**
  * Created by Alexander on 06.10.2017.
+ *
+ * Holds movement speed, current path, movement status. also builds path.
  */
 public class MovementAspect extends Aspect {
     private int stepTime;

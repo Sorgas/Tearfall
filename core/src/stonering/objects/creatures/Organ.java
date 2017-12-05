@@ -5,4 +5,6 @@ package stonering.objects.creatures;
  */
 public class Organ {
     private String name;
+
+
 }

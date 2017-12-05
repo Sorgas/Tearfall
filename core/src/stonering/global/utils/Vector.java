@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 /**
  * Created by Alexander on 22.02.2017.
+ *
+ * Utility class of geometrical vector
  */
 public class Vector implements Serializable{
 	private int x = 0;

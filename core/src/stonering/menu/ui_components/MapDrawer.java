@@ -18,6 +18,8 @@ import java.util.List;
 
 /**
  * Created by Alexander on 16.04.2017.
+ *
+ * Can perform detailed render of world map for debug purposes
  */
 public class MapDrawer {
 	private WorldGenModel model;

@@ -2,6 +2,8 @@ package stonering.global.utils;
 
 /**
  * Created by Alexander on 18.02.2017.
+ *
+ * Utility class for a line.
  */
 public class Line {
     private Position pos1;

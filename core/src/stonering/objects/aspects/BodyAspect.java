@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 /**
  * Created by Alexander on 19.10.2017.
+ *
+ * Holds creature's body parts and connections between them.
  */
 public class BodyAspect extends Aspect {
     private ArrayList<BodyPart> bodyParts;

@@ -9,6 +9,8 @@ import stonering.global.utils.Position;
 
 /**
  * Created by Alexander on 19.04.2017.
+ *
+ * UI component which renders minimap
  */
 public class MiniMap extends Table {
 	private WorldMap map;

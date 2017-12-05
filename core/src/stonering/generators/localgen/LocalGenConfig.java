@@ -4,6 +4,8 @@ import stonering.global.utils.Position;
 
 /**
  * Created by Alexander on 03.06.2017.
+ *
+ * Stores settings for local generation
  */
 public class LocalGenConfig {
     private int worldToLocalElevationModifier = 10;

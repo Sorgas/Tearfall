@@ -14,6 +14,8 @@ import java.util.Random;
 
 /**
  * Created by Alexander on 03.03.2017.
+ *
+ * Generates deep cavities for oceans and seas. valleys are generated where plates move away from another
  */
 public class ValleyGenerator extends AbstractGenerator {
 	private Random random;

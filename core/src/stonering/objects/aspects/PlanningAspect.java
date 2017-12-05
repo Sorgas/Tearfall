@@ -7,6 +7,8 @@ import java.util.ArrayList;
 
 /**
  * Created by Alexander on 10.10.2017.
+ *
+ * Holds current creature's task and it's steps. resolves behavior, if some step fails.
  */
 public class PlanningAspect extends Aspect {
     private ArrayList<Position> route;

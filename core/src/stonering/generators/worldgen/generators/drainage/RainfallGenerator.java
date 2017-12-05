@@ -7,6 +7,8 @@ import java.util.Random;
 
 /**
  * Created by Alexander on 31.03.2017.
+ *
+ * Generates rainfall level in the world
  */
 public class RainfallGenerator extends AbstractGenerator {
     private Random random;

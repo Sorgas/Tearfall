@@ -10,6 +10,8 @@ import java.util.List;
 
 /**
  * Created by Alexander on 05.03.2017.
+ *
+ * Contains intermediate results of world generation
  */
 public class WorldGenContainer {
 	private WorldGenConfig config;

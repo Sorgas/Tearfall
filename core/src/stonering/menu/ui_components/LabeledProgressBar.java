@@ -10,6 +10,8 @@ import org.lwjgl.openal.AL;
 
 /**
  * Created by Alexander on 31.05.2017.
+ *
+ * UI component of progress bar next to label
  */
 public class LabeledProgressBar extends Table {
     private Label label;

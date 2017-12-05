@@ -4,6 +4,8 @@ import java.util.Random;
 
 /**
  * Created by Alexander on 06.03.2017.
+ *
+ * Stores settings for world generation
  */
 public class WorldGenConfig {
 	private long seed;

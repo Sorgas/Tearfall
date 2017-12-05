@@ -10,6 +10,12 @@ import java.util.*;
 
 /**
  * Created by Alexander on 14.03.2017.
+ *
+ * Generates river.
+ * For rivers additional elevation map (smoothed) is used. The map of slope vectors are based on it.
+ * Rivers start from points close to mountains pikes, distributed with interspaces.
+ * River has its own vector, which is modified by slope vectors on every passing cell.
+ *
  */
 public class RiverGenerator extends AbstractGenerator {
 	private Random random;

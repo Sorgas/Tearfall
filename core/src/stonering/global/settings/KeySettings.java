@@ -7,6 +7,8 @@ import java.util.Set;
 
 /**
  * Created by Alexander on 29.06.2017.
+ *
+ * Class for loading and storing key binds. InputProcessors should be initialized regarding to this
  */
 public class KeySettings {
     private int cameraUp = Input.Keys.NUMPAD_6;
