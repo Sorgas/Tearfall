@@ -17,6 +17,6 @@ public class InventoryAspect {
     }
 
     public LinkedList<Item> getItems(String type) {
-
+        return null;
     }
 }

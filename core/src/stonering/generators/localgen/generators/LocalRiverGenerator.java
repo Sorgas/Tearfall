@@ -30,7 +30,7 @@ public class LocalRiverGenerator {
         for (int x = 0; x < 3; x++) {
             for (int y = 0; y < 3; y++) {
                 if (rivers[x][y] != 0 && x != 1 || y != 1) {
-                    if () {
+                    if (false) {
                         placeRiver(x - 1, y - 1);
                     }
                 }
@@ -43,7 +43,7 @@ public class LocalRiverGenerator {
         int x = localMap.getxSize() / 2;
         int y = localMap.getySize() / 2;
         while (inLocalMap(x, y)) {
-            localMap.setBlock(x, y, localElevation - 1, BlockTypesEnum.SPACE,1);
+            localMap.setBlock(x, y, 0, BlockTypesEnum.SPACE,1);
             x += dx;
             y += dy;
         }
