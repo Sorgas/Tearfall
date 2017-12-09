@@ -15,7 +15,6 @@ import com.badlogic.gdx.utils.Align;
 public class LabeledProgressBar extends Table {
     private Label label;
     private ProgressBar progressBar;
-    private Table table;
 
 
     public LabeledProgressBar(Skin skin) {

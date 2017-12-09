@@ -5,8 +5,10 @@ import stonering.game.core.model.lists.PlantContainer;
 import stonering.game.core.model.tilemaps.LocalTileMap;
 import stonering.game.core.model.tilemaps.LocalTileMapUpdater;
 import stonering.generators.localgen.LocalGenContainer;
-import stonering.objects.local_actors.Creature;
+import stonering.global.utils.Position;
 import stonering.generators.worldgen.WorldMap;
+import stonering.objects.local_actors.building.Building;
+import stonering.objects.local_actors.unit.Unit;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,21 +20,22 @@ public class GameContainer {
     private WorldMap worldMap;
     private LocalMap localMap;
     private LocalTileMap localTileMap;
-    private List<Creature> creatures;
+    private List<Unit> units;
+    private ArrayList<Building> buildings;
     private PlantContainer plantContainer;
     private Timer timer;
-
 
     private boolean gameStarted;
     private boolean paused;
 
     public GameContainer(LocalGenContainer container) {
         this.localMap = container.getLocalMap();
-        creatures = new ArrayList<>();
+        units = new ArrayList<>(container.getUnits());
+        buildings = new ArrayList<>(container.getBuildings());
         plantContainer = new PlantContainer(container.getTrees(), null);
         localTileMap = new LocalTileMap(localMap.getxSize(), localMap.getySize(), localMap.getzSize());
         createTileMapUpdater();
-        timer= new Timer();
+        timer = new Timer();
         gameStarted = true;
         paused = false;
         startContainer();
@@ -61,8 +64,8 @@ public class GameContainer {
         return localTileMap;
     }
 
-    public List<Creature> getCreatures() {
-        return creatures;
+    public List<Unit> getUnits() {
+        return units;
     }
 
     public void setLocalMap(LocalMap localMap) {
@@ -70,7 +73,13 @@ public class GameContainer {
     }
 
     private synchronized void performTick() {
-        System.out.println("tick");
+//        System.out.println("tick");
+        for (Unit unit : units) {
+            Position old = unit.getPosition();
+            unit.turn();
+            localMap.updateBlock(old.getX(), old.getY(), old.getZ());
+            localMap.updateBlock(unit.getPosition().getX(), unit.getPosition().getY(), unit.getPosition().getZ());
+        }
     }
 
     public PlantContainer getPlantContainer() {
@@ -90,12 +99,16 @@ public class GameContainer {
     }
 
     public void pauseGame(boolean pause) {
-        if(pause) {
+        if (pause) {
             timer.stop();
             paused = true;
         } else {
             timer.start();
             paused = false;
         }
+    }
+
+    public ArrayList<Building> getBuildings() {
+        return buildings;
     }
 }

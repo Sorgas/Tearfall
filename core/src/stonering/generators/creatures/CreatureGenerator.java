@@ -1,8 +1,12 @@
 package stonering.generators.creatures;
 
-import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
+import stonering.global.utils.Position;
+import stonering.objects.aspects.Aspect;
+import stonering.objects.aspects.MovementAspect;
+import stonering.objects.aspects.PlanningAspect;
+import stonering.objects.local_actors.unit.Unit;
 import stonering.utils.global.FileLoader;
 
 /**
@@ -11,21 +15,39 @@ import stonering.utils.global.FileLoader;
 public class CreatureGenerator {
     private JsonReader reader;
     private BodyGenerator bodyGenerator;
+    private JsonValue creatures;
 
     public CreatureGenerator() {
         reader = new JsonReader();
         bodyGenerator = new BodyGenerator();
+        creatures = reader.parse(FileLoader.getCreatureFile());
     }
 
-    public void generateWildAnimal(String specimen) {
-        JsonValue creatures = reader.parse(FileLoader.getCreatureFile());
+    public Unit generateWildAnimal(String specimen) {
         JsonValue creature = null;
         for (JsonValue c : creatures) {
-            if(c.getString("title").equals(specimen)) {
+            if (c.getString("title").equals(specimen)) {
                 creature = c;
                 break;
             }
         }
-        bodyGenerator.generateBody(creature);
+        Unit unit = new Unit(new Position(0, 0, 0));
+        unit.addAspect(genarateBodyAspect(unit, creature));
+        unit.addAspect(generatePlanningAspect(unit));
+        unit.addAspect(generateMovementAspect(unit));
+        return unit;
+    }
+
+    private Aspect generateMovementAspect(Unit unit) {
+        MovementAspect aspect = new MovementAspect(unit);
+        return aspect;
+    }
+
+    private Aspect genarateBodyAspect(Unit unit, JsonValue creature) {
+        return bodyGenerator.generateBody(creature);
+    }
+
+    private Aspect generatePlanningAspect(Unit unit) {
+        return new PlanningAspect(unit);
     }
 }

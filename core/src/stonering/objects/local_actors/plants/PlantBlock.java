@@ -1,4 +1,4 @@
-package stonering.objects.plants;
+package stonering.objects.local_actors.plants;
 
 /**
  * Created by Alexander on 30.11.2017.

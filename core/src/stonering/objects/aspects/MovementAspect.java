@@ -1,8 +1,10 @@
 package stonering.objects.aspects;
 
 import stonering.game.core.model.LocalMap;
-import stonering.objects.local_actors.units.Unit;
+import stonering.objects.local_actors.unit.Unit;
 import stonering.global.utils.Position;
+
+import java.util.Random;
 
 /**
  * Created by Alexander on 06.10.2017.
@@ -19,6 +21,8 @@ public class MovementAspect extends Aspect {
     public MovementAspect(Unit unit) {
         this.name = "movement";
         this.unit = unit;
+        stepTime = 15;
+        stepDelay = new Random().nextInt(stepTime);
     }
 
     public void recountSpeed() {
@@ -28,6 +32,7 @@ public class MovementAspect extends Aspect {
     public void init() {
         if(unit.getAspects().containsKey("planning"))
         planning = (PlanningAspect) unit.getAspects().get("planning");
+        map = unit.getLocalMap();
     }
 
     public void move() {
@@ -46,4 +51,6 @@ public class MovementAspect extends Aspect {
             stepDelay--;
         }
     }
+
+
 }

@@ -13,6 +13,7 @@ public class UIDrawer {
     public UIDrawer() {
         stage = new Stage();
         tileStatusBar = new TileStatusBar();
+        stage.addActor(tileStatusBar);
     }
 
     public Stage getStage() {

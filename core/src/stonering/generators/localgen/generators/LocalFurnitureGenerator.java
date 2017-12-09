@@ -2,38 +2,35 @@ package stonering.generators.localgen.generators;
 
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.core.model.LocalMap;
-import stonering.generators.creatures.CreatureGenerator;
+import stonering.generators.buildings.BuildingGenerator;
 import stonering.generators.localgen.LocalGenConfig;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.global.utils.Position;
-import stonering.objects.local_actors.unit.Unit;
+import stonering.objects.local_actors.building.Building;
 
 import java.util.Random;
 
 /**
- * Created by Alexander on 03.12.2017.
+ * Created by Alexander on 07.12.2017.
  */
-public class LocalFaunaGenerator {
+public class LocalFurnitureGenerator {
     private LocalGenContainer container;
     private LocalGenConfig config;
     private LocalMap localMap;
-    private CreatureGenerator creatureGenerator;
+    private BuildingGenerator buildingGenerator;
 
-    public LocalFaunaGenerator(LocalGenContainer container) {
+    public LocalFurnitureGenerator(LocalGenContainer container) {
         this.container = container;
         config = container.getConfig();
         localMap = container.getLocalMap();
-        creatureGenerator = new CreatureGenerator();
+        buildingGenerator = new BuildingGenerator();
     }
 
     public void execute() {
         for (int i = 0; i < 100; i++) {
-            Unit unit = creatureGenerator.generateWildAnimal("dog");
-            unit.setPosition(findPlace());
-            unit.setLocalMap(localMap);
-            unit.getAspects().forEach(((s, aspect) -> aspect.init()));
-            container.getUnits().add(unit);
-            System.out.println("dog");
+            Building building = buildingGenerator.generateBuilding("chair");
+            building.setPosition(findPlace());
+            container.getBuildings().add(building);
         }
     }
 

@@ -1,7 +1,7 @@
 package stonering.game.core.model.lists;
 
-import stonering.objects.plants.Plant;
-import stonering.objects.plants.Tree;
+import stonering.objects.local_actors.plants.Plant;
+import stonering.objects.local_actors.plants.Tree;
 
 import java.util.ArrayList;
 

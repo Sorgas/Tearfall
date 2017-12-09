@@ -18,6 +18,7 @@ public class LocalGeneratorContainer {
     private LocalForestGenerator localForestGenerator;
     private LocalRampPlacer localRampPlacer;
     private LocalFaunaGenerator localFaunaGenerator;
+    private LocalFurnitureGenerator localFurnitureGenerator;
 
     private WorldMap world;
     private LocalGenConfig config;
@@ -36,6 +37,7 @@ public class LocalGeneratorContainer {
         localRampPlacer = new LocalRampPlacer(localGenContainer);
         localForestGenerator = new LocalForestGenerator(localGenContainer);
         localFaunaGenerator = new LocalFaunaGenerator(localGenContainer);
+        localFurnitureGenerator = new LocalFurnitureGenerator(localGenContainer);
     }
 
     public void execute() {
@@ -45,6 +47,7 @@ public class LocalGeneratorContainer {
         localRampPlacer.execute();
         localForestGenerator.execute();
         localFaunaGenerator.execute();
+        localFurnitureGenerator.execute();
     }
 
     public LocalMap getLocalMap() {

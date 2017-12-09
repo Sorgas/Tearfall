@@ -1,12 +1,15 @@
 package stonering.global.utils;
 
+import jdk.nashorn.internal.ir.annotations.Immutable;
+
 import java.io.Serializable;
+import java.lang.annotation.Annotation;
 
 /**
  * Class for storing in game coordinates
  * simply stores x, y, z int values
  */
-public class Position implements Serializable {
+public class Position implements Serializable, Immutable {
     private int x;
     private int y;
     private int z;
@@ -53,6 +56,11 @@ public class Position implements Serializable {
     }
 
     @Override
+    public Class<? extends Annotation> annotationType() {
+        return null;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -62,6 +70,10 @@ public class Position implements Serializable {
         if (x != position.x) return false;
         if (y != position.y) return false;
         return z == position.z;
+    }
+
+    public boolean equals(int x, int y, int z) {
+        return (x == this.x && y == this.y && z == this.z);
     }
 
     @Override

@@ -5,10 +5,8 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter;
 import stonering.objects.aspects.BodyAspect;
-import stonering.objects.creatures.BodyPart;
+import stonering.objects.local_actors.unit.BodyPart;
 import stonering.utils.global.FileLoader;
-
-import java.util.ArrayList;
 
 /**
  * Created by Alexander on 19.10.2017.

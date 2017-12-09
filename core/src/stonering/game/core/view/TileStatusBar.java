@@ -8,9 +8,7 @@ import stonering.global.utils.Position;
 /**
  * Created by Alexander on 12.10.2017.
  */
-public class TileStatusBar {
-
-    private Table table;
+public class TileStatusBar extends Table {
     private int x;
     private int y;
     private int z;
@@ -19,18 +17,19 @@ public class TileStatusBar {
     Label coordinates;
     Label cellType;
 
-    public TileStatusBar() {
+    public    TileStatusBar() {
+        super();
         createTable();
     }
 
     private void createTable() {
-        table = new Table();
-        table.left().bottom();
-        table.pad(10);
+
+        this.left().bottom();
+        this.pad(10);
         cellType = new Label("", StaticSkin.getSkin());
-        table.add(cellType).row();
+        this.add(cellType).row();
         coordinates = new Label("", StaticSkin.getSkin());
-        table.add(coordinates).row();
+        this.add(coordinates).row();
     }
 
     public void setData(Position camera, String material) {

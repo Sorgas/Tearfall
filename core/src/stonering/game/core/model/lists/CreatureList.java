@@ -1,6 +1,6 @@
 package stonering.game.core.model.lists;
 
-import stonering.objects.local_actors.units.Unit;
+import stonering.objects.local_actors.unit.Unit;
 
 import java.util.ArrayList;
 

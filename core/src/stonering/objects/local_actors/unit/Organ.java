@@ -1,4 +1,4 @@
-package stonering.objects.creatures;
+package stonering.objects.local_actors.unit;
 
 /**
  * Created by Alexander on 03.12.2017.

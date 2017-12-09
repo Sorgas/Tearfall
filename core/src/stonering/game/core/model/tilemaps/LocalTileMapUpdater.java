@@ -6,6 +6,7 @@ import stonering.enums.materials.MaterialMap;
 import stonering.enums.trees.TreeTileMapping;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.LocalMap;
+import stonering.objects.local_actors.unit.Unit;
 
 /**
  * Created by Alexander on 03.08.2017.
@@ -15,13 +16,11 @@ public class LocalTileMapUpdater {
     private LocalMap localMap;
     private LocalTileMap localTileMap;
     private MaterialMap materialMap;
-    private int treeAtlasXMod;
 
     public LocalTileMapUpdater(GameContainer container) {
         this.container = container;
         localMap = container.getLocalMap();
         localTileMap = container.getLocalTileMap();
-        treeAtlasXMod = localTileMap.getTREE_ATLAS_X_MOD();
         materialMap = new MaterialMap();
     }
 
@@ -37,16 +36,29 @@ public class LocalTileMapUpdater {
 
     public void updateTile(int x, int y, int z) {
         localTileMap.setTile(x, y, z, 0, 0, -1, null);
+        //unit
+        if (container.getUnits().stream().anyMatch(unit -> (unit.getPosition().equals(x, y, z)))) {
+            container.getUnits().stream().filter(unit -> (unit.getPosition().equals(x, y, z))).findFirst().get();
+            localTileMap.setTile(x, y, z, 0, 0, 2, null);
+            return;
+        }
+        //building
+        if (container.getBuildings().stream().anyMatch(unit -> (unit.getPosition().equals(x, y, z)))) {
+            container.getBuildings().stream().filter(unit -> (unit.getPosition().equals(x, y, z))).findFirst().get();
+            localTileMap.setTile(x, y, z, 0, 0, 3, null);
+            return;
+        }
         //plants
         if (localMap.getPlantBlock(x, y, z) != null) {
             int atlasX = (TreeTileMapping.getType((byte) localMap.getPlantBlock(x, y, z).getBlockType()).getAtlasX());
             int atlasY = materialMap.getAtlasY(localMap.getPlantBlock(x, y, z).getMaterial());
             localTileMap.setTile(x, y, z, atlasX, atlasY, 1, null);
+            return;
         }
         //blocks
         byte blockType = localMap.getBlockType(x, y, z);
         if (blockType != 0) {
-            int atlasY = materialMap.getMaterial(localMap.getMaterial(x,y,z)).getAtlasY();
+            int atlasY = materialMap.getMaterial(localMap.getMaterial(x, y, z)).getAtlasY();
             int atlasX;
             if (blockType == BlockTypesEnum.RAMP.getCode()) {
                 atlasX = countRamp(x, y, z);
@@ -55,6 +67,10 @@ public class LocalTileMapUpdater {
             }
             localTileMap.setTile(x, y, z, atlasX, atlasY, 0, null);
         }
+    }
+
+    public void updateTileUnit(Unit unit) {
+        localTileMap.setTile(unit.getPosition().getX(), unit.getPosition().getY(), unit.getPosition().getZ(), 0, 0, 2, null);
     }
 
     private byte countRamp(int x, int y, int z) {

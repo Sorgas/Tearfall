@@ -2,9 +2,8 @@ package stonering.game.core.model;
 
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.core.model.tilemaps.LocalTileMapUpdater;
-import stonering.objects.plants.PlantBlock;
-
-import java.util.ArrayList;
+import stonering.objects.local_actors.building.Building;
+import stonering.objects.local_actors.plants.PlantBlock;
 
 public class LocalMap {
     private int[][][] material;
@@ -13,6 +12,7 @@ public class LocalMap {
     private byte[][][] temperature;
     private byte[][][] lightlevel;
     private PlantBlock[][][] plantBlocks;
+    private Building[][][] buildingBlocks;
     private LocalTileMapUpdater localTileMapUpdater;
 
     private int xSize;
@@ -26,6 +26,7 @@ public class LocalMap {
         temperature = new byte[xSize][ySize][zSize];
         lightlevel = new byte[xSize][ySize][zSize];
         plantBlocks = new PlantBlock[xSize][ySize][zSize];
+        buildingBlocks = new Building[xSize][ySize][zSize];
         this.xSize = xSize;
         this.ySize = ySize;
         this.zSize = zSize;
@@ -52,7 +53,7 @@ public class LocalMap {
     }
 
     public void setBlock(int x, int y, int z, BlockTypesEnum blockType, int materialId) {
-        setBlock(x,y,z, blockType.getCode(), materialId);
+        setBlock(x, y, z, blockType.getCode(), materialId);
     }
 
     public void setBlock(int x, int y, int z, byte blockType, int materialId) {
@@ -62,6 +63,10 @@ public class LocalMap {
             localTileMapUpdater.updateTile(x, y, z);
     }
 
+    public void updateBlock(int x, int y, int z) {
+        if (localTileMapUpdater != null)
+            localTileMapUpdater.updateTile(x, y, z);
+    }
 
     public int getxSize() {
         return xSize;
@@ -87,7 +92,7 @@ public class LocalMap {
             return false;
         }
         if (blockType[x][y][z] == BlockTypesEnum.SPACE.getCode()) {
-            return z > 0 && blockType[x][y][z] == BlockTypesEnum.WALL.getCode();
+            return z > 0 && blockType[x][y][z - 1] == BlockTypesEnum.WALL.getCode();
         }
         return true;
     }
@@ -98,5 +103,13 @@ public class LocalMap {
 
     public PlantBlock getPlantBlock(int x, int y, int z) {
         return plantBlocks[x][y][z];
+    }
+
+    public void setBuildingBlock(int x, int y, int z, Building building) {
+        buildingBlocks[x][y][z] = building;
+    }
+
+    public Building getBuildingBlock(int x, int y, int z) {
+        return buildingBlocks[x][y][z];
     }
 }

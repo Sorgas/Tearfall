@@ -6,8 +6,8 @@ import stonering.enums.materials.MaterialMap;
 import stonering.enums.materials.TreeTypeMap;
 import stonering.exceptions.MaterialNotFoundException;
 import stonering.generators.localgen.LocalGenContainer;
-import stonering.objects.plants.PlantBlock;
-import stonering.objects.plants.Tree;
+import stonering.objects.local_actors.plants.PlantBlock;
+import stonering.objects.local_actors.plants.Tree;
 
 import java.util.Random;
 

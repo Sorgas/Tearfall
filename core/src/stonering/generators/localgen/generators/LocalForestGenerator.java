@@ -5,7 +5,7 @@ import stonering.game.core.model.LocalMap;
 import stonering.generators.localgen.LocalGenConfig;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.generators.plants.TreesGenerator;
-import stonering.objects.plants.Tree;
+import stonering.objects.local_actors.plants.Tree;
 
 import java.util.Random;
 

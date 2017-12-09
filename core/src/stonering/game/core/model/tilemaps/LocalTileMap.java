@@ -6,11 +6,10 @@ import com.badlogic.gdx.graphics.Color;
  * Created by Alexander on 02.08.2017.
  */
 public class LocalTileMap {
-    private int TREE_ATLAS_X_MOD = 20; //blocks, with types more than this, are blocks of trees
 
     private byte[][][] atlasX;
     private byte[][][] atlasY;
-    private byte[][][] atlasNum;
+    private byte[][][] atlasNum;//[blocks, plants, creatures]
     private int xSize;
     private int ySize;
     private int zSize;
@@ -61,9 +60,5 @@ public class LocalTileMap {
 
     public int getzSize() {
         return zSize;
-    }
-
-    public int getTREE_ATLAS_X_MOD() {
-        return TREE_ATLAS_X_MOD;
     }
 }

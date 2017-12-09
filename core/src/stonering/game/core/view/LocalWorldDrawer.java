@@ -11,7 +11,7 @@ import stonering.global.utils.Position;
  * Created by Alexander on 13.06.2017.
  */
 public class LocalWorldDrawer {
-    private LocalTileMap map;
+    private LocalTileMap localTileMap;
     private SpriteBatch batch;
     private Texture[] atlases;
     private Position camera;
@@ -21,39 +21,38 @@ public class LocalWorldDrawer {
     private float shadingStep = 0.06f;
     private int tileWidth = 64;
     private int tileHeight = 96;
-    private int floorHeight = 32;
+    private int tileDepth = 32;
     private int screenCenterX;
     private int screenCenterY;
 
     public LocalWorldDrawer() {
-        atlases = new Texture[5];
-        atlases[0] = new Texture("sprites/blocks.png");
-        atlases[1] = new Texture("sprites/plants.png");
+        initAtlases();
     }
 
     public void drawWorld(GameContainer container, Position camera) {
-        map = container.getLocalTileMap();
+        if (localTileMap == null)
+            localTileMap = container.getLocalTileMap();
         this.camera = camera;
         batch.begin();
         int highX = camera.getX() + viewAreaWidth;
-        if (highX > map.getxSize() - 1) {
-            highX = map.getxSize() - 1;
+        if (highX > localTileMap.getxSize() - 1) {
+            highX = localTileMap.getxSize() - 1;
         }
         int lowX = camera.getX() - viewAreaWidth;
         if (lowX < 0) {
             lowX = 0;
         }
         int highY = camera.getY() + viewAreaWidth;
-        if (highY > map.getySize() - 1) {
-            highY = map.getySize() - 1;
+        if (highY > localTileMap.getySize() - 1) {
+            highY = localTileMap.getySize() - 1;
         }
         int lowY = camera.getY() - viewAreaWidth;
         if (lowY < 0) {
             lowY = 0;
         }
         int highZ = camera.getZ();
-        if (highZ > map.getzSize() - 1) {
-            highZ = map.getzSize() - 1;
+        if (highZ > localTileMap.getzSize() - 1) {
+            highZ = localTileMap.getzSize() - 1;
         }
         int lowZ = camera.getZ() - viewAreDepth;
         if (lowZ < 0) {
@@ -73,14 +72,22 @@ public class LocalWorldDrawer {
     }
 
     private void drawTile(int x, int y, int z) {
-        if (map.getAtlasNum(x, y, z) >= 0) {
-            batch.draw(new TextureRegion(atlases[map.getAtlasNum(x, y, z)],
-                            map.getAtlasX(x, y, z) * tileWidth,
-                            map.getAtlasY(x, y, z) * tileHeight,
+        if (localTileMap.getAtlasNum(x, y, z) >= 0) {
+            batch.draw(new TextureRegion(atlases[localTileMap.getAtlasNum(x, y, z)],
+                            localTileMap.getAtlasX(x, y, z) * tileWidth,
+                            localTileMap.getAtlasY(x, y, z) * tileHeight,
                             tileWidth, tileHeight),
                     getScreenPosX(x - camera.getX(), y - camera.getY()),
                     getScreenPosY(x - camera.getX(), y - camera.getY(), z - camera.getZ()));
         }
+    }
+
+    private void initAtlases() {
+        atlases = new Texture[5];
+        atlases[0] = new Texture("sprites/blocks.png");
+        atlases[1] = new Texture("sprites/plants.png");
+        atlases[2] = new Texture("sprites/units.png");
+        atlases[3] = new Texture("sprites/buildings.png");
     }
 
     public void setScreenCenterX(int screenCenterX) {
@@ -108,6 +115,6 @@ public class LocalWorldDrawer {
     }
 
     private int getScreenPosY(int x, int y, int z) {
-        return -(x + y) * floorHeight / 2 + z * (tileHeight - floorHeight) + screenCenterY;
+        return -(x + y) * tileDepth / 2 + z * (tileHeight - tileDepth) + screenCenterY;
     }
 }
