@@ -17,6 +17,7 @@ import stonering.objects.local_actors.unit.UnitBlock;
  * Buildings, units, and items are taken from LocalMap
  */
 public class LocalWorldDrawer {
+    private GameContainer container;
     private LocalTileMap localTileMap;
     private SpriteBatch batch;
     private Texture[] atlases;
@@ -43,10 +44,10 @@ public class LocalWorldDrawer {
         initAtlases();
     }
 
-    public void drawWorld(GameContainer container, Position camera) {
+    public void drawWorld() {
         if (localTileMap == null)
             localTileMap = container.getLocalTileMap();
-        this.camera = camera;
+        this.camera = container.getCamera().getPosition();
         defineframe();
         batch.begin();
         for (int z = minZ; z <= maxZ; z++) {
@@ -147,5 +148,9 @@ public class LocalWorldDrawer {
 
     private int getScreenPosY(int x, int y, int z) {
         return -(x + y) * tileDepth / 2 + z * (tileHeight - tileDepth) + screenCenterY;
+    }
+
+    public void setContainer(GameContainer container) {
+        this.container = container;
     }
 }

@@ -17,7 +17,6 @@ public class GameView implements Screen {
     private GameController controller;
     private LocalWorldDrawer worldDrawer;
     private UIDrawer uiDrawer;
-    private Position camera;
     private SpriteBatch batch;
 
     public GameView(GameContainer container, GameController controller) {
@@ -27,7 +26,6 @@ public class GameView implements Screen {
 
     @Override
     public void show() {
-        camera = controller.getCamera();
         worldDrawer = new LocalWorldDrawer(container.getLocalMap());
         uiDrawer = new UIDrawer();
         initDrawer();
@@ -37,8 +35,8 @@ public class GameView implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(Gdx.gl20.GL_COLOR_BUFFER_BIT | Gdx.gl20.GL_DEPTH_BUFFER_BIT);
-        worldDrawer.drawWorld(container, camera);
-        uiDrawer.getStage().draw();
+        worldDrawer.drawWorld();
+        uiDrawer.draw();
     }
 
     @Override
@@ -68,6 +66,8 @@ public class GameView implements Screen {
 
     private void initDrawer() {
         batch = new SpriteBatch();
+        worldDrawer.setContainer(container);
+        uiDrawer.setContainer(container);
         worldDrawer.setBatch(batch);
         worldDrawer.setScreenCenterX(Gdx.graphics.getWidth() / 2);
         worldDrawer.setScreenCenterY(Gdx.graphics.getHeight() / 2);
@@ -78,6 +78,4 @@ public class GameView implements Screen {
     public void setContainer(GameContainer container) {
         this.container = container;
     }
-
-
 }

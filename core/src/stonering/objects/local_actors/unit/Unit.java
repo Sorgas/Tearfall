@@ -42,7 +42,6 @@ public class Unit {
 
     public void turn() {
         localMap.setUnitBlock(position.getX(), position.getY(),position.getZ(), null);
-        System.out.println("turn");
         if(aspects.containsKey("movement")) {
             ((MovementAspect) aspects.get("movement")).move();
         }

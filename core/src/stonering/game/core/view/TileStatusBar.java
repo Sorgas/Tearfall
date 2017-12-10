@@ -2,6 +2,7 @@ package stonering.game.core.view;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Align;
 import stonering.utils.global.StaticSkin;
 import stonering.global.utils.Position;
 
@@ -25,7 +26,8 @@ public class TileStatusBar extends Table {
     }
 
     private void createTable() {
-        this.left().bottom();
+        this.defaults().align(Align.left);
+        this.left().bottom().align(Align.bottomLeft);
         this.pad(10);
         cellType = new Label("", StaticSkin.getSkin());
         this.add(new Label("Material: ", StaticSkin.getSkin()));
@@ -40,6 +42,7 @@ public class TileStatusBar extends Table {
         y = camera.getY();
         z = camera.getZ();
         this.material = material;
+        updateLabels();
     }
 
     private void updateLabels() {

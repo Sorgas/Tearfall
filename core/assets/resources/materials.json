@@ -1,5 +1,26 @@
 [
   {
+    "id": "0",
+    "name": "air",
+    "types": [
+      "air"
+    ],
+    "density": "0.1",
+    "reactions": [
+    ],
+    "reaction_args": [
+    ],
+    "value": "0",
+    "atlasY": "-1",
+    "color": {
+      "class": "color_c",
+      "r": "1",
+      "g": "1",
+      "b": "1",
+      "a": "1"
+    }
+  },
+  {
     "id": "1",
     "name": "granite",
     "types": [

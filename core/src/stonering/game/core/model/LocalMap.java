@@ -1,11 +1,3 @@
-/*
- * Created by Alexander on .
- */
-
-/*
- * Created by Alexander on .
- */
-
 package stonering.game.core.model;
 
 import stonering.enums.blocks.BlockTypesEnum;
