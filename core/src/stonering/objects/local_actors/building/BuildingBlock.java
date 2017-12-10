@@ -2,15 +2,20 @@ package stonering.objects.local_actors.building;
 
 /**
  * Created by Alexander on 09.12.2017.
+ *
+ * Proxy for Building
  */
 public class BuildingBlock {
-    private int atlasX;
+    private Building building;
 
-    public int getAtlasX() {
-        return atlasX;
+    public BuildingBlock(Building building) {
     }
 
-    public void setAtlasX(int atlasX) {
-        this.atlasX = atlasX;
+    public Building getBuilding() {
+        return building;
+    }
+
+    public void setBuilding(Building building) {
+        this.building = building;
     }
 }

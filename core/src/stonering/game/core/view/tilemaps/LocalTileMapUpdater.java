@@ -1,4 +1,4 @@
-package stonering.game.core.model.tilemaps;
+package stonering.game.core.view.tilemaps;
 
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.blocks.BlocksTileMapping;
@@ -10,6 +10,8 @@ import stonering.objects.local_actors.unit.Unit;
 
 /**
  * Created by Alexander on 03.08.2017.
+ *
+ * Updates LocalTileMap when blocks or plants on LocalMap changed
  */
 public class LocalTileMapUpdater {
     private GameContainer container;
@@ -36,18 +38,18 @@ public class LocalTileMapUpdater {
 
     public void updateTile(int x, int y, int z) {
         localTileMap.setTile(x, y, z, 0, 0, -1, null);
-        //unit
-        if (container.getUnits().stream().anyMatch(unit -> (unit.getPosition().equals(x, y, z)))) {
-            container.getUnits().stream().filter(unit -> (unit.getPosition().equals(x, y, z))).findFirst().get();
-            localTileMap.setTile(x, y, z, 0, 0, 2, null);
-            return;
-        }
-        //building
-        if (container.getBuildings().stream().anyMatch(unit -> (unit.getPosition().equals(x, y, z)))) {
-            container.getBuildings().stream().filter(unit -> (unit.getPosition().equals(x, y, z))).findFirst().get();
-            localTileMap.setTile(x, y, z, 0, 0, 3, null);
-            return;
-        }
+//        //unit
+//        if (container.getUnits().stream().anyMatch(unit -> (unit.getPosition().equals(x, y, z)))) {
+//            container.getUnits().stream().filter(unit -> (unit.getPosition().equals(x, y, z))).findFirst().get();
+//            localTileMap.setTile(x, y, z, 0, 0, 2, null);
+//            return;
+//        }
+//        //building
+//        if (container.getBuildingContainer().stream().anyMatch(unit -> (unit.getPosition().equals(x, y, z)))) {
+//            container.getBuildingContainer().stream().filter(unit -> (unit.getPosition().equals(x, y, z))).findFirst().get();
+//            localTileMap.setTile(x, y, z, 0, 0, 3, null);
+//            return;
+//        }
         //plants
         if (localMap.getPlantBlock(x, y, z) != null) {
             int atlasX = (TreeTileMapping.getType((byte) localMap.getPlantBlock(x, y, z).getBlockType()).getAtlasX());

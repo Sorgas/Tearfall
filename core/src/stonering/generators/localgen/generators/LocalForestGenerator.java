@@ -11,6 +11,8 @@ import java.util.Random;
 
 /**
  * Created by Alexander on 30.10.2017.
+ *
+ * Generates groups of trees
  */
 public class LocalForestGenerator {
     private LocalGenContainer container;
@@ -37,27 +39,9 @@ public class LocalForestGenerator {
                 tree.setY(random.nextInt(localAreaSize - 10) + 5);
                 tree.setZ(container.getHeightsMap()[tree.getX()][tree.getY()]);
                 container.getTrees().add(tree);
-                placeTree(tree);
             } catch (MaterialNotFoundException e) {
                 e.printStackTrace();
                 break;
-            }
-        }
-    }
-
-    private void placeTree(Tree tree) {
-        int treeRadius = tree.getBlocks().length / 2;
-        int treeDepth = tree.getStompZ();
-        for (int x = 0; x < tree.getBlocks().length; x++) {
-            for (int y = 0; y < tree.getBlocks()[x].length; y++) {
-                for (int z = 0; z < tree.getBlocks()[x][y].length; z++) {
-                    int mapX = tree.getX() + x - treeRadius;
-                    int mapY = tree.getY() + y - treeRadius;
-                    int mapZ = tree.getZ() + z - treeDepth;
-                    if (tree.getBlocks()[x][y][z] != null && localMap.getBlockType(mapX, mapY, mapZ) == 0) {
-                        localMap.setPlantBlock(mapX, mapY, mapZ, tree.getBlocks()[x][y][z]);
-                    }
-                }
             }
         }
     }

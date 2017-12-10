@@ -9,6 +9,8 @@ import stonering.global.utils.Position;
 
 /**
  * Created by Alexander on 10.06.2017.
+ *
+ * Main game Screen
  */
 public class GameView implements Screen {
     private GameContainer container;
@@ -26,7 +28,7 @@ public class GameView implements Screen {
     @Override
     public void show() {
         camera = controller.getCamera();
-        worldDrawer = new LocalWorldDrawer();
+        worldDrawer = new LocalWorldDrawer(container.getLocalMap());
         uiDrawer = new UIDrawer();
         initDrawer();
     }

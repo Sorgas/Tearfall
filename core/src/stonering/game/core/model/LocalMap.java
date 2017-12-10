@@ -1,10 +1,24 @@
+/*
+ * Created by Alexander on .
+ */
+
+/*
+ * Created by Alexander on .
+ */
+
 package stonering.game.core.model;
 
 import stonering.enums.blocks.BlockTypesEnum;
-import stonering.game.core.model.tilemaps.LocalTileMapUpdater;
-import stonering.objects.local_actors.building.Building;
+import stonering.game.core.view.tilemaps.LocalTileMapUpdater;
+import stonering.objects.local_actors.building.BuildingBlock;
 import stonering.objects.local_actors.plants.PlantBlock;
+import stonering.objects.local_actors.unit.UnitBlock;
 
+/**
+ * Created by Alexander on 10.06.2017.
+ *
+ * Contains blocks, and physical parameters, and proxies to objects
+ */
 public class LocalMap {
     private int[][][] material;
     private byte[][][] blockType;
@@ -12,7 +26,8 @@ public class LocalMap {
     private byte[][][] temperature;
     private byte[][][] lightlevel;
     private PlantBlock[][][] plantBlocks;
-    private Building[][][] buildingBlocks;
+    private BuildingBlock[][][] buildingBlocks;
+    private UnitBlock[][][] unitBlocks;
     private LocalTileMapUpdater localTileMapUpdater;
 
     private int xSize;
@@ -22,11 +37,13 @@ public class LocalMap {
     public LocalMap(int xSize, int ySize, int zSize) {
         material = new int[xSize][ySize][zSize];
         blockType = new byte[xSize][ySize][zSize];
+        plantBlocks = new PlantBlock[xSize][ySize][zSize];
+        buildingBlocks = new BuildingBlock[xSize][ySize][zSize];
+        unitBlocks = new UnitBlock[xSize][ySize][zSize];
+
         flooding = new byte[xSize][ySize][zSize];
         temperature = new byte[xSize][ySize][zSize];
         lightlevel = new byte[xSize][ySize][zSize];
-        plantBlocks = new PlantBlock[xSize][ySize][zSize];
-        buildingBlocks = new Building[xSize][ySize][zSize];
         this.xSize = xSize;
         this.ySize = ySize;
         this.zSize = zSize;
@@ -105,11 +122,20 @@ public class LocalMap {
         return plantBlocks[x][y][z];
     }
 
-    public void setBuildingBlock(int x, int y, int z, Building building) {
+    public void setBuildingBlock(int x, int y, int z, BuildingBlock building) {
         buildingBlocks[x][y][z] = building;
     }
 
-    public Building getBuildingBlock(int x, int y, int z) {
+    public BuildingBlock getBuildingBlock(int x, int y, int z) {
         return buildingBlocks[x][y][z];
     }
+
+    public void setUnitBlock(int x, int y, int z, UnitBlock unit) {
+        unitBlocks[x][y][z] = unit;
+    }
+
+    public UnitBlock getUnitBlock(int x, int y, int z) {
+        return unitBlocks[x][y][z];
+    }
+
 }

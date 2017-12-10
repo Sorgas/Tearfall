@@ -1,9 +1,11 @@
-package stonering.game.core.model.tilemaps;
+package stonering.game.core.view.tilemaps;
 
 import com.badlogic.gdx.graphics.Color;
 
 /**
  * Created by Alexander on 02.08.2017.
+ *
+ * Contains resolved tiles of blocks and plants
  */
 public class LocalTileMap {
 

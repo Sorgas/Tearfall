@@ -8,6 +8,8 @@ import java.util.HashMap;
 
 /**
  * Created by Alexander on 07.12.2017.
+ *
+ * Represents furniture, workbenches and other builded game objects
  */
 public class Building {
     private Position position;
@@ -19,6 +21,7 @@ public class Building {
 
     public Building() {
         aspects = new HashMap<>();
+        block = new BuildingBlock(this);
     }
 
     public void addAspect(Aspect aspect) {

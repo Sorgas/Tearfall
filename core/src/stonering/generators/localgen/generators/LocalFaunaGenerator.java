@@ -12,6 +12,8 @@ import java.util.Random;
 
 /**
  * Created by Alexander on 03.12.2017.
+ *
+ * Generates wild animals on LoclMap
  */
 public class LocalFaunaGenerator {
     private LocalGenContainer container;
@@ -29,7 +31,6 @@ public class LocalFaunaGenerator {
     public void execute() {
         for (int i = 0; i < 100; i++) {
             Unit unit = creatureGenerator.generateWildAnimal("dog");
-            unit.setPosition(findPlace());
             unit.setLocalMap(localMap);
             unit.getAspects().forEach(((s, aspect) -> aspect.init()));
             container.getUnits().add(unit);
@@ -37,18 +38,5 @@ public class LocalFaunaGenerator {
         }
     }
 
-    private Position findPlace() {
-        Random random = new Random();
-        while (true) {
-            int x = random.nextInt(localMap.getxSize());
-            int y = random.nextInt(localMap.getySize());
-            for (int z = localMap.getzSize() - 1; z > 0; z--) {
-                if (localMap.getBlockType(x, y, z) == BlockTypesEnum.SPACE.getCode()
-                        && localMap.getBlockType(x, y, z - 1) == BlockTypesEnum.WALL.getCode()) {
-                    System.out.println("placed: " + x + " " + y + " " + z);
-                    return new Position(x, y, z);
-                }
-            }
-        }
-    }
+
 }

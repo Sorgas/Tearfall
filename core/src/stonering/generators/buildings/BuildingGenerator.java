@@ -5,12 +5,13 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter;
 import stonering.objects.local_actors.building.BuildingBlock;
-import stonering.objects.local_actors.unit.BodyPart;
 import stonering.objects.local_actors.building.Building;
 import stonering.utils.global.FileLoader;
 
 /**
  * Created by Alexander on 07.12.2017.
+ *
+ * Generates Building objects from descriptors
  */
 public class BuildingGenerator {
     private Json json;
@@ -31,8 +32,7 @@ public class BuildingGenerator {
 
     public Building generateBuilding(String name) {
         JsonValue buildingJson = findBuilding(name);
-        Building building = generateBuildinqQ(buildingJson);
-        return building;
+        return generateBuildinqQ(buildingJson);
     }
 
     private JsonValue findBuilding(String name) {
@@ -44,9 +44,6 @@ public class BuildingGenerator {
 
     private Building generateBuildinqQ(JsonValue template) {
         Building building = new Building();
-        BuildingBlock buildingBlock = new BuildingBlock();
-        buildingBlock.setAtlasX(0);
-        building.setBlock(buildingBlock);
         building.setName(template.getString("title"));
         return building;
     }

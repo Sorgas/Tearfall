@@ -7,6 +7,8 @@ import stonering.global.utils.Position;
 
 /**
  * Created by Alexander on 12.10.2017.
+ *
+ * Renders information about focused tile
  */
 public class TileStatusBar extends Table {
     private int x;
@@ -14,21 +16,22 @@ public class TileStatusBar extends Table {
     private int z;
     private String material;
 
-    Label coordinates;
-    Label cellType;
+    private Label coordinates;
+    private Label cellType;
 
-    public    TileStatusBar() {
+    public TileStatusBar() {
         super();
         createTable();
     }
 
     private void createTable() {
-
         this.left().bottom();
         this.pad(10);
         cellType = new Label("", StaticSkin.getSkin());
+        this.add(new Label("Material: ", StaticSkin.getSkin()));
         this.add(cellType).row();
         coordinates = new Label("", StaticSkin.getSkin());
+        this.add(new Label("Coordinates: ", StaticSkin.getSkin()));
         this.add(coordinates).row();
     }
 
@@ -43,5 +46,4 @@ public class TileStatusBar extends Table {
         coordinates.setText("(" + x + ", " + y + ", " + z + ")");
         cellType.setText(material);
     }
-
 }

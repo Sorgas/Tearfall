@@ -10,6 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 /**
  * Created by Alexander on 02.04.2017.
+ *
+ * Model for main menu
  */
 public class MainMenuModel {
 	private TearFall game;
@@ -53,7 +55,6 @@ public class MainMenuModel {
 				game.switchWorldsSelectMenu();
 			}
 		});
-
 		menuTable.add(startGameButton);
 		menuTable.row();
 

@@ -1,9 +1,11 @@
 package stonering.game.core.model;
 
 import com.badlogic.gdx.utils.Timer;
+import stonering.game.core.model.lists.BuildingContainer;
 import stonering.game.core.model.lists.PlantContainer;
-import stonering.game.core.model.tilemaps.LocalTileMap;
-import stonering.game.core.model.tilemaps.LocalTileMapUpdater;
+import stonering.game.core.model.lists.UnitContainer;
+import stonering.game.core.view.tilemaps.LocalTileMap;
+import stonering.game.core.view.tilemaps.LocalTileMapUpdater;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.global.utils.Position;
 import stonering.generators.worldgen.WorldMap;
@@ -15,30 +17,47 @@ import java.util.List;
 
 /**
  * Created by Alexander on 10.06.2017.
+ *
+ * Model of game, contains LocalMap and sub-Containers.
+ * Time ticks are performed with Timer
  */
 public class GameContainer {
     private WorldMap worldMap;
     private LocalMap localMap;
     private LocalTileMap localTileMap;
     private List<Unit> units;
-    private ArrayList<Building> buildings;
+    private BuildingContainer buildingContainer;
     private PlantContainer plantContainer;
+    private UnitContainer unitContainer;
     private Timer timer;
 
-    private boolean gameStarted;
     private boolean paused;
 
     public GameContainer(LocalGenContainer container) {
-        this.localMap = container.getLocalMap();
-        units = new ArrayList<>(container.getUnits());
-        buildings = new ArrayList<>(container.getBuildings());
-        plantContainer = new PlantContainer(container.getTrees(), null);
+        loadFromContainer(container);
+        init();
+    }
+
+    private void init() {
         localTileMap = new LocalTileMap(localMap.getxSize(), localMap.getySize(), localMap.getzSize());
         createTileMapUpdater();
         timer = new Timer();
-        gameStarted = true;
         paused = false;
         startContainer();
+    }
+
+    private void loadFromContainer(LocalGenContainer container) {
+        this.localMap = container.getLocalMap();
+        units = new ArrayList<>(container.getUnits());
+        plantContainer = new PlantContainer(container.getTrees(), null);
+        plantContainer.setLocalMap(localMap);
+        plantContainer.placeTrees();
+        buildingContainer = new BuildingContainer(container.getBuildings());
+        buildingContainer.setLocalMap(localMap);
+        buildingContainer.placeBuildings();
+        unitContainer = new UnitContainer(container.getUnits());
+        unitContainer.setLocalMap(localMap);
+        unitContainer.placeUnits();
     }
 
     private void startContainer() {
@@ -73,25 +92,7 @@ public class GameContainer {
     }
 
     private synchronized void performTick() {
-//        System.out.println("tick");
-        for (Unit unit : units) {
-            Position old = unit.getPosition();
-            unit.turn();
-            localMap.updateBlock(old.getX(), old.getY(), old.getZ());
-            localMap.updateBlock(unit.getPosition().getX(), unit.getPosition().getY(), unit.getPosition().getZ());
-        }
-    }
-
-    public PlantContainer getPlantContainer() {
-        return plantContainer;
-    }
-
-    public boolean isGameStarted() {
-        return gameStarted;
-    }
-
-    public void setGameStarted(boolean gameStarted) {
-        this.gameStarted = gameStarted;
+        unitContainer.turn();
     }
 
     public void pauseGame() {
@@ -106,9 +107,5 @@ public class GameContainer {
             timer.start();
             paused = false;
         }
-    }
-
-    public ArrayList<Building> getBuildings() {
-        return buildings;
     }
 }
