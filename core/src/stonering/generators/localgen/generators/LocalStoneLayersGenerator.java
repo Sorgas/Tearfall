@@ -71,7 +71,7 @@ public class LocalStoneLayersGenerator {
     }
 
     private void countLayers() {
-        soilLayer = 1 - (surfaceLevel - 200) / 20;
+        soilLayer = 10 - (surfaceLevel - container.getConfig().getLocalSeaLevel()) / 20;
 
         intrusiveLayer = surfaceLevel - 150;
 
@@ -88,7 +88,7 @@ public class LocalStoneLayersGenerator {
     private void generateLayers() throws MaterialNotFoundException {
         int i = layerIds.length - 1;
         for (int soilIndex = 0; soilIndex < soilLayer; soilIndex++) {
-            layerIds[i] = materialMap.getId("obsidian");
+            layerIds[i] = materialMap.getId("soil");
             i--;
         }
 

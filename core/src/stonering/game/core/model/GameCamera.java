@@ -9,7 +9,7 @@ import stonering.global.utils.Position;
 
 /**
  * Created by Alexander on 10.12.2017.
- *
+ * <p>
  * Object selector and center for rendering.
  */
 public class GameCamera {
@@ -35,13 +35,13 @@ public class GameCamera {
     }
 
     public void moveCamera(int dx, int dy, int dz) {
-        if ((camera.getX() > 0 && dx < 0) || (camera.getX() < localMap.getxSize() && dx > 0)) {
+        if ((camera.getX() > 0 && dx < 0) || (camera.getX() < localMap.getxSize() - 1 && dx > 0)) {
             camera.setX(camera.getX() + dx);
         }
-        if ((camera.getY() > 0 && dy < 0) || (camera.getY() < localMap.getySize() && dy > 0)) {
+        if ((camera.getY() > 0 && dy < 0) || (camera.getY() < localMap.getySize() - 1 && dy > 0)) {
             camera.setY(camera.getY() + dy);
         }
-        if ((camera.getZ() > 0 && dz < 0) || (camera.getZ() < localMap.getzSize() && dz > 0)) {
+        if ((camera.getZ() > 0 && dz < 0) || (camera.getZ() < localMap.getzSize() - 1 && dz > 0)) {
             camera.setZ(camera.getZ() + dz);
         }
         System.out.println(camera.toString());
