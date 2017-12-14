@@ -1,5 +1,6 @@
 package stonering.objects.aspects;
 
+import stonering.game.core.model.GameContainer;
 import stonering.objects.local_actors.unit.Unit;
 
 /**
@@ -17,5 +18,5 @@ public abstract class Aspect {
         return unit;
     }
 
-    public abstract void init();
+    public abstract void init(GameContainer gameContainer);
 }

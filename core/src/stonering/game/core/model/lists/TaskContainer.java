@@ -7,6 +7,14 @@ import java.util.ArrayList;
 /**
  * Created by Alexander on 14.06.2017.
  */
-public class TaskList {
+public class TaskContainer {
     private ArrayList<Task> tasks;
+
+    public ArrayList<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(ArrayList<Task> tasks) {
+        this.tasks = tasks;
+    }
 }

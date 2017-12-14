@@ -1,6 +1,6 @@
 package stonering.objects.aspects;
 
-import stonering.objects.local_actors.Item;
+import stonering.objects.local_actors.items.Item;
 
 import java.util.LinkedList;
 

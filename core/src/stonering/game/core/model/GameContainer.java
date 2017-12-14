@@ -3,6 +3,7 @@ package stonering.game.core.model;
 import com.badlogic.gdx.utils.Timer;
 import stonering.game.core.model.lists.BuildingContainer;
 import stonering.game.core.model.lists.PlantContainer;
+import stonering.game.core.model.lists.TaskContainer;
 import stonering.game.core.model.lists.UnitContainer;
 import stonering.game.core.view.tilemaps.LocalTileMap;
 import stonering.game.core.view.tilemaps.LocalTileMapUpdater;
@@ -23,10 +24,10 @@ public class GameContainer {
     private WorldMap worldMap;
     private LocalMap localMap;
     private LocalTileMap localTileMap;
-    private List<Unit> units;
     private BuildingContainer buildingContainer;
     private PlantContainer plantContainer;
     private UnitContainer unitContainer;
+    private TaskContainer taskContainer;
     private Timer timer;
     private GameCamera camera;
 
@@ -48,16 +49,21 @@ public class GameContainer {
 
     private void loadFromContainer(LocalGenContainer container) {
         this.localMap = container.getLocalMap();
-        units = new ArrayList<>(container.getUnits());
+
         plantContainer = new PlantContainer(container.getTrees(), null);
         plantContainer.setLocalMap(localMap);
         plantContainer.placeTrees();
+
         buildingContainer = new BuildingContainer(container.getBuildings());
         buildingContainer.setLocalMap(localMap);
         buildingContainer.placeBuildings();
-        unitContainer = new UnitContainer(container.getUnits());
+
+        unitContainer = new UnitContainer(container.getUnits(), this);
         unitContainer.setLocalMap(localMap);
         unitContainer.placeUnits();
+        unitContainer.initUnits();
+
+        taskContainer = new TaskContainer();
     }
 
     private void startContainer() {
@@ -84,10 +90,6 @@ public class GameContainer {
         return localTileMap;
     }
 
-    public List<Unit> getUnits() {
-        return units;
-    }
-
     public void setLocalMap(LocalMap localMap) {
         this.localMap = localMap;
     }
@@ -112,5 +114,9 @@ public class GameContainer {
 
     public GameCamera getCamera() {
         return camera;
+    }
+
+    public TaskContainer getTaskContainer() {
+        return taskContainer;
     }
 }

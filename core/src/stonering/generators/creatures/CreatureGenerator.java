@@ -23,7 +23,7 @@ public class CreatureGenerator {
         creatures = reader.parse(FileLoader.getCreatureFile());
     }
 
-    public Unit generateWildAnimal(String specimen) {
+    public Unit generateUnit(String specimen) {
         JsonValue creature = null;
         for (JsonValue c : creatures) {
             if (c.getString("title").equals(specimen)) {

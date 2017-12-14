@@ -1,14 +1,10 @@
 package stonering.generators.localgen.generators;
 
-import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.core.model.LocalMap;
 import stonering.generators.creatures.CreatureGenerator;
 import stonering.generators.localgen.LocalGenConfig;
 import stonering.generators.localgen.LocalGenContainer;
-import stonering.global.utils.Position;
 import stonering.objects.local_actors.unit.Unit;
-
-import java.util.Random;
 
 /**
  * Created by Alexander on 03.12.2017.
@@ -29,13 +25,16 @@ public class LocalFaunaGenerator {
     }
 
     public void execute() {
-        for (int i = 0; i < 100; i++) {
-            Unit unit = creatureGenerator.generateWildAnimal("dog");
-            unit.setLocalMap(localMap);
-            unit.getAspects().forEach(((s, aspect) -> aspect.init()));
-            container.getUnits().add(unit);
-            System.out.println("dog");
-        }
+//        for (int i = 0; i < 100; i++) {
+//            Unit unit = creatureGenerator.generateUnit("dog");
+//            unit.setLocalMap(localMap);
+//            unit.getAspects().forEach(((s, aspect) -> aspect.init()));
+//            container.getUnits().add(unit);
+//            System.out.println("dog");
+//        }
+        Unit unit = creatureGenerator.generateUnit("digger");
+        unit.setLocalMap(localMap);
+        container.getUnits().add(unit);
     }
 
 

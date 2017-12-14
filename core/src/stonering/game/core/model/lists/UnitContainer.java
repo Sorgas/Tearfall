@@ -1,6 +1,7 @@
 package stonering.game.core.model.lists;
 
 import stonering.enums.blocks.BlockTypesEnum;
+import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.LocalMap;
 import stonering.global.utils.Position;
 import stonering.objects.local_actors.unit.Unit;
@@ -14,11 +15,13 @@ import java.util.Random;
  * Contains all Units on localMap
  */
 public class UnitContainer {
+    private GameContainer gameContainer;
     private ArrayList<Unit> units;
     private LocalMap localMap;
 
-    public UnitContainer(ArrayList<Unit> units) {
+    public UnitContainer(ArrayList<Unit> units, GameContainer gameContainer) {
         this.units = units;
+        this.gameContainer = gameContainer;
     }
 
     public void turn() {
@@ -60,4 +63,7 @@ public class UnitContainer {
     }
 
 
+    public void initUnits() {
+        units.forEach((unit) -> unit.getAspects().forEach((s,aspect) -> aspect.init(gameContainer)));
+    }
 }

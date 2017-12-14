@@ -4,6 +4,7 @@ import stonering.game.core.model.LocalMap;
 import stonering.objects.aspects.Aspect;
 import stonering.global.utils.Position;
 import stonering.objects.aspects.MovementAspect;
+import stonering.objects.aspects.PlanningAspect;
 
 import java.util.HashMap;
 
@@ -42,9 +43,12 @@ public class Unit {
 
     public void turn() {
         localMap.setUnitBlock(position.getX(), position.getY(),position.getZ(), null);
-        if(aspects.containsKey("movement")) {
-            ((MovementAspect) aspects.get("movement")).move();
+        if(aspects.containsKey("planning")) {
+            ((PlanningAspect) aspects.get("planning")).turn();
         }
+//        if(aspects.containsKey("movement")) {
+//            ((MovementAspect) aspects.get("movement")).move();
+//        }
         localMap.setUnitBlock(position.getX(), position.getY(),position.getZ(), block);
     }
 

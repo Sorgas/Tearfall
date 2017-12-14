@@ -1,16 +1,30 @@
 [
-    {
-        "title":"dog",
-        "description":"This is a dog",
-        "body_template":"beast",
-        "atlasY":"0",
-        "atlasX":"0",
-        "color":{
-            "class":"color_c",
-            "r":"1",
-            "g":"1",
-            "b":"1",
-            "a":"1"
-        }
+  {
+    "title": "digger",
+    "description": "This is a digger",
+    "body_template": "beast",
+    "atlasY": "0",
+    "atlasX": "0",
+    "color": {
+      "class": "color_c",
+      "r": "1",
+      "g": "1",
+      "b": "1",
+      "a": "1"
     }
+  },
+  {
+    "title": "dog",
+    "description": "This is a dog",
+    "body_template": "beast",
+    "atlasY": "0",
+    "atlasX": "0",
+    "color": {
+      "class": "color_c",
+      "r": "1",
+      "g": "1",
+      "b": "1",
+      "a": "1"
+    }
+  }
 ]
