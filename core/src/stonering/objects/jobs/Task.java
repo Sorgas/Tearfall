@@ -1,6 +1,7 @@
 package stonering.objects.jobs;
 
 import stonering.global.utils.Position;
+import stonering.objects.jobs.actions.Action;
 
 import java.util.ArrayList;
 

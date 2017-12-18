@@ -2,6 +2,7 @@ package stonering.global.utils.pathfinding.a_star;
 
 import stonering.game.core.model.LocalMap;
 import stonering.global.utils.Position;
+import stonering.global.utils.pathfinding.NoPathException;
 import stonering.global.utils.pathfinding.jps.Node;
 import stonering.objects.common.Path;
 
@@ -18,12 +19,15 @@ public class AStar {
         this.localMap = localMap;
     }
 
-    public Path findPath(Position start, Position target) {
+    public Path findPath(Position start, Position target) throws NoPathException {
         this.start = start;
         this.target = target;
         Node startNode = new Node(start, null);
         nodes.add(startNode);
         while (true) {
+            if(nodes.isEmpty()) {
+                throw new NoPathException();
+            }
             Node current = nodes.remove(0);
             if (current.getPosition().equals(target)) {
                 return makePath(current);

@@ -1,14 +1,14 @@
 package stonering.objects.aspects;
 
 import stonering.game.core.model.GameContainer;
+import stonering.global.utils.pathfinding.NoPathException;
+import stonering.global.utils.pathfinding.a_star.AStar;
 import stonering.objects.common.Path;
-import stonering.objects.jobs.Action;
+import stonering.objects.jobs.actions.Action;
 import stonering.objects.jobs.Task;
+import stonering.objects.jobs.actions.ActionTypeEnum;
 import stonering.objects.local_actors.unit.Unit;
 import stonering.global.utils.Position;
-
-import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Created by Alexander on 10.10.2017.
@@ -17,7 +17,7 @@ import java.util.Random;
  */
 public class PlanningAspect extends Aspect {
     private GameContainer gameContainer;
-    private ArrayList<Position> route;
+    private Path route;
     private Task currentTask;
     private Action currentAction;
 
@@ -32,43 +32,51 @@ public class PlanningAspect extends Aspect {
     }
 
     public void turn() {
-        if(currentTask == null) {
+        if (currentAction == null)
             fetchTasks();
-        }
-        if(currentTask != null) {
-            currentAction = currentTask.getNextAction();
-            if(!unit.getPosition().equals(currentAction.getTargetPosition())) {
-
-            }
+        if (route == null)
+            makeRouteToTarget();
+        if(route.isFinished()) {
+            performAction();
+        } else {
+            ((MovementAspect) unit.getAspects().get("movement")).move();
         }
     }
 
-//    private Path getPathToTarget(Position target) {
-//
-//    }
+    private void performAction() {
+//        if(currentAction.getActionType() == ActionTypeEnum.)
+//        ((ActionAspect) unit.getAspects().get("action")).performAction(currentAction);
+    }
 
     public Position getStep() {
-//        if(route.size() > 0) {
-//        return route.get(0);}else {
-//            return unit.getPosition();
-//        }
-        Random random = new Random();
-        int dx = random.nextInt(3) - 1;
-        int dy = random.nextInt(3) - 1;
-        Position current = unit.getPosition();
-        Position newPosition = new Position(current.getX() + dx, current.getY() + dy, current.getZ());
-        if (newPosition.getX() < 0 || newPosition.getX() > 191) newPosition.setX(current.getX());
-        if (newPosition.getY() < 0 || newPosition.getY() > 191) newPosition.setY(current.getY());
-        return newPosition;
+        if (!route.isFinished()) {
+            return route.pollNextPosition();
+        } else {
+            return unit.getPosition();
+        }
     }
 
+    private void makeRouteToTarget() {
+        try {
+            route = new AStar(unit.getLocalMap()).findPath(unit.getPosition(), currentAction.getTargetPosition());
+        } catch (NoPathException e) {
+            System.out.println("cancel task");
+        }
+    }
+
+    //should contain task selecting logic
     private void fetchTasks() {
-        if (!gameContainer.getTaskContainer().getTasks().isEmpty())
+        if (!gameContainer.getTaskContainer().getTasks().isEmpty()) {
             currentTask = gameContainer.getTaskContainer().getTasks().get(0);
+            currentAction = currentTask.getNextAction();
+        }
     }
 
-    public void poll() {
-//        if (route.size() > 0) route.remove(0);
+    private void analizeAction() {
+
     }
 
+    public void dropRoute() {
+        route = null;
+    }
 }

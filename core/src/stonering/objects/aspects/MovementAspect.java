@@ -31,16 +31,13 @@ public class MovementAspect extends Aspect {
     }
 
     public void move() {
-        if (stepDelay == 0) {
-            if (planning != null) {
-                Position nextPosition = planning.getStep();
-                if (map.isPassable(nextPosition.getX(), nextPosition.getY(), nextPosition.getZ())) {
-                    stepDelay = stepTime;
-                    unit.setPosition(nextPosition.clone());
-                    planning.poll();
-                } else {
-                    // drop route
-                }
+        if (stepDelay == 0 && planning != null) {
+            Position nextPosition = planning.getStep();
+            if (map.isPassable(nextPosition)) {
+                stepDelay = stepTime;
+                unit.setPosition(nextPosition.clone());
+            } else {
+                planning.dropRoute();
             }
         } else {
             stepDelay--;

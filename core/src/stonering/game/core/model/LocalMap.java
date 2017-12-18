@@ -2,13 +2,14 @@ package stonering.game.core.model;
 
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.core.view.tilemaps.LocalTileMapUpdater;
+import stonering.global.utils.Position;
 import stonering.objects.local_actors.building.BuildingBlock;
 import stonering.objects.local_actors.plants.PlantBlock;
 import stonering.objects.local_actors.unit.UnitBlock;
 
 /**
  * Created by Alexander on 10.06.2017.
- *
+ * <p>
  * Contains blocks, and physical parameters, and proxies to objects
  */
 public class LocalMap {
@@ -104,6 +105,10 @@ public class LocalMap {
             return z > 0 && blockType[x][y][z - 1] == BlockTypesEnum.WALL.getCode();
         }
         return true;
+    }
+
+    public boolean isPassable(Position pos) {
+        return isPassable(pos.getX(), pos.getY(), pos.getZ());
     }
 
     public void setPlantBlock(int x, int y, int z, PlantBlock block) {
