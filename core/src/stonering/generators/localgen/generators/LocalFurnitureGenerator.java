@@ -42,7 +42,6 @@ public class LocalFurnitureGenerator {
             for (int z = localMap.getzSize() - 1; z > 0; z--) {
                 if (localMap.getBlockType(x, y, z) == BlockTypesEnum.SPACE.getCode()
                         && localMap.getBlockType(x, y, z - 1) == BlockTypesEnum.WALL.getCode()) {
-                    System.out.println("placed: " + x + " " + y + " " + z);
                     return new Position(x, y, z);
                 }
             }

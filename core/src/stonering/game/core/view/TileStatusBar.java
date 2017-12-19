@@ -27,11 +27,13 @@ public class TileStatusBar extends Table {
 
     private void createTable() {
         this.defaults().align(Align.left);
-        this.left().bottom().align(Align.bottomLeft);
+        this.align(Align.bottomLeft);
         this.pad(10);
+
         cellType = new Label("", StaticSkin.getSkin());
         this.add(new Label("Material: ", StaticSkin.getSkin()));
         this.add(cellType).row();
+
         coordinates = new Label("", StaticSkin.getSkin());
         this.add(new Label("Coordinates: ", StaticSkin.getSkin()));
         this.add(coordinates).row();

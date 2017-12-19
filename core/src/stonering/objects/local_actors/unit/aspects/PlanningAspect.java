@@ -54,7 +54,7 @@ public class PlanningAspect extends Aspect {
     }
 
     public Position getStep() {
-        if (!route.isFinished()) {
+        if (route != null && !route.isFinished()) {
             return route.pollNextPosition();
         } else {
             return unit.getPosition();

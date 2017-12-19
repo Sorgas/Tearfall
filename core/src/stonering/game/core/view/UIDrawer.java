@@ -1,6 +1,9 @@
 package stonering.game.core.view;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.core.model.GameContainer;
 import stonering.global.utils.Position;
@@ -10,15 +13,27 @@ import stonering.global.utils.Position;
  */
 public class UIDrawer {
     private Stage stage;
+    private Table table;
     private TileStatusBar tileStatusBar;
+    private Toolbar toolbar;
     private GameContainer container;
     private MaterialMap materialMap;
 
     public UIDrawer() {
-        stage = new Stage();
-        tileStatusBar = new TileStatusBar();
-        stage.addActor(tileStatusBar);
         materialMap = new MaterialMap();
+        init();
+    }
+
+    private void init() {
+        stage = new Stage(new ScreenViewport());
+        stage.setDebugAll(true);
+        table = new Table();
+        table.setFillParent(true);
+        tileStatusBar = new TileStatusBar();
+        toolbar = new Toolbar();
+        table.addActor(tileStatusBar);
+        table.addActor(toolbar);
+        stage.addActor(table);
     }
 
     public void draw() {
@@ -33,5 +48,9 @@ public class UIDrawer {
     private void updateStatusBar() {
         Position focus = container.getCamera().getPosition();
         tileStatusBar.setData(focus, materialMap.getMaterial(container.getLocalMap().getMaterial(focus.getX(), focus.getY(), focus.getZ())).getName());
+    }
+
+    public void resize(int width, int height) {
+        stage.getViewport().update(width,height,true);
     }
 }

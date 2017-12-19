@@ -42,6 +42,7 @@ public class GameView implements Screen {
     @Override
     public void resize(int width, int height) {
         initDrawer();
+        uiDrawer.resize(width, height);
     }
 
     @Override
