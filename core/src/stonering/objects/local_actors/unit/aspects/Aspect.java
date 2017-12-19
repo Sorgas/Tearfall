@@ -1,4 +1,4 @@
-package stonering.objects.aspects;
+package stonering.objects.local_actors.unit.aspects;
 
 import stonering.game.core.model.GameContainer;
 import stonering.objects.local_actors.unit.Unit;
@@ -7,6 +7,7 @@ import stonering.objects.local_actors.unit.Unit;
  * Created by Alexander on 10.10.2017.
  */
 public abstract class Aspect {
+    protected GameContainer gameContainer;
     protected String name;
     protected Unit unit;
 
@@ -18,5 +19,10 @@ public abstract class Aspect {
         return unit;
     }
 
-    public abstract void init(GameContainer gameContainer);
+    public void init(GameContainer gameContainer) {
+        this.gameContainer = gameContainer;
+    }
+
+    public void turn() {
+    }
 }

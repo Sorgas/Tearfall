@@ -1,7 +1,7 @@
 package stonering.objects.local_actors.building;
 
 import stonering.global.utils.Position;
-import stonering.objects.aspects.Aspect;
+import stonering.objects.local_actors.unit.aspects.Aspect;
 import stonering.objects.local_actors.unit.Unit;
 
 import java.util.HashMap;

@@ -46,6 +46,11 @@ public class LocalMap {
         return temperature[x][y][z];
     }
 
+
+    public int getMaterial(Position pos) {
+        return material[pos.getX()][pos.getY()][pos.getZ()];
+    }
+
     public int getMaterial(int x, int y, int z) {
         return material[x][y][z];
     }
@@ -60,6 +65,14 @@ public class LocalMap {
 
     public byte getLightLevel(int x, int y, int z) {
         return lightlevel[x][y][z];
+    }
+
+    public void setBlock(Position pos, BlockTypesEnum blockType, int materialId) {
+        setBlock(pos.getX(), pos.getY(), pos.getZ(), blockType.getCode(), materialId);
+    }
+
+    public void setBlock(Position pos, byte blockType, int materialId) {
+        setBlock(pos.getX(), pos.getY(), pos.getZ(), blockType, materialId);
     }
 
     public void setBlock(int x, int y, int z, BlockTypesEnum blockType, int materialId) {
@@ -129,6 +142,18 @@ public class LocalMap {
 
     public void setUnitBlock(int x, int y, int z, UnitBlock unit) {
         unitBlocks[x][y][z] = unit;
+    }
+
+    public void setUnitBlock(Position pos, UnitBlock unit) {
+        unitBlocks[pos.getX()][pos.getY()][pos.getZ()] = unit;
+    }
+
+    public void freeUnitBlock(Position pos) {
+        unitBlocks[pos.getX()][pos.getY()][pos.getZ()] = null;
+    }
+
+    public void freeUnitBlock(int x, int y, int z) {
+        unitBlocks[x][y][z] = null;
     }
 
     public UnitBlock getUnitBlock(int x, int y, int z) {

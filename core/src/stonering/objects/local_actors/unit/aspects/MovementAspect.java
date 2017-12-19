@@ -1,4 +1,4 @@
-package stonering.objects.aspects;
+package stonering.objects.local_actors.unit.aspects;
 
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.LocalMap;
@@ -15,7 +15,6 @@ import java.util.Random;
 public class MovementAspect extends Aspect {
     private int stepTime;
     private int stepDelay;
-    private Unit unit;
     private LocalMap map;
     private PlanningAspect planning;
 
@@ -26,29 +25,28 @@ public class MovementAspect extends Aspect {
         stepDelay = new Random().nextInt(stepTime);
     }
 
-    public void recountSpeed() {
-
-    }
-
-    public void move() {
-        if (stepDelay == 0 && planning != null) {
-            Position nextPosition = planning.getStep();
-            if (map.isPassable(nextPosition)) {
-                stepDelay = stepTime;
-                unit.setPosition(nextPosition.clone());
-            } else {
-                planning.dropRoute();
-            }
+    public void turn() {
+        if (stepDelay > 0) {
+            stepDelay--; //counting ticks to step
         } else {
-            stepDelay--;
+            if (planning != null) {
+                Position nextPosition = planning.getStep();
+                if (map.isPassable(nextPosition)) {
+                    unit.setPosition(nextPosition.clone()); //step
+                    stepDelay = stepTime;
+                } else {
+                    planning.dropRoute(); //path blocked
+                }
+            } else {
+                //no planning aspect
+            }
         }
     }
-
 
     @Override
     public void init(GameContainer gameContainer) {
         if (unit.getAspects().containsKey("planning"))
             planning = (PlanningAspect) unit.getAspects().get("planning");
-        map = unit.getLocalMap();
+        map = gameContainer.getLocalMap();
     }
 }

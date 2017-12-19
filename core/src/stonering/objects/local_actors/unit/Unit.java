@@ -1,16 +1,15 @@
 package stonering.objects.local_actors.unit;
 
 import stonering.game.core.model.LocalMap;
-import stonering.objects.aspects.Aspect;
+import stonering.objects.local_actors.unit.aspects.Aspect;
 import stonering.global.utils.Position;
-import stonering.objects.aspects.MovementAspect;
-import stonering.objects.aspects.PlanningAspect;
+import stonering.objects.local_actors.unit.aspects.PlanningAspect;
 
 import java.util.HashMap;
 
 /**
  * Created by Alexander on 06.10.2017.
- *
+ * <p>
  * Represents living creatures
  */
 public class Unit {
@@ -38,18 +37,13 @@ public class Unit {
     }
 
     public void addAspect(Aspect aspect) {
-        aspects.put(aspect.getName(),aspect);
+        aspects.put(aspect.getName(), aspect);
     }
 
     public void turn() {
-        localMap.setUnitBlock(position.getX(), position.getY(),position.getZ(), null);
-        if(aspects.containsKey("planning")) {
-            ((PlanningAspect) aspects.get("planning")).turn();
-        }
-//        if(aspects.containsKey("movement")) {
-//            ((MovementAspect) aspects.get("movement")).move();
-//        }
-        localMap.setUnitBlock(position.getX(), position.getY(),position.getZ(), block);
+        localMap.freeUnitBlock(position);
+        aspects.values().forEach((aspect) -> aspect.turn());
+        localMap.setUnitBlock(position, block);
     }
 
     public LocalMap getLocalMap() {

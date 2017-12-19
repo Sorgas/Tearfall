@@ -1,4 +1,4 @@
-package stonering.objects.aspects;
+package stonering.objects.local_actors.unit.aspects;
 
 import stonering.objects.local_actors.items.Item;
 

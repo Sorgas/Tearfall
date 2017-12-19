@@ -3,9 +3,9 @@ package stonering.generators.creatures;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import stonering.global.utils.Position;
-import stonering.objects.aspects.Aspect;
-import stonering.objects.aspects.MovementAspect;
-import stonering.objects.aspects.PlanningAspect;
+import stonering.objects.local_actors.unit.aspects.Aspect;
+import stonering.objects.local_actors.unit.aspects.MovementAspect;
+import stonering.objects.local_actors.unit.aspects.PlanningAspect;
 import stonering.objects.local_actors.unit.Unit;
 import stonering.utils.global.FileLoader;
 

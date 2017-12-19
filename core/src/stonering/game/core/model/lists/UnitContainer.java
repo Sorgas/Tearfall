@@ -25,9 +25,7 @@ public class UnitContainer {
     }
 
     public void turn() {
-        for (Unit unit: units) {
-            unit.turn();
-        }
+        units.forEach((unit) -> unit.turn());
     }
 
     public void placeUnits() {

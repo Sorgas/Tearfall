@@ -1,5 +1,6 @@
-package stonering.objects.aspects;
+package stonering.objects.local_actors.unit.aspects;
 
+import stonering.game.core.model.GameContainer;
 import stonering.objects.local_actors.unit.BodyPart;
 
 import java.util.ArrayList;
@@ -15,11 +16,6 @@ public class BodyAspect extends Aspect {
 
     public BodyAspect() {
         bodyParts = new ArrayList<BodyPart>();
-
-    }
-
-    @Override
-    public void init() {
 
     }
 
@@ -43,4 +39,8 @@ public class BodyAspect extends Aspect {
         this.limbs = limbs;
     }
 
+    @Override
+    public void init(GameContainer gameContainer) {
+
+    }
 }

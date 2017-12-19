@@ -10,6 +10,10 @@ import java.util.ArrayList;
 public class TaskContainer {
     private ArrayList<Task> tasks;
 
+    public TaskContainer() {
+        tasks = new ArrayList<>();
+    }
+
     public ArrayList<Task> getTasks() {
         return tasks;
     }
