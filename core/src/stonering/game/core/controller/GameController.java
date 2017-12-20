@@ -1,8 +1,10 @@
 package stonering.game.core.controller;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.core.controller.inputProcessors.CameraInputProcessor;
 import stonering.game.core.controller.inputProcessors.PauseInputProcessor;
@@ -43,5 +45,9 @@ public class GameController {
 
     public void unpause() {
         container.pauseGame(false);
+    }
+
+    public void addInputProcessor(InputAdapter adapter) {
+        inputMultiplexer.addProcessor(adapter);
     }
 }

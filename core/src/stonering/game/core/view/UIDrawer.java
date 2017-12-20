@@ -27,13 +27,15 @@ public class UIDrawer {
     private void init() {
         stage = new Stage(new ScreenViewport());
         stage.setDebugAll(true);
+
         table = new Table();
         table.setFillParent(true);
+
         tileStatusBar = new TileStatusBar();
         toolbar = new Toolbar();
-        table.addActor(tileStatusBar);
-        table.addActor(toolbar);
-        stage.addActor(table);
+
+        stage.addActor(tileStatusBar);
+        stage.addActor(toolbar);
     }
 
     public void draw() {
@@ -52,5 +54,9 @@ public class UIDrawer {
 
     public void resize(int width, int height) {
         stage.getViewport().update(width,height,true);
+    }
+
+    public Stage getStage() {
+        return stage;
     }
 }

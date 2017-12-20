@@ -74,6 +74,7 @@ public class GameView implements Screen {
         worldDrawer.setScreenCenterY(Gdx.graphics.getHeight() / 2);
         worldDrawer.setViewAreaWidth(50);
         worldDrawer.setViewAreDepth(15);
+        controller.addInputProcessor(uiDrawer.getStage());
     }
 
     public void setContainer(GameContainer container) {

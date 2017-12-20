@@ -4,8 +4,11 @@
 
 package stonering.game.core.view;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import stonering.utils.global.StaticSkin;
 
@@ -13,6 +16,7 @@ import stonering.utils.global.StaticSkin;
  * Created by Alexander on 19.12.2017.
  */
 public class Toolbar extends Table {
+    private DiggingMenu diggingMenu;
 
     public Toolbar() {
         super();
@@ -20,14 +24,28 @@ public class Toolbar extends Table {
     }
 
     private void createTable() {
-//        this.align(Align.right);
-//        this.debug();
-//        this.defaults().align(Align.bottomRight);
-//        this.right().bottom();
-//        this.defaults().align(Align.left);
-        this.align(Align.bottomRight);
+        this.defaults().padLeft(10);
         this.pad(10);
+        this.setFillParent(true);
+        this.right().bottom();
 
-        this.add(new TextButton("digging", StaticSkin.getSkin())).row();
+        diggingMenu = new DiggingMenu();
+        diggingMenu.setVisible(false);
+
+        this.add(diggingMenu);
+        this.row();
+
+        TextButton diggingButton = new TextButton("digging", StaticSkin.getSkin());
+        diggingButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                diggingMenu.setVisible(!diggingMenu.isVisible());
+            }
+        });
+        this.add(diggingButton).row();
+    }
+
+    public void openDiggingPanel() {
+
     }
 }
