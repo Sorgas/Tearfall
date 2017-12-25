@@ -8,7 +8,6 @@ import stonering.utils.global.StaticSkin;
 
 public class DiggingMenu extends Table {
     DiggingMenu menu = this;
-    private DiggingSubMenu diggingSubMenu;
 
     public DiggingMenu() {
         super();
@@ -39,16 +38,13 @@ public class DiggingMenu extends Table {
         });
         this.add(rampButton).row();
 
-        diggingSubMenu = new DiggingSubMenu();
         TextButton channelButton = new TextButton("channel", StaticSkin.getSkin());
         channelButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                diggingSubMenu.setVisible(!diggingSubMenu.isVisible());
-                menu.invalidateHierarchy();
+
             }
         });
-        this.add(diggingSubMenu);
         this.add(channelButton).row();
 
 

@@ -59,4 +59,8 @@ public class UIDrawer {
     public Stage getStage() {
         return stage;
     }
+
+    public Toolbar getToolbar() {
+        return toolbar;
+    }
 }

@@ -14,6 +14,8 @@ import stonering.utils.global.StaticSkin;
 
 /**
  * Created by Alexander on 19.12.2017.
+ *
+ * component of toolbar and its state
  */
 public class Toolbar extends Table {
     private DiggingMenu diggingMenu;
@@ -35,7 +37,7 @@ public class Toolbar extends Table {
         this.add(diggingMenu);
         this.row();
 
-        TextButton diggingButton = new TextButton("digging", StaticSkin.getSkin());
+        TextButton diggingButton = new TextButton("D: digging", StaticSkin.getSkin());
         diggingButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -45,7 +47,11 @@ public class Toolbar extends Table {
         this.add(diggingButton).row();
     }
 
-    public void openDiggingPanel() {
+    public void openDiggingMenu() {
+        diggingMenu.setVisible(true);
+    }
 
+    public boolean diggingMenuIsOpen() {
+        return diggingMenu.isVisible();
     }
 }

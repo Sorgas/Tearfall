@@ -1,7 +1,8 @@
 package stonering.game.core.controller.inputProcessors;
 
 import com.badlogic.gdx.InputProcessor;
-import stonering.game.core.controller.GameController;
+import stonering.game.core.controller.controllers.CameraConroller;
+import stonering.game.core.controller.controllers.GameController;
 import stonering.global.settings.KeySettings;
 import stonering.utils.global.NavigationInputBuffer;
 
@@ -10,13 +11,11 @@ import stonering.utils.global.NavigationInputBuffer;
  */
 public class CameraInputProcessor implements InputProcessor {
     private KeySettings keySettings;
-    private GameController controller;
-    private NavigationInputBuffer inputBuffer;
+    private CameraConroller controller;
 
-    public CameraInputProcessor(GameController controller, NavigationInputBuffer navigationInputBuffer) {
-        this.controller = controller;
+    public CameraInputProcessor(GameController controller) {
+        this.controller = controller.getCameraConroller();
         keySettings = new KeySettings();
-        inputBuffer = navigationInputBuffer;
     }
 
     @Override

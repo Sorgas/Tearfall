@@ -2,19 +2,19 @@ package stonering.game.core.controller.inputProcessors;
 
 import com.badlogic.gdx.InputProcessor;
 import stonering.game.core.controller.controllers.GameController;
-import stonering.game.core.controller.controllers.PauseController;
+import stonering.game.core.controller.controllers.ToolBarController;
 import stonering.global.settings.KeySettings;
 
 /**
- * Created by Alexander on 29.11.2017.
+ * Created by Alexander on 01.07.2017.
  */
-public class PauseInputProcessor implements InputProcessor {
+public class ToolBarInputProcessor implements InputProcessor {
     private KeySettings keySettings;
-    private PauseController controller;
+    private GameController controller;
+    private ToolBarController toolBarController;
 
-    public PauseInputProcessor(GameController controller) {
-        this.controller = controller.getPauseController();
-        keySettings = new KeySettings();
+    public ToolBarInputProcessor( GameController controller) {
+        this.controller = controller;
     }
 
     @Override
@@ -29,8 +29,12 @@ public class PauseInputProcessor implements InputProcessor {
 
     @Override
     public boolean keyTyped(char character) {
-        if (character == ' ') {
-            controller.switchPause();
+        switch (character) {
+            case 'd':
+            case 'D': {
+                toolBarController.pressD();
+            }
+            break;
         }
         return false;
     }

@@ -3,13 +3,12 @@ package stonering.game.core.view;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import stonering.game.core.controller.GameController;
+import stonering.game.core.controller.controllers.GameController;
 import stonering.game.core.model.GameContainer;
-import stonering.global.utils.Position;
 
 /**
  * Created by Alexander on 10.06.2017.
- *
+ * <p>
  * Main game Screen
  */
 public class GameView implements Screen {
@@ -19,16 +18,12 @@ public class GameView implements Screen {
     private UIDrawer uiDrawer;
     private SpriteBatch batch;
 
-    public GameView(GameContainer container, GameController controller) {
+    public GameView(GameContainer container) {
         this.container = container;
-        this.controller = controller;
     }
 
     @Override
     public void show() {
-        worldDrawer = new LocalWorldDrawer(container.getLocalMap());
-        uiDrawer = new UIDrawer();
-        initDrawer();
     }
 
     @Override
@@ -66,6 +61,8 @@ public class GameView implements Screen {
     }
 
     private void initDrawer() {
+        worldDrawer = new LocalWorldDrawer(container.getLocalMap());
+        uiDrawer = new UIDrawer();
         batch = new SpriteBatch();
         worldDrawer.setContainer(container);
         uiDrawer.setContainer(container);
@@ -79,5 +76,17 @@ public class GameView implements Screen {
 
     public void setContainer(GameContainer container) {
         this.container = container;
+    }
+
+    public UIDrawer getUiDrawer() {
+        return uiDrawer;
+    }
+
+    public void setController(GameController controller) {
+        this.controller = controller;
+    }
+
+    public void init() {
+        initDrawer();
     }
 }

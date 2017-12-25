@@ -12,6 +12,7 @@ public class FileLoader {
     private final static String BODY_TEMPLATE_PATH = "resources/body_templates.json";
     private final static String CREATURES_PATH = "resources/creatures.json";
     private final static String BUILDINGS_PATH = "resources/buildings.json";
+    private final static String UI_TILES_PATH = "resources/ui_tiles.json";
 
     public static FileHandle getMaterialsFile() {
         return new FileHandle(MATERIALS_PATH);
@@ -36,4 +37,9 @@ public class FileLoader {
     public static FileHandle getBuildingsFile() {
         return new FileHandle(BUILDINGS_PATH);
     }
+
+    public static FileHandle getUiTilesFile() {
+        return new FileHandle(UI_TILES_PATH);
+    }
+
 }
