@@ -3,6 +3,7 @@ package stonering.game.core.view;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import stonering.enums.designations.DesignationsTileMapping;
 import stonering.enums.designations.DesignationsTypes;
 import stonering.enums.materials.MaterialMap;
 import stonering.enums.trees.TreeTileMapping;
@@ -88,7 +89,7 @@ public class LocalWorldDrawer {
             drawSprite(2, x, y, z, 0, 0);
         }
         if (localMap.getDesignatedBlockType(x, y, z) > 0) {
-            drawSprite(4, x, y, z, DesignationsTypes.getAtlasX(localMap.getDesignatedBlockType(x, y, z)), 0);
+            drawSprite(4, x, y, z, DesignationsTileMapping.getAtlasX(localMap.getDesignatedBlockType(x, y, z)), 0);
         }
     }
 

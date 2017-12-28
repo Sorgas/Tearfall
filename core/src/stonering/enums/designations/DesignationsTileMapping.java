@@ -10,12 +10,12 @@ public enum DesignationsTileMapping {
 
     private byte code;
     private byte atlasX;
-    private static HashMap<Byte, DesignationsTileMapping> map;
+    private static HashMap<Byte, Byte> map;
 
     static {
         map = new HashMap<>();
         for (DesignationsTileMapping type : DesignationsTileMapping.values()) {
-            map.put(type.code, type);
+            map.put(type.code, type.atlasX);
         }
     }
 
@@ -32,7 +32,7 @@ public enum DesignationsTileMapping {
         return atlasX;
     }
 
-    public static DesignationsTileMapping getType(byte code) {
+    public static byte getAtlasX(byte code) {
         return map.get(code);
     }
 }

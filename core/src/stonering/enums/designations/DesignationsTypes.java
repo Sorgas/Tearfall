@@ -10,7 +10,6 @@ public enum DesignationsTypes {
 
     private static HashMap<Byte, DesignationsTypes> map;
     private byte code;
-    private byte atlasX;
     private String text;
 
     static {
@@ -22,7 +21,6 @@ public enum DesignationsTypes {
 
     DesignationsTypes(int code, int atlasX, String text) {
         this.code = (byte) code;
-        this.atlasX = (byte) atlasX;
         this.text = text;
     }
 
@@ -30,16 +28,8 @@ public enum DesignationsTypes {
         return code;
     }
 
-    public byte getAtlasX() {
-        return atlasX;
-    }
-
     public String getText() {
         return text;
-    }
-
-    public static byte getAtlasX(byte code) {
-        return map.get(code).getAtlasX();
     }
 
     public DesignationsTypes getType(int code) {
