@@ -11,6 +11,8 @@ import java.util.HashMap;
 
 /**
  * Created by Alexander on 02.08.2017.
+ * <p>
+ * singleton for materials
  */
 
 // STONE(0),
@@ -22,17 +24,24 @@ import java.util.HashMap;
 // GLASS(7),
 // METAL(8);
 public class MaterialMap {
+    private static MaterialMap instance;
     private HashMap<Integer, Material> materials;
     private HashMap<String, Integer> ids;
     private Json json;
 
-    public MaterialMap() {
+    private MaterialMap() {
         materials = new HashMap<>();
         ids = new HashMap<>();
         json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
         json.addClassTag("color_c", Color.class);
         loadMaterials();
+    }
+
+    public static MaterialMap getInstance() {
+        if (instance == null)
+            instance = new MaterialMap();
+        return instance;
     }
 
     private void loadMaterials() {

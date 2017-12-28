@@ -22,6 +22,10 @@ public class GameView implements Screen {
         this.container = container;
     }
 
+    public void init() {
+        initDrawer();
+    }
+
     @Override
     public void show() {
     }
@@ -36,7 +40,7 @@ public class GameView implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        initDrawer();
+        initBatch();
         uiDrawer.resize(width, height);
     }
 
@@ -63,15 +67,20 @@ public class GameView implements Screen {
     private void initDrawer() {
         worldDrawer = new LocalWorldDrawer(container.getLocalMap());
         uiDrawer = new UIDrawer();
-        batch = new SpriteBatch();
         worldDrawer.setContainer(container);
         uiDrawer.setContainer(container);
-        worldDrawer.setBatch(batch);
         worldDrawer.setScreenCenterX(Gdx.graphics.getWidth() / 2);
         worldDrawer.setScreenCenterY(Gdx.graphics.getHeight() / 2);
         worldDrawer.setViewAreaWidth(50);
         worldDrawer.setViewAreDepth(15);
         controller.addInputProcessor(uiDrawer.getStage());
+    }
+
+    private void initBatch() {
+        if (batch != null)
+            batch.dispose();
+        batch = new SpriteBatch();
+        worldDrawer.setBatch(batch);
     }
 
     public void setContainer(GameContainer container) {
@@ -84,9 +93,5 @@ public class GameView implements Screen {
 
     public void setController(GameController controller) {
         this.controller = controller;
-    }
-
-    public void init() {
-        initDrawer();
     }
 }

@@ -23,10 +23,6 @@ public class Action {
         return targetAspect.getTargetPosition();
     }
 
-    public void setTargetPosition(Position targetPosition) {
-        targetAspect.setTargetPosition(targetPosition);
-    }
-
     public ActionTypeEnum getActionType() {
         return actionType;
     }

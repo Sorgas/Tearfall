@@ -9,10 +9,6 @@ import stonering.game.core.view.tilemaps.LocalTileMap;
 import stonering.game.core.view.tilemaps.LocalTileMapUpdater;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.generators.worldgen.WorldMap;
-import stonering.objects.local_actors.unit.Unit;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Alexander on 10.06.2017.
@@ -28,6 +24,7 @@ public class GameContainer {
     private PlantContainer plantContainer;
     private UnitContainer unitContainer;
     private TaskContainer taskContainer;
+
     private Timer timer;
     private GameCamera camera;
 
@@ -63,7 +60,7 @@ public class GameContainer {
         unitContainer.placeUnits();
         unitContainer.initUnits();
 
-        taskContainer = new TaskContainer();
+        taskContainer = new TaskContainer(this);
     }
 
     private void startContainer() {
@@ -119,4 +116,6 @@ public class GameContainer {
     public TaskContainer getTaskContainer() {
         return taskContainer;
     }
+
+
 }

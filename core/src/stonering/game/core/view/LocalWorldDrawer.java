@@ -3,16 +3,20 @@ package stonering.game.core.view;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import stonering.enums.designations.DesignationsTypes;
+import stonering.enums.materials.MaterialMap;
+import stonering.enums.trees.TreeTileMapping;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.LocalMap;
 import stonering.game.core.view.tilemaps.LocalTileMap;
 import stonering.global.utils.Position;
 import stonering.objects.local_actors.building.BuildingBlock;
+import stonering.objects.local_actors.plants.PlantBlock;
 import stonering.objects.local_actors.unit.UnitBlock;
 
 /**
  * Created by Alexander on 13.06.2017.
- *
+ * <p>
  * Draws LocalMap. Blocks and plants are taken from LocalTileMap,
  * Buildings, units, and items are taken from LocalMap
  */
@@ -38,9 +42,11 @@ public class LocalWorldDrawer {
     private int minX;
     private int minY;
     private int minZ;
+    private MaterialMap materialMap;
 
     public LocalWorldDrawer(LocalMap localMap) {
         this.localMap = localMap;
+        materialMap = MaterialMap.getInstance();
         initAtlases();
     }
 
@@ -68,6 +74,11 @@ public class LocalWorldDrawer {
                     localTileMap.getAtlasX(x, y, z),
                     localTileMap.getAtlasY(x, y, z));
         }
+        PlantBlock plantBlock = localMap.getPlantBlock(x, y, z);
+        if (plantBlock != null) {
+            drawSprite(1, x, y, z, plantBlock.getAtlasX(), plantBlock.getAtlasY());
+
+        }
         BuildingBlock buildingBlock = localMap.getBuildingBlock(x, y, z);
         if (buildingBlock != null) {
             drawSprite(3, x, y, z, 0, 0);
@@ -75,6 +86,9 @@ public class LocalWorldDrawer {
         UnitBlock unitBlock = localMap.getUnitBlock(x, y, z);
         if (unitBlock != null) {
             drawSprite(2, x, y, z, 0, 0);
+        }
+        if (localMap.getDesignatedBlockType(x, y, z) > 0) {
+            drawSprite(4, x, y, z, DesignationsTypes.getAtlasX(localMap.getDesignatedBlockType(x, y, z)), 0);
         }
     }
 
@@ -93,6 +107,7 @@ public class LocalWorldDrawer {
         atlases[1] = new Texture("sprites/plants.png");
         atlases[2] = new Texture("sprites/units.png");
         atlases[3] = new Texture("sprites/buildings.png");
+        atlases[4] = new Texture("sprites/ui_tiles.png");
     }
 
     private void defineframe() {

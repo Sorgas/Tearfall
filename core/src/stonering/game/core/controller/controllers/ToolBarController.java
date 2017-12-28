@@ -1,16 +1,8 @@
-/*
- * Created by Alexander on .
- */
-
-/*
- * Created by Alexander on .
- */
-
 package stonering.game.core.controller.controllers;
 
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.view.GameView;
-import stonering.game.core.view.Toolbar;
+import stonering.game.core.view.ui_components.Toolbar;
 
 /**
  * Created by Alexander on 25.12.2017.
@@ -26,12 +18,8 @@ public class ToolBarController extends Controller {
         toolbar = view.getUiDrawer().getToolbar();
     }
 
-    public void pressD() {
-        if(toolbar.diggingMenuIsOpen()) {
-
-        } else {
-            toolbar.openDiggingMenu();
-        }
+    public boolean handlePress(char key) {
+        return toolbar.handlePress(key);
     }
 
     public void setDesignationsController(DesignationsController designationsController) {

@@ -1,19 +1,18 @@
 package stonering.game.core.controller.inputProcessors;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import stonering.game.core.controller.controllers.DesignationsController;
 import stonering.game.core.controller.controllers.GameController;
-import stonering.game.core.controller.controllers.ToolBarController;
-import stonering.global.settings.KeySettings;
 
 /**
- * Created by Alexander on 01.07.2017.
+ * Created by Alexander on 26.12.2017.
  */
-public class ToolBarInputProcessor implements InputProcessor {
-    private KeySettings keySettings;
-    private ToolBarController controller;
+public class DesignationsInputProcessor implements InputProcessor {
+    private DesignationsController controller;
 
-    public ToolBarInputProcessor( GameController controller) {
-        this.controller = controller.getToolBarController();
+    public DesignationsInputProcessor(GameController gameController) {
+        controller = gameController.getDesignationsController();
     }
 
     @Override
@@ -23,12 +22,22 @@ public class ToolBarInputProcessor implements InputProcessor {
 
     @Override
     public boolean keyUp(int keycode) {
-       return false;
+        switch (keycode) {
+            case Input.Keys.NUMPAD_7: {
+                controller.handleDesignation();
+                return false;
+            }
+            case Input.Keys.NUMPAD_8: {
+                controller.handleCancel();
+                return false;
+            }
+        }
+        return false;
     }
 
     @Override
     public boolean keyTyped(char character) {
-        return controller.handlePress(character);
+        return false;
     }
 
     @Override

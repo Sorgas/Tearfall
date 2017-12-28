@@ -15,12 +15,14 @@ import stonering.objects.local_actors.unit.UnitBlock;
 public class LocalMap {
     private int[][][] material;
     private byte[][][] blockType;
+    private byte[][][] designatedBlockType;
     private byte[][][] flooding;
     private byte[][][] temperature;
     private byte[][][] lightlevel;
     private PlantBlock[][][] plantBlocks;
     private BuildingBlock[][][] buildingBlocks;
     private UnitBlock[][][] unitBlocks;
+
     private LocalTileMapUpdater localTileMapUpdater;
 
     private int xSize;
@@ -30,6 +32,7 @@ public class LocalMap {
     public LocalMap(int xSize, int ySize, int zSize) {
         material = new int[xSize][ySize][zSize];
         blockType = new byte[xSize][ySize][zSize];
+        designatedBlockType = new byte[xSize][ySize][zSize];
         plantBlocks = new PlantBlock[xSize][ySize][zSize];
         buildingBlocks = new BuildingBlock[xSize][ySize][zSize];
         unitBlocks = new UnitBlock[xSize][ySize][zSize];
@@ -46,7 +49,6 @@ public class LocalMap {
         return temperature[x][y][z];
     }
 
-
     public int getMaterial(Position pos) {
         return material[pos.getX()][pos.getY()][pos.getZ()];
     }
@@ -57,6 +59,10 @@ public class LocalMap {
 
     public byte getBlockType(int x, int y, int z) {
         return blockType[x][y][z];
+    }
+
+    public byte getDesignatedBlockType(int x, int y, int z) {
+        return designatedBlockType[x][y][z];
     }
 
     public byte getFlooding(int x, int y, int z) {
@@ -84,6 +90,14 @@ public class LocalMap {
         material[x][y][z] = materialId;
         if (localTileMapUpdater != null)
             localTileMapUpdater.updateTile(x, y, z);
+    }
+
+    public void setDesignatedBlockType(Position pos, byte blockType) {
+        setDesignatedBlockType(pos.getX(), pos.getY(), pos.getZ(), blockType);
+    }
+
+    public void setDesignatedBlockType(int x, int y, int z, byte blockType) {
+        designatedBlockType[x][y][z] = blockType;
     }
 
     public void updateBlock(int x, int y, int z) {

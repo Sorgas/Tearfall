@@ -1,7 +1,3 @@
-/*
- * Created by Alexander on .
- */
-
 package stonering.game.core.model;
 
 import stonering.enums.blocks.BlockTypesEnum;
@@ -25,7 +21,7 @@ public class GameCamera {
 
     private void initCamera() {
         camera = new Position(localMap.getxSize() / 2, localMap.getySize() / 2, localMap.getzSize() - 1);
-        while (localMap.getBlockType(camera.getX(), camera.getY(), camera.getZ()) == BlockTypesEnum.SPACE.getCode()) {
+        while (localMap.getBlockType(camera.getX(), camera.getY(), camera.getZ()) <= BlockTypesEnum.SPACE.getCode()) {
             camera.setZ(camera.getZ() - 1);
         }
     }

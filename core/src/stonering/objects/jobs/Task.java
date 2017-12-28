@@ -1,15 +1,21 @@
 package stonering.objects.jobs;
 
-import stonering.global.utils.Position;
 import stonering.objects.jobs.actions.Action;
+import stonering.objects.jobs.actions.TaskTypesEnum;
 
 import java.util.ArrayList;
 
 public class Task {
     private String name;
+    private TaskTypesEnum taskType;
     private TaskStatusesEnum statuses;
     private ArrayList<Action> actions;
-    private Position targetPosition;
+
+    public Task(String name, TaskTypesEnum taskType) {
+        this.name = name;
+        this.taskType = taskType;
+        actions = new ArrayList<>();
+    }
 
     public String getName() {
         return name;
@@ -36,6 +42,18 @@ public class Task {
     }
 
     public Action getNextAction() {
-            return actions.get(0);
+        return actions.get(0);
+    }
+
+    public TaskTypesEnum getTaskType() {
+        return taskType;
+    }
+
+    public void setTaskType(TaskTypesEnum taskType) {
+        this.taskType = taskType;
+    }
+
+    public void addAction(Action action) {
+        actions.add(action);
     }
 }

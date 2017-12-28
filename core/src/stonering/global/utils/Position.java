@@ -9,7 +9,7 @@ import java.lang.annotation.Annotation;
  * Class for storing in game coordinates
  * simply stores x, y, z int values
  */
-public class Position implements Serializable, Immutable {
+public class Position implements Serializable, Immutable, Cloneable {
     private int x;
     private int y;
     private int z;

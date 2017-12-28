@@ -1,7 +1,5 @@
 package stonering.enums.trees;
 
-import stonering.enums.blocks.BlocksTileMapping;
-
 import java.util.HashMap;
 
 /**
@@ -43,5 +41,9 @@ public enum TreeTileMapping {
 
     public static TreeTileMapping getType(byte code) {
         return map.get(code);
+    }
+
+    public static TreeTileMapping getType(int code) {
+        return map.get((byte) code);
     }
 }

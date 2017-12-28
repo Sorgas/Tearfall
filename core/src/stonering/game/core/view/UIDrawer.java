@@ -2,10 +2,12 @@ package stonering.game.core.view;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.core.model.GameContainer;
+import stonering.game.core.view.ui_components.TileStatusBar;
+import stonering.game.core.view.ui_components.ToolStatus;
+import stonering.game.core.view.ui_components.Toolbar;
 import stonering.global.utils.Position;
 
 /**
@@ -16,11 +18,12 @@ public class UIDrawer {
     private Table table;
     private TileStatusBar tileStatusBar;
     private Toolbar toolbar;
+    private ToolStatus toolStatus;
     private GameContainer container;
     private MaterialMap materialMap;
 
     public UIDrawer() {
-        materialMap = new MaterialMap();
+        materialMap = MaterialMap.getInstance();
         init();
     }
 
@@ -33,8 +36,10 @@ public class UIDrawer {
 
         tileStatusBar = new TileStatusBar();
         toolbar = new Toolbar();
+        toolStatus = new ToolStatus();
 
         stage.addActor(tileStatusBar);
+        stage.addActor(toolStatus);
         stage.addActor(toolbar);
     }
 
@@ -62,5 +67,9 @@ public class UIDrawer {
 
     public Toolbar getToolbar() {
         return toolbar;
+    }
+
+    public ToolStatus getToolStatus() {
+        return toolStatus;
     }
 }

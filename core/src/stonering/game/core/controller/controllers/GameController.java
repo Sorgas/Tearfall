@@ -1,22 +1,19 @@
-/*
- * Created by Alexander on .
- */
-
 package stonering.game.core.controller.controllers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputMultiplexer;
 import stonering.game.core.controller.inputProcessors.CameraInputProcessor;
+import stonering.game.core.controller.inputProcessors.DesignationsInputProcessor;
 import stonering.game.core.controller.inputProcessors.PauseInputProcessor;
 import stonering.game.core.controller.inputProcessors.ToolBarInputProcessor;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.view.GameView;
-import stonering.game.core.view.Toolbar;
-import stonering.utils.global.NavigationInputBuffer;
 
 /**
  * Created by Alexander on 26.06.2017.
+ *
+ * container for all controllers.
  */
 public class GameController extends Controller {
     private DesignationsController designationsController;
@@ -48,6 +45,7 @@ public class GameController extends Controller {
         inputMultiplexer.addProcessor(new ToolBarInputProcessor(this));
         inputMultiplexer.addProcessor(new PauseInputProcessor(this));
         inputMultiplexer.addProcessor(new CameraInputProcessor(this));
+        inputMultiplexer.addProcessor(new DesignationsInputProcessor(this));
         Gdx.input.setInputProcessor(inputMultiplexer);
     }
 

@@ -1,17 +1,18 @@
 package stonering.game.core.view.tilemaps;
 
 import com.badlogic.gdx.graphics.Color;
+import stonering.global.utils.Position;
 
 /**
  * Created by Alexander on 02.08.2017.
- *
+ * <p>
  * Contains resolved tiles of blocks and plants
  */
 public class LocalTileMap {
 
     private byte[][][] atlasX;
     private byte[][][] atlasY;
-    private byte[][][] atlasNum;//[blocks, plants, creatures]
+    private byte[][][] atlasNum;
     private int xSize;
     private int ySize;
     private int zSize;
@@ -44,6 +45,11 @@ public class LocalTileMap {
 
     public byte getAtlasNum(int x, int y, int z) {
         return atlasNum[x][y][z];
+    }
+
+
+    public void setTile(Position pos, int atlasX, int atlasY, int atlasNum, Color color) {
+        setTile(pos.getX(), pos.getY(), pos.getZ(), atlasX, atlasY, atlasNum, color);
     }
 
     public void setTile(int x, int y, int z, int atlasX, int atlasY, int atlasNum, Color color) {

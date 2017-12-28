@@ -28,7 +28,7 @@ public class LocalGenContainer {
         trees = new ArrayList<>();
         units = new ArrayList<>();
         buildings = new ArrayList<>();
-        materialMap = new MaterialMap();
+        materialMap = MaterialMap.getInstance();
         createMap();
     }
 

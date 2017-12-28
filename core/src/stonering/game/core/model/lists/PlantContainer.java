@@ -1,24 +1,29 @@
 package stonering.game.core.model.lists;
 
+import stonering.enums.materials.MaterialMap;
+import stonering.enums.trees.TreeTileMapping;
 import stonering.game.core.model.LocalMap;
 import stonering.objects.local_actors.plants.Plant;
+import stonering.objects.local_actors.plants.PlantBlock;
 import stonering.objects.local_actors.plants.Tree;
 
 import java.util.ArrayList;
 
 /**
  * Created by Alexander on 09.11.2017.
- *
+ * <p>
  * Contains plants and trees on localMap
  */
 public class PlantContainer {
     private ArrayList<Tree> trees;
     private ArrayList<Plant> plants;
     private LocalMap localMap;
+    private MaterialMap materialMap;
 
     public PlantContainer(ArrayList<Tree> trees, ArrayList<Plant> plants) {
         this.trees = trees;
         this.plants = plants;
+        materialMap = MaterialMap.getInstance();
     }
 
     public ArrayList<Tree> getTrees() {
@@ -38,7 +43,10 @@ public class PlantContainer {
                     int mapX = tree.getX() + x - treeRadius;
                     int mapY = tree.getY() + y - treeRadius;
                     int mapZ = tree.getZ() + z - treeDepth;
-                    if (tree.getBlocks()[x][y][z] != null && localMap.getBlockType(mapX, mapY, mapZ) == 0) {
+                    PlantBlock block = tree.getBlocks()[x][y][z];
+                    if (block != null && localMap.getBlockType(mapX, mapY, mapZ) == 0) {
+                        block.setAtlasX(TreeTileMapping.getType(block.getBlockType()).getAtlasX());
+                        block.setAtlasY(materialMap.getAtlasY(block.getMaterial()));
                         localMap.setPlantBlock(mapX, mapY, mapZ, tree.getBlocks()[x][y][z]);
                     }
                 }
