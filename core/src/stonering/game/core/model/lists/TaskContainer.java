@@ -1,5 +1,6 @@
 package stonering.game.core.model.lists;
 
+import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.designations.DesignationsTypes;
 import stonering.game.core.model.GameContainer;
 import stonering.global.utils.Position;
@@ -39,16 +40,18 @@ public class TaskContainer {
     }
 
     public void addDesignation(Position position, DesignationsTypes blockType) {
-        Designation designation = new Designation(position, blockType);
-        int index = designations.indexOf(designation);
-        if (index >= 0) {
-            tasks.remove(designation.task);
-            designations.add(index, designation);
-        } else {
-            designations.add(designation);
+        if (validateDesignations(position, blockType)) {
+            Designation designation = new Designation(position, blockType);
+            int index = designations.indexOf(designation);
+            if (index >= 0) {
+                tasks.remove(designation.task);
+                designations.add(index, designation);
+            } else {
+                designations.add(designation);
+            }
+            tasks.add(createDesignationTask(designation));
+            container.getLocalMap().setDesignatedBlockType(designation.position, designation.type.getCode());
         }
-        tasks.add(createDesignationTask(designation));
-        container.getLocalMap().setDesignatedBlockType(designation.position, designation.type.getCode());
     }
 
     private Task createDesignationTask(Designation designation) {
@@ -60,6 +63,19 @@ public class TaskContainer {
 //        action.setRequirementsAspect();
         task.addAction(action);
         return task;
+    }
+
+    private boolean validateDesignations(Position position, DesignationsTypes blockType) {
+        switch (blockType) {
+            case DIG: {
+                if (BlockTypesEnum.getType(container.getLocalMap().getBlockType(position)).equals(BlockTypesEnum.RAMP) ||
+                        BlockTypesEnum.getType(container.getLocalMap().getBlockType(position)).equals(BlockTypesEnum.WALL) ||
+                        BlockTypesEnum.getType(container.getLocalMap().getBlockType(position)).equals(BlockTypesEnum.STAIRS)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private class Designation {

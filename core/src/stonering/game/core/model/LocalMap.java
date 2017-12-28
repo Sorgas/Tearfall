@@ -57,6 +57,10 @@ public class LocalMap {
         return material[x][y][z];
     }
 
+    public byte getBlockType(Position pos) {
+        return blockType[pos.getX()][pos.getY()][pos.getZ()];
+    }
+
     public byte getBlockType(int x, int y, int z) {
         return blockType[x][y][z];
     }

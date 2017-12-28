@@ -35,7 +35,8 @@ public class DesignationsController extends Controller {
         if (activeDesignation != null) {
             if (rectangleStarted) {
                 designate(container.getCamera().getPosition());
-                handleCancel();
+                start = null;
+                rectangleStarted = false;
             } else {
                 start = container.getCamera().getPosition().clone();
                 rectangleStarted = true;
