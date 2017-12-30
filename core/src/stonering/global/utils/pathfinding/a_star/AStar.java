@@ -1,5 +1,6 @@
 package stonering.global.utils.pathfinding.a_star;
 
+import javafx.geometry.Pos;
 import stonering.game.core.model.LocalMap;
 import stonering.global.utils.Position;
 import stonering.global.utils.pathfinding.NoPathException;
@@ -17,6 +18,7 @@ public class AStar {
 
     public AStar(LocalMap localMap) {
         this.localMap = localMap;
+        nodes = new LinkedList<>();
     }
 
     public Path findPath(Position start, Position target) throws NoPathException {
@@ -25,7 +27,7 @@ public class AStar {
         Node startNode = new Node(start, null);
         nodes.add(startNode);
         while (true) {
-            if(nodes.isEmpty()) {
+            if (nodes.isEmpty()) {
                 throw new NoPathException();
             }
             Node current = nodes.remove(0);
@@ -41,12 +43,21 @@ public class AStar {
             for (int y = -1; y < 2; y++) {
                 for (int x = -1; x < 2; x++) {
                     if (x != 0 && y != 0 && z != 0)
-                        if (inMap(node.getX() + x, node.getY() + y, node.getZ() + z)
-                                && localMap.isPassable(node.getX() + x, node.getY() + y, node.getZ() + z))
-                            addNodeWithSort(new Node(new Position(node.getX() + x, node.getY() + y, node.getZ() + z), node));
+                        if (inMap(node.getX() + x, node.getY() + y, node.getZ() + z)) {
+                            Position newPos = new Position(node.getX() + x, node.getY() + y, node.getZ() + z);
+
+                        }
+
+//                                && localMap.isPassable(node.getX() + x, node.getY() + y, node.getZ() + z))
+                  //  addNodeWithSort(new Node(, node));
                 }
             }
         }
+
+    }
+
+    private boolean hasPathBetween(Position pos1, Pos pos2) {
+        return false;
     }
 
     private void addNodeWithSort(Node node) {

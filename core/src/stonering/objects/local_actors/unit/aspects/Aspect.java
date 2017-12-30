@@ -23,6 +23,5 @@ public abstract class Aspect {
         this.gameContainer = gameContainer;
     }
 
-    public void turn() {
-    }
+    public void turn() {}
 }

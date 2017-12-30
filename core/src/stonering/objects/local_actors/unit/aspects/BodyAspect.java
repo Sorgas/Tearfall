@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 /**
  * Created by Alexander on 19.10.2017.
- *
+ * <p>
  * Holds creature's body parts and connections between them.
  */
 public class BodyAspect extends Aspect {
@@ -37,10 +37,5 @@ public class BodyAspect extends Aspect {
 
     public void setLimbs(ArrayList<Integer> limbs) {
         this.limbs = limbs;
-    }
-
-    @Override
-    public void init(GameContainer gameContainer) {
-
     }
 }

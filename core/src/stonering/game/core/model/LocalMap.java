@@ -65,6 +65,10 @@ public class LocalMap {
         return blockType[x][y][z];
     }
 
+    public void setBlocType(int x, int y, int z, byte type) {
+        blockType[x][y][z] = type;
+    }
+
     public byte getDesignatedBlockType(int x, int y, int z) {
         return designatedBlockType[x][y][z];
     }

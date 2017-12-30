@@ -14,7 +14,6 @@ import stonering.global.utils.Position;
  * Holds current creature's task and it's steps. resolves behavior, if some step fails.
  */
 public class PlanningAspect extends Aspect {
-    private Path route;
     private Task currentTask;
     private Action currentAction;
 
@@ -24,70 +23,62 @@ public class PlanningAspect extends Aspect {
     }
 
     public void turn() {
-        if (checkActions()) {
-            if (route == null)
-                makeRouteToTarget();
-            if (route.isFinished()) {
-                performAction();
+        if (checkActions()) { // has active action
+            if (checkUnitPosition()) {
+                currentAction.perform(); // act
             }
         } else {
             repairActions();
         }
     }
 
+    // action exists and not finished
     private boolean checkActions() {
-        return currentTask != null && currentAction != null && route != null;
+        return currentTask != null && currentAction != null &&
+                !currentTask.isFinished() && !currentAction.isFinished();
+    }
+
+    // if unit in position for acting
+    private boolean checkUnitPosition() {
+        return unit.getPosition().equals(currentAction.getTargetPosition());
     }
 
     private void repairActions() {
-        if (currentTask == null) {
-            fetchTasks();
-        } else {
-            if(currentAction.isFinished() || currentAction == null) {
+        if (currentTask == null || currentTask.isFinished()) {
+            if(getTaskFromContainer()) {
                 currentAction = currentTask.getNextAction();
             }
         }
     }
 
-    private void performAction() {
-        currentAction.perform();
-    }
-
-    public Position getStep() {
-        if (route != null && !route.isFinished()) {
-            return route.pollNextPosition();
+    private boolean getTaskFromContainer() {
+        if (!gameContainer.getTaskContainer().getTasks().isEmpty()) {
+            currentTask = gameContainer.getTaskContainer().getTasks().get(0);
+            return true;
         } else {
-            return unit.getPosition();
+            // create task by needs
         }
-    }
-
-    private void makeRouteToTarget() {
-        try {
-            route = new AStar(gameContainer.getLocalMap()).findPath(unit.getPosition(), currentAction.getTargetPosition());
-        } catch (NoPathException e) {
-            System.out.println("cancel task");
-        }
-    }
-
-    private void checkActionsStatus() {
-
+        return false;
     }
 
     //should contain task selecting logic
-    private void fetchTasks() {
+    private boolean fetchTasks() {
         if (!gameContainer.getTaskContainer().getTasks().isEmpty()) {
             currentTask = gameContainer.getTaskContainer().getTasks().get(0);
             currentAction = currentTask.getNextAction();
+            return true;
         } else {
             // create task with creature needs
         }
+        return false;
     }
 
-    private void analizeAction() {
-
-    }
-
-    public void dropRoute() {
-        route = null;
+    // returns target for moving, used by MovementAspect
+    public Position getTarget() {
+        if (currentAction != null && !currentAction.isFinished()) {
+            return currentAction.getTargetPosition();
+        } else {
+            return null;
+        }
     }
 }

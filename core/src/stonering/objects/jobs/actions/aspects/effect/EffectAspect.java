@@ -8,7 +8,7 @@ public abstract class EffectAspect {
     protected int workAmount;
     protected GameContainer gameContainer;
 
-    public abstract void perform();
-
-
+    public void perform() {
+        action.finish();
+    }
 }

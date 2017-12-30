@@ -37,6 +37,7 @@ public class Action {
 
     public void finish() {
         finished = true;
+        task.recountFinished();
     }
 
     public TargetAspect getTargetAspect() {
@@ -65,5 +66,13 @@ public class Action {
 
     public boolean isFinished() {
         return finished;
+    }
+
+    public Task getTask() {
+        return task;
+    }
+
+    public void setTask(Task task) {
+        this.task = task;
     }
 }

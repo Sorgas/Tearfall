@@ -8,13 +8,34 @@ import java.util.ArrayList;
 public class Task {
     private String name;
     private TaskTypesEnum taskType;
-    private TaskStatusesEnum statuses;
     private ArrayList<Action> actions;
+    private boolean finished;
 
     public Task(String name, TaskTypesEnum taskType) {
         this.name = name;
         this.taskType = taskType;
         actions = new ArrayList<>();
+    }
+
+    public void recountFinished() {
+        for (Action action : actions) {
+            if (!action.isFinished()) {
+                finished = false;
+                return;
+            }
+        }
+        finished = true;
+    }
+
+    public Action getNextAction() {
+        if (!finished) {
+            for (Action action : actions) {
+                if (!action.isFinished()) {
+                    return action;
+                }
+            }
+        }
+        return null;
     }
 
     public String getName() {
@@ -25,24 +46,12 @@ public class Task {
         this.name = name;
     }
 
-    public TaskStatusesEnum getStatuses() {
-        return statuses;
-    }
-
-    public void setStatuses(TaskStatusesEnum statuses) {
-        this.statuses = statuses;
-    }
-
     public ArrayList<Action> getActions() {
         return actions;
     }
 
     public void setActions(ArrayList<Action> actions) {
         this.actions = actions;
-    }
-
-    public Action getNextAction() {
-        return actions.get(0);
     }
 
     public TaskTypesEnum getTaskType() {
@@ -55,5 +64,9 @@ public class Task {
 
     public void addAction(Action action) {
         actions.add(action);
+    }
+
+    public boolean isFinished() {
+        return finished;
     }
 }

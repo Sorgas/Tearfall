@@ -38,7 +38,7 @@ public class UnitContainer {
             int x = random.nextInt(localMap.getxSize());
             int y = random.nextInt(localMap.getySize());
             for (int z = localMap.getzSize() - 1; z > 0; z--) {
-                if (localMap.getBlockType(x, y, z) == BlockTypesEnum.SPACE.getCode()
+                if (localMap.getBlockType(x, y, z) == BlockTypesEnum.FLOOR.getCode()
                         && localMap.getBlockType(x, y, z - 1) == BlockTypesEnum.WALL.getCode()) {
                     System.out.println("placed: " + x + " " + y + " " + z);
                     unit.setPosition(new Position(x, y, z));
@@ -62,6 +62,6 @@ public class UnitContainer {
 
 
     public void initUnits() {
-        units.forEach((unit) -> unit.getAspects().forEach((s,aspect) -> aspect.init(gameContainer)));
+        units.forEach((unit) -> unit.getAspects().values().forEach((aspect) -> aspect.init(gameContainer)));
     }
 }

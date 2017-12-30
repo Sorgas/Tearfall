@@ -5,10 +5,10 @@ import stonering.enums.designations.DesignationsTypes;
 import stonering.global.utils.Position;
 
 public class DigEffectAspect extends EffectAspect {
-    private DesignationsTypes blockType;
+    private DesignationsTypes designationType;
 
-    public DigEffectAspect(DesignationsTypes blockType) {
-        this.blockType = blockType;
+    public DigEffectAspect(DesignationsTypes designationType) {
+        this.designationType = designationType;
     }
 
     @Override
@@ -21,10 +21,9 @@ public class DigEffectAspect extends EffectAspect {
 
     private void finish() {
         Position position = action.getTargetAspect().getTargetPosition();
-        int material = 0;
-        switch (blockType) {
+        int material = gameContainer.getLocalMap().getMaterial(position);
+        switch (designationType) {
             case DIG: {
-                material = gameContainer.getLocalMap().getMaterial(position);
                 gameContainer.getLocalMap().setBlock(position, BlockTypesEnum.FLOOR, material);
             }
         }
@@ -32,10 +31,10 @@ public class DigEffectAspect extends EffectAspect {
     }
 
     public DesignationsTypes getBlockType() {
-        return blockType;
+        return designationType;
     }
 
     public void setBlockType(DesignationsTypes blockType) {
-        this.blockType = blockType;
+        this.designationType = blockType;
     }
 }

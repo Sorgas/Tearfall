@@ -39,8 +39,7 @@ public class CreatureGenerator {
     }
 
     private Aspect generateMovementAspect(Unit unit) {
-        MovementAspect aspect = new MovementAspect(unit);
-        return aspect;
+        return new MovementAspect(unit);
     }
 
     private Aspect genarateBodyAspect(Unit unit, JsonValue creature) {
