@@ -8,6 +8,11 @@ public abstract class EffectAspect {
     protected int workAmount;
     protected GameContainer gameContainer;
 
+    public EffectAspect(Action action, GameContainer gameContainer) {
+        this.action = action;
+        this.gameContainer = gameContainer;
+    }
+
     public void perform() {
         action.finish();
     }

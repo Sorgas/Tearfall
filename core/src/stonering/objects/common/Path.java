@@ -12,7 +12,7 @@ public class Path {
     }
 
     public void addPoint(Position position) {
-        path.add(position);
+        path.add(0, position);
     }
 
     public boolean isFinished() {
@@ -24,6 +24,18 @@ public class Path {
     }
 
     public Position pollNextPosition() {
-        return path.remove(0);
+        if (!path.isEmpty())
+            return path.remove(0);
+        return null;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        path.forEach((position) -> {
+            builder.append(position.toString());
+            builder.append('\n');
+        });
+        return builder.toString();
     }
 }

@@ -75,4 +75,8 @@ public class Action {
     public void setTask(Task task) {
         this.task = task;
     }
+
+    public boolean isTargetExact() {
+        return targetAspect.isExactTarget();
+    }
 }

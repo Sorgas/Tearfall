@@ -1,5 +1,6 @@
 package stonering.objects.jobs;
 
+import stonering.game.core.model.lists.TaskContainer;
 import stonering.objects.jobs.actions.Action;
 import stonering.objects.jobs.actions.TaskTypesEnum;
 
@@ -9,11 +10,13 @@ public class Task {
     private String name;
     private TaskTypesEnum taskType;
     private ArrayList<Action> actions;
+    private TaskContainer taskContainer;
     private boolean finished;
 
-    public Task(String name, TaskTypesEnum taskType) {
+    public Task(String name, TaskTypesEnum taskType, TaskContainer taskContainer) {
         this.name = name;
         this.taskType = taskType;
+        this.taskContainer = taskContainer;
         actions = new ArrayList<>();
     }
 
@@ -25,6 +28,7 @@ public class Task {
             }
         }
         finished = true;
+        taskContainer.removeTask(this);
     }
 
     public Action getNextAction() {

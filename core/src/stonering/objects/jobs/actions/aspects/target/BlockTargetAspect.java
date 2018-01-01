@@ -4,6 +4,7 @@ import stonering.global.utils.Position;
 
 public class BlockTargetAspect extends TargetAspect{
     public BlockTargetAspect(Position target) {
-        this.targetPosition = target;
+        targetPosition = target;
+        exactTarget = false;
     }
 }

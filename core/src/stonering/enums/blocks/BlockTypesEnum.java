@@ -6,13 +6,14 @@ import java.util.HashMap;
  * Created by Alexander on 10.06.2017.
  */
 public enum BlockTypesEnum {
-    SPACE(0),
-    WALL(1),
-    FLOOR(2),
-    STAIRS(3),
-    RAMP(4);
+    SPACE(0, 1), //not passable for walkers
+    WALL(1, 0), // not passable
+    FLOOR(2, 2), // passable
+    STAIRS(3, 2), // passable
+    RAMP(4, 2); // passable
 
     private byte code;
+    private byte passing;
     private static HashMap<Byte, BlockTypesEnum> map;
 
     static {
@@ -22,12 +23,17 @@ public enum BlockTypesEnum {
         }
     }
 
-    BlockTypesEnum(int code) {
+    BlockTypesEnum(int code, int passing) {
         this.code = (byte) code;
+        this.passing = (byte) passing;
     }
 
     public byte getCode() {
         return code;
+    }
+
+    public byte getPassing() {
+        return passing;
     }
 
     public static BlockTypesEnum getType(byte code) {

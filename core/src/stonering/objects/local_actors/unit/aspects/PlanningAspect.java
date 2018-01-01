@@ -1,8 +1,5 @@
 package stonering.objects.local_actors.unit.aspects;
 
-import stonering.global.utils.pathfinding.NoPathException;
-import stonering.global.utils.pathfinding.a_star.AStar;
-import stonering.objects.common.Path;
 import stonering.objects.jobs.actions.Action;
 import stonering.objects.jobs.Task;
 import stonering.objects.local_actors.unit.Unit;
@@ -16,6 +13,7 @@ import stonering.global.utils.Position;
 public class PlanningAspect extends Aspect {
     private Task currentTask;
     private Action currentAction;
+    private Position target;
 
     public PlanningAspect(Unit unit) {
         this.unit = unit;
@@ -26,9 +24,13 @@ public class PlanningAspect extends Aspect {
         if (checkActions()) { // has active action
             if (checkUnitPosition()) {
                 currentAction.perform(); // act
+                if (currentAction.isFinished()) {
+                    System.out.println("task finished");
+                }
             }
         } else {
             repairActions();
+            System.out.println("repair");
         }
     }
 
@@ -40,20 +42,22 @@ public class PlanningAspect extends Aspect {
 
     // if unit in position for acting
     private boolean checkUnitPosition() {
-        return unit.getPosition().equals(currentAction.getTargetPosition());
+        return unit.getPosition().equals(target);
     }
 
     private void repairActions() {
         if (currentTask == null || currentTask.isFinished()) {
-            if(getTaskFromContainer()) {
+            if (getTaskFromContainer()) {
                 currentAction = currentTask.getNextAction();
+                updateTarget();
             }
         }
     }
 
     private boolean getTaskFromContainer() {
-        if (!gameContainer.getTaskContainer().getTasks().isEmpty()) {
-            currentTask = gameContainer.getTaskContainer().getTasks().get(0);
+        Task task = gameContainer.getTaskContainer().getActiveTask();
+        if (task != null) {
+            currentTask = task;
             return true;
         } else {
             // create task by needs
@@ -75,10 +79,25 @@ public class PlanningAspect extends Aspect {
 
     // returns target for moving, used by MovementAspect
     public Position getTarget() {
-        if (currentAction != null && !currentAction.isFinished()) {
-            return currentAction.getTargetPosition();
+        return target;
+    }
+
+    private void updateTarget() {
+        if (currentAction.isTargetExact()) {
+            target = currentAction.getTargetPosition();
         } else {
-            return null;
+            target = getNextToTargetPosition();
         }
+    }
+
+    private Position getNextToTargetPosition() {
+        Position target = currentAction.getTargetPosition();
+        for (int x = -1; x < 2; x++) {
+            for (int y = -1; y < 2; y++) {
+                if (gameContainer.getLocalMap().isWalkPassable(target.getX() + x, target.getY() + y, target.getZ()))
+                    return new Position(target.getX() + x, target.getY() + y, target.getZ());
+            }
+        }
+        return null;
     }
 }

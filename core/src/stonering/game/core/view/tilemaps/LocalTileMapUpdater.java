@@ -50,9 +50,6 @@ public class LocalTileMapUpdater {
                 atlasX = countRamp(x, y, z);
             } else {
                 atlasX = BlocksTileMapping.getType(blockType).getAtlasX();
-                if(atlasX == 1) {
-                    System.out.println("floor1");
-                }
             }
             localTileMap.setTile(x, y, z, atlasX, atlasY, 0, null);
         }

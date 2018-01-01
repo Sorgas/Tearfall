@@ -46,15 +46,21 @@ public class MovementAspect extends Aspect {
             if (isTargetOld()) {// old target
                 if (path == null)
                     makeRouteToTarget();
-                Position nextPosition = path.getNextPosition(); // get next step
-                if (map.isPassable(nextPosition)) { // path has not been blocked after calculation
-                    unit.setPosition(nextPosition); //step
-//                    System.out.println(nextPosition);
-                } else { // path blocked
-                    makeRouteToTarget(); // calculate new path
+                else {
+                    if (!path.isFinished()) { // path not finished
+                        Position nextPosition = path.pollNextPosition(); // get next step, remove from path
+                        if (map.isWalkPassable(nextPosition)) { // path has not been blocked after calculation
+                            unit.setPosition(nextPosition); //step
+                        } else { // path blocked
+                            makeRouteToTarget(); // calculate new path
+                        }
+                    }
                 }
             } else { //new target
                 target = planning.getTarget();
+                if (target != null) {
+                    makeRouteToTarget();
+                }
             }
             stepDelay = stepTime;
         } else {

@@ -6,6 +6,7 @@ import java.util.HashMap;
  * Created by Alexander on 27.12.2017.
  */
 public enum DesignationsTypes {
+    NONE(0, -1, "none"),
     DIG(1, 0, "digging");
 
     private static HashMap<Byte, DesignationsTypes> map;

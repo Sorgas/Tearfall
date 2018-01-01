@@ -66,6 +66,8 @@ public class LocalWorldDrawer {
                 }
             }
         }
+        drawCamera();
+
         batch.end();
     }
 
@@ -100,6 +102,11 @@ public class LocalWorldDrawer {
                         tileWidth, tileHeight),
                 getScreenPosX(x - camera.getX(), y - camera.getY()),
                 getScreenPosY(x - camera.getX(), y - camera.getY(), z - camera.getZ()));
+    }
+
+    private void drawCamera() {
+        batch.draw(new TextureRegion(atlases[4], 0, tileHeight, tileWidth, tileHeight),
+                getScreenPosX(0, 0), getScreenPosY(0, 0, 0));
     }
 
     private void initAtlases() {

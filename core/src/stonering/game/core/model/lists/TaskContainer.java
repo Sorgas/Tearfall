@@ -31,6 +31,23 @@ public class TaskContainer {
         return tasks;
     }
 
+    public Task getActiveTask() {
+        for (Task task : tasks) {
+            if (isTaskTargetsAvailable(task)) {
+                return task;
+            }
+        }
+        return null;
+    }
+
+    private boolean isTaskTargetsAvailable(Task task) {
+        for (Action action : task.getActions()) {
+            if (!container.getLocalMap().checkAvailability(action.getTargetPosition()))
+                return false;
+        }
+        return true;
+    }
+
     public void setTasks(ArrayList<Task> tasks) {
         this.tasks = tasks;
     }
@@ -55,11 +72,11 @@ public class TaskContainer {
     }
 
     private Task createDesignationTask(Designation designation) {
-        Task task = new Task("designation", TaskTypesEnum.DESIGNATION);
+        Task task = new Task("designation", TaskTypesEnum.DESIGNATION, this);
         Action action = new Action();
         action.setActionType(ActionTypeEnum.DIG);
         action.setTask(task);
-        action.setEffectAspect(new DigEffectAspect(designation.type));
+        action.setEffectAspect(new DigEffectAspect(action, container, designation.type));
         action.setTargetAspect(new BlockTargetAspect(designation.position));
 //        action.setRequirementsAspect();
         task.addAction(action);
@@ -77,6 +94,13 @@ public class TaskContainer {
             }
         }
         return false;
+    }
+
+    public void removeTask(Task task) {
+        tasks.remove(task);
+        if (task.getTaskType() == TaskTypesEnum.DESIGNATION) {
+            container.getLocalMap().setDesignatedBlockType(task.getActions().get(0).getTargetPosition(), DesignationsTypes.NONE.getCode());
+        }
     }
 
     private class Designation {

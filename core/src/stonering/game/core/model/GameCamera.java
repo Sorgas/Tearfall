@@ -40,8 +40,5 @@ public class GameCamera {
         if ((camera.getZ() > 0 && dz < 0) || (camera.getZ() < localMap.getzSize() - 1 && dz > 0)) {
             camera.setZ(camera.getZ() + dz);
         }
-        System.out.println(camera.toString());
     }
-
-
 }

@@ -45,6 +45,15 @@ public class LocalMap {
         this.zSize = zSize;
     }
 
+
+    public boolean isWalkPassable(Position pos) {
+        return isWalkPassable(pos.getX(), pos.getY(), pos.getZ());
+    }
+
+    public boolean isWalkPassable(int x, int y, int z) {
+        return BlockTypesEnum.getType(blockType[x][y][z]).getPassing() == 2;
+    }
+
     public byte getTemperature(int x, int y, int z) {
         return temperature[x][y][z];
     }
@@ -65,9 +74,16 @@ public class LocalMap {
         return blockType[x][y][z];
     }
 
+    public void setBlocType(Position pos, byte type) {
+        setBlocType(pos.getX(), pos.getY(), pos.getZ(), type);
+    }
+
     public void setBlocType(int x, int y, int z, byte type) {
         blockType[x][y][z] = type;
+        if (localTileMapUpdater != null)
+            localTileMapUpdater.updateTile(x, y, z);
     }
+
 
     public byte getDesignatedBlockType(int x, int y, int z) {
         return designatedBlockType[x][y][z];
@@ -93,8 +109,8 @@ public class LocalMap {
         setBlock(x, y, z, blockType.getCode(), materialId);
     }
 
-    public void setBlock(int x, int y, int z, byte blockType, int materialId) {
-        this.blockType[x][y][z] = blockType;
+    public void setBlock(int x, int y, int z, byte type, int materialId) {
+        blockType[x][y][z] = type;
         material[x][y][z] = materialId;
         if (localTileMapUpdater != null)
             localTileMapUpdater.updateTile(x, y, z);
@@ -127,23 +143,6 @@ public class LocalMap {
 
     public void setLocalTileMapUpdater(LocalTileMapUpdater localTileMapUpdater) {
         this.localTileMapUpdater = localTileMapUpdater;
-    }
-
-    public boolean isPassable(int x, int y, int z) {
-        if (blockType[x][y][z] == BlockTypesEnum.WALL.getCode()) {
-            return false;
-        }
-        if (flooding[x][y][z] > 0) {
-            return false;
-        }
-        if (blockType[x][y][z] == BlockTypesEnum.SPACE.getCode()) {
-            return z > 0 && blockType[x][y][z - 1] == BlockTypesEnum.WALL.getCode();
-        }
-        return true;
-    }
-
-    public boolean isPassable(Position pos) {
-        return isPassable(pos.getX(), pos.getY(), pos.getZ());
     }
 
     public void setPlantBlock(int x, int y, int z, PlantBlock block) {
@@ -182,4 +181,18 @@ public class LocalMap {
         return unitBlocks[x][y][z];
     }
 
+    public boolean checkAvailability(Position target) {
+        for (int x = -1; x < 2; x++) {
+            for (int y = -1; y < 2; y++) {
+                if (inMap(target.getX() + x, target.getY() + y, target.getZ()) && isWalkPassable(target.getX() + x, target.getY() + y, target.getZ()))
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean inMap(int x, int y, int z) {
+        return !(x < 0 || y < 0 || z < 0 ||
+                x >= xSize || y >= ySize || z >= zSize);
+    }
 }
