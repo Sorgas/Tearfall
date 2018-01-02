@@ -1,6 +1,5 @@
 package stonering.global.utils.pathfinding.a_star;
 
-import javafx.geometry.Pos;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.core.model.LocalMap;
 import stonering.global.utils.Position;
@@ -25,9 +24,12 @@ public class AStar {
     public Path findPath(Position start, Position target) throws NoPathException {
         this.start = start;
         this.target = target;
+        System.out.println("start: " + localMap.getBlockType(start));
+        System.out.println("target: " + localMap.getBlockType(target));
         Node startNode = new Node(start, null);
         nodes.add(startNode);
-        while (true) {
+        int maxlength = 10000;
+        while (maxlength-- > 0) {
             if (nodes.isEmpty()) {
                 throw new NoPathException();
             }
@@ -37,6 +39,7 @@ public class AStar {
             }
             addNeighbors(current);
         }
+        throw new NoPathException();
     }
 
     private void addNeighbors(Node node) {
@@ -48,7 +51,7 @@ public class AStar {
                             Position newPos = new Position(node.getX() + x, node.getY() + y, node.getZ() + z);
                             if (hasPathBetween(node.getPosition(), newPos)) {
                                 addNodeWithSort(new Node(newPos, node));
-                                System.out.println(nodes.size());
+//                                System.out.println(nodes.size());
                             }
                         }
                     }

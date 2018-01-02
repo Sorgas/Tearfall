@@ -86,11 +86,19 @@ public class TaskContainer {
     private boolean validateDesignations(Position position, DesignationsTypes blockType) {
         switch (blockType) {
             case DIG: {
-                if (BlockTypesEnum.getType(container.getLocalMap().getBlockType(position)).equals(BlockTypesEnum.RAMP) ||
+                return BlockTypesEnum.getType(container.getLocalMap().getBlockType(position)).equals(BlockTypesEnum.RAMP) ||
                         BlockTypesEnum.getType(container.getLocalMap().getBlockType(position)).equals(BlockTypesEnum.WALL) ||
-                        BlockTypesEnum.getType(container.getLocalMap().getBlockType(position)).equals(BlockTypesEnum.STAIRS)) {
-                    return true;
-                }
+                        BlockTypesEnum.getType(container.getLocalMap().getBlockType(position)).equals(BlockTypesEnum.STAIRS);
+            }
+            case CHANNEL: {
+                return !BlockTypesEnum.getType(container.getLocalMap().getBlockType(position)).equals(BlockTypesEnum.SPACE);
+            }
+            case RAMP:
+            case STAIRS: {
+                return (BlockTypesEnum.getType(container.getLocalMap().getBlockType(position)).equals(BlockTypesEnum.WALL));
+            }
+            case NONE: {
+                return true;
             }
         }
         return false;

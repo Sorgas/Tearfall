@@ -53,18 +53,17 @@ public class LocalTileMapUpdater {
             }
             localTileMap.setTile(x, y, z, atlasX, atlasY, 0, null);
         }
+        updateRampsAround(x, y, z);
     }
 
-    public void updateTileTask(Task task) {
-        Action action = task.getActions().get(0);
-        Position position = action.getTargetPosition();
-        if (action.getActionType() == ActionTypeEnum.DIG) {
-            localTileMap.setTile(position, 0, 0, 4, null);
+    private void updateRampsAround(int xc, int yc, int z) {
+        for (int y = yc - 1; y < yc + 2; y++) {
+            for (int x = xc - 1; x < xc + 2; x++) {
+                if (checkPosition(x, y, z) && localMap.getBlockType(x, y, z) == BlockTypesEnum.RAMP.getCode()) {
+                    localTileMap.setTile(x, y, z, countRamp(x, y, z), localTileMap.getAtlasY(x, y, z), 0, null);
+                }
+            }
         }
-    }
-
-    public void updateTileUnit(Unit unit) {
-        localTileMap.setTile(unit.getPosition().getX(), unit.getPosition().getY(), unit.getPosition().getZ(), 0, 0, 2, null);
     }
 
     private byte countRamp(int x, int y, int z) {
@@ -96,7 +95,7 @@ public class LocalTileMapUpdater {
         } else if ((walls & 0b00000001) != 0) {
             return BlocksTileMapping.RAMP_S.getAtlasX();//nw
         }
-        return 0;
+        return BlocksTileMapping.RAMP_N.getAtlasX(); //similar to se
     }
 
     private int observeWalls(int x, int y, int z) {

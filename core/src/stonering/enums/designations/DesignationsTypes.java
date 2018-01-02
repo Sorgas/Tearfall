@@ -6,8 +6,11 @@ import java.util.HashMap;
  * Created by Alexander on 27.12.2017.
  */
 public enum DesignationsTypes {
-    NONE(0, -1, "none"),
-    DIG(1, 0, "digging");
+    NONE(0, "none"),
+    DIG(1, "digging wall"), // removes walls and ramps. leaves floor
+    STAIRS(2, "cutting stairs"), //cuts stairs from wall.
+    RAMP(3, "cutting ramp"), // digs ramp and upper cell.
+    CHANNEL(4, "digging channel"); // digs cell and ramp on lower level
 
     private static HashMap<Byte, DesignationsTypes> map;
     private byte code;
@@ -20,7 +23,7 @@ public enum DesignationsTypes {
         }
     }
 
-    DesignationsTypes(int code, int atlasX, String text) {
+    DesignationsTypes(int code, String text) {
         this.code = (byte) code;
         this.text = text;
     }

@@ -24,7 +24,7 @@ public class DiggingMenu extends Menu {
         this.pad(10);
         this.right().bottom();
 
-        TextButton diggingButton = new TextButton("dig", StaticSkin.getSkin());
+        TextButton diggingButton = new TextButton("D: dig", StaticSkin.getSkin());
         diggingButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -35,44 +35,49 @@ public class DiggingMenu extends Menu {
         this.add(diggingButton).right().row();
         hotkeyMap.put('d', diggingButton);
 
-        TextButton rampButton = new TextButton("ramp", StaticSkin.getSkin());
+        TextButton rampButton = new TextButton("R: ramp", StaticSkin.getSkin());
         rampButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-
+                controller.setActiveDesignation(DesignationsTypes.RAMP);
+                toolbar.closeMenus();
             }
         });
         this.add(rampButton).row();
         hotkeyMap.put('r', rampButton);
 
-        TextButton channelButton = new TextButton("channel", StaticSkin.getSkin());
+        TextButton channelButton = new TextButton("C: channel", StaticSkin.getSkin());
         channelButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-
+                controller.setActiveDesignation(DesignationsTypes.CHANNEL);
+                toolbar.closeMenus();
             }
         });
         this.add(channelButton).row();
         hotkeyMap.put('c', channelButton);
 
-        TextButton stairsButton = new TextButton("stairs", StaticSkin.getSkin());
+        TextButton stairsButton = new TextButton("S: stairs", StaticSkin.getSkin());
         stairsButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-
+                controller.setActiveDesignation(DesignationsTypes.STAIRS);
+                toolbar.closeMenus();
             }
         });
         this.add(stairsButton).row();
-        hotkeyMap.put('t', stairsButton);
+        hotkeyMap.put('s', stairsButton);
 
-        TextButton pillarButton = new TextButton("pillar", StaticSkin.getSkin());
-        pillarButton.addListener(new ChangeListener() {
+        TextButton cancelButton = new TextButton("Z: cancel", StaticSkin.getSkin());
+        cancelButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-
+                controller.setActiveDesignation(DesignationsTypes.NONE);
+                toolbar.closeMenus();
             }
         });
-        this.add(pillarButton).row();
+        this.add(cancelButton).row();
+        hotkeyMap.put('z', cancelButton);
     }
 
     public void openDiggingPanel() {

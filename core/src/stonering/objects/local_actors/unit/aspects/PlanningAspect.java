@@ -30,7 +30,6 @@ public class PlanningAspect extends Aspect {
             }
         } else {
             repairActions();
-            System.out.println("repair");
         }
     }
 
