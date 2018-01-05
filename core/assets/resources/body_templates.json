@@ -6,77 +6,94 @@
             {
                 "title":"upper torso",
                 "root":"body",
-                "internal":["left lung", "right lung", "heart"]
+                "internal":["left lung", "right lung", "heart"],
+                "size":""
             },
             {
                 "title":"lower torso",
                 "root":"body",
                 "layers":["skin", "fat", "muscle"],
-                "internal":["stomach"]
+                "internal":["stomach"],
+                "size":""
             },
             {
                 "title":"neck",
-                "root":"torso",
+                "root":"upper torso",
                 "layers":["skin", "fat", "muscle"],
-                "internal":["neck part spine"]
+                "internal":["neck part spine"],
+                "size":""
             },
             {
                 "title":"head",
                 "root":"neck",
                 "internal":["brain", "tongue", "teeth"],
-                "external":["left eye", "right eye", "nose", "left ear", "right ear"]
+                "external":["left eye", "right eye", "nose", "left ear", "right ear"],
+                "size":""
             },
             {
                 "title":"left front upper leg",
-                "root":"upper body"
+                "root":"upper torso",
+                "size":""
             },
             {
                 "title":"left front lower leg",
-                "root":"left front upper leg"
-            },
-            {
-                "title":"right front upper leg",
-                "root":"upper body"
-            },
-            {
-                "title":"right front lower leg",
-                "root":"right front upper leg"
-            },
-            {
-                "title":"left rear upper leg",
-                "root":"lower body"
-            },
-            {
-                "title":"left rear lower leg",
-                "root":"left rear upper leg"
-            },
-            {
-                "title":"right rear upper leg",
-                "root":"lower body"
-            },
-            {
-                "title":"right rear lower leg",
-                "root":"left rear upper leg"
+                "root":"left front upper leg",
+                "size":""
             },
             {
                 "title":"left front paw",
-                "root":"left front lower leg"
+                "root":"left front lower leg",
+                "size":""
+            },
+            {
+                "title":"right front upper leg",
+                "root":"upper body",
+                "size":""
+            },
+            {
+                "title":"right front lower leg",
+                "root":"right front upper leg",
+                "size":""
             },
             {
                 "title":"right front paw",
-                "root":"right front lower leg"
+                "root":"right front lower leg",
+                "size":""
+            },
+            {
+                "title":"left rear upper leg",
+                "root":"lower body",
+                "size":""
+            },
+            {
+                "title":"left rear lower leg",
+                "root":"left rear upper leg",
+                "size":""
             },
             {
                 "title":"left rear paw",
-                "root":"left rear lower leg"
+                "root":"left rear lower leg",
+                "size":""
+            },
+            {
+                "title":"right rear upper leg",
+                "root":"lower body",
+                "size":""
+            },
+            {
+                "title":"right rear lower leg",
+                "root":"left rear upper leg",
+                "size":""
             },
             {
                 "title":"right rear paw",
-                "root":"right rear lower leg"
+                "root":"right rear lower leg",
+                "size":""
             },
             {
                 "title":"tail",
-                "root":"lower body"
+                "root":"lower body",
+                "size":""
             }
         ]
     }

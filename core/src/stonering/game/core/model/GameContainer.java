@@ -1,10 +1,7 @@
 package stonering.game.core.model;
 
 import com.badlogic.gdx.utils.Timer;
-import stonering.game.core.model.lists.BuildingContainer;
-import stonering.game.core.model.lists.PlantContainer;
-import stonering.game.core.model.lists.TaskContainer;
-import stonering.game.core.model.lists.UnitContainer;
+import stonering.game.core.model.lists.*;
 import stonering.game.core.view.tilemaps.LocalTileMap;
 import stonering.game.core.view.tilemaps.LocalTileMapUpdater;
 import stonering.generators.localgen.LocalGenContainer;
@@ -24,6 +21,7 @@ public class GameContainer {
     private PlantContainer plantContainer;
     private UnitContainer unitContainer;
     private TaskContainer taskContainer;
+    private ItemContainer itemContainer;
 
     private Timer timer;
     private GameCamera camera;
@@ -60,6 +58,8 @@ public class GameContainer {
         unitContainer.placeUnits();
         unitContainer.initUnits();
 
+        itemContainer = new ItemContainer();
+
         taskContainer = new TaskContainer(this);
     }
 
@@ -93,6 +93,9 @@ public class GameContainer {
 
     private synchronized void performTick() {
         unitContainer.turn();
+        plantContainer.turn();
+        buildingContainer.turn();
+        itemContainer.turn();
     }
 
     public void pauseGame() {
@@ -117,5 +120,7 @@ public class GameContainer {
         return taskContainer;
     }
 
-
+    public ItemContainer getItemContainer() {
+        return itemContainer;
+    }
 }

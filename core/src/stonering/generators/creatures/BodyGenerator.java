@@ -50,12 +50,12 @@ public class BodyGenerator {
     }
 
     private BodyPart generateBodyPart(JsonValue partTemplate, JsonValue template) {
-        BodyPart bodyPart1 = new BodyPart(partTemplate.getString("title"));
+        BodyPart bodyPart = new BodyPart(partTemplate.getString("title"));
         String[] layers = template.get("default_layers").asStringArray();
         if(partTemplate.get("layers") != null) {
             layers = partTemplate.get("layers").asStringArray();
         }
-        bodyPart1.setLayers(layers);
-        return bodyPart1;
+        bodyPart.setLayers(layers);
+        return bodyPart;
     }
 }

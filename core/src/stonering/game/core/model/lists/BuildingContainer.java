@@ -39,4 +39,7 @@ public class BuildingContainer {
     public void setLocalMap(LocalMap localMap) {
         this.localMap = localMap;
     }
+
+    public void turn() {
+    }
 }

@@ -12,8 +12,11 @@ import stonering.game.core.model.LocalMap;
 import stonering.game.core.view.tilemaps.LocalTileMap;
 import stonering.global.utils.Position;
 import stonering.objects.local_actors.building.BuildingBlock;
+import stonering.objects.local_actors.items.Item;
 import stonering.objects.local_actors.plants.PlantBlock;
 import stonering.objects.local_actors.unit.UnitBlock;
+
+import java.util.ArrayList;
 
 /**
  * Created by Alexander on 13.06.2017.
@@ -90,6 +93,10 @@ public class LocalWorldDrawer {
         if (unitBlock != null) {
             drawSprite(2, x, y, z, 0, 0);
         }
+        ArrayList<Item> items = container.getItemContainer().getItems(z, y, z);
+        if (!items.isEmpty()) {
+            drawSprite(5,x,y,z,0,0);
+        }
         if (localMap.getDesignatedBlockType(x, y, z) > 0) {
             drawSprite(4, x, y, z, DesignationsTileMapping.getAtlasX(localMap.getDesignatedBlockType(x, y, z)), 0);
         }
@@ -110,12 +117,13 @@ public class LocalWorldDrawer {
     }
 
     private void initAtlases() {
-        atlases = new Texture[5];
+        atlases = new Texture[6];
         atlases[0] = new Texture("sprites/blocks.png");
         atlases[1] = new Texture("sprites/plants.png");
         atlases[2] = new Texture("sprites/units.png");
         atlases[3] = new Texture("sprites/buildings.png");
         atlases[4] = new Texture("sprites/ui_tiles.png");
+        atlases[5] = new Texture("sprites/items.png");
     }
 
     private void defineframe() {
