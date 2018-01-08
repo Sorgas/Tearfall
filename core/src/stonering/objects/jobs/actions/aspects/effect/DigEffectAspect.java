@@ -2,10 +2,14 @@ package stonering.objects.jobs.actions.aspects.effect;
 
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.designations.DesignationsTypes;
+import stonering.enums.materials.Material;
+import stonering.enums.materials.MaterialMap;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.LocalMap;
+import stonering.generators.items.DiggingProductGenerator;
 import stonering.global.utils.Position;
 import stonering.objects.jobs.actions.Action;
+import stonering.objects.local_actors.items.Item;
 
 public class DigEffectAspect extends EffectAspect {
     private DesignationsTypes designationType;
@@ -26,6 +30,7 @@ public class DigEffectAspect extends EffectAspect {
 
     private void finish() {
         Position pos = action.getTargetAspect().getTargetPosition();
+        Material material = MaterialMap.getInstance().getMaterial(gameContainer.getLocalMap().getMaterial(action.getTargetPosition()));
         switch (designationType) {
             case DIG: {
                 validateAndChangeBlock(pos, BlockTypesEnum.FLOOR);
@@ -46,6 +51,7 @@ public class DigEffectAspect extends EffectAspect {
                 break;
             }
         }
+        leaveStone(material);
         action.finish();
     }
 
@@ -68,6 +74,12 @@ public class DigEffectAspect extends EffectAspect {
         if (valid) {
             map.setBlocType(pos, type.getCode());
         }
+    }
+
+    private void leaveStone(Material material) {
+        DiggingProductGenerator generator = new DiggingProductGenerator();
+        if (generator.productRequired(material))
+            gameContainer.getItemContainer().addItem(generator.generateDigProduct(material), action.getTargetPosition());
     }
 
     public DesignationsTypes getBlockType() {

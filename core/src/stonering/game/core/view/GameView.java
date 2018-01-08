@@ -40,8 +40,8 @@ public class GameView implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        initBatch();
         uiDrawer.resize(width, height);
+        initBatch();
     }
 
     @Override
@@ -81,6 +81,8 @@ public class GameView implements Screen {
             batch.dispose();
         batch = new SpriteBatch();
         worldDrawer.setBatch(batch);
+        worldDrawer.setScreenCenterX(Gdx.graphics.getWidth() / 2);
+        worldDrawer.setScreenCenterY(Gdx.graphics.getHeight() / 2);
     }
 
     public void setContainer(GameContainer container) {

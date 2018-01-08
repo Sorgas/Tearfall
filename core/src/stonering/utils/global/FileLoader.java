@@ -13,6 +13,7 @@ public class FileLoader {
     private final static String CREATURES_PATH = "resources/creatures.json";
     private final static String BUILDINGS_PATH = "resources/buildings.json";
     private final static String UI_TILES_PATH = "resources/ui_tiles.json";
+    private final static String ITEMTYPE_TAGS_PATH = "resources/itemtype_tags.json";
 
     public static FileHandle getMaterialsFile() {
         return new FileHandle(MATERIALS_PATH);
@@ -40,6 +41,10 @@ public class FileLoader {
 
     public static FileHandle getUiTilesFile() {
         return new FileHandle(UI_TILES_PATH);
+    }
+
+    public static FileHandle getItemTypeTags() {
+        return new FileHandle(ITEMTYPE_TAGS_PATH);
     }
 
 }

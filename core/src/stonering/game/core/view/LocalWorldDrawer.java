@@ -93,7 +93,7 @@ public class LocalWorldDrawer {
         if (unitBlock != null) {
             drawSprite(2, x, y, z, 0, 0);
         }
-        ArrayList<Item> items = container.getItemContainer().getItems(z, y, z);
+        ArrayList<Item> items = container.getItemContainer().getItems(x, y, z);
         if (!items.isEmpty()) {
             drawSprite(5,x,y,z,0,0);
         }

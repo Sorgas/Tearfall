@@ -25,7 +25,7 @@ public class ItemContainer {
 
     public ArrayList<Item> getItems(Position position) {
         if (itemMap.get(position) == null) {
-            return new ArrayList<Item>();
+            return new ArrayList<>();
         } else {
             return itemMap.get(position);
         }
@@ -44,7 +44,7 @@ public class ItemContainer {
         item.setPosition(pos);
         ArrayList<Item> list = itemMap.get(pos);
         if (list == null) {
-            itemMap.put(pos, new ArrayList<Item>(Arrays.asList(item)));
+            itemMap.put(pos, new ArrayList<>(Arrays.asList(item)));
         } else {
             list.add(item);
         }
