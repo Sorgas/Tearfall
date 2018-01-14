@@ -4,9 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import stonering.enums.designations.DesignationsTileMapping;
-import stonering.enums.designations.DesignationsTypes;
 import stonering.enums.materials.MaterialMap;
-import stonering.enums.trees.TreeTileMapping;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.LocalMap;
 import stonering.game.core.view.tilemaps.LocalTileMap;
@@ -35,8 +33,10 @@ public class LocalWorldDrawer {
     private int viewAreDepth;
     private float shadingStep = 0.06f;
     private int tileWidth = 64;
-    private int tileHeight = 96;
+    private int tileHeight = 82;
     private int tileDepth = 32;
+    private int topingTileHeight = 38;
+    private int blockTileHeight = 38;
     private int screenCenterX;
     private int screenCenterY;
 
@@ -75,11 +75,8 @@ public class LocalWorldDrawer {
     }
 
     private void drawTile(int x, int y, int z) {
-        if (localTileMap.getAtlasNum(x, y, z) >= 0) {
-            drawSprite(localTileMap.getAtlasNum(x, y, z), x, y, z,
-                    localTileMap.getAtlasX(x, y, z),
-                    localTileMap.getAtlasY(x, y, z));
-        }
+        drawBlock(x, y, z);
+
         PlantBlock plantBlock = localMap.getPlantBlock(x, y, z);
         if (plantBlock != null) {
             drawSprite(1, x, y, z, plantBlock.getAtlasX(), plantBlock.getAtlasY());
@@ -95,7 +92,7 @@ public class LocalWorldDrawer {
         }
         ArrayList<Item> items = container.getItemContainer().getItems(x, y, z);
         if (!items.isEmpty()) {
-            drawSprite(5,x,y,z,0,0);
+            drawSprite(5, x, y, z, 0, 0);
         }
         if (localMap.getDesignatedBlockType(x, y, z) > 0) {
             drawSprite(4, x, y, z, DesignationsTileMapping.getAtlasX(localMap.getDesignatedBlockType(x, y, z)), 0);
@@ -109,6 +106,28 @@ public class LocalWorldDrawer {
                         tileWidth, tileHeight),
                 getScreenPosX(x - camera.getX(), y - camera.getY()),
                 getScreenPosY(x - camera.getX(), y - camera.getY(), z - camera.getZ()));
+    }
+
+    private void drawBlock(int x, int y, int z) {
+        int atlas = localTileMap.getAtlasNum(x, y, z);
+        if (atlas >= 0) { // not empty cell
+            batch.draw(new TextureRegion(atlases[atlas],
+                            localTileMap.getAtlasX(x, y, z) * tileWidth,
+                            localTileMap.getAtlasY(x, y, z) * (tileHeight + topingTileHeight) + topingTileHeight,
+                            tileWidth, tileHeight),
+                    getScreenPosX(x - camera.getX(), y - camera.getY()),
+                    getScreenPosY(x - camera.getX(), y - camera.getY(), z - camera.getZ()));
+        } else {
+            int lowerAtlas;
+            if (z > 0 && (lowerAtlas = localTileMap.getAtlasNum(x, y, z - 1)) >= 0) {// not empty cell lower
+                batch.draw(new TextureRegion(atlases[lowerAtlas],
+                                localTileMap.getAtlasX(x, y, z - 1) * tileWidth,
+                                localTileMap.getAtlasY(x, y, z - 1) * (tileHeight + topingTileHeight),
+                                tileWidth, topingTileHeight),
+                        getScreenPosX(x - camera.getX(), y - camera.getY()),
+                        getScreenPosY(x - camera.getX(), y - camera.getY(), z - camera.getZ()));
+            }
+        }
     }
 
     private void drawCamera() {
