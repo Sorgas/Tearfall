@@ -1,5 +1,6 @@
 package stonering.generators.localgen.generators;
 
+import stonering.generators.PerlinNoiseGenerator;
 import stonering.generators.localgen.LocalGenConfig;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.generators.worldgen.WorldMap;
@@ -35,6 +36,7 @@ public class LocalHeightsGenerator {
         calculateBorders(localHightMap, x, y);
         diamondSquare(localHightMap);
         fillHeights(localHightMap, 6);
+        addPerlinNoise();
         container.setHeightsMap(roundLocalHightMap());
     }
 
@@ -184,8 +186,8 @@ public class LocalHeightsGenerator {
                 }
             }
         }
-        elevation /=count;
-        elevation *=config.getWorldToLocalElevationModifier();
+        elevation /= count;
+        elevation *= config.getWorldToLocalElevationModifier();
         return elevation + config.getLocalSeaLevel();
     }
 
@@ -197,5 +199,15 @@ public class LocalHeightsGenerator {
             }
         }
         return result;
+    }
+
+    private void addPerlinNoise() {
+        PerlinNoiseGenerator generator = new PerlinNoiseGenerator();
+        float[][] noise = generator.generateOctavedSimplexNoise(localAreaSize + 1, localAreaSize + 1, 7, 0.4f, 0.025f);
+        for (int x = 0; x <= localAreaSize; x++) {
+            for (int y = 0; y <= localAreaSize; y++) {
+                localHightMap[x][y] += noise[x][y] * 0.5f;
+            }
+        }
     }
 }

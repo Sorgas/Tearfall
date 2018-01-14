@@ -78,6 +78,16 @@ public class DiggingMenu extends Menu {
         });
         this.add(cancelButton).row();
         hotkeyMap.put('z', cancelButton);
+
+        TextButton escButton = new TextButton("", StaticSkin.getSkin());
+        escButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                controller.setActiveDesignation(null);
+                toolbar.closeMenus();
+            }
+        });
+        hotkeyMap.put((char) 27, escButton);
     }
 
     public void openDiggingPanel() {

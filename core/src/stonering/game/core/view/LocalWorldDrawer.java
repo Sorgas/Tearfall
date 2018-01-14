@@ -32,11 +32,13 @@ public class LocalWorldDrawer {
     private int viewAreaWidth;
     private int viewAreDepth;
     private float shadingStep = 0.06f;
+
     private int tileWidth = 64;
     private int tileHeight = 82;
     private int tileDepth = 32;
     private int topingTileHeight = 38;
-    private int blockTileHeight = 38;
+    private int blockTileHeight = 120;
+
     private int screenCenterX;
     private int screenCenterY;
 
@@ -113,7 +115,7 @@ public class LocalWorldDrawer {
         if (atlas >= 0) { // not empty cell
             batch.draw(new TextureRegion(atlases[atlas],
                             localTileMap.getAtlasX(x, y, z) * tileWidth,
-                            localTileMap.getAtlasY(x, y, z) * (tileHeight + topingTileHeight) + topingTileHeight,
+                            localTileMap.getAtlasY(x, y, z) * (blockTileHeight) + topingTileHeight,
                             tileWidth, tileHeight),
                     getScreenPosX(x - camera.getX(), y - camera.getY()),
                     getScreenPosY(x - camera.getX(), y - camera.getY(), z - camera.getZ()));
@@ -122,7 +124,7 @@ public class LocalWorldDrawer {
             if (z > 0 && (lowerAtlas = localTileMap.getAtlasNum(x, y, z - 1)) >= 0) {// not empty cell lower
                 batch.draw(new TextureRegion(atlases[lowerAtlas],
                                 localTileMap.getAtlasX(x, y, z - 1) * tileWidth,
-                                localTileMap.getAtlasY(x, y, z - 1) * (tileHeight + topingTileHeight),
+                                localTileMap.getAtlasY(x, y, z - 1) * (blockTileHeight),
                                 tileWidth, topingTileHeight),
                         getScreenPosX(x - camera.getX(), y - camera.getY()),
                         getScreenPosY(x - camera.getX(), y - camera.getY(), z - camera.getZ()));

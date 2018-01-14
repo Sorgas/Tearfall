@@ -24,7 +24,8 @@ public class DesignationsController extends Controller {
 
     public void setActiveDesignation(DesignationsTypes activeDesignation) {
         this.activeDesignation = activeDesignation;
-        view.getUiDrawer().getToolStatus().setText(activeDesignation.getText());
+        view.getUiDrawer().getToolStatus().setText(
+                activeDesignation != null ? activeDesignation.getText() : "");
     }
 
     public DesignationsTypes getActiveDesignation() {
