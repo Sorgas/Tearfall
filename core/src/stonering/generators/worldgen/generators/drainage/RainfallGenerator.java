@@ -1,20 +1,20 @@
 package stonering.generators.worldgen.generators.drainage;
 
+import stonering.generators.PerlinNoiseGenerator;
 import stonering.generators.worldgen.generators.AbstractGenerator;
 import stonering.generators.worldgen.WorldGenContainer;
 
-import java.util.Random;
-
 /**
  * Created by Alexander on 31.03.2017.
- *
+ * <p>
  * Generates rainfall level in the world
  */
 public class RainfallGenerator extends AbstractGenerator {
-    private Random random;
     private int width;
     private int height;
     private int seaLevel;
+    private int minRainfall;
+    private int maxRainfall;
     private float[][] rainfallBuffer;
     private int[][] rainfallComplete;
 
@@ -24,19 +24,20 @@ public class RainfallGenerator extends AbstractGenerator {
 
     @Override
     public boolean execute() {
+        System.out.println("generating rainfall");
         extractContainer();
-        int qwe = height / 2;
-        int qwer = 100 / qwe;
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
+        float equator = height / 2f;
+        for (int y = 0; y < height; y++) {
+            float rainfall = ((-Math.abs(y - (equator))) / (equator) + 1) * (maxRainfall - minRainfall) + minRainfall;
+            for (int x = 0; x < width; x++) {
                 if (container.getElevation(x, y) < seaLevel) {
-                    container.setRainfall(x, y, -Math.abs(y - qwe) * qwer + 100);
+                    container.setRainfall(x, y, rainfall);
                     rainfallComplete[x][y] = 1;
                 }
             }
         }
-        boolean haveChanges = true;
-        while (haveChanges) {
+        boolean haveChanges = false;
+        do {
             haveChanges = false;
             for (int x = 0; x < width; x++) {
                 for (int y = 0; y < height; y++) {
@@ -47,7 +48,8 @@ public class RainfallGenerator extends AbstractGenerator {
                 }
             }
             flushBufferToMap();
-        }
+        } while (haveChanges);
+        addPerlinNoise();
         return false;
     }
 
@@ -79,14 +81,16 @@ public class RainfallGenerator extends AbstractGenerator {
                 }
             }
         }
-        return count != 0 ? rainfall / count : 0;
+        rainfall = count != 0 ? rainfall / count : 0;
+        rainfall = rainfall * (200 - container.getElevation(x, y)) / 200f;
+        return rainfall;
     }
 
     private void flushBufferToMap() {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                if(rainfallBuffer[x][y] != 0) {
-                    container.setRainfall(x,y, rainfallBuffer[x][y]);
+                if (rainfallBuffer[x][y] != 0) {
+                    container.setRainfall(x, y, rainfallBuffer[x][y]);
                     rainfallBuffer[x][y] = 0;
                     rainfallComplete[x][y] = 1;
                 }
@@ -94,11 +98,22 @@ public class RainfallGenerator extends AbstractGenerator {
         }
     }
 
+    private void addPerlinNoise() {
+        PerlinNoiseGenerator generator = new PerlinNoiseGenerator();
+        float[][] noise = generator.generateOctavedSimplexNoise(width, height, 7, 0.4f, 0.025f);
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                container.setRainfall(x, y, Math.round(container.getRainfall(x, y) + noise[x][y] * 10));
+            }
+        }
+    }
+
     private void extractContainer() {
-        random = container.getConfig().getRandom();
         width = container.getConfig().getWidth();
         height = container.getConfig().getHeight();
         seaLevel = container.getConfig().getSeaLevel();
+        minRainfall = container.getConfig().getMinRainfall();
+        maxRainfall = container.getConfig().getMaxRainfall();
         rainfallBuffer = new float[width][height];
         rainfallComplete = new int[width][height];
     }

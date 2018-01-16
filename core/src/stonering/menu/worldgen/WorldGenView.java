@@ -27,8 +27,6 @@ public class WorldGenView implements GameView, Screen {
 
     private TextField seedField;
 
-    private ShapeRenderer shapeRenderer;
-    private SpriteBatch spriteBatch;
     private Label worldInfoLabel;
 
     public WorldGenView(TearFall game) {
@@ -38,8 +36,6 @@ public class WorldGenView implements GameView, Screen {
 
     @Override
     public void show() {
-        shapeRenderer = new ShapeRenderer();
-        spriteBatch = new SpriteBatch();
         stage = new Stage();
         init();
         Gdx.input.setInputProcessor(stage);
@@ -56,10 +52,6 @@ public class WorldGenView implements GameView, Screen {
 
     @Override
     public void resize(int width, int height) {
-        shapeRenderer.dispose();
-        shapeRenderer = new ShapeRenderer();
-        spriteBatch.dispose();
-        spriteBatch = new SpriteBatch();
         stage.dispose();
         stage = new Stage();
         init();
@@ -78,8 +70,6 @@ public class WorldGenView implements GameView, Screen {
 
     @Override
     public void hide() {
-        shapeRenderer.dispose();
-        spriteBatch.dispose();
     }
 
     @Override

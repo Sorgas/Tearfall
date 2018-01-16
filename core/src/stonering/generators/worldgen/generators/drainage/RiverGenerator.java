@@ -54,7 +54,7 @@ public class RiverGenerator extends AbstractGenerator {
 		countRiverStart();
 		for (Iterator<Position> iterator = cells.iterator(); iterator.hasNext(); ) {
 			Position riverStart = iterator.next();
-			runRiver(riverStart.getX(), riverStart.getY(), 200, 3);
+			runRiver(riverStart.getX(), riverStart.getY(), 200, 4);
 		}
 		return false;
 	}
@@ -114,7 +114,7 @@ public class RiverGenerator extends AbstractGenerator {
 			savedAngle = (int) ((riverVector.getAngle() - targetAngle + 360) % 360);
 
 			//branching river
-			if (i > 8 && branchingDepth > 0) {
+			if (i > 6 && branchingDepth > 0) {
 				if (random.nextInt(100) < 15) {
 					targetAngle = (targetAngle + 45) % 360;
 					savedAngle = 0;

@@ -50,6 +50,10 @@ public class WorldGenConfig {
 	private float maxTemperature = 30;
 	private float minTemperature = -15;
 
+	//rainfall
+	private int minRainfall = 1;
+	private int maxRainfall = 450;
+
 	public WorldGenConfig(long seed, int width, int height) {
 		this.seed = seed;
 		this.width = width;
@@ -248,5 +252,21 @@ public class WorldGenConfig {
 
 	public void setMinTemperature(float minTemperature) {
 		this.minTemperature = minTemperature;
+	}
+
+	public int getMinRainfall() {
+		return minRainfall;
+	}
+
+	public void setMinRainfall(int minRainfall) {
+		this.minRainfall = minRainfall;
+	}
+
+	public int getMaxRainfall() {
+		return maxRainfall;
+	}
+
+	public void setMaxRainfall(int maxRainfall) {
+		this.maxRainfall = maxRainfall;
 	}
 }
