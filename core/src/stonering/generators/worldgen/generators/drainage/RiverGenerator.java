@@ -23,7 +23,6 @@ public class RiverGenerator extends AbstractGenerator {
 	private int width;
 	private int height;
 	private int riverCount;
-	private float[][] slopeAngles;
 	private float[][] slopeInclination;
 	private float[][] elevationBuffer;
 	private List<Position> cells;
@@ -38,7 +37,6 @@ public class RiverGenerator extends AbstractGenerator {
 		height = container.getConfig().getHeight();
 		riverCount = (int) (width * height * container.getLandPart() / container.getConfig().getRiverDensity());
 		System.out.println(container.getLandPart() + "  " + riverCount);
-		slopeAngles = new float[width][height];
 		slopeInclination = new float[width][height];
 		elevationBuffer = new float[width][height];
 		cells = new ArrayList<>();
@@ -51,11 +49,11 @@ public class RiverGenerator extends AbstractGenerator {
 		map = container.getMap();
 		smoothElevation(8);
 		initSlopes();
-		countRiverStart();
-		for (Iterator<Position> iterator = cells.iterator(); iterator.hasNext(); ) {
-			Position riverStart = iterator.next();
-			runRiver(riverStart.getX(), riverStart.getY(), 200, 4);
-		}
+//		countRiverStart();
+//		for (Iterator<Position> iterator = cells.iterator(); iterator.hasNext(); ) {
+//			Position riverStart = iterator.next();
+//			runRiver(riverStart.getX(), riverStart.getY(), 200, 4);
+//		}
 		return false;
 	}
 
@@ -89,7 +87,7 @@ public class RiverGenerator extends AbstractGenerator {
 		int seaLevel = container.getConfig().getSeaLevel() - 1;
 		int savedAngle = 0;
 		if(!inMap(x,y)) return;
-		Vector riverVector = new Vector(x, y, slopeAngles[x][y], 2.0f);
+		Vector riverVector = new Vector(x, y, container.getSlopeAngles(x,y), 2.0f);
 		int turningCounter = 0;
 		while (i < maxLength && container.getElevation(x, y) > seaLevel && inMap(x, y)) {
 
@@ -99,7 +97,7 @@ public class RiverGenerator extends AbstractGenerator {
 				turningCounter = random.nextInt(14);
 			}
 
-			Vector slopeVector = new Vector(0, 0, slopeAngles[x][y], 1); // getting slope vector
+			Vector slopeVector = new Vector(0, 0, container.getSlopeAngles(x,y), 1); // getting slope vector
 			riverVector = riverVector.sum(slopeVector); // applying slope to river
 			riverVector.setLength(riverVector.getLength() / 2); // decreasing river speed
 			if (turningCounter != 0) { // turning river
@@ -200,7 +198,6 @@ public class RiverGenerator extends AbstractGenerator {
 			angle = yProject > 0 ? 90 : 270;
 		}
 		container.setSlopeAngles(x, y, Math.round((float) angle));
-		slopeAngles[x][y] = (float) angle;
 		slopeInclination[x][y] = countDistance(0, 0, xProject, yProject);
 	}
 

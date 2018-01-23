@@ -27,7 +27,7 @@ public class WorldGenContainer {
 	private List<Position> lakes;
 
 	private float[][] elevation;
-	private int[][] slopeAngles;
+	private float[][] slopeAngles;
 	private float[][] temperature;
 	private float[][] rainfall;
 	private float[][] debug;
@@ -51,7 +51,7 @@ public class WorldGenContainer {
 		}
 	}
 
-	public void setSlopeAngles(int x, int y, int value) {
+	public void setSlopeAngles(int x, int y, float value) {
 		if (x >= 0 && x < width) {
 			if (y >= 0 && y < height) {
 				slopeAngles[x][y] = value;
@@ -59,8 +59,8 @@ public class WorldGenContainer {
 		}
 	}
 
-	public int getSlopeAngles(int x, int y) {
-		int value = 0;
+	public float getSlopeAngles(int x, int y) {
+		float value = 0;
 		if (x >= 0 && x < width) {
 			if (y >= 0 && y < height) {
 				value = slopeAngles[x][y];
@@ -95,7 +95,7 @@ public class WorldGenContainer {
 
 	public void reset() {
 		elevation = new float[width][height];
-		slopeAngles = new int[width][height];
+		slopeAngles = new float[width][height];
 		temperature = new float[width][height];
 		rainfall = new float[width][height];
 		debug = new float[width][height];

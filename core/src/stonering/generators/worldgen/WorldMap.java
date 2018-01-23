@@ -72,13 +72,13 @@ public class WorldMap implements Serializable {
     }
 
     public void addRiverVector(Vector vector) {
-        List<Vector> list = rivers.get(new Position(vector.getX(), vector.getY(),0));
-        if(list != null) {
+        List<Vector> list = rivers.get(new Position(vector.getX(), vector.getY(), 0));
+        if (list != null) {
             list.add(vector);
         } else {
             list = new ArrayList<>();
             list.add(vector);
-            rivers.put(new Position(vector.getX(), vector.getY(),0), list);
+            rivers.put(new Position(vector.getX(), vector.getY(), 0), list);
         }
     }
 
@@ -88,5 +88,9 @@ public class WorldMap implements Serializable {
 
     public void setSeed(long seed) {
         this.seed = seed;
+    }
+
+    public boolean inMap(int x, int y) {
+        return (x >= 0 && y >= 0 && x < width && y < height);
     }
 }

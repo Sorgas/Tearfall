@@ -1,5 +1,6 @@
 package stonering.generators.worldgen;
 
+import stonering.generators.worldgen.generators.drainage.ErosionGenerator;
 import stonering.generators.worldgen.generators.drainage.OceanFiller;
 import stonering.generators.worldgen.generators.drainage.RainfallGenerator;
 import stonering.generators.worldgen.generators.elevation.*;
@@ -25,6 +26,7 @@ public class GlobalGeneratorContainer {
     private TemperatureGenerator temperatureGenerator;
     private ElevationGenerator elevationGenerator;
     private RainfallGenerator rainfallGenerator;
+    private ErosionGenerator erosionGenerator;
 
     public void init(WorldGenConfig config) {
         worldGenContainer = new WorldGenContainer(config);
@@ -40,6 +42,7 @@ public class GlobalGeneratorContainer {
         temperatureGenerator = new TemperatureGenerator(worldGenContainer);
         elevationGenerator = new ElevationGenerator(worldGenContainer);
         rainfallGenerator = new RainfallGenerator(worldGenContainer);
+        erosionGenerator = new ErosionGenerator(worldGenContainer);
     }
 
     public void runContainer() {
@@ -59,15 +62,16 @@ public class GlobalGeneratorContainer {
         if (valleyGenerator.execute()) return true;
         if (hillGenerator.execute()) return true;
         elevationGenerator.execute();
-        mountainRenderer.execute();
+//        mountainRenderer.execute();
         valleyRenderer.execute();
-        worldGenContainer.fillMap();
+//        worldGenContainer.fillMap();
         oceanFiller.execute();
-        riverGenerator.execute();
-        hillRenderer.execute();
-        temperatureGenerator.execute();
-        rainfallGenerator.execute();
+//        hillRenderer.execute();
+//        erosionGenerator.execute();
+//        temperatureGenerator.execute();
+//        rainfallGenerator.execute();
         worldGenContainer.fillMap();
+//        riverGenerator.execute();
 
         return false;
     }

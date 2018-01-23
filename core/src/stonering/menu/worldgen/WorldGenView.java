@@ -47,6 +47,7 @@ public class WorldGenView implements GameView, Screen {
         Gdx.gl.glClear(Gdx.gl20.GL_COLOR_BUFFER_BIT | Gdx.gl20.GL_DEPTH_BUFFER_BIT);
         checkInput();
         writeWorldInfoToLabel();
+        stage.setDebugAll(true);
         stage.draw();
     }
 

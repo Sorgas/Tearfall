@@ -3,6 +3,7 @@ package stonering.menu.ui_components;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -31,30 +32,53 @@ public class MiniMap extends Table {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
+//        drawTiles(batch);
+        drawDebug(batch);
+    }
+
+    private void drawTiles(Batch batch) {
         if (map != null) {
-//            batch.end();
             updateSize();
             int xStart = Math.max(focus.getX() - (size.getX() / 2), 0);
             xStart = Math.min(xStart, map.getWidth() - size.getX());
             int yStart = Math.max(focus.getY() - (size.getY() / 2), 0);
             yStart = Math.min(yStart, map.getHeight() - size.getY());
-            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
             for (int x = 0; x < size.getX(); x++) {
                 for (int y = 0; y < size.getY(); y++) {
                     drawTile(batch, tileChooser.getTile(xStart + x, yStart + y), x, y);
-//                    shapeRenderer.setColor(new Color(map.getRainfall(x, y) / 450.f, 0, 0, 0));
+                }
+            }
+            drawTile(batch, tileChooser.getCross(), focus.getX() - xStart, focus.getY() - yStart);
+        }
+    }
+
+    private void drawDebug(Batch batch) {
+        batch.end();
+        if (map != null) {
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+            for (int x = 0; x < map.getWidth(); x++) {
+                for (int y = 0; y < map.getHeight(); y++) {
+//                    shapeRenderer.setColor(getColorByRainFall(map.getRainfall(x, y));
 //                    shapeRenderer.rect(350 + x * 16, y * 8, 8, 8);
 //                    shapeRenderer.flush();
-//                    float green = map.getElevation(x, y) > 0? map.getElevation(x, y) / 10.f : 0;
-//                    shapeRenderer.setColor(new Color(0, green, 0, 0));
-//                    shapeRenderer.rect(358 + x * 16, y * 8, 8, 8);
-//                    shapeRenderer.flush();
+                    if (map.getElevation(x, y) > 0) {
+                        float green = (map.getElevation(x, y) + 5) / 30.f;
+                        shapeRenderer.setColor(new Color(0, green, 0, 0));
+                    } else {
+                        float blue = (35 + map.getElevation(x, y)) / 30.f;
+                        shapeRenderer.setColor(new Color(0, 0, blue, 0));
+                    }
+                    shapeRenderer.rect(358 + x * 2, 100 + y * 2, 2, 2);
+                    shapeRenderer.flush();
                 }
             }
             shapeRenderer.end();
-//            batch.begin();
-            drawTile(batch, tileChooser.getCross(), focus.getX() - xStart, focus.getY() - yStart);
         }
+        batch.begin();
+    }
+
+    private Color getColorByRainFall(float rainfall) {
+        return new Color(rainfall / 450.f, 0, 0, 0);
     }
 
     public void updateSize() {
