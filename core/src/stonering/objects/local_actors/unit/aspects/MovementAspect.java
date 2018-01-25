@@ -5,6 +5,7 @@ import stonering.game.core.model.LocalMap;
 import stonering.global.utils.pathfinding.NoPathException;
 import stonering.global.utils.pathfinding.a_star.AStar;
 import stonering.objects.common.Path;
+import stonering.objects.local_actors.Aspect;
 import stonering.objects.local_actors.unit.Unit;
 import stonering.global.utils.Position;
 
@@ -28,7 +29,7 @@ public class MovementAspect extends Aspect {
 
     public MovementAspect(Unit unit) {
         this.name = "movement";
-        this.unit = unit;
+        this.aspectHolder = unit;
         stepTime = 15;
         stepDelay = new Random().nextInt(stepTime);
     }
@@ -50,7 +51,7 @@ public class MovementAspect extends Aspect {
                     if (!path.isFinished()) { // path not finished
                         Position nextPosition = path.pollNextPosition(); // get next step, remove from path
                         if (map.isWalkPassable(nextPosition)) { // path has not been blocked after calculation
-                            unit.setPosition(nextPosition); //step
+                            aspectHolder.setPosition(nextPosition); //step
                         } else { // path blocked
                             makeRouteToTarget(); // calculate new path
                         }
@@ -79,15 +80,15 @@ public class MovementAspect extends Aspect {
     @Override
     public void init(GameContainer gameContainer) {
         super.init(gameContainer);
-        if (unit.getAspects().containsKey("planning"))
-            planning = (PlanningAspect) unit.getAspects().get("planning");
+        if (aspectHolder.getAspects().containsKey("planning"))
+            planning = (PlanningAspect) aspectHolder.getAspects().get("planning");
         map = gameContainer.getLocalMap();
     }
 
     private void makeRouteToTarget() {
         try {
             System.out.println("path start");
-            path = new AStar(gameContainer.getLocalMap()).findPath(unit.getPosition(), planning.getTarget());
+            path = new AStar(gameContainer.getLocalMap()).findPath(aspectHolder.getPosition(), planning.getTarget());
             System.out.println("path end");
         } catch (NoPathException e) {
             System.out.println("cancel task");

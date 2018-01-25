@@ -62,14 +62,14 @@ public class GlobalGeneratorContainer {
         if (valleyGenerator.execute()) return true;
         if (hillGenerator.execute()) return true;
         elevationGenerator.execute();
-//        mountainRenderer.execute();
+        mountainRenderer.execute();
         valleyRenderer.execute();
-//        worldGenContainer.fillMap();
+        worldGenContainer.fillMap();
         oceanFiller.execute();
-//        hillRenderer.execute();
-//        erosionGenerator.execute();
-//        temperatureGenerator.execute();
-//        rainfallGenerator.execute();
+        hillRenderer.execute();
+        erosionGenerator.execute();
+        temperatureGenerator.execute();
+        rainfallGenerator.execute();
         worldGenContainer.fillMap();
 //        riverGenerator.execute();
 

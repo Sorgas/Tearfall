@@ -1,7 +1,6 @@
-package stonering.objects.local_actors.unit.aspects;
+package stonering.objects.local_actors;
 
 import stonering.game.core.model.GameContainer;
-import stonering.objects.local_actors.unit.Unit;
 
 /**
  * Created by Alexander on 10.10.2017.
@@ -9,14 +8,18 @@ import stonering.objects.local_actors.unit.Unit;
 public abstract class Aspect {
     protected GameContainer gameContainer;
     protected String name;
-    protected Unit unit;
+    protected AspectHolder aspectHolder;
 
     public String getName() {
         return name;
     }
 
-    public Unit getUnit() {
-        return unit;
+    public AspectHolder getAspectHolder() {
+        return aspectHolder;
+    }
+
+    public void setAspectHolder(AspectHolder aspectHolder) {
+        this.aspectHolder = aspectHolder;
     }
 
     public void init(GameContainer gameContainer) {

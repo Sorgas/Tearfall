@@ -20,7 +20,7 @@ public class LocalGeneratorContainer {
     private LocalFaunaGenerator localFaunaGenerator;
     private LocalFurnitureGenerator localFurnitureGenerator;
     private LocalFloorPlacer localFloorPlacer;
-
+    private LocalItemsGenerator localItemsGenerator;
     private WorldMap world;
     private LocalGenConfig config;
 
@@ -40,6 +40,7 @@ public class LocalGeneratorContainer {
         localFaunaGenerator = new LocalFaunaGenerator(localGenContainer);
         localFurnitureGenerator = new LocalFurnitureGenerator(localGenContainer);
         localFloorPlacer = new LocalFloorPlacer(localGenContainer);
+        localItemsGenerator = new LocalItemsGenerator(localGenContainer);
     }
 
     public void execute() {
@@ -51,6 +52,7 @@ public class LocalGeneratorContainer {
         localFaunaGenerator.execute();
         localFurnitureGenerator.execute();
         localFloorPlacer.execute();
+        localItemsGenerator.execute();
     }
 
     public LocalMap getLocalMap() {

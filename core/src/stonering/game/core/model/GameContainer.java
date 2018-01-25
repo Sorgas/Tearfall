@@ -9,7 +9,7 @@ import stonering.generators.worldgen.WorldMap;
 
 /**
  * Created by Alexander on 10.06.2017.
- *
+ * <p>
  * Model of game, contains LocalMap and sub-Containers.
  * Time ticks are performed with Timer
  */
@@ -59,6 +59,7 @@ public class GameContainer {
         unitContainer.initUnits();
 
         itemContainer = new ItemContainer();
+        container.getItems().forEach((item) -> itemContainer.addItem(item, item.getPosition()));
 
         taskContainer = new TaskContainer(this);
     }

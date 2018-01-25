@@ -12,7 +12,6 @@ import stonering.utils.global.StaticSkin;
 
 public class DiggingMenu extends Menu {
     private DesignationsController controller;
-    private Toolbar toolbar;
 
     public DiggingMenu() {
         super();
@@ -96,9 +95,5 @@ public class DiggingMenu extends Menu {
 
     public void setController(DesignationsController controller) {
         this.controller = controller;
-    }
-
-    public void setToolbar(Toolbar toolbar) {
-        this.toolbar = toolbar;
     }
 }

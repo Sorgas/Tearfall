@@ -25,13 +25,6 @@ public class LocalFaunaGenerator {
     }
 
     public void execute() {
-//        for (int i = 0; i < 100; i++) {
-//            Unit unit = creatureGenerator.generateUnit("dog");
-//            unit.setLocalMap(localMap);
-//            unit.getAspects().forEach(((s, aspect) -> aspect.init()));
-//            container.getUnits().add(unit);
-//            System.out.println("dog");
-//        }
         Unit unit = creatureGenerator.generateUnit("digger");
         unit.setLocalMap(localMap);
         container.getUnits().add(unit);

@@ -4,6 +4,7 @@ import stonering.enums.materials.MaterialMap;
 import stonering.game.core.model.LocalMap;
 import stonering.generators.worldgen.WorldMap;
 import stonering.objects.local_actors.building.Building;
+import stonering.objects.local_actors.items.Item;
 import stonering.objects.local_actors.unit.Unit;
 import stonering.objects.local_actors.plants.Tree;
 
@@ -21,6 +22,7 @@ public class LocalGenContainer {
     private ArrayList<Tree> trees;
     private ArrayList<Unit> units;
     private ArrayList<Building> buildings;
+    private ArrayList<Item> items;
 
     public LocalGenContainer(LocalGenConfig config, WorldMap worldMap) {
         this.config = config;
@@ -28,6 +30,7 @@ public class LocalGenContainer {
         trees = new ArrayList<>();
         units = new ArrayList<>();
         buildings = new ArrayList<>();
+        items = new ArrayList<>();
         materialMap = MaterialMap.getInstance();
         createMap();
     }
@@ -49,7 +52,7 @@ public class LocalGenContainer {
     }
 
     private void createMap() {
-        localMap = new LocalMap(config.getAreaSize(),config.getAreaSize(), config.getAreaHight());
+        localMap = new LocalMap(config.getAreaSize(), config.getAreaSize(), config.getAreaHight());
     }
 
     public LocalMap getLocalMap() {
@@ -70,5 +73,13 @@ public class LocalGenContainer {
 
     public ArrayList<Building> getBuildings() {
         return buildings;
+    }
+
+    public ArrayList<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(ArrayList<Item> items) {
+        this.items = items;
     }
 }

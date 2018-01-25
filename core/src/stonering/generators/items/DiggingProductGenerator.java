@@ -13,7 +13,7 @@ public class DiggingProductGenerator {
 
     public Item generateDigProduct(Material material) {
         if (material.getTypes().contains("stone") || material.getTypes().contains("ore")) {
-            Item item = new Item();
+            Item item = new Item(null);
             item.setType(ItemTypesEnum.ROCK);
             item.setMaterial(material.getId());
             item.setVolume(100000);

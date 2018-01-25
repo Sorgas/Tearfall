@@ -2,6 +2,7 @@ package stonering.objects.local_actors.unit.aspects;
 
 import stonering.objects.jobs.actions.Action;
 import stonering.objects.jobs.Task;
+import stonering.objects.local_actors.Aspect;
 import stonering.objects.local_actors.unit.Unit;
 import stonering.global.utils.Position;
 
@@ -16,7 +17,7 @@ public class PlanningAspect extends Aspect {
     private Position target;
 
     public PlanningAspect(Unit unit) {
-        this.unit = unit;
+        this.aspectHolder = unit;
         this.name = "planning";
     }
 
@@ -39,9 +40,9 @@ public class PlanningAspect extends Aspect {
                 !currentTask.isFinished() && !currentAction.isFinished();
     }
 
-    // if unit in position for acting
+    // if aspectHolder in position for acting
     private boolean checkUnitPosition() {
-        return unit.getPosition().equals(target);
+        return aspectHolder.getPosition().equals(target);
     }
 
     private void repairActions() {

@@ -3,6 +3,7 @@ package stonering.game.core.view.ui_components;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import stonering.game.core.view.ui_components.menus.BuildingMenu;
 import stonering.game.core.view.ui_components.menus.DiggingMenu;
 import stonering.game.core.view.ui_components.menus.Menu;
 import stonering.utils.global.StaticSkin;
@@ -17,6 +18,7 @@ import java.util.HashMap;
 public class Toolbar extends Menu {
     public static final String TOOLBAR = "bar";
     public static final String DIGGING = "digging";
+    public static final String BUILDING = "building";
 
     private String activeMenu;
     private HashMap<String, Menu> menuMap;
@@ -34,26 +36,24 @@ public class Toolbar extends Menu {
         this.pad(10);
         this.setFillParent(true);
         this.right().bottom();
-        addDiggingMenu();
+        this.add(initMenu(new DiggingMenu(), "D: digging", 'd', DIGGING));
+        this.add(initMenu(new BuildingMenu(), "B: building", 'b', BUILDING));
     }
 
-    private void addDiggingMenu() {
-        DiggingMenu diggingMenu = new DiggingMenu();
-        diggingMenu.setVisible(false);
-        diggingMenu.setToolbar(this);
-        this.add(diggingMenu);
-        this.row();
-        menuMap.put(DIGGING, diggingMenu);
-
-        TextButton diggingButton = new TextButton("D: digging", StaticSkin.getSkin());
-        diggingButton.addListener(new ChangeListener() {
+    private Menu initMenu(Menu menu, String text, char hotkey, String mapKey) {
+        menu.setVisible(false);
+        menu.setToolbar(this);
+        menuMap.put(mapKey, menu);
+        TextButton button = new TextButton(text, StaticSkin.getSkin());
+        button.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                toggleMenu(DIGGING);
+                toggleMenu(mapKey);
             }
         });
-        this.add(diggingButton).row();
-        hotkeyMap.put('d', diggingButton);
+        this.add(button).row();
+        hotkeyMap.put(hotkey, button);
+        return menu;
     }
 
     public boolean isMenuOpen(String menu) {

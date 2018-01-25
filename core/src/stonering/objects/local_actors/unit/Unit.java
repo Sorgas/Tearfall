@@ -1,9 +1,9 @@
 package stonering.objects.local_actors.unit;
 
 import stonering.game.core.model.LocalMap;
-import stonering.objects.local_actors.unit.aspects.Aspect;
+import stonering.objects.local_actors.Aspect;
 import stonering.global.utils.Position;
-import stonering.objects.local_actors.unit.aspects.PlanningAspect;
+import stonering.objects.local_actors.AspectHolder;
 
 import java.util.HashMap;
 
@@ -12,16 +12,13 @@ import java.util.HashMap;
  * <p>
  * Represents living creatures
  */
-public class Unit {
-    private Position position;
-    private HashMap<String, Aspect> aspects;
+public class Unit extends AspectHolder {
     private LocalMap localMap;
     private UnitBlock block;
 
     public Unit(Position position) {
-        this.position = position;
+        super(position);
         block = new UnitBlock(this);
-        aspects = new HashMap<>();
     }
 
     public Position getPosition() {
@@ -30,14 +27,6 @@ public class Unit {
 
     public void setPosition(Position position) {
         this.position = position;
-    }
-
-    public HashMap<String, Aspect> getAspects() {
-        return aspects;
-    }
-
-    public void addAspect(Aspect aspect) {
-        aspects.put(aspect.getName(), aspect);
     }
 
     public void turn() {

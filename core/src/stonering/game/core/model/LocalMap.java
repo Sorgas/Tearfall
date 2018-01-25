@@ -133,6 +133,21 @@ public class LocalMap {
             localTileMapUpdater.updateTile(x, y, z);
     }
 
+    public boolean checkAvailability(Position target) {
+        for (int x = -1; x < 2; x++) {
+            for (int y = -1; y < 2; y++) {
+                if (inMap(target.getX() + x, target.getY() + y, target.getZ()) && isWalkPassable(target.getX() + x, target.getY() + y, target.getZ()))
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean inMap(int x, int y, int z) {
+        return !(x < 0 || y < 0 || z < 0 ||
+                x >= xSize || y >= ySize || z >= zSize);
+    }
+
     public int getxSize() {
         return xSize;
     }
@@ -183,20 +198,5 @@ public class LocalMap {
 
     public UnitBlock getUnitBlock(int x, int y, int z) {
         return unitBlocks[x][y][z];
-    }
-
-    public boolean checkAvailability(Position target) {
-        for (int x = -1; x < 2; x++) {
-            for (int y = -1; y < 2; y++) {
-                if (inMap(target.getX() + x, target.getY() + y, target.getZ()) && isWalkPassable(target.getX() + x, target.getY() + y, target.getZ()))
-                    return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean inMap(int x, int y, int z) {
-        return !(x < 0 || y < 0 || z < 0 ||
-                x >= xSize || y >= ySize || z >= zSize);
     }
 }

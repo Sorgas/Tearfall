@@ -3,6 +3,7 @@ package stonering.game.core.view.ui_components.menus;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import stonering.game.core.view.ui_components.Toolbar;
 
 import java.util.HashMap;
 
@@ -13,6 +14,7 @@ import java.util.HashMap;
  */
 public abstract class Menu extends Table {
     protected HashMap<Character,Button> hotkeyMap;
+    protected Toolbar toolbar;
 
     public Menu() {
         this(null);
@@ -35,5 +37,11 @@ public abstract class Menu extends Table {
         return false;
     }
 
+    public Toolbar getToolbar() {
+        return toolbar;
+    }
 
+    public void setToolbar(Toolbar toolbar) {
+        this.toolbar = toolbar;
+    }
 }

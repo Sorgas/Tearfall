@@ -1,6 +1,6 @@
 package stonering.objects.local_actors.unit.aspects;
 
-import stonering.game.core.model.GameContainer;
+import stonering.objects.local_actors.Aspect;
 import stonering.objects.local_actors.unit.BodyPart;
 
 import java.util.ArrayList;

@@ -1,5 +1,6 @@
 package stonering.objects.local_actors.unit.aspects;
 
+import stonering.objects.local_actors.Aspect;
 import stonering.objects.local_actors.items.Item;
 
 import java.util.ArrayList;

@@ -1,0 +1,23 @@
+[
+    {
+        "title":"pickaxe",
+        "types":[
+            "tool"
+        ],
+        "reactions":[
+            "dig"
+        ],
+        "reaction_args":[
+            "1"
+        ],
+        "value":"0",
+        "atlasY":"0",
+        "color":{
+            "class":"color_c",
+            "r":"1",
+            "g":"1",
+            "b":"1",
+            "a":"1"
+        }
+    }
+]
