@@ -4,6 +4,7 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter;
+import stonering.objects.local_actors.unit.Unit;
 import stonering.objects.local_actors.unit.aspects.BodyAspect;
 import stonering.objects.local_actors.unit.BodyPart;
 import stonering.utils.global.FileLoader;
@@ -28,9 +29,9 @@ public class BodyGenerator {
         templates = reader.parse(FileLoader.getBodyTemplateFile());
     }
 
-    public BodyAspect generateBody(JsonValue creature) {
+    public BodyAspect generateBody(JsonValue creature, Unit unit) {
         JsonValue template = findTemplate(creature.getString("body_template"));
-        BodyAspect bodyAspect = generateBodyAspectFromTemplate(template);
+        BodyAspect bodyAspect = generateBodyAspectFromTemplate(template, unit);
         return bodyAspect;
     }
 
@@ -41,8 +42,8 @@ public class BodyGenerator {
         return null;
     }
 
-    private BodyAspect generateBodyAspectFromTemplate(JsonValue template) {
-        BodyAspect bodyAspect = new BodyAspect();
+    private BodyAspect generateBodyAspectFromTemplate(JsonValue template, Unit unit) {
+        BodyAspect bodyAspect = new BodyAspect(unit);
         for (JsonValue bp: template.get("body")) {
             bodyAspect.addBodyPart(generateBodyPart(bp,template));
         }

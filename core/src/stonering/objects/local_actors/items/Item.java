@@ -1,6 +1,5 @@
 package stonering.objects.local_actors.items;
 
-import stonering.enums.items.ItemTypesEnum;
 import stonering.global.utils.Position;
 import stonering.objects.local_actors.AspectHolder;
 
@@ -10,7 +9,6 @@ import stonering.objects.local_actors.AspectHolder;
  * In game item.
  */
 public class Item extends AspectHolder {
-    private ItemTypesEnum type;
     private String title;
     private int material;
     private int weight;
@@ -48,18 +46,9 @@ public class Item extends AspectHolder {
         this.volume = volume;
     }
 
-    public ItemTypesEnum getType() {
-        return type;
-    }
-
-    public void setType(ItemTypesEnum type) {
-        this.type = type;
-    }
-
     @Override
     public String toString() {
         return "title: " + title +
-                "type: " + type +
                 "position: " + position +
                 "material: " + material +
                 "weight: " + weight +

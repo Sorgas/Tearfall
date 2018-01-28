@@ -1,7 +1,9 @@
 package stonering.objects.local_actors.unit.aspects;
 
 import stonering.objects.local_actors.Aspect;
+import stonering.objects.local_actors.AspectHolder;
 import stonering.objects.local_actors.unit.BodyPart;
+import stonering.objects.local_actors.unit.Unit;
 
 import java.util.ArrayList;
 
@@ -14,9 +16,9 @@ public class BodyAspect extends Aspect {
     private ArrayList<BodyPart> bodyParts;
     private ArrayList<Integer> limbs;
 
-    public BodyAspect() {
+    public BodyAspect(Unit unit) {
+        super("body", unit);
         bodyParts = new ArrayList<BodyPart>();
-
     }
 
     public void addBodyPart(BodyPart bodyPart) {

@@ -15,7 +15,8 @@ import java.util.HashMap;
  * Created by Alexander on 08.01.2018.
  */
 public enum ItemTypesEnum {
-    ROCK;
+    ROCK,
+    TOOL;
 
     static {
         map = new HashMap<>();

@@ -28,7 +28,7 @@ public class MovementAspect extends Aspect {
     private Position target;
 
     public MovementAspect(Unit unit) {
-        this.name = "movement";
+        super("movement", unit);
         this.aspectHolder = unit;
         stepTime = 15;
         stepDelay = new Random().nextInt(stepTime);

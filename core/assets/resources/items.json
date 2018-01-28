@@ -1,8 +1,9 @@
 [
     {
         "title":"pickaxe",
-        "types":[
-            "tool"
+        "aspects":[
+            {"name": "tool",
+            "args": "dig"}
         ],
         "reactions":[
             "dig"

@@ -10,6 +10,11 @@ public abstract class Aspect {
     protected String name;
     protected AspectHolder aspectHolder;
 
+    public Aspect(String name, AspectHolder aspectHolder) {
+        this.name = name;
+        this.aspectHolder = aspectHolder;
+    }
+
     public String getName() {
         return name;
     }

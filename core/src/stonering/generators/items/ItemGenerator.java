@@ -4,7 +4,9 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter;
+import stonering.objects.local_actors.Aspect;
 import stonering.objects.local_actors.items.Item;
+import stonering.objects.local_actors.items.aspects.PropertyAspect;
 import stonering.utils.global.FileLoader;
 
 /**
@@ -28,7 +30,7 @@ public class ItemGenerator {
 
     public Item generateItem(String title) {
         JsonValue itemJson = findItem(title);
-        return fillItem(itemJson);
+        return createItem(itemJson);
     }
 
     private JsonValue findItem(String name) {
@@ -38,9 +40,27 @@ public class ItemGenerator {
         return null;
     }
 
-    private Item fillItem(JsonValue template) {
+    private Item createItem(JsonValue itemJson) {
         Item item = new Item(null);
-        item.setTitle(template.getString("title"));
+        item.setTitle(itemJson.getString("title"));
+        for (JsonValue aspect: itemJson.get("aspects")) {
+            item.addAspect(readAspect(aspect, item));
+        }
         return item;
+    }
+
+    private Aspect readAspect(JsonValue aspect, Item item) {
+        String name = aspect.getString("name");
+        Aspect aspect1 = null;
+        switch (name) {
+            case "tool": {
+                PropertyAspect propertyAspect = new PropertyAspect(name, item);
+                for (String arg : aspect.get("args").asStringArray()) {
+                    propertyAspect.addProperty(arg);
+                }
+                aspect1 = propertyAspect;
+            }
+        }
+        return aspect1;
     }
 }

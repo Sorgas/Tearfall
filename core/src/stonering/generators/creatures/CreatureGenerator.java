@@ -43,7 +43,7 @@ public class CreatureGenerator {
     }
 
     private Aspect genarateBodyAspect(Unit unit, JsonValue creature) {
-        return bodyGenerator.generateBody(creature);
+        return bodyGenerator.generateBody(creature, unit);
     }
 
     private Aspect generatePlanningAspect(Unit unit) {

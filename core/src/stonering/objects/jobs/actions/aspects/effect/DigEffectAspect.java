@@ -13,9 +13,11 @@ import stonering.objects.local_actors.items.Item;
 
 public class DigEffectAspect extends EffectAspect {
     private DesignationsTypes designationType;
+    private GameContainer container;
 
-    public DigEffectAspect(Action action, GameContainer gameContainer, DesignationsTypes designationType) {
-        super(action, gameContainer);
+    public DigEffectAspect(Action action, DesignationsTypes designationType) {
+        super(action);
+        container = action.getGameContainer();
         this.designationType = designationType;
         this.workAmount = 100;
     }
@@ -30,7 +32,7 @@ public class DigEffectAspect extends EffectAspect {
 
     private void finish() {
         Position pos = action.getTargetAspect().getTargetPosition();
-        Material material = MaterialMap.getInstance().getMaterial(gameContainer.getLocalMap().getMaterial(action.getTargetPosition()));
+        Material material = MaterialMap.getInstance().getMaterial(container.getLocalMap().getMaterial(action.getTargetPosition()));
         switch (designationType) {
             case DIG: {
                 validateAndChangeBlock(pos, BlockTypesEnum.FLOOR);
@@ -57,7 +59,7 @@ public class DigEffectAspect extends EffectAspect {
 
     private void validateAndChangeBlock(Position pos, BlockTypesEnum type) {
         boolean valid = false;
-        LocalMap map = gameContainer.getLocalMap();
+        LocalMap map = container.getLocalMap();
         switch (type) {
             case RAMP:
             case STAIRS:
@@ -79,7 +81,7 @@ public class DigEffectAspect extends EffectAspect {
     private void leaveStone(Material material) {
         DiggingProductGenerator generator = new DiggingProductGenerator();
         if (generator.productRequired(material))
-            gameContainer.getItemContainer().addItem(generator.generateDigProduct(material), action.getTargetPosition());
+            container.getItemContainer().addItem(generator.generateDigProduct(material), action.getTargetPosition());
     }
 
     public DesignationsTypes getBlockType() {

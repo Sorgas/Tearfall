@@ -1,7 +1,9 @@
 package stonering.game.core.model.lists;
 
 import stonering.global.utils.Position;
+import stonering.objects.local_actors.Aspect;
 import stonering.objects.local_actors.items.Item;
+import stonering.objects.local_actors.items.aspects.PropertyAspect;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,5 +54,15 @@ public class ItemContainer {
 
     public void turn() {
         items.forEach((item) -> item.turn());
+    }
+
+    public Item getItemWithAspect(String aspectName, String aspectArg) {
+        for (Item item: items) {
+            Aspect aspect = item.getAspects().get(aspectName);
+            if(aspect != null && ((PropertyAspect)aspect).hasProperty(aspectArg)) {
+                return item;
+            }
+        }
+        return null;
     }
 }

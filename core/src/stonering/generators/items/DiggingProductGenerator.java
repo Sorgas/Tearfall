@@ -1,6 +1,5 @@
 package stonering.generators.items;
 
-import stonering.enums.items.ItemTypesEnum;
 import stonering.enums.materials.Material;
 import stonering.objects.local_actors.items.Item;
 
@@ -14,7 +13,6 @@ public class DiggingProductGenerator {
     public Item generateDigProduct(Material material) {
         if (material.getTypes().contains("stone") || material.getTypes().contains("ore")) {
             Item item = new Item(null);
-            item.setType(ItemTypesEnum.ROCK);
             item.setMaterial(material.getId());
             item.setVolume(100000);
             item.setWeight(Math.round(item.getVolume() * material.getDensity()));

@@ -5,41 +5,43 @@ import stonering.objects.jobs.actions.Action;
 import stonering.objects.jobs.actions.TaskTypesEnum;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class Task {
     private String name;
     private TaskTypesEnum taskType;
-    private ArrayList<Action> actions;
+    private LinkedList<Action> actions;
     private TaskContainer taskContainer;
-    private boolean finished;
 
     public Task(String name, TaskTypesEnum taskType, TaskContainer taskContainer) {
         this.name = name;
         this.taskType = taskType;
         this.taskContainer = taskContainer;
-        actions = new ArrayList<>();
+        actions = new LinkedList<>();
     }
 
     public void recountFinished() {
-        for (Action action : actions) {
-            if (!action.isFinished()) {
-                finished = false;
-                return;
-            }
-        }
-        finished = true;
-        taskContainer.removeTask(this);
+        if (actions.isEmpty())
+            taskContainer.removeTask(this);
     }
 
     public Action getNextAction() {
-        if (!finished) {
-            for (Action action : actions) {
-                if (!action.isFinished()) {
-                    return action;
-                }
-            }
+        if (!actions.isEmpty()) {
+            return actions.get(0);
         }
         return null;
+    }
+
+    public void addFirstAction(Action action) {
+        actions.add(0, action);
+    }
+
+    public boolean isFinished() {
+        return actions.isEmpty();
+    }
+
+    public void removeAction(Action action) {
+        actions.remove(action);
     }
 
     public String getName() {
@@ -50,11 +52,11 @@ public class Task {
         this.name = name;
     }
 
-    public ArrayList<Action> getActions() {
+    public LinkedList<Action> getActions() {
         return actions;
     }
 
-    public void setActions(ArrayList<Action> actions) {
+    public void setActions(LinkedList<Action> actions) {
         this.actions = actions;
     }
 
@@ -68,9 +70,5 @@ public class Task {
 
     public void addAction(Action action) {
         actions.add(action);
-    }
-
-    public boolean isFinished() {
-        return finished;
     }
 }

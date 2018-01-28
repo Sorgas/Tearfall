@@ -73,10 +73,9 @@ public class TaskContainer {
 
     private Task createDesignationTask(Designation designation) {
         Task task = new Task("designation", TaskTypesEnum.DESIGNATION, this);
-        Action action = new Action();
-        action.setActionType(ActionTypeEnum.DIG);
+        Action action = new Action(ActionTypeEnum.DIG, container);
         action.setTask(task);
-        action.setEffectAspect(new DigEffectAspect(action, container, designation.type));
+        action.setEffectAspect(new DigEffectAspect(action, designation.type));
         action.setTargetAspect(new BlockTargetAspect(designation.position));
 //        action.setRequirementsAspect();
         task.addAction(action);

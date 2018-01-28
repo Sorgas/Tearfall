@@ -6,11 +6,9 @@ import stonering.objects.jobs.actions.Action;
 public abstract class EffectAspect {
     protected Action action;
     protected int workAmount;
-    protected GameContainer gameContainer;
 
-    public EffectAspect(Action action, GameContainer gameContainer) {
+    public EffectAspect(Action action) {
         this.action = action;
-        this.gameContainer = gameContainer;
     }
 
     public void perform() {

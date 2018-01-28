@@ -1,9 +1,9 @@
 package stonering.objects.local_actors.unit.aspects;
 
-import stonering.objects.jobs.actions.Action;
 import stonering.objects.jobs.Task;
+import stonering.objects.jobs.actions.Action;
 import stonering.objects.local_actors.Aspect;
-import stonering.objects.local_actors.unit.Unit;
+import stonering.objects.local_actors.AspectHolder;
 import stonering.global.utils.Position;
 
 /**
@@ -13,20 +13,18 @@ import stonering.global.utils.Position;
  */
 public class PlanningAspect extends Aspect {
     private Task currentTask;
-    private Action currentAction;
+    //    private Action currentAction;
     private Position target;
 
-    public PlanningAspect(Unit unit) {
-        this.aspectHolder = unit;
-        this.name = "planning";
+    public PlanningAspect(AspectHolder aspectHolder) {
+        super("planning", aspectHolder);
     }
 
     public void turn() {
-        if (checkActions()) { // has active action
-            if (checkUnitPosition()) {
-                currentAction.perform(); // act
-                if (currentAction.isFinished()) {
-                    System.out.println("task finished");
+        if (checkTask()) { // has active action
+            if (currentTask.getNextAction().getRequirementsAspect().check()) { //check action requirements
+                if (checkUnitPosition()) {
+                    currentTask.getNextAction().perform(); // act
                 }
             }
         } else {
@@ -35,9 +33,8 @@ public class PlanningAspect extends Aspect {
     }
 
     // action exists and not finished
-    private boolean checkActions() {
-        return currentTask != null && currentAction != null &&
-                !currentTask.isFinished() && !currentAction.isFinished();
+    private boolean checkTask() {
+        return currentTask != null && !currentTask.isFinished();
     }
 
     // if aspectHolder in position for acting
@@ -46,11 +43,8 @@ public class PlanningAspect extends Aspect {
     }
 
     private void repairActions() {
-        if (currentTask == null || currentTask.isFinished()) {
-            if (getTaskFromContainer()) {
-                currentAction = currentTask.getNextAction();
-                updateTarget();
-            }
+        if (getTaskFromContainer()) {
+            updateTarget();
         }
     }
 
@@ -69,7 +63,6 @@ public class PlanningAspect extends Aspect {
     private boolean fetchTasks() {
         if (!gameContainer.getTaskContainer().getTasks().isEmpty()) {
             currentTask = gameContainer.getTaskContainer().getTasks().get(0);
-            currentAction = currentTask.getNextAction();
             return true;
         } else {
             // create task with creature needs
@@ -83,21 +76,16 @@ public class PlanningAspect extends Aspect {
     }
 
     private void updateTarget() {
-        if (currentAction.isTargetExact()) {
-            target = currentAction.getTargetPosition();
-        } else {
-            target = getNextToTargetPosition();
-        }
-    }
-
-    private Position getNextToTargetPosition() {
-        Position target = currentAction.getTargetPosition();
-        for (int x = -1; x < 2; x++) {
-            for (int y = -1; y < 2; y++) {
-                if (gameContainer.getLocalMap().isWalkPassable(target.getX() + x, target.getY() + y, target.getZ()))
-                    return new Position(target.getX() + x, target.getY() + y, target.getZ());
+        Action action = currentTask.getNextAction();
+        target = action.getTargetPosition();
+        if (!action.isTargetExact()) {
+            for (int x = -1; x < 2; x++) {
+                for (int y = -1; y < 2; y++) {
+                    if (gameContainer.getLocalMap().isWalkPassable(target.getX() + x, target.getY() + y, target.getZ()))
+                        target = new Position(target.getX() + x, target.getY() + y, target.getZ());
+                }
             }
+            target = null;
         }
-        return null;
     }
 }
