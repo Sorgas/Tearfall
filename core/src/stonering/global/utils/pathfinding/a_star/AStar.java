@@ -14,15 +14,18 @@ public class AStar {
     private LocalMap localMap;
     private LinkedList<Node> nodes;
     private Position target;
-    private Position start;
 
     public AStar(LocalMap localMap) {
         this.localMap = localMap;
         nodes = new LinkedList<>();
     }
 
+    private void initSearch() {
+        nodes = new LinkedList<>();
+    }
+
     public Path findPath(Position start, Position target) throws NoPathException {
-        this.start = start;
+        initSearch();
         this.target = target;
         System.out.println("start: " + localMap.getBlockType(start));
         System.out.println("target: " + localMap.getBlockType(target));

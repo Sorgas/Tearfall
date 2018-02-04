@@ -8,6 +8,11 @@ public abstract class TargetAspect {
     protected Position targetPosition;
     protected boolean exactTarget;
 
+    public TargetAspect(Action action, Position targetPosition) {
+        this.action = action;
+        this.targetPosition = targetPosition;
+    }
+
     public Position getTargetPosition() {
         return targetPosition;
     }

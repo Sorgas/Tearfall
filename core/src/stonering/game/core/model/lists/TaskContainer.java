@@ -9,12 +9,15 @@ import stonering.objects.jobs.actions.Action;
 import stonering.objects.jobs.actions.ActionTypeEnum;
 import stonering.objects.jobs.actions.TaskTypesEnum;
 import stonering.objects.jobs.actions.aspects.effect.DigEffectAspect;
+import stonering.objects.jobs.actions.aspects.requirements.EquippedItemRequirementAspect;
 import stonering.objects.jobs.actions.aspects.target.BlockTargetAspect;
 
 import java.util.ArrayList;
 
 /**
  * Created by Alexander on 14.06.2017.
+ *
+ * contains all tasks for settlers on map
  */
 public class TaskContainer {
     private GameContainer container;
@@ -31,21 +34,13 @@ public class TaskContainer {
         return tasks;
     }
 
-    public Task getActiveTask() {
+    public Task getActiveTask(Position pos) {
         for (Task task : tasks) {
-            if (isTaskTargetsAvailable(task)) {
+            if (task.isTaskTargetsAvaialbleFrom(pos)) {
                 return task;
             }
         }
         return null;
-    }
-
-    private boolean isTaskTargetsAvailable(Task task) {
-        for (Action action : task.getActions()) {
-            if (!container.getLocalMap().checkAvailability(action.getTargetPosition()))
-                return false;
-        }
-        return true;
     }
 
     public void setTasks(ArrayList<Task> tasks) {
@@ -72,13 +67,11 @@ public class TaskContainer {
     }
 
     private Task createDesignationTask(Designation designation) {
-        Task task = new Task("designation", TaskTypesEnum.DESIGNATION, this);
         Action action = new Action(ActionTypeEnum.DIG, container);
-        action.setTask(task);
         action.setEffectAspect(new DigEffectAspect(action, designation.type));
-        action.setTargetAspect(new BlockTargetAspect(designation.position));
-//        action.setRequirementsAspect();
-        task.addAction(action);
+        action.setTargetAspect(new BlockTargetAspect(action, designation.position));
+        action.setRequirementsAspect(new EquippedItemRequirementAspect(action, "tool", "dig"));
+        Task task = new Task("designation", TaskTypesEnum.DESIGNATION, action, this, container);
         return task;
     }
 
@@ -106,7 +99,7 @@ public class TaskContainer {
     public void removeTask(Task task) {
         tasks.remove(task);
         if (task.getTaskType() == TaskTypesEnum.DESIGNATION) {
-            container.getLocalMap().setDesignatedBlockType(task.getActions().get(0).getTargetPosition(), DesignationsTypes.NONE.getCode());
+            container.getLocalMap().setDesignatedBlockType(task.getInitialAction().getTargetPosition(), DesignationsTypes.NONE.getCode());
         }
     }
 

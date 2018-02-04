@@ -9,12 +9,15 @@ import java.util.ArrayList;
 
 /**
  * Created by Alexander on 03.01.2018.
+ *
+ * manages all items equipped by unit
  */
 public class EquipmentAspect extends Aspect {
     private ArrayList<Item> items;
 
-    public EquipmentAspect(String name, AspectHolder aspectHolder) {
-        super(name, aspectHolder);
+    public EquipmentAspect(AspectHolder aspectHolder) {
+        super("equipment", aspectHolder);
+        items = new ArrayList<>();
     }
 
     public Item getItemWithAspectAndProperty(String aspectName, String property) {
@@ -30,6 +33,7 @@ public class EquipmentAspect extends Aspect {
     public void equipItem(Item item) {
         if (item.getAspects().containsKey("tool")) {
             items.add(item);
+            gameContainer.getItemContainer().removeItem(item);
         }
     }
 }

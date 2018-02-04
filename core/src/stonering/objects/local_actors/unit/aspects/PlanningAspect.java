@@ -5,16 +5,18 @@ import stonering.objects.jobs.actions.Action;
 import stonering.objects.local_actors.Aspect;
 import stonering.objects.local_actors.AspectHolder;
 import stonering.global.utils.Position;
+import stonering.objects.local_actors.unit.Unit;
 
 /**
  * Created by Alexander on 10.10.2017.
  * <p>
  * Holds current creature's task and it's steps. resolves behavior, if some step fails.
+ * Updates target for movement on task switching. Resolves movement target, adjacent to action`s target.
  */
 public class PlanningAspect extends Aspect {
     private Task currentTask;
-    //    private Action currentAction;
     private Position target;
+
 
     public PlanningAspect(AspectHolder aspectHolder) {
         super("planning", aspectHolder);
@@ -23,9 +25,15 @@ public class PlanningAspect extends Aspect {
     public void turn() {
         if (checkTask()) { // has active action
             if (currentTask.getNextAction().getRequirementsAspect().check()) { //check action requirements
+                updateTarget();
                 if (checkUnitPosition()) {
                     currentTask.getNextAction().perform(); // act
+                    if(currentTask.isFinished()) {
+                        currentTask = null;
+                    }
                 }
+            } else {
+                currentTask = null; //action requirements failed
             }
         } else {
             repairActions();
@@ -49,9 +57,9 @@ public class PlanningAspect extends Aspect {
     }
 
     private boolean getTaskFromContainer() {
-        Task task = gameContainer.getTaskContainer().getActiveTask();
+        Task task = gameContainer.getTaskContainer().getActiveTask(aspectHolder.getPosition());
         if (task != null) {
-            currentTask = task;
+            claimTask(task);
             return true;
         } else {
             // create task by needs
@@ -70,6 +78,16 @@ public class PlanningAspect extends Aspect {
         return false;
     }
 
+    private void claimTask(Task task) {
+        currentTask = task;
+        task.setPerformer((Unit) aspectHolder);
+    }
+
+    private void freeTask() {
+        currentTask.reset();
+        currentTask = null;
+    }
+
     // returns target for moving, used by MovementAspect
     public Position getTarget() {
         return target;
@@ -83,6 +101,7 @@ public class PlanningAspect extends Aspect {
                 for (int y = -1; y < 2; y++) {
                     if (gameContainer.getLocalMap().isWalkPassable(target.getX() + x, target.getY() + y, target.getZ()))
                         target = new Position(target.getX() + x, target.getY() + y, target.getZ());
+                        return;
                 }
             }
             target = null;

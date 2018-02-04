@@ -4,6 +4,7 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import stonering.global.utils.Position;
 import stonering.objects.local_actors.Aspect;
+import stonering.objects.local_actors.unit.aspects.EquipmentAspect;
 import stonering.objects.local_actors.unit.aspects.MovementAspect;
 import stonering.objects.local_actors.unit.aspects.PlanningAspect;
 import stonering.objects.local_actors.unit.Unit;
@@ -11,6 +12,8 @@ import stonering.utils.global.FileLoader;
 
 /**
  * Created by Alexander on 03.12.2017.
+ *
+ * creates creatures from json files by specimen name
  */
 public class CreatureGenerator {
     private JsonReader reader;
@@ -35,6 +38,7 @@ public class CreatureGenerator {
         unit.addAspect(genarateBodyAspect(unit, creature));
         unit.addAspect(generatePlanningAspect(unit));
         unit.addAspect(generateMovementAspect(unit));
+        unit.addAspect(generateEquipmentAspect(unit));
         return unit;
     }
 
@@ -48,5 +52,9 @@ public class CreatureGenerator {
 
     private Aspect generatePlanningAspect(Unit unit) {
         return new PlanningAspect(unit);
+    }
+
+    private Aspect generateEquipmentAspect(Unit unit) {
+        return new EquipmentAspect(unit);
     }
 }

@@ -14,6 +14,8 @@ public class Action {
     private Unit performer;
     private GameContainer gameContainer;
 
+    private boolean finished;
+
     private TargetAspect targetAspect;
     private EffectAspect effectAspect;
     private RequirementsAspect requirementsAspect;
@@ -28,6 +30,7 @@ public class Action {
     }
 
     public void finish() {
+        finished = true;
         task.removeAction(this);
         task.recountFinished();
     }
@@ -94,5 +97,13 @@ public class Action {
 
     public void setGameContainer(GameContainer gameContainer) {
         this.gameContainer = gameContainer;
+    }
+
+    public boolean isFinished() {
+        return finished;
+    }
+
+    public void setFinished(boolean finished) {
+        this.finished = finished;
     }
 }

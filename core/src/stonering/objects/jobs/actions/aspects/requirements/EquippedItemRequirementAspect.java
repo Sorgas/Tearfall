@@ -10,12 +10,16 @@ import stonering.objects.local_actors.unit.aspects.EquipmentAspect;
 
 /**
  * Created by Alexander on 27.01.2018.
+ *
+ * checks if unis has specific equipped item,
+ * creates action to equip one if needed and possible
  */
 public class EquippedItemRequirementAspect extends RequirementsAspect {
     private String itemAspect;
     private String requiredReaction;
 
-    public EquippedItemRequirementAspect(String itemAspect, String requiredReaction) {
+    public EquippedItemRequirementAspect(Action action, String itemAspect, String requiredReaction) {
+        super(action);
         this.itemAspect = itemAspect;
         this.requiredReaction = requiredReaction;
     }
@@ -37,13 +41,13 @@ public class EquippedItemRequirementAspect extends RequirementsAspect {
         Item target = action.getGameContainer().getItemContainer().getItemWithAspect(itemAspect, requiredReaction);
         if (target != null) {
             Action newAction = new Action(ActionTypeEnum.EQUIP, action.getGameContainer());
-            newAction.setEffectAspect(new EquipItemEffectAspect(action));
-            newAction.setTargetAspect(new ItemTargetAspect(target));
+            newAction.setEffectAspect(new EquipItemEffectAspect(newAction));
+            newAction.setTargetAspect(new ItemTargetAspect(action, target));
+            newAction.setRequirementsAspect(new BodyPartRequirementAspect(newAction, "grab"));
             newAction.setTask(action.getTask());
-            action.getTask().getActions().add(0, newAction);
+            action.getTask().addAction(newAction);
             return true;
         }
         return false;
     }
-
 }

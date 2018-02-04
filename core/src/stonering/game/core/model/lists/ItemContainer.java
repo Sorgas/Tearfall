@@ -11,6 +11,8 @@ import java.util.HashMap;
 
 /**
  * Created by Alexander on 14.06.2017.
+ *
+ * manages all items on map
  */
 public class ItemContainer {
     private ArrayList<Item> items;
@@ -33,8 +35,9 @@ public class ItemContainer {
         }
     }
 
-    public void addItem(Item item) {
-        items.add(item);
+    public void removeItem(Item item) {
+        items.remove(item);
+        itemMap.get(item.getPosition()).remove(item);
     }
 
     public void addItem(Item item, Position position) {
@@ -52,10 +55,6 @@ public class ItemContainer {
         }
     }
 
-    public void turn() {
-        items.forEach((item) -> item.turn());
-    }
-
     public Item getItemWithAspect(String aspectName, String aspectArg) {
         for (Item item: items) {
             Aspect aspect = item.getAspects().get(aspectName);
@@ -64,5 +63,9 @@ public class ItemContainer {
             }
         }
         return null;
+    }
+
+    public void turn() {
+        items.forEach((item) -> item.turn());
     }
 }

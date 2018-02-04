@@ -2,8 +2,10 @@
     {
         "title":"pickaxe",
         "aspects":[
-            {"name": "tool",
-            "args": "dig"}
+            {
+                "name":"tool",
+                "args":["dig"]
+            }
         ],
         "reactions":[
             "dig"
