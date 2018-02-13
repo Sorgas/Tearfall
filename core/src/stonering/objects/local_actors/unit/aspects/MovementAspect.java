@@ -4,11 +4,11 @@ import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.LocalMap;
 import stonering.global.utils.pathfinding.NoPathException;
 import stonering.global.utils.pathfinding.a_star.AStar;
-import stonering.objects.common.Path;
 import stonering.objects.local_actors.Aspect;
 import stonering.objects.local_actors.unit.Unit;
 import stonering.global.utils.Position;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -24,7 +24,7 @@ public class MovementAspect extends Aspect {
 
     private PlanningAspect planning;
 
-    private Path path;
+    private ArrayList<Position> path;
     private Position target;
 
     public MovementAspect(Unit unit) {
@@ -48,8 +48,8 @@ public class MovementAspect extends Aspect {
                 if (path == null)
                     makeRouteToTarget();
                 else {
-                    if (!path.isFinished()) { // path not finished
-                        Position nextPosition = path.pollNextPosition(); // get next step, remove from path
+                    if (!path.isEmpty()) { // path not finished
+                        Position nextPosition = path.remove(0); // get next step, remove from path
                         if (map.isWalkPassable(nextPosition)) { // path has not been blocked after calculation
                             aspectHolder.setPosition(nextPosition); //step
                         } else { // path blocked
@@ -86,12 +86,8 @@ public class MovementAspect extends Aspect {
     }
 
     private void makeRouteToTarget() {
-        try {
-            System.out.println("path start");
-            path = new AStar(gameContainer.getLocalMap()).findPath(aspectHolder.getPosition(), planning.getTarget());
-            System.out.println("path end");
-        } catch (NoPathException e) {
-            System.out.println("cancel task");
-        }
+        System.out.println("path start");
+        path = new AStar(gameContainer.getLocalMap()).makeShortestPath(aspectHolder.getPosition(), planning.getTarget());
+        System.out.println("path end");
     }
 }

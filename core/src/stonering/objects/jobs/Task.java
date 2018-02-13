@@ -71,13 +71,13 @@ public class Task {
 
     public boolean isTaskTargetsAvaialbleFrom(Position position) {
         AStar aStar = new AStar(container.getLocalMap());
-        try {
-            aStar.findPath(initialAction.getTargetPosition(), position);
-            for (Action action : actions) {
-                aStar.findPath(action.getTargetPosition(), position);
-            }
-        } catch (NoPathException e) {
+        if (aStar.makeShortestPath(position, initialAction.getTargetPosition()) == null) {
             return false;
+        }
+        for (Action action : actions) {
+            if (aStar.makeShortestPath(position, action.getTargetPosition()) == null) {
+                return false;
+            }
         }
         return true;
     }

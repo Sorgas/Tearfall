@@ -33,10 +33,9 @@ public class UnitContainer {
     }
 
     public void placeUnit(Unit unit) {
-        Random random = new Random();
         while (true) {
-            int x = random.nextInt(localMap.getxSize());
-            int y = random.nextInt(localMap.getySize());
+            int x = localMap.getxSize() / 2;
+            int y = localMap.getySize() / 2 - 15;
             for (int z = localMap.getzSize() - 1; z > 0; z--) {
                 if (localMap.getBlockType(x, y, z) == BlockTypesEnum.FLOOR.getCode()
                         && localMap.getBlockType(x, y, z - 1) == BlockTypesEnum.WALL.getCode()) {
