@@ -1,5 +1,6 @@
 package stonering.objects.jobs;
 
+import stonering.enums.ProfessionsEnum;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.lists.TaskContainer;
 import stonering.global.utils.Position;
@@ -82,6 +83,11 @@ public class Task {
         return true;
     }
 
+    public void addAction(Action action) {
+        actions.add(action);
+        action.setPerformer(performer);
+    }
+
     public String getName() {
         return name;
     }
@@ -96,11 +102,6 @@ public class Task {
 
     public void setTaskType(TaskTypesEnum taskType) {
         this.taskType = taskType;
-    }
-
-    public void addAction(Action action) {
-        actions.add(action);
-        action.setPerformer(performer);
     }
 
     public Unit getPerformer() {

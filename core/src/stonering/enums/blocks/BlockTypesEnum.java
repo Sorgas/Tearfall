@@ -9,8 +9,9 @@ public enum BlockTypesEnum {
     SPACE(0, 1), //not passable for walkers
     WALL(1, 0), // not passable
     FLOOR(2, 2), // passable
-    STAIRS(3, 2), // passable
-    RAMP(4, 2); // passable
+    RAMP(3, 2), // passable
+    STAIRS(4, 2), // passable
+    STAIRFLOOR(5, 2); // passable
 
     private byte code;
     private byte passing;

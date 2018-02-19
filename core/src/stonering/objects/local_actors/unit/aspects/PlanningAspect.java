@@ -17,7 +17,6 @@ public class PlanningAspect extends Aspect {
     private Task currentTask;
     private Position target;
 
-
     public PlanningAspect(AspectHolder aspectHolder) {
         super("planning", aspectHolder);
     }
@@ -30,13 +29,15 @@ public class PlanningAspect extends Aspect {
                     currentTask.getNextAction().perform(); // act
                     if(currentTask.isFinished()) {
                         currentTask = null;
+                        target = null;
                     }
                 }
             } else {
+                System.out.println("task canceled");
                 currentTask = null; //action requirements failed
             }
         } else {
-            repairActions();
+            repairTask();
         }
     }
 
@@ -50,7 +51,7 @@ public class PlanningAspect extends Aspect {
         return aspectHolder.getPosition().equals(target);
     }
 
-    private void repairActions() {
+    private void repairTask() {
         if (getTaskFromContainer()) {
             updateTarget();
         }

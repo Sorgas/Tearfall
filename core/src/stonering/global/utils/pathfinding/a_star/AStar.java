@@ -5,23 +5,20 @@ import stonering.game.core.model.LocalMap;
 import stonering.global.utils.HashPriorityQueue;
 import stonering.global.utils.Position;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
 
 public class AStar {
     private LocalMap localMap;
-    private LinkedList<Node> nodes;
-    private Position target;
 
     public AStar(LocalMap localMap) {
         this.localMap = localMap;
-        nodes = new LinkedList<>();
     }
 
     // The maximum number of completed nodes. After that number the algorithm returns null.
     // If negative, the search will run until the goal node is found.
     private int maxSteps = 10000;
-
-    public Node bestNodeAfterSearch;
 
     /**
      * Returns the shortest Path from a start node to an end node according to
@@ -30,13 +27,17 @@ public class AStar {
     public ArrayList<Position> makeShortestPath(Position initialPos, Position targetPos) {
         Node initialNode = new Node(initialPos, targetPos);
         //perform search and save the
-        Node endNode = search(initialNode, targetPos);
-        if (endNode == null)
+        Node pathNode = search(initialNode, targetPos);
+        if (pathNode == null)
             return null;
         //return shortest path according to AStar heuristics
-        ArrayList<Node> nodePath = AStar.makePath(endNode);
+
         ArrayList<Position> path = new ArrayList<>();
-        nodePath.forEach(node -> path.add(node.getPosition()));
+        path.add(pathNode.getPosition());
+        while (pathNode.getParent() != null) {
+            pathNode = pathNode.getParent();
+            path.add(0, pathNode.getPosition());
+        }
         return path;
     }
 
@@ -46,6 +47,7 @@ public class AStar {
      * @return goal node from which you can reconstruct the path
      */
     private Node search(Node initialNode, Position targetPos) {
+        System.out.println("target: " + targetPos.toString());
         HashPriorityQueue<Node, Node> openSet = new HashPriorityQueue(new NodeComparator());
         HashMap<Integer, Node> closedSet = new HashMap<>();
 
@@ -56,10 +58,10 @@ public class AStar {
         while (openSet.size() > 0 && (maxSteps < 0 || numSearchSteps < maxSteps)) {
             //get element with the least sum of costs
             Node currentNode = openSet.poll();
+            System.out.println("curNode: " + currentNode.getPosition().toString());
 
             //path is complete
             if (targetPos.equals(currentNode.getPosition())) {
-                this.bestNodeAfterSearch = currentNode;
                 return currentNode;
             }
 
@@ -104,35 +106,8 @@ public class AStar {
             closedSet.put(currentNode.hashCode(), currentNode);
             numSearchSteps += 1;
         }
-
-        closedSet.values().forEach((node -> {
-            if(bestNodeAfterSearch == null || bestNodeAfterSearch.getPathLength() < node.getPathLength()) {
-                bestNodeAfterSearch = node;
-            }
-        }));
-        return bestNodeAfterSearch;
-    }
-
-    /**
-     * returns path from the earliest ancestor to the node in the argument
-     * if the parents are set via AStar search, it will return the path found.
-     * This is the shortest shortest path, if the heuristic h does not overestimate
-     * the true remaining costs
-     *
-     * @param node node from which the parents are to be found. Parents of the node should
-     *             have been properly set in preprocessing (f.e. AStar.search)
-     * @return path to the node in the argument
-     */
-    private static ArrayList<Node> makePath(Node node) {
-        ArrayList<Node> path = new ArrayList<Node>();
-        path.add(node);
-        Node currentNode = node;
-        while (currentNode.getParent() != null) {
-            Node parent = currentNode.getParent();
-            path.add(0, parent);
-            currentNode = parent;
-        }
-        return path;
+        System.out.println("no path");
+        return null;
     }
 
     private ArrayList<Node> getSuccessors(Node node, Position target) {
@@ -141,9 +116,10 @@ public class AStar {
             for (int y = -1; y < 2; y++) {
                 for (int x = -1; x < 2; x++) {
                     if (x != 0 || y != 0 || z != 0) {
-                        if (inMap(node.getPosition().getX() + x, node.getPosition().getY() + y, node.getPosition().getZ() + z)) {
-                            Position newPos = new Position(node.getPosition().getX() + x, node.getPosition().getY() + y, node.getPosition().getZ() + z);
-                            if (hasPathBetween(node.getPosition(), newPos)) {
+                        Position nodePos = node.getPosition();
+                        if (inMap(nodePos.getX() + x, nodePos.getY() + y, nodePos.getZ() + z)) {
+                            Position newPos = new Position(nodePos.getX() + x, nodePos.getY() + y, nodePos.getZ() + z);
+                            if (hasPathBetween(nodePos, newPos)) {
                                 nodes.add(new Node(newPos, target));
                             }
                         }

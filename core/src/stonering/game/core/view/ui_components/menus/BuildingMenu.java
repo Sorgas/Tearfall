@@ -3,7 +3,7 @@ package stonering.game.core.view.ui_components.menus;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import stonering.enums.designations.DesignationsTypes;
+import stonering.enums.designations.DesignationTypes;
 import stonering.game.core.controller.controllers.BuildingController;
 import stonering.game.core.controller.controllers.DesignationsController;
 import stonering.game.core.view.ui_components.Toolbar;
@@ -30,7 +30,7 @@ public class BuildingMenu extends Menu {
 //        diggingButton.addListener(new ChangeListener() {
 //            @Override
 //            public void changed(ChangeEvent event, Actor actor) {
-//                controller.setActiveDesignation(DesignationsTypes.DIG);
+//                controller.setActiveDesignation(DesignationTypes.DIG);
 //                toolbar.closeMenus();
 //            }
 //        });
@@ -41,7 +41,7 @@ public class BuildingMenu extends Menu {
 //        rampButton.addListener(new ChangeListener() {
 //            @Override
 //            public void changed(ChangeEvent event, Actor actor) {
-//                controller.setActiveDesignation(DesignationsTypes.RAMP);
+//                controller.setActiveDesignation(DesignationTypes.RAMP);
 //                toolbar.closeMenus();
 //            }
 //        });
@@ -52,7 +52,7 @@ public class BuildingMenu extends Menu {
 //        channelButton.addListener(new ChangeListener() {
 //            @Override
 //            public void changed(ChangeEvent event, Actor actor) {
-//                controller.setActiveDesignation(DesignationsTypes.CHANNEL);
+//                controller.setActiveDesignation(DesignationTypes.CHANNEL);
 //                toolbar.closeMenus();
 //            }
 //        });
@@ -63,7 +63,7 @@ public class BuildingMenu extends Menu {
 //        stairsButton.addListener(new ChangeListener() {
 //            @Override
 //            public void changed(ChangeEvent event, Actor actor) {
-//                controller.setActiveDesignation(DesignationsTypes.STAIRS);
+//                controller.setActiveDesignation(DesignationTypes.STAIRS);
 //                toolbar.closeMenus();
 //            }
 //        });
@@ -74,7 +74,7 @@ public class BuildingMenu extends Menu {
 //        cancelButton.addListener(new ChangeListener() {
 //            @Override
 //            public void changed(ChangeEvent event, Actor actor) {
-//                controller.setActiveDesignation(DesignationsTypes.NONE);
+//                controller.setActiveDesignation(DesignationTypes.NONE);
 //                toolbar.closeMenus();
 //            }
 //        });
@@ -92,10 +92,18 @@ public class BuildingMenu extends Menu {
 //        hotkeyMap.put((char) 27, escButton);
     }
 
-    public void openDiggingPanel() {
-
+    private void addButtonToTable(String text, DesignationTypes type, char hotKey) {
+        TextButton button = new TextButton(text, StaticSkin.getSkin());
+        button.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+//                controller. setActiveDesignation(type);
+                toolbar.closeMenus();
+            }
+        });
+        this.add(button).row();
+        hotkeyMap.put(hotKey, button);
     }
-
     public void setController(DesignationsController controller) {
         //this.controller = controller;
     }

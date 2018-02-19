@@ -1,7 +1,7 @@
 package stonering.game.core.model.lists;
 
 import stonering.enums.blocks.BlockTypesEnum;
-import stonering.enums.designations.DesignationsTypes;
+import stonering.enums.designations.DesignationTypes;
 import stonering.game.core.model.GameContainer;
 import stonering.global.utils.Position;
 import stonering.objects.jobs.Task;
@@ -43,6 +43,10 @@ public class TaskContainer {
         return null;
     }
 
+    public Task getAvailableDesignation() {
+
+    }
+
     public void setTasks(ArrayList<Task> tasks) {
         this.tasks = tasks;
     }
@@ -51,7 +55,7 @@ public class TaskContainer {
         tasks.add(task);
     }
 
-    public void addDesignation(Position position, DesignationsTypes blockType) {
+    public void addDesignation(Position position, DesignationTypes blockType) {
         if (validateDesignations(position, blockType)) {
             Designation designation = new Designation(position, blockType);
             int index = designations.indexOf(designation);
@@ -61,7 +65,8 @@ public class TaskContainer {
             } else {
                 designations.add(designation);
             }
-            tasks.add(createDesignationTask(designation));
+            designation.task = createDesignationTask(designation);
+            tasks.add(designation.task);
             container.getLocalMap().setDesignatedBlockType(designation.position, designation.type.getCode());
         }
     }
@@ -75,19 +80,20 @@ public class TaskContainer {
         return task;
     }
 
-    private boolean validateDesignations(Position position, DesignationsTypes blockType) {
+    private boolean validateDesignations(Position position, DesignationTypes blockType) {
+        BlockTypesEnum blockOnMap = BlockTypesEnum.getType(container.getLocalMap().getBlockType(position));
         switch (blockType) {
             case DIG: {
-                return BlockTypesEnum.getType(container.getLocalMap().getBlockType(position)).equals(BlockTypesEnum.RAMP) ||
-                        BlockTypesEnum.getType(container.getLocalMap().getBlockType(position)).equals(BlockTypesEnum.WALL) ||
-                        BlockTypesEnum.getType(container.getLocalMap().getBlockType(position)).equals(BlockTypesEnum.STAIRS);
+                return blockOnMap.equals(BlockTypesEnum.RAMP) ||
+                        blockOnMap.equals(BlockTypesEnum.WALL) ||
+                        blockOnMap.equals(BlockTypesEnum.STAIRS);
             }
             case CHANNEL: {
-                return !BlockTypesEnum.getType(container.getLocalMap().getBlockType(position)).equals(BlockTypesEnum.SPACE);
+                return !blockOnMap.equals(BlockTypesEnum.SPACE);
             }
             case RAMP:
             case STAIRS: {
-                return (BlockTypesEnum.getType(container.getLocalMap().getBlockType(position)).equals(BlockTypesEnum.WALL));
+                return blockOnMap.equals(BlockTypesEnum.WALL);
             }
             case NONE: {
                 return true;
@@ -99,16 +105,16 @@ public class TaskContainer {
     public void removeTask(Task task) {
         tasks.remove(task);
         if (task.getTaskType() == TaskTypesEnum.DESIGNATION) {
-            container.getLocalMap().setDesignatedBlockType(task.getInitialAction().getTargetPosition(), DesignationsTypes.NONE.getCode());
+            container.getLocalMap().setDesignatedBlockType(task.getInitialAction().getTargetPosition(), DesignationTypes.NONE.getCode());
         }
     }
 
     private class Designation {
         Position position;
-        DesignationsTypes type;
+        DesignationTypes type;
         Task task;
 
-        public Designation(Position position, DesignationsTypes blockType) {
+        public Designation(Position position, DesignationTypes blockType) {
             this.position = position;
             this.type = blockType;
         }

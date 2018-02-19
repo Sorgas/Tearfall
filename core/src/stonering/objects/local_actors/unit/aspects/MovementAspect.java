@@ -25,13 +25,13 @@ public class MovementAspect extends Aspect {
     private PlanningAspect planning;
 
     private ArrayList<Position> path;
-    private Position target;
+    private boolean oldTarget;
 
     public MovementAspect(Unit unit) {
         super("movement", unit);
         this.aspectHolder = unit;
         stepTime = 15;
-        stepDelay = new Random().nextInt(stepTime);
+        stepDelay = stepTime;
     }
 
     public void turn() {
@@ -39,42 +39,30 @@ public class MovementAspect extends Aspect {
             stepDelay--; //counting ticks to step
         } else {
             makeStep();
+            stepDelay = stepTime;
         }
     }
 
     private void makeStep() {
-        if (planning != null) {
-            if (isTargetOld()) {// old target
-                if (path == null)
-                    makeRouteToTarget();
-                else {
-                    if (!path.isEmpty()) { // path not finished
-                        Position nextPosition = path.remove(0); // get next step, remove from path
-                        if (map.isWalkPassable(nextPosition)) { // path has not been blocked after calculation
-                            aspectHolder.setPosition(nextPosition); //step
-                        } else { // path blocked
-                            makeRouteToTarget(); // calculate new path
-                        }
-                    }
+        if (path != null) {
+            if (!path.isEmpty()) {// path not finished
+                Position nextPosition = path.remove(0); // get next step, remove from path
+                if (map.isWalkPassable(nextPosition)) { // path has not been blocked after calculation
+                    aspectHolder.setPosition(nextPosition); //step
+                } else { // path blocked
+                    System.out.println("path blocked");
+                    path = null; // drop path
                 }
-            } else { //new target
-                target = planning.getTarget();
-                if (target != null) {
+            } else {
+                path = null; // drop path
+            }
+        } else {
+            if (planning != null) {
+                if (planning.getTarget() != null) {
                     makeRouteToTarget();
                 }
             }
-            stepDelay = stepTime;
-        } else {
-            //no planning aspect
         }
-    }
-
-    private boolean isTargetOld() {
-        Position target = planning.getTarget();
-        if (target != null) {
-            return target.equals(this.target);
-        }
-        return false;
     }
 
     @Override
@@ -86,8 +74,6 @@ public class MovementAspect extends Aspect {
     }
 
     private void makeRouteToTarget() {
-        System.out.println("path start");
         path = new AStar(gameContainer.getLocalMap()).makeShortestPath(aspectHolder.getPosition(), planning.getTarget());
-        System.out.println("path end");
     }
 }

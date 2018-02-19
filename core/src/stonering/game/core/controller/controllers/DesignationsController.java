@@ -1,6 +1,6 @@
 package stonering.game.core.controller.controllers;
 
-import stonering.enums.designations.DesignationsTypes;
+import stonering.enums.designations.DesignationTypes;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.view.GameView;
 import stonering.game.core.view.ui_components.Toolbar;
@@ -13,7 +13,7 @@ import stonering.global.utils.Position;
  * controller for various digging tasks. works with GameContainer directly
  */
 public class DesignationsController extends Controller {
-    private DesignationsTypes activeDesignation;
+    private DesignationTypes activeDesignation;
     private boolean rectangleStarted = false;
     private Position start;
 
@@ -22,13 +22,13 @@ public class DesignationsController extends Controller {
         ((DiggingMenu) view.getUiDrawer().getToolbar().getMenu(Toolbar.DIGGING)).setController(this);
     }
 
-    public void setActiveDesignation(DesignationsTypes activeDesignation) {
+    public void setActiveDesignation(DesignationTypes activeDesignation) {
         this.activeDesignation = activeDesignation;
         view.getUiDrawer().getToolStatus().setText(
                 activeDesignation != null ? activeDesignation.getText() : "");
     }
 
-    public DesignationsTypes getActiveDesignation() {
+    public DesignationTypes getActiveDesignation() {
         return activeDesignation;
     }
 

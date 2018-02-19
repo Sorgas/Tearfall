@@ -5,25 +5,25 @@ import java.util.HashMap;
 /**
  * Created by Alexander on 27.12.2017.
  */
-public enum DesignationsTypes {
+public enum DesignationTypes {
     NONE(0, "none"),
     DIG(1, "digging wall"), // removes walls and ramps. leaves floor
     STAIRS(2, "cutting stairs"), //cuts stairs from wall.
     RAMP(3, "cutting ramp"), // digs ramp and upper cell.
     CHANNEL(4, "digging channel"); // digs cell and ramp on lower level
 
-    private static HashMap<Byte, DesignationsTypes> map;
+    private static HashMap<Byte, DesignationTypes> map;
     private byte code;
     private String text;
 
     static {
         map = new HashMap<>();
-        for (DesignationsTypes type : DesignationsTypes.values()) {
+        for (DesignationTypes type : DesignationTypes.values()) {
             map.put(type.code, type);
         }
     }
 
-    DesignationsTypes(int code, String text) {
+    DesignationTypes(int code, String text) {
         this.code = (byte) code;
         this.text = text;
     }
@@ -36,7 +36,7 @@ public enum DesignationsTypes {
         return text;
     }
 
-    public DesignationsTypes getType(int code) {
+    public DesignationTypes getType(int code) {
         return map.get(code);
     }
 }
