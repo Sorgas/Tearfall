@@ -49,11 +49,11 @@ public class ErosionGenerator extends AbstractGenerator {
 
     public ErosionGenerator(WorldGenContainer container) {
         super(container);
+        extractContainer(container);
         drops = new ArrayList<>();
     }
 
     public boolean execute() {
-        extractContainer(container);
         putDrops();
         for (int i = 0; i < maxSteps; i++) {
             drops.forEach((drop) -> moveDrop(drop));
@@ -69,27 +69,28 @@ public class ErosionGenerator extends AbstractGenerator {
     }
 
     private void putDrops() {
-//        Random random = new Random();
-//        while (true) {
-//            int x = random.nextInt(map.getWidth());
-//            int y = random.nextInt(map.getHeight());
-//            if (container.getElevation(x, y) > 0) {
-//                System.out.println("drop   " + x + " " + y);
-//                drops.add(new Drop(new Position(x, y, 0)));
-//                return;
-//            }
-//        }
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-                if (container.getElevation(x, y) > 0) {
-                    drops.add(new Drop(new Position(x, y, 0)));
-                }
+        Random random = new Random();
+        while (true) {
+            int x = random.nextInt(map.getWidth());
+            int y = random.nextInt(map.getHeight());
+            if (container.getElevation(x, y) > 0) {
+                System.out.println("drop   " + x + " " + y);
+                drops.add(new Drop(new Position(x, y, 0)));
+                return;
             }
         }
+//        for (int x = 0; x < width; x++) {
+//            for (int y = 0; y < height; y++) {
+//                if (container.getElevation(x, y) > 0) {
+//                    drops.add(new Drop(new Position(x, y, 0)));
+//                }
+//            }
+//        }
     }
 
     private void moveDrop(Drop drop) {
         Position pos = drop.position; // current position
+        System.out.println(drop.position.toString());
         //apply slope to speed
         Vector slopeVector = countSlopeVector(pos.getX(), pos.getY());
         slopeVector.setLength(slopeVector.getLength() * (1 - dropInertia));
@@ -148,8 +149,8 @@ public class ErosionGenerator extends AbstractGenerator {
             for (int y = cy - 1; y <= cy + 1; y++) {
                 if (map.inMap(x, y) && container.getElevation(x, y) < centerElevation) { // elevation decreases in this direction
                     float elevation = container.getElevation(x, y);
-                    xProject += (x - cx) * (centerElevation - elevation);
-                    yProject += (y - cy) * (centerElevation - elevation);
+                    xProject += (x - cx) * (centerElevation - elevation) + 1;
+                    yProject += (y - cy) * (centerElevation - elevation) + 1;
                 }
             }
         }
