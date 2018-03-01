@@ -7,6 +7,8 @@ import stonering.objects.local_actors.building.BuildingBlock;
 import stonering.objects.local_actors.plants.PlantBlock;
 import stonering.objects.local_actors.unit.UnitBlock;
 
+import java.util.ArrayList;
+
 /**
  * Created by Alexander on 10.06.2017.
  * <p>
@@ -23,6 +25,7 @@ public class LocalMap {
     private PlantBlock[][][] plantBlocks;
     private BuildingBlock[][][] buildingBlocks;
     private UnitBlock[][][] unitBlocks;
+    private ArrayList<Byte> areaNumbers;
 
     private LocalTileMapUpdater localTileMapUpdater;
 
@@ -42,6 +45,7 @@ public class LocalMap {
         flooding = new byte[xSize][ySize][zSize];
         temperature = new byte[xSize][ySize][zSize];
         lightlevel = new byte[xSize][ySize][zSize];
+        areaNumbers = new ArrayList<>();
         this.xSize = xSize;
         this.ySize = ySize;
         this.zSize = zSize;
@@ -71,66 +75,80 @@ public class LocalMap {
     }
 
     public void initAreas() {
+        byte areaNum = 1;
         for (int x = 0; x < xSize; x++) {
-            for (int y = 0; y < xSize; y++) {
-                for (int z = 0; z < xSize; z++) {
-                    if (isWalkPassable(x, y, z)) { // not wall
-
-                    }
-                    if (area[x][y][z] == 0) {
-
+            for (int y = 0; y < ySize; y++) {
+                for (int z = 0; z < zSize; z++) {
+                    if (isWalkPassable(x, y, z) && area[x][y][z] == 0) { // not wall
+                        floodFill(x, y, z, areaNum);
+                        areaNumbers.add(areaNum);
+                        areaNum++;
                     }
                 }
             }
         }
     }
 
-    private void floodFill(int x, int y, int z, byte number) {
-        if (area[x][y][z] == 0) {
+    private void floodFill(int sx, int sy, int sz, byte number) {
+        System.out.println("filling" + " " + sx + " " + sy + " " + sz);
+        ArrayList<Position> openList = new ArrayList<>();
+        ArrayList<Position> closedList = new ArrayList<>();
+        openList.add(new Position(sx, sy, sz));
+
+        while (!openList.isEmpty()) {
+            Position current = openList.remove(0);
+            closedList.add(current);
+            int x = current.getX();
+            int y = current.getY();
+            int z = current.getZ();
             area[x][y][z] = number;
-            // same level
-            if (isWalkPassable(x, y, z)) {
-                for (int dx = -1; dx < 2; dx++) {
-                    for (int dy = -1; dy < 2; dy++) {
-                        if (isWalkPassable(x + dx, y + dy, z)) {
-                            floodFill(x + dx, y + dy, z, number);
+            for (int dx = -1; dx < 2; dx++) {
+                for (int dy = -1; dy < 2; dy++) {
+                    for (int dz = -1; dz < 2; dz++) {
+                        if ((dx != 0 || dy != 0 || dz != 0) && hasPathBetween(x, y, z, x + dx, y + dy, z + dz)) {
+                            Position pos = new Position(x + dx, y + dy, z + dz);
+                            if (!openList.contains(pos) && !closedList.contains(pos)) {
+                                openList.add(pos);
+//                                System.out.println("adding: " + number);
+//                                System.out.println("to  : " + pos.toString() + " " + blockType[x + dx][y + dy][z + dz]);
+//                                System.out.println("from: " + current.toString() + " " + blockType[x][y][z]);
+                            }
                         }
                     }
                 }
             }
-            //upper level
-            if (blockType[x][y][z] == BlockTypesEnum.RAMP.getCode() &&
-                    blockType[x][y][z + 1] == BlockTypesEnum.SPACE.getCode()) {
-                for (int dx = -1; dx < 2; dx++) {
-                    for (int dy = -1; dy < 2; dy++) {
-                        if (isWalkPassable(x + dx, y + dy, z + 1)) {
-                            floodFill(x + dx, y + dy, z + 1, number);
-                        }
-                    }
-                }
-            } else if (blockType[x][y][z] == BlockTypesEnum.STAIRS.getCode() &&
-                    (blockType[x][y][z + 1] == BlockTypesEnum.STAIRS.getCode() ||
-                            blockType[x][y][z + 1] == BlockTypesEnum.STAIRFLOOR.getCode())) {
-                floodFill(x, y, z + 1, number);
-            }
-            //lower level
-            if (blockType[x][y][z - 1] == BlockTypesEnum.STAIRS.getCode() &&
-                    (blockType[x][y][z] == BlockTypesEnum.STAIRS.getCode() ||
-                            blockType[x][y][z] == BlockTypesEnum.STAIRFLOOR.getCode())) {
-                floodFill(x, y, z - 1, number);
-            } else {
-                for (int dx = -1; dx < 2; dx++) {
-                    for (int dy = -1; dy < 2; dy++) {
-                        if (blockType[x + dx][y + dy][z - 1] == BlockTypesEnum.RAMP.getCode() &&
-                                blockType[x + dx][y + dy][z] == BlockTypesEnum.SPACE.getCode()) {
-                            floodFill(x + dx, y + dy, z - 1, number);
-                        }
-                    }
-                }
-            }
+
         }
     }
 
+    //sells should be adjacent
+    private boolean hasPathBetween(int x, int y, int z, int x2, int y2, int z2) {
+        if (inMap(x, y, z) && inMap(x2, y2, z2) && isWalkPassable(x, y, z) && isWalkPassable(x2, y2, z2)) {
+            if (z == z2) {
+                return true;
+            } else if (x == x2 && y == y2) {
+                return isWorkingStair(x, y, Math.min(z, z2));
+            } else {
+                if (z < z2) {
+                    return isWorkingRamp(x, y, z);
+                } else {
+                    return isWorkingRamp(x2, y2, z2);
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean isWorkingRamp(int x, int y, int z) {
+        return blockType[x][y][z] == BlockTypesEnum.RAMP.getCode()
+                && blockType[x][y][z + 1] == BlockTypesEnum.SPACE.getCode();
+    }
+
+    private boolean isWorkingStair(int x, int y, int z) {
+        return blockType[x][y][z] == BlockTypesEnum.STAIRS.getCode()
+                && (blockType[x][y][z + 1] == BlockTypesEnum.STAIRS.getCode()
+                || blockType[x][y][z + 1] == BlockTypesEnum.STAIRFLOOR.getCode());
+    }
 
     private boolean inMap(int x, int y, int z) {
         return !(x < 0 || y < 0 || z < 0 ||
@@ -258,5 +276,21 @@ public class LocalMap {
 
     public void setBlock(int x, int y, int z, BlockTypesEnum blockType, int materialId) {
         setBlock(x, y, z, blockType.getCode(), materialId);
+    }
+
+    public byte getArea(Position pos) {
+        return area[pos.getX()][pos.getY()][pos.getZ()];
+    }
+
+    public byte getArea(int x, int y, int z) {
+        return area[x][y][z];
+    }
+
+    public void setArea(Position pos, byte type) {
+        setBlocType(pos.getX(), pos.getY(), pos.getZ(), type);
+    }
+
+    public void setArea(int x, int y, int z, byte area) {
+        this.area[x][y][z] = area;
     }
 }

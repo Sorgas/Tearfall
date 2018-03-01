@@ -54,7 +54,9 @@ public class UIDrawer {
 
     private void updateStatusBar() {
         Position focus = container.getCamera().getPosition();
-        tileStatusBar.setData(focus, materialMap.getMaterial(container.getLocalMap().getMaterial(focus.getX(), focus.getY(), focus.getZ())).getName());
+        tileStatusBar.setData(focus,
+                materialMap.getMaterial(container.getLocalMap().getMaterial(focus)).getName(),
+                container.getLocalMap().getArea(focus));
     }
 
     public void resize(int width, int height) {

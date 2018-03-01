@@ -32,7 +32,7 @@ public class LocalGenContainer {
         buildings = new ArrayList<>();
         items = new ArrayList<>();
         materialMap = MaterialMap.getInstance();
-        createMap();
+        localMap = new LocalMap(config.getAreaSize(), config.getAreaSize(), config.getAreaHight());
     }
 
     public LocalGenConfig getConfig() {
@@ -49,10 +49,6 @@ public class LocalGenContainer {
 
     public void setHeightsMap(int[][] heightsMap) {
         this.heightsMap = heightsMap;
-    }
-
-    private void createMap() {
-        localMap = new LocalMap(config.getAreaSize(), config.getAreaSize(), config.getAreaHight());
     }
 
     public LocalMap getLocalMap() {

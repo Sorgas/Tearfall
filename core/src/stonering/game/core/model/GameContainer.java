@@ -62,6 +62,8 @@ public class GameContainer {
         container.getItems().forEach((item) -> itemContainer.addItem(item, item.getPosition()));
 
         taskContainer = new TaskContainer(this);
+
+        localMap.initAreas();
     }
 
     private void startContainer() {

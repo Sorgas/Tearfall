@@ -34,6 +34,10 @@ public class PlantContainer {
         return plants;
     }
 
+    public void placeTrees() {
+        trees.forEach((tree) -> placeTree(tree));
+    }
+
     private void placeTree(Tree tree) {
         int treeRadius = tree.getBlocks().length / 2;
         int treeDepth = tree.getStompZ();
@@ -56,10 +60,6 @@ public class PlantContainer {
 
     public void setLocalMap(LocalMap localMap) {
         this.localMap = localMap;
-    }
-
-    public void placeTrees() {
-        trees.forEach((tree) -> placeTree(tree));
     }
 
     public void turn() {

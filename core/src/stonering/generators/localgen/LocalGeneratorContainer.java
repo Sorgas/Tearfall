@@ -7,6 +7,8 @@ import stonering.global.utils.Position;
 
 /**
  * Created by Alexander on 27.08.2017.
+ *
+ * executes local generators in correct order
  */
 public class LocalGeneratorContainer {
     private LocalGenContainer localGenContainer;
