@@ -1,5 +1,6 @@
 package stonering.generators.worldgen;
 
+import stonering.generators.worldgen.world_objects.Plate;
 import stonering.global.utils.Position;
 import stonering.global.utils.Vector;
 
@@ -17,6 +18,7 @@ public class WorldMap implements Serializable {
     private int width;
     private int height;
     private long seed;
+    private ArrayList<Plate> plates;
 
     public WorldMap(int xSize, int ySize) {
         this.width = xSize;
@@ -92,5 +94,13 @@ public class WorldMap implements Serializable {
 
     public boolean inMap(int x, int y) {
         return (x >= 0 && y >= 0 && x < width && y < height);
+    }
+
+    public ArrayList<Plate> getPlates() {
+        return plates;
+    }
+
+    public void setPlates(ArrayList<Plate> plates) {
+        this.plates = plates;
     }
 }

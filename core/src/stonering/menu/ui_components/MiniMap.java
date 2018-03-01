@@ -8,6 +8,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import stonering.generators.worldgen.WorldMap;
+import stonering.generators.worldgen.world_objects.Edge;
+import stonering.generators.worldgen.world_objects.Mountain;
+import stonering.generators.worldgen.world_objects.Plate;
 import stonering.global.utils.Position;
 
 /**
@@ -70,6 +73,19 @@ public class MiniMap extends Table {
                     }
                     shapeRenderer.rect(358 + x * 2, 100 + y * 2, 2, 2);
                     shapeRenderer.flush();
+                }
+            }
+            shapeRenderer.setColor(1, 0, 0, 1);
+            for (Plate plate : map.getPlates()) {
+                for (Edge edge : plate.getEdges()) {
+                    for (Mountain mountain : edge.getMountains()) {
+                        for (Position corner : mountain.getCorners()) {
+                            shapeRenderer.line(358 + corner.getX() * 2,
+                                    100 + corner.getY() * 2,
+                                    358 + mountain.getTop().getX() * 2,
+                                    100 + mountain.getTop().getY() * 2);
+                        }
+                    }
                 }
             }
             shapeRenderer.end();

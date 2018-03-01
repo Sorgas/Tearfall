@@ -11,7 +11,7 @@ import java.util.Random;
  */
 public class WorldGenModel implements GameModel {
     private WorldGenContainer worldGenContainer;
-    private GlobalGeneratorContainer globalGeneratorContainer;
+    private WorldGeneratorContainer worldGeneratorContainer;
     private WorldMap map;
     private long seed; // gets updated from ui
     private int worldSize = 100; // changed from ui
@@ -31,10 +31,10 @@ public class WorldGenModel implements GameModel {
 
     public void generateWorld() { //from ui button
         WorldGenConfig config = new WorldGenConfig(seed, worldSize, worldSize);
-        globalGeneratorContainer = new GlobalGeneratorContainer();
-        globalGeneratorContainer.init(config);
-        globalGeneratorContainer.runContainer();
-        map = globalGeneratorContainer.getWorldMap();
+        worldGeneratorContainer = new WorldGeneratorContainer();
+        worldGeneratorContainer.init(config);
+        worldGeneratorContainer.runContainer();
+        map = worldGeneratorContainer.getWorldMap();
     }
 
     @Override

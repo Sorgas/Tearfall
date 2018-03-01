@@ -8,7 +8,7 @@ import stonering.generators.worldgen.generators.PlateGenerator;
 import stonering.generators.worldgen.generators.drainage.RiverGenerator;
 import stonering.generators.worldgen.generators.temperature.TemperatureGenerator;
 
-public class GlobalGeneratorContainer {
+public class WorldGeneratorContainer {
     private boolean rejected;
     int rejectCount;
 
@@ -57,17 +57,17 @@ public class GlobalGeneratorContainer {
     }
 
     private boolean runGenerators() {
-        if (plateGenerator.execute()) return true;
-        if (mountainGenerator.execute()) return true;
-        if (valleyGenerator.execute()) return true;
-        if (hillGenerator.execute()) return true;
+//        if (plateGenerator.execute()) return true;
+//        if (mountainGenerator.execute()) return true;
+//        if (valleyGenerator.execute()) return true;
+//        if (hillGenerator.execute()) return true;
         elevationGenerator.execute();
-        mountainRenderer.execute();
-        valleyRenderer.execute();
+//        mountainRenderer.execute();
+//        valleyRenderer.execute();
         worldGenContainer.fillMap();
         oceanFiller.execute();
-        hillRenderer.execute();
-        erosionGenerator.execute();
+//        hillRenderer.execute();
+//        erosionGenerator.execute();
         temperatureGenerator.execute();
         rainfallGenerator.execute();
         worldGenContainer.fillMap();

@@ -124,11 +124,11 @@ public class MountainGenerator extends AbstractGenerator {
 				mountain.setWidth(top.getZ());
 				edge.addMountain(mountain);
 
-				Mountain foothill = new Mountain();
-				foothill.setWidth(top.getZ() * 3);
-				top.setZ(top.getZ() / 3);
-				foothill.setTop(top);
-				edge.addMountain(foothill);
+//				Mountain foothill = new Mountain();
+//				foothill.setWidth(top.getZ() * 3);
+//				top.setZ(top.getZ() / 3);
+//				foothill.setTop(top);
+//				edge.addMountain(foothill);
 
 				x += xDensity;
 				y += yDensity;

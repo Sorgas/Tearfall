@@ -22,7 +22,7 @@ public class WorldGenConfig {
 	// for mountain worldgen
 	// minimal distance between tops
 	private float PlateSpeedToHeightModifier = 2.0f;
-	private int mountainsTopsDensity = 5;
+	private int mountainsTopsDensity = 10;
 	private float topOffsetModifier = 2.5f;
 
 	//for valleys worldgen

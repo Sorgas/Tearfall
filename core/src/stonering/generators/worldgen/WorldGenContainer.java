@@ -19,7 +19,7 @@ public class WorldGenContainer {
 	private int height;
 	private WorldMap map;
 
-	private List<Plate> plates;
+	private ArrayList<Plate> plates;
 	private List<Edge> edges;
 	private List<Mountain> mountains;
 	private List<Mountain> valleys;
@@ -42,6 +42,7 @@ public class WorldGenContainer {
 	}
 
 	public void fillMap() {
+		map.setPlates(plates);
 		for (int x = 0; x < width; x++) {
 			for (int y = 0; y < height; y++) {
 				map.setElevation(x,y,Math.round(elevation[x][y]));
