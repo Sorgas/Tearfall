@@ -1,9 +1,9 @@
-package stonering.enums.materials;
+package stonering.enums.plants;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
-import stonering.enums.trees.TreeType;
+import stonering.enums.plants.TreeType;
 import stonering.utils.global.FileLoader;
 
 import java.util.ArrayList;

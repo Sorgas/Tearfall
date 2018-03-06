@@ -1,8 +1,16 @@
 [
   {
     "id": "1",
-    "name": "grass",
-    "description": "Common grass",
+    "name": "bush",
+    "description": "Bush",
+    "min_temperature": "5",
+    "max_temperature": "25",
+    "target_temperature": "15",
+    "min_rainfall": "1000",
+    "max_rainfall": "4500",
+    "target_rainfall": "2500",
+    "water_source": "", //under, surface, near, (one)
+    "light_need": "", // underground, low, high (multiple)
     "atlasY": "0",
     "color": {
       "class": "color_c",

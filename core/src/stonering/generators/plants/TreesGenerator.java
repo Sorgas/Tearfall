@@ -1,9 +1,9 @@
 package stonering.generators.plants;
 
-import stonering.enums.trees.TreeBlocksTypeEnum;
-import stonering.enums.trees.TreeType;
+import stonering.enums.plants.TreeBlocksTypeEnum;
+import stonering.enums.plants.TreeType;
 import stonering.enums.materials.MaterialMap;
-import stonering.enums.materials.TreeTypeMap;
+import stonering.enums.plants.TreeTypeMap;
 import stonering.exceptions.MaterialNotFoundException;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.objects.local_actors.plants.PlantBlock;

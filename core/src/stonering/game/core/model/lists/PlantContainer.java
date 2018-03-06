@@ -1,7 +1,7 @@
 package stonering.game.core.model.lists;
 
 import stonering.enums.materials.MaterialMap;
-import stonering.enums.trees.TreeTileMapping;
+import stonering.enums.plants.TreeTileMapping;
 import stonering.game.core.model.LocalMap;
 import stonering.objects.local_actors.plants.Plant;
 import stonering.objects.local_actors.plants.PlantBlock;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 /**
  * Created by Alexander on 09.11.2017.
  * <p>
- * Contains plants and trees on localMap
+ * Contains plants and plants on localMap
  */
 public class PlantContainer {
     private ArrayList<Tree> trees;

@@ -42,4 +42,8 @@ public class BuildingContainer {
 
     public void turn() {
     }
+
+    public void addBuilding(Building building) {
+        placeBuilding(building);
+    }
 }

@@ -6,6 +6,8 @@ import stonering.generators.worldgen.WorldGenContainer;
 
 /**
  * Created by Alexander on 01.04.2017.
+ *
+ * applies Perlin noise to heightMap
  */
 public class ElevationGenerator extends AbstractGenerator {
     private int width;

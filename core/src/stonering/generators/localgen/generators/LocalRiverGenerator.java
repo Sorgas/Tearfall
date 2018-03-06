@@ -78,6 +78,8 @@ public class LocalRiverGenerator {
                 System.out.println(rivers[x][y]);
             }
         }
+
+
         return rivers;
     }
 

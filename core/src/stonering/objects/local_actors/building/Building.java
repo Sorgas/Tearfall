@@ -2,6 +2,7 @@ package stonering.objects.local_actors.building;
 
 import stonering.global.utils.Position;
 import stonering.objects.local_actors.Aspect;
+import stonering.objects.local_actors.AspectHolder;
 import stonering.objects.local_actors.unit.Unit;
 
 import java.util.HashMap;
@@ -11,25 +12,16 @@ import java.util.HashMap;
  *
  * Represents furniture, workbenches and other builded game objects
  */
-public class Building {
-    private Position position;
+public class Building extends AspectHolder {
     private String name;
     private Unit owner;
-    private HashMap<String, Aspect> aspects;
     private int material;
     private BuildingBlock block;
 
-    public Building() {
+    public Building(Position position) {
+        super(position);
         aspects = new HashMap<>();
         block = new BuildingBlock(this);
-    }
-
-    public void addAspect(Aspect aspect) {
-        aspects.put(aspect.getName(), aspect);
-    }
-
-    public HashMap<String, Aspect> getAspects() {
-        return aspects;
     }
 
     public String getName() {
@@ -38,14 +30,6 @@ public class Building {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Position getPosition() {
-        return position;
-    }
-
-    public void setPosition(Position position) {
-        this.position = position;
     }
 
     public Unit getOwner() {

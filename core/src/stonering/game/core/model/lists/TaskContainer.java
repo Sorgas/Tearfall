@@ -43,10 +43,6 @@ public class TaskContainer {
         return null;
     }
 
-//    public Task getAvailableDesignation() {
-//
-//    }
-
     public void setTasks(ArrayList<Task> tasks) {
         this.tasks = tasks;
     }
@@ -83,12 +79,12 @@ public class TaskContainer {
     private boolean validateDesignations(Position position, DesignationTypes blockType) {
         BlockTypesEnum blockOnMap = BlockTypesEnum.getType(container.getLocalMap().getBlockType(position));
         switch (blockType) {
-            case DIG: {
+            case DIG: { //makes floor
                 return blockOnMap.equals(BlockTypesEnum.RAMP) ||
                         blockOnMap.equals(BlockTypesEnum.WALL) ||
                         blockOnMap.equals(BlockTypesEnum.STAIRS);
             }
-            case CHANNEL: {
+            case CHANNEL: { //makes space and ramp lower
                 return !blockOnMap.equals(BlockTypesEnum.SPACE);
             }
             case RAMP:

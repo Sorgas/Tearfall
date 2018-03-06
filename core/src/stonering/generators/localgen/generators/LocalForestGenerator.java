@@ -12,7 +12,7 @@ import java.util.Random;
 /**
  * Created by Alexander on 30.10.2017.
  *
- * Generates groups of trees
+ * Generates groups of plants
  */
 public class LocalForestGenerator {
     private LocalGenContainer container;

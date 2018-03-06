@@ -1,9 +1,11 @@
-package stonering.enums.trees;
+package stonering.enums.plants;
 
 import java.util.HashMap;
 
 /**
  * Created by Alexander on 25.11.2017.
+ *
+ * stores atlas x for different perts of a tree
  */
 public enum TreeTileMapping {
     TRUNK((byte) 12, (byte) 0),

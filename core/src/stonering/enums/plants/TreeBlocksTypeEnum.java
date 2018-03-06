@@ -1,4 +1,4 @@
-package stonering.enums.trees;
+package stonering.enums.plants;
 
 import java.util.HashMap;
 

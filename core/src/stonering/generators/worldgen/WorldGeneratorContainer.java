@@ -4,7 +4,7 @@ import stonering.generators.worldgen.generators.drainage.ErosionGenerator;
 import stonering.generators.worldgen.generators.drainage.OceanFiller;
 import stonering.generators.worldgen.generators.drainage.RainfallGenerator;
 import stonering.generators.worldgen.generators.elevation.*;
-import stonering.generators.worldgen.generators.PlateGenerator;
+import stonering.generators.worldgen.generators.elevation.PlateGenerator;
 import stonering.generators.worldgen.generators.drainage.RiverGenerator;
 import stonering.generators.worldgen.generators.temperature.TemperatureGenerator;
 

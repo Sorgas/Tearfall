@@ -7,11 +7,18 @@ public abstract class EffectAspect {
     protected Action action;
     protected int workAmount;
 
-    public EffectAspect(Action action) {
+    public EffectAspect(Action action, int workAmount) {
         this.action = action;
+        this.workAmount = workAmount;
     }
 
     public void perform() {
-        action.finish();
+        workAmount--;
+        if(workAmount <= 0) {
+            applyEffect();
+            action.finish();
+        }
     }
+
+    protected abstract void applyEffect();
 }

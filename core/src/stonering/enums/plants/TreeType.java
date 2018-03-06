@@ -1,4 +1,4 @@
-package stonering.enums.trees;
+package stonering.enums.plants;
 
 /**
  * Created by Alexander on 30.10.2017.

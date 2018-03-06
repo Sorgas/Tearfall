@@ -126,4 +126,8 @@ public class GameContainer {
     public ItemContainer getItemContainer() {
         return itemContainer;
     }
+
+    public BuildingContainer getBuildingContainer() {
+        return buildingContainer;
+    }
 }

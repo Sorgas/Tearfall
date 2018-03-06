@@ -15,21 +15,13 @@ public class DigEffectAspect extends EffectAspect {
     private GameContainer container;
 
     public DigEffectAspect(Action action, DesignationTypes designationType) {
-        super(action);
+        super(action, 100);
         container = action.getGameContainer();
         this.designationType = designationType;
-        this.workAmount = 100;
     }
 
     @Override
-    public void perform() {
-        workAmount--;
-        if (workAmount <= 0) {
-            finish();
-        }
-    }
-
-    private void finish() {
+    protected void applyEffect() {
         Position pos = action.getTargetAspect().getTargetPosition();
         Material material = MaterialMap.getInstance().getMaterial(container.getLocalMap().getMaterial(action.getTargetPosition()));
         switch (designationType) {
@@ -53,7 +45,6 @@ public class DigEffectAspect extends EffectAspect {
             }
         }
         leaveStone(material);
-        action.finish();
     }
 
     private void validateAndChangeBlock(Position pos, BlockTypesEnum type) {

@@ -52,6 +52,22 @@ public class WorldGenContainer {
 		}
 	}
 
+	public void reset() {
+		elevation = new float[width][height];
+		slopeAngles = new float[width][height];
+		temperature = new float[width][height];
+		rainfall = new float[width][height];
+		debug = new float[width][height];
+		map = new WorldMap(width, height);
+		map.setSeed(config.getSeed());
+		plates = new ArrayList<>();
+		edges = new ArrayList<>();
+		mountains = new ArrayList<>();
+		valleys = new ArrayList<>();
+		hills = new ArrayList<>();
+		lakes = new ArrayList<>();
+	}
+
 	public void setSlopeAngles(int x, int y, float value) {
 		if (x >= 0 && x < width) {
 			if (y >= 0 && y < height) {
@@ -92,22 +108,6 @@ public class WorldGenContainer {
 
 	public WorldMap getMap() {
 		return map;
-	}
-
-	public void reset() {
-		elevation = new float[width][height];
-		slopeAngles = new float[width][height];
-		temperature = new float[width][height];
-		rainfall = new float[width][height];
-		debug = new float[width][height];
-		map = new WorldMap(width, height);
-		map.setSeed(config.getSeed());
-		plates = new ArrayList<>();
-		edges = new ArrayList<>();
-		mountains = new ArrayList<>();
-		valleys = new ArrayList<>();
-		hills = new ArrayList<>();
-		lakes = new ArrayList<>();
 	}
 
 	public void setElevation(int x, int y, float value) {

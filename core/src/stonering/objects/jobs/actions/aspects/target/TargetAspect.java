@@ -17,15 +17,7 @@ public abstract class TargetAspect {
         return targetPosition;
     }
 
-    public void setTargetPosition(Position targetPosition) {
-        this.targetPosition = targetPosition;
-    }
-
     public boolean isExactTarget() {
         return exactTarget;
-    }
-
-    public void setExactTarget(boolean exactTarget) {
-        this.exactTarget = exactTarget;
     }
 }

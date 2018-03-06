@@ -1,11 +1,8 @@
 package stonering.objects.jobs;
 
-import stonering.enums.ProfessionsEnum;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.lists.TaskContainer;
 import stonering.global.utils.Position;
-import stonering.global.utils.pathfinding.NoPathException;
-import stonering.global.utils.pathfinding.a_star.AStar;
 import stonering.objects.jobs.actions.Action;
 import stonering.objects.jobs.actions.TaskTypesEnum;
 import stonering.objects.local_actors.unit.Unit;
@@ -71,16 +68,17 @@ public class Task {
     }
 
     public boolean isTaskTargetsAvaialbleFrom(Position position) {
-        AStar aStar = new AStar(container.getLocalMap());
-        if (aStar.makeShortestPath(position, initialAction.getTargetPosition()) == null) {
-            return false;
-        }
-        for (Action action : actions) {
-            if (aStar.makeShortestPath(position, action.getTargetPosition()) == null) {
-                return false;
+        int sourceArea = container.getLocalMap().getArea(position);
+        Position target = initialAction.getTargetPosition();
+        for (int x = -1; x < 2; x++) {
+            for (int y = -1; y < 2; y++) {
+                if(x != 0 && y != 0
+                        && container.getLocalMap().getArea(target.getX() + x, target.getY() + y, target.getZ()) == sourceArea) {
+                    return true;
+                }
             }
         }
-        return true;
+        return false;
     }
 
     public void addAction(Action action) {

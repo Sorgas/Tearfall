@@ -3,14 +3,8 @@ package stonering.game.core.view.tilemaps;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.blocks.BlocksTileMapping;
 import stonering.enums.materials.MaterialMap;
-import stonering.enums.trees.TreeTileMapping;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.LocalMap;
-import stonering.global.utils.Position;
-import stonering.objects.jobs.Task;
-import stonering.objects.jobs.actions.Action;
-import stonering.objects.jobs.actions.ActionTypeEnum;
-import stonering.objects.local_actors.unit.Unit;
 
 /**
  * Created by Alexander on 03.08.2017.
