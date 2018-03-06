@@ -25,7 +25,7 @@ public class TreeTypeMap {
     }
 
     private void loadTreeTypes() {
-        System.out.println("loading types");
+        System.out.println("loading tree types");
         ArrayList<TreeType> elements = json.fromJson(ArrayList.class, TreeType.class, FileLoader.getTreesFile());
         for (TreeType treeType : elements) {
             types.put(treeType.getSpecimen(), treeType);

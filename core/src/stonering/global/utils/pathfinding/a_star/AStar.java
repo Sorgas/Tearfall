@@ -58,7 +58,7 @@ public class AStar {
         while (openSet.size() > 0 && (maxSteps < 0 || numSearchSteps < maxSteps)) {
             //get element with the least sum of costs
             Node currentNode = openSet.poll();
-            System.out.println("curNode: " + currentNode.getPosition().toString());
+//            System.out.println("curNode: " + currentNode.getPosition().toString());
 
             //path is complete
             if (targetPos.equals(currentNode.getPosition())) {

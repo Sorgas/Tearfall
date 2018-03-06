@@ -57,10 +57,10 @@ public class MovementAspect extends Aspect {
                 path = null; // drop path
             }
         } else {
-            if (planning != null) {
-                if (planning.getTarget() != null) {
-                    makeRouteToTarget();
-                }
+            if (planning != null
+                    && planning.getTarget() != null
+                    && !planning.getTarget().equals(aspectHolder.getPosition())) {
+                makeRouteToTarget();
             }
         }
     }

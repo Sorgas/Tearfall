@@ -13,13 +13,12 @@ import stonering.objects.local_actors.unit.aspects.EquipmentAspect;
 public class EquipItemEffectAspect extends EffectAspect {
 
     public EquipItemEffectAspect(Action action) {
-        super(action);
+        super(action, 100);
     }
 
     @Override
-    public void perform() {
+    protected void applyEffect() {
         Item item = ((ItemTargetAspect) action.getTargetAspect()).getItem();
         ((EquipmentAspect) action.getPerformer().getAspects().get("equipment")).equipItem(item);
-        action.finish();
     }
 }

@@ -4,6 +4,7 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter;
+import stonering.global.utils.Position;
 import stonering.objects.local_actors.building.BuildingBlock;
 import stonering.objects.local_actors.building.Building;
 import stonering.utils.global.FileLoader;
@@ -43,7 +44,7 @@ public class BuildingGenerator {
     }
 
     private Building generateBuildinqQ(JsonValue template) {
-        Building building = new Building();
+        Building building = new Building(new Position(0,0,0));
         building.setName(template.getString("title"));
         return building;
     }
