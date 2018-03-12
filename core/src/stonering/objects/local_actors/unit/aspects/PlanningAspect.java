@@ -11,7 +11,7 @@ import stonering.objects.local_actors.unit.Unit;
  * Created by Alexander on 10.10.2017.
  * <p>
  * Holds current creature's task and it's steps. resolves behavior, if some step fails.
- * Updates target for movement on task switching. Resolves movement target, adjacent to action`s target.
+ * Updates target for movement on task switching.
  */
 public class PlanningAspect extends Aspect {
     private Task currentTask;
@@ -27,7 +27,7 @@ public class PlanningAspect extends Aspect {
                 updateTarget();
                 if (checkUnitPosition()) {
                     currentTask.getNextAction().perform(); // act
-                    if(currentTask.isFinished()) {
+                    if (currentTask.isFinished()) {
                         currentTask = null;
                         target = null;
                     }
@@ -48,7 +48,11 @@ public class PlanningAspect extends Aspect {
 
     // if aspectHolder in position for acting
     private boolean checkUnitPosition() {
-        return aspectHolder.getPosition().equals(target);
+        if (currentTask.getNextAction().isTargetExact()) {
+            return aspectHolder.getPosition().equals(target);
+        } else {
+            return target.getDistanse(aspectHolder.getPosition()) < 2;
+        }
     }
 
     private void repairTask() {
@@ -84,7 +88,7 @@ public class PlanningAspect extends Aspect {
         task.setPerformer((Unit) aspectHolder);
     }
 
-    private void freeTask() {
+    public void freeTask() {
         currentTask.reset();
         currentTask = null;
     }
@@ -97,15 +101,12 @@ public class PlanningAspect extends Aspect {
     private void updateTarget() {
         Action action = currentTask.getNextAction();
         target = action.getTargetPosition();
-        if (!action.isTargetExact()) {
-            for (int x = -1; x < 2; x++) {
-                for (int y = -1; y < 2; y++) {
-                    if (gameContainer.getLocalMap().isWalkPassable(target.getX() + x, target.getY() + y, target.getZ()))
-                        target = new Position(target.getX() + x, target.getY() + y, target.getZ());
-                        return;
-                }
-            }
-            target = null;
+    }
+
+    public boolean isTargetExact() {
+        if (currentTask != null) {
+            return currentTask.getNextAction().getTargetAspect().isExactTarget();
         }
+        return false;
     }
 }

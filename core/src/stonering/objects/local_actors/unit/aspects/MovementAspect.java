@@ -2,14 +2,12 @@ package stonering.objects.local_actors.unit.aspects;
 
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.LocalMap;
-import stonering.global.utils.pathfinding.NoPathException;
 import stonering.global.utils.pathfinding.a_star.AStar;
 import stonering.objects.local_actors.Aspect;
 import stonering.objects.local_actors.unit.Unit;
 import stonering.global.utils.Position;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Created by Alexander on 06.10.2017.
@@ -19,13 +17,10 @@ import java.util.Random;
 public class MovementAspect extends Aspect {
     private int stepTime;
     private int stepDelay;
-
     private LocalMap map;
-
     private PlanningAspect planning;
-
     private ArrayList<Position> path;
-    private boolean oldTarget;
+    private Position cachedTarget;
 
     public MovementAspect(Unit unit) {
         super("movement", unit);
@@ -44,23 +39,24 @@ public class MovementAspect extends Aspect {
     }
 
     private void makeStep() {
-        if (path != null) {
-            if (!path.isEmpty()) {// path not finished
+        if (cachedTarget != null && cachedTarget.equals(planning.getTarget())) { //old target
+            if (path != null && !path.isEmpty()) {// path not finished
                 Position nextPosition = path.remove(0); // get next step, remove from path
                 if (map.isWalkPassable(nextPosition)) { // path has not been blocked after calculation
                     aspectHolder.setPosition(nextPosition); //step
                 } else { // path blocked
                     System.out.println("path blocked");
-                    path = null; // drop path
+                    cachedTarget = null; // drop path
                 }
-            } else {
-                path = null; // drop path
             }
-        } else {
-            if (planning != null
-                    && planning.getTarget() != null
-                    && !planning.getTarget().equals(aspectHolder.getPosition())) {
+            // path finished, stay
+        } else { // new target
+            cachedTarget = planning.getTarget();
+            if (cachedTarget != null) {
                 makeRouteToTarget();
+                if (path == null) { // no path found, fail task
+                    planning.freeTask();
+                }
             }
         }
     }
@@ -74,6 +70,6 @@ public class MovementAspect extends Aspect {
     }
 
     private void makeRouteToTarget() {
-        path = new AStar(gameContainer.getLocalMap()).makeShortestPath(aspectHolder.getPosition(), planning.getTarget());
+        path = new AStar(gameContainer.getLocalMap()).makeShortestPath(aspectHolder.getPosition(), planning.getTarget(), planning.isTargetExact());
     }
 }

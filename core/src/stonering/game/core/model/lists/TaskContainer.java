@@ -36,7 +36,7 @@ public class TaskContainer {
 
     public Task getActiveTask(Position pos) {
         for (Task task : tasks) {
-            if (task.isTaskTargetsAvaialbleFrom(pos)) {
+            if (task.getPerformer() == null && task.isTaskTargetsAvaialbleFrom(pos)) {
                 return task;
             }
         }

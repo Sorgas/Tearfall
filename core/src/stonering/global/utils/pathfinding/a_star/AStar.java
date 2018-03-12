@@ -24,10 +24,10 @@ public class AStar {
      * Returns the shortest Path from a start node to an end node according to
      * the A* heuristics (h must not overestimate). initialNode and last found node included.
      */
-    public ArrayList<Position> makeShortestPath(Position initialPos, Position targetPos) {
+    public ArrayList<Position> makeShortestPath(Position initialPos, Position targetPos, boolean exactTarget) {
         Node initialNode = new Node(initialPos, targetPos);
         //perform search and save the
-        Node pathNode = search(initialNode, targetPos);
+        Node pathNode = search(initialNode, targetPos, exactTarget);
         if (pathNode == null)
             return null;
         //return shortest path according to AStar heuristics
@@ -43,10 +43,10 @@ public class AStar {
 
     /**
      * @param initialNode start of the search
-     * @param targetPos    end of the search
+     * @param targetPos   end of the search
      * @return goal node from which you can reconstruct the path
      */
-    private Node search(Node initialNode, Position targetPos) {
+    private Node search(Node initialNode, Position targetPos, boolean exactTarget) {
         System.out.println("target: " + targetPos.toString());
         HashPriorityQueue<Node, Node> openSet = new HashPriorityQueue(new NodeComparator());
         HashMap<Integer, Node> closedSet = new HashMap<>();
@@ -61,8 +61,14 @@ public class AStar {
 //            System.out.println("curNode: " + currentNode.getPosition().toString());
 
             //path is complete
-            if (targetPos.equals(currentNode.getPosition())) {
-                return currentNode;
+            if(exactTarget) {
+                if (targetPos.equals(currentNode.getPosition())) {
+                    return currentNode;
+                }
+            } else {
+                if(isAdjacent(targetPos, currentNode.getPosition())) {
+                    return currentNode;
+                }
             }
 
             //get successor nodes
@@ -128,6 +134,12 @@ public class AStar {
             }
         }
         return nodes;
+    }
+
+    private boolean isAdjacent(Position pos1, Position pos2) {
+        return Math.abs(pos1.getX() - pos2.getX()) < 2
+                && Math.abs(pos1.getY() - pos2.getY()) < 2
+                && Math.abs(pos1.getZ() - pos2.getZ()) < 2;
     }
 
     private static class NodeComparator implements Comparator<Node> {

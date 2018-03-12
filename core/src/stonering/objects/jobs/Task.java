@@ -67,6 +67,10 @@ public class Task {
         }
     }
 
+    public void fail() {
+        taskContainer.removeTask(this);
+    }
+
     public boolean isTaskTargetsAvaialbleFrom(Position position) {
         int sourceArea = container.getLocalMap().getArea(position);
         Position target = initialAction.getTargetPosition();
