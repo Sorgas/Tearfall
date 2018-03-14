@@ -23,6 +23,7 @@ public class LocalGeneratorContainer {
     private LocalFurnitureGenerator localFurnitureGenerator;
     private LocalFloorPlacer localFloorPlacer;
     private LocalItemsGenerator localItemsGenerator;
+    private LocalTemperatureGenerator localTemperatureGenerator;
     private WorldMap world;
     private LocalGenConfig config;
 
@@ -38,11 +39,13 @@ public class LocalGeneratorContainer {
         localStoneLayersGenerator = new LocalStoneLayersGenerator(localGenContainer);
         localCaveGenerator = new LocalCaveGenerator(localGenContainer);
         localRampPlacer = new LocalRampPlacer(localGenContainer);
+        localTemperatureGenerator = new LocalTemperatureGenerator(localGenContainer);
         localForestGenerator = new LocalForestGenerator(localGenContainer);
         localFaunaGenerator = new LocalFaunaGenerator(localGenContainer);
         localFurnitureGenerator = new LocalFurnitureGenerator(localGenContainer);
         localFloorPlacer = new LocalFloorPlacer(localGenContainer);
         localItemsGenerator = new LocalItemsGenerator(localGenContainer);
+
     }
 
     public void execute() {
@@ -50,6 +53,7 @@ public class LocalGeneratorContainer {
         localStoneLayersGenerator.execute();
         localCaveGenerator.execute();
         localRampPlacer.execute();
+        localTemperatureGenerator.execute();
         localForestGenerator.execute();
         localFaunaGenerator.execute();
         localFurnitureGenerator.execute();
