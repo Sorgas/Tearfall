@@ -47,8 +47,8 @@ public class WorldGenConfig {
 	//for temperature worldgen
 	private float polarLineWidth = 0.04f;
 	private float equatorLineWidth = 0.03f;
-	private float maxTemperature = 30;
-	private float minTemperature = -15;
+	private float maxTemperature = 35;
+	private float minTemperature = -35;
 
 	//rainfall
 	private int minRainfall = 1;

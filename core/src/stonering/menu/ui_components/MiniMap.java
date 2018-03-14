@@ -3,7 +3,6 @@ package stonering.menu.ui_components;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -72,6 +71,11 @@ public class MiniMap extends Table {
                         shapeRenderer.setColor(new Color(0, 0, blue, 0));
                     }
                     shapeRenderer.rect(358 + x * 2, 100 + y * 2, 2, 2);
+
+                    shapeRenderer.setColor(new Color((map.getSummerTemperature(x, y) + 40) / 80f, 0, 0, 0));
+                    shapeRenderer.rect(658 + x * 2, 100 + y * 2, 2, 2);
+                    shapeRenderer.setColor(new Color((map.getWinterTemperature(x, y) + 40) / 80f, 0, 0, 0));
+                    shapeRenderer.rect(958 + x * 2, 100 + y * 2, 2, 2);
                     shapeRenderer.flush();
                 }
             }

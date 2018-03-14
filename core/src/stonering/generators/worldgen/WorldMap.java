@@ -12,7 +12,8 @@ import java.util.Map;
 
 public class WorldMap implements Serializable {
     private int[][] elevation;
-    private float[][] temperature;
+    private float[][] summerTemperature;
+    private float[][] winterTemperature;
     private float[][] rainfall;
     private Map<Position, List<Vector>> rivers;
     private int width;
@@ -24,7 +25,8 @@ public class WorldMap implements Serializable {
         this.width = xSize;
         this.height = ySize;
         elevation = new int[xSize][ySize];
-        temperature = new float[xSize][ySize];
+        summerTemperature = new float[xSize][ySize];
+        winterTemperature = new float[xSize][ySize];
         rainfall = new float[xSize][ySize];
         rivers = new HashMap<>();
     }
@@ -53,12 +55,20 @@ public class WorldMap implements Serializable {
         elevation[x][y] = val;
     }
 
-    public float getTemperature(int x, int y) {
-        return temperature[x][y];
+    public float getSummerTemperature(int x, int y) {
+        return summerTemperature[x][y];
     }
 
-    public void setTemperature(int x, int y, float val) {
-        temperature[x][y] = val;
+    public void setSummerTemperature(int x, int y, float val) {
+        summerTemperature[x][y] = val;
+    }
+
+    public float getWinterTemperature(int x, int y) {
+        return winterTemperature[x][y];
+    }
+
+    public void setWinterTemperature(int x, int y, float val) {
+        winterTemperature[x][y] = val;
     }
 
     public float getRainfall(int x, int y) {
@@ -93,6 +103,10 @@ public class WorldMap implements Serializable {
     }
 
     public boolean inMap(int x, int y) {
+        return (x >= 0 && y >= 0 && x < width && y < height);
+    }
+
+    public boolean inMap(float x, float y) {
         return (x >= 0 && y >= 0 && x < width && y < height);
     }
 

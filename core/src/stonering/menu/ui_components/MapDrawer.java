@@ -51,7 +51,8 @@ public class MapDrawer {
 			}
 			Vector vector = plate.getSpeedVector();
 			Position endPoint = vector.getEndPoint();
-			drawLine(vector.getX(), vector.getY(), endPoint.getX(), endPoint.getY());
+			drawLine(Math.round(vector.getX()), Math.round(vector.getY()),
+					Math.round(endPoint.getX()), Math.round(endPoint.getY()));
 		}
 	}
 
@@ -186,20 +187,20 @@ public class MapDrawer {
 	private void drawTemperature() {
 		for (int x = 0; x < container.getConfig().getWidth(); x++) {
 			for (int y = 0; y < container.getConfig().getHeight(); y++) {
-				if (container.getTemperature(x, y) < -12) {
+				if (container.getSummerTemperature(x, y) < -12) {
 					shapeRenderer.setColor(1, 1, 1, 1); //
-				} else if (container.getTemperature(x, y) < -0) {
+				} else if (container.getSummerTemperature(x, y) < -0) {
 					shapeRenderer.setColor(0.3f, 0.7f, 1, 1); //
-				} else if (container.getTemperature(x, y) < 8) {
+				} else if (container.getSummerTemperature(x, y) < 8) {
 					shapeRenderer.setColor(0.3f, 1, 0.6f, 1); //
-				} else if (container.getTemperature(x, y) < 22) {
+				} else if (container.getSummerTemperature(x, y) < 22) {
 					shapeRenderer.setColor(0.8f, 1, 0.2f, 1);
-				} else if (container.getTemperature(x, y) < 27) {
+				} else if (container.getSummerTemperature(x, y) < 27) {
 					shapeRenderer.setColor(1, 0.8f, 0, 1);
 				} else {
 					shapeRenderer.setColor(1, 0.4f, 0, 1);
 				}
-//				shapeRenderer.setColor(0.01f * (container.getTemperature(x, y) + 40), 0, 0, 0.5f);
+//				shapeRenderer.setColor(0.01f * (container.getSummerTemperature(x, y) + 40), 0, 0, 0.5f);
 				drawPoint(x + 500, y);
 			}
 		}
@@ -208,7 +209,7 @@ public class MapDrawer {
 	private void drawDebug() {
 		for (int x = 0; x < container.getMap().getWidth(); x++) {
 			for (int y = 0; y < container.getMap().getHeight(); y++) {
-				shapeRenderer.setColor(0, 0.5f * (container.getTemperature(x, y) + 0.1f), 0, 1);
+				shapeRenderer.setColor(0, 0.5f * (container.getSummerTemperature(x, y) + 0.1f), 0, 1);
 				drawPoint(x, y);
 			}
 		}

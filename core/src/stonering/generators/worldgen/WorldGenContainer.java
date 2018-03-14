@@ -10,177 +10,180 @@ import java.util.List;
 
 /**
  * Created by Alexander on 05.03.2017.
- *
+ * <p>
  * Contains intermediate results of world generation
  */
 public class WorldGenContainer {
-	private WorldGenConfig config;
-	private int width;
-	private int height;
-	private WorldMap map;
+    private WorldGenConfig config;
+    private int width;
+    private int height;
+    private WorldMap map;
 
-	private ArrayList<Plate> plates;
-	private List<Edge> edges;
-	private List<Mountain> mountains;
-	private List<Mountain> valleys;
-	private List<Mountain> hills;
-	private List<Position> lakes;
+    private ArrayList<Plate> plates;
+    private List<Edge> edges;
+    private List<Mountain> mountains;
+    private List<Mountain> valleys;
+    private List<Mountain> hills;
+    private List<Position> lakes;
 
-	private float[][] elevation;
-	private float[][] slopeAngles;
-	private float[][] temperature;
-	private float[][] rainfall;
-	private float[][] debug;
+    private float[][] elevation;
+    private float[][] slopeAngles;
+    private float[][] summerTemperature;
+    private float[][] winterTemperature;
+    private float[][] rainfall;
+    private float[][] debug;
 
-	private float landPart;
+    private float landPart;
 
-	public WorldGenContainer(WorldGenConfig config) {
-		this.width = config.getWidth();
-		this.height = config.getHeight();
-		this.config = config;
-		reset();
-	}
+    public WorldGenContainer(WorldGenConfig config) {
+        this.width = config.getWidth();
+        this.height = config.getHeight();
+        this.config = config;
+        reset();
+    }
 
-	public void fillMap() {
-		map.setPlates(plates);
-		for (int x = 0; x < width; x++) {
-			for (int y = 0; y < height; y++) {
-				map.setElevation(x,y,Math.round(elevation[x][y]));
-				map.setTemperature(x,y,Math.round(temperature[x][y]));
-                map.setRainfall(x,y,rainfall[x][y]);
-			}
-		}
-	}
+    public void fillMap() {
+        map.setPlates(plates);
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                map.setElevation(x, y, Math.round(elevation[x][y]));
+                map.setSummerTemperature(x, y, Math.round(summerTemperature[x][y]));
+                map.setWinterTemperature(x, y, Math.round(winterTemperature[x][y]));
+                map.setRainfall(x, y, rainfall[x][y]);
+            }
+        }
+    }
 
-	public void reset() {
-		elevation = new float[width][height];
-		slopeAngles = new float[width][height];
-		temperature = new float[width][height];
-		rainfall = new float[width][height];
-		debug = new float[width][height];
-		map = new WorldMap(width, height);
-		map.setSeed(config.getSeed());
-		plates = new ArrayList<>();
-		edges = new ArrayList<>();
-		mountains = new ArrayList<>();
-		valleys = new ArrayList<>();
-		hills = new ArrayList<>();
-		lakes = new ArrayList<>();
-	}
+    public void reset() {
+        elevation = new float[width][height];
+        slopeAngles = new float[width][height];
+        summerTemperature = new float[width][height];
+        winterTemperature = new float[width][height];
+        rainfall = new float[width][height];
+        debug = new float[width][height];
+        map = new WorldMap(width, height);
+        map.setSeed(config.getSeed());
+        plates = new ArrayList<>();
+        edges = new ArrayList<>();
+        mountains = new ArrayList<>();
+        valleys = new ArrayList<>();
+        hills = new ArrayList<>();
+        lakes = new ArrayList<>();
+    }
 
-	public void setSlopeAngles(int x, int y, float value) {
-		if (x >= 0 && x < width) {
-			if (y >= 0 && y < height) {
-				slopeAngles[x][y] = value;
-			}
-		}
-	}
+    private boolean inMap(int x, int y) {
+        return x >= 0 && x < width && y >= 0 && y < height;
+    }
 
-	public float getSlopeAngles(int x, int y) {
-		float value = 0;
-		if (x >= 0 && x < width) {
-			if (y >= 0 && y < height) {
-				value = slopeAngles[x][y];
-			}
-		}
-		return value;
-	}
+    public void setSlopeAngles(int x, int y, float value) {
+        if (inMap(x, y)) {
+            slopeAngles[x][y] = value;
+        }
+    }
 
-	public List<Plate> getPlates() {
-		return plates;
-	}
+    public float getSlopeAngles(int x, int y) {
+        float value = 0;
+        if (inMap(x, y)) {
+            value = slopeAngles[x][y];
+        }
+        return value;
+    }
 
-	public List<Edge> getEdges() {
-		return edges;
-	}
+    public List<Plate> getPlates() {
+        return plates;
+    }
 
-	public List<Mountain> getHills() {
-		return hills;
-	}
+    public List<Edge> getEdges() {
+        return edges;
+    }
 
-	public List<Mountain> getMountains() {
-		return mountains;
-	}
+    public List<Mountain> getHills() {
+        return hills;
+    }
 
-	public WorldGenConfig getConfig() {
-		return config;
-	}
+    public List<Mountain> getMountains() {
+        return mountains;
+    }
 
-	public WorldMap getMap() {
-		return map;
-	}
+    public WorldGenConfig getConfig() {
+        return config;
+    }
 
-	public void setElevation(int x, int y, float value) {
-		if (x >= 0 && x < width) {
-			if (y >= 0 && y < height) {
-				elevation[x][y] = value;
-			}
-		}
-	}
+    public WorldMap getMap() {
+        return map;
+    }
 
-	public float getElevation(int x, int y) {
-		float value = 0;
-		if (x >= 0 && x < width) {
-			if (y >= 0 && y < height) {
-				value = elevation[x][y];
-			}
-		}
-		return value;
-	}
+    public void setElevation(int x, int y, float value) {
+        if (inMap(x, y)) {
+            elevation[x][y] = value;
+        }
+    }
 
-	public void setDebug(int x, int y, float value) {
-		if (x >= 0 && x < width) {
-			if (y >= 0 && y < height) {
-				debug[x][y] = value;
-			}
-		}
-	}
+    public float getElevation(int x, int y) {
+        float value = 0;
+        if (inMap(x, y)) {
+            value = elevation[x][y];
+        }
+        return value;
+    }
 
-	public void setTemperature(int x, int y, float value) {
-		if (x >= 0 && x < width) {
-			if (y >= 0 && y < height) {
-				temperature[x][y] = value;
-			}
-		}
-	}
+    public void setDebug(int x, int y, float value) {
+        if (inMap(x, y)) {
+            debug[x][y] = value;
+        }
+    }
 
-	public float getTemperature(int x, int y) {
-		float value = 0;
-		if (x >= 0 && x < width) {
-			if (y >= 0 && y < height) {
-				value = temperature[x][y];
-			}
-		}
-		return value;
-	}
+    public void setSummerTemperature(int x, int y, float value) {
+        if (inMap(x, y)) {
+            summerTemperature[x][y] = value;
+        }
+    }
 
-	public void setRainfall(int x, int y, float value) {
-		if (x >= 0 && x < width) {
-			if (y >= 0 && y < height) {
-				rainfall[x][y] = value;
-			}
-		}
-	}
+    public float getSummerTemperature(int x, int y) {
+        float value = 0;
+        if (inMap(x, y)) {
+            value = summerTemperature[x][y];
+        }
+        return value;
+    }
 
-	public float getRainfall(int x, int y) {
-		float value = 0;
-		if (x >= 0 && x < width) {
-			if (y >= 0 && y < height) {
-				value = rainfall[x][y];
-			}
-		}
-		return value;
-	}
+    public void setWinterTemperature(int x, int y, float value) {
+        if (inMap(x, y)) {
+            winterTemperature[x][y] = value;
+        }
+    }
 
-	public List<Position> getLakes() {
-		return lakes;
-	}
+    public float getWinterTemperature(int x, int y) {
+        float value = 0;
+        if (inMap(x, y)) {
+            value = winterTemperature[x][y];
+        }
+        return value;
+    }
 
-	public float getLandPart() {
-		return landPart;
-	}
+    public void setRainfall(int x, int y, float value) {
+        if (inMap(x, y)) {
+            rainfall[x][y] = value;
+        }
+    }
 
-	public void setLandPart(float landPart) {
-		this.landPart = landPart;
-	}
+    public float getRainfall(int x, int y) {
+        float value = 0;
+        if (inMap(x, y)) {
+            value = rainfall[x][y];
+        }
+        return value;
+    }
+
+    public List<Position> getLakes() {
+        return lakes;
+    }
+
+    public float getLandPart() {
+        return landPart;
+    }
+
+    public void setLandPart(float landPart) {
+        this.landPart = landPart;
+    }
 }

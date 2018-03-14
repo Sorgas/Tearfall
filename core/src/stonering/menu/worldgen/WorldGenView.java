@@ -5,8 +5,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -194,7 +192,7 @@ public class WorldGenView implements GameView, Screen {
         if (model.getMap() != null) {
             int x = minimap.getFocus().getX();
             int y = minimap.getFocus().getY();
-            worldInfoLabel.setText(worldCellInfo.getCellInfo(x, y, model.getMap().getElevation(x, y), model.getMap().getTemperature(x, y), model.getMap().getRainfall(x,y)));
+            worldInfoLabel.setText(worldCellInfo.getCellInfo(x, y, model.getMap().getElevation(x, y), model.getMap().getSummerTemperature(x, y), model.getMap().getRainfall(x,y)));
         }
     }
 

@@ -20,6 +20,12 @@ public class Position implements Serializable, Cloneable {
         this.z = z;
     }
 
+    public Position(float x, float y, float z) {
+        this.x = Math.round(x);
+        this.y = Math.round(y);
+        this.z = Math.round(z);
+    }
+
     public Position addVector(Vector vector) {
         Position endPoint = vector.getEndPoint();
         int xOffset = endPoint.getX() - vector.getStartPoint().getX();

@@ -8,55 +8,51 @@ import java.io.Serializable;
  * Utility class of geometrical vector
  */
 public class Vector implements Serializable {
-    private int x = 0;
-    private int y = 0;
-    private int endX = 0;
-    private int endY = 0;
+    private float x = 0;
+    private float y = 0;
+    private float endX = 0;
+    private float endY = 0;
     // in degrees
     private double angle = 0;
     private double length = 0;
 
-    public Vector(int x, int y, double angle, double length) {
+    public Vector(float x, float y, double angle, double length) {
         this.x = x;
         this.y = y;
         this.angle = angle;
         this.length = length;
+        countEndPoint();
     }
 
-    public Vector(int x, int y, int x2, int y2) {
+    public Vector(float x, float y, float x2, float y2) {
         this.x = x;
         this.y = y;
         this.endX = x2;
         this.endY = y2;
-        double xProject = x2 - x;
-        double yProject = y2 - y;
-        this.length = Math.sqrt(Math.pow(xProject, 2) + Math.pow(yProject, 2));
-        if (xProject != 0) {
-            this.angle = Math.toDegrees(Math.atan(yProject / xProject));
+        countLengthAndAngle();
+    }
+
+    private void countLengthAndAngle() {
+        length = Math.sqrt(Math.pow(endX - x, 2) + Math.pow(endY - y, 2));
+        if (x != endX) {
+            angle = Math.toDegrees(Math.atan((endY - y) / (endX - x)));
         } else {
-            this.angle = 0;
+            angle = 0;
         }
-        if (xProject < 0) {
+        if (angle < 0) {
             rotate(180);
         }
     }
 
+    private void countEndPoint() {
+        endX = (float) (x + length * Math.cos(Math.toRadians(angle)));
+        endY = (float) (y + length * Math.sin(Math.toRadians(angle)));
+    }
+
     public Vector sum(Vector vector2) {
-        double xProject = length * Math.cos(Math.toRadians(angle));
-        double yProject = length * Math.sin(Math.toRadians(angle));
-        xProject += vector2.getLength() * Math.cos(Math.toRadians(vector2.getAngle()));
-        yProject += vector2.getLength() * Math.sin(Math.toRadians(vector2.getAngle()));
-        double sumAngle;
-        if (xProject != 0) {
-            sumAngle = (Math.toDegrees(Math.atan(yProject / xProject)) + 360) % 360;
-            if (xProject < 0) {
-                sumAngle = (sumAngle + 180) % 360;
-            }
-        } else {
-            sumAngle = yProject > 0 ? 90 : 270;
-        }
-        double sumLength = Math.sqrt(Math.pow(xProject, 2) + Math.pow(yProject, 2));
-        return new Vector(x, y, sumAngle, sumLength);
+        float ex = endX + vector2.getXProj();
+        float ey = endY + vector2.getYProj();
+        return new Vector(x, y, ex, ey);
     }
 
     public Position getEndPoint() {
@@ -80,57 +76,9 @@ public class Vector implements Serializable {
         return value >= 0;
     }
 
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public double getAngle() {
-        return angle;
-    }
-
-    public void setAngle(double angle) {
-        this.angle = angle % 360;
-    }
-
-    public double getLength() {
-        return length;
-    }
-
-    public void setLength(double length) {
-        this.length = length;
-    }
-
-    @Override
-    public String toString() {
-        Position end = new Position((int) Math.round(x + length * Math.cos(Math.toRadians(angle))), (int) Math.round(y + length * Math.sin(Math.toRadians(angle))), 0);
-        return "Vector{" +
-                "x=" + x +
-                ", y=" + y +
-                ", angle=" + angle +
-                ", length=" + length +
-                ", end=" + end.toString() +
-                '}';
-    }
-
     public Vector getRightVector() {
         double rightAngle = (angle + 270) % 360;
         return new Vector(x, y, rightAngle, 1);
-    }
-
-    public Position getStartPoint() {
-        return new Position(x, y, 0);
     }
 
     /**
@@ -139,26 +87,68 @@ public class Vector implements Serializable {
      * @param angle rotation angle
      */
     public void rotate(float angle) {
-        this.angle += angle;
+        this.angle += angle + 360;
         this.angle %= 360;
-        if (this.angle < 0) {
-            this.angle += 360;
-        }
+        countEndPoint();
     }
 
-    public Vector copy() {
-        return new Vector(x, y, endX, endY);
+    @Override
+    public String toString() {
+        return "Vector{" +
+                "x=" + x +
+                ", y=" + y +
+                ", angle=" + angle +
+                ", length=" + length +
+                ", endX=" + endX +
+                ", endY=" + endY +
+                '}';
     }
 
-    public Vector moveToO() {
-        return new Vector(0, 0, endX - x, endY - y);
+    public Position getStartPoint() {
+        return new Position(Math.round(x), Math.round(y), 0);
     }
 
-    public int getXProj() {
+    public float getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+        countLengthAndAngle();
+    }
+
+    public float getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+        countLengthAndAngle();
+    }
+
+    public double getAngle() {
+        return angle;
+    }
+
+    public void setAngle(double angle) {
+        this.angle = angle % 360;
+        countEndPoint();
+    }
+
+    public double getLength() {
+        return length;
+    }
+
+    public void setLength(double length) {
+        this.length = length;
+        countEndPoint();
+    }
+
+    public float getXProj() {
         return endX - x;
     }
 
-    public int getYProj() {
+    public float getYProj() {
         return endY - y;
     }
 }
