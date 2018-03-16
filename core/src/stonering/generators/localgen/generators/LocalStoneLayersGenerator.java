@@ -4,6 +4,7 @@ import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.materials.MaterialMap;
 import stonering.exceptions.MaterialNotFoundException;
 import stonering.game.core.model.LocalMap;
+import stonering.generators.localgen.LocalGenConfig;
 import stonering.generators.localgen.LocalGenContainer;
 
 import java.util.*;
@@ -32,12 +33,13 @@ public class LocalStoneLayersGenerator {
 
     public LocalStoneLayersGenerator(LocalGenContainer localGenContainer) {
         container = localGenContainer;
+        LocalGenConfig config = container.getConfig();
         heigtsMap = container.getHeightsMap();
         map = container.getLocalMap();
         materialMap = container.getMaterialMap();
-        surfaceLevel = container.getWorldMap().getElevation(container.getConfig().getLocation().getX(), container.getConfig().getLocation().getX());
-        surfaceLevel *= container.getConfig().getWorldToLocalElevationModifier();
-        surfaceLevel += container.getConfig().getLocalSeaLevel();
+        surfaceLevel = Math.round(container.getWorldMap().getElevation(config.getLocation().getX(), config.getLocation().getX()));
+        surfaceLevel *= config.getWorldToLocalElevationModifier();
+        surfaceLevel += config.getLocalSeaLevel();
         layerIds = new int[surfaceLevel];
         if (surfaceLevel > 300) {
             hasExtrusive = true;

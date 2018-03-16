@@ -52,7 +52,7 @@ public class WorldGenConfig {
 
 	//rainfall
 	private int minRainfall = 1;
-	private int maxRainfall = 450;
+	private int maxRainfall = 100;
 
 	public WorldGenConfig(long seed, int width, int height) {
 		this.seed = seed;

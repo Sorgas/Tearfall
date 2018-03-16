@@ -31,7 +31,8 @@ public class LocalCaveGenerator {
     }
 
     public void execute() {
-        int localElevation = worldMap.getElevation(config.getLocation().getX(), config.getLocation().getY()) * config.getWorldToLocalElevationModifier() + config.getLocalSeaLevel();
+        int localElevation = Math.round(worldMap.getElevation(config.getLocation().getX(),
+                config.getLocation().getY()) * config.getWorldToLocalElevationModifier() + config.getLocalSeaLevel());
         int step = 50;
         int prevLeyer = -1;
         for (int z = localElevation - step; z > 20; z -= step) {

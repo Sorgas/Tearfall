@@ -146,7 +146,7 @@ public class SelectLocationMenuView implements Screen {
 		if (model.getWorld() != null) {
 			int x = minimap.getFocus().getX();
 			int y = minimap.getFocus().getY();
-			worldInfoLabel.setText(worldCellInfo.getCellInfo(x, y, model.getWorld().getElevation(x, y), model.getWorld().getSummerTemperature(x, y), model.getWorld().getRainfall(x,y)));
+			worldInfoLabel.setText(worldCellInfo.getCellInfo(x, y, Math.round(model.getWorld().getElevation(x, y)), model.getWorld().getSummerTemperature(x, y), model.getWorld().getRainfall(x,y)));
 		}
 	}
 

@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 public class WorldMap implements Serializable {
-    private int[][] elevation;
+    private float[][] elevation;
     private float[][] summerTemperature;
     private float[][] winterTemperature;
     private float[][] rainfall;
@@ -24,7 +24,7 @@ public class WorldMap implements Serializable {
     public WorldMap(int xSize, int ySize) {
         this.width = xSize;
         this.height = ySize;
-        elevation = new int[xSize][ySize];
+        elevation = new float[xSize][ySize];
         summerTemperature = new float[xSize][ySize];
         winterTemperature = new float[xSize][ySize];
         rainfall = new float[xSize][ySize];
@@ -47,11 +47,11 @@ public class WorldMap implements Serializable {
         this.height = height;
     }
 
-    public int getElevation(int x, int y) {
+    public float getElevation(int x, int y) {
         return elevation[x][y];
     }
 
-    public void setElevation(int x, int y, int val) {
+    public void setElevation(int x, int y, float val) {
         elevation[x][y] = val;
     }
 

@@ -128,7 +128,7 @@ public class MapDrawer {
 		WorldMap map = container.getMap();
 		for (int x = 0; x < map.getWidth(); x++) {
 			for (int y = 0; y < map.getHeight(); y++) {
-				int elevation = map.getElevation(x,y);
+				float elevation = map.getElevation(x,y);
 				if (elevation < container.getConfig().getSeaLevel()) {
 					if(useTiles) {
 						if (elevation > -5) {

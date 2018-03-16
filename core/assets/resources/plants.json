@@ -2,12 +2,12 @@
   {
     "title": "grass",
     "description": "Grass",
-    "min_temperature": "-15",
-    "max_temperature": "30",
-    "min_growing_temperature": "5",
-    "max_growing_temperature": "25",
-    "min_rainfall": "1000",
-    "max_rainfall": "4500",
+    "min_temperature": "-40",
+    "max_temperature": "40",
+    "min_growing_temperature": "-40",
+    "max_growing_temperature": "40",
+    "min_rainfall": "0",
+    "max_rainfall": "100",
     "water_source": ["near", "far"], //under, surface, near, far (multiple)
     "light_need": ["low", "high"], // underground, low, high (multiple)
     "soil_type": "soil",

@@ -192,7 +192,7 @@ public class WorldGenView implements GameView, Screen {
         if (model.getMap() != null) {
             int x = minimap.getFocus().getX();
             int y = minimap.getFocus().getY();
-            worldInfoLabel.setText(worldCellInfo.getCellInfo(x, y, model.getMap().getElevation(x, y), model.getMap().getSummerTemperature(x, y), model.getMap().getRainfall(x,y)));
+            worldInfoLabel.setText(worldCellInfo.getCellInfo(x, y, Math.round(model.getMap().getElevation(x, y)), model.getMap().getSummerTemperature(x, y), model.getMap().getRainfall(x,y)));
         }
     }
 

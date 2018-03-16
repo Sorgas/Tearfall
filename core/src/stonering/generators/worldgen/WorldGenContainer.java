@@ -44,14 +44,19 @@ public class WorldGenContainer {
 
     public void fillMap() {
         map.setPlates(plates);
+        float maxElevation = 0;
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                map.setElevation(x, y, Math.round(elevation[x][y]));
+                map.setElevation(x, y, elevation[x][y]);
                 map.setSummerTemperature(x, y, Math.round(summerTemperature[x][y]));
                 map.setWinterTemperature(x, y, Math.round(winterTemperature[x][y]));
                 map.setRainfall(x, y, rainfall[x][y]);
+                if(elevation[x][y] > maxElevation) {
+                    maxElevation = elevation[x][y];
+                }
             }
         }
+        System.out.println("max: " + maxElevation);
     }
 
     public void reset() {
@@ -71,8 +76,8 @@ public class WorldGenContainer {
         lakes = new ArrayList<>();
     }
 
-    private boolean inMap(int x, int y) {
-        return x >= 0 && x < width && y >= 0 && y < height;
+    public boolean inMap(int x, int y) {
+        return map.inMap(x, y);
     }
 
     public void setSlopeAngles(int x, int y, float value) {
@@ -82,11 +87,7 @@ public class WorldGenContainer {
     }
 
     public float getSlopeAngles(int x, int y) {
-        float value = 0;
-        if (inMap(x, y)) {
-            value = slopeAngles[x][y];
-        }
-        return value;
+        return inMap(x, y) ? slopeAngles[x][y] : 0;
     }
 
     public List<Plate> getPlates() {
@@ -120,11 +121,11 @@ public class WorldGenContainer {
     }
 
     public float getElevation(int x, int y) {
-        float value = 0;
-        if (inMap(x, y)) {
-            value = elevation[x][y];
-        }
-        return value;
+        return inMap(x, y) ? elevation[x][y] : 0;
+    }
+
+    public float getElevation(Position position) {
+        return getElevation(position.getX(), position.getY());
     }
 
     public void setDebug(int x, int y, float value) {
@@ -140,11 +141,7 @@ public class WorldGenContainer {
     }
 
     public float getSummerTemperature(int x, int y) {
-        float value = 0;
-        if (inMap(x, y)) {
-            value = summerTemperature[x][y];
-        }
-        return value;
+        return inMap(x, y) ? summerTemperature[x][y] : 0;
     }
 
     public void setWinterTemperature(int x, int y, float value) {
@@ -154,11 +151,7 @@ public class WorldGenContainer {
     }
 
     public float getWinterTemperature(int x, int y) {
-        float value = 0;
-        if (inMap(x, y)) {
-            value = winterTemperature[x][y];
-        }
-        return value;
+        return inMap(x, y) ? winterTemperature[x][y] : 0;
     }
 
     public void setRainfall(int x, int y, float value) {
@@ -168,11 +161,7 @@ public class WorldGenContainer {
     }
 
     public float getRainfall(int x, int y) {
-        float value = 0;
-        if (inMap(x, y)) {
-            value = rainfall[x][y];
-        }
-        return value;
+        return inMap(x, y) ? rainfall[x][y] : 0;
     }
 
     public List<Position> getLakes() {

@@ -6,7 +6,7 @@ import stonering.generators.worldgen.WorldGenContainer;
 
 /**
  * Created by Alexander on 01.04.2017.
- *
+ * <p>
  * applies Perlin noise to heightMap
  */
 public class ElevationGenerator extends AbstractGenerator {
@@ -40,6 +40,7 @@ public class ElevationGenerator extends AbstractGenerator {
                 container.setElevation(x, y, elevation[x][y]);
             }
         }
+        container.setElevation(0, 0, (elevation[0][1] + elevation[1][1] + elevation[1][0]) / 3f); //hack. noise generator always has 0 in (0.0)
         return false;
     }
 

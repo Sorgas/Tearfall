@@ -31,7 +31,7 @@ public class TileChooser {
     }
 
     public TextureRegion getTile(int x, int y) {
-        int elevation = map.getElevation(x, y);
+        int elevation = Math.round(map.getElevation(x, y));
         if (elevation < config.getSeaLevel()) {
             if (elevation < config.getSeaLevel() - 8) {
                 return ocean;

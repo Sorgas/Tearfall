@@ -10,7 +10,6 @@ import stonering.generators.worldgen.generators.temperature.TemperatureGenerator
 
 public class WorldGeneratorContainer {
     private boolean rejected;
-    int rejectCount;
 
     private WorldGenContainer worldGenContainer;
 
@@ -50,10 +49,8 @@ public class WorldGeneratorContainer {
             rejected = runGenerators();
             if (rejected) {
                 worldGenContainer.reset();
-                rejectCount++;
             }
         } while (rejected);
-        System.out.println("rejected: " + rejectCount);
     }
 
     private boolean runGenerators() {
@@ -64,7 +61,7 @@ public class WorldGeneratorContainer {
         elevationGenerator.execute();
 //        mountainRenderer.execute();
 //        valleyRenderer.execute();
-        worldGenContainer.fillMap();
+//        worldGenContainer.fillMap();
         oceanFiller.execute();
 //        hillRenderer.execute();
 //        erosionGenerator.execute();
