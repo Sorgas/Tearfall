@@ -25,17 +25,27 @@ public class RainfallGenerator extends AbstractGenerator {
         super(container);
     }
 
+    private void extractContainer() {
+        width = container.getConfig().getWidth();
+        height = container.getConfig().getHeight();
+        seaLevel = container.getConfig().getSeaLevel();
+        minRainfall = container.getConfig().getMinRainfall();
+        maxRainfall = container.getConfig().getMaxRainfall();
+        humidity = new float[width][height];
+        rainfallSet = new boolean[width][height];
+    }
+
     @Override
     public boolean execute() {
         System.out.println("generating rainfall");
         extractContainer();
-        addMainGradientOnWater();
+        addMainGradientOnWater(1f);
         fillEmpty();
+//        blurMap(2, 10);
+        addElevationGradient(0f);
         addPerlinNoise();
         return false;
     }
-
-
 
     private void evaporate() {
         for (int y = 0; y < height; y++) {
@@ -54,10 +64,25 @@ public class RainfallGenerator extends AbstractGenerator {
         }
     }
 
-    private void addMainGradientOnWater() {
+    private void addElevationGradient(float multiplier) {
         float equator = height / 2f;
         for (int y = 0; y < height; y++) {
             float rainfall = ((-Math.abs(y - (equator))) / (equator) + 1) * (maxRainfall - minRainfall - 10) + minRainfall;
+            rainfall *= multiplier;
+            for (int x = 0; x < width; x++) {
+                if (container.getElevation(x, y) > seaLevel) {
+                    float localRainfall = rainfall * (40 - container.getElevation(x, y)) / 40f;
+                    container.setRainfall(x, y, container.getRainfall(x, y) + localRainfall);
+                }
+            }
+        }
+    }
+
+    private void addMainGradientOnWater(float multiplier) {
+        float equator = height / 2f;
+        for (int y = 0; y < height; y++) {
+            float rainfall = ((-Math.abs(y - (equator))) / (equator) + 1) * (maxRainfall - minRainfall - 10) + minRainfall;
+            rainfall *= multiplier;
             for (int x = 0; x < width; x++) {
                 if (container.getElevation(x, y) <= seaLevel) {
                     container.setRainfall(x, y, rainfall);
@@ -84,6 +109,7 @@ public class RainfallGenerator extends AbstractGenerator {
                 for (int y = 0; y < height; y++) {
                     if (!rainfallSet[x][y] && hasNearRainfall(x, y)) {
                         humidity[x][y] = countNearRainfall(x, y);
+                        humidity[x][y] *= 0.98f;
                     }
                 }
             }
@@ -133,7 +159,7 @@ public class RainfallGenerator extends AbstractGenerator {
             }
         }
         rainfall = count != 0 ? rainfall / count : 0;
-        rainfall = rainfall * (100 - container.getElevation(x, y)) / 100f;
+        rainfall *= (80 - container.getElevation(x, y)) / 80f;
         return rainfall;
     }
 
@@ -185,13 +211,39 @@ public class RainfallGenerator extends AbstractGenerator {
     }
 
 
-    private void extractContainer() {
-        width = container.getConfig().getWidth();
-        height = container.getConfig().getHeight();
-        seaLevel = container.getConfig().getSeaLevel();
-        minRainfall = container.getConfig().getMinRainfall();
-        maxRainfall = container.getConfig().getMaxRainfall();
-        humidity = new float[width][height];
-        rainfallSet = new boolean[width][height];
+    private void blurMap(float threshold, int iterations) {
+        float[][] buffer = new float[width][height];
+        for (int i = 0; i < iterations; i++) {
+            for (int x = 0; x < width; x++) {
+                for (int y = 0; y < height; y++) {
+                    blurAroundPoint(x, y, threshold, buffer);
+                }
+            }
+        }
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                if (buffer[x][y] != 0) {
+                    container.setRainfall(x, y, buffer[x][y]);
+                }
+            }
+        }
+    }
+
+    private void blurAroundPoint(int cx, int cy, float threshold, float[][] buffer) {
+        for (int dx = -1; dx < 2; dx++) {
+            for (int dy = -1; dy < 2; dy++) {
+                if (container.inMap(cx + dx, cy + dy)
+                        && (container.getRainfall(cx + dx, cy + dy) - container.getRainfall(cx, cy)) > threshold) {
+                    float midValue = (container.getRainfall(cx, cy) + container.getRainfall(cx + dx, cy + dy)) * 0.5f;
+                    buffer[cx][cy] = midValue > buffer[cx][cy] ? midValue : buffer[cx][cy];
+                    buffer[cx + dx][cy + dy] = midValue > buffer[cx + dx][cy + dy] ? midValue : buffer[cx + dx][cy + dy];
+                }
+            }
+        }
+    }
+
+    private float midValue(float val1, float val2) {
+        int count = val1 != 0 ? 1 : 0 + val2 != 0 ? 1 : 0;
+        return count != 0 ? (val1 + val2) / count : 0;
     }
 }

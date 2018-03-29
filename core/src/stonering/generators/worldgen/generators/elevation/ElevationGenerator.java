@@ -31,17 +31,27 @@ public class ElevationGenerator extends AbstractGenerator {
         addElevation(5, 0.5f, 0.005f, 1f);
         addElevation(6, 0.5f, 0.015f, 0.5f);
         addElevation(7, 0.5f, 0.03f, 0.25f);
-        float mapRadius = (float) (width * Math.sqrt(2) / 2f);
+        lowerBorders();
+        container.setElevation(0, 0, (elevation[0][1] + elevation[1][1] + elevation[1][0]) / 3f); //hack. noise generator always has 0 in (0,0)
+        return false;
+    }
+
+    private void lowerBorders() {
+        float mapRadius = (float) (width * Math.sqrt(2) / 2f) * 0.8f;
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                float distance = getAbsoluteDistanceToCenter(x, y) / mapRadius;
-                elevation[x][y] = ((elevation[x][y] + 0.5f) * (1 - distance));
-                elevation[x][y] = (float) Math.pow((elevation[x][y]) * 2, 3f);
+                float distance = Math.min(getAbsoluteDistanceToCenter(x, y) / mapRadius, 1);
+                if (elevation[x][y] > 0) {
+                    elevation[x][y] = (float) Math.pow((elevation[x][y] + 1), 3f);
+                } else {
+                    elevation[x][y] = (float) Math.pow((elevation[x][y] - 1), 3f);
+                }
+                elevation[x][y] = ((elevation[x][y] + 1) * (1 - distance));
+                elevation[x][y] -= 1f;
                 container.setElevation(x, y, elevation[x][y]);
             }
         }
-        container.setElevation(0, 0, (elevation[0][1] + elevation[1][1] + elevation[1][0]) / 3f); //hack. noise generator always has 0 in (0.0)
-        return false;
+
     }
 
     private void addElevation(int octaves, float roughness, float scale, float multiplier) {
