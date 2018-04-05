@@ -3,6 +3,7 @@ package stonering.enums.plants;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
+import stonering.enums.materials.MaterialMap;
 import stonering.utils.global.FileLoader;
 
 import java.util.ArrayList;
@@ -10,16 +11,23 @@ import java.util.Collection;
 import java.util.HashMap;
 
 // loads plant types fromm plants.json
-public class PlantTypeMap {
+public class PlantMap {
+    private static PlantMap instance;
     private HashMap<String, PlantType> types;
     private Json json;
 
-    public PlantTypeMap() {
+    private PlantMap() {
         types = new HashMap<>();
         json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
         json.addClassTag("color_c", Color.class);
         loadPlantTypes();
+    }
+
+    public static PlantMap getInstance() {
+        if (instance == null)
+            instance = new PlantMap();
+        return instance;
     }
 
     private void loadPlantTypes() {
@@ -30,7 +38,7 @@ public class PlantTypeMap {
         }
     }
 
-    public PlantType getTreeType(String speciment) {
+    public PlantType getPlantType(String speciment) {
         return types.get(speciment);
     }
 

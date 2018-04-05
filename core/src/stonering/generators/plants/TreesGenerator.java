@@ -19,7 +19,7 @@ public class TreesGenerator {
     private TreeTypeMap treeTypeMap;
 
     public TreesGenerator(LocalGenContainer container) {
-        this.materialMap = container.getMaterialMap();
+        this.materialMap = MaterialMap.getInstance();
         this.treeTypeMap = new TreeTypeMap();
     }
 

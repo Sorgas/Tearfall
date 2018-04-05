@@ -28,9 +28,6 @@ public class Material {
     private byte atlasY;
     private Color color;
 
-    public Material() {
-    }
-
     public Material(String name, Color color, byte atlasY, int id) {
         this.name = name;
         this.color = color;

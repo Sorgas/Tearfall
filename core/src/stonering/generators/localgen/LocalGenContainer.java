@@ -17,13 +17,14 @@ public class LocalGenContainer {
     private LocalGenConfig config;
     private WorldMap worldMap;
     private LocalMap localMap;
+
     private int[][] heightsMap;
-    private MaterialMap materialMap;
+    private float[] monthlyTemperatures;
+
     private ArrayList<Tree> trees;
     private ArrayList<Unit> units;
     private ArrayList<Building> buildings;
     private ArrayList<Item> items;
-    private float[] monthlyTemperatures;
 
     public LocalGenContainer(LocalGenConfig config, WorldMap worldMap) {
         this.config = config;
@@ -32,7 +33,6 @@ public class LocalGenContainer {
         units = new ArrayList<>();
         buildings = new ArrayList<>();
         items = new ArrayList<>();
-        materialMap = MaterialMap.getInstance();
         localMap = new LocalMap(config.getAreaSize(), config.getAreaSize(), config.getAreaHight());
         monthlyTemperatures = new float[12];
     }
@@ -55,10 +55,6 @@ public class LocalGenContainer {
 
     public LocalMap getLocalMap() {
         return localMap;
-    }
-
-    public MaterialMap getMaterialMap() {
-        return materialMap;
     }
 
     public ArrayList<Tree> getTrees() {

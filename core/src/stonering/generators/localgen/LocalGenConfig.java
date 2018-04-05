@@ -8,6 +8,8 @@ import stonering.global.utils.Position;
  * Stores settings for local generation
  */
 public class LocalGenConfig {
+    private Position location;
+
     private int worldToLocalElevationModifier = 10;
     private int areaSize = 192;
     private int areaHight = 400;
@@ -16,8 +18,6 @@ public class LocalGenConfig {
     private int[] sublayerMinThickness = {4,4,6,8};
     private int minCaveLayerHeight = 10;
     private int maxCaveLayerHeight = 20;
-
-    private Position location;
 
     public int getWorldToLocalElevationModifier() {
         return worldToLocalElevationModifier;

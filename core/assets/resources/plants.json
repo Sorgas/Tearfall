@@ -1,5 +1,6 @@
 [
   {
+    "specimen": "grass",
     "title": "grass",
     "description": "Grass",
     "min_temperature": "-40",
@@ -10,7 +11,7 @@
     "max_rainfall": "100",
     "water_source": ["near", "far"], //under, surface, near, far (multiple)
     "light_need": ["low", "high"], // underground, low, high (multiple)
-    "soil_type": "soil",
+    "soil_types": [["soil", 1]],
     "atlasY": "0",
     "color": {
       "class": "color_c",
