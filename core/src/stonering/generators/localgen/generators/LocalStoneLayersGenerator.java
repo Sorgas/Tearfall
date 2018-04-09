@@ -36,7 +36,7 @@ public class LocalStoneLayersGenerator {
         LocalGenConfig config = container.getConfig();
         heigtsMap = container.getHeightsMap();
         map = container.getLocalMap();
-        materialMap = container.getMaterialMap();
+        materialMap = MaterialMap.getInstance();
         surfaceLevel = Math.round(container.getWorldMap().getElevation(config.getLocation().getX(), config.getLocation().getX()));
         surfaceLevel *= config.getWorldToLocalElevationModifier();
         surfaceLevel += config.getLocalSeaLevel();

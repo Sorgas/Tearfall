@@ -1,11 +1,10 @@
 package stonering.generators.plants;
 
-import stonering.enums.plants.TreeBlocksTypeEnum;
-import stonering.enums.plants.TreeType;
+import stonering.enums.plants.*;
 import stonering.enums.materials.MaterialMap;
-import stonering.enums.plants.TreeTypeMap;
 import stonering.exceptions.MaterialNotFoundException;
 import stonering.generators.localgen.LocalGenContainer;
+import stonering.objects.local_actors.plants.Plant;
 import stonering.objects.local_actors.plants.PlantBlock;
 import stonering.objects.local_actors.plants.Tree;
 
@@ -16,35 +15,35 @@ import java.util.Random;
  */
 public class TreesGenerator {
     private MaterialMap materialMap;
-    private TreeTypeMap treeTypeMap;
 
     public TreesGenerator(LocalGenContainer container) {
         this.materialMap = MaterialMap.getInstance();
-        this.treeTypeMap = new TreeTypeMap();
     }
 
     public Tree generateTree(String speciment, int age) throws MaterialNotFoundException {
-        TreeType treeType = treeTypeMap.getTreeType(speciment);
-        int material = materialMap.getId(treeType.getMaterialName());
-        Tree tree = new Tree(speciment, 10, material);
+        PlantType plantType = PlantMap.getInstance().getPlantType(speciment);
+        TreeType treeType = plantType.getTreeType();
+        int material = materialMap.getId(plantType.getMaterialName());
+        Tree tree = new Tree(10, material);
         Random random = new Random();
         int treeCenter = treeType.getCrownRadius();
         int rootsDepth = treeType.getRootDepth();
         int treeWidth = 1 + treeCenter * 2;
-        PlantBlock[][][] treeBlocks = new PlantBlock[treeWidth][treeWidth][treeType.getHeight() + rootsDepth];
+        Plant[][][] treeBlocks = new Plant[treeWidth][treeWidth][treeType.getHeight() + rootsDepth];
         int branchesStart = treeType.getHeight() / 2 + rootsDepth;
         // stomp
-        treeBlocks[treeCenter][treeCenter][rootsDepth] = new PlantBlock(material, TreeBlocksTypeEnum.STOMP.getCode());
+        treeBlocks[treeCenter][treeCenter][rootsDepth] = createTreePart(material, TreeBlocksTypeEnum.STOMP.getCode(), plantType);
         // trunk
         for (int i = rootsDepth + 1; i < treeBlocks[0][0].length - 1; i++) {
-            treeBlocks[treeCenter][treeCenter][i] = new PlantBlock(material, TreeBlocksTypeEnum.TRUNK.getCode());
+
+            treeBlocks[treeCenter][treeCenter][i] = createTreePart(material, TreeBlocksTypeEnum.TRUNK.getCode(), plantType);
         }
         // roots
         for (int i = 0; i < rootsDepth; i++) {
-            treeBlocks[treeCenter][treeCenter][i] = new PlantBlock(material, TreeBlocksTypeEnum.ROOT.getCode());
+            treeBlocks[treeCenter][treeCenter][i] = createTreePart(material, TreeBlocksTypeEnum.ROOT.getCode(), plantType);
         }
         // branches
-        treeBlocks[treeCenter][treeCenter][treeBlocks[0][0].length - 1] = new PlantBlock(material, TreeBlocksTypeEnum.BRANCH.getCode());
+        treeBlocks[treeCenter][treeCenter][treeBlocks[0][0].length - 1] = createTreePart(material, TreeBlocksTypeEnum.BRANCH.getCode(), plantType);
         for (int z = branchesStart; z < treeBlocks[0][0].length - 1; z++) {
             for (int x = 0; x < treeWidth; x++) {
                 for (int y = 0; y < treeWidth; y++) {
@@ -53,7 +52,7 @@ public class TreesGenerator {
                                 && (Math.abs(treeCenter - y) <= 1))
                                 && (random.nextInt(3) < 2);
                         if(rollBranch) {
-                            treeBlocks[x][y][z] = new PlantBlock(material, TreeBlocksTypeEnum.BRANCH.getCode());
+                            treeBlocks[x][y][z] = createTreePart(material, TreeBlocksTypeEnum.BRANCH.getCode(), plantType);
                         }
                     }
                 }
@@ -64,7 +63,7 @@ public class TreesGenerator {
             for (int y = 0; y < treeBlocks[0].length; y++) {
                 for (int z = branchesStart; z < treeBlocks[0][0].length; z++) {
                     if (treeBlocks[x][y][z] == null) {
-                        treeBlocks[x][y][z] = new PlantBlock(material, TreeBlocksTypeEnum.CROWN.getCode());
+                        treeBlocks[x][y][z] = createTreePart(material, TreeBlocksTypeEnum.CROWN.getCode(), plantType);
                     }
                 }
             }
@@ -72,5 +71,15 @@ public class TreesGenerator {
         tree.setBlocks(treeBlocks);
         tree.setStompZ(rootsDepth);
         return tree;
+    }
+
+    private Plant createTreePart(int material, int blockType, PlantType plantType) {
+        Plant plant = new Plant(0);
+        plant.setType(plantType);
+        PlantBlock block = new PlantBlock(material, blockType);
+        block.setAtlasY(plantType.getAtlasY());
+        block.setAtlasX(TreeTileMapping.getType(blockType).getAtlasX());
+        plant.setBlock(block);
+        return plant;
     }
 }

@@ -47,11 +47,12 @@ public class PlantContainer {
                     int mapX = tree.getX() + x - treeRadius;
                     int mapY = tree.getY() + y - treeRadius;
                     int mapZ = tree.getZ() + z - treeDepth;
-                    PlantBlock block = tree.getBlocks()[x][y][z];
-                    if (block != null && localMap.getBlockType(mapX, mapY, mapZ) == 0) {
+                    Plant treePart = tree.getBlocks()[x][y][z];
+                    if (treePart != null && localMap.getBlockType(mapX, mapY, mapZ) == 0) {
+                        PlantBlock block = treePart.getBlock();
                         block.setAtlasX(TreeTileMapping.getType(block.getBlockType()).getAtlasX());
                         block.setAtlasY(materialMap.getAtlasY(block.getMaterial()));
-                        localMap.setPlantBlock(mapX, mapY, mapZ, tree.getBlocks()[x][y][z]);
+                        localMap.setPlantBlock(mapX, mapY, mapZ, tree.getBlocks()[x][y][z].getBlock());
                     }
                 }
             }

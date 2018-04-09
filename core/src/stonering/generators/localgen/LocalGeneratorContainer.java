@@ -3,7 +3,6 @@ package stonering.generators.localgen;
 import stonering.game.core.model.LocalMap;
 import stonering.generators.localgen.generators.*;
 import stonering.generators.worldgen.WorldMap;
-import stonering.global.utils.Position;
 
 /**
  * Created by Alexander on 27.08.2017.
@@ -18,10 +17,10 @@ public class LocalGeneratorContainer {
     private LocalRiverGenerator riverGenerator;
     private LocalCaveGenerator localCaveGenerator;
     private LocalForestGenerator localForestGenerator;
-    private LocalRampPlacer localRampPlacer;
+    private LocalRampAndFloorPlacer localRampAndFloorPlacer;
+    private LocalFloraGanerator localFloraGanerator;
     private LocalFaunaGenerator localFaunaGenerator;
     private LocalFurnitureGenerator localFurnitureGenerator;
-    private LocalFloorPlacer localFloorPlacer;
     private LocalItemsGenerator localItemsGenerator;
     private LocalTemperatureGenerator localTemperatureGenerator;
     private WorldMap world;
@@ -38,27 +37,26 @@ public class LocalGeneratorContainer {
         localHeightsGenerator = new LocalHeightsGenerator(localGenContainer);
         localStoneLayersGenerator = new LocalStoneLayersGenerator(localGenContainer);
         localCaveGenerator = new LocalCaveGenerator(localGenContainer);
-        localRampPlacer = new LocalRampPlacer(localGenContainer);
+        localRampAndFloorPlacer = new LocalRampAndFloorPlacer(localGenContainer);
         localTemperatureGenerator = new LocalTemperatureGenerator(localGenContainer);
         localForestGenerator = new LocalForestGenerator(localGenContainer);
         localFaunaGenerator = new LocalFaunaGenerator(localGenContainer);
         localFurnitureGenerator = new LocalFurnitureGenerator(localGenContainer);
-        localFloorPlacer = new LocalFloorPlacer(localGenContainer);
         localItemsGenerator = new LocalItemsGenerator(localGenContainer);
-
+        localFloraGanerator = new LocalFloraGanerator(localGenContainer);
     }
 
     public void execute() {
         localHeightsGenerator.execute();
         localStoneLayersGenerator.execute();
         localCaveGenerator.execute();
-        localRampPlacer.execute();
+        localRampAndFloorPlacer.execute();
         localTemperatureGenerator.execute();
         localForestGenerator.execute();
-        localFaunaGenerator.execute();
-        localFurnitureGenerator.execute();
-        localFloorPlacer.execute();
-        localItemsGenerator.execute();
+        localFloraGanerator.execute();
+//        localFaunaGenerator.execute();
+//        localFurnitureGenerator.execute();
+//        localItemsGenerator.execute();
     }
 
     public LocalMap getLocalMap() {

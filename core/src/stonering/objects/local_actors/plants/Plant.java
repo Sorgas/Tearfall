@@ -1,27 +1,29 @@
 package stonering.objects.local_actors.plants;
 
+import stonering.enums.plants.PlantType;
+
 /**
  * Created by Alexander on 19.10.2017.
  */
 public class Plant {
-    private String specimen; // points to plant type
+    private Tree tree;
+    private PlantType type;
     private PlantBlock block;
     private int age;
     private int x;
     private int y;
     private int z;
 
-    public Plant(String specimen, int age) {
-        this.specimen = specimen;
+    public Plant(int age) {
         this.age = age;
     }
 
-    public String getSpecimen() {
-        return specimen;
+    public PlantType getType() {
+        return type;
     }
 
-    public void setSpecimen(String specimen) {
-        this.specimen = specimen;
+    public void setType(PlantType type) {
+        this.type = type;
     }
 
     public PlantBlock getBlock() {

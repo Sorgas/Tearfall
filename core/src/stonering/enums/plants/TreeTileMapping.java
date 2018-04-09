@@ -4,18 +4,19 @@ import java.util.HashMap;
 
 /**
  * Created by Alexander on 25.11.2017.
- *
+ * <p>
  * stores atlas x for different perts of a tree
  */
 public enum TreeTileMapping {
-    TRUNK((byte) 12, (byte) 0),
-    TRUNK_R((byte) 2, (byte) 1),
-    TRUNK_L((byte) 3, (byte) 2),
-    TRUNK_RL((byte) 4, (byte) 3),
-    STOMP((byte) 10, (byte) 4),
-    BRANCHES_R((byte) 13, (byte) 5),
-    BRANCHES_L((byte) 7, (byte) 6),
-    CROWN((byte) 14, (byte) 7);
+    TRUNK(12, 0),
+    TRUNK_R(2, 1),
+    TRUNK_L(3, 2),
+    TRUNK_RL(4, 3),
+    STOMP(10, 4),
+    BRANCHES_R(13, 5),
+    BRANCHES_L(7, 6),
+    CROWN(14, 7),
+    ROOT(11, 8);
 
     private byte code;
     private byte atlasX;
@@ -28,9 +29,9 @@ public enum TreeTileMapping {
         }
     }
 
-    TreeTileMapping(byte code, byte atlasX) {
-        this.code = code;
-        this.atlasX = atlasX;
+    TreeTileMapping(int code, int atlasX) {
+        this.code = (byte) code;
+        this.atlasX = (byte) atlasX;
     }
 
     public byte getCode() {

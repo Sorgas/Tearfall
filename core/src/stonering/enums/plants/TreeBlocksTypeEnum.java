@@ -6,7 +6,7 @@ import java.util.HashMap;
  * Created by Alexander on 30.10.2017.
  */
 public enum TreeBlocksTypeEnum {
-    STOMP(10),
+    STOMP(10), //treestomp or single-tile plant
     ROOT(11),
     TRUNK(12),
     BRANCH(13),

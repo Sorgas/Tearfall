@@ -117,7 +117,6 @@ public class LocalMap {
                     }
                 }
             }
-
         }
     }
 
@@ -150,7 +149,7 @@ public class LocalMap {
                 || blockType[x][y][z + 1] == BlockTypesEnum.STAIRFLOOR.getCode());
     }
 
-    private boolean inMap(int x, int y, int z) {
+    public boolean inMap(int x, int y, int z) {
         return !(x < 0 || y < 0 || z < 0 ||
                 x >= xSize || y >= ySize || z >= zSize);
     }
@@ -183,6 +182,10 @@ public class LocalMap {
 
     public void setPlantBlock(int x, int y, int z, PlantBlock block) {
         plantBlocks[x][y][z] = block;
+    }
+
+    public void setPlantBlock(Position pos, PlantBlock block) {
+        plantBlocks[pos.getX()][pos.getY()][pos.getZ()] = block;
     }
 
     public PlantBlock getPlantBlock(int x, int y, int z) {

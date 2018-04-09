@@ -15,10 +15,13 @@ public class PlantType {
     private int maxGrowingTemperature;
     private int minRainfall;
     private int maxRainfall;
-    private String waterSource;
-    private int lightNeed;
-    private ArrayList<String> soilType;
+    private ArrayList<String> waterSource;
+    private ArrayList<String> lightNeed;
+    private String soilType;
     private int atlasY;
+    private int atlasX;
+    private String materialName;
+    private TreeType treeType;
     private Color color;
 
     private String harvestProduct;
@@ -96,27 +99,27 @@ public class PlantType {
         this.maxRainfall = maxRainfall;
     }
 
-    public String getWaterSource() {
+    public ArrayList<String> getWaterSource() {
         return waterSource;
     }
 
-    public void setWaterSource(String waterSource) {
+    public void setWaterSource(ArrayList<String> waterSource) {
         this.waterSource = waterSource;
     }
 
-    public int getLightNeed() {
+    public ArrayList<String> getLightNeed() {
         return lightNeed;
     }
 
-    public void setLightNeed(int lightNeed) {
+    public void setLightNeed(ArrayList<String> lightNeed) {
         this.lightNeed = lightNeed;
     }
 
-    public ArrayList<String> getSoilType() {
+    public String getSoilType() {
         return soilType;
     }
 
-    public void setSoilType(ArrayList<String> soilTypes) {
+    public void setSoilType(String soilTypes) {
         this.soilType = soilTypes;
     }
 
@@ -150,5 +153,29 @@ public class PlantType {
 
     public void setCutProduct(String cutProduct) {
         this.cutProduct = cutProduct;
+    }
+
+    public int getAtlasX() {
+        return atlasX;
+    }
+
+    public void setAtlasX(int atlasX) {
+        this.atlasX = atlasX;
+    }
+
+    public String getMaterialName() {
+        return materialName;
+    }
+
+    public void setMaterialName(String materialName) {
+        this.materialName = materialName;
+    }
+
+    public TreeType getTreeType() {
+        return treeType;
+    }
+
+    public void setTreeType(TreeType treeType) {
+        this.treeType = treeType;
     }
 }

@@ -6,6 +6,7 @@ package stonering.objects.local_actors.plants;
  * class to be contained on LocalMap. also stores render data
  */
 public class PlantBlock {
+    private Plant plant;
     private int material;
     private int blockType;
     private int atlasX;
@@ -46,5 +47,13 @@ public class PlantBlock {
 
     public void setAtlasY(int atlasY) {
         this.atlasY = atlasY;
+    }
+
+    public Plant getPlant() {
+        return plant;
+    }
+
+    public void setPlant(Plant plant) {
+        this.plant = plant;
     }
 }

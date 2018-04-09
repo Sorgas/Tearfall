@@ -21,6 +21,7 @@ public class PlantMap {
         json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
         json.addClassTag("color_c", Color.class);
+        json.addClassTag("tree_c", TreeType.class);
         loadPlantTypes();
     }
 
@@ -32,7 +33,7 @@ public class PlantMap {
 
     private void loadPlantTypes() {
         System.out.println("loading types");
-        ArrayList<PlantType> elements = json.fromJson(ArrayList.class, PlantType.class, FileLoader.getTreesFile());
+        ArrayList<PlantType> elements = json.fromJson(ArrayList.class, PlantType.class, FileLoader.getPlantsFile());
         for (PlantType plantType : elements) {
             types.put(plantType.getSpecimen(), plantType);
         }

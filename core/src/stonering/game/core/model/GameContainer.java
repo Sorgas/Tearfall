@@ -63,7 +63,8 @@ public class GameContainer {
 
         taskContainer = new TaskContainer(this);
 
-        localMap.initAreas();
+        //TODO commented for fast localgen
+//        localMap.initAreas();
     }
 
     private void startContainer() {

@@ -82,7 +82,6 @@ public class LocalWorldDrawer {
         PlantBlock plantBlock = localMap.getPlantBlock(x, y, z);
         if (plantBlock != null) {
             drawSprite(1, x, y, z, plantBlock.getAtlasX(), plantBlock.getAtlasY());
-
         }
         BuildingBlock buildingBlock = localMap.getBuildingBlock(x, y, z);
         if (buildingBlock != null) {

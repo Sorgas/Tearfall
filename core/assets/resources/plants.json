@@ -1,24 +1,62 @@
 [
-  {
-    "specimen": "grass",
-    "title": "grass",
-    "description": "Grass",
-    "min_temperature": "-40",
-    "max_temperature": "40",
-    "min_growing_temperature": "-40",
-    "max_growing_temperature": "40",
-    "min_rainfall": "0",
-    "max_rainfall": "100",
-    "water_source": ["near", "far"], //under, surface, near, far (multiple)
-    "light_need": ["low", "high"], // underground, low, high (multiple)
-    "soil_types": [["soil", 1]],
-    "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "0",
-      "g": "1",
-      "b": "0",
-      "a": "1"
+    {
+        "specimen":"grass",
+        "title":"grass",
+        "description":"Grass",
+        "minTemperature":"-40",
+        "maxTemperature":"40",
+        "minGrowingTemperature":"-40",
+        "maxGrowingTemperature":"40",
+        "minRainfall":"0",
+        "maxRainfall":"100",
+        "waterSource":["near", "far"],
+        //under, surface, near, far (multiple)
+        "lightNeed":["low", "high"],
+        // underground, low, high (multiple)
+        "soilType":"soil",
+        "atlasY":"0",
+        "atlasX":"0",
+        "materialName":null,
+        "treeType":null,
+        "color":{
+            "class":"color_c",
+            "r":"0",
+            "g":"1",
+            "b":"0",
+            "a":"1"
+        }
+    },
+    {
+        "specimen":"willow",
+        "title":"grass",
+        "description":"Grass",
+        "minTemperature":"-40",
+        "maxTemperature":"40",
+        "minGrowingTemperature":"-40",
+        "maxGrowingTemperature":"40",
+        "minRainfall":"0",
+        "maxRainfall":"100",
+        "waterSource":["near", "far"],
+        //under, surface, near, far (multiple)
+        "lightNeed":["low", "high"],
+        // underground, low, high (multiple)
+        "soilType":"soil",
+        "atlasY":"0",
+        "atlasX":"0",
+        "materialName":"willow",
+        "treeType":{
+            "class":"tree_c",
+            "crownRadius":"2",
+            "height":"5",
+            "rootDepth":"2",
+            "rootRadius":"1"
+        },
+        "color":{
+            "class":"color_c",
+            "r":"0",
+            "g":"1",
+            "b":"0",
+            "a":"1"
+        }
     }
-  }
 ]

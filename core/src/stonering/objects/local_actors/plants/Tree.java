@@ -1,30 +1,30 @@
 package stonering.objects.local_actors.plants;
 
+import stonering.enums.plants.TreeType;
+
 /**
  * Created by Alexander on 19.10.2017.
  */
 public class Tree {
-    private String specimen;
-    private PlantBlock[][][] blocks;
+    private TreeType type;
+    private Plant[][][] blocks;
     private int age;
-    private int[] lifeStages;
-    private int woodMaterialId;
+    private int materialId;
     private int stompZ;
     private int x;
     private int y;
     private int z;
 
-    public Tree(String specimen, int age, int woodMaterialId) {
-        this.specimen = specimen;
+    public Tree(int age, int materialId) {
         this.age = age;
-        this.woodMaterialId = woodMaterialId;
+        this.materialId = materialId;
     }
 
-    public PlantBlock[][][] getBlocks() {
+    public Plant[][][] getBlocks() {
         return blocks;
     }
 
-    public void setBlocks(PlantBlock[][][] blocks) {
+    public void setBlocks(Plant[][][] blocks) {
         this.blocks = blocks;
     }
 
@@ -37,11 +37,11 @@ public class Tree {
     }
 
     public int getWoodMaterial() {
-        return woodMaterialId;
+        return materialId;
     }
 
     public void setWoodMaterial(int woodMaterial) {
-        this.woodMaterialId = woodMaterial;
+        this.materialId = woodMaterial;
     }
 
     public int getStompZ() {
@@ -74,5 +74,21 @@ public class Tree {
 
     public void setZ(int z) {
         this.z = z;
+    }
+
+    public TreeType getType() {
+        return type;
+    }
+
+    public void setType(TreeType type) {
+        this.type = type;
+    }
+
+    public int getMaterialId() {
+        return materialId;
+    }
+
+    public void setMaterialId(int materialId) {
+        this.materialId = materialId;
     }
 }
