@@ -58,7 +58,6 @@ public class LocalFloraGanerator {
         Random random = new Random();
         for (int number = (int) (positions.size() * amount / 2); number > 0; number--) {
             Position position = positions.remove(random.nextInt(positions.size()));
-            System.out.println("place plant " + position);
             Plant plant = plantGenerator.generatePlant(specimen);
             container.getPlants().add(plant);
             localMap.setPlantBlock(position, plant.getBlock());

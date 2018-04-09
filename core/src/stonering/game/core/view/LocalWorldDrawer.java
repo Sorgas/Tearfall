@@ -72,13 +72,11 @@ public class LocalWorldDrawer {
             }
         }
         drawCamera();
-
         batch.end();
     }
 
     private void drawTile(int x, int y, int z) {
         drawBlock(x, y, z);
-
         PlantBlock plantBlock = localMap.getPlantBlock(x, y, z);
         if (plantBlock != null) {
             drawSprite(1, x, y, z, plantBlock.getAtlasX(), plantBlock.getAtlasY());
