@@ -1,5 +1,6 @@
 package stonering.generators.localgen.generators;
 
+import javafx.util.Pair;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.materials.MaterialMap;
 import stonering.enums.plants.PlantMap;
@@ -51,6 +52,7 @@ public class LocalFloraGenerator {
 
     public void execute() {
         weightedPlantTypes = new HashMap<>();
+        weightedTreeTypes = new HashMap<>();
         filterPlants();
         generateFlora();
     }
@@ -72,14 +74,28 @@ public class LocalFloraGenerator {
      */
     private void placeTrees(String specimen, float amount) {
         try {
-            ArrayList<Position> positions = findAllAvailablePositions(specimen);
+            PlantType type = PlantMap.getInstance().getPlantType(specimen);
+            Pair<boolean[][][], ArrayList<Position>> pair =findAllAvailablePositions(specimen);
+            ArrayList<Position> positions = pair.getValue();
+            boolean[][][] array = pair.getKey();
             Random random = new Random();
             for (int number = (int) (positions.size() * amount / 2); number > 0; number--) {
                 Tree tree = new TreesGenerator().generateTree(specimen, 0);
                 Position position = positions.remove(random.nextInt(positions.size()));
+                int treeRadius = Math.max(type.getTreeType().getRootRadius(), type.getTreeType().getCrownRadius());
+                for (int x = 0; x < tree.getBlocks().length; x++) {
+                    for (int y = 0; y < tree.getBlocks()[0].length; y++) {
+                        for (int z = 0; z < tree.getBlocks()[0][0].length; z++) {
+                            Position pos = new Position(x,y,z);
+                            if(positions.contains(pos)) {
+                                positions.remove(pos);
+                                System.out.println();
+                            }
+                        }
+                    }
+                }
                 tree.setPosition(position);
                 container.getTrees().add(tree);
-
             }
         } catch (MaterialNotFoundException e) {
             e.printStackTrace();
@@ -87,7 +103,7 @@ public class LocalFloraGenerator {
     }
 
     /**
-     * Places tree on map
+     * 0     * Places tree on map
      *
      * @param tree tree to place
      */
@@ -110,15 +126,21 @@ public class LocalFloraGenerator {
      */
     private void placePlants(String specimen, float amount) {
         PlantGenerator plantGenerator = new PlantGenerator();
-        ArrayList<Position> positions = findAllAvailablePositions(specimen);
+        Pair<boolean[][][], ArrayList<Position>> pair =findAllAvailablePositions(specimen);
+        ArrayList<Position> positions = pair.getValue();
+        boolean[][][] array = pair.getKey();
         Random random = new Random();
         for (int number = (int) (positions.size() * amount / 2); number > 0; number--) {
             Position position = positions.remove(random.nextInt(positions.size()));
+            array[position.getX()][position.getY()][position.getZ()] = false;
             Plant plant = plantGenerator.generatePlant(specimen);
+            plant.setPosition(position);
             container.getPlants().add(plant);
             localMap.setPlantBlock(position, plant.getBlock());
         }
     }
+
+
 
     /**
      * Collects all positions suitable for specific plant.
@@ -126,9 +148,10 @@ public class LocalFloraGenerator {
      * @param specimen plant to check availability
      * @return
      */
-    private ArrayList<Position> findAllAvailablePositions(String specimen) {
+    private Pair<boolean[][][], ArrayList<Position>> findAllAvailablePositions(String specimen) {
         //TODO should count plant requirements for light level, water source, soil type
         ArrayList<Position> positions = new ArrayList<>();
+        boolean[][][] array = new boolean[localMap.getxSize()][localMap.getySize()][localMap.getzSize()];
         PlantType type = PlantMap.getInstance().getPlantType(specimen);
         int borderPadding = type.isTree() ? Math.max(type.getTreeType().getRootRadius(), type.getTreeType().getCrownRadius()) : 0; // set border padding for trees
         String soilType = type.getSoilType();
@@ -138,11 +161,13 @@ public class LocalFloraGenerator {
                     if (localMap.getBlockType(x, y, z) == floorCode
                             && MaterialMap.getInstance().getMaterial(localMap.getMaterial(x, y, z)).getTypes().contains(soilType)) { // surface material should be suitable for plant
                         positions.add(new Position(x, y, z));
+                        array[x][y][z] = true;
                     }
                 }
             }
         }
-        return positions;
+        Pair<boolean[][][], ArrayList<Position>> pair = new Pair<>(array, positions);
+        return pair;
     }
 
     private void randomizePlantAge(Plant plant) {

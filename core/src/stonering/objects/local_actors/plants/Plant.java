@@ -1,18 +1,17 @@
 package stonering.objects.local_actors.plants;
 
 import stonering.enums.plants.PlantType;
+import stonering.global.utils.Position;
 
 /**
  * Created by Alexander on 19.10.2017.
  */
 public class Plant {
+    private Position position;
     private Tree tree; // every tile of a tree is a plant. this is a back link for affecting whole tree by actions with one tile(branches cut off, infection, stomp cut)
     private PlantType type;
     private PlantBlock block;
     private int age;
-    private int x;
-    private int y;
-    private int z;
 
     public Plant(int age) {
         this.age = age;
@@ -43,26 +42,34 @@ public class Plant {
     }
 
     public int getX() {
-        return x;
+        return position.getX();
     }
 
     public void setX(int x) {
-        this.x = x;
+        position.setX(x);
     }
 
     public int getY() {
-        return y;
+        return position.getY();
     }
 
     public void setY(int y) {
-        this.y = y;
+        position.setY(y);
     }
 
     public int getZ() {
-        return z;
+        return position.getZ();
     }
 
     public void setZ(int z) {
-        this.z = z;
+        position.setZ(z);
+    }
+
+    public Position getPosition() {
+        return position;
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
     }
 }
