@@ -6,7 +6,7 @@ import stonering.enums.plants.PlantType;
  * Created by Alexander on 19.10.2017.
  */
 public class Plant {
-    private Tree tree;
+    private Tree tree; // every tile of a tree is a plant. this is a back link for affecting whole tree by actions with one tile(branches cut off, infection, stomp cut)
     private PlantType type;
     private PlantBlock block;
     private int age;

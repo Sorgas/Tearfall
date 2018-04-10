@@ -16,14 +16,10 @@ import java.util.Random;
 public class TreesGenerator {
     private MaterialMap materialMap;
 
-    public TreesGenerator(LocalGenContainer container) {
-        this.materialMap = MaterialMap.getInstance();
-    }
-
     public Tree generateTree(String speciment, int age) throws MaterialNotFoundException {
         PlantType plantType = PlantMap.getInstance().getPlantType(speciment);
         TreeType treeType = plantType.getTreeType();
-        int material = materialMap.getId(plantType.getMaterialName());
+        int material = MaterialMap.getInstance().getId(plantType.getMaterialName());
         Tree tree = new Tree(10, material);
         Random random = new Random();
         int treeCenter = treeType.getCrownRadius();

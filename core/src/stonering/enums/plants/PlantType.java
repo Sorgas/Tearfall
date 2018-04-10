@@ -27,6 +27,10 @@ public class PlantType {
     private String harvestProduct;
     private String cutProduct;
 
+    public boolean isTree() {
+        return treeType != null;
+    }
+
     public String getSpecimen() {
         return specimen;
     }

@@ -11,6 +11,7 @@ public class PlantGenerator {
     public Plant generatePlant(String specimen) {
         Plant plant = new Plant(0);
         plant.setType(PlantMap.getInstance().getPlantType(specimen));
+
         return plant;
     }
 }

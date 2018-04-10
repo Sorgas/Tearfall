@@ -1,19 +1,18 @@
 package stonering.objects.local_actors.plants;
 
 import stonering.enums.plants.TreeType;
+import stonering.global.utils.Position;
 
 /**
  * Created by Alexander on 19.10.2017.
  */
 public class Tree {
+    private Position position;
     private TreeType type;
     private Plant[][][] blocks;
     private int age;
     private int materialId;
     private int stompZ;
-    private int x;
-    private int y;
-    private int z;
 
     public Tree(int age, int materialId) {
         this.age = age;
@@ -53,27 +52,27 @@ public class Tree {
     }
 
     public int getX() {
-        return x;
+        return position.getX();
     }
 
     public void setX(int x) {
-        this.x = x;
+        position.setX(x);
     }
 
     public int getY() {
-        return y;
+        return position.getY();
     }
 
     public void setY(int y) {
-        this.y = y;
+        position.setY(y);
     }
 
     public int getZ() {
-        return z;
+        return position.getZ();
     }
 
     public void setZ(int z) {
-        this.z = z;
+        position.setZ(z);
     }
 
     public TreeType getType() {
@@ -90,5 +89,13 @@ public class Tree {
 
     public void setMaterialId(int materialId) {
         this.materialId = materialId;
+    }
+
+    public Position getPosition() {
+        return position;
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
     }
 }

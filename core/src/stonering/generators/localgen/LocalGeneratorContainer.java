@@ -16,9 +16,8 @@ public class LocalGeneratorContainer {
     private LocalStoneLayersGenerator localStoneLayersGenerator;
     private LocalRiverGenerator riverGenerator;
     private LocalCaveGenerator localCaveGenerator;
-    private LocalForestGenerator localForestGenerator;
     private LocalRampAndFloorPlacer localRampAndFloorPlacer;
-    private LocalFloraGanerator localFloraGanerator;
+    private LocalFloraGenerator localFloraGenerator;
     private LocalFaunaGenerator localFaunaGenerator;
     private LocalFurnitureGenerator localFurnitureGenerator;
     private LocalItemsGenerator localItemsGenerator;
@@ -39,11 +38,10 @@ public class LocalGeneratorContainer {
         localCaveGenerator = new LocalCaveGenerator(localGenContainer);
         localRampAndFloorPlacer = new LocalRampAndFloorPlacer(localGenContainer);
         localTemperatureGenerator = new LocalTemperatureGenerator(localGenContainer);
-        localForestGenerator = new LocalForestGenerator(localGenContainer);
         localFaunaGenerator = new LocalFaunaGenerator(localGenContainer);
         localFurnitureGenerator = new LocalFurnitureGenerator(localGenContainer);
         localItemsGenerator = new LocalItemsGenerator(localGenContainer);
-        localFloraGanerator = new LocalFloraGanerator(localGenContainer);
+        localFloraGenerator = new LocalFloraGenerator(localGenContainer);
     }
 
     public void execute() {
@@ -52,8 +50,7 @@ public class LocalGeneratorContainer {
         localCaveGenerator.execute();
         localRampAndFloorPlacer.execute();
         localTemperatureGenerator.execute();
-        localForestGenerator.execute();
-        localFloraGanerator.execute();
+        localFloraGenerator.execute();
 //        localFaunaGenerator.execute();
 //        localFurnitureGenerator.execute();
 //        localItemsGenerator.execute();
