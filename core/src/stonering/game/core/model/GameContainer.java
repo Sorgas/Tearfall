@@ -45,9 +45,9 @@ public class GameContainer {
     private void loadFromContainer(LocalGenContainer container) {
         this.localMap = container.getLocalMap();
 
-        plantContainer = new PlantContainer(container.getTrees(), null);
+        plantContainer = new PlantContainer(container.getPlants());
         plantContainer.setLocalMap(localMap);
-        plantContainer.placeTrees();
+        plantContainer.placePlants();
 
         buildingContainer = new BuildingContainer(container.getBuildings());
         buildingContainer.setLocalMap(localMap);

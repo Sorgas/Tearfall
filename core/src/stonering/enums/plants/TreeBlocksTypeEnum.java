@@ -6,11 +6,13 @@ import java.util.HashMap;
  * Created by Alexander on 30.10.2017.
  */
 public enum TreeBlocksTypeEnum {
-    STOMP(10), //treestomp or single-tile plant
+    STOMP(10), //treestomp
     ROOT(11),
     TRUNK(12),
     BRANCH(13),
-    CROWN(14);
+    CROWN(14),
+    SINGLE_PASSABLE(15),
+    SINGLE_NON_PASSABLE(16);
 
     private byte code;
     private static HashMap<Byte, TreeBlocksTypeEnum> map;

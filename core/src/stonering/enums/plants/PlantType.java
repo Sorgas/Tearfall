@@ -4,6 +4,9 @@ import com.badlogic.gdx.graphics.Color;
 
 import java.util.ArrayList;
 
+/**
+ * Stores plant parameters
+ */
 public class PlantType {
     private String specimen;
     private String title;
@@ -18,14 +21,67 @@ public class PlantType {
     private ArrayList<String> waterSource;
     private ArrayList<String> lightNeed;
     private String soilType;
-    private int atlasY;
-    private int atlasX;
     private String materialName;
-    private TreeType treeType;
-    private Color color;
 
-    private String harvestProduct;
-    private String cutProduct;
+    private TreeType treeType;
+    private PlantLifeStage lifeStage;
+
+    public class PlantLifeStage {
+        private int stageLength;
+        private String harvestProduct;
+        private String cutProduct;
+        private int atlasX;
+        private int atlasY;
+        private Color color;
+
+        public int getStageLength() {
+            return stageLength;
+        }
+
+        public void setStageLength(int stageLength) {
+            this.stageLength = stageLength;
+        }
+
+        public String getHarvestProduct() {
+            return harvestProduct;
+        }
+
+        public void setHarvestProduct(String harvestProduct) {
+            this.harvestProduct = harvestProduct;
+        }
+
+        public String getCutProduct() {
+            return cutProduct;
+        }
+
+        public void setCutProduct(String cutProduct) {
+            this.cutProduct = cutProduct;
+        }
+
+        public int getAtlasX() {
+            return atlasX;
+        }
+
+        public void setAtlasX(int atlasX) {
+            this.atlasX = atlasX;
+        }
+
+        public int getAtlasY() {
+            return atlasY;
+        }
+
+        public void setAtlasY(int atlasY) {
+            this.atlasY = atlasY;
+        }
+
+        public Color getColor() {
+            return color;
+        }
+
+        public void setColor(Color color) {
+            this.color = color;
+        }
+    }
 
     public boolean isTree() {
         return treeType != null;
@@ -127,46 +183,6 @@ public class PlantType {
         this.soilType = soilTypes;
     }
 
-    public int getAtlasY() {
-        return atlasY;
-    }
-
-    public void setAtlasY(int atlasY) {
-        this.atlasY = atlasY;
-    }
-
-    public Color getColor() {
-        return color;
-    }
-
-    public void setColor(Color color) {
-        this.color = color;
-    }
-
-    public String getHarvestProduct() {
-        return harvestProduct;
-    }
-
-    public void setHarvestProduct(String harvestProduct) {
-        this.harvestProduct = harvestProduct;
-    }
-
-    public String getCutProduct() {
-        return cutProduct;
-    }
-
-    public void setCutProduct(String cutProduct) {
-        this.cutProduct = cutProduct;
-    }
-
-    public int getAtlasX() {
-        return atlasX;
-    }
-
-    public void setAtlasX(int atlasX) {
-        this.atlasX = atlasX;
-    }
-
     public String getMaterialName() {
         return materialName;
     }
@@ -181,5 +197,13 @@ public class PlantType {
 
     public void setTreeType(TreeType treeType) {
         this.treeType = treeType;
+    }
+
+    public PlantLifeStage getLifeStage() {
+        return lifeStage;
+    }
+
+    public void setLifeStage(PlantLifeStage lifeStage) {
+        this.lifeStage = lifeStage;
     }
 }

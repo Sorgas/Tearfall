@@ -20,6 +20,8 @@ import java.util.HashMap;
 import java.util.Random;
 
 /**
+ * Created by Alexander on 10.04.2018.
+ * <p>
  * Generates plants suitable for local climate and places them on local map.
  */
 public class LocalFloraGenerator {
@@ -62,7 +64,7 @@ public class LocalFloraGenerator {
      * Trees give shadow, therefore they should be placed before plants.
      */
     private void generateFlora() {
-        weightedTreeTypes.forEach((specimen, amount) -> placeTrees(specimen, amount));
+//        weightedTreeTypes.forEach((specimen, amount) -> placeTrees(specimen, amount));
         weightedPlantTypes.forEach((specimen, amount) -> placePlants(specimen, amount));
     }
 
@@ -75,19 +77,23 @@ public class LocalFloraGenerator {
     private void placeTrees(String specimen, float amount) {
         try {
             PlantType type = PlantMap.getInstance().getPlantType(specimen);
-            Pair<boolean[][][], ArrayList<Position>> pair =findAllAvailablePositions(specimen);
+            Pair<boolean[][][], ArrayList<Position>> pair = findAllAvailablePositions(specimen);
             ArrayList<Position> positions = pair.getValue();
             boolean[][][] array = pair.getKey();
             Random random = new Random();
             for (int number = (int) (positions.size() * amount / 2); number > 0; number--) {
                 Tree tree = new TreesGenerator().generateTree(specimen, 0);
                 Position position = positions.remove(random.nextInt(positions.size()));
+                tree.setPosition(position);
                 int treeRadius = Math.max(type.getTreeType().getRootRadius(), type.getTreeType().getCrownRadius());
-                for (int x = 0; x < tree.getBlocks().length; x++) {
-                    for (int y = 0; y < tree.getBlocks()[0].length; y++) {
+                for (int x = -treeRadius; x <= treeRadius; x++) {
+                    for (int y = -treeRadius; y <= treeRadius; y++) {
                         for (int z = 0; z < tree.getBlocks()[0][0].length; z++) {
-                            Position pos = new Position(x,y,z);
-                            if(positions.contains(pos)) {
+                            if (array[position.getX() + x][position.getY() + y ][position.getZ()]) {
+
+                            }
+                            Position pos = new Position(x, y, z);
+                            if (positions.contains(pos)) {
                                 positions.remove(pos);
                                 System.out.println();
                             }
@@ -95,7 +101,7 @@ public class LocalFloraGenerator {
                     }
                 }
                 tree.setPosition(position);
-                container.getTrees().add(tree);
+//                container.getTrees().add(tree);
             }
         } catch (MaterialNotFoundException e) {
             e.printStackTrace();
@@ -103,7 +109,7 @@ public class LocalFloraGenerator {
     }
 
     /**
-     * 0     * Places tree on map
+     * Places tree on map
      *
      * @param tree tree to place
      */
@@ -119,28 +125,30 @@ public class LocalFloraGenerator {
     }
 
     /**
-     * Genarates and places plants on local map
+     * Genarates and places plants in {@link LocalGenContainer}
      *
      * @param specimen PlantType key from PlantMap representing tree
      * @param amount   relative amount
      */
     private void placePlants(String specimen, float amount) {
         PlantGenerator plantGenerator = new PlantGenerator();
-        Pair<boolean[][][], ArrayList<Position>> pair =findAllAvailablePositions(specimen);
+        Pair<boolean[][][], ArrayList<Position>> pair = findAllAvailablePositions(specimen);
         ArrayList<Position> positions = pair.getValue();
         boolean[][][] array = pair.getKey();
         Random random = new Random();
         for (int number = (int) (positions.size() * amount / 2); number > 0; number--) {
-            Position position = positions.remove(random.nextInt(positions.size()));
-            array[position.getX()][position.getY()][position.getZ()] = false;
-            Plant plant = plantGenerator.generatePlant(specimen);
-            plant.setPosition(position);
-            container.getPlants().add(plant);
-            localMap.setPlantBlock(position, plant.getBlock());
+            try {
+                Position position = positions.remove(random.nextInt(positions.size()));
+                array[position.getX()][position.getY()][position.getZ()] = false;
+                Plant plant = null;
+                plant = plantGenerator.generatePlant(specimen);
+                plant.setPosition(position);
+                container.getPlants().add(plant);
+            } catch (MaterialNotFoundException e) {
+                System.out.println("material for plant " + specimen + " not found");
+            }
         }
     }
-
-
 
     /**
      * Collects all positions suitable for specific plant.
@@ -168,10 +176,6 @@ public class LocalFloraGenerator {
         }
         Pair<boolean[][][], ArrayList<Position>> pair = new Pair<>(array, positions);
         return pair;
-    }
-
-    private void randomizePlantAge(Plant plant) {
-
     }
 
     /**
