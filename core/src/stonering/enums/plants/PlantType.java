@@ -23,8 +23,15 @@ public class PlantType {
     private String soilType;
     private String materialName;
 
+    private int atlasX;
+    private int atlasY;
+
+    private String harvestProduct;
+    private String cutProduct;
+    private Color color;
+
     private TreeType treeType;
-    private PlantLifeStage lifeStage;
+    private int saplingTime;
 
     public class PlantLifeStage {
         private int stageLength;
@@ -199,11 +206,51 @@ public class PlantType {
         this.treeType = treeType;
     }
 
-    public PlantLifeStage getLifeStage() {
-        return lifeStage;
+    public int getSaplingTime() {
+        return saplingTime;
     }
 
-    public void setLifeStage(PlantLifeStage lifeStage) {
-        this.lifeStage = lifeStage;
+    public void setSaplingTime(int saplingTime) {
+        this.saplingTime = saplingTime;
+    }
+
+    public int getAtlasX() {
+        return atlasX;
+    }
+
+    public void setAtlasX(int atlasX) {
+        this.atlasX = atlasX;
+    }
+
+    public int getAtlasY() {
+        return atlasY;
+    }
+
+    public void setAtlasY(int atlasY) {
+        this.atlasY = atlasY;
+    }
+
+    public String getHarvestProduct() {
+        return harvestProduct;
+    }
+
+    public void setHarvestProduct(String harvestProduct) {
+        this.harvestProduct = harvestProduct;
+    }
+
+    public String getCutProduct() {
+        return cutProduct;
+    }
+
+    public void setCutProduct(String cutProduct) {
+        this.cutProduct = cutProduct;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public void setColor(Color color) {
+        this.color = color;
     }
 }

@@ -16,8 +16,41 @@
         "soilType":"soil",
         "atlasY":"0",
         "atlasX":"0",
-        "materialName":null,
+        "materialName":"willow",
+        "harvestProduct":null,
+        "cutProduct":null,
         "treeType":null,
+        "saplingTime":"0",
+        "color":{
+            "class":"color_c",
+            "r":"0",
+            "g":"1",
+            "b":"0",
+            "a":"1"
+        }
+    },
+    {
+        "specimen":"red moss",
+        "title":"Red Moss",
+        "description":"Red Moss",
+        "minTemperature":"-40",
+        "maxTemperature":"40",
+        "minGrowingTemperature":"-40",
+        "maxGrowingTemperature":"40",
+        "minRainfall":"0",
+        "maxRainfall":"100",
+        "waterSource":["near", "far"],
+        //under, surface, near, far (multiple)
+        "lightNeed":["low", "high"],
+        // underground, low, high (multiple)
+        "soilType":"stone",
+        "atlasY":"0",
+        "atlasX":"1",
+        "materialName":"willow",
+        "harvestProduct":null,
+        "cutProduct":null,
+        "treeType":null,
+        "saplingTime":"0",
         "color":{
             "class":"color_c",
             "r":"0",
@@ -44,6 +77,8 @@
         "atlasY":"0",
         "atlasX":"0",
         "materialName":"willow",
+        "harvestProduct":null,
+        "cutProduct":null,
         "treeType":{
             "class":"tree_c",
             "crownRadius":"2",
@@ -51,6 +86,7 @@
             "rootDepth":"2",
             "rootRadius":"1"
         },
+        "saplingTime":"0",
         "color":{
             "class":"color_c",
             "r":"0",
