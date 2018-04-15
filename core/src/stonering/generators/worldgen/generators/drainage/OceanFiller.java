@@ -13,7 +13,7 @@ public class OceanFiller extends AbstractGenerator {
 	private Random random;
 	private int width;
 	private int height;
-	private int seaLevel;
+	private float seaLevel;
 
 	public OceanFiller(WorldGenContainer container) {
 		super(container);

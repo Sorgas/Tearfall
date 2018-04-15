@@ -63,11 +63,18 @@ public class MiniMap extends Table {
 //                    shapeRenderer.setColor(getColorByRainFall(map.getRainfall(x, y));
 //                    shapeRenderer.rect(350 + x * 16, y * 8, 8, 8);
 //                    shapeRenderer.flush();
-                    if (map.getElevation(x, y) > 0) {
-                        float green = (map.getElevation(x, y) + 5) / 30.f;
-                        shapeRenderer.setColor(new Color(0, green, 0, 0));
+                    float seaLevel = 1.5f;
+                    float elevation = map.getElevation(x, y) - seaLevel;
+                    if (elevation > 0) {
+                        if (elevation > 1) {
+                            float white = (elevation) / 3 + 0.15f;
+                            shapeRenderer.setColor(new Color(white, white, white, 0));
+                        } else {
+                            float green = (elevation) / 4 + 0.15f;
+                            shapeRenderer.setColor(new Color(0, green, 0, 0));
+                        }
                     } else {
-                        float blue = (35 + map.getElevation(x, y)) / 30.f;
+                        float blue = (seaLevel + elevation) / seaLevel;
                         shapeRenderer.setColor(new Color(0, 0, blue, 0));
                     }
                     shapeRenderer.rect(358 + x * 2, 100 + y * 2, 2, 2);
@@ -81,19 +88,19 @@ public class MiniMap extends Table {
                     shapeRenderer.flush();
                 }
             }
-            shapeRenderer.setColor(1, 0, 0, 1);
-            for (Plate plate : map.getPlates()) {
-                for (Edge edge : plate.getEdges()) {
-                    for (Mountain mountain : edge.getMountains()) {
-                        for (Position corner : mountain.getCorners()) {
-                            shapeRenderer.line(358 + corner.getX() * 2,
-                                    100 + corner.getY() * 2,
-                                    358 + mountain.getTop().getX() * 2,
-                                    100 + mountain.getTop().getY() * 2);
-                        }
-                    }
-                }
-            }
+//            shapeRenderer.setColor(1, 0, 0, 1);
+//            for (Plate plate : map.getPlates()) {
+//                for (Edge edge : plate.getEdges()) {
+//                    for (Mountain mountain : edge.getMountains()) {
+//                        for (Position corner : mountain.getCorners()) {
+//                            shapeRenderer.line(358 + corner.getX() * 2,
+//                                    100 + corner.getY() * 2,
+//                                    358 + mountain.getTop().getX() * 2,
+//                                    100 + mountain.getTop().getY() * 2);
+//                        }
+//                    }
+//                }
+//            }
             shapeRenderer.end();
         }
         batch.begin();

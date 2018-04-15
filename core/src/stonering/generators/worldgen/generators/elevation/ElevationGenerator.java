@@ -28,51 +28,70 @@ public class ElevationGenerator extends AbstractGenerator {
     @Override
     public boolean execute() {
         System.out.println("generating elevation");
-        addElevation(5, 0.5f, 0.005f, 1f);
-        addElevation(6, 0.5f, 0.015f, 0.5f);
-        addElevation(7, 0.5f, 0.03f, 0.25f);
+        addElevation(5, 0.5f, 0.005f, 0.7f);
+        addElevation(6, 0.5f, 0.015f, 0.2f);
+        addElevation(7, 0.5f, 0.03f, 0.1f);
         lowerBorders();
-        container.setElevation(0, 0, (elevation[0][1] + elevation[1][1] + elevation[1][0]) / 3f); //hack. noise generator always has 0 in (0,0)
+        normalizeElevation();
+        //hack. noise generator always has 0 in (0,0)
+        container.setElevation(0, 0, (elevation[0][1] + elevation[1][1] + elevation[1][0]) / 3f);
         return false;
     }
 
-    private void lowerBorders() {
-        float mapRadius = (float) (width * Math.sqrt(2) / 2f) * 0.8f;
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-                float distance = Math.min(getAbsoluteDistanceToCenter(x, y) / mapRadius, 1);
-                if (elevation[x][y] > 0) {
-                    elevation[x][y] = (float) Math.pow((elevation[x][y] + 1), 3f);
-                } else {
-                    elevation[x][y] = (float) Math.pow((elevation[x][y] - 1), 3f);
-                }
-                elevation[x][y] = ((elevation[x][y] + 1) * (1 - distance));
-                elevation[x][y] -= 1f;
-                container.setElevation(x, y, elevation[x][y]);
-            }
-        }
-
-    }
-
-    private void addElevation(int octaves, float roughness, float scale, float multiplier) {
+    /**
+     * adds Perlin noise with parameters and amplitude to elevation array
+     *
+     * @param octaves
+     * @param roughness
+     * @param scale
+     * @param amplitude
+     */
+    private void addElevation(int octaves, float roughness, float scale, float amplitude) {
         PerlinNoiseGenerator noise = new PerlinNoiseGenerator();
         float[][] noiseArray = noise.generateOctavedSimplexNoise(width, height, octaves, roughness, scale);
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                elevation[x][y] += noiseArray[x][y] * multiplier;
+                elevation[x][y] += noiseArray[x][y] * amplitude;
             }
         }
     }
 
-    private float getDistanceToBorder(int x, int y) {
-        float dx = 2f * x / width - 1;
-        float dy = 2f * y / height - 1;
-        return 2 * (float) (Math.sqrt(dx * dx + dy * dy));
+    /**
+     * decreases elevation in a circle near borders, to create ocean on map sides
+     */
+    private void lowerBorders() {
+        float mapRadius = (float) (width * Math.sqrt(2) / 2f);
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                //
+                float distance = Math.min(1, - 10f / 4 *((getAbsoluteDistanceToCenter(x, y) - mapRadius)/ mapRadius));
+                elevation[x][y] = ((elevation[x][y] + 1) * (distance)) - 1f;
+            }
+        }
     }
 
+    /**
+     * counts distance from map center to given point
+     * @param x x
+     * @param y y
+     * @return distance
+     */
     private float getAbsoluteDistanceToCenter(int x, int y) {
         float dx = x - width / 2f;
         float dy = y - height / 2f;
         return (float) Math.sqrt(dx * dx + dy * dy);
     }
+
+    /**
+     * modifies elevation map to be within [0,1]
+     */
+    private void normalizeElevation() {
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                elevation[x][y] = (elevation[x][y] + 1) / 2f;
+                container.setElevation(x, y, elevation[x][y]);
+            }
+        }
+    }
+
 }

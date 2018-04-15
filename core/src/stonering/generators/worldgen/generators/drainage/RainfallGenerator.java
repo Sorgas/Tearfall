@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class RainfallGenerator extends AbstractGenerator {
     private int width;
     private int height;
-    private int seaLevel;
+    private float seaLevel;
     private int minRainfall;
     private int maxRainfall;
     private float[][] humidity;
@@ -41,8 +41,7 @@ public class RainfallGenerator extends AbstractGenerator {
         extractContainer();
         addMainGradientOnWater(1f);
         fillEmpty();
-//        blurMap(2, 10);
-        addElevationGradient(0f);
+//        addElevationGradient(0f);
         addPerlinNoise();
         return false;
     }
@@ -64,6 +63,10 @@ public class RainfallGenerator extends AbstractGenerator {
         }
     }
 
+    /**
+     * creates reinfall gradient above water
+     * @param multiplier
+     */
     private void addElevationGradient(float multiplier) {
         float equator = height / 2f;
         for (int y = 0; y < height; y++) {
@@ -78,6 +81,10 @@ public class RainfallGenerator extends AbstractGenerator {
         }
     }
 
+    /**
+     * creates reinfall gradient above water
+     * @param multiplier
+     */
     private void addMainGradientOnWater(float multiplier) {
         float equator = height / 2f;
         for (int y = 0; y < height; y++) {
@@ -103,6 +110,9 @@ public class RainfallGenerator extends AbstractGenerator {
         }
     }
 
+    /**
+     * fills rainfall above land, starting from coasts
+     */
     private void fillEmpty() {
         for (int i = 0; i < Math.max(height, width); i++) {
             for (int x = 0; x < width; x++) {
@@ -175,6 +185,9 @@ public class RainfallGenerator extends AbstractGenerator {
         }
     }
 
+    /**
+     * adds Perlin noise on rainfall map
+     */
     private void addPerlinNoise() {
         PerlinNoiseGenerator generator = new PerlinNoiseGenerator();
         float[][] noise = generator.generateOctavedSimplexNoise(width, height, 7, 0.4f, 0.025f);

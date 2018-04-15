@@ -39,7 +39,7 @@ public class WorldGenConfig {
 	private float hillMargin = 0.08f;
 
 	//for ocean filler
-	private int seaLevel = 0;
+	private float seaLevel = 1.5f;
 
 	//for river worldgen
 	private int riverDensity = 1000;
@@ -198,11 +198,11 @@ public class WorldGenConfig {
 		this.centerMargin = centerMargin;
 	}
 
-	public int getSeaLevel() {
+	public float getSeaLevel() {
 		return seaLevel;
 	}
 
-	public void setSeaLevel(int seaLevel) {
+	public void setSeaLevel(float seaLevel) {
 		this.seaLevel = seaLevel;
 	}
 

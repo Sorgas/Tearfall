@@ -84,7 +84,7 @@ public class RiverGenerator extends AbstractGenerator {
 
 	private void runRiver(int x, int y, int maxLength, int branchingDepth) {
 		int i = 0;
-		int seaLevel = container.getConfig().getSeaLevel() - 1;
+		float seaLevel = container.getConfig().getSeaLevel() - 1;
 		int savedAngle = 0;
 		if(!inMap(x,y)) return;
 		Vector riverVector = new Vector(x, y, container.getSlopeAngles(x,y), 2.0f);

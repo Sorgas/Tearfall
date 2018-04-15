@@ -64,7 +64,7 @@ public class WorldGeneratorContainer {
 //        worldGenContainer.fillMap();
         oceanFiller.execute();
 //        hillRenderer.execute();
-//        erosionGenerator.execute();
+        erosionGenerator.execute();
         temperatureGenerator.execute();
         rainfallGenerator.execute();
         worldGenContainer.fillMap();

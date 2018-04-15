@@ -42,12 +42,15 @@ public class WorldGenContainer {
         reset();
     }
 
+    /**
+     * flushes collections from container to map
+     */
     public void fillMap() {
         map.setPlates(plates);
         float maxElevation = 0;
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                map.setElevation(x, y, elevation[x][y]);
+                map.setElevation(x, y, elevation[x][y] * 3f);
                 map.setSummerTemperature(x, y, Math.round(summerTemperature[x][y]));
                 map.setWinterTemperature(x, y, Math.round(winterTemperature[x][y]));
                 map.setRainfall(x, y, rainfall[x][y]);
@@ -77,6 +80,10 @@ public class WorldGenContainer {
     }
 
     public boolean inMap(int x, int y) {
+        return map.inMap(x, y);
+    }
+
+    public boolean inMap(float x, float y) {
         return map.inMap(x, y);
     }
 
