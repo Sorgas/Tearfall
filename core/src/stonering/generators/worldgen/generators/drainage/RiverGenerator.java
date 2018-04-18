@@ -201,7 +201,7 @@ public class RiverGenerator extends AbstractGenerator {
                 }
             }
         }
-        return vector;
+        return vector.nor();
     }
 
     private float countDistance(float x1, float y1, float x2, float y2) {
