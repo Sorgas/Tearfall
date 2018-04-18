@@ -21,11 +21,12 @@ public class WorldGeneratorContainer {
     private HillGenerator hillGenerator;
     private HillRenderer hillRenderer;
     private OceanFiller oceanFiller;
-    private RiverGenerator riverGenerator;
     private TemperatureGenerator temperatureGenerator;
     private ElevationGenerator elevationGenerator;
     private RainfallGenerator rainfallGenerator;
     private ErosionGenerator erosionGenerator;
+    private ElevationModifier elevationModifier;
+    private RiverGenerator riverGenerator;
 
     public void init(WorldGenConfig config) {
         worldGenContainer = new WorldGenContainer(config);
@@ -42,6 +43,7 @@ public class WorldGeneratorContainer {
         elevationGenerator = new ElevationGenerator(worldGenContainer);
         rainfallGenerator = new RainfallGenerator(worldGenContainer);
         erosionGenerator = new ErosionGenerator(worldGenContainer);
+        elevationModifier = new ElevationModifier(worldGenContainer);
     }
 
     public void runContainer() {
@@ -67,6 +69,7 @@ public class WorldGeneratorContainer {
         erosionGenerator.execute();
         temperatureGenerator.execute();
         rainfallGenerator.execute();
+//        elevationModifier.execute();
         riverGenerator.execute();
         worldGenContainer.fillMap();
 

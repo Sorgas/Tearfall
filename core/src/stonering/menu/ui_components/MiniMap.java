@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import stonering.generators.worldgen.WorldMap;
 import stonering.generators.worldgen.world_objects.Edge;
@@ -83,8 +84,16 @@ public class MiniMap extends Table {
 //                    shapeRenderer.rect(658 + x * 2, 100 + y * 2, 2, 2);
 //                    shapeRenderer.setColor(new Color((map.getWinterTemperature(x, y) + 40) / 80f, 0, 0, 0));
 //                    shapeRenderer.rect(958 + x * 2, 100 + y * 2, 2, 2);
-                    shapeRenderer.setColor(new Color(map.getRiver(x, y).len(), 0, 0, 0));
-                    shapeRenderer.rect(958 + x * 2, 100 + y * 2, 2, 2);
+                    Vector2 river = map.getRiver(x, y);
+                    if (river != null) {
+//                        if (river.len() > 0.3f)
+//                            shapeRenderer.setColor(new Color(river.len() * 2f + 0.1f, 0, 0, 0));
+//                        else
+                            shapeRenderer.setColor(new Color(0, 0, river.len() * 2f + 0.1f, 0));
+                        shapeRenderer.line(958 + x * 7, 100 + y * 7, 958 + x * 7 + Math.signum(river.x) * 7, 100 + y * 7 + Math.signum(river.y) * 7);
+                    }
+//                    shapeRenderer.rect(958 + x * 2, 100 + y * 2, 2, 2);
+
                     shapeRenderer.flush();
                 }
             }

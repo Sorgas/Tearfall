@@ -54,7 +54,6 @@ public class WorldGenContainer {
                 map.setSummerTemperature(x, y, Math.round(summerTemperature[x][y]));
                 map.setWinterTemperature(x, y, Math.round(winterTemperature[x][y]));
                 map.setRainfall(x, y, rainfall[x][y]);
-                System.out.println(map.getRiver(x,y).len());
                 if(elevation[x][y] > maxElevation) {
                     maxElevation = elevation[x][y];
                 }

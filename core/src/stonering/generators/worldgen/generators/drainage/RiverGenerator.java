@@ -25,6 +25,7 @@ public class RiverGenerator extends AbstractGenerator {
     private Vector2[][] slopeInclination;
     private float[][] waterAmount;
     private List<Position> cells;
+    private float seaLevel;
 
     public RiverGenerator(WorldGenContainer container) {
         super(container);
@@ -39,6 +40,7 @@ public class RiverGenerator extends AbstractGenerator {
         slopeInclination = new Vector2[width][height];
         waterAmount = new float[width][height];
         cells = new ArrayList<>();
+        seaLevel = container.getConfig().getSeaLevel();
     }
 
     @Override
@@ -54,24 +56,28 @@ public class RiverGenerator extends AbstractGenerator {
     private void runWater() {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                float amount = getWaterAmount(x, y);
-                Vector2 current = new Vector2(x, y);
-                do {
-                    waterAmount[(int) current.x][(int) current.y] += amount;
-                    current.add(slopeInclination[x][y]);
-                } while (container.inMap(current.x, current.y));
+                if (container.getElevation(x, y) * 3f > seaLevel) {
+                    float amount = getWaterAmount(x, y);
+                    Vector2 current = new Vector2(x, y);
+                    do {
+                        waterAmount[(int) current.x][(int) current.y] += amount;
+                        current.add(slopeInclination[x][y]);
+                    } while (container.inMap(current.x, current.y));
+                }
             }
         }
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                slopeInclination[x][y].setLength(waterAmount[x][y]);
-                map.setRiver(x,y,slopeInclination[x][y]);
+                if (container.getElevation(x, y) * 3f > seaLevel) {
+                    slopeInclination[x][y].setLength(waterAmount[x][y]);
+                    map.setRiver(x, y, slopeInclination[x][y]);
+                }
             }
         }
     }
 
     private float getWaterAmount(int x, int y) {
-        return 0.01f;
+        return container.getRainfall(x, y) / 10000f;
     }
 
     private void countRiverStart() {
@@ -195,9 +201,7 @@ public class RiverGenerator extends AbstractGenerator {
                 }
             }
         }
-        vector.x = Math.signum(vector.x);
-        vector.y = Math.signum(vector.y);
-        return vector.nor();
+        return vector;
     }
 
     private float countDistance(float x1, float y1, float x2, float y2) {
