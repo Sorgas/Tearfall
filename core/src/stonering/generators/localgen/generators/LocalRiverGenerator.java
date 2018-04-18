@@ -50,36 +50,36 @@ public class LocalRiverGenerator {
     }
 
     private int[][] checkRivers() {
-        //1 for incoming stream, -1 for outcoming stream
+//        //1 for incoming stream, -1 for outcoming stream
         int[][] rivers = new int[3][3];
-        for (int x = -1; x < 2; x++) {
-            for (int y = -1; y < 2; y++) {
-                if (inWorldMap(location.getX() + x, location.getY() + y)) {
-                    Position neighbourRegion = new Position(location.getX() + x, location.getY() + y, 0);
-                    if (map.getRivers().containsKey(neighbourRegion)) {
-                        for (Vector vector : map.getRivers().get(neighbourRegion)) {
-                            if (vector.getEndPoint().equals(location)) {
-                                rivers[x + 1][y + 1] = 1;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        if (map.getRivers().containsKey(location)) {
-            for (Vector vector : map.getRivers().get(location)) {
-                if (neihgbourToLocation(vector.getEndPoint())) {
-                    rivers[1 + vector.getEndPoint().getX() - location.getX()][1 + vector.getEndPoint().getY() - location.getY()] = -1;
-                }
-            }
-        }
-        for (int x = 0; x < 3; x++) {
-            for (int y = 0; y < 3; y++) {
-                System.out.println(rivers[x][y]);
-            }
-        }
-
-
+//        for (int x = -1; x < 2; x++) {
+//            for (int y = -1; y < 2; y++) {
+//                if (inWorldMap(location.getX() + x, location.getY() + y)) {
+//                    Position neighbourRegion = new Position(location.getX() + x, location.getY() + y, 0);
+//                    if (map.getRivers().containsKey(neighbourRegion)) {
+//                        for (Vector vector : map.getRivers().get(neighbourRegion)) {
+//                            if (vector.getEndPoint().equals(location)) {
+//                                rivers[x + 1][y + 1] = 1;
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//        if (map.getRivers().containsKey(location)) {
+//            for (Vector vector : map.getRivers().get(location)) {
+//                if (neihgbourToLocation(vector.getEndPoint())) {
+//                    rivers[1 + vector.getEndPoint().getX() - location.getX()][1 + vector.getEndPoint().getY() - location.getY()] = -1;
+//                }
+//            }
+//        }
+//        for (int x = 0; x < 3; x++) {
+//            for (int y = 0; y < 3; y++) {
+//                System.out.println(rivers[x][y]);
+//            }
+//        }
+//
+//
         return rivers;
     }
 

@@ -164,14 +164,14 @@ public class MapDrawer {
 		WorldMap map = container.getMap();
 		for (int x = 0; x < map.getWidth(); x++) {
 			for (int y = 0; y < map.getHeight(); y++) {
-				if (map.getRivers().containsKey(new Position(x,y,0))) {
-					if(useTiles) {
-
-					} else {
-						shapeRenderer.setColor(0, 0, 1, 1);
-						drawPoint(x, y);
-					}
-				}
+//				if (map.getRivers().containsKey(new Position(x,y,0))) {
+//					if(useTiles) {
+//
+//					} else {
+//						shapeRenderer.setColor(0, 0, 1, 1);
+//						drawPoint(x, y);
+//					}
+//				}
 			}
 		}
 	}

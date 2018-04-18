@@ -67,8 +67,8 @@ public class WorldGeneratorContainer {
         erosionGenerator.execute();
         temperatureGenerator.execute();
         rainfallGenerator.execute();
+        riverGenerator.execute();
         worldGenContainer.fillMap();
-//        riverGenerator.execute();
 
         return false;
     }

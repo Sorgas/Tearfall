@@ -1,5 +1,6 @@
 package stonering.generators.worldgen;
 
+import com.badlogic.gdx.math.Vector2;
 import stonering.generators.worldgen.world_objects.Plate;
 import stonering.global.utils.Position;
 import stonering.global.utils.Vector;
@@ -15,7 +16,7 @@ public class WorldMap implements Serializable {
     private float[][] summerTemperature;
     private float[][] winterTemperature;
     private float[][] rainfall;
-    private Map<Position, List<Vector>> rivers;
+    private Vector2[][] rivers;
     private int width;
     private int height;
     private long seed;
@@ -28,7 +29,7 @@ public class WorldMap implements Serializable {
         summerTemperature = new float[xSize][ySize];
         winterTemperature = new float[xSize][ySize];
         rainfall = new float[xSize][ySize];
-        rivers = new HashMap<>();
+        rivers = new Vector2[xSize][ySize];
     }
 
     public int getWidth() {
@@ -79,21 +80,6 @@ public class WorldMap implements Serializable {
         rainfall[x][y] = val;
     }
 
-    public Map<Position, List<Vector>> getRivers() {
-        return rivers;
-    }
-
-    public void addRiverVector(Vector vector) {
-        List<Vector> list = rivers.get(new Position(vector.getX(), vector.getY(), 0));
-        if (list != null) {
-            list.add(vector);
-        } else {
-            list = new ArrayList<>();
-            list.add(vector);
-            rivers.put(new Position(vector.getX(), vector.getY(), 0), list);
-        }
-    }
-
     public long getSeed() {
         return seed;
     }
@@ -116,5 +102,13 @@ public class WorldMap implements Serializable {
 
     public void setPlates(ArrayList<Plate> plates) {
         this.plates = plates;
+    }
+
+    public Vector2 getRiver(int x, int y) {
+        return rivers[x][y];
+    }
+
+    public void setRiver(int x, int y, Vector2 river) {
+        this.rivers[x][y] = river;
     }
 }

@@ -83,7 +83,7 @@ public class MiniMap extends Table {
 //                    shapeRenderer.rect(658 + x * 2, 100 + y * 2, 2, 2);
 //                    shapeRenderer.setColor(new Color((map.getWinterTemperature(x, y) + 40) / 80f, 0, 0, 0));
 //                    shapeRenderer.rect(958 + x * 2, 100 + y * 2, 2, 2);
-                    shapeRenderer.setColor(new Color(map.getRainfall(x, y) / 100f, 0, 0, 0));
+                    shapeRenderer.setColor(new Color(map.getRiver(x, y).len(), 0, 0, 0));
                     shapeRenderer.rect(958 + x * 2, 100 + y * 2, 2, 2);
                     shapeRenderer.flush();
                 }

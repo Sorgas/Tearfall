@@ -39,9 +39,10 @@ public class TileChooser {
                 return sea;
             }
         } else {
-            if (map.getRivers().containsKey(new Position(x, y, 0))) {
-                return river;
-            } else if (elevation < config.getSeaLevel() + 10) {
+//            if (map.getRivers().containsKey(new Position(x, y, 0))) {
+//                return river;
+//            } else
+                if (elevation < config.getSeaLevel() + 10) {
                 return hill;
             } else if (elevation < config.getSeaLevel() + 20) {
                 return forest;
