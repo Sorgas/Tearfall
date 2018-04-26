@@ -92,7 +92,7 @@ public class MiniMap extends Table {
                         } else {
                             shapeRenderer.setColor(new Color(0, 0, river.len() * 2f + 0.2f, 0));
                         }
-                        shapeRenderer.line(958 + x * 7, 100 + y * 7, 958 + x * 7 + river.x * 35, 100 + y * 7 + river.y * 35);
+                        shapeRenderer.line(958 + x * 7, 100 + y * 7, 958 + x * 7 + river.x * 7, 100 + y * 7 + river.y * 7);
                     }
 //                    shapeRenderer.rect(958 + x * 2, 100 + y * 2, 2, 2);
 

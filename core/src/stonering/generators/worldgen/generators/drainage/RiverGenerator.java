@@ -23,6 +23,7 @@ public class RiverGenerator extends AbstractGenerator {
     private int height;
     private int riverCount;
     private Vector2[][] slopeInclination;
+    private Vector2[][] inflows;
     private Vector2[][] riverVectors;
     private float[][] waterAmount;
     private List<Position> cells;
@@ -39,6 +40,7 @@ public class RiverGenerator extends AbstractGenerator {
         riverCount = (int) (width * height * container.getLandPart() / container.getConfig().getRiverDensity());
         System.out.println(container.getLandPart() + "  " + riverCount);
         slopeInclination = new Vector2[width][height];
+        inflows = new Vector2[width][height];
         riverVectors = new Vector2[width][height];
         waterAmount = new float[width][height];
         cells = new ArrayList<>();
@@ -70,13 +72,24 @@ public class RiverGenerator extends AbstractGenerator {
                 }
             }
         }
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                if (container.getElevation(x, y) * 3f > seaLevel) {
+                    inflows[x][y] = lookupMainInflow(x, y);
+                }
+            }
+        }
         // create river vectors
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 if (container.getElevation(x, y) * 3f > seaLevel) {
-                    riverVectors[x][y] = slopeInclination[x][y].cpy();
-                    riverVectors[x][y].setLength(waterAmount[x][y]);
-                    map.setRiver(x, y, riverVectors[x][y]);
+//                    if (inflows[x][y] != null) {
+                        riverVectors[x][y] = slopeInclination[x][y].cpy();
+//                        riverVectors[x][y].setLength(waterAmount[x][y]);
+                        map.setRiver(x, y, riverVectors[x][y]);
+//                    } else {
+//
+//                    }
                 }
             }
         }
@@ -96,24 +109,25 @@ public class RiverGenerator extends AbstractGenerator {
     }
 
     private Vector2 lookupMainInflow(int cx, int cy) {
-        int curX = -1;
-        int curY = -1;
+        int curX = -2;
+        int curY = -2;
         for (int dx = -1; dx <= 1; dx++) {
             for (int dy = -1; dy <= 1; dy++) {
                 int x = cx + dx;
                 int y = cy + dy;
                 if (inMap(x, y)                                                         // not out of map
                         && Math.round(slopeInclination[x][y].x) == -dx
-                        && Math.round(slopeInclination[x][y].y) == -dy                  // is income to current cell
-                        && curX < 0                                                     // inflow not found yet
-                        || waterAmount[x][y] > waterAmount[curX][curY]) {               // inflow has more water than previous
-                    // set new main inflow
-                    curX = x;
-                    curY = y;
+                        && Math.round(slopeInclination[x][y].y) == -dy) {                  // is income to current cell
+                    if (curX < -1                                                     // inflow not found yet
+                            || waterAmount[x][y] > waterAmount[curX][curY]) {               // inflow has more water than previous
+                        // set new main inflow
+                        curX = x;
+                        curY = y;
+                    }
                 }
             }
         }
-        return curX >= 0 ? new Vector2(curX, curY) : null;
+        return curX >= -1 ? new Vector2(cx - curX, cy - curY) : null;
     }
 
     private void countRiverStart() {
