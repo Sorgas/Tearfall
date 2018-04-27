@@ -23,6 +23,7 @@ public class RiverGenerator extends AbstractGenerator {
     private int height;
     private int riverCount;
     private Vector2[][] slopeInclination;
+    private Vector2[][] endPoints;
     private Vector2[][] inflows;
     private Vector2[][] riverVectors;
     private float[][] waterAmount;
@@ -40,6 +41,7 @@ public class RiverGenerator extends AbstractGenerator {
         riverCount = (int) (width * height * container.getLandPart() / container.getConfig().getRiverDensity());
         System.out.println(container.getLandPart() + "  " + riverCount);
         slopeInclination = new Vector2[width][height];
+        endPoints = new Vector2[width][height];
         inflows = new Vector2[width][height];
         riverVectors = new Vector2[width][height];
         waterAmount = new float[width][height];
@@ -84,11 +86,12 @@ public class RiverGenerator extends AbstractGenerator {
             for (int y = 0; y < height; y++) {
                 if (container.getElevation(x, y) * 3f > seaLevel) {
 //                    if (inflows[x][y] != null) {
-                        riverVectors[x][y] = slopeInclination[x][y].cpy();
-//                        riverVectors[x][y].setLength(waterAmount[x][y]);
-                        map.setRiver(x, y, riverVectors[x][y]);
+                    riverVectors[x][y] = slopeInclination[x][y].cpy();
+//                    riverVectors[x][y].setLength(waterAmount[x][y]);
+                    map.setRiver(x, y, riverVectors[x][y]);
+                    map.setDebug(x, y, slopeInclination[x][y]);
 //                    } else {
-//
+
 //                    }
                 }
             }
@@ -96,8 +99,8 @@ public class RiverGenerator extends AbstractGenerator {
     }
 
     private float getWaterAmount(int x, int y) {
-        return 0.01f;
-//        return container.getRainfall(x, y) / 10000f;
+//        return 0.01f;
+        return container.getRainfall(x, y) / 10000f;
     }
 
     private void markMainReavers() {
@@ -109,25 +112,21 @@ public class RiverGenerator extends AbstractGenerator {
     }
 
     private Vector2 lookupMainInflow(int cx, int cy) {
-        int curX = -2;
-        int curY = -2;
-        for (int dx = -1; dx <= 1; dx++) {
-            for (int dy = -1; dy <= 1; dy++) {
-                int x = cx + dx;
-                int y = cy + dy;
-                if (inMap(x, y)                                                         // not out of map
-                        && Math.round(slopeInclination[x][y].x) == -dx
-                        && Math.round(slopeInclination[x][y].y) == -dy) {                  // is income to current cell
-                    if (curX < -1                                                     // inflow not found yet
-                            || waterAmount[x][y] > waterAmount[curX][curY]) {               // inflow has more water than previous
-                        // set new main inflow
-                        curX = x;
-                        curY = y;
-                    }
+        int maxX = -2;
+        int maxY = -2;
+        for (int x = cx - 1; x <= cx + 1; x++) {
+            for (int y = cy - 1; y <= cy + 1; y++) {
+                if ((x != cx || y != cx) // not center
+                        && inMap(x, y)   // not out of map
+                        && endPoints[x][y].x == cx
+                        && endPoints[x][y].y == cy  //is inflow
+                        && (maxX < -1 || waterAmount[maxX][maxY] < waterAmount[x][y])) { // is first or greater inflow
+                    maxX = x;
+                    maxY = y;
                 }
             }
         }
-        return curX >= -1 ? new Vector2(cx - curX, cy - curY) : null;
+        return maxX >= -1 ? new Vector2(cx - maxX, cy - maxY) : null;
     }
 
     private void countRiverStart() {
@@ -235,7 +234,9 @@ public class RiverGenerator extends AbstractGenerator {
     private void countAngles() {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                slopeInclination[x][y] = countSlopeAngle(x, y);
+                Vector2 slope = countSlopeAngle(x, y);
+                slopeInclination[x][y] = slope;
+                endPoints[x][y] = new Vector2(Math.round(x + slope.x), Math.round(y + slope.y)); // ok
             }
         }
     }

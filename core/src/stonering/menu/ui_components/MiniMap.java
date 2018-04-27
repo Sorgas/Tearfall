@@ -79,39 +79,37 @@ public class MiniMap extends Table {
                         shapeRenderer.setColor(new Color(0, 0, blue, 0));
                     }
                     shapeRenderer.rect(358 + x * 2, 100 + y * 2, 2, 2);
-
 //                    shapeRenderer.setColor(new Color((map.getSummerTemperature(x, y) + 40) / 80f, 0, 0, 0));
 //                    shapeRenderer.rect(658 + x * 2, 100 + y * 2, 2, 2);
 //                    shapeRenderer.setColor(new Color((map.getWinterTemperature(x, y) + 40) / 80f, 0, 0, 0));
 //                    shapeRenderer.rect(958 + x * 2, 100 + y * 2, 2, 2);
-
-                    Vector2 river = map.getRiver(x, y);
-                    if (river != null) {
-                        if (river.len() > 0.7f) {
-                            shapeRenderer.setColor(new Color(river.len() * 2f + 0.2f, 0, 0, 0));
-                        } else {
-                            shapeRenderer.setColor(new Color(0, 0, river.len() * 2f + 0.2f, 0));
-                        }
-                        shapeRenderer.line(958 + x * 7, 100 + y * 7, 958 + x * 7 + river.x * 7, 100 + y * 7 + river.y * 7);
-                    }
-//                    shapeRenderer.rect(958 + x * 2, 100 + y * 2, 2, 2);
-
-                    shapeRenderer.flush();
                 }
             }
-//            shapeRenderer.setColor(1, 0, 0, 1);
-//            for (Plate plate : map.getPlates()) {
-//                for (Edge edge : plate.getEdges()) {
-//                    for (Mountain mountain : edge.getMountains()) {
-//                        for (Position corner : mountain.getCorners()) {
-//                            shapeRenderer.line(358 + corner.getX() * 2,
-//                                    100 + corner.getY() * 2,
-//                                    358 + mountain.getTop().getX() * 2,
-//                                    100 + mountain.getTop().getY() * 2);
+            shapeRenderer.end();
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+            Color color1 =  new Color(1,0,0,1);
+            Color color2 =  new Color(0,0,1,1);
+            Color green = new Color(0,1,0,1);
+            for (int x = 0; x < map.getWidth(); x++) {
+                for (int y = 0; y < map.getHeight(); y++) {
+                    Vector2 river = map.getRiver(x, y);
+                    Vector2 slope = map.getDebug(x, y);
+                    if (river != null) {
+//                        if (river.len() > 0.7f) {
+//                            shapeRenderer.setColor(new Color(river.len() * 2f + 0.2f, 0, 0, 0));
+//                        } else {
+//                            shapeRenderer.setColor(new Color(0, 0, river.len() * 2f + 0.2f, 0));
 //                        }
-//                    }
-//                }
-//            }
+                        int mult = 5;
+                        int bx = 558 + x * mult;
+                        int by = 100 + y * mult;
+                        shapeRenderer.line(bx, by, bx + (Math.round(river.x) * mult), by + (Math.round(river.y) * mult), color1, color2);
+//                        shapeRenderer.line(bx, by, bx + (river.x * mult * 10), by + (river.y * mult * 10), color1, color2);
+                        shapeRenderer.line(bx + 500, by, bx + 500 + (Math.round(slope.x) * mult), by + (Math.round(slope.y) * mult), green, green);
+                    }
+                }
+            }
+            shapeRenderer.flush();
             shapeRenderer.end();
         }
         batch.begin();

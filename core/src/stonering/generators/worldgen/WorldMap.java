@@ -17,6 +17,7 @@ public class WorldMap implements Serializable {
     private float[][] winterTemperature;
     private float[][] rainfall;
     private Vector2[][] rivers;
+    private Vector2[][] debug;
     private int width;
     private int height;
     private long seed;
@@ -30,6 +31,7 @@ public class WorldMap implements Serializable {
         winterTemperature = new float[xSize][ySize];
         rainfall = new float[xSize][ySize];
         rivers = new Vector2[xSize][ySize];
+        debug = new Vector2[xSize][ySize];
     }
 
     public int getWidth() {
@@ -110,5 +112,13 @@ public class WorldMap implements Serializable {
 
     public void setRiver(int x, int y, Vector2 river) {
         this.rivers[x][y] = river;
+    }
+
+    public Vector2 getDebug(int x, int y) {
+        return debug[x][y];
+    }
+
+    public void setDebug(int x, int y, Vector2 river) {
+        this.debug[x][y] = river;
     }
 }
