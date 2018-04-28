@@ -39,7 +39,7 @@ public class WorldGenConfig {
 	private float hillMargin = 0.08f;
 
 	//for ocean filler
-	private float seaLevel = 1.5f;
+	private float seaLevel = 0.5f;
 
 	//for river worldgen
 	private int riverDensity = 1000;

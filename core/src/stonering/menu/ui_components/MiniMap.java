@@ -64,7 +64,7 @@ public class MiniMap extends Table {
 //                    shapeRenderer.setColor(getColorByRainFall(map.getRainfall(x, y));
 //                    shapeRenderer.rect(350 + x * 16, y * 8, 8, 8);
 //                    shapeRenderer.flush();
-                    float seaLevel = 1.5f;
+                    float seaLevel = 0.5f;
                     float elevation = map.getElevation(x, y) - seaLevel;
                     if (elevation > 0) {
                         if (elevation > 1) {
@@ -87,9 +87,9 @@ public class MiniMap extends Table {
             }
             shapeRenderer.end();
             shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-            Color color1 =  new Color(1,0,0,1);
-            Color color2 =  new Color(0,0,1,1);
-            Color green = new Color(0,1,0,1);
+            Color color1 = new Color(1, 0, 0, 1);
+            Color color2 = new Color(0, 0, 1, 1);
+            Color green = new Color(0, 1, 0, 1);
             for (int x = 0; x < map.getWidth(); x++) {
                 for (int y = 0; y < map.getHeight(); y++) {
                     Vector2 river = map.getRiver(x, y);
@@ -103,9 +103,10 @@ public class MiniMap extends Table {
                         int mult = 5;
                         int bx = 558 + x * mult;
                         int by = 100 + y * mult;
-                        shapeRenderer.line(bx, by, bx + (Math.round(river.x) * mult), by + (Math.round(river.y) * mult), color1, color2);
-//                        shapeRenderer.line(bx, by, bx + (river.x * mult * 10), by + (river.y * mult * 10), color1, color2);
-                        shapeRenderer.line(bx + 500, by, bx + 500 + (Math.round(slope.x) * mult), by + (Math.round(slope.y) * mult), green, green);
+//                        shapeRenderer.line(bx, by, bx + (Math.round(river.x) * mult), by + (Math.round(river.y) * mult), color1, color2);
+                        shapeRenderer.line(bx, by, bx + (river.x * mult * 3), by + (river.y * mult * 3), color1, color2);
+                        if (slope != null)
+                            shapeRenderer.line(bx + 500, by, bx + 500 + (Math.round(slope.x) * mult), by + (Math.round(slope.y) * mult), green, green);
                     }
                 }
             }

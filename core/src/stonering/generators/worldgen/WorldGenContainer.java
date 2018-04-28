@@ -50,7 +50,7 @@ public class WorldGenContainer {
         float maxElevation = 0;
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                map.setElevation(x, y, elevation[x][y] * 3f);
+                map.setElevation(x, y, elevation[x][y]);
                 map.setSummerTemperature(x, y, Math.round(summerTemperature[x][y]));
                 map.setWinterTemperature(x, y, Math.round(winterTemperature[x][y]));
                 map.setRainfall(x, y, rainfall[x][y]);

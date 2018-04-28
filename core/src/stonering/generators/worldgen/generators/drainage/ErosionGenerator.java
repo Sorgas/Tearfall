@@ -87,7 +87,6 @@ public class ErosionGenerator extends AbstractGenerator {
                     }
                 }
             }
-            System.out.println(drops.size());
         }
     }
 
