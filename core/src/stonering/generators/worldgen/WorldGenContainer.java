@@ -1,5 +1,6 @@
 package stonering.generators.worldgen;
 
+import com.badlogic.gdx.math.Vector2;
 import stonering.generators.worldgen.world_objects.Edge;
 import stonering.generators.worldgen.world_objects.Mountain;
 import stonering.generators.worldgen.world_objects.Plate;
@@ -32,6 +33,7 @@ public class WorldGenContainer {
     private float[][] winterTemperature;
     private float[][] rainfall;
     private float[][] debug;
+    private Vector2[][] rivers;
 
     private float landPart;
 
@@ -63,14 +65,15 @@ public class WorldGenContainer {
     }
 
     public void reset() {
+        map = new WorldMap(width, height);
+        map.setSeed(config.getSeed());
         elevation = new float[width][height];
         slopeAngles = new float[width][height];
         summerTemperature = new float[width][height];
         winterTemperature = new float[width][height];
         rainfall = new float[width][height];
         debug = new float[width][height];
-        map = new WorldMap(width, height);
-        map.setSeed(config.getSeed());
+        rivers = new Vector2[width][height];
         plates = new ArrayList<>();
         edges = new ArrayList<>();
         mountains = new ArrayList<>();
@@ -181,5 +184,15 @@ public class WorldGenContainer {
 
     public void setLandPart(float landPart) {
         this.landPart = landPart;
+    }
+
+    public void setRiver(int x, int y, Vector2 value) {
+        if (inMap(x, y)) {
+            rivers[x][y] = value;
+        }
+    }
+
+    public Vector2 getRiver(int x, int y) {
+        return inMap(x, y) ? rivers[x][y] : null;
     }
 }
