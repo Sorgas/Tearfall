@@ -43,6 +43,7 @@ public class WorldGenConfig {
 
 	//for river worldgen
 	private int riverDensity = 1000;
+	private float largeRiverStartLevel = 0.7f;
 
 	//for temperature worldgen
 	private float polarLineWidth = 0.04f;
@@ -268,5 +269,13 @@ public class WorldGenConfig {
 
 	public void setMaxRainfall(int maxRainfall) {
 		this.maxRainfall = maxRainfall;
+	}
+
+	public float getLargeRiverStartLevel() {
+		return largeRiverStartLevel;
+	}
+
+	public void setLargeRiverStartLevel(float largeRiverStartLevel) {
+		this.largeRiverStartLevel = largeRiverStartLevel;
 	}
 }

@@ -29,6 +29,7 @@ public class RiverGenerator extends AbstractGenerator {
     private float[][] waterAmount;
     private List<Position> cells;
     private float seaLevel;
+    private float riverStartLevel;
 
     public RiverGenerator(WorldGenContainer container) {
         super(container);
@@ -46,6 +47,7 @@ public class RiverGenerator extends AbstractGenerator {
         waterAmount = new float[width][height];
         cells = new ArrayList<>();
         seaLevel = container.getConfig().getSeaLevel();
+        riverStartLevel = container.getConfig().getLargeRiverStartLevel();
     }
 
     @Override
@@ -88,14 +90,18 @@ public class RiverGenerator extends AbstractGenerator {
 //                    if (inflows[x][y] != null) {
                     riverVectors[x][y] = slopeInclination[x][y].cpy();
                     riverVectors[x][y].setLength(waterAmount[x][y]);
-                    map.setRiver(x, y, riverVectors[x][y]);
-                    map.setDebug(x, y, inflows[x][y]);
+//                    map.setRiver(x, y, riverVectors[x][y]);
+//                    map.setDebug(x, y, inflows[x][y]);
                 }
             }
         }
 
 //        ArrayList<Vector2> riverOuts = findRiversOuts();
+//        riverOuts.forEach((end) -> runRiverFromEnd(end));
+
 //        riverOuts.forEach((out) -> runRiver(out));
+
+        elevationStartPoints().forEach((point) -> runRiverFromStart(point));
     }
 
     private float getWaterAmount(int x, int y) {
@@ -117,25 +123,83 @@ public class RiverGenerator extends AbstractGenerator {
         return outs;
     }
 
-    private void runRiver(Vector2 start) {
+    private ArrayList<Vector2> elevationStartPoints() {
+        ArrayList<Vector2> starts = new ArrayList<>();
+        ArrayList<Vector2> potentialStarts = new ArrayList<>();
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                if (container.getElevation(x, y) > riverStartLevel) {
+                    potentialStarts.add(new Vector2(x, y));
+                }
+            }
+        }
+        Random random = new Random();
+        while (!potentialStarts.isEmpty()) {
+            Vector2 start = potentialStarts.get(random.nextInt(potentialStarts.size()));
+            starts.add(start);
+            potentialStarts.removeIf(qwer -> qwer.cpy().sub(start).len() < 7);
+        }
+        return starts;
+    }
+
+    private ArrayList<Vector2> randomStartPoints() {
+        ArrayList<Vector2> points = new ArrayList<>();
+        int tries = 0;
+        Random random = new Random();
+        while (tries < 500 && points.size() < 50) {
+            int x = random.nextInt(width);
+            int y = random.nextInt(height);
+            if (container.getElevation(x, y) > seaLevel) {
+                points.add(new Vector2(x, y));
+            }
+            tries++;
+        }
+        return points;
+    }
+
+    private void runRiverFromEnd(Vector2 end) {
+        ArrayList<Vector2> lookupList = new ArrayList<>();
+        ArrayList<Vector2> riverPoints = new ArrayList<>();
+        lookupList.add(end);
+        while (lookupList.size() > 0) {
+            Vector2 point = lookupList.remove(0);
+            if (!riverPoints.contains(point)) {
+                riverPoints.add(point);
+                int x = Math.round(point.x);
+                int y = Math.round(point.y);
+                map.setRiver(x, y, riverVectors[x][y]);
+                lookupList.addAll(lookupInflows(x, y));
+            }
+        }
+    }
+
+    private void recursiveRiverUp(Vector2 point) {
+        int x = Math.round(point.x);
+        int y = Math.round(point.y);
+        map.setRiver(x, y, riverVectors[x][y]);
+        lookupInflows(x, y).forEach((inflow) -> recursiveRiverUp(inflow));
+    }
+
+    private void runRiverFromStart(Vector2 start) {
         System.out.println("new river");
-        while (true) {
+        int length = 0;
+        while (length < 100) {
             System.out.println("start: " + start);
             int x = Math.round(start.x);
             int y = Math.round(start.y);
-            map.setDebug(x, y, riverVectors[x][y]);
-            if (inflows[x][y] != null) {
-                start = start.cpy().add(inflows[x][y]);
-            } else {
+            if (container.getElevation(x, y) <= seaLevel) {
                 break;
             }
+            map.setRiver(x, y, riverVectors[x][y]);
+            start = endPoints[x][y];
+            length++;
         }
     }
 
     private void recursiveRiver(Vector2 start, int counter) {
         int x = Math.round(start.x);
         int y = Math.round(start.y);
-        ArrayList<Vector2> inflowArray = lookupInflows(x,y);
+        ArrayList<Vector2> inflowArray = lookupInflows(x, y);
 //        inflowArray
     }
 
@@ -169,7 +233,7 @@ public class RiverGenerator extends AbstractGenerator {
                         && endPoints[x][y].x == cx
                         && endPoints[x][y].y == cy)  //is inflow
                 {
-                    inflowsArray.add(new Vector2(x - cx, y - cy));
+                    inflowsArray.add(new Vector2(x, y));
                 }
             }
         }
@@ -219,7 +283,7 @@ public class RiverGenerator extends AbstractGenerator {
         }
     }
 
-    private void runRiver(int x, int y, int maxLength, int branchingDepth) {
+    private void runRiverFromStart(int x, int y, int maxLength, int branchingDepth) {
 //        int i = 0;
 //        float seaLevel = container.getConfig().getSeaLevel() - 1;
 //        int savedAngle = 0;
