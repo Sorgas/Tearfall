@@ -11,21 +11,18 @@ import java.util.*;
 /**
  * Created by Alexander on 14.03.2017.
  * <p>
- * Generates rivers.
+ * Generates rivers. Marks lakes if river stucks.
  * Rivers start from distributed point in high areas.
  */
 public class RiverGenerator extends AbstractGenerator {
     private Random random;
-    private WorldMap map;
     private int width;
     private int height;
-    private int riverCount;
     private Vector2[][] slopeInclination;
     private Vector2[][] endPoints;
     private Vector2[][] inflows;
     private Vector2[][] riverVectors;
     private float[][] waterAmount;
-    private List<Position> cells;
     private float seaLevel;
     private float riverStartLevel;
 
@@ -37,22 +34,19 @@ public class RiverGenerator extends AbstractGenerator {
         random = container.getConfig().getRandom();
         width = container.getConfig().getWidth();
         height = container.getConfig().getHeight();
-        riverCount = (int) (width * height * container.getLandPart() / container.getConfig().getRiverDensity());
         slopeInclination = new Vector2[width][height];
         endPoints = new Vector2[width][height];
         inflows = new Vector2[width][height];
         riverVectors = new Vector2[width][height];
         waterAmount = new float[width][height];
-        cells = new ArrayList<>();
         seaLevel = container.getConfig().getSeaLevel();
         riverStartLevel = container.getConfig().getLargeRiverStartLevel();
     }
 
     @Override
     public boolean execute() {
-        extractContainer(container);
         System.out.println("generating rivers");
-        map = container.getMap();
+        extractContainer(container);
         countAngles();
         countWaterAmount();
         countRiverVectors();
@@ -101,8 +95,7 @@ public class RiverGenerator extends AbstractGenerator {
     }
 
     private float getWaterAmount(int x, int y) {
-        return 0.01f;
-//        return container.getRainfall(x, y) / 10000f;
+        return container.getRainfall(x, y) / 10000f;
     }
 
     private void countRiverVectors() {
@@ -126,7 +119,6 @@ public class RiverGenerator extends AbstractGenerator {
                 }
             }
         }
-        Random random = new Random();
         while (!potentialStarts.isEmpty()) {
             Vector2 start = potentialStarts.get(random.nextInt(potentialStarts.size()));
             starts.add(start);
@@ -137,15 +129,20 @@ public class RiverGenerator extends AbstractGenerator {
 
     private void runRiverFromStart(Vector2 start) {
         System.out.println("new river");
+        HashSet<Vector2> river = new HashSet<>();
         int length = 0;
         while (length < 100) {
             System.out.println("start: " + start);
             int x = Math.round(start.x);
             int y = Math.round(start.y);
+            if(river.contains(riverVectors[x][y])) {
+                //loop, add lake
+                container.getLakes().add(riverVectors[x][y].cpy());
+            }
             if (container.getElevation(x, y) <= seaLevel) {
                 break;
             }
-            map.setRiver(x, y, riverVectors[x][y]);
+            container.setRiver(x, y, riverVectors[x][y]);
             start = endPoints[x][y];
             length++;
         }
@@ -219,7 +216,7 @@ public class RiverGenerator extends AbstractGenerator {
                 riverPoints.add(point);
                 int x = Math.round(point.x);
                 int y = Math.round(point.y);
-                map.setRiver(x, y, riverVectors[x][y]);
+                container.setRiver(x, y, riverVectors[x][y]);
                 lookupList.addAll(lookupInflows(x, y));
             }
         }

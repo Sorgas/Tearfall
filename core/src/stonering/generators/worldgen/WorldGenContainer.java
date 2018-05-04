@@ -25,7 +25,6 @@ public class WorldGenContainer {
     private List<Mountain> mountains;
     private List<Mountain> valleys;
     private List<Mountain> hills;
-    private List<Position> lakes;
 
     private float[][] elevation;
     private float[][] slopeAngles;
@@ -34,6 +33,7 @@ public class WorldGenContainer {
     private float[][] rainfall;
     private float[][] debug;
     private Vector2[][] rivers;
+    private ArrayList<Vector2> lakes;
 
     private float landPart;
 
@@ -174,10 +174,6 @@ public class WorldGenContainer {
         return inMap(x, y) ? rainfall[x][y] : 0;
     }
 
-    public List<Position> getLakes() {
-        return lakes;
-    }
-
     public float getLandPart() {
         return landPart;
     }
@@ -194,5 +190,17 @@ public class WorldGenContainer {
 
     public Vector2 getRiver(int x, int y) {
         return inMap(x, y) ? rivers[x][y] : null;
+    }
+
+    public Vector2[][] getRivers() {
+        return rivers;
+    }
+
+    public ArrayList<Vector2> getLakes() {
+        return lakes;
+    }
+
+    public void setLakes(ArrayList<Vector2> lakes) {
+        this.lakes = lakes;
     }
 }
