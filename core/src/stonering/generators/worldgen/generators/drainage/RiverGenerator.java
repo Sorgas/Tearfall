@@ -128,11 +128,9 @@ public class RiverGenerator extends AbstractGenerator {
     }
 
     private void runRiverFromStart(Vector2 start) {
-        System.out.println("new river");
         HashSet<Vector2> river = new HashSet<>();
         int length = 0;
         while (length < 100) {
-            System.out.println("start: " + start);
             int x = Math.round(start.x);
             int y = Math.round(start.y);
             if(river.contains(riverVectors[x][y])) {

@@ -62,7 +62,6 @@ public class WorldGenContainer {
                 }
             }
         }
-        System.out.println("max: " + maxElevation);
     }
 
     public void reset() {
