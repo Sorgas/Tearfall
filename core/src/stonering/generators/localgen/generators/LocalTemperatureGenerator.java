@@ -17,6 +17,7 @@ public class LocalTemperatureGenerator {
     }
 
     public void execute() {
+        System.out.println("generating temperature");
         Position location = container.getConfig().getLocation();
         float summerTemp = container.getWorldMap().getSummerTemperature(location.getX(), location.getY());
         float winterTemp = container.getWorldMap().getWinterTemperature(location.getX(), location.getY());

@@ -15,10 +15,11 @@ import stonering.generators.worldgen.WorldMap;
 public class LocalRampAndFloorPlacer {
     private LocalMap localMap;
     private LocalGenConfig config;
+    private LocalGenContainer container;
 
     public LocalRampAndFloorPlacer(LocalGenContainer container) {
         this.config = container.getConfig();
-        this.localMap = container.getLocalMap();
+        this.container = container;
     }
 
     int wallCode = BlockTypesEnum.WALL.getCode();
@@ -26,6 +27,8 @@ public class LocalRampAndFloorPlacer {
     int rampCode = BlockTypesEnum.RAMP.getCode();
 
     public void execute() {
+        System.out.println("placing ramps");
+        this.localMap = container.getLocalMap();
         fillRamps();
         fillFloors();
     }

@@ -1,24 +1,25 @@
 package stonering.generators.localgen;
 
-import stonering.enums.materials.MaterialMap;
 import stonering.game.core.model.LocalMap;
 import stonering.generators.worldgen.WorldMap;
 import stonering.objects.local_actors.building.Building;
 import stonering.objects.local_actors.items.Item;
 import stonering.objects.local_actors.plants.Plant;
 import stonering.objects.local_actors.unit.Unit;
-import stonering.objects.local_actors.plants.Tree;
 
 import java.util.ArrayList;
 
 /**
  * Created by Alexander on 29.08.2017.
+ * <p>
+ * Stores intermediate results of local generation.
  */
 public class LocalGenContainer {
     private LocalGenConfig config;
     private WorldMap worldMap;
     private LocalMap localMap;
 
+    private int localElevation;
     private int[][] heightsMap;
     private float[] monthlyTemperatures;
 
@@ -30,11 +31,20 @@ public class LocalGenContainer {
     public LocalGenContainer(LocalGenConfig config, WorldMap worldMap) {
         this.config = config;
         this.worldMap = worldMap;
+    }
+
+    /**
+     * Creates LocalMap and collections for generators.
+     */
+    public void initContainer() {
+        localElevation = (int) (worldMap.getElevation(config.getLocation().getX(), config.getLocation().getY())
+                * config.getWorldToLocalElevationModifier());
+        localMap = new LocalMap(config.getAreaSize(), config.getAreaSize(),
+                localElevation + config.getAirLayersAboveGround());
         units = new ArrayList<>();
         buildings = new ArrayList<>();
         items = new ArrayList<>();
         plants = new ArrayList<>();
-        localMap = new LocalMap(config.getAreaSize(), config.getAreaSize(), config.getAreaHight());
         monthlyTemperatures = new float[12];
     }
 
@@ -80,5 +90,9 @@ public class LocalGenContainer {
 
     public float[] getMonthlyTemperatures() {
         return monthlyTemperatures;
+    }
+
+    public int getLocalElevation() {
+        return localElevation;
     }
 }

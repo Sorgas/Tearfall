@@ -26,6 +26,7 @@ public class LocalHeightsGenerator {
     }
 
     public void execute() {
+        System.out.println("generating heights");
         int x = config.getLocation().getX();
         int y = config.getLocation().getY();
         localHightMap = new float[localAreaSize + 1][localAreaSize + 1];
@@ -176,7 +177,7 @@ public class LocalHeightsGenerator {
 
     //counts elevation for SW corner of world cell
     private int calculateMidElevationForCorner(int x, int y) {
-        int elevation = 0;
+        float elevation = 0;
         int count = 0;
         for (int i = x - 1; i <= x; i++) {
             for (int j = y - 1; j <= y; j++) {
@@ -188,16 +189,19 @@ public class LocalHeightsGenerator {
         }
         elevation /= count;
         elevation *= config.getWorldToLocalElevationModifier();
-        return elevation + config.getLocalSeaLevel();
+        return Math.round(elevation);
     }
 
     private int[][] roundLocalHightMap() {
+        int max = 0;
         int[][] result = new int[localHightMap.length][localHightMap.length];
         for (int x = 0; x < localHightMap.length; x++) {
             for (int y = 0; y < localHightMap.length; y++) {
                 result[x][y] = Math.round(localHightMap[x][y]);
+                max = result[x][y] > max ? result[x][y] : max;
             }
         }
+        System.out.println("max: " + max);
         return result;
     }
 

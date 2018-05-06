@@ -26,13 +26,13 @@ public class LocalCaveGenerator {
         worldMap = container.getWorldMap();
         config = container.getConfig();
         localAreaSize = config.getAreaSize();
-        localMap = container.getLocalMap();
         random = new Random();
     }
 
     public void execute() {
-        int localElevation = Math.round(worldMap.getElevation(config.getLocation().getX(),
-                config.getLocation().getY()) * config.getWorldToLocalElevationModifier() + config.getLocalSeaLevel());
+        System.out.println("generating caves");
+        localMap = container.getLocalMap();
+        int localElevation = localMap.getzSize() - config.getAirLayersAboveGround();
         int step = 50;
         int prevLeyer = -1;
         for (int z = localElevation - step; z > 20; z -= step) {

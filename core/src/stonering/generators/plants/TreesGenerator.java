@@ -14,13 +14,13 @@ import java.util.Random;
  * Created by Alexander on 19.10.2017.
  */
 public class TreesGenerator {
-    private MaterialMap materialMap;
 
     public Tree generateTree(String speciment, int age) throws MaterialNotFoundException {
         PlantType plantType = PlantMap.getInstance().getPlantType(speciment);
         TreeType treeType = plantType.getTreeType();
         int material = MaterialMap.getInstance().getId(plantType.getMaterialName());
         Tree tree = new Tree(10, material);
+        tree.setType(treeType);
         Random random = new Random();
         int treeCenter = treeType.getCrownRadius();
         int rootsDepth = treeType.getRootDepth();

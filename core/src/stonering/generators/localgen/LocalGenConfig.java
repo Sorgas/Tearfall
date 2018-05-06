@@ -10,10 +10,9 @@ import stonering.global.utils.Position;
 public class LocalGenConfig {
     private Position location;
 
-    private int worldToLocalElevationModifier = 10;
+    private int worldToLocalElevationModifier = 100;
+    private int airLayersAboveGround = 20;
     private int areaSize = 192;
-    private int areaHight = 400;
-    private int localSeaLevel = 200;
     private int[] sublayerMaxCount = {5,5,6,6};
     private int[] sublayerMinThickness = {4,4,6,8};
     private int minCaveLayerHeight = 10;
@@ -23,16 +22,12 @@ public class LocalGenConfig {
         return worldToLocalElevationModifier;
     }
 
+    public int getAirLayersAboveGround() {
+        return airLayersAboveGround;
+    }
+
     public int getAreaSize() {
         return areaSize;
-    }
-
-    public int getAreaHight() {
-        return areaHight;
-    }
-
-    public int getLocalSeaLevel() {
-        return localSeaLevel;
     }
 
     public Position getLocation() {

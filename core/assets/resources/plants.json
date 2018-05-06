@@ -61,8 +61,8 @@
     },
     {
         "specimen":"willow",
-        "title":"grass",
-        "description":"Grass",
+        "title":"willow",
+        "description":"Willow",
         "minTemperature":"-40",
         "maxTemperature":"40",
         "minGrowingTemperature":"-40",

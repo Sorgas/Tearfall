@@ -45,6 +45,7 @@ public class LocalGeneratorContainer {
     }
 
     public void execute() {
+        localGenContainer.initContainer();
         localHeightsGenerator.execute();
         localStoneLayersGenerator.execute();
         localCaveGenerator.execute();
@@ -55,6 +56,8 @@ public class LocalGeneratorContainer {
 //        localFurnitureGenerator.execute();
 //        localItemsGenerator.execute();
     }
+
+
 
     public LocalMap getLocalMap() {
         return localGenContainer.getLocalMap();
