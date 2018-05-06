@@ -74,7 +74,7 @@
         "lightNeed":["low", "high"],
         // underground, low, high (multiple)
         "soilType":"soil",
-        "atlasY":"0",
+        "atlasY":"1",
         "atlasX":"0",
         "materialName":"willow",
         "harvestProduct":null,

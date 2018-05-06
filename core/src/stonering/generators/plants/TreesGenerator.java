@@ -73,8 +73,9 @@ public class TreesGenerator {
         Plant plant = new Plant(0);
         plant.setType(plantType);
         PlantBlock block = new PlantBlock(material, blockType);
-//        block.setAtlasY(plantType.getAtlasY());
+        block.setAtlasY(plantType.getAtlasY());
         block.setAtlasX(TreeTileMapping.getType(blockType).getAtlasX());
+//        block.setAtlasX(1);
         plant.setBlock(block);
         return plant;
     }

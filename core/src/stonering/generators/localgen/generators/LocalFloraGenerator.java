@@ -201,6 +201,7 @@ public class LocalFloraGenerator {
             for (int y = borderPadding; y < localMap.getySize() - borderPadding; y++) {
                 for (int z = 0; z < localMap.getzSize(); z++) {
                     if (localMap.getBlockType(x, y, z) == floorCode
+                            && localMap.getPlantBlock(x,y,z) == null
                             && MaterialMap.getInstance().getMaterial(localMap.getMaterial(x, y, z)).getTypes().contains(soilType)) { // surface material should be suitable for plant
                         positions.add(new Position(x, y, z));
                         array[x][y][z] = true;
@@ -230,7 +231,7 @@ public class LocalFloraGenerator {
                 return; // plant grow zone out of local temp zone
             }
             if (type.isTree()) { //is plant tree or not
-                weightedTreeTypes.put(type.getSpecimen(), 1f);
+                weightedTreeTypes.put(type.getSpecimen(), 100f);
             } else {
                 weightedPlantTypes.put(type.getSpecimen(), 1f);
             }
