@@ -2,8 +2,7 @@ package stonering.generators.plants;
 
 import stonering.enums.plants.*;
 import stonering.enums.materials.MaterialMap;
-import stonering.exceptions.MaterialNotFoundException;
-import stonering.generators.localgen.LocalGenContainer;
+import stonering.exceptions.DescriptionNotFoundException;
 import stonering.objects.local_actors.plants.Plant;
 import stonering.objects.local_actors.plants.PlantBlock;
 import stonering.objects.local_actors.plants.Tree;
@@ -15,7 +14,7 @@ import java.util.Random;
  */
 public class TreesGenerator {
 
-    public Tree generateTree(String speciment, int age) throws MaterialNotFoundException {
+    public Tree generateTree(String speciment, int age) throws DescriptionNotFoundException {
         PlantType plantType = PlantMap.getInstance().getPlantType(speciment);
         TreeType treeType = plantType.getTreeType();
         int material = MaterialMap.getInstance().getId(plantType.getMaterialName());

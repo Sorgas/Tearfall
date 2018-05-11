@@ -1,5 +1,6 @@
 package stonering.objects.local_actors.items;
 
+import stonering.enums.items.ItemType;
 import stonering.global.utils.Position;
 import stonering.objects.local_actors.AspectHolder;
 
@@ -10,6 +11,7 @@ import stonering.objects.local_actors.AspectHolder;
  */
 public class Item extends AspectHolder {
     private String title;
+    private ItemType type;
     private int material;
     private int weight;
     private int volume;
@@ -61,5 +63,13 @@ public class Item extends AspectHolder {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public ItemType getType() {
+        return type;
+    }
+
+    public void setType(ItemType type) {
+        this.type = type;
     }
 }

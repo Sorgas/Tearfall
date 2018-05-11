@@ -2,7 +2,7 @@ package stonering.generators.localgen.generators;
 
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.materials.MaterialMap;
-import stonering.exceptions.MaterialNotFoundException;
+import stonering.exceptions.DescriptionNotFoundException;
 import stonering.game.core.model.LocalMap;
 import stonering.generators.localgen.LocalGenConfig;
 import stonering.generators.localgen.LocalGenContainer;
@@ -46,7 +46,7 @@ public class LocalStoneLayersGenerator {
         }countLayers();
         try {
             generateLayers();
-        } catch (MaterialNotFoundException e) {
+        } catch (DescriptionNotFoundException e) {
             e.printStackTrace();
         }
         fillLayers();
@@ -82,7 +82,7 @@ public class LocalStoneLayersGenerator {
         }
     }
 
-    private void generateLayers() throws MaterialNotFoundException {
+    private void generateLayers() throws DescriptionNotFoundException {
         int i = layerIds.length - 1;
         int soilId = MaterialMap.getInstance().getId("soil");
         for (int soilIndex = 0; soilIndex < soilLayer; soilIndex++) {
@@ -113,7 +113,7 @@ public class LocalStoneLayersGenerator {
         }
     }
 
-    public int[] getIdsByStoneType(int num, int seed, int stoneType) throws MaterialNotFoundException {
+    public int[] getIdsByStoneType(int num, int seed, int stoneType) throws DescriptionNotFoundException {
         Random random = new Random(seed);
         MaterialMap materialMap = MaterialMap.getInstance();
         int[] ids = new int[num];

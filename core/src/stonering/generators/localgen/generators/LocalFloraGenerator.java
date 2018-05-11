@@ -5,7 +5,7 @@ import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.materials.MaterialMap;
 import stonering.enums.plants.PlantMap;
 import stonering.enums.plants.PlantType;
-import stonering.exceptions.MaterialNotFoundException;
+import stonering.exceptions.DescriptionNotFoundException;
 import stonering.game.core.model.LocalMap;
 import stonering.generators.PerlinNoiseGenerator;
 import stonering.generators.localgen.LocalGenConfig;
@@ -106,7 +106,7 @@ public class LocalFloraGenerator {
                 }
                 tries--;
             }
-        } catch (MaterialNotFoundException e) {
+        } catch (DescriptionNotFoundException e) {
             e.printStackTrace();
         }
     }
@@ -178,7 +178,7 @@ public class LocalFloraGenerator {
                 plant = plantGenerator.generatePlant(specimen);
                 plant.setPosition(position);
                 container.getPlants().add(plant);
-            } catch (MaterialNotFoundException e) {
+            } catch (DescriptionNotFoundException e) {
                 System.out.println("material for plant " + specimen + " not found");
             }
         }

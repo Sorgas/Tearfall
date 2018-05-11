@@ -91,7 +91,7 @@ public class LocalWorldDrawer {
         }
         ArrayList<Item> items = container.getItemContainer().getItems(x, y, z);
         if (!items.isEmpty()) {
-            drawSprite(5, x, y, z, 0, 0);
+            items.forEach((item) -> drawSprite(5, x, y, z, item.getType().getAtlasX(), item.getType().getAtlasY()));
         }
         if (localMap.getDesignatedBlockType(x, y, z) > 0) {
             drawSprite(4, x, y, z, DesignationsTileMapping.getAtlasX(localMap.getDesignatedBlockType(x, y, z)), 0);

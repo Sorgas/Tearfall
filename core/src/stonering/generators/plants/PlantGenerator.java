@@ -3,7 +3,7 @@ package stonering.generators.plants;
 import stonering.enums.materials.MaterialMap;
 import stonering.enums.plants.PlantMap;
 import stonering.enums.plants.TreeBlocksTypeEnum;
-import stonering.exceptions.MaterialNotFoundException;
+import stonering.exceptions.DescriptionNotFoundException;
 import stonering.objects.local_actors.plants.Plant;
 import stonering.objects.local_actors.plants.PlantBlock;
 
@@ -12,7 +12,7 @@ import stonering.objects.local_actors.plants.PlantBlock;
  */
 public class PlantGenerator {
 
-    public Plant generatePlant(String specimen) throws MaterialNotFoundException {
+    public Plant generatePlant(String specimen) throws DescriptionNotFoundException {
         Plant plant = new Plant(0);
         plant.setType(PlantMap.getInstance().getPlantType(specimen));
 

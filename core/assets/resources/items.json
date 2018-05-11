@@ -3,8 +3,8 @@
         "title":"pickaxe",
         "aspects":[
             {
-                "name":"tool",
-                "args":["dig"]
+                "class" : "properties_c",
+                "properties" : ["tool"]
             }
         ],
         "reactions":[
@@ -13,8 +13,34 @@
         "reaction_args":[
             "1"
         ],
-        "value":"0",
+        "basicValue":"0",
         "atlasY":"0",
+        "atlasX":"0",
+        "color":{
+            "class":"color_c",
+            "r":"1",
+            "g":"1",
+            "b":"1",
+            "a":"1"
+        }
+    },
+    {
+        "title":"axe",
+        "aspects":[
+            {
+                "class" : "properties_c",
+                "properties" : ["tool"]
+            }
+        ],
+        "reactions":[
+            "lumber"
+        ],
+        "reaction_args":[
+            "1"
+        ],
+        "basicValue":"0",
+        "atlasY":"0",
+        "atlasX":"1",
         "color":{
             "class":"color_c",
             "r":"1",

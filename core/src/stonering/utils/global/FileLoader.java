@@ -43,7 +43,7 @@ public class FileLoader {
         return new FileHandle(ITEMTYPE_TAGS_PATH);
     }
 
-    public static FileHandle getItems() {
+    public static FileHandle getItemsFile() {
         return new FileHandle(ITEMS_PATH);
     }
 }

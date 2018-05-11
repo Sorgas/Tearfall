@@ -3,7 +3,7 @@ package stonering.enums.materials;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
-import stonering.exceptions.MaterialNotFoundException;
+import stonering.exceptions.DescriptionNotFoundException;
 import stonering.utils.global.FileLoader;
 
 import java.util.ArrayList;
@@ -57,11 +57,11 @@ public class MaterialMap {
         return materials.get(id);
     }
 
-    public int getId(String name) throws MaterialNotFoundException {
+    public int getId(String name) throws DescriptionNotFoundException {
         if (ids.containsKey(name)) {
             return ids.get(name);
         } else {
-            throw new MaterialNotFoundException("material with name '" + name + "' not found");
+            throw new DescriptionNotFoundException("material with name '" + name + "' not found");
         }
     }
 

@@ -1,5 +1,6 @@
 package stonering.generators.localgen.generators;
 
+import stonering.exceptions.DescriptionNotFoundException;
 import stonering.game.core.model.LocalMap;
 import stonering.generators.items.ItemGenerator;
 import stonering.generators.localgen.LocalGenConfig;
@@ -24,13 +25,17 @@ public class LocalItemsGenerator {
     }
 
     public void execute() {
-        Item pickaxe = itemGenerator.generateItem("pickaxe");
-        for (int z = localMap.getzSize() - 1; z >= 0; z--) {
-            if (localMap.getBlockType(localMap.getxSize() / 2, localMap.getySize() / 2, z) != 0) {
-                pickaxe.setPosition(new Position(localMap.getxSize() / 2, localMap.getySize() / 2, z));
-                break;
+        try {
+            Item pickaxe = itemGenerator.generateItem("pickaxe");
+            for (int z = localMap.getzSize() - 1; z >= 0; z--) {
+                if (localMap.getBlockType(localMap.getxSize() / 2, localMap.getySize() / 2, z) != 0) {
+                    pickaxe.setPosition(new Position(localMap.getxSize() / 2, localMap.getySize() / 2, z));
+                    break;
+                }
             }
+            container.getItems().add(pickaxe);
+        } catch (DescriptionNotFoundException e) {
+            e.printStackTrace();
         }
-        container.getItems().add(pickaxe);
     }
 }
