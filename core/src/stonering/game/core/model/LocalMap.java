@@ -296,4 +296,8 @@ public class LocalMap {
     public void setArea(int x, int y, int z, byte area) {
         this.area[x][y][z] = area;
     }
+
+    public PlantBlock getPlantBlock(Position pos) {
+        return getPlantBlock(pos.getX(), pos.getY(), pos.getZ());
+    }
 }
