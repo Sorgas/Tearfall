@@ -30,7 +30,7 @@
         }
     },
     {
-        "specimen":"red moss",
+        "specimen":"red_moss",
         "title":"Red Moss",
         "description":"Red Moss",
         "minTemperature":"-40",
@@ -48,7 +48,7 @@
         "atlasX":"1",
         "materialName":"willow",
         "harvestProduct":null,
-        "cutProduct":null,
+        "cutProduct":["moss", "red_moss"], // item type, material
         "treeType":null,
         "saplingTime":"0",
         "color":{

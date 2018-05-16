@@ -53,8 +53,16 @@ public class MaterialMap {
         }
     }
 
-    public Material getMaterial(int id) {
-        return materials.get(id);
+    public Material getMaterial(int id) throws DescriptionNotFoundException {
+        if (materials.containsKey(id)) {
+            return materials.get(id);
+        } else {
+            throw new DescriptionNotFoundException("material with id '" + id + "' not found");
+        }
+    }
+
+    public Material getMaterial(String name) throws DescriptionNotFoundException {
+        return getMaterial(getId(name));
     }
 
     public int getId(String name) throws DescriptionNotFoundException {

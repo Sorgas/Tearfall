@@ -30,9 +30,4 @@ public class ItemTargetAspect extends TargetAspect {
     public Position getTargetPosition() {
         return item.getPosition();
     }
-
-    @Override
-    public boolean isExactTarget() {
-        return true;
-    }
 }

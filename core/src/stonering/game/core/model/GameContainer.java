@@ -15,7 +15,7 @@ import stonering.generators.worldgen.WorldMap;
  */
 public class GameContainer {
     private WorldMap worldMap;
-    private LocalMap localMap;
+    private LocalMap localMap; //local map is created during localgeneration.
     private LocalTileMap localTileMap;
     private BuildingContainer buildingContainer;
     private PlantContainer plantContainer;
@@ -130,5 +130,9 @@ public class GameContainer {
 
     public BuildingContainer getBuildingContainer() {
         return buildingContainer;
+    }
+
+    public PlantContainer getPlantContainer() {
+        return plantContainer;
     }
 }

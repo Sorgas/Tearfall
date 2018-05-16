@@ -7,6 +7,7 @@ import stonering.enums.plants.PlantMap;
 import stonering.enums.plants.PlantType;
 import stonering.exceptions.DescriptionNotFoundException;
 import stonering.game.core.model.LocalMap;
+import stonering.game.core.model.lists.PlantContainer;
 import stonering.generators.PerlinNoiseGenerator;
 import stonering.generators.localgen.LocalGenConfig;
 import stonering.generators.localgen.LocalGenContainer;
@@ -113,7 +114,7 @@ public class LocalFloraGenerator {
 
 
     /**
-     * Places tree on map
+     * Places tree on map. Area on map should be checked before placing.
      *
      * @param tree tree to place
      */
@@ -128,6 +129,7 @@ public class LocalFloraGenerator {
                     int mapZ = cz + z - treeCenterZ;
                     if (treeParts[x][y][z] != null) {
                         localMap.setPlantBlock(mapX, mapY, mapZ, treeParts[x][y][z].getBlock());
+                        container.getPlants().add(treeParts[x][y][z]);
                     }
                 }
             }
