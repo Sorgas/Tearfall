@@ -2,6 +2,7 @@ package stonering.generators.localgen.generators;
 
 import javafx.util.Pair;
 import stonering.enums.blocks.BlockTypesEnum;
+import stonering.enums.materials.Material;
 import stonering.enums.materials.MaterialMap;
 import stonering.enums.plants.PlantMap;
 import stonering.enums.plants.PlantType;
@@ -203,10 +204,12 @@ public class LocalFloraGenerator {
             for (int y = borderPadding; y < localMap.getySize() - borderPadding; y++) {
                 for (int z = 0; z < localMap.getzSize(); z++) {
                     if (localMap.getBlockType(x, y, z) == floorCode
-                            && localMap.getPlantBlock(x,y,z) == null
-                            && MaterialMap.getInstance().getMaterial(localMap.getMaterial(x, y, z)).getTypes().contains(soilType)) { // surface material should be suitable for plant
-                        positions.add(new Position(x, y, z));
-                        array[x][y][z] = true;
+                            && localMap.getPlantBlock(x, y, z) == null) { // surface material should be suitable for plant
+                        Material material = MaterialMap.getInstance().getMaterial(localMap.getMaterial(x, y, z));
+                        if (material != null && material.getTypes().contains(soilType)) {
+                            positions.add(new Position(x, y, z));
+                            array[x][y][z] = true;
+                        }
                     }
                 }
             }

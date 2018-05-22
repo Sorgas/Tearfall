@@ -11,6 +11,7 @@ import stonering.objects.jobs.actions.TaskTypesEnum;
 import stonering.objects.jobs.actions.aspects.effect.DigEffectAspect;
 import stonering.objects.jobs.actions.aspects.requirements.EquippedItemRequirementAspect;
 import stonering.objects.jobs.actions.aspects.target.BlockTargetAspect;
+import stonering.objects.local_actors.plants.PlantBlock;
 
 import java.util.ArrayList;
 
@@ -90,6 +91,12 @@ public class TaskContainer {
             case RAMP:
             case STAIRS: {
                 return blockOnMap.equals(BlockTypesEnum.WALL);
+            }
+            case CHOP: {
+                PlantBlock block =container.getLocalMap().getPlantBlock(position);
+                return block != null &&
+                        (blockOnMap.equals(BlockTypesEnum.SPACE) || blockOnMap.equals(BlockTypesEnum.FLOOR))
+                        && block.getPlant().getType().isTree();
             }
             case NONE: {
                 return true;

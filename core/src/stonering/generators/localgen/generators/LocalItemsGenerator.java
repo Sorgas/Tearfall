@@ -25,8 +25,12 @@ public class LocalItemsGenerator {
     }
 
     public void execute() {
+        createItemInCenter("axe");
+    }
+
+    private void createItemInCenter(String itemType) {
         try {
-            Item pickaxe = itemGenerator.generateItem("pickaxe");
+            Item pickaxe = itemGenerator.generateItem(itemType);
             for (int z = localMap.getzSize() - 1; z >= 0; z--) {
                 if (localMap.getBlockType(localMap.getxSize() / 2, localMap.getySize() / 2, z) != 0) {
                     pickaxe.setPosition(new Position(localMap.getxSize() / 2, localMap.getySize() / 2, z));

@@ -3,7 +3,9 @@ package stonering.game.core.view;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import stonering.enums.materials.Material;
 import stonering.enums.materials.MaterialMap;
+import stonering.exceptions.DescriptionNotFoundException;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.view.ui_components.TileStatusBar;
 import stonering.game.core.view.ui_components.ToolStatus;
@@ -55,13 +57,13 @@ public class UIDrawer {
 
     private void updateStatusBar() {
         Position focus = container.getCamera().getPosition();
-        tileStatusBar.setData(focus,
-                materialMap.getMaterial(container.getLocalMap().getMaterial(focus)).getName(),
-                container.getLocalMap().getArea(focus));
+        Material material = materialMap.getMaterial(container.getLocalMap().getMaterial(focus));
+
+        tileStatusBar.setData(focus, material != null ? material.getName() : "", container.getLocalMap().getArea(focus));
     }
 
     public void resize(int width, int height) {
-        stage.getViewport().update(width,height,true);
+        stage.getViewport().update(width, height, true);
     }
 
     public Stage getStage() {

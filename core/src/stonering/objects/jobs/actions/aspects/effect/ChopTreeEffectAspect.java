@@ -45,9 +45,10 @@ public class ChopTreeEffectAspect extends EffectAspect {
         Plant targetPlant = ((PlantTargetAspect) action.getTargetAspect()).getPlant();
         PlantBlock plantBlock = container.getLocalMap().getPlantBlock(target);
         if (container.getPlantContainer().getPlants().contains(targetPlant)) { //plant still persist
-
+            container.getPlantContainer().cutPlant();
+//            leavePlantProduct(targetPlant);
         }
-
+        container.getPlantContainer().
     }
 
     private void leavePlantProduct(Plant plant) {

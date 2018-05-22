@@ -54,7 +54,7 @@ public class LocalGeneratorContainer {
         localFloraGenerator.execute();
 //        localFaunaGenerator.execute();
 //        localFurnitureGenerator.execute();
-//        localItemsGenerator.execute();
+        localItemsGenerator.execute();
     }
 
 

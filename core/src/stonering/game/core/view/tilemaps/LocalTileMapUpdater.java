@@ -2,7 +2,9 @@ package stonering.game.core.view.tilemaps;
 
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.blocks.BlocksTileMapping;
+import stonering.enums.materials.Material;
 import stonering.enums.materials.MaterialMap;
+import stonering.exceptions.DescriptionNotFoundException;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.LocalMap;
 
@@ -39,14 +41,17 @@ public class LocalTileMapUpdater {
         localTileMap.setTile(x, y, z, 0, 0, -1, null);
         byte blockType = localMap.getBlockType(x, y, z);
         if (blockType > 0) { // non space
-            int atlasY = materialMap.getMaterial(localMap.getMaterial(x, y, z)).getAtlasY();
+            Material material = materialMap.getMaterial(localMap.getMaterial(x, y, z));
             int atlasX;
             if (blockType == BlockTypesEnum.RAMP.getCode()) {
                 atlasX = countRamp(x, y, z);
             } else {
                 atlasX = BlocksTileMapping.getType(blockType).getAtlasX();
             }
-            localTileMap.setTile(x, y, z, atlasX, atlasY, 0, null);
+            localTileMap.setTile(x, y, z,
+                    atlasX,
+                    material != null ? material.getAtlasY() : 0,
+                    0, null);
         }
         updateRampsAround(x, y, z);
     }

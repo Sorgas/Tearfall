@@ -12,7 +12,9 @@ public enum DesignationTypes {
     DIG(1, "digging wall"), // removes walls and ramps. leaves floor
     STAIRS(2, "cutting stairs"), //cuts stairs from wall.
     RAMP(3, "cutting ramp"), // digs ramp and upper cell.
-    CHANNEL(4, "digging channel"); // digs cell and ramp on lower level
+    CHANNEL(4, "digging channel"), // digs cell and ramp on lower level
+    CHOP(5, "chop trees"), //chop trees in th area
+    CUT(6, "cut plants"); //cut plants
 
     private static HashMap<Byte, DesignationTypes> map;
     private byte code;

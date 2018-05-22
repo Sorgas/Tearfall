@@ -4,6 +4,7 @@ import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.designations.DesignationTypes;
 import stonering.enums.materials.Material;
 import stonering.enums.materials.MaterialMap;
+import stonering.exceptions.DescriptionNotFoundException;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.LocalMap;
 import stonering.generators.items.DiggingProductGenerator;
@@ -23,7 +24,6 @@ public class DigEffectAspect extends EffectAspect {
     @Override
     protected void applyEffect() {
         Position pos = action.getTargetAspect().getTargetPosition();
-        Material material = MaterialMap.getInstance().getMaterial(container.getLocalMap().getMaterial(action.getTargetPosition()));
         switch (designationType) {
             case DIG: {
                 validateAndChangeBlock(pos, BlockTypesEnum.FLOOR);
@@ -44,7 +44,12 @@ public class DigEffectAspect extends EffectAspect {
                 break;
             }
         }
-        leaveStone(material);
+        try {
+            Material material = MaterialMap.getInstance().getMaterial(container.getLocalMap().getMaterial(action.getTargetPosition()));
+            leaveStone(material);
+        } catch (DescriptionNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     private void validateAndChangeBlock(Position pos, BlockTypesEnum type) {
