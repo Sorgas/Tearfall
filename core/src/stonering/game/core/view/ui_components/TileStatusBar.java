@@ -7,9 +7,9 @@ import stonering.utils.global.StaticSkin;
 import stonering.global.utils.Position;
 
 /**
- * Created by Alexander on 12.10.2017.
+ * Renders information about tile under camera position.
  *
- * Renders information about focused tile
+ * Created by Alexander on 12.10.2017.
  */
 public class TileStatusBar extends Table {
     private int x;

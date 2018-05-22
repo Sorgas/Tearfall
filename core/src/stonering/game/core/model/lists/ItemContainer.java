@@ -10,9 +10,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 /**
- * Created by Alexander on 14.06.2017.
+ * Manages all items on map
  *
- * manages all items on map
+ * Created by Alexander on 14.06.2017.
  */
 public class ItemContainer {
     private ArrayList<Item> items;

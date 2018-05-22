@@ -7,9 +7,9 @@ import stonering.objects.local_actors.building.Building;
 import java.util.ArrayList;
 
 /**
- * Created by Alexander on 09.12.2017.
- *
  * Contains all Buildings on localMap
+ *
+ * Created by Alexander on 09.12.2017.
  */
 public class BuildingContainer {
     private ArrayList<Building> buildings;

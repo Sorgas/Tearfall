@@ -6,6 +6,8 @@ import stonering.game.core.view.GameView;
 import stonering.generators.localgen.LocalGenContainer;
 
 /**
+ * Main game MVC.
+ *
  * Created by Alexander on 10.06.2017.
  */
 public class GameMvc {

@@ -8,10 +8,10 @@ import stonering.generators.localgen.LocalGenContainer;
 import stonering.generators.worldgen.WorldMap;
 
 /**
- * Created by Alexander on 10.06.2017.
- * <p>
  * Model of game, contains LocalMap and sub-Containers.
  * Time ticks are performed with Timer
+ *
+ * Created by Alexander on 10.06.2017.
  */
 public class GameContainer {
     private WorldMap worldMap;

@@ -11,9 +11,9 @@ import stonering.utils.global.StaticSkin;
 import java.util.HashMap;
 
 /**
+ * Component of toolbar and its state
+ *
  * Created by Alexander on 19.12.2017.
- * <p>
- * component of toolbar and its state
  */
 public class Toolbar extends Menu {
     public static final String TOOLBAR = "bar";

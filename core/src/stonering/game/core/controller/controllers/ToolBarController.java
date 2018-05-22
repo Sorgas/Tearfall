@@ -5,13 +5,12 @@ import stonering.game.core.view.GameView;
 import stonering.game.core.view.ui_components.Toolbar;
 
 /**
- * Created by Alexander on 25.12.2017.
+ * Controller for Toolbar. Simply sends input events to it.
  *
- * manages state of Toolbar. refers to DesignationsController
+ * Created by Alexander on 25.12.2017.
  */
 public class ToolBarController extends Controller {
     private Toolbar toolbar;
-    private DesignationsController designationsController;
 
     public ToolBarController(GameContainer container, GameView view) {
         super(container, view);
@@ -20,9 +19,5 @@ public class ToolBarController extends Controller {
 
     public boolean handlePress(char key) {
         return toolbar.handlePress(key);
-    }
-
-    public void setDesignationsController(DesignationsController designationsController) {
-        this.designationsController = designationsController;
     }
 }

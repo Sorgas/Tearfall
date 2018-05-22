@@ -15,9 +15,9 @@ import stonering.objects.jobs.actions.aspects.target.BlockTargetAspect;
 import java.util.ArrayList;
 
 /**
- * Created by Alexander on 14.06.2017.
+ * Contains all tasks for settlers on map.
  *
- * contains all tasks for settlers on map
+ * Created by Alexander on 14.06.2017.
  */
 public class TaskContainer {
     private GameContainer container;

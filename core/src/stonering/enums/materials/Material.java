@@ -6,6 +6,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.List;
 import java.util.ArrayList;
 
 /**
+ * Descriptor of material.
+ *
  * Created by Alexander on 04.06.2017.
  */
 

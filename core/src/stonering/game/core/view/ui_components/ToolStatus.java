@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import stonering.utils.global.StaticSkin;
 
 /**
+ * Shows selected action.
  * Created by Alexander on 28.12.2017.
  */
 public class ToolStatus extends Table {

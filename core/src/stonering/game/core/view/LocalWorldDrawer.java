@@ -17,10 +17,10 @@ import stonering.objects.local_actors.unit.UnitBlock;
 import java.util.ArrayList;
 
 /**
- * Created by Alexander on 13.06.2017.
- * <p>
  * Draws LocalMap. Blocks and plants are taken from LocalTileMap,
- * Buildings, units, and items are taken from LocalMap
+ * Buildings, units, and items are taken from LocalMap.
+ *
+ * Created by Alexander on 13.06.2017.
  */
 public class LocalWorldDrawer {
     private GameContainer container;

@@ -9,6 +9,10 @@ import stonering.objects.local_actors.items.Item;
 import stonering.objects.local_actors.plants.Plant;
 import stonering.objects.local_actors.plants.PlantBlock;
 
+/**
+ * Effect for cutting plants and chopping trees.
+ * After its work amount finishes action and leaves plant drops.
+ */
 public class ChopTreeEffectAspect extends EffectAspect {
     private GameContainer container;
 
@@ -41,10 +45,9 @@ public class ChopTreeEffectAspect extends EffectAspect {
         Plant targetPlant = ((PlantTargetAspect) action.getTargetAspect()).getPlant();
         PlantBlock plantBlock = container.getLocalMap().getPlantBlock(target);
         if (container.getPlantContainer().getPlants().contains(targetPlant)) { //plant still persist
-            container.getPlantContainer().
-            leavePlantProduct(targetPlant);
+
         }
-        container.getPlantContainer().
+
     }
 
     private void leavePlantProduct(Plant plant) {

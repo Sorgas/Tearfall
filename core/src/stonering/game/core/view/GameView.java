@@ -7,9 +7,9 @@ import stonering.game.core.controller.controllers.GameController;
 import stonering.game.core.model.GameContainer;
 
 /**
- * Created by Alexander on 10.06.2017.
- * <p>
  * Main game Screen
+ *
+ * Created by Alexander on 10.06.2017.
  */
 public class GameView implements Screen {
     private GameContainer container;

@@ -8,20 +8,25 @@ import stonering.game.core.view.ui_components.menus.DiggingMenu;
 import stonering.global.utils.Position;
 
 /**
+ * Controller for various digging tasks. Works with GameContainer directly
+ *
  * Created by Alexander on 24.12.2017.
- * <p>
- * controller for various digging tasks. works with GameContainer directly
  */
 public class DesignationsController extends Controller {
     private DesignationTypes activeDesignation;
     private boolean rectangleStarted = false;
-    private Position start;
+    private Position start; // should be stored between steps
 
     public DesignationsController(GameContainer container, GameView view) {
         super(container, view);
         ((DiggingMenu) view.getUiDrawer().getToolbar().getMenu(Toolbar.DIGGING)).setController(this);
     }
 
+    /**
+     * Sets designation type to be stored between events of starting and finishing designations rectangle.
+     *
+     * @param activeDesignation designation type.
+     */
     public void setActiveDesignation(DesignationTypes activeDesignation) {
         this.activeDesignation = activeDesignation;
         view.getUiDrawer().getToolStatus().setText(
@@ -32,6 +37,9 @@ public class DesignationsController extends Controller {
         return activeDesignation;
     }
 
+    /**
+     * Enter point.
+     */
     public void handleDesignation() {
         if (activeDesignation != null) {
             if (rectangleStarted) {
@@ -45,6 +53,9 @@ public class DesignationsController extends Controller {
         }
     }
 
+    /**
+     * Resets controller state.
+     */
     public void handleCancel() {
         start = null;
         activeDesignation = null;
@@ -52,6 +63,12 @@ public class DesignationsController extends Controller {
         view.getUiDrawer().getToolStatus().setText("");
     }
 
+    /**
+     * Applies designation to game through TaskContainer.
+     * Also used for cancelling applied designaton.
+     *
+     * @param end end point of rectangle.
+     */
     private void designate(Position end) {
         for (int x = Math.min(end.getX(), start.getX()); x <= Math.max(end.getX(), start.getX()); x++) {
             for (int y = Math.min(end.getY(), start.getY()); y <= Math.max(end.getY(), start.getY()); y++) {

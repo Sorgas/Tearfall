@@ -3,6 +3,7 @@ package stonering.enums.blocks;
 import java.util.HashMap;
 
 /**
+ * Mapping of block types code to sprite positions in atlas.
  * Created by Alexander on 01.08.2017.
  */
 public enum BlocksTileMapping {

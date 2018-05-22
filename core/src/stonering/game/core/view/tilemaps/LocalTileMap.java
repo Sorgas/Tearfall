@@ -4,9 +4,11 @@ import com.badlogic.gdx.graphics.Color;
 import stonering.global.utils.Position;
 
 /**
+ * Contains resolved tiles of blocks and plants.
+ * It is introduced as cache for rarely updated tiles.
+ * Ramps are main reason, because require observation of neighbour tiles.
+ *
  * Created by Alexander on 02.08.2017.
- * <p>
- * Contains resolved tiles of blocks and plants
  */
 public class LocalTileMap {
 

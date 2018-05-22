@@ -7,6 +7,9 @@ import stonering.enums.designations.DesignationTypes;
 import stonering.game.core.controller.controllers.DesignationsController;
 import stonering.utils.global.StaticSkin;
 
+/**
+ * Menu for selecting designation type.
+ */
 public class DiggingMenu extends Menu {
     private DesignationsController controller;
 

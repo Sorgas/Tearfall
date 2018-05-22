@@ -10,6 +10,8 @@ import stonering.game.core.view.ui_components.Toolbar;
 import stonering.utils.global.StaticSkin;
 
 /**
+ * Menu for selecting building.
+ *
  * Created by Alexander on 25.01.2018.
  */
 public class BuildingMenu extends Menu {

@@ -10,9 +10,9 @@ import stonering.objects.local_actors.unit.UnitBlock;
 import java.util.ArrayList;
 
 /**
+ * Contains blocks, and physical parameters, and proxies to objects.
+ *
  * Created by Alexander on 10.06.2017.
- * <p>
- * Contains blocks, and physical parameters, and proxies to objects
  */
 public class LocalMap {
     private int[][][] material;

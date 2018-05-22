@@ -11,6 +11,7 @@ import stonering.game.core.view.ui_components.Toolbar;
 import stonering.global.utils.Position;
 
 /**
+ * Stores and renders all ui components on screen.
  * Created by Alexander on 12.10.2017.
  */
 public class UIDrawer {

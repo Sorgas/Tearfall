@@ -3,6 +3,8 @@ package stonering.enums.designations;
 import java.util.HashMap;
 
 /**
+ * Mapping of designation demarcation to ins sprites positions in atlas.
+ *
  * Created by Alexander on 27.12.2017.
  */
 public enum DesignationsTileMapping {

@@ -3,6 +3,8 @@ package stonering.enums.blocks;
 import java.util.HashMap;
 
 /**
+ * Enum of all block types.
+ *
  * Created by Alexander on 10.06.2017.
  */
 public enum BlockTypesEnum {

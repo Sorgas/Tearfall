@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
+/**
+ * Singleton map for all item types. types should have unique names.
+ */
 public class ItemTypeMap {
     private static ItemTypeMap instance;
     private HashMap<String, ItemType> types;

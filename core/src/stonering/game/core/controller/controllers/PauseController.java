@@ -12,9 +12,9 @@ import stonering.game.core.model.GameContainer;
 import stonering.game.core.view.GameView;
 
 /**
- * Created by Alexander on 25.12.2017.
+ * Pauses and unpauses game timer. Works with GameContainer directly
  *
- * works with GameContainer directly
+ * Created by Alexander on 25.12.2017.
  */
 public class PauseController extends Controller{
 

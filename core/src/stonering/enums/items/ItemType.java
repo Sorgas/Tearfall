@@ -5,6 +5,10 @@ import stonering.objects.local_actors.items.aspects.PropertyAspect;
 
 import java.util.ArrayList;
 
+/**
+ * Descriptior class of item. Stores all properties, valid to the whole type of items, not for specific ones.
+ * (e.g. not material, condition, ownership)
+ */
 public class ItemType {
     private String title;
     private ArrayList<PropertyAspect> aspects;

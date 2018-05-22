@@ -8,9 +8,10 @@ import stonering.game.core.view.ui_components.Toolbar;
 import java.util.HashMap;
 
 /**
- * Created by Alexander on 27.12.2017.
+ * Abstract menu for toolbar.
+ * Holds mappings of hotkeys to buttons and can simulate presses.
  *
- * holds mappings of hotkeys to buttons and can simulate presses
+ * Created by Alexander on 27.12.2017.
  */
 public abstract class Menu extends Table {
     protected HashMap<Character,Button> hotkeyMap;

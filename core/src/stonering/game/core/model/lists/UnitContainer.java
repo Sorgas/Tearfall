@@ -10,9 +10,9 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * Created by Alexander on 03.12.2017.
+ * Contains all Units on localMap.
  *
- * Contains all Units on localMap
+ * Created by Alexander on 03.12.2017.
  */
 public class UnitContainer {
     private GameContainer gameContainer;

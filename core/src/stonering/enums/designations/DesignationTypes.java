@@ -3,6 +3,8 @@ package stonering.enums.designations;
 import java.util.HashMap;
 
 /**
+ * Enum of designation types
+ *
  * Created by Alexander on 27.12.2017.
  */
 public enum DesignationTypes {

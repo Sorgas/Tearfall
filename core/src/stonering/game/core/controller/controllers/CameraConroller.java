@@ -12,9 +12,9 @@ import stonering.game.core.model.GameContainer;
 import stonering.game.core.view.GameView;
 
 /**
- * Created by Alexander on 25.12.2017.
+ * Controller for camera. Works with GameContainer directly.
  *
- * works with GAmeContainer directly
+ * Created by Alexander on 25.12.2017.
  */
 public class CameraConroller extends Controller{
 
@@ -22,6 +22,12 @@ public class CameraConroller extends Controller{
         super(container, view);
     }
 
+    /**
+     * Moves camera over local map. Game frame rendered around it.
+     * @param dx
+     * @param dy
+     * @param dz
+     */
     public void moveCamera(int dx, int dy, int dz) {
         container.getCamera().moveCamera(dx, dy, dz);
     }

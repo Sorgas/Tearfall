@@ -11,9 +11,9 @@ import stonering.game.core.model.GameContainer;
 import stonering.game.core.view.GameView;
 
 /**
- * Created by Alexander on 26.06.2017.
+ * Container for all controllers.
  *
- * container for all controllers.
+ * Created by Alexander on 26.06.2017.
  */
 public class GameController extends Controller {
     private DesignationsController designationsController;
@@ -38,7 +38,6 @@ public class GameController extends Controller {
         cameraConroller = new CameraConroller(container, view);
         pauseController = new PauseController(container, view);
         toolBarController = new ToolBarController(container, view);
-        toolBarController.setDesignationsController(designationsController);
     }
 
     private void initInputMultiplexer() {

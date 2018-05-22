@@ -10,10 +10,10 @@ import stonering.objects.local_actors.plants.Tree;
 import java.util.ArrayList;
 
 /**
- * Created by Alexander on 09.11.2017.
- * <p>
- * Contains plants on localMap. trees are stored by their parts.
+ * Contains plants on localMap. Trees are stored by their parts as separate plants.
  * Destroyed objects do not persist in container and their blocks are not in localMap.
+ *
+ * Created by Alexander on 09.11.2017.
  */
 public class PlantContainer {
     private ArrayList<Plant> plants;
@@ -62,6 +62,12 @@ public class PlantContainer {
 //                }
 //            }
 //        }
+    }
+
+    public void removePlant(Plant plant) {
+        if(plants.remove(plant)) {
+            localMap.setPlantBlock(plant.getPosition(), null);
+        }
     }
 
     public void setLocalMap(LocalMap localMap) {

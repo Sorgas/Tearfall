@@ -4,9 +4,9 @@ import stonering.enums.blocks.BlockTypesEnum;
 import stonering.global.utils.Position;
 
 /**
- * Created by Alexander on 10.12.2017.
- * <p>
  * Object selector and center for rendering.
+ *
+ * Created by Alexander on 10.12.2017.
  */
 public class GameCamera {
     private Position camera;
