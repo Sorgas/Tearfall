@@ -3,7 +3,11 @@ package stonering.objects.local_actors.plants;
 import stonering.enums.plants.PlantType;
 import stonering.global.utils.Position;
 
+import java.util.ArrayList;
+
 /**
+ * Represents plant
+ *
  * Created by Alexander on 19.10.2017.
  */
 public class Plant {
@@ -12,6 +16,8 @@ public class Plant {
     private PlantType type;
     private PlantBlock block;
     private int age;
+    private ArrayList<String> harvestProducts;
+    private ArrayList<String> cutProducts;
 
     public Plant(int age) {
         this.age = age;
@@ -71,5 +77,29 @@ public class Plant {
 
     public void setPosition(Position position) {
         this.position = position;
+    }
+
+    public Tree getTree() {
+        return tree;
+    }
+
+    public void setTree(Tree tree) {
+        this.tree = tree;
+    }
+
+    public ArrayList<String> getHarvestProducts() {
+        return harvestProducts;
+    }
+
+    public void setHarvestProducts(ArrayList<String> harvestProducts) {
+        this.harvestProducts = harvestProducts;
+    }
+
+    public ArrayList<String> getCutProducts() {
+        return cutProducts;
+    }
+
+    public void setCutProducts(ArrayList<String> cutProducts) {
+        this.cutProducts = cutProducts;
     }
 }

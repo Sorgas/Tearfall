@@ -6,9 +6,20 @@ import stonering.exceptions.DescriptionNotFoundException;
 import stonering.objects.local_actors.items.Item;
 import stonering.objects.local_actors.plants.Plant;
 
+import java.util.ArrayList;
+
+/**
+ * Generator for products from plants.
+ */
 public class PlantProductGenerator {
 
     public Item generateCutProduct(Plant plant) {
+        ArrayList<String> products = (ArrayList<String>) plant.getCutProducts().clone();
+        products.addAll(plant.getHarvestProducts());
+        products.forEach((product) -> );
+
+
+
         String[] productProperties = plant.getType().getCutProduct();
         if (productProperties == null) { // plant has no product
             return null;

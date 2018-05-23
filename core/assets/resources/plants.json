@@ -60,6 +60,36 @@
         }
     },
     {
+        "specimen":"bush",
+        "title":"bush",
+        "description":"Bush",
+        "minTemperature":"-40",
+        "maxTemperature":"40",
+        "minGrowingTemperature":"-40",
+        "maxGrowingTemperature":"40",
+        "minRainfall":"0",
+        "maxRainfall":"100",
+        "waterSource":["near", "far"],
+        //under, surface, near, far (multiple)
+        "lightNeed":["low", "high"],
+        // underground, low, high (multiple)
+        "soilType":"soil",
+        "atlasY":"0",
+        "atlasX":"0",
+        "materialName":"willow",
+        "harvestProduct":"berries",
+        "cutProduct":"branch",
+        "treeType":null,
+        "saplingTime":"0",
+        "color":{
+            "class":"color_c",
+            "r":"0",
+            "g":"1",
+            "b":"0",
+            "a":"1"
+        }
+    },
+    {
         "specimen":"willow",
         "title":"willow",
         "description":"Willow",

@@ -44,11 +44,9 @@ public class DigEffectAspect extends EffectAspect {
                 break;
             }
         }
-        try {
-            Material material = MaterialMap.getInstance().getMaterial(container.getLocalMap().getMaterial(action.getTargetPosition()));
+        Material material = MaterialMap.getInstance().getMaterial(container.getLocalMap().getMaterial(action.getTargetPosition()));
+        if(material != null) {
             leaveStone(material);
-        } catch (DescriptionNotFoundException e) {
-            e.printStackTrace();
         }
     }
 

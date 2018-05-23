@@ -64,6 +64,11 @@ public class PlantContainer {
 //        }
     }
 
+    /**
+     * Deletes plant from map and container
+     *
+     * @param plant
+     */
     public void removePlant(Plant plant) {
         if(plants.remove(plant)) {
             localMap.setPlantBlock(plant.getPosition(), null);
