@@ -8,6 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
+import java.io.File;
+
 /**
  * Created by Alexander on 02.04.2017.
  *
@@ -31,6 +33,11 @@ public class MainMenuModel {
 		stage.addActor(createTable());
 	}
 
+	public void reset() {
+		stage.dispose();
+		init();
+	}
+
 	private Table createTable() {
 		menuTable = new Table();
 		menuTable.defaults().height(30).width(300).pad(10,0,0,0);
@@ -48,18 +55,20 @@ public class MainMenuModel {
 		menuTable.add(newWorldButton);
 		menuTable.row();
 
-		TextButton startGameButton = new TextButton("Start game", game.getSkin());
-		startGameButton.addListener(new ChangeListener() {
-			@Override
-			public void changed(ChangeEvent event, Actor actor) {
-				game.switchWorldsSelectMenu();
-			}
-		});
-		menuTable.add(startGameButton);
-		menuTable.row();
+		if(worldExist()) {
+			TextButton startGameButton = new TextButton("Start game", game.getSkin());
+			startGameButton.addListener(new ChangeListener() {
+				@Override
+				public void changed(ChangeEvent event, Actor actor) {
+					game.switchWorldsSelectMenu();
+				}
+			});
+			menuTable.add(startGameButton);
+			menuTable.row();
 
-		menuTable.add(new TextButton("Load game", game.getSkin()));
-		menuTable.row();
+			menuTable.add(new TextButton("Load game", game.getSkin()));
+			menuTable.row();
+		}
 
 		menuTable.add(new TextButton("About", game.getSkin()));
 		menuTable.row();
@@ -76,16 +85,16 @@ public class MainMenuModel {
 		return menuTable;
 	}
 
+	private boolean worldExist() {
+		File file = new File("saves");
+		return file.exists() && file.listFiles() != null;
+	}
+
 	public void setView(MainMenuView view) {
 		this.view = view;
 	}
 
 	public Stage getStage() {
 		return stage;
-	}
-
-	public void reset() {
-		stage.dispose();
-		init();
 	}
 }

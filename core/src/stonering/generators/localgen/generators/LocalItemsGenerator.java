@@ -14,13 +14,11 @@ import stonering.objects.local_actors.items.Item;
 public class LocalItemsGenerator {
     private LocalGenContainer container;
     private LocalGenConfig config;
-    private LocalMap localMap;
     private ItemGenerator itemGenerator;
 
     public LocalItemsGenerator(LocalGenContainer container) {
         this.container = container;
         config = container.getConfig();
-        localMap = container.getLocalMap();
         itemGenerator = new ItemGenerator();
     }
 
@@ -30,6 +28,7 @@ public class LocalItemsGenerator {
 
     private void createItemInCenter(String itemType) {
         try {
+            LocalMap localMap = container.getLocalMap();
             Item pickaxe = itemGenerator.generateItem(itemType);
             for (int z = localMap.getzSize() - 1; z >= 0; z--) {
                 if (localMap.getBlockType(localMap.getxSize() / 2, localMap.getySize() / 2, z) != 0) {

@@ -29,6 +29,7 @@ public class ItemGenerator {
         Item item = new Item(null);
         item.setTitle(itemType.getTitle());
         item.setType(itemType);
+        itemType.getAspects().forEach(item::addAspect);
         return item;
     }
 }

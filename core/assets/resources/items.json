@@ -10,7 +10,7 @@
         "reactions":[
             "dig"
         ],
-        "reaction_args":[
+        "reactionArgs":[
             "1"
         ],
         "basicValue":"0",
@@ -35,7 +35,7 @@
         "reactions":[
             "lumber"
         ],
-        "reaction_args":[
+        "reactionArgs":[
             "1"
         ],
         "basicValue":"0",
@@ -60,7 +60,7 @@
         "reactions":[
             "burn"
         ],
-        "reaction_args":[
+        "reactionArgs":[
             "1"
         ],
         "basicValue":"0",
@@ -85,7 +85,7 @@
         "reactions":[
             "burn"
         ],
-        "reaction_args":[
+        "reactionArgs":[
             "1"
         ],
         "basicValue":"0",

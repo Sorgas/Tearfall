@@ -5,6 +5,7 @@ import stonering.game.core.model.GameContainer;
 import stonering.game.core.view.GameView;
 import stonering.game.core.view.ui_components.Toolbar;
 import stonering.game.core.view.ui_components.menus.DiggingMenu;
+import stonering.game.core.view.ui_components.menus.PlantsMenu;
 import stonering.global.utils.Position;
 
 /**
@@ -20,6 +21,7 @@ public class DesignationsController extends Controller {
     public DesignationsController(GameContainer container, GameView view) {
         super(container, view);
         ((DiggingMenu) view.getUiDrawer().getToolbar().getMenu(Toolbar.DIGGING)).setController(this);
+        ((PlantsMenu) view.getUiDrawer().getToolbar().getMenu(Toolbar.PLANTS)).setController(this);
     }
 
     /**

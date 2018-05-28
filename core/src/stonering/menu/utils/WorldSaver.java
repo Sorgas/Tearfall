@@ -47,6 +47,9 @@ public class WorldSaver {
 
 	private String makeSaveName() {
 		File root = new File("saves");
+		if(!root.exists()) {
+			root.mkdirs();
+		}
 		Set<String> set = new HashSet<>();
 		for (File file : root.listFiles()) {
 			if (file.getName().startsWith("save") && !file.getName().contains(".")) {

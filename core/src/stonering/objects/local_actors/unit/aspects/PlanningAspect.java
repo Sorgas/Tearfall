@@ -56,9 +56,7 @@ public class PlanningAspect extends Aspect {
     }
 
     private void repairTask() {
-        if (getTaskFromContainer()) {
-            updateTarget();
-        }
+        getTaskFromContainer();
     }
 
     private boolean getTaskFromContainer() {

@@ -10,7 +10,6 @@ import stonering.objects.local_actors.unit.Unit;
 
 public class Action {
     private Task task;
-    private ActionTypeEnum actionType;
     private Unit performer;
     private GameContainer gameContainer;
 
@@ -20,8 +19,7 @@ public class Action {
     private EffectAspect effectAspect;
     private RequirementsAspect requirementsAspect;
 
-    public Action(ActionTypeEnum actionType, GameContainer gameContainer) {
-        this.actionType = actionType;
+    public Action(GameContainer gameContainer) {
         this.gameContainer = gameContainer;
     }
 
@@ -37,14 +35,6 @@ public class Action {
 
     public Position getTargetPosition() {
         return targetAspect.getTargetPosition();
-    }
-
-    public ActionTypeEnum getActionType() {
-        return actionType;
-    }
-
-    public void setActionType(ActionTypeEnum actionType) {
-        this.actionType = actionType;
     }
 
     public TargetAspect getTargetAspect() {

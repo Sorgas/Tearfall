@@ -13,8 +13,8 @@ import java.util.ArrayList;
 public class PropertyAspect extends Aspect{
     private ArrayList<String> properties;
 
-    public PropertyAspect(String name, AspectHolder aspectHolder) {
-        super(name, aspectHolder);
+    public PropertyAspect() {
+        super("property", null);
         properties = new ArrayList<>();
     }
 

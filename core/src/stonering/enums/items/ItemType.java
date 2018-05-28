@@ -13,11 +13,11 @@ public class ItemType {
     private String title;
     private ArrayList<PropertyAspect> aspects;
     private ArrayList<String> reactions;
-    private ArrayList<Object> reactionArgs;
+    private ArrayList<String> reactionArgs;
+    private float basicValue;
     private int atlasX;
     private int atlasY;
     private Color color;
-    private float basicValue;
 
     public String getTitle() {
         return title;
@@ -43,11 +43,11 @@ public class ItemType {
         this.reactions = reactions;
     }
 
-    public ArrayList<Object> getReactionArgs() {
+    public ArrayList<String> getReactionArgs() {
         return reactionArgs;
     }
 
-    public void setReactionArgs(ArrayList<Object> reactionArgs) {
+    public void setReactionArgs(ArrayList<String> reactionArgs) {
         this.reactionArgs = reactionArgs;
     }
 

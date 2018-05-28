@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.game.core.view.ui_components.menus.BuildingMenu;
 import stonering.game.core.view.ui_components.menus.DiggingMenu;
 import stonering.game.core.view.ui_components.menus.Menu;
+import stonering.game.core.view.ui_components.menus.PlantsMenu;
 import stonering.utils.global.StaticSkin;
 
 import java.util.HashMap;
@@ -18,6 +19,7 @@ import java.util.HashMap;
 public class Toolbar extends Menu {
     public static final String TOOLBAR = "bar";
     public static final String DIGGING = "digging";
+    public static final String PLANTS = "plants";
     public static final String BUILDING = "building";
 
     private String activeMenu;
@@ -36,6 +38,7 @@ public class Toolbar extends Menu {
         this.pad(10);
         this.setFillParent(true);
         this.right().bottom();
+        this.add(initMenu(new PlantsMenu(), "P: plants", 'p', PLANTS));
         this.add(initMenu(new DiggingMenu(), "D: digging", 'd', DIGGING));
         this.add(initMenu(new BuildingMenu(), "B: building", 'b', BUILDING));
     }

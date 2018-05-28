@@ -52,7 +52,7 @@ public class LocalGeneratorContainer {
         localRampAndFloorPlacer.execute();
         localTemperatureGenerator.execute();
         localFloraGenerator.execute();
-//        localFaunaGenerator.execute();
+        localFaunaGenerator.execute();
 //        localFurnitureGenerator.execute();
         localItemsGenerator.execute();
     }

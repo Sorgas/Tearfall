@@ -27,7 +27,7 @@ public class PlantType {
     private int atlasY;
 
     private String harvestProduct;
-    private String cutProduct[];
+    private String[] cutProduct;
     private Color color;
 
     private TreeType treeType;

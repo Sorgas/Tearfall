@@ -8,6 +8,7 @@ import stonering.objects.jobs.Task;
 import stonering.objects.jobs.actions.Action;
 import stonering.objects.jobs.actions.ActionTypeEnum;
 import stonering.objects.jobs.actions.TaskTypesEnum;
+import stonering.objects.jobs.actions.aspects.effect.ChopTreeEffectAspect;
 import stonering.objects.jobs.actions.aspects.effect.DigEffectAspect;
 import stonering.objects.jobs.actions.aspects.requirements.EquippedItemRequirementAspect;
 import stonering.objects.jobs.actions.aspects.target.BlockTargetAspect;
@@ -16,8 +17,8 @@ import stonering.objects.local_actors.plants.PlantBlock;
 import java.util.ArrayList;
 
 /**
- * Contains all tasks for settlers on map.
- *
+ * Contains all tasks for settlers on map. Designations stored separately for updating tiles.
+ * <p>
  * Created by Alexander on 14.06.2017.
  */
 public class TaskContainer {
@@ -52,34 +53,53 @@ public class TaskContainer {
         tasks.add(task);
     }
 
-    public void addDesignation(Position position, DesignationTypes blockType) {
-        if (validateDesignations(position, blockType)) {
-            Designation designation = new Designation(position, blockType);
-            int index = designations.indexOf(designation);
-            if (index >= 0) {
-                tasks.remove(designation.task);
-                designations.add(index, designation);
-            } else {
-                designations.add(designation);
-            }
+    public void addDesignation(Position position, DesignationTypes type) {
+        if (validateDesignations(position, type)) {
+            Designation designation = new Designation(position, type);
             designation.task = createDesignationTask(designation);
-            tasks.add(designation.task);
-            container.getLocalMap().setDesignatedBlockType(designation.position, designation.type.getCode());
+            if(designation.task != null) {
+                int index = designations.indexOf(designation);
+                if (index >= 0) {
+                    tasks.remove(designation.task);
+                    designations.add(index, designation);
+                } else {
+                    designations.add(designation);
+                }
+                tasks.add(designation.task);
+                container.getLocalMap().setDesignatedBlockType(designation.position, designation.type.getCode());
+            }
         }
     }
 
     private Task createDesignationTask(Designation designation) {
-        Action action = new Action(ActionTypeEnum.DIG, container);
-        action.setEffectAspect(new DigEffectAspect(action, designation.type));
-        action.setTargetAspect(new BlockTargetAspect(action, designation.position));
-        action.setRequirementsAspect(new EquippedItemRequirementAspect(action, "tool", "dig"));
-        Task task = new Task("designation", TaskTypesEnum.DESIGNATION, action, this, container);
-        return task;
+        switch (designation.type) {
+            case DIG:
+            case RAMP:
+            case STAIRS:
+            case CHANNEL: {
+                Action action = new Action(container);
+                action.setEffectAspect(new DigEffectAspect(action, designation.type));
+                action.setTargetAspect(new BlockTargetAspect(action, designation.position));
+                action.setRequirementsAspect(new EquippedItemRequirementAspect(action, "tool", "dig"));
+                Task task = new Task("designation", TaskTypesEnum.DESIGNATION, action, this, container);
+                return task;
+            }
+            case CUT:
+            case CHOP: {
+                Action action = new Action(container);
+                action.setEffectAspect(new ChopTreeEffectAspect(action));
+                action.setTargetAspect(new BlockTargetAspect(action, designation.position));
+                action.setRequirementsAspect(new EquippedItemRequirementAspect(action, "tool", "lumber"));
+                Task task = new Task("designation", TaskTypesEnum.DESIGNATION, action, this, container);
+                return task;
+            }
+        }
+        return null;
     }
 
-    private boolean validateDesignations(Position position, DesignationTypes blockType) {
+    private boolean validateDesignations(Position position, DesignationTypes type) {
         BlockTypesEnum blockOnMap = BlockTypesEnum.getType(container.getLocalMap().getBlockType(position));
-        switch (blockType) {
+        switch (type) {
             case DIG: { //makes floor
                 return blockOnMap.equals(BlockTypesEnum.RAMP) ||
                         blockOnMap.equals(BlockTypesEnum.WALL) ||
@@ -93,7 +113,7 @@ public class TaskContainer {
                 return blockOnMap.equals(BlockTypesEnum.WALL);
             }
             case CHOP: {
-                PlantBlock block =container.getLocalMap().getPlantBlock(position);
+                PlantBlock block = container.getLocalMap().getPlantBlock(position);
                 return block != null &&
                         (blockOnMap.equals(BlockTypesEnum.SPACE) || blockOnMap.equals(BlockTypesEnum.FLOOR))
                         && block.getPlant().getType().isTree();

@@ -40,7 +40,7 @@ public class EquippedItemRequirementAspect extends RequirementsAspect {
     private boolean addActionToTask() {
         Item target = action.getGameContainer().getItemContainer().getItemWithAspect(itemAspect, requiredReaction);
         if (target != null) {
-            Action newAction = new Action(ActionTypeEnum.EQUIP, action.getGameContainer());
+            Action newAction = new Action(action.getGameContainer());
             newAction.setEffectAspect(new EquipItemEffectAspect(newAction));
             newAction.setTargetAspect(new ItemTargetAspect(action, target));
             newAction.setRequirementsAspect(new BodyPartRequirementAspect(newAction, "grab"));

@@ -78,7 +78,7 @@
         "atlasX":"0",
         "materialName":"willow",
         "harvestProduct":"berries",
-        "cutProduct":"branch",
+        "cutProduct":["branch"],
         "treeType":null,
         "saplingTime":"0",
         "color":{

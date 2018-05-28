@@ -8,6 +8,8 @@ import stonering.objects.local_actors.plants.Plant;
 import stonering.objects.local_actors.plants.PlantBlock;
 
 /**
+ * Generates single tile plants (not trees).
+ *
  * Created by Alexander on 05.04.2018.
  */
 public class PlantGenerator {
@@ -19,6 +21,7 @@ public class PlantGenerator {
         plant.setBlock(new PlantBlock(MaterialMap.getInstance().getId(plant.getType().getMaterialName()), TreeBlocksTypeEnum.SINGLE_PASSABLE.getCode()));
         plant.getBlock().setAtlasX(plant.getType().getAtlasX());
         plant.getBlock().setAtlasY(plant.getType().getAtlasY());
+        plant.getBlock().setPlant(plant);
         return plant;
     }
 }

@@ -14,17 +14,16 @@ import stonering.objects.local_actors.unit.Unit;
 public class LocalFaunaGenerator {
     private LocalGenContainer container;
     private LocalGenConfig config;
-    private LocalMap localMap;
     private CreatureGenerator creatureGenerator;
 
     public LocalFaunaGenerator(LocalGenContainer container) {
         this.container = container;
         config = container.getConfig();
-        localMap = container.getLocalMap();
         creatureGenerator = new CreatureGenerator();
     }
 
     public void execute() {
+        LocalMap localMap = container.getLocalMap();
         Unit unit = creatureGenerator.generateUnit("digger");
         unit.setLocalMap(localMap);
         container.getUnits().add(unit);

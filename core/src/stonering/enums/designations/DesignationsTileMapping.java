@@ -3,19 +3,21 @@ package stonering.enums.designations;
 import java.util.HashMap;
 
 /**
- * Mapping of designation demarcation to ins sprites positions in atlas.
- *
+ * Mapping of designation demarcation to sprites positions in atlas.
+ * <p>
  * Created by Alexander on 27.12.2017.
  */
 public enum DesignationsTileMapping {
-    DIG((byte) 1, (byte) 0),
-    STAIRS((byte) 2, (byte) 1),
-    RAMP((byte) 3, (byte) 2),
-    CHANNEL((byte) 4,(byte) 3);
+    DIG(1, 0),
+    STAIRS(2, 1),
+    RAMP(3, 2),
+    CHANNEL(4, 3),
+    CHOP(5, 4),
+    CUT(6, 5);
 
-    private byte code;
-    private byte atlasX;
-    private static HashMap<Byte, Byte> map;
+    private int code;
+    private int atlasX;
+    private static HashMap<Integer, Integer> map;
 
     static {
         map = new HashMap<>();
@@ -24,20 +26,20 @@ public enum DesignationsTileMapping {
         }
     }
 
-    DesignationsTileMapping(byte code, byte atlasX) {
+    DesignationsTileMapping(int code, int atlasX) {
         this.code = code;
         this.atlasX = atlasX;
     }
 
-    public byte getCode() {
+    public int getCode() {
         return code;
     }
 
-    public byte getAtlasX() {
+    public int getAtlasX() {
         return atlasX;
     }
 
-    public static byte getAtlasX(byte code) {
+    public static int getAtlasX(int code) {
         return map.get(code);
     }
 }
