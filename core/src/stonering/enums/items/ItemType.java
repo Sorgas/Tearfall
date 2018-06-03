@@ -1,7 +1,7 @@
 package stonering.enums.items;
 
 import com.badlogic.gdx.graphics.Color;
-import stonering.objects.local_actors.items.aspects.PropertyAspect;
+import stonering.objects.local_actors.items.aspects.TagAspect;
 
 import java.util.ArrayList;
 
@@ -11,7 +11,7 @@ import java.util.ArrayList;
  */
 public class ItemType {
     private String title;
-    private ArrayList<PropertyAspect> aspects;
+    private ArrayList<TagAspect> aspects;
     private ArrayList<String> reactions;
     private ArrayList<String> reactionArgs;
     private float basicValue;
@@ -27,11 +27,11 @@ public class ItemType {
         this.title = title;
     }
 
-    public ArrayList<PropertyAspect> getAspects() {
+    public ArrayList<TagAspect> getAspects() {
         return aspects;
     }
 
-    public void setAspects(ArrayList<PropertyAspect> aspects) {
+    public void setAspects(ArrayList<TagAspect> aspects) {
         this.aspects = aspects;
     }
 

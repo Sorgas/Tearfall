@@ -3,8 +3,8 @@
         "title":"pickaxe",
         "aspects":[
             {
-                "class" : "properties_c",
-                "properties" : ["tool"]
+                "class" : "tags_c",
+                "tags" : ["tool"]
             }
         ],
         "reactions":[
@@ -28,8 +28,8 @@
         "title":"axe",
         "aspects":[
             {
-                "class" : "properties_c",
-                "properties" : ["tool"]
+                "class" : "tags_c",
+                "tags" : ["tool"]
             }
         ],
         "reactions":[
@@ -53,8 +53,8 @@
         "title":"log",
         "aspects":[
             {
-                "class" : "properties_c",
-                "properties" : ["fuel"]
+                "class" : "tags_c",
+                "tags" : ["fuel"]
             }
         ],
         "reactions":[
@@ -78,8 +78,8 @@
         "title":"branch",
         "aspects":[
             {
-                "class" : "properties_c",
-                "properties" : ["fuel"]
+                "class" : "tags_c",
+                "tags" : ["fuel"]
             }
         ],
         "reactions":[

@@ -3,7 +3,7 @@ package stonering.objects.local_actors.unit.aspects;
 import stonering.objects.local_actors.Aspect;
 import stonering.objects.local_actors.AspectHolder;
 import stonering.objects.local_actors.items.Item;
-import stonering.objects.local_actors.items.aspects.PropertyAspect;
+import stonering.objects.local_actors.items.aspects.TagAspect;
 
 import java.util.ArrayList;
 
@@ -23,7 +23,7 @@ public class EquipmentAspect extends Aspect {
     public Item getItemWithAspectAndProperty(String aspectName, String property) {
         for (Item item : items) {
             if (item.getAspects().keySet().contains(aspectName)) {
-                if (((PropertyAspect) item.getAspects().get(aspectName)).getProperties().contains(property))
+                if (((TagAspect) item.getAspects().get(aspectName)).getTags().contains(property))
                     return item;
             }
         }

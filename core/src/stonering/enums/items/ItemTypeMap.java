@@ -3,7 +3,7 @@ package stonering.enums.items;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
-import stonering.objects.local_actors.items.aspects.PropertyAspect;
+import stonering.objects.local_actors.items.aspects.TagAspect;
 import stonering.utils.global.FileLoader;
 
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ public class ItemTypeMap {
         Json json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
         json.addClassTag("color_c", Color.class);
-        json.addClassTag("properties_c", PropertyAspect.class);
+        json.addClassTag("tags_c", TagAspect.class);
         ArrayList<ItemType> elements = json.fromJson(ArrayList.class, ItemType.class, FileLoader.getItemsFile());
         for (ItemType itemType : elements) {
             types.put(itemType.getTitle(), itemType);

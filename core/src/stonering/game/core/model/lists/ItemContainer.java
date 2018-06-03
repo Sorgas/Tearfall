@@ -3,7 +3,7 @@ package stonering.game.core.model.lists;
 import stonering.global.utils.Position;
 import stonering.objects.local_actors.Aspect;
 import stonering.objects.local_actors.items.Item;
-import stonering.objects.local_actors.items.aspects.PropertyAspect;
+import stonering.objects.local_actors.items.aspects.TagAspect;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -58,7 +58,7 @@ public class ItemContainer {
     public Item getItemWithAspect(String aspectName, String aspectArg) {
         for (Item item: items) {
             Aspect aspect = item.getAspects().get(aspectName);
-            if(aspect != null && ((PropertyAspect)aspect).hasProperty(aspectArg)) {
+            if(aspect != null && ((TagAspect)aspect).hasTag(aspectArg)) {
                 return item;
             }
         }
