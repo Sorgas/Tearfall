@@ -2,17 +2,10 @@
     {
         "title":"pickaxe",
         "aspects":[
-            {
-                "class" : "tags_c",
-                "tags" : ["tool"]
-            }
         ],
-        "reactions":[
-            "dig"
-        ],
-        "reactionArgs":[
-            "1"
-        ],
+        "properties":{
+            "digging_tool":"1"
+        },
         "basicValue":"0",
         "atlasY":"0",
         "atlasX":"0",
@@ -27,17 +20,10 @@
     {
         "title":"axe",
         "aspects":[
-            {
-                "class" : "tags_c",
-                "tags" : ["tool"]
-            }
         ],
-        "reactions":[
-            "lumber"
-        ],
-        "reactionArgs":[
-            "1"
-        ],
+        "properties":{
+            "chopping_tool":"1"
+        },
         "basicValue":"0",
         "atlasY":"0",
         "atlasX":"1",
@@ -52,17 +38,9 @@
     {
         "title":"log",
         "aspects":[
-            {
-                "class" : "tags_c",
-                "tags" : ["fuel"]
-            }
         ],
-        "reactions":[
-            "burn"
-        ],
-        "reactionArgs":[
-            "1"
-        ],
+        "properties":{
+        },
         "basicValue":"0",
         "atlasY":"0",
         "atlasX":"2",
@@ -77,17 +55,9 @@
     {
         "title":"branch",
         "aspects":[
-            {
-                "class" : "tags_c",
-                "tags" : ["fuel"]
-            }
         ],
-        "reactions":[
-            "burn"
-        ],
-        "reactionArgs":[
-            "1"
-        ],
+        "properties":{
+        },
         "basicValue":"0",
         "atlasY":"0",
         "atlasX":"3",

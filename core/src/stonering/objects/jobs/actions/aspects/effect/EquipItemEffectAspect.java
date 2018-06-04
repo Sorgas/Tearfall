@@ -13,7 +13,7 @@ import stonering.objects.local_actors.unit.aspects.EquipmentAspect;
 public class EquipItemEffectAspect extends EffectAspect {
 
     public EquipItemEffectAspect(Action action) {
-        super(action, 100);
+        super(action, 10);
     }
 
     @Override

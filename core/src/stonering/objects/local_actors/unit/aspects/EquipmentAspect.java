@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 /**
  * Created by Alexander on 03.01.2018.
- *
+ * <p>
  * manages all items equipped by unit
  */
 public class EquipmentAspect extends Aspect {
@@ -20,18 +20,16 @@ public class EquipmentAspect extends Aspect {
         items = new ArrayList<>();
     }
 
-    public Item getItemWithAspectAndProperty(String aspectName, String property) {
+    public Item getItemWithAspectAndProperty(String property) {
         for (Item item : items) {
-            if (item.getAspects().keySet().contains(aspectName)) {
-                if (((TagAspect) item.getAspects().get(aspectName)).getTags().contains(property))
-                    return item;
-            }
+            if (item.getType().getProperties().containsKey(property))
+                return item;
         }
         return null;
     }
 
     public void equipItem(Item item) {
-        if (item.getAspects().containsKey("tool")) {
+        if (true) { //TODO
             items.add(item);
             gameContainer.getItemContainer().removeItem(item);
         }

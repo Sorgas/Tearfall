@@ -21,6 +21,8 @@ public class Plant {
 
     public Plant(int age) {
         this.age = age;
+        harvestProducts = new ArrayList<>();
+        cutProducts = new ArrayList<>();
     }
 
     public PlantType getType() {

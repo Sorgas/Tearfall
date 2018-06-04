@@ -1,7 +1,6 @@
 package stonering.objects.jobs.actions.aspects.requirements;
 
 import stonering.objects.jobs.actions.Action;
-import stonering.objects.jobs.actions.ActionTypeEnum;
 import stonering.objects.jobs.actions.aspects.effect.EquipItemEffectAspect;
 import stonering.objects.jobs.actions.aspects.target.ItemTargetAspect;
 import stonering.objects.local_actors.Aspect;
@@ -15,20 +14,18 @@ import stonering.objects.local_actors.unit.aspects.EquipmentAspect;
  * creates action to equip one if needed and possible
  */
 public class EquippedItemRequirementAspect extends RequirementsAspect {
-    private String itemAspect;
-    private String requiredReaction;
+    private String requiredProperty;
 
-    public EquippedItemRequirementAspect(Action action, String itemAspect, String requiredReaction) {
+    public EquippedItemRequirementAspect(Action action, String requiredProperty) {
         super(action);
-        this.itemAspect = itemAspect;
-        this.requiredReaction = requiredReaction;
+        this.requiredProperty = requiredProperty;
     }
 
     @Override
     public boolean check() {
         Aspect aspect = action.getPerformer().getAspects().get("equipment");
         if (aspect != null) {
-            if (((EquipmentAspect) aspect).getItemWithAspectAndProperty(itemAspect, requiredReaction) != null) {
+            if (((EquipmentAspect) aspect).getItemWithAspectAndProperty(requiredProperty) != null) {
                 return true;
             } else {
                 return addActionToTask();
@@ -38,7 +35,7 @@ public class EquippedItemRequirementAspect extends RequirementsAspect {
     }
 
     private boolean addActionToTask() {
-        Item target = action.getGameContainer().getItemContainer().getItemWithAspect(itemAspect, requiredReaction);
+        Item target = action.getGameContainer().getItemContainer().getItemWithProperty(requiredProperty);
         if (target != null) {
             Action newAction = new Action(action.getGameContainer());
             newAction.setEffectAspect(new EquipItemEffectAspect(newAction));

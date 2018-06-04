@@ -3,6 +3,9 @@ package stonering.game.core.model.lists;
 import stonering.enums.materials.MaterialMap;
 import stonering.enums.plants.TreeTileMapping;
 import stonering.game.core.model.LocalMap;
+import stonering.generators.items.PlantProductGenerator;
+import stonering.global.utils.Position;
+import stonering.objects.local_actors.items.Item;
 import stonering.objects.local_actors.plants.Plant;
 import stonering.objects.local_actors.plants.PlantBlock;
 import stonering.objects.local_actors.plants.Tree;
@@ -12,7 +15,7 @@ import java.util.ArrayList;
 /**
  * Contains plants on localMap. Trees are stored by their parts as separate plants.
  * Destroyed objects do not persist in container and their blocks are not in localMap.
- *
+ * <p>
  * Created by Alexander on 09.11.2017.
  */
 public class PlantContainer {
@@ -70,7 +73,7 @@ public class PlantContainer {
      * @param plant
      */
     public void removePlant(Plant plant) {
-        if(plants.remove(plant)) {
+        if (plants.remove(plant)) {
             localMap.setPlantBlock(plant.getPosition(), null);
         }
     }

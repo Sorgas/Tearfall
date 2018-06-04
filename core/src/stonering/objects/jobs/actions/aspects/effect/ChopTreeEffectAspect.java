@@ -1,6 +1,7 @@
 package stonering.objects.jobs.actions.aspects.effect;
 
 import stonering.game.core.model.GameContainer;
+import stonering.game.core.model.lists.PlantContainer;
 import stonering.generators.items.PlantProductGenerator;
 import stonering.global.utils.Position;
 import stonering.objects.jobs.actions.Action;
@@ -24,11 +25,14 @@ public class ChopTreeEffectAspect extends EffectAspect {
     @Override
     protected void applyEffect() {
         Position pos = action.getTargetAspect().getTargetPosition();
-        Plant plant = container.getLocalMap().getPlantBlock(pos).getPlant();
-        if (plant.getType().isTree()) {
-            cutTree();
-        } else {
-            cutPlant();
+        PlantBlock block = container.getLocalMap().getPlantBlock(pos);
+        if (block != null) {
+            Plant plant = block.getPlant();
+            if (plant.getType().isTree()) {
+                cutTree(plant);
+            } else {
+                cutPlant(plant);
+            }
         }
     }
 
@@ -36,23 +40,30 @@ public class ChopTreeEffectAspect extends EffectAspect {
 
     }
 
-    private void cutTree() {
-
-    }
-
-    private void cutPlant() {
-        Position target = action.getTargetPosition();
-        Plant targetPlant = ((PlantTargetAspect) action.getTargetAspect()).getPlant();
-        if (container.getPlantContainer().getPlants().contains(targetPlant)) { //plant still persist
-            container.getPlantContainer().removePlant(targetPlant);
-            leavePlantProduct(targetPlant);
+    private void cutTree(Plant plant) {
+        PlantContainer plantContainer = container.getPlantContainer();
+        Plant[][][] blocks3 = plant.getTree().getBlocks();
+        for (Plant[][] blocks2 : blocks3) {
+            for (Plant[] blocks1 : blocks2) {
+                for (Plant plant1 : blocks1) {
+                    if (plant1 != null) {
+                        plantContainer.removePlant(plant1);
+                        leavePlantProduct(plant1);
+                        System.out.println("removed");
+                    }
+                }
+            }
         }
     }
 
+    private void cutPlant(Plant plant) {
+        container.getPlantContainer().removePlant(plant);
+        leavePlantProduct(plant);
+    }
+
     private void leavePlantProduct(Plant plant) {
-        Position target = action.getTargetPosition();
         Item item = new PlantProductGenerator().generateCutProduct(plant);
         if (item != null)
-            container.getItemContainer().addItem(item, target);
+            container.getItemContainer().addItem(item, plant.getPosition());
     }
 }

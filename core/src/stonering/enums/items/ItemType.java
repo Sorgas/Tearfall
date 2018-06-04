@@ -1,9 +1,10 @@
 package stonering.enums.items;
 
 import com.badlogic.gdx.graphics.Color;
-import stonering.objects.local_actors.items.aspects.TagAspect;
+import stonering.objects.local_actors.Aspect;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Descriptior class of item. Stores all properties, valid to the whole type of items, not for specific ones.
@@ -11,9 +12,8 @@ import java.util.ArrayList;
  */
 public class ItemType {
     private String title;
-    private ArrayList<TagAspect> aspects;
-    private ArrayList<String> reactions;
-    private ArrayList<String> reactionArgs;
+    private HashMap<String, Integer> properties;
+    private ArrayList<Aspect> aspects;
     private float basicValue;
     private int atlasX;
     private int atlasY;
@@ -27,28 +27,12 @@ public class ItemType {
         this.title = title;
     }
 
-    public ArrayList<TagAspect> getAspects() {
+    public ArrayList<Aspect> getAspects() {
         return aspects;
     }
 
-    public void setAspects(ArrayList<TagAspect> aspects) {
+    public void setAspects(ArrayList<Aspect> aspects) {
         this.aspects = aspects;
-    }
-
-    public ArrayList<String> getReactions() {
-        return reactions;
-    }
-
-    public void setReactions(ArrayList<String> reactions) {
-        this.reactions = reactions;
-    }
-
-    public ArrayList<String> getReactionArgs() {
-        return reactionArgs;
-    }
-
-    public void setReactionArgs(ArrayList<String> reactionArgs) {
-        this.reactionArgs = reactionArgs;
     }
 
     public int getAtlasX() {
@@ -81,5 +65,13 @@ public class ItemType {
 
     public void setBasicValue(float basicValue) {
         this.basicValue = basicValue;
+    }
+
+    public HashMap<String, Integer> getProperties() {
+        return properties;
+    }
+
+    public void setProperties(HashMap<String, Integer> properties) {
+        this.properties = properties;
     }
 }

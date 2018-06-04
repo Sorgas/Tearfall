@@ -57,7 +57,7 @@ public class TaskContainer {
         if (validateDesignations(position, type)) {
             Designation designation = new Designation(position, type);
             designation.task = createDesignationTask(designation);
-            if(designation.task != null) {
+            if (designation.task != null) {
                 int index = designations.indexOf(designation);
                 if (index >= 0) {
                     tasks.remove(designation.task);
@@ -80,7 +80,7 @@ public class TaskContainer {
                 Action action = new Action(container);
                 action.setEffectAspect(new DigEffectAspect(action, designation.type));
                 action.setTargetAspect(new BlockTargetAspect(action, designation.position));
-                action.setRequirementsAspect(new EquippedItemRequirementAspect(action, "tool", "dig"));
+                action.setRequirementsAspect(new EquippedItemRequirementAspect(action, "diging_tool"));
                 Task task = new Task("designation", TaskTypesEnum.DESIGNATION, action, this, container);
                 return task;
             }
@@ -89,7 +89,7 @@ public class TaskContainer {
                 Action action = new Action(container);
                 action.setEffectAspect(new ChopTreeEffectAspect(action));
                 action.setTargetAspect(new BlockTargetAspect(action, designation.position));
-                action.setRequirementsAspect(new EquippedItemRequirementAspect(action, "tool", "lumber"));
+                action.setRequirementsAspect(new EquippedItemRequirementAspect(action, "chopping_tool"));
                 Task task = new Task("designation", TaskTypesEnum.DESIGNATION, action, this, container);
                 return task;
             }

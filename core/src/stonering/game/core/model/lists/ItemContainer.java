@@ -11,7 +11,7 @@ import java.util.HashMap;
 
 /**
  * Manages all items on map
- *
+ * <p>
  * Created by Alexander on 14.06.2017.
  */
 public class ItemContainer {
@@ -55,12 +55,10 @@ public class ItemContainer {
         }
     }
 
-    public Item getItemWithAspect(String aspectName, String aspectArg) {
-        for (Item item: items) {
-            Aspect aspect = item.getAspects().get(aspectName);
-            if(aspect != null && ((TagAspect)aspect).hasTag(aspectArg)) {
+    public Item getItemWithProperty(String property) {
+        for (Item item : items) {
+            if (item.getType().getProperties().containsKey(property))
                 return item;
-            }
         }
         return null;
     }
