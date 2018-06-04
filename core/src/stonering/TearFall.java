@@ -6,9 +6,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import stonering.game.core.GameMvc;
-import stonering.game.core.model.LocalMap;
 import stonering.generators.localgen.LocalGenContainer;
-import stonering.menu.main.MainMenuMvc;
+import stonering.menu.main.MainMenu;
 import stonering.menu.new_game.local_generation.LocalGenerationMvc;
 import stonering.menu.new_game.prepare_expedition.PrepareExpeditionMenuMvc;
 import stonering.menu.new_game.select_location.SelectLocationMenuMvc;
@@ -21,7 +20,7 @@ import stonering.global.utils.Position;
  * Created by Alexander on 08.04.2017.
  */
 public class TearFall extends Game {
-	private MainMenuMvc mainMenuMvc;
+	private MainMenu mainMenu;
 	private WorldGenMvc worldGenMvc;
 	private SelectWorldMenuMvc selectWorldMenuMvc;
 	private SelectLocationMenuMvc selectLocationMenuMvc;
@@ -40,8 +39,8 @@ public class TearFall extends Game {
 	}
 
 	public void switchMainMenu() {
-		if(mainMenuMvc == null) mainMenuMvc = new MainMenuMvc(this);
-		setScreen(mainMenuMvc.getView());
+		if(mainMenu == null) mainMenu = new MainMenu(this);
+		setScreen(mainMenu);
 	}
 
 	public void switchWorldGenMenu() {

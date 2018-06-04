@@ -75,6 +75,7 @@ public class PlantContainer {
     public void removePlant(Plant plant) {
         if (plants.remove(plant)) {
             localMap.setPlantBlock(plant.getPosition(), null);
+            System.out.println("removed from map");
         }
     }
 
