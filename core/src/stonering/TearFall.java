@@ -12,9 +12,9 @@ import stonering.menu.new_game.local_generation.LocalGenerationScreen;
 import stonering.menu.new_game.prepare_expedition.PrepareExpeditionMenu;
 import stonering.menu.new_game.select_location.SelectLocationMenu;
 import stonering.menu.new_game.select_world.SelectWorldMenu;
-import stonering.menu.worldgen.WorldGenMvc;
 import stonering.generators.worldgen.WorldMap;
 import stonering.global.utils.Position;
+import stonering.menu.worldgen.WorldGenScreen;
 
 /**
  * s
@@ -22,7 +22,7 @@ import stonering.global.utils.Position;
  */
 public class TearFall extends Game {
     private MainMenu mainMenu;
-    private WorldGenMvc worldGenMvc;
+    private WorldGenScreen worldGenScreen;
     private SelectWorldMenu selectWorldMenu;
     private SelectLocationMenu selectLocationMenu;
     private PrepareExpeditionMenu prepareExpeditionMenuMvc;
@@ -45,8 +45,8 @@ public class TearFall extends Game {
     }
 
     public void switchWorldGenMenu() {
-        if (worldGenMvc == null) worldGenMvc = new WorldGenMvc(this);
-        setScreen(worldGenMvc.getView());
+        if (worldGenScreen == null) worldGenScreen = new WorldGenScreen(this);
+        setScreen(worldGenScreen);
     }
 
     public void switchWorldsSelectMenu() {

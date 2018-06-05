@@ -1,6 +1,5 @@
 package stonering.menu.worldgen;
 
-import stonering.TearFall;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
@@ -10,33 +9,45 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
-import stonering.menu.mvc_interfaces.GameView;
+import stonering.TearFall;
+import stonering.generators.worldgen.WorldGenConfig;
+import stonering.generators.worldgen.WorldGenContainer;
+import stonering.generators.worldgen.WorldGeneratorContainer;
+import stonering.generators.worldgen.WorldMap;
 import stonering.menu.ui_components.MiniMap;
 import stonering.menu.utils.WorldCellInfo;
+import stonering.menu.utils.WorldSaver;
 
-public class WorldGenView implements GameView, Screen {
-    private WorldGenModel model;
-    private WorldGenController controller;
+import java.util.Random;
 
+/**
+ * Created by Alexander on 06.03.2017.
+ */
+public class WorldGenScreen implements Screen {
+    private WorldGenContainer worldGenContainer;
+    private WorldGeneratorContainer worldGeneratorContainer;
+    private WorldMap map;
+    private long seed; // gets updated from ui
+    private int worldSize = 100; // changed from ui
+    private TearFall game;
+    private Random random;
     private Stage stage;
     private MiniMap minimap;
     private WorldCellInfo worldCellInfo;
-    private TearFall game;
 
     private TextField seedField;
 
     private Label worldInfoLabel;
 
-    public WorldGenView(TearFall game) {
+    public WorldGenScreen(TearFall game) {
         this.game = game;
         worldCellInfo = new WorldCellInfo();
+        random = new Random();
+        seed = random.nextLong();
     }
 
     @Override
     public void show() {
-        stage = new Stage();
-        init();
-        Gdx.input.setInputProcessor(stage);
     }
 
     @Override
@@ -51,7 +62,7 @@ public class WorldGenView implements GameView, Screen {
 
     @Override
     public void resize(int width, int height) {
-        stage.dispose();
+        if (stage != null) stage.dispose();
         stage = new Stage();
         init();
         Gdx.input.setInputProcessor(stage);
@@ -86,12 +97,6 @@ public class WorldGenView implements GameView, Screen {
         stage.addActor(rootTable);
     }
 
-    private Table createMinimap() {
-        minimap = new MiniMap(new Texture("sprites/map_tiles.png"));
-        minimap.setMap(model.getMap());
-        return minimap;
-    }
-
     private Table createMenuTable() {
         Table menuTable = new Table();
         menuTable.defaults().prefHeight(30).padBottom(10);
@@ -102,15 +107,15 @@ public class WorldGenView implements GameView, Screen {
         menuTable.add(new Label("Seed: ", game.getSkin()));
         menuTable.row();
 
-        seedField = new TextField(new Long(model.getSeed()).toString(), game.getSkin());
+        seedField = new TextField(new Long(seed).toString(), game.getSkin());
         menuTable.add(seedField);
 
         TextButton randButton = new TextButton("R", game.getSkin());
         randButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                controller.randomizeSeed();
-                seedField.setText(new Long(model.getSeed()).toString());
+                randomizeSeed();
+                seedField.setText(new Long(seed).toString());
             }
         });
         menuTable.add(randButton);
@@ -120,14 +125,14 @@ public class WorldGenView implements GameView, Screen {
         menuTable.row();
 
         Slider worldSizeSlider = new Slider(100, 500, 100, false, game.getSkin());
-        worldSizeSlider.setValue(model.getWorldSize());
-        Label worldSizeLabel = new Label(new Integer(model.getWorldSize()).toString(), game.getSkin());
+        worldSizeSlider.setValue(worldSize);
+        Label worldSizeLabel = new Label(new Integer(worldSize).toString(), game.getSkin());
 
         worldSizeSlider.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 int size = Math.round(((Slider) actor).getValue());
-                model.setWorldSize(size);
+                setWorldSize(size);
                 worldSizeLabel.setText(new Integer(size).toString());
             }
         });
@@ -147,8 +152,8 @@ public class WorldGenView implements GameView, Screen {
         generateButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                controller.generateWorld();
-                minimap.setMap(model.getMap());
+                generateWorld();
+                minimap.setMap(map);
             }
         });
         menuTable.add(generateButton).colspan(2);
@@ -158,7 +163,7 @@ public class WorldGenView implements GameView, Screen {
         saveButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                controller.saveMap();
+                saveMap();
             }
         });
         menuTable.add(saveButton).colspan(2);
@@ -175,6 +180,12 @@ public class WorldGenView implements GameView, Screen {
         return menuTable;
     }
 
+    private Table createMinimap() {
+        minimap = new MiniMap(new Texture("sprites/map_tiles.png"));
+        minimap.setMap(map);
+        return minimap;
+    }
+
     private void checkInput() {
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             minimap.moveFocus(1, 0);
@@ -189,22 +200,53 @@ public class WorldGenView implements GameView, Screen {
     }
 
     private void writeWorldInfoToLabel() {
-        if (model.getMap() != null) {
+        if (map != null) {
             int x = minimap.getFocus().getX();
             int y = minimap.getFocus().getY();
-            worldInfoLabel.setText(worldCellInfo.getCellInfo(x, y, Math.round(model.getMap().getElevation(x, y)), model.getMap().getSummerTemperature(x, y), model.getMap().getRainfall(x,y)));
+            worldInfoLabel.setText(worldCellInfo.getCellInfo(x, y, Math.round(map.getElevation(x, y)),
+                    map.getSummerTemperature(x, y),
+                    map.getRainfall(x, y)));
         }
-    }
-
-    public void setModel(WorldGenModel model) {
-        this.model = model;
-    }
-
-    public void setController(WorldGenController controller) {
-        this.controller = controller;
     }
 
     public void setGame(TearFall game) {
         this.game = game;
+    }
+
+    public void generateWorld() { //from ui button
+        WorldGenConfig config = new WorldGenConfig(seed, worldSize, worldSize);
+        worldGeneratorContainer = new WorldGeneratorContainer();
+        worldGeneratorContainer.init(config);
+        worldGeneratorContainer.runContainer();
+        map = worldGeneratorContainer.getWorldMap();
+    }
+
+    public void randomizeSeed() {
+        seed = random.nextLong();
+    }
+
+    public void saveMap() {
+        new WorldSaver().saveWorld(map);
+        game.switchMainMenu();
+    }
+
+    public WorldMap getMap() {
+        return map;
+    }
+
+    public void setSeed(long seed) {
+        this.seed = seed;
+    }
+
+    public long getSeed() {
+        return seed;
+    }
+
+    public int getWorldSize() {
+        return worldSize;
+    }
+
+    public void setWorldSize(int worldSize) {
+        this.worldSize = worldSize;
     }
 }

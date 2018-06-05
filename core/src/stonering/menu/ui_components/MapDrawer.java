@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import stonering.menu.worldgen.WorldGenModel;
+import stonering.menu.worldgen.WorldGenScreen;
 import stonering.generators.worldgen.WorldGenContainer;
 import stonering.generators.worldgen.WorldMap;
 import stonering.generators.worldgen.world_objects.Edge;
@@ -23,7 +23,7 @@ import java.util.List;
  * Can perform detailed render of world map for debug purposes
  */
 public class MapDrawer {
-    private WorldGenModel model;
+    private WorldGenScreen model;
     private WorldGenContainer container;
     private float tileSize = 2f;
     private float tileScale = 1f;
@@ -230,7 +230,7 @@ public class MapDrawer {
         spriteBatch.draw(new TextureRegion(tiles, tileX * 8, tileY * 8, 8, 8), tileOffsetX + x * 8 * tileScale, tileOffsetY + y * 8 * tileScale, 8 * tileScale, 8 * tileScale);
     }
 
-    public void setModel(WorldGenModel model) {
+    public void setModel(WorldGenScreen model) {
         this.model = model;
     }
 }
