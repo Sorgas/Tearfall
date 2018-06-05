@@ -8,14 +8,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.TearFall;
-import stonering.menu.mvc_interfaces.GameView;
 
 import java.io.File;
 
 /**
+ * Main menu of the game.
+ *
  * Created by Alexander on 02.04.2017.
  */
-public class MainMenu implements GameView, Screen {
+public class MainMenu implements Screen {
     private TearFall game;
     private Stage stage;
 

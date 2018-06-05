@@ -1,4 +1,4 @@
-package stonering.menu.new_game.select_world;
+package stonering.menu.new_game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -13,7 +13,6 @@ import stonering.TearFall;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
-import stonering.menu.mvc_interfaces.GameModel;
 import stonering.generators.worldgen.WorldMap;
 import stonering.menu.ui_components.MiniMap;
 import stonering.menu.ui_components.WorldListItem;
@@ -22,11 +21,12 @@ import stonering.menu.utils.WorldSaver;
 import java.io.File;
 
 /**
+ * Screen for selecting world file for game start.
+ *
  * Created by Alexander on 14.04.2017.
  */
 public class SelectWorldMenu implements Screen {
     private WorldMap world;
-    private Table table;
     private TearFall game;
     private Stage stage;
     private List<WorldListItem> worldList;

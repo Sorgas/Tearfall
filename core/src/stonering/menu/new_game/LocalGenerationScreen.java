@@ -1,41 +1,43 @@
-package stonering.menu.new_game.prepare_expedition;
+package stonering.menu.new_game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import stonering.TearFall;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.utils.Array;
+import stonering.generators.localgen.LocalGenConfig;
+import stonering.generators.localgen.LocalGeneratorContainer;
+import stonering.game.core.model.LocalMap;
 import stonering.generators.worldgen.WorldMap;
-import stonering.menu.ui_components.WorldListItem;
 import stonering.global.utils.Position;
-
-import java.io.File;
+import stonering.menu.ui_components.LabeledProgressBar;
 
 /**
- * Created by Alexander on 14.04.2017.
+ * Local generation screen to be shown during local generation.
+ * //TODO progress bar and some visualization.
+ *
+ * Created by Alexander on 01.06.2017.
  */
-public class PrepareExpeditionMenu implements Screen {
-    private TearFall game;
-    private Stage stage;
+public class LocalGenerationScreen implements Screen {
+    private LocalGeneratorContainer localGeneratorContainer;
     private WorldMap world;
     private Position location;
+    private LocalMap localMap;
+    private Stage stage;
+    private TearFall game;
+    private LabeledProgressBar progressBar;
 
-    public PrepareExpeditionMenu(TearFall game) {
+    public LocalGenerationScreen(TearFall game) {
         this.game = game;
     }
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(stage);
-        stage = new Stage();
-        init();
-        Gdx.input.setInputProcessor(stage);
+        generateLocal();
     }
 
     @Override
@@ -47,8 +49,7 @@ public class PrepareExpeditionMenu implements Screen {
 
     @Override
     public void resize(int width, int height) {
-        stage.dispose();
-        stage = new Stage();
+        if (stage != null) stage.dispose();
         init();
         Gdx.input.setInputProcessor(stage);
     }
@@ -73,16 +74,8 @@ public class PrepareExpeditionMenu implements Screen {
 
     }
 
-    public Array<WorldListItem> getWorldListItems() {
-        File root = new File("saves");
-        Array<WorldListItem> list = new Array<>();
-        for (File file : root.listFiles()) {
-            list.add(new WorldListItem(file.getName(), file));
-        }
-        return list;
-    }
-
     private void init() {
+        stage = new Stage();
         stage.setDebugAll(true);
         Table rootTable = new Table();
         rootTable.setFillParent(true);
@@ -96,55 +89,42 @@ public class PrepareExpeditionMenu implements Screen {
         Table menuTable = new Table();
         menuTable.defaults().prefHeight(30).prefWidth(300).padBottom(10).minWidth(300);
         menuTable.align(Align.bottomLeft);
-
-        menuTable.add(new Label("Prepare to advance", game.getSkin())).row();
-
-        menuTable.add().expandY();
+        progressBar = new LabeledProgressBar("Generation", game.getSkin());
+        menuTable.add(progressBar);
         menuTable.row();
-
-        TextButton proceedButton = new TextButton("Start", game.getSkin());
+        TextButton proceedButton = new TextButton("Proceed", game.getSkin());
         proceedButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.switchToLocalGen(getWorld(), getLocation());
+                game.switchToGame(getLocalGeneratorContainer().getLocalGenContainer());
             }
         });
-        menuTable.add(proceedButton);
-        menuTable.row();
-
-        TextButton backButton = new TextButton("Back", game.getSkin());
-        backButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                game.switchLocationSelectMenu(getWorld());
-            }
-        });
-        menuTable.add(backButton).colspan(2).pad(0);
-
+        menuTable.add(proceedButton).pad(0);
+        stage.addActor(menuTable);
         return menuTable;
-    }
-
-    public void checkInput() {
-
-    }
-
-    public Stage getStage() {
-        return stage;
     }
 
     public void setWorld(WorldMap world) {
         this.world = world;
     }
 
-    public WorldMap getWorld() {
-        return world;
-    }
-
     public void setLocation(Position location) {
         this.location = location;
     }
 
-    public Position getLocation() {
-        return location;
+    public void generateLocal() {
+        LocalGenConfig config = new LocalGenConfig();
+        config.setLocation(location);
+        localGeneratorContainer = new LocalGeneratorContainer(config, world);
+        localGeneratorContainer.execute();
+        localMap = localGeneratorContainer.getLocalMap();
+    }
+
+    public LocalMap getLocalMap() {
+        return localMap;
+    }
+
+    public LocalGeneratorContainer getLocalGeneratorContainer() {
+        return localGeneratorContainer;
     }
 }
