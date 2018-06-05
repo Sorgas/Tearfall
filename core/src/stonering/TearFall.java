@@ -10,7 +10,7 @@ import stonering.generators.localgen.LocalGenContainer;
 import stonering.menu.main.MainMenu;
 import stonering.menu.new_game.local_generation.LocalGenerationScreen;
 import stonering.menu.new_game.prepare_expedition.PrepareExpeditionMenu;
-import stonering.menu.new_game.select_location.SelectLocationMenuMvc;
+import stonering.menu.new_game.select_location.SelectLocationMenu;
 import stonering.menu.new_game.select_world.SelectWorldMenu;
 import stonering.menu.worldgen.WorldGenMvc;
 import stonering.generators.worldgen.WorldMap;
@@ -24,7 +24,7 @@ public class TearFall extends Game {
     private MainMenu mainMenu;
     private WorldGenMvc worldGenMvc;
     private SelectWorldMenu selectWorldMenu;
-    private SelectLocationMenuMvc selectLocationMenuMvc;
+    private SelectLocationMenu selectLocationMenu;
     private PrepareExpeditionMenu prepareExpeditionMenuMvc;
     private LocalGenerationScreen localGenerationScreen;
     private GameMvc gameMvc;
@@ -40,7 +40,8 @@ public class TearFall extends Game {
     }
 
     public void switchMainMenu() {
-        setScreen(mainMenu != null ? mainMenu : new MainMenu(this));
+        if (mainMenu == null) mainMenu = new MainMenu(this);
+        setScreen(mainMenu);
     }
 
     public void switchWorldGenMenu() {
@@ -49,13 +50,14 @@ public class TearFall extends Game {
     }
 
     public void switchWorldsSelectMenu() {
-        setScreen(selectWorldMenu != null ? selectWorldMenu : new SelectWorldMenu(this));
+        if (selectWorldMenu == null) selectWorldMenu = new SelectWorldMenu(this);
+        setScreen(selectWorldMenu);
     }
 
     public void switchLocationSelectMenu(WorldMap world) {
-        if (selectLocationMenuMvc == null) selectLocationMenuMvc = new SelectLocationMenuMvc(this);
-        selectLocationMenuMvc.getModel().setWorld(world);
-        setScreen(selectLocationMenuMvc.getView());
+        if (selectLocationMenu == null) selectLocationMenu = new SelectLocationMenu(this);
+        selectLocationMenu.setWorld(world);
+        setScreen(selectLocationMenu);
     }
 
     public void switchPrepareExpeditionMenu(WorldMap world, Position location) {
