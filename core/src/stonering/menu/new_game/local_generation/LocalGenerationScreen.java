@@ -9,25 +9,32 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import stonering.TearFall;
+import stonering.generators.localgen.LocalGenConfig;
+import stonering.generators.localgen.LocalGeneratorContainer;
+import stonering.game.core.model.LocalMap;
+import stonering.generators.worldgen.WorldMap;
+import stonering.global.utils.Position;
 import stonering.menu.ui_components.LabeledProgressBar;
 
 /**
- * Created by Alexander on 31.05.2017.
+ * Created by Alexander on 01.06.2017.
  */
-public class LocalGenerationView implements Screen{
-    private TearFall game;
-    private LocalGenerationModel model;
-
+public class LocalGenerationScreen implements Screen {
+    private LocalGeneratorContainer localGeneratorContainer;
+    private WorldMap world;
+    private Position location;
+    private LocalMap localMap;
     private Stage stage;
+    private TearFall game;
     private LabeledProgressBar progressBar;
 
-    public LocalGenerationView(TearFall game) {
+    public LocalGenerationScreen(TearFall game) {
         this.game = game;
     }
 
     @Override
     public void show() {
-        model.generateLocal();
+        generateLocal();
     }
 
     @Override
@@ -39,7 +46,7 @@ public class LocalGenerationView implements Screen{
 
     @Override
     public void resize(int width, int height) {
-        if(stage != null) stage.dispose();
+        if (stage != null) stage.dispose();
         init();
         Gdx.input.setInputProcessor(stage);
     }
@@ -86,7 +93,7 @@ public class LocalGenerationView implements Screen{
         proceedButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.switchToGame(model.getLocalGeneratorContainer().getLocalGenContainer());
+                game.switchToGame(getLocalGeneratorContainer().getLocalGenContainer());
             }
         });
         menuTable.add(proceedButton).pad(0);
@@ -94,7 +101,27 @@ public class LocalGenerationView implements Screen{
         return menuTable;
     }
 
-    public void setModel(LocalGenerationModel model) {
-        this.model = model;
+    public void setWorld(WorldMap world) {
+        this.world = world;
+    }
+
+    public void setLocation(Position location) {
+        this.location = location;
+    }
+
+    public void generateLocal() {
+        LocalGenConfig config = new LocalGenConfig();
+        config.setLocation(location);
+        localGeneratorContainer = new LocalGeneratorContainer(config, world);
+        localGeneratorContainer.execute();
+        localMap = localGeneratorContainer.getLocalMap();
+    }
+
+    public LocalMap getLocalMap() {
+        return localMap;
+    }
+
+    public LocalGeneratorContainer getLocalGeneratorContainer() {
+        return localGeneratorContainer;
     }
 }

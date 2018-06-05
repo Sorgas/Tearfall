@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import stonering.game.core.GameMvc;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.menu.main.MainMenu;
-import stonering.menu.new_game.local_generation.LocalGenerationMvc;
+import stonering.menu.new_game.local_generation.LocalGenerationScreen;
 import stonering.menu.new_game.prepare_expedition.PrepareExpeditionMenuMvc;
 import stonering.menu.new_game.select_location.SelectLocationMenuMvc;
 import stonering.menu.new_game.select_world.SelectWorldMenu;
@@ -25,7 +25,7 @@ public class TearFall extends Game {
 	private SelectWorldMenu selectWorldMenu;
 	private SelectLocationMenuMvc selectLocationMenuMvc;
 	private PrepareExpeditionMenuMvc prepareExpeditionMenuMvc;
-	private LocalGenerationMvc localGenerationMvc;
+	private LocalGenerationScreen localGenerationScreen;
 	private GameMvc gameMvc;
 
 	private BitmapFont font;
@@ -65,10 +65,10 @@ public class TearFall extends Game {
 	}
 
 	public void switchToLocalGen(WorldMap world, Position location) {
-		if(localGenerationMvc == null) localGenerationMvc = new LocalGenerationMvc(this);
-		localGenerationMvc.getModel().setWorld(world);
-		localGenerationMvc.getModel().setLocation(location);
-		setScreen(localGenerationMvc.getView());
+		if(localGenerationScreen == null) localGenerationScreen = new LocalGenerationScreen(this);
+		localGenerationScreen.setWorld(world);
+		localGenerationScreen.setLocation(location);
+		setScreen(localGenerationScreen);
 	}
 
 	public void switchToGame(LocalGenContainer container) {
