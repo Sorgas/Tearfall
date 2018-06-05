@@ -1,36 +1,77 @@
 package stonering.menu.new_game.select_world;
 
-import stonering.TearFall;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
-import stonering.menu.utils.WorldSaver;
+import stonering.TearFall;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Array;
+import stonering.menu.mvc_interfaces.GameModel;
 import stonering.generators.worldgen.WorldMap;
 import stonering.menu.ui_components.MiniMap;
 import stonering.menu.ui_components.WorldListItem;
+import stonering.menu.utils.WorldSaver;
+
+import java.io.File;
 
 /**
  * Created by Alexander on 14.04.2017.
  */
-public class SelectWorldMenuView implements Screen {
+public class SelectWorldMenu implements Screen {
+    private WorldMap world;
+    private Table table;
     private TearFall game;
-    private SelectWorldMenuController controller;
-    private SelectWorldMenuModel model;
     private Stage stage;
     private List<WorldListItem> worldList;
     private MiniMap minimap;
 
-
-    public SelectWorldMenuView(TearFall game) {
+    public SelectWorldMenu(TearFall game) {
         this.game = game;
+    }
+
+    public void init() {
+        stage.setDebugAll(true);
+        Table rootTable = new Table();
+        rootTable.setFillParent(true);
+        rootTable.defaults().fill().expandY().space(10);
+        rootTable.pad(10).align(Align.bottomLeft);
+        rootTable.add(createMenuTable());
+        rootTable.add(createMinimap()).expandX();
+        stage.addActor(rootTable);
+    }
+
+    public Array<WorldListItem> getWorldListItems() {
+        File root = new File("saves");
+        Array<WorldListItem> list = new Array<>();
+        if (root.exists()) {
+            for (File file : root.listFiles()) {
+                list.add(new WorldListItem(file.getName(), file));
+            }
+        }
+        return list;
+    }
+
+    public void checkInput() {
+
+    }
+
+    public Stage getStage() {
+        return stage;
+    }
+
+    public void setWorld(WorldMap world) {
+        this.world = world;
+    }
+
+    public WorldMap getWorld() {
+        return world;
     }
 
     @Override
@@ -45,7 +86,7 @@ public class SelectWorldMenuView implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(Gdx.gl20.GL_COLOR_BUFFER_BIT | Gdx.gl20.GL_DEPTH_BUFFER_BIT);
-        model.checkInput();
+        checkInput();
         stage.draw();
     }
 
@@ -77,17 +118,6 @@ public class SelectWorldMenuView implements Screen {
 
     }
 
-    private void init() {
-        stage.setDebugAll(true);
-        Table rootTable = new Table();
-        rootTable.setFillParent(true);
-        rootTable.defaults().fill().expandY().space(10);
-        rootTable.pad(10).align(Align.bottomLeft);
-        rootTable.add(createMenuTable());
-        rootTable.add(createMinimap()).expandX();
-        stage.addActor(rootTable);
-    }
-
     private Table createMenuTable() {
         Table menuTable = new Table();
         menuTable.defaults().prefHeight(30).prefWidth(300).padBottom(10).minWidth(300);
@@ -106,7 +136,7 @@ public class SelectWorldMenuView implements Screen {
         proceedButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.switchLocationSelectMenu(model.getWorld());
+                game.switchLocationSelectMenu(getWorld());
             }
         });
         menuTable.add(proceedButton);
@@ -129,7 +159,7 @@ public class SelectWorldMenuView implements Screen {
         WorldListItem item = worldList.getSelected();
         if (item != null) {
             WorldMap map = new WorldSaver().loadWorld(item.getTitle());
-            model.setWorld(map);
+            setWorld(map);
             minimap.setMap(map);
         }
         return minimap;
@@ -137,12 +167,12 @@ public class SelectWorldMenuView implements Screen {
 
     private List<WorldListItem> createWorldList() {
         worldList = new List<>(game.getSkin());
-        worldList.setItems(model.getWorldListItems());
+        worldList.setItems(getWorldListItems());
         worldList.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 WorldMap world = new WorldSaver().loadWorld(((List<WorldListItem>) actor).getSelected().getTitle());
-                model.setWorld(world);
+                setWorld(world);
                 minimap.setMap(world);
             }
         });
@@ -150,13 +180,5 @@ public class SelectWorldMenuView implements Screen {
             worldList.setSelected(worldList.getItems().get(0));
         }
         return worldList;
-    }
-
-    public void setController(SelectWorldMenuController controller) {
-        this.controller = controller;
-    }
-
-    public void setModel(SelectWorldMenuModel model) {
-        this.model = model;
     }
 }

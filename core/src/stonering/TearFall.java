@@ -11,7 +11,7 @@ import stonering.menu.main.MainMenu;
 import stonering.menu.new_game.local_generation.LocalGenerationMvc;
 import stonering.menu.new_game.prepare_expedition.PrepareExpeditionMenuMvc;
 import stonering.menu.new_game.select_location.SelectLocationMenuMvc;
-import stonering.menu.new_game.select_world.SelectWorldMenuMvc;
+import stonering.menu.new_game.select_world.SelectWorldMenu;
 import stonering.menu.worldgen.WorldGenMvc;
 import stonering.generators.worldgen.WorldMap;
 import stonering.global.utils.Position;
@@ -22,7 +22,7 @@ import stonering.global.utils.Position;
 public class TearFall extends Game {
 	private MainMenu mainMenu;
 	private WorldGenMvc worldGenMvc;
-	private SelectWorldMenuMvc selectWorldMenuMvc;
+	private SelectWorldMenu selectWorldMenu;
 	private SelectLocationMenuMvc selectLocationMenuMvc;
 	private PrepareExpeditionMenuMvc prepareExpeditionMenuMvc;
 	private LocalGenerationMvc localGenerationMvc;
@@ -39,8 +39,7 @@ public class TearFall extends Game {
 	}
 
 	public void switchMainMenu() {
-		if(mainMenu == null) mainMenu = new MainMenu(this);
-		setScreen(mainMenu);
+		setScreen(mainMenu != null ? mainMenu : new MainMenu(this));
 	}
 
 	public void switchWorldGenMenu() {
@@ -49,8 +48,7 @@ public class TearFall extends Game {
 	}
 
 	public void switchWorldsSelectMenu() {
-		if(selectWorldMenuMvc == null) selectWorldMenuMvc = new SelectWorldMenuMvc(this);
-		setScreen(selectWorldMenuMvc.getView());
+		setScreen(selectWorldMenu != null ? selectWorldMenu : new SelectWorldMenu(this));
 	}
 
 	public void switchLocationSelectMenu(WorldMap world) {
