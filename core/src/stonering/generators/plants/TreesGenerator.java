@@ -16,6 +16,7 @@ import java.util.Random;
 public class TreesGenerator {
 
     public Tree generateTree(String speciment, int age) throws DescriptionNotFoundException {
+        Plant plant = new Plant(0);
         PlantType plantType = PlantMap.getInstance().getPlantType(speciment);
         TreeType treeType = plantType.getTreeType();
         int material = MaterialMap.getInstance().getId(plantType.getMaterialName());

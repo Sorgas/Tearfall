@@ -6,17 +6,12 @@ import stonering.global.utils.Position;
 /**
  * Created by Alexander on 19.10.2017.
  */
-public class Tree {
+public class Tree extends AbstractPlant{
     private Position position;
-    private TreeType type;
     private Plant[][][] blocks;
-    private int age;
-    private int materialId;
-    private int stompZ;
 
-    public Tree(int age, int materialId) {
+    public Tree(int age) {
         this.age = age;
-        this.materialId = materialId;
     }
 
     public Plant[][][] getBlocks() {
@@ -33,22 +28,6 @@ public class Tree {
 
     public void setAge(int age) {
         this.age = age;
-    }
-
-    public int getWoodMaterial() {
-        return materialId;
-    }
-
-    public void setWoodMaterial(int woodMaterial) {
-        this.materialId = woodMaterial;
-    }
-
-    public int getStompZ() {
-        return stompZ;
-    }
-
-    public void setStompZ(int stompZ) {
-        this.stompZ = stompZ;
     }
 
     public int getX() {
@@ -73,22 +52,6 @@ public class Tree {
 
     public void setZ(int z) {
         position.setZ(z);
-    }
-
-    public TreeType getType() {
-        return type;
-    }
-
-    public void setType(TreeType type) {
-        this.type = type;
-    }
-
-    public int getMaterialId() {
-        return materialId;
-    }
-
-    public void setMaterialId(int materialId) {
-        this.materialId = materialId;
     }
 
     public Position getPosition() {

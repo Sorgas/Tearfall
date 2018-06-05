@@ -1,13 +1,10 @@
 package stonering.game.core.model.lists;
 
-import stonering.enums.materials.MaterialMap;
-import stonering.enums.plants.TreeTileMapping;
+import stonering.enums.plants.TreeType;
 import stonering.game.core.model.LocalMap;
-import stonering.generators.items.PlantProductGenerator;
 import stonering.global.utils.Position;
-import stonering.objects.local_actors.items.Item;
+import stonering.objects.local_actors.plants.AbstractPlant;
 import stonering.objects.local_actors.plants.Plant;
-import stonering.objects.local_actors.plants.PlantBlock;
 import stonering.objects.local_actors.plants.Tree;
 
 import java.util.ArrayList;
@@ -19,14 +16,14 @@ import java.util.ArrayList;
  * Created by Alexander on 09.11.2017.
  */
 public class PlantContainer {
-    private ArrayList<Plant> plants;
+    private ArrayList<AbstractPlant> plants;
     private LocalMap localMap;
 
-    public PlantContainer(ArrayList<Plant> plants) {
+    public PlantContainer(ArrayList<AbstractPlant> plants) {
         this.plants = plants;
     }
 
-    public ArrayList<Plant> getPlants() {
+    public ArrayList<AbstractPlant> getPlants() {
         return plants;
     }
 
@@ -34,37 +31,51 @@ public class PlantContainer {
         plants.forEach((plant) -> place(plant));
     }
 
-    private void place(Plant plant) {
+    private void place(AbstractPlant plant) {
         if (plant.getType().isTree()) {
-            placeTree(plant);
+            if (plant instanceof Tree) {
+                placeTree((Tree) plant);
+            }
         } else {
-            placePlant(plant);
+            if (plant instanceof Plant) {
+                placePlant((Plant) plant);
+            }
         }
+
     }
 
     private void placePlant(Plant plant) {
         localMap.setPlantBlock(plant.getPosition(), plant.getBlock());
     }
 
-    private void placeTree(Plant plant) {
-//        int treeRadius = tree.getBlocks().length / 2;
-//        int treeDepth = tree.getStompZ();
-//        for (int x = 0; x < tree.getBlocks().length; x++) {
-//            for (int y = 0; y < tree.getBlocks()[x].length; y++) {
-//                for (int z = 0; z < tree.getBlocks()[x][y].length; z++) {
-//                    int mapX = tree.getX() + x - treeRadius;
-//                    int mapY = tree.getY() + y - treeRadius;
-//                    int mapZ = tree.getZ() + z - treeDepth;
-//                    Plant treePart = tree.getBlocks()[x][y][z];
-//                    if (treePart != null && localMap.getBlockType(mapX, mapY, mapZ) == 0) {
-//                        PlantBlock block = treePart.getBlock();
-//                        block.setAtlasX(TreeTileMapping.getType(block.getBlockType()).getAtlasX());
-//                        block.setAtlasY(MaterialMap.getInstance().getAtlasY(block.getMaterial()));
-//                        localMap.setPlantBlock(mapX, mapY, mapZ, tree.getBlocks()[x][y][z].getBlock());
-//                    }
-//                }
-//            }
-//        }
+    /**
+     * Places tree on local map and adds it to container.
+     * Tree should have position, pointing on its stomp (for growing from sapling).
+     * //TODO checking space for placing
+     * //TODO merging overlaps with other trees.
+     *
+     * @param tree Tree object with not null tree field
+     */
+    private void placeTree(Tree tree) {
+        TreeType treeType = tree.getType().getTreeType();
+        Plant[][][] treeParts = tree.getBlocks();
+        Position vector = new Position(tree.getPosition().getX() - treeType.getTreeRadius(),
+                tree.getPosition().getY() - treeType.getTreeRadius(),
+                tree.getPosition().getZ() - treeType.getRootDepth()); // position of 0,0,0 tree part on map
+        for (int x = 0; x < treeParts.length; x++) {
+            for (int y = 0; y < treeParts[x].length; y++) {
+                for (int z = 0; z < treeParts[x][y].length; z++) {
+                    if (treeParts[x][y][z] != null) {
+                        Position onMapPosition = new Position(vector.getX() + x,
+                                vector.getY() + y,
+                                vector.getZ() + z);
+                        localMap.setPlantBlock(onMapPosition, treeParts[x][y][z].getBlock());
+                        treeParts[x][y][z].setPosition(onMapPosition);
+                        plants.add(treeParts[x][y][z]);
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -75,7 +86,6 @@ public class PlantContainer {
     public void removePlant(Plant plant) {
         if (plants.remove(plant)) {
             localMap.setPlantBlock(plant.getPosition(), null);
-            System.out.println("removed from map");
         }
     }
 

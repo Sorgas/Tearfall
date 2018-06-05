@@ -1,16 +1,24 @@
 package stonering.objects.local_actors.plants;
 
+import stonering.global.utils.Position;
+
+import java.util.ArrayList;
+
 /**
  * Created by Alexander on 30.11.2017.
  *
  * class to be contained on LocalMap. also stores render data
  */
 public class PlantBlock {
-    private Plant plant;
+    private AbstractPlant plant;
+    private Position position;
     private int material;
     private int blockType;
     private int atlasX;
     private int atlasY;
+    private ArrayList<String> harvestProducts;
+    private ArrayList<String> cutProducts;
+
 
     public PlantBlock(int material, int blockType) {
         this.material = material;
@@ -49,11 +57,31 @@ public class PlantBlock {
         this.atlasY = atlasY;
     }
 
-    public Plant getPlant() {
-        return plant;
+    public void setPlant(AbstractPlant plant) {
+        this.plant = plant;
     }
 
-    public void setPlant(Plant plant) {
-        this.plant = plant;
+    public Position getPosition() {
+        return position;
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
+    }
+
+    public ArrayList<String> getHarvestProducts() {
+        return harvestProducts;
+    }
+
+    public void setHarvestProducts(ArrayList<String> harvestProducts) {
+        this.harvestProducts = harvestProducts;
+    }
+
+    public ArrayList<String> getCutProducts() {
+        return cutProducts;
+    }
+
+    public void setCutProducts(ArrayList<String> cutProducts) {
+        this.cutProducts = cutProducts;
     }
 }

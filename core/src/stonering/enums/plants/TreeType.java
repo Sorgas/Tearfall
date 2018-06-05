@@ -11,6 +11,10 @@ public class TreeType {
     private int rootDepth;
     private int rootRadius;
 
+    public int getTreeRadius() {
+        return crownRadius > rootRadius ? crownRadius : rootRadius;
+    }
+
     public String getSpecimen() {
         return specimen;
     }

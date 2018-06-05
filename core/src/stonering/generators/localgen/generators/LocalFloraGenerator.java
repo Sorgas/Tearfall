@@ -125,11 +125,10 @@ public class LocalFloraGenerator {
         for (int x = 0; x < treeParts.length; x++) {
             for (int y = 0; y < treeParts[x].length; y++) {
                 for (int z = 0; z < treeParts[x][y].length; z++) {
-                    int mapX = cx + x;
-                    int mapY = cy + y;
-                    int mapZ = cz + z - treeCenterZ;
                     if (treeParts[x][y][z] != null) {
-                        localMap.setPlantBlock(mapX, mapY, mapZ, treeParts[x][y][z].getBlock());
+                        Position onMapPosition = new Position(cx + x, cy + y, cz + z - treeCenterZ);
+                        localMap.setPlantBlock(onMapPosition, treeParts[x][y][z].getBlock());
+                        treeParts[x][y][z].setPosition(onMapPosition);
                         container.getPlants().add(treeParts[x][y][z]);
                     }
                 }
@@ -152,7 +151,8 @@ public class LocalFloraGenerator {
                     int mapY = cy + y;
                     int mapZ = cz + z - treeCenterZ;
                     if (!localMap.inMap(mapX, mapY, mapZ)
-                            || (treeParts[x][y][z] != null && localMap.getPlantBlock(mapX, mapY, mapZ) != null)) {
+                            || (treeParts[x][y][z] != null
+                            && localMap.getPlantBlock(mapX, mapY, mapZ) != null)) {
                         return false;
                     }
                 }
@@ -177,8 +177,7 @@ public class LocalFloraGenerator {
             try {
                 Position position = positions.remove(random.nextInt(positions.size()));
                 array[position.getX()][position.getY()][position.getZ()] = false;
-                Plant plant = null;
-                plant = plantGenerator.generatePlant(specimen);
+                Plant plant = plantGenerator.generatePlant(specimen);
                 plant.setPosition(position);
                 container.getPlants().add(plant);
             } catch (DescriptionNotFoundException e) {
