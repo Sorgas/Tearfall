@@ -20,15 +20,15 @@ public class PlantContainer {
     private ArrayList<AbstractPlant> plants;
     private LocalMap localMap;
 
-    public PlantContainer(ArrayList<AbstractPlant> plants) {
-        this.plants = plants;
+    public PlantContainer() {
+        this.plants = new ArrayList<>();
     }
 
     public ArrayList<AbstractPlant> getPlants() {
         return plants;
     }
 
-    public void placePlants() {
+    public void placePlants(ArrayList<AbstractPlant> plants) {
         plants.forEach((plant) -> place(plant));
     }
 
@@ -113,6 +113,10 @@ public class PlantContainer {
         Position relPos = tree.getRelativePosition(plantBlock.getPosition());
         tree.getBlocks()[relPos.getX()][relPos.getY()][relPos.getZ()] = null;
         //TODO manage case for separating tree parts from each other
+    }
+
+    private void checkTree(Tree tree, Position deletedPart) {
+
     }
 
     public void setLocalMap(LocalMap localMap) {

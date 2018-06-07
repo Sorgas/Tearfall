@@ -12,6 +12,8 @@ import stonering.objects.local_actors.plants.Plant;
 import stonering.objects.local_actors.plants.PlantBlock;
 import stonering.objects.local_actors.plants.Tree;
 
+import java.util.ArrayList;
+
 /**
  * Effect for cutting plants and chopping trees.
  * After its work amount finishes action and leaves plant drops.
@@ -31,7 +33,7 @@ public class ChopTreeEffectAspect extends EffectAspect {
         if (block != null) {
             AbstractPlant plant = block.getPlant();
             if (plant.getType().isTree()) {
-                cutTree((Plant) plant);
+                cutTree((Tree) plant);
             } else {
                 cutPlant((Plant) plant);
             }
@@ -49,7 +51,7 @@ public class ChopTreeEffectAspect extends EffectAspect {
             for (PlantBlock[] blocks1 : blocks2) {
                 for (PlantBlock block : blocks1) {
                     if (block != null) {
-                        plantContainer.removePlant(block);
+                        plantContainer.removePlantBlock(block);
                         leavePlantProduct(block);
                         System.out.println("removed");
                     }
@@ -60,12 +62,11 @@ public class ChopTreeEffectAspect extends EffectAspect {
 
     private void cutPlant(Plant plant) {
         container.getPlantContainer().removePlant(plant);
-        leavePlantProduct(plant);
+        leavePlantProduct(plant.getBlock());
     }
 
-    private void leavePlantProduct(Plant plant) {
-        Item item = new PlantProductGenerator().generateCutProduct(plant);
-        if (item != null)
-            container.getItemContainer().addItem(item, plant.getPosition());
+    private void leavePlantProduct(PlantBlock block) {
+        ArrayList<Item> items = new PlantProductGenerator().generateCutProduct(block);
+        items.forEach((item) -> container.getItemContainer().addItem(item, block.getPosition()));
     }
 }

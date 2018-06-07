@@ -104,6 +104,7 @@ public class LocalFloraGenerator {
                 int z = container.getHeightsMap()[x][y] + 1;
                 if (forestArea[x][y] > 0 && checkTreePlacing(tree, x, y, z)) {
                     placeTree(tree, x, y, z);
+                    tree.setPosition(new Position(x, y, z));
                     tree = treesGenerator.generateTree(specimen, 1);
                     amount--;
                 }

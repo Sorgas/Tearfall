@@ -66,7 +66,6 @@ public class TreesGenerator {
         }
 
         tree.setBlocks(treeBlocks);
-        tree.setStompZ(rootsDepth);
         return tree;
     }
 

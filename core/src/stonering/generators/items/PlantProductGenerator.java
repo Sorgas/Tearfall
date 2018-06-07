@@ -22,35 +22,23 @@ public class PlantProductGenerator {
         itemGenerator = new ItemGenerator();
     }
 
-    public ArrayList<Item> generateCutProduct(AbstractPlant plant) {
+    public ArrayList<Item> generateCutProduct(PlantBlock block) {
+        AbstractPlant plant = block.getPlant();
+        ArrayList<Item> items = new ArrayList<>();
         if (plant instanceof Plant) {
-            PlantBlock block = ((Plant) plant).getBlock();
-            Position plantPosition = block.getPosition();
             ArrayList<String> products = new ArrayList<>();
+            Position plantPosition = block.getPosition();
             products.addAll(block.getCutProducts());
             products.addAll(block.getHarvestProducts());
             products.forEach((product) -> createItem(product, plant.getType().getMaterialName(), plantPosition));
         } else if (plant instanceof Tree) {
-
+            Position plantPosition = block.getPosition();
+            ArrayList<String> products = new ArrayList<>();
+            products.addAll(block.getCutProducts());
+            products.addAll(block.getHarvestProducts());
+            products.forEach((product) -> items.add(createItem(product, plant.getType().getMaterialName(), plantPosition)));
         }
-
-
-        String[] productProperties = plant.getType().getCutProduct();
-        if (productProperties == null) { // plant has no product
-            return null;
-        }
-        Material material = MaterialMap.getInstance().getMaterial(productProperties[1]);
-        if (material != null) {
-            Item item = new Item(null);
-            item.setMaterial(material.getId());
-            item.setVolume(100000); //TODO
-            item.setWeight(Math.round(item.getVolume() * material.getDensity()));
-            return item;
-        } else {
-            System.out.println("error while leaving plant cut product: ");
-            System.out.println(plant.toString());
-            return null;
-        }
+        return items;
     }
 
     private Item createItem(String name, String material, Position position) {
