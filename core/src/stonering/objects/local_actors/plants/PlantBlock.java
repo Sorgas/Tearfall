@@ -11,14 +11,13 @@ import java.util.ArrayList;
  */
 public class PlantBlock {
     private AbstractPlant plant;
-    private Position position;
+    private Position position; // position on map
     private int material;
     private int blockType;
     private int atlasX;
     private int atlasY;
     private ArrayList<String> harvestProducts;
     private ArrayList<String> cutProducts;
-
 
     public PlantBlock(int material, int blockType) {
         this.material = material;
@@ -83,5 +82,9 @@ public class PlantBlock {
 
     public void setCutProducts(ArrayList<String> cutProducts) {
         this.cutProducts = cutProducts;
+    }
+
+    public AbstractPlant getPlant() {
+        return plant;
     }
 }

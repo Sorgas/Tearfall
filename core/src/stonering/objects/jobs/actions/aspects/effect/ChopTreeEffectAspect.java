@@ -7,8 +7,10 @@ import stonering.global.utils.Position;
 import stonering.objects.jobs.actions.Action;
 import stonering.objects.jobs.actions.aspects.target.PlantTargetAspect;
 import stonering.objects.local_actors.items.Item;
+import stonering.objects.local_actors.plants.AbstractPlant;
 import stonering.objects.local_actors.plants.Plant;
 import stonering.objects.local_actors.plants.PlantBlock;
+import stonering.objects.local_actors.plants.Tree;
 
 /**
  * Effect for cutting plants and chopping trees.
@@ -27,11 +29,11 @@ public class ChopTreeEffectAspect extends EffectAspect {
         Position pos = action.getTargetAspect().getTargetPosition();
         PlantBlock block = container.getLocalMap().getPlantBlock(pos);
         if (block != null) {
-            Plant plant = block.getPlant();
+            AbstractPlant plant = block.getPlant();
             if (plant.getType().isTree()) {
-                cutTree(plant);
+                cutTree((Plant) plant);
             } else {
-                cutPlant(plant);
+                cutPlant((Plant) plant);
             }
         }
     }
@@ -40,15 +42,15 @@ public class ChopTreeEffectAspect extends EffectAspect {
 
     }
 
-    private void cutTree(Plant plant) {
+    private void cutTree(Tree plant) {
         PlantContainer plantContainer = container.getPlantContainer();
-        Plant[][][] blocks3 = plant.getTree().getBlocks();
-        for (Plant[][] blocks2 : blocks3) {
-            for (Plant[] blocks1 : blocks2) {
-                for (Plant plant1 : blocks1) {
-                    if (plant1 != null) {
-                        plantContainer.removePlant(plant1);
-                        leavePlantProduct(plant1);
+        PlantBlock[][][] blocks3 = plant.getBlocks();
+        for (PlantBlock[][] blocks2 : blocks3) {
+            for (PlantBlock[] blocks1 : blocks2) {
+                for (PlantBlock block : blocks1) {
+                    if (block != null) {
+                        plantContainer.removePlant(block);
+                        leavePlantProduct(block);
                         System.out.println("removed");
                     }
                 }

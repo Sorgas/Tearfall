@@ -16,6 +16,7 @@ import stonering.generators.plants.PlantGenerator;
 import stonering.generators.plants.TreesGenerator;
 import stonering.global.utils.Position;
 import stonering.objects.local_actors.plants.Plant;
+import stonering.objects.local_actors.plants.PlantBlock;
 import stonering.objects.local_actors.plants.Tree;
 
 import java.util.ArrayList;
@@ -120,20 +121,20 @@ public class LocalFloraGenerator {
      * @param tree tree to place
      */
     private void placeTree(Tree tree, int cx, int cy, int cz) {
-        Plant[][][] treeParts = tree.getBlocks();
-        int treeCenterZ = tree.getType().getRootDepth();
+        PlantBlock[][][] treeParts = tree.getBlocks();
+        int treeCenterZ = tree.getType().getTreeType().getRootDepth();
         for (int x = 0; x < treeParts.length; x++) {
             for (int y = 0; y < treeParts[x].length; y++) {
                 for (int z = 0; z < treeParts[x][y].length; z++) {
                     if (treeParts[x][y][z] != null) {
                         Position onMapPosition = new Position(cx + x, cy + y, cz + z - treeCenterZ);
-                        localMap.setPlantBlock(onMapPosition, treeParts[x][y][z].getBlock());
+                        localMap.setPlantBlock(onMapPosition, treeParts[x][y][z]);
                         treeParts[x][y][z].setPosition(onMapPosition);
-                        container.getPlants().add(treeParts[x][y][z]);
                     }
                 }
             }
         }
+        container.getPlants().add(tree);
     }
 
     /**
@@ -142,8 +143,8 @@ public class LocalFloraGenerator {
      * @return true if placing possible.
      */
     private boolean checkTreePlacing(Tree tree, int cx, int cy, int cz) {
-        Plant[][][] treeParts = tree.getBlocks();
-        int treeCenterZ = tree.getType().getRootDepth();
+        PlantBlock[][][] treeParts = tree.getBlocks();
+        int treeCenterZ = tree.getType().getTreeType().getRootDepth();
         for (int x = 0; x < treeParts.length; x++) {
             for (int y = 0; y < treeParts[x].length; y++) {
                 for (int z = 0; z < treeParts[x][y].length; z++) {

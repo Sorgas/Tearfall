@@ -5,6 +5,7 @@ import stonering.game.core.model.LocalMap;
 import stonering.global.utils.Position;
 import stonering.objects.local_actors.plants.AbstractPlant;
 import stonering.objects.local_actors.plants.Plant;
+import stonering.objects.local_actors.plants.PlantBlock;
 import stonering.objects.local_actors.plants.Tree;
 
 import java.util.ArrayList;
@@ -58,7 +59,7 @@ public class PlantContainer {
      */
     private void placeTree(Tree tree) {
         TreeType treeType = tree.getType().getTreeType();
-        Plant[][][] treeParts = tree.getBlocks();
+        PlantBlock[][][] treeParts = tree.getBlocks();
         Position vector = new Position(tree.getPosition().getX() - treeType.getTreeRadius(),
                 tree.getPosition().getY() - treeType.getTreeRadius(),
                 tree.getPosition().getZ() - treeType.getRootDepth()); // position of 0,0,0 tree part on map
@@ -69,13 +70,13 @@ public class PlantContainer {
                         Position onMapPosition = new Position(vector.getX() + x,
                                 vector.getY() + y,
                                 vector.getZ() + z);
-                        localMap.setPlantBlock(onMapPosition, treeParts[x][y][z].getBlock());
+                        localMap.setPlantBlock(onMapPosition, treeParts[x][y][z]);
                         treeParts[x][y][z].setPosition(onMapPosition);
-                        plants.add(treeParts[x][y][z]);
                     }
                 }
             }
         }
+        plants.add(tree);
     }
 
     /**
@@ -87,6 +88,31 @@ public class PlantContainer {
         if (plants.remove(plant)) {
             localMap.setPlantBlock(plant.getPosition(), null);
         }
+    }
+
+    /**
+     * Deletes block from map and it's plant. If plants was Plant, deletes is too.
+     * If plant was Tree than checks deleting for other effects.
+     *
+     * @param block
+     */
+    public void removePlantBlock(PlantBlock block) {
+        AbstractPlant plant = block.getPlant();
+        if(plant != null) {
+            if(plant instanceof Plant) {
+                if(plants.remove(plant)) {
+                    localMap.setPlantBlock(block.getPosition(), null);
+                }
+            } else if(plant instanceof Tree) {
+                removeBlockFromTree(block, (Tree) plant);
+            }
+        }
+    }
+
+    public void removeBlockFromTree(PlantBlock plantBlock, Tree tree) {
+        Position relPos = tree.getRelativePosition(plantBlock.getPosition());
+        tree.getBlocks()[relPos.getX()][relPos.getY()][relPos.getZ()] = null;
+        //TODO manage case for separating tree parts from each other
     }
 
     public void setLocalMap(LocalMap localMap) {

@@ -4,7 +4,7 @@ import stonering.game.core.model.LocalMap;
 import stonering.generators.worldgen.WorldMap;
 import stonering.objects.local_actors.building.Building;
 import stonering.objects.local_actors.items.Item;
-import stonering.objects.local_actors.plants.Plant;
+import stonering.objects.local_actors.plants.AbstractPlant;
 import stonering.objects.local_actors.unit.Unit;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ public class LocalGenContainer {
     private int[][] heightsMap;
     private float[] monthlyTemperatures;
 
-    private ArrayList<Plant> plants;
+    private ArrayList<AbstractPlant> plants;
     private ArrayList<Unit> units;
     private ArrayList<Building> buildings;
     private ArrayList<Item> items;
@@ -68,7 +68,7 @@ public class LocalGenContainer {
         return localMap;
     }
 
-    public ArrayList<Plant> getPlants() {
+    public ArrayList<AbstractPlant> getPlants() {
         return plants;
     }
 

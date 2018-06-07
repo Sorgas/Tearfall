@@ -6,19 +6,27 @@ import stonering.global.utils.Position;
 /**
  * Created by Alexander on 19.10.2017.
  */
-public class Tree extends AbstractPlant{
+public class Tree extends AbstractPlant {
     private Position position;
-    private Plant[][][] blocks;
+    private PlantBlock[][][] blocks;
 
     public Tree(int age) {
         this.age = age;
     }
 
-    public Plant[][][] getBlocks() {
+    public Position getRelativePosition(Position mapPos) {
+        return new Position(
+                mapPos.getX() + type.getTreeType().getTreeRadius() - position.getX(),
+                mapPos.getY() + type.getTreeType().getTreeRadius() - position.getY(),
+                mapPos.getZ() + type.getTreeType().getRootDepth() - position.getZ()
+        );
+    }
+
+    public PlantBlock[][][] getBlocks() {
         return blocks;
     }
 
-    public void setBlocks(Plant[][][] blocks) {
+    public void setBlocks(PlantBlock[][][] blocks) {
         this.blocks = blocks;
     }
 

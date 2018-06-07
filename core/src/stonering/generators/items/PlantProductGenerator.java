@@ -5,7 +5,10 @@ import stonering.enums.materials.MaterialMap;
 import stonering.exceptions.DescriptionNotFoundException;
 import stonering.global.utils.Position;
 import stonering.objects.local_actors.items.Item;
+import stonering.objects.local_actors.plants.AbstractPlant;
 import stonering.objects.local_actors.plants.Plant;
+import stonering.objects.local_actors.plants.PlantBlock;
+import stonering.objects.local_actors.plants.Tree;
 
 import java.util.ArrayList;
 
@@ -19,11 +22,18 @@ public class PlantProductGenerator {
         itemGenerator = new ItemGenerator();
     }
 
-    public Item generateCutProduct(Plant plant) {
-        Position plantPosition = plant.getPosition();
-        ArrayList<String> products = (ArrayList<String>) plant.getCutProducts().clone();
-        products.addAll(plant.getHarvestProducts());
-        products.forEach((product) -> createItem(product, plant.getType().getMaterialName(), plantPosition));
+    public ArrayList<Item> generateCutProduct(AbstractPlant plant) {
+        if (plant instanceof Plant) {
+            PlantBlock block = ((Plant) plant).getBlock();
+            Position plantPosition = block.getPosition();
+            ArrayList<String> products = new ArrayList<>();
+            products.addAll(block.getCutProducts());
+            products.addAll(block.getHarvestProducts());
+            products.forEach((product) -> createItem(product, plant.getType().getMaterialName(), plantPosition));
+        } else if (plant instanceof Tree) {
+
+        }
+
 
         String[] productProperties = plant.getType().getCutProduct();
         if (productProperties == null) { // plant has no product

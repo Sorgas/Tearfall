@@ -20,13 +20,13 @@ public class TreesGenerator {
         PlantType plantType = PlantMap.getInstance().getPlantType(speciment);
         TreeType treeType = plantType.getTreeType();
         int material = MaterialMap.getInstance().getId(plantType.getMaterialName());
-        Tree tree = new Tree(10, material);
-        tree.setType(treeType);
+        Tree tree = new Tree(10);
+        tree.setType(plantType);
         Random random = new Random();
         int treeCenter = treeType.getCrownRadius();
         int rootsDepth = treeType.getRootDepth();
         int treeWidth = 1 + treeCenter * 2;
-        Plant[][][] treeBlocks = new Plant[treeWidth][treeWidth][treeType.getHeight() + rootsDepth];
+        PlantBlock[][][] treeBlocks = new PlantBlock[treeWidth][treeWidth][treeType.getHeight() + rootsDepth];
         int branchesStart = treeType.getHeight() / 2 + rootsDepth;
         // stomp
         treeBlocks[treeCenter][treeCenter][rootsDepth] = createTreePart(material, TreeBlocksTypeEnum.STOMP.getCode(), plantType, tree, treeCenter, treeCenter, rootsDepth);
@@ -70,18 +70,12 @@ public class TreesGenerator {
         return tree;
     }
 
-    private Plant createTreePart(int material, int blockType, PlantType plantType, Tree tree, int x, int y, int z) {
-        Plant plant = new Plant(0);
-        plant.setType(plantType);
-        plant.setTree(tree);
-        plant.setPosition(new Position(x, y, z));
-
+    private PlantBlock createTreePart(int material, int blockType, PlantType plantType, Tree tree, int x, int y, int z) {
         PlantBlock block = new PlantBlock(material, blockType);
+        block.setPosition(new Position(x, y, z));
         block.setAtlasY(plantType.getAtlasY());
         block.setAtlasX(TreeTileMapping.getType(blockType).getAtlasX());
-        block.setPlant(plant);
-
-        plant.setBlock(block);
-        return plant;
+        block.setPlant(tree);
+        return block;
     }
 }
