@@ -1,8 +1,12 @@
 package stonering.game.core.model.lists;
 
+import stonering.enums.OrientationEnum;
 import stonering.enums.plants.TreeType;
+import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.LocalMap;
+import stonering.generators.items.PlantProductGenerator;
 import stonering.global.utils.Position;
+import stonering.objects.local_actors.items.Item;
 import stonering.objects.local_actors.plants.AbstractPlant;
 import stonering.objects.local_actors.plants.Plant;
 import stonering.objects.local_actors.plants.PlantBlock;
@@ -18,14 +22,13 @@ import java.util.ArrayList;
  */
 public class PlantContainer {
     private ArrayList<AbstractPlant> plants;
+    private GameContainer container;
     private LocalMap localMap;
 
-    public PlantContainer() {
+    public PlantContainer(GameContainer container) {
+        this.container = container;
+        localMap = container.getLocalMap();
         this.plants = new ArrayList<>();
-    }
-
-    public ArrayList<AbstractPlant> getPlants() {
-        return plants;
     }
 
     public void placePlants(ArrayList<AbstractPlant> plants) {
@@ -96,7 +99,7 @@ public class PlantContainer {
      *
      * @param block
      */
-    public void removePlantBlock(PlantBlock block) {
+    public void removePlantBlock(PlantBlock block, boolean leaveProducts) {
         AbstractPlant plant = block.getPlant();
         if(plant != null) {
             if(plant instanceof Plant) {
@@ -104,8 +107,10 @@ public class PlantContainer {
                     localMap.setPlantBlock(block.getPosition(), null);
                 }
             } else if(plant instanceof Tree) {
-                removeBlockFromTree(block, (Tree) plant);
+                removeBlockFromTree(block, (Tree) plant, le);
             }
+            if(leaveProducts)
+
         }
     }
 
@@ -116,14 +121,27 @@ public class PlantContainer {
         //TODO manage case for separating tree parts from each other
     }
 
+    public void fellTree(Tree tree, OrientationEnum orientation) {
+
+    }
+
+    private void leavePlantProduct(PlantBlock block) {
+        ArrayList<Item> items = new PlantProductGenerator().generateCutProduct(block);
+        items.forEach((item) -> container.getItemContainer().addItem(item, block.getPosition()));
+    }
+
+    private void leaveproducts(ArrayList<String> products) {
+
+    }
+
     private void checkTree(Tree tree, Position deletedPart) {
 
     }
 
-    public void setLocalMap(LocalMap localMap) {
-        this.localMap = localMap;
+    public void turn() {
     }
 
-    public void turn() {
+    public ArrayList<AbstractPlant> getPlants() {
+        return plants;
     }
 }

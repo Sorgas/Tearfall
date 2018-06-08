@@ -51,7 +51,7 @@ public class ChopTreeEffectAspect extends EffectAspect {
             for (PlantBlock[] blocks1 : blocks2) {
                 for (PlantBlock block : blocks1) {
                     if (block != null) {
-                        plantContainer.removePlantBlock(block);
+                        plantContainer.removePlantBlock(block, true);
                         leavePlantProduct(block);
                         System.out.println("removed");
                     }
