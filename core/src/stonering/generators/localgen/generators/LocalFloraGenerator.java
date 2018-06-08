@@ -8,7 +8,6 @@ import stonering.enums.plants.PlantMap;
 import stonering.enums.plants.PlantType;
 import stonering.exceptions.DescriptionNotFoundException;
 import stonering.game.core.model.LocalMap;
-import stonering.game.core.model.lists.PlantContainer;
 import stonering.generators.PerlinNoiseGenerator;
 import stonering.generators.localgen.LocalGenConfig;
 import stonering.generators.localgen.LocalGenContainer;
@@ -124,11 +123,15 @@ public class LocalFloraGenerator {
     private void placeTree(Tree tree, int cx, int cy, int cz) {
         PlantBlock[][][] treeParts = tree.getBlocks();
         int treeCenterZ = tree.getType().getTreeType().getRootDepth();
+        int treeRadius = tree.getType().getTreeType().getTreeRadius();
         for (int x = 0; x < treeParts.length; x++) {
             for (int y = 0; y < treeParts[x].length; y++) {
                 for (int z = 0; z < treeParts[x][y].length; z++) {
                     if (treeParts[x][y][z] != null) {
-                        Position onMapPosition = new Position(cx + x, cy + y, cz + z - treeCenterZ);
+                        Position onMapPosition = new Position(
+                                cx + x - treeRadius,
+                                cy + y - treeRadius,
+                                cz + z - treeCenterZ);
                         localMap.setPlantBlock(onMapPosition, treeParts[x][y][z]);
                         treeParts[x][y][z].setPosition(onMapPosition);
                     }
@@ -146,11 +149,12 @@ public class LocalFloraGenerator {
     private boolean checkTreePlacing(Tree tree, int cx, int cy, int cz) {
         PlantBlock[][][] treeParts = tree.getBlocks();
         int treeCenterZ = tree.getType().getTreeType().getRootDepth();
+        int treeRadius = tree.getType().getTreeType().getTreeRadius();
         for (int x = 0; x < treeParts.length; x++) {
             for (int y = 0; y < treeParts[x].length; y++) {
                 for (int z = 0; z < treeParts[x][y].length; z++) {
-                    int mapX = cx + x;
-                    int mapY = cy + y;
+                    int mapX = cx + x - treeRadius;
+                    int mapY = cy + y - treeRadius;
                     int mapZ = cz + z - treeCenterZ;
                     if (!localMap.inMap(mapX, mapY, mapZ)
                             || (treeParts[x][y][z] != null

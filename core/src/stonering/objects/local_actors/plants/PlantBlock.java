@@ -22,6 +22,8 @@ public class PlantBlock {
     public PlantBlock(int material, int blockType) {
         this.material = material;
         this.blockType = blockType;
+        harvestProducts = new ArrayList<>();
+        cutProducts = new ArrayList<>();
     }
 
     public int getMaterial() {

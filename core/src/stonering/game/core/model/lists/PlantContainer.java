@@ -109,9 +109,10 @@ public class PlantContainer {
         }
     }
 
-    public void removeBlockFromTree(PlantBlock plantBlock, Tree tree) {
-        Position relPos = tree.getRelativePosition(plantBlock.getPosition());
+    public void removeBlockFromTree(PlantBlock block, Tree tree) {
+        Position relPos = tree.getRelativePosition(block.getPosition());
         tree.getBlocks()[relPos.getX()][relPos.getY()][relPos.getZ()] = null;
+        localMap.setPlantBlock(block.getPosition(), null);
         //TODO manage case for separating tree parts from each other
     }
 

@@ -4,6 +4,8 @@ import stonering.enums.plants.TreeType;
 import stonering.global.utils.Position;
 
 /**
+ * Multitile plant, generally for trees. Position is coordinates of tree stomp on map.
+ *
  * Created by Alexander on 19.10.2017.
  */
 public class Tree extends AbstractPlant {

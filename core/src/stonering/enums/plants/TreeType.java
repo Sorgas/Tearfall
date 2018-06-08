@@ -1,5 +1,7 @@
 package stonering.enums.plants;
 
+import stonering.global.utils.Position;
+
 /**
  * Created by Alexander on 30.10.2017.
  */
@@ -10,9 +12,14 @@ public class TreeType {
     private int height;
     private int rootDepth;
     private int rootRadius;
+    private int treeRadius;
+
+    public Position getStompPosition() {
+        return new Position(crownRadius, crownRadius, rootDepth);
+    }
 
     public int getTreeRadius() {
-        return crownRadius > rootRadius ? crownRadius : rootRadius;
+        return treeRadius;
     }
 
     public String getSpecimen() {
@@ -37,6 +44,7 @@ public class TreeType {
 
     public void setCrownRadius(int crownRadius) {
         this.crownRadius = crownRadius;
+        treeRadius = crownRadius > rootRadius ? crownRadius : rootRadius;
     }
 
     public int getHeight() {
@@ -61,5 +69,6 @@ public class TreeType {
 
     public void setRootRadius(int rootRadius) {
         this.rootRadius = rootRadius;
+        treeRadius = crownRadius > rootRadius ? crownRadius : rootRadius;
     }
 }
