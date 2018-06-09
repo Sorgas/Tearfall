@@ -1,6 +1,9 @@
 package stonering.game.core.model.lists;
 
+import com.badlogic.gdx.math.Matrix3;
+import com.badlogic.gdx.math.Vector3;
 import stonering.enums.OrientationEnum;
+import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.plants.TreeType;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.LocalMap;
@@ -24,6 +27,8 @@ public class PlantContainer {
     private ArrayList<AbstractPlant> plants;
     private GameContainer container;
     private LocalMap localMap;
+    private final int WALL_CODE = BlockTypesEnum.WALL.getCode();
+
 
     public PlantContainer(GameContainer container) {
         this.container = container;
@@ -101,28 +106,56 @@ public class PlantContainer {
      */
     public void removePlantBlock(PlantBlock block, boolean leaveProducts) {
         AbstractPlant plant = block.getPlant();
-        if(plant != null) {
-            if(plant instanceof Plant) {
-                if(plants.remove(plant)) {
+        if (plant != null) {
+            if (plant instanceof Plant) {
+                if (plants.remove(plant)) {
                     localMap.setPlantBlock(block.getPosition(), null);
                 }
-            } else if(plant instanceof Tree) {
-                removeBlockFromTree(block, (Tree) plant, le);
+            } else if (plant instanceof Tree) {
+                removeBlockFromTree(block, (Tree) plant);
             }
-            if(leaveProducts)
-
         }
     }
 
     public void removeBlockFromTree(PlantBlock block, Tree tree) {
-        Position relPos = tree.getRelativePosition(block.getPosition());
-        tree.getBlocks()[relPos.getX()][relPos.getY()][relPos.getZ()] = null;
-        localMap.setPlantBlock(block.getPosition(), null);
+        fellTree(tree, OrientationEnum.N);
+//        Position relPos = tree.getRelativePosition(block.getPosition());
+//        tree.getBlocks()[relPos.getX()][relPos.getY()][relPos.getZ()] = null;
+//        localMap.setPlantBlock(block.getPosition(), null);
         //TODO manage case for separating tree parts from each other
     }
 
     public void fellTree(Tree tree, OrientationEnum orientation) {
+        if (orientation == OrientationEnum.N) {
+            Position treePosition = tree.getPosition();
+            int stompZ = tree.getType().getTreeType().getRootDepth();
+            PlantBlock[][][] treeParts = tree.getBlocks();
+            for (int x = 0; x < treeParts.length; x++) {
+                for (int y = 0; y < treeParts[x].length; y++) {
+                    for (int z = stompZ; z < treeParts[x][y].length; z++) {
+                        PlantBlock block = treeParts[x][y][z];
+                        if (block != null) {
+                            Position newPosition = translatePosition(block.getPosition().toVector3(), treePosition.toVector3(), orientation);
+                            if (container.getLocalMap().getBlockType(newPosition) != WALL_CODE) {
+                                localMap.setPlantBlock(block.getPosition(), null);
+                                block.setPosition(newPosition);
+                                localMap.setPlantBlock(block.getPosition(), block);
+                            } else {
+                                treeParts[x][y][z] = null;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 
+    private Position translatePosition(Vector3 position, Vector3 center, OrientationEnum orientation) {
+        Vector3 offset = position.sub(center);
+        Matrix3 matrix3 = new Matrix3();
+        matrix3.setToRotation(new Vector3(1, 0, 0), -90);
+        offset.mul(matrix3);
+        return new Position(center.add(offset.mul(matrix3)));
     }
 
     private void leavePlantProduct(PlantBlock block) {

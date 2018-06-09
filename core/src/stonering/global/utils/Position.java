@@ -1,5 +1,7 @@
 package stonering.global.utils;
 
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import jdk.nashorn.internal.ir.annotations.Immutable;
 
 import java.io.Serializable;
@@ -24,6 +26,12 @@ public class Position implements Serializable, Cloneable {
         this.x = Math.round(x);
         this.y = Math.round(y);
         this.z = Math.round(z);
+    }
+
+    public Position(Vector3 vector) {
+        this.x = Math.round(vector.x);
+        this.y = Math.round(vector.y);
+        this.z = Math.round(vector.z);
     }
 
     public Position addVector(Vector vector) {
@@ -55,6 +63,14 @@ public class Position implements Serializable, Cloneable {
         if (x != position.x) return false;
         if (y != position.y) return false;
         return z == position.z;
+    }
+
+    public Vector3 toVector3() {
+        return new Vector3(x, y, z);
+    }
+
+    public Vector2 toVector2() {
+        return new Vector2(x, y);
     }
 
     public boolean equals(int x, int y, int z) {

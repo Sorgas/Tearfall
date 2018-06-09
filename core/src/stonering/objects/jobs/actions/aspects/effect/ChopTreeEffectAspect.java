@@ -1,5 +1,6 @@
 package stonering.objects.jobs.actions.aspects.effect;
 
+import stonering.enums.OrientationEnum;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.lists.PlantContainer;
 import stonering.generators.items.PlantProductGenerator;
@@ -45,19 +46,7 @@ public class ChopTreeEffectAspect extends EffectAspect {
     }
 
     private void cutTree(Tree plant) {
-        PlantContainer plantContainer = container.getPlantContainer();
-        PlantBlock[][][] blocks3 = plant.getBlocks();
-        for (PlantBlock[][] blocks2 : blocks3) {
-            for (PlantBlock[] blocks1 : blocks2) {
-                for (PlantBlock block : blocks1) {
-                    if (block != null) {
-                        plantContainer.removePlantBlock(block, true);
-                        leavePlantProduct(block);
-                        System.out.println("removed");
-                    }
-                }
-            }
-        }
+        container.getPlantContainer().fellTree(plant, OrientationEnum.N);
     }
 
     private void cutPlant(Plant plant) {

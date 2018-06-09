@@ -1,7 +1,7 @@
 package stonering.enums;
 
 public enum OrientationEnum {
-    N,
+    N, //
     NE,
     E,
     SE,
