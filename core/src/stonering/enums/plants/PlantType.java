@@ -27,7 +27,7 @@ public class PlantType {
     private int atlasY;
 
     private String harvestProduct;
-    private String[] cutProduct;
+    private ArrayList<String> cutProduct;
     private Color color;
 
     private TreeType treeType;
@@ -238,11 +238,11 @@ public class PlantType {
         this.harvestProduct = harvestProduct;
     }
 
-    public String[] getCutProduct() {
+    public ArrayList<String> getCutProduct() {
         return cutProduct;
     }
 
-    public void setCutProduct(String[] cutProduct) {
+    public void setCutProduct(ArrayList<String> cutProduct) {
         this.cutProduct = cutProduct;
     }
 

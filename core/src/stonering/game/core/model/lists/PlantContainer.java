@@ -98,6 +98,29 @@ public class PlantContainer {
         }
     }
 
+    public void removeTree(Tree tree) {
+        if (plants.remove(tree)) {
+            int stompZ = tree.getType().getTreeType().getRootDepth();
+            PlantBlock[][][] treeParts = tree.getBlocks();
+            for (int x = 0; x < treeParts.length; x++) {
+                for (int y = 0; y < treeParts[x].length; y++) {
+                    for (int z = stompZ; z < treeParts[x][y].length; z++) {
+                        PlantBlock block = treeParts[x][y][z];
+                        if (block != null) {
+                            localMap.setPlantBlock(block.getPosition(), null);
+                            leavePlantProduct(block);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void leavePlantProduct(PlantBlock block) {
+        ArrayList<Item> items = new PlantProductGenerator().generateCutProduct(block);
+        items.forEach((item) -> container.getItemContainer().addItem(item, block.getPosition()));
+    }
+
     /**
      * Deletes block from map and it's plant. If plants was Plant, deletes is too.
      * If plant was Tree than checks deleting for other effects.
@@ -156,11 +179,6 @@ public class PlantContainer {
         matrix3.setToRotation(new Vector3(1, 0, 0), -90);
         offset.mul(matrix3);
         return new Position(center.add(offset.mul(matrix3)));
-    }
-
-    private void leavePlantProduct(PlantBlock block) {
-        ArrayList<Item> items = new PlantProductGenerator().generateCutProduct(block);
-        items.forEach((item) -> container.getItemContainer().addItem(item, block.getPosition()));
     }
 
     private void leaveproducts(ArrayList<String> products) {

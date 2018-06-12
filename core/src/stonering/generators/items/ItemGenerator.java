@@ -2,6 +2,7 @@ package stonering.generators.items;
 
 import stonering.enums.items.ItemType;
 import stonering.enums.items.ItemTypeMap;
+import stonering.enums.materials.MaterialMap;
 import stonering.exceptions.DescriptionNotFoundException;
 import stonering.objects.local_actors.items.Item;
 
@@ -23,6 +24,15 @@ public class ItemGenerator {
         if (itemTypeMap.contains(title))
             return createItem(itemTypeMap.getItemType(title));
         throw new DescriptionNotFoundException("type: Item, title: " + title);
+    }
+
+    public Item generateItem(String title, int material) throws DescriptionNotFoundException {
+        if (MaterialMap.getInstance().hasMaterial(material)) {
+            Item item = generateItem(title);
+            item.setMaterial(material);
+            return item;
+        }
+        throw new DescriptionNotFoundException("type: Item, title: " + title + " material: " + material);
     }
 
     private Item createItem(ItemType itemType) {

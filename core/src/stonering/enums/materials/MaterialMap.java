@@ -52,6 +52,10 @@ public class MaterialMap {
         }
     }
 
+    public boolean hasMaterial(int id) {
+        return materials.containsKey(id);
+    }
+
     public Material getMaterial(int id) {
         return materials.get(id);
     }

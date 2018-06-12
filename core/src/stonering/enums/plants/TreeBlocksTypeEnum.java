@@ -14,8 +14,8 @@ public enum TreeBlocksTypeEnum {
     SINGLE_PASSABLE(15),
     SINGLE_NON_PASSABLE(16);
 
-    private byte code;
-    private static HashMap<Byte, TreeBlocksTypeEnum> map;
+    private int code;
+    private static HashMap<Integer, TreeBlocksTypeEnum> map;
 
     static {
         map = new HashMap<>();
@@ -28,11 +28,11 @@ public enum TreeBlocksTypeEnum {
         this.code = (byte) code;
     }
 
-    public byte getCode() {
+    public int getCode() {
         return code;
     }
 
-    public static TreeBlocksTypeEnum getType(byte code) {
+    public static TreeBlocksTypeEnum getType(int code) {
         return map.get(code);
     }
 }

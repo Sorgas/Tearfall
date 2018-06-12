@@ -2,6 +2,7 @@ package stonering.generators.items;
 
 import stonering.enums.materials.Material;
 import stonering.enums.materials.MaterialMap;
+import stonering.enums.plants.TreeBlocksTypeEnum;
 import stonering.exceptions.DescriptionNotFoundException;
 import stonering.global.utils.Position;
 import stonering.objects.local_actors.items.Item;
@@ -30,26 +31,60 @@ public class PlantProductGenerator {
             Position plantPosition = block.getPosition();
             products.addAll(block.getCutProducts());
             products.addAll(block.getHarvestProducts());
-            products.forEach((product) -> createItem(product, plant.getType().getMaterialName(), plantPosition));
+            products.forEach((product) -> createItem(product, plant.getType().getMaterialName()));
         } else if (plant instanceof Tree) {
-            Position plantPosition = block.getPosition();
             ArrayList<String> products = new ArrayList<>();
-            products.addAll(block.getCutProducts());
+            Item cutItem = generateCutProductForTreePart(block);
+            if (cutItem != null) {
+                items.add(cutItem);
+            }
             products.addAll(block.getHarvestProducts());
-            products.forEach((product) -> items.add(createItem(product, plant.getType().getMaterialName(), plantPosition)));
+            products.forEach((product) -> items.add(createItem(product, plant.getType().getMaterialName())));
         }
         return items;
     }
 
-    private Item createItem(String name, String material, Position position) {
+
+    private Item createItem(String name, String material) {
         try {
-            Item item = itemGenerator.generateItem(name);
-            item.setMaterial(MaterialMap.getInstance().getId(material));
-            item.setPosition(position);
+            Item item = itemGenerator.generateItem(name, MaterialMap.getInstance().getId(material));
             return item;
         } catch (DescriptionNotFoundException e) {
             e.printStackTrace();
             return null;
         }
+    }
+
+    /**
+     * Generates tree specific items for blocks.
+     * //TODO add tree age in account;
+     *
+     * @param block block of tree.
+     * @return item or null;
+     */
+    private Item generateCutProductForTreePart(PlantBlock block) {
+        ItemGenerator itemGenerator = new ItemGenerator();
+        try {
+            String itemTitle = "";
+            switch (TreeBlocksTypeEnum.getType(block.getBlockType())) {
+                case TRUNK:
+                case STOMP: {
+                    itemTitle = "log";
+                    break;
+                }
+                case BRANCH: {
+                    itemTitle = "branch";
+                    break;
+                }
+                case ROOT: {
+                    itemTitle = "root";
+                }
+            }
+            if (block.getPlant().getType().getCutProduct().contains(itemTitle))
+                return itemGenerator.generateItem(itemTitle);
+        } catch (DescriptionNotFoundException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 }

@@ -108,7 +108,7 @@
         "atlasX":"0",
         "materialName":"willow",
         "harvestProduct":null,
-        "cutProduct":null,
+        "cutProduct":["log", "branch"],
         "treeType":{
             "class":"tree_c",
             "crownRadius":"2",

@@ -45,17 +45,11 @@ public class ChopTreeEffectAspect extends EffectAspect {
 
     }
 
-    private void cutTree(Tree plant) {
-        container.getPlantContainer().fellTree(plant, OrientationEnum.N);
+    private void cutTree(Tree tree) {
+        container.getPlantContainer().removeTree(tree);
     }
 
     private void cutPlant(Plant plant) {
         container.getPlantContainer().removePlant(plant);
-        leavePlantProduct(plant.getBlock());
-    }
-
-    private void leavePlantProduct(PlantBlock block) {
-        ArrayList<Item> items = new PlantProductGenerator().generateCutProduct(block);
-        items.forEach((item) -> container.getItemContainer().addItem(item, block.getPosition()));
     }
 }
