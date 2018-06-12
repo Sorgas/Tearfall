@@ -31,4 +31,8 @@ public abstract class AspectHolder {
     public void setPosition(Position position) {
         this.position = position;
     }
+
+    public void turn() {
+        aspects.values().forEach(Aspect::turn);
+    }
 }

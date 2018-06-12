@@ -1,5 +1,6 @@
 package stonering.game.core.model.lists;
 
+import stonering.game.core.model.GameContainer;
 import stonering.global.utils.Position;
 import stonering.objects.local_actors.Aspect;
 import stonering.objects.local_actors.items.Item;
@@ -17,6 +18,7 @@ import java.util.HashMap;
 public class ItemContainer {
     private ArrayList<Item> items;
     private HashMap<Position, ArrayList<Item>> itemMap;
+    private GameContainer gameContainer;
 
     public ItemContainer() {
         items = new ArrayList<>();
@@ -45,6 +47,11 @@ public class ItemContainer {
         putItem(item, position);
     }
 
+    public void moveItem(Item item, Position position) {
+        removeItem(item);
+        addItem(item, position);
+    }
+
     public void putItem(Item item, Position pos) {
         item.setPosition(pos);
         ArrayList<Item> list = itemMap.get(pos);
@@ -65,5 +72,17 @@ public class ItemContainer {
 
     public void turn() {
         items.forEach((item) -> item.turn());
+    }
+
+    public void initItems() {
+        items.forEach((item) -> item.getAspects().values().forEach((aspect) -> aspect.init(gameContainer)));
+    }
+
+    public GameContainer getGameContainer() {
+        return gameContainer;
+    }
+
+    public void setGameContainer(GameContainer gameContainer) {
+        this.gameContainer = gameContainer;
     }
 }

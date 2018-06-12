@@ -154,6 +154,10 @@ public class LocalMap {
                 x >= xSize || y >= ySize || z >= zSize);
     }
 
+    public boolean inMap(Position position) {
+        return inMap(position.getX(), position.getY(), position.getZ());
+    }
+
     public void setBlocType(int x, int y, int z, byte type) {
         blockType[x][y][z] = type;
         if (localTileMapUpdater != null)

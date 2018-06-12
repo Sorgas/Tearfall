@@ -4,6 +4,8 @@ import stonering.enums.items.ItemType;
 import stonering.enums.items.ItemTypeMap;
 import stonering.enums.materials.MaterialMap;
 import stonering.exceptions.DescriptionNotFoundException;
+import stonering.generators.aspect.AspectGenerator;
+import stonering.objects.local_actors.Aspect;
 import stonering.objects.local_actors.items.Item;
 
 /**
@@ -39,7 +41,9 @@ public class ItemGenerator {
         Item item = new Item(null);
         item.setTitle(itemType.getTitle());
         item.setType(itemType);
-        itemType.getAspects().forEach(item::addAspect);
+        itemType.getAspects().forEach(aspectName -> AspectGenerator.createAspect(aspectName, item).ifPresent
+                (item::addAspect));
         return item;
     }
+
 }

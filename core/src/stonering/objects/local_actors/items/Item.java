@@ -20,10 +20,6 @@ public class Item extends AspectHolder {
         super(position);
     }
 
-    public void turn() {
-
-    }
-
     public int getMaterial() {
         return material;
     }

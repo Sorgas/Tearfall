@@ -2,6 +2,7 @@
     {
         "title":"pickaxe",
         "aspects":[
+            "falling"
         ],
         "properties":{
             "digging_tool":"1"
@@ -20,6 +21,7 @@
     {
         "title":"axe",
         "aspects":[
+            "falling"
         ],
         "properties":{
             "chopping_tool":"1"
@@ -38,6 +40,7 @@
     {
         "title":"log",
         "aspects":[
+            "falling"
         ],
         "properties":{
         },
@@ -55,6 +58,7 @@
     {
         "title":"branch",
         "aspects":[
+            "falling"
         ],
         "properties":{
         },

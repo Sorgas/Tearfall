@@ -23,10 +23,12 @@ public class DesignationsInputProcessor implements InputProcessor {
     @Override
     public boolean keyUp(int keycode) {
         switch (keycode) {
+            case Input.Keys.NUM_7:
             case Input.Keys.NUMPAD_7: {
                 controller.handleDesignation();
                 return false;
             }
+            case Input.Keys.NUM_8:
             case Input.Keys.NUMPAD_8: {
                 controller.handleCancel();
                 return false;

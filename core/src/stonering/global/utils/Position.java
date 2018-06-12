@@ -53,6 +53,10 @@ public class Position implements Serializable, Cloneable {
                 Math.pow((float) (this.z - z), 2));
     }
 
+    public Position getPositionByOffset(int x, int y, int z) {
+        return new Position(this.x + x, this.y + y, this.z + z);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
