@@ -16,7 +16,6 @@ public class FallingAspect extends Aspect {
     private static final String FALLING_ASPECT_NAME = "falling";
 
     private LocalMap localMap;
-    private GameContainer gameContainer;
 
     public FallingAspect(AspectHolder aspectHolder) {
         super(FALLING_ASPECT_NAME, aspectHolder);

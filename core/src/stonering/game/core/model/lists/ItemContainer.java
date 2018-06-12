@@ -20,21 +20,23 @@ public class ItemContainer {
     private HashMap<Position, ArrayList<Item>> itemMap;
     private GameContainer gameContainer;
 
-    public ItemContainer() {
-        items = new ArrayList<>();
+    public ItemContainer(ArrayList<Item> items, GameContainer gameContainer) {
+        this.gameContainer = gameContainer;
+        this.items = new ArrayList<>();
         itemMap = new HashMap<>();
+        items.forEach(item -> addItem(item, item.getPosition()));
     }
 
-    public ArrayList<Item> getItems(int x, int y, int z) {
-        return getItems(new Position(x, y, z));
+    public void initItems() {
+        items.forEach(this::initItem);
     }
 
-    public ArrayList<Item> getItems(Position position) {
-        if (itemMap.get(position) == null) {
-            return new ArrayList<>();
-        } else {
-            return itemMap.get(position);
-        }
+    private void initItem(Item item) {
+        item.getAspects().values().forEach((aspect) -> aspect.init(gameContainer));
+    }
+
+    public void turn() {
+        items.forEach((item) -> item.turn());
     }
 
     public void removeItem(Item item) {
@@ -43,13 +45,23 @@ public class ItemContainer {
     }
 
     public void addItem(Item item, Position position) {
+        initItem(item);
         items.add(item);
         putItem(item, position);
     }
 
     public void moveItem(Item item, Position position) {
-        removeItem(item);
-        addItem(item, position);
+        pickItem(item);
+        putItem(item, position);
+    }
+
+    public void pickItem(Item item) {
+        ArrayList<Item> list = itemMap.get(item.getPosition());
+        list.remove(item);
+        if(list.isEmpty()) {
+            itemMap.remove(item.getPosition());
+        }
+        item.setPosition(null);
     }
 
     public void putItem(Item item, Position pos) {
@@ -70,19 +82,15 @@ public class ItemContainer {
         return null;
     }
 
-    public void turn() {
-        items.forEach((item) -> item.turn());
+    public ArrayList<Item> getItems(int x, int y, int z) {
+        return getItems(new Position(x, y, z));
     }
 
-    public void initItems() {
-        items.forEach((item) -> item.getAspects().values().forEach((aspect) -> aspect.init(gameContainer)));
-    }
-
-    public GameContainer getGameContainer() {
-        return gameContainer;
-    }
-
-    public void setGameContainer(GameContainer gameContainer) {
-        this.gameContainer = gameContainer;
+    public ArrayList<Item> getItems(Position position) {
+        if (itemMap.get(position) == null) {
+            return new ArrayList<>();
+        } else {
+            return itemMap.get(position);
+        }
     }
 }

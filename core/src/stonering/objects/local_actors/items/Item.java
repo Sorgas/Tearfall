@@ -47,10 +47,10 @@ public class Item extends AspectHolder {
     @Override
     public String toString() {
         return "title: " + title +
-                "position: " + position +
-                "material: " + material +
-                "weight: " + weight +
-                "volume: " + volume;
+                " position: " + position +
+                " material: " + material +
+                " weight: " + weight +
+                " volume: " + volume;
     }
 
     public String getTitle() {

@@ -57,10 +57,8 @@ public class GameContainer {
         unitContainer.placeUnits();
         unitContainer.initUnits();
 
-        itemContainer = new ItemContainer();
-        itemContainer.setGameContainer(this);
+        itemContainer = new ItemContainer(container.getItems(), this);
         itemContainer.initItems();
-        container.getItems().forEach((item) -> itemContainer.addItem(item, item.getPosition()));
 
         taskContainer = new TaskContainer(this);
 
