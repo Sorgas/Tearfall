@@ -50,7 +50,6 @@ public class PlantContainer {
                 placePlant((Plant) plant);
             }
         }
-
     }
 
     private void placePlant(Plant plant) {

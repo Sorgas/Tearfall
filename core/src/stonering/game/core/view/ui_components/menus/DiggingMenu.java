@@ -10,38 +10,39 @@ import stonering.utils.global.StaticSkin;
 /**
  * Menu for selecting designation type.
  */
-public class DiggingMenu extends Menu {
+public class DiggingMenu extends ButtonMenu {
     private DesignationsController controller;
 
     public DiggingMenu() {
         super();
+        initMenu();
         createTable();
+    }
+
+    private void initMenu() {
+        createButton("D: dig", DesignationTypes.DIG, 'd');
+        createButton("R: ramp", DesignationTypes.RAMP, 'r');
+        createButton("C: channel", DesignationTypes.CHANNEL, 'c');
+        createButton("S: stairs", DesignationTypes.STAIRS, 's');
+        createButton("Z: clear", DesignationTypes.NONE, 'z');
+        createButton("ESC: cancel", null, (char) 27);
     }
 
     private void createTable() {
         this.defaults().padBottom(5).fillX();
         this.pad(10);
         this.right().bottom();
-
-        addButtonToTable("D: dig", DesignationTypes.DIG, 'd');
-        addButtonToTable("R: ramp", DesignationTypes.RAMP, 'r');
-        addButtonToTable("C: channel", DesignationTypes.CHANNEL, 'c');
-        addButtonToTable("S: stairs", DesignationTypes.STAIRS, 's');
-        addButtonToTable("Z: clear", DesignationTypes.NONE, 'z');
-        addButtonToTable("ESC: cancel", null, (char) 27);
     }
 
-    private void addButtonToTable(String text, DesignationTypes type, char hotKey) {
+    private void createButton(String text, DesignationTypes type, char hotKey) {
         TextButton button = new TextButton(text, StaticSkin.getSkin());
         button.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 controller.setActiveDesignation(type);
-                toolbar.closeMenus();
             }
         });
-        this.add(button).row();
-        hotkeyMap.put(hotKey, button);
+        addButton(button, hotKey);
     }
 
     public void setController(DesignationsController controller) {

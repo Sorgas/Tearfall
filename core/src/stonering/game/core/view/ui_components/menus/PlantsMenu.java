@@ -38,7 +38,7 @@ public class PlantsMenu extends Menu {
             }
         });
         this.add(button).row();
-        hotkeyMap.put(hotKey, button);
+        hotkeys.put(hotKey, button);
     }
 
     public void setController(DesignationsController controller) {

@@ -1,9 +1,8 @@
 package stonering.game.core.view.ui_components.menus;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import stonering.game.core.view.ui_components.Toolbar;
+import stonering.utils.global.StaticSkin;
 
 import java.util.HashMap;
 
@@ -14,35 +13,27 @@ import java.util.HashMap;
  * Created by Alexander on 27.12.2017.
  */
 public abstract class Menu extends Table {
-    protected HashMap<Character,Button> hotkeyMap;
-    protected Toolbar toolbar;
+    protected HashMap<Character, Button> buttons;
 
     public Menu() {
-        this(null);
-    }
-
-    public Menu(Skin skin) {
-        super(skin);
-        hotkeyMap = new HashMap<>();
-    }
-
-    public boolean inSet(char c) {
-        return hotkeyMap.keySet().contains(c);
+        super(StaticSkin.getSkin());
+        buttons = new HashMap<>();
     }
 
     public boolean invokeByKey(char c) {
-        if(hotkeyMap.keySet().contains(c)) {
-            hotkeyMap.get(c).toggle();
+        if(buttons.keySet().contains(c)) {
+            buttons.get(c).toggle();
             return true;
         }
         return false;
     }
 
-    public Toolbar getToolbar() {
-        return toolbar;
-    }
-
-    public void setToolbar(Toolbar toolbar) {
-        this.toolbar = toolbar;
+    /**
+     * Adds all buttons from map to table. For hiding use clearChildren().
+     */
+    public void show() {
+        buttons.values().forEach((button) -> {
+            add(button).row();
+        });
     }
 }

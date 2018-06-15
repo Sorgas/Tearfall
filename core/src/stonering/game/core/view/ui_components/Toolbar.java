@@ -3,33 +3,26 @@ package stonering.game.core.view.ui_components;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import stonering.game.core.view.ui_components.menus.BuildingMenu;
-import stonering.game.core.view.ui_components.menus.DiggingMenu;
-import stonering.game.core.view.ui_components.menus.Menu;
-import stonering.game.core.view.ui_components.menus.PlantsMenu;
+import stonering.game.core.view.ui_components.menus.*;
 import stonering.utils.global.StaticSkin;
-
-import java.util.HashMap;
 
 /**
  * Component of toolbar and its state
  *
  * Created by Alexander on 19.12.2017.
  */
-public class Toolbar extends Menu {
+public class Toolbar extends SubMenuMenu {
     public static final String TOOLBAR = "bar";
     public static final String DIGGING = "digging";
     public static final String PLANTS = "plants";
     public static final String BUILDING = "building";
 
     private String activeMenu;
-    private HashMap<String, Menu> menuMap;
 
     public Toolbar() {
         super();
         activeMenu = TOOLBAR;
-        menuMap = new HashMap<>();
-        menuMap.put(TOOLBAR, this);
+        menus.put(TOOLBAR, this);
         createTable();
     }
 
@@ -38,15 +31,16 @@ public class Toolbar extends Menu {
         this.pad(10);
         this.setFillParent(true);
         this.right().bottom();
+
         this.add(initMenu(new PlantsMenu(), "P: plants", 'p', PLANTS));
         this.add(initMenu(new DiggingMenu(), "D: digging", 'd', DIGGING));
-        this.add(initMenu(new BuildingMenu(), "B: building", 'b', BUILDING));
+        this.add(initMenu(new GeneralBuildingMenu(), "B: building", 'b', BUILDING));
     }
 
     private Menu initMenu(Menu menu, String text, char hotkey, String mapKey) {
         menu.setVisible(false);
         menu.setToolbar(this);
-        menuMap.put(mapKey, menu);
+        menus.put(mapKey, menu);
         TextButton button = new TextButton(text, StaticSkin.getSkin());
         button.addListener(new ChangeListener() {
             @Override
@@ -55,7 +49,7 @@ public class Toolbar extends Menu {
             }
         });
         this.add(button).row();
-        hotkeyMap.put(hotkey, button);
+        hotkeys.put(hotkey, button);
         return menu;
     }
 
@@ -69,15 +63,15 @@ public class Toolbar extends Menu {
     }
 
     private void hideInactiveMenus() {
-        menuMap.forEach((key, menu) -> menuMap.get(key).setVisible(activeMenu.equals(key) || key.equals(TOOLBAR)));
+        menus.forEach((key, menu) -> menus.get(key).setVisible(activeMenu.equals(key) || key.equals(TOOLBAR)));
     }
 
     public boolean handlePress(char c) {
-        return menuMap.get(activeMenu).invokeByKey(c);
+        return menus.get(activeMenu).invokeByKey(c);
     }
 
     public Menu getMenu(String menu) {
-        return menuMap.get(menu);
+        return menus.get(menu);
     }
 
     public void closeMenus() {
