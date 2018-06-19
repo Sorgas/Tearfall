@@ -8,6 +8,7 @@
 
 package stonering.game.core.controller.controllers;
 
+import stonering.game.core.GameMvc;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.view.GameView;
 
@@ -17,9 +18,15 @@ import stonering.game.core.view.GameView;
  * Created by Alexander on 25.12.2017.
  */
 public class CameraConroller extends Controller{
+    private GameContainer container;
 
-    public CameraConroller(GameContainer container, GameView view) {
-        super(container, view);
+    public CameraConroller(GameMvc gameMvc) {
+        super(gameMvc);
+    }
+
+    @Override
+    public void init() {
+        container = gameMvc.getModel();
     }
 
     /**

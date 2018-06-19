@@ -4,6 +4,7 @@
 
 package stonering.game.core.controller.controllers;
 
+import stonering.game.core.GameMvc;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.view.GameView;
 
@@ -13,11 +14,11 @@ import stonering.game.core.view.GameView;
  * Created by Alexander on 25.12.2017.
  */
 public abstract class Controller {
-    protected GameContainer container;
-    protected GameView view;
+    protected GameMvc gameMvc;
 
-    public Controller(GameContainer container, GameView view) {
-        this.container = container;
-        this.view = view;
+    public Controller(GameMvc gameMvc) {
+        this.gameMvc = gameMvc;
     }
+
+    public abstract void init();
 }

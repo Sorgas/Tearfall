@@ -1,8 +1,7 @@
 package stonering.game.core.controller.controllers;
 
-import stonering.game.core.model.GameContainer;
-import stonering.game.core.view.GameView;
-import stonering.game.core.view.ui_components.Toolbar;
+import stonering.game.core.GameMvc;
+import stonering.game.core.view.ui_components.menus.Toolbar;
 
 /**
  * Controller for Toolbar. Simply sends input events to it.
@@ -12,9 +11,12 @@ import stonering.game.core.view.ui_components.Toolbar;
 public class ToolBarController extends Controller {
     private Toolbar toolbar;
 
-    public ToolBarController(GameContainer container, GameView view) {
-        super(container, view);
-        toolbar = view.getUiDrawer().getToolbar();
+    public ToolBarController(GameMvc gameMvc) {
+        super(gameMvc);
+    }
+
+    public void init() {
+        toolbar = gameMvc.getView().getUiDrawer().getToolbar();
     }
 
     public boolean handlePress(char key) {

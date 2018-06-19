@@ -3,8 +3,7 @@ package stonering.game.core.view;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import stonering.game.core.controller.controllers.GameController;
-import stonering.game.core.model.GameContainer;
+import stonering.game.core.GameMvc;
 
 /**
  * Main game Screen
@@ -12,18 +11,29 @@ import stonering.game.core.model.GameContainer;
  * Created by Alexander on 10.06.2017.
  */
 public class GameView implements Screen {
-    private GameContainer container;
-    private GameController controller;
+    private GameMvc gameMvc;
     private LocalWorldDrawer worldDrawer;
     private UIDrawer uiDrawer;
     private SpriteBatch batch;
 
-    public GameView(GameContainer container) {
-        this.container = container;
+    /**
+     * Also creates all sub-components.
+     *
+     * @param gameMvc
+     */
+    public GameView(GameMvc gameMvc) {
+        this.gameMvc = gameMvc;
+        worldDrawer = new LocalWorldDrawer(gameMvc);
+        uiDrawer = new UIDrawer(gameMvc);
     }
 
+    /**
+     * Do bindings of components to their controllers/models.
+     */
     public void init() {
-        initDrawer();
+        worldDrawer.init();
+        uiDrawer.init();
+        gameMvc.getController().addInputProcessor(uiDrawer.getStage());
     }
 
     @Override
@@ -42,6 +52,15 @@ public class GameView implements Screen {
     public void resize(int width, int height) {
         uiDrawer.resize(width, height);
         initBatch();
+    }
+
+    private void initBatch() {
+        if (batch != null)
+            batch.dispose();
+        batch = new SpriteBatch();
+        worldDrawer.setBatch(batch);
+        worldDrawer.setScreenCenterX(Gdx.graphics.getWidth() / 2);
+        worldDrawer.setScreenCenterY(Gdx.graphics.getHeight() / 2);
     }
 
     @Override
@@ -64,36 +83,7 @@ public class GameView implements Screen {
         batch.dispose();
     }
 
-    private void initDrawer() {
-        worldDrawer = new LocalWorldDrawer(container.getLocalMap());
-        uiDrawer = new UIDrawer();
-        worldDrawer.setContainer(container);
-        uiDrawer.setContainer(container);
-        worldDrawer.setScreenCenterX(Gdx.graphics.getWidth() / 2);
-        worldDrawer.setScreenCenterY(Gdx.graphics.getHeight() / 2);
-        worldDrawer.setViewAreaWidth(50);
-        worldDrawer.setViewAreDepth(15);
-        controller.addInputProcessor(uiDrawer.getStage());
-    }
-
-    private void initBatch() {
-        if (batch != null)
-            batch.dispose();
-        batch = new SpriteBatch();
-        worldDrawer.setBatch(batch);
-        worldDrawer.setScreenCenterX(Gdx.graphics.getWidth() / 2);
-        worldDrawer.setScreenCenterY(Gdx.graphics.getHeight() / 2);
-    }
-
-    public void setContainer(GameContainer container) {
-        this.container = container;
-    }
-
     public UIDrawer getUiDrawer() {
         return uiDrawer;
-    }
-
-    public void setController(GameController controller) {
-        this.controller = controller;
     }
 }

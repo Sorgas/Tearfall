@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.enums.designations.DesignationTypes;
+import stonering.game.core.GameMvc;
 import stonering.game.core.controller.controllers.DesignationsController;
 import stonering.utils.global.StaticSkin;
 
@@ -13,13 +14,17 @@ import stonering.utils.global.StaticSkin;
 public class PlantsMenu extends Menu {
     private DesignationsController controller;
 
-    public PlantsMenu() {
-        super();
+    public PlantsMenu(GameMvc gameMvc) {
+        super(gameMvc);
         createTable();
     }
 
+    @Override
+    public void init() {
+        controller = gameMvc.getController().getDesignationsController();
+    }
+
     private void createTable() {
-        this.defaults().padBottom(5).fillX();
         this.pad(10);
         this.right().bottom();
 
@@ -34,14 +39,9 @@ public class PlantsMenu extends Menu {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 controller.setActiveDesignation(type);
-                toolbar.closeMenus();
+//                toolbar.closeMenus();
             }
         });
-        this.add(button).row();
-        hotkeys.put(hotKey, button);
-    }
-
-    public void setController(DesignationsController controller) {
-        this.controller = controller;
+        this.addActor(button);
     }
 }

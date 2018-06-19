@@ -1,9 +1,10 @@
 package stonering.game.core.controller.controllers;
 
 import stonering.enums.designations.DesignationTypes;
+import stonering.game.core.GameMvc;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.view.GameView;
-import stonering.game.core.view.ui_components.Toolbar;
+import stonering.game.core.view.ui_components.menus.Toolbar;
 import stonering.game.core.view.ui_components.menus.DiggingMenu;
 import stonering.game.core.view.ui_components.menus.PlantsMenu;
 import stonering.global.utils.Position;
@@ -17,11 +18,16 @@ public class DesignationsController extends Controller {
     private DesignationTypes activeDesignation;
     private boolean rectangleStarted = false;
     private Position start; // should be stored between steps
+    private GameContainer container;
+    private GameView view;
 
-    public DesignationsController(GameContainer container, GameView view) {
-        super(container, view);
-        ((DiggingMenu) view.getUiDrawer().getToolbar().getMenu(Toolbar.DIGGING)).setController(this);
-        ((PlantsMenu) view.getUiDrawer().getToolbar().getMenu(Toolbar.PLANTS)).setController(this);
+    public DesignationsController(GameMvc gameMvc) {
+        super(gameMvc);
+    }
+
+    public void init() {
+        container = gameMvc.getModel();
+        view = gameMvc.getView();
     }
 
     /**
@@ -31,7 +37,7 @@ public class DesignationsController extends Controller {
      */
     public void setActiveDesignation(DesignationTypes activeDesignation) {
         this.activeDesignation = activeDesignation;
-        view.getUiDrawer().getToolStatus().setText(
+        gameMvc.getView().getUiDrawer().getToolStatus().setText(
                 activeDesignation != null ? activeDesignation.getText() : "");
     }
 

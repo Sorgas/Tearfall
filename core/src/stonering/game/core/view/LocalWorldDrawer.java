@@ -1,10 +1,12 @@
 package stonering.game.core.view;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import stonering.enums.designations.DesignationsTileMapping;
 import stonering.enums.materials.MaterialMap;
+import stonering.game.core.GameMvc;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.LocalMap;
 import stonering.game.core.view.tilemaps.LocalTileMap;
@@ -22,6 +24,7 @@ import java.util.ArrayList;
  * Created by Alexander on 13.06.2017.
  */
 public class LocalWorldDrawer {
+    private GameMvc gameMvc;
     private GameContainer container;
     private LocalTileMap localTileMap;
     private SpriteBatch batch;
@@ -49,10 +52,19 @@ public class LocalWorldDrawer {
     private int minZ;
     private MaterialMap materialMap;
 
-    public LocalWorldDrawer(LocalMap localMap) {
-        this.localMap = localMap;
+    public LocalWorldDrawer(GameMvc gameMvc) {
+        this.gameMvc = gameMvc;
         materialMap = MaterialMap.getInstance();
         initAtlases();
+    }
+
+    public void init() {
+        container = gameMvc.getModel();
+        localMap = container.getLocalMap();
+        setScreenCenterX(Gdx.graphics.getWidth() / 2);
+        setScreenCenterY(Gdx.graphics.getHeight() / 2);
+        setViewAreaWidth(50);
+        setViewAreDepth(15);
     }
 
     public void drawWorld() {
@@ -196,9 +208,5 @@ public class LocalWorldDrawer {
 
     private int getScreenPosY(int x, int y, int z) {
         return -(x + y) * tileDepth / 2 + z * (tileHeight - tileDepth) + screenCenterY;
-    }
-
-    public void setContainer(GameContainer container) {
-        this.container = container;
     }
 }

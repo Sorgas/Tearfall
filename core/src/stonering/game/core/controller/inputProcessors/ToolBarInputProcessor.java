@@ -9,7 +9,6 @@ import stonering.global.settings.KeySettings;
  * Created by Alexander on 01.07.2017.
  */
 public class ToolBarInputProcessor implements InputProcessor {
-    private KeySettings keySettings;
     private ToolBarController controller;
 
     public ToolBarInputProcessor( GameController controller) {

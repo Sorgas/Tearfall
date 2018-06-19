@@ -7,7 +7,7 @@ import stonering.generators.localgen.LocalGenContainer;
 
 /**
  * Main game MVC.
- *
+ * <p>
  * Created by Alexander on 10.06.2017.
  */
 public class GameMvc {
@@ -17,9 +17,9 @@ public class GameMvc {
 
     public GameMvc(LocalGenContainer container) {
         model = new GameContainer(container); //independent from CV
-        view = new GameView(model);
-        controller = new GameController(model, view);
-        view.setController(controller);
+        view = new GameView(this);
+        controller = new GameController(this);
+
         view.init();
         controller.init();
     }
@@ -28,15 +28,11 @@ public class GameMvc {
         return model;
     }
 
-    public void setModel(GameContainer model) {
-        this.model = model;
-    }
-
     public GameView getView() {
         return view;
     }
 
-    public void setView(GameView view) {
-        this.view = view;
+    public GameController getController() {
+        return controller;
     }
 }

@@ -1,6 +1,6 @@
 package stonering.game.core.view.ui_components.menus;
 
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import stonering.game.core.GameMvc;
 
 import java.util.HashMap;
 
@@ -8,14 +8,12 @@ import java.util.HashMap;
  * @author Alexander Kuzyakov
  * created on 15.06.2018
  */
-public class SubMenuMenu extends Menu {
-    protected HashMap<String, Menu> menus;
-    protected HashMap<String, TextButton> buttons;
+public abstract class SubMenuMenu extends Menu {
+    protected HashMap<Character, Menu> menus;
 
-    public SubMenuMenu() {
-        super();
+    public SubMenuMenu(GameMvc gameMvc) {
+        super(gameMvc);
         menus = new HashMap<>();
-        buttons = new HashMap<>();
     }
 
     protected void addMenu(Menu menu, String key) {

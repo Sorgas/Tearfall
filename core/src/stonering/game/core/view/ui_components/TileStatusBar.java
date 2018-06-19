@@ -27,9 +27,8 @@ public class TileStatusBar extends Table {
     }
 
     private void createTable() {
-        this.defaults().align(Align.left);
         this.align(Align.bottomLeft);
-        this.pad(10);
+        this.defaults().align(Align.left);
 
         cellType = new Label("", StaticSkin.getSkin());
         this.add(new Label("Material: ", StaticSkin.getSkin()));

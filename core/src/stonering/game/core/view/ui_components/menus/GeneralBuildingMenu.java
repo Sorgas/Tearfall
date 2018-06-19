@@ -4,8 +4,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.enums.designations.DesignationTypes;
+import stonering.game.core.GameMvc;
 import stonering.game.core.controller.controllers.DesignationsController;
-import stonering.game.core.view.ui_components.Toolbar;
 import stonering.utils.global.StaticSkin;
 
 /**
@@ -16,16 +16,21 @@ import stonering.utils.global.StaticSkin;
 public class GeneralBuildingMenu extends SubMenuMenu {
     private Toolbar toolbar;
 
-    public GeneralBuildingMenu() {
-        super();
+    public GeneralBuildingMenu(GameMvc gameMvc) {
+        super(gameMvc);
         createTable();
+    }
+
+    @Override
+    public void init() {
+
     }
 
     private void initButtons() {
         createButton("C: constructions", "constructions", 'c');
         createButton("W: workbenches", "workbenches", 'w');
         createButton("F: furniture", "furniture", 'f');
-        menus.put("constructions", new ConstructionsMenu());
+//        menus.put("constructions", new ConstructionsMenu());
     }
 
     private void createButton(String text, String menu, char hotKey) {
@@ -36,9 +41,8 @@ public class GeneralBuildingMenu extends SubMenuMenu {
 
             }
         });
-        this.add(button).row();
-        buttons.put(menu, button);
-        hotkeys.put(hotKey, button);
+        this.addActor(button);
+        buttons.put(hotKey, button);
     }
 
     public void showSubMenu(String menu) {
@@ -46,7 +50,6 @@ public class GeneralBuildingMenu extends SubMenuMenu {
     }
 
     private void createTable() {
-        this.defaults().padBottom(5).fillX();
         this.pad(10);
         this.right().bottom();
 
@@ -54,11 +57,10 @@ public class GeneralBuildingMenu extends SubMenuMenu {
         diggingButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                toolbar.closeMenus();
+//                toolbar.closeMenus();
             }
         });
-        this.add(diggingButton).right().row();
-        hotkeys.put('d', diggingButton);
+        this.addActor(diggingButton);
     }
 
     private void addButtonToTable(String text, DesignationTypes type, char hotKey) {
@@ -67,11 +69,10 @@ public class GeneralBuildingMenu extends SubMenuMenu {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
 //                controller. setActiveDesignation(type);
-                toolbar.closeMenus();
+//                toolbar.closeMenus();
             }
         });
-        this.add(button).row();
-        hotkeys.put(hotKey, button);
+        this.addActor(button);
     }
     public void setController(DesignationsController controller) {
         //this.controller = controller;

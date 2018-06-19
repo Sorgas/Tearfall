@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.enums.designations.DesignationTypes;
+import stonering.game.core.GameMvc;
 import stonering.game.core.controller.controllers.DesignationsController;
 import stonering.utils.global.StaticSkin;
 
@@ -13,10 +14,14 @@ import stonering.utils.global.StaticSkin;
 public class DiggingMenu extends ButtonMenu {
     private DesignationsController controller;
 
-    public DiggingMenu() {
-        super();
+    public DiggingMenu(GameMvc gameMvc) {
+        super(gameMvc);
         initMenu();
         createTable();
+    }
+
+    public void init() {
+        controller = gameMvc.getController().getDesignationsController();
     }
 
     private void initMenu() {
@@ -29,7 +34,6 @@ public class DiggingMenu extends ButtonMenu {
     }
 
     private void createTable() {
-        this.defaults().padBottom(5).fillX();
         this.pad(10);
         this.right().bottom();
     }
@@ -43,9 +47,5 @@ public class DiggingMenu extends ButtonMenu {
             }
         });
         addButton(button, hotKey);
-    }
-
-    public void setController(DesignationsController controller) {
-        this.controller = controller;
     }
 }
