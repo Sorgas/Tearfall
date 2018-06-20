@@ -21,7 +21,7 @@ import stonering.utils.global.StaticSkin;
 public class UIDrawer {
     private GameMvc gameMvc;
     private Stage stage;
-    private HorizontalGroup menuLevels;
+    private MenuLevels menuLevels;
     private TileStatusBar tileStatusBar;
     private Toolbar toolbar;
     private ToolStatus toolStatus;
@@ -40,21 +40,14 @@ public class UIDrawer {
         tileStatusBar = new TileStatusBar();
         stage.addActor(new Container(tileStatusBar).bottom().left().pad(10));
 
+        menuLevels.init();
         Container container = new Container(menuLevels).bottom().right().pad(10);
         container.setFillParent(true);
         stage.addActor(container);
 
         toolStatus = new ToolStatus();
-        createMenuLevels();
 
         stage.setDebugAll(true);
-    }
-
-    private void createMenuLevels() {
-        menuLevels = new HorizontalGroup();
-        menuLevels.right().bottom();
-        toolbar.init();
-        toolbar.show();
     }
 
     public void draw() {

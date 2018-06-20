@@ -14,9 +14,10 @@ public class MenuLevels extends HorizontalGroup {
         this.gameMvc = gameMvc;
         toolbar = new Toolbar(gameMvc);
         addActor(toolbar);
+    }
+
+    public void init() {
         toolbar.init();
         toolbar.show();
     }
-
-
 }
