@@ -8,8 +8,6 @@ import stonering.game.core.controller.inputProcessors.CameraInputProcessor;
 import stonering.game.core.controller.inputProcessors.DesignationsInputProcessor;
 import stonering.game.core.controller.inputProcessors.PauseInputProcessor;
 import stonering.game.core.controller.inputProcessors.ToolBarInputProcessor;
-import stonering.game.core.model.GameContainer;
-import stonering.game.core.view.GameView;
 
 /**
  * Container for all controllers.

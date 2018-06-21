@@ -16,14 +16,13 @@ import stonering.utils.global.StaticSkin;
 
 /**
  * Stores and renders all ui components on screen.
- * Created by Alexander on 12.10.2017.
+ * @author Alexander on 12.10.2017.
  */
 public class UIDrawer {
     private GameMvc gameMvc;
     private Stage stage;
     private MenuLevels menuLevels;
     private TileStatusBar tileStatusBar;
-    private Toolbar toolbar;
     private ToolStatus toolStatus;
     private GameContainer container;
     private MaterialMap materialMap;
@@ -41,11 +40,13 @@ public class UIDrawer {
         stage.addActor(new Container(tileStatusBar).bottom().left().pad(10));
 
         menuLevels.init();
-        Container container = new Container(menuLevels).bottom().right().pad(10);
+        toolStatus = new ToolStatus();
+        VerticalGroup rightTools = new VerticalGroup();
+        rightTools.addActor(toolStatus);
+        rightTools.addActor(menuLevels);
+        Container container = new Container(rightTools).bottom().right().pad(10);
         container.setFillParent(true);
         stage.addActor(container);
-
-        toolStatus = new ToolStatus();
 
         stage.setDebugAll(true);
     }
@@ -53,10 +54,6 @@ public class UIDrawer {
     public void draw() {
         updateStatusBar();
         stage.draw();
-    }
-
-    public void setContainer(GameContainer container) {
-        this.container = container;
     }
 
     private void updateStatusBar() {
@@ -75,10 +72,18 @@ public class UIDrawer {
     }
 
     public Toolbar getToolbar() {
-        return toolbar;
+        return menuLevels.getToolbar();
     }
 
     public ToolStatus getToolStatus() {
         return toolStatus;
+    }
+
+    public void setContainer(GameContainer container) {
+        this.container = container;
+    }
+
+    public MenuLevels getMenuLevels() {
+        return menuLevels;
     }
 }

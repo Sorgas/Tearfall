@@ -12,12 +12,34 @@ public class MenuLevels extends HorizontalGroup {
 
     public MenuLevels(GameMvc gameMvc) {
         this.gameMvc = gameMvc;
-        toolbar = new Toolbar(gameMvc);
-        addActor(toolbar);
     }
 
     public void init() {
+        toolbar = new Toolbar(gameMvc);
         toolbar.init();
         toolbar.show();
+    }
+
+    public Toolbar getToolbar() {
+        return toolbar;
+    }
+
+    /**
+     * Levels counted from right to left, widget indexes is opposite.
+     *
+     * @param menu
+     * @param level
+     */
+    public void addMenu(ButtonMenu menu, int level) {
+        this.addActorAt(0, menu);
+    }
+
+    /**
+     * Returns visible menu with lowest level
+     *
+     * @return
+     */
+    public ButtonMenu getActiveMenu() {
+        return (ButtonMenu) getChildren().get(0);
     }
 }

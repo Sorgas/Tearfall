@@ -8,15 +8,15 @@ import java.util.HashMap;
  * @author Alexander Kuzyakov
  * created on 15.06.2018
  */
-public abstract class SubMenuMenu extends Menu {
-    protected HashMap<Character, Menu> menus;
+public abstract class SubMenuMenu extends ButtonMenu {
+    protected HashMap<Character, ButtonMenu> menus;
 
-    public SubMenuMenu(GameMvc gameMvc) {
-        super(gameMvc);
+    public SubMenuMenu(GameMvc gameMvc, int menuLevel) {
+        super(gameMvc, menuLevel);
         menus = new HashMap<>();
     }
 
-    protected void addMenu(Menu menu, String key) {
+    protected void addMenu(ButtonMenu menu, String key) {
 
     }
 }

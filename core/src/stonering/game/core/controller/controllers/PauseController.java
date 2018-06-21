@@ -13,9 +13,10 @@ import stonering.game.core.model.GameContainer;
 import stonering.game.core.view.GameView;
 
 /**
- * Pauses and unpauses game timer. Works with GameContainer directly
+ * Pauses and unpauses game timer. Works with GameContainer directly.
+ * Used from Gdx.input and from game events.
  *
- * Created by Alexander on 25.12.2017.
+ * @author Alexander on 25.12.2017.
  */
 public class PauseController extends Controller{
     private GameContainer container;

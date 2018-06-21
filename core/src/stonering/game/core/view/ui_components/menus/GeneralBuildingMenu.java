@@ -9,7 +9,7 @@ import stonering.game.core.controller.controllers.DesignationsController;
 import stonering.utils.global.StaticSkin;
 
 /**
- * Menu for selecting building.
+ * ButtonMenu for selecting building.
  *
  * Created by Alexander on 25.01.2018.
  */
@@ -17,13 +17,13 @@ public class GeneralBuildingMenu extends SubMenuMenu {
     private Toolbar toolbar;
 
     public GeneralBuildingMenu(GameMvc gameMvc) {
-        super(gameMvc);
+        super(gameMvc, 1);
         createTable();
     }
 
     @Override
     public void init() {
-
+        super.init();
     }
 
     private void initButtons() {

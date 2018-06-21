@@ -6,7 +6,7 @@ import stonering.game.core.controller.controllers.PauseController;
 import stonering.global.settings.KeySettings;
 
 /**
- * Created by Alexander on 29.11.2017.
+ * @author Alexander on 29.11.2017.
  */
 public class PauseInputProcessor implements InputProcessor {
     private KeySettings keySettings;

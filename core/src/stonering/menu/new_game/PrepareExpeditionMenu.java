@@ -18,7 +18,7 @@ import stonering.global.utils.Position;
 import java.io.File;
 
 /**
- * Menu for choosing settlers and resources for game start.
+ * ButtonMenu for choosing settlers and resources for game start.
  * //TODO
  *
  * Created by Alexander on 14.04.2017.

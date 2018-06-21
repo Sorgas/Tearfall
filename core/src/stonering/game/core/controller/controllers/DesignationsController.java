@@ -12,7 +12,7 @@ import stonering.global.utils.Position;
 /**
  * Controller for various digging tasks. Works with GameContainer directly
  *
- * Created by Alexander on 24.12.2017.
+ * @author Alexander on 24.12.2017.
  */
 public class DesignationsController extends Controller {
     private DesignationTypes activeDesignation;
@@ -39,10 +39,6 @@ public class DesignationsController extends Controller {
         this.activeDesignation = activeDesignation;
         gameMvc.getView().getUiDrawer().getToolStatus().setText(
                 activeDesignation != null ? activeDesignation.getText() : "");
-    }
-
-    public DesignationTypes getActiveDesignation() {
-        return activeDesignation;
     }
 
     /**
@@ -85,5 +81,9 @@ public class DesignationsController extends Controller {
                 }
             }
         }
+    }
+
+    public DesignationTypes getActiveDesignation() {
+        return activeDesignation;
     }
 }
