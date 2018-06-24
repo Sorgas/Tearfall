@@ -14,7 +14,8 @@ public class PlantsMenu extends ButtonMenu {
 
     public PlantsMenu(GameMvc gameMvc) {
         super(gameMvc, 1);
-        createTable();
+        hideable = true;
+        initMenu();
     }
 
     @Override
@@ -23,10 +24,12 @@ public class PlantsMenu extends ButtonMenu {
         controller = gameMvc.getController().getDesignationsController();
     }
 
-    private void createTable() {
-        this.pad(10);
-        this.right().bottom();
+    @Override
+    public void reset() {
+        controller.handleCancel();
+    }
 
+    private void initMenu() {
         addButtonToTable("T: chop trees", DesignationTypes.CHOP, 't');
         addButtonToTable("Z: clear", DesignationTypes.NONE, 'z');
     }

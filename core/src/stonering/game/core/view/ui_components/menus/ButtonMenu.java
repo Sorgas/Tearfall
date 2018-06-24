@@ -20,6 +20,7 @@ import java.util.HashMap;
  * Created by Alexander on 27.12.2017.
  */
 public abstract class ButtonMenu extends VerticalGroup {
+    protected boolean hideable = false;
     protected int menuLevel;
     protected GameMvc gameMvc;
     protected HashMap<Character, Button> buttons;
@@ -48,12 +49,13 @@ public abstract class ButtonMenu extends VerticalGroup {
      * False otherwise, handling continues.
      */
     public boolean invokeByKey(char c) {
-        if(c == (char) 27) {
-            hide();
-            return true;
-        }
         if (buttons.keySet().contains(c)) {
             buttons.get(c).toggle();
+            return true;
+        }
+        if(c == (char) 27 && hideable) {
+            hide();
+            reset();
             return true;
         }
         return false;
@@ -78,4 +80,9 @@ public abstract class ButtonMenu extends VerticalGroup {
     public void hide() {
         menuLevels.removeActor(this);
     }
+
+    /**
+     * Cancels all inputs, like selected tools.
+     */
+    public abstract void reset();
 }

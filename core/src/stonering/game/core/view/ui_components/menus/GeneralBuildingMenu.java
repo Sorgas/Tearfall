@@ -10,7 +10,7 @@ import stonering.utils.global.StaticSkin;
 
 /**
  * ButtonMenu for selecting building.
- *
+ * <p>
  * Created by Alexander on 25.01.2018.
  */
 public class GeneralBuildingMenu extends SubMenuMenu {
@@ -18,6 +18,7 @@ public class GeneralBuildingMenu extends SubMenuMenu {
 
     public GeneralBuildingMenu(GameMvc gameMvc) {
         super(gameMvc, 1);
+        hideable = true;
         createTable();
     }
 
@@ -27,58 +28,30 @@ public class GeneralBuildingMenu extends SubMenuMenu {
     }
 
     private void initButtons() {
-        createButton("C: constructions", "constructions", 'c');
-        createButton("W: workbenches", "workbenches", 'w');
-        createButton("F: furniture", "furniture", 'f');
-//        menus.put("constructions", new ConstructionsMenu());
+        createButton("C: constructions", 'c');
+        createButton("W: workbenches", 'w');
+        createButton("F: furniture", 'f');
+        menus.put('c', new ConstructionsMenu(gameMvc));
+//        menus.put('w', new ConstructionsMenu(gameMvc));
+//        menus.put('f', new ConstructionsMenu(gameMvc));
     }
 
-    private void createButton(String text, String menu, char hotKey) {
-        TextButton button = new TextButton(text, StaticSkin.getSkin());
-        button.addListener(new ChangeListener() {
+    private void createButton(String text, char hotKey) {
+        super.createButton(text, hotKey, new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-
+                menus.get(hotKey).show();
             }
         });
-        this.addActor(button);
-        buttons.put(hotKey, button);
-    }
-
-    public void showSubMenu(String menu) {
-        menus.get(menu).show();
     }
 
     private void createTable() {
         this.pad(10);
         this.right().bottom();
-
-        TextButton diggingButton = new TextButton("D: dig", StaticSkin.getSkin());
-        diggingButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-//                toolbar.closeMenus();
-            }
-        });
-        this.addActor(diggingButton);
     }
 
-    private void addButtonToTable(String text, DesignationTypes type, char hotKey) {
-        TextButton button = new TextButton(text, StaticSkin.getSkin());
-        button.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-//                controller. setActiveDesignation(type);
-//                toolbar.closeMenus();
-            }
-        });
-        this.addActor(button);
-    }
-    public void setController(DesignationsController controller) {
-        //this.controller = controller;
-    }
+    @Override
+    public void reset() {
 
-    public void setToolbar(Toolbar toolbar) {
-        this.toolbar = toolbar;
     }
 }

@@ -14,8 +14,8 @@ public class DiggingMenu extends ButtonMenu {
 
     public DiggingMenu(GameMvc gameMvc) {
         super(gameMvc, 1);
+        hideable = true;
         initMenu();
-        createTable();
     }
 
     public void init() {
@@ -31,11 +31,6 @@ public class DiggingMenu extends ButtonMenu {
         addButton("Z: clear", DesignationTypes.NONE, 'z');
     }
 
-    private void createTable() {
-        this.pad(10);
-        this.right().bottom();
-    }
-
     private void addButton(String text, DesignationTypes type, char hotKey) {
         super.createButton(text, hotKey, new ChangeListener() {
             @Override
@@ -43,5 +38,10 @@ public class DiggingMenu extends ButtonMenu {
                 controller.setActiveDesignation(type);
             }
         });
+    }
+
+    @Override
+    public void reset() {
+        controller.handleCancel();
     }
 }

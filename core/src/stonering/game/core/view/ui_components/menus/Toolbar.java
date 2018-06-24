@@ -3,6 +3,7 @@ package stonering.game.core.view.ui_components.menus;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Align;
 import stonering.game.core.GameMvc;
 import stonering.utils.global.StaticSkin;
 
@@ -32,9 +33,7 @@ public class Toolbar extends SubMenuMenu {
     }
 
     private void initTable() {
-        this.pad(10);
-        this.setFillParent(false);
-        this.right().bottom();
+        this.align(Align.bottom);
     }
 
     private void initMenu(ButtonMenu menu, String text, char hotkey) {
@@ -51,11 +50,15 @@ public class Toolbar extends SubMenuMenu {
     }
 
     public boolean handlePress(char c) {
-        System.out.println("active menu: " + menuLevels.getActiveMenu());
         boolean handled = menuLevels.getActiveMenu().invokeByKey(c);
         if(!handled && c == (char) 27) {
 
         }
         return handled;
+    }
+
+    @Override
+    public void reset() {
+
     }
 }

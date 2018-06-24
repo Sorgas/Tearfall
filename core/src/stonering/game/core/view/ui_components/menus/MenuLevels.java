@@ -1,6 +1,7 @@
 package stonering.game.core.view.ui_components.menus;
 
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
+import com.badlogic.gdx.utils.Align;
 import stonering.game.core.GameMvc;
 
 /**
@@ -12,6 +13,8 @@ public class MenuLevels extends HorizontalGroup {
 
     public MenuLevels(GameMvc gameMvc) {
         this.gameMvc = gameMvc;
+        this.align(Align.bottom);
+        this.invalidate();
     }
 
     public void init() {

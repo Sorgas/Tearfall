@@ -12,10 +12,16 @@ public class ConstructionsMenu extends ButtonMenu {
 
     public ConstructionsMenu(GameMvc gameMvc) {
         super(gameMvc, 1);
+        hideable = true;
     }
 
     @Override
     public void init() {
         super.init();
+    }
+
+    @Override
+    public void reset() {
+
     }
 }
