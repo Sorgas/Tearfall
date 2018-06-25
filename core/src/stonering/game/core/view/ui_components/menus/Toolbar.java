@@ -21,11 +21,6 @@ public class Toolbar extends SubMenuMenu {
         createMenus();
     }
 
-    public void init() {
-        super.init();
-        menus.values().forEach((menu) -> menu.init());
-    }
-
     private void createMenus() {
         initMenu(new PlantsMenu(gameMvc), "P: plants", 'p');
         initMenu(new DiggingMenu(gameMvc), "D: digging", 'd');

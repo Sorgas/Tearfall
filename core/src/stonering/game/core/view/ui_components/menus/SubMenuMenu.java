@@ -16,7 +16,8 @@ public abstract class SubMenuMenu extends ButtonMenu {
         menus = new HashMap<>();
     }
 
-    protected void addMenu(ButtonMenu menu, String key) {
-
+    public void init() {
+        super.init();
+        menus.values().forEach((menu) -> menu.init());
     }
 }

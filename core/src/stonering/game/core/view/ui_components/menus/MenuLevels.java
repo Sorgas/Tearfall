@@ -14,7 +14,6 @@ public class MenuLevels extends HorizontalGroup {
     public MenuLevels(GameMvc gameMvc) {
         this.gameMvc = gameMvc;
         this.align(Align.bottom);
-        this.invalidate();
     }
 
     public void init() {

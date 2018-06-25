@@ -1,12 +1,8 @@
 package stonering.game.core.view.ui_components.menus;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import stonering.enums.designations.DesignationTypes;
 import stonering.game.core.GameMvc;
-import stonering.game.core.controller.controllers.DesignationsController;
-import stonering.utils.global.StaticSkin;
 
 /**
  * ButtonMenu for selecting building.
@@ -14,17 +10,11 @@ import stonering.utils.global.StaticSkin;
  * Created by Alexander on 25.01.2018.
  */
 public class GeneralBuildingMenu extends SubMenuMenu {
-    private Toolbar toolbar;
 
     public GeneralBuildingMenu(GameMvc gameMvc) {
         super(gameMvc, 1);
         hideable = true;
-        createTable();
-    }
-
-    @Override
-    public void init() {
-        super.init();
+        initButtons();
     }
 
     private void initButtons() {
@@ -43,11 +33,6 @@ public class GeneralBuildingMenu extends SubMenuMenu {
                 menus.get(hotKey).show();
             }
         });
-    }
-
-    private void createTable() {
-        this.pad(10);
-        this.right().bottom();
     }
 
     @Override
