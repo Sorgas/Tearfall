@@ -11,7 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Created by Alexander on 10.03.2017.
+ * @author Alexander Kuzyakov on 10.03.2017.
  */
 public class ValleyRenderer  extends AbstractGenerator {
 	private int width;

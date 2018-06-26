@@ -3,7 +3,7 @@ package stonering.enums.plants;
 import java.util.HashMap;
 
 /**
- * Created by Alexander on 30.10.2017.
+ * @author Alexander Kuzyakov on 30.10.2017.
  */
 public enum TreeBlocksTypeEnum {
     STOMP(10), //treestomp

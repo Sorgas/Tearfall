@@ -8,7 +8,7 @@ import stonering.objects.local_actors.items.aspects.TagAspect;
 import java.util.ArrayList;
 
 /**
- * Created by Alexander on 03.01.2018.
+ * @author Alexander Kuzyakov on 03.01.2018.
  * <p>
  * manages all items equipped by unit
  */

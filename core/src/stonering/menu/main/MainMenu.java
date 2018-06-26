@@ -14,7 +14,7 @@ import java.io.File;
 /**
  * Main menu of the game.
  *
- * Created by Alexander on 02.04.2017.
+ * @author Alexander Kuzyakov on 02.04.2017.
  */
 public class MainMenu implements Screen {
     private TearFall game;

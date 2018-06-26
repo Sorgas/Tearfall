@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Created by Alexander on 11.03.2017.
+ * @author Alexander Kuzyakov on 11.03.2017.
  */
 public class HillGenerator  extends AbstractGenerator {
 	private Random random;

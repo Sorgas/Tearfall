@@ -10,7 +10,7 @@ import stonering.global.utils.Position;
 import java.util.ArrayList;
 
 /**
- * Created by Alexander on 06.10.2017.
+ * @author Alexander Kuzyakov on 06.10.2017.
  * <p>
  * Holds movement speed, current path, movement status. also builds path.
  */

@@ -6,12 +6,17 @@ import stonering.global.utils.Position;
 /**
  * Object selector and center for rendering.
  *
- * Created by Alexander on 10.12.2017.
+ * @author Alexander Kuzyakov on 10.12.2017.
  */
 public class GameCamera {
     private Position camera;
     private GameContainer container;
     private LocalMap localMap;
+
+    public final int IDLE_STATUS = 0;
+    public final int GREEN_STATUS = 1;
+    public final int RED_STATUS = 2;
+    private int status;
 
     public GameCamera(GameContainer container) {
         this.container = container;
@@ -40,5 +45,14 @@ public class GameCamera {
         if ((camera.getZ() > 0 && dz < 0) || (camera.getZ() < localMap.getzSize() - 1 && dz > 0)) {
             camera.setZ(camera.getZ() + dz);
         }
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void updateStatus(int status) {
+        if (status >= 0 && status <= 2)
+            this.status = status;
     }
 }

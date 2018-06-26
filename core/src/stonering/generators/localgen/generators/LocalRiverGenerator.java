@@ -8,7 +8,7 @@ import stonering.global.utils.Position;
 import stonering.global.utils.Vector;
 
 /**
- * Created by Alexander on 10.07.2017.
+ * @author Alexander Kuzyakov on 10.07.2017.
  */
 public class LocalRiverGenerator {
     private WorldMap map;

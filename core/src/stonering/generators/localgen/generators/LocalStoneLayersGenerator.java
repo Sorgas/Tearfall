@@ -10,7 +10,7 @@ import stonering.generators.localgen.LocalGenContainer;
 import java.util.*;
 
 /**
- * Created by Alexander on 01.08.2017.
+ * @author Alexander Kuzyakov on 01.08.2017.
  */
 public class LocalStoneLayersGenerator {
     private LocalGenContainer container;

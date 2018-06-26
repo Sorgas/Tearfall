@@ -23,7 +23,7 @@ import java.io.File;
 /**
  * Screen for selecting world file for game start.
  *
- * Created by Alexander on 14.04.2017.
+ * @author Alexander Kuzyakov on 14.04.2017.
  */
 public class SelectWorldMenu implements Screen {
     private WorldMap world;

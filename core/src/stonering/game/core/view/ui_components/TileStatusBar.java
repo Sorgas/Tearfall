@@ -9,7 +9,7 @@ import stonering.global.utils.Position;
 /**
  * Renders information about tile under camera position.
  *
- * Created by Alexander on 12.10.2017.
+ * @author Alexander Kuzyakov on 12.10.2017.
  */
 public class TileStatusBar extends Table {
     private int x;

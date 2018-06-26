@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 
 /**
- * Created by Alexander on 31.05.2017.
+ * @author Alexander Kuzyakov on 31.05.2017.
  *
  * UI component of progress bar next to label
  */

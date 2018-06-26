@@ -5,7 +5,7 @@ import java.util.HashMap;
 /**
  * Enum of all block types.
  *
- * Created by Alexander on 10.06.2017.
+ * @author Alexander Kuzyakov on 10.06.2017.
  */
 public enum BlockTypesEnum {
     SPACE(0, 1), //not passable for walkers

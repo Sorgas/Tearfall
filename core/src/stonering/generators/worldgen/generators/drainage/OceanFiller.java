@@ -7,7 +7,7 @@ import stonering.generators.worldgen.WorldGenContainer;
 import java.util.Random;
 
 /**
- * Created by Alexander on 12.03.2017.
+ * @author Alexander Kuzyakov on 12.03.2017.
  */
 public class OceanFiller extends AbstractGenerator {
 	private Random random;

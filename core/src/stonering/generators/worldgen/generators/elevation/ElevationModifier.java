@@ -7,7 +7,7 @@ import stonering.generators.worldgen.generators.AbstractGenerator;
 
 
 /**
- * Created by Alexander on 18.04.2018.
+ * @author Alexander Kuzyakov on 18.04.2018.
  */
 public class ElevationModifier extends AbstractGenerator {
     private WorldMap map;

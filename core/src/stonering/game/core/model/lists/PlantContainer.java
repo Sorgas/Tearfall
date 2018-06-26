@@ -21,7 +21,7 @@ import java.util.ArrayList;
  * Contains plants on localMap. Trees are stored by their parts as separate plants.
  * Destroyed objects do not persist in container and their blocks are not in localMap.
  * <p>
- * Created by Alexander on 09.11.2017.
+ * @author Alexander Kuzyakov on 09.11.2017.
  */
 public class PlantContainer {
     private ArrayList<AbstractPlant> plants;

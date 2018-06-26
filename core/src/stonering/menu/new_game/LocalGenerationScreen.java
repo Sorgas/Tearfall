@@ -20,7 +20,7 @@ import stonering.menu.ui_components.LabeledProgressBar;
  * Local generation screen to be shown during local generation.
  * //TODO progress bar and some visualization.
  *
- * Created by Alexander on 01.06.2017.
+ * @author Alexander Kuzyakov on 01.06.2017.
  */
 public class LocalGenerationScreen implements Screen {
     private LocalGeneratorContainer localGeneratorContainer;

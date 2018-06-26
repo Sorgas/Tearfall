@@ -3,7 +3,7 @@ package stonering.global.utils.pathfinding.a_star;
 import stonering.global.utils.Position;
 
 /**
- * Created by Alexander on 12.02.2018.
+ * @author Alexander Kuzyakov on 12.02.2018.
  */
 public class Node {
     private Position position;

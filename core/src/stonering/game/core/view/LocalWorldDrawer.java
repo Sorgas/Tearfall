@@ -21,7 +21,7 @@ import java.util.ArrayList;
  * Draws LocalMap. Blocks and plants are taken from LocalTileMap,
  * Buildings, units, and items are taken from LocalMap.
  *
- * Created by Alexander on 13.06.2017.
+ * @author Alexander Kuzyakov on 13.06.2017.
  */
 public class LocalWorldDrawer {
     private GameMvc gameMvc;

@@ -10,7 +10,7 @@ import stonering.objects.local_actors.plants.PlantBlock;
 /**
  * Generates single tile plants (not trees).
  *
- * Created by Alexander on 05.04.2018.
+ * @author Alexander Kuzyakov on 05.04.2018.
  */
 public class PlantGenerator {
 

@@ -3,7 +3,7 @@ package stonering.enums.plants;
 import java.util.HashMap;
 
 /**
- * Created by Alexander on 25.11.2017.
+ * @author Alexander Kuzyakov on 25.11.2017.
  * <p>
  * stores atlas x for different perts of a tree
  */

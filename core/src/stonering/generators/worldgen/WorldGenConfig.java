@@ -3,7 +3,7 @@ package stonering.generators.worldgen;
 import java.util.Random;
 
 /**
- * Created by Alexander on 06.03.2017.
+ * @author Alexander Kuzyakov on 06.03.2017.
  *
  * Stores settings for world generation
  */

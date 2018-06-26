@@ -4,7 +4,7 @@ import stonering.enums.materials.Material;
 import stonering.objects.local_actors.items.Item;
 
 /**
- * Created by Alexander on 08.01.2018.
+ * @author Alexander Kuzyakov on 08.01.2018.
  * <p>
  * generates stone, ore, gem, clay, sand, items.
  */

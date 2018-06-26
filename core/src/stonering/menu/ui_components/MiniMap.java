@@ -14,7 +14,7 @@ import stonering.generators.worldgen.world_objects.Plate;
 import stonering.global.utils.Position;
 
 /**
- * Created by Alexander on 19.04.2017.
+ * @author Alexander Kuzyakov on 19.04.2017.
  * <p>
  * UI component which renders minimap
  */

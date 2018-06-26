@@ -8,7 +8,7 @@ import stonering.global.utils.Position;
  * It is introduced as cache for rarely updated tiles.
  * Ramps are main reason, because require observation of neighbour tiles.
  *
- * Created by Alexander on 02.08.2017.
+ * @author Alexander Kuzyakov on 02.08.2017.
  */
 public class LocalTileMap {
 

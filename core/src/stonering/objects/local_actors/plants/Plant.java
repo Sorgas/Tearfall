@@ -5,7 +5,7 @@ import stonering.global.utils.Position;
 /**
  * Represents plant
  * <p>
- * Created by Alexander on 19.10.2017.
+ * @author Alexander Kuzyakov on 19.10.2017.
  */
 public class Plant extends AbstractPlant {
     private PlantBlock block;

@@ -3,7 +3,7 @@ package stonering.objects.local_actors;
 import stonering.game.core.model.GameContainer;
 
 /**
- * Created by Alexander on 10.10.2017.
+ * @author Alexander Kuzyakov on 10.10.2017.
  */
 public abstract class Aspect {
     protected GameContainer gameContainer;

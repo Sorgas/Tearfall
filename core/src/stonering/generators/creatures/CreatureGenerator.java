@@ -11,7 +11,7 @@ import stonering.objects.local_actors.unit.Unit;
 import stonering.utils.global.FileLoader;
 
 /**
- * Created by Alexander on 03.12.2017.
+ * @author Alexander Kuzyakov on 03.12.2017.
  *
  * creates creatures from json files by specimen name
  */

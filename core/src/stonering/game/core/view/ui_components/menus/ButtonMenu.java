@@ -1,7 +1,6 @@
 package stonering.game.core.view.ui_components.menus;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -17,7 +16,7 @@ import java.util.HashMap;
  * Input comes from parent ButtonMenu, through invokeByKey method.
  * Keys sets of menus should not overlap.
  * <p>
- * Created by Alexander on 27.12.2017.
+ * @author Alexander Kuzyakov on 27.12.2017.
  */
 public abstract class ButtonMenu extends VerticalGroup {
     protected boolean hideable = false;

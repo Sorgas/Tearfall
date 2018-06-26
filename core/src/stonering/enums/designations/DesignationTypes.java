@@ -5,7 +5,7 @@ import java.util.HashMap;
 /**
  * Enum of designation types
  *
- * Created by Alexander on 27.12.2017.
+ * @author Alexander Kuzyakov on 27.12.2017.
  */
 public enum DesignationTypes {
     NONE(0, "none"),
@@ -13,8 +13,9 @@ public enum DesignationTypes {
     STAIRS(2, "cutting stairs"), //cuts stairs from wall.
     RAMP(3, "cutting ramp"), // digs ramp and upper cell.
     CHANNEL(4, "digging channel"), // digs cell and ramp on lower level
-    CHOP(5, "chop trees"), //chop trees in th area
-    CUT(6, "cut plants"); //cut plants
+    CHOP(5, "chopping trees"), //chop trees in th area
+    CUT(6, "cutting plants"), //cut plants
+    BUILD(7, "building"); //build construction or building
 
     private static HashMap<Byte, DesignationTypes> map;
     private byte code;

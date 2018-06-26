@@ -12,7 +12,7 @@ import stonering.game.core.model.LocalMap;
  * Updates LocalTileMap when blocks or plants on LocalMap are changed.
  * Is called from localMap, reference from other places not required.
  *
- * Created by Alexander on 03.08.2017.
+ * @author Alexander Kuzyakov on 03.08.2017.
  */
 public class LocalTileMapUpdater {
     private GameContainer container;

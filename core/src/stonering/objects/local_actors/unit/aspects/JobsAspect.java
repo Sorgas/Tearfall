@@ -6,7 +6,7 @@ import stonering.objects.local_actors.AspectHolder;
 import java.util.ArrayList;
 
 /**
- * Created by Alexander on 31.01.2018.
+ * @author Alexander Kuzyakov on 31.01.2018.
  *
  * stores jobs enabled for unit
  */

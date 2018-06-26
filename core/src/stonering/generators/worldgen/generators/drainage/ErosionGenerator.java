@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * Created by Alexander on 21.01.2018.
+ * @author Alexander Kuzyakov on 21.01.2018.
  * <p>
  * Generates erosion effect on worldMap.
  */

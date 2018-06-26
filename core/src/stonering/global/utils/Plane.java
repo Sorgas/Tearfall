@@ -1,10 +1,10 @@
 package stonering.global.utils;
 
 /**
- * Created by Alexander on 03.03.2017.
+ * @author Alexander Kuzyakov on 03.03.2017.
  *
  * Utility class for plane.
- * Created by 3 points of space, represented by coefficients of plane function.
+ * Defined by 3 points of space, represented by coefficients of plane function.
  */
 public class Plane {
 	private float xMod;

@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Created by Alexander on 28.02.2017.
+ * @author Alexander Kuzyakov on 28.02.2017.
  */
 public class PlateGenerator extends AbstractGenerator {
     private WorldGenConfig config;

@@ -7,7 +7,7 @@ import stonering.generators.worldgen.WorldMap;
 import stonering.global.utils.Position;
 
 /**
- * Created by Alexander on 23.04.2017.
+ * @author Alexander Kuzyakov on 23.04.2017.
  */
 public class TileChooser {
     private WorldGenConfig config;

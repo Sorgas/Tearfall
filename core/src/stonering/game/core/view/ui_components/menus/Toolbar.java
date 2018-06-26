@@ -11,7 +11,7 @@ import stonering.utils.global.StaticSkin;
  * Component of toolbar.
  * All menu commands first dispatched here, and then passed active menu.
  * <p>
- * Created by Alexander on 19.12.2017.
+ * @author Alexander Kuzyakov on 19.12.2017.
  */
 public class Toolbar extends SubMenuMenu {
 

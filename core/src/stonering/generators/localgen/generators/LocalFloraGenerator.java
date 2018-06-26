@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.Random;
 
 /**
- * Created by Alexander on 10.04.2018.
+ * @author Alexander Kuzyakov on 10.04.2018.
  * <p>
  * Generates plants suitable for local climate and places them on local map.
  */

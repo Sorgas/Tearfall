@@ -5,11 +5,12 @@ import com.badlogic.gdx.utils.Align;
 import stonering.game.core.GameMvc;
 
 /**
- * @author Alexander on 17.06.2018.
+ * @author Alexander Kuzyakov on 17.06.2018.
  */
 public class MenuLevels extends HorizontalGroup {
     private GameMvc gameMvc;
     private Toolbar toolbar;
+    private MaterialSelectList materialSelectList;
 
     public MenuLevels(GameMvc gameMvc) {
         this.gameMvc = gameMvc;
@@ -20,6 +21,7 @@ public class MenuLevels extends HorizontalGroup {
         toolbar = new Toolbar(gameMvc);
         toolbar.init();
         toolbar.show();
+        materialSelectList = new MaterialSelectList();
     }
 
     public Toolbar getToolbar() {

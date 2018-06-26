@@ -5,7 +5,7 @@ import stonering.global.utils.Position;
 import java.util.ArrayList;
 
 /**
- * Created by Alexander on 30.11.2017.
+ * @author Alexander Kuzyakov on 30.11.2017.
  *
  * class to be contained on LocalMap. also stores render data
  */

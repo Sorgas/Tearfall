@@ -8,7 +8,7 @@ import stonering.objects.local_actors.items.Item;
 import stonering.objects.local_actors.unit.aspects.EquipmentAspect;
 
 /**
- * Created by Alexander on 27.01.2018.
+ * @author Alexander Kuzyakov on 27.01.2018.
  *
  * checks if unis has specific equipped item,
  * creates action to equip one if needed and possible

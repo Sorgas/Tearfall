@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Alexander on 22.02.2017.
+ * @author Alexander Kuzyakov on 22.02.2017.
  */
 public class Edge {
 	private Position point1;

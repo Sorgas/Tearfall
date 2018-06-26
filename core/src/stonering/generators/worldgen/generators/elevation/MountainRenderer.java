@@ -8,7 +8,7 @@ import stonering.generators.worldgen.world_objects.Slope;
 import stonering.global.utils.Position;
 
 /**
- * Created by Alexander on 03.03.2017.
+ * @author Alexander Kuzyakov on 03.03.2017.
  */
 public class MountainRenderer extends AbstractGenerator {
     private int width;

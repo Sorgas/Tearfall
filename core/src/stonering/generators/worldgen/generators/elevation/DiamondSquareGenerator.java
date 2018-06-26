@@ -6,7 +6,7 @@ import stonering.generators.worldgen.WorldGenContainer;
 import java.util.Random;
 
 /**
- * Created by Alexander on 24.04.2017.
+ * @author Alexander Kuzyakov on 24.04.2017.
  */
 public class DiamondSquareGenerator {
     private WorldGenContainer container;

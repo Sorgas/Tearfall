@@ -10,7 +10,7 @@ import stonering.objects.local_actors.unit.BodyPart;
 import stonering.utils.global.FileLoader;
 
 /**
- * Created by Alexander on 19.10.2017.
+ * @author Alexander Kuzyakov on 19.10.2017.
  */
 public class BodyGenerator {
     private Json json;

@@ -8,6 +8,8 @@ import stonering.game.core.controller.controllers.DesignationsController;
 
 /**
  * ButtonMenu for selecting designation type.
+ *
+ * @author Alexander Kuzyakov
  */
 public class DiggingMenu extends ButtonMenu {
     private DesignationsController controller;
@@ -35,7 +37,7 @@ public class DiggingMenu extends ButtonMenu {
         super.createButton(text, hotKey, new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                controller.setActiveDesignation(type);
+                controller.setActiveDesignation(type, null); //no buildings here
             }
         });
     }

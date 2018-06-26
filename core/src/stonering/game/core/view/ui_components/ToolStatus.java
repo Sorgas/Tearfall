@@ -6,7 +6,7 @@ import stonering.utils.global.StaticSkin;
 
 /**
  * Shows selected action.
- * Created by Alexander on 28.12.2017.
+ * @author Alexander Kuzyakov on 28.12.2017.
  */
 public class ToolStatus extends Table {
     private Label label;

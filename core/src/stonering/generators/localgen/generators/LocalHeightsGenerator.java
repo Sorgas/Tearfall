@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.Random;
 
 /**
- * Created by Alexander on 21.08.2017.
+ * @author Alexander Kuzyakov on 21.08.2017.
  */
 public class LocalHeightsGenerator {
     private LocalGenContainer container;

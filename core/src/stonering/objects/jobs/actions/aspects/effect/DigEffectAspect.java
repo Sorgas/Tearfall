@@ -4,7 +4,6 @@ import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.designations.DesignationTypes;
 import stonering.enums.materials.Material;
 import stonering.enums.materials.MaterialMap;
-import stonering.exceptions.DescriptionNotFoundException;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.LocalMap;
 import stonering.generators.items.DiggingProductGenerator;

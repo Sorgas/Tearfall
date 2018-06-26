@@ -12,7 +12,7 @@ import java.util.ArrayList;
 /**
  * Contains blocks, and physical parameters, and proxies to objects.
  *
- * Created by Alexander on 10.06.2017.
+ * @author Alexander Kuzyakov on 10.06.2017.
  */
 public class LocalMap {
     private int[][][] material;

@@ -8,7 +8,7 @@ import stonering.generators.localgen.LocalGenContainer;
 import stonering.generators.worldgen.WorldMap;
 
 /**
- * Created by Alexander on 17.10.2017.
+ * @author Alexander Kuzyakov on 17.10.2017.
  *
  * fills local map with ramps on z-layer borders
  */

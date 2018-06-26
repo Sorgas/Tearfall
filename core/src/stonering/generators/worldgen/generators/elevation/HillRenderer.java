@@ -10,7 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Created by Alexander on 12.03.2017.
+ * @author Alexander Kuzyakov on 12.03.2017.
  */
 public class HillRenderer  extends AbstractGenerator {
 	private int width;

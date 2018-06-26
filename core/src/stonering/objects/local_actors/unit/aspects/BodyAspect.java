@@ -8,7 +8,7 @@ import stonering.objects.local_actors.unit.Unit;
 import java.util.ArrayList;
 
 /**
- * Created by Alexander on 19.10.2017.
+ * @author Alexander Kuzyakov on 19.10.2017.
  * <p>
  * Holds creature's body parts and connections between them.
  */

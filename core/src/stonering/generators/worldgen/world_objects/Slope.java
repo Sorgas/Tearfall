@@ -9,7 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Created by Alexander on 03.03.2017.
+ * @author Alexander Kuzyakov on 03.03.2017.
  */
 public class Slope {
     private List<Vector> vectors;

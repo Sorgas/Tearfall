@@ -18,7 +18,7 @@ import stonering.menu.worldgen.WorldGenScreen;
 
 /**
  * s
- * Created by Alexander on 08.04.2017.
+ * @author Alexander Kuzyakov on 08.04.2017.
  */
 public class TearFall extends Game {
     private MainMenu mainMenu;

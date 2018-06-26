@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Created by Alexander on 30.06.2017.
+ * @author Alexander Kuzyakov on 30.06.2017.
  */
 public class NavigationInputBuffer implements InputProcessor {
     private int maxDelay = 4;

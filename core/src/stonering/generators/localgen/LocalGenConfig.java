@@ -3,7 +3,7 @@ package stonering.generators.localgen;
 import stonering.global.utils.Position;
 
 /**
- * Created by Alexander on 03.06.2017.
+ * @author Alexander Kuzyakov on 03.06.2017.
  *
  * Stores settings for local generation
  */

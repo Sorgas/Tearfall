@@ -1,7 +1,7 @@
 package stonering.global.utils;
 
 /**
- * Created by Alexander on 18.02.2017.
+ * @author Alexander Kuzyakov on 18.02.2017.
  *
  * Utility class for a line.
  */

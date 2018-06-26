@@ -8,7 +8,7 @@ import java.util.ArrayList;
 /**
  * Descriptor of material.
  *
- * Created by Alexander on 04.06.2017.
+ * @author Alexander Kuzyakov on 04.06.2017.
  */
 
 // STONE(0),

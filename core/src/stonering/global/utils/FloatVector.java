@@ -3,7 +3,7 @@ package stonering.global.utils;
 import javafx.util.Pair;
 
 /**
- * Created by Alexander on 02.03.2018.
+ * @author Alexander Kuzyakov on 02.03.2018.
  */
 public class FloatVector {
     private float x = 0;

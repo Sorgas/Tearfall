@@ -11,7 +11,7 @@ import stonering.objects.local_actors.plants.Tree;
 import java.util.Random;
 
 /**
- * Created by Alexander on 19.10.2017.
+ * @author Alexander Kuzyakov on 19.10.2017.
  */
 public class TreesGenerator {
 

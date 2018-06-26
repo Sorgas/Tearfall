@@ -3,7 +3,7 @@ package stonering.generators;
 import java.util.Random;
 
 /**
- * Created by Alexander on 28.03.2017.
+ * @author Alexander Kuzyakov on 28.03.2017.
  */
 public class PerlinNoiseGenerator {
     private static int perm[] = new int[512];

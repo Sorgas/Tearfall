@@ -3,7 +3,7 @@ package stonering.global.utils;
 import java.io.Serializable;
 
 /**
- * Created by Alexander on 22.02.2017.
+ * @author Alexander Kuzyakov on 22.02.2017.
  * <p>
  * Utility class of geometrical vector
  */

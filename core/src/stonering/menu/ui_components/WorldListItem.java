@@ -3,7 +3,7 @@ package stonering.menu.ui_components;
 import java.io.File;
 
 /**
- * Created by Alexander on 03.05.2017.
+ * @author Alexander Kuzyakov on 03.05.2017.
  */
 public class WorldListItem {
 	private String title;

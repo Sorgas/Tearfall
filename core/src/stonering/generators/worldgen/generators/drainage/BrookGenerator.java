@@ -5,7 +5,7 @@ import stonering.generators.worldgen.WorldMap;
 import stonering.generators.worldgen.generators.AbstractGenerator;
 
 /**
- * Created by Alexander on 18.01.2018.
+ * @author Alexander Kuzyakov on 18.01.2018.
  */
 public class BrookGenerator extends AbstractGenerator {
     private WorldMap map;

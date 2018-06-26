@@ -11,7 +11,7 @@ import stonering.global.utils.Position;
 import java.util.Random;
 
 /**
- * Created by Alexander on 22.10.2017.
+ * @author Alexander Kuzyakov on 22.10.2017.
  */
 public class LocalCaveGenerator {
     private LocalGenContainer container;

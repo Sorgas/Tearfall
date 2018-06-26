@@ -8,7 +8,7 @@ import stonering.generators.localgen.LocalGenContainer;
 /**
  * Main game MVC.
  * <p>
- * Created by Alexander on 10.06.2017.
+ * @author Alexander Kuzyakov on 10.06.2017.
  */
 public class GameMvc {
     private GameContainer model;

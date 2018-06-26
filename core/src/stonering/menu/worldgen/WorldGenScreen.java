@@ -21,7 +21,7 @@ import stonering.menu.utils.WorldSaver;
 import java.util.Random;
 
 /**
- * Created by Alexander on 06.03.2017.
+ * @author Alexander Kuzyakov on 06.03.2017.
  */
 public class WorldGenScreen implements Screen {
     private WorldGenContainer worldGenContainer;

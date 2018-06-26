@@ -7,7 +7,7 @@ import stonering.game.core.GameMvc;
 import stonering.game.core.controller.controllers.DesignationsController;
 
 /**
- * Created by Alexander on 28.05.2018.
+ * @author Alexander Kuzyakov on 28.05.2018.
  */
 public class PlantsMenu extends ButtonMenu {
     private DesignationsController controller;

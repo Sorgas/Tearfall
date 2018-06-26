@@ -3,7 +3,7 @@ package stonering.enums.plants;
 import stonering.global.utils.Position;
 
 /**
- * Created by Alexander on 30.10.2017.
+ * @author Alexander Kuzyakov on 30.10.2017.
  */
 public class TreeType {
     private String specimen;

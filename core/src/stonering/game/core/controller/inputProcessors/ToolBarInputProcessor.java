@@ -6,7 +6,7 @@ import stonering.game.core.controller.controllers.ToolBarController;
 import stonering.global.settings.KeySettings;
 
 /**
- * Created by Alexander on 01.07.2017.
+ * @author Alexander Kuzyakov on 01.07.2017.
  */
 public class ToolBarInputProcessor implements InputProcessor {
     private ToolBarController controller;

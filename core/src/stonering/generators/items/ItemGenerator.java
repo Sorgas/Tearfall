@@ -9,7 +9,7 @@ import stonering.objects.local_actors.Aspect;
 import stonering.objects.local_actors.items.Item;
 
 /**
- * Created by Alexander on 26.01.2018.
+ * @author Alexander Kuzyakov on 26.01.2018.
  */
 public class ItemGenerator {
     private ItemTypeMap itemTypeMap;

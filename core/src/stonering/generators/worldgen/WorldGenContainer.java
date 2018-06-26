@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Alexander on 05.03.2017.
+ * @author Alexander Kuzyakov on 05.03.2017.
  * <p>
  * Contains intermediate results of world generation
  */

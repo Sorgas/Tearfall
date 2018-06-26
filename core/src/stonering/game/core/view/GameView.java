@@ -8,7 +8,7 @@ import stonering.game.core.GameMvc;
 /**
  * Main game Screen
  *
- * Created by Alexander on 10.06.2017.
+ * @author Alexander Kuzyakov on 10.06.2017.
  */
 public class GameView implements Screen {
     private GameMvc gameMvc;

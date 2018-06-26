@@ -1,21 +1,12 @@
-/*
- * Created by Alexander on .
- */
-
-/*
- * Created by Alexander on .
- */
-
 package stonering.game.core.controller.controllers;
 
 import stonering.game.core.GameMvc;
 import stonering.game.core.model.GameContainer;
-import stonering.game.core.view.GameView;
 
 /**
  * Controller for camera. Works with GameContainer directly.
  *
- * Created by Alexander on 25.12.2017.
+ * @author Alexander Kuzyakov on 25.12.2017.
  */
 public class CameraConroller extends Controller{
     private GameContainer container;

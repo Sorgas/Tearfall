@@ -6,7 +6,7 @@ import stonering.game.core.controller.controllers.DesignationsController;
 import stonering.game.core.controller.controllers.GameController;
 
 /**
- * Created by Alexander on 26.12.2017.
+ * @author Alexander Kuzyakov on 26.12.2017.
  */
 public class DesignationsInputProcessor implements InputProcessor {
     private DesignationsController controller;

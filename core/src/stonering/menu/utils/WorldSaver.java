@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by Alexander on 14.05.2017.
+ * @author Alexander Kuzyakov on 14.05.2017.
  */
 public class WorldSaver {
 

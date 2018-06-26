@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * Created by Alexander on 07.02.2018.
+ * @author Alexander Kuzyakov on 07.02.2018.
  */
 public class HashPriorityQueue<K, V> {
     HashMap<K, V> hashMap;

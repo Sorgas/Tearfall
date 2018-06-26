@@ -24,7 +24,7 @@ import java.io.File;
  * Screen for selecting location for settlement on game start.
  * //TODO fix too fast input.
  *
- * Created by Alexander on 14.04.2017.
+ * @author Alexander Kuzyakov on 14.04.2017.
  */
 public class SelectLocationMenu implements Screen {
 

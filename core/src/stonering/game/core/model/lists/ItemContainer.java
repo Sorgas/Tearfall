@@ -13,7 +13,7 @@ import java.util.HashMap;
 /**
  * Manages all items on map
  * <p>
- * Created by Alexander on 14.06.2017.
+ * @author Alexander Kuzyakov on 14.06.2017.
  */
 public class ItemContainer {
     private ArrayList<Item> items;

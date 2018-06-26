@@ -5,7 +5,7 @@ import stonering.generators.PerlinNoiseGenerator;
 import stonering.generators.worldgen.WorldGenContainer;
 
 /**
- * Created by Alexander on 01.04.2017.
+ * @author Alexander Kuzyakov on 01.04.2017.
  * <p>
  * applies Perlin noise to heightMap
  */

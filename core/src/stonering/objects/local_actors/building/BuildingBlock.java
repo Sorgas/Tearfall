@@ -1,7 +1,7 @@
 package stonering.objects.local_actors.building;
 
 /**
- * Created by Alexander on 09.12.2017.
+ * @author Alexander Kuzyakov on 09.12.2017.
  * <p>
  * Proxy for Building
  */

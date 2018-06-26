@@ -5,7 +5,7 @@ import stonering.generators.localgen.generators.*;
 import stonering.generators.worldgen.WorldMap;
 
 /**
- * Created by Alexander on 27.08.2017.
+ * @author Alexander Kuzyakov on 27.08.2017.
  *
  * executes local generators in correct order
  */

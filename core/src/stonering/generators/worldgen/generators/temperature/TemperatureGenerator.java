@@ -6,7 +6,7 @@ import stonering.generators.worldgen.generators.AbstractGenerator;
 import stonering.generators.PerlinNoiseGenerator;
 
 /**
- * Created by Alexander on 26.03.2017.
+ * @author Alexander Kuzyakov on 26.03.2017.
  */
 public class TemperatureGenerator extends AbstractGenerator {
     private int width;

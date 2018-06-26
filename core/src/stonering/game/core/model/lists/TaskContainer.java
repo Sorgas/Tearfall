@@ -1,12 +1,13 @@
 package stonering.game.core.model.lists;
 
+import stonering.designations.BuildingDesignation;
+import stonering.designations.Designation;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.designations.DesignationTypes;
 import stonering.game.core.model.GameContainer;
 import stonering.global.utils.Position;
 import stonering.objects.jobs.Task;
 import stonering.objects.jobs.actions.Action;
-import stonering.objects.jobs.actions.ActionTypeEnum;
 import stonering.objects.jobs.actions.TaskTypesEnum;
 import stonering.objects.jobs.actions.aspects.effect.ChopTreeEffectAspect;
 import stonering.objects.jobs.actions.aspects.effect.DigEffectAspect;
@@ -15,21 +16,24 @@ import stonering.objects.jobs.actions.aspects.target.BlockTargetAspect;
 import stonering.objects.local_actors.plants.PlantBlock;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Contains all tasks for settlers on map. Designations stored separately for updating tiles.
  * <p>
- * Created by Alexander on 14.06.2017.
+ * @author Alexander Kuzyakov on 14.06.2017.
  */
 public class TaskContainer {
     private GameContainer container;
     private ArrayList<Task> tasks;
-    private ArrayList<Designation> designations;
+    private HashMap<Position, Designation> designations;
+    private HashMap<Position, BuildingDesignation> buildings;
 
     public TaskContainer(GameContainer container) {
         this.container = container;
         tasks = new ArrayList<>();
-        designations = new ArrayList<>();
+        designations = new HashMap<>();
+        buildings = new HashMap<>();
     }
 
     public ArrayList<Task> getTasks() {
@@ -43,14 +47,6 @@ public class TaskContainer {
             }
         }
         return null;
-    }
-
-    public void setTasks(ArrayList<Task> tasks) {
-        this.tasks = tasks;
-    }
-
-    public void addTask(Task task) {
-        tasks.add(task);
     }
 
     public void addDesignation(Position position, DesignationTypes type) {
@@ -118,6 +114,9 @@ public class TaskContainer {
                         (blockOnMap.equals(BlockTypesEnum.SPACE) || blockOnMap.equals(BlockTypesEnum.FLOOR))
                         && block.getPlant().getType().isTree();
             }
+            case BUILD: {
+
+            }
             case NONE: {
                 return true;
             }
@@ -132,19 +131,11 @@ public class TaskContainer {
         }
     }
 
-    private class Designation {
-        Position position;
-        DesignationTypes type;
-        Task task;
+    public void setTasks(ArrayList<Task> tasks) {
+        this.tasks = tasks;
+    }
 
-        public Designation(Position position, DesignationTypes blockType) {
-            this.position = position;
-            this.type = blockType;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            return (obj != null && obj.getClass().equals(Designation.class)) && position.equals(((Designation) obj).position);
-        }
+    public void addTask(Task task) {
+        tasks.add(task);
     }
 }

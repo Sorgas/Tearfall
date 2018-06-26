@@ -12,7 +12,7 @@ import stonering.game.core.controller.inputProcessors.ToolBarInputProcessor;
 /**
  * Container for all controllers.
  *
- * Created by Alexander on 26.06.2017.
+ * @author Alexander Kuzyakov on 26.06.2017.
  */
 public class GameController extends Controller {
     private DesignationsController designationsController;

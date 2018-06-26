@@ -12,7 +12,7 @@ import java.util.Random;
 /**
  * Contains all Units on localMap.
  *
- * Created by Alexander on 03.12.2017.
+ * @author Alexander Kuzyakov on 03.12.2017.
  */
 public class UnitContainer {
     private GameContainer gameContainer;

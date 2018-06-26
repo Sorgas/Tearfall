@@ -7,7 +7,7 @@ import stonering.game.core.GameMvc;
 /**
  * ButtonMenu for selecting building.
  * <p>
- * Created by Alexander on 25.01.2018.
+ * @author Alexander Kuzyakov on 25.01.2018.
  */
 public class GeneralBuildingMenu extends SubMenuMenu {
 
@@ -18,15 +18,15 @@ public class GeneralBuildingMenu extends SubMenuMenu {
     }
 
     private void initButtons() {
-        createButton("C: constructions", 'c');
-        createButton("W: workbenches", 'w');
-        createButton("F: furniture", 'f');
+        addButton("C: constructions", 'c');
+        addButton("W: workbenches", 'w');
+        addButton("F: furniture", 'f');
         menus.put('c', new ConstructionsMenu(gameMvc));
 //        menus.put('w', new ConstructionsMenu(gameMvc));
 //        menus.put('f', new ConstructionsMenu(gameMvc));
     }
 
-    private void createButton(String text, char hotKey) {
+    private void addButton(String text, char hotKey) {
         super.createButton(text, hotKey, new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {

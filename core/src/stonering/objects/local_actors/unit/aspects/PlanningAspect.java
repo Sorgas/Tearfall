@@ -8,7 +8,7 @@ import stonering.global.utils.Position;
 import stonering.objects.local_actors.unit.Unit;
 
 /**
- * Created by Alexander on 10.10.2017.
+ * @author Alexander Kuzyakov on 10.10.2017.
  * <p>
  * Holds current creature's task and it's steps. resolves behavior, if some step fails.
  * Updates target for movement on task switching.

@@ -10,7 +10,7 @@ import stonering.objects.local_actors.building.Building;
 import stonering.utils.global.FileLoader;
 
 /**
- * Created by Alexander on 07.12.2017.
+ * @author Alexander Kuzyakov on 07.12.2017.
  *
  * Generates Building objects from descriptors
  */

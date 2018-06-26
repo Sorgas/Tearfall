@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 /**
- * Created by Alexander on 16.10.2017.
+ * @author Alexander Kuzyakov on 16.10.2017.
  *
  * General class for access to Skin
  */

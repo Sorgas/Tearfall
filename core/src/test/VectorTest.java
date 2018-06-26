@@ -3,7 +3,7 @@ package test;
 import stonering.global.utils.Vector;
 
 /**
- * Created by Alexander on 13.03.2018.
+ * @author Alexander Kuzyakov on 13.03.2018.
  */
 public class VectorTest {
     public static void main(String[] arg) {

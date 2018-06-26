@@ -4,18 +4,18 @@ import stonering.enums.designations.DesignationTypes;
 import stonering.game.core.GameMvc;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.view.GameView;
-import stonering.game.core.view.ui_components.menus.Toolbar;
-import stonering.game.core.view.ui_components.menus.DiggingMenu;
-import stonering.game.core.view.ui_components.menus.PlantsMenu;
 import stonering.global.utils.Position;
 
 /**
- * Controller for various digging tasks. Works with GameContainer directly
+ * Controller for various digging and building tasks. Works with GameContainer directly.
+ * Digging and Building combined in one controller and map,
+ * because one tile can be designated for either digging or building in it.
  *
- * @author Alexander on 24.12.2017.
+ * @author Alexander Kuzyakov on 24.12.2017.
  */
 public class DesignationsController extends Controller {
     private DesignationTypes activeDesignation;
+    private String building;
     private boolean rectangleStarted = false;
     private Position start; // should be stored between steps
     private GameContainer container;
@@ -35,10 +35,11 @@ public class DesignationsController extends Controller {
      *
      * @param activeDesignation designation type.
      */
-    public void setActiveDesignation(DesignationTypes activeDesignation) {
+    public void setActiveDesignation(DesignationTypes activeDesignation, String building) {
         this.activeDesignation = activeDesignation;
+        this.building = activeDesignation == DesignationTypes.BUILD ? building : "";
         gameMvc.getView().getUiDrawer().getToolStatus().setText(
-                activeDesignation != null ? activeDesignation.getText() : "");
+                activeDesignation != null ? activeDesignation.getText() : "" + this.building);
     }
 
     /**
@@ -63,6 +64,7 @@ public class DesignationsController extends Controller {
     public void handleCancel() {
         start = null;
         activeDesignation = null;
+        building = "";
         rectangleStarted = false;
         view.getUiDrawer().getToolStatus().setText("");
     }

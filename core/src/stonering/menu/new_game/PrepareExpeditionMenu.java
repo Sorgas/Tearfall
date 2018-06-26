@@ -21,7 +21,7 @@ import java.io.File;
  * ButtonMenu for choosing settlers and resources for game start.
  * //TODO
  *
- * Created by Alexander on 14.04.2017.
+ * @author Alexander Kuzyakov on 14.04.2017.
  */
 public class PrepareExpeditionMenu implements Screen {
     private TearFall game;

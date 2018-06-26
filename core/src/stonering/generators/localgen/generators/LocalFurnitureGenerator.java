@@ -11,7 +11,7 @@ import stonering.objects.local_actors.building.Building;
 import java.util.Random;
 
 /**
- * Created by Alexander on 07.12.2017.
+ * @author Alexander Kuzyakov on 07.12.2017.
  */
 public class LocalFurnitureGenerator {
     private LocalGenContainer container;

@@ -7,7 +7,7 @@ import stonering.generators.worldgen.generators.AbstractGenerator;
 import java.util.*;
 
 /**
- * Created by Alexander on 14.03.2017.
+ * @author Alexander Kuzyakov on 14.03.2017.
  * <p>
  * Generates rivers. Marks lakes if river stucks.
  * Rivers start from distributed point in high areas.

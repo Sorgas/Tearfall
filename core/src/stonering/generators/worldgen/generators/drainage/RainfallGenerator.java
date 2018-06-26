@@ -8,7 +8,7 @@ import stonering.global.utils.Position;
 import java.util.ArrayList;
 
 /**
- * Created by Alexander on 31.03.2017.
+ * @author Alexander Kuzyakov on 31.03.2017.
  * <p>
  * Generates rainfall level in the world
  */

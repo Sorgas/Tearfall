@@ -8,7 +8,7 @@ import stonering.objects.local_actors.AspectHolder;
 import java.util.HashMap;
 
 /**
- * Created by Alexander on 06.10.2017.
+ * @author Alexander Kuzyakov on 06.10.2017.
  * <p>
  * Represents living creatures
  */

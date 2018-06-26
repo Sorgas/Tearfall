@@ -3,7 +3,7 @@ package stonering.utils.global;
 import com.badlogic.gdx.files.FileHandle;
 
 /**
- * Created by Alexander on 06.08.2017.
+ * @author Alexander Kuzyakov on 06.08.2017.
  */
 public class FileLoader {
     private final static String MATERIALS_PATH = "resources/materials.json";

@@ -7,7 +7,7 @@ import stonering.generators.localgen.LocalGenContainer;
 import stonering.objects.local_actors.unit.Unit;
 
 /**
- * Created by Alexander on 03.12.2017.
+ * @author Alexander Kuzyakov on 03.12.2017.
  *
  * Generates wild animals on LoclMap
  */

@@ -7,7 +7,7 @@ import stonering.global.settings.KeySettings;
 import stonering.utils.global.NavigationInputBuffer;
 
 /**
- * Created by Alexander on 27.06.2017.
+ * @author Alexander Kuzyakov on 27.06.2017.
  */
 public class CameraInputProcessor implements InputProcessor {
     private KeySettings keySettings;

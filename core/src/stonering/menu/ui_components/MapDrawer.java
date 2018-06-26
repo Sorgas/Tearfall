@@ -18,7 +18,7 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Created by Alexander on 16.04.2017.
+ * @author Alexander Kuzyakov on 16.04.2017.
  * <p>
  * Can perform detailed render of world map for debug purposes
  */

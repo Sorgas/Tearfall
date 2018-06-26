@@ -6,7 +6,7 @@ import stonering.objects.local_actors.items.Item;
 import stonering.objects.local_actors.unit.aspects.EquipmentAspect;
 
 /**
- * Created by Alexander on 28.01.2018.
+ * @author Alexander Kuzyakov on 28.01.2018.
  *
  * equips item to unit
  */

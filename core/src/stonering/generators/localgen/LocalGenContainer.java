@@ -10,7 +10,7 @@ import stonering.objects.local_actors.unit.Unit;
 import java.util.ArrayList;
 
 /**
- * Created by Alexander on 29.08.2017.
+ * @author Alexander Kuzyakov on 29.08.2017.
  * <p>
  * Stores intermediate results of local generation.
  */

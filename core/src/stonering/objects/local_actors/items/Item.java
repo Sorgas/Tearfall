@@ -5,7 +5,7 @@ import stonering.global.utils.Position;
 import stonering.objects.local_actors.AspectHolder;
 
 /**
- * Created by Alexander on 09.12.2017.
+ * @author Alexander Kuzyakov on 09.12.2017.
  * <p>
  * In game item.
  */

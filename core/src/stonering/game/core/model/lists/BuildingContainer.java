@@ -9,7 +9,7 @@ import java.util.ArrayList;
 /**
  * Contains all Buildings on localMap
  *
- * Created by Alexander on 09.12.2017.
+ * @author Alexander Kuzyakov on 09.12.2017.
  */
 public class BuildingContainer {
     private ArrayList<Building> buildings;

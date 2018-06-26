@@ -1,7 +1,7 @@
 package stonering.objects.local_actors.unit;
 
 /**
- * Created by Alexander on 09.12.2017.
+ * @author Alexander Kuzyakov on 09.12.2017.
  *
  * Proxy for Unit
  */

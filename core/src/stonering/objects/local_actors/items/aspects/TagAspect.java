@@ -5,7 +5,7 @@ import stonering.objects.local_actors.Aspect;
 import java.util.ArrayList;
 
 /**
- * Created by Alexander on 28.01.2018.
+ * @author Alexander Kuzyakov on 28.01.2018.
  *
  * generic aspect for storing some property`s value
  */

@@ -8,7 +8,7 @@ import stonering.objects.local_actors.unit.Unit;
 import java.util.HashMap;
 
 /**
- * Created by Alexander on 07.12.2017.
+ * @author Alexander Kuzyakov on 07.12.2017.
  *
  * Represents furniture, workbenches and other builded game objects
  */

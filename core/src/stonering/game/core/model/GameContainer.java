@@ -11,7 +11,7 @@ import stonering.generators.worldgen.WorldMap;
  * Model of game, contains LocalMap and sub-Containers.
  * Time ticks are performed with Timer
  *
- * Created by Alexander on 10.06.2017.
+ * @author Alexander Kuzyakov on 10.06.2017.
  */
 public class GameContainer {
     private WorldMap worldMap;

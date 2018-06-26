@@ -1,7 +1,7 @@
 package stonering.menu.utils;
 
 /**
- * Created by Alexander on 28.05.2017.
+ * @author Alexander Kuzyakov on 28.05.2017.
  */
 public class WorldCellInfo {
     public String getCellInfo(int x, int y, int elevation, float temperature, float rainfall) {

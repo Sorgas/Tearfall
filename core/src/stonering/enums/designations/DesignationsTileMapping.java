@@ -5,7 +5,7 @@ import java.util.HashMap;
 /**
  * Mapping of designation demarcation to sprites positions in atlas.
  * <p>
- * Created by Alexander on 27.12.2017.
+ * @author Alexander Kuzyakov on 27.12.2017.
  */
 public enum DesignationsTileMapping {
     DIG(1, 0),

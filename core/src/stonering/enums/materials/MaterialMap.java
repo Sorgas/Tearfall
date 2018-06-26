@@ -11,7 +11,7 @@ import java.util.HashMap;
 /**
  * Singleton map of material types. types are stored by their names.
  *
- * Created by Alexander on 02.08.2017.
+ * @author Alexander Kuzyakov on 02.08.2017.
  */
 
 // STONE(0),

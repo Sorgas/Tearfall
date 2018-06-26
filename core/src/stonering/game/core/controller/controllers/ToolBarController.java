@@ -7,7 +7,7 @@ import stonering.game.core.view.ui_components.menus.Toolbar;
  * Controller for Toolbar.
  * Toolbar behavior bases on its state, so controller simply sends input events to it.
  *
- * @author Alexander on 25.12.2017.
+ * @author Alexander Kuzyakov on 25.12.2017.
  */
 public class ToolBarController extends Controller {
     private Toolbar toolbar;

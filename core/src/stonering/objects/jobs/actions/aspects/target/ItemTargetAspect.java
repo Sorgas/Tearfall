@@ -5,7 +5,7 @@ import stonering.objects.jobs.actions.Action;
 import stonering.objects.local_actors.items.Item;
 
 /**
- * Created by Alexander on 28.01.2018.
+ * @author Alexander Kuzyakov on 28.01.2018.
  *
  * targets action to item
  */

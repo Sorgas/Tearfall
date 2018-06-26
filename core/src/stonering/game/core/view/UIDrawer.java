@@ -16,7 +16,7 @@ import stonering.utils.global.StaticSkin;
 
 /**
  * Stores and renders all ui components on screen.
- * @author Alexander on 12.10.2017.
+ * @author Alexander Kuzyakov on 12.10.2017.
  */
 public class UIDrawer {
     private GameMvc gameMvc;
