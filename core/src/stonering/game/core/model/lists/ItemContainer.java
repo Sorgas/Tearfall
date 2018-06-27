@@ -93,4 +93,10 @@ public class ItemContainer {
             return itemMap.get(position);
         }
     }
+
+    public ArrayList<String> getMaterialList(int amount) {
+        ArrayList<String> materials = new ArrayList<>();
+
+        return materials;
+    }
 }

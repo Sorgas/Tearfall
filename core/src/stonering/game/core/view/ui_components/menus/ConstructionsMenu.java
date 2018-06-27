@@ -39,7 +39,7 @@ public class ConstructionsMenu extends ButtonMenu {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 controller.setActiveDesignation(DesignationTypes.BUILD, type.getTitle());
-                menuLevels.
+                menuLevels.showMaterialSelect();
             }
         });
     }

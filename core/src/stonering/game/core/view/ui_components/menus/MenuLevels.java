@@ -32,9 +32,8 @@ public class MenuLevels extends HorizontalGroup {
      * Levels counted from right to left, widget indexes is opposite.
      *
      * @param menu
-     * @param level
      */
-    public void addMenu(ButtonMenu menu, int level) {
+    public void addMenu(ButtonMenu menu) {
         this.addActorAt(0, menu);
     }
 
@@ -45,5 +44,9 @@ public class MenuLevels extends HorizontalGroup {
      */
     public ButtonMenu getActiveMenu() {
         return (ButtonMenu) getChildren().get(0);
+    }
+
+    public void showMaterialSelect() {
+        this.addActorAt(0, materialSelectList);
     }
 }
