@@ -1,15 +1,92 @@
 [
-    {
-        "title":"chair",
-        "description":"Chair",
-        "atlasY":"0",
-        "atlasX":"0",
-        "color":{
-            "class":"color_c",
-            "r":"1",
-            "g":"1",
-            "b":"1",
-            "a":"1"
-        }
+  {
+    "title": "wall",
+    "description": "Wall",
+    "atlasY": "0",
+    "atlasX": "0",
+    "items": ["rock", "brick", "log", "plank", "bar"],
+    "materials": ["wood", "stone", "metal", "clay"],
+    "amount": "2",
+    "category" : "constructions",
+    "hotKey" : "w",
+    "color": {
+      "class": "color_c",
+      "r": "1",
+      "g": "1",
+      "b": "1",
+      "a": "1"
     }
+  },
+  {
+    "title": "floor",
+    "description": "Floor",
+    "atlasY": "0",
+    "atlasX": "0",
+    "items": ["rock", "brick", "log", "plank", "bar"],
+    "materials": ["wood", "stone", "metal", "clay"],
+    "amount": "1",
+    "category" : "constructions",
+    "hotKey" : "f",
+    "color": {
+      "class": "color_c",
+      "r": "1",
+      "g": "1",
+      "b": "1",
+      "a": "1"
+    }
+  },
+  {
+    "title": "ramp",
+    "description": "Ramp",
+    "atlasY": "0",
+    "atlasX": "0",
+    "items": ["rock", "brick", "log", "plank", "bar"],
+    "materials": ["wood", "stone", "metal", "clay"],
+    "amount": "1",
+    "category" : "constructions",
+    "hotKey" : "r",
+    "color": {
+      "class": "color_c",
+      "r": "1",
+      "g": "1",
+      "b": "1",
+      "a": "1"
+    }
+  },
+  {
+    "title": "stairs",
+    "description": "Stairs",
+    "atlasY": "0",
+    "atlasX": "0",
+    "items": ["rock", "brick", "log", "plank", "bar"],
+    "materials": ["wood", "stone", "metal", "clay"],
+    "amount": "1",
+    "category" : "constructions",
+    "hotKey" : "s",
+    "color": {
+      "class": "color_c",
+      "r": "1",
+      "g": "1",
+      "b": "1",
+      "a": "1"
+    }
+  },
+  {
+    "title": "chair",
+    "description": "Chair",
+    "atlasY": "0",
+    "atlasX": "0",
+    "items": ["rock", "brick", "log", "plank", "bar"],
+    "materials": ["wood", "stone", "metal", "clay"],
+    "amount": "1",
+    "category" : "furniture",
+    "hotKey" : "c",
+    "color": {
+      "class": "color_c",
+      "r": "1",
+      "g": "1",
+      "b": "1",
+      "a": "1"
+    }
+  }
 ]

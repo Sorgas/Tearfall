@@ -9,19 +9,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Singleton map of material types. types are stored by their names.
+ * Singleton map of material types. Types are stored by their names.
  *
  * @author Alexander Kuzyakov on 02.08.2017.
  */
 
-// STONE(0),
-// SOIL(1),
-// SAND(2),
-// WOOD(3),
-// BRICKS(5),
-// PLANKS(6),
-// GLASS(7),
-// METAL(8);
 public class MaterialMap {
     private static MaterialMap instance;
     private HashMap<Integer, Material> materials;

@@ -1,5 +1,7 @@
 package stonering.game.core.view.ui_components.menus;
 
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.utils.Align;
 import stonering.game.core.GameMvc;
@@ -46,7 +48,20 @@ public class MenuLevels extends HorizontalGroup {
         return (ButtonMenu) getChildren().get(0);
     }
 
-    public void showMaterialSelect() {
+    public void showMaterialSelect(String buildingTitle) {
+        materialSelectList.clear();
+        materialSelectList.addItems(gameMvc.getController().getMaterialsFilter().getAvailableMaterialsForBuilding(buildingTitle));
+        materialSelectList.addListener(new EventListener() {
+            @Override
+            public boolean handle(Event event) {
+                if (materialSelectList.getSelectedIndex() >= 0) {
+                    gameMvc.getController().getDesignationsController().setActiveDesignation();
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        });
         this.addActorAt(0, materialSelectList);
     }
 }

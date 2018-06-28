@@ -1,14 +1,15 @@
 package stonering.game.core.model.lists;
 
+import stonering.enums.materials.MaterialMap;
 import stonering.game.core.model.GameContainer;
 import stonering.global.utils.Position;
-import stonering.objects.local_actors.Aspect;
 import stonering.objects.local_actors.items.Item;
-import stonering.objects.local_actors.items.aspects.TagAspect;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Manages all items on map
@@ -94,9 +95,15 @@ public class ItemContainer {
         }
     }
 
-    public ArrayList<String> getMaterialList(int amount) {
-        ArrayList<String> materials = new ArrayList<>();
+    public List<Item> getMaterialList(int amount, ArrayList<String> types, ArrayList<String> materials) {
+        MaterialMap materialMap = MaterialMap.getInstance();
+        ArrayList<Integer> materialIds = new ArrayList<>();
+        materials.forEach((material) -> materialIds.add(materialMap.getId(material)));
+        ArrayList<Item> itemListForFiltering = new ArrayList<>(items);
+        return itemListForFiltering.stream().filter((item) -> types.contains(item.getType().getTitle())).filter((item) -> materialIds.contains(item.getMaterial())).collect(Collectors.toList());
+    }
 
-        return materials;
+    private ArrayList<Item> filterItemListForMaterials(String Material, ArrayList<Item> items) {
+        return null;
     }
 }

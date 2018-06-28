@@ -3,7 +3,7 @@ package stonering.objects.local_actors.building;
 /**
  * @author Alexander Kuzyakov on 09.12.2017.
  * <p>
- * Proxy for Building
+ * Proxy for BuildingType
  */
 public class BuildingBlock {
     private Building building;

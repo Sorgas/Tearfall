@@ -4,22 +4,19 @@ import stonering.enums.designations.DesignationTypes;
 import stonering.global.utils.Position;
 
 /**
+ * Designation of order to be stored and drawn on map. Exact order specified by type field.
+ *
  * @author Alexander Kuzyakov
- * created on 26.06.2018
  */
-public class DiggingDesignation extends Designation {
+public class OrderDesignation extends Designation{
     private DesignationTypes type;
 
-    public DiggingDesignation(Position position, DesignationTypes type) {
+    public OrderDesignation(Position position, DesignationTypes type) {
         super(position);
         this.type = type;
     }
 
     public DesignationTypes getType() {
         return type;
-    }
-
-    public void setType(DesignationTypes type) {
-        this.type = type;
     }
 }

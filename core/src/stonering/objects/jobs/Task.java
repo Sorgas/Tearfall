@@ -1,5 +1,6 @@
 package stonering.objects.jobs;
 
+import stonering.designations.Designation;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.lists.TaskContainer;
 import stonering.global.utils.Position;
@@ -17,6 +18,7 @@ public class Task {
     private LinkedList<Action> actions;
     private TaskContainer taskContainer;
     private GameContainer container;
+    private Designation designation;
 
     public Task(String name, TaskTypesEnum taskType, Action initialAction, TaskContainer taskContainer, GameContainer container) {
         this.name = name;
@@ -116,5 +118,13 @@ public class Task {
 
     public void setInitialAction(Action initialAction) {
         this.initialAction = initialAction;
+    }
+
+    public Designation getDesignation() {
+        return designation;
+    }
+
+    public void setDesignation(Designation designation) {
+        this.designation = designation;
     }
 }

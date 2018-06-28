@@ -8,7 +8,7 @@ import stonering.global.utils.Position;
 
 /**
  * Controller for various digging and building tasks. Works with GameContainer directly.
- * Digging and Building combined in one controller and map,
+ * Digging and BuildingType combined in one controller and map,
  * because one tile can be designated for either digging or building in it.
  *
  * @author Alexander Kuzyakov on 24.12.2017.
@@ -16,6 +16,7 @@ import stonering.global.utils.Position;
 public class DesignationsController extends Controller {
     private DesignationTypes activeDesignation;
     private String building;
+    private String material;
     private boolean rectangleStarted = false;
     private Position start; // should be stored between steps
     private GameContainer container;

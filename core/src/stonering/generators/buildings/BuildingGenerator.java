@@ -12,7 +12,7 @@ import stonering.utils.global.FileLoader;
 /**
  * @author Alexander Kuzyakov on 07.12.2017.
  *
- * Generates Building objects from descriptors
+ * Generates BuildingType objects from descriptors
  */
 public class BuildingGenerator {
     private Json json;

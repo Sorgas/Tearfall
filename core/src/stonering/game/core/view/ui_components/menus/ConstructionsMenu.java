@@ -2,6 +2,7 @@ package stonering.game.core.view.ui_components.menus;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import stonering.enums.buildings.BuildingMap;
 import stonering.enums.constructions.ConstructionsEnum;
 import stonering.enums.designations.DesignationTypes;
 import stonering.game.core.GameMvc;
@@ -14,6 +15,7 @@ import stonering.game.core.controller.controllers.DesignationsController;
  */
 public class ConstructionsMenu extends ButtonMenu {
     private DesignationsController controller;
+    private static final String CATEGORY = "constructions";
 
     public ConstructionsMenu(GameMvc gameMvc) {
         super(gameMvc, 1);
@@ -28,18 +30,17 @@ public class ConstructionsMenu extends ButtonMenu {
     }
 
     private void initMenu() {
-        addButton("W: wall", ConstructionsEnum.WALL, 'w');
-        addButton("F: floor", ConstructionsEnum.FLOOR, 'f');
-        addButton("R: ramp", ConstructionsEnum.RAMP, 'r');
-        addButton("S: stairs", ConstructionsEnum.STAIRS, 's');
+        BuildingMap buildingMap = BuildingMap.getInstance();
+        buildingMap.getCategoryBuildings(CATEGORY).forEach(building ->
+            addButton(building.getHotKey().toUpperCase() + ": " + building.getTitle(), building.getTitle(), building.getHotKey().charAt(0)));
     }
 
-    private void addButton(String text, ConstructionsEnum type, char hotKey) {
+    private void addButton(String text, String constructionType, char hotKey) {
         super.createButton(text, hotKey, new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                controller.setActiveDesignation(DesignationTypes.BUILD, type.getTitle());
-                menuLevels.showMaterialSelect();
+                controller.setActiveDesignation(DesignationTypes.BUILD, constructionType);
+                menuLevels.showMaterialSelect(constructionType);
             }
         });
     }

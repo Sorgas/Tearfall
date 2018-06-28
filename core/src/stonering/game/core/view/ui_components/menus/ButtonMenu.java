@@ -70,7 +70,7 @@ public abstract class ButtonMenu extends VerticalGroup {
      * Adds all buttons from map to table and adds table to MenuLevels widget.
      */
     public void show() {
-        menuLevels.addMenu(this, menuLevel);
+        menuLevels.addMenu(this);
     }
 
     /**

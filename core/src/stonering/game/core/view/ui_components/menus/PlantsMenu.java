@@ -38,7 +38,7 @@ public class PlantsMenu extends ButtonMenu {
         createButton(text, hotKey, new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                controller.setActiveDesignation(type);
+                controller.setActiveDesignation(type, null);
             }
         });
     }

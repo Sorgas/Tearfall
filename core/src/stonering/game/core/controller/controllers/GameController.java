@@ -20,6 +20,8 @@ public class GameController extends Controller {
     private PauseController pauseController;
     private ToolBarController toolBarController;
     private InputMultiplexer inputMultiplexer;
+    private MaterialsFilter materialsFilter;
+
 
     public GameController(GameMvc gameMvc) {
         super(gameMvc);
@@ -28,6 +30,7 @@ public class GameController extends Controller {
         cameraConroller = new CameraConroller(gameMvc);
         pauseController = new PauseController(gameMvc);
         toolBarController = new ToolBarController(gameMvc);
+        materialsFilter = new MaterialsFilter(gameMvc);
     }
 
     public void init() {
@@ -35,6 +38,7 @@ public class GameController extends Controller {
         cameraConroller.init();
         designationsController.init();
         pauseController.init();
+        materialsFilter.init();
 
         inputMultiplexer.addProcessor(new CameraInputProcessor(this));
         inputMultiplexer.addProcessor(new PauseInputProcessor(this));
@@ -61,5 +65,9 @@ public class GameController extends Controller {
 
     public ToolBarController getToolBarController() {
         return toolBarController;
+    }
+
+    public MaterialsFilter getMaterialsFilter() {
+        return materialsFilter;
     }
 }

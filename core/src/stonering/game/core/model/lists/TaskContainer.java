@@ -2,6 +2,7 @@ package stonering.game.core.model.lists;
 
 import stonering.designations.BuildingDesignation;
 import stonering.designations.Designation;
+import stonering.designations.OrderDesignation;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.designations.DesignationTypes;
 import stonering.game.core.model.GameContainer;
@@ -21,23 +22,17 @@ import java.util.HashMap;
 /**
  * Contains all tasks for settlers on map. Designations stored separately for updating tiles.
  * <p>
- * @author Alexander Kuzyakov on 14.06.2017.
+ * @author Alexander Kuzyakov
  */
 public class TaskContainer {
     private GameContainer container;
     private ArrayList<Task> tasks;
     private HashMap<Position, Designation> designations;
-    private HashMap<Position, BuildingDesignation> buildings;
 
     public TaskContainer(GameContainer container) {
         this.container = container;
         tasks = new ArrayList<>();
         designations = new HashMap<>();
-        buildings = new HashMap<>();
-    }
-
-    public ArrayList<Task> getTasks() {
-        return tasks;
     }
 
     public Task getActiveTask(Position pos) {
@@ -50,32 +45,42 @@ public class TaskContainer {
     }
 
     public void addDesignation(Position position, DesignationTypes type) {
-        if (validateDesignations(position, type)) {
-            Designation designation = new Designation(position, type);
-            designation.task = createDesignationTask(designation);
-            if (designation.task != null) {
-                int index = designations.indexOf(designation);
-                if (index >= 0) {
-                    tasks.remove(designation.task);
-                    designations.add(index, designation);
-                } else {
-                    designations.add(designation);
+        switch(type) {
+            case NONE:
+            case DIG:
+            case STAIRS:
+            case RAMP:
+            case CHANNEL:
+            case CHOP:
+            case CUT: {
+                if (validateDesignations(position, type)) {
+                    OrderDesignation designation = new OrderDesignation(position, type);
+                    Task task = createOrderTask(designation);
+                    if (task != null) {
+                        task.setDesignation(designation);
+                        designation.setTask(task);
+                        designations.put(position, designation);
+                        tasks.add(task);
+                        container.getLocalMap().setDesignatedBlockType(designation.getPosition(), designation.getType().getCode());
+                    }
                 }
-                tasks.add(designation.task);
-                container.getLocalMap().setDesignatedBlockType(designation.position, designation.type.getCode());
+            }
+            break;
+            case BUILD: {
+
             }
         }
     }
 
-    private Task createDesignationTask(Designation designation) {
-        switch (designation.type) {
+    private Task createOrderTask(OrderDesignation designation) {
+        switch (designation.getType()) {
             case DIG:
             case RAMP:
             case STAIRS:
             case CHANNEL: {
                 Action action = new Action(container);
-                action.setEffectAspect(new DigEffectAspect(action, designation.type));
-                action.setTargetAspect(new BlockTargetAspect(action, designation.position));
+                action.setEffectAspect(new DigEffectAspect(action, designation.getType()));
+                action.setTargetAspect(new BlockTargetAspect(action, designation.getPosition()));
                 action.setRequirementsAspect(new EquippedItemRequirementAspect(action, "diging_tool"));
                 Task task = new Task("designation", TaskTypesEnum.DESIGNATION, action, this, container);
                 return task;
@@ -84,12 +89,17 @@ public class TaskContainer {
             case CHOP: {
                 Action action = new Action(container);
                 action.setEffectAspect(new ChopTreeEffectAspect(action));
-                action.setTargetAspect(new BlockTargetAspect(action, designation.position));
+                action.setTargetAspect(new BlockTargetAspect(action, designation.getPosition()));
                 action.setRequirementsAspect(new EquippedItemRequirementAspect(action, "chopping_tool"));
                 Task task = new Task("designation", TaskTypesEnum.DESIGNATION, action, this, container);
                 return task;
             }
         }
+        return null;
+    }
+
+    private Task createBuildingTask(BuildingDesignation designation) {
+
         return null;
     }
 
@@ -126,6 +136,9 @@ public class TaskContainer {
 
     public void removeTask(Task task) {
         tasks.remove(task);
+        if(task.getDesignation() != null) {
+            designations.remove(task.getDesignation().getPosition());
+        }
         if (task.getTaskType() == TaskTypesEnum.DESIGNATION) {
             container.getLocalMap().setDesignatedBlockType(task.getInitialAction().getTargetPosition(), DesignationTypes.NONE.getCode());
         }
@@ -137,5 +150,9 @@ public class TaskContainer {
 
     public void addTask(Task task) {
         tasks.add(task);
+    }
+
+    public ArrayList<Task> getTasks() {
+        return tasks;
     }
 }
