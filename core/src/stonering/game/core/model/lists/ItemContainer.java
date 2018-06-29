@@ -5,10 +5,7 @@ import stonering.game.core.model.GameContainer;
 import stonering.global.utils.Position;
 import stonering.objects.local_actors.items.Item;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -95,12 +92,14 @@ public class ItemContainer {
         }
     }
 
-    public List<Item> getMaterialList(int amount, ArrayList<String> types, ArrayList<String> materials) {
+    public List<Item> getMaterialList(int amount, ArrayList<String> types, ArrayList<String> materialTypes) {
         MaterialMap materialMap = MaterialMap.getInstance();
-        ArrayList<Integer> materialIds = new ArrayList<>();
-        materials.forEach((material) -> materialIds.add(materialMap.getId(material)));
+        HashSet<Integer> materialIds = materialMap.getMaterialsByTypes(materialTypes);
         ArrayList<Item> itemListForFiltering = new ArrayList<>(items);
-        return itemListForFiltering.stream().filter((item) -> types.contains(item.getType().getTitle())).filter((item) -> materialIds.contains(item.getMaterial())).collect(Collectors.toList());
+        return itemListForFiltering.stream().
+                filter(item -> types.contains(item.getType().getTitle())).
+                filter(item -> materialIds.contains(item.getMaterial())).
+                collect(Collectors.toList());
     }
 
     private ArrayList<Item> filterItemListForMaterials(String Material, ArrayList<Item> items) {

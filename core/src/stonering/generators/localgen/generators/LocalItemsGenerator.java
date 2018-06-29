@@ -1,5 +1,6 @@
 package stonering.generators.localgen.generators;
 
+import stonering.enums.materials.MaterialMap;
 import stonering.exceptions.DescriptionNotFoundException;
 import stonering.game.core.model.LocalMap;
 import stonering.generators.items.ItemGenerator;
@@ -23,22 +24,28 @@ public class LocalItemsGenerator {
     }
 
     public void execute() {
-        createItemInCenter("axe");
+        createItemInCenter("axe", "iron");
+        createItemInCenter("rock", "rhyolite");
     }
 
-    private void createItemInCenter(String itemType) {
+    private void createItemInCenter(String itemType, String material) {
         try {
             LocalMap localMap = container.getLocalMap();
-            Item pickaxe = itemGenerator.generateItem(itemType);
-            for (int z = localMap.getzSize() - 1; z >= 0; z--) {
-                if (localMap.getBlockType(localMap.getxSize() / 2, localMap.getySize() / 2, z) != 0) {
-                    pickaxe.setPosition(new Position(localMap.getxSize() / 2, localMap.getySize() / 2, z));
-                    break;
-                }
-            }
+            Item pickaxe = itemGenerator.generateItem(itemType, MaterialMap.getInstance().getId(material));
+            pickaxe.setPosition(new Position(localMap.getxSize() / 2, localMap.getySize() / 2, findSurfaceZ()));
             container.getItems().add(pickaxe);
         } catch (DescriptionNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    private int findSurfaceZ() {
+        LocalMap localMap = container.getLocalMap();
+        for (int z = localMap.getzSize() - 1; z >= 0; z--) {
+            if (localMap.getBlockType(localMap.getxSize() / 2, localMap.getySize() / 2, z) != 0) {
+                return z;
+            }
+        }
+        return 0;
     }
 }

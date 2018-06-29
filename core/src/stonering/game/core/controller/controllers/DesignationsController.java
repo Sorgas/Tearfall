@@ -89,4 +89,12 @@ public class DesignationsController extends Controller {
     public DesignationTypes getActiveDesignation() {
         return activeDesignation;
     }
+
+    public String getMaterial() {
+        return material;
+    }
+
+    public void setMaterial(String material) {
+        this.material = material;
+    }
 }

@@ -1,10 +1,12 @@
 package stonering.game.core.view.ui_components.menus;
 
-import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import stonering.game.core.GameMvc;
+import stonering.utils.global.StaticSkin;
+
+import java.util.HashMap;
 
 /**
  * @author Alexander Kuzyakov on 17.06.2018.
@@ -13,6 +15,7 @@ public class MenuLevels extends HorizontalGroup {
     private GameMvc gameMvc;
     private Toolbar toolbar;
     private MaterialSelectList materialSelectList;
+    private Label notification;
 
     public MenuLevels(GameMvc gameMvc) {
         this.gameMvc = gameMvc;
@@ -24,6 +27,7 @@ public class MenuLevels extends HorizontalGroup {
         toolbar.init();
         toolbar.show();
         materialSelectList = new MaterialSelectList();
+        notification = new Label("", StaticSkin.getSkin());
     }
 
     public Toolbar getToolbar() {
@@ -40,28 +44,48 @@ public class MenuLevels extends HorizontalGroup {
     }
 
     /**
-     * Returns visible menu with lowest level
+     * Removes given menu and all actors to the left.
+     *
+     * @param menu
+     */
+    public void hideMenu(ButtonMenu menu) {
+        int index = getChildren().indexOf(menu, true);
+        while (getChildren().contains(menu, true)) {
+            removeActor(getChildren().get(0));
+        }
+    }
+
+    /**
+     * Returns visible menu with lowest level (most left one).
      *
      * @return
      */
     public ButtonMenu getActiveMenu() {
-        return (ButtonMenu) getChildren().get(0);
+        for (int i = 0; i < getChildren().size; i++) {
+            if (ButtonMenu.class.isAssignableFrom(getChildren().get(i).getClass())) {
+                return (ButtonMenu) getChildren().get(i);
+            }
+        }
+        return null;
     }
 
     public void showMaterialSelect(String buildingTitle) {
         materialSelectList.clear();
-        materialSelectList.addItems(gameMvc.getController().getMaterialsFilter().getAvailableMaterialsForBuilding(buildingTitle));
-        materialSelectList.addListener(new EventListener() {
-            @Override
-            public boolean handle(Event event) {
+        HashMap<String, Integer> materials = gameMvc.getController().getMaterialsFilter().getAvailableMaterialsForBuilding(buildingTitle);
+        if (materials.keySet().size() > 0) {
+            materialSelectList.addItems(materials);
+            materialSelectList.addListener(event -> {
                 if (materialSelectList.getSelectedIndex() >= 0) {
-                    gameMvc.getController().getDesignationsController().setActiveDesignation();
+                    gameMvc.getController().getDesignationsController().setMaterial(materialSelectList.getSelectedMaterial());
                     return true;
                 } else {
                     return false;
                 }
-            }
-        });
-        this.addActorAt(0, materialSelectList);
+            });
+            this.addActorAt(0, materialSelectList);
+        } else {
+            notification.setText("No materials for " + buildingTitle + " are available.");
+            this.addActorAt(0, notification);
+        }
     }
 }

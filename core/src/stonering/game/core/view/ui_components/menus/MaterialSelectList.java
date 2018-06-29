@@ -36,4 +36,8 @@ public class MaterialSelectList extends List {
             return title + " " + number;
         }
     }
+
+    public String getSelectedMaterial() {
+        return ((ListItem) getSelected()).title;
+    }
 }

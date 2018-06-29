@@ -77,7 +77,7 @@ public abstract class ButtonMenu extends VerticalGroup {
      * Removes all buttons.
      */
     public void hide() {
-        menuLevels.removeActor(this);
+        menuLevels.hideMenu(this);
     }
 
     /**

@@ -201,7 +201,6 @@ public class LocalHeightsGenerator {
                 max = result[x][y] > max ? result[x][y] : max;
             }
         }
-        System.out.println("max: " + max);
         return result;
     }
 

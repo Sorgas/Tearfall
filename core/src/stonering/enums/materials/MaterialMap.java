@@ -5,8 +5,8 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import stonering.utils.global.FileLoader;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Singleton map of material types. Types are stored by their names.
@@ -56,8 +56,22 @@ public class MaterialMap {
         return getMaterial(getId(name));
     }
 
-    public int getId(String name){
+    public int getId(String name) {
         return ids.get(name);
+    }
+
+    /**
+     * Filters all materials having types from given list.
+     * @param types
+     * @return HashSet of material ids
+     */
+    public HashSet<Integer> getMaterialsByTypes(ArrayList<String> types) {
+        HashSet<String> typesSet = new HashSet<>(types);
+        HashSet<Integer> idsSet = new HashSet<>();
+        materials.values().stream().
+                filter(material -> !Collections.disjoint(typesSet, material.getTypes())).
+                forEach(material -> idsSet.add(material.getId()));
+        return idsSet;
     }
 
     public byte getAtlasY(int id) {
