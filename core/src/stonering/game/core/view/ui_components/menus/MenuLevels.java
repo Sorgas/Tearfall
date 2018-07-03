@@ -4,6 +4,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import stonering.game.core.GameMvc;
+import stonering.game.core.view.ui_components.lists.MaterialSelectList;
+import stonering.game.core.view.ui_components.lists.StringIntegerList;
 import stonering.utils.global.StaticSkin;
 
 import java.util.HashMap;
@@ -26,7 +28,8 @@ public class MenuLevels extends HorizontalGroup {
         toolbar = new Toolbar(gameMvc);
         toolbar.init();
         toolbar.show();
-        materialSelectList = new MaterialSelectList();
+        materialSelectList = new MaterialSelectList(gameMvc);
+        materialSelectList.init();
         notification = new Label("", StaticSkin.getSkin());
     }
 
@@ -70,22 +73,22 @@ public class MenuLevels extends HorizontalGroup {
     }
 
     public void showMaterialSelect(String buildingTitle) {
-        materialSelectList.clear();
-        HashMap<String, Integer> materials = gameMvc.getController().getMaterialsFilter().getAvailableMaterialsForBuilding(buildingTitle);
-        if (materials.keySet().size() > 0) {
-            materialSelectList.addItems(materials);
-            materialSelectList.addListener(event -> {
-                if (materialSelectList.getSelectedIndex() >= 0) {
-                    gameMvc.getController().getDesignationsController().setMaterial(materialSelectList.getSelectedMaterial());
-                    return true;
-                } else {
-                    return false;
-                }
-            });
+        materialSelectList.refill(buildingTitle);
+        if (materialSelectList.getItems().size > 0) {
             this.addActorAt(0, materialSelectList);
+            materialSelectList.setSelectedIndex(0);
+//            materialSelectList.
         } else {
             notification.setText("No materials for " + buildingTitle + " are available.");
             this.addActorAt(0, notification);
         }
+    }
+
+    public boolean isMaterialSelectShown() {
+        return getChildren().contains(materialSelectList, true);
+    }
+
+    public StringIntegerList getMaterialSelectList() {
+        return materialSelectList;
     }
 }

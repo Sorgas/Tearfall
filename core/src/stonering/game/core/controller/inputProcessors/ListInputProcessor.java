@@ -2,27 +2,26 @@ package stonering.game.core.controller.inputProcessors;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
-import stonering.game.core.controller.controllers.DesignationsController;
 import stonering.game.core.controller.controllers.GameController;
+import stonering.game.core.controller.controllers.UIController;
+import stonering.game.core.view.UIDrawer;
 
 /**
- * @author Alexander Kuzyakov on 26.12.2017.
+ * Input processor for all lists in game. Sends events to {@link UIDrawer}.
+ *
+ * @author Alexander on 03.07.2018.
  */
-public class DesignationsInputProcessor implements InputProcessor {
-    private DesignationsController controller;
+public class ListInputProcessor implements InputProcessor {
+    private UIController uiController;
 
-    public DesignationsInputProcessor(GameController gameController) {
-        controller = gameController.getDesignationsController();
+    public ListInputProcessor(GameController controller) {
+        uiController = controller.getUiController();
     }
 
     @Override
     public boolean keyDown(int keycode) {
-        switch (keycode) {
-            case Input.Keys.ENTER:
-                return controller.handleDesignation();
-            case Input.Keys.ESCAPE:
-                controller.handleCancel();
-                return true;
+        if (keycode == Input.Keys.ENTER) {
+            return uiController.handleListSelect();
         }
         return false;
     }
@@ -34,6 +33,12 @@ public class DesignationsInputProcessor implements InputProcessor {
 
     @Override
     public boolean keyTyped(char character) {
+        switch (character) {
+            case '[':
+                return uiController.handleListDown();
+            case ']':
+                return uiController.handleListUp();
+        }
         return false;
     }
 

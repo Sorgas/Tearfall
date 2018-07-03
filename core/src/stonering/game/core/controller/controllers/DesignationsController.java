@@ -10,6 +10,7 @@ import stonering.global.utils.Position;
  * Controller for various digging and building tasks. Works with GameContainer directly.
  * Digging and BuildingType combined in one controller and map,
  * because one tile can be designated for either digging or building in it.
+ * Handles events from menus and updates model appropriately.
  *
  * @author Alexander Kuzyakov on 24.12.2017.
  */
@@ -46,7 +47,7 @@ public class DesignationsController extends Controller {
     /**
      * Enter point.
      */
-    public void handleDesignation() {
+    public boolean handleDesignation() {
         if (activeDesignation != null) {
             if (rectangleStarted) {
                 designate(container.getCamera().getPosition());
@@ -56,7 +57,9 @@ public class DesignationsController extends Controller {
                 start = container.getCamera().getPosition().clone();
                 rectangleStarted = true;
             }
+            return true;
         }
+        return false;
     }
 
     /**

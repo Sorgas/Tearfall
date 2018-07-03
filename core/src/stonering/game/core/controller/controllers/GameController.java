@@ -4,10 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputMultiplexer;
 import stonering.game.core.GameMvc;
-import stonering.game.core.controller.inputProcessors.CameraInputProcessor;
-import stonering.game.core.controller.inputProcessors.DesignationsInputProcessor;
-import stonering.game.core.controller.inputProcessors.PauseInputProcessor;
-import stonering.game.core.controller.inputProcessors.ToolBarInputProcessor;
+import stonering.game.core.controller.inputProcessors.*;
 
 /**
  * Container for all controllers.
@@ -20,8 +17,7 @@ public class GameController extends Controller {
     private PauseController pauseController;
     private ToolBarController toolBarController;
     private InputMultiplexer inputMultiplexer;
-    private MaterialsFilter materialsFilter;
-
+    private UIController uiController;
 
     public GameController(GameMvc gameMvc) {
         super(gameMvc);
@@ -30,7 +26,7 @@ public class GameController extends Controller {
         cameraConroller = new CameraConroller(gameMvc);
         pauseController = new PauseController(gameMvc);
         toolBarController = new ToolBarController(gameMvc);
-        materialsFilter = new MaterialsFilter(gameMvc);
+        uiController = new UIController(gameMvc);
     }
 
     public void init() {
@@ -38,12 +34,13 @@ public class GameController extends Controller {
         cameraConroller.init();
         designationsController.init();
         pauseController.init();
-        materialsFilter.init();
+        uiController.init();
 
         inputMultiplexer.addProcessor(new CameraInputProcessor(this));
         inputMultiplexer.addProcessor(new PauseInputProcessor(this));
-        inputMultiplexer.addProcessor(new ToolBarInputProcessor(this));
         inputMultiplexer.addProcessor(new DesignationsInputProcessor(this));
+        inputMultiplexer.addProcessor(new ToolBarInputProcessor(this));
+        inputMultiplexer.addProcessor(new ListInputProcessor(this));
         Gdx.input.setInputProcessor(inputMultiplexer);
     }
 
@@ -67,7 +64,7 @@ public class GameController extends Controller {
         return toolBarController;
     }
 
-    public MaterialsFilter getMaterialsFilter() {
-        return materialsFilter;
+    public UIController getUiController() {
+        return uiController;
     }
 }

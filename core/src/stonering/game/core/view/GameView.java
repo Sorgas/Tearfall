@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import stonering.game.core.GameMvc;
 
 /**
- * Main game Screen
+ * Main game Screen. {@link LocalWorldDrawer} for tile drawing, {@link UIDrawer for ui}
  *
  * @author Alexander Kuzyakov on 10.06.2017.
  */

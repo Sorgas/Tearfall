@@ -81,7 +81,7 @@ public class PlantProductGenerator {
                 }
             }
             if (block.getPlant().getType().getCutProduct().contains(itemTitle))
-                return itemGenerator.generateItem(itemTitle);
+                return itemGenerator.generateItem(itemTitle, block.getMaterial());
         } catch (DescriptionNotFoundException e) {
             System.out.println(e.getMessage());
         }

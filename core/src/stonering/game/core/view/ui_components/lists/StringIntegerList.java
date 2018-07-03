@@ -1,19 +1,21 @@
-package stonering.game.core.view.ui_components.menus;
+package stonering.game.core.view.ui_components.lists;
 
-import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.utils.Array;
-import stonering.utils.global.StaticSkin;
-
 import java.util.HashMap;
 
 /**
- * @author Alexander Kuzyakov
- * created on 26.06.2018
+ * List that shows strings and integers from given map.
+ *
+ * @author Alexander Kuzyakov on 26.06.2018
  */
-public class MaterialSelectList extends List {
+public class StringIntegerList extends NavigableList {
 
-    public MaterialSelectList() {
-        super(StaticSkin.getSkin());
+    public StringIntegerList() {
+        super();
+    }
+
+    @Override
+    public void select() {
     }
 
     public void addItems(HashMap<String, Integer> items) {
@@ -37,7 +39,7 @@ public class MaterialSelectList extends List {
         }
     }
 
-    public String getSelectedMaterial() {
+    public String getSelectedString() {
         return ((ListItem) getSelected()).title;
     }
 }

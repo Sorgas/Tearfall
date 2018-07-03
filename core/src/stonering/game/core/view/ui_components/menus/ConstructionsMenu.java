@@ -3,7 +3,6 @@ package stonering.game.core.view.ui_components.menus;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.enums.buildings.BuildingMap;
-import stonering.enums.constructions.ConstructionsEnum;
 import stonering.enums.designations.DesignationTypes;
 import stonering.game.core.GameMvc;
 import stonering.game.core.controller.controllers.DesignationsController;
