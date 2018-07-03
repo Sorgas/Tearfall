@@ -67,7 +67,7 @@ public class TaskContainer {
             }
             break;
             case BUILD: {
-
+                System.out.println("building designated");
             }
         }
     }

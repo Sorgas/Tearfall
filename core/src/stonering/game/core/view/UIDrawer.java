@@ -1,11 +1,8 @@
 package stonering.game.core.view;
 
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.kotcrab.vis.ui.widget.VisCheckBox;
-import com.kotcrab.vis.ui.widget.VisList;
 import stonering.enums.materials.Material;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.core.GameMvc;
@@ -31,7 +28,6 @@ public class UIDrawer {
     private ToolStatus toolStatus;
     private GameContainer container;
     private MaterialMap materialMap;
-    private Actor focusedActor;
 
     public UIDrawer(GameMvc gameMvc) {
         this.gameMvc = gameMvc;

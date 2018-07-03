@@ -8,8 +8,6 @@ import stonering.game.core.view.ui_components.lists.MaterialSelectList;
 import stonering.game.core.view.ui_components.lists.StringIntegerList;
 import stonering.utils.global.StaticSkin;
 
-import java.util.HashMap;
-
 /**
  * @author Alexander Kuzyakov on 17.06.2018.
  */
