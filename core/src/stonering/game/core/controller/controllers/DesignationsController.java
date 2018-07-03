@@ -1,8 +1,10 @@
 package stonering.game.core.controller.controllers;
 
+import stonering.enums.buildings.BuildingMap;
 import stonering.enums.designations.DesignationTypes;
 import stonering.game.core.GameMvc;
 import stonering.game.core.model.GameContainer;
+import stonering.game.core.model.lists.TaskContainer;
 import stonering.game.core.view.GameView;
 import stonering.global.utils.Position;
 
@@ -11,13 +13,15 @@ import stonering.global.utils.Position;
  * Digging and BuildingType combined in one controller and map,
  * because one tile can be designated for either digging or building in it.
  * Handles events from menus and updates model appropriately.
+ * Has state fields representing currently chosen designation.
+ * TODO Validates designations for preview sprite rendering.(move from task container)
  *
  * @author Alexander Kuzyakov on 24.12.2017.
  */
 public class DesignationsController extends Controller {
     private DesignationTypes activeDesignation;
-    private String building;
-    private String material;
+    private String building; //is set when activeDesignation is BUILD
+    private String material; //is set when activeDesignation is BUILD
     private boolean rectangleStarted = false;
     private Position start; // should be stored between steps
     private GameContainer container;
@@ -69,6 +73,7 @@ public class DesignationsController extends Controller {
         start = null;
         activeDesignation = null;
         building = "";
+        material = "";
         rectangleStarted = false;
         view.getUiDrawer().getToolStatus().setText("");
     }
@@ -80,12 +85,25 @@ public class DesignationsController extends Controller {
      * @param end end point of rectangle.
      */
     private void designate(Position end) {
-        for (int x = Math.min(end.getX(), start.getX()); x <= Math.max(end.getX(), start.getX()); x++) {
-            for (int y = Math.min(end.getY(), start.getY()); y <= Math.max(end.getY(), start.getY()); y++) {
-                for (int z = Math.min(end.getZ(), start.getZ()); z <= Math.max(end.getZ(), start.getZ()); z++) {
-                    container.getTaskContainer().addDesignation(new Position(x, y, z), activeDesignation);
+        if (activeDesignation == DesignationTypes.BUILD && !BuildingMap.getInstance().getBuilding(building).getCategory().equals("constructions")) {
+            addDesignationToContainer(end);
+        } else {
+            for (int x = Math.min(end.getX(), start.getX()); x <= Math.max(end.getX(), start.getX()); x++) {
+                for (int y = Math.min(end.getY(), start.getY()); y <= Math.max(end.getY(), start.getY()); y++) {
+                    for (int z = Math.min(end.getZ(), start.getZ()); z <= Math.max(end.getZ(), start.getZ()); z++) {
+                        addDesignationToContainer(new Position(x, y, z));
+                    }
                 }
             }
+        }
+    }
+
+    private void addDesignationToContainer(Position position) {
+        TaskContainer taskContainer = container.getTaskContainer();
+        if (activeDesignation == DesignationTypes.BUILD) {
+            taskContainer.addDesignation(position, building, material);
+        } else {
+            taskContainer.addDesignation(position, activeDesignation);
         }
     }
 
@@ -97,6 +115,11 @@ public class DesignationsController extends Controller {
         return material;
     }
 
+    /**
+     * Sets meterial for building.
+     *
+     * @param material material name
+     */
     public void setMaterial(String material) {
         this.material = material;
     }

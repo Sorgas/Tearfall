@@ -4,6 +4,7 @@ import stonering.designations.BuildingDesignation;
 import stonering.designations.Designation;
 import stonering.designations.OrderDesignation;
 import stonering.enums.blocks.BlockTypesEnum;
+import stonering.enums.buildings.BuildingMap;
 import stonering.enums.designations.DesignationTypes;
 import stonering.game.core.model.GameContainer;
 import stonering.global.utils.Position;
@@ -12,6 +13,7 @@ import stonering.objects.jobs.actions.Action;
 import stonering.objects.jobs.actions.TaskTypesEnum;
 import stonering.objects.jobs.actions.aspects.effect.ChopTreeEffectAspect;
 import stonering.objects.jobs.actions.aspects.effect.DigEffectAspect;
+import stonering.objects.jobs.actions.aspects.requirements.BodyPartRequirementAspect;
 import stonering.objects.jobs.actions.aspects.requirements.EquippedItemRequirementAspect;
 import stonering.objects.jobs.actions.aspects.target.BlockTargetAspect;
 import stonering.objects.local_actors.plants.PlantBlock;
@@ -22,6 +24,7 @@ import java.util.HashMap;
 /**
  * Contains all tasks for settlers on map. Designations stored separately for updating tiles.
  * <p>
+ *
  * @author Alexander Kuzyakov
  */
 public class TaskContainer {
@@ -45,7 +48,7 @@ public class TaskContainer {
     }
 
     public void addDesignation(Position position, DesignationTypes type) {
-        switch(type) {
+        switch (type) {
             case NONE:
             case DIG:
             case STAIRS:
@@ -65,11 +68,22 @@ public class TaskContainer {
                     }
                 }
             }
-            break;
-            case BUILD: {
-                System.out.println("building designated");
-            }
         }
+    }
+
+    /**
+     * Adds designation and creates comprehensive task.
+     * All single-tile buildings are constructed through this method.
+     *
+     * @param position
+     * @param building
+     * @param material
+     */
+    public void addDesignation(Position position, String building, String material) {
+        if(validateBuilding(position, building)) {
+
+        }
+        System.out.println("building designated");
     }
 
     private Task createOrderTask(OrderDesignation designation) {
@@ -99,7 +113,9 @@ public class TaskContainer {
     }
 
     private Task createBuildingTask(BuildingDesignation designation) {
-
+        Action action = new Action(container);
+        action.setRequirementsAspect(new BodyPartRequirementAspect(action, "grab"));
+        action.setTargetAspect(new BlockTargetAspect(action, ));
         return null;
     }
 
@@ -134,9 +150,21 @@ public class TaskContainer {
         return false;
     }
 
+
+    public boolean validateBuilding(Position pos, String building) {
+        String category = BuildingMap.getInstance().getBuilding(building).getCategory();
+        switch (category) {
+            case "constructions": {
+                byte blockType = container.getLocalMap().getBlockType(pos);
+                return blockType == BlockTypesEnum.SPACE.getCode() || blockType == BlockTypesEnum.FLOOR.getCode();
+            }
+        }
+        return false;
+    }
+
     public void removeTask(Task task) {
         tasks.remove(task);
-        if(task.getDesignation() != null) {
+        if (task.getDesignation() != null) {
             designations.remove(task.getDesignation().getPosition());
         }
         if (task.getTaskType() == TaskTypesEnum.DESIGNATION) {
