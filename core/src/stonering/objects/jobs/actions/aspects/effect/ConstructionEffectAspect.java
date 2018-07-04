@@ -7,11 +7,13 @@ import stonering.objects.local_actors.items.Item;
 
 import java.util.ArrayList;
 
-public class BuildingEffectAspect extends EffectAspect {
+public class ConstructionEffectAspect extends EffectAspect {
     private GameContainer container;
     private ArrayList<Item> materials;
+    private String building;
+    private String material;
 
-    public BuildingEffectAspect(Action action) {
+    public ConstructionEffectAspect(Action action) {
         super(action, 100);
         container = action.getGameContainer();
     }

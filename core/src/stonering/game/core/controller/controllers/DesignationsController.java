@@ -101,9 +101,9 @@ public class DesignationsController extends Controller {
     private void addDesignationToContainer(Position position) {
         TaskContainer taskContainer = container.getTaskContainer();
         if (activeDesignation == DesignationTypes.BUILD) {
-            taskContainer.addDesignation(position, building, material);
+            taskContainer.submitDesignation(position, building, material);
         } else {
-            taskContainer.addDesignation(position, activeDesignation);
+            taskContainer.submitDesignation(position, activeDesignation);
         }
     }
 

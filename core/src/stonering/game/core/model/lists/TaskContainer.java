@@ -11,6 +11,7 @@ import stonering.global.utils.Position;
 import stonering.objects.jobs.Task;
 import stonering.objects.jobs.actions.Action;
 import stonering.objects.jobs.actions.TaskTypesEnum;
+import stonering.objects.jobs.actions.aspects.effect.ConstructionEffectAspect;
 import stonering.objects.jobs.actions.aspects.effect.ChopTreeEffectAspect;
 import stonering.objects.jobs.actions.aspects.effect.DigEffectAspect;
 import stonering.objects.jobs.actions.aspects.requirements.BodyPartRequirementAspect;
@@ -47,7 +48,14 @@ public class TaskContainer {
         return null;
     }
 
-    public void addDesignation(Position position, DesignationTypes type) {
+    /**
+     * Adds designation and creates comprehensive task.
+     * All simple orders like digging and foraging submitted through this method.
+     *
+     * @param position
+     * @param type
+     */
+    public void submitDesignation(Position position, DesignationTypes type) {
         switch (type) {
             case NONE:
             case DIG:
@@ -79,8 +87,10 @@ public class TaskContainer {
      * @param building
      * @param material
      */
-    public void addDesignation(Position position, String building, String material) {
+    public void submitDesignation(Position position, String building, String material) {
         if(validateBuilding(position, building)) {
+            BuildingDesignation designation = new BuildingDesignation(position, building, material);
+            Task task = createBuildingTask(designation);
 
         }
         System.out.println("building designated");
@@ -115,7 +125,8 @@ public class TaskContainer {
     private Task createBuildingTask(BuildingDesignation designation) {
         Action action = new Action(container);
         action.setRequirementsAspect(new BodyPartRequirementAspect(action, "grab"));
-        action.setTargetAspect(new BlockTargetAspect(action, ));
+        action.setTargetAspect(new BlockTargetAspect(action, designation.getPosition()));
+        action.setEffectAspect(new ConstructionEffectAspect(action));
         return null;
     }
 

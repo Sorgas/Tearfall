@@ -1,12 +1,20 @@
 package stonering.designations;
 
+import stonering.global.utils.Position;
+
 /**
  * @author Alexander Kuzyakov
  * created on 26.06.2018
  */
-public class BuildingDesignation {
+public class BuildingDesignation extends Designation {
     private String building;
     private String material;
+
+    public BuildingDesignation(Position position, String building, String material) {
+        super(position);
+        this.building = building;
+        this.material = material;
+    }
 
     public String getBuilding() {
         return building;
