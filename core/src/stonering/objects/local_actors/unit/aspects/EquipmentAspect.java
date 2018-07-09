@@ -28,10 +28,21 @@ public class EquipmentAspect extends Aspect {
         return null;
     }
 
-    public void equipItem(Item item) {
-        if (true) { //TODO
+    public void equipItem(Item item, boolean allowHauling) {
+        //TODO check available slots for item
+        //TODO chaek hauling
+        if (true) {
             items.add(item);
             gameContainer.getItemContainer().removeItem(item);
         }
+    }
+
+    public void unequipItem(Item item) {
+        items.remove(item);
+    }
+
+    public boolean checkItem(Item item) {
+        //TODO
+        return items.contains(item);
     }
 }

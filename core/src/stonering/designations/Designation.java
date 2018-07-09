@@ -1,5 +1,6 @@
 package stonering.designations;
 
+import stonering.enums.designations.DesignationTypes;
 import stonering.global.utils.Position;
 import stonering.objects.jobs.Task;
 
@@ -9,9 +10,11 @@ import stonering.objects.jobs.Task;
 public abstract class Designation {
     protected Position position;
     protected Task task;
+    private DesignationTypes type;
 
-    public Designation(Position position) {
+    public Designation(Position position, DesignationTypes type) {
         this.position = position;
+        this.type = type;
     }
 
     public Position getPosition() {
@@ -28,5 +31,9 @@ public abstract class Designation {
 
     public void setTask(Task task) {
         this.task = task;
+    }
+
+    public DesignationTypes getType() {
+        return type;
     }
 }

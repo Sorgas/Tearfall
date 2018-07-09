@@ -26,6 +26,11 @@ public enum DesignationsTileMapping {
         }
     }
 
+    /**
+     * Constructor
+     * @param code same as in {@link DesignationTypes}
+     * @param atlasX
+     */
     DesignationsTileMapping(int code, int atlasX) {
         this.code = code;
         this.atlasX = atlasX;

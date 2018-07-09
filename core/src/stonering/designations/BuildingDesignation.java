@@ -1,5 +1,6 @@
 package stonering.designations;
 
+import stonering.enums.designations.DesignationTypes;
 import stonering.global.utils.Position;
 
 /**
@@ -10,8 +11,8 @@ public class BuildingDesignation extends Designation {
     private String building;
     private String material;
 
-    public BuildingDesignation(Position position, String building, String material) {
-        super(position);
+    public BuildingDesignation(Position position, DesignationTypes type, String building, String material) {
+        super(position, type);
         this.building = building;
         this.material = material;
     }

@@ -88,12 +88,14 @@ public class TaskContainer {
      * @param material
      */
     public void submitDesignation(Position position, String building, String material) {
-        if(validateBuilding(position, building)) {
-            BuildingDesignation designation = new BuildingDesignation(position, building, material);
+        if (validateBuilding(position, building)) {
+            BuildingDesignation designation = new BuildingDesignation(position, DesignationTypes.BUILD, building, material);
             Task task = createBuildingTask(designation);
-
+            tasks.add(task);
+            designations.put(position, designation);
+            container.getLocalMap().setDesignatedBlockType(designation.getPosition(), designation.getType().getCode());
+            System.out.println("building designated");
         }
-        System.out.println("building designated");
     }
 
     private Task createOrderTask(OrderDesignation designation) {

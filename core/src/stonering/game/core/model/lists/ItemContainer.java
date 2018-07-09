@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 public class ItemContainer {
     private ArrayList<Item> items;
     private HashMap<Position, ArrayList<Item>> itemMap;
+    private ArrayList<Item> lockedItems;
     private GameContainer gameContainer;
 
     public ItemContainer(ArrayList<Item> items, GameContainer gameContainer) {
@@ -121,5 +122,23 @@ public class ItemContainer {
 
     private ArrayList<Item> filterItemListForMaterials(String Material, ArrayList<Item> items) {
         return null;
+    }
+
+    public void lockItem(Item item) {
+        if(items.contains(item)) {
+            items.remove(item);
+            lockedItems.add(item);
+        }
+    }
+
+    public void unlockItem(Item item) {
+        if(lockedItems.contains(item)) {
+            lockedItems.remove(item);
+            items.add(item);
+        }
+    }
+
+    public boolean isItemLocked(Item item) {
+        return lockedItems.contains(item);
     }
 }

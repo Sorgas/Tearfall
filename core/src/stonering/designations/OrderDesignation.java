@@ -9,14 +9,9 @@ import stonering.global.utils.Position;
  * @author Alexander Kuzyakov
  */
 public class OrderDesignation extends Designation{
-    private DesignationTypes type;
+
 
     public OrderDesignation(Position position, DesignationTypes type) {
-        super(position);
-        this.type = type;
-    }
-
-    public DesignationTypes getType() {
-        return type;
+        super(position, type);
     }
 }
