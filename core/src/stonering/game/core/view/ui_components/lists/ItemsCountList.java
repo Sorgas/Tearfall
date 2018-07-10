@@ -56,6 +56,4 @@ public class ItemsCountList extends NavigableList {
             return material + " " + title + " " + number;
         }
     }
-
-    public getSelectedItem
 }

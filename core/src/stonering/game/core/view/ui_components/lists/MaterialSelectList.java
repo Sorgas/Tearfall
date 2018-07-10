@@ -29,7 +29,7 @@ public class MaterialSelectList extends ItemsCountList {
         addItems(items);
         addListener(event -> {
             if (getSelectedIndex() >= 0) {
-                System.out.println("selected material: " + );
+                System.out.println("selected material: ");
                 return true;
             } else {
                 return false;
