@@ -7,7 +7,7 @@ import stonering.objects.local_actors.Aspect;
 import stonering.objects.local_actors.unit.Unit;
 import stonering.global.utils.Position;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Alexander Kuzyakov on 06.10.2017.
@@ -19,7 +19,7 @@ public class MovementAspect extends Aspect {
     private int stepDelay;
     private LocalMap map;
     private PlanningAspect planning;
-    private ArrayList<Position> path;
+    private List<Position> path;
     private Position cachedTarget;
 
     public MovementAspect(Unit unit) {

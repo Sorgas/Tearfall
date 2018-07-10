@@ -6,8 +6,10 @@ import stonering.global.utils.HashPriorityQueue;
 import stonering.global.utils.Position;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 public class AStar {
     private LocalMap localMap;
@@ -24,7 +26,7 @@ public class AStar {
      * Returns the shortest Path from a start node to an end node according to
      * the A* heuristics (h must not overestimate). initialNode and last found node included.
      */
-    public ArrayList<Position> makeShortestPath(Position initialPos, Position targetPos, boolean exactTarget) {
+    public List<Position> makeShortestPath(Position initialPos, Position targetPos, boolean exactTarget) {
         Node initialNode = new Node(initialPos, targetPos);
         //perform search and save the
         Node pathNode = search(initialNode, targetPos, exactTarget);
@@ -32,7 +34,7 @@ public class AStar {
             return null;
         //return shortest path according to AStar heuristics
 
-        ArrayList<Position> path = new ArrayList<>();
+        LinkedList<Position> path = new LinkedList<>();
         path.add(pathNode.getPosition());
         while (pathNode.getParent() != null) {
             pathNode = pathNode.getParent();
@@ -118,11 +120,11 @@ public class AStar {
 
     private ArrayList<Node> getSuccessors(Node node, Position target) {
         ArrayList<Node> nodes = new ArrayList<>();
+        final Position nodePos = node.getPosition();
         for (int z = -1; z < 2; z++) {
             for (int y = -1; y < 2; y++) {
                 for (int x = -1; x < 2; x++) {
                     if (x != 0 || y != 0 || z != 0) {
-                        Position nodePos = node.getPosition();
                         if (inMap(nodePos.getX() + x, nodePos.getY() + y, nodePos.getZ() + z)) {
                             Position newPos = new Position(nodePos.getX() + x, nodePos.getY() + y, nodePos.getZ() + z);
                             if (hasPathBetween(nodePos, newPos)) {
