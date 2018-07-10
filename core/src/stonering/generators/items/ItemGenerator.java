@@ -41,7 +41,7 @@ public class ItemGenerator {
         Item item = new Item(null);
         item.setTitle(itemType.getTitle());
         item.setType(itemType);
-        itemType.getAspects().forEach(aspectName -> AspectGenerator.createAspect(aspectName, item).ifPresent(item::addAspect));
+        itemType.getAspects().keySet().forEach(aspectName -> AspectGenerator.createAspect(aspectName, item).ifPresent(item::addAspect));
         return item;
     }
 

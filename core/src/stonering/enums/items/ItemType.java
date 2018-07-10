@@ -6,13 +6,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Descriptior class of item. Stores all properties, valid to the whole type of items, not for specific ones.
+ * Descriptior class of item. Stores all aspects, valid to the whole type of items, not for specific ones.
  * (e.g. not material, condition, ownership)
  */
 public class ItemType {
     private String title;
-    private HashMap<String, Integer> properties;
-    private ArrayList<String> aspects;
+    private HashMap<String, ArrayList<Object>> aspects;
     private float basicValue;
     private int atlasX;
     private int atlasY;
@@ -24,14 +23,6 @@ public class ItemType {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public ArrayList<String> getAspects() {
-        return aspects;
-    }
-
-    public void setAspects(ArrayList<String> aspects) {
-        this.aspects = aspects;
     }
 
     public int getAtlasX() {
@@ -66,11 +57,11 @@ public class ItemType {
         this.basicValue = basicValue;
     }
 
-    public HashMap<String, Integer> getProperties() {
-        return properties;
+    public HashMap<String, ArrayList<Object>> getAspects() {
+        return aspects;
     }
 
-    public void setProperties(HashMap<String, Integer> properties) {
-        this.properties = properties;
+    public void setAspects(HashMap<String, ArrayList<Object>> aspects) {
+        this.aspects = aspects;
     }
 }

@@ -19,9 +19,9 @@ import java.util.ArrayList;
  */
 public class ItemsOnPositionRequirementAspect extends RequirementsAspect {
     private Position target;
-    private ArrayList<ItemSelector> items;
+    private ArrayList<Item> items;
 
-    public ItemsOnPositionRequirementAspect(Action action, Position target, ArrayList<ItemSelector> items) {
+    public ItemsOnPositionRequirementAspect(Action action, Position target, ArrayList<Item> items) {
         super(action);
         this.target = target;
         this.items = items;
@@ -29,24 +29,22 @@ public class ItemsOnPositionRequirementAspect extends RequirementsAspect {
 
     @Override
     public boolean check() {
-        ArrayList<Item> itemsOnSite = (ArrayList<Item>) action.getGameContainer().getItemContainer().getItems(target).clone();
-        for (ItemSelector itemSelector : items) {
-            if ()
-                return false;
+        final ArrayList<Item> itemsOnSite = action.getGameContainer().getItemContainer().getItems(target);
+        for (Item item : items) {
+            if (!itemsOnSite.contains(item))
+                return tryCreateHaulingTask(item);
         }
         return true;
     }
 
-    private boolean addHaulingActionsToTask(Item item) {
-        Action pickAction = new Action(action.getGameContainer());
-        pickAction.setRequirementsAspect(new BodyPartRequirementAspect(pickAction, "grab"));
-        pickAction.setTargetAspect(new ItemTargetAspect(pickAction, item));
-        pickAction.setEffectAspect(new PickUpItemEffectAspect(pickAction));
-
-        Action dropAction = new Action(action.getGameContainer());
-        dropAction.setRequirementsAspect(new EquippedItemRequirementAspect(dropAction, ""));
-        dropAction.setTargetAspect(new BlockTargetAspect(dropAction, target));
-        dropAction.setEffectAspect(new DropItemEffectAspect(dropAction, item));
-        action.getTask().addFirstAction();
+    private boolean tryCreateHaulingTask(Item item) {
+        if (action.getGameContainer().getItemContainer().isItemAvailableFrom(item, target)) {
+            Action dropAction = new Action(action.getGameContainer());
+            dropAction.setRequirementsAspect(new EquippedItemRequirementAspect(dropAction, ""));
+            dropAction.setTargetAspect(new BlockTargetAspect(dropAction, target));
+            dropAction.setEffectAspect(new DropItemEffectAspect(dropAction, item));
+            return true;
+        }
+        return false;
     }
 }

@@ -1,11 +1,9 @@
 [
     {
         "title":"pickaxe",
-        "aspects":[
-            "falling"
-        ],
-        "properties":{
-            "digging_tool":"1"
+        "aspects":{
+            "falling":["1"],
+            "digging_tool":["1"]
         },
         "basicValue":"0",
         "atlasY":"0",
@@ -20,11 +18,9 @@
     },
     {
         "title":"axe",
-        "aspects":[
-            "falling"
-        ],
-        "properties":{
-            "chopping_tool":"1"
+        "aspects":{
+            "falling":["1"],
+            "chopping_tool":["1"]
         },
         "basicValue":"0",
         "atlasY":"0",
@@ -39,10 +35,8 @@
     },
     {
         "title":"log",
-        "aspects":[
-            "falling"
-        ],
-        "properties":{
+        "aspects":{
+            "falling":["1"]
         },
         "basicValue":"0",
         "atlasY":"0",
@@ -57,10 +51,8 @@
     },
     {
         "title":"branch",
-        "aspects":[
-            "falling"
-        ],
-        "properties":{
+        "aspects":{
+            "falling":["1"]
         },
         "basicValue":"0",
         "atlasY":"0",
@@ -75,10 +67,8 @@
     },
     {
         "title":"rock",
-        "aspects":[
-            "falling"
-        ],
-        "properties":{
+        "aspects":{
+            "falling":["1"]
         },
         "basicValue":"0",
         "atlasY":"0",

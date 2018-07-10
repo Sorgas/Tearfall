@@ -5,6 +5,7 @@ import stonering.enums.buildings.BuildingType;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.core.model.GameContainer;
 import stonering.global.utils.Position;
+import stonering.global.utils.pathfinding.a_star.AStar;
 import stonering.objects.local_actors.items.Item;
 
 import java.util.*;
@@ -77,7 +78,7 @@ public class ItemContainer {
 
     public Item getItemWithProperty(String property) {
         for (Item item : items) {
-            if (item.getType().getProperties().containsKey(property))
+            if (item.getType().getAspects().containsKey(property))
                 return item;
         }
         return null;
@@ -122,6 +123,16 @@ public class ItemContainer {
 
     private ArrayList<Item> filterItemListForMaterials(String Material, ArrayList<Item> items) {
         return null;
+    }
+
+    /**
+     * Checks if item can be reached from position.
+     * @param item
+     * @param position
+     * @return
+     */
+    public boolean isItemAvailableFrom(Item item, Position position) {
+        return new AStar(gameContainer.getLocalMap()).makeShortestPath(position, item.getPosition(), true) != null;
     }
 
     public void lockItem(Item item) {
