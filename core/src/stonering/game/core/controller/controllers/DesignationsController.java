@@ -7,6 +7,9 @@ import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.lists.TaskContainer;
 import stonering.game.core.view.GameView;
 import stonering.global.utils.Position;
+import stonering.objects.local_actors.items.Item;
+
+import java.util.ArrayList;
 
 /**
  * Controller for various digging and building tasks. Works with GameContainer directly.
@@ -21,7 +24,7 @@ import stonering.global.utils.Position;
 public class DesignationsController extends Controller {
     private DesignationTypes activeDesignation;
     private String building; //is set when activeDesignation is BUILD
-    private String material; //is set when activeDesignation is BUILD
+    private ArrayList<Item> items; // is set when activeDesignation is BUILD
     private boolean rectangleStarted = false;
     private Position start; // should be stored between steps
     private GameContainer container;
@@ -29,6 +32,7 @@ public class DesignationsController extends Controller {
 
     public DesignationsController(GameMvc gameMvc) {
         super(gameMvc);
+        items = new ArrayList<>();
     }
 
     public void init() {
@@ -73,7 +77,7 @@ public class DesignationsController extends Controller {
         start = null;
         activeDesignation = null;
         building = "";
-        material = "";
+        items.clear();
         rectangleStarted = false;
         view.getUiDrawer().getToolStatus().setText("");
     }
@@ -101,7 +105,7 @@ public class DesignationsController extends Controller {
     private void addDesignationToContainer(Position position) {
         TaskContainer taskContainer = container.getTaskContainer();
         if (activeDesignation == DesignationTypes.BUILD) {
-            taskContainer.submitDesignation(position, building, material);
+            taskContainer.submitDesignation(position, building, items);
         } else {
             taskContainer.submitDesignation(position, activeDesignation);
         }
@@ -111,16 +115,7 @@ public class DesignationsController extends Controller {
         return activeDesignation;
     }
 
-    public String getMaterial() {
-        return material;
-    }
+    public void addBuildingItem(Item item) {
 
-    /**
-     * Sets meterial for building.
-     *
-     * @param material material name
-     */
-    public void setMaterial(String material) {
-        this.material = material;
     }
 }

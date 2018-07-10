@@ -9,12 +9,10 @@ import stonering.global.utils.Position;
  */
 public class BuildingDesignation extends Designation {
     private String building;
-    private String material;
 
-    public BuildingDesignation(Position position, DesignationTypes type, String building, String material) {
+    public BuildingDesignation(Position position, DesignationTypes type, String building) {
         super(position, type);
         this.building = building;
-        this.material = material;
     }
 
     public String getBuilding() {
@@ -23,13 +21,5 @@ public class BuildingDesignation extends Designation {
 
     public void setBuilding(String building) {
         this.building = building;
-    }
-
-    public String getMaterial() {
-        return material;
-    }
-
-    public void setMaterial(String material) {
-        this.material = material;
     }
 }

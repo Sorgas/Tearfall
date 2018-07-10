@@ -1,5 +1,6 @@
 package stonering.game.core.model.lists;
 
+import javafx.util.Pair;
 import stonering.enums.buildings.BuildingMap;
 import stonering.enums.buildings.BuildingType;
 import stonering.enums.materials.MaterialMap;
@@ -96,19 +97,19 @@ public class ItemContainer {
         }
     }
 
-    public HashMap<String, Integer> getAvailableMaterialsForBuilding(String buildingTitle) {
+    public ArrayList<Item> getAvailableMaterialsForBuilding(String buildingTitle) {
         BuildingType buildingType = BuildingMap.getInstance().getBuilding(buildingTitle);
-        MaterialMap materialMap = MaterialMap.getInstance();
-        HashMap<String, Integer> map = new HashMap<>();
         if (buildingType != null) {
-            getMaterialList(buildingType.getAmount(), buildingType.getItems(), buildingType.getMaterials()).forEach((item) -> {
-                String key = materialMap.getMaterial(item.getMaterial()).getName() + " " + item.getTitle();
-                int prev = map.containsKey(item.getTitle()) ? map.get(item.getTitle()) : 0;
-                map.put(key, prev + 1);
-            });
-            return map;
+            return new ArrayList<>(getMaterialList(buildingType.getAmount(), buildingType.getItems(), buildingType.getMaterials()));
+//            HashMap<Pair<String, String>, Integer> map = new HashMap<>();
+//                    .forEach((item) -> {
+//                Pair<String, String> key = new Pair<>(materialMap.getMaterial(item.getMaterial()).getName(), item.getTitle());
+//                int prev = map.containsKey(item.getTitle()) ? map.get(item.getTitle()) : 0;
+//                map.put(key, prev + 1);
+//            });
+//            return map;
         }
-        return map;
+        return new ArrayList<>();
     }
 
     public List<Item> getMaterialList(int amount, ArrayList<String> types, ArrayList<String> materialTypes) {

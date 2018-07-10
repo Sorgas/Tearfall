@@ -1,18 +1,21 @@
 package stonering.game.core.view.ui_components.lists;
 
 import stonering.game.core.GameMvc;
+import stonering.objects.local_actors.items.Item;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * List that shows items, appropriate for building.
  *
  * @author Alexander on 03.07.2018.
  */
-public class MaterialSelectList extends StringIntegerList {
+public class MaterialSelectList extends ItemsCountList {
     private GameMvc gameMvc;
 
     public MaterialSelectList(GameMvc gameMvc) {
+        super();
         this.gameMvc = gameMvc;
     }
 
@@ -22,12 +25,11 @@ public class MaterialSelectList extends StringIntegerList {
 
     public void refill(String buildingTitle) {
         clear();
-        HashMap<String, Integer> materials = gameMvc.getModel().getItemContainer().getAvailableMaterialsForBuilding(buildingTitle);
-        addItems(materials);
+        ArrayList<Item> items = gameMvc.getModel().getItemContainer().getAvailableMaterialsForBuilding(buildingTitle);
+        addItems(items);
         addListener(event -> {
             if (getSelectedIndex() >= 0) {
-                gameMvc.getController().getDesignationsController().setMaterial(getSelectedString());
-                System.out.println("selected material: " + getSelectedString());
+                System.out.println("selected material: " + );
                 return true;
             } else {
                 return false;

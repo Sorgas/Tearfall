@@ -13,7 +13,8 @@ public enum DesignationsTileMapping {
     RAMP(3, 2),
     CHANNEL(4, 3),
     CHOP(5, 4),
-    CUT(6, 5);
+    CUT(6, 5),
+    BUILD(7, 6);
 
     private int code;
     private int atlasX;

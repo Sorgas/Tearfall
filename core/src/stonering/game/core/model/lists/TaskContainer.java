@@ -5,6 +5,7 @@ import stonering.designations.Designation;
 import stonering.designations.OrderDesignation;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.buildings.BuildingMap;
+import stonering.enums.buildings.BuildingType;
 import stonering.enums.designations.DesignationTypes;
 import stonering.game.core.model.GameContainer;
 import stonering.global.utils.Position;
@@ -14,9 +15,10 @@ import stonering.objects.jobs.actions.TaskTypesEnum;
 import stonering.objects.jobs.actions.aspects.effect.ConstructionEffectAspect;
 import stonering.objects.jobs.actions.aspects.effect.ChopTreeEffectAspect;
 import stonering.objects.jobs.actions.aspects.effect.DigEffectAspect;
-import stonering.objects.jobs.actions.aspects.requirements.BodyPartRequirementAspect;
 import stonering.objects.jobs.actions.aspects.requirements.EquippedItemRequirementAspect;
+import stonering.objects.jobs.actions.aspects.requirements.ItemsOnPositionRequirementAspect;
 import stonering.objects.jobs.actions.aspects.target.BlockTargetAspect;
+import stonering.objects.local_actors.items.Item;
 import stonering.objects.local_actors.plants.PlantBlock;
 
 import java.util.ArrayList;
@@ -85,12 +87,11 @@ public class TaskContainer {
      *
      * @param position
      * @param building
-     * @param material
      */
-    public void submitDesignation(Position position, String building, String material) {
-        if (validateBuilding(position, building)) {
-            BuildingDesignation designation = new BuildingDesignation(position, DesignationTypes.BUILD, building, material);
-            Task task = createBuildingTask(designation);
+    public void submitDesignation(Position position, String building, ArrayList<Item> items) {
+        if (validateBuilding(position, building) ) {
+            BuildingDesignation designation = new BuildingDesignation(position, DesignationTypes.BUILD, building);
+            Task task = createBuildingTask(designation, items);
             tasks.add(task);
             designations.put(position, designation);
             container.getLocalMap().setDesignatedBlockType(designation.getPosition(), designation.getType().getCode());
@@ -124,12 +125,13 @@ public class TaskContainer {
         return null;
     }
 
-    private Task createBuildingTask(BuildingDesignation designation) {
+    private Task createBuildingTask(BuildingDesignation designation, ArrayList<Item> items) {
+        BuildingMap.getInstance().getBuilding(designation.getBuilding());
         Action action = new Action(container);
-        action.setRequirementsAspect(new BodyPartRequirementAspect(action, "grab"));
+        action.setRequirementsAspect(new ItemsOnPositionRequirementAspect(action, designation.getPosition(), items));
         action.setTargetAspect(new BlockTargetAspect(action, designation.getPosition()));
-        action.setEffectAspect(new ConstructionEffectAspect(action));
-        return null;
+        action.setEffectAspect(new ConstructionEffectAspect(action, designation.getBuilding()));
+        return new Task("designation", TaskTypesEnum.DESIGNATION, action, this, container);
     }
 
     private boolean validateDesignations(Position position, DesignationTypes type) {
@@ -150,11 +152,8 @@ public class TaskContainer {
             case CHOP: {
                 PlantBlock block = container.getLocalMap().getPlantBlock(position);
                 return block != null &&
-                        (blockOnMap.equals(BlockTypesEnum.SPACE) || blockOnMap.equals(BlockTypesEnum.FLOOR))
+                   (blockOnMap.equals(BlockTypesEnum.SPACE) || blockOnMap.equals(BlockTypesEnum.FLOOR))
                         && block.getPlant().getType().isTree();
-            }
-            case BUILD: {
-
             }
             case NONE: {
                 return true;
@@ -165,7 +164,8 @@ public class TaskContainer {
 
 
     public boolean validateBuilding(Position pos, String building) {
-        String category = BuildingMap.getInstance().getBuilding(building).getCategory();
+        BuildingType buildngType = BuildingMap.getInstance().getBuilding(building);
+        String category = buildngType.getCategory();
         switch (category) {
             case "constructions": {
                 byte blockType = container.getLocalMap().getBlockType(pos);

@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import stonering.game.core.GameMvc;
 import stonering.game.core.view.ui_components.lists.MaterialSelectList;
-import stonering.game.core.view.ui_components.lists.StringIntegerList;
+import stonering.game.core.view.ui_components.lists.ItemsCountList;
 import stonering.utils.global.StaticSkin;
 
 /**
@@ -75,7 +75,6 @@ public class MenuLevels extends HorizontalGroup {
         if (materialSelectList.getItems().size > 0) {
             this.addActorAt(0, materialSelectList);
             materialSelectList.setSelectedIndex(0);
-//            materialSelectList.
         } else {
             notification.setText("No materials for " + buildingTitle + " are available.");
             this.addActorAt(0, notification);
@@ -86,7 +85,7 @@ public class MenuLevels extends HorizontalGroup {
         return getChildren().contains(materialSelectList, true);
     }
 
-    public StringIntegerList getMaterialSelectList() {
+    public ItemsCountList getMaterialSelectList() {
         return materialSelectList;
     }
 }

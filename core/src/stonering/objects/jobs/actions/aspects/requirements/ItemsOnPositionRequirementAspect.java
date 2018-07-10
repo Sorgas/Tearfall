@@ -47,4 +47,8 @@ public class ItemsOnPositionRequirementAspect extends RequirementsAspect {
         }
         return false;
     }
+
+    public ArrayList<Item> getItems() {
+        return items;
+    }
 }
