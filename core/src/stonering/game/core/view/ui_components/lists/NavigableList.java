@@ -4,8 +4,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.List;
 import stonering.utils.global.StaticSkin;
 
 /**
- * List that can handle navigation input.
- * @author Alexander on 03.07.2018.
+ * List that has navigation methods to be navigated through user input
+ * .
+ * @author Alexander Kuzyakov on 03.07.2018.
  */
 public abstract class NavigableList extends List {
 

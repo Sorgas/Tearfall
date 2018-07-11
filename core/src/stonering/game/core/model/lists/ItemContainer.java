@@ -1,6 +1,5 @@
 package stonering.game.core.model.lists;
 
-import javafx.util.Pair;
 import stonering.enums.buildings.BuildingMap;
 import stonering.enums.buildings.BuildingType;
 import stonering.enums.materials.MaterialMap;
