@@ -13,7 +13,7 @@ public class PlantsMenu extends ButtonMenu {
     private DesignationsController controller;
 
     public PlantsMenu(GameMvc gameMvc) {
-        super(gameMvc, 1);
+        super(gameMvc);
         hideable = true;
         initMenu();
     }

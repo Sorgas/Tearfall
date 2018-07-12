@@ -12,14 +12,14 @@ import stonering.game.core.controller.controllers.DesignationsController;
  *
  * @author Alexander Kuzyakov on 15.06.2018
  */
-public class ConstructionsMenu extends ButtonMenu {
+public class ConstructionsMenu extends SubMenuMenu {
     private DesignationsController controller;
     private static final String CATEGORY = "constructions";
 
     public ConstructionsMenu(GameMvc gameMvc) {
-        super(gameMvc, 1);
+        super(gameMvc);
         hideable = true;
-        initMenu();
+        crerateButtonsAndMenu();
     }
 
     @Override
@@ -28,18 +28,24 @@ public class ConstructionsMenu extends ButtonMenu {
         controller = gameMvc.getController().getDesignationsController();
     }
 
-    private void initMenu() {
-        BuildingMap buildingMap = BuildingMap.getInstance();
-        buildingMap.getCategoryBuildings(CATEGORY).forEach(building ->
-            addButton(building.getHotKey().toUpperCase() + ": " + building.getTitle(), building.getTitle(), building.getHotKey().charAt(0)));
+    /**
+     * Creates all buttons.
+     * Creates {@link PlaceSelectMenu} (one for all constructions).
+     */
+    private void crerateButtonsAndMenu() {
+        PlaceSelectMenu placeSelectMenu = new PlaceSelectMenu(gameMvc);
+        BuildingMap.getInstance().getCategoryBuildings(CATEGORY).forEach(building -> {
+            addButton(building.getHotKey().toUpperCase() + ": " + building.getTitle(), building.getTitle(), building.getHotKey().charAt(0));
+            menus.put(building.getHotKey().charAt(0), placeSelectMenu);
+        });
     }
 
     private void addButton(String text, String constructionType, char hotKey) {
         super.createButton(text, hotKey, new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                menus.get(hotKey).show();
                 controller.setActiveDesignation(DesignationTypes.BUILD, constructionType);
-                menuLevels.showMaterialSelect(constructionType);
             }
         });
     }

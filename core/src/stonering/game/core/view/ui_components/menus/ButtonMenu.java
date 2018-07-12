@@ -20,15 +20,13 @@ import java.util.HashMap;
  */
 public abstract class ButtonMenu extends VerticalGroup {
     protected boolean hideable = false;
-    protected int menuLevel;
     protected GameMvc gameMvc;
     protected HashMap<Character, Button> buttons;
-    protected MenuLevels menuLevels;
+    protected Toolbar toolbar;
 
-    public ButtonMenu(GameMvc gameMvc, int menuLevel) {
+    public ButtonMenu(GameMvc gameMvc) {
         super();
         this.gameMvc = gameMvc;
-        this.menuLevel = menuLevel;
         buttons = new HashMap<>();
     }
 
@@ -36,7 +34,7 @@ public abstract class ButtonMenu extends VerticalGroup {
      * For binding sub-components. Should be called from children.
      */
     public void init() {
-        menuLevels = gameMvc.getView().getUiDrawer().getMenuLevels();
+        toolbar = gameMvc.getView().getUiDrawer().getToolbar();
         buttons.values().forEach(this::addActor);
     }
 
@@ -67,17 +65,17 @@ public abstract class ButtonMenu extends VerticalGroup {
     }
 
     /**
-     * Adds all buttons from map to table and adds table to MenuLevels widget.
+     * Adds all buttons from map to table and adds table to Toolbar widget.
      */
     public void show() {
-        menuLevels.addMenu(this);
+        toolbar.addMenu(this);
     }
 
     /**
      * Removes all buttons.
      */
     public void hide() {
-        menuLevels.hideMenu(this);
+        toolbar.hideMenu(this);
     }
 
     /**

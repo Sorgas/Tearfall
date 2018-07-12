@@ -10,8 +10,8 @@ import stonering.game.core.model.GameContainer;
 import stonering.game.core.view.ui_components.TileStatusBar;
 import stonering.game.core.view.ui_components.ToolStatus;
 import stonering.game.core.view.ui_components.lists.NavigableList;
-import stonering.game.core.view.ui_components.menus.MenuLevels;
 import stonering.game.core.view.ui_components.menus.Toolbar;
+import stonering.game.core.view.ui_components.menus.ParentMenu;
 import stonering.global.utils.Position;
 
 /**
@@ -23,7 +23,7 @@ import stonering.global.utils.Position;
 public class UIDrawer {
     private GameMvc gameMvc;
     private Stage stage;
-    private MenuLevels menuLevels;
+    private Toolbar toolbar;
     private TileStatusBar tileStatusBar;
     private ToolStatus toolStatus;
     private GameContainer container;
@@ -32,7 +32,7 @@ public class UIDrawer {
     public UIDrawer(GameMvc gameMvc) {
         this.gameMvc = gameMvc;
         materialMap = MaterialMap.getInstance();
-        menuLevels = new MenuLevels(gameMvc);
+        toolbar = new Toolbar(gameMvc);
     }
 
     public void init() {
@@ -41,12 +41,12 @@ public class UIDrawer {
         tileStatusBar = new TileStatusBar();
         stage.addActor(new Container(tileStatusBar).bottom().left().pad(10));
 
-        menuLevels.init();
+        toolbar.init();
         toolStatus = new ToolStatus();
 
         VerticalGroup rightTools = new VerticalGroup();
         rightTools.addActor(toolStatus);
-        rightTools.addActor(menuLevels);
+        rightTools.addActor(toolbar);
         Container container = new Container(rightTools).bottom().right().pad(10);
         container.setFillParent(true);
         stage.addActor(container);
@@ -73,10 +73,6 @@ public class UIDrawer {
         return stage;
     }
 
-    public Toolbar getToolbar() {
-        return menuLevels.getToolbar();
-    }
-
     public ToolStatus getToolStatus() {
         return toolStatus;
     }
@@ -85,21 +81,20 @@ public class UIDrawer {
         this.container = container;
     }
 
-    public MenuLevels getMenuLevels() {
-        return menuLevels;
+    public Toolbar getToolbar() {
+        return toolbar;
     }
 
     public boolean hasActiveList() {
-        if(menuLevels.isMaterialSelectShown()) {
+        if(toolbar.isMaterialSelectShown()) {
             return true;
         }
         return false;
     }
 
-
     public NavigableList getActiveList() {
-        if(menuLevels.isMaterialSelectShown()) {
-            return menuLevels.getMaterialSelectList();
+        if(toolbar.isMaterialSelectShown()) {
+            return toolbar.getMaterialSelectList();
         }
         return null;
     }

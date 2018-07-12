@@ -5,7 +5,7 @@ import stonering.game.core.view.ui_components.menus.Toolbar;
 
 /**
  * Controller for Toolbar.
- * Toolbar behavior bases on its state and divided between menus in Toolbar,
+ * ParentMenu behavior bases on its state and divided between menus in ParentMenu,
  * so controller simply sends all input events to it.
  *
  * @author Alexander Kuzyakov on 25.12.2017.

@@ -130,7 +130,7 @@ public class TaskContainer {
         Action action = new Action(container);
         action.setRequirementsAspect(new ItemsOnPositionRequirementAspect(action, designation.getPosition(), items));
         action.setTargetAspect(new BlockTargetAspect(action, designation.getPosition()));
-        action.setEffectAspect(new ConstructionEffectAspect(action, designation.getBuilding()));
+        action.setEffectAspect(new ConstructionEffectAspect(action, designation.getBuilding(), "qwer"));//TODO
         return new Task("designation", TaskTypesEnum.DESIGNATION, action, this, container);
     }
 

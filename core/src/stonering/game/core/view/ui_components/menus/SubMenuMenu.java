@@ -5,14 +5,16 @@ import stonering.game.core.GameMvc;
 import java.util.HashMap;
 
 /**
- * @author Alexander Kuzyakov
- * created on 15.06.2018
+ * ButtonMenu with child menus mapped with hotkeys.
+ * In oreder to be inited, all possible sub menus should be created in constructor.
+ *
+ * @author Alexander Kuzyakov on 15.06.2018.
  */
 public abstract class SubMenuMenu extends ButtonMenu {
     protected HashMap<Character, ButtonMenu> menus;
 
-    public SubMenuMenu(GameMvc gameMvc, int menuLevel) {
-        super(gameMvc, menuLevel);
+    public SubMenuMenu(GameMvc gameMvc) {
+        super(gameMvc);
         menus = new HashMap<>();
     }
 

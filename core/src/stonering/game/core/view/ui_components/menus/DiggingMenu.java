@@ -15,7 +15,7 @@ public class DiggingMenu extends ButtonMenu {
     private DesignationsController controller;
 
     public DiggingMenu(GameMvc gameMvc) {
-        super(gameMvc, 1);
+        super(gameMvc);
         hideable = true;
         initMenu();
     }

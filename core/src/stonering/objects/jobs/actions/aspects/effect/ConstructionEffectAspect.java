@@ -26,7 +26,7 @@ public class ConstructionEffectAspect extends EffectAspect {
 
     private Building createConstruction() {
 
-        container.getLocalMap().setBlocType(action.getTargetPosition(), BuildingMap.getInstance().getBuilding(building).getCategory());
+//        container.getLocalMap().setBlocType(action.getTargetPosition(), BuildingMap.getInstance().getBuilding(building).getCategory());
         Building building = new Building(action.getTargetPosition());
         building.setName("qwer");
         return building;

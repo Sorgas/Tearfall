@@ -1,5 +1,6 @@
 package stonering.game.core.model;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.global.utils.Position;
 
@@ -12,6 +13,7 @@ public class GameCamera {
     private Position camera;
     private GameContainer container;
     private LocalMap localMap;
+    private Sprite sprite;
 
     public final int IDLE_STATUS = 0;
     public final int GREEN_STATUS = 1;
@@ -54,5 +56,18 @@ public class GameCamera {
     public void updateStatus(int status) {
         if (status >= 0 && status <= 2)
             this.status = status;
+    }
+
+    //TODO add actual sprite change for camera
+    public void setValidSprite() {
+        System.out.println("camera sprite valid");
+    }
+
+    public void setInvalidSprite() {
+        System.out.println("camera sprite invalid");
+    }
+
+    public void resetSprite() {
+        System.out.println("camera sprite resetted");
     }
 }

@@ -1,59 +1,99 @@
 package stonering.game.core.view.ui_components.menus;
 
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import stonering.game.core.GameMvc;
+import stonering.game.core.view.ui_components.lists.MaterialSelectList;
+import stonering.game.core.view.ui_components.lists.ItemsCountList;
 import stonering.utils.global.StaticSkin;
 
 /**
- * Component of toolbar.
- * All menu commands first dispatched here, and then passed active menu.
- * <p>
- * @author Alexander Kuzyakov on 19.12.2017.
+ * @author Alexander Kuzyakov on 17.06.2018.
  */
-public class Toolbar extends SubMenuMenu {
+public class Toolbar extends HorizontalGroup {
+    private GameMvc gameMvc;
+    private ParentMenu parentMenu;
+    private MaterialSelectList materialSelectList;
+    private Label notification;
 
     public Toolbar(GameMvc gameMvc) {
-        super(gameMvc, 0);
-        initTable();
-        createMenus();
-    }
-
-    private void createMenus() {
-        initMenu(new PlantsMenu(gameMvc), "P: plants", 'p');
-        initMenu(new DiggingMenu(gameMvc), "D: digging", 'd');
-        initMenu(new GeneralBuildingMenu(gameMvc), "B: building", 'b');
-    }
-
-    private void initTable() {
+        this.gameMvc = gameMvc;
         this.align(Align.bottom);
     }
 
-    private void initMenu(ButtonMenu menu, String text, char hotkey) {
-        menus.put(hotkey, menu);
-        TextButton button = new TextButton(text, StaticSkin.getSkin());
-        button.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                menus.get(hotkey).show();
-            }
-        });
-        buttons.put(hotkey, button);
+    public void init() {
+        parentMenu = new ParentMenu(gameMvc);
+        parentMenu.init();
+        parentMenu.show();
+        materialSelectList = new MaterialSelectList(gameMvc);
+        materialSelectList.init();
+        notification = new Label("", StaticSkin.getSkin());
+    }
 
+    public ParentMenu getParentMenu() {
+        return parentMenu;
+    }
+
+    /**
+     * Levels counted from right to left, widget indexes is opposite.
+     *
+     * @param menu
+     */
+    public void addMenu(ButtonMenu menu) {
+        this.addActorAt(0, menu);
+    }
+
+    /**
+     * Removes given menu and all actors to the left.
+     *
+     * @param menu
+     */
+    public void hideMenu(ButtonMenu menu) {
+        int index = getChildren().indexOf(menu, true);
+        while (getChildren().contains(menu, true)) {
+            removeActor(getChildren().get(0));
+        }
+    }
+
+    /**
+     * Returns visible menu with lowest level (most left one).
+     *
+     * @return
+     */
+    public ButtonMenu getActiveMenu() {
+        for (int i = 0; i < getChildren().size; i++) {
+            if (ButtonMenu.class.isAssignableFrom(getChildren().get(i).getClass())) {
+                return (ButtonMenu) getChildren().get(i);
+            }
+        }
+        return null;
+    }
+
+    public void showMaterialSelect(String buildingTitle) {
+        materialSelectList.refill(buildingTitle);
+        if (materialSelectList.getItems().size > 0) {
+            this.addActorAt(0, materialSelectList);
+            materialSelectList.setSelectedIndex(0);
+        } else {
+            notification.setText("No materials for " + buildingTitle + " are available.");
+            this.addActorAt(0, notification);
+        }
     }
 
     public boolean handlePress(char c) {
-        boolean handled = menuLevels.getActiveMenu().invokeByKey(c);
+        boolean handled = getActiveMenu().invokeByKey(c);
         if(!handled && c == (char) 27) {
 
         }
         return handled;
     }
 
-    @Override
-    public void reset() {
+    public boolean isMaterialSelectShown() {
+        return getChildren().contains(materialSelectList, true);
+    }
 
+    public ItemsCountList getMaterialSelectList() {
+        return materialSelectList;
     }
 }
