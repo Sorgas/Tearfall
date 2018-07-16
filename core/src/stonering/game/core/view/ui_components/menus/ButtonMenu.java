@@ -68,6 +68,7 @@ public abstract class ButtonMenu extends VerticalGroup {
      * Adds all buttons from map to table and adds table to Toolbar widget.
      */
     public void show() {
+        System.out.println(this.getClass().toString() + " shown");
         toolbar.addMenu(this);
     }
 
@@ -75,6 +76,7 @@ public abstract class ButtonMenu extends VerticalGroup {
      * Removes all buttons.
      */
     public void hide() {
+        System.out.println(this.getClass().toString() + " hid");
         toolbar.hideMenu(this);
     }
 

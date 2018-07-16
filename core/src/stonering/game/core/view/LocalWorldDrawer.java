@@ -36,10 +36,10 @@ public class LocalWorldDrawer {
     private float shadingStep = 0.06f;
 
     private int tileWidth = 64;
-    private int tileHeight = 82;
-    private int tileDepth = 32;
-    private int topingTileHeight = 38;
-    private int blockTileHeight = 120;
+    private int tileHeight = 96;
+    private int tileDepth = 64;
+    private int topingTileHeight = 70;
+    private int blockTileHeight = 166;
 
     private int screenCenterX;
     private int screenCenterY;
@@ -77,7 +77,7 @@ public class LocalWorldDrawer {
             float shading = (camera.getZ() - z) * shadingStep;
             batch.setColor(1 - shading, 1 - shading, 1 - shading, 1);
             for (int x = minX; x <= maxX; x++) {
-                for (int y = minY; y <= maxY; y++) {
+                for (int y = maxY; y >= minY; y--) {
                     drawTile(x, y, z);
                 }
             }
@@ -88,22 +88,22 @@ public class LocalWorldDrawer {
 
     private void drawTile(int x, int y, int z) {
         drawBlock(x, y, z);
-        PlantBlock plantBlock = localMap.getPlantBlock(x, y, z);
-        if (plantBlock != null) {
-            drawSprite(1, x, y, z, plantBlock.getAtlasX(), plantBlock.getAtlasY());
-        }
-        BuildingBlock buildingBlock = localMap.getBuildingBlock(x, y, z);
-        if (buildingBlock != null) {
-            drawSprite(3, x, y, z, 0, 0);
-        }
-        UnitBlock unitBlock = localMap.getUnitBlock(x, y, z);
-        if (unitBlock != null) {
-            drawSprite(2, x, y, z, 0, 0);
-        }
-        ArrayList<Item> items = container.getItemContainer().getItems(x, y, z);
-        if (!items.isEmpty()) {
-            items.forEach((item) -> drawSprite(5, x, y, z, item.getType().getAtlasX(), item.getType().getAtlasY()));
-        }
+//        PlantBlock plantBlock = localMap.getPlantBlock(x, y, z);
+//        if (plantBlock != null) {
+//            drawSprite(1, x, y, z, plantBlock.getAtlasX(), plantBlock.getAtlasY());
+//        }
+//        BuildingBlock buildingBlock = localMap.getBuildingBlock(x, y, z);
+//        if (buildingBlock != null) {
+//            drawSprite(3, x, y, z, 0, 0);
+//        }
+//        UnitBlock unitBlock = localMap.getUnitBlock(x, y, z);
+//        if (unitBlock != null) {
+//            drawSprite(2, x, y, z, 0, 0);
+//        }
+//        ArrayList<Item> items = container.getItemContainer().getItems(x, y, z);
+//        if (!items.isEmpty()) {
+//            items.forEach((item) -> drawSprite(5, x, y, z, item.getType().getAtlasX(), item.getType().getAtlasY()));
+//        }
         if (localMap.getDesignatedBlockType(x, y, z) > 0) {
             drawSprite(4, x, y, z, DesignationsTileMapping.getAtlasX(localMap.getDesignatedBlockType(x, y, z)), 0);
         }
@@ -129,14 +129,14 @@ public class LocalWorldDrawer {
                     getScreenPosY(x - camera.getX(), y - camera.getY(), z - camera.getZ()));
         } else {
             int lowerAtlas;
-            if (z > 0 && (lowerAtlas = localTileMap.getAtlasNum(x, y, z - 1)) >= 0) {// not empty cell lower
-                batch.draw(new TextureRegion(atlases[lowerAtlas],
-                                localTileMap.getAtlasX(x, y, z - 1) * tileWidth,
-                                localTileMap.getAtlasY(x, y, z - 1) * (blockTileHeight),
-                                tileWidth, topingTileHeight),
-                        getScreenPosX(x - camera.getX(), y - camera.getY()),
-                        getScreenPosY(x - camera.getX(), y - camera.getY(), z - camera.getZ()));
-            }
+//            if (z > 0 && (lowerAtlas = localTileMap.getAtlasNum(x, y, z - 1)) >= 0) {// not empty cell lower
+//                batch.draw(new TextureRegion(atlases[lowerAtlas],
+//                                localTileMap.getAtlasX(x, y, z - 1) * tileWidth,
+//                                localTileMap.getAtlasY(x, y, z - 1) * (blockTileHeight),
+//                                tileWidth, topingTileHeight),
+//                        getScreenPosX(x - camera.getX(), y - camera.getY()),
+//                        getScreenPosY(x - camera.getX(), y - camera.getY(), z - camera.getZ()));
+//            }
         }
     }
 
@@ -147,7 +147,7 @@ public class LocalWorldDrawer {
 
     private void initAtlases() {
         atlases = new Texture[6];
-        atlases[0] = new Texture("sprites/blocks.png");
+        atlases[0] = new Texture("sprites/blocks4.png");
         atlases[1] = new Texture("sprites/plants.png");
         atlases[2] = new Texture("sprites/units.png");
         atlases[3] = new Texture("sprites/buildings.png");
@@ -182,6 +182,14 @@ public class LocalWorldDrawer {
         }
     }
 
+    private int getScreenPosX(int x, int y) {
+        return x * tileWidth + screenCenterX;
+    }
+
+    private int getScreenPosY(int x, int y, int z) {
+        return y * tileDepth + z * (tileHeight - tileDepth) + screenCenterY;
+    }
+
     public void setScreenCenterX(int screenCenterX) {
         this.screenCenterX = screenCenterX;
     }
@@ -200,13 +208,5 @@ public class LocalWorldDrawer {
 
     public void setBatch(SpriteBatch batch) {
         this.batch = batch;
-    }
-
-    private int getScreenPosX(int x, int y) {
-        return (x - y) * tileWidth / 2 + screenCenterX;
-    }
-
-    private int getScreenPosY(int x, int y, int z) {
-        return -(x + y) * tileDepth / 2 + z * (tileHeight - tileDepth) + screenCenterY;
     }
 }
