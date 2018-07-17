@@ -4,12 +4,13 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import stonering.game.core.controller.controllers.DesignationsController;
 import stonering.game.core.controller.controllers.GameController;
+import stonering.game.core.controller.controllers.ToolBarController;
 
 /**
  * @author Alexander Kuzyakov on 26.12.2017.
  */
 public class DesignationsInputProcessor implements InputProcessor {
-    private DesignationsController controller;
+    private ToolBarController controller;
 
     public DesignationsInputProcessor(GameController gameController) {
         controller = gameController.getDesignationsController();

@@ -3,9 +3,10 @@ package stonering.game.core.controller.inputProcessors;
 import com.badlogic.gdx.InputProcessor;
 import stonering.game.core.controller.controllers.GameController;
 import stonering.game.core.controller.controllers.ToolBarController;
-import stonering.global.settings.KeySettings;
 
 /**
+ * Call {@link ToolBarController} in order to transfer input events to it.
+ *
  * @author Alexander Kuzyakov on 01.07.2017.
  */
 public class ToolBarInputProcessor implements InputProcessor {

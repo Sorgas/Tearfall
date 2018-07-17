@@ -7,7 +7,7 @@ import stonering.game.core.GameMvc;
 import stonering.game.core.controller.inputProcessors.*;
 
 /**
- * Container for all controllers.
+ * Container for all controllers. Also creates and registers all InputProcessors.
  *
  * @author Alexander Kuzyakov on 26.06.2017.
  */
