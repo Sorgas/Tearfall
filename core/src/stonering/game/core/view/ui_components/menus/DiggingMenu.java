@@ -14,6 +14,7 @@ import stonering.game.core.controller.controllers.DesignationsController;
  */
 public class DiggingMenu extends ButtonMenu {
     private DesignationsController controller;
+    private PlaceSelectComponent placeSelectComponent;
 
     public DiggingMenu(GameMvc gameMvc) {
         super(gameMvc, true);
@@ -24,6 +25,7 @@ public class DiggingMenu extends ButtonMenu {
     public void init() {
         super.init();
         controller = gameMvc.getController().getDesignationsController();
+        placeSelectComponent.init();
     }
 
     private void initMenu() {
@@ -32,6 +34,7 @@ public class DiggingMenu extends ButtonMenu {
         addButton("C: channel", DesignationTypes.CHANNEL, 'c');
         addButton("S: stairs", DesignationTypes.STAIRS, 's');
         addButton("Z: clear", DesignationTypes.NONE, 'z');
+        placeSelectComponent = new PlaceSelectComponent(gameMvc, false, false);
     }
 
     private void addButton(String text, DesignationTypes type, char hotKey) {
@@ -39,7 +42,7 @@ public class DiggingMenu extends ButtonMenu {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 controller.setActiveDesignation(type, null); //no buildings here
-                new PlaceSelectMenu(gameMvc, false, false).show(); //show place select for rectangle, without material select
+                placeSelectComponent.show(); //show place select for rectangle, without material select
             }
         });
     }

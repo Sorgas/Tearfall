@@ -1,8 +1,6 @@
 package stonering.game.core.view.ui_components.menus;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.core.GameMvc;
 import stonering.game.core.controller.controllers.DesignationsController;
@@ -12,30 +10,31 @@ import stonering.game.core.view.ui_components.lists.MaterialSelectList;
 import stonering.global.utils.Position;
 
 /**
- * Component for selecting places
+ * Component for selecting places.
  *
  * @author Alexander on 12.07.2018.
  */
-public class PlaceSelectMenu extends ToolbarComponent {
-    private GameCamera camera;
-    private LocalMap localMap;
-    private DesignationsController controller;
+public class PlaceSelectComponent implements HideableComponent, Invokable {
+    private GameMvc gameMvc;
     private boolean singlePoint;
     private boolean materialSelectNeeded;
+    private GameCamera camera;
+    private LocalMap localMap;
+    private Toolbar toolbar;
+    private DesignationsController controller;
     private Position start = null;
 
-    public PlaceSelectMenu(GameMvc gameMvc, boolean singlePoint, boolean materialSelectNeeded) {
-        super(gameMvc, true);
+    public PlaceSelectComponent(GameMvc gameMvc, boolean singlePoint, boolean materialSelectNeeded) {
+        this.gameMvc = gameMvc;
         this.singlePoint = singlePoint;
         this.materialSelectNeeded = materialSelectNeeded;
     }
 
-    @Override
     public void init() {
-        super.init();
         camera = gameMvc.getModel().getCamera();
         localMap = gameMvc.getModel().getLocalMap();
         controller = gameMvc.getController().getDesignationsController();
+        toolbar = gameMvc.getView().getUiDrawer().getToolbar();
     }
 
     @Override
@@ -66,7 +65,7 @@ public class PlaceSelectMenu extends ToolbarComponent {
     private void finishHandling(Position start, Position end) {
         controller.setRectangle(start, end);
         if(materialSelectNeeded) {
-            new MaterialSelectList(gameMvc).sho
+            new MaterialSelectList(gameMvc).show();
         }
     }
 
@@ -98,5 +97,15 @@ public class PlaceSelectMenu extends ToolbarComponent {
 
     public void reset() {
         camera.resetSprite();
+    }
+
+    @Override
+    public void show() {
+
+    }
+
+    @Override
+    public void hide() {
+
     }
 }

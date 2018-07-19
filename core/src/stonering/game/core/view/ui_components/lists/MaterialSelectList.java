@@ -15,7 +15,7 @@ public class MaterialSelectList extends ItemsCountList {
     private GameMvc gameMvc;
 
     public MaterialSelectList(GameMvc gameMvc) {
-        super();
+        super(gameMvc, true);
         this.gameMvc = gameMvc;
     }
 

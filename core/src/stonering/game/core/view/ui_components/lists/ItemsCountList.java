@@ -2,6 +2,7 @@ package stonering.game.core.view.ui_components.lists;
 
 import javafx.util.Pair;
 import stonering.enums.materials.MaterialMap;
+import stonering.game.core.GameMvc;
 import stonering.game.core.controller.controllers.DesignationsController;
 import stonering.objects.local_actors.items.Item;
 
@@ -16,8 +17,8 @@ import java.util.HashMap;
  */
 public class ItemsCountList extends NavigableList {
 
-    public ItemsCountList() {
-        super();
+    public ItemsCountList(GameMvc gameMvc, boolean hideable) {
+        super(gameMvc, hideable);
     }
 
     @Override

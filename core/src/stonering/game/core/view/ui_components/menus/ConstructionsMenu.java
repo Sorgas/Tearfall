@@ -12,9 +12,10 @@ import stonering.game.core.controller.controllers.DesignationsController;
  *
  * @author Alexander Kuzyakov on 15.06.2018
  */
-public class ConstructionsMenu extends SubMenuMenu {
+public class ConstructionsMenu extends ButtonMenu {
     private DesignationsController controller;
     private static final String CATEGORY = "constructions";
+    private PlaceSelectComponent placeSelectComponent;
 
     public ConstructionsMenu(GameMvc gameMvc) {
         super(gameMvc, true);
@@ -26,17 +27,17 @@ public class ConstructionsMenu extends SubMenuMenu {
     public void init() {
         super.init();
         controller = gameMvc.getController().getDesignationsController();
+        placeSelectComponent.init();
     }
 
     /**
      * Creates all buttons.
-     * Creates {@link PlaceSelectMenu} (one for all constructions).
+     * Creates {@link PlaceSelectComponent} (one for all constructions).
      */
     private void crerateButtonsAndMenu() {
-        PlaceSelectMenu placeSelectMenu = new PlaceSelectMenu(gameMvc, false, true);
+        placeSelectComponent = new PlaceSelectComponent(gameMvc, false, true);
         BuildingMap.getInstance().getCategoryBuildings(CATEGORY).forEach(building -> {
             addButton(building.getHotKey().toUpperCase() + ": " + building.getTitle(), building.getTitle(), building.getHotKey().charAt(0));
-            menus.put(building.getHotKey().charAt(0), placeSelectMenu);
         });
     }
 
@@ -44,8 +45,8 @@ public class ConstructionsMenu extends SubMenuMenu {
         super.createButton(text, hotKey, new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                menus.get(hotKey).show();
                 controller.setActiveDesignation(DesignationTypes.BUILD, constructionType);
+                placeSelectComponent.show();
             }
         });
     }

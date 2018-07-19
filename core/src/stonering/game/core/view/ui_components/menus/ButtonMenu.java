@@ -16,13 +16,18 @@ import java.util.HashMap;
  * Input comes from parent ButtonMenu, through invokeByKey method.
  * Keys sets of menus should not overlap.
  * <p>
+ *
  * @author Alexander Kuzyakov on 27.12.2017.
  */
-public abstract class ButtonMenu extends ToolbarComponent {
+public abstract class ButtonMenu extends VerticalGroup implements HideableComponent, Invokable {
     protected HashMap<Character, Button> buttons;
+    protected GameMvc gameMvc;
+    protected Toolbar toolbar;
+    protected boolean hideable = false;
 
     public ButtonMenu(GameMvc gameMvc, boolean hideable) {
-        super(gameMvc, hideable);
+        this.gameMvc = gameMvc;
+        this.hideable = hideable;
         buttons = new HashMap<>();
     }
 
@@ -30,8 +35,8 @@ public abstract class ButtonMenu extends ToolbarComponent {
      * For binding sub-components. Should be called from children.
      */
     public void init() {
-        super.init();
         buttons.values().forEach(this::addActor);
+        toolbar = gameMvc.getView().getUiDrawer().getToolbar();
     }
 
     /**
@@ -49,7 +54,7 @@ public abstract class ButtonMenu extends ToolbarComponent {
             buttons.get(c).toggle();
             return true;
         }
-        if(c == (char) 27 && hideable) {
+        if (c == (char) 27 && hideable) {
             hide();
             reset();
             return true;
@@ -67,4 +72,16 @@ public abstract class ButtonMenu extends ToolbarComponent {
      * Cancels all inputs, like selected tools.
      */
     public abstract void reset();
+
+    @Override
+    public void show() {
+        System.out.println(this.getClass().toString() + " shown");
+        toolbar.addMenu(this);
+    }
+
+    @Override
+    public void hide() {
+        System.out.println(this.getClass().toString() + " hid");
+        toolbar.hideMenu(this);
+    }
 }

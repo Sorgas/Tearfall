@@ -1,6 +1,10 @@
 package stonering.game.core.view.ui_components.lists;
 
 import com.badlogic.gdx.scenes.scene2d.ui.List;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import stonering.game.core.GameMvc;
+import stonering.game.core.view.ui_components.menus.HideableComponent;
+import stonering.game.core.view.ui_components.menus.Toolbar;
 import stonering.utils.global.StaticSkin;
 
 /**
@@ -8,10 +12,15 @@ import stonering.utils.global.StaticSkin;
  * .
  * @author Alexander Kuzyakov on 03.07.2018.
  */
-public abstract class NavigableList extends List {
+public abstract class NavigableList extends List implements HideableComponent {
+    protected GameMvc gameMvc;
+    protected Toolbar toolbar;
+    protected boolean hideable = false;
 
-    public NavigableList() {
+    public NavigableList(GameMvc gameMvc, boolean hideable) {
         super(StaticSkin.getSkin());
+        this.gameMvc = gameMvc;
+        this.hideable = hideable;
     }
 
     public void up() {
@@ -24,6 +33,16 @@ public abstract class NavigableList extends List {
         if (getSelectedIndex() < getItems().size - 1) {
             setSelectedIndex(getSelectedIndex() + 1);
         }
+    }
+
+    @Override
+    public void show() {
+
+    }
+
+    @Override
+    public void hide() {
+
     }
 
     public abstract void select();

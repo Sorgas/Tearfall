@@ -1,5 +1,6 @@
 package stonering.game.core.view.ui_components.menus;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
@@ -41,7 +42,7 @@ public class Toolbar extends HorizontalGroup implements Invokable {
      *
      * @param menu
      */
-    public void addMenu(ToolbarComponent menu) {
+    public void addMenu(Actor menu) {
         this.addActorAt(0, menu);
     }
 
@@ -50,7 +51,7 @@ public class Toolbar extends HorizontalGroup implements Invokable {
      *
      * @param menu
      */
-    public void hideMenu(ToolbarComponent menu) {
+    public void hideMenu(Actor menu) {
         int index = getChildren().indexOf(menu, true);
         while (getChildren().contains(menu, true)) {
             removeActor(getChildren().get(0));
