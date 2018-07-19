@@ -1,6 +1,7 @@
 package stonering.global.utils;
 
-import javafx.util.Pair;
+
+import stonering.utils.global.Pair;
 
 /**
  * @author Alexander Kuzyakov on 02.03.2018.

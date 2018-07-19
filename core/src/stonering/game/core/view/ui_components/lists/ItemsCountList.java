@@ -1,10 +1,10 @@
 package stonering.game.core.view.ui_components.lists;
 
-import javafx.util.Pair;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.core.GameMvc;
 import stonering.game.core.controller.controllers.DesignationsController;
 import stonering.objects.local_actors.items.Item;
+import stonering.utils.global.Pair;
 
 import java.util.ArrayList;
 import java.util.HashMap;

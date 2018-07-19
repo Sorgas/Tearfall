@@ -1,6 +1,5 @@
 package stonering.generators.localgen.generators;
 
-import javafx.util.Pair;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.materials.Material;
 import stonering.enums.materials.MaterialMap;
@@ -17,6 +16,7 @@ import stonering.global.utils.Position;
 import stonering.objects.local_actors.plants.Plant;
 import stonering.objects.local_actors.plants.PlantBlock;
 import stonering.objects.local_actors.plants.Tree;
+import stonering.utils.global.Pair;
 
 import java.util.ArrayList;
 import java.util.HashMap;
