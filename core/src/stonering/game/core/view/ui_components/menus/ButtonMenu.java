@@ -18,7 +18,7 @@ import java.util.HashMap;
  * <p>
  * @author Alexander Kuzyakov on 27.12.2017.
  */
-public abstract class ButtonMenu extends VerticalGroup {
+public abstract class ButtonMenu extends VerticalGroup implements Invocable {
     protected boolean hideable = false;
     protected GameMvc gameMvc;
     protected HashMap<Character, Button> buttons;
@@ -45,7 +45,7 @@ public abstract class ButtonMenu extends VerticalGroup {
      * @return true, if button with given hotkey exists, prevents further handling of this press.
      * False otherwise, handling continues.
      */
-    public boolean invokeByKey(char c) {
+    public boolean invoke(char c) {
         if (buttons.keySet().contains(c)) {
             buttons.get(c).toggle();
             return true;

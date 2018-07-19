@@ -82,7 +82,7 @@ public class Toolbar extends HorizontalGroup {
     }
 
     public boolean handlePress(char c) {
-        boolean handled = getActiveMenu().invokeByKey(c);
+        boolean handled = getActiveMenu().invoke(c);
         if(!handled && c == (char) 27) {
 
         }
