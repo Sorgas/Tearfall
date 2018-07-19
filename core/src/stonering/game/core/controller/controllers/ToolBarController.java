@@ -22,6 +22,6 @@ public class ToolBarController extends Controller {
     }
 
     public boolean handlePress(char key) {
-        return toolbar.handlePress(key);
+        return toolbar.invoke(key);
     }
 }

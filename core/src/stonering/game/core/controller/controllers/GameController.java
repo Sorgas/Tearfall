@@ -39,7 +39,6 @@ public class GameController extends Controller {
         inputMultiplexer.addProcessor(new CameraInputProcessor(this));
         inputMultiplexer.addProcessor(new PauseInputProcessor(this));
         inputMultiplexer.addProcessor(new ToolBarInputProcessor(this));
-//        inputMultiplexer.addProcessor(new DesignationsInputProcessor(this));
         inputMultiplexer.addProcessor(new ListInputProcessor(this));
         Gdx.input.setInputProcessor(inputMultiplexer);
     }

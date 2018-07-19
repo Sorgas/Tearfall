@@ -9,9 +9,10 @@ import stonering.game.core.view.ui_components.lists.ItemsCountList;
 import stonering.utils.global.StaticSkin;
 
 /**
+ * Contains all general orders menus.
  * @author Alexander Kuzyakov on 17.06.2018.
  */
-public class Toolbar extends HorizontalGroup {
+public class Toolbar extends HorizontalGroup implements Invokable {
     private GameMvc gameMvc;
     private ParentMenu parentMenu;
     private MaterialSelectList materialSelectList;
@@ -40,7 +41,7 @@ public class Toolbar extends HorizontalGroup {
      *
      * @param menu
      */
-    public void addMenu(ButtonMenu menu) {
+    public void addMenu(ToolbarComponent menu) {
         this.addActorAt(0, menu);
     }
 
@@ -49,7 +50,7 @@ public class Toolbar extends HorizontalGroup {
      *
      * @param menu
      */
-    public void hideMenu(ButtonMenu menu) {
+    public void hideMenu(ToolbarComponent menu) {
         int index = getChildren().indexOf(menu, true);
         while (getChildren().contains(menu, true)) {
             removeActor(getChildren().get(0));
@@ -61,10 +62,10 @@ public class Toolbar extends HorizontalGroup {
      *
      * @return
      */
-    public ButtonMenu getActiveMenu() {
+    public Invokable getActiveMenu() {
         for (int i = 0; i < getChildren().size; i++) {
-            if (ButtonMenu.class.isAssignableFrom(getChildren().get(i).getClass())) {
-                return (ButtonMenu) getChildren().get(i);
+            if (Invokable.class.isAssignableFrom(getChildren().get(i).getClass())) {
+                return (Invokable) getChildren().get(i);
             }
         }
         return null;
@@ -81,19 +82,22 @@ public class Toolbar extends HorizontalGroup {
         }
     }
 
-    public boolean handlePress(char c) {
-        boolean handled = getActiveMenu().invoke(c);
-        if(!handled && c == (char) 27) {
-
-        }
-        return handled;
-    }
-
     public boolean isMaterialSelectShown() {
         return getChildren().contains(materialSelectList, true);
     }
 
     public ItemsCountList getMaterialSelectList() {
         return materialSelectList;
+    }
+
+    /**
+     * Input entry point from {@link stonering.game.core.controller.controllers.ToolBarController}.
+     * Simply transfers event to current active menu.
+     * @param c pressed character.
+     * @return true, if press handled
+     */
+    @Override
+    public boolean invoke(char c) {
+        return getActiveMenu().invoke(c);
     }
 }

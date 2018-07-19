@@ -6,6 +6,7 @@ import stonering.game.core.controller.controllers.ToolBarController;
 
 /**
  * Call {@link ToolBarController} in order to transfer input events to it.
+ * Handles menu hotkeys, designation actions.
  *
  * @author Alexander Kuzyakov on 01.07.2017.
  */

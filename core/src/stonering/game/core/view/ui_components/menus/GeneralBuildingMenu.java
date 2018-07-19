@@ -12,7 +12,7 @@ import stonering.game.core.GameMvc;
 public class GeneralBuildingMenu extends SubMenuMenu {
 
     public GeneralBuildingMenu(GameMvc gameMvc) {
-        super(gameMvc);
+        super(gameMvc, true);
         hideable = true;
         initButtons();
     }

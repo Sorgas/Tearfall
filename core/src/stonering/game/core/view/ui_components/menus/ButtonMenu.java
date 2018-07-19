@@ -18,15 +18,11 @@ import java.util.HashMap;
  * <p>
  * @author Alexander Kuzyakov on 27.12.2017.
  */
-public abstract class ButtonMenu extends VerticalGroup implements Invocable {
-    protected boolean hideable = false;
-    protected GameMvc gameMvc;
+public abstract class ButtonMenu extends ToolbarComponent {
     protected HashMap<Character, Button> buttons;
-    protected Toolbar toolbar;
 
-    public ButtonMenu(GameMvc gameMvc) {
-        super();
-        this.gameMvc = gameMvc;
+    public ButtonMenu(GameMvc gameMvc, boolean hideable) {
+        super(gameMvc, hideable);
         buttons = new HashMap<>();
     }
 
@@ -34,17 +30,20 @@ public abstract class ButtonMenu extends VerticalGroup implements Invocable {
      * For binding sub-components. Should be called from children.
      */
     public void init() {
-        toolbar = gameMvc.getView().getUiDrawer().getToolbar();
+        super.init();
         buttons.values().forEach(this::addActor);
     }
 
     /**
-     * Presses button with given hotkey.
+     * Presses button with given hotkey. By default tries to press button.
+     * If char is ESC and this menu can be closed, closes itself.
+     * Most times there is no need for overriding this for menus. For special closing logic use reset() method.
      *
      * @param c hotkey
      * @return true, if button with given hotkey exists, prevents further handling of this press.
      * False otherwise, handling continues.
      */
+    @Override
     public boolean invoke(char c) {
         if (buttons.keySet().contains(c)) {
             buttons.get(c).toggle();
@@ -62,22 +61,6 @@ public abstract class ButtonMenu extends VerticalGroup implements Invocable {
         TextButton button = new TextButton(text, StaticSkin.getSkin());
         button.addListener(listener);
         buttons.put(hotKey, button);
-    }
-
-    /**
-     * Adds all buttons from map to table and adds table to Toolbar widget.
-     */
-    public void show() {
-        System.out.println(this.getClass().toString() + " shown");
-        toolbar.addMenu(this);
-    }
-
-    /**
-     * Removes all buttons.
-     */
-    public void hide() {
-        System.out.println(this.getClass().toString() + " hid");
-        toolbar.hideMenu(this);
     }
 
     /**

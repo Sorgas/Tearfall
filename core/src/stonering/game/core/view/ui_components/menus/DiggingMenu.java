@@ -8,6 +8,7 @@ import stonering.game.core.controller.controllers.DesignationsController;
 
 /**
  * ButtonMenu for selecting designation type.
+ * Opens menu for selecting place.
  *
  * @author Alexander Kuzyakov
  */
@@ -15,7 +16,7 @@ public class DiggingMenu extends ButtonMenu {
     private DesignationsController controller;
 
     public DiggingMenu(GameMvc gameMvc) {
-        super(gameMvc);
+        super(gameMvc, true);
         hideable = true;
         initMenu();
     }
@@ -38,6 +39,7 @@ public class DiggingMenu extends ButtonMenu {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 controller.setActiveDesignation(type, null); //no buildings here
+                new PlaceSelectMenu(gameMvc, false, false).show(); //show place select for rectangle, without material select
             }
         });
     }

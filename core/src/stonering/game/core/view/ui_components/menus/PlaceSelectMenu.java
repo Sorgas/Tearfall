@@ -5,26 +5,29 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.core.GameMvc;
+import stonering.game.core.controller.controllers.DesignationsController;
 import stonering.game.core.model.GameCamera;
 import stonering.game.core.model.LocalMap;
+import stonering.game.core.view.ui_components.lists.MaterialSelectList;
+import stonering.global.utils.Position;
 
 /**
+ * Component for selecting places
+ *
  * @author Alexander on 12.07.2018.
  */
-public class PlaceSelectMenu extends ButtonMenu {
+public class PlaceSelectMenu extends ToolbarComponent {
     private GameCamera camera;
     private LocalMap localMap;
+    private DesignationsController controller;
+    private boolean singlePoint;
+    private boolean materialSelectNeeded;
+    private Position start = null;
 
-    public PlaceSelectMenu(GameMvc gameMvc) {
-        super(gameMvc);
-    }
-
-    /**
-     * Showing this menu means activating for selecting place.
-     */
-    @Override
-    public void show() {
-        super.show();
+    public PlaceSelectMenu(GameMvc gameMvc, boolean singlePoint, boolean materialSelectNeeded) {
+        super(gameMvc, true);
+        this.singlePoint = singlePoint;
+        this.materialSelectNeeded = materialSelectNeeded;
     }
 
     @Override
@@ -32,22 +35,48 @@ public class PlaceSelectMenu extends ButtonMenu {
         super.init();
         camera = gameMvc.getModel().getCamera();
         localMap = gameMvc.getModel().getLocalMap();
+        controller = gameMvc.getController().getDesignationsController();
     }
 
-    private void makeButtons() {
-        super.createButton("enter", (char) Input.Keys.ENTER, new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                System.out.println("psm enter");
+    @Override
+    public boolean invoke(char c) {
+        switch (c) {
+            case (char) Input.Keys.ENTER:
+                handleEnter();
+                return true;
+            case (char) Input.Keys.ESCAPE:
+                handleEsc();
+                return true;
+        }
+        return false;
+    }
+
+    private void handleEnter() {
+        if (singlePoint) {
+            finishHandling(camera.getPosition(), camera.getPosition());
+        } else {
+            if (start == null) {
+                start = camera.getPosition();
+            } else {
+                finishHandling(start, camera.getPosition());
             }
-        });
-        super.createButton("esc", (char) Input.Keys.ESCAPE, new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                camera.resetSprite();
-                hide();
-            }
-        });
+        }
+    }
+
+    private void finishHandling(Position start, Position end) {
+        controller.setRectangle(start, end);
+        if(materialSelectNeeded) {
+            new MaterialSelectList(gameMvc).sho
+        }
+    }
+
+    private void handleEsc() {
+        if (start != null) {
+            start = null;
+        } else {
+            reset();
+            hide();
+        }
     }
 
     private boolean validatePlace() {
@@ -60,15 +89,14 @@ public class PlaceSelectMenu extends ButtonMenu {
      * For indicating whether placing is valid or not before enter is pressed.
      */
     private void updateCameraSprine() {
-        if(validatePlace()) {
+        if (validatePlace()) {
             camera.setValidSprite();
         } else {
             camera.setInvalidSprite();
         }
     }
 
-    @Override
     public void reset() {
-
+        camera.resetSprite();
     }
 }

@@ -16,7 +16,7 @@ import stonering.utils.global.StaticSkin;
 public class ParentMenu extends SubMenuMenu {
 
     public ParentMenu(GameMvc gameMvc) {
-        super(gameMvc);
+        super(gameMvc, false);
         initTable();
         createMenus();
     }
@@ -41,7 +41,11 @@ public class ParentMenu extends SubMenuMenu {
             }
         });
         buttons.put(hotkey, button);
+    }
 
+    @Override
+    public boolean invoke(char c) {
+        return super.invoke(c);
     }
 
     @Override

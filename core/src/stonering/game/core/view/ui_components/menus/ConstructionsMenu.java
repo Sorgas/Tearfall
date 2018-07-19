@@ -17,7 +17,7 @@ public class ConstructionsMenu extends SubMenuMenu {
     private static final String CATEGORY = "constructions";
 
     public ConstructionsMenu(GameMvc gameMvc) {
-        super(gameMvc);
+        super(gameMvc, true);
         hideable = true;
         crerateButtonsAndMenu();
     }
@@ -33,7 +33,7 @@ public class ConstructionsMenu extends SubMenuMenu {
      * Creates {@link PlaceSelectMenu} (one for all constructions).
      */
     private void crerateButtonsAndMenu() {
-        PlaceSelectMenu placeSelectMenu = new PlaceSelectMenu(gameMvc);
+        PlaceSelectMenu placeSelectMenu = new PlaceSelectMenu(gameMvc, false, true);
         BuildingMap.getInstance().getCategoryBuildings(CATEGORY).forEach(building -> {
             addButton(building.getHotKey().toUpperCase() + ": " + building.getTitle(), building.getTitle(), building.getHotKey().charAt(0));
             menus.put(building.getHotKey().charAt(0), placeSelectMenu);

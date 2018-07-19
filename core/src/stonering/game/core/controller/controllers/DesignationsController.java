@@ -29,6 +29,8 @@ public class DesignationsController extends Controller {
     private Position start; // should be stored between steps
     private GameContainer container;
     private GameView view;
+    private Position end;
+
 
     public DesignationsController(GameMvc gameMvc) {
         super(gameMvc);
@@ -117,5 +119,10 @@ public class DesignationsController extends Controller {
 
     public void addBuildingItem(Item item) {
 
+    }
+
+    public void setRectangle(Position start, Position end) {
+        this.start = start;
+        this.end = end;
     }
 }

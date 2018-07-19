@@ -13,8 +13,8 @@ import java.util.HashMap;
 public abstract class SubMenuMenu extends ButtonMenu {
     protected HashMap<Character, ButtonMenu> menus;
 
-    public SubMenuMenu(GameMvc gameMvc) {
-        super(gameMvc);
+    public SubMenuMenu(GameMvc gameMvc, boolean hideable) {
+        super(gameMvc, hideable);
         menus = new HashMap<>();
     }
 

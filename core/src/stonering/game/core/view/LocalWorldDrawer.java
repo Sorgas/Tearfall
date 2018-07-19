@@ -147,7 +147,7 @@ public class LocalWorldDrawer {
 
     private void initAtlases() {
         atlases = new Texture[6];
-        atlases[0] = new Texture("sprites/blocks4.png");
+        atlases[0] = new Texture("sprites/blocks.png");
         atlases[1] = new Texture("sprites/plants.png");
         atlases[2] = new Texture("sprites/units.png");
         atlases[3] = new Texture("sprites/buildings.png");
