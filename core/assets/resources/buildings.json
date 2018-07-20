@@ -8,7 +8,7 @@
     "materials": ["wood", "stone", "metal", "clay"],
     "amount": "2",
     "category" : "constructions",
-    "hotKey" : "w",
+    "hotKey" : "p",
     "color": {
       "class": "color_c",
       "r": "1",
@@ -26,7 +26,7 @@
     "materials": ["wood", "stone", "metal", "clay"],
     "amount": "1",
     "category" : "constructions",
-    "hotKey" : "f",
+    "hotKey" : "o",
     "color": {
       "class": "color_c",
       "r": "1",
@@ -44,7 +44,7 @@
     "materials": ["wood", "stone", "metal", "clay"],
     "amount": "1",
     "category" : "constructions",
-    "hotKey" : "r",
+    "hotKey" : "i",
     "color": {
       "class": "color_c",
       "r": "1",
@@ -62,7 +62,7 @@
     "materials": ["wood", "stone", "metal", "clay"],
     "amount": "1",
     "category" : "constructions",
-    "hotKey" : "s",
+    "hotKey" : "u",
     "color": {
       "class": "color_c",
       "r": "1",
@@ -80,7 +80,7 @@
     "materials": ["wood", "stone", "metal", "clay"],
     "amount": "1",
     "category" : "furniture",
-    "hotKey" : "c",
+    "hotKey" : "y",
     "color": {
       "class": "color_c",
       "r": "1",

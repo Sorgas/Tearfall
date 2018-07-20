@@ -1,5 +1,6 @@
 package stonering.game.core.view.ui_components.menus;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -22,16 +23,16 @@ public class ParentMenu extends SubMenuMenu {
     }
 
     private void createMenus() {
-        initMenu(new PlantsMenu(gameMvc), "P: plants", 'p');
-        initMenu(new DiggingMenu(gameMvc), "D: digging", 'd');
-        initMenu(new GeneralBuildingMenu(gameMvc), "B: building", 'b');
+        initMenu(new PlantsMenu(gameMvc), "P: plants", Input.Keys.P);
+        initMenu(new DiggingMenu(gameMvc), "O: digging", Input.Keys.O);
+        initMenu(new GeneralBuildingMenu(gameMvc), "I: building", Input.Keys.I);
     }
 
     private void initTable() {
         this.align(Align.bottom);
     }
 
-    private void initMenu(ButtonMenu menu, String text, char hotkey) {
+    private void initMenu(ButtonMenu menu, String text, int hotkey) {
         menus.put(hotkey, menu);
         TextButton button = new TextButton(text, StaticSkin.getSkin());
         button.addListener(new ChangeListener() {
@@ -44,8 +45,8 @@ public class ParentMenu extends SubMenuMenu {
     }
 
     @Override
-    public boolean invoke(char c) {
-        return super.invoke(c);
+    public boolean invoke(int keycode) {
+        return super.invoke(keycode);
     }
 
     @Override

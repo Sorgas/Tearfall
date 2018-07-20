@@ -6,5 +6,5 @@ package stonering.game.core.view.ui_components.menus;
  * @author Alexander Kuzyakov
  */
 public interface Invokable {
-    boolean invoke(char c);
+    boolean invoke(int keycode);
 }

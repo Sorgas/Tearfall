@@ -43,6 +43,7 @@ public class Toolbar extends HorizontalGroup implements Invokable {
      * @param menu
      */
     public void addMenu(Actor menu) {
+        System.out.println(menu.getClass().getName() + " shown");
         this.addActorAt(0, menu);
     }
 
@@ -54,6 +55,7 @@ public class Toolbar extends HorizontalGroup implements Invokable {
     public void hideMenu(Actor menu) {
         int index = getChildren().indexOf(menu, true);
         while (getChildren().contains(menu, true)) {
+            System.out.println(menu.getClass().getName() + " hidden");
             removeActor(getChildren().get(0));
         }
     }
@@ -72,17 +74,6 @@ public class Toolbar extends HorizontalGroup implements Invokable {
         return null;
     }
 
-    public void showMaterialSelect(String buildingTitle) {
-        materialSelectList.refill(buildingTitle);
-        if (materialSelectList.getItems().size > 0) {
-            this.addActorAt(0, materialSelectList);
-            materialSelectList.setSelectedIndex(0);
-        } else {
-            notification.setText("No materials for " + buildingTitle + " are available.");
-            this.addActorAt(0, notification);
-        }
-    }
-
     public boolean isMaterialSelectShown() {
         return getChildren().contains(materialSelectList, true);
     }
@@ -94,11 +85,11 @@ public class Toolbar extends HorizontalGroup implements Invokable {
     /**
      * Input entry point from {@link stonering.game.core.controller.controllers.ToolBarController}.
      * Simply transfers event to current active menu.
-     * @param c pressed character.
+     * @param keycode pressed character.
      * @return true, if press handled
      */
     @Override
-    public boolean invoke(char c) {
-        return getActiveMenu().invoke(c);
+    public boolean invoke(int keycode) {
+        return getActiveMenu().invoke(keycode);
     }
 }

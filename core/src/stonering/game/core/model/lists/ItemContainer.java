@@ -4,6 +4,7 @@ import stonering.enums.buildings.BuildingMap;
 import stonering.enums.buildings.BuildingType;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.core.model.GameContainer;
+import stonering.game.core.model.LocalMap;
 import stonering.global.utils.Position;
 import stonering.global.utils.pathfinding.a_star.AStar;
 import stonering.objects.local_actors.items.Item;
@@ -96,10 +97,11 @@ public class ItemContainer {
         }
     }
 
-    public ArrayList<Item> getAvailableMaterialsForBuilding(String buildingTitle) {
+    public List<Item> getAvailableMaterialsForBuilding(String buildingTitle, Position pos) {
         BuildingType buildingType = BuildingMap.getInstance().getBuilding(buildingTitle);
         if (buildingType != null) {
-            return new ArrayList<>(getMaterialList(buildingType.getAmount(), buildingType.getItems(), buildingType.getMaterials()));
+            List<Item> items = new ArrayList<>(getMaterialList(buildingType.getAmount(), buildingType.getItems(), buildingType.getMaterials()));
+            return filterUnreachable(items, pos);
 //            HashMap<Pair<String, String>, Integer> map = new HashMap<>();
 //                    .forEach((item) -> {
 //                Pair<String, String> key = new Pair<>(materialMap.getMaterial(item.getMaterial()).getName(), item.getTitle());
@@ -119,6 +121,11 @@ public class ItemContainer {
                 filter(item -> types.contains(item.getType().getTitle())).
                 filter(item -> materialIds.contains(item.getMaterial())).
                 collect(Collectors.toList());
+    }
+
+    public List<Item> filterUnreachable(List<Item> items, Position pos) {
+        LocalMap localMap = gameContainer.getLocalMap();
+        return items.stream().filter(item -> localMap.getArea(item.getPosition()) == localMap.getArea(pos)).collect(Collectors.toList());
     }
 
     private ArrayList<Item> filterItemListForMaterials(String Material, ArrayList<Item> items) {

@@ -19,7 +19,7 @@ public class ToolBarInputProcessor implements InputProcessor {
 
     @Override
     public boolean keyDown(int keycode) {
-        return false;
+        return controller.handlePress(keycode);
     }
 
     @Override
@@ -29,7 +29,7 @@ public class ToolBarInputProcessor implements InputProcessor {
 
     @Override
     public boolean keyTyped(char character) {
-        return controller.handlePress(character);
+        return false;
     }
 
     @Override

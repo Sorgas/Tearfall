@@ -1,12 +1,16 @@
 package stonering.game.core.controller.inputProcessors;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import stonering.game.core.controller.controllers.CameraConroller;
 import stonering.game.core.controller.controllers.GameController;
 import stonering.global.settings.KeySettings;
-import stonering.utils.global.NavigationInputBuffer;
 
 /**
+ * Input processor for camera.
+ * Keys set should not intersect with others.
+ *
  * @author Alexander Kuzyakov on 27.06.2017.
  */
 public class CameraInputProcessor implements InputProcessor {
@@ -31,26 +35,41 @@ public class CameraInputProcessor implements InputProcessor {
     @Override
     public boolean keyTyped(char character) {
         switch (character) {
-            case '1'://Input.Keys.NUMPAD_1:
-                controller.moveCamera(0, 1, 0);
-                return true;
-            case '2'://Input.Keys.NUMPAD_2:
-                controller.moveCamera(1, 0, 0);
-                return true;
-            case '3'://Input.Keys.NUMPAD_3:
+            case 'r':
                 controller.moveCamera(0, 0, -1);
                 return true;
-            case '4'://Input.Keys.NUMPAD_4:
-                controller.moveCamera(-1, 0, 0);
-                return true;
-            case '5'://Input.Keys.NUMPAD_5:
-                controller.moveCamera(0, -1, 0);
-                return true;
-            case '6'://Input.Keys.NUMPAD_6:
+            case 'f':
                 controller.moveCamera(0, 0, 1);
+                return true;
+            case 'w':
+            case 'a':
+            case 's':
+            case 'd':
+            case 'W':
+            case 'A':
+            case 'S':
+            case 'D':
+                tryMoveLR();
                 return true;
         }
         return false;
+    }
+
+    private void tryMoveLR() {
+        int offset = Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) ? 10 : 1;
+        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+            controller.moveCamera(-offset, 0, 0);
+        } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+            controller.moveCamera(offset, 0, 0);
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+            controller.moveCamera(0, offset, 0);
+        } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+            controller.moveCamera(0, -offset, 0);
+        }
+    }
+
+    private void tryMoveUD() {
     }
 
     @Override

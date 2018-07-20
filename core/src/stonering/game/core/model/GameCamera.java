@@ -38,15 +38,27 @@ public class GameCamera {
     }
 
     public void moveCamera(int dx, int dy, int dz) {
-        if ((camera.getX() > 0 && dx < 0) || (camera.getX() < localMap.getxSize() - 1 && dx > 0)) {
-            camera.setX(camera.getX() + dx);
+        int x = camera.getX() + dx;
+        int y = camera.getY() + dy;
+        int z = camera.getZ() + dz;
+        if (x < 0) {
+            x = 0;
+        } else if (x > localMap.getxSize() - 1) {
+            x = localMap.getxSize() - 1;
         }
-        if ((camera.getY() > 0 && dy < 0) || (camera.getY() < localMap.getySize() - 1 && dy > 0)) {
-            camera.setY(camera.getY() + dy);
+        if (y < 0) {
+            y = 0;
+        } else if (y > localMap.getySize() - 1) {
+            y = localMap.getySize() - 1;
         }
-        if ((camera.getZ() > 0 && dz < 0) || (camera.getZ() < localMap.getzSize() - 1 && dz > 0)) {
-            camera.setZ(camera.getZ() + dz);
+        if (z < 0) {
+            z = 0;
+        } else if (z > localMap.getzSize() - 1) {
+            z = localMap.getzSize() - 1;
         }
+        camera.setX(x);
+        camera.setY(y);
+        camera.setZ(z);
     }
 
     public int getStatus() {

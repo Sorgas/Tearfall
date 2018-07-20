@@ -1,5 +1,6 @@
 package stonering.game.core.view.ui_components.menus;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.enums.buildings.BuildingMap;
@@ -35,14 +36,14 @@ public class ConstructionsMenu extends ButtonMenu {
      * Creates {@link PlaceSelectComponent} (one for all constructions).
      */
     private void crerateButtonsAndMenu() {
-        placeSelectComponent = new PlaceSelectComponent(gameMvc, false, true);
         BuildingMap.getInstance().getCategoryBuildings(CATEGORY).forEach(building -> {
             addButton(building.getHotKey().toUpperCase() + ": " + building.getTitle(), building.getTitle(), building.getHotKey().charAt(0));
         });
+        placeSelectComponent = new PlaceSelectComponent(gameMvc, false, true);
     }
 
     private void addButton(String text, String constructionType, char hotKey) {
-        super.createButton(text, hotKey, new ChangeListener() {
+        super.createButton(text, Input.Keys.valueOf(Character.toString(hotKey).toUpperCase()), new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 controller.setActiveDesignation(DesignationTypes.BUILD, constructionType);

@@ -21,7 +21,7 @@ public class ToolBarController extends Controller {
         toolbar = gameMvc.getView().getUiDrawer().getToolbar();
     }
 
-    public boolean handlePress(char key) {
-        return toolbar.invoke(key);
+    public boolean handlePress(int keycode) {
+        return toolbar.invoke(keycode);
     }
 }

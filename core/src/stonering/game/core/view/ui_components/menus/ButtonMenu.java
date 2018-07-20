@@ -1,5 +1,6 @@
 package stonering.game.core.view.ui_components.menus;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
@@ -20,7 +21,7 @@ import java.util.HashMap;
  * @author Alexander Kuzyakov on 27.12.2017.
  */
 public abstract class ButtonMenu extends VerticalGroup implements HideableComponent, Invokable {
-    protected HashMap<Character, Button> buttons;
+    protected HashMap<Integer, Button> buttons;
     protected GameMvc gameMvc;
     protected Toolbar toolbar;
     protected boolean hideable = false;
@@ -44,17 +45,17 @@ public abstract class ButtonMenu extends VerticalGroup implements HideableCompon
      * If char is ESC and this menu can be closed, closes itself.
      * Most times there is no need for overriding this for menus. For special closing logic use reset() method.
      *
-     * @param c hotkey
+     * @param keycode hotkey
      * @return true, if button with given hotkey exists, prevents further handling of this press.
      * False otherwise, handling continues.
      */
     @Override
-    public boolean invoke(char c) {
-        if (buttons.keySet().contains(c)) {
-            buttons.get(c).toggle();
+    public boolean invoke(int keycode) {
+        if (buttons.keySet().contains(keycode)) {
+            buttons.get(keycode).toggle();
             return true;
         }
-        if (c == (char) 27 && hideable) {
+        if (keycode == Input.Keys.Q && hideable) {
             hide();
             reset();
             return true;
@@ -62,7 +63,7 @@ public abstract class ButtonMenu extends VerticalGroup implements HideableCompon
         return false;
     }
 
-    protected void createButton(String text, char hotKey, ChangeListener listener) {
+    protected void createButton(String text, int hotKey, ChangeListener listener) {
         TextButton button = new TextButton(text, StaticSkin.getSkin());
         button.addListener(listener);
         buttons.put(hotKey, button);

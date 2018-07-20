@@ -12,7 +12,7 @@ import stonering.objects.local_actors.items.Item;
 import java.util.ArrayList;
 
 /**
- * Controller for various digging and building tasks. Works with GameContainer directly.
+ * Controller for various tasks. Used as builder to build tasks while user navigates through menus.
  * Digging and BuildingType combined in one controller and map,
  * because one tile can be designated for either digging or building in it.
  * Handles events from menus and updates model appropriately.
@@ -42,10 +42,15 @@ public class DesignationsController extends Controller {
         view = gameMvc.getView();
     }
 
+    public void finishTaskBuilding() {
+
+    }
+
     /**
      * Sets designation type to be stored between events of starting and finishing designations rectangle.
      *
      * @param activeDesignation designation type.
+     * @param building building name in {@link BuildingMap}. Is null if activeDesignation is not building.
      */
     public void setActiveDesignation(DesignationTypes activeDesignation, String building) {
         this.activeDesignation = activeDesignation;
@@ -124,5 +129,13 @@ public class DesignationsController extends Controller {
     public void setRectangle(Position start, Position end) {
         this.start = start;
         this.end = end;
+    }
+
+    public String getBuilding() {
+        return building;
+    }
+
+    public Position getStart() {
+        return start;
     }
 }

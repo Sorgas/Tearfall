@@ -8,6 +8,7 @@ import stonering.utils.global.Pair;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * List items and groups them by title and material.
@@ -25,7 +26,7 @@ public class ItemsCountList extends NavigableList {
     public void select() {
     }
 
-    public void addItems(ArrayList<Item> items) {
+    public void addItems(List<Item> items) {
         HashMap<Pair<String, Integer>, ListItem> map = new HashMap<>();
         MaterialMap materialMap = MaterialMap.getInstance();
         items.forEach(item -> {

@@ -1,6 +1,7 @@
 package stonering.game.core.view.ui_components.menus;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.core.GameMvc;
 import stonering.game.core.controller.controllers.DesignationsController;
@@ -14,7 +15,7 @@ import stonering.global.utils.Position;
  *
  * @author Alexander on 12.07.2018.
  */
-public class PlaceSelectComponent implements HideableComponent, Invokable {
+public class PlaceSelectComponent extends Actor implements HideableComponent, Invokable {
     private GameMvc gameMvc;
     private boolean singlePoint;
     private boolean materialSelectNeeded;
@@ -22,7 +23,7 @@ public class PlaceSelectComponent implements HideableComponent, Invokable {
     private LocalMap localMap;
     private Toolbar toolbar;
     private DesignationsController controller;
-    private Position start = null;
+    private Position start = null; // never set if singlePoint is true.
 
     public PlaceSelectComponent(GameMvc gameMvc, boolean singlePoint, boolean materialSelectNeeded) {
         this.gameMvc = gameMvc;
@@ -38,19 +39,19 @@ public class PlaceSelectComponent implements HideableComponent, Invokable {
     }
 
     @Override
-    public boolean invoke(char c) {
-        switch (c) {
-            case (char) Input.Keys.ENTER:
-                handleEnter();
+    public boolean invoke(int keycode) {
+        switch (keycode) {
+            case Input.Keys.E:
+                handleConfirm();
                 return true;
-            case (char) Input.Keys.ESCAPE:
-                handleEsc();
+            case Input.Keys.Q:
+                handleCancel();
                 return true;
         }
         return false;
     }
 
-    private void handleEnter() {
+    private void handleConfirm() {
         if (singlePoint) {
             finishHandling(camera.getPosition(), camera.getPosition());
         } else {
@@ -62,14 +63,23 @@ public class PlaceSelectComponent implements HideableComponent, Invokable {
         }
     }
 
+    /**
+     * After this controller should have coordinates of desired area.
+     * Area size is 1 if singlePoint is true.
+     * @param start
+     * @param end
+     */
     private void finishHandling(Position start, Position end) {
         controller.setRectangle(start, end);
         if(materialSelectNeeded) {
+
             new MaterialSelectList(gameMvc).show();
+        } else {
+            controller.finishTaskBuilding();
         }
     }
 
-    private void handleEsc() {
+    private void handleCancel() {
         if (start != null) {
             start = null;
         } else {
@@ -101,11 +111,12 @@ public class PlaceSelectComponent implements HideableComponent, Invokable {
 
     @Override
     public void show() {
-
+        toolbar.addMenu(this);
     }
 
     @Override
     public void hide() {
-
+        reset();
+        toolbar.hideMenu(this);
     }
 }

@@ -1,5 +1,6 @@
 package stonering.game.core.view.ui_components.menus;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.enums.designations.DesignationTypes;
@@ -11,6 +12,7 @@ import stonering.game.core.controller.controllers.DesignationsController;
  */
 public class PlantsMenu extends ButtonMenu {
     private DesignationsController controller;
+    private PlaceSelectComponent placeSelectComponent;
 
     public PlantsMenu(GameMvc gameMvc) {
         super(gameMvc, true);
@@ -30,11 +32,12 @@ public class PlantsMenu extends ButtonMenu {
     }
 
     private void initMenu() {
-        addButtonToTable("T: chop trees", DesignationTypes.CHOP, 't');
-        addButtonToTable("Z: clear", DesignationTypes.NONE, 'z');
+        addButtonToTable("P: chop trees", DesignationTypes.CHOP, Input.Keys.P);
+        addButtonToTable("O: clear", DesignationTypes.NONE, Input.Keys.O);
+        placeSelectComponent = new PlaceSelectComponent(gameMvc, false, false);
     }
 
-    private void addButtonToTable(String text, DesignationTypes type, char hotKey) {
+    private void addButtonToTable(String text, DesignationTypes type, int hotKey) {
         createButton(text, hotKey, new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {

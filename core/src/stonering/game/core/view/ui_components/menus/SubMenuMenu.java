@@ -11,7 +11,7 @@ import java.util.HashMap;
  * @author Alexander Kuzyakov on 15.06.2018.
  */
 public abstract class SubMenuMenu extends ButtonMenu {
-    protected HashMap<Character, ButtonMenu> menus;
+    protected HashMap<Integer, ButtonMenu> menus;
 
     public SubMenuMenu(GameMvc gameMvc, boolean hideable) {
         super(gameMvc, hideable);
