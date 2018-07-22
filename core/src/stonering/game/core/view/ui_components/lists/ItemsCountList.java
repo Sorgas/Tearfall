@@ -1,5 +1,6 @@
 package stonering.game.core.view.ui_components.lists;
 
+import com.badlogic.gdx.utils.Array;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.core.GameMvc;
 import stonering.game.core.controller.controllers.DesignationsController;
@@ -22,6 +23,10 @@ public class ItemsCountList extends NavigableList {
         super(gameMvc, hideable);
     }
 
+    public void init() {
+        super.init();
+    }
+
     @Override
     public void select() {
     }
@@ -41,10 +46,12 @@ public class ItemsCountList extends NavigableList {
             }
             listItem.items.add(item);
         });
-        this.setItems(map.values());
+        Array<ListItem> listItems = new Array<>();
+        map.values().forEach(item -> listItems.add(item));
+        this.setItems(listItems);
     }
 
-    private class ListItem {
+    protected class ListItem {
         String title;
         String material;
         int number;
@@ -61,5 +68,15 @@ public class ItemsCountList extends NavigableList {
         public String toString() {
             return material + " " + title + " " + number;
         }
+    }
+
+    protected ListItem getSelectedListItem() {
+
+        return (ListItem) getSelected();
+    }
+
+    protected Pair<String, String> getSelectedItems() {
+        ListItem selectedItem = (ListItem) getItems().get(getSelectedIndex());
+        return new Pair<>(selectedItem.title, selectedItem.material);
     }
 }

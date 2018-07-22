@@ -20,6 +20,6 @@ public abstract class SubMenuMenu extends ButtonMenu {
 
     public void init() {
         super.init();
-        menus.values().forEach((menu) -> menu.init());
+        menus.values().forEach(ButtonMenu::init);
     }
 }

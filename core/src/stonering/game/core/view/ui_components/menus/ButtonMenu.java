@@ -21,10 +21,10 @@ import java.util.HashMap;
  * @author Alexander Kuzyakov on 27.12.2017.
  */
 public abstract class ButtonMenu extends VerticalGroup implements HideableComponent, Invokable {
-    protected HashMap<Integer, Button> buttons;
     protected GameMvc gameMvc;
     protected Toolbar toolbar;
     protected boolean hideable = false;
+    protected HashMap<Integer, Button> buttons;
 
     public ButtonMenu(GameMvc gameMvc, boolean hideable) {
         this.gameMvc = gameMvc;
@@ -76,13 +76,11 @@ public abstract class ButtonMenu extends VerticalGroup implements HideableCompon
 
     @Override
     public void show() {
-        System.out.println(this.getClass().toString() + " shown");
         toolbar.addMenu(this);
     }
 
     @Override
     public void hide() {
-        System.out.println(this.getClass().toString() + " hid");
         toolbar.hideMenu(this);
     }
 }

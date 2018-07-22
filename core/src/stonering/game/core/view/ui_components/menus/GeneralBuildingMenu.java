@@ -20,8 +20,8 @@ public class GeneralBuildingMenu extends SubMenuMenu {
 
     private void initButtons() {
         addButton("P: constructions", Input.Keys.P);
-        addButton("O: workbenches", Input.Keys.P);
-        addButton("I: furniture", Input.Keys.P);
+//        addButton("O: workbenches", Input.Keys.O);
+//        addButton("I: furniture", Input.Keys.I);
         menus.put(Input.Keys.P, new ConstructionsMenu(gameMvc));
 //        menus.put('w', new ConstructionsMenu(gameMvc));
 //        menus.put('f', new ConstructionsMenu(gameMvc));

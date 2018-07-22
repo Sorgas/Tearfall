@@ -63,8 +63,8 @@ public class LocalRampAndFloorPlacer {
     }
 
     private boolean hasAdjacentWall(int xc, int yc, int z) {
-        for (int x = xc - 1; x < xc + 1; x++) {
-            for (int y = yc - 1; y < yc + 1; y++) {
+        for (int x = xc - 1; x <= xc + 1; x++) {
+            for (int y = yc - 1; y <= yc + 1; y++) {
                 if (localMap.inMap(x, y, z)) {
                     if (localMap.getBlockType(x, y, z) == wallCode) {
                         return true;
@@ -76,8 +76,8 @@ public class LocalRampAndFloorPlacer {
     }
 
     private int adjacentWallMaterial(int xc, int yc, int z) {
-        for (int x = xc - 1; x < xc + 1; x++) {
-            for (int y = yc - 1; y < yc + 1; y++) {
+        for (int x = xc - 1; x <= xc + 1; x++) {
+            for (int y = yc - 1; y <= yc + 1; y++) {
                 if (localMap.inMap(x, y, z)) {
                     if (localMap.getBlockType(x, y, z) == wallCode) {
                         return localMap.getMaterial(x, y, z);

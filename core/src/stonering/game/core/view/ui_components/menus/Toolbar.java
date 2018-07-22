@@ -53,7 +53,6 @@ public class Toolbar extends HorizontalGroup implements Invokable {
      * @param menu
      */
     public void hideMenu(Actor menu) {
-        int index = getChildren().indexOf(menu, true);
         while (getChildren().contains(menu, true)) {
             System.out.println(menu.getClass().getName() + " hidden");
             removeActor(getChildren().get(0));

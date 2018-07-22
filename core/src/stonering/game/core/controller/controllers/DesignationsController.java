@@ -8,6 +8,7 @@ import stonering.game.core.model.lists.TaskContainer;
 import stonering.game.core.view.GameView;
 import stonering.global.utils.Position;
 import stonering.objects.local_actors.items.Item;
+import stonering.objects.local_actors.items.ItemSelector;
 
 import java.util.ArrayList;
 
@@ -30,11 +31,12 @@ public class DesignationsController extends Controller {
     private GameContainer container;
     private GameView view;
     private Position end;
-
+    private ArrayList<ItemSelector> itemSelectors;
 
     public DesignationsController(GameMvc gameMvc) {
         super(gameMvc);
         items = new ArrayList<>();
+        itemSelectors = new ArrayList<>();
     }
 
     public void init() {
@@ -43,7 +45,17 @@ public class DesignationsController extends Controller {
     }
 
     public void finishTaskBuilding() {
-
+        if (activeDesignation == DesignationTypes.BUILD && !BuildingMap.getInstance().getBuilding(building).getCategory().equals("constructions")) {
+            addDesignationToContainer(end);
+        } else {
+            for (int x = Math.min(end.getX(), start.getX()); x <= Math.max(end.getX(), start.getX()); x++) {
+                for (int y = Math.min(end.getY(), start.getY()); y <= Math.max(end.getY(), start.getY()); y++) {
+                    for (int z = Math.min(end.getZ(), start.getZ()); z <= Math.max(end.getZ(), start.getZ()); z++) {
+                        addDesignationToContainer(new Position(x, y, z));
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -137,5 +149,13 @@ public class DesignationsController extends Controller {
 
     public Position getStart() {
         return start;
+    }
+
+    public void addItemSelector(ItemSelector itemSelector) {
+        itemSelectors.add(itemSelector);
+    }
+
+    public void clearItemSelectors() {
+        itemSelectors.clear();
     }
 }

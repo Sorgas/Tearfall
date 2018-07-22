@@ -4,24 +4,28 @@ import java.util.HashMap;
 
 /**
  * Mapping of block types code to sprite positions in atlas.
+ *
  * @author Alexander Kuzyakov on 01.08.2017.
  */
 public enum BlocksTileMapping {
     WALL((byte) 1, (byte) 0),
     FLOOR((byte) 2, (byte) 1),
     STAIRS((byte) 3, (byte) 14),
-    RAMP_NW((byte) 4, (byte) 2),
-    RAMP_NE((byte) 5, (byte) 3),
-    RAMP_SW((byte) 6, (byte) 4),
-    RAMP_SE((byte) 7, (byte) 5),
-    RAMP_N2((byte) 8, (byte) 6),
-    RAMP_S2((byte) 9, (byte) 7),
-    RAMP_W2((byte) 10, (byte) 8),
-    RAMP_E2((byte) 11, (byte) 9),
-    RAMP_N((byte) 12, (byte) 10),
-    RAMP_S((byte) 13, (byte) 11),
-    RAMP_W((byte) 14, (byte) 12),
-    RAMP_E((byte) 15, (byte) 13);
+
+    RAMP_N((byte) 3, (byte) 2),//(0,1)
+    RAMP_S((byte) 4, (byte) 3),//(0,-1)
+    RAMP_W((byte) 5, (byte) 4),//(-1,0)
+    RAMP_E((byte) 6, (byte) 5),//(1,0)
+
+    RAMP_NW((byte) 7, (byte) 6),
+    RAMP_NE((byte) 8, (byte) 7),
+    RAMP_SW((byte) 9, (byte) 8),
+    RAMP_SE((byte) 10, (byte) 9),
+
+    RAMP_NWO((byte) 11, (byte) 10),
+    RAMP_NEO((byte) 12, (byte) 11),
+    RAMP_SWO((byte) 13, (byte) 12),
+    RAMP_SEO((byte) 14, (byte) 13);
 
     private byte code;
     private byte atlasX;

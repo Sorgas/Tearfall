@@ -24,11 +24,13 @@ public class PlaceSelectComponent extends Actor implements HideableComponent, In
     private Toolbar toolbar;
     private DesignationsController controller;
     private Position start = null; // never set if singlePoint is true.
+    private MaterialSelectList materialSelectList;
 
     public PlaceSelectComponent(GameMvc gameMvc, boolean singlePoint, boolean materialSelectNeeded) {
         this.gameMvc = gameMvc;
         this.singlePoint = singlePoint;
         this.materialSelectNeeded = materialSelectNeeded;
+        materialSelectList = new MaterialSelectList(gameMvc);
     }
 
     public void init() {
@@ -36,6 +38,7 @@ public class PlaceSelectComponent extends Actor implements HideableComponent, In
         localMap = gameMvc.getModel().getLocalMap();
         controller = gameMvc.getController().getDesignationsController();
         toolbar = gameMvc.getView().getUiDrawer().getToolbar();
+        materialSelectList.init();
     }
 
     @Override
@@ -52,6 +55,7 @@ public class PlaceSelectComponent extends Actor implements HideableComponent, In
     }
 
     private void handleConfirm() {
+        System.out.println("handling confirm");
         if (singlePoint) {
             finishHandling(camera.getPosition(), camera.getPosition());
         } else {
@@ -66,20 +70,22 @@ public class PlaceSelectComponent extends Actor implements HideableComponent, In
     /**
      * After this controller should have coordinates of desired area.
      * Area size is 1 if singlePoint is true.
+     *
      * @param start
      * @param end
      */
     private void finishHandling(Position start, Position end) {
         controller.setRectangle(start, end);
-        if(materialSelectNeeded) {
-
-            new MaterialSelectList(gameMvc).show();
+        if (materialSelectNeeded) {
+            materialSelectList.refill();
+            materialSelectList.show();
         } else {
             controller.finishTaskBuilding();
         }
     }
 
     private void handleCancel() {
+        System.out.println("handling cancel");
         if (start != null) {
             start = null;
         } else {

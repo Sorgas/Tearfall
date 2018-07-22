@@ -3,11 +3,8 @@ package stonering.objects.jobs.actions.aspects.requirements;
 import stonering.global.utils.Position;
 import stonering.objects.jobs.actions.Action;
 import stonering.objects.jobs.actions.aspects.effect.DropItemEffectAspect;
-import stonering.objects.jobs.actions.aspects.effect.PickUpItemEffectAspect;
 import stonering.objects.jobs.actions.aspects.target.BlockTargetAspect;
-import stonering.objects.jobs.actions.aspects.target.ItemTargetAspect;
 import stonering.objects.local_actors.items.Item;
-import stonering.objects.local_actors.items.ItemSelector;
 
 import java.util.ArrayList;
 

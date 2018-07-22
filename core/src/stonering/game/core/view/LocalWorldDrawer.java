@@ -104,9 +104,9 @@ public class LocalWorldDrawer {
 //        if (!items.isEmpty()) {
 //            items.forEach((item) -> drawSprite(5, x, y, z, item.getType().getAtlasX(), item.getType().getAtlasY()));
 //        }
-        if (localMap.getDesignatedBlockType(x, y, z) > 0) {
-            drawSprite(4, x, y, z, DesignationsTileMapping.getAtlasX(localMap.getDesignatedBlockType(x, y, z)), 0);
-        }
+//        if (localMap.getDesignatedBlockType(x, y, z) > 0) {
+//            drawSprite(4, x, y, z, DesignationsTileMapping.getAtlasX(localMap.getDesignatedBlockType(x, y, z)), 0);
+//        }
     }
 
     private void drawSprite(int atlas, int x, int y, int z, int spriteX, int spriteY) {
