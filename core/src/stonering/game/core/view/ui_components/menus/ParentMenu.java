@@ -38,7 +38,7 @@ public class ParentMenu extends SubMenuMenu {
         button.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                menus.get(hotkey).show();
+                showSubMenuByHotkey(hotkey);
             }
         });
         buttons.put(hotkey, button);

@@ -22,4 +22,8 @@ public abstract class SubMenuMenu extends ButtonMenu {
         super.init();
         menus.values().forEach(ButtonMenu::init);
     }
+
+    public void showSubMenuByHotkey(int hotkey) {
+        menus.get(hotkey).show();
+    }
 }
