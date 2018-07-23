@@ -40,7 +40,6 @@ public class MaterialSelectList extends ItemsCountList implements Invokable {
                 return true;
             case Input.Keys.E:
                 select();
-                select();
                 System.out.println("select");
                 return true;
         }

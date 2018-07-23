@@ -13,6 +13,7 @@ import java.util.ArrayList;
  */
 public class EquipmentAspect extends Aspect {
     private ArrayList<Item> items;
+    private ArrayList<Item> inventory;
 
     public EquipmentAspect(AspectHolder aspectHolder) {
         super("equipment", aspectHolder);
@@ -43,5 +44,17 @@ public class EquipmentAspect extends Aspect {
     public boolean checkItem(Item item) {
         //TODO
         return items.contains(item);
+    }
+
+    public ArrayList<Item> getItems() {
+        return items;
+    }
+
+    public ArrayList<Item> getInventory() {
+        return inventory;
+    }
+
+    public void pickupItem(Item item) {
+        inventory.add(item);
     }
 }

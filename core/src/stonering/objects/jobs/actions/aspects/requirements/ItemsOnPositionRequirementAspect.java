@@ -5,6 +5,7 @@ import stonering.global.utils.Position;
 import stonering.objects.jobs.actions.Action;
 import stonering.objects.jobs.actions.aspects.effect.DropItemEffectAspect;
 import stonering.objects.jobs.actions.aspects.target.BlockTargetAspect;
+import stonering.objects.jobs.actions.aspects.target.ItemTargetAspect;
 import stonering.objects.local_actors.items.Item;
 import stonering.objects.local_actors.items.ItemSelector;
 
@@ -28,6 +29,7 @@ public class ItemsOnPositionRequirementAspect extends RequirementsAspect {
 
     @Override
     public boolean check() {
+        System.out.println("checking items on position");
         ArrayList<Item> itemsOnSite = new ArrayList<>();
         ArrayList<Item> checkedItems = new ArrayList<>();
         itemsOnSite.addAll(action.getGameContainer().getItemContainer().getItems(target));
@@ -57,8 +59,8 @@ public class ItemsOnPositionRequirementAspect extends RequirementsAspect {
             Item item = itemContainer.getItemAvailableBySelector(itemSelector, target);
             if (item != null) {
                 Action dropAction = new Action(action.getGameContainer());
-                dropAction.setRequirementsAspect(new EquippedItemRequirementAspect(dropAction, ""));
-                dropAction.setTargetAspect(new BlockTargetAspect(dropAction, target));
+                dropAction.setRequirementsAspect(new ItemInInventoryRequirementAspect(dropAction, item));
+                dropAction.setTargetAspect(new ItemTargetAspect(dropAction, item));
                 dropAction.setEffectAspect(new DropItemEffectAspect(dropAction, item));
                 action.getTask().addAction(dropAction);
                 return true;

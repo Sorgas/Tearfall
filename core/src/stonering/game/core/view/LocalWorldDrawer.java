@@ -88,25 +88,25 @@ public class LocalWorldDrawer {
 
     private void drawTile(int x, int y, int z) {
         drawBlock(x, y, z);
-//        PlantBlock plantBlock = localMap.getPlantBlock(x, y, z);
-//        if (plantBlock != null) {
-//            drawSprite(1, x, y, z, plantBlock.getAtlasX(), plantBlock.getAtlasY());
-//        }
-//        BuildingBlock buildingBlock = localMap.getBuildingBlock(x, y, z);
-//        if (buildingBlock != null) {
-//            drawSprite(3, x, y, z, 0, 0);
-//        }
-//        UnitBlock unitBlock = localMap.getUnitBlock(x, y, z);
-//        if (unitBlock != null) {
-//            drawSprite(2, x, y, z, 0, 0);
-//        }
-//        ArrayList<Item> items = container.getItemContainer().getItemSelectors(x, y, z);
-//        if (!items.isEmpty()) {
-//            items.forEach((item) -> drawSprite(5, x, y, z, item.getType().getAtlasX(), item.getType().getAtlasY()));
-//        }
-//        if (localMap.getDesignatedBlockType(x, y, z) > 0) {
-//            drawSprite(4, x, y, z, DesignationsTileMapping.getAtlasX(localMap.getDesignatedBlockType(x, y, z)), 0);
-//        }
+        PlantBlock plantBlock = localMap.getPlantBlock(x, y, z);
+        if (plantBlock != null) {
+            drawSprite(1, x, y, z, plantBlock.getAtlasX(), plantBlock.getAtlasY());
+        }
+        BuildingBlock buildingBlock = localMap.getBuildingBlock(x, y, z);
+        if (buildingBlock != null) {
+            drawSprite(3, x, y, z, 0, 0);
+        }
+        UnitBlock unitBlock = localMap.getUnitBlock(x, y, z);
+        if (unitBlock != null) {
+            drawSprite(2, x, y, z, 0, 0);
+        }
+        ArrayList<Item> items = container.getItemContainer().getItems(x, y, z);
+        if (!items.isEmpty()) {
+            items.forEach((item) -> drawSprite(5, x, y, z, item.getType().getAtlasX(), item.getType().getAtlasY()));
+        }
+        if (localMap.getDesignatedBlockType(x, y, z) > 0) {
+            drawSprite(4, x, y, z, DesignationsTileMapping.getAtlasX(localMap.getDesignatedBlockType(x, y, z)), 0);
+        }
     }
 
     private void drawSprite(int atlas, int x, int y, int z, int spriteX, int spriteY) {

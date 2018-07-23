@@ -87,13 +87,14 @@ public class TaskContainer {
      * All single-tile buildings are constructed through this method.
      *  @param position
      * @param building
-     * @param items
+     * @param itemSelectors
      */
-    public void submitDesignation(Position position, String building, ArrayList<ItemSelector> items) {
+    public void submitDesignation(Position position, String building, ArrayList<ItemSelector> itemSelectors) {
         if (validateBuilding(position, building) ) {
             BuildingDesignation designation = new BuildingDesignation(position, DesignationTypes.BUILD, building);
-            Task task = createBuildingTask(designation, items);
+            Task task = createBuildingTask(designation, itemSelectors);
             tasks.add(task);
+            designation.setTask(task);
             designations.put(position, designation);
             container.getLocalMap().setDesignatedBlockType(designation.getPosition(), designation.getType().getCode());
             System.out.println("building designated");

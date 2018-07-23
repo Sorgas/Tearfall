@@ -12,8 +12,8 @@ import stonering.utils.global.FileLoader;
 
 /**
  * @author Alexander Kuzyakov on 03.12.2017.
- *
- * creates creatures from json files by specimen name
+ *         <p>
+ *         creates creatures from json files by specimen name
  */
 public class CreatureGenerator {
     private JsonReader reader;
