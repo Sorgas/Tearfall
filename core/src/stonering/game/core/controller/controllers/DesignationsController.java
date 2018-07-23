@@ -25,7 +25,6 @@ import java.util.ArrayList;
 public class DesignationsController extends Controller {
     private DesignationTypes activeDesignation;
     private String building; //is set when activeDesignation is BUILD
-    private ArrayList<Item> items; // is set when activeDesignation is BUILD
     private boolean rectangleStarted = false;
     private Position start; // should be stored between steps
     private GameContainer container;
@@ -35,7 +34,6 @@ public class DesignationsController extends Controller {
 
     public DesignationsController(GameMvc gameMvc) {
         super(gameMvc);
-        items = new ArrayList<>();
         itemSelectors = new ArrayList<>();
     }
 
@@ -44,6 +42,9 @@ public class DesignationsController extends Controller {
         view = gameMvc.getView();
     }
 
+    /**
+     * Called by ui when order is finished.
+     */
     public void finishTaskBuilding() {
         if (activeDesignation == DesignationTypes.BUILD && !BuildingMap.getInstance().getBuilding(building).getCategory().equals("constructions")) {
             addDesignationToContainer(end);
@@ -124,7 +125,7 @@ public class DesignationsController extends Controller {
     private void addDesignationToContainer(Position position) {
         TaskContainer taskContainer = container.getTaskContainer();
         if (activeDesignation == DesignationTypes.BUILD) {
-            taskContainer.submitDesignation(position, building, items);
+            taskContainer.submitDesignation(position, building, itemSelectors);
         } else {
             taskContainer.submitDesignation(position, activeDesignation);
         }

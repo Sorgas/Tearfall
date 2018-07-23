@@ -8,6 +8,7 @@ import stonering.game.core.model.LocalMap;
 import stonering.global.utils.Position;
 import stonering.global.utils.pathfinding.a_star.AStar;
 import stonering.objects.local_actors.items.Item;
+import stonering.objects.local_actors.items.ItemSelector;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -154,6 +155,10 @@ public class ItemContainer {
             lockedItems.remove(item);
             items.add(item);
         }
+    }
+
+    public boolean hasItemsAvailableBySelector(ItemSelector itemSelector, Position position) {
+
     }
 
     public boolean isItemLocked(Item item) {

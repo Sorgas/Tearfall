@@ -5,6 +5,7 @@ import stonering.objects.jobs.actions.Action;
 import stonering.objects.jobs.actions.aspects.effect.DropItemEffectAspect;
 import stonering.objects.jobs.actions.aspects.target.BlockTargetAspect;
 import stonering.objects.local_actors.items.Item;
+import stonering.objects.local_actors.items.ItemSelector;
 
 import java.util.ArrayList;
 
@@ -16,9 +17,9 @@ import java.util.ArrayList;
  */
 public class ItemsOnPositionRequirementAspect extends RequirementsAspect {
     private Position target;
-    private ArrayList<Item> items;
+    private ArrayList<ItemSelector> items;
 
-    public ItemsOnPositionRequirementAspect(Action action, Position target, ArrayList<Item> items) {
+    public ItemsOnPositionRequirementAspect(Action action, Position target, ArrayList<ItemSelector> items) {
         super(action);
         this.target = target;
         this.items = items;
@@ -27,14 +28,21 @@ public class ItemsOnPositionRequirementAspect extends RequirementsAspect {
     @Override
     public boolean check() {
         final ArrayList<Item> itemsOnSite = action.getGameContainer().getItemContainer().getItems(target);
-        for (Item item : items) {
-            if (!itemsOnSite.contains(item))
-                return tryCreateHaulingTask(item);
+        ArrayList<Item> checkedItems = new ArrayList<>();
+        for (ItemSelector itemSelector : items) {
+            Item selectedItem = itemSelector.selectItems(itemsOnSite);
+            if (selectedItem != null) {
+                if (!checkedItems.contains(selectedItem)) {
+                    checkedItems.add(selectedItem);
+                }
+            } else {
+                return tryCreateHaulingTask(itemSelector);
+            }
         }
         return true;
     }
 
-    private boolean tryCreateHaulingTask(Item item) {
+    private boolean tryCreateHaulingTask(ItemSelector item) {
         if (action.getGameContainer().getItemContainer().isItemAvailableFrom(item, target)) {
             Action dropAction = new Action(action.getGameContainer());
             dropAction.setRequirementsAspect(new EquippedItemRequirementAspect(dropAction, ""));

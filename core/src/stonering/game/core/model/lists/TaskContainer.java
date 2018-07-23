@@ -19,6 +19,7 @@ import stonering.objects.jobs.actions.aspects.requirements.EquippedItemRequireme
 import stonering.objects.jobs.actions.aspects.requirements.ItemsOnPositionRequirementAspect;
 import stonering.objects.jobs.actions.aspects.target.BlockTargetAspect;
 import stonering.objects.local_actors.items.Item;
+import stonering.objects.local_actors.items.ItemSelector;
 import stonering.objects.local_actors.plants.PlantBlock;
 
 import java.util.ArrayList;
@@ -84,11 +85,11 @@ public class TaskContainer {
     /**
      * Adds designation and creates comprehensive task.
      * All single-tile buildings are constructed through this method.
-     *
-     * @param position
+     *  @param position
      * @param building
+     * @param items
      */
-    public void submitDesignation(Position position, String building, ArrayList<Item> items) {
+    public void submitDesignation(Position position, String building, ArrayList<ItemSelector> items) {
         if (validateBuilding(position, building) ) {
             BuildingDesignation designation = new BuildingDesignation(position, DesignationTypes.BUILD, building);
             Task task = createBuildingTask(designation, items);
@@ -125,7 +126,7 @@ public class TaskContainer {
         return null;
     }
 
-    private Task createBuildingTask(BuildingDesignation designation, ArrayList<Item> items) {
+    private Task createBuildingTask(BuildingDesignation designation, ArrayList<ItemSelector> items) {
         BuildingMap.getInstance().getBuilding(designation.getBuilding());
         Action action = new Action(container);
         action.setRequirementsAspect(new ItemsOnPositionRequirementAspect(action, designation.getPosition(), items));
