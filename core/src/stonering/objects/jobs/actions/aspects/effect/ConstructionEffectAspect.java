@@ -1,6 +1,5 @@
 package stonering.objects.jobs.actions.aspects.effect;
 
-import stonering.enums.buildings.BuildingMap;
 import stonering.game.core.model.GameContainer;
 import stonering.objects.jobs.actions.Action;
 import stonering.objects.jobs.actions.aspects.requirements.ItemsOnPositionRequirementAspect;
@@ -33,6 +32,6 @@ public class ConstructionEffectAspect extends EffectAspect {
     }
 
     private void spendMaterials() {
-        ((ItemsOnPositionRequirementAspect) action.getRequirementsAspect()).getItems().forEach((item) -> container.getItemContainer().removeItem(item));
+        ((ItemsOnPositionRequirementAspect) action.getRequirementsAspect()).getItemSelectors().forEach((item) -> container.getItemContainer().removeItem(item));
     }
 }

@@ -158,7 +158,15 @@ public class ItemContainer {
     }
 
     public boolean hasItemsAvailableBySelector(ItemSelector itemSelector, Position position) {
+        return true; //TODO implement items lookup with areas
+    }
 
+    public Item getItemAvailableBySelector(ItemSelector itemSelector, Position position) {
+        ArrayList<Item> items = itemSelector.selectItems(this.items);
+        if(items != null && !items.isEmpty()) { // TODO implement lookup with areas
+            return items.get(0);
+        }
+        return null;
     }
 
     public boolean isItemLocked(Item item) {

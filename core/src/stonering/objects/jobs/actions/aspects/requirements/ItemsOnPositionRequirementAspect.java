@@ -1,5 +1,6 @@
 package stonering.objects.jobs.actions.aspects.requirements;
 
+import stonering.game.core.model.lists.ItemContainer;
 import stonering.global.utils.Position;
 import stonering.objects.jobs.actions.Action;
 import stonering.objects.jobs.actions.aspects.effect.DropItemEffectAspect;
@@ -10,50 +11,63 @@ import stonering.objects.local_actors.items.ItemSelector;
 import java.util.ArrayList;
 
 /**
- * Checks if specific items are on desired position.
+ * Checks if specific itemSelectors are on desired position.
  * Creates hauling actions if needed.
  *
  * @author Alexander on 08.07.2018.
  */
 public class ItemsOnPositionRequirementAspect extends RequirementsAspect {
     private Position target;
-    private ArrayList<ItemSelector> items;
+    private ArrayList<ItemSelector> itemSelectors;
 
-    public ItemsOnPositionRequirementAspect(Action action, Position target, ArrayList<ItemSelector> items) {
+    public ItemsOnPositionRequirementAspect(Action action, Position target, ArrayList<ItemSelector> itemSelectors) {
         super(action);
         this.target = target;
-        this.items = items;
+        this.itemSelectors = itemSelectors;
     }
 
     @Override
     public boolean check() {
-        final ArrayList<Item> itemsOnSite = action.getGameContainer().getItemContainer().getItems(target);
+        ArrayList<Item> itemsOnSite = new ArrayList<>();
         ArrayList<Item> checkedItems = new ArrayList<>();
-        for (ItemSelector itemSelector : items) {
-            Item selectedItem = itemSelector.selectItems(itemsOnSite);
-            if (selectedItem != null) {
-                if (!checkedItems.contains(selectedItem)) {
-                    checkedItems.add(selectedItem);
+        itemsOnSite.addAll(action.getGameContainer().getItemContainer().getItems(target));
+        for (ItemSelector itemSelector : itemSelectors) {
+            ArrayList<Item> selectedItems = itemSelector.selectItems(itemsOnSite);
+            if (selectedItems != null) {
+                for (int i = 0; i < selectedItems.size(); i++) {
+                    Item item = selectedItems.get(i);
+                    if (!checkedItems.contains(item)) {
+                        checkedItems.add(item);
+                        itemsOnSite.remove(item);
+                    } else {
+                        // not valid branch
+                        System.out.println(item.toString() + " already selected by another ItemSelector");
+                    }
                 }
             } else {
-                return tryCreateHaulingTask(itemSelector);
+                return tryCreateDroppingAction(itemSelector);
             }
         }
         return true;
     }
 
-    private boolean tryCreateHaulingTask(ItemSelector item) {
-        if (action.getGameContainer().getItemContainer().isItemAvailableFrom(item, target)) {
-            Action dropAction = new Action(action.getGameContainer());
-            dropAction.setRequirementsAspect(new EquippedItemRequirementAspect(dropAction, ""));
-            dropAction.setTargetAspect(new BlockTargetAspect(dropAction, target));
-            dropAction.setEffectAspect(new DropItemEffectAspect(dropAction, item));
-            return true;
+    private boolean tryCreateDroppingAction(ItemSelector itemSelector) {
+        ItemContainer itemContainer = action.getGameContainer().getItemContainer();
+        if (itemContainer.hasItemsAvailableBySelector(itemSelector, target)) {
+            Item item = itemContainer.getItemAvailableBySelector(itemSelector, target);
+            if (item != null) {
+                Action dropAction = new Action(action.getGameContainer());
+                dropAction.setRequirementsAspect(new EquippedItemRequirementAspect(dropAction, ""));
+                dropAction.setTargetAspect(new BlockTargetAspect(dropAction, target));
+                dropAction.setEffectAspect(new DropItemEffectAspect(dropAction, item));
+                action.getTask().addAction(dropAction);
+                return true;
+            }
         }
         return false;
     }
 
-    public ArrayList<Item> getItems() {
-        return items;
+    public ArrayList<ItemSelector> getItemSelectors() {
+        return itemSelectors;
     }
 }

@@ -97,7 +97,7 @@ public class DesignationsController extends Controller {
         start = null;
         activeDesignation = null;
         building = "";
-        items.clear();
+        itemSelectors.clear();
         rectangleStarted = false;
         view.getUiDrawer().getToolStatus().setText("");
     }

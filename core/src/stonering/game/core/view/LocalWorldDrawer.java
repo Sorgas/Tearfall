@@ -100,7 +100,7 @@ public class LocalWorldDrawer {
 //        if (unitBlock != null) {
 //            drawSprite(2, x, y, z, 0, 0);
 //        }
-//        ArrayList<Item> items = container.getItemContainer().getItems(x, y, z);
+//        ArrayList<Item> items = container.getItemContainer().getItemSelectors(x, y, z);
 //        if (!items.isEmpty()) {
 //            items.forEach((item) -> drawSprite(5, x, y, z, item.getType().getAtlasX(), item.getType().getAtlasY()));
 //        }

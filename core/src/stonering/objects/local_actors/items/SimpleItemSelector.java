@@ -2,10 +2,12 @@ package stonering.objects.local_actors.items;
 
 import stonering.enums.materials.MaterialMap;
 
+import java.util.ArrayList;
+
 /**
  * @author Alexander on 21.07.2018.
  */
-public class SimpleItemSelector extends ItemSelector{
+public class SimpleItemSelector extends ItemSelector {
     private String title;
     private int material;
     private int amount;
@@ -22,11 +24,6 @@ public class SimpleItemSelector extends ItemSelector{
         this.title = title;
         setMaterial(material);
         this.amount = amount;
-    }
-
-    @Override
-    public boolean check(Item item) {
-        return item.getTitle().equals(title) && item.getMaterial() == material;
     }
 
     public String getTitle() {
@@ -55,5 +52,30 @@ public class SimpleItemSelector extends ItemSelector{
 
     public void setAmount(int amount) {
         this.amount = amount;
+    }
+
+    @Override
+    public boolean check(ArrayList<Item> items) {
+        for (int i = 0; i < items.size(); i++) {
+            if (checkItem(items.get(i)))
+                return true;
+        }
+        return false;
+    }
+
+    private boolean checkItem(Item item) {
+        return item.getTitle().equals(title) && item.getMaterial() == material;
+    }
+
+    @Override
+    public ArrayList<Item> selectItems(ArrayList<Item> items) {
+        for (int i = 0; i < items.size(); i++) {
+            if (checkItem(items.get(i))) {
+                ArrayList<Item> selectedItems = new ArrayList<>();
+                selectedItems.add(items.get(i));
+                return selectedItems;
+            }
+        }
+        return null;
     }
 }
