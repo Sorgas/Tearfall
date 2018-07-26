@@ -23,7 +23,7 @@ public class EquippedItemRequirementAspect extends RequirementsAspect {
 
     @Override
     public boolean check() {
-        Aspect aspect = action.getPerformer().getAspects().get("equipment");
+        Aspect aspect = action.getTask().getPerformer().getAspects().get("equipment");
         if (aspect != null) {
             if (((EquipmentAspect) aspect).getItemWithAspectAndProperty(requiredProperty) != null) {
                 return true;
@@ -41,8 +41,7 @@ public class EquippedItemRequirementAspect extends RequirementsAspect {
             newAction.setEffectAspect(new EquipItemEffectAspect(newAction));
             newAction.setTargetAspect(new ItemTargetAspect(action, target));
             newAction.setRequirementsAspect(new BodyPartRequirementAspect(newAction, "grab"));
-            newAction.setTask(action.getTask());
-            action.getTask().addAction(newAction);
+            action.getTask().addFirstAction(newAction);
             return true;
         }
         return false;

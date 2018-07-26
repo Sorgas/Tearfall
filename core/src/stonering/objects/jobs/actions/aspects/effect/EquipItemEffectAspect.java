@@ -19,6 +19,6 @@ public class EquipItemEffectAspect extends EffectAspect {
     @Override
     protected void applyEffect() {
         Item item = ((ItemTargetAspect) action.getTargetAspect()).getItem();
-        ((EquipmentAspect) action.getPerformer().getAspects().get("equipment")).equipItem(item, false);
+        ((EquipmentAspect) action.getTask().getPerformer().getAspects().get("equipment")).equipItem(item, false);
     }
 }

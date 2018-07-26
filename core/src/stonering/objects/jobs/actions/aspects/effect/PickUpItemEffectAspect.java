@@ -17,6 +17,6 @@ public class PickUpItemEffectAspect extends EffectAspect {
     @Override
     protected void applyEffect() {
         Item item = ((ItemTargetAspect) action.getTargetAspect()).getItem();
-        ((EquipmentAspect) action.getPerformer().getAspects().get("equipment")).equipItem(item, true);
+        ((EquipmentAspect) action.getTask().getPerformer().getAspects().get("equipment")).pickupItem(item);
     }
 }

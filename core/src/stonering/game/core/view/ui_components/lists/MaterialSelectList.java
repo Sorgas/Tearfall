@@ -31,16 +31,16 @@ public class MaterialSelectList extends ItemsCountList implements Invokable {
     public boolean invoke(int keycode) {
         switch (keycode) {
             case Input.Keys.X:
-                System.out.println("up");
                 up();
                 return true;
             case Input.Keys.Z:
-                System.out.println("down");
                 down();
                 return true;
             case Input.Keys.E:
                 select();
-                System.out.println("select");
+                return true;
+            case Input.Keys.Q:
+                hide();
                 return true;
         }
         return false;

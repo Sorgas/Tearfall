@@ -5,17 +5,13 @@ import stonering.objects.jobs.actions.Action;
 
 public abstract class TargetAspect {
     protected Action action;
-    protected Position targetPosition;
     protected boolean exactTarget;
 
-    public TargetAspect(Action action, Position targetPosition) {
+    public TargetAspect(Action action) {
         this.action = action;
-        this.targetPosition = targetPosition;
     }
 
-    public Position getTargetPosition() {
-        return targetPosition;
-    }
+    public abstract Position getTargetPosition();
 
     public boolean isExactTarget() {
         return exactTarget;

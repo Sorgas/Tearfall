@@ -1,13 +1,11 @@
 package stonering.objects.jobs.actions.aspects.effect;
 
-import stonering.enums.buildings.BuildingMap;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.lists.ItemContainer;
 import stonering.global.utils.Position;
 import stonering.objects.jobs.actions.Action;
 import stonering.objects.jobs.actions.aspects.requirements.ItemsOnPositionRequirementAspect;
-import stonering.objects.local_actors.building.Building;
 import stonering.objects.local_actors.items.Item;
 import stonering.objects.local_actors.items.ItemSelector;
 

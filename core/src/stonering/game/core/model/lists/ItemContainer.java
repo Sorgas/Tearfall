@@ -140,7 +140,9 @@ public class ItemContainer {
      * @return
      */
     public boolean isItemAvailableFrom(Item item, Position position) {
-        return new AStar(gameContainer.getLocalMap()).makeShortestPath(position, item.getPosition(), true) != null;
+        //TODO implement lookup with areas
+        return true;
+        //return new AStar(gameContainer.getLocalMap()).makeShortestPath(position, item.getPosition(), true) != null;
     }
 
     public void lockItem(Item item) {

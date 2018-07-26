@@ -20,7 +20,7 @@ public class DropItemEffectAspect extends EffectAspect {
         EquipmentAspect equipmentAspect = (EquipmentAspect) action.getTask().getPerformer().getAspects().get("equipment");
         if (equipmentAspect != null && equipmentAspect.checkItem(item)) {
             equipmentAspect.unequipItem(item);
+            action.getGameContainer().getItemContainer().putItem(item, action.getTask().getPerformer().getPosition());
         }
-        action.getGameContainer().getItemContainer().putItem(item, action.getPerformer().getPosition());
     }
 }

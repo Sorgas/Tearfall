@@ -7,9 +7,10 @@ import stonering.objects.local_actors.plants.Plant;
 public class PlantTargetAspect extends TargetAspect {
     private Plant plant;
 
-    public PlantTargetAspect(Action action, Position targetPosition) {
-        super(action, targetPosition);
+    public PlantTargetAspect(Action action, Plant plant) {
+        super(action);
         exactTarget = false;
+        this.plant = plant;
     }
 
     @Override

@@ -109,7 +109,7 @@ public class TaskContainer {
             case CHANNEL: {
                 Action action = new Action(container);
                 action.setEffectAspect(new DigEffectAspect(action, designation.getType()));
-                action.setTargetAspect(new BlockTargetAspect(action, designation.getPosition()));
+                action.setTargetAspect(new BlockTargetAspect(action, designation.getPosition(), false));
                 action.setRequirementsAspect(new EquippedItemRequirementAspect(action, "diging_tool"));
                 Task task = new Task("designation", TaskTypesEnum.DESIGNATION, action, this, container);
                 return task;
@@ -118,7 +118,7 @@ public class TaskContainer {
             case CHOP: {
                 Action action = new Action(container);
                 action.setEffectAspect(new ChopTreeEffectAspect(action));
-                action.setTargetAspect(new BlockTargetAspect(action, designation.getPosition()));
+                action.setTargetAspect(new BlockTargetAspect(action, designation.getPosition(), false)); //TODO replace with PlantTargetAspect
                 action.setRequirementsAspect(new EquippedItemRequirementAspect(action, "chopping_tool"));
                 Task task = new Task("designation", TaskTypesEnum.DESIGNATION, action, this, container);
                 return task;
@@ -131,8 +131,8 @@ public class TaskContainer {
         BuildingMap.getInstance().getBuilding(designation.getBuilding());
         Action action = new Action(container);
         action.setRequirementsAspect(new ItemsOnPositionRequirementAspect(action, designation.getPosition(), items));
-        action.setTargetAspect(new BlockTargetAspect(action, designation.getPosition()));
-        action.setEffectAspect(new ConstructionEffectAspect(action, designation.getBuilding(), "qwer"));//TODO
+        action.setTargetAspect(new BlockTargetAspect(action, designation.getPosition(), false));
+        action.setEffectAspect(new ConstructionEffectAspect(action, designation.getBuilding(), "marble"));//TODO
         return new Task("designation", TaskTypesEnum.DESIGNATION, action, this, container);
     }
 

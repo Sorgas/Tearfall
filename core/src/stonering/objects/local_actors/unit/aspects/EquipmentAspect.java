@@ -18,6 +18,7 @@ public class EquipmentAspect extends Aspect {
     public EquipmentAspect(AspectHolder aspectHolder) {
         super("equipment", aspectHolder);
         items = new ArrayList<>();
+        inventory = new ArrayList<>();
     }
 
     public Item getItemWithAspectAndProperty(String property) {
@@ -42,8 +43,7 @@ public class EquipmentAspect extends Aspect {
     }
 
     public boolean checkItem(Item item) {
-        //TODO
-        return items.contains(item);
+        return items.contains(item) || inventory.contains(item);
     }
 
     public ArrayList<Item> getItems() {
@@ -56,5 +56,6 @@ public class EquipmentAspect extends Aspect {
 
     public void pickupItem(Item item) {
         inventory.add(item);
+        gameContainer.getItemContainer().removeItem(item);
     }
 }

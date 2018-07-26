@@ -5,7 +5,6 @@ import stonering.global.utils.Position;
 import stonering.objects.jobs.actions.Action;
 import stonering.objects.jobs.actions.aspects.effect.DropItemEffectAspect;
 import stonering.objects.jobs.actions.aspects.target.BlockTargetAspect;
-import stonering.objects.jobs.actions.aspects.target.ItemTargetAspect;
 import stonering.objects.local_actors.items.Item;
 import stonering.objects.local_actors.items.ItemSelector;
 
@@ -54,15 +53,16 @@ public class ItemsOnPositionRequirementAspect extends RequirementsAspect {
     }
 
     private boolean tryCreateDroppingAction(ItemSelector itemSelector) {
+        System.out.println("creating dropping action");
         ItemContainer itemContainer = action.getGameContainer().getItemContainer();
         if (itemContainer.hasItemsAvailableBySelector(itemSelector, target)) {
             Item item = itemContainer.getItemAvailableBySelector(itemSelector, target);
             if (item != null) {
                 Action dropAction = new Action(action.getGameContainer());
                 dropAction.setRequirementsAspect(new ItemInInventoryRequirementAspect(dropAction, item));
-                dropAction.setTargetAspect(new ItemTargetAspect(dropAction, item));
+                dropAction.setTargetAspect(new BlockTargetAspect(dropAction, target, true));
                 dropAction.setEffectAspect(new DropItemEffectAspect(dropAction, item));
-                action.getTask().addAction(dropAction);
+                action.getTask().addFirstAction(dropAction);
                 return true;
             }
         }

@@ -45,8 +45,6 @@ public class Task {
 
     public void setPerformer(Unit performer) {
         this.performer = performer;
-        initialAction.setPerformer(performer);
-        actions.forEach((action) -> action.setPerformer(performer));
     }
 
     public void reset() {
@@ -89,7 +87,7 @@ public class Task {
 
     public void addAction(Action action) {
         actions.add(action);
-        action.setPerformer(performer);
+        action.setTask(this);
     }
 
     public String getName() {
