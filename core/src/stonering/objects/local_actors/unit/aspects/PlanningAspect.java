@@ -16,6 +16,7 @@ import stonering.objects.local_actors.unit.Unit;
 public class PlanningAspect extends Aspect {
     private Task currentTask;
     private Position target;
+    private boolean performingStarted = false;
 
     public PlanningAspect(AspectHolder aspectHolder) {
         super("planning", aspectHolder);
@@ -23,21 +24,37 @@ public class PlanningAspect extends Aspect {
 
     public void turn() {
         if (checkTask()) { // has active action
-            if (currentTask.getNextAction().getRequirementsAspect().check()) { //check action requirements
-                updateTarget();
-                if (checkUnitPosition()) {
-                    currentTask.getNextAction().perform(); // act
-                    if (currentTask.isFinished()) {
-                        currentTask = null;
-                        target = null;
-                    }
+            if (target == null) { // has no current action
+                if (currentTask.getNextAction().getRequirementsAspect().check()) { //check action requirements
+                    System.out.println("action checked on assign: OK");
+                    updateTarget(); //set target
+                } else {
+                    System.out.println("action checked on assign: FAIL");
+                    currentTask = null;
                 }
-            } else {
-                System.out.println("task canceled");
-                currentTask = null; //action requirements failed
+            } else { // has current action
+                if (checkUnitPosition()) { // actor on position
+                    if (performingStarted) { // in the middle of performing
+                        if (currentTask.getNextAction().isFinished()) {//action completed
+                            System.out.println("action completed");
+                            target = null; //free target to take new action
+                            performingStarted = false;
+                        } else {
+                            currentTask.getNextAction().perform(); // act. called several times
+                        }
+                    } else { // starting performing
+                        if (currentTask.getNextAction().getRequirementsAspect().check()) { //check action requirements again
+                            System.out.println("action checked before acting: OK");
+                            performingStarted = true;
+                        } else {
+                            System.out.println("action checked before acting: FAIL");
+                            currentTask = null;
+                        }
+                    }
+                }// keep moving to target
             }
         } else {
-            repairTask();
+            repairTask();// try find task
         }
     }
 
