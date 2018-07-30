@@ -8,10 +8,10 @@ import stonering.global.utils.Position;
 import stonering.objects.local_actors.unit.Unit;
 
 /**
- * @author Alexander Kuzyakov on 10.10.2017.
- * <p>
  * Holds current creature's task and it's steps. resolves behavior, if some step fails.
  * Updates target for movement on task switching.
+ *
+ * @author Alexander Kuzyakov on 10.10.2017.
  */
 public class PlanningAspect extends Aspect {
     private Task currentTask;
@@ -25,7 +25,7 @@ public class PlanningAspect extends Aspect {
     public void turn() {
         if (checkTask()) { // has active action
             if (target == null) { // has no current action
-                if (currentTask.getNextAction().getRequirementsAspect().check()) { //check action requirements
+                if (checkActionSequence()) { //check action requirements
                     System.out.println("action checked on assign: OK");
                     updateTarget(); //set target
                 } else {
@@ -35,15 +35,13 @@ public class PlanningAspect extends Aspect {
             } else { // has current action
                 if (checkUnitPosition()) { // actor on position
                     if (performingStarted) { // in the middle of performing
-                        if (currentTask.getNextAction().isFinished()) {//action completed
+                        if (currentTask.getNextAction().perform()) { // act. called several times, returns true when finished
                             System.out.println("action completed");
                             target = null; //free target to take new action
                             performingStarted = false;
-                        } else {
-                            currentTask.getNextAction().perform(); // act. called several times
                         }
                     } else { // starting performing
-                        if (currentTask.getNextAction().getRequirementsAspect().check()) { //check action requirements again
+                        if (checkActionSequence()) { //check action requirements again
                             System.out.println("action checked before acting: OK");
                             performingStarted = true;
                         } else {
@@ -56,6 +54,16 @@ public class PlanningAspect extends Aspect {
         } else {
             repairTask();// try find task
         }
+    }
+
+    private boolean checkActionSequence() {
+        Action currentAction = null;
+        boolean result = false;
+        while (currentAction != currentTask.getNextAction()) {
+            currentAction = currentTask.getNextAction();
+            result = currentAction.getRequirementsAspect().check();
+        }
+        return result;
     }
 
     // action exists and not finished

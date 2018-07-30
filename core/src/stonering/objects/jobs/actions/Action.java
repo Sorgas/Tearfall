@@ -23,8 +23,8 @@ public class Action {
         this.gameContainer = gameContainer;
     }
 
-    public void perform() {
-        effectAspect.perform();
+    public boolean perform() {
+        return effectAspect.perform();
     }
 
     public void finish() {

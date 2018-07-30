@@ -1,6 +1,5 @@
 package stonering.objects.jobs.actions.aspects.effect;
 
-import stonering.game.core.model.GameContainer;
 import stonering.objects.jobs.actions.Action;
 
 public abstract class EffectAspect {
@@ -12,11 +11,14 @@ public abstract class EffectAspect {
         this.workAmount = workAmount;
     }
 
-    public void perform() {
-        workAmount--;
+    public boolean perform() {
         if(workAmount <= 0) {
             applyEffect();
             action.finish();
+            return true;
+        } else {
+            workAmount--;
+            return false;
         }
     }
 
