@@ -13,7 +13,7 @@ public class ItemTargetAspect extends TargetAspect {
     private Item item;
 
     public ItemTargetAspect(Action action, Item item) {
-        super(action);
+        super(action, true, false);
         this.item = item;
         exactTarget = true;
     }

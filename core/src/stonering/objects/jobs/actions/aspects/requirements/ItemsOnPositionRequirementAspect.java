@@ -60,7 +60,7 @@ public class ItemsOnPositionRequirementAspect extends RequirementsAspect {
             if (item != null) {
                 Action dropAction = new Action(action.getGameContainer());
                 dropAction.setRequirementsAspect(new ItemInInventoryRequirementAspect(dropAction, item));
-                dropAction.setTargetAspect(new BlockTargetAspect(dropAction, target, true));
+                dropAction.setTargetAspect(new BlockTargetAspect(dropAction, target, true, false));
                 dropAction.setEffectAspect(new DropItemEffectAspect(dropAction, item));
                 action.getTask().addFirstAction(dropAction);
                 return true;

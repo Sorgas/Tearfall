@@ -25,7 +25,7 @@ public class MovementAspect extends Aspect {
     public MovementAspect(Unit unit) {
         super("movement", unit);
         this.aspectHolder = unit;
-        stepTime = 15;
+        stepTime = 0;
         stepDelay = stepTime;
     }
 

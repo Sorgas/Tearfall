@@ -10,7 +10,6 @@ import stonering.objects.local_actors.unit.Unit;
 
 public class Action {
     private Task task;
-    private Unit performer;
     private GameContainer gameContainer;
 
     private boolean finished;
@@ -73,12 +72,8 @@ public class Action {
         return targetAspect.isExactTarget();
     }
 
-    public Unit getPerformer() {
-        return performer;
-    }
-
-    public void setPerformer(Unit performer) {
-        this.performer = performer;
+    public boolean isTargetNear() {
+        return targetAspect.isNearTarget();
     }
 
     public GameContainer getGameContainer() {

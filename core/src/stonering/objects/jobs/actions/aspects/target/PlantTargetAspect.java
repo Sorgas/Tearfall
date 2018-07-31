@@ -8,8 +8,7 @@ public class PlantTargetAspect extends TargetAspect {
     private Plant plant;
 
     public PlantTargetAspect(Action action, Plant plant) {
-        super(action);
-        exactTarget = false;
+        super(action, true, true);
         this.plant = plant;
     }
 
