@@ -9,9 +9,9 @@ import stonering.objects.local_actors.unit.Unit;
 
 /**
  * @author Alexander Kuzyakov on 10.10.2017.
- * <p>
- * Holds current creature's task and it's steps. resolves behavior, if some step fails.
- * Updates target for movement on task switching.
+ *         <p>
+ *         Holds current creature's task and it's steps. resolves behavior, if some step fails.
+ *         Updates target for movement on task switching.
  */
 public class PlanningAspect extends Aspect {
     private Task currentTask;
@@ -26,26 +26,29 @@ public class PlanningAspect extends Aspect {
         if (checkTask()) { // has active action
             if (target != null) { // has current action
                 if (checkUnitPosition()) { // actor on position
-                    if (performingStarted) { // in the middle of performing
-                        if (!currentTask.getNextAction().isFinished()) {
-                            currentTask.getNextAction().perform(); // act. called several times
-                        } else {//action completed
-                            System.out.println("action completed");
-                            target = null; //free target to take new action
-                            performingStarted = false;
-                        }
-                    } else { // starting performing
-                        if (currentTask.getNextAction().getRequirementsAspect().check()) { //check action requirements again
-                            System.out.println("action checked before acting: OK");
-                            performingStarted = true;
-                        } else {
-                            System.out.println("action checked before acting: FAIL");
-                            freeTask();
-                        }
+//                    if (performingStarted) { // in the middle of performing
+                    if (currentTask.getNextAction().perform()) { // act. called several times
+                        System.out.println("action completed");
+                        target = null;
+                        performingStarted = false;
                     }
+//                    } else { // starting performing
+//                        Action currentAction = currentTask.getNextAction();
+//                        if (checkActionSequence()) { //check action requirements again
+//                            if(currentAction == currentTask.getNextAction()) {
+//                                System.out.println("action checked before acting: OK");
+//                                performingStarted = true;
+//                            } else {
+//                                updateTarget(); //set target
+//                            }
+//                        } else {
+//                            System.out.println("action checked before acting: FAIL");
+//                            freeTask();
+//                        }
+//                    }
                 }// keep moving to target
             } else { // has no current action
-                if (currentTask.getNextAction().getRequirementsAspect().check()) { //check action requirements
+                if (checkActionSequence()) { //check action requirements
                     System.out.println("action checked on assign: OK");
                     updateTarget(); //set target
                 } else {
