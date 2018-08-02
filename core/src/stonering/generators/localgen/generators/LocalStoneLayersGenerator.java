@@ -4,12 +4,14 @@ import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.materials.MaterialMap;
 import stonering.exceptions.DescriptionNotFoundException;
 import stonering.game.core.model.LocalMap;
-import stonering.generators.localgen.LocalGenConfig;
 import stonering.generators.localgen.LocalGenContainer;
 
 import java.util.*;
 
 /**
+ * Fills localmap with blocks according to heightsMap.
+ * Values in heights map are z of highest wall block.
+ *
  * @author Alexander Kuzyakov on 01.08.2017.
  */
 public class LocalStoneLayersGenerator {
@@ -38,7 +40,7 @@ public class LocalStoneLayersGenerator {
     public void execute() {
         System.out.println("generating stone layers");
         map = this.container.getLocalMap();
-        heigtsMap = this.container.getHeightsMap();
+        heigtsMap = this.container.getRoundedHeightsMap();
         surfaceLevel = container.getLocalElevation();
         layerIds = new int[surfaceLevel];
         if (surfaceLevel > 300) {

@@ -9,6 +9,8 @@ import java.util.Arrays;
 import java.util.Random;
 
 /**
+ * Generates 2d array of elevation values.
+ *
  * @author Alexander Kuzyakov on 21.08.2017.
  */
 public class LocalHeightsGenerator {
@@ -38,7 +40,8 @@ public class LocalHeightsGenerator {
         diamondSquare(localHightMap);
         fillHeights(localHightMap, 6);
         addPerlinNoise();
-        container.setHeightsMap(roundLocalHightMap());
+        container.setHeightsMap(localHightMap);
+        container.setRoundedHeightsMap(roundLocalHightMap());
     }
 
     private void calculateCorners(float[][] localHights, int x, int y) {

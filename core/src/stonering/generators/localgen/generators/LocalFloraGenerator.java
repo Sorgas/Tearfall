@@ -100,7 +100,7 @@ public class LocalFloraGenerator {
             while (amount > 0 && tries > 0) {
                 int x = random.nextInt(areaSize);
                 int y = random.nextInt(areaSize);
-                int z = container.getHeightsMap()[x][y] + 1;
+                int z = container.getRoundedHeightsMap()[x][y] + 1;
                 if (forestArea[x][y] > 0 && checkTreePlacing(tree, x, y, z)) {
                     placeTree(tree, x, y, z);
                     tree.setPosition(new Position(x, y, z));

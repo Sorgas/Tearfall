@@ -20,7 +20,8 @@ public class LocalGenContainer {
     private LocalMap localMap;
 
     private int localElevation;
-    private int[][] heightsMap;
+    private int[][] roundedHeightsMap;
+    private float[][] heightsMap;
     private float[] monthlyTemperatures;
 
     private ArrayList<AbstractPlant> plants;
@@ -56,12 +57,12 @@ public class LocalGenContainer {
         return worldMap;
     }
 
-    public int[][] getHeightsMap() {
-        return heightsMap;
+    public int[][] getRoundedHeightsMap() {
+        return roundedHeightsMap;
     }
 
-    public void setHeightsMap(int[][] heightsMap) {
-        this.heightsMap = heightsMap;
+    public void setRoundedHeightsMap(int[][] roundedHeightsMap) {
+        this.roundedHeightsMap = roundedHeightsMap;
     }
 
     public LocalMap getLocalMap() {
@@ -94,5 +95,13 @@ public class LocalGenContainer {
 
     public int getLocalElevation() {
         return localElevation;
+    }
+
+    public float[][] getHeightsMap() {
+        return heightsMap;
+    }
+
+    public void setHeightsMap(float[][] heightsMap) {
+        this.heightsMap = heightsMap;
     }
 }
