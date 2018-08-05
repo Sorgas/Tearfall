@@ -1,5 +1,8 @@
 package stonering.generators.localgen.generators;
 
+import javafx.geometry.Pos;
+import stonering.enums.blocks.BlockTypesEnum;
+import stonering.enums.materials.MaterialMap;
 import stonering.game.core.model.LocalMap;
 import stonering.generators.PerlinNoiseGenerator;
 import stonering.generators.localgen.LocalGenContainer;
@@ -23,6 +26,7 @@ public class LocalWaterPoolsGenerator {
         ArrayList<Pool> pools = determinePools(generateNoise());
         pools.stream().filter(pool -> pool.points.keySet().size() > 1).forEach(pool -> {
             System.out.println("placing pool, size: " + pool.points.keySet().size());
+            tryPlacePool(pool);
         });
     }
 
@@ -35,10 +39,24 @@ public class LocalWaterPoolsGenerator {
     }
 
     private void tryPlacePool(Pool pool) {
-        int lowestPoint = -1;
-        pool.points.keySet().forEach(position -> {
-
-        });
+        if (pool.points.keySet().size() > 0) {
+            int[][] heightMap = container.getRoundedHeightsMap();
+            ArrayList<Position> positions = new ArrayList<>(pool.points.keySet());
+            int lowestPoint = heightMap[positions.get(0).getX()][positions.get(0).getY()];
+            int highestPoint = lowestPoint;
+            for (Position position : positions) {
+                int currentElevation = heightMap[position.getX()][position.getY()];
+                lowestPoint = currentElevation < lowestPoint ? currentElevation : lowestPoint;
+                highestPoint = currentElevation > highestPoint ? currentElevation : highestPoint;
+            }
+            LocalMap map = container.getLocalMap();
+            MaterialMap materialMap = MaterialMap.getInstance();
+            for (Position position : positions) {
+                for (int z = highestPoint; z >= lowestPoint; z--) {
+                    map.setBlock(position.getX(), position.getY(), z, BlockTypesEnum.SPACE, materialMap.getId("air"));
+                }
+            }
+        }
     }
 
     private ArrayList<Pool> determinePools(float[][] noise) {
