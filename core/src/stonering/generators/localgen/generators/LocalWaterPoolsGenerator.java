@@ -5,10 +5,10 @@ import stonering.enums.materials.MaterialMap;
 import stonering.game.core.model.LocalMap;
 import stonering.generators.PerlinNoiseGenerator;
 import stonering.generators.localgen.LocalGenContainer;
-import stonering.global.utils.Position;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 /**
  * Generates pattern for pools and carves it on the surface.
@@ -26,47 +26,71 @@ public class LocalWaterPoolsGenerator {
         System.out.println("generating pools");
         ArrayList<Pool> pools = determinePools(generateNoise());
         pools.stream().filter(pool -> pool.points.keySet().size() > 1).forEach(pool -> {
-//            System.out.println("placing pool, size: " + pool.points.keySet().size());
             tryPlacePool(pool);
         });
     }
 
     private class Pool {
-        HashMap<Position, Integer> points;
+        int materialId;
+        HashMap<Point, Integer> points;
+        HashSet<Point> borderPoints;
 
         public Pool() {
             points = new HashMap<>();
+        }
+
+        void countBorderPoints() {
+            borderPoints.clear();
+            points.keySet().forEach(point -> {
+                for (int dx = -1; dx < 2; dx++) {
+                    for (int dy = -1; dy < 2; dy++) {
+                        if (!(dx == 0 && dy == 0)) {
+                            borderPoints.add(point);
+                        }
+                    }
+                }
+            });
+            borderPoints.removeAll(points.keySet());
         }
     }
 
     private void tryPlacePool(Pool pool) {
         if (pool.points.keySet().size() > 0) {
+            pool.countBorderPoints();
             int[][] heightMap = container.getRoundedHeightsMap();
-            ArrayList<Position> positions = new ArrayList<>(pool.points.keySet());
-            int lowestPoint = heightMap[positions.get(0).getX()][positions.get(0).getY()];
+            ArrayList<Point> points = new ArrayList<>(pool.points.keySet());
+            int lowestPoint = heightMap[points.get(0).x][points.get(0).y];
             int highestPoint = lowestPoint;
-            for (Position position : positions) {
-                int currentElevation = heightMap[position.getX()][position.getY()];
+            for (Point point : points) {
+                int currentElevation = heightMap[point.x][point.y];
                 lowestPoint = currentElevation < lowestPoint ? currentElevation : lowestPoint;
                 highestPoint = currentElevation > highestPoint ? currentElevation : highestPoint;
             }
             LocalMap map = container.getLocalMap();
             MaterialMap materialMap = MaterialMap.getInstance();
-            for (Position position : positions) {
+            for (Point point : points) {
                 for (int z = highestPoint; z >= lowestPoint; z--) {
-                    map.setBlock(position.getX(), position.getY(), z, BlockTypesEnum.SPACE, materialMap.getId("air"));
+                    map.setBlock(point.x, point.y, z, BlockTypesEnum.SPACE, materialMap.getId("air"));
                 }
-                heightMap[position.getX()][position.getY()] = lowestPoint;
+                heightMap[point.x][point.y] = lowestPoint;
             }
+
             fillWater(pool, lowestPoint);
         }
     }
 
-    private void fillWater(Pool pool, int level) {
-        ArrayList<Position> positions = new ArrayList<>(pool.points.keySet());
+    private void raiseBorders(Pool pool, int level) {
         LocalMap map = container.getLocalMap();
-        for (Position position : positions) {
-            map.setFlooding(position.getX(), position.getY(), level, 8);
+        pool.borderPoints.forEach(point -> {
+//            map.setBlock(point.x, point.y, level, BlockTypesEnum.WALL.getCode(), container.get);
+        });
+    }
+
+    private void fillWater(Pool pool, int level) {
+        ArrayList<Point> points = new ArrayList<>(pool.points.keySet());
+        LocalMap map = container.getLocalMap();
+        for (Point point : points) {
+            map.setFlooding(point.x, point.y, level, 8);
         }
     }
 
@@ -84,41 +108,41 @@ public class LocalWaterPoolsGenerator {
     }
 
     private Pool determinePool(float[][] noise, int x, int y) {
-        ArrayList<Position> openSet = new ArrayList<>();
-        ArrayList<Position> closedSet = new ArrayList<>();
+        ArrayList<Point> openSet = new ArrayList<>();
+        ArrayList<Point> closedSet = new ArrayList<>();
         Pool pool = new Pool();
-        openSet.add(new Position(x, y, 0));
+        openSet.add(new Point(x, y));
         while (!openSet.isEmpty()) {
-            Position current = openSet.remove(0);
-            pool.points.put(current, (int) Math.ceil(noise[current.getX()][current.getY()]));
-            noise[current.getX()][current.getY()] = 0;
-            ArrayList<Position> neighbours = getNeighbours(current);
+            Point current = openSet.remove(0);
+            pool.points.put(current, (int) Math.ceil(noise[current.x][current.y]));
+            noise[current.x][current.y] = 0;
+            ArrayList<Point> neighbours = getNeighbours(current);
             for (int i = 0; i < neighbours.size(); i++) {
-                Position position = neighbours.get(i);
-                if (!(openSet.contains(position) || closedSet.contains(position)) && noise[position.getX()][position.getY()] != 0) { // pos is new
-                    openSet.add(position);
+                Point point = neighbours.get(i);
+                if (!(openSet.contains(point) || closedSet.contains(point)) && noise[point.x][point.y] != 0) { // pos is new
+                    openSet.add(point);
                 }
             }
         }
         return pool;
     }
 
-    private ArrayList<Position> getNeighbours(Position position) {
+    private ArrayList<Point> getNeighbours(Point point) {
         LocalMap localMap = container.getLocalMap();
-        ArrayList<Position> positions = new ArrayList<>();
-        if (localMap.inMap(position.getX() + 1, position.getY(), 0)) {
-            positions.add(new Position(position.getX() + 1, position.getY(), 0));
+        ArrayList<Point> points = new ArrayList<>();
+        if (localMap.inMap(point.x + 1, point.y, 0)) {
+            points.add(new Point(point.x + 1, point.y));
         }
-        if (localMap.inMap(position.getX() - 1, position.getY(), 0)) {
-            positions.add(new Position(position.getX() - 1, position.getY(), 0));
+        if (localMap.inMap(point.x - 1, point.y, 0)) {
+            points.add(new Point(point.x - 1, point.y));
         }
-        if (localMap.inMap(position.getX(), position.getY() + 1, 0)) {
-            positions.add(new Position(position.getX(), position.getY() + 1, 0));
+        if (localMap.inMap(point.x, point.y + 1, 0)) {
+            points.add(new Point(point.x, point.y + 1));
         }
-        if (localMap.inMap(position.getX(), position.getY() - 1, 0)) {
-            positions.add(new Position(position.getX(), position.getY() - 1, 0));
+        if (localMap.inMap(point.x, point.y - 1, 0)) {
+            points.add(new Point(point.x, point.y - 1));
         }
-        return positions;
+        return points;
     }
 
     public static void main(String[] args) {
@@ -127,16 +151,42 @@ public class LocalWaterPoolsGenerator {
     }
 
     private float[][] generateNoise() {
-        int sizeX = 200; //container.getLocalMap().getxSize();
-        int sizeY = 200; //container.getLocalMap().getySize();
+        int sizeX = container.getLocalMap().getxSize();
+        int sizeY = container.getLocalMap().getySize();
         float[][] noise = new PerlinNoiseGenerator().generateOctavedSimplexNoise(sizeX, sizeY, 7, 0.5f, 0.065f);
         for (int x = 0; x < noise.length; x++) {
             for (int y = 0; y < noise[0].length; y++) {
                 noise[x][y] = noise[x][y] < -0.8 ? noise[x][y] * 2 : 0; // [-2; 0]
-                System.out.print(noise[x][y] == 0 ? '_' : '#');
             }
-            System.out.println();
         }
         return noise;
+    }
+
+    private class Point {
+        int x;
+        int y;
+
+        public Point(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            Point point = (Point) o;
+
+            if (x != point.x) return false;
+            return y == point.y;
+        }
+
+        @Override
+        public int hashCode() {
+            int result = x;
+            result = 31 * result + y;
+            return result;
+        }
     }
 }
