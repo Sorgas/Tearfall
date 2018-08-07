@@ -266,7 +266,11 @@ public class LocalMap {
 
 
     public byte getFlooding(int x, int y, int z) {
-        return (byte) (temperature[x][y][z] & 0b00001111);
+        return flooding[x][y][z];
+    }
+
+    public void setFlooding(int x, int y, int z, int value) {
+        flooding[x][y][z] = (byte) value;
     }
 
     public byte getLightLevel(int x, int y, int z) {

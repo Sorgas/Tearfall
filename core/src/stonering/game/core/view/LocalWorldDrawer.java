@@ -15,6 +15,7 @@ import stonering.objects.local_actors.building.BuildingBlock;
 import stonering.objects.local_actors.items.Item;
 import stonering.objects.local_actors.plants.PlantBlock;
 import stonering.objects.local_actors.unit.UnitBlock;
+
 import java.util.ArrayList;
 
 /**
@@ -34,6 +35,7 @@ public class LocalWorldDrawer {
     private int viewAreaWidth;
     private int viewAreDepth;
     private float shadingStep = 0.06f;
+    private float shadedColorChannel;
 
     private int tileWidth = 64;
     private int tileHeight = 96;
@@ -72,10 +74,11 @@ public class LocalWorldDrawer {
             localTileMap = container.getLocalTileMap();
         this.camera = container.getCamera().getPosition();
         defineframe();
+        batch.enableBlending();
         batch.begin();
         for (int z = minZ; z <= maxZ; z++) {
-            float shading = (camera.getZ() - z) * shadingStep;
-            batch.setColor(1 - shading, 1 - shading, 1 - shading, 1);
+            shadedColorChannel = 1 - (camera.getZ() - z) * shadingStep;
+            batch.setColor(shadedColorChannel, shadedColorChannel, shadedColorChannel, 1);
             for (int x = minX; x <= maxX; x++) {
                 for (int y = maxY; y >= minY; y--) {
                     drawTile(x, y, z);
@@ -88,10 +91,10 @@ public class LocalWorldDrawer {
 
     private void drawTile(int x, int y, int z) {
         drawBlock(x, y, z);
-        PlantBlock plantBlock = localMap.getPlantBlock(x, y, z);
-        if (plantBlock != null) {
-            drawSprite(1, x, y, z, plantBlock.getAtlasX(), plantBlock.getAtlasY());
-        }
+//        PlantBlock plantBlock = localMap.getPlantBlock(x, y, z);
+//        if (plantBlock != null) {
+//            drawSprite(1, x, y, z, plantBlock.getAtlasX(), plantBlock.getAtlasY());
+//        }
         BuildingBlock buildingBlock = localMap.getBuildingBlock(x, y, z);
         if (buildingBlock != null) {
             drawSprite(3, x, y, z, 0, 0);
@@ -137,6 +140,19 @@ public class LocalWorldDrawer {
 //                        getScreenPosX(x - camera.getX(), y - camera.getY()),
 //                        getScreenPosY(x - camera.getX(), y - camera.getY(), z - camera.getZ()));
 //            }
+        }
+        //draw water
+        if (localMap.getFlooding(x, y, z) != 0) {
+
+            batch.setColor(shadedColorChannel, shadedColorChannel, shadedColorChannel, 0.6f);
+            batch.draw(new TextureRegion(atlases[0],
+//                            (13 + localMap.getFlooding(x, y, z)) * tileWidth,
+                            14 * tileWidth,
+                            topingTileHeight,
+                            tileWidth, tileHeight),
+                    getScreenPosX(x - camera.getX()),
+                    getScreenPosY(y - camera.getY(), z - camera.getZ()));
+            batch.setColor(shadedColorChannel, shadedColorChannel, shadedColorChannel, 1);
         }
     }
 

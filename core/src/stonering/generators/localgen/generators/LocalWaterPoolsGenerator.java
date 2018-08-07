@@ -1,6 +1,5 @@
 package stonering.generators.localgen.generators;
 
-import javafx.geometry.Pos;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.core.model.LocalMap;
@@ -12,6 +11,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
+ * Generates pattern for pools and carves it on the surface.
+ *
  * @author Alexander Kuzyakov
  */
 public class LocalWaterPoolsGenerator {
@@ -25,7 +26,7 @@ public class LocalWaterPoolsGenerator {
         System.out.println("generating pools");
         ArrayList<Pool> pools = determinePools(generateNoise());
         pools.stream().filter(pool -> pool.points.keySet().size() > 1).forEach(pool -> {
-            System.out.println("placing pool, size: " + pool.points.keySet().size());
+//            System.out.println("placing pool, size: " + pool.points.keySet().size());
             tryPlacePool(pool);
         });
     }
@@ -55,7 +56,17 @@ public class LocalWaterPoolsGenerator {
                 for (int z = highestPoint; z >= lowestPoint; z--) {
                     map.setBlock(position.getX(), position.getY(), z, BlockTypesEnum.SPACE, materialMap.getId("air"));
                 }
+                heightMap[position.getX()][position.getY()] = lowestPoint;
             }
+            fillWater(pool, lowestPoint);
+        }
+    }
+
+    private void fillWater(Pool pool, int level) {
+        ArrayList<Position> positions = new ArrayList<>(pool.points.keySet());
+        LocalMap map = container.getLocalMap();
+        for (Position position : positions) {
+            map.setFlooding(position.getX(), position.getY(), level, 8);
         }
     }
 
