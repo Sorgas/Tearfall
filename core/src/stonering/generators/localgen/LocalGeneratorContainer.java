@@ -22,7 +22,7 @@ public class LocalGeneratorContainer {
     private LocalFurnitureGenerator localFurnitureGenerator;
     private LocalItemsGenerator localItemsGenerator;
     private LocalTemperatureGenerator localTemperatureGenerator;
-    private LocalWaterPoolsGenerator localWaterPoolsGenerator;
+    private LocalSurfaceWaterPoolsGenerator localSurfaceWaterPoolsGenerator;
     private WorldMap world;
     private LocalGenConfig config;
 
@@ -43,7 +43,7 @@ public class LocalGeneratorContainer {
         localFurnitureGenerator = new LocalFurnitureGenerator(localGenContainer);
         localItemsGenerator = new LocalItemsGenerator(localGenContainer);
         localFloraGenerator = new LocalFloraGenerator(localGenContainer);
-        localWaterPoolsGenerator = new LocalWaterPoolsGenerator(localGenContainer);
+        localSurfaceWaterPoolsGenerator = new LocalSurfaceWaterPoolsGenerator(localGenContainer);
     }
 
     public void execute() {
@@ -51,7 +51,7 @@ public class LocalGeneratorContainer {
         localHeightsGenerator.execute(); //creates heights map
         localStoneLayersGenerator.execute(); //fills localmap with blocks by heightsmap
         localCaveGenerator.execute(); //digs caves
-        localWaterPoolsGenerator.execute(); // digs ponds
+        localSurfaceWaterPoolsGenerator.execute(); // digs ponds
         localRampAndFloorPlacer.execute(); // places floors and ramps upon all top blocks
         localTemperatureGenerator.execute(); // generates year temperature cycle
         localFloraGenerator.execute(); // places trees and plants

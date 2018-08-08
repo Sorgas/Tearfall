@@ -50,10 +50,11 @@ public class WorldGenConfig {
 	private float equatorLineWidth = 0.03f;
 	private float maxTemperature = 35;
 	private float minTemperature = -35;
+	private float elevationInfluence = 1.6f;
 
 	//rainfall
-	private int minRainfall = 5;
-	private int maxRainfall = 90;
+	private int minRainfall = 5; // deserts and glaciers
+	private int maxRainfall = 90; // tropical forests
 
 	public WorldGenConfig(long seed, int width, int height) {
 		this.seed = seed;
@@ -277,5 +278,13 @@ public class WorldGenConfig {
 
 	public void setLargeRiverStartLevel(float largeRiverStartLevel) {
 		this.largeRiverStartLevel = largeRiverStartLevel;
+	}
+
+	public float getElevationInfluence() {
+		return elevationInfluence;
+	}
+
+	public void setElevationInfluence(float elevationInfluence) {
+		this.elevationInfluence = elevationInfluence;
 	}
 }

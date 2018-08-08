@@ -6,16 +6,19 @@ import stonering.generators.worldgen.generators.AbstractGenerator;
 import stonering.generators.PerlinNoiseGenerator;
 
 /**
+ * Generates temperature map of year middle temperature for world.
+ *
  * @author Alexander Kuzyakov on 26.03.2017.
  */
 public class TemperatureGenerator extends AbstractGenerator {
     private int width;
     private int height;
-    private float polarLineWidth;
-    private float equatorLineWidth;
+    private float polarLineWidth; //temperature in it is always minimal
+    private float equatorLineWidth; //temperature in it is always maximum
     private float maxTemperature;
     private float minTemperature;
     private float[][] temperature;
+    private float elevationInfluence;
 
     public TemperatureGenerator(WorldGenContainer container) {
         super(container);
@@ -30,6 +33,7 @@ public class TemperatureGenerator extends AbstractGenerator {
         maxTemperature = config.getMaxTemperature();
         minTemperature = config.getMinTemperature();
         temperature = new float[width][height];
+        elevationInfluence = config.getElevationInfluence();
     }
 
     @Override
@@ -63,9 +67,10 @@ public class TemperatureGenerator extends AbstractGenerator {
         float[][] noise = noiseGen.generateOctavedSimplexNoise(width, height, 7, 0.6f, 0.006f);
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                float elevation = container.getElevation(x, y) > 0 ? container.getElevation(x, y) : 0;
-                container.setSummerTemperature(x, y, temperature[x][y] + noise[x][y] * 4 - elevation * 1.5f + 5);
-                container.setWinterTemperature(x, y, temperature[x][y] + noise[x][y] * 4 - elevation * 1.5f - 5);
+                float elevation = container.getElevation(x, y) > 0 ? container.getElevation(x, y) : 0; // sea depth counts as 0 elevation.
+                //TODO add coastal and continental climates difference
+                container.setSummerTemperature(x, y, temperature[x][y] + noise[x][y] * 4 - elevation * elevationInfluence + 5);
+                container.setWinterTemperature(x, y, temperature[x][y] + noise[x][y] * 4 - elevation * elevationInfluence - 5);
             }
         }
     }

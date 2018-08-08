@@ -5,12 +5,15 @@ import stonering.generators.worldgen.WorldMap;
 import stonering.generators.worldgen.generators.AbstractGenerator;
 
 /**
+ * Generates brooks
+ *
  * @author Alexander Kuzyakov on 18.01.2018.
  */
 public class BrookGenerator extends AbstractGenerator {
     private WorldMap map;
     private int width;
     private int height;
+    private int[][] points;
 
     public BrookGenerator(WorldGenContainer container) {
         super(container);
@@ -22,6 +25,7 @@ public class BrookGenerator extends AbstractGenerator {
     }
 
     public boolean execute() {
+        points = new int[width][height];
         return true;
     }
 

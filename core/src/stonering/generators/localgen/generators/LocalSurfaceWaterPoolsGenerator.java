@@ -12,13 +12,14 @@ import java.util.HashSet;
 
 /**
  * Generates pattern for pools and carves it on the surface.
+ * Local area are filled with pools with constant density.
  *
  * @author Alexander Kuzyakov
  */
-public class LocalWaterPoolsGenerator {
+public class LocalSurfaceWaterPoolsGenerator {
     private LocalGenContainer container;
 
-    public LocalWaterPoolsGenerator(LocalGenContainer container) {
+    public LocalSurfaceWaterPoolsGenerator(LocalGenContainer container) {
         this.container = container;
     }
 
@@ -34,9 +35,11 @@ public class LocalWaterPoolsGenerator {
         int materialId;
         HashMap<Point, Integer> points;
         HashSet<Point> borderPoints;
+        int[][] array;
 
-        public Pool() {
+        Pool() {
             points = new HashMap<>();
+            borderPoints = new HashSet<>();
         }
 
         void countBorderPoints() {
@@ -146,7 +149,7 @@ public class LocalWaterPoolsGenerator {
     }
 
     public static void main(String[] args) {
-        LocalWaterPoolsGenerator generator = new LocalWaterPoolsGenerator(null);
+        LocalSurfaceWaterPoolsGenerator generator = new LocalSurfaceWaterPoolsGenerator(null);
         generator.generateNoise();
     }
 
@@ -188,5 +191,18 @@ public class LocalWaterPoolsGenerator {
             result = 31 * result + y;
             return result;
         }
+    }
+
+    /**
+     * Counts, how easy can water leave this area.
+     * Steep slopes, low humidity, high temperature increase drainage.
+     * e.g mountains and hills, equatorial areas far from rivers and seas tend to be dry.
+     * Low lands (with no outgoing slopes), river valleys, coastal areas tend to be wet or swamped.
+     * Swamps will be filled with pools, forests will have sparse pools, no pools in deserts and in high mountains.
+     * @return amount of pols in this area.
+     */
+    private float countLocalDrainage() {
+        //TODO
+        return 0.5f;
     }
 }

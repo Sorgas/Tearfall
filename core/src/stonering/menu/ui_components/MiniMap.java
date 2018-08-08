@@ -8,15 +8,12 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import stonering.generators.worldgen.WorldMap;
-import stonering.generators.worldgen.world_objects.Edge;
-import stonering.generators.worldgen.world_objects.Mountain;
-import stonering.generators.worldgen.world_objects.Plate;
 import stonering.global.utils.Position;
 
 /**
- * @author Alexander Kuzyakov on 19.04.2017.
- * <p>
  * UI component which renders minimap
+ *
+ * @author Alexander Kuzyakov on 19.04.2017.
  */
 public class MiniMap extends Table {
     private WorldMap map;
@@ -26,6 +23,10 @@ public class MiniMap extends Table {
     private Position focus = new Position(0, 0, 0);
     private Position size = new Position(0, 0, 0);
     private ShapeRenderer shapeRenderer;
+    private int pixelSize = 1;
+    private int baseScreenOffsetX = 385;
+    private int screenOffsetY = 100;
+    private boolean debugMode = true;
 
     public MiniMap(Texture tiles) {
         super();
@@ -35,8 +36,13 @@ public class MiniMap extends Table {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-//        drawTiles(batch);
-        drawDebug(batch);
+        if (map != null) {
+            if (debugMode) {
+                drawDebug(batch);
+            } else {
+                drawTiles(batch);
+            }
+        }
     }
 
     private void drawTiles(Batch batch) {
@@ -57,65 +63,10 @@ public class MiniMap extends Table {
 
     private void drawDebug(Batch batch) {
         batch.end();
-        if (map != null) {
-            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-            for (int x = 0; x < map.getWidth(); x++) {
-                for (int y = 0; y < map.getHeight(); y++) {
-//                    shapeRenderer.setColor(getColorByRainFall(map.getRainfall(x, y));
-//                    shapeRenderer.rect(350 + x * 16, y * 8, 8, 8);
-//                    shapeRenderer.flush();
-                    float seaLevel = 0.5f;
-                    float elevation = map.getElevation(x, y) - seaLevel;
-                    if (elevation > 0) {
-                        if(map.getRiver(x,y) != null) {
-                            float blue = (seaLevel + elevation) / seaLevel;
-                            shapeRenderer.setColor(new Color(0, 0, blue, 0));
-                        } else if (elevation > 0.25f) {
-                            float white = (elevation) / 3 + 0.15f;
-                            shapeRenderer.setColor(new Color(white, white, white, 0));
-                        } else {
-                            float green = (elevation) / 4 + 0.15f;
-                            shapeRenderer.setColor(new Color(0, green, 0, 0));
-                        }
-                    } else {
-                        float blue = (seaLevel + elevation) / seaLevel;
-                        shapeRenderer.setColor(new Color(0, 0, blue, 0));
-                    }
-                    shapeRenderer.rect(358 + x * 3, 100 + y * 3, 3, 3);
-//                    shapeRenderer.setColor(new Color((map.getSummerTemperature(x, y) + 40) / 80f, 0, 0, 0));
-//                    shapeRenderer.rect(658 + x * 2, 100 + y * 2, 2, 2);
-//                    shapeRenderer.setColor(new Color((map.getWinterTemperature(x, y) + 40) / 80f, 0, 0, 0));
-//                    shapeRenderer.rect(958 + x * 2, 100 + y * 2, 2, 2);
-                }
-            }
-            shapeRenderer.end();
-//            shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-//            Color color1 = new Color(1, 0, 0, 1);
-//            Color color2 = new Color(0, 0, 1, 1);
-//            Color green = new Color(0, 1, 0, 1);
-//            for (int x = 0; x < map.getWidth(); x++) {
-//                for (int y = 0; y < map.getHeight(); y++) {
-//                    Vector2 river = map.getRiver(x, y);
-//                    Vector2 slope = map.getDebug(x, y);
-//                    if (river != null) {
-////                        if (river.len() > 0.7f) {
-////                            shapeRenderer.setColor(new Color(river.len() * 2f + 0.2f, 0, 0, 0));
-////                        } else {
-////                            shapeRenderer.setColor(new Color(0, 0, river.len() * 2f + 0.2f, 0));
-////                        }
-//                        int mult = 5;
-//                        int bx = 558 + x * mult;
-//                        int by = 100 + y * mult;
-////                        shapeRenderer.line(bx, by, bx + (Math.round(river.x) * mult), by + (Math.round(river.y) * mult), color1, color2);
-//                        shapeRenderer.line(bx, by, bx + (river.x * mult * 3), by + (river.y * mult * 3), color1, color2);
-//                        if (slope != null)
-//                            shapeRenderer.line(bx + 500, by, bx + 500 + (Math.round(slope.x) * mult), by + (Math.round(slope.y) * mult), green, green);
-//                    }
-//                }
-//            }
-//            shapeRenderer.flush();
-//            shapeRenderer.end();
-        }
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        drawElevationDebug(0);
+        drawTemperatureDebug(map.getWidth() * pixelSize);
+        shapeRenderer.end();
         batch.begin();
     }
 
@@ -184,6 +135,86 @@ public class MiniMap extends Table {
 
     private void drawTile(Batch batch, TextureRegion tile, int x, int y) {
         batch.draw(tile, getX() + x * tileSize * tileScale, getY() + y * tileSize * tileScale);
+    }
+
+    private void drawElevationDebug(int screenOffsetX) {
+        if (map != null) {
+            for (int x = 0; x < map.getWidth(); x++) {
+                for (int y = 0; y < map.getHeight(); y++) {
+                    shapeRenderer.setColor(getElevationColor(x, y));
+                    shapeRenderer.rect(screenOffsetX + baseScreenOffsetX + x * pixelSize, screenOffsetY + y * pixelSize, pixelSize, pixelSize);
+                }
+            }
+        }
+    }
+
+    private void drawTemperatureDebug(int screenOffsetX) {
+        if (map != null) {
+            for (int x = 0; x < map.getWidth(); x++) {
+                for (int y = 0; y < map.getHeight(); y++) {
+                    shapeRenderer.setColor(getTemperatureColor(x, y));
+                    shapeRenderer.rect(baseScreenOffsetX + screenOffsetX + x * pixelSize, screenOffsetY + y * pixelSize, pixelSize, pixelSize);
+                    shapeRenderer.setColor(getTemperatureColor(x, y));
+                    shapeRenderer.rect(baseScreenOffsetX + (map.getWidth() + x) * pixelSize, screenOffsetY + y * pixelSize, pixelSize, pixelSize);
+                }
+            }
+        }
+    }
+
+    private void drawRiverVectorsDebug() {
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        Color color1 = new Color(1, 0, 0, 1);
+        Color color2 = new Color(0, 0, 1, 1);
+        Color green = new Color(0, 1, 0, 1);
+        for (int x = 0; x < map.getWidth(); x++) {
+            for (int y = 0; y < map.getHeight(); y++) {
+                Vector2 river = map.getRiver(x, y);
+                Vector2 slope = map.getDebug(x, y);
+                if (river != null) {
+                    int mult = 5;
+                    int bx = 558 + x * mult;
+                    int by = screenOffsetY + y * mult;
+                    shapeRenderer.line(bx, by, bx + (river.x * mult * 3), by + (river.y * mult * 3), color1, color2);
+                    if (slope != null)
+                        shapeRenderer.line(bx + 500, by, bx + 500 + (Math.round(slope.x) * mult), by + (Math.round(slope.y) * mult), green, green);
+                }
+            }
+        }
+        shapeRenderer.flush();
+        shapeRenderer.end();
+    }
+
+    private Color getElevationColor(int x, int y) {
+        float seaLevel = 0.5f;
+        float elevation = map.getElevation(x, y) - seaLevel;
+        if (elevation > 0) {
+            if (map.getRiver(x, y) != null) {
+                float blue = (seaLevel + elevation) / seaLevel;
+                return new Color(0, 0, blue, 0);
+            } else if (elevation > 0.25f) {
+                float white = (elevation) / 3 + 0.15f;
+                return new Color(white, white, white, 0);
+            } else {
+                float green = (elevation) / 4 + 0.15f;
+                return new Color(0, green, 0, 0);
+            }
+        } else {
+            float blue = (seaLevel + elevation) / seaLevel;
+            return new Color(0, 0, blue, 0);
+        }
+    }
+
+    private Color getTemperatureColor(int x, int y) {
+        float temperature = map.getSummerTemperature(x, y);
+        if (temperature < -20) { //[-35; -19]
+            return new Color(0, 0, (temperature + 40) / 80f, 0);
+        } else if (temperature < 0) { //[-20; -1]
+            return new Color(0, 0, (temperature + 60) / 80f, 0);
+        } else if (temperature < 20) { //[0; 19]
+            return new Color(0, (temperature + 40) / 80f, 0, 0);
+        } else { //[20; 35]
+            return new Color((temperature + 40) / 80f, 0, 0, 0);
+        }
     }
 
     public Position getFocus() {
