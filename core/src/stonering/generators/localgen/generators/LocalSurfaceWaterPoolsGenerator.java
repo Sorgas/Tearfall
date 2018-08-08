@@ -159,7 +159,7 @@ public class LocalSurfaceWaterPoolsGenerator {
         float[][] noise = new PerlinNoiseGenerator().generateOctavedSimplexNoise(sizeX, sizeY, 7, 0.5f, 0.065f);
         for (int x = 0; x < noise.length; x++) {
             for (int y = 0; y < noise[0].length; y++) {
-                noise[x][y] = noise[x][y] < -0.8 ? noise[x][y] * 2 : 0; // [-2; 0]
+                noise[x][y] = noise[x][y] < -0.7f ? noise[x][y] * 2 : 0; // [-2; 0]
             }
         }
         return noise;

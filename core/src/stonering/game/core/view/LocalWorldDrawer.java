@@ -132,14 +132,14 @@ public class LocalWorldDrawer {
                     getScreenPosY(y - camera.getY(), z - camera.getZ()));
         } else {
             int lowerAtlas;
-//            if (z > 0 && (lowerAtlas = localTileMap.getAtlasNum(x, y, z - 1)) >= 0) {// not empty cell lower
-//                batch.draw(new TextureRegion(atlases[lowerAtlas],
-//                                localTileMap.getAtlasX(x, y, z - 1) * tileWidth,
-//                                localTileMap.getAtlasY(x, y, z - 1) * (blockTileHeight),
-//                                tileWidth, topingTileHeight),
-//                        getScreenPosX(x - camera.getX(), y - camera.getY()),
-//                        getScreenPosY(x - camera.getX(), y - camera.getY(), z - camera.getZ()));
-//            }
+            if (z > 0 && (lowerAtlas = localTileMap.getAtlasNum(x, y, z - 1)) >= 0) {// not empty cell lower
+                batch.draw(new TextureRegion(atlases[lowerAtlas],
+                                localTileMap.getAtlasX(x, y, z - 1) * tileWidth,
+                                localTileMap.getAtlasY(x, y, z - 1) * (blockTileHeight),
+                                tileWidth, topingTileHeight),
+                        getScreenPosX(x - camera.getX()),
+                        getScreenPosY(y - camera.getY(), z - camera.getZ()));
+            }
         }
         //draw water
         if (localMap.getFlooding(x, y, z) != 0) {
