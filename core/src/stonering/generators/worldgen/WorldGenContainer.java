@@ -33,6 +33,7 @@ public class WorldGenContainer {
     private float[][] rainfall;
     private float[][] debug;
     private Vector2[][] rivers;
+    private Vector2[][] brooks;
     private ArrayList<Vector2> lakes;
 
     private float landPart;
@@ -57,6 +58,7 @@ public class WorldGenContainer {
                 map.setWinterTemperature(x, y, Math.round(winterTemperature[x][y]));
                 map.setRainfall(x, y, rainfall[x][y]);
                 map.setRiver(x,y, rivers[x][y]);
+                map.setBrook(x,y, brooks[x][y]);
                 if(elevation[x][y] > maxElevation) {
                     maxElevation = elevation[x][y];
                 }
@@ -74,6 +76,7 @@ public class WorldGenContainer {
         rainfall = new float[width][height];
         debug = new float[width][height];
         rivers = new Vector2[width][height];
+        brooks = new Vector2[width][height];
         plates = new ArrayList<>();
         edges = new ArrayList<>();
         mountains = new ArrayList<>();
@@ -83,7 +86,7 @@ public class WorldGenContainer {
     }
 
     public boolean inMap(int x, int y) {
-        return map.inMap(x, y);
+        return (x >= 0 && y >= 0 && x < width && y < height);
     }
 
     public boolean inMap(float x, float y) {
@@ -190,6 +193,16 @@ public class WorldGenContainer {
 
     public Vector2 getRiver(int x, int y) {
         return inMap(x, y) ? rivers[x][y] : null;
+    }
+
+    public void setBrook(int x, int y, Vector2 value) {
+        if (inMap(x, y)) {
+            brooks[x][y] = value;
+        }
+    }
+
+    public Vector2 getBrook(int x, int y) {
+        return inMap(x, y) ? brooks[x][y] : null;
     }
 
     public Vector2[][] getRivers() {

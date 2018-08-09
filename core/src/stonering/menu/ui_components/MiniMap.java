@@ -23,7 +23,7 @@ public class MiniMap extends Table {
     private Position focus = new Position(0, 0, 0);
     private Position size = new Position(0, 0, 0);
     private ShapeRenderer shapeRenderer;
-    private int pixelSize = 1;
+    private int pixelSize = 3;
     private int baseScreenOffsetX = 385;
     private int screenOffsetY = 100;
     private boolean debugMode = true;
@@ -66,6 +66,10 @@ public class MiniMap extends Table {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         drawElevationDebug(0);
         drawTemperatureDebug(map.getWidth() * pixelSize);
+        shapeRenderer.end();
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        drawRiverVectorsDebug(map.getWidth() * 2 * pixelSize);
+        shapeRenderer.flush();
         shapeRenderer.end();
         batch.begin();
     }
@@ -161,27 +165,24 @@ public class MiniMap extends Table {
         }
     }
 
-    private void drawRiverVectorsDebug() {
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        Color color1 = new Color(1, 0, 0, 1);
-        Color color2 = new Color(0, 0, 1, 1);
+    private void drawRiverVectorsDebug(int screenOffsetX) {
+        Color blue = new Color(0, 0, 1, 1);
         Color green = new Color(0, 1, 0, 1);
+
         for (int x = 0; x < map.getWidth(); x++) {
             for (int y = 0; y < map.getHeight(); y++) {
                 Vector2 river = map.getRiver(x, y);
-                Vector2 slope = map.getDebug(x, y);
+                Vector2 brook = map.getBrook(x, y);
+                int bx = baseScreenOffsetX + screenOffsetX + x * pixelSize;
+                int by = screenOffsetY + y * pixelSize;
                 if (river != null) {
-                    int mult = 5;
-                    int bx = 558 + x * mult;
-                    int by = screenOffsetY + y * mult;
-                    shapeRenderer.line(bx, by, bx + (river.x * mult * 3), by + (river.y * mult * 3), color1, color2);
-                    if (slope != null)
-                        shapeRenderer.line(bx + 500, by, bx + 500 + (Math.round(slope.x) * mult), by + (Math.round(slope.y) * mult), green, green);
+                    shapeRenderer.line(bx, by, bx + (river.x * pixelSize * 10), by + (river.y * pixelSize * 10), blue, blue);
+                }
+                if (brook != null) {
+                    shapeRenderer.line(bx, by, bx + (brook.x * pixelSize), by + (brook.y * pixelSize), green, green);
                 }
             }
         }
-        shapeRenderer.flush();
-        shapeRenderer.end();
     }
 
     private Color getElevationColor(int x, int y) {

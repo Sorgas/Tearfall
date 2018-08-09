@@ -1,11 +1,8 @@
 package stonering.generators.worldgen;
 
-import stonering.generators.worldgen.generators.drainage.ErosionGenerator;
-import stonering.generators.worldgen.generators.drainage.OceanFiller;
-import stonering.generators.worldgen.generators.drainage.RainfallGenerator;
+import stonering.generators.worldgen.generators.drainage.*;
 import stonering.generators.worldgen.generators.elevation.*;
 import stonering.generators.worldgen.generators.elevation.PlateGenerator;
-import stonering.generators.worldgen.generators.drainage.RiverGenerator;
 import stonering.generators.worldgen.generators.temperature.TemperatureGenerator;
 
 public class WorldGeneratorContainer {
@@ -27,6 +24,7 @@ public class WorldGeneratorContainer {
     private ErosionGenerator erosionGenerator;
     private ElevationModifier elevationModifier;
     private RiverGenerator riverGenerator;
+    private BrookGenerator brookGenerator;
 
     public void init(WorldGenConfig config) {
         worldGenContainer = new WorldGenContainer(config);
@@ -39,6 +37,7 @@ public class WorldGeneratorContainer {
         hillRenderer = new HillRenderer(worldGenContainer);
         oceanFiller = new OceanFiller(worldGenContainer);
         riverGenerator = new RiverGenerator(worldGenContainer);
+        brookGenerator = new BrookGenerator(worldGenContainer);
         temperatureGenerator = new TemperatureGenerator(worldGenContainer);
         elevationGenerator = new ElevationGenerator(worldGenContainer);
         rainfallGenerator = new RainfallGenerator(worldGenContainer);
@@ -71,6 +70,7 @@ public class WorldGeneratorContainer {
         rainfallGenerator.execute();
 //        elevationModifier.execute();
         riverGenerator.execute();
+        brookGenerator.execute();
         worldGenContainer.fillMap();
 
         return false;

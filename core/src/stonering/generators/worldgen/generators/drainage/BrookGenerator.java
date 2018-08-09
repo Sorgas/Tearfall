@@ -2,7 +2,6 @@ package stonering.generators.worldgen.generators.drainage;
 
 import com.badlogic.gdx.math.Vector2;
 import stonering.generators.worldgen.WorldGenContainer;
-import stonering.generators.worldgen.WorldMap;
 import stonering.generators.worldgen.generators.AbstractGenerator;
 import stonering.global.utils.Position;
 
@@ -15,12 +14,10 @@ import java.util.Random;
  * @author Alexander Kuzyakov on 18.01.2018.
  */
 public class BrookGenerator extends AbstractGenerator {
-    private WorldMap map;
     private int width;
     private int height;
-    private int[][] points;
-    private Vector2[][] endPoints;
-    private Vector2[][] brookVectors;
+    private float seaLevel;
+    private Vector2[][] slopes;
 
     public BrookGenerator(WorldGenContainer container) {
         super(container);
@@ -29,46 +26,71 @@ public class BrookGenerator extends AbstractGenerator {
     private void extractContainer(WorldGenContainer container) {
         width = container.getConfig().getWidth();
         height = container.getConfig().getHeight();
-        endPoints = new Vector2[width][height];
-        points = new int[width][height];
-        map = container.getMap();
+        seaLevel = container.getConfig().getSeaLevel();
+        slopes = new Vector2[width][height];
     }
 
     public boolean execute() {
+        System.out.println("generating brooks");
+        extractContainer(container);
         countAngles();
         createBrookStartPositions().forEach(position -> {
-            runBrook(position);
+            addBrookToContainer(runBrook(position));
         });
         return false;
     }
 
-    private void runBrook(Position start) {
-        int curX = start.getX();
-        int curY = start.getY();
-        while(map.getElevation(curX,curY) > 0 && map.getRiver(curX, curY) == null) {
+    private Brook runBrook(Position start) {
+        Brook brook = new Brook();
+        int x = start.getX();
+        int y = start.getY();
+        Vector2 curVector2 = slopes[x][y];
 
+        while (container.inMap(x, y) &&
+                curVector2 != null &&
+                container.getElevation(x, y) > seaLevel &&
+                container.getRiver(x, y) == null) {
+//            brook.vectors.add(curVector2.cpy());
+
+            Position position = new Position(x, y, 0);
+            if(brook.positions.contains(position)) { //looped brook
+                break;
+            }
+            brook.positions.add(position);
+            System.out.println("brook point: " + x + " " + y);
+            x += Math.round(curVector2.x);
+            y += Math.round(curVector2.y);
+            curVector2 = slopes[x][y];
+        }
+        return brook;
+    }
+
+    private void addBrookToContainer(Brook brook) {
+        for (int i = 0; i < brook.positions.size(); i++) {
+            Position position = brook.positions.get(i);
+//            Vector2 vector2 = brook.vectors.get(i);
+            container.setBrook(position.getX(), position.getY(), slopes[position.getX()][position.getY()].cpy());
         }
     }
 
     private void countAngles() {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                if (map.getElevation(x, y) > 0) {
-                    Vector2 slope = countSlopeAngle(x, y);
-                    endPoints[x][y] = new Vector2(Math.round(x + slope.x), Math.round(y + slope.y)); // ok
+                if (container.getElevation(x, y) > seaLevel) {
+                    slopes[x][y] = countSlopeAngle(x, y);
                 }
             }
         }
     }
 
-    private Vector2 countSlopeAngle(float cx, float cy) {
-        float centerElevation = container.getElevation(Math.round(cx), Math.round(cy));
+    private Vector2 countSlopeAngle(int cx, int cy) {
+        float centerElevation = container.getElevation(cx, cy);
         Vector2 vector = new Vector2();
-        for (int x = Math.round(cx) - 1; x <= cx + 1; x++) {
-            for (int y = Math.round(cy) - 1; y <= cy + 1; y++) {
-                if (container.inMap(x, y)) { // elevation decreases in this direction
+        for (int x = cx - 1; x <= cx + 1; x++) {
+            for (int y = cy - 1; y <= cy + 1; y++) {
+                if (container.inMap(x, y) && !(x == cx && y == cy)) { // elevation decreases in this direction
                     float elevationDelta = centerElevation - container.getElevation(x, y);
-                    vector.add((x - cx) * ((elevationDelta)), (y - cy) * ((elevationDelta)));
+                    vector.add((x - cx) * elevationDelta, (y - cy) * elevationDelta);
                 }
             }
         }
@@ -76,7 +98,7 @@ public class BrookGenerator extends AbstractGenerator {
     }
 
     /**
-     * Determines all positions to start brooks from.
+     * Determines all vectors to start brooks from.
      * Dry areas have lower density of brooks(and pools) but not rivers.
      *
      * @return
@@ -84,15 +106,25 @@ public class BrookGenerator extends AbstractGenerator {
     private ArrayList<Position> createBrookStartPositions() {
         Random random = new Random();
         ArrayList<Position> positions = new ArrayList<>();
-        for (int x = 0; x < map.getWidth(); x++) {
-            for (int y = 0; y < map.getHeight(); y++) {
-                if (map.getElevation(x, y) > 0 && map.getRiver(x,y) == null) {
-                    if (random.nextInt(100) > map.getRainfall(x, y)) {
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                if (container.getElevation(x, y) > seaLevel && container.getRiver(x, y) == null) {
+                    if (random.nextInt(120) < container.getRainfall(x, y)) {
                         positions.add(new Position(x, y, 0));
                     }
                 }
             }
         }
-        return null;
+        return positions;
+    }
+
+    private class Brook {
+//        ArrayList<Vector2> vectors;
+        ArrayList<Position> positions;
+
+        public Brook() {
+//            vectors = new ArrayList<>();
+            positions = new ArrayList<>();
+        }
     }
 }

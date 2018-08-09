@@ -82,7 +82,7 @@ public class RiverGenerator extends AbstractGenerator {
                 if (container.getElevation(x, y) > seaLevel) {
                     float amount = getWaterAmount(x, y);
                     Vector2 current = new Vector2(x, y);
-                    //run flow
+                    //run flow to modify water amount in tiles
                     do {
                         waterAmount[(int) current.x][(int) current.y] += amount;
                         current.add(slopeInclination[x][y]);
@@ -110,14 +110,14 @@ public class RiverGenerator extends AbstractGenerator {
     private ArrayList<Vector2> elevationStartPoints() {
         ArrayList<Vector2> starts = new ArrayList<>();
         ArrayList<Vector2> potentialStarts = new ArrayList<>();
-        for (int x = 0; x < width; x++) {
+        for (int x = 0; x < width; x++) { // select all points above riverStartLevel
             for (int y = 0; y < height; y++) {
                 if (container.getElevation(x, y) > riverStartLevel) {
                     potentialStarts.add(new Vector2(x, y));
                 }
             }
         }
-        while (!potentialStarts.isEmpty()) {
+        while (!potentialStarts.isEmpty()) { // select 1 random start and remove all near it
             Vector2 start = potentialStarts.get(random.nextInt(potentialStarts.size()));
             starts.add(start);
             potentialStarts.removeIf(qwer -> qwer.cpy().sub(start).len() < 7);
@@ -126,16 +126,15 @@ public class RiverGenerator extends AbstractGenerator {
     }
 
     private void runRiverFromStart(Vector2 start) {
-        HashSet<Vector2> river = new HashSet<>();
+        ArrayList<Vector2> river = new ArrayList<>();
         int length = 0;
         while (length < 100) {
             int x = Math.round(start.x);
             int y = Math.round(start.y);
-            if(river.contains(riverVectors[x][y])) {
-                //loop, add lake
+            if(river.contains(riverVectors[x][y])) { //loop, add lake
                 container.getLakes().add(riverVectors[x][y].cpy());
             }
-            if (container.getElevation(x, y) <= seaLevel) {
+            if (container.getElevation(x, y) <= seaLevel) { //sea reached
                 break;
             }
             container.setRiver(x, y, riverVectors[x][y]);
