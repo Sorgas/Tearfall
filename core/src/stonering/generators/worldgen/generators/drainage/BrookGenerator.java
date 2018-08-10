@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * Generates brooks
+ * Generates brooks.
+ * //TODO add water amount to brooks. see {@link RiverGenerator}.
  *
  * @author Alexander Kuzyakov on 18.01.2018.
  */

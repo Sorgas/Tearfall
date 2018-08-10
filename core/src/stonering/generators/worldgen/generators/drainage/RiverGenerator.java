@@ -76,11 +76,15 @@ public class RiverGenerator extends AbstractGenerator {
         return vector.nor();
     }
 
+    /**
+     * Creates map of amounts of water passing through each cell;
+     * Initial amount of water is based on rainfall;
+     */
     private void countWaterAmount() {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 if (container.getElevation(x, y) > seaLevel) {
-                    float amount = getWaterAmount(x, y);
+                    float amount = container.getRainfall(x, y) / 10000f;
                     Vector2 current = new Vector2(x, y);
                     //run flow to modify water amount in tiles
                     do {
@@ -90,10 +94,6 @@ public class RiverGenerator extends AbstractGenerator {
                 }
             }
         }
-    }
-
-    private float getWaterAmount(int x, int y) {
-        return container.getRainfall(x, y) / 10000f;
     }
 
     private void countRiverVectors() {
