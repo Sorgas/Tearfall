@@ -148,11 +148,6 @@ public class LocalSurfaceWaterPoolsGenerator {
         return points;
     }
 
-    public static void main(String[] args) {
-        LocalSurfaceWaterPoolsGenerator generator = new LocalSurfaceWaterPoolsGenerator(null);
-        generator.generateNoise();
-    }
-
     private float[][] generateNoise() {
         int sizeX = container.getLocalMap().getxSize();
         int sizeY = container.getLocalMap().getySize();

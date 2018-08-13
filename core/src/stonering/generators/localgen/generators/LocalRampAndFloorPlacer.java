@@ -38,7 +38,6 @@ public class LocalRampAndFloorPlacer {
             for (int y = 0; y < localMap.getxSize(); y++) {
                 for (int z = 1; z < localMap.getzSize(); z++) {
                     if (isGround(x, y, z) && hasAdjacentWall(x,y,z)) {
-
                         localMap.setBlock(x, y, z, (byte) rampCode, adjacentWallMaterial(x, y, z));
                     }
                 }

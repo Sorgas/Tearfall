@@ -2,7 +2,7 @@ package stonering.generators.localgen.generators;
 
 import com.badlogic.gdx.math.Bezier;
 import com.badlogic.gdx.math.Vector2;
-import javafx.geometry.Pos;
+import stonering.enums.materials.MaterialMap;
 import stonering.game.core.model.LocalMap;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.generators.localgen.LocalGenContainer;
@@ -27,25 +27,34 @@ public class LocalRiverGenerator {
     private Vector2 currentFlow;
     private boolean currentFlowIsRiver;
     private Position mainInflow; // absolute coords on world map
+    private MaterialMap materialMap;
 
     public LocalRiverGenerator(LocalGenContainer container) {
         this.container = container;
-        worldMap = container.getWorldMap();
-        localMap = container.getLocalMap();
-        location = container.getConfig().getLocation();
-        incomingBrooks = new ArrayList<>();
-        incomingRivers = new ArrayList<>();
     }
 
     public void execute() {
+        System.out.println("generating rivers");
+        extractContainer();
 //        System.out.println("locations with inflows: " + countLocationsWithInflows());
         lookupFlows(location.getX(), location.getY());
         determineMailInflow();
         if (mainInflow != null) {
             makeMainFlow();
         } else {
-
+            makeCentralLake();
+            makeRiverStart();
         }
+    }
+
+    private void extractContainer() {
+        worldMap = container.getWorldMap();
+        localMap = container.getLocalMap();
+        location = container.getConfig().getLocation();
+        incomingBrooks = new ArrayList<>();
+        incomingRivers = new ArrayList<>();
+        localMap = container.getLocalMap();
+        materialMap = MaterialMap.getInstance();
     }
 
     /**
@@ -74,7 +83,29 @@ public class LocalRiverGenerator {
 
     }
 
+    private void makeCentralLake() {
+        //TODO change form from sphere to something natural.
+        int radius = 10;
+        int center = container.getConfig().getAreaSize() / 2;
+        int elevationInCenter = container.getRoundedHeightsMap()[center][center];
+        for (int x = -radius; x < radius; x++) {
+            for (int y = -radius; y < radius; y++) {
+                float rad = (float) Math.sqrt((x * x) + (y * y));
+                if (rad <= radius) {
+                    int elevation = container.getRoundedHeightsMap()[center + x][center + y];
+                    int sphereElevation = (int) (elevationInCenter + radius / 2 - Math.sqrt(Math.abs(-(x * x) - (y * y) + radius * radius)));
+                    updateLocalMapAndRoundedHeightMap(center + x, center + y, Math.min(sphereElevation, elevation));
+                }
+            }
+        }
+    }
 
+    private void updateLocalMapAndRoundedHeightMap(int x, int y, int elevation) {
+        for (int z = elevation; z <= container.getRoundedHeightsMap()[x][y]; z++) {
+            localMap.setBlock(x, y, z, BlockTypesEnum.SPACE, materialMap.getId("air"));
+            localMap.setFlooding(x, y, z, 8);
+        }
+    }
 
     private void placeRiver(int dx, int dy) {
         System.out.println("placing river");
@@ -200,5 +231,9 @@ public class LocalRiverGenerator {
             }
         }
         return false;
+    }
+
+    private class LandscapeBrush {
+        ArrayList<Integer> layerRadiuses;
     }
 }
