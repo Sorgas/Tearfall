@@ -18,6 +18,7 @@ import java.util.ArrayList;
  * @author Alexander Kuzyakov on 10.07.2017.
  */
 public class LocalRiverGenerator {
+    private LocalGenContainer container;
     private WorldMap worldMap;
     private LocalMap localMap;
     private Position location;
@@ -28,14 +29,23 @@ public class LocalRiverGenerator {
     private Position mainInflow; // absolute coords on world map
 
     public LocalRiverGenerator(LocalGenContainer container) {
+        this.container = container;
         worldMap = container.getWorldMap();
         localMap = container.getLocalMap();
         location = container.getConfig().getLocation();
+        incomingBrooks = new ArrayList<>();
+        incomingRivers = new ArrayList<>();
     }
 
     public void execute() {
-        lookupFlows();
+//        System.out.println("locations with inflows: " + countLocationsWithInflows());
+        lookupFlows(location.getX(), location.getY());
         determineMailInflow();
+        if (mainInflow != null) {
+            makeMainFlow();
+        } else {
+
+        }
     }
 
     /**
@@ -44,13 +54,27 @@ public class LocalRiverGenerator {
     private void makeMainFlow() {
         Position startPos = getPositionOnBorderByWorldCoords(mainInflow);
         Vector2 start = new Vector2(startPos.getX(), startPos.getY());
+
         Vector2 end = currentFlow.cpy().nor();
         Position endPos = getPositionOnBorderByWorldCoords(new Position(Math.round(end.x), Math.round(end.y), 0));
         end = new Vector2(endPos.getX(), endPos.getY());
 
-        Vector2[] vectors = new Vector2[4];
+
+        Vector2[] vectors = {start, end};
         Bezier<Vector2> bezier = new Bezier<>();
+        bezier.set(vectors);
+
+        Vector2 vector2 = new Vector2();
+        for (int i = 0; i < 100; i++) {
+            System.out.println(bezier.valueAt(vector2, i / 100f));
+        }
     }
+
+    private void makeRiverStart() {
+
+    }
+
+
 
     private void placeRiver(int dx, int dy) {
         System.out.println("placing river");
@@ -80,12 +104,12 @@ public class LocalRiverGenerator {
     /**
      * Fills collections of inflows and sets current flow.
      */
-    private void lookupFlows() {
+    private void lookupFlows(int cx, int cy) {
         for (int dx = -1; dx < 2; dx++) {
             for (int dy = -1; dy < 2; dy++) {
-                int x = location.getX() + dx;
-                int y = location.getY() + dy;
-                if ((dx != 0 || dy != 0) && worldMap.inMap(dx, dy)) {
+                int x = cx + dx;
+                int y = cy + dy;
+                if ((dx != 0 || dy != 0) && worldMap.inMap(x, y)) {
                     if (worldMap.getRiver(x, y) != null && isInflow(dx, dy, worldMap.getRiver(x, y).cpy())) {
                         incomingRivers.add(new Position(x, y, 0));
                     }
@@ -95,13 +119,17 @@ public class LocalRiverGenerator {
                 }
             }
         }
-        currentFlow = worldMap.getRiver(location.getX(), location.getY());
+        currentFlow = worldMap.getRiver(cx, cy);
         if (currentFlow != null) {
             currentFlowIsRiver = true;
         } else {
-            currentFlow = worldMap.getBrook(location.getX(), location.getY());
+            currentFlow = worldMap.getBrook(cx, cy);
             currentFlowIsRiver = currentFlow == null;
         }
+        System.out.println("incoming rivers: " + incomingRivers.size());
+        System.out.println("incoming brooks: " + incomingBrooks.size());
+        System.out.println("currentFlow: " + currentFlow.toString());
+        System.out.println("current flow is river: " + currentFlowIsRiver);
     }
 
     /**
@@ -113,8 +141,10 @@ public class LocalRiverGenerator {
      * @return
      */
     private boolean isInflow(int relativeX, int relativeY, Vector2 vector) {
+        System.out.println("inflow check: " + relativeX + " " + relativeY + " " + vector);
+        System.out.println("vector: " + Math.round(vector.x) + " " + Math.round(vector.y));
         vector.nor();
-        return Math.round(vector.x) + relativeX == 0 && Math.round(vector.y) + relativeY == 0;
+        return Math.round(vector.x) + relativeX == 0 && Math.round(vector.y) + relativeY == 0; // vector points to current location
     }
 
     private void determineMailInflow() {
@@ -135,5 +165,40 @@ public class LocalRiverGenerator {
                 }
             });
         }
+    }
+
+    /**
+     * for debug
+     *
+     * @return
+     */
+    private int countLocationsWithInflows() {
+        int counter = 0;
+        for (int x = 0; x < worldMap.getWidth(); x++) {
+            for (int y = 0; y < worldMap.getHeight(); y++) {
+                if (worldMap.getElevation(x, y) > container.getConfig().getSeaLevel() && checkInflows(x, y)) {
+                    counter++;
+                }
+            }
+        }
+        return counter;
+    }
+
+    private boolean checkInflows(int cx, int cy) {
+        for (int dx = -1; dx < 2; dx++) {
+            for (int dy = -1; dy < 2; dy++) {
+                int x = cx + dx;
+                int y = cy + dy;
+                if ((dx != 0 || dy != 0) && worldMap.inMap(x, y)) {
+                    if (worldMap.getRiver(x, y) != null && isInflow(dx, dy, worldMap.getRiver(x, y).cpy())) {
+                        return true;
+                    }
+                    if (worldMap.getBrook(x, y) != null && isInflow(dx, dy, worldMap.getBrook(x, y).cpy())) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 }

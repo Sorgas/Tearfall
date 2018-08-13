@@ -6,15 +6,15 @@ import stonering.generators.worldgen.WorldMap;
 
 /**
  * @author Alexander Kuzyakov on 27.08.2017.
- *
- * executes local generators in correct order
+ *         <p>
+ *         executes local generators in correct order
  */
 public class LocalGeneratorContainer {
     private LocalGenContainer localGenContainer;
 
     private LocalHeightsGenerator localHeightsGenerator;
     private LocalStoneLayersGenerator localStoneLayersGenerator;
-    private LocalRiverGenerator riverGenerator;
+    private LocalRiverGenerator localRiverGenerator;
     private LocalCaveGenerator localCaveGenerator;
     private LocalRampAndFloorPlacer localRampAndFloorPlacer;
     private LocalFloraGenerator localFloraGenerator;
@@ -44,6 +44,7 @@ public class LocalGeneratorContainer {
         localItemsGenerator = new LocalItemsGenerator(localGenContainer);
         localFloraGenerator = new LocalFloraGenerator(localGenContainer);
         localSurfaceWaterPoolsGenerator = new LocalSurfaceWaterPoolsGenerator(localGenContainer);
+        localRiverGenerator = new LocalRiverGenerator(localGenContainer);
     }
 
     public void execute() {
@@ -52,6 +53,7 @@ public class LocalGeneratorContainer {
         localStoneLayersGenerator.execute(); //fills localmap with blocks by heightsmap
         localCaveGenerator.execute(); //digs caves
         localSurfaceWaterPoolsGenerator.execute(); // digs ponds
+        localRiverGenerator.execute(); // carves river beds
         localRampAndFloorPlacer.execute(); // places floors and ramps upon all top blocks
         localTemperatureGenerator.execute(); // generates year temperature cycle
         localFloraGenerator.execute(); // places trees and plants
@@ -59,8 +61,6 @@ public class LocalGeneratorContainer {
 //        localFurnitureGenerator.execute();
         localItemsGenerator.execute(); // places items
     }
-
-
 
     public LocalMap getLocalMap() {
         return localGenContainer.getLocalMap();

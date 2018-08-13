@@ -10,6 +10,7 @@ import stonering.global.utils.Position;
 public class LocalGenConfig {
     private Position location;
 
+    private float seaLevel = 0.5f;
     private int worldToLocalElevationModifier = 100;
     private int airLayersAboveGround = 20;
     private int areaSize = 192;
@@ -52,5 +53,9 @@ public class LocalGenConfig {
 
     public int getMaxCaveLayerHeight() {
         return maxCaveLayerHeight;
+    }
+
+    public float getSeaLevel() {
+        return seaLevel;
     }
 }
