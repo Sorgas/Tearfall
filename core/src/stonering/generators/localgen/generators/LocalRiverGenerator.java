@@ -1,7 +1,9 @@
 package stonering.generators.localgen.generators;
 
 import com.badlogic.gdx.math.Bezier;
+import com.badlogic.gdx.math.CatmullRomSpline;
 import com.badlogic.gdx.math.Vector2;
+import com.sun.org.apache.bcel.internal.generic.LAND;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.core.model.LocalMap;
 import stonering.enums.blocks.BlockTypesEnum;
@@ -10,6 +12,8 @@ import stonering.generators.worldgen.WorldMap;
 import stonering.global.utils.Position;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * Generates rivers and brooks on local worldMap.
@@ -42,8 +46,8 @@ public class LocalRiverGenerator {
         if (mainInflow != null) {
             makeMainFlow();
         } else {
-            makeCentralLake();
             makeRiverStart();
+            makeCentralLake();
         }
     }
 
@@ -68,7 +72,6 @@ public class LocalRiverGenerator {
         Position endPos = getPositionOnBorderByWorldCoords(new Position(Math.round(end.x), Math.round(end.y), 0));
         end = new Vector2(endPos.getX(), endPos.getY());
 
-
         Vector2[] vectors = {start, end};
         Bezier<Vector2> bezier = new Bezier<>();
         bezier.set(vectors);
@@ -80,7 +83,28 @@ public class LocalRiverGenerator {
     }
 
     private void makeRiverStart() {
+        LandscapeBrush brush = new LandscapeBrush();
+        brush.depth = 1;
+        brush.layerRadiuses = new ArrayList<>(Arrays.asList(5, 3, 2));
+        brush.updatePattern();
+        currentFlow.nor();
+        Vector2[] controlPoints = {new Vector2(localMap.getxSize() / 2, localMap.getySize() / 2), new Vector2(Math.round(currentFlow.x), Math.round(currentFlow.y))};
+        CatmullRomSpline<Vector2> spline = new CatmullRomSpline<>(controlPoints, false);
+        for (float i = 0; i < 1; i += 0.1f) {
+            Vector2 point = new Vector2();
+            spline.valueAt(point, i);
+            applyBrush(brush, point);
+        }
+    }
 
+    private void applyBrush(LandscapeBrush brush, Vector2 vector) {
+        int cx = Math.round(vector.x);
+        int cy = Math.round(vector.y);
+        for (int x = 0; x < brush.depthPattern.length; x++) {
+            for (int y = 0; y < brush.depthPattern.length; y++) {
+                updateLocalMapAndRoundedHeightMap(x,y,);
+            }
+        }
     }
 
     private void makeCentralLake() {
@@ -235,5 +259,25 @@ public class LocalRiverGenerator {
 
     private class LandscapeBrush {
         ArrayList<Integer> layerRadiuses;
+        int depth;
+        int[][] depthPattern;
+
+        public void updatePattern() {
+            if (layerRadiuses != null) {
+                int patternWidth = Collections.max(layerRadiuses);
+                int center = patternWidth / 2;
+                depthPattern = new int[patternWidth][patternWidth];
+                for (int x = 0; x < patternWidth; x++) {
+                    for (int y = 0; y < patternWidth; y++) {
+                        Vector2 vector = new Vector2(x - center, y - center);
+                        for (int i = 0; i < layerRadiuses.size(); i++) {
+                            if(vector.len() < layerRadiuses.get(i)) {
+                                depthPattern[x][y] = i + 1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
