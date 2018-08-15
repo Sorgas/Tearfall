@@ -1,9 +1,7 @@
 package stonering.generators.localgen.generators;
 
-import com.badlogic.gdx.math.Bezier;
 import com.badlogic.gdx.math.CatmullRomSpline;
 import com.badlogic.gdx.math.Vector2;
-import com.sun.org.apache.bcel.internal.generic.LAND;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.core.model.LocalMap;
 import stonering.enums.blocks.BlockTypesEnum;
@@ -26,11 +24,11 @@ public class LocalRiverGenerator {
     private WorldMap worldMap;
     private LocalMap localMap;
     private Position location;
-    private ArrayList<Position> incomingRivers; // absolute coords on world map
-    private ArrayList<Position> incomingBrooks; // absolute coords on world map
-    private Vector2 currentFlow;
+    private ArrayList<Position> incomingRivers; // positions on local map
+    private ArrayList<Position> incomingBrooks; // positions on local map
+    private Vector2 currentFlow; // direction of current flow
     private boolean currentFlowIsRiver;
-    private Position mainInflow; // absolute coords on world map
+    private Position mainInflow; // position on local map
     private MaterialMap materialMap;
 
     public LocalRiverGenerator(LocalGenContainer container) {
@@ -40,8 +38,7 @@ public class LocalRiverGenerator {
     public void execute() {
         System.out.println("generating rivers");
         extractContainer();
-//        System.out.println("locations with inflows: " + countLocationsWithInflows());
-        lookupFlows(location.getX(), location.getY());
+        lookupFlows();
         determineMailInflow();
         if (mainInflow != null) {
             makeMainFlow();
@@ -65,6 +62,7 @@ public class LocalRiverGenerator {
      * Carves bed of current flow and its main inflow.
      */
     private void makeMainFlow() {
+        LandscapeBrush brush = new LandscapeBrush(new ArrayList<>(Arrays.asList(5, 3, 2)), 1);
         Position startPos = getPositionOnBorderByWorldCoords(mainInflow);
         Vector2 start = new Vector2(startPos.getX(), startPos.getY());
 
@@ -72,39 +70,20 @@ public class LocalRiverGenerator {
         Position endPos = getPositionOnBorderByWorldCoords(new Position(Math.round(end.x), Math.round(end.y), 0));
         end = new Vector2(endPos.getX(), endPos.getY());
 
-        Vector2[] vectors = {start, end};
-        Bezier<Vector2> bezier = new Bezier<>();
-        bezier.set(vectors);
+        Vector2 center = new Vector2(localMap.getxSize() / 2, localMap.getySize() / 2);
 
-        Vector2 vector2 = new Vector2();
-        for (int i = 0; i < 100; i++) {
-            System.out.println(bezier.valueAt(vector2, i / 100f));
-        }
+        Vector2[] vectors = {start, center, end};
+        CatmullRomSpline<Vector2> spline = new CatmullRomSpline<>();
+        spline.set(vectors, false);
+        carveWithBrush(spline, brush);
     }
 
     private void makeRiverStart() {
-        LandscapeBrush brush = new LandscapeBrush();
-        brush.depth = 1;
-        brush.layerRadiuses = new ArrayList<>(Arrays.asList(5, 3, 2));
-        brush.updatePattern();
+        LandscapeBrush brush = new LandscapeBrush(new ArrayList<>(Arrays.asList(5, 3, 2)), 1);
         currentFlow.nor();
         Vector2[] controlPoints = {new Vector2(localMap.getxSize() / 2, localMap.getySize() / 2), new Vector2(Math.round(currentFlow.x), Math.round(currentFlow.y))};
         CatmullRomSpline<Vector2> spline = new CatmullRomSpline<>(controlPoints, false);
-        for (float i = 0; i < 1; i += 0.1f) {
-            Vector2 point = new Vector2();
-            spline.valueAt(point, i);
-            applyBrush(brush, point);
-        }
-    }
-
-    private void applyBrush(LandscapeBrush brush, Vector2 vector) {
-        int cx = Math.round(vector.x);
-        int cy = Math.round(vector.y);
-        for (int x = 0; x < brush.depthPattern.length; x++) {
-            for (int y = 0; y < brush.depthPattern.length; y++) {
-                updateLocalMapAndRoundedHeightMap(x,y,);
-            }
-        }
+        carveWithBrush(spline, brush);
     }
 
     private void makeCentralLake() {
@@ -131,17 +110,6 @@ public class LocalRiverGenerator {
         }
     }
 
-    private void placeRiver(int dx, int dy) {
-        System.out.println("placing river");
-        int x = localMap.getxSize() / 2;
-        int y = localMap.getySize() / 2;
-        while (localMap.inMap(x, y, 0)) {
-            localMap.setBlock(x, y, 0, BlockTypesEnum.SPACE, 1);
-            x += dx;
-            y += dy;
-        }
-    }
-
     private Position getPositionOnBorderByWorldCoords(Position position) {
         int dx = location.getX() - position.getX();
         int dy = location.getY() - position.getY();
@@ -159,7 +127,27 @@ public class LocalRiverGenerator {
     /**
      * Fills collections of inflows and sets current flow.
      */
-    private void lookupFlows(int cx, int cy) {
+    private void lookupFlows() {
+        int commonOffset = -1;
+        int cx = location.getX();
+        int cy = location.getY();
+        for (int x = cx - 1; x < cx + 2; x++) {
+            for (int y = cy - 1; y < cy + 2; y++) {
+                if ((x != cx || y != cy) && worldMap.inMap(x, y)) {
+                    if (worldMap.getRiver(x, y) != null) {
+                        Vector2 river = worldMap.getRiver(x,y).cpy().nor();
+                        if(river.x)
+                    }
+                }
+            }
+        }
+//        for (int dx = 0; dx < 3; dx++) {
+//            int x = dx + commonOffset + cx;
+//            for (int dy = 0; dy < 3; dy++) {
+//                int y = dy + commonOffset + cy;
+//
+//            }
+//        }
         for (int dx = -1; dx < 2; dx++) {
             for (int dy = -1; dy < 2; dy++) {
                 int x = cx + dx;
@@ -195,6 +183,7 @@ public class LocalRiverGenerator {
      * @param vector
      * @return
      */
+
     private boolean isInflow(int relativeX, int relativeY, Vector2 vector) {
         System.out.println("inflow check: " + relativeX + " " + relativeY + " " + vector);
         System.out.println("vector: " + Math.round(vector.x) + " " + Math.round(vector.y));
@@ -222,39 +211,27 @@ public class LocalRiverGenerator {
         }
     }
 
-    /**
-     * for debug
-     *
-     * @return
-     */
-    private int countLocationsWithInflows() {
-        int counter = 0;
-        for (int x = 0; x < worldMap.getWidth(); x++) {
-            for (int y = 0; y < worldMap.getHeight(); y++) {
-                if (worldMap.getElevation(x, y) > container.getConfig().getSeaLevel() && checkInflows(x, y)) {
-                    counter++;
-                }
-            }
+    private void carveWithBrush(CatmullRomSpline<Vector2> spline, LandscapeBrush brush) {
+        for (float i = 0; i < 1; i += 0.1f) {
+            Vector2 point = new Vector2();
+            spline.valueAt(point, i);
+            applyBrush(brush, point);
         }
-        return counter;
     }
 
-    private boolean checkInflows(int cx, int cy) {
-        for (int dx = -1; dx < 2; dx++) {
-            for (int dy = -1; dy < 2; dy++) {
-                int x = cx + dx;
-                int y = cy + dy;
-                if ((dx != 0 || dy != 0) && worldMap.inMap(x, y)) {
-                    if (worldMap.getRiver(x, y) != null && isInflow(dx, dy, worldMap.getRiver(x, y).cpy())) {
-                        return true;
-                    }
-                    if (worldMap.getBrook(x, y) != null && isInflow(dx, dy, worldMap.getBrook(x, y).cpy())) {
-                        return true;
-                    }
+    private void applyBrush(LandscapeBrush brush, Vector2 vector) {
+        int brushOffset = brush.depthPattern.length / 2;
+        int cx = brushOffset - Math.round(vector.x);
+        int cy = brushOffset - Math.round(vector.y);
+        for (int x = 0; x < brush.depthPattern.length; x++) {
+            for (int y = 0; y < brush.depthPattern.length; y++) {
+                int mx = cx - brushOffset + x;
+                int my = cy - brushOffset + y;
+                if (localMap.inMap(mx, my, 0)) {
+                    updateLocalMapAndRoundedHeightMap(mx, my, container.getRoundedHeightsMap()[mx][my]);
                 }
             }
         }
-        return false;
     }
 
     private class LandscapeBrush {
@@ -262,7 +239,13 @@ public class LocalRiverGenerator {
         int depth;
         int[][] depthPattern;
 
-        public void updatePattern() {
+        public LandscapeBrush(ArrayList<Integer> layerRadiuses, int depth) {
+            this.layerRadiuses = layerRadiuses;
+            this.depth = depth;
+            updatePattern();
+        }
+
+        private void updatePattern() {
             if (layerRadiuses != null) {
                 int patternWidth = Collections.max(layerRadiuses);
                 int center = patternWidth / 2;
@@ -271,7 +254,7 @@ public class LocalRiverGenerator {
                     for (int y = 0; y < patternWidth; y++) {
                         Vector2 vector = new Vector2(x - center, y - center);
                         for (int i = 0; i < layerRadiuses.size(); i++) {
-                            if(vector.len() < layerRadiuses.get(i)) {
+                            if (vector.len() < layerRadiuses.get(i)) {
                                 depthPattern[x][y] = i + 1;
                             }
                         }
