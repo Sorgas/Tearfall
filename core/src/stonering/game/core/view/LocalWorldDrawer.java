@@ -42,6 +42,7 @@ public class LocalWorldDrawer {
     private int tileDepth = 64;
     private int topingTileHeight = 70;
     private int blockTileHeight = 166;
+    private float scale = 0.5f;
 
     private int screenCenterX;
     private int screenCenterY;
@@ -91,10 +92,10 @@ public class LocalWorldDrawer {
 
     private void drawTile(int x, int y, int z) {
         drawBlock(x, y, z);
-//        PlantBlock plantBlock = localMap.getPlantBlock(x, y, z);
-//        if (plantBlock != null) {
-//            drawSprite(1, x, y, z, plantBlock.getAtlasX(), plantBlock.getAtlasY());
-//        }
+        PlantBlock plantBlock = localMap.getPlantBlock(x, y, z);
+        if (plantBlock != null) {
+            drawSprite(1, x, y, z, plantBlock.getAtlasX(), plantBlock.getAtlasY());
+        }
         BuildingBlock buildingBlock = localMap.getBuildingBlock(x, y, z);
         if (buildingBlock != null) {
             drawSprite(3, x, y, z, 0, 0);
