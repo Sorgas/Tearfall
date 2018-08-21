@@ -25,8 +25,8 @@ public class LocalRiverGenerator {
     private LocalMap localMap;
     private Position location;
     private ArrayList<Inflow> inflows;
-    private Inflow currentFlow; // direction of current flow
-    private Inflow mainInflow; // position on local map
+    private ArrayList<Flow> flows;
+    private Position outflow; // outflow
     private MaterialMap materialMap;
 
     public LocalRiverGenerator(LocalGenContainer container) {
@@ -36,9 +36,10 @@ public class LocalRiverGenerator {
     public void execute() {
         System.out.println("generating rivers");
         extractContainer();
-        lookupFlows();
-        determineMailInflow();
-        if (mainInflow != null) {
+        lookupInflows(); // fill inflow collection
+        makeOutFlow();
+        makeFlows(); // fill flows collection
+        if (outflow != null) {
             System.out.println("main inflow");
             makeMainFlow();
         } else {
@@ -63,20 +64,24 @@ public class LocalRiverGenerator {
     private void makeMainFlow() {
         LandscapeBrush brush = new LandscapeBrush(new ArrayList<>(Arrays.asList(5, 3, 2)), 1);
         int startElevation = container.getRoundedHeightsMap()[mainInflow.localStart.getX()][mainInflow.localStart.getY()];
-        int endElevation = container.getRoundedHeightsMap()[currentFlow.localStart.getX()][currentFlow.localStart.getY()];
+        int endElevation = container.getRoundedHeightsMap()[outflow.getX()][outflow.getY()];
         if (startElevation > endElevation) {
             //ok
         } else {
 
         }
         Vector2 start = new Vector2(mainInflow.localStart.getX(), mainInflow.localStart.getY());
-        Vector2 end = new Vector2(currentFlow.localStart.getX(), currentFlow.localStart.getY());
+        Vector2 end = new Vector2(outflow.getX(), outflow.getY());
         Vector2 center = new Vector2(localMap.getxSize() / 2, localMap.getySize() / 2);
 
         Vector2[] vectors = {start, start, center, end, end};
-        CatmullRomSpline<Vector2> spline = new CatmullRomSpline<>();
+        CatmullRomSpline<Vector2> spline = new CatmullRomSpline<>(); // spline is d2 projection of river path (no z axis)
         spline.set(vectors, false);
         carveWithBrush(spline, brush);
+    }
+
+    private void carveFlow(Flow flow) {
+
     }
 
     private void addInflows() {
@@ -85,11 +90,10 @@ public class LocalRiverGenerator {
         });
     }
 
-
     private void makeRiverStart() {
         LandscapeBrush brush = new LandscapeBrush(new ArrayList<>(Arrays.asList(5, 3, 2)), 1);
         Vector2[] controlPoints = {new Vector2(localMap.getxSize() / 2, localMap.getySize() / 2),
-                new Vector2(currentFlow.localStart.getX(), currentFlow.localStart.getY())};
+                new Vector2(outflow.localStart.getX(), outflow.localStart.getY())};
         CatmullRomSpline<Vector2> spline = new CatmullRomSpline<>(controlPoints, false);
         carveWithBrush(spline, brush);
     }
@@ -111,31 +115,10 @@ public class LocalRiverGenerator {
         }
     }
 
-    private void updateLocalMapAndRoundedHeightMap(int x, int y, int elevation) {
-        for (int z = elevation; z <= container.getRoundedHeightsMap()[x][y]; z++) {
-            localMap.setBlock(x, y, z, BlockTypesEnum.SPACE, materialMap.getId("air"));
-            localMap.setFlooding(x, y, z, 8);
-        }
-    }
-
-    private Position getPositionOnBorderByWorldCoords(Position position) {
-        int dx = location.getX() - position.getX();
-        int dy = location.getY() - position.getY();
-        int x = 0;
-        int y = 0;
-        if (dx != 0) {
-            x = dx > 0 ? 1 : -1;
-        }
-        if (dy != 0) {
-            y = dy > 0 ? 1 : -1;
-        }
-        return new Position(x, y, 0);
-    }
-
     /**
-     * Fills collections of inflows and sets current flow.
+     * Fills collections of inflows.
      */
-    private void lookupFlows() {
+    private void lookupInflows() {
         int cx = location.getX();
         int cy = location.getY();
         for (int dx = -1; dx < 2; dx++) { //offset x
@@ -152,14 +135,37 @@ public class LocalRiverGenerator {
                 }
             }
         }
+    }
+
+    private void makeOutFlow() {
+        int cx = location.getX();
+        int cy = location.getY();
         if (worldMap.getRiver(cx, cy) != null) {
             IntVector2 intVector = new IntVector2(worldMap.getRiver(cx, cy)); // pointing out
-            this.currentFlow = createInflow(intVector.x, intVector.y, true); // localStart is end of flow
+            this.outflow = createInflow(intVector.x, intVector.y, true); // localStart is end of flow
         } else if (worldMap.getBrook(cx, cy) != null) {
             IntVector2 intVector = new IntVector2(worldMap.getBrook(cx, cy)); // pointing out
-            this.currentFlow = createInflow(intVector.x, intVector.y, false); // localStart is end of flow
+            this.outflow = createInflow(intVector.x, intVector.y, false); // localStart is end of flow
         }
         System.out.println("inflows: " + inflows.size());
+    }
+
+    private void makeFlows() {
+        inflows.sort((o1, o2) -> Math.round((o1.waterAmount - o2.waterAmount)));
+        Position currentEnd = outflow != null ? outflow : new Position(localMap.getxSize() / 2, localMap.getySize() / 2, 0);
+        for (Inflow inflow : inflows) {
+            Flow flow = new Flow();
+            flow.start = inflow.localStart;
+            flow.end = currentEnd;
+            flow.isRiver = inflow.isRiver;
+            flow.waterAmount = inflow.waterAmount;
+
+            flow.spline = createFlowSpline();
+        }
+    }
+
+    private CatmullRomSpline<Vector2> createFlowSpline() {
+
     }
 
     /**
@@ -190,51 +196,66 @@ public class LocalRiverGenerator {
         return inflow;
     }
 
-    private void determineMailInflow() {
-        inflows.forEach(inflow -> {
-            if (mainInflow == null || mainInflow.waterAmount < inflow.waterAmount) {
-                mainInflow = inflow;
-            }
-        });
-    }
-
     /**
      * Applies brush along the spline.
+     *
      * @param spline
      * @param brush
      */
     private void carveWithBrush(CatmullRomSpline<Vector2> spline, LandscapeBrush brush) {
         Vector2 point = new Vector2();
+        Vector2 start = spline.valueAt(point, 0).cpy();
+        Vector2 end = spline.valueAt(point, 1).cpy();
+        int startElevation = container.getRoundedHeightsMap()[Math.round()][]
         float step = 1f / localMap.getxSize();
         for (float i = 0; i < 1; i += step) {
             spline.valueAt(point, i);
-            applyBrush(brush, point);
+            applyBrush(brush, point, );
         }
     }
 
     /**
      * Applies ground removing brush in the given position.
-     * @param brush
-     * @param vector
+     *
+     * @param brush        brush to apply.
+     * @param vector       carries x and y of desired point.
+     * @param maxElevation water can go only lower, max elevation ensures that.
+     *                     Riverbed will carve hill, instead of climbing it.
      */
-    private void applyBrush(LandscapeBrush brush, Vector2 vector) {
+    private void applyBrush(LandscapeBrush brush, Vector2 vector, int maxElevation) {
         int brushOffset = brush.depthPattern.length / 2;
         int cx = brushOffset - Math.round(vector.x);
         int cy = brushOffset - Math.round(vector.y);
-        for (int x = 0; x < brush.depthPattern.length; x++) {
-            for (int y = 0; y < brush.depthPattern.length; y++) {
-                int mx = cx - brushOffset + x;
-                int my = cy - brushOffset + y;
-                if (localMap.inMap(mx, my, 0)) {
-                    updateLocalMapAndRoundedHeightMap(mx, my, container.getRoundedHeightsMap()[mx][my]);
+        for (int x = cx; x < cx + brush.depthPattern.length; x++) {
+            for (int y = cy; y < cy + brush.depthPattern.length; y++) {
+                if (localMap.inMap(x, y, 0)) {
+                    int elevation = Math.min(container.getRoundedHeightsMap()[x][y], maxElevation);
+                    updateLocalMapAndRoundedHeightMap(x, y, elevation);
                 }
             }
         }
     }
 
+    /**
+     * Changes elevation in specified point. Can only decrease elevation(thats enough for rivers).
+     *
+     * @param x
+     * @param y
+     * @param elevation
+     */
+    private void updateLocalMapAndRoundedHeightMap(int x, int y, int elevation) {
+        for (int z = elevation; z <= container.getRoundedHeightsMap()[x][y]; z++) {
+            localMap.setBlock(x, y, z, BlockTypesEnum.SPACE, materialMap.getId("air"));
+            localMap.setFlooding(x, y, z, 8);
+        }
+    }
+
+    /**
+     * After updating, pattern is a grid of elevation above some level.
+     */
     private class LandscapeBrush {
-        ArrayList<Integer> layerRadiuses;
-        int depth;
+        ArrayList<Integer> layerRadiuses; // 0 is bottom
+        int depth; // hao many layers are below 0
         int[][] depthPattern;
 
         public LandscapeBrush(ArrayList<Integer> layerRadiuses, int depth) {
@@ -250,9 +271,9 @@ public class LocalRiverGenerator {
                 depthPattern = new int[patternWidth][patternWidth];
                 for (int x = 0; x < patternWidth; x++) {
                     for (int y = 0; y < patternWidth; y++) {
-                        Vector2 vector = new Vector2(x - center, y - center);
+                        float distance = new Vector2(x - center, y - center).len();
                         for (int i = 0; i < layerRadiuses.size(); i++) {
-                            if (vector.len() < layerRadiuses.get(i)) {
+                            if (distance < layerRadiuses.get(i)) {
                                 depthPattern[x][y] = i + 1;
                                 break;
                             }
@@ -263,9 +284,17 @@ public class LocalRiverGenerator {
         }
     }
 
+    private class Flow {
+        boolean isRiver;
+        float waterAmount;
+        Position start;
+        Position end;
+        CatmullRomSpline<Vector2> spline;
+    }
+
     private class Inflow {
         boolean isRiver; // or brook
-        Position offset;
+        Position offset; // offset on world map
         Position localStart;
         float waterAmount;
     }
