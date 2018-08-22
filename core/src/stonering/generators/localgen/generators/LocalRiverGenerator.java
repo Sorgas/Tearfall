@@ -24,9 +24,11 @@ public class LocalRiverGenerator {
     private WorldMap worldMap;
     private LocalMap localMap;
     private Position location;
+
     private ArrayList<Inflow> inflows;
+    private Inflow outflow;
+
     private ArrayList<Flow> flows;
-    private Position outflow; // outflow
     private MaterialMap materialMap;
 
     public LocalRiverGenerator(LocalGenContainer container) {
@@ -39,9 +41,8 @@ public class LocalRiverGenerator {
         lookupInflows(); // fill inflow collection
         makeOutFlow();
         makeFlows(); // fill flows collection
+        flows.forEach(this::carveFlow);
         if (outflow != null) {
-            System.out.println("main inflow");
-            makeMainFlow();
         } else {
             System.out.println("river start");
             makeRiverStart();
@@ -54,6 +55,7 @@ public class LocalRiverGenerator {
         localMap = container.getLocalMap();
         location = container.getConfig().getLocation();
         inflows = new ArrayList<>();
+        flows = new ArrayList<>();
         localMap = container.getLocalMap();
         materialMap = MaterialMap.getInstance();
     }
@@ -61,27 +63,9 @@ public class LocalRiverGenerator {
     /**
      * Carves bed of current flow and its main inflow.
      */
-    private void makeMainFlow() {
-        LandscapeBrush brush = new LandscapeBrush(new ArrayList<>(Arrays.asList(5, 3, 2)), 1);
-        int startElevation = container.getRoundedHeightsMap()[mainInflow.localStart.getX()][mainInflow.localStart.getY()];
-        int endElevation = container.getRoundedHeightsMap()[outflow.getX()][outflow.getY()];
-        if (startElevation > endElevation) {
-            //ok
-        } else {
-
-        }
-        Vector2 start = new Vector2(mainInflow.localStart.getX(), mainInflow.localStart.getY());
-        Vector2 end = new Vector2(outflow.getX(), outflow.getY());
-        Vector2 center = new Vector2(localMap.getxSize() / 2, localMap.getySize() / 2);
-
-        Vector2[] vectors = {start, start, center, end, end};
-        CatmullRomSpline<Vector2> spline = new CatmullRomSpline<>(); // spline is d2 projection of river path (no z axis)
-        spline.set(vectors, false);
-        carveWithBrush(spline, brush);
-    }
-
     private void carveFlow(Flow flow) {
-
+        LandscapeBrush brush = new LandscapeBrush(new ArrayList<>(Arrays.asList(5, 3, 2)), 1);
+        carveWithBrush(flow.spline, brush);
     }
 
     private void addInflows() {
@@ -151,21 +135,38 @@ public class LocalRiverGenerator {
     }
 
     private void makeFlows() {
-        inflows.sort((o1, o2) -> Math.round((o1.waterAmount - o2.waterAmount)));
-        Position currentEnd = outflow != null ? outflow : new Position(localMap.getxSize() / 2, localMap.getySize() / 2, 0);
-        for (Inflow inflow : inflows) {
+        //TODO currently all flows have straight splines with common end point on the border of the map. This need to be changed to curved splines merging one to another.
+        inflows.sort((o1, o2) -> Math.round((o1.waterAmount - o2.waterAmount))); // sort by size
+        Position currentEnd = outflow != null ? outflow.localStart : new Position(localMap.getxSize() / 2, localMap.getySize() / 2, 0);
+        if (!inflows.isEmpty()) {
+            for (Inflow inflow : inflows) {
+                Flow flow = new Flow();
+                flow.start = inflow.localStart;
+                flow.end = currentEnd;
+                flow.isRiver = inflow.isRiver;
+                flow.waterAmount = inflow.waterAmount;
+                createFlowSpline(flow);
+                flows.add(flow);
+            }
+        } else {
             Flow flow = new Flow();
-            flow.start = inflow.localStart;
+            flow.start = new Position(localMap.getxSize() / 2, localMap.getySize() / 2, 0);
             flow.end = currentEnd;
-            flow.isRiver = inflow.isRiver;
-            flow.waterAmount = inflow.waterAmount;
-
-            flow.spline = createFlowSpline();
+            flow.isRiver = outflow.isRiver;
+            flow.waterAmount = outflow.waterAmount;
+            createFlowSpline(flow);
+            flows.add(flow);
         }
     }
 
-    private CatmullRomSpline<Vector2> createFlowSpline() {
-
+    private void createFlowSpline(Flow flow) {
+        //TODO add intermediate control points to form curved river beds
+        Vector2 start = new Vector2(flow.start.getX(), flow.start.getY());
+        Vector2 end = new Vector2(flow.end.getX(), flow.end.getY());
+        CatmullRomSpline<Vector2> spline = new CatmullRomSpline<>();
+        Vector2[] controlPoints = {start, start, end, end};
+        spline.set(controlPoints, false);
+        flow.spline = spline;
     }
 
     /**
@@ -206,12 +207,27 @@ public class LocalRiverGenerator {
         Vector2 point = new Vector2();
         Vector2 start = spline.valueAt(point, 0).cpy();
         Vector2 end = spline.valueAt(point, 1).cpy();
-        int startElevation = container.getRoundedHeightsMap()[Math.round()][]
+        int currentElevation = getElevationInPoint(start);
         float step = 1f / localMap.getxSize();
         for (float i = 0; i < 1; i += step) {
             spline.valueAt(point, i);
-            applyBrush(brush, point, );
+            int newElevation = getElevationInPoint(point);
+            applyBrush(brush, point, Math.min(newElevation, currentElevation));
         }
+    }
+
+    /**
+     * Return current elevation in point
+     * @param vector
+     * @return
+     */
+    private int getElevationInPoint(Vector2 vector) {
+        int x = Math.round(vector.x);
+        int y = Math.round(vector.y);
+        if (localMap.inMap(x, y, 0)) {
+            return container.getRoundedHeightsMap()[x][y];
+        }
+        return -1;
     }
 
     /**
