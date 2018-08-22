@@ -5,12 +5,10 @@ import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.core.view.tilemaps.LocalTileMapUpdater;
 import stonering.global.utils.Position;
 import stonering.objects.local_actors.building.BuildingBlock;
-import stonering.objects.local_actors.environment.WaterSource;
 import stonering.objects.local_actors.plants.PlantBlock;
 import stonering.objects.local_actors.unit.UnitBlock;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Contains blocks, and physical parameters, and proxies to objects.
@@ -22,7 +20,6 @@ public class LocalMap {
     private byte[][][] blockType;
     private byte[][][] designatedBlockType;
     private byte[][][] flooding;
-    private HashMap<Position, WaterSource> waterSources;
     private byte[][][] temperature;
     private byte[][][] lightlevel;
     private byte[][][] area;
@@ -44,7 +41,6 @@ public class LocalMap {
         plantBlocks = new PlantBlock[xSize][ySize][zSize];
         buildingBlocks = new BuildingBlock[xSize][ySize][zSize];
         unitBlocks = new UnitBlock[xSize][ySize][zSize];
-        waterSources = new HashMap<>();
         area = new byte[xSize][ySize][zSize];
         flooding = new byte[xSize][ySize][zSize];
         temperature = new byte[xSize][ySize][zSize];
@@ -327,13 +323,5 @@ public class LocalMap {
 
     public PlantBlock getPlantBlock(Position pos) {
         return getPlantBlock(pos.getX(), pos.getY(), pos.getZ());
-    }
-
-    public HashMap<Position, WaterSource> getWaterSources() {
-        return waterSources;
-    }
-
-    public void setWaterSources(HashMap<Position, WaterSource> waterSources) {
-        this.waterSources = waterSources;
     }
 }

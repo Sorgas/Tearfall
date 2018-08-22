@@ -64,8 +64,9 @@ public class GameContainer {
 
         taskContainer = new TaskContainer(this);
 
-        liquidContainer = new LiquidContainer();
+        liquidContainer = new LiquidContainer(container);
         liquidContainer.setLocalMap(localMap);
+        liquidContainer.initLiquidsToMap();
 
         //TODO commented for fast localgen
 //        localMap.initAreas();

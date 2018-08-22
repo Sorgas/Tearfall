@@ -1,6 +1,8 @@
 package stonering.game.core.model.lists;
 
+import stonering.enums.materials.MaterialMap;
 import stonering.game.core.model.LocalMap;
+import stonering.generators.localgen.LocalGenContainer;
 import stonering.global.utils.Position;
 
 import java.util.ArrayList;
@@ -13,13 +15,28 @@ import java.util.Random;
 public class LiquidContainer {
     private LocalMap localMap;
     private HashMap<Position, LiquidTile> liquidTiles;
+    private HashMap<Position, LiquidSource> liquidSources;
     private Random random;
     private int turnDelay = 100;
     private int turnCount = 0;
 
-    public LiquidContainer() {
+    public LiquidContainer(LocalGenContainer container) {
         liquidTiles = new HashMap<>();
+        liquidSources = new HashMap<>();
         random = new Random();
+        loadWater(container);
+    }
+
+    private void loadWater(LocalGenContainer container) {
+        //TODO support other liquids
+        MaterialMap materialMap = MaterialMap.getInstance();
+        container.getWaterTiles().forEach(position -> {
+            liquidTiles.put(position, new LiquidTile(position, materialMap.getId("water"), 8));
+        });
+        //TODO add intensity based on river/brook water amount
+        container.getWaterSources().forEach(position -> {
+            liquidSources.put(position, new LiquidSource(position, materialMap.getId("water"), 1));
+        });
     }
 
     public void turn() {
@@ -69,10 +86,35 @@ public class LiquidContainer {
         return positions;
     }
 
+    public void initLiquidsToMap() {
+        liquidTiles.values().forEach(liquidTile -> {
+            Position position = liquidTile.position;
+            localMap.setFlooding(position.getX(), position.getY(), position.getZ(), liquidTile.amount);
+        });
+    }
+
     private class LiquidTile {
         Position position;
         int liquid;
         int amount;
+
+        public LiquidTile(Position position, int liquid, int amount) {
+            this.position = position;
+            this.liquid = liquid;
+            this.amount = amount;
+        }
+    }
+
+    private class LiquidSource {
+        Position position;
+        int liquid;
+        int intensity;
+
+        public LiquidSource(Position position, int liquid, int intensity) {
+            this.position = position;
+            this.liquid = liquid;
+            this.intensity = intensity;
+        }
     }
 
     public void setLocalMap(LocalMap localMap) {

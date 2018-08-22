@@ -48,7 +48,6 @@ public class LocalRiverGenerator {
 
     private void extractContainer() {
         worldMap = container.getWorldMap();
-        localMap = container.getLocalMap();
         location = container.getConfig().getLocation();
         inflows = new ArrayList<>();
         flows = new ArrayList<>();
@@ -250,13 +249,15 @@ public class LocalRiverGenerator {
         for (int z = elevation; z <= container.getRoundedHeightsMap()[x][y]; z++) {
             localMap.setBlock(x, y, z, BlockTypesEnum.SPACE, materialMap.getId("air"));
             if (z <= elevation) {
-                localMap.setFlooding(x, y, z, 8);
+//                localMap.setFlooding(x, y, z, 8);
+                container.getWaterTiles().add(new Position(x,y,z));
                 if (isWaterSource && localMap.isBorder(x, y)) {
                     Position position = new Position(x, y, z);
-                    if (!localMap.getWaterSources().keySet().contains(position)) {
+                    if (!container.getWaterSources().contains(position)) {
                         System.out.println("water source: " + position);
                         WaterSource waterSource = new WaterSource(position, materialMap.getId("water"));
-                        localMap.getWaterSources().put(position, waterSource);
+                        container.getWaterSources().add(position);
+//                        localMap.getWaterSources().put(position, waterSource);
                     }
                 }
             }

@@ -5,6 +5,7 @@ import stonering.enums.materials.MaterialMap;
 import stonering.game.core.model.LocalMap;
 import stonering.generators.PerlinNoiseGenerator;
 import stonering.generators.localgen.LocalGenContainer;
+import stonering.global.utils.Position;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -93,7 +94,8 @@ public class LocalSurfaceWaterPoolsGenerator {
         ArrayList<Point> points = new ArrayList<>(pool.points.keySet());
         LocalMap map = container.getLocalMap();
         for (Point point : points) {
-            map.setFlooding(point.x, point.y, level, 8);
+            container.getWaterTiles().add(new Position(Math.round(point.x), Math.round(point.y), level));
+//            map.setFlooding(point.x, point.y, level, 8);
         }
     }
 
