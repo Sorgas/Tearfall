@@ -2,12 +2,13 @@ package stonering.generators.localgen.generators;
 
 import com.badlogic.gdx.math.CatmullRomSpline;
 import com.badlogic.gdx.math.Vector2;
+import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.core.model.LocalMap;
-import stonering.enums.blocks.BlockTypesEnum;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.generators.worldgen.WorldMap;
 import stonering.global.utils.Position;
+import stonering.objects.local_actors.environment.WaterSource;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,6 +17,7 @@ import java.util.Collections;
 /**
  * Generates rivers and brooks on local worldMap.
  * All incoming flows merge into flow on local map.
+ * Border tiles in flows starts are water sources.
  *
  * @author Alexander Kuzyakov on 10.07.2017.
  */
@@ -62,22 +64,22 @@ public class LocalRiverGenerator {
         carveWithBrush(flow.spline, brush);
     }
 
-    private void makeCentralLake() {
-        //TODO change shape from sphere to something natural.
-        int radius = 10;
-        int center = container.getConfig().getAreaSize() / 2;
-        int elevationInCenter = container.getRoundedHeightsMap()[center][center];
-        for (int x = -radius; x < radius; x++) {
-            for (int y = -radius; y < radius; y++) {
-                float rad = (float) Math.sqrt((x * x) + (y * y));
-                if (rad <= radius) {
-                    int elevation = container.getRoundedHeightsMap()[center + x][center + y];
-                    int sphereElevation = (int) (elevationInCenter + radius / 2 - Math.sqrt(Math.abs(-(x * x) - (y * y) + radius * radius)));
-                    updateLocalMapAndRoundedHeightMap(center + x, center + y, Math.min(sphereElevation, elevation));
-                }
-            }
-        }
-    }
+//    private void makeCentralLake() {
+//        //TODO change shape from sphere to something natural.
+//        int radius = 10;
+//        int center = container.getConfig().getAreaSize() / 2;
+//        int elevationInCenter = container.getRoundedHeightsMap()[center][center];
+//        for (int x = -radius; x < radius; x++) {
+//            for (int y = -radius; y < radius; y++) {
+//                float rad = (float) Math.sqrt((x * x) + (y * y));
+//                if (rad <= radius) {
+//                    int elevation = container.getRoundedHeightsMap()[center + x][center + y];
+//                    int sphereElevation = (int) (elevationInCenter + radius / 2 - Math.sqrt(Math.abs(-(x * x) - (y * y) + radius * radius)));
+//                    updateLocalMapAndRoundedHeightMap(center + x, center + y, Math.min(sphereElevation, elevation));
+//                }
+//            }
+//        }
+//    }
 
     /**
      * Fills collections of inflows.
@@ -193,10 +195,9 @@ public class LocalRiverGenerator {
         float step = 1f / localMap.getxSize();
         for (float i = 0; i < 1; i += step) {
             spline.valueAt(point, i);
-            System.out.println(i);
             if (localMap.inMap(point)) {
                 currentElevation = Math.min(getElevationInPoint(point), currentElevation);
-                applyBrush(brush, point, currentElevation);
+                applyBrush(brush, point, currentElevation, i == 0);
             }
         }
     }
@@ -210,7 +211,6 @@ public class LocalRiverGenerator {
     private int getElevationInPoint(Vector2 vector) {
         int x = Math.round(vector.x);
         int y = Math.round(vector.y);
-        System.out.println(vector + " " + x + " " + y);
         if (localMap.inMap(x, y, 0)) {
             return container.getRoundedHeightsMap()[x][y];
         }
@@ -225,7 +225,7 @@ public class LocalRiverGenerator {
      * @param maxElevation water can go only lower, max elevation ensures that.
      *                     Riverbed will carve hill, instead of climbing it.
      */
-    private void applyBrush(LandscapeBrush brush, Vector2 vector, int maxElevation) {
+    private void applyBrush(LandscapeBrush brush, Vector2 vector, int maxElevation, boolean isStart) {
         int brushOffset = brush.depthPattern.length / 2;
         int cx = Math.round(vector.x) - brushOffset;
         int cy = Math.round(vector.y) - brushOffset;
@@ -233,11 +233,7 @@ public class LocalRiverGenerator {
             for (int y = cy; y < cy + brush.depthPattern.length; y++) {
                 if (localMap.inMap(x, y, 0)) {
                     int elevation = Math.min(container.getRoundedHeightsMap()[x][y], maxElevation);
-                    System.out.println(container.getRoundedHeightsMap()[x][y] + " " + maxElevation);
-                    if (x < 0 || y < 0 || elevation < 0) {
-                        int q = 1;
-                    }
-                    updateLocalMapAndRoundedHeightMap(x, y, elevation);
+                    updateLocalMapAndRoundedHeightMap(x, y, elevation, isStart && localMap.isBorder(x, y));
                 }
             }
         }
@@ -250,10 +246,20 @@ public class LocalRiverGenerator {
      * @param y
      * @param elevation
      */
-    private void updateLocalMapAndRoundedHeightMap(int x, int y, int elevation) {
+    private void updateLocalMapAndRoundedHeightMap(int x, int y, int elevation, boolean isWaterSource) {
         for (int z = elevation; z <= container.getRoundedHeightsMap()[x][y]; z++) {
             localMap.setBlock(x, y, z, BlockTypesEnum.SPACE, materialMap.getId("air"));
-            localMap.setFlooding(x, y, z, 8);
+            if (z <= elevation) {
+                localMap.setFlooding(x, y, z, 8);
+                if (isWaterSource && localMap.isBorder(x, y)) {
+                    Position position = new Position(x, y, z);
+                    if (!localMap.getWaterSources().keySet().contains(position)) {
+                        System.out.println("water source: " + position);
+                        WaterSource waterSource = new WaterSource(position, materialMap.getId("water"));
+                        localMap.getWaterSources().put(position, waterSource);
+                    }
+                }
+            }
         }
     }
 
@@ -262,7 +268,7 @@ public class LocalRiverGenerator {
      */
     private class LandscapeBrush {
         ArrayList<Integer> layerRadiuses; // 0 is bottom
-        int depth; // hao many layers are below 0
+        int depth; // how many layers are below 0 and have water
         int[][] depthPattern;
 
         public LandscapeBrush(ArrayList<Integer> layerRadiuses, int depth) {

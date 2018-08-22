@@ -23,6 +23,8 @@ public class GameContainer {
     private TaskContainer taskContainer;
     private ItemContainer itemContainer;
 
+    private LiquidContainer liquidContainer;
+
     private Timer timer;
     private GameCamera camera;
 
@@ -62,6 +64,9 @@ public class GameContainer {
 
         taskContainer = new TaskContainer(this);
 
+        liquidContainer = new LiquidContainer();
+        liquidContainer.setLocalMap(localMap);
+
         //TODO commented for fast localgen
 //        localMap.initAreas();
     }
@@ -99,6 +104,7 @@ public class GameContainer {
         plantContainer.turn();
         buildingContainer.turn();
         itemContainer.turn();
+        liquidContainer.turn();
     }
 
     public void pauseGame() {

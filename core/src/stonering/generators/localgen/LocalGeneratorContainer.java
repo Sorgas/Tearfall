@@ -52,8 +52,8 @@ public class LocalGeneratorContainer {
         localHeightsGenerator.execute(); //creates heights map
         localStoneLayersGenerator.execute(); //fills localmap with blocks by heightsmap
         localCaveGenerator.execute(); //digs caves
-        localSurfaceWaterPoolsGenerator.execute(); // digs ponds
         localRiverGenerator.execute(); // carves river beds
+        localSurfaceWaterPoolsGenerator.execute(); // digs ponds
         localRampAndFloorPlacer.execute(); // places floors and ramps upon all top blocks
         localTemperatureGenerator.execute(); // generates year temperature cycle
 //        localFloraGenerator.execute(); // places trees and plants
