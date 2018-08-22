@@ -1,5 +1,6 @@
 package stonering.game.core.model;
 
+import com.badlogic.gdx.math.Vector2;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.core.view.tilemaps.LocalTileMapUpdater;
 import stonering.global.utils.Position;
@@ -150,12 +151,15 @@ public class LocalMap {
     }
 
     public boolean inMap(int x, int y, int z) {
-        return !(x < 0 || y < 0 || z < 0 ||
-                x >= xSize || y >= ySize || z >= zSize);
+        return !(x < 0 || y < 0 || z < 0 || x >= xSize || y >= ySize || z >= zSize);
     }
 
     public boolean inMap(Position position) {
         return inMap(position.getX(), position.getY(), position.getZ());
+    }
+
+    public boolean inMap(Vector2 vector) {
+        return inMap(Math.round(vector.x), Math.round(vector.y), 0);
     }
 
     public void setBlocType(int x, int y, int z, byte type) {
