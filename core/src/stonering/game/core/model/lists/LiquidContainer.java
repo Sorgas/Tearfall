@@ -23,7 +23,7 @@ public class LiquidContainer {
     private HashMap<Position, LiquidTile> tempLiquidTiles;
     private HashMap<Position, LiquidSource> liquidSources;
     private Random random;
-    private int turnDelay = 40;
+    private int turnDelay = 5;
     private int turnCount = 0;
     private byte spaceCode;
     private byte wallCode;
@@ -56,7 +56,7 @@ public class LiquidContainer {
     }
 
     private LiquidTile createLiquidTile(Position position, String liquid, int amount) {
-        LiquidTile liquidTile = new LiquidTile(position, materialMap.getId(liquid), amount);
+        LiquidTile liquidTile = new LiquidTile(materialMap.getId(liquid), amount);
         tempLiquidTiles.put(position, liquidTile);
         return liquidTile;
     }
@@ -85,10 +85,13 @@ public class LiquidContainer {
                 if (liquidTile.amount > 0) { // can spread. tiles with
                     trySpreadTile(position);
                 } else { // destroy zero tile
-                    System.out.println("removing");
                     iterator.remove();
                 }
             }
+            liquidSources.keySet().forEach(position -> {
+                if(liquidTiles.get(position) != null && liquidTiles.get(position).amount < 7)
+                transferLiquid(null, position, 1);
+            });
             flushTempTiles();
         }
     }
@@ -121,20 +124,20 @@ public class LiquidContainer {
         }
     }
 
-    private ArrayList<Position> observeTilesAround(Position position, int currentAmountOfWater, boolean ignoreWaterAmount) {
+    private ArrayList<Position> observeTilesAround(Position position, int currentAmountOfWater, boolean onLowerLevel) {
         ArrayList<Position> positions = new ArrayList<>();
         for (int x = position.getX() - 1; x < position.getX() + 2; x++) {
             for (int y = position.getY() - 1; y < position.getY() + 2; y++) {
                 if (!(x == 0 && y == 0) && // not same point
                         localMap.inMap(x, y, position.getZ()) &&
                         localMap.isFlyPassable(x, y, position.getZ()) &&
-                        (localMap.getFlooding(x, y, position.getZ()) < currentAmountOfWater || ignoreWaterAmount) &&
+                        (localMap.getFlooding(x, y, position.getZ()) < currentAmountOfWater || onLowerLevel) &&
                         localMap.getFlooding(x, y, position.getZ()) < 7) { // can take liquid
                     positions.add(new Position(x, y, position.getZ()));
                 }
             }
         }
-        if (localMap.isBorder(position)) {
+        if (localMap.isBorder(position) && !liquidSources.keySet().contains(position) && !onLowerLevel) {
             positions.add(new Position(-1, -1, -1)); // out of the map
         }
         return positions;
@@ -142,27 +145,25 @@ public class LiquidContainer {
 
 
     private void transferLiquid(Position from, Position to, int amount) {
-        LiquidTile source = liquidTiles.get(from);
-        if (localMap.inMap(to)) {
+        if (to != null && localMap.inMap(to)) {
             LiquidTile acceptor = liquidTiles.get(to);
             if (acceptor == null) {
-                System.out.println("creating at: " + to);
                 acceptor = createLiquidTile(to, "water", 0);
             }
             acceptor.amount += amount;
             localMap.setFlooding(to, acceptor.amount);
         }
-        source.amount -= amount;
-        localMap.setFlooding(from, source.amount);
-        System.out.println("transfer: " + from + " " + to);
+        if (from != null && localMap.inMap(from)) {
+            LiquidTile source = liquidTiles.get(from);
+            source.amount -= amount;
+            localMap.setFlooding(from, source.amount);
+        }
     }
 
     public void initLiquidsToMap() {
-        int counter = 0;
         liquidTiles.keySet().forEach(position -> {
             localMap.setFlooding(position.getX(), position.getY(), position.getZ(), liquidTiles.get(position).amount);
         });
-        System.out.println("liquid tiles loaded: " + counter);
     }
 
     /**
@@ -172,7 +173,7 @@ public class LiquidContainer {
         int liquid;
         int amount;
 
-        public LiquidTile(Position position, int liquid, int amount) {
+        public LiquidTile(int liquid, int amount) {
             this.liquid = liquid;
             this.amount = amount;
         }

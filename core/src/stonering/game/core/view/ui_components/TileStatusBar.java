@@ -17,6 +17,7 @@ public class TileStatusBar extends Table {
     private int z;
     private int area;
     private String material;
+    private int flooding;
 
     private Label coordinates;
     private Label cellType;
@@ -39,17 +40,18 @@ public class TileStatusBar extends Table {
         this.add(coordinates).row();
     }
 
-    public void setData(Position camera, String material, int area) {
+    public void setData(Position camera, String material, int area, int flooding) {
         x = camera.getX();
         y = camera.getY();
         z = camera.getZ();
         this.area = area;
         this.material = material;
+        this.flooding = flooding;
         updateLabels();
     }
 
     private void updateLabels() {
-        coordinates.setText("(" + x + ", " + y + ", " + z + ") " + area);
+        coordinates.setText("(" + x + ", " + y + ", " + z + ") " + flooding);
         cellType.setText(material);
     }
 }

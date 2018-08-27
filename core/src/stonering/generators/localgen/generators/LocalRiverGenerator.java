@@ -196,9 +196,11 @@ public class LocalRiverGenerator {
             spline.valueAt(point, i);
             if (localMap.inMap(point)) {
                 currentElevation = Math.min(getElevationInPoint(point), currentElevation);
-                applyBrush(brush, point, currentElevation, i == 0);
+                applyBrush(brush, point, currentElevation, false);
             }
         }
+        spline.valueAt(point, 0);
+        applyBrush(brush, point, getElevationInPoint(point), true);
     }
 
     /**
@@ -220,7 +222,7 @@ public class LocalRiverGenerator {
      * Applies ground removing brush in the given position.
      *
      * @param brush        brush to apply.
-     * @param vector       carries x and y of desired point.
+     * @param vector       carries x and y of desired point. Comes from spline.
      * @param maxElevation water can go only lower, max elevation ensures that.
      *                     Riverbed will carve hill, instead of climbing it.
      */
@@ -251,7 +253,7 @@ public class LocalRiverGenerator {
             if (z <= elevation) {
 //                localMap.setFlooding(x, y, z, 8);
                 container.getWaterTiles().add(new Position(x,y,z));
-                if (isWaterSource && localMap.isBorder(x, y)) {
+                if (isWaterSource) {
                     Position position = new Position(x, y, z);
                     if (!container.getWaterSources().contains(position)) {
                         System.out.println("water source: " + position);
