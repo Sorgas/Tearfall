@@ -165,6 +165,10 @@ public class LocalMap {
         return x == 0 || y == 0 || x == xSize - 1 || y == ySize - 1;
     }
 
+    public boolean isBorder(Position position) {
+        return isBorder(position.getX(), position.getY());
+    }
+
     public void setBlocType(int x, int y, int z, byte type) {
         blockType[x][y][z] = type;
         if (localTileMapUpdater != null)

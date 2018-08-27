@@ -129,10 +129,13 @@ public class LiquidContainer {
                         localMap.inMap(x, y, position.getZ()) &&
                         localMap.isFlyPassable(x, y, position.getZ()) &&
                         (localMap.getFlooding(x, y, position.getZ()) < currentAmountOfWater || ignoreWaterAmount) &&
-                        localMap.getFlooding(x,y,position.getZ()) < 7) { // can take liquid
+                        localMap.getFlooding(x, y, position.getZ()) < 7) { // can take liquid
                     positions.add(new Position(x, y, position.getZ()));
                 }
             }
+        }
+        if (localMap.isBorder(position)) {
+            positions.add(new Position(-1, -1, -1)); // out of the map
         }
         return positions;
     }
@@ -140,15 +143,17 @@ public class LiquidContainer {
 
     private void transferLiquid(Position from, Position to, int amount) {
         LiquidTile source = liquidTiles.get(from);
-        LiquidTile acceptor = liquidTiles.get(to);
-        if (acceptor == null) {
-            System.out.println("creating at: " + to);
-            acceptor = createLiquidTile(to, "water", 0);
+        if (localMap.inMap(to)) {
+            LiquidTile acceptor = liquidTiles.get(to);
+            if (acceptor == null) {
+                System.out.println("creating at: " + to);
+                acceptor = createLiquidTile(to, "water", 0);
+            }
+            acceptor.amount += amount;
+            localMap.setFlooding(to, acceptor.amount);
         }
         source.amount -= amount;
         localMap.setFlooding(from, source.amount);
-        acceptor.amount += amount;
-        localMap.setFlooding(to, acceptor.amount);
         System.out.println("transfer: " + from + " " + to);
     }
 
