@@ -162,7 +162,7 @@ public class LocalMap {
     }
 
     public boolean isBorder(int x, int y) {
-        return x == 0 || y == 0 || x == xSize - 1 || y == ySize -1;
+        return x == 0 || y == 0 || x == xSize - 1 || y == ySize - 1;
     }
 
     public void setBlocType(int x, int y, int z, byte type) {
@@ -248,7 +248,7 @@ public class LocalMap {
     }
 
     public boolean isFlyPassable(int x, int y, int z) {
-        return BlockTypesEnum.getType(blockType[x][y][z]).getPassing() != 0;
+        return BlockTypesEnum.getType(blockType[x][y][z]).getPassing() != 0; //
     }
 
 
@@ -285,8 +285,16 @@ public class LocalMap {
         return flooding[x][y][z];
     }
 
+    public byte getFlooding(Position position) {
+        return getFlooding(position.getX(), position.getY(), position.getZ());
+    }
+
     public void setFlooding(int x, int y, int z, int value) {
         flooding[x][y][z] = (byte) value;
+    }
+
+    public void setFlooding(Position position, int value) {
+        setFlooding(position.getX(), position.getY(), position.getZ(), value);
     }
 
     public byte getLightLevel(int x, int y, int z) {

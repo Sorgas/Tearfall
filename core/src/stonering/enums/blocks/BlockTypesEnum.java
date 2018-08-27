@@ -8,12 +8,16 @@ import java.util.HashMap;
  * @author Alexander Kuzyakov on 10.06.2017.
  */
 public enum BlockTypesEnum {
-    SPACE(0, 1), //not passable for walkers
+    SPACE(0, 1), //not passable for walkers, liquids fall
     WALL(1, 0), // not passable
-    FLOOR(2, 2), // passable
-    RAMP(3, 2), // passable
-    STAIRS(4, 2), // passable
-    STAIRFLOOR(5, 2); // passable
+    FLOOR(2, 2), // passable, liquids don't fall
+    RAMP(3, 2), // passable, liquids don't fall
+
+    // leads 1 level up if there is STAIRS or STAIRFLOOR. leads 1 level down, if there is STAIRS.
+    STAIRS(4, 2), // passable, liquids don't fall if lower block is not stairs
+
+    // automatically placed when stairs constructed, turns to SPACE when stairs removed
+    STAIRFLOOR(5, 2); // passable, liquids fall
 
     private byte code;
     private byte passing;
@@ -28,7 +32,7 @@ public enum BlockTypesEnum {
 
     BlockTypesEnum(int code, int passing) {
         this.code = (byte) code;
-        this.passing = (byte) passing;
+        this.passing = (byte) passing; //0: none, 1: fliers only, 2: walkers & fliers
     }
 
     public byte getCode() {

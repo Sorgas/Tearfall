@@ -144,11 +144,9 @@ public class LocalWorldDrawer {
         }
         //draw water
         if (localMap.getFlooding(x, y, z) != 0) {
-
             batch.setColor(shadedColorChannel, shadedColorChannel, shadedColorChannel, 0.6f);
             batch.draw(new TextureRegion(atlases[0],
-//                            (13 + localMap.getFlooding(x, y, z)) * tileWidth,
-                            14 * tileWidth,
+                            (13 + localMap.getFlooding(x, y, z)) * tileWidth,
                             topingTileHeight,
                             tileWidth, tileHeight),
                     getScreenPosX(x - camera.getX()),
