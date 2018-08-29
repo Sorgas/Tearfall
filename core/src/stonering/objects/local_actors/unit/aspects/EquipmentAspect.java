@@ -7,9 +7,11 @@ import stonering.objects.local_actors.items.Item;
 import java.util.ArrayList;
 
 /**
- * @author Alexander Kuzyakov on 03.01.2018.
+ * Stores all items equipped and hauled by unit.
+ * Does not takes or puts items to map, this should be done by actions.
+ *
+ * @author Alexander on 03.01.2018.
  * <p>
- * manages all items equipped by unit
  */
 public class EquipmentAspect extends Aspect {
     private ArrayList<Item> items;
@@ -31,10 +33,9 @@ public class EquipmentAspect extends Aspect {
 
     public void equipItem(Item item, boolean allowHauling) {
         //TODO check available slots for item
-        //TODO chaek hauling
+        //TODO check hauling
         if (true) {
             items.add(item);
-            gameContainer.getItemContainer().removeItem(item);
         }
     }
 
@@ -56,6 +57,9 @@ public class EquipmentAspect extends Aspect {
 
     public void pickupItem(Item item) {
         inventory.add(item);
-        gameContainer.getItemContainer().removeItem(item);
+    }
+
+    public void dropItem(Item item) {
+        inventory.remove(item);
     }
 }

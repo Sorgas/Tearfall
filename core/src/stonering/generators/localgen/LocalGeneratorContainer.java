@@ -52,14 +52,14 @@ public class LocalGeneratorContainer {
         localHeightsGenerator.execute(); //creates heights map
         localStoneLayersGenerator.execute(); //fills localmap with blocks by heightsmap
         localCaveGenerator.execute(); //digs caves
-        localRiverGenerator.execute(); // carves river beds
+//        localRiverGenerator.execute(); // carves river beds
         localSurfaceWaterPoolsGenerator.execute(); // digs ponds
         localRampAndFloorPlacer.execute(); // places floors and ramps upon all top blocks
         localTemperatureGenerator.execute(); // generates year temperature cycle
 //        localFloraGenerator.execute(); // places trees and plants
-//        localFaunaGenerator.execute(); // places animals
+        localFaunaGenerator.execute(); // places animals
 ////        localFurnitureGenerator.execute();
-//        localItemsGenerator.execute(); // places items
+        localItemsGenerator.execute(); // places items
     }
 
     public LocalMap getLocalMap() {

@@ -7,20 +7,21 @@ import stonering.objects.jobs.actions.aspects.effect.DropItemEffectAspect;
 import stonering.objects.jobs.actions.aspects.target.BlockTargetAspect;
 import stonering.objects.local_actors.items.Item;
 import stonering.objects.local_actors.items.ItemSelector;
+import stonering.objects.local_actors.unit.aspects.EquipmentAspect;
 
 import java.util.ArrayList;
 
 /**
- * Checks if specific itemSelectors are on desired position.
- * Creates hauling actions if needed.
+ * Checks if specific itemSelectors are on desired position or in the inventory of action performer.
+ * Creates dropping and picking actions if needed.
  *
  * @author Alexander on 08.07.2018.
  */
-public class ItemsOnPositionRequirementAspect extends RequirementsAspect {
+public class ItemsInPositionOrInventoryRequirementAspect extends RequirementsAspect {
     private Position target;
     private ArrayList<ItemSelector> itemSelectors;
 
-    public ItemsOnPositionRequirementAspect(Action action, Position target, ArrayList<ItemSelector> itemSelectors) {
+    public ItemsInPositionOrInventoryRequirementAspect(Action action, Position target, ArrayList<ItemSelector> itemSelectors) {
         super(action);
         this.target = target;
         this.itemSelectors = itemSelectors;
@@ -29,17 +30,18 @@ public class ItemsOnPositionRequirementAspect extends RequirementsAspect {
     @Override
     public boolean check() {
         System.out.println("checking items on position");
-        ArrayList<Item> itemsOnSite = new ArrayList<>();
+        ArrayList<Item> uncheckedItems = new ArrayList<>();
         ArrayList<Item> checkedItems = new ArrayList<>();
-        itemsOnSite.addAll(action.getGameContainer().getItemContainer().getItems(target));
+        uncheckedItems.addAll(action.getGameContainer().getItemContainer().getItems(target)); // from target position
+        uncheckedItems.addAll(((EquipmentAspect)action.getTask().getPerformer().getAspects().get("equipment")).getInventory()); // from performer inventory
         for (ItemSelector itemSelector : itemSelectors) {
-            ArrayList<Item> selectedItems = itemSelector.selectItems(itemsOnSite);
-            if (selectedItems != null) {
+            ArrayList<Item> selectedItems = itemSelector.selectItems(uncheckedItems);
+            if (!selectedItems.isEmpty()) {
                 for (int i = 0; i < selectedItems.size(); i++) {
                     Item item = selectedItems.get(i);
                     if (!checkedItems.contains(item)) {
                         checkedItems.add(item);
-                        itemsOnSite.remove(item);
+                        uncheckedItems.remove(item);
                     } else {
                         // not valid branch
                         System.out.println(item.toString() + " already selected by another ItemSelector");
@@ -49,6 +51,7 @@ public class ItemsOnPositionRequirementAspect extends RequirementsAspect {
                 return tryCreateDroppingAction(itemSelector);
             }
         }
+
         return true;
     }
 

@@ -23,7 +23,7 @@ public class LiquidContainer {
     private HashMap<Position, LiquidTile> tempLiquidTiles;
     private HashMap<Position, LiquidSource> liquidSources;
     private Random random;
-    private int turnDelay = 5;
+    private int turnDelay = 10;
     private int turnCount = 0;
     private byte spaceCode;
     private byte wallCode;

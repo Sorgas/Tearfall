@@ -15,63 +15,51 @@ import stonering.objects.local_actors.unit.Unit;
  */
 public class PlanningAspect extends Aspect {
     private Task currentTask;
-    private Position target;
-    private boolean performingStarted = false;
 
     public PlanningAspect(AspectHolder aspectHolder) {
         super("planning", aspectHolder);
     }
 
+    /**
+     * Called from {@link AspectHolder}
+     */
     public void turn() {
-        if (checkTask()) { // has active action
-            if (target != null) { // has current action
-                if (checkUnitPosition()) { // actor on position
-//                    if (performingStarted) { // in the middle of performing
+        if (checkTask()) {
+            if (checkUnitPosition()) { // actor on position
+                if (checkActionSequence()) {
+                    System.out.println("performing action " + currentTask.getNextAction().getEffectAspect().toString());
                     if (currentTask.getNextAction().perform()) { // act. called several times
                         System.out.println("action completed");
-                        target = null;
-                        performingStarted = false;
                     }
-//                    } else { // starting performing
-//                        Action currentAction = currentTask.getNextAction();
-//                        if (checkActionSequence()) { //check action requirements again
-//                            if(currentAction == currentTask.getNextAction()) {
-//                                System.out.println("action checked before acting: OK");
-//                                performingStarted = true;
-//                            } else {
-//                                updateTarget(); //set target
-//                            }
-//                        } else {
-//                            System.out.println("action checked before acting: FAIL");
-//                            freeTask();
-//                        }
-//                    }
-                }// keep moving to target
-            } else { // has no current action
-                if (checkActionSequence()) { //check action requirements
-                    System.out.println("action checked on assign: OK");
-                    updateTarget(); //set target
-                } else {
-                    System.out.println("action checked on assign: FAIL");
-                    freeTask();
                 }
-            }
+            } // keep moving to target
         } else {
-            repairTask();// try find task
+            selectTask();// try find task, check it and claim
         }
     }
 
+    /**
+     * Checks if task can be performed. That requires requirement aspects to be checked with true.
+     * During this method requirement aspects create additional actions.
+     *
+     * @return
+     */
     private boolean checkActionSequence() {
-        Action currentAction = null;
-        boolean lastCheck = false;
+        Action currentAction;
+        boolean lastCheck;
         do {
             currentAction = currentTask.getNextAction();
-            lastCheck = currentAction.getRequirementsAspect().check();
-        } while (currentAction != currentTask.getNextAction()); //stops
+            lastCheck = currentAction.getRequirementsAspect().check(); // can create additional actions
+        }
+        while (currentAction != currentTask.getNextAction()); // no additional actions created, return check result of last action.
         return lastCheck;
     }
 
-    // action exists and not finished
+    /**
+     * Task taken and not yet finished.
+     *
+     * @return
+     */
     private boolean checkTask() {
         return currentTask != null && !currentTask.isFinished();
     }
@@ -86,70 +74,69 @@ public class PlanningAspect extends Aspect {
         Position pos = aspectHolder.getPosition();
         if (currentTask.getNextAction().isTargetExact()) {
             if (currentTask.getNextAction().isTargetNear()) {
-                return target.getDistanse(aspectHolder.getPosition()) < 2;
+                return getTarget().getDistanse(aspectHolder.getPosition()) < 2; // exact and near
             } else {
-                return pos.equals(target);
+                return pos.equals(getTarget()); // exact only
             }
         } else {
             if (currentTask.getNextAction().isTargetNear()) {
-                if (pos.equals(target)) { // need modify target to free it`s cell
-                    currentTask.getNextAction().getTargetAspect().createActionToStepOff();
+                if (pos.equals(getTarget())) {
+                    currentTask.getNextAction().getTargetAspect().createActionToStepOff(); // make 1 step away
                     return false;
                 } else {
-                    System.out.println("action target is blocked");
-                    freeTask();
-                    return false;
+                    return aspectHolder.getPosition().isNeighbor(getTarget()); // near only
                 }
             }
-            return target.getDistanse(aspectHolder.getPosition()) < 2;
+            System.out.println("WARN: action " + currentTask.getNextAction() + " target not defined as exact or near");
+            return getTarget().getDistanse(aspectHolder.getPosition()) < 2; // not valid
         }
     }
 
-    private void repairTask() {
-        getTaskFromContainer();
+    /**
+     * Finds appropriate task for this performer.
+     * Currently gets Task from container;
+     * TODO needs tasks
+     * TODO combat tasks
+     */
+    private void selectTask() {
+        if (getTaskFromContainer()) {
+            claimTask();
+            if (checkActionSequence()) { //checking requires performer to be set.
+                // ok
+            } else {
+                freeTask();
+            }
+        }
     }
 
+    /**
+     * Calls TaskContainer to find appropriate task for this actor and his position
+     *
+     * @return
+     */
     private boolean getTaskFromContainer() {
         Task task = gameContainer.getTaskContainer().getActiveTask(aspectHolder.getPosition());
         if (task != null) {
-            claimTask(task);
+            currentTask = task;
             return true;
         } else {
-            // create task by needs
+            return false;
         }
-        return false;
     }
 
-    //should contain task selecting logic
-    private boolean fetchTasks() {
-        if (!gameContainer.getTaskContainer().getTasks().isEmpty()) {
-            currentTask = gameContainer.getTaskContainer().getTasks().get(0);
-            return true;
-        } else {
-            // create task with creature needs
-        }
-        return false;
+    /**
+     * Sets this actor as performer to taken task.
+     */
+    private void claimTask() {
+        currentTask.setPerformer((Unit) aspectHolder);
     }
 
-    private void claimTask(Task task) {
-        currentTask = task;
-        task.setPerformer((Unit) aspectHolder);
-    }
-
+    /**
+     * Reverts state of task as it is newly created.
+     */
     public void freeTask() {
         currentTask.reset();
         currentTask = null;
-        performingStarted = false;
-    }
-
-    // returns target for moving, used by MovementAspect
-    public Position getTarget() {
-        return target;
-    }
-
-    private void updateTarget() {
-        Action action = currentTask.getNextAction();
-        target = action.getTargetPosition();
     }
 
     public boolean isTargetExact() {
@@ -157,5 +144,9 @@ public class PlanningAspect extends Aspect {
             return currentTask.getNextAction().getTargetAspect().isExactTarget();
         }
         return false;
+    }
+
+    public Position getTarget() {
+        return currentTask != null ? currentTask.getNextAction().getTargetPosition() : null;
     }
 }

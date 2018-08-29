@@ -18,5 +18,6 @@ public class PickUpItemEffectAspect extends EffectAspect {
     protected void applyEffect() {
         Item item = ((ItemTargetAspect) action.getTargetAspect()).getItem();
         ((EquipmentAspect) action.getTask().getPerformer().getAspects().get("equipment")).pickupItem(item);
+        action.getGameContainer().getItemContainer().removeItem(item);
     }
 }

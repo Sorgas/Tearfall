@@ -75,6 +75,10 @@ public class Position implements Serializable, Cloneable {
         return new Vector2(x, y);
     }
 
+    public boolean isNeighbor(Position position) {
+        return getDistanse(position) < 2;
+    }
+
     public boolean equals(int x, int y, int z) {
         return (x == this.x && y == this.y && z == this.z);
     }

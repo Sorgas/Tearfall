@@ -16,10 +16,8 @@ import stonering.objects.jobs.actions.aspects.effect.ConstructionEffectAspect;
 import stonering.objects.jobs.actions.aspects.effect.ChopTreeEffectAspect;
 import stonering.objects.jobs.actions.aspects.effect.DigEffectAspect;
 import stonering.objects.jobs.actions.aspects.requirements.EquippedItemRequirementAspect;
-import stonering.objects.jobs.actions.aspects.requirements.ItemsOnPositionRequirementAspect;
+import stonering.objects.jobs.actions.aspects.requirements.ItemsInPositionOrInventoryRequirementAspect;
 import stonering.objects.jobs.actions.aspects.target.BlockTargetAspect;
-import stonering.objects.local_actors.building.Building;
-import stonering.objects.local_actors.items.Item;
 import stonering.objects.local_actors.items.ItemSelector;
 import stonering.objects.local_actors.plants.PlantBlock;
 
@@ -131,7 +129,7 @@ public class TaskContainer {
     private Task createBuildingTask(BuildingDesignation designation, ArrayList<ItemSelector> items) {
         BuildingType buildingType = BuildingMap.getInstance().getBuilding(designation.getBuilding());
         Action action = new Action(container);
-        action.setRequirementsAspect(new ItemsOnPositionRequirementAspect(action, designation.getPosition(), items));
+        action.setRequirementsAspect(new ItemsInPositionOrInventoryRequirementAspect(action, designation.getPosition(), items));
         action.setTargetAspect(new BlockTargetAspect(action, designation.getPosition(), !buildingType.getTitle().equals("wall"), true));
         action.setEffectAspect(new ConstructionEffectAspect(action, designation.getBuilding(), "marble"));//TODO
         return new Task("designation", TaskTypesEnum.DESIGNATION, action, this, container);

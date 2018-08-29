@@ -41,6 +41,7 @@ public abstract class TargetAspect {
             stepOffAction.setEffectAspect(new NoEffectAspect(stepOffAction));
             stepOffAction.setRequirementsAspect(new BodyPartRequirementAspect(stepOffAction, "grab"));
             stepOffAction.setTargetAspect(new BlockTargetAspect(stepOffAction, position, true, false));
+            action.getTask().addFirstAction(stepOffAction);
             return true;
         }
         return false;

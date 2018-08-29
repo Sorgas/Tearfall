@@ -5,7 +5,7 @@ import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.lists.ItemContainer;
 import stonering.global.utils.Position;
 import stonering.objects.jobs.actions.Action;
-import stonering.objects.jobs.actions.aspects.requirements.ItemsOnPositionRequirementAspect;
+import stonering.objects.jobs.actions.aspects.requirements.ItemsInPositionOrInventoryRequirementAspect;
 import stonering.objects.local_actors.items.Item;
 import stonering.objects.local_actors.items.ItemSelector;
 
@@ -37,7 +37,7 @@ public class ConstructionEffectAspect extends EffectAspect {
         ItemContainer itemContainer = container.getItemContainer();
         Position target = action.getTargetPosition();
         ArrayList<Item> items = itemContainer.getItems(target);
-        ArrayList<ItemSelector> itemSelectors = ((ItemsOnPositionRequirementAspect) action.getRequirementsAspect()).getItemSelectors();
+        ArrayList<ItemSelector> itemSelectors = ((ItemsInPositionOrInventoryRequirementAspect) action.getRequirementsAspect()).getItemSelectors();
         itemSelectors.forEach(itemSelector -> {
             itemSelector.selectItems(items).forEach(item -> {
                 itemContainer.removeItem(item);
