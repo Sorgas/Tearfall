@@ -27,7 +27,6 @@ public class PlanningAspect extends Aspect {
         if (checkTask()) {
             if (checkUnitPosition()) { // actor on position
                 if (checkActionSequence()) {
-                    System.out.println("performing action " + currentTask.getNextAction().getEffectAspect().toString());
                     if (currentTask.getNextAction().perform()) { // act. called several times
                         System.out.println("action completed");
                     }

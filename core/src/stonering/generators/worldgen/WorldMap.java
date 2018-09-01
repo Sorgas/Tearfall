@@ -23,6 +23,7 @@ public class WorldMap implements Serializable {
     private int height;
     private long seed;
     private ArrayList<Plate> plates;
+    private ArrayList<Position> lakes;
 
     public WorldMap(int xSize, int ySize) {
         this.width = xSize;
@@ -34,6 +35,7 @@ public class WorldMap implements Serializable {
         rivers = new Vector2[xSize][ySize];
         brooks = new Vector2[xSize][ySize];
         debug = new Vector2[xSize][ySize];
+        lakes = new ArrayList<>();
     }
 
     public int getWidth() {
@@ -130,5 +132,13 @@ public class WorldMap implements Serializable {
 
     public void setDebug(int x, int y, Vector2 river) {
         this.debug[x][y] = river;
+    }
+
+    public ArrayList<Position> getLakes() {
+        return lakes;
+    }
+
+    public void setLakes(ArrayList<Position> lakes) {
+        this.lakes = lakes;
     }
 }

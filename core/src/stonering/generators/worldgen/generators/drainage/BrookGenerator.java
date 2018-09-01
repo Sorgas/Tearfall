@@ -58,7 +58,6 @@ public class BrookGenerator extends AbstractGenerator {
                 break;
             }
             brook.positions.add(position);
-            System.out.println("brook point: " + x + " " + y);
             x += Math.round(curVector2.x);
             y += Math.round(curVector2.y);
             curVector2 = slopes[x][y];

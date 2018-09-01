@@ -29,7 +29,6 @@ public class ItemsInPositionOrInventoryRequirementAspect extends RequirementsAsp
 
     @Override
     public boolean check() {
-        System.out.println("checking items on position");
         ArrayList<Item> uncheckedItems = new ArrayList<>();
         ArrayList<Item> checkedItems = new ArrayList<>();
         uncheckedItems.addAll(action.getGameContainer().getItemContainer().getItems(target)); // from target position
@@ -56,7 +55,6 @@ public class ItemsInPositionOrInventoryRequirementAspect extends RequirementsAsp
     }
 
     private boolean tryCreateDroppingAction(ItemSelector itemSelector) {
-        System.out.println("creating dropping action");
         ItemContainer itemContainer = action.getGameContainer().getItemContainer();
         if (itemContainer.hasItemsAvailableBySelector(itemSelector, target)) {
             Item item = itemContainer.getItemAvailableBySelector(itemSelector, target);

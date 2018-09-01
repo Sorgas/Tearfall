@@ -11,8 +11,8 @@ import java.util.List;
 
 /**
  * @author Alexander Kuzyakov on 05.03.2017.
- * <p>
- * Contains intermediate results of world generation
+ *         <p>
+ *         Contains intermediate results of world generation
  */
 public class WorldGenContainer {
     private WorldGenConfig config;
@@ -34,7 +34,7 @@ public class WorldGenContainer {
     private float[][] debug;
     private Vector2[][] rivers;
     private Vector2[][] brooks;
-    private ArrayList<Vector2> lakes;
+    private ArrayList<Position> lakes;
 
     private float landPart;
 
@@ -57,13 +57,14 @@ public class WorldGenContainer {
                 map.setSummerTemperature(x, y, Math.round(summerTemperature[x][y]));
                 map.setWinterTemperature(x, y, Math.round(winterTemperature[x][y]));
                 map.setRainfall(x, y, rainfall[x][y]);
-                map.setRiver(x,y, rivers[x][y]);
-                map.setBrook(x,y, brooks[x][y]);
-                if(elevation[x][y] > maxElevation) {
+                map.setRiver(x, y, rivers[x][y]);
+                map.setBrook(x, y, brooks[x][y]);
+                if (elevation[x][y] > maxElevation) {
                     maxElevation = elevation[x][y];
                 }
             }
         }
+        map.setLakes(lakes);
     }
 
     public void reset() {
@@ -209,11 +210,11 @@ public class WorldGenContainer {
         return rivers;
     }
 
-    public ArrayList<Vector2> getLakes() {
+    public ArrayList<Position> getLakes() {
         return lakes;
     }
 
-    public void setLakes(ArrayList<Vector2> lakes) {
+    public void setLakes(ArrayList<Position> lakes) {
         this.lakes = lakes;
     }
 }

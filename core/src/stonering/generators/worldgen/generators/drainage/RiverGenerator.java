@@ -3,8 +3,10 @@ package stonering.generators.worldgen.generators.drainage;
 import com.badlogic.gdx.math.Vector2;
 import stonering.generators.worldgen.WorldGenContainer;
 import stonering.generators.worldgen.generators.AbstractGenerator;
+import stonering.global.utils.Position;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * @author Alexander Kuzyakov on 14.03.2017.
@@ -107,6 +109,11 @@ public class RiverGenerator extends AbstractGenerator {
         }
     }
 
+    /**
+     * Creates collection of positions to start rivers from.
+     *
+     * @return
+     */
     private ArrayList<Vector2> elevationStartPoints() {
         ArrayList<Vector2> starts = new ArrayList<>();
         ArrayList<Vector2> potentialStarts = new ArrayList<>();
@@ -128,15 +135,22 @@ public class RiverGenerator extends AbstractGenerator {
     private void runRiverFromStart(Vector2 start) {
         ArrayList<Vector2> river = new ArrayList<>();
         int length = 0;
+        System.out.println("");
+        System.out.println("new river");
         while (length < 100) {
             int x = Math.round(start.x);
             int y = Math.round(start.y);
+            System.out.println(x + " " + y);
             if(river.contains(riverVectors[x][y])) { //loop, add lake
-                container.getLakes().add(riverVectors[x][y].cpy());
-            }
-            if (container.getElevation(x, y) <= seaLevel) { //sea reached
+                System.out.println("lake");
+                container.getLakes().add(new Position(x,y,0));
                 break;
             }
+            if (container.getElevation(x, y) <= seaLevel) { //sea reached
+                System.out.println("sea reached");
+                break;
+            }
+            river.add(riverVectors[x][y]);
             container.setRiver(x, y, riverVectors[x][y]);
             start = endPoints[x][y];
             length++;

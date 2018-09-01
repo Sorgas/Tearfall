@@ -168,7 +168,6 @@ public class MiniMap extends Table {
     private void drawRiverVectorsDebug(int screenOffsetX) {
         Color blue = new Color(0, 0, 1, 1);
         Color green = new Color(0, 1, 0, 1);
-
         for (int x = 0; x < map.getWidth(); x++) {
             for (int y = 0; y < map.getHeight(); y++) {
                 Vector2 river = map.getRiver(x, y);
@@ -183,6 +182,14 @@ public class MiniMap extends Table {
                 }
             }
         }
+        shapeRenderer.setColor(1, 0, 0, 1);
+        map.getLakes().forEach(position ->
+                shapeRenderer.rect(baseScreenOffsetX + screenOffsetX + position.getX() * pixelSize,
+                        screenOffsetY + position.getY() * pixelSize,
+                        pixelSize, pixelSize)
+
+        );
+
     }
 
     private Color getElevationColor(int x, int y) {

@@ -177,14 +177,6 @@ public class MapDrawer {
         }
     }
 
-    private void drawLakes() {
-        for (Iterator<Vector2> iterator = container.getLakes().iterator(); iterator.hasNext(); ) {
-            Vector2 vector = iterator.next();
-            shapeRenderer.setColor(1, 0, 0, 1);
-            drawPoint(Math.round(vector.x), Math.round(vector.y));
-        }
-    }
-
     private void drawTemperature() {
         for (int x = 0; x < container.getConfig().getWidth(); x++) {
             for (int y = 0; y < container.getConfig().getHeight(); y++) {
