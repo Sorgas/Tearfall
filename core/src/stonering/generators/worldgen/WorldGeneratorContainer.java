@@ -24,6 +24,7 @@ public class WorldGeneratorContainer {
     private ErosionGenerator erosionGenerator;
     private ElevationModifier elevationModifier;
     private RiverGenerator riverGenerator;
+    private LakeGenerator lakeGenerator;
     private BrookGenerator brookGenerator;
 
     public void init(WorldGenConfig config) {
@@ -43,6 +44,7 @@ public class WorldGeneratorContainer {
         rainfallGenerator = new RainfallGenerator(worldGenContainer);
         erosionGenerator = new ErosionGenerator(worldGenContainer);
         elevationModifier = new ElevationModifier(worldGenContainer);
+        lakeGenerator = new LakeGenerator(worldGenContainer);
     }
 
     public void runContainer() {
@@ -71,6 +73,7 @@ public class WorldGeneratorContainer {
 //        elevationModifier.execute();
         riverGenerator.execute();
         brookGenerator.execute();
+        lakeGenerator.execute();
         worldGenContainer.fillMap();
 
         return false;

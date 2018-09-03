@@ -7,6 +7,7 @@ import stonering.generators.worldgen.world_objects.Plate;
 import stonering.global.utils.Position;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -34,7 +35,7 @@ public class WorldGenContainer {
     private float[][] debug;
     private Vector2[][] rivers;
     private Vector2[][] brooks;
-    private ArrayList<Position> lakes;
+    private HashSet<Position> lakes;
 
     private float landPart;
 
@@ -64,7 +65,7 @@ public class WorldGenContainer {
                 }
             }
         }
-        map.setLakes(lakes);
+        map.getLakes().addAll(lakes);
     }
 
     public void reset() {
@@ -83,7 +84,7 @@ public class WorldGenContainer {
         mountains = new ArrayList<>();
         valleys = new ArrayList<>();
         hills = new ArrayList<>();
-        lakes = new ArrayList<>();
+        lakes = new HashSet<>();
     }
 
     public boolean inMap(int x, int y) {
@@ -132,6 +133,10 @@ public class WorldGenContainer {
         if (inMap(x, y)) {
             elevation[x][y] = value;
         }
+    }
+
+    public void setElevation(Position position, float value) {
+        setElevation(position.getX(), position.getY(), value);
     }
 
     public float getElevation(int x, int y) {
@@ -210,11 +215,11 @@ public class WorldGenContainer {
         return rivers;
     }
 
-    public ArrayList<Position> getLakes() {
+    public HashSet<Position> getLakes() {
         return lakes;
     }
 
-    public void setLakes(ArrayList<Position> lakes) {
+    public void setLakes(HashSet<Position> lakes) {
         this.lakes = lakes;
     }
 }

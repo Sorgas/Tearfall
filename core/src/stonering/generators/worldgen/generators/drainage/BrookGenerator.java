@@ -51,8 +51,6 @@ public class BrookGenerator extends AbstractGenerator {
                 curVector2 != null &&
                 container.getElevation(x, y) > seaLevel &&
                 container.getRiver(x, y) == null) {
-//            brook.vectors.add(curVector2.cpy());
-
             Position position = new Position(x, y, 0);
             if(brook.positions.contains(position)) { //looped brook
                 break;
@@ -60,6 +58,9 @@ public class BrookGenerator extends AbstractGenerator {
             brook.positions.add(position);
             x += Math.round(curVector2.x);
             y += Math.round(curVector2.y);
+            if(!container.inMap(x,y)) {
+                break;
+            }
             curVector2 = slopes[x][y];
         }
         return brook;

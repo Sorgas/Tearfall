@@ -23,7 +23,7 @@ public class MiniMap extends Table {
     private Position focus = new Position(0, 0, 0);
     private Position size = new Position(0, 0, 0);
     private ShapeRenderer shapeRenderer;
-    private int pixelSize = 3;
+    private int pixelSize = 5;
     private int baseScreenOffsetX = 385;
     private int screenOffsetY = 100;
     private boolean debugMode = true;
@@ -65,10 +65,10 @@ public class MiniMap extends Table {
         batch.end();
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         drawElevationDebug(0);
-        drawTemperatureDebug(map.getWidth() * pixelSize);
+//        drawTemperatureDebug(map.getWidth() * pixelSize);
         shapeRenderer.end();
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        drawRiverVectorsDebug(map.getWidth() * 2 * pixelSize);
+        drawRiverVectorsDebug(map.getWidth() * 1 * pixelSize);
         shapeRenderer.flush();
         shapeRenderer.end();
         batch.begin();

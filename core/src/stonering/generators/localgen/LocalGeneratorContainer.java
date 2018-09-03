@@ -56,7 +56,7 @@ public class LocalGeneratorContainer {
         localSurfaceWaterPoolsGenerator.execute(); // digs ponds
         localRampAndFloorPlacer.execute(); // places floors and ramps upon all top blocks
         localTemperatureGenerator.execute(); // generates year temperature cycle
-//        localFloraGenerator.execute(); // places trees and plants
+        localFloraGenerator.execute(); // places trees and plants
         localFaunaGenerator.execute(); // places animals
 ////        localFurnitureGenerator.execute();
         localItemsGenerator.execute(); // places items
