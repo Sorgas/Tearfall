@@ -80,8 +80,8 @@ public class LocalFloraGenerator {
      * Trees give shadow, therefore they should be placed before plants.
      */
     private void generateFlora() {
-        weightedTreeTypes.forEach((specimen, amount) -> placeTrees(specimen, amount));
-        weightedPlantTypes.forEach((specimen, amount) -> placePlants(specimen, amount));
+        weightedTreeTypes.forEach(this::placeTrees);
+        weightedPlantTypes.forEach(this::placePlants);
     }
 
     /**

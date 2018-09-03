@@ -65,10 +65,10 @@ public class MiniMap extends Table {
         batch.end();
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         drawElevationDebug(0);
-//        drawTemperatureDebug(map.getWidth() * pixelSize);
+        drawTemperatureDebug(map.getWidth() * pixelSize);
         shapeRenderer.end();
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        drawRiverVectorsDebug(map.getWidth() * 1 * pixelSize);
+        drawRiverVectorsDebug(map.getWidth() * 2 * pixelSize);
         shapeRenderer.flush();
         shapeRenderer.end();
         batch.begin();

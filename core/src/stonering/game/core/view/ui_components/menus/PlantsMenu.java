@@ -24,6 +24,7 @@ public class PlantsMenu extends ButtonMenu {
     public void init() {
         super.init();
         controller = gameMvc.getController().getDesignationsController();
+        placeSelectComponent.init();
     }
 
     @Override
@@ -42,6 +43,7 @@ public class PlantsMenu extends ButtonMenu {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 controller.setActiveDesignation(type, null);
+                placeSelectComponent.show();
             }
         });
     }

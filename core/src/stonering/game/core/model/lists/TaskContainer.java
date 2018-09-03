@@ -117,7 +117,7 @@ public class TaskContainer {
             case CHOP: {
                 Action action = new Action(container);
                 action.setEffectAspect(new ChopTreeEffectAspect(action));
-                action.setTargetAspect(new BlockTargetAspect(action, designation.getPosition(), true, true)); //TODO replace with PlantTargetAspect
+                action.setTargetAspect(new BlockTargetAspect(action, designation.getPosition(), false, true)); //TODO replace with PlantTargetAspect
                 action.setRequirementsAspect(new EquippedItemRequirementAspect(action, "chopping_tool"));
                 Task task = new Task("designation", TaskTypesEnum.DESIGNATION, action, this, container);
                 return task;
