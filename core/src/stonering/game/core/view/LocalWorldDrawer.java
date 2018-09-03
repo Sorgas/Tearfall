@@ -143,16 +143,24 @@ public class LocalWorldDrawer {
             }
         }
         //draw water
+        batch.setColor(shadedColorChannel, shadedColorChannel, shadedColorChannel, 0.6f);
         if (localMap.getFlooding(x, y, z) != 0) {
-            batch.setColor(shadedColorChannel, shadedColorChannel, shadedColorChannel, 0.6f);
             batch.draw(new TextureRegion(atlases[0],
                             (13 + localMap.getFlooding(x, y, z)) * tileWidth,
                             topingTileHeight,
                             tileWidth, tileHeight),
                     getScreenPosX(x - camera.getX()),
                     getScreenPosY(y - camera.getY(), z - camera.getZ()));
-            batch.setColor(shadedColorChannel, shadedColorChannel, shadedColorChannel, 1);
+        } else {
+            if (z > 0 && localMap.getFlooding(x, y, z - 1) >= 7) {// not empty cell lower
+                batch.draw(new TextureRegion(atlases[0],
+                                20 * tileWidth, 0,
+                                tileWidth, topingTileHeight),
+                        getScreenPosX(x - camera.getX()),
+                        getScreenPosY(y - camera.getY(), z - camera.getZ()));
+            }
         }
+        batch.setColor(shadedColorChannel, shadedColorChannel, shadedColorChannel, 1);
     }
 
     private void drawCamera() {
