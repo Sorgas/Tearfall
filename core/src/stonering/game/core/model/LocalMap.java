@@ -169,6 +169,13 @@ public class LocalMap {
         return isBorder(position.getX(), position.getY());
     }
 
+    public Position normalizePosition(Position position) {
+        position.setX(Math.min(Math.max(0, position.getX()), xSize - 1));
+        position.setY(Math.min(Math.max(0, position.getY()), ySize - 1));
+        position.setZ(Math.min(Math.max(0, position.getZ()), zSize - 1));
+        return position;
+    }
+
     public void setBlocType(int x, int y, int z, byte type) {
         blockType[x][y][z] = type;
         if (localTileMapUpdater != null)

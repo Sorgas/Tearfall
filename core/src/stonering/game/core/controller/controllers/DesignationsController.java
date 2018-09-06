@@ -18,7 +18,7 @@ import java.util.ArrayList;
  * because one tile can be designated for either digging or building in it.
  * Handles events from menus and updates model appropriately.
  * Has state fields representing currently chosen designation.
- * TODO Validates designations for preview sprite rendering.(move from task container)
+ * TODO Validate designations for preview sprite rendering.(move from task container)
  *
  * @author Alexander Kuzyakov on 24.12.2017.
  */

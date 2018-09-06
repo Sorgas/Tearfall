@@ -35,10 +35,10 @@ public class CameraInputProcessor implements InputProcessor {
     @Override
     public boolean keyTyped(char character) {
         switch (character) {
-            case 'r':
+            case 'f':
                 controller.moveCamera(0, 0, -1);
                 return true;
-            case 'f':
+            case 'r':
                 controller.moveCamera(0, 0, 1);
                 return true;
             case 'w':

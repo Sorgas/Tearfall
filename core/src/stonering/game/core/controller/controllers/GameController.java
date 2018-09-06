@@ -18,6 +18,7 @@ public class GameController extends Controller {
     private ToolBarController toolBarController;
     private InputMultiplexer inputMultiplexer;
     private UIController uiController;
+    private MouseController mouseController;
 
     public GameController(GameMvc gameMvc) {
         super(gameMvc);
@@ -27,6 +28,7 @@ public class GameController extends Controller {
         pauseController = new PauseController(gameMvc);
         toolBarController = new ToolBarController(gameMvc);
         uiController = new UIController(gameMvc);
+        mouseController = new MouseController(gameMvc);
     }
 
     public void init() {
@@ -35,11 +37,13 @@ public class GameController extends Controller {
         designationsController.init();
         pauseController.init();
         uiController.init();
+        mouseController.init();
 
         inputMultiplexer.addProcessor(new CameraInputProcessor(this));
         inputMultiplexer.addProcessor(new PauseInputProcessor(this));
         inputMultiplexer.addProcessor(new ToolBarInputProcessor(this));
         inputMultiplexer.addProcessor(new ListInputProcessor(this));
+        inputMultiplexer.addProcessor(new MouseInputProcessor(this));
         Gdx.input.setInputProcessor(inputMultiplexer);
     }
 
@@ -65,5 +69,9 @@ public class GameController extends Controller {
 
     public UIController getUiController() {
         return uiController;
+    }
+
+    public MouseController getMouseController() {
+        return mouseController;
     }
 }

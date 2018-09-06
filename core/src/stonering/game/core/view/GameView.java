@@ -86,4 +86,8 @@ public class GameView implements Screen {
     public UIDrawer getUiDrawer() {
         return uiDrawer;
     }
+
+    public LocalWorldDrawer getWorldDrawer() {
+        return worldDrawer;
+    }
 }

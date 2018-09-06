@@ -14,6 +14,7 @@ public class GameCamera {
     private LocalMap localMap;
     private Position camera;
     private Position frameStart;
+    private Position frameEnd;
     private Sprite sprite;
 
     public final int IDLE_STATUS = 0;
@@ -39,9 +40,10 @@ public class GameCamera {
     }
 
     public void moveCamera(int dx, int dy, int dz) {
-        camera.setX(Math.min(Math.max(0, camera.getX() + dx), localMap.getxSize() - 1));
-        camera.setY(Math.min(Math.max(0, camera.getY() + dy), localMap.getySize() - 1));
-        camera.setZ(Math.min(Math.max(0, camera.getZ() + dz), localMap.getzSize() - 1));
+        camera.setX(camera.getX() + dx);
+        camera.setY(camera.getY() + dy);
+        camera.setZ(camera.getZ() + dz);
+        localMap.normalizePosition(camera);
     }
 
     public int getStatus() {
@@ -64,6 +66,7 @@ public class GameCamera {
 
     public void resetSprite() {
         frameStart = null;
+        frameEnd = null;
         System.out.println("camera sprite resetted");
     }
 
@@ -73,5 +76,13 @@ public class GameCamera {
 
     public void setFrameStart(Position frameStart) {
         this.frameStart = frameStart;
+    }
+
+    public Position getFrameEnd() {
+        return frameEnd;
+    }
+
+    public void setFrameEnd(Position frameEnd) {
+        this.frameEnd = frameEnd;
     }
 }

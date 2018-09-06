@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import stonering.enums.designations.DesignationsTileMapping;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.core.GameMvc;
@@ -31,6 +32,7 @@ public class LocalWorldDrawer {
     private SpriteBatch batch;
     private Texture[] atlases;
     private GameCamera camera;
+    //TODO add GameFrame (see GameCamera & PlaceSelectComponent)
     private LocalMap localMap;
     private int viewAreaWidth; // radius
     private int viewAreDepth;
@@ -199,12 +201,13 @@ public class LocalWorldDrawer {
     }
 
     private void drawFrame() {
-        if (camera.getFrameStart() != null && camera.getPosition() != null) {
-            int minX = Math.min(camera.getFrameStart().getX(), camera.getPosition().getX());
-            int maxX = Math.max(camera.getFrameStart().getX(), camera.getPosition().getX());
-            int minY = Math.min(camera.getFrameStart().getY(), camera.getPosition().getY());
-            int maxY = Math.max(camera.getFrameStart().getY(), camera.getPosition().getY());
-            int minZ = Math.min(camera.getFrameStart().getZ(), camera.getPosition().getZ());
+        //TODO add landscape dependant rendering
+        if (camera.getFrameStart() != null && camera.getFrameEnd() != null) {
+            int minX = Math.min(camera.getFrameStart().getX(), camera.getFrameEnd().getX());
+            int maxX = Math.max(camera.getFrameStart().getX(), camera.getFrameEnd().getX());
+            int minY = Math.min(camera.getFrameStart().getY(), camera.getFrameEnd().getY());
+            int maxY = Math.max(camera.getFrameStart().getY(), camera.getFrameEnd().getY());
+            int minZ = Math.min(camera.getFrameStart().getZ(), camera.getFrameEnd().getZ());
             int maxZ = camera.getPosition().getZ();
             for (int x = minX; x <= maxX; x++) {
                 for (int y = minY; y <= maxY; y++) {
@@ -228,6 +231,12 @@ public class LocalWorldDrawer {
                 }
             }
         }
+    }
+
+    public Vector2 translateScreenPositionToModel(Vector2 screenPos) {
+        Vector2 vector = screenPos.sub(new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2)); // to click point from center
+        vector.set(vector.x / tileWidth, -vector.y / tileDepth);
+        return new Vector2((float) Math.floor(camera.getPosition().getX() + vector.x), (float) Math.floor(camera.getPosition().getY() + vector.y));
     }
 
     private int getScreenPosX(int x) {
