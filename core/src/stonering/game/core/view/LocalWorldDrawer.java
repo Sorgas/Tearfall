@@ -7,10 +7,10 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import stonering.enums.designations.DesignationsTileMapping;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.core.GameMvc;
+import stonering.game.core.model.GameCamera;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.LocalMap;
 import stonering.game.core.view.tilemaps.LocalTileMap;
-import stonering.global.utils.Position;
 import stonering.objects.local_actors.building.BuildingBlock;
 import stonering.objects.local_actors.items.Item;
 import stonering.objects.local_actors.plants.PlantBlock;
@@ -30,9 +30,9 @@ public class LocalWorldDrawer {
     private LocalTileMap localTileMap;
     private SpriteBatch batch;
     private Texture[] atlases;
-    private Position camera;
+    private GameCamera camera;
     private LocalMap localMap;
-    private int viewAreaWidth;
+    private int viewAreaWidth; // radius
     private int viewAreDepth;
     private float shadingStep = 0.06f;
     private float shadedColorChannel;
@@ -73,12 +73,12 @@ public class LocalWorldDrawer {
     public void drawWorld() {
         if (localTileMap == null)
             localTileMap = container.getLocalTileMap();
-        this.camera = container.getCamera().getPosition();
+        this.camera = container.getCamera();
         defineframe();
         batch.enableBlending();
         batch.begin();
         for (int z = minZ; z <= maxZ; z++) {
-            shadedColorChannel = 1 - (camera.getZ() - z) * shadingStep;
+            shadedColorChannel = 1 - (camera.getPosition().getZ() - z) * shadingStep;
             batch.setColor(shadedColorChannel, shadedColorChannel, shadedColorChannel, 1);
             for (int x = minX; x <= maxX; x++) {
                 for (int y = maxY; y >= minY; y--) {
@@ -87,6 +87,7 @@ public class LocalWorldDrawer {
             }
         }
         drawCamera();
+        drawFrame();
         batch.end();
     }
 
@@ -113,59 +114,69 @@ public class LocalWorldDrawer {
         }
     }
 
+    /**
+     * Draws tile main part.
+     *
+     * @param atlas   atlas index to draw from.
+     * @param x       screen position
+     * @param y
+     * @param z
+     * @param spriteX sprite coordinates in atlas
+     * @param spriteY
+     */
     private void drawSprite(int atlas, int x, int y, int z, int spriteX, int spriteY) {
         batch.draw(new TextureRegion(atlases[atlas],
                         spriteX * tileWidth,
-                        spriteY * tileHeight,
+                        spriteY * (blockTileHeight) + topingTileHeight,
                         tileWidth, tileHeight),
-                getScreenPosX(x - camera.getX()),
-                getScreenPosY(y - camera.getY(), z - camera.getZ()));
+                getScreenPosX(x - camera.getPosition().getX()),
+                getScreenPosY(y - camera.getPosition().getY(), z - camera.getPosition().getZ()));
+    }
+
+    /**
+     * Draws tile topping part.
+     *
+     * @param atlas   atlas index to draw from.
+     * @param x       screen position
+     * @param y
+     * @param z
+     * @param spriteX sprite coordinates in atlas
+     * @param spriteY
+     */
+    private void drawTopping(int atlas, int x, int y, int z, int spriteX, int spriteY) {
+        batch.draw(new TextureRegion(atlases[atlas],
+                        spriteX * tileWidth,
+                        spriteY * blockTileHeight,
+                        tileWidth, topingTileHeight),
+                getScreenPosX(x - camera.getPosition().getX()),
+                getScreenPosY(y - camera.getPosition().getY(), z - camera.getPosition().getZ()));
     }
 
     private void drawBlock(int x, int y, int z) {
         int atlas = localTileMap.getAtlasNum(x, y, z);
         if (atlas >= 0) { // not empty cell
-            batch.draw(new TextureRegion(atlases[atlas],
-                            localTileMap.getAtlasX(x, y, z) * tileWidth,
-                            localTileMap.getAtlasY(x, y, z) * (blockTileHeight) + topingTileHeight,
-                            tileWidth, tileHeight),
-                    getScreenPosX(x - camera.getX()),
-                    getScreenPosY(y - camera.getY(), z - camera.getZ()));
+            drawSprite(atlas, x, y, z, localTileMap.getAtlasX(x, y, z), localTileMap.getAtlasY(x, y, z));
         } else {
             int lowerAtlas;
             if (z > 0 && (lowerAtlas = localTileMap.getAtlasNum(x, y, z - 1)) >= 0) {// not empty cell lower
-                batch.draw(new TextureRegion(atlases[lowerAtlas],
-                                localTileMap.getAtlasX(x, y, z - 1) * tileWidth,
-                                localTileMap.getAtlasY(x, y, z - 1) * (blockTileHeight),
-                                tileWidth, topingTileHeight),
-                        getScreenPosX(x - camera.getX()),
-                        getScreenPosY(y - camera.getY(), z - camera.getZ()));
+                drawTopping(lowerAtlas, x, y, z, localTileMap.getAtlasX(x, y, z - 1), localTileMap.getAtlasY(x, y, z - 1));
             }
         }
         //draw water
         batch.setColor(shadedColorChannel, shadedColorChannel, shadedColorChannel, 0.6f);
         if (localMap.getFlooding(x, y, z) != 0) {
-            batch.draw(new TextureRegion(atlases[0],
-                            (13 + localMap.getFlooding(x, y, z)) * tileWidth,
-                            topingTileHeight,
-                            tileWidth, tileHeight),
-                    getScreenPosX(x - camera.getX()),
-                    getScreenPosY(y - camera.getY(), z - camera.getZ()));
+            drawSprite(0, x, y, z, 13 + localMap.getFlooding(x, y, z), 0);
         } else {
             if (z > 0 && localMap.getFlooding(x, y, z - 1) >= 7) {// not empty cell lower
-                batch.draw(new TextureRegion(atlases[0],
-                                20 * tileWidth, 0,
-                                tileWidth, topingTileHeight),
-                        getScreenPosX(x - camera.getX()),
-                        getScreenPosY(y - camera.getY(), z - camera.getZ()));
+                drawTopping(0, x, y, z, 20, 0);
             }
         }
         batch.setColor(shadedColorChannel, shadedColorChannel, shadedColorChannel, 1);
     }
 
     private void drawCamera() {
-        batch.draw(new TextureRegion(atlases[4], 0, tileHeight, tileWidth, tileHeight),
-                getScreenPosX(0), getScreenPosY(0, 0));
+        drawSprite(4, camera.getPosition().getX(), camera.getPosition().getY(), camera.getPosition().getZ(), 0, 1);
+
     }
 
     private void initAtlases() {
@@ -179,29 +190,29 @@ public class LocalWorldDrawer {
     }
 
     private void defineframe() {
-        maxX = camera.getX() + viewAreaWidth;
-        if (maxX > localTileMap.getxSize() - 1) {
-            maxX = localTileMap.getxSize() - 1;
-        }
-        minX = camera.getX() - viewAreaWidth;
-        if (minX < 0) {
-            minX = 0;
-        }
-        maxY = camera.getY() + viewAreaWidth;
-        if (maxY > localTileMap.getySize() - 1) {
-            maxY = localTileMap.getySize() - 1;
-        }
-        minY = camera.getY() - viewAreaWidth;
-        if (minY < 0) {
-            minY = 0;
-        }
-        maxZ = camera.getZ();
-        if (maxZ > localTileMap.getzSize() - 1) {
-            maxZ = localTileMap.getzSize() - 1;
-        }
-        minZ = camera.getZ() - viewAreDepth;
-        if (minZ < 0) {
-            minZ = 0;
+        maxX = Math.min(camera.getPosition().getX() + viewAreaWidth, localTileMap.getxSize() - 1);
+        minX = Math.max(camera.getPosition().getX() - viewAreaWidth, 0);
+        maxY = Math.min(camera.getPosition().getY() + viewAreaWidth, localTileMap.getySize() - 1);
+        minY = Math.max(camera.getPosition().getY() - viewAreaWidth, 0);
+        maxZ = Math.min(camera.getPosition().getZ(), localTileMap.getzSize() - 1);
+        minZ = Math.max(camera.getPosition().getZ() - viewAreDepth, 0);
+    }
+
+    private void drawFrame() {
+        if (camera.getFrameStart() != null && camera.getPosition() != null) {
+            int minX = Math.min(camera.getFrameStart().getX(), camera.getPosition().getX());
+            int maxX = Math.max(camera.getFrameStart().getX(), camera.getPosition().getX());
+            int minY = Math.min(camera.getFrameStart().getY(), camera.getPosition().getY());
+            int maxY = Math.max(camera.getFrameStart().getY(), camera.getPosition().getY());
+            int minZ = Math.min(camera.getFrameStart().getZ(), camera.getPosition().getZ());
+            int maxZ = camera.getPosition().getZ();
+            for (int x = minX; x <= maxX; x++) {
+                for (int y = minY; y <= maxY; y++) {
+                    for (int z = minZ; z <= maxZ; z++) {
+                        drawSprite(4, x, y, z, 1, 1);
+                    }
+                }
+            }
         }
     }
 

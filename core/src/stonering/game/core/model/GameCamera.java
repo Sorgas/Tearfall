@@ -10,9 +10,10 @@ import stonering.global.utils.Position;
  * @author Alexander Kuzyakov on 10.12.2017.
  */
 public class GameCamera {
-    private Position camera;
     private GameContainer container;
     private LocalMap localMap;
+    private Position camera;
+    private Position frameStart;
     private Sprite sprite;
 
     public final int IDLE_STATUS = 0;
@@ -38,27 +39,9 @@ public class GameCamera {
     }
 
     public void moveCamera(int dx, int dy, int dz) {
-        int x = camera.getX() + dx;
-        int y = camera.getY() + dy;
-        int z = camera.getZ() + dz;
-        if (x < 0) {
-            x = 0;
-        } else if (x > localMap.getxSize() - 1) {
-            x = localMap.getxSize() - 1;
-        }
-        if (y < 0) {
-            y = 0;
-        } else if (y > localMap.getySize() - 1) {
-            y = localMap.getySize() - 1;
-        }
-        if (z < 0) {
-            z = 0;
-        } else if (z > localMap.getzSize() - 1) {
-            z = localMap.getzSize() - 1;
-        }
-        camera.setX(x);
-        camera.setY(y);
-        camera.setZ(z);
+        camera.setX(Math.min(Math.max(0, camera.getX() + dx), localMap.getxSize() - 1));
+        camera.setY(Math.min(Math.max(0, camera.getY() + dy), localMap.getySize() - 1));
+        camera.setZ(Math.min(Math.max(0, camera.getZ() + dz), localMap.getzSize() - 1));
     }
 
     public int getStatus() {
@@ -80,6 +63,15 @@ public class GameCamera {
     }
 
     public void resetSprite() {
+        frameStart = null;
         System.out.println("camera sprite resetted");
+    }
+
+    public Position getFrameStart() {
+        return frameStart;
+    }
+
+    public void setFrameStart(Position frameStart) {
+        this.frameStart = frameStart;
     }
 }

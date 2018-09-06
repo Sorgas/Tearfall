@@ -17,14 +17,15 @@ import stonering.global.utils.Position;
  */
 public class PlaceSelectComponent extends Actor implements HideableComponent, Invokable {
     private GameMvc gameMvc;
-    private boolean singlePoint;
-    private boolean materialSelectNeeded;
-    private GameCamera camera;
+    private DesignationsController controller;
     private LocalMap localMap;
     private Toolbar toolbar;
-    private DesignationsController controller;
+    private GameCamera camera;
+
     private Position start = null; // never set if singlePoint is true.
     private MaterialSelectList materialSelectList;
+    private boolean materialSelectNeeded;
+    private boolean singlePoint;
 
     public PlaceSelectComponent(GameMvc gameMvc, boolean singlePoint, boolean materialSelectNeeded) {
         this.gameMvc = gameMvc;
@@ -59,10 +60,12 @@ public class PlaceSelectComponent extends Actor implements HideableComponent, In
         if (singlePoint) {
             finishHandling(camera.getPosition(), camera.getPosition());
         } else {
-            if (start == null) {
+            if (start == null) { // box not started, start
                 start = camera.getPosition();
-            } else {
+                camera.setFrameStart(camera.getPosition().clone());
+            } else { // box started, finish
                 finishHandling(start, camera.getPosition());
+                camera.setFrameStart(null);
             }
         }
     }
