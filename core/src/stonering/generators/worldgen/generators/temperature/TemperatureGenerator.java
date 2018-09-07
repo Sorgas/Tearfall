@@ -1,14 +1,14 @@
 package stonering.generators.worldgen.generators.temperature;
 
+import stonering.generators.PerlinNoiseGenerator;
 import stonering.generators.worldgen.WorldGenConfig;
 import stonering.generators.worldgen.WorldGenContainer;
 import stonering.generators.worldgen.generators.AbstractGenerator;
-import stonering.generators.PerlinNoiseGenerator;
 
 /**
  * Generates temperature map of year middle temperature for world.
  *
- * @author Alexander Kuzyakov on 26.03.2017.
+ * @author Alexander on 26.03.2017.
  */
 public class TemperatureGenerator extends AbstractGenerator {
     private int width;
@@ -69,8 +69,9 @@ public class TemperatureGenerator extends AbstractGenerator {
             for (int y = 0; y < height; y++) {
                 float elevation = container.getElevation(x, y) > 0 ? container.getElevation(x, y) : 0; // sea depth counts as 0 elevation.
                 //TODO add coastal and continental climates difference
-                container.setSummerTemperature(x, y, temperature[x][y] + noise[x][y] * 4 - elevation * elevationInfluence + 5);
-                container.setWinterTemperature(x, y, temperature[x][y] + noise[x][y] * 4 - elevation * elevationInfluence - 5);
+                float baseTemperature = temperature[x][y] + noise[x][y] * 4 - elevation * elevationInfluence;
+                container.setSummerTemperature(x, y, baseTemperature + 5);
+                container.setWinterTemperature(x, y, baseTemperature - 5);
             }
         }
     }

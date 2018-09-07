@@ -135,19 +135,14 @@ public class RiverGenerator extends AbstractGenerator {
     private void runRiverFromStart(Vector2 start) {
         ArrayList<Vector2> river = new ArrayList<>();
         int length = 0;
-        System.out.println("");
-        System.out.println("new river");
         while (length < 100) {
             int x = Math.round(start.x);
             int y = Math.round(start.y);
-            System.out.println(x + " " + y);
             if(river.contains(riverVectors[x][y])) { //loop, add lake
-                System.out.println("lake");
                 container.getLakes().add(new Position(x,y,0));
                 break;
             }
             if (container.getElevation(x, y) <= seaLevel) { //sea reached
-                System.out.println("sea reached");
                 break;
             }
             river.add(riverVectors[x][y]);
