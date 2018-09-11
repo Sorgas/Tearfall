@@ -23,7 +23,7 @@ public class MiniMap extends Table {
     private Position focus = new Position(0, 0, 0);
     private Position size = new Position(0, 0, 0);
     private ShapeRenderer shapeRenderer;
-    private int pixelSize = 5;
+    private int pixelSize = 2;
     private int baseScreenOffsetX = 385;
     private int screenOffsetY = 100;
     private boolean debugMode = true;

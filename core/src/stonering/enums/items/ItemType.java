@@ -14,9 +14,10 @@ public class ItemType {
     private float valueMod;
     private float volume;
     private ArrayList<Integer> allowedMaterials;
+    private boolean isResource;
     private WearItemType wear;
     private ToolItemType tool;
-    private ResourceItemType resource;
+    private ContainerItemType container;
 
     private HashMap<String, ArrayList<Object>> aspects;
     private int atlasX;
@@ -77,5 +78,45 @@ public class ItemType {
 
     public void setVolume(float volume) {
         this.volume = volume;
+    }
+
+    public ArrayList<Integer> getAllowedMaterials() {
+        return allowedMaterials;
+    }
+
+    public void setAllowedMaterials(ArrayList<Integer> allowedMaterials) {
+        this.allowedMaterials = allowedMaterials;
+    }
+
+    public boolean isResource() {
+        return isResource;
+    }
+
+    public void setResource(boolean resource) {
+        isResource = resource;
+    }
+
+    public WearItemType getWear() {
+        return wear;
+    }
+
+    public void setWear(WearItemType wear) {
+        this.wear = wear;
+    }
+
+    public ToolItemType getTool() {
+        return tool;
+    }
+
+    public void setTool(ToolItemType tool) {
+        this.tool = tool;
+    }
+
+    public ContainerItemType getContainer() {
+        return container;
+    }
+
+    public void setContainer(ContainerItemType container) {
+        this.container = container;
     }
 }
