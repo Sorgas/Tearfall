@@ -6,6 +6,26 @@
             "digging_tool":["1"]
         },
         "valueMod":"0",
+        "isResource":false,
+        "tool":{
+            "class":"tool_c",
+            "actions":[
+                {
+                    "class":"action_c",
+                    "action":"dig",
+                    "speedMod":"1"
+                }
+            ],
+            "attacks":[
+                {
+                    "class":"attack_c",
+                    "attack":"hit",
+                    "baseReload":1,
+                    "damageMod":0.3,
+                    "damageType":"pierce"
+                }
+            ]
+        },
         "atlasY":"0",
         "atlasX":"0",
         "color":{
@@ -23,6 +43,26 @@
             "chopping_tool":["1"]
         },
         "valueMod":"0",
+        "isResource":false,
+        "tool":{
+            "class":"tool_c",
+            "actions":[
+                {
+                    "class":"action_c",
+                    "action":"chop",
+                    "speedMod":"1"
+                }
+            ],
+            "attacks":[
+                {
+                    "class":"attack_c",
+                    "attack":"hit",
+                    "baseReload":1,
+                    "damageMod":0.8,
+                    "damageType":"chop"
+                }
+            ]
+        },
         "atlasY":"0",
         "atlasX":"1",
         "color":{
@@ -39,6 +79,7 @@
             "falling":["1"]
         },
         "valueMod":"0",
+        "isResource":true,
         "atlasY":"0",
         "atlasX":"2",
         "color":{
@@ -55,6 +96,7 @@
             "falling":["1"]
         },
         "valueMod":"0",
+        "isResource":true,
         "atlasY":"0",
         "atlasX":"3",
         "color":{
@@ -71,6 +113,7 @@
             "falling":["1"]
         },
         "valueMod":"0",
+        "isResource":true,
         "atlasY":"0",
         "atlasX":"4",
         "color":{

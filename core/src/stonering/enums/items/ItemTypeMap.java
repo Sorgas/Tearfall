@@ -33,6 +33,9 @@ public class ItemTypeMap {
         Json json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
         json.addClassTag("color_c", Color.class);
+        json.addClassTag("tool_c", ToolItemType.class);
+        json.addClassTag("action_c", ToolItemType.ToolAction.class);
+        json.addClassTag("attack_c", ToolItemType.ToolAttack.class);
         json.addClassTag("tags_c", TagAspect.class);
         ArrayList<ItemType> elements = json.fromJson(ArrayList.class, ItemType.class, FileLoader.getItemsFile());
         for (ItemType itemType : elements) {

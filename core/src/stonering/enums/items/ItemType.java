@@ -15,6 +15,7 @@ public class ItemType {
     private float volume;
     private ArrayList<Integer> allowedMaterials;
     private boolean isResource;
+
     private WearItemType wear;
     private ToolItemType tool;
     private ContainerItemType container;

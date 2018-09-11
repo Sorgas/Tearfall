@@ -9,35 +9,26 @@ import java.util.ArrayList;
  * @author Alexander on 11.09.2018.
  */
 public class ToolItemType {
-    private ArrayList<String> actions;
-    private ArrayList<String> attacks;
+    private ArrayList<ToolAction> actions;
+    private ArrayList<ToolAttack> attacks;
     private String usedSkill; //TODO replace with enum
 
-    private class ActionPair {
-        String action; // action name
-        float speedMod; // efficiency
+    public ToolItemType() {
+        actions = new ArrayList<>();
+        attacks = new ArrayList<>();
     }
 
-    private class Attack {
-        String attack; //TODO replace with enum
-        float damageMod;
-        String damageType; //TODO replace with enum
+    public static class ToolAction {
+        public String action; // action name
+        public float speedMod; // efficiency
     }
 
-    public ArrayList<String> getActions() {
-        return actions;
-    }
-
-    public void setActions(ArrayList<String> actions) {
-        this.actions = actions;
-    }
-
-    public ArrayList<String> getAttacks() {
-        return attacks;
-    }
-
-    public void setAttacks(ArrayList<String> attacks) {
-        this.attacks = attacks;
+    public static class ToolAttack {
+        public String attack; //TODO replace with enum
+        public float damageMod; // item efficiency or this attack
+        public float baseReload; // unit stats affect reload
+        public String damageType; //TODO replace with enum
+        public String ammo; // ammo item title
     }
 
     public String getUsedSkill() {
@@ -46,5 +37,21 @@ public class ToolItemType {
 
     public void setUsedSkill(String usedSkill) {
         this.usedSkill = usedSkill;
+    }
+
+    public ArrayList<ToolAction> getActions() {
+        return actions;
+    }
+
+    public void setActions(ArrayList<ToolAction> actions) {
+        this.actions = actions;
+    }
+
+    public ArrayList<ToolAttack> getAttacks() {
+        return attacks;
+    }
+
+    public void setAttacks(ArrayList<ToolAttack> attacks) {
+        this.attacks = attacks;
     }
 }

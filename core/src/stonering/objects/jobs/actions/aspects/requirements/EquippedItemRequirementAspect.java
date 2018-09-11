@@ -5,7 +5,10 @@ import stonering.objects.jobs.actions.aspects.effect.EquipItemEffectAspect;
 import stonering.objects.jobs.actions.aspects.target.ItemTargetAspect;
 import stonering.objects.local_actors.Aspect;
 import stonering.objects.local_actors.items.Item;
+import stonering.objects.local_actors.items.selectors.ItemSelector;
 import stonering.objects.local_actors.unit.aspects.EquipmentAspect;
+
+import java.util.ArrayList;
 
 /**
  * @author Alexander Kuzyakov on 27.01.2018.
@@ -14,18 +17,18 @@ import stonering.objects.local_actors.unit.aspects.EquipmentAspect;
  * creates action to equip one if needed and possible
  */
 public class EquippedItemRequirementAspect extends RequirementsAspect {
-    private String requiredProperty;
+    ItemSelector itemSelector;
 
-    public EquippedItemRequirementAspect(Action action, String requiredProperty) {
+    public EquippedItemRequirementAspect(Action action, ItemSelector itemSelector) {
         super(action);
-        this.requiredProperty = requiredProperty;
+        this.itemSelector = itemSelector;
     }
 
     @Override
     public boolean check() {
         Aspect aspect = action.getTask().getPerformer().getAspects().get("equipment");
         if (aspect != null) {
-            if (((EquipmentAspect) aspect).getItemWithAspectAndProperty(requiredProperty) != null) {
+            if (((EquipmentAspect) aspect).getItems() != null) {
                 return true;
             } else {
                 return addActionToTask();

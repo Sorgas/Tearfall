@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 /**
  * Stores all items equipped and hauled by unit.
+ * Equipped items are ones, weared on body.
+ *
  * Does not takes or puts items to map, this should be done by actions.
  *
  * @author Alexander on 03.01.2018.
