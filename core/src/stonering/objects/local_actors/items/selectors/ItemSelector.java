@@ -1,5 +1,7 @@
-package stonering.objects.local_actors.items;
+package stonering.objects.local_actors.items.selectors;
 
+
+import stonering.objects.local_actors.items.Item;
 
 import java.util.ArrayList;
 

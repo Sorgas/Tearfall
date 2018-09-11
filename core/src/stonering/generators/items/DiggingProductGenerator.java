@@ -14,8 +14,7 @@ public class DiggingProductGenerator {
         if (material.getTypes().contains("stone") || material.getTypes().contains("ore")) {
             Item item = new Item(null);
             item.setMaterial(material.getId());
-            item.setVolume(100000);
-            item.setWeight(Math.round(item.getVolume() * material.getDensity()));
+            item.setWeight(Math.round(item.getType().getVolume() * material.getDensity()));
             System.out.println(item.toString());
             return item;
         } else {

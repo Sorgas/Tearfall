@@ -10,14 +10,23 @@ import stonering.objects.local_actors.AspectHolder;
  * In game item.
  */
 public class Item extends AspectHolder {
-    private String title;
     private ItemType type;
+
+    private String title;
+    private int baseValue;
     private int material;
     private int weight;
-    private int volume;
 
     public Item(Position position) {
         super(position);
+    }
+
+    @Override
+    public String toString() {
+        return "title: " + title +
+                " position: " + position +
+                " material: " + material +
+                " weight: " + weight;
     }
 
     public int getMaterial() {
@@ -36,23 +45,6 @@ public class Item extends AspectHolder {
         this.weight = weight;
     }
 
-    public int getVolume() {
-        return volume;
-    }
-
-    public void setVolume(int volume) {
-        this.volume = volume;
-    }
-
-    @Override
-    public String toString() {
-        return "title: " + title +
-                " position: " + position +
-                " material: " + material +
-                " weight: " + weight +
-                " volume: " + volume;
-    }
-
     public String getTitle() {
         return title;
     }
@@ -67,5 +59,13 @@ public class Item extends AspectHolder {
 
     public void setType(ItemType type) {
         this.type = type;
+    }
+
+    public int getBaseValue() {
+        return baseValue;
+    }
+
+    public void setBaseValue(int baseValue) {
+        this.baseValue = baseValue;
     }
 }

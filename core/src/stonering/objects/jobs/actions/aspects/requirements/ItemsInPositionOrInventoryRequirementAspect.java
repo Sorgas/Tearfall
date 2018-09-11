@@ -6,7 +6,7 @@ import stonering.objects.jobs.actions.Action;
 import stonering.objects.jobs.actions.aspects.effect.DropItemEffectAspect;
 import stonering.objects.jobs.actions.aspects.target.BlockTargetAspect;
 import stonering.objects.local_actors.items.Item;
-import stonering.objects.local_actors.items.ItemSelector;
+import stonering.objects.local_actors.items.selectors.ItemSelector;
 import stonering.objects.local_actors.unit.aspects.EquipmentAspect;
 
 import java.util.ArrayList;

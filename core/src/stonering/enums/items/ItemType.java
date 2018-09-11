@@ -11,8 +11,14 @@ import java.util.HashMap;
  */
 public class ItemType {
     private String title;
+    private float valueMod;
+    private float volume;
+    private ArrayList<Integer> allowedMaterials;
+    private WearItemType wear;
+    private ToolItemType tool;
+    private ResourceItemType resource;
+
     private HashMap<String, ArrayList<Object>> aspects;
-    private float basicValue;
     private int atlasX;
     private int atlasY;
     private Color color;
@@ -49,12 +55,12 @@ public class ItemType {
         this.color = color;
     }
 
-    public float getBasicValue() {
-        return basicValue;
+    public float getValueMod() {
+        return valueMod;
     }
 
-    public void setBasicValue(float basicValue) {
-        this.basicValue = basicValue;
+    public void setValueMod(float valueMod) {
+        this.valueMod = valueMod;
     }
 
     public HashMap<String, ArrayList<Object>> getAspects() {
@@ -63,5 +69,13 @@ public class ItemType {
 
     public void setAspects(HashMap<String, ArrayList<Object>> aspects) {
         this.aspects = aspects;
+    }
+
+    public float getVolume() {
+        return volume;
+    }
+
+    public void setVolume(float volume) {
+        this.volume = volume;
     }
 }

@@ -5,7 +5,7 @@
             "falling":["1"],
             "digging_tool":["1"]
         },
-        "basicValue":"0",
+        "valueMod":"0",
         "atlasY":"0",
         "atlasX":"0",
         "color":{
@@ -22,7 +22,7 @@
             "falling":["1"],
             "chopping_tool":["1"]
         },
-        "basicValue":"0",
+        "valueMod":"0",
         "atlasY":"0",
         "atlasX":"1",
         "color":{
@@ -38,7 +38,7 @@
         "aspects":{
             "falling":["1"]
         },
-        "basicValue":"0",
+        "valueMod":"0",
         "atlasY":"0",
         "atlasX":"2",
         "color":{
@@ -54,7 +54,7 @@
         "aspects":{
             "falling":["1"]
         },
-        "basicValue":"0",
+        "valueMod":"0",
         "atlasY":"0",
         "atlasX":"3",
         "color":{
@@ -70,7 +70,7 @@
         "aspects":{
             "falling":["1"]
         },
-        "basicValue":"0",
+        "valueMod":"0",
         "atlasY":"0",
         "atlasX":"4",
         "color":{

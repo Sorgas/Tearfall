@@ -5,7 +5,7 @@ import stonering.game.core.GameMvc;
 import stonering.game.core.controller.controllers.DesignationsController;
 import stonering.game.core.view.ui_components.menus.Invokable;
 import stonering.objects.local_actors.items.Item;
-import stonering.objects.local_actors.items.SimpleItemSelector;
+import stonering.objects.local_actors.items.selectors.SimpleItemSelector;
 
 import java.util.List;
 

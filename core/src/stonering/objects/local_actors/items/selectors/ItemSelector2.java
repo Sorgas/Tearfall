@@ -1,7 +1,8 @@
-package stonering.objects.local_actors.items;
+package stonering.objects.local_actors.items.selectors;
 
 import stonering.enums.NumberRelationsEnum;
 import stonering.enums.materials.MaterialMap;
+import stonering.objects.local_actors.items.Item;
 
 import java.util.ArrayList;
 import java.util.HashMap;

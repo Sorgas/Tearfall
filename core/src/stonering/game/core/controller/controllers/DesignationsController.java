@@ -8,7 +8,7 @@ import stonering.game.core.model.lists.TaskContainer;
 import stonering.game.core.view.GameView;
 import stonering.global.utils.Position;
 import stonering.objects.local_actors.items.Item;
-import stonering.objects.local_actors.items.ItemSelector;
+import stonering.objects.local_actors.items.selectors.ItemSelector;
 
 import java.util.ArrayList;
 

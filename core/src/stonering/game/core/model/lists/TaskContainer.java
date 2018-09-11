@@ -18,7 +18,7 @@ import stonering.objects.jobs.actions.aspects.effect.DigEffectAspect;
 import stonering.objects.jobs.actions.aspects.requirements.EquippedItemRequirementAspect;
 import stonering.objects.jobs.actions.aspects.requirements.ItemsInPositionOrInventoryRequirementAspect;
 import stonering.objects.jobs.actions.aspects.target.BlockTargetAspect;
-import stonering.objects.local_actors.items.ItemSelector;
+import stonering.objects.local_actors.items.selectors.ItemSelector;
 import stonering.objects.local_actors.plants.PlantBlock;
 
 import java.util.ArrayList;

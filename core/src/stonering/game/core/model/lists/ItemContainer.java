@@ -6,9 +6,8 @@ import stonering.enums.materials.MaterialMap;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.LocalMap;
 import stonering.global.utils.Position;
-import stonering.global.utils.pathfinding.a_star.AStar;
 import stonering.objects.local_actors.items.Item;
-import stonering.objects.local_actors.items.ItemSelector;
+import stonering.objects.local_actors.items.selectors.ItemSelector;
 
 import java.util.*;
 import java.util.stream.Collectors;

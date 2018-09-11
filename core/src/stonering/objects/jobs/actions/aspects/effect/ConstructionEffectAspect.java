@@ -7,7 +7,7 @@ import stonering.global.utils.Position;
 import stonering.objects.jobs.actions.Action;
 import stonering.objects.jobs.actions.aspects.requirements.ItemsInPositionOrInventoryRequirementAspect;
 import stonering.objects.local_actors.items.Item;
-import stonering.objects.local_actors.items.ItemSelector;
+import stonering.objects.local_actors.items.selectors.ItemSelector;
 
 import java.util.ArrayList;
 
