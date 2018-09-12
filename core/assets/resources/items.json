@@ -1,127 +1,238 @@
 [
-    {
-        "title":"pickaxe",
-        "aspects":{
-            "falling":["1"],
-            "digging_tool":["1"]
-        },
-        "valueMod":"0",
-        "isResource":false,
-        "tool":{
-            "class":"tool_c",
-            "actions":[
-                {
-                    "class":"action_c",
-                    "action":"dig",
-                    "speedMod":"1"
-                }
-            ],
-            "attacks":[
-                {
-                    "class":"attack_c",
-                    "attack":"hit",
-                    "baseReload":1,
-                    "damageMod":0.3,
-                    "damageType":"pierce"
-                }
-            ]
-        },
-        "atlasY":"0",
-        "atlasX":"0",
-        "color":{
-            "class":"color_c",
-            "r":"1",
-            "g":"1",
-            "b":"1",
-            "a":"1"
-        }
+  {
+    "title": "pickaxe",
+    "aspects": {
+      "falling": [
+        "1"
+      ],
+      "digging_tool": [
+        "1"
+      ]
     },
-    {
-        "title":"axe",
-        "aspects":{
-            "falling":["1"],
-            "chopping_tool":["1"]
-        },
-        "valueMod":"0",
-        "isResource":false,
-        "tool":{
-            "class":"tool_c",
-            "actions":[
-                {
-                    "class":"action_c",
-                    "action":"chop",
-                    "speedMod":"1"
-                }
-            ],
-            "attacks":[
-                {
-                    "class":"attack_c",
-                    "attack":"hit",
-                    "baseReload":1,
-                    "damageMod":0.8,
-                    "damageType":"chop"
-                }
-            ]
-        },
-        "atlasY":"0",
-        "atlasX":"1",
-        "color":{
-            "class":"color_c",
-            "r":"1",
-            "g":"1",
-            "b":"1",
-            "a":"1"
+    "valueMod": "0",
+    "isResource": false,
+    "tool": {
+      "class": "tool_c",
+      "actions": [
+        {
+          "class": "action_c",
+          "action": "dig",
+          "speedMod": "1"
         }
+      ],
+      "attacks": [
+        {
+          "class": "attack_c",
+          "attack": "hit",
+          "baseReload": 1,
+          "damageMod": 0.3,
+          "damageType": "pierce"
+        }
+      ]
     },
-    {
-        "title":"log",
-        "aspects":{
-            "falling":["1"]
-        },
-        "valueMod":"0",
-        "isResource":true,
-        "atlasY":"0",
-        "atlasX":"2",
-        "color":{
-            "class":"color_c",
-            "r":"1",
-            "g":"1",
-            "b":"1",
-            "a":"1"
-        }
-    },
-    {
-        "title":"branch",
-        "aspects":{
-            "falling":["1"]
-        },
-        "valueMod":"0",
-        "isResource":true,
-        "atlasY":"0",
-        "atlasX":"3",
-        "color":{
-            "class":"color_c",
-            "r":"1",
-            "g":"1",
-            "b":"1",
-            "a":"1"
-        }
-    },
-    {
-        "title":"rock",
-        "aspects":{
-            "falling":["1"]
-        },
-        "valueMod":"0",
-        "isResource":true,
-        "atlasY":"0",
-        "atlasX":"4",
-        "color":{
-            "class":"color_c",
-            "r":"1",
-            "g":"1",
-            "b":"1",
-            "a":"1"
-        }
+    "atlasY": "0",
+    "atlasX": "0",
+    "color": {
+      "class": "color_c",
+      "r": "1",
+      "g": "1",
+      "b": "1",
+      "a": "1"
     }
+  },
+  {
+    "title": "axe",
+    "aspects": {
+      "falling": [
+        "1"
+      ],
+      "chopping_tool": [
+        "1"
+      ]
+    },
+    "valueMod": "0",
+    "isResource": false,
+    "tool": {
+      "class": "tool_c",
+      "actions": [
+        {
+          "class": "action_c",
+          "action": "chop",
+          "speedMod": "1"
+        }
+      ],
+      "attacks": [
+        {
+          "class": "attack_c",
+          "attack": "hit",
+          "baseReload": 1,
+          "damageMod": 0.8,
+          "damageType": "chop"
+        }
+      ]
+    },
+    "atlasY": "0",
+    "atlasX": "1",
+    "color": {
+      "class": "color_c",
+      "r": "1",
+      "g": "1",
+      "b": "1",
+      "a": "1"
+    }
+  },
+  {
+    "title": "log",
+    "aspects": {
+      "falling": [
+        "1"
+      ]
+    },
+    "valueMod": "0",
+    "isResource": true,
+    "atlasY": "0",
+    "atlasX": "2",
+    "color": {
+      "class": "color_c",
+      "r": "1",
+      "g": "1",
+      "b": "1",
+      "a": "1"
+    }
+  },
+  {
+    "title": "branch",
+    "aspects": {
+      "falling": [
+        "1"
+      ]
+    },
+    "valueMod": "0",
+    "isResource": true,
+    "atlasY": "0",
+    "atlasX": "3",
+    "color": {
+      "class": "color_c",
+      "r": "1",
+      "g": "1",
+      "b": "1",
+      "a": "1"
+    }
+  },
+  {
+    "title": "rock",
+    "aspects": {
+      "falling": [
+        "1"
+      ]
+    },
+    "valueMod": "0",
+    "isResource": true,
+    "atlasY": "0",
+    "atlasX": "4",
+    "color": {
+      "class": "color_c",
+      "r": "1",
+      "g": "1",
+      "b": "1",
+      "a": "1"
+    }
+  },
+  {
+    "title": "shirt",
+    "aspects": {
+      "falling": [
+        "1"
+      ]
+    },
+    "valueMod": "0",
+    "isResource": false,
+    "wear": {
+      "bodyTemplate": "humanoid",
+      "bodyParts": [
+        "upper_torso",
+        "upper_arm",
+        "lower_arm"
+      ],
+      "baseInsulation": 0.2,
+      "baseWetResistance": 0.3
+    },
+    "atlasY": "0",
+    "atlasX": "4",
+    "color": {
+      "class": "color_c",
+      "r": "1",
+      "g": "1",
+      "b": "1",
+      "a": "1"
+    }
+  },
+  {
+    "title": "pants",
+    "aspects": {
+      "falling": [
+        "1"
+      ]
+    },
+    "valueMod": "0",
+    "isResource": false,
+    "wear": {
+      "bodyTemplate": "humanoid",
+      "bodyParts": [
+        "lower_torso",
+        "upper_leg",
+        "lower_leg"
+      ],
+      "baseInsulation": 0.2,
+      "baseWetResistance": 0.3
+    },
+    "container": {
+      "itemTypes": [
+        "solid"
+      ],
+      "innerVolume": 4
+    },
+    "atlasY": "0",
+    "atlasX": "4",
+    "color": {
+      "class": "color_c",
+      "r": "1",
+      "g": "1",
+      "b": "1",
+      "a": "1"
+    }
+  },
+  {
+    "title": "backpack",
+    "aspects": {
+      "falling": [
+        "1"
+      ]
+    },
+    "valueMod": "0",
+    "isResource": false,
+    "wear": {
+      "bodyTemplate": "humanoid",
+      "bodyParts": [
+        "upper_torso"
+      ],
+      "baseInsulation": 0.05,
+      "baseWetResistance": 0.05
+    },
+    "container": {
+      "itemTypes": [
+        "solid"
+      ],
+      "innerVolume": 2000
+    },
+    "atlasY": "0",
+    "atlasX": "4",
+    "color": {
+      "class": "color_c",
+      "r": "1",
+      "g": "1",
+      "b": "1",
+      "a": "1"
+    }
+  }
 ]
