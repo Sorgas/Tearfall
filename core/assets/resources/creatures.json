@@ -2,7 +2,7 @@
   {
     "title": "digger",
     "description": "This is a digger",
-    "body_template": "beast",
+    "body_template": "humanoid",
     "atlasY": "0",
     "atlasX": "0",
     "color": {

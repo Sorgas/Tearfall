@@ -5,6 +5,7 @@ import stonering.objects.local_actors.AspectHolder;
 import stonering.objects.local_actors.items.Item;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Stores all items equipped and hauled by unit.
@@ -16,7 +17,7 @@ import java.util.ArrayList;
  * <p>
  */
 public class EquipmentAspect extends Aspect {
-    private ArrayList<Item> items;
+    private HashMap<String, ArrayList<Item>> items;
     private ArrayList<Item> inventory;
 
     public EquipmentAspect(AspectHolder aspectHolder) {
@@ -39,6 +40,11 @@ public class EquipmentAspect extends Aspect {
         if (true) {
             items.add(item);
         }
+    }
+
+    private class EquipmentSlot() {
+        ArrayList<Item> items;
+        String limbName
     }
 
     public void unequipItem(Item item) {

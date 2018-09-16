@@ -4,9 +4,15 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter;
+import stonering.exceptions.DescriptionNotFoundException;
+import stonering.exceptions.FaultDescriptionException;
 import stonering.objects.local_actors.unit.Unit;
 import stonering.objects.local_actors.unit.aspects.BodyAspect;
 import stonering.utils.global.FileLoader;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 
 /**
  * Generates {@link BodyAspect} for creature by gives species.
@@ -31,33 +37,70 @@ public class BodyGenerator {
     }
 
     public BodyAspect generateBody(JsonValue creature, Unit unit) {
-        JsonValue template = findTemplate(creature.getString("body_template"));
-        BodyAspect bodyAspect = generateBodyAspectFromTemplate(template, unit);
-        return bodyAspect;
+        try {
+            JsonValue template = findTemplate(creature.getString("body_template"));
+            BodyAspect bodyAspect = generateBodyAspectFromTemplate(template, unit);
+            return bodyAspect;
+        } catch (DescriptionNotFoundException | FaultDescriptionException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    private JsonValue findTemplate(String template) {
+    private JsonValue findTemplate(String template) throws DescriptionNotFoundException {
         for (JsonValue t : templates) {
             if (t.getString("title").equals(template)) return t;
         }
-        return null;
+        throw new DescriptionNotFoundException("Body template " + template + "not found");
     }
 
-    private BodyAspect generateBodyAspectFromTemplate(JsonValue template, Unit unit) {
+    private BodyAspect generateBodyAspectFromTemplate(JsonValue template, Unit unit) throws FaultDescriptionException {
         BodyAspect bodyAspect = new BodyAspect(unit);
-        for (JsonValue bp : template.get("body")) {
-            bodyAspect.addBodyPart(generateBodyPart(bp, template, bodyAspect));
+        HashMap<String, BodyAspect.BodyPart> bodyParts = new HashMap<>();
+        for (JsonValue bp : template.get("body")) { // read template to map
+            BodyAspect.BodyPart bodyPart = generateBodyPart(bp, template, bodyAspect);
+            bodyParts.put(bodyPart.name, bodyPart);
         }
+        bindBodyParts(bodyParts); // bind limbs to each other
+        bodyAspect.getBodyParts().addAll(bodyParts.values()); // fill aspect with limbs
+        bodyAspect.getBodyPartsToCover().addAll(Arrays.asList(template.get("limbs_to_cover").asStringArray()));
         return bodyAspect;
     }
 
+    /**
+     * Ccreates {@link BodyAspect.BodyPart} from template.
+     *
+     * @param partTemplate
+     * @param template
+     * @param bodyAspect
+     * @return
+     */
     private BodyAspect.BodyPart generateBodyPart(JsonValue partTemplate, JsonValue template, BodyAspect bodyAspect) {
         BodyAspect.BodyPart bodyPart = bodyAspect.new BodyPart(partTemplate.getString("title"));
         String[] layers = template.get("default_layers").asStringArray();
         if (partTemplate.get("layers") != null) {
             layers = partTemplate.get("layers").asStringArray();
         }
+        bodyPart.rootName = partTemplate.get("root").asString();
         bodyPart.layers = layers;
         return bodyPart;
+    }
+
+    /**
+     * Links body parts to their base ones, e.g. hands to lower arms, heads to necks etc.
+     *
+     * @param bodyParts
+     * @throws FaultDescriptionException if "root" in body part description is wrong.
+     */
+    private void bindBodyParts(HashMap<String, BodyAspect.BodyPart> bodyParts) throws FaultDescriptionException {
+        for (BodyAspect.BodyPart bodyPart : bodyParts.values()) {
+            if (bodyPart.rootName != null && !bodyPart.rootName.equals("body")) {
+                if (bodyParts.containsKey(bodyPart.rootName)) {
+                    bodyPart.root = bodyParts.get(bodyPart.rootName);
+                } else {
+                    throw new FaultDescriptionException("Body part " + bodyPart.name + " points to unknown body part " + bodyPart.rootName);
+                }
+            }
+        }
     }
 }

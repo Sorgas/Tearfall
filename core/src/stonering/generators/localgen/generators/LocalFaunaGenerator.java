@@ -8,8 +8,8 @@ import stonering.objects.local_actors.unit.Unit;
 
 /**
  * @author Alexander Kuzyakov on 03.12.2017.
- *
- * Generates wild animals on LoclMap
+ *         <p>
+ *         Generates wild animals on LoclMap
  */
 public class LocalFaunaGenerator {
     private LocalGenContainer container;
@@ -25,9 +25,9 @@ public class LocalFaunaGenerator {
     public void execute() {
         LocalMap localMap = container.getLocalMap();
         Unit unit = creatureGenerator.generateUnit("digger");
-        unit.setLocalMap(localMap);
-        container.getUnits().add(unit);
+        if (unit != null) {
+            unit.setLocalMap(localMap);
+            container.getUnits().add(unit);
+        }
     }
-
-
 }

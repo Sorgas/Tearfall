@@ -24,16 +24,21 @@ public class LocalItemsGenerator {
     }
 
     public void execute() {
-        createItemInCenter("axe", "iron");
-        createItemInCenter("rock", "rhyolite");
+        createItemInCenter("axe", "iron", 0, 0);
+        createItemInCenter("pickaxe", "iron", 0, -1);
+        createItemInCenter("rock", "rhyolite", 0, 1);
+        createItemInCenter("pants", "cotton", 1, 0);
+        createItemInCenter("shirt", "cotton", 2, 0);
+
+
     }
 
-    private void createItemInCenter(String itemType, String material) {
+    private void createItemInCenter(String itemType, String material, int xOffset, int yOffset) {
         try {
             LocalMap localMap = container.getLocalMap();
-            Item pickaxe = itemGenerator.generateItem(itemType, MaterialMap.getInstance().getId(material));
-            pickaxe.setPosition(new Position(localMap.getxSize() / 2, localMap.getySize() / 2, findSurfaceZ()));
-            container.getItems().add(pickaxe);
+            Item item = itemGenerator.generateItem(itemType, MaterialMap.getInstance().getId(material));
+            item.setPosition(new Position(localMap.getxSize() / 2 + xOffset, localMap.getySize() / 2 + yOffset, findSurfaceZ()));
+            container.getItems().add(item);
         } catch (DescriptionNotFoundException e) {
             e.printStackTrace();
         }

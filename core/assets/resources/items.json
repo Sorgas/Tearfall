@@ -158,7 +158,7 @@
       "baseWetResistance": 0.3
     },
     "atlasY": "0",
-    "atlasX": "4",
+    "atlasX": "6",
     "color": {
       "class": "color_c",
       "r": "1",
@@ -193,7 +193,7 @@
       "innerVolume": 4
     },
     "atlasY": "0",
-    "atlasX": "4",
+    "atlasX": "5",
     "color": {
       "class": "color_c",
       "r": "1",

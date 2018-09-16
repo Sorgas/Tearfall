@@ -1,6 +1,7 @@
 [
     {
         "title":"beast",
+        "limbs_to_cover":[],
         "default_layers":["skin", "fat", "muscle", "bone"],
         "body":[
             {
@@ -116,6 +117,7 @@
     },
     {
         "title":"humanoid",
+        "limbs_to_cover":["foot", "upper_body", "lower_body"],
         "default_layers":["skin", "fat", "muscle", "bone"],
         "body":[
             {
