@@ -6,10 +6,11 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter;
 import stonering.objects.local_actors.unit.Unit;
 import stonering.objects.local_actors.unit.aspects.BodyAspect;
-import stonering.objects.local_actors.unit.BodyPart;
 import stonering.utils.global.FileLoader;
 
 /**
+ * Generates {@link BodyAspect} for creature by gives species.
+ *
  * @author Alexander Kuzyakov on 19.10.2017.
  */
 public class BodyGenerator {
@@ -36,27 +37,27 @@ public class BodyGenerator {
     }
 
     private JsonValue findTemplate(String template) {
-        for (JsonValue t: templates) {
-            if(t.getString("title").equals(template)) return t;
+        for (JsonValue t : templates) {
+            if (t.getString("title").equals(template)) return t;
         }
         return null;
     }
 
     private BodyAspect generateBodyAspectFromTemplate(JsonValue template, Unit unit) {
         BodyAspect bodyAspect = new BodyAspect(unit);
-        for (JsonValue bp: template.get("body")) {
-            bodyAspect.addBodyPart(generateBodyPart(bp,template));
+        for (JsonValue bp : template.get("body")) {
+            bodyAspect.addBodyPart(generateBodyPart(bp, template, bodyAspect));
         }
         return bodyAspect;
     }
 
-    private BodyPart generateBodyPart(JsonValue partTemplate, JsonValue template) {
-        BodyPart bodyPart = new BodyPart(partTemplate.getString("title"));
+    private BodyAspect.BodyPart generateBodyPart(JsonValue partTemplate, JsonValue template, BodyAspect bodyAspect) {
+        BodyAspect.BodyPart bodyPart = bodyAspect.new BodyPart(partTemplate.getString("title"));
         String[] layers = template.get("default_layers").asStringArray();
-        if(partTemplate.get("layers") != null) {
+        if (partTemplate.get("layers") != null) {
             layers = partTemplate.get("layers").asStringArray();
         }
-        bodyPart.setLayers(layers);
+        bodyPart.layers = layers;
         return bodyPart;
     }
 }

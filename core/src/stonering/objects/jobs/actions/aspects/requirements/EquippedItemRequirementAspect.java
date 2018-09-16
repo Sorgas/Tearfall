@@ -12,9 +12,9 @@ import java.util.ArrayList;
 
 /**
  * @author Alexander Kuzyakov on 27.01.2018.
- *
- * checks if unis has specific equipped item,
- * creates action to equip one if needed and possible
+ *         <p>
+ *         checks if unis has specific equipped item,
+ *         creates action to equip one if needed and possible
  */
 public class EquippedItemRequirementAspect extends RequirementsAspect {
     ItemSelector itemSelector;
@@ -38,7 +38,7 @@ public class EquippedItemRequirementAspect extends RequirementsAspect {
     }
 
     private boolean addActionToTask() {
-        Item target = action.getGameContainer().getItemContainer().getItemWithProperty(requiredProperty);
+        Item target = action.getGameContainer().getItemContainer().getItemAvailableBySelector(itemSelector, action.getTask().getPerformer().getPosition());
         if (target != null) {
             Action newAction = new Action(action.getGameContainer());
             newAction.setEffectAspect(new EquipItemEffectAspect(newAction));

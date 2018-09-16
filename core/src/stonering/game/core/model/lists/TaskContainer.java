@@ -19,6 +19,7 @@ import stonering.objects.jobs.actions.aspects.requirements.EquippedItemRequireme
 import stonering.objects.jobs.actions.aspects.requirements.ItemsInPositionOrInventoryRequirementAspect;
 import stonering.objects.jobs.actions.aspects.target.BlockTargetAspect;
 import stonering.objects.local_actors.items.selectors.ItemSelector;
+import stonering.objects.local_actors.items.selectors.ToolWithActionItemSelector;
 import stonering.objects.local_actors.plants.PlantBlock;
 
 import java.util.ArrayList;
@@ -84,12 +85,13 @@ public class TaskContainer {
     /**
      * Adds designation and creates comprehensive task.
      * All single-tile buildings are constructed through this method.
-     *  @param position
+     *
+     * @param position
      * @param building
      * @param itemSelectors
      */
     public void submitDesignation(Position position, String building, ArrayList<ItemSelector> itemSelectors) {
-        if (validateBuilding(position, building) ) {
+        if (validateBuilding(position, building)) {
             BuildingDesignation designation = new BuildingDesignation(position, DesignationTypes.BUILD, building);
             Task task = createBuildingTask(designation, itemSelectors);
             tasks.add(task);
@@ -109,7 +111,7 @@ public class TaskContainer {
                 Action action = new Action(container);
                 action.setEffectAspect(new DigEffectAspect(action, designation.getType()));
                 action.setTargetAspect(new BlockTargetAspect(action, designation.getPosition(), true, true));
-                action.setRequirementsAspect(new EquippedItemRequirementAspect(action, "diging_tool"));
+                action.setRequirementsAspect(new EquippedItemRequirementAspect(action, new ToolWithActionItemSelector("dig")));
                 Task task = new Task("designation", TaskTypesEnum.DESIGNATION, action, this, container);
                 return task;
             }
@@ -118,7 +120,7 @@ public class TaskContainer {
                 Action action = new Action(container);
                 action.setEffectAspect(new ChopTreeEffectAspect(action));
                 action.setTargetAspect(new BlockTargetAspect(action, designation.getPosition(), false, true)); //TODO replace with PlantTargetAspect
-                action.setRequirementsAspect(new EquippedItemRequirementAspect(action, "chopping_tool"));
+                action.setRequirementsAspect(new EquippedItemRequirementAspect(action, new ToolWithActionItemSelector("chop")));
                 Task task = new Task("designation", TaskTypesEnum.DESIGNATION, action, this, container);
                 return task;
             }
@@ -153,7 +155,7 @@ public class TaskContainer {
             case CHOP: {
                 PlantBlock block = container.getLocalMap().getPlantBlock(position);
                 return block != null &&
-                   (blockOnMap.equals(BlockTypesEnum.SPACE) || blockOnMap.equals(BlockTypesEnum.FLOOR))
+                        (blockOnMap.equals(BlockTypesEnum.SPACE) || blockOnMap.equals(BlockTypesEnum.FLOOR))
                         && block.getPlant().getType().isTree();
             }
             case NONE: {

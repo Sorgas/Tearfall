@@ -5,12 +5,14 @@
         "body":[
             {
                 "title":"upper torso",
+                "type":"upper torso",
                 "root":"body",
                 "internal":["left lung", "right lung", "heart"],
                 "size":""
             },
             {
                 "title":"lower torso",
+                "type":"lower torso",
                 "root":"body",
                 "layers":["skin", "fat", "muscle"],
                 "internal":["stomach"],
@@ -18,6 +20,7 @@
             },
             {
                 "title":"neck",
+                "type":"neck",
                 "root":"upper torso",
                 "layers":["skin", "fat", "muscle"],
                 "internal":["neck part spine"],
@@ -25,6 +28,7 @@
             },
             {
                 "title":"head",
+                "type":"head",
                 "root":"neck",
                 "internal":["brain", "tongue", "teeth"],
                 "external":["left eye", "right eye", "nose", "left ear", "right ear"],
@@ -32,67 +36,189 @@
             },
             {
                 "title":"left front upper leg",
+                "type":"upper leg",
                 "root":"upper torso",
                 "size":""
             },
             {
                 "title":"left front lower leg",
+                "type":"lower leg",
                 "root":"left front upper leg",
                 "size":""
             },
             {
                 "title":"left front paw",
+                "type":"paw",
                 "root":"left front lower leg",
                 "size":""
             },
             {
                 "title":"right front upper leg",
+                "type":"upper leg",
                 "root":"upper body",
                 "size":""
             },
             {
                 "title":"right front lower leg",
+                "type":"lower leg",
                 "root":"right front upper leg",
                 "size":""
             },
             {
                 "title":"right front paw",
+                "type":"paw",
                 "root":"right front lower leg",
                 "size":""
             },
             {
                 "title":"left rear upper leg",
+                "type":"upper leg",
                 "root":"lower body",
                 "size":""
             },
             {
                 "title":"left rear lower leg",
+                "type":"lower leg",
                 "root":"left rear upper leg",
                 "size":""
             },
             {
                 "title":"left rear paw",
+                "type":"paw",
                 "root":"left rear lower leg",
                 "size":""
             },
             {
                 "title":"right rear upper leg",
+                "type":"upper leg",
                 "root":"lower body",
                 "size":""
             },
             {
                 "title":"right rear lower leg",
+                "type":"lower leg",
                 "root":"left rear upper leg",
                 "size":""
             },
             {
                 "title":"right rear paw",
+                "type":"paw",
                 "root":"right rear lower leg",
                 "size":""
             },
             {
                 "title":"tail",
+                "type":"tail",
                 "root":"lower body",
+                "size":""
+            }
+        ]
+    },
+    {
+        "title":"humanoid",
+        "default_layers":["skin", "fat", "muscle", "bone"],
+        "body":[
+            {
+                "title":"upper torso",
+                "type":"upper torso",
+                "root":"body",
+                "internal":["left lung", "right lung", "heart"],
+                "size":""
+            },
+            {
+                "title":"lower torso",
+                "type":"lower torso",
+                "root":"body",
+                "layers":["skin", "fat", "muscle"],
+                "internal":["stomach"],
+                "size":""
+            },
+            {
+                "title":"neck",
+                "type":"neck",
+                "root":"upper torso",
+                "layers":["skin", "fat", "muscle"],
+                "internal":["neck part spine"],
+                "size":""
+            },
+            {
+                "title":"head",
+                "type":"head",
+                "root":"neck",
+                "internal":["brain", "tongue", "teeth"],
+                "external":["left eye", "right eye", "nose", "left ear", "right ear"],
+                "size":""
+            },
+            {
+                "title":"left upper arm",
+                "type":"upper arm",
+                "root":"upper torso",
+                "size":""
+            },
+            {
+                "title":"left lower arm",
+                "type":"lower arm",
+                "root":"left upper arm",
+                "size":""
+            },
+            {
+                "title":"left hand",
+                "type":"upper arm",
+                "root":"left upper arm",
+                "size":""
+            },
+            {
+                "title":"right upper arm",
+                "type":"upper arm",
+                "root":"upper torso",
+                "size":""
+            },
+            {
+                "title":"right lower arm",
+                "type":"lower arm",
+                "root":"right upper arm",
+                "size":""
+            },
+            {
+                "title":"right hand",
+                "type":"upper arm",
+                "root":"right upper arm",
+                "size":""
+            },
+            {
+                "title":"left upper leg",
+                "type":"upper leg",
+                "root":"lower body",
+                "size":""
+            },
+            {
+                "title":"left lower leg",
+                "type":"lower leg",
+                "root":"left upper leg",
+                "size":""
+            },
+            {
+                "title":"left foot",
+                "type":"left foot",
+                "root":"left lower leg",
+                "size":""
+            },
+            {
+                "title":"right upper leg",
+                "type":"upper leg",
+                "root":"lower body",
+                "size":""
+            },
+            {
+                "title":"right lower leg",
+                "type":"lower leg",
+                "root":"left upper leg",
+                "size":""
+            },
+            {
+                "title":"right foot",
+                "type":"right foot",
+                "root":"right lower leg",
                 "size":""
             }
         ]

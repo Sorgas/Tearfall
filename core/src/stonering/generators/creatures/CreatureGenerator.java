@@ -34,8 +34,8 @@ public class CreatureGenerator {
                 break;
             }
         }
-        Unit unit = new Unit(new Position(0, 0, 0));
-        unit.addAspect(genarateBodyAspect(unit, creature));
+        Unit unit = new Unit(new Position(0, 0, 0)); //TODO change constructor.
+        unit.addAspect(generateBodyAspect(unit, creature));
         unit.addAspect(generatePlanningAspect(unit));
         unit.addAspect(generateMovementAspect(unit));
         unit.addAspect(generateEquipmentAspect(unit));
@@ -46,7 +46,7 @@ public class CreatureGenerator {
         return new MovementAspect(unit);
     }
 
-    private Aspect genarateBodyAspect(Unit unit, JsonValue creature) {
+    private Aspect generateBodyAspect(Unit unit, JsonValue creature) {
         return bodyGenerator.generateBody(creature, unit);
     }
 
