@@ -19,7 +19,7 @@ public class ItemTypeMap {
 
     private ItemTypeMap() {
         types = new HashMap<>();
-        loadPlantTypes();
+        loadItemTypes();
     }
 
     public static ItemTypeMap getInstance() {
@@ -28,7 +28,7 @@ public class ItemTypeMap {
         return instance;
     }
 
-    private void loadPlantTypes() {
+    private void loadItemTypes() {
         System.out.println("loading item types");
         Json json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);

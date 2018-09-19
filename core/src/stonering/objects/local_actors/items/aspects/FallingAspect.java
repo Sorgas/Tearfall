@@ -30,12 +30,14 @@ public class FallingAspect extends Aspect {
     @Override
     public void turn() {
         Position position = aspectHolder.getPosition();
-        Position lowerPosition = aspectHolder.getPosition().getPositionByOffset(0, 0, -1);
-        boolean isCurrentBlockSpace = localMap.getBlockType(position) == BlockTypesEnum.SPACE.getCode();
-        boolean isLowerBlockWall = localMap.getBlockType(lowerPosition) == BlockTypesEnum.WALL.getCode();
+        if(position != null) { //TODO add aspect turn on pickup
+            Position lowerPosition = aspectHolder.getPosition().getPositionByOffset(0, 0, -1);
+            boolean isCurrentBlockSpace = localMap.getBlockType(position) == BlockTypesEnum.SPACE.getCode();
+            boolean isLowerBlockWall = localMap.getBlockType(lowerPosition) == BlockTypesEnum.WALL.getCode();
 
-        if (localMap.inMap(lowerPosition) && isCurrentBlockSpace && !isLowerBlockWall) {
-            gameContainer.getItemContainer().moveItem((Item) aspectHolder, lowerPosition);
+            if (localMap.inMap(lowerPosition) && isCurrentBlockSpace && !isLowerBlockWall) {
+                gameContainer.getItemContainer().moveItem((Item) aspectHolder, lowerPosition);
+            }
         }
     }
 }

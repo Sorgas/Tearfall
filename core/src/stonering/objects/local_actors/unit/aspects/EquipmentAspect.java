@@ -3,6 +3,7 @@ package stonering.objects.local_actors.unit.aspects;
 import stonering.objects.local_actors.Aspect;
 import stonering.objects.local_actors.AspectHolder;
 import stonering.objects.local_actors.items.Item;
+import stonering.objects.local_actors.items.selectors.ItemSelector;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,7 +18,7 @@ import java.util.HashMap;
  *         <p>
  */
 public class EquipmentAspect extends Aspect {
-    private HashMap<String, EquipmentSlot> slots;         // equipped items
+    private HashMap<String, EquipmentSlot> slots;                   // equipped items
     private HashMap<String, GrabEquipmentSlot> grabSlots;         // equipped items
     private ArrayList<Item> hauledItems;              // hauled items
     private ArrayList<Item> items;                  // for faster checking
@@ -32,38 +33,88 @@ public class EquipmentAspect extends Aspect {
         hauledItems = new ArrayList<>();
     }
 
-    public Item getItemWithAspectAndProperty(String property) {
-//        for (Item item : items.values()) {
-//            if (item.getType().getAspects().containsKey(property))
-//                return item;
-//        }
-        return null;
-    }
-
-    public void equipItem(Item item, boolean allowHauling) {
+    /**
+     * Equips wear on body and tools into hands.
+     *
+     * @param item
+     * @return
+     */
+    public boolean equipItem(Item item) {
         //TODO check available slots for item
         //TODO check hauling
-        if (true) {
-//            items.add(item);
+        if (item != null && !items.contains(item)) {
+            if (item.isWear()) {
+                //TODO add wear equiping
+                return false;
+            } else if (item.isTool()) {
+                return tryGrabItem(item);
+            }
         }
+        return false;
+    }
+
+    /**
+     * Puts item to hand slot if it is possible.
+     *
+     * @param item
+     * @return
+     */
+    private boolean tryGrabItem(Item item) {
+        for (GrabEquipmentSlot slot : grabSlots.values()) {
+            if (slot.grabbedItem == null) {
+                slot.grabbedItem = item;
+                items.add(item);
+                return true;
+            }
+        }
+        GrabEquipmentSlot slotToFree = (GrabEquipmentSlot) selectSlotToFree(true);
+        if (freeSlot(slotToFree.limbName, true)) {
+            slotToFree.grabbedItem = item;
+            items.add(item);
+            return true;
+        }
+        return false;
+    }
+
+    public EquipmentSlot selectSlotToFree(boolean grab) {
+        if (grab) {
+            //TODO add slot selection with some logic
+            return grabSlots.values().iterator().next();
+        } else {
+            //TODO add slot selection with some logic
+            return slots.values().iterator().next();
+        }
+    }
+
+    public boolean freeSlot(String limb, boolean grab) {
+        return false;
+    }
+
+    public void pickupItem(Item item) {
+        tryGrabItem(item);
+        //TODO haul in containers
     }
 
     public class EquipmentSlot {
         public ArrayList<Item> items;
+
         public String limbName;
 
         public EquipmentSlot(String limbName) {
             this.limbName = limbName;
             items = new ArrayList<>();
         }
+
     }
 
-    public class GrabEquipmentSlot extends EquipmentSlot{
+    public class GrabEquipmentSlot extends EquipmentSlot {
+
         public Item grabbedItem;
 
         public GrabEquipmentSlot(String limbName) {
             super(limbName);
         }
+
     }
 
     public void unequipItem(Item item) {
@@ -80,10 +131,6 @@ public class EquipmentAspect extends Aspect {
 
     public ArrayList<Item> getHauledItems() {
         return hauledItems;
-    }
-
-    public void pickupItem(Item item) {
-        hauledItems.add(item);
     }
 
     public void dropItem(Item item) {

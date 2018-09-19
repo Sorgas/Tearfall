@@ -1,13 +1,15 @@
 package stonering.objects.local_actors.items;
 
 import stonering.enums.items.ItemType;
+import stonering.enums.items.ToolItemType;
+import stonering.enums.items.WearItemType;
 import stonering.global.utils.Position;
 import stonering.objects.local_actors.AspectHolder;
 
 /**
- * @author Alexander Kuzyakov on 09.12.2017.
- * <p>
  * In game item.
+ *
+ * @author Alexander Kuzyakov on 09.12.2017.
  */
 public class Item extends AspectHolder {
     private ItemType type;
@@ -19,6 +21,14 @@ public class Item extends AspectHolder {
 
     public Item(Position position) {
         super(position);
+    }
+
+    public boolean isTool() {
+        return type.getTool() != null;
+    }
+
+    public boolean isWear() {
+        return type.getWear() != null;
     }
 
     @Override

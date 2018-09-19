@@ -6,9 +6,9 @@ import stonering.objects.local_actors.items.Item;
 import stonering.objects.local_actors.unit.aspects.EquipmentAspect;
 
 /**
- * @author Alexander Kuzyakov on 28.01.2018.
- *
  * equips item to unit
+ *
+ * @author Alexander Kuzyakov on 28.01.2018.
  */
 public class EquipItemEffectAspect extends EffectAspect {
 
@@ -19,6 +19,8 @@ public class EquipItemEffectAspect extends EffectAspect {
     @Override
     protected void applyEffect() {
         Item item = ((ItemTargetAspect) action.getTargetAspect()).getItem();
-        ((EquipmentAspect) action.getTask().getPerformer().getAspects().get("equipment")).equipItem(item, false);
+        action.getGameContainer().getItemContainer().pickItem(item);
+        //TODO manage equipped items in item container
+        ((EquipmentAspect) action.getTask().getPerformer().getAspects().get("equipment")).equipItem(item);
     }
 }
