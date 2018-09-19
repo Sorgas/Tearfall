@@ -21,6 +21,7 @@ public abstract class AspectHolder {
     }
 
     public void addAspect(Aspect aspect) {
+        aspect.setAspectHolder(this);
         aspects.put(aspect.getName(), aspect);
     }
 

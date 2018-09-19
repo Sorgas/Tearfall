@@ -23,7 +23,7 @@ public class ItemInInventoryRequirementAspect extends RequirementsAspect {
 
     @Override
     public boolean check() {
-        ArrayList<Item> items = ((EquipmentAspect) action.getTask().getPerformer().getAspects().get("equipment")).getInventory();
+        ArrayList<Item> items = ((EquipmentAspect) action.getTask().getPerformer().getAspects().get("equipment")).getHauledItems();
         if (items.contains(item)) {
             return true;
         } else {

@@ -98,7 +98,7 @@ public class PlanningAspect extends Aspect {
      * TODO combat tasks
      */
     private void selectTask() {
-        ((NeedsAspect) aspectHolder.getAspects().get("needs")).checkNeeds();
+//        ((NeedsAspect) aspectHolder.getAspects().get("needs")).checkNeeds();
         if (getTaskFromContainer()) {
             claimTask();
             if (checkActionSequence()) { //checking requires performer to be set.

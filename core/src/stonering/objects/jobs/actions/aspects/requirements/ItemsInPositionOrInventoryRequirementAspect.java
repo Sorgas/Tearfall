@@ -32,7 +32,7 @@ public class ItemsInPositionOrInventoryRequirementAspect extends RequirementsAsp
         ArrayList<Item> uncheckedItems = new ArrayList<>();
         ArrayList<Item> checkedItems = new ArrayList<>();
         uncheckedItems.addAll(action.getGameContainer().getItemContainer().getItems(target)); // from target position
-        uncheckedItems.addAll(((EquipmentAspect)action.getTask().getPerformer().getAspects().get("equipment")).getInventory()); // from performer inventory
+        uncheckedItems.addAll(((EquipmentAspect)action.getTask().getPerformer().getAspects().get("equipment")).getHauledItems()); // from performer inventory
         for (ItemSelector itemSelector : itemSelectors) {
             ArrayList<Item> selectedItems = itemSelector.selectItems(uncheckedItems);
             if (!selectedItems.isEmpty()) {

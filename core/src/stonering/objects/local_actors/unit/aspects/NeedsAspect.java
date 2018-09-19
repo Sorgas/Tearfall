@@ -1,6 +1,5 @@
 package stonering.objects.local_actors.unit.aspects;
 
-import stonering.enums.TaskPrioritiesEnum;
 import stonering.objects.local_actors.Aspect;
 import stonering.objects.local_actors.AspectHolder;
 
@@ -17,15 +16,12 @@ public class NeedsAspect extends Aspect {
 
     }
 
-    public TaskPrioritiesEnum getStrongestNeed() {
-
-    }
-
     private boolean checkWear() {
         BodyAspect bodyAspect = (BodyAspect) aspectHolder.getAspects().get("body");
         EquipmentAspect equipmentAspect = (EquipmentAspect) aspectHolder.getAspects().get("equipment");
         if(bodyAspect != null && equipmentAspect != null) {
-            bodyAspect.get
+//            bodyAspect.get
         }
+        return false;
     }
 }

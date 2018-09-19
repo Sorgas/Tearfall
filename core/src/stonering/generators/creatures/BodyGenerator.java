@@ -10,7 +10,6 @@ import stonering.objects.local_actors.unit.Unit;
 import stonering.objects.local_actors.unit.aspects.BodyAspect;
 import stonering.utils.global.FileLoader;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -62,7 +61,7 @@ public class BodyGenerator {
             bodyParts.put(bodyPart.name, bodyPart);
         }
         bindBodyParts(bodyParts); // bind limbs to each other
-        bodyAspect.getBodyParts().addAll(bodyParts.values()); // fill aspect with limbs
+        bodyAspect.setBodyParts(bodyParts); // fill aspect with limbs
         bodyAspect.getBodyPartsToCover().addAll(Arrays.asList(template.get("limbs_to_cover").asStringArray()));
         return bodyAspect;
     }
@@ -101,6 +100,23 @@ public class BodyGenerator {
                     throw new FaultDescriptionException("Body part " + bodyPart.name + " points to unknown body part " + bodyPart.rootName);
                 }
             }
+        }
+    }
+
+    public int countGrabLimbs(JsonValue creature) {
+        try {
+            int counter = 0;
+            JsonValue template = findTemplate(creature.getString("body_template"));
+            for (JsonValue bp : template.get("body")) { // read template to map
+                if (Arrays.asList(bp.get("tags").asStringArray()).contains("grab")) {
+                    counter++;
+                }
+            }
+            System.out.println(counter);
+            return counter;
+        } catch (DescriptionNotFoundException e) {
+            e.printStackTrace();
+            return 0;
         }
     }
 }

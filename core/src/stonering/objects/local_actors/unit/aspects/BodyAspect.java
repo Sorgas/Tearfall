@@ -13,7 +13,7 @@ import java.util.HashMap;
  */
 public class BodyAspect extends Aspect {
     private String bodyType;
-    private HashMap<String, BodyPart> bodyParts;
+    private HashMap<String, BodyPart> bodyParts; // name to bodyPart
     private ArrayList<String> bodyPartsToCover;
 
     public BodyAspect(Unit unit) {

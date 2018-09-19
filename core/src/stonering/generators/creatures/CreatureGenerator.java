@@ -19,11 +19,13 @@ import stonering.utils.global.FileLoader;
 public class CreatureGenerator {
     private JsonReader reader;
     private BodyGenerator bodyGenerator;
+    private EquipmentAspectGenerator equipmentAspectGenerator;
     private JsonValue creatures;
 
     public CreatureGenerator() {
         reader = new JsonReader();
         bodyGenerator = new BodyGenerator();
+        equipmentAspectGenerator = new EquipmentAspectGenerator();
         creatures = reader.parse(FileLoader.getCreatureFile());
     }
 
@@ -39,9 +41,10 @@ public class CreatureGenerator {
         Aspect bodyAspect = generateBodyAspect(unit, creature);
         if (bodyAspect != null) {
             unit.addAspect(bodyAspect);
+            //TODO remove unit argument from generators
             unit.addAspect(generatePlanningAspect(unit));
             unit.addAspect(generateMovementAspect(unit));
-            unit.addAspect(generateEquipmentAspect(unit));
+            unit.addAspect(generateEquipmentAspect(creature));
             return unit;
         } else {
             return null;
@@ -60,7 +63,7 @@ public class CreatureGenerator {
         return new PlanningAspect(unit);
     }
 
-    private Aspect generateEquipmentAspect(Unit unit) {
-        return new EquipmentAspect(unit);
+    private Aspect generateEquipmentAspect(JsonValue creature) {
+        return equipmentAspectGenerator.generateEquipmentAspect(creature);
     }
 }
