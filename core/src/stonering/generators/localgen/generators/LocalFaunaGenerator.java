@@ -24,7 +24,7 @@ public class LocalFaunaGenerator {
 
     public void execute() {
         LocalMap localMap = container.getLocalMap();
-        Unit unit = creatureGenerator.generateUnit("digger");
+        Unit unit = creatureGenerator.generateUnit("human");
         if (unit != null) {
             unit.setLocalMap(localMap);
             container.getUnits().add(unit);

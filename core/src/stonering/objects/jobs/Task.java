@@ -19,6 +19,7 @@ public class Task {
     private TaskContainer taskContainer;
     private GameContainer container;
     private Designation designation;
+    private int priority;
 
     public Task(String name, TaskTypesEnum taskType, Action initialAction, TaskContainer taskContainer, GameContainer container) {
         this.name = name;

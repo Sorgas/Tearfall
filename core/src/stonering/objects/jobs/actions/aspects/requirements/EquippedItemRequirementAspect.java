@@ -11,10 +11,10 @@ import stonering.objects.local_actors.unit.aspects.EquipmentAspect;
 import java.util.ArrayList;
 
 /**
+ * Checks if unis has specific equipped item,
+ * creates action to equip one if needed and possible.
+ *
  * @author Alexander Kuzyakov on 27.01.2018.
- *         <p>
- *         checks if unis has specific equipped item,
- *         creates action to equip one if needed and possible
  */
 public class EquippedItemRequirementAspect extends RequirementsAspect {
     ItemSelector itemSelector;
@@ -39,7 +39,7 @@ public class EquippedItemRequirementAspect extends RequirementsAspect {
             Action newAction = new Action(action.getGameContainer());
             newAction.setEffectAspect(new EquipItemEffectAspect(newAction));
             newAction.setTargetAspect(new ItemTargetAspect(action, target));
-            newAction.setRequirementsAspect(new BodyPartRequirementAspect(newAction, "grab"));
+            newAction.setRequirementsAspect(new BodyPartRequirementAspect(newAction, "grab", true));
             action.getTask().addFirstAction(newAction);
             return true;
         }

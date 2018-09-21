@@ -6,7 +6,6 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter;
 import stonering.exceptions.DescriptionNotFoundException;
 import stonering.exceptions.FaultDescriptionException;
-import stonering.objects.local_actors.unit.Unit;
 import stonering.objects.local_actors.unit.aspects.EquipmentAspect;
 import stonering.utils.global.FileLoader;
 
@@ -37,6 +36,9 @@ public class EquipmentAspectGenerator {
         try {
             JsonValue template = findTemplate(creature.getString("body_template"));
             EquipmentAspect equipmentAspect = generateEquipmentAspectFromTemplate(template);
+            Arrays.stream(creature.get("limbs_to_cover").asStringArray()).forEach(s -> {
+                equipmentAspect.getDesiredSlots().add(equipmentAspect.getSlots().get(s));
+            });
             return equipmentAspect;
         } catch (DescriptionNotFoundException | FaultDescriptionException e) {
             e.printStackTrace();
@@ -55,7 +57,7 @@ public class EquipmentAspectGenerator {
         EquipmentAspect equipmentAspect = new EquipmentAspect(null);
         for (JsonValue bp : template.get("body")) { // read template to map
             EquipmentAspect.EquipmentSlot slot = generateSlotByBodyPart(bp, equipmentAspect);
-            if(slot instanceof EquipmentAspect.GrabEquipmentSlot) {
+            if (slot instanceof EquipmentAspect.GrabEquipmentSlot) {
                 equipmentAspect.getGrabSlots().put(slot.limbName, (EquipmentAspect.GrabEquipmentSlot) slot);
             }
             equipmentAspect.getSlots().put(slot.limbName, slot);
@@ -73,9 +75,9 @@ public class EquipmentAspectGenerator {
     private EquipmentAspect.EquipmentSlot generateSlotByBodyPart(JsonValue partTemplate, EquipmentAspect equipmentAspect) {
         EquipmentAspect.EquipmentSlot slot;
         if (Arrays.asList(partTemplate.get("tags").asStringArray()).contains("grab")) {
-            slot = equipmentAspect.new GrabEquipmentSlot(partTemplate.getString("title"));
+            slot = equipmentAspect.new GrabEquipmentSlot(partTemplate.getString("type"));
         } else {
-            slot = equipmentAspect.new EquipmentSlot(partTemplate.getString("title"));
+            slot = equipmentAspect.new EquipmentSlot(partTemplate.getString("type"));
         }
         return slot;
     }

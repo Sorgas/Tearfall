@@ -3,6 +3,7 @@
         "title":"beast",
         "limbs_to_cover":[],
         "default_layers":["skin", "fat", "muscle", "bone"],
+        "needs":["hunger", "thirst", "rest", "heat", "communication"],
         "body":[
             {
                 "title":"upper torso",
@@ -136,6 +137,7 @@
         "title":"humanoid",
         "limbs_to_cover":["foot", "upper_body", "lower_body"],
         "default_layers":["skin", "fat", "muscle", "bone"],
+        "needs":["hunger", "thirst", "rest", "heat", "wears", "communication", "entertainment", "luxury"],
         "body":[
             {
                 "title":"upper torso",
@@ -188,7 +190,7 @@
             },
             {
                 "title":"left hand",
-                "type":"upper arm",
+                "type":"left hand",
                 "root":"left upper arm",
                 "size":"",
                 "tags":["grab"]
@@ -209,7 +211,7 @@
             },
             {
                 "title":"right hand",
-                "type":"upper arm",
+                "type":"right hand",
                 "root":"right upper arm",
                 "size":"",
                 "tags":["grab"]

@@ -1,8 +1,9 @@
 [
   {
-    "title": "digger",
-    "description": "This is a digger",
+    "title": "human",
+    "description": "This is a human",
     "body_template": "humanoid",
+    "limbs_to_cover": ["lower torso", "right foot", "left foot"],
     "atlasY": "0",
     "atlasX": "0",
     "color": {
@@ -17,6 +18,7 @@
     "title": "dog",
     "description": "This is a dog",
     "body_template": "beast",
+    "limbs_to_cover": [],
     "atlasY": "0",
     "atlasX": "0",
     "color": {

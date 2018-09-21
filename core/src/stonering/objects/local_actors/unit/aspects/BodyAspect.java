@@ -26,11 +26,12 @@ public class BodyAspect extends Aspect {
         public String name;
         public int size;
         public int weight;
+        public String type;
         public String[] layers;
         public Organ[] organs;
         public BodyPart root; // each body part points to one it`s connected to
         public String rootName;
-
+        public String[] tags;
         public BodyPart(String name) {
             this.name = name;
         }

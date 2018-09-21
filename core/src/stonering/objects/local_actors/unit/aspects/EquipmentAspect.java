@@ -3,10 +3,11 @@ package stonering.objects.local_actors.unit.aspects;
 import stonering.objects.local_actors.Aspect;
 import stonering.objects.local_actors.AspectHolder;
 import stonering.objects.local_actors.items.Item;
-import stonering.objects.local_actors.items.selectors.ItemSelector;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Stores all items equipped and hauled by unit.
@@ -19,11 +20,12 @@ import java.util.HashMap;
  */
 public class EquipmentAspect extends Aspect {
     private HashMap<String, EquipmentSlot> slots;                   // equipped items
+    private ArrayList<EquipmentSlot> desiredSlots;           // uncovered limbs give comfort penalty
     private HashMap<String, GrabEquipmentSlot> grabSlots;         // equipped items
     private ArrayList<Item> hauledItems;              // hauled items
     private ArrayList<Item> items;                  // for faster checking
     private int hauledItemsLimit;
-
+    private int emptyDesireSlotsCount;
 
     public EquipmentAspect(AspectHolder aspectHolder) {
         super("equipment", aspectHolder);
@@ -31,6 +33,7 @@ public class EquipmentAspect extends Aspect {
         grabSlots = new HashMap<>();
         items = new ArrayList<>();
         hauledItems = new ArrayList<>();
+        desiredSlots = new ArrayList<>();
     }
 
     /**
@@ -44,7 +47,7 @@ public class EquipmentAspect extends Aspect {
         //TODO check hauling
         if (item != null && !items.contains(item)) {
             if (item.isWear()) {
-                //TODO add wear equiping
+                //TODO add wear equiping and counter modifying
                 return false;
             } else if (item.isTool()) {
                 return tryGrabItem(item);
@@ -95,9 +98,16 @@ public class EquipmentAspect extends Aspect {
         //TODO haul in containers
     }
 
+    public List<EquipmentSlot> getEmptyDesiredSlots() {
+        if (emptyDesireSlotsCount != 0) {
+            return desiredSlots.stream().filter(equipmentSlot -> !equipmentSlot.isEmpty()).collect(Collectors.toList());
+        } else {
+            return new ArrayList<>();
+        }
+    }
+
     public class EquipmentSlot {
         public ArrayList<Item> items;
-
         public String limbName;
 
         public EquipmentSlot(String limbName) {
@@ -105,16 +115,17 @@ public class EquipmentAspect extends Aspect {
             items = new ArrayList<>();
         }
 
+        public boolean isEmpty() {
+            return items.isEmpty();
+        }
     }
 
     public class GrabEquipmentSlot extends EquipmentSlot {
-
         public Item grabbedItem;
 
         public GrabEquipmentSlot(String limbName) {
             super(limbName);
         }
-
     }
 
     public void unequipItem(Item item) {
@@ -159,5 +170,13 @@ public class EquipmentAspect extends Aspect {
 
     public void setGrabSlots(HashMap<String, GrabEquipmentSlot> grabSlots) {
         this.grabSlots = grabSlots;
+    }
+
+    public ArrayList<EquipmentSlot> getDesiredSlots() {
+        return desiredSlots;
+    }
+
+    public void setDesiredSlots(ArrayList<EquipmentSlot> desiredSlots) {
+        this.desiredSlots = desiredSlots;
     }
 }

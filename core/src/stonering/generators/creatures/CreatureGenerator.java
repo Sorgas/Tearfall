@@ -2,10 +2,9 @@ package stonering.generators.creatures;
 
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
+import stonering.generators.creatures.needs.NeedAspectGenerator;
 import stonering.global.utils.Position;
 import stonering.objects.local_actors.Aspect;
-import stonering.objects.local_actors.unit.aspects.BodyAspect;
-import stonering.objects.local_actors.unit.aspects.EquipmentAspect;
 import stonering.objects.local_actors.unit.aspects.MovementAspect;
 import stonering.objects.local_actors.unit.aspects.PlanningAspect;
 import stonering.objects.local_actors.unit.Unit;
@@ -20,12 +19,14 @@ public class CreatureGenerator {
     private JsonReader reader;
     private BodyGenerator bodyGenerator;
     private EquipmentAspectGenerator equipmentAspectGenerator;
+    private NeedAspectGenerator needAspectGenerator;
     private JsonValue creatures;
 
     public CreatureGenerator() {
         reader = new JsonReader();
         bodyGenerator = new BodyGenerator();
         equipmentAspectGenerator = new EquipmentAspectGenerator();
+        needAspectGenerator = new NeedAspectGenerator();
         creatures = reader.parse(FileLoader.getCreatureFile());
     }
 
@@ -45,6 +46,7 @@ public class CreatureGenerator {
             unit.addAspect(generatePlanningAspect(unit));
             unit.addAspect(generateMovementAspect(unit));
             unit.addAspect(generateEquipmentAspect(creature));
+            unit.addAspect(generateNeedsAspect(creature));
             return unit;
         } else {
             return null;
@@ -65,5 +67,9 @@ public class CreatureGenerator {
 
     private Aspect generateEquipmentAspect(JsonValue creature) {
         return equipmentAspectGenerator.generateEquipmentAspect(creature);
+    }
+
+    private Aspect generateNeedsAspect(JsonValue creature) {
+        return needAspectGenerator.generateNeedAspect(creature);
     }
 }

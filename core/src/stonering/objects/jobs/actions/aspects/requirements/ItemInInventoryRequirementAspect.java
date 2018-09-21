@@ -37,7 +37,7 @@ public class ItemInInventoryRequirementAspect extends RequirementsAspect {
         ItemContainer itemContainer = action.getGameContainer().getItemContainer();
         if (itemContainer.isItemAvailableFrom(item, target)) {
             Action pickAction = new Action(action.getGameContainer());
-            pickAction.setRequirementsAspect(new BodyPartRequirementAspect(pickAction, "grab"));
+            pickAction.setRequirementsAspect(new BodyPartRequirementAspect(pickAction, "grab", true));
             pickAction.setTargetAspect(new ItemTargetAspect(pickAction, item));
             pickAction.setEffectAspect(new PickUpItemEffectAspect(pickAction));
             action.getTask().addFirstAction(pickAction);

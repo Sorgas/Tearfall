@@ -2,6 +2,7 @@ package stonering.objects.jobs.actions.aspects.requirements;
 
 import stonering.objects.jobs.actions.Action;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -11,7 +12,6 @@ import java.util.List;
  * @author Alexander on 29.08.2018.
  */
 public class ComplexRequirementAspect extends RequirementsAspect {
-
     private List<RequirementsAspect> aspects;
 
     public ComplexRequirementAspect(Action action) {
@@ -23,10 +23,14 @@ public class ComplexRequirementAspect extends RequirementsAspect {
         this.aspects = aspects;
     }
 
+    public ComplexRequirementAspect(Action action, RequirementsAspect[] aspects) {
+        this(action, Arrays.asList(aspects));
+    }
+
     @Override
     public boolean check() {
-        for (RequirementsAspect aspect: aspects) {
-            if(!aspect.check()) {
+        for (RequirementsAspect aspect : aspects) {
+            if (!aspect.check()) {
                 return false;
             }
         }
