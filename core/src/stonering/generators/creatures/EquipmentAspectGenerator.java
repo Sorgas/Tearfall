@@ -39,6 +39,7 @@ public class EquipmentAspectGenerator {
             Arrays.stream(creature.get("limbs_to_cover").asStringArray()).forEach(s -> {
                 equipmentAspect.getDesiredSlots().add(equipmentAspect.getSlots().get(s));
             });
+            equipmentAspect.setEmptyDesireSlotsCount(equipmentAspect.getDesiredSlots().size());
             return equipmentAspect;
         } catch (DescriptionNotFoundException | FaultDescriptionException e) {
             e.printStackTrace();

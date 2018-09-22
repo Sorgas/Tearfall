@@ -150,9 +150,9 @@
     "wear": {
       "bodyTemplate": "humanoid",
       "bodyParts": [
-        "upper_torso",
-        "upper_arm",
-        "lower_arm"
+        "upper torso",
+        "upper arm",
+        "lower arm"
       ],
       "baseInsulation": 0.2,
       "baseWetResistance": 0.3
@@ -179,9 +179,9 @@
     "wear": {
       "bodyTemplate": "humanoid",
       "bodyParts": [
-        "lower_torso",
-        "upper_leg",
-        "lower_leg"
+        "lower torso",
+        "upper leg",
+        "lower leg"
       ],
       "baseInsulation": 0.2,
       "baseWetResistance": 0.3

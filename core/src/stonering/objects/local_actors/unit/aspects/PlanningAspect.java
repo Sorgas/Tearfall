@@ -7,6 +7,8 @@ import stonering.objects.local_actors.AspectHolder;
 import stonering.global.utils.Position;
 import stonering.objects.local_actors.unit.Unit;
 
+import java.util.ArrayList;
+
 /**
  * @author Alexander Kuzyakov on 10.10.2017.
  *         <p>
@@ -93,13 +95,25 @@ public class PlanningAspect extends Aspect {
 
     /**
      * Finds appropriate task for this performer.
-     * Currently gets Task from container;
-     * TODO needs tasks
+     * Checks priorities of all available tasks.
+     * After this method task is updated.
      * TODO combat tasks
      */
     private void selectTask() {
-//        ((NeedsAspect) aspectHolder.getAspects().get("needs")).checkNeeds();
-        if (getTaskFromContainer()) {
+        currentTask = null;
+        ArrayList<Task> tasks = new ArrayList<>();
+        tasks.add(takeTaskFromNeedsAspect());
+        tasks.add(getTaskFromContainer());
+        for (Task task : tasks) {
+            if (task != null) {
+                if (currentTask != null) {
+                    currentTask = currentTask.getPriority() > task.getPriority() ? currentTask : task;
+                } else {
+                    currentTask = task;
+                }
+            }
+        }
+        if(currentTask != null) {
             claimTask();
             if (checkActionSequence()) { //checking requires performer to be set.
                 // ok
@@ -110,18 +124,28 @@ public class PlanningAspect extends Aspect {
     }
 
     /**
+     * Calls NeedAspect to create task for satisfying strongest need.
+     * Can return null;
+     *
+     * @return
+     */
+    private Task takeTaskFromNeedsAspect() {
+        NeedsAspect needsAspect = ((NeedsAspect) aspectHolder.getAspects().get("needs"));
+        Task needTask = null;
+        if (needsAspect != null) {
+            needsAspect.update();
+            needTask = needsAspect.getStrongestNeed().tryCreateTask();
+        }
+        return needTask;
+    }
+
+    /**
      * Calls TaskContainer to find appropriate task for this actor and his position
      *
      * @return
      */
-    private boolean getTaskFromContainer() {
-        Task task = gameContainer.getTaskContainer().getActiveTask(aspectHolder.getPosition());
-        if (task != null) {
-            currentTask = task;
-            return true;
-        } else {
-            return false;
-        }
+    private Task getTaskFromContainer() {
+        return gameContainer.getTaskContainer().getActiveTask(aspectHolder.getPosition());
     }
 
     /**

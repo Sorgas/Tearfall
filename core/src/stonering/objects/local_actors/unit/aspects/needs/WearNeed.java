@@ -21,6 +21,12 @@ import stonering.objects.local_actors.unit.aspects.EquipmentAspect;
  * @author Alexander on 21.09.2018.
  */
 public class WearNeed extends Need {
+    /**
+     * Counts current priority for creature to find wear.
+     * Having no wear only gives comfort penalty, so priority is never high.
+     *
+     * @return
+     */
     @Override
     public int countPriority() {
         EquipmentAspect equipmentAspect = (EquipmentAspect) aspectHolder.getAspects().get("equipment");

@@ -16,6 +16,8 @@ import java.util.ArrayList;
 public class NeedsAspect extends Aspect {
     private ArrayList<Need> needs;
     private int needsCheckDelay;
+    private Need strongestNeed;
+    private int priority;
 
     public NeedsAspect(AspectHolder aspectHolder) {
         super("needs", aspectHolder);
@@ -28,18 +30,6 @@ public class NeedsAspect extends Aspect {
         needs.forEach(need -> need.init(aspectHolder, gameContainer));
     }
 
-    @Override
-    public void turn() {
-        needsCheckDelay--;
-        if (needsCheckDelay <= 0) {
-            Need need = selectNeed();
-            if(need != null) {
-
-            }
-            needsCheckDelay = 50;
-        }
-    }
-
     public void initNeeds() {
     }
 
@@ -47,17 +37,28 @@ public class NeedsAspect extends Aspect {
         return null;
     }
 
-    private Need selectNeed() {
-        Need strongestNeed = null;
-        int highestPriority = -1;
+
+    /**
+     * Updates current need and its priority.
+     */
+    public void update() {
+        strongestNeed = null;
+        this.priority = -1;
         for (Need need : needs) {
             int priority = need.countPriority();
-            if (priority > highestPriority) {
+            if (priority > this.priority) {
                 strongestNeed = need;
-                highestPriority = priority;
+                this.priority = priority;
             }
         }
+    }
+
+    public Need getStrongestNeed() {
         return strongestNeed;
+    }
+
+    public int getPriority() {
+        return priority;
     }
 
     public ArrayList<Need> getNeeds() {

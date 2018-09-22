@@ -100,7 +100,7 @@ public class EquipmentAspect extends Aspect {
 
     public List<EquipmentSlot> getEmptyDesiredSlots() {
         if (emptyDesireSlotsCount != 0) {
-            return desiredSlots.stream().filter(equipmentSlot -> !equipmentSlot.isEmpty()).collect(Collectors.toList());
+            return desiredSlots.stream().filter(equipmentSlot -> equipmentSlot.isEmpty()).collect(Collectors.toList());
         } else {
             return new ArrayList<>();
         }
@@ -178,5 +178,13 @@ public class EquipmentAspect extends Aspect {
 
     public void setDesiredSlots(ArrayList<EquipmentSlot> desiredSlots) {
         this.desiredSlots = desiredSlots;
+    }
+
+    public int getEmptyDesireSlotsCount() {
+        return emptyDesireSlotsCount;
+    }
+
+    public void setEmptyDesireSlotsCount(int emptyDesireSlotsCount) {
+        this.emptyDesireSlotsCount = emptyDesireSlotsCount;
     }
 }

@@ -137,7 +137,7 @@
         "title":"humanoid",
         "limbs_to_cover":["foot", "upper_body", "lower_body"],
         "default_layers":["skin", "fat", "muscle", "bone"],
-        "needs":["hunger", "thirst", "rest", "heat", "wears", "communication", "entertainment", "luxury"],
+        "needs":["hunger", "thirst", "rest", "heat", "wear", "communication", "entertainment", "luxury"],
         "body":[
             {
                 "title":"upper torso",
