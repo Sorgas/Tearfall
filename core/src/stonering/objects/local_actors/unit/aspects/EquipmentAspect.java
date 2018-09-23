@@ -88,16 +88,29 @@ public class EquipmentAspect extends Aspect {
      * @return list of found slots otherwise.
      */
     private List<EquipmentSlot> selectMostEmptySlotsForItem(Item item) {
-        List<EquipmentSlot> slots = new ArrayList<>(this.slots.values());
-        List<EquipmentSlot> selectedSlots = new ArrayList<>();
-        for (String type : item.getType().getWear().getAllBodyParts()) {
-            EquipmentSlot slot;
-            if ((slot = selectMostSuitableSlotWithType(slots, type, item.getType().getWear().getLayer())) != null) {
-                slots.remove(slot);
-                selectedSlots.add(slot);
+        if (item.isWear()) {
+            List<EquipmentSlot> slots = new ArrayList<>(this.slots.values());
+            List<EquipmentSlot> selectedSlots = new ArrayList<>();
+            for (String type : item.getType().getWear().getAllBodyParts()) {
+                EquipmentSlot slot;
+                if ((slot = selectMostSuitableSlotWithType(slots, type, item.getType().getWear().getLayer())) != null) {
+                    slots.remove(slot);
+                    selectedSlots.add(slot);
+                }
             }
+            return selectedSlots;
+        } else if (item.isTool()) {
+            List<EquipmentSlot> slots = new ArrayList<>();
+            for (GrabEquipmentSlot slot : grabSlots.values()) {
+                if (slot.grabbedItem == null) {
+                    slots.add(slot);
+                    break;
+                }
+            }
+            slots.add(grabSlots.values().iterator().next());
+            return slots;
         }
-        return selectedSlots;
+        return new ArrayList<>();
     }
 
     /**
@@ -132,19 +145,29 @@ public class EquipmentAspect extends Aspect {
      * @throws NotSuitableItemException if ite cannot be equipped.
      */
     public Item checkItemForEquip(Item item) throws NotSuitableItemException {
-        //slots with this limb types should exist. types in the list nto unique.
-        ArrayList<String> requiredSlotTypes = item.getType().getWear().getRequiredBodyParts();
-        if (!checkSlotsWithTypes(requiredSlotTypes)) { // required slots exist on creature
-            throw new NotSuitableItemException("Creature " + aspectHolder + " has no required slots for item " + item);
-        }
-        List<EquipmentSlot> slots = selectMostEmptySlotsForItem(item);
-        for (EquipmentAspect.EquipmentSlot slot : slots) {
-            Item itemToUnequip = findItemToUnequip(slot, item);
-            if (itemToUnequip != null) {
-                return itemToUnequip;
+        if (item.isWear()) {
+            //slots with this limb types should exist. types in the list nto unique.
+            ArrayList<String> requiredSlotTypes = item.getType().getWear().getRequiredBodyParts();
+            if (!checkSlotsWithTypes(requiredSlotTypes)) { // required slots exist on creature
+                throw new NotSuitableItemException("Creature " + aspectHolder + " has no required slots for item " + item);
+            }
+            List<EquipmentSlot> slots = selectMostEmptySlotsForItem(item);
+            for (EquipmentAspect.EquipmentSlot slot : slots) {
+                Item itemToUnequip = findItemToUnequip(slot, item);
+                if (itemToUnequip != null) {
+                    return itemToUnequip;
+                }
+            }
+            return null;
+        } else if (item.isTool()) {
+            List<EquipmentSlot> slots = selectMostEmptySlotsForItem(item);
+            if (slots.size() > 0) {
+                return ((GrabEquipmentSlot) slots.get(0)).grabbedItem;
+            } else {
+                throw new NotSuitableItemException("No slots for tool found");
             }
         }
-        return null;
+        throw new NotSuitableItemException("Item " + item + " cannot be equipped.");
     }
 
     /**

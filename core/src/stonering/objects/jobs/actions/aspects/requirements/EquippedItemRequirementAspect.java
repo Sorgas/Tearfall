@@ -36,7 +36,14 @@ public class EquippedItemRequirementAspect extends RequirementsAspect {
             Action newAction = new Action(action.getGameContainer());
             newAction.setEffectAspect(new EquipItemEffectAspect(newAction));
             newAction.setTargetAspect(new ItemTargetAspect(action, target));
-            newAction.setRequirementsAspect(new BodyPartRequirementAspect(newAction, "grab", true));
+            if (target.isWear()) {
+                newAction.setRequirementsAspect(new EquipWearItemRequirementAspect(newAction, target));
+            } else if (target.isTool()) {
+                newAction.setRequirementsAspect(new EquipToolItemRequirementAspect(newAction, target));
+            } else {
+                System.out.println("non-tool or wear item selected for equipping.");
+                return false;
+            }
             action.getTask().addFirstPreAction(newAction);
             return true;
         }

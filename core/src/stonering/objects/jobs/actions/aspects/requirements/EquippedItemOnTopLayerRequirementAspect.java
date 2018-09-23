@@ -1,7 +1,7 @@
 package stonering.objects.jobs.actions.aspects.requirements;
 
 import stonering.objects.jobs.actions.Action;
-import stonering.objects.jobs.actions.aspects.effect.UnequipItemEffactAspect;
+import stonering.objects.jobs.actions.aspects.effect.UnequipItemEffectAspect;
 import stonering.objects.jobs.actions.aspects.target.ItemTargetAspect;
 import stonering.objects.local_actors.items.Item;
 import stonering.objects.local_actors.items.selectors.ExactItemSelector;
@@ -48,7 +48,7 @@ public class EquippedItemOnTopLayerRequirementAspect extends RequirementsAspect 
         Action action = new Action(this.action.getGameContainer());
         action.setTargetAspect(new ItemTargetAspect(action, item));
         //TODO count work amount based on item weight and creature stats
-        action.setEffectAspect(new UnequipItemEffactAspect(action, 10));
+        action.setEffectAspect(new UnequipItemEffectAspect(action, 10));
         RequirementsAspect[] requirements = {
                 new EquippedItemRequirementAspect(action, new ExactItemSelector(item)),
                 new EquippedItemOnTopLayerRequirementAspect(action, new ExactItemSelector(item))
