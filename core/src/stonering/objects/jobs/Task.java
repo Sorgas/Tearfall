@@ -10,65 +10,83 @@ import stonering.objects.local_actors.unit.Unit;
 
 import java.util.LinkedList;
 
+/**
+ * Task object for units behavior in the game.
+ * Consists of main action, sequence of actions to be performed before main, and after main.
+ *
+ * Firstly pre actions with lowest indexes are executed, then initial action, and then post actions with lowest indexes.
+ */
 public class Task {
     private String name;
     private Unit performer;
     private TaskTypesEnum taskType;
     private Action initialAction;
-    private LinkedList<Action> actions;
+    private LinkedList<Action> preActions;
+    private LinkedList<Action> postActions;
     private TaskContainer taskContainer;
     private GameContainer container;
     private Designation designation;
     private int priority;
 
-    public Task(String name, TaskTypesEnum taskType, Action initialAction, TaskContainer taskContainer, GameContainer container) {
+    public Task(String name, TaskTypesEnum taskType, Action initialAction, int priority, GameContainer container) {
         this.name = name;
         this.taskType = taskType;
         this.initialAction = initialAction;
         initialAction.setTask(this);
-        this.taskContainer = taskContainer;
-        actions = new LinkedList<>();
+        this.taskContainer = container.getTaskContainer();
+        preActions = new LinkedList<>();
+        postActions = new LinkedList<>();
         this.container = container;
+        this.priority = priority;
     }
 
+    /**
+     * Removes this task from container if it's finished.
+     */
     public void recountFinished() {
         if (isFinished())
             taskContainer.removeTask(this);
     }
 
+    /**
+     * Returns next action to be performed.
+     *
+     * @return
+     */
     public Action getNextAction() {
-        if (!actions.isEmpty()) {
-            return actions.get(0);
+        if (!preActions.isEmpty()) {
+            return preActions.get(0);
         } else {
-            return initialAction;
+            if (initialAction.isFinished()) {
+                if (!postActions.isEmpty()) {
+                    return postActions.get(0);
+                }
+            } else {
+                return initialAction;
+            }
         }
-    }
-
-    public void setPerformer(Unit performer) {
-        this.performer = performer;
+        return null;
     }
 
     public void reset() {
-        actions = new LinkedList<>();
+        preActions = new LinkedList<>();
+        postActions = new LinkedList<>();
         setPerformer(null);
     }
 
-    public void addFirstAction(Action action) {
-        actions.add(0, action);
-        action.setTask(this);
-    }
-
     public boolean isFinished() {
-        return actions.isEmpty() && initialAction.isFinished();
+        return preActions.isEmpty() && initialAction.isFinished() && postActions.isEmpty();
     }
 
     public void removeAction(Action action) {
         if (action != initialAction) {
-            actions.remove(action);
+            preActions.remove(action);
+            postActions.remove(action);
         }
     }
 
     public void fail() {
+        reset();
         taskContainer.removeTask(this);
     }
 
@@ -77,7 +95,7 @@ public class Task {
         Position target = initialAction.getTargetPosition();
         for (int x = -1; x < 2; x++) {
             for (int y = -1; y < 2; y++) {
-                if(x != 0 && y != 0
+                if (x != 0 && y != 0
                         && container.getLocalMap().getArea(target.getX() + x, target.getY() + y, target.getZ()) == sourceArea) {
                     return true;
                 }
@@ -86,8 +104,39 @@ public class Task {
         return false;
     }
 
-    public void addAction(Action action) {
-        actions.add(action);
+    /**
+     * This actions will be executed in the first place
+     * @param action
+     */
+    public void addFirstPreAction(Action action) {
+        preActions.add(0, action);
+        action.setTask(this);
+    }
+
+    /**
+     * This actions will be executed just before main action.
+     * @param action
+     */
+    public void addLastPreAction(Action action) {
+        preActions.add(action);
+        action.setTask(this);
+    }
+
+    /**
+     * This actions will be executed right after main action.
+     * @param action
+     */
+    public void addFirstPostAction(Action action) {
+        preActions.add(0, action);
+        action.setTask(this);
+    }
+
+    /**
+     * This actions will be executed in the last place.
+     * @param action
+     */
+    public void addLastPostAction(Action action) {
+        preActions.add(action);
         action.setTask(this);
     }
 
@@ -133,5 +182,9 @@ public class Task {
 
     public void setPriority(int priority) {
         this.priority = priority;
+    }
+
+    public void setPerformer(Unit performer) {
+        this.performer = performer;
     }
 }

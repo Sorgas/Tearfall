@@ -19,8 +19,9 @@ public class EquipItemEffectAspect extends EffectAspect {
     @Override
     protected void applyEffect() {
         Item item = ((ItemTargetAspect) action.getTargetAspect()).getItem();
-        action.getGameContainer().getItemContainer().pickItem(item);
-        //TODO manage equipped items in item container
-        ((EquipmentAspect) action.getTask().getPerformer().getAspects().get("equipment")).equipItem(item);
+        if (((EquipmentAspect) action.getTask().getPerformer().getAspects().get("equipment")).equipItem(item)) {
+            //TODO manage equipped items in item container
+            action.getGameContainer().getItemContainer().pickItem(item);
+        }
     }
 }

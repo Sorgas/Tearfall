@@ -10,7 +10,7 @@ import java.io.Serializable;
 public class Pair<K, V> implements Serializable {
 
     /**
-     * <p>A convenience class to represent name-value pairs.</p>
+     * <p>A convenience class to represent title-value pairs.</p>
      * @since JavaFX 2.0
      */
 
@@ -57,7 +57,7 @@ public class Pair<K, V> implements Serializable {
      * <p><code>String</code> representation of this
      * <code>Pair</code>.</p>
      * <p>
-     * <p>The default name/value delimiter '=' is always used.</p>
+     * <p>The default title/value delimiter '=' is always used.</p>
      *
      * @return <code>String</code> representation of this <code>Pair</code>
      */
@@ -69,18 +69,18 @@ public class Pair<K, V> implements Serializable {
     /**
      * <p>Generate a hash code for this <code>Pair</code>.</p>
      * <p>
-     * <p>The hash code is calculated using both the name and
+     * <p>The hash code is calculated using both the title and
      * the value of the <code>Pair</code>.</p>
      *
      * @return hash code for this <code>Pair</code>
      */
     @Override
     public int hashCode() {
-        // name's hashCode is multiplied by an arbitrary prime number (13)
+        // title's hashCode is multiplied by an arbitrary prime number (13)
         // in order to make sure there is a difference in the hashCode between
         // these two parameters:
-        //  name: a  value: aa
-        //  name: aa value: a
+        //  title: a  value: aa
+        //  title: aa value: a
         return key.hashCode() * 13 + (value == null ? 0 : value.hashCode());
     }
 

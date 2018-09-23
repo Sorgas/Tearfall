@@ -9,10 +9,12 @@ import java.util.ArrayList;
  */
 public class WearItemType {
     private String bodyTemplate;
-    private ArrayList<String> bodyParts;
+    private ArrayList<String> allBodyParts;
+    private ArrayList<String> requiredBodyParts;
 
     private float baseInsulation;
     private float baseWetResistance;
+    private int layer;
 
     public String getBodyTemplate() {
         return bodyTemplate;
@@ -22,12 +24,12 @@ public class WearItemType {
         this.bodyTemplate = bodyTemplate;
     }
 
-    public ArrayList<String> getBodyParts() {
-        return bodyParts;
+    public ArrayList<String> getAllBodyParts() {
+        return allBodyParts;
     }
 
-    public void setBodyParts(ArrayList<String> bodyParts) {
-        this.bodyParts = bodyParts;
+    public void setAllBodyParts(ArrayList<String> allBodyParts) {
+        this.allBodyParts = allBodyParts;
     }
 
     public float getBaseInsulation() {
@@ -44,5 +46,21 @@ public class WearItemType {
 
     public void setBaseWetResistance(float baseWetResistance) {
         this.baseWetResistance = baseWetResistance;
+    }
+
+    public int getLayer() {
+        return layer;
+    }
+
+    public void setLayer(int layer) {
+        this.layer = layer;
+    }
+
+    public ArrayList<String> getRequiredBodyParts() {
+        return requiredBodyParts;
+    }
+
+    public void setRequiredBodyParts(ArrayList<String> requiredBodyParts) {
+        this.requiredBodyParts = requiredBodyParts;
     }
 }

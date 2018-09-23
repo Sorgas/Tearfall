@@ -21,6 +21,8 @@ import stonering.objects.local_actors.unit.aspects.EquipmentAspect;
  * @author Alexander on 21.09.2018.
  */
 public class WearNeed extends Need {
+    private static final int GET_WEAR_PRIORITY = 4;
+
     /**
      * Counts current priority for creature to find wear.
      * Having no wear only gives comfort penalty, so priority is never high.
@@ -32,7 +34,7 @@ public class WearNeed extends Need {
         EquipmentAspect equipmentAspect = (EquipmentAspect) aspectHolder.getAspects().get("equipment");
         if (equipmentAspect != null) {
             if (!equipmentAspect.getEmptyDesiredSlots().isEmpty()) {
-                return 4;
+                return GET_WEAR_PRIORITY;
             }
         }
         return -1;
@@ -67,7 +69,7 @@ public class WearNeed extends Need {
                     new BodyPartRequirementAspect(action, equipmentSlot.limbName, false)};
             action.setRequirementsAspect(new ComplexRequirementAspect(action, requirementsAspects));
             action.setEffectAspect(new EquipItemEffectAspect(action));
-            task = new Task("Equip item " + item.getTitle(), TaskTypesEnum.EQUIPPING, action, container.getTaskContainer(), container);
+            task = new Task("Equip item " + item.getTitle(), TaskTypesEnum.EQUIPPING, action, GET_WEAR_PRIORITY, container);
         }
         return task;
     }

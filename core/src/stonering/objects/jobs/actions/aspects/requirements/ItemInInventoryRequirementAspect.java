@@ -40,7 +40,7 @@ public class ItemInInventoryRequirementAspect extends RequirementsAspect {
             pickAction.setRequirementsAspect(new BodyPartRequirementAspect(pickAction, "grab", true));
             pickAction.setTargetAspect(new ItemTargetAspect(pickAction, item));
             pickAction.setEffectAspect(new PickUpItemEffectAspect(pickAction));
-            action.getTask().addFirstAction(pickAction);
+            action.getTask().addFirstPreAction(pickAction);
             return true;
         }
         return false;

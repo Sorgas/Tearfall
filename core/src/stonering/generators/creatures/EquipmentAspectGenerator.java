@@ -39,7 +39,7 @@ public class EquipmentAspectGenerator {
             Arrays.stream(creature.get("limbs_to_cover").asStringArray()).forEach(s -> {
                 equipmentAspect.getDesiredSlots().add(equipmentAspect.getSlots().get(s));
             });
-            equipmentAspect.setEmptyDesireSlotsCount(equipmentAspect.getDesiredSlots().size());
+            equipmentAspect.setEmptyDesiredSlotsCount(equipmentAspect.getDesiredSlots().size());
             return equipmentAspect;
         } catch (DescriptionNotFoundException | FaultDescriptionException e) {
             e.printStackTrace();
@@ -76,9 +76,9 @@ public class EquipmentAspectGenerator {
     private EquipmentAspect.EquipmentSlot generateSlotByBodyPart(JsonValue partTemplate, EquipmentAspect equipmentAspect) {
         EquipmentAspect.EquipmentSlot slot;
         if (Arrays.asList(partTemplate.get("tags").asStringArray()).contains("grab")) {
-            slot = equipmentAspect.new GrabEquipmentSlot(partTemplate.getString("type"));
+            slot = equipmentAspect.new GrabEquipmentSlot(partTemplate.getString("title"), partTemplate.getString("type"));
         } else {
-            slot = equipmentAspect.new EquipmentSlot(partTemplate.getString("type"));
+            slot = equipmentAspect.new EquipmentSlot(partTemplate.getString("title"), partTemplate.getString("type"));
         }
         return slot;
     }

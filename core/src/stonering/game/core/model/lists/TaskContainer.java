@@ -58,7 +58,7 @@ public class TaskContainer {
      * @param position
      * @param type
      */
-    public void submitDesignation(Position position, DesignationTypes type) {
+    public void submitDesignation(Position position, DesignationTypes type, int priority) {
         switch (type) {
             case NONE:
             case DIG:
@@ -69,7 +69,7 @@ public class TaskContainer {
             case CUT: {
                 if (validateDesignations(position, type)) {
                     OrderDesignation designation = new OrderDesignation(position, type);
-                    Task task = createOrderTask(designation);
+                    Task task = createOrderTask(designation, priority);
                     if (task != null) {
                         task.setDesignation(designation);
                         designation.setTask(task);
@@ -90,10 +90,10 @@ public class TaskContainer {
      * @param building
      * @param itemSelectors
      */
-    public void submitDesignation(Position position, String building, ArrayList<ItemSelector> itemSelectors) {
+    public void submitDesignation(Position position, String building, ArrayList<ItemSelector> itemSelectors, int priority) {
         if (validateBuilding(position, building)) {
             BuildingDesignation designation = new BuildingDesignation(position, DesignationTypes.BUILD, building);
-            Task task = createBuildingTask(designation, itemSelectors);
+            Task task = createBuildingTask(designation, itemSelectors, priority);
             tasks.add(task);
             designation.setTask(task);
             designations.put(position, designation);
@@ -102,7 +102,7 @@ public class TaskContainer {
         }
     }
 
-    private Task createOrderTask(OrderDesignation designation) {
+    private Task createOrderTask(OrderDesignation designation, int priority) {
         switch (designation.getType()) {
             case DIG:
             case RAMP:
@@ -112,7 +112,7 @@ public class TaskContainer {
                 action.setEffectAspect(new DigEffectAspect(action, designation.getType()));
                 action.setTargetAspect(new BlockTargetAspect(action, designation.getPosition(), true, true));
                 action.setRequirementsAspect(new EquippedItemRequirementAspect(action, new ToolWithActionItemSelector("dig")));
-                Task task = new Task("designation", TaskTypesEnum.DESIGNATION, action, this, container);
+                Task task = new Task("designation", TaskTypesEnum.DESIGNATION, action, priority, container);
                 return task;
             }
             case CUT:
@@ -121,20 +121,20 @@ public class TaskContainer {
                 action.setEffectAspect(new ChopTreeEffectAspect(action));
                 action.setTargetAspect(new BlockTargetAspect(action, designation.getPosition(), false, true)); //TODO replace with PlantTargetAspect
                 action.setRequirementsAspect(new EquippedItemRequirementAspect(action, new ToolWithActionItemSelector("chop")));
-                Task task = new Task("designation", TaskTypesEnum.DESIGNATION, action, this, container);
+                Task task = new Task("designation", TaskTypesEnum.DESIGNATION, action, priority, container);
                 return task;
             }
         }
         return null;
     }
 
-    private Task createBuildingTask(BuildingDesignation designation, ArrayList<ItemSelector> items) {
+    private Task createBuildingTask(BuildingDesignation designation, ArrayList<ItemSelector> items, int priority) {
         BuildingType buildingType = BuildingMap.getInstance().getBuilding(designation.getBuilding());
         Action action = new Action(container);
         action.setRequirementsAspect(new ItemsInPositionOrInventoryRequirementAspect(action, designation.getPosition(), items));
         action.setTargetAspect(new BlockTargetAspect(action, designation.getPosition(), !buildingType.getTitle().equals("wall"), true));
         action.setEffectAspect(new ConstructionEffectAspect(action, designation.getBuilding(), "marble"));//TODO
-        return new Task("designation", TaskTypesEnum.DESIGNATION, action, this, container);
+        return new Task("designation", TaskTypesEnum.DESIGNATION, action, priority, container);
     }
 
     private boolean validateDesignations(Position position, DesignationTypes type) {

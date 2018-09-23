@@ -63,7 +63,7 @@ public class ItemsInPositionOrInventoryRequirementAspect extends RequirementsAsp
                 dropAction.setRequirementsAspect(new ItemInInventoryRequirementAspect(dropAction, item));
                 dropAction.setTargetAspect(new BlockTargetAspect(dropAction, target, true, false));
                 dropAction.setEffectAspect(new DropItemEffectAspect(dropAction, item));
-                action.getTask().addFirstAction(dropAction);
+                action.getTask().addFirstPreAction(dropAction);
                 return true;
             }
         }

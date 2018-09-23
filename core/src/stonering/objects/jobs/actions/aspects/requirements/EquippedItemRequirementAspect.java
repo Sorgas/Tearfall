@@ -3,12 +3,9 @@ package stonering.objects.jobs.actions.aspects.requirements;
 import stonering.objects.jobs.actions.Action;
 import stonering.objects.jobs.actions.aspects.effect.EquipItemEffectAspect;
 import stonering.objects.jobs.actions.aspects.target.ItemTargetAspect;
-import stonering.objects.local_actors.Aspect;
 import stonering.objects.local_actors.items.Item;
 import stonering.objects.local_actors.items.selectors.ItemSelector;
 import stonering.objects.local_actors.unit.aspects.EquipmentAspect;
-
-import java.util.ArrayList;
 
 /**
  * Checks if unis has specific equipped item,
@@ -40,7 +37,7 @@ public class EquippedItemRequirementAspect extends RequirementsAspect {
             newAction.setEffectAspect(new EquipItemEffectAspect(newAction));
             newAction.setTargetAspect(new ItemTargetAspect(action, target));
             newAction.setRequirementsAspect(new BodyPartRequirementAspect(newAction, "grab", true));
-            action.getTask().addFirstAction(newAction);
+            action.getTask().addFirstPreAction(newAction);
             return true;
         }
         return false;

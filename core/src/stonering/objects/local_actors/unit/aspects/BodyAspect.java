@@ -13,7 +13,7 @@ import java.util.HashMap;
  */
 public class BodyAspect extends Aspect {
     private String bodyType;
-    private HashMap<String, BodyPart> bodyParts; // name to bodyPart
+    private HashMap<String, BodyPart> bodyParts; // title to bodyPart
     private ArrayList<String> bodyPartsToCover;
 
     public BodyAspect(Unit unit) {
@@ -23,7 +23,7 @@ public class BodyAspect extends Aspect {
     }
 
     public class BodyPart {
-        public String name;
+        public String title;
         public int size;
         public int weight;
         public String type;
@@ -32,10 +32,10 @@ public class BodyAspect extends Aspect {
         public BodyPart root; // each body part points to one it`s connected to
         public String rootName;
         public String[] tags;
-        public BodyPart(String name) {
-            this.name = name;
-        }
 
+        public BodyPart(String title) {
+            this.title = title;
+        }
     }
 
     public class Organ {
@@ -69,6 +69,6 @@ public class BodyAspect extends Aspect {
     }
 
     public void addBodyPart(BodyPart bodyPart) {
-        bodyParts.put(bodyPart.name, bodyPart);
+        bodyParts.put(bodyPart.title, bodyPart);
     }
 }

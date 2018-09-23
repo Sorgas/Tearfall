@@ -31,6 +31,7 @@ public class DesignationsController extends Controller {
     private GameView view;
     private Position end;
     private ArrayList<ItemSelector> itemSelectors;
+    private int priority;
 
     public DesignationsController(GameMvc gameMvc) {
         super(gameMvc);
@@ -63,7 +64,7 @@ public class DesignationsController extends Controller {
      * Sets designation type to be stored between events of starting and finishing designations rectangle.
      *
      * @param activeDesignation designation type.
-     * @param building building name in {@link BuildingMap}. Is null if activeDesignation is not building.
+     * @param building          building title in {@link BuildingMap}. Is null if activeDesignation is not building.
      */
     public void setActiveDesignation(DesignationTypes activeDesignation, String building) {
         this.activeDesignation = activeDesignation;
@@ -125,9 +126,9 @@ public class DesignationsController extends Controller {
     private void addDesignationToContainer(Position position) {
         TaskContainer taskContainer = container.getTaskContainer();
         if (activeDesignation == DesignationTypes.BUILD) {
-            taskContainer.submitDesignation(position, building, itemSelectors);
+            taskContainer.submitDesignation(position, building, itemSelectors, priority);
         } else {
-            taskContainer.submitDesignation(position, activeDesignation);
+            taskContainer.submitDesignation(position, activeDesignation, priority);
         }
     }
 
@@ -158,5 +159,13 @@ public class DesignationsController extends Controller {
 
     public void clearItemSelectors() {
         itemSelectors.clear();
+    }
+
+    public int getPriority() {
+        return priority;
+    }
+
+    public void setPriority(int priority) {
+        this.priority = priority;
     }
 }

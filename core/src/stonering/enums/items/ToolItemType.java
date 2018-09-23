@@ -19,7 +19,7 @@ public class ToolItemType {
     }
 
     public static class ToolAction {
-        public String action; // action name
+        public String action; // action title
         public float speedMod; // efficiency
     }
 

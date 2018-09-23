@@ -16,6 +16,7 @@ public class UnequipItemEffactAspect extends EffectAspect {
 
     @Override
     protected void applyEffect() {
+        //TODO implement with slots
         ((EquipmentAspect) action.getTask().getPerformer().getAspects().get("equipment")).unequipItem(item);
     }
 }

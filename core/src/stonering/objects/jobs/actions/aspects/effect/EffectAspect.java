@@ -1,6 +1,7 @@
 package stonering.objects.jobs.actions.aspects.effect;
 
 import stonering.objects.jobs.actions.Action;
+import stonering.objects.local_actors.unit.aspects.PlanningAspect;
 
 public abstract class EffectAspect {
     protected Action action;
@@ -11,6 +12,11 @@ public abstract class EffectAspect {
         this.workAmount = workAmount;
     }
 
+    /**
+     * {@link PlanningAspect} should guarantee all action checks before calling this.
+     *
+     * @return Whether action finished or not after this.
+     */
     public boolean perform() {
         if(workAmount <= 0) {
             applyEffect();

@@ -113,7 +113,7 @@ public class PlanningAspect extends Aspect {
                 }
             }
         }
-        if(currentTask != null) {
+        if (currentTask != null) {
             claimTask();
             if (checkActionSequence()) { //checking requires performer to be set.
                 // ok
@@ -171,6 +171,8 @@ public class PlanningAspect extends Aspect {
     }
 
     public Position getTarget() {
-        return currentTask != null ? currentTask.getNextAction().getTargetPosition() : null;
+        return currentTask != null && currentTask.getNextAction() != null ?
+                currentTask.getNextAction().getTargetPosition() :
+                null;
     }
 }

@@ -19,7 +19,7 @@ public class WearForLimbItemSelector extends ItemSelector {
     @Override
     public boolean check(ArrayList<Item> items) {
         for (Item item : items) {
-            if (item.isWear() && item.getType().getWear().getBodyParts().contains(limbName)) {
+            if (item.isWear() && item.getType().getWear().getAllBodyParts().contains(limbName)) {
                 return true;
             }
         }
@@ -30,7 +30,7 @@ public class WearForLimbItemSelector extends ItemSelector {
     public ArrayList<Item> selectItems(ArrayList<Item> items) {
         ArrayList<Item> selectedItems = new ArrayList<>();
         for (Item item : items) {
-            if (item.isWear() && item.getType().getWear().getBodyParts().contains(limbName)) {
+            if (item.isWear() && item.getType().getWear().getAllBodyParts().contains(limbName)) {
                 selectedItems.add(item);
             }
         }
