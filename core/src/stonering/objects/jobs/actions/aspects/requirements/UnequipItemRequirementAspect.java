@@ -15,10 +15,10 @@ import stonering.objects.local_actors.unit.aspects.EquipmentAspect;
  *
  * @author Alexander on 22.09.2018.
  */
-public class EquippedItemOnTopLayerRequirementAspect extends RequirementsAspect {
+public class UnequipItemRequirementAspect extends RequirementsAspect {
     private SingleItemSelector itemSelector;
 
-    public EquippedItemOnTopLayerRequirementAspect(Action action, SingleItemSelector itemSelector) {
+    public UnequipItemRequirementAspect(Action action, SingleItemSelector itemSelector) {
         super(action);
         this.itemSelector = itemSelector;
     }
@@ -51,7 +51,7 @@ public class EquippedItemOnTopLayerRequirementAspect extends RequirementsAspect 
         action.setEffectAspect(new UnequipItemEffectAspect(action, 10));
         RequirementsAspect[] requirements = {
                 new EquippedItemRequirementAspect(action, new ExactItemSelector(item)),
-                new EquippedItemOnTopLayerRequirementAspect(action, new ExactItemSelector(item))
+                new UnequipItemRequirementAspect(action, new ExactItemSelector(item))
         };
         action.setRequirementsAspect(new ComplexRequirementAspect(action, requirements));
         return true;

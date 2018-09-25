@@ -7,7 +7,7 @@ import stonering.TearFall;
 
 public class DesktopLauncher {
 
-	public static void main (String[] arg) {
+    public static void main(String[] arg) {
 		System.out.println("main");
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.width = 1600;
@@ -16,5 +16,5 @@ public class DesktopLauncher {
         config.foregroundFPS = 30;
 		Game game = new TearFall();
 		new LwjglApplication(game, config);
-	}
+    }
 }

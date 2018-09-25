@@ -7,6 +7,7 @@ import stonering.objects.jobs.actions.TaskTypesEnum;
 import stonering.objects.jobs.actions.aspects.effect.EquipItemEffectAspect;
 import stonering.objects.jobs.actions.aspects.requirements.BodyPartRequirementAspect;
 import stonering.objects.jobs.actions.aspects.requirements.ComplexRequirementAspect;
+import stonering.objects.jobs.actions.aspects.requirements.EquipWearItemRequirementAspect;
 import stonering.objects.jobs.actions.aspects.requirements.RequirementsAspect;
 import stonering.objects.jobs.actions.aspects.target.ItemTargetAspect;
 import stonering.objects.local_actors.AspectHolder;
@@ -66,7 +67,7 @@ public class WearNeed extends Need {
             Action action = new Action(container);
             action.setTargetAspect(new ItemTargetAspect(action, item));
             RequirementsAspect[] requirementsAspects = {new BodyPartRequirementAspect(action, "grab", true),
-                    new BodyPartRequirementAspect(action, equipmentSlot.limbName, false)};
+                    new EquipWearItemRequirementAspect(action, item)};
             action.setRequirementsAspect(new ComplexRequirementAspect(action, requirementsAspects));
             action.setEffectAspect(new EquipItemEffectAspect(action));
             task = new Task("Equip item " + item.getTitle(), TaskTypesEnum.EQUIPPING, action, GET_WEAR_PRIORITY, container);
