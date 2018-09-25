@@ -8,6 +8,8 @@ import stonering.game.core.GameMvc;
 import stonering.game.core.controller.controllers.DesignationsController;
 
 /**
+ * Menu with orders related to plants
+ *
  * @author Alexander Kuzyakov on 28.05.2018.
  */
 public class PlantsMenu extends ButtonMenu {
@@ -34,7 +36,10 @@ public class PlantsMenu extends ButtonMenu {
 
     private void initMenu() {
         addButtonToTable("P: chop trees", DesignationTypes.CHOP, Input.Keys.P);
-        addButtonToTable("O: clear", DesignationTypes.NONE, Input.Keys.O);
+        addButtonToTable("O: harvest", DesignationTypes.HARVEST, Input.Keys.O);
+        addButtonToTable("I: cut", DesignationTypes.CUT, Input.Keys.I);
+        addButtonToTable("U: clear", DesignationTypes.NONE, Input.Keys.U);
+
         placeSelectComponent = new PlaceSelectComponent(gameMvc, false, false);
     }
 

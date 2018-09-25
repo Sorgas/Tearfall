@@ -16,7 +16,8 @@ public enum DesignationTypes {
     CHANNEL(4, "digging channel"), // digs cell and ramp on lower level
     CHOP(5, "chopping trees"), //chop trees in th area
     CUT(6, "cutting plants"), //cut plants
-    BUILD(7, "building"); //build construction or building
+    HARVEST(7, "harvesting plants"), //harvest plants
+    BUILD(8, "building"); //build construction or building
 
     private static HashMap<Byte, DesignationTypes> map;
     private byte code;

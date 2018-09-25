@@ -22,6 +22,7 @@ public class PlantMap {
         json.setOutputType(JsonWriter.OutputType.json);
         json.addClassTag("color_c", Color.class);
         json.addClassTag("tree_c", TreeType.class);
+        json.addClassTag("stage_c", PlantType.PlantLifeStage.class);
         loadPlantTypes();
     }
 

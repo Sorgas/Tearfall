@@ -2,12 +2,13 @@ package stonering.objects.jobs.actions.aspects.target;
 
 import stonering.global.utils.Position;
 import stonering.objects.jobs.actions.Action;
+import stonering.objects.local_actors.plants.AbstractPlant;
 import stonering.objects.local_actors.plants.Plant;
 
 public class PlantTargetAspect extends TargetAspect {
-    private Plant plant;
+    protected AbstractPlant plant;
 
-    public PlantTargetAspect(Action action, Plant plant) {
+    public PlantTargetAspect(Action action, AbstractPlant plant) {
         super(action, true, true);
         this.plant = plant;
     }
@@ -18,7 +19,7 @@ public class PlantTargetAspect extends TargetAspect {
     }
 
     public Plant getPlant() {
-        return plant;
+        return (Plant) plant;
     }
 
     public void setPlant(Plant plant) {

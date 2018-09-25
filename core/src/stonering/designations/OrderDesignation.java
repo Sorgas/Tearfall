@@ -10,7 +10,6 @@ import stonering.global.utils.Position;
  */
 public class OrderDesignation extends Designation{
 
-
     public OrderDesignation(Position position, DesignationTypes type) {
         super(position, type);
     }

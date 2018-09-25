@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 /**
  * Generator for products from plants.
+ * //TODO refactor
  */
 public class PlantProductGenerator {
     private ItemGenerator itemGenerator;
@@ -31,7 +32,7 @@ public class PlantProductGenerator {
             Position plantPosition = block.getPosition();
             products.addAll(block.getCutProducts());
             products.addAll(block.getHarvestProducts());
-            products.forEach((product) -> createItem(product, plant.getType().getMaterialName()));
+            products.forEach((product) -> createItem(product, plant.getCurrentStage().getMaterialName()));
         } else if (plant instanceof Tree) {
             ArrayList<String> products = new ArrayList<>();
             Item cutItem = generateCutProductForTreePart(block);
@@ -39,11 +40,23 @@ public class PlantProductGenerator {
                 items.add(cutItem);
             }
             products.addAll(block.getHarvestProducts());
-            products.forEach((product) -> items.add(createItem(product, plant.getType().getMaterialName())));
+            products.forEach((product) -> items.add(createItem(product, plant.getCurrentStage().getMaterialName())));
         }
         return items;
     }
 
+    public ArrayList<Item> generateHarvestProduct(PlantBlock block) {
+        ArrayList<Item> items = new ArrayList<>();
+        block.getCutProducts().forEach(s -> {
+            try {
+                generateProductForBlock(block, s);
+            } catch (DescriptionNotFoundException e) {
+                System.out.println("Descriptor for item " + s + " not found.");
+                e.printStackTrace();
+            }
+        });
+        return items;
+    }
 
     private Item createItem(String name, String material) {
         try {
@@ -63,7 +76,6 @@ public class PlantProductGenerator {
      * @return item or null;
      */
     private Item generateCutProductForTreePart(PlantBlock block) {
-        ItemGenerator itemGenerator = new ItemGenerator();
         try {
             String itemTitle = "";
             switch (TreeBlocksTypeEnum.getType(block.getBlockType())) {
@@ -80,11 +92,16 @@ public class PlantProductGenerator {
                     itemTitle = "root";
                 }
             }
-            if (block.getPlant().getType().getCutProduct().contains(itemTitle))
+            AbstractPlant plant = block.getPlant();
+            if (plant.getCurrentStage().getCutProduct().contains(itemTitle))
                 return itemGenerator.generateItem(itemTitle, block.getMaterial());
         } catch (DescriptionNotFoundException e) {
             System.out.println(e.getMessage());
         }
         return null;
+    }
+
+    private Item generateProductForBlock(PlantBlock block, String itemTitle) throws DescriptionNotFoundException {
+        return itemGenerator.generateItem(itemTitle, block.getMaterial());
     }
 }

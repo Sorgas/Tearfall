@@ -1606,5 +1606,28 @@
       "b": "1",
       "a": "1"
     }
+  },
+  {
+    "id": "69",
+    "name": "generic_plant",
+    "types": [
+      "biomass"
+    ],
+    "density": "1",
+    "reactions": [
+      "burn"
+    ],
+    "reaction_args": [
+      "2500"
+    ],
+    "value": "0",
+    "atlasY": "-1",
+    "color": {
+      "class": "color_c",
+      "r": "1",
+      "g": "1",
+      "b": "1",
+      "a": "1"
+    }
   }
 ]

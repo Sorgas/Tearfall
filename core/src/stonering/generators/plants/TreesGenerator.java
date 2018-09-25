@@ -19,7 +19,7 @@ public class TreesGenerator {
         Plant plant = new Plant(0);
         PlantType plantType = PlantMap.getInstance().getPlantType(speciment);
         TreeType treeType = plantType.getTreeType();
-        int material = MaterialMap.getInstance().getId(plantType.getMaterialName());
+        int material = MaterialMap.getInstance().getId(plantType.getLifeStages().get(0).getMaterialName());
         Tree tree = new Tree(10);
         tree.setType(plantType);
         Random random = new Random();

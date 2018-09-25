@@ -15,11 +15,15 @@ import stonering.objects.jobs.actions.TaskTypesEnum;
 import stonering.objects.jobs.actions.aspects.effect.ConstructionEffectAspect;
 import stonering.objects.jobs.actions.aspects.effect.ChopTreeEffectAspect;
 import stonering.objects.jobs.actions.aspects.effect.DigEffectAspect;
+import stonering.objects.jobs.actions.aspects.effect.HarvestPlantEffectAspect;
 import stonering.objects.jobs.actions.aspects.requirements.EquippedItemRequirementAspect;
 import stonering.objects.jobs.actions.aspects.requirements.ItemsInPositionOrInventoryRequirementAspect;
 import stonering.objects.jobs.actions.aspects.target.BlockTargetAspect;
+import stonering.objects.jobs.actions.aspects.target.PlantHarvestTargetAspect;
+import stonering.objects.jobs.actions.aspects.target.PlantTargetAspect;
 import stonering.objects.local_actors.items.selectors.ItemSelector;
 import stonering.objects.local_actors.items.selectors.ToolWithActionItemSelector;
+import stonering.objects.local_actors.plants.Plant;
 import stonering.objects.local_actors.plants.PlantBlock;
 
 import java.util.ArrayList;
@@ -60,12 +64,14 @@ public class TaskContainer {
      */
     public void submitDesignation(Position position, DesignationTypes type, int priority) {
         switch (type) {
+            case BUILD:
             case NONE:
             case DIG:
             case STAIRS:
             case RAMP:
             case CHANNEL:
             case CHOP:
+            case HARVEST:
             case CUT: {
                 if (validateDesignations(position, type)) {
                     OrderDesignation designation = new OrderDesignation(position, type);
@@ -104,6 +110,8 @@ public class TaskContainer {
 
     private Task createOrderTask(OrderDesignation designation, int priority) {
         switch (designation.getType()) {
+            case NONE:
+                break;
             case DIG:
             case RAMP:
             case STAIRS:
@@ -124,6 +132,18 @@ public class TaskContainer {
                 Task task = new Task("designation", TaskTypesEnum.DESIGNATION, action, priority, container);
                 return task;
             }
+            case HARVEST: {
+                PlantBlock block = container.getLocalMap().getPlantBlock(designation.getPosition());
+                if(block != null && block.getPlant().isHarvestable()) {
+                    Action action = new Action(container);
+                    action.setEffectAspect(new HarvestPlantEffectAspect(action, 10));
+                    action.setTargetAspect(new PlantHarvestTargetAspect(action, block.getPlant())); //TODO replace with PlantTargetAspect
+                    action.setRequirementsAspect(new EquippedItemRequirementAspect(action, new ToolWithActionItemSelector("harvest_plants")));
+                    Task task = new Task("designation", TaskTypesEnum.DESIGNATION, action, priority, container);
+                    return task;
+                }
+            }
+
         }
         return null;
     }
@@ -141,26 +161,35 @@ public class TaskContainer {
         BlockTypesEnum blockOnMap = BlockTypesEnum.getType(container.getLocalMap().getBlockType(position));
         switch (type) {
             case DIG: { //makes floor
-                return blockOnMap.equals(BlockTypesEnum.RAMP) ||
-                        blockOnMap.equals(BlockTypesEnum.WALL) ||
-                        blockOnMap.equals(BlockTypesEnum.STAIRS);
+                return BlockTypesEnum.RAMP.equals(blockOnMap) ||
+                        BlockTypesEnum.WALL.equals(blockOnMap) ||
+                        BlockTypesEnum.STAIRS.equals(blockOnMap);
             }
             case CHANNEL: { //makes space and ramp lower
-                return !blockOnMap.equals(BlockTypesEnum.SPACE);
+                return !BlockTypesEnum.SPACE.equals(blockOnMap);
             }
             case RAMP:
             case STAIRS: {
-                return blockOnMap.equals(BlockTypesEnum.WALL);
+                return BlockTypesEnum.WALL.equals(blockOnMap);
             }
             case CHOP: {
+                //TODO designate tree as whole
                 PlantBlock block = container.getLocalMap().getPlantBlock(position);
                 return block != null &&
-                        (blockOnMap.equals(BlockTypesEnum.SPACE) || blockOnMap.equals(BlockTypesEnum.FLOOR))
+                        (BlockTypesEnum.SPACE.equals(blockOnMap) || BlockTypesEnum.FLOOR.equals(blockOnMap))
                         && block.getPlant().getType().isTree();
             }
             case NONE: {
                 return true;
             }
+            case CUT:
+                break;
+            case HARVEST:
+                //TODO add harvesting from trees
+                PlantBlock block = container.getLocalMap().getPlantBlock(position);
+                return block != null && !block.getPlant().getType().isTree();
+            case BUILD:
+                break;
         }
         return false;
     }

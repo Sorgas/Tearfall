@@ -1,6 +1,5 @@
 package stonering.objects.local_actors.plants;
 
-import stonering.enums.plants.TreeType;
 import stonering.global.utils.Position;
 
 /**
@@ -30,6 +29,11 @@ public class Tree extends AbstractPlant {
 
     public void setBlocks(PlantBlock[][][] blocks) {
         this.blocks = blocks;
+    }
+
+    @Override
+    public boolean isHarvestable() {
+        return getCurrentStage().getHarvestProduct() != null;
     }
 
     public int getAge() {

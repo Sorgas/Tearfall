@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import stonering.enums.designations.DesignationsTileMapping;
 import stonering.enums.materials.MaterialMap;
+import stonering.enums.plants.PlantType;
 import stonering.game.core.GameMvc;
 import stonering.game.core.model.GameCamera;
 import stonering.game.core.model.GameContainer;
@@ -97,7 +98,8 @@ public class LocalWorldDrawer {
         drawBlock(x, y, z);
         PlantBlock plantBlock = localMap.getPlantBlock(x, y, z);
         if (plantBlock != null) {
-            drawSprite(1, x, y, z, plantBlock.getAtlasX(), plantBlock.getAtlasY());
+            PlantType.PlantLifeStage stage = plantBlock.getPlant().getCurrentStage();
+            drawSprite(1, x, y, z, stage.getAtlasX(), plantBlock.getAtlasY());
         }
         BuildingBlock buildingBlock = localMap.getBuildingBlock(x, y, z);
         if (buildingBlock != null) {

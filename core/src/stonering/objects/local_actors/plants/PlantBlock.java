@@ -5,9 +5,9 @@ import stonering.global.utils.Position;
 import java.util.ArrayList;
 
 /**
- * @author Alexander Kuzyakov on 30.11.2017.
+ * Class to be contained on LocalMap. Also stores render data
  *
- * class to be contained on LocalMap. also stores render data
+ * @author Alexander Kuzyakov on 30.11.2017.
  */
 public class PlantBlock {
     private AbstractPlant plant;

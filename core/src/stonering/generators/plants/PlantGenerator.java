@@ -18,7 +18,7 @@ public class PlantGenerator {
         Plant plant = new Plant(0);
         plant.setType(PlantMap.getInstance().getPlantType(specimen));
 
-        plant.setBlock(new PlantBlock(MaterialMap.getInstance().getId(plant.getType().getMaterialName()), TreeBlocksTypeEnum.SINGLE_PASSABLE.getCode()));
+        plant.setBlock(new PlantBlock(MaterialMap.getInstance().getId(plant.getCurrentStage().getMaterialName()), TreeBlocksTypeEnum.SINGLE_PASSABLE.getCode()));
         plant.getBlock().setAtlasX(plant.getType().getAtlasX());
         plant.getBlock().setAtlasY(plant.getType().getAtlasY());
         plant.getBlock().setPlant(plant);

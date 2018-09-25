@@ -5,6 +5,7 @@ import stonering.global.utils.Position;
 /**
  * Represents plant
  * <p>
+ *
  * @author Alexander Kuzyakov on 19.10.2017.
  */
 public class Plant extends AbstractPlant {
@@ -12,6 +13,11 @@ public class Plant extends AbstractPlant {
 
     public Plant(int age) {
         this.age = age;
+    }
+
+    @Override
+    public boolean isHarvestable() {
+        return getCurrentStage().getHarvestProduct() != null;
     }
 
     public PlantBlock getBlock() {

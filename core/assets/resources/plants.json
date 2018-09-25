@@ -16,18 +16,24 @@
         "soilType":"soil",
         "atlasY":"0",
         "atlasX":"0",
-        "materialName":"willow",
-        "harvestProduct":null,
-        "cutProduct":null,
         "treeType":null,
-        "saplingTime":"0",
-        "color":{
-            "class":"color_c",
-            "r":"0",
-            "g":"1",
-            "b":"0",
-            "a":"1"
-        }
+        "lifeStages":[
+            {
+                "stageLength":"1",
+                "harvestProduct":null,
+                "cutProduct":null,
+                "materialName":"willow",
+                "atlasX":"0",
+                "atlasY":"0",
+                "color":{
+                    "class":"color_c",
+                    "r":"0",
+                    "g":"1",
+                    "b":"0",
+                    "a":"1"
+                }
+            }
+        ]
     },
     {
         "specimen":"red_moss",
@@ -44,20 +50,25 @@
         "lightNeed":["low", "high"],
         // underground, low, high (multiple)
         "soilType":"stone",
-        "atlasY":"0",
-        "atlasX":"1",
-        "materialName":"willow",
-        "harvestProduct":null,
-        "cutProduct":["moss", "red_moss"], // item type, material
+        // item type, material
         "treeType":null,
-        "saplingTime":"0",
-        "color":{
-            "class":"color_c",
-            "r":"0",
-            "g":"1",
-            "b":"0",
-            "a":"1"
-        }
+        "lifeStages":[
+            {
+                "stageLength":"1",
+                "harvestProduct":["red_moss"],
+                "cutProduct":["red_moss"],
+                "materialName":"willow",
+                "atlasX":"1",
+                "atlasY":"0",
+                "color":{
+                    "class":"color_c",
+                    "r":"0",
+                    "g":"1",
+                    "b":"0",
+                    "a":"1"
+                }
+            }
+        ]
     },
     {
         "specimen":"bush",
@@ -74,20 +85,58 @@
         "lightNeed":["low", "high"],
         // underground, low, high (multiple)
         "soilType":"soil",
-        "atlasY":"0",
-        "atlasX":"0",
-        "materialName":"willow",
-        "harvestProduct":"berries",
-        "cutProduct":["branch"],
         "treeType":null,
-        "saplingTime":"0",
-        "color":{
-            "class":"color_c",
-            "r":"0",
-            "g":"1",
-            "b":"0",
-            "a":"1"
-        }
+        "lifeStages":[
+            {
+                "stageLength":"1",
+                "harvestProduct":null,
+                "cutProduct":["branch", "root"],
+                "materialName":"willow",
+                "atlasX":"0",
+                "atlasY":"0",
+                "color":{
+                    "class":"color_c",
+                    "r":"0",
+                    "g":"1",
+                    "b":"0",
+                    "a":"1"
+                }
+            }
+        ]
+    },
+    {
+        "specimen":"blue_berry",
+        "title":"Blueberry",
+        "description":"Small plant with blue edible berries.",
+        "minTemperature":"-40",
+        "maxTemperature":"40",
+        "minGrowingTemperature":"-40",
+        "maxGrowingTemperature":"40",
+        "minRainfall":"0",
+        "maxRainfall":"100",
+        "waterSource":["near", "far"],
+        //under, surface, near, far (multiple)
+        "lightNeed":["low", "high"],
+        // underground, low, high (multiple)
+        "soilType":"soil",
+        "treeType":null,
+        "lifeStages":[
+            {
+                "stageLength":"1",
+                "harvestProduct":["blueberry"],
+                "cutProduct":["blueberry"],
+                "materialName":"generic_plant",
+                "atlasX":"2",
+                "atlasY":"0",
+                "color":{
+                    "class":"color_c",
+                    "r":"0",
+                    "g":"1",
+                    "b":"0",
+                    "a":"1"
+                }
+            }
+        ]
     },
     {
         "specimen":"willow",
@@ -104,11 +153,6 @@
         "lightNeed":["low", "high"],
         // underground, low, high (multiple)
         "soilType":"soil",
-        "atlasY":"1",
-        "atlasX":"0",
-        "materialName":"willow",
-        "harvestProduct":null,
-        "cutProduct":["log", "branch"],
         "treeType":{
             "class":"tree_c",
             "crownRadius":"2",
@@ -116,13 +160,37 @@
             "rootDepth":"2",
             "rootRadius":"1"
         },
-        "saplingTime":"0",
-        "color":{
-            "class":"color_c",
-            "r":"0",
-            "g":"1",
-            "b":"0",
-            "a":"1"
-        }
+        "lifeStages":[
+            {
+                "stageLength":"2",
+                "harvestProduct":null,
+                "cutProduct":["branch", "root"],
+                "materialName":"willow",
+                "atlasX":"0",
+                "atlasY":"1",
+                "color":{
+                    "class":"color_c",
+                    "r":"0",
+                    "g":"1",
+                    "b":"0",
+                    "a":"1"
+                }
+            },
+            {
+                "stageLength":"50",
+                "harvestProduct":null,
+                "cutProduct":["branch", "root", "log"],
+                "materialName":"willow",
+                "atlasX":"0",
+                "atlasY":"1",
+                "color":{
+                    "class":"color_c",
+                    "r":"0",
+                    "g":"1",
+                    "b":"0",
+                    "a":"1"
+                }
+            }
+        ]
     }
 ]

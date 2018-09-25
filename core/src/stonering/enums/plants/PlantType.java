@@ -21,22 +21,18 @@ public class PlantType {
     private ArrayList<String> waterSource;
     private ArrayList<String> lightNeed;
     private String soilType;
-    private String materialName;
-
     private int atlasX;
-    private int atlasY;
 
-    private String harvestProduct;
-    private ArrayList<String> cutProduct;
-    private Color color;
+    private int atlasY;
+    private ArrayList<PlantLifeStage> lifeStages;
 
     private TreeType treeType;
-    private int saplingTime;
 
-    public class PlantLifeStage {
+    public static class PlantLifeStage {
         private int stageLength;
-        private String harvestProduct;
-        private String cutProduct;
+        private ArrayList<String> harvestProduct;
+        private ArrayList<String> cutProduct;
+        private String materialName;
         private int atlasX;
         private int atlasY;
         private Color color;
@@ -49,19 +45,19 @@ public class PlantType {
             this.stageLength = stageLength;
         }
 
-        public String getHarvestProduct() {
+        public ArrayList<String> getHarvestProduct() {
             return harvestProduct;
         }
 
-        public void setHarvestProduct(String harvestProduct) {
+        public void setHarvestProduct(ArrayList<String> harvestProduct) {
             this.harvestProduct = harvestProduct;
         }
 
-        public String getCutProduct() {
+        public ArrayList<String> getCutProduct() {
             return cutProduct;
         }
 
-        public void setCutProduct(String cutProduct) {
+        public void setCutProduct(ArrayList<String> cutProduct) {
             this.cutProduct = cutProduct;
         }
 
@@ -87,6 +83,14 @@ public class PlantType {
 
         public void setColor(Color color) {
             this.color = color;
+        }
+
+        public String getMaterialName() {
+            return materialName;
+        }
+
+        public void setMaterialName(String materialName) {
+            this.materialName = materialName;
         }
     }
 
@@ -190,28 +194,12 @@ public class PlantType {
         this.soilType = soilTypes;
     }
 
-    public String getMaterialName() {
-        return materialName;
-    }
-
-    public void setMaterialName(String materialName) {
-        this.materialName = materialName;
-    }
-
     public TreeType getTreeType() {
         return treeType;
     }
 
     public void setTreeType(TreeType treeType) {
         this.treeType = treeType;
-    }
-
-    public int getSaplingTime() {
-        return saplingTime;
-    }
-
-    public void setSaplingTime(int saplingTime) {
-        this.saplingTime = saplingTime;
     }
 
     public int getAtlasX() {
@@ -230,27 +218,11 @@ public class PlantType {
         this.atlasY = atlasY;
     }
 
-    public String getHarvestProduct() {
-        return harvestProduct;
+    public ArrayList<PlantLifeStage> getLifeStages() {
+        return lifeStages;
     }
 
-    public void setHarvestProduct(String harvestProduct) {
-        this.harvestProduct = harvestProduct;
-    }
-
-    public ArrayList<String> getCutProduct() {
-        return cutProduct;
-    }
-
-    public void setCutProduct(ArrayList<String> cutProduct) {
-        this.cutProduct = cutProduct;
-    }
-
-    public Color getColor() {
-        return color;
-    }
-
-    public void setColor(Color color) {
-        this.color = color;
+    public void setLifeStages(ArrayList<PlantLifeStage> lifeStages) {
+        this.lifeStages = lifeStages;
     }
 }
