@@ -20,8 +20,8 @@
         "lifeStages":[
             {
                 "stageLength":"1",
-                "harvestProduct":null,
-                "cutProduct":null,
+                "harvestProducts":null,
+                "cutProducts":null,
                 "materialName":"willow",
                 "atlasX":"0",
                 "atlasY":"0",
@@ -55,8 +55,8 @@
         "lifeStages":[
             {
                 "stageLength":"1",
-                "harvestProduct":["red_moss"],
-                "cutProduct":["red_moss"],
+                "harvestProducts":["red_moss"],
+                "cutProducts":["red_moss"],
                 "materialName":"willow",
                 "atlasX":"1",
                 "atlasY":"0",
@@ -89,8 +89,8 @@
         "lifeStages":[
             {
                 "stageLength":"1",
-                "harvestProduct":null,
-                "cutProduct":["branch", "root"],
+                "harvestProducts":null,
+                "cutProducts":["branch", "root"],
                 "materialName":"willow",
                 "atlasX":"0",
                 "atlasY":"0",
@@ -123,8 +123,8 @@
         "lifeStages":[
             {
                 "stageLength":"1",
-                "harvestProduct":["blueberry"],
-                "cutProduct":["blueberry"],
+                "harvestProducts":["blueberry"],
+                "cutProducts":["blueberry"],
                 "materialName":"generic_plant",
                 "atlasX":"2",
                 "atlasY":"0",
@@ -163,8 +163,8 @@
         "lifeStages":[
             {
                 "stageLength":"2",
-                "harvestProduct":null,
-                "cutProduct":["branch", "root"],
+                "harvestProducts":null,
+                "cutProducts":["branch", "root"],
                 "materialName":"willow",
                 "atlasX":"0",
                 "atlasY":"1",
@@ -178,8 +178,8 @@
             },
             {
                 "stageLength":"50",
-                "harvestProduct":null,
-                "cutProduct":["branch", "root", "log"],
+                "harvestProducts":null,
+                "cutProducts":["branch", "root", "log"],
                 "materialName":"willow",
                 "atlasX":"0",
                 "atlasY":"1",

@@ -14,7 +14,10 @@ import stonering.objects.local_actors.plants.PlantBlock;
  */
 public class PlantGenerator {
 
-    public Plant generatePlant(String specimen) throws DescriptionNotFoundException {
+    public Plant generatePlant(String specimen, int age) throws DescriptionNotFoundException {
+        if(specimen.equals("blue_berry")) {
+            System.out.println("asd");
+        }
         Plant plant = new Plant(0);
         plant.setType(PlantMap.getInstance().getPlantType(specimen));
 
@@ -22,6 +25,13 @@ public class PlantGenerator {
         plant.getBlock().setAtlasX(plant.getType().getAtlasX());
         plant.getBlock().setAtlasY(plant.getType().getAtlasY());
         plant.getBlock().setPlant(plant);
+        plant.setAge(age);
+        initBlockProducts(plant.getBlock(), age);
         return plant;
+    }
+
+    private void initBlockProducts(PlantBlock block, int age) {
+        block.setHarvestProducts(block.getPlant().getCurrentStage().getHarvestProducts());
+        block.setCutProducts(block.getPlant().getCurrentStage().getCutProducts());
     }
 }

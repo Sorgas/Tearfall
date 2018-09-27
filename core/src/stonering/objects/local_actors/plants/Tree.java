@@ -33,7 +33,7 @@ public class Tree extends AbstractPlant {
 
     @Override
     public boolean isHarvestable() {
-        return getCurrentStage().getHarvestProduct() != null;
+        return getCurrentStage().getHarvestProducts() != null;
     }
 
     public int getAge() {

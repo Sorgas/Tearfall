@@ -17,7 +17,7 @@ public class Plant extends AbstractPlant {
 
     @Override
     public boolean isHarvestable() {
-        return getCurrentStage().getHarvestProduct() != null;
+        return getCurrentStage().getHarvestProducts() != null;
     }
 
     public PlantBlock getBlock() {

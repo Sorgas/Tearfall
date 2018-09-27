@@ -8,13 +8,16 @@ import java.util.HashMap;
  * @author Alexander Kuzyakov on 27.12.2017.
  */
 public enum DesignationsTileMapping {
+
+
     DIG(1, 0),
     STAIRS(2, 1),
     RAMP(3, 2),
     CHANNEL(4, 3),
     CHOP(5, 4),
     CUT(6, 5),
-    BUILD(7, 6);
+    HARVEST(7, 6),
+    BUILD(8, 7);
 
     private int code;
     private int atlasX;

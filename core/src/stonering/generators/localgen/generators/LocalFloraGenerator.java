@@ -183,7 +183,7 @@ public class LocalFloraGenerator {
             try {
                 Position position = positions.remove(random.nextInt(positions.size()));
                 array[position.getX()][position.getY()][position.getZ()] = false;
-                Plant plant = plantGenerator.generatePlant(specimen);
+                Plant plant = plantGenerator.generatePlant(specimen, 0);
                 plant.setPosition(position);
                 container.getPlants().add(plant);
             } catch (DescriptionNotFoundException e) {

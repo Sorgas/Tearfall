@@ -30,8 +30,8 @@ public class PlantType {
 
     public static class PlantLifeStage {
         private int stageLength;
-        private ArrayList<String> harvestProduct;
-        private ArrayList<String> cutProduct;
+        private ArrayList<String> harvestProducts;
+        private ArrayList<String> cutProducts;
         private String materialName;
         private int atlasX;
         private int atlasY;
@@ -45,20 +45,20 @@ public class PlantType {
             this.stageLength = stageLength;
         }
 
-        public ArrayList<String> getHarvestProduct() {
-            return harvestProduct;
+        public ArrayList<String> getHarvestProducts() {
+            return harvestProducts;
         }
 
-        public void setHarvestProduct(ArrayList<String> harvestProduct) {
-            this.harvestProduct = harvestProduct;
+        public void setHarvestProducts(ArrayList<String> harvestProducts) {
+            this.harvestProducts = harvestProducts;
         }
 
-        public ArrayList<String> getCutProduct() {
-            return cutProduct;
+        public ArrayList<String> getCutProducts() {
+            return cutProducts;
         }
 
-        public void setCutProduct(ArrayList<String> cutProduct) {
-            this.cutProduct = cutProduct;
+        public void setCutProducts(ArrayList<String> cutProducts) {
+            this.cutProducts = cutProducts;
         }
 
         public int getAtlasX() {

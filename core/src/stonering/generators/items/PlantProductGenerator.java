@@ -1,6 +1,5 @@
 package stonering.generators.items;
 
-import stonering.enums.materials.Material;
 import stonering.enums.materials.MaterialMap;
 import stonering.enums.plants.TreeBlocksTypeEnum;
 import stonering.exceptions.DescriptionNotFoundException;
@@ -49,7 +48,7 @@ public class PlantProductGenerator {
         ArrayList<Item> items = new ArrayList<>();
         block.getCutProducts().forEach(s -> {
             try {
-                generateProductForBlock(block, s);
+                items.add(generateProductForBlock(block, s));
             } catch (DescriptionNotFoundException e) {
                 System.out.println("Descriptor for item " + s + " not found.");
                 e.printStackTrace();
@@ -93,7 +92,7 @@ public class PlantProductGenerator {
                 }
             }
             AbstractPlant plant = block.getPlant();
-            if (plant.getCurrentStage().getCutProduct().contains(itemTitle))
+            if (plant.getCurrentStage().getCutProducts().contains(itemTitle))
                 return itemGenerator.generateItem(itemTitle, block.getMaterial());
         } catch (DescriptionNotFoundException e) {
             System.out.println(e.getMessage());
