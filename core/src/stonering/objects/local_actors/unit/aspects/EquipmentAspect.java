@@ -17,21 +17,20 @@ import java.util.stream.Collectors;
  * Does not takes or puts items to map, this should be done by actions.
  *
  * @author Alexander on 03.01.2018.
- *         <p>
  */
 public class EquipmentAspect extends Aspect {
     private HashMap<String, EquipmentSlot> slots;            // equipped items
     private ArrayList<EquipmentSlot> desiredSlots;           // uncovered limbs give comfort penalty
     private HashMap<String, GrabEquipmentSlot> grabSlots;    // equipped items
-    private ArrayList<Item> hauledItems;                     // hauled items
-    private ArrayList<Item> items;                           // for faster checking
+    private ArrayList<Item> hauledItems;                     // hauled item list for faster checking
+    private ArrayList<Item> equippedItems;                   // equipped item list for faster checking
     private int emptyDesiredSlotsCount;                      // for faster checking nudity
 
     public EquipmentAspect(AspectHolder aspectHolder) {
         super("equipment", aspectHolder);
         slots = new HashMap<>();
         grabSlots = new HashMap<>();
-        items = new ArrayList<>();
+        equippedItems = new ArrayList<>();
         hauledItems = new ArrayList<>();
         desiredSlots = new ArrayList<>();
     }
@@ -40,13 +39,14 @@ public class EquipmentAspect extends Aspect {
      * For hauling items.
      * Validity should be fully checked by actions (slots should be free).
      *
-     * @param item
+     * @param item Item to grab.
      */
     public void pickupItem(Item item) {
         for (GrabEquipmentSlot slot : grabSlots.values()) {
             if (slot.grabbedItem == null) {
                 slot.grabbedItem = item;
-                items.add(item);
+                hauledItems.add(item);
+                break;
             }
         }
         //TODO haul in containers
@@ -61,19 +61,19 @@ public class EquipmentAspect extends Aspect {
      */
     public boolean equipItem(Item item) {
         //TODO check hauling
-        if (item != null && !items.contains(item)) {
+        if (item != null && !equippedItems.contains(item)) {
             if (item.isWear()) { // equip as wear
                 List<EquipmentSlot> slots = selectMostEmptySlotsForItem(item);
                 for (EquipmentAspect.EquipmentSlot slot : slots) {
                     slot.items.add(item);
                 }
-                items.add(item);
+                equippedItems.add(item);
                 return true;
             } else if (item.isTool()) { // grab as tool
                 for (GrabEquipmentSlot slot : grabSlots.values()) {
                     if (slot.grabbedItem == null) {
                         slot.grabbedItem = item;
-                        items.add(item);
+                        equippedItems.add(item);
                     }
                 }
                 return true;
@@ -253,24 +253,49 @@ public class EquipmentAspect extends Aspect {
         }
     }
 
+    /**
+     * Removes given item from all slots disregarding other items in these slots (even if overlapping is present).
+     * Item should not be blocked by other items. This should be checked by actions.
+     *
+     * @param item
+     */
     public void unequipItem(Item item) {
-        items.remove(item);
+        if(equippedItems.contains(item)) {
+            equippedItems.remove(item);
+            slots.forEach((s, slot) -> {
+                if (slot.items.contains(item)) {
+                    slot.items.remove(item);
+                }
+            });
+        }
     }
 
     public boolean checkItem(Item item) {
-        return items.contains(item) || hauledItems.contains(item);
+        return equippedItems.contains(item) || hauledItems.contains(item);
     }
 
-    public ArrayList<Item> getItems() {
-        return items;
+    public ArrayList<Item> getEquippedItems() {
+        return equippedItems;
     }
 
     public ArrayList<Item> getHauledItems() {
         return hauledItems;
     }
 
+    /**
+     * Removes given item from all grab slots.
+     *
+     * @param item
+     */
     public void dropItem(Item item) {
-        hauledItems.remove(item);
+        if(hauledItems.contains(item)) {
+            hauledItems.remove(item);
+            grabSlots.forEach((s, slot) -> {
+                if (slot.grabbedItem == item) {
+                    slot.grabbedItem = null;
+                }
+            });
+        }
     }
 
     public HashMap<String, EquipmentSlot> getSlots() {

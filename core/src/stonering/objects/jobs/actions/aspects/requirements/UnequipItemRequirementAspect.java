@@ -27,7 +27,7 @@ public class UnequipItemRequirementAspect extends RequirementsAspect {
     public boolean check() {
         EquipmentAspect equipmentAspect = ((EquipmentAspect) action.getTask().getPerformer().getAspects().get("equipment"));
         if (equipmentAspect != null) {
-            Item item = itemSelector.selectItem(equipmentAspect.getItems());
+            Item item = itemSelector.selectItem(equipmentAspect.getEquippedItems());
             if (item != null) {
                 for (EquipmentAspect.EquipmentSlot slot : equipmentAspect.getSlots().values()) {
                     if (slot.items.contains(item)) {

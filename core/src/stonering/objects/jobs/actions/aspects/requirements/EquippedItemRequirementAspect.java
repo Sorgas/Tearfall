@@ -25,7 +25,7 @@ public class EquippedItemRequirementAspect extends RequirementsAspect {
     public boolean check() {
         EquipmentAspect aspect = (EquipmentAspect) action.getTask().getPerformer().getAspects().get("equipment");
         if (aspect != null) {
-            return itemSelector.check(aspect.getItems()) || addActionToTask();
+            return itemSelector.check(aspect.getEquippedItems()) || addActionToTask();
         }
         return false;
     }

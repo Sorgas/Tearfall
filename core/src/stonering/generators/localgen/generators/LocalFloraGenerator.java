@@ -37,7 +37,6 @@ public class LocalFloraGenerator {
     private float rainfall;
     private int areaSize;
 
-
     private final int floorCode = BlockTypesEnum.FLOOR.getCode();
 
     private HashMap<String, Float> weightedPlantTypes;
@@ -113,7 +112,6 @@ public class LocalFloraGenerator {
             e.printStackTrace();
         }
     }
-
 
     /**
      * Places tree on map. Area on map should be checked before placing.
