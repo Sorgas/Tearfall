@@ -69,8 +69,7 @@ public class DesignationsController extends Controller {
     public void setActiveDesignation(DesignationTypes activeDesignation, String building) {
         this.activeDesignation = activeDesignation;
         this.building = activeDesignation == DesignationTypes.BUILD ? building : "";
-        gameMvc.getView().getUiDrawer().getToolStatus().setText(
-                activeDesignation != null ? activeDesignation.getText() : "" + this.building);
+        gameMvc.getView().getUiDrawer().setToolbarlabelText(activeDesignation != null ? activeDesignation.getText() : "" + this.building);
     }
 
     /**
@@ -100,7 +99,7 @@ public class DesignationsController extends Controller {
         building = "";
         itemSelectors.clear();
         rectangleStarted = false;
-        view.getUiDrawer().getToolStatus().setText("");
+        view.getUiDrawer().setToolbarlabelText("");
     }
 
     /**

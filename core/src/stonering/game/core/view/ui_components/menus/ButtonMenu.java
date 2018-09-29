@@ -2,9 +2,11 @@ package stonering.game.core.view.ui_components.menus;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Align;
 import stonering.game.core.GameMvc;
 import stonering.utils.global.StaticSkin;
 
@@ -13,14 +15,14 @@ import java.util.HashMap;
 /**
  * Abstract menu for toolbar.
  * Holds mappings of hotkeys to buttons and can simulate presses.
- * Menus don't have their controllers, all behavior logic is written in them.
+ * Menus don't have their controllers, all behavior logic is written in their buttons.
  * Input comes from parent ButtonMenu, through invokeByKey method.
  * Keys sets of menus should not overlap.
  * <p>
  *
  * @author Alexander Kuzyakov on 27.12.2017.
  */
-public abstract class ButtonMenu extends VerticalGroup implements HideableComponent, Invokable {
+public abstract class ButtonMenu extends Table implements HideableComponent, Invokable {
     protected GameMvc gameMvc;
     protected Toolbar toolbar;
     protected boolean hideable = false;
@@ -30,13 +32,15 @@ public abstract class ButtonMenu extends VerticalGroup implements HideableCompon
         this.gameMvc = gameMvc;
         this.hideable = hideable;
         buttons = new HashMap<>();
+        this.bottom();
     }
 
     /**
      * For binding sub-components. Should be called from children.
      */
     public void init() {
-        buttons.values().forEach(this::addActor);
+        this.defaults().right().expandX().fill();
+        buttons.values().forEach((button) -> this.add(button).row());
         toolbar = gameMvc.getView().getUiDrawer().getToolbar();
     }
 

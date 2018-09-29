@@ -33,24 +33,23 @@ public class UIDrawer {
         this.gameMvc = gameMvc;
         materialMap = MaterialMap.getInstance();
         toolbar = new Toolbar(gameMvc);
+        stage = new Stage(new ScreenViewport());
     }
 
     public void init() {
+        stage.setDebugAll(true);
         container = gameMvc.getModel();
-        stage = new Stage(new ScreenViewport());
         tileStatusBar = new TileStatusBar();
         stage.addActor(new Container(tileStatusBar).bottom().left().pad(10));
 
         toolbar.init();
-        toolStatus = new ToolStatus();
 
         VerticalGroup rightTools = new VerticalGroup();
-        rightTools.addActor(toolStatus);
         rightTools.addActor(toolbar);
         Container container = new Container(rightTools).bottom().right().pad(10);
         container.setFillParent(true);
         stage.addActor(container);
-
+        stage.addActor(toolbar);
         stage.setDebugAll(true);
     }
 
@@ -60,9 +59,9 @@ public class UIDrawer {
     }
 
     private void updateStatusBar() {
-        Position focus = container.getCamera().getPosition();
-        Material material = materialMap.getMaterial(container.getLocalMap().getMaterial(focus));
-        tileStatusBar.setData(focus, material != null ? material.getName() : "", container.getLocalMap().getArea(focus), container.getLocalMap().getFlooding(focus));
+//        Position focus = container.getCamera().getPosition();
+//        Material material = materialMap.getMaterial(container.getLocalMap().getMaterial(focus));
+//        tileStatusBar.setData(focus, material != null ? material.getName() : "", container.getLocalMap().getArea(focus), container.getLocalMap().getFlooding(focus));
     }
 
     public void resize(int width, int height) {
@@ -97,5 +96,9 @@ public class UIDrawer {
             return toolbar.getMaterialSelectList();
         }
         return null;
+    }
+
+    public void setToolbarlabelText(String text) {
+        toolbar.setText(text);
     }
 }
