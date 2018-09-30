@@ -13,12 +13,15 @@ import stonering.generators.worldgen.generators.AbstractGenerator;
 public class TemperatureGenerator extends AbstractGenerator {
     private int width;
     private int height;
-    private float polarLineWidth; //temperature in it is always minimal
+    private float polarLineWidth;   //temperature in it is always minimal
     private float equatorLineWidth; //temperature in it is always maximum
-    private float maxTemperature;
-    private float minTemperature;
-    private float[][] temperature;
+    private float maxYearTemperature;   // max summer temperature
+    private float minYearTemperature;   // min winter temperature
+    private float maxSummerTemperature;
+    private float minWinterTemperature;
+    private float[][] yearTemperature;
     private float elevationInfluence;
+    private float seasonalDeviation;     // summer and winter temperature differs from year by this.
 
     public TemperatureGenerator(WorldGenContainer container) {
         super(container);
@@ -30,9 +33,12 @@ public class TemperatureGenerator extends AbstractGenerator {
         height = config.getHeight();
         polarLineWidth = config.getPolarLineWidth();
         equatorLineWidth = config.getEquatorLineWidth();
-        maxTemperature = config.getMaxTemperature();
-        minTemperature = config.getMinTemperature();
-        temperature = new float[width][height];
+        maxSummerTemperature = config.getMaxTemperature();
+        minWinterTemperature = config.getMinTemperature();
+        seasonalDeviation = config.getSeasonalDeviation();
+        maxYearTemperature = maxSummerTemperature - seasonalDeviation;
+        minYearTemperature = minWinterTemperature + seasonalDeviation;
+        yearTemperature = new float[width][height];
         elevationInfluence = config.getElevationInfluence();
     }
 
@@ -40,38 +46,73 @@ public class TemperatureGenerator extends AbstractGenerator {
     public boolean execute() {
         extractContainer(container);
         createGradient();
+        addNoiseAndElevation();
+        ensureBounds();
         renderTemperature();
         return false;
     }
 
+    /**
+     * Creates gradient of temperature. Gradient is mirrored on equator.
+     */
     private void createGradient() {
         int height2 = height / 2;
-        float polarBorder = Math.round(height * polarLineWidth);
-        float equatorBorder = Math.round(height * (0.5f - equatorLineWidth));
+        float polarBorder = Math.round(height * polarLineWidth);                 // y of polar border
+        float equatorBorder = Math.round(height * (0.5f - equatorLineWidth));    // y of equator border
         for (int y = 0; y < height2; y++) {
-            float temp = maxTemperature;
+            float temp = maxYearTemperature;
             if (y < polarBorder) {
-                temp = minTemperature;
+                temp = minYearTemperature;
             } else if (y < equatorBorder) {
-                temp = minTemperature + ((y - polarBorder) / (equatorBorder - polarBorder)) * (maxTemperature - minTemperature);
+                temp = minYearTemperature + ((y - polarBorder) / (equatorBorder - polarBorder)) * (maxYearTemperature - minYearTemperature);
             }
             for (int x = 0; x < width; x++) {
-                temperature[x][y] = temp;
-                temperature[x][height - y - 1] = temp;
+                yearTemperature[x][y] = temp;
+                yearTemperature[x][height - y - 1] = temp;
             }
         }
     }
 
-    private void renderTemperature() {
+    /**
+     * Adds noise to temperature map and lowers temperature on high places.
+     */
+    private void addNoiseAndElevation() {
         PerlinNoiseGenerator noiseGen = new PerlinNoiseGenerator();
         float[][] noise = noiseGen.generateOctavedSimplexNoise(width, height, 7, 0.6f, 0.006f);
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 float elevation = container.getElevation(x, y) > 0 ? container.getElevation(x, y) : 0; // sea depth counts as 0 elevation.
                 //TODO add coastal and continental climates difference
-                float baseTemperature = temperature[x][y] + noise[x][y] * 4 - elevation * elevationInfluence;
-                container.setSummerTemperature(x, y, baseTemperature + 5);
-                container.setWinterTemperature(x, y, baseTemperature - 5);
+                yearTemperature[x][y] = yearTemperature[x][y] + noise[x][y] * 4 - elevation * elevationInfluence;
+            }
+        }
+    }
+
+    /**
+     * Counts summer and winter temperature, and saves in to container.
+     */
+    private void renderTemperature() {
+        float max = 0;
+        float min = 0;
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                container.setSummerTemperature(x, y, yearTemperature[x][y] + seasonalDeviation);
+                container.setWinterTemperature(x, y, yearTemperature[x][y] - seasonalDeviation);
+                max = Math.max(yearTemperature[x][y], max);
+                min = Math.min(yearTemperature[x][y], min);
+            }
+        }
+        System.out.println("max temp = " + max + " min temp = " + min);
+    }
+
+    /**
+     * Guarantees that temperature will be within bounds.
+     */
+    private void ensureBounds() {
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                float rainfall = yearTemperature[x][y];
+                yearTemperature[x][y] = rainfall > maxYearTemperature ? maxYearTemperature : (rainfall < minYearTemperature ? minYearTemperature : rainfall);
             }
         }
     }

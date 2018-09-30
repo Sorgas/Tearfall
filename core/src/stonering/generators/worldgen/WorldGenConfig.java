@@ -48,8 +48,9 @@ public class WorldGenConfig {
 	//for temperature worldgen
 	private float polarLineWidth = 0.04f;
 	private float equatorLineWidth = 0.03f;
-	private float maxTemperature = 35;
-	private float minTemperature = -35;
+	private float maxTemperature = 40;
+	private float minTemperature = -40;
+	private float seasonalDeviation = 5;
 	private float elevationInfluence = 1.6f;
 
 	//rainfall
@@ -286,5 +287,13 @@ public class WorldGenConfig {
 
 	public void setElevationInfluence(float elevationInfluence) {
 		this.elevationInfluence = elevationInfluence;
+	}
+
+	public float getSeasonalDeviation() {
+		return seasonalDeviation;
+	}
+
+	public void setSeasonalDeviation(float seasonalDeviation) {
+		this.seasonalDeviation = seasonalDeviation;
 	}
 }
