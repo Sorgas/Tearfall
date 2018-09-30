@@ -1,8 +1,9 @@
 package stonering.game.core.view.ui_components.menus;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import javafx.geometry.Pos;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.core.GameMvc;
 import stonering.game.core.controller.controllers.DesignationsController;
@@ -54,56 +55,95 @@ public class PlaceSelectComponent extends Actor implements HideableComponent, Mo
             case Input.Keys.Q:
                 handleCancel();
                 return true;
+            case Input.Keys.W:
+            case Input.Keys.A:
+            case Input.Keys.S:
+            case Input.Keys.D:
+                if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+                    Vector2 modelXY = gameMvc.getView().getWorldDrawer().translateScreenPositionToModel(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
+                    updateSelectBox(new Position(modelXY.x, modelXY.y, camera.getPosition().getZ()));
+                } else {
+                    updateSelectBox(camera.getPosition());
+                }
+                return true;
         }
         return false;
     }
 
     @Override
     public boolean invoke(int modelX, int modelY, int button, int action) {
+        Position position = new Position(modelX, modelY, camera.getPosition().getZ());
         switch (action) {
-            case MouseInputProcessor.DOWN_CODE: {
-                startSelectBox(new Position(modelX, modelY, camera.getPosition().getZ()));
-            }
-            break;
+            case MouseInputProcessor.DOWN_CODE:
             case MouseInputProcessor.UP_CODE: {
-                endSelectBox(new Position(modelX, modelY, camera.getPosition().getZ()));
+                handleConfirm(position);
             }
             break;
             case MouseInputProcessor.MOVE_CODE: {
-                updateSelectBox(new Position(modelX, modelY, camera.getPosition().getZ()));
+                updateSelectBox(position);
             }
         }
         return false;
     }
 
+    /**
+     * Finishes handling or adds position to select box
+     *
+     * @param eventPosition
+     */
     private void handleConfirm(Position eventPosition) {
         System.out.println("handling confirm");
         if (singlePoint) {
             finishHandling(eventPosition, eventPosition);
         } else {
-            if (start == null) { // box not started, start
-                startSelectBox(eventPosition);
-            } else { // box started, finish
-                endSelectBox(eventPosition);
+            if (start == null) {                // box not started, start
+                showSelectBox(eventPosition);
+            } else {                            // box started, finish
+                hideSelectBox();
+                finishHandling(start, eventPosition);
             }
         }
     }
 
-    private void startSelectBox(Position eventPosition) {
-        if (localMap.inMap(eventPosition)) {
-            start = eventPosition;
-            camera.setFrameStart(eventPosition.clone());
+    /**
+     * Closes component or discards last position from select box.
+     */
+    private void handleCancel() {
+        System.out.println("handling cancel");
+        hideSelectBox();
+        if (start != null) {
+            start = null;
+        } else {
+            hide();
         }
     }
 
-    private void endSelectBox(Position eventPosition) {
+    /**
+     * Shows select box on one cell.
+     *
+     * @param eventPosition
+     */
+    private void showSelectBox(Position eventPosition) {
         localMap.normalizePosition(eventPosition);
+        start = eventPosition;
+        camera.setFrameStart(eventPosition.clone());
+        camera.setFrameEnd(eventPosition.clone());
+    }
+
+    /**
+     * Finishes place selecting process.
+     */
+    private void hideSelectBox() {
         if (start != null) {
-            finishHandling(start, eventPosition);
             camera.resetSprite();
         }
     }
 
+    /**
+     * Updates end of select box.
+     *
+     * @param eventPosition
+     */
     private void updateSelectBox(Position eventPosition) {
         localMap.normalizePosition(eventPosition);
         camera.setFrameEnd(eventPosition);
@@ -126,35 +166,10 @@ public class PlaceSelectComponent extends Actor implements HideableComponent, Mo
         }
     }
 
-    private void handleCancel() {
-        System.out.println("handling cancel");
-        if (start != null) {
-            start = null;
-        } else {
-            reset();
-            hide();
-        }
-    }
-
     private boolean validatePlace() {
         // TODO add validation options, depending on building.
         int blocktype = localMap.getBlockType(camera.getPosition());
         return blocktype == BlockTypesEnum.FLOOR.getCode() || blocktype == BlockTypesEnum.SPACE.getCode();
-    }
-
-    /**
-     * For indicating whether placing is valid or not before enter is pressed.
-     */
-    private void updateCameraSprine() {
-        if (validatePlace()) {
-            camera.setValidSprite();
-        } else {
-            camera.setInvalidSprite();
-        }
-    }
-
-    public void reset() {
-        camera.resetSprite();
     }
 
     @Override
@@ -164,7 +179,7 @@ public class PlaceSelectComponent extends Actor implements HideableComponent, Mo
 
     @Override
     public void hide() {
-        reset();
+        camera.resetSprite();
         toolbar.hideMenu(this);
     }
 }
