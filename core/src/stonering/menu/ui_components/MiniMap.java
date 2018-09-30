@@ -66,16 +66,13 @@ public class MiniMap extends Table {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         drawElevationDebug(0);
         drawTemperatureDebug(map.getWidth() * pixelSize);
+        drawRainfallDebug(map.getWidth() * 2 * pixelSize);
         shapeRenderer.end();
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        drawRiverVectorsDebug(map.getWidth() * 2 * pixelSize);
+//        drawRiverVectorsDebug(map.getWidth() * 2 * pixelSize);
         shapeRenderer.flush();
         shapeRenderer.end();
         batch.begin();
-    }
-
-    private Color getColorByRainFall(float rainfall) {
-        return new Color(rainfall / 450.f, 0, 0, 0);
     }
 
     public void updateSize() {
@@ -158,8 +155,18 @@ public class MiniMap extends Table {
                 for (int y = 0; y < map.getHeight(); y++) {
                     shapeRenderer.setColor(getTemperatureColor(x, y));
                     shapeRenderer.rect(baseScreenOffsetX + screenOffsetX + x * pixelSize, screenOffsetY + y * pixelSize, pixelSize, pixelSize);
-                    shapeRenderer.setColor(getTemperatureColor(x, y));
-                    shapeRenderer.rect(baseScreenOffsetX + (map.getWidth() + x) * pixelSize, screenOffsetY + y * pixelSize, pixelSize, pixelSize);
+                }
+            }
+        }
+    }
+
+    private void drawRainfallDebug(int screenOffsetX) {
+        if (map != null) {
+            for (int x = 0; x < map.getWidth(); x++) {
+                for (int y = 0; y < map.getHeight(); y++) {
+                    float rainfall = map.getRainfall(x,y);
+                    shapeRenderer.setColor(getRainfallColor(rainfall));
+                    shapeRenderer.rect(baseScreenOffsetX + screenOffsetX + x * pixelSize, screenOffsetY + y * pixelSize, pixelSize, pixelSize);
                 }
             }
         }
@@ -186,7 +193,7 @@ public class MiniMap extends Table {
         map.getLakes().forEach(position ->
                 shapeRenderer.rect(baseScreenOffsetX + screenOffsetX + position.getX() * pixelSize,
                         screenOffsetY + position.getY() * pixelSize,
-                        pixelSize, pixelSize)
+                              pixelSize, pixelSize)
 
         );
 
@@ -223,6 +230,10 @@ public class MiniMap extends Table {
         } else { //[20; 35]
             return new Color((temperature + 40) / 80f, 0, 0, 0);
         }
+    }
+
+    private Color getRainfallColor(float rainfall) {
+        return new Color(rainfall / 450.f, 0, 0, 0);
     }
 
     public Position getFocus() {

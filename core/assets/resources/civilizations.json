@@ -1,0 +1,31 @@
+[
+    {
+        "specimen":"humans",
+        "livingAreas" : ["plane", "river", "lake", "forest", "desert", "marsh"]
+    },
+    {
+        "specimen":"elves",
+        "livingAreas" : ["plane", "river", "lake", "forest", "marsh"]
+
+    },
+    {
+        "specimen":"dwarves",
+        "livingAreas" : ["plane", "river", "lake", "forest", "desert", "mountain"]
+    },
+    {
+        "specimen":"orcs"
+        "livingAreas" : ["plane", "river", "lake", "forest", "desert", "marsh"]
+    },
+    {
+        "specimen":"goblins"
+        "livingAreas" : ["plane", "river", "lake", "forest", "desert", "marsh"]
+    },
+    {
+        "specimen":"cobolds"
+        "livingAreas" : ["plane", "river", "lake", "forest", "desert", "marsh"]
+    },
+    {
+        "specimen":"ogres"
+        "livingAreas" : ["plane", "river", "lake", "forest", "desert", "marsh"]
+    }
+]
