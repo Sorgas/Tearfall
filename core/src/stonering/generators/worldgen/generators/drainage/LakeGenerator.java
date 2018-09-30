@@ -22,6 +22,7 @@ public class LakeGenerator extends AbstractGenerator {
     }
 
     public boolean execute() {
+        System.out.println("generating lakes");
         container.getLakes().forEach(position -> lakes.add(new Lake(position)));
         container.getLakes().clear();
         lakes.forEach(lake -> expandLake(lake));
@@ -56,7 +57,6 @@ public class LakeGenerator extends AbstractGenerator {
      * @param lake
      */
     private void normalizeLakeElavation(Lake lake) {
-        System.out.println(lake.startPos);
         float minElevation = container.getElevation(Collections.min(lake.positions, (o1, o2) -> {
                     return Math.round(Math.signum(container.getElevation(o1) - container.getElevation(o2)));
                 }

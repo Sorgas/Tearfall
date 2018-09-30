@@ -33,13 +33,12 @@ public class ElevationGenerator extends AbstractGenerator {
         addElevation(7, 0.5f, 0.03f, 0.1f);
         lowerBorders();
         normalizeElevation();
-        //hack. noise generator always has 0 in (0,0)
-        container.setElevation(0, 0, (elevation[0][1] + elevation[1][1] + elevation[1][0]) / 3f);
+        container.setElevation(0, 0, (elevation[0][1] + elevation[1][1] + elevation[1][0]) / 3f); //hack. noise generator always has 0 in (0,0)
         return false;
     }
 
     /**
-     * adds Perlin noise with parameters and amplitude to elevation array
+     * Adds Perlin noise with parameters and amplitude to elevation array
      *
      * @param octaves
      * @param roughness
@@ -57,7 +56,7 @@ public class ElevationGenerator extends AbstractGenerator {
     }
 
     /**
-     * decreases elevation in a circle near borders, to create ocean on map sides
+     * Decreases elevation in a circle near borders, to create ocean on map sides
      */
     private void lowerBorders() {
         float mapRadius = (float) (width * Math.sqrt(2) / 2f);
@@ -71,7 +70,7 @@ public class ElevationGenerator extends AbstractGenerator {
     }
 
     /**
-     * counts distance from map center to given point
+     * Counts distance from map center to given point
      * @param x x
      * @param y y
      * @return distance
@@ -83,7 +82,7 @@ public class ElevationGenerator extends AbstractGenerator {
     }
 
     /**
-     * modifies elevation map to be within [0,1]
+     * Modifies elevation map to be within [0,1]
      */
     private void normalizeElevation() {
         for (int x = 0; x < width; x++) {
@@ -93,5 +92,4 @@ public class ElevationGenerator extends AbstractGenerator {
             }
         }
     }
-
 }

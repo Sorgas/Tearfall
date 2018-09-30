@@ -51,7 +51,7 @@ public class WorldGenConfig {
 	private float maxTemperature = 40;
 	private float minTemperature = -40;
 	private float seasonalDeviation = 5;
-	private float elevationInfluence = 1.6f;
+	private float elevationInfluence = 4f;
 
 	//rainfall
 	private int minRainfall = 5; // deserts and glaciers

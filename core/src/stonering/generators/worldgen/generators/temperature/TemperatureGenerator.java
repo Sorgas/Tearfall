@@ -77,13 +77,13 @@ public class TemperatureGenerator extends AbstractGenerator {
      * Adds noise to temperature map and lowers temperature on high places.
      */
     private void addNoiseAndElevation() {
+        //TODO add coastal and continental climates difference
         PerlinNoiseGenerator noiseGen = new PerlinNoiseGenerator();
         float[][] noise = noiseGen.generateOctavedSimplexNoise(width, height, 7, 0.6f, 0.006f);
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                float elevation = container.getElevation(x, y) > 0 ? container.getElevation(x, y) : 0; // sea depth counts as 0 elevation.
-                //TODO add coastal and continental climates difference
-                yearTemperature[x][y] = yearTemperature[x][y] + noise[x][y] * 4 - elevation * elevationInfluence;
+                float elevation = container.getElevation(x, y) > 0 ? container.getElevation(x, y) : 0; // sea depth counts as 0 elevation. max elevation is 1
+                yearTemperature[x][y] = yearTemperature[x][y] + (noise[x][y] * 4) - (40f * elevationDelta(elevation));
             }
         }
     }
@@ -115,5 +115,16 @@ public class TemperatureGenerator extends AbstractGenerator {
                 yearTemperature[x][y] = rainfall > maxYearTemperature ? maxYearTemperature : (rainfall < minYearTemperature ? minYearTemperature : rainfall);
             }
         }
+    }
+
+    /**
+     * Counts temperature decreasing rate for elevation.
+     * @param elevation
+     * @return
+     */
+    private float elevationDelta(float elevation) {
+        float value = (float) (Math.pow(2, elevation * elevationInfluence) / (elevationInfluence * elevationInfluence));
+        System.out.println(elevation + " " + value);
+        return value;
     }
 }

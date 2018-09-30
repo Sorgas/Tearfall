@@ -221,19 +221,20 @@ public class MiniMap extends Table {
 
     private Color getTemperatureColor(int x, int y) {
         float temperature = map.getSummerTemperature(x, y);
-        if (temperature < -20) { //[-35; -19]
-            return new Color(0, 0, (temperature + 40) / 80f, 0);
-        } else if (temperature < 0) { //[-20; -1]
-            return new Color(0, 0, (temperature + 60) / 80f, 0);
-        } else if (temperature < 20) { //[0; 19]
-            return new Color(0, (temperature + 40) / 80f, 0, 0);
-        } else { //[20; 35]
-            return new Color((temperature + 40) / 80f, 0, 0, 0);
-        }
+        return new Color(0, 0, (temperature + 40) / 80f, 0);
+//        if (temperature < -20) { //[-35; -19]
+//            return new Color(0, 0, (temperature + 40) / 80f, 0);
+//        } else if (temperature < 0) { //[-20; -1]
+//            return new Color(0, 0, (temperature + 60) / 80f, 0);
+//        } else if (temperature < 20) { //[0; 19]
+//            return new Color(0, (temperature + 40) / 80f, 0, 0);
+//        } else { //[20; 35]
+//            return new Color((temperature + 40) / 80f, 0, 0, 0);
+//        }
     }
 
     private Color getRainfallColor(float rainfall) {
-        return new Color(rainfall / 450.f, 0, 0, 0);
+        return new Color(rainfall / 100.f, 0, 0, 0);
     }
 
     public Position getFocus() {
