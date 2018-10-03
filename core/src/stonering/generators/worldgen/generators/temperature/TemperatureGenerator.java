@@ -13,6 +13,7 @@ import stonering.generators.worldgen.generators.AbstractGenerator;
 public class TemperatureGenerator extends AbstractGenerator {
     private int width;
     private int height;
+    private float seaLevel;
     private float polarLineWidth;   //temperature in it is always minimal
     private float equatorLineWidth; //temperature in it is always maximum
     private float maxYearTemperature;   // max summer temperature
@@ -31,6 +32,7 @@ public class TemperatureGenerator extends AbstractGenerator {
         WorldGenConfig config = container.getConfig();
         width = config.getWidth();
         height = config.getHeight();
+        seaLevel = config.getSeaLevel();
         polarLineWidth = config.getPolarLineWidth();
         equatorLineWidth = config.getEquatorLineWidth();
         maxSummerTemperature = config.getMaxTemperature();
@@ -83,7 +85,7 @@ public class TemperatureGenerator extends AbstractGenerator {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 float elevation = container.getElevation(x, y) > 0 ? container.getElevation(x, y) : 0; // sea depth counts as 0 elevation. max elevation is 1
-                yearTemperature[x][y] = yearTemperature[x][y] + (noise[x][y] * 4) - (40f * elevationDelta(elevation));
+                yearTemperature[x][y] = yearTemperature[x][y] + (noise[x][y] * 4) - (40f * elevationDelta(elevation - seaLevel));
             }
         }
     }

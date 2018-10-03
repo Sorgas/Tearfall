@@ -138,6 +138,9 @@ public class RiverGenerator extends AbstractGenerator {
         while (length < 100) {
             int x = Math.round(start.x);
             int y = Math.round(start.y);
+            if(!container.inMap(x,y)) {
+                break;
+            }
             if(river.contains(riverVectors[x][y])) { //loop, add lake
                 container.getLakes().add(new Position(x,y,0));
                 break;

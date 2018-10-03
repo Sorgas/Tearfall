@@ -6,18 +6,20 @@ import stonering.generators.worldgen.generators.AbstractGenerator;
 import stonering.global.utils.Position;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 /**
- * @author Alexander Kuzyakov on 21.01.2018.
- * <p>
  * Generates erosion effect on worldMap.
+ *
+ * @author Alexander Kuzyakov on 21.01.2018.
  */
 public class ErosionGenerator extends AbstractGenerator {
     private Random random;
-    private WorldGenContainer container;
     private int width;
     private int height;
+    private int expandedWidth;
+    private int expandedHeight;
     private int maxSteps = 200;
     private float dropCapacity = 6;
     private float dropPickupRadius = 1;
@@ -26,40 +28,19 @@ public class ErosionGenerator extends AbstractGenerator {
     private float deposition = 0.1f;
     private float evaporation = 0.015f;
     private float minElevationDelta = 0;
+    private float[][] elevation;
     private float[][] elevationBuffer;
+    private final int expansionWidth = 10;
 
     private ArrayList<Drop> drops;
 
-    /**
-     * Represents waterflow. Has direction. Can carry sediment, evaporates over time.
-     */
-    private class Drop {
-        float x;
-        float y;
-        Vector2 direction;
-        float velocity;
-        float sediment;
-        float water;
-
-        public Drop(float x, float y) {
-            this.x = x;
-            this.y = y;
-            water = 1;
-            sediment = 0;
-            direction = new Vector2(0, 0);
-            velocity = 0;
-        }
-    }
-
     public ErosionGenerator(WorldGenContainer container) {
         super(container);
-        extractContainer(container);
         drops = new ArrayList<>();
         elevationBuffer = new float[container.getConfig().getWidth()][container.getConfig().getHeight()];
     }
 
-    private void extractContainer(WorldGenContainer container) {
-        this.container = container;
+    private void extractContainer() {
         random = container.getConfig().getRandom();
         width = container.getConfig().getWidth();
         height = container.getConfig().getHeight();
@@ -67,24 +48,41 @@ public class ErosionGenerator extends AbstractGenerator {
 
     public boolean execute() {
         System.out.println("generating erosion");
+        extractContainer();
+        expandMap();
         putDrops();
         runDrops();
+        reduceMap();
         return false;
+    }
+
+    private void expandMap() {
+        expandedWidth = width + expansionWidth * 2;
+        expandedHeight = height + expansionWidth * 2;
+        elevation = new float[expandedWidth][expandedWidth];
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                elevation[x + expansionWidth][y + expansionWidth] = container.getElevation(x, y);
+            }
+        }
+    }
+
+    private void reduceMap() {
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                container.setElevation(x, y, elevation[x + expansionWidth][y + expansionWidth]);
+            }
+        }
     }
 
     /**
      * creates drops on every point of map above sea level
      */
     private void putDrops() {
-        if (false) {
-            Position maxElevation = findMaxElevation();
-            drops.add(new Drop(maxElevation.getX(), maxElevation.getY()));
-        } else {
-            for (int x = 0; x < width; x++) {
-                for (int y = 0; y < height; y++) {
-                    if (container.getElevation(x, y) > 0) {
-                        drops.add(new Drop(x, y));
-                    }
+        for (int x = 0; x < expandedWidth; x++) {
+            for (int y = 0; y < expandedHeight; y++) {
+                if (elevation[x][y] > 0) {
+                    drops.add(new Drop(x, y));
                 }
             }
         }
@@ -97,25 +95,11 @@ public class ErosionGenerator extends AbstractGenerator {
         for (Drop drop : drops) {
             for (int i = 0; i < maxSteps; i++) {
                 moveDrop(drop);
-                if (!container.inMap(drop.x, drop.y)) {
+                if (inExpandedMap(drop.x, drop.y)) {
                     break;
                 }
             }
         }
-    }
-
-    private Position findMaxElevation() {
-        int maxX = 0;
-        int maxY = 0;
-        for (int x = 0; x < width; x++) {
-            for (int y = 0; y < height; y++) {
-                if (container.getElevation(x, y) > container.getElevation(maxX, maxY)) {
-                    maxX = x;
-                    maxY = y;
-                }
-            }
-        }
-        return new Position(maxX, maxY, 0);
     }
 
     /**
@@ -134,7 +118,7 @@ public class ErosionGenerator extends AbstractGenerator {
         float endY = drop.y + drop.direction.y;
 
         // count elevation delta. positive for moving uphill
-        float elevationDelta = container.getElevation(Math.round(endX), Math.round(endY)) - container.getElevation(Math.round(drop.x), Math.round(drop.y));
+        float elevationDelta = elevation[Math.round(endX)][Math.round(endY)] - elevation[Math.round(drop.x)][Math.round(drop.y)];
 
         // update velocity
         float velocityEstimation = (float) (Math.pow(drop.velocity, 2) - elevationDelta);
@@ -167,26 +151,11 @@ public class ErosionGenerator extends AbstractGenerator {
     }
 
     private void erose(int x, int y, float amount) {
-        container.setElevation(x, y, container.getElevation(x, y) - amount);
+        elevation[x][y] = elevation[x][y] - amount;
     }
 
     private void depose(int x, int y, float amount) {
-        container.setElevation(x, y, container.getElevation(x, y) + amount);
-    }
-
-    private float decreaceElevationInRadius(int dx, int dy, float force) {
-        int flooredRadius = (int) Math.floor(dropPickupRadius);
-        float total = 0;
-        for (int x = dx - flooredRadius; x < dx + flooredRadius; x++) {
-            for (int y = dy - flooredRadius; y < dy + flooredRadius; y++) {
-                if (container.inMap(x, y)) {
-                    float delta = force / (1 + countDistance(x, y, dx, dy));
-                    total += delta;
-                    container.setElevation(x, y, container.getElevation(x, y) - delta);
-                }
-            }
-        }
-        return total;
+        elevation[x][y] = elevation[x][y] + amount;
     }
 
     /**
@@ -197,12 +166,12 @@ public class ErosionGenerator extends AbstractGenerator {
      * @return vector, pointing downhill
      */
     private Vector2 countSlopeVector(float cx, float cy) {
-        float centerElevation = container.getElevation(Math.round(cx), Math.round(cy));
+        float centerElevation = elevation[Math.round(cx)][Math.round(cy)];
         Vector2 vector = new Vector2();
         for (int x = Math.round(cx) - 1; x <= cx + 1; x++) {
             for (int y = Math.round(cy) - 1; y <= cy + 1; y++) {
-                if (container.inMap(x, y)) { // elevation decreases in this direction
-                    float elevationDelta = centerElevation - container.getElevation(x, y);
+                if (inExpandedMap(x, y)) { // elevation decreases in this direction
+                    float elevationDelta = centerElevation - elevation[x][y];
                     vector.add((x - cx) * ((elevationDelta)), (y - cy) * ((elevationDelta)));
                 }
             }
@@ -227,4 +196,28 @@ public class ErosionGenerator extends AbstractGenerator {
         return speed.add(slope);
     }
 
+    /**
+     * Represents waterflow. Has direction. Can carry sediment, evaporates over time.
+     */
+    private class Drop {
+        float x;
+        float y;
+        Vector2 direction;
+        float velocity;
+        float sediment;
+        float water;
+
+        public Drop(float x, float y) {
+            this.x = x;
+            this.y = y;
+            water = 1;
+            sediment = 0;
+            direction = new Vector2(0, 0);
+            velocity = 0;
+        }
+    }
+
+    private boolean inExpandedMap(float x, float y) {
+        return x < 0 || y < 0 || x >= expandedWidth || y >= expandedHeight;
+    }
 }

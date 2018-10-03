@@ -1,5 +1,6 @@
 package stonering.generators.worldgen;
 
+import stonering.generators.worldgen.generators.BiomeGenerator;
 import stonering.generators.worldgen.generators.drainage.*;
 import stonering.generators.worldgen.generators.elevation.*;
 import stonering.generators.worldgen.generators.elevation.PlateGenerator;
@@ -26,6 +27,8 @@ public class WorldGeneratorContainer {
     private RiverGenerator riverGenerator;
     private LakeGenerator lakeGenerator;
     private BrookGenerator brookGenerator;
+    private DrainageGenerator drainageGenerator;
+    private BiomeGenerator biomeGenerator;
 
     public void init(WorldGenConfig config) {
         worldGenContainer = new WorldGenContainer(config);
@@ -45,6 +48,8 @@ public class WorldGeneratorContainer {
         erosionGenerator = new ErosionGenerator(worldGenContainer);
         elevationModifier = new ElevationModifier(worldGenContainer);
         lakeGenerator = new LakeGenerator(worldGenContainer);
+        drainageGenerator = new DrainageGenerator(worldGenContainer);
+        biomeGenerator = new BiomeGenerator(worldGenContainer);
     }
 
     public void runContainer() {
@@ -74,8 +79,9 @@ public class WorldGeneratorContainer {
         riverGenerator.execute();
         brookGenerator.execute();
         lakeGenerator.execute();
+        drainageGenerator.execute();
+        biomeGenerator.execute();
         worldGenContainer.fillMap();
-
         return false;
     }
 

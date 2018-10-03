@@ -48,14 +48,14 @@ public class WorldGenConfig {
 	//for temperature worldgen
 	private float polarLineWidth = 0.04f;
 	private float equatorLineWidth = 0.03f;
-	private float maxTemperature = 40;
-	private float minTemperature = -40;
+	private float maxTemperature = 35;
+	private float minTemperature = -15;
 	private float seasonalDeviation = 5;
 	private float elevationInfluence = 4f;
 
-	//rainfall
+	//rainfall x3 for sm/y
 	private int minRainfall = 5; // deserts and glaciers
-	private int maxRainfall = 90; // tropical forests
+	private int maxRainfall = 75; // tropical forests
 
 	public WorldGenConfig(long seed, int width, int height) {
 		this.seed = seed;

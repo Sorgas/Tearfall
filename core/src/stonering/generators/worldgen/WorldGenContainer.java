@@ -28,11 +28,13 @@ public class WorldGenContainer {
     private List<Mountain> hills;
 
     private float[][] elevation;
+    private float[][] drainage;
     private float[][] slopeAngles;
     private float[][] summerTemperature;
     private float[][] winterTemperature;
     private float[][] rainfall;
     private float[][] debug;
+    private int[][] biome;
     private Vector2[][] rivers;
     private Vector2[][] brooks;
     private HashSet<Position> lakes;
@@ -60,6 +62,8 @@ public class WorldGenContainer {
                 map.setRainfall(x, y, rainfall[x][y]);
                 map.setRiver(x, y, rivers[x][y]);
                 map.setBrook(x, y, brooks[x][y]);
+                map.setDrainage(x, y, drainage[x][y]);
+                map.setBiome(x, y, biome[x][y]);
                 if (elevation[x][y] > maxElevation) {
                     maxElevation = elevation[x][y];
                 }
@@ -72,11 +76,13 @@ public class WorldGenContainer {
         map = new WorldMap(width, height);
         map.setSeed(config.getSeed());
         elevation = new float[width][height];
+        drainage = new float[width][height];
         slopeAngles = new float[width][height];
         summerTemperature = new float[width][height];
         winterTemperature = new float[width][height];
         rainfall = new float[width][height];
         debug = new float[width][height];
+        biome = new int[width][height];
         rivers = new Vector2[width][height];
         brooks = new Vector2[width][height];
         plates = new ArrayList<>();
@@ -222,4 +228,25 @@ public class WorldGenContainer {
     public void setLakes(HashSet<Position> lakes) {
         this.lakes = lakes;
     }
+
+    public void setDrainage(int x, int y, float value) {
+        if (inMap(x, y)) {
+            drainage[x][y] = value;
+        }
+    }
+
+    public float getDrainage(int x, int y) {
+        return inMap(x, y) ? drainage[x][y] : 0;
+    }
+
+    public void setBiome(int x, int y, int value) {
+        if (inMap(x, y)) {
+            biome[x][y] = value;
+        }
+    }
+
+    public int getBiome(int x, int y) {
+        return inMap(x, y) ? biome[x][y] : 0;
+    }
+
 }

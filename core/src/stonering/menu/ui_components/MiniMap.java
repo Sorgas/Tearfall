@@ -65,8 +65,10 @@ public class MiniMap extends Table {
         batch.end();
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         drawElevationDebug(0);
-        drawTemperatureDebug(map.getWidth() * pixelSize);
+        drawTemperatureDebug(map.getWidth() * 3 * pixelSize);
         drawRainfallDebug(map.getWidth() * 2 * pixelSize);
+//        drawDrainageDebug(map.getWidth() * 3 * pixelSize);
+        drawBiomesDebug(map.getWidth() * pixelSize);
         shapeRenderer.end();
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
 //        drawRiverVectorsDebug(map.getWidth() * 2 * pixelSize);
@@ -164,8 +166,20 @@ public class MiniMap extends Table {
         if (map != null) {
             for (int x = 0; x < map.getWidth(); x++) {
                 for (int y = 0; y < map.getHeight(); y++) {
-                    float rainfall = map.getRainfall(x,y);
+                    float rainfall = map.getRainfall(x, y);
                     shapeRenderer.setColor(getRainfallColor(rainfall));
+                    shapeRenderer.rect(baseScreenOffsetX + screenOffsetX + x * pixelSize, screenOffsetY + y * pixelSize, pixelSize, pixelSize);
+                }
+            }
+        }
+    }
+
+    private void drawDrainageDebug(int screenOffsetX) {
+        if (map != null) {
+            for (int x = 0; x < map.getWidth(); x++) {
+                for (int y = 0; y < map.getHeight(); y++) {
+                    float drainage = map.getDrainage(x, y);
+                    shapeRenderer.setColor(new Color(0, drainage, 0, 0));
                     shapeRenderer.rect(baseScreenOffsetX + screenOffsetX + x * pixelSize, screenOffsetY + y * pixelSize, pixelSize, pixelSize);
                 }
             }
@@ -193,10 +207,22 @@ public class MiniMap extends Table {
         map.getLakes().forEach(position ->
                 shapeRenderer.rect(baseScreenOffsetX + screenOffsetX + position.getX() * pixelSize,
                         screenOffsetY + position.getY() * pixelSize,
-                              pixelSize, pixelSize)
+                        pixelSize, pixelSize)
 
         );
 
+    }
+
+    private void drawBiomesDebug(int screenOffsetX) {
+        if (map != null) {
+            for (int x = 0; x < map.getWidth(); x++) {
+                for (int y = 0; y < map.getHeight(); y++) {
+                    int biome = map.getBiome(x, y);
+                    shapeRenderer.setColor(getBiomeColor(biome));
+                    shapeRenderer.rect(baseScreenOffsetX + screenOffsetX + x * pixelSize, screenOffsetY + y * pixelSize, pixelSize, pixelSize);
+                }
+            }
+        }
     }
 
     private Color getElevationColor(int x, int y) {
@@ -235,6 +261,40 @@ public class MiniMap extends Table {
 
     private Color getRainfallColor(float rainfall) {
         return new Color(rainfall / 100.f, 0, 0, 0);
+    }
+
+    private Color getBiomeColor(int biome) {
+        switch (biome) {
+            case 0: // cold sea
+                return new Color(0x0004FFff);
+            case 1: // temp sea
+                return new Color(0x0F47FFff);
+            case 2: // warm sea
+                return new Color(0x0072FFff);
+            case 3: // tundra
+                return new Color(0xDDEEFFff);
+            case 4: // grassland
+                return new Color(0x4FBFF7ff);
+            case 5: // taiga
+                return new Color(0x2A658Eff);
+            case 6: // steppe
+                return new Color(0xD8F400ff);
+            case 7: // shrubland
+                return new Color(0x9CF207ff);
+            case 8: // deciduous forest
+                return new Color(0x3FEF00ff);
+            case 9: // temp forest
+                return new Color(0x00A50Dff);
+            case 10: // desert
+                return new Color(0xE0E000ff);
+            case 11: // savannah
+                return new Color(0xDDB32Aff);
+            case 12: // monsoon forest
+                return new Color(0x00DBC1ff);
+            case 13: // tropic rainforest
+                return new Color(0x63D8BFff);
+        }
+        return new Color(0x000000ff);
     }
 
     public Position getFocus() {

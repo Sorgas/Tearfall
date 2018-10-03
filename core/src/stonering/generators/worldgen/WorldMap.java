@@ -3,22 +3,21 @@ package stonering.generators.worldgen;
 import com.badlogic.gdx.math.Vector2;
 import stonering.generators.worldgen.world_objects.Plate;
 import stonering.global.utils.Position;
-import stonering.global.utils.Vector;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class WorldMap implements Serializable {
     private float[][] elevation;
+    private float[][] drainage;
     private float[][] summerTemperature;
     private float[][] winterTemperature;
     private float[][] rainfall;
     private Vector2[][] rivers;
     private Vector2[][] brooks;
     private Vector2[][] debug;
+    private int[][] biome;
+
     private int width;
     private int height;
     private long seed;
@@ -29,9 +28,12 @@ public class WorldMap implements Serializable {
         this.width = xSize;
         this.height = ySize;
         elevation = new float[xSize][ySize];
+        drainage = new float[xSize][ySize];
         summerTemperature = new float[xSize][ySize];
         winterTemperature = new float[xSize][ySize];
         rainfall = new float[xSize][ySize];
+        biome = new int[width][height];
+
         rivers = new Vector2[xSize][ySize];
         brooks = new Vector2[xSize][ySize];
         debug = new Vector2[xSize][ySize];
@@ -140,5 +142,23 @@ public class WorldMap implements Serializable {
 
     public void setLakes(ArrayList<Position> lakes) {
         this.lakes = lakes;
+    }
+
+    public float getDrainage(int x, int y) {
+        return drainage[x][y];
+    }
+
+    public void setDrainage(int x, int y, float val) {
+        drainage[x][y] = val;
+    }
+
+    public void setBiome(int x, int y, int value) {
+        if (inMap(x, y)) {
+            biome[x][y] = value;
+        }
+    }
+
+    public int getBiome(int x, int y) {
+        return inMap(x, y) ? biome[x][y] : 0;
     }
 }
