@@ -1,12 +1,10 @@
-package stonering.game.core.view.ui_components.menus;
+package stonering.game.core.view.render.ui.components.menus;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.Align;
 import stonering.game.core.GameMvc;
 import stonering.utils.global.StaticSkin;
 

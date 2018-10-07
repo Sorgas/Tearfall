@@ -15,13 +15,14 @@ import stonering.generators.worldgen.WorldMap;
  */
 public class GameContainer {
     private WorldMap worldMap;
-    private LocalMap localMap; //local map is created during localgeneration.
+    private LocalMap localMap;                       //local map is created during localgeneration.
     private LocalTileMap localTileMap;
     private BuildingContainer buildingContainer;
     private PlantContainer plantContainer;
     private UnitContainer unitContainer;
     private TaskContainer taskContainer;
     private ItemContainer itemContainer;
+    private GenericActorsContainer genericActorsContainer;
 
     private LiquidContainer liquidContainer;
 
@@ -68,6 +69,9 @@ public class GameContainer {
         liquidContainer.setLocalMap(localMap);
         liquidContainer.initLiquidsToMap();
 
+        genericActorsContainer = new GenericActorsContainer();
+        genericActorsContainer.init();
+
         //TODO commented for fast localgen
 //        localMap.initAreas();
     }
@@ -106,6 +110,7 @@ public class GameContainer {
         buildingContainer.turn();
         itemContainer.turn();
         liquidContainer.turn();
+        genericActorsContainer.turn();
     }
 
     public void pauseGame() {

@@ -1,7 +1,7 @@
 package stonering.game.core.controller.controllers;
 
 import stonering.game.core.GameMvc;
-import stonering.game.core.view.ui_components.menus.Toolbar;
+import stonering.game.core.view.render.ui.components.menus.Toolbar;
 
 /**
  * Controller for Toolbar.

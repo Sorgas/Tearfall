@@ -1,4 +1,4 @@
-package stonering.game.core.view.ui_components;
+package stonering.game.core.view.render.ui.components;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;

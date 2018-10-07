@@ -1,4 +1,4 @@
-package stonering.game.core.view.ui_components.menus;
+package stonering.game.core.view.render.ui.components.menus;
 
 import stonering.game.core.GameMvc;
 

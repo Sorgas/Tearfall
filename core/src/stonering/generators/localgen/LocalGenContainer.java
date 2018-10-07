@@ -11,9 +11,9 @@ import stonering.objects.local_actors.unit.Unit;
 import java.util.ArrayList;
 
 /**
- * @author Alexander Kuzyakov on 29.08.2017.
- * <p>
  * Stores intermediate results of local generation.
+ *
+ * @author Alexander Kuzyakov on 29.08.2017.
  */
 public class LocalGenContainer {
     private LocalGenConfig config;
@@ -41,10 +41,8 @@ public class LocalGenContainer {
      * Creates LocalMap and collections for generators.
      */
     public void initContainer() {
-        localElevation = (int) (worldMap.getElevation(config.getLocation().getX(), config.getLocation().getY())
-                * config.getWorldToLocalElevationModifier());
-        localMap = new LocalMap(config.getAreaSize(), config.getAreaSize(),
-                localElevation + config.getAirLayersAboveGround());
+        localElevation = (int) (worldMap.getElevation(config.getLocation().getX(), config.getLocation().getY()) * config.getWorldToLocalElevationModifier());
+        localMap = new LocalMap(config.getAreaSize(), config.getAreaSize(), localElevation + config.getAirLayersAboveGround());
         units = new ArrayList<>();
         buildings = new ArrayList<>();
         items = new ArrayList<>();

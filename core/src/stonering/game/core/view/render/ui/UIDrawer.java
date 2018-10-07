@@ -1,18 +1,15 @@
-package stonering.game.core.view;
+package stonering.game.core.view.render.ui;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import stonering.enums.materials.Material;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.core.GameMvc;
 import stonering.game.core.model.GameContainer;
-import stonering.game.core.view.ui_components.TileStatusBar;
-import stonering.game.core.view.ui_components.ToolStatus;
-import stonering.game.core.view.ui_components.lists.NavigableList;
-import stonering.game.core.view.ui_components.menus.Toolbar;
-import stonering.game.core.view.ui_components.menus.ParentMenu;
-import stonering.global.utils.Position;
+import stonering.game.core.view.render.ui.components.TileStatusBar;
+import stonering.game.core.view.render.ui.components.ToolStatus;
+import stonering.game.core.view.render.ui.components.lists.NavigableList;
+import stonering.game.core.view.render.ui.components.menus.Toolbar;
 
 /**
  * Sub model for ui items.

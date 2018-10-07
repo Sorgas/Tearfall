@@ -1,4 +1,4 @@
-package stonering.game.core.view.ui_components.lists;
+package stonering.game.core.view.render.ui.components.lists;
 
 import com.badlogic.gdx.utils.Array;
 import stonering.enums.materials.MaterialMap;

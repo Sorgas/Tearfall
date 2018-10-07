@@ -1,9 +1,9 @@
-package stonering.game.core.view.ui_components.lists;
+package stonering.game.core.view.render.ui.components.lists;
 
 import com.badlogic.gdx.Input;
 import stonering.game.core.GameMvc;
 import stonering.game.core.controller.controllers.DesignationsController;
-import stonering.game.core.view.ui_components.menus.Invokable;
+import stonering.game.core.view.render.ui.components.menus.Invokable;
 import stonering.objects.local_actors.items.Item;
 import stonering.objects.local_actors.items.selectors.SimpleItemSelector;
 

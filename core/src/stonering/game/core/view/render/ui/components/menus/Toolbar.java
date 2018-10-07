@@ -1,11 +1,11 @@
-package stonering.game.core.view.ui_components.menus;
+package stonering.game.core.view.render.ui.components.menus;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
 import stonering.game.core.GameMvc;
-import stonering.game.core.view.ui_components.lists.MaterialSelectList;
-import stonering.game.core.view.ui_components.lists.ItemsCountList;
+import stonering.game.core.view.render.ui.components.lists.MaterialSelectList;
+import stonering.game.core.view.render.ui.components.lists.ItemsCountList;
 import stonering.utils.global.StaticSkin;
 
 import java.util.ArrayList;

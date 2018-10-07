@@ -1,4 +1,4 @@
-package stonering.game.core.view.ui_components.menus;
+package stonering.game.core.view.render.ui.components.menus;
 
 /**
  * @author Alexander on 06.09.2018.

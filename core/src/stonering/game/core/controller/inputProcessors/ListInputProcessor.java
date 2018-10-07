@@ -4,7 +4,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import stonering.game.core.controller.controllers.GameController;
 import stonering.game.core.controller.controllers.UIController;
-import stonering.game.core.view.UIDrawer;
+import stonering.game.core.view.render.ui.UIDrawer;
 
 /**
  * Input processor for all lists in game. Sends events to {@link UIDrawer}.

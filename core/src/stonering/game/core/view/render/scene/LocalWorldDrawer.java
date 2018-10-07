@@ -1,6 +1,7 @@
-package stonering.game.core.view;
+package stonering.game.core.view.render.scene;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 /**
  * Draws LocalMap. Blocks and plants are taken from LocalTileMap,
  * Buildings, units, and items are taken from LocalMap.
+ * //TODO move color from batch to sprites
  *
  * @author Alexander Kuzyakov on 13.06.2017.
  */
@@ -35,10 +37,10 @@ public class LocalWorldDrawer {
     private GameCamera camera;
     //TODO add GameFrame (see GameCamera & PlaceSelectComponent)
     private LocalMap localMap;
-    private int viewAreaWidth; // radius
+    private int viewAreaWidth;              // radius
     private int viewAreDepth;
     private float shadingStep = 0.06f;
-    private float shadedColorChannel;
+    private Color batchColor;               // default batch color without light or transparency
 
     private int tileWidth = 64;
     private int tileHeight = 96;
@@ -71,6 +73,7 @@ public class LocalWorldDrawer {
         setScreenCenterY(Gdx.graphics.getHeight() / 2);
         setViewAreaWidth(50);
         setViewAreDepth(15);
+        batchColor = new Color();
     }
 
     public void drawWorld() {
@@ -81,8 +84,7 @@ public class LocalWorldDrawer {
         batch.enableBlending();
         batch.begin();
         for (int z = minZ; z <= maxZ; z++) {
-            shadedColorChannel = 1 - (camera.getPosition().getZ() - z) * shadingStep;
-            batch.setColor(shadedColorChannel, shadedColorChannel, shadedColorChannel, 1);
+            shadeByZ(camera.getPosition().getZ() - z);
             for (int x = minX; x <= maxX; x++) {
                 for (int y = maxY; y >= minY; y--) {
                     drawTile(x, y, z);
@@ -94,6 +96,14 @@ public class LocalWorldDrawer {
         batch.end();
     }
 
+    /**
+     * Draws all content of the tile.
+     * Draw order: block, plants, building, unit, items, designation.
+     *
+     * @param x
+     * @param y
+     * @param z
+     */
     private void drawTile(int x, int y, int z) {
         drawBlock(x, y, z);
         PlantBlock plantBlock = localMap.getPlantBlock(x, y, z);
@@ -116,6 +126,35 @@ public class LocalWorldDrawer {
         if (localMap.getDesignatedBlockType(x, y, z) > 0) {
             drawSprite(4, x, y, z, DesignationsTileMapping.getAtlasX(localMap.getDesignatedBlockType(x, y, z)), 0);
         }
+    }
+
+    /**
+     * Draws block parts.
+     *
+     * @param x
+     * @param y
+     * @param z
+     */
+    private void drawBlock(int x, int y, int z) {
+        int atlas = localTileMap.getAtlasNum(x, y, z);
+        if (atlas >= 0) { // not empty cell
+            drawSprite(atlas, x, y, z, localTileMap.getAtlasX(x, y, z), localTileMap.getAtlasY(x, y, z));
+        } else {
+            int lowerAtlas;
+            if (z > 0 && (lowerAtlas = localTileMap.getAtlasNum(x, y, z - 1)) >= 0) {// not empty cell lower
+                drawTopping(lowerAtlas, x, y, z, localTileMap.getAtlasX(x, y, z - 1), localTileMap.getAtlasY(x, y, z - 1));
+            }
+        }
+        //draw water
+        updateColorA(0.6f);
+        if (localMap.getFlooding(x, y, z) != 0) {
+            drawSprite(0, x, y, z, 13 + localMap.getFlooding(x, y, z), 0);
+        } else {
+            if (z > 0 && localMap.getFlooding(x, y, z - 1) >= 7) {// not empty cell lower
+                drawTopping(0, x, y, z, 20, 0);
+            }
+        }
+        resetColor();
     }
 
     /**
@@ -156,31 +195,8 @@ public class LocalWorldDrawer {
                 getScreenPosY(y - camera.getPosition().getY(), z - camera.getPosition().getZ()));
     }
 
-    private void drawBlock(int x, int y, int z) {
-        int atlas = localTileMap.getAtlasNum(x, y, z);
-        if (atlas >= 0) { // not empty cell
-            drawSprite(atlas, x, y, z, localTileMap.getAtlasX(x, y, z), localTileMap.getAtlasY(x, y, z));
-        } else {
-            int lowerAtlas;
-            if (z > 0 && (lowerAtlas = localTileMap.getAtlasNum(x, y, z - 1)) >= 0) {// not empty cell lower
-                drawTopping(lowerAtlas, x, y, z, localTileMap.getAtlasX(x, y, z - 1), localTileMap.getAtlasY(x, y, z - 1));
-            }
-        }
-        //draw water
-        batch.setColor(shadedColorChannel, shadedColorChannel, shadedColorChannel, 0.6f);
-        if (localMap.getFlooding(x, y, z) != 0) {
-            drawSprite(0, x, y, z, 13 + localMap.getFlooding(x, y, z), 0);
-        } else {
-            if (z > 0 && localMap.getFlooding(x, y, z - 1) >= 7) {// not empty cell lower
-                drawTopping(0, x, y, z, 20, 0);
-            }
-        }
-        batch.setColor(shadedColorChannel, shadedColorChannel, shadedColorChannel, 1);
-    }
-
     private void drawCamera() {
         drawSprite(4, camera.getPosition().getX(), camera.getPosition().getY(), camera.getPosition().getZ(), 0, 1);
-
     }
 
     private void initAtlases() {
@@ -224,11 +240,11 @@ public class LocalWorldDrawer {
                         if (y == maxY && z == minZ) drawSprite(4, x, y, z, 8, 1);
                         if (x == minX && z > minZ && y == minY) drawSprite(4, x, y, z, 9, 1);
                         if (x == maxX && z > minZ && y == minY) drawSprite(4, x, y, z, 10, 1);
-                        batch.setColor(shadedColorChannel, shadedColorChannel, shadedColorChannel, 0.5f);
+                        updateColorA(0.5f);
                         if (z == maxZ) drawSprite(4, x, y, z, 11, 1);
                         if (y == minY) drawSprite(4, x, y, z, 12, 1);
                         if (z > minZ && y == minY) drawSprite(4, x, y, z, 13, 1);
-                        batch.setColor(shadedColorChannel, shadedColorChannel, shadedColorChannel, 1f);
+                        updateColorA(1f);
                     }
                 }
             }
@@ -239,6 +255,24 @@ public class LocalWorldDrawer {
         Vector2 vector = screenPos.sub(new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2)); // to click point from center
         vector.set(vector.x / tileWidth, -vector.y / tileDepth);
         return new Vector2((float) Math.floor(camera.getPosition().getX() + vector.x), (float) Math.floor(camera.getPosition().getY() + vector.y));
+    }
+
+    private void updateColorA(float a) {
+        batch.setColor(batchColor.cpy().set(batchColor.r, batchColor.g, batchColor.b, a));
+    }
+
+    private void shadeByZ(int dz) {
+        float shadedColorChannel = 1 - (dz) * shadingStep;
+        batchColor.set(shadedColorChannel, shadedColorChannel, shadedColorChannel, 1f);
+        resetColor();
+    }
+
+    private void resetColor() {
+        batch.setColor(batchColor);
+    }
+
+    private void shadeByLight(byte lightLevel) {
+        batch.setColor(batchColor.cpy().mul(lightLevel / (float) Byte.MAX_VALUE));
     }
 
     private int getScreenPosX(int x) {

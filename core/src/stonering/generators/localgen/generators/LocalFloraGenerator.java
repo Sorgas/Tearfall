@@ -44,22 +44,26 @@ public class LocalFloraGenerator {
 
     public LocalFloraGenerator(LocalGenContainer container) {
         this.container = container;
-        this.config = container.getConfig();
-        int x = config.getLocation().getX();
-        int y = config.getLocation().getY();
-        areaSize = config.getAreaSize();
-        rainfall = container.getWorldMap().getRainfall(x, y);
-        noiseGenerator = new PerlinNoiseGenerator();
     }
 
     public void execute() {
         System.out.println("generating flora");
+        extractContainer();
         this.localMap = container.getLocalMap();
         weightedPlantTypes = new HashMap<>();
         weightedTreeTypes = new HashMap<>();
         countTemperature();
         filterPlants();
         generateFlora();
+    }
+
+    private void extractContainer() {
+        this.config = container.getConfig();
+        int x = config.getLocation().getX();
+        int y = config.getLocation().getY();
+        areaSize = config.getAreaSize();
+        rainfall = container.getWorldMap().getRainfall(x, y);
+        noiseGenerator = new PerlinNoiseGenerator();
     }
 
     /**
