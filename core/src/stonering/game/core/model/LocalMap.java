@@ -21,7 +21,8 @@ public class LocalMap {
     private byte[][][] designatedBlockType;
     private byte[][][] flooding;
     private byte[][][] temperature;
-    private byte[][][] lightLevel;
+    public UtilByteArray generalLight;
+    public UtilByteArray light;
     private byte[][][] area;
     private PlantBlock[][][] plantBlocks;
     private BuildingBlock[][][] buildingBlocks;
@@ -44,7 +45,8 @@ public class LocalMap {
         area = new byte[xSize][ySize][zSize];
         flooding = new byte[xSize][ySize][zSize];
         temperature = new byte[xSize][ySize][zSize];
-        lightLevel = new byte[xSize][ySize][zSize];
+        generalLight = new UtilByteArray(xSize, ySize, zSize);
+        light = new UtilByteArray(xSize, ySize, zSize);
         areaNumbers = new ArrayList<>();
         this.xSize = xSize;
         this.ySize = ySize;
@@ -307,15 +309,6 @@ public class LocalMap {
     public void setFlooding(Position position, int value) {
         setFlooding(position.getX(), position.getY(), position.getZ(), value);
     }
-
-    public byte getLightLevel(int x, int y, int z) {
-        return lightLevel[x][y][z];
-    }
-
-    public void setLightLevel(int x, int y, int z, byte lightLevel) {
-        this.lightLevel[x][y][z] = lightLevel;
-    }
-
 
     public void setBlock(Position pos, BlockTypesEnum blockType, int materialId) {
         setBlock(pos.getX(), pos.getY(), pos.getZ(), blockType.getCode(), materialId);

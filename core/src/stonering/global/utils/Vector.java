@@ -56,8 +56,7 @@ public class Vector implements Serializable {
     }
 
     public Position getEndPoint() {
-        return new Position((int) Math.round(x + length * Math.cos(Math.toRadians(angle))),
-                (int) Math.round(y + length * Math.sin(Math.toRadians(angle))), 0);
+        return new Position((int) Math.round(x + length * Math.cos(Math.toRadians(angle))), (int) Math.round(y + length * Math.sin(Math.toRadians(angle))), 0);
     }
 
     /**

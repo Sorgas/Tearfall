@@ -1,7 +1,7 @@
 package stonering.generators.worldgen.world_objects;
 
+import com.badlogic.gdx.math.Vector2;
 import stonering.global.utils.Position;
-import stonering.global.utils.Vector;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,153 +10,153 @@ import java.util.List;
  * @author Alexander Kuzyakov on 22.02.2017.
  */
 public class Edge {
-	private Position point1;
-	private Position point2;
-	private List<Vector> vectors;
-	private List<Integer> dynamics;
-	private List<Mountain> mountains;
-	private List<Mountain> foothills;
-	private List<Mountain> valleys;
-	private float pikeHeight;
-	private Vector offsetVector;
-	private boolean isWorldBorder;
+    private Position point1;
+    private Position point2;
+    private List<Vector2> vectors;
+    private List<Integer> dynamics;
+    private List<Mountain> mountains;
+    private List<Mountain> foothills;
+    private List<Mountain> valleys;
+    private float pikeHeight;
+    private Vector2 offsetVector;
+    private boolean isWorldBorder;
 
-	public Edge(Position point1, Position point2) {
-		this.point1 = point1;
-		this.point2 = point2;
-		vectors = new ArrayList<>();
-		dynamics = new ArrayList<>();
-		mountains = new ArrayList<>();
-		valleys = new ArrayList<>();
-		isWorldBorder = false;
-	}
+    public Edge(Position point1, Position point2) {
+        this.point1 = point1;
+        this.point2 = point2;
+        vectors = new ArrayList<>();
+        dynamics = new ArrayList<>();
+        mountains = new ArrayList<>();
+        valleys = new ArrayList<>();
+        isWorldBorder = false;
+    }
 
-	public Position getPoint1() {
-		return point1;
-	}
+    public Position getPoint1() {
+        return point1;
+    }
 
-	public void setPoint1(Position point1) {
-		this.point1 = point1;
-	}
+    public void setPoint1(Position point1) {
+        this.point1 = point1;
+    }
 
-	public Position getPoint2() {
-		return point2;
-	}
+    public Position getPoint2() {
+        return point2;
+    }
 
-	public void setPoint2(Position point2) {
-		this.point2 = point2;
-	}
+    public void setPoint2(Position point2) {
+        this.point2 = point2;
+    }
 
-	@Override
-	public String toString() {
-		return "Edge{" +
-				"point1=" + point1.toString() +
-				", point2=" + point2.toString() +
-				'}';
-	}
+    @Override
+    public String toString() {
+        return "Edge{" +
+                "point1=" + point1.toString() +
+                ", point2=" + point2.toString() +
+                '}';
+    }
 
-	public List<Vector> getVectors() {
-		return vectors;
-	}
+    public List<Vector2> getVectors() {
+        return vectors;
+    }
 
-	/**
-	 * add vector projection to edge
-	 * @param vector non-projected vector
-	 */
-	public void addVector(Vector vector) {
-		// positive is enclosing
-		dynamics.add(getDistance(new Position(vector.getX(), vector.getY(), 0)) -
-				getDistance(vector.getEndPoint()));
-		vectors.add(vector);
-		if(dynamics.size() > 1) {
-			isWorldBorder = false;
-		} else {
-			isWorldBorder = true;
-		}
-	}
+    /**
+     * add vector projection to edge
+     *
+     * @param vector non-projected vector
+     */
+    public void addVector(Vector2 vector) {
+        // positive is enclosing
+        dynamics.add(getDistance(new Position(vector.x, vector.x, 0)) - getDistance(vector.getEndPoint()));
+        vectors.add(vector);
+        if (dynamics.size() > 1) {
+            isWorldBorder = false;
+        } else {
+            isWorldBorder = true;
+        }
+    }
 
-	private int getDistance(Position pos) {
-		int value = Math.abs((point2.getY() - point1.getY()) * pos.getX() -
-				(point2.getX() - point1.getX()) * pos.getY() +
-				point2.getX() * point1.getY() - point2.getY() * point1.getX());
-		value = (int) Math.round((float) value / Math.sqrt(Math.pow(point2.getY() - point1.getY(), 2) +
-				Math.pow(point2.getX() - point1.getX(), 2)));
-		return value;
-	}
+    private int getDistance(Position pos) {
+        int value = Math.abs((point2.getY() - point1.getY()) * pos.getX() -
+                (point2.getX() - point1.getX()) * pos.getY() +
+                point2.getX() * point1.getY() - point2.getY() * point1.getX());
+        value = (int) Math.round((float) value / Math.sqrt(Math.pow(point2.getY() - point1.getY(), 2) +
+                Math.pow(point2.getX() - point1.getX(), 2)));
+        return value;
+    }
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-		Edge edge = (Edge) o;
+        Edge edge = (Edge) o;
 
-		if (point1 == null && edge.point1 == null && point2 == null && edge.point2 == null) return true;
-		if (point1 == null && edge.point1 == null && point2.equals(edge.point2)) return true;
-		if (point2 == null && edge.point2 == null && point1.equals(edge.point1)) return true;
-		if (point1 == null && edge.point2 == null && point2.equals(edge.point1)) return true;
-		if (point2 == null && edge.point1 == null && point1.equals(edge.point2)) return true;
-		if (point2.equals(edge.point1) && point1.equals(edge.point2)) return true;
-		if (point1.equals(edge.point1) && point2.equals(edge.point2)) return true;
-		return false;
-	}
+        if (point1 == null && edge.point1 == null && point2 == null && edge.point2 == null) return true;
+        if (point1 == null && edge.point1 == null && point2.equals(edge.point2)) return true;
+        if (point2 == null && edge.point2 == null && point1.equals(edge.point1)) return true;
+        if (point1 == null && edge.point2 == null && point2.equals(edge.point1)) return true;
+        if (point2 == null && edge.point1 == null && point1.equals(edge.point2)) return true;
+        if (point2.equals(edge.point1) && point1.equals(edge.point2)) return true;
+        if (point1.equals(edge.point1) && point2.equals(edge.point2)) return true;
+        return false;
+    }
 
-	@Override
-	public int hashCode() {
-		int result = point1 != null ? point1.hashCode() : 0;
-		result = 31 * result + (point2 != null ? point2.hashCode() : 0);
-		return result;
-	}
+    @Override
+    public int hashCode() {
+        int result = point1 != null ? point1.hashCode() : 0;
+        result = 31 * result + (point2 != null ? point2.hashCode() : 0);
+        return result;
+    }
 
-	public List<Mountain> getMountains() {
-		return mountains;
-	}
+    public List<Mountain> getMountains() {
+        return mountains;
+    }
 
-	public void addMountain(Mountain mountain) {
-		mountains.add(mountain);
-	}
+    public void addMountain(Mountain mountain) {
+        mountains.add(mountain);
+    }
 
-	public List<Mountain> getFoothills() {
-		return foothills;
-	}
+    public List<Mountain> getFoothills() {
+        return foothills;
+    }
 
-	public void addFoothill(Mountain foothill) {
-		foothills.add(foothill);
-	}
+    public void addFoothill(Mountain foothill) {
+        foothills.add(foothill);
+    }
 
-	public List<Integer> getDynamics() {
-		return dynamics;
-	}
+    public List<Integer> getDynamics() {
+        return dynamics;
+    }
 
-	public float getPikeHeight() {
-		return pikeHeight;
-	}
+    public float getPikeHeight() {
+        return pikeHeight;
+    }
 
-	public void setPikeHeight(float pikeHeight) {
-		this.pikeHeight = pikeHeight;
-	}
+    public void setPikeHeight(float pikeHeight) {
+        this.pikeHeight = pikeHeight;
+    }
 
-	public Vector getOffsetVector() {
-		return offsetVector;
-	}
+    public Vector2 getOffsetVector() {
+        return offsetVector;
+    }
 
-	public void setOffsetVector(Vector offsetVector) {
-		this.offsetVector = offsetVector;
-	}
+    public void setOffsetVector(Vector2 offsetVector) {
+        this.offsetVector = offsetVector;
+    }
 
-	public boolean isWorldBorder() {
-		return isWorldBorder;
-	}
+    public boolean isWorldBorder() {
+        return isWorldBorder;
+    }
 
-	public void setWorldBorder(boolean worldBorder) {
-		isWorldBorder = worldBorder;
-	}
+    public void setWorldBorder(boolean worldBorder) {
+        isWorldBorder = worldBorder;
+    }
 
-	public List<Mountain> getValleys() {
-		return valleys;
-	}
+    public List<Mountain> getValleys() {
+        return valleys;
+    }
 
-	public void addValley(Mountain valley) {
-		valleys.add(valley);
-	}
+    public void addValley(Mountain valley) {
+        valleys.add(valley);
+    }
 }

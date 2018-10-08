@@ -7,8 +7,8 @@ import stonering.game.core.view.render.ui.components.menus.Toolbar;
 import stonering.utils.global.StaticSkin;
 
 /**
- * List that has navigation methods to be navigated through user input
- * .
+ * List that has navigation methods to be navigated through user input.
+ *
  * @author Alexander Kuzyakov on 03.07.2018.
  */
 public abstract class NavigableList extends List implements HideableComponent {
