@@ -1,5 +1,6 @@
 package stonering.objects.local_actors;
 
+import stonering.game.core.model.Turnable;
 import stonering.global.utils.Position;
 
 import java.util.HashMap;
@@ -7,7 +8,7 @@ import java.util.HashMap;
 /**
  * @author Alexander Kuzyakov on 25.01.2018.
  */
-public abstract class AspectHolder {
+public abstract class AspectHolder implements Turnable {
     protected HashMap<String, Aspect> aspects;
     protected Position position;
 

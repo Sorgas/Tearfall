@@ -22,14 +22,12 @@ public class GameContainer {
     private UnitContainer unitContainer;
     private TaskContainer taskContainer;
     private ItemContainer itemContainer;
+    private LiquidContainer liquidContainer;
     private GenericActorsContainer genericActorsContainer;
 
-    private LiquidContainer liquidContainer;
-
     private Timer timer;
-    private GameCamera camera;
-
     private boolean paused;
+    private GameCamera camera;
 
     public GameContainer(LocalGenContainer container) {
         loadFromContainer(container);
@@ -84,7 +82,6 @@ public class GameContainer {
             }
         }, 0, 1f / 60);
     }
-
 
     private void createTileMapUpdater() {
         LocalTileMapUpdater localTileMapUpdater = new LocalTileMapUpdater(this);

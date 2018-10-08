@@ -1,11 +1,12 @@
 package stonering.objects.local_actors;
 
 import stonering.game.core.model.GameContainer;
+import stonering.game.core.model.Turnable;
 
 /**
  * @author Alexander Kuzyakov on 10.10.2017.
  */
-public abstract class Aspect {
+public abstract class Aspect implements Turnable {
     protected GameContainer gameContainer;
     protected String name;
     protected AspectHolder aspectHolder;
@@ -31,5 +32,6 @@ public abstract class Aspect {
         this.gameContainer = gameContainer;
     }
 
+    @Override
     public void turn() {}
 }
