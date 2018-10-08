@@ -5,7 +5,7 @@ import stonering.objects.local_actors.environment.aspects.AbstractLighSourceAspe
 
 /**
  * Represents sun, moon or other important selestial bodies.
- * Selestial bodies have their phases, changed by {@link Clock}
+ * Selestial bodies have their phases, changed by {@link Calendar}
  *
  * @author Alexander on 07.10.2018.
  */

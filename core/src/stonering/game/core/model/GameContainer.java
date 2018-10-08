@@ -23,7 +23,7 @@ public class GameContainer {
     private TaskContainer taskContainer;
     private ItemContainer itemContainer;
     private LiquidContainer liquidContainer;
-    private GenericActorsContainer genericActorsContainer;
+    private GlobalActorsContainer globalActorsContainer;
 
     private Timer timer;
     private boolean paused;
@@ -67,8 +67,8 @@ public class GameContainer {
         liquidContainer.setLocalMap(localMap);
         liquidContainer.initLiquidsToMap();
 
-        genericActorsContainer = new GenericActorsContainer();
-        genericActorsContainer.init();
+        globalActorsContainer = new GlobalActorsContainer();
+        globalActorsContainer.init();
 
         //TODO commented for fast localgen
 //        localMap.initAreas();
@@ -107,7 +107,7 @@ public class GameContainer {
         buildingContainer.turn();
         itemContainer.turn();
         liquidContainer.turn();
-        genericActorsContainer.turn();
+        globalActorsContainer.turn();
     }
 
     public void pauseGame() {
