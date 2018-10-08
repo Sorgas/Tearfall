@@ -2,6 +2,7 @@ package stonering.objects.local_actors.environment;
 
 import stonering.objects.local_actors.AspectHolder;
 import stonering.objects.local_actors.environment.aspects.AbstractLighSourceAspect;
+import stonering.objects.local_actors.environment.aspects.SelestialLightSource;
 
 /**
  * Represents sun, moon or other important selestial bodies.
@@ -13,7 +14,7 @@ public class SelestialBody extends AspectHolder {
 
     protected SelestialBody() {
         super(null); //TODO redesign aspectHolder hierarchy
-        addAspect(new AbstractLighSourceAspect(this, true));
+        addAspect(new SelestialLightSource(this));
     }
 
     @Override

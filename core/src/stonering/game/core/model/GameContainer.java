@@ -67,8 +67,8 @@ public class GameContainer {
         liquidContainer.setLocalMap(localMap);
         liquidContainer.initLiquidsToMap();
 
-        globalActorsContainer = new GlobalActorsContainer();
-        globalActorsContainer.init();
+        globalActorsContainer = new GlobalActorsContainer(this);
+        globalActorsContainer.init(container);
 
         //TODO commented for fast localgen
 //        localMap.initAreas();
