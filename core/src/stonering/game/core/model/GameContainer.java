@@ -6,15 +6,15 @@ import stonering.game.core.view.tilemaps.LocalTileMap;
 import stonering.game.core.view.tilemaps.LocalTileMapUpdater;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.generators.worldgen.WorldMap;
+import stonering.objects.local_actors.environment.GameCalendar;
 
 /**
  * Model of game, contains LocalMap and sub-Containers.
- * Time ticks are performed with Timer
+ * Time ticks are performed with Timer. Calls turning for all game objects.
  *
  * @author Alexander Kuzyakov on 10.06.2017.
  */
 public class GameContainer {
-    private WorldMap worldMap;
     private LocalMap localMap;                       //local map is created during localgeneration.
     private LocalTileMap localTileMap;
     private BuildingContainer buildingContainer;
@@ -26,6 +26,7 @@ public class GameContainer {
     private GlobalActorsContainer globalActorsContainer;
 
     private Timer timer;
+    private GameCalendar gameCalendar;
     private boolean paused;
     private GameCamera camera;
 
@@ -39,6 +40,7 @@ public class GameContainer {
         createTileMapUpdater();
         camera = new GameCamera(this);
         timer = new Timer();
+        gameCalendar = new GameCalendar();
         paused = false;
         startContainer();
     }
@@ -78,7 +80,7 @@ public class GameContainer {
         timer.scheduleTask(new Timer.Task() {
             @Override
             public void run() {
-                performTick();
+                turn();
             }
         }, 0, 1f / 60);
     }
@@ -89,25 +91,14 @@ public class GameContainer {
         localTileMapUpdater.flushLocalMap();
     }
 
-    public LocalMap getLocalMap() {
-        return localMap;
-    }
-
-    public LocalTileMap getLocalTileMap() {
-        return localTileMap;
-    }
-
-    public void setLocalMap(LocalMap localMap) {
-        this.localMap = localMap;
-    }
-
-    private synchronized void performTick() {
+    private synchronized void turn() {
         unitContainer.turn();
         plantContainer.turn();
         buildingContainer.turn();
         itemContainer.turn();
         liquidContainer.turn();
         globalActorsContainer.turn();
+        gameCalendar.turn();
     }
 
     public void pauseGame() {
@@ -142,5 +133,17 @@ public class GameContainer {
 
     public PlantContainer getPlantContainer() {
         return plantContainer;
+    }
+
+    public LocalMap getLocalMap() {
+        return localMap;
+    }
+
+    public void setLocalMap(LocalMap localMap) {
+        this.localMap = localMap;
+    }
+
+    public LocalTileMap getLocalTileMap() {
+        return localTileMap;
     }
 }

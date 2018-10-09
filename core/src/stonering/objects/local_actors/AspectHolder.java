@@ -1,14 +1,17 @@
 package stonering.objects.local_actors;
 
+import stonering.game.core.model.IntervalTurnable;
 import stonering.game.core.model.Turnable;
 import stonering.global.utils.Position;
 
 import java.util.HashMap;
 
 /**
+ * Class for all game entities. Contains its aspects.
+ *
  * @author Alexander Kuzyakov on 25.01.2018.
  */
-public abstract class AspectHolder implements Turnable {
+public abstract class AspectHolder extends IntervalTurnable {
     protected HashMap<String, Aspect> aspects;
     protected Position position;
 

@@ -7,17 +7,18 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Date and time storing class.
+ * Date and time storing class. Makes turns to roll time.
+ *
  *
  * @author Alexander on 07.10.2018.
  */
-public class Calendar implements Turnable {
+public class GameCalendar extends Turnable {
     private HashMap<String, List<CalendarListener>> listeners;
-    private int minuteSize = 60;
-    private int hourSize = 60;
-    private int daySize = 24;
-    private int monthSize = 30;
-    private int yearSize = 12;
+    private static int MINUTE_SIZE = 60;
+    private static int HOUR_SIZE = 60;
+    private static int DAY_SIZE = 24;
+    private static int MONTH_SIZE = 30;
+    private static int YEAR_SIZE = 12;
 
     private int time;
     private int minute;
@@ -32,23 +33,23 @@ public class Calendar implements Turnable {
     @Override
     public void turn() {
         time++;
-        if (time >= minuteSize) {
+        if (time >= MINUTE_SIZE) {
             time = 0;
             minute++;
             callListeners("minute");
-            if (minute >= hourSize) {
+            if (minute >= HOUR_SIZE) {
                 minute = 0;
                 hour++;
                 callListeners("hour");
-                if (hour >= daySize) {
+                if (hour >= DAY_SIZE) {
                     hour = 0;
                     day++;
                     callListeners("day");
-                    if (day >= monthSize) {
+                    if (day >= MONTH_SIZE) {
                         day = 0;
                         month++;
                         callListeners("month");
-                        if (month >= yearSize) {
+                        if (month >= YEAR_SIZE) {
                             year++;
                             callListeners("year");
                         }

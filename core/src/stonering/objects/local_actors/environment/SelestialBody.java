@@ -1,12 +1,11 @@
 package stonering.objects.local_actors.environment;
 
 import stonering.objects.local_actors.AspectHolder;
-import stonering.objects.local_actors.environment.aspects.AbstractLighSourceAspect;
 import stonering.objects.local_actors.environment.aspects.SelestialLightSource;
 
 /**
  * Represents sun, moon or other important selestial bodies.
- * Selestial bodies have their phases, changed by {@link Calendar}
+ * Selestial bodies have their phases, changed by {@link GameCalendar}
  *
  * @author Alexander on 07.10.2018.
  */

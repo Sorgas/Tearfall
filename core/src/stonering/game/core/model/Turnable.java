@@ -1,9 +1,15 @@
 package stonering.game.core.model;
 
 /**
+ * Object that can make turns.
+ *
  * @author Alexander on 07.10.2018.
  */
-public interface Turnable {
+public abstract class Turnable {
 
-    void turn();
+    /**
+     * Updates this object.
+     */
+    public void turn() {
+    }
 }
