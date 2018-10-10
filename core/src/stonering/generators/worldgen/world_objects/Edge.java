@@ -66,7 +66,7 @@ public class Edge {
      */
     public void addVector(Vector2 vector) {
         // positive is enclosing
-        dynamics.add(getDistance(new Position(vector.x, vector.x, 0)) - getDistance(vector.getEndPoint()));
+//        dynamics.add(getDistance(new Position(vector.x, vector.x, 0)) - getDistance(vector.getEndPoint()));
         vectors.add(vector);
         if (dynamics.size() > 1) {
             isWorldBorder = false;

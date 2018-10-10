@@ -1,5 +1,6 @@
 package stonering.generators.worldgen.generators.elevation;
 
+import com.badlogic.gdx.math.Vector2;
 import stonering.generators.worldgen.generators.AbstractGenerator;
 import stonering.generators.worldgen.WorldGenContainer;
 import stonering.generators.worldgen.world_objects.Edge;
@@ -39,16 +40,16 @@ public class MountainGenerator extends AbstractGenerator {
 	@Override
 	public boolean execute() {
 		System.out.println("generating mountains");
-		extractContainer();
-		for (Edge edge : edges) {
-			if (!edge.isWorldBorder()) {
-				configureEdge(edge);
-				createMountainHeights(edge);
-				mergeMountainChains(edge);
-				createMountainSlopes(edge);
-				applyOffsetVectors(edge);
-			}
-		}
+//		extractContainer();
+//		for (Edge edge : edges) {
+//			if (!edge.isWorldBorder()) {
+//				configureEdge(edge);
+//				createMountainHeights(edge);
+//				mergeMountainChains(edge);
+//				createMountainSlopes(edge);
+//				applyOffsetVectors(edge);
+//			}
+//		}
 		return false;
 	}
 
@@ -154,10 +155,10 @@ public class MountainGenerator extends AbstractGenerator {
 				Vector edgeVector = new Vector(edge.getPoint1().getX(), edge.getPoint1().getY(), edge.getPoint2().getX(), edge.getPoint2().getY());
 				Vector edgeOffsetVector = edgeVector.getRightVector();
 				edgeOffsetVector.setLength(topOffset);
-				if (!edgeVector.isAtRight(edge.getVectors().get(mainSpeed).getStartPoint())) {
-					edgeOffsetVector.rotate(180);
-				}
-				edge.setOffsetVector(edgeOffsetVector);
+//				if (!edgeVector.isAtRight(edge.getVectors().get(mainSpeed).getStartPoint())) {
+//					edgeOffsetVector.rotate(180);
+//				}
+//				edge.setOffsetVector(edgeOffsetVector);
 				createTops(edge);
 			}
 		}
@@ -191,14 +192,14 @@ public class MountainGenerator extends AbstractGenerator {
 	}
 
 	private void applyOffsetVectors(Edge edge) {
-		Vector edgeOffsetVector = edge.getOffsetVector();
+		Vector2 edgeOffsetVector = edge.getOffsetVector();
 		if (edgeOffsetVector != null) {
 			for (int i = 0; i < edge.getMountains().size(); i++) {
 				Mountain mountain = edge.getMountains().get(i);
 				Vector topOffsetVector = new Vector(0, 0, 0f, 0f);
-				topOffsetVector.setAngle(edgeOffsetVector.getAngle());
+				topOffsetVector.setAngle(edgeOffsetVector.angle());
 				double radians = Math.PI * i / edge.getMountains().size();
-				topOffsetVector.setLength(edgeOffsetVector.getLength() * Math.sin(radians));
+				topOffsetVector.setLength(edgeOffsetVector.len() * Math.sin(radians));
 				mountain.setTop(mountain.getTop().addVector(topOffsetVector));
 			}
 		}

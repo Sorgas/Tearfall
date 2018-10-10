@@ -6,7 +6,7 @@ import stonering.game.core.model.Turnable;
 /**
  * @author Alexander Kuzyakov on 10.10.2017.
  */
-public abstract class Aspect implements Turnable {
+public abstract class Aspect extends Turnable {
     protected GameContainer gameContainer;
     protected String name;
     protected AspectHolder aspectHolder;

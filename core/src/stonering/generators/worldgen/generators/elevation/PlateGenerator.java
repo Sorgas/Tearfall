@@ -1,5 +1,6 @@
 package stonering.generators.worldgen.generators.elevation;
 
+import com.badlogic.gdx.math.Vector2;
 import stonering.generators.worldgen.WorldGenConfig;
 import stonering.generators.worldgen.WorldGenContainer;
 import stonering.generators.worldgen.generators.AbstractGenerator;
@@ -146,7 +147,7 @@ public class PlateGenerator extends AbstractGenerator {
                     nearestCenter = acenter;
                 }
             }
-            Vector speed = new Vector(center.getX(), center.getY(), nearestCenter.getX(), nearestCenter.getY());
+            Vector2 speed = new Vector2(nearestCenter.getX() - center.getX(), nearestCenter.getY() - center.getY());
             speed.setLength(random.nextInt(maxPlateSpeed - minPlateSpeed) + minPlateSpeed);
             plate.setSpeedVector(speed);
         }

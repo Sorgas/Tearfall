@@ -9,7 +9,6 @@ import java.util.List;
 /**
  * Date and time storing class. Makes turns to roll time.
  *
- *
  * @author Alexander on 07.10.2018.
  */
 public class GameCalendar extends Turnable {

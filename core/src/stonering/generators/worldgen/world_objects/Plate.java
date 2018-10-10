@@ -1,7 +1,7 @@
 package stonering.generators.worldgen.world_objects;
 
+import com.badlogic.gdx.math.Vector2;
 import stonering.global.utils.Position;
-import stonering.global.utils.Vector;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,12 +12,12 @@ import java.util.List;
 public class Plate {
 	private List<Edge> edges;
 	private Position center;
-	private Vector speedVector;
+	private Vector2 speedVector;
 
 	public Plate(Position center) {
 		this.center = center;
 		edges = new ArrayList<>();
-		this.speedVector = new Vector(center.getX(), center.getY(), 0, 0);
+		this.speedVector = new Vector2();
 	}
 
 	public Position getCenter() {
@@ -32,11 +32,11 @@ public class Plate {
 		edges.add(edge);
 	}
 
-	public Vector getSpeedVector() {
+	public Vector2 getSpeedVector() {
 		return speedVector;
 	}
 
-	public void setSpeedVector(Vector speedVector) {
+	public void setSpeedVector(Vector2 speedVector) {
 		this.speedVector = speedVector;
 	}
 

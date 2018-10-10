@@ -50,10 +50,10 @@ public class MapDrawer {
                 Edge edge = edgeIterator.next();
                 drawLine(edge.getPoint1().getX(), edge.getPoint1().getY(), edge.getPoint2().getX(), edge.getPoint2().getY());
             }
-            Vector vector = plate.getSpeedVector();
-            Position endPoint = vector.getEndPoint();
-            drawLine(Math.round(vector.getX()), Math.round(vector.getY()),
-                    Math.round(endPoint.getX()), Math.round(endPoint.getY()));
+//            Vector vector = plate.getSpeedVector();
+//            Position endPoint = vector.getEndPoint();
+//            drawLine(Math.round(vector.getX()), Math.round(vector.getY()),
+//                    Math.round(endPoint.getX()), Math.round(endPoint.getY()));
         }
     }
 
