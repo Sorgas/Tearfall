@@ -6,6 +6,8 @@ import stonering.objects.local_actors.AspectHolder;
 
 /**
  * Light source of sun, moon, etc. Emits rays from up to down, first non-space tile becomes illuminated.
+ * Should be used only for bodies that emit noticeable amount of light.
+ * Should be updated by {@link CelestialCycleAspect}
  *
  * @author Alexander Kuzyakov
  */
@@ -16,7 +18,7 @@ public class SelestialLightSource extends AbstractLighSourceAspect {
     }
 
     @Override
-    public void updateLigt() {
+    public void updateLigtOnMap() {
         applyLightToMap();
     }
 

@@ -3,7 +3,7 @@ package stonering.game.core.model.lists;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.IntervalTurnable;
 import stonering.generators.localgen.LocalGenContainer;
-import stonering.objects.local_actors.environment.SelestialBody;
+import stonering.objects.local_actors.environment.CelestialBody;
 
 import java.util.ArrayList;
 
@@ -15,6 +15,7 @@ import java.util.ArrayList;
 public class GlobalActorsContainer extends IntervalTurnable {
 
     private GameContainer container;
+    private ArrayList<IntervalTurnable> celestialBodies;
     private ArrayList<IntervalTurnable> actors;
 
     public GlobalActorsContainer(GameContainer container) {
@@ -25,7 +26,7 @@ public class GlobalActorsContainer extends IntervalTurnable {
         container.getSelestialBodies().forEach(this::addSelestialBody);
     }
 
-    private void addSelestialBody(SelestialBody selestialBody) {
+    private void addSelestialBody(CelestialBody celestialBody) {
 
     }
 

@@ -4,7 +4,7 @@ import stonering.game.core.model.LocalMap;
 import stonering.generators.worldgen.WorldMap;
 import stonering.global.utils.Position;
 import stonering.objects.local_actors.building.Building;
-import stonering.objects.local_actors.environment.SelestialBody;
+import stonering.objects.local_actors.environment.CelestialBody;
 import stonering.objects.local_actors.items.Item;
 import stonering.objects.local_actors.plants.AbstractPlant;
 import stonering.objects.local_actors.unit.Unit;
@@ -32,7 +32,7 @@ public class LocalGenContainer {
     private ArrayList<Item> items;
     private ArrayList<Position> waterSources;
     private ArrayList<Position> waterTiles;
-    private ArrayList<SelestialBody> selestialBodies;
+    private ArrayList<CelestialBody> selestialBodies;
 
     public LocalGenContainer(LocalGenConfig config, WorldMap worldMap) {
         this.config = config;
@@ -127,11 +127,11 @@ public class LocalGenContainer {
         this.waterTiles = waterTiles;
     }
 
-    public ArrayList<SelestialBody> getSelestialBodies() {
+    public ArrayList<CelestialBody> getSelestialBodies() {
         return selestialBodies;
     }
 
-    public void setSelestialBodies(ArrayList<SelestialBody> selestialBodies) {
+    public void setSelestialBodies(ArrayList<CelestialBody> selestialBodies) {
         this.selestialBodies = selestialBodies;
     }
 }

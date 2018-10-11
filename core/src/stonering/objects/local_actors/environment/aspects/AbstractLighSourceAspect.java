@@ -24,7 +24,7 @@ public abstract class AbstractLighSourceAspect extends Aspect {
      * Recreates light spot from this source.
      * Should be called on every source move or brightness change.
      */
-    public abstract void updateLigt();
+    public abstract void updateLigtOnMap();
 
     /**
      * Saves current light source state to be removed on next update.
@@ -62,4 +62,13 @@ public abstract class AbstractLighSourceAspect extends Aspect {
 //        private float force;          // [0,1]
 //        private Position position;
 //    }
+
+
+    public float getForce() {
+        return force;
+    }
+
+    public void setForce(float force) {
+        this.force = force;
+    }
 }
