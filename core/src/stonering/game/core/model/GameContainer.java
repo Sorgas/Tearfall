@@ -5,12 +5,11 @@ import stonering.game.core.model.lists.*;
 import stonering.game.core.view.tilemaps.LocalTileMap;
 import stonering.game.core.view.tilemaps.LocalTileMapUpdater;
 import stonering.generators.localgen.LocalGenContainer;
-import stonering.generators.worldgen.WorldMap;
-import stonering.objects.local_actors.environment.GameCalendar;
+import stonering.entity.local.environment.GameCalendar;
 
 /**
  * Model of game, contains LocalMap and sub-Containers.
- * Time ticks are performed with Timer. Calls turning for all game objects.
+ * Time ticks are performed with Timer. Calls turning for all game entity.
  *
  * @author Alexander Kuzyakov on 10.06.2017.
  */

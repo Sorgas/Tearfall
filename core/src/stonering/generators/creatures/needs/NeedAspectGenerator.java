@@ -5,11 +5,9 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter;
 import stonering.exceptions.DescriptionNotFoundException;
-import stonering.objects.local_actors.unit.aspects.NeedsAspect;
-import stonering.objects.local_actors.unit.aspects.needs.WearNeed;
+import stonering.entity.local.unit.aspects.NeedsAspect;
+import stonering.entity.local.unit.aspects.needs.WearNeed;
 import stonering.utils.global.FileLoader;
-
-import java.util.HashMap;
 
 /**
  * Generates needs for creatures.

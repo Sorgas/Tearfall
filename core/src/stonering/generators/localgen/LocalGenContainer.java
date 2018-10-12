@@ -3,11 +3,11 @@ package stonering.generators.localgen;
 import stonering.game.core.model.LocalMap;
 import stonering.generators.worldgen.WorldMap;
 import stonering.global.utils.Position;
-import stonering.objects.local_actors.building.Building;
-import stonering.objects.local_actors.environment.CelestialBody;
-import stonering.objects.local_actors.items.Item;
-import stonering.objects.local_actors.plants.AbstractPlant;
-import stonering.objects.local_actors.unit.Unit;
+import stonering.entity.local.building.Building;
+import stonering.entity.local.environment.CelestialBody;
+import stonering.entity.local.items.Item;
+import stonering.entity.local.plants.AbstractPlant;
+import stonering.entity.local.unit.Unit;
 
 import java.util.ArrayList;
 

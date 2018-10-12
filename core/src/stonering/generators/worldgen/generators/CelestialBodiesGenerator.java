@@ -1,9 +1,9 @@
 package stonering.generators.worldgen.generators;
 
 import stonering.generators.worldgen.WorldGenContainer;
-import stonering.objects.local_actors.environment.CelestialBody;
-import stonering.objects.local_actors.environment.aspects.CelestialCycleAspect;
-import stonering.objects.local_actors.environment.aspects.SelestialLightSource;
+import stonering.entity.local.environment.CelestialBody;
+import stonering.entity.local.environment.aspects.CelestialCycleAspect;
+import stonering.entity.local.environment.aspects.SelestialLightSource;
 
 /**
  * Creates celestial bodies like sun, moons, and other planets.
@@ -29,7 +29,10 @@ public class CelestialBodiesGenerator extends AbstractGenerator {
     }
 
     private void generateMoons() {
-
+        CelestialBody moon = new CelestialBody();
+        moon.addAspect(new SelestialLightSource(moon));
+        float dayScale = 0.0001f;
+        moon.addAspect(new CelestialCycleAspect(dayScale, dayScale, moon));
     }
 
     private void generatePlanets() {

@@ -2,7 +2,7 @@ package stonering.game.core.model.lists;
 
 import stonering.game.core.model.LocalMap;
 import stonering.global.utils.Position;
-import stonering.objects.local_actors.building.Building;
+import stonering.entity.local.building.Building;
 
 import java.util.ArrayList;
 

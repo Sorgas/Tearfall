@@ -3,8 +3,8 @@ package stonering.generators.worldgen.generators.elevation;
 import com.badlogic.gdx.math.Vector2;
 import stonering.generators.worldgen.generators.AbstractGenerator;
 import stonering.generators.worldgen.WorldGenContainer;
-import stonering.generators.worldgen.world_objects.Edge;
-import stonering.generators.worldgen.world_objects.Mountain;
+import stonering.entity.world.Edge;
+import stonering.entity.world.Mountain;
 import stonering.global.utils.Position;
 import stonering.global.utils.Vector;
 

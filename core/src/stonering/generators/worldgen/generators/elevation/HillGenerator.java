@@ -2,7 +2,7 @@ package stonering.generators.worldgen.generators.elevation;
 
 import stonering.generators.worldgen.generators.AbstractGenerator;
 import stonering.generators.worldgen.WorldGenContainer;
-import stonering.generators.worldgen.world_objects.Mountain;
+import stonering.entity.world.Mountain;
 import stonering.global.utils.Position;
 import stonering.global.utils.Vector;
 

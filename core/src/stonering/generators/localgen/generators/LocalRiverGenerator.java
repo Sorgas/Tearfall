@@ -8,7 +8,7 @@ import stonering.game.core.model.LocalMap;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.generators.worldgen.WorldMap;
 import stonering.global.utils.Position;
-import stonering.objects.local_actors.environment.WaterSource;
+import stonering.entity.local.environment.WaterSource;
 
 import java.util.ArrayList;
 import java.util.Arrays;

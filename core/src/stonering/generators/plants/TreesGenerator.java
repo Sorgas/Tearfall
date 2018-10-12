@@ -4,9 +4,9 @@ import stonering.enums.plants.*;
 import stonering.enums.materials.MaterialMap;
 import stonering.exceptions.DescriptionNotFoundException;
 import stonering.global.utils.Position;
-import stonering.objects.local_actors.plants.Plant;
-import stonering.objects.local_actors.plants.PlantBlock;
-import stonering.objects.local_actors.plants.Tree;
+import stonering.entity.local.plants.Plant;
+import stonering.entity.local.plants.PlantBlock;
+import stonering.entity.local.plants.Tree;
 
 import java.util.Random;
 

@@ -1,7 +1,7 @@
 package stonering.generators.items;
 
 import stonering.enums.materials.Material;
-import stonering.objects.local_actors.items.Item;
+import stonering.entity.local.items.Item;
 
 /**
  * @author Alexander Kuzyakov on 08.01.2018.

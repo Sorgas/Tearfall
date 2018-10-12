@@ -13,9 +13,9 @@ import stonering.generators.localgen.LocalGenContainer;
 import stonering.generators.plants.PlantGenerator;
 import stonering.generators.plants.TreesGenerator;
 import stonering.global.utils.Position;
-import stonering.objects.local_actors.plants.Plant;
-import stonering.objects.local_actors.plants.PlantBlock;
-import stonering.objects.local_actors.plants.Tree;
+import stonering.entity.local.plants.Plant;
+import stonering.entity.local.plants.PlantBlock;
+import stonering.entity.local.plants.Tree;
 import stonering.utils.global.Pair;
 
 import java.util.ArrayList;

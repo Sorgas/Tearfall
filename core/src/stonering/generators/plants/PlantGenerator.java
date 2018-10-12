@@ -4,8 +4,8 @@ import stonering.enums.materials.MaterialMap;
 import stonering.enums.plants.PlantMap;
 import stonering.enums.plants.TreeBlocksTypeEnum;
 import stonering.exceptions.DescriptionNotFoundException;
-import stonering.objects.local_actors.plants.Plant;
-import stonering.objects.local_actors.plants.PlantBlock;
+import stonering.entity.local.plants.Plant;
+import stonering.entity.local.plants.PlantBlock;
 
 /**
  * Generates single tile plants (not trees).

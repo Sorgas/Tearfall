@@ -4,7 +4,7 @@ import com.badlogic.gdx.utils.Array;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.core.GameMvc;
 import stonering.game.core.controller.controllers.DesignationsController;
-import stonering.objects.local_actors.items.Item;
+import stonering.entity.local.items.Item;
 import stonering.utils.global.Pair;
 
 import java.util.ArrayList;

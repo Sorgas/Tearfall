@@ -4,14 +4,14 @@ import com.badlogic.gdx.math.Vector2;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.core.view.tilemaps.LocalTileMapUpdater;
 import stonering.global.utils.Position;
-import stonering.objects.local_actors.building.BuildingBlock;
-import stonering.objects.local_actors.plants.PlantBlock;
-import stonering.objects.local_actors.unit.UnitBlock;
+import stonering.entity.local.building.BuildingBlock;
+import stonering.entity.local.plants.PlantBlock;
+import stonering.entity.local.unit.UnitBlock;
 
 import java.util.ArrayList;
 
 /**
- * Contains blocks, and physical parameters, and proxies to objects.
+ * Contains blocks, and physical parameters, and proxies to entity.
  *
  * @author Alexander Kuzyakov on 10.06.2017.
  */

@@ -6,8 +6,8 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter;
 import stonering.exceptions.DescriptionNotFoundException;
 import stonering.exceptions.FaultDescriptionException;
-import stonering.objects.local_actors.unit.Unit;
-import stonering.objects.local_actors.unit.aspects.BodyAspect;
+import stonering.entity.local.unit.Unit;
+import stonering.entity.local.unit.aspects.BodyAspect;
 import stonering.utils.global.FileLoader;
 
 import java.util.Arrays;

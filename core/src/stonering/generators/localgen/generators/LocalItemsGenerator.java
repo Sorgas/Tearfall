@@ -7,7 +7,7 @@ import stonering.generators.items.ItemGenerator;
 import stonering.generators.localgen.LocalGenConfig;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.global.utils.Position;
-import stonering.objects.local_actors.items.Item;
+import stonering.entity.local.items.Item;
 
 /**
  * @author Alexander Kuzyakov on 26.01.2018.

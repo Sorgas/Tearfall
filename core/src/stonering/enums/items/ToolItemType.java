@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * Item type aspect for tools.
  * Determines, in which actions item can be used, and its efficiency.
  *
- * @author Alexander on 11.09.2018.
+ * @author Alexander Kuzyakov on 11.09.2018.
  */
 public class ToolItemType {
     private ArrayList<ToolAction> actions;

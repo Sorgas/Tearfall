@@ -1,8 +1,8 @@
 package stonering.generators.aspect;
 
-import stonering.objects.local_actors.Aspect;
-import stonering.objects.local_actors.AspectHolder;
-import stonering.objects.local_actors.items.aspects.FallingAspect;
+import stonering.entity.local.Aspect;
+import stonering.entity.local.AspectHolder;
+import stonering.entity.local.items.aspects.FallingAspect;
 
 import java.lang.reflect.Constructor;
 import java.util.HashMap;

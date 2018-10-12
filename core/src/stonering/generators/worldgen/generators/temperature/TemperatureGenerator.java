@@ -8,7 +8,7 @@ import stonering.generators.worldgen.generators.AbstractGenerator;
 /**
  * Generates temperature map of year middle temperature for world.
  *
- * @author Alexander on 26.03.2017.
+ * @author Alexander Kuzyakov on 26.03.2017.
  */
 public class TemperatureGenerator extends AbstractGenerator {
     private int width;

@@ -1,14 +1,14 @@
 package stonering.generators.worldgen.generators.elevation;
 
 import com.badlogic.gdx.math.Vector2;
+import stonering.entity.world.TectonicPlate;
 import stonering.generators.worldgen.WorldGenConfig;
 import stonering.generators.worldgen.WorldGenContainer;
 import stonering.generators.worldgen.generators.AbstractGenerator;
 import stonering.generators.worldgen.voronoi.diagram.PowerDiagram;
 import stonering.generators.worldgen.voronoi.j2d.PolygonSimple;
 import stonering.generators.worldgen.voronoi.j2d.Site;
-import stonering.generators.worldgen.world_objects.Edge;
-import stonering.generators.worldgen.world_objects.Plate;
+import stonering.entity.world.Edge;
 import stonering.global.utils.Position;
 import stonering.global.utils.Vector;
 
@@ -24,7 +24,7 @@ public class PlateGenerator extends AbstractGenerator {
     private WorldGenConfig config;
     private Random random;
     private List<Edge> edges;
-    private List<Plate> plates;
+    private List<TectonicPlate> tectonicPlates;
     private int plateNum;
     private int minPlateSpeed;
     private int maxPlateSpeed;
@@ -36,7 +36,7 @@ public class PlateGenerator extends AbstractGenerator {
     }
 
     public boolean execute() {
-        System.out.println("generating plates");
+        System.out.println("generating tectonicPlates");
         boolean rejected = false;
         extractContainer();
         createPlates();
@@ -54,7 +54,7 @@ public class PlateGenerator extends AbstractGenerator {
         minPlateSpeed = config.getMinPlateSpeed();
         maxPlateSpeed = config.getMaxPlateSpeed();
         edges = container.getEdges();
-        plates = container.getPlates();
+        tectonicPlates = container.getTectonicPlates();
         centers = new ArrayList<>();
         centerMargin = config.getCenterMargin();
     }
@@ -95,7 +95,7 @@ public class PlateGenerator extends AbstractGenerator {
         for (int i = 0; i < sites.size(); i++) {
             Site site = sites.get(i);
             PolygonSimple polygon = site.getPolygon();
-            Plate plate = new Plate(new Position((int) site.getX(), (int) site.getY(), 0));
+            TectonicPlate plate = new TectonicPlate(new Position((int) site.getX(), (int) site.getY(), 0));
             if (polygon != null) {
                 double[] xPoints = polygon.getXPoints();
                 double[] yPoints = polygon.getYPoints();
@@ -108,7 +108,7 @@ public class PlateGenerator extends AbstractGenerator {
                     pos1 = pos2;
                 }
             }
-            plates.add(plate);
+            tectonicPlates.add(plate);
         }
     }
 
@@ -135,8 +135,8 @@ public class PlateGenerator extends AbstractGenerator {
     }
 
     private void createPlateSpeed() {
-        for (Iterator<Plate> iterator = plates.iterator(); iterator.hasNext(); ) {
-            Plate plate = iterator.next();
+        for (Iterator<TectonicPlate> iterator = tectonicPlates.iterator(); iterator.hasNext(); ) {
+            TectonicPlate plate = iterator.next();
             Position center = plate.getCenter();
             double minDistance = config.getHeight();
             Position nearestCenter = centers.get(0);
@@ -156,11 +156,11 @@ public class PlateGenerator extends AbstractGenerator {
     private boolean mergeEdges() {
         edges.clear();
         boolean rejected = false;
-        for (int i = 0; i < plates.size(); i++) {
-            Plate plate = plates.get(i);
+        for (int i = 0; i < tectonicPlates.size(); i++) {
+            TectonicPlate plate = tectonicPlates.get(i);
             for (int j = 0; j < plate.getEdges().size(); j++) {
-                for (int k = i + 1; k < plates.size(); k++) {
-                    Plate plate2 = plates.get(k);
+                for (int k = i + 1; k < tectonicPlates.size(); k++) {
+                    TectonicPlate plate2 = tectonicPlates.get(k);
                     for (int l = 0; l < plate2.getEdges().size(); l++) {
                         if (plate.getEdges().get(j).equals(plate2.getEdges().get(l))) {
                             plate2.setEdge(l, plate.getEdges().get(j));
@@ -179,8 +179,8 @@ public class PlateGenerator extends AbstractGenerator {
     }
 
     private void applyVectorsToEdges() {
-        for (Iterator<Plate> iterator = plates.iterator(); iterator.hasNext(); ) {
-            Plate plate = iterator.next();
+        for (Iterator<TectonicPlate> iterator = tectonicPlates.iterator(); iterator.hasNext(); ) {
+            TectonicPlate plate = iterator.next();
             for (Iterator<Edge> edgeIterator = plate.getEdges().iterator(); edgeIterator.hasNext(); ) {
                 edgeIterator.next().addVector(plate.getSpeedVector());
             }

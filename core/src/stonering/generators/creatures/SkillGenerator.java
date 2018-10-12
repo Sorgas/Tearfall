@@ -1,6 +1,6 @@
 package stonering.generators.creatures;
 
-import stonering.objects.local_actors.unit.Unit;
+import stonering.entity.local.unit.Unit;
 
 /**
  * @author Alexander Kuzyakov on 19.10.2017.

@@ -14,10 +14,10 @@ import stonering.game.core.model.GameCamera;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.LocalMap;
 import stonering.game.core.view.tilemaps.LocalTileMap;
-import stonering.objects.local_actors.building.BuildingBlock;
-import stonering.objects.local_actors.items.Item;
-import stonering.objects.local_actors.plants.PlantBlock;
-import stonering.objects.local_actors.unit.UnitBlock;
+import stonering.entity.local.building.BuildingBlock;
+import stonering.entity.local.items.Item;
+import stonering.entity.local.plants.PlantBlock;
+import stonering.entity.local.unit.UnitBlock;
 
 import java.util.ArrayList;
 

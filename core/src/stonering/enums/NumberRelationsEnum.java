@@ -1,7 +1,7 @@
 package stonering.enums;
 
 /**
- * @author Alexander on 08.07.2018.
+ * @author Alexander Kuzyakov on 08.07.2018.
  */
 public enum NumberRelationsEnum {
     EQUALS {

@@ -5,8 +5,7 @@ import stonering.enums.items.ItemTypeMap;
 import stonering.enums.materials.MaterialMap;
 import stonering.exceptions.DescriptionNotFoundException;
 import stonering.generators.aspect.AspectGenerator;
-import stonering.objects.local_actors.Aspect;
-import stonering.objects.local_actors.items.Item;
+import stonering.entity.local.items.Item;
 
 /**
  * @author Alexander Kuzyakov on 26.01.2018.

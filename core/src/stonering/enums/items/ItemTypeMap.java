@@ -3,7 +3,7 @@ package stonering.enums.items;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
-import stonering.objects.local_actors.items.aspects.TagAspect;
+import stonering.entity.local.items.aspects.TagAspect;
 import stonering.utils.global.FileLoader;
 
 import java.util.ArrayList;

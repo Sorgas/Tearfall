@@ -4,15 +4,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Vector2;
+import stonering.entity.world.TectonicPlate;
 import stonering.menu.worldgen.WorldGenScreen;
 import stonering.generators.worldgen.WorldGenContainer;
 import stonering.generators.worldgen.WorldMap;
-import stonering.generators.worldgen.world_objects.Edge;
-import stonering.generators.worldgen.world_objects.Mountain;
-import stonering.generators.worldgen.world_objects.Plate;
+import stonering.entity.world.Edge;
+import stonering.entity.world.Mountain;
 import stonering.global.utils.Position;
-import stonering.global.utils.Vector;
 
 import java.util.Iterator;
 import java.util.List;
@@ -41,9 +39,9 @@ public class MapDrawer {
     }
 
     private void drawPlates() {
-        List<Plate> plates = container.getPlates();
-        for (Iterator<Plate> iterator = plates.iterator(); iterator.hasNext(); ) {
-            Plate plate = iterator.next();
+        List<TectonicPlate> plates = container.getTectonicPlates();
+        for (Iterator<TectonicPlate> iterator = plates.iterator(); iterator.hasNext(); ) {
+            TectonicPlate plate = iterator.next();
             Position center = plate.getCenter();
             drawPoint(center.getX(), center.getY());
             for (Iterator<Edge> edgeIterator = plate.getEdges().iterator(); edgeIterator.hasNext(); ) {

@@ -1,7 +1,7 @@
 package stonering.enums;
 
 /**
- * @author Alexander on 16.09.2018.
+ * @author Alexander Kuzyakov on 16.09.2018.
  */
 public enum TaskPrioritiesEnum {
     LOW(3), //comfort

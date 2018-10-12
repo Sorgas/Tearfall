@@ -1,7 +1,7 @@
 package stonering.generators.worldgen;
 
 import com.badlogic.gdx.math.Vector2;
-import stonering.generators.worldgen.world_objects.Plate;
+import stonering.entity.world.TectonicPlate;
 import stonering.global.utils.Position;
 
 import java.io.Serializable;
@@ -21,7 +21,7 @@ public class WorldMap implements Serializable {
     private int width;
     private int height;
     private long seed;
-    private ArrayList<Plate> plates;
+    private ArrayList<TectonicPlate> tectonicPlates;
     private ArrayList<Position> lakes;
 
     public WorldMap(int xSize, int ySize) {
@@ -104,12 +104,12 @@ public class WorldMap implements Serializable {
         return (x >= 0 && y >= 0 && x < width && y < height);
     }
 
-    public ArrayList<Plate> getPlates() {
-        return plates;
+    public ArrayList<TectonicPlate> getTectonicPlates() {
+        return tectonicPlates;
     }
 
-    public void setPlates(ArrayList<Plate> plates) {
-        this.plates = plates;
+    public void setTectonicPlates(ArrayList<TectonicPlate> tectonicPlates) {
+        this.tectonicPlates = tectonicPlates;
     }
 
     public Vector2 getRiver(int x, int y) {

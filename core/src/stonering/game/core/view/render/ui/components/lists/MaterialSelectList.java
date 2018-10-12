@@ -4,8 +4,8 @@ import com.badlogic.gdx.Input;
 import stonering.game.core.GameMvc;
 import stonering.game.core.controller.controllers.DesignationsController;
 import stonering.game.core.view.render.ui.components.menus.Invokable;
-import stonering.objects.local_actors.items.Item;
-import stonering.objects.local_actors.items.selectors.SimpleItemSelector;
+import stonering.entity.local.items.Item;
+import stonering.entity.local.items.selectors.SimpleItemSelector;
 
 import java.util.List;
 

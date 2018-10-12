@@ -5,14 +5,13 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter;
 import stonering.global.utils.Position;
-import stonering.objects.local_actors.building.BuildingBlock;
-import stonering.objects.local_actors.building.Building;
+import stonering.entity.local.building.Building;
 import stonering.utils.global.FileLoader;
 
 /**
  * @author Alexander Kuzyakov on 07.12.2017.
  *
- * Generates BuildingType objects from descriptors
+ * Generates BuildingType entity from descriptors
  */
 public class BuildingGenerator {
     private Json json;

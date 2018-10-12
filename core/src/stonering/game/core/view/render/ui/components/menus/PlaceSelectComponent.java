@@ -16,7 +16,7 @@ import stonering.global.utils.Position;
 /**
  * Component for selecting places.
  *
- * @author Alexander on 12.07.2018.
+ * @author Alexander Kuzyakov on 12.07.2018.
  */
 public class PlaceSelectComponent extends Actor implements HideableComponent, MouseInvocable {
     private GameMvc gameMvc;

@@ -1,10 +1,11 @@
 package stonering.generators.worldgen;
 
 import com.badlogic.gdx.math.Vector2;
-import stonering.generators.worldgen.world_objects.Edge;
-import stonering.generators.worldgen.world_objects.Mountain;
-import stonering.generators.worldgen.world_objects.Plate;
+import stonering.entity.world.Edge;
+import stonering.entity.world.Mountain;
+import stonering.entity.world.TectonicPlate;
 import stonering.global.utils.Position;
+import stonering.entity.local.environment.CelestialBody;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -21,7 +22,7 @@ public class WorldGenContainer {
     private int height;
     private WorldMap map;
 
-    private ArrayList<Plate> plates;
+    private ArrayList<TectonicPlate> tectonicPlates;
     private List<Edge> edges;
     private List<Mountain> mountains;
     private List<Mountain> valleys;
@@ -38,6 +39,7 @@ public class WorldGenContainer {
     private Vector2[][] rivers;
     private Vector2[][] brooks;
     private HashSet<Position> lakes;
+    private ArrayList<CelestialBody> celestialBodies;
 
     private float landPart;
 
@@ -52,7 +54,7 @@ public class WorldGenContainer {
      * flushes collections from container to map
      */
     public void fillMap() {
-        map.setPlates(plates);
+        map.setTectonicPlates(tectonicPlates);
         float maxElevation = 0;
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
@@ -85,12 +87,13 @@ public class WorldGenContainer {
         biome = new int[width][height];
         rivers = new Vector2[width][height];
         brooks = new Vector2[width][height];
-        plates = new ArrayList<>();
+        tectonicPlates = new ArrayList<>();
         edges = new ArrayList<>();
         mountains = new ArrayList<>();
         valleys = new ArrayList<>();
         hills = new ArrayList<>();
         lakes = new HashSet<>();
+        celestialBodies = new ArrayList<>();
     }
 
     public boolean inMap(int x, int y) {
@@ -111,8 +114,8 @@ public class WorldGenContainer {
         return inMap(x, y) ? slopeAngles[x][y] : 0;
     }
 
-    public List<Plate> getPlates() {
-        return plates;
+    public List<TectonicPlate> getTectonicPlates() {
+        return tectonicPlates;
     }
 
     public List<Edge> getEdges() {
@@ -249,4 +252,7 @@ public class WorldGenContainer {
         return inMap(x, y) ? biome[x][y] : 0;
     }
 
+    public ArrayList<CelestialBody> getCelestialBodies() {
+        return celestialBodies;
+    }
 }

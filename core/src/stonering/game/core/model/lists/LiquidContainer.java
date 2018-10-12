@@ -42,6 +42,11 @@ public class LiquidContainer {
         loadWater(container);
     }
 
+    /**
+     * extracts collection from LocalGenContainer and creates entity of liquids.
+     *
+     * @param container LocalGenContainer.
+     */
     private void loadWater(LocalGenContainer container) {
         //TODO support other liquids
         container.getWaterTiles().forEach(position -> {
@@ -75,6 +80,9 @@ public class LiquidContainer {
         stairfloorCode = BlockTypesEnum.STAIRFLOOR.getCode();
     }
 
+    /**
+     * Once in turnDelay turns tries to move all liquids if possible
+     */
     public void turn() {
         turnCount++;
         if (turnCount == turnDelay) {

@@ -6,7 +6,7 @@ import stonering.generators.buildings.BuildingGenerator;
 import stonering.generators.localgen.LocalGenConfig;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.global.utils.Position;
-import stonering.objects.local_actors.building.Building;
+import stonering.entity.local.building.Building;
 
 import java.util.Random;
 
