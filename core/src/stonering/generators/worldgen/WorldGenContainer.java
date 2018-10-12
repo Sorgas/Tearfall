@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import stonering.entity.world.Edge;
 import stonering.entity.world.Mountain;
 import stonering.entity.world.TectonicPlate;
+import stonering.entity.world.World;
 import stonering.global.utils.Position;
 import stonering.entity.local.environment.CelestialBody;
 
@@ -12,15 +13,15 @@ import java.util.HashSet;
 import java.util.List;
 
 /**
+ * Contains intermediate results of world generation
+ *
  * @author Alexander Kuzyakov on 05.03.2017.
- *         <p>
- *         Contains intermediate results of world generation
  */
 public class WorldGenContainer {
     private WorldGenConfig config;
+    private World world;
     private int width;
     private int height;
-    private WorldMap map;
 
     private ArrayList<TectonicPlate> tectonicPlates;
     private List<Edge> edges;
@@ -54,6 +55,7 @@ public class WorldGenContainer {
      * flushes collections from container to map
      */
     public void fillMap() {
+        WorldMap map = world.getWorldMap();
         map.setTectonicPlates(tectonicPlates);
         float maxElevation = 0;
         for (int x = 0; x < width; x++) {
@@ -75,8 +77,7 @@ public class WorldGenContainer {
     }
 
     public void reset() {
-        map = new WorldMap(width, height);
-        map.setSeed(config.getSeed());
+        world = new World(width, height);
         elevation = new float[width][height];
         drainage = new float[width][height];
         slopeAngles = new float[width][height];
@@ -101,7 +102,7 @@ public class WorldGenContainer {
     }
 
     public boolean inMap(float x, float y) {
-        return map.inMap(x, y);
+        return world.getWorldMap().inMap(x, y);
     }
 
     public void setSlopeAngles(int x, int y, float value) {
@@ -135,7 +136,7 @@ public class WorldGenContainer {
     }
 
     public WorldMap getMap() {
-        return map;
+        return world.getWorldMap();
     }
 
     public void setElevation(int x, int y, float value) {

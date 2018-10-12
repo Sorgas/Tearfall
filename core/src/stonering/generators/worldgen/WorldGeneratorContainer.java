@@ -1,6 +1,7 @@
 package stonering.generators.worldgen;
 
 import stonering.generators.worldgen.generators.BiomeGenerator;
+import stonering.generators.worldgen.generators.CelestialBodiesGenerator;
 import stonering.generators.worldgen.generators.drainage.*;
 import stonering.generators.worldgen.generators.elevation.*;
 import stonering.generators.worldgen.generators.elevation.PlateGenerator;
@@ -29,6 +30,7 @@ public class WorldGeneratorContainer {
     private BrookGenerator brookGenerator;
     private DrainageGenerator drainageGenerator;
     private BiomeGenerator biomeGenerator;
+    private CelestialBodiesGenerator celestialBodiesGenerator;
 
     public void init(WorldGenConfig config) {
         worldGenContainer = new WorldGenContainer(config);
@@ -50,6 +52,7 @@ public class WorldGeneratorContainer {
         lakeGenerator = new LakeGenerator(worldGenContainer);
         drainageGenerator = new DrainageGenerator(worldGenContainer);
         biomeGenerator = new BiomeGenerator(worldGenContainer);
+        celestialBodiesGenerator = new CelestialBodiesGenerator(worldGenContainer);
     }
 
     public void runContainer() {
@@ -62,6 +65,7 @@ public class WorldGeneratorContainer {
     }
 
     private boolean runGenerators() {
+        celestialBodiesGenerator.execute();
 //        if (plateGenerator.execute()) return true;
 //        if (mountainGenerator.execute()) return true;
 //        if (valleyGenerator.execute()) return true;
