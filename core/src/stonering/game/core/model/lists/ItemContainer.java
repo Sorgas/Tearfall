@@ -164,7 +164,7 @@ public class ItemContainer {
 
     public Item getItemAvailableBySelector(ItemSelector itemSelector, Position position) {
         //TODO implement ordering by distance
-        ArrayList<Item> items = itemSelector.selectItems(this.items);
+        List<Item> items = itemSelector.selectItems(this.items);
         if(items != null && !items.isEmpty()) { // TODO implement lookup with areas
             return items.get(0);
         }

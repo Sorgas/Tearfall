@@ -10,6 +10,7 @@ import stonering.entity.local.items.selectors.ItemSelector;
 import stonering.entity.local.unit.aspects.EquipmentAspect;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Checks if specific itemSelectors are on desired position or in the inventory of action performer.
@@ -34,7 +35,7 @@ public class ItemsInPositionOrInventoryRequirementAspect extends RequirementsAsp
         uncheckedItems.addAll(action.getGameContainer().getItemContainer().getItems(target)); // from target position
         uncheckedItems.addAll(((EquipmentAspect)action.getTask().getPerformer().getAspects().get("equipment")).getHauledItems()); // from performer inventory
         for (ItemSelector itemSelector : itemSelectors) {
-            ArrayList<Item> selectedItems = itemSelector.selectItems(uncheckedItems);
+            List<Item> selectedItems = itemSelector.selectItems(uncheckedItems);
             if (!selectedItems.isEmpty()) {
                 for (int i = 0; i < selectedItems.size(); i++) {
                     Item item = selectedItems.get(i);
