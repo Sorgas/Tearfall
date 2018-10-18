@@ -1,5 +1,6 @@
 package stonering.generators.localgen;
 
+import stonering.entity.world.World;
 import stonering.game.core.model.LocalMap;
 import stonering.generators.localgen.generators.*;
 import stonering.generators.worldgen.WorldMap;
@@ -23,10 +24,10 @@ public class LocalGeneratorContainer {
     private LocalItemsGenerator localItemsGenerator;
     private LocalTemperatureGenerator localTemperatureGenerator;
     private LocalSurfaceWaterPoolsGenerator localSurfaceWaterPoolsGenerator;
-    private WorldMap world;
+    private World world;
     private LocalGenConfig config;
 
-    public LocalGeneratorContainer(LocalGenConfig config, WorldMap world) {
+    public LocalGeneratorContainer(LocalGenConfig config, World world) {
         this.world = world;
         this.config = config;
         init();
@@ -66,7 +67,7 @@ public class LocalGeneratorContainer {
         return localGenContainer.getLocalMap();
     }
 
-    public void setWorld(WorldMap world) {
+    public void setWorld(World world) {
         this.world = world;
     }
 

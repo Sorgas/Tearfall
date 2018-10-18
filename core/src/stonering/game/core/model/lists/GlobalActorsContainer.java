@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class GlobalActorsContainer extends IntervalTurnable {
 
     private GameContainer container;
-    private ArrayList<IntervalTurnable> celestialBodies;
+    private ArrayList<CelestialBody> celestialBodies;
     private ArrayList<IntervalTurnable> actors;
 
     public GlobalActorsContainer(GameContainer container) {
@@ -23,11 +23,7 @@ public class GlobalActorsContainer extends IntervalTurnable {
     }
 
     public void init(LocalGenContainer container) {
-        container.getSelestialBodies().forEach(this::addSelestialBody);
-    }
-
-    private void addSelestialBody(CelestialBody celestialBody) {
-
+        container.getSelestialBodies().forEach(celestialBodies::add);
     }
 
     @Override

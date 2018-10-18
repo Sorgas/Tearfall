@@ -62,7 +62,7 @@ public class LocalFloraGenerator {
         int x = config.getLocation().getX();
         int y = config.getLocation().getY();
         areaSize = config.getAreaSize();
-        rainfall = container.getWorldMap().getRainfall(x, y);
+        rainfall = container.getWorld().getWorldMap().getRainfall(x, y);
         noiseGenerator = new PerlinNoiseGenerator();
     }
 

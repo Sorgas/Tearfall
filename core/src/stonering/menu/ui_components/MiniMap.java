@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import stonering.entity.world.World;
 import stonering.generators.worldgen.WorldMap;
 import stonering.global.utils.Position;
 
@@ -16,6 +17,7 @@ import stonering.global.utils.Position;
  * @author Alexander Kuzyakov on 19.04.2017.
  */
 public class MiniMap extends Table {
+    private World world;
     private WorldMap map;
     private TileChooser tileChooser;
     private float tileScale = 1f;
@@ -105,16 +107,6 @@ public class MiniMap extends Table {
                 focus.setY(0);
             if (focus.getY() >= map.getHeight())
                 focus.setY(map.getHeight() - 1);
-        }
-    }
-
-    public void setMap(WorldMap map) {
-        if (map != null) {
-            this.map = map;
-            tileChooser.setMap(map);
-            focus.setX(map.getWidth() / 2);
-            focus.setY(map.getHeight() / 2);
-            updateSize();
         }
     }
 
@@ -299,5 +291,15 @@ public class MiniMap extends Table {
 
     public Position getFocus() {
         return focus.clone();
+    }
+
+    public void setWorld(World world) {
+        if (world != null) {
+            this.map = world.getWorldMap();
+            tileChooser.setMap(world.getWorldMap());
+            focus.setX(map.getWidth() / 2);
+            focus.setY(map.getHeight() / 2);
+            updateSize();
+        }
     }
 }

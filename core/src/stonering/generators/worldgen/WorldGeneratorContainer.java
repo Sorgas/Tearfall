@@ -1,5 +1,6 @@
 package stonering.generators.worldgen;
 
+import stonering.entity.world.World;
 import stonering.generators.worldgen.generators.BiomeGenerator;
 import stonering.generators.worldgen.generators.CelestialBodiesGenerator;
 import stonering.generators.worldgen.generators.drainage.*;
@@ -89,7 +90,11 @@ public class WorldGeneratorContainer {
         return false;
     }
 
-    public WorldMap getWorldMap() {
-        return worldGenContainer.getMap();
+    /**
+     * Returns world map from container.
+     * @return
+     */
+    public World getWorld() {
+        return worldGenContainer.getWorld();
     }
 }

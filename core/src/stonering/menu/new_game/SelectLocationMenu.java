@@ -13,7 +13,7 @@ import stonering.TearFall;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
-import stonering.generators.worldgen.WorldMap;
+import stonering.entity.world.World;
 import stonering.menu.ui_components.MiniMap;
 import stonering.menu.ui_components.WorldListItem;
 import stonering.menu.utils.WorldCellInfo;
@@ -31,7 +31,7 @@ public class SelectLocationMenu implements Screen {
     private TearFall game;
     private Stage stage;
     private MiniMap minimap;
-    private WorldMap world;
+    private World world;
     private Label worldInfoLabel;
     private WorldCellInfo worldCellInfo;
 
@@ -104,7 +104,7 @@ public class SelectLocationMenu implements Screen {
 
     private Table createMinimap() {
         minimap = new MiniMap(new Texture("sprites/map_tiles.png"));
-        minimap.setMap(getWorld());
+        minimap.setWorld(world);
         System.out.println(getWorld());
         return minimap;
     }
@@ -126,7 +126,10 @@ public class SelectLocationMenu implements Screen {
         if (getWorld() != null) {
             int x = minimap.getFocus().getX();
             int y = minimap.getFocus().getY();
-            worldInfoLabel.setText(worldCellInfo.getCellInfo(x, y, Math.round(getWorld().getElevation(x, y)), getWorld().getSummerTemperature(x, y), getWorld().getRainfall(x, y)));
+            worldInfoLabel.setText(worldCellInfo.getCellInfo(x, y,
+                    Math.round(world.getWorldMap().getElevation(x, y)),
+                    world.getWorldMap().getSummerTemperature(x, y),
+                    world.getWorldMap().getRainfall(x, y)));
         }
     }
 
@@ -170,11 +173,11 @@ public class SelectLocationMenu implements Screen {
         return stage;
     }
 
-    public void setWorld(WorldMap world) {
+    public void setWorld(World world) {
         this.world = world;
     }
 
-    public WorldMap getWorld() {
+    public World getWorld() {
         return world;
     }
 }

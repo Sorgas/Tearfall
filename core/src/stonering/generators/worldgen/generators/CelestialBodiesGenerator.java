@@ -18,23 +18,38 @@ public class CelestialBodiesGenerator extends AbstractGenerator {
 
     @Override
     public boolean execute() {
+        generateSun();
+        generateMoons();
+        generatePlanets();
+
         return false;
     }
 
+    /**
+     * Generates star of star system.
+     */
     private void generateSun() {
         CelestialBody sun = new CelestialBody();
         sun.addAspect(new SelestialLightSource(sun));
         float dayScale = 0.0001f;
         sun.addAspect(new CelestialCycleAspect(dayScale, dayScale, sun));
+        container.getCelestialBodies().add(sun);
     }
 
+    /**
+     * Generates moons of current planet
+     */
     private void generateMoons() {
         CelestialBody moon = new CelestialBody();
         moon.addAspect(new SelestialLightSource(moon));
         float dayScale = 0.0001f;
         moon.addAspect(new CelestialCycleAspect(dayScale, dayScale, moon));
+        container.getCelestialBodies().add(moon);
     }
 
+    /**
+     * Generate other planets of the system.
+     */
     private void generatePlanets() {
 
     }

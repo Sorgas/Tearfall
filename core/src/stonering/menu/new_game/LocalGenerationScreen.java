@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import stonering.TearFall;
+import stonering.entity.world.World;
 import stonering.generators.localgen.LocalGenConfig;
 import stonering.generators.localgen.LocalGeneratorContainer;
 import stonering.game.core.model.LocalMap;
@@ -24,7 +25,7 @@ import stonering.menu.ui_components.LabeledProgressBar;
  */
 public class LocalGenerationScreen implements Screen {
     private LocalGeneratorContainer localGeneratorContainer;
-    private WorldMap world;
+    private World world;
     private Position location;
     private LocalMap localMap;
     private Stage stage;
@@ -104,7 +105,7 @@ public class LocalGenerationScreen implements Screen {
         return menuTable;
     }
 
-    public void setWorld(WorldMap world) {
+    public void setWorld(World world) {
         this.world = world;
     }
 

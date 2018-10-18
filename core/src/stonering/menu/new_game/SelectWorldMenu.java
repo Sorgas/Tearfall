@@ -13,6 +13,7 @@ import stonering.TearFall;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
+import stonering.entity.world.World;
 import stonering.generators.worldgen.WorldMap;
 import stonering.menu.ui_components.MiniMap;
 import stonering.menu.ui_components.WorldListItem;
@@ -26,7 +27,7 @@ import java.io.File;
  * @author Alexander Kuzyakov on 14.04.2017.
  */
 public class SelectWorldMenu implements Screen {
-    private WorldMap world;
+    private World world;
     private TearFall game;
     private Stage stage;
     private List<WorldListItem> worldList;
@@ -62,18 +63,6 @@ public class SelectWorldMenu implements Screen {
 
     }
 
-    public Stage getStage() {
-        return stage;
-    }
-
-    public void setWorld(WorldMap world) {
-        this.world = world;
-    }
-
-    public WorldMap getWorld() {
-        return world;
-    }
-
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
@@ -96,26 +85,6 @@ public class SelectWorldMenu implements Screen {
         stage = new Stage();
         init();
         Gdx.input.setInputProcessor(stage);
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
-    }
-
-    @Override
-    public void dispose() {
-
     }
 
     private Table createMenuTable() {
@@ -158,9 +127,9 @@ public class SelectWorldMenu implements Screen {
         minimap = new MiniMap(new Texture("sprites/map_tiles.png"));
         WorldListItem item = worldList.getSelected();
         if (item != null) {
-            WorldMap map = new WorldSaver().loadWorld(item.getTitle());
-            setWorld(map);
-            minimap.setMap(map);
+            World world = new WorldSaver().loadWorld(item.getTitle());
+            setWorld(world);
+            minimap.setWorld(world);
         }
         return minimap;
     }
@@ -171,14 +140,38 @@ public class SelectWorldMenu implements Screen {
         worldList.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                WorldMap world = new WorldSaver().loadWorld(((List<WorldListItem>) actor).getSelected().getTitle());
+                World world = new WorldSaver().loadWorld(((List<WorldListItem>) actor).getSelected().getTitle());
                 setWorld(world);
-                minimap.setMap(world);
+                minimap.setWorld(world);
             }
         });
         if (worldList.getItems().size > 0) {
             worldList.setSelected(worldList.getItems().get(0));
         }
         return worldList;
+    }
+
+    @Override
+    public void pause() {}
+
+    @Override
+    public void resume() {}
+
+    @Override
+    public void hide() {}
+
+    @Override
+    public void dispose() {}
+
+    public Stage getStage() {
+        return stage;
+    }
+
+    public World getWorld() {
+        return world;
+    }
+
+    public void setWorld(World world) {
+        this.world = world;
     }
 }

@@ -10,10 +10,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import stonering.TearFall;
+import stonering.entity.world.World;
 import stonering.generators.worldgen.WorldGenConfig;
-import stonering.generators.worldgen.WorldGenContainer;
 import stonering.generators.worldgen.WorldGeneratorContainer;
-import stonering.generators.worldgen.WorldMap;
 import stonering.menu.ui_components.MiniMap;
 import stonering.menu.utils.WorldCellInfo;
 import stonering.menu.utils.WorldSaver;
@@ -24,9 +23,8 @@ import java.util.Random;
  * @author Alexander Kuzyakov on 06.03.2017.
  */
 public class WorldGenScreen implements Screen {
-    private WorldGenContainer worldGenContainer;
     private WorldGeneratorContainer worldGeneratorContainer;
-    private WorldMap map;
+    private World world;
     private long seed; // gets updated from ui
     private int worldSize = 100; // changed from ui
     private TearFall game;
@@ -47,15 +45,11 @@ public class WorldGenScreen implements Screen {
     }
 
     @Override
-    public void show() {
-    }
-
-    @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(Gdx.gl20.GL_COLOR_BUFFER_BIT | Gdx.gl20.GL_DEPTH_BUFFER_BIT);
         checkInput();
-        writeWorldInfoToLabel();
+        updateWorldInfoToLabel();
         stage.setDebugAll(true);
         stage.draw();
     }
@@ -66,25 +60,6 @@ public class WorldGenScreen implements Screen {
         stage = new Stage();
         init();
         Gdx.input.setInputProcessor(stage);
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-    }
-
-    @Override
-    public void dispose() {
-
     }
 
     private void init() {
@@ -107,7 +82,7 @@ public class WorldGenScreen implements Screen {
         menuTable.add(new Label("Seed: ", game.getSkin()));
         menuTable.row();
 
-        seedField = new TextField(new Long(seed).toString(), game.getSkin());
+        seedField = new TextField(Long.toString(seed), game.getSkin());
         menuTable.add(seedField);
 
         TextButton randButton = new TextButton("R", game.getSkin());
@@ -115,7 +90,7 @@ public class WorldGenScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 randomizeSeed();
-                seedField.setText(new Long(seed).toString());
+                seedField.setText(Long.toString(seed));
             }
         });
         menuTable.add(randButton);
@@ -126,14 +101,14 @@ public class WorldGenScreen implements Screen {
 
         Slider worldSizeSlider = new Slider(100, 500, 100, false, game.getSkin());
         worldSizeSlider.setValue(worldSize);
-        Label worldSizeLabel = new Label(new Integer(worldSize).toString(), game.getSkin());
+        Label worldSizeLabel = new Label(Integer.toString(worldSize), game.getSkin());
 
         worldSizeSlider.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 int size = Math.round(((Slider) actor).getValue());
                 setWorldSize(size);
-                worldSizeLabel.setText(new Integer(size).toString());
+                worldSizeLabel.setText(Integer.toString(size));
             }
         });
 
@@ -153,7 +128,7 @@ public class WorldGenScreen implements Screen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 generateWorld();
-                minimap.setMap(map);
+                minimap.setWorld(world);
             }
         });
         menuTable.add(generateButton).colspan(2);
@@ -182,7 +157,7 @@ public class WorldGenScreen implements Screen {
 
     private Table createMinimap() {
         minimap = new MiniMap(new Texture("sprites/map_tiles.png"));
-        minimap.setMap(map);
+        minimap.setWorld(world);
         return minimap;
     }
 
@@ -199,39 +174,35 @@ public class WorldGenScreen implements Screen {
         }
     }
 
-    private void writeWorldInfoToLabel() {
-        if (map != null) {
+    private void updateWorldInfoToLabel() {
+        if (world != null) {
             int x = minimap.getFocus().getX();
             int y = minimap.getFocus().getY();
-            worldInfoLabel.setText(worldCellInfo.getCellInfo(x, y, Math.round(map.getElevation(x, y)),
-                    map.getSummerTemperature(x, y),
-                    map.getRainfall(x, y)));
+            worldInfoLabel.setText(worldCellInfo.getCellInfo(x, y, Math.round(world.getWorldMap().getElevation(x, y)),
+                    world.getWorldMap().getSummerTemperature(x, y),
+                    world.getWorldMap().getRainfall(x, y)));
         }
     }
 
-    public void setGame(TearFall game) {
-        this.game = game;
-    }
-
-    public void generateWorld() { //from ui button
+    private void generateWorld() { //from ui button
         WorldGenConfig config = new WorldGenConfig(seed, worldSize, worldSize);
         worldGeneratorContainer = new WorldGeneratorContainer();
         worldGeneratorContainer.init(config);
         worldGeneratorContainer.runContainer();
-        map = worldGeneratorContainer.getWorldMap();
+        world = worldGeneratorContainer.getWorld();
     }
 
-    public void randomizeSeed() {
+    private void randomizeSeed() {
         seed = random.nextLong();
     }
 
-    public void saveMap() {
-        new WorldSaver().saveWorld(map);
+    private void saveMap() {
+        new WorldSaver().saveWorld(world);
         game.switchMainMenu();
     }
 
-    public WorldMap getMap() {
-        return map;
+    public World getWorld() {
+        return world;
     }
 
     public void setSeed(long seed) {
@@ -248,5 +219,29 @@ public class WorldGenScreen implements Screen {
 
     public void setWorldSize(int worldSize) {
         this.worldSize = worldSize;
+    }
+
+    public void setGame(TearFall game) {
+        this.game = game;
+    }
+
+    @Override
+    public void show() {
+    }
+
+    @Override
+    public void pause() {
+    }
+
+    @Override
+    public void resume() {
+    }
+
+    @Override
+    public void hide() {
+    }
+
+    @Override
+    public void dispose() {
     }
 }

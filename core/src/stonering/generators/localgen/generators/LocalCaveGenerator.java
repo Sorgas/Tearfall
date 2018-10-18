@@ -23,7 +23,7 @@ public class LocalCaveGenerator {
 
     public LocalCaveGenerator(LocalGenContainer container) {
         this.container = container;
-        worldMap = container.getWorldMap();
+        worldMap = container.getWorld().getWorldMap();
         config = container.getConfig();
         localAreaSize = config.getAreaSize();
         random = new Random();

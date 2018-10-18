@@ -13,7 +13,7 @@ import java.util.HashSet;
 import java.util.List;
 
 /**
- * Contains intermediate results of world generation
+ * Contains intermediate and complete results of world generation.
  *
  * @author Alexander Kuzyakov on 05.03.2017.
  */
@@ -255,5 +255,9 @@ public class WorldGenContainer {
 
     public ArrayList<CelestialBody> getCelestialBodies() {
         return celestialBodies;
+    }
+
+    public World getWorld() {
+        return world;
     }
 }

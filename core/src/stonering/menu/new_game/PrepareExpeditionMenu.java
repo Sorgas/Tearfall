@@ -11,6 +11,7 @@ import stonering.TearFall;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
+import stonering.entity.world.World;
 import stonering.generators.worldgen.WorldMap;
 import stonering.menu.ui_components.WorldListItem;
 import stonering.global.utils.Position;
@@ -26,7 +27,7 @@ import java.io.File;
 public class PrepareExpeditionMenu implements Screen {
     private TearFall game;
     private Stage stage;
-    private WorldMap world;
+    private World world;
     private Position location;
 
     public PrepareExpeditionMenu(TearFall game) {
@@ -127,19 +128,17 @@ public class PrepareExpeditionMenu implements Screen {
         return menuTable;
     }
 
-    public void checkInput() {
-
-    }
+    public void checkInput() {}
 
     public Stage getStage() {
         return stage;
     }
 
-    public void setWorld(WorldMap world) {
+    public void setWorld(World world) {
         this.world = world;
     }
 
-    public WorldMap getWorld() {
+    public World getWorld() {
         return world;
     }
 

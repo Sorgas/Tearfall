@@ -1,5 +1,6 @@
 package stonering.generators.localgen;
 
+import stonering.entity.world.World;
 import stonering.game.core.model.LocalMap;
 import stonering.generators.worldgen.WorldMap;
 import stonering.global.utils.Position;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
  */
 public class LocalGenContainer {
     private LocalGenConfig config;
-    private WorldMap worldMap;
+    private World world;
     private LocalMap localMap;
 
     private int localElevation;
@@ -34,16 +35,16 @@ public class LocalGenContainer {
     private ArrayList<Position> waterTiles;
     private ArrayList<CelestialBody> selestialBodies;
 
-    public LocalGenContainer(LocalGenConfig config, WorldMap worldMap) {
+    public LocalGenContainer(LocalGenConfig config, World world) {
         this.config = config;
-        this.worldMap = worldMap;
+        this.world = world;
     }
 
     /**
      * Creates LocalMap and collections for generators.
      */
     public void initContainer() {
-        localElevation = (int) (worldMap.getElevation(config.getLocation().getX(), config.getLocation().getY()) * config.getWorldToLocalElevationModifier());
+        localElevation = (int) (world.getWorldMap().getElevation(config.getLocation().getX(), config.getLocation().getY()) * config.getWorldToLocalElevationModifier());
         localMap = new LocalMap(config.getAreaSize(), config.getAreaSize(), localElevation + config.getAirLayersAboveGround());
         units = new ArrayList<>();
         buildings = new ArrayList<>();
@@ -59,8 +60,8 @@ public class LocalGenContainer {
         return config;
     }
 
-    public WorldMap getWorldMap() {
-        return worldMap;
+    public World getWorld() {
+        return world;
     }
 
     public int[][] getRoundedHeightsMap() {
