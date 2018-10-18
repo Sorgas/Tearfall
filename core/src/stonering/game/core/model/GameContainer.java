@@ -43,6 +43,8 @@ public class GameContainer {
         gameCalendar = new GameCalendar();
         paused = false;
         startContainer();
+        gameCalendar.addListener("minute", world.getStarSystem());
+        world.getStarSystem().init(this);
     }
 
     private void loadFromContainer(LocalGenContainer container) {
@@ -69,8 +71,6 @@ public class GameContainer {
         liquidContainer = new LiquidContainer(container);
         liquidContainer.setLocalMap(localMap);
         liquidContainer.initLiquidsToMap();
-
-        gameCalendar.addListener("minute", world.getStarSystem());
 
         //TODO commented for fast localgen
 //        localMap.initAreas();

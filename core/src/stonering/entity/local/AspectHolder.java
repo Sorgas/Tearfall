@@ -1,8 +1,10 @@
 package stonering.entity.local;
 
+import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.IntervalTurnable;
 import stonering.global.utils.Position;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 /**
@@ -10,7 +12,7 @@ import java.util.HashMap;
  *
  * @author Alexander Kuzyakov on 25.01.2018.
  */
-public abstract class AspectHolder extends IntervalTurnable {
+public abstract class AspectHolder extends IntervalTurnable implements Serializable{
     protected HashMap<String, Aspect> aspects;
     protected Position position;
 
@@ -38,5 +40,9 @@ public abstract class AspectHolder extends IntervalTurnable {
 
     public void turn() {
         aspects.values().forEach(Aspect::turn);
+    }
+
+    public void init(GameContainer container) {
+        aspects.forEach((s, aspect) -> aspect.init(container));
     }
 }

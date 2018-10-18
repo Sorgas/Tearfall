@@ -11,36 +11,38 @@ import stonering.entity.local.AspectHolder;
  */
 public class CelestialCycleAspect extends Aspect {
     private float phase;            //[0,1]
-    private float orbitPos;         //[0,1]
+    private float orbitPos;         //[0,1] position on orbit in radians * 2
     private float phaseScale;
-    private float orbitScale;
+    private float orbitScale;       // part of orbit passed in one minute
 
     public CelestialCycleAspect(float phaseScale, float orbitScale, AspectHolder aspectHolder) {
-        super("celestialCycle", aspectHolder);
+        super("celestial_cycle", aspectHolder);
         this.phaseScale = phaseScale;
         this.orbitScale = orbitScale;
     }
 
-    public void update(int timeDelta) {
-        phase += timeDelta * phaseScale;
-        if (phase > 1) {
-            phase -= 1;
-        }
-        orbitPos += timeDelta * orbitScale;
-        if (orbitPos > 1) {
-            orbitPos -= 1;
-        }
-        updateOtherAspects();
-    }
-
     private void updateOtherAspects() {
-        if (aspectHolder.getAspects().containsKey("lightSource")) {
-            ((SelestialLightSource) aspectHolder.getAspects().get("lightSource")).setForce(countLightForce());
+        if (aspectHolder.getAspects().containsKey("light_source")) {
+            ((SelestialLightSource) aspectHolder.getAspects().get("light_source")).setForce(countLightForce());
         }
     }
 
     private float countLightForce() {
-        return 1f;
+//        System.out.println((float) (Math.cos(orbitPos * 2 * Math.PI) + 1) / 2f);
+        return (float) (Math.cos(orbitPos * 2 * Math.PI) + 1) / 2f;
+    }
+
+    /**
+     * Updates brightness of celestial body. Should be called each minute.
+     */
+    //TODO add longitude
+    @Override
+    public void turn() {
+        orbitPos += orbitScale;
+        if (orbitPos > 1) {
+            orbitPos -= 1;
+        }
+        updateOtherAspects();
     }
 
     public float getOrbitPos() {

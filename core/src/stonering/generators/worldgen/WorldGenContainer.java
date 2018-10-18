@@ -37,7 +37,6 @@ public class WorldGenContainer {
     private Vector2[][] rivers;
     private Vector2[][] brooks;
     private HashSet<Position> lakes;
-    private ArrayList<CelestialBody> celestialBodies;
 
     private float landPart;
 
@@ -91,7 +90,6 @@ public class WorldGenContainer {
         valleys = new ArrayList<>();
         hills = new ArrayList<>();
         lakes = new HashSet<>();
-        celestialBodies = new ArrayList<>();
     }
 
     public boolean inMap(int x, int y) {
@@ -248,10 +246,6 @@ public class WorldGenContainer {
 
     public int getBiome(int x, int y) {
         return inMap(x, y) ? biome[x][y] : 0;
-    }
-
-    public ArrayList<CelestialBody> getCelestialBodies() {
-        return celestialBodies;
     }
 
     public World getWorld() {

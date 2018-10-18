@@ -15,9 +15,6 @@ import stonering.entity.local.plants.PlantBlock;
 public class PlantGenerator {
 
     public Plant generatePlant(String specimen, int age) throws DescriptionNotFoundException {
-        if(specimen.equals("blue_berry")) {
-            System.out.println("asd");
-        }
         Plant plant = new Plant(0);
         plant.setType(PlantMap.getInstance().getPlantType(specimen));
 

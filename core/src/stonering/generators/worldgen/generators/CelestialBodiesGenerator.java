@@ -31,9 +31,9 @@ public class CelestialBodiesGenerator extends AbstractGenerator {
     private void generateSun() {
         CelestialBody sun = new CelestialBody();
         sun.addAspect(new SelestialLightSource(sun));
-        float dayScale = 0.0001f;
+        float dayScale = 0.01f;
         sun.addAspect(new CelestialCycleAspect(dayScale, dayScale, sun));
-        container.getCelestialBodies().add(sun);
+        container.getWorld().getStarSystem().getCelestialBodies().add(sun);
     }
 
     /**
@@ -44,7 +44,7 @@ public class CelestialBodiesGenerator extends AbstractGenerator {
         moon.addAspect(new SelestialLightSource(moon));
         float dayScale = 0.0001f;
         moon.addAspect(new CelestialCycleAspect(dayScale, dayScale, moon));
-        container.getCelestialBodies().add(moon);
+        container.getWorld().getStarSystem().getCelestialBodies().add(moon);
     }
 
     /**

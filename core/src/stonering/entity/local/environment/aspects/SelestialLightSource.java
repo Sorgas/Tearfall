@@ -4,6 +4,8 @@ import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.core.model.LocalMap;
 import stonering.entity.local.AspectHolder;
 
+import java.util.logging.SocketHandler;
+
 /**
  * Light source of sun, moon, etc. Emits rays from up to down, first non-space tile becomes illuminated.
  * Should be used only for bodies that emit noticeable amount of light.
@@ -31,12 +33,18 @@ public class SelestialLightSource extends AbstractLighSourceAspect {
         for (int x = 0; x < localMap.getxSize(); x++) {
             for (int y = 0; y < localMap.getySize(); y++) {
                 for (int z = localMap.getzSize() - 1; z >= 0; z--) {
+                    localMap.generalLight.changeValue(x, y, z, forceDelta);
                     if (localMap.getBlockType(x, y, z) != BlockTypesEnum.SPACE.getCode()) {
-                        localMap.generalLight.changeValue(x, y, z, forceDelta);
                         break;
                     }
                 }
             }
         }
+        saveCurrentSpot();
+    }
+
+    @Override
+    public void turn() {
+        updateLigtOnMap();
     }
 }

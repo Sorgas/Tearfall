@@ -14,7 +14,7 @@ public abstract class AbstractLighSourceAspect extends Aspect {
     protected float previousForce;          // [0,1]
 
     public AbstractLighSourceAspect(AspectHolder aspectHolder) {
-        super("lightSource", aspectHolder);
+        super("light_source", aspectHolder);
     }
 
     /**
@@ -26,7 +26,7 @@ public abstract class AbstractLighSourceAspect extends Aspect {
     /**
      * Saves current light source state to be removed on next update.
      */
-    private void saveCurrentSpot() {
+    protected void saveCurrentSpot() {
         previousForce = force;
     }
 

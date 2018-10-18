@@ -109,7 +109,7 @@ public class LocalWorldDrawer {
         shadeByLight(lightLevel);
         drawBlock(x, y, z);
         updateColorA(0.6f);
-        drawWaterBlock(x,y,z);
+        drawWaterBlock(x, y, z);
         updateColorA(1f);
         PlantBlock plantBlock = localMap.getPlantBlock(x, y, z);
         if (plantBlock != null) {
@@ -282,7 +282,8 @@ public class LocalWorldDrawer {
      * @param a
      */
     private void updateColorA(float a) {
-        batch.setColor(batchColor.cpy().set(batchColor.r, batchColor.g, batchColor.b, a));
+        Color color = batch.getColor();
+        batch.setColor(color.r, color.g, color.b, a);
     }
 
     /**
@@ -301,7 +302,8 @@ public class LocalWorldDrawer {
     }
 
     private void shadeByLight(byte lightLevel) {
-        batch.setColor(batchColor.cpy().mul(lightLevel / (float) Byte.MAX_VALUE));
+        float mod = lightLevel / (float) Byte.MAX_VALUE;
+        batch.setColor(batchColor.r * mod, batchColor.g * mod, batchColor.b * mod, batchColor.a);
     }
 
     private int getScreenPosX(int x) {
