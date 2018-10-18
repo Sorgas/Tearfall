@@ -2,7 +2,6 @@ package stonering.generators.localgen;
 
 import stonering.entity.world.World;
 import stonering.game.core.model.LocalMap;
-import stonering.generators.worldgen.WorldMap;
 import stonering.global.utils.Position;
 import stonering.entity.local.building.Building;
 import stonering.entity.local.environment.CelestialBody;
@@ -126,13 +125,5 @@ public class LocalGenContainer {
 
     public void setWaterTiles(ArrayList<Position> waterTiles) {
         this.waterTiles = waterTiles;
-    }
-
-    public ArrayList<CelestialBody> getSelestialBodies() {
-        return selestialBodies;
-    }
-
-    public void setSelestialBodies(ArrayList<CelestialBody> selestialBodies) {
-        this.selestialBodies = selestialBodies;
     }
 }

@@ -1,4 +1,4 @@
-package stonering.generators.worldgen;
+package stonering.entity.world;
 
 import com.badlogic.gdx.math.Vector2;
 import stonering.entity.world.TectonicPlate;

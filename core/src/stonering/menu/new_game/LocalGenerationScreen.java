@@ -13,7 +13,6 @@ import stonering.entity.world.World;
 import stonering.generators.localgen.LocalGenConfig;
 import stonering.generators.localgen.LocalGeneratorContainer;
 import stonering.game.core.model.LocalMap;
-import stonering.generators.worldgen.WorldMap;
 import stonering.global.utils.Position;
 import stonering.menu.ui_components.LabeledProgressBar;
 

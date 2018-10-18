@@ -14,7 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
 import stonering.entity.world.World;
-import stonering.generators.worldgen.WorldMap;
 import stonering.menu.ui_components.MiniMap;
 import stonering.menu.ui_components.WorldListItem;
 import stonering.menu.utils.WorldSaver;

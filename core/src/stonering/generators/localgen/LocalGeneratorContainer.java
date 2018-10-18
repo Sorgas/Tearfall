@@ -3,7 +3,6 @@ package stonering.generators.localgen;
 import stonering.entity.world.World;
 import stonering.game.core.model.LocalMap;
 import stonering.generators.localgen.generators.*;
-import stonering.generators.worldgen.WorldMap;
 
 /**
  * @author Alexander Kuzyakov on 27.08.2017.

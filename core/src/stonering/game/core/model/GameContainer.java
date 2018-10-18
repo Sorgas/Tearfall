@@ -1,6 +1,7 @@
 package stonering.game.core.model;
 
 import com.badlogic.gdx.utils.Timer;
+import stonering.entity.world.World;
 import stonering.game.core.model.lists.*;
 import stonering.game.core.view.tilemaps.LocalTileMap;
 import stonering.game.core.view.tilemaps.LocalTileMapUpdater;
@@ -14,7 +15,8 @@ import stonering.entity.local.environment.GameCalendar;
  * @author Alexander Kuzyakov on 10.06.2017.
  */
 public class GameContainer {
-    private LocalMap localMap;                       //local map is created during localgeneration.
+    private World world;
+    private LocalMap localMap;                              //local map is created during localgeneration.
     private LocalTileMap localTileMap;
     private BuildingContainer buildingContainer;
     private PlantContainer plantContainer;
@@ -22,10 +24,9 @@ public class GameContainer {
     private TaskContainer taskContainer;
     private ItemContainer itemContainer;
     private LiquidContainer liquidContainer;
-    private GlobalActorsContainer globalActorsContainer;
 
-    private Timer timer;
-    private GameCalendar gameCalendar;
+    private Timer timer;                                    //makes turns for entity containers and calendar.
+    private GameCalendar gameCalendar;                      //slow game entities make turns through this.
     private boolean paused;
     private GameCamera camera;
 
@@ -45,6 +46,7 @@ public class GameContainer {
     }
 
     private void loadFromContainer(LocalGenContainer container) {
+        this.world = container.getWorld();
         this.localMap = container.getLocalMap();
 
         plantContainer = new PlantContainer(this);
@@ -68,8 +70,7 @@ public class GameContainer {
         liquidContainer.setLocalMap(localMap);
         liquidContainer.initLiquidsToMap();
 
-        globalActorsContainer = new GlobalActorsContainer(this);
-        globalActorsContainer.init(container);
+        gameCalendar.addListener("minute", world.getStarSystem());
 
         //TODO commented for fast localgen
 //        localMap.initAreas();
@@ -96,7 +97,6 @@ public class GameContainer {
         buildingContainer.turn();
         itemContainer.turn();
         liquidContainer.turn();
-        globalActorsContainer.turn();
         gameCalendar.turn();
     }
 

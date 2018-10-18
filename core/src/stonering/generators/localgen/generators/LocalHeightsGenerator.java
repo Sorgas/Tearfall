@@ -3,7 +3,7 @@ package stonering.generators.localgen.generators;
 import stonering.generators.PerlinNoiseGenerator;
 import stonering.generators.localgen.LocalGenConfig;
 import stonering.generators.localgen.LocalGenContainer;
-import stonering.generators.worldgen.WorldMap;
+import stonering.entity.world.WorldMap;
 
 import java.util.Arrays;
 import java.util.Random;

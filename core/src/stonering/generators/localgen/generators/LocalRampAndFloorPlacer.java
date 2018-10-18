@@ -1,11 +1,9 @@
 package stonering.generators.localgen.generators;
 
 import stonering.enums.blocks.BlockTypesEnum;
-import stonering.enums.materials.MaterialMap;
 import stonering.game.core.model.LocalMap;
 import stonering.generators.localgen.LocalGenConfig;
 import stonering.generators.localgen.LocalGenContainer;
-import stonering.generators.worldgen.WorldMap;
 
 /**
  * @author Alexander Kuzyakov on 17.10.2017.

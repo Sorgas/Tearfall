@@ -23,7 +23,7 @@ public class GlobalActorsContainer extends IntervalTurnable {
     }
 
     public void init(LocalGenContainer container) {
-        container.getSelestialBodies().forEach(celestialBodies::add);
+        celestialBodies.addAll(container.getWorld().getStarSystem().getCelestialBodies());
     }
 
     @Override

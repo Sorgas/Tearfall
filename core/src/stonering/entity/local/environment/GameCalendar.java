@@ -1,10 +1,9 @@
 package stonering.entity.local.environment;
 
+import stonering.game.core.model.IntervalTurnable;
 import stonering.game.core.model.Turnable;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * Date and time storing class. Makes turns to roll time.
@@ -12,7 +11,7 @@ import java.util.List;
  * @author Alexander on 07.10.2018.
  */
 public class GameCalendar extends Turnable {
-    private HashMap<String, List<CalendarListener>> listeners;
+    private HashMap<String, List<IntervalTurnable>> listeners;
     private static int MINUTE_SIZE = 60;
     private static int HOUR_SIZE = 60;
     private static int DAY_SIZE = 24;
@@ -26,6 +25,16 @@ public class GameCalendar extends Turnable {
     private int month;
     private int year;
 
+    public GameCalendar() {
+        listeners = new HashMap<>();
+        ArrayList<IntervalTurnable> mock = new ArrayList<>(Collections.singleton(new MockTurnable()));
+        listeners.put("minute", mock);
+        listeners.put("hour", mock);
+        listeners.put("day", mock);
+        listeners.put("month", mock);
+        listeners.put("year", mock);
+    }
+
     /**
      * For tick.
      */
@@ -35,22 +44,22 @@ public class GameCalendar extends Turnable {
         if (time >= MINUTE_SIZE) {
             time = 0;
             minute++;
-            callListeners("minute");
+            listeners.get("minute").forEach(IntervalTurnable::turnMinute);
             if (minute >= HOUR_SIZE) {
                 minute = 0;
                 hour++;
-                callListeners("hour");
+                listeners.get("hour").forEach(IntervalTurnable::turnHour);
                 if (hour >= DAY_SIZE) {
                     hour = 0;
                     day++;
-                    callListeners("day");
+                    listeners.get("day").forEach(IntervalTurnable::turnDay);
                     if (day >= MONTH_SIZE) {
                         day = 0;
                         month++;
-                        callListeners("month");
+                        listeners.get("month").forEach(IntervalTurnable::turnMonth);
                         if (month >= YEAR_SIZE) {
                             year++;
-                            callListeners("year");
+                            listeners.get("year").forEach(IntervalTurnable::turnYear);
                         }
                     }
                 }
@@ -58,13 +67,7 @@ public class GameCalendar extends Turnable {
         }
     }
 
-    private void callListeners(String key) {
-        if (listeners.containsKey(key)) {
-            listeners.get(key).forEach(CalendarListener::invoke);
-        }
-    }
-
-    public void addListener(String key, CalendarListener listener) {
+    public void addListener(String key, IntervalTurnable listener) {
         if (listeners.containsKey(key)) {
             listeners.get(key).add(listener);
         } else {
@@ -72,9 +75,7 @@ public class GameCalendar extends Turnable {
         }
     }
 
-    public interface CalendarListener {
-        void invoke();
-    }
+    private class MockTurnable extends IntervalTurnable {}
 
     public void init() {
         //TODO

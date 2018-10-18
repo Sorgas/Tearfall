@@ -1,11 +1,6 @@
 package stonering.entity.world;
 
-import stonering.entity.local.environment.CelestialBody;
-import stonering.generators.worldgen.WorldMap;
-
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Represents the whole game world. Includes map of current planet,
@@ -16,19 +11,19 @@ import java.util.List;
  */
 public class World implements Serializable {
     private WorldMap worldMap;
-    private List<CelestialBody> celestialBodies;
+    private StarSystem starSystem;
     private int seed;
 
     public World(int width, int height) {
         worldMap = new WorldMap(width, height);
-        celestialBodies = new ArrayList<>();
+        starSystem = new StarSystem();
     }
 
     public WorldMap getWorldMap() {
         return worldMap;
     }
 
-    public List<CelestialBody> getCelestialBodies() {
-        return celestialBodies;
+    public StarSystem getStarSystem() {
+        return starSystem;
     }
 }

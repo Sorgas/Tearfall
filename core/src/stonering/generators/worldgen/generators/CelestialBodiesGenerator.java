@@ -19,7 +19,7 @@ public class CelestialBodiesGenerator extends AbstractGenerator {
     @Override
     public boolean execute() {
         generateSun();
-        generateMoons();
+//        generateMoons();
         generatePlanets();
 
         return false;

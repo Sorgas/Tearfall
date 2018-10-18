@@ -13,7 +13,6 @@ import stonering.menu.new_game.LocalGenerationScreen;
 import stonering.menu.new_game.PrepareExpeditionMenu;
 import stonering.menu.new_game.SelectLocationMenu;
 import stonering.menu.new_game.SelectWorldMenu;
-import stonering.generators.worldgen.WorldMap;
 import stonering.global.utils.Position;
 import stonering.menu.worldgen.WorldGenScreen;
 

@@ -105,7 +105,12 @@ public class LocalWorldDrawer {
      * @param z
      */
     private void drawTile(int x, int y, int z) {
+        byte lightLevel = (byte) (localMap.getLight().getValue(x, y, z) + localMap.getGeneralLight().getValue(x, y, z));  //TODO limit light level
+        shadeByLight(lightLevel);
         drawBlock(x, y, z);
+        updateColorA(0.6f);
+        drawWaterBlock(x,y,z);
+        updateColorA(1f);
         PlantBlock plantBlock = localMap.getPlantBlock(x, y, z);
         if (plantBlock != null) {
             PlantType.PlantLifeStage stage = plantBlock.getPlant().getCurrentStage();
@@ -126,6 +131,7 @@ public class LocalWorldDrawer {
         if (localMap.getDesignatedBlockType(x, y, z) > 0) {
             drawSprite(4, x, y, z, DesignationsTileMapping.getAtlasX(localMap.getDesignatedBlockType(x, y, z)), 0);
         }
+        resetColor();
     }
 
     /**
@@ -145,8 +151,16 @@ public class LocalWorldDrawer {
                 drawTopping(lowerAtlas, x, y, z, localTileMap.getAtlasX(x, y, z - 1), localTileMap.getAtlasY(x, y, z - 1));
             }
         }
-        //draw water
-        updateColorA(0.6f);
+    }
+
+    /**
+     * Draws water in this tile.
+     *
+     * @param x
+     * @param y
+     * @param z
+     */
+    private void drawWaterBlock(int x, int y, int z) {
         if (localMap.getFlooding(x, y, z) != 0) {
             drawSprite(0, x, y, z, 13 + localMap.getFlooding(x, y, z), 0);
         } else {
@@ -154,7 +168,6 @@ public class LocalWorldDrawer {
                 drawTopping(0, x, y, z, 20, 0);
             }
         }
-        resetColor();
     }
 
     /**
@@ -251,16 +264,32 @@ public class LocalWorldDrawer {
         }
     }
 
+    /**
+     * Used to determine tile was clicked on.
+     *
+     * @param screenPos
+     * @return
+     */
     public Vector2 translateScreenPositionToModel(Vector2 screenPos) {
         Vector2 vector = screenPos.sub(new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2)); // to click point from center
         vector.set(vector.x / tileWidth, -vector.y / tileDepth);
         return new Vector2((float) Math.floor(camera.getPosition().getX() + vector.x), (float) Math.floor(camera.getPosition().getY() + vector.y));
     }
 
+    /**
+     * Makes color transparent.
+     *
+     * @param a
+     */
     private void updateColorA(float a) {
         batch.setColor(batchColor.cpy().set(batchColor.r, batchColor.g, batchColor.b, a));
     }
 
+    /**
+     * Shades batch color to correspond lowering z coord.
+     *
+     * @param dz
+     */
     private void shadeByZ(int dz) {
         float shadedColorChannel = 1 - (dz) * shadingStep;
         batchColor.set(shadedColorChannel, shadedColorChannel, shadedColorChannel, 1f);

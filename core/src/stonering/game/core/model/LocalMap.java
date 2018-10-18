@@ -21,8 +21,8 @@ public class LocalMap {
     private byte[][][] designatedBlockType;
     private byte[][][] flooding;
     private byte[][][] temperature;
-    public UtilByteArray generalLight;
-    public UtilByteArray light;
+    public UtilByteArray generalLight;                   //for light from celestial bodies
+    public UtilByteArray light;                          //for light from dynamic sources (torches, lamps)
     private byte[][][] area;
     private PlantBlock[][][] plantBlocks;
     private BuildingBlock[][][] buildingBlocks;
@@ -340,5 +340,13 @@ public class LocalMap {
 
     public PlantBlock getPlantBlock(Position pos) {
         return getPlantBlock(pos.getX(), pos.getY(), pos.getZ());
+    }
+
+    public UtilByteArray getGeneralLight() {
+        return generalLight;
+    }
+
+    public UtilByteArray getLight() {
+        return light;
     }
 }

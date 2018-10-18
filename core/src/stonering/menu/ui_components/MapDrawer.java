@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import stonering.entity.world.TectonicPlate;
 import stonering.menu.worldgen.WorldGenScreen;
 import stonering.generators.worldgen.WorldGenContainer;
-import stonering.generators.worldgen.WorldMap;
+import stonering.entity.world.WorldMap;
 import stonering.entity.world.Edge;
 import stonering.entity.world.Mountain;
 import stonering.global.utils.Position;
