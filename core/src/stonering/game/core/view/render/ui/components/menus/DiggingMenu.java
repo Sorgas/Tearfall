@@ -6,6 +6,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.enums.designations.DesignationTypes;
 import stonering.game.core.GameMvc;
 import stonering.game.core.controller.controllers.DesignationsController;
+import stonering.game.core.view.render.ui.components.menus.util.ButtonMenu;
+import stonering.game.core.view.render.ui.components.menus.util.PlaceSelectComponent;
 
 /**
  * ButtonMenu for selecting designation type.

@@ -6,15 +6,19 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import stonering.game.core.GameMvc;
+import stonering.game.core.view.render.ui.components.menus.building.GeneralBuildingMenu;
+import stonering.game.core.view.render.ui.components.menus.util.ButtonMenu;
+import stonering.game.core.view.render.ui.components.menus.util.ItemMenu;
+import stonering.game.core.view.render.ui.components.menus.util.MenuItem;
 import stonering.utils.global.StaticSkin;
 
 /**
  * Component of toolbar.
  * All menu commands first dispatched here, and then passed active menu.
- * <p>
+ *
  * @author Alexander Kuzyakov on 19.12.2017.
  */
-public class ParentMenu extends SubMenuMenu {
+public class ParentMenu extends ItemMenu {
 
     public ParentMenu(GameMvc gameMvc) {
         super(gameMvc, false);
@@ -33,7 +37,7 @@ public class ParentMenu extends SubMenuMenu {
     }
 
     private void initMenu(ButtonMenu menu, String text, int hotkey) {
-        menus.put(hotkey, menu);
+        items.put(hotkey, new MenuItem(menu));
         TextButton button = new TextButton(text, StaticSkin.getSkin());
         button.addListener(new ChangeListener() {
             @Override

@@ -67,11 +67,24 @@ public class MaterialMap {
      * @param types
      * @return HashSet of material ids
      */
-    public HashSet<Integer> getMaterialsByTypes(ArrayList<String> types) {
+    public HashSet<Integer> getMaterialsByTypes(List<String> types) {
         HashSet<String> typesSet = new HashSet<>(types);
         HashSet<Integer> idsSet = new HashSet<>();
         materials.values().stream().
                 filter(material -> !Collections.disjoint(typesSet, material.getTypes())).
+                forEach(material -> idsSet.add(material.getId()));
+        return idsSet;
+    }
+
+    /**
+     * Filters all materials having types from given list.
+     * @param type
+     * @return HashSet of material ids
+     */
+    public HashSet<Integer> getMaterialsByType(String type) {
+        HashSet<Integer> idsSet = new HashSet<>();
+        materials.values().stream().
+                filter(material -> material.getTypes().contains(type)).
                 forEach(material -> idsSet.add(material.getId()));
         return idsSet;
     }

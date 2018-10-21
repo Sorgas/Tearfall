@@ -1,4 +1,6 @@
-package stonering.game.core.view.render.ui.components.menus;
+package stonering.game.core.view.render.ui.components.menus.util;
+
+import stonering.game.core.view.render.ui.components.menus.Toolbar;
 
 /**
  * Component which could be shown or hidden from {@link Toolbar}

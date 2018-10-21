@@ -5,7 +5,7 @@ import stonering.designations.Designation;
 import stonering.designations.OrderDesignation;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.buildings.BuildingMap;
-import stonering.enums.buildings.BuildingType;
+import stonering.entity.local.building.BuildingType;
 import stonering.enums.designations.DesignationTypes;
 import stonering.game.core.model.GameContainer;
 import stonering.global.utils.Position;

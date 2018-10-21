@@ -4,9 +4,10 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter;
+import stonering.entity.local.building.BuildingType;
+import stonering.enums.buildings.BuildingMap;
 import stonering.global.utils.Position;
 import stonering.entity.local.building.Building;
-import stonering.utils.global.FileLoader;
 
 /**
  * @author Alexander Kuzyakov on 07.12.2017.
@@ -17,7 +18,7 @@ public class BuildingGenerator {
     private Json json;
     private JsonReader reader;
     private JsonValue buildings;
-
+    private BuildingMap buildingMap;
 
     public BuildingGenerator() {
         init();
@@ -27,24 +28,13 @@ public class BuildingGenerator {
         reader = new JsonReader();
         json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
-        buildings = reader.parse(FileLoader.getBuildingsFile());
+        buildingMap = BuildingMap.getInstance();
     }
 
     public Building generateBuilding(String name) {
-        JsonValue buildingJson = findBuilding(name);
-        return generateBuildinqQ(buildingJson);
-    }
-
-    private JsonValue findBuilding(String name) {
-        for (JsonValue t: buildings) {
-            if(t.getString("title").equals(name)) return t;
-        }
-        return null;
-    }
-
-    private Building generateBuildinqQ(JsonValue template) {
+        BuildingType type = buildingMap.getBuilding(name);
         Building building = new Building(new Position(0,0,0));
-        building.setName(template.getString("title"));
+        building.setName(type.getTitle());
         return building;
     }
 }

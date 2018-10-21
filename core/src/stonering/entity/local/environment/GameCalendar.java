@@ -12,7 +12,7 @@ import java.util.*;
  */
 public class GameCalendar extends Turnable {
     private HashMap<String, List<IntervalTurnable>> listeners;
-    private static int MINUTE_SIZE = 10;
+    private static int MINUTE_SIZE = 60;
     private static int HOUR_SIZE = 60;
     private static int DAY_SIZE = 24;
     private static int MONTH_SIZE = 30;

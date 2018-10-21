@@ -2,7 +2,7 @@ package stonering.game.core.view.render.ui.components.lists;
 
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 import stonering.game.core.GameMvc;
-import stonering.game.core.view.render.ui.components.menus.HideableComponent;
+import stonering.game.core.view.render.ui.components.menus.util.HideableComponent;
 import stonering.game.core.view.render.ui.components.menus.Toolbar;
 import stonering.utils.global.StaticSkin;
 

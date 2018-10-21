@@ -1,4 +1,4 @@
-package stonering.game.core.view.render.ui.components.menus;
+package stonering.game.core.view.render.ui.components.menus.util;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -11,6 +11,9 @@ import stonering.game.core.controller.inputProcessors.MouseInputProcessor;
 import stonering.game.core.model.GameCamera;
 import stonering.game.core.model.LocalMap;
 import stonering.game.core.view.render.ui.components.lists.MaterialSelectList;
+import stonering.game.core.view.render.ui.components.menus.Toolbar;
+import stonering.game.core.view.render.ui.components.menus.util.HideableComponent;
+import stonering.game.core.view.render.ui.components.menus.util.MouseInvocable;
 import stonering.global.utils.Position;
 
 /**

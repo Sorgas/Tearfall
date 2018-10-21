@@ -3,8 +3,8 @@ package stonering.game.core.controller.controllers;
 import com.badlogic.gdx.math.Vector2;
 import stonering.game.core.GameMvc;
 import stonering.game.core.view.GameView;
-import stonering.game.core.view.render.ui.components.menus.Invokable;
-import stonering.game.core.view.render.ui.components.menus.MouseInvocable;
+import stonering.game.core.view.render.ui.components.menus.util.Invokable;
+import stonering.game.core.view.render.ui.components.menus.util.MouseInvocable;
 
 import java.util.Arrays;
 

@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.Align;
 import stonering.game.core.GameMvc;
 import stonering.game.core.view.render.ui.components.lists.MaterialSelectList;
 import stonering.game.core.view.render.ui.components.lists.ItemsCountList;
+import stonering.game.core.view.render.ui.components.menus.util.Invokable;
 import stonering.utils.global.StaticSkin;
 
 import java.util.ArrayList;

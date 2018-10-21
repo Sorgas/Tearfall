@@ -1,21 +1,25 @@
-package stonering.enums.buildings;
+package stonering.entity.local.building;
 
 import com.badlogic.gdx.graphics.Color;
+import stonering.entity.local.crafting.CraftingComponentStep;
 
 import java.util.ArrayList;
 
 /**
+ * Type of building.
+ * Determines building process, usage, appearance.
+ *
  * @author Alexander Kuzyakov
  * created on 28.06.2018
  */
 public class BuildingType {
+    private String building;
     private String title;
     private String description;
-    private ArrayList<String> items;
-    private ArrayList<String> materials;
-    private int amount;
     private String category;
-    private String hotKey;
+    private ArrayList<CraftingComponentStep> componentSteps;
+    private ArrayList<String> menuPath;
+    private ArrayList<String> operations;
 
     private int atlasX;
     private int atlasY;
@@ -35,22 +39,6 @@ public class BuildingType {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public ArrayList<String> getItems() {
-        return items;
-    }
-
-    public void setItems(ArrayList<String> items) {
-        this.items = items;
-    }
-
-    public ArrayList<String> getMaterials() {
-        return materials;
-    }
-
-    public void setMaterials(ArrayList<String> materials) {
-        this.materials = materials;
     }
 
     public String getCategory() {
@@ -85,19 +73,35 @@ public class BuildingType {
         this.color = color;
     }
 
-    public String getHotKey() {
-        return hotKey;
+    public String getBuilding() {
+        return building;
     }
 
-    public void setHotKey(String hotKey) {
-        this.hotKey = hotKey;
+    public void setBuilding(String building) {
+        this.building = building;
     }
 
-    public int getAmount() {
-        return amount;
+    public ArrayList<String> getMenuPath() {
+        return menuPath;
     }
 
-    public void setAmount(int amount) {
-        this.amount = amount;
+    public void setMenuPath(ArrayList<String> menuPath) {
+        this.menuPath = menuPath;
+    }
+
+    public ArrayList<String> getOperations() {
+        return operations;
+    }
+
+    public void setOperations(ArrayList<String> operations) {
+        this.operations = operations;
+    }
+
+    public ArrayList<CraftingComponentStep> getComponentSteps() {
+        return componentSteps;
+    }
+
+    public void setComponentSteps(ArrayList<CraftingComponentStep> componentSteps) {
+        this.componentSteps = componentSteps;
     }
 }

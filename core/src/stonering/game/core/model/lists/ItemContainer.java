@@ -1,7 +1,6 @@
 package stonering.game.core.model.lists;
 
-import stonering.enums.buildings.BuildingMap;
-import stonering.enums.buildings.BuildingType;
+import stonering.entity.local.crafting.CraftingComponentStep;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.LocalMap;
@@ -13,8 +12,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * Manages all items on map
- * <p>
+ * Manages all items on map.
+ *
  * @author Alexander Kuzyakov on 14.06.2017.
  */
 public class ItemContainer {
@@ -61,7 +60,7 @@ public class ItemContainer {
     public void pickItem(Item item) {
         ArrayList<Item> list = itemMap.get(item.getPosition());
         list.remove(item);
-        if(list.isEmpty()) {
+        if (list.isEmpty()) {
             itemMap.remove(item.getPosition());
         }
         item.setPosition(null);
@@ -77,14 +76,6 @@ public class ItemContainer {
         }
     }
 
-    public Item getItemWithProperty(String property) {
-        for (Item item : items) {
-            if (item.getType().getAspects().containsKey(property))
-                return item;
-        }
-        return null;
-    }
-
     public ArrayList<Item> getItems(int x, int y, int z) {
         return getItems(new Position(x, y, z));
     }
@@ -97,11 +88,13 @@ public class ItemContainer {
         }
     }
 
-    public List<Item> getAvailableMaterialsForBuilding(String buildingTitle, Position pos) {
-        BuildingType buildingType = BuildingMap.getInstance().getBuilding(buildingTitle);
-        if (buildingType != null) {
-            List<Item> items = new ArrayList<>(getMaterialList(buildingType.getAmount(), buildingType.getItems(), buildingType.getMaterials()));
-            return filterUnreachable(items, pos);
+    public List<Item> getAvailableMaterialsCraftingStep(CraftingComponentStep step, Position pos) {
+        List<Item> items = new ArrayList<>();
+        step.getVariants().forEach(variant -> {
+            items.addAll(getItemList(variant.getAmount(), variant.getType(), variant.getMaterial()));
+        });
+        return filterUnreachable(items, pos);
+        //TODO this is for amount
 //            HashMap<Pair<String, String>, Integer> map = new HashMap<>();
 //                    .forEach((item) -> {
 //                Pair<String, String> key = new Pair<>(materialMap.getMaterial(item.getMaterial()).getName(), item.getTitle());
@@ -109,16 +102,20 @@ public class ItemContainer {
 //                map.put(key, prev + 1);
 //            });
 //            return map;
-        }
-        return new ArrayList<>();
     }
 
-    public List<Item> getMaterialList(int amount, ArrayList<String> types, ArrayList<String> materialTypes) {
-        MaterialMap materialMap = MaterialMap.getInstance();
-        HashSet<Integer> materialIds = materialMap.getMaterialsByTypes(materialTypes);
-        ArrayList<Item> itemListForFiltering = new ArrayList<>(items);
+
+    /**
+     * Searches items of specified type and material on map.
+     *
+     * @return
+     */
+    //TODO use amount
+    public List<Item> getItemList(int amount, String itemType, String materialType) {
+        Set<Integer> materialIds = MaterialMap.getInstance().getMaterialsByType(materialType);
+        List<Item> itemListForFiltering = new ArrayList<>(items);
         return itemListForFiltering.stream().
-                filter(item -> types.contains(item.getType().getTitle())).
+                filter(item -> item.getType().getTitle().equals(itemType)).
                 filter(item -> materialIds.contains(item.getMaterial())).
                 collect(Collectors.toList());
     }
@@ -128,12 +125,9 @@ public class ItemContainer {
         return items.stream().filter(item -> localMap.getArea(item.getPosition()) == localMap.getArea(pos)).collect(Collectors.toList());
     }
 
-    private ArrayList<Item> filterItemListForMaterials(String Material, ArrayList<Item> items) {
-        return null;
-    }
-
     /**
      * Checks if item can be reached from position.
+     *
      * @param item
      * @param position
      * @return
@@ -145,14 +139,14 @@ public class ItemContainer {
     }
 
     public void lockItem(Item item) {
-        if(items.contains(item)) {
+        if (items.contains(item)) {
             items.remove(item);
             lockedItems.add(item);
         }
     }
 
     public void unlockItem(Item item) {
-        if(lockedItems.contains(item)) {
+        if (lockedItems.contains(item)) {
             lockedItems.remove(item);
             items.add(item);
         }
@@ -165,7 +159,7 @@ public class ItemContainer {
     public Item getItemAvailableBySelector(ItemSelector itemSelector, Position position) {
         //TODO implement ordering by distance
         List<Item> items = itemSelector.selectItems(this.items);
-        if(items != null && !items.isEmpty()) { // TODO implement lookup with areas
+        if (items != null && !items.isEmpty()) { // TODO implement lookup with areas
             return items.get(0);
         }
         return null;

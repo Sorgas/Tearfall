@@ -3,7 +3,7 @@ package stonering.game.core.view.render.ui.components.lists;
 import com.badlogic.gdx.Input;
 import stonering.game.core.GameMvc;
 import stonering.game.core.controller.controllers.DesignationsController;
-import stonering.game.core.view.render.ui.components.menus.Invokable;
+import stonering.game.core.view.render.ui.components.menus.util.Invokable;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.items.selectors.SimpleItemSelector;
 
@@ -57,7 +57,7 @@ public class MaterialSelectList extends ItemsCountList implements Invokable {
 
     public void refill() {
         clear();
-        List<Item> items = gameMvc.getModel().getItemContainer().getAvailableMaterialsForBuilding(controller.getBuilding(), controller.getStart());
+        List<Item> items = gameMvc.getModel().getItemContainer().getAvailableMaterialsCraftingStep(null, controller.getStart());
         addItems(items);
         addListener(event -> {
             if (getSelectedIndex() >= 0) {
