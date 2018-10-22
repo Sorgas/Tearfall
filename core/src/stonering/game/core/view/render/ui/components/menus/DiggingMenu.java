@@ -47,7 +47,7 @@ public class DiggingMenu extends ButtonMenu {
                 controller.setActiveDesignation(type, null); //no buildings here
                 placeSelectComponent.show(); //show place select for rectangle, without material select
             }
-        });
+        }, true);
     }
 
     @Override

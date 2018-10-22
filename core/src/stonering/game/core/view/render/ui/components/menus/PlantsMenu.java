@@ -52,6 +52,6 @@ public class PlantsMenu extends ButtonMenu {
                 controller.setActiveDesignation(type, null);
                 placeSelectComponent.show();
             }
-        });
+        }, true);
     }
 }

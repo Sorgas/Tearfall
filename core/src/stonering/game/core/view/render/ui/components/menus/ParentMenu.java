@@ -1,16 +1,10 @@
 package stonering.game.core.view.render.ui.components.menus;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import stonering.game.core.GameMvc;
 import stonering.game.core.view.render.ui.components.menus.building.GeneralBuildingMenu;
-import stonering.game.core.view.render.ui.components.menus.util.ButtonMenu;
-import stonering.game.core.view.render.ui.components.menus.util.ItemMenu;
-import stonering.game.core.view.render.ui.components.menus.util.MenuItem;
-import stonering.utils.global.StaticSkin;
+import stonering.game.core.view.render.ui.components.menus.util.SubMenuMenu;
 
 /**
  * Component of toolbar.
@@ -18,39 +12,23 @@ import stonering.utils.global.StaticSkin;
  *
  * @author Alexander Kuzyakov on 19.12.2017.
  */
-public class ParentMenu extends ItemMenu {
+public class ParentMenu extends SubMenuMenu {
 
     public ParentMenu(GameMvc gameMvc) {
-        super(gameMvc, false);
+        super(gameMvc);
+        hideable = false;
         initTable();
         createMenus();
-    }
-
-    private void createMenus() {
-        initMenu(new PlantsMenu(gameMvc), "P: plants", Input.Keys.P);
-        initMenu(new DiggingMenu(gameMvc), "O: digging", Input.Keys.O);
-        initMenu(new GeneralBuildingMenu(gameMvc), "I: building", Input.Keys.I);
     }
 
     private void initTable() {
         this.align(Align.bottom);
     }
 
-    private void initMenu(ButtonMenu menu, String text, int hotkey) {
-        items.put(hotkey, new MenuItem(menu));
-        TextButton button = new TextButton(text, StaticSkin.getSkin());
-        button.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                showSubMenuByHotkey(hotkey);
-            }
-        });
-        buttons.put(hotkey, button);
-    }
-
-    @Override
-    public boolean invoke(int keycode) {
-        return super.invoke(keycode);
+    private void createMenus() {
+//        addMenu(new PlantsMenu(gameMvc), Input.Keys.P, "P: plants");
+//        addMenu(new DiggingMenu(gameMvc), Input.Keys.O, "O: digging");
+        addMenu(new GeneralBuildingMenu(gameMvc),  Input.Keys.I, "building");
     }
 
     @Override

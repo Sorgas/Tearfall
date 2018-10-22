@@ -4,12 +4,13 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.entity.local.building.BuildingType;
+import stonering.enums.HotkeySequence;
 import stonering.enums.buildings.BuildingMap;
 import stonering.enums.designations.DesignationTypes;
 import stonering.game.core.GameMvc;
 import stonering.game.core.controller.controllers.DesignationsController;
-import stonering.game.core.view.render.ui.components.menus.util.ButtonMenu;
 import stonering.game.core.view.render.ui.components.menus.util.PlaceSelectComponent;
+import stonering.game.core.view.render.ui.components.menus.util.SubMenuMenu;
 
 import java.util.HashMap;
 import java.util.List;
@@ -20,65 +21,40 @@ import java.util.List;
  *
  * @author Alexander Kuzyakov on 15.06.2018
  */
-public class BuildingCategoryMenu extends ButtonMenu {
+public class BuildingCategoryMenu extends SubMenuMenu {
     private final String category;
 
     private DesignationsController controller;
-    private PlaceSelectComponent placeSelectComponent;
+    private HotkeySequence sequence;
 
-    protected HashMap<String, BuildingCategoryMenu> menus;
 
     public BuildingCategoryMenu(GameMvc gameMvc, String category) {
-        super(gameMvc, true);
+        super(gameMvc);
         this.category = category;
         hideable = true;
-        menus = new HashMap<>();
-        loadItems();
+        sequence = new HotkeySequence();
     }
 
     @Override
     public void init() {
-        super.init();
+        addCategory();
         controller = gameMvc.getController().getDesignationsController();
-        placeSelectComponent.init();
+        super.init();
     }
 
     /**
-     * Creates all buttons.
+     * Creates all content from building category in this menu.
      * <p>
      * Creates {@link PlaceSelectComponent} (one for all constructions).
      */
-    private void loadItems() {
+    public void addCategory() {
         BuildingMap.getInstance().getCategoryBuildings(category).forEach(building -> {
-            building.getMenuPath()
-            addButton('Y' + ": " + building.getTitle(), building.getTitle(), 'y');
-        });
-        placeSelectComponent = new PlaceSelectComponent(gameMvc, false, true);
-    }
-
-    public void addItem(BuildingType type, List<String> steps) {
-        if (!steps.isEmpty()) {
-            String currentStep = steps.remove(0);
-            if (!steps.isEmpty()) { // create submenu
-                if (menus.keySet().contains(currentStep)) { //pass to submenu
-                    menus.get(currentStep).addItem(type, steps);
-                } else { //create submenu
-                    menus.put(currentStep, new BuildingCategoryMenu(gameMvc, currentStep));
-                    menus.get(currentStep).addItem(type, steps);
+            addItem(building.getTitle(), new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    controller.setActiveDesignation(DesignationTypes.BUILD, building.getBuilding());
                 }
-            } else { //create button
-
-            }
-        }
-    }
-
-    private void addButton(String text, String constructionType, char hotKey) {
-        super.createButton(text, Input.Keys.valueOf(Character.toString(hotKey).toUpperCase()), new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                controller.setActiveDesignation(DesignationTypes.BUILD, constructionType);
-                placeSelectComponent.show();
-            }
+            }, building.getMenuPath());
         });
     }
 

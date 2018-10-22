@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class Toolbar extends Container implements Invokable {
     private Table toolbarTable; // in container
     private Table menusTable;   // in first row
-    private Label status;       // ins second row
+    private Label status;       // in second row
     private GameMvc gameMvc;
     private ParentMenu parentMenu; // always on the right end
     private ArrayList<Actor> displayedMenus; // index increases from left to right
@@ -36,6 +36,13 @@ public class Toolbar extends Container implements Invokable {
         materialSelectList = new MaterialSelectList(gameMvc);
         materialSelectList.init();
         this.setActor(createToolbarTable());
+    }
+
+    private Table createToolbarTable() {
+        toolbarTable = new Table(StaticSkin.getSkin());
+        toolbarTable.add(createMenusTable()).row();
+        toolbarTable.add(status = new Label("", StaticSkin.getSkin())).right();
+        return toolbarTable;
     }
 
     private Table createMenusTable() {
@@ -69,6 +76,7 @@ public class Toolbar extends Container implements Invokable {
         refill();
     }
 
+
     /**
      * Removes given menu and all actors to the left.
      *
@@ -83,7 +91,6 @@ public class Toolbar extends Container implements Invokable {
             refill();
         }
     }
-
 
     /**
      * Returns visible menu with lowest level (most left one).
@@ -121,12 +128,5 @@ public class Toolbar extends Container implements Invokable {
 
     public void setText(String text) {
         status.setText(text);
-    }
-
-    private Table createToolbarTable() {
-        toolbarTable = new Table(StaticSkin.getSkin());
-        toolbarTable.add(createMenusTable()).row();
-        toolbarTable.add(status = new Label("", StaticSkin.getSkin())).right();
-        return toolbarTable;
     }
 }

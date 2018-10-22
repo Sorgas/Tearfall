@@ -1,41 +1,36 @@
 package stonering.game.core.view.render.ui.components.menus.building;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import stonering.enums.buildings.BuildingMap;
 import stonering.game.core.GameMvc;
-import stonering.game.core.view.render.ui.components.menus.util.ItemMenu;
-import stonering.game.core.view.render.ui.components.menus.util.MenuItem;
+import stonering.game.core.view.render.ui.components.menus.util.SubMenuMenu;
 
 /**
  * ButtonMenu for selecting building category.
- * <p>
+ *
  * @author Alexander Kuzyakov on 25.01.2018.
  */
-public class GeneralBuildingMenu extends ItemMenu {
+public class GeneralBuildingMenu extends SubMenuMenu {
 
     public GeneralBuildingMenu(GameMvc gameMvc) {
-        super(gameMvc, true);
+        super(gameMvc);
         hideable = true;
-        initButtons();
     }
 
-    private void initButtons() {
-        addButton("P: constructions", Input.Keys.P);
-        addButton("O: workbenches", Input.Keys.O);
-//        addButton("I: furniture", Input.Keys.I);
-        items.put(Input.Keys.P, new MenuItem(new BuildingCategoryMenu(gameMvc)));
-//        menus.put('w', new ConstructionsMenu(gameMvc));
-//        menus.put('f', new ConstructionsMenu(gameMvc));
+    @Override
+    public void init() {
+        createMenus();
+        super.init();
     }
 
-    private void addButton(String text, int hotKey) {
-        super.createButton(text, hotKey, new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                items.get(hotKey).call();
-            }
-        });
+    private void createMenus() {
+        createCategoryMenu("workbenches", Input.Keys.I);
+        createCategoryMenu("constructions", Input.Keys.O);
+        createCategoryMenu("furniture", Input.Keys.P);
+    }
+
+    private void createCategoryMenu(String category, int hotkey) {
+        addMenu(new BuildingCategoryMenu(gameMvc, category), hotkey, category);
     }
 
     @Override

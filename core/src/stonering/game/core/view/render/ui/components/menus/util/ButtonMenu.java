@@ -27,20 +27,20 @@ public abstract class ButtonMenu extends Table implements HideableComponent, Inv
     protected Toolbar toolbar;
     protected boolean hideable = false;
 
-    protected HashMap<Integer, Button> buttons;
+    private HashMap<Integer, Button> buttons;
 
     public ButtonMenu(GameMvc gameMvc, boolean hideable) {
         this.gameMvc = gameMvc;
         this.hideable = hideable;
         buttons = new HashMap<>();
         this.bottom();
-        this.defaults().right().expandX().fill();
     }
 
     /**
-     * For binding sub-components. Should be called from children.
+     * Builds menu widget.
      */
     public void init() {
+        this.defaults().right().expandX().fill();
         buttons.values().forEach((button) -> this.add(button).row());
         toolbar = gameMvc.getView().getUiDrawer().getToolbar();
     }
@@ -68,8 +68,15 @@ public abstract class ButtonMenu extends Table implements HideableComponent, Inv
         return false;
     }
 
-    protected void createButton(String text, int hotKey, ChangeListener listener) {
-        TextButton button = new TextButton(text, StaticSkin.getSkin());
+    /**
+     * Creates button with listener and hotkey.
+     *
+     * @param text
+     * @param hotKey
+     * @param listener
+     */
+    protected void createButton(String text, int hotKey, ChangeListener listener, boolean appendHotkey) {
+        TextButton button = new TextButton(appendHotkey ? Input.Keys.toString(hotKey) + ": " + text : text, StaticSkin.getSkin());
         button.addListener(listener);
         buttons.put(hotKey, button);
     }
