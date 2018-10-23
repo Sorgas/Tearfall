@@ -42,7 +42,8 @@ public class PlantsMenu extends ButtonMenu {
         addButtonToTable("I: cut", DesignationTypes.CUT, Input.Keys.I);
         addButtonToTable("U: clear", DesignationTypes.NONE, Input.Keys.U);
 
-        placeSelectComponent = new PlaceSelectComponent(gameMvc, false, false);
+        placeSelectComponent = new PlaceSelectComponent(gameMvc);
+        placeSelectComponent.setSinglePoint(false);
     }
 
     private void addButtonToTable(String text, DesignationTypes type, int hotKey) {

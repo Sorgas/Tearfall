@@ -23,7 +23,6 @@ public class Toolbar extends Container implements Invokable {
     private GameMvc gameMvc;
     private ParentMenu parentMenu; // always on the right end
     private ArrayList<Actor> displayedMenus; // index increases from left to right
-    private MaterialSelectList materialSelectList;
 
     public Toolbar(GameMvc gameMvc) {
         this.gameMvc = gameMvc;
@@ -33,8 +32,6 @@ public class Toolbar extends Container implements Invokable {
     public void init() {
         this.setFillParent(true);
         this.align(Align.bottomRight);
-        materialSelectList = new MaterialSelectList(gameMvc);
-        materialSelectList.init();
         this.setActor(createToolbarTable());
     }
 
@@ -84,10 +81,10 @@ public class Toolbar extends Container implements Invokable {
      */
     public void hideMenu(Actor menu) {
         if (displayedMenus.contains(menu)) {
-            for (int i = 0; i <= displayedMenus.indexOf(menu); i++) {
-                System.out.println(menu.getClass().getSimpleName() + " hidden");
-                displayedMenus.remove(menu);
+            while(displayedMenus.contains(menu)) {
+                displayedMenus.remove(0);
             }
+            System.out.println(menu.getClass().getSimpleName() + " hidden");
             refill();
         }
     }
@@ -106,14 +103,6 @@ public class Toolbar extends Container implements Invokable {
         return null;
     }
 
-    public boolean isMaterialSelectShown() {
-        return getChildren().contains(materialSelectList, true);
-    }
-
-    public ItemsCountList getMaterialSelectList() {
-        return materialSelectList;
-    }
-
     /**
      * Input entry point from {@link stonering.game.core.controller.controllers.ToolBarController}.
      * Simply transfers event to current active menu.
@@ -128,5 +117,9 @@ public class Toolbar extends Container implements Invokable {
 
     public void setText(String text) {
         status.setText(text);
+    }
+
+    public void resetToLastMenu() {
+
     }
 }

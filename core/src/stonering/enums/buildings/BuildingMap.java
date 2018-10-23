@@ -43,7 +43,7 @@ public class BuildingMap {
         System.out.println("loading buildings");
         ArrayList<BuildingType> elements = json.fromJson(ArrayList.class, BuildingType.class, FileLoader.getBuildingsFile());
         for (BuildingType buildingType : elements) {
-            buildings.put(buildingType.getTitle(), buildingType);
+            buildings.put(buildingType.getBuilding(), buildingType);
         }
     }
 

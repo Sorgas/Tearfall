@@ -21,27 +21,4 @@ public class UIController extends Controller{
         uiDrawer = gameMvc.getView().getUiDrawer();
     }
 
-    public boolean handleListUp() {
-        if(uiDrawer.hasActiveList()) {
-            uiDrawer.getActiveList().up();
-            return true;
-        }
-        return false;
-    }
-
-    public boolean handleListDown() {
-        if(uiDrawer.hasActiveList()) {
-            uiDrawer.getActiveList().down();
-            return true;
-        }
-        return false;
-    }
-
-    public boolean handleListSelect() {
-        if(uiDrawer.hasActiveList()) {
-            uiDrawer.getActiveList().select();
-            return true;
-        }
-        return false;
-    }
 }

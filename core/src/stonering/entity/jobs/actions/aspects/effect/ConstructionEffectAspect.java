@@ -10,6 +10,7 @@ import stonering.entity.local.items.Item;
 import stonering.entity.local.items.selectors.ItemSelector;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ConstructionEffectAspect extends EffectAspect {
     private GameContainer container;
@@ -37,7 +38,7 @@ public class ConstructionEffectAspect extends EffectAspect {
         ItemContainer itemContainer = container.getItemContainer();
         Position target = action.getTargetPosition();
         ArrayList<Item> items = itemContainer.getItems(target);
-        ArrayList<ItemSelector> itemSelectors = ((ItemsInPositionOrInventoryRequirementAspect) action.getRequirementsAspect()).getItemSelectors();
+        List<ItemSelector> itemSelectors = ((ItemsInPositionOrInventoryRequirementAspect) action.getRequirementsAspect()).getItemSelectors();
         itemSelectors.forEach(itemSelector -> {
             itemSelector.selectItems(items).forEach(item -> {
                 itemContainer.removeItem(item);

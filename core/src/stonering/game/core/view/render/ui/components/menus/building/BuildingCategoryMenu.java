@@ -1,9 +1,7 @@
 package stonering.game.core.view.render.ui.components.menus.building;
 
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import stonering.entity.local.building.BuildingType;
 import stonering.enums.HotkeySequence;
 import stonering.enums.buildings.BuildingMap;
 import stonering.enums.designations.DesignationTypes;
@@ -11,9 +9,6 @@ import stonering.game.core.GameMvc;
 import stonering.game.core.controller.controllers.DesignationsController;
 import stonering.game.core.view.render.ui.components.menus.util.PlaceSelectComponent;
 import stonering.game.core.view.render.ui.components.menus.util.SubMenuMenu;
-
-import java.util.HashMap;
-import java.util.List;
 
 /**
  * Menu for one category of buildings.
@@ -44,18 +39,19 @@ public class BuildingCategoryMenu extends SubMenuMenu {
 
     /**
      * Creates all content from building category in this menu.
-     * <p>
+     *
      * Creates {@link PlaceSelectComponent} (one for all constructions).
      */
     public void addCategory() {
-        BuildingMap.getInstance().getCategoryBuildings(category).forEach(building -> {
-            addItem(building.getTitle(), new ChangeListener() {
-                @Override
-                public void changed(ChangeEvent event, Actor actor) {
-                    controller.setActiveDesignation(DesignationTypes.BUILD, building.getBuilding());
-                }
-            }, building.getMenuPath());
-        });
+        BuildingMap.getInstance().getCategoryBuildings(category).forEach(building ->
+                addItem(building.getTitle(), new ChangeListener() {
+                    @Override
+                    public void changed(ChangeEvent event, Actor actor) {
+                        controller.setActiveDesignation(DesignationTypes.BUILD, building);
+                        controller.addNextActorToToolbar();
+                    }
+                }, building.getMenuPath())
+        );
     }
 
     @Override

@@ -20,9 +20,9 @@ import java.util.List;
  */
 public class ItemsInPositionOrInventoryRequirementAspect extends RequirementsAspect {
     private Position target;
-    private ArrayList<ItemSelector> itemSelectors;
+    private List<ItemSelector> itemSelectors;
 
-    public ItemsInPositionOrInventoryRequirementAspect(Action action, Position target, ArrayList<ItemSelector> itemSelectors) {
+    public ItemsInPositionOrInventoryRequirementAspect(Action action, Position target, List<ItemSelector> itemSelectors) {
         super(action);
         this.target = target;
         this.itemSelectors = itemSelectors;
@@ -71,7 +71,7 @@ public class ItemsInPositionOrInventoryRequirementAspect extends RequirementsAsp
         return false;
     }
 
-    public ArrayList<ItemSelector> getItemSelectors() {
+    public List<ItemSelector> getItemSelectors() {
         return itemSelectors;
     }
 }

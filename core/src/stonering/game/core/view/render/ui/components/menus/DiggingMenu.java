@@ -37,7 +37,8 @@ public class DiggingMenu extends ButtonMenu {
         addButton("I: channel", DesignationTypes.CHANNEL, Input.Keys.I);
         addButton("U: stairs", DesignationTypes.STAIRS, Input.Keys.U);
         addButton("Y: clear", DesignationTypes.NONE, Input.Keys.Y);
-        placeSelectComponent = new PlaceSelectComponent(gameMvc, false, false);
+        placeSelectComponent = new PlaceSelectComponent(gameMvc);
+        placeSelectComponent.setSinglePoint(false);
     }
 
     private void addButton(String text, DesignationTypes type, int hotKey) {

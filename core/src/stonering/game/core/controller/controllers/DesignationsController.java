@@ -1,53 +1,67 @@
 package stonering.game.core.controller.controllers;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import stonering.entity.local.building.BuildingType;
+import stonering.entity.local.crafting.CraftingComponentStep;
 import stonering.enums.buildings.BuildingMap;
 import stonering.enums.designations.DesignationTypes;
 import stonering.game.core.GameMvc;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.lists.TaskContainer;
 import stonering.game.core.view.GameView;
+import stonering.game.core.view.render.ui.components.lists.MaterialSelectList;
+import stonering.game.core.view.render.ui.components.menus.util.PlaceSelectComponent;
 import stonering.global.utils.Position;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.items.selectors.ItemSelector;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Controller for various tasks. Used as builder to build tasks while user navigates through menus.
+ * Controller for designating various tasks. Used as builder to build tasks while user navigates through menus.
  * Digging and BuildingType combined in one controller and map,
- * because one tile can be designated for either digging or building in it.
+ * because one tile can be designated for either digging or buildingType in it.
  * Handles events from menus and updates model appropriately.
  * Has state fields representing currently chosen designation.
+ * <p>
  * TODO Validate designations for preview sprite rendering.(move from task container)
  *
  * @author Alexander Kuzyakov on 24.12.2017.
  */
 public class DesignationsController extends Controller {
-    private DesignationTypes activeDesignation;
-    private String building; //is set when activeDesignation is BUILD
-    private boolean rectangleStarted = false;
-    private Position start; // should be stored between steps
     private GameContainer container;
     private GameView view;
+
+    private DesignationTypes activeDesignation;
+    private BuildingType buildingType; //is set when activeDesignation is BUILD
+    private List<ItemSelector> itemSelectors; // for each crafting step
+
+
+    private PlaceSelectComponent placeSelectComponent;
+    private boolean rectangleStarted = false;
+    private Position start; // should be stored between steps
     private Position end;
-    private ArrayList<ItemSelector> itemSelectors;
+
     private int priority;
 
     public DesignationsController(GameMvc gameMvc) {
         super(gameMvc);
         itemSelectors = new ArrayList<>();
+        placeSelectComponent = new PlaceSelectComponent(gameMvc);
     }
 
     public void init() {
         container = gameMvc.getModel();
         view = gameMvc.getView();
+        placeSelectComponent.init();
     }
 
     /**
      * Called by ui when order is finished.
      */
     public void finishTaskBuilding() {
-        if (activeDesignation == DesignationTypes.BUILD && !BuildingMap.getInstance().getBuilding(building).getCategory().equals("constructions")) {
+        if (activeDesignation == DesignationTypes.BUILD && !buildingType.getCategory().equals("constructions")) {
             addDesignationToContainer(end);
         } else {
             for (int x = Math.min(end.getX(), start.getX()); x <= Math.max(end.getX(), start.getX()); x++) {
@@ -64,12 +78,37 @@ public class DesignationsController extends Controller {
      * Sets designation type to be stored between events of starting and finishing designations rectangle.
      *
      * @param activeDesignation designation type.
-     * @param building          building title in {@link BuildingMap}. Is null if activeDesignation is not building.
+     * @param building          buildingType title in {@link BuildingMap}. Is null if activeDesignation is not buildingType.
      */
-    public void setActiveDesignation(DesignationTypes activeDesignation, String building) {
+    public void setActiveDesignation(DesignationTypes activeDesignation, BuildingType building) {
         this.activeDesignation = activeDesignation;
-        this.building = activeDesignation == DesignationTypes.BUILD ? building : "";
-        gameMvc.getView().getUiDrawer().setToolbarlabelText(activeDesignation != null ? activeDesignation.getText() : "" + this.building);
+        this.buildingType = activeDesignation == DesignationTypes.BUILD ? building : null;
+        gameMvc.getView().getUiDrawer().setToolbarLabelText(activeDesignation.getText() + (building != null ? building.getTitle() : ""));
+    }
+
+    /**
+     * Called by leaf menu buttons and components like {@link MaterialSelectList} to proceed on creating task.
+     */
+    public void addNextActorToToolbar() {
+        if (activeDesignation == DesignationTypes.BUILD) {
+            if (start == null) {
+                view.getUiDrawer().getToolbar().addMenu(
+                        placeSelectComponent.setSinglePoint(buildingType.getCategory().equals("constructions")));
+            } else if (buildingType.getComponentSteps().size() > itemSelectors.size()) { //steps not finished
+                view.getUiDrawer().getToolbar().addMenu(
+                        createSelectListForStep(buildingType.getComponentSteps().get(itemSelectors.size())));
+            } else { //finish
+                finishTaskBuilding();
+                view.getUiDrawer().getToolbar().resetToLastMenu();
+            }
+        }
+    }
+
+    private Actor createSelectListForStep(CraftingComponentStep step) {
+        MaterialSelectList actor = new MaterialSelectList(gameMvc);
+        actor.init();
+        actor.fillForCraftingStep(step);
+        return actor;
     }
 
     /**
@@ -96,10 +135,10 @@ public class DesignationsController extends Controller {
     public void handleCancel() {
         start = null;
         activeDesignation = null;
-        building = "";
+        buildingType = null;
         itemSelectors.clear();
         rectangleStarted = false;
-        view.getUiDrawer().setToolbarlabelText("");
+        view.getUiDrawer().setToolbarLabelText("");
     }
 
     /**
@@ -109,7 +148,7 @@ public class DesignationsController extends Controller {
      * @param end end point of rectangle.
      */
     private void designate(Position end) {
-        if (activeDesignation == DesignationTypes.BUILD && !BuildingMap.getInstance().getBuilding(building).getCategory().equals("constructions")) {
+        if (activeDesignation == DesignationTypes.BUILD && !buildingType.getCategory().equals("constructions")) {
             addDesignationToContainer(end);
         } else {
             for (int x = Math.min(end.getX(), start.getX()); x <= Math.max(end.getX(), start.getX()); x++) {
@@ -125,7 +164,7 @@ public class DesignationsController extends Controller {
     private void addDesignationToContainer(Position position) {
         TaskContainer taskContainer = container.getTaskContainer();
         if (activeDesignation == DesignationTypes.BUILD) {
-            taskContainer.submitDesignation(position, building, itemSelectors, priority);
+            taskContainer.submitDesignation(position, buildingType.getBuilding(), itemSelectors, priority);
         } else {
             taskContainer.submitDesignation(position, activeDesignation, priority);
         }
@@ -144,8 +183,8 @@ public class DesignationsController extends Controller {
         this.end = end;
     }
 
-    public String getBuilding() {
-        return building;
+    public BuildingType getBuildingType() {
+        return buildingType;
     }
 
     public Position getStart() {

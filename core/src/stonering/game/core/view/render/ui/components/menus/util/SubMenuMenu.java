@@ -2,7 +2,6 @@ package stonering.game.core.view.render.ui.components.menus.util;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import stonering.entity.local.building.BuildingType;
 import stonering.enums.HotkeySequence;
 import stonering.game.core.GameMvc;
 import stonering.game.core.view.render.ui.components.menus.building.BuildingCategoryMenu;

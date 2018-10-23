@@ -17,7 +17,7 @@ import stonering.game.core.view.render.ui.components.menus.util.MouseInvocable;
 import stonering.global.utils.Position;
 
 /**
- * Component for selecting places.
+ * Component for selecting places. Can be used many times.
  *
  * @author Alexander Kuzyakov on 12.07.2018.
  */
@@ -28,16 +28,11 @@ public class PlaceSelectComponent extends Actor implements HideableComponent, Mo
     private Toolbar toolbar;
     private GameCamera camera;
 
+    private boolean singlePoint = false;
     private Position start = null; // never set if singlePoint is true.
-    private MaterialSelectList materialSelectList;
-    private boolean materialSelectNeeded;
-    private boolean singlePoint;
 
-    public PlaceSelectComponent(GameMvc gameMvc, boolean singlePoint, boolean materialSelectNeeded) {
+    public PlaceSelectComponent(GameMvc gameMvc) {
         this.gameMvc = gameMvc;
-        this.singlePoint = singlePoint;
-        this.materialSelectNeeded = materialSelectNeeded;
-        materialSelectList = new MaterialSelectList(gameMvc);
     }
 
     public void init() {
@@ -45,7 +40,6 @@ public class PlaceSelectComponent extends Actor implements HideableComponent, Mo
         localMap = gameMvc.getModel().getLocalMap();
         controller = gameMvc.getController().getDesignationsController();
         toolbar = gameMvc.getView().getUiDrawer().getToolbar();
-        materialSelectList.init();
     }
 
     @Override
@@ -62,7 +56,7 @@ public class PlaceSelectComponent extends Actor implements HideableComponent, Mo
             case Input.Keys.A:
             case Input.Keys.S:
             case Input.Keys.D:
-                if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+                if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) { //if WASD pressed during dragging by mouse
                     Vector2 modelXY = gameMvc.getView().getWorldDrawer().translateScreenPositionToModel(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
                     updateSelectBox(new Position(modelXY.x, modelXY.y, camera.getPosition().getZ()));
                 } else {
@@ -161,12 +155,7 @@ public class PlaceSelectComponent extends Actor implements HideableComponent, Mo
      */
     private void finishHandling(Position start, Position end) {
         controller.setRectangle(start, end);
-        if (materialSelectNeeded) {
-            materialSelectList.refill();
-            materialSelectList.show();
-        } else {
-            controller.finishTaskBuilding();
-        }
+        controller.addNextActorToToolbar();
     }
 
     private boolean validatePlace() {
@@ -184,5 +173,10 @@ public class PlaceSelectComponent extends Actor implements HideableComponent, Mo
     public void hide() {
         camera.resetSprite();
         toolbar.hideMenu(this);
+    }
+
+    public PlaceSelectComponent setSinglePoint(boolean singlePoint) {
+        this.singlePoint = singlePoint;
+        return this;
     }
 }

@@ -1,11 +1,14 @@
 package stonering.game.core.view.render.ui.components.lists;
 
 import com.badlogic.gdx.Input;
+import stonering.entity.local.crafting.CraftingComponentStep;
 import stonering.game.core.GameMvc;
 import stonering.game.core.controller.controllers.DesignationsController;
+import stonering.game.core.view.render.ui.components.menus.util.HideableComponent;
 import stonering.game.core.view.render.ui.components.menus.util.Invokable;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.items.selectors.SimpleItemSelector;
+import stonering.game.core.view.render.ui.components.menus.util.SequencedWidget;
 
 import java.util.List;
 
@@ -52,12 +55,12 @@ public class MaterialSelectList extends ItemsCountList implements Invokable {
         ListItem selected = getSelectedListItem();
         //TODO handle amount requirements more than 1
         controller.addItemSelector(new SimpleItemSelector(selected.title, selected.material, 1));
-        controller.finishTaskBuilding();
+        controller.addNextActorToToolbar();
     }
 
-    public void refill() {
+    public void fillForCraftingStep(CraftingComponentStep step) {
         clear();
-        List<Item> items = gameMvc.getModel().getItemContainer().getAvailableMaterialsCraftingStep(null, controller.getStart());
+        List<Item> items = gameMvc.getModel().getItemContainer().getAvailableMaterialsCraftingStep(step, controller.getStart());
         addItems(items);
         addListener(event -> {
             if (getSelectedIndex() >= 0) {

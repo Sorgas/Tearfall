@@ -26,6 +26,7 @@ import stonering.entity.local.plants.PlantBlock;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Contains all tasks for settlers on map. Designations stored separately for updating tiles.
@@ -94,7 +95,7 @@ public class TaskContainer {
      * @param building
      * @param itemSelectors
      */
-    public void submitDesignation(Position position, String building, ArrayList<ItemSelector> itemSelectors, int priority) {
+    public void submitDesignation(Position position, String building, List<ItemSelector> itemSelectors, int priority) {
         if (validateBuilding(position, building)) {
             BuildingDesignation designation = new BuildingDesignation(position, DesignationTypes.BUILD, building);
             Task task = createBuildingTask(designation, itemSelectors, priority);
@@ -146,7 +147,7 @@ public class TaskContainer {
         return null;
     }
 
-    private Task createBuildingTask(BuildingDesignation designation, ArrayList<ItemSelector> items, int priority) {
+    private Task createBuildingTask(BuildingDesignation designation, List<ItemSelector> items, int priority) {
         BuildingType buildingType = BuildingMap.getInstance().getBuilding(designation.getBuilding());
         Action action = new Action(container);
         action.setRequirementsAspect(new ItemsInPositionOrInventoryRequirementAspect(action, designation.getPosition(), items));
@@ -200,6 +201,10 @@ public class TaskContainer {
             case "constructions": {
                 byte blockType = container.getLocalMap().getBlockType(pos);
                 return blockType == BlockTypesEnum.SPACE.getCode() || blockType == BlockTypesEnum.FLOOR.getCode();
+            }
+            case "workbenches": {
+                byte blockType = container.getLocalMap().getBlockType(pos);
+                return blockType == BlockTypesEnum.FLOOR.getCode();
             }
         }
         return false;

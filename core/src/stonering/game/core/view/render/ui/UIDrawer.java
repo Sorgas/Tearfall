@@ -81,21 +81,7 @@ public class UIDrawer {
         return toolbar;
     }
 
-    public boolean hasActiveList() {
-        if(toolbar.isMaterialSelectShown()) {
-            return true;
-        }
-        return false;
-    }
-
-    public NavigableList getActiveList() {
-        if(toolbar.isMaterialSelectShown()) {
-            return toolbar.getMaterialSelectList();
-        }
-        return null;
-    }
-
-    public void setToolbarlabelText(String text) {
+    public void setToolbarLabelText(String text) {
         toolbar.setText(text);
     }
 }
