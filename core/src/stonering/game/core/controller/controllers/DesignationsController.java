@@ -2,7 +2,7 @@ package stonering.game.core.controller.controllers;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import stonering.entity.local.building.BuildingType;
-import stonering.entity.local.crafting.CraftingComponentStep;
+import stonering.entity.local.crafting.CommonComponentStep;
 import stonering.enums.buildings.BuildingMap;
 import stonering.enums.designations.DesignationTypes;
 import stonering.game.core.GameMvc;
@@ -94,9 +94,9 @@ public class DesignationsController extends Controller {
             if (start == null) {
                 view.getUiDrawer().getToolbar().addMenu(
                         placeSelectComponent.setSinglePoint(buildingType.getCategory().equals("constructions")));
-            } else if (buildingType.getComponentSteps().size() > itemSelectors.size()) { //steps not finished
+            } else if (buildingType.getComponents().size() > itemSelectors.size()) { //steps not finished
                 view.getUiDrawer().getToolbar().addMenu(
-                        createSelectListForStep(buildingType.getComponentSteps().get(itemSelectors.size())));
+                        createSelectListForStep(buildingType.getComponents().get(itemSelectors.size())));
             } else { //finish
                 finishTaskBuilding();
                 view.getUiDrawer().getToolbar().resetToLastMenu();
@@ -104,7 +104,7 @@ public class DesignationsController extends Controller {
         }
     }
 
-    private Actor createSelectListForStep(CraftingComponentStep step) {
+    private Actor createSelectListForStep(CommonComponentStep step) {
         MaterialSelectList actor = new MaterialSelectList(gameMvc);
         actor.init();
         actor.fillForCraftingStep(step);

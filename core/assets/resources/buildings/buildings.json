@@ -4,7 +4,7 @@
         "title":"Wall",
         "description":"Wall",
         "category":"constructions",
-        "componentSteps":[
+        "components":[
             {
                 "class":"step_c",
                 "optional":false,
@@ -65,7 +65,7 @@
         "title":"Floor",
         "description":"Floor",
         "category":"constructions",
-        "componentSteps":[
+        "components":[
             {
                 "class":"step_c",
                 "optional":false,
@@ -126,7 +126,7 @@
         "title":"Ramp",
         "description":"Ramp",
         "category":"constructions",
-        "componentSteps":[
+        "components":[
             {
                 "class":"step_c",
                 "optional":false,
@@ -187,7 +187,7 @@
         "title":"Stairs",
         "description":"Stairs",
         "category":"constructions",
-        "componentSteps":[
+        "components":[
             {
                 "class":"step_c",
                 "optional":false,
@@ -248,7 +248,7 @@
         "title":"Chair",
         "description":"Chair",
         "category":"furniture",
-        "componentSteps":[
+        "components":[
             {
                 "class":"step_c",
                 "optional":false,
@@ -309,10 +309,11 @@
         "title":"Sawing rack",
         "description":"Small rack for sawing logs into planks.",
         "category":"workbenches",
-        "componentSteps":[
+        "components":[
             {
                 "class":"step_c",
                 "optional":false,
+                "brakingRatio": "0.5",
                 "variants":[
                     {
                         "class":"variant_c",
@@ -346,8 +347,7 @@
             }
         ],
         "menuPath":["wood"],
-        "operations":[
-        ],
+        "operations":["saw_logs"],
         "atlasY":"0",
         "atlasX":"0",
         "color":{

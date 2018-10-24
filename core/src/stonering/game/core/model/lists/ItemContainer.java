@@ -1,6 +1,6 @@
 package stonering.game.core.model.lists;
 
-import stonering.entity.local.crafting.CraftingComponentStep;
+import stonering.entity.local.crafting.CommonComponentStep;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.LocalMap;
@@ -88,7 +88,7 @@ public class ItemContainer {
         }
     }
 
-    public List<Item> getAvailableMaterialsCraftingStep(CraftingComponentStep step, Position pos) {
+    public List<Item> getAvailableMaterialsCraftingStep(CommonComponentStep step, Position pos) {
         List<Item> items = new ArrayList<>();
         step.getVariants().forEach(variant -> {
             items.addAll(getItemList(variant.getAmount(), variant.getType(), variant.getMaterial()));

@@ -1,0 +1,24 @@
+[
+    {
+        "operation":"saw_logs",
+        "title": "Saw logs",
+        "componentSteps":[
+            {
+                "class":"step_c",
+                "optional":false,
+                "variants":[
+                    {
+                        "class":"variant_c",
+                        "type":"log",
+                        "material":"stone",
+                        "amount":"1",
+                        "sprite":["2", "1"]
+                    }
+                ]
+            }
+        ],
+        "result":{
+
+        }
+    }
+]

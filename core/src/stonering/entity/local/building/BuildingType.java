@@ -1,7 +1,7 @@
 package stonering.entity.local.building;
 
 import com.badlogic.gdx.graphics.Color;
-import stonering.entity.local.crafting.CraftingComponentStep;
+import stonering.entity.local.crafting.CommonComponentStep;
 
 import java.util.ArrayList;
 
@@ -17,7 +17,7 @@ public class BuildingType {
     private String title;
     private String description;
     private String category;
-    private ArrayList<CraftingComponentStep> componentSteps;
+    private ArrayList<CommonComponentStep> components;
     private ArrayList<String> menuPath;
     private ArrayList<String> operations;
 
@@ -97,11 +97,11 @@ public class BuildingType {
         this.operations = operations;
     }
 
-    public ArrayList<CraftingComponentStep> getComponentSteps() {
-        return componentSteps;
+    public ArrayList<CommonComponentStep> getComponents() {
+        return components;
     }
 
-    public void setComponentSteps(ArrayList<CraftingComponentStep> componentSteps) {
-        this.componentSteps = componentSteps;
+    public void setComponents(ArrayList<CommonComponentStep> components) {
+        this.components = components;
     }
 }

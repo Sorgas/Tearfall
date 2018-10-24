@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import stonering.entity.local.building.BuildingType;
-import stonering.entity.local.crafting.CraftingComponentStep;
+import stonering.entity.local.crafting.CommonComponentStep;
 import stonering.entity.local.crafting.CraftingComponentVariant;
 import stonering.utils.global.FileLoader;
 
@@ -28,7 +28,7 @@ public class BuildingMap {
         json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
         json.addClassTag("color_c", Color.class);
-        json.addClassTag("step_c", CraftingComponentStep.class);
+        json.addClassTag("step_c", CommonComponentStep.class);
         json.addClassTag("variant_c", CraftingComponentVariant.class);
         loadMaterials();
     }
