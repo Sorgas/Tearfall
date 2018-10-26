@@ -4,9 +4,6 @@
         "aspects":{
             "falling":[
                 "1"
-            ],
-            "digging_tool":[
-                "1"
             ]
         },
         "valueMod":"0",
@@ -17,7 +14,8 @@
                 {
                     "class":"action_c",
                     "action":"dig",
-                    "speedMod":"1"
+                    "speedMod":"1",
+                    "part":"head"
                 }
             ],
             "attacks":[
@@ -26,10 +24,69 @@
                     "attack":"hit",
                     "baseReload":1,
                     "damageMod":0.3,
-                    "damageType":"pierce"
+                    "damageType":"pierce",
+                    "part":"head"
                 }
             ]
         },
+        "parts":[
+            {
+                "title":"head",
+                "volume":"15",
+                "optional" : false,
+                "variants":[
+                    {
+                        "class":"variant_c",
+                        "type" : "bar",
+                        "material" : "metal"
+                    }
+                ]
+            },
+            {
+                "title":"handle",
+                "volume":"30",
+                "optional" : false,
+                "variants":[
+                    {
+                        "class":"variant_c",
+                        "type" : "bar",
+                        "material" : "metal"
+                    },
+                    {
+                        "class":"variant_c",
+                        "type" : "log",
+                        "material" : "wood"
+                    },
+                    {
+                        "class":"variant_c",
+                        "type" : "plank",
+                        "material" : "wood"
+                    },
+                    {
+                        "class":"variant_c",
+                        "type" : "branch",
+                        "material" : "wood"
+                    }
+                ]
+            },
+            {
+                "title":"wrap",
+                "volume":"5",
+                "optional" : true,
+                "variants":[
+                    {
+                        "class":"variant_c",
+                        "type" : "piece",
+                        "material" : "leather"
+                    },
+                    {
+                        "class":"variant_c",
+                        "type" : "piece",
+                        "material" : "cloth"
+                    }
+                ]
+            }
+        ],
         "atlasY":"0",
         "atlasX":"0",
         "color":{

@@ -12,9 +12,7 @@ import java.util.HashMap;
 public class ItemType {
     private String title;
     private float valueMod;
-    private float volume;
-    private ArrayList<Integer> allowedMaterials;
-    private boolean isResource;
+    private boolean isResource; // true if this item can be used for crafting as raw resource (its volume is counted).
 
     private WearItemType wear;
     private ToolItemType tool;
@@ -71,22 +69,6 @@ public class ItemType {
 
     public void setAspects(HashMap<String, ArrayList<Object>> aspects) {
         this.aspects = aspects;
-    }
-
-    public float getVolume() {
-        return volume;
-    }
-
-    public void setVolume(float volume) {
-        this.volume = volume;
-    }
-
-    public ArrayList<Integer> getAllowedMaterials() {
-        return allowedMaterials;
-    }
-
-    public void setAllowedMaterials(ArrayList<Integer> allowedMaterials) {
-        this.allowedMaterials = allowedMaterials;
     }
 
     public boolean isResource() {

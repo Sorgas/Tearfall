@@ -4,8 +4,10 @@ import stonering.enums.items.ItemType;
 import stonering.global.utils.Position;
 import stonering.entity.local.AspectHolder;
 
+import java.util.HashMap;
+
 /**
- * In game item.
+ * In game item. Consists of parts.
  *
  * @author Alexander Kuzyakov on 09.12.2017.
  */
@@ -13,6 +15,8 @@ public class Item extends AspectHolder {
     private ItemType type;
 
     private String title;
+    private HashMap<String, ItemPart> parts;
+    private String mainPart;
     private int baseValue;
     private int material;
     private int weight;

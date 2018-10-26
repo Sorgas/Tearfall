@@ -21,6 +21,7 @@ public class ToolItemType {
     public static class ToolAction {
         public String action; // action title
         public float speedMod; // efficiency
+        public String part;
     }
 
     public static class ToolAttack {
@@ -29,6 +30,7 @@ public class ToolItemType {
         public float baseReload; // unit stats affect reload
         public String damageType; //TODO replace with enum
         public String ammo; // ammo item title
+        public String part;
     }
 
     public String getUsedSkill() {
