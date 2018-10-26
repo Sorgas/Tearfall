@@ -126,7 +126,7 @@ public class TemperatureGenerator extends AbstractGenerator {
      */
     private float elevationDelta(float elevation) {
         float value = (float) (Math.pow(2, elevation * elevationInfluence) / (elevationInfluence * elevationInfluence));
-        System.out.println(elevation + " " + value);
+//        System.out.println(elevation + " " + value);
         return value;
     }
 }
