@@ -27,13 +27,17 @@ public class ItemGenerator {
         throw new DescriptionNotFoundException("type: Item, title: " + title);
     }
 
-    public Item generateItem(String title, int material) throws DescriptionNotFoundException {
-        if (MaterialMap.getInstance().hasMaterial(material)) {
-            Item item = generateItem(title);
-            item.setMaterial(material);
-            return item;
-        }
-        throw new DescriptionNotFoundException("type: Item, title: " + title + " material: " + material);
+//    public Item generateItem(String title, int material) throws DescriptionNotFoundException {
+//        if (MaterialMap.getInstance().hasMaterial(material)) {
+//            Item item = generateItem(title);
+//            item.setMaterial(material);
+//            return item;
+//        }
+//        throw new DescriptionNotFoundException("type: Item, title: " + title + " material: " + material);
+//    }
+
+    public Item generateItem(String item, ) {
+
     }
 
     private Item createItem(ItemType itemType) {

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Descriptior class of item. Stores all aspects, valid to the whole type of items, not for specific ones.
+ * Descriptor class of item. Stores all aspects, valid to the whole type of items, not for specific ones.
  * (e.g. not material, condition, ownership)
  */
 public class ItemType {

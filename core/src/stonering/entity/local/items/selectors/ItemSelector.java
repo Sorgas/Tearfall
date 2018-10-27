@@ -10,6 +10,7 @@ import java.util.List;
  * @author Alexander Kuzyakov on 21.07.2018.
  */
 public abstract class ItemSelector {
+
     /**
      * Checks if collection contains appropriate item.
      *

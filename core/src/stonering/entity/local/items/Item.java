@@ -80,4 +80,24 @@ public class Item extends AspectHolder {
     public void setBaseValue(int baseValue) {
         this.baseValue = baseValue;
     }
+
+    public HashMap<String, ItemPart> getParts() {
+        return parts;
+    }
+
+    public void setParts(HashMap<String, ItemPart> parts) {
+        this.parts = parts;
+    }
+
+    public String getMainPart() {
+        return mainPart;
+    }
+
+    public void setMainPart(String mainPart) {
+        this.mainPart = mainPart;
+    }
+
+    public ItemPart getMainPart_() {
+        return parts.get(mainPart);
+    }
 }
