@@ -1,6 +1,7 @@
 package stonering.enums.items;
 
 import com.badlogic.gdx.graphics.Color;
+import stonering.entity.local.crafting.ItemPartCraftingStep;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,6 +18,8 @@ public class ItemType {
     private WearItemType wear;
     private ToolItemType tool;
     private ContainerItemType container;
+
+    private ArrayList<ItemPartCraftingStep> parts;
 
     private HashMap<String, ArrayList<Object>> aspects;
     private int atlasX;
@@ -101,5 +104,13 @@ public class ItemType {
 
     public void setContainer(ContainerItemType container) {
         this.container = container;
+    }
+
+    public ArrayList<ItemPartCraftingStep> getParts() {
+        return parts;
+    }
+
+    public void setParts(ArrayList<ItemPartCraftingStep> parts) {
+        this.parts = parts;
     }
 }

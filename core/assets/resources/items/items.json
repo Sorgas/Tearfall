@@ -31,6 +31,7 @@
         },
         "parts":[
             {
+                "class":"step_c",
                 "title":"head",
                 "volume":"15",
                 "optional" : false,
@@ -70,6 +71,7 @@
                 ]
             },
             {
+                "class":"step_c",
                 "title":"wrap",
                 "volume":"5",
                 "optional" : true,

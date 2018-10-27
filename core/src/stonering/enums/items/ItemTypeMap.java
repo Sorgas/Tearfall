@@ -3,6 +3,9 @@ package stonering.enums.items;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
+import stonering.entity.local.crafting.CommonComponentStep;
+import stonering.entity.local.crafting.CraftingComponentVariant;
+import stonering.entity.local.crafting.ItemPartCraftingStep;
 import stonering.entity.local.items.aspects.TagAspect;
 import stonering.utils.global.FileLoader;
 
@@ -37,6 +40,8 @@ public class ItemTypeMap {
         json.addClassTag("action_c", ToolItemType.ToolAction.class);
         json.addClassTag("attack_c", ToolItemType.ToolAttack.class);
         json.addClassTag("tags_c", TagAspect.class);
+        json.addClassTag("step_c", ItemPartCraftingStep.class);
+        json.addClassTag("variant_c", CraftingComponentVariant.class);
         ArrayList<ItemType> elements = json.fromJson(ArrayList.class, ItemType.class, FileLoader.getItemsFile());
         for (ItemType itemType : elements) {
             types.put(itemType.getTitle(), itemType);
