@@ -9,11 +9,17 @@ public class ItemPart {
     private String title;
     private int material;
     private float condition;
-    private int volume;
+    private int volume; // sm^3
 
-    public ItemPart(String title, int material) {
+    public ItemPart(String title, int material, int volume) {
         this.title = title;
         this.material = material;
+        this.volume = volume;
+        initCondition();
+    }
+
+    private void initCondition() {
+        //TODO
     }
 
     public String getTitle() {
@@ -38,5 +44,9 @@ public class ItemPart {
 
     public void setVolume(int volume) {
         this.volume = volume;
+    }
+
+    public void setMaterial(int material) {
+        this.material = material;
     }
 }

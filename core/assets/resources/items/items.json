@@ -1,6 +1,7 @@
 [
     {
-        "title":"pickaxe",
+        "name":"pickaxe",
+        "title":"Pickaxe",
         "aspects":{
             "falling":[
                 "1"
@@ -29,64 +30,64 @@
                 }
             ]
         },
-        "parts":[
+        "steps":[
             {
-                "class":"step_c",
                 "title":"head",
                 "volume":"15",
-                "optional" : false,
+                "optional":false,
                 "variants":[
                     {
                         "class":"variant_c",
-                        "type" : "bar",
-                        "material" : "metal"
+                        "type":"bar",
+                        "material":"metal"
                     }
-                ]
+                ],
+                "class":"step_c"
             },
             {
                 "title":"handle",
                 "volume":"30",
-                "optional" : false,
+                "optional":false,
                 "variants":[
                     {
                         "class":"variant_c",
-                        "type" : "bar",
-                        "material" : "metal"
+                        "type":"bar",
+                        "material":"metal"
                     },
                     {
                         "class":"variant_c",
-                        "type" : "log",
-                        "material" : "wood"
+                        "type":"log",
+                        "material":"wood"
                     },
                     {
                         "class":"variant_c",
-                        "type" : "plank",
-                        "material" : "wood"
+                        "type":"plank",
+                        "material":"wood"
                     },
                     {
                         "class":"variant_c",
-                        "type" : "branch",
-                        "material" : "wood"
+                        "type":"branch",
+                        "material":"wood"
                     }
                 ]
             },
             {
-                "class":"step_c",
                 "title":"wrap",
                 "volume":"5",
-                "optional" : true,
+                "optional":true,
                 "variants":[
                     {
                         "class":"variant_c",
-                        "type" : "piece",
-                        "material" : "leather"
+                        "type":"piece",
+                        "material":"leather",
                     },
                     {
                         "class":"variant_c",
-                        "type" : "piece",
-                        "material" : "cloth"
+                        "type":"piece",
+                        "material":"cloth",
                     }
-                ]
+                ],
+                "class":"step_c"
             }
         ],
         "atlasY":"0",
@@ -100,6 +101,7 @@
         }
     },
     {
+        "name":"pickaxe",
         "title":"sickle",
         "aspects":{
             "falling":[
@@ -138,12 +140,10 @@
         }
     },
     {
-        "title":"axe",
+        "name":"axe",
+        "title":"Axe",
         "aspects":{
             "falling":[
-                "1"
-            ],
-            "chopping_tool":[
                 "1"
             ]
         },
@@ -179,7 +179,8 @@
         }
     },
     {
-        "title":"log",
+        "name":"log",
+        "title":"Log",
         "aspects":{
             "falling":[
                 "1"
@@ -198,7 +199,8 @@
         }
     },
     {
-        "title":"branch",
+        "name":"branch",
+        "title":"Branch",
         "aspects":{
             "falling":[
                 "1"
@@ -217,7 +219,8 @@
         }
     },
     {
-        "title":"rock",
+        "name":"rock",
+        "title":"Rock",
         "aspects":{
             "falling":[
                 "1"
@@ -236,7 +239,8 @@
         }
     },
     {
-        "title":"shirt",
+        "name":"shirt",
+        "title":"Shirt",
         "aspects":{
             "falling":[
                 "1"
@@ -269,7 +273,8 @@
         }
     },
     {
-        "title":"pants",
+        "name":"pants",
+        "title":"Pants",
         "aspects":{
             "falling":[
                 "1"
@@ -308,7 +313,8 @@
         }
     },
     {
-        "title":"backpack",
+        "name":"backpack",
+        "title":"Backpack",
         "aspects":{
             "falling":[
                 "1"
@@ -343,7 +349,8 @@
         }
     },
     {
-        "title":"blueberry",
+        "name":"blueberry",
+        "title":"Blueberry",
         "aspects":{
             "falling":[
                 "1"

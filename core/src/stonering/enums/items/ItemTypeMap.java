@@ -44,7 +44,7 @@ public class ItemTypeMap {
         json.addClassTag("variant_c", CraftingComponentVariant.class);
         ArrayList<ItemType> elements = json.fromJson(ArrayList.class, ItemType.class, FileLoader.getItemsFile());
         for (ItemType itemType : elements) {
-            types.put(itemType.getTitle(), itemType);
+            types.put(itemType.ge(), itemType);
         }
     }
 

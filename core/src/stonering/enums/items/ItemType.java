@@ -11,17 +11,19 @@ import java.util.HashMap;
  * (e.g. not material, condition, ownership)
  */
 public class ItemType {
-    private String title;
-    private float valueMod;
+    private String name; // id
+    private String title; // displayable title
+    private float valueMod; //
     private boolean isResource; // true if this item can be used for crafting as raw resource (its volume is counted).
 
-    private WearItemType wear;
-    private ToolItemType tool;
-    private ContainerItemType container;
+    private WearItemType wear; // is set if this item could be worn
+    private ToolItemType tool; // is set if this item could be used as tool
+    private ContainerItemType container; // is set if this item could contain other items
 
-    private ArrayList<ItemPartCraftingStep> parts;
+    private ArrayList<ItemPartCraftingStep> steps; // define parts of items and materials they could be made of. first one is main
 
     private HashMap<String, ArrayList<Object>> aspects;
+    // render7
     private int atlasX;
     private int atlasY;
     private Color color;
@@ -106,11 +108,19 @@ public class ItemType {
         this.container = container;
     }
 
-    public ArrayList<ItemPartCraftingStep> getParts() {
-        return parts;
+    public ArrayList<ItemPartCraftingStep> getSteps() {
+        return steps;
     }
 
-    public void setParts(ArrayList<ItemPartCraftingStep> parts) {
-        this.parts = parts;
+    public void setSteps(ArrayList<ItemPartCraftingStep> steps) {
+        this.steps = steps;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

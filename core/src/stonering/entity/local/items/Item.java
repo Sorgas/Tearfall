@@ -12,17 +12,22 @@ import java.util.HashMap;
  * @author Alexander Kuzyakov on 09.12.2017.
  */
 public class Item extends AspectHolder {
+    private String name;
+    private String title;
     private ItemType type;
 
-    private String title;
     private HashMap<String, ItemPart> parts;
     private String mainPart;
-    private int baseValue;
-    private int material;
-    private int weight;
 
-    public Item(Position position) {
+    private int weight; // cache for faster counting.
+
+    public Item(Position position, ItemType type) {
         super(position);
+        this.type = type;
+        this.name = type.getName();
+        this.title = type.getTitle();
+        this.mainPart = type.getSteps().get(0).getTitle();
+        parts = new HashMap<>();
     }
 
     public boolean isTool() {
@@ -37,16 +42,11 @@ public class Item extends AspectHolder {
     public String toString() {
         return "title: " + title +
                 " position: " + position +
-                " material: " + material +
                 " weight: " + weight;
     }
 
-    public int getMaterial() {
-        return material;
-    }
-
-    public void setMaterial(int material) {
-        this.material = material;
+    public int getMainMaterial() {
+        return parts.get(mainPart).getMaterial();
     }
 
     public int getWeight() {
@@ -73,14 +73,6 @@ public class Item extends AspectHolder {
         this.type = type;
     }
 
-    public int getBaseValue() {
-        return baseValue;
-    }
-
-    public void setBaseValue(int baseValue) {
-        this.baseValue = baseValue;
-    }
-
     public HashMap<String, ItemPart> getParts() {
         return parts;
     }
@@ -99,5 +91,13 @@ public class Item extends AspectHolder {
 
     public ItemPart getMainPart_() {
         return parts.get(mainPart);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

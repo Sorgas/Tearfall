@@ -35,7 +35,7 @@ public class LocalItemsGenerator {
     private void createItemInCenter(String itemType, String material, int xOffset, int yOffset) {
         try {
             LocalMap localMap = container.getLocalMap();
-            Item item = itemGenerator.generateItem(itemType, MaterialMap.getInstance().getId(material));
+            Item item = itemGenerator.generateItem(itemType);
             item.setPosition(new Position(localMap.getxSize() / 2 + xOffset, localMap.getySize() / 2 + yOffset, findSurfaceZ()));
             container.getItems().add(item);
         } catch (DescriptionNotFoundException e) {
