@@ -43,10 +43,7 @@ public class DigEffectAspect extends EffectAspect {
                 break;
             }
         }
-        Material material = MaterialMap.getInstance().getMaterial(container.getLocalMap().getMaterial(action.getTargetPosition()));
-        if(material != null) {
-            leaveStone(material);
-        }
+        leaveStone(container.getLocalMap().getMaterial(action.getTargetPosition()));
     }
 
     private void validateAndChangeBlock(Position pos, BlockTypesEnum type) {
@@ -70,7 +67,12 @@ public class DigEffectAspect extends EffectAspect {
         }
     }
 
-    private void leaveStone(Material material) {
+    /**
+     * Puts rock of dug material if needed.
+     *
+     * @param material
+     */
+    private void leaveStone(int material) {
         DiggingProductGenerator generator = new DiggingProductGenerator();
         if (generator.productRequired(material))
             container.getItemContainer().addItem(generator.generateDigProduct(material), action.getTargetPosition());

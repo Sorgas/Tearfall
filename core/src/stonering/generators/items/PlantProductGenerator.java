@@ -3,6 +3,7 @@ package stonering.generators.items;
 import stonering.enums.materials.MaterialMap;
 import stonering.enums.plants.TreeBlocksTypeEnum;
 import stonering.exceptions.DescriptionNotFoundException;
+import stonering.exceptions.FaultDescriptionException;
 import stonering.global.utils.Position;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.plants.AbstractPlant;
@@ -49,7 +50,7 @@ public class PlantProductGenerator {
         block.getCutProducts().forEach(s -> {
             try {
                 items.add(generateProductForBlock(block, s));
-            } catch (DescriptionNotFoundException e) {
+            } catch (FaultDescriptionException e) {
                 System.out.println("Descriptor for item " + s + " not found.");
                 e.printStackTrace();
             }
@@ -59,12 +60,11 @@ public class PlantProductGenerator {
 
     private Item createItem(String name, String material) {
         try {
-            Item item = itemGenerator.generateItem(name, MaterialMap.getInstance().getId(material));
-            return item;
-        } catch (DescriptionNotFoundException e) {
+            return itemGenerator.generateMockItem(name, MaterialMap.getInstance().getId(material));
+        } catch (FaultDescriptionException e) {
             e.printStackTrace();
-            return null;
         }
+        return null;
     }
 
     /**
@@ -93,14 +93,14 @@ public class PlantProductGenerator {
             }
             AbstractPlant plant = block.getPlant();
             if (plant.getCurrentStage().getCutProducts().contains(itemTitle))
-                return itemGenerator.generateItem(itemTitle, block.getMaterial());
-        } catch (DescriptionNotFoundException e) {
-            System.out.println(e.getMessage());
+                return itemGenerator.generateMockItem(itemTitle, block.getMaterial());
+        } catch (FaultDescriptionException e) {
+            e.printStackTrace();
         }
         return null;
     }
 
-    private Item generateProductForBlock(PlantBlock block, String itemTitle) throws DescriptionNotFoundException {
-        return itemGenerator.generateItem(itemTitle, block.getMaterial());
+    private Item generateProductForBlock(PlantBlock block, String itemTitle) throws FaultDescriptionException {
+        return itemGenerator.generateMockItem(itemTitle, block.getMaterial());
     }
 }

@@ -1,28 +1,35 @@
 package stonering.generators.items;
 
-import stonering.enums.materials.Material;
 import stonering.entity.local.items.Item;
+import stonering.enums.materials.Material;
+import stonering.enums.materials.MaterialMap;
+import stonering.exceptions.FaultDescriptionException;
 
 /**
  * @author Alexander Kuzyakov on 08.01.2018.
- * <p>
- * generates stone, ore, gem, clay, sand, items.
+ *         <p>
+ *         generates stone, ore, gem, clay, sand, items.
  */
 public class DiggingProductGenerator {
 
-    public Item generateDigProduct(Material material) {
+    /**
+     * @param materialId
+     * @return
+     */
+    public Item generateDigProduct(int materialId) {
+        Material material = MaterialMap.getInstance().getMaterial(materialId);
         if (material.getTypes().contains("stone") || material.getTypes().contains("ore")) {
-            Item item = new Item(null);
-            item.setMaterial(material.getId());
-//            item.setWeight(Math.round(item.getType().getVolume() * material.getDensity()));
-            System.out.println(item.toString());
-            return item;
-        } else {
-            return null;
+            try {
+                return new ItemGenerator().generateMockItem("rock", materialId);
+            } catch (FaultDescriptionException e) {
+                e.printStackTrace();
+            }
         }
+        return null;
     }
 
-    public boolean productRequired(Material material) {
-        return material.getTypes().contains("stone") || material.getTypes().contains("ore");
+    public boolean productRequired(int materialId) {
+        Material material = MaterialMap.getInstance().getMaterial(materialId);
+        return material != null && (material.getTypes().contains("stone") || material.getTypes().contains("ore"));
     }
 }

@@ -24,6 +24,7 @@ import java.util.Set;
  */
 public class ItemGenerator {
     private ItemTypeMap itemTypeMap;
+    private MaterialMap materialMap;
 
     public ItemGenerator() {
         init();
@@ -31,6 +32,7 @@ public class ItemGenerator {
 
     private void init() {
         itemTypeMap = ItemTypeMap.getInstance();
+        materialMap = MaterialMap.getInstance();
     }
 
     /**
@@ -128,17 +130,21 @@ public class ItemGenerator {
         return item;
     }
 
-    /**
-     * Creates itemPart with material from first variant.
-     *
-     * @param step
-     * @param itemName
-     * @return
-     * @throws FaultDescriptionException
-     */
+    public Item generateMockItem(String itemName, String mainMaterial) throws FaultDescriptionException {
+        return generateMockItem(itemName, materialMap.getId(mainMaterial));
+    }
+
+        /**
+         * Creates itemPart with material from first variant.
+         *
+         * @param step
+         * @param itemName
+         * @return
+         * @throws FaultDescriptionException
+         */
     private ItemPart createMockItemPart(ItemPartCraftingStep step, String itemName) throws FaultDescriptionException {
         String materiaType = step.getVariants().get(0).getMaterial();
-        Set<Integer> materials = MaterialMap.getInstance().getMaterialsByType(materiaType);
+        Set<Integer> materials = materialMap.getMaterialsByType(materiaType);
         if(materials.isEmpty()) throw new FaultDescriptionException("Material type " + materiaType + " for item " + itemName + " is invalid");
         return new ItemPart(step.getTitle(), materials.iterator().next(), step.getVolume());
     }

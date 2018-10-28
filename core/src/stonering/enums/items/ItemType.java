@@ -28,6 +28,10 @@ public class ItemType {
     private int atlasY;
     private Color color;
 
+    public ItemType() {
+        steps = new ArrayList<>();
+    }
+
     public String getTitle() {
         return title;
     }

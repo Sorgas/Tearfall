@@ -2,6 +2,7 @@ package stonering.generators.localgen.generators;
 
 import stonering.enums.materials.MaterialMap;
 import stonering.exceptions.DescriptionNotFoundException;
+import stonering.exceptions.FaultDescriptionException;
 import stonering.game.core.model.LocalMap;
 import stonering.generators.items.ItemGenerator;
 import stonering.generators.localgen.LocalGenConfig;
@@ -35,10 +36,10 @@ public class LocalItemsGenerator {
     private void createItemInCenter(String itemType, String material, int xOffset, int yOffset) {
         try {
             LocalMap localMap = container.getLocalMap();
-            Item item = itemGenerator.generateItem(itemType);
+            Item item = itemGenerator.generateMockItem(itemType, material);
             item.setPosition(new Position(localMap.getxSize() / 2 + xOffset, localMap.getySize() / 2 + yOffset, findSurfaceZ()));
             container.getItems().add(item);
-        } catch (DescriptionNotFoundException e) {
+        } catch (FaultDescriptionException e) {
             e.printStackTrace();
         }
     }

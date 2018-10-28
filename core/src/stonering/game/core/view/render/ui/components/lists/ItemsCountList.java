@@ -35,13 +35,13 @@ public class ItemsCountList extends NavigableList {
         HashMap<Pair<String, Integer>, ListItem> map = new HashMap<>();
         MaterialMap materialMap = MaterialMap.getInstance();
         items.forEach(item -> {
-            Pair<String, Integer> pair = new Pair<>(item.getTitle(), item.getMaterial());
+            Pair<String, Integer> pair = new Pair<>(item.getTitle(), item.getMainMaterial());
             ListItem listItem;
             if (map.keySet().contains(pair)) {
                 listItem = map.get(pair);
                 listItem.number++;
             } else {
-                listItem = new ListItem(materialMap.getMaterial(item.getMaterial()).getName(), item.getTitle(), 1);
+                listItem = new ListItem(materialMap.getMaterial(item.getMainMaterial()).getName(), item.getTitle(), 1);
                 map.put(pair, listItem);
             }
             listItem.items.add(item);

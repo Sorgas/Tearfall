@@ -53,7 +53,7 @@ public class SimpleItemSelector extends ItemSelector {
     }
 
     private boolean checkItem(Item item) {
-        return item.getTitle().equals(title) && item.getMaterial() == material;
+        return item.getTitle().equals(title) && item.getMainMaterial() == material;
     }
 
     public String getTitle() {
