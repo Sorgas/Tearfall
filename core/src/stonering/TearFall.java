@@ -17,7 +17,8 @@ import stonering.global.utils.Position;
 import stonering.menu.worldgen.WorldGenScreen;
 
 /**
- * s
+ * Game object. Container of screens.
+ *
  * @author Alexander Kuzyakov on 08.04.2017.
  */
 public class TearFall extends Game {

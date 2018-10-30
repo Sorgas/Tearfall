@@ -3,9 +3,12 @@ package stonering.desktop;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import stonering.TearFall;
+import stonering.game.MockGame;
 
-public class DesktopLauncher {
+/**
+ * @author Alexander on 30.10.2018.
+ */
+public class DesktopMenuLauncher {
 
     public static void main(String[] arg) {
         System.out.println("main");
@@ -14,7 +17,7 @@ public class DesktopLauncher {
         config.height = 900;
         config.title = "TearFall";
         config.foregroundFPS = 30;
-        Game game = new TearFall();
+        Game game = new MockGame();
         new LwjglApplication(game, config);
     }
 }
