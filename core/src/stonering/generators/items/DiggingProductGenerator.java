@@ -19,11 +19,11 @@ public class DiggingProductGenerator {
     public Item generateDigProduct(int materialId) {
         Material material = MaterialMap.getInstance().getMaterial(materialId);
         if (material.getTypes().contains("stone") || material.getTypes().contains("ore")) {
-            try {
-                return new ItemGenerator().generateMockItem("rock", materialId);
-            } catch (FaultDescriptionException e) {
-                e.printStackTrace();
-            }
+//            try {
+                return new ItemGenerator().generateItem("rock", materialId);
+//            } catch (FaultDescriptionException e) {
+//                e.printStackTrace();
+//            }
         }
         return null;
     }

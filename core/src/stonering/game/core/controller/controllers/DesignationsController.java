@@ -37,7 +37,6 @@ public class DesignationsController extends Controller {
     private BuildingType buildingType; //is set when activeDesignation is BUILD
     private List<ItemSelector> itemSelectors; // for each crafting step
 
-
     private PlaceSelectComponent placeSelectComponent;
     private boolean rectangleStarted = false;
     private Position start; // should be stored between steps

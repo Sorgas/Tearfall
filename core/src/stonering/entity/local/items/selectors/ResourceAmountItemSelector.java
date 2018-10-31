@@ -55,7 +55,7 @@ public class ResourceAmountItemSelector extends ItemSelector {
         HashMap<Integer, ItemsWithAmount> itemGroups = new HashMap<>(); // material to item group
         for (Item item : items) {
             if (checkItem(item)) {
-                int itemMaterial = item.getMainPart_().getMaterial();
+                int itemMaterial = item.getMaterial();
                 if (!itemGroups.keySet().contains(itemMaterial)) { // create new group if needed
                     itemGroups.put(itemMaterial, new ItemsWithAmount());
                 }
@@ -69,7 +69,7 @@ public class ResourceAmountItemSelector extends ItemSelector {
     }
 
     private boolean checkItem(Item item) {
-        int itemMaterial = item.getMainPart_().getMaterial();
+        int itemMaterial = item.getMaterial();
         if (item.getType().isResource() && item.getType().getTitle().equals(itemType)) {
             if (material != -1) {
                 return itemMaterial == material;
@@ -90,7 +90,8 @@ public class ResourceAmountItemSelector extends ItemSelector {
 
         private void addItem(Item item) {
             items.add(item);
-            totalAmount += item.getMainPart_().getVolume();
+//            totalAmount += item.getMainPart_().getVolume();
+            totalAmount++;
         }
     }
 }

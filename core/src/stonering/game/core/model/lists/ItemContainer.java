@@ -116,7 +116,7 @@ public class ItemContainer {
         List<Item> itemListForFiltering = new ArrayList<>(items);
         return itemListForFiltering.stream().
                 filter(item -> item.getType().getTitle().equals(itemType)).
-                filter(item -> materialIds.contains(item.getMainMaterial())).
+                filter(item -> materialIds.contains(item.getMaterial())).
                 collect(Collectors.toList());
     }
 

@@ -59,12 +59,11 @@ public class PlantProductGenerator {
     }
 
     private Item createItem(String name, String material) {
-        try {
-            return itemGenerator.generateMockItem(name, MaterialMap.getInstance().getId(material));
-        } catch (FaultDescriptionException e) {
-            e.printStackTrace();
-        }
-        return null;
+//        try {
+        return itemGenerator.generateItem(name, material);
+//        } catch (FaultDescriptionException e) {
+//            e.printStackTrace();
+//        }
     }
 
     /**
@@ -75,32 +74,32 @@ public class PlantProductGenerator {
      * @return item or null;
      */
     private Item generateCutProductForTreePart(PlantBlock block) {
-        try {
-            String itemTitle = "";
-            switch (TreeBlocksTypeEnum.getType(block.getBlockType())) {
-                case TRUNK:
-                case STOMP: {
-                    itemTitle = "log";
-                    break;
-                }
-                case BRANCH: {
-                    itemTitle = "branch";
-                    break;
-                }
-                case ROOT: {
-                    itemTitle = "root";
-                }
+//        try {
+        String itemTitle = "";
+        switch (TreeBlocksTypeEnum.getType(block.getBlockType())) {
+            case TRUNK:
+            case STOMP: {
+                itemTitle = "log";
+                break;
             }
-            AbstractPlant plant = block.getPlant();
-            if (plant.getCurrentStage().getCutProducts().contains(itemTitle))
-                return itemGenerator.generateMockItem(itemTitle, block.getMaterial());
-        } catch (FaultDescriptionException e) {
-            e.printStackTrace();
+            case BRANCH: {
+                itemTitle = "branch";
+                break;
+            }
+            case ROOT: {
+                itemTitle = "root";
+            }
         }
+        AbstractPlant plant = block.getPlant();
+        if (plant.getCurrentStage().getCutProducts().contains(itemTitle))
+            return itemGenerator.generateItem(itemTitle, block.getMaterial());
+//        } catch (FaultDescriptionException e) {
+//            e.printStackTrace();
+//        }
         return null;
     }
 
     private Item generateProductForBlock(PlantBlock block, String itemTitle) throws FaultDescriptionException {
-        return itemGenerator.generateMockItem(itemTitle, block.getMaterial());
+        return itemGenerator.generateItem(itemTitle, block.getMaterial());
     }
 }

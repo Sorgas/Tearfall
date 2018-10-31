@@ -48,8 +48,8 @@ public class ItemTypeMap {
         }
     }
 
-    public ItemType getItemType(String title) {
-        return types.get(title);
+    public ItemType getItemType(String name) {
+        return types.get(name);
     }
 
     public Collection<ItemType> getAllTypes() {

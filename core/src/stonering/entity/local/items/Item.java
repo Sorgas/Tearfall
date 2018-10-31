@@ -15,10 +15,10 @@ public class Item extends AspectHolder {
     private String name;
     private String title;
     private ItemType type;
-
-    private HashMap<String, ItemPart> parts;
-    private String mainPart;
-
+//TODO commented as non-MVP feature
+//    private HashMap<String, ItemPart> parts;
+//    private String mainPart;
+    private int material;
     private int weight; // cache for faster counting.
 
     public Item(Position position, ItemType type) {
@@ -26,8 +26,8 @@ public class Item extends AspectHolder {
         this.type = type;
         this.name = type.getName();
         this.title = type.getTitle();
-        this.mainPart = type.getSteps().get(0).getTitle();
-        parts = new HashMap<>();
+//        this.mainPart = type.getSteps().get(0).getTitle();
+//        parts = new HashMap<>();
     }
 
     public boolean isTool() {
@@ -45,9 +45,9 @@ public class Item extends AspectHolder {
                 " weight: " + weight;
     }
 
-    public int getMainMaterial() {
-        return parts.get(mainPart).getMaterial();
-    }
+//    public int getMainMaterial() {
+//        return parts.get(mainPart).getMaterial();
+//    }
 
     public int getWeight() {
         return weight;
@@ -73,25 +73,25 @@ public class Item extends AspectHolder {
         this.type = type;
     }
 
-    public HashMap<String, ItemPart> getParts() {
-        return parts;
-    }
+//    public HashMap<String, ItemPart> getParts() {
+//        return parts;
+//    }
+//
+//    public void setParts(HashMap<String, ItemPart> parts) {
+//        this.parts = parts;
+//    }
 
-    public void setParts(HashMap<String, ItemPart> parts) {
-        this.parts = parts;
-    }
-
-    public String getMainPart() {
-        return mainPart;
-    }
-
-    public void setMainPart(String mainPart) {
-        this.mainPart = mainPart;
-    }
-
-    public ItemPart getMainPart_() {
-        return parts.get(mainPart);
-    }
+//    public String getMainPart() {
+//        return mainPart;
+//    }
+//
+//    public void setMainPart(String mainPart) {
+//        this.mainPart = mainPart;
+//    }
+//
+//    public ItemPart getMainPart_() {
+//        return parts.get(mainPart);
+//    }
 
     public String getName() {
         return name;
@@ -99,5 +99,13 @@ public class Item extends AspectHolder {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getMaterial() {
+        return material;
+    }
+
+    public void setMaterial(int material) {
+        this.material = material;
     }
 }

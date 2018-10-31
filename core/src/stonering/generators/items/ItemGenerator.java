@@ -36,35 +36,55 @@ public class ItemGenerator {
     }
 
     /**
-     * Normal creation of item (order from workbench).
+     * MVP method for creating items.
      *
-     * @param order     order specified by player
-     * @param resources items, carried to workbench
+     * @param name
+     * @param material
      * @return
      */
-    public Item generateItem(ItemOrder order, List<Item> resources) throws InvalidCraftinOrder {
-        if(validateOrder(order)) {
-            Item item = createItem(order.getType());
-            order.getSelectors().forEach((partTitle, selector) -> item.getParts().put(partTitle, createItemPart(order.getType(), partTitle, selector, resources)));
-            return item;
-        } else {
-            throw new InvalidCraftinOrder(order);
-        }
+    public Item generateItem(String name, int material) {
+        Item item = new Item(null, itemTypeMap.getItemType(name));
+        item.setMaterial(material);
+        return item;
     }
 
-    /**
-     * Creates item part to be added to item.
-     *
-     * @param itemType
-     * @param partTitle
-     * @param selector
-     * @param resources
-     * @return
-     */
-    private ItemPart createItemPart(ItemType itemType, String partTitle, ItemSelector selector, List<Item> resources) {
-        List<Item> items = selector.selectItems(resources); // items to spend
-        return new ItemPart(partTitle, items.get(0).getMainMaterial(), selectStep(itemType, partTitle).getVolume());
+    public Item generateItem(String name, String material) {
+        Item item = new Item(null, itemTypeMap.getItemType(name));
+        item.setMaterial(materialMap.getId(material));
+        return item;
     }
+
+//TODO non-MVP feature
+//    /**
+//     * Normal creation of item (order from workbench).
+//     *
+//     * @param order     order specified by player
+//     * @param resources items, carried to workbench
+//     * @return
+//     */
+//    public Item generateItem(ItemOrder order, List<Item> resources) throws InvalidCraftinOrder {
+//        if(validateOrder(order)) {
+//            Item item = createItem(order.getType());
+//            order.getSelectors().forEach((partTitle, selector) -> item.getParts().put(partTitle, createItemPart(order.getType(), partTitle, selector, resources)));
+//            return item;
+//        } else {
+//            throw new InvalidCraftinOrder(order);
+//        }
+//    }
+
+//    /**
+//     * Creates item part to be added to item.
+//     *
+//     * @param itemType
+//     * @param partTitle
+//     * @param selector
+//     * @param resources
+//     * @return
+//     */
+//    private ItemPart createItemPart(ItemType itemType, String partTitle, ItemSelector selector, List<Item> resources) {
+//        List<Item> items = selector.selectItems(resources); // items to spend
+//        return new ItemPart(partTitle, items.get(0).getMainMaterial(), selectStep(itemType, partTitle).getVolume());
+//    }
 
     /**
      * Selects item crafting step by title.
@@ -111,28 +131,24 @@ public class ItemGenerator {
 
     //TODO add itemName everywhere
 
-    /**
-     * Generates item with default materials of parts.
-     *
-     * @param itemName
-     * @param mainMaterial material of main item part. See parts in {@link ItemType} -1 if unspecified.
-     * @return
-     */
-    public Item generateMockItem(String itemName, int mainMaterial) throws FaultDescriptionException {
-        ItemType itemType = itemTypeMap.getItemType(itemName);
-        Item item = new Item(null, itemType);
-        for (ItemPartCraftingStep step : itemType.getSteps()) {
-            item.getParts().put(step.getTitle(), createMockItemPart(step, itemName));
-        }
-        if(mainMaterial >= 0) {
-            item.getMainPart_().setMaterial(mainMaterial);
-        }
-        return item;
-    }
-
-    public Item generateMockItem(String itemName, String mainMaterial) throws FaultDescriptionException {
-        return generateMockItem(itemName, materialMap.getId(mainMaterial));
-    }
+//    /**
+//     * Generates item with default materials of parts.
+//     *
+//     * @param itemName
+//     * @param mainMaterial material of main item part. See parts in {@link ItemType} -1 if unspecified.
+//     * @return
+//     */
+//    public Item generateMockItem(String itemName, int mainMaterial) throws FaultDescriptionException {
+//        ItemType itemType = itemTypeMap.getItemType(itemName);
+//        Item item = new Item(null, itemType);
+//        for (ItemPartCraftingStep step : itemType.getSteps()) {
+//            item.getParts().put(step.getTitle(), createMockItemPart(step, itemName));
+//        }
+//        if(mainMaterial >= 0) {
+//            item.getMainPart_().setMaterial(mainMaterial);
+//        }
+//        return item;
+//    }
 
         /**
          * Creates itemPart with material from first variant.
