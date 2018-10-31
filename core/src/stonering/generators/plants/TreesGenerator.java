@@ -16,11 +16,10 @@ import java.util.Random;
 public class TreesGenerator {
 
     public Tree generateTree(String speciment, int age) throws DescriptionNotFoundException {
-        Plant plant = new Plant(0);
         PlantType plantType = PlantMap.getInstance().getPlantType(speciment);
         TreeType treeType = plantType.getTreeType();
         int material = MaterialMap.getInstance().getId(plantType.getLifeStages().get(0).getMaterialName());
-        Tree tree = new Tree(10);
+        Tree tree = new Tree(age);
         tree.setType(plantType);
         Random random = new Random();
         int treeCenter = treeType.getCrownRadius();
@@ -29,17 +28,17 @@ public class TreesGenerator {
         PlantBlock[][][] treeBlocks = new PlantBlock[treeWidth][treeWidth][treeType.getHeight() + rootsDepth];
         int branchesStart = treeType.getHeight() / 2 + rootsDepth;
         // stomp
-        treeBlocks[treeCenter][treeCenter][rootsDepth] = createTreePart(material, TreeBlocksTypeEnum.STOMP.getCode(), plantType, tree, treeCenter, treeCenter, rootsDepth);
+        treeBlocks[treeCenter][treeCenter][rootsDepth] = createTreePart(material, TreeBlocksTypeEnum.STOMP, tree, treeCenter, treeCenter, rootsDepth);
         // trunk
         for (int i = rootsDepth + 1; i < treeBlocks[0][0].length - 1; i++) {
-            treeBlocks[treeCenter][treeCenter][i] = createTreePart(material, TreeBlocksTypeEnum.TRUNK.getCode(), plantType, tree, treeCenter, treeCenter, i);
+            treeBlocks[treeCenter][treeCenter][i] = createTreePart(material, TreeBlocksTypeEnum.TRUNK, tree, treeCenter, treeCenter, i);
         }
         // roots
         for (int i = 0; i < rootsDepth; i++) {
-            treeBlocks[treeCenter][treeCenter][i] = createTreePart(material, TreeBlocksTypeEnum.ROOT.getCode(), plantType, tree, treeCenter, treeCenter, i);
+            treeBlocks[treeCenter][treeCenter][i] = createTreePart(material, TreeBlocksTypeEnum.ROOT, tree, treeCenter, treeCenter, i);
         }
         // branches
-        treeBlocks[treeCenter][treeCenter][treeBlocks[0][0].length - 1] = createTreePart(material, TreeBlocksTypeEnum.BRANCH.getCode(), plantType, tree, treeCenter, treeCenter, treeBlocks[0][0].length - 1);
+        treeBlocks[treeCenter][treeCenter][treeBlocks[0][0].length - 1] = createTreePart(material, TreeBlocksTypeEnum.BRANCH, tree, treeCenter, treeCenter, treeBlocks[0][0].length - 1);
         for (int z = branchesStart; z < treeBlocks[0][0].length - 1; z++) {
             for (int x = 0; x < treeWidth; x++) {
                 for (int y = 0; y < treeWidth; y++) {
@@ -48,7 +47,7 @@ public class TreesGenerator {
                                 && (Math.abs(treeCenter - y) <= 1))
                                 && (random.nextInt(3) < 2);
                         if (rollBranch) {
-                            treeBlocks[x][y][z] = createTreePart(material, TreeBlocksTypeEnum.BRANCH.getCode(), plantType, tree, x, y, z);
+                            treeBlocks[x][y][z] = createTreePart(material, TreeBlocksTypeEnum.BRANCH, tree, x, y, z);
                         }
                     }
                 }
@@ -59,7 +58,7 @@ public class TreesGenerator {
             for (int y = 0; y < treeBlocks[0].length; y++) {
                 for (int z = branchesStart; z < treeBlocks[0][0].length; z++) {
                     if (treeBlocks[x][y][z] == null) {
-                        treeBlocks[x][y][z] = createTreePart(material, TreeBlocksTypeEnum.CROWN.getCode(), plantType, tree, x, y, z);
+                        treeBlocks[x][y][z] = createTreePart(material, TreeBlocksTypeEnum.CROWN, tree, x, y, z);
                     }
                 }
             }
@@ -69,11 +68,11 @@ public class TreesGenerator {
         return tree;
     }
 
-    private PlantBlock createTreePart(int material, int blockType, PlantType plantType, Tree tree, int x, int y, int z) {
-        PlantBlock block = new PlantBlock(material, blockType);
+    private PlantBlock createTreePart(int material, TreeBlocksTypeEnum blockType, Tree tree, int x, int y, int z) {
+        PlantBlock block = new PlantBlock(material, blockType.getCode());
         block.setPosition(new Position(x, y, z));
-        block.setAtlasY(plantType.getAtlasY());
-        block.setAtlasX(TreeTileMapping.getType(blockType).getAtlasX());
+        block.setAtlasY(tree.getCurrentStage().getAtlasY());
+        block.setAtlasX(TreeTileMapping.getType(blockType.getCode()).getAtlasX());
         block.setPlant(tree);
         return block;
     }

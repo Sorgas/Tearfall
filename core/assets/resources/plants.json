@@ -14,8 +14,6 @@
         "lightNeed":["low", "high"],
         // underground, low, high (multiple)
         "soilType":"soil",
-        "atlasY":"0",
-        "atlasX":"0",
         "treeType":null,
         "lifeStages":[
             {

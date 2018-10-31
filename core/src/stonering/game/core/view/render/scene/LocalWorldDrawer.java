@@ -113,8 +113,10 @@ public class LocalWorldDrawer {
         updateColorA(1f);
         PlantBlock plantBlock = localMap.getPlantBlock(x, y, z);
         if (plantBlock != null) {
-            PlantType.PlantLifeStage stage = plantBlock.getPlant().getCurrentStage();
-            drawSprite(1, x, y, z, stage.getAtlasX(), plantBlock.getAtlasY());
+            if(plantBlock.getBlockType() == 14) {
+                System.out.println("");
+            }
+            drawSprite(1, x, y, z, plantBlock.getAtlasX(), plantBlock.getAtlasY());
         }
         BuildingBlock buildingBlock = localMap.getBuildingBlock(x, y, z);
         if (buildingBlock != null) {

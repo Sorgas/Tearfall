@@ -21,9 +21,9 @@ public class PlantType {
     private ArrayList<String> waterSource;
     private ArrayList<String> lightNeed;
     private String soilType;
-    private int atlasX;
-
-    private int atlasY;
+//    private int atlasX;
+//
+//    private int atlasY;
     private ArrayList<PlantLifeStage> lifeStages;
 
     private TreeType treeType;
@@ -202,21 +202,21 @@ public class PlantType {
         this.treeType = treeType;
     }
 
-    public int getAtlasX() {
-        return atlasX;
-    }
-
-    public void setAtlasX(int atlasX) {
-        this.atlasX = atlasX;
-    }
-
-    public int getAtlasY() {
-        return atlasY;
-    }
-
-    public void setAtlasY(int atlasY) {
-        this.atlasY = atlasY;
-    }
+//    public int getAtlasX() {
+//        return atlasX;
+//    }
+//
+//    public void setAtlasX(int atlasX) {
+//        this.atlasX = atlasX;
+//    }
+//
+//    public int getAtlasY() {
+//        return atlasY;
+//    }
+//
+//    public void setAtlasY(int atlasY) {
+//        this.atlasY = atlasY;
+//    }
 
     public ArrayList<PlantLifeStage> getLifeStages() {
         return lifeStages;
