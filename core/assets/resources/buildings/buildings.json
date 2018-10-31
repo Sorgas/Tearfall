@@ -357,5 +357,67 @@
             "b":"1",
             "a":"1"
         }
+    },
+    {
+        "building":"forge",
+        "title":"Forge",
+        "description":"Forge for blacksmithing",
+        "category":"workbenches",
+        "components":[
+            {
+                "class":"step_c",
+                "optional":false,
+                "brakingRatio": "0.5",
+                "variants":[
+                    {
+                        "class":"variant_c",
+                        "material":"metal",
+                        "amount":"1",
+                        "sprite":["1", "1"]
+                    }
+                ]
+            }
+        ],
+        "menuPath":["metal"],
+        "atlasY":"0",
+        "atlasX":"0",
+        "color":{
+            "class":"color_c",
+            "r":"1",
+            "g":"1",
+            "b":"1",
+            "a":"1"
+        }
+    },
+    {
+        "building":"tailor_shop",
+        "title":"Tailor's workbench",
+        "description":"qwer",
+        "category":"workbenches",
+        "components":[
+            {
+                "class":"step_c",
+                "optional":false,
+                "brakingRatio": "0.5",
+                "variants":[
+                    {
+                        "class":"variant_c",
+                        "material":"stone",
+                        "amount":"1",
+                        "sprite":["1", "1"]
+                    }
+                ]
+            }
+        ],
+        "menuPath":["cloth"],
+        "atlasY":"0",
+        "atlasX":"0",
+        "color":{
+            "class":"color_c",
+            "r":"1",
+            "g":"1",
+            "b":"1",
+            "a":"1"
+        }
     }
 ]

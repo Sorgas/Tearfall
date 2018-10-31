@@ -30,66 +30,6 @@
                 }
             ]
         },
-        "steps":[
-            {
-                "title":"head",
-                "volume":"15",
-                "optional":false,
-                "variants":[
-                    {
-                        "class":"variant_c",
-                        "type":"bar",
-                        "material":"metal"
-                    }
-                ],
-                "class":"step_c"
-            },
-            {
-                "title":"handle",
-                "volume":"30",
-                "optional":false,
-                "variants":[
-                    {
-                        "class":"variant_c",
-                        "type":"bar",
-                        "material":"metal"
-                    },
-                    {
-                        "class":"variant_c",
-                        "type":"log",
-                        "material":"wood"
-                    },
-                    {
-                        "class":"variant_c",
-                        "type":"plank",
-                        "material":"wood"
-                    },
-                    {
-                        "class":"variant_c",
-                        "type":"branch",
-                        "material":"wood"
-                    }
-                ]
-            },
-            {
-                "title":"wrap",
-                "volume":"5",
-                "optional":true,
-                "variants":[
-                    {
-                        "class":"variant_c",
-                        "type":"piece",
-                        "material":"leather",
-                    },
-                    {
-                        "class":"variant_c",
-                        "type":"piece",
-                        "material":"cloth",
-                    }
-                ],
-                "class":"step_c"
-            }
-        ],
         "atlasY":"0",
         "atlasX":"0",
         "color":{
@@ -129,66 +69,6 @@
                 }
             ]
         },
-        "steps":[
-            {
-                "title":"blade",
-                "volume":"4",
-                "optional":false,
-                "variants":[
-                    {
-                        "class":"variant_c",
-                        "type":"bar",
-                        "material":"metal"
-                    }
-                ],
-                "class":"step_c"
-            },
-            {
-                "title":"handle",
-                "volume":"30",
-                "optional":false,
-                "variants":[
-                    {
-                        "class":"variant_c",
-                        "type":"bar",
-                        "material":"metal"
-                    },
-                    {
-                        "class":"variant_c",
-                        "type":"log",
-                        "material":"wood"
-                    },
-                    {
-                        "class":"variant_c",
-                        "type":"plank",
-                        "material":"wood"
-                    },
-                    {
-                        "class":"variant_c",
-                        "type":"branch",
-                        "material":"wood"
-                    }
-                ]
-            },
-            {
-                "title":"wrap",
-                "volume":"5",
-                "optional":true,
-                "variants":[
-                    {
-                        "class":"variant_c",
-                        "type":"piece",
-                        "material":"leather",
-                    },
-                    {
-                        "class":"variant_c",
-                        "type":"piece",
-                        "material":"cloth",
-                    }
-                ],
-                "class":"step_c"
-            }
-        ],
         "atlasY":"0",
         "atlasX":"7",
         "color":{
@@ -228,66 +108,6 @@
                 }
             ]
         },
-        "steps":[
-            {
-                "title":"axe",
-                "volume":"25",
-                "optional":false,
-                "variants":[
-                    {
-                        "class":"variant_c",
-                        "type":"bar",
-                        "material":"metal"
-                    }
-                ],
-                "class":"step_c"
-            },
-            {
-                "title":"handle",
-                "volume":"30",
-                "optional":false,
-                "variants":[
-                    {
-                        "class":"variant_c",
-                        "type":"bar",
-                        "material":"metal"
-                    },
-                    {
-                        "class":"variant_c",
-                        "type":"log",
-                        "material":"wood"
-                    },
-                    {
-                        "class":"variant_c",
-                        "type":"plank",
-                        "material":"wood"
-                    },
-                    {
-                        "class":"variant_c",
-                        "type":"branch",
-                        "material":"wood"
-                    }
-                ]
-            },
-            {
-                "title":"wrap",
-                "volume":"5",
-                "optional":true,
-                "variants":[
-                    {
-                        "class":"variant_c",
-                        "type":"piece",
-                        "material":"leather",
-                    },
-                    {
-                        "class":"variant_c",
-                        "type":"piece",
-                        "material":"cloth",
-                    }
-                ],
-                "class":"step_c"
-            }
-        ],
         "atlasY":"0",
         "atlasX":"1",
         "color":{
@@ -308,20 +128,6 @@
         },
         "valueMod":"0",
         "isResource":true,
-        "steps":[
-            {
-                "title":"log",
-                "volume":"30",
-                "optional":false,
-                "variants":[
-                    {
-                        "class":"variant_c",
-                        "type":"log",
-                        "material":"wood"
-                    }
-                ]
-            }
-        ],
         "atlasY":"0",
         "atlasX":"2",
         "color":{
@@ -342,20 +148,6 @@
         },
         "valueMod":"0",
         "isResource":true,
-        "steps":[
-            {
-                "title":"branch",
-                "volume":"30",
-                "optional":false,
-                "variants":[
-                    {
-                        "class":"variant_c",
-                        "type":"branch",
-                        "material":"wood"
-                    }
-                ]
-            }
-        ],
         "atlasY":"0",
         "atlasX":"3",
         "color":{
@@ -376,20 +168,6 @@
         },
         "valueMod":"0",
         "isResource":true,
-        "steps":[
-            {
-                "title":"rock",
-                "volume":"30",
-                "optional":false,
-                "variants":[
-                    {
-                        "class":"variant_c",
-                        "type":"rock",
-                        "material":"stone"
-                    }
-                ]
-            }
-        ],
         "atlasY":"0",
         "atlasX":"4",
         "color":{
@@ -424,20 +202,6 @@
             "baseInsulation":0.2,
             "baseWetResistance":0.3
         },
-        "steps":[
-            {
-                "title":"shirt",
-                "volume":"30",
-                "optional":false,
-                "variants":[
-                    {
-                        "class":"variant_c",
-                        "type":"piece",
-                        "material":"cloth"
-                    }
-                ]
-            }
-        ],
         "atlasY":"0",
         "atlasX":"6",
         "color":{
@@ -478,20 +242,6 @@
             ],
             "innerVolume":4
         },
-        "steps":[
-            {
-                "title":"shirt",
-                "volume":"30",
-                "optional":false,
-                "variants":[
-                    {
-                        "class":"variant_c",
-                        "type":"piece",
-                        "material":"cloth"
-                    }
-                ]
-            }
-        ],
         "atlasY":"0",
         "atlasX":"5",
         "color":{
@@ -528,20 +278,6 @@
             ],
             "innerVolume":2000
         },
-        "steps":[
-            {
-                "title":"shirt",
-                "volume":"30",
-                "optional":false,
-                "variants":[
-                    {
-                        "class":"variant_c",
-                        "type":"piece",
-                        "material":"cloth"
-                    }
-                ]
-            }
-        ],
         "atlasY":"0",
         "atlasX":"4",
         "color":{
@@ -562,20 +298,6 @@
         },
         "valueMod":"0",
         "isResource":true,
-        "steps":[
-            {
-                "title":"berries",
-                "volume":"30",
-                "optional":false,
-                "variants":[
-                    {
-                        "class":"variant_c",
-                        "type":"blueberry",
-                        "material":"biomass"
-                    }
-                ]
-            }
-        ],
         "atlasY":"0",
         "atlasX":"8",
         "color":{

@@ -1,0 +1,32 @@
+[
+    {
+        "name":"make_pickaxe",
+        "itemName":"pickaxe",
+        "material" : "metal"
+    },
+    {
+        "name":"make_sickle",
+        "itemName":"sickle",
+        "material" : "metal"
+    },
+    {
+        "name":"make_axe",
+        "itemName":"axe",
+        "material" : "metal"
+    },
+    {
+        "name":"make_shirt",
+        "itemName":"shirt",
+        "material" : "cloth"
+    },
+    {
+        "name":"make_pants",
+        "itemName":"pants",
+        "material" : "cloth"
+    },
+    {
+        "name":"make_backpack",
+        "itemName":"backpack",
+        "material" : "cloth"
+    }
+]
