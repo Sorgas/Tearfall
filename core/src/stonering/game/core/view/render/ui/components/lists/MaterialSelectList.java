@@ -61,7 +61,6 @@ public class MaterialSelectList extends ItemsCountList implements Invokable, Hid
             ListItem selected = getSelectedListItem();
             //TODO handle amount requirements more than 1
             controller.addItemSelector(new SimpleItemSelector(selected.title, selected.material, 1));
-            controller.addNextActorToToolbar();
         }
     }
 

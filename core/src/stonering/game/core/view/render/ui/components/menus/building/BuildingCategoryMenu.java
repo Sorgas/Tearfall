@@ -48,7 +48,6 @@ public class BuildingCategoryMenu extends SubMenuMenu {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
                         controller.setActiveDesignation(DesignationTypes.BUILD, building);
-                        controller.addNextActorToToolbar();
                     }
                 }, building.getMenuPath())
         );

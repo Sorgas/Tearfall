@@ -35,6 +35,11 @@ public class Toolbar extends Container implements Invokable {
         this.setActor(createToolbarTable());
     }
 
+    /**
+     * Creates menus row and status row.
+     *
+     * @return
+     */
     private Table createToolbarTable() {
         toolbarTable = new Table(StaticSkin.getSkin());
         toolbarTable.add(createMenusTable()).row();
@@ -50,7 +55,6 @@ public class Toolbar extends Container implements Invokable {
         parentMenu.init();
         parentMenu.show();
         refill();
-//        menusTable.add(parentMenu);
         return menusTable;
     }
 

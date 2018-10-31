@@ -83,6 +83,7 @@ public class DesignationsController extends Controller {
         this.activeDesignation = activeDesignation;
         this.buildingType = activeDesignation == DesignationTypes.BUILD ? building : null;
         gameMvc.getView().getUiDrawer().setToolbarLabelText(activeDesignation.getText() + (building != null ? building.getTitle() : ""));
+        addNextActorToToolbar();
     }
 
     /**
@@ -90,12 +91,19 @@ public class DesignationsController extends Controller {
      */
     public void addNextActorToToolbar() {
         if (activeDesignation == DesignationTypes.BUILD) {
-            if (start == null) {
+            if (start == null) {// place not selected
                 view.getUiDrawer().getToolbar().addMenu(
-                        placeSelectComponent.setSinglePoint(buildingType.getCategory().equals("constructions")));
+                        placeSelectComponent.setSinglePoint(!buildingType.getCategory().equals("constructions")));
             } else if (buildingType.getComponents().size() > itemSelectors.size()) { //steps not finished
                 view.getUiDrawer().getToolbar().addMenu(
                         createSelectListForStep(buildingType.getComponents().get(itemSelectors.size())));
+            } else { //finish
+                finishTaskBuilding();
+                view.getUiDrawer().getToolbar().resetToLastMenu();
+            }
+        } else {
+            if (start == null) {// place not selected
+                view.getUiDrawer().getToolbar().addMenu(placeSelectComponent.setSinglePoint(false));
             } else { //finish
                 finishTaskBuilding();
                 view.getUiDrawer().getToolbar().resetToLastMenu();
@@ -180,6 +188,7 @@ public class DesignationsController extends Controller {
     public void setRectangle(Position start, Position end) {
         this.start = start;
         this.end = end;
+        addNextActorToToolbar();
     }
 
     public BuildingType getBuildingType() {
@@ -192,6 +201,7 @@ public class DesignationsController extends Controller {
 
     public void addItemSelector(ItemSelector itemSelector) {
         itemSelectors.add(itemSelector);
+        addNextActorToToolbar();
     }
 
     public void clearItemSelectors() {

@@ -10,10 +10,7 @@ import stonering.game.core.controller.controllers.DesignationsController;
 import stonering.game.core.controller.inputProcessors.MouseInputProcessor;
 import stonering.game.core.model.GameCamera;
 import stonering.game.core.model.LocalMap;
-import stonering.game.core.view.render.ui.components.lists.MaterialSelectList;
 import stonering.game.core.view.render.ui.components.menus.Toolbar;
-import stonering.game.core.view.render.ui.components.menus.util.HideableComponent;
-import stonering.game.core.view.render.ui.components.menus.util.MouseInvocable;
 import stonering.global.utils.Position;
 
 /**
@@ -89,7 +86,7 @@ public class PlaceSelectComponent extends Actor implements HideableComponent, Mo
      * @param eventPosition
      */
     private void handleConfirm(Position eventPosition) {
-        System.out.println("handling confirm");
+//        System.out.println("handling confirm");
         if (singlePoint) {
             finishHandling(eventPosition, eventPosition);
         } else {
@@ -155,7 +152,6 @@ public class PlaceSelectComponent extends Actor implements HideableComponent, Mo
      */
     private void finishHandling(Position start, Position end) {
         controller.setRectangle(start, end);
-        controller.addNextActorToToolbar();
     }
 
     private boolean validatePlace() {

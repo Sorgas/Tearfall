@@ -1,9 +1,13 @@
 package stonering.desktop;
 
+import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import stonering.TearFall;
+import stonering.utils.global.TaggedLogger;
+
+import java.util.Arrays;
 
 public class DesktopLauncher {
 
@@ -15,6 +19,7 @@ public class DesktopLauncher {
         config.title = "TearFall";
         config.foregroundFPS = 30;
         Game game = new TearFall();
-        new LwjglApplication(game, config);
+        Application application = new LwjglApplication(game, config);
+        application.setApplicationLogger(new TaggedLogger(Arrays.asList("tasks")));
     }
 }

@@ -6,8 +6,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.enums.designations.DesignationTypes;
 import stonering.game.core.GameMvc;
 import stonering.game.core.controller.controllers.DesignationsController;
-import stonering.game.core.view.render.ui.components.menus.util.ButtonMenu;
 import stonering.game.core.view.render.ui.components.menus.util.PlaceSelectComponent;
+import stonering.game.core.view.render.ui.components.menus.util.SubMenuMenu;
 
 /**
  * ButtonMenu for selecting designation type.
@@ -15,12 +15,12 @@ import stonering.game.core.view.render.ui.components.menus.util.PlaceSelectCompo
  *
  * @author Alexander Kuzyakov
  */
-public class DiggingMenu extends ButtonMenu {
+public class DiggingMenu extends SubMenuMenu {
     private DesignationsController controller;
     private PlaceSelectComponent placeSelectComponent;
 
     public DiggingMenu(GameMvc gameMvc) {
-        super(gameMvc, true);
+        super(gameMvc);
         hideable = true;
         initMenu();
     }

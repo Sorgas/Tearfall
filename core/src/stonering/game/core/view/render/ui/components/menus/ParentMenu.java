@@ -26,8 +26,8 @@ public class ParentMenu extends SubMenuMenu {
     }
 
     private void createMenus() {
-//        addMenu(new PlantsMenu(gameMvc), Input.Keys.P, "P: plants");
-//        addMenu(new DiggingMenu(gameMvc), Input.Keys.O, "O: digging");
+        addMenu(new PlantsMenu(gameMvc), Input.Keys.P, "P: plants");
+        addMenu(new DiggingMenu(gameMvc), Input.Keys.O, "O: digging");
         addMenu(new GeneralBuildingMenu(gameMvc),  Input.Keys.I, "building");
     }
 

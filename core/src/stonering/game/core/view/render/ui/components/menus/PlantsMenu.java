@@ -8,18 +8,19 @@ import stonering.game.core.GameMvc;
 import stonering.game.core.controller.controllers.DesignationsController;
 import stonering.game.core.view.render.ui.components.menus.util.ButtonMenu;
 import stonering.game.core.view.render.ui.components.menus.util.PlaceSelectComponent;
+import stonering.game.core.view.render.ui.components.menus.util.SubMenuMenu;
 
 /**
  * Menu with orders related to plants
  *
  * @author Alexander Kuzyakov on 28.05.2018.
  */
-public class PlantsMenu extends ButtonMenu {
+public class PlantsMenu extends SubMenuMenu {
     private DesignationsController controller;
     private PlaceSelectComponent placeSelectComponent;
 
     public PlantsMenu(GameMvc gameMvc) {
-        super(gameMvc, true);
+        super(gameMvc);
         hideable = true;
         initMenu();
     }
@@ -51,7 +52,6 @@ public class PlantsMenu extends ButtonMenu {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 controller.setActiveDesignation(type, null);
-                placeSelectComponent.show();
             }
         }, true);
     }

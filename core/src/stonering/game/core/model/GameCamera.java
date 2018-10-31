@@ -67,7 +67,7 @@ public class GameCamera {
     public void resetSprite() {
         frameStart = null;
         frameEnd = null;
-        System.out.println("camera sprite resetted");
+//        System.out.println("camera sprite resetted");
     }
 
     public Position getFrameStart() {
