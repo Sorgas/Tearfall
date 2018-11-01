@@ -1,5 +1,6 @@
 package stonering.entity.local.unit.aspects;
 
+import com.badlogic.gdx.Gdx;
 import stonering.entity.jobs.Task;
 import stonering.entity.jobs.actions.Action;
 import stonering.entity.local.Aspect;
@@ -10,10 +11,11 @@ import stonering.entity.local.unit.Unit;
 import java.util.ArrayList;
 
 /**
+ * Holds current creature's task and it's steps. resolves behavior, if some step fails.
+ * Selects new tasks.
+ * Updates target for movement on task switching.
+ *
  * @author Alexander Kuzyakov on 10.10.2017.
- *         <p>
- *         Holds current creature's task and it's steps. resolves behavior, if some step fails.
- *         Updates target for movement on task switching.
  */
 public class PlanningAspect extends Aspect {
     private Task currentTask;
@@ -30,6 +32,7 @@ public class PlanningAspect extends Aspect {
             if (checkUnitPosition()) { // actor on position
                 if (checkActionSequence()) {
                     if (currentTask.getNextAction().perform()) { // act. called several times
+
                         System.out.println("action completed");
                     }
                 }
@@ -100,6 +103,7 @@ public class PlanningAspect extends Aspect {
      * TODO combat tasks
      */
     private void selectTask() {
+//        log("Selecting new task")
         currentTask = null;
         ArrayList<Task> tasks = new ArrayList<>();
         tasks.add(takeTaskFromNeedsAspect());
@@ -175,4 +179,5 @@ public class PlanningAspect extends Aspect {
                 currentTask.getNextAction().getTargetPosition() :
                 null;
     }
+
 }

@@ -9,7 +9,6 @@ import stonering.global.settings.KeySettings;
 
 /**
  * Input processor for camera.
- * Keys set should not intersect with others.
  *
  * @author Alexander Kuzyakov on 27.06.2017.
  */
@@ -49,13 +48,13 @@ public class CameraInputProcessor implements InputProcessor {
             case 'A':
             case 'S':
             case 'D':
-                tryMoveLR();
+                tryMove();
                 return true;
         }
         return false;
     }
 
-    private void tryMoveLR() {
+    private void tryMove() {
         int offset = Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) ? 10 : 1;
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             controller.moveCamera(-offset, 0, 0);
@@ -67,9 +66,6 @@ public class CameraInputProcessor implements InputProcessor {
         } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
             controller.moveCamera(0, -offset, 0);
         }
-    }
-
-    private void tryMoveUD() {
     }
 
     @Override
