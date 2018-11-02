@@ -7,6 +7,7 @@ import stonering.entity.jobs.actions.aspects.target.PlantTargetAspect;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.plants.AbstractPlant;
 import stonering.entity.local.plants.PlantBlock;
+import stonering.utils.global.TagLoggersEnum;
 
 import java.util.ArrayList;
 
@@ -32,5 +33,9 @@ public class HarvestPlantEffectAspect extends EffectAspect {
                 items.forEach(item -> action.getGameContainer().getItemContainer().putItem(item, position));
             }
         }
+    }
+
+    private void logFinish() {
+        TagLoggersEnum.TASKS.logDebug("harvesting plant " +  + " finished at " + action.getTargetPosition().toString() + " by " + action.getTask().getPerformer().toString());
     }
 }

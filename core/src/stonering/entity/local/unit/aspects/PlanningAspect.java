@@ -1,12 +1,12 @@
 package stonering.entity.local.unit.aspects;
 
-import com.badlogic.gdx.Gdx;
 import stonering.entity.jobs.Task;
 import stonering.entity.jobs.actions.Action;
 import stonering.entity.local.Aspect;
 import stonering.entity.local.AspectHolder;
 import stonering.global.utils.Position;
 import stonering.entity.local.unit.Unit;
+import stonering.utils.global.TagLoggersEnum;
 
 import java.util.ArrayList;
 
@@ -32,13 +32,18 @@ public class PlanningAspect extends Aspect {
             if (checkUnitPosition()) { // actor on position
                 if (checkActionSequence()) {
                     if (currentTask.getNextAction().perform()) { // act. called several times
-
-                        System.out.println("action completed");
+                        TagLoggersEnum.TASKS.logDebug(aspectHolder.toString() + " completes another action.");
                     }
                 }
             } // keep moving to target
         } else {
+            TagLoggersEnum.TASKS.logDebug("selecting new task");
             selectTask();// try find task, check it and claim
+            if(currentTask != null) {
+                TagLoggersEnum.TASKS.logDebug("task " + currentTask.getName() + " selected by " + aspectHolder.toString());
+            } else {
+                TagLoggersEnum.TASKS.logDebug("no task selected by " + aspectHolder.toString());
+            }
         }
     }
 
@@ -103,7 +108,6 @@ public class PlanningAspect extends Aspect {
      * TODO combat tasks
      */
     private void selectTask() {
-//        log("Selecting new task")
         currentTask = null;
         ArrayList<Task> tasks = new ArrayList<>();
         tasks.add(takeTaskFromNeedsAspect());
@@ -119,10 +123,8 @@ public class PlanningAspect extends Aspect {
         }
         if (currentTask != null) {
             claimTask();
-            if (checkActionSequence()) { //checking requires performer to be set.
-                // ok
-            } else {
-                freeTask();
+            if (!checkActionSequence()) {
+                freeTask(); // if requirements are not met
             }
         }
     }
@@ -179,5 +181,4 @@ public class PlanningAspect extends Aspect {
                 currentTask.getNextAction().getTargetPosition() :
                 null;
     }
-
 }

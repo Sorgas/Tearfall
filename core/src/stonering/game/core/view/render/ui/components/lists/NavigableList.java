@@ -19,7 +19,6 @@ public abstract class NavigableList extends List {
         this.hideable = hideable;
     }
 
-
     public void up() {
         if (getSelectedIndex() > 0) {
             setSelectedIndex(getSelectedIndex() - 1);

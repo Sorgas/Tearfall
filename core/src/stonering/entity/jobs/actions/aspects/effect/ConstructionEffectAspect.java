@@ -8,6 +8,7 @@ import stonering.entity.jobs.actions.Action;
 import stonering.entity.jobs.actions.aspects.requirements.ItemsInPositionOrInventoryRequirementAspect;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.items.selectors.ItemSelector;
+import stonering.utils.global.TagLoggersEnum;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,7 @@ public class ConstructionEffectAspect extends EffectAspect {
 
     @Override
     protected void applyEffect() {
+        logStart();
         spendMaterials();
         createConstruction();
     }
@@ -58,5 +60,9 @@ public class ConstructionEffectAspect extends EffectAspect {
                 return 4;
         }
         return 1;
+    }
+
+    private void logStart() {
+        TagLoggersEnum.TASKS.logDebug("construction of " + building + " started at " + action.getTargetPosition().toString() + " by " + action.getTask().getPerformer().toString());
     }
 }

@@ -7,6 +7,7 @@ import stonering.entity.local.plants.AbstractPlant;
 import stonering.entity.local.plants.Plant;
 import stonering.entity.local.plants.PlantBlock;
 import stonering.entity.local.plants.Tree;
+import stonering.utils.global.TagLoggersEnum;
 
 /**
  * Effect for cutting plants and chopping trees.
@@ -22,6 +23,7 @@ public class ChopTreeEffectAspect extends EffectAspect {
 
     @Override
     protected void applyEffect() {
+        logStart();
         Position pos = action.getTargetAspect().getTargetPosition();
         PlantBlock block = container.getLocalMap().getPlantBlock(pos);
         if (block != null) {
@@ -34,15 +36,15 @@ public class ChopTreeEffectAspect extends EffectAspect {
         }
     }
 
-    private void leaveLogs() {
-
-    }
-
     private void cutTree(Tree tree) {
         container.getPlantContainer().removeTree(tree);
     }
 
     private void cutPlant(Plant plant) {
         container.getPlantContainer().removePlant(plant);
+    }
+
+    private void logStart() {
+        TagLoggersEnum.TASKS.logDebug("tree chopping started at " + action.getTargetPosition().toString() + " by " + action.getTask().getPerformer().toString());
     }
 }

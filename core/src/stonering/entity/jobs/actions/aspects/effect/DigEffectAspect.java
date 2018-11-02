@@ -2,13 +2,12 @@ package stonering.entity.jobs.actions.aspects.effect;
 
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.designations.DesignationTypes;
-import stonering.enums.materials.Material;
-import stonering.enums.materials.MaterialMap;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.LocalMap;
 import stonering.generators.items.DiggingProductGenerator;
 import stonering.global.utils.Position;
 import stonering.entity.jobs.actions.Action;
+import stonering.utils.global.TagLoggersEnum;
 
 public class DigEffectAspect extends EffectAspect {
     private DesignationTypes designationType;
@@ -22,6 +21,7 @@ public class DigEffectAspect extends EffectAspect {
 
     @Override
     protected void applyEffect() {
+        logStart();
         Position pos = action.getTargetAspect().getTargetPosition();
         switch (designationType) {
             case DIG: {
@@ -84,5 +84,9 @@ public class DigEffectAspect extends EffectAspect {
 
     public void setBlockType(DesignationTypes blockType) {
         this.designationType = blockType;
+    }
+
+    private void logStart() {
+        TagLoggersEnum.TASKS.logDebug("digging " + designationType + " started at " + action.getTargetPosition().toString() + " by " + action.getTask().getPerformer().toString());
     }
 }

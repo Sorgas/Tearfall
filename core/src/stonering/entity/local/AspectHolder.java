@@ -13,8 +13,8 @@ import java.util.HashMap;
  * @author Alexander Kuzyakov on 25.01.2018.
  */
 public abstract class AspectHolder extends IntervalTurnable implements Serializable{
-    protected HashMap<String, Aspect> aspects;
     protected Position position;
+    protected HashMap<String, Aspect> aspects;
 
     protected AspectHolder(Position position) {
         this.aspects = new HashMap<>();
