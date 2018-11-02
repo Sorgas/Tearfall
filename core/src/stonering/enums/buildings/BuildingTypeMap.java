@@ -5,7 +5,6 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import stonering.entity.local.building.BuildingType;
 import stonering.entity.local.crafting.BrakeableComponentStep;
-import stonering.entity.local.crafting.CommonComponentStep;
 import stonering.entity.local.crafting.CraftingComponentVariant;
 import stonering.utils.global.FileLoader;
 
@@ -19,12 +18,12 @@ import java.util.stream.Collectors;
  *
  * @author Alexander Kuzyakov
  */
-public class BuildingMap {
-    private static BuildingMap instance;
+public class BuildingTypeMap {
+    private static BuildingTypeMap instance;
     private HashMap<String, BuildingType> buildings;
     private Json json;
 
-    private BuildingMap() {
+    private BuildingTypeMap() {
         buildings = new HashMap<>();
         json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
@@ -34,9 +33,9 @@ public class BuildingMap {
         loadMaterials();
     }
 
-    public static BuildingMap getInstance() {
+    public static BuildingTypeMap getInstance() {
         if (instance == null)
-            instance = new BuildingMap();
+            instance = new BuildingTypeMap();
         return instance;
     }
 

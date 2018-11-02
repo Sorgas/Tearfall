@@ -4,7 +4,7 @@ import stonering.designations.BuildingDesignation;
 import stonering.designations.Designation;
 import stonering.designations.OrderDesignation;
 import stonering.enums.blocks.BlockTypesEnum;
-import stonering.enums.buildings.BuildingMap;
+import stonering.enums.buildings.BuildingTypeMap;
 import stonering.entity.local.building.BuildingType;
 import stonering.enums.designations.DesignationTypes;
 import stonering.game.core.model.GameContainer;
@@ -148,7 +148,7 @@ public class TaskContainer {
     }
 
     private Task createBuildingTask(BuildingDesignation designation, List<ItemSelector> items, int priority) {
-        BuildingType buildingType = BuildingMap.getInstance().getBuilding(designation.getBuilding());
+        BuildingType buildingType = BuildingTypeMap.getInstance().getBuilding(designation.getBuilding());
         Action action = new Action(container);
         action.setRequirementsAspect(new ItemsInPositionOrInventoryRequirementAspect(action, designation.getPosition(), items));
         action.setTargetAspect(new BlockTargetAspect(action, designation.getPosition(), !buildingType.getTitle().equals("wall"), true));
@@ -195,7 +195,7 @@ public class TaskContainer {
 
 
     public boolean validateBuilding(Position pos, String building) {
-        BuildingType buildngType = BuildingMap.getInstance().getBuilding(building);
+        BuildingType buildngType = BuildingTypeMap.getInstance().getBuilding(building);
         String category = buildngType.getCategory();
         switch (category) {
             case "constructions": {

@@ -12,7 +12,6 @@ import stonering.screens.WorkbenchMenuScreen;
 public class MockGame extends Game {
     private Screen screen;
 
-
     @Override
     public void create() {
         screen = new WorkbenchMenuScreen();

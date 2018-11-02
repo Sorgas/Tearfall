@@ -3,7 +3,7 @@ package stonering.game.core.controller.controllers;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import stonering.entity.local.building.BuildingType;
 import stonering.entity.local.crafting.CommonComponentStep;
-import stonering.enums.buildings.BuildingMap;
+import stonering.enums.buildings.BuildingTypeMap;
 import stonering.enums.designations.DesignationTypes;
 import stonering.game.core.GameMvc;
 import stonering.game.core.model.GameContainer;
@@ -77,7 +77,7 @@ public class DesignationsController extends Controller {
      * Sets designation type to be stored between events of starting and finishing designations rectangle.
      *
      * @param activeDesignation designation type.
-     * @param building          buildingType title in {@link BuildingMap}. Is null if activeDesignation is not buildingType.
+     * @param building          buildingType title in {@link BuildingTypeMap}. Is null if activeDesignation is not buildingType.
      */
     public void setActiveDesignation(DesignationTypes activeDesignation, BuildingType building) {
         this.activeDesignation = activeDesignation;

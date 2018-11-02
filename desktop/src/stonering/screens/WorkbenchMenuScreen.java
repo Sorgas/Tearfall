@@ -3,6 +3,10 @@ package stonering.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import stonering.entity.local.building.Building;
+import stonering.entity.local.building.BuildingType;
+import stonering.entity.local.building.aspects.WorkbenchAspect;
+import stonering.enums.buildings.BuildingTypeMap;
 import stonering.game.core.view.render.ui.components.menus.workbench.WorkbenchMenu;
 
 /**
@@ -10,7 +14,12 @@ import stonering.game.core.view.render.ui.components.menus.workbench.WorkbenchMe
  */
 public class WorkbenchMenuScreen implements Screen {
     private Stage stage;
+    private Building mockWorkbench;
     private WorkbenchMenu menu;
+
+    public WorkbenchMenuScreen() {
+        menu = new WorkbenchMenu();
+    }
 
     @Override
     public void show() {
@@ -54,5 +63,10 @@ public class WorkbenchMenuScreen implements Screen {
     private WorkbenchMenu createMenu() {
         WorkbenchMenu menu = new WorkbenchMenu();
         return menu;
+    }
+
+    private void createWorkbench() {
+        mockWorkbench = new Building(null, BuildingTypeMap.getInstance().getBuilding("forge"));
+        mockWorkbench.addAspect(new WorkbenchAspect(mockWorkbench));
     }
 }

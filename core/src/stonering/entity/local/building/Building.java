@@ -16,10 +16,12 @@ public class Building extends AspectHolder {
     private String name;
     private Unit owner;
     private int material;
+    private BuildingType type;
     private BuildingBlock block;
 
-    public Building(Position position) {
+    public Building(Position position,BuildingType type) {
         super(position);
+        this.type = type;
         aspects = new HashMap<>();
         block = new BuildingBlock(this);
     }

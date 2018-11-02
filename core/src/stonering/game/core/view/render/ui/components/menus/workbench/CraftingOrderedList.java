@@ -1,6 +1,7 @@
 package stonering.game.core.view.render.ui.components.menus.workbench;
 
-import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
+import stonering.game.core.GameMvc;
+import stonering.game.core.view.render.ui.components.lists.NavigableList;
 
 import java.util.LinkedList;
 
@@ -9,9 +10,13 @@ import java.util.LinkedList;
  *
  * @author Alexander on 28.10.2018.
  */
-public class CraftingOrderedList extends VerticalGroup {
+public class CraftingOrderedList extends NavigableList {
     private LinkedList<CraftingOrderLine> lines;
     boolean valid = false;
+
+    public CraftingOrderedList(GameMvc gameMvc, boolean hideable) {
+        super(gameMvc, hideable);
+    }
 
     /**
      * Changes priority of item in index, moving it to delta positions.
@@ -60,5 +65,10 @@ public class CraftingOrderedList extends VerticalGroup {
 
     private int ensureBounds(int value) {
         return value < 0 ? 0 : (value >= lines.size() ? lines.size() : value);
+    }
+
+    @Override
+    public void select() {
+
     }
 }

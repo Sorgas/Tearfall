@@ -3,6 +3,8 @@ package stonering.game.core.view.render.ui.components.menus.workbench;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import stonering.entity.local.building.Building;
+import stonering.entity.local.building.aspects.WorkbenchAspect;
 import stonering.game.core.view.render.ui.components.menus.util.Invokable;
 import stonering.utils.global.StaticSkin;
 
@@ -12,16 +14,21 @@ import stonering.utils.global.StaticSkin;
  * @author Alexander on 28.10.2018.
  */
 public class WorkbenchMenu extends Table implements Invokable {
+    private CraftingOrderedList list;
+    private WorkbenchAspect workbenchAspect;
+
     private TextButton addOrderButton;
     private TextButton closeButton;
 
-    private CraftingOrderedList list;
-
     private Invokable focus = this;
 
-    public WorkbenchMenu() {
+    public WorkbenchMenu(Building workbench) {
         super();
-        createTable();
+        workbenchAspect = (WorkbenchAspect) workbench.getAspects().get(WorkbenchAspect.NAME);
+        if (workbenchAspect != null) {
+            createTable();
+            fillWorkbenchOrders();
+        }
     }
 
     private void createTable() {
@@ -50,7 +57,7 @@ public class WorkbenchMenu extends Table implements Invokable {
 
     @Override
     public boolean invoke(int keycode) {
-        if(focus != this) {
+        if (focus != this) {
             return focus.invoke(keycode);
         }
         switch (keycode) {
@@ -88,5 +95,11 @@ public class WorkbenchMenu extends Table implements Invokable {
 
     private void goToMenu() {
 
+    }
+
+    private void fillWorkbenchOrders() {
+        workbenchAspect.getOrders().forEach(order -> {
+            list.addEntry(0, new CraftingOrderLine());
+        });
     }
 }
