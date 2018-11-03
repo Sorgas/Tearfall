@@ -31,6 +31,7 @@ public class MovementAspect extends Aspect {
     }
 
     public void turn() {
+        tryFall();
         if (stepDelay > 0) {
             stepDelay--; //counting ticks to step
         } else {
@@ -40,7 +41,7 @@ public class MovementAspect extends Aspect {
     }
 
     private void makeStep() {
-        if(planning.isMovementNeeded()) {
+        if (planning.isMovementNeeded()) {
             if (cachedTarget != null && cachedTarget.equals(planning.getTarget())) { //old target
                 if (cachedPath != null && !cachedPath.isEmpty()) {// path not finished
                     Position nextPosition = cachedPath.remove(0); // get next step, remove from path
@@ -74,5 +75,20 @@ public class MovementAspect extends Aspect {
 
     private void makeRouteToTarget() {
         cachedPath = new AStar(gameContainer.getLocalMap()).makeShortestPath(aspectHolder.getPosition(), planning.getTarget(), planning.isTargetExact());
+    }
+
+    /**
+     * Moves creature lower, if it is above ground.
+     * Also deletes it's path, as target may be inaccessible after fall.
+     * //TODO apply fall damage
+     */
+    private void tryFall() {
+        Position pos = aspectHolder.getPosition();
+        if (map.isFlyPassable(pos) &&
+                !map.isWalkPassable(pos) &&
+                pos.getZ() > 0 && map.isFlyPassable(pos.getX(), pos.getY(), pos.getZ() - 1)) {
+            aspectHolder.setPosition(new Position(pos.getX(), pos.getY(), pos.getZ() - 1));
+            cachedPath = null;
+        }
     }
 }
