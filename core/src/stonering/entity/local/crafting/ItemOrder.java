@@ -2,6 +2,8 @@ package stonering.entity.local.crafting;
 
 import stonering.entity.local.items.selectors.ItemSelector;
 import stonering.entity.local.items.selectors.ResourceAmountItemSelector;
+import stonering.entity.local.items.selectors.ResourceItemSelector;
+import stonering.entity.local.items.selectors.SimpleItemSelector;
 import stonering.enums.items.ItemType;
 
 import java.util.HashMap;
@@ -36,7 +38,9 @@ public class ItemOrder {
             if (!step.isOptional()) {
                 if (!step.getVariants().isEmpty()) {
                     CraftingComponentVariant variant = step.getVariants().get(0);
-                    selectors.put(step.getTitle(), new ResourceAmountItemSelector(variant.getAmount(), variant.getType(), variant.getMaterial()));
+                    //TODO amount
+//                    selectors.put(step.getTitle(), new ResourceAmountItemSelector(variant.getAmount(), variant.getType(), variant.getMaterial()));
+                    selectors.put(step.getTitle(), new ResourceItemSelector(variant.getMaterial()));
                 }
             }
         }

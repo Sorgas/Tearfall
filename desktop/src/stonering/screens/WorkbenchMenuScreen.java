@@ -18,7 +18,7 @@ public class WorkbenchMenuScreen implements Screen {
     private WorkbenchMenu menu;
 
     public WorkbenchMenuScreen() {
-        menu = new WorkbenchMenu();
+//        menu = new WorkbenchMenu();
     }
 
     @Override
@@ -61,7 +61,7 @@ public class WorkbenchMenuScreen implements Screen {
     }
 
     private WorkbenchMenu createMenu() {
-        WorkbenchMenu menu = new WorkbenchMenu();
+//        WorkbenchMenu menu = new WorkbenchMenu();
         return menu;
     }
 

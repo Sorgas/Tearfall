@@ -6,8 +6,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.core.GameMvc;
-import stonering.game.core.controller.controllers.DesignationsController;
-import stonering.game.core.controller.inputProcessors.MouseInputProcessor;
+import stonering.game.core.controller.controllers.toolbar.DesignationsController;
+import stonering.game.core.controller.inputProcessors.GameInputProcessor;
 import stonering.game.core.model.GameCamera;
 import stonering.game.core.model.LocalMap;
 import stonering.game.core.view.render.ui.components.menus.Toolbar;
@@ -68,12 +68,12 @@ public class PlaceSelectComponent extends Actor implements HideableComponent, Mo
     public boolean invoke(int modelX, int modelY, int button, int action) {
         Position position = new Position(modelX, modelY, camera.getPosition().getZ());
         switch (action) {
-            case MouseInputProcessor.DOWN_CODE:
-            case MouseInputProcessor.UP_CODE: {
+            case GameInputProcessor.DOWN_CODE:
+            case GameInputProcessor.UP_CODE: {
                 handleConfirm(position);
             }
             break;
-            case MouseInputProcessor.MOVE_CODE: {
+            case GameInputProcessor.MOVE_CODE: {
                 updateSelectBox(position);
             }
         }
@@ -95,6 +95,7 @@ public class PlaceSelectComponent extends Actor implements HideableComponent, Mo
             } else {                            // box started, finish
                 hideSelectBox();
                 finishHandling(start, eventPosition);
+                start = null;
             }
         }
     }

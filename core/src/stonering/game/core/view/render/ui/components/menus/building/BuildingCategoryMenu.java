@@ -6,7 +6,7 @@ import stonering.enums.HotkeySequence;
 import stonering.enums.buildings.BuildingTypeMap;
 import stonering.enums.designations.DesignationTypes;
 import stonering.game.core.GameMvc;
-import stonering.game.core.controller.controllers.DesignationsController;
+import stonering.game.core.controller.controllers.toolbar.DesignationsController;
 import stonering.game.core.view.render.ui.components.menus.util.PlaceSelectComponent;
 import stonering.game.core.view.render.ui.components.menus.util.SubMenuMenu;
 

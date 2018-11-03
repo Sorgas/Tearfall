@@ -4,8 +4,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
 import stonering.game.core.GameMvc;
-import stonering.game.core.view.render.ui.components.lists.MaterialSelectList;
-import stonering.game.core.view.render.ui.components.lists.ItemsCountList;
 import stonering.game.core.view.render.ui.components.menus.util.Invokable;
 import stonering.utils.global.StaticSkin;
 
@@ -17,11 +15,12 @@ import java.util.ArrayList;
  * @author Alexander Kuzyakov on 17.06.2018.
  */
 public class Toolbar extends Container implements Invokable {
+    private GameMvc gameMvc;
     private Table toolbarTable; // in container
     private Table menusTable;   // in first row
     private Label status;       // in second row
-    private GameMvc gameMvc;
     private ParentMenu parentMenu; // always on the right end
+
     private ArrayList<Actor> displayedMenus; // index increases from left to right
 
     public Toolbar(GameMvc gameMvc) {
@@ -108,7 +107,7 @@ public class Toolbar extends Container implements Invokable {
     }
 
     /**
-     * Input entry point from {@link stonering.game.core.controller.controllers.ToolBarController}.
+     * Input entry point from {@link ToolBarController}.
      * Simply transfers event to current active menu.
      *
      * @param keycode pressed character.

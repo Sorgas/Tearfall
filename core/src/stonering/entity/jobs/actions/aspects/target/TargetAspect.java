@@ -47,6 +47,33 @@ public abstract class TargetAspect {
         return false;
     }
 
+    /**
+     * Checks if action performer has reached action target.
+     *
+     * @param currentPosition
+     * @return
+     */
+    public boolean check(Position currentPosition) {
+        if (exactTarget) {
+            if (nearTarget) {
+                return currentPosition.getDistanse(getTargetPosition()) < 2; // exact and near
+            } else {
+                return currentPosition.equals(getTargetPosition()); // exact only
+            }
+        } else {
+            if (nearTarget) {
+                if (currentPosition.equals(getTargetPosition())) {
+                    createActionToStepOff(); // make 1 step away
+                    return false;
+                } else {
+                    return currentPosition.isNeighbor(getTargetPosition()); // near only
+                }
+            }
+            System.out.println("WARN: action " + action + " target not defined as exact or near");
+            return getTargetPosition().getDistanse(currentPosition) < 2; // not valid
+        }
+    }
+
     public boolean isExactTarget() {
         return exactTarget;
     }

@@ -33,7 +33,7 @@ public class BuildingGenerator {
 
     public Building generateBuilding(String name) {
         BuildingType type = buildingTypeMap.getBuilding(name);
-        Building building = new Building(new Position(0,0,0));
+        Building building = new Building(new Position(0,0,0), type);
         building.setName(type.getTitle());
         return building;
     }

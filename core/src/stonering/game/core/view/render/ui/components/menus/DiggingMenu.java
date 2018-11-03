@@ -5,8 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.enums.designations.DesignationTypes;
 import stonering.game.core.GameMvc;
-import stonering.game.core.controller.controllers.DesignationsController;
-import stonering.game.core.view.render.ui.components.menus.util.PlaceSelectComponent;
+import stonering.game.core.controller.controllers.toolbar.DesignationsController;
 import stonering.game.core.view.render.ui.components.menus.util.SubMenuMenu;
 
 /**
@@ -17,7 +16,6 @@ import stonering.game.core.view.render.ui.components.menus.util.SubMenuMenu;
  */
 public class DiggingMenu extends SubMenuMenu {
     private DesignationsController controller;
-    private PlaceSelectComponent placeSelectComponent;
 
     public DiggingMenu(GameMvc gameMvc) {
         super(gameMvc);
@@ -28,7 +26,6 @@ public class DiggingMenu extends SubMenuMenu {
     public void init() {
         super.init();
         controller = gameMvc.getController().getDesignationsController();
-        placeSelectComponent.init();
     }
 
     private void initMenu() {
@@ -37,8 +34,6 @@ public class DiggingMenu extends SubMenuMenu {
         addButton("I: channel", DesignationTypes.CHANNEL, Input.Keys.I);
         addButton("U: stairs", DesignationTypes.STAIRS, Input.Keys.U);
         addButton("Y: clear", DesignationTypes.NONE, Input.Keys.Y);
-        placeSelectComponent = new PlaceSelectComponent(gameMvc);
-        placeSelectComponent.setSinglePoint(false);
     }
 
     private void addButton(String text, DesignationTypes type, int hotKey) {
@@ -46,7 +41,6 @@ public class DiggingMenu extends SubMenuMenu {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 controller.setActiveDesignation(type, null); //no buildings here
-                placeSelectComponent.show(); //show place select for rectangle, without material select
             }
         }, true);
     }

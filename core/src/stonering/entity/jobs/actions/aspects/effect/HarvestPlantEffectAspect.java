@@ -36,6 +36,6 @@ public class HarvestPlantEffectAspect extends EffectAspect {
     }
 
     private void logFinish() {
-        TagLoggersEnum.TASKS.logDebug("harvesting plant " +  + " finished at " + action.getTargetPosition().toString() + " by " + action.getTask().getPerformer().toString());
+        TagLoggersEnum.TASKS.logDebug("harvesting plant finished at " + action.getTargetPosition().toString() + " by " + action.getTask().getPerformer().toString());
     }
 }

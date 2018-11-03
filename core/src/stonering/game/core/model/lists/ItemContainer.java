@@ -17,10 +17,9 @@ import java.util.stream.Collectors;
  * @author Alexander Kuzyakov on 14.06.2017.
  */
 public class ItemContainer {
-    private ArrayList<Item> items;
-    private HashMap<Position, ArrayList<Item>> itemMap;
-    private ArrayList<Item> lockedItems;
     private GameContainer gameContainer;
+    private ArrayList<Item> items;  // all items on the map (tiles, containers, units)
+    private HashMap<Position, ArrayList<Item>> itemMap;      // maps tiles position to list of items it that position
 
     public ItemContainer(ArrayList<Item> items, GameContainer gameContainer) {
         this.gameContainer = gameContainer;
@@ -33,10 +32,18 @@ public class ItemContainer {
         items.forEach(this::initItem);
     }
 
+    /**
+     * Sets game container to all item aspects
+     *
+     * @param item
+     */
     private void initItem(Item item) {
         item.getAspects().values().forEach((aspect) -> aspect.init(gameContainer));
     }
 
+    /**
+     * Turns all items for rust, burn, spoil, etc.
+     */
     public void turn() {
         items.forEach((item) -> item.turn());
     }
@@ -88,10 +95,18 @@ public class ItemContainer {
         }
     }
 
+    /**
+     * Gets all materials for all variants of crafting step. Used for filling materialSelectList.
+     * Currently works only with resource items.
+     *
+     * @param step
+     * @param pos
+     * @return
+     */
     public List<Item> getAvailableMaterialsCraftingStep(CommonComponentStep step, Position pos) {
         List<Item> items = new ArrayList<>();
         step.getVariants().forEach(variant -> {
-            items.addAll(getItemList(variant.getAmount(), variant.getType(), variant.getMaterial()));
+            items.addAll(getResourceItemList(variant.getMaterial()));
         });
         return filterUnreachable(items, pos);
         //TODO this is for amount
@@ -104,6 +119,21 @@ public class ItemContainer {
 //            return map;
     }
 
+    /**
+     * Searches all material items made of gicen material type.
+     *
+     * @param materialType
+     * @return
+     */
+    public List<Item> getResourceItemList(String materialType) {
+        MaterialMap materialMap = MaterialMap.getInstance();
+        List<Item> itemListForFiltering = new ArrayList<>(items);
+        Set<Integer> materialIds = materialMap.getMaterialsByType(materialType);
+        return itemListForFiltering.stream().
+                filter(item -> item.getType().isResource()).
+                filter(item -> materialIds.contains(item.getMaterial())).
+                collect(Collectors.toList());
+    }
 
     /**
      * Searches items of specified type and material on map.
@@ -138,20 +168,6 @@ public class ItemContainer {
         //return new AStar(gameContainer.getLocalMap()).makeShortestPath(position, item.getPosition(), true) != null;
     }
 
-    public void lockItem(Item item) {
-        if (items.contains(item)) {
-            items.remove(item);
-            lockedItems.add(item);
-        }
-    }
-
-    public void unlockItem(Item item) {
-        if (lockedItems.contains(item)) {
-            lockedItems.remove(item);
-            items.add(item);
-        }
-    }
-
     public boolean hasItemsAvailableBySelector(ItemSelector itemSelector, Position position) {
         return true; //TODO implement items lookup with areas
     }
@@ -163,9 +179,5 @@ public class ItemContainer {
             return items.get(0);
         }
         return null;
-    }
-
-    public boolean isItemLocked(Item item) {
-        return lockedItems.contains(item);
     }
 }

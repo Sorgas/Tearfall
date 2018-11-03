@@ -10,8 +10,11 @@ import java.util.List;
  * @author Alexander Kuzyakov
  */
 public enum TagLoggersEnum {
-    TASKS("task");
+    TASKS("task"),
+    UI("ui"),
+    PATH("path");
 
+    private static TaggedLogger logger = new TaggedLogger();
     private String tag;
     private String tagWord;
     private boolean enabled;
@@ -26,6 +29,15 @@ public enum TagLoggersEnum {
             for (TagLoggersEnum logger : TagLoggersEnum.values()) {
                 logger.setEnabled(tags.contains(logger.getTag()));
             }
+        }
+    }
+
+    /**
+     * Enables all loggers.
+     */
+    public static void enableAll() {
+        for (TagLoggersEnum logger : TagLoggersEnum.values()) {
+            logger.setEnabled(true);
         }
     }
 
@@ -49,7 +61,7 @@ public enum TagLoggersEnum {
      * @param message
      */
     public void log(String message) {
-        if (enabled) Gdx.app.log(tagWord, message);
+        if (enabled) logger.log(tagWord, message);
     }
 
     /**
@@ -58,6 +70,6 @@ public enum TagLoggersEnum {
      * @param message
      */
     public void logDebug(String message) {
-        if (enabled) Gdx.app.debug(tagWord, message);
+        if (enabled) logger.debug(tagWord, message);
     }
 }

@@ -6,13 +6,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import stonering.game.core.GameMvc;
 import stonering.game.core.view.render.scene.LocalWorldDrawer;
 import stonering.game.core.view.render.ui.UIDrawer;
+import stonering.game.core.view.render.ui.components.menus.util.Invokable;
 
 /**
- * Main game Screen. {@link LocalWorldDrawer} for tile drawing, {@link UIDrawer for ui}
+ * Screen of local map. {@link LocalWorldDrawer} for tile drawing, {@link UIDrawer for ui}
  *
  * @author Alexander Kuzyakov on 10.06.2017.
  */
-public class GameView implements Screen {
+public class GameView implements Screen, Invokable {
     private GameMvc gameMvc;
     private LocalWorldDrawer worldDrawer;
     private UIDrawer uiDrawer;
@@ -35,7 +36,6 @@ public class GameView implements Screen {
     public void init() {
         worldDrawer.init();
         uiDrawer.init();
-        gameMvc.getController().addInputProcessor(uiDrawer.getStage());
     }
 
     @Override
@@ -91,5 +91,10 @@ public class GameView implements Screen {
 
     public LocalWorldDrawer getWorldDrawer() {
         return worldDrawer;
+    }
+
+    @Override
+    public boolean invoke(int keycode) {
+        return uiDrawer.invoke(keycode); // first priority, returns false if no menus open
     }
 }

@@ -8,16 +8,16 @@ import stonering.game.core.GameMvc;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.view.render.ui.components.TileStatusBar;
 import stonering.game.core.view.render.ui.components.ToolStatus;
-import stonering.game.core.view.render.ui.components.lists.NavigableList;
 import stonering.game.core.view.render.ui.components.menus.Toolbar;
+import stonering.game.core.view.render.ui.components.menus.util.Invokable;
 
 /**
- * Sub model for ui items.
+ * Sub model for ui items. Handles all input in game.
  * Stores and renders all ui components on screen.
  *
  * @author Alexander Kuzyakov on 12.10.2017.
  */
-public class UIDrawer {
+public class UIDrawer implements Invokable {
     private GameMvc gameMvc;
     private Stage stage;
     private Toolbar toolbar;
@@ -83,5 +83,10 @@ public class UIDrawer {
 
     public void setToolbarLabelText(String text) {
         toolbar.setText(text);
+    }
+
+    @Override
+    public boolean invoke(int keycode) {
+        return toolbar.invoke(keycode);
     }
 }

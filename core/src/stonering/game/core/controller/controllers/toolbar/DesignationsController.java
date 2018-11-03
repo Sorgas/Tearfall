@@ -1,4 +1,4 @@
-package stonering.game.core.controller.controllers;
+package stonering.game.core.controller.controllers.toolbar;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import stonering.entity.local.building.BuildingType;
@@ -6,6 +6,7 @@ import stonering.entity.local.crafting.CommonComponentStep;
 import stonering.enums.buildings.BuildingTypeMap;
 import stonering.enums.designations.DesignationTypes;
 import stonering.game.core.GameMvc;
+import stonering.game.core.controller.controllers.Controller;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.lists.TaskContainer;
 import stonering.game.core.view.GameView;
@@ -57,10 +58,10 @@ public class DesignationsController extends Controller {
     }
 
     /**
-     * Called by ui when order is finished.
+     * Finishes building task.
      */
-    public void finishTaskBuilding() {
-        if (activeDesignation == DesignationTypes.BUILD && !buildingType.getCategory().equals("constructions")) {
+    private void finishTaskBuilding() {
+        if (activeDesignation == DesignationTypes.BUILD) {
             addDesignationToContainer(end);
         } else {
             for (int x = Math.min(end.getX(), start.getX()); x <= Math.max(end.getX(), start.getX()); x++) {

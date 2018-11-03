@@ -4,6 +4,8 @@ import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.core.model.LocalMap;
 import stonering.global.utils.HashPriorityQueue;
 import stonering.global.utils.Position;
+import stonering.utils.global.TagLoggersEnum;
+import stonering.utils.global.TaggedLogger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +51,7 @@ public class AStar {
      * @return goal node from which you can reconstruct the path
      */
     private Node search(Node initialNode, Position targetPos, boolean exactTarget) {
-        System.out.println("target: " + targetPos.toString());
+        TagLoggersEnum.PATH.logDebug("searching path from " + initialNode.getPosition() + " to " + targetPos);
         HashPriorityQueue<Node, Node> openSet = new HashPriorityQueue(new NodeComparator());
         HashMap<Integer, Node> closedSet = new HashMap<>();
 
@@ -60,7 +62,6 @@ public class AStar {
         while (openSet.size() > 0 && (maxSteps < 0 || numSearchSteps < maxSteps)) {
             //get element with the least sum of costs
             Node currentNode = openSet.poll();
-//            System.out.println("curNode: " + currentNode.getPosition().toString());
 
             //path is complete
             if(exactTarget) {
@@ -114,7 +115,7 @@ public class AStar {
             closedSet.put(currentNode.hashCode(), currentNode);
             numSearchSteps += 1;
         }
-        System.out.println("no path");
+        TagLoggersEnum.PATH.logDebug("no path found");
         return null;
     }
 

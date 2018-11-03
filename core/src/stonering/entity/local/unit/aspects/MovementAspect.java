@@ -6,21 +6,22 @@ import stonering.global.utils.pathfinding.a_star.AStar;
 import stonering.entity.local.Aspect;
 import stonering.entity.local.unit.Unit;
 import stonering.global.utils.Position;
+import stonering.utils.global.TagLoggersEnum;
 
 import java.util.List;
 
 /**
- * @author Alexander Kuzyakov on 06.10.2017.
- * <p>
  * Holds movement speed, current path, movement status. also builds path.
+ *
+ * @author Alexander Kuzyakov on 06.10.2017.
  */
 public class MovementAspect extends Aspect {
     private int stepTime;
     private int stepDelay;
     private LocalMap map;
     private PlanningAspect planning;
-    private List<Position> path;
     private Position cachedTarget;
+    private List<Position> cachedPath;
 
     public MovementAspect(Unit unit) {
         super("movement", unit);
@@ -39,23 +40,25 @@ public class MovementAspect extends Aspect {
     }
 
     private void makeStep() {
-        if (cachedTarget != null && cachedTarget.equals(planning.getTarget())) { //old target
-            if (path != null && !path.isEmpty()) {// path not finished
-                Position nextPosition = path.remove(0); // get next step, remove from path
-                if (map.isWalkPassable(nextPosition)) { // path has not been blocked after calculation
-                    aspectHolder.setPosition(nextPosition); //step
-                } else { // path blocked
-                    System.out.println("path blocked");
-                    cachedTarget = null; // drop path
+        if(planning.isMovementNeeded()) {
+            if (cachedTarget != null && cachedTarget.equals(planning.getTarget())) { //old target
+                if (cachedPath != null && !cachedPath.isEmpty()) {// path not finished
+                    Position nextPosition = cachedPath.remove(0); // get next step, remove from path
+                    if (map.isWalkPassable(nextPosition)) { // path has not been blocked after calculation
+                        aspectHolder.setPosition(nextPosition); //step
+                    } else { // path blocked
+                        TagLoggersEnum.PATH.log("path to " + cachedTarget + " was blocked in " + nextPosition);
+                        cachedTarget = null; // drop path
+                    }
                 }
-            }
-            // path finished, stay
-        } else { // new target
-            cachedTarget = planning.getTarget();
-            if (cachedTarget != null) {
-                makeRouteToTarget();
-                if (path == null) { // no path found, fail task
-                    planning.freeTask();
+                // path finished, stay
+            } else { // new target
+                cachedTarget = planning.getTarget();
+                if (cachedTarget != null) {
+                    makeRouteToTarget();
+                    if (cachedPath == null) { // no path found, fail task
+                        planning.freeTask();
+                    }
                 }
             }
         }
@@ -70,6 +73,6 @@ public class MovementAspect extends Aspect {
     }
 
     private void makeRouteToTarget() {
-        path = new AStar(gameContainer.getLocalMap()).makeShortestPath(aspectHolder.getPosition(), planning.getTarget(), planning.isTargetExact());
+        cachedPath = new AStar(gameContainer.getLocalMap()).makeShortestPath(aspectHolder.getPosition(), planning.getTarget(), planning.isTargetExact());
     }
 }

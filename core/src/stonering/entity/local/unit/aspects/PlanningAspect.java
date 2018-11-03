@@ -19,6 +19,7 @@ import java.util.ArrayList;
  */
 public class PlanningAspect extends Aspect {
     private Task currentTask;
+    private boolean movementNeeded = false; // true, when has task and not in position.
 
     public PlanningAspect(AspectHolder aspectHolder) {
         super("planning", aspectHolder);
@@ -29,20 +30,18 @@ public class PlanningAspect extends Aspect {
      */
     public void turn() {
         if (checkTask()) {
-            if (checkUnitPosition()) { // actor on position
+            if (!(movementNeeded = !currentTask.getNextAction().getTargetAspect().check(aspectHolder.getPosition()))) { // actor on position, so movement is not needed
                 if (checkActionSequence()) {
                     if (currentTask.getNextAction().perform()) { // act. called several times
                         TagLoggersEnum.TASKS.logDebug(aspectHolder.toString() + " completes another action.");
                     }
                 }
-            } // keep moving to target
+            }
+            // keep moving to target
         } else {
-            TagLoggersEnum.TASKS.logDebug("selecting new task");
             selectTask();// try find task, check it and claim
-            if(currentTask != null) {
+            if (currentTask != null) {
                 TagLoggersEnum.TASKS.logDebug("task " + currentTask.getName() + " selected by " + aspectHolder.toString());
-            } else {
-                TagLoggersEnum.TASKS.logDebug("no task selected by " + aspectHolder.toString());
             }
         }
     }
@@ -74,41 +73,13 @@ public class PlanningAspect extends Aspect {
     }
 
     /**
-     * Checks if actor is in appropriate position for acting.
-     * Modifies target if it is blocked by actor.
-     *
-     * @return
-     */
-    private boolean checkUnitPosition() {
-        Position pos = aspectHolder.getPosition();
-        if (currentTask.getNextAction().isTargetExact()) {
-            if (currentTask.getNextAction().isTargetNear()) {
-                return getTarget().getDistanse(aspectHolder.getPosition()) < 2; // exact and near
-            } else {
-                return pos.equals(getTarget()); // exact only
-            }
-        } else {
-            if (currentTask.getNextAction().isTargetNear()) {
-                if (pos.equals(getTarget())) {
-                    currentTask.getNextAction().getTargetAspect().createActionToStepOff(); // make 1 step away
-                    return false;
-                } else {
-                    return aspectHolder.getPosition().isNeighbor(getTarget()); // near only
-                }
-            }
-            System.out.println("WARN: action " + currentTask.getNextAction() + " target not defined as exact or near");
-            return getTarget().getDistanse(aspectHolder.getPosition()) < 2; // not valid
-        }
-    }
-
-    /**
      * Finds appropriate task for this performer.
      * Checks priorities of all available tasks.
      * After this method task is updated.
      * TODO combat tasks
      */
     private void selectTask() {
-        currentTask = null;
+        freeTask();
         ArrayList<Task> tasks = new ArrayList<>();
         tasks.add(takeTaskFromNeedsAspect());
         tasks.add(getTaskFromContainer());
@@ -123,8 +94,8 @@ public class PlanningAspect extends Aspect {
         }
         if (currentTask != null) {
             claimTask();
-            if (!checkActionSequence()) {
-                freeTask(); // if requirements are not met
+            if (!checkActionSequence()) { // initial task checking.
+                freeTask(); // if requirements are not met.
             }
         }
     }
@@ -165,8 +136,11 @@ public class PlanningAspect extends Aspect {
      * Reverts state of task as it is newly created.
      */
     public void freeTask() {
-        currentTask.reset();
-        currentTask = null;
+        if (currentTask != null) {
+            currentTask.reset();
+            currentTask = null;
+        }
+        movementNeeded = false;
     }
 
     public boolean isTargetExact() {
@@ -180,5 +154,9 @@ public class PlanningAspect extends Aspect {
         return currentTask != null && currentTask.getNextAction() != null ?
                 currentTask.getNextAction().getTargetPosition() :
                 null;
+    }
+
+    public boolean isMovementNeeded() {
+        return movementNeeded;
     }
 }

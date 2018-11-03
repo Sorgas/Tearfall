@@ -179,6 +179,26 @@
         }
     },
     {
+        "name":"bar",
+        "title":"Bar",
+        "aspects":{
+            "falling":[
+                "1"
+            ]
+        },
+        "valueMod":"0",
+        "isResource":true,
+        "atlasY":"0",
+        "atlasX":"9",
+        "color":{
+            "class":"color_c",
+            "r":"1",
+            "g":"1",
+            "b":"1",
+            "a":"1"
+        }
+    },
+    {
         "name":"shirt",
         "title":"Shirt",
         "aspects":{

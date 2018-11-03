@@ -6,20 +6,20 @@ package stonering.entity.local.crafting;
  * @author Alexander on 20.10.2018.
  */
 public class CraftingComponentVariant {
-    private String type;
+//    private String type;  item type is non-MVP
     private String material;
     private int amount;
     private int[] sprite;
 
     public CraftingComponentVariant() {}
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
+//
+//    public String getType() {
+//        return type;
+//    }
+//
+//    public void setType(String type) {
+//        this.type = type;
+//    }
 
     public String getMaterial() {
         return material;

@@ -31,6 +31,7 @@ public class LocalItemsGenerator {
         createItemInCenter("pants", "cotton", 1, 0);
         createItemInCenter("shirt", "cotton", 2, 0);
         createItemInCenter("sickle", "iron", 1, 1);
+        createItemInCenter("bar", "iron", 4, 1);
     }
 
     private void createItemInCenter(String itemType, String material, int xOffset, int yOffset) {

@@ -1,8 +1,9 @@
 package stonering.game.core.view.render.ui.components.lists;
 
+import com.badlogic.gdx.utils.Array;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.core.GameMvc;
-import stonering.game.core.controller.controllers.DesignationsController;
+import stonering.game.core.controller.controllers.toolbar.DesignationsController;
 import stonering.entity.local.items.Item;
 import stonering.utils.global.Pair;
 
@@ -10,24 +11,21 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * List items and groups them by title and material.
- *
  * List lines are linked to arrays of items for passing them to {@link DesignationsController}.
  *
  * @author Alexander Kuzyakov on 26.06.2018
  */
 public abstract class ItemsCountList extends NavigableList {
 
-
     public ItemsCountList(GameMvc gameMvc, boolean hideable) {
         super(gameMvc, hideable);
     }
 
     /**
-     * Groups given items by name and material and stores them as ListItems
+     * Groups given items by name and material and stores them as ListItems.
      *
      * @param items
      */
@@ -42,7 +40,13 @@ public abstract class ItemsCountList extends NavigableList {
                 map.put(pair, new ListItem(item.getTitle(), materialMap.getMaterial(item.getMaterial()).getName(), item));
             }
         });
-        this.setItems(map.values().stream().collect(Collectors.toList()));
+        Array<ListItem> listItems = new Array<>();
+        listItems.addAll(map.values().toArray(new ListItem[1]));
+        this.setItems(listItems);
+    }
+
+    protected ListItem getSelectedListItem() {
+        return (ListItem) getSelected();
     }
 
     /**
@@ -64,14 +68,9 @@ public abstract class ItemsCountList extends NavigableList {
             this.material = material;
             this.items = Collections.singletonList(item);
         }
-
         @Override
         public String toString() {
             return material + " " + title + " " + items.size();
         }
-    }
-
-    protected ListItem getSelectedListItem() {
-        return (ListItem) getSelected();
     }
 }

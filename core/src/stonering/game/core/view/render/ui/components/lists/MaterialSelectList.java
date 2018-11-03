@@ -3,7 +3,7 @@ package stonering.game.core.view.render.ui.components.lists;
 import com.badlogic.gdx.Input;
 import stonering.entity.local.crafting.CommonComponentStep;
 import stonering.game.core.GameMvc;
-import stonering.game.core.controller.controllers.DesignationsController;
+import stonering.game.core.controller.controllers.toolbar.DesignationsController;
 import stonering.game.core.view.render.ui.components.menus.Toolbar;
 import stonering.game.core.view.render.ui.components.menus.util.HideableComponent;
 import stonering.game.core.view.render.ui.components.menus.util.Invokable;

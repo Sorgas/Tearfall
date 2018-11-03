@@ -13,8 +13,8 @@ public class FileLoader {
     private final static String BUILDINGS_PATH = "resources/buildings/buildings.json";
     private final static String UI_TILES_PATH = "resources/ui_tiles.json";
     private final static String ITEMTYPE_TAGS_PATH = "resources/itemtype_tags.json";
-    private final static String ITEMS_PATH = "resources/items/mvp_items.json";
-    private final static String RECIPES_PATH = "resources/items/mvp_recipes.json";
+    private final static String ITEMS_PATH = "resources/items/items.json";
+    private final static String RECIPES_PATH = "resources/items/recipes.json";
 
     public static FileHandle getMaterialsFile() {
         return new FileHandle(MATERIALS_PATH);

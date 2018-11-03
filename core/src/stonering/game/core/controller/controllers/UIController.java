@@ -20,5 +20,4 @@ public class UIController extends Controller{
     public void init() {
         uiDrawer = gameMvc.getView().getUiDrawer();
     }
-
 }
