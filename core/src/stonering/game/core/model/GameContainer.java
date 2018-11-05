@@ -75,7 +75,7 @@ public class GameContainer {
         liquidContainer.initLiquidsToMap();
 
         //TODO commented for fast localgen
-//        localMap.initAreas();
+        localMap.init();
     }
 
     private void startContainer() {

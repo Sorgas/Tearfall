@@ -13,7 +13,7 @@ public class LocalGenConfig {
     private float seaLevel = 0.5f;
     private int worldToLocalElevationModifier = 100;
     private int airLayersAboveGround = 20;
-    private int areaSize = 192;
+    private int areaSize = 96;
     private int[] sublayerMaxCount = {5,5,6,6};
     private int[] sublayerMinThickness = {4,4,6,8};
     private int minCaveLayerHeight = 10;
