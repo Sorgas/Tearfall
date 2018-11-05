@@ -97,7 +97,7 @@ public class GameView implements Screen, Invokable, MouseInvocable {
     @Override
     public boolean invoke(int keycode) {
         if (!uiDrawer.invoke(keycode)) { // first priority, returns false if no menus open
-            //TODO click on map
+            //TODO click on map with E key
         }
         return false;
     }
@@ -105,7 +105,7 @@ public class GameView implements Screen, Invokable, MouseInvocable {
     @Override
     public boolean invoke(int modelX, int modelY, int button, int action) {
         if (!uiDrawer.invoke(modelX, modelY, button, action)) {
-            //TODO click on map
+            //TODO click on map with E key
         }
         return false;
     }

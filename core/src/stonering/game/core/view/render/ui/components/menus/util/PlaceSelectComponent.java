@@ -59,7 +59,7 @@ public class PlaceSelectComponent extends Actor implements HideableComponent, Mo
                 } else {
                     updateSelectBox(camera.getPosition());
                 }
-                return true;
+                return false; // to not interrupt camera input
         }
         return false;
     }
@@ -86,12 +86,11 @@ public class PlaceSelectComponent extends Actor implements HideableComponent, Mo
      * @param eventPosition
      */
     private void handleConfirm(Position eventPosition) {
-//        System.out.println("handling confirm");
         if (singlePoint) {
             finishHandling(eventPosition, eventPosition);
         } else {
             if (start == null) {                // box not started, start
-                showSelectBox(eventPosition);
+                showSelectBox(eventPosition.clone());
             } else {                            // box started, finish
                 hideSelectBox();
                 finishHandling(start, eventPosition);
@@ -114,12 +113,14 @@ public class PlaceSelectComponent extends Actor implements HideableComponent, Mo
     }
 
     /**
+     * Sets frame start & end to camera, so frame will be drawn on screen.
      * Shows select box on one cell.
      *
      * @param eventPosition
      */
     private void showSelectBox(Position eventPosition) {
         localMap.normalizePosition(eventPosition);
+        System.out.println("start = " + eventPosition);
         start = eventPosition;
         camera.setFrameStart(eventPosition.clone());
         camera.setFrameEnd(eventPosition.clone());
@@ -163,7 +164,6 @@ public class PlaceSelectComponent extends Actor implements HideableComponent, Mo
 
     @Override
     public void show() {
-//        camera
         toolbar.addMenu(this);
     }
 

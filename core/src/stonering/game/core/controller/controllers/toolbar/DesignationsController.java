@@ -93,8 +93,7 @@ public class DesignationsController extends Controller {
     public void addNextActorToToolbar() {
         if (activeDesignation == DesignationTypes.BUILD) {
             if (start == null) {// place not selected
-                placeSelectComponent.setSinglePoint(!buildingType.getCategory().equals("constructions"));
-                placeSelectComponent.show();
+                placeSelectComponent.setSinglePoint(!buildingType.getCategory().equals("constructions")).show();
             } else if (buildingType.getComponents().size() > itemSelectors.size()) { //steps not finished
                 placeSelectComponent.hide();
                 view.getUiDrawer().getToolbar().addMenu(
@@ -105,7 +104,7 @@ public class DesignationsController extends Controller {
             }
         } else {
             if (start == null) {// place not selected
-                view.getUiDrawer().getToolbar().addMenu(placeSelectComponent.setSinglePoint(false));
+                placeSelectComponent.setSinglePoint(false).show();
             } else { //finish
                 finishTaskBuilding();
 //                view.getUiDrawer().getToolbar().resetToLastMenu();
