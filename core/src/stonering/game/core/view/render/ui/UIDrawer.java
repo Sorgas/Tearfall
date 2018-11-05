@@ -7,9 +7,9 @@ import stonering.enums.materials.MaterialMap;
 import stonering.game.core.GameMvc;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.view.render.ui.components.TileStatusBar;
-import stonering.game.core.view.render.ui.components.ToolStatus;
 import stonering.game.core.view.render.ui.components.menus.Toolbar;
 import stonering.game.core.view.render.ui.components.menus.util.Invokable;
+import stonering.game.core.view.render.ui.components.menus.util.MouseInvocable;
 
 /**
  * Sub model for ui items. Handles all input in game.
@@ -17,27 +17,26 @@ import stonering.game.core.view.render.ui.components.menus.util.Invokable;
  *
  * @author Alexander Kuzyakov on 12.10.2017.
  */
-public class UIDrawer implements Invokable {
+public class UIDrawer extends Stage implements Invokable, MouseInvocable {
     private GameMvc gameMvc;
-    private Stage stage;
-    private Toolbar toolbar;
-    private TileStatusBar tileStatusBar;
-    private ToolStatus toolStatus;
     private GameContainer container;
     private MaterialMap materialMap;
 
+    private Toolbar toolbar;
+    private TileStatusBar tileStatusBar;
+
     public UIDrawer(GameMvc gameMvc) {
+        super();
         this.gameMvc = gameMvc;
         materialMap = MaterialMap.getInstance();
         toolbar = new Toolbar(gameMvc);
-        stage = new Stage(new ScreenViewport());
     }
 
     public void init() {
-        stage.setDebugAll(true);
+        this.setDebugAll(true);
         container = gameMvc.getModel();
         tileStatusBar = new TileStatusBar();
-        stage.addActor(new Container(tileStatusBar).bottom().left().pad(10));
+        this.addActor(new Container(tileStatusBar).bottom().left().pad(10));
 
         toolbar.init();
 
@@ -45,14 +44,14 @@ public class UIDrawer implements Invokable {
         rightTools.addActor(toolbar);
         Container container = new Container(rightTools).bottom().right().pad(10);
         container.setFillParent(true);
-        stage.addActor(container);
-        stage.addActor(toolbar);
-        stage.setDebugAll(true);
+        this.addActor(container);
+        this.addActor(toolbar);
+        this.setDebugAll(true);
     }
 
     public void draw() {
         updateStatusBar();
-        stage.draw();
+        super.draw();
     }
 
     private void updateStatusBar() {
@@ -62,15 +61,7 @@ public class UIDrawer implements Invokable {
     }
 
     public void resize(int width, int height) {
-        stage.getViewport().update(width, height, true);
-    }
-
-    public Stage getStage() {
-        return stage;
-    }
-
-    public ToolStatus getToolStatus() {
-        return toolStatus;
+        this.getViewport().update(width, height, true);
     }
 
     public void setContainer(GameContainer container) {
@@ -88,5 +79,10 @@ public class UIDrawer implements Invokable {
     @Override
     public boolean invoke(int keycode) {
         return toolbar.invoke(keycode);
+    }
+
+    @Override
+    public boolean invoke(int modelX, int modelY, int button, int action) {
+        return toolbar.invoke(modelX, modelY, button, action);
     }
 }

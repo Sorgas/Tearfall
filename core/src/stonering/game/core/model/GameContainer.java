@@ -18,6 +18,7 @@ public class GameContainer {
     private World world;
     private LocalMap localMap;                              //local map is created during localgeneration.
     private LocalTileMap localTileMap;
+
     private BuildingContainer buildingContainer;
     private PlantContainer plantContainer;
     private UnitContainer unitContainer;
@@ -27,8 +28,9 @@ public class GameContainer {
 
     private Timer timer;                                    //makes turns for entity containers and calendar.
     private GameCalendar gameCalendar;                      //slow game entities make turns through this.
-    private boolean paused;
     private GameCamera camera;
+
+    private boolean paused;
 
     public GameContainer(LocalGenContainer container) {
         loadFromContainer(container);

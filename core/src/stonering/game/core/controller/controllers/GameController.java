@@ -2,6 +2,7 @@ package stonering.game.core.controller.controllers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
 import stonering.game.core.GameMvc;
 import stonering.game.core.controller.controllers.toolbar.DesignationsController;
 import stonering.game.core.controller.inputProcessors.*;
@@ -35,6 +36,7 @@ public class GameController extends Controller {
         gameInputHandler.init();
 
         inputMultiplexer.addProcessor(new PauseInputProcessor(this));
+        inputMultiplexer.addProcessor(gameMvc.getView().getUiDrawer());
         inputMultiplexer.addProcessor(new GameInputProcessor(this));
         Gdx.input.setInputProcessor(inputMultiplexer);
     }

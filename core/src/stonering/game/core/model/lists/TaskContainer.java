@@ -220,16 +220,9 @@ public class TaskContainer {
         }
     }
 
-    public void createTask() {
-
-    }
 
     public void setTasks(ArrayList<Task> tasks) {
         this.tasks = tasks;
-    }
-
-    public void addTask(Task task) {
-        tasks.add(task);
     }
 
     public ArrayList<Task> getTasks() {

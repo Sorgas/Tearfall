@@ -93,21 +93,22 @@ public class DesignationsController extends Controller {
     public void addNextActorToToolbar() {
         if (activeDesignation == DesignationTypes.BUILD) {
             if (start == null) {// place not selected
-                view.getUiDrawer().getToolbar().addMenu(
-                        placeSelectComponent.setSinglePoint(!buildingType.getCategory().equals("constructions")));
+                placeSelectComponent.setSinglePoint(!buildingType.getCategory().equals("constructions"));
+                placeSelectComponent.show();
             } else if (buildingType.getComponents().size() > itemSelectors.size()) { //steps not finished
+                placeSelectComponent.hide();
                 view.getUiDrawer().getToolbar().addMenu(
                         createSelectListForStep(buildingType.getComponents().get(itemSelectors.size())));
             } else { //finish
                 finishTaskBuilding();
-                view.getUiDrawer().getToolbar().resetToLastMenu();
+//                view.getUiDrawer().getToolbar().resetToLastMenu();
             }
         } else {
             if (start == null) {// place not selected
                 view.getUiDrawer().getToolbar().addMenu(placeSelectComponent.setSinglePoint(false));
             } else { //finish
                 finishTaskBuilding();
-                view.getUiDrawer().getToolbar().resetToLastMenu();
+//                view.getUiDrawer().getToolbar().resetToLastMenu();
             }
         }
     }
@@ -176,14 +177,6 @@ public class DesignationsController extends Controller {
         } else {
             taskContainer.submitDesignation(position, activeDesignation, priority);
         }
-    }
-
-    public DesignationTypes getActiveDesignation() {
-        return activeDesignation;
-    }
-
-    public void addBuildingItem(Item item) {
-
     }
 
     public void setRectangle(Position start, Position end) {

@@ -9,12 +9,10 @@ import stonering.global.settings.KeySettings;
  * @author Alexander Kuzyakov on 29.11.2017.
  */
 public class PauseInputProcessor implements InputProcessor {
-    private KeySettings keySettings;
     private PauseController controller;
 
     public PauseInputProcessor(GameController controller) {
         this.controller = controller.getPauseController();
-        keySettings = new KeySettings();
     }
 
     @Override

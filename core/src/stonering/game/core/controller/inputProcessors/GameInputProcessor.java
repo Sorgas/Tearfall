@@ -24,44 +24,31 @@ public class GameInputProcessor extends DragListener implements InputProcessor {
     }
 
     @Override
-    public boolean keyDown(int keycode) {
-//        return gameInputHandler.invoke(keycode);
-        return false;
-    }
-
-    @Override
-    public boolean keyUp(int keycode) {
-        return false;
-    }
-
-    @Override
     public boolean keyTyped(char character) {
         return gameInputHandler.invoke(charToKeycode(character));
     }
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if (button == Input.Buttons.LEFT || button == Input.Buttons.RIGHT) {
-            gameInputHandler.handleEvent(screenX, screenY, button, DOWN_CODE);
-            return true;
-        }
+//        if (button == Input.Buttons.LEFT || button == Input.Buttons.RIGHT) {
+//            return gameInputHandler.handleEvent(screenX, screenY, button, DOWN_CODE);
+//        }
         return false;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        if (button == Input.Buttons.LEFT || button == Input.Buttons.RIGHT) {
-            gameInputHandler.handleEvent(screenX, screenY, button, UP_CODE);
-            return true;
-        }
+//        if (button == Input.Buttons.LEFT || button == Input.Buttons.RIGHT) {
+//            return gameInputHandler.handleEvent(screenX, screenY, button, UP_CODE);
+//        }
         return false;
     }
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT) || Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
-            gameInputHandler.handleEvent(Math.round(screenX), Math.round(screenY), Gdx.input.isButtonPressed(Input.Buttons.LEFT) ? 0 : 1, MOVE_CODE);
-        }
+//        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT) || Gdx.input.isButtonPressed(Input.Buttons.RIGHT)) {
+//            return gameInputHandler.handleEvent(Math.round(screenX), Math.round(screenY), Gdx.input.isButtonPressed(Input.Buttons.LEFT) ? 0 : 1, MOVE_CODE);
+//        }
         return false;
     }
 
@@ -77,5 +64,15 @@ public class GameInputProcessor extends DragListener implements InputProcessor {
 
     private int charToKeycode(char character) {
         return Input.Keys.valueOf(String.valueOf(character).toUpperCase());
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
     }
 }

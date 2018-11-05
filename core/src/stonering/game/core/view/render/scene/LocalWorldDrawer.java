@@ -208,7 +208,7 @@ public class LocalWorldDrawer {
     }
 
     private void drawCamera() {
-        drawSprite(4, camera.getPosition().getX(), camera.getPosition().getY(), camera.getPosition().getZ(), 0, 1);
+        drawSprite(4, camera.getPosition().getX(), camera.getPosition().getY(), camera.getPosition().getZ(), 0,2);
     }
 
     private void initAtlases() {
@@ -242,20 +242,20 @@ public class LocalWorldDrawer {
             for (int x = minX; x <= maxX; x++) {
                 for (int y = minY; y <= maxY; y++) {
                     for (int z = minZ; z <= maxZ; z++) {
-                        if (y == maxY && z == maxZ) drawSprite(4, x, y, z, 1, 1);
-                        if (y == minY && z == maxZ) drawSprite(4, x, y, z, 2, 1);
-                        if (x == minX && z == maxZ) drawSprite(4, x, y, z, 3, 1);
-                        if (x == maxX && z == maxZ) drawSprite(4, x, y, z, 4, 1);
-                        if (y == minY && z == minZ) drawSprite(4, x, y, z, 5, 1);
-                        if (y == minY && x == minX) drawSprite(4, x, y, z, 6, 1);
-                        if (y == minY && x == maxX) drawSprite(4, x, y, z, 7, 1);
-                        if (y == maxY && z == minZ) drawSprite(4, x, y, z, 8, 1);
-                        if (x == minX && z > minZ && y == minY) drawSprite(4, x, y, z, 9, 1);
-                        if (x == maxX && z > minZ && y == minY) drawSprite(4, x, y, z, 10, 1);
+                        if (y == maxY && z == maxZ) drawSprite(4, x, y, z, 0, 1);
+                        if (y == minY && z == maxZ) drawSprite(4, x, y, z, 1, 1);
+                        if (x == minX && z == maxZ) drawSprite(4, x, y, z, 2, 1);
+                        if (x == maxX && z == maxZ) drawSprite(4, x, y, z, 3, 1);
+                        if (y == minY && z == minZ) drawSprite(4, x, y, z, 4, 1);
+                        if (y == minY && x == minX) drawSprite(4, x, y, z, 5, 1);
+                        if (y == minY && x == maxX) drawSprite(4, x, y, z, 6, 1);
+                        if (y == maxY && z == minZ) drawSprite(4, x, y, z, 7, 1);
+                        if (x == minX && z > minZ && y == minY) drawSprite(4, x, y, z, 8, 1);
+                        if (x == maxX && z > minZ && y == minY) drawSprite(4, x, y, z, 9, 1);
                         updateColorA(0.5f);
-                        if (z == maxZ) drawSprite(4, x, y, z, 11, 1);
-                        if (y == minY) drawSprite(4, x, y, z, 12, 1);
-                        if (z > minZ && y == minY) drawSprite(4, x, y, z, 13, 1);
+                        if (z == maxZ) drawSprite(4, x, y, z, 10, 1);
+                        if (y == minY) drawSprite(4, x, y, z, 11, 1);
+                        if (z > minZ && y == minY) drawSprite(4, x, y, z, 12, 1);
                         updateColorA(1f);
                     }
                 }

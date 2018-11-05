@@ -163,6 +163,7 @@ public class PlaceSelectComponent extends Actor implements HideableComponent, Mo
 
     @Override
     public void show() {
+//        camera
         toolbar.addMenu(this);
     }
 

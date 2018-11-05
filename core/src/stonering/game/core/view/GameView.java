@@ -7,13 +7,14 @@ import stonering.game.core.GameMvc;
 import stonering.game.core.view.render.scene.LocalWorldDrawer;
 import stonering.game.core.view.render.ui.UIDrawer;
 import stonering.game.core.view.render.ui.components.menus.util.Invokable;
+import stonering.game.core.view.render.ui.components.menus.util.MouseInvocable;
 
 /**
  * Screen of local map. {@link LocalWorldDrawer} for tile drawing, {@link UIDrawer for ui}
  *
  * @author Alexander Kuzyakov on 10.06.2017.
  */
-public class GameView implements Screen, Invokable {
+public class GameView implements Screen, Invokable, MouseInvocable {
     private GameMvc gameMvc;
     private LocalWorldDrawer worldDrawer;
     private UIDrawer uiDrawer;
@@ -95,6 +96,17 @@ public class GameView implements Screen, Invokable {
 
     @Override
     public boolean invoke(int keycode) {
-        return uiDrawer.invoke(keycode); // first priority, returns false if no menus open
+        if (!uiDrawer.invoke(keycode)) { // first priority, returns false if no menus open
+            //TODO click on map
+        }
+        return false;
+    }
+
+    @Override
+    public boolean invoke(int modelX, int modelY, int button, int action) {
+        if (!uiDrawer.invoke(modelX, modelY, button, action)) {
+            //TODO click on map
+        }
+        return false;
     }
 }

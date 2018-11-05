@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
+ * Menu with buttons, which show submenu in toolbar when pressed.
+ *
  * @author Alexander on 22.10.2018.
  */
 public class SubMenuMenu extends ButtonMenu {
@@ -39,9 +41,11 @@ public class SubMenuMenu extends ButtonMenu {
      * @param identifier
      */
     public void addMenu(SubMenuMenu menu, int hotkey, String identifier) {
+        Actor thisMenu = this;
         createButton(identifier, hotkey, new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                toolbar.hideSubMenus(thisMenu);
                 menu.show();
             }
         }, true);

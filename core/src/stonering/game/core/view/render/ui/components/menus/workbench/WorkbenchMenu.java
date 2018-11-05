@@ -90,6 +90,7 @@ public class WorkbenchMenu extends Table implements Invokable {
             case Input.Keys.S:
             case Input.Keys.D: {
                 goToMenu();
+
                 return true;
             }
         }

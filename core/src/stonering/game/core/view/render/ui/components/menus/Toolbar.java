@@ -1,27 +1,30 @@
 package stonering.game.core.view.render.ui.components.menus;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import stonering.game.core.GameMvc;
 import stonering.game.core.view.render.ui.components.menus.util.Invokable;
+import stonering.game.core.view.render.ui.components.menus.util.MouseInvocable;
 import stonering.utils.global.StaticSkin;
 
-import java.util.ArrayList;
+import java.util.*;
 
 /**
  * Contains all general orders menus.
  *
  * @author Alexander Kuzyakov on 17.06.2018.
  */
-public class Toolbar extends Container implements Invokable {
+public class Toolbar extends Container implements Invokable, MouseInvocable {
     private GameMvc gameMvc;
     private Table toolbarTable; // in container
     private Table menusTable;   // in first row
     private Label status;       // in second row
     private ParentMenu parentMenu; // always on the right end
 
-    private ArrayList<Actor> displayedMenus; // index increases from left to right
+    private List<Actor> displayedMenus; // index increases from left to right
 
     public Toolbar(GameMvc gameMvc) {
         this.gameMvc = gameMvc;
@@ -59,10 +62,11 @@ public class Toolbar extends Container implements Invokable {
 
     private void refill() {
         menusTable.clearChildren();
-        for (int i = 0; i < displayedMenus.size(); i++) {
-            menusTable.add(displayedMenus.get(i));
+        for (Actor displayedMenu : displayedMenus) {
+            menusTable.add(displayedMenu);
         }
-//        menusTable.add(parentMenu);
+//        for (int i = 0; i < displayedMenus.size(); i++) {
+//        }
     }
 
     /**
@@ -72,7 +76,7 @@ public class Toolbar extends Container implements Invokable {
      */
     public void addMenu(Actor menu) {
         System.out.println(menu.getClass().getSimpleName() + " shown");
-        displayedMenus.add(0, menu);
+        displayedMenus.add(0,menu);
         refill();
     }
 
@@ -84,10 +88,24 @@ public class Toolbar extends Container implements Invokable {
      */
     public void hideMenu(Actor menu) {
         if (displayedMenus.contains(menu)) {
-            while(displayedMenus.contains(menu)) {
+            while (displayedMenus.contains(menu)) {
                 displayedMenus.remove(0);
             }
             System.out.println(menu.getClass().getSimpleName() + " hidden");
+            refill();
+        }
+    }
+
+    /**
+     * Removes all actors to the left from given menu.
+     *
+     * @param menu
+     */
+    public void hideSubMenus(Actor menu) {
+        if (displayedMenus.contains(menu)) {
+            while (displayedMenus.get(0) != menu) {
+                displayedMenus.remove(0);
+            }
             refill();
         }
     }
@@ -107,7 +125,6 @@ public class Toolbar extends Container implements Invokable {
     }
 
     /**
-     * Input entry point from {@link ToolBarController}.
      * Simply transfers event to current active menu.
      *
      * @param keycode pressed character.
@@ -122,7 +139,12 @@ public class Toolbar extends Container implements Invokable {
         status.setText(text);
     }
 
-    public void resetToLastMenu() {
-
+    @Override
+    public boolean invoke(int modelX, int modelY, int button, int action) {
+        Invokable menu = getActiveMenu();
+        if (Arrays.asList(menu.getClass().getInterfaces()).contains(MouseInvocable.class)) {
+            return ((MouseInvocable) menu).invoke(modelX, modelY, button, action);
+        }
+        return false;
     }
 }

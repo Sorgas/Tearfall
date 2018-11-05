@@ -1,6 +1,5 @@
 package stonering.game.core.model;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.global.utils.Position;
 
@@ -13,9 +12,10 @@ public class GameCamera {
     private GameContainer container;
     private LocalMap localMap;
     private Position camera;
+//    private ;
+
     private Position frameStart;
     private Position frameEnd;
-    private Sprite sprite;
 
     public final int IDLE_STATUS = 0;
     public final int GREEN_STATUS = 1;

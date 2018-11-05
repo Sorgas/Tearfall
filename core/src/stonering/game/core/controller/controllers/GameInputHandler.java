@@ -31,17 +31,14 @@ public class GameInputHandler extends Controller implements Invokable {
         camera = gameMvc.getModel().getCamera();
     }
 
-    public void handleEvent(int screenX, int screenY, int button, int action) {
-        Invokable menu = gameView.getUiDrawer().getToolbar().getActiveMenu();
-        if (Arrays.asList(menu.getClass().getInterfaces()).contains(MouseInvocable.class)) {
-            Vector2 vector = gameView.getWorldDrawer().translateScreenPositionToModel(new Vector2(screenX, screenY));
-            ((MouseInvocable) menu).invoke(Math.round(vector.x), Math.round(vector.y), button, action);
-        }
+    public boolean handleEvent(int screenX, int screenY, int button, int action) {
+        Vector2 vector2 = gameView.getWorldDrawer().translateScreenPositionToModel(new Vector2(screenX, screenY));
+        return gameView.invoke(Math.round(vector2.x), Math.round(vector2.y), button, action);
     }
 
     @Override
     public boolean invoke(int keycode) {
-        if (!gameView.invoke(keycode)) {
+        if (!gameView.invoke(keycode)) { // no ui is active
             tryMoveCamera();
         }
         return true;

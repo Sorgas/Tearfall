@@ -8,8 +8,6 @@ import java.util.HashMap;
  * @author Alexander Kuzyakov on 27.12.2017.
  */
 public enum DesignationsTileMapping {
-
-
     DIG(1, 0),
     STAIRS(2, 1),
     RAMP(3, 2),
