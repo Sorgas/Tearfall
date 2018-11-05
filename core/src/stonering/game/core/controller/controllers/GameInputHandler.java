@@ -39,27 +39,32 @@ public class GameInputHandler extends Controller implements Invokable {
     @Override
     public boolean invoke(int keycode) {
         if (!gameView.invoke(keycode)) { // no ui is active
-            tryMoveCamera();
+            tryMoveCamera(keycode);
         }
         return true;
     }
 
-    public void tryMoveCamera() {
+    public void tryMoveCamera(int keycode) {
         int offset = Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) ? 10 : 1;
-        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            camera.moveCamera(-offset, 0, 0);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            camera.moveCamera(offset, 0, 0);
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            camera.moveCamera(0, offset, 0);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            camera.moveCamera(0, -offset, 0);
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.R)) {
-            camera.moveCamera(0, 0, 1);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.F)) {
-            camera.moveCamera(0, 0, -1);
+        switch (keycode) {
+            case Input.Keys.W:
+                camera.moveCamera(0, offset, 0);
+                break;
+            case Input.Keys.S:
+                camera.moveCamera(0, -offset, 0);
+                break;
+            case Input.Keys.A:
+                camera.moveCamera(-offset, 0, 0);
+                break;
+            case Input.Keys.D:
+                camera.moveCamera(offset, 0, 0);
+                break;
+            case Input.Keys.R:
+                camera.moveCamera(0, 0, 1);
+                break;
+            case Input.Keys.F:
+                camera.moveCamera(0, 0, -1);
+                break;
         }
     }
 }
