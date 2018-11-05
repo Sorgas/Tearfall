@@ -19,6 +19,10 @@ public class BuildingContainer {
         this.buildings = buildings;
     }
 
+    /**
+     * Places building block on local map.
+     * @param building
+     */
     private void placeBuilding(Building building) {
         Position pos = building.getPosition();
         localMap.setBuildingBlock(pos.getX(), pos.getY(), pos.getZ(), building.getBlock());

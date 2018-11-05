@@ -2,6 +2,7 @@ package stonering.entity.local.unit.aspects;
 
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.LocalMap;
+import stonering.game.core.model.util.PassageMap;
 import stonering.global.utils.pathfinding.a_star.AStar;
 import stonering.entity.local.Aspect;
 import stonering.entity.local.unit.Unit;
@@ -18,7 +19,7 @@ import java.util.List;
 public class MovementAspect extends Aspect {
     private int stepTime;
     private int stepDelay;
-    private LocalMap map;
+    private PassageMap passageMap;
     private PlanningAspect planning;
     private Position cachedTarget;
     private List<Position> cachedPath;
@@ -45,7 +46,7 @@ public class MovementAspect extends Aspect {
             if (cachedTarget != null && cachedTarget.equals(planning.getTarget())) { //old target
                 if (cachedPath != null && !cachedPath.isEmpty()) {// path not finished
                     Position nextPosition = cachedPath.remove(0); // get next step, remove from path
-                    if (map.isWalkPassable(nextPosition)) { // path has not been blocked after calculation
+                    if (passageMap.isWalkPassable(nextPosition)) { // path has not been blocked after calculation
                         aspectHolder.setPosition(nextPosition); //step
                     } else { // path blocked
                         TagLoggersEnum.PATH.log("path to " + cachedTarget + " was blocked in " + nextPosition);
@@ -70,7 +71,7 @@ public class MovementAspect extends Aspect {
         super.init(gameContainer);
         if (aspectHolder.getAspects().containsKey("planning"))
             planning = (PlanningAspect) aspectHolder.getAspects().get("planning");
-        map = gameContainer.getLocalMap();
+        passageMap = gameContainer.getLocalMap().getPassageMap();
     }
 
     private void makeRouteToTarget() {
@@ -84,9 +85,9 @@ public class MovementAspect extends Aspect {
      */
     private void tryFall() {
         Position pos = aspectHolder.getPosition();
-        if (map.isFlyPassable(pos) &&
-                !map.isWalkPassable(pos) &&
-                pos.getZ() > 0 && map.isFlyPassable(pos.getX(), pos.getY(), pos.getZ() - 1)) {
+        if (passageMap.isFlyPassable(pos) &&
+                !passageMap.isWalkPassable(pos) &&
+                pos.getZ() > 0 && passageMap.isFlyPassable(pos.getX(), pos.getY(), pos.getZ() - 1)) {
             aspectHolder.setPosition(new Position(pos.getX(), pos.getY(), pos.getZ() - 1));
             cachedPath = null;
         }

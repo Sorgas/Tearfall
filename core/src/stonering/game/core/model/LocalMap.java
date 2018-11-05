@@ -2,14 +2,12 @@ package stonering.game.core.model;
 
 import com.badlogic.gdx.math.Vector2;
 import stonering.enums.blocks.BlockTypesEnum;
-import stonering.game.core.model.util.AreaManager;
+import stonering.game.core.model.util.PassageMap;
 import stonering.game.core.view.tilemaps.LocalTileMapUpdater;
 import stonering.global.utils.Position;
 import stonering.entity.local.building.BuildingBlock;
 import stonering.entity.local.plants.PlantBlock;
 import stonering.entity.local.unit.UnitBlock;
-
-import java.util.ArrayList;
 
 /**
  * Contains blocks, and physical parameters, and proxies to entity.
@@ -28,7 +26,7 @@ public class LocalMap {
     private BuildingBlock[][][] buildingBlocks;
     private UnitBlock[][][] unitBlocks;
 
-    private AreaManager areaManager;
+    private PassageMap passageMap;
     private LocalTileMapUpdater localTileMapUpdater;
 
     private int xSize;
@@ -49,14 +47,27 @@ public class LocalMap {
         this.xSize = xSize;
         this.ySize = ySize;
         this.zSize = zSize;
-        areaManager = new AreaManager(this);
+        passageMap = new PassageMap(this);
     }
 
+    /**
+     * Updates material and type of given block.
+     * Is called from localgen, digging.
+     *
+     * @param x
+     * @param y
+     * @param z
+     * @param type
+     * @param materialId
+     */
     public void setBlock(int x, int y, int z, byte type, int materialId) {
         blockType[x][y][z] = type;
         material[x][y][z] = materialId;
         if (localTileMapUpdater != null)
             localTileMapUpdater.updateTile(x, y, z);
+        if (passageMap != null) {
+            passageMap.update(x, y, z, type);
+        }
     }
 
     public void updateBlock(int x, int y, int z) {
@@ -64,19 +75,8 @@ public class LocalMap {
             localTileMapUpdater.updateTile(x, y, z);
     }
 
-    public boolean checkAvailability(Position target) {
-        for (int x = -1; x < 2; x++) {
-            for (int y = -1; y < 2; y++) {
-                if (inMap(target.getX() + x, target.getY() + y, target.getZ()) &&
-                        isWalkPassable(target.getX() + x, target.getY() + y, target.getZ()))
-                    return true;
-            }
-        }
-        return false;
-    }
-
     public void init() {
-        areaManager.initAreas();
+        passageMap.initAreas();
     }
 
     public boolean isWorkingRamp(int x, int y, int z) {
@@ -117,7 +117,7 @@ public class LocalMap {
         return position;
     }
 
-    public void setBlocType(int x, int y, int z, byte type) {
+    public void setBlockType(int x, int y, int z, byte type) {
         blockType[x][y][z] = type;
         if (localTileMapUpdater != null)
             localTileMapUpdater.updateTile(x, y, z);
@@ -145,18 +145,32 @@ public class LocalMap {
 
     public void setPlantBlock(int x, int y, int z, PlantBlock block) {
         plantBlocks[x][y][z] = block;
+        if (passageMap != null) {
+            passageMap.update(x, y, z, block);
+        }
     }
 
     public void setPlantBlock(Position pos, PlantBlock block) {
-        plantBlocks[pos.getX()][pos.getY()][pos.getZ()] = block;
+        setPlantBlock(pos.getX(), pos.getY(), pos.getZ(), block);
     }
 
     public PlantBlock getPlantBlock(int x, int y, int z) {
         return plantBlocks[x][y][z];
     }
 
+    /**
+     * Also updates passage map.
+     *
+     * @param x
+     * @param y
+     * @param z
+     * @param building
+     */
     public void setBuildingBlock(int x, int y, int z, BuildingBlock building) {
         buildingBlocks[x][y][z] = building;
+        if (passageMap != null) {
+            passageMap.update(x, y, z, building);
+        }
     }
 
     public BuildingBlock getBuildingBlock(int x, int y, int z) {
@@ -187,23 +201,6 @@ public class LocalMap {
         setDesignatedBlockType(pos.getX(), pos.getY(), pos.getZ(), blockType);
     }
 
-    public boolean isWalkPassable(Position pos) {
-        return isWalkPassable(pos.getX(), pos.getY(), pos.getZ());
-    }
-
-    public boolean isWalkPassable(int x, int y, int z) {
-        return BlockTypesEnum.getType(blockType[x][y][z]).getPassing() == 2;
-    }
-
-    public boolean isFlyPassable(Position pos) {
-        return isFlyPassable(pos.getX(), pos.getY(), pos.getZ());
-    }
-
-    public boolean isFlyPassable(int x, int y, int z) {
-        return BlockTypesEnum.getType(blockType[x][y][z]).getPassing() != 0; //
-    }
-
-
     public byte getTemperature(int x, int y, int z) {
         return temperature[x][y][z];
     }
@@ -224,8 +221,8 @@ public class LocalMap {
         return blockType[x][y][z];
     }
 
-    public void setBlocType(Position pos, byte type) {
-        setBlocType(pos.getX(), pos.getY(), pos.getZ(), type);
+    public void setBlockType(Position pos, byte type) {
+        setBlockType(pos.getX(), pos.getY(), pos.getZ(), type);
     }
 
     public byte getDesignatedBlockType(int x, int y, int z) {
@@ -262,11 +259,11 @@ public class LocalMap {
     }
 
     public byte getArea(Position pos) {
-        return areaManager.getArea(pos.getX(), pos.getY(), pos.getZ());
+        return passageMap.getArea(pos.getX(), pos.getY(), pos.getZ());
     }
 
     public byte getArea(int x, int y, int z) {
-        return areaManager.getArea(x, y, z);
+        return passageMap.getArea(x, y, z);
     }
 
     public PlantBlock getPlantBlock(Position pos) {
@@ -279,5 +276,9 @@ public class LocalMap {
 
     public UtilByteArray getLight() {
         return light;
+    }
+
+    public PassageMap getPassageMap() {
+        return passageMap;
     }
 }

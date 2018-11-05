@@ -1,5 +1,8 @@
 package stonering.game.core.model.util;
 
+import stonering.entity.local.building.BuildingBlock;
+import stonering.entity.local.plants.PlantBlock;
+import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.core.model.LocalMap;
 import stonering.global.utils.Position;
 import stonering.utils.global.TagLoggersEnum;
@@ -14,15 +17,28 @@ import java.util.Stack;
  *
  * @author Alexander on 05.11.2018.
  */
-public class AreaManager {
+public class PassageMap {
     private LocalMap localMap;
     private byte[][][] area;
+    private byte[][][] passage;
+
     private ArrayList<Byte> areaNumbers;
 
-    public AreaManager(LocalMap localMap) {
+    public PassageMap(LocalMap localMap) {
         this.localMap = localMap;
         area = new byte[localMap.getxSize()][localMap.getySize()][localMap.getzSize()];
+        passage = new byte[localMap.getxSize()][localMap.getySize()][localMap.getzSize()];
         areaNumbers = new ArrayList<>();
+    }
+
+    public void initPassage() {
+        for (int x = 0; x < localMap.getxSize(); x++) {
+            for (int y = 0; y < localMap.getySize(); y++) {
+                for (int z = 0; z < localMap.getzSize(); z++) {
+                    passage[x][y][z] = (byte) (isWalkPassable(x, y, z) ? 1 : 0);
+                }
+            }
+        }
     }
 
     /**
@@ -33,7 +49,7 @@ public class AreaManager {
         for (int x = 0; x < localMap.getxSize(); x++) {
             for (int y = 0; y < localMap.getySize(); y++) {
                 for (int z = 0; z < localMap.getzSize(); z++) {
-                    if (localMap.isWalkPassable(x, y, z) && area[x][y][z] == 0) { // not wall
+                    if (isWalkPassable(x, y, z) && area[x][y][z] == 0) { // not wall
                         floodFill(x, y, z, areaNum);
                         areaNumbers.add(areaNum);
                         areaNum++;
@@ -83,7 +99,7 @@ public class AreaManager {
 
     //sells should be adjacent
     private boolean hasPathBetween(int x, int y, int z, int x2, int y2, int z2) {
-        if (localMap.isWalkPassable(x, y, z) && localMap.isWalkPassable(x2, y2, z2)) {
+        if (isWalkPassable(x, y, z) && isWalkPassable(x2, y2, z2)) {
             if (z == z2) {
                 return true;
             } else if (x == x2 && y == y2) {
@@ -99,6 +115,22 @@ public class AreaManager {
         return false;
     }
 
+    public boolean isWalkPassable(Position pos) {
+        return isWalkPassable(pos.getX(), pos.getY(), pos.getZ());
+    }
+
+    public boolean isWalkPassable(int x, int y, int z) {
+        return BlockTypesEnum.getType(localMap.getBlockType(x, y, z)).getPassing() == 2;
+    }
+
+    public boolean isFlyPassable(Position pos) {
+        return isFlyPassable(pos.getX(), pos.getY(), pos.getZ());
+    }
+
+    public boolean isFlyPassable(int x, int y, int z) {
+        return BlockTypesEnum.getType(localMap.getBlockType(x, y, z)).getPassing() != 0; // 1 || 2
+    }
+
     public byte getArea(Position pos) {
         return area[pos.getX()][pos.getY()][pos.getZ()];
     }
@@ -106,4 +138,16 @@ public class AreaManager {
     public byte getArea(int x, int y, int z) {
         return area[x][y][z];
     }
+
+
+    public void update(int x, int y, int z, byte type) {
+
+    }
+
+    public void update(int x, int y, int z, BuildingBlock block) {
+    }
+
+    public void update(int x, int y, int z, PlantBlock plantBlock) {
+    }
+
 }

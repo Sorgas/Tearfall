@@ -63,7 +63,7 @@ public class DigEffectAspect extends EffectAspect {
                 valid = true;
         }
         if (valid) {
-            map.setBlocType(pos, type.getCode());
+            map.setBlockType(pos, type.getCode());
         }
     }
 

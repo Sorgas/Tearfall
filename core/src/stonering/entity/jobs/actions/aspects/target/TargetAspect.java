@@ -25,7 +25,7 @@ public abstract class TargetAspect {
         for (int x = target.getX() - 1; x < target.getX() + 2; x++) {
             for (int y = target.getY() - 1; y < target.getY() + 2; y++) {
                 if (x != 0 || y != 0) {
-                    if (localMap.isWalkPassable(x, y, target.getZ())) {
+                    if (localMap.getPassageMap().isWalkPassable(x, y, target.getZ())) {
                         return new Position(x, y, target.getZ());
                     }
                 }

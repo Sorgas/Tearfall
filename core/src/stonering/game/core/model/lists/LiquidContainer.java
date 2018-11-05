@@ -138,7 +138,7 @@ public class LiquidContainer {
             for (int y = position.getY() - 1; y < position.getY() + 2; y++) {
                 if (!(x == 0 && y == 0) && // not same point
                         localMap.inMap(x, y, position.getZ()) &&
-                        localMap.isFlyPassable(x, y, position.getZ()) &&
+                        localMap.getPassageMap().isFlyPassable(x, y, position.getZ()) &&
                         (localMap.getFlooding(x, y, position.getZ()) < currentAmountOfWater || onLowerLevel) &&
                         localMap.getFlooding(x, y, position.getZ()) < 7) { // can take liquid
                     positions.add(new Position(x, y, position.getZ()));
