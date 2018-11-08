@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import stonering.game.core.GameMvc;
+import stonering.game.core.view.render.ui.components.menus.util.ButtonMenu;
 import stonering.game.core.view.render.ui.components.menus.util.Invokable;
 import stonering.game.core.view.render.ui.components.menus.util.MouseInvocable;
 import stonering.utils.global.StaticSkin;
@@ -65,8 +66,6 @@ public class Toolbar extends Container implements Invokable, MouseInvocable {
         for (Actor displayedMenu : displayedMenus) {
             menusTable.add(displayedMenu);
         }
-//        for (int i = 0; i < displayedMenus.size(); i++) {
-//        }
     }
 
     /**
@@ -108,6 +107,16 @@ public class Toolbar extends Container implements Invokable, MouseInvocable {
             }
             refill();
         }
+    }
+
+    /**
+     * Removes all non menu elements (like place select or lists).
+     */
+    public void closeNonMenuActors() {
+        while(!(displayedMenus.get(0) instanceof ButtonMenu)) {
+            displayedMenus.remove(0);
+        }
+        refill();
     }
 
     /**

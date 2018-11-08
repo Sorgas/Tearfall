@@ -36,7 +36,7 @@ public class GameCamera {
     }
 
     public Position getPosition() {
-        return camera;
+        return camera.clone();
     }
 
     public void moveCamera(int dx, int dy, int dz) {
@@ -67,7 +67,6 @@ public class GameCamera {
     public void resetSprite() {
         frameStart = null;
         frameEnd = null;
-//        System.out.println("camera sprite resetted");
     }
 
     public Position getFrameStart() {

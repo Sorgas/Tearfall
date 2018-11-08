@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.core.GameMvc;
 import stonering.game.core.controller.controllers.toolbar.DesignationsController;
@@ -12,13 +13,14 @@ import stonering.game.core.model.GameCamera;
 import stonering.game.core.model.LocalMap;
 import stonering.game.core.view.render.ui.components.menus.Toolbar;
 import stonering.global.utils.Position;
+import stonering.utils.global.StaticSkin;
 
 /**
  * Component for selecting places. Can be used many times.
  *
  * @author Alexander Kuzyakov on 12.07.2018.
  */
-public class PlaceSelectComponent extends Actor implements HideableComponent, MouseInvocable {
+public class PlaceSelectComponent extends Label implements HideableComponent, MouseInvocable {
     private GameMvc gameMvc;
     private DesignationsController controller;
     private LocalMap localMap;
@@ -29,6 +31,7 @@ public class PlaceSelectComponent extends Actor implements HideableComponent, Mo
     private Position start = null; // never set if singlePoint is true.
 
     public PlaceSelectComponent(GameMvc gameMvc) {
+        super("", StaticSkin.getSkin());
         this.gameMvc = gameMvc;
     }
 
@@ -169,6 +172,7 @@ public class PlaceSelectComponent extends Actor implements HideableComponent, Mo
 
     @Override
     public void hide() {
+        this.setText("");
         camera.resetSprite();
         toolbar.hideMenu(this);
     }

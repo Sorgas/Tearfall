@@ -93,21 +93,22 @@ public class DesignationsController extends Controller {
     public void addNextActorToToolbar() {
         if (activeDesignation == DesignationTypes.BUILD) {
             if (start == null) {// place not selected
+                placeSelectComponent.setText("Place " + buildingType.getTitle());
                 placeSelectComponent.setSinglePoint(!buildingType.getCategory().equals("constructions")).show();
             } else if (buildingType.getComponents().size() > itemSelectors.size()) { //steps not finished
                 placeSelectComponent.hide();
-                view.getUiDrawer().getToolbar().addMenu(
-                        createSelectListForStep(buildingType.getComponents().get(itemSelectors.size())));
+                view.getUiDrawer().getToolbar().addMenu(createSelectListForStep(buildingType.getComponents().get(itemSelectors.size())));
             } else { //finish
                 finishTaskBuilding();
-//                view.getUiDrawer().getToolbar().resetToLastMenu();
+                view.getUiDrawer().getToolbar().closeNonMenuActors();
             }
         } else {
             if (start == null) {// place not selected
+                placeSelectComponent.setText(activeDesignation.getText());
                 placeSelectComponent.setSinglePoint(false).show();
             } else { //finish
+                // for designations, hiding place selection is performed manually
                 finishTaskBuilding();
-//                view.getUiDrawer().getToolbar().resetToLastMenu();
             }
         }
     }
