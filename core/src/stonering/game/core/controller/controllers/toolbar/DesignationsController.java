@@ -10,10 +10,9 @@ import stonering.game.core.controller.controllers.Controller;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.lists.TaskContainer;
 import stonering.game.core.view.GameView;
-import stonering.game.core.view.render.ui.components.lists.MaterialSelectList;
-import stonering.game.core.view.render.ui.components.menus.util.PlaceSelectComponent;
+import stonering.game.core.view.render.ui.lists.MaterialSelectList;
+import stonering.game.core.view.render.ui.menus.util.PlaceSelectComponent;
 import stonering.global.utils.Position;
-import stonering.entity.local.items.Item;
 import stonering.entity.local.items.selectors.ItemSelector;
 
 import java.util.ArrayList;

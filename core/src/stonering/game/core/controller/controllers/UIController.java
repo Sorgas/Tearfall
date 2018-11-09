@@ -1,7 +1,7 @@
 package stonering.game.core.controller.controllers;
 
 import stonering.game.core.GameMvc;
-import stonering.game.core.view.render.ui.UIDrawer;
+import stonering.game.core.view.render.stages.UIDrawer;
 
 /**
  * Handles inputs to UI components.

@@ -2,23 +2,23 @@ package stonering.game.core.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import stonering.game.core.GameMvc;
 import stonering.game.core.view.render.scene.LocalWorldDrawer;
-import stonering.game.core.view.render.ui.UIDrawer;
-import stonering.game.core.view.render.ui.components.menus.util.Invokable;
-import stonering.game.core.view.render.ui.components.menus.util.MouseInvocable;
+import stonering.game.core.view.render.stages.*;
+import stonering.game.core.view.render.ui.menus.util.Invokable;
+import stonering.game.core.view.render.ui.menus.util.MouseInvocable;
 
 /**
- * Screen of local map. {@link LocalWorldDrawer} for tile drawing, {@link UIDrawer for ui}
+ * Main game screen. Sprites with general toolbar are rendered on background,
+ * additional menus are rendered in separate stages. Only top stage gets input.
  *
  * @author Alexander Kuzyakov on 10.06.2017.
  */
 public class GameView implements Screen, Invokable, MouseInvocable {
     private GameMvc gameMvc;
-    private LocalWorldDrawer worldDrawer;
-    private UIDrawer uiDrawer;
-    private SpriteBatch batch;
+    private BaseStage baseStage; // sprites and toolbar.
+    private MainMenu mainMenu;
+    private WorkbenchStage workbenchStage;
 
     /**
      * Also creates all sub-components.
@@ -27,43 +27,45 @@ public class GameView implements Screen, Invokable, MouseInvocable {
      */
     public GameView(GameMvc gameMvc) {
         this.gameMvc = gameMvc;
-        worldDrawer = new LocalWorldDrawer(gameMvc);
-        uiDrawer = new UIDrawer(gameMvc);
+        createStages();
+    }
+
+    private void createStages() {
+        baseStage = new BaseStage(gameMvc);
+        mainMenu = new MainMenu();
+        workbenchStage= new WorkbenchStage();
     }
 
     /**
      * Do bindings of components to their controllers/models.
      */
     public void init() {
-        worldDrawer.init();
-        uiDrawer.init();
+        baseStage.init();
+        mainMenu.init();
+        workbenchStage.init();
     }
 
     @Override
     public void show() {
+
     }
 
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(Gdx.gl20.GL_COLOR_BUFFER_BIT | Gdx.gl20.GL_DEPTH_BUFFER_BIT);
-        worldDrawer.drawWorld();
-        uiDrawer.draw();
+        baseStage.draw();
+        getActiveStage().draw();
     }
 
     @Override
     public void resize(int width, int height) {
-        uiDrawer.resize(width, height);
+//        uiDrawer.resize(width, height);
         initBatch();
     }
 
     private void initBatch() {
-        if (batch != null)
-            batch.dispose();
-        batch = new SpriteBatch();
-        worldDrawer.setBatch(batch);
-        worldDrawer.setScreenCenterX(Gdx.graphics.getWidth() / 2);
-        worldDrawer.setScreenCenterY(Gdx.graphics.getHeight() / 2);
+        baseStage.initBatch();
     }
 
     @Override
@@ -83,20 +85,20 @@ public class GameView implements Screen, Invokable, MouseInvocable {
 
     @Override
     public void dispose() {
-        batch.dispose();
+        baseStage.disposeBatch();
     }
 
     public UIDrawer getUiDrawer() {
-        return uiDrawer;
+        return baseStage.getUiDrawer();
     }
 
     public LocalWorldDrawer getWorldDrawer() {
-        return worldDrawer;
+        return baseStage.getWorldDrawer();
     }
 
     @Override
     public boolean invoke(int keycode) {
-        if (!uiDrawer.invoke(keycode)) { // first priority, returns false if no menus open
+        if (!getActiveStage().invoke(keycode)) { // first priority, returns false if no menus open
             //TODO click on map with E key
         }
         return false;
@@ -104,9 +106,13 @@ public class GameView implements Screen, Invokable, MouseInvocable {
 
     @Override
     public boolean invoke(int modelX, int modelY, int button, int action) {
-        if (!uiDrawer.invoke(modelX, modelY, button, action)) {
-            //TODO click on map with E key
-        }
+//        if (!getActiveStage().invoke(modelX, modelY, button, action)) {
+//            //TODO click on map with E key
+//        }
         return false;
+    }
+
+    private InvokableStage getActiveStage() {
+        return baseStage;
     }
 }

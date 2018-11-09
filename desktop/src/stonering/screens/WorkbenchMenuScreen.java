@@ -4,10 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import stonering.entity.local.building.Building;
-import stonering.entity.local.building.BuildingType;
 import stonering.entity.local.building.aspects.WorkbenchAspect;
 import stonering.enums.buildings.BuildingTypeMap;
-import stonering.game.core.view.render.ui.components.menus.workbench.WorkbenchMenu;
+import stonering.game.core.view.render.ui.menus.workbench.WorkbenchMenu;
 
 /**
  * @author Alexander on 30.10.2018.
