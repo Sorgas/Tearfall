@@ -1,6 +1,7 @@
 package stonering.game.core.view.render.stages;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import stonering.game.core.GameMvc;
 import stonering.game.core.view.render.scene.LocalWorldDrawer;
@@ -58,6 +59,17 @@ public class BaseStage extends InvokableStage {
 
     @Override
     public boolean invoke(int keycode) {
-        return uiDrawer.invoke(keycode);
+        if(!uiDrawer.invoke(keycode)) {
+            return trySelectMapEntity(keycode);
+        }
+        return false;
+    }
+
+    private boolean trySelectMapEntity(int keycode) {
+        if(keycode == Input.Keys.E) {
+            System.out.println("qweqweqweqwe");
+            return true;
+        }
+        return false;
     }
 }
