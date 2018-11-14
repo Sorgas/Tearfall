@@ -8,6 +8,9 @@ import stonering.game.core.view.render.stages.*;
 import stonering.game.core.view.render.ui.menus.util.Invokable;
 import stonering.game.core.view.render.ui.menus.util.MouseInvocable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Main game screen. Sprites with general toolbar are rendered on background,
  * additional menus are rendered in separate stages. Only top stage gets input.
@@ -18,7 +21,8 @@ public class GameView implements Screen, Invokable, MouseInvocable {
     private GameMvc gameMvc;
     private BaseStage baseStage; // sprites and toolbar.
     private MainMenu mainMenu;
-    private WorkbenchStage workbenchStage;
+    private BuildingStage buildingStage;
+    private List<InvokableStage> stageList;
 
     /**
      * Also creates all sub-components.
@@ -31,9 +35,11 @@ public class GameView implements Screen, Invokable, MouseInvocable {
     }
 
     private void createStages() {
+        stageList = new ArrayList<>();
         baseStage = new BaseStage(gameMvc);
+        stageList.add(baseStage);
         mainMenu = new MainMenu();
-        workbenchStage= new WorkbenchStage();
+        buildingStage = new BuildingStage();
     }
 
     /**
@@ -42,7 +48,7 @@ public class GameView implements Screen, Invokable, MouseInvocable {
     public void init() {
         baseStage.init();
         mainMenu.init();
-        workbenchStage.init();
+        buildingStage.init();
     }
 
     @Override
@@ -98,10 +104,7 @@ public class GameView implements Screen, Invokable, MouseInvocable {
 
     @Override
     public boolean invoke(int keycode) {
-        if (!getActiveStage().invoke(keycode)) { // first priority, returns false if no menus open
-
-        }
-        return false;
+        return getActiveStage().invoke(keycode);
     }
 
     @Override
@@ -114,4 +117,10 @@ public class GameView implements Screen, Invokable, MouseInvocable {
     private InvokableStage getActiveStage() {
         return baseStage;
     }
+
+    public void addStageToList(InvokableStage stage) {
+        stageList.add(stage);
+    }
+
+
 }

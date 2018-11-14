@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import stonering.game.core.GameMvc;
 import stonering.game.core.view.render.scene.LocalWorldDrawer;
+import stonering.global.utils.Position;
 
 /**
  * Stage with local world sprites and toolbar.
@@ -65,11 +66,22 @@ public class BaseStage extends InvokableStage {
         return false;
     }
 
+    /**
+     * Called, if toolbar didn't handle event, shows selection list for map tile.
+     *
+     * @param keycode
+     * @return
+     */
     private boolean trySelectMapEntity(int keycode) {
         if(keycode == Input.Keys.E) {
-            System.out.println("qweqweqweqwe");
+            showMapEntityListStage(gameMvc.getModel().getCamera().getPosition());
             return true;
         }
         return false;
+    }
+
+
+    private void showMapEntityListStage(Position position) {
+
     }
 }

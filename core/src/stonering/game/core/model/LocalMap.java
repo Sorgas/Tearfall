@@ -177,6 +177,10 @@ public class LocalMap {
         return buildingBlocks[x][y][z];
     }
 
+    public BuildingBlock getBuildingBlock(Position position) {
+        return buildingBlocks[position.getZ()][position.getY()][position.getZ()];
+    }
+
     public void setUnitBlock(int x, int y, int z, UnitBlock unit) {
         unitBlocks[x][y][z] = unit;
     }
