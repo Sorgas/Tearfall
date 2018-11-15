@@ -6,4 +6,6 @@ import stonering.game.core.view.render.ui.menus.util.Invokable;
 /**
  * @author Alexander on 09.11.2018.
  */
-public abstract class InvokableStage extends Stage implements Invokable {}
+public abstract class InvokableStage extends Stage implements Invokable {
+    public abstract void init();
+}

@@ -15,6 +15,7 @@ import stonering.utils.global.TagLoggersEnum;
  * @author Alexander on 11.11.2018.
  */
 public class MapEntitySelectStage extends InvokableStage {
+    public static final int ALL = -1;
     public static final int ITEMS = 0;
     public static final int UNITS = 1;
     public static final int PLANTS = 2;
@@ -23,9 +24,21 @@ public class MapEntitySelectStage extends InvokableStage {
     private GameMvc gameMvc;
     private ObservingList observingList;
     private int activeMode;
+    private Position currentPosition;
 
-    public MapEntitySelectStage(GameMvc gameMvc) {
+    /**
+     * -1 mode means all entities.
+     *
+     * @param gameMvc
+     * @param currentPosition
+     * @param activeMode
+     */
+    public MapEntitySelectStage(GameMvc gameMvc, Position currentPosition, int activeMode) {
+        super();
         this.gameMvc = gameMvc;
+        this.currentPosition = currentPosition;
+        this.activeMode = activeMode;
+        observingList = new ObservingList(gameMvc);
     }
 
     @Override
@@ -35,12 +48,15 @@ public class MapEntitySelectStage extends InvokableStage {
 
     /**
      * Fills list with entities on given position.
-     *
-     * @param position
      */
-    public void init(Position position) {
+    @Override
+    public void init() {
         observingList.clear();
         switch (activeMode) {
+            case ALL:
+                //TODO add method for all categories
+                tryShowBuildingStage(gameMvc.getModel().getLocalMap().getBuildingBlock(currentPosition));
+                break;
             case ITEMS:
                 break;
             case UNITS:
@@ -48,7 +64,7 @@ public class MapEntitySelectStage extends InvokableStage {
             case PLANTS:
                 break;
             case BUILDINGS:
-                tryShowBuildingStage(gameMvc.getModel().getLocalMap().getBuildingBlock(position));
+                tryShowBuildingStage(gameMvc.getModel().getLocalMap().getBuildingBlock(currentPosition));
                 break;
         }
     }

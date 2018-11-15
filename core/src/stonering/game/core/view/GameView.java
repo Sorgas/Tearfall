@@ -21,7 +21,6 @@ public class GameView implements Screen, Invokable, MouseInvocable {
     private GameMvc gameMvc;
     private BaseStage baseStage; // sprites and toolbar.
     private MainMenu mainMenu;
-    private BuildingStage buildingStage;
     private List<InvokableStage> stageList;
 
     /**
@@ -39,7 +38,6 @@ public class GameView implements Screen, Invokable, MouseInvocable {
         baseStage = new BaseStage(gameMvc);
         stageList.add(baseStage);
         mainMenu = new MainMenu();
-        buildingStage = new BuildingStage();
     }
 
     /**
@@ -48,7 +46,6 @@ public class GameView implements Screen, Invokable, MouseInvocable {
     public void init() {
         baseStage.init();
         mainMenu.init();
-        buildingStage.init();
     }
 
     @Override
@@ -115,11 +112,12 @@ public class GameView implements Screen, Invokable, MouseInvocable {
     }
 
     private InvokableStage getActiveStage() {
-        return baseStage;
+        return stageList.get(stageList.size() -1);
     }
 
     public void addStageToList(InvokableStage stage) {
         stageList.add(stage);
+        stage.init();
     }
 
 

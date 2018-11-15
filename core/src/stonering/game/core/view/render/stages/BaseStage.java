@@ -72,6 +72,7 @@ public class BaseStage extends InvokableStage {
      * @param keycode
      * @return
      */
+    //TODO add filters (modes)
     private boolean trySelectMapEntity(int keycode) {
         if(keycode == Input.Keys.E) {
             showMapEntityListStage(gameMvc.getModel().getCamera().getPosition());
@@ -81,7 +82,12 @@ public class BaseStage extends InvokableStage {
     }
 
 
+    /**
+     *
+     * @param position
+     */
+    //TODO add modes
     private void showMapEntityListStage(Position position) {
-
+        gameMvc.getView().addStageToList(new MapEntitySelectStage(gameMvc, position, -1));
     }
 }
