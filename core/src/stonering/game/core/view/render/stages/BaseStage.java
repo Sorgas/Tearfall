@@ -60,8 +60,8 @@ public class BaseStage extends InvokableStage {
 
     @Override
     public boolean invoke(int keycode) {
-        if(!uiDrawer.invoke(keycode)) {
-            return trySelectMapEntity(keycode);
+        if(!uiDrawer.invoke(keycode)) { // try act with toolbar
+            return trySelectMapEntity(keycode); // map click
         }
         return false;
     }
@@ -72,7 +72,7 @@ public class BaseStage extends InvokableStage {
      * @param keycode
      * @return
      */
-    //TODO add filters (modes)
+    //TODO add filters like Shift+E Ctrl+E etc
     private boolean trySelectMapEntity(int keycode) {
         if(keycode == Input.Keys.E) {
             showMapEntityListStage(gameMvc.getModel().getCamera().getPosition());
@@ -81,12 +81,13 @@ public class BaseStage extends InvokableStage {
         return false;
     }
 
-
     /**
+     * Shows stage with list of entities in given position.
+     * If there is only one, proceeds to entity stage immediately.
      *
      * @param position
      */
-    //TODO add modes
+    //TODO add filters
     private void showMapEntityListStage(Position position) {
         gameMvc.getView().addStageToList(new MapEntitySelectStage(gameMvc, position, -1));
     }
