@@ -29,8 +29,10 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Contains all tasks for settlers on map. Designations stored separately for updating tiles.
- * <p>
+ * Contains all tasks for settlers on map and Designations for rendering.
+ * {@link Task} are orders for units.
+ * {@link Designation} are used for drawing given orders as tiles.
+ * Designations
  *
  * @author Alexander Kuzyakov
  */
@@ -55,6 +57,7 @@ public class TaskContainer {
     }
 
     /**
+     * Called from {@link stonering.game.core.controller.controllers.toolbar.DesignationsController}.
      * Adds designation and creates comprehensive task.
      * All simple orders like digging and foraging submitted through this method.
      *
@@ -88,6 +91,7 @@ public class TaskContainer {
     }
 
     /**
+     * Called from {@link stonering.game.core.controller.controllers.toolbar.DesignationsController}.
      * Adds designation and creates comprehensive task.
      * All single-tile buildings are constructed through this method.
      *

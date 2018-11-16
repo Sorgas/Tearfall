@@ -61,6 +61,7 @@ public class PlaceSelectComponent extends Label implements HideableComponent, Mo
                 } else {
                     updateSelectBox(camera.getPosition());
                 }
+
                 return false; // to not interrupt camera input
         }
         return false;

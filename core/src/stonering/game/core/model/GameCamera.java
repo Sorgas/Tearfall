@@ -1,5 +1,6 @@
 package stonering.game.core.model;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.global.utils.Position;
 
@@ -12,7 +13,7 @@ public class GameCamera {
     private GameContainer container;
     private LocalMap localMap;
     private Position camera;
-//    private ;
+    private TextureRegion textureRegion;
 
     private Position frameStart;
     private Position frameEnd;

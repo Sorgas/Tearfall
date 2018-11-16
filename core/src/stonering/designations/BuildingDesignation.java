@@ -4,8 +4,10 @@ import stonering.enums.designations.DesignationTypes;
 import stonering.global.utils.Position;
 
 /**
+ * Adds building name to designation.
+ *
+ * /TODO render building tile instead of stock one.
  * @author Alexander Kuzyakov
- * created on 26.06.2018
  */
 public class BuildingDesignation extends Designation {
     private String building;

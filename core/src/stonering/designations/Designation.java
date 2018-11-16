@@ -1,10 +1,14 @@
 package stonering.designations;
 
 import stonering.enums.designations.DesignationTypes;
+import stonering.game.core.model.lists.TaskContainer;
 import stonering.global.utils.Position;
 import stonering.entity.jobs.Task;
 
 /**
+ * Class for storing in {@link TaskContainer} to be rendered on local map.
+ * Has its position, type for tile choosing and task.
+ *
  * @author Alexander Kuzyakov on 26.06.2018
  */
 public abstract class Designation {
