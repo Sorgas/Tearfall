@@ -1,5 +1,6 @@
 package stonering.game.core.view.render.stages;
 
+import com.badlogic.gdx.Input;
 import stonering.entity.local.building.BuildingBlock;
 import stonering.game.core.GameMvc;
 import stonering.game.core.view.render.ui.lists.ObservingList;
@@ -43,6 +44,11 @@ public class MapEntitySelectStage extends InvokableStage {
 
     @Override
     public boolean invoke(int keycode) {
+        switch (keycode) {
+            case Input.Keys.Q :
+                gameMvc.getView().removeStage(this);
+                return true;
+        }
         return false;
     }
 

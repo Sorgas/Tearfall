@@ -7,6 +7,7 @@ import stonering.game.core.view.render.scene.LocalWorldDrawer;
 import stonering.game.core.view.render.stages.*;
 import stonering.game.core.view.render.ui.menus.util.Invokable;
 import stonering.game.core.view.render.ui.menus.util.MouseInvocable;
+import stonering.utils.global.TagLoggersEnum;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -116,9 +117,13 @@ public class GameView implements Screen, Invokable, MouseInvocable {
     }
 
     public void addStageToList(InvokableStage stage) {
+        TagLoggersEnum.UI.logDebug("showing stage " + stage.toString());
         stageList.add(stage);
         stage.init();
     }
 
-
+    public void removeStage(InvokableStage stage) {
+        TagLoggersEnum.UI.logDebug("hiding stage " + stage.toString());
+        stageList.remove(stage);
+    }
 }
