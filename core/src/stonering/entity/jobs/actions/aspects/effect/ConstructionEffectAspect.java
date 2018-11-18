@@ -1,8 +1,12 @@
 package stonering.entity.jobs.actions.aspects.effect;
 
+import stonering.entity.local.building.Building;
+import stonering.entity.local.building.BuildingType;
+import stonering.enums.buildings.BuildingTypeMap;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.lists.ItemContainer;
+import stonering.generators.buildings.BuildingGenerator;
 import stonering.global.utils.Position;
 import stonering.entity.jobs.actions.Action;
 import stonering.entity.jobs.actions.aspects.requirements.ItemsInPositionOrInventoryRequirementAspect;
@@ -15,12 +19,12 @@ import java.util.List;
 
 public class ConstructionEffectAspect extends EffectAspect {
     private GameContainer container;
-    private String building;
+    private String buildingName;
     private String material;
 
-    public ConstructionEffectAspect(Action action, String building, String material) {
+    public ConstructionEffectAspect(Action action, String buildingName, String material) {
         super(action, 100);
-        this.building = building;
+        this.buildingName = buildingName;
         this.material = material;
         container = action.getGameContainer();
     }
@@ -29,11 +33,17 @@ public class ConstructionEffectAspect extends EffectAspect {
     protected void applyEffect() {
         logStart();
         spendMaterials();
-        createConstruction();
+        build();
     }
 
-    private void createConstruction() {
-        container.getLocalMap().setBlock(action.getTargetPosition(), (byte) resolveBlockTypeByConstructionName(), MaterialMap.getInstance().getId(material));
+    private void build() {
+        BuildingType buildingType = BuildingTypeMap.getInstance().getBuilding(buildingName);
+        if(buildingType.getCategory().equals("constructions")) {
+            container.getLocalMap().setBlock(action.getTargetPosition(), (byte) resolveBlockTypeByConstructionName(), MaterialMap.getInstance().getId(material));
+        } else {
+            Building building = BuildingGenerator.generateBuilding(buildingName);
+            container.getLocalMap().setBuildingBlock(action.getTargetPosition(), building.getBlock());
+        }
     }
 
     private void spendMaterials() {
@@ -49,7 +59,7 @@ public class ConstructionEffectAspect extends EffectAspect {
     }
 
     private int resolveBlockTypeByConstructionName() {
-        switch(building) {
+        switch(buildingName) {
             case "wall" :
                 return 1;
             case "floor" :
@@ -63,6 +73,6 @@ public class ConstructionEffectAspect extends EffectAspect {
     }
 
     private void logStart() {
-        TagLoggersEnum.TASKS.logDebug("construction of " + building + " started at " + action.getTargetPosition().toString() + " by " + action.getTask().getPerformer().toString());
+        TagLoggersEnum.TASKS.logDebug("construction of " + buildingName + " started at " + action.getTargetPosition().toString() + " by " + action.getTask().getPerformer().toString());
     }
 }

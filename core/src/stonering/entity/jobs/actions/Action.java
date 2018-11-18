@@ -6,6 +6,7 @@ import stonering.entity.jobs.Task;
 import stonering.entity.jobs.actions.aspects.effect.EffectAspect;
 import stonering.entity.jobs.actions.aspects.requirements.RequirementsAspect;
 import stonering.entity.jobs.actions.aspects.target.TargetAspect;
+import stonering.utils.global.TagLoggersEnum;
 
 public class Action {
     private Task task;
@@ -29,6 +30,7 @@ public class Action {
         finished = true;
         task.removeAction(this);
         task.recountFinished();
+        TagLoggersEnum.TASKS.logDebug("action " + toString() + " finished");
     }
 
     public Position getTargetPosition() {

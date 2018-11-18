@@ -145,9 +145,7 @@ public class LocalMap {
 
     public void setPlantBlock(int x, int y, int z, PlantBlock block) {
         plantBlocks[x][y][z] = block;
-        if (passageMap != null) {
-            passageMap.update(x, y, z, block);
-        }
+        passageMap.update(x, y, z, block);
     }
 
     public void setPlantBlock(Position pos, PlantBlock block) {
@@ -168,9 +166,11 @@ public class LocalMap {
      */
     public void setBuildingBlock(int x, int y, int z, BuildingBlock building) {
         buildingBlocks[x][y][z] = building;
-        if (passageMap != null) {
-            passageMap.update(x, y, z, building);
-        }
+        passageMap.update(x, y, z, building);
+    }
+
+    public void setBuildingBlock(Position pos, BuildingBlock building) {
+        setBuildingBlock(pos.getX(), pos.getY(), pos.getZ(), building);
     }
 
     public BuildingBlock getBuildingBlock(int x, int y, int z) {

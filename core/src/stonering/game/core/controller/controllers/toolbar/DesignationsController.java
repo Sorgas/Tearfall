@@ -8,7 +8,6 @@ import stonering.enums.designations.DesignationTypes;
 import stonering.game.core.GameMvc;
 import stonering.game.core.controller.controllers.Controller;
 import stonering.game.core.model.GameContainer;
-import stonering.game.core.model.lists.TaskContainer;
 import stonering.game.core.view.GameView;
 import stonering.game.core.view.render.ui.lists.MaterialSelectList;
 import stonering.game.core.view.render.ui.menus.util.PlaceSelectComponent;
@@ -146,9 +145,9 @@ public class DesignationsController extends Controller {
      */
     private void addDesignationToContainer(Position position) {
         if (activeDesignation == DesignationTypes.BUILD) {
-            container.getTaskContainer().submitDesignation(position, buildingType.getBuilding(), itemSelectors, priority);
+            container.getTaskContainer().submitBuildingDesignation(position, buildingType.getBuilding(), itemSelectors, priority);
         } else {
-            container.getTaskContainer().submitDesignation(position, activeDesignation, priority);
+            container.getTaskContainer().submitOrderDesignation(position, activeDesignation, priority);
         }
     }
 

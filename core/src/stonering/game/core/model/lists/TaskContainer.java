@@ -23,6 +23,7 @@ import stonering.entity.jobs.actions.aspects.target.PlantHarvestTargetAspect;
 import stonering.entity.local.items.selectors.ItemSelector;
 import stonering.entity.local.items.selectors.ToolWithActionItemSelector;
 import stonering.entity.local.plants.PlantBlock;
+import stonering.utils.global.TagLoggersEnum;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -64,7 +65,7 @@ public class TaskContainer {
      * @param position
      * @param type
      */
-    public void submitDesignation(Position position, DesignationTypes type, int priority) {
+    public void submitOrderDesignation(Position position, DesignationTypes type, int priority) {
         switch (type) {
             case BUILD:
             case NONE:
@@ -81,9 +82,8 @@ public class TaskContainer {
                     if (task != null) {
                         task.setDesignation(designation);
                         designation.setTask(task);
-                        designations.put(position, designation);
                         tasks.add(task);
-                        container.getLocalMap().setDesignatedBlockType(designation.getPosition(), designation.getType().getCode());
+                        addDesignation(designation);
                     }
                 }
             }
@@ -99,15 +99,14 @@ public class TaskContainer {
      * @param building
      * @param itemSelectors
      */
-    public void submitDesignation(Position position, String building, List<ItemSelector> itemSelectors, int priority) {
+    public void submitBuildingDesignation(Position position, String building, List<ItemSelector> itemSelectors, int priority) {
         if (validateBuilding(position, building)) {
             BuildingDesignation designation = new BuildingDesignation(position, DesignationTypes.BUILD, building);
             Task task = createBuildingTask(designation, itemSelectors, priority);
-            tasks.add(task);
             designation.setTask(task);
-            designations.put(position, designation);
-            container.getLocalMap().setDesignatedBlockType(designation.getPosition(), designation.getType().getCode());
-            System.out.println("building designated");
+            tasks.add(task);
+            addDesignation(designation);
+            TagLoggersEnum.TASKS.log(task.getName() + " designated");
         }
     }
 
@@ -137,7 +136,7 @@ public class TaskContainer {
             }
             case HARVEST: {
                 PlantBlock block = container.getLocalMap().getPlantBlock(designation.getPosition());
-                if(block != null && block.getPlant().isHarvestable()) {
+                if (block != null && block.getPlant().isHarvestable()) {
                     Action action = new Action(container);
                     action.setEffectAspect(new HarvestPlantEffectAspect(action, 10));
                     action.setTargetAspect(new PlantHarvestTargetAspect(action, block.getPlant())); //TODO replace with PlantTargetAspect
@@ -151,13 +150,23 @@ public class TaskContainer {
         return null;
     }
 
+    /**
+     * Creates tasks for building various buildings.
+     *
+     * @param designation
+     * @param items
+     * @param priority
+     * @return
+     */
     private Task createBuildingTask(BuildingDesignation designation, List<ItemSelector> items, int priority) {
         BuildingType buildingType = BuildingTypeMap.getInstance().getBuilding(designation.getBuilding());
         Action action = new Action(container);
         action.setRequirementsAspect(new ItemsInPositionOrInventoryRequirementAspect(action, designation.getPosition(), items));
         action.setTargetAspect(new BlockTargetAspect(action, designation.getPosition(), !buildingType.getTitle().equals("wall"), true));
-        action.setEffectAspect(new ConstructionEffectAspect(action, designation.getBuilding(), "marble"));//TODO
-        return new Task("designation", TaskTypesEnum.DESIGNATION, action, priority, container);
+        action.setEffectAspect(new ConstructionEffectAspect(action, designation.getBuilding(), "marble"));
+        Task task = new Task("designation", TaskTypesEnum.DESIGNATION, action, priority, container);
+        task.setDesignation(designation);
+        return task;
     }
 
     private boolean validateDesignations(Position position, DesignationTypes type) {
@@ -197,33 +206,62 @@ public class TaskContainer {
         return false;
     }
 
-
+    /**
+     * Validates if it's possible to build given building on given position.
+     *
+     * @param pos
+     * @param building
+     * @return
+     */
     public boolean validateBuilding(Position pos, String building) {
         BuildingType buildngType = BuildingTypeMap.getInstance().getBuilding(building);
         String category = buildngType.getCategory();
+        boolean result = false;
+        byte blockType = container.getLocalMap().getBlockType(pos);
         switch (category) {
             case "constructions": {
-                byte blockType = container.getLocalMap().getBlockType(pos);
-                return blockType == BlockTypesEnum.SPACE.getCode() || blockType == BlockTypesEnum.FLOOR.getCode();
+                result = blockType == BlockTypesEnum.SPACE.getCode() || blockType == BlockTypesEnum.FLOOR.getCode();
+                break;
             }
             case "workbenches": {
-                byte blockType = container.getLocalMap().getBlockType(pos);
-                return blockType == BlockTypesEnum.FLOOR.getCode();
+                result = blockType == BlockTypesEnum.FLOOR.getCode();
+                break;
             }
         }
-        return false;
+        TagLoggersEnum.TASKS.logDebug(building + " validation " + (result ? "passed." : "failed."));
+        return result;
     }
 
+    /**
+     * Removes task. called if task is finished or canceled.
+     * Removes tasks designation if there is one.
+     *
+     * @param task
+     */
     public void removeTask(Task task) {
         tasks.remove(task);
         if (task.getDesignation() != null) {
-            designations.remove(task.getDesignation().getPosition());
-        }
-        if (task.getTaskType() == TaskTypesEnum.DESIGNATION) {
-            container.getLocalMap().setDesignatedBlockType(task.getInitialAction().getTargetPosition(), DesignationTypes.NONE.getCode());
+            removeDesignation(task.getDesignation());
         }
     }
 
+    /**
+     * Adds designation to designations map. Updates local map.
+     * @param designation
+     */
+    private void addDesignation(Designation designation) {
+        designations.put(designation.getPosition(), designation);
+        container.getLocalMap().setDesignatedBlockType(designation.getPosition(), designation.getType().getCode());
+    }
+
+    /**
+     * Removes designation from designations map. Updates local map.
+     * @param designation
+     */
+    private void removeDesignation(Designation designation) {
+        designations.remove(designation.getPosition());
+        container.getLocalMap().setDesignatedBlockType(designation.getPosition(), DesignationTypes.NONE.getCode());
+    }
 
     public void setTasks(ArrayList<Task> tasks) {
         this.tasks = tasks;
