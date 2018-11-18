@@ -1,5 +1,6 @@
 package stonering.game.core.controller.inputProcessors;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import stonering.game.core.controller.controllers.GameController;
@@ -76,5 +77,9 @@ public class GameInputProcessor extends DragListener implements InputProcessor {
     @Override
     public boolean keyUp(int keycode) {
         return false;
+    }
+
+    private int charToKeycode(char character) {
+        return Input.Keys.valueOf(Character.valueOf(character).toString().toUpperCase());
     }
 }

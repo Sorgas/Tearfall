@@ -37,7 +37,7 @@ public class GameCamera {
     }
 
     public Position getPosition() {
-        return camera.clone();
+        return camera;
     }
 
     public void moveCamera(int dx, int dy, int dz) {

@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.core.GameMvc;
+import stonering.game.core.controller.controllers.CameraInputHandler;
 import stonering.game.core.controller.controllers.toolbar.DesignationsController;
 import stonering.game.core.controller.inputProcessors.GameInputProcessor;
 import stonering.game.core.model.GameCamera;
@@ -61,7 +62,6 @@ public class PlaceSelectComponent extends Label implements HideableComponent, Mo
                 } else {
                     updateSelectBox(camera.getPosition());
                 }
-
                 return false; // to not interrupt camera input
         }
         return false;

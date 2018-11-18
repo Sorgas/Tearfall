@@ -63,7 +63,7 @@ public class GameView implements Screen, Invokable, MouseInvocable {
 
     @Override
     public void resize(int width, int height) {
-//        uiDrawer.resize(width, height);
+        baseStage.resize(width, height);
         initBatch();
     }
 

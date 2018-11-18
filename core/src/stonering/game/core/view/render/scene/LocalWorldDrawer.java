@@ -230,9 +230,12 @@ public class LocalWorldDrawer {
         minZ = Math.max(camera.getPosition().getZ() - viewAreDepth, 0);
     }
 
+    /**
+     * Draws selection frame.
+     */
     private void drawFrame() {
         //TODO add landscape dependant rendering
-        if (camera.getFrameStart() != null && camera.getFrameEnd() != null) {
+        if (camera.getFrameStart() != null) {
             int minX = Math.min(camera.getFrameStart().getX(), camera.getFrameEnd().getX());
             int maxX = Math.max(camera.getFrameStart().getX(), camera.getFrameEnd().getX());
             int minY = Math.min(camera.getFrameStart().getY(), camera.getFrameEnd().getY());

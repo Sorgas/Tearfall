@@ -3,6 +3,7 @@ package stonering.generators.items;
 import stonering.entity.local.crafting.ItemOrder;
 import stonering.entity.local.crafting.ItemPartCraftingStep;
 import stonering.entity.local.items.ItemPart;
+import stonering.entity.local.items.aspects.FallingAspect;
 import stonering.entity.local.items.selectors.ItemSelector;
 import stonering.enums.items.ItemType;
 import stonering.enums.items.ItemTypeMap;
@@ -45,12 +46,14 @@ public class ItemGenerator {
     public Item generateItem(String name, int material) {
         Item item = new Item(null, itemTypeMap.getItemType(name));
         item.setMaterial(material);
+        item.getAspects().put("falling", new FallingAspect(item));
         return item;
     }
 
     public Item generateItem(String name, String material) {
         Item item = new Item(null, itemTypeMap.getItemType(name));
         item.setMaterial(materialMap.getId(material));
+        item.getAspects().put("falling", new FallingAspect(item));
         return item;
     }
 

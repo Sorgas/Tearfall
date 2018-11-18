@@ -2,6 +2,7 @@ package stonering.game.core.view.render.stages;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import stonering.enums.materials.Material;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.core.GameMvc;
 import stonering.game.core.model.GameContainer;
@@ -9,6 +10,7 @@ import stonering.game.core.view.render.ui.TileStatusBar;
 import stonering.game.core.view.render.ui.menus.Toolbar;
 import stonering.game.core.view.render.ui.menus.util.Invokable;
 import stonering.game.core.view.render.ui.menus.util.MouseInvocable;
+import stonering.global.utils.Position;
 
 /**
  * Sub model for ui items. Handles all input in game.
@@ -54,9 +56,9 @@ public class UIDrawer extends Stage implements Invokable, MouseInvocable {
     }
 
     private void updateStatusBar() {
-//        Position focus = container.getCamera().getPosition();
-//        Material material = materialMap.getMaterial(container.getLocalMap().getMaterial(focus));
-//        tileStatusBar.setData(focus, material != null ? material.getName() : "", container.getLocalMap().getArea(focus), container.getLocalMap().getFlooding(focus));
+        Position focus = container.getCamera().getPosition();
+        Material material = materialMap.getMaterial(container.getLocalMap().getMaterial(focus));
+        tileStatusBar.setData(focus, material != null ? material.getName() : "", container.getLocalMap().getArea(focus), container.getLocalMap().getFlooding(focus));
     }
 
     public void resize(int width, int height) {

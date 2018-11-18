@@ -1,9 +1,13 @@
 package stonering.game.core.controller.controllers;
 
+
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import stonering.game.core.GameMvc;
 import stonering.game.core.view.GameView;
 import stonering.game.core.view.render.ui.menus.util.Invokable;
+
+import java.util.*;
 
 /**
  * Handles all input in the game.
@@ -14,10 +18,16 @@ import stonering.game.core.view.render.ui.menus.util.Invokable;
 public class GameInputHandler extends Controller implements Invokable {
     private GameView gameView;
     private CameraInputHandler cameraInputHandler;
+    private Set<Integer> charsToSkip;
+    private HashMap<Character, Integer> keycodesMap;
+    private ArrayList<Character> cameraInput = new ArrayList<>(Arrays.asList('a', 's', 'd', 'w', 'A', 'S', 'D', 'W', 'r', 'f', 'R', 'F'));
 
     public GameInputHandler(GameMvc gameMvc) {
         super(gameMvc);
+
+        charsToSkip = new HashSet<>();
         cameraInputHandler = new CameraInputHandler(gameMvc);
+        keycodesMap = new HashMap<>();
     }
 
     @Override
@@ -38,13 +48,36 @@ public class GameInputHandler extends Controller implements Invokable {
      */
     @Override
     public boolean invoke(int keycode) {
+        charsToSkip.add(keycode);
         if (!gameView.invoke(keycode)) { // no ui is active
             cameraInputHandler.tryMoveCamera(keycode);
         }
         return true;
     }
 
+    /**
+     * Invoked on keyType. Before keyType always goes keyDown, so first keyType after is should be skipped.
+     *
+     * @param character
+     * @return
+     */
     public boolean typed(char character) {
-        return cameraInputHandler.typeCameraKey(character);
+        int keycode = charToKeycode(character);
+        if(charsToSkip.contains(keycode)) {
+            charsToSkip.remove(keycode); // skip character, do not handle
+        } else {
+            if (!gameView.invoke(keycode) && cameraInput.contains(character)) { // no ui is active
+                cameraInputHandler.typeCameraKey(keycode);
+            }
+        }
+        return true;
     }
+
+    private int charToKeycode(char character) {
+        if(!keycodesMap.containsKey(character)) {
+            keycodesMap.put(Character.valueOf(character), Input.Keys.valueOf(Character.valueOf(character).toString().toUpperCase()));
+        }
+        return keycodesMap.get(character);
+    }
+
 }

@@ -91,4 +91,8 @@ public class BaseStage extends InvokableStage {
     private void showMapEntityListStage(Position position) {
         gameMvc.getView().addStageToList(new MapEntitySelectStage(gameMvc, position, -1));
     }
+
+    public void resize(int width, int height) {
+        uiDrawer.resize(width, height);
+    }
 }
