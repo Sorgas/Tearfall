@@ -42,7 +42,7 @@ public class ItemTypeMap {
         json.addClassTag("tags_c", TagAspect.class);
         json.addClassTag("step_c", ItemPartCraftingStep.class);
         json.addClassTag("variant_c", CraftingComponentVariant.class);
-        ArrayList<ItemType> elements = json.fromJson(ArrayList.class, ItemType.class, FileLoader.getItemsFile());
+        ArrayList<ItemType> elements = json.fromJson(ArrayList.class, ItemType.class, FileLoader.getFile(FileLoader.ITEMS_PATH));
         for (ItemType itemType : elements) {
             types.put(itemType.getName(), itemType);
         }

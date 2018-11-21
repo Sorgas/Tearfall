@@ -27,7 +27,7 @@ public class CreatureGenerator {
         bodyGenerator = new BodyGenerator();
         equipmentAspectGenerator = new EquipmentAspectGenerator();
         needAspectGenerator = new NeedAspectGenerator();
-        creatures = reader.parse(FileLoader.getCreatureFile());
+        creatures = reader.parse(FileLoader.getFile(FileLoader.CREATURES_PATH));
     }
 
     public Unit generateUnit(String specimen) {

@@ -39,7 +39,7 @@ public class MaterialMap {
 
     private void loadMaterials() {
         System.out.println("loading materials");
-        ArrayList<Material> elements = json.fromJson(ArrayList.class, Material.class, FileLoader.getMaterialsFile());
+        ArrayList<Material> elements = json.fromJson(ArrayList.class, Material.class, FileLoader.getFile(FileLoader.MATERIALS_PATH));
         for (Material material : elements) {
             materials.put(material.getId(), material);
             ids.put(material.getName(), material.getId());

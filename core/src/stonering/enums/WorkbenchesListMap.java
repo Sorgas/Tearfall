@@ -30,7 +30,7 @@ public class WorkbenchesListMap {
         System.out.println("loading crafting lists");
         Json json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
-        ArrayList<WorkbenchList> elements = json.fromJson(ArrayList.class, WorkbenchList.class, FileLoader.getItemsFile());
+        ArrayList<WorkbenchList> elements = json.fromJson(ArrayList.class, WorkbenchList.class, FileLoader.getFile(FileLoader.ITEMS_PATH));
         for (WorkbenchList list : elements) {
             lists.put(list.getWorkbench(), list.getRecipes());
         }

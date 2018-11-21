@@ -19,7 +19,7 @@ public class BuildingType {
     private String category;
     private ArrayList<CommonComponentStep> components;
     private ArrayList<String> menuPath;
-    private ArrayList<String> operations;
+    private ArrayList<String> recipes;
 
     private int atlasX;
     private int atlasY;
@@ -89,12 +89,12 @@ public class BuildingType {
         this.menuPath = menuPath;
     }
 
-    public ArrayList<String> getOperations() {
-        return operations;
+    public ArrayList<String> getRecipes() {
+        return recipes;
     }
 
-    public void setOperations(ArrayList<String> operations) {
-        this.operations = operations;
+    public void setRecipes(ArrayList<String> recipes) {
+        this.recipes = recipes;
     }
 
     public ArrayList<CommonComponentStep> getComponents() {

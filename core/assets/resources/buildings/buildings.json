@@ -31,8 +31,6 @@
             }
         ],
         "menuPath":[],
-        "operations":[
-        ],
         "atlasY":"0",
         "atlasX":"0",
         "color":{
@@ -75,8 +73,6 @@
             }
         ],
         "menuPath":[],
-        "operations":[
-        ],
         "atlasY":"0",
         "atlasX":"0",
         "color":{
@@ -119,8 +115,6 @@
             }
         ],
         "menuPath":[],
-        "operations":[
-        ],
         "atlasY":"0",
         "atlasX":"0",
         "color":{
@@ -163,8 +157,6 @@
             }
         ],
         "menuPath":[],
-        "operations":[
-        ],
         "atlasY":"0",
         "atlasX":"0",
         "color":{
@@ -213,8 +205,6 @@
             }
         ],
         "menuPath":[],
-        "operations":[
-        ],
         "atlasY":"0",
         "atlasX":"0",
         "color":{
@@ -252,7 +242,6 @@
             }
         ],
         "menuPath":["wood"],
-        "operations":["saw_logs"],
         "atlasY":"0",
         "atlasX":"0",
         "color":{

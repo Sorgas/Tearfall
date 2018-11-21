@@ -2,6 +2,7 @@ package stonering.enums.buildings;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter;
 import stonering.entity.local.building.BuildingType;
 import stonering.entity.local.crafting.BrakeableComponentStep;
@@ -30,7 +31,8 @@ public class BuildingTypeMap {
         json.addClassTag("color_c", Color.class);
         json.addClassTag("step_c", BrakeableComponentStep.class);
         json.addClassTag("variant_c", CraftingComponentVariant.class);
-        loadMaterials();
+        loadBuildings();
+        loadLists();
     }
 
     public static BuildingTypeMap getInstance() {
@@ -39,9 +41,9 @@ public class BuildingTypeMap {
         return instance;
     }
 
-    private void loadMaterials() {
+    private void loadBuildings() {
         System.out.println("loading buildings");
-        ArrayList<BuildingType> elements = json.fromJson(ArrayList.class, BuildingType.class, FileLoader.getBuildingsFile());
+        ArrayList<BuildingType> elements = json.fromJson(ArrayList.class, BuildingType.class, FileLoader.getFile(FileLoader.BUILDINGS_PATH));
         for (BuildingType buildingType : elements) {
             buildings.put(buildingType.getBuilding(), buildingType);
         }
@@ -57,5 +59,20 @@ public class BuildingTypeMap {
 
     public List<BuildingType> getCategoryBuildings(String categoryName) {
         return buildings.values().stream().filter((buildingType -> buildingType.getCategory().equals(categoryName))).collect(Collectors.toList());
+    }
+
+    private void loadLists() {
+        System.out.println("loading buildings");
+        ArrayList<JsonValue> elements = json.fromJson(ArrayList.class, JsonValue.class, FileLoader.getFile(FileLoader.RECIPE_LISTS_PATH));
+        for (JsonValue jsonValue : elements) {
+            if(validateList(jsonValue)) {
+                BuildingType type = buildings.get(jsonValue.get("workbench"));
+                jsonValue.get("recipes").forEach(jsonValue1 -> type.getRecipes().add(jsonValue1.asString()));
+            }
+        }
+    }
+
+    private boolean validateList(JsonValue list) {
+        return buildings.keySet().contains(list.get("workbench"));
     }
 }

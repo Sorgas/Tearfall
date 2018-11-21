@@ -1,6 +1,7 @@
 package stonering.generators.buildings;
 
 import stonering.entity.local.building.BuildingType;
+import stonering.entity.local.building.aspects.WorkbenchAspect;
 import stonering.enums.buildings.BuildingTypeMap;
 import stonering.global.utils.Position;
 import stonering.entity.local.building.Building;
@@ -27,5 +28,12 @@ public class BuildingGenerator {
         building.setName(type.getTitle());
         building.setMaterial(38); //TODO replace with material from task
         return building;
+    }
+
+    private void addAspects(Building building, BuildingType type) {
+        if(type.getCategory().equals("workbenches")) {
+            WorkbenchAspect workbenchAspect = new WorkbenchAspect(building);
+            building.getAspects().put("workbench", workbenchAspect);
+        }
     }
 }
