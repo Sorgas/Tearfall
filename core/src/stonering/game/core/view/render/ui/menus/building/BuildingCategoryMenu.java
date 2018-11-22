@@ -4,7 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.enums.HotkeySequence;
 import stonering.enums.buildings.BuildingTypeMap;
-import stonering.enums.designations.DesignationTypes;
+import stonering.enums.designations.DesignationTypeEnum;
 import stonering.game.core.GameMvc;
 import stonering.game.core.controller.controllers.toolbar.DesignationsController;
 import stonering.game.core.view.render.ui.menus.util.PlaceSelectComponent;
@@ -47,7 +47,7 @@ public class BuildingCategoryMenu extends SubMenuMenu {
                 addItem(building.getTitle(), new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
-                        controller.setActiveDesignation(DesignationTypes.BUILD, building);
+                        controller.setActiveDesignation(DesignationTypeEnum.BUILD, building);
                     }
                 }, building.getMenuPath())
         );

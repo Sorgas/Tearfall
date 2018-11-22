@@ -208,9 +208,12 @@ public class LocalWorldDrawer {
     }
 
     private void drawCamera() {
-        drawSprite(4, camera.getPosition().getX(), camera.getPosition().getY(), camera.getPosition().getZ(), 0,2);
+        drawSprite(4, camera.getPosition().getX(), camera.getPosition().getY(), camera.getPosition().getZ(), 0, 2);
+        if (camera.getTextureRegion() != null)
+            batch.draw(camera.getTextureRegion(), getScreenPosX(0), getScreenPosY(0,0));
     }
 
+    //TODO externalize
     private void initAtlases() {
         atlases = new Texture[6];
         atlases[0] = new Texture("sprites/blocks4.png");

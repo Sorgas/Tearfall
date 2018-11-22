@@ -1,6 +1,6 @@
 package stonering.designations;
 
-import stonering.enums.designations.DesignationTypes;
+import stonering.enums.designations.DesignationTypeEnum;
 import stonering.global.utils.Position;
 
 /**
@@ -10,7 +10,7 @@ import stonering.global.utils.Position;
  */
 public class OrderDesignation extends Designation{
 
-    public OrderDesignation(Position position, DesignationTypes type) {
+    public OrderDesignation(Position position, DesignationTypeEnum type) {
         super(position, type);
     }
 }

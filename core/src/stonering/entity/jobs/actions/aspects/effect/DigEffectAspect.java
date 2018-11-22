@@ -1,7 +1,7 @@
 package stonering.entity.jobs.actions.aspects.effect;
 
 import stonering.enums.blocks.BlockTypesEnum;
-import stonering.enums.designations.DesignationTypes;
+import stonering.enums.designations.DesignationTypeEnum;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.LocalMap;
 import stonering.generators.items.DiggingProductGenerator;
@@ -10,10 +10,10 @@ import stonering.entity.jobs.actions.Action;
 import stonering.utils.global.TagLoggersEnum;
 
 public class DigEffectAspect extends EffectAspect {
-    private DesignationTypes designationType;
+    private DesignationTypeEnum designationType;
     private GameContainer container;
 
-    public DigEffectAspect(Action action, DesignationTypes designationType) {
+    public DigEffectAspect(Action action, DesignationTypeEnum designationType) {
         super(action, 100);
         container = action.getGameContainer();
         this.designationType = designationType;
@@ -78,11 +78,11 @@ public class DigEffectAspect extends EffectAspect {
             container.getItemContainer().addItem(generator.generateDigProduct(material), action.getTargetPosition());
     }
 
-    public DesignationTypes getBlockType() {
+    public DesignationTypeEnum getBlockType() {
         return designationType;
     }
 
-    public void setBlockType(DesignationTypes blockType) {
+    public void setBlockType(DesignationTypeEnum blockType) {
         this.designationType = blockType;
     }
 

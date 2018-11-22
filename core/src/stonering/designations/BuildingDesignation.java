@@ -1,6 +1,6 @@
 package stonering.designations;
 
-import stonering.enums.designations.DesignationTypes;
+import stonering.enums.designations.DesignationTypeEnum;
 import stonering.global.utils.Position;
 
 /**
@@ -12,7 +12,7 @@ import stonering.global.utils.Position;
 public class BuildingDesignation extends Designation {
     private String building;
 
-    public BuildingDesignation(Position position, DesignationTypes type, String building) {
+    public BuildingDesignation(Position position, DesignationTypeEnum type, String building) {
         super(position, type);
         this.building = building;
     }

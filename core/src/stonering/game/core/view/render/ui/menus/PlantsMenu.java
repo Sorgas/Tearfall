@@ -3,9 +3,10 @@ package stonering.game.core.view.render.ui.menus;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import stonering.enums.designations.DesignationTypes;
+import stonering.enums.designations.DesignationTypeEnum;
 import stonering.game.core.GameMvc;
 import stonering.game.core.controller.controllers.toolbar.DesignationsController;
+import stonering.game.core.view.render.ui.menus.util.AreaSelectComponent;
 import stonering.game.core.view.render.ui.menus.util.PlaceSelectComponent;
 import stonering.game.core.view.render.ui.menus.util.SubMenuMenu;
 
@@ -16,7 +17,7 @@ import stonering.game.core.view.render.ui.menus.util.SubMenuMenu;
  */
 public class PlantsMenu extends SubMenuMenu {
     private DesignationsController controller;
-    private PlaceSelectComponent placeSelectComponent;
+    private AreaSelectComponent areaSelectComponent;
 
     public PlantsMenu(GameMvc gameMvc) {
         super(gameMvc);
@@ -28,7 +29,7 @@ public class PlantsMenu extends SubMenuMenu {
     public void init() {
         super.init();
         controller = gameMvc.getController().getDesignationsController();
-        placeSelectComponent.init();
+        areaSelectComponent.init();
     }
 
     @Override
@@ -37,16 +38,15 @@ public class PlantsMenu extends SubMenuMenu {
     }
 
     private void initMenu() {
-        addButtonToTable("P: chop trees", DesignationTypes.CHOP, Input.Keys.P);
-        addButtonToTable("O: harvest", DesignationTypes.HARVEST, Input.Keys.O);
-        addButtonToTable("I: cut", DesignationTypes.CUT, Input.Keys.I);
-        addButtonToTable("U: clear", DesignationTypes.NONE, Input.Keys.U);
+        addButtonToTable("P: chop trees", DesignationTypeEnum.CHOP, Input.Keys.P);
+        addButtonToTable("O: harvest", DesignationTypeEnum.HARVEST, Input.Keys.O);
+        addButtonToTable("I: cut", DesignationTypeEnum.CUT, Input.Keys.I);
+        addButtonToTable("U: clear", DesignationTypeEnum.NONE, Input.Keys.U);
 
-        placeSelectComponent = new PlaceSelectComponent(gameMvc);
-        placeSelectComponent.setSinglePoint(false);
+        areaSelectComponent = new AreaSelectComponent(gameMvc);
     }
 
-    private void addButtonToTable(String text, DesignationTypes type, int hotKey) {
+    private void addButtonToTable(String text, DesignationTypeEnum type, int hotKey) {
         createButton(text, hotKey, new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {

@@ -4,12 +4,13 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import stonering.entity.local.building.BuildingType;
 import stonering.entity.local.crafting.CommonComponentStep;
 import stonering.enums.buildings.BuildingTypeMap;
-import stonering.enums.designations.DesignationTypes;
+import stonering.enums.designations.DesignationTypeEnum;
 import stonering.game.core.GameMvc;
 import stonering.game.core.controller.controllers.Controller;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.view.GameView;
 import stonering.game.core.view.render.ui.lists.MaterialSelectList;
+import stonering.game.core.view.render.ui.menus.util.AreaSelectComponent;
 import stonering.game.core.view.render.ui.menus.util.PlaceSelectComponent;
 import stonering.global.utils.Position;
 import stonering.entity.local.items.selectors.ItemSelector;
@@ -32,11 +33,12 @@ public class DesignationsController extends Controller {
     private GameContainer container;
     private GameView view;
 
-    private DesignationTypes activeDesignation;
+    private DesignationTypeEnum activeDesignation;
     private BuildingType buildingType; //is set when activeDesignation is BUILD
     private List<ItemSelector> itemSelectors; // created for each crafting step
 
     private PlaceSelectComponent placeSelectComponent;
+    private AreaSelectComponent areaSelectComponent;
     private Position start; // should be stored between steps
     private Position end;
 
@@ -60,9 +62,9 @@ public class DesignationsController extends Controller {
      * @param activeDesignation designation type.
      * @param building          buildingType title in {@link BuildingTypeMap}. Is null if activeDesignation is not buildingType.
      */
-    public void setActiveDesignation(DesignationTypes activeDesignation, BuildingType building) {
+    public void setActiveDesignation(DesignationTypeEnum activeDesignation, BuildingType building) {
         this.activeDesignation = activeDesignation;
-        this.buildingType = activeDesignation == DesignationTypes.BUILD ? building : null;
+        this.buildingType = activeDesignation == DesignationTypeEnum.BUILD ? building : null;
         gameMvc.getView().getUiDrawer().setToolbarLabelText(activeDesignation.getText() + (building != null ? building.getTitle() : ""));
         addNextActorToToolbar();
     }
@@ -73,13 +75,16 @@ public class DesignationsController extends Controller {
      *
      * //TODO make some unification
      */
-    public void addNextActorToToolbar() {
-        if (activeDesignation == DesignationTypes.BUILD) {
+    private void addNextActorToToolbar() {
+        if (activeDesignation == DesignationTypeEnum.BUILD) {
             if (start == null) {// place not selected
-                placeSelectComponent.setText("Place " + buildingType.getTitle());
-                placeSelectComponent.setSinglePoint(!buildingType.getCategory().equals("constructions")).show();
+                if(buildingType.getCategory().equals("constructions")) {
+                    //TODO area select
+                } else {
+                    placeSelectComponent.setText("Place " + buildingType.getTitle());
+                    placeSelectComponent.show();
+                }
             } else if (buildingType.getComponents().size() > itemSelectors.size()) { // steps not finished. called several times
-                placeSelectComponent.hide();
                 view.getUiDrawer().getToolbar().addMenu(createSelectListForStep(buildingType.getComponents().get(itemSelectors.size())));
             } else { //finish
                 finishTaskBuilding();
@@ -87,8 +92,7 @@ public class DesignationsController extends Controller {
             }
         } else {
             if (start == null) {// place not selected
-                placeSelectComponent.setText(activeDesignation.getText());
-                placeSelectComponent.setSinglePoint(false).show();
+                areaSelectComponent.setText(activeDesignation.getText());
             } else { //finish
                 // for designations, hiding place selection is performed manually
                 finishTaskBuilding();
@@ -113,7 +117,7 @@ public class DesignationsController extends Controller {
      * Finishes building task.
      */
     private void finishTaskBuilding() {
-        if (activeDesignation == DesignationTypes.BUILD) {
+        if (activeDesignation == DesignationTypeEnum.BUILD) {
             addDesignationToContainer(end);
         } else {
             for (int x = Math.min(end.getX(), start.getX()); x <= Math.max(end.getX(), start.getX()); x++) {
@@ -144,7 +148,7 @@ public class DesignationsController extends Controller {
      * @param position
      */
     private void addDesignationToContainer(Position position) {
-        if (activeDesignation == DesignationTypes.BUILD) {
+        if (activeDesignation == DesignationTypeEnum.BUILD) {
             container.getTaskContainer().submitBuildingDesignation(position, buildingType.getBuilding(), itemSelectors, priority);
         } else {
             container.getTaskContainer().submitOrderDesignation(position, activeDesignation, priority);
@@ -192,5 +196,9 @@ public class DesignationsController extends Controller {
 
     public void setPriority(int priority) {
         this.priority = priority;
+    }
+
+    public DesignationTypeEnum getActiveDesignation() {
+        return activeDesignation;
     }
 }

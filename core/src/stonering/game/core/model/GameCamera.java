@@ -1,6 +1,8 @@
 package stonering.game.core.model;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import stonering.entity.local.building.validators.PositionValidator;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.global.utils.Position;
 
@@ -14,13 +16,14 @@ public class GameCamera {
     private LocalMap localMap;
     private Position camera;
     private TextureRegion textureRegion;
+    private PositionValidator positionValidator;
 
     private Position frameStart;
     private Position frameEnd;
 
-    public final int IDLE_STATUS = 0;
-    public final int GREEN_STATUS = 1;
-    public final int RED_STATUS = 2;
+    public final int IDLE_STATUS = -1;
+    public final int GREEN_STATUS = 0;
+    public final int RED_STATUS = 1;
     private int status;
 
     public GameCamera(GameContainer container) {
@@ -45,29 +48,27 @@ public class GameCamera {
         camera.setY(camera.getY() + dy);
         camera.setZ(camera.getZ() + dz);
         localMap.normalizePosition(camera);
+        updateStatus();
     }
 
     public int getStatus() {
         return status;
     }
 
-    public void updateStatus(int status) {
-        if (status >= 0 && status <= 2)
-            this.status = status;
-    }
+    public void updateStatus() {
+        if() {
 
-    //TODO add actual sprite change for camera
-    public void setValidSprite() {
-        System.out.println("camera sprite valid");
-    }
-
-    public void setInvalidSprite() {
-        System.out.println("camera sprite invalid");
+        }
+        if(this.status != status) {
+            textureRegion = new TextureRegion(new Texture("sprites/ui_tiles.png"), status * 64, 567, 64,96);
+        }
+        this.status = status;
     }
 
     public void resetSprite() {
         frameStart = null;
         frameEnd = null;
+        updateStatus(-1);
     }
 
     public Position getFrameStart() {
@@ -84,5 +85,13 @@ public class GameCamera {
 
     public void setFrameEnd(Position frameEnd) {
         this.frameEnd = frameEnd;
+    }
+
+    public TextureRegion getTextureRegion() {
+        return textureRegion;
+    }
+
+    public void setPositionValidator(PositionValidator positionValidator) {
+        this.positionValidator = positionValidator;
     }
 }

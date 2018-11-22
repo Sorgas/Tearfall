@@ -6,7 +6,7 @@ import stonering.designations.OrderDesignation;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.buildings.BuildingTypeMap;
 import stonering.entity.local.building.BuildingType;
-import stonering.enums.designations.DesignationTypes;
+import stonering.enums.designations.DesignationTypeEnum;
 import stonering.game.core.model.GameContainer;
 import stonering.global.utils.Position;
 import stonering.entity.jobs.Task;
@@ -65,7 +65,7 @@ public class TaskContainer {
      * @param position
      * @param type
      */
-    public void submitOrderDesignation(Position position, DesignationTypes type, int priority) {
+    public void submitOrderDesignation(Position position, DesignationTypeEnum type, int priority) {
         switch (type) {
             case BUILD:
             case NONE:
@@ -101,7 +101,7 @@ public class TaskContainer {
      */
     public void submitBuildingDesignation(Position position, String building, List<ItemSelector> itemSelectors, int priority) {
         if (validateBuilding(position, building)) {
-            BuildingDesignation designation = new BuildingDesignation(position, DesignationTypes.BUILD, building);
+            BuildingDesignation designation = new BuildingDesignation(position, DesignationTypeEnum.BUILD, building);
             Task task = createBuildingTask(designation, itemSelectors, priority);
             designation.setTask(task);
             tasks.add(task);
@@ -169,7 +169,7 @@ public class TaskContainer {
         return task;
     }
 
-    private boolean validateDesignations(Position position, DesignationTypes type) {
+    private boolean validateDesignations(Position position, DesignationTypeEnum type) {
         BlockTypesEnum blockOnMap = BlockTypesEnum.getType(container.getLocalMap().getBlockType(position));
         switch (type) {
             case DIG: { //makes floor
@@ -260,7 +260,7 @@ public class TaskContainer {
      */
     private void removeDesignation(Designation designation) {
         designations.remove(designation.getPosition());
-        container.getLocalMap().setDesignatedBlockType(designation.getPosition(), DesignationTypes.NONE.getCode());
+        container.getLocalMap().setDesignatedBlockType(designation.getPosition(), DesignationTypeEnum.NONE.getCode());
     }
 
     public void setTasks(ArrayList<Task> tasks) {

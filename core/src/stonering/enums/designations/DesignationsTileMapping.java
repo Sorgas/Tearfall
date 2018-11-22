@@ -30,7 +30,7 @@ public enum DesignationsTileMapping {
 
     /**
      * Constructor
-     * @param code same as in {@link DesignationTypes}
+     * @param code same as in {@link DesignationTypeEnum}
      * @param atlasX
      */
     DesignationsTileMapping(int code, int atlasX) {

@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import stonering.enums.blocks.BlockTypesEnum;
+import stonering.enums.designations.DesignationTypeEnum;
 import stonering.game.core.GameMvc;
 import stonering.game.core.controller.controllers.CameraInputHandler;
 import stonering.game.core.controller.controllers.toolbar.DesignationsController;
@@ -26,9 +27,7 @@ public class PlaceSelectComponent extends Label implements HideableComponent, Mo
     private LocalMap localMap;
     private Toolbar toolbar;
     private GameCamera camera;
-
-    private boolean singlePoint = false;
-    private Position start = null; // never set if singlePoint is true.
+    private Position position;
 
     public PlaceSelectComponent(GameMvc gameMvc) {
         super("", StaticSkin.getSkin());
@@ -56,12 +55,8 @@ public class PlaceSelectComponent extends Label implements HideableComponent, Mo
             case Input.Keys.A:
             case Input.Keys.S:
             case Input.Keys.D:
-                if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) { //if WASD pressed during dragging by mouse
-                    Vector2 modelXY = gameMvc.getView().getWorldDrawer().translateScreenPositionToModel(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
-                    updateSelectBox(new Position(modelXY.x, modelXY.y, camera.getPosition().getZ()));
-                } else {
-                    updateSelectBox(camera.getPosition());
-                }
+                updateCameraTile();
+                position = camera.getPosition().clone();
                 return false; // to not interrupt camera input
         }
         return false;
@@ -77,7 +72,7 @@ public class PlaceSelectComponent extends Label implements HideableComponent, Mo
             }
             break;
             case GameInputProcessor.MOVE_CODE: {
-                updateSelectBox(position);
+                updateCameraTile();
             }
         }
         return false;
@@ -89,80 +84,25 @@ public class PlaceSelectComponent extends Label implements HideableComponent, Mo
      * @param eventPosition
      */
     private void handleConfirm(Position eventPosition) {
-        if (singlePoint) {
-            finishHandling(eventPosition, eventPosition);
-        } else {
-            if (start == null) {                // box not started, start
-                showSelectBox(eventPosition.clone());
-            } else {                            // box started, finish
-                hideSelectBox();
-                finishHandling(start, eventPosition);
-                start = null;
-            }
-        }
+        finishHandling(eventPosition, eventPosition);
     }
 
     /**
      * Closes component or discards last position from select box.
      */
     private void handleCancel() {
-        System.out.println("handling cancel");
-        hideSelectBox();
-        if (start != null) {
-            start = null;
-        } else {
-            hide();
-        }
+        hide();
     }
 
     /**
-     * Sets frame start & end to camera, so frame will be drawn on screen.
-     * Shows select box on one cell.
-     *
-     * @param eventPosition
-     */
-    private void showSelectBox(Position eventPosition) {
-        localMap.normalizePosition(eventPosition);
-        System.out.println("start = " + eventPosition);
-        start = eventPosition;
-        camera.setFrameStart(eventPosition.clone());
-        camera.setFrameEnd(eventPosition.clone());
-    }
-
-    /**
-     * Finishes place selecting process.
-     */
-    private void hideSelectBox() {
-        if (start != null) {
-            camera.resetSprite();
-        }
-    }
-
-    /**
-     * Updates end of select box.
-     *
-     * @param eventPosition
-     */
-    private void updateSelectBox(Position eventPosition) {
-        localMap.normalizePosition(eventPosition);
-        camera.setFrameEnd(eventPosition);
-    }
-
-    /**
-     * After this controller should have coordinates of desired area.
-     * Area size is 1 if singlePoint is true.
+     * Hides this and sets selected place to controller. Area size is 1.
      *
      * @param start
      * @param end
      */
     private void finishHandling(Position start, Position end) {
+        hide();
         controller.setRectangle(start, end);
-    }
-
-    private boolean validatePlace() {
-        // TODO add validation options, depending on building.
-        int blocktype = localMap.getBlockType(camera.getPosition());
-        return blocktype == BlockTypesEnum.FLOOR.getCode() || blocktype == BlockTypesEnum.SPACE.getCode();
     }
 
     @Override
@@ -177,8 +117,15 @@ public class PlaceSelectComponent extends Label implements HideableComponent, Mo
         toolbar.hideMenu(this);
     }
 
-    public PlaceSelectComponent setSinglePoint(boolean singlePoint) {
-        this.singlePoint = singlePoint;
-        return this;
+    private void updateCameraTile() {
+        if (controller.getActiveDesignation().equals(DesignationTypeEnum.BUILD)) {
+            if (!controller.getBuildingType().getCategory().equals("constructions")) {
+                camera.updateStatus(isOnFloor() ? camera.GREEN_STATUS : camera.RED_STATUS);
+            }
+        }
+    }
+
+    private boolean isOnFloor() {
+        return localMap.getBlockType(camera.getPosition()) == BlockTypesEnum.FLOOR.getCode();
     }
 }

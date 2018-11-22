@@ -8,7 +8,7 @@ import java.util.HashMap;
  *
  * @author Alexander Kuzyakov
  */
-public enum DesignationTypes {
+public enum DesignationTypeEnum {
     NONE(0, "none"),
     DIG(1, "digging wall"), // removes walls and ramps. leaves floor
     STAIRS(2, "cutting stairs"), //cuts stairs from wall.
@@ -19,18 +19,18 @@ public enum DesignationTypes {
     HARVEST(7, "harvesting plants"), //harvest plants
     BUILD(8, "building"); //build construction or building
 
-    private static HashMap<Byte, DesignationTypes> map;
+    private static HashMap<Byte, DesignationTypeEnum> map;
     private byte code;
     private String text;
 
     static {
         map = new HashMap<>();
-        for (DesignationTypes type : DesignationTypes.values()) {
+        for (DesignationTypeEnum type : DesignationTypeEnum.values()) {
             map.put(type.code, type);
         }
     }
 
-    DesignationTypes(int code, String text) {
+    DesignationTypeEnum(int code, String text) {
         this.code = (byte) code;
         this.text = text;
     }
@@ -43,7 +43,7 @@ public enum DesignationTypes {
         return text;
     }
 
-    public DesignationTypes getType(int code) {
+    public DesignationTypeEnum getType(int code) {
         return map.get(code);
     }
 }
