@@ -63,16 +63,25 @@ public class BuildingTypeMap {
 
     private void loadLists() {
         System.out.println("loading buildings");
-        ArrayList<JsonValue> elements = json.fromJson(ArrayList.class, JsonValue.class, FileLoader.getFile(FileLoader.RECIPE_LISTS_PATH));
-        for (JsonValue jsonValue : elements) {
-            if(validateList(jsonValue)) {
-                BuildingType type = buildings.get(jsonValue.get("workbench"));
-                jsonValue.get("recipes").forEach(jsonValue1 -> type.getRecipes().add(jsonValue1.asString()));
+        ArrayList<RecipeList> elements = json.fromJson(ArrayList.class, RecipeList.class, FileLoader.getFile(FileLoader.RECIPE_LISTS_PATH));
+        for (RecipeList recipeList : elements) {
+            if (validateList(recipeList)) {
+                BuildingType type = buildings.get(recipeList.workbench);
+                recipeList.recipes.forEach(s -> type.getRecipes().add(s));
             }
         }
     }
 
-    private boolean validateList(JsonValue list) {
-        return buildings.keySet().contains(list.get("workbench"));
+    private boolean validateList(RecipeList list) {
+        return buildings.keySet().contains(list.workbench);
+    }
+
+    private static class RecipeList {
+        String workbench;
+        ArrayList<String> recipes;
+
+        public RecipeList() {
+            recipes = new ArrayList<>();
+        }
     }
 }

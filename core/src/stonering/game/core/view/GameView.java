@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class GameView implements Screen, Invokable, MouseInvocable {
     private GameMvc gameMvc;
-    private BaseStage baseStage; // sprites and toolbar.
+    private BaseStage baseStage; // sprites and toolbar. is always rendered.
     private MainMenu mainMenu;
     private List<InvokableStage> stageList;
 
@@ -37,7 +37,6 @@ public class GameView implements Screen, Invokable, MouseInvocable {
     private void createStages() {
         stageList = new ArrayList<>();
         baseStage = new BaseStage(gameMvc);
-        stageList.add(baseStage);
         mainMenu = new MainMenu();
     }
 
@@ -50,16 +49,30 @@ public class GameView implements Screen, Invokable, MouseInvocable {
     }
 
     @Override
-    public void show() {
-
-    }
-
-    @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(Gdx.gl20.GL_COLOR_BUFFER_BIT | Gdx.gl20.GL_DEPTH_BUFFER_BIT);
         baseStage.draw();
         getActiveStage().draw();
+    }
+
+    private void initBatch() {
+        baseStage.initBatch();
+    }
+
+    private InvokableStage getActiveStage() {
+        return stageList.isEmpty() ? baseStage : stageList.get(stageList.size() -1);
+    }
+
+    public void addStageToList(InvokableStage stage) {
+        TagLoggersEnum.UI.logDebug("showing stage " + stage.toString());
+        stageList.add(stage);
+        stage.init();
+    }
+
+    public void removeStage(InvokableStage stage) {
+        TagLoggersEnum.UI.logDebug("hiding stage " + stage.toString());
+        stageList.remove(stage);
     }
 
     @Override
@@ -68,8 +81,9 @@ public class GameView implements Screen, Invokable, MouseInvocable {
         initBatch();
     }
 
-    private void initBatch() {
-        baseStage.initBatch();
+    @Override
+    public void show() {
+
     }
 
     @Override
@@ -92,14 +106,6 @@ public class GameView implements Screen, Invokable, MouseInvocable {
         baseStage.disposeBatch();
     }
 
-    public UIDrawer getUiDrawer() {
-        return baseStage.getUiDrawer();
-    }
-
-    public LocalWorldDrawer getWorldDrawer() {
-        return baseStage.getWorldDrawer();
-    }
-
     @Override
     public boolean invoke(int keycode) {
         return getActiveStage().invoke(keycode);
@@ -107,23 +113,14 @@ public class GameView implements Screen, Invokable, MouseInvocable {
 
     @Override
     public boolean invoke(int modelX, int modelY, int button, int action) {
-//        if (!getActiveStage().invoke(modelX, modelY, button, action)) {
-//        }
         return false;
     }
 
-    private InvokableStage getActiveStage() {
-        return stageList.get(stageList.size() -1);
+    public LocalWorldDrawer getWorldDrawer() {
+        return baseStage.getWorldDrawer();
     }
 
-    public void addStageToList(InvokableStage stage) {
-        TagLoggersEnum.UI.logDebug("showing stage " + stage.toString());
-        stageList.add(stage);
-        stage.init();
-    }
-
-    public void removeStage(InvokableStage stage) {
-        TagLoggersEnum.UI.logDebug("hiding stage " + stage.toString());
-        stageList.remove(stage);
+    public UIDrawer getUiDrawer() {
+        return baseStage.getUiDrawer();
     }
 }

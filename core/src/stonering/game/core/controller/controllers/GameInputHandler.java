@@ -1,6 +1,5 @@
 package stonering.game.core.controller.controllers;
 
-
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import stonering.game.core.GameMvc;
@@ -56,7 +55,7 @@ public class GameInputHandler extends Controller implements Invokable {
     }
 
     /**
-     * Invoked on keyType. Before keyType always goes keyDown, so first keyType after is should be skipped.
+     * Invoked on keyType. Before keyType always goes keyDown, so first keyType after it should be skipped.
      *
      * @param character
      * @return
@@ -73,11 +72,16 @@ public class GameInputHandler extends Controller implements Invokable {
         return true;
     }
 
+    /**
+     * Translates typed character to corresponding keycode.
+     * //TODO test letters, numbers, symbols.
+     * @param character
+     * @return
+     */
     private int charToKeycode(char character) {
         if(!keycodesMap.containsKey(character)) {
             keycodesMap.put(Character.valueOf(character), Input.Keys.valueOf(Character.valueOf(character).toString().toUpperCase()));
         }
         return keycodesMap.get(character);
     }
-
 }

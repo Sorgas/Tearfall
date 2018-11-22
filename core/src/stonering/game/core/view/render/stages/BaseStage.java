@@ -58,6 +58,12 @@ public class BaseStage extends InvokableStage {
         return uiDrawer;
     }
 
+    /**
+     * Handler for input. Firstly, toolbar is invoked, then entity selection.
+     * If this method returns false, camera is invoked
+     * @param keycode
+     * @return
+     */
     @Override
     public boolean invoke(int keycode) {
         if(!uiDrawer.invoke(keycode)) { // try act with toolbar

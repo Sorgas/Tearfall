@@ -25,6 +25,11 @@ public class BuildingType {
     private int atlasY;
     private Color color;
 
+    public BuildingType() {
+        recipes = new ArrayList<>();
+
+    }
+
     public String getTitle() {
         return title;
     }
