@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import stonering.entity.local.crafting.CommonComponentStep;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Type of building.
@@ -17,17 +18,18 @@ public class BuildingType {
     private String title;
     private String description;
     private String category;
-    private ArrayList<CommonComponentStep> components;
-    private ArrayList<String> menuPath;
-    private ArrayList<String> recipes;
+    private List<CommonComponentStep> components;
+    private List<String> menuPath;
+    private List<String> recipes;
 
     private int atlasX;
     private int atlasY;
     private Color color;
 
     public BuildingType() {
+        components = new ArrayList<>();
+        menuPath = new ArrayList<>();
         recipes = new ArrayList<>();
-
     }
 
     public String getTitle() {
@@ -86,27 +88,27 @@ public class BuildingType {
         this.building = building;
     }
 
-    public ArrayList<String> getMenuPath() {
+    public List<String> getMenuPath() {
         return menuPath;
     }
 
-    public void setMenuPath(ArrayList<String> menuPath) {
+    public void setMenuPath(List<String> menuPath) {
         this.menuPath = menuPath;
     }
 
-    public ArrayList<String> getRecipes() {
+    public List<String> getRecipes() {
         return recipes;
     }
 
-    public void setRecipes(ArrayList<String> recipes) {
+    public void setRecipes(List<String> recipes) {
         this.recipes = recipes;
     }
 
-    public ArrayList<CommonComponentStep> getComponents() {
+    public List<CommonComponentStep> getComponents() {
         return components;
     }
 
-    public void setComponents(ArrayList<CommonComponentStep> components) {
+    public void setComponents(List<CommonComponentStep> components) {
         this.components = components;
     }
 }

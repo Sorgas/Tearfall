@@ -6,7 +6,6 @@ import stonering.enums.buildings.BuildingTypeMap;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.lists.ItemContainer;
-import stonering.generators.buildings.BuildingGenerator;
 import stonering.global.utils.Position;
 import stonering.entity.jobs.actions.Action;
 import stonering.entity.jobs.actions.aspects.requirements.ItemsInPositionOrInventoryRequirementAspect;
@@ -41,7 +40,7 @@ public class ConstructionEffectAspect extends EffectAspect {
         if(buildingType.getCategory().equals("constructions")) {
             container.getLocalMap().setBlock(action.getTargetPosition(), (byte) resolveBlockTypeByConstructionName(), MaterialMap.getInstance().getId(material));
         } else {
-            Building building = BuildingGenerator.generateBuilding(buildingName);
+            Building building = container.getBuildingContainer().getBuildingGenerator().generateBuilding(buildingName);
             container.getLocalMap().setBuildingBlock(action.getTargetPosition(), building.getBlock());
         }
     }

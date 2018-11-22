@@ -78,7 +78,7 @@ public class BuildingTypeMap {
 
     private static class RecipeList {
         String workbench;
-        ArrayList<String> recipes;
+        List<String> recipes;
 
         public RecipeList() {
             recipes = new ArrayList<>();

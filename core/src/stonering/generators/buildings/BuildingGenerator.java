@@ -18,15 +18,16 @@ public class BuildingGenerator {
         init();
     }
 
-    private void init() {
+    public void init() {
         buildingTypeMap = BuildingTypeMap.getInstance();
     }
 
-    public static Building generateBuilding(String name) {
+    public Building generateBuilding(String name) {
         BuildingType type = BuildingTypeMap.getInstance().getBuilding(name);
         Building building = new Building(new Position(0,0,0), type);
         building.setName(type.getTitle());
         building.setMaterial(38); //TODO replace with material from task
+        addAspects(building, type);
         return building;
     }
 
