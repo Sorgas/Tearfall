@@ -48,7 +48,10 @@ public class EntitySelector {
         updateStatus();
     }
 
-    public void updateStatus() {
+    /**
+     * Tries to update status sprite by position validator.
+     */
+    private void updateStatus() {
         if (positionValidator != null) {
             boolean valid = positionValidator.validate(localMap, position);
             if (valid != status) {
