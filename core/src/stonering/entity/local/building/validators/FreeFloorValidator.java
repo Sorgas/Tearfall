@@ -9,7 +9,7 @@ import stonering.global.utils.Position;
  *
  * @author Alexander on 23.11.2018.
  */
-public class FloorValidator extends PositionValidator {
+public class FreeFloorValidator extends PositionValidator {
 
     @Override
     public boolean validate(LocalMap localMap, Position position) {

@@ -8,9 +8,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import stonering.enums.designations.DesignationsTileMapping;
 import stonering.enums.materials.MaterialMap;
-import stonering.enums.plants.PlantType;
 import stonering.game.core.GameMvc;
-import stonering.game.core.model.GameCamera;
+import stonering.game.core.model.EntitySelector;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.LocalMap;
 import stonering.game.core.view.tilemaps.LocalTileMap;
@@ -18,6 +17,7 @@ import stonering.entity.local.building.BuildingBlock;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.plants.PlantBlock;
 import stonering.entity.local.unit.UnitBlock;
+import stonering.global.utils.Position;
 
 import java.util.ArrayList;
 
@@ -34,8 +34,8 @@ public class LocalWorldDrawer {
     private LocalTileMap localTileMap;
     private SpriteBatch batch;
     private Texture[] atlases;
-    private GameCamera camera;
-    //TODO add GameFrame (see GameCamera & PlaceSelectComponent)
+    private EntitySelector selector;
+    //TODO add SelectionFrame (see EntitySelector & PlaceSelectComponent)
     private LocalMap localMap;
     private int viewAreaWidth;              // radius
     private int viewAreDepth;
@@ -79,19 +79,19 @@ public class LocalWorldDrawer {
     public void drawWorld() {
         if (localTileMap == null)
             localTileMap = container.getLocalTileMap();
-        this.camera = container.getCamera();
+        this.selector = container.getCamera();
         defineframe();
         batch.enableBlending();
         batch.begin();
         for (int z = minZ; z <= maxZ; z++) {
-            shadeByZ(camera.getPosition().getZ() - z);
+            shadeByZ(selector.getPosition().getZ() - z);
             for (int x = minX; x <= maxX; x++) {
                 for (int y = maxY; y >= minY; y--) {
                     drawTile(x, y, z);
                 }
             }
         }
-        drawCamera();
+        drawSelector();
         drawFrame();
         batch.end();
     }
@@ -113,22 +113,22 @@ public class LocalWorldDrawer {
         updateColorA(1f);
         PlantBlock plantBlock = localMap.getPlantBlock(x, y, z);
         if (plantBlock != null) {
-            drawSprite(1, x, y, z, plantBlock.getAtlasX(), plantBlock.getAtlasY());
+            drawSprite(selectSprite(1, plantBlock.getAtlasX(), plantBlock.getAtlasY()), x, y, z);
         }
         BuildingBlock buildingBlock = localMap.getBuildingBlock(x, y, z);
         if (buildingBlock != null) {
-            drawSprite(3, x, y, z, 0, 0);
+            drawSprite(selectSprite(3, 0, 0), x, y, z);
         }
         UnitBlock unitBlock = localMap.getUnitBlock(x, y, z);
         if (unitBlock != null) {
-            drawSprite(2, x, y, z, 0, 0);
+            drawSprite(selectSprite(2, 0, 0), x, y, z);
         }
         ArrayList<Item> items = container.getItemContainer().getItems(x, y, z);
         if (!items.isEmpty()) {
-            items.forEach((item) -> drawSprite(5, x, y, z, item.getType().getAtlasX(), item.getType().getAtlasY()));
+            items.forEach((item) -> drawSprite(selectSprite(5, item.getType().getAtlasX(), item.getType().getAtlasY()), x, y, z));
         }
         if (localMap.getDesignatedBlockType(x, y, z) > 0) {
-            drawSprite(4, x, y, z, DesignationsTileMapping.getAtlasX(localMap.getDesignatedBlockType(x, y, z)), 0);
+            drawSprite(selectSprite(4, DesignationsTileMapping.getAtlasX(localMap.getDesignatedBlockType(x, y, z)), 0), x, y, z);
         }
         resetColor();
     }
@@ -143,7 +143,7 @@ public class LocalWorldDrawer {
     private void drawBlock(int x, int y, int z) {
         int atlas = localTileMap.getAtlasNum(x, y, z);
         if (atlas >= 0) { // not empty cell
-            drawSprite(atlas, x, y, z, localTileMap.getAtlasX(x, y, z), localTileMap.getAtlasY(x, y, z));
+            drawSprite(selectSprite(atlas, localTileMap.getAtlasX(x, y, z), localTileMap.getAtlasY(x, y, z)), x, y, z);
         } else {
             int lowerAtlas;
             if (z > 0 && (lowerAtlas = localTileMap.getAtlasNum(x, y, z - 1)) >= 0) {// not empty cell lower
@@ -161,7 +161,7 @@ public class LocalWorldDrawer {
      */
     private void drawWaterBlock(int x, int y, int z) {
         if (localMap.getFlooding(x, y, z) != 0) {
-            drawSprite(0, x, y, z, 13 + localMap.getFlooding(x, y, z), 0);
+            drawSprite(selectSprite(0, 13 + localMap.getFlooding(x, y, z), 0), x, y, z);
         } else {
             if (z > 0 && localMap.getFlooding(x, y, z - 1) >= 7) {// not empty cell lower
                 drawTopping(0, x, y, z, 20, 0);
@@ -169,23 +169,28 @@ public class LocalWorldDrawer {
         }
     }
 
+
     /**
-     * Draws tile main part.
-     *
-     * @param atlas   atlas index to draw from.
-     * @param x       screen position
-     * @param y
-     * @param z
-     * @param spriteX sprite coordinates in atlas
-     * @param spriteY
+     * Draws sprite on position.
      */
-    private void drawSprite(int atlas, int x, int y, int z, int spriteX, int spriteY) {
-        batch.draw(new TextureRegion(atlases[atlas],
-                        spriteX * tileWidth,
-                        spriteY * (blockTileHeight) + topingTileHeight,
-                        tileWidth, tileHeight),
-                getScreenPosX(x - camera.getPosition().getX()),
-                getScreenPosY(y - camera.getPosition().getY(), z - camera.getPosition().getZ()));
+    private void drawSprite(TextureRegion sprite, int x, int y, int z) {
+        batch.draw(sprite,
+                getScreenPosX(x - selector.getPosition().getX()),
+                getScreenPosY(y - selector.getPosition().getY(), z - selector.getPosition().getZ()));
+    }
+
+    private void drawSprite(TextureRegion sprite, Position position) {
+        drawSprite(sprite, position.getX(), position.getY(), position.getZ());
+    }
+
+    /**
+     * Cuts standard tile from x y position in specified atlas.
+     */
+    private TextureRegion selectSprite(int atlas, int x, int y) {
+        return new TextureRegion(atlases[atlas],
+                x * tileWidth,
+                y * (blockTileHeight) + topingTileHeight,
+                tileWidth, tileHeight);
     }
 
     /**
@@ -203,14 +208,15 @@ public class LocalWorldDrawer {
                         spriteX * tileWidth,
                         spriteY * blockTileHeight,
                         tileWidth, topingTileHeight),
-                getScreenPosX(x - camera.getPosition().getX()),
-                getScreenPosY(y - camera.getPosition().getY(), z - camera.getPosition().getZ()));
+                getScreenPosX(x - selector.getPosition().getX()),
+                getScreenPosY(y - selector.getPosition().getY(), z - selector.getPosition().getZ()));
     }
 
-    private void drawCamera() {
-        drawSprite(4, camera.getPosition().getX(), camera.getPosition().getY(), camera.getPosition().getZ(), 0, 2);
-        if (camera.getTextureRegion() != null)
-            batch.draw(camera.getTextureRegion(), getScreenPosX(0), getScreenPosY(0,0));
+    private void drawSelector() {
+        drawSprite(selector.getSelectorSprite(), selector.getPosition());
+        if (selector.getStatusSprite() != null) {
+            drawSprite(selector.getStatusSprite(), selector.getPosition());
+        }
     }
 
     //TODO externalize
@@ -225,12 +231,12 @@ public class LocalWorldDrawer {
     }
 
     private void defineframe() {
-        maxX = Math.min(camera.getPosition().getX() + viewAreaWidth, localTileMap.getxSize() - 1);
-        minX = Math.max(camera.getPosition().getX() - viewAreaWidth, 0);
-        maxY = Math.min(camera.getPosition().getY() + viewAreaWidth, localTileMap.getySize() - 1);
-        minY = Math.max(camera.getPosition().getY() - viewAreaWidth, 0);
-        maxZ = Math.min(camera.getPosition().getZ(), localTileMap.getzSize() - 1);
-        minZ = Math.max(camera.getPosition().getZ() - viewAreDepth, 0);
+        maxX = Math.min(selector.getPosition().getX() + viewAreaWidth, localTileMap.getxSize() - 1);
+        minX = Math.max(selector.getPosition().getX() - viewAreaWidth, 0);
+        maxY = Math.min(selector.getPosition().getY() + viewAreaWidth, localTileMap.getySize() - 1);
+        minY = Math.max(selector.getPosition().getY() - viewAreaWidth, 0);
+        maxZ = Math.min(selector.getPosition().getZ(), localTileMap.getzSize() - 1);
+        minZ = Math.max(selector.getPosition().getZ() - viewAreDepth, 0);
     }
 
     /**
@@ -238,30 +244,30 @@ public class LocalWorldDrawer {
      */
     private void drawFrame() {
         //TODO add landscape dependant rendering
-        if (camera.getFrameStart() != null) {
-            int minX = Math.min(camera.getFrameStart().getX(), camera.getFrameEnd().getX());
-            int maxX = Math.max(camera.getFrameStart().getX(), camera.getFrameEnd().getX());
-            int minY = Math.min(camera.getFrameStart().getY(), camera.getFrameEnd().getY());
-            int maxY = Math.max(camera.getFrameStart().getY(), camera.getFrameEnd().getY());
-            int minZ = Math.min(camera.getFrameStart().getZ(), camera.getFrameEnd().getZ());
-            int maxZ = camera.getPosition().getZ();
+        if (selector.getFrameStart() != null) {
+            int minX = Math.min(selector.getFrameStart().getX(), selector.getPosition().getX());
+            int maxX = Math.max(selector.getFrameStart().getX(), selector.getPosition().getX());
+            int minY = Math.min(selector.getFrameStart().getY(), selector.getPosition().getY());
+            int maxY = Math.max(selector.getFrameStart().getY(), selector.getPosition().getY());
+            int minZ = Math.min(selector.getFrameStart().getZ(), selector.getPosition().getZ());
+            int maxZ = selector.getPosition().getZ();
             for (int x = minX; x <= maxX; x++) {
                 for (int y = minY; y <= maxY; y++) {
                     for (int z = minZ; z <= maxZ; z++) {
-                        if (y == maxY && z == maxZ) drawSprite(4, x, y, z, 0, 1);
-                        if (y == minY && z == maxZ) drawSprite(4, x, y, z, 1, 1);
-                        if (x == minX && z == maxZ) drawSprite(4, x, y, z, 2, 1);
-                        if (x == maxX && z == maxZ) drawSprite(4, x, y, z, 3, 1);
-                        if (y == minY && z == minZ) drawSprite(4, x, y, z, 4, 1);
-                        if (y == minY && x == minX) drawSprite(4, x, y, z, 5, 1);
-                        if (y == minY && x == maxX) drawSprite(4, x, y, z, 6, 1);
-                        if (y == maxY && z == minZ) drawSprite(4, x, y, z, 7, 1);
-                        if (x == minX && z > minZ && y == minY) drawSprite(4, x, y, z, 8, 1);
-                        if (x == maxX && z > minZ && y == minY) drawSprite(4, x, y, z, 9, 1);
+                        if (y == maxY && z == maxZ) drawSprite(selectSprite(4, 0, 1), x, y, z);
+                        if (y == minY && z == maxZ) drawSprite(selectSprite(4, 1, 1), x, y, z);
+                        if (x == minX && z == maxZ) drawSprite(selectSprite(4, 2, 1), x, y, z);
+                        if (x == maxX && z == maxZ) drawSprite(selectSprite(4, 3, 1), x, y, z);
+                        if (y == minY && z == minZ) drawSprite(selectSprite(4, 4, 1), x, y, z);
+                        if (y == minY && x == minX) drawSprite(selectSprite(4, 5, 1), x, y, z);
+                        if (y == minY && x == maxX) drawSprite(selectSprite(4, 6, 1), x, y, z);
+                        if (y == maxY && z == minZ) drawSprite(selectSprite(4, 7, 1), x, y, z);
+                        if (x == minX && z > minZ && y == minY) drawSprite(selectSprite(4, 8, 1), x, y, z);
+                        if (x == maxX && z > minZ && y == minY) drawSprite(selectSprite(4, 9, 1), x, y, z);
                         updateColorA(0.5f);
-                        if (z == maxZ) drawSprite(4, x, y, z, 10, 1);
-                        if (y == minY) drawSprite(4, x, y, z, 11, 1);
-                        if (z > minZ && y == minY) drawSprite(4, x, y, z, 12, 1);
+                        if (z == maxZ) drawSprite(selectSprite(4, 10, 1), x, y, z);
+                        if (y == minY) drawSprite(selectSprite(4, 11, 1), x, y, z);
+                        if (z > minZ && y == minY) drawSprite(selectSprite(4, 12, 1), x, y, z);
                         updateColorA(1f);
                     }
                 }
@@ -278,7 +284,7 @@ public class LocalWorldDrawer {
     public Vector2 translateScreenPositionToModel(Vector2 screenPos) {
         Vector2 vector = screenPos.sub(new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2)); // to click point from center
         vector.set(vector.x / tileWidth, -vector.y / tileDepth);
-        return new Vector2((float) Math.floor(camera.getPosition().getX() + vector.x), (float) Math.floor(camera.getPosition().getY() + vector.y));
+        return new Vector2((float) Math.floor(selector.getPosition().getX() + vector.x), (float) Math.floor(selector.getPosition().getY() + vector.y));
     }
 
     /**

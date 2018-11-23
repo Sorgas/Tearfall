@@ -28,7 +28,7 @@ public class GameContainer {
 
     private Timer timer;                                    //makes turns for entity containers and calendar.
     private GameCalendar gameCalendar;                      //slow game entities make turns through this.
-    private GameCamera camera;
+    private EntitySelector camera;
 
     private boolean paused;
 
@@ -40,7 +40,7 @@ public class GameContainer {
     private void init() {
         localTileMap = new LocalTileMap(localMap.getxSize(), localMap.getySize(), localMap.getzSize());
         createTileMapUpdater();
-        camera = new GameCamera(this);
+        camera = new EntitySelector(this);
         timer = new Timer();
         gameCalendar = new GameCalendar();
         paused = false;
@@ -116,7 +116,7 @@ public class GameContainer {
         }
     }
 
-    public GameCamera getCamera() {
+    public EntitySelector getCamera() {
         return camera;
     }
 

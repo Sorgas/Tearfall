@@ -1,17 +1,12 @@
 package stonering.game.core.view.render.ui.menus.util;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import stonering.enums.blocks.BlockTypesEnum;
-import stonering.enums.designations.DesignationTypeEnum;
+import stonering.entity.local.building.validators.PositionValidator;
 import stonering.game.core.GameMvc;
-import stonering.game.core.controller.controllers.CameraInputHandler;
 import stonering.game.core.controller.controllers.toolbar.DesignationsController;
 import stonering.game.core.controller.inputProcessors.GameInputProcessor;
-import stonering.game.core.model.GameCamera;
-import stonering.game.core.model.LocalMap;
+import stonering.game.core.model.EntitySelector;
 import stonering.game.core.view.render.ui.menus.Toolbar;
 import stonering.global.utils.Position;
 import stonering.utils.global.StaticSkin;
@@ -24,10 +19,9 @@ import stonering.utils.global.StaticSkin;
 public class PlaceSelectComponent extends Label implements HideableComponent, MouseInvocable {
     private GameMvc gameMvc;
     private DesignationsController controller;
-    private LocalMap localMap;
     private Toolbar toolbar;
-    private GameCamera camera;
-    private Position position;
+    private EntitySelector selector;
+    private PositionValidator positionValidator;
 
     public PlaceSelectComponent(GameMvc gameMvc) {
         super("", StaticSkin.getSkin());
@@ -35,8 +29,7 @@ public class PlaceSelectComponent extends Label implements HideableComponent, Mo
     }
 
     public void init() {
-        camera = gameMvc.getModel().getCamera();
-        localMap = gameMvc.getModel().getLocalMap();
+        selector = gameMvc.getModel().getCamera();
         controller = gameMvc.getController().getDesignationsController();
         toolbar = gameMvc.getView().getUiDrawer().getToolbar();
     }
@@ -46,25 +39,18 @@ public class PlaceSelectComponent extends Label implements HideableComponent, Mo
         //TODO add reference to Key Settings
         switch (keycode) {
             case Input.Keys.E:
-                handleConfirm(camera.getPosition());
+                handleConfirm(selector.getPosition());
                 return true;
             case Input.Keys.Q:
                 handleCancel();
                 return true;
-            case Input.Keys.W:
-            case Input.Keys.A:
-            case Input.Keys.S:
-            case Input.Keys.D:
-                updateCameraTile();
-                position = camera.getPosition().clone();
-                return false; // to not interrupt camera input
         }
         return false;
     }
 
     @Override
     public boolean invoke(int modelX, int modelY, int button, int action) {
-        Position position = new Position(modelX, modelY, camera.getPosition().getZ());
+        Position position = new Position(modelX, modelY, selector.getPosition().getZ());
         switch (action) {
             case GameInputProcessor.DOWN_CODE:
             case GameInputProcessor.UP_CODE: {
@@ -72,7 +58,6 @@ public class PlaceSelectComponent extends Label implements HideableComponent, Mo
             }
             break;
             case GameInputProcessor.MOVE_CODE: {
-                updateCameraTile();
             }
         }
         return false;
@@ -84,7 +69,8 @@ public class PlaceSelectComponent extends Label implements HideableComponent, Mo
      * @param eventPosition
      */
     private void handleConfirm(Position eventPosition) {
-        finishHandling(eventPosition, eventPosition);
+        controller.setRectangle(eventPosition, eventPosition);
+        hide();
     }
 
     /**
@@ -95,37 +81,21 @@ public class PlaceSelectComponent extends Label implements HideableComponent, Mo
     }
 
     /**
-     * Hides this and sets selected place to controller. Area size is 1.
-     *
-     * @param start
-     * @param end
+     * Adds this to toolbar and sets position validator to selector.
      */
-    private void finishHandling(Position start, Position end) {
-        hide();
-        controller.setRectangle(start, end);
-    }
-
     @Override
     public void show() {
         toolbar.addMenu(this);
+        selector.setPositionValidator(positionValidator);
     }
 
     @Override
     public void hide() {
-        this.setText("");
-        camera.resetSprite();
+        selector.setPositionValidator(null);
         toolbar.hideMenu(this);
     }
 
-    private void updateCameraTile() {
-        if (controller.getActiveDesignation().equals(DesignationTypeEnum.BUILD)) {
-            if (!controller.getBuildingType().getCategory().equals("constructions")) {
-                camera.updateStatus(isOnFloor() ? camera.GREEN_STATUS : camera.RED_STATUS);
-            }
-        }
-    }
-
-    private boolean isOnFloor() {
-        return localMap.getBlockType(camera.getPosition()) == BlockTypesEnum.FLOOR.getCode();
+    public void setPositionValidator(PositionValidator positionValidator) {
+        this.positionValidator = positionValidator;
     }
 }

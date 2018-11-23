@@ -2,6 +2,7 @@ package stonering.game.core.controller.controllers.toolbar;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import stonering.entity.local.building.BuildingType;
+import stonering.entity.local.building.validators.FreeFloorValidator;
 import stonering.entity.local.crafting.CommonComponentStep;
 import stonering.enums.buildings.BuildingTypeMap;
 import stonering.enums.designations.DesignationTypeEnum;
@@ -82,6 +83,7 @@ public class DesignationsController extends Controller {
                     //TODO area select
                 } else {
                     placeSelectComponent.setText("Place " + buildingType.getTitle());
+                    placeSelectComponent.setPositionValidator(new FreeFloorValidator()); // buildings should be on free floors
                     placeSelectComponent.show();
                 }
             } else if (buildingType.getComponents().size() > itemSelectors.size()) { // steps not finished. called several times

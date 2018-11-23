@@ -3,7 +3,7 @@ package stonering.game.core.controller.controllers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import stonering.game.core.GameMvc;
-import stonering.game.core.model.GameCamera;
+import stonering.game.core.model.EntitySelector;
 
 /**
  * Handles button presses for camera navigation.
@@ -13,7 +13,7 @@ import stonering.game.core.model.GameCamera;
  */
 public class CameraInputHandler {
     private GameMvc gameMvc;
-    private GameCamera camera;
+    private EntitySelector camera;
 
     public CameraInputHandler(GameMvc gameMvc) {
         this.gameMvc = gameMvc;
@@ -29,22 +29,22 @@ public class CameraInputHandler {
         int offset = Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) ? 10 : 1;
         switch (keycode) {
             case Input.Keys.W:
-                camera.moveCamera(0, offset, 0);
+                camera.moveSelector(0, offset, 0);
                 break;
             case Input.Keys.A:
-                camera.moveCamera(-offset, 0, 0);
+                camera.moveSelector(-offset, 0, 0);
                 break;
             case Input.Keys.S:
-                camera.moveCamera(0, -offset, 0);
+                camera.moveSelector(0, -offset, 0);
                 break;
             case Input.Keys.D:
-                camera.moveCamera(offset, 0, 0);
+                camera.moveSelector(offset, 0, 0);
                 break;
             case Input.Keys.R:
-                camera.moveCamera(0, 0, 1);
+                camera.moveSelector(0, 0, 1);
                 break;
             case Input.Keys.F:
-                camera.moveCamera(0, 0, -1);
+                camera.moveSelector(0, 0, -1);
                 break;
         }
     }
@@ -64,10 +64,10 @@ public class CameraInputHandler {
                 observePressedWasd();
                 break;
             case Input.Keys.R:
-                camera.moveCamera(0, 0, 1);
+                camera.moveSelector(0, 0, 1);
                 break;
             case Input.Keys.F:
-                camera.moveCamera(0, 0, -1);
+                camera.moveSelector(0, 0, -1);
                 break;
         }
         return true;
@@ -77,16 +77,16 @@ public class CameraInputHandler {
     private void observePressedWasd() {
         int offset = Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) ? 10 : 1;
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            camera.moveCamera(0, offset, 0);
+            camera.moveSelector(0, offset, 0);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            camera.moveCamera(0, -offset, 0);
+            camera.moveSelector(0, -offset, 0);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            camera.moveCamera(-offset, 0, 0);
+            camera.moveSelector(-offset, 0, 0);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            camera.moveCamera(offset, 0, 0);
+            camera.moveSelector(offset, 0, 0);
         }
     }
 
