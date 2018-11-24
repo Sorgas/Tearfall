@@ -1,6 +1,8 @@
 package stonering.game.core.view.render.stages;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.utils.Align;
 import stonering.entity.local.building.Building;
 import stonering.game.core.GameMvc;
 import stonering.game.core.view.render.ui.menus.workbench.WorkbenchMenu;
@@ -20,7 +22,11 @@ public class BuildingStage extends InvokableStage {
 
     @Override
     public boolean invoke(int keycode) {
-        return false;
+        if(keycode == Input.Keys.Q ) {
+            gameMvc.getView().removeStage(this);
+            return true;
+        }
+        return menu.invoke(keycode);
     }
 
     public void init() {
@@ -29,6 +35,9 @@ public class BuildingStage extends InvokableStage {
 
     private void createMenu() {
         menu = new WorkbenchMenu(gameMvc, building);
-        this.addActor(new Container(menu));
+        menu.align(Align.center);
+        Container container = new Container(menu).bottom().left().pad(10);
+        container.setFillParent(true);
+        this.addActor(container);
     }
 }

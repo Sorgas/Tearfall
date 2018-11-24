@@ -1,5 +1,6 @@
 package stonering.game.core.view.render.ui.menus;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -75,7 +76,7 @@ public class Toolbar extends Container implements Invokable, MouseInvocable {
      */
     public void addMenu(Actor menu) {
         System.out.println(menu.getClass().getSimpleName() + " shown");
-        displayedMenus.add(0,menu);
+        displayedMenus.add(0, menu);
         refill();
     }
 
@@ -114,7 +115,7 @@ public class Toolbar extends Container implements Invokable, MouseInvocable {
      * Removes all non menu elements (like place select or lists).
      */
     public void closeNonMenuActors() {
-        while(!(displayedMenus.get(0) instanceof ButtonMenu)) {
+        while (!(displayedMenus.get(0) instanceof ButtonMenu)) {
             displayedMenus.remove(0);
         }
         refill();
@@ -142,7 +143,11 @@ public class Toolbar extends Container implements Invokable, MouseInvocable {
      */
     @Override
     public boolean invoke(int keycode) {
-        return getActiveMenu().invoke(keycode);
+        if (keycode == Input.Keys.E && getActiveMenu() == parentMenu) {
+            return false;
+        }
+        getActiveMenu().invoke(keycode);
+        return true;
     }
 
     public void setText(String text) {

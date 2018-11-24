@@ -52,7 +52,9 @@ public class GameView implements Screen, Invokable, MouseInvocable {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(Gdx.gl20.GL_COLOR_BUFFER_BIT | Gdx.gl20.GL_DEPTH_BUFFER_BIT);
-        baseStage.draw();
+        if(getActiveStage() != baseStage) {
+            baseStage.draw();
+        }
         getActiveStage().draw();
     }
 

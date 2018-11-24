@@ -42,6 +42,7 @@ public class WorkbenchMenu extends Table implements Invokable {
     }
 
     private void createTable() {
+        this.setDebug(true);
         this.setWidth(200);
         this.setHeight(200);
         this.setFillParent(true);
@@ -77,10 +78,6 @@ public class WorkbenchMenu extends Table implements Invokable {
             return focusStack.peek().invoke(keycode);
         }
         switch (keycode) {
-            case Input.Keys.Q: {
-                close();
-                return true;
-            }
             case Input.Keys.E: {
                 createOrder();
                 return true;
@@ -105,7 +102,7 @@ public class WorkbenchMenu extends Table implements Invokable {
      * Creates new empty order line and moves focus to it.
      */
     private CraftingOrderLine createOrder() {
-        CraftingOrderLine orderLine = new CraftingOrderLine();
+        CraftingOrderLine orderLine = new CraftingOrderLine(this);
         list.addEntry(0, orderLine); // to the top of the list
         focusStack.push(list);
         focusStack.push(orderLine);
@@ -122,7 +119,7 @@ public class WorkbenchMenu extends Table implements Invokable {
      */
     private void fillWorkbenchOrders() {
         workbenchAspect.getOrders().forEach(order -> {
-            list.addEntry(0, new CraftingOrderLine());
+            list.addEntry(0, new CraftingOrderLine(this));
         });
     }
 }

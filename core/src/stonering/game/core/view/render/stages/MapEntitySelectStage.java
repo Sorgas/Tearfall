@@ -22,9 +22,10 @@ public class MapEntitySelectStage extends InvokableStage {
     public static final int PLANTS = 2;
     public static final int BUILDINGS = 3;
 
+    private int activeMode;
+
     private GameMvc gameMvc;
     private ObservingList observingList;
-    private int activeMode;
     private Position currentPosition;
 
     /**
