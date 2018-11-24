@@ -82,7 +82,8 @@ public class DesignationsController extends Controller {
                 if(buildingType.getCategory().equals("constructions")) {
                     //TODO area select
                 } else {
-                    placeSelectComponent.setText("Place " + buildingType.getTitle());
+                    placeSelectComponent.setDefaultText("Place " + buildingType.getTitle());
+                    placeSelectComponent.setWarningText("Cannot build " + buildingType.getTitle() + " here");
                     placeSelectComponent.setPositionValidator(new FreeFloorValidator()); // buildings should be on free floors
                     placeSelectComponent.show();
                 }

@@ -38,6 +38,7 @@ public class EntitySelector {
         while (localMap.getBlockType(position.getX(), position.getY(), position.getZ()) <= BlockTypesEnum.SPACE.getCode()) {
             position.setZ(position.getZ() - 1);
         }
+        selectorSprite = new TextureRegion(new Texture("sprites/ui_tiles.png"), 0, 406, 64, 96);
     }
 
     public void moveSelector(int dx, int dy, int dz) {
@@ -55,8 +56,8 @@ public class EntitySelector {
         if (positionValidator != null) {
             boolean valid = positionValidator.validate(localMap, position);
             if (valid != status) {
-                statusSprite = new TextureRegion(new Texture("sprites/ui_tiles.png"), (status ? 0 : 1) * 64, 567, 64, 96);
                 status = valid;
+                statusSprite = new TextureRegion(new Texture("sprites/ui_tiles.png"), (status ? 0 : 1) * 64, 567, 64, 96);
             }
         } else {
             statusSprite = null;

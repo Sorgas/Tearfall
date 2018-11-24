@@ -82,6 +82,7 @@ public class Toolbar extends Container implements Invokable, MouseInvocable {
 
     /**
      * Removes given menu and all actors to the left.
+     * Should be called before adding any other actors to tollbar.
      *
      * @param menu
      */

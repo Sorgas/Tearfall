@@ -10,6 +10,7 @@ import stonering.game.core.model.EntitySelector;
 import stonering.game.core.view.render.ui.menus.Toolbar;
 import stonering.global.utils.Position;
 import stonering.utils.global.StaticSkin;
+import stonering.utils.global.TagLoggersEnum;
 
 /**
  * Component for selecting places. Can be used many times.
@@ -22,6 +23,8 @@ public class PlaceSelectComponent extends Label implements HideableComponent, Mo
     private Toolbar toolbar;
     private EntitySelector selector;
     private PositionValidator positionValidator;
+    private String defaultText;
+    private String warningText;
 
     public PlaceSelectComponent(GameMvc gameMvc) {
         super("", StaticSkin.getSkin());
@@ -44,6 +47,12 @@ public class PlaceSelectComponent extends Label implements HideableComponent, Mo
             case Input.Keys.Q:
                 handleCancel();
                 return true;
+            case Input.Keys.W:
+            case Input.Keys.A:
+            case Input.Keys.S:
+            case Input.Keys.D:
+                super.setText(defaultText);
+                return false; // to interrupt navigation input.
         }
         return false;
     }
@@ -69,8 +78,13 @@ public class PlaceSelectComponent extends Label implements HideableComponent, Mo
      * @param eventPosition
      */
     private void handleConfirm(Position eventPosition) {
-        controller.setRectangle(eventPosition, eventPosition);
-        hide();
+        TagLoggersEnum.UI.logDebug("confirming place selection");
+        if(selector.getStatus()) {
+            hide();
+            controller.setRectangle(eventPosition, eventPosition);
+        } else {
+            super.setText(warningText);
+        }
     }
 
     /**
@@ -97,5 +111,14 @@ public class PlaceSelectComponent extends Label implements HideableComponent, Mo
 
     public void setPositionValidator(PositionValidator positionValidator) {
         this.positionValidator = positionValidator;
+    }
+
+    public void setDefaultText(String defaultText) {
+        this.defaultText = defaultText;
+        super.setText(defaultText);
+    }
+
+    public void setWarningText(String warningText) {
+        this.warningText = warningText;
     }
 }
