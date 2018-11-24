@@ -23,7 +23,10 @@ public class EntitySelector {
     private TextureRegion statusSprite;   // indicates position validity.
 
     private PositionValidator positionValidator;
-    boolean status;
+    int status;
+    public static int INACTIVE_STATUS = -1;
+    public static int GREEN_STATUS = 0;
+    public static int RED_STATUS = 1;
 
     private Position frameStart; // if not null, frame from start to current position is drawn
 
@@ -52,14 +55,15 @@ public class EntitySelector {
     /**
      * Tries to update status sprite by position validator.
      */
-    private void updateStatus() {
+    public void updateStatus() {
         if (positionValidator != null) {
-            boolean valid = positionValidator.validate(localMap, position);
+            int valid = positionValidator.validate(localMap, position) ? GREEN_STATUS : RED_STATUS;
             if (valid != status) {
                 status = valid;
-                statusSprite = new TextureRegion(new Texture("sprites/ui_tiles.png"), (status ? 0 : 1) * 64, 567, 64, 96);
+                statusSprite = new TextureRegion(new Texture("sprites/ui_tiles.png"), status * 64, 567, 64, 96);
             }
         } else {
+            status = INACTIVE_STATUS;
             statusSprite = null;
         }
     }
@@ -84,7 +88,7 @@ public class EntitySelector {
         return position;
     }
 
-    public boolean getStatus() {
+    public int getStatus() {
         return status;
     }
 

@@ -79,7 +79,7 @@ public class PlaceSelectComponent extends Label implements HideableComponent, Mo
      */
     private void handleConfirm(Position eventPosition) {
         TagLoggersEnum.UI.logDebug("confirming place selection");
-        if(selector.getStatus()) {
+        if(selector.getStatus() == selector.GREEN_STATUS) {
             hide();
             controller.setRectangle(eventPosition, eventPosition);
         } else {
@@ -101,12 +101,14 @@ public class PlaceSelectComponent extends Label implements HideableComponent, Mo
     public void show() {
         toolbar.addMenu(this);
         selector.setPositionValidator(positionValidator);
+        selector.updateStatus();
     }
 
     @Override
     public void hide() {
         selector.setPositionValidator(null);
         toolbar.hideMenu(this);
+        selector.updateStatus();
     }
 
     public void setPositionValidator(PositionValidator positionValidator) {
