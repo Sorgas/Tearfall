@@ -42,7 +42,7 @@ public class PlaceSelectComponent extends Label implements HideableComponent, Mo
         //TODO add reference to Key Settings
         switch (keycode) {
             case Input.Keys.E:
-                handleConfirm(selector.getPosition());
+                handleConfirm(selector.getPosition().clone());
                 return true;
             case Input.Keys.Q:
                 handleCancel();
