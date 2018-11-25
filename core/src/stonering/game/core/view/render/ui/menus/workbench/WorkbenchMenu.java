@@ -79,7 +79,7 @@ public class WorkbenchMenu extends Table implements Invokable {
         }
         switch (keycode) {
             case Input.Keys.E: {
-                createOrder();
+                createNewOrder();
                 return true;
             }
             case Input.Keys.W:
@@ -101,8 +101,9 @@ public class WorkbenchMenu extends Table implements Invokable {
     /**
      * Creates new empty order line and moves focus to it.
      */
-    private CraftingOrderLine createOrder() {
-        CraftingOrderLine orderLine = new CraftingOrderLine(this);
+    private CraftingOrderLine createNewOrder() {
+        System.out.println("creating order");
+        CraftingOrderLine orderLine = new CraftingOrderLine(gameMvc, this);
         list.addEntry(0, orderLine); // to the top of the list
         focusStack.push(list);
         focusStack.push(orderLine);
@@ -119,7 +120,7 @@ public class WorkbenchMenu extends Table implements Invokable {
      */
     private void fillWorkbenchOrders() {
         workbenchAspect.getOrders().forEach(order -> {
-            list.addEntry(0, new CraftingOrderLine(this));
+            list.addEntry(0, new CraftingOrderLine(gameMvc, this));
         });
     }
 }

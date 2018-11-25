@@ -9,6 +9,7 @@ import stonering.game.core.view.render.ui.menus.util.HideableComponent;
 import stonering.game.core.view.render.ui.menus.util.Invokable;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.items.selectors.SimpleItemSelector;
+import stonering.game.core.view.render.ui.util.ListItem;
 
 import java.util.List;
 
@@ -60,7 +61,7 @@ public class MaterialSelectList extends ItemsCountList implements Invokable, Hid
         if (!isEmpty) {
             ListItem selected = getSelectedListItem();
             //TODO handle amount requirements more than 1
-            controller.addItemSelector(new SimpleItemSelector(selected.title, selected.material, 1));
+            controller.addItemSelector(new SimpleItemSelector(selected.getTitle(), selected.getMaterial(), 1));
         }
     }
 

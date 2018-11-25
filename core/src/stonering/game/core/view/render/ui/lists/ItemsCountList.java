@@ -5,6 +5,7 @@ import stonering.enums.materials.MaterialMap;
 import stonering.game.core.GameMvc;
 import stonering.game.core.controller.controllers.toolbar.DesignationsController;
 import stonering.entity.local.items.Item;
+import stonering.game.core.view.render.ui.util.ListItem;
 import stonering.utils.global.Pair;
 
 import java.util.ArrayList;
@@ -35,7 +36,7 @@ public abstract class ItemsCountList extends NavigableList {
         items.forEach(item -> { // groups items
             Pair<String, Integer> pair = new Pair<>(item.getName(), item.getMaterial());
             if (map.keySet().contains(pair)) {
-                map.get(pair).items.add(item);
+                map.get(pair).getItems().add(item);
             } else {
                 map.put(pair, new ListItem(item.getTitle(), materialMap.getMaterial(item.getMaterial()).getName(), item));
             }
@@ -52,25 +53,4 @@ public abstract class ItemsCountList extends NavigableList {
     /**
      * Encapsulates list of items.
      */
-    protected class ListItem {
-        String title;
-        String material;
-        List<Item> items;
-
-        protected ListItem(String material, String title) {
-            this.material = material;
-            this.title = title;
-            items = new ArrayList<>();
-        }
-
-        public ListItem(String title, String material, Item item) {
-            this.title = title;
-            this.material = material;
-            this.items = Collections.singletonList(item);
-        }
-        @Override
-        public String toString() {
-            return material + " " + title + " " + items.size();
-        }
-    }
 }

@@ -79,6 +79,7 @@ public class MapEntitySelectStage extends InvokableStage {
     private void tryShowBuildingStage(BuildingBlock buildingBlock) {
         if (buildingBlock != null) {
             TagLoggersEnum.UI.logDebug("showing building stage for: " + buildingBlock.getBuilding().getName());
+            gameMvc.getView().removeStage(this);
             gameMvc.getView().addStageToList(new BuildingStage(gameMvc, buildingBlock.getBuilding()));
         }
     }
