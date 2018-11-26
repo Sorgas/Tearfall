@@ -11,7 +11,8 @@ import java.util.List;
 public enum TagLoggersEnum {
     TASKS("task"),
     UI("ui"),
-    PATH("path");
+    PATH("path"),
+    LOADING("loading");
 
     private static TaggedLogger logger = new TaggedLogger();
     private String tag;

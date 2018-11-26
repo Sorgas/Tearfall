@@ -8,6 +8,7 @@ import stonering.entity.local.building.BuildingType;
 import stonering.entity.local.crafting.BrakeableComponentStep;
 import stonering.entity.local.crafting.CraftingComponentVariant;
 import stonering.utils.global.FileLoader;
+import stonering.utils.global.TagLoggersEnum;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,7 +43,7 @@ public class BuildingTypeMap {
     }
 
     private void loadBuildings() {
-        System.out.println("loading buildings");
+        TagLoggersEnum.LOADING.log("buildings");
         ArrayList<BuildingType> elements = json.fromJson(ArrayList.class, BuildingType.class, FileLoader.getFile(FileLoader.BUILDINGS_PATH));
         for (BuildingType buildingType : elements) {
             buildings.put(buildingType.getBuilding(), buildingType);
@@ -62,7 +63,7 @@ public class BuildingTypeMap {
     }
 
     private void loadLists() {
-        System.out.println("loading buildings");
+        TagLoggersEnum.LOADING.log("crafting recipes");
         ArrayList<RecipeList> elements = json.fromJson(ArrayList.class, RecipeList.class, FileLoader.getFile(FileLoader.RECIPE_LISTS_PATH));
         for (RecipeList recipeList : elements) {
             if (validateList(recipeList)) {

@@ -1,5 +1,6 @@
 package stonering.game.core.view.render.ui.menus.workbench;
 
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import stonering.game.core.GameMvc;
 import stonering.game.core.view.render.ui.menus.util.Invokable;
 
@@ -10,7 +11,7 @@ import java.util.List;
  *
  * @author Alexander on 28.10.2018.
  */
-public class CraftingOrderedList implements Invokable {
+public class CraftingOrderedList extends Table implements Invokable {
     protected GameMvc gameMvc;
     protected boolean hideable = false;
     protected int selectedIndex;

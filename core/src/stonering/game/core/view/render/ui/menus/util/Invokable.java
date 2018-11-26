@@ -1,7 +1,7 @@
 package stonering.game.core.view.render.ui.menus.util;
 
 /**
- * Interface for component that could 
+ * Interface for component that could be invoked with codes of pressed keys to handle input.
  *
  * @author Alexander Kuzyakov
  */

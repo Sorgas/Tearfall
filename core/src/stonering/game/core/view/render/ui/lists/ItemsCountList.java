@@ -2,14 +2,11 @@ package stonering.game.core.view.render.ui.lists;
 
 import com.badlogic.gdx.utils.Array;
 import stonering.enums.materials.MaterialMap;
-import stonering.game.core.GameMvc;
 import stonering.game.core.controller.controllers.toolbar.DesignationsController;
 import stonering.entity.local.items.Item;
 import stonering.game.core.view.render.ui.util.ListItem;
 import stonering.utils.global.Pair;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -21,8 +18,9 @@ import java.util.List;
  */
 public abstract class ItemsCountList extends NavigableList {
 
-    public ItemsCountList(GameMvc gameMvc, boolean hideable) {
-        super(gameMvc, hideable);
+
+    public ItemsCountList() {
+        super();
     }
 
     /**

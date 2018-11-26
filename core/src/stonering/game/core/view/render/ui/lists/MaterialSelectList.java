@@ -21,12 +21,16 @@ import java.util.List;
  * @author Alexander on 03.07.2018.
  */
 public class MaterialSelectList extends ItemsCountList implements Invokable, HideableComponent {
+    private GameMvc gameMvc;
+    private boolean hideable;
     private DesignationsController controller;
     protected Toolbar toolbar;
     private boolean isEmpty = true;
 
     public MaterialSelectList(GameMvc gameMvc) {
-        super(gameMvc, true);
+        super();
+        this.gameMvc = gameMvc;
+        this.hideable = true;
     }
 
     public void init() {
@@ -65,6 +69,11 @@ public class MaterialSelectList extends ItemsCountList implements Invokable, Hid
         }
     }
 
+    @Override
+    public void close() {
+
+    }
+
     /**
      * Fills this list for given crafting or building step.
      *
@@ -98,7 +107,6 @@ public class MaterialSelectList extends ItemsCountList implements Invokable, Hid
 
     @Override
     public void hide() {
-        toolbar.hideMenu(this);
     }
 
     @Override

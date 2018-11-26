@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import stonering.entity.local.building.Building;
 import stonering.entity.local.building.aspects.WorkbenchAspect;
+import stonering.enums.buildings.BuildingTypeMap;
 import stonering.game.core.GameMvc;
 import stonering.game.core.view.render.ui.menus.util.Invokable;
 import stonering.utils.global.StaticSkin;
@@ -13,34 +14,38 @@ import java.util.Stack;
 
 /**
  * Menu for workbenches to manage crafting orders.
+ * Has list of orders and buttons for closing and creating new order.
  *
  * @author Alexander on 28.10.2018.
  */
 public class WorkbenchMenu extends Table implements Invokable {
     private GameMvc gameMvc;
-    private CraftingOrderedList list;
+    private Building workbench;
     private WorkbenchAspect workbenchAspect; // aspect of selected workbench (M thing)
     private Stack<Invokable> focusStack; // chain of elements. first one is focused.
 
+    private CraftingOrderedList list;
     private TextButton addOrderButton;
     private TextButton closeButton;
 
     /**
-     * Creates menu for selected built workbench building on localMap. Can be used only for workbenches.
-     * Will throw NPE if created on non-workbench building.
-     *
-     * @param workbench
+     * Creates menu for selected built workbench on localMap. Can be used only for workbenches.
+     * Will throw NPE if created on non-workbench workbench.
      */
-    public WorkbenchMenu(GameMvc gameMvc, Building workbench) {
+    public WorkbenchMenu(GameMvc gameMvc, Building building) {
         super();
-        workbenchAspect = (WorkbenchAspect) workbench.getAspects().get(WorkbenchAspect.NAME);
+        this.gameMvc = gameMvc;
+        this.workbench = building;
+        workbenchAspect = (WorkbenchAspect) building.getAspects().get(WorkbenchAspect.NAME);
         createTable();
         fillWorkbenchOrders();
-        this.gameMvc = gameMvc;
         focusStack = new Stack<>();
         focusStack.push(this);
     }
 
+    /**
+     * Cerates menu table
+     */
     private void createTable() {
         this.setDebug(true);
         this.setWidth(200);
@@ -94,20 +99,15 @@ public class WorkbenchMenu extends Table implements Invokable {
         return false;
     }
 
-    private void close() {
-
-    }
-
     /**
      * Creates new empty order line and moves focus to it.
      */
     private CraftingOrderLine createNewOrder() {
         System.out.println("creating order");
-        CraftingOrderLine orderLine = new CraftingOrderLine(gameMvc, this);
+        CraftingOrderLine orderLine = new CraftingOrderLine(gameMvc, this, workbenchAspect.getRecipes());
         list.addEntry(0, orderLine); // to the top of the list
         focusStack.push(list);
         focusStack.push(orderLine);
-        // expand dropdown
         return orderLine;
     }
 
@@ -120,7 +120,18 @@ public class WorkbenchMenu extends Table implements Invokable {
      */
     private void fillWorkbenchOrders() {
         workbenchAspect.getOrders().forEach(order -> {
-            list.addEntry(0, new CraftingOrderLine(gameMvc, this));
+            list.addEntry(0, new CraftingOrderLine(gameMvc, this, order));
         });
+    }
+
+    /**
+     * Checks if building is workbench (has workbench aspect).
+     */
+    private static boolean validateBuilding(Building building) {
+        return building.getAspects().containsKey(WorkbenchAspect.NAME);
+    }
+
+    public WorkbenchAspect getWorkbenchAspect() {
+        return workbenchAspect;
     }
 }

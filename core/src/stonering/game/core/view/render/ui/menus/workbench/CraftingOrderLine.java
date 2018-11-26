@@ -2,16 +2,18 @@ package stonering.game.core.view.render.ui.menus.workbench;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import stonering.entity.local.crafting.ItemOrder;
 import stonering.enums.items.Recipe;
 import stonering.game.core.GameMvc;
+import stonering.game.core.view.render.ui.lists.NavigableList;
 import stonering.game.core.view.render.ui.menus.util.Invokable;
 import stonering.utils.global.StaticSkin;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,14 +25,13 @@ public class CraftingOrderLine extends Table implements Invokable {
     private GameMvc gameMvc;
     private WorkbenchMenu menu;
 
-    private Map<String, Recipe> recipeMap;
     private boolean repeatable;
     private ItemOrder itemOrder;
 
     private Label itemType;
     private SelectBox<String> material;
 
-    private com.badlogic.gdx.scenes.scene2d.ui.List list;
+    private NavigableList list;
 
     /**
      * Creates line by given order.
@@ -44,30 +45,47 @@ public class CraftingOrderLine extends Table implements Invokable {
     /**
      * Creates line with empty order and puts all possible recipes into initial selection list.
      */
-    public CraftingOrderLine(GameMvc gameMvc, WorkbenchMenu menu, List<Recipe> recipes) {
+    public CraftingOrderLine(GameMvc gameMvc, WorkbenchMenu menu) {
         super(StaticSkin.getSkin());
         this.gameMvc = gameMvc;
         this.menu = menu;
-        createRecipeSelectList(recipes);
+        createRecipeSelectList(new ArrayList<>(menu.getWorkbenchAspect().getRecipes()));
     }
 
     /**
-     * Creates list of all workbench recipe.
+     * Creates line with list of all workbench recipes.
      */
-    public void createRecipeSelectList(List<Recipe> recipeList) {
-        recipeMap = new HashMap<>();
-        list = new com.badlogic.gdx.scenes.scene2d.ui.List(StaticSkin.getSkin());
-        recipeList.forEach(recipe -> {
-            recipeMap.put(recipe.getName(), recipe);
+    public void createRecipeSelectList(ArrayList<Recipe> recipeList) {
+        Map<String, Recipe> recipeMap = new HashMap<>();
+        recipeList.forEach(recipe -> recipeMap.put(recipe.getName(), recipe));
+        list = new NavigableList();
+        list.setSelectListener(event -> { // hides list and creates empty order for recipe
+            if (list.getSelectedIndex() >= 0) {
+                String selected = (String) list.getItems().get(list.getSelectedIndex());
+                list.hide();
+                createOrderLine(createOrder(recipeMap.get(selected)));
+            }
+            return true;
         });
-        list.setItems(recipeMap.keySet().toArray(new String[]{}));
-        createTable();
+        list.setShowListener(event -> { // fills list with recipes
+            list.setItems(recipeMap.keySet().toArray(new String[]{}));
+            return true;
+        });
+        list.setHideListener(event -> { // removes list from table
+            this.clearChildren();
+            return true;
+        });
+        this.add(list).left().expandX();
+    }
+
+    private ItemOrder createOrder(Recipe recipe) {
+
     }
 
     /**
      * Creates selectBoxes for crafting steps from order.
      */
-    private void createOrderLine() {
+    private void createOrderLine(ItemOrder order) {
         itemType = new Label(itemOrder.getType().getName(), StaticSkin.getSkin());
         material = new SelectBox<>(StaticSkin.getSkin());
         gameMvc.getModel().getItemContainer().getResourceItemList());
@@ -75,9 +93,6 @@ public class CraftingOrderLine extends Table implements Invokable {
         steps.add(new SelectBox<String>());
     }
 
-    private void createTable() {
-        this.add(list).left().expandX();
-    }
 
     @Override
     public boolean invoke(int keycode) {
@@ -120,11 +135,6 @@ public class CraftingOrderLine extends Table implements Invokable {
 
     public void setRepeatable(boolean repeatable) {
         this.repeatable = repeatable;
-    }
-
-    @Override
-    public boolean invoke(int keycode) {
-        return false;
     }
 
     public ItemOrder getItemOrder() {
