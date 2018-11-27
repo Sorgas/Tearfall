@@ -12,6 +12,7 @@ public class Recipe {
     private String material; //mvp
 
     //TODO map of item parts to allowed materials.
+//    private Map<String, List<String>>                            // itemPart name to material category
     //TODO additional materials, skill requirement, exp gained, time spent.
 
     public String getName() {

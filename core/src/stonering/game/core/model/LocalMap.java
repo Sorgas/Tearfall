@@ -3,6 +3,7 @@ package stonering.game.core.model;
 import com.badlogic.gdx.math.Vector2;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.core.model.util.PassageMap;
+import stonering.game.core.model.util.UtilByteArray;
 import stonering.game.core.view.tilemaps.LocalTileMapUpdater;
 import stonering.global.utils.Position;
 import stonering.entity.local.building.BuildingBlock;

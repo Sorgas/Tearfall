@@ -1,14 +1,16 @@
 package stonering.game.core.view.render.ui.menus.workbench;
 
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import stonering.entity.local.crafting.ItemOrder;
+import stonering.entity.local.items.Item;
 import stonering.enums.items.Recipe;
 import stonering.game.core.GameMvc;
 import stonering.game.core.view.render.ui.lists.NavigableList;
+import stonering.game.core.view.render.ui.lists.NavigableSelectBox;
 import stonering.game.core.view.render.ui.menus.util.Invokable;
+import stonering.utils.global.Pair;
 import stonering.utils.global.StaticSkin;
 
 import java.util.ArrayList;
@@ -30,9 +32,9 @@ public class CraftingOrderLine extends Table implements Invokable {
     private ItemOrder order;
 
     private Label itemType;
-    private SelectBox<String> material;
+    private NavigableSelectBox<String> materialselectBox;
 
-    private NavigableList list;
+    private NavigableList itemTypeList;
 
     /**
      * Creates line by given order.
@@ -61,52 +63,49 @@ public class CraftingOrderLine extends Table implements Invokable {
     public void createRecipeSelectList(ArrayList<Recipe> recipeList) {
         Map<String, Recipe> recipeMap = new HashMap<>();
         recipeList.forEach(recipe -> recipeMap.put(recipe.getName(), recipe));
-        list = new NavigableList();
-        list.setSelectListener(event -> { // hides list and creates empty order for recipe
-            if (list.getSelectedIndex() >= 0) {
-                String selected = (String) list.getItems().get(list.getSelectedIndex());
-                list.hide();
+        itemTypeList = new NavigableList();
+        itemTypeList.setSelectListener(event -> { // hides list and creates empty order for recipe
+            if (itemTypeList.getSelectedIndex() >= 0) {
+                String selected = (String) itemTypeList.getItems().get(itemTypeList.getSelectedIndex());
+                itemTypeList.hide();
                 createOrderLine(createOrder(recipeMap.get(selected)));
             }
             return true;
         });
-        list.setShowListener(event -> { // fills list with recipes
-            list.setItems(recipeMap.keySet().toArray(new String[]{}));
+        itemTypeList.setShowListener(event -> { // fills list with recipes
+            itemTypeList.setItems(recipeMap.keySet().toArray(new String[]{}));
             return true;
         });
-        list.setHideListener(event -> { // removes list from table
+        itemTypeList.setHideListener(event -> { // removes list from table
             this.clearChildren();
+            itemTypeList = null;
             return true;
         });
-        this.add(list).left().expandX();
+        this.add(itemTypeList).left().expandX();
     }
 
     private ItemOrder createOrder(Recipe recipe) {
-
+        return new ItemOrder(recipe);
     }
 
     /**
      * Creates selectBoxes for crafting steps from order.
      */
     private void createOrderLine(ItemOrder order) {
-        itemType = new Label(order.getType().getName(), StaticSkin.getSkin());
-        material = new SelectBox<>(StaticSkin.getSkin());
-        gameMvc.getModel().getItemContainer().getResourceItemList(order.getSelectors()));
-        material.setItems();
-        steps.add(new SelectBox<String>());
+        itemType = new Label(order.getRecipe().getItemName(), StaticSkin.getSkin());
+        java.util.List<Item> items = gameMvc.getModel().getItemContainer().getResourceItemListByMaterialType(order.getRecipe().getMaterial());
+        Map<String, Pair<String, String>> materialsMap =  gameMvc.getModel().getItemContainer().formItemListFor(items);
+        materialselectBox = new NavigableSelectBox<>();
+        materialselectBox.setItems(materialsMap.keySet().toArray(new String[]{}));
     }
 
     @Override
     public boolean invoke(int keycode) {
-        switch (keycode) {
-            case Input.Keys.R:
-                moveSelection(-1);
-            case Input.Keys.F:
-                moveSelection(1);
-            case Input.Keys.E:
-                handleSelect();
-            case Input.Keys.Q:
-                handleCancel();
+        if(itemTypeList != null) {
+            return itemTypeList.invoke(keycode);
+        }
+        if(materialselectBox != null) {
+            return materialselectBox.invoke(keycode);
         }
         return false;
     }
@@ -120,14 +119,14 @@ public class CraftingOrderLine extends Table implements Invokable {
     }
 
     private void moveSelection(int delta) {
-        list.setSelectedIndex(NormalizeIndex(list.getSelectedIndex() + delta));
+        itemTypeList.setSelectedIndex(NormalizeIndex(itemTypeList.getSelectedIndex() + delta));
     }
 
     private int NormalizeIndex(int index) {
         if (index < 0) {
             return 0;
         }
-        return index >= list.getItems().size ? list.getItems().size : index;
+        return index >= itemTypeList.getItems().size ? itemTypeList.getItems().size : index;
     }
 
 

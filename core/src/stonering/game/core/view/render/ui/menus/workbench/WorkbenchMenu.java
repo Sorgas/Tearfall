@@ -67,7 +67,7 @@ public class WorkbenchMenu extends Table implements Invokable {
     }
 
     private CraftingOrderedList createOrderList() {
-        list = new CraftingOrderedList(gameMvc, false);
+        list = new CraftingOrderedList();
         return list;
     }
 
@@ -104,7 +104,7 @@ public class WorkbenchMenu extends Table implements Invokable {
      */
     private CraftingOrderLine createNewOrder() {
         System.out.println("creating order");
-        CraftingOrderLine orderLine = new CraftingOrderLine(gameMvc, this, workbenchAspect.getRecipes());
+        CraftingOrderLine orderLine = new CraftingOrderLine(gameMvc, this);
         list.addEntry(0, orderLine); // to the top of the list
         focusStack.push(list);
         focusStack.push(orderLine);

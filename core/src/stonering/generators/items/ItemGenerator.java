@@ -121,11 +121,11 @@ public class ItemGenerator {
      * @return
      */
     private boolean validateOrder(ItemOrder order) {
-        for (ItemPartType step : order.getType().getSteps()) {
-            if(!step.isOptional() && !order.getSelectors().containsKey(step.getTitle())) { // required step missed in order.
-                return false;
-            }
-        }
+//        for (ItemPartType step : order.getType().getSteps()) {
+//            if(!step.isOptional() && !order.getSelectors().containsKey(step.getTitle())) { // required step missed in order.
+//                return false;
+//            }
+//        }
         return true;
     }
 

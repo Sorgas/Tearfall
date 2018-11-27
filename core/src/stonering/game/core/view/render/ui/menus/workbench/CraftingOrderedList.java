@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import stonering.game.core.GameMvc;
 import stonering.game.core.view.render.ui.menus.util.Invokable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,8 +18,9 @@ public class CraftingOrderedList extends Table implements Invokable {
     protected int selectedIndex;
     protected List<CraftingOrderLine> items;
 
-    public CraftingOrderedList(GameMvc gameMvc, boolean hideable) {
-        super(gameMvc, hideable);
+    public CraftingOrderedList() {
+        super();
+        items = new ArrayList<>();
     }
 
     public void addEntry(int index, CraftingOrderLine entry) {
@@ -26,13 +28,7 @@ public class CraftingOrderedList extends Table implements Invokable {
         this.invalidateHierarchy();
     }
 
-    public void removeEntry(int index) {
-        items.remove(index);
-    }
 
-    public void removeEntry() {
-        items.remove();
-    }
 
     /**
      * Called whed order is performed.
@@ -41,8 +37,8 @@ public class CraftingOrderedList extends Table implements Invokable {
      * @param index
      */
     public void removeAtDone(int index) {
-        if (((CraftingOrderLine) items.get(index)).isRepeatable())
-            moveItem(index, 1, true);
+//        if (((CraftingOrderLine) items.get(index)).isRepeatable())
+//            moveItem(index, 1, true);
     }
 
     @Override

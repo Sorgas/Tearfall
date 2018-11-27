@@ -69,11 +69,6 @@ public class MaterialSelectList extends ItemsCountList implements Invokable, Hid
         }
     }
 
-    @Override
-    public void close() {
-
-    }
-
     /**
      * Fills this list for given crafting or building step.
      *

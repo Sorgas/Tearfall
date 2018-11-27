@@ -7,6 +7,7 @@ import stonering.game.core.model.LocalMap;
 import stonering.global.utils.Position;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.items.selectors.ItemSelector;
+import stonering.utils.global.Pair;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -106,26 +107,15 @@ public class ItemContainer {
     public List<Item> getAvailableMaterialsCraftingStep(CommonComponentStep step, Position pos) {
         List<Item> items = new ArrayList<>();
         step.getVariants().forEach(variant -> {
-            items.addAll(getResourceItemList(variant.getMaterial()));
+            items.addAll(getResourceItemListByMaterialType(variant.getMaterial()));
         });
         return filterUnreachable(items, pos);
-        //TODO this is for amount
-//            HashMap<Pair<String, String>, Integer> map = new HashMap<>();
-//                    .forEach((item) -> {
-//                Pair<String, String> key = new Pair<>(materialMap.getMaterial(item.getMaterial()).getName(), item.getTitle());
-//                int prev = map.containsKey(item.getTitle()) ? map.get(item.getTitle()) : 0;
-//                map.put(key, prev + 1);
-//            });
-//            return map;
     }
 
     /**
-     * Searches all material items made of gicen material type.
-     *
-     * @param materialType
-     * @return
+     * Searches all material items made of given material type.
      */
-    public List<Item> getResourceItemList(String materialType) {
+    public List<Item> getResourceItemListByMaterialType(String materialType) {
         MaterialMap materialMap = MaterialMap.getInstance();
         List<Item> itemListForFiltering = new ArrayList<>(items);
         Set<Integer> materialIds = materialMap.getMaterialsByType(materialType);
@@ -133,6 +123,25 @@ public class ItemContainer {
                 filter(item -> item.getType().isResource()).
                 filter(item -> materialIds.contains(item.getMaterial())).
                 collect(Collectors.toList());
+    }
+
+    /**
+     * Groups given items by material and titles, and count their quantity to show in UI lists.
+     */
+    public Map<String, Pair<String, String>> formItemListFor(List<Item> items) {
+        Map<Pair<String, String>, Integer> groupingMap = new HashMap<>(); // groups by material and item name. Stores quantity.
+        items.forEach((item) -> {
+            String materialName = MaterialMap.getInstance().getMaterial(item.getMaterial()).getName();
+            Pair<String, String> key = new Pair<>(materialName, item.getTitle());
+            int prev = groupingMap.containsKey(item.getTitle()) ? groupingMap.get(item.getTitle()) : 0;
+            groupingMap.put(key, prev + 1);
+        });
+        Map<String, Pair<String, String>> resultMap = new HashMap<>();
+        groupingMap.keySet().forEach(pair -> {
+            String listLine = pair.getKey() + " " + pair.getValue() + " " + groupingMap.get(pair);
+            resultMap.put(listLine, pair);
+        });
+        return resultMap;
     }
 
     /**
