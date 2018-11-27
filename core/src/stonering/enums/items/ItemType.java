@@ -1,7 +1,7 @@
 package stonering.enums.items;
 
 import com.badlogic.gdx.graphics.Color;
-import stonering.entity.local.crafting.ItemPartCraftingStep;
+import stonering.entity.local.crafting.ItemPartType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,19 +11,20 @@ import java.util.HashMap;
  * (e.g. not material, condition, ownership)
  */
 public class ItemType {
-    private String name; // id
-    private String title; // displayable title
-    private float valueMod; //
-    private boolean isResource; // true if this item can be used for crafting as raw resource (its volume is counted).
+    private String name;                                // id
+    private String title;                               // displayable title
+    private float valueMod;                             // trading price modifier
+    private boolean isResource;                         // true if this item can be used for crafting as raw resource (its volume is counted).
 
-    private WearItemType wear; // is set if this item could be worn
-    private ToolItemType tool; // is set if this item could be used as tool
-    private ContainerItemType container; // is set if this item could contain other items
+    private WearItemType wear;                          // is set if this item could be worn
+    private ToolItemType tool;                          // is set if this item could be used as tool
+    private ContainerItemType container;                // is set if this item could contain other items
 
-    private ArrayList<ItemPartCraftingStep> steps; // define parts of items and materials they could be made of. first one is main
+    private ArrayList<ItemPartType> steps;      // define parts of items. first one is main
 
-    private HashMap<String, ArrayList<Object>> aspects;
-    // render7
+    private HashMap<String, ArrayList<Object>> aspects; // other aspects
+
+    // render
     private int atlasX;
     private int atlasY;
     private Color color;
@@ -112,11 +113,11 @@ public class ItemType {
         this.container = container;
     }
 
-    public ArrayList<ItemPartCraftingStep> getSteps() {
+    public ArrayList<ItemPartType> getSteps() {
         return steps;
     }
 
-    public void setSteps(ArrayList<ItemPartCraftingStep> steps) {
+    public void setSteps(ArrayList<ItemPartType> steps) {
         this.steps = steps;
     }
 

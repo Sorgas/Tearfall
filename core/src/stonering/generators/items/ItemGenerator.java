@@ -1,19 +1,16 @@
 package stonering.generators.items;
 
 import stonering.entity.local.crafting.ItemOrder;
-import stonering.entity.local.crafting.ItemPartCraftingStep;
+import stonering.entity.local.crafting.ItemPartType;
 import stonering.entity.local.items.ItemPart;
 import stonering.entity.local.items.aspects.FallingAspect;
-import stonering.entity.local.items.selectors.ItemSelector;
 import stonering.enums.items.ItemType;
 import stonering.enums.items.ItemTypeMap;
 import stonering.enums.materials.MaterialMap;
 import stonering.exceptions.FaultDescriptionException;
-import stonering.exceptions.InvalidCraftinOrder;
 import stonering.generators.aspect.AspectGenerator;
 import stonering.entity.local.items.Item;
 
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -96,8 +93,8 @@ public class ItemGenerator {
      * @param title
      * @return
      */
-    private ItemPartCraftingStep selectStep(ItemType type, String title) {
-        for (ItemPartCraftingStep step : type.getSteps()) {
+    private ItemPartType selectStep(ItemType type, String title) {
+        for (ItemPartType step : type.getSteps()) {
             if (step.getTitle().equals(title)) {
                 return step;
             }
@@ -124,7 +121,7 @@ public class ItemGenerator {
      * @return
      */
     private boolean validateOrder(ItemOrder order) {
-        for (ItemPartCraftingStep step : order.getType().getSteps()) {
+        for (ItemPartType step : order.getType().getSteps()) {
             if(!step.isOptional() && !order.getSelectors().containsKey(step.getTitle())) { // required step missed in order.
                 return false;
             }
@@ -144,7 +141,7 @@ public class ItemGenerator {
 //    public Item generateMockItem(String itemName, int mainMaterial) throws FaultDescriptionException {
 //        ItemType itemType = itemTypeMap.getItemType(itemName);
 //        Item item = new Item(null, itemType);
-//        for (ItemPartCraftingStep step : itemType.getSteps()) {
+//        for (ItemPartType step : itemType.getSteps()) {
 //            item.getParts().put(step.getTitle(), createMockItemPart(step, itemName));
 //        }
 //        if(mainMaterial >= 0) {
@@ -161,7 +158,7 @@ public class ItemGenerator {
          * @return
          * @throws FaultDescriptionException
          */
-    private ItemPart createMockItemPart(ItemPartCraftingStep step, String itemName) throws FaultDescriptionException {
+    private ItemPart createMockItemPart(ItemPartType step, String itemName) throws FaultDescriptionException {
         String materiaType = step.getVariants().get(0).getMaterial();
         Set<Integer> materials = materialMap.getMaterialsByType(materiaType);
         if(materials.isEmpty()) throw new FaultDescriptionException("Material type " + materiaType + " for item " + itemName + " is invalid");

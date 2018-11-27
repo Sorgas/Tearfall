@@ -2,7 +2,6 @@ package stonering.game.core.view.render.ui.menus.workbench;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import stonering.entity.local.crafting.ItemOrder;
@@ -18,6 +17,8 @@ import java.util.Map;
 
 /**
  * Single line in workbench menu.
+ * Used to create of modify orders.
+ * Item type of order cannot be changed.
  *
  * @author Alexander on 28.10.2018.
  */
@@ -26,7 +27,7 @@ public class CraftingOrderLine extends Table implements Invokable {
     private WorkbenchMenu menu;
 
     private boolean repeatable;
-    private ItemOrder itemOrder;
+    private ItemOrder order;
 
     private Label itemType;
     private SelectBox<String> material;
@@ -40,6 +41,8 @@ public class CraftingOrderLine extends Table implements Invokable {
         super(StaticSkin.getSkin());
         this.gameMvc = gameMvc;
         this.menu = menu;
+        this.order = order;
+        createOrderLine(order);
     }
 
     /**
@@ -86,13 +89,12 @@ public class CraftingOrderLine extends Table implements Invokable {
      * Creates selectBoxes for crafting steps from order.
      */
     private void createOrderLine(ItemOrder order) {
-        itemType = new Label(itemOrder.getType().getName(), StaticSkin.getSkin());
+        itemType = new Label(order.getType().getName(), StaticSkin.getSkin());
         material = new SelectBox<>(StaticSkin.getSkin());
-        gameMvc.getModel().getItemContainer().getResourceItemList());
+        gameMvc.getModel().getItemContainer().getResourceItemList(order.getSelectors()));
         material.setItems();
         steps.add(new SelectBox<String>());
     }
-
 
     @Override
     public boolean invoke(int keycode) {
@@ -137,11 +139,11 @@ public class CraftingOrderLine extends Table implements Invokable {
         this.repeatable = repeatable;
     }
 
-    public ItemOrder getItemOrder() {
-        return itemOrder;
+    public ItemOrder getOrder() {
+        return order;
     }
 
-    public void setItemOrder(ItemOrder itemOrder) {
-        this.itemOrder = itemOrder;
+    public void setOrder(ItemOrder order) {
+        this.order = order;
     }
 }

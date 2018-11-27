@@ -15,7 +15,8 @@ public class Item extends AspectHolder {
     private String name;
     private String title;
     private ItemType type;
-//TODO commented as non-MVP feature
+
+    //TODO commented as non-MVP feature
 //    private HashMap<String, ItemPart> parts;
 //    private String mainPart;
     private int material;

@@ -15,7 +15,7 @@ import java.util.Map;
 
 /**
  * Extends {@link List} with navigation methods.
- * Can be invoked with default keys.
+ * Can be invoked with default keys. Should be used for in-game lists to provide consistency.
  *
  * @author Alexander Kuzyakov on 03.07.2018.
  */

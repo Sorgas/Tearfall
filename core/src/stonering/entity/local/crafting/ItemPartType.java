@@ -1,11 +1,15 @@
 package stonering.entity.local.crafting;
 
 /**
+ * Specifies crafting info for one itemPart.
+ *
  * @author Alexander on 27.10.2018.
  */
-public class ItemPartCraftingStep extends CommonComponentStep {
+public class ItemPartType extends CommonComponentStep {
     private String title;
-    private int volume; // sm^3
+    private int volume;             // sm^3
+
+    //TODO allowed materials and volumes.
 
     public String getTitle() {
         return title;
