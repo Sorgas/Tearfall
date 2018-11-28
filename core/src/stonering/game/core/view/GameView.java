@@ -31,6 +31,7 @@ public class GameView implements Screen, Invokable, MouseInvocable {
      */
     public GameView(GameMvc gameMvc) {
         this.gameMvc = gameMvc;
+        Gdx.input.setInputProcessor(baseStage);
         createStages();
     }
 
@@ -53,8 +54,10 @@ public class GameView implements Screen, Invokable, MouseInvocable {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(Gdx.gl20.GL_COLOR_BUFFER_BIT | Gdx.gl20.GL_DEPTH_BUFFER_BIT);
         if(getActiveStage() != baseStage) {
+            baseStage.getViewport().apply();
             baseStage.draw();
         }
+        getActiveStage().getViewport().apply();
         getActiveStage().draw();
     }
 

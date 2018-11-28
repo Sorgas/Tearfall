@@ -8,12 +8,15 @@ import stonering.game.core.GameMvc;
 import stonering.game.core.view.render.ui.menus.workbench.WorkbenchMenu;
 
 /**
+ * Stage with menu for building like workbenches and furniture.
+ *
  * @author Alexander on 09.11.2018.
  */
 public class BuildingStage extends InvokableStage {
     private GameMvc gameMvc;
     private Building building;
     private WorkbenchMenu menu;
+    private Container container;
 
     public BuildingStage(GameMvc gameMvc, Building building) {
         this.gameMvc = gameMvc;
@@ -22,22 +25,32 @@ public class BuildingStage extends InvokableStage {
 
     @Override
     public boolean invoke(int keycode) {
-        if(keycode == Input.Keys.Q ) {
+        if (menu != null) {
+            return menu.invoke(keycode);
+        }
+        if (keycode == Input.Keys.Q) {
             gameMvc.getView().removeStage(this);
             return true;
         }
-        return menu.invoke(keycode);
+        return false;
     }
 
     public void init() {
-        createMenu();
+        createWorkbenchMenu();
     }
 
-    private void createMenu() {
-        menu = new WorkbenchMenu(gameMvc, building);
+    /**
+     * Creates menu for workbench buildings.
+     */
+    private void createWorkbenchMenu() {
+        menu = new WorkbenchMenu(gameMvc, this, building);
         menu.align(Align.center);
+        setKeyboardFocus(menu);
         Container container = new Container(menu).bottom().left().pad(10);
         container.setFillParent(true);
+        container.setDebug(true, true);
         this.addActor(container);
     }
+
+
 }

@@ -15,6 +15,7 @@ public class FileLoader {
     public final static String ITEMTYPE_TAGS_PATH = "resources/itemtype_tags.json";
     public final static String ITEMS_PATH = "resources/items/items.json";
     public final static String RECIPE_LISTS_PATH = "resources/crafting/lists.json";
+    public final static String RECIPES_PATH = "resources/items/recipes.json";
 
     public static FileHandle getFile(String path) {
         return new FileHandle(path);

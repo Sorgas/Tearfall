@@ -30,7 +30,7 @@ public class RecipeMap {
 
     private void loadRecipes() {
         System.out.println("loading buildings");
-        ArrayList<Recipe> elements = json.fromJson(ArrayList.class, Recipe.class, FileLoader.getFile(FileLoader.RECIPE_LISTS_PATH));
+        ArrayList<Recipe> elements = json.fromJson(ArrayList.class, Recipe.class, FileLoader.getFile(FileLoader.RECIPES_PATH));
         for (Recipe recipe : elements) {
             recipes.put(recipe.getName(), recipe);
         }

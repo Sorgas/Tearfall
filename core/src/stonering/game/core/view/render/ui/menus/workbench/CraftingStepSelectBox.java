@@ -1,7 +1,6 @@
 package stonering.game.core.view.render.ui.menus.workbench;
 
-import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import stonering.game.core.view.render.ui.lists.NavigableSelectBox;
 import stonering.game.core.view.render.ui.util.ListItem;
 
 import java.util.ArrayList;
@@ -14,11 +13,11 @@ import java.util.Map;
  *
  * @author Alexander on 25.11.2018.
  */
-public class CraftingStepSelectBox extends SelectBox {
+public class CraftingStepSelectBox extends NavigableSelectBox {
     private Map<String, ListItem> items;
 
-    public CraftingStepSelectBox(Skin skin) {
-        super(skin);
+    public CraftingStepSelectBox() {
+        super();
         items = new HashMap<>();
     }
 

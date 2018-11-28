@@ -8,6 +8,7 @@ package stonering.enums.items;
  */
 public class Recipe {
     private String name;     //recipe name
+    private String title;
     private String itemName; //item name, points to ItemType
     private String material; //mvp
 
@@ -37,5 +38,13 @@ public class Recipe {
 
     public void setMaterial(String material) {
         this.material = material;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

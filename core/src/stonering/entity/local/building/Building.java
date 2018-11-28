@@ -61,4 +61,8 @@ public class Building extends AspectHolder {
     public void setBlock(BuildingBlock block) {
         this.block = block;
     }
+
+    public BuildingType getType() {
+        return type;
+    }
 }

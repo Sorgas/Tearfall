@@ -1,38 +1,38 @@
-package stonering.game.core.view.render.ui.lists;
+package stonering.game.core.view.render.ui.menus.util;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
-import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
-import stonering.game.core.view.render.ui.menus.util.HideableComponent;
-import stonering.game.core.view.render.ui.menus.util.Invokable;
-import stonering.utils.global.StaticSkin;
+import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
+
+import java.util.List;
 
 /**
- * @author Alexander on 27.11.2018.
+ * Vertical group which can handle input.
+ *
+ * @author Alexander
  */
-public class NavigableSelectBox<T> extends SelectBox<T> implements Invokable, HideableComponent {
-    //TODO add configurable controls.
+public class NavigableVerticalGroup<T extends Highlightable> extends VerticalGroup implements Invokable, HideableComponent {
+    private List<T> actorList;
+
     private EventListener hideListener;
     private EventListener selectListener;
     private EventListener showListener;
 
-    public NavigableSelectBox() {
-        super(StaticSkin.getSkin());
-    }
+    private int selectedIndex = -1;
 
     @Override
     public boolean invoke(int keycode) {
         switch (keycode) {
-            case Input.Keys.W:
+            case Input.Keys.R:
                 up();
                 return true;
-            case Input.Keys.S:
+            case Input.Keys.F:
                 down();
                 return true;
-            case Input.Keys.D:
+            case Input.Keys.E:
                 select();
                 return true;
-            case Input.Keys.A:
+            case Input.Keys.Q:
                 hide();
                 return true;
         }
@@ -40,33 +40,33 @@ public class NavigableSelectBox<T> extends SelectBox<T> implements Invokable, Hi
     }
 
     public void up() {
-        if (getSelectedIndex() > 0) {
-            setSelectedIndex(getSelectedIndex() - 1);
+        if (selectedIndex > 0) {
+            selectedIndex -= 1;
         }
     }
 
     public void down() {
-        if (getSelectedIndex() < getItems().size - 1) {
-            setSelectedIndex(getSelectedIndex() + 1);
+        if (selectedIndex < actorList.size() - 1) {
+            selectedIndex++;
         }
     }
 
     public void select() {
-        if(selectListener != null) {
+        if (selectListener != null) {
             selectListener.handle(null);
         }
     }
 
     @Override
     public void show() {
-        if(showListener != null) {
+        if (showListener != null) {
             showListener.handle(null);
         }
     }
 
     @Override
     public void hide() {
-        if(hideListener != null) {
+        if (hideListener != null) {
             hideListener.handle(null);
         }
     }

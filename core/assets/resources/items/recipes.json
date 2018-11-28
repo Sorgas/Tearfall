@@ -1,32 +1,38 @@
 [
     {
         "name":"make_pickaxe",
-        "itemName":"Pickaxe",
+        "title":"Metal pickaxe",
+        "itemName":"pickaxe",
         "material" : "metal"
     },
     {
         "name":"make_sickle",
-        "itemName":"Sickle",
+        "title":"Metal sickle",
+        "itemName":"sickle",
         "material" : "metal"
     },
     {
         "name":"make_axe",
-        "itemName":"Axe",
+        "title":"Metal axe",
+        "itemName":"axe",
         "material" : "metal"
     },
     {
         "name":"make_shirt",
-        "itemName":"Shirt",
+        "title":"Cloth shirt",
+        "itemName":"shirt",
         "material" : "cloth"
     },
     {
         "name":"make_pants",
-        "itemName":"Pants",
+        "title":"Cloth pants",
+        "itemName":"pants",
         "material" : "cloth"
     },
     {
         "name":"make_backpack",
-        "itemName":"Backpack",
+        "title":"Cloth backpack",
+        "itemName":"backpack",
         "material" : "cloth"
     }
 ]

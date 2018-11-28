@@ -2,8 +2,10 @@ package stonering.entity.local.building.aspects;
 
 import stonering.entity.local.Aspect;
 import stonering.entity.local.AspectHolder;
+import stonering.entity.local.building.Building;
 import stonering.entity.local.crafting.ItemOrder;
 import stonering.enums.items.Recipe;
+import stonering.enums.items.RecipeMap;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +24,11 @@ public class WorkbenchAspect extends Aspect {
         super(NAME, aspectHolder);
         orders = new ArrayList<>();
         recipes = new ArrayList<>();
+        initRecipes();
+    }
+
+    private void initRecipes() { //ok
+        ((Building) aspectHolder).getType().getRecipes().forEach(s -> recipes.add(RecipeMap.getInstance().getRecipe(s)));
     }
 
     public List<ItemOrder> getOrders() {

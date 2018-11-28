@@ -1,15 +1,17 @@
-package stonering.game.core.view.render.ui.menus.workbench;
+package stonering.game.core.view.render.ui.menus.workbench.orderline;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import stonering.entity.local.crafting.ItemOrder;
 import stonering.entity.local.items.Item;
+import stonering.enums.items.ItemTypeMap;
 import stonering.enums.items.Recipe;
 import stonering.game.core.GameMvc;
+import stonering.game.core.model.lists.ItemContainer;
 import stonering.game.core.view.render.ui.lists.NavigableList;
 import stonering.game.core.view.render.ui.lists.NavigableSelectBox;
 import stonering.game.core.view.render.ui.menus.util.Invokable;
+import stonering.game.core.view.render.ui.menus.workbench.WorkbenchMenu;
 import stonering.utils.global.Pair;
 import stonering.utils.global.StaticSkin;
 
@@ -26,6 +28,7 @@ import java.util.Map;
  */
 public class CraftingOrderLine extends Table implements Invokable {
     private GameMvc gameMvc;
+    private ItemContainer itemContainer;
     private WorkbenchMenu menu;
 
     private boolean repeatable;
@@ -33,6 +36,9 @@ public class CraftingOrderLine extends Table implements Invokable {
 
     private Label itemType;
     private NavigableSelectBox<String> materialselectBox;
+    private Label warningLabel;
+
+    private Invokable focusedElement;
 
     private NavigableList itemTypeList;
 
@@ -40,8 +46,9 @@ public class CraftingOrderLine extends Table implements Invokable {
      * Creates line by given order.
      */
     public CraftingOrderLine(GameMvc gameMvc, WorkbenchMenu menu, ItemOrder order) {
-        super(StaticSkin.getSkin());
+        super();
         this.gameMvc = gameMvc;
+        itemContainer = gameMvc.getModel().getItemContainer();
         this.menu = menu;
         this.order = order;
         createOrderLine(order);
@@ -62,49 +69,62 @@ public class CraftingOrderLine extends Table implements Invokable {
      */
     public void createRecipeSelectList(ArrayList<Recipe> recipeList) {
         Map<String, Recipe> recipeMap = new HashMap<>();
-        recipeList.forEach(recipe -> recipeMap.put(recipe.getName(), recipe));
+        recipeList.forEach(recipe -> recipeMap.put(recipe.getTitle(), recipe));
         itemTypeList = new NavigableList();
+        itemTypeList.setItems(recipeMap.keySet().toArray(new String[]{}));
         itemTypeList.setSelectListener(event -> { // hides list and creates empty order for recipe
             if (itemTypeList.getSelectedIndex() >= 0) {
                 String selected = (String) itemTypeList.getItems().get(itemTypeList.getSelectedIndex());
                 itemTypeList.hide();
-                createOrderLine(createOrder(recipeMap.get(selected)));
+                createOrderLine(new ItemOrder(recipeMap.get(selected)));
             }
             return true;
         });
-        itemTypeList.setShowListener(event -> { // fills list with recipes
-            itemTypeList.setItems(recipeMap.keySet().toArray(new String[]{}));
+        itemTypeList.setShowListener(event -> { // adds list to table
+            this.add(itemTypeList).left().expandX();
             return true;
         });
         itemTypeList.setHideListener(event -> { // removes list from table
-            this.clearChildren();
+            this.removeActor(itemTypeList);
             itemTypeList = null;
             return true;
         });
-        this.add(itemTypeList).left().expandX();
-    }
-
-    private ItemOrder createOrder(Recipe recipe) {
-        return new ItemOrder(recipe);
+        itemTypeList.show();
     }
 
     /**
      * Creates selectBoxes for crafting steps from order.
      */
     private void createOrderLine(ItemOrder order) {
-        itemType = new Label(order.getRecipe().getItemName(), StaticSkin.getSkin());
-        java.util.List<Item> items = gameMvc.getModel().getItemContainer().getResourceItemListByMaterialType(order.getRecipe().getMaterial());
-        Map<String, Pair<String, String>> materialsMap =  gameMvc.getModel().getItemContainer().formItemListFor(items);
-        materialselectBox = new NavigableSelectBox<>();
-        materialselectBox.setItems(materialsMap.keySet().toArray(new String[]{}));
+        String itemTitle = ItemTypeMap.getInstance().getItemType(order.getRecipe().getItemName()).getTitle();
+        itemType = new Label(itemTitle, StaticSkin.getSkin()); // label with item type
+        add(itemType);
+
+        java.util.List<Item> items = itemContainer.getResourceItemListByMaterialType(order.getRecipe().getMaterial());
+        items = itemContainer.filterUnreachable(items, menu.getWorkbenchAspect().getAspectHolder().getPosition());
+        if (items.size() > 0) { // select box for material
+            Map<String, Pair<String, String>> materialsMap = itemContainer.formItemListFor(items);
+            materialselectBox = new NavigableSelectBox<>();
+            materialselectBox.setItems(materialsMap.keySet().toArray(new String[]{}));
+            add(materialselectBox);
+        } else {
+            warningLabel = new Label("no items available", StaticSkin.getSkin()); // label with item type
+            add(warningLabel);
+        }
     }
 
     @Override
     public boolean invoke(int keycode) {
-        if(itemTypeList != null) {
+        if (itemTypeList != null) {                     // if itemTypeList persists, it is the only actor.
             return itemTypeList.invoke(keycode);
+        } else {
+
+
+
+
+
         }
-        if(materialselectBox != null) {
+        if (materialselectBox != null) {
             return materialselectBox.invoke(keycode);
         }
         return false;

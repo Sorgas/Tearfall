@@ -5,9 +5,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import stonering.entity.local.building.Building;
 import stonering.entity.local.building.aspects.WorkbenchAspect;
-import stonering.enums.buildings.BuildingTypeMap;
+import stonering.enums.items.Recipe;
 import stonering.game.core.GameMvc;
+import stonering.game.core.view.render.stages.InvokableStage;
 import stonering.game.core.view.render.ui.menus.util.Invokable;
+import stonering.game.core.view.render.ui.menus.workbench.orderline.CraftingOrderLine;
+import stonering.game.core.view.render.ui.menus.workbench.orderline.RecipeSelectOrderLine;
 import stonering.utils.global.StaticSkin;
 
 import java.util.Stack;
@@ -20,6 +23,7 @@ import java.util.Stack;
  */
 public class WorkbenchMenu extends Table implements Invokable {
     private GameMvc gameMvc;
+    private InvokableStage stage;
     private Building workbench;
     private WorkbenchAspect workbenchAspect; // aspect of selected workbench (M thing)
     private Stack<Invokable> focusStack; // chain of elements. first one is focused.
@@ -32,9 +36,10 @@ public class WorkbenchMenu extends Table implements Invokable {
      * Creates menu for selected built workbench on localMap. Can be used only for workbenches.
      * Will throw NPE if created on non-workbench workbench.
      */
-    public WorkbenchMenu(GameMvc gameMvc, Building building) {
+    public WorkbenchMenu(GameMvc gameMvc, InvokableStage stage, Building building) {
         super();
         this.gameMvc = gameMvc;
+        this.stage = stage;
         this.workbench = building;
         workbenchAspect = (WorkbenchAspect) building.getAspects().get(WorkbenchAspect.NAME);
         createTable();
@@ -44,7 +49,7 @@ public class WorkbenchMenu extends Table implements Invokable {
     }
 
     /**
-     * Cerates menu table
+     * Creates menu table.
      */
     private void createTable() {
         this.setDebug(true);
@@ -53,16 +58,24 @@ public class WorkbenchMenu extends Table implements Invokable {
         this.setFillParent(true);
         this.add(createOrderList());
         this.add(createCloseButton()).right().top().row();
-        this.add(createAddButton()).right().top().row();
+        this.add(createAddButton()).right().top();
     }
 
     private TextButton createCloseButton() {
         closeButton = new TextButton("X", StaticSkin.getSkin());
+        closeButton.addListener(event -> {
+            close();
+            return true;
+        });
         return closeButton;
     }
 
     private TextButton createAddButton() {
         addOrderButton = new TextButton("New", StaticSkin.getSkin());
+        addOrderButton.addListener(event -> {
+            createNewOrder();
+            return true;
+        });
         return addOrderButton;
     }
 
@@ -92,7 +105,10 @@ public class WorkbenchMenu extends Table implements Invokable {
             case Input.Keys.S:
             case Input.Keys.D: {
                 goToMenu();
-
+                return true;
+            }
+            case Input.Keys.Q: {
+                close();
                 return true;
             }
         }
@@ -102,17 +118,19 @@ public class WorkbenchMenu extends Table implements Invokable {
     /**
      * Creates new empty order line and moves focus to it.
      */
-    private CraftingOrderLine createNewOrder() {
-        System.out.println("creating order");
-        CraftingOrderLine orderLine = new CraftingOrderLine(gameMvc, this);
-        list.addEntry(0, orderLine); // to the top of the list
+    private RecipeSelectOrderLine createNewOrder() {
+        RecipeSelectOrderLine orderLine = new RecipeSelectOrderLine(gameMvc, this);
+        list.addOrderLine(0, orderLine); // to the top of the list
         focusStack.push(list);
         focusStack.push(orderLine);
         return orderLine;
     }
 
+    /**
+     * Moves focus to oreder list
+     */
     private void goToMenu() {
-
+        focusStack.push(list);
     }
 
     /**
@@ -120,8 +138,12 @@ public class WorkbenchMenu extends Table implements Invokable {
      */
     private void fillWorkbenchOrders() {
         workbenchAspect.getOrders().forEach(order -> {
-            list.addEntry(0, new CraftingOrderLine(gameMvc, this, order));
+            list.addOrderLine(0, new CraftingOrderLine(gameMvc, this, order));
         });
+    }
+
+    public void createOrderLineForRecipe(Recipe recipe) {
+
     }
 
     /**
@@ -133,5 +155,13 @@ public class WorkbenchMenu extends Table implements Invokable {
 
     public WorkbenchAspect getWorkbenchAspect() {
         return workbenchAspect;
+    }
+
+    /**
+     * Closes stage with this menu.
+     */
+    public void close() {
+        //TODO add changes discarding.
+        stage.invoke(Input.Keys.Q);
     }
 }

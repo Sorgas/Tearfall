@@ -1,15 +1,10 @@
 package stonering.desktop;
 
-import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import stonering.TearFall;
 import stonering.utils.global.TagLoggersEnum;
-import stonering.utils.global.TaggedLogger;
-
-import java.util.Arrays;
 
 public class DesktopLauncher {
 
