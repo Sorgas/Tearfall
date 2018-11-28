@@ -19,7 +19,7 @@ import stonering.global.utils.Position;
  *
  * @author Alexander Kuzyakov on 12.10.2017.
  */
-public class UIDrawer extends Stage implements Invokable, MouseInvocable {
+public class UIDrawer extends Stage {
     private GameMvc gameMvc;
     private GameContainer container;
     private MaterialMap materialMap;
@@ -79,12 +79,7 @@ public class UIDrawer extends Stage implements Invokable, MouseInvocable {
     }
 
     @Override
-    public boolean invoke(int keycode) {
-        return toolbar.invoke(keycode);
-    }
-
-    @Override
-    public boolean invoke(int modelX, int modelY, int button, int action) {
-        return toolbar.invoke(modelX, modelY, button, action);
+    public boolean keyDown(int keyCode) {
+        return toolbar.invoke(keyCode);
     }
 }

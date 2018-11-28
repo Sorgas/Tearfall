@@ -4,7 +4,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import stonering.game.core.GameMvc;
 import stonering.game.core.controller.controllers.toolbar.DesignationsController;
-import stonering.game.core.controller.inputProcessors.GameInputProcessor;
 import stonering.game.core.model.EntitySelector;
 import stonering.game.core.model.LocalMap;
 import stonering.game.core.view.render.ui.menus.Toolbar;
@@ -51,14 +50,14 @@ public class AreaSelectComponent extends Label implements HideableComponent, Mou
 
     @Override
     public boolean invoke(int modelX, int modelY, int button, int action) {
-        Position position = new Position(modelX, modelY, selector.getPosition().getZ());
-        switch (action) {
-            case GameInputProcessor.DOWN_CODE:
-            case GameInputProcessor.UP_CODE: {
-                handleConfirm(position);
-                return true;
-            }
-        }
+//        Position position = new Position(modelX, modelY, selector.getPosition().getZ());
+//        switch (action) {
+//            case GameInputProcessor.DOWN_CODE:
+//            case GameInputProcessor.UP_CODE: {
+//                handleConfirm(position);
+//                return true;
+//            }
+//        }
         return false;
     }
 

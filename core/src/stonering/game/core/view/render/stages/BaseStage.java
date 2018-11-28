@@ -3,6 +3,7 @@ package stonering.game.core.view.render.stages;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import stonering.game.core.GameMvc;
 import stonering.game.core.view.render.scene.LocalWorldDrawer;
 import stonering.global.utils.Position;
@@ -13,7 +14,7 @@ import stonering.global.utils.Position;
  *
  * @author Alexander on 09.11.2018.
  */
-public class BaseStage extends InvokableStage {
+public class BaseStage extends Stage {
     private GameMvc gameMvc;
     private LocalWorldDrawer worldDrawer;
     private UIDrawer uiDrawer;
@@ -60,14 +61,11 @@ public class BaseStage extends InvokableStage {
 
     /**
      * Handler for input. Firstly, toolbar is invoked, then entity selection.
-     * If this method returns false, camera is invoked
-     * @param keycode
-     * @return
      */
     @Override
-    public boolean invoke(int keycode) {
-        if(!uiDrawer.invoke(keycode)) { // try act with toolbar
-            return trySelectMapEntity(keycode); // map click
+    public boolean keyDown(int keyCode) {
+        if(!uiDrawer.keyDown(keyCode)) {                 // try act with toolbar
+            return trySelectMapEntity(keyCode);          // map click
         }
         return false;
     }

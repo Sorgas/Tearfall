@@ -3,12 +3,11 @@ package stonering.game.core.view;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import stonering.game.core.GameMvc;
 import stonering.game.core.controller.controllers.GameInputHandler;
 import stonering.game.core.view.render.scene.LocalWorldDrawer;
 import stonering.game.core.view.render.stages.*;
-import stonering.game.core.view.render.ui.menus.util.Invokable;
-import stonering.game.core.view.render.ui.menus.util.MouseInvocable;
 import stonering.utils.global.TagLoggersEnum;
 
 import java.util.ArrayList;
@@ -21,7 +20,7 @@ import java.util.List;
  *
  * @author Alexander Kuzyakov on 10.06.2017.
  */
-public class GameView extends InputAdapter implements Screen, Invokable, MouseInvocable {
+public class GameView extends InputAdapter implements Screen {
     private GameMvc gameMvc;
     private GameInputHandler inputHandler;
     private BaseStage baseStage; // sprites and toolbar. is always rendered.
@@ -70,7 +69,7 @@ public class GameView extends InputAdapter implements Screen, Invokable, MouseIn
         baseStage.initBatch();
     }
 
-    private InvokableStage getActiveStage() {
+    private Stage getActiveStage() {
         return stageList.isEmpty() ? baseStage : stageList.get(stageList.size() -1);
     }
 
@@ -122,12 +121,6 @@ public class GameView extends InputAdapter implements Screen, Invokable, MouseIn
         baseStage.disposeBatch();
     }
 
-    @Override
-    public boolean invoke(int keycode) {
-        return getActiveStage().invoke(keycode);
-    }
-
-    @Override
     public boolean invoke(int modelX, int modelY, int button, int action) {
         return false;
     }

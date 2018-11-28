@@ -5,7 +5,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import stonering.entity.local.building.validators.PositionValidator;
 import stonering.game.core.GameMvc;
 import stonering.game.core.controller.controllers.toolbar.DesignationsController;
-import stonering.game.core.controller.inputProcessors.GameInputProcessor;
 import stonering.game.core.model.EntitySelector;
 import stonering.game.core.view.render.ui.menus.Toolbar;
 import stonering.global.utils.Position;
@@ -59,16 +58,16 @@ public class PlaceSelectComponent extends Label implements HideableComponent, Mo
 
     @Override
     public boolean invoke(int modelX, int modelY, int button, int action) {
-        Position position = new Position(modelX, modelY, selector.getPosition().getZ());
-        switch (action) {
-            case GameInputProcessor.DOWN_CODE:
-            case GameInputProcessor.UP_CODE: {
-                handleConfirm(position);
-            }
-            break;
-            case GameInputProcessor.MOVE_CODE: {
-            }
-        }
+//        Position position = new Position(modelX, modelY, selector.getPosition().getZ());
+//        switch (action) {
+//            case GameInputProcessor.DOWN_CODE:
+//            case GameInputProcessor.UP_CODE: {
+//                handleConfirm(position);
+//            }
+//            break;
+//            case GameInputProcessor.MOVE_CODE: {
+//            }
+//        }
         return false;
     }
 
