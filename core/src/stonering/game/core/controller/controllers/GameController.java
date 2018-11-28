@@ -33,11 +33,10 @@ public class GameController extends Controller {
         designationsController.init();
         pauseController.init();
         uiController.init();
-        gameInputHandler.init();
 
         inputMultiplexer.addProcessor(new PauseInputProcessor(this));
-        inputMultiplexer.addProcessor(gameMvc.getView().getUiDrawer());
-        inputMultiplexer.addProcessor(new GameInputProcessor(this));
+        inputMultiplexer.addProcessor(gameMvc.getView());
+//        inputMultiplexer.addProcessor(new GameInputProcessor(this));
         Gdx.input.setInputProcessor(inputMultiplexer);
     }
 

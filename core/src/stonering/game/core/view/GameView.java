@@ -1,8 +1,10 @@
 package stonering.game.core.view;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import stonering.game.core.GameMvc;
+import stonering.game.core.controller.controllers.GameInputHandler;
 import stonering.game.core.view.render.scene.LocalWorldDrawer;
 import stonering.game.core.view.render.stages.*;
 import stonering.game.core.view.render.ui.menus.util.Invokable;
@@ -14,12 +16,14 @@ import java.util.List;
 
 /**
  * Main game screen. Sprites with general toolbar are rendered on background,
- * additional menus are rendered in separate stages. Only top stage gets input.
+ * additional menus are rendered in separate stages.
+ * Has InputAdapter for traversing input. Only top stage gets input.
  *
  * @author Alexander Kuzyakov on 10.06.2017.
  */
-public class GameView implements Screen, Invokable, MouseInvocable {
+public class GameView extends InputAdapter implements Screen, Invokable, MouseInvocable {
     private GameMvc gameMvc;
+    private GameInputHandler inputHandler;
     private BaseStage baseStage; // sprites and toolbar. is always rendered.
     private MainMenu mainMenu;
     private List<InvokableStage> stageList;
@@ -31,7 +35,7 @@ public class GameView implements Screen, Invokable, MouseInvocable {
      */
     public GameView(GameMvc gameMvc) {
         this.gameMvc = gameMvc;
-        Gdx.input.setInputProcessor(baseStage);
+        inputHandler = new GameInputHandler(gameMvc);
         createStages();
     }
 
@@ -39,6 +43,7 @@ public class GameView implements Screen, Invokable, MouseInvocable {
         stageList = new ArrayList<>();
         baseStage = new BaseStage(gameMvc);
         mainMenu = new MainMenu();
+        inputHandler.setStage(getActiveStage());
     }
 
     /**
@@ -69,15 +74,21 @@ public class GameView implements Screen, Invokable, MouseInvocable {
         return stageList.isEmpty() ? baseStage : stageList.get(stageList.size() -1);
     }
 
+    /**
+     * Adds given stage to top of this screen. Updates inputHandler.
+     * @param stage
+     */
     public void addStageToList(InvokableStage stage) {
         TagLoggersEnum.UI.logDebug("showing stage " + stage.toString());
         stageList.add(stage);
         stage.init();
+        inputHandler.setStage(getActiveStage());
     }
 
     public void removeStage(InvokableStage stage) {
         TagLoggersEnum.UI.logDebug("hiding stage " + stage.toString());
         stageList.remove(stage);
+        inputHandler.setStage(getActiveStage());
     }
 
     @Override
@@ -127,5 +138,15 @@ public class GameView implements Screen, Invokable, MouseInvocable {
 
     public UIDrawer getUiDrawer() {
         return baseStage.getUiDrawer();
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        return inputHandler.keyDown(keycode);
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return inputHandler.keyTyped(character);
     }
 }
