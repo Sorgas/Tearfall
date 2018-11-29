@@ -1,19 +1,18 @@
 package stonering.game.core.view.render.ui.menus.workbench;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import stonering.entity.local.building.Building;
 import stonering.entity.local.building.aspects.WorkbenchAspect;
 import stonering.enums.items.Recipe;
 import stonering.game.core.GameMvc;
-import stonering.game.core.view.render.stages.InvokableStage;
-import stonering.game.core.view.render.ui.menus.util.Invokable;
 import stonering.game.core.view.render.ui.menus.workbench.orderline.CraftingOrderLine;
 import stonering.game.core.view.render.ui.menus.workbench.orderline.RecipeSelectOrderLine;
 import stonering.utils.global.StaticSkin;
-
-import java.util.Stack;
 
 /**
  * Menu for workbenches to manage crafting orders.
@@ -21,12 +20,11 @@ import java.util.Stack;
  *
  * @author Alexander on 28.10.2018.
  */
-public class WorkbenchMenu extends Table implements Invokable {
+public class WorkbenchMenu extends Table {
     private GameMvc gameMvc;
-    private InvokableStage stage;
+    private Stage stage;
     private Building workbench;
     private WorkbenchAspect workbenchAspect; // aspect of selected workbench (M thing)
-    private Stack<Invokable> focusStack; // chain of elements. first one is focused.
 
     private CraftingOrderedList list;
     private TextButton addOrderButton;
@@ -36,16 +34,15 @@ public class WorkbenchMenu extends Table implements Invokable {
      * Creates menu for selected built workbench on localMap. Can be used only for workbenches.
      * Will throw NPE if created on non-workbench workbench.
      */
-    public WorkbenchMenu(GameMvc gameMvc, InvokableStage stage, Building building) {
+    public WorkbenchMenu(GameMvc gameMvc, Stage stage, Building building) {
         super();
         this.gameMvc = gameMvc;
         this.stage = stage;
+        stage.setKeyboardFocus(this);
         this.workbench = building;
         workbenchAspect = (WorkbenchAspect) building.getAspects().get(WorkbenchAspect.NAME);
         createTable();
         fillWorkbenchOrders();
-        focusStack = new Stack<>();
-        focusStack.push(this);
     }
 
     /**
@@ -59,6 +56,29 @@ public class WorkbenchMenu extends Table implements Invokable {
         this.add(createOrderList());
         this.add(createCloseButton()).right().top().row();
         this.add(createAddButton()).right().top();
+        this.addListener(new InputListener() {
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                switch (keycode) {
+                    case Input.Keys.E: {
+                        createNewOrder();
+                        return true;
+                    }
+                    case Input.Keys.W:
+                    case Input.Keys.A:
+                    case Input.Keys.S:
+                    case Input.Keys.D: {
+                        goToMenu();
+                        return true;
+                    }
+                    case Input.Keys.Q: {
+                        close();
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
     }
 
     private TextButton createCloseButton() {
@@ -85,44 +105,12 @@ public class WorkbenchMenu extends Table implements Invokable {
     }
 
     /**
-     * Handles input from stage. Invokes focused element of this menu;
-     *
-     * @param keycode
-     * @return
-     */
-    @Override
-    public boolean invoke(int keycode) {
-        if (focusStack.peek() != this) {
-            return focusStack.peek().invoke(keycode);
-        }
-        switch (keycode) {
-            case Input.Keys.E: {
-                createNewOrder();
-                return true;
-            }
-            case Input.Keys.W:
-            case Input.Keys.A:
-            case Input.Keys.S:
-            case Input.Keys.D: {
-                goToMenu();
-                return true;
-            }
-            case Input.Keys.Q: {
-                close();
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
      * Creates new empty order line and moves focus to it.
      */
     private RecipeSelectOrderLine createNewOrder() {
         RecipeSelectOrderLine orderLine = new RecipeSelectOrderLine(gameMvc, this);
         list.addOrderLine(0, orderLine); // to the top of the list
-        focusStack.push(list);
-        focusStack.push(orderLine);
+        getStage().setKeyboardFocus(orderLine);
         return orderLine;
     }
 
@@ -130,7 +118,7 @@ public class WorkbenchMenu extends Table implements Invokable {
      * Moves focus to oreder list
      */
     private void goToMenu() {
-        focusStack.push(list);
+        getStage().setKeyboardFocus(list);
     }
 
     /**
@@ -162,6 +150,6 @@ public class WorkbenchMenu extends Table implements Invokable {
      */
     public void close() {
         //TODO add changes discarding.
-        stage.invoke(Input.Keys.Q);
+        stage.keyDown(Input.Keys.Q);
     }
 }

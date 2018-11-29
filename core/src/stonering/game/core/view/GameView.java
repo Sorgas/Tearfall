@@ -22,10 +22,10 @@ import java.util.List;
  */
 public class GameView extends InputAdapter implements Screen {
     private GameMvc gameMvc;
-    private GameInputHandler inputHandler;
-    private BaseStage baseStage; // sprites and toolbar. is always rendered.
+    private GameInputHandler inputHandler;      // handles case for skipping keyTyped after keyDown
+    private BaseStage baseStage;                // sprites and toolbar. is always rendered.
     private MainMenu mainMenu;
-    private List<InvokableStage> stageList;
+    private List<Stage> stageList;
 
     /**
      * Also creates all sub-components.
@@ -42,7 +42,7 @@ public class GameView extends InputAdapter implements Screen {
         stageList = new ArrayList<>();
         baseStage = new BaseStage(gameMvc);
         mainMenu = new MainMenu();
-        inputHandler.setStage(getActiveStage());
+        inputHandler.setStage(getActiveStage());    // update stage to receive input
     }
 
     /**
@@ -81,13 +81,13 @@ public class GameView extends InputAdapter implements Screen {
         TagLoggersEnum.UI.logDebug("showing stage " + stage.toString());
         stageList.add(stage);
         stage.init();
-        inputHandler.setStage(getActiveStage());
+        inputHandler.setStage(getActiveStage());  // update stage to receive input
     }
 
-    public void removeStage(InvokableStage stage) {
+    public void removeStage(Stage stage) {
         TagLoggersEnum.UI.logDebug("hiding stage " + stage.toString());
         stageList.remove(stage);
-        inputHandler.setStage(getActiveStage());
+        inputHandler.setStage(getActiveStage());  // update stage to receive input
     }
 
     @Override
@@ -119,10 +119,6 @@ public class GameView extends InputAdapter implements Screen {
     @Override
     public void dispose() {
         baseStage.disposeBatch();
-    }
-
-    public boolean invoke(int modelX, int modelY, int button, int action) {
-        return false;
     }
 
     public LocalWorldDrawer getWorldDrawer() {
