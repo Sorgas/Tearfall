@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import stonering.entity.local.building.Building;
 import stonering.entity.local.building.aspects.WorkbenchAspect;
+import stonering.entity.local.crafting.ItemOrder;
 import stonering.enums.items.Recipe;
 import stonering.game.core.GameMvc;
 import stonering.game.core.view.render.ui.menus.util.NavigableVerticalGroup;
@@ -110,6 +111,11 @@ public class WorkbenchMenu extends Table {
             getStage().setKeyboardFocus(selected != null ? selected : this);
             return true;
         });
+        orderList.setCancelListener(event -> {
+            event.stop();
+            close();
+            return true;
+        });
         return orderList;
     }
 
@@ -119,7 +125,15 @@ public class WorkbenchMenu extends Table {
     private RecipeSelectOrderLine createNewOrder() {
         RecipeSelectOrderLine orderLine = new RecipeSelectOrderLine(gameMvc, this);
         orderLine.show();
-        TagLoggersEnum.UI.logDebug("new order created, stage focus " + getStage().getKeyboardFocus());
+        return orderLine;
+    }
+
+    /**
+     * Creates new order line by given recipe and moves focus to it.
+     */
+    public CraftingOrderLine createOrderLineForRecipe(Recipe recipe) {
+        CraftingOrderLine orderLine = new CraftingOrderLine(gameMvc, this, new ItemOrder(recipe));
+        orderLine.show();
         return orderLine;
     }
 
@@ -137,10 +151,6 @@ public class WorkbenchMenu extends Table {
         workbenchAspect.getOrders().forEach(order -> {
             orderList.addActorAt(0, new CraftingOrderLine(gameMvc, this, order));
         });
-    }
-
-    public void createOrderLineForRecipe(Recipe recipe) {
-
     }
 
     /**

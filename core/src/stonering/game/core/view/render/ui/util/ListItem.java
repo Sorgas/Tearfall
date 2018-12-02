@@ -3,7 +3,6 @@ package stonering.game.core.view.render.ui.util;
 import stonering.entity.local.items.Item;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -23,7 +22,8 @@ public class ListItem {
     public ListItem(String title, String material, Item item) {
         this.title = title;
         this.material = material;
-        this.items = Collections.singletonList(item);
+        this.items = new ArrayList<>();
+        items.add(item);
     }
     @Override
     public String toString() {

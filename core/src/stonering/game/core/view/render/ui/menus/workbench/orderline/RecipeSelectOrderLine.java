@@ -46,31 +46,34 @@ public class RecipeSelectOrderLine extends Table implements HideableComponent {
     }
 
     /**
-     * Creates line with list of all workbench recipes.
+     * Creates line with list of all workbench recipes. Sets stage focus to this.
      */
     public void createRecipeSelectList(ArrayList<Recipe> recipeList) {
         Map<String, Recipe> recipeMap = new HashMap<>();
         recipeList.forEach(recipe -> recipeMap.put(recipe.getTitle(), recipe));
         itemTypeList = new NavigableList();
         itemTypeList.setItems(recipeMap.keySet().toArray(new String[]{}));
-        itemTypeList.setSelectListener(event -> { // hides list and creates empty order for recipe
+        itemTypeList.setSelectListener(event -> {                                               // hides list and creates empty order for recipe
             if (itemTypeList.getSelectedIndex() >= 0) {
                 String selected = (String) itemTypeList.getItems().get(itemTypeList.getSelectedIndex());
-                this.hide();
+                hide();
                 menu.createOrderLineForRecipe(recipeMap.get(selected));
             }
             return true;
         });
-        itemTypeList.setHideListener(event -> { // removes order
+        itemTypeList.setHideListener(event -> {                                                 // removes order
             event.stop();
-            this.hide();
+            hide();
             return true;
         });
-        this.add(itemTypeList).left().top().expandX();
+        add(itemTypeList).left().top().expandX();
         getStage().setKeyboardFocus(itemTypeList);
         itemTypeList.show();
     }
 
+    /**
+     * Creates order status label.
+     */
     private void createStatusLabel() {
         statusLabel = new Label("new", StaticSkin.getSkin());
         this.add(statusLabel).top();
