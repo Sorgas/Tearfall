@@ -158,7 +158,7 @@ public class WorkbenchMenu extends Table {
      * Closes stage with this menu.
      */
     public void close() {
-        getStage().keyDown(Input.Keys.Q);
+        gameMvc.getView().removeStage(getStage());
     }
 
     public NavigableVerticalGroup getOrderList() {

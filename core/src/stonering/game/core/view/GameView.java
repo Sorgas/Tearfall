@@ -3,6 +3,7 @@ package stonering.game.core.view;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import stonering.game.core.GameMvc;
 import stonering.game.core.controller.controllers.GameInputHandler;
 import stonering.game.core.view.render.scene.LocalWorldDrawer;
@@ -83,7 +84,7 @@ public class GameView extends InputAdapter implements Screen {
         inputHandler.setStage(getActiveStage());  // update stage to receive input
     }
 
-    public void removeStage(InitableStage stage) {
+    public void removeStage(Stage stage) {
         TagLoggersEnum.UI.logDebug("hiding stage " + stage.toString());
         stageList.remove(stage);
         inputHandler.setStage(getActiveStage());  // update stage to receive input
