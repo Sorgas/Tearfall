@@ -2,6 +2,8 @@ package stonering.game.core.view.render.ui.menus;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -19,7 +21,7 @@ import java.util.*;
  *
  * @author Alexander Kuzyakov on 17.06.2018.
  */
-public class Toolbar extends Container implements Invokable, MouseInvocable {
+public class Toolbar extends Container {
     private GameMvc gameMvc;
     private Table toolbarTable; // in container
     private Table menusTable;   // in first row
@@ -37,6 +39,7 @@ public class Toolbar extends Container implements Invokable, MouseInvocable {
         this.setFillParent(true);
         this.align(Align.bottomRight);
         this.setActor(createToolbarTable());
+        createInputListener();
     }
 
     /**
@@ -126,11 +129,9 @@ public class Toolbar extends Container implements Invokable, MouseInvocable {
      *
      * @return
      */
-    public Invokable getActiveMenu() {
+    public Actor getActiveMenu() {
         for (int i = 0; i < menusTable.getChildren().size; i++) {
-            if (Invokable.class.isAssignableFrom(menusTable.getChildren().get(i).getClass())) {
-                return (Invokable) menusTable.getChildren().get(i);
-            }
+            return menusTable.getChildren().get(i);
         }
         return null;
     }
@@ -138,28 +139,23 @@ public class Toolbar extends Container implements Invokable, MouseInvocable {
     /**
      * Simply transfers event to current active menu.
      *
-     * @param keycode pressed character.
      * @return true, if press handled
      */
-    @Override
-    public boolean invoke(int keycode) {
-        if (keycode == Input.Keys.E && getActiveMenu() == parentMenu) {
-            return false;
-        }
-        getActiveMenu().invoke(keycode);
-        return true;
+    private void createInputListener() {
+        addListener(new InputListener() {
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                if (keycode == Input.Keys.E && getActiveMenu() == parentMenu) {
+                    return false;
+                }
+                System.out.println(getActiveMenu());
+                getActiveMenu().fire(event);
+                return true;
+            }
+        });
     }
 
     public void setText(String text) {
         status.setText(text);
-    }
-
-    @Override
-    public boolean invoke(int modelX, int modelY, int button, int action) {
-        Invokable menu = getActiveMenu();
-        if (Arrays.asList(menu.getClass().getInterfaces()).contains(MouseInvocable.class)) {
-            return ((MouseInvocable) menu).invoke(modelX, modelY, button, action);
-        }
-        return false;
     }
 }

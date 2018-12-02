@@ -3,7 +3,6 @@ package stonering.game.core.view;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import stonering.game.core.GameMvc;
 import stonering.game.core.controller.controllers.GameInputHandler;
 import stonering.game.core.view.render.scene.LocalWorldDrawer;

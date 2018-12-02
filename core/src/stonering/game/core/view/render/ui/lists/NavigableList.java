@@ -1,17 +1,13 @@
 package stonering.game.core.view.render.ui.lists;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
-import stonering.enums.items.Recipe;
-import stonering.game.core.GameMvc;
-import stonering.game.core.view.render.ui.menus.util.HideableComponent;
-import stonering.game.core.view.render.ui.menus.util.Invokable;
 import stonering.utils.global.StaticSkin;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import stonering.utils.global.TagLoggersEnum;
 
 /**
  * Extends {@link List} with navigation methods.
@@ -19,32 +15,40 @@ import java.util.Map;
  *
  * @author Alexander Kuzyakov on 03.07.2018.
  */
-public class NavigableList extends List implements Invokable, HideableComponent {
+public class NavigableList extends List {
     private EventListener hideListener;
     private EventListener selectListener;
     private EventListener showListener;
 
     public NavigableList() {
         super(StaticSkin.getSkin());
+        clearListeners();              // clears listener for Ctrl+A
+        createDefaultListener();
     }
 
-    @Override
-    public boolean invoke(int keycode) {
-        switch (keycode) {
-            case Input.Keys.R:
-                up();
-                return true;
-            case Input.Keys.F:
-                down();
-                return true;
-            case Input.Keys.E:
-                select();
-                return true;
-            case Input.Keys.Q:
-                hide();
-                return true;
-        }
-        return false;
+    private void createDefaultListener() {
+        addListener(new InputListener() {
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                event.stop();
+                TagLoggersEnum.UI.logDebug("handling " + Input.Keys.toString(keycode) + " on NavigableList");
+                switch (keycode) {
+                    case Input.Keys.W:
+                        up();
+                        return true;
+                    case Input.Keys.S:
+                        down();
+                        return true;
+                    case Input.Keys.E:
+                        select(event);
+                        return true;
+                    case Input.Keys.Q:
+                        hide(event);
+                        return true;
+                }
+                return false;
+            }
+        });
     }
 
     public void up() {
@@ -59,23 +63,21 @@ public class NavigableList extends List implements Invokable, HideableComponent 
         }
     }
 
-    public void select() {
-        if(selectListener != null) {
-            selectListener.handle(null);
+    public void select(Event event) {
+        if (selectListener != null) {
+            selectListener.handle(event);
         }
     }
 
-    @Override
     public void show() {
-        if(showListener != null) {
+        if (showListener != null) {
             showListener.handle(null);
         }
     }
 
-    @Override
-    public void hide() {
-        if(hideListener != null) {
-            hideListener.handle(null);
+    public void hide(Event event) {
+        if (hideListener != null) {
+            hideListener.handle(event);
         }
     }
 

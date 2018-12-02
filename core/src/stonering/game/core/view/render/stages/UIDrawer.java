@@ -2,20 +2,15 @@ package stonering.game.core.view.render.stages;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import stonering.enums.materials.Material;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.core.GameMvc;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.view.render.ui.TileStatusBar;
 import stonering.game.core.view.render.ui.menus.Toolbar;
-import stonering.game.core.view.render.ui.menus.util.Invokable;
-import stonering.game.core.view.render.ui.menus.util.MouseInvocable;
 import stonering.global.utils.Position;
 
 /**
- * Sub model for ui items. Handles all input in game.
- * Stores and renders all ui components on screen.
  *
  * @author Alexander Kuzyakov on 12.10.2017.
  */
@@ -46,9 +41,10 @@ public class UIDrawer extends Stage {
         rightTools.addActor(toolbar);
         Container container = new Container(rightTools).bottom().right().pad(10);
         container.setFillParent(true);
-        this.addActor(container);
-        this.addActor(toolbar);
-        this.setDebugAll(true);
+        addActor(container);
+        addActor(toolbar);
+        setDebugAll(true);
+        setKeyboardFocus(toolbar);
     }
 
     public void draw() {
@@ -76,10 +72,5 @@ public class UIDrawer extends Stage {
 
     public void setToolbarLabelText(String text) {
         toolbar.setText(text);
-    }
-
-    @Override
-    public boolean keyDown(int keyCode) {
-        return toolbar.invoke(keyCode);
     }
 }

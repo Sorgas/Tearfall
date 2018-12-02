@@ -26,7 +26,7 @@ import java.util.Map;
  *
  * @author Alexander on 28.10.2018.
  */
-public class CraftingOrderLine extends Table implements Invokable {
+public class CraftingOrderLine extends Table {
     private GameMvc gameMvc;
     private ItemContainer itemContainer;
     private WorkbenchMenu menu;
@@ -75,7 +75,7 @@ public class CraftingOrderLine extends Table implements Invokable {
         itemTypeList.setSelectListener(event -> { // hides list and creates empty order for recipe
             if (itemTypeList.getSelectedIndex() >= 0) {
                 String selected = (String) itemTypeList.getItems().get(itemTypeList.getSelectedIndex());
-                itemTypeList.hide();
+                itemTypeList.hide(event);
                 createOrderLine(new ItemOrder(recipeMap.get(selected)));
             }
             return true;
@@ -111,23 +111,6 @@ public class CraftingOrderLine extends Table implements Invokable {
             warningLabel = new Label("no items available", StaticSkin.getSkin()); // label with item type
             add(warningLabel);
         }
-    }
-
-    @Override
-    public boolean invoke(int keycode) {
-        if (itemTypeList != null) {                     // if itemTypeList persists, it is the only actor.
-            return itemTypeList.invoke(keycode);
-        } else {
-
-
-
-
-
-        }
-        if (materialselectBox != null) {
-            return materialselectBox.invoke(keycode);
-        }
-        return false;
     }
 
     private void handleCancel() {

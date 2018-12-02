@@ -30,15 +30,11 @@ public class GameInputHandler extends InputAdapter {
         cameraInputHandler = new CameraInputHandler(gameMvc);
         keycodesMap = new HashMap<>();
     }
-// TODO mouse input
-//    public boolean handleEvent(int screenX, int screenY, int button, int action) {
-//        Vector2 vector2 = gameView.getWorldDrawer().translateScreenPositionToModel(new Vector2(screenX, screenY));
-//        return gameView.invoke(Math.round(vector2.x), Math.round(vector2.y), button, action);
-//    }
 
     @Override
     public boolean keyDown(int keycode) {
         charsToSkip.add(keycode);           // next keyType with this will be skipped.
+        System.out.println("keyDown " + stage.getKeyboardFocus());
         return !stage.keyDown(keycode) && cameraInputHandler.keyDown(keycode); // call stage, then camera
     }
 

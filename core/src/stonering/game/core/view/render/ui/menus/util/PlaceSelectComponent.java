@@ -1,6 +1,8 @@
 package stonering.game.core.view.render.ui.menus.util;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import stonering.entity.local.building.validators.PositionValidator;
 import stonering.game.core.GameMvc;
@@ -16,7 +18,7 @@ import stonering.utils.global.TagLoggersEnum;
  *
  * @author Alexander Kuzyakov on 12.07.2018.
  */
-public class PlaceSelectComponent extends Label implements HideableComponent, MouseInvocable {
+public class PlaceSelectComponent extends Label implements HideableComponent {
     private GameMvc gameMvc;
     private DesignationsController controller;
     private Toolbar toolbar;
@@ -34,41 +36,32 @@ public class PlaceSelectComponent extends Label implements HideableComponent, Mo
         selector = gameMvc.getModel().getCamera();
         controller = gameMvc.getController().getDesignationsController();
         toolbar = gameMvc.getView().getUiDrawer().getToolbar();
+        createDefaultListener();
     }
 
-    @Override
-    public boolean invoke(int keycode) {
-        //TODO add reference to Key Settings
-        switch (keycode) {
-            case Input.Keys.E:
-                handleConfirm(selector.getPosition().clone());
-                return true;
-            case Input.Keys.Q:
-                handleCancel();
-                return true;
-            case Input.Keys.W:
-            case Input.Keys.A:
-            case Input.Keys.S:
-            case Input.Keys.D:
-                super.setText(defaultText);
-                return false; // to interrupt navigation input.
-        }
-        return false;
-    }
-
-    @Override
-    public boolean invoke(int modelX, int modelY, int button, int action) {
-//        Position position = new Position(modelX, modelY, selector.getPosition().getZ());
-//        switch (action) {
-//            case GameInputProcessor.DOWN_CODE:
-//            case GameInputProcessor.UP_CODE: {
-//                handleConfirm(position);
-//            }
-//            break;
-//            case GameInputProcessor.MOVE_CODE: {
-//            }
-//        }
-        return false;
+    private void createDefaultListener() {
+        addListener(new InputListener() {
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                TagLoggersEnum.UI.logDebug("handling " + Input.Keys.toString(keycode) + " in PlaceSelectComponent");
+                event.stop();
+                switch (keycode) {
+                    case Input.Keys.E:
+                        handleConfirm(selector.getPosition().clone());
+                        return true;
+                    case Input.Keys.Q:
+                        handleCancel();
+                        return true;
+                    case Input.Keys.W:
+                    case Input.Keys.A:
+                    case Input.Keys.S:
+                    case Input.Keys.D:
+                        setText(defaultText);
+                        return false; // to interrupt navigation input.
+                }
+                return false;
+            }
+        });
     }
 
     /**

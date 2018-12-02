@@ -17,8 +17,6 @@ import java.util.List;
  * @author Alexander Kuzyakov on 26.06.2018
  */
 public abstract class ItemsCountList extends NavigableList {
-
-
     public ItemsCountList() {
         super();
     }
@@ -47,8 +45,4 @@ public abstract class ItemsCountList extends NavigableList {
     protected ListItem getSelectedListItem() {
         return (ListItem) getSelected();
     }
-
-    /**
-     * Encapsulates list of items.
-     */
 }

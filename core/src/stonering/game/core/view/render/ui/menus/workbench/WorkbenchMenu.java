@@ -1,6 +1,7 @@
 package stonering.game.core.view.render.ui.menus.workbench;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -10,9 +11,11 @@ import stonering.entity.local.building.Building;
 import stonering.entity.local.building.aspects.WorkbenchAspect;
 import stonering.enums.items.Recipe;
 import stonering.game.core.GameMvc;
+import stonering.game.core.view.render.ui.menus.util.NavigableVerticalGroup;
 import stonering.game.core.view.render.ui.menus.workbench.orderline.CraftingOrderLine;
 import stonering.game.core.view.render.ui.menus.workbench.orderline.RecipeSelectOrderLine;
 import stonering.utils.global.StaticSkin;
+import stonering.utils.global.TagLoggersEnum;
 
 /**
  * Menu for workbenches to manage crafting orders.
@@ -22,11 +25,10 @@ import stonering.utils.global.StaticSkin;
  */
 public class WorkbenchMenu extends Table {
     private GameMvc gameMvc;
-    private Stage stage;
     private Building workbench;
     private WorkbenchAspect workbenchAspect; // aspect of selected workbench (M thing)
 
-    private CraftingOrderedList list;
+    private NavigableVerticalGroup orderList;
     private TextButton addOrderButton;
     private TextButton closeButton;
 
@@ -37,7 +39,6 @@ public class WorkbenchMenu extends Table {
     public WorkbenchMenu(GameMvc gameMvc, Stage stage, Building building) {
         super();
         this.gameMvc = gameMvc;
-        this.stage = stage;
         stage.setKeyboardFocus(this);
         this.workbench = building;
         workbenchAspect = (WorkbenchAspect) building.getAspects().get(WorkbenchAspect.NAME);
@@ -59,6 +60,8 @@ public class WorkbenchMenu extends Table {
         this.addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
+                TagLoggersEnum.UI.logDebug("handling " + Input.Keys.toString(keycode) + " on WorkbenchMenu");
+                event.stop();
                 switch (keycode) {
                     case Input.Keys.E: {
                         createNewOrder();
@@ -99,9 +102,15 @@ public class WorkbenchMenu extends Table {
         return addOrderButton;
     }
 
-    private CraftingOrderedList createOrderList() {
-        list = new CraftingOrderedList();
-        return list;
+    private NavigableVerticalGroup createOrderList() {
+        orderList = new NavigableVerticalGroup();
+        orderList.setSelectListener(event -> {
+            event.stop();
+            Actor selected = orderList.getSelectedElement();
+            getStage().setKeyboardFocus(selected != null ? selected : this);
+            return true;
+        });
+        return orderList;
     }
 
     /**
@@ -109,8 +118,8 @@ public class WorkbenchMenu extends Table {
      */
     private RecipeSelectOrderLine createNewOrder() {
         RecipeSelectOrderLine orderLine = new RecipeSelectOrderLine(gameMvc, this);
-        list.addOrderLine(0, orderLine); // to the top of the list
-        getStage().setKeyboardFocus(orderLine);
+        orderLine.show();
+        TagLoggersEnum.UI.logDebug("new order created, stage focus " + getStage().getKeyboardFocus());
         return orderLine;
     }
 
@@ -118,7 +127,7 @@ public class WorkbenchMenu extends Table {
      * Moves focus to oreder list
      */
     private void goToMenu() {
-        getStage().setKeyboardFocus(list);
+        getStage().setKeyboardFocus(orderList);
     }
 
     /**
@@ -126,7 +135,7 @@ public class WorkbenchMenu extends Table {
      */
     private void fillWorkbenchOrders() {
         workbenchAspect.getOrders().forEach(order -> {
-            list.addOrderLine(0, new CraftingOrderLine(gameMvc, this, order));
+            orderList.addActorAt(0, new CraftingOrderLine(gameMvc, this, order));
         });
     }
 
@@ -149,7 +158,10 @@ public class WorkbenchMenu extends Table {
      * Closes stage with this menu.
      */
     public void close() {
-        //TODO add changes discarding.
-        stage.keyDown(Input.Keys.Q);
+        getStage().keyDown(Input.Keys.Q);
+    }
+
+    public NavigableVerticalGroup getOrderList() {
+        return orderList;
     }
 }

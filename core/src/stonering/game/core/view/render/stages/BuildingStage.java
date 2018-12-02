@@ -1,7 +1,5 @@
 package stonering.game.core.view.render.stages;
 
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.utils.Align;
 import stonering.entity.local.building.Building;
@@ -34,7 +32,7 @@ public class BuildingStage extends InitableStage {
     private void createWorkbenchMenu() {
         menu = new WorkbenchMenu(gameMvc, this, building);
         menu.align(Align.center);
-        setKeyboardFocus(menu);
+//        setKeyboardFocus(menu);
         Container container = new Container(menu).bottom().left().pad(10);
         container.setFillParent(true);
         container.setDebug(true, true);
