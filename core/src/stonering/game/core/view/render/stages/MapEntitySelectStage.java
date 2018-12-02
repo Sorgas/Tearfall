@@ -1,6 +1,7 @@
 package stonering.game.core.view.render.stages;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import stonering.entity.local.building.BuildingBlock;
 import stonering.game.core.GameMvc;
 import stonering.game.core.view.render.ui.lists.ObservingList;
@@ -15,7 +16,7 @@ import stonering.utils.global.TagLoggersEnum;
  *
  * @author Alexander on 11.11.2018.
  */
-public class MapEntitySelectStage extends InvokableStage {
+public class MapEntitySelectStage extends InitableStage {
     public static final int ALL = -1;
     public static final int ITEMS = 0;
     public static final int UNITS = 1;
@@ -41,9 +42,9 @@ public class MapEntitySelectStage extends InvokableStage {
         this.currentPosition = currentPosition;
         this.activeMode = activeMode;
         observingList = new ObservingList(gameMvc);
+
     }
 
-    @Override
     public boolean invoke(int keycode) {
         switch (keycode) {
             case Input.Keys.Q :
@@ -82,21 +83,5 @@ public class MapEntitySelectStage extends InvokableStage {
             gameMvc.getView().removeStage(this);
             gameMvc.getView().addStageToList(new BuildingStage(gameMvc, buildingBlock.getBuilding()));
         }
-    }
-
-    private void fillItems() {
-
-    }
-
-    private void fillUnits() {
-
-    }
-
-    private void fillBuildings(BuildingBlock buildingBlock) {
-
-    }
-
-    public void setActiveMode(int activeMode) {
-        this.activeMode = activeMode;
     }
 }

@@ -13,7 +13,7 @@ import stonering.game.core.view.render.ui.menus.workbench.WorkbenchMenu;
  *
  * @author Alexander on 09.11.2018.
  */
-public class BuildingStage extends Stage {
+public class BuildingStage extends InitableStage {
     private GameMvc gameMvc;
     private Building building;
     private WorkbenchMenu menu;
@@ -23,6 +23,7 @@ public class BuildingStage extends Stage {
         this.building = building;
     }
 
+    @Override
     public void init() {
         createWorkbenchMenu();
     }

@@ -25,7 +25,7 @@ public class GameView extends InputAdapter implements Screen {
     private GameInputHandler inputHandler;      // handles case for skipping keyTyped after keyDown
     private BaseStage baseStage;                // sprites and toolbar. is always rendered.
     private MainMenu mainMenu;
-    private List<Stage> stageList;
+    private List<InitableStage> stageList;      // init called on adding.
 
     /**
      * Also creates all sub-components.
@@ -69,7 +69,7 @@ public class GameView extends InputAdapter implements Screen {
         baseStage.initBatch();
     }
 
-    private Stage getActiveStage() {
+    private InitableStage getActiveStage() {
         return stageList.isEmpty() ? baseStage : stageList.get(stageList.size() -1);
     }
 
@@ -77,14 +77,14 @@ public class GameView extends InputAdapter implements Screen {
      * Adds given stage to top of this screen. Updates inputHandler.
      * @param stage
      */
-    public void addStageToList(InvokableStage stage) {
+    public void addStageToList(InitableStage stage) {
         TagLoggersEnum.UI.logDebug("showing stage " + stage.toString());
         stageList.add(stage);
         stage.init();
         inputHandler.setStage(getActiveStage());  // update stage to receive input
     }
 
-    public void removeStage(Stage stage) {
+    public void removeStage(InitableStage stage) {
         TagLoggersEnum.UI.logDebug("hiding stage " + stage.toString());
         stageList.remove(stage);
         inputHandler.setStage(getActiveStage());  // update stage to receive input

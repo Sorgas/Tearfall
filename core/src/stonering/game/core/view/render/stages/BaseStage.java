@@ -14,7 +14,7 @@ import stonering.global.utils.Position;
  *
  * @author Alexander on 09.11.2018.
  */
-public class BaseStage extends Stage {
+public class BaseStage extends InitableStage {
     private GameMvc gameMvc;
     private LocalWorldDrawer worldDrawer;
     private UIDrawer uiDrawer;
@@ -26,6 +26,7 @@ public class BaseStage extends Stage {
         uiDrawer = new UIDrawer(gameMvc);
     }
 
+    @Override
     public void init() {
         worldDrawer.init();
         uiDrawer.init();
