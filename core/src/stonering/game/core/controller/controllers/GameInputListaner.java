@@ -1,12 +1,10 @@
 package stonering.game.core.controller.controllers;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import stonering.game.core.GameMvc;
-import stonering.game.core.view.GameView;
-import stonering.game.core.view.render.ui.menus.util.Invokable;
 
 import java.util.*;
 
@@ -18,31 +16,33 @@ import java.util.*;
  *
  * @author Alexander on 06.09.2018.
  */
-public class GameInputHandler extends InputAdapter {
+public class GameInputListaner extends InputListener {
     private Stage stage;   // updated from gameView
     private CameraInputHandler cameraInputHandler;
 
     private Set<Integer> charsToSkip;
     private HashMap<Character, Integer> keycodesMap;
 
-    public GameInputHandler(GameMvc gameMvc) {
+    public GameInputListaner(GameMvc gameMvc) {
         charsToSkip = new HashSet<>();
         cameraInputHandler = new CameraInputHandler(gameMvc);
         keycodesMap = new HashMap<>();
     }
 
+
     @Override
-    public boolean keyDown(int keycode) {
+    public boolean keyDown(InputEvent event, int keycode) {
+        event.stop();
         charsToSkip.add(keycode);           // next keyType with this will be skipped.
         System.out.println("keyDown " + stage.getKeyboardFocus());
-        return !stage.keyDown(keycode) && cameraInputHandler.keyDown(keycode); // call stage, then camera
+        return !stage.keyDown(keycode) && cameraInputHandler.keyDown(keycode); // call stage, than camera
     }
 
     /**
      * Before keyType always goes keyDown, so first keyType after it should be skipped.
      */
     @Override
-    public boolean keyTyped(char character) {
+    public boolean keyTyped(InputEvent event, char character) {
         int keycode = charToKeycode(character);
         if (keycode >= 0)
             if (charsToSkip.contains(keycode)) {
@@ -52,11 +52,6 @@ public class GameInputHandler extends InputAdapter {
                 return !stage.keyDown(keycode) && cameraInputHandler.typeCameraKey(keycode); // call stage, then camera
             }
         return false;
-    }
-
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        return stage.touchDown(screenX, screenY, pointer, button);
     }
 
     /**

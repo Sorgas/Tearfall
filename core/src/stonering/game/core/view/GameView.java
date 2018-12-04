@@ -1,11 +1,10 @@
 package stonering.game.core.view;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import stonering.game.core.GameMvc;
-import stonering.game.core.controller.controllers.GameInputHandler;
+import stonering.game.core.controller.controllers.GameInputListaner;
 import stonering.game.core.view.render.scene.LocalWorldDrawer;
 import stonering.game.core.view.render.stages.*;
 import stonering.utils.global.TagLoggersEnum;
@@ -20,9 +19,9 @@ import java.util.List;
  *
  * @author Alexander Kuzyakov on 10.06.2017.
  */
-public class GameView extends InputAdapter implements Screen {
+public class GameView implements Screen {
     private GameMvc gameMvc;
-    private GameInputHandler inputHandler;      // handles case for skipping keyTyped after keyDown
+    private GameInputListaner gameInputListener;      // handles case for skipping keyTyped after keyDown
     private BaseStage baseStage;                // sprites and toolbar. is always rendered.
     private MainMenu mainMenu;
     private List<InitableStage> stageList;      // init called on adding.
@@ -34,7 +33,7 @@ public class GameView extends InputAdapter implements Screen {
      */
     public GameView(GameMvc gameMvc) {
         this.gameMvc = gameMvc;
-        inputHandler = new GameInputHandler(gameMvc);
+        gameInputListener = new GameInputListaner(gameMvc);
         createStages();
     }
 
@@ -42,7 +41,7 @@ public class GameView extends InputAdapter implements Screen {
         stageList = new ArrayList<>();
         baseStage = new BaseStage(gameMvc);
         mainMenu = new MainMenu();
-        inputHandler.setStage(getActiveStage());    // update stage to receive input
+        gameInputListener.setStage(getActiveStage());    // update stage to receive input
     }
 
     /**
@@ -57,7 +56,7 @@ public class GameView extends InputAdapter implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(Gdx.gl20.GL_COLOR_BUFFER_BIT | Gdx.gl20.GL_DEPTH_BUFFER_BIT);
-        if(getActiveStage() != baseStage) {
+        if (getActiveStage() != baseStage) {   // render base stage under other
             baseStage.getViewport().apply();
             baseStage.act();
             baseStage.draw();
@@ -72,25 +71,27 @@ public class GameView extends InputAdapter implements Screen {
     }
 
     private InitableStage getActiveStage() {
-        return stageList.isEmpty() ? baseStage : stageList.get(stageList.size() -1);
+        return stageList.isEmpty() ? baseStage : stageList.get(stageList.size() - 1);
     }
 
     /**
-     * Adds given stage to top of this screen. Updates inputHandler.
+     * Adds given stage to top of this screen. Updates gameInputListener.
+     *
      * @param stage
      */
     public void addStageToList(InitableStage stage) {
         TagLoggersEnum.UI.logDebug("showing stage " + stage.toString());
         stageList.add(stage);
-
+        Gdx.input.setInputProcessor(stage);
+        gameInputListener.setStage(getActiveStage());  // update stage to receive input
+        stage.addListener(gameInputListener);
         stage.init();
-        inputHandler.setStage(getActiveStage());  // update stage to receive input
     }
 
     public void removeStage(Stage stage) {
         TagLoggersEnum.UI.logDebug("hiding stage " + stage.toString());
         stageList.remove(stage);
-        inputHandler.setStage(getActiveStage());  // update stage to receive input
+        gameInputListener.setStage(getActiveStage());  // update stage to receive input
     }
 
     @Override
@@ -130,15 +131,5 @@ public class GameView extends InputAdapter implements Screen {
 
     public UIDrawer getUiDrawer() {
         return baseStage.getUiDrawer();
-    }
-
-    @Override
-    public boolean keyDown(int keycode) {
-        return inputHandler.keyDown(keycode);
-    }
-
-    @Override
-    public boolean keyTyped(char character) {
-        return inputHandler.keyTyped(character);
     }
 }
