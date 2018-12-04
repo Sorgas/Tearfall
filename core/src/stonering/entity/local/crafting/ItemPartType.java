@@ -8,6 +8,7 @@ package stonering.entity.local.crafting;
 public class ItemPartType extends CommonComponentStep {
     private String title;
     private int volume;             // sm^3
+    private boolean required = true; // item parts are required by default
 
     //TODO allowed materials and volumes.
 

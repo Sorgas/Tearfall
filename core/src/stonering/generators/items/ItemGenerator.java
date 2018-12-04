@@ -94,7 +94,7 @@ public class ItemGenerator {
      * @return
      */
     private ItemPartType selectStep(ItemType type, String title) {
-        for (ItemPartType step : type.getSteps()) {
+        for (ItemPartType step : type.getParts()) {
             if (step.getTitle().equals(title)) {
                 return step;
             }
@@ -121,7 +121,7 @@ public class ItemGenerator {
      * @return
      */
     private boolean validateOrder(ItemOrder order) {
-//        for (ItemPartType step : order.getType().getSteps()) {
+//        for (ItemPartType step : order.getType().getParts()) {
 //            if(!step.isOptional() && !order.getSelectors().containsKey(step.getTitle())) { // required step missed in order.
 //                return false;
 //            }
@@ -141,7 +141,7 @@ public class ItemGenerator {
 //    public Item generateMockItem(String itemName, int mainMaterial) throws FaultDescriptionException {
 //        ItemType itemType = itemTypeMap.getItemType(itemName);
 //        Item item = new Item(null, itemType);
-//        for (ItemPartType step : itemType.getSteps()) {
+//        for (ItemPartType step : itemType.getParts()) {
 //            item.getParts().put(step.getTitle(), createMockItemPart(step, itemName));
 //        }
 //        if(mainMaterial >= 0) {

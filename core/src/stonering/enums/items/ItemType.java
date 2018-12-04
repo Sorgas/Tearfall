@@ -20,7 +20,7 @@ public class ItemType {
     private ToolItemType tool;                          // is set if this item could be used as tool
     private ContainerItemType container;                // is set if this item could contain other items
 
-    private ArrayList<ItemPartType> steps;      // define parts of items. first one is main
+    private ArrayList<ItemPartType> parts;      // define parts of items. first one is main
 
     private HashMap<String, ArrayList<Object>> aspects; // other aspects
 
@@ -30,7 +30,7 @@ public class ItemType {
     private Color color;
 
     public ItemType() {
-        steps = new ArrayList<>();
+        parts = new ArrayList<>();
     }
 
     public String getTitle() {
@@ -113,12 +113,12 @@ public class ItemType {
         this.container = container;
     }
 
-    public ArrayList<ItemPartType> getSteps() {
-        return steps;
+    public ArrayList<ItemPartType> getParts() {
+        return parts;
     }
 
-    public void setSteps(ArrayList<ItemPartType> steps) {
-        this.steps = steps;
+    public void setParts(ArrayList<ItemPartType> parts) {
+        this.parts = parts;
     }
 
     public String getName() {

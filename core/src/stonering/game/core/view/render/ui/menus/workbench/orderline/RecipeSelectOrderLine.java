@@ -31,15 +31,23 @@ public class RecipeSelectOrderLine extends Table implements HideableComponent {
      */
     public RecipeSelectOrderLine(GameMvc gameMvc, WorkbenchMenu menu) {
         this.menu = menu;
-    }
-
-    @Override
-    public void show() {
-        menu.getOrderList().addActorAt(0, this);
         createStatusLabel();
         createRecipeSelectList(new ArrayList<>(menu.getWorkbenchAspect().getRecipes()));
     }
 
+
+    @Override
+    /**
+     * Shows this line in menu and focuses it.
+     */
+    public void show() {
+        menu.getOrderList().addActorAt(0, this);
+        getStage().setKeyboardFocus(itemTypeList);
+    }
+
+    /**
+     * Hides this line from menu.
+     */
     public void hide() {
         menu.getOrderList().removeActor(this);
         menu.getStage().setKeyboardFocus(menu.getOrderList().hasChildren() ? menu.getOrderList() : menu);
@@ -67,7 +75,6 @@ public class RecipeSelectOrderLine extends Table implements HideableComponent {
             return true;
         });
         add(itemTypeList).left().top().expandX();
-        getStage().setKeyboardFocus(itemTypeList);
         itemTypeList.show();
     }
 

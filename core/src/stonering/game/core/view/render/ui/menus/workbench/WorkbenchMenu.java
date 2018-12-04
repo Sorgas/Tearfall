@@ -72,7 +72,7 @@ public class WorkbenchMenu extends Table {
                     case Input.Keys.A:
                     case Input.Keys.S:
                     case Input.Keys.D: {
-                        goToMenu();
+                        getStage().setKeyboardFocus(orderList);
                         return true;
                     }
                     case Input.Keys.Q: {
@@ -132,16 +132,9 @@ public class WorkbenchMenu extends Table {
      * Creates new order line by given recipe and moves focus to it.
      */
     public CraftingOrderLine createOrderLineForRecipe(Recipe recipe) {
-        CraftingOrderLine orderLine = new CraftingOrderLine(gameMvc, this, new ItemOrder(recipe));
+        CraftingOrderLine orderLine = new CraftingOrderLine(gameMvc, this, new ItemOrder(gameMvc, recipe));
         orderLine.show();
         return orderLine;
-    }
-
-    /**
-     * Moves focus to oreder list
-     */
-    private void goToMenu() {
-        getStage().setKeyboardFocus(orderList);
     }
 
     /**
@@ -160,10 +153,6 @@ public class WorkbenchMenu extends Table {
         return building.getAspects().containsKey(WorkbenchAspect.NAME);
     }
 
-    public WorkbenchAspect getWorkbenchAspect() {
-        return workbenchAspect;
-    }
-
     /**
      * Closes stage with this menu.
      */
@@ -173,5 +162,9 @@ public class WorkbenchMenu extends Table {
 
     public NavigableVerticalGroup getOrderList() {
         return orderList;
+    }
+
+    public WorkbenchAspect getWorkbenchAspect() {
+        return workbenchAspect;
     }
 }

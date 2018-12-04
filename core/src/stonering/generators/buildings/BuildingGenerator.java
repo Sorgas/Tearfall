@@ -8,7 +8,7 @@ import stonering.entity.local.building.Building;
 
 /**
  * @author Alexander Kuzyakov on 07.12.2017.
- *
+ * <p>
  * Generates BuildingType entity from descriptors
  */
 public class BuildingGenerator {
@@ -22,9 +22,9 @@ public class BuildingGenerator {
         buildingTypeMap = BuildingTypeMap.getInstance();
     }
 
-    public Building generateBuilding(String name) {
+    public Building generateBuilding(String name, Position position) {
         BuildingType type = BuildingTypeMap.getInstance().getBuilding(name);
-        Building building = new Building(new Position(0,0,0), type);
+        Building building = new Building(position, type);
         building.setName(type.getTitle());
         building.setMaterial(38); //TODO replace with material from task
         addAspects(building, type);
@@ -32,7 +32,7 @@ public class BuildingGenerator {
     }
 
     private void addAspects(Building building, BuildingType type) {
-        if(type.getCategory().equals("workbenches")) {
+        if (type.getCategory().equals("workbenches")) {
             WorkbenchAspect workbenchAspect = new WorkbenchAspect(building);
             building.getAspects().put("workbench", workbenchAspect);
         }

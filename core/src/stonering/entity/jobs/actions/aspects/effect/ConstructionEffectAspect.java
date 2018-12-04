@@ -40,8 +40,9 @@ public class ConstructionEffectAspect extends EffectAspect {
         if(buildingType.getCategory().equals("constructions")) {
             container.getLocalMap().setBlock(action.getTargetPosition(), (byte) resolveBlockTypeByConstructionName(), MaterialMap.getInstance().getId(material));
         } else {
-            Building building = container.getBuildingContainer().getBuildingGenerator().generateBuilding(buildingName);
-            container.getLocalMap().setBuildingBlock(action.getTargetPosition(), building.getBlock());
+            Building building = container.getBuildingContainer().getBuildingGenerator().generateBuilding(buildingName, action.getTargetPosition());
+            container.getBuildingContainer().addBuilding(building);
+//            container.getLocalMap().setBuildingBlock(action.getTargetPosition(), building.getBlock());
         }
     }
 

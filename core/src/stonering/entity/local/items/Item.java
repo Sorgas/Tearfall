@@ -27,7 +27,7 @@ public class Item extends AspectHolder {
         this.type = type;
         this.name = type.getName();
         this.title = type.getTitle();
-//        this.mainPart = type.getSteps().get(0).getTitle();
+//        this.mainPart = type.getParts().get(0).getTitle();
 //        parts = new HashMap<>();
     }
 
