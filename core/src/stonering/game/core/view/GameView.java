@@ -59,9 +59,11 @@ public class GameView extends InputAdapter implements Screen {
         Gdx.gl.glClear(Gdx.gl20.GL_COLOR_BUFFER_BIT | Gdx.gl20.GL_DEPTH_BUFFER_BIT);
         if(getActiveStage() != baseStage) {
             baseStage.getViewport().apply();
+            baseStage.act();
             baseStage.draw();
         }
         getActiveStage().getViewport().apply();
+        getActiveStage().act();
         getActiveStage().draw();
     }
 
@@ -80,6 +82,7 @@ public class GameView extends InputAdapter implements Screen {
     public void addStageToList(InitableStage stage) {
         TagLoggersEnum.UI.logDebug("showing stage " + stage.toString());
         stageList.add(stage);
+
         stage.init();
         inputHandler.setStage(getActiveStage());  // update stage to receive input
     }

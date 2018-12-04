@@ -40,13 +40,7 @@ public class CraftingOrderLine extends Table implements HideableComponent {
         this.gameMvc = gameMvc;
         this.menu = menu;
         this.order = order;
-        createStatusLabel();
-        createItemLabel();
-        createMaterialSelectBox();
-        createWarningLabel();
-        if (materialselectBox.getItems().size <= 0) {
-            warningLabel.setText("no items available");
-        }
+
     }
 
     /**
@@ -72,11 +66,9 @@ public class CraftingOrderLine extends Table implements HideableComponent {
      */
     private void createMaterialSelectBox() {
         materialselectBox = new NavigableSelectBox<>();
+        add(materialselectBox);
         Position workbenchPosition = menu.getWorkbenchAspect().getAspectHolder().getPosition();
         materialselectBox.setItems(order.getAvailableItemList(workbenchPosition).toArray(new String[]{}));
-        if (order.getSelectedString() != null) {
-            materialselectBox.setSelected(order.getSelectedString());
-        }
         materialselectBox.setSelectListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
@@ -84,7 +76,6 @@ public class CraftingOrderLine extends Table implements HideableComponent {
                 return super.keyDown(event, keycode);
             }
         });
-        add(materialselectBox);
     }
 
     /**
@@ -97,7 +88,22 @@ public class CraftingOrderLine extends Table implements HideableComponent {
 
     @Override
     public void show() {
+        createStatusLabel();
+        createItemLabel();
+        createMaterialSelectBox();
+        createWarningLabel();
         menu.getOrderList().addActorAt(0, this);
+        if (materialselectBox.getItems().size <= 0) {
+            warningLabel.setText("no items available");
+        }
+        if (order.getSelectedString() != null) {
+            materialselectBox.setSelected(order.getSelectedString());
+            menu.getStage().setKeyboardFocus(menu.getOrderList().hasChildren() ? menu.getOrderList() : menu);
+        } else {
+            materialselectBox.showList();
+            menu.validate();
+            menu.getStage().setKeyboardFocus(materialselectBox);
+        }
     }
 
     public void hide() {

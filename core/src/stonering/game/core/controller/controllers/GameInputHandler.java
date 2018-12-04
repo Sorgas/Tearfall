@@ -11,7 +11,7 @@ import stonering.game.core.view.render.ui.menus.util.Invokable;
 import java.util.*;
 
 /**
- * Handles non-pause in the game.
+ * Handles non-pause input in the game.
  * Transforms all key events(down, typed) to keyDown for easier handling on stage ui actors.
  * First priority are menus in iuDrawer, then camera.
  * Handles case of skipping keyTyped right after keyDown.
@@ -44,12 +44,19 @@ public class GameInputHandler extends InputAdapter {
     @Override
     public boolean keyTyped(char character) {
         int keycode = charToKeycode(character);
-        if (charsToSkip.contains(keycode)) {
-            charsToSkip.remove(keycode); // skip character, do not handle
-            return false;
-        } else {
-            return !stage.keyDown(keycode) && cameraInputHandler.typeCameraKey(keycode); // call stage, then camera
-        }
+        if (keycode >= 0)
+            if (charsToSkip.contains(keycode)) {
+                charsToSkip.remove(keycode); // skip character, do not handle
+                return false;
+            } else {
+                return !stage.keyDown(keycode) && cameraInputHandler.typeCameraKey(keycode); // call stage, then camera
+            }
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        return stage.touchDown(screenX, screenY, pointer, button);
     }
 
     /**

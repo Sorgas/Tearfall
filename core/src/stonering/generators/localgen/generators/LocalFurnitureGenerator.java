@@ -27,11 +27,11 @@ public class LocalFurnitureGenerator {
     }
 
     public void execute() {
-        for (int i = 0; i < 100; i++) {
-            Building building = buildingGenerator.generateBuilding("chair");
-            building.setPosition(findPlace());
-            container.getBuildings().add(building);
-        }
+//        for (int i = 0; i < 100; i++) {
+//            Building building = buildingGenerator.generateBuilding("chair");
+//            building.setPosition(findPlace());
+//            container.getBuildings().add(building);
+//        }
     }
 
     private Position findPlace() {
