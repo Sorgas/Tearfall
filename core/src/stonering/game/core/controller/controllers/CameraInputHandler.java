@@ -8,7 +8,7 @@ import stonering.game.core.model.EntitySelector;
 
 /**
  * Handles button presses for camera navigation.
- * Is part of {@link GameInputListaner}
+ * Is part of {@link KeyBufferInputAdapter}
  *
  * @author Alexander Kuzyakov
  */

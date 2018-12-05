@@ -3,7 +3,6 @@ package stonering.game.core.view.render.stages;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import stonering.game.core.GameMvc;
 import stonering.game.core.view.render.scene.LocalWorldDrawer;
 import stonering.global.utils.Position;
@@ -35,7 +34,7 @@ public class BaseStage extends InitableStage {
     @Override
     public void draw() {
         super.draw();
-        worldDrawer.drawWorld();
+//        worldDrawer.drawWorld();
         uiDrawer.draw();
     }
 

@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import stonering.game.core.GameMvc;
-import stonering.game.core.controller.controllers.GameInputListaner;
 import stonering.game.core.view.render.scene.LocalWorldDrawer;
 import stonering.game.core.view.render.stages.*;
 import stonering.utils.global.TagLoggersEnum;
@@ -15,13 +14,12 @@ import java.util.List;
 /**
  * Main game screen. Sprites with general toolbar are rendered on background,
  * additional menus are rendered in separate stages.
- * Has InputAdapter for traversing input. Only top stage gets input.
+ * Aggregates stages/
  *
  * @author Alexander Kuzyakov on 10.06.2017.
  */
 public class GameView implements Screen {
     private GameMvc gameMvc;
-    private GameInputListaner gameInputListener;      // handles case for skipping keyTyped after keyDown
     private BaseStage baseStage;                // sprites and toolbar. is always rendered.
     private MainMenu mainMenu;
     private List<InitableStage> stageList;      // init called on adding.
@@ -33,7 +31,6 @@ public class GameView implements Screen {
      */
     public GameView(GameMvc gameMvc) {
         this.gameMvc = gameMvc;
-        gameInputListener = new GameInputListaner(gameMvc);
         createStages();
     }
 
@@ -41,7 +38,6 @@ public class GameView implements Screen {
         stageList = new ArrayList<>();
         baseStage = new BaseStage(gameMvc);
         mainMenu = new MainMenu();
-        gameInputListener.setStage(getActiveStage());    // update stage to receive input
     }
 
     /**
@@ -70,12 +66,12 @@ public class GameView implements Screen {
         baseStage.initBatch();
     }
 
-    private InitableStage getActiveStage() {
+    public InitableStage getActiveStage() {
         return stageList.isEmpty() ? baseStage : stageList.get(stageList.size() - 1);
     }
 
     /**
-     * Adds given stage to top of this screen. Updates gameInputListener.
+     * Adds given stage to top of this screen. Updates keyBufferInputAdapter.
      *
      * @param stage
      */
@@ -83,15 +79,12 @@ public class GameView implements Screen {
         TagLoggersEnum.UI.logDebug("showing stage " + stage.toString());
         stageList.add(stage);
         Gdx.input.setInputProcessor(stage);
-        gameInputListener.setStage(getActiveStage());  // update stage to receive input
-        stage.addListener(gameInputListener);
         stage.init();
     }
 
     public void removeStage(Stage stage) {
         TagLoggersEnum.UI.logDebug("hiding stage " + stage.toString());
         stageList.remove(stage);
-        gameInputListener.setStage(getActiveStage());  // update stage to receive input
     }
 
     @Override

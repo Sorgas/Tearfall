@@ -15,26 +15,21 @@ public class GameController extends Controller {
     private DesignationsController designationsController;
     private PauseController pauseController;
     private InputMultiplexer inputMultiplexer;
-    private UIController uiController;
-
-    private GameInputListaner gameInputHandler;
 
     public GameController(GameMvc gameMvc) {
         super(gameMvc);
         inputMultiplexer = new InputMultiplexer();
         designationsController = new DesignationsController(gameMvc);
         pauseController = new PauseController(gameMvc);
-        uiController = new UIController(gameMvc);
-        gameInputHandler = new GameInputListaner(gameMvc);
     }
 
     public void init() {
         designationsController.init();
         pauseController.init();
-        uiController.init();
 
-        inputMultiplexer.addProcessor(new PauseInputProcessor(this));
-        inputMultiplexer.addProcessor(gameMvc.getView());
+        inputMultiplexer.addProcessor(new KeyBufferInputAdapter());                 // only buffers events
+        inputMultiplexer.addProcessor(new PauseInputProcessor(this));      // handles pause
+        inputMultiplexer.addProcessor(new StageInputAdapter(gameMvc.getView()));    // calls stages
         Gdx.input.setInputProcessor(inputMultiplexer);
     }
 
@@ -46,7 +41,7 @@ public class GameController extends Controller {
         return pauseController;
     }
 
-    public GameInputListaner getGameInputHandler() {
-        return gameInputHandler;
+    public InputMultiplexer getInputMultiplexer() {
+        return inputMultiplexer;
     }
 }
