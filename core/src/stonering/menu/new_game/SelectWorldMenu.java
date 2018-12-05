@@ -52,7 +52,9 @@ public class SelectWorldMenu implements Screen {
         Array<WorldListItem> list = new Array<>();
         if (root.exists()) {
             for (File file : root.listFiles()) {
-                list.add(new WorldListItem(file.getName(), file));
+                if(file.listFiles().length > 0) {
+                    list.add(new WorldListItem(file.getName(), file));
+                }
             }
         }
         return list;
@@ -99,16 +101,17 @@ public class SelectWorldMenu implements Screen {
 
         menuTable.add().expandY();
         menuTable.row();
-
-        TextButton proceedButton = new TextButton("Proceed", game.getSkin());
-        proceedButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                game.switchLocationSelectMenu(getWorld());
-            }
-        });
-        menuTable.add(proceedButton);
-        menuTable.row();
+        if(worldList.getItems().size > 0) {
+            TextButton proceedButton = new TextButton("Proceed", game.getSkin());
+            proceedButton.addListener(new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    game.switchLocationSelectMenu(getWorld());
+                }
+            });
+            menuTable.add(proceedButton);
+            menuTable.row();
+        }
 
         TextButton backButton = new TextButton("Back", game.getSkin());
         backButton.addListener(new ChangeListener() {
