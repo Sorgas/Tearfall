@@ -34,7 +34,7 @@ public class BaseStage extends InitableStage {
     @Override
     public void draw() {
         super.draw();
-//        worldDrawer.drawWorld();
+        worldDrawer.drawWorld();
         uiDrawer.draw();
     }
 
