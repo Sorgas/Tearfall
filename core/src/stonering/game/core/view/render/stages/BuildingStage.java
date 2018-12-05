@@ -8,6 +8,7 @@ import stonering.game.core.view.render.ui.menus.workbench.WorkbenchMenu;
 
 /**
  * Stage with menu for building like workbenches and furniture.
+ * Its keyboard focus is updated by ui elements.
  *
  * @author Alexander on 09.11.2018.
  */
@@ -32,7 +33,6 @@ public class BuildingStage extends InitableStage {
     private void createWorkbenchMenu() {
         menu = new WorkbenchMenu(gameMvc, this, building);
         menu.align(Align.center);
-//        setKeyboardFocus(menu);
         Container container = new Container(menu).bottom().left().pad(10);
         container.setFillParent(true);
         container.setDebug(true, true);

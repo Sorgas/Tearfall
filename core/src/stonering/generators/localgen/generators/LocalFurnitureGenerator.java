@@ -27,21 +27,29 @@ public class LocalFurnitureGenerator {
     }
 
     public void execute() {
-//        for (int i = 0; i < 100; i++) {
-//            Building building = buildingGenerator.generateBuilding("chair");
-//            building.setPosition(findPlace());
-//            container.getBuildings().add(building);
-//        }
+//        Position position = findSurfacePosition();
+//        Building building = buildingGenerator.generateBuilding("forge", position);
+//        container.getBuildings().add(building);
+    }
+
+    private Position findSurfacePosition() {
+        int x = localMap.getxSize() /2;
+        int y = localMap.getySize() /2;
+        for (int z = localMap.getzSize() - 1; z > 0; z--) {
+            if (localMap.getBlockType(x, y, z) == BlockTypesEnum.FLOOR.getCode()) {
+                return new Position(x, y, z);
+            }
+        }
+        return null;
     }
 
     private Position findPlace() {
         Random random = new Random();
         while (true) {
-            int x = random.nextInt(localMap.getxSize());
+            int x = random.nextInt();
             int y = random.nextInt(localMap.getySize());
             for (int z = localMap.getzSize() - 1; z > 0; z--) {
-                if (localMap.getBlockType(x, y, z) == BlockTypesEnum.SPACE.getCode()
-                        && localMap.getBlockType(x, y, z - 1) == BlockTypesEnum.WALL.getCode()) {
+                if (localMap.getBlockType(x, y, z) == BlockTypesEnum.SPACE.getCode() && localMap.getBlockType(x, y, z - 1) == BlockTypesEnum.WALL.getCode()) {
                     return new Position(x, y, z);
                 }
             }

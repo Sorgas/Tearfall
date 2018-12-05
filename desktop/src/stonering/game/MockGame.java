@@ -2,6 +2,7 @@ package stonering.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
+import stonering.game.core.GameMvc;
 import stonering.screens.WorkbenchMenuScreen;
 
 /**
@@ -11,10 +12,15 @@ import stonering.screens.WorkbenchMenuScreen;
  */
 public class MockGame extends Game {
     private Screen screen;
+    private GameMvc gameMvc;
 
     @Override
     public void create() {
         screen = new WorkbenchMenuScreen();
         setScreen(screen);
+    }
+
+    private void createGameMvc() {
+
     }
 }

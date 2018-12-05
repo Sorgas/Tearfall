@@ -8,10 +8,9 @@ import stonering.game.MockGame;
 /**
  * @author Alexander on 30.10.2018.
  */
-public class DesktopMenuLauncher {
+public class TestChamberLauncher {
 
     public static void main(String[] arg) {
-        System.out.println("main");
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         config.width = 1600;
         config.height = 900;
