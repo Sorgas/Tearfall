@@ -22,6 +22,7 @@ public class NavigableSelectBox<T> extends SelectBox<T> implements HideableCompo
 
     public NavigableSelectBox() {
         super(StaticSkin.getSkin());
+        createDefaultListener();
     }
 
     private void createDefaultListener() {
@@ -32,15 +33,19 @@ public class NavigableSelectBox<T> extends SelectBox<T> implements HideableCompo
                 switch (keycode) {
                     case Input.Keys.W:
                         up();
+                        showList();
                         return true;
                     case Input.Keys.S:
                         down();
+                        showList();
                         return true;
                     case Input.Keys.D:
                         select();
+                        hideList();
                         return true;
                     case Input.Keys.A:
                         hide();
+                        hideList();
                         return true;
                 }
                 return false;
@@ -51,12 +56,14 @@ public class NavigableSelectBox<T> extends SelectBox<T> implements HideableCompo
     public void up() {
         if (getSelectedIndex() > 0) {
             setSelectedIndex(getSelectedIndex() - 1);
+            getList().setSelectedIndex(getSelectedIndex());
         }
     }
 
     public void down() {
         if (getSelectedIndex() < getItems().size - 1) {
             setSelectedIndex(getSelectedIndex() + 1);
+            getList().setSelectedIndex(getSelectedIndex());
         }
     }
 

@@ -68,7 +68,6 @@ public class BaseStage extends InitableStage {
     @Override
     public boolean keyDown(int keyCode) {
         if(!uiDrawer.keyDown(keyCode)) {                 // try act with toolbar
-            entitySelector.key
             return trySelectMapEntity(keyCode);          // map click
         }
         return false;

@@ -52,12 +52,12 @@ public class WorkbenchMenu extends Table {
      */
     private void createTable() {
         this.setDebug(true);
-        this.setWidth(200);
+        this.setWidth(500);
         this.setHeight(200);
         this.setFillParent(true);
-        this.add(createOrderList());
-        this.add(createCloseButton()).right().top().row();
-        this.add(createAddButton()).right().top();
+        this.add(createOrderList()).prefWidth(600);
+        this.add(createCloseButton()).prefWidth(20).prefHeight(20).right().top().row();
+        this.add(createAddButton()).prefHeight(20).left().top();
         this.addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
@@ -65,7 +65,7 @@ public class WorkbenchMenu extends Table {
                 event.stop();
                 switch (keycode) {
                     case Input.Keys.E: {
-                        createNewOrder();
+                        createNewOrderLine().show();
                         return true;
                     }
                     case Input.Keys.W:
@@ -87,9 +87,14 @@ public class WorkbenchMenu extends Table {
 
     private TextButton createCloseButton() {
         closeButton = new TextButton("X", StaticSkin.getSkin());
-        closeButton.addListener(event -> {
-            close();
-            return true;
+        closeButton.setWidth(100);
+        closeButton.setHeight(100);
+        closeButton.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                close();
+                return true;
+            }
         });
         return closeButton;
     }
@@ -97,7 +102,7 @@ public class WorkbenchMenu extends Table {
     private TextButton createAddButton() {
         addOrderButton = new TextButton("New", StaticSkin.getSkin());
         addOrderButton.addListener(event -> {
-            createNewOrder();
+            createNewOrderLine().show();
             return true;
         });
         return addOrderButton;
@@ -122,9 +127,8 @@ public class WorkbenchMenu extends Table {
     /**
      * Creates new empty order line and moves focus to it.
      */
-    private RecipeSelectOrderLine createNewOrder() {
+    private RecipeSelectOrderLine createNewOrderLine() {
         RecipeSelectOrderLine orderLine = new RecipeSelectOrderLine(gameMvc, this);
-        orderLine.show();
         return orderLine;
     }
 

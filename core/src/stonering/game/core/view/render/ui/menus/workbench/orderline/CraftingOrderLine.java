@@ -92,6 +92,7 @@ public class CraftingOrderLine extends Table implements HideableComponent {
         createItemLabel();
         createMaterialSelectBox();
         createWarningLabel();
+        setWidth(300);
         menu.getOrderList().addActorAt(0, this);
         if (materialselectBox.getItems().size <= 0) {
             warningLabel.setText("no items available");
@@ -101,7 +102,6 @@ public class CraftingOrderLine extends Table implements HideableComponent {
             menu.getStage().setKeyboardFocus(menu.getOrderList().hasChildren() ? menu.getOrderList() : menu);
         } else {
             materialselectBox.showList();
-            menu.validate();
             menu.getStage().setKeyboardFocus(materialselectBox);
         }
     }

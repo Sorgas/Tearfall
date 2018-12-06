@@ -15,7 +15,7 @@ import stonering.global.utils.Position;
  *
  * @author Alexander Kuzyakov on 10.12.2017.
  */
-public class EntitySelector extends  {
+public class EntitySelector {
     private GameContainer container;
     private LocalMap localMap;
     private Position position;
