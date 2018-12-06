@@ -12,11 +12,11 @@ import stonering.game.core.model.EntitySelector;
  *
  * @author Alexander Kuzyakov
  */
-public class CameraInputHandler extends InputAdapter {
+public class CameraInputAdapter extends InputAdapter {
     private GameMvc gameMvc;
     private EntitySelector camera;
 
-    public CameraInputHandler(GameMvc gameMvc) {
+    public CameraInputAdapter(GameMvc gameMvc) {
         this.gameMvc = gameMvc;
         camera = gameMvc.getModel().getCamera();
     }
@@ -47,8 +47,9 @@ public class CameraInputHandler extends InputAdapter {
         return false;
     }
 
-    public boolean typeCameraKey(int keycode) {
-        switch (keycode) {
+    @Override
+    public boolean keyTyped(char character) {
+        switch (charToKeycode(character)) {
             case Input.Keys.W:
             case Input.Keys.A:
             case Input.Keys.S:

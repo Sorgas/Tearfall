@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import stonering.game.core.GameMvc;
+import stonering.game.core.model.EntitySelector;
 import stonering.game.core.view.render.scene.LocalWorldDrawer;
 import stonering.global.utils.Position;
 
@@ -18,11 +19,13 @@ public class BaseStage extends InitableStage {
     private LocalWorldDrawer worldDrawer;
     private UIDrawer uiDrawer;
     private SpriteBatch batch;
+    private EntitySelector entitySelector;
 
     public BaseStage(GameMvc gameMvc) {
         this.gameMvc = gameMvc;
         worldDrawer = new LocalWorldDrawer(gameMvc);
         uiDrawer = new UIDrawer(gameMvc);
+        entitySelector = gameMvc.getModel().getCamera();
     }
 
     @Override
@@ -65,6 +68,7 @@ public class BaseStage extends InitableStage {
     @Override
     public boolean keyDown(int keyCode) {
         if(!uiDrawer.keyDown(keyCode)) {                 // try act with toolbar
+            entitySelector.key
             return trySelectMapEntity(keyCode);          // map click
         }
         return false;
