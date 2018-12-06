@@ -31,6 +31,10 @@ public class RecipeSelectOrderLine extends Table implements HideableComponent {
      */
     public RecipeSelectOrderLine(GameMvc gameMvc, WorkbenchMenu menu) {
         this.menu = menu;
+        setDebug(true, true);
+        this.left();
+        this.pad(0,5,0,0);
+        this.defaults().padRight(5);
         createStatusLabel();
         createRecipeSelectList(new ArrayList<>(menu.getWorkbenchAspect().getRecipes()));
     }

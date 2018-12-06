@@ -121,6 +121,7 @@ public class WorkbenchMenu extends Table {
             close();
             return true;
         });
+        orderList.left();
         return orderList;
     }
 
