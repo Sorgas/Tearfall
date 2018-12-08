@@ -29,7 +29,7 @@ public class CraftingOrderLine extends Table implements HideableComponent {
 
     private Label statusLabel;                                  // shows status, updates on status change
     private Label itemType;                                     // shows selected item, static
-    private NavigableSelectBox<String> materialselectBox;       // allows to select material for crafting
+    private NavigableSelectBox<String> materialselectBox;       // allows to select material for crafting - main element of this line.
     private Label warningLabel;                                 // shown when something is not ok
 
     /**
@@ -40,7 +40,6 @@ public class CraftingOrderLine extends Table implements HideableComponent {
         this.gameMvc = gameMvc;
         this.menu = menu;
         this.order = order;
-
     }
 
     /**
@@ -76,6 +75,13 @@ public class CraftingOrderLine extends Table implements HideableComponent {
                 return super.keyDown(event, keycode);
             }
         });
+        materialselectBox.setCancelListener(new InputListener() {
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                hide();
+                return true;
+            }
+        });
     }
 
     /**
@@ -97,13 +103,18 @@ public class CraftingOrderLine extends Table implements HideableComponent {
         if (materialselectBox.getItems().size <= 0) {
             warningLabel.setText("no items available");
         }
-        if (order.getSelectedString() != null) {
-            materialselectBox.setSelected(order.getSelectedString());
-            menu.getStage().setKeyboardFocus(menu.getOrderList().hasChildren() ? menu.getOrderList() : menu);
-        } else {
-            materialselectBox.showList();
-            menu.getStage().setKeyboardFocus(materialselectBox);
-        }
+        menu.getStage().setKeyboardFocus(materialselectBox);
+
+
+
+
+
+//        if (order.getSelectedString() != null) {
+//            materialselectBox.setSelected(order.getSelectedString());
+//
+//        } else {
+//            materialselectBox.showList();
+//        }
     }
 
     public void hide() {

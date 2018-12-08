@@ -33,7 +33,7 @@ public class BuildingStage extends InitableStage {
     private void createWorkbenchMenu() {
         menu = new WorkbenchMenu(gameMvc, this, building);
         menu.align(Align.center);
-        Container container = new Container(menu).bottom().left().pad(10);
+        Container container = new Container(menu).center();
         container.setFillParent(true);
         container.setDebug(true, true);
         this.addActor(container);

@@ -79,6 +79,6 @@ public class CameraInputAdapter extends InputAdapter {
     }
 
     private int charToKeycode(char character) {
-        return Input.Keys.valueOf(String.valueOf(character).toUpperCase());
+        return Input.Keys.valueOf(Character.valueOf(character).toString().toUpperCase());
     }
 }

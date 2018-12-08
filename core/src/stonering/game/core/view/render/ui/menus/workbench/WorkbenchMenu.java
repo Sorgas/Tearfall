@@ -1,12 +1,17 @@
 package stonering.game.core.view.render.ui.menus.workbench;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import stonering.entity.local.building.Building;
 import stonering.entity.local.building.aspects.WorkbenchAspect;
 import stonering.entity.local.crafting.ItemOrder;
@@ -53,8 +58,8 @@ public class WorkbenchMenu extends Table {
     private void createTable() {
         this.setDebug(true);
         this.setWidth(500);
-        this.setHeight(200);
-        this.setFillParent(true);
+        this.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("sprites/ui_back.png"))));
+        this.add(new Label(workbench.getName(), StaticSkin.getSkin())).colspan(2).row();
         this.add(createOrderList()).prefWidth(600);
         this.add(createCloseButton()).prefWidth(20).prefHeight(20).right().top().row();
         this.add(createAddButton()).prefHeight(20).left().top();
@@ -101,15 +106,20 @@ public class WorkbenchMenu extends Table {
 
     private TextButton createAddButton() {
         addOrderButton = new TextButton("New", StaticSkin.getSkin());
-        addOrderButton.addListener(event -> {
-            createNewOrderLine().show();
-            return true;
-        });
+        addOrderButton.addListener(
+                new InputListener() {
+                    @Override
+                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                        createNewOrderLine().show();
+                        return true;
+                    }
+                });
         return addOrderButton;
     }
 
     private NavigableVerticalGroup createOrderList() {
         orderList = new NavigableVerticalGroup();
+        orderList.setColor(Color.BLUE);
         orderList.setSelectListener(event -> {
             event.stop();
             Actor selected = orderList.getSelectedElement();
@@ -167,6 +177,10 @@ public class WorkbenchMenu extends Table {
 
     public NavigableVerticalGroup getOrderList() {
         return orderList;
+    }
+
+    public Building getWorkbench() {
+        return workbench;
     }
 
     public WorkbenchAspect getWorkbenchAspect() {
