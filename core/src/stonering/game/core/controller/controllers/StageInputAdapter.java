@@ -1,5 +1,6 @@
 package stonering.game.core.controller.controllers;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import stonering.game.core.view.GameView;
 
@@ -22,11 +23,24 @@ public class StageInputAdapter extends InputAdapter {
 
     @Override
     public boolean keyTyped(char character) {
-        return gameView.getActiveStage().keyDown(character);
+        int keycode = charToKeycode(character);
+        if(keycode < 0 || keycode > 255) return true;
+        return gameView.getActiveStage().keyDown(keycode);
     }
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         return gameView.getActiveStage().touchDown(screenX, screenY, pointer, button);
+    }
+
+    /**
+     * Translates typed character to corresponding keycode.
+     * //TODO test letters, numbers, symbols.
+     *
+     * @param character
+     * @return
+     */
+    private int charToKeycode(char character) {
+        return Input.Keys.valueOf(Character.valueOf(character).toString().toUpperCase());
     }
 }

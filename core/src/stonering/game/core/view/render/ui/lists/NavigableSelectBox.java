@@ -1,13 +1,20 @@
 package stonering.game.core.view.render.ui.lists;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
+import com.badlogic.gdx.utils.Array;
 import stonering.game.core.view.render.ui.menus.util.HideableComponent;
 import stonering.game.core.view.render.ui.menus.util.Invokable;
 import stonering.utils.global.StaticSkin;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * SelectBox, which can be observed with keys. Key set is configurable.
@@ -23,6 +30,7 @@ public class NavigableSelectBox<T> extends SelectBox<T> implements HideableCompo
 
     private EventListener selectListener;
     private EventListener cancelListener;
+    private EventListener navigationListener;
     private EventListener showListener;
     private EventListener hideListener;
 
@@ -36,19 +44,19 @@ public class NavigableSelectBox<T> extends SelectBox<T> implements HideableCompo
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 event.stop();
-                if(keycode == upKey) {
-                    up();
+                if (keycode == upKey) {
+                    navigate(event, -1);
                     showList();
                     return true;
-                } else if(keycode == downKey) {
-                    down();
+                } else if (keycode == downKey) {
+                    navigate(event, 1);
                     showList();
                     return true;
-                } else if(keycode == selectKey) {
+                } else if (keycode == selectKey) {
                     select();
                     hideList();
                     return true;
-                } else if(keycode == cancelKey) {
+                } else if (keycode == cancelKey) {
                     cancel();
                     hideList();
                     return true;
@@ -59,42 +67,41 @@ public class NavigableSelectBox<T> extends SelectBox<T> implements HideableCompo
         });
     }
 
-    public void up() {
-        if (getSelectedIndex() > 0) {
-            setSelectedIndex(getSelectedIndex() - 1);
-            getList().setSelectedIndex(getSelectedIndex());
+    public void navigate(InputEvent event, int delta) {
+        if (navigationListener != null) {
+            navigationListener.handle(event);
         }
-    }
-
-    public void down() {
-        if (getSelectedIndex() < getItems().size - 1) {
-            setSelectedIndex(getSelectedIndex() + 1);
-            getList().setSelectedIndex(getSelectedIndex());
+        if (!event.isHandled()) {
+            int newIndex = getSelectedIndex() + delta;
+            if (newIndex >= 0 && newIndex < getItems().size) {
+                setSelectedIndex(newIndex);
+                getList().setSelectedIndex(newIndex);
+            }
         }
     }
 
     public void select() {
-        if(selectListener != null) {
+        if (selectListener != null) {
             selectListener.handle(null);
         }
     }
 
     public void cancel() {
-        if(cancelListener != null) {
+        if (cancelListener != null) {
             cancelListener.handle(null);
         }
     }
 
     @Override
     public void show() {
-        if(showListener != null) {
+        if (showListener != null) {
             showListener.handle(null);
         }
     }
 
     @Override
     public void hide() {
-        if(hideListener != null) {
+        if (hideListener != null) {
             hideListener.handle(null);
         }
     }
@@ -109,6 +116,10 @@ public class NavigableSelectBox<T> extends SelectBox<T> implements HideableCompo
 
     public void setCancelListener(EventListener cancelListener) {
         this.cancelListener = cancelListener;
+    }
+
+    public void setNavigationListener(EventListener navigationListener) {
+        this.navigationListener = navigationListener;
     }
 
     public void setShowListener(EventListener showListener) {

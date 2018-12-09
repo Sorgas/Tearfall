@@ -31,11 +31,12 @@ public class BuildingStage extends InitableStage {
      * Creates menu for workbench buildings.
      */
     private void createWorkbenchMenu() {
-        menu = new WorkbenchMenu(gameMvc, this, building);
+        menu = new WorkbenchMenu(gameMvc, building);
         menu.align(Align.center);
         Container container = new Container(menu).center();
         container.setFillParent(true);
         container.setDebug(true, true);
         this.addActor(container);
+        menu.updateFocusAndBackground(menu);
     }
 }
