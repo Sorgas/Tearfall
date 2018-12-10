@@ -27,6 +27,24 @@ public class WorkbenchAspect extends Aspect {
         initRecipes();
     }
 
+    /**
+     * Moves order on given index to delta positions.
+     */
+    public void moveOrder(int index, int delta) {
+        if(inBounds(index)) {
+            int newIndex = index + delta;
+            if(inBounds(newIndex)) {
+                ItemOrder order = orders.get(index);
+                orders.set(index, orders.get(newIndex));
+                orders.set(newIndex, order);
+            }
+        }
+    }
+
+    private boolean inBounds(int index) {
+        return index >= 0 && index < orders.size();
+    }
+
     private void initRecipes() { //ok
         ((Building) aspectHolder).getType().getRecipes().forEach(s -> recipes.add(RecipeMap.getInstance().getRecipe(s)));
     }

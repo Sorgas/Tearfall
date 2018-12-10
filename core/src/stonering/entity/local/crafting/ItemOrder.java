@@ -30,6 +30,7 @@ public class ItemOrder {
     private GameMvc gameMvc;
     private Recipe recipe;
     private HashMap<String, ItemSelector> selectors;                            // itemPart to items selected for variant.
+    private boolean repeatable;
 
     private Map<String, Pair<String, String>> materialItemMap;                  // ui string to (item type, material name)
     private String selectedString;
@@ -79,5 +80,13 @@ public class ItemOrder {
 
     public void setSelectedString(String selectedString) {
         this.selectedString = selectedString;
+    }
+
+    public boolean isRepeatable() {
+        return repeatable;
+    }
+
+    public void setRepeatable(boolean repeatable) {
+        this.repeatable = repeatable;
     }
 }

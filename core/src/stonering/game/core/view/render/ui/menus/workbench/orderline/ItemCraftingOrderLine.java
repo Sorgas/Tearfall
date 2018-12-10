@@ -2,9 +2,12 @@ package stonering.game.core.view.render.ui.menus.workbench.orderline;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import stonering.entity.local.crafting.ItemOrder;
 import stonering.enums.items.ItemTypeMap;
@@ -44,6 +47,10 @@ public class ItemCraftingOrderLine extends Container implements HideableComponen
     private Label itemType;                                     // shows selected item, static
     private PlaceHolderSelectBox<String> materialselectBox;       // allows to select material for crafting - main element of this line.
     private Label warningLabel;                                 // shown when something is not ok
+    private TextButton deleteButton;
+    private TextButton repeatButton;
+    private TextButton upButton;
+    private TextButton downButton;
 
     private ItemCraftingOrderLine(GameMvc gameMvc) {
         super();
@@ -135,12 +142,57 @@ public class ItemCraftingOrderLine extends Container implements HideableComponen
         materialselectBox.setItems(items.toArray(new String[]{}));
         materialselectBox.setSelectListener(event -> {
             order.setSelectedString(materialselectBox.getSelected());
+            statusLabel.setText("ok");
+            createCompleteOrderButtons();
+            menu.getWorkbenchAspect().getOrders().add(order);
             return true;
         });
         materialselectBox.setCancelListener(event -> {
             hide();
             return true;
         });
+    }
+
+    private void createCompleteOrderButtons() {
+        deleteButton = new TextButton("X", StaticSkin.getSkin());
+        deleteButton.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                menu.getWorkbenchAspect().getOrders().remove(order);
+                menu.getOrderList().removeActor(horizontalGroup.getParent());
+                return true;
+            }
+        });
+        repeatButton = new TextButton("R", StaticSkin.getSkin());
+        repeatButton.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                order.setRepeatable(!order.isRepeatable());
+                return true;
+            }
+        });
+        upButton = new TextButton("R↑", StaticSkin.getSkin());
+        upButton.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                ItemOrder order =
+
+                menu.getWorkbenchAspect().getOrders().indexOf(order);
+                return true;
+            }
+        });
+        downButton = new TextButton("F↓", StaticSkin.getSkin());
+        downButton.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                order.setRepeatable(!order.isRepeatable());
+                return true;
+            }
+        });
+        horizontalGroup.addActor(repeatButton);
+        horizontalGroup.addActor(upButton);
+        horizontalGroup.addActor(downButton);
+        horizontalGroup.addActor(deleteButton);
     }
 
     /**
