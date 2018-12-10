@@ -1,23 +1,17 @@
 package stonering.game.core.view.render.ui.menus.workbench.orderline;
 
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.Array;
 import stonering.entity.local.crafting.ItemOrder;
 import stonering.enums.items.ItemTypeMap;
 import stonering.enums.items.Recipe;
 import stonering.game.core.GameMvc;
 import stonering.game.core.view.render.ui.lists.NavigableList;
-import stonering.game.core.view.render.ui.lists.NavigableSelectBox;
+import stonering.game.core.view.render.ui.lists.PlaceHolderSelectBox;
 import stonering.game.core.view.render.ui.menus.util.HideableComponent;
 import stonering.game.core.view.render.ui.menus.util.Highlightable;
 import stonering.game.core.view.render.ui.menus.workbench.WorkbenchMenu;
@@ -36,6 +30,7 @@ import java.util.Map;
  * @author Alexander
  */
 public class ItemCraftingOrderLine extends Container implements HideableComponent, Highlightable {
+    private static final String MATERIAL_SELECT_PLACEHOLDER = "Select Material";
     GameMvc gameMvc;
     private WorkbenchMenu menu;
 
@@ -47,7 +42,7 @@ public class ItemCraftingOrderLine extends Container implements HideableComponen
     private Label statusLabel;                                  // shows status, updates on status change
     private NavigableList itemTypeList;
     private Label itemType;                                     // shows selected item, static
-    private NavigableSelectBox<String> materialselectBox;       // allows to select material for crafting - main element of this line.
+    private PlaceHolderSelectBox<String> materialselectBox;       // allows to select material for crafting - main element of this line.
     private Label warningLabel;                                 // shown when something is not ok
 
     private ItemCraftingOrderLine(GameMvc gameMvc) {
@@ -132,21 +127,12 @@ public class ItemCraftingOrderLine extends Container implements HideableComponen
      * SelectBox can have no items after this.
      */
     private void createMaterialSelectBox() {
-        materialselectBox = new NavigableSelectBox<>();
+        materialselectBox = new PlaceHolderSelectBox<>();
+        materialselectBox.setPlaceHolder(MATERIAL_SELECT_PLACEHOLDER);
         horizontalGroup.addActor(materialselectBox);
         Position workbenchPosition = menu.getWorkbenchAspect().getAspectHolder().getPosition();
         ArrayList<String> items = new ArrayList<>(order.getAvailableItemList(workbenchPosition));
-        items.add(0, "select");
         materialselectBox.setItems(items.toArray(new String[]{}));
-        materialselectBox.setNavigationListener(event -> {                          // removes placeholder string from list.
-            Array<String> array = new Array<>(materialselectBox.getItems());
-            array.removeValue("select", false);
-            materialselectBox.getList().act(1);
-            materialselectBox.setItems(array);
-            materialselectBox.setNavigationListener(null);
-            event.handle();
-            return true;
-        });
         materialselectBox.setSelectListener(event -> {
             order.setSelectedString(materialselectBox.getSelected());
             return true;
@@ -165,10 +151,10 @@ public class ItemCraftingOrderLine extends Container implements HideableComponen
         horizontalGroup.addActor(warningLabel);
     }
 
+    /**
+     * Shows this line in menu.
+     */
     @Override
-/**
- * Shows this line in menu.
- */
     public void show() {
         menu.getOrderList().addActorAt(0, this);
     }

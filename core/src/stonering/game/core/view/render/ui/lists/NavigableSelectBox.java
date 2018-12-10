@@ -53,8 +53,13 @@ public class NavigableSelectBox<T> extends SelectBox<T> implements HideableCompo
                     showList();
                     return true;
                 } else if (keycode == selectKey) {
-                    select();
-                    hideList();
+                    if(getList().isVisible()) {
+                        select();
+                        hideList();
+                    } else {
+                        navigate(event, 1);
+                        showList();
+                    }
                     return true;
                 } else if (keycode == cancelKey) {
                     cancel();
@@ -68,18 +73,14 @@ public class NavigableSelectBox<T> extends SelectBox<T> implements HideableCompo
     }
 
     public void navigate(InputEvent event, int delta) {
-        if (navigationListener != null) {
-            navigationListener.handle(event);
-        }
-        if (!event.isHandled()) {
-            int newIndex = getSelectedIndex() + delta;
-            if (newIndex >= 0 && newIndex < getItems().size) {
-                setSelectedIndex(newIndex);
-                getList().setSelectedIndex(newIndex);
-            }
-        }
+        int newIndex = (getSelectedIndex() + delta) % getItems().size;
+        setSelectedIndex(newIndex);
+        getList().setSelectedIndex(newIndex);
     }
 
+    /**
+     * For selecting item from list.
+     */
     public void select() {
         if (selectListener != null) {
             selectListener.handle(null);
