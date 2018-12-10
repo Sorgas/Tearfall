@@ -46,6 +46,11 @@ public class NavigableVerticalGroup extends VerticalGroup implements HideableCom
                     case Input.Keys.Q:
                         cancel(event);
                         return true;
+                    case Input.Keys.A:
+                    case Input.Keys.D:
+                    case Input.Keys.R:
+                    case Input.Keys.F:
+                        return true;         // to prevent camera movement
                 }
                 return false;
             }

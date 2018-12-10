@@ -78,7 +78,6 @@ public class GameView implements Screen {
     public void addStageToList(InitableStage stage) {
         TagLoggersEnum.UI.logDebug("showing stage " + stage.toString());
         stageList.add(stage);
-        Gdx.input.setInputProcessor(stage);
         stage.init();
     }
 

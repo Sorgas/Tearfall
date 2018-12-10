@@ -1,20 +1,22 @@
 package stonering.game.core.view.render.ui.menus.workbench;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import stonering.entity.local.building.Building;
 import stonering.entity.local.building.aspects.WorkbenchAspect;
-import stonering.entity.local.crafting.ItemOrder;
-import stonering.enums.items.Recipe;
 import stonering.game.core.GameMvc;
+import stonering.game.core.view.render.ui.menus.util.Highlightable;
 import stonering.game.core.view.render.ui.menus.util.NavigableVerticalGroup;
-import stonering.game.core.view.render.ui.menus.workbench.orderline.CraftingOrderLine;
-import stonering.game.core.view.render.ui.menus.workbench.orderline.RecipeSelectOrderLine;
+import stonering.game.core.view.render.ui.menus.workbench.orderline.ItemCraftingOrderLine;
 import stonering.utils.global.StaticSkin;
 import stonering.utils.global.TagLoggersEnum;
 
@@ -24,7 +26,7 @@ import stonering.utils.global.TagLoggersEnum;
  *
  * @author Alexander on 28.10.2018.
  */
-public class WorkbenchMenu extends Table {
+public class WorkbenchMenu extends Table implements Highlightable {
     private GameMvc gameMvc;
     private Building workbench;
     private WorkbenchAspect workbenchAspect; // aspect of selected workbench (M thing)
@@ -37,10 +39,9 @@ public class WorkbenchMenu extends Table {
      * Creates menu for selected built workbench on localMap. Can be used only for workbenches.
      * Will throw NPE if created on non-workbench workbench.
      */
-    public WorkbenchMenu(GameMvc gameMvc, Stage stage, Building building) {
+    public WorkbenchMenu(GameMvc gameMvc, Building building) {
         super();
         this.gameMvc = gameMvc;
-        stage.setKeyboardFocus(this);
         this.workbench = building;
         workbenchAspect = (WorkbenchAspect) building.getAspects().get(WorkbenchAspect.NAME);
         createTable();
@@ -52,12 +53,11 @@ public class WorkbenchMenu extends Table {
      */
     private void createTable() {
         this.setDebug(true);
-        this.setWidth(200);
-        this.setHeight(200);
-        this.setFillParent(true);
-        this.add(createOrderList());
-        this.add(createCloseButton()).right().top().row();
-        this.add(createAddButton()).right().top();
+        this.setWidth(500);
+        this.add(new Label(workbench.getName(), StaticSkin.getSkin())).colspan(2).row();
+        this.add(createOrderList()).prefWidth(600);
+        this.add(createCloseButton()).prefWidth(20).prefHeight(20).right().top().row();
+        this.add(createAddButton()).prefHeight(20).left().top();
         this.addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
@@ -65,14 +65,13 @@ public class WorkbenchMenu extends Table {
                 event.stop();
                 switch (keycode) {
                     case Input.Keys.E: {
-                        createNewOrder();
-                        return true;
+                        return createNewOrderLine();
                     }
                     case Input.Keys.W:
                     case Input.Keys.A:
                     case Input.Keys.S:
                     case Input.Keys.D: {
-                        getStage().setKeyboardFocus(orderList);
+                        updateFocusAndBackground(orderList);
                         return true;
                     }
                     case Input.Keys.Q: {
@@ -87,28 +86,37 @@ public class WorkbenchMenu extends Table {
 
     private TextButton createCloseButton() {
         closeButton = new TextButton("X", StaticSkin.getSkin());
-        closeButton.addListener(event -> {
-            close();
-            return true;
+        closeButton.setWidth(100);
+        closeButton.setHeight(100);
+        closeButton.addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                close();
+                return true;
+            }
         });
         return closeButton;
     }
 
     private TextButton createAddButton() {
         addOrderButton = new TextButton("New", StaticSkin.getSkin());
-        addOrderButton.addListener(event -> {
-            createNewOrder();
-            return true;
-        });
+        addOrderButton.addListener(
+                new InputListener() {
+                    @Override
+                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                        return createNewOrderLine();
+                    }
+                });
         return addOrderButton;
     }
 
     private NavigableVerticalGroup createOrderList() {
         orderList = new NavigableVerticalGroup();
+        orderList.setColor(Color.BLUE);
         orderList.setSelectListener(event -> {
             event.stop();
             Actor selected = orderList.getSelectedElement();
-            getStage().setKeyboardFocus(selected != null ? selected : this);
+            updateFocusAndBackground(selected != null ? selected : this);
             return true;
         });
         orderList.setCancelListener(event -> {
@@ -116,25 +124,19 @@ public class WorkbenchMenu extends Table {
             close();
             return true;
         });
+        orderList.left();
         return orderList;
     }
 
     /**
-     * Creates new empty order line and moves focus to it.
+     * Creates new empty order line, adds it to order list and moves focus to it.
      */
-    private RecipeSelectOrderLine createNewOrder() {
-        RecipeSelectOrderLine orderLine = new RecipeSelectOrderLine(gameMvc, this);
+    private boolean createNewOrderLine() {
+        ItemCraftingOrderLine orderLine = new ItemCraftingOrderLine(gameMvc, this);
         orderLine.show();
-        return orderLine;
-    }
-
-    /**
-     * Creates new order line by given recipe and moves focus to it.
-     */
-    public CraftingOrderLine createOrderLineForRecipe(Recipe recipe) {
-        CraftingOrderLine orderLine = new CraftingOrderLine(gameMvc, this, new ItemOrder(gameMvc, recipe));
-        orderLine.show();
-        return orderLine;
+        updateFocusAndBackground(orderLine.getItemTypeList());
+        orderLine.setHighlighted(true);
+        return true;
     }
 
     /**
@@ -142,7 +144,7 @@ public class WorkbenchMenu extends Table {
      */
     private void fillWorkbenchOrders() {
         workbenchAspect.getOrders().forEach(order -> {
-            orderList.addActorAt(0, new CraftingOrderLine(gameMvc, this, order));
+//            orderList.addActorAt(0, new CraftingOrderLine(gameMvc, this, order));
         });
     }
 
@@ -160,11 +162,27 @@ public class WorkbenchMenu extends Table {
         gameMvc.getView().removeStage(getStage());
     }
 
+
+    public void updateFocusAndBackground(Actor actor) {
+        getStage().setKeyboardFocus(actor);
+        setHighlighted(getStage().getKeyboardFocus() == this);
+    }
+
     public NavigableVerticalGroup getOrderList() {
         return orderList;
     }
 
+    public Building getWorkbench() {
+        return workbench;
+    }
+
     public WorkbenchAspect getWorkbenchAspect() {
         return workbenchAspect;
+    }
+
+    @Override
+    public void setHighlighted(boolean value) {
+        this.setBackground(new TextureRegionDrawable(
+                new TextureRegion(new Texture("sprites/ui_back.png"), value ? 100 : 0, 0, 100, 100)));
     }
 }

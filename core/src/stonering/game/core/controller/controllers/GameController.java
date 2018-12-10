@@ -28,8 +28,9 @@ public class GameController extends Controller {
         pauseController.init();
 
         inputMultiplexer.addProcessor(new KeyBufferInputAdapter());                 // only buffers events
-        inputMultiplexer.addProcessor(new PauseInputProcessor(this));      // handles pause
+        inputMultiplexer.addProcessor(new PauseInputAdapter(pauseController));      // handles pause
         inputMultiplexer.addProcessor(new StageInputAdapter(gameMvc.getView()));    // calls stages
+        inputMultiplexer.addProcessor(new CameraInputAdapter(gameMvc));             // calls entity selector (camera)
         Gdx.input.setInputProcessor(inputMultiplexer);
     }
 

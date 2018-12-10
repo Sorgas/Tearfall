@@ -1,9 +1,7 @@
 package stonering.game.core.view.render.ui.menus.util;
 
-import stonering.game.core.view.render.ui.menus.Toolbar;
-
 /**
- * Component which could be shown or hidden from {@link Toolbar}
+ * Component which could be shown or hidden from some dynamic parent.
  *
  * @author Alexander Kuzyakov
  */
