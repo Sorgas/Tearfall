@@ -8,5 +8,6 @@ package stonering.entity.jobs.actions;
 public enum TaskTypesEnum {
     DESIGNATION,
     EQUIPPING,
+    CRAFTING,
     OTHER
 }

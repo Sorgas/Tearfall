@@ -167,7 +167,7 @@ public class ItemCraftingOrderLine extends Container implements HideableComponen
         repeatButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                order.setRepeatable(!order.isRepeatable());
+                order.setRepeated(!order.isRepeated());
                 return true;
             }
         });
@@ -175,9 +175,8 @@ public class ItemCraftingOrderLine extends Container implements HideableComponen
         upButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                ItemOrder order =
-
-                menu.getWorkbenchAspect().getOrders().indexOf(order);
+                if()
+                menu.getWorkbenchAspect().swapOrders(); getOrders().indexOf(order);
                 return true;
             }
         });
@@ -185,7 +184,7 @@ public class ItemCraftingOrderLine extends Container implements HideableComponen
         downButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                order.setRepeatable(!order.isRepeatable());
+                order.setRepeated(!order.isRepeated());
                 return true;
             }
         });
@@ -193,6 +192,10 @@ public class ItemCraftingOrderLine extends Container implements HideableComponen
         horizontalGroup.addActor(upButton);
         horizontalGroup.addActor(downButton);
         horizontalGroup.addActor(deleteButton);
+    }
+
+    private void moveOrderAndLineInList(int delta) {
+
     }
 
     /**

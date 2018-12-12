@@ -16,12 +16,12 @@ import java.util.Set;
 /**
  * Contains recipe, item name and material id for crafting item.
  * Task for crafting creation is based on this.
- *
+ * <p>
  * For each required item part, player should specify item selector.
- *
+ * <p>
  * Changing order properties during task execution will not update task.
  * Repeated task will update on next iteration.
- *
+ * <p>
  * mvp is crafting 1 item from 1 item/material.
  *
  * @author Alexander on 27.10.2018.
@@ -30,7 +30,8 @@ public class ItemOrder {
     private GameMvc gameMvc;
     private Recipe recipe;
     private HashMap<String, ItemSelector> selectors;                            // itemPart to items selected for variant.
-    private boolean repeatable;
+    private boolean repeated;
+    private boolean suspended;
 
     private Map<String, Pair<String, String>> materialItemMap;                  // ui string to (item type, material name)
     private String selectedString;
@@ -44,9 +45,7 @@ public class ItemOrder {
 
     /**
      * Mvp for selecting material item. Gets items from map, filters them by availability and groups by materials and types.
-     *
      * //TODO add steps usage.
-     * @return
      */
     public Set<String> getAvailableItemList(Position position) {
         ItemContainer itemContainer = gameMvc.getModel().getItemContainer();
@@ -82,11 +81,19 @@ public class ItemOrder {
         this.selectedString = selectedString;
     }
 
-    public boolean isRepeatable() {
-        return repeatable;
+    public boolean isRepeated() {
+        return repeated;
     }
 
-    public void setRepeatable(boolean repeatable) {
-        this.repeatable = repeatable;
+    public void setRepeated(boolean repeated) {
+        this.repeated = repeated;
+    }
+
+    public boolean isSuspended() {
+        return suspended;
+    }
+
+    public void setSuspended(boolean suspended) {
+        this.suspended = suspended;
     }
 }

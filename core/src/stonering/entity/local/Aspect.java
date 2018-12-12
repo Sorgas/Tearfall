@@ -10,7 +10,7 @@ import java.io.Serializable;
  */
 public abstract class Aspect extends Turnable implements Serializable {
     protected GameContainer gameContainer;
-    protected String name;
+    protected String name; //TODO replace this with abstract getter
     protected AspectHolder aspectHolder;
 
     public Aspect(String name, AspectHolder aspectHolder) {
