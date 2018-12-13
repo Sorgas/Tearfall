@@ -13,13 +13,13 @@ import java.util.Random;
 /**
  * @author Alexander Kuzyakov on 07.12.2017.
  */
-public class LocalFurnitureGenerator {
+public class LocalBuildingGenerator {
     private LocalGenContainer container;
     private LocalGenConfig config;
     private LocalMap localMap;
     private BuildingGenerator buildingGenerator;
 
-    public LocalFurnitureGenerator(LocalGenContainer container) {
+    public LocalBuildingGenerator(LocalGenContainer container) {
         this.container = container;
         config = container.getConfig();
         localMap = container.getLocalMap();
@@ -27,11 +27,15 @@ public class LocalFurnitureGenerator {
     }
 
     public void execute() {
-//        Position position = findSurfacePosition();
-//        Building building = buildingGenerator.generateBuilding("forge", position);
-//        container.getBuildings().add(building);
+        Position position = findSurfacePosition();
+        Building building = buildingGenerator.generateBuilding("forge", position);
+        container.getBuildings().add(building);
     }
 
+    /**
+     * Returns position on the ground in the center of the map.
+     * @return
+     */
     private Position findSurfacePosition() {
         int x = localMap.getxSize() /2;
         int y = localMap.getySize() /2;
@@ -41,18 +45,5 @@ public class LocalFurnitureGenerator {
             }
         }
         return null;
-    }
-
-    private Position findPlace() {
-        Random random = new Random();
-        while (true) {
-            int x = random.nextInt();
-            int y = random.nextInt(localMap.getySize());
-            for (int z = localMap.getzSize() - 1; z > 0; z--) {
-                if (localMap.getBlockType(x, y, z) == BlockTypesEnum.SPACE.getCode() && localMap.getBlockType(x, y, z - 1) == BlockTypesEnum.WALL.getCode()) {
-                    return new Position(x, y, z);
-                }
-            }
-        }
     }
 }

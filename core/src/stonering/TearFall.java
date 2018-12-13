@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import stonering.entity.world.World;
 import stonering.game.core.GameMvc;
 import stonering.generators.localgen.LocalGenContainer;
-import stonering.menu.main.MainMenu;
+import stonering.menu.main.MainScreen;
 import stonering.menu.new_game.LocalGenerationScreen;
 import stonering.menu.new_game.PrepareExpeditionMenu;
 import stonering.menu.new_game.SelectLocationMenu;
@@ -22,7 +22,7 @@ import stonering.menu.worldgen.WorldGenScreen;
  * @author Alexander Kuzyakov on 08.04.2017.
  */
 public class TearFall extends Game {
-    private MainMenu mainMenu;
+    private MainScreen mainScreen;
     private WorldGenScreen worldGenScreen;
     private SelectWorldMenu selectWorldMenu;
     private SelectLocationMenu selectLocationMenu;
@@ -41,8 +41,8 @@ public class TearFall extends Game {
     }
 
     public void switchMainMenu() {
-        if (mainMenu == null) mainMenu = new MainMenu(this);
-        setScreen(mainMenu);
+        if (mainScreen == null) mainScreen = new MainScreen(this);
+        setScreen(mainScreen);
     }
 
     public void switchWorldGenMenu() {

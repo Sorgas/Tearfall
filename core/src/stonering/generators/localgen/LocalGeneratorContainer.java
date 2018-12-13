@@ -19,7 +19,7 @@ public class LocalGeneratorContainer {
     private LocalRampAndFloorPlacer localRampAndFloorPlacer;
     private LocalFloraGenerator localFloraGenerator;
     private LocalFaunaGenerator localFaunaGenerator;
-    private LocalFurnitureGenerator localFurnitureGenerator;
+    private LocalBuildingGenerator localBuildingGenerator;
     private LocalItemsGenerator localItemsGenerator;
     private LocalTemperatureGenerator localTemperatureGenerator;
     private LocalSurfaceWaterPoolsGenerator localSurfaceWaterPoolsGenerator;
@@ -40,7 +40,7 @@ public class LocalGeneratorContainer {
         localRampAndFloorPlacer = new LocalRampAndFloorPlacer(localGenContainer);
         localTemperatureGenerator = new LocalTemperatureGenerator(localGenContainer);
         localFaunaGenerator = new LocalFaunaGenerator(localGenContainer);
-        localFurnitureGenerator = new LocalFurnitureGenerator(localGenContainer);
+        localBuildingGenerator = new LocalBuildingGenerator(localGenContainer);
         localItemsGenerator = new LocalItemsGenerator(localGenContainer);
         localFloraGenerator = new LocalFloraGenerator(localGenContainer);
         localSurfaceWaterPoolsGenerator = new LocalSurfaceWaterPoolsGenerator(localGenContainer);
@@ -58,7 +58,7 @@ public class LocalGeneratorContainer {
         localTemperatureGenerator.execute(); // generates year temperature cycle
         localFloraGenerator.execute(); // places trees and plants
         localFaunaGenerator.execute(); // places animals
-////        localFurnitureGenerator.execute();
+        localBuildingGenerator.execute();
         localItemsGenerator.execute(); // places items
     }
 

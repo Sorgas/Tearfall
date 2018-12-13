@@ -175,8 +175,8 @@ public class ItemCraftingOrderLine extends Container implements HideableComponen
         upButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if()
-                menu.getWorkbenchAspect().swapOrders(); getOrders().indexOf(order);
+
+//                menu.getWorkbenchAspect().swapOrders(); getOrders().indexOf(order);
                 return true;
             }
         });
