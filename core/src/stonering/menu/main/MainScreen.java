@@ -48,9 +48,8 @@ public class MainScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        stage.setViewport(camera);
+//        stage.setViewport(camera);
         stage.act(delta);
-
         stage.draw();
     }
 

@@ -1,5 +1,6 @@
 package stonering.game.core.view.render.ui.lists;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.utils.Array;
 
@@ -22,6 +23,7 @@ public class PlaceHolderSelectBox<T> extends NavigableSelectBox<T> {
             setSelected(placeHolder == selected ? getItems().get(0) : selected);
             getList().act(1);
         }
+
     }
 
     @Override
@@ -47,7 +49,7 @@ public class PlaceHolderSelectBox<T> extends NavigableSelectBox<T> {
     }
 
     private void removePlaceHolder() {
-        Array<T> items = getItems();
+        Array<T> items = new Array<>(getItems());
         items.removeValue(placeHolder, true);
         super.setItems(items);
     }

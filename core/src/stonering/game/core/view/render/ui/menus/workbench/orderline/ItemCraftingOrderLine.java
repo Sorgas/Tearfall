@@ -141,10 +141,16 @@ public class ItemCraftingOrderLine extends Container implements HideableComponen
         ArrayList<String> items = new ArrayList<>(order.getAvailableItemList(workbenchPosition));
         materialselectBox.setItems(items.toArray(new String[]{}));
         materialselectBox.setSelectListener(event -> {
-            order.setSelectedString(materialselectBox.getSelected());
-            statusLabel.setText("ok");
-            createCompleteOrderButtons();
-            menu.getWorkbenchAspect().getOrders().add(order);
+            if (materialselectBox.getSelected() != materialselectBox.getPlaceHolder()) {
+                warningLabel.setText("");
+                order.setSelectedString(materialselectBox.getSelected());
+                statusLabel.setText("ok");
+                createCompleteOrderButtons();
+                menu.getWorkbenchAspect().getOrders().add(order);
+                getStage().setKeyboardFocus(this);
+            } else {
+                warningLabel.setText("Select material");
+            }
             return true;
         });
         materialselectBox.setCancelListener(event -> {

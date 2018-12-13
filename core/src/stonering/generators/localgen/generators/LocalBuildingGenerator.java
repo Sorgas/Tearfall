@@ -16,13 +16,11 @@ import java.util.Random;
 public class LocalBuildingGenerator {
     private LocalGenContainer container;
     private LocalGenConfig config;
-    private LocalMap localMap;
     private BuildingGenerator buildingGenerator;
 
     public LocalBuildingGenerator(LocalGenContainer container) {
         this.container = container;
         config = container.getConfig();
-        localMap = container.getLocalMap();
         buildingGenerator = new BuildingGenerator();
     }
 
@@ -37,6 +35,7 @@ public class LocalBuildingGenerator {
      * @return
      */
     private Position findSurfacePosition() {
+        LocalMap localMap = container.getLocalMap();
         int x = localMap.getxSize() /2;
         int y = localMap.getySize() /2;
         for (int z = localMap.getzSize() - 1; z > 0; z--) {

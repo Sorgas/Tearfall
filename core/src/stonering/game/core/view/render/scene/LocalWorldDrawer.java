@@ -105,32 +105,32 @@ public class LocalWorldDrawer {
      * @param z
      */
     private void drawTile(int x, int y, int z) {
-//        byte lightLevel = (byte) (localMap.getLight().getValue(x, y, z) + localMap.getGeneralLight().getValue(x, y, z));  //TODO limit light level
-//        shadeByLight(lightLevel);
-//        drawBlock(x, y, z);
-//        updateColorA(0.6f);
-//        drawWaterBlock(x, y, z);
-//        updateColorA(1f);
-//        PlantBlock plantBlock = localMap.getPlantBlock(x, y, z);
-//        if (plantBlock != null) {
-//            drawSprite(selectSprite(1, plantBlock.getAtlasX(), plantBlock.getAtlasY()), x, y, z);
-//        }
+        byte lightLevel = (byte) (localMap.getLight().getValue(x, y, z) + localMap.getGeneralLight().getValue(x, y, z));  //TODO limit light level
+        shadeByLight(lightLevel);
+        drawBlock(x, y, z);
+        updateColorA(0.6f);
+        drawWaterBlock(x, y, z);
+        updateColorA(1f);
+        PlantBlock plantBlock = localMap.getPlantBlock(x, y, z);
+        if (plantBlock != null) {
+            drawSprite(selectSprite(1, plantBlock.getAtlasX(), plantBlock.getAtlasY()), x, y, z);
+        }
         BuildingBlock buildingBlock = localMap.getBuildingBlock(x, y, z);
         if (buildingBlock != null) {
             drawSprite(selectSprite(3, 0, 0), x, y, z);
         }
-//        UnitBlock unitBlock = localMap.getUnitBlock(x, y, z);
-//        if (unitBlock != null) {
-//            drawSprite(selectSprite(2, 0, 0), x, y, z);
-//        }
-//        ArrayList<Item> items = container.getItemContainer().getItems(x, y, z);
-//        if (!items.isEmpty()) {
-//            items.forEach((item) -> drawSprite(selectSprite(5, item.getType().getAtlasX(), item.getType().getAtlasY()), x, y, z));
-//        }
-//        if (localMap.getDesignatedBlockType(x, y, z) > 0) {
-//            drawSprite(selectSprite(4, DesignationsTileMapping.getAtlasX(localMap.getDesignatedBlockType(x, y, z)), 0), x, y, z);
-//        }
-//        resetColor();
+        UnitBlock unitBlock = localMap.getUnitBlock(x, y, z);
+        if (unitBlock != null) {
+            drawSprite(selectSprite(2, 0, 0), x, y, z);
+        }
+        ArrayList<Item> items = container.getItemContainer().getItems(x, y, z);
+        if (!items.isEmpty()) {
+            items.forEach((item) -> drawSprite(selectSprite(5, item.getType().getAtlasX(), item.getType().getAtlasY()), x, y, z));
+        }
+        if (localMap.getDesignatedBlockType(x, y, z) > 0) {
+            drawSprite(selectSprite(4, DesignationsTileMapping.getAtlasX(localMap.getDesignatedBlockType(x, y, z)), 0), x, y, z);
+        }
+        resetColor();
     }
 
     /**

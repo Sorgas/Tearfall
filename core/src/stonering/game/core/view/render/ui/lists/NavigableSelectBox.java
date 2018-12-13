@@ -1,20 +1,12 @@
 package stonering.game.core.view.render.ui.lists;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
-import com.badlogic.gdx.utils.Array;
 import stonering.game.core.view.render.ui.menus.util.HideableComponent;
-import stonering.game.core.view.render.ui.menus.util.Invokable;
 import stonering.utils.global.StaticSkin;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * SelectBox, which can be observed with keys. Key set is configurable.
@@ -30,7 +22,6 @@ public class NavigableSelectBox<T> extends SelectBox<T> implements HideableCompo
 
     private EventListener selectListener;
     private EventListener cancelListener;
-    private EventListener navigationListener;
     private EventListener showListener;
     private EventListener hideListener;
 
@@ -73,9 +64,11 @@ public class NavigableSelectBox<T> extends SelectBox<T> implements HideableCompo
     }
 
     public void navigate(InputEvent event, int delta) {
-        int newIndex = (getSelectedIndex() + delta) % getItems().size;
-        setSelectedIndex(newIndex);
-        getList().setSelectedIndex(newIndex);
+        if(getItems().size != 0) {
+            int newIndex = (getItems().size + getSelectedIndex() + delta) % getItems().size;
+            setSelectedIndex(newIndex);
+            getList().setSelectedIndex(newIndex);
+        }
     }
 
     /**
@@ -117,10 +110,6 @@ public class NavigableSelectBox<T> extends SelectBox<T> implements HideableCompo
 
     public void setCancelListener(EventListener cancelListener) {
         this.cancelListener = cancelListener;
-    }
-
-    public void setNavigationListener(EventListener navigationListener) {
-        this.navigationListener = navigationListener;
     }
 
     public void setShowListener(EventListener showListener) {
