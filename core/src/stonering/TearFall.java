@@ -1,6 +1,7 @@
 package stonering;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -39,6 +40,7 @@ public class TearFall extends Game {
         createSkin();
         switchMainMenu();
     }
+
 
     public void switchMainMenu() {
         if (mainScreen == null) mainScreen = new MainScreen(this);
@@ -96,5 +98,18 @@ public class TearFall extends Game {
 
     public Skin getSkin() {
         return skin;
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        super.resize(width, height);
+
+    }
+
+    @Override
+    public void render() {
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(Gdx.gl20.GL_COLOR_BUFFER_BIT | Gdx.gl20.GL_DEPTH_BUFFER_BIT);
+        super.render();
     }
 }

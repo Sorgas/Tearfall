@@ -3,6 +3,8 @@ package stonering.menu.main;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -26,6 +28,7 @@ import java.io.File;
 public class MainScreen implements Screen {
     private TearFall game;
     private Stage stage;
+    private Camera camera;
 
     private TextButton createWorldButton;  // available always
     private TextButton startGameButton;    // available when world with no settlements present
@@ -45,9 +48,9 @@ public class MainScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(Gdx.gl20.GL_COLOR_BUFFER_BIT | Gdx.gl20.GL_DEPTH_BUFFER_BIT);
-        stage.act();
+        stage.setViewport(camera);
+        stage.act(delta);
+
         stage.draw();
     }
 
@@ -63,6 +66,13 @@ public class MainScreen implements Screen {
         stage.addListener(createKeyListener());
     }
 
+    private void createCamera() {
+        camera = new OrthographicCamera(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight());
+    }
+
+    /**
+     * Creates container that fills whole screen.
+     */
     private Container createContainer() {
         Container container = new Container();
         container.setFillParent(true);

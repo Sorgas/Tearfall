@@ -3,15 +3,14 @@ package stonering.menu.new_game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.List;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import stonering.TearFall;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
 import stonering.entity.world.World;
 import stonering.menu.ui_components.MiniMap;
@@ -37,14 +36,37 @@ public class SelectWorldScreen implements Screen {
     }
 
     public void init() {
+        stage = new Stage();
         stage.setDebugAll(true);
+        Container container = createContainer();
+        container.setActor(createTable());
+        stage.addActor(container);
+    }
+
+    /**
+     * Creates container that fills whole screen.
+     */
+    private Container createContainer() {
+        Container container = new Container();
+        container.setFillParent(true);
+        container.left().bottom();
+        container.setBackground(new TextureRegionDrawable(
+                new TextureRegion(new Texture("sprites/ui_back.png"), 0, 0, 100, 100)));
+        return container;
+    }
+
+    /**
+     * Creates table
+     * @return
+     */
+    private Table createTable() {
         Table rootTable = new Table();
         rootTable.setFillParent(true);
         rootTable.defaults().fill().expandY().space(10);
         rootTable.pad(10).align(Align.bottomLeft);
         rootTable.add(createMenuTable());
         rootTable.add(createMinimap()).expandX();
-        stage.addActor(rootTable);
+        return rootTable;
     }
 
     public Array<WorldListItem> getWorldListItems() {
@@ -67,7 +89,6 @@ public class SelectWorldScreen implements Screen {
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
-        stage = new Stage();
         init();
         Gdx.input.setInputProcessor(stage);
     }
