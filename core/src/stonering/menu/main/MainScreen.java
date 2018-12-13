@@ -3,13 +3,17 @@ package stonering.menu.main;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import stonering.TearFall;
 
 import java.io.File;
@@ -28,7 +32,6 @@ public class MainScreen implements Screen {
     private TextButton loadGameButton;     // available when savegame exists
     private TextButton aboutButton;        // available always
     private TextButton quitButton;         // available always
-
 
     public MainScreen(TearFall game) {
         this.game = game;
@@ -54,16 +57,27 @@ public class MainScreen implements Screen {
     public void init() {
         stage = new Stage();
         stage.setDebugAll(true);
-        stage.addActor(createTable());
+        Container container = createContainer();
+        container.setActor(createTable());
+        stage.addActor(container);
         stage.addListener(createKeyListener());
+    }
+
+    private Container createContainer() {
+        Container container = new Container();
+        container.setFillParent(true);
+        container.left().bottom();
+        container.setBackground(new TextureRegionDrawable(
+                new TextureRegion(new Texture("sprites/ui_back.png"), 0, 0, 100, 100)));
+        return container;
     }
 
     private Table createTable() {
         Table menuTable = new Table();
         menuTable.defaults().height(30).width(300).pad(10, 0, 0, 0);
-        menuTable.pad(10);
-        menuTable.left().bottom();
-        menuTable.setFillParent(true);
+        menuTable.pad(0, 10, 10, 10);
+        menuTable.setBackground(new TextureRegionDrawable(
+                new TextureRegion(new Texture("sprites/ui_back.png"), 0, 0, 100, 100)));
 
         createWorldButton = new TextButton("C: Create world", game.getSkin());
         createWorldButton.addListener(new ChangeListener() {
@@ -72,8 +86,7 @@ public class MainScreen implements Screen {
                 game.switchWorldGenMenu();
             }
         });
-        menuTable.add(createWorldButton);
-        menuTable.row();
+        menuTable.add(createWorldButton).row();
 
         if (worldExist()) {
             startGameButton = new TextButton("E: Start game", game.getSkin());
@@ -111,23 +124,23 @@ public class MainScreen implements Screen {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 switch (keycode) {
-                    case Input.Keys.E : {
+                    case Input.Keys.E: {
                         startGameButton.toggle();
                         return true;
                     }
-                    case Input.Keys.Q : {
+                    case Input.Keys.Q: {
                         quitButton.toggle();
                         return true;
                     }
-                    case Input.Keys.L : {
+                    case Input.Keys.L: {
                         loadGameButton.toggle();
                         return true;
                     }
-                    case Input.Keys.C : {
+                    case Input.Keys.C: {
                         createWorldButton.toggle();
                         return true;
                     }
-                    case Input.Keys.A : {
+                    case Input.Keys.A: {
                         aboutButton.toggle();
                         return true;
                     }

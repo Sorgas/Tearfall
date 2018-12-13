@@ -25,14 +25,14 @@ import java.io.File;
  *
  * @author Alexander Kuzyakov on 14.04.2017.
  */
-public class SelectWorldMenu implements Screen {
+public class SelectWorldScreen implements Screen {
     private World world;
     private TearFall game;
     private Stage stage;
     private List<WorldListItem> worldList;
     private MiniMap minimap;
 
-    public SelectWorldMenu(TearFall game) {
+    public SelectWorldScreen(TearFall game) {
         this.game = game;
     }
 

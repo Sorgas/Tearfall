@@ -12,7 +12,7 @@ import stonering.menu.main.MainScreen;
 import stonering.menu.new_game.LocalGenerationScreen;
 import stonering.menu.new_game.PrepareExpeditionMenu;
 import stonering.menu.new_game.SelectLocationMenu;
-import stonering.menu.new_game.SelectWorldMenu;
+import stonering.menu.new_game.SelectWorldScreen;
 import stonering.global.utils.Position;
 import stonering.menu.worldgen.WorldGenScreen;
 
@@ -24,7 +24,7 @@ import stonering.menu.worldgen.WorldGenScreen;
 public class TearFall extends Game {
     private MainScreen mainScreen;
     private WorldGenScreen worldGenScreen;
-    private SelectWorldMenu selectWorldMenu;
+    private SelectWorldScreen selectWorldScreen;
     private SelectLocationMenu selectLocationMenu;
     private PrepareExpeditionMenu prepareExpeditionMenuMvc;
     private LocalGenerationScreen localGenerationScreen;
@@ -51,8 +51,8 @@ public class TearFall extends Game {
     }
 
     public void switchWorldsSelectMenu() {
-        if (selectWorldMenu == null) selectWorldMenu = new SelectWorldMenu(this);
-        setScreen(selectWorldMenu);
+        if (selectWorldScreen == null) selectWorldScreen = new SelectWorldScreen(this);
+        setScreen(selectWorldScreen);
     }
 
     public void switchLocationSelectMenu(World world) {
