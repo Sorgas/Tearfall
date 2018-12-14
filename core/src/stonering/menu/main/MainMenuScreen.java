@@ -25,7 +25,7 @@ import java.io.File;
  *
  * @author Alexander Kuzyakov on 02.04.2017.
  */
-public class MainScreen implements Screen {
+public class MainMenuScreen implements Screen {
     private TearFall game;
     private Stage stage;
     private Camera camera;
@@ -36,7 +36,7 @@ public class MainScreen implements Screen {
     private TextButton aboutButton;        // available always
     private TextButton quitButton;         // available always
 
-    public MainScreen(TearFall game) {
+    public MainMenuScreen(TearFall game) {
         this.game = game;
     }
 
@@ -48,7 +48,6 @@ public class MainScreen implements Screen {
 
     @Override
     public void render(float delta) {
-//        stage.setViewport(camera);
         stage.act(delta);
         stage.draw();
     }
