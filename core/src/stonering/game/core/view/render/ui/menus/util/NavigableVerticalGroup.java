@@ -8,6 +8,9 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import stonering.utils.global.TagLoggersEnum;
 
+import java.util.HashSet;
+import java.util.Set;
+
 
 /**
  * Vertical group which can handle input.
@@ -15,6 +18,7 @@ import stonering.utils.global.TagLoggersEnum;
  * @author Alexander
  */
 public class NavigableVerticalGroup extends VerticalGroup implements HideableComponent {
+    private Set<Integer> selectKeys;
     private EventListener selectListener;
     private EventListener cancelListener;
     private EventListener showListener;
@@ -25,6 +29,8 @@ public class NavigableVerticalGroup extends VerticalGroup implements HideableCom
     public NavigableVerticalGroup() {
         super();
         createDefaultListener();
+        selectKeys = new HashSet<>();
+        selectKeys.add(Input.Keys.E);
     }
 
     private void createDefaultListener() {
@@ -33,15 +39,16 @@ public class NavigableVerticalGroup extends VerticalGroup implements HideableCom
             public boolean keyDown(InputEvent event, int keycode) {
                 event.stop();
                 TagLoggersEnum.UI.logDebug("handling " + Input.Keys.toString(keycode) + " on NavigableVerticalGroup");
+                if(selectKeys.contains(keycode)) {
+                    select(event);
+                    return true;
+                }
                 switch (keycode) {
                     case Input.Keys.W:
                         up();
                         return true;
                     case Input.Keys.S:
                         down();
-                        return true;
-                    case Input.Keys.E:
-                        select(event);
                         return true;
                     case Input.Keys.Q:
                         cancel(event);
@@ -55,6 +62,10 @@ public class NavigableVerticalGroup extends VerticalGroup implements HideableCom
                 return false;
             }
         });
+    }
+
+    public void navigate(int delta) {
+
     }
 
     public void up() {
@@ -116,5 +127,9 @@ public class NavigableVerticalGroup extends VerticalGroup implements HideableCom
 
     public void setHideListener(EventListener hideListener) {
         this.hideListener = hideListener;
+    }
+
+    public Set<Integer> getSelectKeys() {
+        return selectKeys;
     }
 }

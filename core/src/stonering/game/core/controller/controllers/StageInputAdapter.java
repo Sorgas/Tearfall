@@ -33,6 +33,11 @@ public class StageInputAdapter extends InputAdapter {
         return gameView.getActiveStage().touchDown(screenX, screenY, pointer, button);
     }
 
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return gameView.getActiveStage().touchUp(screenX, screenY, pointer, button);
+    }
+
     /**
      * Translates typed character to corresponding keycode.
      * //TODO test letters, numbers, symbols.

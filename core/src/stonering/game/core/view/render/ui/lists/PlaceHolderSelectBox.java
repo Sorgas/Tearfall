@@ -1,6 +1,5 @@
 package stonering.game.core.view.render.ui.lists;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.utils.Array;
 
@@ -11,19 +10,17 @@ import com.badlogic.gdx.utils.Array;
 public class PlaceHolderSelectBox<T> extends NavigableSelectBox<T> {
     private T placeHolder;
 
+    public PlaceHolderSelectBox(T placeHolder) {
+        this.placeHolder = placeHolder;
+    }
+
     /**
      * Removes placeholder after navigation.
      */
     @Override
     public void navigate(InputEvent event, int delta) {
         super.navigate(event, delta);
-        if(getItems().contains(placeHolder, true)) {
-            T selected = getSelected();
-            removePlaceHolder();
-            setSelected(placeHolder == selected ? getItems().get(0) : selected);
-            getList().act(1);
-        }
-
+        removePlaceHolder();
     }
 
     @Override
@@ -48,17 +45,18 @@ public class PlaceHolderSelectBox<T> extends NavigableSelectBox<T> {
         setSelected(placeHolder);
     }
 
-    private void removePlaceHolder() {
-        Array<T> items = new Array<>(getItems());
-        items.removeValue(placeHolder, true);
-        super.setItems(items);
+    public void removePlaceHolder() {
+        if(getItems().contains(placeHolder, true)) {
+            T selected = getSelected();
+            Array<T> items = new Array<>(getItems());
+            items.removeValue(placeHolder, true);
+            super.setItems(items);
+            setSelected(placeHolder == selected ? getItems().get(0) : selected);
+            getList().act(1);
+        }
     }
 
     public T getPlaceHolder() {
         return placeHolder;
-    }
-
-    public void setPlaceHolder(T placeHolder) {
-        this.placeHolder = placeHolder;
     }
 }

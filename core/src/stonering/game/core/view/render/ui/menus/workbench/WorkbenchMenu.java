@@ -1,7 +1,6 @@
 package stonering.game.core.view.render.ui.menus.workbench;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -13,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import stonering.entity.local.building.Building;
 import stonering.entity.local.building.aspects.WorkbenchAspect;
+import stonering.entity.local.crafting.ItemOrder;
 import stonering.game.core.GameMvc;
 import stonering.game.core.view.render.ui.menus.util.Highlightable;
 import stonering.game.core.view.render.ui.menus.util.NavigableVerticalGroup;
@@ -45,7 +45,7 @@ public class WorkbenchMenu extends Table implements Highlightable {
         this.workbench = building;
         workbenchAspect = (WorkbenchAspect) building.getAspects().get(WorkbenchAspect.NAME);
         createTable();
-        fillWorkbenchOrders();
+        refillWorkbenchOrders();
     }
 
     /**
@@ -112,7 +112,7 @@ public class WorkbenchMenu extends Table implements Highlightable {
 
     private NavigableVerticalGroup createOrderList() {
         orderList = new NavigableVerticalGroup();
-        orderList.setColor(Color.BLUE);
+        orderList.getSelectKeys().add(Input.Keys.D);
         orderList.setSelectListener(event -> {
             event.stop();
             Actor selected = orderList.getSelectedElement();
@@ -134,18 +134,22 @@ public class WorkbenchMenu extends Table implements Highlightable {
     private boolean createNewOrderLine() {
         ItemCraftingOrderLine orderLine = new ItemCraftingOrderLine(gameMvc, this);
         orderLine.show();
-        updateFocusAndBackground(orderLine.getItemTypeList());
+        updateFocusAndBackground(orderLine.getItemTypeSelectBox());
         orderLine.setHighlighted(true);
         return true;
     }
 
     /**
-     * Fills list of menu with existing orders.
+     * Refills list of menu with existing orders.
      */
-    private void fillWorkbenchOrders() {
+    private void refillWorkbenchOrders() {
         workbenchAspect.getOrders().forEach(order -> {
-//            orderList.addActorAt(0, new CraftingOrderLine(gameMvc, this, order));
+            orderList.addActor(createOrderLine(order));
         });
+    }
+
+    private ItemCraftingOrderLine createOrderLine(ItemOrder order) {
+        return new ItemCraftingOrderLine(gameMvc, this, order);
     }
 
     /**

@@ -54,11 +54,11 @@ public class GameView implements Screen {
         Gdx.gl.glClear(Gdx.gl20.GL_COLOR_BUFFER_BIT | Gdx.gl20.GL_DEPTH_BUFFER_BIT);
         if (getActiveStage() != baseStage) {   // render base stage under other
             baseStage.getViewport().apply();
-            baseStage.act();
+            baseStage.act(delta);
             baseStage.draw();
         }
         getActiveStage().getViewport().apply();
-        getActiveStage().act();
+        getActiveStage().act(delta);
         getActiveStage().draw();
     }
 
