@@ -1,15 +1,11 @@
 package stonering.game.core.view.render.ui.menus.workbench;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import stonering.entity.local.building.Building;
 import stonering.entity.local.building.aspects.WorkbenchAspect;
 import stonering.entity.local.crafting.ItemOrder;
@@ -26,7 +22,7 @@ import stonering.utils.global.TagLoggersEnum;
  *
  * @author Alexander on 28.10.2018.
  */
-public class WorkbenchMenu extends Table implements Highlightable {
+public class WorkbenchMenu extends Window implements Highlightable {
     private GameMvc gameMvc;
     private Building workbench;
     private WorkbenchAspect workbenchAspect; // aspect of selected workbench (M thing)
@@ -40,10 +36,11 @@ public class WorkbenchMenu extends Table implements Highlightable {
      * Will throw NPE if created on non-workbench workbench.
      */
     public WorkbenchMenu(GameMvc gameMvc, Building building) {
-        super();
+        super(building.getName(), StaticSkin.getSkin());
         this.gameMvc = gameMvc;
         this.workbench = building;
         workbenchAspect = (WorkbenchAspect) building.getAspects().get(WorkbenchAspect.NAME);
+        setKeepWithinStage(true);
         createTable();
         refillWorkbenchOrders();
     }
@@ -52,13 +49,12 @@ public class WorkbenchMenu extends Table implements Highlightable {
      * Creates menu table.
      */
     private void createTable() {
-        this.setDebug(true);
-        this.setWidth(500);
-        this.add(new Label(workbench.getName(), StaticSkin.getSkin())).colspan(2).row();
-        this.add(createOrderList()).prefWidth(600);
-        this.add(createCloseButton()).prefWidth(20).prefHeight(20).right().top().row();
-        this.add(createAddButton()).prefHeight(20).left().top();
-        this.addListener(new InputListener() {
+        setDebug(true, true);
+        add(createCloseButton()).prefWidth(20).prefHeight(20).right().top().row();
+        add(createOrderList()).fillX().row();
+//        orderList.fill();
+        add(createAddButton()).prefHeight(20).left().top();
+        addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 TagLoggersEnum.UI.logDebug("handling " + Input.Keys.toString(keycode) + " on WorkbenchMenu");
@@ -86,8 +82,6 @@ public class WorkbenchMenu extends Table implements Highlightable {
 
     private TextButton createCloseButton() {
         closeButton = new TextButton("X", StaticSkin.getSkin());
-        closeButton.setWidth(100);
-        closeButton.setHeight(100);
         closeButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -124,7 +118,8 @@ public class WorkbenchMenu extends Table implements Highlightable {
             close();
             return true;
         });
-        orderList.left();
+//        orderList.left();
+//        orderList.fill();
         return orderList;
     }
 
@@ -134,8 +129,9 @@ public class WorkbenchMenu extends Table implements Highlightable {
     private boolean createNewOrderLine() {
         ItemCraftingOrderLine orderLine = new ItemCraftingOrderLine(gameMvc, this);
         orderLine.show();
-        updateFocusAndBackground(orderLine.getItemTypeSelectBox());
-        orderLine.setHighlighted(true);
+        updateFocusAndBackground(orderLine.getRecipeSelectBox());
+//        orderLine.setHighlighted(true);
+//        orderLine.setFillParent(true);
         return true;
     }
 
@@ -166,7 +162,6 @@ public class WorkbenchMenu extends Table implements Highlightable {
         gameMvc.getView().removeStage(getStage());
     }
 
-
     public void updateFocusAndBackground(Actor actor) {
         getStage().setKeyboardFocus(actor);
         setHighlighted(getStage().getKeyboardFocus() == this);
@@ -186,7 +181,6 @@ public class WorkbenchMenu extends Table implements Highlightable {
 
     @Override
     public void setHighlighted(boolean value) {
-        this.setBackground(new TextureRegionDrawable(
-                new TextureRegion(new Texture("sprites/ui_back.png"), value ? 100 : 0, 0, 100, 100)));
+//        this.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("sprites/ui_back.png"), value ? 100 : 0, 0, 100, 100)));
     }
 }

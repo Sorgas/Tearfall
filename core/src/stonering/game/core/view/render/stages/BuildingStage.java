@@ -22,8 +22,6 @@ public class BuildingStage extends InitableStage {
         this.building = building;
     }
 
-
-
     @Override
     public void init() {
         createWorkbenchMenu();

@@ -1,13 +1,9 @@
 package stonering.game.core.view.render.ui.menus.workbench.orderline;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.Array;
 import stonering.entity.local.crafting.ItemOrder;
 import stonering.enums.items.ItemTypeMap;
 import stonering.enums.items.Recipe;
@@ -32,7 +28,7 @@ import java.util.Map;
  */
 public class ItemCraftingOrderLine extends Container implements HideableComponent, Highlightable {
     private static final String MATERIAL_SELECT_PLACEHOLDER = "Select Material";
-    GameMvc gameMvc;
+    private GameMvc gameMvc;
     private WorkbenchMenu menu;
 
     private HorizontalGroup horizontalGroup;
@@ -40,7 +36,8 @@ public class ItemCraftingOrderLine extends Container implements HideableComponen
     private ItemOrder order;
 
     private Label statusLabel;                                  // shows status, updates on status change
-    private PlaceHolderSelectBox<String> itemTypeSelectBox;
+    private PlaceHolderSelectBox<String> recipeSelectBox;
+    private Label itemLabel;
     private PlaceHolderSelectBox<String> materialSelectBox;       // allows to select material for crafting - main element of this line.
     private Label warningLabel;                                 // shown when something is not ok
     private TextButton deleteButton;
@@ -51,9 +48,12 @@ public class ItemCraftingOrderLine extends Container implements HideableComponen
     private ItemCraftingOrderLine(GameMvc gameMvc) {
         super();
         this.gameMvc = gameMvc;
+        setDebug(true, true);
         horizontalGroup = new HorizontalGroup();
+        horizontalGroup.fill();
         horizontalGroup.addActor(createStatusLabel());
         setActor(horizontalGroup);
+        fillX();
     }
 
     /**
@@ -63,7 +63,6 @@ public class ItemCraftingOrderLine extends Container implements HideableComponen
         this(gameMvc);
         this.menu = menu;
         this.left();
-
         horizontalGroup.addActor(createRecipeSelectBox(new ArrayList<>(menu.getWorkbenchAspect().getRecipes())));
         horizontalGroup.addActor(createWarningLabel());
     }
@@ -79,6 +78,7 @@ public class ItemCraftingOrderLine extends Container implements HideableComponen
         horizontalGroup.addActor(createMaterialSelectBox());
         materialSelectBox.setSelected(order.getSelectedString());
         horizontalGroup.addActor(createWarningLabel());
+        horizontalGroup.right();
         createAndAddControlButtons();
     }
 
@@ -96,21 +96,21 @@ public class ItemCraftingOrderLine extends Container implements HideableComponen
     public PlaceHolderSelectBox createRecipeSelectBox(ArrayList<Recipe> recipeList) {
         Map<String, Recipe> recipeMap = new HashMap<>();
         recipeList.forEach(recipe -> recipeMap.put(recipe.getTitle(), recipe));                                 // create mapping of recipes to select box lines.
-        itemTypeSelectBox = new PlaceHolderSelectBox<>("Select item");
-        itemTypeSelectBox.setItems(recipeMap.keySet().toArray(new String[]{}));
-        itemTypeSelectBox.getSelectKeys().add(Input.Keys.D);
-        itemTypeSelectBox.addListener(new InputListener() {
+        recipeSelectBox = new PlaceHolderSelectBox<>("Select item");
+        recipeSelectBox.setItems(recipeMap.keySet().toArray(new String[]{}));
+        recipeSelectBox.getSelectKeys().add(Input.Keys.D);
+        recipeSelectBox.getListeners().insert(0, new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 switch (keycode) {
                     case Input.Keys.E:
                     case Input.Keys.D: {                                                                        // select recipe and go to material
-                        if (itemTypeSelectBox.getList().isVisible()) {
-                            if (!itemTypeSelectBox.getSelected().equals(itemTypeSelectBox.getPlaceHolder())) {        //  should be always true when list is visible
+                        if (recipeSelectBox.getList().isVisible()) {
+                            if (!recipeSelectBox.getSelected().equals(recipeSelectBox.getPlaceHolder())) {        //  should be always true when list is visible
                                 // create order for selected recipe
-                                order = new ItemOrder(gameMvc, recipeMap.get(itemTypeSelectBox.getSelected()));
+                                order = new ItemOrder(gameMvc, recipeMap.get(recipeSelectBox.getSelected()));
                                 // replace select box with label. it will not be changed for this order.
-                                horizontalGroup.removeActor(itemTypeSelectBox);
+                                horizontalGroup.removeActor(recipeSelectBox);
                                 horizontalGroup.removeActor(warningLabel);
                                 horizontalGroup.addActor(createItemLabel());
                                 // create select box for material selection.
@@ -120,16 +120,18 @@ public class ItemCraftingOrderLine extends Container implements HideableComponen
                             } else {
                                 warningLabel.setText("Item not selected");
                             }
-                            itemTypeSelectBox.hideList();
+                            recipeSelectBox.hideList();
                         } else {
-                            itemTypeSelectBox.navigate(1);
-                            itemTypeSelectBox.showList();
-                            itemTypeSelectBox.getList().toFront();
+                            recipeSelectBox.navigate(1);
+                            recipeSelectBox.showList();
+                            recipeSelectBox.getList().toFront();
                         }
                         return true;
                     }
+                    case Input.Keys.Q:
                     case Input.Keys.A: {
                         hide();
+                        return true;
                     }
                 }
                 return super.keyDown(event, keycode);
@@ -138,19 +140,19 @@ public class ItemCraftingOrderLine extends Container implements HideableComponen
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchDown(event, x, y, pointer, button);
-                itemTypeSelectBox.navigate(1);
+                recipeSelectBox.navigate(1);
                 return true;
             }
         });
-        itemTypeSelectBox.getList().addListener(new InputListener() {
+        recipeSelectBox.getList().addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchDown(event, x, y, pointer, button);
-                getStage().setKeyboardFocus(itemTypeSelectBox);
+                getStage().setKeyboardFocus(recipeSelectBox);
                 return true;
             }
         });
-        return itemTypeSelectBox;
+        return recipeSelectBox;
     }
 
     /**
@@ -158,7 +160,8 @@ public class ItemCraftingOrderLine extends Container implements HideableComponen
      */
     private Label createItemLabel() {
         String itemTitle = ItemTypeMap.getInstance().getItemType(order.getRecipe().getItemName()).getTitle();
-        return new Label(itemTitle, StaticSkin.getSkin()); // label with item type
+        itemLabel = new Label(itemTitle, StaticSkin.getSkin()); // label with item type
+        return itemLabel;
     }
 
     /**
@@ -171,7 +174,7 @@ public class ItemCraftingOrderLine extends Container implements HideableComponen
         ArrayList<String> items = new ArrayList<>(order.getAvailableItemList(workbenchPosition));
         materialSelectBox.setItems(items.toArray(new String[]{}));
         materialSelectBox.getSelectKeys().add(Input.Keys.D);
-        materialSelectBox.addListener(new InputListener() {
+        materialSelectBox.getListeners().insert(0, new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 switch (keycode) {
@@ -191,13 +194,20 @@ public class ItemCraftingOrderLine extends Container implements HideableComponen
                         } else {
                             materialSelectBox.navigate(1);
                             materialSelectBox.showList();
-                            itemTypeSelectBox.getList().toFront();
+                            recipeSelectBox.getList().toFront();
                         }
                         return true;
                     }
-                    case Input.Keys.A:
+                    case Input.Keys.A: {
+                        horizontalGroup.removeActor(materialSelectBox);
+                        horizontalGroup.removeActor(itemLabel);
+                        horizontalGroup.addActor(createRecipeSelectBox(new ArrayList<>(menu.getWorkbenchAspect().getRecipes())));
+                        getStage().setKeyboardFocus(recipeSelectBox);
+                        return true;
+                    }
                     case Input.Keys.Q: {   // no return to recipe select, cancel order.
                         hide();
+                        return true;
                     }
                 }
                 return true;
@@ -207,6 +217,9 @@ public class ItemCraftingOrderLine extends Container implements HideableComponen
     }
 
     private void createAndAddControlButtons() {
+        Container container = new Container();
+        container.setFillParent(true);
+        horizontalGroup.addActor(container.fillX());
         deleteButton = new TextButton("X", StaticSkin.getSkin());
         deleteButton.addListener(new InputListener() {
             @Override
@@ -275,13 +288,12 @@ public class ItemCraftingOrderLine extends Container implements HideableComponen
         return statusLabel;
     }
 
-    public PlaceHolderSelectBox<String> getItemTypeSelectBox() {
-        return itemTypeSelectBox;
+    public PlaceHolderSelectBox<String> getRecipeSelectBox() {
+        return recipeSelectBox;
     }
 
     @Override
     public void setHighlighted(boolean value) {
-        this.setBackground(new TextureRegionDrawable(
-                new TextureRegion(new Texture("sprites/ui_back.png"), value ? 100 : 0, 0, 100, 100)));
+//        this.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("sprites/ui_back.png"), value ? 100 : 0, 0, 100, 100)));
     }
 }

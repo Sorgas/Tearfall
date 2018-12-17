@@ -76,7 +76,7 @@ public class MainMenuScreen implements Screen {
         container.setFillParent(true);
         container.left().bottom();
         container.setBackground(new TextureRegionDrawable(
-                new TextureRegion(new Texture("sprites/ui_back.png"), 0, 0, 100, 100)));
+                new TextureRegion(new Texture("sprites/ui_back.png"), 0, 0, 100, 100)), false);
         return container;
     }
 
