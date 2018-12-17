@@ -1,6 +1,5 @@
 package stonering.game.core.view.render.ui.lists;
 
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.utils.Array;
 
 /**
@@ -18,8 +17,8 @@ public class PlaceHolderSelectBox<T> extends NavigableSelectBox<T> {
      * Removes placeholder after navigation.
      */
     @Override
-    public void navigate(InputEvent event, int delta) {
-        super.navigate(event, delta);
+    public void navigate(int delta) {
+        super.navigate(delta);
         removePlaceHolder();
     }
 
@@ -51,8 +50,9 @@ public class PlaceHolderSelectBox<T> extends NavigableSelectBox<T> {
             Array<T> items = new Array<>(getItems());
             items.removeValue(placeHolder, true);
             super.setItems(items);
+            getList().clearItems();
+            getList().setItems(items);
             setSelected(placeHolder == selected ? getItems().get(0) : selected);
-            getList().act(1);
         }
     }
 

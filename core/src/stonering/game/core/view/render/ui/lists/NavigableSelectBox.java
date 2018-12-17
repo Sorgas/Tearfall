@@ -33,11 +33,11 @@ public class NavigableSelectBox<T> extends SelectBox<T> {
             public boolean keyDown(InputEvent event, int keycode) {
                 event.stop();
                 if (keycode == upKey) {
-                    navigate(event, -1);
+                    navigate(-1);
                     showList();
                     return true;
                 } else if (keycode == downKey) {
-                    navigate(event, 1);
+                    navigate(1);
                     showList();
                     return true;
                 } else {
@@ -47,7 +47,7 @@ public class NavigableSelectBox<T> extends SelectBox<T> {
         });
     }
 
-    public void navigate(InputEvent event, int delta) {
+    public void navigate(int delta) {
         if (getItems().size != 0) {
             int newIndex = (getItems().size + getSelectedIndex() + delta) % getItems().size;
             setSelectedIndex(newIndex);

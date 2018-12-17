@@ -122,7 +122,7 @@ public class ItemCraftingOrderLine extends Container implements HideableComponen
                             }
                             itemTypeSelectBox.hideList();
                         } else {
-                            itemTypeSelectBox.navigate(event, 1);
+                            itemTypeSelectBox.navigate(1);
                             itemTypeSelectBox.showList();
                             itemTypeSelectBox.getList().toFront();
                         }
@@ -138,7 +138,7 @@ public class ItemCraftingOrderLine extends Container implements HideableComponen
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchDown(event, x, y, pointer, button);
-                itemTypeSelectBox.navigate(event, 1);
+                itemTypeSelectBox.navigate(1);
                 return true;
             }
         });
@@ -189,7 +189,7 @@ public class ItemCraftingOrderLine extends Container implements HideableComponen
                                 warningLabel.setText("Select material");
                             }
                         } else {
-                            materialSelectBox.navigate(event, 1);
+                            materialSelectBox.navigate(1);
                             materialSelectBox.showList();
                             itemTypeSelectBox.getList().toFront();
                         }
