@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.utils.Align;
 import stonering.entity.local.building.Building;
 import stonering.entity.local.building.aspects.WorkbenchAspect;
 import stonering.entity.local.crafting.ItemOrder;
@@ -50,9 +51,8 @@ public class WorkbenchMenu extends Window implements Highlightable {
      */
     private void createTable() {
         setDebug(true, true);
+        add(createOrderList().fill()).prefWidth(600).prefHeight(200).expandX();
         add(createCloseButton()).prefWidth(20).prefHeight(20).right().top().row();
-        add(createOrderList()).fillX().row();
-//        orderList.fill();
         add(createAddButton()).prefHeight(20).left().top();
         addListener(new InputListener() {
             @Override
@@ -78,6 +78,9 @@ public class WorkbenchMenu extends Window implements Highlightable {
                 return false;
             }
         });
+        setWidth(800);
+        setHeight(600);
+
     }
 
     private TextButton createCloseButton() {
@@ -106,6 +109,7 @@ public class WorkbenchMenu extends Window implements Highlightable {
 
     private NavigableVerticalGroup createOrderList() {
         orderList = new NavigableVerticalGroup();
+        orderList.grow();
         orderList.getSelectKeys().add(Input.Keys.D);
         orderList.setSelectListener(event -> {
             event.stop();
@@ -118,8 +122,6 @@ public class WorkbenchMenu extends Window implements Highlightable {
             close();
             return true;
         });
-//        orderList.left();
-//        orderList.fill();
         return orderList;
     }
 

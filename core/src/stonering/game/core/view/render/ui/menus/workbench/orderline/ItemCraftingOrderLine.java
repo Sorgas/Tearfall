@@ -26,14 +26,14 @@ import java.util.Map;
  *
  * @author Alexander
  */
-public class ItemCraftingOrderLine extends Container implements HideableComponent, Highlightable {
+public class ItemCraftingOrderLine extends Table implements HideableComponent, Highlightable {
     private static final String MATERIAL_SELECT_PLACEHOLDER = "Select Material";
     private GameMvc gameMvc;
     private WorkbenchMenu menu;
-
-    private HorizontalGroup horizontalGroup;
-
     private ItemOrder order;
+
+    private HorizontalGroup leftHG;
+    private HorizontalGroup rightHG;
 
     private Label statusLabel;                                  // shows status, updates on status change
     private PlaceHolderSelectBox<String> recipeSelectBox;
@@ -45,15 +45,16 @@ public class ItemCraftingOrderLine extends Container implements HideableComponen
     private TextButton upButton;
     private TextButton downButton;
 
+    /**
+     * Creates this table with two horizontal groups, aligned to left and right with expanding space cell between them.
+     */
     private ItemCraftingOrderLine(GameMvc gameMvc) {
         super();
         this.gameMvc = gameMvc;
-        setDebug(true, true);
-        horizontalGroup = new HorizontalGroup();
-        horizontalGroup.fill();
-        horizontalGroup.addActor(createStatusLabel());
-        setActor(horizontalGroup);
-        fillX();
+        this.add(leftHG = new HorizontalGroup());
+        this.add().expandX();
+        this.add(rightHG = new HorizontalGroup());
+        leftHG.addActor(createStatusLabel());
     }
 
     /**
@@ -63,8 +64,8 @@ public class ItemCraftingOrderLine extends Container implements HideableComponen
         this(gameMvc);
         this.menu = menu;
         this.left();
-        horizontalGroup.addActor(createRecipeSelectBox(new ArrayList<>(menu.getWorkbenchAspect().getRecipes())));
-        horizontalGroup.addActor(createWarningLabel());
+        leftHG.addActor(createRecipeSelectBox(new ArrayList<>(menu.getWorkbenchAspect().getRecipes())));
+        leftHG.addActor(createWarningLabel());
     }
 
     /**
@@ -74,11 +75,11 @@ public class ItemCraftingOrderLine extends Container implements HideableComponen
         this(gameMvc);
         this.menu = menu;
         this.order = order;
-        horizontalGroup.addActor(createItemLabel());
-        horizontalGroup.addActor(createMaterialSelectBox());
+        leftHG.addActor(createItemLabel());
+        leftHG.addActor(createMaterialSelectBox());
         materialSelectBox.setSelected(order.getSelectedString());
-        horizontalGroup.addActor(createWarningLabel());
-        horizontalGroup.right();
+        leftHG.addActor(createWarningLabel());
+        leftHG.right();
         createAndAddControlButtons();
     }
 
@@ -110,12 +111,12 @@ public class ItemCraftingOrderLine extends Container implements HideableComponen
                                 // create order for selected recipe
                                 order = new ItemOrder(gameMvc, recipeMap.get(recipeSelectBox.getSelected()));
                                 // replace select box with label. it will not be changed for this order.
-                                horizontalGroup.removeActor(recipeSelectBox);
-                                horizontalGroup.removeActor(warningLabel);
-                                horizontalGroup.addActor(createItemLabel());
+                                leftHG.removeActor(recipeSelectBox);
+                                leftHG.removeActor(warningLabel);
+                                leftHG.addActor(createItemLabel());
                                 // create select box for material selection.
-                                horizontalGroup.addActor(createMaterialSelectBox());
-                                horizontalGroup.addActor(createWarningLabel());
+                                leftHG.addActor(createMaterialSelectBox());
+                                leftHG.addActor(createWarningLabel());
                                 getStage().setKeyboardFocus(materialSelectBox);
                             } else {
                                 warningLabel.setText("Item not selected");
@@ -199,9 +200,9 @@ public class ItemCraftingOrderLine extends Container implements HideableComponen
                         return true;
                     }
                     case Input.Keys.A: {
-                        horizontalGroup.removeActor(materialSelectBox);
-                        horizontalGroup.removeActor(itemLabel);
-                        horizontalGroup.addActor(createRecipeSelectBox(new ArrayList<>(menu.getWorkbenchAspect().getRecipes())));
+                        leftHG.removeActor(materialSelectBox);
+                        leftHG.removeActor(itemLabel);
+                        leftHG.addActor(createRecipeSelectBox(new ArrayList<>(menu.getWorkbenchAspect().getRecipes())));
                         getStage().setKeyboardFocus(recipeSelectBox);
                         return true;
                     }
@@ -217,15 +218,13 @@ public class ItemCraftingOrderLine extends Container implements HideableComponen
     }
 
     private void createAndAddControlButtons() {
-        Container container = new Container();
-        container.setFillParent(true);
-        horizontalGroup.addActor(container.fillX());
+        Table table = this;
         deleteButton = new TextButton("X", StaticSkin.getSkin());
         deleteButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 menu.getWorkbenchAspect().getOrders().remove(order);
-                menu.getOrderList().removeActor(horizontalGroup.getParent());
+                menu.getOrderList().removeActor(table);
                 return true;
             }
         });
@@ -254,10 +253,10 @@ public class ItemCraftingOrderLine extends Container implements HideableComponen
                 return true;
             }
         });
-        horizontalGroup.addActor(repeatButton);
-        horizontalGroup.addActor(upButton);
-        horizontalGroup.addActor(downButton);
-        horizontalGroup.addActor(deleteButton);
+        rightHG.addActor(repeatButton);
+        rightHG.addActor(upButton);
+        rightHG.addActor(downButton);
+        rightHG.addActor(deleteButton);
     }
 
     /**
