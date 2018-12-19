@@ -10,7 +10,7 @@ import stonering.enums.items.Recipe;
 import stonering.game.core.GameMvc;
 import stonering.game.core.view.render.ui.lists.PlaceHolderSelectBox;
 import stonering.game.core.view.render.ui.menus.util.HideableComponent;
-import stonering.game.core.view.render.ui.menus.util.Highlightable;
+import stonering.game.core.view.render.ui.menus.util.HintedActor;
 import stonering.game.core.view.render.ui.menus.workbench.WorkbenchMenu;
 import stonering.global.utils.Position;
 import stonering.utils.global.StaticSkin;
@@ -26,7 +26,7 @@ import java.util.Map;
  *
  * @author Alexander
  */
-public class ItemCraftingOrderLine extends Table implements HideableComponent, Highlightable {
+public class ItemCraftingOrderLine extends Table implements HideableComponent, HintedActor {
     private static final String MATERIAL_SELECT_PLACEHOLDER = "Select Material";
     private GameMvc gameMvc;
     private WorkbenchMenu menu;

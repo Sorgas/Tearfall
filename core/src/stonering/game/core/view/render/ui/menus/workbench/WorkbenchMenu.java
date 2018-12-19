@@ -4,14 +4,15 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
-import com.badlogic.gdx.utils.Align;
 import stonering.entity.local.building.Building;
 import stonering.entity.local.building.aspects.WorkbenchAspect;
 import stonering.entity.local.crafting.ItemOrder;
 import stonering.game.core.GameMvc;
 import stonering.game.core.view.render.ui.menus.util.Highlightable;
+import stonering.game.core.view.render.ui.menus.util.HintedActor;
 import stonering.game.core.view.render.ui.menus.util.NavigableVerticalGroup;
 import stonering.game.core.view.render.ui.menus.workbench.orderline.ItemCraftingOrderLine;
 import stonering.utils.global.StaticSkin;
@@ -23,7 +24,9 @@ import stonering.utils.global.TagLoggersEnum;
  *
  * @author Alexander on 28.10.2018.
  */
-public class WorkbenchMenu extends Window implements Highlightable {
+public class WorkbenchMenu extends Window implements HintedActor {
+    private static final String MENU_HINT = "E:create WASD:navigate Q:quit";
+
     private GameMvc gameMvc;
     private Building workbench;
     private WorkbenchAspect workbenchAspect; // aspect of selected workbench (M thing)
@@ -31,6 +34,7 @@ public class WorkbenchMenu extends Window implements Highlightable {
     private NavigableVerticalGroup orderList;
     private TextButton addOrderButton;
     private TextButton closeButton;
+    private Label hintLabel;
 
     /**
      * Creates menu for selected built workbench on localMap. Can be used only for workbenches.
@@ -54,6 +58,7 @@ public class WorkbenchMenu extends Window implements Highlightable {
         add(createOrderList().fill()).prefWidth(600).prefHeight(200).expandX();
         add(createCloseButton()).prefWidth(20).prefHeight(20).right().top().row();
         add(createAddButton()).prefHeight(20).left().top();
+        add(hintLabel = new Label(MENU_HINT, StaticSkin.getSkin()));
         addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
@@ -67,7 +72,9 @@ public class WorkbenchMenu extends Window implements Highlightable {
                     case Input.Keys.A:
                     case Input.Keys.S:
                     case Input.Keys.D: {
-                        updateFocusAndBackground(orderList);
+                        if (orderList.hasChildren()) {
+                            updateStageFocus(orderList);
+                        }
                         return true;
                     }
                     case Input.Keys.Q: {
@@ -114,7 +121,7 @@ public class WorkbenchMenu extends Window implements Highlightable {
         orderList.setSelectListener(event -> {
             event.stop();
             Actor selected = orderList.getSelectedElement();
-            updateFocusAndBackground(selected != null ? selected : this);
+            updateStageFocus(selected != null ? selected : this);
             return true;
         });
         orderList.setCancelListener(event -> {
@@ -131,7 +138,7 @@ public class WorkbenchMenu extends Window implements Highlightable {
     private boolean createNewOrderLine() {
         ItemCraftingOrderLine orderLine = new ItemCraftingOrderLine(gameMvc, this);
         orderLine.show();
-        updateFocusAndBackground(orderLine.getRecipeSelectBox());
+        updateStageFocus(orderLine.getRecipeSelectBox());
 //        orderLine.setHighlighted(true);
 //        orderLine.setFillParent(true);
         return true;
@@ -164,11 +171,6 @@ public class WorkbenchMenu extends Window implements Highlightable {
         gameMvc.getView().removeStage(getStage());
     }
 
-    public void updateFocusAndBackground(Actor actor) {
-        getStage().setKeyboardFocus(actor);
-        setHighlighted(getStage().getKeyboardFocus() == this);
-    }
-
     public NavigableVerticalGroup getOrderList() {
         return orderList;
     }
@@ -181,8 +183,26 @@ public class WorkbenchMenu extends Window implements Highlightable {
         return workbenchAspect;
     }
 
-    @Override
-    public void setHighlighted(boolean value) {
-//        this.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("sprites/ui_back.png"), value ? 100 : 0, 0, 100, 100)));
+    /**
+     * Moves focus of stage to given actor, highlights it and changes hint, if possible.
+     */
+    public void updateStageFocus(Actor actor) {
+        Actor old = getStage().getKeyboardFocus();
+        if (old.getClass().isAssignableFrom(Highlightable.class)) {
+            ((Highlightable) old).setHighlighted(false);
+        }
+        getStage().setKeyboardFocus(actor);
+        if (actor.getClass().isAssignableFrom(HintedActor.class)) {
+            hintLabel.setText(((HintedActor) actor).getHint());
+        } else {
+            hintLabel.setText("");
+        }
+        if (actor.getClass().isAssignableFrom(Highlightable.class)) {
+            ((Highlightable) actor).setHighlighted(false);
+        }
+    }
+
+    public String getHint() {
+        return MENU_HINT;
     }
 }
