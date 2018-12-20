@@ -25,7 +25,7 @@ import stonering.utils.global.TagLoggersEnum;
  * @author Alexander on 28.10.2018.
  */
 public class WorkbenchMenu extends Window implements HintedActor {
-    private static final String MENU_HINT = "E:create WASD:navigate Q:quit";
+    private static final String MENU_HINT = "E: new order, WS: navigate, Q: quit";
 
     private GameMvc gameMvc;
     private Building workbench;
@@ -47,6 +47,7 @@ public class WorkbenchMenu extends Window implements HintedActor {
         workbenchAspect = (WorkbenchAspect) building.getAspects().get(WorkbenchAspect.NAME);
         setKeepWithinStage(true);
         createTable();
+        this.addListener(new MenuKeyInputListener());
         refillWorkbenchOrders();
     }
 
@@ -59,32 +60,6 @@ public class WorkbenchMenu extends Window implements HintedActor {
         add(createCloseButton()).prefWidth(20).prefHeight(20).right().top().row();
         add(createAddButton()).prefHeight(20).left().top();
         add(hintLabel = new Label(MENU_HINT, StaticSkin.getSkin()));
-        addListener(new InputListener() {
-            @Override
-            public boolean keyDown(InputEvent event, int keycode) {
-                TagLoggersEnum.UI.logDebug("handling " + Input.Keys.toString(keycode) + " on WorkbenchMenu");
-                event.stop();
-                switch (keycode) {
-                    case Input.Keys.E: {
-                        return createNewOrderLine();
-                    }
-                    case Input.Keys.W:
-                    case Input.Keys.A:
-                    case Input.Keys.S:
-                    case Input.Keys.D: {
-                        if (orderList.hasChildren()) {
-                            updateStageFocus(orderList);
-                        }
-                        return true;
-                    }
-                    case Input.Keys.Q: {
-                        close();
-                        return true;
-                    }
-                }
-                return false;
-            }
-        });
         setWidth(800);
         setHeight(600);
 
@@ -118,15 +93,25 @@ public class WorkbenchMenu extends Window implements HintedActor {
         orderList = new NavigableVerticalGroup();
         orderList.grow();
         orderList.getSelectKeys().add(Input.Keys.D);
-        orderList.setSelectListener(event -> {
-            event.stop();
+        orderList.setPreNavigationListener(event -> {  // un highlight selected actor before navigation
+            if(orderList.getSelectedElement() instanceof Highlightable) {
+                ((Highlightable) orderList.getSelectedElement()).setHighlighted(false);
+            }
+            return true;
+        });
+        orderList.setNavigationListener(event -> {     // highlight selected actor after navigation
+            if(orderList.getSelectedElement() instanceof Highlightable) {
+                ((Highlightable) orderList.getSelectedElement()).setHighlighted(true);
+            }
+            return true;
+        });
+        orderList.setSelectListener(event -> {         // go to order line
             Actor selected = orderList.getSelectedElement();
             updateStageFocus(selected != null ? selected : this);
             return true;
         });
         orderList.setCancelListener(event -> {
-            event.stop();
-            close();
+            updateStageFocus(this);              // return focus to menu
             return true;
         });
         return orderList;
@@ -139,8 +124,6 @@ public class WorkbenchMenu extends Window implements HintedActor {
         ItemCraftingOrderLine orderLine = new ItemCraftingOrderLine(gameMvc, this);
         orderLine.show();
         updateStageFocus(orderLine.getRecipeSelectBox());
-//        orderLine.setHighlighted(true);
-//        orderLine.setFillParent(true);
         return true;
     }
 
@@ -168,7 +151,55 @@ public class WorkbenchMenu extends Window implements HintedActor {
      * Closes stage with this menu.
      */
     public void close() {
-        gameMvc.getView().removeStage(getStage());
+        getStage().dispose();
+    }
+
+    /**
+     * Moves focus of stage to given actor, highlights it and changes hint, if possible.
+     */
+    public void updateStageFocus(Actor actor) {
+        Actor old = getStage().getKeyboardFocus();
+        if (old instanceof Highlightable) {
+            ((Highlightable) old).setHighlighted(false);
+        }
+        getStage().setKeyboardFocus(actor);
+        if (actor instanceof HintedActor) {
+            hintLabel.setText(((HintedActor) actor).getHint());
+        } else {
+            hintLabel.setText("");
+        }
+        if (actor instanceof Highlightable) {
+            ((Highlightable) actor).setHighlighted(false);
+        }
+    }
+
+    /**
+     * Input listener for this menu.
+     */
+    private class MenuKeyInputListener extends InputListener {
+        @Override
+        public boolean keyDown(InputEvent event, int keycode) {
+            TagLoggersEnum.UI.logDebug("handling " + Input.Keys.toString(keycode) + " on WorkbenchMenu");
+            event.stop();
+            switch (keycode) {
+                case Input.Keys.E: {
+                    return createNewOrderLine();
+                }
+                case Input.Keys.W:
+                case Input.Keys.S: {
+                    if (orderList.hasChildren()) {
+                        orderList.navigate(keycode == Input.Keys.S ? -1 : 0);
+                        updateStageFocus(orderList);
+                    }
+                    return true;
+                }
+                case Input.Keys.Q: {
+                    close();
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 
     public NavigableVerticalGroup getOrderList() {
@@ -181,25 +212,6 @@ public class WorkbenchMenu extends Window implements HintedActor {
 
     public WorkbenchAspect getWorkbenchAspect() {
         return workbenchAspect;
-    }
-
-    /**
-     * Moves focus of stage to given actor, highlights it and changes hint, if possible.
-     */
-    public void updateStageFocus(Actor actor) {
-        Actor old = getStage().getKeyboardFocus();
-        if (old.getClass().isAssignableFrom(Highlightable.class)) {
-            ((Highlightable) old).setHighlighted(false);
-        }
-        getStage().setKeyboardFocus(actor);
-        if (actor.getClass().isAssignableFrom(HintedActor.class)) {
-            hintLabel.setText(((HintedActor) actor).getHint());
-        } else {
-            hintLabel.setText("");
-        }
-        if (actor.getClass().isAssignableFrom(Highlightable.class)) {
-            ((Highlightable) actor).setHighlighted(false);
-        }
     }
 
     public String getHint() {

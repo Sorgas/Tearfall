@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -14,10 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.Align;
-import org.w3c.dom.html.HTMLObjectElement;
 import stonering.TearFall;
-import stonering.utils.global.StaticSkin;
 
 import java.io.File;
 
@@ -29,7 +25,7 @@ import java.io.File;
 public class MainMenuScreen implements Screen {
     private TearFall game;
     private Stage stage;
-    private Camera camera;
+    private Table menuTable;
 
     private TextButton createWorldButton;  // available always
     private TextButton startGameButton;    // available when world with no settlements present
@@ -43,12 +39,13 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void show() {
-        init();
+        reset();
         Gdx.input.setInputProcessor(stage);
     }
 
     @Override
     public void render(float delta) {
+        System.out.println(menuTable.getWidth() + "-------");
         stage.act(delta);
         stage.draw();
     }
@@ -65,10 +62,6 @@ public class MainMenuScreen implements Screen {
         stage.addListener(createKeyListener());
     }
 
-    private void createCamera() {
-        camera = new OrthographicCamera(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight());
-    }
-
     /**
      * Creates container that fills whole screen.
      */
@@ -82,7 +75,7 @@ public class MainMenuScreen implements Screen {
     }
 
     private Table createTable() {
-        Table menuTable = new Table();
+        menuTable = new Table();
         menuTable.defaults().height(30).width(300).pad(10, 0, 0, 0);
         menuTable.pad(0, 10, 10, 10);
         menuTable.setBackground(new TextureRegionDrawable(
@@ -183,7 +176,7 @@ public class MainMenuScreen implements Screen {
     }
 
     public void reset() {
-        stage.dispose();
+        if (stage != null) stage.dispose();
         init();
     }
 

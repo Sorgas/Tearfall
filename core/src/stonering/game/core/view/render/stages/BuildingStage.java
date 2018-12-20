@@ -37,6 +37,14 @@ public class BuildingStage extends InitableStage {
         container.setFillParent(true);
         container.setDebug(true, true);
         this.addActor(container);
-        menu.updateFocusAndBackground(menu);
+        menu.updateStageFocus(menu);
+        gameMvc.getController().setCameraEnabled(false);
+    }
+
+    @Override
+    public void dispose() {
+        gameMvc.getView().removeStage(this);
+        gameMvc.getController().setCameraEnabled(true);
+        super.dispose();
     }
 }

@@ -1,15 +1,19 @@
 package stonering.game.core.view.render.ui.menus.workbench.orderline;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import stonering.entity.local.crafting.ItemOrder;
 import stonering.enums.items.ItemTypeMap;
 import stonering.enums.items.Recipe;
 import stonering.game.core.GameMvc;
 import stonering.game.core.view.render.ui.lists.PlaceHolderSelectBox;
 import stonering.game.core.view.render.ui.menus.util.HideableComponent;
+import stonering.game.core.view.render.ui.menus.util.Highlightable;
 import stonering.game.core.view.render.ui.menus.util.HintedActor;
 import stonering.game.core.view.render.ui.menus.workbench.WorkbenchMenu;
 import stonering.global.utils.Position;
@@ -26,7 +30,8 @@ import java.util.Map;
  *
  * @author Alexander
  */
-public class ItemCraftingOrderLine extends Table implements HideableComponent, HintedActor {
+public class ItemCraftingOrderLine extends Table implements HideableComponent, HintedActor, Highlightable {
+    private static final String LINE_HINT = "";
     private static final String MATERIAL_SELECT_PLACEHOLDER = "Select Material";
     private GameMvc gameMvc;
     private WorkbenchMenu menu;
@@ -280,7 +285,7 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
      */
     public void hide() {
         menu.getOrderList().removeActor(this);
-        menu.updateFocusAndBackground(menu.getOrderList().hasChildren() ? menu.getOrderList() : menu);
+        menu.updateStageFocus(menu.getOrderList().hasChildren() ? menu.getOrderList() : menu);
     }
 
     public Label getStatusLabel() {
@@ -293,6 +298,13 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
 
     @Override
     public void setHighlighted(boolean value) {
-//        this.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("sprites/ui_back.png"), value ? 100 : 0, 0, 100, 100)));
+        this.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("sprites/ui_back.png"), value ? 100 : 0, 0, 100, 100)));
     }
+
+    @Override
+    public String getHint() {
+        return LINE_HINT;
+    }
+
+
 }
