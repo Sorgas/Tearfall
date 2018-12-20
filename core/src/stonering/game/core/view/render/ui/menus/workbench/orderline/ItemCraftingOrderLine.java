@@ -11,6 +11,7 @@ import stonering.entity.local.crafting.ItemOrder;
 import stonering.enums.items.ItemTypeMap;
 import stonering.enums.items.Recipe;
 import stonering.game.core.GameMvc;
+import stonering.game.core.view.render.ui.background.BackgroundImagesMap;
 import stonering.game.core.view.render.ui.lists.PlaceHolderSelectBox;
 import stonering.game.core.view.render.ui.menus.util.HideableComponent;
 import stonering.game.core.view.render.ui.menus.util.Highlightable;
@@ -33,6 +34,7 @@ import java.util.Map;
 public class ItemCraftingOrderLine extends Table implements HideableComponent, HintedActor, Highlightable {
     private static final String LINE_HINT = "";
     private static final String MATERIAL_SELECT_PLACEHOLDER = "Select Material";
+    private static final String NAME = "workbench_order_line";
     private GameMvc gameMvc;
     private WorkbenchMenu menu;
     private ItemOrder order;
@@ -298,7 +300,7 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
 
     @Override
     public void setHighlighted(boolean value) {
-        this.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("sprites/ui_back.png"), value ? 100 : 0, 0, 100, 100)));
+        this.setBackground(BackgroundImagesMap.getInstance().getBackground(NAME + (value ? ":focused" : "")));
     }
 
     @Override
