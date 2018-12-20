@@ -61,6 +61,7 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
         this.add(leftHG = new HorizontalGroup());
         this.add().expandX();
         this.add(rightHG = new HorizontalGroup());
+        this.defaults().prefHeight(30);
         leftHG.addActor(createStatusLabel());
     }
 
@@ -300,7 +301,12 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
 
     @Override
     public void setHighlighted(boolean value) {
-        this.setBackground(BackgroundImagesMap.getInstance().getBackground(NAME + (value ? ":focused" : "")));
+        Image image = BackgroundImagesMap.getInstance().getBackground(NAME + (value ? ":focused" : ""));
+        if(image != null) {
+            image.setWidth(this.getWidth());
+            image.setHeight(this.getHeight());
+            this.setBackground(image.getDrawable());
+        }
     }
 
     @Override

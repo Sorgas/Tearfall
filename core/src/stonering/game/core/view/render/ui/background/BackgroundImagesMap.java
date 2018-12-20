@@ -3,7 +3,6 @@ package stonering.game.core.view.render.ui.background;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import stonering.utils.global.FileLoader;
@@ -15,7 +14,7 @@ import java.util.Map;
 public class BackgroundImagesMap {
     private static BackgroundImagesMap instance;
     private static Map<String, ImageDescriptor> descriptors;
-    private static Map<String, TextureRegionDrawable> images;
+    private static Map<String, Image> images;
 
     private BackgroundImagesMap() {
         descriptors = new HashMap<>();
@@ -34,19 +33,19 @@ public class BackgroundImagesMap {
         Json json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
         json.addClassTag("descriptor_c", ImageDescriptor.class);
-        ArrayList<ImageDescriptor> elements = json.fromJson(ArrayList.class, ImageDescriptor.class, FileLoader.getFile(FileLoader.ITEMS_PATH));
+        ArrayList<ImageDescriptor> elements = json.fromJson(ArrayList.class, ImageDescriptor.class, FileLoader.getFile(FileLoader.REGIONS_PATH));
         for (ImageDescriptor descriptor : elements) {
             descriptors.put(descriptor.getName(), descriptor);
         }
     }
 
-    public TextureRegionDrawable getBackground(String key) {
+    public Image getBackground(String key) {
         return images.containsKey(key) ? images.get(key) :
                 (descriptors.containsKey(key) ? images.put(key, prepareImage(descriptors.get(key))) : null);
     }
 
-    private TextureRegionDrawable prepareImage(ImageDescriptor descriptor) {
-        return new TextureRegionDrawable(new TextureRegion(new Texture("sprites/ui_back.png"), descriptor.x, descriptor.y, descriptor.width, descriptor.height));
+    private Image prepareImage(ImageDescriptor descriptor) {
+        return new Image(new TextureRegion(new Texture("sprites/ui_back.png"), descriptor.x, descriptor.y, descriptor.width, descriptor.height));
     }
 
     private static class ImageDescriptor {
@@ -96,6 +95,4 @@ public class BackgroundImagesMap {
             this.name = name;
         }
     }
-
-
 }

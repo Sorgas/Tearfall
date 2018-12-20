@@ -24,33 +24,35 @@ public class CameraInputAdapter extends InputAdapter {
 
     @Override
     public boolean keyDown(int keycode) {
-        int offset = Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) ? 10 : 1;
-        switch (keycode) {
-            case Input.Keys.W:
-                camera.moveSelector(0, offset, 0);
-                return true;
-            case Input.Keys.A:
-                camera.moveSelector(-offset, 0, 0);
-                return true;
-            case Input.Keys.S:
-                camera.moveSelector(0, -offset, 0);
-                return true;
-            case Input.Keys.D:
-                camera.moveSelector(offset, 0, 0);
-                return true;
-            case Input.Keys.R:
-                camera.moveSelector(0, 0, 1);
-                return true;
-            case Input.Keys.F:
-                camera.moveSelector(0, 0, -1);
-                return true;
+        if (enabled) {
+            int offset = Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) ? 10 : 1;
+            switch (keycode) {
+                case Input.Keys.W:
+                    camera.moveSelector(0, offset, 0);
+                    return true;
+                case Input.Keys.A:
+                    camera.moveSelector(-offset, 0, 0);
+                    return true;
+                case Input.Keys.S:
+                    camera.moveSelector(0, -offset, 0);
+                    return true;
+                case Input.Keys.D:
+                    camera.moveSelector(offset, 0, 0);
+                    return true;
+                case Input.Keys.R:
+                    camera.moveSelector(0, 0, 1);
+                    return true;
+                case Input.Keys.F:
+                    camera.moveSelector(0, 0, -1);
+                    return true;
+            }
         }
         return false;
     }
 
     @Override
     public boolean keyTyped(char character) {
-        if(enabled) {
+        if (enabled) {
             switch (charToKeycode(character)) {
                 case Input.Keys.W:
                 case Input.Keys.A:

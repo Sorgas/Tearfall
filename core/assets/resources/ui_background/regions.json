@@ -1,9 +1,16 @@
 [
   {
     "name": "workbench_order_line",
-    "width": "400",
-    "heigth": "30",
+    "width": "600",
+    "height": "30",
     "x": "0",
     "y": "0"
+  },
+  {
+    "name": "workbench_order_line:focused",
+    "width": "600",
+    "height": "30",
+    "x": "0",
+    "y": "30"
   }
 ]

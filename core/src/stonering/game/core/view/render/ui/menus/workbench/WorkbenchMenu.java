@@ -4,6 +4,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
@@ -58,8 +59,10 @@ public class WorkbenchMenu extends Window implements HintedActor {
         setDebug(true, true);
         add(createOrderList().fill()).prefWidth(600).prefHeight(200).expandX();
         add(createCloseButton()).prefWidth(20).prefHeight(20).right().top().row();
-        add(createAddButton()).prefHeight(20).left().top();
-        add(hintLabel = new Label(MENU_HINT, StaticSkin.getSkin()));
+        HorizontalGroup horizontalGroup = new HorizontalGroup();
+        horizontalGroup.addActor(createAddButton());
+        horizontalGroup.addActor(hintLabel = new Label(MENU_HINT, StaticSkin.getSkin()));
+        add(horizontalGroup).prefHeight(20).left().top();
         setWidth(800);
         setHeight(600);
 
@@ -123,7 +126,8 @@ public class WorkbenchMenu extends Window implements HintedActor {
     private boolean createNewOrderLine() {
         ItemCraftingOrderLine orderLine = new ItemCraftingOrderLine(gameMvc, this);
         orderLine.show();
-        updateStageFocus(orderLine.getRecipeSelectBox());
+//        updateStageFocus(orderLine.getRecipeSelectBox());
+        updateStageFocus(orderLine);
         return true;
     }
 
@@ -169,7 +173,7 @@ public class WorkbenchMenu extends Window implements HintedActor {
             hintLabel.setText("");
         }
         if (actor instanceof Highlightable) {
-            ((Highlightable) actor).setHighlighted(false);
+            ((Highlightable) actor).setHighlighted(true);
         }
     }
 
