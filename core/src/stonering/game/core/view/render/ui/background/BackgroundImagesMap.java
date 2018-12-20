@@ -40,8 +40,15 @@ public class BackgroundImagesMap {
     }
 
     public Image getBackground(String key) {
-        return images.containsKey(key) ? images.get(key) :
-                (descriptors.containsKey(key) ? images.put(key, prepareImage(descriptors.get(key))) : null);
+        if(images.containsKey(key)) {
+            return images.get(key);
+        } else {
+            if(descriptors.containsKey(key)) {
+                images.put(key, prepareImage(descriptors.get(key)));
+                return images.get(key);
+            }
+        }
+        return null;
     }
 
     private Image prepareImage(ImageDescriptor descriptor) {

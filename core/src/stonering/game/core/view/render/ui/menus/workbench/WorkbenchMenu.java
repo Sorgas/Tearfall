@@ -126,8 +126,8 @@ public class WorkbenchMenu extends Window implements HintedActor {
     private boolean createNewOrderLine() {
         ItemCraftingOrderLine orderLine = new ItemCraftingOrderLine(gameMvc, this);
         orderLine.show();
-//        updateStageFocus(orderLine.getRecipeSelectBox());
-        updateStageFocus(orderLine);
+        updateStageFocus(orderLine.getRecipeSelectBox());
+        orderLine.setHighlighted(true);
         return true;
     }
 
