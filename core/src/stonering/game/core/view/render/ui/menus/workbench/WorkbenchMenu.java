@@ -192,7 +192,9 @@ public class WorkbenchMenu extends Window implements HintedActor {
                 case Input.Keys.W:
                 case Input.Keys.S: {
                     if (orderList.hasChildren()) {
-                        orderList.navigate(keycode == Input.Keys.S ? -1 : 0);
+                        orderList.setHighlighted(false);
+                        orderList.setSelectedIndex(0);
+                        orderList.navigate(keycode == Input.Keys.S ? 0 : -1);
                         updateStageFocus(orderList);
                     }
                     return true;

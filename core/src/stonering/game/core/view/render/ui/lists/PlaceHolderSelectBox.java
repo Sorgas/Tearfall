@@ -44,6 +44,7 @@ public class PlaceHolderSelectBox<T> extends NavigableSelectBox<T> {
         setSelected(placeHolder);
     }
 
+    //TODO some bug with empty list here
     public void removePlaceHolder() {
         if(getItems().contains(placeHolder, true)) {
             T selected = getSelected();

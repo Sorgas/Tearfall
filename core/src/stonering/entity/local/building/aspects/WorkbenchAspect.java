@@ -43,7 +43,7 @@ public class WorkbenchAspect extends Aspect {
     }
 
     /**
-     * Swap orders on positions index and (index + delta).
+     * Swap orders on positions index and (index + delta). Does nothing, if new index not in list range.
      */
     public void swapOrders(int index, int delta) {
         if (inBounds(index)) {

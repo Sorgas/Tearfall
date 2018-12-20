@@ -1,12 +1,15 @@
 package stonering.game.core.view.render.ui.menus.workbench.orderline;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import stonering.entity.local.building.aspects.WorkbenchAspect;
 import stonering.entity.local.crafting.ItemOrder;
 import stonering.enums.items.ItemTypeMap;
 import stonering.enums.items.Recipe;
@@ -16,6 +19,7 @@ import stonering.game.core.view.render.ui.lists.PlaceHolderSelectBox;
 import stonering.game.core.view.render.ui.menus.util.HideableComponent;
 import stonering.game.core.view.render.ui.menus.util.Highlightable;
 import stonering.game.core.view.render.ui.menus.util.HintedActor;
+import stonering.game.core.view.render.ui.menus.util.NavigableVerticalGroup;
 import stonering.game.core.view.render.ui.menus.workbench.WorkbenchMenu;
 import stonering.global.utils.Position;
 import stonering.utils.global.StaticSkin;
@@ -42,7 +46,7 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
     private HorizontalGroup leftHG;
     private HorizontalGroup rightHG;
 
-    private Label statusLabel;                                  // shows status, updates on status change
+    private Label statusLabel;                                  // shows status, updates on status change //TODO make icon
     private PlaceHolderSelectBox<String> recipeSelectBox;
     private Label itemLabel;
     private PlaceHolderSelectBox<String> materialSelectBox;       // allows to select material for crafting - main element of this line.
@@ -89,6 +93,7 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
         leftHG.addActor(createWarningLabel());
         leftHG.right();
         createAndAddControlButtons();
+        addListener(createCompleteOrderInputListener());
     }
 
     /**
@@ -125,7 +130,7 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
                                 // create select box for material selection.
                                 leftHG.addActor(createMaterialSelectBox());
                                 leftHG.addActor(createWarningLabel());
-                                getStage().setKeyboardFocus(materialSelectBox);
+                                menu.updateStageFocus(materialSelectBox);
                             } else {
                                 warningLabel.setText("Item not selected");
                             }
@@ -157,7 +162,8 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchDown(event, x, y, pointer, button);
-                getStage().setKeyboardFocus(recipeSelectBox);
+                menu.updateStageFocus(recipeSelectBox);
+                setHighlighted(true);                         // restore highlighting
                 return true;
             }
         });
@@ -195,8 +201,9 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
                                 warningLabel.setText("");
                                 statusLabel.setText("ok");
                                 createAndAddControlButtons();
+                                addListener(createCompleteOrderInputListener());
                                 menu.getWorkbenchAspect().getOrders().add(0, order);
-                                getStage().setKeyboardFocus(menu.getOrderList());
+                                menu.updateStageFocus(menu.getOrderList());
                             } else {
                                 warningLabel.setText("Select material");
                             }
@@ -211,7 +218,8 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
                         leftHG.removeActor(materialSelectBox);
                         leftHG.removeActor(itemLabel);
                         leftHG.addActor(createRecipeSelectBox(new ArrayList<>(menu.getWorkbenchAspect().getRecipes())));
-                        getStage().setKeyboardFocus(recipeSelectBox);
+                        menu.updateStageFocus(recipeSelectBox);
+                        setHighlighted(true);                         // restore highlighting
                         return true;
                     }
                     case Input.Keys.Q: {   // no return to recipe select, cancel order.
@@ -267,6 +275,56 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
         rightHG.addActor(deleteButton);
     }
 
+    private InputListener createCompleteOrderInputListener() {
+        ItemCraftingOrderLine line = this;
+        return new InputListener() {
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                switch (keycode) {
+                        case Input.Keys.W:
+                        case Input.Keys.S:
+                            materialSelectBox.fire(event); // navigate materials
+                            return true;
+                        case Input.Keys.E:
+                        case Input.Keys.D: { // update order material
+                            if(materialSelectBox.getList().isVisible()) {
+                                order.setSelectedString(materialSelectBox.getSelected());
+                                materialSelectBox.hideList();
+                            }
+                            return true;
+                        }
+                        case Input.Keys.X: { // delete order from menu and workbench
+                            menu.getWorkbenchAspect().getOrders().remove(order);
+                            menu.getOrderList().removeActor(line);
+                            menu.getOrderList().navigate(0);  // normalizes index
+                            menu.updateStageFocus(menu.getOrderList().hasChildren() ? menu.getOrderList() : menu);
+                            return true;
+                        }
+                        case Input.Keys.R: {
+                            if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
+                                order.setRepeated(!order.isRepeated());
+//                        statusLabel  //TODO set repeated status
+                            } else {
+                                tryMoveThisLine(-1);
+                            }
+                            return true;
+                        }
+                    case Input.Keys.F: {
+                        tryMoveThisLine(1);
+                        return true;
+                    }
+                }
+                return false;
+            }
+        };
+    }
+
+    private void tryMoveThisLine(int delta) {
+        WorkbenchAspect aspect = menu.getWorkbenchAspect();
+        aspect.swapOrders(aspect.getOrders().indexOf(order), delta);
+        menu.getOrderList().moveItem(this, delta);
+    }
+
     /**
      * Creates label for showing messages.
      */
@@ -288,7 +346,12 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
      */
     public void hide() {
         menu.getOrderList().removeActor(this);
-        menu.updateStageFocus(menu.getOrderList().hasChildren() ? menu.getOrderList() : menu);
+        if (menu.getOrderList().hasChildren()) {
+            menu.updateStageFocus(menu.getOrderList());
+            menu.getOrderList().navigate(0);
+        } else {
+            menu.updateStageFocus(menu);
+        }
     }
 
     public Label getStatusLabel() {
@@ -302,7 +365,7 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
     @Override
     public void setHighlighted(boolean value) {
         Image image = BackgroundImagesMap.getInstance().getBackground(NAME + (value ? ":focused" : ""));
-        if(image != null) {
+        if (image != null) {
             image.setWidth(this.getWidth());
             image.setHeight(this.getHeight());
             this.setBackground(image.getDrawable());

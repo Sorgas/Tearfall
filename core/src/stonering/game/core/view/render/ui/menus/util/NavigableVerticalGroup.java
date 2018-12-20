@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
+import stonering.entity.local.crafting.ItemOrder;
 import stonering.utils.global.TagLoggersEnum;
 
 import java.util.HashSet;
@@ -17,7 +18,7 @@ import java.util.Set;
  *
  * @author Alexander
  */
-public class NavigableVerticalGroup extends VerticalGroup implements HideableComponent {
+public class NavigableVerticalGroup extends VerticalGroup implements HideableComponent, Highlightable {
     private Set<Integer> selectKeys;
     private Set<Integer> upKeys;
     private Set<Integer> downKeys;
@@ -86,6 +87,7 @@ public class NavigableVerticalGroup extends VerticalGroup implements HideableCom
      * @return
      */
     public boolean navigate(int delta) {
+
         if (preNavigationListener == null || preNavigationListener.handle(null)) {
             if(delta != 0) {
                 int size = getChildren().size;
@@ -93,10 +95,25 @@ public class NavigableVerticalGroup extends VerticalGroup implements HideableCom
                     int newIndex = ((selectedIndex + delta) % size);
                     newIndex += newIndex < 0 ? size : 0;
                     selectedIndex = newIndex;
+                } else {
+                    selectedIndex = -1;
                 }
             }
         }
         return navigationListener == null || navigationListener.handle(null);
+    }
+
+    public void moveItem(Actor actor, int delta) {
+        delta = (int) Math.signum(delta);
+        int index = getChildren().indexOf(actor, true);
+        if (index >= 0) {
+            int newIndex = index + delta;
+            if (newIndex >= 0) {
+                removeActor(actor, false);
+                addActorAt(newIndex, actor);
+                getStage().setKeyboardFocus(actor);
+            }
+        }
     }
 
     public boolean select(InputEvent event) {
@@ -122,10 +139,29 @@ public class NavigableVerticalGroup extends VerticalGroup implements HideableCom
     }
 
     public Actor getSelectedElement() {
-        if (selectedIndex >= 0) {
+        if (selectedIndex >= 0 && selectedIndex < getChildren().size) {
             return getChildren().get(selectedIndex);
         }
         return null;
+    }
+
+    /**
+     * Tries to highlight selected child.
+     * @param value
+     */
+    @Override
+    public void setHighlighted(boolean value) {
+        if(value && !getChildren().isEmpty()) {
+            if(getSelectedElement() != null && getSelectedElement() instanceof Highlightable) {
+                ((Highlightable) getSelectedElement()).setHighlighted(true);
+            }
+        } else {
+            for (Actor child : getChildren()) {
+                if(child != null && child instanceof Highlightable) {
+                    ((Highlightable) child).setHighlighted(false);
+                }
+            }
+        }
     }
 
     public void setCancelListener(EventListener cancelListener) {
@@ -186,5 +222,13 @@ public class NavigableVerticalGroup extends VerticalGroup implements HideableCom
 
     public void setPreNavigationListener(EventListener preNavigationListener) {
         this.preNavigationListener = preNavigationListener;
+    }
+
+    public int getSelectedIndex() {
+        return selectedIndex;
+    }
+
+    public void setSelectedIndex(int selectedIndex) {
+        this.selectedIndex = selectedIndex;
     }
 }
