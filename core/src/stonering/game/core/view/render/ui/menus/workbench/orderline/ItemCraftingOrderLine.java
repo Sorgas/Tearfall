@@ -185,6 +185,7 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
      * SelectBox can have no items after this.
      */
     private PlaceHolderSelectBox createMaterialSelectBox() {
+        ItemCraftingOrderLine line = this;
         materialSelectBox = new PlaceHolderSelectBox<>(MATERIAL_SELECT_PLACEHOLDER);
         Position workbenchPosition = menu.getWorkbenchAspect().getAspectHolder().getPosition();
         ArrayList<String> items = new ArrayList<>(order.getAvailableItemList(workbenchPosition));
@@ -226,7 +227,7 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
                         } else if (keycode == Input.Keys.E) {
                             materialSelectBox.navigate(1);
                             materialSelectBox.showList();
-                            recipeSelectBox.getList().toFront();
+                            materialSelectBox.getList().toFront();
                         }
                         if (keycode == Input.Keys.D) goToAnotherSelectBox(1);
                         return true;
@@ -241,6 +242,21 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
                     }
                 }
                 return false;
+            }
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                super.touchDown(event, x, y, pointer, button);
+                materialSelectBox.navigate(1);
+                return true;
+            }
+        });
+        materialSelectBox.getList().addListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                super.touchDown(event, x, y, pointer, button);
+                menu.updateStageFocus(line);
+                setHighlighted(true);                         // restore highlighting
+                return true;
             }
         });
         return materialSelectBox;
