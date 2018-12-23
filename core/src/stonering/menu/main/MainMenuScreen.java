@@ -45,7 +45,6 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        System.out.println(menuTable.getWidth() + "-------");
         stage.act(delta);
         stage.draw();
     }

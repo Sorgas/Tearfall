@@ -151,15 +151,9 @@ public class NavigableVerticalGroup extends VerticalGroup implements HideableCom
      */
     @Override
     public void setHighlighted(boolean value) {
-        if(value && !getChildren().isEmpty()) {
-            if(getSelectedElement() != null && getSelectedElement() instanceof Highlightable) {
-                ((Highlightable) getSelectedElement()).setHighlighted(true);
-            }
-        } else {
-            for (Actor child : getChildren()) {
-                if(child != null && child instanceof Highlightable) {
-                    ((Highlightable) child).setHighlighted(false);
-                }
+        for (Actor child : getChildren()) {
+            if(child != null && child instanceof Highlightable) {
+                ((Highlightable) child).setHighlighted(getSelectedElement() == child && value); // highlight only selected
             }
         }
     }

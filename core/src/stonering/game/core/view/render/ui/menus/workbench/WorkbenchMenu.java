@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.entity.local.building.Building;
 import stonering.entity.local.building.aspects.WorkbenchAspect;
 import stonering.entity.local.crafting.ItemOrder;
@@ -80,15 +81,21 @@ public class WorkbenchMenu extends Window implements HintedActor {
         return closeButton;
     }
 
+    /**
+     * Button for creating orders.
+     * @return
+     */
     private TextButton createAddButton() {
+        WorkbenchMenu menu = this;
         addOrderButton = new TextButton("New", StaticSkin.getSkin());
-        addOrderButton.addListener(
-                new InputListener() {
-                    @Override
-                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                        return createNewOrderLine();
-                    }
-                });
+        addOrderButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                ItemCraftingOrderLine orderLine = new ItemCraftingOrderLine(gameMvc, menu);
+                orderLine.show();                                   // add to list
+                updateStageFocus(orderLine);
+            }
+        });
         return addOrderButton;
     }
 
@@ -97,13 +104,13 @@ public class WorkbenchMenu extends Window implements HintedActor {
         orderList.grow();
         orderList.getSelectKeys().add(Input.Keys.D);
         orderList.setPreNavigationListener(event -> {  // un highlight selected actor before navigation
-            if(orderList.getSelectedElement() instanceof Highlightable) {
+            if (orderList.getSelectedElement() instanceof Highlightable) {
                 ((Highlightable) orderList.getSelectedElement()).setHighlighted(false);
             }
             return true;
         });
         orderList.setNavigationListener(event -> {     // highlight selected actor after navigation
-            if(orderList.getSelectedElement() instanceof Highlightable) {
+            if (orderList.getSelectedElement() instanceof Highlightable) {
                 ((Highlightable) orderList.getSelectedElement()).setHighlighted(true);
             }
             return true;
@@ -115,20 +122,10 @@ public class WorkbenchMenu extends Window implements HintedActor {
         });
         orderList.setCancelListener(event -> {
             updateStageFocus(this);              // return focus to menu
+            orderList.setHighlighted(false);          // de highlight all
             return true;
         });
         return orderList;
-    }
-
-    /**
-     * Creates new empty order line, adds it to order list and moves focus to it.
-     */
-    private boolean createNewOrderLine() {
-        ItemCraftingOrderLine orderLine = new ItemCraftingOrderLine(gameMvc, this);
-        orderLine.show();
-        updateStageFocus(orderLine.getRecipeSelectBox());
-        orderLine.setHighlighted(true);
-        return true;
     }
 
     /**
@@ -187,7 +184,8 @@ public class WorkbenchMenu extends Window implements HintedActor {
             event.stop();
             switch (keycode) {
                 case Input.Keys.E: {
-                    return createNewOrderLine();
+                    addOrderButton.toggle();
+                    return true;
                 }
                 case Input.Keys.W:
                 case Input.Keys.S: {

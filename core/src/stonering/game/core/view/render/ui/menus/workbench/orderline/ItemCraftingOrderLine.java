@@ -2,13 +2,11 @@ package stonering.game.core.view.render.ui.menus.workbench.orderline;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.entity.local.building.aspects.WorkbenchAspect;
 import stonering.entity.local.crafting.ItemOrder;
 import stonering.enums.items.ItemTypeMap;
@@ -19,10 +17,10 @@ import stonering.game.core.view.render.ui.lists.PlaceHolderSelectBox;
 import stonering.game.core.view.render.ui.menus.util.HideableComponent;
 import stonering.game.core.view.render.ui.menus.util.Highlightable;
 import stonering.game.core.view.render.ui.menus.util.HintedActor;
-import stonering.game.core.view.render.ui.menus.util.NavigableVerticalGroup;
 import stonering.game.core.view.render.ui.menus.workbench.WorkbenchMenu;
 import stonering.global.utils.Position;
 import stonering.utils.global.StaticSkin;
+import stonering.utils.global.TagLoggersEnum;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -56,6 +54,10 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
     private TextButton upButton;
     private TextButton downButton;
 
+    private PlaceHolderSelectBox<String> focusedSelectBox;
+    private ArrayList<PlaceHolderSelectBox<String>> selectBoxes; //TODO not used until crafting steps are added
+
+
     /**
      * Creates this table with two horizontal groups, aligned to left and right with expanding space cell between them.
      */
@@ -67,6 +69,8 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
         this.add(rightHG = new HorizontalGroup());
         this.defaults().prefHeight(30);
         leftHG.addActor(createStatusLabel());
+        selectBoxes = new ArrayList<>();
+        addListener(createOrderLineInputListener());
     }
 
     /**
@@ -78,6 +82,7 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
         this.left();
         leftHG.addActor(createRecipeSelectBox(new ArrayList<>(menu.getWorkbenchAspect().getRecipes())));
         leftHG.addActor(createWarningLabel());
+        focusedSelectBox = recipeSelectBox;
     }
 
     /**
@@ -93,7 +98,6 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
         leftHG.addActor(createWarningLabel());
         leftHG.right();
         createAndAddControlButtons();
-        addListener(createCompleteOrderInputListener());
     }
 
     /**
@@ -105,46 +109,52 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
     }
 
     /**
-     * Creates line with list of all workbench recipes. Sets stage focus to this.
+     * Creates label with item title.
+     */
+    private Label createItemLabel() {
+        String itemTitle = ItemTypeMap.getInstance().getItemType(order.getRecipe().getItemName()).getTitle();
+        itemLabel = new Label(itemTitle, StaticSkin.getSkin()); // label with item type
+        return itemLabel;
+    }
+
+    /**
+     * Creates selectBox with list of all workbench recipes. After selection of recipe, this select box is replaced with material selection.
      */
     public PlaceHolderSelectBox createRecipeSelectBox(ArrayList<Recipe> recipeList) {
+        ItemCraftingOrderLine line = this;
         Map<String, Recipe> recipeMap = new HashMap<>();
         recipeList.forEach(recipe -> recipeMap.put(recipe.getTitle(), recipe));                                 // create mapping of recipes to select box lines.
         recipeSelectBox = new PlaceHolderSelectBox<>("Select item");
         recipeSelectBox.setItems(recipeMap.keySet().toArray(new String[]{}));
-        recipeSelectBox.getSelectKeys().add(Input.Keys.D);
         recipeSelectBox.getListeners().insert(0, new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 switch (keycode) {
-                    case Input.Keys.E:
-                    case Input.Keys.D: {                                                                        // select recipe and go to material
-                        if (recipeSelectBox.getList().isVisible()) {
-                            if (!recipeSelectBox.getSelected().equals(recipeSelectBox.getPlaceHolder())) {        //  should be always true when list is visible
-                                // create order for selected recipe
+                    case Input.Keys.D:
+                    case Input.Keys.E: { // opens list or saves selected value
+                        if (recipeSelectBox.getList().isVisible()) { // select item and proceed
+                            recipeSelectBox.hideList();
+                            if (!recipeSelectBox.getSelected().equals(recipeSelectBox.getPlaceHolder())) {
                                 order = new ItemOrder(gameMvc, recipeMap.get(recipeSelectBox.getSelected()));
-                                // replace select box with label. it will not be changed for this order.
                                 leftHG.removeActor(recipeSelectBox);
-                                leftHG.removeActor(warningLabel);
-                                leftHG.addActor(createItemLabel());
-                                // create select box for material selection.
-                                leftHG.addActor(createMaterialSelectBox());
-                                leftHG.addActor(createWarningLabel());
-                                menu.updateStageFocus(materialSelectBox);
+                                leftHG.addActorAfter(statusLabel, createItemLabel());
+                                leftHG.addActorAfter(itemLabel, createMaterialSelectBox());
+                                focusedSelectBox = materialSelectBox;
+                                selectBoxes.add(materialSelectBox);
                             } else {
                                 warningLabel.setText("Item not selected");
                             }
-                            recipeSelectBox.hideList();
-                        } else {
+                        } else {  // open list
                             recipeSelectBox.navigate(1);
                             recipeSelectBox.showList();
                             recipeSelectBox.getList().toFront();
                         }
                         return true;
                     }
-                    case Input.Keys.Q:
-                    case Input.Keys.A: {
+                    case Input.Keys.A:
+                    case Input.Keys.Q: {
                         hide();
+                        goToListOrMenu();
                         return true;
                     }
                 }
@@ -162,21 +172,12 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchDown(event, x, y, pointer, button);
-                menu.updateStageFocus(recipeSelectBox);
+                menu.updateStageFocus(line);
                 setHighlighted(true);                         // restore highlighting
                 return true;
             }
         });
         return recipeSelectBox;
-    }
-
-    /**
-     * Creates label with item title.
-     */
-    private Label createItemLabel() {
-        String itemTitle = ItemTypeMap.getInstance().getItemType(order.getRecipe().getItemName()).getTitle();
-        itemLabel = new Label(itemTitle, StaticSkin.getSkin()); // label with item type
-        return itemLabel;
     }
 
     /**
@@ -188,130 +189,131 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
         Position workbenchPosition = menu.getWorkbenchAspect().getAspectHolder().getPosition();
         ArrayList<String> items = new ArrayList<>(order.getAvailableItemList(workbenchPosition));
         materialSelectBox.setItems(items.toArray(new String[]{}));
-        materialSelectBox.getSelectKeys().add(Input.Keys.D);
         materialSelectBox.getListeners().insert(0, new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 switch (keycode) {
-                    case Input.Keys.E:
-                    case Input.Keys.D: {                                                    // complete order
+                    case Input.Keys.D:
+                    case Input.Keys.E: { // select material
                         if (materialSelectBox.getList().isVisible()) {
-                            if (!materialSelectBox.getSelected().equals(materialSelectBox.getPlaceHolder())) {
-                                order.setSelectedString(materialSelectBox.getSelected());
-                                warningLabel.setText("");
-                                statusLabel.setText("ok");
-                                createAndAddControlButtons();
-                                addListener(createCompleteOrderInputListener());
-                                menu.getWorkbenchAspect().getOrders().add(0, order);
-                                menu.updateStageFocus(menu.getOrderList());
-                            } else {
-                                warningLabel.setText("Select material");
-                            }
-                        } else {
-                            materialSelectBox.navigate(1);
-                            materialSelectBox.showList();
-                            recipeSelectBox.getList().toFront();
+                            order.setSelectedString(materialSelectBox.getSelected());
+                            warningLabel.setText("");
+                            statusLabel.setText("ok");
+                            createAndAddControlButtons();
+                            menu.getWorkbenchAspect().getOrders().add(0, order);
+                            materialSelectBox.getListeners().removeValue(this, true);
                         }
                         return true;
                     }
-                    case Input.Keys.A: {
-                        leftHG.removeActor(materialSelectBox);
-                        leftHG.removeActor(itemLabel);
-                        leftHG.addActor(createRecipeSelectBox(new ArrayList<>(menu.getWorkbenchAspect().getRecipes())));
-                        menu.updateStageFocus(recipeSelectBox);
-                        setHighlighted(true);                         // restore highlighting
-                        return true;
-                    }
+                    case Input.Keys.A:
                     case Input.Keys.Q: {   // no return to recipe select, cancel order.
                         hide();
                         return true;
                     }
                 }
-                return true;
+                return false;
+            }
+        });
+        materialSelectBox.addListener(new InputListener() { // common select box listener
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                switch (keycode) {
+                    case Input.Keys.E:
+                    case Input.Keys.D: { // select item, close this list and go to next selectbox.
+                        if (materialSelectBox.getList().isVisible()) {
+                            order.setSelectedString(materialSelectBox.getSelected());
+                            materialSelectBox.hideList();
+                        } else if (keycode == Input.Keys.E) {
+                            materialSelectBox.navigate(1);
+                            materialSelectBox.showList();
+                            recipeSelectBox.getList().toFront();
+                        }
+                        if (keycode == Input.Keys.D) goToAnotherSelectBox(1);
+                        return true;
+                    }
+                    case Input.Keys.A: {
+                        if (!goToAnotherSelectBox(-1)) goToListOrMenu();
+                        return true;
+                    }
+                    case Input.Keys.Q: {
+                        goToListOrMenu();
+                        return true;
+                    }
+                }
+                return false;
             }
         });
         return materialSelectBox;
     }
 
     private void createAndAddControlButtons() {
-        Table table = this;
-        deleteButton = new TextButton("X", StaticSkin.getSkin());
-        deleteButton.addListener(new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                menu.getWorkbenchAspect().getOrders().remove(order);
-                menu.getOrderList().removeActor(table);
-                return true;
-            }
-        });
-        repeatButton = new TextButton("R", StaticSkin.getSkin());
-        repeatButton.addListener(new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                order.setRepeated(!order.isRepeated());
-                return true;
-            }
-        });
-        upButton = new TextButton("R↑", StaticSkin.getSkin());
-        upButton.addListener(new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-
-//                menu.getWorkbenchAspect().swapOrders(); getOrders().indexOf(order);
-                return true;
-            }
-        });
-        downButton = new TextButton("F↓", StaticSkin.getSkin());
-        downButton.addListener(new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                order.setRepeated(!order.isRepeated());
-                return true;
-            }
-        });
-        rightHG.addActor(repeatButton);
-        rightHG.addActor(upButton);
-        rightHG.addActor(downButton);
-        rightHG.addActor(deleteButton);
+        if (!rightHG.hasChildren()) {
+            Table table = this;
+            deleteButton = new TextButton("X", StaticSkin.getSkin());
+            deleteButton.addListener(new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    menu.getWorkbenchAspect().getOrders().remove(order);
+                    menu.getOrderList().removeActor(table);
+                    menu.getOrderList().navigate(0);  // normalizes index
+                    menu.updateStageFocus(menu.getOrderList().hasChildren() ? menu.getOrderList() : menu);
+                }
+            });
+            repeatButton = new TextButton("R", StaticSkin.getSkin());
+            repeatButton.addListener(new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    order.setRepeated(!order.isRepeated());
+//                        statusLabel  //TODO set repeated status
+                }
+            });
+            upButton = new TextButton("R↑", StaticSkin.getSkin());
+            upButton.addListener(new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    tryMoveThisLine(-1);
+                }
+            });
+            downButton = new TextButton("F↓", StaticSkin.getSkin());
+            downButton.addListener(new ChangeListener() {
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    tryMoveThisLine(1);
+                }
+            });
+            rightHG.addActor(repeatButton);
+            rightHG.addActor(upButton);
+            rightHG.addActor(downButton);
+            rightHG.addActor(deleteButton);
+        }
     }
 
-    private InputListener createCompleteOrderInputListener() {
-        ItemCraftingOrderLine line = this;
+    /**
+     * Input listener for order line as a whole. Presses right side buttons, cancels order modification.
+     */
+    private InputListener createOrderLineInputListener() {
         return new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
-                switch (keycode) {
-                        case Input.Keys.W:
-                        case Input.Keys.S:
-                            materialSelectBox.fire(event); // navigate materials
-                            return true;
-                        case Input.Keys.E:
-                        case Input.Keys.D: { // update order material
-                            if(materialSelectBox.getList().isVisible()) {
-                                order.setSelectedString(materialSelectBox.getSelected());
-                                materialSelectBox.hideList();
-                            }
-                            return true;
-                        }
+                event.stop();
+                if (focusedSelectBox == null || !focusedSelectBox.notify(event, false)) { // transitions between selectboxes should be handled in them.
+                    switch (keycode) {
                         case Input.Keys.X: { // delete order from menu and workbench
-                            menu.getWorkbenchAspect().getOrders().remove(order);
-                            menu.getOrderList().removeActor(line);
-                            menu.getOrderList().navigate(0);  // normalizes index
-                            menu.updateStageFocus(menu.getOrderList().hasChildren() ? menu.getOrderList() : menu);
+                            if (deleteButton != null) deleteButton.toggle();
                             return true;
                         }
                         case Input.Keys.R: {
                             if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
-                                order.setRepeated(!order.isRepeated());
-//                        statusLabel  //TODO set repeated status
+                                if (repeatButton != null) repeatButton.toggle();
                             } else {
-                                tryMoveThisLine(-1);
+                                if (upButton != null) upButton.toggle();
                             }
                             return true;
                         }
-                    case Input.Keys.F: {
-                        tryMoveThisLine(1);
-                        return true;
+                        case Input.Keys.F: {
+                            if (downButton != null) downButton.toggle();
+                            return true;
+                        }
                     }
                 }
                 return false;
@@ -334,7 +336,7 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
     }
 
     /**
-     * Shows this line in menu.
+     * Shows this line in its menu.
      */
     @Override
     public void show() {
@@ -346,12 +348,32 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
      */
     public void hide() {
         menu.getOrderList().removeActor(this);
+    }
+
+    private void goToListOrMenu() {
         if (menu.getOrderList().hasChildren()) {
             menu.updateStageFocus(menu.getOrderList());
             menu.getOrderList().navigate(0);
         } else {
             menu.updateStageFocus(menu);
         }
+    }
+
+    /**
+     * Tries to move line focus to another select box, specified by delta.
+     */
+    private boolean goToAnotherSelectBox(int delta) {
+        if (focusedSelectBox != null) {
+            focusedSelectBox.hideList();
+            int index = selectBoxes.indexOf(focusedSelectBox) + delta;
+            if (index < selectBoxes.size() && index >= 0) {
+                focusedSelectBox = selectBoxes.get(index);
+                return true;
+            }
+        } else {
+            TagLoggersEnum.UI.logDebug("no select box focused");
+        }
+        return false;
     }
 
     public Label getStatusLabel() {
@@ -376,6 +398,4 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
     public String getHint() {
         return LINE_HINT;
     }
-
-
 }
