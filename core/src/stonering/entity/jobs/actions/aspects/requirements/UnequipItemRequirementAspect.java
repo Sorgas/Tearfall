@@ -2,6 +2,7 @@ package stonering.entity.jobs.actions.aspects.requirements;
 
 import stonering.entity.jobs.actions.Action;
 import stonering.entity.jobs.actions.aspects.effect.UnequipItemEffectAspect;
+import stonering.entity.jobs.actions.aspects.requirements.ComplexRequirementAspect.FunctionsEnum;
 import stonering.entity.jobs.actions.aspects.target.ItemTargetAspect;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.items.selectors.ExactItemSelector;
@@ -53,7 +54,7 @@ public class UnequipItemRequirementAspect extends RequirementsAspect {
                 new EquippedItemRequirementAspect(action, new ExactItemSelector(item)),
                 new UnequipItemRequirementAspect(action, new ExactItemSelector(item))
         };
-        action.setRequirementsAspect(new ComplexRequirementAspect(action, requirements));
+        action.setRequirementsAspect(new ComplexRequirementAspect(action, requirements, FunctionsEnum.AND));
         return true;
     }
 }

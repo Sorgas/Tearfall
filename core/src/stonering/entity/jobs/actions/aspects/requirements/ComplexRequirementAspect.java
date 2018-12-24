@@ -15,13 +15,10 @@ public class ComplexRequirementAspect extends RequirementsAspect {
     private List<RequirementsAspect> aspects;
     private FunctionsEnum function;
 
-    public ComplexRequirementAspect(Action action) {
-        super(action);
-    }
-
     public ComplexRequirementAspect(Action action, List<RequirementsAspect> aspects, FunctionsEnum function) {
         super(action);
         this.aspects = aspects;
+        this.function = function;
     }
 
     public ComplexRequirementAspect(Action action, RequirementsAspect[] aspects, FunctionsEnum function) {

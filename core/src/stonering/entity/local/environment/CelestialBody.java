@@ -1,6 +1,7 @@
 package stonering.entity.local.environment;
 
 import stonering.entity.local.AspectHolder;
+import stonering.entity.local.environment.aspects.CelestialLightSource;
 
 import java.io.Serializable;
 
@@ -14,7 +15,7 @@ public class CelestialBody extends AspectHolder implements Serializable {
 
     public CelestialBody() {
         super(null); //TODO redesign aspectHolder hierarchy
-//        addAspect(new SelestialLightSource(this));
+        addAspect(new CelestialLightSource(this));
     }
 
     @Override

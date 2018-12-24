@@ -14,13 +14,17 @@ import stonering.entity.local.items.Item;
  * @author Savva Kodeikin
  */
 public class FallingAspect extends Aspect {
-
-    private static final String FALLING_ASPECT_NAME = "falling";
+    private static final String NAME = "falling";
 
     private LocalMap localMap;
 
     public FallingAspect(AspectHolder aspectHolder) {
-        super(FALLING_ASPECT_NAME, aspectHolder);
+        super(aspectHolder);
+    }
+
+    @Override
+    public String getName() {
+        return NAME;
     }
 
     @Override

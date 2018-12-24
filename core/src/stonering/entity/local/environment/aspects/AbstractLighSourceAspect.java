@@ -10,11 +10,12 @@ import stonering.entity.local.AspectHolder;
  * @author Alexander on 07.10.2018.
  */
 public abstract class AbstractLighSourceAspect extends Aspect {
+    public static final String NAME = "light_source";
     protected float force;                  // [0,1]
     protected float previousForce;          // [0,1]
 
     public AbstractLighSourceAspect(AspectHolder aspectHolder) {
-        super("light_source", aspectHolder);
+        super(aspectHolder);
     }
 
     /**

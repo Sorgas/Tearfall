@@ -29,9 +29,9 @@ public class BuildingStage extends InitableStage {
         createWorkbenchMenu();
         menu.updateStageFocus(menu);
         gameMvc.getController().setCameraEnabled(false);
-//        wasPaused = gameMvc.getModel().isPaused();
-//        gameMvc.getModel().setPaused(true);
-//        gameMvc.getController().getPauseInputAdapter().setEnabled(false);
+        wasPaused = gameMvc.getModel().isPaused();
+        gameMvc.getModel().setPaused(true);
+        gameMvc.getController().getPauseInputAdapter().setEnabled(false);
     }
 
     /**
@@ -48,10 +48,10 @@ public class BuildingStage extends InitableStage {
 
     @Override
     public void dispose() {
-        gameMvc.getView().removeStage(this);
         gameMvc.getController().setCameraEnabled(true);
-//        gameMvc.getController().getPauseInputAdapter().setEnabled(true);
-//        gameMvc.getModel().setPaused(wasPaused);
+        wasPaused = gameMvc.getModel().isPaused();
+        gameMvc.getModel().setPaused(wasPaused);
+        gameMvc.getController().getPauseInputAdapter().setEnabled(true);
         super.dispose();
     }
 }

@@ -22,7 +22,7 @@ public class GameController extends Controller {
         super(gameMvc);
         inputMultiplexer = new InputMultiplexer();
         designationsController = new DesignationsController(gameMvc);
-        pauseInputAdapter = new PauseInputAdapter();
+        pauseInputAdapter = new PauseInputAdapter(gameMvc);
     }
 
     public void init() {

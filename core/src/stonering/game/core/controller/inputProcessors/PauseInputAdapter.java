@@ -12,6 +12,10 @@ public class PauseInputAdapter extends InputAdapter {
     private GameMvc gameMvc;
     private boolean enabled = true;
 
+    public PauseInputAdapter(GameMvc gameMvc) {
+        this.gameMvc = gameMvc;
+    }
+
     @Override
     public boolean keyTyped(char character) {
         if (enabled && character == ' ') {

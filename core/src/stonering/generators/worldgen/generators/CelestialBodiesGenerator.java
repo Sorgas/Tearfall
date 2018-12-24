@@ -1,9 +1,9 @@
 package stonering.generators.worldgen.generators;
 
+import stonering.entity.local.environment.aspects.CelestialLightSource;
 import stonering.generators.worldgen.WorldGenContainer;
 import stonering.entity.local.environment.CelestialBody;
 import stonering.entity.local.environment.aspects.CelestialCycleAspect;
-import stonering.entity.local.environment.aspects.SelestialLightSource;
 
 /**
  * Creates celestial bodies like sun, moons, and other planets.
@@ -20,8 +20,7 @@ public class CelestialBodiesGenerator extends AbstractGenerator {
     public boolean execute() {
         generateSun();
 //        generateMoons();
-        generatePlanets();
-
+//        generatePlanets();
         return false;
     }
 
@@ -30,7 +29,7 @@ public class CelestialBodiesGenerator extends AbstractGenerator {
      */
     private void generateSun() {
         CelestialBody sun = new CelestialBody();
-        sun.addAspect(new SelestialLightSource(sun));
+        sun.addAspect(new CelestialLightSource(sun));
         float dayScale = 0.01f;
         sun.addAspect(new CelestialCycleAspect(dayScale, dayScale, sun));
         container.getWorld().getStarSystem().getCelestialBodies().add(sun);
@@ -41,7 +40,7 @@ public class CelestialBodiesGenerator extends AbstractGenerator {
      */
     private void generateMoons() {
         CelestialBody moon = new CelestialBody();
-        moon.addAspect(new SelestialLightSource(moon));
+        moon.addAspect(new CelestialLightSource(moon));
         float dayScale = 0.0001f;
         moon.addAspect(new CelestialCycleAspect(dayScale, dayScale, moon));
         container.getWorld().getStarSystem().getCelestialBodies().add(moon);

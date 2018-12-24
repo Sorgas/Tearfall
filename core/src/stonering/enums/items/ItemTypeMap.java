@@ -5,7 +5,6 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import stonering.entity.local.crafting.CraftingComponentVariant;
 import stonering.entity.local.crafting.ItemPartType;
-import stonering.entity.local.items.aspects.TagAspect;
 import stonering.utils.global.FileLoader;
 
 import java.util.ArrayList;
@@ -38,7 +37,6 @@ public class ItemTypeMap {
         json.addClassTag("tool_c", ToolItemType.class);
         json.addClassTag("action_c", ToolItemType.ToolAction.class);
         json.addClassTag("attack_c", ToolItemType.ToolAttack.class);
-        json.addClassTag("tags_c", TagAspect.class);
         json.addClassTag("step_c", ItemPartType.class);
         json.addClassTag("variant_c", CraftingComponentVariant.class);
         ArrayList<ItemType> elements = json.fromJson(ArrayList.class, ItemType.class, FileLoader.getFile(FileLoader.ITEMS_PATH));

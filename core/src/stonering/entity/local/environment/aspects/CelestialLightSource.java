@@ -1,10 +1,10 @@
 package stonering.entity.local.environment.aspects;
 
 import stonering.enums.blocks.BlockTypesEnum;
+import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.LocalMap;
 import stonering.entity.local.AspectHolder;
 
-import java.util.logging.SocketHandler;
 
 /**
  * Light source of sun, moon, etc. Emits rays from up to down, first non-space tile becomes illuminated.
@@ -13,10 +13,22 @@ import java.util.logging.SocketHandler;
  *
  * @author Alexander Kuzyakov
  */
-public class SelestialLightSource extends AbstractLighSourceAspect {
+public class CelestialLightSource extends AbstractLighSourceAspect {
+    public static String NAME = "celestial_light_source";
 
-    public SelestialLightSource(AspectHolder aspectHolder) {
+    public CelestialLightSource(AspectHolder aspectHolder) {
         super(aspectHolder);
+    }
+
+    @Override
+    public void init(GameContainer gameContainer) {
+        super.init(gameContainer);
+        applyLightToMap();
+    }
+
+    @Override
+    public String getName() {
+        return NAME;
     }
 
     @Override

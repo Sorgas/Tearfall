@@ -1,5 +1,6 @@
 package stonering.entity.local.unit.aspects.needs;
 
+import stonering.entity.jobs.actions.aspects.requirements.ComplexRequirementAspect.FunctionsEnum;
 import stonering.game.core.model.GameContainer;
 import stonering.entity.jobs.Task;
 import stonering.entity.jobs.actions.Action;
@@ -32,7 +33,7 @@ public class WearNeed extends Need {
      */
     @Override
     public int countPriority() {
-        EquipmentAspect equipmentAspect = (EquipmentAspect) aspectHolder.getAspects().get("equipment");
+        EquipmentAspect equipmentAspect = (EquipmentAspect) aspectHolder.getAspects().get(EquipmentAspect.NAME);
         if (equipmentAspect != null) {
             if (!equipmentAspect.getEmptyDesiredSlots().isEmpty()) {
                 return GET_WEAR_PRIORITY;
@@ -68,7 +69,7 @@ public class WearNeed extends Need {
             action.setTargetAspect(new ItemTargetAspect(action, item));
             RequirementsAspect[] requirementsAspects = {new BodyPartRequirementAspect(action, "grab", true),
                     new EquipWearItemRequirementAspect(action, item)};
-            action.setRequirementsAspect(new ComplexRequirementAspect(action, requirementsAspects));
+            action.setRequirementsAspect(new ComplexRequirementAspect(action, requirementsAspects, FunctionsEnum.AND));
             action.setEffectAspect(new EquipItemEffectAspect(action));
             task = new Task("Equip item " + item.getTitle(), TaskTypesEnum.EQUIPPING, action, GET_WEAR_PRIORITY, container);
         }

@@ -21,8 +21,7 @@ public class BuildingType {
     private List<CommonComponentStep> components;
     private List<String> menuPath;
     private List<String> recipes;
-
-    private boolean container;
+    private List<List<String>> aspects;
 
     private int atlasX;
     private int atlasY;
@@ -32,6 +31,7 @@ public class BuildingType {
         components = new ArrayList<>();
         menuPath = new ArrayList<>();
         recipes = new ArrayList<>();
+        aspects = new ArrayList<>();
     }
 
     public String getTitle() {
@@ -112,5 +112,13 @@ public class BuildingType {
 
     public void setComponents(List<CommonComponentStep> components) {
         this.components = components;
+    }
+
+    public List<List<String>> getAspects() {
+        return aspects;
+    }
+
+    public void setAspects(List<List<String>> aspects) {
+        this.aspects = aspects;
     }
 }

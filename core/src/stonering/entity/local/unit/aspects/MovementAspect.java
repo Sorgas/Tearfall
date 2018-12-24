@@ -17,6 +17,7 @@ import java.util.List;
  * @author Alexander Kuzyakov on 06.10.2017.
  */
 public class MovementAspect extends Aspect {
+    public static String NAME = "movement";
     private int stepTime;
     private int stepDelay;
     private PassageMap passageMap;
@@ -25,7 +26,7 @@ public class MovementAspect extends Aspect {
     private List<Position> cachedPath;
 
     public MovementAspect(Unit unit) {
-        super("movement", unit);
+        super(unit);
         this.aspectHolder = unit;
         stepTime = 6;
         stepDelay = stepTime;
@@ -64,6 +65,11 @@ public class MovementAspect extends Aspect {
                 }
             }
         }
+    }
+
+    @Override
+    public String getName() {
+        return NAME;
     }
 
     @Override

@@ -18,11 +18,17 @@ import java.util.ArrayList;
  * @author Alexander Kuzyakov on 10.10.2017.
  */
 public class PlanningAspect extends Aspect {
+    public static String NAME = "planning";
     private Task currentTask;
     private boolean movementNeeded = false; // true, when has task and not in position.
 
     public PlanningAspect(AspectHolder aspectHolder) {
-        super("planning", aspectHolder);
+        super(aspectHolder);
+    }
+
+    @Override
+    public String getName() {
+        return NAME;
     }
 
     /**
@@ -107,7 +113,7 @@ public class PlanningAspect extends Aspect {
      * @return
      */
     private Task takeTaskFromNeedsAspect() {
-        NeedsAspect needsAspect = ((NeedsAspect) aspectHolder.getAspects().get("needs"));
+        NeedsAspect needsAspect = ((NeedsAspect) aspectHolder.getAspects().get(NeedsAspect.NAME));
         Task needTask = null;
         if (needsAspect != null) {
             needsAspect.update();

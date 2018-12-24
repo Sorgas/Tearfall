@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
  * @author Alexander Kuzyakov on 03.01.2018.
  */
 public class EquipmentAspect extends Aspect {
+    public static String NAME = "equipment";
     private HashMap<String, EquipmentSlot> slots;            // equipped items
     private ArrayList<EquipmentSlot> desiredSlots;           // uncovered limbs give comfort penalty
     private HashMap<String, GrabEquipmentSlot> grabSlots;    // equipped items
@@ -27,12 +28,17 @@ public class EquipmentAspect extends Aspect {
     private int emptyDesiredSlotsCount;                      // for faster checking nudity
 
     public EquipmentAspect(AspectHolder aspectHolder) {
-        super("equipment", aspectHolder);
+        super(aspectHolder);
         slots = new HashMap<>();
         grabSlots = new HashMap<>();
         equippedItems = new ArrayList<>();
         hauledItems = new ArrayList<>();
         desiredSlots = new ArrayList<>();
+    }
+
+    @Override
+    public String getName() {
+        return NAME;
     }
 
     /**

@@ -10,12 +10,13 @@ import java.io.Serializable;
  */
 public abstract class Aspect extends Turnable implements Serializable {
     protected GameContainer gameContainer;
-    public static String NAME;
     protected AspectHolder aspectHolder;
 
-    public Aspect( AspectHolder aspectHolder) {
+    public Aspect(AspectHolder aspectHolder) {
         this.aspectHolder = aspectHolder;
     }
+
+    public abstract String getName();
 
     public AspectHolder getAspectHolder() {
         return aspectHolder;

@@ -1,5 +1,6 @@
 package stonering.entity.jobs.actions.aspects.requirements;
 
+import stonering.entity.jobs.actions.aspects.requirements.ComplexRequirementAspect.FunctionsEnum;
 import stonering.exceptions.NotSuitableItemException;
 import stonering.entity.jobs.actions.Action;
 import stonering.entity.jobs.actions.aspects.effect.EquipItemEffectAspect;
@@ -52,7 +53,7 @@ public class EquipWearItemRequirementAspect extends RequirementsAspect {
                 new EquippedItemRequirementAspect(action, new ExactItemSelector(item)),
                 new UnequipItemRequirementAspect(action, new ExactItemSelector(item))
         };
-        action.setRequirementsAspect(new ComplexRequirementAspect(action, requirements));
+        action.setRequirementsAspect(new ComplexRequirementAspect(action, requirements, FunctionsEnum.AND));
         this.action.getTask().addFirstPreAction(action);
 
         // equip action
@@ -67,8 +68,8 @@ public class EquipWearItemRequirementAspect extends RequirementsAspect {
         } else {
             return false;
         }
-        action.setRequirementsAspect(new ComplexRequirementAspect(action, requirementsAspects));
-        action.setRequirementsAspect(new ComplexRequirementAspect(action, requirements));
+        action.setRequirementsAspect(new ComplexRequirementAspect(action, requirementsAspects, FunctionsEnum.AND));
+        action.setRequirementsAspect(new ComplexRequirementAspect(action, requirements, FunctionsEnum.AND));
         this.action.getTask().addFirstPreAction(action);
         return true;
     }

@@ -14,14 +14,20 @@ import java.util.ArrayList;
  * @author Alexander Kuzyakov on 16.09.2018.
  */
 public class NeedsAspect extends Aspect {
+    public static String NAME = "needs";
     private ArrayList<Need> needs;
     private int needsCheckDelay;
     private Need strongestNeed;
     private int priority;
 
     public NeedsAspect(AspectHolder aspectHolder) {
-        super("needs", aspectHolder);
+        super(aspectHolder);
         needs = new ArrayList<>();
+    }
+
+    @Override
+    public String getName() {
+        return NAME;
     }
 
     @Override

@@ -3,11 +3,14 @@ package stonering.entity.local.building.aspects;
 import stonering.entity.jobs.Task;
 import stonering.entity.jobs.actions.Action;
 import stonering.entity.jobs.actions.TaskTypesEnum;
+import stonering.entity.jobs.actions.aspects.effect.WorkbenchItemOrderEffectAspect;
+import stonering.entity.jobs.actions.aspects.requirements.ItemsInBuildingRequirementAspect;
 import stonering.entity.jobs.actions.aspects.target.BuildingTargetAspect;
 import stonering.entity.local.Aspect;
 import stonering.entity.local.AspectHolder;
 import stonering.entity.local.building.Building;
 import stonering.entity.local.crafting.ItemOrder;
+import stonering.entity.local.items.Item;
 import stonering.enums.items.Recipe;
 import stonering.enums.items.RecipeMap;
 import stonering.utils.global.TagLoggersEnum;
@@ -31,18 +34,31 @@ import java.util.List;
 public class WorkbenchAspect extends Aspect {
     public static final String NAME = "workbench";
     private List<Recipe> recipes;
-    private List<ItemOrder> orders;
+    private List<Item> storage;
+    private List<ItemOrder> orders;  // first order is always current
     private Task currentTask;
 
     public WorkbenchAspect(AspectHolder aspectHolder) {
         super(aspectHolder);
         orders = new ArrayList<>();
         recipes = new ArrayList<>();
+        storage = new ArrayList<>();
         initRecipes();
     }
 
     @Override
+    public String getName() {
+        return NAME;
+    }
+
+    @Override
     public void turn() {
+        if(currentTask.isFinished()) {
+            ItemOrder order = findNextOrder();
+        }
+    }
+
+    private ItemOrder findNextOrder() {
 
     }
 
@@ -53,8 +69,10 @@ public class WorkbenchAspect extends Aspect {
     private Task createTaskForOrder(ItemOrder order) {
         Action action = new Action(gameContainer);
         action.setTargetAspect(new BuildingTargetAspect(action, false, true, (Building) aspectHolder));
-        action.setRequirementsAspect(new );
-        Task task = new Task("qwer", TaskTypesEnum.CRAFTING, );
+        action.setRequirementsAspect(new ItemsInBuildingRequirementAspect(action, (Building) aspectHolder));
+        action.setEffectAspect(new WorkbenchItemOrderEffectAspect(action, 100, order));
+        Task task = new Task("qwer", TaskTypesEnum.CRAFTING, action, 1, gameContainer);
+        return task;
     }
 
     /**
@@ -64,6 +82,7 @@ public class WorkbenchAspect extends Aspect {
         if (currentTask != null) { // can be null when first order just created.
 
         }
+        return false;
     }
 
     /**
@@ -175,5 +194,9 @@ public class WorkbenchAspect extends Aspect {
 
     public void setRecipes(List<Recipe> recipes) {
         this.recipes = recipes;
+    }
+
+    public List<Item> getStorage() {
+        return storage;
     }
 }

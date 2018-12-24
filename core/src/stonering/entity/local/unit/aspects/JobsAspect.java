@@ -11,10 +11,11 @@ import java.util.ArrayList;
  * stores jobs enabled for unit
  */
 public class JobsAspect extends Aspect {
+    public static final String NAME = "jobs";
     private ArrayList<String> jobs;
 
     public JobsAspect(String name, AspectHolder aspectHolder) {
-        super(name, aspectHolder);
+        super(aspectHolder);
         jobs = new ArrayList<>();
     }
 
@@ -24,5 +25,10 @@ public class JobsAspect extends Aspect {
 
     public void setJobs(ArrayList<String> jobs) {
         this.jobs = jobs;
+    }
+
+    @Override
+    public String getName() {
+        return NAME;
     }
 }

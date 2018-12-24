@@ -135,6 +135,7 @@ public class WorkbenchMenu extends Window implements HintedActor {
         workbenchAspect.getOrders().forEach(order -> {
             orderList.addActor(createOrderLine(order));
         });
+        orderList.setHighlighted(false);
     }
 
     private ItemCraftingOrderLine createOrderLine(ItemOrder order) {
@@ -152,7 +153,7 @@ public class WorkbenchMenu extends Window implements HintedActor {
      * Closes stage with this menu.
      */
     public void close() {
-        getStage().dispose();
+        gameMvc.getView().removeStage(getStage());
     }
 
     /**
