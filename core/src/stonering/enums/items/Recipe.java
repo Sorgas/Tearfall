@@ -7,13 +7,13 @@ package stonering.enums.items;
  * @author Alexander on 19.11.2018.
  */
 public class Recipe {
-    private String name;     // recipe name
+    private String name;     // recipe NAME
     private String title;    // displayed title
-    private String itemName; // item name, points to ItemType
+    private String itemName; // item NAME, points to ItemType
 //    private String skill;
 //    private int duration;                                                         //TODO crafting with usage of multiple workbenches.
 //    private int expGain;
-//    private Map<String, List<String>>   // itemPart name to material categories   //TODO map of item parts to allowed materials.
+//    private Map<String, List<String>>   // itemPart NAME to material categories   //TODO map of item parts to allowed materials.
 
     private String material; // mvp material category
 

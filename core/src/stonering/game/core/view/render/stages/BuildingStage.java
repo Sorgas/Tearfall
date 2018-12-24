@@ -9,6 +9,7 @@ import stonering.game.core.view.render.ui.menus.workbench.WorkbenchMenu;
 /**
  * Stage with menu for building like workbenches and furniture.
  * Its keyboard focus is updated by ui elements.
+ * Game is paused while menu is shown.
  *
  * @author Alexander on 09.11.2018.
  */
@@ -16,6 +17,7 @@ public class BuildingStage extends InitableStage {
     private GameMvc gameMvc;
     private Building building;
     private WorkbenchMenu menu;
+    private boolean wasPaused;
 
     public BuildingStage(GameMvc gameMvc, Building building) {
         this.gameMvc = gameMvc;
@@ -25,10 +27,15 @@ public class BuildingStage extends InitableStage {
     @Override
     public void init() {
         createWorkbenchMenu();
+        menu.updateStageFocus(menu);
+        gameMvc.getController().setCameraEnabled(false);
+//        wasPaused = gameMvc.getModel().isPaused();
+//        gameMvc.getModel().setPaused(true);
+//        gameMvc.getController().getPauseInputAdapter().setEnabled(false);
     }
 
     /**
-     * Creates menu for workbench buildings.
+     * Creates menu for workbench buildings and adds it to stage.
      */
     private void createWorkbenchMenu() {
         menu = new WorkbenchMenu(gameMvc, building);
@@ -37,14 +44,14 @@ public class BuildingStage extends InitableStage {
         container.setFillParent(true);
         container.setDebug(true, true);
         this.addActor(container);
-        menu.updateStageFocus(menu);
-        gameMvc.getController().setCameraEnabled(false);
     }
 
     @Override
     public void dispose() {
         gameMvc.getView().removeStage(this);
         gameMvc.getController().setCameraEnabled(true);
+//        gameMvc.getController().getPauseInputAdapter().setEnabled(true);
+//        gameMvc.getModel().setPaused(wasPaused);
         super.dispose();
     }
 }

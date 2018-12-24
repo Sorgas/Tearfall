@@ -13,31 +13,50 @@ import java.util.List;
  */
 public class ComplexRequirementAspect extends RequirementsAspect {
     private List<RequirementsAspect> aspects;
+    private FunctionsEnum function;
 
     public ComplexRequirementAspect(Action action) {
         super(action);
     }
 
-    public ComplexRequirementAspect(Action action, List<RequirementsAspect> aspects) {
+    public ComplexRequirementAspect(Action action, List<RequirementsAspect> aspects, FunctionsEnum function) {
         super(action);
         this.aspects = aspects;
     }
 
-    public ComplexRequirementAspect(Action action, RequirementsAspect[] aspects) {
-        this(action, Arrays.asList(aspects));
+    public ComplexRequirementAspect(Action action, RequirementsAspect[] aspects, FunctionsEnum function) {
+        this(action, Arrays.asList(aspects), function);
     }
 
     @Override
     public boolean check() {
-        for (RequirementsAspect aspect : aspects) {
-            if (!aspect.check()) {
+        switch (function) {
+            case AND: {
+                for (RequirementsAspect aspect : aspects) {
+                    if (!aspect.check()) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            case OR: {
+                for (RequirementsAspect aspect : aspects) {
+                    if (aspect.check()) {
+                        return true;
+                    }
+                }
                 return false;
             }
         }
-        return true;
+        return false;
     }
 
     public void addRequirementAspect(RequirementsAspect aspect) {
         aspects.add(aspect);
+    }
+
+    public enum FunctionsEnum {
+        AND,
+        OR;
     }
 }

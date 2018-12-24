@@ -14,24 +14,22 @@ import stonering.utils.global.TagLoggersEnum;
  */
 public class GameController extends Controller {
     private DesignationsController designationsController;
-    private PauseController pauseController;
     private InputMultiplexer inputMultiplexer;
     private CameraInputAdapter cameraInputAdapter;
+    private PauseInputAdapter pauseInputAdapter;
 
     public GameController(GameMvc gameMvc) {
         super(gameMvc);
         inputMultiplexer = new InputMultiplexer();
         designationsController = new DesignationsController(gameMvc);
-        pauseController = new PauseController(gameMvc);
+        pauseInputAdapter = new PauseInputAdapter();
     }
 
     public void init() {
         designationsController.init();
-        pauseController.init();
         cameraInputAdapter = new CameraInputAdapter(gameMvc);
-
         inputMultiplexer.addProcessor(new KeyBufferInputAdapter());                 // only buffers events
-        inputMultiplexer.addProcessor(new PauseInputAdapter(pauseController));      // handles pause
+        inputMultiplexer.addProcessor(pauseInputAdapter);                           // handles pause
         inputMultiplexer.addProcessor(new StageInputAdapter(gameMvc.getView()));    // calls stages
         inputMultiplexer.addProcessor(cameraInputAdapter);                          // calls entity selector (camera)
         Gdx.input.setInputProcessor(inputMultiplexer);
@@ -41,9 +39,6 @@ public class GameController extends Controller {
         return designationsController;
     }
 
-    public PauseController getPauseController() {
-        return pauseController;
-    }
 
     public InputMultiplexer getInputMultiplexer() {
         return inputMultiplexer;
@@ -55,5 +50,9 @@ public class GameController extends Controller {
         } else {
             TagLoggersEnum.UI.logDebug("Changing CameraInputAdapter state before GameController init.");
         }
+    }
+
+    public PauseInputAdapter getPauseInputAdapter() {
+        return pauseInputAdapter;
     }
 }

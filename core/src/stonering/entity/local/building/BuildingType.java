@@ -22,6 +22,8 @@ public class BuildingType {
     private List<String> menuPath;
     private List<String> recipes;
 
+    private boolean container;
+
     private int atlasX;
     private int atlasY;
     private Color color;

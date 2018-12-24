@@ -4,7 +4,7 @@ import stonering.enums.designations.DesignationTypeEnum;
 import stonering.global.utils.Position;
 
 /**
- * Adds building name to designation.
+ * Adds building NAME to designation.
  *
  * /TODO render building tile instead of stock one.
  * @author Alexander Kuzyakov

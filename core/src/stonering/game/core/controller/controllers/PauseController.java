@@ -13,25 +13,38 @@ import stonering.game.core.model.GameContainer;
  */
 public class PauseController extends Controller{
     private GameContainer container;
+    private boolean enabled;
 
     public PauseController(GameMvc gameMvc) {
         super(gameMvc);
     }
 
     public void switchPause() {
-        container.pauseGame();
+        container.setPaused(container.isPaused());
     }
 
     public void pause() {
-        container.pauseGame(true);
+        container.setPaused(true);
     }
 
     public void unpause() {
-        container.pauseGame(false);
+        container.setPaused(false);
     }
 
     @Override
     public void init() {
         container = gameMvc.getModel();
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public boolean isPaused() {
+        return container.isPaused();
     }
 }

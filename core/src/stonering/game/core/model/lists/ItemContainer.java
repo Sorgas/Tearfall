@@ -129,7 +129,7 @@ public class ItemContainer {
      * Groups given items by material and titles, and count their quantity to show in UI lists.
      */
     public Map<String, Pair<String, String>> groupItemsByTypesAndMaterials(List<Item> items) {
-        Map<Pair<String, String>, Integer> groupingMap = new HashMap<>();                                   // groups by material and item name. Stores quantity.
+        Map<Pair<String, String>, Integer> groupingMap = new HashMap<>();                                   // groups by material and item NAME. Stores quantity.
         items.forEach((item) -> {
             String materialName = MaterialMap.getInstance().getMaterial(item.getMaterial()).getName();
             Pair<String, String> key = new Pair<>(materialName, item.getTitle());

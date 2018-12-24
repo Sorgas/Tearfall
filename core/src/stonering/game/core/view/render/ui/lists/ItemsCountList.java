@@ -22,12 +22,12 @@ public abstract class ItemsCountList extends NavigableList {
     }
 
     /**
-     * Groups given items by name and material and stores them as ListItems.
+     * Groups given items by NAME and material and stores them as ListItems.
      *
      * @param items
      */
     public void addItems(List<Item> items) {
-        HashMap<Pair<String, Integer>, ListItem> map = new HashMap<>(); // item name & material to ListItem
+        HashMap<Pair<String, Integer>, ListItem> map = new HashMap<>(); // item NAME & material to ListItem
         MaterialMap materialMap = MaterialMap.getInstance();
         items.forEach(item -> { // groups items
             Pair<String, Integer> pair = new Pair<>(item.getName(), item.getMaterial());

@@ -3,6 +3,7 @@ package stonering.entity.local.building.aspects;
 import stonering.entity.jobs.Task;
 import stonering.entity.jobs.actions.Action;
 import stonering.entity.jobs.actions.TaskTypesEnum;
+import stonering.entity.jobs.actions.aspects.target.BuildingTargetAspect;
 import stonering.entity.local.Aspect;
 import stonering.entity.local.AspectHolder;
 import stonering.entity.local.building.Building;
@@ -13,7 +14,6 @@ import stonering.utils.global.TagLoggersEnum;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
 
 /**
  * Aspect for workbenches. Manages orders of workbench.
@@ -29,21 +29,45 @@ import java.util.Queue;
  * @author Alexander on 01.11.2018.
  */
 public class WorkbenchAspect extends Aspect {
-    public static String NAME = "workbench";
-    private List<Recipe> recipes; // list of possible recipes
-
-    // list of orders.
+    public static final String NAME = "workbench";
+    private List<Recipe> recipes;
     private List<ItemOrder> orders;
+    private Task currentTask;
 
     public WorkbenchAspect(AspectHolder aspectHolder) {
-        super(NAME, aspectHolder);
+        super(aspectHolder);
         orders = new ArrayList<>();
         recipes = new ArrayList<>();
         initRecipes();
     }
 
+    @Override
+    public void turn() {
+
+    }
+
+    public void addOrder(int index, ItemOrder order) {
+        orders.add(index, order);
+    }
+
+    private Task createTaskForOrder(ItemOrder order) {
+        Action action = new Action(gameContainer);
+        action.setTargetAspect(new BuildingTargetAspect(action, false, true, (Building) aspectHolder));
+        action.setRequirementsAspect(new );
+        Task task = new Task("qwer", TaskTypesEnum.CRAFTING, );
+    }
+
     /**
-     * Swap orders on positions index and (index + delta). Does nothing, if new index not in list range.
+     * Checks that current task is not finished, refers to first order in the list, and first order is not cancelled or suspended.
+     */
+    private boolean validateTask() {
+        if (currentTask != null) { // can be null when first order just created.
+
+        }
+    }
+
+    /**
+     * Swap orders on positions index and (index + delta). Does nothing, if indexes not in list range.
      */
     public void swapOrders(int index, int delta) {
         if (inBounds(index)) {
@@ -73,6 +97,13 @@ public class WorkbenchAspect extends Aspect {
             TagLoggersEnum.TASKS.logDebug("Finishing order " + order + " on wrong workbench " + toString());
             new Throwable().printStackTrace();
         }
+    }
+
+    /**
+     * Creates task for first order in list. Cancels previous task.
+     */
+    private void recreateTask() {
+
     }
 
     /**

@@ -84,6 +84,7 @@ public class GameView implements Screen {
     public void removeStage(Stage stage) {
         TagLoggersEnum.UI.logDebug("hiding stage " + stage.toString());
         stageList.remove(stage);
+        stage.dispose();
     }
 
     @Override

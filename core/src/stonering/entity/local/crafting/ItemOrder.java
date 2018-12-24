@@ -1,5 +1,6 @@
 package stonering.entity.local.crafting;
 
+import stonering.entity.jobs.Task;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.items.selectors.ItemSelector;
 import stonering.enums.items.Recipe;
@@ -14,7 +15,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Contains recipe, item name and material id for crafting item.
+ * Contains recipe, item NAME and material id for crafting item.
  * Task for crafting creation is based on this.
  * <p>
  * For each required item part, player should specify item selector.
@@ -29,11 +30,12 @@ import java.util.Set;
 public class ItemOrder {
     private GameMvc gameMvc;
     private Recipe recipe;
+    private Task task;
     private HashMap<String, ItemSelector> selectors;                            // itemPart to items selected for variant.
     private boolean repeated;
     private boolean suspended;
 
-    private Map<String, Pair<String, String>> materialItemMap;                  // ui string to (item type, material name)
+    private Map<String, Pair<String, String>> materialItemMap;                  // ui string to (item type, material NAME)
     private String selectedString;
 
     public ItemOrder(GameMvc gameMvc, Recipe recipe) {

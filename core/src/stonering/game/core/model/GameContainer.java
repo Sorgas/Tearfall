@@ -102,20 +102,6 @@ public class GameContainer {
         gameCalendar.turn();
     }
 
-    public void pauseGame() {
-        pauseGame(!paused);
-    }
-
-    public void pauseGame(boolean pause) {
-        if (pause) {
-            timer.stop();
-            paused = true;
-        } else {
-            timer.start();
-            paused = false;
-        }
-    }
-
     public EntitySelector getCamera() {
         return camera;
     }
@@ -146,5 +132,19 @@ public class GameContainer {
 
     public LocalTileMap getLocalTileMap() {
         return localTileMap;
+    }
+
+    public boolean isPaused() {
+        return paused;
+    }
+
+    public void setPaused(boolean paused) {
+        if (paused) {
+            timer.stop();
+            this.paused = true;
+        } else {
+            timer.start();
+            this.paused = false;
+        }
     }
 }

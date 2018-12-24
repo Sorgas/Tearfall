@@ -1,26 +1,30 @@
 package stonering.game.core.controller.inputProcessors;
 
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.InputProcessor;
-import stonering.game.core.controller.controllers.GameController;
-import stonering.game.core.controller.controllers.PauseController;
-import stonering.global.settings.KeySettings;
+import stonering.game.core.GameMvc;
 
 /**
+ * Can be disabled.
+ *
  * @author Alexander Kuzyakov on 29.11.2017.
  */
 public class PauseInputAdapter extends InputAdapter {
-    private PauseController controller;
-
-    public PauseInputAdapter(PauseController controller) {
-        this.controller = controller;
-    }
+    private GameMvc gameMvc;
+    private boolean enabled = true;
 
     @Override
     public boolean keyTyped(char character) {
-        if (character == ' ') {
-            controller.switchPause();
+        if (enabled && character == ' ') {
+            gameMvc.getModel().setPaused(!gameMvc.getModel().isPaused());
         }
         return false;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }
