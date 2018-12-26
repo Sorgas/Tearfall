@@ -132,7 +132,7 @@ public class WorkbenchMenu extends Window implements HintedActor {
      * Refills list of menu with existing orders.
      */
     private void refillWorkbenchOrders() {
-        workbenchAspect.getOrders().forEach(order -> {
+        workbenchAspect.getEntries().forEach(order -> {
             orderList.addActor(createOrderLine(order));
         });
         orderList.setHighlighted(false);

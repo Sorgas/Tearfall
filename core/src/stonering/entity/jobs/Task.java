@@ -7,13 +7,15 @@ import stonering.global.utils.Position;
 import stonering.entity.jobs.actions.Action;
 import stonering.entity.jobs.actions.TaskTypesEnum;
 import stonering.entity.local.unit.Unit;
+import stonering.utils.global.TagLoggersEnum;
 
+import java.util.EventListener;
 import java.util.LinkedList;
 
 /**
  * Task object for units behavior in the game.
  * Consists of main action, sequence of actions to be performed before main, and after main.
- *
+ * <p>
  * Firstly pre actions with lowest indexes are executed, then initial action, and then post actions with lowest indexes.
  *
  * @author Alexander Kuzyakov
@@ -43,9 +45,9 @@ public class Task {
     }
 
     /**
-     * Removes this task from container if it's finished.
+     * Removes this task from container  if it's finished.
      */
-    public void recountFinished() {
+    public void tryFinishTask() {
         if (isFinished())
             taskContainer.removeTask(this);
     }
@@ -71,16 +73,32 @@ public class Task {
     }
 
     public void reset() {
+        if(performer != null) {
+            //TODO interrupt
+        }
         preActions = new LinkedList<>();
         postActions = new LinkedList<>();
         setPerformer(null);
     }
 
+    /**
+     * Task is finished, if initial action is finished, and no other actions remain.
+     */
     public boolean isFinished() {
+//        TagLoggersEnum.TASKS.logDebug("Checking task " + name +
+//                " completion[preActions: " + preActions.size() +
+//                ",postActions: " + postActions.size() +
+//                ", initial finished:" + initialAction.isFinished() + "]");
+        if(!preActions.isEmpty() && initialAction.isFinished()) {
+            TagLoggersEnum.TASKS.logError("Task " + name + ": initial action finished before pre actions.");
+        }
         return preActions.isEmpty() && initialAction.isFinished() && postActions.isEmpty();
     }
 
-    public void removeAction(Action action) {
+    /**
+     * Removes pre and post actions from task
+     */
+    public void finishAction(Action action) {
         if (action != initialAction) {
             preActions.remove(action);
             postActions.remove(action);
@@ -88,6 +106,7 @@ public class Task {
     }
 
     public void fail() {
+        //TODO add interruption
         reset();
         taskContainer.removeTask(this);
     }
@@ -108,6 +127,7 @@ public class Task {
 
     /**
      * This actions will be executed in the first place
+     *
      * @param action
      */
     public void addFirstPreAction(Action action) {
@@ -117,6 +137,7 @@ public class Task {
 
     /**
      * This actions will be executed just before main action.
+     *
      * @param action
      */
     public void addLastPreAction(Action action) {
@@ -126,6 +147,7 @@ public class Task {
 
     /**
      * This actions will be executed right after main action.
+     *
      * @param action
      */
     public void addFirstPostAction(Action action) {
@@ -135,6 +157,7 @@ public class Task {
 
     /**
      * This actions will be executed in the last place.
+     *
      * @param action
      */
     public void addLastPostAction(Action action) {

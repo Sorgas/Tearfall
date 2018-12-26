@@ -72,4 +72,12 @@ public enum TagLoggersEnum {
     public void logDebug(String message) {
         if (enabled) logger.debug(tagWord, message);
     }
+
+    public void logWarn(String message) {
+        if (enabled) logger.debug(tagWord, message);
+    }
+
+    public void logError(String message) {
+        if (enabled) logger.error(tagWord, message);
+    }
 }

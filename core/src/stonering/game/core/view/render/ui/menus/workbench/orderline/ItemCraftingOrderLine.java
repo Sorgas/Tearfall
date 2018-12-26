@@ -269,7 +269,7 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
             deleteButton.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    menu.getWorkbenchAspect().getOrders().remove(order);
+                    menu.getWorkbenchAspect().getEntries().remove(order);
                     menu.getOrderList().removeActor(table);
                     menu.getOrderList().navigate(0);  // normalizes index
                     menu.updateStageFocus(menu.getOrderList().hasChildren() ? menu.getOrderList() : menu);
@@ -339,7 +339,7 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
 
     private void tryMoveThisLine(int delta) {
         WorkbenchAspect aspect = menu.getWorkbenchAspect();
-        aspect.swapOrders(aspect.getOrders().indexOf(order), delta);
+        aspect.swapOrders(aspect.getEntries().indexOf(order), delta);
         menu.getOrderList().moveItem(this, delta);
     }
 

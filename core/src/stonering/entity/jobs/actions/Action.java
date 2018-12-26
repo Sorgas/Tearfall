@@ -28,8 +28,8 @@ public class Action {
 
     public void finish() {
         finished = true;
-        task.removeAction(this);
-        task.recountFinished();
+        task.finishAction(this);
+        task.tryFinishTask();
         TagLoggersEnum.TASKS.logDebug("action " + toString() + " finished");
     }
 
