@@ -201,7 +201,7 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
                             warningLabel.setText("");
                             statusLabel.setText("ok");
                             createAndAddControlButtons();
-                            menu.getWorkbenchAspect().addOrder(0, order);
+                            menu.getWorkbenchAspect().addOrder(order);
                             materialSelectBox.getListeners().removeValue(this, true);
                         }
                         return true;

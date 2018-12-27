@@ -149,8 +149,7 @@ public class WorkbenchAspect extends Aspect {
                 hasActiveOrders = true;
                 break;
             }
-        }
-    }
+        } }
 
     private OrderTaskEntry findEntry(ItemOrder order) {
         OrderTaskEntry found = null;
@@ -185,9 +184,13 @@ public class WorkbenchAspect extends Aspect {
         }
     }
 
-    private static class OrderTaskEntry {
+    public static class OrderTaskEntry {
         ItemOrder order;
         Task task;
+
+        public ItemOrder getOrder() {
+            return order;
+        }
     }
 
     private boolean inBounds(int index) {

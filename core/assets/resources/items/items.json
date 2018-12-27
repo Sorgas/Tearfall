@@ -1,331 +1,215 @@
 [
     {
-        "name":"pickaxe",
-        "title":"Pickaxe",
-        "aspects":{
-            "falling":[
-                "1"
-            ]
+        "name": "pickaxe",
+        "description": "Tool for digging through rock and ore.",
+        "aspects": {
+            "falling": ["1"]
         },
-        "valueMod":"0",
-        "isResource":false,
-        "tool":{
-            "class":"tool_c",
-            "actions":[
+        "valueMod": "0",
+        "tool": {
+            "class": "tool_c",
+            "actions": [
                 {
-                    "class":"action_c",
-                    "action":"dig",
-                    "speedMod":"1",
-                    "part":"head"
+                    "class": "action_c",
+                    "action": "dig",
+                    "speedMod": "1",
+                    "part": "head"
                 }
             ],
-            "attacks":[
+            "attacks": [
                 {
-                    "class":"attack_c",
-                    "attack":"hit",
-                    "baseReload":1,
-                    "damageMod":0.3,
-                    "damageType":"pierce",
-                    "part":"head"
+                    "class": "attack_c",
+                    "attack": "hit",
+                    "baseReload": 1,
+                    "damageMod": 0.3,
+                    "damageType": "pierce",
+                    "part": "head"
                 }
             ]
         },
-        "atlasY":"0",
-        "atlasX":"0",
-        "color":{
-            "class":"color_c",
-            "r":"1",
-            "g":"1",
-            "b":"1",
-            "a":"1"
-        }
+        "atlasXY": ["0","0"],
+        "color": "0xffffffff"
     },
     {
-        "name":"sickle",
-        "title":"Sickle",
-        "aspects":{
-            "falling":[
-                "1"
-            ]
+        "name": "sickle",
+        "description": "Tool for harvesting plants.",
+        "aspects": {
+            "falling": ["1"]
         },
-        "valueMod":"0",
-        "isResource":false,
-        "tool":{
-            "class":"tool_c",
-            "actions":[
+        "valueMod": "0",
+        "tool": {
+            "class": "tool_c",
+            "actions": [
                 {
-                    "class":"action_c",
-                    "action":"harvest_plants",
-                    "speedMod":"1"
+                    "class": "action_c",
+                    "action": "harvest_plants",
+                    "speedMod": "1"
                 }
             ],
-            "attacks":[
+            "attacks": [
                 {
-                    "class":"attack_c",
-                    "attack":"hit",
-                    "baseReload":1,
-                    "damageMod":0.3,
-                    "damageType":"cut"
+                    "class": "attack_c",
+                    "attack": "hit",
+                    "baseReload": 1,
+                    "damageMod": 0.3,
+                    "damageType": "cut"
                 }
             ]
         },
-        "atlasY":"0",
-        "atlasX":"7",
-        "color":{
-            "class":"color_c",
-            "r":"1",
-            "g":"1",
-            "b":"1",
-            "a":"1"
-        }
+        "atlasXY": ["0","7"],
+        "color": "0xffffffff"
     },
     {
-        "name":"axe",
-        "title":"Axe",
-        "aspects":{
-            "falling":[
-                "1"
-            ]
+        "name": "axe",
+        "description": "Tool for chopping down trees.",
+        "aspects": {
+            "falling": ["1"]
         },
-        "valueMod":"0",
-        "isResource":false,
-        "tool":{
-            "class":"tool_c",
-            "actions":[
+        "valueMod": "0",
+        "tool": {
+            "class": "tool_c",
+            "actions": [
                 {
-                    "class":"action_c",
-                    "action":"chop",
-                    "speedMod":"1"
+                    "class": "action_c",
+                    "action": "chop",
+                    "speedMod": "1"
                 }
             ],
-            "attacks":[
+            "attacks": [
                 {
-                    "class":"attack_c",
-                    "attack":"hit",
-                    "baseReload":1,
-                    "damageMod":0.8,
-                    "damageType":"chop"
+                    "class": "attack_c",
+                    "attack": "hit",
+                    "baseReload": 1,
+                    "damageMod": 0.8,
+                    "damageType": "chop"
                 }
             ]
         },
-        "atlasY":"0",
-        "atlasX":"1",
-        "color":{
-            "class":"color_c",
-            "r":"1",
-            "g":"1",
-            "b":"1",
-            "a":"1"
-        }
+        "atlasXY": ["0","1"],
+        "color": "0xffffffff"
     },
     {
-        "name":"log",
-        "title":"Log",
-        "aspects":{
-            "falling":[
-                "1"
-            ]
+        "name": "log",
+        "description": "Large part of a tree.",
+        "title": "Log",
+        "aspects": {
+            "falling": ["1"]
         },
-        "valueMod":"0",
-        "isResource":true,
-        "atlasY":"0",
-        "atlasX":"2",
-        "color":{
-            "class":"color_c",
-            "r":"1",
-            "g":"1",
-            "b":"1",
-            "a":"1"
-        }
+        "valueMod": "0",
+        "isResource": true,
+        "atlasXY": ["0","2"],
+        "color": "0xffffffff"
     },
     {
-        "name":"branch",
-        "title":"Branch",
-        "aspects":{
-            "falling":[
-                "1"
-            ]
+        "name": "branch",
+        "description": "Small part of a tree.",
+        "title": "Branch",
+        "aspects": {
+            "falling": ["1"]
         },
-        "valueMod":"0",
-        "isResource":true,
-        "atlasY":"0",
-        "atlasX":"3",
-        "color":{
-            "class":"color_c",
-            "r":"1",
-            "g":"1",
-            "b":"1",
-            "a":"1"
-        }
+        "valueMod": "0",
+        "isResource": true,
+        "atlasXY": ["0","3"],
+        "color": "0xffffffff"
     },
     {
-        "name":"rock",
-        "title":"Rock",
-        "aspects":{
-            "falling":[
-                "1"
-            ]
+        "name": "rock",
+        "description": "Rock.",
+        "aspects": {
+            "falling": ["1"]
         },
-        "valueMod":"0",
-        "isResource":true,
-        "atlasY":"0",
-        "atlasX":"4",
-        "color":{
-            "class":"color_c",
-            "r":"1",
-            "g":"1",
-            "b":"1",
-            "a":"1"
-        }
+        "valueMod": "0",
+        "isResource": true,
+        "atlasXY": ["0","4"],
+        "color": "0xffffffff"
     },
     {
-        "name":"bar",
-        "title":"Bar",
-        "aspects":{
-            "falling":[
-                "1"
-            ]
+        "name": "bar",
+        "description": "Piece of metal, formed for further use.",
+        "aspects": {
+            "falling": ["1"]
         },
-        "valueMod":"0",
-        "isResource":true,
-        "atlasY":"0",
-        "atlasX":"9",
-        "color":{
-            "class":"color_c",
-            "r":"1",
-            "g":"1",
-            "b":"1",
-            "a":"1"
-        }
+        "valueMod": "0",
+        "isResource": true,
+        "atlasXY": ["0","9"],
+        "color": "0xffffffff"
     },
     {
-        "name":"shirt",
-        "title":"Shirt",
-        "aspects":{
-            "falling":[
-                "1"
-            ]
+        "name": "shirt",
+        "description": "Wear for covering upper body and arms.",
+        "aspects": {
+            "falling": ["1"]
         },
-        "valueMod":"0",
-        "isResource":false,
-        "wear":{
-            "layer":2,
-            "bodyTemplate":"humanoid",
-            "requiredBodyParts":["upper torso"],
-            "allBodyParts":[
-                "upper torso",
-                "upper arm",
-                "upper arm",
-                "lower arm",
-                "lower arm"
-            ],
-            "baseInsulation":0.2,
-            "baseWetResistance":0.3
+        "valueMod": "0",
+        "wear": {
+            "layer": 2,
+            "bodyTemplate": "humanoid",
+            "requiredBodyParts": ["upper torso"],
+            "allBodyParts": ["upper torso","upper arm","upper arm","lower arm","lower arm"],
+            "baseInsulation": 0.2,
+            "baseWetResistance": 0.3
         },
-        "atlasY":"0",
-        "atlasX":"6",
-        "color":{
-            "class":"color_c",
-            "r":"1",
-            "g":"1",
-            "b":"1",
-            "a":"1"
-        }
+        "atlasXY": ["0","6"],
+        "color": "0xffffffff"
     },
     {
-        "name":"pants",
-        "title":"Pants",
-        "aspects":{
-            "falling":[
-                "1"
-            ]
+        "name": "pants",
+        "description": "Wear for legs.",
+        "aspects": {
+            "falling": ["1"]
         },
-        "valueMod":"0",
-        "isResource":false,
-        "wear":{
-            "layer":2,
-            "bodyTemplate":"humanoid",
-            "requiredBodyParts":["lower torso"],
-            "allBodyParts":[
-                "lower torso",
-                "upper leg",
-                "upper leg",
-                "lower leg",
-                "lower leg"
-            ],
-            "baseInsulation":0.2,
-            "baseWetResistance":0.3
+        "valueMod": "0",
+        "wear": {
+            "layer": 2,
+            "bodyTemplate": "humanoid",
+            "requiredBodyParts": ["lower torso"],
+            "allBodyParts": ["lower torso","upper leg","upper leg","lower leg","lower leg"],
+            "baseInsulation": 0.2,
+            "baseWetResistance": 0.3
         },
-        "container":{
-            "itemTypes":[
+        "container": {
+            "itemTypes": [
                 "solid"
             ],
-            "innerVolume":4
+            "innerVolume": 4
         },
-        "atlasY":"0",
-        "atlasX":"5",
-        "color":{
-            "class":"color_c",
-            "r":"1",
-            "g":"1",
-            "b":"1",
-            "a":"1"
-        }
+        "atlasXY": ["0","5"],
+        "color": "0xffffffff"
     },
     {
-        "name":"backpack",
-        "title":"Backpack",
-        "aspects":{
-            "falling":[
-                "1"
-            ]
+        "name": "backpack",
+        "description": "Sac with two straps. Allows to carry many items, keeping hands free.",
+        "aspects": {
+            "falling": ["1"]
         },
-        "valueMod":"0",
-        "isResource":false,
-        "wear":{
-            "layer":5,
-            "bodyTemplate":"humanoid",
-            "requiredBodyParts":["upper_torso"],
-            "allBodyParts":[
-                "upper_torso"
-            ],
-            "baseInsulation":0.05,
-            "baseWetResistance":0.05
+        "valueMod": "0",
+        "wear": {
+            "layer": 5,
+            "bodyTemplate": "humanoid",
+            "requiredBodyParts": ["upper_torso"],
+            "allBodyParts": ["upper_torso"],
+            "baseInsulation": 0.05,
+            "baseWetResistance": 0.05
         },
-        "container":{
-            "itemTypes":[
+        "container": {
+            "itemTypes": [
                 "solid"
             ],
-            "innerVolume":2000
+            "innerVolume": 2000
         },
-        "atlasY":"0",
-        "atlasX":"4",
-        "color":{
-            "class":"color_c",
-            "r":"1",
-            "g":"1",
-            "b":"1",
-            "a":"1"
-        }
+        "atlasXY": ["0","4"],
+        "color": "0xffffffff"
     },
     {
-        "name":"blueberry",
-        "title":"Blueberry",
-        "aspects":{
-            "falling":[
-                "1"
-            ]
+        "name": "blueberry",
+        "description": "Edible plant, common for temperate climate",
+        "title": "Blueberry",
+        "aspects": {
+            "falling": ["1"]
         },
-        "valueMod":"0",
-        "isResource":true,
-        "atlasY":"0",
-        "atlasX":"8",
-        "color":{
-            "class":"color_c",
-            "r":"1",
-            "g":"1",
-            "b":"1",
-            "a":"1"
-        }
+        "valueMod": "0",
+        "isResource": true,
+        "atlasXY": ["0","8"],
+        "color": "0xffffffff"
     }
 ]

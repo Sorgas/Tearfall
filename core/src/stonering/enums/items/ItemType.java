@@ -1,6 +1,5 @@
 package stonering.enums.items;
 
-import com.badlogic.gdx.graphics.Color;
 import stonering.entity.local.crafting.ItemPartType;
 
 import java.util.ArrayList;
@@ -13,8 +12,9 @@ import java.util.HashMap;
 public class ItemType {
     private String name;                                // id
     private String title;                               // displayable title
+    private String description;                         // displayable description
     private float valueMod;                             // trading price modifier
-    private boolean isResource;                         // true if this item can be used for crafting as raw resource (its volume is counted).
+    private boolean isResource = false;                 // true if this item can be used for crafting as raw resource (its volume is counted).
 
     private WearItemType wear;                          // is set if this item could be worn
     private ToolItemType tool;                          // is set if this item could be used as tool
@@ -25,9 +25,8 @@ public class ItemType {
     private HashMap<String, ArrayList<Object>> aspects; // other aspects
 
     // render
-    private int atlasX;
-    private int atlasY;
-    private Color color;
+    private int[] atlasXY;
+    private String color;
 
     public ItemType() {
         parts = new ArrayList<>();
@@ -41,27 +40,19 @@ public class ItemType {
         this.title = title;
     }
 
-    public int getAtlasX() {
-        return atlasX;
+    public int[] getAtlasXY() {
+        return atlasXY;
     }
 
-    public void setAtlasX(int atlasX) {
-        this.atlasX = atlasX;
+    public void setAtlasXY(int[] atlasXY) {
+        this.atlasXY = atlasXY;
     }
 
-    public int getAtlasY() {
-        return atlasY;
-    }
-
-    public void setAtlasY(int atlasY) {
-        this.atlasY = atlasY;
-    }
-
-    public Color getColor() {
+    public String getColor() {
         return color;
     }
 
-    public void setColor(Color color) {
+    public void setColor(String color) {
         this.color = color;
     }
 
@@ -127,5 +118,13 @@ public class ItemType {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

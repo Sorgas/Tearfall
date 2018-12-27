@@ -41,7 +41,17 @@ public class ItemTypeMap {
         json.addClassTag("variant_c", CraftingComponentVariant.class);
         ArrayList<ItemType> elements = json.fromJson(ArrayList.class, ItemType.class, FileLoader.getFile(FileLoader.ITEMS_PATH));
         for (ItemType itemType : elements) {
+            initItemType(itemType);
             types.put(itemType.getName(), itemType);
+        }
+    }
+
+    /**
+     * Generates title, if needed.
+     */
+    private void initItemType(ItemType itemType) {
+        if (itemType.getTitle() == null) {
+            itemType.setTitle(itemType.getName().substring(0, 1).toUpperCase() + itemType.getName().substring(1));
         }
     }
 
