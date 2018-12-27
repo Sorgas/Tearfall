@@ -9,8 +9,8 @@ import java.util.ArrayList;
  * @author Alexander Kuzyakov on 11.09.2018.
  */
 public class ToolItemType {
-    private ArrayList<ToolAction> actions;
-    private ArrayList<ToolAttack> attacks;
+    private ArrayList<ToolAction> actions;  // some jobs, (mining, lumbering) require tools with specific actions.
+    private ArrayList<ToolAttack> attacks;  // creatures will choose tools with best attack characteristics to use in combat.
     private String usedSkill; //TODO replace with enum
 
     public ToolItemType() {
@@ -27,7 +27,7 @@ public class ToolItemType {
     public static class ToolAttack {
         public String attack; //TODO replace with enum
         public float damageMod; // item efficiency or this attack
-        public float baseReload; // unit stats affect reload
+        public float baseReload; // attack reload turns
         public String damageType; //TODO replace with enum
         public String ammo; // ammo item title
         public String part;

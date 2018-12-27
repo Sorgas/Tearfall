@@ -89,9 +89,37 @@
         "color": "0xffffffff"
     },
     {
+        "name": "hammer",
+        "description": "Smith tool.",
+        "aspects": {
+            "falling": ["1"]
+        },
+        "valueMod": "0",
+        "tool": {
+            "class": "tool_c",
+            "actions": [
+                {
+                    "class": "action_c",
+                    "action": "smith",
+                    "speedMod": "1"
+                }
+            ],
+            "attacks": [
+                {
+                    "class": "attack_c",
+                    "attack": "hit",
+                    "baseReload": 1,
+                    "damageMod": 0.8,
+                    "damageType": "blunt"
+                }
+            ]
+        },
+        "atlasXY": ["0","1"],
+        "color": "0xffffffff"
+    },
+    {
         "name": "log",
         "description": "Large part of a tree.",
-        "title": "Log",
         "aspects": {
             "falling": ["1"]
         },
@@ -103,7 +131,6 @@
     {
         "name": "branch",
         "description": "Small part of a tree.",
-        "title": "Branch",
         "aspects": {
             "falling": ["1"]
         },
@@ -177,6 +204,49 @@
         "color": "0xffffffff"
     },
     {
+        "name": "hat",
+        "description": "Wear for head.",
+        "aspects": {
+            "falling": ["1"]
+        },
+        "valueMod": "0",
+        "wear": {
+            "layer": 2,
+            "bodyTemplate": "humanoid",
+            "requiredBodyParts": ["head"],
+            "allBodyParts": ["head"],
+            "baseInsulation": 0.2,
+            "baseWetResistance": 0.4
+        },
+        "atlasXY": ["0","5"],
+        "color": "0xffffffff"
+    },
+
+    {
+        "name": "glove",
+        "description": "Wear for legs.",
+        "aspects": {
+            "falling": ["1"]
+        },
+        "valueMod": "0",
+        "wear": {
+            "layer": 2,
+            "bodyTemplate": "humanoid",
+            "requiredBodyParts": ["lower torso"],
+            "allBodyParts": ["hand"],
+            "baseInsulation": 0.2,
+            "baseWetResistance": 0.3
+        },
+        "container": {
+            "itemTypes": [
+                "solid"
+            ],
+            "innerVolume": 4
+        },
+        "atlasXY": ["0","5"],
+        "color": "0xffffffff"
+    },
+    {
         "name": "backpack",
         "description": "Sac with two straps. Allows to carry many items, keeping hands free.",
         "aspects": {
@@ -203,7 +273,6 @@
     {
         "name": "blueberry",
         "description": "Edible plant, common for temperate climate",
-        "title": "Blueberry",
         "aspects": {
             "falling": ["1"]
         },

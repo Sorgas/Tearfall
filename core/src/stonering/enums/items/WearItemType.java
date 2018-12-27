@@ -8,9 +8,13 @@ import java.util.ArrayList;
  * @author Alexander on 11.09.2018.
  */
 public class WearItemType {
-    private String bodyTemplate;
-    private ArrayList<String> allBodyParts;
-    private ArrayList<String> requiredBodyParts;
+    public static String RIGHT = "right";
+    public static String LEFT = "left";
+    public static String BOTH = "both";
+    private String bodyTemplate;                   // creatures with this template can use item
+    private ArrayList<String> allBodyParts;        // body parts, covered by item
+    private ArrayList<String> requiredBodyParts;   // body parts, required to use item
+    private String side;
 
     private float baseInsulation;
     private float baseWetResistance;
