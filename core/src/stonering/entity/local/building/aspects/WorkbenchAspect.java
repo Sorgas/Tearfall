@@ -94,6 +94,7 @@ public class WorkbenchAspect extends Aspect {
      * @param order
      */
     public void addOrder(ItemOrder order) {
+        TagLoggersEnum.TASKS.logDebug("Adding order " + order.toString() + " to " + this.getName());
         OrderTaskEntry entry = new OrderTaskEntry();
         entry.order = order;
         entries.add(0, entry);
@@ -104,6 +105,7 @@ public class WorkbenchAspect extends Aspect {
      * Removes order from workbench. If order was in progress, it is interrupted immediately.
      */
     public void removeOrder(ItemOrder order) {
+        TagLoggersEnum.TASKS.logDebug("Removing order " + order.toString() + " from " + this.getName());
         OrderTaskEntry entry = findEntry(order);
         if (entry != null) {
             int index = entries.indexOf(entry);
@@ -120,6 +122,7 @@ public class WorkbenchAspect extends Aspect {
      * Suspends order. If order was in progress, it is interrupted immediately.
      */
     public void setOrderSuspended(ItemOrder order, boolean value) {
+        TagLoggersEnum.TASKS.logDebug("Setting order " + order.toString() + " in " + this.getName() + "suspended: " + value);
         OrderTaskEntry entry = findEntry(order);
         if (entry != null) {
             if (value) {
@@ -135,6 +138,7 @@ public class WorkbenchAspect extends Aspect {
      * Sets order as repeated.
      */
     public void setOrderRepeated(ItemOrder order, boolean value) {
+        TagLoggersEnum.TASKS.logDebug("Setting order " + order.toString() + " in " + this.getName() + "repeated: " + value);
         OrderTaskEntry entry = findEntry(order);
         if (entry != null) {
             entry.order.setRepeated(value);

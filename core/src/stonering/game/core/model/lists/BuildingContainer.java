@@ -52,6 +52,9 @@ public class BuildingContainer {
     }
 
     public void turn() {
+        for (Building building : buildings) {
+            building.turn();
+        }
     }
 
     public void addBuilding(Building building) {

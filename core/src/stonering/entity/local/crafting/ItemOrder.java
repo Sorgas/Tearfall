@@ -57,6 +57,14 @@ public class ItemOrder {
         return materialItemMap.keySet();
     }
 
+    @Override
+    public String toString() {
+        return "ItemOrder{" +
+                "recipe=" + recipe +
+                ", selectedString='" + selectedString + '\'' +
+                '}';
+    }
+
     /**
      * Updates one selector. Used when payer selects some items for crafting.
      *
