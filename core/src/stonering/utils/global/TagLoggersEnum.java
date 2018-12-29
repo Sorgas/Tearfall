@@ -12,7 +12,8 @@ public enum TagLoggersEnum {
     TASKS("task"),
     UI("ui"),
     PATH("path"),
-    LOADING("loading");
+    LOADING("loading"),
+    GENERAL("general");
 
     private static TaggedLogger logger = new TaggedLogger();
     private String tag;

@@ -38,7 +38,7 @@ public class WorkbenchAspect extends Aspect {
     private List<OrderTaskEntry> entries;
 
     private int current = -1;
-    private boolean hasActiveOrders = false; // false on empty list or of all orders are suspended
+    private boolean hasActiveOrders = false; // false on empty list or if all orders are suspended
 
     public WorkbenchAspect(AspectHolder aspectHolder) {
         super(aspectHolder);

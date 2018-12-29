@@ -94,12 +94,14 @@ public class GameContainer {
     }
 
     private synchronized void turn() {
-        unitContainer.turn();
-        plantContainer.turn();
-        buildingContainer.turn();
-        itemContainer.turn();
-        liquidContainer.turn();
-        gameCalendar.turn();
+        if(!paused) {
+            unitContainer.turn();
+            plantContainer.turn();
+            buildingContainer.turn();
+            itemContainer.turn();
+            liquidContainer.turn();
+            gameCalendar.turn();
+        }
     }
 
     public EntitySelector getCamera() {
