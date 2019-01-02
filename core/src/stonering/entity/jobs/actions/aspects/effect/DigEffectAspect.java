@@ -7,7 +7,7 @@ import stonering.game.core.model.LocalMap;
 import stonering.generators.items.DiggingProductGenerator;
 import stonering.global.utils.Position;
 import stonering.entity.jobs.actions.Action;
-import stonering.utils.global.TagLoggersEnum;
+import stonering.util.global.TagLoggersEnum;
 
 public class DigEffectAspect extends EffectAspect {
     private DesignationTypeEnum designationType;

@@ -8,7 +8,7 @@ import stonering.game.core.view.render.ui.menus.util.SubMenuMenu;
 
 /**
  * Component of toolbar.
- * All menu commands first dispatched here, and then passed active menu.
+ * All screen commands first dispatched here, and then passed active screen.
  *
  * @author Alexander Kuzyakov on 19.12.2017.
  */

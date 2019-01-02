@@ -1,8 +1,5 @@
 package stonering.generators.localgen.generators;
 
-import stonering.enums.materials.MaterialMap;
-import stonering.exceptions.DescriptionNotFoundException;
-import stonering.exceptions.FaultDescriptionException;
 import stonering.game.core.model.LocalMap;
 import stonering.generators.items.ItemGenerator;
 import stonering.generators.localgen.LocalGenConfig;

@@ -1,9 +1,8 @@
-package stonering.menu.main;
+package stonering.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -18,7 +17,7 @@ import stonering.TearFall;
 import java.io.File;
 
 /**
- * Main menu screen of the game.
+ * Main screen screen of the game.
  *
  * @author Alexander Kuzyakov on 02.04.2017.
  */
@@ -96,17 +95,14 @@ public class MainMenuScreen implements Screen {
                     game.switchWorldsSelectMenu();
                 }
             });
-            menuTable.add(startGameButton);
-            menuTable.row();
+            menuTable.add(startGameButton).row();
 
             loadGameButton = new TextButton("L: Load game", game.getSkin());
-            menuTable.add(loadGameButton);
-            menuTable.row();
+            menuTable.add(loadGameButton).row();
         }
 
         aboutButton = new TextButton("A: About", game.getSkin());
-        menuTable.add(aboutButton);
-        menuTable.row();
+        menuTable.add(aboutButton).row();
 
         quitButton = new TextButton("Q: Quit", game.getSkin());
         quitButton.addListener(new ChangeListener() {
@@ -125,7 +121,7 @@ public class MainMenuScreen implements Screen {
             public boolean keyDown(InputEvent event, int keycode) {
                 switch (keycode) {
                     case Input.Keys.E: {
-                        startGameButton.toggle();
+                        if (startGameButton != null) startGameButton.toggle();
                         return true;
                     }
                     case Input.Keys.Q: {

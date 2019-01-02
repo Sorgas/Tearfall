@@ -56,7 +56,7 @@
                 }
             ]
         },
-        "atlasXY": ["0","7"],
+        "atlasXY": ["7","0"],
         "color": "0xffffffff"
     },
     {
@@ -85,7 +85,7 @@
                 }
             ]
         },
-        "atlasXY": ["0","1"],
+        "atlasXY": ["1","0"],
         "color": "0xffffffff"
     },
     {
@@ -114,7 +114,7 @@
                 }
             ]
         },
-        "atlasXY": ["0","1"],
+        "atlasXY": ["1","0"],
         "color": "0xffffffff"
     },
     {
@@ -125,7 +125,7 @@
         },
         "valueMod": "0",
         "isResource": true,
-        "atlasXY": ["0","2"],
+        "atlasXY": ["2","0"],
         "color": "0xffffffff"
     },
     {
@@ -136,7 +136,7 @@
         },
         "valueMod": "0",
         "isResource": true,
-        "atlasXY": ["0","3"],
+        "atlasXY": ["3","0"],
         "color": "0xffffffff"
     },
     {
@@ -147,7 +147,7 @@
         },
         "valueMod": "0",
         "isResource": true,
-        "atlasXY": ["0","4"],
+        "atlasXY": ["4","0"],
         "color": "0xffffffff"
     },
     {
@@ -158,7 +158,7 @@
         },
         "valueMod": "0",
         "isResource": true,
-        "atlasXY": ["0","9"],
+        "atlasXY": ["9","0"],
         "color": "0xffffffff"
     },
     {
@@ -176,7 +176,7 @@
             "baseInsulation": 0.2,
             "baseWetResistance": 0.3
         },
-        "atlasXY": ["0","6"],
+        "atlasXY": ["6","0"],
         "color": "0xffffffff"
     },
     {
@@ -200,7 +200,7 @@
             ],
             "innerVolume": 4
         },
-        "atlasXY": ["0","5"],
+        "atlasXY": ["5","0"],
         "color": "0xffffffff"
     },
     {
@@ -218,7 +218,7 @@
             "baseInsulation": 0.2,
             "baseWetResistance": 0.4
         },
-        "atlasXY": ["0","5"],
+        "atlasXY": ["5","0"],
         "color": "0xffffffff"
     },
 
@@ -243,7 +243,7 @@
             ],
             "innerVolume": 4
         },
-        "atlasXY": ["0","5"],
+        "atlasXY": ["5","0"],
         "color": "0xffffffff"
     },
     {
@@ -267,7 +267,7 @@
             ],
             "innerVolume": 2000
         },
-        "atlasXY": ["0","4"],
+        "atlasXY": ["4","0"],
         "color": "0xffffffff"
     },
     {
@@ -278,7 +278,7 @@
         },
         "valueMod": "0",
         "isResource": true,
-        "atlasXY": ["0","8"],
+        "atlasXY": ["8","0"],
         "color": "0xffffffff"
     }
 ]

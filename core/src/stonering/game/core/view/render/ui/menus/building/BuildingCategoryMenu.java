@@ -38,7 +38,7 @@ public class BuildingCategoryMenu extends SubMenuMenu {
     }
 
     /**
-     * Creates all content from building category in this menu.
+     * Creates all content from building category in this screen.
      *
      * Creates {@link PlaceSelectComponent} (one for all constructions).
      */

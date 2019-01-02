@@ -5,7 +5,7 @@ import stonering.enums.materials.MaterialMap;
 import stonering.game.core.controller.controllers.toolbar.DesignationsController;
 import stonering.entity.local.items.Item;
 import stonering.game.core.view.render.ui.util.ListItem;
-import stonering.utils.global.Pair;
+import stonering.util.global.Pair;
 
 import java.util.HashMap;
 import java.util.List;

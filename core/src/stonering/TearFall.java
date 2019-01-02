@@ -9,13 +9,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import stonering.entity.world.World;
 import stonering.game.core.GameMvc;
 import stonering.generators.localgen.LocalGenContainer;
-import stonering.menu.main.MainMenuScreen;
-import stonering.menu.new_game.LocalGenerationScreen;
-import stonering.menu.new_game.PrepareExpeditionMenu;
-import stonering.menu.new_game.SelectLocationMenu;
-import stonering.menu.new_game.SelectWorldScreen;
+import stonering.screen.MainMenuScreen;
+import stonering.screen.LocalGenerationScreen;
+import stonering.screen.PrepareExpeditionMenu;
+import stonering.screen.SelectLocationMenu;
+import stonering.screen.SelectWorldScreen;
 import stonering.global.utils.Position;
-import stonering.menu.worldgen.WorldGenScreen;
+import stonering.screen.WorldGenScreen;
 
 /**
  * Game object. Container of screens.

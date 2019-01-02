@@ -1,4 +1,4 @@
-package stonering.menu.utils;
+package stonering.screen.util;
 
 import stonering.entity.world.World;
 

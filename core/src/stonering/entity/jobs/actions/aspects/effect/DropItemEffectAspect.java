@@ -3,7 +3,7 @@ package stonering.entity.jobs.actions.aspects.effect;
 import stonering.entity.jobs.actions.Action;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.unit.aspects.EquipmentAspect;
-import stonering.utils.global.TagLoggersEnum;
+import stonering.util.global.TagLoggersEnum;
 
 /**
  * @author Alexander on 08.07.2018.

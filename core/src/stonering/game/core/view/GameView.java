@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import stonering.game.core.GameMvc;
 import stonering.game.core.view.render.scene.LocalWorldDrawer;
 import stonering.game.core.view.render.stages.*;
-import stonering.utils.global.TagLoggersEnum;
+import stonering.util.global.TagLoggersEnum;
 
 import java.util.ArrayList;
 import java.util.List;

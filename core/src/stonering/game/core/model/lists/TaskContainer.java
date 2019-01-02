@@ -23,7 +23,7 @@ import stonering.entity.jobs.actions.aspects.target.PlantHarvestTargetAspect;
 import stonering.entity.local.items.selectors.ItemSelector;
 import stonering.entity.local.items.selectors.ToolWithActionItemSelector;
 import stonering.entity.local.plants.PlantBlock;
-import stonering.utils.global.TagLoggersEnum;
+import stonering.util.global.TagLoggersEnum;
 
 import java.util.ArrayList;
 import java.util.HashMap;

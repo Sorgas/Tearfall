@@ -1,11 +1,11 @@
-package stonering.menu.ui_components;
+package stonering.screen.ui_components;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import stonering.entity.world.TectonicPlate;
-import stonering.menu.worldgen.WorldGenScreen;
+import stonering.screen.WorldGenScreen;
 import stonering.generators.worldgen.WorldGenContainer;
 import stonering.entity.world.WorldMap;
 import stonering.entity.world.Edge;

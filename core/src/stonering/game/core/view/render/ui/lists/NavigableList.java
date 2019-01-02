@@ -6,8 +6,8 @@ import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
-import stonering.utils.global.StaticSkin;
-import stonering.utils.global.TagLoggersEnum;
+import stonering.util.global.StaticSkin;
+import stonering.util.global.TagLoggersEnum;
 
 /**
  * Extends {@link List} with navigation methods.
@@ -15,7 +15,7 @@ import stonering.utils.global.TagLoggersEnum;
  *
  * @author Alexander Kuzyakov on 03.07.2018.
  */
-public class NavigableList extends List {
+public class NavigableList<T> extends List<T> {
     private EventListener hideListener;
     private EventListener selectListener;
     private EventListener showListener;

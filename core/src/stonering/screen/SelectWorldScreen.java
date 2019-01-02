@@ -1,10 +1,13 @@
-package stonering.menu.new_game;
+package stonering.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -13,9 +16,10 @@ import stonering.TearFall;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
 import stonering.entity.world.World;
-import stonering.menu.ui_components.MiniMap;
-import stonering.menu.ui_components.WorldListItem;
-import stonering.menu.utils.WorldSaver;
+import stonering.game.core.view.render.ui.lists.NavigableList;
+import stonering.screen.ui_components.MiniMap;
+import stonering.screen.ui_components.WorldListItem;
+import stonering.screen.util.WorldSaver;
 
 import java.io.File;
 
@@ -28,19 +32,26 @@ public class SelectWorldScreen implements Screen {
     private World world;
     private TearFall game;
     private Stage stage;
-    private List<WorldListItem> worldList;
+    private NavigableList<WorldListItem> worldList;
     private MiniMap minimap;
+
+    private TextButton proceedButton;
+    private TextButton backButton;
 
     public SelectWorldScreen(TearFall game) {
         this.game = game;
     }
 
+    /**
+     * Creates stage.
+     */
     public void init() {
         stage = new Stage();
         stage.setDebugAll(true);
         Container container = createContainer();
         container.setActor(createTable());
         stage.addActor(container);
+        stage.addListener(createKeyListener());
     }
 
     /**
@@ -50,13 +61,13 @@ public class SelectWorldScreen implements Screen {
         Container container = new Container();
         container.setFillParent(true);
         container.left().bottom();
-        container.setBackground(new TextureRegionDrawable(
-                new TextureRegion(new Texture("sprites/ui_back.png"), 0, 0, 100, 100)));
+        container.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("sprites/ui_back.png"), 0, 0, 100, 100)));
         return container;
     }
 
     /**
      * Creates table
+     *
      * @return
      */
     private Table createTable() {
@@ -69,12 +80,39 @@ public class SelectWorldScreen implements Screen {
         return rootTable;
     }
 
+    private InputListener createKeyListener() {
+        return new InputListener() {
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                switch (keycode) {
+                    case Input.Keys.E: {
+                        if (proceedButton != null) proceedButton.toggle();
+                        return true;
+                    }
+                    case Input.Keys.Q: {
+                        if (backButton != null) backButton.toggle();
+                        return true;
+                    }
+                    case Input.Keys.W: {
+                        worldList.up();
+                        return true;
+                    }
+                    case Input.Keys.S: {
+                        worldList.down();
+                        return true;
+                    }
+                }
+                return false;
+            }
+        };
+    }
+
     public Array<WorldListItem> getWorldListItems() {
         File root = new File("saves");
         Array<WorldListItem> list = new Array<>();
         if (root.exists()) {
             for (File file : root.listFiles()) {
-                if(file.listFiles().length > 0) {
+                if (file.listFiles().length > 0) {
                     list.add(new WorldListItem(file.getName(), file));
                 }
             }
@@ -113,36 +151,29 @@ public class SelectWorldScreen implements Screen {
         Table menuTable = new Table();
         menuTable.defaults().prefHeight(30).prefWidth(300).padBottom(10).minWidth(300);
         menuTable.align(Align.bottomLeft);
-
-        menuTable.add(new Label("Select world:", game.getSkin()));
-        menuTable.row();
-
-        menuTable.add(createWorldList());
-        menuTable.row();
-
-        menuTable.add().expandY();
-        menuTable.row();
-        if(worldList.getItems().size > 0) {
-            TextButton proceedButton = new TextButton("Proceed", game.getSkin());
+        menuTable.add(new Label("Select world:", game.getSkin())).row();
+        menuTable.add(createWorldList()).row();
+        menuTable.add().expandY().row();
+        proceedButton = new TextButton("E: Proceed", game.getSkin());
+        menuTable.add(proceedButton).row();
+        if (worldList.getItems().size > 0) {
             proceedButton.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
                     game.switchLocationSelectMenu(getWorld());
                 }
             });
-            menuTable.add(proceedButton);
-            menuTable.row();
+        } else {
+            //TODO dim button
         }
-
-        TextButton backButton = new TextButton("Back", game.getSkin());
+        backButton = new TextButton("Back", game.getSkin());
         backButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game.switchMainMenu();
             }
         });
-        menuTable.add(backButton).colspan(2).pad(0);
-
+        menuTable.add(backButton).pad(0);
         return menuTable;
     }
 
@@ -158,7 +189,7 @@ public class SelectWorldScreen implements Screen {
     }
 
     private List<WorldListItem> createWorldList() {
-        worldList = new List<>(game.getSkin());
+        worldList = new NavigableList<WorldListItem>();
         worldList.setItems(getWorldListItems());
         worldList.addListener(new ChangeListener() {
             @Override
@@ -175,16 +206,20 @@ public class SelectWorldScreen implements Screen {
     }
 
     @Override
-    public void pause() {}
+    public void pause() {
+    }
 
     @Override
-    public void resume() {}
+    public void resume() {
+    }
 
     @Override
-    public void hide() {}
+    public void hide() {
+    }
 
     @Override
-    public void dispose() {}
+    public void dispose() {
+    }
 
     public Stage getStage() {
         return stage;

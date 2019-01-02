@@ -6,7 +6,7 @@ import stonering.entity.local.Aspect;
 import stonering.entity.local.AspectHolder;
 import stonering.global.utils.Position;
 import stonering.entity.local.unit.Unit;
-import stonering.utils.global.TagLoggersEnum;
+import stonering.util.global.TagLoggersEnum;
 
 import java.util.ArrayList;
 

@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
-import stonering.utils.global.FileLoader;
+import stonering.util.global.FileLoader;
 
 import java.util.ArrayList;
 import java.util.HashMap;

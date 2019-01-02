@@ -7,7 +7,7 @@ import stonering.game.core.model.LocalMap;
 import stonering.global.utils.Position;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.items.selectors.ItemSelector;
-import stonering.utils.global.Pair;
+import stonering.util.global.Pair;
 
 import java.util.*;
 import java.util.stream.Collectors;

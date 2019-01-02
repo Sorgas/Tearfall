@@ -7,7 +7,7 @@ import stonering.entity.jobs.actions.aspects.target.PlantTargetAspect;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.plants.AbstractPlant;
 import stonering.entity.local.plants.PlantBlock;
-import stonering.utils.global.TagLoggersEnum;
+import stonering.util.global.TagLoggersEnum;
 
 import java.util.ArrayList;
 

@@ -1,12 +1,11 @@
 package stonering.game.core.view.render.stages;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import stonering.entity.local.building.BuildingBlock;
 import stonering.game.core.GameMvc;
 import stonering.game.core.view.render.ui.lists.ObservingList;
 import stonering.global.utils.Position;
-import stonering.utils.global.TagLoggersEnum;
+import stonering.util.global.TagLoggersEnum;
 
 /**
  * Stage for selecting entities on local map.

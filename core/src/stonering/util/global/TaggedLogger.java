@@ -1,4 +1,4 @@
-package stonering.utils.global;
+package stonering.util.global;
 
 import com.badlogic.gdx.ApplicationLogger;
 

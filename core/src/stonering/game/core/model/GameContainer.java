@@ -7,6 +7,7 @@ import stonering.game.core.view.tilemaps.LocalTileMap;
 import stonering.game.core.view.tilemaps.LocalTileMapUpdater;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.entity.local.environment.GameCalendar;
+import stonering.util.global.TagLoggersEnum;
 
 /**
  * Model of game, contains LocalMap and sub-Containers.
@@ -141,6 +142,7 @@ public class GameContainer {
     }
 
     public void setPaused(boolean paused) {
+        TagLoggersEnum.GENERAL.logDebug("Game paused set to " + paused);
         if (paused) {
             timer.stop();
             this.paused = true;

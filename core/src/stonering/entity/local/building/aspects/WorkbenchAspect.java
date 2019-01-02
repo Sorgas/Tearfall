@@ -13,7 +13,7 @@ import stonering.entity.local.crafting.ItemOrder;
 import stonering.entity.local.items.Item;
 import stonering.enums.items.Recipe;
 import stonering.enums.items.RecipeMap;
-import stonering.utils.global.TagLoggersEnum;
+import stonering.util.global.TagLoggersEnum;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +53,9 @@ public class WorkbenchAspect extends Aspect {
      */
     @Override
     public void turn() {
+//        TagLoggersEnum.BUILDING.logDebug("Turning " + aspectHolder.toString());
         if (entries.isEmpty() || !hasActiveOrders) return;
+
         OrderTaskEntry entry = entries.get(current);
         if (entry.task.isFinished()) { // if task is finished normally
             if (entry.order.isRepeated()) {
@@ -64,9 +66,9 @@ public class WorkbenchAspect extends Aspect {
             }
             rollToNextNotSuspended();
             entry = entries.get(current);
-            if (entry.task == null) {
-                entry.task = createTaskForOrder(entry.order);
-            }
+
+        }
+        if (entry.task == null) {
             gameContainer.getTaskContainer().getTasks().add(entry.task);
         }
     }
@@ -90,14 +92,13 @@ public class WorkbenchAspect extends Aspect {
 
     /**
      * Adds order to WB. Orders are always added to the beginning of the list.
-     *
-     * @param order
      */
     public void addOrder(ItemOrder order) {
         TagLoggersEnum.TASKS.logDebug("Adding order " + order.toString() + " to " + this.getName());
-        OrderTaskEntry entry = new OrderTaskEntry();
-        entry.order = order;
+        OrderTaskEntry entry = new OrderTaskEntry(order);
+        entry.task = createTaskForOrder(entry.order);
         entries.add(0, entry);
+        updateFlag();
         current++;
     }
 
@@ -153,7 +154,8 @@ public class WorkbenchAspect extends Aspect {
                 hasActiveOrders = true;
                 break;
             }
-        } }
+        }
+    }
 
     private OrderTaskEntry findEntry(ItemOrder order) {
         OrderTaskEntry found = null;
@@ -191,6 +193,10 @@ public class WorkbenchAspect extends Aspect {
     public static class OrderTaskEntry {
         ItemOrder order;
         Task task;
+
+        public OrderTaskEntry(ItemOrder order) {
+            this.order = order;
+        }
 
         public ItemOrder getOrder() {
             return order;

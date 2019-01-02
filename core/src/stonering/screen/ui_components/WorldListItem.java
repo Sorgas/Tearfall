@@ -1,4 +1,4 @@
-package stonering.menu.ui_components;
+package stonering.screen.ui_components;
 
 import java.io.File;
 

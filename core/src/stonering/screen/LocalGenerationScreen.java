@@ -1,4 +1,4 @@
-package stonering.menu.new_game;
+package stonering.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -14,7 +14,7 @@ import stonering.generators.localgen.LocalGenConfig;
 import stonering.generators.localgen.LocalGeneratorContainer;
 import stonering.game.core.model.LocalMap;
 import stonering.global.utils.Position;
-import stonering.menu.ui_components.LabeledProgressBar;
+import stonering.screen.ui_components.LabeledProgressBar;
 
 /**
  * Local generation screen to be shown during local generation.

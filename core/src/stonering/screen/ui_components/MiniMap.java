@@ -1,4 +1,4 @@
-package stonering.menu.ui_components;
+package stonering.screen.ui_components;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import stonering.entity.world.World;
 import stonering.entity.world.WorldMap;
 import stonering.global.utils.Position;
+import stonering.screen.util.TileChooser;
 
 /**
  * UI component which renders minimap

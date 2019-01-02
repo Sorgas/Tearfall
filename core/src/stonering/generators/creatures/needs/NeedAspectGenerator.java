@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.JsonWriter;
 import stonering.exceptions.DescriptionNotFoundException;
 import stonering.entity.local.unit.aspects.NeedsAspect;
 import stonering.entity.local.unit.aspects.needs.WearNeed;
-import stonering.utils.global.FileLoader;
+import stonering.util.global.FileLoader;
 
 /**
  * Generates needs for creatures.

@@ -2,7 +2,7 @@ package stonering.enums;
 
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
-import stonering.utils.global.FileLoader;
+import stonering.util.global.FileLoader;
 
 import java.util.ArrayList;
 import java.util.HashMap;

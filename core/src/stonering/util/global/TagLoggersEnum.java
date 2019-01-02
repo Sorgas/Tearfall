@@ -1,4 +1,4 @@
-package stonering.utils.global;
+package stonering.util.global;
 
 
 import java.util.List;
@@ -13,7 +13,8 @@ public enum TagLoggersEnum {
     UI("ui"),
     PATH("path"),
     LOADING("loading"),
-    GENERAL("general");
+    GENERAL("general"),
+    BUILDING("building");
 
     private static TaggedLogger logger = new TaggedLogger();
     private String tag;

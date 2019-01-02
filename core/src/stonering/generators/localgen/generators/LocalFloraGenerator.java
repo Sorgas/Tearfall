@@ -16,7 +16,7 @@ import stonering.global.utils.Position;
 import stonering.entity.local.plants.Plant;
 import stonering.entity.local.plants.PlantBlock;
 import stonering.entity.local.plants.Tree;
-import stonering.utils.global.Pair;
+import stonering.util.global.Pair;
 
 import java.util.ArrayList;
 import java.util.HashMap;

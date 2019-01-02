@@ -1,4 +1,4 @@
-package stonering.menu.worldgen;
+package stonering.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -13,9 +13,9 @@ import stonering.TearFall;
 import stonering.entity.world.World;
 import stonering.generators.worldgen.WorldGenConfig;
 import stonering.generators.worldgen.WorldGeneratorContainer;
-import stonering.menu.ui_components.MiniMap;
-import stonering.menu.utils.WorldCellInfo;
-import stonering.menu.utils.WorldSaver;
+import stonering.screen.ui_components.MiniMap;
+import stonering.screen.util.WorldCellInfo;
+import stonering.screen.util.WorldSaver;
 
 import java.util.Random;
 

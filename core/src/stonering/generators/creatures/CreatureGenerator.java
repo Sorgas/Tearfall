@@ -8,7 +8,7 @@ import stonering.entity.local.Aspect;
 import stonering.entity.local.unit.aspects.MovementAspect;
 import stonering.entity.local.unit.aspects.PlanningAspect;
 import stonering.entity.local.unit.Unit;
-import stonering.utils.global.FileLoader;
+import stonering.util.global.FileLoader;
 
 /**
  * Creates creatures from json files by specimen title.

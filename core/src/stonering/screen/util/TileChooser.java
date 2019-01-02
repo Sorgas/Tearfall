@@ -1,4 +1,4 @@
-package stonering.menu.ui_components;
+package stonering.screen.util;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;

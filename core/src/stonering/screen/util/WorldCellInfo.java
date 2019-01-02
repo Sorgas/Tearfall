@@ -1,4 +1,4 @@
-package stonering.menu.utils;
+package stonering.screen.util;
 
 /**
  * @author Alexander Kuzyakov on 28.05.2017.

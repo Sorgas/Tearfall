@@ -71,8 +71,8 @@ public class DesignationsController extends Controller {
     }
 
     /**
-     * Showing ui components is controlled by this controller (except menu buttons which show submenus).
-     * Called by leaf menu buttons and components like {@link MaterialSelectList} to proceed on creating task.
+     * Showing ui components is controlled by this controller (except screen buttons which show submenus).
+     * Called by leaf screen buttons and components like {@link MaterialSelectList} to proceed on creating task.
      *
      * //TODO make some unification
      */

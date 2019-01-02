@@ -5,12 +5,12 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import stonering.game.core.GameMvc;
-import stonering.utils.global.TagLoggersEnum;
+import stonering.util.global.TagLoggersEnum;
 
 import java.util.ArrayList;
 
 /**
- * Adds scrolling logic to menu.
+ * Adds scrolling logic to screen.
  *
  * @author Alexander on 20.10.2018.
  */

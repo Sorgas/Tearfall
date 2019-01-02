@@ -1,7 +1,7 @@
 package stonering.global.utils;
 
 
-import stonering.utils.global.Pair;
+import stonering.util.global.Pair;
 
 /**
  * @author Alexander Kuzyakov on 02.03.2018.

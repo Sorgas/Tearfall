@@ -7,9 +7,9 @@ import stonering.game.core.GameMvc;
 import stonering.game.core.view.render.ui.menus.workbench.WorkbenchMenu;
 
 /**
- * Stage with menu for building like workbenches and furniture.
+ * Stage with screen for building like workbenches and furniture.
  * Its keyboard focus is updated by ui elements.
- * Game is paused while menu is shown.
+ * Game is paused while screen is shown.
  *
  * @author Alexander on 09.11.2018.
  */
@@ -35,7 +35,7 @@ public class BuildingStage extends InitableStage {
     }
 
     /**
-     * Creates menu for workbench buildings and adds it to stage.
+     * Creates screen for workbench buildings and adds it to stage.
      */
     private void createWorkbenchMenu() {
         menu = new WorkbenchMenu(gameMvc, building);

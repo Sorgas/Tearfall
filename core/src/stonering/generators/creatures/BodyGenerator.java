@@ -8,7 +8,7 @@ import stonering.exceptions.DescriptionNotFoundException;
 import stonering.exceptions.FaultDescriptionException;
 import stonering.entity.local.unit.Unit;
 import stonering.entity.local.unit.aspects.BodyAspect;
-import stonering.utils.global.FileLoader;
+import stonering.util.global.FileLoader;
 
 import java.util.Arrays;
 import java.util.HashMap;

@@ -7,7 +7,7 @@ import stonering.enums.items.Recipe;
 import stonering.game.core.GameMvc;
 import stonering.game.core.model.lists.ItemContainer;
 import stonering.global.utils.Position;
-import stonering.utils.global.Pair;
+import stonering.util.global.Pair;
 
 import java.util.HashMap;
 import java.util.List;

@@ -3,8 +3,7 @@ package stonering.enums.plants;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
-import stonering.enums.materials.MaterialMap;
-import stonering.utils.global.FileLoader;
+import stonering.util.global.FileLoader;
 
 import java.util.ArrayList;
 import java.util.Collection;

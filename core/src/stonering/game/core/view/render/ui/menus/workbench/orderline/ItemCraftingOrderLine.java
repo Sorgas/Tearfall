@@ -19,8 +19,8 @@ import stonering.game.core.view.render.ui.menus.util.Highlightable;
 import stonering.game.core.view.render.ui.menus.util.HintedActor;
 import stonering.game.core.view.render.ui.menus.workbench.WorkbenchMenu;
 import stonering.global.utils.Position;
-import stonering.utils.global.StaticSkin;
-import stonering.utils.global.TagLoggersEnum;
+import stonering.util.global.StaticSkin;
+import stonering.util.global.TagLoggersEnum;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -314,7 +314,7 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
                 event.stop();
                 if (focusedSelectBox == null || !focusedSelectBox.notify(event, false)) { // transitions between selectboxes should be handled in them.
                     switch (keycode) {
-                        case Input.Keys.X: { // delete order from menu and workbench
+                        case Input.Keys.X: { // delete order from screen and workbench
                             if (deleteButton != null) deleteButton.toggle();
                             return true;
                         }
@@ -352,7 +352,7 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
     }
 
     /**
-     * Shows this line in its menu.
+     * Shows this line in its screen.
      */
     @Override
     public void show() {
@@ -360,7 +360,7 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
     }
 
     /**
-     * Hides this line from menu.
+     * Hides this line from screen.
      */
     public void hide() {
         menu.getOrderList().removeActor(this);

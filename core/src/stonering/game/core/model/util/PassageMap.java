@@ -5,7 +5,7 @@ import stonering.entity.local.plants.PlantBlock;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.core.model.LocalMap;
 import stonering.global.utils.Position;
-import stonering.utils.global.TagLoggersEnum;
+import stonering.util.global.TagLoggersEnum;
 
 import java.util.ArrayList;
 import java.util.HashSet;

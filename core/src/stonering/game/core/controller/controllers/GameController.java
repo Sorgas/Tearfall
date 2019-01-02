@@ -5,7 +5,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import stonering.game.core.GameMvc;
 import stonering.game.core.controller.controllers.toolbar.DesignationsController;
 import stonering.game.core.controller.inputProcessors.*;
-import stonering.utils.global.TagLoggersEnum;
+import stonering.util.global.TagLoggersEnum;
 
 /**
  * Container for all controllers. Also creates and registers all InputProcessors.

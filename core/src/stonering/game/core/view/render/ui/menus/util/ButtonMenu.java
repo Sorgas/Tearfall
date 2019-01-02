@@ -9,13 +9,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.game.core.GameMvc;
 import stonering.game.core.view.render.ui.menus.Toolbar;
-import stonering.utils.global.StaticSkin;
-import stonering.utils.global.TagLoggersEnum;
+import stonering.util.global.StaticSkin;
+import stonering.util.global.TagLoggersEnum;
 
 import java.util.HashMap;
 
 /**
- * Abstract menu for toolbar.
+ * Abstract screen for toolbar.
  * Holds mappings of hotkeys to buttons and can simulate presses.
  * Some buttons show submenus.
  * Menus don't have their controllers, all behavior logic is written in their buttons.
@@ -40,7 +40,7 @@ public abstract class ButtonMenu extends Table implements HideableComponent {
     }
 
     /**
-     * Builds menu widget.
+     * Builds screen widget.
      */
     public void init() {
         this.defaults().right().expandX().fill();
@@ -51,7 +51,7 @@ public abstract class ButtonMenu extends Table implements HideableComponent {
 
     /**
      * Presses button with given hotkey. By default tries to press button.
-     * If char is ESC and this menu can be closed, closes itself.
+     * If char is ESC and this screen can be closed, closes itself.
      * Most times there is no need for overriding this for menus. For special closing logic use reset() method.
      *
      * @return true, if button with given hotkey exists, prevents further handling of this press.

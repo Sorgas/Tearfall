@@ -7,7 +7,7 @@ import stonering.entity.local.plants.AbstractPlant;
 import stonering.entity.local.plants.Plant;
 import stonering.entity.local.plants.PlantBlock;
 import stonering.entity.local.plants.Tree;
-import stonering.utils.global.TagLoggersEnum;
+import stonering.util.global.TagLoggersEnum;
 
 /**
  * Effect for cutting plants and chopping trees.

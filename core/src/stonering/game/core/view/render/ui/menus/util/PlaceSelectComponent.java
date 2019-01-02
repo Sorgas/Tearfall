@@ -10,8 +10,8 @@ import stonering.game.core.controller.controllers.toolbar.DesignationsController
 import stonering.game.core.model.EntitySelector;
 import stonering.game.core.view.render.ui.menus.Toolbar;
 import stonering.global.utils.Position;
-import stonering.utils.global.StaticSkin;
-import stonering.utils.global.TagLoggersEnum;
+import stonering.util.global.StaticSkin;
+import stonering.util.global.TagLoggersEnum;
 
 /**
  * Component for selecting places. Can be used many times.

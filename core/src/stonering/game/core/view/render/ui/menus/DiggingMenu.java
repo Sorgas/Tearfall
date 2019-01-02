@@ -10,7 +10,7 @@ import stonering.game.core.view.render.ui.menus.util.SubMenuMenu;
 
 /**
  * ButtonMenu for selecting designation type.
- * Opens menu for selecting place.
+ * Opens screen for selecting place.
  *
  * @author Alexander Kuzyakov
  */

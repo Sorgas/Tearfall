@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Select box for workbench menu.
+ * Select box for workbench screen.
  *
  * @author Alexander on 25.11.2018.
  */

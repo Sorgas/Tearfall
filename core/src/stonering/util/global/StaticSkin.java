@@ -1,4 +1,4 @@
-package stonering.utils.global;
+package stonering.util.global;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;

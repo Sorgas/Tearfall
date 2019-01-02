@@ -10,9 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import stonering.game.core.GameMvc;
 import stonering.game.core.view.render.ui.menus.util.ButtonMenu;
-import stonering.game.core.view.render.ui.menus.util.Invokable;
-import stonering.game.core.view.render.ui.menus.util.MouseInvocable;
-import stonering.utils.global.StaticSkin;
+import stonering.util.global.StaticSkin;
 
 import java.util.*;
 
@@ -85,7 +83,7 @@ public class Toolbar extends Container {
 
 
     /**
-     * Removes given menu and all actors to the left.
+     * Removes given screen and all actors to the left.
      * Should be called before adding any other actors to tollbar.
      *
      * @param menu
@@ -101,7 +99,7 @@ public class Toolbar extends Container {
     }
 
     /**
-     * Removes all actors to the left from given menu.
+     * Removes all actors to the left from given screen.
      *
      * @param menu
      */
@@ -115,7 +113,7 @@ public class Toolbar extends Container {
     }
 
     /**
-     * Removes all non menu elements (like place select or lists).
+     * Removes all non screen elements (like place select or lists).
      */
     public void closeNonMenuActors() {
         while (!(displayedMenus.get(0) instanceof ButtonMenu)) {
@@ -125,7 +123,7 @@ public class Toolbar extends Container {
     }
 
     /**
-     * Returns visible menu with lowest level (most left one).
+     * Returns visible screen with lowest level (most left one).
      *
      * @return
      */
@@ -137,7 +135,7 @@ public class Toolbar extends Container {
     }
 
     /**
-     * Simply transfers event to current active menu.
+     * Simply transfers event to current active screen.
      *
      * @return true, if press handled
      */

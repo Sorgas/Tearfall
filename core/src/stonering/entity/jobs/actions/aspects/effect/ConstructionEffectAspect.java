@@ -11,7 +11,7 @@ import stonering.entity.jobs.actions.Action;
 import stonering.entity.jobs.actions.aspects.requirements.ItemsInPositionOrInventoryRequirementAspect;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.items.selectors.ItemSelector;
-import stonering.utils.global.TagLoggersEnum;
+import stonering.util.global.TagLoggersEnum;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -17,8 +17,8 @@ import stonering.game.core.view.render.ui.menus.util.Highlightable;
 import stonering.game.core.view.render.ui.menus.util.HintedActor;
 import stonering.game.core.view.render.ui.menus.util.NavigableVerticalGroup;
 import stonering.game.core.view.render.ui.menus.workbench.orderline.ItemCraftingOrderLine;
-import stonering.utils.global.StaticSkin;
-import stonering.utils.global.TagLoggersEnum;
+import stonering.util.global.StaticSkin;
+import stonering.util.global.TagLoggersEnum;
 
 /**
  * Menu for workbenches to manage crafting orders.
@@ -39,7 +39,7 @@ public class WorkbenchMenu extends Window implements HintedActor {
     private Label hintLabel;
 
     /**
-     * Creates menu for selected built workbench on localMap. Can be used only for workbenches.
+     * Creates screen for selected built workbench on localMap. Can be used only for workbenches.
      * Will throw NPE if created on non-workbench workbench.
      */
     public WorkbenchMenu(GameMvc gameMvc, Building building) {
@@ -54,7 +54,7 @@ public class WorkbenchMenu extends Window implements HintedActor {
     }
 
     /**
-     * Creates menu table.
+     * Creates screen table.
      */
     private void createTable() {
         setDebug(true, true);
@@ -121,7 +121,7 @@ public class WorkbenchMenu extends Window implements HintedActor {
             return true;
         });
         orderList.setCancelListener(event -> {
-            updateStageFocus(this);              // return focus to menu
+            updateStageFocus(this);              // return focus to screen
             orderList.setHighlighted(false);          // de highlight all
             return true;
         });
@@ -129,7 +129,7 @@ public class WorkbenchMenu extends Window implements HintedActor {
     }
 
     /**
-     * Refills list of menu with existing orders.
+     * Refills list of screen with existing orders.
      */
     private void refillWorkbenchOrders() {
         workbenchAspect.getEntries().forEach(entry -> {
@@ -150,7 +150,7 @@ public class WorkbenchMenu extends Window implements HintedActor {
     }
 
     /**
-     * Closes stage with this menu.
+     * Closes stage with this screen.
      */
     public void close() {
         gameMvc.getView().removeStage(getStage());
@@ -176,7 +176,7 @@ public class WorkbenchMenu extends Window implements HintedActor {
     }
 
     /**
-     * Input listener for this menu.
+     * Input listener for this screen.
      */
     private class MenuKeyInputListener extends InputListener {
         @Override

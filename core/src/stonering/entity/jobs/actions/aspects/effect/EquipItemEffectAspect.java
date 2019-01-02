@@ -4,7 +4,7 @@ import stonering.entity.jobs.actions.Action;
 import stonering.entity.jobs.actions.aspects.target.ItemTargetAspect;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.unit.aspects.EquipmentAspect;
-import stonering.utils.global.TagLoggersEnum;
+import stonering.util.global.TagLoggersEnum;
 
 /**
  * equips item to unit

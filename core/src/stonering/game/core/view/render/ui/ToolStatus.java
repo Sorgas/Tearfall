@@ -2,7 +2,7 @@ package stonering.game.core.view.render.ui;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import stonering.utils.global.StaticSkin;
+import stonering.util.global.StaticSkin;
 
 /**
  * Shows selected action.

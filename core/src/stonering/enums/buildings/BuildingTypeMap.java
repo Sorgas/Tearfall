@@ -2,13 +2,12 @@ package stonering.enums.buildings;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter;
 import stonering.entity.local.building.BuildingType;
 import stonering.entity.local.crafting.BrakeableComponentStep;
 import stonering.entity.local.crafting.CraftingComponentVariant;
-import stonering.utils.global.FileLoader;
-import stonering.utils.global.TagLoggersEnum;
+import stonering.util.global.FileLoader;
+import stonering.util.global.TagLoggersEnum;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -8,7 +8,7 @@ import stonering.game.core.model.EntitySelector;
 import stonering.game.core.model.LocalMap;
 import stonering.game.core.view.render.ui.menus.Toolbar;
 import stonering.global.utils.Position;
-import stonering.utils.global.StaticSkin;
+import stonering.util.global.StaticSkin;
 
 /**
  * Selects rectangle.

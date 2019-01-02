@@ -2,7 +2,7 @@ package stonering.game.core.controller.inputProcessors;
 
 import com.badlogic.gdx.InputAdapter;
 import stonering.game.core.GameMvc;
-import stonering.utils.global.TagLoggersEnum;
+import stonering.util.global.TagLoggersEnum;
 
 /**
  * Can be disabled.

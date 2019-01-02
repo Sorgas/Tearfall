@@ -3,12 +3,10 @@ package stonering.enums.materials;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
-import stonering.utils.global.FileLoader;
+import stonering.util.global.FileLoader;
 
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Singleton map of material types. Types are stored by their names.

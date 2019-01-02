@@ -25,7 +25,7 @@ public class SubMenuMenu extends ButtonMenu {
     }
 
     /**
-     * Builds menu widget and inits child menus.
+     * Builds screen widget and inits child menus.
      */
     @Override
     public void init() {
@@ -54,7 +54,7 @@ public class SubMenuMenu extends ButtonMenu {
 
     /**
      * Tries to add button with given text and listener to the end of geven submenu sequence.
-     * Add submenu or button to this menu.
+     * Add submenu or button to this screen.
      */
     public void addItem(String lastButtonText, ChangeListener listener, List<String> path) {
         if (!path.isEmpty()) { // create submenu
