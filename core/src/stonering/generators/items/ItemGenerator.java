@@ -4,12 +4,13 @@ import stonering.entity.local.crafting.ItemOrder;
 import stonering.entity.local.crafting.ItemPartType;
 import stonering.entity.local.items.ItemPart;
 import stonering.entity.local.items.aspects.FallingAspect;
-import stonering.enums.items.ItemType;
-import stonering.enums.items.ItemTypeMap;
+import stonering.enums.items.type.ItemType;
+import stonering.enums.items.type.ItemTypeMap;
 import stonering.enums.materials.MaterialMap;
 import stonering.exceptions.FaultDescriptionException;
 import stonering.generators.aspect.AspectGenerator;
 import stonering.entity.local.items.Item;
+import stonering.util.global.TagLoggersEnum;
 
 import java.util.Set;
 
@@ -162,6 +163,11 @@ public class ItemGenerator {
         String materiaType = step.getVariants().get(0).getMaterial();
         Set<Integer> materials = materialMap.getMaterialsByType(materiaType);
         if(materials.isEmpty()) throw new FaultDescriptionException("Material type " + materiaType + " for item " + itemName + " is invalid");
-        return new ItemPart(step.getTitle(), materials.iterator().next(), step.getVolume());
+        return new ItemPart(step.getTitle(), materials.iterator().next(), 10); //TODO
+    }
+
+    public Item generateItem(ItemOrder order) {
+        TagLoggersEnum.ITEMS.logWarn("Generating mock item"); //TODO
+        return new Item(null, ItemTypeMap.getInstance().getItemType("sickle"));
     }
 }

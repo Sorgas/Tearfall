@@ -3,36 +3,90 @@
         "name":"make_pickaxe",
         "title":"Metal pickaxe",
         "itemName":"pickaxe",
-        "material" : "metal"
+        "parts":[
+            {
+                "name":"head",
+                "materialType":"metal"
+            },
+            {
+                "name":"handle",
+                "materialType":"wood"
+            },
+            {
+                "name":"wrap",
+                "materialType":"cloth"
+            }
+        ]
     },
     {
         "name":"make_sickle",
         "title":"Metal sickle",
         "itemName":"sickle",
-        "material" : "metal"
+        "parts":[
+            {
+                "name":"head",
+                "materialType":"metal"
+            },
+            {
+                "name":"handle",
+                "materialType":"wood"
+            },
+            {
+                "name":"wrap",
+                "materialType":"cloth"
+            }
+        ]
     },
     {
         "name":"make_axe",
         "title":"Metal axe",
         "itemName":"axe",
-        "material" : "metal"
+        "parts":[
+            {
+                "name":"head",
+                "materialType":"metal"
+            },
+            {
+                "name":"handle",
+                "materialType":"wood"
+            },
+            {
+                "name":"wrap",
+                "materialType":"cloth"
+            }
+        ]
     },
     {
         "name":"make_shirt",
         "title":"Cloth shirt",
         "itemName":"shirt",
-        "material" : "cloth"
+        "parts":[
+            {
+                "name":"shirt",
+                "materialType":"cloth"
+            }
+        ]
     },
     {
         "name":"make_pants",
         "title":"Cloth pants",
         "itemName":"pants",
-        "material" : "cloth"
+        "parts":[
+            {
+                "name":"shirt",
+                "materialType":"cloth"
+            }
+        ]
     },
     {
         "name":"make_backpack",
         "title":"Cloth backpack",
         "itemName":"backpack",
-        "material" : "cloth"
+        "parts":[
+            {
+                "name":"shirt",
+                "materialType":"cloth"
+            }
+        ]
     }
 ]

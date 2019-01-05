@@ -28,7 +28,7 @@ import java.io.File;
  *
  * @author Alexander Kuzyakov on 14.04.2017.
  */
-public class SelectWorldScreen implements Screen {
+public class SelectWorldScreen extends SimpleScreen {
     private World world;
     private TearFall game;
     private Stage stage;
@@ -83,7 +83,7 @@ public class SelectWorldScreen implements Screen {
     private InputListener createKeyListener() {
         return new InputListener() {
             @Override
-            public boolean keyDown(InputEvent event, int keycode) {
+            public boolean keyUp(InputEvent event, int keycode) {
                 switch (keycode) {
                     case Input.Keys.E: {
                         if (proceedButton != null) proceedButton.toggle();
@@ -120,10 +120,6 @@ public class SelectWorldScreen implements Screen {
         return list;
     }
 
-    public void checkInput() {
-
-    }
-
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
@@ -135,7 +131,6 @@ public class SelectWorldScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(Gdx.gl20.GL_COLOR_BUFFER_BIT | Gdx.gl20.GL_DEPTH_BUFFER_BIT);
-        checkInput();
         stage.draw();
     }
 
@@ -203,22 +198,6 @@ public class SelectWorldScreen implements Screen {
             worldList.setSelected(worldList.getItems().get(0));
         }
         return worldList;
-    }
-
-    @Override
-    public void pause() {
-    }
-
-    @Override
-    public void resume() {
-    }
-
-    @Override
-    public void hide() {
-    }
-
-    @Override
-    public void dispose() {
     }
 
     public Stage getStage() {

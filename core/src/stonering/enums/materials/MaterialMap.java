@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import stonering.util.global.FileLoader;
+import stonering.util.global.TagLoggersEnum;
 
 import java.util.*;
 import java.util.List;
@@ -57,6 +58,7 @@ public class MaterialMap {
     }
 
     public int getId(String name) {
+        if(!ids.containsKey(name)) TagLoggersEnum.ITEMS.logError("no material with name " + name + " exist");
         return ids.get(name);
     }
 
@@ -79,7 +81,7 @@ public class MaterialMap {
      * @param type
      * @return HashSet of material ids
      */
-    public HashSet<Integer> getMaterialsByType(String type) {
+    public Set<Integer> getMaterialsByType(String type) {
         HashSet<Integer> idsSet = new HashSet<>();
         materials.values().stream().
                 filter(material -> material.getTypes().contains(type)).

@@ -5,6 +5,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -26,7 +28,7 @@ import java.io.File;
  *
  * @author Alexander Kuzyakov on 14.04.2017.
  */
-public class SelectLocationMenu implements Screen {
+public class SelectLocationMenu extends SimpleScreen {
 
     private TearFall game;
     private Stage stage;
@@ -35,9 +37,96 @@ public class SelectLocationMenu implements Screen {
     private Label worldInfoLabel;
     private WorldCellInfo worldCellInfo;
 
+    private TextButton proceedButton;
+    private TextButton backButton;
+
     public SelectLocationMenu(TearFall game) {
         this.game = game;
         worldCellInfo = new WorldCellInfo();
+    }
+
+    private void init() {
+        if (stage != null) stage.dispose();
+        stage = new Stage();
+        stage.setDebugAll(true);
+        stage.addActor(createRootTable());
+        stage.addListener(createKeyListener());
+    }
+
+    private Table createRootTable() {
+        Table rootTable = new Table();
+        rootTable.setFillParent(true);
+        rootTable.defaults().fill().expandY().space(10);
+        rootTable.pad(10).align(Align.bottomLeft);
+        rootTable.add(createMenuTable());
+        rootTable.add(createMinimap()).expandX();
+        return rootTable;
+    }
+
+    private InputListener createKeyListener() {
+        return new InputListener() {
+
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                return handleKey(keycode);
+            }
+
+            @Override
+            public boolean keyTyped(InputEvent event, char character) {
+                return handleKey(charToKeycode(character));
+            }
+
+            @Override
+            public boolean keyUp(InputEvent event, int keycode) {
+                switch (keycode) {
+                    case Input.Keys.E: {
+                        proceedButton.toggle();
+                        return true;
+                    }
+                    case Input.Keys.Q: {
+                        backButton.toggle();
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            /**
+             * Minimap scrolling.
+             */
+            private boolean handleKey(int keycode) {
+                switch (keycode) {
+                    case Input.Keys.W: {
+                        minimap.moveFocus(0, 1);
+                        return true;
+                    }
+                    case Input.Keys.A: {
+                        minimap.moveFocus(-1, 0);
+                        return true;
+                    }
+                    case Input.Keys.S: {
+                        minimap.moveFocus(0, -1);
+                        return true;
+                    }
+                    case Input.Keys.D: {
+                        minimap.moveFocus(1, 0);
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            /**
+             * Translates typed character to corresponding keycode.
+             * //TODO test letters, numbers, symbols.
+             *
+             * @param character
+             * @return
+             */
+            private int charToKeycode(char character) {
+                return Input.Keys.valueOf(Character.valueOf(character).toString().toUpperCase());
+            }
+        };
     }
 
     @Override
@@ -49,8 +138,7 @@ public class SelectLocationMenu implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(Gdx.gl20.GL_COLOR_BUFFER_BIT | Gdx.gl20.GL_DEPTH_BUFFER_BIT);
-        checkInput();
-        writeWorldInfoToLabel();
+        updateWorldInfoLabel();
         stage.draw();
     }
 
@@ -60,46 +148,31 @@ public class SelectLocationMenu implements Screen {
         Gdx.input.setInputProcessor(stage);
     }
 
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
-    }
-
-    @Override
-    public void dispose() {
-
-    }
-
-    public Array<WorldListItem> getWorldListItems() {
-        File root = new File("saves");
-        Array<WorldListItem> list = new Array<>();
-        for (File file : root.listFiles()) {
-            list.add(new WorldListItem(file.getName(), file));
-        }
-        return list;
-    }
-
-    private void init() {
-        if (stage != null) stage.dispose();
-        stage = new Stage();
-        stage.setDebugAll(true);
-        Table rootTable = new Table();
-        rootTable.setFillParent(true);
-        rootTable.defaults().fill().expandY().space(10);
-        rootTable.pad(10).align(Align.bottomLeft);
-        rootTable.add(createMenuTable());
-        rootTable.add(createMinimap()).expandX();
-        stage.addActor(rootTable);
+    private Table createMenuTable() {
+        Table menuTable = new Table();
+        menuTable.defaults().prefHeight(30).prefWidth(300).padBottom(10).minWidth(300);
+        menuTable.align(Align.bottomLeft);
+        menuTable.add(new Label("Select location", game.getSkin())).row();
+        worldInfoLabel = new Label("", game.getSkin());
+        menuTable.add(worldInfoLabel).row();
+        menuTable.add().expandY().row();
+        proceedButton = new TextButton("E: Proceed", game.getSkin());
+        proceedButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.switchPrepareExpeditionMenu(world, minimap.getFocus());
+            }
+        });
+        menuTable.add(proceedButton).row();
+        backButton = new TextButton("Q: Back", game.getSkin());
+        backButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.switchWorldsSelectMenu();
+            }
+        });
+        menuTable.add(backButton).colspan(2).pad(0);
+        return menuTable;
     }
 
     private Table createMinimap() {
@@ -109,20 +182,7 @@ public class SelectLocationMenu implements Screen {
         return minimap;
     }
 
-    private void checkInput() {
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            minimap.moveFocus(1, 0);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            minimap.moveFocus(-1, 0);
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            minimap.moveFocus(0, 1);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            minimap.moveFocus(0, -1);
-        }
-    }
-
-    private void writeWorldInfoToLabel() {
+    private void updateWorldInfoLabel() {
         if (getWorld() != null) {
             int x = minimap.getFocus().getX();
             int y = minimap.getFocus().getY();
@@ -131,42 +191,6 @@ public class SelectLocationMenu implements Screen {
                     world.getWorldMap().getSummerTemperature(x, y),
                     world.getWorldMap().getRainfall(x, y)));
         }
-    }
-
-    private Table createMenuTable() {
-        Table menuTable = new Table();
-        menuTable.defaults().prefHeight(30).prefWidth(300).padBottom(10).minWidth(300);
-        menuTable.align(Align.bottomLeft);
-
-        menuTable.add(new Label("Select location", game.getSkin())).row();
-
-        worldInfoLabel = new Label("", game.getSkin());
-        menuTable.add(worldInfoLabel);
-        menuTable.row();
-
-        menuTable.add().expandY();
-        menuTable.row();
-
-        TextButton proceedButton = new TextButton("Proceed", game.getSkin());
-        proceedButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                game.switchPrepareExpeditionMenu(world, minimap.getFocus());
-            }
-        });
-        menuTable.add(proceedButton);
-        menuTable.row();
-
-        TextButton backButton = new TextButton("Back", game.getSkin());
-        backButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                game.switchWorldsSelectMenu();
-            }
-        });
-        menuTable.add(backButton).colspan(2).pad(0);
-
-        return menuTable;
     }
 
     public Stage getStage() {

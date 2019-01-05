@@ -1,18 +1,16 @@
 package stonering.entity.local.crafting;
 
-import stonering.entity.jobs.Task;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.items.selectors.ItemSelector;
-import stonering.enums.items.Recipe;
+import stonering.entity.local.items.selectors.SimpleItemSelector;
+import stonering.enums.items.recipe.ItemPartRecipe;
+import stonering.enums.items.recipe.Recipe;
 import stonering.game.core.GameMvc;
 import stonering.game.core.model.lists.ItemContainer;
 import stonering.global.utils.Position;
 import stonering.util.global.Pair;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Contains recipe, item NAME and material id for crafting item.
@@ -30,31 +28,27 @@ import java.util.Set;
 public class ItemOrder {
     private GameMvc gameMvc;
     private Recipe recipe;
-    private Task task;
-    private HashMap<String, ItemSelector> selectors;                            // itemPart to items selected for variant.
+    private List<ItemPartOrder> parts;                            // itemPart to items selected for variant.
     private boolean repeated;
     private boolean suspended;
 
-    private Map<String, Pair<String, String>> materialItemMap;                  // ui string to (item type, material NAME)
     private String selectedString;
 
     public ItemOrder(GameMvc gameMvc, Recipe recipe) {
         this.gameMvc = gameMvc;
         this.recipe = recipe;
-        materialItemMap = new HashMap<>();
-        selectors = new HashMap<>();
+        initParts(recipe);
     }
 
     /**
-     * Mvp for selecting material item. Gets items from map, filters them by availability and groups by materials and types.
-     * //TODO add steps usage.
+     * Creates order parts for each recipe part.
+     * @param recipe
      */
-    public Set<String> getAvailableItemList(Position position) {
-        ItemContainer itemContainer = gameMvc.getModel().getItemContainer();
-        List<Item> items = itemContainer.getResourceItemListByMaterialType(recipe.getMaterial());
-        items = itemContainer.filterUnreachable(items, position);
-        materialItemMap = itemContainer.groupItemsByTypesAndMaterials(items);
-        return materialItemMap.keySet();
+    private void initParts(Recipe recipe) {
+        parts = new ArrayList<>();
+        for (ItemPartRecipe itemPartRecipe : recipe.getParts()) {
+            parts.add(new ItemPartOrder(gameMvc, this, itemPartRecipe.getName()));
+        }
     }
 
     @Override
@@ -65,22 +59,16 @@ public class ItemOrder {
                 '}';
     }
 
-    /**
-     * Updates one selector. Used when payer selects some items for crafting.
-     *
-     * @param part
-     * @param selector
-     */
-    public void setSelector(String part, ItemSelector selector) {
-        selectors.put(part, selector);
+    public List<ItemPartOrder> getParts() {
+        return parts;
+    }
+
+    public void setParts(List<ItemPartOrder> parts) {
+        this.parts = parts;
     }
 
     public Recipe getRecipe() {
         return recipe;
-    }
-
-    public HashMap<String, ItemSelector> getSelectors() {
-        return selectors;
     }
 
     public String getSelectedString() {

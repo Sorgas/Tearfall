@@ -313,6 +313,7 @@
         "title":"Forge",
         "description":"Forge for blacksmithing",
         "category":"workbenches",
+        "aspects":[["workbench"], ["item_container", "solid", "100"]],
         "components":[
             {
                 "class":"step_c",
@@ -349,7 +350,7 @@
         "title":"Tailor's workbench",
         "description":"qwer",
         "category":"workbenches",
-        "aspects":[["workbench"], ["container", "solid", "100"]],
+        "aspects":[["workbench"], ["item_container", "solid", "100"]],
         "components":[
             {
                 "class":"step_c",

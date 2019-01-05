@@ -1,6 +1,9 @@
 package stonering.game.core.model.lists;
 
 import stonering.entity.local.crafting.CommonComponentStep;
+import stonering.entity.local.items.selectors.SimpleItemSelector;
+import stonering.enums.items.recipe.ItemPartRecipe;
+import stonering.enums.items.recipe.Recipe;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.LocalMap;
@@ -107,7 +110,7 @@ public class ItemContainer {
     public List<Item> getAvailableMaterialsCraftingStep(CommonComponentStep step, Position pos) {
         List<Item> items = new ArrayList<>();
         step.getVariants().forEach(variant -> {
-            items.addAll(getResourceItemListByMaterialType(variant.getMaterial()));
+            items.addAll(getResourceItemsByMaterialType(variant.getMaterial()));
         });
         return filterUnreachable(items, pos);
     }
@@ -115,7 +118,7 @@ public class ItemContainer {
     /**
      * Searches all material items made of given material type.
      */
-    public List<Item> getResourceItemListByMaterialType(String materialType) {
+    public List<Item> getResourceItemsByMaterialType(String materialType) {
         MaterialMap materialMap = MaterialMap.getInstance();
         List<Item> itemListForFiltering = new ArrayList<>(items);
         Set<Integer> materialIds = materialMap.getMaterialsByType(materialType);
@@ -128,19 +131,19 @@ public class ItemContainer {
     /**
      * Groups given items by material and titles, and count their quantity to show in UI lists.
      */
-    public Map<String, Pair<String, String>> groupItemsByTypesAndMaterials(List<Item> items) {
-        Map<Pair<String, String>, Integer> groupingMap = new HashMap<>();                                   // groups by material and item NAME. Stores quantity.
+    public List<ItemGroup> groupItemsByTypesAndMaterials(List<Item> items) {
+        Map<ItemGroup, Integer> groupingMap = new HashMap<>();                                   // groups by material and item NAME. Stores quantity.
         items.forEach((item) -> {
             String materialName = MaterialMap.getInstance().getMaterial(item.getMaterial()).getName();
-            Pair<String, String> key = new Pair<>(materialName, item.getTitle());
+            ItemGroup key = new ItemGroup(item.getTitle(), materialName, 0);
             groupingMap.put(key, groupingMap.getOrDefault(key, 0) + 1);                          // increment quantity
         });
-        Map<String, Pair<String, String>> resultMap = new HashMap<>();
-        groupingMap.keySet().forEach(pair -> {
-            String listLine = pair.getKey() + " " + pair.getValue() + " " + groupingMap.get(pair);
-            resultMap.put(listLine, pair);
+        List<ItemGroup> resultList = new ArrayList<>();
+        groupingMap.keySet().forEach(group -> {
+            group.quantity = groupingMap.get(group);
+            resultList.add(group);
         });
-        return resultMap;
+        return resultList;
     }
 
     /**
@@ -165,10 +168,6 @@ public class ItemContainer {
 
     /**
      * Checks if item can be reached from position.
-     *
-     * @param item
-     * @param position
-     * @return
      */
     public boolean isItemAvailableFrom(Item item, Position position) {
         //TODO implement lookup with areas
@@ -183,9 +182,44 @@ public class ItemContainer {
     public Item getItemAvailableBySelector(ItemSelector itemSelector, Position position) {
         //TODO implement ordering by distance
         List<Item> items = itemSelector.selectItems(this.items);
-        if (items != null && !items.isEmpty()) { // TODO implement lookup with areas
+        items = filterUnreachable(items, position);
+        if (items != null && !items.isEmpty()) {
+            //TODO return nearest items
             return items.get(0);
         }
         return null;
+    }
+
+    /**
+     * Gets item selectors for items, suitable for recipe and available from given position.
+     */
+    public List<ItemSelector> getItemSelectorsForItemPartRecipe(ItemPartRecipe itemPartRecipe, Position position) {
+        List<ItemSelector> itemSelectors = new ArrayList<>();
+        Set<Integer> allowedMaterials = MaterialMap.getInstance().getMaterialsByType(itemPartRecipe.getMaterialType());
+        List<Item> materialItems = items.stream().filter(item -> item.getType().isResource() && allowedMaterials.contains(item.getMaterial())).collect(Collectors.toList());
+        materialItems = filterUnreachable(materialItems, position);
+        for (ItemGroup itemGroup : groupItemsByTypesAndMaterials(materialItems)) {
+            itemSelectors.add(createItemSelector(itemGroup));
+        }
+        return itemSelectors;
+    }
+
+    private ItemSelector createItemSelector(ItemGroup itemGroup) {
+        return new SimpleItemSelector(itemGroup.type, itemGroup.material, 1);
+    }
+
+    /**
+     * Groups items by type and material. Stores quantity.
+     */
+    private class ItemGroup {
+        String type;
+        String material;
+        int quantity;
+
+        public ItemGroup(String type, String material, int quantity) {
+            this.type = type;
+            this.material = material;
+            this.quantity = quantity;
+        }
     }
 }

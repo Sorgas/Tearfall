@@ -3,7 +3,7 @@ package stonering.entity.local.building.aspects;
 import stonering.entity.jobs.Task;
 import stonering.entity.jobs.actions.Action;
 import stonering.entity.jobs.actions.TaskTypesEnum;
-import stonering.entity.jobs.actions.aspects.effect.WorkbenchItemOrderEffectAspect;
+import stonering.entity.jobs.actions.aspects.effect.CraftItemInWorkbenchEffectAspect;
 import stonering.entity.jobs.actions.aspects.requirements.ItemsInBuildingRequirementAspect;
 import stonering.entity.jobs.actions.aspects.target.BuildingTargetAspect;
 import stonering.entity.local.Aspect;
@@ -11,8 +11,8 @@ import stonering.entity.local.AspectHolder;
 import stonering.entity.local.building.Building;
 import stonering.entity.local.crafting.ItemOrder;
 import stonering.entity.local.items.Item;
-import stonering.enums.items.Recipe;
-import stonering.enums.items.RecipeMap;
+import stonering.enums.items.recipe.Recipe;
+import stonering.enums.items.recipe.RecipeMap;
 import stonering.util.global.TagLoggersEnum;
 
 import java.util.ArrayList;
@@ -34,8 +34,8 @@ import java.util.List;
 public class WorkbenchAspect extends Aspect {
     public static final String NAME = "workbench";
     private List<Recipe> recipes;
-    private List<Item> storage;
-    private List<OrderTaskEntry> entries;
+    private List<Item> storage;  //TODO move to separate aspect
+    private List<OrderTaskEntry> entries; // entry may have no task.
 
     private int current = -1;
     private boolean hasActiveOrders = false; // false on empty list or if all orders are suspended
@@ -55,9 +55,12 @@ public class WorkbenchAspect extends Aspect {
     public void turn() {
 //        TagLoggersEnum.BUILDING.logDebug("Turning " + aspectHolder.toString());
         if (entries.isEmpty() || !hasActiveOrders) return;
-
         OrderTaskEntry entry = entries.get(current);
-        if (entry.task.isFinished()) { // if task is finished normally
+        if (entry.task == null) {                     // new order
+            TagLoggersEnum.BUILDING.logDebug("Initing task for order " + entry.order.getRecipe().getName());
+            createTaskForOrder(entry);
+            gameContainer.getTaskContainer().getTasks().add(entry.task);
+        } else if (entry.task.isFinished()) {          // if task is finished normally
             if (entry.order.isRepeated()) {
                 entry.task.reset();
             } else {
@@ -65,11 +68,6 @@ public class WorkbenchAspect extends Aspect {
                 current--;
             }
             rollToNextNotSuspended();
-            entry = entries.get(current);
-
-        }
-        if (entry.task == null) {
-            gameContainer.getTaskContainer().getTasks().add(entry.task);
         }
     }
 
@@ -77,12 +75,12 @@ public class WorkbenchAspect extends Aspect {
      * Moves current pointer to next not suspended order.
      */
     private void rollToNextNotSuspended() {
-        if (hasActiveOrders) {
-            do {
-                current++;
-                if (current >= entries.size()) current = 0;
-            } while (entries.get(current).order.isSuspended());
-        }
+        if(entries.size() < 2) return; // no roll on 1 or 0 entries.
+        int previous = current;
+        do {
+            current++;
+            if (current >= entries.size()) current = 0;
+        } while (entries.get(current).order.isSuspended() || current != previous);
     }
 
     @Override
@@ -96,7 +94,6 @@ public class WorkbenchAspect extends Aspect {
     public void addOrder(ItemOrder order) {
         TagLoggersEnum.TASKS.logDebug("Adding order " + order.toString() + " to " + this.getName());
         OrderTaskEntry entry = new OrderTaskEntry(order);
-        entry.task = createTaskForOrder(entry.order);
         entries.add(0, entry);
         updateFlag();
         current++;
@@ -167,13 +164,13 @@ public class WorkbenchAspect extends Aspect {
         return found;
     }
 
-    private Task createTaskForOrder(ItemOrder order) {
+    private void createTaskForOrder(OrderTaskEntry entry) {
         Action action = new Action(gameContainer);
         action.setTargetAspect(new BuildingTargetAspect(action, false, true, (Building) aspectHolder));
         action.setRequirementsAspect(new ItemsInBuildingRequirementAspect(action, (Building) aspectHolder));
-        action.setEffectAspect(new WorkbenchItemOrderEffectAspect(action, 100, order));
+        action.setEffectAspect(new CraftItemInWorkbenchEffectAspect(action, 100, entry.order));
         Task task = new Task("qwer", TaskTypesEnum.CRAFTING, action, 1, gameContainer);
-        return task;
+        entry.task = task;
     }
 
     /**

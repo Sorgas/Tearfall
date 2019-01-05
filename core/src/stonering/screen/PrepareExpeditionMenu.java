@@ -1,8 +1,11 @@
 package stonering.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -23,14 +26,72 @@ import java.io.File;
  *
  * @author Alexander Kuzyakov on 14.04.2017.
  */
-public class PrepareExpeditionMenu implements Screen {
+public class PrepareExpeditionMenu extends SimpleScreen {
     private TearFall game;
     private Stage stage;
     private World world;
     private Position location;
 
+    private TextButton proceedButton;
+    private TextButton backButton;
+
     public PrepareExpeditionMenu(TearFall game) {
         this.game = game;
+    }
+
+    private void init() {
+        stage.setDebugAll(true);
+        Table rootTable = new Table();
+        rootTable.setFillParent(true);
+        rootTable.defaults().fill().expandY().space(10);
+        rootTable.pad(10).align(Align.bottomLeft);
+        rootTable.add(createMenuTable());
+        stage.addActor(rootTable);
+        stage.addListener(createKeyListener());
+    }
+
+    private Table createMenuTable() {
+        Table menuTable = new Table();
+        menuTable.defaults().prefHeight(30).prefWidth(300).padBottom(10).minWidth(300);
+        menuTable.align(Align.bottomLeft);
+        menuTable.add(new Label("Prepare to advance", game.getSkin())).row();
+        menuTable.add().expandY().row();
+        proceedButton = new TextButton("E: Start", game.getSkin());
+        proceedButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.switchToLocalGen(getWorld(), getLocation());
+            }
+        });
+        menuTable.add(proceedButton).row();
+        backButton = new TextButton("Q: Back", game.getSkin());
+        backButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.switchLocationSelectMenu(getWorld());
+            }
+        });
+        menuTable.add(backButton).colspan(2).pad(0);
+        return menuTable;
+    }
+
+    private InputListener createKeyListener() {
+        return new InputListener() {
+            @Override
+            public boolean keyUp(InputEvent event, int keycode) {
+                switch (keycode) {
+                    case Input.Keys.E: {
+                        proceedButton.toggle();
+                        return true;
+                    }
+                    case Input.Keys.Q: {
+                        backButton.toggle();
+                        return true;
+                    }
+                }
+                return false;
+            }
+        };
     }
 
     @Override
@@ -55,79 +116,6 @@ public class PrepareExpeditionMenu implements Screen {
         init();
         Gdx.input.setInputProcessor(stage);
     }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
-    }
-
-    @Override
-    public void dispose() {
-
-    }
-
-    public Array<WorldListItem> getWorldListItems() {
-        File root = new File("saves");
-        Array<WorldListItem> list = new Array<>();
-        for (File file : root.listFiles()) {
-            list.add(new WorldListItem(file.getName(), file));
-        }
-        return list;
-    }
-
-    private void init() {
-        stage.setDebugAll(true);
-        Table rootTable = new Table();
-        rootTable.setFillParent(true);
-        rootTable.defaults().fill().expandY().space(10);
-        rootTable.pad(10).align(Align.bottomLeft);
-        rootTable.add(createMenuTable());
-        stage.addActor(rootTable);
-    }
-
-    private Table createMenuTable() {
-        Table menuTable = new Table();
-        menuTable.defaults().prefHeight(30).prefWidth(300).padBottom(10).minWidth(300);
-        menuTable.align(Align.bottomLeft);
-
-        menuTable.add(new Label("Prepare to advance", game.getSkin())).row();
-
-        menuTable.add().expandY();
-        menuTable.row();
-
-        TextButton proceedButton = new TextButton("Start", game.getSkin());
-        proceedButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                game.switchToLocalGen(getWorld(), getLocation());
-            }
-        });
-        menuTable.add(proceedButton);
-        menuTable.row();
-
-        TextButton backButton = new TextButton("Back", game.getSkin());
-        backButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                game.switchLocationSelectMenu(getWorld());
-            }
-        });
-        menuTable.add(backButton).colspan(2).pad(0);
-
-        return menuTable;
-    }
-
-    public void checkInput() {}
 
     public Stage getStage() {
         return stage;

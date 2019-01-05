@@ -1,4 +1,4 @@
-package stonering.enums.items;
+package stonering.enums.items.type;
 
 import java.util.ArrayList;
 

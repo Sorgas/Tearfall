@@ -21,7 +21,7 @@ import java.io.File;
  *
  * @author Alexander Kuzyakov on 02.04.2017.
  */
-public class MainMenuScreen implements Screen {
+public class MainMenuScreen extends SimpleScreen {
     private TearFall game;
     private Stage stage;
     private Table menuTable;
@@ -118,7 +118,7 @@ public class MainMenuScreen implements Screen {
     private InputListener createKeyListener() {
         return new InputListener() {
             @Override
-            public boolean keyDown(InputEvent event, int keycode) {
+            public boolean keyUp(InputEvent event, int keycode) {
                 switch (keycode) {
                     case Input.Keys.E: {
                         if (startGameButton != null) startGameButton.toggle();
@@ -150,24 +150,6 @@ public class MainMenuScreen implements Screen {
     public void resize(int width, int height) {
         reset();
         Gdx.input.setInputProcessor(stage);
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-    }
-
-    @Override
-    public void dispose() {
     }
 
     public void reset() {

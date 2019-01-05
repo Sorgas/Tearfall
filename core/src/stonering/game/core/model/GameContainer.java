@@ -57,14 +57,15 @@ public class GameContainer {
         plantContainer = new PlantContainer(this);
         plantContainer.placePlants(container.getPlants());
 
-        buildingContainer = new BuildingContainer(container.getBuildings());
+        buildingContainer = new BuildingContainer(container.getBuildings(), this);
         buildingContainer.setLocalMap(localMap);
         buildingContainer.placeBuildings();
+        buildingContainer.init();
 
         unitContainer = new UnitContainer(container.getUnits(), this);
         unitContainer.setLocalMap(localMap);
         unitContainer.placeUnits();
-        unitContainer.initUnits();
+        unitContainer.init();
 
         itemContainer = new ItemContainer(container.getItems(), this);
         itemContainer.initItems();

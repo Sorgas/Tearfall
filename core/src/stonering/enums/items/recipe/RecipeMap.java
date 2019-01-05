@@ -1,4 +1,4 @@
-package stonering.enums.items;
+package stonering.enums.items.recipe;
 
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
@@ -30,6 +30,7 @@ public class RecipeMap {
 
     private void loadRecipes() {
         System.out.println("loading buildings");
+//        json.addClassTag("c_part");
         ArrayList<Recipe> elements = json.fromJson(ArrayList.class, Recipe.class, FileLoader.getFile(FileLoader.RECIPES_PATH));
         for (Recipe recipe : elements) {
             recipes.put(recipe.getName(), recipe);

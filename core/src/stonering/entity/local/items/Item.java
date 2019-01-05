@@ -1,10 +1,8 @@
 package stonering.entity.local.items;
 
-import stonering.enums.items.ItemType;
+import stonering.enums.items.type.ItemType;
 import stonering.global.utils.Position;
 import stonering.entity.local.AspectHolder;
-
-import java.util.HashMap;
 
 /**
  * In game item. Consists of parts.

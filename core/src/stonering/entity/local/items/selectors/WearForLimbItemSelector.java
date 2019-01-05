@@ -31,8 +31,9 @@ public class WearForLimbItemSelector extends ItemSelector {
     public List<Item> selectItems(List<Item> items) {
         List<Item> selectedItems = new ArrayList<>();
         for (Item item : items) {
-            if (item.isWear() && item.getType().getWear().getAllBodyParts().contains(limbName)) {
-                selectedItems.add(item);
+            if (item.isWear()) {
+                if (item.getType().getWear().getAllBodyParts().contains(limbName))
+                    selectedItems.add(item);
             }
         }
         return selectedItems;

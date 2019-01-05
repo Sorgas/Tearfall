@@ -5,6 +5,7 @@ import stonering.entity.local.items.Item;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Selects items by their title and material.
@@ -13,22 +14,21 @@ import java.util.List;
  * @author Alexander Kuzyakov on 21.07.2018.
  */
 public class SimpleItemSelector extends ItemSelector {
-    private String title;
-    private int material;
+    private String title;         // item type name
+    private String material;      // material name
+    private int materialId;
     private int amount;
-
-    public SimpleItemSelector(String title, int material, int amount) {
-        super();
-        this.title = title;
-        this.material = material;
-        this.amount = amount;
-    }
+    private String displayedTitle;// overrides toString if set
 
     public SimpleItemSelector(String title, String material, int amount) {
         super();
         this.title = title;
         setMaterial(material);
         this.amount = amount;
+    }
+
+    public SimpleItemSelector(String displayedTitle) {
+        this.displayedTitle = displayedTitle;
     }
 
     @Override
@@ -53,7 +53,28 @@ public class SimpleItemSelector extends ItemSelector {
     }
 
     private boolean checkItem(Item item) {
-        return item.getTitle().equals(title) && item.getMaterial() == material;
+        return item.getTitle().equals(title) && item.getMaterial() == materialId;
+    }
+
+    @Override
+    public String toString() {
+        if (displayedTitle != null) return displayedTitle;
+        return  material + " " + title + " " + (amount != 0 ? amount : "");
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SimpleItemSelector that = (SimpleItemSelector) o;
+        return amount == that.amount &&
+                title.equals(that.title) &&
+                material.equals(that.material);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, material, amount);
     }
 
     public String getTitle() {
@@ -64,16 +85,22 @@ public class SimpleItemSelector extends ItemSelector {
         this.title = title;
     }
 
-    public int getMaterial() {
+    public String getMaterial() {
         return material;
     }
 
-    public void setMaterial(int material) {
+    public void setMaterial(String material) {
         this.material = material;
+        materialId = MaterialMap.getInstance().getId(material);
     }
 
-    public void setMaterial(String material) {
-        this.material = MaterialMap.getInstance().getId(material);
+    public int getMaterialId() {
+        return materialId;
+    }
+
+    public void setMaterialId(int materialId) {
+        this.materialId = materialId;
+        material = MaterialMap.getInstance().getMaterial(materialId).getName();
     }
 
     public int getAmount() {
@@ -82,5 +109,13 @@ public class SimpleItemSelector extends ItemSelector {
 
     public void setAmount(int amount) {
         this.amount = amount;
+    }
+
+    public String getDisplayedTitle() {
+        return displayedTitle;
+    }
+
+    public void setDisplayedTitle(String displayedTitle) {
+        this.displayedTitle = displayedTitle;
     }
 }

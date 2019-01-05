@@ -1,5 +1,6 @@
 package stonering.game.core.model.lists;
 
+import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.LocalMap;
 import stonering.generators.buildings.BuildingGenerator;
 import stonering.global.utils.Position;
@@ -13,21 +14,25 @@ import java.util.ArrayList;
  * @author Alexander Kuzyakov on 09.12.2017.
  */
 public class BuildingContainer {
+    private GameContainer gameContainer;
     private ArrayList<Building> buildings;
     private LocalMap localMap;
     private BuildingGenerator buildingGenerator;
 
-    public BuildingContainer(ArrayList<Building> buildings) {
+    public BuildingContainer(ArrayList<Building> buildings, GameContainer gameContainer) {
         this.buildings = buildings;
+        this.gameContainer = gameContainer;
         buildingGenerator = new BuildingGenerator();
     }
 
     public void init() {
         buildingGenerator.init();
+        buildings.forEach(building -> building.init(gameContainer));
     }
 
     /**
      * Places building block on local map.
+     *
      * @param building
      */
     private void placeBuilding(Building building) {

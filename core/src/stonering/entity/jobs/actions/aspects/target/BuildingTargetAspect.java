@@ -18,6 +18,10 @@ public class BuildingTargetAspect extends TargetAspect{
 
     @Override
     public Position getTargetPosition() {
-        return null;
+        return building.getPosition();
+    }
+
+    public Building getBuilding() {
+        return building;
     }
 }

@@ -3,6 +3,8 @@ package stonering.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -22,17 +24,59 @@ import stonering.screen.ui_components.LabeledProgressBar;
  *
  * @author Alexander Kuzyakov on 01.06.2017.
  */
-public class LocalGenerationScreen implements Screen {
+public class LocalGenerationScreen extends SimpleScreen {
     private LocalGeneratorContainer localGeneratorContainer;
     private World world;
     private Position location;
     private LocalMap localMap;
     private Stage stage;
     private TearFall game;
+
     private LabeledProgressBar progressBar;
+    private TextButton proceedButton;
 
     public LocalGenerationScreen(TearFall game) {
         this.game = game;
+    }
+
+    private void init() {
+        stage = new Stage();
+        stage.setDebugAll(true);
+        Table rootTable = new Table();
+        rootTable.setFillParent(true);
+        rootTable.defaults().fill().expandY().space(10);
+        rootTable.pad(10).align(Align.bottomLeft);
+        rootTable.add(createMenuTable());
+        stage.addActor(rootTable);
+        stage.addListener(createKeyListener());
+    }
+
+    private Table createMenuTable() {
+        Table menuTable = new Table();
+        menuTable.defaults().prefHeight(30).prefWidth(300).padBottom(10).minWidth(300);
+        menuTable.align(Align.bottomLeft);
+        progressBar = new LabeledProgressBar("Generation", game.getSkin());
+        menuTable.add(progressBar).row();
+        proceedButton = new TextButton("Proceed", game.getSkin());
+        proceedButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.switchToGame(getLocalGeneratorContainer().getLocalGenContainer());
+            }
+        });
+        menuTable.add(proceedButton).pad(0);
+        stage.addActor(menuTable);
+        return menuTable;
+    }
+
+    private InputListener createKeyListener() {
+        return new InputListener() {
+            @Override
+            public boolean keyUp(InputEvent event, int keycode) {
+                proceedButton.toggle();
+                return true;
+            }
+        };
     }
 
     @Override
@@ -52,56 +96,6 @@ public class LocalGenerationScreen implements Screen {
         if (stage != null) stage.dispose();
         init();
         Gdx.input.setInputProcessor(stage);
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
-    }
-
-    @Override
-    public void dispose() {
-
-    }
-
-    private void init() {
-        stage = new Stage();
-        stage.setDebugAll(true);
-        Table rootTable = new Table();
-        rootTable.setFillParent(true);
-        rootTable.defaults().fill().expandY().space(10);
-        rootTable.pad(10).align(Align.bottomLeft);
-        rootTable.add(createMenuTable());
-        stage.addActor(rootTable);
-    }
-
-    private Table createMenuTable() {
-        Table menuTable = new Table();
-        menuTable.defaults().prefHeight(30).prefWidth(300).padBottom(10).minWidth(300);
-        menuTable.align(Align.bottomLeft);
-        progressBar = new LabeledProgressBar("Generation", game.getSkin());
-        menuTable.add(progressBar);
-        menuTable.row();
-        TextButton proceedButton = new TextButton("Proceed", game.getSkin());
-        proceedButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                game.switchToGame(getLocalGeneratorContainer().getLocalGenContainer());
-            }
-        });
-        menuTable.add(proceedButton).pad(0);
-        stage.addActor(menuTable);
-        return menuTable;
     }
 
     public void setWorld(World world) {

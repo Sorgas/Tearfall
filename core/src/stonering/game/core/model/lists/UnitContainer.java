@@ -58,8 +58,10 @@ public class UnitContainer {
         this.localMap = localMap;
     }
 
-
-    public void initUnits() {
+    /**
+     * Inits unit's aspects.
+     */
+    public void init() {
         units.forEach((unit) -> unit.getAspects().values().forEach((aspect) -> aspect.init(gameContainer)));
     }
 }

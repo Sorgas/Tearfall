@@ -42,6 +42,9 @@ public abstract class AspectHolder extends IntervalTurnable implements Serializa
         aspects.values().forEach(Aspect::turn);
     }
 
+    /**
+     * Inits aspects of building.
+     */
     public void init(GameContainer container) {
         aspects.forEach((s, aspect) -> aspect.init(container));
     }

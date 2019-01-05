@@ -11,7 +11,9 @@ import java.util.List;
  * Entities with this aspect can hold items.
  */
 public class ItemContainerAspect extends Aspect {
-    public static String NAME = "item_container";
+    public static final String NAME = "item_container";
+    private String itemType; //TODO move to enum
+    private int volume;
     private List<Item> items;
 
     public ItemContainerAspect(AspectHolder aspectHolder) {
@@ -31,5 +33,21 @@ public class ItemContainerAspect extends Aspect {
 
     public List<Item> getItems() {
         return items;
+    }
+
+    public String getItemType() {
+        return itemType;
+    }
+
+    public void setItemType(String itemType) {
+        this.itemType = itemType;
+    }
+
+    public int getVolume() {
+        return volume;
+    }
+
+    public void setVolume(int volume) {
+        this.volume = volume;
     }
 }

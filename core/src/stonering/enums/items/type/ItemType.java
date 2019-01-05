@@ -1,4 +1,4 @@
-package stonering.enums.items;
+package stonering.enums.items.type;
 
 import stonering.entity.local.crafting.ItemPartType;
 
@@ -20,7 +20,7 @@ public class ItemType {
     private ToolItemType tool;                          // is set if this item could be used as tool
     private ContainerItemType container;                // is set if this item could contain other items
 
-    private ArrayList<ItemPartType> parts;      // define parts of items. first one is main
+    private ArrayList<ItemPartType> parts;              // defines parts of items. first one is main
 
     private HashMap<String, ArrayList<Object>> aspects; // other aspects
 
