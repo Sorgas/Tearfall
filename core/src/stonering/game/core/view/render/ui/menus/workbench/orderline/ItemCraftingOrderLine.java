@@ -46,68 +46,67 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
     private WorkbenchMenu menu;
     private ItemOrder order;
 
-    private HorizontalGroup leftHG;
-    private HorizontalGroup rightHG;
+    private HorizontalGroup leftHG;  // contains select boxes for item parts.
+    private HorizontalGroup rightHG; // contains control buttons.
 
     private Label statusLabel;                                  // shows status, updates on status change //TODO make icon
     private PlaceHolderSelectBox<Recipe> recipeSelectBox;
     private Label itemLabel;
-    private List<PlaceHolderSelectBox<ItemSelector>> partSelectBoxes;
+    private ArrayList<PlaceHolderSelectBox<ItemSelector>> partSelectBoxes;
     private Label warningLabel;                                 // shown when something is not ok
     private TextButton deleteButton;
     private TextButton repeatButton;
     private TextButton upButton;
     private TextButton downButton;
 
-    private SelectBox focusedSelectBox;
-    private ArrayList<SelectBox> selectBoxes; //TODO not used until crafting steps are added
-
-
-    /**
-     * Creates this table with two horizontal groups, aligned to left and right with expanding space cell between them.
-     */
-    private ItemCraftingOrderLine(GameMvc gameMvc) {
-        super();
-        this.gameMvc = gameMvc;
-        this.add(leftHG = new HorizontalGroup());
-        this.add().expandX();
-        this.add(rightHG = new HorizontalGroup());
-        this.defaults().prefHeight(30);
-        leftHG.addActor(createStatusLabel());
-        selectBoxes = new ArrayList<>();
-        addListener(createOrderLineInputListener());
-    }
-
-    /**
-     * Creates line with empty order and puts all possible recipes into initial selection list.
-     */
-    public ItemCraftingOrderLine(GameMvc gameMvc, WorkbenchMenu menu) {
-        this(gameMvc);
-        this.menu = menu;
-        this.left();
-        leftHG.addActor(createRecipeSelectBox(new ArrayList<>(menu.getWorkbenchAspect().getRecipes())));
-        leftHG.addActor(createWarningLabel());
-        focusedSelectBox = recipeSelectBox;
-    }
+    private PlaceHolderSelectBox focusedSelectBox;
 
     /**
      * Creates line with filled order.
      */
     public ItemCraftingOrderLine(GameMvc gameMvc, WorkbenchMenu menu, ItemOrder order) {
-        this(gameMvc);
+        super();
+        this.gameMvc = gameMvc;
         this.menu = menu;
         this.order = order;
-        Recipe recipe = order.getRecipe();
-        leftHG.addActor(createItemLabel());
-        for (ItemPartOrder itemPartOrder : order.getParts()) {
-            SelectBox<ItemSelector> itemPartSelectBox = createMaterialSelectBox(itemPartOrder);
-            leftHG.addActor(itemPartSelectBox);
-            itemPartSelectBox.setSelected(itemPartOrder.getSelected());
+        partSelectBoxes = new ArrayList<>();
+        createTable();
+        initLine();
+    }
 
-        }
-        leftHG.addActor(createWarningLabel());
+    /**
+     * Creates table with default actors (status label, warning label).
+     */
+    private void createTable() {
+        left();
+        add(createStatusLabel());
+        add(leftHG = new HorizontalGroup());
+        add(createWarningLabel());
+        add().expandX();
+        add(rightHG = new HorizontalGroup());
+        defaults().prefHeight(30);
+        addListener(createOrderLineInputListener());
         leftHG.right();
-        createAndAddControlButtons();
+    }
+
+    /**
+     * Creates select box for recipe, if no order is given, or fills line from order.
+     */
+    private void initLine() {
+        if(order == null) {
+            leftHG.addActor(createRecipeSelectBox(new ArrayList<>(menu.getWorkbenchAspect().getRecipes())));
+            focusedSelectBox = recipeSelectBox;
+        } else {
+            leftHG.addActor(createItemLabel());
+            for (ItemPartOrder itemPartOrder : order.getParts()) {
+                PlaceHolderSelectBox<ItemSelector> itemPartSelectBox = createMaterialSelectBox(itemPartOrder);
+                leftHG.addActor(itemPartSelectBox);
+                partSelectBoxes.add(itemPartSelectBox);
+                itemPartSelectBox.setSelected(itemPartOrder.getSelected());
+            }
+            focusedSelectBox = partSelectBoxes.get(0);
+            createAndAddControlButtons();
+        }
     }
 
     /**
@@ -132,7 +131,6 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
      */
     public PlaceHolderSelectBox createRecipeSelectBox(ArrayList<Recipe> recipeList) {
         ItemCraftingOrderLine line = this;
-
         Map<String, Recipe> recipeMap = new HashMap<>();
         recipeList.forEach(recipe -> recipeMap.put(recipe.getTitle(), recipe));                                 // create mapping of recipes to select box lines.
         recipeSelectBox = new PlaceHolderSelectBox<>(RECIPE_SELECT_PLACEHOLDER);
@@ -143,23 +141,21 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
                 switch (keycode) {
                     case Input.Keys.D:
                     case Input.Keys.E: { // opens list or saves selected value
-                        if (recipeSelectBox.getList().isVisible()) { // select recipe and proceed
+                        if (recipeSelectBox.getList().getStage() != null) { // select recipe and proceed
                             recipeSelectBox.hideList();
                             if (!recipeSelectBox.getSelected().equals(recipeSelectBox.getPlaceHolder())) {
                                 order = new ItemOrder(gameMvc, recipeSelectBox.getSelected());
                                 leftHG.removeActor(recipeSelectBox);
                                 leftHG.addActorAfter(statusLabel, createItemLabel());
-                                SelectBox<ItemSelector> materialSelectBox = createMaterialSelectBox(order.getParts().get(0)); // create select box for first item part.
+                                PlaceHolderSelectBox<ItemSelector> materialSelectBox = createMaterialSelectBox(order.getParts().get(0)); // create select box for first item part.
                                 leftHG.addActorAfter(itemLabel, materialSelectBox);
                                 focusedSelectBox = materialSelectBox;
-                                selectBoxes.add(materialSelectBox);
+                                partSelectBoxes.add(materialSelectBox);
                             } else { // not a valid case
                                 warningLabel.setText("Item not selected");
                             }
                         } else {  // open list
-                            recipeSelectBox.navigate(1);
-                            recipeSelectBox.showList();
-                            recipeSelectBox.getList().toFront();
+                            showSelectBoxList(recipeSelectBox);
                         }
                         return true;
                     }
@@ -193,12 +189,13 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
     }
 
     /**
-     * Creates selectBox for selecting material for item part .
+     * Creates selectBox for selecting material for item part.
      * SelectBox can have no items after this (if no items available on map).
      */
     private PlaceHolderSelectBox createMaterialSelectBox(ItemPartOrder itemPartOrder) {
         ItemCraftingOrderLine line = this;
         PlaceHolderSelectBox<ItemSelector> materialSelectBox = new PlaceHolderSelectBox<>(MATERIAL_SELECT_PLACEHOLDER);
+        materialSelectBox.hideList();
         Position workbenchPosition = menu.getWorkbenchAspect().getAspectHolder().getPosition();
         itemPartOrder.refreshSelectors(workbenchPosition);
         Array<ItemSelector> itemSelectors = new Array<>(itemPartOrder.getItemSelectors().toArray(new ItemSelector[]{}));
@@ -212,55 +209,44 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
             materialSelectBox.setSelected(itemPartOrder.getSelected());
             //TODO add red status
         }
-
-        materialSelectBox.getListeners().insert(0, new InputListener() {
+        materialSelectBox.addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
+                // TODO update status and warning labels
                 switch (keycode) {
-                    case Input.Keys.D:
-                    case Input.Keys.E: { // select material
-                        if (materialSelectBox.getList().isVisible()) {
-                            itemPartOrder.setSelected(materialSelectBox.getSelected());
-                            warningLabel.setText("");
-                            statusLabel.setText("ok");
-                            createAndAddControlButtons();
-                            menu.getWorkbenchAspect().addOrder(order);
-                            materialSelectBox.getListeners().removeValue(this, true);
-                        }
-                        return true;
-                    }
-                    case Input.Keys.A:
-                    case Input.Keys.Q: {   // no return to recipe select, cancel order.
-                        hide();
-                        return true;
-                    }
-                }
-                return false;
-            }
-        });
-        materialSelectBox.addListener(new InputListener() { // common select box listener
-            @Override
-            public boolean keyDown(InputEvent event, int keycode) {
-                switch (keycode) {
-                    case Input.Keys.E:
-                    case Input.Keys.D: { // select item, close this list and go to next selectbox.
-                        if (materialSelectBox.getList().isVisible()) {
-                            itemPartOrder.setSelected(materialSelectBox.getSelected());
+                    // confirms selected option, if dropdown is open. Otherwise, opens dropdown. no transition
+                    case Input.Keys.E: {
+                        if (materialSelectBox.getList().getStage() != null) {
+                            itemPartOrder.setSelected(materialSelectBox.getSelected()); // update item part order
                             materialSelectBox.hideList();
-                        } else if (keycode == Input.Keys.E) { // show list
-                            materialSelectBox.navigate(1);
-                            materialSelectBox.showList();
-                            materialSelectBox.getList().toFront();
+                        } else {
+                            showSelectBoxList(materialSelectBox);
                         }
-                        if (keycode == Input.Keys.D) goToAnotherSelectBox(1);
                         return true;
                     }
-                    case Input.Keys.A: {
-                        if (!goToAnotherSelectBox(-1)) goToListOrMenu();
+                    // confirms selected option, if dropdown is open. Then, moves to next or previous select box, or creates it, or exits to list
+                    // (recipe selection is unavalable at this point)
+                    case Input.Keys.A:
+                    case Input.Keys.D: {
+                        if (materialSelectBox.getList().getStage() != null) { // select and move
+                            itemPartOrder.setSelected(materialSelectBox.getSelected()); // update item part order
+                            materialSelectBox.hideList();
+                            moveFocusToDelta(itemPartOrder, (keycode == Input.Keys.D ? 1 : -1)); // move to one SB left or right.
+                        } else if (materialSelectBox.getPlaceHolder().equals(materialSelectBox.getSelected())) { // show list if nothing was selected
+                            showSelectBoxList(materialSelectBox);
+                        } else {
+                            moveFocusToDelta(itemPartOrder, (keycode == Input.Keys.D ? 1 : -1)); // move to one SB left or right.
+                        }
                         return true;
                     }
+                    // hides dropdown and goes to list. if order is not finished, cancels it.
                     case Input.Keys.Q: {
-                        goToListOrMenu();
+                        materialSelectBox.hideList();
+                        if(!order.isDefined()) {
+                            menu.getOrderList().removeActor(line); // cancel incomplete order
+                        } else {
+                            goToListOrMenu();
+                        }
                         return true;
                     }
                 }
@@ -270,7 +256,7 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchDown(event, x, y, pointer, button);
-                materialSelectBox.navigate(1);
+                materialSelectBox.navigate(0);
                 return true;
             }
         });
@@ -284,6 +270,38 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
             }
         });
         return materialSelectBox;
+    }
+
+    /**
+     * Moves focus for delta SB right, creates next SB if needed, exits to orderList if no SB available.
+     */
+    private void moveFocusToDelta(ItemPartOrder previousItemPartOrder, int delta) {
+        int index = partSelectBoxes.indexOf(focusedSelectBox) + Integer.signum(delta);
+        if (index < 0) {                                // was first SB
+            goToListOrMenu();
+        } else if (index >= partSelectBoxes.size()) {    // was last SB
+            int previousPartIndex = order.getParts().indexOf(previousItemPartOrder);
+            if (order.getParts().size() - 1 > previousPartIndex) {         // order has more parts
+                PlaceHolderSelectBox<ItemSelector> materialSelectBox = createMaterialSelectBox(order.getParts().get(previousPartIndex + 1)); // create select box for first item part.
+                leftHG.addActor(materialSelectBox);
+                focusedSelectBox = materialSelectBox;
+                partSelectBoxes.add(materialSelectBox);
+            } else { // no mere parts, exit
+                goToListOrMenu();
+            }
+        } else { // normal transition
+            focusedSelectBox = partSelectBoxes.get(index);
+        }
+    }
+
+    /**
+     * Shows list of given select box. PlaceHolder is removed after this.
+     * @param selectBox
+     */
+    private void showSelectBoxList(PlaceHolderSelectBox selectBox) {
+        selectBox.navigate(0);
+        selectBox.showList();
+        selectBox.getList().toFront();
     }
 
     private void createAndAddControlButtons() {
@@ -397,23 +415,6 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
         } else {
             menu.updateStageFocus(menu);
         }
-    }
-
-    /**
-     * Tries to move line focus to another select box, specified by delta.
-     */
-    private boolean goToAnotherSelectBox(int delta) {
-        if (focusedSelectBox != null) {
-            focusedSelectBox.hideList();
-            int index = selectBoxes.indexOf(focusedSelectBox) + delta;
-            if (index < selectBoxes.size() && index >= 0) {
-                focusedSelectBox = selectBoxes.get(index);
-                return true;
-            }
-        } else {
-            TagLoggersEnum.UI.logDebug("no select box focused");
-        }
-        return false;
     }
 
     @Override

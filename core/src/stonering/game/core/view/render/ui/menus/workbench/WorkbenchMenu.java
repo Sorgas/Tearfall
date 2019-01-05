@@ -91,7 +91,7 @@ public class WorkbenchMenu extends Window implements HintedActor {
         addOrderButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                ItemCraftingOrderLine orderLine = new ItemCraftingOrderLine(gameMvc, menu);
+                ItemCraftingOrderLine orderLine = new ItemCraftingOrderLine(gameMvc, menu, null);
                 orderLine.show();                                   // add to list
                 updateStageFocus(orderLine);
             }

@@ -146,7 +146,6 @@ public class Toolbar extends Container {
                 if (keycode == Input.Keys.E && getActiveMenu() == parentMenu) {
                     return false;
                 }
-                System.out.println(getActiveMenu());
                 getActiveMenu().fire(event);
                 return true;
             }

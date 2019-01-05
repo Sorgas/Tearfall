@@ -35,10 +35,6 @@
             {
                 "title":"handle",
                 "required": "true"
-            },
-            {
-                "title":"wrap",
-                "required": "false"
             }
         ],
         "atlasXY":["0", "0"],
@@ -70,6 +66,16 @@
                 }
             ]
         },
+        "parts":[
+            {
+                "title":"head",
+                "required": "true"
+            },
+            {
+                "title":"handle",
+                "required": "true"
+            }
+        ],
         "atlasXY":["7", "0"],
         "color":"0xffffffff"
     },
@@ -128,6 +134,16 @@
                 }
             ]
         },
+        "parts":[
+            {
+                "title":"head",
+                "required": "true"
+            },
+            {
+                "title":"handle",
+                "required": "true"
+            }
+        ],
         "atlasXY":["1", "0"],
         "color":"0xffffffff"
     },

@@ -10,6 +10,7 @@ public class PlaceHolderSelectBox<T> extends NavigableSelectBox<T> {
     private T placeHolder;
 
     public PlaceHolderSelectBox(T placeHolder) {
+        super();
         this.placeHolder = placeHolder;
     }
 

@@ -42,6 +42,7 @@ public class ItemOrder {
 
     /**
      * Creates order parts for each recipe part.
+     *
      * @param recipe
      */
     private void initParts(Recipe recipe) {
@@ -57,6 +58,16 @@ public class ItemOrder {
                 "recipe=" + recipe +
                 ", selectedString='" + selectedString + '\'' +
                 '}';
+    }
+
+    /**
+     * Order is finished, if all itemPartOrders have itemSelectors.
+     */
+    public boolean isDefined() {
+        for (ItemPartOrder part : parts) {
+            if (part.getSelected() == null) return false;
+        }
+        return true;
     }
 
     public List<ItemPartOrder> getParts() {

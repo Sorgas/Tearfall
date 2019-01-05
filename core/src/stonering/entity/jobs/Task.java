@@ -87,7 +87,7 @@ public class Task {
 //        TagLoggersEnum.TASKS.logDebug("Checking task " + name +
 //                " completion[preActions: " + preActions.size() +
 //                ",postActions: " + postActions.size() +
-//                ", initial finished:" + initialAction.isFinished() + "]");
+//                ", initial finished:" + initialAction.isDefined() + "]");
         if(!preActions.isEmpty() && initialAction.isFinished()) {
             TagLoggersEnum.TASKS.logError("Task " + name + ": initial action finished before pre actions.");
         }
