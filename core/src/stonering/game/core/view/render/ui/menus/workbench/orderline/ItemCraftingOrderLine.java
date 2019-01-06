@@ -107,23 +107,6 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
     }
 
     /**
-     * Creates order status label.
-     */
-    private Label createStatusLabel() {
-        statusLabel = new Label("new", StaticSkin.getSkin());
-        return statusLabel;
-    }
-
-    /**
-     * Creates label with item title.
-     */
-    private Label createItemLabel() {
-        String itemTitle = ItemTypeMap.getInstance().getItemType(order.getRecipe().getItemName()).getTitle();
-        itemLabel = new Label(itemTitle, StaticSkin.getSkin()); // label with item type
-        return itemLabel;
-    }
-
-    /**
      * Creates selectBox with list of all workbench recipes. After selection of recipe, this select box is replaced with material selection.
      */
     public PlaceHolderSelectBox createRecipeSelectBox(ArrayList<Recipe> recipeList) {
@@ -226,7 +209,7 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
                     // confirms selected option, if dropdown is open. Otherwise, opens dropdown. no transition
                     case Input.Keys.E: {
                         if (materialSelectBox.getList().getStage() != null) {
-                            itemPartOrder.setSelected(materialSelectBox.getSelected()); // update item part order
+                            handleMaterialSelection(currentIndex);
                             materialSelectBox.hideList();
                         } else {
                             showSelectBoxList(materialSelectBox);
@@ -238,7 +221,7 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
                     case Input.Keys.A:
                     case Input.Keys.D: {
                         if (materialSelectBox.getList().getStage() != null) { // select and move
-                            itemPartOrder.setSelected(materialSelectBox.getSelected()); // update item part order
+                            handleMaterialSelection(currentIndex);
                             materialSelectBox.hideList();
                             handleOrderLineNavigation(currentIndex, (keycode == Input.Keys.D ? 1 : -1)); // move to one SB left or right.
                         } else if (materialSelectBox.getPlaceHolder().equals(materialSelectBox.getSelected())) { // show list if nothing was selected
@@ -251,11 +234,7 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
                     // hides dropdown and goes to list. if order is not finished, cancels it.
                     case Input.Keys.Q: {
                         materialSelectBox.hideList();
-                        if (!order.isDefined()) {
-                            menu.getOrderList().removeActor(line); // cancel incomplete order
-                        } else {
-                            goToListOrMenu();
-                        }
+                        goToListOrMenu();
                         return true;
                     }
                 }
@@ -279,6 +258,17 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
             }
         });
         return materialSelectBox;
+    }
+
+    /**
+     * Handles update of given SB. If order becomes defined, saves it to WB.
+     */
+    private void handleMaterialSelection(int index) {
+        order.getParts().get(index).setSelected(partSelectBoxes.get(index).getSelected()); // update item part order
+        if (order.isDefined()) {
+            TagLoggersEnum.TASKS.logDebug("Order " + order.getRecipe().getName() + " added to " + menu.getWorkbench().getName());
+            menu.getWorkbenchAspect().addOrder(order);
+        }
     }
 
     /**
@@ -392,6 +382,23 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
     }
 
     /**
+     * Creates order status label.
+     */
+    private Label createStatusLabel() {
+        statusLabel = new Label("new", StaticSkin.getSkin());
+        return statusLabel;
+    }
+
+    /**
+     * Creates label with item title.
+     */
+    private Label createItemLabel() {
+        String itemTitle = ItemTypeMap.getInstance().getItemType(order.getRecipe().getItemName()).getTitle();
+        itemLabel = new Label(itemTitle, StaticSkin.getSkin()); // label with item type
+        return itemLabel;
+    }
+
+    /**
      * Creates label for showing messages.
      */
     private Label createWarningLabel() {
@@ -418,9 +425,9 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
      * Returns focus to order list or menu, removes current order, if it's not defined.
      */
     private void goToListOrMenu() {
-        if(!order.isDefined()) {
+        if (!order.isDefined()) {
             TagLoggersEnum.UI.logDebug("Removing incomplete order from list.");
-            menu.getOrderList().removeActor(this);
+            hide();
         }
         if (menu.getOrderList().hasChildren()) {
             menu.updateStageFocus(menu.getOrderList());

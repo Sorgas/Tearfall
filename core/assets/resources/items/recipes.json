@@ -11,10 +11,6 @@
             {
                 "name":"handle",
                 "materialType":"wood"
-            },
-            {
-                "name":"wrap",
-                "materialType":"cloth"
             }
         ]
     },
@@ -30,10 +26,6 @@
             {
                 "name":"handle",
                 "materialType":"wood"
-            },
-            {
-                "name":"wrap",
-                "materialType":"cloth"
             }
         ]
     },
@@ -49,10 +41,6 @@
             {
                 "name":"handle",
                 "materialType":"wood"
-            },
-            {
-                "name":"wrap",
-                "materialType":"cloth"
             }
         ]
     },
