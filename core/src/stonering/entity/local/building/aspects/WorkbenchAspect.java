@@ -173,7 +173,7 @@ public class WorkbenchAspect extends Aspect {
         action.setTargetAspect(new BuildingTargetAspect(action, false, true, (Building) aspectHolder));
         action.setRequirementsAspect(new ItemsInBuildingRequirementAspect(action, (Building) aspectHolder));
         action.setEffectAspect(new CraftItemInWorkbenchEffectAspect(action, 100, entry.order));
-        Task task = new Task("qwer", TaskTypesEnum.CRAFTING, action, 1, gameContainer);
+        Task task = new Task(entry.order.getRecipe().getName(), TaskTypesEnum.CRAFTING, action, 1, gameContainer);
         entry.task = task;
     }
 
