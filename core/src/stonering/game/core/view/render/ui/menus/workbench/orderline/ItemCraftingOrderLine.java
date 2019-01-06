@@ -93,16 +93,13 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
      * Creates select box for recipe, if no order is given, or fills line from order.
      */
     private void initLine() {
-        if(order == null) {
+        if (order == null) {
             leftHG.addActor(createRecipeSelectBox(new ArrayList<>(menu.getWorkbenchAspect().getRecipes())));
             focusedSelectBox = recipeSelectBox;
         } else {
             leftHG.addActor(createItemLabel());
             for (ItemPartOrder itemPartOrder : order.getParts()) {
-                PlaceHolderSelectBox<ItemSelector> itemPartSelectBox = createMaterialSelectBox(itemPartOrder);
-                leftHG.addActor(itemPartSelectBox);
-                partSelectBoxes.add(itemPartSelectBox);
-                itemPartSelectBox.setSelected(itemPartOrder.getSelected());
+                tryAddPartSelectBox(itemPartOrder);
             }
             focusedSelectBox = partSelectBoxes.get(0);
             createAndAddControlButtons();
@@ -147,10 +144,7 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
                                 order = new ItemOrder(gameMvc, recipeSelectBox.getSelected());
                                 leftHG.removeActor(recipeSelectBox);
                                 leftHG.addActorAfter(statusLabel, createItemLabel());
-                                PlaceHolderSelectBox<ItemSelector> materialSelectBox = createMaterialSelectBox(order.getParts().get(0)); // create select box for first item part.
-                                leftHG.addActorAfter(itemLabel, materialSelectBox);
-                                focusedSelectBox = materialSelectBox;
-                                partSelectBoxes.add(materialSelectBox);
+                                tryAddPartSelectBox(order.getParts().get(0)); // add SB or warning label
                             } else { // not a valid case
                                 warningLabel.setText("Item not selected");
                             }
@@ -189,17 +183,32 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
     }
 
     /**
+     * Creates and adds SB for itemPartOrder, or updates warning label if no items found.
+     */
+    private void tryAddPartSelectBox(ItemPartOrder itemPartOrder) {
+        itemPartOrder.refreshSelectors(menu.getWorkbench().getPosition());
+        Array<ItemSelector> itemSelectors = new Array<>(itemPartOrder.getItemSelectors().toArray(new ItemSelector[]{}));
+        if (itemSelectors.isEmpty()) {
+            warningLabel.setText("No items for " + itemPartOrder.getName() + " available");
+        } else {
+            PlaceHolderSelectBox<ItemSelector> materialSelectBox = createMaterialSelectBox(itemPartOrder, itemSelectors);
+            leftHG.addActor(materialSelectBox);
+            focusedSelectBox = materialSelectBox;
+            partSelectBoxes.add(materialSelectBox);
+        }
+    }
+
+    /**
      * Creates selectBox for selecting material for item part.
+     * If no items is available,
      * SelectBox can have no items after this (if no items available on map).
      */
-    private PlaceHolderSelectBox createMaterialSelectBox(ItemPartOrder itemPartOrder) {
+    private PlaceHolderSelectBox createMaterialSelectBox(ItemPartOrder itemPartOrder, Array<ItemSelector> itemSelectors) {
         ItemCraftingOrderLine line = this;
+        int currentIndex = order.getParts().indexOf(itemPartOrder);
         PlaceHolderSelectBox<ItemSelector> materialSelectBox = new PlaceHolderSelectBox<>(MATERIAL_SELECT_PLACEHOLDER);
-        materialSelectBox.hideList();
         Position workbenchPosition = menu.getWorkbenchAspect().getAspectHolder().getPosition();
         itemPartOrder.refreshSelectors(workbenchPosition);
-        Array<ItemSelector> itemSelectors = new Array<>(itemPartOrder.getItemSelectors().toArray(new ItemSelector[]{}));
-
         if (itemPartOrder.isSelectedPossible()) {   // selected is null or is in array
             materialSelectBox.setItems(itemSelectors);
             materialSelectBox.setSelected(itemPartOrder.getSelected());
@@ -231,18 +240,18 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
                         if (materialSelectBox.getList().getStage() != null) { // select and move
                             itemPartOrder.setSelected(materialSelectBox.getSelected()); // update item part order
                             materialSelectBox.hideList();
-                            moveFocusToDelta(itemPartOrder, (keycode == Input.Keys.D ? 1 : -1)); // move to one SB left or right.
+                            handleOrderLineNavigation(currentIndex, (keycode == Input.Keys.D ? 1 : -1)); // move to one SB left or right.
                         } else if (materialSelectBox.getPlaceHolder().equals(materialSelectBox.getSelected())) { // show list if nothing was selected
                             showSelectBoxList(materialSelectBox);
                         } else {
-                            moveFocusToDelta(itemPartOrder, (keycode == Input.Keys.D ? 1 : -1)); // move to one SB left or right.
+                            handleOrderLineNavigation(currentIndex, (keycode == Input.Keys.D ? 1 : -1)); // move to one SB left or right.
                         }
                         return true;
                     }
                     // hides dropdown and goes to list. if order is not finished, cancels it.
                     case Input.Keys.Q: {
                         materialSelectBox.hideList();
-                        if(!order.isDefined()) {
+                        if (!order.isDefined()) {
                             menu.getOrderList().removeActor(line); // cancel incomplete order
                         } else {
                             goToListOrMenu();
@@ -273,19 +282,15 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
     }
 
     /**
-     * Moves focus for delta SB right, creates next SB if needed, exits to orderList if no SB available.
+     * Moves focus for delta SB, creates next SB if needed, exits to orderList if no SB available.
      */
-    private void moveFocusToDelta(ItemPartOrder previousItemPartOrder, int delta) {
-        int index = partSelectBoxes.indexOf(focusedSelectBox) + Integer.signum(delta);
+    private void handleOrderLineNavigation(int previousIndex, int delta) {
+        int index = previousIndex + Integer.signum(delta);
         if (index < 0) {                                // was first SB
             goToListOrMenu();
         } else if (index >= partSelectBoxes.size()) {    // was last SB
-            int previousPartIndex = order.getParts().indexOf(previousItemPartOrder);
-            if (order.getParts().size() - 1 > previousPartIndex) {         // order has more parts
-                PlaceHolderSelectBox<ItemSelector> materialSelectBox = createMaterialSelectBox(order.getParts().get(previousPartIndex + 1)); // create select box for first item part.
-                leftHG.addActor(materialSelectBox);
-                focusedSelectBox = materialSelectBox;
-                partSelectBoxes.add(materialSelectBox);
+            if (order.getParts().size() - 1 > previousIndex) {         // order has more parts
+                tryAddPartSelectBox(order.getParts().get(index));
             } else { // no mere parts, exit
                 goToListOrMenu();
             }
@@ -296,6 +301,7 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
 
     /**
      * Shows list of given select box. PlaceHolder is removed after this.
+     *
      * @param selectBox
      */
     private void showSelectBoxList(PlaceHolderSelectBox selectBox) {
@@ -408,7 +414,14 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
         menu.getOrderList().removeActor(this);
     }
 
+    /**
+     * Returns focus to order list or menu, removes current order, if it's not defined.
+     */
     private void goToListOrMenu() {
+        if(!order.isDefined()) {
+            TagLoggersEnum.UI.logDebug("Removing incomplete order from list.");
+            menu.getOrderList().removeActor(this);
+        }
         if (menu.getOrderList().hasChildren()) {
             menu.updateStageFocus(menu.getOrderList());
             menu.getOrderList().navigate(0);
