@@ -108,12 +108,16 @@ public class WorkbenchAspect extends Aspect {
         if (entry != null) {
             int index = entries.indexOf(entry);
             entries.remove(index);
-            if (index == current) entry.task.fail(); // interrupt currently executing order.
+            if (index == current) failEntryTask(entry); // interrupt currently executing order.
             if (index <= current) {
                 current--;
             }
         }
         updateFlag();
+    }
+
+    private void failEntryTask(OrderTaskEntry entry) {
+        if (entry.task != null) entry.task.fail();
     }
 
     /**

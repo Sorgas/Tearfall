@@ -307,10 +307,9 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
             deleteButton.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    menu.getWorkbenchAspect().getEntries().remove(order);
-                    menu.getOrderList().removeActor(table);
-                    menu.getOrderList().navigate(0);  // normalizes index
-                    menu.updateStageFocus(menu.getOrderList().hasChildren() ? menu.getOrderList() : menu);
+                    menu.getWorkbenchAspect().removeOrder(order);
+                    hide();
+                    goToListOrMenu();
                 }
             });
             repeatButton = new TextButton("R", StaticSkin.getSkin());
