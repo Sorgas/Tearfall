@@ -9,10 +9,10 @@ import stonering.entity.jobs.actions.aspects.target.TargetAspect;
 import stonering.util.global.TagLoggersEnum;
 
 public class Action {
-    private Task task;
-    private GameContainer gameContainer;
+    protected Task task;
+    protected GameContainer gameContainer;
 
-    private boolean finished;
+    protected boolean finished;
 
     private TargetAspect targetAspect;
     private EffectAspect effectAspect;

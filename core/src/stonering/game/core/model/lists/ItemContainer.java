@@ -3,14 +3,13 @@ package stonering.game.core.model.lists;
 import stonering.entity.local.crafting.CommonComponentStep;
 import stonering.entity.local.items.selectors.SimpleItemSelector;
 import stonering.enums.items.recipe.ItemPartRecipe;
-import stonering.enums.items.recipe.Recipe;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.LocalMap;
 import stonering.global.utils.Position;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.items.selectors.ItemSelector;
-import stonering.util.global.Pair;
+import stonering.util.global.TagLoggersEnum;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -146,33 +145,9 @@ public class ItemContainer {
         return resultList;
     }
 
-    /**
-     * Searches items of specified type and material on map.
-     *
-     * @return
-     */
-    //TODO use amount
-    public List<Item> getItemList(int amount, String itemType, String materialType) {
-        Set<Integer> materialIds = MaterialMap.getInstance().getMaterialsByType(materialType);
-        List<Item> itemListForFiltering = new ArrayList<>(items);
-        return itemListForFiltering.stream().
-                filter(item -> item.getType().getTitle().equals(itemType)).
-                filter(item -> materialIds.contains(item.getMaterial())).
-                collect(Collectors.toList());
-    }
-
     public List<Item> filterUnreachable(List<Item> items, Position pos) {
         LocalMap localMap = gameContainer.getLocalMap();
         return items.stream().filter(item -> localMap.getArea(item.getPosition()) == localMap.getArea(pos)).collect(Collectors.toList());
-    }
-
-    /**
-     * Checks if item can be reached from position.
-     */
-    public boolean isItemAvailableFrom(Item item, Position position) {
-        //TODO implement lookup with areas
-        return true;
-        //return new AStar(gameContainer.getLocalMap()).makeShortestPath(position, item.getPosition(), true) != null;
     }
 
     public boolean hasItemsAvailableBySelector(ItemSelector itemSelector, Position position) {
@@ -188,6 +163,15 @@ public class ItemContainer {
             return items.get(0);
         }
         return null;
+    }
+
+    public List<Item> getItemsAvailableBySelector(ItemSelector itemSelector, Position position) {
+        List<Item> items = itemSelector.selectItems(this.items);
+        items = filterUnreachable(items, position);
+        if (items == null) {
+            TagLoggersEnum.ITEMS.logError("NULL returned instead of empty list");
+        }
+        return items;
     }
 
     /**
@@ -206,6 +190,15 @@ public class ItemContainer {
 
     private ItemSelector createItemSelector(ItemGroup itemGroup) {
         return new SimpleItemSelector(itemGroup.type, itemGroup.material, 1);
+    }
+
+    public List<Item> getNearestItems(List<Item> items, int number) {
+        List<Item> result = new ArrayList<>();
+        if (number > 0 && items != null && !items.isEmpty()) {
+            //TODO
+            return items.subList(0, number > items.size() ? items.size() : number);
+        }
+        return result;
     }
 
     /**
