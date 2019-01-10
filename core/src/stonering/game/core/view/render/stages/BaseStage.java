@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import stonering.game.core.GameMvc;
 import stonering.game.core.model.EntitySelector;
 import stonering.game.core.view.render.scene.LocalWorldDrawer;
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 
 /**
  * Stage with local world sprites and toolbar.

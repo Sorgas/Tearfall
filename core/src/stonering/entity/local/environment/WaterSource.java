@@ -1,6 +1,6 @@
 package stonering.entity.local.environment;
 
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 
 /**
  * @author Alexander Kuzyakov on 22.08.2018.

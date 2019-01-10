@@ -3,7 +3,7 @@ package stonering.game.core.model.lists;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.LocalMap;
 import stonering.generators.buildings.BuildingGenerator;
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 import stonering.entity.local.building.Building;
 
 import java.util.ArrayList;

@@ -3,7 +3,7 @@ package stonering.entity.jobs;
 import stonering.designations.Designation;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.lists.TaskContainer;
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 import stonering.entity.jobs.actions.Action;
 import stonering.entity.jobs.actions.TaskTypesEnum;
 import stonering.entity.local.unit.Unit;

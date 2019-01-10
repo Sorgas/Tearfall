@@ -4,7 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import stonering.util.global.StaticSkin;
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 
 /**
  * Renders information about tile under camera position.

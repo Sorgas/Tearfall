@@ -8,7 +8,7 @@ import stonering.game.core.GameMvc;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.view.render.ui.TileStatusBar;
 import stonering.game.core.view.render.ui.menus.Toolbar;
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 
 /**
  *

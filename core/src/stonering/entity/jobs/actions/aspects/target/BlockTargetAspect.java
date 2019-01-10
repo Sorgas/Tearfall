@@ -1,6 +1,6 @@
 package stonering.entity.jobs.actions.aspects.target;
 
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 import stonering.entity.jobs.actions.Action;
 
 public class BlockTargetAspect extends TargetAspect{

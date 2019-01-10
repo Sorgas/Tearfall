@@ -3,8 +3,7 @@ package stonering.generators.plants;
 import stonering.enums.plants.*;
 import stonering.enums.materials.MaterialMap;
 import stonering.exceptions.DescriptionNotFoundException;
-import stonering.global.utils.Position;
-import stonering.entity.local.plants.Plant;
+import stonering.util.geometry.Position;
 import stonering.entity.local.plants.PlantBlock;
 import stonering.entity.local.plants.Tree;
 

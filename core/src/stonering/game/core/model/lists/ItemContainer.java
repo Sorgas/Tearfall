@@ -6,7 +6,7 @@ import stonering.enums.items.recipe.ItemPartRecipe;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.LocalMap;
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.items.selectors.ItemSelector;
 import stonering.util.global.TagLoggersEnum;

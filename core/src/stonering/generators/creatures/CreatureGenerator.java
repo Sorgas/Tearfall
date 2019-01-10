@@ -3,7 +3,7 @@ package stonering.generators.creatures;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import stonering.generators.creatures.needs.NeedAspectGenerator;
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 import stonering.entity.local.Aspect;
 import stonering.entity.local.unit.aspects.MovementAspect;
 import stonering.entity.local.unit.aspects.PlanningAspect;

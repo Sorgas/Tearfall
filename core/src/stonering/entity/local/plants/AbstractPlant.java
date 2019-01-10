@@ -1,7 +1,7 @@
 package stonering.entity.local.plants;
 
 import stonering.enums.plants.PlantType;
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 
 public abstract class AbstractPlant {
     protected PlantType type;

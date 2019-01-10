@@ -6,7 +6,7 @@ import stonering.enums.buildings.BuildingTypeMap;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.lists.ItemContainer;
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 import stonering.entity.jobs.actions.Action;
 import stonering.entity.jobs.actions.aspects.requirements.ItemsInPositionOrInventoryRequirementAspect;
 import stonering.entity.local.items.Item;

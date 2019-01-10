@@ -1,8 +1,7 @@
 package stonering.entity.world;
 
 import com.badlogic.gdx.math.Vector2;
-import stonering.entity.world.TectonicPlate;
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 
 import java.io.Serializable;
 import java.util.ArrayList;

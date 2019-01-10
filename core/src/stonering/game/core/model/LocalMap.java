@@ -5,7 +5,7 @@ import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.core.model.util.PassageMap;
 import stonering.game.core.model.util.UtilByteArray;
 import stonering.game.core.view.tilemaps.LocalTileMapUpdater;
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 import stonering.entity.local.building.BuildingBlock;
 import stonering.entity.local.plants.PlantBlock;
 import stonering.entity.local.unit.UnitBlock;

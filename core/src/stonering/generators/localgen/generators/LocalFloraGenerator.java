@@ -12,7 +12,7 @@ import stonering.generators.localgen.LocalGenConfig;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.generators.plants.PlantGenerator;
 import stonering.generators.plants.TreesGenerator;
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 import stonering.entity.local.plants.Plant;
 import stonering.entity.local.plants.PlantBlock;
 import stonering.entity.local.plants.Tree;

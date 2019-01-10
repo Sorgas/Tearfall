@@ -6,8 +6,8 @@ import stonering.generators.worldgen.WorldGenContainer;
 import stonering.generators.worldgen.generators.AbstractGenerator;
 import stonering.entity.world.Edge;
 import stonering.entity.world.Mountain;
-import stonering.global.utils.Position;
-import stonering.global.utils.Vector;
+import stonering.util.geometry.Position;
+import stonering.util.geometry.Vector;
 
 import java.util.Iterator;
 import java.util.List;

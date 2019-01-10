@@ -1,4 +1,4 @@
-package stonering.global.utils.pathfinding;
+package stonering.util.pathfinding;
 
 public class NoPathException extends Exception {
 }

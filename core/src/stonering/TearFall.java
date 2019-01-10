@@ -14,7 +14,7 @@ import stonering.screen.LocalGenerationScreen;
 import stonering.screen.PrepareExpeditionMenu;
 import stonering.screen.SelectLocationMenu;
 import stonering.screen.SelectWorldScreen;
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 import stonering.screen.WorldGenScreen;
 
 /**

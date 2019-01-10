@@ -5,7 +5,7 @@ import stonering.enums.designations.DesignationTypeEnum;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.LocalMap;
 import stonering.generators.items.DiggingProductGenerator;
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 import stonering.entity.jobs.actions.Action;
 import stonering.util.global.TagLoggersEnum;
 

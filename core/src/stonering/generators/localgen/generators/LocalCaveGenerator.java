@@ -6,7 +6,7 @@ import stonering.generators.PerlinNoiseGenerator;
 import stonering.generators.localgen.LocalGenConfig;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.entity.world.WorldMap;
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 
 import java.util.Random;
 

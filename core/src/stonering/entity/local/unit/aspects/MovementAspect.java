@@ -2,10 +2,10 @@ package stonering.entity.local.unit.aspects;
 
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.util.PassageMap;
-import stonering.global.utils.pathfinding.a_star.AStar;
+import stonering.util.pathfinding.a_star.AStar;
 import stonering.entity.local.Aspect;
 import stonering.entity.local.unit.Unit;
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 import stonering.util.global.TagLoggersEnum;
 
 import java.util.List;

@@ -1,7 +1,7 @@
 package stonering.entity.jobs.actions.aspects.effect;
 
 import stonering.generators.items.PlantProductGenerator;
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 import stonering.entity.jobs.actions.Action;
 import stonering.entity.jobs.actions.aspects.target.PlantTargetAspect;
 import stonering.entity.local.items.Item;

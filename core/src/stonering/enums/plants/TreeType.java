@@ -1,6 +1,6 @@
 package stonering.enums.plants;
 
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 
 /**
  * @author Alexander Kuzyakov on 30.10.2017.

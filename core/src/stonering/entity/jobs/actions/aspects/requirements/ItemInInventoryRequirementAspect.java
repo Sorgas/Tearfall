@@ -2,7 +2,7 @@ package stonering.entity.jobs.actions.aspects.requirements;
 
 import stonering.entity.local.items.selectors.ItemSelector;
 import stonering.game.core.model.lists.ItemContainer;
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 import stonering.entity.jobs.actions.Action;
 import stonering.entity.jobs.actions.aspects.effect.PickUpItemEffectAspect;
 import stonering.entity.jobs.actions.aspects.target.ItemTargetAspect;

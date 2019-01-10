@@ -13,7 +13,7 @@ import stonering.game.core.view.GameView;
 import stonering.game.core.view.render.ui.lists.MaterialSelectList;
 import stonering.game.core.view.render.ui.menus.util.AreaSelectComponent;
 import stonering.game.core.view.render.ui.menus.util.PlaceSelectComponent;
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 import stonering.entity.local.items.selectors.ItemSelector;
 
 import java.util.ArrayList;

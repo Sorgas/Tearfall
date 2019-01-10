@@ -22,7 +22,7 @@ import stonering.game.core.view.render.ui.menus.util.HideableComponent;
 import stonering.game.core.view.render.ui.menus.util.Highlightable;
 import stonering.game.core.view.render.ui.menus.util.HintedActor;
 import stonering.game.core.view.render.ui.menus.workbench.WorkbenchMenu;
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 import stonering.util.global.StaticSkin;
 import stonering.util.global.TagLoggersEnum;
 

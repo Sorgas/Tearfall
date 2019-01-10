@@ -4,7 +4,7 @@ import stonering.generators.worldgen.WorldGenContainer;
 import stonering.generators.worldgen.generators.AbstractGenerator;
 import stonering.entity.world.Mountain;
 import stonering.entity.world.Slope;
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 
 import java.util.Iterator;
 import java.util.List;

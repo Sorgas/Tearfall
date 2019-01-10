@@ -1,4 +1,4 @@
-package stonering.global.utils;
+package stonering.util.geometry;
 
 /**
  * @author Alexander Kuzyakov on 03.03.2017.

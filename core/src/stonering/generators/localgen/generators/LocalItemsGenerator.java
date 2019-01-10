@@ -4,7 +4,7 @@ import stonering.game.core.model.LocalMap;
 import stonering.generators.items.ItemGenerator;
 import stonering.generators.localgen.LocalGenConfig;
 import stonering.generators.localgen.LocalGenContainer;
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 import stonering.entity.local.items.Item;
 
 /**

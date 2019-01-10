@@ -2,7 +2,7 @@ package stonering.entity.local;
 
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.IntervalTurnable;
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 
 import java.io.Serializable;
 import java.util.HashMap;

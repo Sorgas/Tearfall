@@ -1,7 +1,7 @@
 package stonering.designations;
 
 import stonering.enums.designations.DesignationTypeEnum;
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 
 /**
  * Adds building NAME to designation.

@@ -2,7 +2,7 @@ package stonering.generators.localgen;
 
 import stonering.entity.world.World;
 import stonering.game.core.model.LocalMap;
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 import stonering.entity.local.building.Building;
 import stonering.entity.local.environment.CelestialBody;
 import stonering.entity.local.items.Item;

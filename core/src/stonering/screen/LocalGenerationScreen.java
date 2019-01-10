@@ -1,7 +1,6 @@
 package stonering.screen;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -15,7 +14,7 @@ import stonering.entity.world.World;
 import stonering.generators.localgen.LocalGenConfig;
 import stonering.generators.localgen.LocalGeneratorContainer;
 import stonering.game.core.model.LocalMap;
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 import stonering.screen.ui_components.LabeledProgressBar;
 
 /**

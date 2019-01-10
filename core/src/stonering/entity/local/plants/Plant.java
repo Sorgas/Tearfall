@@ -1,6 +1,6 @@
 package stonering.entity.local.plants;
 
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 
 /**
  * Represents plant

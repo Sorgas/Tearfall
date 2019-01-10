@@ -1,7 +1,7 @@
 package stonering.game.core.view.tilemaps;
 
 import com.badlogic.gdx.graphics.Color;
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 
 /**
  * Contains resolved tiles of blocks and plants.

@@ -3,7 +3,7 @@ package stonering.entity.local.items.aspects;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.LocalMap;
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 import stonering.entity.local.Aspect;
 import stonering.entity.local.AspectHolder;
 import stonering.entity.local.items.Item;

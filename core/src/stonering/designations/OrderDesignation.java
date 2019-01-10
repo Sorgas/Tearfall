@@ -1,7 +1,7 @@
 package stonering.designations;
 
 import stonering.enums.designations.DesignationTypeEnum;
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 
 /**
  * Designation of order to be stored and drawn on map. Exact order specified by type field.

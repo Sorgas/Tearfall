@@ -7,7 +7,7 @@ import stonering.game.core.controller.controllers.toolbar.DesignationsController
 import stonering.game.core.model.EntitySelector;
 import stonering.game.core.model.LocalMap;
 import stonering.game.core.view.render.ui.menus.Toolbar;
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 import stonering.util.global.StaticSkin;
 
 /**

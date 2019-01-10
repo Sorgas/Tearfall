@@ -1,4 +1,4 @@
-package stonering.global.utils;
+package stonering.util;
 
 import java.util.Comparator;
 import java.util.HashMap;

@@ -1,6 +1,6 @@
-package stonering.global.utils.pathfinding.a_star;
+package stonering.util.pathfinding.a_star;
 
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 
 /**
  * @author Alexander Kuzyakov on 12.02.2018.

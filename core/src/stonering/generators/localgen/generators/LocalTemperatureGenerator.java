@@ -1,7 +1,7 @@
 package stonering.generators.localgen.generators;
 
 import stonering.generators.localgen.LocalGenContainer;
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 
 /**
  * @author Alexander Kuzyakov on 14.03.2018.

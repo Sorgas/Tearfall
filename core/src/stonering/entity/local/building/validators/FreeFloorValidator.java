@@ -2,7 +2,7 @@ package stonering.entity.local.building.validators;
 
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.core.model.LocalMap;
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 
 /**
  * Checks if desired tile is free floor.

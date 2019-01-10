@@ -1,6 +1,6 @@
 package stonering.entity.local.plants;
 
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 
 /**
  * Multitile plant, generally for trees. Position is coordinates of tree stomp on map.

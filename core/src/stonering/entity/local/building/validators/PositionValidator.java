@@ -1,7 +1,7 @@
 package stonering.entity.local.building.validators;
 
 import stonering.game.core.model.LocalMap;
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 
 /**
  * @author Alexander on 23.11.2018.

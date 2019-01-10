@@ -63,13 +63,13 @@ public class ItemGenerator {
 //     * @param resources items, carried to workbench
 //     * @return
 //     */
-//    public Item generateItem(ItemOrder order, List<Item> resources) throws InvalidCraftinOrder {
+//    public Item generateItem(ItemOrder order, List<Item> resources) throws InvalidCraftingOrder {
 //        if(validateOrder(order)) {
 //            Item item = createItem(order.getType());
 //            order.getSelectors().forEach((partTitle, selector) -> item.getParts().put(partTitle, createItemPart(order.getType(), partTitle, selector, resources)));
 //            return item;
 //        } else {
-//            throw new InvalidCraftinOrder(order);
+//            throw new InvalidCraftingOrder(order);
 //        }
 //    }
 

@@ -10,7 +10,7 @@ import stonering.generators.worldgen.WorldGenContainer;
 import stonering.entity.world.WorldMap;
 import stonering.entity.world.Edge;
 import stonering.entity.world.Mountain;
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 
 import java.util.Iterator;
 import java.util.List;

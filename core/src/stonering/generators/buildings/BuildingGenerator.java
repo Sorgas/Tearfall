@@ -4,7 +4,7 @@ import stonering.entity.local.building.BuildingType;
 import stonering.entity.local.building.aspects.WorkbenchAspect;
 import stonering.entity.local.items.aspects.ItemContainerAspect;
 import stonering.enums.buildings.BuildingTypeMap;
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 import stonering.entity.local.building.Building;
 import stonering.util.global.TagLoggersEnum;
 

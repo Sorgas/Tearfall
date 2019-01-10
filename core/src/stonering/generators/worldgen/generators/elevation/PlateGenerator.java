@@ -9,8 +9,8 @@ import stonering.generators.worldgen.voronoi.diagram.PowerDiagram;
 import stonering.generators.worldgen.voronoi.j2d.PolygonSimple;
 import stonering.generators.worldgen.voronoi.j2d.Site;
 import stonering.entity.world.Edge;
-import stonering.global.utils.Position;
-import stonering.global.utils.Vector;
+import stonering.util.geometry.Position;
+import stonering.util.geometry.Vector;
 
 import java.util.ArrayList;
 import java.util.Iterator;

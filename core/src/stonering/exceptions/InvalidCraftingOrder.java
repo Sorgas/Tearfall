@@ -7,10 +7,10 @@ import stonering.entity.local.crafting.ItemOrder;
  *
  * @author Alexander on 28.10.2018.
  */
-public class InvalidCraftinOrder extends Exception {
+public class InvalidCraftingOrder extends Exception {
     private ItemOrder order;
 
-    public InvalidCraftinOrder(ItemOrder order) {
+    public InvalidCraftingOrder(ItemOrder order) {
         this.order = order;
     }
 }

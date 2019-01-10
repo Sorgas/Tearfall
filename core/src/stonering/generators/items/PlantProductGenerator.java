@@ -1,10 +1,8 @@
 package stonering.generators.items;
 
-import stonering.enums.materials.MaterialMap;
 import stonering.enums.plants.TreeBlocksTypeEnum;
-import stonering.exceptions.DescriptionNotFoundException;
 import stonering.exceptions.FaultDescriptionException;
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.plants.AbstractPlant;
 import stonering.entity.local.plants.Plant;

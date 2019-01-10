@@ -5,7 +5,7 @@ import stonering.enums.materials.MaterialMap;
 import stonering.game.core.model.LocalMap;
 import stonering.generators.PerlinNoiseGenerator;
 import stonering.generators.localgen.LocalGenContainer;
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 
 import java.util.ArrayList;
 import java.util.HashMap;

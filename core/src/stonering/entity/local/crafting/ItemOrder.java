@@ -1,14 +1,8 @@
 package stonering.entity.local.crafting;
 
-import stonering.entity.local.items.Item;
-import stonering.entity.local.items.selectors.ItemSelector;
-import stonering.entity.local.items.selectors.SimpleItemSelector;
 import stonering.enums.items.recipe.ItemPartRecipe;
 import stonering.enums.items.recipe.Recipe;
 import stonering.game.core.GameMvc;
-import stonering.game.core.model.lists.ItemContainer;
-import stonering.global.utils.Position;
-import stonering.util.global.Pair;
 
 import java.util.*;
 

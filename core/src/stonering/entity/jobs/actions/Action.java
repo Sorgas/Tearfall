@@ -1,7 +1,7 @@
 package stonering.entity.jobs.actions;
 
 import stonering.game.core.model.GameContainer;
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 import stonering.entity.jobs.Task;
 import stonering.entity.jobs.actions.aspects.effect.EffectAspect;
 import stonering.entity.jobs.actions.aspects.requirements.RequirementsAspect;

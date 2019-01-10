@@ -5,10 +5,8 @@ import stonering.game.core.model.LocalMap;
 import stonering.generators.buildings.BuildingGenerator;
 import stonering.generators.localgen.LocalGenConfig;
 import stonering.generators.localgen.LocalGenContainer;
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 import stonering.entity.local.building.Building;
-
-import java.util.Random;
 
 /**
  * @author Alexander Kuzyakov on 07.12.2017.

@@ -4,7 +4,7 @@ import com.badlogic.gdx.Input;
 import stonering.entity.local.building.BuildingBlock;
 import stonering.game.core.GameMvc;
 import stonering.game.core.view.render.ui.lists.ObservingList;
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 import stonering.util.global.TagLoggersEnum;
 
 /**

@@ -2,7 +2,6 @@ package stonering.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -13,12 +12,8 @@ import com.badlogic.gdx.utils.Align;
 import stonering.TearFall;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.utils.Array;
 import stonering.entity.world.World;
-import stonering.screen.ui_components.WorldListItem;
-import stonering.global.utils.Position;
-
-import java.io.File;
+import stonering.util.geometry.Position;
 
 /**
  * ButtonMenu for choosing settlers and resources for game start.

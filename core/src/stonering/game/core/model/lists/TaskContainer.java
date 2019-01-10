@@ -8,7 +8,7 @@ import stonering.enums.buildings.BuildingTypeMap;
 import stonering.entity.local.building.BuildingType;
 import stonering.enums.designations.DesignationTypeEnum;
 import stonering.game.core.model.GameContainer;
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 import stonering.entity.jobs.Task;
 import stonering.entity.jobs.actions.Action;
 import stonering.entity.jobs.actions.TaskTypesEnum;

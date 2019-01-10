@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Action for crafting item in workbench. Creates actions for bringing components to WB, if they are available.
+ *
  * @author Alexander on 06.01.2019.
  */
 public class CraftItemAction extends Action {
@@ -50,17 +52,20 @@ public class CraftItemAction extends Action {
     }
 
     public boolean perform() {
-        return false
+        return false;
     }
 
     private void createSubActionForItem(Item item) {
-        Action carryAction = new Action();
-        task.addFirstPreAction(carryAction);
+//        Action carryAction = new Action();
+//        task.addFirstPreAction(carryAction);
     }
 
+    /**
+     * Checks if all items for order
+     * @return
+     */
     private boolean checkDesiredItems() {
-        List<Item> uncheckedItems = new ArrayList<>();
-        uncheckedItems.addAll(items);
+        List<Item> uncheckedItems = new ArrayList<>(items);
         for (ItemPartOrder part : itemOrder.getParts()) {
             List<Item> checkedItems = part.getSelected().selectItems(uncheckedItems);
             if (checkedItems.isEmpty()) {
@@ -75,18 +80,19 @@ public class CraftItemAction extends Action {
         return true;
     }
 
+    /**
+     * Updates items collection with items found on map. Returns false, if some items for order are missing.
+     */
     private boolean findDesiredItems() {
         items = new ArrayList<>();
-        List<Item> uncheckedItems = new ArrayList<>();
-        uncheckedItems.addAll(items);
         for (ItemPartOrder part : itemOrder.getParts()) {
             List<Item> foundItems = gameContainer.getItemContainer().getItemsAvailableBySelector(part.getSelected(), workbench.getPosition());
             if (foundItems.isEmpty()) {
                 //
                 return false;
             }
-            //TODO add amount
-            items.addAll(gameContainer.getItemContainer().getNearestItems(foundItems, 1));
+            int amount = 1; // part.getSelected().getAmount() //TODO add amount
+            items.addAll(gameContainer.getItemContainer().getNearestItems(foundItems, amount));
         }
         return true;
     }

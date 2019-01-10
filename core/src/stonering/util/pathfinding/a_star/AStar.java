@@ -1,9 +1,9 @@
-package stonering.global.utils.pathfinding.a_star;
+package stonering.util.pathfinding.a_star;
 
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.core.model.LocalMap;
-import stonering.global.utils.HashPriorityQueue;
-import stonering.global.utils.Position;
+import stonering.util.HashPriorityQueue;
+import stonering.util.geometry.Position;
 import stonering.util.global.TagLoggersEnum;
 
 import java.util.ArrayList;

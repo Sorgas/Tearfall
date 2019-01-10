@@ -2,7 +2,7 @@ package stonering.entity.jobs.actions.aspects.target;
 
 import stonering.entity.jobs.actions.Action;
 import stonering.entity.local.building.Building;
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 
 /**
  * Targets a building. Is valid while building persists.

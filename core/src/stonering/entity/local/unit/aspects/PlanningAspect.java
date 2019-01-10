@@ -4,7 +4,7 @@ import stonering.entity.jobs.Task;
 import stonering.entity.jobs.actions.Action;
 import stonering.entity.local.Aspect;
 import stonering.entity.local.AspectHolder;
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 import stonering.entity.local.unit.Unit;
 import stonering.util.global.TagLoggersEnum;
 

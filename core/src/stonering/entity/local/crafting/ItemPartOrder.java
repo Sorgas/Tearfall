@@ -2,7 +2,7 @@ package stonering.entity.local.crafting;
 
 import stonering.entity.local.items.selectors.ItemSelector;
 import stonering.game.core.GameMvc;
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 
 import java.util.List;
 

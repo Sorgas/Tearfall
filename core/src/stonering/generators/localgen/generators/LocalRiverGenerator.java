@@ -7,7 +7,7 @@ import stonering.enums.materials.MaterialMap;
 import stonering.game.core.model.LocalMap;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.entity.world.WorldMap;
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 import stonering.entity.local.environment.WaterSource;
 
 import java.util.ArrayList;

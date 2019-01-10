@@ -1,7 +1,7 @@
 package stonering.entity.jobs.actions.aspects.requirements;
 
 import stonering.game.core.model.lists.ItemContainer;
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 import stonering.entity.jobs.actions.Action;
 import stonering.entity.jobs.actions.aspects.effect.DropItemEffectAspect;
 import stonering.entity.jobs.actions.aspects.target.BlockTargetAspect;

@@ -17,7 +17,7 @@ import stonering.entity.local.building.BuildingBlock;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.plants.PlantBlock;
 import stonering.entity.local.unit.UnitBlock;
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 
 import java.util.ArrayList;
 

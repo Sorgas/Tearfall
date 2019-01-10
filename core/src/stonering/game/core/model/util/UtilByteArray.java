@@ -1,6 +1,6 @@
 package stonering.game.core.model.util;
 
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 
 /**
  * Byte Array with util methods.
