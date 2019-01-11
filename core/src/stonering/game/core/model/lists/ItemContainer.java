@@ -202,6 +202,17 @@ public class ItemContainer {
     }
 
     /**
+     * Checks that given items exist on map.
+     */
+    public boolean checkItemList(Collection<Item> items) {
+        return items.containsAll(items);
+    }
+
+    public boolean checkItem(Item item) {
+        return items.contains(item);
+    }
+
+    /**
      * Groups items by type and material. Stores quantity.
      */
     private class ItemGroup {

@@ -12,26 +12,17 @@ import java.util.HashMap;
  *
  * @author Alexander Kuzyakov on 07.12.2017.
  */
-public class Building extends AspectHolder {
-    private String name;
+public class Building extends AspectHolder { // TODO split to aspects
     private Unit owner;
     private int material;
     private BuildingType type;
     private BuildingBlock block;
 
-    public Building(Position position,BuildingType type) {
-        super(position);
+    public Building(String name, Position position, BuildingType type) {
+        super(name, position);
         this.type = type;
         aspects = new HashMap<>();
         block = new BuildingBlock(this);
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public Unit getOwner() {

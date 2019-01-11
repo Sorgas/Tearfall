@@ -2,6 +2,7 @@ package stonering.entity.local.building.aspects;
 
 import stonering.entity.jobs.Task;
 import stonering.entity.jobs.actions.Action;
+import stonering.entity.jobs.actions.CraftItemAction;
 import stonering.entity.jobs.actions.TaskTypesEnum;
 import stonering.entity.jobs.actions.aspects.effect.CraftItemInWorkbenchEffectAspect;
 import stonering.entity.jobs.actions.aspects.requirements.ItemsInBuildingRequirementAspect;
@@ -53,7 +54,6 @@ public class WorkbenchAspect extends Aspect {
      */
     @Override
     public void turn() {
-//        TagLoggersEnum.BUILDING.logDebug("Turning " + aspectHolder.toString());
         if (entries.isEmpty() || !hasActiveOrders) return;
         OrderTaskEntry entry = entries.get(current);
         if (entry.task == null) {                     // new order
@@ -64,7 +64,7 @@ public class WorkbenchAspect extends Aspect {
             if (entry.order.isRepeated()) {
                 entry.task.reset();
             } else {
-                entries.remove(entry);
+                entries.remove(current);
                 current--;
             }
             rollToNextNotSuspended();
@@ -75,17 +75,12 @@ public class WorkbenchAspect extends Aspect {
      * Moves current pointer to next not suspended order.
      */
     private void rollToNextNotSuspended() {
-        if(entries.size() < 2) return; // no roll on 1 or 0 entries.
+        if (entries.size() < 2) return; // no roll on 1 or 0 entries.
         int previous = current;
         do {
             current++;
             if (current >= entries.size()) current = 0;
         } while (entries.get(current).order.isSuspended() || current != previous);
-    }
-
-    @Override
-    public String getName() {
-        return NAME;
     }
 
     /**
@@ -168,13 +163,12 @@ public class WorkbenchAspect extends Aspect {
         return found;
     }
 
+    /**
+     * Creates task and adds it to given entry.
+     */
     private void createTaskForOrder(OrderTaskEntry entry) {
-        Action action = new Action(gameContainer);
-        action.setTargetAspect(new BuildingTargetAspect(action, false, true, (Building) aspectHolder));
-        action.setRequirementsAspect(new ItemsInBuildingRequirementAspect(action, (Building) aspectHolder));
-        action.setEffectAspect(new CraftItemInWorkbenchEffectAspect(action, 100, entry.order));
-        Task task = new Task(entry.order.getRecipe().getName(), TaskTypesEnum.CRAFTING, action, 1, gameContainer);
-        entry.task = task;
+        CraftItemAction action = new CraftItemAction(gameContainer, entry.order, aspectHolder);
+        entry.task = new Task(entry.order.getRecipe().getName(), TaskTypesEnum.CRAFTING, action, 1, gameContainer);
     }
 
     /**
@@ -192,6 +186,7 @@ public class WorkbenchAspect extends Aspect {
     }
 
     public static class OrderTaskEntry {
+
         ItemOrder order;
         Task task;
 
@@ -202,6 +197,7 @@ public class WorkbenchAspect extends Aspect {
         public ItemOrder getOrder() {
             return order;
         }
+
     }
 
     private boolean inBounds(int index) {
@@ -230,5 +226,10 @@ public class WorkbenchAspect extends Aspect {
 
     public List<Item> getStorage() {
         return storage;
+    }
+
+    @Override
+    public String getName() {
+        return NAME;
     }
 }

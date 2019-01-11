@@ -8,15 +8,15 @@ import java.io.Serializable;
 import java.util.HashMap;
 
 /**
- * Class for all game entity. Contains its aspects.
+ * Class for all game entities. Contains its aspects.
  *
  * @author Alexander Kuzyakov on 25.01.2018.
  */
-public abstract class AspectHolder extends IntervalTurnable implements Serializable{
-    protected Position position;
+public abstract class AspectHolder extends IntervalTurnable implements Serializable {
+    protected Position position; //TODO move to PositionAspect
     protected HashMap<String, Aspect> aspects;
 
-    protected AspectHolder(Position position) {
+    protected AspectHolder(String name, Position position) {
         this.aspects = new HashMap<>();
         this.position = position;
     }
