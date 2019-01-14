@@ -2,7 +2,7 @@ package stonering.entity.jobs.actions.aspects.requirements;
 
 import stonering.entity.jobs.actions.Action;
 import stonering.entity.jobs.actions.aspects.effect.PutItemFromInventoryToContainerEffectAspect;
-import stonering.entity.jobs.actions.aspects.target.BuildingTargetAspect;
+import stonering.entity.jobs.actions.aspects.target.BuildingActionTarget;
 import stonering.entity.local.building.Building;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.items.aspects.ItemContainerAspect;
@@ -61,7 +61,7 @@ public class ItemsInBuildingRequirementAspect extends RequirementsAspect {
         if (item != null) {
             Action putAction = new Action(action.getGameContainer());
             putAction.setRequirementsAspect(new ItemInInventoryRequirementAspect(putAction, itemSelector));
-            putAction.setTargetAspect(new BuildingTargetAspect(putAction, false, true, building));
+            putAction.setTargetAspect(new BuildingActionTarget(putAction, false, true, building));
             putAction.setEffectAspect(new PutItemFromInventoryToContainerEffectAspect(putAction, 10, item));
             action.getTask().addFirstPreAction(putAction);
             return true;

@@ -16,6 +16,7 @@ import stonering.util.global.TagLoggersEnum;
  * @author Alexander Kuzyakov on 10.06.2017.
  */
 public class GameContainer {
+    private static GameContainer instance;
     private World world;
     private LocalMap localMap;                              //local map is created during localgeneration.
     private LocalTileMap localTileMap;
@@ -48,6 +49,10 @@ public class GameContainer {
         startContainer();
         gameCalendar.addListener("minute", world.getStarSystem());
         world.getStarSystem().init(this);
+    }
+
+    public GameContainer getInstance() {
+        return instance;
     }
 
     private void loadFromContainer(LocalGenContainer container) {

@@ -1,12 +1,8 @@
 package stonering.entity.local.building.aspects;
 
 import stonering.entity.jobs.Task;
-import stonering.entity.jobs.actions.Action;
 import stonering.entity.jobs.actions.CraftItemAction;
 import stonering.entity.jobs.actions.TaskTypesEnum;
-import stonering.entity.jobs.actions.aspects.effect.CraftItemInWorkbenchEffectAspect;
-import stonering.entity.jobs.actions.aspects.requirements.ItemsInBuildingRequirementAspect;
-import stonering.entity.jobs.actions.aspects.target.BuildingTargetAspect;
 import stonering.entity.local.Aspect;
 import stonering.entity.local.AspectHolder;
 import stonering.entity.local.building.Building;

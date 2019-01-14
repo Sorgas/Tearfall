@@ -3,6 +3,9 @@ package stonering.game.core.model.lists;
 import stonering.designations.BuildingDesignation;
 import stonering.designations.Designation;
 import stonering.designations.OrderDesignation;
+import stonering.entity.jobs.actions.aspects.effect.*;
+import stonering.entity.jobs.actions.aspects.target.PositionActionTarget;
+import stonering.entity.jobs.actions.aspects.target.PlantHarvestActionTarget;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.buildings.BuildingTypeMap;
 import stonering.entity.local.building.BuildingType;
@@ -12,14 +15,8 @@ import stonering.util.geometry.Position;
 import stonering.entity.jobs.Task;
 import stonering.entity.jobs.actions.Action;
 import stonering.entity.jobs.actions.TaskTypesEnum;
-import stonering.entity.jobs.actions.aspects.effect.ConstructionEffectAspect;
-import stonering.entity.jobs.actions.aspects.effect.ChopTreeEffectAspect;
-import stonering.entity.jobs.actions.aspects.effect.DigEffectAspect;
-import stonering.entity.jobs.actions.aspects.effect.HarvestPlantEffectAspect;
 import stonering.entity.jobs.actions.aspects.requirements.EquippedItemRequirementAspect;
 import stonering.entity.jobs.actions.aspects.requirements.ItemsInPositionOrInventoryRequirementAspect;
-import stonering.entity.jobs.actions.aspects.target.BlockTargetAspect;
-import stonering.entity.jobs.actions.aspects.target.PlantHarvestTargetAspect;
 import stonering.entity.local.items.selectors.ItemSelector;
 import stonering.entity.local.items.selectors.ToolWithActionItemSelector;
 import stonering.entity.local.plants.PlantBlock;
@@ -118,18 +115,15 @@ public class TaskContainer {
             case RAMP:
             case STAIRS:
             case CHANNEL: {
-                Action action = new Action(container);
-                action.setEffectAspect(new DigEffectAspect(action, designation.getType()));
-                action.setTargetAspect(new BlockTargetAspect(action, designation.getPosition(), true, true));
-                action.setRequirementsAspect(new EquippedItemRequirementAspect(action, new ToolWithActionItemSelector("dig")));
-                Task task = new Task("designation", TaskTypesEnum.DESIGNATION, action, priority, container);
+                DigAction digAction = new DigAction(designation);
+                Task task = new Task("designation", TaskTypesEnum.DESIGNATION, digAction, priority, container);
                 return task;
             }
             case CUT:
             case CHOP: {
                 Action action = new Action(container);
                 action.setEffectAspect(new ChopTreeEffectAspect(action));
-                action.setTargetAspect(new BlockTargetAspect(action, designation.getPosition(), false, true)); //TODO replace with PlantTargetAspect
+                action.setTargetAspect(new PositionActionTarget(action, designation.getPosition(), false, true)); //TODO replace with PlantActionTarget
                 action.setRequirementsAspect(new EquippedItemRequirementAspect(action, new ToolWithActionItemSelector("chop")));
                 Task task = new Task("designation", TaskTypesEnum.DESIGNATION, action, priority, container);
                 return task;
@@ -139,7 +133,7 @@ public class TaskContainer {
                 if (block != null && block.getPlant().isHarvestable()) {
                     Action action = new Action(container);
                     action.setEffectAspect(new HarvestPlantEffectAspect(action, 10));
-                    action.setTargetAspect(new PlantHarvestTargetAspect(action, block.getPlant())); //TODO replace with PlantTargetAspect
+                    action.setTargetAspect(new PlantHarvestActionTarget(action, block.getPlant())); //TODO replace with PlantActionTarget
                     action.setRequirementsAspect(new EquippedItemRequirementAspect(action, new ToolWithActionItemSelector("harvest_plants")));
                     Task task = new Task("designation", TaskTypesEnum.DESIGNATION, action, priority, container);
                     return task;
@@ -162,7 +156,7 @@ public class TaskContainer {
         BuildingType buildingType = BuildingTypeMap.getInstance().getBuilding(designation.getBuilding());
         Action action = new Action(container);
         action.setRequirementsAspect(new ItemsInPositionOrInventoryRequirementAspect(action, designation.getPosition(), items));
-        action.setTargetAspect(new BlockTargetAspect(action, designation.getPosition(), !buildingType.getTitle().equals("wall"), true));
+        action.setTargetAspect(new PositionActionTarget(action, designation.getPosition(), !buildingType.getTitle().equals("wall"), true));
         action.setEffectAspect(new ConstructionEffectAspect(action, designation.getBuilding(), "marble"));
         Task task = new Task("designation", TaskTypesEnum.DESIGNATION, action, priority, container);
         task.setDesignation(designation);

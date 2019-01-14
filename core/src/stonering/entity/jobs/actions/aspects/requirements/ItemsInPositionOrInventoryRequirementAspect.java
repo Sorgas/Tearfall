@@ -4,7 +4,7 @@ import stonering.game.core.model.lists.ItemContainer;
 import stonering.util.geometry.Position;
 import stonering.entity.jobs.actions.Action;
 import stonering.entity.jobs.actions.aspects.effect.DropItemEffectAspect;
-import stonering.entity.jobs.actions.aspects.target.BlockTargetAspect;
+import stonering.entity.jobs.actions.aspects.target.PositionActionTarget;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.items.selectors.ItemSelector;
 import stonering.entity.local.unit.aspects.EquipmentAspect;
@@ -62,7 +62,7 @@ public class ItemsInPositionOrInventoryRequirementAspect extends RequirementsAsp
             if (item != null) {
                 Action dropAction = new Action(action.getGameContainer());
                 dropAction.setRequirementsAspect(new ItemInInventoryRequirementAspect(dropAction, item));
-                dropAction.setTargetAspect(new BlockTargetAspect(dropAction, target, true, false));
+                dropAction.setTargetAspect(new PositionActionTarget(dropAction, target, true, false));
                 dropAction.setEffectAspect(new DropItemEffectAspect(dropAction, item));
                 action.getTask().addFirstPreAction(dropAction);
                 return true;

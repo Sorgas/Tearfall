@@ -3,7 +3,7 @@ package stonering.entity.jobs.actions.aspects.requirements;
 import stonering.entity.jobs.actions.Action;
 import stonering.entity.jobs.actions.aspects.effect.UnequipItemEffectAspect;
 import stonering.entity.jobs.actions.aspects.requirements.ComplexRequirementAspect.FunctionsEnum;
-import stonering.entity.jobs.actions.aspects.target.ItemTargetAspect;
+import stonering.entity.jobs.actions.aspects.target.ItemActionTarget;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.items.selectors.ExactItemSelector;
 import stonering.entity.local.items.selectors.SingleItemSelector;
@@ -47,7 +47,7 @@ public class UnequipItemRequirementAspect extends RequirementsAspect {
 
     private boolean tryAddUnequipAction(Item item) {
         Action action = new Action(this.action.getGameContainer());
-        action.setTargetAspect(new ItemTargetAspect(action, item));
+        action.setTargetAspect(new ItemActionTarget(action, item));
         //TODO count work amount based on item weight and creature stats
         action.setEffectAspect(new UnequipItemEffectAspect(action, 10));
         RequirementsAspect[] requirements = {

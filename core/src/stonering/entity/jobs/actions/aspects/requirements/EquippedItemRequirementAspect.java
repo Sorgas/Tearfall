@@ -2,7 +2,7 @@ package stonering.entity.jobs.actions.aspects.requirements;
 
 import stonering.entity.jobs.actions.Action;
 import stonering.entity.jobs.actions.aspects.effect.EquipItemEffectAspect;
-import stonering.entity.jobs.actions.aspects.target.ItemTargetAspect;
+import stonering.entity.jobs.actions.aspects.target.ItemActionTarget;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.items.selectors.ItemSelector;
 import stonering.entity.local.unit.aspects.EquipmentAspect;
@@ -35,7 +35,7 @@ public class EquippedItemRequirementAspect extends RequirementsAspect {
         if (target != null) {
             Action newAction = new Action(action.getGameContainer());
             newAction.setEffectAspect(new EquipItemEffectAspect(newAction));
-            newAction.setTargetAspect(new ItemTargetAspect(action, target));
+            newAction.setTargetAspect(new ItemActionTarget(action, target));
             if (target.isWear()) {
                 newAction.setRequirementsAspect(new EquipWearItemRequirementAspect(newAction, target));
             } else if (target.isTool()) {

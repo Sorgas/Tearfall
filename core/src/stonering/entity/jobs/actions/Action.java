@@ -1,29 +1,39 @@
 package stonering.entity.jobs.actions;
 
-import stonering.game.core.model.GameContainer;
-import stonering.util.geometry.Position;
+import stonering.entity.jobs.actions.aspects.target.ActionTarget;
+import stonering.game.core.GameMvc;
 import stonering.entity.jobs.Task;
 import stonering.util.global.TagLoggersEnum;
 
+/**
+ * Action of a unit. Actions are parts of {@link Task}.
+ * Actions do some changes in game model(digging, crafting).
+ * Actions have target where unit should be to perform action.
+ * Actions have requirements and create sub actions and add them to task if possible.
+ * If action requirements are not met, Action and its task are failed.
+ *
+ * Actions should be
+ */
 public abstract class Action {
-    protected Task task;
-    protected GameContainer gameContainer;
-
+    protected GameMvc gameMvc;
+    protected Task task; // can be modified during execution
+    protected ActionTarget actionTarget;
     protected boolean finished;
 
-    public Action(GameContainer gameContainer) {
-        this.gameContainer = gameContainer;
+    public Action() {
+        this.gameMvc = GameMvc.getInstance();
     }
 
-    public final boolean perform() {
-        return check() && doLogic();
-    }
-
-    protected abstract boolean doLogic();
-
+    /**
+     * Returns false if unable perform action or create sub actions.
+     * Task can have more actions after this.
+     */
     public abstract boolean check();
 
-    public abstract Position getTargetPosition();
+    /**
+     * Applies action logic to model.
+     */
+    public abstract boolean perform();
 
     public void finish() {
         finished = true;
@@ -31,7 +41,6 @@ public abstract class Action {
         task.tryFinishTask();
         TagLoggersEnum.TASKS.logDebug("action " + toString() + " finished");
     }
-
 
     public Task getTask() {
         return task;
@@ -41,19 +50,19 @@ public abstract class Action {
         this.task = task;
     }
 
-    public GameContainer getGameContainer() {
-        return gameContainer;
-    }
-
-    public void setGameContainer(GameContainer gameContainer) {
-        this.gameContainer = gameContainer;
-    }
-
     public boolean isFinished() {
         return finished;
     }
 
     public void setFinished(boolean finished) {
         this.finished = finished;
+    }
+
+    public void setActionTarget(ActionTarget actionTarget) {
+        this.actionTarget = actionTarget;
+    }
+
+    public ActionTarget getActionTarget() {
+        return actionTarget;
     }
 }

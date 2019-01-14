@@ -1,9 +1,9 @@
 package stonering.entity.jobs.actions.aspects.effect;
 
+import stonering.entity.jobs.actions.aspects.target.PlantActionTarget;
 import stonering.generators.items.PlantProductGenerator;
 import stonering.util.geometry.Position;
 import stonering.entity.jobs.actions.Action;
-import stonering.entity.jobs.actions.aspects.target.PlantTargetAspect;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.plants.AbstractPlant;
 import stonering.entity.local.plants.PlantBlock;
@@ -23,8 +23,8 @@ public class HarvestPlantEffectAspect extends EffectAspect {
     @Override
     protected void applyEffect() {
         System.out.println("harvesting plant");
-        if (action.getTargetAspect() instanceof PlantTargetAspect) {
-            AbstractPlant abstractPlant = ((PlantTargetAspect) action.getTargetAspect()).getPlant();
+        if (action.getTargetAspect() instanceof PlantActionTarget) {
+            AbstractPlant abstractPlant = ((PlantActionTarget) action.getTargetAspect()).getPlant();
             Position position = action.getTargetAspect().getTargetPosition();
             PlantBlock block = action.getGameContainer().getLocalMap().getPlantBlock(position);
             if (block != null && block.getPlant() == abstractPlant) {

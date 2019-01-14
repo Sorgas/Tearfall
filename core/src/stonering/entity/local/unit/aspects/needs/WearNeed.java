@@ -1,6 +1,7 @@
 package stonering.entity.local.unit.aspects.needs;
 
 import stonering.entity.jobs.actions.aspects.requirements.ComplexRequirementAspect.FunctionsEnum;
+import stonering.entity.jobs.actions.aspects.target.ItemActionTarget;
 import stonering.game.core.model.GameContainer;
 import stonering.entity.jobs.Task;
 import stonering.entity.jobs.actions.Action;
@@ -10,7 +11,6 @@ import stonering.entity.jobs.actions.aspects.requirements.BodyPartRequirementAsp
 import stonering.entity.jobs.actions.aspects.requirements.ComplexRequirementAspect;
 import stonering.entity.jobs.actions.aspects.requirements.EquipWearItemRequirementAspect;
 import stonering.entity.jobs.actions.aspects.requirements.RequirementsAspect;
-import stonering.entity.jobs.actions.aspects.target.ItemTargetAspect;
 import stonering.entity.local.AspectHolder;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.items.selectors.ItemSelector;
@@ -66,7 +66,7 @@ public class WearNeed extends Need {
         Task task = null;
         if (item != null) {
             Action action = new Action(container);
-            action.setTargetAspect(new ItemTargetAspect(action, item));
+            action.setTargetAspect(new ItemActionTarget(action, item));
             RequirementsAspect[] requirementsAspects = {new BodyPartRequirementAspect(action, "grab", true),
                     new EquipWearItemRequirementAspect(action, item)};
             action.setRequirementsAspect(new ComplexRequirementAspect(action, requirementsAspects, FunctionsEnum.AND));

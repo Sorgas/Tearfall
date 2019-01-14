@@ -1,7 +1,7 @@
 package stonering.entity.jobs.actions.aspects.effect;
 
 import stonering.entity.jobs.actions.Action;
-import stonering.entity.jobs.actions.aspects.target.BuildingTargetAspect;
+import stonering.entity.jobs.actions.aspects.target.BuildingActionTarget;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.items.aspects.ItemContainerAspect;
 
@@ -18,7 +18,7 @@ public class PutItemFromInventoryToContainerEffectAspect extends EffectAspect {
 
     @Override
     protected void applyEffect() {
-        ItemContainerAspect itemContainerAspect = (ItemContainerAspect) ((BuildingTargetAspect) action.getTargetAspect()).getBuilding().getAspects().get(ItemContainerAspect.NAME);
+        ItemContainerAspect itemContainerAspect = (ItemContainerAspect) ((BuildingActionTarget) action.getTargetAspect()).getBuilding().getAspects().get(ItemContainerAspect.NAME);
         itemContainerAspect.getItems().add(item);
     }
 }

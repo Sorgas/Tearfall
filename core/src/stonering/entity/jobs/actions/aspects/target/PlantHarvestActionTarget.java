@@ -10,14 +10,14 @@ import stonering.entity.local.plants.Plant;
  *
  * @author Alexander on 25.09.2018.
  */
-public class PlantHarvestTargetAspect extends PlantTargetAspect{
+public class PlantHarvestActionTarget extends PlantActionTarget {
 
-    public PlantHarvestTargetAspect(Action action, AbstractPlant plant) {
+    public PlantHarvestActionTarget(Action action, AbstractPlant plant) {
         super(action, plant);
     }
 
     @Override
-    public Position getTargetPosition() {
+    public Position getPosition() {
         if(plant instanceof Plant) {
             return plant.getPosition();
         } else {

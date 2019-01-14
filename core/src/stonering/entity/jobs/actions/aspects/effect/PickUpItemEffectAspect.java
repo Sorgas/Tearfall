@@ -1,7 +1,7 @@
 package stonering.entity.jobs.actions.aspects.effect;
 
 import stonering.entity.jobs.actions.Action;
-import stonering.entity.jobs.actions.aspects.target.ItemTargetAspect;
+import stonering.entity.jobs.actions.aspects.target.ItemActionTarget;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.unit.aspects.EquipmentAspect;
 
@@ -16,7 +16,7 @@ public class PickUpItemEffectAspect extends EffectAspect {
 
     @Override
     protected void applyEffect() {
-        Item item = ((ItemTargetAspect) action.getTargetAspect()).getItem();
+        Item item = ((ItemActionTarget) action.getTargetAspect()).getItem();
         ((EquipmentAspect) action.getTask().getPerformer().getAspects().get("equipment")).pickupItem(item);
         action.getGameContainer().getItemContainer().removeItem(item);
     }

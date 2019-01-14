@@ -10,6 +10,9 @@ import stonering.entity.local.building.BuildingBlock;
 import stonering.entity.local.plants.PlantBlock;
 import stonering.entity.local.unit.UnitBlock;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Contains blocks, and physical parameters, and proxies to entity.
  *
@@ -89,6 +92,18 @@ public class LocalMap {
         return blockType[x][y][z] == BlockTypesEnum.STAIRS.getCode()
                 && (blockType[x][y][z + 1] == BlockTypesEnum.STAIRS.getCode()
                 || blockType[x][y][z + 1] == BlockTypesEnum.STAIRFLOOR.getCode());
+    }
+
+    public List<Position> getFreeBlockNear(Position position) {
+        List<Position> positions = new ArrayList<>();
+        for (int x = position.getX() - 1; x < position.getX() + 2; x++) {
+            for (int y = position.getY() - 1; y < position.getY() + 2; y++) {
+                if (inMap(x, y, position.getZ()) && passageMap.isWalkPassable(x, y, position.getZ())) {
+                    positions.add(new Position(x, y, position.getZ()));
+                }
+            }
+        }
+        return positions;
     }
 
     public boolean inMap(int x, int y, int z) {

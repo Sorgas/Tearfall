@@ -1,7 +1,7 @@
 package stonering.entity.jobs.actions.aspects.effect;
 
 import stonering.entity.jobs.actions.Action;
-import stonering.entity.jobs.actions.aspects.target.BuildingTargetAspect;
+import stonering.entity.jobs.actions.aspects.target.BuildingActionTarget;
 import stonering.entity.local.crafting.ItemOrder;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.items.aspects.ItemContainerAspect;
@@ -34,7 +34,7 @@ public class CraftItemInWorkbenchEffectAspect extends EffectAspect {
     private void createProduct() {
         ItemGenerator itemGenerator = new ItemGenerator();
         Item product = itemGenerator.generateItem(order);
-        BuildingTargetAspect buildingTargetAspect = ((BuildingTargetAspect) action.getTargetAspect());
+        BuildingActionTarget buildingTargetAspect = ((BuildingActionTarget) action.getTargetAspect());
         ((ItemContainerAspect) buildingTargetAspect.getBuilding().getAspects().get(ItemContainerAspect.NAME)).getItems().add(product);
         TagLoggersEnum.BUILDING.log("Item " + product.getName() + " crafted.");
     }

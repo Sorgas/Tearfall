@@ -7,17 +7,17 @@ import stonering.util.geometry.Position;
 /**
  * Targets a building. Is valid while building persists.
  */
-public class BuildingTargetAspect extends TargetAspect{
+public class BuildingActionTarget extends ActionTarget {
     //TODO add work position offset for buildings, so unit can work only from one side of a building.
     private Building building;
 
-    public BuildingTargetAspect(Action action, boolean exactTarget, boolean nearTarget, Building building) {
+    public BuildingActionTarget(Action action, boolean exactTarget, boolean nearTarget, Building building) {
         super(action, exactTarget, nearTarget);
         this.building = building;
     }
 
     @Override
-    public Position getTargetPosition() {
+    public Position getPosition() {
         return building.getPosition();
     }
 

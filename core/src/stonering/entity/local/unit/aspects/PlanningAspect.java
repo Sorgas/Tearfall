@@ -18,7 +18,7 @@ import java.util.ArrayList;
  * @author Alexander Kuzyakov on 10.10.2017.
  */
 public class PlanningAspect extends Aspect {
-    public static String NAME = "planning";
+    public final static String NAME = "planning";
     private Task currentTask;
     private boolean movementNeeded = false; // true, when has task and not in position.
 
@@ -31,12 +31,9 @@ public class PlanningAspect extends Aspect {
         return NAME;
     }
 
-    /**
-     * Called from {@link AspectHolder}
-     */
     public void turn() {
         if (checkTask()) {
-            if (!(movementNeeded = !currentTask.getNextAction().getTargetAspect().check(aspectHolder.getPosition()))) { // actor on position, so movement is not needed
+            if (!(movementNeeded = !currentTask.getNextAction().getActionTarget().check(aspectHolder.getPosition()))) { // actor on position, so movement is not needed
                 if (checkActionSequence()) {
                     if (currentTask.getNextAction().perform()) { // act. called several times
                         TagLoggersEnum.TASKS.logDebug(aspectHolder.toString() + " completes another action.");
@@ -53,7 +50,7 @@ public class PlanningAspect extends Aspect {
     }
 
     /**
-     * Checks if task can be performed. That requires requirement aspects to be checked with true.
+     * Checks if task can be performed. That requires action to be checked with Action.CHECKED.
      * During this method requirement aspects create additional actions.
      *
      * @return
@@ -63,7 +60,7 @@ public class PlanningAspect extends Aspect {
         boolean lastCheck;
         do {
             currentAction = currentTask.getNextAction();
-            lastCheck = currentAction.getRequirementsAspect().check(); // can create additional actions
+            lastCheck = currentAction.check(); // can create additional actions
         }
         while (currentAction != currentTask.getNextAction()); // no additional actions created, return check result of last action.
         return lastCheck;
@@ -151,14 +148,14 @@ public class PlanningAspect extends Aspect {
 
     public boolean isTargetExact() {
         if (currentTask != null) {
-            return currentTask.getNextAction().getTargetAspect().isExactTarget();
+            return currentTask.getNextAction().getActionTarget().isExactTarget();
         }
         return false;
     }
 
     public Position getTarget() {
         return currentTask != null && currentTask.getNextAction() != null ?
-                currentTask.getNextAction().getTargetPosition() :
+                currentTask.getNextAction().getActionTarget().getPosition() :
                 null;
     }
 

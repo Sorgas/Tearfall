@@ -1,18 +1,21 @@
 package stonering.entity.jobs.actions.aspects.target;
 
-import stonering.util.geometry.Position;
 import stonering.entity.jobs.actions.Action;
+import stonering.util.geometry.Position;
 
-public class BlockTargetAspect extends TargetAspect{
+/**
+ * Targets to some tile.
+ */
+public class PositionActionTarget extends ActionTarget {
     private Position targetPosition;
 
-    public BlockTargetAspect(Action action, Position targetPosition, boolean exactTarget, boolean nearTarget) {
+    public PositionActionTarget(Action action, Position targetPosition, boolean exactTarget, boolean nearTarget) {
         super(action, exactTarget, nearTarget);
         this.targetPosition = targetPosition;
     }
 
     @Override
-    public Position getTargetPosition() {
+    public Position getPosition() {
         return targetPosition;
     }
 }

@@ -5,17 +5,22 @@ import stonering.entity.jobs.actions.Action;
 import stonering.entity.local.items.Item;
 
 /**
- * @author Alexander Kuzyakov on 28.01.2018.
+ * Targets action to item
  *
- * targets action to item
+ * @author Alexander Kuzyakov on 28.01.2018.
  */
-public class ItemTargetAspect extends TargetAspect {
+public class ItemActionTarget extends ActionTarget {
     private Item item;
 
-    public ItemTargetAspect(Action action, Item item) {
+    public ItemActionTarget(Action action, Item item) {
         super(action, true, false);
         this.item = item;
         exactTarget = true;
+    }
+
+    @Override
+    public Position getPosition() {
+        return item.getPosition();
     }
 
     public Item getItem() {
@@ -24,10 +29,5 @@ public class ItemTargetAspect extends TargetAspect {
 
     public void setItem(Item item) {
         this.item = item;
-    }
-
-    @Override
-    public Position getTargetPosition() {
-        return item.getPosition();
     }
 }

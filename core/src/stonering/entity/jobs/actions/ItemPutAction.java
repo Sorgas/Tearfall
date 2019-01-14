@@ -6,7 +6,7 @@ import stonering.entity.local.items.Item;
 import stonering.entity.local.items.aspects.ItemContainerAspect;
 import stonering.entity.local.unit.aspects.EquipmentAspect;
 import stonering.game.core.model.GameContainer;
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 
 /**
  * Action for putting item to some target. Item will be picked up.
@@ -20,26 +20,26 @@ public class ItemPutAction extends Action {
     private AspectHolder target;
     private Position targetPosition;
 
-    public ItemPutAction(GameContainer gameContainer, Item targetItem, AspectHolder target) {
-        super(gameContainer);
+    public ItemPutAction(Item targetItem, AspectHolder target) {
+        super();
         this.targetItem = targetItem;
         this.target = target;
     }
 
-    public ItemPutAction(GameContainer gameContainer, Item targetItem, Position targetPosition) {
-        super(gameContainer);
+    public ItemPutAction(Item targetItem, Position targetPosition) {
+        super();
         this.targetItem = targetItem;
         this.targetPosition = targetPosition;
     }
 
     @Override
-    public boolean doLogic() {
+    public boolean perform() {
         EquipmentAspect equipmentAspect = (EquipmentAspect) task.getPerformer().getAspects().get(EquipmentAspect.NAME);
         equipmentAspect.getHauledItems().remove(targetItem);
         if (target != null) {
             ((ItemContainerAspect) target.getAspects().get(ItemContainerAspect.NAME)).getItems().add(targetItem);
         } else {
-            gameContainer.getItemContainer().putItem(targetItem, targetPosition);
+            gameMvc.getModel().getItemContainer().putItem(targetItem, targetPosition);
         }
         return true;
     }
@@ -53,13 +53,8 @@ public class ItemPutAction extends Action {
         return createPickingAction(targetItem);
     }
 
-    @Override
-    public Position getTargetPosition() {
-        return target != null ? target.getPosition() : targetPosition;
-    }
-
     private boolean createPickingAction(Item item) {
-        task.addFirstPreAction(new ItemPickAction(gameContainer, item));
+        task.addFirstPreAction(new ItemPickAction(item));
         return true;
     }
 }

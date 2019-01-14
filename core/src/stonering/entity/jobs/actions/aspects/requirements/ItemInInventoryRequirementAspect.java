@@ -5,7 +5,7 @@ import stonering.game.core.model.lists.ItemContainer;
 import stonering.util.geometry.Position;
 import stonering.entity.jobs.actions.Action;
 import stonering.entity.jobs.actions.aspects.effect.PickUpItemEffectAspect;
-import stonering.entity.jobs.actions.aspects.target.ItemTargetAspect;
+import stonering.entity.jobs.actions.aspects.target.ItemActionTarget;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.unit.aspects.EquipmentAspect;
 
@@ -36,7 +36,7 @@ public class ItemInInventoryRequirementAspect extends RequirementsAspect {
         if (item != null) {
             Action pickAction = new Action(action.getGameContainer());
             pickAction.setRequirementsAspect(new BodyPartRequirementAspect(pickAction, "grab", true));
-            pickAction.setTargetAspect(new ItemTargetAspect(pickAction, item));
+            pickAction.setTargetAspect(new ItemActionTarget(pickAction, item));
             pickAction.setEffectAspect(new PickUpItemEffectAspect(pickAction));
             action.getTask().addFirstPreAction(pickAction);
             return true;

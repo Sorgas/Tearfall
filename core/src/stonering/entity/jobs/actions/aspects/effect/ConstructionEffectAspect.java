@@ -42,7 +42,7 @@ public class ConstructionEffectAspect extends EffectAspect {
         } else {
             Building building = container.getBuildingContainer().getBuildingGenerator().generateBuilding(buildingName, action.getTargetPosition());
             container.getBuildingContainer().addBuilding(building);
-//            container.getLocalMap().setBuildingBlock(action.getTargetPosition(), building.getBlock());
+//            container.getLocalMap().setBuildingBlock(action.getPosition(), building.getBlock());
         }
     }
 

@@ -3,8 +3,6 @@ package stonering.entity.jobs.actions.aspects;
 import stonering.entity.jobs.actions.Action;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.unit.aspects.EquipmentAspect;
-import stonering.game.core.model.GameContainer;
-import stonering.global.utils.Position;
 
 /**
  * Action for picking and hauling item. Performer should have {@link EquipmentAspect}
@@ -14,13 +12,13 @@ import stonering.global.utils.Position;
 public class ItemPickAction extends Action {
     private Item targetItem;
 
-    public ItemPickAction(GameContainer gameContainer, Item targetItem) {
-        super(gameContainer);
+    public ItemPickAction(Item targetItem) {
+        super();
         this.targetItem = targetItem;
     }
 
     @Override
-    protected boolean doLogic() {
+    public boolean perform() {
         ((EquipmentAspect) task.getPerformer().getAspects().get(EquipmentAspect.NAME)).pickupItem(targetItem);
         return true;
     }
@@ -28,11 +26,6 @@ public class ItemPickAction extends Action {
     @Override
     public boolean check() {
         if (!task.getPerformer().getAspects().containsKey(EquipmentAspect.NAME)) return false;
-        return gameContainer.getItemContainer().checkItem(targetItem);
-    }
-
-    @Override
-    public Position getTargetPosition() {
-        return targetItem.getPosition();
+        return gameMvc.getModel().getItemContainer().checkItem(targetItem);
     }
 }

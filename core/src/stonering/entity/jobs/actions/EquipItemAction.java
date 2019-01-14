@@ -1,28 +1,29 @@
-package stonering.entity.jobs.actions.aspects.requirements;
+package stonering.entity.jobs.actions;
 
-import stonering.entity.jobs.actions.aspects.requirements.ComplexRequirementAspect.FunctionsEnum;
-import stonering.entity.jobs.actions.aspects.target.ItemActionTarget;
-import stonering.exceptions.NotSuitableItemException;
-import stonering.entity.jobs.actions.Action;
 import stonering.entity.jobs.actions.aspects.effect.EquipItemEffectAspect;
 import stonering.entity.jobs.actions.aspects.effect.UnequipItemEffectAspect;
+import stonering.entity.jobs.actions.aspects.requirements.*;
+import stonering.entity.jobs.actions.aspects.target.ItemActionTarget;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.items.selectors.ExactItemSelector;
 import stonering.entity.local.unit.aspects.EquipmentAspect;
+import stonering.exceptions.NotSuitableItemException;
 
-/**
- * Checks if task performer can equip specified wear item.
- * Creates actions to put off/on items occupying higher layers in slots required by item and layer of this item.
- * Fails action if there is no such slots on this creature.
- *
- * @author Alexander on 22.09.2018.
- */
-public class EquipWearItemRequirementAspect extends RequirementsAspect {
+public class EquipItemAction extends Action {
     private Item item;
 
-    public EquipWearItemRequirementAspect(Action action, Item item) {
-        super(action);
+    public EquipItemAction(Item item) {
         this.item = item;
+    }
+
+    @Override
+    public boolean perform() {
+        if (((EquipmentAspect) task.getPerformer().getAspects().get("equipment")).equipItem(item)) {
+            //TODO manage equipped items in item container
+            gameMvc.getModel().getItemContainer().pickItem(item);
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -53,7 +54,7 @@ public class EquipWearItemRequirementAspect extends RequirementsAspect {
                 new EquippedItemRequirementAspect(action, new ExactItemSelector(item)),
                 new UnequipItemRequirementAspect(action, new ExactItemSelector(item))
         };
-        action.setRequirementsAspect(new ComplexRequirementAspect(action, requirements, FunctionsEnum.AND));
+        action.setRequirementsAspect(new ComplexRequirementAspect(action, requirements, ComplexRequirementAspect.FunctionsEnum.AND));
         this.action.getTask().addFirstPreAction(action);
 
         // equip action
@@ -68,9 +69,35 @@ public class EquipWearItemRequirementAspect extends RequirementsAspect {
         } else {
             return false;
         }
-        action.setRequirementsAspect(new ComplexRequirementAspect(action, requirementsAspects, FunctionsEnum.AND));
-        action.setRequirementsAspect(new ComplexRequirementAspect(action, requirements, FunctionsEnum.AND));
+        action.setRequirementsAspect(new ComplexRequirementAspect(action, requirementsAspects, ComplexRequirementAspect.FunctionsEnum.AND));
+        action.setRequirementsAspect(new ComplexRequirementAspect(action, requirements, ComplexRequirementAspect.FunctionsEnum.AND));
         this.action.getTask().addFirstPreAction(action);
+        return true;
+    }
+
+    @Override
+    public boolean check() {
+        EquipmentAspect equipmentAspect = (EquipmentAspect) action.getTask().getPerformer().getAspects().get("equipment");
+        try {
+            Item item = equipmentAspect.checkItemForEquip(this.item);
+            if (item != null) {
+                return createUnequipAction(item);
+            }
+            return true;
+        } catch (NotSuitableItemException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    private boolean createUnequipAction(Item item) {
+        Action action = new Action(this.action.getGameContainer());
+        action.setTargetAspect(new ItemActionTarget(action, item));
+        //TODO count work amount based on item weight and creature stats
+        action.setEffectAspect(new UnequipItemEffectAspect(action, 10));
+        action.setRequirementsAspect(new EquippedItemRequirementAspect(action, new ExactItemSelector(item)));
+        this.action.getTask().addFirstPreAction(action);
+        //TODO create equip action
         return true;
     }
 }
