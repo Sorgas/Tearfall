@@ -3,6 +3,7 @@ package stonering.game.core.model.lists;
 import stonering.designations.BuildingDesignation;
 import stonering.designations.Designation;
 import stonering.designations.OrderDesignation;
+import stonering.entity.jobs.actions.ChopTreeAction;
 import stonering.entity.jobs.actions.aspects.effect.*;
 import stonering.entity.jobs.actions.aspects.target.PositionActionTarget;
 import stonering.entity.jobs.actions.aspects.target.PlantHarvestActionTarget;
@@ -121,11 +122,8 @@ public class TaskContainer {
             }
             case CUT:
             case CHOP: {
-                Action action = new Action(container);
-                action.setEffectAspect(new ChopTreeEffectAspect(action));
-                action.setTargetAspect(new PositionActionTarget(action, designation.getPosition(), false, true)); //TODO replace with PlantActionTarget
-                action.setRequirementsAspect(new EquippedItemRequirementAspect(action, new ToolWithActionItemSelector("chop")));
-                Task task = new Task("designation", TaskTypesEnum.DESIGNATION, action, priority, container);
+                ChopTreeAction chopTreeAction = new ChopTreeAction(designation);
+                Task task = new Task("designation", TaskTypesEnum.DESIGNATION, chopTreeAction, priority, container);
                 return task;
             }
             case HARVEST: {

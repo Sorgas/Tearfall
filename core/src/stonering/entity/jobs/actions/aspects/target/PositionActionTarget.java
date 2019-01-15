@@ -1,6 +1,5 @@
 package stonering.entity.jobs.actions.aspects.target;
 
-import stonering.entity.jobs.actions.Action;
 import stonering.util.geometry.Position;
 
 /**
@@ -9,8 +8,8 @@ import stonering.util.geometry.Position;
 public class PositionActionTarget extends ActionTarget {
     private Position targetPosition;
 
-    public PositionActionTarget(Action action, Position targetPosition, boolean exactTarget, boolean nearTarget) {
-        super(action, exactTarget, nearTarget);
+    public PositionActionTarget(Position targetPosition, boolean exactTarget, boolean nearTarget) {
+        super(exactTarget, nearTarget);
         this.targetPosition = targetPosition;
     }
 

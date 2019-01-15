@@ -20,8 +20,10 @@ public abstract class Action {
     protected ActionTarget actionTarget;
     protected boolean finished;
 
-    public Action() {
+    protected Action(ActionTarget actionTarget) {
+        this.actionTarget = actionTarget;
         this.gameMvc = GameMvc.getInstance();
+        actionTarget.setAction(this);
     }
 
     /**
@@ -56,10 +58,6 @@ public abstract class Action {
 
     public void setFinished(boolean finished) {
         this.finished = finished;
-    }
-
-    public void setActionTarget(ActionTarget actionTarget) {
-        this.actionTarget = actionTarget;
     }
 
     public ActionTarget getActionTarget() {

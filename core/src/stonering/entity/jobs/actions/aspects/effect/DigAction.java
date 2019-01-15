@@ -36,11 +36,9 @@ public class DigAction extends Action {
 
     private boolean addEquipAction() {
         Item target = gameMvc.getModel().getItemContainer().getItemAvailableBySelector(toolItemSelector, task.getPerformer().getPosition());
-        if (target != null) {
-            task.addFirstPreAction(new EquipItemAction(target));
-            return true;
-        }
-        return false;
+        if (target == null) return false;
+        task.addFirstPreAction(new EquipItemAction(target, true));
+        return true;
     }
 
     @Override

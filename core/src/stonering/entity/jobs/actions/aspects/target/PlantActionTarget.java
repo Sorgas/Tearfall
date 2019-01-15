@@ -8,8 +8,8 @@ import stonering.entity.local.plants.Plant;
 public class PlantActionTarget extends ActionTarget {
     protected AbstractPlant plant;
 
-    public PlantActionTarget(Action action, AbstractPlant plant) {
-        super(action, true, true);
+    public PlantActionTarget(AbstractPlant plant) {
+        super(true, true);
         this.plant = plant;
     }
 
