@@ -69,6 +69,7 @@ public class EquipmentAspect extends Aspect {
         //TODO check hauling
         if (item != null && !equippedItems.contains(item)) {
             if (item.isWear()) { // equip as wear
+                //TODO add layers checking
                 List<EquipmentSlot> slots = selectMostEmptySlotsForItem(item);
                 for (EquipmentAspect.EquipmentSlot slot : slots) {
                     slot.items.add(item);
@@ -80,9 +81,9 @@ public class EquipmentAspect extends Aspect {
                     if (slot.grabbedItem == null) {
                         slot.grabbedItem = item;
                         equippedItems.add(item);
+                        return true;
                     }
                 }
-                return true;
             }
         }
         return false;

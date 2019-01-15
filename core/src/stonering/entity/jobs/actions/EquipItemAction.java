@@ -1,21 +1,22 @@
 package stonering.entity.jobs.actions;
 
-import stonering.entity.jobs.actions.aspects.effect.EquipItemEffectAspect;
-import stonering.entity.jobs.actions.aspects.effect.UnequipItemEffectAspect;
-import stonering.entity.jobs.actions.aspects.requirements.*;
-import stonering.entity.jobs.actions.aspects.target.ItemActionTarget;
 import stonering.entity.local.items.Item;
-import stonering.entity.local.items.selectors.ExactItemSelector;
 import stonering.entity.local.unit.aspects.EquipmentAspect;
 import stonering.exceptions.NotSuitableItemException;
+import stonering.util.global.TagLoggersEnum;
 
 public class EquipItemAction extends Action {
     private Item item;
+    private boolean force; //enables unequipping other items.
 
-    public EquipItemAction(Item item) {
+    public EquipItemAction(Item item, boolean force) {
         this.item = item;
+        this.force = force;
     }
 
+    /**
+     * @return
+     */
     @Override
     public boolean perform() {
         if (((EquipmentAspect) task.getPerformer().getAspects().get("equipment")).equipItem(item)) {
@@ -23,81 +24,57 @@ public class EquipItemAction extends Action {
             gameMvc.getModel().getItemContainer().pickItem(item);
             return true;
         }
-        return false;
+        return !force; //action fails if equipping was mandatory but not successful;
     }
 
     @Override
     public boolean check() {
-        EquipmentAspect equipmentAspect = (EquipmentAspect) action.getTask().getPerformer().getAspects().get("equipment");
         try {
-            Item item = equipmentAspect.checkItemForEquip(this.item);
-            if (item != null) {
-                return createUnequipAction(item);
+            EquipmentAspect equipmentAspect = (EquipmentAspect) task.getPerformer().getAspects().get("equipment");
+            Item blockingItem = equipmentAspect.checkItemForEquip(this.item);
+            if (blockingItem == null) return true;
+            if (item.isWear()) {
+                return createUnequipWearAction(blockingItem);
+            } else if (item.isTool()) {
+                return createUnequipToolAction(blockingItem);
             }
-            return true;
+            TagLoggersEnum.ITEMS.logError("Invalid case in EquipItemAction:check()");
+            return false;
         } catch (NotSuitableItemException e) {
-            e.printStackTrace();
+            TagLoggersEnum.ITEMS.logError(task.getPerformer().toString() + " tried to equip not tool or wear item " + item.toString() + " .");
             return false;
         }
     }
 
-    private boolean createUnequipAction(Item item) {
-        if (!item.isTool() && !item.isWear()) {
-            return false;
-        }
+    /**
+     * Creates actions for unequipping/equipping high-layer item and adds them to task,
+     * so equipping of low-layer item will be in between them.
+     * Equipping action will not be performed, if there is no room for item.
+     *
+     * @param item item(high-layer), that blocks equipping of main item(low-layer)
+     * @return false if actions are impossible or item is invalid.
+     */
+    private boolean createUnequipWearAction(Item item) {
         // unequip action
-        Action action = new Action(this.action.getGameContainer());
-        action.setTargetAspect(new ItemActionTarget(action, item));
-        //TODO count work amount based on item weight and creature stats
-        action.setEffectAspect(new UnequipItemEffectAspect(action, 10));
-        RequirementsAspect[] requirements = {
-                new EquippedItemRequirementAspect(action, new ExactItemSelector(item)),
-                new UnequipItemRequirementAspect(action, new ExactItemSelector(item))
-        };
-        action.setRequirementsAspect(new ComplexRequirementAspect(action, requirements, ComplexRequirementAspect.FunctionsEnum.AND));
-        this.action.getTask().addFirstPreAction(action);
+        UnequipItemAction action = new UnequipItemAction(item);
+        task.addFirstPreAction(action);
 
         // equip action
-        action = new Action(this.action.getGameContainer());
-        action.setTargetAspect(new ItemActionTarget(action, item));
-        action.setEffectAspect(new EquipItemEffectAspect(action));
-        RequirementsAspect[] requirementsAspects;
-        if (item.isWear() || item.isTool()) {
-            requirementsAspects = new RequirementsAspect[]{
-                    new BodyPartRequirementAspect(action, "grab", true),
-                    item.isWear() ? new EquipWearItemRequirementAspect(action, item) : new EquipToolItemRequirementAspect(action, item)};
-        } else {
-            return false;
-        }
-        action.setRequirementsAspect(new ComplexRequirementAspect(action, requirementsAspects, ComplexRequirementAspect.FunctionsEnum.AND));
-        action.setRequirementsAspect(new ComplexRequirementAspect(action, requirements, ComplexRequirementAspect.FunctionsEnum.AND));
-        this.action.getTask().addFirstPreAction(action);
+        EquipItemAction equipItemAction = new EquipItemAction(item, false);
+        task.addFirstPreAction(action);
         return true;
     }
 
-    @Override
-    public boolean check() {
-        EquipmentAspect equipmentAspect = (EquipmentAspect) action.getTask().getPerformer().getAspects().get("equipment");
-        try {
-            Item item = equipmentAspect.checkItemForEquip(this.item);
-            if (item != null) {
-                return createUnequipAction(item);
-            }
-            return true;
-        } catch (NotSuitableItemException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    private boolean createUnequipAction(Item item) {
-        Action action = new Action(this.action.getGameContainer());
-        action.setTargetAspect(new ItemActionTarget(action, item));
-        //TODO count work amount based on item weight and creature stats
-        action.setEffectAspect(new UnequipItemEffectAspect(action, 10));
-        action.setRequirementsAspect(new EquippedItemRequirementAspect(action, new ExactItemSelector(item)));
-        this.action.getTask().addFirstPreAction(action);
-        //TODO create equip action
+    /**
+     * Creates action only for unequipping item. Used to unequip tool when equipping another tool, as tools are highest layer,
+     * and two tools cannot be held simultaneously.
+     *
+     * @param item unequipping tool.
+     * @return
+     */
+    private boolean createUnequipToolAction(Item item) {
+        UnequipItemAction unequipItemAction = new UnequipItemAction(item);
+        task.addFirstPreAction(unequipItemAction);
         return true;
     }
 }
