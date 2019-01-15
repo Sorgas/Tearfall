@@ -4,6 +4,7 @@ import stonering.designations.BuildingDesignation;
 import stonering.designations.Designation;
 import stonering.designations.OrderDesignation;
 import stonering.entity.jobs.actions.ChopTreeAction;
+import stonering.entity.jobs.actions.HarvestPlantAction;
 import stonering.entity.jobs.actions.aspects.effect.*;
 import stonering.entity.jobs.actions.aspects.target.PositionActionTarget;
 import stonering.entity.jobs.actions.aspects.target.PlantHarvestActionTarget;
@@ -129,11 +130,8 @@ public class TaskContainer {
             case HARVEST: {
                 PlantBlock block = container.getLocalMap().getPlantBlock(designation.getPosition());
                 if (block != null && block.getPlant().isHarvestable()) {
-                    Action action = new Action(container);
-                    action.setEffectAspect(new HarvestPlantEffectAspect(action, 10));
-                    action.setTargetAspect(new PlantHarvestActionTarget(action, block.getPlant())); //TODO replace with PlantActionTarget
-                    action.setRequirementsAspect(new EquippedItemRequirementAspect(action, new ToolWithActionItemSelector("harvest_plants")));
-                    Task task = new Task("designation", TaskTypesEnum.DESIGNATION, action, priority, container);
+                    HarvestPlantAction harvestPlantAction = new HarvestPlantAction(block);
+                    Task task = new Task("designation", TaskTypesEnum.DESIGNATION, harvestPlantAction, priority, container);
                     return task;
                 }
             }
