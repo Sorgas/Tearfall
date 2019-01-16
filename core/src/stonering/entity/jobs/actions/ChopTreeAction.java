@@ -64,4 +64,9 @@ public class ChopTreeAction extends Action {
     private void logStart() {
         TagLoggersEnum.TASKS.logDebug("tree chopping started at " + actionTarget.getPosition().toString() + " by " + task.getPerformer().toString());
     }
+
+    @Override
+    public String toString() {
+        return "Chopping tree action";
+    }
 }

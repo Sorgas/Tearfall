@@ -104,4 +104,9 @@ public class DigAction extends Action {
     private void logStart() {
         TagLoggersEnum.TASKS.logDebug("digging " + type + " started at " + actionTarget.getPosition() + " by " + task.getPerformer().toString());
     }
+
+    @Override
+    public String toString() {
+        return "Digging action";
+    }
 }

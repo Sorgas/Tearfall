@@ -21,4 +21,9 @@ public class MoveAction extends Action {
     public boolean perform() {
         return false;
     }
+
+    @Override
+    public String toString() {
+        return "Move action";
+    }
 }

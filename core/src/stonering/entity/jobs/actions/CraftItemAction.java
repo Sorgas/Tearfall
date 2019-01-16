@@ -90,4 +90,9 @@ public class CraftItemAction extends Action {
         }
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "Crafting action: " + itemOrder.toString();
+    }
 }

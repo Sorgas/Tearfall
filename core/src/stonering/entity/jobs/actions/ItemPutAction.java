@@ -60,4 +60,9 @@ public class ItemPutAction extends Action {
         task.addFirstPreAction(new ItemPickAction(item));
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "Item put action: " + targetItem.getTitle();
+    }
 }

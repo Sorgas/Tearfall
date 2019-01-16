@@ -50,4 +50,9 @@ public class UnequipItemAction extends Action {
         ((EquipmentAspect) task.getPerformer().getAspects().get("equipment")).unequipItem(item);
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "Unequipping action: " + item.getTitle();
+    }
 }

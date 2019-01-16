@@ -79,4 +79,9 @@ public class EquipItemAction extends Action {
         task.addFirstPreAction(unequipItemAction);
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "Equipping action: " + item.getTitle();
+    }
 }

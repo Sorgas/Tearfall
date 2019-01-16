@@ -110,4 +110,9 @@ public class BuildingAction extends Action {
                 + " started at " + actionTarget.getPosition()
                 + " by " + task.getPerformer().toString());
     }
+
+    @Override
+    public String toString() {
+        return "Building action: " + buildingType.getTitle();
+    }
 }
