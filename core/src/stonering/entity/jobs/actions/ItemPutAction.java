@@ -1,6 +1,9 @@
 package stonering.entity.jobs.actions;
 
 import stonering.entity.jobs.actions.aspects.ItemPickAction;
+import stonering.entity.jobs.actions.aspects.target.AspectHolderActionTarget;
+import stonering.entity.jobs.actions.aspects.target.ItemActionTarget;
+import stonering.entity.jobs.actions.aspects.target.PositionActionTarget;
 import stonering.entity.local.AspectHolder;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.items.aspects.ItemContainerAspect;
@@ -21,13 +24,13 @@ public class ItemPutAction extends Action {
     private Position targetPosition;
 
     public ItemPutAction(Item targetItem, AspectHolder target) {
-        super();
+        super(new AspectHolderActionTarget(target, true, true));
         this.targetItem = targetItem;
         this.target = target;
     }
 
     public ItemPutAction(Item targetItem, Position targetPosition) {
-        super();
+        super(new PositionActionTarget(targetPosition, true, false));
         this.targetItem = targetItem;
         this.targetPosition = targetPosition;
     }

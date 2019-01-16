@@ -1,16 +1,9 @@
 package stonering.entity.local.unit.aspects.needs;
 
-import stonering.entity.jobs.actions.aspects.requirements.ComplexRequirementAspect.FunctionsEnum;
-import stonering.entity.jobs.actions.aspects.target.ItemActionTarget;
+import stonering.entity.jobs.actions.EquipItemAction;
 import stonering.game.core.model.GameContainer;
 import stonering.entity.jobs.Task;
-import stonering.entity.jobs.actions.Action;
 import stonering.entity.jobs.actions.TaskTypesEnum;
-import stonering.entity.jobs.actions.aspects.effect.EquipItemEffectAspect;
-import stonering.entity.jobs.actions.aspects.requirements.BodyPartRequirementAspect;
-import stonering.entity.jobs.actions.aspects.requirements.ComplexRequirementAspect;
-import stonering.entity.jobs.actions.aspects.requirements.EquipWearItemRequirementAspect;
-import stonering.entity.jobs.actions.aspects.requirements.RequirementsAspect;
 import stonering.entity.local.AspectHolder;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.items.selectors.ItemSelector;
@@ -65,13 +58,8 @@ public class WearNeed extends Need {
         Item item = container.getItemContainer().getItemAvailableBySelector(itemSelector, aspectHolder.getPosition());
         Task task = null;
         if (item != null) {
-            Action action = new Action(container);
-            action.setTargetAspect(new ItemActionTarget(action, item));
-            RequirementsAspect[] requirementsAspects = {new BodyPartRequirementAspect(action, "grab", true),
-                    new EquipWearItemRequirementAspect(action, item)};
-            action.setRequirementsAspect(new ComplexRequirementAspect(action, requirementsAspects, FunctionsEnum.AND));
-            action.setEffectAspect(new EquipItemEffectAspect(action));
-            task = new Task("Equip item " + item.getTitle(), TaskTypesEnum.EQUIPPING, action, GET_WEAR_PRIORITY, container);
+            EquipItemAction equipItemAction = new EquipItemAction(item, true);
+            task = new Task("Equip item " + item.getTitle(), TaskTypesEnum.EQUIPPING, equipItemAction, GET_WEAR_PRIORITY, container);
         }
         return task;
     }

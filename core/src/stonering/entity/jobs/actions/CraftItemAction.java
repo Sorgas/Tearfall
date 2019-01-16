@@ -26,8 +26,7 @@ public class CraftItemAction extends Action {
     private Item tool; //TODO
 
     public CraftItemAction(ItemOrder itemOrder, AspectHolder workbench) {
-        super();
-        actionTarget = new AspectHolderActionTarget(this, false, true, workbench);
+        super(new AspectHolderActionTarget(workbench, true, false));
         desiredItems = new ArrayList<>();
         this.itemOrder = itemOrder;
         this.workbench = workbench;

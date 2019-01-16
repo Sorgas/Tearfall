@@ -1,4 +1,4 @@
-package stonering.entity.jobs.actions.aspects.effect;
+package stonering.entity.jobs.actions;
 
 import stonering.designations.OrderDesignation;
 import stonering.entity.jobs.actions.Action;
@@ -20,8 +20,8 @@ public class DigAction extends Action {
     private ItemSelector toolItemSelector;
 
     public DigAction(OrderDesignation designation) {
+        super(new PositionActionTarget(designation.getPosition(), false, true));
         type = designation.getType();
-        actionTarget = new PositionActionTarget(this, designation.getPosition(), false, true);
         toolItemSelector = new ToolWithActionItemSelector("dig");
     }
 

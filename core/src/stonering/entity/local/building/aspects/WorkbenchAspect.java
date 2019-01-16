@@ -163,7 +163,7 @@ public class WorkbenchAspect extends Aspect {
      * Creates task and adds it to given entry.
      */
     private void createTaskForOrder(OrderTaskEntry entry) {
-        CraftItemAction action = new CraftItemAction(gameContainer, entry.order, aspectHolder);
+        CraftItemAction action = new CraftItemAction(entry.order, aspectHolder);
         entry.task = new Task(entry.order.getRecipe().getName(), TaskTypesEnum.CRAFTING, action, 1, gameContainer);
     }
 

@@ -1,5 +1,6 @@
 package stonering.entity.jobs.actions;
 
+import stonering.entity.jobs.actions.aspects.target.ItemActionTarget;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.unit.aspects.EquipmentAspect;
 import stonering.exceptions.NotSuitableItemException;
@@ -10,6 +11,7 @@ public class EquipItemAction extends Action {
     private boolean force; //enables unequipping other items.
 
     public EquipItemAction(Item item, boolean force) {
+        super(new ItemActionTarget(item));
         this.item = item;
         this.force = force;
     }

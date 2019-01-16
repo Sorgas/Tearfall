@@ -16,9 +16,9 @@ public abstract class AspectHolder extends IntervalTurnable implements Serializa
     protected Position position; //TODO move to PositionAspect
     protected HashMap<String, Aspect> aspects;
 
-    protected AspectHolder(String name, Position position) {
-        this.aspects = new HashMap<>();
+    protected AspectHolder(Position position) {
         this.position = position;
+        aspects = new HashMap<>();
     }
 
     public HashMap<String, Aspect> getAspects() {

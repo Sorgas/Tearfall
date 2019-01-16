@@ -18,8 +18,8 @@ public class Building extends AspectHolder { // TODO split to aspects
     private BuildingType type;
     private BuildingBlock block;
 
-    public Building(String name, Position position, BuildingType type) {
-        super(name, position);
+    public Building(Position position, BuildingType type) {
+        super(position);
         this.type = type;
         aspects = new HashMap<>();
         block = new BuildingBlock(this);
@@ -55,5 +55,10 @@ public class Building extends AspectHolder { // TODO split to aspects
 
     public BuildingType getType() {
         return type;
+    }
+
+    @Override
+    public String toString() {
+        return type.getTitle();
     }
 }

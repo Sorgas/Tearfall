@@ -3,10 +3,8 @@ package stonering.game.core.model.lists;
 import stonering.designations.BuildingDesignation;
 import stonering.designations.Designation;
 import stonering.designations.OrderDesignation;
-import stonering.entity.jobs.actions.BuildingAction;
-import stonering.entity.jobs.actions.ChopTreeAction;
+import stonering.entity.jobs.actions.*;
 import stonering.entity.jobs.actions.aspects.effect.*;
-import stonering.entity.jobs.actions.aspects.target.PositionActionTarget;
 import stonering.entity.jobs.actions.aspects.target.PlantHarvestActionTarget;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.buildings.BuildingTypeMap;
@@ -15,10 +13,7 @@ import stonering.enums.designations.DesignationTypeEnum;
 import stonering.game.core.model.GameContainer;
 import stonering.util.geometry.Position;
 import stonering.entity.jobs.Task;
-import stonering.entity.jobs.actions.Action;
-import stonering.entity.jobs.actions.TaskTypesEnum;
 import stonering.entity.jobs.actions.aspects.requirements.EquippedItemRequirementAspect;
-import stonering.entity.jobs.actions.aspects.requirements.ItemsInPositionOrInventoryRequirementAspect;
 import stonering.entity.local.items.selectors.ItemSelector;
 import stonering.entity.local.items.selectors.ToolWithActionItemSelector;
 import stonering.entity.local.plants.PlantBlock;
@@ -130,12 +125,12 @@ public class TaskContainer {
             case HARVEST: {
                 PlantBlock block = container.getLocalMap().getPlantBlock(designation.getPosition());
                 if (block != null && block.getPlant().isHarvestable()) {
-                    Action action = new Action(container);
-                    action.setEffectAspect(new HarvestPlantEffectAspect(action, 10));
-                    action.setTargetAspect(new PlantHarvestActionTarget(action, block.getPlant())); //TODO replace with PlantActionTarget
-                    action.setRequirementsAspect(new EquippedItemRequirementAspect(action, new ToolWithActionItemSelector("harvest_plants")));
-                    Task task = new Task("designation", TaskTypesEnum.DESIGNATION, action, priority, container);
-                    return task;
+//                    Action action = new Action(container);
+//                    action.setEffectAspect(new HarvestPlantEffectAspect(action, 10));
+//                    action.setTargetAspect(new PlantHarvestActionTarget(action, block.getPlant())); //TODO replace with PlantActionTarget
+//                    action.setRequirementsAspect(new EquippedItemRequirementAspect(action, new ToolWithActionItemSelector("harvest_plants")));
+//                    Task task = new Task("designation", TaskTypesEnum.DESIGNATION, action, priority, container);
+//                    return task;
                 }
             }
         }

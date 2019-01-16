@@ -9,7 +9,7 @@ import stonering.util.geometry.Position;
 public class MoveAction extends Action {
 
     public MoveAction(Position to) {
-        actionTarget = new PositionActionTarget(this, to, true, false);
+        super(new PositionActionTarget(to, true, false));
     }
 
     @Override

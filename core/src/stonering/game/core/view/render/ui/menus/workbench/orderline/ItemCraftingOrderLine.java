@@ -266,7 +266,7 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
     private void handleMaterialSelection(int index) {
         order.getParts().get(index).setSelected(partSelectBoxes.get(index).getSelected()); // update item part order
         if (order.isDefined()) {
-            TagLoggersEnum.TASKS.logDebug("Order " + order.getRecipe().getName() + " added to " + menu.getWorkbench().getName());
+            TagLoggersEnum.TASKS.logDebug("Order " + order.getRecipe().getName() + " added to " + menu.getWorkbench());
             menu.getWorkbenchAspect().addOrder(order);
         }
     }
