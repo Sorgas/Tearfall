@@ -6,6 +6,8 @@ import java.util.ArrayList;
  * Item type aspect for tools.
  * Determines, in which actions item can be used, and its efficiency.
  *
+ * By default, all tools are one handed.
+ *
  * @author Alexander Kuzyakov on 11.09.2018.
  */
 public class ToolItemType {
