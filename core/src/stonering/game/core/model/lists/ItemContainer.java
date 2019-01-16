@@ -52,8 +52,13 @@ public class ItemContainer {
     }
 
     public void removeItem(Item item) {
+        if (!items.contains(item)) TagLoggersEnum.ITEMS.logWarn("Removing not present item " + item.getName());
         items.remove(item);
         itemMap.get(item.getPosition()).remove(item);
+    }
+
+    public void removeItems(List<Item> items) {
+        items.forEach(this::removeItem);
     }
 
     public void addItem(Item item, Position position) {

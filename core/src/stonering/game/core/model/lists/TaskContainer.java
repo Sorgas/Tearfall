@@ -3,6 +3,7 @@ package stonering.game.core.model.lists;
 import stonering.designations.BuildingDesignation;
 import stonering.designations.Designation;
 import stonering.designations.OrderDesignation;
+import stonering.entity.jobs.actions.BuildingAction;
 import stonering.entity.jobs.actions.ChopTreeAction;
 import stonering.entity.jobs.actions.aspects.effect.*;
 import stonering.entity.jobs.actions.aspects.target.PositionActionTarget;
@@ -137,7 +138,6 @@ public class TaskContainer {
                     return task;
                 }
             }
-
         }
         return null;
     }
@@ -151,12 +151,8 @@ public class TaskContainer {
      * @return
      */
     private Task createBuildingTask(BuildingDesignation designation, List<ItemSelector> items, int priority) {
-        BuildingType buildingType = BuildingTypeMap.getInstance().getBuilding(designation.getBuilding());
-        Action action = new Action(container);
-        action.setRequirementsAspect(new ItemsInPositionOrInventoryRequirementAspect(action, designation.getPosition(), items));
-        action.setTargetAspect(new PositionActionTarget(action, designation.getPosition(), !buildingType.getTitle().equals("wall"), true));
-        action.setEffectAspect(new ConstructionEffectAspect(action, designation.getBuilding(), "marble"));
-        Task task = new Task("designation", TaskTypesEnum.DESIGNATION, action, priority, container);
+        BuildingAction buildingAction = new BuildingAction(designation, items);
+        Task task = new Task("designation", TaskTypesEnum.DESIGNATION, buildingAction, priority, container);
         task.setDesignation(designation);
         return task;
     }
