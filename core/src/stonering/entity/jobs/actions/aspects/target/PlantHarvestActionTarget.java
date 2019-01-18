@@ -12,13 +12,13 @@ import stonering.entity.local.plants.Plant;
  */
 public class PlantHarvestActionTarget extends PlantActionTarget {
 
-    public PlantHarvestActionTarget(Action action, AbstractPlant plant) {
-        super(action, plant);
+    public PlantHarvestActionTarget(AbstractPlant plant) {
+        super(plant);
     }
 
     @Override
     public Position getPosition() {
-        if(plant instanceof Plant) {
+        if (plant instanceof Plant) {
             return plant.getPosition();
         } else {
             return findUnharvestedPlantPart();

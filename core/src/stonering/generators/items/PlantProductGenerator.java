@@ -10,6 +10,7 @@ import stonering.entity.local.plants.PlantBlock;
 import stonering.entity.local.plants.Tree;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Generator for products from plants.
@@ -43,7 +44,7 @@ public class PlantProductGenerator {
         return items;
     }
 
-    public ArrayList<Item> generateHarvestProduct(PlantBlock block) {
+    public List<Item> generateHarvestProduct(PlantBlock block) {
         ArrayList<Item> items = new ArrayList<>();
         block.getCutProducts().forEach(s -> {
             try {

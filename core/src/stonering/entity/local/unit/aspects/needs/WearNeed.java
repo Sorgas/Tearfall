@@ -59,7 +59,7 @@ public class WearNeed extends Need {
         Task task = null;
         if (item != null) {
             EquipItemAction equipItemAction = new EquipItemAction(item, true);
-            task = new Task("Equip item " + item.getTitle(), TaskTypesEnum.EQUIPPING, equipItemAction, GET_WEAR_PRIORITY, container);
+            task = new Task("Equip item " + item.getTitle(), TaskTypesEnum.EQUIPPING, equipItemAction, GET_WEAR_PRIORITY);
         }
         return task;
     }
