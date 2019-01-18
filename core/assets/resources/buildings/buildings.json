@@ -1,385 +1,346 @@
 [
     {
-        "building":"wall",
-        "title":"Wall",
-        "description":"Wall",
-        "category":"constructions",
-        "components":[
+        "building": "wall",
+        "title": "Wall",
+        "description": "Wall",
+        "category": "constructions",
+        "components": [
             {
-                "class":"step_c",
-                "optional":false,
-                "variants":[
+                "class": "step_c",
+                "optional": false,
+                "variants": [
                     {
-                        "class":"variant_c",
-                        "material":"stone",
-                        "amount":"4",
-                        "sprite":[
-                            "1",
-                            "1"
+                        "class": "variant_c",
+                        "material": "stone",
+                        "amount": "4",
+                        "sprite": [
+                            "1", "1"
                         ]
-                    },
-                    {
-                        "class":"variant_c",
-                        "material":"clay",
-                        "amount":"4",
-                        "sprite":[
-                            "4",
-                            "1"
+                    }, {
+                        "class": "variant_c",
+                        "material": "clay",
+                        "amount": "4",
+                        "sprite": [
+                            "4", "1"
                         ]
-                    },
-                    {
-                        "class":"variant_c",
-                        "material":"metal",
-                        "amount":"4",
-                        "sprite":[
-                            "5",
-                            "1"
+                    }, {
+                        "class": "variant_c",
+                        "material": "metal",
+                        "amount": "4",
+                        "sprite": [
+                            "5", "1"
                         ]
                     }
                 ]
             }
         ],
-        "menuPath":[],
-        "atlasY":"0",
-        "atlasX":"0",
-        "color":{
-            "class":"color_c",
-            "r":"1",
-            "g":"1",
-            "b":"1",
-            "a":"1"
+        "menuPath": [],
+        "atlasY": "0",
+        "atlasX": "0",
+        "color": {
+            "class": "color_c",
+            "r": "1",
+            "g": "1",
+            "b": "1",
+            "a": "1"
         }
-    },
-    {
-        "building":"floor",
-        "title":"Floor",
-        "description":"Floor",
-        "category":"constructions",
-        "components":[
-            {
-                "class":"step_c",
-                "optional":false,
-                "variants":[
-                    {
-                        "class":"variant_c",
-                        "material":"stone",
-                        "amount":"4",
-                        "sprite":[
-                            "1",
-                            "1"
-                        ]
-                    },
-                    {
-                        "class":"variant_c",
-                        "material":"clay",
-                        "amount":"4",
-                        "sprite":[
-                            "4",
-                            "1"
-                        ]
-                    },
-                    {
-                        "class":"variant_c",
-                        "material":"metal",
-                        "amount":"4",
-                        "sprite":[
-                            "5",
-                            "1"
-                        ]
-                    }
-                ]
-            }
-        ],
-        "menuPath":[],
-        "atlasY":"0",
-        "atlasX":"0",
-        "color":{
-            "class":"color_c",
-            "r":"1",
-            "g":"1",
-            "b":"1",
-            "a":"1"
+    }, {
+    "building": "floor",
+    "title": "Floor",
+    "description": "Floor",
+    "category": "constructions",
+    "components": [
+        {
+            "class": "step_c",
+            "optional": false,
+            "variants": [
+                {
+                    "class": "variant_c",
+                    "material": "stone",
+                    "amount": "4",
+                    "sprite": [
+                        "1", "1"
+                    ]
+                }, {
+                    "class": "variant_c",
+                    "material": "clay",
+                    "amount": "4",
+                    "sprite": [
+                        "4", "1"
+                    ]
+                }, {
+                    "class": "variant_c",
+                    "material": "metal",
+                    "amount": "4",
+                    "sprite": [
+                        "5", "1"
+                    ]
+                }
+            ]
         }
-    },
-    {
-        "building":"ramp",
-        "title":"Ramp",
-        "description":"Ramp",
-        "category":"constructions",
-        "components":[
-            {
-                "class":"step_c",
-                "optional":false,
-                "variants":[
-                    {
-                        "class":"variant_c",
-                        "material":"stone",
-                        "amount":"4",
-                        "sprite":[
-                            "1",
-                            "1"
-                        ]
-                    },
-                    {
-                        "class":"variant_c",
-                        "material":"clay",
-                        "amount":"4",
-                        "sprite":[
-                            "4",
-                            "1"
-                        ]
-                    },
-                    {
-                        "class":"variant_c",
-                        "material":"metal",
-                        "amount":"4",
-                        "sprite":[
-                            "5",
-                            "1"
-                        ]
-                    }
-                ]
-            }
-        ],
-        "menuPath":[],
-        "atlasY":"0",
-        "atlasX":"0",
-        "color":{
-            "class":"color_c",
-            "r":"1",
-            "g":"1",
-            "b":"1",
-            "a":"1"
-        }
-    },
-    {
-        "building":"stairs",
-        "title":"Stairs",
-        "description":"Stairs",
-        "category":"constructions",
-        "components":[
-            {
-                "class":"step_c",
-                "optional":false,
-                "variants":[
-                    {
-                        "class":"variant_c",
-                        "material":"stone",
-                        "amount":"4",
-                        "sprite":[
-                            "1",
-                            "1"
-                        ]
-                    },
-                    {
-                        "class":"variant_c",
-                        "material":"clay",
-                        "amount":"4",
-                        "sprite":[
-                            "4",
-                            "1"
-                        ]
-                    },
-                    {
-                        "class":"variant_c",
-                        "material":"metal",
-                        "amount":"4",
-                        "sprite":[
-                            "5",
-                            "1"
-                        ]
-                    }
-                ]
-            }
-        ],
-        "menuPath":[],
-        "atlasY":"0",
-        "atlasX":"0",
-        "color":{
-            "class":"color_c",
-            "r":"1",
-            "g":"1",
-            "b":"1",
-            "a":"1"
-        }
-    },
-    {
-        "building":"chair",
-        "title":"Chair",
-        "description":"Chair",
-        "category":"furniture",
-        "components":[
-            {
-                "class":"step_c",
-                "optional":false,
-                "variants":[
-                    {
-                        "class":"variant_c",
-                        "material":"stone",
-                        "amount":"4",
-                        "sprite":[
-                            "1",
-                            "1"
-                        ]
-                    },
-                    {
-                        "class":"variant_c",
-                        "material":"wood",
-                        "amount":"4",
-                        "sprite":[
-                            "2",
-                            "1"
-                        ]
-                    },
-                    {
-                        "class":"variant_c",
-                        "material":"clay",
-                        "amount":"4",
-                        "sprite":[
-                            "4",
-                            "1"
-                        ]
-                    },
-                    {
-                        "class":"variant_c",
-                        "material":"metal",
-                        "amount":"4",
-                        "sprite":[
-                            "5",
-                            "1"
-                        ]
-                    }
-                ]
-            }
-        ],
-        "menuPath":[],
-        "atlasY":"0",
-        "atlasX":"0",
-        "color":{
-            "class":"color_c",
-            "r":"1",
-            "g":"1",
-            "b":"1",
-            "a":"1"
-        }
-    },
-    {
-        "building":"sawing_rack",
-        "title":"Sawing rack",
-        "description":"Small rack for sawing logs into planks.",
-        "category":"workbenches",
-        "components":[
-            {
-                "class":"step_c",
-                "optional":false,
-                "brakingRatio":"0.5",
-                "variants":[
-                    {
-                        "class":"variant_c",
-                        "material":"stone",
-                        "amount":"4",
-                        "sprite":[
-                            "1",
-                            "1"
-                        ]
-                    },
-                    {
-                        "class":"variant_c",
-                        "material":"clay",
-                        "amount":"4",
-                        "sprite":[
-                            "4",
-                            "1"
-                        ]
-                    }
-                ]
-            }
-        ],
-        "menuPath":[
-            "wood"
-        ],
-        "atlasY":"0",
-        "atlasX":"0",
-        "color":{
-            "class":"color_c",
-            "r":"1",
-            "g":"1",
-            "b":"1",
-            "a":"1"
-        }
-    },
-    {
-        "building":"forge",
-        "title":"Forge",
-        "description":"Forge for blacksmithing",
-        "category":"workbenches",
-        "aspects":[["workbench"], ["item_container", "solid", "100"]],
-        "components":[
-            {
-                "class":"step_c",
-                "optional":false,
-                "brakingRatio":"0.5",
-                "variants":[
-                    {
-                        "class":"variant_c",
-                        "material":"metal",
-                        "amount":"1",
-                        "sprite":[
-                            "1",
-                            "1"
-                        ]
-                    }
-                ]
-            }
-        ],
-        "menuPath":[
-            "metal"
-        ],
-        "atlasY":"0",
-        "atlasX":"0",
-        "color":{
-            "class":"color_c",
-            "r":"1",
-            "g":"1",
-            "b":"1",
-            "a":"1"
-        }
-    },
-    {
-        "building":"tailor_shop",
-        "title":"Tailor's workbench",
-        "description":"qwer",
-        "category":"workbenches",
-        "aspects":[["workbench"], ["item_container", "solid", "100"]],
-        "components":[
-            {
-                "class":"step_c",
-                "optional":false,
-                "brakingRatio":"0.5",
-                "variants":[
-                    {
-                        "class":"variant_c",
-                        "material":"stone",
-                        "amount":"1",
-                        "sprite":[
-                            "1",
-                            "1"
-                        ]
-                    }
-                ]
-            }
-        ],
-        "menuPath":[
-            "cloth"
-        ],
-        "atlasY":"0",
-        "atlasX":"0",
-        "color":{
-            "class":"color_c",
-            "r":"1",
-            "g":"1",
-            "b":"1",
-            "a":"1"
-        }
+    ],
+    "menuPath": [],
+    "atlasY": "0",
+    "atlasX": "0",
+    "color": {
+        "class": "color_c",
+        "r": "1",
+        "g": "1",
+        "b": "1",
+        "a": "1"
     }
+}, {
+    "building": "ramp",
+    "title": "Ramp",
+    "description": "Ramp",
+    "category": "constructions",
+    "components": [
+        {
+            "class": "step_c",
+            "optional": false,
+            "variants": [
+                {
+                    "class": "variant_c",
+                    "material": "stone",
+                    "amount": "4",
+                    "sprite": [
+                        "1", "1"
+                    ]
+                }, {
+                    "class": "variant_c",
+                    "material": "clay",
+                    "amount": "4",
+                    "sprite": [
+                        "4", "1"
+                    ]
+                }, {
+                    "class": "variant_c",
+                    "material": "metal",
+                    "amount": "4",
+                    "sprite": [
+                        "5", "1"
+                    ]
+                }
+            ]
+        }
+    ],
+    "menuPath": [],
+    "atlasY": "0",
+    "atlasX": "0",
+    "color": {
+        "class": "color_c",
+        "r": "1",
+        "g": "1",
+        "b": "1",
+        "a": "1"
+    }
+}, {
+    "building": "stairs",
+    "title": "Stairs",
+    "description": "Stairs",
+    "category": "constructions",
+    "components": [
+        {
+            "class": "step_c",
+            "optional": false,
+            "variants": [
+                {
+                    "class": "variant_c",
+                    "material": "stone",
+                    "amount": "4",
+                    "sprite": [
+                        "1", "1"
+                    ]
+                }, {
+                    "class": "variant_c",
+                    "material": "clay",
+                    "amount": "4",
+                    "sprite": [
+                        "4", "1"
+                    ]
+                }, {
+                    "class": "variant_c",
+                    "material": "metal",
+                    "amount": "4",
+                    "sprite": [
+                        "5", "1"
+                    ]
+                }
+            ]
+        }
+    ],
+    "menuPath": [],
+    "atlasY": "0",
+    "atlasX": "0",
+    "color": {
+        "class": "color_c",
+        "r": "1",
+        "g": "1",
+        "b": "1",
+        "a": "1"
+    }
+}, {
+    "building": "chair",
+    "title": "Chair",
+    "description": "Chair",
+    "category": "furniture",
+    "components": [
+        {
+            "class": "step_c",
+            "optional": false,
+            "variants": [
+                {
+                    "class": "variant_c",
+                    "material": "stone",
+                    "amount": "4",
+                    "sprite": [
+                        "1", "1"
+                    ]
+                }, {
+                    "class": "variant_c",
+                    "material": "wood",
+                    "amount": "4",
+                    "sprite": [
+                        "2", "1"
+                    ]
+                }, {
+                    "class": "variant_c",
+                    "material": "clay",
+                    "amount": "4",
+                    "sprite": [
+                        "4", "1"
+                    ]
+                }, {
+                    "class": "variant_c",
+                    "material": "metal",
+                    "amount": "4",
+                    "sprite": [
+                        "5", "1"
+                    ]
+                }
+            ]
+        }
+    ],
+    "menuPath": [],
+    "atlasY": "0",
+    "atlasX": "0",
+    "color": {
+        "class": "color_c",
+        "r": "1",
+        "g": "1",
+        "b": "1",
+        "a": "1"
+    }
+}, {
+    "building": "sawing_rack",
+    "title": "Sawing rack",
+    "description": "Small rack for sawing logs into planks.",
+    "category": "workbenches",
+    "components": [
+        {
+            "class": "step_c",
+            "optional": false,
+            "brakingRatio": "0.5",
+            "variants": [
+                {
+                    "class": "variant_c",
+                    "material": "stone",
+                    "amount": "4",
+                    "sprite": [
+                        "1", "1"
+                    ]
+                }, {
+                    "class": "variant_c",
+                    "material": "clay",
+                    "amount": "4",
+                    "sprite": [
+                        "4", "1"
+                    ]
+                }
+            ]
+        }
+    ],
+    "menuPath": [
+        "wood"
+    ],
+    "atlasY": "0",
+    "atlasX": "0",
+    "color": {
+        "class": "color_c",
+        "r": "1",
+        "g": "1",
+        "b": "1",
+        "a": "1"
+    }
+}, {
+    "building": "forge",
+    "title": "Forge",
+    "description": "Forge for blacksmithing",
+    "category": "workbenches",
+    "aspects": [["workbench"], ["item_container", "solid", "100"]],
+    "components": [
+        {
+            "class": "step_c",
+            "optional": false,
+            "brakingRatio": "0.5",
+            "variants": [
+                {
+                    "class": "variant_c",
+                    "material": "metal",
+                    "amount": "1",
+                    "sprite": [
+                        "1", "1"
+                    ]
+                }
+            ]
+        }
+    ],
+    "menuPath": [
+        "metal"
+    ],
+    "atlasY": "0",
+    "atlasX": "0",
+    "color": {
+        "class": "color_c",
+        "r": "1",
+        "g": "1",
+        "b": "1",
+        "a": "1"
+    }
+}, {
+    "building": "tailor_shop",
+    "title": "Tailor's workbench",
+    "description": "qwer",
+    "category": "workbenches",
+    "aspects": [["workbench"], ["item_container", "solid", "100"]],
+    "components": [
+        {
+            "class": "step_c",
+            "optional": false,
+            "brakingRatio": "0.5",
+            "variants": [
+                {
+                    "class": "variant_c",
+                    "material": "stone",
+                    "amount": "1",
+                    "sprite": [
+                        "1", "1"
+                    ]
+                }
+            ]
+        }
+    ],
+    "menuPath": [
+        "cloth"
+    ],
+    "atlasY": "0",
+    "atlasX": "0",
+    "color": {
+        "class": "color_c",
+        "r": "1",
+        "g": "1",
+        "b": "1",
+        "a": "1"
+    }
+}
 ]

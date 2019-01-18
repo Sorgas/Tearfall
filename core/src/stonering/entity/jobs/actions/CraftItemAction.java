@@ -1,6 +1,6 @@
 package stonering.entity.jobs.actions;
 
-import stonering.entity.jobs.actions.aspects.target.AspectHolderActionTarget;
+import stonering.entity.jobs.actions.target.AspectHolderActionTarget;
 import stonering.entity.local.AspectHolder;
 import stonering.entity.local.building.aspects.WorkbenchAspect;
 import stonering.entity.local.crafting.ItemOrder;

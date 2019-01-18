@@ -1,11 +1,10 @@
 package stonering.entity.jobs.actions;
 
-import stonering.entity.jobs.actions.aspects.target.PlantActionTarget;
+import stonering.entity.jobs.actions.target.PlantActionTarget;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.items.selectors.ItemSelector;
 import stonering.entity.local.items.selectors.ToolWithActionItemSelector;
 import stonering.entity.local.plants.AbstractPlant;
-import stonering.entity.local.plants.Plant;
 import stonering.entity.local.plants.PlantBlock;
 import stonering.entity.local.unit.aspects.EquipmentAspect;
 import stonering.generators.items.PlantProductGenerator;

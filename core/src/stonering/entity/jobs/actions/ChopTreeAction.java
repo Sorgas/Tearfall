@@ -1,8 +1,7 @@
 package stonering.entity.jobs.actions;
 
 import stonering.designations.Designation;
-import stonering.entity.jobs.actions.aspects.target.PlantActionTarget;
-import stonering.entity.jobs.actions.aspects.target.PositionActionTarget;
+import stonering.entity.jobs.actions.target.PositionActionTarget;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.items.selectors.ItemSelector;
 import stonering.entity.local.items.selectors.ToolWithActionItemSelector;

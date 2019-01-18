@@ -1,14 +1,12 @@
 package stonering.entity.jobs.actions;
 
 import stonering.entity.jobs.actions.aspects.ItemPickAction;
-import stonering.entity.jobs.actions.aspects.target.AspectHolderActionTarget;
-import stonering.entity.jobs.actions.aspects.target.ItemActionTarget;
-import stonering.entity.jobs.actions.aspects.target.PositionActionTarget;
+import stonering.entity.jobs.actions.target.AspectHolderActionTarget;
+import stonering.entity.jobs.actions.target.PositionActionTarget;
 import stonering.entity.local.AspectHolder;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.items.aspects.ItemContainerAspect;
 import stonering.entity.local.unit.aspects.EquipmentAspect;
-import stonering.game.core.model.GameContainer;
 import stonering.util.geometry.Position;
 
 /**

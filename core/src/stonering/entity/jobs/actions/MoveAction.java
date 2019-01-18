@@ -1,6 +1,6 @@
 package stonering.entity.jobs.actions;
 
-import stonering.entity.jobs.actions.aspects.target.PositionActionTarget;
+import stonering.entity.jobs.actions.target.PositionActionTarget;
 import stonering.util.geometry.Position;
 
 /**

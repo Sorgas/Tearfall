@@ -1,7 +1,7 @@
 package stonering.entity.jobs.actions;
 
 import stonering.designations.BuildingDesignation;
-import stonering.entity.jobs.actions.aspects.target.PositionActionTarget;
+import stonering.entity.jobs.actions.target.PositionActionTarget;
 import stonering.entity.local.building.Building;
 import stonering.entity.local.building.BuildingType;
 import stonering.entity.local.items.Item;
@@ -16,7 +16,10 @@ import stonering.util.global.TagLoggersEnum;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Action for creating buildings and constructions on map.
+ * Creates actions for bringing materials to construction site.
+ */
 public class BuildingAction extends Action {
     private BuildingType buildingType;
     private List<ItemSelector> materials;

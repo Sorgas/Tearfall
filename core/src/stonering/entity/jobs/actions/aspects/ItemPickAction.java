@@ -1,7 +1,7 @@
 package stonering.entity.jobs.actions.aspects;
 
 import stonering.entity.jobs.actions.Action;
-import stonering.entity.jobs.actions.aspects.target.ItemActionTarget;
+import stonering.entity.jobs.actions.target.ItemActionTarget;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.unit.aspects.EquipmentAspect;
 
