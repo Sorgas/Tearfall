@@ -3,37 +3,8 @@
         "building": "wall",
         "title": "Wall",
         "description": "Wall",
+        "parts": ["wall"],
         "category": "constructions",
-        "components": [
-            {
-                "class": "step_c",
-                "optional": false,
-                "variants": [
-                    {
-                        "class": "variant_c",
-                        "material": "stone",
-                        "amount": "4",
-                        "sprite": [
-                            "1", "1"
-                        ]
-                    }, {
-                        "class": "variant_c",
-                        "material": "clay",
-                        "amount": "4",
-                        "sprite": [
-                            "4", "1"
-                        ]
-                    }, {
-                        "class": "variant_c",
-                        "material": "metal",
-                        "amount": "4",
-                        "sprite": [
-                            "5", "1"
-                        ]
-                    }
-                ]
-            }
-        ],
         "menuPath": [],
         "atlasY": "0",
         "atlasX": "0",
@@ -48,37 +19,8 @@
     "building": "floor",
     "title": "Floor",
     "description": "Floor",
+    "parts": ["floor"],
     "category": "constructions",
-    "components": [
-        {
-            "class": "step_c",
-            "optional": false,
-            "variants": [
-                {
-                    "class": "variant_c",
-                    "material": "stone",
-                    "amount": "4",
-                    "sprite": [
-                        "1", "1"
-                    ]
-                }, {
-                    "class": "variant_c",
-                    "material": "clay",
-                    "amount": "4",
-                    "sprite": [
-                        "4", "1"
-                    ]
-                }, {
-                    "class": "variant_c",
-                    "material": "metal",
-                    "amount": "4",
-                    "sprite": [
-                        "5", "1"
-                    ]
-                }
-            ]
-        }
-    ],
     "menuPath": [],
     "atlasY": "0",
     "atlasX": "0",
@@ -93,37 +35,8 @@
     "building": "ramp",
     "title": "Ramp",
     "description": "Ramp",
+    "parts": ["ramp"],
     "category": "constructions",
-    "components": [
-        {
-            "class": "step_c",
-            "optional": false,
-            "variants": [
-                {
-                    "class": "variant_c",
-                    "material": "stone",
-                    "amount": "4",
-                    "sprite": [
-                        "1", "1"
-                    ]
-                }, {
-                    "class": "variant_c",
-                    "material": "clay",
-                    "amount": "4",
-                    "sprite": [
-                        "4", "1"
-                    ]
-                }, {
-                    "class": "variant_c",
-                    "material": "metal",
-                    "amount": "4",
-                    "sprite": [
-                        "5", "1"
-                    ]
-                }
-            ]
-        }
-    ],
     "menuPath": [],
     "atlasY": "0",
     "atlasX": "0",
@@ -138,37 +51,8 @@
     "building": "stairs",
     "title": "Stairs",
     "description": "Stairs",
+    "parts": ["stairs"],
     "category": "constructions",
-    "components": [
-        {
-            "class": "step_c",
-            "optional": false,
-            "variants": [
-                {
-                    "class": "variant_c",
-                    "material": "stone",
-                    "amount": "4",
-                    "sprite": [
-                        "1", "1"
-                    ]
-                }, {
-                    "class": "variant_c",
-                    "material": "clay",
-                    "amount": "4",
-                    "sprite": [
-                        "4", "1"
-                    ]
-                }, {
-                    "class": "variant_c",
-                    "material": "metal",
-                    "amount": "4",
-                    "sprite": [
-                        "5", "1"
-                    ]
-                }
-            ]
-        }
-    ],
     "menuPath": [],
     "atlasY": "0",
     "atlasX": "0",
