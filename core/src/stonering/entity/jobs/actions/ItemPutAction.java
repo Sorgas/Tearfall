@@ -1,11 +1,12 @@
 package stonering.entity.jobs.actions;
 
 import stonering.entity.jobs.actions.aspects.ItemPickAction;
+import stonering.entity.jobs.actions.target.AspectHolderActionTarget;
+import stonering.entity.jobs.actions.target.PositionActionTarget;
 import stonering.entity.local.AspectHolder;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.items.aspects.ItemContainerAspect;
 import stonering.entity.local.unit.aspects.EquipmentAspect;
-import stonering.game.core.model.GameContainer;
 import stonering.util.geometry.Position;
 
 /**
@@ -21,13 +22,13 @@ public class ItemPutAction extends Action {
     private Position targetPosition;
 
     public ItemPutAction(Item targetItem, AspectHolder target) {
-        super();
+        super(new AspectHolderActionTarget(target, true, true));
         this.targetItem = targetItem;
         this.target = target;
     }
 
     public ItemPutAction(Item targetItem, Position targetPosition) {
-        super();
+        super(new PositionActionTarget(targetPosition, true, false));
         this.targetItem = targetItem;
         this.targetPosition = targetPosition;
     }
@@ -56,5 +57,10 @@ public class ItemPutAction extends Action {
     private boolean createPickingAction(Item item) {
         task.addFirstPreAction(new ItemPickAction(item));
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Item put action: " + targetItem.getTitle();
     }
 }

@@ -1,6 +1,5 @@
-package stonering.entity.jobs.actions.aspects.target;
+package stonering.entity.jobs.actions.target;
 
-import stonering.entity.jobs.actions.Action;
 import stonering.entity.local.AspectHolder;
 import stonering.util.geometry.Position;
 
@@ -10,8 +9,8 @@ import stonering.util.geometry.Position;
 public class AspectHolderActionTarget extends ActionTarget {
     private AspectHolder aspectHolder;
 
-    public AspectHolderActionTarget(Action action, boolean exactTarget, boolean nearTarget, AspectHolder aspectHolder) {
-        super(action, exactTarget, nearTarget);
+    public AspectHolderActionTarget(AspectHolder aspectHolder, boolean exactTarget, boolean nearTarget) {
+        super(exactTarget, nearTarget);
         this.aspectHolder = aspectHolder;
     }
 

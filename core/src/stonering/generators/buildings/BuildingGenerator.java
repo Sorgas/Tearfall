@@ -31,7 +31,6 @@ public class BuildingGenerator {
             return null;
         }
         Building building = new Building(position, type);
-        building.setName(type.getTitle());
         building.setMaterial(38); //TODO replace with material from task
         initAspects(building, type);
         return building;

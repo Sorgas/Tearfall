@@ -1,9 +1,7 @@
-package stonering.entity.jobs.actions.aspects.effect;
+package stonering.entity.jobs.actions;
 
 import stonering.designations.OrderDesignation;
-import stonering.entity.jobs.actions.Action;
-import stonering.entity.jobs.actions.EquipItemAction;
-import stonering.entity.jobs.actions.aspects.target.PositionActionTarget;
+import stonering.entity.jobs.actions.target.PositionActionTarget;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.items.selectors.ItemSelector;
 import stonering.entity.local.items.selectors.ToolWithActionItemSelector;
@@ -20,8 +18,8 @@ public class DigAction extends Action {
     private ItemSelector toolItemSelector;
 
     public DigAction(OrderDesignation designation) {
+        super(new PositionActionTarget(designation.getPosition(), false, true));
         type = designation.getType();
-        actionTarget = new PositionActionTarget(this, designation.getPosition(), false, true);
         toolItemSelector = new ToolWithActionItemSelector("dig");
     }
 
@@ -103,5 +101,10 @@ public class DigAction extends Action {
 
     private void logStart() {
         TagLoggersEnum.TASKS.logDebug("digging " + type + " started at " + actionTarget.getPosition() + " by " + task.getPerformer().toString());
+    }
+
+    @Override
+    public String toString() {
+        return "Digging action";
     }
 }

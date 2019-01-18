@@ -3,11 +3,7 @@ package stonering.game.core.model.lists;
 import stonering.designations.BuildingDesignation;
 import stonering.designations.Designation;
 import stonering.designations.OrderDesignation;
-import stonering.entity.jobs.actions.ChopTreeAction;
-import stonering.entity.jobs.actions.HarvestPlantAction;
-import stonering.entity.jobs.actions.aspects.effect.*;
-import stonering.entity.jobs.actions.aspects.target.PositionActionTarget;
-import stonering.entity.jobs.actions.aspects.target.PlantHarvestActionTarget;
+import stonering.entity.jobs.actions.*;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.buildings.BuildingTypeMap;
 import stonering.entity.local.building.BuildingType;
@@ -15,12 +11,7 @@ import stonering.enums.designations.DesignationTypeEnum;
 import stonering.game.core.model.GameContainer;
 import stonering.util.geometry.Position;
 import stonering.entity.jobs.Task;
-import stonering.entity.jobs.actions.Action;
-import stonering.entity.jobs.actions.TaskTypesEnum;
-import stonering.entity.jobs.actions.aspects.requirements.EquippedItemRequirementAspect;
-import stonering.entity.jobs.actions.aspects.requirements.ItemsInPositionOrInventoryRequirementAspect;
 import stonering.entity.local.items.selectors.ItemSelector;
-import stonering.entity.local.items.selectors.ToolWithActionItemSelector;
 import stonering.entity.local.plants.PlantBlock;
 import stonering.util.global.TagLoggersEnum;
 
@@ -118,24 +109,23 @@ public class TaskContainer {
             case STAIRS:
             case CHANNEL: {
                 DigAction digAction = new DigAction(designation);
-                Task task = new Task("designation", TaskTypesEnum.DESIGNATION, digAction, priority, container);
+                Task task = new Task("designation", TaskTypesEnum.DESIGNATION, digAction, priority);
                 return task;
             }
             case CUT:
             case CHOP: {
                 ChopTreeAction chopTreeAction = new ChopTreeAction(designation);
-                Task task = new Task("designation", TaskTypesEnum.DESIGNATION, chopTreeAction, priority, container);
+                Task task = new Task("designation", TaskTypesEnum.DESIGNATION, chopTreeAction, priority);
                 return task;
             }
             case HARVEST: {
                 PlantBlock block = container.getLocalMap().getPlantBlock(designation.getPosition());
                 if (block != null && block.getPlant().isHarvestable()) {
-                    HarvestPlantAction harvestPlantAction = new HarvestPlantAction(block);
-                    Task task = new Task("designation", TaskTypesEnum.DESIGNATION, harvestPlantAction, priority, container);
+                    PlantHarvestAction plantHarvestAction = new PlantHarvestAction(block.getPlant());
+                    Task task = new Task("designation", TaskTypesEnum.DESIGNATION, plantHarvestAction, priority);
                     return task;
                 }
             }
-
         }
         return null;
     }
@@ -149,12 +139,8 @@ public class TaskContainer {
      * @return
      */
     private Task createBuildingTask(BuildingDesignation designation, List<ItemSelector> items, int priority) {
-        BuildingType buildingType = BuildingTypeMap.getInstance().getBuilding(designation.getBuilding());
-        Action action = new Action(container);
-        action.setRequirementsAspect(new ItemsInPositionOrInventoryRequirementAspect(action, designation.getPosition(), items));
-        action.setTargetAspect(new PositionActionTarget(action, designation.getPosition(), !buildingType.getTitle().equals("wall"), true));
-        action.setEffectAspect(new ConstructionEffectAspect(action, designation.getBuilding(), "marble"));
-        Task task = new Task("designation", TaskTypesEnum.DESIGNATION, action, priority, container);
+        BuildingAction buildingAction = new BuildingAction(designation, items);
+        Task task = new Task("designation", TaskTypesEnum.DESIGNATION, buildingAction, priority);
         task.setDesignation(designation);
         return task;
     }
@@ -237,6 +223,7 @@ public class TaskContainer {
 
     /**
      * Adds designation to designations map. Updates local map.
+     *
      * @param designation
      */
     private void addDesignation(Designation designation) {
@@ -246,6 +233,7 @@ public class TaskContainer {
 
     /**
      * Removes designation from designations map. Updates local map.
+     *
      * @param designation
      */
     private void removeDesignation(Designation designation) {

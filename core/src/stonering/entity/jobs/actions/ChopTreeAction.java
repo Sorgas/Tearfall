@@ -1,8 +1,7 @@
 package stonering.entity.jobs.actions;
 
 import stonering.designations.Designation;
-import stonering.entity.jobs.actions.aspects.target.PlantActionTarget;
-import stonering.entity.jobs.actions.aspects.target.PositionActionTarget;
+import stonering.entity.jobs.actions.target.PositionActionTarget;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.items.selectors.ItemSelector;
 import stonering.entity.local.items.selectors.ToolWithActionItemSelector;
@@ -63,5 +62,10 @@ public class ChopTreeAction extends Action {
 
     private void logStart() {
         TagLoggersEnum.TASKS.logDebug("tree chopping started at " + actionTarget.getPosition().toString() + " by " + task.getPerformer().toString());
+    }
+
+    @Override
+    public String toString() {
+        return "Chopping tree action";
     }
 }

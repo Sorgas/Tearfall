@@ -1,6 +1,6 @@
 package stonering.entity.jobs.actions;
 
-import stonering.entity.jobs.actions.aspects.target.AspectHolderActionTarget;
+import stonering.entity.jobs.actions.target.AspectHolderActionTarget;
 import stonering.entity.local.AspectHolder;
 import stonering.entity.local.building.aspects.WorkbenchAspect;
 import stonering.entity.local.crafting.ItemOrder;
@@ -26,8 +26,7 @@ public class CraftItemAction extends Action {
     private Item tool; //TODO
 
     public CraftItemAction(ItemOrder itemOrder, AspectHolder workbench) {
-        super();
-        actionTarget = new AspectHolderActionTarget(this, false, true, workbench);
+        super(new AspectHolderActionTarget(workbench, true, false));
         desiredItems = new ArrayList<>();
         this.itemOrder = itemOrder;
         this.workbench = workbench;
@@ -90,5 +89,10 @@ public class CraftItemAction extends Action {
             desiredItems.addAll(gameMvc.getModel().getItemContainer().getNearestItems(foundItems, 1));
         }
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Crafting action: " + itemOrder.toString();
     }
 }

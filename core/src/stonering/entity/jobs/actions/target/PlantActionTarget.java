@@ -1,7 +1,6 @@
-package stonering.entity.jobs.actions.aspects.target;
+package stonering.entity.jobs.actions.target;
 
 import stonering.util.geometry.Position;
-import stonering.entity.jobs.actions.Action;
 import stonering.entity.local.plants.AbstractPlant;
 import stonering.entity.local.plants.Plant;
 

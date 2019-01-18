@@ -1,6 +1,6 @@
 package stonering.entity.jobs.actions;
 
-import stonering.entity.jobs.actions.aspects.target.PositionActionTarget;
+import stonering.entity.jobs.actions.target.PositionActionTarget;
 import stonering.util.geometry.Position;
 
 /**
@@ -9,7 +9,7 @@ import stonering.util.geometry.Position;
 public class MoveAction extends Action {
 
     public MoveAction(Position to) {
-        actionTarget = new PositionActionTarget(this, to, true, false);
+        super(new PositionActionTarget(to, true, false));
     }
 
     @Override
@@ -20,5 +20,10 @@ public class MoveAction extends Action {
     @Override
     public boolean perform() {
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return "Move action";
     }
 }

@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Descriptor of material.
@@ -24,8 +25,7 @@ public class Material {
     private String name;
     private ArrayList<String> types;
     private float density;
-    private String[] reactions;
-    private String[] reaction_args;
+    private HashMap<String, ArrayList<Object>> reactions; // other aspects
     private int value;
     private byte atlasY;
     private Color color;
@@ -71,20 +71,12 @@ public class Material {
         this.density = density;
     }
 
-    public String[] getReactions() {
+    public HashMap<String, ArrayList<Object>> getReactions() {
         return reactions;
     }
 
-    public void setReactions(String[] reactions) {
+    public void setReactions(HashMap<String, ArrayList<Object>> reactions) {
         this.reactions = reactions;
-    }
-
-    public String[] getReaction_args() {
-        return reaction_args;
-    }
-
-    public void setReaction_args(String[] reaction_args) {
-        this.reaction_args = reaction_args;
     }
 
     public int getValue() {

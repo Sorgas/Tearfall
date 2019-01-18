@@ -1,6 +1,6 @@
 package stonering.entity.jobs.actions;
 
-import stonering.entity.jobs.actions.aspects.target.ItemActionTarget;
+import stonering.entity.jobs.actions.target.ItemActionTarget;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.unit.aspects.EquipmentAspect;
 
@@ -12,8 +12,8 @@ public class UnequipItemAction extends Action {
     private Item item;
 
     public UnequipItemAction(Item item) {
+        super(new ItemActionTarget(item));
         this.item = item;
-        actionTarget = new ItemActionTarget(this, item);
     }
 
     @Override
@@ -49,5 +49,10 @@ public class UnequipItemAction extends Action {
         //TODO implement with slots
         ((EquipmentAspect) task.getPerformer().getAspects().get("equipment")).unequipItem(item);
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Unequipping action: " + item.getTitle();
     }
 }

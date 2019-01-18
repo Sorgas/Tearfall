@@ -1,7 +1,6 @@
-package stonering.entity.jobs.actions.aspects.target;
+package stonering.entity.jobs.actions.target;
 
 import stonering.util.geometry.Position;
-import stonering.entity.jobs.actions.Action;
 import stonering.entity.local.plants.AbstractPlant;
 import stonering.entity.local.plants.Plant;
 
@@ -12,13 +11,13 @@ import stonering.entity.local.plants.Plant;
  */
 public class PlantHarvestActionTarget extends PlantActionTarget {
 
-    public PlantHarvestActionTarget(Action action, AbstractPlant plant) {
-        super(action, plant);
+    public PlantHarvestActionTarget(AbstractPlant plant) {
+        super(plant);
     }
 
     @Override
     public Position getPosition() {
-        if(plant instanceof Plant) {
+        if (plant instanceof Plant) {
             return plant.getPosition();
         } else {
             return findUnharvestedPlantPart();

@@ -78,7 +78,7 @@ public class MapEntitySelectStage extends InitableStage {
 
     private void tryShowBuildingStage(BuildingBlock buildingBlock) {
         if (buildingBlock != null) {
-            TagLoggersEnum.UI.logDebug("showing building stage for: " + buildingBlock.getBuilding().getName());
+            TagLoggersEnum.UI.logDebug("showing building stage for: " + buildingBlock.getBuilding());
             gameMvc.getView().removeStage(this);
             gameMvc.getView().addStageToList(new BuildingStage(gameMvc, buildingBlock.getBuilding()));
             System.out.println("adding new building stage");

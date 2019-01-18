@@ -1,7 +1,6 @@
-package stonering.entity.jobs.actions.aspects.target;
+package stonering.entity.jobs.actions.target;
 
 import stonering.util.geometry.Position;
-import stonering.entity.jobs.actions.Action;
 import stonering.entity.local.items.Item;
 
 /**
@@ -12,8 +11,8 @@ import stonering.entity.local.items.Item;
 public class ItemActionTarget extends ActionTarget {
     private Item item;
 
-    public ItemActionTarget(Action action, Item item) {
-        super(action, true, false);
+    public ItemActionTarget(Item item) {
+        super(true, false);
         this.item = item;
         exactTarget = true;
     }
@@ -25,7 +24,7 @@ public class ItemActionTarget extends ActionTarget {
 
     public Item getItem() {
         return item;
-}
+    }
 
     public void setItem(Item item) {
         this.item = item;

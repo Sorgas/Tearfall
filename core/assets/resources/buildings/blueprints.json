@@ -1,0 +1,61 @@
+[
+    {
+        "name": "build_wall",
+        "title": "Build wall",
+        "building": "wall",
+        "variants": [
+            ["stone", 4, 1, 1], ["clay", 4, 1, 1], ["metal", 4, 1, 1], ["log", 4, 1, 1], ["plank", 4, 1, 1]
+        ]
+    }, {
+    "name": "build_floor",
+    "title": "Build floor",
+    "building": "floor",
+    "variants": [
+        ["stone", 1, 1, 1], ["clay", 1, 1, 1], ["metal", 1, 1, 1], ["log", 1, 1, 1], ["plank", 1, 1, 1]
+    ]
+}, {
+    "name": "build_ramp",
+    "title": "Build ramp",
+    "building": "ramp",
+    "variants": [
+        ["stone", 2, 1, 1], ["clay", 2, 1, 1], ["metal", 2, 1, 1], ["log", 2, 1, 1], ["plank", 2, 1, 1]
+    ]
+}, {
+    "name": "build_stairs",
+    "title": "Build stairs",
+    "building": "stairs",
+    "variants": [
+        ["stone", 2, 1, 1], ["clay", 2, 1, 1], ["metal", 2, 1, 1], ["log", 2, 1, 1], ["plank", 2, 1, 1]
+    ], {
+    "name": "build_floor",
+    "title": "Build floor",
+    "building": "floor",
+    "variants": [
+        ["stone", 2, 1, 1], ["clay", 2, 1, 1], ["metal", 2, 1, 1], ["log", 2, 1, 1], ["plank", 2, 1, 1]
+    ], {
+    "name": "build_floor",
+    "title": "Build floor",
+    "building": "floor",
+    "variants": [
+        ["stone", 2, 1, 1], ["clay", 2, 1, 1], ["metal", 2, 1, 1], ["log", 2, 1, 1], ["plank", 2, 1, 1]
+    ], {
+    "name": "build_floor",
+    "title": "Build floor",
+    "building": "floor",
+    "variants": [
+        ["stone", 2, 1, 1], ["clay", 2, 1, 1], ["metal", 2, 1, 1], ["log", 2, 1, 1], ["plank", 2, 1, 1]
+    ], {
+    "name": "build_floor",
+    "title": "Build floor",
+    "building": "floor",
+    "variants": [
+        ["stone", 2, 1, 1], ["clay", 2, 1, 1], ["metal", 2, 1, 1], ["log", 2, 1, 1], ["plank", 2, 1, 1]
+    ], {
+    "name": "build_floor",
+    "title": "Build floor",
+    "building": "floor",
+    "variants": [
+        ["stone", 2, 1, 1], ["clay", 2, 1, 1], ["metal", 2, 1, 1], ["log", 2, 1, 1], ["plank", 2, 1, 1]
+    ]
+}
+]

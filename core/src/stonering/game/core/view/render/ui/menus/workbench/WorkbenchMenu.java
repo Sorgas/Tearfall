@@ -43,7 +43,7 @@ public class WorkbenchMenu extends Window implements HintedActor {
      * Will throw NPE if created on non-workbench workbench.
      */
     public WorkbenchMenu(GameMvc gameMvc, Building building) {
-        super(building.getName(), StaticSkin.getSkin());
+        super(building.toString(), StaticSkin.getSkin());
         this.gameMvc = gameMvc;
         this.workbench = building;
         workbenchAspect = (WorkbenchAspect) building.getAspects().get(WorkbenchAspect.NAME);
@@ -83,6 +83,7 @@ public class WorkbenchMenu extends Window implements HintedActor {
 
     /**
      * Button for creating orders.
+     *
      * @return
      */
     private TextButton createAddButton() {

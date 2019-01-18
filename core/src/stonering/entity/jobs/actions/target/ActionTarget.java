@@ -1,4 +1,4 @@
-package stonering.entity.jobs.actions.aspects.target;
+package stonering.entity.jobs.actions.target;
 
 import stonering.entity.jobs.actions.MoveAction;
 import stonering.game.core.GameMvc;

@@ -1,6 +1,7 @@
 package stonering.entity.jobs;
 
 import stonering.designations.Designation;
+import stonering.game.core.GameMvc;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.lists.TaskContainer;
 import stonering.util.geometry.Position;
@@ -9,6 +10,8 @@ import stonering.entity.jobs.actions.TaskTypesEnum;
 import stonering.entity.local.unit.Unit;
 import stonering.util.global.TagLoggersEnum;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
 
 /**
@@ -20,26 +23,26 @@ import java.util.LinkedList;
  * @author Alexander Kuzyakov
  */
 public class Task {
+    private GameMvc gameMvc;
+    private TaskContainer taskContainer;
     private String name;
     private Unit performer;
     private TaskTypesEnum taskType;
     private Action initialAction;
     private LinkedList<Action> preActions;
     private LinkedList<Action> postActions;
-    private TaskContainer taskContainer;
-    private GameContainer container;
     private Designation designation;
     private int priority;
 
-    public Task(String name, TaskTypesEnum taskType, Action initialAction, int priority, GameContainer container) {
+    public Task(String name, TaskTypesEnum taskType, Action initialAction, int priority) {
+        gameMvc = GameMvc.getInstance();
         this.name = name;
         this.taskType = taskType;
         this.initialAction = initialAction;
         initialAction.setTask(this);
-        this.taskContainer = container.getTaskContainer();
+        this.taskContainer = gameMvc.getModel().getTaskContainer();
         preActions = new LinkedList<>();
         postActions = new LinkedList<>();
-        this.container = container;
         this.priority = priority;
     }
 
@@ -47,8 +50,7 @@ public class Task {
      * Removes this task from container  if it's finished.
      */
     public void tryFinishTask() {
-        if (isFinished())
-            taskContainer.removeTask(this);
+        if (isFinished()) taskContainer.removeTask(this);
     }
 
     /**
@@ -72,7 +74,7 @@ public class Task {
     }
 
     public void reset() {
-        if(performer != null) {
+        if (performer != null) {
             //TODO interrupt
         }
         preActions = new LinkedList<>();
@@ -88,7 +90,7 @@ public class Task {
 //                " completion[preActions: " + preActions.size() +
 //                ",postActions: " + postActions.size() +
 //                ", initial finished:" + initialAction.isDefined() + "]");
-        if(!preActions.isEmpty() && initialAction.isFinished()) {
+        if (!preActions.isEmpty() && initialAction.isFinished()) {
             TagLoggersEnum.TASKS.logError("Task " + name + ": initial action finished before pre actions.");
         }
         return preActions.isEmpty() && initialAction.isFinished() && postActions.isEmpty();
@@ -111,12 +113,12 @@ public class Task {
     }
 
     public boolean isTaskTargetsAvaialbleFrom(Position position) {
-        int sourceArea = container.getLocalMap().getArea(position);
-        Position target = initialAction.getTargetPosition();
+        int sourceArea = gameMvc.getModel().getLocalMap().getArea(position);
+        Position target = initialAction.getActionTarget().getPosition();
         for (int x = -1; x < 2; x++) {
             for (int y = -1; y < 2; y++) {
                 if (x != 0 && y != 0
-                        && container.getLocalMap().getArea(target.getX() + x, target.getY() + y, target.getZ()) == sourceArea) {
+                        && gameMvc.getModel().getLocalMap().getArea(target.getX() + x, target.getY() + y, target.getZ()) == sourceArea) {
                     return true;
                 }
             }
@@ -131,6 +133,7 @@ public class Task {
      */
     public void addFirstPreAction(Action action) {
         preActions.add(0, action);
+        TagLoggersEnum.TASKS.logDebug("Action " + action + " added to task " + name);
         action.setTask(this);
     }
 
