@@ -18,9 +18,8 @@ public class ItemPickAction extends Action {
     }
 
     @Override
-    public boolean perform() {
+    public void performLogic() {
         ((EquipmentAspect) task.getPerformer().getAspects().get(EquipmentAspect.NAME)).pickupItem(getTargetItem());
-        return true;
     }
 
     @Override

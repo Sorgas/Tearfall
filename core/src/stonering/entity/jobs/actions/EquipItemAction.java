@@ -16,17 +16,12 @@ public class EquipItemAction extends Action {
         this.force = force;
     }
 
-    /**
-     * @return
-     */
+
     @Override
-    public boolean perform() {
-        if (((EquipmentAspect) task.getPerformer().getAspects().get("equipment")).equipItem(item)) {
-            //TODO manage equipped items in item container
+    protected void performLogic() {
+        //TODO manage equipped items in item container
+        if (((EquipmentAspect) task.getPerformer().getAspects().get("equipment")).equipItem(item))
             gameMvc.getModel().getItemContainer().pickItem(item);
-            return true;
-        }
-        return !force; //action fails if equipping was mandatory but not successful;
     }
 
     @Override
@@ -35,6 +30,7 @@ public class EquipItemAction extends Action {
             EquipmentAspect equipmentAspect = (EquipmentAspect) task.getPerformer().getAspects().get("equipment");
             Item blockingItem = equipmentAspect.checkItemForEquip(this.item);
             if (blockingItem == null) return true;
+            if (!force) return true; // do not unequip if not forced.
             if (item.isWear()) {
                 return createUnequipWearAction(blockingItem);
             } else if (item.isTool()) {

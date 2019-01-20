@@ -11,14 +11,13 @@ import stonering.util.global.TagLoggersEnum;
  * Actions have target where unit should be to perform action.
  * Actions have requirements and create sub actions and add them to task if possible.
  * If action requirements are not met, Action and its task are failed.
- *
- * Actions should be
  */
 public abstract class Action {
     protected GameMvc gameMvc;
     protected Task task; // can be modified during execution
     protected ActionTarget actionTarget;
     protected boolean finished;
+    private int workAmount;
 
     protected Action(ActionTarget actionTarget) {
         this.actionTarget = actionTarget;
@@ -33,15 +32,30 @@ public abstract class Action {
     public abstract boolean check();
 
     /**
+     * Fetches remaining work amount and performs action.
+     *
+     * @return true, when action is finished.
+     */
+    public final boolean perform() {
+        if (workAmount-- > 0) return false;
+        performLogic();
+        finish();
+        return true;
+    }
+
+    /**
      * Applies action logic to model.
      */
-    public abstract boolean perform();
+    protected abstract void performLogic();
 
-    public void finish() {
+    /**
+     * To be called on successful performing.
+     */
+    protected void finish() {
         finished = true;
         task.finishAction(this);
         task.tryFinishTask();
-        TagLoggersEnum.TASKS.logDebug("action " + toString() + " finished");
+        TagLoggersEnum.TASKS.logDebug("action " + this + " finished");
     }
 
     public Task getTask() {

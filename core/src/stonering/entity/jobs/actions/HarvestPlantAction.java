@@ -1,10 +1,6 @@
 package stonering.entity.jobs.actions;
 
-import stonering.entity.jobs.actions.aspects.effect.EquipItemEffectAspect;
-import stonering.entity.jobs.actions.aspects.requirements.EquipToolItemRequirementAspect;
-import stonering.entity.jobs.actions.aspects.requirements.EquipWearItemRequirementAspect;
-import stonering.entity.jobs.actions.aspects.target.ItemActionTarget;
-import stonering.entity.jobs.actions.aspects.target.PlantActionTarget;
+import stonering.entity.jobs.actions.target.PlantActionTarget;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.items.selectors.ItemSelector;
 import stonering.entity.local.items.selectors.ToolWithActionItemSelector;
@@ -13,7 +9,7 @@ import stonering.entity.local.unit.aspects.EquipmentAspect;
 import stonering.generators.items.PlantProductGenerator;
 import stonering.util.global.TagLoggersEnum;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Alexander on 15.01.2019.
@@ -34,12 +30,11 @@ public class HarvestPlantAction extends Action {
     }
 
     @Override
-    public boolean perform() {
+    public void performLogic() {
         PlantBlock plantBlock = ((PlantActionTarget) actionTarget).getPlant().getBlock();
-        ArrayList<Item> items = new PlantProductGenerator().generateHarvestProduct(plantBlock);
+        List<Item> items = new PlantProductGenerator().generateHarvestProduct(plantBlock);
         items.forEach(item -> gameMvc.getModel().getItemContainer().putItem(item, actionTarget.getPosition()));
         TagLoggersEnum.TASKS.logDebug("harvesting plant finished at " + actionTarget.getPosition() + " by " + task.getPerformer());
-        return true;
     }
 
     private boolean addActionToTask() {

@@ -1,6 +1,7 @@
 package stonering.entity.jobs;
 
 import stonering.designations.Designation;
+import stonering.entity.local.unit.aspects.PlanningAspect;
 import stonering.game.core.GameMvc;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.lists.TaskContainer;
@@ -74,12 +75,12 @@ public class Task {
     }
 
     public void reset() {
-        if (performer != null) {
-            //TODO interrupt
-        }
         preActions = new LinkedList<>();
         postActions = new LinkedList<>();
-        setPerformer(null);
+        if (performer == null) return;
+        PlanningAspect planningAspect = ((PlanningAspect)performer.getAspects().get(PlanningAspect.NAME));
+        performer = null;
+        planningAspect.reset();
     }
 
     /**

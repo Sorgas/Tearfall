@@ -33,12 +33,11 @@ public class CraftItemAction extends Action {
     }
 
     @Override
-    public boolean perform() {
+    protected void performLogic() {
         Item product = new ItemGenerator().generateItem(itemOrder);
         ItemContainerAspect workbenchContainer = ((ItemContainerAspect) workbench.getAspects().get(ItemContainerAspect.NAME));
         workbenchContainer.getItems().removeAll(desiredItems); // spend components
         workbenchContainer.getItems().add(product); // add product
-        return true;
     }
 
     /**

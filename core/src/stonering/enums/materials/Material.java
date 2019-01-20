@@ -1,7 +1,6 @@
 package stonering.enums.materials;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.ui.List;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,16 +27,10 @@ public class Material {
     private HashMap<String, ArrayList<Object>> reactions; // other aspects
     private int value;
     private byte atlasY;
+    private String colorCode;
     private Color color;
 
     public Material() {}
-
-    public Material(String name, Color color, byte atlasY, int id) {
-        this.name = name;
-        this.color = color;
-        this.id = id;
-        this.atlasY = atlasY;
-    }
 
     public int getId() {
         return id;
@@ -101,6 +94,15 @@ public class Material {
 
     public void setColor(Color color) {
         this.color = color;
+    }
+
+    public String getColorCode() {
+        return colorCode;
+    }
+
+    public void setColorCode(String colorCode) {
+        color = new Color(Integer.valueOf(colorCode));
+        this.colorCode = colorCode;
     }
 
     @Override

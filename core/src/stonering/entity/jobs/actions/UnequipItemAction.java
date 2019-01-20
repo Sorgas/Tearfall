@@ -44,11 +44,10 @@ public class UnequipItemAction extends Action {
     }
 
     @Override
-    public boolean perform() {
+    public void performLogic() {
         //TODO count work amount based on item weight and creature stats
         //TODO implement with slots
         ((EquipmentAspect) task.getPerformer().getAspects().get("equipment")).unequipItem(item);
-        return true;
     }
 
     @Override

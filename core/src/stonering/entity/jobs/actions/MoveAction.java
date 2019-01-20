@@ -18,8 +18,7 @@ public class MoveAction extends Action {
     }
 
     @Override
-    public boolean perform() {
-        return false;
+    public void performLogic() {
     }
 
     @Override

@@ -17,6 +17,7 @@ public class DesktopLauncher {
         config.foregroundFPS = 30;
         Game game = new TearFall();
         TagLoggersEnum.enableAll();
+        TagLoggersEnum.UI.setEnabled(false);
         new LwjglApplication(game, config);
     }
 }

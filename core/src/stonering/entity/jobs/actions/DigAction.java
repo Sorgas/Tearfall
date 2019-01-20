@@ -40,7 +40,7 @@ public class DigAction extends Action {
     }
 
     @Override
-    public boolean perform() {
+    protected void performLogic() {
         logStart();
         Position pos = actionTarget.getPosition();
         switch (type) {
@@ -64,7 +64,6 @@ public class DigAction extends Action {
             }
         }
         leaveStone(gameMvc.getModel().getLocalMap().getMaterial(actionTarget.getPosition()));
-        return true;
     }
 
     private void validateAndChangeBlock(Position pos, BlockTypesEnum type) {

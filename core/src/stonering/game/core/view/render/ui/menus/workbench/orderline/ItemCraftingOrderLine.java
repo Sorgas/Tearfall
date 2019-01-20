@@ -302,7 +302,6 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
 
     private void createAndAddControlButtons() {
         if (!rightHG.hasChildren()) {
-            Table table = this;
             deleteButton = new TextButton("X", StaticSkin.getSkin());
             deleteButton.addListener(new ChangeListener() {
                 @Override

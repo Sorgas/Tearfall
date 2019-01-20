@@ -7,7 +7,7 @@
         "reactions": {},
         "value": "0",
         "atlasY": "-1",
-        "color": "0xffffffff"
+        "colorCode": "0xffffffff"
     }, {
     "id": "1",
     "name": "granite",
@@ -18,7 +18,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "2",
     "name": "diorite",
@@ -29,7 +29,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "3",
     "name": "gabbro",
@@ -40,7 +40,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "4",
     "name": "peridotite",
@@ -51,7 +51,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "5",
     "name": "pegmatite",
@@ -62,7 +62,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "6",
     "name": "rhyolite",
@@ -73,7 +73,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "7",
     "name": "andesite",
@@ -84,7 +84,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "8",
     "name": "obsidian",
@@ -95,7 +95,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "9",
     "name": "tuff",
@@ -106,7 +106,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "10",
     "name": "basalt",
@@ -117,7 +117,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "11",
     "name": "schist",
@@ -128,7 +128,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "12",
     "name": "chlorite",
@@ -139,7 +139,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "13",
     "name": "kaolinite",
@@ -150,7 +150,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "14",
     "name": "phyllite",
@@ -161,7 +161,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "15",
     "name": "quarzite",
@@ -174,7 +174,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "16",
     "name": "gneiss",
@@ -185,7 +185,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "17",
     "name": "marble",
@@ -196,7 +196,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "18",
     "name": "gneiss",
@@ -207,7 +207,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "19",
     "name": "shale",
@@ -218,7 +218,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "20",
     "name": "limestone",
@@ -229,7 +229,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "21",
     "name": "sandstone",
@@ -240,7 +240,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "22",
     "name": "dolomite",
@@ -251,7 +251,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "23",
     "name": "chalk",
@@ -262,7 +262,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "24",
     "name": "siltstone",
@@ -273,7 +273,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "25",
     "name": "chert",
@@ -284,7 +284,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "26",
     "name": "chalcopyrite ",
@@ -295,7 +295,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "27",
     "name": "tetrahedrite",
@@ -308,7 +308,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "28",
     "name": "magnetite",
@@ -319,7 +319,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "29",
     "name": "hematite",
@@ -330,7 +330,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "30",
     "name": "limonite",
@@ -341,7 +341,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "31",
     "name": "native aluminium",
@@ -354,7 +354,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "32",
     "name": "native gold",
@@ -365,7 +365,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "33",
     "name": "galena",
@@ -376,7 +376,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "34",
     "name": "sphalerite(blende)",
@@ -387,7 +387,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "35",
     "name": "garnierite",
@@ -398,7 +398,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "36",
     "name": "cassiterite",
@@ -409,7 +409,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "37",
     "name": "native silver",
@@ -420,7 +420,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "38",
     "name": "iron",
@@ -431,7 +431,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "39",
     "name": "steel",
@@ -442,7 +442,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "40",
     "name": "copper",
@@ -453,7 +453,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "41",
     "name": "silver",
@@ -466,7 +466,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "42",
     "name": "gold",
@@ -477,7 +477,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "43",
     "name": "zinc",
@@ -490,7 +490,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "44",
     "name": "lead",
@@ -503,7 +503,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "45",
     "name": "nickel",
@@ -514,7 +514,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "46",
     "name": "tin",
@@ -527,7 +527,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "47",
     "name": "aluminium",
@@ -540,7 +540,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "48",
     "name": "beech wood",
@@ -551,7 +551,7 @@
     },
     "value": "10",
     "atlasY": "1",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "49",
     "name": "oak",
@@ -562,7 +562,7 @@
     },
     "value": "10",
     "atlasY": "1",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "50",
     "name": "ash",
@@ -573,7 +573,7 @@
     },
     "value": "10",
     "atlasY": "1",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "51",
     "name": "rowan",
@@ -584,7 +584,7 @@
     },
     "value": "10",
     "atlasY": "1",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "52",
     "name": "birch",
@@ -595,7 +595,7 @@
     },
     "value": "10",
     "atlasY": "1",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "53",
     "name": "elm",
@@ -606,7 +606,7 @@
     },
     "value": "10",
     "atlasY": "1",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "54",
     "name": "maple",
@@ -617,7 +617,7 @@
     },
     "value": "10",
     "atlasY": "1",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "55",
     "name": "alder",
@@ -628,7 +628,7 @@
     },
     "value": "10",
     "atlasY": "1",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "56",
     "name": "willow",
@@ -639,7 +639,7 @@
     },
     "value": "10",
     "atlasY": "1",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "57",
     "name": "poplar",
@@ -650,7 +650,7 @@
     },
     "value": "10",
     "atlasY": "1",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "58",
     "name": "pine",
@@ -661,7 +661,7 @@
     },
     "value": "10",
     "atlasY": "1",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "59",
     "name": "larch",
@@ -672,7 +672,7 @@
     },
     "value": "10",
     "atlasY": "1",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "60",
     "name": "fir",
@@ -683,7 +683,7 @@
     },
     "value": "10",
     "atlasY": "1",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "61",
     "name": "linen",
@@ -694,7 +694,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "62",
     "name": "silk",
@@ -705,7 +705,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "63",
     "name": "wool",
@@ -716,7 +716,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "64",
     "name": "cotton",
@@ -727,7 +727,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "65",
     "name": "hemp",
@@ -738,7 +738,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "66",
     "name": "byssus",
@@ -749,7 +749,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "67",
     "name": "soil",
@@ -760,7 +760,7 @@
     },
     "value": "0",
     "atlasY": "1",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "68",
     "name": "water",
@@ -769,7 +769,7 @@
     "reactions": {},
     "value": "0",
     "atlasY": "-1",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }, {
     "id": "69",
     "name": "generic_plant",
@@ -780,6 +780,6 @@
     },
     "value": "0",
     "atlasY": "-1",
-    "color": "0xffffffff"
+    "colorCode": "0xffffffff"
 }
 ]

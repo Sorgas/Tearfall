@@ -27,7 +27,7 @@ public enum TagLoggersEnum {
      *
      * @param tags list of tags to enable.
      */
-    public static void enabletags(List<String> tags) {
+    public static void enableTags(List<String> tags) {
         if (tags != null && !tags.isEmpty()) {
             for (TagLoggersEnum logger : TagLoggersEnum.values()) {
                 logger.setEnabled(tags.contains(logger.getTag()));

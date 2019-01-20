@@ -32,30 +32,26 @@ public class PlanningAspect extends Aspect {
     }
 
     public void turn() {
-        if (checkTask()) {
+        if (!checkTask()) selectTask();// try find task, check it and claim
+        if (checkActionSequence()) { // check all actions in a sequence.
             if (!(movementNeeded = !currentTask.getNextAction().getActionTarget().check(aspectHolder.getPosition()))) { // actor on position, so movement is not needed
-                if (checkActionSequence()) {
-                    if (currentTask.getNextAction().perform()) { // act. called several times
-                        TagLoggersEnum.TASKS.logDebug(aspectHolder.toString() + " completes another action.");
-                    }
+                if (currentTask.getNextAction().perform()) { // act. called several times
+                    TagLoggersEnum.TASKS.logDebug(aspectHolder.toString() + " completes another action.");
+                    System.out.println("check");
                 }
             }
-            // keep moving to target
-        } else {
-            selectTask();// try find task, check it and claim
-            if (currentTask != null) {
-                TagLoggersEnum.TASKS.logDebug("task " + currentTask.getName() + " selected by " + aspectHolder.toString());
-            }
         }
+        // keep moving to target
     }
 
     /**
-     * Checks if task can be performed. That requires action to be checked with Action.CHECKED.
+     * Checks if task can be performed.
      * During this method requirement aspects create additional actions.
      *
-     * @return
+     * @return false, if some action in sequence cannot be performed.
      */
     private boolean checkActionSequence() {
+        if (currentTask == null) return false;
         Action currentAction;
         boolean lastCheck;
         do {
@@ -82,25 +78,22 @@ public class PlanningAspect extends Aspect {
      * TODO combat tasks
      */
     private void selectTask() {
-        freeTask();
+        reset();
         ArrayList<Task> tasks = new ArrayList<>();
         tasks.add(takeTaskFromNeedsAspect());
         tasks.add(getTaskFromContainer());
-        for (Task task : tasks) {
-            if (task != null) {
-                if (currentTask != null) {
-                    currentTask = currentTask.getPriority() > task.getPriority() ? currentTask : task;
-                } else {
-                    currentTask = task;
-                }
+        for (Task task : tasks) { // selects task with highest priority
+            if (task == null) continue;
+            if (currentTask == null) {
+                currentTask = task;
+                continue;
             }
+            currentTask = currentTask.getPriority() > task.getPriority() ? currentTask : task;
         }
-        if (currentTask != null) {
-            claimTask();
-            if (!checkActionSequence()) { // initial task checking.
-                freeTask(); // if requirements are not met.
-            }
-        }
+        if (currentTask == null) return;
+        claimTask();
+        // initial task checking.
+        if (!checkActionSequence()) reset(); // if requirements are not met.
     }
 
     /**
@@ -133,17 +126,17 @@ public class PlanningAspect extends Aspect {
      */
     private void claimTask() {
         currentTask.setPerformer((Unit) aspectHolder);
+        TagLoggersEnum.TASKS.logDebug("Task " + currentTask.getName() + " has taken by " + aspectHolder.toString() + ".");
     }
 
     /**
-     * Reverts state of task as it is newly created.
+     * Resets state of task and this aspect.
      */
-    public void freeTask() {
-        if (currentTask != null) {
-            currentTask.reset();
-            currentTask = null;
-        }
+    public void reset() {
+        Task task = currentTask;
+        currentTask = null;
         movementNeeded = false;
+        if (task != null) task.reset();
     }
 
     public boolean isTargetExact() {

@@ -25,6 +25,8 @@ public class ChopTreeAction extends Action {
     public boolean check() {
         EquipmentAspect aspect = (EquipmentAspect) task.getPerformer().getAspects().get("equipment");
         if (aspect == null) return false;
+        PlantBlock block = gameMvc.getModel().getLocalMap().getPlantBlock(actionTarget.getPosition());
+        if (block == null) return false;
         return toolItemSelector.check(aspect.getEquippedItems()) || addActionToTask();
     }
 
@@ -38,18 +40,15 @@ public class ChopTreeAction extends Action {
     }
 
     @Override
-    public boolean perform() {
+    public void performLogic() {
         logStart();
-        Position pos = actionTarget.getPosition();
-        PlantBlock block = gameMvc.getModel().getLocalMap().getPlantBlock(pos);
-        if (block == null) return false;
+        PlantBlock block = gameMvc.getModel().getLocalMap().getPlantBlock(actionTarget.getPosition());
         AbstractPlant plant = block.getPlant();
         if (plant.getType().isTree()) {
             cutTree((Tree) plant);
         } else {
             cutPlant((Plant) plant);
         }
-        return true;
     }
 
     private void cutTree(Tree tree) {

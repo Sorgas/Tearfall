@@ -35,7 +35,7 @@ public class WorkbenchAspect extends Aspect {
     private List<OrderTaskEntry> entries; // entry may have no task.
 
     private int current = -1;
-    private boolean hasActiveOrders = false; // false on empty list or if all orders are suspended
+//    private boolean hasActiveOrders = false; // false on empty list or if all orders are suspended
 
     public WorkbenchAspect(AspectHolder aspectHolder) {
         super(aspectHolder);
@@ -50,7 +50,7 @@ public class WorkbenchAspect extends Aspect {
      */
     @Override
     public void turn() {
-        if (entries.isEmpty() || !hasActiveOrders) return;
+        if (entries.isEmpty() ) return;
         OrderTaskEntry entry = entries.get(current);
         if (entry.task == null) {                     // new order
             TagLoggersEnum.BUILDING.logDebug("Initing task for order " + entry.order.getRecipe().getName());
@@ -140,10 +140,10 @@ public class WorkbenchAspect extends Aspect {
     }
 
     private void updateFlag() {
-        hasActiveOrders = false;
+//        hasActiveOrders = false;
         for (OrderTaskEntry entry : entries) {
             if (!entry.order.isSuspended()) {
-                hasActiveOrders = true;
+//                hasActiveOrders = true;
                 break;
             }
         }

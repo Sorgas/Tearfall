@@ -34,7 +34,7 @@ public class ItemPutAction extends Action {
     }
 
     @Override
-    public boolean perform() {
+    public void performLogic() {
         EquipmentAspect equipmentAspect = (EquipmentAspect) task.getPerformer().getAspects().get(EquipmentAspect.NAME);
         equipmentAspect.getHauledItems().remove(targetItem);
         if (target != null) {
@@ -42,7 +42,6 @@ public class ItemPutAction extends Action {
         } else {
             gameMvc.getModel().getItemContainer().putItem(targetItem, targetPosition);
         }
-        return true;
     }
 
     @Override

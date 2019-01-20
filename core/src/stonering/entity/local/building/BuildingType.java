@@ -22,6 +22,7 @@ public class BuildingType {
     private List<String> menuPath;
     private List<String> recipes;
     private List<List<String>> aspects;
+    private List<String> parts;
 
     private int atlasX;
     private int atlasY;
@@ -120,5 +121,13 @@ public class BuildingType {
 
     public void setAspects(List<List<String>> aspects) {
         this.aspects = aspects;
+    }
+
+    public List<String> getParts() {
+        return parts;
+    }
+
+    public void setParts(List<String> parts) {
+        this.parts = parts;
     }
 }

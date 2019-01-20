@@ -24,6 +24,10 @@ public class PlantHarvestAction extends Action {
     public boolean check() {
         EquipmentAspect aspect = (EquipmentAspect) task.getPerformer().getAspects().get("equipment");
         if (aspect == null) return false;
+        AbstractPlant abstractPlant = ((PlantActionTarget) actionTarget).getPlant();
+        Position position = actionTarget.getPosition();
+        PlantBlock block = gameMvc.getModel().getLocalMap().getPlantBlock(position);
+        if (block == null || block.getPlant() != abstractPlant) return false;
         return toolItemSelector.check(aspect.getEquippedItems()) || addActionToTask();
     }
 
@@ -36,15 +40,11 @@ public class PlantHarvestAction extends Action {
     }
 
     @Override
-    public boolean perform() {
+    public void performLogic() {
         System.out.println("harvesting plant");
-        AbstractPlant abstractPlant = ((PlantActionTarget) actionTarget).getPlant();
         Position position = actionTarget.getPosition();
         PlantBlock block = gameMvc.getModel().getLocalMap().getPlantBlock(position);
-        if (block != null && block.getPlant() == abstractPlant) {
-            List<Item> items = new PlantProductGenerator().generateHarvestProduct(block);
-            items.forEach(item -> gameMvc.getModel().getItemContainer().putItem(item, position));
-        }
-        return true;
+        List<Item> items = new PlantProductGenerator().generateHarvestProduct(block);
+        items.forEach(item -> gameMvc.getModel().getItemContainer().putItem(item, position));
     }
 }

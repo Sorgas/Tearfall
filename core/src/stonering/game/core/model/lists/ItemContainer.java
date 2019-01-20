@@ -183,14 +183,14 @@ public class ItemContainer {
      * Gets item selectors for items, suitable for recipe and available from given position.
      */
     public List<ItemSelector> getItemSelectorsForItemPartRecipe(ItemPartRecipe itemPartRecipe, Position position) {
-        List<ItemSelector> itemSelectors = new ArrayList<>();
+        Set<ItemSelector> itemSelectors = new HashSet<>();
         Set<Integer> allowedMaterials = MaterialMap.getInstance().getMaterialsByType(itemPartRecipe.getMaterialType());
         List<Item> materialItems = items.stream().filter(item -> item.getType().isResource() && allowedMaterials.contains(item.getMaterial())).collect(Collectors.toList());
         materialItems = filterUnreachable(materialItems, position);
         for (ItemGroup itemGroup : groupItemsByTypesAndMaterials(materialItems)) {
             itemSelectors.add(createItemSelector(itemGroup));
         }
-        return itemSelectors;
+        return new ArrayList<>(itemSelectors);
     }
 
     private ItemSelector createItemSelector(ItemGroup itemGroup) {

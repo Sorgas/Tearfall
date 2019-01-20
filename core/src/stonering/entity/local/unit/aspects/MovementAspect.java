@@ -59,7 +59,7 @@ public class MovementAspect extends Aspect {
                 if (cachedTarget != null) {
                     makeRouteToTarget();
                     if (cachedPath == null) { // no path found, fail task
-                        planning.freeTask();
+                        planning.reset();
                     }
                 }
             }

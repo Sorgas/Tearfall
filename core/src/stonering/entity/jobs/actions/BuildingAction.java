@@ -32,10 +32,9 @@ public class BuildingAction extends Action {
     }
 
     @Override
-    public boolean perform() {
+    public void performLogic() {
         logStart();
         build();
-        return true;
     }
 
     private void build() {
