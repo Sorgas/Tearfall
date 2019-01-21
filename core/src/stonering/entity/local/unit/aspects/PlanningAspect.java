@@ -35,8 +35,9 @@ public class PlanningAspect extends Aspect {
         if (!checkTask()) selectTask();// try find task, check it and claim
         if (checkActionSequence()) { // check all actions in a sequence.
             if (!(movementNeeded = !currentTask.getNextAction().getActionTarget().check(aspectHolder.getPosition()))) { // actor on position, so movement is not needed
+                String actionName = currentTask.getNextAction().toString();
                 if (currentTask.getNextAction().perform()) { // act. called several times
-                    TagLoggersEnum.TASKS.logDebug(aspectHolder.toString() + " completes another action.");
+                    TagLoggersEnum.TASKS.logDebug(aspectHolder + " completes action " + actionName);
                     System.out.println("check");
                 }
             }

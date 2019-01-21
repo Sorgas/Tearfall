@@ -27,9 +27,9 @@ public class PlaceSelectComponent extends Label implements HideableComponent {
     private String defaultText;
     private String warningText;
 
-    public PlaceSelectComponent(GameMvc gameMvc) {
+    public PlaceSelectComponent() {
         super("", StaticSkin.getSkin());
-        this.gameMvc = gameMvc;
+        this.gameMvc = GameMvc.getInstance();
     }
 
     public void init() {
@@ -44,7 +44,8 @@ public class PlaceSelectComponent extends Label implements HideableComponent {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 TagLoggersEnum.UI.logDebug("handling " + Input.Keys.toString(keycode) + " in PlaceSelectComponent");
-                event.stop();
+//                event.stop();
+                setText(defaultText);
                 switch (keycode) {
                     case Input.Keys.E:
                         handleConfirm(selector.getPosition().clone());
@@ -52,12 +53,6 @@ public class PlaceSelectComponent extends Label implements HideableComponent {
                     case Input.Keys.Q:
                         handleCancel();
                         return true;
-                    case Input.Keys.W:
-                    case Input.Keys.A:
-                    case Input.Keys.S:
-                    case Input.Keys.D:
-                        setText(defaultText);
-                        return false; // to interrupt navigation input.
                 }
                 return false;
             }
@@ -71,7 +66,7 @@ public class PlaceSelectComponent extends Label implements HideableComponent {
      */
     private void handleConfirm(Position eventPosition) {
         TagLoggersEnum.UI.logDebug("confirming place selection");
-        if(selector.getStatus() == selector.GREEN_STATUS) {
+        if(selector.getStatus() == EntitySelector.GREEN_STATUS) {
             hide();
             controller.setRectangle(eventPosition, eventPosition);
         } else {

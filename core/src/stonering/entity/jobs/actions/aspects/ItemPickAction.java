@@ -12,14 +12,15 @@ import stonering.entity.local.unit.aspects.EquipmentAspect;
  */
 public class ItemPickAction extends Action {
 
-
     public ItemPickAction(Item targetItem) {
         super(new ItemActionTarget(targetItem));
     }
 
     @Override
     public void performLogic() {
-        ((EquipmentAspect) task.getPerformer().getAspects().get(EquipmentAspect.NAME)).pickupItem(getTargetItem());
+        Item targetItem = getTargetItem();
+        ((EquipmentAspect) task.getPerformer().getAspects().get(EquipmentAspect.NAME)).pickupItem(targetItem);
+        gameMvc.getModel().getItemContainer().pickItem(targetItem);
     }
 
     @Override

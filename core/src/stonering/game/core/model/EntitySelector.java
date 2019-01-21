@@ -23,7 +23,7 @@ public class EntitySelector {
     private TextureRegion statusSprite;   // indicates position validity.
 
     private PositionValidator positionValidator;
-    int status;
+    private int status;
     public static int INACTIVE_STATUS = -1;
     public static int GREEN_STATUS = 0;
     public static int RED_STATUS = 1;

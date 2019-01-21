@@ -3,12 +3,14 @@ package stonering.game.core.view.render.ui.menus;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import stonering.enums.designations.DesignationTypeEnum;
 import stonering.game.core.GameMvc;
+import stonering.game.core.controller.controllers.designation.DesignationSequence;
+import stonering.game.core.controller.controllers.designation.SimpleDesignationSequence;
 import stonering.game.core.controller.controllers.toolbar.DesignationsController;
-import stonering.game.core.view.render.ui.menus.util.AreaSelectComponent;
-import stonering.game.core.view.render.ui.menus.util.PlaceSelectComponent;
+import stonering.game.core.view.render.ui.menus.util.RectangleSelectComponent;
 import stonering.game.core.view.render.ui.menus.util.SubMenuMenu;
+
+import static stonering.enums.designations.DesignationTypeEnum.*;
 
 /**
  * Menu with orders related to plants
@@ -17,7 +19,7 @@ import stonering.game.core.view.render.ui.menus.util.SubMenuMenu;
  */
 public class PlantsMenu extends SubMenuMenu {
     private DesignationsController controller;
-    private AreaSelectComponent areaSelectComponent;
+    private RectangleSelectComponent rectangleSelectComponent;
 
     public PlantsMenu(GameMvc gameMvc) {
         super(gameMvc);
@@ -29,7 +31,7 @@ public class PlantsMenu extends SubMenuMenu {
     public void init() {
         super.init();
         controller = gameMvc.getController().getDesignationsController();
-        areaSelectComponent.init();
+        rectangleSelectComponent.init();
     }
 
     @Override
@@ -38,19 +40,19 @@ public class PlantsMenu extends SubMenuMenu {
     }
 
     private void initMenu() {
-        addButtonToTable("P: chop trees", DesignationTypeEnum.CHOP, Input.Keys.P);
-        addButtonToTable("O: harvest", DesignationTypeEnum.HARVEST, Input.Keys.O);
-        addButtonToTable("I: cut", DesignationTypeEnum.CUT, Input.Keys.I);
-        addButtonToTable("U: clear", DesignationTypeEnum.NONE, Input.Keys.U);
+        addButtonToTable("P: chop trees", new SimpleDesignationSequence(CHOP), Input.Keys.P);
+        addButtonToTable("O: harvest", new SimpleDesignationSequence(HARVEST), Input.Keys.O);
+        addButtonToTable("I: cut", new SimpleDesignationSequence(CUT), Input.Keys.I);
+        addButtonToTable("U: clear", new SimpleDesignationSequence(NONE), Input.Keys.U);
 
-        areaSelectComponent = new AreaSelectComponent(gameMvc);
+        rectangleSelectComponent = new RectangleSelectComponent(gameMvc);
     }
 
-    private void addButtonToTable(String text, DesignationTypeEnum type, int hotKey) {
+    private void addButtonToTable(String text, DesignationSequence sequence, int hotKey) {
         createButton(text, hotKey, new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                controller.setActiveDesignation(type, null);
+                controller.setActiveDesignation(sequence, null);
             }
         }, true);
     }

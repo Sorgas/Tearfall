@@ -8,10 +8,11 @@ import stonering.enums.buildings.BuildingTypeMap;
 import stonering.enums.designations.DesignationTypeEnum;
 import stonering.game.core.GameMvc;
 import stonering.game.core.controller.controllers.Controller;
+import stonering.game.core.controller.controllers.designation.DesignationSequence;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.view.GameView;
 import stonering.game.core.view.render.ui.lists.MaterialSelectList;
-import stonering.game.core.view.render.ui.menus.util.AreaSelectComponent;
+import stonering.game.core.view.render.ui.menus.util.RectangleSelectComponent;
 import stonering.game.core.view.render.ui.menus.util.PlaceSelectComponent;
 import stonering.util.geometry.Position;
 import stonering.entity.local.items.selectors.ItemSelector;
@@ -34,12 +35,13 @@ public class DesignationsController extends Controller {
     private GameContainer container;
     private GameView view;
 
-    private DesignationTypeEnum activeDesignation;
-    private BuildingType buildingType; //is set when activeDesignation is BUILD
+    //private DesignationTypeEnum activeDesignation;
+    private DesignationSequence sequence;
+//    private BuildingType buildingType; //is set when activeDesignation is BUILD
     private List<ItemSelector> itemSelectors; // created for each crafting step
 
     private PlaceSelectComponent placeSelectComponent;
-    private AreaSelectComponent areaSelectComponent;
+    private RectangleSelectComponent rectangleSelectComponent;
     private Position start; // should be stored between steps
     private Position end;
 
@@ -60,23 +62,26 @@ public class DesignationsController extends Controller {
     /**
      * Saves chosen designation type to be stored between events of starting and finishing designations rectangle and items selection.
      *
-     * @param activeDesignation designation type.
      * @param building          buildingType title in {@link BuildingTypeMap}. Is null if activeDesignation is not buildingType.
      */
-    public void setActiveDesignation(DesignationTypeEnum activeDesignation, BuildingType building) {
-        this.activeDesignation = activeDesignation;
-        this.buildingType = activeDesignation == DesignationTypeEnum.BUILD ? building : null;
-        gameMvc.getView().getUiDrawer().setToolbarLabelText(activeDesignation.getText() + (building != null ? building.getTitle() : ""));
-        addNextActorToToolbar();
+    public void setActiveDesignation(DesignationSequence sequence, BuildingType building) {
+        this.sequence = sequence;
+//        this.buildingType = activeDesignation == DesignationTypeEnum.BUILD ? building : null;
+        gameMvc.getView().getUiDrawer().setToolbarLabelText(sequence.getText() + (building != null ? building.getTitle() : ""));
+        sequence.start();
+        //        addNextActorToToolbar();
     }
 
     /**
+     * Calls current sequence for next actor and shows it.
+     *
      * Showing ui components is controlled by this controller (except screen buttons which show submenus).
      * Called by leaf screen buttons and components like {@link MaterialSelectList} to proceed on creating task.
      *
      * //TODO make some unification
      */
     private void addNextActorToToolbar() {
+
         if (activeDesignation == DesignationTypeEnum.BUILD) {
             if (start == null) {// place not selected
                 if(buildingType.getCategory().equals("constructions")) {
@@ -95,7 +100,7 @@ public class DesignationsController extends Controller {
             }
         } else {
             if (start == null) {// place not selected
-                areaSelectComponent.setText(activeDesignation.getText());
+                rectangleSelectComponent.setText(activeDesignation.getText());
             } else { //finish
                 // for designations, hiding place selection is performed manually
                 finishTaskBuilding();
@@ -123,13 +128,7 @@ public class DesignationsController extends Controller {
         if (activeDesignation == DesignationTypeEnum.BUILD) {
             addDesignationToContainer(end);
         } else {
-            for (int x = Math.min(end.getX(), start.getX()); x <= Math.max(end.getX(), start.getX()); x++) {
-                for (int y = Math.min(end.getY(), start.getY()); y <= Math.max(end.getY(), start.getY()); y++) {
-                    for (int z = Math.min(end.getZ(), start.getZ()); z <= Math.max(end.getZ(), start.getZ()); z++) {
-                        addDesignationToContainer(new Position(x, y, z));
-                    }
-                }
-            }
+
         }
     }
 
@@ -154,7 +153,7 @@ public class DesignationsController extends Controller {
         if (activeDesignation == DesignationTypeEnum.BUILD) {
             container.getTaskContainer().submitBuildingDesignation(position, buildingType.getBuilding(), itemSelectors, priority);
         } else {
-            container.getTaskContainer().submitOrderDesignation(position, activeDesignation, priority);
+
         }
     }
 
@@ -181,27 +180,7 @@ public class DesignationsController extends Controller {
         addNextActorToToolbar();
     }
 
-    public BuildingType getBuildingType() {
-        return buildingType;
-    }
-
     public Position getStart() {
         return start;
-    }
-
-    public void clearItemSelectors() {
-        itemSelectors.clear();
-    }
-
-    public int getPriority() {
-        return priority;
-    }
-
-    public void setPriority(int priority) {
-        this.priority = priority;
-    }
-
-    public DesignationTypeEnum getActiveDesignation() {
-        return activeDesignation;
     }
 }

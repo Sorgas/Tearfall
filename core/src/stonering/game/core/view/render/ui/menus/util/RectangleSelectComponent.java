@@ -1,6 +1,7 @@
 package stonering.game.core.view.render.ui.menus.util;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import stonering.game.core.GameMvc;
 import stonering.game.core.controller.controllers.toolbar.DesignationsController;
@@ -8,6 +9,7 @@ import stonering.game.core.model.EntitySelector;
 import stonering.game.core.model.LocalMap;
 import stonering.game.core.view.render.ui.menus.Toolbar;
 import stonering.util.geometry.Position;
+import stonering.util.global.Pair;
 import stonering.util.global.StaticSkin;
 
 /**
@@ -15,22 +17,22 @@ import stonering.util.global.StaticSkin;
  *
  * @author Alexander on 22.11.2018.
  */
-public class AreaSelectComponent extends Label implements HideableComponent, MouseInvocable {
+public class RectangleSelectComponent extends Label implements HideableComponent, MouseInvocable {
     private GameMvc gameMvc;
-    private DesignationsController controller;
     private LocalMap localMap;
     private Toolbar toolbar;
     private EntitySelector selector;
+    private EventListener listener;
 
-    public AreaSelectComponent(GameMvc gameMvc) {
+    public RectangleSelectComponent(EventListener listener) {
         super("", StaticSkin.getSkin());
-        this.gameMvc = gameMvc;
+        gameMvc = GameMvc.getInstance();
+        this.listener = listener;
     }
 
     public void init() {
         selector = gameMvc.getModel().getCamera();
         localMap = gameMvc.getModel().getLocalMap();
-        controller = gameMvc.getController().getDesignationsController();
         toolbar = gameMvc.getView().getUiDrawer().getToolbar();
     }
 
@@ -48,7 +50,7 @@ public class AreaSelectComponent extends Label implements HideableComponent, Mou
         return false;
     }
 
-    @Override
+    @Override // TODO for mouse input
     public boolean invoke(int modelX, int modelY, int button, int action) {
 //        Position position = new Position(modelX, modelY, selector.getPosition().getZ());
 //        switch (action) {
@@ -63,16 +65,14 @@ public class AreaSelectComponent extends Label implements HideableComponent, Mou
 
     /**
      * Finishes handling or adds position to select box
-     *
-     * @param eventPosition
      */
     private void handleConfirm(Position eventPosition) {
         if (selector.getFrameStart() == null) {                                // box not started, start
-            localMap.normalizePosition(eventPosition);
+            localMap.normalizePosition(eventPosition); // when mouse dragged out of map
             selector.setFrameStart(eventPosition.clone());
         } else {                                                               // box started, finish
-            controller.setRectangle(selector.getFrameStart(), eventPosition);
-            selector.setFrameStart(null);
+            listener.handle(null);
+            selector.setFrameStart(null); // ready for new rectangle after this.
         }
     }
 
