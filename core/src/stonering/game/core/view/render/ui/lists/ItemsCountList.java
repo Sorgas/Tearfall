@@ -41,8 +41,4 @@ public abstract class ItemsCountList extends NavigableList {
         listItems.addAll(map.values().toArray(new ListItem[1]));
         this.setItems(listItems);
     }
-
-    protected ListItem getSelectedListItem() {
-        return (ListItem) getSelected();
-    }
 }

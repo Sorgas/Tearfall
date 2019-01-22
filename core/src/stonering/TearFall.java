@@ -42,7 +42,6 @@ public class TearFall extends Game {
         switchMainMenu();
     }
 
-
     public void switchMainMenu() {
         if (mainMenuScreen == null) mainMenuScreen = new MainMenuScreen(this);
         setScreen(mainMenuScreen);

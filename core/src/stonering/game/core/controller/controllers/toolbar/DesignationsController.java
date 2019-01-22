@@ -1,33 +1,17 @@
 package stonering.game.core.controller.controllers.toolbar;
 
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import stonering.entity.local.building.BuildingType;
-import stonering.entity.local.building.validators.FreeFloorValidator;
-import stonering.entity.local.crafting.CommonComponentStep;
-import stonering.enums.buildings.BuildingTypeMap;
-import stonering.enums.designations.DesignationTypeEnum;
 import stonering.game.core.GameMvc;
 import stonering.game.core.controller.controllers.Controller;
 import stonering.game.core.controller.controllers.designation.DesignationSequence;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.view.GameView;
-import stonering.game.core.view.render.ui.lists.MaterialSelectList;
-import stonering.game.core.view.render.ui.menus.util.RectangleSelectComponent;
-import stonering.game.core.view.render.ui.menus.util.PlaceSelectComponent;
-import stonering.util.geometry.Position;
-import stonering.entity.local.items.selectors.ItemSelector;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
- * Controller for designating various tasks. Used as builder to build tasks while user navigates through menus.
- * Digging and BuildingType combined in one controller and map,
- * because one tile can be designated for either digging or buildingType in it.
- * Handles events from menus and updates model appropriately.
- * Has state fields representing currently chosen designation.
- * <p>
- * TODO Validate designations for preview sprite rendering.(move from task container)
+ * Controller for designating various tasks. Used as adapter for designation sequences.
+ * Leaf buttons in menus create {@link DesignationSequence} instances and start them.
+ * On start, sequences create first actor for toolbar.
+ * After completion, sequences reset their state for repeating designation.
+ * On cancelling sequences remove their actors from toolbar, so last menu is first actor again.
  *
  * @author Alexander Kuzyakov on 24.12.2017.
  */
@@ -37,150 +21,47 @@ public class DesignationsController extends Controller {
 
     //private DesignationTypeEnum activeDesignation;
     private DesignationSequence sequence;
-//    private BuildingType buildingType; //is set when activeDesignation is BUILD
-    private List<ItemSelector> itemSelectors; // created for each crafting step
-
-    private PlaceSelectComponent placeSelectComponent;
-    private RectangleSelectComponent rectangleSelectComponent;
-    private Position start; // should be stored between steps
-    private Position end;
-
-    private int priority;
 
     public DesignationsController(GameMvc gameMvc) {
         super(gameMvc);
-        itemSelectors = new ArrayList<>();
-        placeSelectComponent = new PlaceSelectComponent(gameMvc);
     }
 
     public void init() {
         container = gameMvc.getModel();
         view = gameMvc.getView();
-        placeSelectComponent.init();
     }
 
     /**
+     * Sets sequence for controller.
      * Saves chosen designation type to be stored between events of starting and finishing designations rectangle and items selection.
-     *
-     * @param building          buildingType title in {@link BuildingTypeMap}. Is null if activeDesignation is not buildingType.
      */
-    public void setActiveDesignation(DesignationSequence sequence, BuildingType building) {
+    public void setActiveDesignation(DesignationSequence sequence) {
         this.sequence = sequence;
-//        this.buildingType = activeDesignation == DesignationTypeEnum.BUILD ? building : null;
-        gameMvc.getView().getUiDrawer().setToolbarLabelText(sequence.getText() + (building != null ? building.getTitle() : ""));
+        gameMvc.getView().getUiDrawer().setToolbarLabelText(sequence.getText());
         sequence.start();
-        //        addNextActorToToolbar();
-    }
-
-    /**
-     * Calls current sequence for next actor and shows it.
-     *
-     * Showing ui components is controlled by this controller (except screen buttons which show submenus).
-     * Called by leaf screen buttons and components like {@link MaterialSelectList} to proceed on creating task.
-     *
-     * //TODO make some unification
-     */
-    private void addNextActorToToolbar() {
-
-        if (activeDesignation == DesignationTypeEnum.BUILD) {
-            if (start == null) {// place not selected
-                if(buildingType.getCategory().equals("constructions")) {
-                    //TODO area select
-                } else {
-                    placeSelectComponent.setDefaultText("Place " + buildingType.getTitle());
-                    placeSelectComponent.setWarningText("Cannot build " + buildingType.getTitle() + " here");
-                    placeSelectComponent.setPositionValidator(new FreeFloorValidator()); // buildings should be on free floors
-                    placeSelectComponent.show();
-                }
-            } else if (buildingType.getComponents().size() > itemSelectors.size()) { // steps not finished. called several times
-                view.getUiDrawer().getToolbar().addMenu(createSelectListForStep(buildingType.getComponents().get(itemSelectors.size())));
-            } else { //finish
-                finishTaskBuilding();
-                view.getUiDrawer().getToolbar().closeNonMenuActors();
-            }
-        } else {
-            if (start == null) {// place not selected
-                rectangleSelectComponent.setText(activeDesignation.getText());
-            } else { //finish
-                // for designations, hiding place selection is performed manually
-                finishTaskBuilding();
-            }
-        }
-    }
-
-    /**
-     * Returns select list with items, available for given step.
-     *
-     * @param step
-     * @return
-     */
-    private Actor createSelectListForStep(CommonComponentStep step) {
-        MaterialSelectList actor = new MaterialSelectList(gameMvc);
-        actor.init();
-        actor.fillForCraftingStep(step);
-        return actor;
-    }
-
-    /**
-     * Finishes building task.
-     */
-    private void finishTaskBuilding() {
-        if (activeDesignation == DesignationTypeEnum.BUILD) {
-            addDesignationToContainer(end);
-        } else {
-
-        }
     }
 
     /**
      * Resets controller state.
      */
     public void handleCancel() {
-        start = null;
-        activeDesignation = null;
-        buildingType = null;
-        itemSelectors.clear();
+        stopSequence();
         view.getUiDrawer().setToolbarLabelText("");
     }
 
-    /**
-     * Adds single point designation to task container.
-     * Called several times for area orders (digging, harvesting, etc).
-     *
-     * @param position
-     */
-    private void addDesignationToContainer(Position position) {
-        if (activeDesignation == DesignationTypeEnum.BUILD) {
-            container.getTaskContainer().submitBuildingDesignation(position, buildingType.getBuilding(), itemSelectors, priority);
-        } else {
+    public void setSequence(DesignationSequence sequence) {
+        if (this.sequence != null) this.sequence.end();
+        this.sequence = sequence;
+    }
 
+    public void startSequence() {
+        if (sequence != null) sequence.start();
+    }
+
+    public void stopSequence() {
+        if (sequence != null) {
+            sequence.end();
+            sequence = null;
         }
-    }
-
-    /**
-     * Called from {@link PlaceSelectComponent} to store selected area.
-     *
-     * @param start
-     * @param end
-     */
-    public void setRectangle(Position start, Position end) {
-        this.start = start;
-        this.end = end;
-        addNextActorToToolbar();
-    }
-
-    /**
-     * Adds item selector, corresponding to selected items to order.
-     * Selector will be used on task checking & performing.
-     *
-     * @param itemSelector
-     */
-    public void addItemSelector(ItemSelector itemSelector) {
-        itemSelectors.add(itemSelector);
-        addNextActorToToolbar();
-    }
-
-    public Position getStart() {
-        return start;
     }
 }

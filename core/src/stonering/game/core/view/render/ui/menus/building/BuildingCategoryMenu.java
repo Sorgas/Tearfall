@@ -4,8 +4,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.enums.HotkeySequence;
 import stonering.enums.buildings.BuildingTypeMap;
-import stonering.enums.designations.DesignationTypeEnum;
 import stonering.game.core.GameMvc;
+import stonering.game.core.controller.controllers.designation.BuildingDesignationSequence;
 import stonering.game.core.controller.controllers.toolbar.DesignationsController;
 import stonering.game.core.view.render.ui.menus.util.PlaceSelectComponent;
 import stonering.game.core.view.render.ui.menus.util.SubMenuMenu;
@@ -43,13 +43,13 @@ public class BuildingCategoryMenu extends SubMenuMenu {
      * Creates {@link PlaceSelectComponent} (one for all constructions).
      */
     public void addCategory() {
-        BuildingTypeMap.getInstance().getCategoryBuildings(category).forEach(building ->
-                addItem(building.getTitle(), new ChangeListener() {
+        BuildingTypeMap.getInstance().getCategoryBuildings(category).forEach(buildingType ->
+                addItem(buildingType.getTitle(), new ChangeListener() {
                     @Override
                     public void changed(ChangeEvent event, Actor actor) {
-                        controller.setActiveDesignation(DesignationTypeEnum.BUILD, building);
+                        controller.setActiveDesignation(new BuildingDesignationSequence(buildingType));
                     }
-                }, building.getMenuPath())
+                }, buildingType.getMenuPath())
         );
     }
 

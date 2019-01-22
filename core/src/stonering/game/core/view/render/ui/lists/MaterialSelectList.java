@@ -6,8 +6,8 @@ import stonering.game.core.controller.controllers.toolbar.DesignationsController
 import stonering.game.core.view.render.ui.menus.Toolbar;
 import stonering.game.core.view.render.ui.menus.util.HideableComponent;
 import stonering.entity.local.items.Item;
-import stonering.entity.local.items.selectors.SimpleItemSelector;
 import stonering.game.core.view.render.ui.util.ListItem;
+import stonering.util.geometry.Position;
 
 import java.util.List;
 
@@ -20,17 +20,12 @@ import java.util.List;
  */
 public class MaterialSelectList extends ItemsCountList implements HideableComponent {
     private GameMvc gameMvc;
-    private boolean hideable;
     private DesignationsController controller;
     protected Toolbar toolbar;
 
-    public MaterialSelectList(GameMvc gameMvc) {
+    public MaterialSelectList() {
         super();
-        this.gameMvc = gameMvc;
-        this.hideable = true;
-    }
-
-    public void init() {
+        gameMvc = GameMvc.getInstance();
         controller = gameMvc.getController().getDesignationsController();
         toolbar = gameMvc.getView().getUiDrawer().getToolbar();
     }
@@ -40,21 +35,11 @@ public class MaterialSelectList extends ItemsCountList implements HideableCompon
      *
      * @param step
      */
-    public void fillForCraftingStep(CommonComponentStep step) {
+    public void fillForCraftingStep(CommonComponentStep step, Position position) {
         clearItems();
-        List<Item> items = gameMvc.getModel().getItemContainer().getAvailableMaterialsCraftingStep(step, controller.getStart());
+        List<Item> items = gameMvc.getModel().getItemContainer().getAvailableMaterialsCraftingStep(step, position);
         if (!items.isEmpty()) {
             addItems(items);
-            setSelectListener(event -> {
-                if (getSelectedIndex() >= 0) {
-                    ListItem selected = getSelectedListItem();
-                    //TODO handle amount requirements more than 1
-                    controller.addItemSelector(new SimpleItemSelector(selected.getTitle(), selected.getMaterial(), 1));
-                    return true;
-                } else {
-                    return false;
-                }
-            });
             setSelectedIndex(-1); //change event is not fired without this.
             setSelectedIndex(0);
         } else {
@@ -69,5 +54,6 @@ public class MaterialSelectList extends ItemsCountList implements HideableCompon
 
     @Override
     public void hide() {
+        toolbar.hideMenu(this);
     }
 }

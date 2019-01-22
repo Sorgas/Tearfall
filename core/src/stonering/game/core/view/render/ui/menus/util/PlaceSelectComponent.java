@@ -1,17 +1,16 @@
 package stonering.game.core.view.render.ui.menus.util;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import stonering.entity.local.building.validators.PositionValidator;
 import stonering.game.core.GameMvc;
-import stonering.game.core.controller.controllers.toolbar.DesignationsController;
 import stonering.game.core.model.EntitySelector;
 import stonering.game.core.view.render.ui.menus.Toolbar;
 import stonering.util.geometry.Position;
 import stonering.util.global.StaticSkin;
-import stonering.util.global.TagLoggersEnum;
 
 /**
  * Component for selecting places. Can be used many times.
@@ -20,38 +19,43 @@ import stonering.util.global.TagLoggersEnum;
  */
 public class PlaceSelectComponent extends Label implements HideableComponent {
     private GameMvc gameMvc;
-    private DesignationsController controller;
+    private PositionValidator positionValidator; // validates position on each move
+    private EntitySelector selector; // points to position
+    private EventListener eventListener; // fired on confirm
     private Toolbar toolbar;
-    private EntitySelector selector;
-    private PositionValidator positionValidator;
+    private Position position;
+
     private String defaultText;
     private String warningText;
 
-    public PlaceSelectComponent() {
+    public PlaceSelectComponent(EventListener eventListener) {
         super("", StaticSkin.getSkin());
         this.gameMvc = GameMvc.getInstance();
+        this.eventListener = eventListener;
     }
 
     public void init() {
         selector = gameMvc.getModel().getCamera();
-        controller = gameMvc.getController().getDesignationsController();
         toolbar = gameMvc.getView().getUiDrawer().getToolbar();
         createDefaultListener();
     }
 
     private void createDefaultListener() {
         addListener(new InputListener() {
+            //TODO !!! probably 1 event delay to EntitySelector here
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
-                TagLoggersEnum.UI.logDebug("handling " + Input.Keys.toString(keycode) + " in PlaceSelectComponent");
-//                event.stop();
-                setText(defaultText);
+                boolean isValid = validatePosition();
+                setText(isValid ? defaultText : warningText);
                 switch (keycode) {
                     case Input.Keys.E:
-                        handleConfirm(selector.getPosition().clone());
+                        if (isValid) {
+                            position = selector.getPosition().clone();
+                            eventListener.handle(null);
+                        }
                         return true;
                     case Input.Keys.Q:
-                        handleCancel();
+                        hide();
                         return true;
                 }
                 return false;
@@ -59,26 +63,9 @@ public class PlaceSelectComponent extends Label implements HideableComponent {
         });
     }
 
-    /**
-     * Finishes handling or adds position to select box
-     *
-     * @param eventPosition
-     */
-    private void handleConfirm(Position eventPosition) {
-        TagLoggersEnum.UI.logDebug("confirming place selection");
-        if(selector.getStatus() == EntitySelector.GREEN_STATUS) {
-            hide();
-            controller.setRectangle(eventPosition, eventPosition);
-        } else {
-            super.setText(warningText);
-        }
-    }
-
-    /**
-     * Closes component or discards last position from select box.
-     */
-    private void handleCancel() {
-        hide();
+    private boolean validatePosition() {
+        if (positionValidator == null) return true; // no validation
+        return positionValidator.validate(gameMvc.getModel().getLocalMap(), selector.getPosition());
     }
 
     /**
@@ -109,5 +96,9 @@ public class PlaceSelectComponent extends Label implements HideableComponent {
 
     public void setWarningText(String warningText) {
         this.warningText = warningText;
+    }
+
+    public Position getPosition() {
+        return position;
     }
 }

@@ -19,6 +19,10 @@ public class SimpleDesignationSequence extends DesignationSequence {
     public SimpleDesignationSequence(DesignationTypeEnum designationType) {
         super();
         this.designationType = designationType;
+        createRectangleSelectComponent();
+    }
+
+    private void createRectangleSelectComponent() {
         rectangleSelectComponent = new RectangleSelectComponent(event -> {
             EntitySelector selector = gameMvc.getModel().getCamera();
             completeDesignation(selector.getFrameStart(), selector.getPosition());
@@ -43,8 +47,14 @@ public class SimpleDesignationSequence extends DesignationSequence {
     }
 
     @Override
-    public void reset() {
+    public void end() {
         rectangleSelectComponent.hide();
+    }
+
+    @Override
+    public void reset() {
+        end();
+        start();
     }
 
     @Override

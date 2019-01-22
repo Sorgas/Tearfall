@@ -3,8 +3,8 @@ package stonering.game.core.view.render.ui.menus;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import stonering.enums.designations.DesignationTypeEnum;
 import stonering.game.core.GameMvc;
-import stonering.game.core.controller.controllers.designation.DesignationSequence;
 import stonering.game.core.controller.controllers.designation.SimpleDesignationSequence;
 import stonering.game.core.controller.controllers.toolbar.DesignationsController;
 import stonering.game.core.view.render.ui.menus.util.RectangleSelectComponent;
@@ -19,7 +19,6 @@ import static stonering.enums.designations.DesignationTypeEnum.*;
  */
 public class PlantsMenu extends SubMenuMenu {
     private DesignationsController controller;
-    private RectangleSelectComponent rectangleSelectComponent;
 
     public PlantsMenu(GameMvc gameMvc) {
         super(gameMvc);
@@ -31,7 +30,6 @@ public class PlantsMenu extends SubMenuMenu {
     public void init() {
         super.init();
         controller = gameMvc.getController().getDesignationsController();
-        rectangleSelectComponent.init();
     }
 
     @Override
@@ -40,19 +38,18 @@ public class PlantsMenu extends SubMenuMenu {
     }
 
     private void initMenu() {
-        addButtonToTable("P: chop trees", new SimpleDesignationSequence(CHOP), Input.Keys.P);
-        addButtonToTable("O: harvest", new SimpleDesignationSequence(HARVEST), Input.Keys.O);
-        addButtonToTable("I: cut", new SimpleDesignationSequence(CUT), Input.Keys.I);
-        addButtonToTable("U: clear", new SimpleDesignationSequence(NONE), Input.Keys.U);
-
-        rectangleSelectComponent = new RectangleSelectComponent(gameMvc);
+        addButtonToTable("P: chop trees", CHOP, Input.Keys.P);
+        addButtonToTable("O: harvest", HARVEST, Input.Keys.O);
+        addButtonToTable("I: cut", CUT, Input.Keys.I);
+        addButtonToTable("U: clear", NONE, Input.Keys.U);
     }
 
-    private void addButtonToTable(String text, DesignationSequence sequence, int hotKey) {
+    private void addButtonToTable(String text, DesignationTypeEnum designationType, int hotKey) {
         createButton(text, hotKey, new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                controller.setActiveDesignation(sequence, null);
+                controller.setActiveDesignation(new SimpleDesignationSequence(designationType));
+                controller.startSequence();
             }
         }, true);
     }
