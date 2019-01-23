@@ -14,7 +14,7 @@ public class MoveAction extends Action {
 
     @Override
     public boolean check() {
-        return false;
+        return true;
     }
 
     @Override

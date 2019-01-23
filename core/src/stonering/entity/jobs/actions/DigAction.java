@@ -29,6 +29,7 @@ public class DigAction extends Action {
         if (aspect != null) {
             return toolItemSelector.check(aspect.getEquippedItems()) || addEquipAction();
         }
+
         return false;
     }
 

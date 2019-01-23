@@ -45,6 +45,7 @@ public class DiggingMenu extends SubMenuMenu {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 controller.setActiveDesignation(sequence); //no buildings here
+                controller.startSequence();
             }
         }, true);
     }

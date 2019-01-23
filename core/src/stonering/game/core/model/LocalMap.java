@@ -98,6 +98,7 @@ public class LocalMap {
         List<Position> positions = new ArrayList<>();
         for (int x = position.getX() - 1; x < position.getX() + 2; x++) {
             for (int y = position.getY() - 1; y < position.getY() + 2; y++) {
+                if (x == position.getX() && y == position.getY()) continue;
                 if (inMap(x, y, position.getZ()) && passageMap.isWalkPassable(x, y, position.getZ())) {
                     positions.add(new Position(x, y, position.getZ()));
                 }

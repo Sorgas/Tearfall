@@ -28,7 +28,7 @@ public abstract class ActionTarget {
     public Position findPositionToStepOff(Position from) {
         List<Position> positions = gameMvc.getModel().getLocalMap().getFreeBlockNear(from);
         if (!positions.isEmpty()) {
-            return positions.get(random.nextInt(positions.size())); //TODO add random
+            return positions.get(random.nextInt(positions.size()));
         }
         TagLoggersEnum.PATH.logWarn("Cant find tile to step out from " + from);
         return null;
