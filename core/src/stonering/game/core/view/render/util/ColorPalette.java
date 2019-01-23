@@ -1,4 +1,4 @@
-package stonering.game.core.view.render.scene;
+package stonering.game.core.view.render.util;
 
 import com.badlogic.gdx.graphics.Color;
 

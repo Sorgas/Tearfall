@@ -1,18 +1,16 @@
 package stonering.test_chamber;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import stonering.test_chamber.screen.TestChamberScreen;
 
-public class TestChamber extends Game {
+public class TestChamberGame extends Game {
+    private TestChamberScreen screen;
     private BitmapFont font;
     private Skin skin;
-
-    private Screen testSelectScreen;
-
 
     @Override
     public void create() {
@@ -22,7 +20,8 @@ public class TestChamber extends Game {
     }
 
     private void showTestSelectScreen() {
-//        if(testSelectScreen == null) testSelectScreen;
+        if(screen == null) screen = new TestChamberScreen();
+        setScreen(screen);
     }
 
     private void createFont() {

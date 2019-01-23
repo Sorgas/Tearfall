@@ -1,4 +1,4 @@
-package stonering.game.core.view.render.scene;
+package stonering.game.core.view.render.stages.base;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -10,8 +10,8 @@ import stonering.enums.designations.DesignationsTileMapping;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.core.GameMvc;
 import stonering.game.core.model.EntitySelector;
-import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.LocalMap;
+import stonering.game.core.view.render.util.Int3DBounds;
 import stonering.game.core.view.tilemaps.LocalTileMap;
 import stonering.entity.local.building.BuildingBlock;
 import stonering.entity.local.items.Item;
@@ -24,76 +24,68 @@ import java.util.ArrayList;
 /**
  * Draws LocalMap. Blocks and plants are taken from LocalTileMap,
  * Buildings, units, and items are taken from LocalMap.
- * //TODO move color from batch to sprites
+ * TODO move color from batch to sprites
+ * TODO decompose to sequence of renderers.
  *
  * @author Alexander Kuzyakov on 13.06.2017.
  */
 public class LocalWorldDrawer {
     private GameMvc gameMvc;
-    private GameContainer container;
     private LocalTileMap localTileMap;
     private SpriteBatch batch;
     private Texture[] atlases;
     private EntitySelector selector;
-    //TODO add SelectionFrame (see EntitySelector & PlaceSelectComponent)
     private LocalMap localMap;
+
     private int viewAreaWidth;              // radius
     private int viewAreDepth;
     private float shadingStep = 0.06f;
     private Color batchColor;               // default batch color without light or transparency
 
-    private int tileWidth = 64;
-    private int tileHeight = 96;
-    private int tileDepth = 64;
-    private int topingTileHeight = 70;
-    private int blockTileHeight = 166;
-    private float scale = 0.5f;
+    private int tileWidth = 64;             //x size(left-right)
+    private int tileDepth = 64;             //y size(back-forth)
+    private int tileHeight = 96;            //z size(up-down) plus depth
+    private int topingTileHeight = 70;      //depth plus floor height(10)
+    private int blockTileHeight = 166;      //total block height
 
-    private int screenCenterX;
-    private int screenCenterY;
+    private Vector2 screenCenter;
 
-    private int maxX;
-    private int maxY;
-    private int maxZ;
-    private int minX;
-    private int minY;
-    private int minZ;
-    private MaterialMap materialMap;
-
-    public LocalWorldDrawer(GameMvc gameMvc) {
-        this.gameMvc = gameMvc;
-        materialMap = MaterialMap.getInstance();
+    public LocalWorldDrawer() {
+        gameMvc = GameMvc.getInstance();
         initAtlases();
     }
 
     public void init() {
-        container = gameMvc.getModel();
-        localMap = container.getLocalMap();
-        setScreenCenterX(Gdx.graphics.getWidth() / 2);
-        setScreenCenterY(Gdx.graphics.getHeight() / 2);
+        localMap = gameMvc.getModel().getLocalMap();
+        screenCenter = new Vector2(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f);
         setViewAreaWidth(50);
         setViewAreDepth(15);
         batchColor = new Color();
     }
 
-    public void drawWorld() {
-        if (localTileMap == null)
-            localTileMap = container.getLocalTileMap();
-        this.selector = container.getCamera();
-        defineframe();
+    /**
+     * Renders local map with all entities to
+     */
+    public void drawLocalWorld() {
+        if (localTileMap == null) localTileMap = gameMvc.getModel().getLocalTileMap(); //TODO replace with some init
+        selector = gameMvc.getModel().getCamera();
         batch.enableBlending();
         batch.begin();
-        for (int z = minZ; z <= maxZ; z++) {
+        drawTiles(defineframe());
+        drawSelector();
+        drawFrame();
+        batch.end();
+    }
+
+    private void drawTiles(Int3DBounds bounds) {
+        for (int z = bounds.getMinZ(); z <= bounds.getMaxZ(); z++) {
             shadeByZ(selector.getPosition().getZ() - z);
-            for (int x = minX; x <= maxX; x++) {
-                for (int y = maxY; y >= minY; y--) {
+            for (int x = bounds.getMinX(); x <= bounds.getMaxX(); x++) {
+                for (int y = bounds.getMaxY(); y >= bounds.getMinY(); y--) {
                     drawTile(x, y, z);
                 }
             }
         }
-        drawSelector();
-        drawFrame();
-        batch.end();
     }
 
     /**
@@ -123,7 +115,7 @@ public class LocalWorldDrawer {
         if (unitBlock != null) {
             drawSprite(selectSprite(2, 0, 0), x, y, z);
         }
-        ArrayList<Item> items = container.getItemContainer().getItems(x, y, z);
+        ArrayList<Item> items = gameMvc.getModel().getItemContainer().getItems(x, y, z);
         if (!items.isEmpty()) {
             items.forEach((item) -> drawSprite(selectSprite(5, item.getType().getAtlasXY()[0], item.getType().getAtlasXY()[1]), x, y, z));
         }
@@ -168,7 +160,6 @@ public class LocalWorldDrawer {
             }
         }
     }
-
 
     /**
      * Draws sprite on position.
@@ -230,13 +221,13 @@ public class LocalWorldDrawer {
         atlases[5] = new Texture("sprites/items.png");
     }
 
-    private void defineframe() {
-        maxX = Math.min(selector.getPosition().getX() + viewAreaWidth, localTileMap.getxSize() - 1);
-        minX = Math.max(selector.getPosition().getX() - viewAreaWidth, 0);
-        maxY = Math.min(selector.getPosition().getY() + viewAreaWidth, localTileMap.getySize() - 1);
-        minY = Math.max(selector.getPosition().getY() - viewAreaWidth, 0);
-        maxZ = Math.min(selector.getPosition().getZ(), localTileMap.getzSize() - 1);
-        minZ = Math.max(selector.getPosition().getZ() - viewAreDepth, 0);
+    private Int3DBounds defineframe() {
+        return new Int3DBounds(Math.max(selector.getPosition().getX() - viewAreaWidth, 0),
+                Math.max(selector.getPosition().getY() - viewAreaWidth, 0),
+                Math.max(selector.getPosition().getZ() - viewAreDepth, 0),
+                Math.min(selector.getPosition().getX() + viewAreaWidth, localTileMap.getxSize() - 1),
+                Math.min(selector.getPosition().getY() + viewAreaWidth, localTileMap.getySize() - 1),
+                Math.min(selector.getPosition().getZ(), localTileMap.getzSize() - 1));
     }
 
     /**
@@ -317,20 +308,16 @@ public class LocalWorldDrawer {
         batch.setColor(batchColor.r * mod, batchColor.g * mod, batchColor.b * mod, batchColor.a);
     }
 
-    private int getScreenPosX(int x) {
-        return x * tileWidth + screenCenterX;
+    private float getScreenPosX(int x) {
+        return x * tileWidth + screenCenter.x;
     }
 
-    private int getScreenPosY(int y, int z) {
-        return y * tileDepth + z * (tileHeight - tileDepth) + screenCenterY;
+    private float getScreenPosY(int y, int z) {
+        return y * tileDepth + z * (tileHeight - tileDepth) + screenCenter.y;
     }
 
-    public void setScreenCenterX(int screenCenterX) {
-        this.screenCenterX = screenCenterX;
-    }
-
-    public void setScreenCenterY(int screenCenterY) {
-        this.screenCenterY = screenCenterY;
+    public void setScreenCenter(Vector2 screenCenter) {
+        this.screenCenter = screenCenter;
     }
 
     public void setViewAreaWidth(int viewAreaWidth) {

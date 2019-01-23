@@ -1,11 +1,14 @@
-package stonering.game.core.view.render.stages;
+package stonering.game.core.view.render.stages.base;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import stonering.game.core.GameMvc;
 import stonering.game.core.model.EntitySelector;
-import stonering.game.core.view.render.scene.LocalWorldDrawer;
+import stonering.game.core.view.render.stages.InitableStage;
+import stonering.game.core.view.render.stages.MapEntitySelectStage;
+import stonering.game.core.view.render.stages.UIDrawer;
 import stonering.util.geometry.Position;
 
 /**
@@ -23,7 +26,7 @@ public class BaseStage extends InitableStage {
 
     public BaseStage(GameMvc gameMvc) {
         this.gameMvc = gameMvc;
-        worldDrawer = new LocalWorldDrawer(gameMvc);
+        worldDrawer = new LocalWorldDrawer();
         uiDrawer = new UIDrawer(gameMvc);
         entitySelector = gameMvc.getModel().getCamera();
     }
@@ -37,7 +40,7 @@ public class BaseStage extends InitableStage {
     @Override
     public void draw() {
         super.draw();
-        worldDrawer.drawWorld();
+        worldDrawer.drawLocalWorld();
         uiDrawer.draw();
     }
 
@@ -46,8 +49,7 @@ public class BaseStage extends InitableStage {
             batch.dispose();
         batch = new SpriteBatch();
         worldDrawer.setBatch(batch);
-        worldDrawer.setScreenCenterX(Gdx.graphics.getWidth() / 2);
-        worldDrawer.setScreenCenterY(Gdx.graphics.getHeight() / 2);
+        worldDrawer.setScreenCenter(new Vector2(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f));
     }
 
     public void disposeBatch() {
@@ -67,7 +69,7 @@ public class BaseStage extends InitableStage {
      */
     @Override
     public boolean keyDown(int keyCode) {
-        if(!uiDrawer.keyDown(keyCode)) {                 // try act with toolbar
+        if (!uiDrawer.keyDown(keyCode)) {                 // try act with toolbar
             return trySelectMapEntity(keyCode);          // map click
         }
         return false;
@@ -81,7 +83,7 @@ public class BaseStage extends InitableStage {
      */
     //TODO add filters like Shift+E Ctrl+E etc
     private boolean trySelectMapEntity(int keycode) {
-        if(keycode == Input.Keys.E) {
+        if (keycode == Input.Keys.E) {
             showMapEntityListStage(gameMvc.getModel().getCamera().getPosition());
             return true;
         }

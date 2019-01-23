@@ -4,7 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import stonering.game.core.GameMvc;
-import stonering.game.core.view.render.scene.LocalWorldDrawer;
+import stonering.game.core.view.render.stages.base.BaseStage;
+import stonering.game.core.view.render.stages.base.LocalWorldDrawer;
 import stonering.game.core.view.render.stages.*;
 import stonering.util.global.TagLoggersEnum;
 
@@ -42,6 +43,7 @@ public class GameView implements Screen {
 
     /**
      * Do bindings of components to their controllers/models.
+     * TODO get rid of inits.
      */
     public void init() {
         baseStage.init();
