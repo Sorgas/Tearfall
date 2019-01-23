@@ -1,5 +1,6 @@
 package stonering.game.core.view;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -30,14 +31,13 @@ public class GameView implements Screen {
      *
      * @param gameMvc
      */
-    public GameView(GameMvc gameMvc) {
-        this.gameMvc = gameMvc;
+    public GameView() {
         createStages();
     }
 
     private void createStages() {
         stageList = new ArrayList<>();
-        baseStage = new BaseStage(gameMvc);
+        baseStage = new BaseStage();
         mainMenu = new MainMenu();
     }
 
@@ -46,6 +46,7 @@ public class GameView implements Screen {
      * TODO get rid of inits.
      */
     public void init() {
+        gameMvc = GameMvc.getInstance();
         baseStage.init();
         mainMenu.init();
     }

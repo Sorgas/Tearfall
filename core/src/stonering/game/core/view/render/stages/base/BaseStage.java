@@ -24,8 +24,8 @@ public class BaseStage extends InitableStage {
     private SpriteBatch batch;
     private EntitySelector entitySelector;
 
-    public BaseStage(GameMvc gameMvc) {
-        this.gameMvc = gameMvc;
+    public BaseStage() {
+        this.gameMvc = GameMvc.getInstance();
         worldDrawer = new LocalWorldDrawer();
         uiDrawer = new UIDrawer(gameMvc);
         entitySelector = gameMvc.getModel().getCamera();

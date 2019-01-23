@@ -38,7 +38,6 @@ public class DesignationsController extends Controller {
     public void setActiveDesignation(DesignationSequence sequence) {
         this.sequence = sequence;
         gameMvc.getView().getUiDrawer().setToolbarLabelText(sequence.getText());
-        sequence.start();
     }
 
     /**

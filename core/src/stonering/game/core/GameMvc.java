@@ -23,9 +23,11 @@ public class GameMvc {
 
     private GameMvc(LocalGenContainer container) {
         model = new GameContainer(container); //independent from CV
-        view = new GameView(this);
-        controller = new GameController(this);
+    }
 
+    public void init() {
+        view = new GameView();
+        controller = new GameController();
         view.init();
         controller.init();
     }

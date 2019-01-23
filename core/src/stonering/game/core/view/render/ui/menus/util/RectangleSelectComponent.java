@@ -2,6 +2,8 @@ package stonering.game.core.view.render.ui.menus.util;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import stonering.game.core.GameMvc;
 import stonering.game.core.controller.controllers.toolbar.DesignationsController;
@@ -11,6 +13,7 @@ import stonering.game.core.view.render.ui.menus.Toolbar;
 import stonering.util.geometry.Position;
 import stonering.util.global.Pair;
 import stonering.util.global.StaticSkin;
+import stonering.util.global.TagLoggersEnum;
 
 /**
  * Selects rectangle.
@@ -25,29 +28,38 @@ public class RectangleSelectComponent extends Label implements HideableComponent
     private EventListener listener;
 
     public RectangleSelectComponent(EventListener listener) {
-        super("", StaticSkin.getSkin());
+        super("rectangle", StaticSkin.getSkin());
         gameMvc = GameMvc.getInstance();
         this.listener = listener;
-    }
-
-    public void init() {
         selector = gameMvc.getModel().getCamera();
         localMap = gameMvc.getModel().getLocalMap();
         toolbar = gameMvc.getView().getUiDrawer().getToolbar();
+        createDefaultListener();
+    }
+
+    private void createDefaultListener() {
+        addListener(new InputListener() {
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                event.stop();
+                switch (keycode) {
+                    case Input.Keys.E:
+                        handleConfirm(selector.getPosition());
+                        return true;
+                    case Input.Keys.Q:
+                        handleCancel();
+                        return true;
+                }
+                return false;
+            }
+        });
     }
 
     @Override
     public boolean invoke(int keycode) {
         //TODO add reference to Key Settings
-        switch (keycode) {
-            case Input.Keys.E:
-                handleConfirm(selector.getPosition());
-                return true;
-            case Input.Keys.Q:
-                handleCancel();
-                return true;
-        }
-        return false;
+        TagLoggersEnum.UI.logWarn("Call to invoke() on RectangleSelectComponent.");
+        return true;
     }
 
     @Override // TODO for mouse input
