@@ -1,0 +1,98 @@
+/**
+    temperatureBounds:
+        1,2: max/min year temperature for plant to occur during generation,
+        3,4: max/min temperature to grow in realtime.
+    waterSource:
+        position related to ponds or river (under, surface, near, far (multiple)) //TODO distinct running and stagnant water
+    lightNeed:
+        light level for plant to grow. (underground, low, high, open (multiple))
+    soilType:
+        material tag of surface (soil, stone, wood)
+    treeType:
+        crownRadius, height, rootDepth, rootRadius for trees
+    lifeStages:
+        stages with length, products, material and sprite.
+*/
+[
+    {
+        "name": "grass",
+        "title": "grass",
+        "description": "Grass",
+        "temperatureBounds": ["-40", "40", "-40", "40"],
+        "rainfallBounds": ["0", "100"],
+        "waterSource": ["near", "far"],
+        "lightNeed": ["low", "high"],
+        "soilType": "soil",
+        "treeType": null,
+        "lifeStages": [
+            {
+                "stageLength": "1",
+                "harvestProducts": null,
+                "cutProducts": null,
+                "materialName": "willow",
+                "atlasXY": ["0", "0"],
+                "color": "0xffffffff"
+            }
+        ]
+    }, {
+    "name": "red_moss",
+    "title": "Red Moss",
+    "description": "Red Moss",
+    "temperatureBounds": ["-40", "40", "-40", "40"],
+    "rainfallBounds": ["0", "100"],
+    "waterSource": ["near", "far"],
+    "lightNeed": ["low", "high"],
+    "soilType": "stone",
+    "treeType": null,
+    "lifeStages": [
+        {
+            "stageLength": "1",
+            "harvestProducts": ["red_moss"],
+            "cutProducts": ["red_moss"],
+            "materialName": "willow",
+            "atlasXY": ["1", "0"],
+            "color": "0xffffffff"
+        }
+    ]
+}, {
+    "name": "bush",
+    "title": "bush",
+    "description": "Bush",
+    "temperatureBounds": ["-40", "40", "-40", "40"],
+    "rainfallBounds": ["0", "100"],
+    "waterSource": ["near", "far"],
+    "lightNeed": ["low", "high"],
+    "soilType": "soil",
+    "treeType": null,
+    "lifeStages": [
+        {
+            "stageLength": "1",
+            "harvestProducts": null,
+            "cutProducts": ["branch", "root"],
+            "materialName": "willow",
+            "atlasXY": ["0", "0"],
+            "color": "0xffffffff"
+        }
+    ]
+}, {
+    "name": "blue_berry",
+    "title": "Blueberry",
+    "description": "Small plant with blue edible berries.",
+    "temperatureBounds": ["-40", "40", "-40", "40"],
+    "rainfallBounds": ["0", "100"],
+    "waterSource": ["near", "far"],
+    "lightNeed": ["low", "high"],
+    "soilType": "soil",
+    "treeType": null,
+    "lifeStages": [
+        {
+            "stageLength": "1",
+            "harvestProducts": ["blueberry"],
+            "cutProducts": ["blueberry"],
+            "materialName": "generic_plant",
+            "atlasXY": ["2", "0"],
+            "color": "0xffffffff"
+        }
+    ]
+}
+]

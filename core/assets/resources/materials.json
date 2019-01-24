@@ -2,7 +2,7 @@
     {
         "id": "0",
         "name": "air",
-        "types": ["air"],
+        "tags": ["air"],
         "density": "0.1",
         "reactions": {},
         "value": "0",
@@ -11,7 +11,7 @@
     }, {
     "id": "1",
     "name": "granite",
-    "types": ["stone", "stone_intrusive"],
+    "tags": ["stone", "stone_intrusive"],
     "density": "2.7",
     "reactions": {
         "melt": ["1513"]
@@ -22,7 +22,7 @@
 }, {
     "id": "2",
     "name": "diorite",
-    "types": ["stone", "stone_intrusive"],
+    "tags": ["stone", "stone_intrusive"],
     "density": "2.8",
     "reactions": {
         "melt": ["1523"]
@@ -33,7 +33,7 @@
 }, {
     "id": "3",
     "name": "gabbro",
-    "types": ["stone", "stone_intrusive"],
+    "tags": ["stone", "stone_intrusive"],
     "density": "3",
     "reactions": {
         "melt": ["1523"]
@@ -44,7 +44,7 @@
 }, {
     "id": "4",
     "name": "peridotite",
-    "types": ["stone", "stone_intrusive"],
+    "tags": ["stone", "stone_intrusive"],
     "density": "3.1",
     "reactions": {
         "melt": ["2173"]
@@ -55,7 +55,7 @@
 }, {
     "id": "5",
     "name": "pegmatite",
-    "types": ["stone", "stone_intrusive"],
+    "tags": ["stone", "stone_intrusive"],
     "density": "2.7",
     "reactions": {
         "melt": ["4000"]
@@ -66,7 +66,7 @@
 }, {
     "id": "6",
     "name": "rhyolite",
-    "types": ["stone", "stone_extrusive"],
+    "tags": ["stone", "stone_extrusive"],
     "density": "2.4",
     "reactions": {
         "melt": ["1513"]
@@ -77,7 +77,7 @@
 }, {
     "id": "7",
     "name": "andesite",
-    "types": ["stone", "stone_extrusive"],
+    "tags": ["stone", "stone_extrusive"],
     "density": "42918",
     "reactions": {
         "melt": ["1473"]
@@ -88,7 +88,7 @@
 }, {
     "id": "8",
     "name": "obsidian",
-    "types": ["stone", "stone_extrusive"],
+    "tags": ["stone", "stone_extrusive"],
     "density": "4",
     "reactions": {
         "melt": ["4000"]
@@ -99,7 +99,7 @@
 }, {
     "id": "9",
     "name": "tuff",
-    "types": ["stone", "stone_extrusive"],
+    "tags": ["stone", "stone_extrusive"],
     "density": "4",
     "reactions": {
         "melt": ["4000"]
@@ -110,7 +110,7 @@
 }, {
     "id": "10",
     "name": "basalt",
-    "types": ["stone", "stone_extrusive"],
+    "tags": ["stone", "stone_extrusive"],
     "density": "42918",
     "reactions": {
         "melt": ["1450"]
@@ -121,7 +121,7 @@
 }, {
     "id": "11",
     "name": "schist",
-    "types": ["stone", "stone_metamorfic"],
+    "tags": ["stone", "stone_metamorfic"],
     "density": "4",
     "reactions": {
         "melt": ["4000"]
@@ -132,7 +132,7 @@
 }, {
     "id": "12",
     "name": "chlorite",
-    "types": ["stone", "stone_metamorfic"],
+    "tags": ["stone", "stone_metamorfic"],
     "density": "42949",
     "reactions": {
         "melt": ["4000"]
@@ -143,7 +143,7 @@
 }, {
     "id": "13",
     "name": "kaolinite",
-    "types": ["stone", "stone_metamorfic"],
+    "tags": ["stone", "stone_metamorfic"],
     "density": "42949",
     "reactions": {
         "melt": ["4000"]
@@ -154,7 +154,7 @@
 }, {
     "id": "14",
     "name": "phyllite",
-    "types": ["stone", "stone_metamorfic"],
+    "tags": ["stone", "stone_metamorfic"],
     "density": "42949",
     "reactions": {
         "melt": ["4000"]
@@ -165,7 +165,7 @@
 }, {
     "id": "15",
     "name": "quarzite",
-    "types": [
+    "tags": [
         "stone", "stone_metamorfic"
     ],
     "density": "42888",
@@ -178,7 +178,7 @@
 }, {
     "id": "16",
     "name": "gneiss",
-    "types": ["stone", "stone_metamorfic"],
+    "tags": ["stone", "stone_metamorfic"],
     "density": "42888",
     "reactions": {
         "melt": ["4000"]
@@ -189,7 +189,7 @@
 }, {
     "id": "17",
     "name": "marble",
-    "types": ["stone", "stone_metamorfic"],
+    "tags": ["stone", "stone_metamorfic"],
     "density": "42857",
     "reactions": {
         "melt": ["4000"]
@@ -200,7 +200,7 @@
 }, {
     "id": "18",
     "name": "gneiss",
-    "types": ["stone", "stone_sedimentary"],
+    "tags": ["stone", "stone_sedimentary"],
     "density": "42888",
     "reactions": {
         "melt": ["4000"]
@@ -211,7 +211,7 @@
 }, {
     "id": "19",
     "name": "shale",
-    "types": ["stone", "stone_sedimentary"],
+    "tags": ["stone", "stone_sedimentary"],
     "density": "42888",
     "reactions": {
         "melt": ["4000"]
@@ -222,7 +222,7 @@
 }, {
     "id": "20",
     "name": "limestone",
-    "types": ["stone", "stone_sedimentary"],
+    "tags": ["stone", "stone_sedimentary"],
     "density": "42888",
     "reactions": {
         "melt": ["1515"]
@@ -233,7 +233,7 @@
 }, {
     "id": "21",
     "name": "sandstone",
-    "types": ["stone", "stone_sedimentary", "solid"],
+    "tags": ["stone", "stone_sedimentary", "solid"],
     "density": "42827",
     "reactions": {
         "melt": ["1673"]
@@ -244,7 +244,7 @@
 }, {
     "id": "22",
     "name": "dolomite",
-    "types": ["stone", "stone_sedimentary"],
+    "tags": ["stone", "stone_sedimentary"],
     "density": "2.9",
     "reactions": {
         "melt": ["4000"]
@@ -255,7 +255,7 @@
 }, {
     "id": "23",
     "name": "chalk",
-    "types": ["stone", "stone_sedimentary"],
+    "tags": ["stone", "stone_sedimentary"],
     "density": "2.4",
     "reactions": {
         "melt": ["4000"]
@@ -266,7 +266,7 @@
 }, {
     "id": "24",
     "name": "siltstone",
-    "types": ["stone", "stone_sedimentary"],
+    "tags": ["stone", "stone_sedimentary"],
     "density": "4",
     "reactions": {
         "melt": ["4000"]
@@ -277,7 +277,7 @@
 }, {
     "id": "25",
     "name": "chert",
-    "types": ["stone", "stone_sedimentary"],
+    "tags": ["stone", "stone_sedimentary"],
     "density": "4",
     "reactions": {
         "melt": ["4000"]
@@ -288,7 +288,7 @@
 }, {
     "id": "26",
     "name": "chalcopyrite ",
-    "types": ["ore"],
+    "tags": ["ore"],
     "density": "4.2",
     "reactions": {
         "melt": ["1223"]
@@ -299,7 +299,7 @@
 }, {
     "id": "27",
     "name": "tetrahedrite",
-    "types": ["ore"],
+    "tags": ["ore"],
     "density": "5",
     "reactions": {
         "melt": [
@@ -312,7 +312,7 @@
 }, {
     "id": "28",
     "name": "magnetite",
-    "types": ["ore"],
+    "tags": ["ore"],
     "density": "5.2",
     "reactions": {
         "melt": ["1867"]
@@ -323,7 +323,7 @@
 }, {
     "id": "29",
     "name": "hematite",
-    "types": ["ore"],
+    "tags": ["ore"],
     "density": "5.2",
     "reactions": {
         "melt": ["1838"]
@@ -334,7 +334,7 @@
 }, {
     "id": "30",
     "name": "limonite",
-    "types": ["ore"],
+    "tags": ["ore"],
     "density": "4",
     "reactions": {
         "melt": ["1523"]
@@ -345,7 +345,7 @@
 }, {
     "id": "31",
     "name": "native aluminium",
-    "types": ["ore"],
+    "tags": ["ore"],
     "density": "2.7",
     "reactions": {
         "melt": [
@@ -358,7 +358,7 @@
 }, {
     "id": "32",
     "name": "native gold",
-    "types": ["ore"],
+    "tags": ["ore"],
     "density": "19",
     "reactions": {
         "melt": ["1337"]
@@ -369,7 +369,7 @@
 }, {
     "id": "33",
     "name": "galena",
-    "types": ["ore"],
+    "tags": ["ore"],
     "density": "7.4",
     "reactions": {
         "melt": ["1386"]
@@ -380,7 +380,7 @@
 }, {
     "id": "34",
     "name": "sphalerite(blende)",
-    "types": ["ore"],
+    "tags": ["ore"],
     "density": "4.1",
     "reactions": {
         "melt": ["1973"]
@@ -391,7 +391,7 @@
 }, {
     "id": "35",
     "name": "garnierite",
-    "types": ["ore"],
+    "tags": ["ore"],
     "density": "2.4",
     "reactions": {
         "melt": ["1010"]
@@ -402,7 +402,7 @@
 }, {
     "id": "36",
     "name": "cassiterite",
-    "types": ["ore"],
+    "tags": ["ore"],
     "density": "6.9",
     "reactions": {
         "melt": ["1395"]
@@ -413,7 +413,7 @@
 }, {
     "id": "37",
     "name": "native silver",
-    "types": ["ore"],
+    "tags": ["ore"],
     "density": "10.5",
     "reactions": {
         "melt": ["1235"]
@@ -424,7 +424,7 @@
 }, {
     "id": "38",
     "name": "iron",
-    "types": ["metal"],
+    "tags": ["metal"],
     "density": "7.7",
     "reactions": {
         "melt": ["1538"]
@@ -435,7 +435,7 @@
 }, {
     "id": "39",
     "name": "steel",
-    "types": ["metal"],
+    "tags": ["metal"],
     "density": "8",
     "reactions": {
         "melt": ["1510"]
@@ -446,7 +446,7 @@
 }, {
     "id": "40",
     "name": "copper",
-    "types": ["metal"],
+    "tags": ["metal"],
     "density": "9",
     "reactions": {
         "melt": ["1084"]
@@ -457,7 +457,7 @@
 }, {
     "id": "41",
     "name": "silver",
-    "types": ["metal"],
+    "tags": ["metal"],
     "density": "10.5",
     "reactions": {
         "melt": [
@@ -470,7 +470,7 @@
 }, {
     "id": "42",
     "name": "gold",
-    "types": ["metal"],
+    "tags": ["metal"],
     "density": "19.3",
     "reactions": {
         "melt": ["1064"]
@@ -481,7 +481,7 @@
 }, {
     "id": "43",
     "name": "zinc",
-    "types": ["metal"],
+    "tags": ["metal"],
     "density": "7.1",
     "reactions": {
         "melt": [
@@ -494,7 +494,7 @@
 }, {
     "id": "44",
     "name": "lead",
-    "types": ["metal"],
+    "tags": ["metal"],
     "density": "11.4",
     "reactions": {
         "melt": [
@@ -507,7 +507,7 @@
 }, {
     "id": "45",
     "name": "nickel",
-    "types": ["metal"],
+    "tags": ["metal"],
     "density": "8.9",
     "reactions": {
         "melt": ["1453"]
@@ -518,7 +518,7 @@
 }, {
     "id": "46",
     "name": "tin",
-    "types": ["metal"],
+    "tags": ["metal"],
     "density": "7.3",
     "reactions": {
         "melt": [
@@ -531,7 +531,7 @@
 }, {
     "id": "47",
     "name": "aluminium",
-    "types": ["metal"],
+    "tags": ["metal"],
     "density": "2.7",
     "reactions": {
         "melt": [
@@ -544,7 +544,7 @@
 }, {
     "id": "48",
     "name": "beech wood",
-    "types": ["wood"],
+    "tags": ["wood"],
     "density": "0.8",
     "reactions": {
         "burn": ["3600"]
@@ -555,7 +555,7 @@
 }, {
     "id": "49",
     "name": "oak",
-    "types": ["wood"],
+    "tags": ["wood"],
     "density": "0.9",
     "reactions": {
         "burn": ["3600"]
@@ -566,7 +566,7 @@
 }, {
     "id": "50",
     "name": "ash",
-    "types": ["wood"],
+    "tags": ["wood"],
     "density": "0.7",
     "reactions": {
         "burn": ["3600"]
@@ -577,7 +577,7 @@
 }, {
     "id": "51",
     "name": "rowan",
-    "types": ["wood"],
+    "tags": ["wood"],
     "density": "0.8",
     "reactions": {
         "burn": ["3600"]
@@ -588,7 +588,7 @@
 }, {
     "id": "52",
     "name": "birch",
-    "types": ["wood"],
+    "tags": ["wood"],
     "density": "0.7",
     "reactions": {
         "burn": ["3600"]
@@ -599,7 +599,7 @@
 }, {
     "id": "53",
     "name": "elm",
-    "types": ["wood"],
+    "tags": ["wood"],
     "density": "0.5",
     "reactions": {
         "burn": ["3600"]
@@ -610,7 +610,7 @@
 }, {
     "id": "54",
     "name": "maple",
-    "types": ["wood"],
+    "tags": ["wood"],
     "density": "0.7",
     "reactions": {
         "burn": ["3600"]
@@ -621,7 +621,7 @@
 }, {
     "id": "55",
     "name": "alder",
-    "types": ["wood"],
+    "tags": ["wood"],
     "density": "0.5",
     "reactions": {
         "burn": ["3600"]
@@ -632,7 +632,7 @@
 }, {
     "id": "56",
     "name": "willow",
-    "types": ["wood"],
+    "tags": ["wood"],
     "density": "0.5",
     "reactions": {
         "burn": ["3600"]
@@ -643,7 +643,7 @@
 }, {
     "id": "57",
     "name": "poplar",
-    "types": ["wood"],
+    "tags": ["wood"],
     "density": "0.4",
     "reactions": {
         "burn": ["3600"]
@@ -654,7 +654,7 @@
 }, {
     "id": "58",
     "name": "pine",
-    "types": ["wood"],
+    "tags": ["wood"],
     "density": "0.5",
     "reactions": {
         "burn": ["3600"]
@@ -665,7 +665,7 @@
 }, {
     "id": "59",
     "name": "larch",
-    "types": ["wood"],
+    "tags": ["wood"],
     "density": "0.5",
     "reactions": {
         "burn": ["3600"]
@@ -676,7 +676,7 @@
 }, {
     "id": "60",
     "name": "fir",
-    "types": ["wood"],
+    "tags": ["wood"],
     "density": "0.5",
     "reactions": {
         "burn": ["3600"]
@@ -687,7 +687,7 @@
 }, {
     "id": "61",
     "name": "linen",
-    "types": ["cloth"],
+    "tags": ["cloth"],
     "density": "200",
     "reactions": {
         "burn": ["3000"]
@@ -698,7 +698,7 @@
 }, {
     "id": "62",
     "name": "silk",
-    "types": ["cloth"],
+    "tags": ["cloth"],
     "density": "200",
     "reactions": {
         "burn": ["3000"]
@@ -709,7 +709,7 @@
 }, {
     "id": "63",
     "name": "wool",
-    "types": ["cloth"],
+    "tags": ["cloth"],
     "density": "200",
     "reactions": {
         "burn": ["3000"]
@@ -720,7 +720,7 @@
 }, {
     "id": "64",
     "name": "cotton",
-    "types": ["cloth"],
+    "tags": ["cloth"],
     "density": "200",
     "reactions": {
         "burn": ["3000"]
@@ -731,7 +731,7 @@
 }, {
     "id": "65",
     "name": "hemp",
-    "types": ["cloth"],
+    "tags": ["cloth"],
     "density": "200",
     "reactions": {
         "burn": ["3000"]
@@ -742,7 +742,7 @@
 }, {
     "id": "66",
     "name": "byssus",
-    "types": ["cloth"],
+    "tags": ["cloth"],
     "density": "200",
     "reactions": {
         "burn": ["3000"]
@@ -753,7 +753,7 @@
 }, {
     "id": "67",
     "name": "soil",
-    "types": ["soil"],
+    "tags": ["soil"],
     "density": "1.5",
     "reactions": {
         "melt": ["1000"]
@@ -764,7 +764,7 @@
 }, {
     "id": "68",
     "name": "water",
-    "types": ["liquid"],
+    "tags": ["liquid"],
     "density": "1",
     "reactions": {},
     "value": "0",
@@ -773,7 +773,7 @@
 }, {
     "id": "69",
     "name": "generic_plant",
-    "types": ["biomass"],
+    "tags": ["biomass"],
     "density": "1",
     "reactions": {
         "burn": ["2500"]

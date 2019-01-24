@@ -213,7 +213,7 @@ public class LocalFloraGenerator {
                     if (localMap.getBlockType(x, y, z) == floorCode
                             && localMap.getPlantBlock(x, y, z) == null) { // surface material should be suitable for plant
                         Material material = MaterialMap.getInstance().getMaterial(localMap.getMaterial(x, y, z));
-                        if (material != null && material.getTypes().contains(soilType)) {
+                        if (material != null && material.getTags().contains(soilType)) {
                             positions.add(new Position(x, y, z));
                             array[x][y][z] = true;
                         }

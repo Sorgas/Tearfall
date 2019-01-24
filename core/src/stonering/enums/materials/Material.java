@@ -22,7 +22,7 @@ import java.util.HashMap;
 public class Material {
     private int id;
     private String name;
-    private ArrayList<String> types;
+    private ArrayList<String> tags;
     private float density;
     private HashMap<String, ArrayList<Object>> reactions; // other aspects
     private int value;
@@ -48,12 +48,12 @@ public class Material {
         this.name = name;
     }
 
-    public ArrayList<String> getTypes() {
-        return types;
+    public ArrayList<String> getTags() {
+        return tags;
     }
 
-    public void setTypes(ArrayList<String> types) {
-        this.types = types;
+    public void setTags(ArrayList<String> tags) {
+        this.tags = tags;
     }
 
     public float getDensity() {

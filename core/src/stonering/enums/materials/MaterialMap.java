@@ -71,7 +71,7 @@ public class MaterialMap {
         HashSet<String> typesSet = new HashSet<>(types);
         HashSet<Integer> idsSet = new HashSet<>();
         materials.values().stream().
-                filter(material -> !Collections.disjoint(typesSet, material.getTypes())).
+                filter(material -> !Collections.disjoint(typesSet, material.getTags())).
                 forEach(material -> idsSet.add(material.getId()));
         return idsSet;
     }
@@ -84,7 +84,7 @@ public class MaterialMap {
     public Set<Integer> getMaterialsByType(String type) {
         HashSet<Integer> idsSet = new HashSet<>();
         materials.values().stream().
-                filter(material -> material.getTypes().contains(type)).
+                filter(material -> material.getTags().contains(type)).
                 forEach(material -> idsSet.add(material.getId()));
         return idsSet;
     }

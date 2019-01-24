@@ -3,7 +3,6 @@ package stonering.generators.items;
 import stonering.entity.local.items.Item;
 import stonering.enums.materials.Material;
 import stonering.enums.materials.MaterialMap;
-import stonering.exceptions.FaultDescriptionException;
 
 /**
  * @author Alexander Kuzyakov on 08.01.2018.
@@ -18,7 +17,7 @@ public class DiggingProductGenerator {
      */
     public Item generateDigProduct(int materialId) {
         Material material = MaterialMap.getInstance().getMaterial(materialId);
-        if (material.getTypes().contains("stone") || material.getTypes().contains("ore")) {
+        if (material.getTags().contains("stone") || material.getTags().contains("ore")) {
 //            try {
                 return new ItemGenerator().generateItem("rock", materialId);
 //            } catch (FaultDescriptionException e) {
@@ -30,6 +29,6 @@ public class DiggingProductGenerator {
 
     public boolean productRequired(int materialId) {
         Material material = MaterialMap.getInstance().getMaterial(materialId);
-        return material != null && (material.getTypes().contains("stone") || material.getTypes().contains("ore"));
+        return material != null && (material.getTags().contains("stone") || material.getTags().contains("ore"));
     }
 }
