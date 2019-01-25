@@ -3,7 +3,6 @@ package stonering.game.core.view.render.ui.lists;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import stonering.util.global.StaticSkin;
 
 /**
@@ -12,7 +11,7 @@ import stonering.util.global.StaticSkin;
  *
  * @author Alexander on 27.11.2018.
  */
-public class NavigableSelectBox<T> extends SelectBox<T> {
+public class NavigableSelectBox<T> extends ListSelectBox<T> {
     private int upKey = Input.Keys.W;
     private int downKey = Input.Keys.S;
 

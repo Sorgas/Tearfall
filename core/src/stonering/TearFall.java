@@ -79,7 +79,6 @@ public class TearFall extends Game {
 
     public void switchToGame(LocalGenContainer container) {
         gameMvc = GameMvc.createInstance(container);
-        gameMvc.init();
         setScreen(gameMvc.getView());
     }
 

@@ -2,9 +2,11 @@ package stonering.game.core.model.lists;
 
 import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Vector3;
+import stonering.entity.local.AspectHolder;
 import stonering.enums.OrientationEnum;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.plants.TreeType;
+import stonering.game.core.GameMvc;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.LocalMap;
 import stonering.generators.items.PlantProductGenerator;
@@ -21,17 +23,20 @@ import java.util.ArrayList;
  * Contains plants on localMap. Trees are stored by their parts as separate plants.
  * Destroyed entity do not persist in container and their blocks are not in localMap.
  * <p>
+ *
  * @author Alexander Kuzyakov on 09.11.2017.
  */
 public class PlantContainer {
+    private GameMvc gameMvc;
     private ArrayList<AbstractPlant> plants;
     private GameContainer container;
     private LocalMap localMap;
     private final int WALL_CODE = BlockTypesEnum.WALL.getCode();
 
 
-    public PlantContainer(GameContainer container) {
-        this.container = container;
+    public PlantContainer() {
+        gameMvc = GameMvc.getInstance();
+        container = gameMvc.getModel();
         localMap = container.getLocalMap();
         this.plants = new ArrayList<>();
     }
@@ -64,7 +69,7 @@ public class PlantContainer {
      *
      * @param tree Tree object with not null tree field
      */
-    private void placeTree(Tree tree) {
+    public void placeTree(Tree tree) {
         TreeType treeType = tree.getType().getTreeType();
         PlantBlock[][][] treeParts = tree.getBlocks();
         Position vector = new Position(tree.getPosition().getX() - treeType.getTreeRadius(),
@@ -189,6 +194,7 @@ public class PlantContainer {
     }
 
     public void turn() {
+        plants.forEach(abstractPlant -> turn());
     }
 
     public ArrayList<AbstractPlant> getPlants() {

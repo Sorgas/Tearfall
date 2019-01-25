@@ -2,14 +2,14 @@ package stonering.test_chamber.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import stonering.test_chamber.screen.stage.SelectStage;
+import stonering.test_chamber.screen.stage.UiStage;
 
 public class TestChamberScreen implements Screen {
-    private SelectStage selectStage;
+    private UiStage selectStage;
 
     @Override
     public void show() {
-        selectStage = new SelectStage();
+        selectStage = new UiStage();
         Gdx.input.setInputProcessor(selectStage);
     }
 

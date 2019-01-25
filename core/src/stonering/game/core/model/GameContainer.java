@@ -59,7 +59,7 @@ public class GameContainer {
         this.world = container.getWorld();
         this.localMap = container.getLocalMap();
 
-        plantContainer = new PlantContainer(this);
+        plantContainer = new PlantContainer();
         plantContainer.placePlants(container.getPlants());
 
         buildingContainer = new BuildingContainer(container.getBuildings(), this);

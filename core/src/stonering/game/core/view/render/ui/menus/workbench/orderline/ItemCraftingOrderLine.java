@@ -28,6 +28,7 @@ import stonering.util.global.TagLoggersEnum;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -170,7 +171,7 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
      */
     private void tryAddPartSelectBox(ItemPartOrder itemPartOrder) {
         itemPartOrder.refreshSelectors(menu.getWorkbench().getPosition());
-        Array<ItemSelector> itemSelectors = new Array<>(itemPartOrder.getItemSelectors().toArray(new ItemSelector[]{}));
+        List<ItemSelector> itemSelectors = itemPartOrder.getItemSelectors();
         if (itemSelectors.isEmpty()) {
             warningLabel.setText("No items for " + itemPartOrder.getName() + " available");
         } else {
@@ -186,7 +187,7 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
      * If no items is available,
      * SelectBox can have no items after this (if no items available on map).
      */
-    private PlaceHolderSelectBox createMaterialSelectBox(ItemPartOrder itemPartOrder, Array<ItemSelector> itemSelectors) {
+    private PlaceHolderSelectBox createMaterialSelectBox(ItemPartOrder itemPartOrder, List<ItemSelector> itemSelectors) {
         ItemCraftingOrderLine line = this;
         int currentIndex = order.getParts().indexOf(itemPartOrder);
         PlaceHolderSelectBox<ItemSelector> materialSelectBox = new PlaceHolderSelectBox<>(MATERIAL_SELECT_PLACEHOLDER);

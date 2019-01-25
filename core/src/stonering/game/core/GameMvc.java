@@ -7,7 +7,6 @@ import stonering.generators.localgen.LocalGenContainer;
 
 /**
  * Main game singleton MVC.
- * <p>
  *
  * @author Alexander Kuzyakov on 10.06.2017.
  */
@@ -18,7 +17,9 @@ public class GameMvc {
     private GameController controller;
 
     public static GameMvc createInstance(LocalGenContainer container) {
-        return instance = new GameMvc(container);
+        instance = new GameMvc(container);
+        instance.init();
+        return instance;
     }
 
     private GameMvc(LocalGenContainer container) {
