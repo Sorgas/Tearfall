@@ -8,34 +8,30 @@ import java.util.ArrayList;
  * Stores plant parameters
  */
 public class PlantType {
-    private String specimen;
+    private String name;
     private String title;
 
     private String description;
-    private int minTemperature;
-    private int maxTemperature;
-    private int minGrowingTemperature;
-    private int maxGrowingTemperature;
-    private int minRainfall;
-    private int maxRainfall;
+    private int[] temperatureBounds;
+    private int[] rainfallBounds;
     private ArrayList<String> waterSource;
     private ArrayList<String> lightNeed;
     private String soilType;
-//    private int atlasX;
-//
-//    private int atlasY;
     private ArrayList<PlantLifeStage> lifeStages;
-
     private TreeType treeType;
+
+    public PlantType() {
+        temperatureBounds = new int[4];
+        rainfallBounds = new int[2];
+    }
 
     public static class PlantLifeStage {
         private int stageLength;
         private ArrayList<String> harvestProducts;
         private ArrayList<String> cutProducts;
         private String materialName;
-        private int atlasX;
-        private int atlasY;
-        private Color color;
+        private int[] atlasXY;
+        private String color;
 
         public int getStageLength() {
             return stageLength;
@@ -61,27 +57,19 @@ public class PlantType {
             this.cutProducts = cutProducts;
         }
 
-        public int getAtlasX() {
-            return atlasX;
+        public int[] getAtlasXY() {
+            return atlasXY;
         }
 
-        public void setAtlasX(int atlasX) {
-            this.atlasX = atlasX;
+        public void setAtlasXY(int[] atlasXY) {
+            this.atlasXY = atlasXY;
         }
 
-        public int getAtlasY() {
-            return atlasY;
-        }
-
-        public void setAtlasY(int atlasY) {
-            this.atlasY = atlasY;
-        }
-
-        public Color getColor() {
+        public String getColor() {
             return color;
         }
 
-        public void setColor(Color color) {
+        public void setColor(String color) {
             this.color = color;
         }
 
@@ -98,12 +86,12 @@ public class PlantType {
         return treeType != null;
     }
 
-    public String getSpecimen() {
-        return specimen;
+    public String getName() {
+        return name;
     }
 
-    public void setSpecimen(String specimen) {
-        this.specimen = specimen;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getTitle() {
@@ -123,51 +111,51 @@ public class PlantType {
     }
 
     public int getMinTemperature() {
-        return minTemperature;
+        return temperatureBounds[0];
     }
 
     public void setMinTemperature(int minTemperature) {
-        this.minTemperature = minTemperature;
+        temperatureBounds[0] = minTemperature;
     }
 
     public int getMaxTemperature() {
-        return maxTemperature;
+        return temperatureBounds[1];
     }
 
     public void setMaxTemperature(int maxTemperature) {
-        this.maxTemperature = maxTemperature;
+        temperatureBounds[1]= maxTemperature;
     }
 
     public int getMinGrowingTemperature() {
-        return minGrowingTemperature;
+        return temperatureBounds[2];
     }
 
     public void setMinGrowingTemperature(int minGrowingTemperature) {
-        this.minGrowingTemperature = minGrowingTemperature;
+        temperatureBounds[2]= minGrowingTemperature;
     }
 
     public int getMaxGrowingTemperature() {
-        return maxGrowingTemperature;
+        return temperatureBounds[3];
     }
 
     public void setMaxGrowingTemperature(int maxGrowingTemperature) {
-        this.maxGrowingTemperature = maxGrowingTemperature;
+        temperatureBounds[3] = maxGrowingTemperature;
     }
 
     public int getMinRainfall() {
-        return minRainfall;
+        return rainfallBounds[0];
     }
 
     public void setMinRainfall(int minRainfall) {
-        this.minRainfall = minRainfall;
+        rainfallBounds[0] = minRainfall;
     }
 
     public int getMaxRainfall() {
-        return maxRainfall;
+        return rainfallBounds[1];
     }
 
     public void setMaxRainfall(int maxRainfall) {
-        this.maxRainfall = maxRainfall;
+        rainfallBounds[1] = maxRainfall;
     }
 
     public ArrayList<String> getWaterSource() {
@@ -202,27 +190,27 @@ public class PlantType {
         this.treeType = treeType;
     }
 
-//    public int getAtlasX() {
-//        return atlasX;
-//    }
-//
-//    public void setAtlasX(int atlasX) {
-//        this.atlasX = atlasX;
-//    }
-//
-//    public int getAtlasY() {
-//        return atlasY;
-//    }
-//
-//    public void setAtlasY(int atlasY) {
-//        this.atlasY = atlasY;
-//    }
-
     public ArrayList<PlantLifeStage> getLifeStages() {
         return lifeStages;
     }
 
     public void setLifeStages(ArrayList<PlantLifeStage> lifeStages) {
         this.lifeStages = lifeStages;
+    }
+
+    public int[] getTemperatureBounds() {
+        return temperatureBounds;
+    }
+
+    public void setTemperatureBounds(int[] temperatureBounds) {
+        this.temperatureBounds = temperatureBounds;
+    }
+
+    public int[] getRainfallBounds() {
+        return rainfallBounds;
+    }
+
+    public void setRainfallBounds(int[] rainfallBounds) {
+        this.rainfallBounds = rainfallBounds;
     }
 }

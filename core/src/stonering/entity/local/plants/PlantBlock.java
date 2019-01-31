@@ -14,7 +14,7 @@ public class PlantBlock {
     private Position position; // position on map
     private int material;
     private int blockType;
-    private int atlasX;
+    private int atlasX; //TODO change to array
     private int atlasY;
     private ArrayList<String> harvestProducts;
     private ArrayList<String> cutProducts;

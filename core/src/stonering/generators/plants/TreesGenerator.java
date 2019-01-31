@@ -70,7 +70,7 @@ public class TreesGenerator {
     private PlantBlock createTreePart(int material, TreeBlocksTypeEnum blockType, Tree tree, int x, int y, int z) {
         PlantBlock block = new PlantBlock(material, blockType.getCode());
         block.setPosition(new Position(x, y, z));
-        block.setAtlasY(tree.getCurrentStage().getAtlasY());
+        block.setAtlasY(tree.getCurrentStage().getAtlasXY()[1]);
         block.setAtlasX(TreeTileMapping.getType(blockType.getCode()).getAtlasX());
         block.setPlant(tree);
         return block;

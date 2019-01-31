@@ -2,6 +2,7 @@ package stonering.game.core.model;
 
 import com.badlogic.gdx.math.Vector2;
 import stonering.enums.blocks.BlockTypesEnum;
+import stonering.game.core.model.util.AreaInitializer;
 import stonering.game.core.model.util.PassageMap;
 import stonering.game.core.model.util.UtilByteArray;
 import stonering.game.core.view.tilemaps.LocalTileMapUpdater;
@@ -51,7 +52,7 @@ public class LocalMap {
         this.xSize = xSize;
         this.ySize = ySize;
         this.zSize = zSize;
-        passageMap = new PassageMap(this);
+        passageMap = new AreaInitializer(this).initAreas();
     }
 
     /**
@@ -79,9 +80,7 @@ public class LocalMap {
             localTileMapUpdater.updateTile(x, y, z);
     }
 
-    public void init() {
-        passageMap.initAreas();
-    }
+    public void init() {}
 
     public boolean isWorkingRamp(int x, int y, int z) {
         return blockType[x][y][z] == BlockTypesEnum.RAMP.getCode()

@@ -243,9 +243,9 @@ public class LocalFloraGenerator {
                 return; // plant grow zone out of local temp zone
             }
             if (type.isTree()) { //is plant tree or not
-                weightedTreeTypes.put(type.getSpecimen(), 100f);
+                weightedTreeTypes.put(type.getName(), 100f);
             } else {
-                weightedPlantTypes.put(type.getSpecimen(), 1f);
+                weightedPlantTypes.put(type.getName(), 1f);
             }
         });
     }

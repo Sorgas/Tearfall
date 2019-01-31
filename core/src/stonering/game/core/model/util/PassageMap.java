@@ -5,10 +5,12 @@ import stonering.entity.local.plants.PlantBlock;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.core.model.LocalMap;
 import stonering.util.geometry.Position;
+import stonering.util.global.Pair;
 import stonering.util.global.TagLoggersEnum;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Stack;
 
 /**
@@ -22,13 +24,12 @@ public class PassageMap {
     private byte[][][] area;
     private byte[][][] passage;
 
-    private ArrayList<Byte> areaNumbers;
 
     public PassageMap(LocalMap localMap) {
         this.localMap = localMap;
         area = new byte[localMap.getxSize()][localMap.getySize()][localMap.getzSize()];
         passage = new byte[localMap.getxSize()][localMap.getySize()][localMap.getzSize()];
-        areaNumbers = new ArrayList<>();
+
     }
 
     public void initPassage() {
@@ -36,62 +37,6 @@ public class PassageMap {
             for (int y = 0; y < localMap.getySize(); y++) {
                 for (int z = 0; z < localMap.getzSize(); z++) {
                     passage[x][y][z] = (byte) (isWalkPassable(x, y, z) ? 1 : 0);
-                }
-            }
-        }
-    }
-
-    /**
-     * Gives area number to all tiles on map. isolated tiles get different numbers.
-     */
-    public void initAreas() {
-        byte areaNum = 1;
-        for (int x = 0; x < localMap.getxSize(); x++) {
-            for (int y = 0; y < localMap.getySize(); y++) {
-                for (int z = 0; z < localMap.getzSize(); z++) {
-                    if (isWalkPassable(x, y, z) && area[x][y][z] == 0) { // not wall
-                        floodFill(x, y, z, areaNum);
-                        areaNumbers.add(areaNum);
-                        areaNum++;
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * Fills tiles, reachable from given one with given number.
-     *
-     * @param sx
-     * @param sy
-     * @param sz
-     * @param number
-     */
-    private void floodFill(int sx, int sy, int sz, byte number) {
-        TagLoggersEnum.PATH.log("filling" + " " + sx + " " + sy + " " + sz + " with " + number);
-        Stack<Position> openStack = new Stack<>();
-        HashSet<Position> closedSet = new HashSet<>();
-        openStack.add(new Position(sx, sy, sz));
-
-        while (!openStack.isEmpty()) {
-            Position position = openStack.pop();
-            closedSet.add(position);
-            int cx = position.getX();
-            int cy = position.getY();
-            int cz = position.getZ();
-            area[cx][cy][cz] = number;
-            for (int x = cx - 1; x < cx + 2; x++) {
-                for (int y = cy - 1; y < cy + 2; y++) {
-                    for (int z = cz - 1; z < cz + 2; z++) {
-                        if ((x != cx || y != cy || z != cz) &&
-                                localMap.inMap(x, y, z) &&
-                                hasPathBetween(cx, cy, cz, x, y, z)) {
-                            Position newPos = new Position(x, y, z);
-                            if (!openStack.contains(newPos) && !closedSet.contains(newPos)) {
-                                openStack.add(newPos);
-                            }
-                        }
-                    }
                 }
             }
         }
@@ -139,7 +84,9 @@ public class PassageMap {
         return area[x][y][z];
     }
 
-
+    public void setArea(int x, int y, int z, byte value) {
+        area[x][y][z] = value;
+    }
     public void update(int x, int y, int z, byte type) {
 
     }

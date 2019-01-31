@@ -33,9 +33,10 @@ public class PlantMap {
 
     private void loadPlantTypes() {
         System.out.println("loading plant types");
+        //TODO add json validation
         ArrayList<PlantType> elements = json.fromJson(ArrayList.class, PlantType.class, FileLoader.getFile(FileLoader.PLANTS_PATH));
         for (PlantType plantType : elements) {
-            types.put(plantType.getSpecimen(), plantType);
+            types.put(plantType.getName(), plantType);
         }
     }
 
