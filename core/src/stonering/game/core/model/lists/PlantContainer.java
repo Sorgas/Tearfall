@@ -2,7 +2,6 @@ package stonering.game.core.model.lists;
 
 import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Vector3;
-import stonering.entity.local.AspectHolder;
 import stonering.enums.OrientationEnum;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.plants.TreeType;

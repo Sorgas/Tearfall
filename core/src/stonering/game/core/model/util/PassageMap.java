@@ -8,28 +8,50 @@ import stonering.util.geometry.Position;
 import stonering.util.global.Pair;
 import stonering.util.global.TagLoggersEnum;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * Manages isolated areas on localMap to prevent pathfinding between them.
- * Inits areas on load, updates on local map change.
+ * Updates areas on local map change.
  *
  * @author Alexander on 05.11.2018.
  */
 public class PassageMap {
     private LocalMap localMap;
-    private byte[][][] area;
-    private byte[][][] passage;
-
+    private byte[][][] area; // number of area
+    private byte[][][] passage; // stores
 
     public PassageMap(LocalMap localMap) {
         this.localMap = localMap;
         area = new byte[localMap.getxSize()][localMap.getySize()][localMap.getzSize()];
         passage = new byte[localMap.getxSize()][localMap.getySize()][localMap.getzSize()];
+    }
 
+    /**
+     * Called when local map passage is updated. If cell becomes non-passable, it may split area into two.
+     */
+    public void updateCell(int x, int y, int z) {
+        passage[x][y][z] = (byte) (isWalkPassable(x, y, z) ? 1 : 0);
+
+        if (passage[x][y][z] == 0) { // cell becomes non-passable
+
+        } else {
+
+        }
+    }
+
+    private Set<Byte> observeAreasAround(int cx, int cy, int cz) {
+        Set<Byte> neighbours = new HashSet<>();
+        for (int x = cx - 1; x < cx + 2; x++) {
+            for (int y = cy - 1; y < cy + 2; y++) {
+                for (int z = cz - 1; z < cz + 2; z++) {
+
+                    byte currentArea = area[x][y][z];
+                    if (currentArea != 0) neighbours.add(currentArea);
+                }
+            }
+        }
+        return neighbours;
     }
 
     public void initPassage() {
@@ -87,6 +109,7 @@ public class PassageMap {
     public void setArea(int x, int y, int z, byte value) {
         area[x][y][z] = value;
     }
+
     public void update(int x, int y, int z, byte type) {
 
     }
