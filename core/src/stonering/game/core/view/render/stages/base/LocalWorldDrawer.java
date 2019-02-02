@@ -7,10 +7,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import stonering.enums.designations.DesignationsTileMapping;
-import stonering.enums.materials.MaterialMap;
 import stonering.game.core.GameMvc;
 import stonering.game.core.model.EntitySelector;
-import stonering.game.core.model.LocalMap;
+import stonering.game.core.model.local_map.LocalMap;
 import stonering.game.core.view.render.util.Int3DBounds;
 import stonering.game.core.view.tilemaps.LocalTileMap;
 import stonering.entity.local.building.BuildingBlock;
@@ -50,12 +49,9 @@ public class LocalWorldDrawer {
 
     private Vector2 screenCenter;
 
-    public LocalWorldDrawer() {
+    public void init() {
         gameMvc = GameMvc.getInstance();
         initAtlases();
-    }
-
-    public void init() {
         localMap = gameMvc.getModel().getLocalMap();
         screenCenter = new Vector2(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f);
         setViewAreaWidth(50);
@@ -91,10 +87,6 @@ public class LocalWorldDrawer {
     /**
      * Draws all content of the tile.
      * Draw order: block, plants, building, unit, items, designation.
-     *
-     * @param x
-     * @param y
-     * @param z
      */
     private void drawTile(int x, int y, int z) {
         byte lightLevel = (byte) (localMap.getLight().getValue(x, y, z) + localMap.getGeneralLight().getValue(x, y, z));  //TODO limit light level

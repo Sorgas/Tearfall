@@ -26,15 +26,6 @@ public class GameView implements Screen {
     private MainMenu mainMenu;
     private List<InitableStage> stageList;      // init called on adding.
 
-    /**
-     * Also creates all sub-components.
-     *
-     * @param gameMvc
-     */
-    public GameView() {
-        createStages();
-    }
-
     private void createStages() {
         stageList = new ArrayList<>();
         baseStage = new BaseStage();
@@ -47,6 +38,7 @@ public class GameView implements Screen {
      */
     public void init() {
         gameMvc = GameMvc.getInstance();
+        createStages();
         baseStage.init();
         mainMenu.init();
     }

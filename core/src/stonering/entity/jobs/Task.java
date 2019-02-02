@@ -5,6 +5,7 @@ import stonering.entity.local.unit.aspects.PlanningAspect;
 import stonering.game.core.GameMvc;
 import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.lists.TaskContainer;
+import stonering.game.core.model.util.UtilByteArray;
 import stonering.util.geometry.Position;
 import stonering.entity.jobs.actions.Action;
 import stonering.entity.jobs.actions.TaskTypesEnum;
@@ -78,7 +79,7 @@ public class Task {
         preActions = new LinkedList<>();
         postActions = new LinkedList<>();
         if (performer == null) return;
-        PlanningAspect planningAspect = ((PlanningAspect)performer.getAspects().get(PlanningAspect.NAME));
+        PlanningAspect planningAspect = ((PlanningAspect) performer.getAspects().get(PlanningAspect.NAME));
         performer = null;
         planningAspect.reset();
     }
@@ -114,12 +115,13 @@ public class Task {
     }
 
     public boolean isTaskTargetsAvaialbleFrom(Position position) {
-        int sourceArea = gameMvc.getModel().getLocalMap().getArea(position);
+        UtilByteArray area = gameMvc.getModel().getLocalMap().getPassageMap().getArea();
+        int sourceArea = area.getValue(position);
         Position target = initialAction.getActionTarget().getPosition();
         for (int x = -1; x < 2; x++) {
             for (int y = -1; y < 2; y++) {
                 if (x != 0 && y != 0
-                        && gameMvc.getModel().getLocalMap().getArea(target.getX() + x, target.getY() + y, target.getZ()) == sourceArea) {
+                        && area.getValue(target.getX() + x, target.getY() + y, target.getZ()) == sourceArea) {
                     return true;
                 }
             }

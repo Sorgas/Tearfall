@@ -1,6 +1,6 @@
 package stonering.entity.local.unit;
 
-import stonering.game.core.model.LocalMap;
+import stonering.game.core.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 import stonering.entity.local.AspectHolder;
 

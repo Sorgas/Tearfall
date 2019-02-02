@@ -1,7 +1,9 @@
 package stonering.entity.local.building;
 
+import stonering.game.core.model.local_map.LocalMap;
+
 /**
- * Proxy for BuildingType. This is stored on {@link stonering.game.core.model.LocalMap} and points to real object.
+ * Proxy for BuildingType. This is stored on {@link LocalMap} and points to real object.
  *
  * @author Alexander Kuzyakov on 09.12.2017.
  */

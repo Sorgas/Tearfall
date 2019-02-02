@@ -1,9 +1,7 @@
-package stonering.game.core.model;
+package stonering.game.core.model.local_map;
 
 import com.badlogic.gdx.math.Vector2;
 import stonering.enums.blocks.BlockTypesEnum;
-import stonering.game.core.model.util.AreaInitializer;
-import stonering.game.core.model.util.PassageMap;
 import stonering.game.core.model.util.UtilByteArray;
 import stonering.game.core.view.tilemaps.LocalTileMapUpdater;
 import stonering.util.geometry.Position;
@@ -71,7 +69,7 @@ public class LocalMap {
         if (localTileMapUpdater != null)
             localTileMapUpdater.updateTile(x, y, z);
         if (passageMap != null) {
-            passageMap.update(x, y, z, type);
+            passageMap.updateCell(x, y, z);
         }
     }
 
@@ -80,7 +78,8 @@ public class LocalMap {
             localTileMapUpdater.updateTile(x, y, z);
     }
 
-    public void init() {}
+    public void init() {
+    }
 
     public boolean isWorkingRamp(int x, int y, int z) {
         return blockType[x][y][z] == BlockTypesEnum.RAMP.getCode()
@@ -98,7 +97,7 @@ public class LocalMap {
         for (int x = position.getX() - 1; x < position.getX() + 2; x++) {
             for (int y = position.getY() - 1; y < position.getY() + 2; y++) {
                 if (x == position.getX() && y == position.getY()) continue;
-                if (inMap(x, y, position.getZ()) && passageMap.isWalkPassable(x, y, position.getZ())) {
+                if (inMap(x, y, position.getZ()) && isWalkPassable(x, y, position.getZ())) {
                     positions.add(new Position(x, y, position.getZ()));
                 }
             }
@@ -139,6 +138,33 @@ public class LocalMap {
             localTileMapUpdater.updateTile(x, y, z);
     }
 
+    public boolean isWalkPassable(Position pos) {
+        return isWalkPassable(pos.getX(), pos.getY(), pos.getZ());
+    }
+
+    public boolean isWalkPassable(int x, int y, int z) {
+        return inMap(x,y,z) && BlockTypesEnum.getType(getBlockType(x, y, z)).getPassing() == 2;
+    }
+
+    public boolean isFlyPassable(Position pos) {
+        return isFlyPassable(pos.getX(), pos.getY(), pos.getZ());
+    }
+
+    public boolean isFlyPassable(int x, int y, int z) {
+        return inMap(x,y,z) && BlockTypesEnum.getType(getBlockType(x, y, z)).getPassing() != 0; // 1 || 2
+    }
+
+    /**
+     * Only for adjacent cells.
+     */
+    public boolean hasPathBetween(Position pos1, Position pos2) {
+        boolean passable1 = BlockTypesEnum.getType(getBlockType(pos1)).getPassing() == 2;
+        boolean passable2 = BlockTypesEnum.getType(getBlockType(pos2)).getPassing() == 2;
+        boolean sameLevel = pos1.getZ() == pos2.getZ();
+        boolean lowRamp = BlockTypesEnum.getType(getBlockType(pos1.getZ() < pos2.getZ() ? pos1 : pos2)) == BlockTypesEnum.RAMP; // can descend on ramps
+        return (passable1 && passable2 && (sameLevel || lowRamp));
+    }
+
     public int getxSize() {
         return xSize;
     }
@@ -161,7 +187,7 @@ public class LocalMap {
 
     public void setPlantBlock(int x, int y, int z, PlantBlock block) {
         plantBlocks[x][y][z] = block;
-        passageMap.update(x, y, z, block);
+        passageMap.updateCell(x, y, z);
     }
 
     public void setPlantBlock(Position pos, PlantBlock block) {
@@ -182,7 +208,7 @@ public class LocalMap {
      */
     public void setBuildingBlock(int x, int y, int z, BuildingBlock building) {
         buildingBlocks[x][y][z] = building;
-        passageMap.update(x, y, z, building);
+        passageMap.updateCell(x, y, z);
     }
 
     public void setBuildingBlock(Position pos, BuildingBlock building) {
@@ -276,14 +302,6 @@ public class LocalMap {
 
     public void setBlock(int x, int y, int z, BlockTypesEnum blockType, int materialId) {
         setBlock(x, y, z, blockType.getCode(), materialId);
-    }
-
-    public byte getArea(Position pos) {
-        return passageMap.getArea(pos.getX(), pos.getY(), pos.getZ());
-    }
-
-    public byte getArea(int x, int y, int z) {
-        return passageMap.getArea(x, y, z);
     }
 
     public PlantBlock getPlantBlock(Position pos) {

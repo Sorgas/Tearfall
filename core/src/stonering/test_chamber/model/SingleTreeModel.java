@@ -5,7 +5,7 @@ import stonering.entity.local.plants.Tree;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.materials.MaterialMap;
 import stonering.exceptions.DescriptionNotFoundException;
-import stonering.game.core.model.LocalMap;
+import stonering.game.core.model.local_map.LocalMap;
 import stonering.game.core.model.lists.PlantContainer;
 import stonering.generators.plants.TreesGenerator;
 import stonering.util.geometry.Position;

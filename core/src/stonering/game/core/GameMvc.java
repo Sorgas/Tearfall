@@ -17,18 +17,19 @@ public class GameMvc {
     private GameController controller;
 
     public static GameMvc createInstance(LocalGenContainer container) {
-        instance = new GameMvc(container);
-        instance.init();
+        instance = new GameMvc();
+        instance.init(container);
         return instance;
     }
 
-    private GameMvc(LocalGenContainer container) {
-        model = new GameContainer(container); //independent from CV
-    }
-
-    public void init() {
+    private GameMvc() {
+        model = new GameContainer();
         view = new GameView();
         controller = new GameController();
+    }
+
+    public void init(LocalGenContainer container) {
+        model.init(container);
         view.init();
         controller.init();
     }

@@ -4,8 +4,10 @@ import stonering.entity.local.crafting.CommonComponentStep;
 import stonering.entity.local.items.selectors.SimpleItemSelector;
 import stonering.enums.items.recipe.ItemPartRecipe;
 import stonering.enums.materials.MaterialMap;
+import stonering.game.core.GameMvc;
 import stonering.game.core.model.GameContainer;
-import stonering.game.core.model.LocalMap;
+import stonering.game.core.model.local_map.LocalMap;
+import stonering.game.core.model.util.UtilByteArray;
 import stonering.util.geometry.Position;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.items.selectors.ItemSelector;
@@ -20,12 +22,12 @@ import java.util.stream.Collectors;
  * @author Alexander Kuzyakov on 14.06.2017.
  */
 public class ItemContainer {
-    private GameContainer gameContainer;
+    private GameMvc gameMvc;
     private ArrayList<Item> items;  // all items on the map (tiles, containers, units)
     private HashMap<Position, ArrayList<Item>> itemMap;      // maps tiles position to list of items it that position
 
-    public ItemContainer(ArrayList<Item> items, GameContainer gameContainer) {
-        this.gameContainer = gameContainer;
+    public ItemContainer(ArrayList<Item> items) {
+        gameMvc = GameMvc.getInstance();
         this.items = new ArrayList<>();
         itemMap = new HashMap<>();
         items.forEach(item -> addItem(item, item.getPosition()));
@@ -41,7 +43,7 @@ public class ItemContainer {
      * @param item
      */
     private void initItem(Item item) {
-        item.getAspects().values().forEach((aspect) -> aspect.init(gameContainer));
+        item.getAspects().values().forEach((aspect) -> aspect.init(gameMvc.getModel()));
     }
 
     /**
@@ -151,8 +153,8 @@ public class ItemContainer {
     }
 
     public List<Item> filterUnreachable(List<Item> items, Position pos) {
-        LocalMap localMap = gameContainer.getLocalMap();
-        return items.stream().filter(item -> localMap.getArea(item.getPosition()) == localMap.getArea(pos)).collect(Collectors.toList());
+        UtilByteArray area = gameMvc.getModel().getLocalMap().getPassageMap().getArea();
+        return items.stream().filter(item -> area.getValue(item.getPosition()) == area.getValue(pos)).collect(Collectors.toList());
     }
 
     public boolean hasItemsAvailableBySelector(ItemSelector itemSelector, Position position) {

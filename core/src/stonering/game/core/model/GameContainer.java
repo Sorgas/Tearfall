@@ -3,6 +3,7 @@ package stonering.game.core.model;
 import com.badlogic.gdx.utils.Timer;
 import stonering.entity.world.World;
 import stonering.game.core.model.lists.*;
+import stonering.game.core.model.local_map.LocalMap;
 import stonering.game.core.view.tilemaps.LocalTileMap;
 import stonering.game.core.view.tilemaps.LocalTileMapUpdater;
 import stonering.generators.localgen.LocalGenContainer;
@@ -16,7 +17,6 @@ import stonering.util.global.TagLoggersEnum;
  * @author Alexander Kuzyakov on 10.06.2017.
  */
 public class GameContainer {
-    private static GameContainer instance;
     private World world;
     private LocalMap localMap;                              //local map is created during localgeneration.
     private LocalTileMap localTileMap;
@@ -34,12 +34,8 @@ public class GameContainer {
 
     private boolean paused;
 
-    public GameContainer(LocalGenContainer container) {
+    public void init(LocalGenContainer container) {
         loadFromContainer(container);
-        init();
-    }
-
-    private void init() {
         localTileMap = new LocalTileMap(localMap.getxSize(), localMap.getySize(), localMap.getzSize());
         createTileMapUpdater();
         camera = new EntitySelector(this);
@@ -49,10 +45,6 @@ public class GameContainer {
         startContainer();
         gameCalendar.addListener("minute", world.getStarSystem());
         world.getStarSystem().init(this);
-    }
-
-    public GameContainer getInstance() {
-        return instance;
     }
 
     private void loadFromContainer(LocalGenContainer container) {
@@ -72,7 +64,7 @@ public class GameContainer {
         unitContainer.placeUnits();
         unitContainer.init();
 
-        itemContainer = new ItemContainer(container.getItems(), this);
+        itemContainer = new ItemContainer(container.getItems());
         itemContainer.initItems();
 
         taskContainer = new TaskContainer(this);
@@ -81,7 +73,6 @@ public class GameContainer {
         liquidContainer.setLocalMap(localMap);
         liquidContainer.initLiquidsToMap();
 
-        //TODO commented for fast localgen
         localMap.init();
     }
 

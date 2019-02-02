@@ -1,6 +1,6 @@
 package stonering.generators.localgen.generators;
 
-import stonering.game.core.model.LocalMap;
+import stonering.game.core.model.local_map.LocalMap;
 import stonering.generators.creatures.CreatureGenerator;
 import stonering.generators.localgen.LocalGenConfig;
 import stonering.generators.localgen.LocalGenContainer;

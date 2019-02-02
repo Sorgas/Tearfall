@@ -1,7 +1,8 @@
-package stonering.game.core.model.util;
+package stonering.game.core.model.local_map;
 
 import stonering.enums.blocks.BlockTypesEnum;
-import stonering.game.core.model.LocalMap;
+import stonering.game.core.model.local_map.LocalMap;
+import stonering.game.core.model.local_map.PassageMap;
 import stonering.util.global.Pair;
 import stonering.util.global.TagLoggersEnum;
 
@@ -11,14 +12,14 @@ import java.util.*;
  * Utility for initing area numbers on game startup.
  * Isolated tiles get different numbers.
  * Works only for walkers.
- *
+ * <p>
  * Works is two map scan cycles.
  * <p>
  * Algorithm:
  * 1.1. if cell has no inited neighbours, new area number assigned, neighbour number assigned otherwise.
  * 1.2. if cell has neighbours with different numbers, these numbers are added as synonym.
  * 2.1. areas in synonyms are rewritten to have one number.
- *
+ * <p>
  * //TODO support doors, gates, bridges, etc.
  * //TODO add areas for flying units.
  *
@@ -64,7 +65,7 @@ public class AreaInitializer {
                         } else {
                             toSet = neighbours.iterator().next(); // already revealed area
                         }
-                        passageMap.setArea(x, y, z, toSet);
+                        passageMap.getArea().setValue(x, y, z, toSet);
                     }
                 }
             }
@@ -76,7 +77,7 @@ public class AreaInitializer {
      */
     private byte addSynonyms(Set<Byte> neighbours) {
         for (Set<Byte> synonym : synonyms) {
-            if(!Collections.disjoint(synonym, neighbours)) {
+            if (!Collections.disjoint(synonym, neighbours)) {
                 synonym.addAll(neighbours);
                 return synonym.iterator().next();
             }
@@ -92,7 +93,8 @@ public class AreaInitializer {
         for (Set<Byte> synonym : synonyms) {
             byte min = Collections.min(synonym);
             for (Byte aByte : synonym) {
-                if(areaMapping.keySet().contains(aByte)) TagLoggersEnum.LOADING.logWarn("Passage areas: not merged synonym intersection " + aByte);
+                if (areaMapping.keySet().contains(aByte))
+                    TagLoggersEnum.LOADING.logWarn("Passage areas: not merged synonym intersection " + aByte);
                 areaMapping.put(min, aByte);
             }
         }
@@ -103,8 +105,8 @@ public class AreaInitializer {
         for (int x = 0; x < localMap.getxSize(); x++) {
             for (int y = 0; y < localMap.getySize(); y++) {
                 for (int z = 0; z < localMap.getzSize(); z++) {
-                    area = passageMap.getArea(x, y, z);
-                    passageMap.setArea(x, y, z, areaMapping.getOrDefault(area, area));
+                    area = passageMap.getArea().getValue(x, y, z);
+                    passageMap.getArea().setValue(x, y, z, areaMapping.getOrDefault(area, area));
                 }
             }
         }
@@ -115,7 +117,7 @@ public class AreaInitializer {
         for (int x = cx - 1; x < cx + 2; x++) {
             for (int y = cy - 1; y < cy + 2; y++) {
                 for (int z = cz - 1; z < cz + 2; z++) {
-                    byte currentArea = passageMap.getArea(x, y, z);
+                    byte currentArea = passageMap.getArea().getValue(x, y, z);
                     if (currentArea != 0) neighbours.add(currentArea);
                 }
             }

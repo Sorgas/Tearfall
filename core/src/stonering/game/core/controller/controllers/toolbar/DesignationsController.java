@@ -22,11 +22,8 @@ public class DesignationsController extends Controller {
     //private DesignationTypeEnum activeDesignation;
     private DesignationSequence sequence;
 
-    public DesignationsController(GameMvc gameMvc) {
-        super(gameMvc);
-    }
-
     public void init() {
+        super.init();
         container = gameMvc.getModel();
         view = gameMvc.getView();
     }

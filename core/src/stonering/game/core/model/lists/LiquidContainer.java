@@ -2,7 +2,7 @@ package stonering.game.core.model.lists;
 
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.materials.MaterialMap;
-import stonering.game.core.model.LocalMap;
+import stonering.game.core.model.local_map.LocalMap;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.util.geometry.Position;
 
@@ -138,7 +138,7 @@ public class LiquidContainer {
             for (int y = position.getY() - 1; y < position.getY() + 2; y++) {
                 if (!(x == 0 && y == 0) && // not same point
                         localMap.inMap(x, y, position.getZ()) &&
-                        localMap.getPassageMap().isFlyPassable(x, y, position.getZ()) &&
+                        localMap.isFlyPassable(x, y, position.getZ()) &&
                         (localMap.getFlooding(x, y, position.getZ()) < currentAmountOfWater || onLowerLevel) &&
                         localMap.getFlooding(x, y, position.getZ()) < 7) { // can take liquid
                     positions.add(new Position(x, y, position.getZ()));

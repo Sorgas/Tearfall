@@ -24,8 +24,8 @@ public class UtilByteArray {
         return array[x][y][z];
     }
 
-    public void setValue(int x, int y, int z, byte value) {
-        this.array[x][y][z] = value;
+    public void setValue(int x, int y, int z, int value) {
+        this.array[x][y][z] = (byte) value;
     }
 
     public void changeValue(int x, int y, int z, byte delta) {

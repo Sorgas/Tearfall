@@ -2,7 +2,7 @@ package stonering.game.core.model.lists;
 
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.core.model.GameContainer;
-import stonering.game.core.model.LocalMap;
+import stonering.game.core.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 import stonering.entity.local.unit.Unit;
 

@@ -7,7 +7,7 @@ import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.plants.TreeType;
 import stonering.game.core.GameMvc;
 import stonering.game.core.model.GameContainer;
-import stonering.game.core.model.LocalMap;
+import stonering.game.core.model.local_map.LocalMap;
 import stonering.generators.items.PlantProductGenerator;
 import stonering.util.geometry.Position;
 import stonering.entity.local.items.Item;

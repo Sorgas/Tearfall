@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import stonering.entity.local.building.validators.PositionValidator;
 import stonering.enums.blocks.BlockTypesEnum;
+import stonering.game.core.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 
 /**

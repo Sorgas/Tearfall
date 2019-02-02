@@ -8,7 +8,7 @@ import stonering.entity.local.items.selectors.ToolWithActionItemSelector;
 import stonering.entity.local.unit.aspects.EquipmentAspect;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.designations.DesignationTypeEnum;
-import stonering.game.core.model.LocalMap;
+import stonering.game.core.model.local_map.LocalMap;
 import stonering.generators.items.DiggingProductGenerator;
 import stonering.util.geometry.Position;
 import stonering.util.global.TagLoggersEnum;

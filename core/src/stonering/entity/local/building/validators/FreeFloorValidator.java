@@ -1,7 +1,7 @@
 package stonering.entity.local.building.validators;
 
 import stonering.enums.blocks.BlockTypesEnum;
-import stonering.game.core.model.LocalMap;
+import stonering.game.core.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 
 /**

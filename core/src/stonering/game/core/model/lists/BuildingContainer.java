@@ -1,7 +1,7 @@
 package stonering.game.core.model.lists;
 
 import stonering.game.core.model.GameContainer;
-import stonering.game.core.model.LocalMap;
+import stonering.game.core.model.local_map.LocalMap;
 import stonering.generators.buildings.BuildingGenerator;
 import stonering.util.geometry.Position;
 import stonering.entity.local.building.Building;

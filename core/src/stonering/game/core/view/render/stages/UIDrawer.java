@@ -11,7 +11,6 @@ import stonering.game.core.view.render.ui.menus.Toolbar;
 import stonering.util.geometry.Position;
 
 /**
- *
  * @author Alexander Kuzyakov on 12.10.2017.
  */
 public class UIDrawer extends Stage {
@@ -55,7 +54,10 @@ public class UIDrawer extends Stage {
     private void updateStatusBar() {
         Position focus = container.getCamera().getPosition();
         Material material = materialMap.getMaterial(container.getLocalMap().getMaterial(focus));
-        tileStatusBar.setData(focus, material != null ? material.getName() : "", container.getLocalMap().getArea(focus), container.getLocalMap().getFlooding(focus));
+        tileStatusBar.setData(focus,
+                material != null ? material.getName() : "",
+                container.getLocalMap().getPassageMap().getArea().getValue(focus),
+                container.getLocalMap().getFlooding(focus));
     }
 
     public void resize(int width, int height) {

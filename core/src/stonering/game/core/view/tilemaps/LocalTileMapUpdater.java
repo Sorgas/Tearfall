@@ -5,7 +5,7 @@ import stonering.enums.blocks.BlocksTileMapping;
 import stonering.enums.materials.Material;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.core.model.GameContainer;
-import stonering.game.core.model.LocalMap;
+import stonering.game.core.model.local_map.LocalMap;
 
 /**
  * Updates LocalTileMap when blocks or plants on LocalMap are changed.

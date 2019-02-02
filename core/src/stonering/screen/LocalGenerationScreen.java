@@ -13,7 +13,7 @@ import stonering.TearFall;
 import stonering.entity.world.World;
 import stonering.generators.localgen.LocalGenConfig;
 import stonering.generators.localgen.LocalGeneratorContainer;
-import stonering.game.core.model.LocalMap;
+import stonering.game.core.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 import stonering.screen.ui_components.LabeledProgressBar;
 

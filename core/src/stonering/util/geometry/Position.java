@@ -10,9 +10,9 @@ import java.io.Serializable;
  * simply stores x, y, z int values
  */
 public class Position implements Serializable, Cloneable {
-    private int x;
-    private int y;
-    private int z;
+    public int x;
+    public int y;
+    public int z;
 
     public Position(int x, int y, int z) {
         this.x = x;

@@ -1,7 +1,6 @@
 package stonering.util.pathfinding.a_star;
 
-import stonering.enums.blocks.BlockTypesEnum;
-import stonering.game.core.model.LocalMap;
+import stonering.game.core.model.local_map.LocalMap;
 import stonering.util.HashPriorityQueue;
 import stonering.util.geometry.Position;
 import stonering.util.global.TagLoggersEnum;
@@ -14,14 +13,11 @@ import java.util.LinkedList;
 
 public class AStar {
     private LocalMap localMap;
+    private int maxSteps = 10000; // unlimited if negative
 
     public AStar(LocalMap localMap) {
         this.localMap = localMap;
     }
-
-    // The maximum number of completed nodes. After that number the algorithm returns null.
-    // If negative, the search will run until the goal node is found.
-    private int maxSteps = 10000;
 
     /**
      * Returns the shortest Path from a start node to an end node according to
@@ -125,9 +121,9 @@ public class AStar {
             for (int y = -1; y < 2; y++) {
                 for (int x = -1; x < 2; x++) {
                     if (x != 0 || y != 0 || z != 0) {
-                        if (inMap(nodePos.getX() + x, nodePos.getY() + y, nodePos.getZ() + z)) {
+                        if (localMap.inMap(nodePos.getX() + x, nodePos.getY() + y, nodePos.getZ() + z)) {
                             Position newPos = new Position(nodePos.getX() + x, nodePos.getY() + y, nodePos.getZ() + z);
-                            if (hasPathBetween(nodePos, newPos)) {
+                            if (localMap.hasPathBetween(nodePos, newPos)) {
                                 nodes.add(new Node(newPos, target));
                             }
                         }
@@ -148,24 +144,5 @@ public class AStar {
         public int compare(Node node1, Node node2) {
             return Double.compare(node1.getCost(), node2.getCost());
         }
-    }
-
-    private boolean hasPathBetween(Position pos1, Position pos2) {
-        boolean passable1 = BlockTypesEnum.getType(localMap.getBlockType(pos1)).getPassing() == 2;
-        boolean passable2 = BlockTypesEnum.getType(localMap.getBlockType(pos2)).getPassing() == 2;
-        boolean sameLevel = pos1.getZ() == pos2.getZ();
-        boolean lowRamp = BlockTypesEnum.getType(localMap.getBlockType(lowerOf(pos1, pos2))) == BlockTypesEnum.RAMP;
-        return (passable1 && passable2 && (sameLevel || lowRamp));
-    }
-
-    private boolean inMap(int x, int y, int z) {
-        return !(x < 0 || y < 0 || z < 0 ||
-                x >= localMap.getxSize() ||
-                y >= localMap.getySize() ||
-                z >= localMap.getzSize());
-    }
-
-    private Position lowerOf(Position pos1, Position pos2) {
-        return pos1.getZ() < pos2.getZ() ? pos1 : pos2;
     }
 }

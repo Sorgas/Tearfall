@@ -20,15 +20,12 @@ public class GameController extends Controller {
     private CameraInputAdapter cameraInputAdapter;
     private PauseInputAdapter pauseInputAdapter;
 
-    public GameController() {
-        super(GameMvc.getInstance());
+    public void init() {
+        super.init();
         inputMultiplexer = new InputMultiplexer();
-        designationsController = new DesignationsController(gameMvc);
+        designationsController = new DesignationsController();
         pauseInputAdapter = new PauseInputAdapter(gameMvc);
         cameraInputAdapter = new CameraInputAdapter(gameMvc);
-    }
-
-    public void init() {
         designationsController.init();
         inputMultiplexer.addProcessor(new KeyBufferInputAdapter());                 // only buffers events
         inputMultiplexer.addProcessor(pauseInputAdapter);                           // handles pause

@@ -6,12 +6,10 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import stonering.game.core.GameMvc;
-import stonering.game.core.controller.controllers.toolbar.DesignationsController;
 import stonering.game.core.model.EntitySelector;
-import stonering.game.core.model.LocalMap;
+import stonering.game.core.model.local_map.LocalMap;
 import stonering.game.core.view.render.ui.menus.Toolbar;
 import stonering.util.geometry.Position;
-import stonering.util.global.Pair;
 import stonering.util.global.StaticSkin;
 import stonering.util.global.TagLoggersEnum;
 

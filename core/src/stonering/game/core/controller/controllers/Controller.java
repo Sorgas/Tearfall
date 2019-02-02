@@ -12,9 +12,7 @@ import stonering.game.core.view.GameView;
 public abstract class Controller {
     protected GameMvc gameMvc;
 
-    public Controller(GameMvc gameMvc) {
-        this.gameMvc = gameMvc;
+    public void init() {
+        gameMvc = GameMvc.getInstance();
     }
-
-    public abstract void init();
 }
