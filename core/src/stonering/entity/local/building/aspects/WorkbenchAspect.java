@@ -10,6 +10,7 @@ import stonering.entity.local.crafting.ItemOrder;
 import stonering.entity.local.items.Item;
 import stonering.enums.items.recipe.Recipe;
 import stonering.enums.items.recipe.RecipeMap;
+import stonering.game.core.model.lists.TaskContainer;
 import stonering.util.global.TagLoggersEnum;
 
 import java.util.ArrayList;
@@ -55,7 +56,7 @@ public class WorkbenchAspect extends Aspect {
         if (entry.task == null) {                     // new order
             TagLoggersEnum.BUILDING.logDebug("Initing task for order " + entry.order.getRecipe().getName());
             createTaskForOrder(entry);
-            gameContainer.getTaskContainer().getTasks().add(entry.task);
+            gameContainer.get(TaskContainer.class).getTasks().add(entry.task);
         } else if (entry.task.isFinished()) {          // if task is finished normally
             if (entry.order.isRepeated()) {
                 entry.task.reset();

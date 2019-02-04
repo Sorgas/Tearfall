@@ -1,6 +1,6 @@
 package stonering.game.core.model.lists;
 
-import stonering.game.core.model.GameContainer;
+import stonering.game.core.model.MainGameModel;
 import stonering.game.core.model.IntervalTurnable;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.entity.local.environment.CelestialBody;
@@ -14,11 +14,11 @@ import java.util.ArrayList;
  */
 public class GlobalActorsContainer extends IntervalTurnable {
 
-    private GameContainer container;
+    private MainGameModel container;
     private ArrayList<CelestialBody> celestialBodies;
     private ArrayList<IntervalTurnable> actors;
 
-    public GlobalActorsContainer(GameContainer container) {
+    public GlobalActorsContainer(MainGameModel container) {
         this.container = container;
     }
 

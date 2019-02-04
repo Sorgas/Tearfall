@@ -18,7 +18,7 @@ public class CameraInputAdapter extends InputAdapter {
 
     public CameraInputAdapter(GameMvc gameMvc) {
         this.gameMvc = gameMvc;
-        camera = gameMvc.getModel().getCamera();
+        camera = gameMvc.getModel().get(EntitySelector.class);
         enabled = true;
     }
 

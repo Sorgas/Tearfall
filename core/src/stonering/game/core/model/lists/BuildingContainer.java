@@ -1,59 +1,51 @@
 package stonering.game.core.model.lists;
 
-import stonering.game.core.model.GameContainer;
+import stonering.game.core.GameMvc;
+import stonering.game.core.model.ModelComponent;
+import stonering.game.core.model.Turnable;
 import stonering.game.core.model.local_map.LocalMap;
 import stonering.generators.buildings.BuildingGenerator;
-import stonering.util.geometry.Position;
 import stonering.entity.local.building.Building;
+import stonering.util.global.Initable;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Contains all Buildings on localMap
  *
  * @author Alexander Kuzyakov on 09.12.2017.
  */
-public class BuildingContainer {
-    private GameContainer gameContainer;
-    private ArrayList<Building> buildings;
+public class BuildingContainer extends Turnable implements ModelComponent, Initable {
+    private List<Building> buildings;
     private LocalMap localMap;
     private BuildingGenerator buildingGenerator;
 
-    public BuildingContainer(ArrayList<Building> buildings, GameContainer gameContainer) {
-        this.buildings = buildings;
-        this.gameContainer = gameContainer;
+    public BuildingContainer() {
+        this(new ArrayList<>());
+    }
+
+    public BuildingContainer(List<Building> buildings) {
         buildingGenerator = new BuildingGenerator();
+        this.buildings = buildings;
     }
 
     public void init() {
+        localMap = GameMvc.getInstance().getModel().get(LocalMap.class);
         buildingGenerator.init();
-        buildings.forEach(building -> building.init(gameContainer));
+        buildings.forEach(this::placeBuilding);
     }
 
     /**
      * Places building block on local map.
-     *
-     * @param building
      */
     private void placeBuilding(Building building) {
-        Position pos = building.getPosition();
-        localMap.setBuildingBlock(pos.getX(), pos.getY(), pos.getZ(), building.getBlock());
+        building.init();
+        localMap.setBuildingBlock(building.getPosition(), building.getBlock());
     }
 
-    public void placeBuildings() {
-        buildings.forEach((building) -> placeBuilding(building));
-    }
-
-    public ArrayList<Building> getBuildings() {
+    public List<Building> getBuildings() {
         return buildings;
-    }
-
-    public void setBuildings(ArrayList<Building> buildings) {
-        this.buildings = buildings;
-    }
-
-    public void setLocalMap(LocalMap localMap) {
-        this.localMap = localMap;
     }
 
     public void turn() {
@@ -62,7 +54,11 @@ public class BuildingContainer {
         }
     }
 
+    /**
+     * Adds building to container and places it on map.
+     */
     public void addBuilding(Building building) {
+        buildings.add(building);
         placeBuilding(building);
     }
 

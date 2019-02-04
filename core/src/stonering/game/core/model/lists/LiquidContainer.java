@@ -2,9 +2,13 @@ package stonering.game.core.model.lists;
 
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.materials.MaterialMap;
+import stonering.game.core.GameMvc;
+import stonering.game.core.model.ModelComponent;
+import stonering.game.core.model.Turnable;
 import stonering.game.core.model.local_map.LocalMap;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.util.geometry.Position;
+import stonering.util.global.Initable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,7 +21,7 @@ import java.util.Random;
  *
  * @author Alexander on 22.08.2018.
  */
-public class LiquidContainer {
+public class LiquidContainer extends Turnable implements ModelComponent, Initable {
     private LocalMap localMap;
     private HashMap<Position, LiquidTile> liquidTiles;
     private HashMap<Position, LiquidTile> tempLiquidTiles;
@@ -33,13 +37,20 @@ public class LiquidContainer {
     private byte stairfloorCode;
     MaterialMap materialMap;
 
-    public LiquidContainer(LocalGenContainer container) {
+    public LiquidContainer() {
         liquidTiles = new HashMap<>();
         liquidSources = new HashMap<>();
         tempLiquidTiles = new HashMap<>();
-        random = new Random();
         materialMap = MaterialMap.getInstance();
-        loadWater(container);
+        random = new Random();
+    }
+
+    @Override
+    public void init() {
+        localMap = GameMvc.getInstance().getModel().get(LocalMap.class);
+        liquidTiles.keySet().forEach(position -> {
+            localMap.setFlooding(position.getX(), position.getY(), position.getZ(), liquidTiles.get(position).amount);
+        });
     }
 
     /**
@@ -47,7 +58,7 @@ public class LiquidContainer {
      *
      * @param container LocalGenContainer.
      */
-    private void loadWater(LocalGenContainer container) {
+    public LiquidContainer loadWater(LocalGenContainer container) {
         //TODO support other liquids
         container.getWaterTiles().forEach(position -> {
             createLiquidTile(position, "water", 7);
@@ -58,6 +69,7 @@ public class LiquidContainer {
             liquidSources.put(position, new LiquidSource(position, materialMap.getId("water"), 1));
         });
         cacheConstants();
+        return this;
     }
 
     private LiquidTile createLiquidTile(Position position, String liquid, int amount) {
@@ -97,8 +109,8 @@ public class LiquidContainer {
                 }
             }
             liquidSources.keySet().forEach(position -> {
-                if(liquidTiles.get(position) != null && liquidTiles.get(position).amount < 7)
-                transferLiquid(null, position, 1);
+                if (liquidTiles.get(position) != null && liquidTiles.get(position).amount < 7)
+                    transferLiquid(null, position, 1);
             });
             flushTempTiles();
         }
@@ -168,12 +180,6 @@ public class LiquidContainer {
         }
     }
 
-    public void initLiquidsToMap() {
-        liquidTiles.keySet().forEach(position -> {
-            localMap.setFlooding(position.getX(), position.getY(), position.getZ(), liquidTiles.get(position).amount);
-        });
-    }
-
     /**
      * Class for single tile of liquid. Position is taken from keyset of hashMap.
      */
@@ -197,9 +203,5 @@ public class LiquidContainer {
             this.liquid = liquid;
             this.intensity = intensity;
         }
-    }
-
-    public void setLocalMap(LocalMap localMap) {
-        this.localMap = localMap;
     }
 }

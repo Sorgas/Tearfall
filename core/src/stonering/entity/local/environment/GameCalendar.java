@@ -1,7 +1,10 @@
 package stonering.entity.local.environment;
 
 import stonering.game.core.model.IntervalTurnable;
+import stonering.game.core.model.ModelComponent;
 import stonering.game.core.model.Turnable;
+import stonering.game.core.view.render.ui.menus.util.Invokable;
+import stonering.util.global.Initable;
 
 import java.util.*;
 
@@ -10,7 +13,7 @@ import java.util.*;
  *
  * @author Alexander on 07.10.2018.
  */
-public class GameCalendar extends Turnable {
+public class GameCalendar extends Turnable implements ModelComponent, Initable {
     private HashMap<String, List<IntervalTurnable>> listeners;
     private static int MINUTE_SIZE = 60;
     private static int HOUR_SIZE = 60;
@@ -33,6 +36,11 @@ public class GameCalendar extends Turnable {
         listeners.put("day", mock);
         listeners.put("month", mock);
         listeners.put("year", mock);
+    }
+
+    @Override
+    public void init() {
+
     }
 
     /**
@@ -76,10 +84,6 @@ public class GameCalendar extends Turnable {
     }
 
     private class MockTurnable extends IntervalTurnable {}
-
-    public void init() {
-        //TODO
-    }
 
     public int getTime() {
         return time;

@@ -10,6 +10,9 @@ import stonering.entity.local.plants.Plant;
 import stonering.entity.local.plants.PlantBlock;
 import stonering.entity.local.plants.Tree;
 import stonering.entity.local.unit.aspects.EquipmentAspect;
+import stonering.game.core.model.lists.ItemContainer;
+import stonering.game.core.model.lists.PlantContainer;
+import stonering.game.core.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 import stonering.util.global.TagLoggersEnum;
 
@@ -25,13 +28,13 @@ public class ChopTreeAction extends Action {
     public boolean check() {
         EquipmentAspect aspect = (EquipmentAspect) task.getPerformer().getAspects().get("equipment");
         if (aspect == null) return false;
-        PlantBlock block = gameMvc.getModel().getLocalMap().getPlantBlock(actionTarget.getPosition());
+        PlantBlock block = gameMvc.getModel().get(LocalMap.class).getPlantBlock(actionTarget.getPosition());
         if (block == null) return false;
         return toolItemSelector.check(aspect.getEquippedItems()) || addActionToTask();
     }
 
     private boolean addActionToTask() {
-        Item target = gameMvc.getModel().getItemContainer().getItemAvailableBySelector(toolItemSelector, task.getPerformer().getPosition());
+        Item target = gameMvc.getModel().get(ItemContainer.class).getItemAvailableBySelector(toolItemSelector, task.getPerformer().getPosition());
         if (target == null) return false;
 
         EquipItemAction equipItemAction = new EquipItemAction(target, true);
@@ -42,7 +45,7 @@ public class ChopTreeAction extends Action {
     @Override
     public void performLogic() {
         logStart();
-        PlantBlock block = gameMvc.getModel().getLocalMap().getPlantBlock(actionTarget.getPosition());
+        PlantBlock block = gameMvc.getModel().get(LocalMap.class).getPlantBlock(actionTarget.getPosition());
         AbstractPlant plant = block.getPlant();
         if (plant.getType().isTree()) {
             cutTree((Tree) plant);
@@ -52,11 +55,11 @@ public class ChopTreeAction extends Action {
     }
 
     private void cutTree(Tree tree) {
-        gameMvc.getModel().getPlantContainer().removeTree(tree);
+        gameMvc.getModel().get(PlantContainer.class).removeTree(tree);
     }
 
     private void cutPlant(Plant plant) {
-        gameMvc.getModel().getPlantContainer().removePlant(plant);
+        gameMvc.getModel().get(PlantContainer.class).removePlant(plant);
     }
 
     private void logStart() {

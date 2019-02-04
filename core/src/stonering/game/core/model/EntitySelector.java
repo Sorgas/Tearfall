@@ -4,8 +4,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import stonering.entity.local.building.validators.PositionValidator;
 import stonering.enums.blocks.BlockTypesEnum;
+import stonering.game.core.GameMvc;
 import stonering.game.core.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
+import stonering.util.global.Initable;
 
 /**
  * Object selector and center for rendering.
@@ -13,11 +15,10 @@ import stonering.util.geometry.Position;
  * If positionValidator exists, position will be validated on move, updating sprite.
  * <p>
  * //TODO divide entity selecting and rendering (change this to selector, add camera class).
- *
+ * //TODO add binds for entities and positions (numbers prob.).
  * @author Alexander Kuzyakov on 10.12.2017.
  */
-public class EntitySelector {
-    private GameContainer container;
+public class EntitySelector implements ModelComponent, Initable {
     private LocalMap localMap;
     private Position position;
     private TextureRegion selectorSprite; // shows selector position, and selected designation.
@@ -31,18 +32,21 @@ public class EntitySelector {
 
     private Position frameStart; // if not null, frame from start to current position is drawn
 
-    public EntitySelector(GameContainer container) {
-        this.container = container;
-        localMap = container.getLocalMap();
-        initSelector();
+    @Override
+    public void init() {
+        localMap = GameMvc.getInstance().getModel().get(LocalMap.class);
+        selectorSprite = new TextureRegion(new Texture("sprites/ui_tiles.png"), 0, 406, 64, 96);
+        placeToCenter();
     }
 
-    private void initSelector() {
+    /**
+     * Places selector to the center of local map.
+     */
+    private void placeToCenter() {
         position = new Position(localMap.getxSize() / 2, localMap.getySize() / 2, localMap.getzSize() - 1);
         while (localMap.getBlockType(position.getX(), position.getY(), position.getZ()) <= BlockTypesEnum.SPACE.getCode()) {
             position.setZ(position.getZ() - 1);
         }
-        selectorSprite = new TextureRegion(new Texture("sprites/ui_tiles.png"), 0, 406, 64, 96);
     }
 
     public void moveSelector(int dx, int dy, int dz) {

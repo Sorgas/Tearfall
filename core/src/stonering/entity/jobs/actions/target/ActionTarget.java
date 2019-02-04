@@ -2,6 +2,7 @@ package stonering.entity.jobs.actions.target;
 
 import stonering.entity.jobs.actions.MoveAction;
 import stonering.game.core.GameMvc;
+import stonering.game.core.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 import stonering.entity.jobs.actions.Action;
 import stonering.util.global.TagLoggersEnum;
@@ -26,7 +27,7 @@ public abstract class ActionTarget {
     public abstract Position getPosition();
 
     public Position findPositionToStepOff(Position from) {
-        List<Position> positions = gameMvc.getModel().getLocalMap().getFreeBlockNear(from);
+        List<Position> positions = gameMvc.getModel().get(LocalMap.class).getFreeBlockNear(from);
         if (!positions.isEmpty()) {
             return positions.get(random.nextInt(positions.size()));
         }

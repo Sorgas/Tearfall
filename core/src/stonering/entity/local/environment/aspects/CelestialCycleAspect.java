@@ -2,7 +2,7 @@ package stonering.entity.local.environment.aspects;
 
 import stonering.entity.local.Aspect;
 import stonering.entity.local.AspectHolder;
-import stonering.game.core.model.GameContainer;
+import stonering.game.core.model.MainGameModel;
 
 /**
  * Determines body state change over time. Has orbit position and phase.
@@ -29,8 +29,8 @@ public class CelestialCycleAspect extends Aspect {
     }
 
     @Override
-    public void init(GameContainer gameContainer) {
-        super.init(gameContainer);
+    public void init() {
+        super.init();
         updateOtherAspects();
     }
 

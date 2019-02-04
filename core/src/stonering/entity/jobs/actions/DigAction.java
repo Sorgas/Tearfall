@@ -8,6 +8,7 @@ import stonering.entity.local.items.selectors.ToolWithActionItemSelector;
 import stonering.entity.local.unit.aspects.EquipmentAspect;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.designations.DesignationTypeEnum;
+import stonering.game.core.model.lists.ItemContainer;
 import stonering.game.core.model.local_map.LocalMap;
 import stonering.generators.items.DiggingProductGenerator;
 import stonering.util.geometry.Position;
@@ -34,7 +35,7 @@ public class DigAction extends Action {
     }
 
     private boolean addEquipAction() {
-        Item target = gameMvc.getModel().getItemContainer().getItemAvailableBySelector(toolItemSelector, task.getPerformer().getPosition());
+        Item target = gameMvc.getModel().get(ItemContainer.class).getItemAvailableBySelector(toolItemSelector, task.getPerformer().getPosition());
         if (target == null) return false;
         task.addFirstPreAction(new EquipItemAction(target, true));
         return true;
@@ -64,12 +65,12 @@ public class DigAction extends Action {
                 break;
             }
         }
-        leaveStone(gameMvc.getModel().getLocalMap().getMaterial(actionTarget.getPosition()));
+        leaveStone(gameMvc.getModel().get(LocalMap.class).getMaterial(actionTarget.getPosition()));
     }
 
     private void validateAndChangeBlock(Position pos, BlockTypesEnum type) {
         boolean valid = false;
-        LocalMap map = gameMvc.getModel().getLocalMap();
+        LocalMap map = gameMvc.getModel().get(LocalMap.class);
         switch (type) {
             case RAMP:
             case STAIRS:
@@ -96,7 +97,7 @@ public class DigAction extends Action {
     private void leaveStone(int material) {
         DiggingProductGenerator generator = new DiggingProductGenerator();
         if (generator.productRequired(material))
-            gameMvc.getModel().getItemContainer().addItem(generator.generateDigProduct(material), actionTarget.getPosition());
+            gameMvc.getModel().get(ItemContainer.class).addItem(generator.generateDigProduct(material), actionTarget.getPosition());
     }
 
     private void logStart() {

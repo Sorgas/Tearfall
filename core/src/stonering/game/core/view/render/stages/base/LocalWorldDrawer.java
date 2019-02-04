@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import stonering.enums.designations.DesignationsTileMapping;
 import stonering.game.core.GameMvc;
 import stonering.game.core.model.EntitySelector;
+import stonering.game.core.model.lists.ItemContainer;
 import stonering.game.core.model.local_map.LocalMap;
 import stonering.game.core.view.render.util.Int3DBounds;
 import stonering.game.core.view.tilemaps.LocalTileMap;
@@ -52,7 +53,7 @@ public class LocalWorldDrawer {
     public void init() {
         gameMvc = GameMvc.getInstance();
         initAtlases();
-        localMap = gameMvc.getModel().getLocalMap();
+        localMap = gameMvc.getModel().get(LocalMap.class);
         screenCenter = new Vector2(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f);
         setViewAreaWidth(50);
         setViewAreDepth(15);
@@ -63,8 +64,8 @@ public class LocalWorldDrawer {
      * Renders local map with all entities to
      */
     public void drawLocalWorld() {
-        if (localTileMap == null) localTileMap = gameMvc.getModel().getLocalTileMap(); //TODO replace with some init
-        selector = gameMvc.getModel().getCamera();
+        if (localTileMap == null) localTileMap = gameMvc.getModel().get(LocalTileMap.class); //TODO replace with some init
+        selector = gameMvc.getModel().get(EntitySelector.class);
         batch.enableBlending();
         batch.begin();
         drawTiles(defineframe());
@@ -107,7 +108,7 @@ public class LocalWorldDrawer {
         if (unitBlock != null) {
             drawSprite(selectSprite(2, 0, 0), x, y, z);
         }
-        ArrayList<Item> items = gameMvc.getModel().getItemContainer().getItems(x, y, z);
+        ArrayList<Item> items = gameMvc.getModel().get(ItemContainer.class).getItems(x, y, z);
         if (!items.isEmpty()) {
             items.forEach((item) -> drawSprite(selectSprite(5, item.getType().getAtlasXY()[0], item.getType().getAtlasXY()[1]), x, y, z));
         }

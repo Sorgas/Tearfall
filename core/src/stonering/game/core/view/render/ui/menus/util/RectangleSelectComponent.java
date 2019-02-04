@@ -29,8 +29,8 @@ public class RectangleSelectComponent extends Label implements HideableComponent
         super("rectangle", StaticSkin.getSkin());
         gameMvc = GameMvc.getInstance();
         this.listener = listener;
-        selector = gameMvc.getModel().getCamera();
-        localMap = gameMvc.getModel().getLocalMap();
+        selector = gameMvc.getModel().get(EntitySelector.class);
+        localMap = gameMvc.getModel().get(LocalMap.class);
         toolbar = gameMvc.getView().getUiDrawer().getToolbar();
         createDefaultListener();
     }

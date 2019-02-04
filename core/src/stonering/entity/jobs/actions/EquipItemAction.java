@@ -4,6 +4,7 @@ import stonering.entity.jobs.actions.target.ItemActionTarget;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.unit.aspects.EquipmentAspect;
 import stonering.exceptions.NotSuitableItemException;
+import stonering.game.core.model.lists.ItemContainer;
 import stonering.util.global.TagLoggersEnum;
 
 public class EquipItemAction extends Action {
@@ -21,7 +22,7 @@ public class EquipItemAction extends Action {
     protected void performLogic() {
         //TODO manage equipped items in item container
         if (((EquipmentAspect) task.getPerformer().getAspects().get("equipment")).equipItem(item))
-            gameMvc.getModel().getItemContainer().pickItem(item);
+            gameMvc.getModel().get(ItemContainer.class).pickItem(item);
     }
 
     @Override

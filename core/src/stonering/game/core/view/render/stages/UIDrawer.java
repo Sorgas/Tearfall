@@ -5,7 +5,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import stonering.enums.materials.Material;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.core.GameMvc;
-import stonering.game.core.model.GameContainer;
+import stonering.game.core.model.EntitySelector;
+import stonering.game.core.model.MainGameModel;
+import stonering.game.core.model.local_map.LocalMap;
 import stonering.game.core.view.render.ui.TileStatusBar;
 import stonering.game.core.view.render.ui.menus.Toolbar;
 import stonering.util.geometry.Position;
@@ -15,7 +17,7 @@ import stonering.util.geometry.Position;
  */
 public class UIDrawer extends Stage {
     private GameMvc gameMvc;
-    private GameContainer container;
+    private MainGameModel container;
     private MaterialMap materialMap;
 
     private Toolbar toolbar;
@@ -52,19 +54,19 @@ public class UIDrawer extends Stage {
     }
 
     private void updateStatusBar() {
-        Position focus = container.getCamera().getPosition();
-        Material material = materialMap.getMaterial(container.getLocalMap().getMaterial(focus));
+        Position focus = container.get(EntitySelector.class).getPosition();
+        Material material = materialMap.getMaterial(container.get(LocalMap.class).getMaterial(focus));
         tileStatusBar.setData(focus,
                 material != null ? material.getName() : "",
-                container.getLocalMap().getPassageMap().getArea().getValue(focus),
-                container.getLocalMap().getFlooding(focus));
+                container.get(LocalMap.class).getPassageMap().getArea().getValue(focus),
+                container.get(LocalMap.class).getFlooding(focus));
     }
 
     public void resize(int width, int height) {
         this.getViewport().update(width, height, true);
     }
 
-    public void setContainer(GameContainer container) {
+    public void setContainer(MainGameModel container) {
         this.container = container;
     }
 

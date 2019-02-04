@@ -6,7 +6,8 @@ import stonering.enums.OrientationEnum;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.plants.TreeType;
 import stonering.game.core.GameMvc;
-import stonering.game.core.model.GameContainer;
+import stonering.game.core.model.MainGameModel;
+import stonering.game.core.model.ModelComponent;
 import stonering.game.core.model.local_map.LocalMap;
 import stonering.generators.items.PlantProductGenerator;
 import stonering.util.geometry.Position;
@@ -15,8 +16,10 @@ import stonering.entity.local.plants.AbstractPlant;
 import stonering.entity.local.plants.Plant;
 import stonering.entity.local.plants.PlantBlock;
 import stonering.entity.local.plants.Tree;
+import stonering.util.global.Initable;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Contains plants on localMap. Trees are stored by their parts as separate plants.
@@ -25,22 +28,24 @@ import java.util.ArrayList;
  *
  * @author Alexander Kuzyakov on 09.11.2017.
  */
-public class PlantContainer {
+public class PlantContainer implements Initable, ModelComponent {
     private GameMvc gameMvc;
-    private ArrayList<AbstractPlant> plants;
-    private GameContainer container;
+    private List<AbstractPlant> plants;
     private LocalMap localMap;
     private final int WALL_CODE = BlockTypesEnum.WALL.getCode();
 
-
-    public PlantContainer() {
-        gameMvc = GameMvc.getInstance();
-        container = gameMvc.getModel();
-        localMap = container.getLocalMap();
-        this.plants = new ArrayList<>();
+    public PlantContainer(List<AbstractPlant> plants) {
+        this.plants = plants;
     }
 
-    public void placePlants(ArrayList<AbstractPlant> plants) {
+    public PlantContainer() {
+        this(new ArrayList<>());
+    }
+
+    @Override
+    public void init() {
+        gameMvc = GameMvc.getInstance();
+        localMap = gameMvc.getModel().get(LocalMap.class);
         plants.forEach((plant) -> place(plant));
     }
 
@@ -121,7 +126,7 @@ public class PlantContainer {
 
     private void leavePlantProduct(PlantBlock block) {
         ArrayList<Item> items = new PlantProductGenerator().generateCutProduct(block);
-        items.forEach((item) -> container.getItemContainer().addItem(item, block.getPosition()));
+        items.forEach((item) -> gameMvc.getModel().get(ItemContainer.class).addItem(item, block.getPosition()));
     }
 
     /**
@@ -162,7 +167,7 @@ public class PlantContainer {
                         PlantBlock block = treeParts[x][y][z];
                         if (block != null) {
                             Position newPosition = translatePosition(block.getPosition().toVector3(), treePosition.toVector3(), orientation);
-                            if (container.getLocalMap().getBlockType(newPosition) != WALL_CODE) {
+                            if (localMap.getBlockType(newPosition) != WALL_CODE) {
                                 localMap.setPlantBlock(block.getPosition(), null);
                                 block.setPosition(newPosition);
                                 localMap.setPlantBlock(block.getPosition(), block);
@@ -196,7 +201,7 @@ public class PlantContainer {
         plants.forEach(abstractPlant -> turn());
     }
 
-    public ArrayList<AbstractPlant> getPlants() {
+    public List<AbstractPlant> getPlants() {
         return plants;
     }
 }

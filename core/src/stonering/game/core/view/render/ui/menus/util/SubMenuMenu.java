@@ -18,8 +18,8 @@ public class SubMenuMenu extends ButtonMenu {
     protected HashMap<String, SubMenuMenu> menus;
     private HotkeySequence sequence;
 
-    public SubMenuMenu(GameMvc gameMvc) {
-        super(gameMvc, true);
+    public SubMenuMenu() {
+        super(true);
         menus = new HashMap<>();
         sequence = new HotkeySequence();
     }
@@ -60,7 +60,7 @@ public class SubMenuMenu extends ButtonMenu {
         if (!path.isEmpty()) { // create submenu
             String currentStep = path.remove(0);
             if (!menus.keySet().contains(currentStep)) { // create submenu
-                addMenu(new BuildingCategoryMenu(gameMvc, currentStep), sequence.getNext(), currentStep);
+                addMenu(new BuildingCategoryMenu(currentStep), sequence.getNext(), currentStep);
             }
             menus.get(currentStep).addItem(lastButtonText, listener, path); // proceed to submenu with reduced path
         } else { //create button

@@ -1,7 +1,7 @@
 package stonering.entity.local.unit.aspects.needs;
 
 import stonering.entity.jobs.actions.EquipItemAction;
-import stonering.game.core.model.GameContainer;
+import stonering.game.core.model.MainGameModel;
 import stonering.entity.jobs.Task;
 import stonering.entity.jobs.actions.TaskTypesEnum;
 import stonering.entity.local.AspectHolder;
@@ -9,6 +9,7 @@ import stonering.entity.local.items.Item;
 import stonering.entity.local.items.selectors.ItemSelector;
 import stonering.entity.local.items.selectors.WearForLimbItemSelector;
 import stonering.entity.local.unit.aspects.EquipmentAspect;
+import stonering.game.core.model.lists.ItemContainer;
 
 /**
  * Basic need for clothes. Each creature species has own list of limbs to be covered by wear.
@@ -53,9 +54,9 @@ public class WearNeed extends Need {
         return null;
     }
 
-    private Task tryCreateEquipTask(AspectHolder aspectHolder, GameContainer container, EquipmentAspect.EquipmentSlot equipmentSlot) {
+    private Task tryCreateEquipTask(AspectHolder aspectHolder, MainGameModel container, EquipmentAspect.EquipmentSlot equipmentSlot) {
         ItemSelector itemSelector = createItemSelectorForLimb(equipmentSlot.limbName);
-        Item item = container.getItemContainer().getItemAvailableBySelector(itemSelector, aspectHolder.getPosition());
+        Item item = container.get(ItemContainer.class).getItemAvailableBySelector(itemSelector, aspectHolder.getPosition());
         Task task = null;
         if (item != null) {
             EquipItemAction equipItemAction = new EquipItemAction(item, true);

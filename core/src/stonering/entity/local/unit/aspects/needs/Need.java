@@ -1,6 +1,7 @@
 package stonering.entity.local.unit.aspects.needs;
 
-import stonering.game.core.model.GameContainer;
+import stonering.game.core.GameMvc;
+import stonering.game.core.model.MainGameModel;
 import stonering.entity.jobs.Task;
 import stonering.entity.local.AspectHolder;
 
@@ -12,15 +13,15 @@ import stonering.entity.local.AspectHolder;
  */
 public abstract class Need {
     protected AspectHolder aspectHolder;
-    protected GameContainer container;
+    protected MainGameModel container;
     protected float priorityMod;
 
     public Need() {
     }
 
-    public void init(AspectHolder aspectHolder, GameContainer container) {
+    public void init(AspectHolder aspectHolder) {
         this.aspectHolder = aspectHolder;
-        this.container = container;
+        this.container = GameMvc.getInstance().getModel();
     }
 
     public abstract int countPriority();

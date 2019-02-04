@@ -3,8 +3,8 @@ package stonering.entity.jobs;
 import stonering.designations.Designation;
 import stonering.entity.local.unit.aspects.PlanningAspect;
 import stonering.game.core.GameMvc;
-import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.lists.TaskContainer;
+import stonering.game.core.model.local_map.LocalMap;
 import stonering.game.core.model.util.UtilByteArray;
 import stonering.util.geometry.Position;
 import stonering.entity.jobs.actions.Action;
@@ -12,8 +12,6 @@ import stonering.entity.jobs.actions.TaskTypesEnum;
 import stonering.entity.local.unit.Unit;
 import stonering.util.global.TagLoggersEnum;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.LinkedList;
 
 /**
@@ -42,7 +40,7 @@ public class Task {
         this.taskType = taskType;
         this.initialAction = initialAction;
         initialAction.setTask(this);
-        this.taskContainer = gameMvc.getModel().getTaskContainer();
+        this.taskContainer = gameMvc.getModel().get(TaskContainer.class);
         preActions = new LinkedList<>();
         postActions = new LinkedList<>();
         this.priority = priority;
@@ -115,7 +113,7 @@ public class Task {
     }
 
     public boolean isTaskTargetsAvaialbleFrom(Position position) {
-        UtilByteArray area = gameMvc.getModel().getLocalMap().getPassageMap().getArea();
+        UtilByteArray area = gameMvc.getModel().get(LocalMap.class).getPassageMap().getArea();
         int sourceArea = area.getValue(position);
         Position target = initialAction.getActionTarget().getPosition();
         for (int x = -1; x < 2; x++) {

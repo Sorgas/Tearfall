@@ -1,7 +1,6 @@
 package stonering.game.core.view.render.ui.menus.building;
 
 import com.badlogic.gdx.Input;
-import stonering.game.core.GameMvc;
 import stonering.game.core.view.render.ui.menus.util.SubMenuMenu;
 
 /**
@@ -11,8 +10,8 @@ import stonering.game.core.view.render.ui.menus.util.SubMenuMenu;
  */
 public class GeneralBuildingMenu extends SubMenuMenu {
 
-    public GeneralBuildingMenu(GameMvc gameMvc) {
-        super(gameMvc);
+    public GeneralBuildingMenu() {
+        super();
         hideable = true;
     }
 
@@ -23,9 +22,9 @@ public class GeneralBuildingMenu extends SubMenuMenu {
     }
 
     private void createMenus() {
-        addMenu(new BuildingCategoryMenu(gameMvc, "workbenches"), Input.Keys.I, "workbenches");
-        addMenu(new BuildingCategoryMenu(gameMvc, "constructions"), Input.Keys.O, "constructions");
-        addMenu(new BuildingCategoryMenu(gameMvc, "furniture"), Input.Keys.P, "furniture");
+        addMenu(new BuildingCategoryMenu("workbenches"), Input.Keys.I, "workbenches");
+        addMenu(new BuildingCategoryMenu("constructions"), Input.Keys.O, "constructions");
+        addMenu(new BuildingCategoryMenu("furniture"), Input.Keys.P, "furniture");
     }
 
     @Override

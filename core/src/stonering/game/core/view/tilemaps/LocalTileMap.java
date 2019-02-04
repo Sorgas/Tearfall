@@ -1,6 +1,8 @@
 package stonering.game.core.view.tilemaps;
 
 import com.badlogic.gdx.graphics.Color;
+import stonering.game.core.model.ModelComponent;
+import stonering.game.core.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 
 /**
@@ -10,7 +12,7 @@ import stonering.util.geometry.Position;
  *
  * @author Alexander Kuzyakov on 02.08.2017.
  */
-public class LocalTileMap {
+public class LocalTileMap implements ModelComponent {
 
     private byte[][][] atlasX;
     private byte[][][] atlasY;
@@ -19,7 +21,10 @@ public class LocalTileMap {
     private int ySize;
     private int zSize;
 
-    public LocalTileMap(int xSize, int ySize, int zSize) {
+    public LocalTileMap(LocalMap localMap) {
+        int xSize = localMap.getxSize();
+        int ySize = localMap.getySize();
+        int zSize = localMap.getzSize();
         atlasX = new byte[xSize][ySize][zSize];
         atlasY = new byte[xSize][ySize][zSize];
         atlasNum = new byte[xSize][ySize][zSize];

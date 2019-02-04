@@ -6,6 +6,7 @@ import stonering.entity.local.building.validators.FreeFloorValidator;
 import stonering.entity.local.crafting.CommonComponentStep;
 import stonering.entity.local.items.selectors.ItemSelector;
 import stonering.entity.local.items.selectors.SimpleItemSelector;
+import stonering.game.core.model.lists.TaskContainer;
 import stonering.game.core.view.render.ui.lists.MaterialSelectList;
 import stonering.game.core.view.render.ui.menus.util.PlaceSelectComponent;
 import stonering.game.core.view.render.ui.util.ListItem;
@@ -48,7 +49,7 @@ public class BuildingDesignationSequence extends DesignationSequence {
             gameMvc.getView().getUiDrawer().getToolbar().addMenu(createSelectListForStep(component));
             return;
         }
-        gameMvc.getModel().getTaskContainer().submitBuildingDesignation(position, buildingType.getBuilding(), new ArrayList<>(stepSelectorMap.values()), 1);
+        gameMvc.getModel().get(TaskContainer.class).submitBuildingDesignation(position, buildingType.getBuilding(), new ArrayList<>(stepSelectorMap.values()), 1);
         reset();
     }
 

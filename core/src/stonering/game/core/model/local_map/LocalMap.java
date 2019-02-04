@@ -2,12 +2,15 @@ package stonering.game.core.model.local_map;
 
 import com.badlogic.gdx.math.Vector2;
 import stonering.enums.blocks.BlockTypesEnum;
+import stonering.game.core.GameMvc;
+import stonering.game.core.model.ModelComponent;
 import stonering.game.core.model.util.UtilByteArray;
 import stonering.game.core.view.tilemaps.LocalTileMapUpdater;
 import stonering.util.geometry.Position;
 import stonering.entity.local.building.BuildingBlock;
 import stonering.entity.local.plants.PlantBlock;
 import stonering.entity.local.unit.UnitBlock;
+import stonering.util.global.Initable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +20,7 @@ import java.util.List;
  *
  * @author Alexander Kuzyakov on 10.06.2017.
  */
-public class LocalMap {
+public class LocalMap implements ModelComponent, Initable {
     private int[][][] material;
     private byte[][][] blockType;
     private byte[][][] designatedBlockType;
@@ -53,6 +56,10 @@ public class LocalMap {
         passageMap = new AreaInitializer(this).initAreas();
     }
 
+    public void init() {
+        localTileMapUpdater = GameMvc.getInstance().getModel().get(LocalTileMapUpdater.class);
+    }
+
     /**
      * Updates material and type of given block.
      * Is called from localgen, digging.
@@ -76,9 +83,6 @@ public class LocalMap {
     public void updateBlock(int x, int y, int z) {
         if (localTileMapUpdater != null)
             localTileMapUpdater.updateTile(x, y, z);
-    }
-
-    public void init() {
     }
 
     public boolean isWorkingRamp(int x, int y, int z) {
@@ -143,7 +147,7 @@ public class LocalMap {
     }
 
     public boolean isWalkPassable(int x, int y, int z) {
-        return inMap(x,y,z) && BlockTypesEnum.getType(getBlockType(x, y, z)).getPassing() == 2;
+        return inMap(x, y, z) && BlockTypesEnum.getType(getBlockType(x, y, z)).getPassing() == 2;
     }
 
     public boolean isFlyPassable(Position pos) {
@@ -151,7 +155,7 @@ public class LocalMap {
     }
 
     public boolean isFlyPassable(int x, int y, int z) {
-        return inMap(x,y,z) && BlockTypesEnum.getType(getBlockType(x, y, z)).getPassing() != 0; // 1 || 2
+        return inMap(x, y, z) && BlockTypesEnum.getType(getBlockType(x, y, z)).getPassing() != 0; // 1 || 2
     }
 
     /**

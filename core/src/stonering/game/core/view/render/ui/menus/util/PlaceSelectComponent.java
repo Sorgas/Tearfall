@@ -8,9 +8,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import stonering.entity.local.building.validators.PositionValidator;
 import stonering.game.core.GameMvc;
 import stonering.game.core.model.EntitySelector;
+import stonering.game.core.model.local_map.LocalMap;
 import stonering.game.core.view.render.ui.menus.Toolbar;
 import stonering.util.geometry.Position;
 import stonering.util.global.StaticSkin;
+
+import javax.swing.text.html.parser.Entity;
 
 /**
  * Component for selecting places. Can be used many times.
@@ -35,7 +38,7 @@ public class PlaceSelectComponent extends Label implements HideableComponent {
     }
 
     public void init() {
-        selector = gameMvc.getModel().getCamera();
+        selector = gameMvc.getModel().get(EntitySelector.class);
         toolbar = gameMvc.getView().getUiDrawer().getToolbar();
         createDefaultListener();
     }
@@ -65,7 +68,7 @@ public class PlaceSelectComponent extends Label implements HideableComponent {
 
     private boolean validatePosition() {
         if (positionValidator == null) return true; // no validation
-        return positionValidator.validate(gameMvc.getModel().getLocalMap(), selector.getPosition());
+        return positionValidator.validate(gameMvc.getModel().get(LocalMap.class), selector.getPosition());
     }
 
     /**

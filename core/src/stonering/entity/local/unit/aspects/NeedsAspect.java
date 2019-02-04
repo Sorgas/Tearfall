@@ -1,6 +1,6 @@
 package stonering.entity.local.unit.aspects;
 
-import stonering.game.core.model.GameContainer;
+import stonering.game.core.model.MainGameModel;
 import stonering.entity.jobs.Task;
 import stonering.entity.local.Aspect;
 import stonering.entity.local.AspectHolder;
@@ -31,9 +31,9 @@ public class NeedsAspect extends Aspect {
     }
 
     @Override
-    public void init(GameContainer gameContainer) {
-        super.init(gameContainer);
-        needs.forEach(need -> need.init(aspectHolder, gameContainer));
+    public void init() {
+        super.init();
+        needs.forEach(need -> need.init(aspectHolder));
     }
 
     public void initNeeds() {

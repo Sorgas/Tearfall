@@ -1,16 +1,19 @@
 package stonering.game.core.model.lists;
 
+import stonering.entity.local.AspectHolder;
 import stonering.entity.local.crafting.CommonComponentStep;
 import stonering.entity.local.items.selectors.SimpleItemSelector;
 import stonering.enums.items.recipe.ItemPartRecipe;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.core.GameMvc;
-import stonering.game.core.model.GameContainer;
+import stonering.game.core.model.ModelComponent;
+import stonering.game.core.model.Turnable;
 import stonering.game.core.model.local_map.LocalMap;
 import stonering.game.core.model.util.UtilByteArray;
 import stonering.util.geometry.Position;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.items.selectors.ItemSelector;
+import stonering.util.global.Initable;
 import stonering.util.global.TagLoggersEnum;
 
 import java.util.*;
@@ -18,39 +21,43 @@ import java.util.stream.Collectors;
 
 /**
  * Manages all items on map.
+ * //TODO move large methods to some util class
  *
  * @author Alexander Kuzyakov on 14.06.2017.
  */
-public class ItemContainer {
+public class ItemContainer extends Turnable implements ModelComponent, Initable {
     private GameMvc gameMvc;
     private ArrayList<Item> items;  // all items on the map (tiles, containers, units)
     private HashMap<Position, ArrayList<Item>> itemMap;      // maps tiles position to list of items it that position
 
-    public ItemContainer(ArrayList<Item> items) {
+    public ItemContainer() {
         gameMvc = GameMvc.getInstance();
-        this.items = new ArrayList<>();
+        items = new ArrayList<>();
         itemMap = new HashMap<>();
-        items.forEach(item -> addItem(item, item.getPosition()));
     }
 
-    public void initItems() {
-        items.forEach(this::initItem);
-    }
+    @Override
+    public void init() {
+        items.forEach(Item::init);
 
-    /**
-     * Sets game container to all item aspects
-     *
-     * @param item
-     */
-    private void initItem(Item item) {
-        item.getAspects().values().forEach((aspect) -> aspect.init(gameMvc.getModel()));
     }
 
     /**
      * Turns all items for rust, burn, spoil, etc.
      */
     public void turn() {
-        items.forEach((item) -> item.turn());
+        items.forEach(AspectHolder::turn);
+    }
+
+    /**
+     * For initial items placing
+     */
+    public ItemContainer placeItems(List<Item> items) {
+        items.forEach(item -> {
+            this.items.add(item);
+            putItem(item, item.getPosition());
+        });
+        return this;
     }
 
     public void removeItem(Item item) {
@@ -64,8 +71,8 @@ public class ItemContainer {
     }
 
     public void addItem(Item item, Position position) {
-        initItem(item);
         items.add(item);
+        item.init();
         putItem(item, position);
     }
 
@@ -153,7 +160,7 @@ public class ItemContainer {
     }
 
     public List<Item> filterUnreachable(List<Item> items, Position pos) {
-        UtilByteArray area = gameMvc.getModel().getLocalMap().getPassageMap().getArea();
+        UtilByteArray area = gameMvc.getModel().get(LocalMap.class).getPassageMap().getArea();
         return items.stream().filter(item -> area.getValue(item.getPosition()) == area.getValue(pos)).collect(Collectors.toList());
     }
 
@@ -188,7 +195,7 @@ public class ItemContainer {
         Set<ItemSelector> itemSelectors = new HashSet<>();
         Set<Integer> allowedMaterials = MaterialMap.getInstance().getMaterialsByType(itemPartRecipe.getMaterialType());
         List<Item> materialItems = items.stream().filter(item -> item.getType().isResource() && allowedMaterials.contains(item.getMaterial())).collect(Collectors.toList());
-        materialItems = filterUnreachable(materialItems, position);
+        materialItems = filterUnreachable(materialItems, position); // TODO caarried items has no position giving NPE
         for (ItemGroup itemGroup : groupItemsByTypesAndMaterials(materialItems)) {
             itemSelectors.add(createItemSelector(itemGroup));
         }

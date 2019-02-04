@@ -1,7 +1,7 @@
 package stonering.game.core;
 
 import stonering.game.core.controller.controllers.GameController;
-import stonering.game.core.model.GameContainer;
+import stonering.game.core.model.MainGameModel;
 import stonering.game.core.view.GameView;
 import stonering.generators.localgen.LocalGenContainer;
 
@@ -12,7 +12,7 @@ import stonering.generators.localgen.LocalGenContainer;
  */
 public class GameMvc {
     private static GameMvc instance;
-    private GameContainer model;
+    private MainGameModel model;
     private GameView view;
     private GameController controller;
 
@@ -23,22 +23,23 @@ public class GameMvc {
     }
 
     private GameMvc() {
-        model = new GameContainer();
+        model = new MainGameModel();
         view = new GameView();
         controller = new GameController();
     }
 
     public void init(LocalGenContainer container) {
-        model.init(container);
-        view.init();
+        model.loadFromContainer(container);
+        model.init();
         controller.init();
+        view.init();
     }
 
     public static GameMvc getInstance() {
         return instance;
     }
 
-    public GameContainer getModel() {
+    public MainGameModel getModel() {
         return model;
     }
 

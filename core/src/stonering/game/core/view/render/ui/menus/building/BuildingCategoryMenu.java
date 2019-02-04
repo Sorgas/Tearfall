@@ -23,8 +23,7 @@ public class BuildingCategoryMenu extends SubMenuMenu {
     private HotkeySequence sequence;
 
 
-    public BuildingCategoryMenu(GameMvc gameMvc, String category) {
-        super(gameMvc);
+    public BuildingCategoryMenu(String category) {
         this.category = category;
         hideable = true;
         sequence = new HotkeySequence();

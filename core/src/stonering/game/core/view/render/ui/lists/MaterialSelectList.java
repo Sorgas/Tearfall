@@ -3,6 +3,7 @@ package stonering.game.core.view.render.ui.lists;
 import stonering.entity.local.crafting.CommonComponentStep;
 import stonering.game.core.GameMvc;
 import stonering.game.core.controller.controllers.toolbar.DesignationsController;
+import stonering.game.core.model.lists.ItemContainer;
 import stonering.game.core.view.render.ui.menus.Toolbar;
 import stonering.game.core.view.render.ui.menus.util.HideableComponent;
 import stonering.entity.local.items.Item;
@@ -37,7 +38,7 @@ public class MaterialSelectList extends ItemsCountList implements HideableCompon
      */
     public void fillForCraftingStep(CommonComponentStep step, Position position) {
         clearItems();
-        List<Item> items = gameMvc.getModel().getItemContainer().getAvailableMaterialsCraftingStep(step, position);
+        List<Item> items = gameMvc.getModel().get(ItemContainer.class).getAvailableMaterialsCraftingStep(step, position);
         if (!items.isEmpty()) {
             addItems(items);
             setSelectedIndex(-1); //change event is not fired without this.

@@ -56,7 +56,7 @@ public class Toolbar extends Container {
         menusTable = new Table();
         menusTable.align(Align.bottomRight);
         menusTable.defaults().align(Align.bottom);
-        parentMenu = new ParentMenu(gameMvc);
+        parentMenu = new ParentMenu();
         parentMenu.init();
         parentMenu.show();
         refill();

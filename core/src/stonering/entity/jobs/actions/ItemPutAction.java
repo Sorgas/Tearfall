@@ -7,6 +7,7 @@ import stonering.entity.local.AspectHolder;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.items.aspects.ItemContainerAspect;
 import stonering.entity.local.unit.aspects.EquipmentAspect;
+import stonering.game.core.model.lists.ItemContainer;
 import stonering.util.geometry.Position;
 
 /**
@@ -40,7 +41,7 @@ public class ItemPutAction extends Action {
         if (target != null) {
             ((ItemContainerAspect) target.getAspects().get(ItemContainerAspect.NAME)).getItems().add(targetItem);
         } else {
-            gameMvc.getModel().getItemContainer().putItem(targetItem, targetPosition);
+            gameMvc.getModel().get(ItemContainer.class).putItem(targetItem, targetPosition);
         }
     }
 

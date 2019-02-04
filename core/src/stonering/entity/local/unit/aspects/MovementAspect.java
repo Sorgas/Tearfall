@@ -1,8 +1,6 @@
 package stonering.entity.local.unit.aspects;
 
-import stonering.game.core.model.GameContainer;
 import stonering.game.core.model.local_map.LocalMap;
-import stonering.game.core.model.local_map.PassageMap;
 import stonering.util.pathfinding.a_star.AStar;
 import stonering.entity.local.Aspect;
 import stonering.entity.local.unit.Unit;
@@ -74,15 +72,15 @@ public class MovementAspect extends Aspect {
     }
 
     @Override
-    public void init(GameContainer gameContainer) {
-        super.init(gameContainer);
+    public void init() {
+        super.init();
         if (aspectHolder.getAspects().containsKey("planning"))
             planning = (PlanningAspect) aspectHolder.getAspects().get("planning");
-        localMap = gameContainer.getLocalMap();
+        localMap = gameContainer.get(LocalMap.class);
     }
 
     private void makeRouteToTarget() {
-        cachedPath = new AStar(gameContainer.getLocalMap()).makeShortestPath(aspectHolder.getPosition(), planning.getTarget(), planning.isTargetExact());
+        cachedPath = new AStar(gameContainer.get(LocalMap.class)).makeShortestPath(aspectHolder.getPosition(), planning.getTarget(), planning.isTargetExact());
     }
 
     /**

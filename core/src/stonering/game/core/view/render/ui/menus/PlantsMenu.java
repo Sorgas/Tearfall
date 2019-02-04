@@ -20,8 +20,7 @@ import static stonering.enums.designations.DesignationTypeEnum.*;
 public class PlantsMenu extends SubMenuMenu {
     private DesignationsController controller;
 
-    public PlantsMenu(GameMvc gameMvc) {
-        super(gameMvc);
+    public PlantsMenu() {
         hideable = true;
         initMenu();
     }

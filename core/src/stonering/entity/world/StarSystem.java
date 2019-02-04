@@ -1,7 +1,8 @@
 package stonering.entity.world;
 
 import stonering.entity.local.environment.CelestialBody;
-import stonering.game.core.model.GameContainer;
+import stonering.game.core.model.GameModel;
+import stonering.game.core.model.MainGameModel;
 import stonering.game.core.model.IntervalTurnable;
 
 import java.io.Serializable;
@@ -30,7 +31,7 @@ public class StarSystem extends IntervalTurnable implements Serializable {
         celestialBodies.forEach(CelestialBody::turn);
     }
 
-    public void init(GameContainer container) {
-        celestialBodies.forEach(celestialBody -> celestialBody.init(container));
+    public void init() {
+        celestialBodies.forEach(celestialBody -> celestialBody.init());
     }
 }

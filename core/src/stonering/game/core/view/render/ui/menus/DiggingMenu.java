@@ -21,8 +21,7 @@ import static stonering.enums.designations.DesignationTypeEnum.*;
 public class DiggingMenu extends SubMenuMenu {
     private DesignationsController controller;
 
-    public DiggingMenu(GameMvc gameMvc) {
-        super(gameMvc);
+    public DiggingMenu() {
         hideable = true;
         initMenu();
     }

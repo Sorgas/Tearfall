@@ -2,6 +2,7 @@ package stonering.entity.local.crafting;
 
 import stonering.entity.local.items.selectors.ItemSelector;
 import stonering.game.core.GameMvc;
+import stonering.game.core.model.lists.ItemContainer;
 import stonering.util.geometry.Position;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public class ItemPartOrder {
     }
 
     public void refreshSelectors(Position workbenchPosition) {
-        itemSelectors = gameMvc.getModel().getItemContainer().getItemSelectorsForItemPartRecipe(order.getRecipe().getItemPartRecipe(name), workbenchPosition);
+        itemSelectors = gameMvc.getModel().get(ItemContainer.class).getItemSelectorsForItemPartRecipe(order.getRecipe().getItemPartRecipe(name), workbenchPosition);
 
     }
 

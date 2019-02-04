@@ -22,13 +22,11 @@ public class BaseStage extends InitableStage {
     private LocalWorldDrawer worldDrawer;
     private UIDrawer uiDrawer;
     private SpriteBatch batch;
-    private EntitySelector entitySelector;
 
     public BaseStage() {
         this.gameMvc = GameMvc.getInstance();
         worldDrawer = new LocalWorldDrawer();
         uiDrawer = new UIDrawer(gameMvc);
-        entitySelector = gameMvc.getModel().getCamera();
     }
 
     @Override
@@ -84,7 +82,7 @@ public class BaseStage extends InitableStage {
     //TODO add filters like Shift+E Ctrl+E etc
     private boolean trySelectMapEntity(int keycode) {
         if (keycode == Input.Keys.E) {
-            showMapEntityListStage(gameMvc.getModel().getCamera().getPosition());
+            showMapEntityListStage(gameMvc.getModel().get(EntitySelector.class).getPosition());
             return true;
         }
         return false;

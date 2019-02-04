@@ -7,6 +7,7 @@ import stonering.entity.local.crafting.ItemOrder;
 import stonering.entity.local.crafting.ItemPartOrder;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.items.aspects.ItemContainerAspect;
+import stonering.game.core.model.lists.ItemContainer;
 import stonering.generators.items.ItemGenerator;
 import stonering.util.global.TagLoggersEnum;
 
@@ -65,7 +66,7 @@ public class CraftItemAction extends Action {
      * @return true, if items exist or found.
      */
     private boolean updateDesiredItems() {
-        if (desiredItems.isEmpty() || !gameMvc.getModel().getItemContainer().checkItemList(desiredItems)) {
+        if (desiredItems.isEmpty() || !gameMvc.getModel().get(ItemContainer.class).checkItemList(desiredItems)) {
             return findDesiredItems();
         }
         return true;
@@ -78,14 +79,14 @@ public class CraftItemAction extends Action {
         List<Item> uncheckedItems = new ArrayList<>();
         uncheckedItems.addAll(desiredItems);
         for (ItemPartOrder part : itemOrder.getParts()) {
-            List<Item> foundItems = gameMvc.getModel().getItemContainer().getItemsAvailableBySelector(part.getSelected(), workbench.getPosition());
+            List<Item> foundItems = gameMvc.getModel().get(ItemContainer.class).getItemsAvailableBySelector(part.getSelected(), workbench.getPosition());
             if (foundItems.isEmpty()) {
                 desiredItems.clear();
                 return false;
             }
             //TODO add amount
             foundItems.removeAll(desiredItems);
-            desiredItems.addAll(gameMvc.getModel().getItemContainer().getNearestItems(foundItems, 1));
+            desiredItems.addAll(gameMvc.getModel().get(ItemContainer.class).getNearestItems(foundItems, 1));
         }
         return true;
     }

@@ -19,8 +19,8 @@ public abstract class NavigableMenu extends ButtonMenu {
     private int selectedItem = -1;
     private ArrayList<Button> buttonsList;
 
-    public NavigableMenu(GameMvc gameMvc, boolean hideable) {
-        super(gameMvc, hideable);
+    public NavigableMenu(boolean hideable) {
+        super(hideable);
     }
 
     private void createDefaultListener() {

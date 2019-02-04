@@ -1,37 +1,49 @@
 package stonering.game.core.model.lists;
 
 import stonering.enums.blocks.BlockTypesEnum;
-import stonering.game.core.model.GameContainer;
+import stonering.game.core.GameMvc;
+import stonering.game.core.model.ModelComponent;
+import stonering.game.core.model.Turnable;
 import stonering.game.core.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 import stonering.entity.local.unit.Unit;
+import stonering.util.global.Initable;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Contains all Units on localMap.
  *
  * @author Alexander Kuzyakov on 03.12.2017.
  */
-public class UnitContainer {
-    private GameContainer gameContainer;
-    private ArrayList<Unit> units;
+public class UnitContainer extends Turnable implements ModelComponent, Initable {
+    private List<Unit> units;
     private LocalMap localMap;
 
-    public UnitContainer(ArrayList<Unit> units, GameContainer gameContainer) {
+    public UnitContainer() {
+        this(new ArrayList<>());
+    }
+
+    public UnitContainer(List<Unit> units) {
         this.units = units;
-        this.gameContainer = gameContainer;
+    }
+
+    /**
+     * Inits unit's aspects.
+     */
+    public void init() {
+        localMap = GameMvc.getInstance().getModel().get(LocalMap.class);
+        units.forEach(this::placeUnit);
     }
 
     public void turn() {
         units.forEach((unit) -> unit.turn());
     }
 
-    public void placeUnits() {
-        units.forEach((unit) -> placeUnit(unit));
-    }
-
+    //TODO
     public void placeUnit(Unit unit) {
+        unit.init();
         while (true) {
             int x = localMap.getxSize() / 2;
             int y = localMap.getySize() / 2 - 15;
@@ -46,22 +58,12 @@ public class UnitContainer {
         }
     }
 
-    public ArrayList<Unit> getUnits() {
+    public void addUnit(Unit unit) {
+        units.add(unit);
+        placeUnit(unit);
+    }
+
+    public List<Unit> getUnits() {
         return units;
-    }
-
-    public void setUnits(ArrayList<Unit> units) {
-        this.units = units;
-    }
-
-    public void setLocalMap(LocalMap localMap) {
-        this.localMap = localMap;
-    }
-
-    /**
-     * Inits unit's aspects.
-     */
-    public void init() {
-        units.forEach((unit) -> unit.getAspects().values().forEach((aspect) -> aspect.init(gameContainer)));
     }
 }

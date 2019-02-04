@@ -8,11 +8,16 @@ import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.buildings.BuildingTypeMap;
 import stonering.entity.local.building.BuildingType;
 import stonering.enums.designations.DesignationTypeEnum;
-import stonering.game.core.model.GameContainer;
+import stonering.game.core.GameMvc;
+import stonering.game.core.model.MainGameModel;
+import stonering.game.core.model.ModelComponent;
+import stonering.game.core.model.Turnable;
+import stonering.game.core.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 import stonering.entity.jobs.Task;
 import stonering.entity.local.items.selectors.ItemSelector;
 import stonering.entity.local.plants.PlantBlock;
+import stonering.util.global.Initable;
 import stonering.util.global.TagLoggersEnum;
 
 import java.util.ArrayList;
@@ -27,15 +32,19 @@ import java.util.List;
  *
  * @author Alexander Kuzyakov
  */
-public class TaskContainer {
-    private GameContainer container;
+public class TaskContainer implements ModelComponent, Initable {
+    LocalMap localMap;
     private ArrayList<Task> tasks;
     private HashMap<Position, Designation> designations;
 
-    public TaskContainer(GameContainer container) {
-        this.container = container;
+    public TaskContainer() {
         tasks = new ArrayList<>();
         designations = new HashMap<>();
+    }
+
+    @Override
+    public void init() {
+        localMap = GameMvc.getInstance().getModel().get(LocalMap.class);
     }
 
     public Task getActiveTask(Position pos) {
@@ -119,7 +128,7 @@ public class TaskContainer {
                 return task;
             }
             case HARVEST: {
-                PlantBlock block = container.getLocalMap().getPlantBlock(designation.getPosition());
+                PlantBlock block = localMap.getPlantBlock(designation.getPosition());
                 if (block != null && block.getPlant().isHarvestable()) {
                     PlantHarvestAction plantHarvestAction = new PlantHarvestAction(block.getPlant());
                     Task task = new Task("designation", TaskTypesEnum.DESIGNATION, plantHarvestAction, priority);
@@ -146,7 +155,7 @@ public class TaskContainer {
     }
 
     private boolean validateDesignations(Position position, DesignationTypeEnum type) {
-        BlockTypesEnum blockOnMap = BlockTypesEnum.getType(container.getLocalMap().getBlockType(position));
+        BlockTypesEnum blockOnMap = BlockTypesEnum.getType(localMap.getBlockType(position));
         switch (type) {
             case DIG: { //makes floor
                 return BlockTypesEnum.RAMP.equals(blockOnMap) ||
@@ -162,7 +171,7 @@ public class TaskContainer {
             }
             case CHOP: {
                 //TODO designate tree as whole
-                PlantBlock block = container.getLocalMap().getPlantBlock(position);
+                PlantBlock block = localMap.getPlantBlock(position);
                 return block != null &&
                         (BlockTypesEnum.SPACE.equals(blockOnMap) || BlockTypesEnum.FLOOR.equals(blockOnMap))
                         && block.getPlant().getType().isTree();
@@ -174,7 +183,7 @@ public class TaskContainer {
                 break;
             case HARVEST:
                 //TODO add harvesting from trees
-                PlantBlock block = container.getLocalMap().getPlantBlock(position);
+                PlantBlock block = localMap.getPlantBlock(position);
                 return block != null && !block.getPlant().getType().isTree();
             case BUILD:
                 break;
@@ -193,7 +202,7 @@ public class TaskContainer {
         BuildingType buildngType = BuildingTypeMap.getInstance().getBuilding(building);
         String category = buildngType.getCategory();
         boolean result = false;
-        byte blockType = container.getLocalMap().getBlockType(pos);
+        byte blockType = localMap.getBlockType(pos);
         switch (category) {
             case "constructions": {
                 result = blockType == BlockTypesEnum.SPACE.getCode() || blockType == BlockTypesEnum.FLOOR.getCode();
@@ -228,7 +237,7 @@ public class TaskContainer {
      */
     private void addDesignation(Designation designation) {
         designations.put(designation.getPosition(), designation);
-        container.getLocalMap().setDesignatedBlockType(designation.getPosition(), designation.getType().getCode());
+        localMap.setDesignatedBlockType(designation.getPosition(), designation.getType().getCode());
     }
 
     /**
@@ -238,7 +247,7 @@ public class TaskContainer {
      */
     private void removeDesignation(Designation designation) {
         designations.remove(designation.getPosition());
-        container.getLocalMap().setDesignatedBlockType(designation.getPosition(), DesignationTypeEnum.NONE.getCode());
+        localMap.setDesignatedBlockType(designation.getPosition(), DesignationTypeEnum.NONE.getCode());
     }
 
     public void setTasks(ArrayList<Task> tasks) {

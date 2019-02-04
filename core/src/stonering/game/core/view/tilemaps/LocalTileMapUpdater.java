@@ -4,8 +4,11 @@ import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.blocks.BlocksTileMapping;
 import stonering.enums.materials.Material;
 import stonering.enums.materials.MaterialMap;
-import stonering.game.core.model.GameContainer;
+import stonering.game.core.GameMvc;
+import stonering.game.core.model.MainGameModel;
+import stonering.game.core.model.ModelComponent;
 import stonering.game.core.model.local_map.LocalMap;
+import stonering.util.global.Initable;
 
 /**
  * Updates LocalTileMap when blocks or plants on LocalMap are changed.
@@ -13,16 +16,15 @@ import stonering.game.core.model.local_map.LocalMap;
  *
  * @author Alexander Kuzyakov on 03.08.2017.
  */
-public class LocalTileMapUpdater {
-    private GameContainer container;
+public class LocalTileMapUpdater implements ModelComponent, Initable {
     private LocalMap localMap;
     private LocalTileMap localTileMap;
     private MaterialMap materialMap;
 
-    public LocalTileMapUpdater(GameContainer container) {
-        this.container = container;
-        localMap = container.getLocalMap();
-        localTileMap = container.getLocalTileMap();
+    @Override
+    public void init() {
+        localMap = GameMvc.getInstance().getModel().get(LocalMap.class);
+        localTileMap = GameMvc.getInstance().getModel().get(LocalTileMap.class);
         materialMap = MaterialMap.getInstance();
     }
 

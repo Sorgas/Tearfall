@@ -25,14 +25,14 @@ public class SimpleDesignationSequence extends DesignationSequence {
 
     private void createRectangleSelectComponent() {
         rectangleSelectComponent = new RectangleSelectComponent(event -> {
-            EntitySelector selector = gameMvc.getModel().getCamera();
+            EntitySelector selector = gameMvc.getModel().get(EntitySelector.class);
             completeDesignation(selector.getFrameStart(), selector.getPosition());
             return true;
         });
     }
 
     private void completeDesignation(Position start, Position end) {
-        TaskContainer container = gameMvc.getModel().getTaskContainer();
+        TaskContainer container = gameMvc.getModel().get(TaskContainer.class);
         for (int x = Math.min(end.getX(), start.getX()); x <= Math.max(end.getX(), start.getX()); x++) {
             for (int y = Math.min(end.getY(), start.getY()); y <= Math.max(end.getY(), start.getY()); y++) {
                 for (int z = Math.min(end.getZ(), start.getZ()); z <= Math.max(end.getZ(), start.getZ()); z++) {

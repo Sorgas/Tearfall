@@ -28,15 +28,19 @@ import java.util.HashMap;
 public abstract class ButtonMenu extends Table implements HideableComponent {
     protected GameMvc gameMvc;
     protected Toolbar toolbar;
-    protected boolean hideable = false;
+    protected boolean hideable;
 
     private HashMap<Integer, Button> buttons;
 
-    public ButtonMenu(GameMvc gameMvc, boolean hideable) {
-        this.gameMvc = gameMvc;
+    public ButtonMenu(boolean hideable) {
+        this.gameMvc = GameMvc.getInstance();
         this.hideable = hideable;
         buttons = new HashMap<>();
         this.bottom();
+    }
+
+    public ButtonMenu() {
+        this(false);
     }
 
     /**

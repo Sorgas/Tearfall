@@ -1,8 +1,6 @@
 package stonering.game.core.controller.controllers;
 
 import stonering.game.core.GameMvc;
-import stonering.game.core.model.GameContainer;
-import stonering.game.core.view.GameView;
 
 /**
  * Abstract controller for handling user input or other events.

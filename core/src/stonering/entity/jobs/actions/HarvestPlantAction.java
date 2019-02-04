@@ -6,6 +6,7 @@ import stonering.entity.local.items.selectors.ItemSelector;
 import stonering.entity.local.items.selectors.ToolWithActionItemSelector;
 import stonering.entity.local.plants.PlantBlock;
 import stonering.entity.local.unit.aspects.EquipmentAspect;
+import stonering.game.core.model.lists.ItemContainer;
 import stonering.generators.items.PlantProductGenerator;
 import stonering.util.global.TagLoggersEnum;
 
@@ -33,12 +34,12 @@ public class HarvestPlantAction extends Action {
     public void performLogic() {
         PlantBlock plantBlock = ((PlantActionTarget) actionTarget).getPlant().getBlock();
         List<Item> items = new PlantProductGenerator().generateHarvestProduct(plantBlock);
-        items.forEach(item -> gameMvc.getModel().getItemContainer().putItem(item, actionTarget.getPosition()));
+        items.forEach(item -> gameMvc.getModel().get(ItemContainer.class).putItem(item, actionTarget.getPosition()));
         TagLoggersEnum.TASKS.logDebug("harvesting plant finished at " + actionTarget.getPosition() + " by " + task.getPerformer());
     }
 
     private boolean addActionToTask() {
-        Item target = gameMvc.getModel().getItemContainer().getItemAvailableBySelector(toolItemSelector, task.getPerformer().getPosition());
+        Item target = gameMvc.getModel().get(ItemContainer.class).getItemAvailableBySelector(toolItemSelector, task.getPerformer().getPosition());
         if (target == null) return false;
         EquipItemAction equipItemAction = new EquipItemAction(target, true);
         task.addFirstPreAction(equipItemAction);

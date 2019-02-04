@@ -3,6 +3,7 @@ package stonering.game.core.view.render.stages;
 import com.badlogic.gdx.Input;
 import stonering.entity.local.building.BuildingBlock;
 import stonering.game.core.GameMvc;
+import stonering.game.core.model.local_map.LocalMap;
 import stonering.game.core.view.render.ui.lists.ObservingList;
 import stonering.util.geometry.Position;
 import stonering.util.global.TagLoggersEnum;
@@ -62,7 +63,7 @@ public class MapEntitySelectStage extends InitableStage {
         switch (activeMode) {
             case ALL:
                 //TODO add method for all categories
-                tryShowBuildingStage(gameMvc.getModel().getLocalMap().getBuildingBlock(currentPosition));
+                tryShowBuildingStage(gameMvc.getModel().get(LocalMap.class).getBuildingBlock(currentPosition));
                 break;
             case ITEMS:
                 break;
@@ -71,7 +72,7 @@ public class MapEntitySelectStage extends InitableStage {
             case PLANTS:
                 break;
             case BUILDINGS:
-                tryShowBuildingStage(gameMvc.getModel().getLocalMap().getBuildingBlock(currentPosition));
+                tryShowBuildingStage(gameMvc.getModel().get(LocalMap.class).getBuildingBlock(currentPosition));
                 break;
         }
     }

@@ -4,6 +4,7 @@ import stonering.entity.jobs.Task;
 import stonering.entity.jobs.actions.Action;
 import stonering.entity.local.Aspect;
 import stonering.entity.local.AspectHolder;
+import stonering.game.core.model.lists.TaskContainer;
 import stonering.util.geometry.Position;
 import stonering.entity.local.unit.Unit;
 import stonering.util.global.TagLoggersEnum;
@@ -119,7 +120,7 @@ public class PlanningAspect extends Aspect {
      * @return
      */
     private Task getTaskFromContainer() {
-        return gameContainer.getTaskContainer().getActiveTask(aspectHolder.getPosition());
+        return gameContainer.get(TaskContainer.class).getActiveTask(aspectHolder.getPosition());
     }
 
     /**
