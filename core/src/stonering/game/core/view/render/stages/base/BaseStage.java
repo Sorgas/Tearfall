@@ -1,12 +1,10 @@
 package stonering.game.core.view.render.stages.base;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import stonering.game.core.GameMvc;
 import stonering.game.core.model.EntitySelector;
-import stonering.game.core.view.render.stages.InitableStage;
 import stonering.game.core.view.render.stages.MapEntitySelectStage;
 import stonering.game.core.view.render.stages.UIDrawer;
 import stonering.util.geometry.Position;
@@ -17,7 +15,7 @@ import stonering.util.geometry.Position;
  *
  * @author Alexander on 09.11.2018.
  */
-public class BaseStage extends InitableStage {
+public class BaseStage extends Stage {
     private GameMvc gameMvc;
     private LocalWorldDrawer worldDrawer;
     private UIDrawer uiDrawer;
@@ -25,13 +23,11 @@ public class BaseStage extends InitableStage {
 
     public BaseStage() {
         this.gameMvc = GameMvc.getInstance();
-        worldDrawer = new LocalWorldDrawer();
-        uiDrawer = new UIDrawer(gameMvc);
+        worldDrawer = new LocalWorldDrawer(gameMvc.getModel());
+        uiDrawer = new UIDrawer();
     }
 
-    @Override
     public void init() {
-        worldDrawer.init();
         uiDrawer.init();
     }
 
@@ -46,8 +42,6 @@ public class BaseStage extends InitableStage {
         if (batch != null)
             batch.dispose();
         batch = new SpriteBatch();
-        worldDrawer.setBatch(batch);
-        worldDrawer.setScreenCenter(new Vector2(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f));
     }
 
     public void disposeBatch() {

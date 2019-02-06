@@ -34,12 +34,11 @@ public class AreaFiller {
         for (int x = center.x - 1; x < center.x + 2; x++) {
             for (int y = center.y - 1; y < center.y + 2; y++) {
                 for (int z = center.z - 1; z < center.z + 2; z++) {
-                    if (x != center.x && y != center.y && z != center.z
-                            && localMap.getPassageMap().getArea().getValue(center.x + x, center.y + y, center.z + z) != blockedArea) {
-                        Position position = new Position(center.x + x, center.y + y, center.z + z);
-                        if (localMap.hasPathBetween(center, position))
-                            neighbours.add(position);
-                    }
+                    if (x == center.x || y == center.y || z == center.z) continue; // same position
+                    Position position = new Position(center.x + x, center.y + y, center.z + z);
+                    if (!localMap.inMap(position)) continue;             // neighbour is out of map
+                    if (localMap.getPassageMap().getArea().getValue(position) == blockedArea) continue; // same area
+                    if (localMap.hasPathBetween(center, position)) neighbours.add(position);
                 }
             }
         }

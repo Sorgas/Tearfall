@@ -22,7 +22,10 @@ public class PlantMap {
         json.addClassTag("color_c", Color.class);
         json.addClassTag("tree_c", TreeType.class);
         json.addClassTag("stage_c", PlantType.PlantLifeStage.class);
+        System.out.println("loading plant types");
+        //TODO add json validation
         loadPlantTypes();
+        loadTreeTypes();
     }
 
     public static PlantMap getInstance() {
@@ -32,9 +35,14 @@ public class PlantMap {
     }
 
     private void loadPlantTypes() {
-        System.out.println("loading plant types");
-        //TODO add json validation
         ArrayList<PlantType> elements = json.fromJson(ArrayList.class, PlantType.class, FileLoader.getFile(FileLoader.PLANTS_PATH));
+        for (PlantType plantType : elements) {
+            types.put(plantType.getName(), plantType);
+        }
+    }
+
+    private void loadTreeTypes() {
+        ArrayList<PlantType> elements = json.fromJson(ArrayList.class, PlantType.class, FileLoader.getFile(FileLoader.TREES_PATH));
         for (PlantType plantType : elements) {
             types.put(plantType.getName(), plantType);
         }

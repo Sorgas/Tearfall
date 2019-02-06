@@ -1,11 +1,12 @@
 package stonering.test_chamber.view;
 
-import stonering.test_chamber.model.TestModel;
+
+import stonering.game.core.model.GameModel;
 
 public abstract class TestView {
-    private TestModel testModel;
+    private GameModel testModel;
 
-    public TestView(TestModel testModel) {
+    public TestView(GameModel testModel) {
         this.testModel = testModel;
     }
 

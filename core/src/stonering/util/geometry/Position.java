@@ -32,6 +32,14 @@ public class Position implements Serializable, Cloneable {
         this.z = Math.round(vector.z);
     }
 
+    public static Position add(Position pos1, Position pos2) {
+        return new Position(pos1.x + pos2.x, pos1.y + pos2.y, pos1.z + pos2.z);
+    }
+
+    public static Position add(Position pos1, int x, int y, int z) {
+        return new Position(pos1.x + x, pos1.y + y, pos1.z + z);
+    }
+
     public Position addVector(Vector vector) {
         Position endPoint = vector.getEndPoint();
         int xOffset = endPoint.getX() - vector.getStartPoint().getX();
@@ -77,6 +85,10 @@ public class Position implements Serializable, Cloneable {
 
     public boolean isNeighbor(Position position) {
         return getDistanse(position) < 2;
+    }
+
+    public boolean isZero() {
+        return x == 0 && y == 0 && z == 0;
     }
 
     public boolean equals(int x, int y, int z) {

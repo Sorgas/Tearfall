@@ -159,9 +159,10 @@ public class ItemContainer extends Turnable implements ModelComponent, Initable 
         return resultList;
     }
 
+    //TODO carried items have no position
     public List<Item> filterUnreachable(List<Item> items, Position pos) {
         UtilByteArray area = gameMvc.getModel().get(LocalMap.class).getPassageMap().getArea();
-        return items.stream().filter(item -> area.getValue(item.getPosition()) == area.getValue(pos)).collect(Collectors.toList());
+        return items.stream().filter(item -> item.getPosition() != null && area.getValue(item.getPosition()) == area.getValue(pos)).collect(Collectors.toList());
     }
 
     public boolean hasItemsAvailableBySelector(ItemSelector itemSelector, Position position) {
@@ -195,7 +196,7 @@ public class ItemContainer extends Turnable implements ModelComponent, Initable 
         Set<ItemSelector> itemSelectors = new HashSet<>();
         Set<Integer> allowedMaterials = MaterialMap.getInstance().getMaterialsByType(itemPartRecipe.getMaterialType());
         List<Item> materialItems = items.stream().filter(item -> item.getType().isResource() && allowedMaterials.contains(item.getMaterial())).collect(Collectors.toList());
-        materialItems = filterUnreachable(materialItems, position); // TODO caarried items has no position giving NPE
+        materialItems = filterUnreachable(materialItems, position); // TODO carried items has no position giving NPE
         for (ItemGroup itemGroup : groupItemsByTypesAndMaterials(materialItems)) {
             itemSelectors.add(createItemSelector(itemGroup));
         }

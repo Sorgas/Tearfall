@@ -46,7 +46,7 @@ public class PlantContainer implements Initable, ModelComponent {
     public void init() {
         gameMvc = GameMvc.getInstance();
         localMap = gameMvc.getModel().get(LocalMap.class);
-        plants.forEach((plant) -> place(plant));
+        plants.forEach(this::place);
     }
 
     private void place(AbstractPlant plant) {
@@ -92,7 +92,6 @@ public class PlantContainer implements Initable, ModelComponent {
                 }
             }
         }
-        plants.add(tree);
     }
 
     /**

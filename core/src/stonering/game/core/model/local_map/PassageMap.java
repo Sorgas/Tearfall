@@ -39,9 +39,7 @@ public class PassageMap {
         } else { // areas may split
             passage.setValue(x, y, z, 0);
             Set<Position> positions = hasNonPassableNear(x, y, z);
-            if (!positions.isEmpty()) {
-                splitAreas(positions, new Position(x, y, z));
-            }
+            if (!positions.isEmpty()) splitAreas(positions, new Position(x, y, z));
         }
     }
 
@@ -79,10 +77,10 @@ public class PassageMap {
     private void splitAreas(Set<Position> positions, Position center) {
         positions.remove(positions.iterator().next()); // single wall does not split areas
         positions.forEach(position -> {
-            int x = position.getX();
-            int y = position.getY();
-            Position target = new Position(x == 0 ? -y : x, y == 0 ? x : y, 0); // "counter clockwise"
-            Position target1 = new Position(x == 0 ? y : x, y == 0 ? -x : y, 0);
+            int x = position.x;
+            int y = position.y;
+            Position target = Position.add(center, x == 0 ? -y : x, y == 0 ? x : y, 0); // "counter clockwise"
+            Position target1 = Position.add(center, x == 0 ? y : x, y == 0 ? -x : y, 0);
             AStar aStar = new AStar(localMap);
             if (aStar.makeShortestPath(target, target1, true) == null) { // no path anymore, split
                 for (byte i = 0; i < Byte.MAX_VALUE; i++) {

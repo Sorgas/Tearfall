@@ -8,6 +8,7 @@ import stonering.game.core.view.render.stages.MainMenu;
 import stonering.game.core.view.render.stages.UIDrawer;
 import stonering.game.core.view.render.stages.base.BaseStage;
 import stonering.game.core.view.render.stages.base.LocalWorldDrawer;
+import stonering.screen.SimpleScreen;
 import stonering.util.global.TagLoggersEnum;
 
 import java.util.ArrayList;
@@ -16,28 +17,22 @@ import java.util.List;
 /**
  * Main game screen. Sprites with general toolbar are rendered on background,
  * additional menus are rendered in separate stages.
- * Aggregates stages/
  *
  * @author Alexander Kuzyakov on 10.06.2017.
  */
-public class GameView implements Screen {
+public class GameView extends SimpleScreen {
     private BaseStage baseStage;                // sprites and toolbar. is always rendered.
     private MainMenu mainMenu;
     private List<InitableStage> stageList;      // init called on adding.
 
-    private void createStages() {
-        stageList = new ArrayList<>();
-        baseStage = new BaseStage();
-        mainMenu = new MainMenu();
-    }
-
     /**
-     * Do bindings of components to their controllers/models.
      * TODO get rid of inits.
      */
     public void init() {
-        createStages();
+        stageList = new ArrayList<>();
+        baseStage = new BaseStage();
         baseStage.init();
+        mainMenu = new MainMenu();
         mainMenu.init();
     }
 
@@ -55,16 +50,12 @@ public class GameView implements Screen {
         getActiveStage().draw();
     }
 
-    private void initBatch() {
-        baseStage.initBatch();
-    }
-
-    public InitableStage getActiveStage() {
+    public Stage getActiveStage() {
         return stageList.isEmpty() ? baseStage : stageList.get(stageList.size() - 1);
     }
 
     /**
-     * Adds given stage to top of this screen. Updates keyBufferInputAdapter.
+     * Adds given stage to top of this screen.
      *
      * @param stage
      */
@@ -80,30 +71,11 @@ public class GameView implements Screen {
         stage.dispose();
     }
 
+    //TODO fix resize
     @Override
     public void resize(int width, int height) {
         baseStage.resize(width, height);
-        initBatch();
-    }
-
-    @Override
-    public void show() {
-
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
+        baseStage.initBatch();
     }
 
     @Override

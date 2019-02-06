@@ -20,7 +20,6 @@ import java.util.*;
  * @author Alexander Kuzyakov on 17.06.2018.
  */
 public class Toolbar extends Container {
-    private GameMvc gameMvc;
     private Table toolbarTable; // in container
     private Table menusTable;   // in first row
     private Label status;       // in second row
@@ -28,8 +27,7 @@ public class Toolbar extends Container {
 
     private List<Actor> displayedMenus; // index increases from left to right
 
-    public Toolbar(GameMvc gameMvc) {
-        this.gameMvc = gameMvc;
+    public Toolbar() {
         displayedMenus = new ArrayList<>();
     }
 

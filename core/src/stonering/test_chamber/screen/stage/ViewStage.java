@@ -4,6 +4,7 @@ import stonering.game.core.view.render.stages.base.LocalWorldDrawer;
 
 public class ViewStage {
     private LocalWorldDrawer localWorldDrawer;
+//    private
 
 
 

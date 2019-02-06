@@ -18,26 +18,23 @@ import stonering.util.geometry.Position;
  * @author Alexander Kuzyakov on 12.10.2017.
  */
 public class UIDrawer extends Stage {
-    private GameMvc gameMvc;
-    private GameModel container;
+    private GameModel gameModel;
     private MaterialMap materialMap;
 
     private Toolbar toolbar;
     private TileStatusBar tileStatusBar;
 
-    public UIDrawer(GameMvc gameMvc) {
+    public UIDrawer() {
         super();
-        this.gameMvc = gameMvc;
         materialMap = MaterialMap.getInstance();
-        toolbar = new Toolbar(gameMvc);
+        toolbar = new Toolbar();
     }
 
     public void init() {
         this.setDebugAll(true);
-        container = gameMvc.getModel();
         tileStatusBar = new TileStatusBar();
         this.addActor(new Container(tileStatusBar).bottom().left().pad(10));
-
+        gameModel = GameMvc.getInstance().getModel();
         toolbar.init();
 
         VerticalGroup rightTools = new VerticalGroup();
@@ -56,20 +53,16 @@ public class UIDrawer extends Stage {
     }
 
     private void updateStatusBar() {
-        Position focus = container.get(EntitySelector.class).getPosition();
-        Material material = materialMap.getMaterial(container.get(LocalMap.class).getMaterial(focus));
+        Position focus = gameModel.get(EntitySelector.class).getPosition();
+        Material material = materialMap.getMaterial(gameModel.get(LocalMap.class).getMaterial(focus));
         tileStatusBar.setData(focus,
                 material != null ? material.getName() : "",
-                container.get(LocalMap.class).getPassageMap().getArea().getValue(focus),
-                container.get(LocalMap.class).getFlooding(focus));
+                gameModel.get(LocalMap.class).getPassageMap().getArea().getValue(focus),
+                gameModel.get(LocalMap.class).getFlooding(focus));
     }
 
     public void resize(int width, int height) {
         this.getViewport().update(width, height, true);
-    }
-
-    public void setContainer(MainGameModel container) {
-        this.container = container;
     }
 
     public Toolbar getToolbar() {

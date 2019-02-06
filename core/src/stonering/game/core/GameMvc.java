@@ -28,8 +28,8 @@ public class GameMvc {
 
     public void init() {
         model.init();
-        view.init();
         controller.init();
+        view.init();
     }
 
     public static GameMvc getInstance() {

@@ -59,12 +59,12 @@ public class AStar {
             Node currentNode = openSet.poll();
 
             //path is complete
-            if(exactTarget) {
+            if (exactTarget) {
                 if (targetPos.equals(currentNode.getPosition())) {
                     return currentNode;
                 }
             } else {
-                if(isAdjacent(targetPos, currentNode.getPosition())) {
+                if (isAdjacent(targetPos, currentNode.getPosition())) {
                     return currentNode;
                 }
             }
@@ -117,17 +117,14 @@ public class AStar {
     private ArrayList<Node> getSuccessors(Node node, Position target) {
         ArrayList<Node> nodes = new ArrayList<>();
         final Position nodePos = node.getPosition();
-        for (int z = -1; z < 2; z++) {
-            for (int y = -1; y < 2; y++) {
-                for (int x = -1; x < 2; x++) {
-                    if (x != 0 || y != 0 || z != 0) {
-                        if (localMap.inMap(nodePos.getX() + x, nodePos.getY() + y, nodePos.getZ() + z)) {
-                            Position newPos = new Position(nodePos.getX() + x, nodePos.getY() + y, nodePos.getZ() + z);
-                            if (localMap.hasPathBetween(nodePos, newPos)) {
-                                nodes.add(new Node(newPos, target));
-                            }
-                        }
-                    }
+        Position offset = new Position(0, 0, 0);
+        for (offset.z = -1; offset.z < 2; offset.z++) {
+            for (offset.y = -1; offset.y < 2; offset.y++) {
+                for (offset.x = -1; offset.x < 2; offset.x++) {
+                    if (offset.isZero()) continue; // same pos
+                    Position newPos = Position.add(nodePos, offset);
+                    if (!localMap.inMap(newPos)) continue;
+                    if (localMap.hasPathBetween(nodePos, newPos)) nodes.add(new Node(newPos, target));
                 }
             }
         }
