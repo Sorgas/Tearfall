@@ -20,7 +20,7 @@ public class TestChamberGame extends Game {
     }
 
     private void showTestSelectScreen() {
-        if(screen == null) screen = new TestChamberScreen();
+        if(screen == null) screen = new TestChamberScreen(this);
         setScreen(screen);
     }
 

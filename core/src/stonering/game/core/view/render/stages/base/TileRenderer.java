@@ -66,9 +66,11 @@ public class TileRenderer extends Renderer {
         UnitBlock unitBlock = localMap.getUnitBlock(x, y, z);
         if (unitBlock != null)
             drawingUtil.drawSprite(drawingUtil.selectSprite(2, 0, 0), x, y, z, selector.getPosition());
-        ArrayList<Item> items = GameMvc.getInstance().getModel().get(ItemContainer.class).getItems(x, y, z);
-        if (!items.isEmpty())
-            items.forEach((item) -> drawingUtil.drawSprite(drawingUtil.selectSprite(5, item.getType().getAtlasXY()[0], item.getType().getAtlasXY()[1]), x, y, z, selector.getPosition()));
+        if(GameMvc.getInstance().getModel().get(ItemContainer.class) != null) {
+            ArrayList<Item> items = GameMvc.getInstance().getModel().get(ItemContainer.class).getItems(x, y, z);
+            if (!items.isEmpty())
+                items.forEach((item) -> drawingUtil.drawSprite(drawingUtil.selectSprite(5, item.getType().getAtlasXY()[0], item.getType().getAtlasXY()[1]), x, y, z, selector.getPosition()));
+        }
         if (localMap.getDesignatedBlockType(x, y, z) > 0)
             drawingUtil.drawSprite(drawingUtil.selectSprite(4, DesignationsTileMapping.getAtlasX(localMap.getDesignatedBlockType(x, y, z)), 0), x, y, z, selector.getPosition());
         drawingUtil.resetColor();

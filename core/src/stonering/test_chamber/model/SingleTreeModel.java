@@ -5,9 +5,11 @@ import stonering.entity.local.plants.Tree;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.materials.MaterialMap;
 import stonering.exceptions.DescriptionNotFoundException;
+import stonering.game.core.model.EntitySelector;
 import stonering.game.core.model.GameModel;
 import stonering.game.core.model.local_map.LocalMap;
 import stonering.game.core.model.lists.PlantContainer;
+import stonering.game.core.view.tilemaps.LocalTileMap;
 import stonering.generators.plants.TreesGenerator;
 import stonering.util.geometry.Position;
 
@@ -28,6 +30,8 @@ public class SingleTreeModel extends GameModel {
     public void reset() {
         put(createMap());
         put(new PlantContainer(createTree()));
+        put(new LocalTileMap(get(LocalMap.class)));
+        put(new EntitySelector());
     }
 
     private LocalMap createMap() {
@@ -36,7 +40,8 @@ public class SingleTreeModel extends GameModel {
         for (int x = 0; x < MAP_SIZE; x++) {
             for (int y = 0; y < MAP_SIZE; y++) {
                 localMap.setBlock(x, y, 0, BlockTypesEnum.WALL, materialMap.getId("soil"));
-                localMap.setBlock(x, y, 1, BlockTypesEnum.FLOOR, materialMap.getId("soil"));
+                localMap.setBlock(x, y, 1, BlockTypesEnum.WALL, materialMap.getId("soil"));
+                localMap.setBlock(x, y, 2, BlockTypesEnum.FLOOR, materialMap.getId("soil"));
             }
         }
         return localMap;
@@ -47,7 +52,7 @@ public class SingleTreeModel extends GameModel {
         try {
             TreesGenerator treesGenerator = new TreesGenerator();
             Tree tree = treesGenerator.generateTree("willow", 0);
-            tree.setPosition(new Position(TREE_CENTER, TREE_CENTER, 1));
+            tree.setPosition(new Position(TREE_CENTER, TREE_CENTER, 2));
             plants.add(tree);
         } catch (DescriptionNotFoundException e) {
             e.printStackTrace();

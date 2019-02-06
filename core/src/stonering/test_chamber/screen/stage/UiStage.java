@@ -7,8 +7,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import stonering.game.core.GameMvc;
 import stonering.game.core.model.GameModel;
 import stonering.game.core.view.render.ui.lists.ListSelectBox;
+import stonering.test_chamber.TestChamberGame;
 import stonering.test_chamber.model.SingleTreeModel;
 import stonering.util.global.StaticSkin;
 
@@ -16,10 +18,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UiStage extends Stage {
-    private ViewStage modelStage;
+    private TestChamberGame testChamberGame;
     private ListSelectBox<GameModel> selectBox;
 
-    public UiStage() {
+    public UiStage(TestChamberGame testChamberGame) {
+        this.testChamberGame = testChamberGame;
         createStage();
     }
 
@@ -44,7 +47,9 @@ public class UiStage extends Stage {
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println(selectBox.getSelected().toString());
                 super.clicked(event, x, y);
-//                modelStage.
+                GameMvc.createInstance(selectBox.getSelected());
+                GameMvc.getInstance().init();
+                testChamberGame.setScreen(GameMvc.getInstance().getView());
             }
         });
         table.add(new TextButton("asd", StaticSkin.getSkin()));
