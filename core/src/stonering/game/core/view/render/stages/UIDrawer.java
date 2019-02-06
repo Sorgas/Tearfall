@@ -1,11 +1,13 @@
 package stonering.game.core.view.render.stages;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import stonering.enums.materials.Material;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.core.GameMvc;
 import stonering.game.core.model.EntitySelector;
+import stonering.game.core.model.GameModel;
 import stonering.game.core.model.MainGameModel;
 import stonering.game.core.model.local_map.LocalMap;
 import stonering.game.core.view.render.ui.TileStatusBar;
@@ -17,7 +19,7 @@ import stonering.util.geometry.Position;
  */
 public class UIDrawer extends Stage {
     private GameMvc gameMvc;
-    private MainGameModel container;
+    private GameModel container;
     private MaterialMap materialMap;
 
     private Toolbar toolbar;

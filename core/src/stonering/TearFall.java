@@ -30,8 +30,6 @@ public class TearFall extends Game {
     private PrepareExpeditionMenu prepareExpeditionMenuMvc;
     private LocalGenerationScreen localGenerationScreen;
 
-    private GameMvc gameMvc;
-
     private BitmapFont font;
     private Skin skin;
 
@@ -77,9 +75,8 @@ public class TearFall extends Game {
         setScreen(localGenerationScreen);
     }
 
-    public void switchToGame(LocalGenContainer container) {
-        gameMvc = GameMvc.createInstance(container);
-        setScreen(gameMvc.getView());
+    public void switchToGame() {
+        setScreen(GameMvc.getInstance().getView());
     }
 
     private void createFont() {

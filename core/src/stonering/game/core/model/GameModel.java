@@ -1,6 +1,8 @@
 package stonering.game.core.model;
 
+import com.badlogic.gdx.utils.Timer;
 import stonering.util.global.Initable;
+import stonering.util.global.TagLoggersEnum;
 
 import java.util.HashMap;
 
@@ -12,6 +14,8 @@ import java.util.HashMap;
  */
 public abstract class GameModel implements Initable {
     private HashMap<Class, ModelComponent> components;
+    private Timer timer;                 //makes turns for entity containers and calendar.
+    private boolean paused;
 
     public GameModel() {
         components = new HashMap<>();
@@ -36,6 +40,9 @@ public abstract class GameModel implements Initable {
 
             }
         });
+        timer = new Timer();
+        paused = false;
+        startContainer();
     }
 
     /**
@@ -47,5 +54,29 @@ public abstract class GameModel implements Initable {
                 ((Turnable) components.get(aClass)).turn();
             }
         });
+    }
+
+    private void startContainer() {
+        timer.scheduleTask(new Timer.Task() {
+            @Override
+            public void run() {
+                turn();
+            }
+        }, 0, 1f / 60);
+    }
+
+    public boolean isPaused() {
+        return paused;
+    }
+
+    public void setPaused(boolean paused) {
+        TagLoggersEnum.GENERAL.logDebug("Game paused set to " + paused);
+        if (paused) {
+            timer.stop();
+            this.paused = true;
+        } else {
+            timer.start();
+            this.paused = false;
+        }
     }
 }

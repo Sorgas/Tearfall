@@ -22,17 +22,14 @@ import stonering.util.global.TagLoggersEnum;
  * @author Alexander Kuzyakov on 10.06.2017.
  */
 public class MainGameModel extends GameModel {
-    private Timer timer;                 //makes turns for entity containers and calendar.
-    private boolean paused;
+
 
     @Override
     public void init() {
         super.init();
         get(LocalTileMapUpdater.class).flushLocalMap();
-        timer = new Timer();
-        paused = false;
         get(GameCalendar.class).addListener("minute", get(World.class).getStarSystem());
-        startContainer();
+
     }
 
     /**
@@ -54,29 +51,5 @@ public class MainGameModel extends GameModel {
         put(new LiquidContainer().loadWater(container));
         put(new GameCalendar());            // slow game entities make turns through this.
         put(new EntitySelector());          // local map camera
-    }
-
-    private void startContainer() {
-        timer.scheduleTask(new Timer.Task() {
-            @Override
-            public void run() {
-                turn();
-            }
-        }, 0, 1f / 60);
-    }
-
-    public boolean isPaused() {
-        return paused;
-    }
-
-    public void setPaused(boolean paused) {
-        TagLoggersEnum.GENERAL.logDebug("Game paused set to " + paused);
-        if (paused) {
-            timer.stop();
-            this.paused = true;
-        } else {
-            timer.start();
-            this.paused = false;
-        }
     }
 }

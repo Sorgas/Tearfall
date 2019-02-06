@@ -11,6 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import stonering.TearFall;
 import stonering.entity.world.World;
+import stonering.game.core.GameMvc;
+import stonering.game.core.model.MainGameModel;
 import stonering.generators.localgen.LocalGenConfig;
 import stonering.generators.localgen.LocalGeneratorContainer;
 import stonering.game.core.model.local_map.LocalMap;
@@ -60,7 +62,11 @@ public class LocalGenerationScreen extends SimpleScreen {
         proceedButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.switchToGame(getLocalGeneratorContainer().getLocalGenContainer());
+                MainGameModel mainGameModel = new MainGameModel();
+                mainGameModel.loadFromContainer(getLocalGeneratorContainer().getLocalGenContainer());
+                GameMvc.createInstance(mainGameModel);
+                GameMvc.getInstance().init();
+                game.switchToGame();
             }
         });
         menuTable.add(proceedButton).pad(0);

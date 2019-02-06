@@ -1,7 +1,7 @@
 package stonering.entity.local.unit.aspects.needs;
 
 import stonering.entity.jobs.actions.EquipItemAction;
-import stonering.game.core.model.MainGameModel;
+import stonering.game.core.model.GameModel;
 import stonering.entity.jobs.Task;
 import stonering.entity.jobs.actions.TaskTypesEnum;
 import stonering.entity.local.AspectHolder;
@@ -54,7 +54,7 @@ public class WearNeed extends Need {
         return null;
     }
 
-    private Task tryCreateEquipTask(AspectHolder aspectHolder, MainGameModel container, EquipmentAspect.EquipmentSlot equipmentSlot) {
+    private Task tryCreateEquipTask(AspectHolder aspectHolder, GameModel container, EquipmentAspect.EquipmentSlot equipmentSlot) {
         ItemSelector itemSelector = createItemSelectorForLimb(equipmentSlot.limbName);
         Item item = container.get(ItemContainer.class).getItemAvailableBySelector(itemSelector, aspectHolder.getPosition());
         Task task = null;

@@ -1,13 +1,13 @@
 package stonering.game.core.view;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import stonering.game.core.GameMvc;
+import stonering.game.core.view.render.stages.InitableStage;
+import stonering.game.core.view.render.stages.MainMenu;
+import stonering.game.core.view.render.stages.UIDrawer;
 import stonering.game.core.view.render.stages.base.BaseStage;
 import stonering.game.core.view.render.stages.base.LocalWorldDrawer;
-import stonering.game.core.view.render.stages.*;
 import stonering.util.global.TagLoggersEnum;
 
 import java.util.ArrayList;
@@ -21,7 +21,6 @@ import java.util.List;
  * @author Alexander Kuzyakov on 10.06.2017.
  */
 public class GameView implements Screen {
-    private GameMvc gameMvc;
     private BaseStage baseStage;                // sprites and toolbar. is always rendered.
     private MainMenu mainMenu;
     private List<InitableStage> stageList;      // init called on adding.
@@ -37,7 +36,6 @@ public class GameView implements Screen {
      * TODO get rid of inits.
      */
     public void init() {
-        gameMvc = GameMvc.getInstance();
         createStages();
         baseStage.init();
         mainMenu.init();

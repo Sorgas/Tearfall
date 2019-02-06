@@ -1,6 +1,5 @@
 package stonering.test_chamber.screen.stage;
 
-import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
@@ -53,7 +52,7 @@ public class UiStage extends Stage {
 
     private List<TestModel> fillModels() {
         List<TestModel> testModels = new ArrayList<>();
-        testModels.add(new SingleTreeModel());
+//        testModels.add(new SingleTreeModel());
         return testModels;
     }
 

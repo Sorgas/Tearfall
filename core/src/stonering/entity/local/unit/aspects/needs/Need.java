@@ -1,7 +1,7 @@
 package stonering.entity.local.unit.aspects.needs;
 
 import stonering.game.core.GameMvc;
-import stonering.game.core.model.MainGameModel;
+import stonering.game.core.model.GameModel;
 import stonering.entity.jobs.Task;
 import stonering.entity.local.AspectHolder;
 
@@ -13,7 +13,7 @@ import stonering.entity.local.AspectHolder;
  */
 public abstract class Need {
     protected AspectHolder aspectHolder;
-    protected MainGameModel container;
+    protected GameModel container;
     protected float priorityMod;
 
     public Need() {

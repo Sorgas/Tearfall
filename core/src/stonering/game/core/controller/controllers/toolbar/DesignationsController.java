@@ -2,7 +2,6 @@ package stonering.game.core.controller.controllers.toolbar;
 
 import stonering.game.core.controller.controllers.Controller;
 import stonering.game.core.controller.controllers.designation.DesignationSequence;
-import stonering.game.core.model.MainGameModel;
 import stonering.game.core.view.GameView;
 
 /**
@@ -15,7 +14,6 @@ import stonering.game.core.view.GameView;
  * @author Alexander Kuzyakov on 24.12.2017.
  */
 public class DesignationsController extends Controller {
-    private MainGameModel container;
     private GameView view;
 
     //private DesignationTypeEnum activeDesignation;
@@ -23,7 +21,6 @@ public class DesignationsController extends Controller {
 
     public void init() {
         super.init();
-        container = gameMvc.getModel();
         view = gameMvc.getView();
     }
 
