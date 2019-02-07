@@ -27,7 +27,6 @@ public class MainGameModel extends GameModel {
         super.init();
         get(LocalTileMapUpdater.class).flushLocalMap();
         get(GameCalendar.class).addListener("minute", get(World.class).getStarSystem());
-
     }
 
     /**

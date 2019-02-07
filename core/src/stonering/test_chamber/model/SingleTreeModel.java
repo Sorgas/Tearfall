@@ -1,7 +1,12 @@
 package stonering.test_chamber.model;
 
+import stonering.entity.local.environment.CelestialBody;
+import stonering.entity.local.environment.GameCalendar;
+import stonering.entity.local.environment.aspects.CelestialCycleAspect;
+import stonering.entity.local.environment.aspects.CelestialLightSource;
 import stonering.entity.local.plants.AbstractPlant;
 import stonering.entity.local.plants.Tree;
+import stonering.entity.world.World;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.materials.MaterialMap;
 import stonering.exceptions.DescriptionNotFoundException;
@@ -10,6 +15,7 @@ import stonering.game.core.model.GameModel;
 import stonering.game.core.model.local_map.LocalMap;
 import stonering.game.core.model.lists.PlantContainer;
 import stonering.game.core.view.tilemaps.LocalTileMap;
+import stonering.game.core.view.tilemaps.LocalTileMapUpdater;
 import stonering.generators.plants.TreesGenerator;
 import stonering.util.geometry.Position;
 
@@ -24,14 +30,24 @@ public class SingleTreeModel extends GameModel {
         reset();
     }
 
+    @Override
+    public void init() {
+        super.init();
+        get(LocalTileMapUpdater.class).flushLocalMap();
+        get(GameCalendar.class).addListener("minute", get(World.class).getStarSystem());
+    }
+
     /**
      * Recreates model.
      */
     public void reset() {
+        put(createWorld());
         put(createMap());
         put(new PlantContainer(createTree()));
         put(new LocalTileMap(get(LocalMap.class)));
+        put(new LocalTileMapUpdater());
         put(new EntitySelector());
+        put(new GameCalendar());
     }
 
     private LocalMap createMap() {
@@ -58,5 +74,15 @@ public class SingleTreeModel extends GameModel {
             e.printStackTrace();
         }
         return plants;
+    }
+
+    private World createWorld() {
+        World world = new World(1,1);
+        CelestialBody sun = new CelestialBody();
+        sun.addAspect(new CelestialLightSource(sun));
+        float dayScale = 0.01f;
+        sun.addAspect(new CelestialCycleAspect(dayScale, dayScale, sun));
+        world.getStarSystem().getCelestialBodies().add(sun);
+        return world;
     }
 }

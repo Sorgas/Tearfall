@@ -3,7 +3,6 @@ package stonering.entity.local.environment;
 import stonering.game.core.model.IntervalTurnable;
 import stonering.game.core.model.ModelComponent;
 import stonering.game.core.model.Turnable;
-import stonering.game.core.view.render.ui.menus.util.Invokable;
 import stonering.util.global.Initable;
 
 import java.util.*;

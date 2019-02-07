@@ -32,7 +32,6 @@ public class LocalGenContainer {
     private ArrayList<Item> items;
     private ArrayList<Position> waterSources;
     private ArrayList<Position> waterTiles;
-    private ArrayList<CelestialBody> selestialBodies;
 
     public LocalGenContainer(LocalGenConfig config, World world) {
         this.config = config;
@@ -51,7 +50,6 @@ public class LocalGenContainer {
         plants = new ArrayList<>();
         waterTiles = new ArrayList<>();
         waterSources = new ArrayList<>();
-        selestialBodies = new ArrayList<>();
         monthlyTemperatures = new float[12];
     }
 
