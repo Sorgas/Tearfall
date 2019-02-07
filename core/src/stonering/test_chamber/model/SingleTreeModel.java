@@ -85,4 +85,9 @@ public class SingleTreeModel extends GameModel {
         world.getStarSystem().getCelestialBodies().add(sun);
         return world;
     }
+
+    @Override
+    public String toString() {
+        return "SingleTreeModel";
+    }
 }

@@ -1,25 +1,23 @@
 package stonering.test_chamber.screen.stage;
 
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import stonering.game.core.GameMvc;
 import stonering.game.core.model.GameModel;
-import stonering.game.core.view.render.ui.lists.ListSelectBox;
+import stonering.game.core.view.render.ui.lists.PlaceHolderSelectBox;
 import stonering.test_chamber.TestChamberGame;
 import stonering.test_chamber.model.SingleTreeModel;
-import stonering.util.global.StaticSkin;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class UiStage extends Stage {
     private TestChamberGame testChamberGame;
-    private ListSelectBox<GameModel> selectBox;
+    private PlaceHolderSelectBox<GameModel> selectBox;
 
     public UiStage(TestChamberGame testChamberGame) {
         this.testChamberGame = testChamberGame;
@@ -40,19 +38,22 @@ public class UiStage extends Stage {
         table.defaults().pad(10);
         table.setWidth(300);
         table.setHeight(300);
-        table.add(selectBox = new ListSelectBox<>(StaticSkin.getSkin())).row();
-        selectBox.setItems(fillModels());
-        selectBox.addListener(new ClickListener() {
+        table.add(selectBox = new PlaceHolderSelectBox<>(new GameModel() {
             @Override
-            public void clicked(InputEvent event, float x, float y) {
+            public String toString() {
+                return "Select Model";
+            }
+        })).row();
+        selectBox.setItems(fillModels());
+        selectBox.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
                 System.out.println(selectBox.getSelected().toString());
-                super.clicked(event, x, y);
                 GameMvc.createInstance(selectBox.getSelected());
                 GameMvc.getInstance().init();
                 testChamberGame.setScreen(GameMvc.getInstance().getView());
             }
         });
-        table.add(new TextButton("asd", StaticSkin.getSkin()));
         return table;
     }
 

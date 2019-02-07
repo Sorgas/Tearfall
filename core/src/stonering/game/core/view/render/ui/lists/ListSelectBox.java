@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import java.util.List;
 
 /**
- * {@link com.badlogic.gdx.scenes.scene2d.ui.SelectBox} extention that can accept {@link java.util.List}.
+ * {@link SelectBox} extention that can accept {@link List}.
  */
 public class ListSelectBox<T> extends SelectBox<T> {
 

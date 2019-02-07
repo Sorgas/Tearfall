@@ -1,6 +1,9 @@
 package stonering.game.core.view.render.ui.lists;
 
 import com.badlogic.gdx.utils.Array;
+import stonering.util.global.CompatibleArray;
+
+import java.util.List;
 
 /**
  * SelectBox that shows its placeholder before any selection made.
@@ -12,6 +15,7 @@ public class PlaceHolderSelectBox<T> extends NavigableSelectBox<T> {
     public PlaceHolderSelectBox(T placeHolder) {
         super();
         this.placeHolder = placeHolder;
+        setItems();
     }
 
     /**
@@ -31,6 +35,11 @@ public class PlaceHolderSelectBox<T> extends NavigableSelectBox<T> {
     @Override
     public void setItems(Array<T> newItems) {
         addItemsWithPlaceHolder(new Array<>(newItems));
+    }
+
+    @Override
+    public void setItems(List<T> items) {
+        addItemsWithPlaceHolder(new CompatibleArray<T>(items));
     }
 
     /**

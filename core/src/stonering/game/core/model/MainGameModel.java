@@ -21,7 +21,6 @@ import stonering.entity.local.environment.GameCalendar;
  */
 public class MainGameModel extends GameModel {
 
-
     @Override
     public void init() {
         super.init();
