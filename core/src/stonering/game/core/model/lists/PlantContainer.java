@@ -76,9 +76,10 @@ public class PlantContainer implements Initable, ModelComponent {
     public void placeTree(Tree tree) {
         TreeType treeType = tree.getType().getTreeType();
         PlantBlock[][][] treeParts = tree.getBlocks();
-        Position vector = new Position(tree.getPosition().getX() - treeType.getTreeRadius(),
-                tree.getPosition().getY() - treeType.getTreeRadius(),
-                tree.getPosition().getZ() - treeType.getRootDepth()); // position of 0,0,0 tree part on map
+        Position treePosition = tree.getPosition(); // position of tree stomp
+        Position vector = new Position(treePosition.x - treeType.getTreeRadius(),
+                treePosition.y - treeType.getTreeRadius(),
+                treePosition.z - treeType.getRootDepth()); // position of 0,0,0 tree part on map
         for (int x = 0; x < treeParts.length; x++) {
             for (int y = 0; y < treeParts[x].length; y++) {
                 for (int z = 0; z < treeParts[x][y].length; z++) {

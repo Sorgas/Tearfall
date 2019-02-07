@@ -3,6 +3,9 @@ package stonering.entity.local.plants;
 import stonering.enums.plants.PlantType;
 import stonering.util.geometry.Position;
 
+/**
+ * Parent class for single and multi tile plants.
+ */
 public abstract class AbstractPlant {
     protected PlantType type;
     protected int age;

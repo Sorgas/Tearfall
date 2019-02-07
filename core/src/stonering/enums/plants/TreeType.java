@@ -12,14 +12,13 @@ public class TreeType {
     private int height;
     private int rootDepth;
     private int rootRadius;
-    private int treeRadius;
 
     public Position getStompPosition() {
         return new Position(crownRadius, crownRadius, rootDepth);
     }
 
     public int getTreeRadius() {
-        return treeRadius;
+        return Math.max(crownRadius, rootRadius);
     }
 
     public String getSpecimen() {
@@ -44,7 +43,6 @@ public class TreeType {
 
     public void setCrownRadius(int crownRadius) {
         this.crownRadius = crownRadius;
-        treeRadius = crownRadius > rootRadius ? crownRadius : rootRadius;
     }
 
     public int getHeight() {
@@ -69,6 +67,5 @@ public class TreeType {
 
     public void setRootRadius(int rootRadius) {
         this.rootRadius = rootRadius;
-        treeRadius = crownRadius > rootRadius ? crownRadius : rootRadius;
     }
 }
