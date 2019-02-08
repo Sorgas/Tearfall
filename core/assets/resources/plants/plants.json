@@ -94,5 +94,42 @@
             "color": "0xffffffff"
         }
     ]
-}
+},
+    {
+        "name": "puffball_mushroom",
+        "title": "Puffball mushroom",
+        "description": "Edible mushroom  ",
+        "temperatureBounds": ["-40", "40", "-40", "40"],
+        "rainfallBounds": ["0", "100"],
+        "waterSource": ["far"],
+        "lightNeed": ["low", "underground"],
+        "soilType": "soil",
+        "treeType": null,
+        "lifeStages": [
+            {
+                "stageLength": "1",
+                "harvestProducts": null,
+                "cutProducts": null,
+                "materialName": "willow",
+                "atlasXY": ["5", "0"],
+                "color": "0xffffffff"
+            },
+            {
+                "stageLength": "1",
+                "harvestProducts": null,
+                "cutProducts": null,
+                "materialName": "willow",
+                "atlasXY": ["0", "0"],
+                "color": "0xffffffff"
+            },
+            {
+                "stageLength": "1",
+                "harvestProducts": null,
+                "cutProducts": null,
+                "materialName": "willow",
+                "atlasXY": ["0", "0"],
+                "color": "0xffffffff"
+            }
+        ]
+    }
 ]
