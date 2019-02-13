@@ -13,13 +13,18 @@ import java.util.*;
  * @author Alexander on 07.10.2018.
  */
 public class GameCalendar extends Turnable implements ModelComponent, Initable {
-    private HashMap<String, List<IntervalTurnable>> listeners;
-    private static int MINUTE_SIZE = 60;
-    private static int HOUR_SIZE = 60;
-    private static int DAY_SIZE = 24;
-    private static int MONTH_SIZE = 30;
-    private static int YEAR_SIZE = 12;
+    public static int MINUTE_SIZE = 60;
+    public static int HOUR_SIZE = 60;
+    public static int DAY_SIZE = 24;
+    public static int MONTH_SIZE = 30;
+    public static int YEAR_SIZE = 12;
+    public static final String MINUTE = "minute";
+    public static final String HOUR = "hour";
+    public static final String DAY = "day";
+    public static final String MONTH = "month";
+    public static final String YEAR = "year";
 
+    private HashMap<String, List<IntervalTurnable>> listeners;
     private int time;
     private int minute;
     private int hour;
@@ -30,11 +35,11 @@ public class GameCalendar extends Turnable implements ModelComponent, Initable {
     public GameCalendar() {
         listeners = new HashMap<>();
         ArrayList<IntervalTurnable> mock = new ArrayList<>(Collections.singleton(new MockTurnable()));
-        listeners.put("minute", mock);
-        listeners.put("hour", mock);
-        listeners.put("day", mock);
-        listeners.put("month", mock);
-        listeners.put("year", mock);
+        listeners.put(MINUTE, mock);
+        listeners.put(HOUR, mock);
+        listeners.put(DAY, mock);
+        listeners.put(MONTH, mock);
+        listeners.put(YEAR, mock);
     }
 
     @Override
@@ -51,22 +56,22 @@ public class GameCalendar extends Turnable implements ModelComponent, Initable {
         if (time >= MINUTE_SIZE) {
             time = 0;
             minute++;
-            listeners.get("minute").forEach(IntervalTurnable::turnMinute);
+            listeners.get(MINUTE).forEach(IntervalTurnable::turnMinute);
             if (minute >= HOUR_SIZE) {
                 minute = 0;
                 hour++;
-                listeners.get("hour").forEach(IntervalTurnable::turnHour);
+                listeners.get(HOUR).forEach(IntervalTurnable::turnHour);
                 if (hour >= DAY_SIZE) {
                     hour = 0;
                     day++;
-                    listeners.get("day").forEach(IntervalTurnable::turnDay);
+                    listeners.get(DAY).forEach(IntervalTurnable::turnDay);
                     if (day >= MONTH_SIZE) {
                         day = 0;
                         month++;
-                        listeners.get("month").forEach(IntervalTurnable::turnMonth);
+                        listeners.get(MONTH).forEach(IntervalTurnable::turnMonth);
                         if (month >= YEAR_SIZE) {
                             year++;
-                            listeners.get("year").forEach(IntervalTurnable::turnYear);
+                            listeners.get(YEAR).forEach(IntervalTurnable::turnYear);
                         }
                     }
                 }

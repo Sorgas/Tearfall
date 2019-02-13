@@ -3,8 +3,7 @@ package stonering.entity.local.plants;
 import stonering.util.geometry.Position;
 
 /**
- * Represents plant
- * <p>
+ * Represents single-tile plant.
  *
  * @author Alexander Kuzyakov on 19.10.2017.
  */

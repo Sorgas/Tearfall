@@ -1,11 +1,13 @@
 package stonering.enums.plants;
 
+import stonering.util.global.Initable;
+
 import java.util.ArrayList;
 
 /**
  * Stores plant parameters
  */
-public class PlantType {
+public class PlantType implements Initable {
     private String name;
     private String title;
 
@@ -22,9 +24,22 @@ public class PlantType {
         rainfallBounds = new int[2];
     }
 
+    /**
+     * Recounts life stages bounds.
+     */
+    @Override
+    public void init() {
+        int totalAge = 0;
+        for (PlantLifeStage lifeStage : lifeStages) {
+            totalAge += lifeStage.stageLength;
+            lifeStage.stageEnd = totalAge;
+        }
+    }
+
     public static class PlantLifeStage {
         private String[] titlePrefixSuffix;
         private int stageLength;
+        private int stageEnd;
         private ArrayList<String> harvestProducts;
         private ArrayList<String> cutProducts;
         private String materialName;
@@ -94,6 +109,10 @@ public class PlantType {
 
         public void setTreeType(TreeType treeType) {
             this.treeType = treeType;
+        }
+
+        public int getStageEnd() {
+            return stageEnd;
         }
     }
 

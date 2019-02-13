@@ -6,7 +6,7 @@ import stonering.enums.OrientationEnum;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.plants.TreeType;
 import stonering.game.core.GameMvc;
-import stonering.game.core.model.MainGameModel;
+import stonering.game.core.model.IntervalTurnable;
 import stonering.game.core.model.ModelComponent;
 import stonering.game.core.model.local_map.LocalMap;
 import stonering.generators.items.PlantProductGenerator;
@@ -28,7 +28,7 @@ import java.util.List;
  *
  * @author Alexander Kuzyakov on 09.11.2017.
  */
-public class PlantContainer implements Initable, ModelComponent {
+public class PlantContainer extends IntervalTurnable implements Initable, ModelComponent {
     private GameMvc gameMvc;
     private List<AbstractPlant> plants;
     private LocalMap localMap;
@@ -47,6 +47,11 @@ public class PlantContainer implements Initable, ModelComponent {
         gameMvc = GameMvc.getInstance();
         localMap = gameMvc.getModel().get(LocalMap.class);
         plants.forEach(this::place);
+    }
+
+    @Override
+    public void turn() {
+        plants.forEach(abstractPlant -> abstractPlant.turn());
     }
 
     private void place(AbstractPlant plant) {
@@ -195,10 +200,6 @@ public class PlantContainer implements Initable, ModelComponent {
 
     private void checkTree(Tree tree, Position deletedPart) {
 
-    }
-
-    public void turn() {
-        plants.forEach(abstractPlant -> turn());
     }
 
     public List<AbstractPlant> getPlants() {

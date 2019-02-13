@@ -25,7 +25,8 @@ public class MainGameModel extends GameModel {
     public void init() {
         super.init();
         get(LocalTileMapUpdater.class).flushLocalMap();
-        get(GameCalendar.class).addListener("minute", get(World.class).getStarSystem());
+        get(GameCalendar.class).addListener(GameCalendar.MINUTE, get(World.class).getStarSystem());
+        get(GameCalendar.class).addListener(GameCalendar.MINUTE, get(PlantContainer.class));
     }
 
     /**
