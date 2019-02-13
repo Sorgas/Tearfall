@@ -16,7 +16,7 @@ import stonering.game.core.model.local_map.LocalMap;
 import stonering.game.core.model.lists.PlantContainer;
 import stonering.game.core.view.tilemaps.LocalTileMap;
 import stonering.game.core.view.tilemaps.LocalTileMapUpdater;
-import stonering.generators.plants.TreesGenerator;
+import stonering.generators.plants.TreeGenerator;
 import stonering.util.geometry.Position;
 
 import java.util.ArrayList;
@@ -65,14 +65,10 @@ public class SingleTreeModel extends GameModel {
 
     private List<AbstractPlant> createTree() {
         List<AbstractPlant> plants = new ArrayList<>();
-        try {
-            TreesGenerator treesGenerator = new TreesGenerator();
-            Tree tree = treesGenerator.generateTree("willow", 0);
-            tree.setPosition(new Position(TREE_CENTER, TREE_CENTER, 2));
-            plants.add(tree);
-        } catch (DescriptionNotFoundException e) {
-            e.printStackTrace();
-        }
+        TreeGenerator treeGenerator = new TreeGenerator();
+        Tree tree = treeGenerator.generateTree("willow", 0);
+        tree.setPosition(new Position(TREE_CENTER, TREE_CENTER, 2));
+        plants.add(tree);
         return plants;
     }
 

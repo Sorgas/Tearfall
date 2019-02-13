@@ -11,7 +11,7 @@ import stonering.generators.PerlinNoiseGenerator;
 import stonering.generators.localgen.LocalGenConfig;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.generators.plants.PlantGenerator;
-import stonering.generators.plants.TreesGenerator;
+import stonering.generators.plants.TreeGenerator;
 import stonering.util.geometry.Position;
 import stonering.entity.local.plants.Plant;
 import stonering.entity.local.plants.PlantBlock;
@@ -94,26 +94,22 @@ public class LocalFloraGenerator {
      * @param amount   relative amount
      */
     private void placeTrees(String specimen, float amount) {
-        try {
-            float[][] forestArea = noiseGenerator.generateOctavedSimplexNoise(areaSize, areaSize, 6, 0.5f, 0.015f);
-            int tries = 200;
-            Random random = new Random();
-            TreesGenerator treesGenerator = new TreesGenerator();
-            Tree tree = treesGenerator.generateTree(specimen, 1);
-            while (amount > 0 && tries > 0) {
-                int x = random.nextInt(areaSize);
-                int y = random.nextInt(areaSize);
-                int z = container.getRoundedHeightsMap()[x][y] + 1;
-                if (forestArea[x][y] > 0 && checkTreePlacing(tree, x, y, z)) {
-                    placeTree(tree, x, y, z);
-                    tree.setPosition(new Position(x, y, z));
-                    tree = treesGenerator.generateTree(specimen, 1);
-                    amount--;
-                }
-                tries--;
+        float[][] forestArea = noiseGenerator.generateOctavedSimplexNoise(areaSize, areaSize, 6, 0.5f, 0.015f);
+        int tries = 200;
+        Random random = new Random();
+        TreeGenerator treeGenerator = new TreeGenerator();
+        Tree tree = treeGenerator.generateTree(specimen, 1);
+        while (amount > 0 && tries > 0) {
+            int x = random.nextInt(areaSize);
+            int y = random.nextInt(areaSize);
+            int z = container.getRoundedHeightsMap()[x][y] + 1;
+            if (forestArea[x][y] > 0 && checkTreePlacing(tree, x, y, z)) {
+                placeTree(tree, x, y, z);
+                tree.setPosition(new Position(x, y, z));
+                tree = treeGenerator.generateTree(specimen, 1);
+                amount--;
             }
-        } catch (DescriptionNotFoundException e) {
-            e.printStackTrace();
+            tries--;
         }
     }
 

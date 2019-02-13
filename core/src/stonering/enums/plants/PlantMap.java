@@ -48,8 +48,8 @@ public class PlantMap {
         }
     }
 
-    public PlantType getPlantType(String speciment) {
-        return types.get(speciment);
+    public PlantType getPlantType(String specimen) {
+        return types.get(specimen);
     }
 
     public Collection<PlantType> getAllTypes() {

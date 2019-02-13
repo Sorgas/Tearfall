@@ -14,8 +14,7 @@ public class PlantBlock {
     private Position position; // position on map
     private int material;
     private int blockType;
-    private int atlasX; //TODO change to array
-    private int atlasY;
+    private int[] atlasXY;
     private ArrayList<String> harvestProducts;
     private ArrayList<String> cutProducts;
 
@@ -42,20 +41,12 @@ public class PlantBlock {
         this.blockType = blockType;
     }
 
-    public int getAtlasX() {
-        return atlasX;
+    public int[] getAtlasXY() {
+        return atlasXY;
     }
 
-    public void setAtlasX(int atlasX) {
-        this.atlasX = atlasX;
-    }
-
-    public int getAtlasY() {
-        return atlasY;
-    }
-
-    public void setAtlasY(int atlasY) {
-        this.atlasY = atlasY;
+    public void setAtlasXY(int[] atlasXY) {
+        this.atlasXY = atlasXY;
     }
 
     public void setPlant(AbstractPlant plant) {

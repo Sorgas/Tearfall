@@ -1,7 +1,5 @@
 package stonering.enums.plants;
 
-import com.badlogic.gdx.graphics.Color;
-
 import java.util.ArrayList;
 
 /**
@@ -26,6 +24,7 @@ public class PlantType {
     }
 
     public static class PlantLifeStage {
+        private String[] titlePrefixSuffix;
         private int stageLength;
         private ArrayList<String> harvestProducts;
         private ArrayList<String> cutProducts;
@@ -79,6 +78,14 @@ public class PlantType {
 
         public void setMaterialName(String materialName) {
             this.materialName = materialName;
+        }
+
+        public String[] getTitlePrefixSuffix() {
+            return titlePrefixSuffix;
+        }
+
+        public void setTitlePrefixSuffix(String[] titlePrefixSuffix) {
+            this.titlePrefixSuffix = titlePrefixSuffix;
         }
     }
 

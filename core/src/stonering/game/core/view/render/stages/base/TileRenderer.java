@@ -51,7 +51,8 @@ public class TileRenderer extends Renderer {
      * Draw order: block, plants, building, unit, items, designation.
      */
     private void drawTile(int x, int y, int z) {
-        byte lightLevel = (byte) (localMap.getLight().getValue(x, y, z) + localMap.getGeneralLight().getValue(x, y, z));  //TODO limit light level
+        byte lightLevel = Byte.MAX_VALUE;
+//                (byte) (localMap.getLight().getValue(x, y, z) + localMap.getGeneralLight().getValue(x, y, z));  //TODO limit light level
         drawingUtil.shadeByLight(lightLevel);
         drawBlock(x, y, z);
         drawingUtil.updateColorA(0.6f);
@@ -59,7 +60,7 @@ public class TileRenderer extends Renderer {
         drawingUtil.updateColorA(1f);
         PlantBlock plantBlock = localMap.getPlantBlock(x, y, z);
         if (plantBlock != null)
-            drawingUtil.drawSprite(drawingUtil.selectSprite(1, plantBlock.getAtlasX(), plantBlock.getAtlasY()), x, y, z, selector.getPosition());
+            drawingUtil.drawSprite(drawingUtil.selectSprite(1, plantBlock.getAtlasXY()[0], plantBlock.getAtlasXY()[1]), x, y, z, selector.getPosition());
         BuildingBlock buildingBlock = localMap.getBuildingBlock(x, y, z);
         if (buildingBlock != null)
             drawingUtil.drawSprite(drawingUtil.selectSprite(3, 0, 0), x, y, z, selector.getPosition());

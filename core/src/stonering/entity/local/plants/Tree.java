@@ -11,15 +11,16 @@ public class Tree extends AbstractPlant {
     private Position position;           //position of stomp
     private PlantBlock[][][] blocks;
 
-    public Tree(int age) {
+    public Tree(Position position, int age) {
+        super(position);
         this.age = age;
     }
 
     public Position getRelativePosition(Position mapPos) {
         return new Position(
-                mapPos.getX() + type.getTreeType().getTreeRadius() - position.getX(),
-                mapPos.getY() + type.getTreeType().getTreeRadius() - position.getY(),
-                mapPos.getZ() + type.getTreeType().getRootDepth() - position.getZ()
+                mapPos.x + type.getTreeType().getTreeRadius() - position.x,
+                mapPos.y + type.getTreeType().getTreeRadius() - position.y,
+                mapPos.z + type.getTreeType().getRootDepth() - position.z
         );
     }
 
@@ -42,30 +43,6 @@ public class Tree extends AbstractPlant {
 
     public void setAge(int age) {
         this.age = age;
-    }
-
-    public int getX() {
-        return position.getX();
-    }
-
-    public void setX(int x) {
-        position.setX(x);
-    }
-
-    public int getY() {
-        return position.getY();
-    }
-
-    public void setY(int y) {
-        position.setY(y);
-    }
-
-    public int getZ() {
-        return position.getZ();
-    }
-
-    public void setZ(int z) {
-        position.setZ(z);
     }
 
     public Position getPosition() {

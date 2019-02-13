@@ -15,12 +15,14 @@ import stonering.entity.local.plants.PlantBlock;
 public class PlantGenerator {
 
     public Plant generatePlant(String specimen, int age) throws DescriptionNotFoundException {
-        Plant plant = new Plant(0);
+        Plant plant = new Plant(null, 0);
+        if(PlantMap.getInstance().getPlantType(specimen) == null)
+            throw new DescriptionNotFoundException("Plant type " + specimen + " not found");
         plant.setType(PlantMap.getInstance().getPlantType(specimen));
-
         plant.setBlock(new PlantBlock(MaterialMap.getInstance().getId(plant.getCurrentStage().getMaterialName()), TreeBlocksTypeEnum.SINGLE_PASSABLE.getCode()));
-        plant.getBlock().setAtlasX(plant.getCurrentStage().getAtlasXY()[0]);
-        plant.getBlock().setAtlasY(plant.getCurrentStage().getAtlasXY()[1]);
+        plant.getBlock().setAtlasXY(new int[]{
+                plant.getCurrentStage().getAtlasXY()[0],
+                plant.getCurrentStage().getAtlasXY()[1]});
         plant.getBlock().setPlant(plant);
         plant.setAge(age);
         initBlockProducts(plant.getBlock(), age);

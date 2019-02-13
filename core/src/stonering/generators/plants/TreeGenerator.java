@@ -12,13 +12,13 @@ import java.util.Random;
 /**
  * @author Alexander Kuzyakov on 19.10.2017.
  */
-public class TreesGenerator {
+public class TreeGenerator {
 
-    public Tree generateTree(String speciment, int age) throws DescriptionNotFoundException {
+    public Tree generateTree(String speciment, int age) {
         PlantType plantType = PlantMap.getInstance().getPlantType(speciment);
         TreeType treeType = plantType.getTreeType();
         int material = MaterialMap.getInstance().getId(plantType.getLifeStages().get(0).getMaterialName());
-        Tree tree = new Tree(age);
+        Tree tree = new Tree(null, age);
         tree.setType(plantType);
         Random random = new Random();
         int treeCenter = treeType.getCrownRadius();
@@ -67,11 +67,21 @@ public class TreesGenerator {
         return tree;
     }
 
+    /**
+     * Changes tree structure.
+     *
+     * @param tree
+     */
+    public void applyTreeGrowth(Tree tree) {
+        //TODO
+    }
+
     private PlantBlock createTreePart(int material, TreeBlocksTypeEnum blockType, Tree tree, int x, int y, int z) {
         PlantBlock block = new PlantBlock(material, blockType.getCode());
         block.setPosition(new Position(x, y, z));
-        block.setAtlasY(tree.getCurrentStage().getAtlasXY()[1]);
-        block.setAtlasX(TreeTileMapping.getType(blockType.getCode()).getAtlasX());
+        block.setAtlasXY(new int[]{
+                TreeTileMapping.getType(blockType.getCode()).getAtlasX(),
+                tree.getCurrentStage().getAtlasXY()[1]});
         block.setPlant(tree);
         return block;
     }

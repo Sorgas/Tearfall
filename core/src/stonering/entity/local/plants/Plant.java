@@ -11,7 +11,8 @@ import stonering.util.geometry.Position;
 public class Plant extends AbstractPlant {
     private PlantBlock block;
 
-    public Plant(int age) {
+    public Plant(Position position, int age) {
+        super(position);
         this.age = age;
     }
 

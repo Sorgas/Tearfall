@@ -1,497 +1,516 @@
 [
     {
-        "name": "willow",
-        "title": "willow",
-        "description": "Willow",
-        "temperatureBounds": ["-40", "40", "-40", "40"],
-        "rainfallBounds": ["0", "100"],
-        "waterSource": ["near", "far"],
-        "lightNeed": ["low", "high"],
-        "soilType": "soil",
-        "treeType": {
-            "class": "tree_c",
-            "crownRadius": "2",
-            "height": "5",
-            "rootDepth": "2",
-            "rootRadius": "1"
+        "name":"willow",
+        "title":"willow",
+        "description":"Willow",
+        "temperatureBounds":["-40", "40", "-40", "40"],
+        "rainfallBounds":["0", "100"],
+        "waterSource":["near", "far"],
+        "lightNeed":["low", "high"],
+        "soilType":"soil",
+        "treeType":{
+            "class":"tree_c",
+            "crownRadius":"2",
+            "height":"5",
+            "rootDepth":"2",
+            "rootRadius":"1"
         },
-        "lifeStages": [
+        "lifeStages":[
             {
-                "stageLength": "2",
-                "harvestProducts": null,
-                "cutProducts": ["branch", "root"],
-                "materialName": "willow",
-                "atlasXY": ["0", "1"],
-                "color": "0xffffffff"
+                "titlePrefixSuffix":["", "sapling"],
+                "stageLength":"12",
+                "harvestProducts":null,
+                "cutProducts":["branch", "root"],
+                "materialName":"willow",
+                "atlasXY":["0", "1"],
+                "color":"0xffffffff"
+            },
+            {
+                "titlePrefixSuffix":["young", ""],
+                "stageLength":"60",
+                "harvestProducts":null,
+                "cutProducts":["branch", "root", "log"],
+                "materialName":"willow",
+                "atlasXY":["0", "1"],
+                "color":"0xffffffff"
             }, {
-                "stageLength": "50",
-                "harvestProducts": null,
-                "cutProducts": ["branch", "root", "log"],
-                "materialName": "willow",
-                "atlasXY": ["0", "1"],
-                "color": "0xffffffff"
+                "titlePrefixSuffix":["", ""],
+                "stageLength":"180",
+                "harvestProducts":null,
+                "cutProducts":["branch", "root", "log"],
+                "materialName":"willow",
+                "atlasXY":["0", "1"],
+                "color":"0xffffffff"
+            }, {
+                "titlePrefixSuffix":["old", ""],
+                "stageLength":"240",
+                "harvestProducts":null,
+                "cutProducts":["branch", "root", "log"],
+                "materialName":"willow",
+                "atlasXY":["0", "1"],
+                "color":"0xffffffff"
             }
         ]
     }, {
-    "name": "oak",
-    "title": "willow",
-    "description": "Willow",
-    "temperatureBounds": ["-40", "40", "-40", "40"],
-    "rainfallBounds": ["0", "100"],
-    "waterSource": ["near", "far"],
-    "lightNeed": ["low", "high"],
-    "soilType": "soil",
-    "treeType": {
-        "class": "tree_c",
-        "crownRadius": "2",
-        "height": "5",
-        "rootDepth": "2",
-        "rootRadius": "1"
+    "name":"oak",
+    "title":"willow",
+    "description":"Willow",
+    "temperatureBounds":["-40", "40", "-40", "40"],
+    "rainfallBounds":["0", "100"],
+    "waterSource":["near", "far"],
+    "lightNeed":["low", "high"],
+    "soilType":"soil",
+    "treeType":{
+        "class":"tree_c",
+        "crownRadius":"2",
+        "height":"5",
+        "rootDepth":"2",
+        "rootRadius":"1"
     },
-    "lifeStages": [
+    "lifeStages":[
         {
-            "stageLength": "2",
-            "harvestProducts": null,
-            "cutProducts": ["branch", "root"],
-            "materialName": "willow",
-            "atlasXY": ["0", "1"],
-            "color": "0xffffffff"
+            "stageLength":"2",
+            "harvestProducts":null,
+            "cutProducts":["branch", "root"],
+            "materialName":"willow",
+            "atlasXY":["0", "1"],
+            "color":"0xffffffff"
         }, {
-            "stageLength": "50",
-            "harvestProducts": null,
-            "cutProducts": ["branch", "root", "log"],
-            "materialName": "willow",
-            "atlasXY": ["0", "1"],
-            "color": "0xffffffff"
+            "stageLength":"50",
+            "harvestProducts":null,
+            "cutProducts":["branch", "root", "log"],
+            "materialName":"willow",
+            "atlasXY":["0", "1"],
+            "color":"0xffffffff"
         }
     ]
 }, {
-    "name": "birch",
-    "title": "willow",
-    "description": "Willow",
-    "temperatureBounds": ["-40", "40", "-40", "40"],
-    "rainfallBounds": ["0", "100"],
-    "waterSource": ["near", "far"],
-    "lightNeed": ["low", "high"],
-    "soilType": "soil",
-    "treeType": {
-        "class": "tree_c",
-        "crownRadius": "2",
-        "height": "5",
-        "rootDepth": "2",
-        "rootRadius": "1"
+    "name":"birch",
+    "title":"willow",
+    "description":"Willow",
+    "temperatureBounds":["-40", "40", "-40", "40"],
+    "rainfallBounds":["0", "100"],
+    "waterSource":["near", "far"],
+    "lightNeed":["low", "high"],
+    "soilType":"soil",
+    "treeType":{
+        "class":"tree_c",
+        "crownRadius":"2",
+        "height":"5",
+        "rootDepth":"2",
+        "rootRadius":"1"
     },
-    "lifeStages": [
+    "lifeStages":[
         {
-            "stageLength": "2",
-            "harvestProducts": null,
-            "cutProducts": ["branch", "root"],
-            "materialName": "willow",
-            "atlasXY": ["0", "1"],
-            "color": "0xffffffff"
+            "stageLength":"2",
+            "harvestProducts":null,
+            "cutProducts":["branch", "root"],
+            "materialName":"willow",
+            "atlasXY":["0", "1"],
+            "color":"0xffffffff"
         }, {
-            "stageLength": "50",
-            "harvestProducts": null,
-            "cutProducts": ["branch", "root", "log"],
-            "materialName": "willow",
-            "atlasXY": ["0", "1"],
-            "color": "0xffffffff"
+            "stageLength":"50",
+            "harvestProducts":null,
+            "cutProducts":["branch", "root", "log"],
+            "materialName":"willow",
+            "atlasXY":["0", "1"],
+            "color":"0xffffffff"
         }
     ]
 }, {
-    "name": "cedar",
-    "title": "willow",
-    "description": "Willow",
-    "temperatureBounds": ["-40", "40", "-40", "40"],
-    "rainfallBounds": ["0", "100"],
-    "waterSource": ["near", "far"],
-    "lightNeed": ["low", "high"],
-    "soilType": "soil",
-    "treeType": {
-        "class": "tree_c",
-        "crownRadius": "2",
-        "height": "5",
-        "rootDepth": "2",
-        "rootRadius": "1"
+    "name":"cedar",
+    "title":"willow",
+    "description":"Willow",
+    "temperatureBounds":["-40", "40", "-40", "40"],
+    "rainfallBounds":["0", "100"],
+    "waterSource":["near", "far"],
+    "lightNeed":["low", "high"],
+    "soilType":"soil",
+    "treeType":{
+        "class":"tree_c",
+        "crownRadius":"2",
+        "height":"5",
+        "rootDepth":"2",
+        "rootRadius":"1"
     },
-    "lifeStages": [
+    "lifeStages":[
         {
-            "stageLength": "2",
-            "harvestProducts": null,
-            "cutProducts": ["branch", "root"],
-            "materialName": "willow",
-            "atlasXY": ["0", "1"],
-            "color": "0xffffffff"
+            "stageLength":"2",
+            "harvestProducts":null,
+            "cutProducts":["branch", "root"],
+            "materialName":"willow",
+            "atlasXY":["0", "1"],
+            "color":"0xffffffff"
         }, {
-            "stageLength": "50",
-            "harvestProducts": null,
-            "cutProducts": ["branch", "root", "log"],
-            "materialName": "willow",
-            "atlasXY": ["0", "1"],
-            "color": "0xffffffff"
+            "stageLength":"50",
+            "harvestProducts":null,
+            "cutProducts":["branch", "root", "log"],
+            "materialName":"willow",
+            "atlasXY":["0", "1"],
+            "color":"0xffffffff"
         }
     ]
 }, {
-    "name": "fir",
-    "title": "willow",
-    "description": "Willow",
-    "temperatureBounds": ["-40", "40", "-40", "40"],
-    "rainfallBounds": ["0", "100"],
-    "waterSource": ["near", "far"],
-    "lightNeed": ["low", "high"],
-    "soilType": "soil",
-    "treeType": {
-        "class": "tree_c",
-        "crownRadius": "2",
-        "height": "5",
-        "rootDepth": "2",
-        "rootRadius": "1"
+    "name":"fir",
+    "title":"willow",
+    "description":"Willow",
+    "temperatureBounds":["-40", "40", "-40", "40"],
+    "rainfallBounds":["0", "100"],
+    "waterSource":["near", "far"],
+    "lightNeed":["low", "high"],
+    "soilType":"soil",
+    "treeType":{
+        "class":"tree_c",
+        "crownRadius":"2",
+        "height":"5",
+        "rootDepth":"2",
+        "rootRadius":"1"
     },
-    "lifeStages": [
+    "lifeStages":[
         {
-            "stageLength": "2",
-            "harvestProducts": null,
-            "cutProducts": ["branch", "root"],
-            "materialName": "willow",
-            "atlasXY": ["0", "1"],
-            "color": "0xffffffff"
+            "stageLength":"2",
+            "harvestProducts":null,
+            "cutProducts":["branch", "root"],
+            "materialName":"willow",
+            "atlasXY":["0", "1"],
+            "color":"0xffffffff"
         }, {
-            "stageLength": "50",
-            "harvestProducts": null,
-            "cutProducts": ["branch", "root", "log"],
-            "materialName": "willow",
-            "atlasXY": ["0", "1"],
-            "color": "0xffffffff"
+            "stageLength":"50",
+            "harvestProducts":null,
+            "cutProducts":["branch", "root", "log"],
+            "materialName":"willow",
+            "atlasXY":["0", "1"],
+            "color":"0xffffffff"
         }
     ]
 }, {
-    "name": "larch",
-    "title": "willow",
-    "description": "Willow",
-    "temperatureBounds": ["-40", "40", "-40", "40"],
-    "rainfallBounds": ["0", "100"],
-    "waterSource": ["near", "far"],
-    "lightNeed": ["low", "high"],
-    "soilType": "soil",
-    "treeType": {
-        "class": "tree_c",
-        "crownRadius": "2",
-        "height": "5",
-        "rootDepth": "2",
-        "rootRadius": "1"
+    "name":"larch",
+    "title":"willow",
+    "description":"Willow",
+    "temperatureBounds":["-40", "40", "-40", "40"],
+    "rainfallBounds":["0", "100"],
+    "waterSource":["near", "far"],
+    "lightNeed":["low", "high"],
+    "soilType":"soil",
+    "treeType":{
+        "class":"tree_c",
+        "crownRadius":"2",
+        "height":"5",
+        "rootDepth":"2",
+        "rootRadius":"1"
     },
-    "lifeStages": [
+    "lifeStages":[
         {
-            "stageLength": "2",
-            "harvestProducts": null,
-            "cutProducts": ["branch", "root"],
-            "materialName": "willow",
-            "atlasXY": ["0", "1"],
-            "color": "0xffffffff"
+            "stageLength":"2",
+            "harvestProducts":null,
+            "cutProducts":["branch", "root"],
+            "materialName":"willow",
+            "atlasXY":["0", "1"],
+            "color":"0xffffffff"
         }, {
-            "stageLength": "50",
-            "harvestProducts": null,
-            "cutProducts": ["branch", "root", "log"],
-            "materialName": "willow",
-            "atlasXY": ["0", "1"],
-            "color": "0xffffffff"
+            "stageLength":"50",
+            "harvestProducts":null,
+            "cutProducts":["branch", "root", "log"],
+            "materialName":"willow",
+            "atlasXY":["0", "1"],
+            "color":"0xffffffff"
         }
     ]
 }, {
-    "name": "pine",
-    "title": "willow",
-    "description": "Willow",
-    "temperatureBounds": ["-40", "40", "-40", "40"],
-    "rainfallBounds": ["0", "100"],
-    "waterSource": ["near", "far"],
-    "lightNeed": ["low", "high"],
-    "soilType": "soil",
-    "treeType": {
-        "class": "tree_c",
-        "crownRadius": "2",
-        "height": "5",
-        "rootDepth": "2",
-        "rootRadius": "1"
+    "name":"pine",
+    "title":"willow",
+    "description":"Willow",
+    "temperatureBounds":["-40", "40", "-40", "40"],
+    "rainfallBounds":["0", "100"],
+    "waterSource":["near", "far"],
+    "lightNeed":["low", "high"],
+    "soilType":"soil",
+    "treeType":{
+        "class":"tree_c",
+        "crownRadius":"2",
+        "height":"5",
+        "rootDepth":"2",
+        "rootRadius":"1"
     },
-    "lifeStages": [
+    "lifeStages":[
         {
-            "stageLength": "2",
-            "harvestProducts": null,
-            "cutProducts": ["branch", "root"],
-            "materialName": "willow",
-            "atlasXY": ["0", "1"],
-            "color": "0xffffffff"
+            "stageLength":"2",
+            "harvestProducts":null,
+            "cutProducts":["branch", "root"],
+            "materialName":"willow",
+            "atlasXY":["0", "1"],
+            "color":"0xffffffff"
         }, {
-            "stageLength": "50",
-            "harvestProducts": null,
-            "cutProducts": ["branch", "root", "log"],
-            "materialName": "willow",
-            "atlasXY": ["0", "1"],
-            "color": "0xffffffff"
+            "stageLength":"50",
+            "harvestProducts":null,
+            "cutProducts":["branch", "root", "log"],
+            "materialName":"willow",
+            "atlasXY":["0", "1"],
+            "color":"0xffffffff"
         }
     ]
 }, {
-    "name": "poplar",
-    "title": "willow",
-    "description": "Willow",
-    "temperatureBounds": ["-40", "40", "-40", "40"],
-    "rainfallBounds": ["0", "100"],
-    "waterSource": ["near", "far"],
-    "lightNeed": ["low", "high"],
-    "soilType": "soil",
-    "treeType": {
-        "class": "tree_c",
-        "crownRadius": "2",
-        "height": "5",
-        "rootDepth": "2",
-        "rootRadius": "1"
+    "name":"poplar",
+    "title":"willow",
+    "description":"Willow",
+    "temperatureBounds":["-40", "40", "-40", "40"],
+    "rainfallBounds":["0", "100"],
+    "waterSource":["near", "far"],
+    "lightNeed":["low", "high"],
+    "soilType":"soil",
+    "treeType":{
+        "class":"tree_c",
+        "crownRadius":"2",
+        "height":"5",
+        "rootDepth":"2",
+        "rootRadius":"1"
     },
-    "lifeStages": [
+    "lifeStages":[
         {
-            "stageLength": "2",
-            "harvestProducts": null,
-            "cutProducts": ["branch", "root"],
-            "materialName": "willow",
-            "atlasXY": ["0", "1"],
-            "color": "0xffffffff"
+            "stageLength":"2",
+            "harvestProducts":null,
+            "cutProducts":["branch", "root"],
+            "materialName":"willow",
+            "atlasXY":["0", "1"],
+            "color":"0xffffffff"
         }, {
-            "stageLength": "50",
-            "harvestProducts": null,
-            "cutProducts": ["branch", "root", "log"],
-            "materialName": "willow",
-            "atlasXY": ["0", "1"],
-            "color": "0xffffffff"
+            "stageLength":"50",
+            "harvestProducts":null,
+            "cutProducts":["branch", "root", "log"],
+            "materialName":"willow",
+            "atlasXY":["0", "1"],
+            "color":"0xffffffff"
         }
     ]
 }, {
-    "name": "willow",
-    "title": "willow",
-    "description": "Willow",
-    "temperatureBounds": ["-40", "40", "-40", "40"],
-    "rainfallBounds": ["0", "100"],
-    "waterSource": ["near", "far"],
-    "lightNeed": ["low", "high"],
-    "soilType": "soil",
-    "treeType": {
-        "class": "tree_c",
-        "crownRadius": "2",
-        "height": "5",
-        "rootDepth": "2",
-        "rootRadius": "1"
+    "name":"willow",
+    "title":"willow",
+    "description":"Willow",
+    "temperatureBounds":["-40", "40", "-40", "40"],
+    "rainfallBounds":["0", "100"],
+    "waterSource":["near", "far"],
+    "lightNeed":["low", "high"],
+    "soilType":"soil",
+    "treeType":{
+        "class":"tree_c",
+        "crownRadius":"2",
+        "height":"5",
+        "rootDepth":"2",
+        "rootRadius":"1"
     },
-    "lifeStages": [
+    "lifeStages":[
         {
-            "stageLength": "2",
-            "harvestProducts": null,
-            "cutProducts": ["branch", "root"],
-            "materialName": "willow",
-            "atlasXY": ["0", "1"],
-            "color": "0xffffffff"
+            "stageLength":"2",
+            "harvestProducts":null,
+            "cutProducts":["branch", "root"],
+            "materialName":"willow",
+            "atlasXY":["0", "1"],
+            "color":"0xffffffff"
         }, {
-            "stageLength": "50",
-            "harvestProducts": null,
-            "cutProducts": ["branch", "root", "log"],
-            "materialName": "willow",
-            "atlasXY": ["0", "1"],
-            "color": "0xffffffff"
+            "stageLength":"50",
+            "harvestProducts":null,
+            "cutProducts":["branch", "root", "log"],
+            "materialName":"willow",
+            "atlasXY":["0", "1"],
+            "color":"0xffffffff"
         }
     ]
 }, {
-    "name": "alder",
-    "title": "willow",
-    "description": "Willow",
-    "temperatureBounds": ["-40", "40", "-40", "40"],
-    "rainfallBounds": ["0", "100"],
-    "waterSource": ["near", "far"],
-    "lightNeed": ["low", "high"],
-    "soilType": "soil",
-    "treeType": {
-        "class": "tree_c",
-        "crownRadius": "2",
-        "height": "5",
-        "rootDepth": "2",
-        "rootRadius": "1"
+    "name":"alder",
+    "title":"willow",
+    "description":"Willow",
+    "temperatureBounds":["-40", "40", "-40", "40"],
+    "rainfallBounds":["0", "100"],
+    "waterSource":["near", "far"],
+    "lightNeed":["low", "high"],
+    "soilType":"soil",
+    "treeType":{
+        "class":"tree_c",
+        "crownRadius":"2",
+        "height":"5",
+        "rootDepth":"2",
+        "rootRadius":"1"
     },
-    "lifeStages": [
+    "lifeStages":[
         {
-            "stageLength": "2",
-            "harvestProducts": null,
-            "cutProducts": ["branch", "root"],
-            "materialName": "willow",
-            "atlasXY": ["0", "1"],
-            "color": "0xffffffff"
+            "stageLength":"2",
+            "harvestProducts":null,
+            "cutProducts":["branch", "root"],
+            "materialName":"willow",
+            "atlasXY":["0", "1"],
+            "color":"0xffffffff"
         }, {
-            "stageLength": "50",
-            "harvestProducts": null,
-            "cutProducts": ["branch", "root", "log"],
-            "materialName": "willow",
-            "atlasXY": ["0", "1"],
-            "color": "0xffffffff"
+            "stageLength":"50",
+            "harvestProducts":null,
+            "cutProducts":["branch", "root", "log"],
+            "materialName":"willow",
+            "atlasXY":["0", "1"],
+            "color":"0xffffffff"
         }
     ]
 }, {
-    "name": "maple",
-    "title": "willow",
-    "description": "Willow",
-    "temperatureBounds": ["-40", "40", "-40", "40"],
-    "rainfallBounds": ["0", "100"],
-    "waterSource": ["near", "far"],
-    "lightNeed": ["low", "high"],
-    "soilType": "soil",
-    "treeType": {
-        "class": "tree_c",
-        "crownRadius": "2",
-        "height": "5",
-        "rootDepth": "2",
-        "rootRadius": "1"
+    "name":"maple",
+    "title":"willow",
+    "description":"Willow",
+    "temperatureBounds":["-40", "40", "-40", "40"],
+    "rainfallBounds":["0", "100"],
+    "waterSource":["near", "far"],
+    "lightNeed":["low", "high"],
+    "soilType":"soil",
+    "treeType":{
+        "class":"tree_c",
+        "crownRadius":"2",
+        "height":"5",
+        "rootDepth":"2",
+        "rootRadius":"1"
     },
-    "lifeStages": [
+    "lifeStages":[
         {
-            "stageLength": "2",
-            "harvestProducts": null,
-            "cutProducts": ["branch", "root"],
-            "materialName": "willow",
-            "atlasXY": ["0", "1"],
-            "color": "0xffffffff"
+            "stageLength":"2",
+            "harvestProducts":null,
+            "cutProducts":["branch", "root"],
+            "materialName":"willow",
+            "atlasXY":["0", "1"],
+            "color":"0xffffffff"
         }, {
-            "stageLength": "50",
-            "harvestProducts": null,
-            "cutProducts": ["branch", "root", "log"],
-            "materialName": "willow",
-            "atlasXY": ["0", "1"],
-            "color": "0xffffffff"
+            "stageLength":"50",
+            "harvestProducts":null,
+            "cutProducts":["branch", "root", "log"],
+            "materialName":"willow",
+            "atlasXY":["0", "1"],
+            "color":"0xffffffff"
         }
     ]
 }, {
-    "name": "elm",
-    "title": "willow",
-    "description": "Willow",
-    "temperatureBounds": ["-40", "40", "-40", "40"],
-    "rainfallBounds": ["0", "100"],
-    "waterSource": ["near", "far"],
-    "lightNeed": ["low", "high"],
-    "soilType": "soil",
-    "treeType": {
-        "class": "tree_c",
-        "crownRadius": "2",
-        "height": "5",
-        "rootDepth": "2",
-        "rootRadius": "1"
+    "name":"elm",
+    "title":"willow",
+    "description":"Willow",
+    "temperatureBounds":["-40", "40", "-40", "40"],
+    "rainfallBounds":["0", "100"],
+    "waterSource":["near", "far"],
+    "lightNeed":["low", "high"],
+    "soilType":"soil",
+    "treeType":{
+        "class":"tree_c",
+        "crownRadius":"2",
+        "height":"5",
+        "rootDepth":"2",
+        "rootRadius":"1"
     },
-    "lifeStages": [
+    "lifeStages":[
         {
-            "stageLength": "2",
-            "harvestProducts": null,
-            "cutProducts": ["branch", "root"],
-            "materialName": "willow",
-            "atlasXY": ["0", "1"],
-            "color": "0xffffffff"
+            "stageLength":"2",
+            "harvestProducts":null,
+            "cutProducts":["branch", "root"],
+            "materialName":"willow",
+            "atlasXY":["0", "1"],
+            "color":"0xffffffff"
         }, {
-            "stageLength": "50",
-            "harvestProducts": null,
-            "cutProducts": ["branch", "root", "log"],
-            "materialName": "willow",
-            "atlasXY": ["0", "1"],
-            "color": "0xffffffff"
+            "stageLength":"50",
+            "harvestProducts":null,
+            "cutProducts":["branch", "root", "log"],
+            "materialName":"willow",
+            "atlasXY":["0", "1"],
+            "color":"0xffffffff"
         }
     ]
 }, {
-    "name": "rowan",
-    "title": "willow",
-    "description": "Willow",
-    "temperatureBounds": ["-40", "40", "-40", "40"],
-    "rainfallBounds": ["0", "100"],
-    "waterSource": ["near", "far"],
-    "lightNeed": ["low", "high"],
-    "soilType": "soil",
-    "treeType": {
-        "class": "tree_c",
-        "crownRadius": "2",
-        "height": "5",
-        "rootDepth": "2",
-        "rootRadius": "1"
+    "name":"rowan",
+    "title":"willow",
+    "description":"Willow",
+    "temperatureBounds":["-40", "40", "-40", "40"],
+    "rainfallBounds":["0", "100"],
+    "waterSource":["near", "far"],
+    "lightNeed":["low", "high"],
+    "soilType":"soil",
+    "treeType":{
+        "class":"tree_c",
+        "crownRadius":"2",
+        "height":"5",
+        "rootDepth":"2",
+        "rootRadius":"1"
     },
-    "lifeStages": [
+    "lifeStages":[
         {
-            "stageLength": "2",
-            "harvestProducts": null,
-            "cutProducts": ["branch", "root"],
-            "materialName": "willow",
-            "atlasXY": ["0", "1"],
-            "color": "0xffffffff"
+            "stageLength":"2",
+            "harvestProducts":null,
+            "cutProducts":["branch", "root"],
+            "materialName":"willow",
+            "atlasXY":["0", "1"],
+            "color":"0xffffffff"
         }, {
-            "stageLength": "50",
-            "harvestProducts": null,
-            "cutProducts": ["branch", "root", "log"],
-            "materialName": "willow",
-            "atlasXY": ["0", "1"],
-            "color": "0xffffffff"
+            "stageLength":"50",
+            "harvestProducts":null,
+            "cutProducts":["branch", "root", "log"],
+            "materialName":"willow",
+            "atlasXY":["0", "1"],
+            "color":"0xffffffff"
         }
     ]
 }, {
-    "name": "ash",
-    "title": "willow",
-    "description": "Willow",
-    "temperatureBounds": ["-40", "40", "-40", "40"],
-    "rainfallBounds": ["0", "100"],
-    "waterSource": ["near", "far"],
-    "lightNeed": ["low", "high"],
-    "soilType": "soil",
-    "treeType": {
-        "class": "tree_c",
-        "crownRadius": "2",
-        "height": "5",
-        "rootDepth": "2",
-        "rootRadius": "1"
+    "name":"ash",
+    "title":"willow",
+    "description":"Willow",
+    "temperatureBounds":["-40", "40", "-40", "40"],
+    "rainfallBounds":["0", "100"],
+    "waterSource":["near", "far"],
+    "lightNeed":["low", "high"],
+    "soilType":"soil",
+    "treeType":{
+        "class":"tree_c",
+        "crownRadius":"2",
+        "height":"5",
+        "rootDepth":"2",
+        "rootRadius":"1"
     },
-    "lifeStages": [
+    "lifeStages":[
         {
-            "stageLength": "2",
-            "harvestProducts": null,
-            "cutProducts": ["branch", "root"],
-            "materialName": "willow",
-            "atlasXY": ["0", "1"],
-            "color": "0xffffffff"
+            "stageLength":"2",
+            "harvestProducts":null,
+            "cutProducts":["branch", "root"],
+            "materialName":"willow",
+            "atlasXY":["0", "1"],
+            "color":"0xffffffff"
         }, {
-            "stageLength": "50",
-            "harvestProducts": null,
-            "cutProducts": ["branch", "root", "log"],
-            "materialName": "willow",
-            "atlasXY": ["0", "1"],
-            "color": "0xffffffff"
+            "stageLength":"50",
+            "harvestProducts":null,
+            "cutProducts":["branch", "root", "log"],
+            "materialName":"willow",
+            "atlasXY":["0", "1"],
+            "color":"0xffffffff"
         }
     ]
 }, {
-    "name": "beech",
-    "title": "willow",
-    "description": "Willow",
-    "temperatureBounds": ["-40", "40", "-40", "40"],
-    "rainfallBounds": ["0", "100"],
-    "waterSource": ["near", "far"],
-    "lightNeed": ["low", "high"],
-    "soilType": "soil",
-    "treeType": {
-        "class": "tree_c",
-        "crownRadius": "2",
-        "height": "5",
-        "rootDepth": "2",
-        "rootRadius": "1"
+    "name":"beech",
+    "title":"willow",
+    "description":"Willow",
+    "temperatureBounds":["-40", "40", "-40", "40"],
+    "rainfallBounds":["0", "100"],
+    "waterSource":["near", "far"],
+    "lightNeed":["low", "high"],
+    "soilType":"soil",
+    "treeType":{
+        "class":"tree_c",
+        "crownRadius":"2",
+        "height":"5",
+        "rootDepth":"2",
+        "rootRadius":"1"
     },
-    "lifeStages": [
+    "lifeStages":[
         {
-            "stageLength": "2",
-            "harvestProducts": null,
-            "cutProducts": ["branch", "root"],
-            "materialName": "willow",
-            "atlasXY": ["0", "1"],
-            "color": "0xffffffff"
+            "stageLength":"2",
+            "harvestProducts":null,
+            "cutProducts":["branch", "root"],
+            "materialName":"willow",
+            "atlasXY":["0", "1"],
+            "color":"0xffffffff"
         }, {
-            "stageLength": "50",
-            "harvestProducts": null,
-            "cutProducts": ["branch", "root", "log"],
-            "materialName": "willow",
-            "atlasXY": ["0", "1"],
-            "color": "0xffffffff"
+            "stageLength":"50",
+            "harvestProducts":null,
+            "cutProducts":["branch", "root", "log"],
+            "materialName":"willow",
+            "atlasXY":["0", "1"],
+            "color":"0xffffffff"
         }
     ]
 }
