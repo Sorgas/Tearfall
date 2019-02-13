@@ -74,7 +74,7 @@ public class PlantContainer implements Initable, ModelComponent {
      * @param tree Tree object with not null tree field
      */
     public void placeTree(Tree tree) {
-        TreeType treeType = tree.getType().getTreeType();
+        TreeType treeType = tree.getCurrentStage().getTreeType();
         PlantBlock[][][] treeParts = tree.getBlocks();
         Position treePosition = tree.getPosition(); // position of tree stomp
         Position vector = new Position(treePosition.x - treeType.getTreeRadius(),
@@ -108,7 +108,7 @@ public class PlantContainer implements Initable, ModelComponent {
 
     public void removeTree(Tree tree) {
         if (plants.remove(tree)) {
-            int stompZ = tree.getType().getTreeType().getRootDepth();
+            int stompZ = tree.getCurrentStage().getTreeType().getRootDepth();
             PlantBlock[][][] treeParts = tree.getBlocks();
             for (int x = 0; x < treeParts.length; x++) {
                 for (int y = 0; y < treeParts[x].length; y++) {
@@ -159,7 +159,7 @@ public class PlantContainer implements Initable, ModelComponent {
     public void fellTree(Tree tree, OrientationEnum orientation) {
         if (orientation == OrientationEnum.N) {
             Position treePosition = tree.getPosition();
-            int stompZ = tree.getType().getTreeType().getRootDepth();
+            int stompZ = tree.getCurrentStage().getTreeType().getRootDepth();
             PlantBlock[][][] treeParts = tree.getBlocks();
             for (int x = 0; x < treeParts.length; x++) {
                 for (int y = 0; y < treeParts[x].length; y++) {

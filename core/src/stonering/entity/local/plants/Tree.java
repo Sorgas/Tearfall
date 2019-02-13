@@ -18,9 +18,9 @@ public class Tree extends AbstractPlant {
 
     public Position getRelativePosition(Position mapPos) {
         return new Position(
-                mapPos.x + type.getTreeType().getTreeRadius() - position.x,
-                mapPos.y + type.getTreeType().getTreeRadius() - position.y,
-                mapPos.z + type.getTreeType().getRootDepth() - position.z
+                mapPos.x + getCurrentStage().getTreeType().getTreeRadius() - position.x,
+                mapPos.y + getCurrentStage().getTreeType().getTreeRadius() - position.y,
+                mapPos.z + getCurrentStage().getTreeType().getRootDepth() - position.z
         );
     }
 

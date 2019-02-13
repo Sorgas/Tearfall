@@ -23,7 +23,6 @@
         "waterSource": ["near", "far"],
         "lightNeed": ["low", "high"],
         "soilType": "soil",
-        "treeType": null,
         "lifeStages": [
             {
                 "stageLength": "1",
@@ -43,7 +42,6 @@
     "waterSource": ["near", "far"],
     "lightNeed": ["low", "high"],
     "soilType": "stone",
-    "treeType": null,
     "lifeStages": [
         {
             "stageLength": "1",
@@ -63,7 +61,6 @@
     "waterSource": ["near", "far"],
     "lightNeed": ["low", "high"],
     "soilType": "soil",
-    "treeType": null,
     "lifeStages": [
         {
             "stageLength": "1",
@@ -83,7 +80,6 @@
     "waterSource": ["near", "far"],
     "lightNeed": ["low", "high"],
     "soilType": "soil",
-    "treeType": null,
     "lifeStages": [
         {
             "stageLength": "1",
@@ -104,7 +100,6 @@
         "waterSource": ["far"],
         "lightNeed": ["low", "underground"],
         "soilType": "soil",
-        "treeType": null,
         "lifeStages": [
             {
                 "stageLength": "1",

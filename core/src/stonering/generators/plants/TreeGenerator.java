@@ -1,8 +1,11 @@
 package stonering.generators.plants;
 
-import stonering.enums.plants.*;
 import stonering.enums.materials.MaterialMap;
-import stonering.exceptions.DescriptionNotFoundException;
+import stonering.enums.plants.PlantMap;
+import stonering.enums.plants.PlantType;
+import stonering.enums.plants.TreeBlocksTypeEnum;
+import stonering.enums.plants.TreeTileMapping;
+import stonering.enums.plants.TreeType;
 import stonering.util.geometry.Position;
 import stonering.entity.local.plants.PlantBlock;
 import stonering.entity.local.plants.Tree;
@@ -14,9 +17,11 @@ import java.util.Random;
  */
 public class TreeGenerator {
 
-    public Tree generateTree(String speciment, int age) {
-        PlantType plantType = PlantMap.getInstance().getPlantType(speciment);
-        TreeType treeType = plantType.getTreeType();
+    //TODO refactor
+    public Tree generateTree(String specimen, int age) throws IllegalArgumentException {
+        PlantType plantType = PlantMap.getInstance().getPlantType(specimen);
+        PlantType.PlantLifeStage plantLifeStage = getStageByAge(plantType, age);
+        TreeType treeType = plantLifeStage.getTreeType();
         int material = MaterialMap.getInstance().getId(plantType.getLifeStages().get(0).getMaterialName());
         Tree tree = new Tree(null, age);
         tree.setType(plantType);
@@ -84,5 +89,16 @@ public class TreeGenerator {
                 tree.getCurrentStage().getAtlasXY()[1]});
         block.setPlant(tree);
         return block;
+    }
+
+    /**
+     * Counts {@param plantType} life stage corresponding to {@param age} (months).
+     */
+    private PlantType.PlantLifeStage getStageByAge(PlantType plantType, int age) throws IllegalArgumentException {
+        for (PlantType.PlantLifeStage lifeStage : plantType.getLifeStages()) {
+            age -= lifeStage.getStageLength();
+            if (age <= 0) return lifeStage;
+        }
+        throw new IllegalArgumentException("Age " + age + " is invalid for treeType " + plantType.getName());
     }
 }

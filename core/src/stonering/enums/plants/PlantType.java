@@ -16,7 +16,6 @@ public class PlantType {
     private ArrayList<String> lightNeed;
     private String soilType;
     private ArrayList<PlantLifeStage> lifeStages;
-    private TreeType treeType;
 
     public PlantType() {
         temperatureBounds = new int[4];
@@ -31,6 +30,7 @@ public class PlantType {
         private String materialName;
         private int[] atlasXY;
         private String color;
+        private TreeType treeType;
 
         public int getStageLength() {
             return stageLength;
@@ -87,10 +87,14 @@ public class PlantType {
         public void setTitlePrefixSuffix(String[] titlePrefixSuffix) {
             this.titlePrefixSuffix = titlePrefixSuffix;
         }
-    }
 
-    public boolean isTree() {
-        return treeType != null;
+        public TreeType getTreeType() {
+            return treeType;
+        }
+
+        public void setTreeType(TreeType treeType) {
+            this.treeType = treeType;
+        }
     }
 
     public String getName() {
@@ -189,14 +193,6 @@ public class PlantType {
         this.soilType = soilTypes;
     }
 
-    public TreeType getTreeType() {
-        return treeType;
-    }
-
-    public void setTreeType(TreeType treeType) {
-        this.treeType = treeType;
-    }
-
     public ArrayList<PlantLifeStage> getLifeStages() {
         return lifeStages;
     }
@@ -219,5 +215,9 @@ public class PlantType {
 
     public void setRainfallBounds(int[] rainfallBounds) {
         this.rainfallBounds = rainfallBounds;
+    }
+
+    public boolean isTree() {
+        return lifeStages.get(0).treeType != null;
     }
 }

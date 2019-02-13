@@ -23,9 +23,9 @@ import java.util.HashMap;
 import java.util.Random;
 
 /**
- * @author Alexander Kuzyakov on 10.04.2018.
- * <p>
  * Generates plants suitable for local climate and places them on local map.
+ *
+ * @author Alexander Kuzyakov on 10.04.2018.
  */
 public class LocalFloraGenerator {
     private LocalGenContainer container;
@@ -88,7 +88,7 @@ public class LocalFloraGenerator {
     }
 
     /**
-     * Generates and places trees on local map.
+     * Generates and places trees on local map. Uses limited attempts with random positions.
      *
      * @param specimen PlantType key from PlantMap representing tree
      * @param amount   relative amount
@@ -120,8 +120,8 @@ public class LocalFloraGenerator {
      */
     private void placeTree(Tree tree, int cx, int cy, int cz) {
         PlantBlock[][][] treeParts = tree.getBlocks();
-        int treeCenterZ = tree.getType().getTreeType().getRootDepth();
-        int treeRadius = tree.getType().getTreeType().getTreeRadius();
+        int treeCenterZ = tree.getCurrentStage().getTreeType().getRootDepth();
+        int treeRadius = tree.getCurrentStage().getTreeType().getTreeRadius();
         for (int x = 0; x < treeParts.length; x++) {
             for (int y = 0; y < treeParts[x].length; y++) {
                 for (int z = 0; z < treeParts[x][y].length; z++) {
@@ -146,19 +146,19 @@ public class LocalFloraGenerator {
      */
     private boolean checkTreePlacing(Tree tree, int cx, int cy, int cz) {
         PlantBlock[][][] treeParts = tree.getBlocks();
-        int treeCenterZ = tree.getType().getTreeType().getRootDepth();
-        int treeRadius = tree.getType().getTreeType().getTreeRadius();
+        int treeCenterZ = tree.getCurrentStage().getTreeType().getRootDepth();
+        int treeRadius = tree.getCurrentStage().getTreeType().getTreeRadius();
+        String soilType = tree.getType().getSoilType();
         for (int x = 0; x < treeParts.length; x++) {
             for (int y = 0; y < treeParts[x].length; y++) {
                 for (int z = 0; z < treeParts[x][y].length; z++) {
                     int mapX = cx + x - treeRadius;
                     int mapY = cy + y - treeRadius;
                     int mapZ = cz + z - treeCenterZ;
-                    if (!localMap.inMap(mapX, mapY, mapZ)
-                            || (treeParts[x][y][z] != null
-                            && localMap.getPlantBlock(mapX, mapY, mapZ) != null)) {
-                        return false;
-                    }
+                    if (!localMap.inMap(mapX, mapY, mapZ)) return false;
+                    if (treeParts[x][y][z] != null && localMap.getPlantBlock(mapX, mapY, mapZ) != null) return false;
+                    Material material = MaterialMap.getInstance().getMaterial(localMap.getMaterial(x, y, z));
+                    if (material != null && material.getTags().contains(soilType)) ;
                 }
             }
         }
@@ -166,7 +166,7 @@ public class LocalFloraGenerator {
     }
 
     /**
-     * Genarates and places plants in {@link LocalGenContainer}
+     * Generates and places plants in {@link LocalGenContainer}
      *
      * @param specimen PlantType key from PlantMap representing tree
      * @param amount   relative amount
@@ -191,7 +191,7 @@ public class LocalFloraGenerator {
     }
 
     /**
-     * Collects all positions suitable for specific plant.
+     * Collects all positions suitable for specific plant. Used only for single tile plants.
      *
      * @param specimen plant to check availability
      * @return
@@ -201,10 +201,9 @@ public class LocalFloraGenerator {
         ArrayList<Position> positions = new ArrayList<>();
         boolean[][][] array = new boolean[localMap.getxSize()][localMap.getySize()][localMap.getzSize()];
         PlantType type = PlantMap.getInstance().getPlantType(specimen);
-        int borderPadding = type.isTree() ? Math.max(type.getTreeType().getRootRadius(), type.getTreeType().getCrownRadius()) : 0; // set border padding for trees
         String soilType = type.getSoilType();
-        for (int x = borderPadding; x < localMap.getxSize() - borderPadding; x++) {
-            for (int y = borderPadding; y < localMap.getySize() - borderPadding; y++) {
+        for (int x = 0; x < localMap.getxSize(); x++) {
+            for (int y = 0; y < localMap.getySize(); y++) {
                 for (int z = 0; z < localMap.getzSize(); z++) {
                     if (localMap.getBlockType(x, y, z) == floorCode
                             && localMap.getPlantBlock(x, y, z) == null) { // surface material should be suitable for plant
@@ -222,7 +221,7 @@ public class LocalFloraGenerator {
     }
 
     /**
-     * Filters all PlantMap with local climate parameters and adds passed plants to list
+     * Filters all PlantMap with local climate parameters and adds passed plants and trees to lists.
      */
     private void filterPlants() {
         PlantMap.getInstance().getAllTypes().forEach((type) -> {
@@ -238,6 +237,7 @@ public class LocalFloraGenerator {
                     || maxTemp < type.getMinGrowingTemperature()) { // plant can grow
                 return; // plant grow zone out of local temp zone
             }
+            //TODO add grade of specimen spreading in this area.
             if (type.isTree()) { //is plant tree or not
                 weightedTreeTypes.put(type.getName(), 100f);
             } else {
