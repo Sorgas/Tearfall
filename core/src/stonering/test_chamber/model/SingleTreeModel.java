@@ -9,7 +9,6 @@ import stonering.entity.local.plants.Tree;
 import stonering.entity.world.World;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.materials.MaterialMap;
-import stonering.exceptions.DescriptionNotFoundException;
 import stonering.game.core.model.EntitySelector;
 import stonering.game.core.model.GameModel;
 import stonering.game.core.model.local_map.LocalMap;
@@ -35,6 +34,7 @@ public class SingleTreeModel extends GameModel {
         super.init();
         get(LocalTileMapUpdater.class).flushLocalMap();
         get(GameCalendar.class).addListener("minute", get(World.class).getStarSystem());
+        get(GameCalendar.class).addListener("minute", get(PlantContainer.class));
     }
 
     /**

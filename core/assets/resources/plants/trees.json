@@ -1,5 +1,6 @@
 /**
     all life stages should have tree type.
+
 */
 [
     {
@@ -22,10 +23,10 @@
                 "color":"0xffffffff",
                 "treeType":{
                     "class":"tree_c",
-                    "crownRadius":"2",
-                    "height":"5",
-                    "rootDepth":"2",
-                    "rootRadius":"1"
+                    "crownRadius":"0",
+                    "height":"1",
+                    "rootDepth":"1",
+                    "rootRadius":"0"
                 }
             },
             {
