@@ -2,6 +2,13 @@
     temperatureBounds:
         1,2: max/min year temperature for plant to occur during generation,
         3,4: max/min temperature to grow in realtime.
+    placingTags:
+        water_near
+        water_far
+        water_on
+        water_under
+
+    environmentTags
     waterSource:
         position related to ponds or river (under, surface, near, far (multiple)) //TODO distinct running and stagnant water
     lightNeed:
@@ -20,6 +27,7 @@
         "description": "Grass",
         "temperatureBounds": ["-40", "40", "-40", "40"],
         "rainfallBounds": ["0", "100"],
+        "placingTags" : [],
         "waterSource": ["near", "far"],
         "lightNeed": ["low", "high"],
         "soilType": "soil",

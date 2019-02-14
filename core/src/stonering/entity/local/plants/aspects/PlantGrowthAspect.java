@@ -4,6 +4,9 @@ import stonering.entity.local.Aspect;
 import stonering.entity.local.AspectHolder;
 import stonering.entity.local.environment.GameCalendar;
 import stonering.entity.local.plants.AbstractPlant;
+import stonering.entity.local.plants.Tree;
+import stonering.enums.plants.PlantType;
+import stonering.generators.plants.TreeGenerator;
 
 /**
  * Switches plant life stages. Restructures tree if needed to represent growth.
@@ -37,7 +40,20 @@ public class PlantGrowthAspect extends Aspect {
      * Changes plant loot and tree structure.
      */
     private void applyNewStage() {
-        //TODO
+        AbstractPlant plant = (AbstractPlant) aspectHolder;
+        PlantType.PlantLifeStage lifeStage = plant.getCurrentStage();
+        if(plant.getType().isTree()) {
+            changeTreeStructure();
+        } else {
+
+        }
+    }
+
+    private void changeTreeStructure() {
+        TreeGenerator treeGenerator = new TreeGenerator();
+        AbstractPlant plant = (AbstractPlant) aspectHolder;
+        treeGenerator.applyTreeGrowth((Tree) plant);
+
     }
 
     @Override

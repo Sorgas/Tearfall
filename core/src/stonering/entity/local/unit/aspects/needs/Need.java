@@ -8,7 +8,7 @@ import stonering.entity.local.AspectHolder;
 /**
  * Abstract class for needs.
  * Need priority should be checked before creating task for performance purposes.
- *
+ *c
  * @author Alexander Kuzyakov on 21.09.2018.
  */
 public abstract class Need {

@@ -20,12 +20,41 @@ public class TreeGenerator {
     //TODO refactor
     public Tree generateTree(String specimen, int age) throws IllegalArgumentException {
         PlantType plantType = PlantMap.getInstance().getPlantType(specimen);
-        PlantType.PlantLifeStage plantLifeStage = getStageByAge(plantType, age);
-        TreeType treeType = plantLifeStage.getTreeType();
-        int material = MaterialMap.getInstance().getId(plantType.getLifeStages().get(0).getMaterialName());
         Tree tree = new Tree(null, age);
         tree.setType(plantType);
+        tree.setBlocks(createTreeBlocks(tree, ));
+        return tree;
+    }
+
+    /**
+     * Changes tree structure.
+     *
+     * @param tree
+     */
+    public void applyTreeGrowth(Tree tree) {
+        PlantType.PlantLifeStage lifeStage = tree.getCurrentStage();
+    }
+
+    /**
+     * Counts {@param plantType} life stage corresponding to {@param age} (months).
+     */
+    private PlantType.PlantLifeStage getStageByAge(PlantType plantType, int age) throws IllegalArgumentException {
+        for (PlantType.PlantLifeStage lifeStage : plantType.getLifeStages()) {
+            age -= lifeStage.getStageLength();
+            if (age <= 0) return lifeStage;
+        }
+        throw new IllegalArgumentException("Age " + age + " is invalid for treeType " + plantType.getName());
+    }
+
+    /**
+     * Creates blocks for tree. Parameters are taken from current life stage.
+     * @param tree
+     * @return
+     */
+    private PlantBlock[][][] createTreeBlocks(Tree tree) {
         Random random = new Random();
+        TreeType treeType = tree.getCurrentStage().getTreeType();
+        int material = MaterialMap.getInstance().getId(tree.getType().getLifeStages().get(0).getMaterialName());
         int treeCenter = treeType.getCrownRadius();
         int rootsDepth = treeType.getRootDepth();
         int treeWidth = 1 + treeCenter * 2;
@@ -67,18 +96,7 @@ public class TreeGenerator {
                 }
             }
         }
-
-        tree.setBlocks(treeBlocks);
-        return tree;
-    }
-
-    /**
-     * Changes tree structure.
-     *
-     * @param tree
-     */
-    public void applyTreeGrowth(Tree tree) {
-        //TODO
+        return treeBlocks;
     }
 
     private PlantBlock createTreePart(int material, TreeBlocksTypeEnum blockType, Tree tree, int x, int y, int z) {
@@ -89,16 +107,5 @@ public class TreeGenerator {
                 tree.getCurrentStage().getAtlasXY()[1]});
         block.setPlant(tree);
         return block;
-    }
-
-    /**
-     * Counts {@param plantType} life stage corresponding to {@param age} (months).
-     */
-    private PlantType.PlantLifeStage getStageByAge(PlantType plantType, int age) throws IllegalArgumentException {
-        for (PlantType.PlantLifeStage lifeStage : plantType.getLifeStages()) {
-            age -= lifeStage.getStageLength();
-            if (age <= 0) return lifeStage;
-        }
-        throw new IllegalArgumentException("Age " + age + " is invalid for treeType " + plantType.getName());
     }
 }
