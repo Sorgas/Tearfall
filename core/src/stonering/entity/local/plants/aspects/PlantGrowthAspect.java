@@ -5,6 +5,8 @@ import stonering.entity.local.AspectHolder;
 import stonering.entity.local.environment.GameCalendar;
 import stonering.entity.local.plants.AbstractPlant;
 import stonering.entity.local.plants.Tree;
+import stonering.game.core.GameMvc;
+import stonering.game.core.model.lists.PlantContainer;
 import stonering.generators.plants.TreeGenerator;
 
 /**
@@ -28,12 +30,13 @@ public class PlantGrowthAspect extends Aspect {
     @Override
     public void turn() {
         counter++;
-        if(counter == MONTH_SIZE) {
-            System.out.println("----------------tree month");
+        if (counter == MONTH_SIZE) {
             counter = 0;
             AbstractPlant abstractPlant = (AbstractPlant) aspectHolder;
             int current = abstractPlant.getCurrentStageIndex();
-            if(abstractPlant.increaceAge() != current) applyNewStage();
+            int newStage = abstractPlant.increaceAge();
+            System.out.println("-----------" + current + " " + newStage);
+            if (newStage != current) applyNewStage();
         }
     }
 
@@ -41,9 +44,14 @@ public class PlantGrowthAspect extends Aspect {
      * Changes plant loot and tree structure.
      */
     private void applyNewStage() {
-        System.out.println("new stage-----");
-        TreeGenerator treeGenerator = new TreeGenerator();
-        treeGenerator.applyTreeGrowth((Tree) aspectHolder);
+        PlantContainer plantContainer = GameMvc.getInstance().getModel().get(PlantContainer.class);
+        if (aspectHolder instanceof Tree) {
+            Tree tree = (Tree) aspectHolder;
+            plantContainer.removePlantBlocks(tree);
+            TreeGenerator treeGenerator = new TreeGenerator();
+            treeGenerator.applyTreeGrowth(tree);
+            plantContainer.placeTree(tree);
+        }
     }
 
     @Override

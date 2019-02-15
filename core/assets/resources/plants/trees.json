@@ -39,8 +39,8 @@
                 "color":"0xffffffff",
                 "treeType":{
                     "class":"tree_c",
-                    "crownRadius":"2",
-                    "height":"5",
+                    "crownRadius":"1",
+                    "height":"3",
                     "rootDepth":"2",
                     "rootRadius":"1"
                 }

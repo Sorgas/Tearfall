@@ -26,7 +26,7 @@ public abstract class AbstractPlant extends AspectHolder {
      */
     public int increaceAge() {
         age++;
-        if (type.getLifeStages().get(currentStage).getStageEnd() >= age) currentStage++;
+        if (type.getLifeStages().get(currentStage).getStageEnd() <= age) currentStage++;
         return currentStage;
     }
 

@@ -26,6 +26,7 @@ public class PlantMap {
         //TODO add json validation
         loadPlantTypes();
         loadTreeTypes();
+        initTypes();
     }
 
     public static PlantMap getInstance() {
@@ -46,6 +47,13 @@ public class PlantMap {
         for (PlantType plantType : elements) {
             types.put(plantType.getName(), plantType);
         }
+    }
+
+    /**
+     * Does post-loading calculations.
+     */
+    private void initTypes() {
+        types.values().forEach(PlantType::init);
     }
 
     public PlantType getPlantType(String specimen) {

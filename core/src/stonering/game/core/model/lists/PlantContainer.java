@@ -205,4 +205,23 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
     public List<AbstractPlant> getPlants() {
         return plants;
     }
+
+    /**
+     * Removes blocks of given plant from map.
+     */
+    public void removePlantBlocks(AbstractPlant plant) {
+        if (plant instanceof Tree) {
+            Tree tree = (Tree) plant;
+            PlantBlock[][][] treeParts = tree.getBlocks();
+            for (int x = 0; x < treeParts.length; x++) {
+                for (int y = 0; y < treeParts[x].length; y++) {
+                    for (int z = 0; z < treeParts[x][y].length; z++) {
+                        if(treeParts[x][y][z] != null) localMap.setPlantBlock(treeParts[x][y][z].getPosition(), null);
+                    }
+                }
+            }
+        } else if (plant instanceof Plant) {
+            localMap.setPlantBlock(((Plant) plant).getBlock().getPosition(), null);
+        }
+    }
 }
