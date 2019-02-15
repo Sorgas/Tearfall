@@ -29,8 +29,6 @@ public class TreeGenerator {
 
     /**
      * Changes tree structure.
-     *
-     * @param tree
      */
     public void applyTreeGrowth(Tree tree) {
         tree.setBlocks(createTreeBlocks(tree));

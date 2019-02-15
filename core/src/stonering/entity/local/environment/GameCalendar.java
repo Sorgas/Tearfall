@@ -13,7 +13,7 @@ import java.util.*;
  * @author Alexander on 07.10.2018.
  */
 public class GameCalendar extends Turnable implements ModelComponent, Initable {
-    public static int MINUTE_SIZE = 2;
+    public static int MINUTE_SIZE = 4;
     public static int HOUR_SIZE = 2;
     public static int DAY_SIZE = 2;
     public static int MONTH_SIZE = 2;

@@ -4,9 +4,11 @@ import stonering.entity.local.Aspect;
 import stonering.entity.local.AspectHolder;
 import stonering.entity.local.environment.GameCalendar;
 import stonering.entity.local.plants.AbstractPlant;
+import stonering.entity.local.plants.Plant;
 import stonering.entity.local.plants.Tree;
 import stonering.game.core.GameMvc;
 import stonering.game.core.model.lists.PlantContainer;
+import stonering.generators.plants.PlantGenerator;
 import stonering.generators.plants.TreeGenerator;
 
 /**
@@ -29,14 +31,14 @@ public class PlantGrowthAspect extends Aspect {
      */
     @Override
     public void turn() {
-        counter++;
-        if (counter == MONTH_SIZE) {
-            counter = 0;
-            AbstractPlant abstractPlant = (AbstractPlant) aspectHolder;
-            int current = abstractPlant.getCurrentStageIndex();
-            int newStage = abstractPlant.increaceAge();
-            System.out.println("-----------" + current + " " + newStage);
-            if (newStage != current) applyNewStage();
+        if (counter++ != MONTH_SIZE) return;
+        counter = 0;
+        switch (((AbstractPlant) aspectHolder).increaceAge()) {
+            case 1:
+                applyNewStage();
+                return;
+            case -1:
+                die();
         }
     }
 
@@ -50,8 +52,22 @@ public class PlantGrowthAspect extends Aspect {
             plantContainer.removePlantBlocks(tree);
             TreeGenerator treeGenerator = new TreeGenerator();
             treeGenerator.applyTreeGrowth(tree);
-            plantContainer.placeTree(tree);
+            plantContainer.place(tree);
+        } else if (aspectHolder instanceof Plant) {
+            Plant plant = (Plant) aspectHolder;
+            plantContainer.removePlantBlocks(plant);
+            PlantGenerator plantGenerator = new PlantGenerator();
+            plantGenerator.applyPlantGrowth(plant);
+            plantContainer.place(plant);
         }
+    }
+
+    /**
+     * Kill this plant and leave products(if any).
+     */
+    private void die() {
+        //TODO
+        ((AbstractPlant) aspectHolder).setDead(true);
     }
 
     @Override

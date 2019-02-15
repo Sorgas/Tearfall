@@ -8,7 +8,6 @@ import stonering.util.geometry.Position;
  * @author Alexander Kuzyakov on 19.10.2017.
  */
 public class Tree extends AbstractPlant {
-    private Position position;           //position of stomp
     private PlantBlock[][][] blocks;
 
     public Tree(Position position, int age) {

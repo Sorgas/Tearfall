@@ -102,27 +102,27 @@
         "soilType": "soil",
         "lifeStages": [
             {
+                "stageLength": "2",
+                "harvestProducts": null,
+                "cutProducts": null,
+                "materialName": "willow",
+                "atlasXY": ["3", "0"],
+                "color": "0xffffffff"
+            },
+            {
+                "stageLength": "3",
+                "harvestProducts": null,
+                "cutProducts": null,
+                "materialName": "willow",
+                "atlasXY": ["4", "0"],
+                "color": "0xffffffff"
+            },
+            {
                 "stageLength": "1",
                 "harvestProducts": null,
                 "cutProducts": null,
                 "materialName": "willow",
                 "atlasXY": ["5", "0"],
-                "color": "0xffffffff"
-            },
-            {
-                "stageLength": "1",
-                "harvestProducts": null,
-                "cutProducts": null,
-                "materialName": "willow",
-                "atlasXY": ["0", "0"],
-                "color": "0xffffffff"
-            },
-            {
-                "stageLength": "1",
-                "harvestProducts": null,
-                "cutProducts": null,
-                "materialName": "willow",
-                "atlasXY": ["0", "0"],
                 "color": "0xffffffff"
             }
         ]

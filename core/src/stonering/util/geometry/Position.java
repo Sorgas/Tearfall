@@ -40,6 +40,15 @@ public class Position implements Serializable, Cloneable {
         return new Position(pos1.x + x, pos1.y + y, pos1.z + z);
     }
 
+    public static Position sub(Position pos1, Position pos2) {
+        return new Position(pos1.x - pos2.x, pos1.y - pos2.y, pos1.z - pos2.z);
+    }
+
+    public static Position sub(Position pos1, int x, int y, int z) {
+        return new Position(pos1.x - x, pos1.y - y, pos1.z - z);
+    }
+
+
     public Position addVector(Vector vector) {
         Position endPoint = vector.getEndPoint();
         int xOffset = endPoint.getX() - vector.getStartPoint().getX();
