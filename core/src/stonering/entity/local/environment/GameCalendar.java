@@ -13,10 +13,10 @@ import java.util.*;
  * @author Alexander on 07.10.2018.
  */
 public class GameCalendar extends Turnable implements ModelComponent, Initable {
-    public static int MINUTE_SIZE = 4;
-    public static int HOUR_SIZE = 2;
+    public static int MINUTE_SIZE = 5;
+    public static int HOUR_SIZE = 5;
     public static int DAY_SIZE = 2;
-    public static int MONTH_SIZE = 2;
+    public static int MONTH_SIZE = 30;
     public static int YEAR_SIZE = 12;
     public static final String MINUTE = "minute";
     public static final String HOUR = "hour";
@@ -60,17 +60,17 @@ public class GameCalendar extends Turnable implements ModelComponent, Initable {
             if (minute >= HOUR_SIZE) {
                 minute = 0;
                 hour++;
-                System.out.println("hour" + hour);
+//                System.out.println("hour" + hour);
                 listeners.get(HOUR).forEach(IntervalTurnable::turnHour);
                 if (hour >= DAY_SIZE) {
                     hour = 0;
                     day++;
-                    System.out.println("day" + day);
+//                    System.out.println("day" + day);
                     listeners.get(DAY).forEach(IntervalTurnable::turnDay);
                     if (day >= MONTH_SIZE) {
                         day = 0;
                         month++;
-                        System.out.println("month" + month);
+//                        System.out.println("month" + month);
                         listeners.get(MONTH).forEach(IntervalTurnable::turnMonth);
                         if (month >= YEAR_SIZE) {
                             year++;

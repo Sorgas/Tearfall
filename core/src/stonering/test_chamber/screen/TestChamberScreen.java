@@ -3,11 +3,11 @@ package stonering.test_chamber.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import stonering.test_chamber.TestChamberGame;
-import stonering.test_chamber.screen.stage.UiStage;
+import stonering.test_chamber.screen.stage.ModelSelectStage;
 
 public class TestChamberScreen implements Screen {
     private TestChamberGame testChamberGame;
-    private UiStage selectStage;
+    private ModelSelectStage selectStage;
 
     public TestChamberScreen(TestChamberGame testChamberGame) {
         this.testChamberGame = testChamberGame;
@@ -15,7 +15,7 @@ public class TestChamberScreen implements Screen {
 
     @Override
     public void show() {
-        selectStage = new UiStage(testChamberGame);
+        selectStage = new ModelSelectStage(testChamberGame);
         Gdx.input.setInputProcessor(selectStage);
     }
 
@@ -29,7 +29,7 @@ public class TestChamberScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
+        selectStage.resize(width, height);
     }
 
     @Override

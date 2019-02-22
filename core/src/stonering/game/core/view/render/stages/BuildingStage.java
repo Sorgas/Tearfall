@@ -4,7 +4,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.utils.Align;
 import stonering.entity.local.building.Building;
 import stonering.game.core.GameMvc;
+import stonering.game.core.view.render.stages.base.UiStage;
 import stonering.game.core.view.render.ui.menus.workbench.WorkbenchMenu;
+import stonering.util.global.Initable;
 
 /**
  * Stage with screen for building like workbenches and furniture.
@@ -13,7 +15,7 @@ import stonering.game.core.view.render.ui.menus.workbench.WorkbenchMenu;
  *
  * @author Alexander on 09.11.2018.
  */
-public class BuildingStage extends InitableStage {
+public class BuildingStage extends UiStage implements Initable {
     private GameMvc gameMvc;
     private Building building;
     private WorkbenchMenu menu;

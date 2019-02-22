@@ -10,12 +10,10 @@ import stonering.test_chamber.screen.TestChamberScreen;
 public class TestChamberGame extends Game {
     private TestChamberScreen screen;
     private BitmapFont font;
-    private Skin skin;
 
     @Override
     public void create() {
         createFont();
-        createSkin();
         showTestSelectScreen();
     }
 
@@ -27,10 +25,5 @@ public class TestChamberGame extends Game {
     private void createFont() {
         font = new BitmapFont();
         font.setColor(0.2f, 0.2f, 0.2f, 1);
-    }
-
-    private void createSkin() {
-        TextureAtlas atlas = new TextureAtlas(new FileHandle("ui_skin/uiskin.atlas"));
-        skin = new Skin(new FileHandle("ui_skin/uiskin.json"), atlas);
     }
 }

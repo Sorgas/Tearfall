@@ -5,7 +5,7 @@ import com.badlogic.gdx.InputAdapter;
 import stonering.game.core.view.GameView;
 
 /**
- * Ensures that input always goes to active stage from view.
+ * Ensures that input always goes to active stage from {@link GameView}.
  *
  * @author Alexander
  */

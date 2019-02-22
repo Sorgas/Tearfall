@@ -4,8 +4,10 @@ import com.badlogic.gdx.Input;
 import stonering.entity.local.building.BuildingBlock;
 import stonering.game.core.GameMvc;
 import stonering.game.core.model.local_map.LocalMap;
+import stonering.game.core.view.render.stages.base.UiStage;
 import stonering.game.core.view.render.ui.lists.ObservingList;
 import stonering.util.geometry.Position;
+import stonering.util.global.Initable;
 import stonering.util.global.TagLoggersEnum;
 
 /**
@@ -16,7 +18,7 @@ import stonering.util.global.TagLoggersEnum;
  *
  * @author Alexander on 11.11.2018.
  */
-public class MapEntitySelectStage extends InitableStage {
+public class MapEntitySelectStage extends UiStage implements Initable {
     public static final int ALL = -1;
     public static final int ITEMS = 0;
     public static final int UNITS = 1;

@@ -2,9 +2,6 @@ package stonering.game.core.controller.controllers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.utils.Pools;
-import stonering.game.core.GameMvc;
 import stonering.game.core.controller.controllers.toolbar.DesignationsController;
 import stonering.game.core.controller.inputProcessors.*;
 import stonering.util.global.TagLoggersEnum;
@@ -17,7 +14,7 @@ import stonering.util.global.TagLoggersEnum;
 public class GameController extends Controller {
     private DesignationsController designationsController;
     private InputMultiplexer inputMultiplexer;
-    private CameraInputAdapter cameraInputAdapter;
+    private EntitySelectorInputAdapter entitySelectorInputAdapter;
     private PauseInputAdapter pauseInputAdapter;
 
     public void init() {
@@ -25,12 +22,13 @@ public class GameController extends Controller {
         inputMultiplexer = new InputMultiplexer();
         designationsController = new DesignationsController();
         pauseInputAdapter = new PauseInputAdapter(gameMvc);
-        cameraInputAdapter = new CameraInputAdapter(gameMvc);
+        entitySelectorInputAdapter = new EntitySelectorInputAdapter(gameMvc);
         designationsController.init();
         inputMultiplexer.addProcessor(new KeyBufferInputAdapter());                 // only buffers events
         inputMultiplexer.addProcessor(pauseInputAdapter);                           // handles pause
         inputMultiplexer.addProcessor(new StageInputAdapter(gameMvc.getView()));    // calls stages
-        inputMultiplexer.addProcessor(cameraInputAdapter);                          // calls entity selector (camera)
+        inputMultiplexer.addProcessor(entitySelectorInputAdapter);                  // calls entity selector (model camera)
+        inputMultiplexer.addProcessor(new CameraInputAdapter());                    // calls camera (zooom)
         Gdx.input.setInputProcessor(inputMultiplexer);
     }
 
@@ -44,10 +42,10 @@ public class GameController extends Controller {
     }
 
     public void setCameraEnabled(boolean value) {
-        if(cameraInputAdapter != null) {
-            cameraInputAdapter.setEnabled(value);
+        if(entitySelectorInputAdapter != null) {
+            entitySelectorInputAdapter.setEnabled(value);
         } else {
-            TagLoggersEnum.UI.logDebug("Changing CameraInputAdapter state before GameController init.");
+            TagLoggersEnum.UI.logDebug("Changing EntitySelectorInputAdapter state before GameController init.");
         }
     }
 

@@ -32,9 +32,9 @@ public class Toolbar extends Container {
     }
 
     public void init() {
-        this.setFillParent(true);
-        this.align(Align.bottomRight);
-        this.setActor(createToolbarTable());
+        setFillParent(true);
+        align(Align.bottomRight);
+        setActor(createToolbarTable());
         createInputListener();
     }
 

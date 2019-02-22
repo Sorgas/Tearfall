@@ -89,8 +89,10 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
                 for (int z = 0; z < treeParts[x][y].length; z++) {
                     if (treeParts[x][y][z] != null) {
                         Position onMapPosition = Position.add(vector, x, y, z);
-                        localMap.setPlantBlock(onMapPosition, treeParts[x][y][z]);
-                        treeParts[x][y][z].setPosition(onMapPosition);
+                        if(localMap.inMap(onMapPosition)) {
+                            localMap.setPlantBlock(onMapPosition, treeParts[x][y][z]);
+                            treeParts[x][y][z].setPosition(onMapPosition);
+                        }
                     }
                 }
             }

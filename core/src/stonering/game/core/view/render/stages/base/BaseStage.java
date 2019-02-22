@@ -1,7 +1,6 @@
 package stonering.game.core.view.render.stages.base;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import stonering.game.core.GameMvc;
 import stonering.game.core.model.EntitySelector;
@@ -19,10 +18,9 @@ public class BaseStage extends Stage {
     private GameMvc gameMvc;
     private LocalWorldDrawer worldDrawer;
     private UIDrawer uiDrawer;
-    private SpriteBatch batch;
 
     public BaseStage() {
-        this.gameMvc = GameMvc.getInstance();
+        gameMvc = GameMvc.getInstance();
         worldDrawer = new LocalWorldDrawer(gameMvc.getModel());
         uiDrawer = new UIDrawer();
     }
@@ -33,23 +31,8 @@ public class BaseStage extends Stage {
 
     @Override
     public void draw() {
-        super.draw();
-        worldDrawer.drawLocalWorld();
+        worldDrawer.draw();
         uiDrawer.draw();
-    }
-
-    public void initBatch() {
-        if (batch != null)
-            batch.dispose();
-        batch = new SpriteBatch();
-    }
-
-    public void disposeBatch() {
-        batch.dispose();
-    }
-
-    public LocalWorldDrawer getWorldDrawer() {
-        return worldDrawer;
     }
 
     public UIDrawer getUiDrawer() {
@@ -61,32 +44,23 @@ public class BaseStage extends Stage {
      */
     @Override
     public boolean keyDown(int keyCode) {
-        if (!uiDrawer.keyDown(keyCode)) {                 // try act with toolbar
-            return trySelectMapEntity(keyCode);          // map click
-        }
-        return false;
+        return uiDrawer.keyDown(keyCode) ||                  // try act with toolbar
+                trySelectMapEntity(keyCode);                 // map click
     }
 
     /**
      * Called, if toolbar didn't handle event, shows selection list for map tile.
-     *
-     * @param keycode
-     * @return
      */
     //TODO add filters like Shift+E Ctrl+E etc
     private boolean trySelectMapEntity(int keycode) {
-        if (keycode == Input.Keys.E) {
-            showMapEntityListStage(gameMvc.getModel().get(EntitySelector.class).getPosition());
-            return true;
-        }
-        return false;
+        if (keycode != Input.Keys.E) return false;
+        showMapEntityListStage(gameMvc.getModel().get(EntitySelector.class).getPosition());
+        return true;
     }
 
     /**
      * Shows stage with list of entities in given position.
      * If there is only one, proceeds to entity stage immediately.
-     *
-     * @param position
      */
     //TODO add filters
     private void showMapEntityListStage(Position position) {
@@ -95,5 +69,6 @@ public class BaseStage extends Stage {
 
     public void resize(int width, int height) {
         uiDrawer.resize(width, height);
+        worldDrawer.resize(width, height);
     }
 }

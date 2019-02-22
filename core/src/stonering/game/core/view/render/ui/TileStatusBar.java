@@ -28,16 +28,16 @@ public class TileStatusBar extends Table {
     }
 
     private void createTable() {
-        this.align(Align.bottomLeft);
-        this.defaults().align(Align.left);
+        align(Align.bottomLeft);
+        defaults().align(Align.left);
 
         cellType = new Label("", StaticSkin.getSkin());
-        this.add(new Label("Material: ", StaticSkin.getSkin()));
-        this.add(cellType).row();
+        add(new Label("Material: ", StaticSkin.getSkin()));
+        add(cellType).row();
 
         coordinates = new Label("", StaticSkin.getSkin());
-        this.add(new Label("Coordinates: ", StaticSkin.getSkin()));
-        this.add(coordinates).row();
+        add(new Label("Coordinates: ", StaticSkin.getSkin()));
+        add(coordinates).row();
     }
 
     public void setData(Position camera, String material, int area, int flooding) {
