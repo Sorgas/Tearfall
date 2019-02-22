@@ -126,5 +126,41 @@
                 "color": "0xffffffff"
             }
         ]
+    },
+    {
+        "name": "cattail",
+        "title": "Сattail",
+        "description": "Сattail",
+        "temperatureBounds": ["-40", "40", "-40", "40"],
+        "rainfallBounds": ["0", "100"],
+        "waterSource": ["near"],
+        "lightNeed": ["open"],
+        "soilType": "soil",
+        "lifeStages": [
+            {
+                "stageLength": "2",
+                "harvestProducts": null,
+                "cutProducts": null,
+                "materialName": "willow",
+                "atlasXY": ["6", "0"],
+                "color": "0xffffffff"
+            },
+            {
+                "stageLength": "3",
+                "harvestProducts": null,
+                "cutProducts": null,
+                "materialName": "willow",
+                "atlasXY": ["7", "0"],
+                "color": "0xffffffff"
+            },
+            {
+                "stageLength": "1",
+                "harvestProducts": null,
+                "cutProducts": null,
+                "materialName": "willow",
+                "atlasXY": ["8", "0"],
+                "color": "0xffffffff"
+            }
+        ]
     }
 ]
