@@ -2,7 +2,7 @@ package stonering.entity.jobs.actions;
 
 import stonering.entity.jobs.actions.target.ItemActionTarget;
 import stonering.entity.local.items.Item;
-import stonering.entity.local.unit.aspects.EquipmentAspect;
+import stonering.entity.local.unit.aspects.equipment.EquipmentAspect;
 import stonering.exceptions.NotSuitableItemException;
 import stonering.game.core.model.lists.ItemContainer;
 import stonering.util.global.TagLoggersEnum;

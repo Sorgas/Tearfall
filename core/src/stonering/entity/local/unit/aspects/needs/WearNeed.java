@@ -1,14 +1,14 @@
 package stonering.entity.local.unit.aspects.needs;
 
 import stonering.entity.jobs.actions.EquipItemAction;
-import stonering.game.core.model.GameModel;
 import stonering.entity.jobs.Task;
 import stonering.entity.jobs.actions.TaskTypesEnum;
 import stonering.entity.local.AspectHolder;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.items.selectors.ItemSelector;
 import stonering.entity.local.items.selectors.WearForLimbItemSelector;
-import stonering.entity.local.unit.aspects.EquipmentAspect;
+import stonering.entity.local.unit.aspects.equipment.EquipmentAspect;
+import stonering.entity.local.unit.aspects.equipment.EquipmentSlot;
 import stonering.game.core.model.lists.ItemContainer;
 
 /**
@@ -38,31 +38,22 @@ public class WearNeed extends Need {
 
     @Override
     public Task tryCreateTask() {
+        if (!aspectHolder.getAspects().containsKey(EquipmentAspect.NAME)) return null;
         EquipmentAspect equipmentAspect = (EquipmentAspect) aspectHolder.getAspects().get("equipment");
-        if (equipmentAspect != null) {
-            if (!equipmentAspect.getEmptyDesiredSlots().isEmpty()) {
-                for (EquipmentAspect.EquipmentSlot equipmentSlot : equipmentAspect.getDesiredSlots()) {
-                    if (equipmentSlot.isEmpty()) {
-                        Task task = tryCreateEquipTask(aspectHolder, container, equipmentSlot);
-                        if (task != null) {
-                            return task;
-                        }
-                    }
-                }
-            }
+        if (equipmentAspect.getEmptyDesiredSlots().isEmpty()) return null;
+        for (EquipmentSlot equipmentSlot : equipmentAspect.getDesiredSlots()) {
+            Task task = tryCreateEquipTask(aspectHolder, equipmentSlot);
+            if (task != null) return task;
         }
         return null;
     }
 
-    private Task tryCreateEquipTask(AspectHolder aspectHolder, GameModel container, EquipmentAspect.EquipmentSlot equipmentSlot) {
+    private Task tryCreateEquipTask(AspectHolder aspectHolder, EquipmentSlot equipmentSlot) {
         ItemSelector itemSelector = createItemSelectorForLimb(equipmentSlot.limbName);
         Item item = container.get(ItemContainer.class).getItemAvailableBySelector(itemSelector, aspectHolder.getPosition());
-        Task task = null;
-        if (item != null) {
-            EquipItemAction equipItemAction = new EquipItemAction(item, true);
-            task = new Task("Equip item " + item.getTitle(), TaskTypesEnum.EQUIPPING, equipItemAction, GET_WEAR_PRIORITY);
-        }
-        return task;
+        if (item == null) return null;
+        EquipItemAction equipItemAction = new EquipItemAction(item, true);
+        return new Task("Equip item " + item.getTitle(), TaskTypesEnum.EQUIPPING, equipItemAction, GET_WEAR_PRIORITY);
     }
 
     private ItemSelector createItemSelectorForLimb(String limbName) {

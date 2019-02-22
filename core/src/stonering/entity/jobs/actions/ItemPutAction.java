@@ -6,7 +6,7 @@ import stonering.entity.jobs.actions.target.PositionActionTarget;
 import stonering.entity.local.AspectHolder;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.items.aspects.ItemContainerAspect;
-import stonering.entity.local.unit.aspects.EquipmentAspect;
+import stonering.entity.local.unit.aspects.equipment.EquipmentAspect;
 import stonering.game.core.model.lists.ItemContainer;
 import stonering.util.geometry.Position;
 

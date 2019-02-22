@@ -3,7 +3,7 @@ package stonering.entity.jobs.actions.aspects;
 import stonering.entity.jobs.actions.Action;
 import stonering.entity.jobs.actions.target.ItemActionTarget;
 import stonering.entity.local.items.Item;
-import stonering.entity.local.unit.aspects.EquipmentAspect;
+import stonering.entity.local.unit.aspects.equipment.EquipmentAspect;
 import stonering.game.core.model.lists.ItemContainer;
 
 /**

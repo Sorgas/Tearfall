@@ -5,7 +5,7 @@ import stonering.entity.jobs.actions.target.PositionActionTarget;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.items.selectors.ItemSelector;
 import stonering.entity.local.items.selectors.ToolWithActionItemSelector;
-import stonering.entity.local.unit.aspects.EquipmentAspect;
+import stonering.entity.local.unit.aspects.equipment.EquipmentAspect;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.designations.DesignationTypeEnum;
 import stonering.game.core.model.lists.ItemContainer;

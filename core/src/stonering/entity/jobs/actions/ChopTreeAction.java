@@ -9,11 +9,10 @@ import stonering.entity.local.plants.AbstractPlant;
 import stonering.entity.local.plants.Plant;
 import stonering.entity.local.plants.PlantBlock;
 import stonering.entity.local.plants.Tree;
-import stonering.entity.local.unit.aspects.EquipmentAspect;
+import stonering.entity.local.unit.aspects.equipment.EquipmentAspect;
 import stonering.game.core.model.lists.ItemContainer;
 import stonering.game.core.model.lists.PlantContainer;
 import stonering.game.core.model.local_map.LocalMap;
-import stonering.util.geometry.Position;
 import stonering.util.global.TagLoggersEnum;
 
 public class ChopTreeAction extends Action {
