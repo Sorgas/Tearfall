@@ -44,8 +44,8 @@ public class BaseStage extends Stage {
      */
     @Override
     public boolean keyDown(int keyCode) {
-        return uiDrawer.keyDown(keyCode) ||                  // try act with toolbar
-                trySelectMapEntity(keyCode);                 // map click
+        if(uiDrawer.keyDown(keyCode)) return true;
+        return trySelectMapEntity(keyCode);
     }
 
     /**

@@ -144,8 +144,8 @@ public class Toolbar extends Container {
                 if (keycode == Input.Keys.E && getActiveMenu() == parentMenu) {
                     return false;
                 }
-                getActiveMenu().fire(event);
-                return true;
+                return getActiveMenu().fire(event);
+//                return true;
             }
         });
     }

@@ -28,7 +28,6 @@ public class GameController extends Controller {
         inputMultiplexer.addProcessor(pauseInputAdapter);                           // handles pause
         inputMultiplexer.addProcessor(new StageInputAdapter(gameMvc.getView()));    // calls stages
         inputMultiplexer.addProcessor(entitySelectorInputAdapter);                  // calls entity selector (model camera)
-        inputMultiplexer.addProcessor(new CameraInputAdapter());                    // calls camera (zooom)
         Gdx.input.setInputProcessor(inputMultiplexer);
     }
 
