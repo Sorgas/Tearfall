@@ -32,9 +32,9 @@ public class Toolbar extends Container {
     }
 
     public void init() {
-        this.setFillParent(true);
-        this.align(Align.bottomRight);
-        this.setActor(createToolbarTable());
+        setFillParent(true);
+        align(Align.bottomRight);
+        setActor(createToolbarTable());
         createInputListener();
     }
 
@@ -144,8 +144,8 @@ public class Toolbar extends Container {
                 if (keycode == Input.Keys.E && getActiveMenu() == parentMenu) {
                     return false;
                 }
-                getActiveMenu().fire(event);
-                return true;
+                return getActiveMenu().fire(event);
+//                return true;
             }
         });
     }

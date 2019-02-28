@@ -54,7 +54,7 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
         plants.forEach(abstractPlant -> abstractPlant.turn());
     }
 
-    private void place(AbstractPlant plant) {
+    public void place(AbstractPlant plant) {
         if (plant.getType().isTree()) {
             if (plant instanceof Tree) {
                 placeTree((Tree) plant);
@@ -68,32 +68,31 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
 
     private void placePlant(Plant plant) {
         localMap.setPlantBlock(plant.getPosition(), plant.getBlock());
+        plant.getBlock().setPosition(plant.getPosition());
     }
 
     /**
-     * Places tree on local map and adds it to container.
+     * Places tree on local map.
      * Tree should have position, pointing on its stomp (for growing from sapling).
      * //TODO checking space for placing
      * //TODO merging overlaps with other trees.
      *
      * @param tree Tree object with not null tree field
      */
-    public void placeTree(Tree tree) {
-        TreeType treeType = tree.getCurrentStage().getTreeType();
+    private void placeTree(Tree tree) {
+        TreeType type = tree.getCurrentStage().getTreeType();
+        int radius = type.getTreeRadius();
+        Position vector = Position.sub(tree.getPosition(), radius, radius, type.getRootDepth()); // position of 0,0,0 tree part on map
         PlantBlock[][][] treeParts = tree.getBlocks();
-        Position treePosition = tree.getPosition(); // position of tree stomp
-        Position vector = new Position(treePosition.x - treeType.getTreeRadius(),
-                treePosition.y - treeType.getTreeRadius(),
-                treePosition.z - treeType.getRootDepth()); // position of 0,0,0 tree part on map
         for (int x = 0; x < treeParts.length; x++) {
             for (int y = 0; y < treeParts[x].length; y++) {
                 for (int z = 0; z < treeParts[x][y].length; z++) {
                     if (treeParts[x][y][z] != null) {
-                        Position onMapPosition = new Position(vector.getX() + x,
-                                vector.getY() + y,
-                                vector.getZ() + z);
-                        localMap.setPlantBlock(onMapPosition, treeParts[x][y][z]);
-                        treeParts[x][y][z].setPosition(onMapPosition);
+                        Position onMapPosition = Position.add(vector, x, y, z);
+                        if(localMap.inMap(onMapPosition)) {
+                            localMap.setPlantBlock(onMapPosition, treeParts[x][y][z]);
+                            treeParts[x][y][z].setPosition(onMapPosition);
+                        }
                     }
                 }
             }
@@ -204,5 +203,24 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
 
     public List<AbstractPlant> getPlants() {
         return plants;
+    }
+
+    /**
+     * Removes blocks of given plant from map.
+     */
+    public void removePlantBlocks(AbstractPlant plant) {
+        if (plant instanceof Tree) {
+            Tree tree = (Tree) plant;
+            PlantBlock[][][] treeParts = tree.getBlocks();
+            for (int x = 0; x < treeParts.length; x++) {
+                for (int y = 0; y < treeParts[x].length; y++) {
+                    for (int z = 0; z < treeParts[x][y].length; z++) {
+                        if (treeParts[x][y][z] != null) localMap.setPlantBlock(treeParts[x][y][z].getPosition(), null);
+                    }
+                }
+            }
+        } else if (plant instanceof Plant) {
+            localMap.setPlantBlock(((Plant) plant).getBlock().getPosition(), null);
+        }
     }
 }

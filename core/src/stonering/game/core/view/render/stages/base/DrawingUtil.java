@@ -1,11 +1,15 @@
 package stonering.game.core.view.render.stages.base;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import stonering.game.core.GameMvc;
 import stonering.util.geometry.Position;
 
 /**
@@ -14,28 +18,27 @@ import stonering.util.geometry.Position;
  * @author Alexander on 06.02.2019.
  */
 public class DrawingUtil {
-    private SpriteBatch batch;
+    private Batch batch;
     private Texture[] atlases;
 
     private float shadingStep = 0.06f;
     private Color batchColor;               // default batch color without light or transparency
 
-    public static final int tileWidth = 64;             //x size(left-right)
-    public static final int tileDepth = 64;             //y size(back-forth)
-    public static final int tileHeight = 96;            //z size(up-down) plus depth
-    public static final int topingTileHeight = 70;      //depth plus floor height(10)
-    public static final int blockTileHeight = 166;      //total block height
-    protected static int viewAreaWidth = 30;              // radius
+    public static final int tileWidth = 64;             // x size(left-right)
+    public static final int tileDepth = 64;             // y size(back-forth)
+    public static final int tileHeight = 96;            // z size(up-down) plus depth
+    public static final int topingTileHeight = 70;      // depth plus floor height(10)
+    public static final int blockTileHeight = 166;      // total block height
+    protected static int viewAreaWidth = 30;            // radius
     protected static int viewAreDepth = 10;
     private Vector2 screenCenter;
 
-    public DrawingUtil() {
-        batch = new SpriteBatch();
+    public DrawingUtil(Batch batch) {
+        this.batch = batch;
         batch.enableBlending();
         batchColor = new Color();
         createAtlases();
     }
-
 
     public void drawSprite(TextureRegion sprite, Position position, Position selectorPosition) {
         drawSprite(sprite, position.x, position.y, position.z, selectorPosition);
@@ -45,8 +48,9 @@ public class DrawingUtil {
      * Draws sprite on localMap position.
      */
     public void drawSprite(TextureRegion sprite, int x, int y, int z, Position selectorPosition) {
-        batch.draw(sprite, getScreenPosX(x - selectorPosition.x),
-                getScreenPosY(y - selectorPosition.y, z - selectorPosition.z));
+        float screenX = getScreenPosX(x - selectorPosition.x);
+        float screenY = getScreenPosY(y - selectorPosition.y, z - selectorPosition.z);
+        batch.draw(sprite, screenX, screenY);
     }
 
     /**
@@ -121,6 +125,7 @@ public class DrawingUtil {
     public void begin() {
         batch.begin();
         screenCenter = new Vector2(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f);
+//        System.out.println(screenCenter);
     }
 
     public void end() {
@@ -129,5 +134,9 @@ public class DrawingUtil {
 
     public Vector2 getScreenCenter() {
         return screenCenter;
+    }
+
+    public Batch getBatch() {
+        return batch;
     }
 }

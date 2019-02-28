@@ -1,5 +1,4 @@
 /**
-
     all life stages should have tree type.
 */
 [
@@ -19,7 +18,7 @@
                 "harvestProducts":null,
                 "cutProducts":["branch", "root"],
                 "materialName":"willow",
-                "atlasXY":["0", "2"],
+                "atlasXY":["0", "1"],
                 "color":"0xffffffff",
                 "treeType":{
                     "class":"tree_c",
@@ -41,7 +40,7 @@
                     "class":"tree_c",
                     "crownRadius":"1",
                     "height":"3",
-                    "rootDepth":"1",
+                    "rootDepth":"2",
                     "rootRadius":"1"
                 }
             }, {

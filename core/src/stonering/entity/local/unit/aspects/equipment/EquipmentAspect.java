@@ -1,4 +1,4 @@
-package stonering.entity.local.unit.aspects;
+package stonering.entity.local.unit.aspects.equipment;
 
 import stonering.exceptions.NotSuitableItemException;
 import stonering.entity.local.Aspect;
@@ -71,7 +71,7 @@ public class EquipmentAspect extends Aspect {
             if (item.isWear()) { // equip as wear
                 //TODO add layers checking
                 List<EquipmentSlot> slots = selectMostEmptySlotsForItem(item);
-                for (EquipmentAspect.EquipmentSlot slot : slots) {
+                for (EquipmentSlot slot : slots) {
                     slot.items.add(item);
                 }
                 equippedItems.add(item);
@@ -159,7 +159,7 @@ public class EquipmentAspect extends Aspect {
                 throw new NotSuitableItemException("Creature " + aspectHolder + " has no required slots for item " + item);
             }
             List<EquipmentSlot> slots = selectMostEmptySlotsForItem(item);
-            for (EquipmentAspect.EquipmentSlot slot : slots) {
+            for (EquipmentSlot slot : slots) {
                 Item itemToUnequip = findItemToUnequip(slot, item);
                 if (itemToUnequip != null) {
                     return itemToUnequip;
@@ -201,7 +201,7 @@ public class EquipmentAspect extends Aspect {
      * @param item
      * @return
      */
-    private Item findItemToUnequip(EquipmentAspect.EquipmentSlot slot, Item item) {
+    private Item findItemToUnequip(EquipmentSlot slot, Item item) {
         for (int i = slot.items.size() - 1; i >= 0; i--) {
             if (slot.items.get(i).getType().getWear().getLayer() > item.getType().getWear().getLayer()) {
                 slot.items.get(i); // if action possible
@@ -223,42 +223,9 @@ public class EquipmentAspect extends Aspect {
         }
     }
 
-    public class EquipmentSlot {
-        //TODO add multi-item support for one layer
-        public ArrayList<Item> items; //lower indexes means item is under other items.
-        public String limbName;
-        public String limbType;
 
-        public EquipmentSlot(String limbName, String limbType) {
-            this.limbName = limbName;
-            this.limbType = limbType;
-            items = new ArrayList<>();
-        }
 
-        public boolean isEmpty() {
-            return items.isEmpty();
-        }
 
-        public int getTopLayer() {
-            return !items.isEmpty() ? items.get(items.size() - 1).getType().getWear().getLayer() : 0;
-        }
-
-        public boolean isLayerOccupied(int layer) {
-            return items.stream().anyMatch(item -> item.getType().getWear().getLayer() == layer);
-        }
-
-        public int getItemCountAboveLayer(int layer) {
-            return (int) items.stream().filter(item -> item.getType().getWear().getLayer() > layer).count();
-        }
-    }
-
-    public class GrabEquipmentSlot extends EquipmentSlot {
-        public Item grabbedItem;
-
-        public GrabEquipmentSlot(String limbName, String limbType) {
-            super(limbName, limbType);
-        }
-    }
 
     /**
      * Removes given item from all slots disregarding other items in these slots (even if overlapping is present).
@@ -309,24 +276,12 @@ public class EquipmentAspect extends Aspect {
         return slots;
     }
 
-    public void setSlots(HashMap<String, EquipmentSlot> slots) {
-        this.slots = slots;
-    }
-
     public HashMap<String, GrabEquipmentSlot> getGrabSlots() {
         return grabSlots;
     }
 
-    public void setGrabSlots(HashMap<String, GrabEquipmentSlot> grabSlots) {
-        this.grabSlots = grabSlots;
-    }
-
     public ArrayList<EquipmentSlot> getDesiredSlots() {
         return desiredSlots;
-    }
-
-    public void setDesiredSlots(ArrayList<EquipmentSlot> desiredSlots) {
-        this.desiredSlots = desiredSlots;
     }
 
     public int getEmptyDesiredSlotsCount() {

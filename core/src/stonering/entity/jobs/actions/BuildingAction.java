@@ -6,7 +6,7 @@ import stonering.entity.local.building.Building;
 import stonering.entity.local.building.BuildingType;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.items.selectors.ItemSelector;
-import stonering.entity.local.unit.aspects.EquipmentAspect;
+import stonering.entity.local.unit.aspects.equipment.EquipmentAspect;
 import stonering.enums.buildings.BuildingTypeMap;
 import stonering.game.core.model.lists.BuildingContainer;
 import stonering.game.core.model.lists.ItemContainer;

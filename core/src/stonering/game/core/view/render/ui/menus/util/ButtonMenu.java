@@ -66,9 +66,9 @@ public abstract class ButtonMenu extends Table implements HideableComponent {
         addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
-                TagLoggersEnum.UI.logDebug("handling " + Input.Keys.toString(keycode) + " in " + this);
                 event.stop();
                 if (buttons.keySet().contains(keycode)) {
+                    TagLoggersEnum.UI.logDebug("handling " + Input.Keys.toString(keycode) + " in " + this);
                     buttons.get(keycode).toggle();
                     return true;
                 }

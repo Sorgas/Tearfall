@@ -81,11 +81,13 @@ public class PassageMap {
             int y = position.y;
             Position target = Position.add(center, x == 0 ? -y : x, y == 0 ? x : y, 0); // "counter clockwise"
             Position target1 = Position.add(center, x == 0 ? y : x, y == 0 ? -x : y, 0);
-            AStar aStar = new AStar(localMap);
-            if (aStar.makeShortestPath(target, target1, true) == null) { // no path anymore, split
-                for (byte i = 0; i < Byte.MAX_VALUE; i++) {
-                    if (!areaNumbers.keySet().contains(i)) {
-                        new AreaFiller(localMap).fill(target, i); // refill isolated area with new number
+            if(localMap.inMap(target) && localMap.inMap(target1)) {
+                AStar aStar = new AStar(localMap);
+                if (aStar.makeShortestPath(target, target1, true) == null) { // no path anymore, split
+                    for (byte i = 0; i < Byte.MAX_VALUE; i++) {
+                        if (!areaNumbers.keySet().contains(i)) {
+                            new AreaFiller(localMap).fill(target, i); // refill isolated area with new number
+                        }
                     }
                 }
             }

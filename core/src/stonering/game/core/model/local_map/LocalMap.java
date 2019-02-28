@@ -195,7 +195,7 @@ public class LocalMap implements ModelComponent, Initable {
     }
 
     public void setPlantBlock(Position pos, PlantBlock block) {
-        setPlantBlock(pos.getX(), pos.getY(), pos.getZ(), block);
+        setPlantBlock(pos.x, pos.y, pos.z, block);
     }
 
     public PlantBlock getPlantBlock(int x, int y, int z) {

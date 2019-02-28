@@ -5,27 +5,31 @@ import stonering.entity.local.environment.GameCalendar;
 import stonering.entity.local.environment.aspects.CelestialCycleAspect;
 import stonering.entity.local.environment.aspects.CelestialLightSource;
 import stonering.entity.local.plants.AbstractPlant;
-import stonering.entity.local.plants.Tree;
+import stonering.entity.local.plants.Plant;
 import stonering.entity.world.World;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.materials.MaterialMap;
+import stonering.exceptions.DescriptionNotFoundException;
 import stonering.game.core.model.EntitySelector;
 import stonering.game.core.model.GameModel;
-import stonering.game.core.model.local_map.LocalMap;
 import stonering.game.core.model.lists.PlantContainer;
+import stonering.game.core.model.local_map.LocalMap;
 import stonering.game.core.view.tilemaps.LocalTileMap;
 import stonering.game.core.view.tilemaps.LocalTileMapUpdater;
-import stonering.generators.plants.TreeGenerator;
+import stonering.generators.plants.PlantGenerator;
 import stonering.util.geometry.Position;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SingleTreeModel extends GameModel {
+/**
+ * @author Alexander on 15.02.2019.
+ */
+public class SinglePlantModel extends GameModel {
     private static final int MAP_SIZE = 11;
     private static final int TREE_CENTER = 5;
 
-    public SingleTreeModel() {
+    public SinglePlantModel() {
         reset();
     }
 
@@ -43,7 +47,7 @@ public class SingleTreeModel extends GameModel {
     public void reset() {
         put(createWorld());
         put(createMap());
-        put(new PlantContainer(createTree()));
+        put(new PlantContainer(createPlant()));
         put(new LocalTileMap(get(LocalMap.class)));
         put(new LocalTileMapUpdater());
         put(new EntitySelector());
@@ -63,17 +67,21 @@ public class SingleTreeModel extends GameModel {
         return localMap;
     }
 
-    private List<AbstractPlant> createTree() {
+    private List<AbstractPlant> createPlant() {
         List<AbstractPlant> plants = new ArrayList<>();
-        TreeGenerator treeGenerator = new TreeGenerator();
-        Tree tree = treeGenerator.generateTree("willow", 0);
-        tree.setPosition(new Position(TREE_CENTER, TREE_CENTER, 2));
-        plants.add(tree);
+        try {
+            PlantGenerator plantGenerator = new PlantGenerator();
+            Plant plant = plantGenerator.generatePlant("puffball_mushroom", 0);
+            plant.setPosition(new Position(TREE_CENTER, TREE_CENTER, 2));
+            plants.add(plant);
+        } catch (DescriptionNotFoundException e) {
+            e.printStackTrace();
+        }
         return plants;
     }
 
     private World createWorld() {
-        World world = new World(1,1);
+        World world = new World(1, 1);
         CelestialBody sun = new CelestialBody();
         sun.addAspect(new CelestialLightSource(sun));
         float dayScale = 0.01f;
@@ -84,6 +92,6 @@ public class SingleTreeModel extends GameModel {
 
     @Override
     public String toString() {
-        return "SingleTreeModel";
+        return "SinglePlantModel";
     }
 }

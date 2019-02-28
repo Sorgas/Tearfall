@@ -1,7 +1,6 @@
 [
     {
         "title":"beast",
-        "limbs_to_cover":[],
         "default_layers":["skin", "fat", "muscle", "bone"],
         "needs":["hunger", "thirst", "rest", "heat", "communication"],
         "body":[

@@ -1,25 +1,27 @@
 package stonering.test_chamber.screen.stage;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import stonering.game.core.GameMvc;
 import stonering.game.core.model.GameModel;
+import stonering.game.core.view.render.stages.base.UiStage;
 import stonering.game.core.view.render.ui.lists.PlaceHolderSelectBox;
 import stonering.test_chamber.TestChamberGame;
+import stonering.test_chamber.model.PondPlantsModel;
+import stonering.test_chamber.model.SinglePlantModel;
 import stonering.test_chamber.model.SingleTreeModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class UiStage extends Stage {
+public class ModelSelectStage extends UiStage {
     private TestChamberGame testChamberGame;
     private PlaceHolderSelectBox<GameModel> selectBox;
 
-    public UiStage(TestChamberGame testChamberGame) {
+    public ModelSelectStage(TestChamberGame testChamberGame) {
         this.testChamberGame = testChamberGame;
         createStage();
     }
@@ -60,6 +62,8 @@ public class UiStage extends Stage {
     private List<GameModel> fillModels() {
         List<GameModel> testModels = new ArrayList<>();
         testModels.add(new SingleTreeModel());
+        testModels.add(new SinglePlantModel());
+        testModels.add(new PondPlantsModel());
         return testModels;
     }
 

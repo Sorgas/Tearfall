@@ -7,16 +7,16 @@ import stonering.game.core.GameMvc;
 import stonering.game.core.model.EntitySelector;
 
 /**
- * Handles button presses for camera navigation. Can be disabled.
+ * Handles button presses for entitySelector navigation. Can be disabled.
  *
  * @author Alexander Kuzyakov
  */
-public class CameraInputAdapter extends InputAdapter {
+public class EntitySelectorInputAdapter extends InputAdapter {
     private GameMvc gameMvc;
     private EntitySelector camera;
     private boolean enabled;
 
-    public CameraInputAdapter(GameMvc gameMvc) {
+    public EntitySelectorInputAdapter(GameMvc gameMvc) {
         this.gameMvc = gameMvc;
         camera = gameMvc.getModel().get(EntitySelector.class);
         enabled = true;

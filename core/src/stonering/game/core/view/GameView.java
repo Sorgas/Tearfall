@@ -1,14 +1,13 @@
 package stonering.game.core.view;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import stonering.game.core.view.render.stages.InitableStage;
 import stonering.game.core.view.render.stages.MainMenu;
 import stonering.game.core.view.render.stages.UIDrawer;
 import stonering.game.core.view.render.stages.base.BaseStage;
-import stonering.game.core.view.render.stages.base.LocalWorldDrawer;
+import stonering.game.core.view.render.stages.base.Resizeable;
 import stonering.screen.SimpleScreen;
+import stonering.util.global.Initable;
 import stonering.util.global.TagLoggersEnum;
 
 import java.util.ArrayList;
@@ -23,11 +22,9 @@ import java.util.List;
 public class GameView extends SimpleScreen {
     private BaseStage baseStage;                // sprites and toolbar. is always rendered.
     private MainMenu mainMenu;
-    private List<InitableStage> stageList;      // init called on adding.
+    private List<Stage> stageList;      // init called on adding.
 
-    /**
-     * TODO get rid of inits.
-     */
+    //TODO get rid of inits.
     public void init() {
         stageList = new ArrayList<>();
         baseStage = new BaseStage();
@@ -45,8 +42,6 @@ public class GameView extends SimpleScreen {
             baseStage.act(delta);
             baseStage.draw();
         }
-        getActiveStage().getViewport().apply();
-        getActiveStage().act(delta);
         getActiveStage().draw();
     }
 
@@ -56,13 +51,15 @@ public class GameView extends SimpleScreen {
 
     /**
      * Adds given stage to top of this screen.
-     *
+     * Stage is inited and resized if possible.
      * @param stage
      */
-    public void addStageToList(InitableStage stage) {
+    public void addStageToList(Stage stage) {
         TagLoggersEnum.UI.logDebug("showing stage " + stage.toString());
         stageList.add(stage);
-        stage.init();
+        System.out.println(stage.toString() + " added to view");
+        if (stage instanceof Initable) ((Initable) stage).init();
+        if (stage instanceof Resizeable) ((Resizeable) stage).resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
     public void removeStage(Stage stage) {
@@ -71,23 +68,18 @@ public class GameView extends SimpleScreen {
         stage.dispose();
     }
 
-    //TODO fix resize
     @Override
     public void resize(int width, int height) {
         baseStage.resize(width, height);
-        baseStage.initBatch();
-    }
-
-    @Override
-    public void dispose() {
-        baseStage.disposeBatch();
-    }
-
-    public LocalWorldDrawer getWorldDrawer() {
-        return baseStage.getWorldDrawer();
+        Stage stage = getActiveStage();
+        if (stage instanceof Resizeable) ((Resizeable) stage).resize(width, height);
     }
 
     public UIDrawer getUiDrawer() {
         return baseStage.getUiDrawer();
+    }
+
+    public BaseStage getBaseStage() {
+        return baseStage;
     }
 }

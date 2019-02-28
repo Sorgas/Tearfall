@@ -3,9 +3,11 @@ package stonering;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.utils.viewport.*;
 import stonering.entity.world.World;
 import stonering.game.core.GameMvc;
 import stonering.generators.localgen.LocalGenContainer;
@@ -100,7 +102,6 @@ public class TearFall extends Game {
     @Override
     public void resize(int width, int height) {
         super.resize(width, height);
-
     }
 
     @Override

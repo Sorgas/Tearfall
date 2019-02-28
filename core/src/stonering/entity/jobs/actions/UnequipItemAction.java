@@ -2,7 +2,8 @@ package stonering.entity.jobs.actions;
 
 import stonering.entity.jobs.actions.target.ItemActionTarget;
 import stonering.entity.local.items.Item;
-import stonering.entity.local.unit.aspects.EquipmentAspect;
+import stonering.entity.local.unit.aspects.equipment.EquipmentAspect;
+import stonering.entity.local.unit.aspects.equipment.EquipmentSlot;
 
 /**
  * Action for unequipping items from units.
@@ -25,7 +26,7 @@ public class UnequipItemAction extends Action {
         if (!equipmentAspect.getEquippedItems().contains(item)) return true;
         //item is on top
         //TODO move to equipment aspect
-        for (EquipmentAspect.EquipmentSlot slot : equipmentAspect.getSlots().values()) {
+        for (EquipmentSlot slot : equipmentAspect.getSlots().values()) {
             if (slot.items.contains(item)) {
                 for (int i = slot.items.size() - 1; i >= 0; i--) {
                     if (slot.items.get(i).getType().getWear().getLayer() > item.getType().getWear().getLayer()) { // slot has item with higher layer.

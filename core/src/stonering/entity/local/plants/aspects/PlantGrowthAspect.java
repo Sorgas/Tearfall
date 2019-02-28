@@ -4,8 +4,11 @@ import stonering.entity.local.Aspect;
 import stonering.entity.local.AspectHolder;
 import stonering.entity.local.environment.GameCalendar;
 import stonering.entity.local.plants.AbstractPlant;
+import stonering.entity.local.plants.Plant;
 import stonering.entity.local.plants.Tree;
-import stonering.enums.plants.PlantType;
+import stonering.game.core.GameMvc;
+import stonering.game.core.model.lists.PlantContainer;
+import stonering.generators.plants.PlantGenerator;
 import stonering.generators.plants.TreeGenerator;
 
 /**
@@ -28,11 +31,14 @@ public class PlantGrowthAspect extends Aspect {
      */
     @Override
     public void turn() {
-        counter++;
-        if(counter == MONTH_SIZE) {
-            counter = 0;
-            AbstractPlant abstractPlant = (AbstractPlant) aspectHolder;
-            if(abstractPlant.getCurrentStageIndex() != abstractPlant.increaceAge()) applyNewStage();
+        if (counter++ != MONTH_SIZE) return;
+        counter = 0;
+        switch (((AbstractPlant) aspectHolder).increaceAge()) {
+            case 1:
+                applyNewStage();
+                return;
+            case -1:
+                die();
         }
     }
 
@@ -40,20 +46,28 @@ public class PlantGrowthAspect extends Aspect {
      * Changes plant loot and tree structure.
      */
     private void applyNewStage() {
-        AbstractPlant plant = (AbstractPlant) aspectHolder;
-        PlantType.PlantLifeStage lifeStage = plant.getCurrentStage();
-        if(plant.getType().isTree()) {
-            changeTreeStructure();
-        } else {
-
+        PlantContainer plantContainer = GameMvc.getInstance().getModel().get(PlantContainer.class);
+        if (aspectHolder instanceof Tree) {
+            Tree tree = (Tree) aspectHolder;
+            plantContainer.removePlantBlocks(tree);
+            TreeGenerator treeGenerator = new TreeGenerator();
+            treeGenerator.applyTreeGrowth(tree);
+            plantContainer.place(tree);
+        } else if (aspectHolder instanceof Plant) {
+            Plant plant = (Plant) aspectHolder;
+            plantContainer.removePlantBlocks(plant);
+            PlantGenerator plantGenerator = new PlantGenerator();
+            plantGenerator.applyPlantGrowth(plant);
+            plantContainer.place(plant);
         }
     }
 
-    private void changeTreeStructure() {
-        TreeGenerator treeGenerator = new TreeGenerator();
-        AbstractPlant plant = (AbstractPlant) aspectHolder;
-        treeGenerator.applyTreeGrowth((Tree) plant);
-
+    /**
+     * Kill this plant and leave products(if any).
+     */
+    private void die() {
+        //TODO
+        ((AbstractPlant) aspectHolder).setDead(true);
     }
 
     @Override

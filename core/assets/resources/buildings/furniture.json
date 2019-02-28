@@ -1,0 +1,101 @@
+[
+    {
+        "building":"primitive_chair",
+        "title":"Primitive chair",
+        "description":"This chair is made of raw wood",
+        "category":"furniture",
+        "crafting_components":["wood"],
+        "crafting_amount":["2"],
+        "menuPath":["furniture", "primitive"],
+        "atlasXY":["0", "0"],
+        "color":"0xffffffff"
+    },
+    {
+        "building":"primitive_bed",
+        "title":"Primitive bed",
+        "description":"This bed is made of raw wood",
+        "category":"furniture",
+        "crafting_components":["wood"],
+        "crafting_amount":["4"],
+        "menuPath":["furniture", "primitive"],
+        "atlasXY":["0", "0"],
+        "color":"0xffffffff"
+    },
+    {
+        "building":"primitive_table",
+        "title":"Primitive table",
+        "description":"This table is made of raw wood",
+        "category":"furniture",
+        "crafting_components":["wood"],
+        "crafting_amount":["4"],
+        "menuPath":["furniture", "primitive"],
+        "atlasXY":["0", "0"],
+        "color":"0xffffffff"
+    },
+    {
+        "building":"chair",
+        "title":"Chair",
+        "description":"Chair",
+        "category":"furniture",
+        "crafting_components":["chair_prefab"],
+        "crafting_amount":["1"],
+        "menuPath":["furniture", "common"],
+        "atlasXY":["0", "0"],
+        "color":"0xffffffff"
+    },
+    {
+        "building":"table",
+        "title":"Table",
+        "description":"Table",
+        "category":"furniture",
+        "crafting_components":["table_prefab"],
+        "crafting_amount":["1"],
+        "menuPath":["furniture", "common"],
+        "atlasXY":["0", "0"],
+        "color":"0xffffffff"
+    },
+    {
+        "building":"bed",
+        "title":"Bed",
+        "description":"Bed",
+        "category":"furniture",
+        "crafting_components":["bed_prefab"],
+        "crafting_amount":["1"],
+        "menuPath":["furniture", "common"],
+        "atlasXY":["0", "0"],
+        "color":"0xffffffff"
+    },
+    {
+        "building":"cupboard",
+        "title":"Cupboard",
+        "description":"Cupboard",
+        "category":"furniture",
+        "crafting_components":["cupboard_prefab"],
+        "crafting_amount":["1"],
+        "menuPath":["furniture", "common"],
+        "atlasXY":["0", "0"],
+        "color":"0xffffffff"
+    },
+    {
+        "building":"",
+        "title":"Chair",
+        "description":"Chair",
+        "category":"furniture",
+        "crafting_components":["chair_prefab"],
+        "crafting_amount":["1"],
+        "menuPath":["furniture", "common"],
+        "atlasXY":["0", "0"],
+        "color":"0xffffffff"
+    },
+    {
+        "building":"Chair",
+        "title":"Chair",
+        "description":"Chair",
+        "category":"furniture",
+        "crafting_components":["chair_prefab"],
+        "crafting_amount":["1"],
+        "menuPath":["furniture", "common"],
+        "atlasXY":["0", "0"],
+        "color":"0xffffffff"
+    }
+]
