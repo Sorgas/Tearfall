@@ -3,7 +3,6 @@
         "building":"sawing_rack",
         "title":"Sawing rack",
         "description":"Small rack for sawing logs into planks.",
-        "category":"workbenches",
         "components":[
             {
                 "class":"step_c",
@@ -14,37 +13,23 @@
                         "class":"variant_c",
                         "material":"stone",
                         "amount":"4",
-                        "sprite":[
-                            "1", "1"
-                        ]
+                        "sprite":["1", "1"]
                     }, {
                         "class":"variant_c",
                         "material":"clay",
                         "amount":"4",
-                        "sprite":[
-                            "4", "1"
-                        ]
+                        "sprite":["4", "1"]
                     }
                 ]
             }
         ],
-        "menuPath":[
-            "wood"
-        ],
-        "atlasY":"0",
-        "atlasX":"0",
-        "color":{
-            "class":"color_c",
-            "r":"1",
-            "g":"1",
-            "b":"1",
-            "a":"1"
-        }
+        "menuPath":["workbenches","wood"],
+        "atlasXY":["0", "0"],
+        "color":"0xffffffff"
     }, {
     "building":"forge",
     "title":"Forge",
     "description":"Forge for blacksmithing",
-    "category":"workbenches",
     "aspects":[["workbench"], ["item_container", "solid", "100"]],
     "components":[
         {
@@ -56,30 +41,18 @@
                     "class":"variant_c",
                     "material":"metal",
                     "amount":"1",
-                    "sprite":[
-                        "1", "1"
-                    ]
+                    "sprite":["1", "1"]
                 }
             ]
         }
     ],
-    "menuPath":[
-        "metal"
-    ],
-    "atlasY":"0",
-    "atlasX":"0",
-    "color":{
-        "class":"color_c",
-        "r":"1",
-        "g":"1",
-        "b":"1",
-        "a":"1"
-    }
+    "menuPath":["workbenches","metal"],
+    "atlasXY":["0", "0"],
+    "color":"0xffffffff"
 }, {
     "building":"tailor_shop",
     "title":"Tailor's workbench",
     "description":"qwer",
-    "category":"workbenches",
     "aspects":[["workbench"], ["item_container", "solid", "100"]],
     "components":[
         {
@@ -91,24 +64,13 @@
                     "class":"variant_c",
                     "material":"stone",
                     "amount":"1",
-                    "sprite":[
-                        "1", "1"
-                    ]
+                    "sprite":["1", "1"]
                 }
             ]
         }
     ],
-    "menuPath":[
-        "cloth"
-    ],
-    "atlasY":"0",
-    "atlasX":"0",
-    "color":{
-        "class":"color_c",
-        "r":"1",
-        "g":"1",
-        "b":"1",
-        "a":"1"
-    }
+    "menuPath":["workbenches","cloth"],
+    "atlasXY":["0", "0"],
+    "color":"0xffffffff"
 }
 ]
