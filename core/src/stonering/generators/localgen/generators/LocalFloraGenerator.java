@@ -192,15 +192,13 @@ public class LocalFloraGenerator {
 
     /**
      * Collects all positions suitable for specific plant. Used only for single tile plants.
-     *
-     * @param specimen plant to check availability
-     * @return
      */
     private Pair<boolean[][][], ArrayList<Position>> findAllAvailablePositions(String specimen) {
         //TODO should count plant requirements for light level, water source, soil type
         ArrayList<Position> positions = new ArrayList<>();
         boolean[][][] array = new boolean[localMap.getxSize()][localMap.getySize()][localMap.getzSize()];
         PlantType type = PlantMap.getInstance().getPlantType(specimen);
+        type.getWaterSource();
         String soilType = type.getSoilType();
         for (int x = 0; x < localMap.getxSize(); x++) {
             for (int y = 0; y < localMap.getySize(); y++) {

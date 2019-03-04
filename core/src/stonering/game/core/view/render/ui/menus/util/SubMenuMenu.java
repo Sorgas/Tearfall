@@ -57,7 +57,7 @@ public class SubMenuMenu extends ButtonMenu {
      * Add submenu or button to this screen.
      */
     public void addItem(String lastButtonText, ChangeListener listener, List<String> path) {
-        if (!path.isEmpty()) { // create submenu
+        if (path != null && !path.isEmpty()) { // create submenu
             String currentStep = path.remove(0);
             if (!menus.keySet().contains(currentStep)) { // create submenu
                 addMenu(new BuildingCategoryMenu(currentStep), sequence.getNext(), currentStep);
