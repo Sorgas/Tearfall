@@ -32,5 +32,14 @@
     "variants": [
         ["stone", 4, 1, 1], ["clay", 4, 1, 1], ["metal", 4, 1, 1], ["log", 4, 1, 1], ["plank", 4, 1, 1]
     ]
+}, {
+    "name": "build_sawing_rack",
+    "title": "Sawing rack",
+    "building": "sawing_rack",
+    "menuPath": ["constructions"],
+    "variants": [
+        ["stone", 4, 1, 1], ["clay", 4, 1, 1], ["metal", 4, 1, 1], ["log", 4, 1, 1], ["plank", 4, 1, 1]
+    ]
 }
+
 ]

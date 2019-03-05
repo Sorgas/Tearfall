@@ -3,36 +3,32 @@
         "building": "wall",
         "title": "Wall",
         "description": "Wall",
-        "parts": ["wall"],
+        "aspects": ["construction"],
         "passage": "wall",
-        "category":"constructions",
         "atlasXY": ["0", "0"],
         "color": "0xffffffff"
     }, {
     "building": "floor",
     "title": "Floor",
     "description": "Floor",
-    "parts": ["floor"],
+    "aspects": ["construction"],
     "passage": "floor",
-    "category":"constructions",
     "atlasXY": ["0", "0"],
     "color": "0xffffffff"
 }, {
     "building": "ramp",
     "title": "Ramp",
     "description": "Ramp",
-    "parts": ["ramp"],
+    "aspects": ["construction"],
     "passage": "ramp",
-    "category":"constructions",
     "atlasXY": ["0", "0"],
     "color": "0xffffffff"
 }, {
     "building": "stairs",
     "title": "Stairs",
     "description": "Stairs",
-    "parts": ["stairs"],
+    "aspects": ["construction"],
     "passage": "stairs",
-    "category":"constructions",
     "atlasXY": ["0", "0"],
     "color": "0xffffffff"
 }

@@ -3,84 +3,24 @@
         "building": "sawing_rack",
         "title": "Sawing rack",
         "description": "Small rack for sawing logs into planks.",
-        "category": "workbenches",
-        "components": [
-            {
-                "class": "step_c",
-                "optional": false,
-                "brakingRatio": "0.5",
-                "variants": [
-                    {
-                        "class": "variant_c",
-                        "material": "stone",
-                        "amount": "4",
-                        "sprite": ["1", "1"]
-                    }, {
-                        "class": "variant_c",
-                        "material": "clay",
-                        "amount": "4",
-                        "sprite": ["4", "1"]
-                    }
-                ]
-            }
-        ],
-        "menuPath": [
-            "wood"
-        ],
+        "aspects": [["workbench"], ["item_container", "solid", "100"]],
+        "passage": "floor",
         "atlasXY": ["0", "0"],
         "color": "0xffffffff"
     }, {
     "building": "forge",
     "title": "Forge",
     "description": "Forge for blacksmithing",
-    "category": "workbenches",
     "aspects": [["workbench"], ["item_container", "solid", "100"]],
-    "components": [
-        {
-            "class": "step_c",
-            "optional": false,
-            "brakingRatio": "0.5",
-            "variants": [
-                {
-                    "class": "variant_c",
-                    "material": "metal",
-                    "amount": "1",
-                    "sprite": [
-                        "1", "1"
-                    ]
-                }
-            ]
-        }
-    ],
-    "menuPath": [
-        "metal"
-    ],
+    "passage": "floor",
     "atlasXY": ["0", "0"],
     "color": "0xffffffff"
 }, {
     "building": "tailor_shop",
     "title": "Tailor's workbench",
     "description": "qwer",
-    "category": "workbenches",
     "aspects": [["workbench"], ["item_container", "solid", "100"]],
-    "components": [
-        {
-            "class": "step_c",
-            "optional": false,
-            "brakingRatio": "0.5",
-            "variants": [
-                {
-                    "class": "variant_c",
-                    "material": "stone",
-                    "amount": "1",
-                    "sprite": ["1", "1"]
-                }
-            ]
-        }
-    ],
-    "menuPath": [
-        "cloth"
-    ],
+    "passage": "floor",
     "atlasXY": ["0", "0"],
     "color": "0xffffffff"
 }

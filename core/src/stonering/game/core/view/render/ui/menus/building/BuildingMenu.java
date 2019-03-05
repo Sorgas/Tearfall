@@ -11,7 +11,7 @@ import stonering.game.core.view.render.ui.menus.util.SubMenuMenu;
 import stonering.util.global.TagLoggersEnum;
 
 /**
- * Translates all blueprints from {@link stonering.enums.buildings.BlueprintsMap} to buttons.
+ * Translates all blueprints from {@link BlueprintsMap} to buttons.
  * ButtonMenu for selecting building.
  *
  * @author Alexander Kuzyakov on 25.01.2018.
