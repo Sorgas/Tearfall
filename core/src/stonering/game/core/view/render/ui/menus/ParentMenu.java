@@ -2,7 +2,7 @@ package stonering.game.core.view.render.ui.menus;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.utils.Align;
-import stonering.game.core.view.render.ui.menus.building.GeneralBuildingMenu;
+import stonering.game.core.view.render.ui.menus.building.BuildingMenu;
 import stonering.game.core.view.render.ui.menus.util.SubMenuMenu;
 import stonering.game.core.view.render.ui.menus.zone.ZonesMenu;
 
@@ -16,23 +16,18 @@ public class ParentMenu extends SubMenuMenu {
 
     public ParentMenu() {
         hideable = false;
-        initTable();
-        createMenus();
-    }
-
-    private void initTable() {
         this.align(Align.bottom);
+        createMenus();
     }
 
     private void createMenus() {
         addMenu(new PlantsMenu(), Input.Keys.P, "P: plants");
         addMenu(new DiggingMenu(), Input.Keys.O, "O: digging");
-        addMenu(new GeneralBuildingMenu(),  Input.Keys.I, "I: building");
+        addMenu(new BuildingMenu(), Input.Keys.I, "I: building");
         addMenu(new ZonesMenu(), Input.Keys.U, "U: zones");
     }
 
     @Override
     public void reset() {
-
     }
 }

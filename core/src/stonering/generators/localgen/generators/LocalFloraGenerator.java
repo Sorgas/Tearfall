@@ -49,7 +49,6 @@ public class LocalFloraGenerator {
     public void execute() {
         System.out.println("generating flora");
         extractContainer();
-        this.localMap = container.getLocalMap();
         weightedPlantTypes = new HashMap<>();
         weightedTreeTypes = new HashMap<>();
         countTemperature();
@@ -59,6 +58,7 @@ public class LocalFloraGenerator {
 
     private void extractContainer() {
         this.config = container.getConfig();
+        this.localMap = container.getLocalMap();
         int x = config.getLocation().getX();
         int y = config.getLocation().getY();
         areaSize = config.getAreaSize();
@@ -95,9 +95,9 @@ public class LocalFloraGenerator {
      */
     private void placeTrees(String specimen, float amount) {
         float[][] forestArea = noiseGenerator.generateOctavedSimplexNoise(areaSize, areaSize, 6, 0.5f, 0.015f);
+        TreeGenerator treeGenerator = new TreeGenerator();
         int tries = 200;
         Random random = new Random();
-        TreeGenerator treeGenerator = new TreeGenerator();
         Tree tree = treeGenerator.generateTree(specimen, 1);
         while (amount > 0 && tries > 0) {
             int x = random.nextInt(areaSize);

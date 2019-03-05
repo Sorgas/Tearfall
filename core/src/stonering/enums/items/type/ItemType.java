@@ -1,7 +1,5 @@
 package stonering.enums.items.type;
 
-import stonering.entity.local.crafting.ItemPartType;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 

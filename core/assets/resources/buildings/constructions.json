@@ -1,67 +1,39 @@
 [
     {
-        "building":"wall",
-        "title":"Wall",
-        "description":"Wall",
-        "parts":["wall"],
+        "building": "wall",
+        "title": "Wall",
+        "description": "Wall",
+        "parts": ["wall"],
+        "passage": "wall",
         "category":"constructions",
-        "menuPath":[],
-        "atlasY":"0",
-        "atlasX":"0",
-        "color":{
-            "class":"color_c",
-            "r":"1",
-            "g":"1",
-            "b":"1",
-            "a":"1"
-        }
+        "atlasXY": ["0", "0"],
+        "color": "0xffffffff"
     }, {
-    "building":"floor",
-    "title":"Floor",
-    "description":"Floor",
-    "parts":["floor"],
+    "building": "floor",
+    "title": "Floor",
+    "description": "Floor",
+    "parts": ["floor"],
+    "passage": "floor",
     "category":"constructions",
-    "menuPath":[],
-    "atlasY":"0",
-    "atlasX":"0",
-    "color":{
-        "class":"color_c",
-        "r":"1",
-        "g":"1",
-        "b":"1",
-        "a":"1"
-    }
+    "atlasXY": ["0", "0"],
+    "color": "0xffffffff"
 }, {
-    "building":"ramp",
-    "title":"Ramp",
-    "description":"Ramp",
-    "parts":["ramp"],
+    "building": "ramp",
+    "title": "Ramp",
+    "description": "Ramp",
+    "parts": ["ramp"],
+    "passage": "ramp",
     "category":"constructions",
-    "menuPath":[],
-    "atlasY":"0",
-    "atlasX":"0",
-    "color":{
-        "class":"color_c",
-        "r":"1",
-        "g":"1",
-        "b":"1",
-        "a":"1"
-    }
+    "atlasXY": ["0", "0"],
+    "color": "0xffffffff"
 }, {
-    "building":"stairs",
-    "title":"Stairs",
-    "description":"Stairs",
-    "parts":["stairs"],
+    "building": "stairs",
+    "title": "Stairs",
+    "description": "Stairs",
+    "parts": ["stairs"],
+    "passage": "stairs",
     "category":"constructions",
-    "menuPath":[],
-    "atlasY":"0",
-    "atlasX":"0",
-    "color":{
-        "class":"color_c",
-        "r":"1",
-        "g":"1",
-        "b":"1",
-        "a":"1"
-    }
+    "atlasXY": ["0", "0"],
+    "color": "0xffffffff"
 }
 ]

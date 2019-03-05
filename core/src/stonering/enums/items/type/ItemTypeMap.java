@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import stonering.entity.local.crafting.CraftingComponentVariant;
-import stonering.entity.local.crafting.ItemPartType;
 import stonering.util.global.FileLoader;
 
 import java.util.ArrayList;

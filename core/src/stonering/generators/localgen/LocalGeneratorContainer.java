@@ -5,9 +5,9 @@ import stonering.game.core.model.local_map.LocalMap;
 import stonering.generators.localgen.generators.*;
 
 /**
+ * Executes local generators in correct order.
+ *
  * @author Alexander Kuzyakov on 27.08.2017.
- *         <p>
- *         executes local generators in correct order
  */
 public class LocalGeneratorContainer {
     private LocalGenContainer localGenContainer;
@@ -55,6 +55,7 @@ public class LocalGeneratorContainer {
 //        localRiverGenerator.execute(); // carves river beds
         localSurfaceWaterPoolsGenerator.execute(); // digs ponds
         localRampAndFloorPlacer.execute(); // places floors and ramps upon all top blocks
+
         localTemperatureGenerator.execute(); // generates year temperature cycle
         localFloraGenerator.execute(); // places trees and plants
         localFaunaGenerator.execute(); // places animals
