@@ -1,6 +1,5 @@
 package stonering.entity.local.building;
 
-import com.badlogic.gdx.graphics.Color;
 import stonering.entity.local.crafting.CommonComponentStep;
 
 import java.util.ArrayList;
@@ -17,16 +16,14 @@ public class BuildingType {
     private String building;
     private String title;
     private String description;
-    private String category;
     private List<CommonComponentStep> components;
     private List<String> menuPath;
     private List<String> recipes;
     private List<List<String>> aspects;
     private List<String> parts;
 
-    private int atlasX;
-    private int atlasY;
-    private Color color;
+    private int[] atlasXY;
+    private String color;
 
     public BuildingType() {
         components = new ArrayList<>();
@@ -49,38 +46,6 @@ public class BuildingType {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public int getAtlasX() {
-        return atlasX;
-    }
-
-    public void setAtlasX(int atlasX) {
-        this.atlasX = atlasX;
-    }
-
-    public int getAtlasY() {
-        return atlasY;
-    }
-
-    public void setAtlasY(int atlasY) {
-        this.atlasY = atlasY;
-    }
-
-    public Color getColor() {
-        return color;
-    }
-
-    public void setColor(Color color) {
-        this.color = color;
     }
 
     public String getBuilding() {
@@ -129,5 +94,21 @@ public class BuildingType {
 
     public void setParts(List<String> parts) {
         this.parts = parts;
+    }
+
+    public int[] getAtlasXY() {
+        return atlasXY;
+    }
+
+    public void setAtlasXY(int[] atlasXY) {
+        this.atlasXY = atlasXY;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 }

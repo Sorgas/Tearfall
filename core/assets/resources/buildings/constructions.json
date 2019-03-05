@@ -1,35 +1,39 @@
 [
     {
-        "building":"wall",
-        "title":"Wall",
-        "description":"Wall",
-        "parts":["wall"],
-        "menuPath":["constructions"],
-        "atlasXY":["0", "0"],
-        "color":"0xffffffff"
+        "building": "wall",
+        "title": "Wall",
+        "description": "Wall",
+        "parts": ["wall"],
+        "passage": "wall",
+        "category":"constructions",
+        "atlasXY": ["0", "0"],
+        "color": "0xffffffff"
     }, {
-    "building":"floor",
-    "title":"Floor",
-    "description":"Floor",
-    "parts":["floor"],
-    "menuPath":["constructions"],
-    "atlasXY":["0", "0"],
-    "color":"0xffffffff"
+    "building": "floor",
+    "title": "Floor",
+    "description": "Floor",
+    "parts": ["floor"],
+    "passage": "floor",
+    "category":"constructions",
+    "atlasXY": ["0", "0"],
+    "color": "0xffffffff"
 }, {
-    "building":"ramp",
-    "title":"Ramp",
-    "description":"Ramp",
-    "parts":["ramp"],
-    "menuPath":["constructions"],
-    "atlasXY":["0", "0"],
-    "color":"0xffffffff"
+    "building": "ramp",
+    "title": "Ramp",
+    "description": "Ramp",
+    "parts": ["ramp"],
+    "passage": "ramp",
+    "category":"constructions",
+    "atlasXY": ["0", "0"],
+    "color": "0xffffffff"
 }, {
-    "building":"stairs",
-    "title":"Stairs",
-    "description":"Stairs",
-    "parts":["stairs"],
-    "menuPath":["constructions"],
-    "atlasXY":["0", "0"],
-    "color":"0xffffffff"
+    "building": "stairs",
+    "title": "Stairs",
+    "description": "Stairs",
+    "parts": ["stairs"],
+    "passage": "stairs",
+    "category":"constructions",
+    "atlasXY": ["0", "0"],
+    "color": "0xffffffff"
 }
 ]

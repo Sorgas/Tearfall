@@ -1,7 +1,7 @@
 package stonering.generators.items;
 
 import stonering.entity.local.crafting.ItemOrder;
-import stonering.entity.local.crafting.ItemPartType;
+import stonering.enums.items.type.ItemPartType;
 import stonering.entity.local.items.ItemPart;
 import stonering.entity.local.items.aspects.FallingAspect;
 import stonering.enums.items.type.ItemType;

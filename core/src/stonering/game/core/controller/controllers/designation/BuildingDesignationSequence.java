@@ -1,11 +1,13 @@
 package stonering.game.core.controller.controllers.designation;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import stonering.entity.local.building.Blueprint;
 import stonering.entity.local.building.BuildingType;
 import stonering.entity.local.building.validators.FreeFloorValidator;
 import stonering.entity.local.crafting.CommonComponentStep;
 import stonering.entity.local.items.selectors.ItemSelector;
 import stonering.entity.local.items.selectors.SimpleItemSelector;
+import stonering.enums.buildings.BuildingTypeMap;
 import stonering.game.core.model.lists.TaskContainer;
 import stonering.game.core.view.render.ui.lists.MaterialSelectList;
 import stonering.game.core.view.render.ui.menus.util.PlaceSelectComponent;
@@ -24,12 +26,14 @@ import java.util.Map;
  */
 public class BuildingDesignationSequence extends DesignationSequence {
     private PlaceSelectComponent placeSelectComponent;
+    private Blueprint blueprint;
     private BuildingType buildingType;
     private Position position;
     private Map<CommonComponentStep, ItemSelector> stepSelectorMap;
 
-    public BuildingDesignationSequence(BuildingType buildingType) {
-        this.buildingType = buildingType;
+    public BuildingDesignationSequence(Blueprint blueprint) {
+        this.blueprint = blueprint;
+        buildingType = BuildingTypeMap.getInstance().getBuilding(blueprint.getBuilding());
         createPlaceSelectComponent();
         reset();
     }

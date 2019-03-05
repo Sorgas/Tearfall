@@ -61,7 +61,6 @@ public abstract class ButtonMenu extends Table implements HideableComponent {
      * @return true, if button with given hotkey exists, prevents further handling of this press.
      * False otherwise, handling continues.
      */
-
     private void createDefaultListener() {
         addListener(new InputListener() {
             @Override
@@ -83,11 +82,7 @@ public abstract class ButtonMenu extends Table implements HideableComponent {
     }
 
     /**
-     * Creates button with listener and hotkey.
-     *
-     * @param text
-     * @param hotKey
-     * @param listener
+     * Creates button with listener and hotkey. Will overwrite buttons with same hotkey.
      */
     protected void createButton(String text, int hotKey, ChangeListener listener, boolean appendHotkey) {
         TextButton button = new TextButton(appendHotkey ? Input.Keys.toString(hotKey) + ": " + text : text, StaticSkin.getSkin());
