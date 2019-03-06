@@ -4,10 +4,13 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import stonering.entity.local.building.Blueprint;
 import stonering.entity.local.building.BuildingType;
 import stonering.entity.local.building.validators.FreeFloorValidator;
+import stonering.entity.local.building.validators.NearSolidBlockValidator;
+import stonering.entity.local.building.validators.PositionValidator;
 import stonering.entity.local.crafting.CommonComponentStep;
 import stonering.entity.local.items.selectors.ItemSelector;
 import stonering.entity.local.items.selectors.SimpleItemSelector;
 import stonering.enums.buildings.BuildingTypeMap;
+import stonering.enums.designations.PlaceValidatorsEnum;
 import stonering.game.core.model.lists.TaskContainer;
 import stonering.game.core.view.render.ui.lists.MaterialSelectList;
 import stonering.game.core.view.render.ui.menus.util.PlaceSelectComponent;
@@ -38,23 +41,17 @@ public class BuildingDesignationSequence extends DesignationSequence {
         reset();
     }
 
+    /**
+     * Creates component for selecting place for building, according to blueprint.
+     * Blueprint determines position validator type for component.
+     */
     private void createPlaceSelectComponent() {
         placeSelectComponent = new PlaceSelectComponent(event -> {
             position = placeSelectComponent.getPosition();
             showNextList();
             return true;
         });
-        placeSelectComponent.setPositionValidator(new FreeFloorValidator());
-    }
-
-    private void showNextList() {
-        for (CommonComponentStep component : buildingType.getComponents()) {
-            if (stepSelectorMap.containsKey(component)) continue;
-            gameMvc.getView().getUiDrawer().getToolbar().addMenu(createSelectListForStep(component));
-            return;
-        }
-        gameMvc.getModel().get(TaskContainer.class).submitBuildingDesignation(position, buildingType.getBuilding(), new ArrayList<>(stepSelectorMap.values()), 1);
-        reset();
+        placeSelectComponent.setPositionValidator(PlaceValidatorsEnum.getValidator(blueprint.getPlacing()));
     }
 
     /**
@@ -81,6 +78,16 @@ public class BuildingDesignationSequence extends DesignationSequence {
             return true;
         });
         return materialList;
+    }
+
+    private void showNextList() {
+        for (CommonComponentStep component : blueprint.getComponents()) {
+            if (stepSelectorMap.containsKey(component)) continue;
+            gameMvc.getView().getUiDrawer().getToolbar().addMenu(createSelectListForStep(component));
+            return;
+        }
+        gameMvc.getModel().get(TaskContainer.class).submitBuildingDesignation(position, blueprint, new ArrayList<>(stepSelectorMap.values()), 1);
+        reset();
     }
 
     @Override

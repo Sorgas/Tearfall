@@ -13,8 +13,6 @@ import stonering.game.core.view.render.ui.menus.Toolbar;
 import stonering.util.geometry.Position;
 import stonering.util.global.StaticSkin;
 
-import javax.swing.text.html.parser.Entity;
-
 /**
  * Component for selecting places. Can be used many times.
  *
@@ -48,7 +46,7 @@ public class PlaceSelectComponent extends Label implements HideableComponent {
             //TODO !!! probably 1 event delay to EntitySelector here
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
-                boolean isValid = validatePosition();
+                boolean isValid = validatePosition(selector.getPosition());
                 setText(isValid ? defaultText : warningText);
                 switch (keycode) {
                     case Input.Keys.E:
@@ -66,9 +64,12 @@ public class PlaceSelectComponent extends Label implements HideableComponent {
         });
     }
 
-    private boolean validatePosition() {
-        if (positionValidator == null) return true; // no validation
-        return positionValidator.validate(gameMvc.getModel().get(LocalMap.class), selector.getPosition());
+    /**
+     * Validates position. returns true if validator was not set.
+     */
+    private boolean validatePosition(Position position) {
+        return positionValidator == null ||
+                positionValidator.validate(gameMvc.getModel().get(LocalMap.class), position);
     }
 
     /**

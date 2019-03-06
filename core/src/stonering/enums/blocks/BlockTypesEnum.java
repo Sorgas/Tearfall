@@ -19,28 +19,20 @@ public enum BlockTypesEnum {
     // automatically placed when stairs constructed, turns to SPACE when stairs removed
     STAIRFLOOR(5, 2); // passable, liquids fall
 
-    private byte code;
-    private byte passing;
+    public final byte CODE;
+    public final byte PASSING;
     private static HashMap<Byte, BlockTypesEnum> map;
 
     static {
         map = new HashMap<>();
         for (BlockTypesEnum type : BlockTypesEnum.values()) {
-            map.put(type.code, type);
+            map.put(type.CODE, type);
         }
     }
 
     BlockTypesEnum(int code, int passing) {
-        this.code = (byte) code;
-        this.passing = (byte) passing; //0: none, 1: fliers only, 2: walkers & fliers
-    }
-
-    public byte getCode() {
-        return code;
-    }
-
-    public byte getPassing() {
-        return passing;
+        this.CODE = (byte) code;
+        this.PASSING = (byte) passing; //0: none, 1: fliers only, 2: walkers & fliers
     }
 
     public static BlockTypesEnum getType(byte code) {

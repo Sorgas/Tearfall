@@ -86,14 +86,14 @@ public class LocalMap implements ModelComponent, Initable {
     }
 
     public boolean isWorkingRamp(int x, int y, int z) {
-        return blockType[x][y][z] == BlockTypesEnum.RAMP.getCode()
-                && blockType[x][y][z + 1] == BlockTypesEnum.SPACE.getCode();
+        return blockType[x][y][z] == BlockTypesEnum.RAMP.CODE
+                && blockType[x][y][z + 1] == BlockTypesEnum.SPACE.CODE;
     }
 
     public boolean isWorkingStair(int x, int y, int z) {
-        return blockType[x][y][z] == BlockTypesEnum.STAIRS.getCode()
-                && (blockType[x][y][z + 1] == BlockTypesEnum.STAIRS.getCode()
-                || blockType[x][y][z + 1] == BlockTypesEnum.STAIRFLOOR.getCode());
+        return blockType[x][y][z] == BlockTypesEnum.STAIRS.CODE
+                && (blockType[x][y][z + 1] == BlockTypesEnum.STAIRS.CODE
+                || blockType[x][y][z + 1] == BlockTypesEnum.STAIRFLOOR.CODE);
     }
 
     public List<Position> getFreeBlockNear(Position position) {
@@ -147,7 +147,7 @@ public class LocalMap implements ModelComponent, Initable {
     }
 
     public boolean isWalkPassable(int x, int y, int z) {
-        return inMap(x, y, z) && BlockTypesEnum.getType(getBlockType(x, y, z)).getPassing() == 2;
+        return inMap(x, y, z) && BlockTypesEnum.getType(getBlockType(x, y, z)).PASSING == 2;
     }
 
     public boolean isFlyPassable(Position pos) {
@@ -155,15 +155,15 @@ public class LocalMap implements ModelComponent, Initable {
     }
 
     public boolean isFlyPassable(int x, int y, int z) {
-        return inMap(x, y, z) && BlockTypesEnum.getType(getBlockType(x, y, z)).getPassing() != 0; // 1 || 2
+        return inMap(x, y, z) && BlockTypesEnum.getType(getBlockType(x, y, z)).PASSING != 0; // 1 || 2
     }
 
     /**
      * Only for adjacent cells.
      */
     public boolean hasPathBetween(Position pos1, Position pos2) {
-        boolean passable1 = BlockTypesEnum.getType(getBlockType(pos1)).getPassing() == 2;
-        boolean passable2 = BlockTypesEnum.getType(getBlockType(pos2)).getPassing() == 2;
+        boolean passable1 = BlockTypesEnum.getType(getBlockType(pos1)).PASSING == 2;
+        boolean passable2 = BlockTypesEnum.getType(getBlockType(pos2)).PASSING == 2;
         boolean sameLevel = pos1.getZ() == pos2.getZ();
         boolean lowRamp = BlockTypesEnum.getType(getBlockType(pos1.getZ() < pos2.getZ() ? pos1 : pos2)) == BlockTypesEnum.RAMP; // can descend on ramps
         return (passable1 && passable2 && (sameLevel || lowRamp));
@@ -264,11 +264,11 @@ public class LocalMap implements ModelComponent, Initable {
     }
 
     public byte getBlockType(Position pos) {
-        return blockType[pos.getX()][pos.getY()][pos.getZ()];
+        return getBlockType(pos.getX(), pos.getY(), pos.getZ());
     }
 
     public byte getBlockType(int x, int y, int z) {
-        return blockType[x][y][z];
+        return inMap(x, y, z) ? blockType[x][y][z] : 0;
     }
 
     public void setBlockType(Position pos, byte type) {
@@ -297,7 +297,7 @@ public class LocalMap implements ModelComponent, Initable {
     }
 
     public void setBlock(Position pos, BlockTypesEnum blockType, int materialId) {
-        setBlock(pos.getX(), pos.getY(), pos.getZ(), blockType.getCode(), materialId);
+        setBlock(pos.getX(), pos.getY(), pos.getZ(), blockType.CODE, materialId);
     }
 
     public void setBlock(Position pos, byte blockType, int materialId) {
@@ -305,7 +305,7 @@ public class LocalMap implements ModelComponent, Initable {
     }
 
     public void setBlock(int x, int y, int z, BlockTypesEnum blockType, int materialId) {
-        setBlock(x, y, z, blockType.getCode(), materialId);
+        setBlock(x, y, z, blockType.CODE, materialId);
     }
 
     public PlantBlock getPlantBlock(Position pos) {

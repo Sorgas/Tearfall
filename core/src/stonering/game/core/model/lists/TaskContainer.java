@@ -4,14 +4,13 @@ import stonering.designations.BuildingDesignation;
 import stonering.designations.Designation;
 import stonering.designations.OrderDesignation;
 import stonering.entity.jobs.actions.*;
+import stonering.entity.local.building.Blueprint;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.buildings.BuildingTypeMap;
 import stonering.entity.local.building.BuildingType;
 import stonering.enums.designations.DesignationTypeEnum;
 import stonering.game.core.GameMvc;
-import stonering.game.core.model.MainGameModel;
 import stonering.game.core.model.ModelComponent;
-import stonering.game.core.model.Turnable;
 import stonering.game.core.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 import stonering.entity.jobs.Task;
@@ -93,20 +92,20 @@ public class TaskContainer implements ModelComponent, Initable {
      * Called from {@link stonering.game.core.controller.controllers.toolbar.DesignationsController}.
      * Adds designation and creates comprehensive task.
      * All single-tile buildings are constructed through this method.
-     *
-     * @param position
-     * @param building
-     * @param itemSelectors
      */
-    public void submitBuildingDesignation(Position position, String building, List<ItemSelector> itemSelectors, int priority) {
-        if (validateBuilding(position, building)) {
-            BuildingDesignation designation = new BuildingDesignation(position, DesignationTypeEnum.BUILD, building);
-            Task task = createBuildingTask(designation, itemSelectors, priority);
-            designation.setTask(task);
-            tasks.add(task);
-            addDesignation(designation);
-            TagLoggersEnum.TASKS.log(task.getName() + " designated");
-        }
+    public void submitBuildingDesignation(Position position, Blueprint blueprint, List<ItemSelector> itemSelectors, int priority) {
+        String building = blueprint.getBuilding();
+        if (!validateBuilding(position, blueprint)) return;
+        BuildingDesignation designation = new BuildingDesignation(position, DesignationTypeEnum.BUILD, building);
+        Task task = createBuildingTask(designation, itemSelectors, priority);
+        designation.setTask(task);
+        tasks.add(task);
+        addDesignation(designation);
+        TagLoggersEnum.TASKS.log(task.getName() + " designated");
+    }
+
+    public void submitconstructionDesignation(Position position, String construction, List<ItemSelector> itemSelectors, int priority) {
+        if()
     }
 
     private Task createOrderTask(OrderDesignation designation, int priority) {
@@ -141,11 +140,6 @@ public class TaskContainer implements ModelComponent, Initable {
 
     /**
      * Creates tasks for building various buildings.
-     *
-     * @param designation
-     * @param items
-     * @param priority
-     * @return
      */
     private Task createBuildingTask(BuildingDesignation designation, List<ItemSelector> items, int priority) {
         BuildingAction buildingAction = new BuildingAction(designation, items);
@@ -193,23 +187,19 @@ public class TaskContainer implements ModelComponent, Initable {
 
     /**
      * Validates if it's possible to build given building on given position.
-     *
-     * @param pos
-     * @param building
-     * @return
      */
-    public boolean validateBuilding(Position pos, String building) {
+    private boolean validateBuilding(Position pos, String building) {
         BuildingType buildngType = BuildingTypeMap.getInstance().getBuilding(building);
         String category = buildngType.getCategory();
         boolean result = false;
         byte blockType = localMap.getBlockType(pos);
         switch (category) {
             case "constructions": {
-                result = blockType == BlockTypesEnum.SPACE.getCode() || blockType == BlockTypesEnum.FLOOR.getCode();
+                result = blockType == BlockTypesEnum.SPACE.CODE || blockType == BlockTypesEnum.FLOOR.CODE;
                 break;
             }
             case "workbenches": {
-                result = blockType == BlockTypesEnum.FLOOR.getCode();
+                result = blockType == BlockTypesEnum.FLOOR.CODE;
                 break;
             }
         }
@@ -237,7 +227,7 @@ public class TaskContainer implements ModelComponent, Initable {
      */
     private void addDesignation(Designation designation) {
         designations.put(designation.getPosition(), designation);
-        localMap.setDesignatedBlockType(designation.getPosition(), designation.getType().getCode());
+        localMap.setDesignatedBlockType(designation.getPosition(), designation.getType().CODE);
     }
 
     /**
@@ -247,7 +237,7 @@ public class TaskContainer implements ModelComponent, Initable {
      */
     private void removeDesignation(Designation designation) {
         designations.remove(designation.getPosition());
-        localMap.setDesignatedBlockType(designation.getPosition(), DesignationTypeEnum.NONE.getCode());
+        localMap.setDesignatedBlockType(designation.getPosition(), DesignationTypeEnum.NONE.CODE);
     }
 
     public void setTasks(ArrayList<Task> tasks) {

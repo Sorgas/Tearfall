@@ -20,23 +20,19 @@ public enum DesignationTypeEnum {
     BUILD(8, "building"); //build construction or building
 
     private static HashMap<Byte, DesignationTypeEnum> map;
-    private byte code;
+    public final byte CODE;
     private String text;
 
     static {
         map = new HashMap<>();
         for (DesignationTypeEnum type : DesignationTypeEnum.values()) {
-            map.put(type.code, type);
+            map.put(type.CODE, type);
         }
     }
 
     DesignationTypeEnum(int code, String text) {
-        this.code = (byte) code;
+        this.CODE = (byte) code;
         this.text = text;
-    }
-
-    public byte getCode() {
-        return code;
     }
 
     public String getText() {

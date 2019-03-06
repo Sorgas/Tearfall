@@ -1,45 +1,74 @@
+// placing are keys from PlacingValidatorEnum. no validation applied otherwise.
 [
     {
         "name": "build_wall",
         "title": "Wall",
         "building": "wall",
         "menuPath": ["constructions"],
-        "variants": [
-            ["stone", 4, 1, 1], ["clay", 4, 1, 1], ["metal", 4, 1, 1], ["log", 4, 1, 1], ["plank", 4, 1, 1]
+        "placing": "construction",
+        "components": [
+            {
+                "name": "main",
+                "variants": [
+                    ["stone", 4, 1, 1], ["clay", 4, 1, 1], ["metal", 4, 1, 1], ["log", 4, 1, 1], ["plank", 4, 1, 1]
+                ]
+            }
         ]
     }, {
     "name": "build_floor",
     "title": "Floor",
     "building": "floor",
     "menuPath": ["constructions"],
-    "variants": [
-        ["stone", 4, 1, 1], ["clay", 4, 1, 1], ["metal", 4, 1, 1], ["log", 4, 1, 1], ["plank", 4, 1, 1]
+    "placing": "construction",
+    "components": [
+        {
+            "name": "main",
+            "variants": [
+                ["stone", 4, 1, 1], ["clay", 4, 1, 1], ["metal", 4, 1, 1], ["log", 4, 1, 1], ["plank", 4, 1, 1]
+            ]
+        }
     ]
 }, {
     "name": "build_ramp",
     "title": "Ramp",
     "building": "ramp",
     "menuPath": ["constructions"],
-    "variants": [
-        ["stone", 4, 1, 1], ["clay", 4, 1, 1], ["metal", 4, 1, 1], ["log", 4, 1, 1], ["plank", 4, 1, 1]
+    "placing": "construction",
+    "components": [
+        {
+            "name": "main",
+            "variants": [
+                ["stone", 4, 1, 1], ["clay", 4, 1, 1], ["metal", 4, 1, 1], ["log", 4, 1, 1], ["plank", 4, 1, 1]
+            ]
+        }
     ]
-
 }, {
     "name": "build_stairs",
     "title": "Stairs",
     "building": "stairs",
     "menuPath": ["constructions"],
-    "variants": [
-        ["stone", 4, 1, 1], ["clay", 4, 1, 1], ["metal", 4, 1, 1], ["log", 4, 1, 1], ["plank", 4, 1, 1]
+    "placing": "construction",
+    "components": [
+        {
+            "name": "main",
+            "variants": [
+                ["stone", 4, 1, 1], ["clay", 4, 1, 1], ["metal", 4, 1, 1], ["log", 4, 1, 1], ["plank", 4, 1, 1]
+            ]
+        }
     ]
 }, {
     "name": "build_sawing_rack",
     "title": "Sawing rack",
     "building": "sawing_rack",
     "menuPath": ["constructions"],
-    "variants": [
-        ["stone", 4, 1, 1], ["clay", 4, 1, 1], ["metal", 4, 1, 1], ["log", 4, 1, 1], ["plank", 4, 1, 1]
+    "placing": "construction",
+    "components": [
+        {
+            "name": "main",
+            "variants": [
+                ["stone", 4, 1, 1], ["clay", 4, 1, 1], ["metal", 4, 1, 1], ["log", 4, 1, 1], ["plank", 4, 1, 1]
+            ]
+        }
     ]
 }
-
 ]

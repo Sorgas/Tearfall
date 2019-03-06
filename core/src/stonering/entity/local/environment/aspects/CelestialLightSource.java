@@ -45,7 +45,7 @@ public class CelestialLightSource extends AbstractLighSourceAspect {
             for (int y = 0; y < localMap.getySize(); y++) {
                 for (int z = localMap.getzSize() - 1; z >= 0; z--) {
                     localMap.generalLight.changeValue(x, y, z, forceDelta);
-                    if (localMap.getBlockType(x, y, z) != BlockTypesEnum.SPACE.getCode()) {
+                    if (localMap.getBlockType(x, y, z) != BlockTypesEnum.SPACE.CODE) {
                         break;
                     }
                 }

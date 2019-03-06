@@ -11,8 +11,9 @@ import stonering.game.core.view.render.ui.menus.util.SubMenuMenu;
 import stonering.util.global.TagLoggersEnum;
 
 /**
- * Translates all blueprints from {@link BlueprintsMap} to buttons.
  * ButtonMenu for selecting building.
+ * Translates all blueprints from {@link BlueprintsMap} to buttons.
+ * Constructions are treated the same as buildings here.
  *
  * @author Alexander Kuzyakov on 25.01.2018.
  */
@@ -43,9 +44,5 @@ public class BuildingMenu extends SubMenuMenu {
                 }
             }, blueprint.getMenuPath());
         }
-    }
-
-    @Override
-    public void reset() {
     }
 }

@@ -5,7 +5,6 @@ import stonering.enums.blocks.BlocksTileMapping;
 import stonering.enums.materials.Material;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.core.GameMvc;
-import stonering.game.core.model.MainGameModel;
 import stonering.game.core.model.ModelComponent;
 import stonering.game.core.model.local_map.LocalMap;
 import stonering.util.global.Initable;
@@ -47,7 +46,7 @@ public class LocalTileMapUpdater implements ModelComponent, Initable {
             if (blockType == BlockTypesEnum.RAMP.getCode()) {
                 atlasX = countRamp(x, y, z);
             } else {
-                atlasX = BlocksTileMapping.getType(blockType).getAtlasX();
+                atlasX = BlocksTileMapping.getType(blockType).getATLAS_X();
             }
             localTileMap.setTile(x, y, z,
                     atlasX,
@@ -78,31 +77,31 @@ public class LocalTileMapUpdater implements ModelComponent, Initable {
     private byte countRamp(int x, int y, int z) {
         int walls = observeWalls(x, y, z);
         if ((walls & 0b00001010) == 0b00001010) {
-            return BlocksTileMapping.RAMP_SW.getAtlasX();
+            return BlocksTileMapping.RAMP_SW.getATLAS_X();
         } else if ((walls & 0b01010000) == 0b01010000) {
-            return BlocksTileMapping.RAMP_NE.getAtlasX();
+            return BlocksTileMapping.RAMP_NE.getATLAS_X();
         } else if ((walls & 0b00010010) == 0b00010010) {
-            return BlocksTileMapping.RAMP_SE.getAtlasX();
+            return BlocksTileMapping.RAMP_SE.getATLAS_X();
         } else if ((walls & 0b01001000) == 0b01001000) {
-            return BlocksTileMapping.RAMP_NW.getAtlasX();
+            return BlocksTileMapping.RAMP_NW.getATLAS_X();
         } else if ((walls & 0b00010000) != 0) {
-            return BlocksTileMapping.RAMP_E.getAtlasX();
+            return BlocksTileMapping.RAMP_E.getATLAS_X();
         } else if ((walls & 0b01000000) != 0) {
-            return BlocksTileMapping.RAMP_N.getAtlasX();
+            return BlocksTileMapping.RAMP_N.getATLAS_X();
         } else if ((walls & 0b00000010) != 0) {
-            return BlocksTileMapping.RAMP_S.getAtlasX();
+            return BlocksTileMapping.RAMP_S.getATLAS_X();
         } else if ((walls & 0b00001000) != 0) {
-            return BlocksTileMapping.RAMP_W.getAtlasX();
+            return BlocksTileMapping.RAMP_W.getATLAS_X();
         } else if ((walls & 0b10000000) != 0) {
-            return BlocksTileMapping.RAMP_NEO.getAtlasX();
+            return BlocksTileMapping.RAMP_NEO.getATLAS_X();
         } else if ((walls & 0b00000100) != 0) {
-            return BlocksTileMapping.RAMP_SEO.getAtlasX();
+            return BlocksTileMapping.RAMP_SEO.getATLAS_X();
         } else if ((walls & 0b00100000) != 0) {
-            return BlocksTileMapping.RAMP_NWO.getAtlasX();
+            return BlocksTileMapping.RAMP_NWO.getATLAS_X();
         } else if ((walls & 0b00000001) != 0) {
-            return BlocksTileMapping.RAMP_SWO.getAtlasX();
+            return BlocksTileMapping.RAMP_SWO.getATLAS_X();
         } else
-            return BlocksTileMapping.FLOOR.getAtlasX();
+            return BlocksTileMapping.FLOOR.getATLAS_X();
     }
 
     /**

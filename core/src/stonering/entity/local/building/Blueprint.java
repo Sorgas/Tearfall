@@ -1,5 +1,7 @@
 package stonering.entity.local.building;
 
+import stonering.entity.local.crafting.CommonComponentStep;
+
 import java.util.List;
 
 /**
@@ -10,8 +12,9 @@ public class Blueprint {
     private String name; // blueprint id.
     private String building; //building id
     private String title; // button title
+    private String placing; // maps to position validator for place selecting and task checking.
     private List<String> menuPath; // button path in toolbar
-
+    private List<CommonComponentStep> components;
 
     public String getName() {
         return name;
@@ -45,4 +48,19 @@ public class Blueprint {
         this.menuPath = menuPath;
     }
 
+    public String getPlacing() {
+        return placing;
+    }
+
+    public void setPlacing(String placing) {
+        this.placing = placing;
+    }
+
+    public List<CommonComponentStep> getComponents() {
+        return components;
+    }
+
+    public void setComponents(List<CommonComponentStep> components) {
+        this.components = components;
+    }
 }

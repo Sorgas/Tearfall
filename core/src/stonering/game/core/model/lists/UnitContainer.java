@@ -48,8 +48,8 @@ public class UnitContainer extends Turnable implements ModelComponent, Initable 
             int x = localMap.getxSize() / 2;
             int y = localMap.getySize() / 2 - 15;
             for (int z = localMap.getzSize() - 1; z > 0; z--) {
-                if (localMap.getBlockType(x, y, z) == BlockTypesEnum.FLOOR.getCode()
-                        && localMap.getBlockType(x, y, z - 1) == BlockTypesEnum.WALL.getCode()) {
+                if (localMap.getBlockType(x, y, z) == BlockTypesEnum.FLOOR.CODE
+                        && localMap.getBlockType(x, y, z - 1) == BlockTypesEnum.WALL.CODE) {
                     System.out.println("placed: " + x + " " + y + " " + z);
                     unit.setPosition(new Position(x, y, z));
                     return;

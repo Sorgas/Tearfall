@@ -27,28 +27,20 @@ public enum BlocksTileMapping {
     RAMP_SWO((byte) 13, (byte) 12),
     RAMP_SEO((byte) 14, (byte) 13);
 
-    private byte code;
-    private byte atlasX;
+    public final byte CODE;
+    public final byte ATLAS_X;
     private static HashMap<Byte, BlocksTileMapping> map;
 
     static {
         map = new HashMap<>();
         for (BlocksTileMapping type : BlocksTileMapping.values()) {
-            map.put(type.code, type);
+            map.put(type.CODE, type);
         }
     }
 
     BlocksTileMapping(byte code, byte atlasX) {
-        this.code = code;
-        this.atlasX = atlasX;
-    }
-
-    public byte getCode() {
-        return code;
-    }
-
-    public byte getAtlasX() {
-        return atlasX;
+        this.CODE = code;
+        this.ATLAS_X = atlasX;
     }
 
     public static BlocksTileMapping getType(byte code) {
