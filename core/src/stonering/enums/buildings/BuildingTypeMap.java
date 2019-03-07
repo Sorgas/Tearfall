@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import stonering.entity.local.building.BuildingType;
+import stonering.entity.local.crafting.CommonComponentStep;
 import stonering.entity.local.crafting.CraftingComponentVariant;
 import stonering.util.global.FileLoader;
 import stonering.util.global.TagLoggersEnum;
@@ -11,7 +12,6 @@ import stonering.util.global.TagLoggersEnum;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Singleton map of building descriptors. Descriptors are stored by their names.
@@ -27,9 +27,6 @@ public class BuildingTypeMap {
         buildings = new HashMap<>();
         json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
-        json.addClassTag("color_c", Color.class);
-        json.addClassTag("step_c", BrakeableComponentStep.class);
-        json.addClassTag("variant_c", CraftingComponentVariant.class);
         loadBuildings();
         loadLists();
     }
@@ -54,10 +51,6 @@ public class BuildingTypeMap {
 
     public BuildingType getBuilding(String name) {
         return buildings.get(name);
-    }
-
-    public List<BuildingType> getCategoryBuildings(String categoryName) {
-        return buildings.values().stream().filter((buildingType -> buildingType.getCategory().equals(categoryName))).collect(Collectors.toList());
     }
 
     private void loadLists() {

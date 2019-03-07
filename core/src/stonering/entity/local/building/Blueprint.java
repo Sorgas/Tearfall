@@ -1,20 +1,33 @@
 package stonering.entity.local.building;
 
 import stonering.entity.local.crafting.CommonComponentStep;
+import stonering.util.global.Initable;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
  * Blueprint describes how building are built. Stores materials and amount, button place in menu hierarchy,
  * placing requirements, required skill and job.
  */
-public class Blueprint {
+public class Blueprint implements Initable {
     private String name; // blueprint id.
     private String building; //building id
     private String title; // button title
     private String placing; // maps to position validator for place selecting and task checking.
     private List<String> menuPath; // button path in toolbar
     private List<CommonComponentStep> components;
+    private LinkedHashMap<String, CommonComponentStep> mappedComponents;
+
+    @Override
+    public void init() {
+        mappedComponents = new LinkedHashMap<>();
+        for (CommonComponentStep component : components) mappedComponents.put(component.getName(), component);
+    }
+
+    public CommonComponentStep getStepByPartName(String partName) {
+        return mappedComponents.get(partName);
+    }
 
     public String getName() {
         return name;

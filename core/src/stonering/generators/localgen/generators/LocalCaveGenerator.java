@@ -97,8 +97,8 @@ public class LocalCaveGenerator {
         while (count > 0 && rejects > 0) {
             int x = random.nextInt(config.getAreaSize() - 10) + 5;
             int y = random.nextInt(config.getAreaSize() - 10) + 5;
-            if (localMap.getBlockType(x, y, top) == BlockTypesEnum.SPACE.getCode()) continue;
-            if (localMap.getBlockType(x, y, bottom) == BlockTypesEnum.SPACE.getCode()) continue;
+            if (localMap.getBlockType(x, y, top) == BlockTypesEnum.SPACE.CODE) continue;
+            if (localMap.getBlockType(x, y, bottom) == BlockTypesEnum.SPACE.CODE) continue;
 
             boolean reject = false;
             for (int i = xs.length - 1; i > count - 1; i--) {

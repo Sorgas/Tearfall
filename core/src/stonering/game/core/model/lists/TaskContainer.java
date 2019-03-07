@@ -9,6 +9,7 @@ import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.buildings.BuildingTypeMap;
 import stonering.entity.local.building.BuildingType;
 import stonering.enums.designations.DesignationTypeEnum;
+import stonering.enums.designations.PlaceValidatorsEnum;
 import stonering.game.core.GameMvc;
 import stonering.game.core.model.ModelComponent;
 import stonering.game.core.model.local_map.LocalMap;
@@ -95,17 +96,13 @@ public class TaskContainer implements ModelComponent, Initable {
      */
     public void submitBuildingDesignation(Position position, Blueprint blueprint, List<ItemSelector> itemSelectors, int priority) {
         String building = blueprint.getBuilding();
-        if (!validateBuilding(position, blueprint)) return;
+        if (!PlaceValidatorsEnum.getValidator(blueprint.getPlacing()).validate(localMap, position)) return;
         BuildingDesignation designation = new BuildingDesignation(position, DesignationTypeEnum.BUILD, building);
         Task task = createBuildingTask(designation, itemSelectors, priority);
         designation.setTask(task);
         tasks.add(task);
         addDesignation(designation);
         TagLoggersEnum.TASKS.log(task.getName() + " designated");
-    }
-
-    public void submitconstructionDesignation(Position position, String construction, List<ItemSelector> itemSelectors, int priority) {
-        if()
     }
 
     private Task createOrderTask(OrderDesignation designation, int priority) {
@@ -183,28 +180,6 @@ public class TaskContainer implements ModelComponent, Initable {
                 break;
         }
         return false;
-    }
-
-    /**
-     * Validates if it's possible to build given building on given position.
-     */
-    private boolean validateBuilding(Position pos, String building) {
-        BuildingType buildngType = BuildingTypeMap.getInstance().getBuilding(building);
-        String category = buildngType.getCategory();
-        boolean result = false;
-        byte blockType = localMap.getBlockType(pos);
-        switch (category) {
-            case "constructions": {
-                result = blockType == BlockTypesEnum.SPACE.CODE || blockType == BlockTypesEnum.FLOOR.CODE;
-                break;
-            }
-            case "workbenches": {
-                result = blockType == BlockTypesEnum.FLOOR.CODE;
-                break;
-            }
-        }
-        TagLoggersEnum.TASKS.logDebug(building + " validation " + (result ? "passed." : "failed."));
-        return result;
     }
 
     /**

@@ -32,7 +32,7 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
     private GameMvc gameMvc;
     private List<AbstractPlant> plants;
     private LocalMap localMap;
-    private final int WALL_CODE = BlockTypesEnum.WALL.getCode();
+    private final int WALL_CODE = BlockTypesEnum.WALL.CODE;
 
     public PlantContainer(List<AbstractPlant> plants) {
         this.plants = plants;

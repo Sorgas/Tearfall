@@ -84,12 +84,12 @@ public class LiquidContainer extends Turnable implements ModelComponent, Initabl
     }
 
     private void cacheConstants() {
-        spaceCode = BlockTypesEnum.SPACE.getCode();
-        wallCode = BlockTypesEnum.WALL.getCode();
-        floorCode = BlockTypesEnum.FLOOR.getCode();
-        rampCode = BlockTypesEnum.RAMP.getCode();
-        stairsCode = BlockTypesEnum.STAIRS.getCode();
-        stairfloorCode = BlockTypesEnum.STAIRFLOOR.getCode();
+        spaceCode = BlockTypesEnum.SPACE.CODE;
+        wallCode = BlockTypesEnum.WALL.CODE;
+        floorCode = BlockTypesEnum.FLOOR.CODE;
+        rampCode = BlockTypesEnum.RAMP.CODE;
+        stairsCode = BlockTypesEnum.STAIRS.CODE;
+        stairfloorCode = BlockTypesEnum.STAIRFLOOR.CODE;
     }
 
     /**

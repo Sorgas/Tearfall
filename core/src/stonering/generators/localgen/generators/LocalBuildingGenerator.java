@@ -37,7 +37,7 @@ public class LocalBuildingGenerator {
         int x = localMap.getxSize() /2;
         int y = localMap.getySize() /2;
         for (int z = localMap.getzSize() - 1; z > 0; z--) {
-            if (localMap.getBlockType(x, y, z) == BlockTypesEnum.FLOOR.getCode()) {
+            if (localMap.getBlockType(x, y, z) == BlockTypesEnum.FLOOR.CODE) {
                 return new Position(x, y, z);
             }
         }

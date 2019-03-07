@@ -37,7 +37,7 @@ public class LocalFloraGenerator {
     private float rainfall;
     private int areaSize;
 
-    private final int floorCode = BlockTypesEnum.FLOOR.getCode();
+    private final int floorCode = BlockTypesEnum.FLOOR.CODE;
 
     private HashMap<String, Float> weightedPlantTypes;
     private HashMap<String, Float> weightedTreeTypes;

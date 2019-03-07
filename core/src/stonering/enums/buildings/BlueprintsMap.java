@@ -3,7 +3,6 @@ package stonering.enums.buildings;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import stonering.entity.local.building.Blueprint;
-import stonering.entity.local.crafting.CraftingComponentVariant;
 import stonering.util.global.FileLoader;
 import stonering.util.global.TagLoggersEnum;
 
@@ -19,9 +18,6 @@ public class BlueprintsMap {
         blueprints = new HashMap<>();
         json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
-
-        json.addClassTag("step_c", BrakeableComponentStep.class);
-        json.addClassTag("variant_c", CraftingComponentVariant.class);
         loadBlueprints();
     }
 
@@ -36,8 +32,8 @@ public class BlueprintsMap {
         ArrayList<Blueprint> elements = json.fromJson(ArrayList.class, Blueprint.class, FileLoader.getFile(FileLoader.BLUEPRINTS_PATH));
         for (Blueprint blueprint : elements) {
             blueprints.put(blueprint.getName(), blueprint);
+            blueprint.init();
         }
-        //TODO init for steps and variants
     }
 
     public Blueprint getBlueprint(String name) {

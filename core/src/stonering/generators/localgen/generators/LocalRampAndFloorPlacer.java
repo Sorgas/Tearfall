@@ -20,9 +20,9 @@ public class LocalRampAndFloorPlacer {
         this.container = container;
     }
 
-    int wallCode = BlockTypesEnum.WALL.getCode();
-    int spaceCode = BlockTypesEnum.SPACE.getCode();
-    int rampCode = BlockTypesEnum.RAMP.getCode();
+    int wallCode = BlockTypesEnum.WALL.CODE;
+    int spaceCode = BlockTypesEnum.SPACE.CODE;
+    int rampCode = BlockTypesEnum.RAMP.CODE;
 
     public void execute() {
         System.out.println("placing ramps");
@@ -48,7 +48,7 @@ public class LocalRampAndFloorPlacer {
             for (int y = 0; y < localMap.getySize(); y++) {
                 for (int z = localMap.getzSize() - 1; z > 0; z--) {
                     if (isFloorCell(x, y, z)) { //non space sell
-                        localMap.setBlock(x, y, z, BlockTypesEnum.FLOOR.getCode(), localMap.getMaterial(x, y, z - 1));
+                        localMap.setBlock(x, y, z, BlockTypesEnum.FLOOR.CODE, localMap.getMaterial(x, y, z - 1));
                     }
                 }
             }
@@ -86,7 +86,7 @@ public class LocalRampAndFloorPlacer {
     }
 
     private boolean isFloorCell(int x, int y, int z) {
-        return localMap.getBlockType(x, y, z) == BlockTypesEnum.SPACE.getCode() &&
-                localMap.getBlockType(x, y, z - 1) == BlockTypesEnum.WALL.getCode();
+        return localMap.getBlockType(x, y, z) == BlockTypesEnum.SPACE.CODE &&
+                localMap.getBlockType(x, y, z - 1) == BlockTypesEnum.WALL.CODE;
     }
 }

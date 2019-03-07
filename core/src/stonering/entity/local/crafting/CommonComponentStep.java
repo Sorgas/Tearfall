@@ -10,6 +10,7 @@ import java.util.ArrayList;
  */
 public class CommonComponentStep {
     private boolean optional;
+    private String name;
     private ArrayList<CraftingComponentVariant> variants;
 
     public CommonComponentStep() {}
@@ -28,5 +29,13 @@ public class CommonComponentStep {
 
     public void setVariants(ArrayList<CraftingComponentVariant> variants) {
         this.variants = variants;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

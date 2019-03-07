@@ -126,6 +126,6 @@ public class AreaInitializer {
     }
 
     private boolean isWalkPassable(int x, int y, int z) {
-        return BlockTypesEnum.getType(localMap.getBlockType(x, y, z)).getPassing() == 2;
+        return BlockTypesEnum.getType(localMap.getBlockType(x, y, z)).PASSING == 2;
     }
 }

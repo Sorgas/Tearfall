@@ -74,18 +74,18 @@ public class DigAction extends Action {
         switch (type) {
             case RAMP:
             case STAIRS:
-                valid = map.getBlockType(pos) == BlockTypesEnum.WALL.getCode();
+                valid = map.getBlockType(pos) == BlockTypesEnum.WALL.CODE;
                 break;
             case FLOOR:
-                valid = map.getBlockType(pos) == BlockTypesEnum.WALL.getCode() ||
-                        map.getBlockType(pos) == BlockTypesEnum.RAMP.getCode() ||
-                        map.getBlockType(pos) == BlockTypesEnum.STAIRS.getCode();
+                valid = map.getBlockType(pos) == BlockTypesEnum.WALL.CODE ||
+                        map.getBlockType(pos) == BlockTypesEnum.RAMP.CODE ||
+                        map.getBlockType(pos) == BlockTypesEnum.STAIRS.CODE;
                 break;
             case SPACE:
                 valid = true;
         }
         if (valid) {
-            map.setBlockType(pos, type.getCode());
+            map.setBlockType(pos, type.CODE);
         }
     }
 

@@ -4,6 +4,7 @@
         "title": "Wall",
         "description": "Wall",
         "aspects": ["construction"],
+        "parts": ["wall"],
         "passage": "wall",
         "atlasXY": ["0", "0"],
         "color": "0xffffffff"
@@ -12,6 +13,7 @@
     "title": "Floor",
     "description": "Floor",
     "aspects": ["construction"],
+    "parts": ["floor"],
     "passage": "floor",
     "atlasXY": ["0", "0"],
     "color": "0xffffffff"
@@ -20,6 +22,7 @@
     "title": "Ramp",
     "description": "Ramp",
     "aspects": ["construction"],
+    "parts": ["ramp"],
     "passage": "ramp",
     "atlasXY": ["0", "0"],
     "color": "0xffffffff"
@@ -28,6 +31,7 @@
     "title": "Stairs",
     "description": "Stairs",
     "aspects": ["construction"],
+    "parts": ["ramp"],
     "passage": "stairs",
     "atlasXY": ["0", "0"],
     "color": "0xffffffff"

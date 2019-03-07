@@ -43,10 +43,10 @@ public class LocalTileMapUpdater implements ModelComponent, Initable {
         if (blockType > 0) { // non space
             Material material = materialMap.getMaterial(localMap.getMaterial(x, y, z));
             int atlasX;
-            if (blockType == BlockTypesEnum.RAMP.getCode()) {
+            if (blockType == BlockTypesEnum.RAMP.CODE) {
                 atlasX = countRamp(x, y, z);
             } else {
-                atlasX = BlocksTileMapping.getType(blockType).getATLAS_X();
+                atlasX = BlocksTileMapping.getType(blockType).ATLAS_X;
             }
             localTileMap.setTile(x, y, z,
                     atlasX,
@@ -59,7 +59,7 @@ public class LocalTileMapUpdater implements ModelComponent, Initable {
     private void updateRampsAround(int xc, int yc, int z) {
         for (int y = yc - 1; y < yc + 2; y++) {
             for (int x = xc - 1; x < xc + 2; x++) {
-                if (localMap.inMap(x, y, z) && localMap.getBlockType(x, y, z) == BlockTypesEnum.RAMP.getCode()) {
+                if (localMap.inMap(x, y, z) && localMap.getBlockType(x, y, z) == BlockTypesEnum.RAMP.CODE) {
                     localTileMap.setTile(x, y, z, countRamp(x, y, z), localTileMap.getAtlasY(x, y, z), 0, null);
                 }
             }
@@ -77,31 +77,31 @@ public class LocalTileMapUpdater implements ModelComponent, Initable {
     private byte countRamp(int x, int y, int z) {
         int walls = observeWalls(x, y, z);
         if ((walls & 0b00001010) == 0b00001010) {
-            return BlocksTileMapping.RAMP_SW.getATLAS_X();
+            return BlocksTileMapping.RAMP_SW.ATLAS_X;
         } else if ((walls & 0b01010000) == 0b01010000) {
-            return BlocksTileMapping.RAMP_NE.getATLAS_X();
+            return BlocksTileMapping.RAMP_NE.ATLAS_X;
         } else if ((walls & 0b00010010) == 0b00010010) {
-            return BlocksTileMapping.RAMP_SE.getATLAS_X();
+            return BlocksTileMapping.RAMP_SE.ATLAS_X;
         } else if ((walls & 0b01001000) == 0b01001000) {
-            return BlocksTileMapping.RAMP_NW.getATLAS_X();
+            return BlocksTileMapping.RAMP_NW.ATLAS_X;
         } else if ((walls & 0b00010000) != 0) {
-            return BlocksTileMapping.RAMP_E.getATLAS_X();
+            return BlocksTileMapping.RAMP_E.ATLAS_X;
         } else if ((walls & 0b01000000) != 0) {
-            return BlocksTileMapping.RAMP_N.getATLAS_X();
+            return BlocksTileMapping.RAMP_N.ATLAS_X;
         } else if ((walls & 0b00000010) != 0) {
-            return BlocksTileMapping.RAMP_S.getATLAS_X();
+            return BlocksTileMapping.RAMP_S.ATLAS_X;
         } else if ((walls & 0b00001000) != 0) {
-            return BlocksTileMapping.RAMP_W.getATLAS_X();
+            return BlocksTileMapping.RAMP_W.ATLAS_X;
         } else if ((walls & 0b10000000) != 0) {
-            return BlocksTileMapping.RAMP_NEO.getATLAS_X();
+            return BlocksTileMapping.RAMP_NEO.ATLAS_X;
         } else if ((walls & 0b00000100) != 0) {
-            return BlocksTileMapping.RAMP_SEO.getATLAS_X();
+            return BlocksTileMapping.RAMP_SEO.ATLAS_X;
         } else if ((walls & 0b00100000) != 0) {
-            return BlocksTileMapping.RAMP_NWO.getATLAS_X();
+            return BlocksTileMapping.RAMP_NWO.ATLAS_X;
         } else if ((walls & 0b00000001) != 0) {
-            return BlocksTileMapping.RAMP_SWO.getATLAS_X();
+            return BlocksTileMapping.RAMP_SWO.ATLAS_X;
         } else
-            return BlocksTileMapping.FLOOR.getATLAS_X();
+            return BlocksTileMapping.FLOOR.ATLAS_X;
     }
 
     /**
@@ -119,7 +119,7 @@ public class LocalTileMapUpdater implements ModelComponent, Initable {
             for (int xOffset = -1; xOffset < 2; xOffset++) {
                 if ((xOffset != 0) || (yOffset != 0)) {
                     if (localMap.inMap(x + xOffset, y + yOffset, z)) {
-                        if (localMap.getBlockType(x + xOffset, y + yOffset, z) == BlockTypesEnum.WALL.getCode()) {
+                        if (localMap.getBlockType(x + xOffset, y + yOffset, z) == BlockTypesEnum.WALL.CODE) {
                             walls |= bitpos;
                         }
                     }

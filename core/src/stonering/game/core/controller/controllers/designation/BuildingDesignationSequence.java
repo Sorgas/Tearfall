@@ -3,9 +3,6 @@ package stonering.game.core.controller.controllers.designation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import stonering.entity.local.building.Blueprint;
 import stonering.entity.local.building.BuildingType;
-import stonering.entity.local.building.validators.FreeFloorValidator;
-import stonering.entity.local.building.validators.NearSolidBlockValidator;
-import stonering.entity.local.building.validators.PositionValidator;
 import stonering.entity.local.crafting.CommonComponentStep;
 import stonering.entity.local.items.selectors.ItemSelector;
 import stonering.entity.local.items.selectors.SimpleItemSelector;
@@ -22,7 +19,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Designation sequence for buildings. Shows {@link PlaceSelectComponent}, and then lists with materials for each building part.
+ * Designation sequence for buildings. Shows {@link PlaceSelectComponent},
+ * and then lists with materials for each building part.
+ * Assembles {}
  * TODO Validation for preview sprite rendering.
  *
  * @author Alexander on 21.01.2019.

@@ -1,27 +1,30 @@
 [
     {
-        "building": "sawing_rack",
-        "title": "Sawing rack",
-        "description": "Small rack for sawing logs into planks.",
-        "aspects": [["workbench"], ["item_container", "solid", "100"]],
-        "passage": "floor",
-        "atlasXY": ["0", "0"],
-        "color": "0xffffffff"
+        "building":"sawing_rack",
+        "title":"Sawing rack",
+        "description":"Small rack for sawing logs into planks.",
+        "aspects":[["workbench"], ["item_container", "solid", "100"]],
+        "parts":["table", "saw"],
+        "passage":"floor",
+        "atlasXY":["0", "0"],
+        "color":"0xffffffff"
     }, {
-    "building": "forge",
-    "title": "Forge",
-    "description": "Forge for blacksmithing",
-    "aspects": [["workbench"], ["item_container", "solid", "100"]],
-    "passage": "floor",
-    "atlasXY": ["0", "0"],
-    "color": "0xffffffff"
+    "building":"forge",
+    "title":"Forge",
+    "description":"Forge for blacksmithing",
+    "aspects":[["workbench"], ["item_container", "solid", "100"]],
+    "parts":["anvil", "forge", "pool"],
+    "passage":"floor",
+    "atlasXY":["0", "0"],
+    "color":"0xffffffff"
 }, {
-    "building": "tailor_shop",
-    "title": "Tailor's workbench",
-    "description": "qwer",
-    "aspects": [["workbench"], ["item_container", "solid", "100"]],
-    "passage": "floor",
-    "atlasXY": ["0", "0"],
-    "color": "0xffffffff"
+    "building":"tailor_shop",
+    "title":"Tailor's workbench",
+    "description":"qwer",
+    "aspects":[["workbench"], ["item_container", "solid", "100"]],
+    "parts":["table", "chair"],
+    "passage":"floor",
+    "atlasXY":["0", "0"],
+    "color":"0xffffffff"
 }
 ]

@@ -18,6 +18,7 @@ public class PlantType implements Initable {
     private ArrayList<String> lightNeed;
     private String soilType;
     private ArrayList<PlantLifeStage> lifeStages;
+    private ArrayList<String> placingTags;
 
     public PlantType() {
         temperatureBounds = new int[4];
@@ -238,5 +239,13 @@ public class PlantType implements Initable {
 
     public boolean isTree() {
         return lifeStages.get(0).treeType != null;
+    }
+
+    public ArrayList<String> getPlacingTags() {
+        return placingTags;
+    }
+
+    public void setPlacingTags(ArrayList<String> placingTags) {
+        this.placingTags = placingTags;
     }
 }
