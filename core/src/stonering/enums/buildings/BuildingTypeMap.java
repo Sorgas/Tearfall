@@ -1,11 +1,8 @@
 package stonering.enums.buildings;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import stonering.entity.local.building.BuildingType;
-import stonering.entity.local.crafting.CommonComponentStep;
-import stonering.entity.local.crafting.CraftingComponentVariant;
 import stonering.util.global.FileLoader;
 import stonering.util.global.TagLoggersEnum;
 

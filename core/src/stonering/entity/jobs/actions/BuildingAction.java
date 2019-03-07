@@ -16,6 +16,7 @@ import stonering.util.geometry.Position;
 import stonering.util.global.TagLoggersEnum;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -24,9 +25,9 @@ import java.util.List;
  */
 public class BuildingAction extends Action {
     private BuildingType buildingType;
-    private List<ItemSelector> materials;
+    private Collection<ItemSelector> materials;
 
-    public BuildingAction(BuildingDesignation designation, List<ItemSelector> materials) {
+    public BuildingAction(BuildingDesignation designation, Collection<ItemSelector> materials) {
         super(null);
         this.materials = materials;
         buildingType = BuildingTypeMap.getInstance().getBuilding(designation.getBuilding());

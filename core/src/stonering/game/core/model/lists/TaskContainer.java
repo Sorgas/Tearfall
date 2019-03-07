@@ -4,10 +4,8 @@ import stonering.designations.BuildingDesignation;
 import stonering.designations.Designation;
 import stonering.designations.OrderDesignation;
 import stonering.entity.jobs.actions.*;
-import stonering.entity.local.building.Blueprint;
+import stonering.entity.local.building.BuildingOrder;
 import stonering.enums.blocks.BlockTypesEnum;
-import stonering.enums.buildings.BuildingTypeMap;
-import stonering.entity.local.building.BuildingType;
 import stonering.enums.designations.DesignationTypeEnum;
 import stonering.enums.designations.PlaceValidatorsEnum;
 import stonering.game.core.GameMvc;
@@ -21,8 +19,8 @@ import stonering.util.global.Initable;
 import stonering.util.global.TagLoggersEnum;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Contains all tasks for settlers on map and Designations for rendering.
@@ -33,7 +31,7 @@ import java.util.List;
  * @author Alexander Kuzyakov
  */
 public class TaskContainer implements ModelComponent, Initable {
-    LocalMap localMap;
+    private LocalMap localMap;
     private ArrayList<Task> tasks;
     private HashMap<Position, Designation> designations;
 
@@ -90,15 +88,15 @@ public class TaskContainer implements ModelComponent, Initable {
     }
 
     /**
-     * Called from {@link stonering.game.core.controller.controllers.toolbar.DesignationsController}.
+     * Called from {@link stonering.game.core.controller.controllers.designation.BuildingDesignationSequence}.
      * Adds designation and creates comprehensive task.
      * All single-tile buildings are constructed through this method.
      */
-    public void submitBuildingDesignation(Position position, Blueprint blueprint, List<ItemSelector> itemSelectors, int priority) {
-        String building = blueprint.getBuilding();
-        if (!PlaceValidatorsEnum.getValidator(blueprint.getPlacing()).validate(localMap, position)) return;
-        BuildingDesignation designation = new BuildingDesignation(position, DesignationTypeEnum.BUILD, building);
-        Task task = createBuildingTask(designation, itemSelectors, priority);
+    public void submitBuildingDesignation(BuildingOrder order, int priority) {
+        Position position = order.getPosition();
+        if (!PlaceValidatorsEnum.getValidator(order.getBlueprint().getPlacing()).validate(localMap, position)) return;
+        BuildingDesignation designation = new BuildingDesignation(position, DesignationTypeEnum.BUILD, order.getBlueprint().getBuilding());
+        Task task = createBuildingTask(designation, order.getItemSelectors().values(), priority);
         designation.setTask(task);
         tasks.add(task);
         addDesignation(designation);
@@ -138,7 +136,7 @@ public class TaskContainer implements ModelComponent, Initable {
     /**
      * Creates tasks for building various buildings.
      */
-    private Task createBuildingTask(BuildingDesignation designation, List<ItemSelector> items, int priority) {
+    private Task createBuildingTask(BuildingDesignation designation, Collection<ItemSelector> items, int priority) {
         BuildingAction buildingAction = new BuildingAction(designation, items);
         Task task = new Task("designation", TaskTypesEnum.DESIGNATION, buildingAction, priority);
         task.setDesignation(designation);
@@ -221,5 +219,9 @@ public class TaskContainer implements ModelComponent, Initable {
 
     public ArrayList<Task> getTasks() {
         return tasks;
+    }
+
+    public HashMap<Position, Designation> getDesignations() {
+        return designations;
     }
 }

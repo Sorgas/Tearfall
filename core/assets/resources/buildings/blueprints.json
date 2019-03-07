@@ -8,7 +8,7 @@
         "placing": "construction",
         "components": [
             {
-                "name": "main",
+                "name": "wall",
                 "variants": [
                     ["stone", 4, 1, 1], ["clay", 4, 1, 1], ["metal", 4, 1, 1], ["log", 4, 1, 1], ["plank", 4, 1, 1]
                 ]
@@ -22,7 +22,7 @@
     "placing": "construction",
     "components": [
         {
-            "name": "main",
+            "name": "floor",
             "variants": [
                 ["stone", 4, 1, 1], ["clay", 4, 1, 1], ["metal", 4, 1, 1], ["log", 4, 1, 1], ["plank", 4, 1, 1]
             ]
@@ -36,7 +36,7 @@
     "placing": "construction",
     "components": [
         {
-            "name": "main",
+            "name": "ramp",
             "variants": [
                 ["stone", 4, 1, 1], ["clay", 4, 1, 1], ["metal", 4, 1, 1], ["log", 4, 1, 1], ["plank", 4, 1, 1]
             ]
@@ -50,7 +50,7 @@
     "placing": "construction",
     "components": [
         {
-            "name": "main",
+            "name": "stairs",
             "variants": [
                 ["stone", 4, 1, 1], ["clay", 4, 1, 1], ["metal", 4, 1, 1], ["log", 4, 1, 1], ["plank", 4, 1, 1]
             ]
@@ -64,9 +64,15 @@
     "placing": "construction",
     "components": [
         {
-            "name": "main",
+            "name": "table",
             "variants": [
-                ["stone", 4, 1, 1], ["clay", 4, 1, 1], ["metal", 4, 1, 1], ["log", 4, 1, 1], ["plank", 4, 1, 1]
+                ["metal", 4, 1, 1], ["log", 4, 1, 1], ["plank", 4, 1, 1]
+            ]
+        },
+        {
+            "name": "saw",
+            "variants": [
+                ["saw", 1, 1, 1]
             ]
         }
     ]

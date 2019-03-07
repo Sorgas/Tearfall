@@ -2,40 +2,31 @@ package stonering.game.core.controller.controllers.designation;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import stonering.entity.local.building.Blueprint;
-import stonering.entity.local.building.BuildingType;
+import stonering.entity.local.building.BuildingOrder;
 import stonering.entity.local.crafting.CommonComponentStep;
-import stonering.entity.local.items.selectors.ItemSelector;
 import stonering.entity.local.items.selectors.SimpleItemSelector;
-import stonering.enums.buildings.BuildingTypeMap;
 import stonering.enums.designations.PlaceValidatorsEnum;
 import stonering.game.core.model.lists.TaskContainer;
 import stonering.game.core.view.render.ui.lists.MaterialSelectList;
 import stonering.game.core.view.render.ui.menus.util.PlaceSelectComponent;
 import stonering.game.core.view.render.ui.util.ListItem;
-import stonering.util.geometry.Position;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Designation sequence for buildings. Shows {@link PlaceSelectComponent},
  * and then lists with materials for each building part.
- * Assembles {}
+ * Creates {@link BuildingOrder} as player proceeds through widgets.
  * TODO Validation for preview sprite rendering.
  *
  * @author Alexander on 21.01.2019.
  */
 public class BuildingDesignationSequence extends DesignationSequence {
-    private PlaceSelectComponent placeSelectComponent;
     private Blueprint blueprint;
-    private BuildingType buildingType;
-    private Position position;
-    private Map<CommonComponentStep, ItemSelector> stepSelectorMap;
+    private BuildingOrder order;
+    private PlaceSelectComponent placeSelectComponent;
 
     public BuildingDesignationSequence(Blueprint blueprint) {
         this.blueprint = blueprint;
-        buildingType = BuildingTypeMap.getInstance().getBuilding(blueprint.getBuilding());
+        order = new BuildingOrder(blueprint, null);
         createPlaceSelectComponent();
         reset();
     }
@@ -46,11 +37,11 @@ public class BuildingDesignationSequence extends DesignationSequence {
      */
     private void createPlaceSelectComponent() {
         placeSelectComponent = new PlaceSelectComponent(event -> {
-            position = placeSelectComponent.getPosition();
+            order.setPosition(placeSelectComponent.getPosition());
             showNextList();
             return true;
         });
-        placeSelectComponent.setPositionValidator(PlaceValidatorsEnum.getValidator(blueprint.getPlacing()));
+        placeSelectComponent.setPositionValidator(PlaceValidatorsEnum.getValidator(order.getBlueprint().getPlacing()));
     }
 
     /**
@@ -61,37 +52,38 @@ public class BuildingDesignationSequence extends DesignationSequence {
      */
     private Actor createSelectListForStep(CommonComponentStep step) {
         MaterialSelectList materialList = new MaterialSelectList();
-        materialList.fillForCraftingStep(step, position);
+        materialList.fillForCraftingStep(step, order.getPosition());
         materialList.setSelectListener(event -> { // saves selection to map and creates next list
             if (materialList.getSelectedIndex() >= 0) {
                 ListItem selected = (ListItem) materialList.getSelected();
                 //TODO handle amount requirements more than 1
-                stepSelectorMap.put(step, new SimpleItemSelector(selected.getTitle(), selected.getMaterial(), 1));
+                order.addItemSelectorForPart(step.getName(), new SimpleItemSelector(selected.getTitle(), selected.getMaterial(), 1));
                 showNextList();
             }
             return true;
         });
         materialList.setHideListener(event -> { // cancels selection ad hides list
-            stepSelectorMap.remove(step);
             materialList.hide();
             return true;
         });
         return materialList;
     }
 
+    /**
+     * Shows list for unfilled step, or, if all steps completed, creates {@link BuildingOrder} and submits it to {@link TaskContainer}
+     */
     private void showNextList() {
-        for (CommonComponentStep component : blueprint.getComponents()) {
-            if (stepSelectorMap.containsKey(component)) continue;
+        for (CommonComponentStep component : order.getBlueprint().getComponents()) {
+            if(order.getItemSelectors().containsKey(component.getName())) continue;  // skip already added component
             gameMvc.getView().getUiDrawer().getToolbar().addMenu(createSelectListForStep(component));
             return;
         }
-        gameMvc.getModel().get(TaskContainer.class).submitBuildingDesignation(position, blueprint, new ArrayList<>(stepSelectorMap.values()), 1);
+        gameMvc.getModel().get(TaskContainer.class).submitBuildingDesignation(order, 1);
         reset();
     }
 
     @Override
     public void start() {
-        stepSelectorMap = new HashMap<>();
         placeSelectComponent.show();
     }
 
@@ -105,7 +97,7 @@ public class BuildingDesignationSequence extends DesignationSequence {
      */
     @Override
     public void reset() {
-        stepSelectorMap.clear();
+        order.getItemSelectors().clear();
         placeSelectComponent.hide(); // hides all select lists
         placeSelectComponent.show();
     }

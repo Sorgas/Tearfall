@@ -1,12 +1,17 @@
 package stonering.entity.local.building;
 
+import stonering.designations.Designation;
+import stonering.entity.jobs.Task;
 import stonering.entity.local.items.selectors.ItemSelector;
+import stonering.game.core.controller.controllers.designation.BuildingDesignationSequence;
 import stonering.util.geometry.Position;
+import stonering.util.global.TagLoggersEnum;
 
 import java.util.HashMap;
 
 /**
- *
+ * Order for building. Created in {@link BuildingDesignationSequence}.
+ * Contains all information for creating {@link Task}task and {@link Designation}.
  *
  * @author Alexander on 06.03.2019.
  */
@@ -23,7 +28,7 @@ public class BuildingOrder {
 
     public void addItemSelectorForPart(String partName, ItemSelector selector) {
         if(blueprint.getStepByPartName(partName) == null) {
-            //TODO  log warn
+            TagLoggersEnum.TASKS.logWarn("Trying to add item selector to invalid part name in blueprint " + blueprint.getName());
             return;
         }
         itemSelectors.put(partName, selector);
@@ -43,5 +48,9 @@ public class BuildingOrder {
 
     public void setPosition(Position position) {
         this.position = position;
+    }
+
+    public HashMap<String, ItemSelector> getItemSelectors() {
+        return itemSelectors;
     }
 }
