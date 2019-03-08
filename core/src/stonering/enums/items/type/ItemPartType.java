@@ -1,13 +1,13 @@
 package stonering.enums.items.type;
 
-import stonering.entity.local.crafting.CommonComponentStep;
+import stonering.entity.local.crafting.CommonComponent;
 
 /**
  * Specifies crafting info for one itemPart.
  *
  * @author Alexander on 27.10.2018.
  */
-public class ItemPartType extends CommonComponentStep {
+public class ItemPartType extends CommonComponent {
     private String title;
     private boolean required = true; // item parts are required by default
 

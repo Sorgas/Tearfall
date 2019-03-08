@@ -113,7 +113,7 @@ public class Toolbar extends Container {
     }
 
     /**
-     * Simply transfers event to current active screen.
+     * Simply transfers event to current active menu.
      * @return true, if press handled
      */
     private void createInputListener() {

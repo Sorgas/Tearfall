@@ -1,7 +1,7 @@
 package stonering.game.core.model.lists;
 
 import stonering.entity.local.AspectHolder;
-import stonering.entity.local.crafting.CommonComponentStep;
+import stonering.entity.local.crafting.CommonComponent;
 import stonering.entity.local.items.selectors.SimpleItemSelector;
 import stonering.enums.items.recipe.ItemPartRecipe;
 import stonering.enums.materials.MaterialMap;
@@ -120,11 +120,9 @@ public class ItemContainer extends Turnable implements ModelComponent, Initable 
      * @param pos
      * @return
      */
-    public List<Item> getAvailableMaterialsCraftingStep(CommonComponentStep step, Position pos) {
+    public List<Item> getAvailableMaterialsCraftingStep(CommonComponent step, Position pos) {
         List<Item> items = new ArrayList<>();
-        step.getVariants().forEach(variant -> {
-            items.addAll(getResourceItemsByMaterialType(variant.getMaterial()));
-        });
+        step.getComponentVariants().forEach(variant -> items.addAll(getResourceItemsByMaterialType(variant.getTag())));
         return filterUnreachable(items, pos);
     }
 

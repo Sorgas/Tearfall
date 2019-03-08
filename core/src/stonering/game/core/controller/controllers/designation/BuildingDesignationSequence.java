@@ -3,7 +3,7 @@ package stonering.game.core.controller.controllers.designation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import stonering.entity.local.building.Blueprint;
 import stonering.entity.local.building.BuildingOrder;
-import stonering.entity.local.crafting.CommonComponentStep;
+import stonering.entity.local.crafting.CommonComponent;
 import stonering.entity.local.items.selectors.SimpleItemSelector;
 import stonering.enums.designations.PlaceValidatorsEnum;
 import stonering.game.core.model.lists.TaskContainer;
@@ -50,7 +50,7 @@ public class BuildingDesignationSequence extends DesignationSequence {
      * @param step
      * @return
      */
-    private Actor createSelectListForStep(CommonComponentStep step) {
+    private Actor createSelectListForStep(CommonComponent step) {
         MaterialSelectList materialList = new MaterialSelectList();
         materialList.fillForCraftingStep(step, order.getPosition());
         materialList.setSelectListener(event -> { // saves selection to map and creates next list
@@ -73,7 +73,7 @@ public class BuildingDesignationSequence extends DesignationSequence {
      * Shows list for unfilled step, or, if all steps completed, creates {@link BuildingOrder} and submits it to {@link TaskContainer}
      */
     private void showNextList() {
-        for (CommonComponentStep component : order.getBlueprint().getComponents()) {
+        for (CommonComponent component : order.getBlueprint().getComponents()) {
             if(order.getItemSelectors().containsKey(component.getName())) continue;  // skip already added component
             gameMvc.getView().getUiDrawer().getToolbar().addMenu(createSelectListForStep(component));
             return;

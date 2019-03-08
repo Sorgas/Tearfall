@@ -1,6 +1,6 @@
 package stonering.game.core.view.render.ui.lists;
 
-import stonering.entity.local.crafting.CommonComponentStep;
+import stonering.entity.local.crafting.CommonComponent;
 import stonering.game.core.GameMvc;
 import stonering.game.core.controller.controllers.toolbar.DesignationsController;
 import stonering.game.core.model.lists.ItemContainer;
@@ -36,7 +36,7 @@ public class MaterialSelectList extends ItemsCountList implements HideableCompon
      *
      * @param step
      */
-    public void fillForCraftingStep(CommonComponentStep step, Position position) {
+    public void fillForCraftingStep(CommonComponent step, Position position) {
         clearItems();
         List<Item> items = gameMvc.getModel().get(ItemContainer.class).getAvailableMaterialsCraftingStep(step, position);
         if (!items.isEmpty()) {

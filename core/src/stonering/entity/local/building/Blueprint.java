@@ -1,6 +1,6 @@
 package stonering.entity.local.building;
 
-import stonering.entity.local.crafting.CommonComponentStep;
+import stonering.entity.local.crafting.CommonComponent;
 import stonering.util.global.Initable;
 
 import java.util.LinkedHashMap;
@@ -16,16 +16,19 @@ public class Blueprint implements Initable {
     private String title; // button title
     private String placing; // maps to position validator for place selecting and task checking.
     private List<String> menuPath; // button path in toolbar
-    private List<CommonComponentStep> components;
-    private LinkedHashMap<String, CommonComponentStep> mappedComponents;
+    private List<CommonComponent> components;
+    private LinkedHashMap<String, CommonComponent> mappedComponents;
 
     @Override
     public void init() {
         mappedComponents = new LinkedHashMap<>();
-        for (CommonComponentStep component : components) mappedComponents.put(component.getName(), component);
+        for (CommonComponent component : components) {
+            component.init();
+            mappedComponents.put(component.getName(), component);
+        }
     }
 
-    public CommonComponentStep getStepByPartName(String partName) {
+    public CommonComponent getStepByPartName(String partName) {
         return mappedComponents.get(partName);
     }
 
@@ -69,11 +72,11 @@ public class Blueprint implements Initable {
         this.placing = placing;
     }
 
-    public List<CommonComponentStep> getComponents() {
+    public List<CommonComponent> getComponents() {
         return components;
     }
 
-    public void setComponents(List<CommonComponentStep> components) {
+    public void setComponents(List<CommonComponent> components) {
         this.components = components;
     }
 }
