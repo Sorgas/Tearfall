@@ -32,11 +32,6 @@ public class BuildingMenu extends SubMenuMenu {
 
     private void fillMenu() {
         for (Blueprint blueprint : BlueprintsMap.getInstance().getBlueprints().values()) {
-            BuildingType buildingType = BuildingTypeMap.getInstance().getBuilding(blueprint.getBuilding());
-            if (buildingType == null) {
-                TagLoggersEnum.BUILDING.logWarn("Building type " + blueprint.getBuilding() + " for blueprint " + blueprint.getName() + " not found.");
-                continue;
-            }
             addItem(blueprint.getTitle(), new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {

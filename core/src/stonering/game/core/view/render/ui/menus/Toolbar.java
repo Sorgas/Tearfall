@@ -121,7 +121,7 @@ public class Toolbar extends Container {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 if (keycode == Input.Keys.E && getActiveMenu() == parentMenu) return false;
-                return getActiveMenu().fire(event);
+                return getActiveMenu().notify(event, false);
             }
         });
     }
