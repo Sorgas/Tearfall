@@ -61,7 +61,6 @@ public class SelectWorldScreen extends SimpleScreen {
         Container container = new Container();
         container.setFillParent(true);
         container.left().bottom();
-        container.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("sprites/ui_back.png"), 0, 0, 100, 100)));
         return container;
     }
 
@@ -184,7 +183,7 @@ public class SelectWorldScreen extends SimpleScreen {
     }
 
     private List<WorldListItem> createWorldList() {
-        worldList = new NavigableList<WorldListItem>();
+        worldList = new NavigableList<>();
         worldList.setItems(getWorldListItems());
         worldList.addListener(new ChangeListener() {
             @Override

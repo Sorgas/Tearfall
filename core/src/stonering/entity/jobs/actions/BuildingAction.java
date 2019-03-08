@@ -25,11 +25,11 @@ import java.util.List;
  */
 public class BuildingAction extends Action {
     private BuildingType buildingType;
-    private Collection<ItemSelector> materials;
+    private List<ItemSelector> itemSelectors;
 
-    public BuildingAction(BuildingDesignation designation, Collection<ItemSelector> materials) {
+    public BuildingAction(BuildingDesignation designation, Collection<ItemSelector> itemSelectors) {
         super(new PositionActionTarget(designation.getPosition(), false, true));
-        this.materials = materials;
+        this.itemSelectors = new ArrayList<>(itemSelectors);
         buildingType = BuildingTypeMap.getInstance().getBuilding(designation.getBuilding());
         actionTarget = new PositionActionTarget(designation.getPosition(), !"wall".equals(buildingType.getTitle()), true);
     }
@@ -41,11 +41,12 @@ public class BuildingAction extends Action {
     }
 
     private void build() {
+        TagLoggersEnum.TASKS.log("Performing building action: " + buildingType.getBuilding());
         ItemContainer itemContainer = gameMvc.getModel().get(ItemContainer.class);
         Position target = actionTarget.getPosition();
         ArrayList<Item> items = itemContainer.getItems(target);
         int mainMaterial = -1; // first item of first selector will give material.
-        for (ItemSelector itemSelector : materials) {
+        for (ItemSelector itemSelector : itemSelectors) {
             List<Item> itemList = itemSelector.selectItems(items);
             if (mainMaterial < 0) mainMaterial = itemList.get(0).getMaterial();
             itemContainer.removeItems(itemList);
@@ -77,10 +78,11 @@ public class BuildingAction extends Action {
      */
     @Override
     public boolean check() {
+        TagLoggersEnum.TASKS.log("Checking building action: " + buildingType.getBuilding());
         if (resolveConstructuionBlockType() < 0) return false;
         ArrayList<Item> uncheckedItems = new ArrayList<>(gameMvc.getModel().get(ItemContainer.class).getItems(actionTarget.getPosition()));
         uncheckedItems.addAll(((EquipmentAspect) task.getPerformer().getAspects().get("equipment")).getHauledItems()); // from performer inventory
-        for (ItemSelector itemSelector : materials) {
+        for (ItemSelector itemSelector : itemSelectors) {
             List<Item> selectedItems = itemSelector.selectItems(uncheckedItems);
             if (selectedItems.isEmpty()) return tryCreateDroppingAction(itemSelector); // create actions for item
             for (Item selectedItem : selectedItems) {
