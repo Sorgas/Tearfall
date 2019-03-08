@@ -28,7 +28,7 @@ public class BuildingAction extends Action {
     private Collection<ItemSelector> materials;
 
     public BuildingAction(BuildingDesignation designation, Collection<ItemSelector> materials) {
-        super(null);
+        super(new PositionActionTarget(designation.getPosition(), false, true));
         this.materials = materials;
         buildingType = BuildingTypeMap.getInstance().getBuilding(designation.getBuilding());
         actionTarget = new PositionActionTarget(designation.getPosition(), !"wall".equals(buildingType.getTitle()), true);
@@ -65,8 +65,8 @@ public class BuildingAction extends Action {
      * @return
      */
     private int resolveConstructuionBlockType() {
-        if (BlockTypesEnum.hasType(buildingType.getTitle()))
-            return BlockTypesEnum.getType(buildingType.getTitle()).CODE;
+        if (BlockTypesEnum.hasType(buildingType.getBuilding()))
+            return BlockTypesEnum.getType(buildingType.getBuilding()).CODE;
         TagLoggersEnum.BUILDING.logWarn("Attempt to build construction with unknown type.");
         return -1;
     }

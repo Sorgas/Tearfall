@@ -13,7 +13,7 @@ import java.util.Random;
 public abstract class ActionTarget {
     protected GameMvc gameMvc;
     protected Action action;
-    protected boolean exactTarget;
+    protected boolean exactTarget; //TODO replace with enum
     protected boolean nearTarget;
     private Random random;
 

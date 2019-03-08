@@ -40,6 +40,11 @@ public class BuildingTypeMap {
         for (BuildingType buildingType : elements) {
             buildings.put(buildingType.getBuilding(), buildingType);
         }
+        TagLoggersEnum.LOADING.log("buildings");
+        elements = json.fromJson(ArrayList.class, BuildingType.class, FileLoader.getFile(FileLoader.CONSTRUCTIONS_PATH));
+        for (BuildingType buildingType : elements) {
+            buildings.put(buildingType.getBuilding(), buildingType);
+        }
     }
 
     public boolean hasMaterial(String title) {
