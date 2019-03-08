@@ -13,7 +13,7 @@ import java.util.*;
  * Isolated tiles get different numbers.
  * Works only for walkers.
  * <p>
- * Works is two map scan cycles.
+ * Works in two map scan cycles.
  * <p>
  * Algorithm:
  * 1.1. if cell has no inited neighbours, new area number assigned, neighbour number assigned otherwise.
