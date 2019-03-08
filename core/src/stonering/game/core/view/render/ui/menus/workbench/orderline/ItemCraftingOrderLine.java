@@ -424,7 +424,7 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
      * Returns focus to order list or menu, removes current order, if it's not defined.
      */
     private void goToListOrMenu() {
-        if (!order.isDefined()) {
+        if (order != null && !order.isDefined()) {
             TagLoggersEnum.UI.logDebug("Removing incomplete order from list.");
             hide();
         }

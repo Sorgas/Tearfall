@@ -54,23 +54,27 @@ public class EntitySelector implements ModelComponent, Initable {
         position.setY(position.getY() + dy);
         position.setZ(position.getZ() + dz);
         localMap.normalizePosition(position);
-        updateStatus();
+        updateStatusAndSprite();
     }
 
     /**
      * Tries to update status sprite by position validator.
      */
-    public void updateStatus() {
+    public void updateStatusAndSprite() {
         if (positionValidator != null) {
             int valid = positionValidator.validate(localMap, position) ? GREEN_STATUS : RED_STATUS;
             if (valid != status) {
                 status = valid;
-                statusSprite = new TextureRegion(new Texture("sprites/ui_tiles.png"), status * 64, 567, 64, 96);
+                statusSprite = getSpriteByStatus(status);
             }
         } else {
             status = INACTIVE_STATUS;
             statusSprite = null;
         }
+    }
+
+    private TextureRegion getSpriteByStatus(int status) {
+        return new TextureRegion(new Texture("sprites/ui_tiles.png"), status * 64, 567, 64, 96);
     }
 
     public Position getFrameStart() {

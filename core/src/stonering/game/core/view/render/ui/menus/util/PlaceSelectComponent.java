@@ -76,14 +76,14 @@ public class PlaceSelectComponent extends Label implements HideableComponent {
     public void show() {
         toolbar.addMenu(this);
         selector.setPositionValidator(positionValidator);
-        selector.updateStatus();
+        selector.updateStatusAndSprite();
     }
 
     @Override
     public void hide() {
         selector.setPositionValidator(null);
         toolbar.hideMenu(this);
-        selector.updateStatus();
+        selector.updateStatusAndSprite();
     }
 
     public void setPositionValidator(PositionValidator positionValidator) {
