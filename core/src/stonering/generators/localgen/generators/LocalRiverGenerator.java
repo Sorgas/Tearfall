@@ -118,7 +118,7 @@ public class LocalRiverGenerator {
     private void makeFlows() {
         //TODO currently all flows have straight splines with common end point on the border of the map. This need to be changed to curved splines merging one to another.
         inflows.sort((o1, o2) -> Math.round((o1.waterAmount - o2.waterAmount))); // sort by size
-        Position currentEnd = outflow != null ? outflow.localStart : new Position(localMap.getxSize() / 2, localMap.getySize() / 2, 0);
+        Position currentEnd = outflow != null ? outflow.localStart : new Position(localMap.xSize / 2, localMap.ySize / 2, 0);
         if (!inflows.isEmpty()) {
             for (Inflow inflow : inflows) {
                 Flow flow = new Flow();
@@ -132,7 +132,7 @@ public class LocalRiverGenerator {
             }
         } else {
             Flow flow = new Flow();
-            flow.start = new Position(localMap.getxSize() / 2, localMap.getySize() / 2, 0);
+            flow.start = new Position(localMap.xSize / 2, localMap.ySize / 2, 0);
             flow.end = currentEnd;
             flow.isRiver = outflow.isRiver;
             flow.waterAmount = outflow.waterAmount;
@@ -171,7 +171,7 @@ public class LocalRiverGenerator {
         Inflow inflow = new Inflow();
         inflow.isRiver = river;
         inflow.offset = new Position(dx, dy, 0);
-        inflow.localStart = new Position((dx + 1) * ((localMap.getxSize() - 1) / 2), (dy + 1) * ((localMap.getySize() - 1) / 2), 0);
+        inflow.localStart = new Position((dx + 1) * ((localMap.xSize - 1) / 2), (dy + 1) * ((localMap.ySize - 1) / 2), 0);
         if (river) {
             inflow.waterAmount = worldMap.getRiver(location.getX() + dx, location.getY() + dy).len();
         } else {
@@ -191,7 +191,7 @@ public class LocalRiverGenerator {
         Vector2 point = new Vector2();
         Vector2 start = spline.valueAt(point, 0).cpy();
         int currentElevation = getElevationInPoint(start);
-        float step = 1f / localMap.getxSize();
+        float step = 1f / localMap.xSize;
         for (float i = 0; i < 1; i += step) {
             spline.valueAt(point, i);
             if (localMap.inMap(point)) {

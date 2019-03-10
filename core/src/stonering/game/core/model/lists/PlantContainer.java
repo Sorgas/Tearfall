@@ -38,10 +38,6 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
         this.plants = plants;
     }
 
-    public PlantContainer() {
-        this(new ArrayList<>());
-    }
-
     @Override
     public void init() {
         gameMvc = GameMvc.getInstance();
@@ -55,15 +51,8 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
     }
 
     public void place(AbstractPlant plant) {
-        if (plant.getType().isTree()) {
-            if (plant instanceof Tree) {
-                placeTree((Tree) plant);
-            }
-        } else {
-            if (plant instanceof Plant) {
-                placePlant((Plant) plant);
-            }
-        }
+        if (plant.getType().isTree() && plant instanceof Tree) placeTree((Tree) plant);
+        if (plant instanceof Plant) placePlant((Plant) plant);
     }
 
     private void placePlant(Plant plant) {
@@ -87,13 +76,11 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
         for (int x = 0; x < treeParts.length; x++) {
             for (int y = 0; y < treeParts[x].length; y++) {
                 for (int z = 0; z < treeParts[x][y].length; z++) {
-                    if (treeParts[x][y][z] != null) {
-                        Position onMapPosition = Position.add(vector, x, y, z);
-                        if(localMap.inMap(onMapPosition)) {
-                            localMap.setPlantBlock(onMapPosition, treeParts[x][y][z]);
-                            treeParts[x][y][z].setPosition(onMapPosition);
-                        }
-                    }
+                    if (treeParts[x][y][z] == null) continue;
+                    Position onMapPosition = Position.add(vector, x, y, z);
+                    if (!localMap.inMap(onMapPosition)) continue;
+                    localMap.setPlantBlock(onMapPosition, treeParts[x][y][z]);
+                    treeParts[x][y][z].setPosition(onMapPosition);
                 }
             }
         }
@@ -105,9 +92,7 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
      * @param plant
      */
     public void removePlant(Plant plant) {
-        if (plants.remove(plant)) {
-            localMap.setPlantBlock(plant.getPosition(), null);
-        }
+        if (plants.remove(plant)) localMap.setPlantBlock(plant.getPosition(), null);
     }
 
     public void removeTree(Tree tree) {
@@ -118,10 +103,9 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
                 for (int y = 0; y < treeParts[x].length; y++) {
                     for (int z = stompZ; z < treeParts[x][y].length; z++) {
                         PlantBlock block = treeParts[x][y][z];
-                        if (block != null) {
-                            localMap.setPlantBlock(block.getPosition(), null);
-                            leavePlantProduct(block);
-                        }
+                        if (block == null) continue;
+                        localMap.setPlantBlock(block.getPosition(), null);
+                        leavePlantProduct(block);
                     }
                 }
             }
@@ -134,21 +118,18 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
     }
 
     /**
-     * Deletes block from map and it's plant. If plants was Plant, deletes is too.
-     * If plant was Tree than checks deleting for other effects.
+     * Deletes block from map and it's plant. If plants was a Plant, deletes is too.
+     * If plant was a Tree than checks deleting for other effects.
      *
      * @param block
      */
     public void removePlantBlock(PlantBlock block, boolean leaveProducts) {
         AbstractPlant plant = block.getPlant();
-        if (plant != null) {
-            if (plant instanceof Plant) {
-                if (plants.remove(plant)) {
-                    localMap.setPlantBlock(block.getPosition(), null);
-                }
-            } else if (plant instanceof Tree) {
-                removeBlockFromTree(block, (Tree) plant);
-            }
+        if (plant == null) return;
+        if (plant instanceof Plant) {
+            if (plants.remove(plant)) localMap.setPlantBlock(block.getPosition(), null);
+        } else if (plant instanceof Tree) {
+            removeBlockFromTree(block, (Tree) plant);
         }
     }
 
@@ -169,15 +150,14 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
                 for (int y = 0; y < treeParts[x].length; y++) {
                     for (int z = stompZ; z < treeParts[x][y].length; z++) {
                         PlantBlock block = treeParts[x][y][z];
-                        if (block != null) {
-                            Position newPosition = translatePosition(block.getPosition().toVector3(), treePosition.toVector3(), orientation);
-                            if (localMap.getBlockType(newPosition) != WALL_CODE) {
-                                localMap.setPlantBlock(block.getPosition(), null);
-                                block.setPosition(newPosition);
-                                localMap.setPlantBlock(block.getPosition(), block);
-                            } else {
-                                treeParts[x][y][z] = null;
-                            }
+                        if (block == null) continue;
+                        Position newPosition = translatePosition(block.getPosition().toVector3(), treePosition.toVector3(), orientation);
+                        if (localMap.getBlockType(newPosition) != WALL_CODE) {
+                            localMap.setPlantBlock(block.getPosition(), null);
+                            block.setPosition(newPosition);
+                            localMap.setPlantBlock(block.getPosition(), block);
+                        } else {
+                            treeParts[x][y][z] = null;
                         }
                     }
                 }
@@ -191,18 +171,6 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
         matrix3.setToRotation(new Vector3(1, 0, 0), -90);
         offset.mul(matrix3);
         return new Position(center.add(offset.mul(matrix3)));
-    }
-
-    private void leaveproducts(ArrayList<String> products) {
-
-    }
-
-    private void checkTree(Tree tree, Position deletedPart) {
-
-    }
-
-    public List<AbstractPlant> getPlants() {
-        return plants;
     }
 
     /**
@@ -222,5 +190,9 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
         } else if (plant instanceof Plant) {
             localMap.setPlantBlock(((Plant) plant).getBlock().getPosition(), null);
         }
+    }
+
+    public List<AbstractPlant> getPlants() {
+        return plants;
     }
 }

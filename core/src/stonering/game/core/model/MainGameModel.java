@@ -1,5 +1,6 @@
 package stonering.game.core.model;
 
+import annotator.scanner.LocalClassScanner;
 import stonering.entity.world.World;
 import stonering.game.core.model.lists.BuildingContainer;
 import stonering.game.core.model.lists.ItemContainer;
@@ -27,6 +28,7 @@ public class MainGameModel extends GameModel {
         get(LocalTileMapUpdater.class).flushLocalMap();
         get(GameCalendar.class).addListener(GameCalendar.MINUTE, get(World.class).getStarSystem());
         get(GameCalendar.class).addListener(GameCalendar.MINUTE, get(PlantContainer.class));
+        get(LocalMap.class).init();
     }
 
     /**

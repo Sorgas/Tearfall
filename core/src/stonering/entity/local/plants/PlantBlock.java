@@ -1,5 +1,6 @@
 package stonering.entity.local.plants;
 
+import stonering.enums.plants.PlantBlocksTypeEnum;
 import stonering.util.geometry.Position;
 
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ public class PlantBlock {
     private AbstractPlant plant;
     private Position position; // position on map
     private int material;
-    private int blockType;
+    private int blockType; // type from enum
     private int[] atlasXY;
     private ArrayList<String> harvestProducts;
     private ArrayList<String> cutProducts;
@@ -23,6 +24,10 @@ public class PlantBlock {
         this.blockType = blockType;
         harvestProducts = new ArrayList<>();
         cutProducts = new ArrayList<>();
+    }
+
+    public PlantBlocksTypeEnum getType() {
+        return PlantBlocksTypeEnum.getType(blockType);
     }
 
     public int getMaterial() {

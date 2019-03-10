@@ -3,7 +3,7 @@ package stonering.generators.plants;
 import stonering.entity.local.plants.aspects.PlantGrowthAspect;
 import stonering.enums.materials.MaterialMap;
 import stonering.enums.plants.PlantMap;
-import stonering.enums.plants.TreeBlocksTypeEnum;
+import stonering.enums.plants.PlantBlocksTypeEnum;
 import stonering.exceptions.DescriptionNotFoundException;
 import stonering.entity.local.plants.Plant;
 import stonering.entity.local.plants.PlantBlock;
@@ -32,7 +32,7 @@ public class PlantGenerator {
     }
 
     private PlantBlock createPlantBlock(Plant plant, int age) {
-        PlantBlock plantBlock = new PlantBlock(MaterialMap.getInstance().getId(plant.getCurrentStage().getMaterialName()), TreeBlocksTypeEnum.SINGLE_PASSABLE.getCode());
+        PlantBlock plantBlock = new PlantBlock(MaterialMap.getInstance().getId(plant.getCurrentStage().getMaterialName()), PlantBlocksTypeEnum.SINGLE_PASSABLE.getCode());
         plantBlock.setAtlasXY(new int[]{
                 plant.getCurrentStage().getAtlasXY()[0],
                 plant.getCurrentStage().getAtlasXY()[1]});

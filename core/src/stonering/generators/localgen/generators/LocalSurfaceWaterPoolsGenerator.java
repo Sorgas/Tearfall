@@ -151,8 +151,8 @@ public class LocalSurfaceWaterPoolsGenerator {
     }
 
     private float[][] generateNoise() {
-        int sizeX = container.getLocalMap().getxSize();
-        int sizeY = container.getLocalMap().getySize();
+        int sizeX = container.getLocalMap().xSize;
+        int sizeY = container.getLocalMap().ySize;
         float[][] noise = new PerlinNoiseGenerator().generateOctavedSimplexNoise(sizeX, sizeY, 7, 0.5f, 0.065f);
         for (int x = 0; x < noise.length; x++) {
             for (int y = 0; y < noise[0].length; y++) {

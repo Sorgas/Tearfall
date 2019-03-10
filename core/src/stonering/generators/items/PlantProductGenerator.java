@@ -1,6 +1,6 @@
 package stonering.generators.items;
 
-import stonering.enums.plants.TreeBlocksTypeEnum;
+import stonering.enums.plants.PlantBlocksTypeEnum;
 import stonering.exceptions.FaultDescriptionException;
 import stonering.util.geometry.Position;
 import stonering.entity.local.items.Item;
@@ -75,7 +75,7 @@ public class PlantProductGenerator {
     private Item generateCutProductForTreePart(PlantBlock block) {
 //        try {
         String itemTitle = "";
-        switch (TreeBlocksTypeEnum.getType(block.getBlockType())) {
+        switch (PlantBlocksTypeEnum.getType(block.getBlockType())) {
             case TRUNK:
             case STOMP: {
                 itemTitle = "log";

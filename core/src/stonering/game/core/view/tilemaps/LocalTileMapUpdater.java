@@ -28,9 +28,9 @@ public class LocalTileMapUpdater implements ModelComponent, Initable {
     }
 
     public void flushLocalMap() {
-        for (int x = 0; x < localMap.getxSize(); x++) {
-            for (int y = 0; y < localMap.getySize(); y++) {
-                for (int z = 0; z < localMap.getzSize(); z++) {
+        for (int x = 0; x < localMap.xSize; x++) {
+            for (int y = 0; y < localMap.ySize; y++) {
+                for (int z = 0; z < localMap.zSize; z++) {
                     updateTile(x, y, z);
                 }
             }

@@ -32,7 +32,7 @@ public class LocalCaveGenerator {
     public void execute() {
         System.out.println("generating caves");
         localMap = container.getLocalMap();
-        int localElevation = localMap.getzSize() - config.getAirLayersAboveGround();
+        int localElevation = localMap.zSize - config.getAirLayersAboveGround();
         int step = 50;
         int prevLeyer = -1;
         for (int z = localElevation - step; z > 20; z -= step) {

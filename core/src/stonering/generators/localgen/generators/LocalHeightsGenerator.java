@@ -116,7 +116,6 @@ public class LocalHeightsGenerator {
                 midValue += array[x][y + step];
                 midValue += array[x + step][y + step];
                 array[x + step / 2][y + step / 2] = (int) (midValue / 4);
-//                System.out.println("s: " + (x + step / 2) + " " + (y + step / 2) + " " + " " + array[x + step / 2][y + step / 2]);
             }
         }
     }

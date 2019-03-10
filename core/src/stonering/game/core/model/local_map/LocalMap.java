@@ -26,8 +26,8 @@ public class LocalMap implements ModelComponent, Initable {
     private byte[][][] designatedBlockType;
     private byte[][][] flooding;
     private byte[][][] temperature;
-    public UtilByteArray generalLight;                   //for light from celestial bodies
-    public UtilByteArray light;                          //for light from dynamic sources (torches, lamps)
+    public final UtilByteArray generalLight;                   //for light from celestial bodies
+    public final UtilByteArray light;                          //for light from dynamic sources (torches, lamps)
     private PlantBlock[][][] plantBlocks;
     private BuildingBlock[][][] buildingBlocks;
     private UnitBlock[][][] unitBlocks;
@@ -35,9 +35,9 @@ public class LocalMap implements ModelComponent, Initable {
     private PassageMap passageMap;
     private LocalTileMapUpdater localTileMapUpdater;
 
-    private int xSize;
-    private int ySize;
-    private int zSize;
+    public final int xSize;
+    public final int ySize;
+    public final int zSize;
 
     public LocalMap(int xSize, int ySize, int zSize) {
         material = new int[xSize][ySize][zSize];
@@ -53,22 +53,16 @@ public class LocalMap implements ModelComponent, Initable {
         this.xSize = xSize;
         this.ySize = ySize;
         this.zSize = zSize;
-        passageMap = new AreaInitializer(this).initAreas();
     }
 
     public void init() {
+        passageMap = new AreaInitializer(this).initAreas();
         localTileMapUpdater = GameMvc.getInstance().getModel().get(LocalTileMapUpdater.class);
     }
 
     /**
      * Updates material and type of given block.
      * Is called from localgen, digging.
-     *
-     * @param x
-     * @param y
-     * @param z
-     * @param type
-     * @param materialId
      */
     public void setBlock(int x, int y, int z, byte type, int materialId) {
         blockType[x][y][z] = type;
@@ -147,7 +141,11 @@ public class LocalMap implements ModelComponent, Initable {
     }
 
     public boolean isWalkPassable(int x, int y, int z) {
-        return inMap(x, y, z) && BlockTypesEnum.getType(getBlockType(x, y, z)).PASSING == 2;
+        return inMap(x, y, z) &&
+                BlockTypesEnum.getType(getBlockType(x, y, z)).PASSING == 2 &&
+                (plantBlocks[x][y][z] == null || plantBlocks[x][y][z].getType().passable) &&
+                (buildingBlocks[x][y][z] == null ||
+                        BlockTypesEnum.getType(buildingBlocks[x][y][z].getBuilding().getType().getPassage()).PASSING == 2);
     }
 
     public boolean isFlyPassable(Position pos) {
@@ -169,18 +167,6 @@ public class LocalMap implements ModelComponent, Initable {
         return (passable1 && passable2 && (sameLevel || lowRamp));
     }
 
-    public int getxSize() {
-        return xSize;
-    }
-
-    public int getySize() {
-        return ySize;
-    }
-
-    public int getzSize() {
-        return zSize;
-    }
-
     public void setDesignatedBlockType(int x, int y, int z, byte blockType) {
         designatedBlockType[x][y][z] = blockType;
     }
@@ -191,7 +177,7 @@ public class LocalMap implements ModelComponent, Initable {
 
     public void setPlantBlock(int x, int y, int z, PlantBlock block) {
         plantBlocks[x][y][z] = block;
-        passageMap.updateCell(x, y, z);
+        if (passageMap != null) passageMap.updateCell(x, y, z);
     }
 
     public void setPlantBlock(Position pos, PlantBlock block) {
@@ -202,17 +188,9 @@ public class LocalMap implements ModelComponent, Initable {
         return plantBlocks[x][y][z];
     }
 
-    /**
-     * Also updates passage map.
-     *
-     * @param x
-     * @param y
-     * @param z
-     * @param building
-     */
     public void setBuildingBlock(int x, int y, int z, BuildingBlock building) {
         buildingBlocks[x][y][z] = building;
-        passageMap.updateCell(x, y, z);
+        if (passageMap != null) passageMap.updateCell(x, y, z);
     }
 
     public void setBuildingBlock(Position pos, BuildingBlock building) {

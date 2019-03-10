@@ -9,14 +9,8 @@ import stonering.util.geometry.Position;
  */
 public class UtilByteArray {
     private byte[][][] array;
-    private int xSize;
-    private int ySize;
-    private int zSize;
 
     public UtilByteArray(int xSize, int ySize, int zSize) {
-        this.xSize = xSize;
-        this.ySize = ySize;
-        this.zSize = zSize;
         array = new byte[xSize][ySize][zSize];
     }
 
@@ -33,14 +27,14 @@ public class UtilByteArray {
     }
 
     public byte getValue(Position position) {
-        return array[position.getX()][position.getY()][position.getZ()];
+        return array[position.x][position.y][position.z];
     }
 
     public void setValue(Position position, byte value) {
-        this.array[position.getX()][position.getY()][position.getZ()] = value;
+        this.array[position.x][position.y][position.z] = value;
     }
 
     public void changeValue(Position position, byte delta) {
-        array[position.getX()][position.getY()][position.getZ()] += delta;
+        array[position.x][position.y][position.z] += delta;
     }
 }

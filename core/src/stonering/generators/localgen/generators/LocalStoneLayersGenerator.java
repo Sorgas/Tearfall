@@ -56,9 +56,9 @@ public class LocalStoneLayersGenerator {
 
     private void fillLayers() {
         int id;
-        for (int x = 0; x < map.getxSize(); x++) {
-            for (int y = 0; y < map.getySize(); y++) {
-                for (int z = map.getzSize() - 1; z >= 0; z--) {
+        for (int x = 0; x < map.xSize; x++) {
+            for (int y = 0; y < map.ySize; y++) {
+                for (int z = map.zSize - 1; z >= 0; z--) {
                     if (z <= heigtsMap[x][y]) { //non space sell
                         id = z - (heigtsMap[x][y] - (layerIds.length - 1));
                         id = id < 0 ? 0 : id;

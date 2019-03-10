@@ -1,6 +1,5 @@
 package stonering.generators.localgen.generators;
 
-import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.materials.Material;
 import stonering.enums.materials.MaterialMap;
 import stonering.enums.plants.PlantMap;
@@ -22,6 +21,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
+import static stonering.enums.blocks.BlockTypesEnum.FLOOR;
+
 /**
  * Generates plants suitable for local climate and places them on local map.
  *
@@ -37,7 +38,6 @@ public class LocalFloraGenerator {
     private float rainfall;
     private int areaSize;
 
-    private final int floorCode = BlockTypesEnum.FLOOR.CODE;
 
     private HashMap<String, Float> weightedPlantTypes;
     private HashMap<String, Float> weightedTreeTypes;
@@ -99,17 +99,15 @@ public class LocalFloraGenerator {
         int tries = 200;
         Random random = new Random();
         Tree tree = treeGenerator.generateTree(specimen, 1);
-        while (amount > 0 && tries > 0) {
+        while (amount > 0 && tries-- > 0) {
             int x = random.nextInt(areaSize);
             int y = random.nextInt(areaSize);
             int z = container.getRoundedHeightsMap()[x][y] + 1;
-            if (forestArea[x][y] > 0 && checkTreePlacing(tree, x, y, z)) {
-                placeTree(tree, x, y, z);
-                tree.setPosition(new Position(x, y, z));
-                tree = treeGenerator.generateTree(specimen, 1);
-                amount--;
-            }
-            tries--;
+            if (!(forestArea[x][y] > 0) || !checkTreePlacing(tree, x, y, z)) continue;
+            placeTree(tree, x, y, z);
+            tree.setPosition(new Position(x, y, z));
+            tree = treeGenerator.generateTree(specimen, 1);
+            amount--;
         }
     }
 
@@ -125,14 +123,13 @@ public class LocalFloraGenerator {
         for (int x = 0; x < treeParts.length; x++) {
             for (int y = 0; y < treeParts[x].length; y++) {
                 for (int z = 0; z < treeParts[x][y].length; z++) {
-                    if (treeParts[x][y][z] != null) {
-                        Position onMapPosition = new Position(
-                                cx + x - treeRadius,
-                                cy + y - treeRadius,
-                                cz + z - treeCenterZ);
-                        localMap.setPlantBlock(onMapPosition, treeParts[x][y][z]);
-                        treeParts[x][y][z].setPosition(onMapPosition);
-                    }
+                    if (treeParts[x][y][z] == null) continue;
+                    Position onMapPosition = new Position(
+                            cx + x - treeRadius,
+                            cy + y - treeRadius,
+                            cz + z - treeCenterZ);
+                    localMap.setPlantBlock(onMapPosition, treeParts[x][y][z]);
+                    treeParts[x][y][z].setPosition(onMapPosition);
                 }
             }
         }
@@ -196,15 +193,14 @@ public class LocalFloraGenerator {
     private Pair<boolean[][][], ArrayList<Position>> findAllAvailablePositions(String specimen) {
         //TODO should count plant requirements for light level, water source, soil type
         ArrayList<Position> positions = new ArrayList<>();
-        boolean[][][] array = new boolean[localMap.getxSize()][localMap.getySize()][localMap.getzSize()];
+        boolean[][][] array = new boolean[localMap.xSize][localMap.ySize][localMap.zSize];
         PlantType type = PlantMap.getInstance().getPlantType(specimen);
         type.getWaterSource();
         String soilType = type.getSoilType();
-        for (int x = 0; x < localMap.getxSize(); x++) {
-            for (int y = 0; y < localMap.getySize(); y++) {
-                for (int z = 0; z < localMap.getzSize(); z++) {
-                    if (localMap.getBlockType(x, y, z) == floorCode
-                            && localMap.getPlantBlock(x, y, z) == null) { // surface material should be suitable for plant
+        for (int x = 0; x < localMap.xSize; x++) {
+            for (int y = 0; y < localMap.ySize; y++) {
+                for (int z = 0; z < localMap.zSize; z++) {
+                    if (localMap.getBlockType(x, y, z) == FLOOR.CODE && localMap.getPlantBlock(x, y, z) == null) { // surface material should be suitable for plant
                         Material material = MaterialMap.getInstance().getMaterial(localMap.getMaterial(x, y, z));
                         if (material != null && material.getTags().contains(soilType)) {
                             positions.add(new Position(x, y, z));
@@ -221,26 +217,18 @@ public class LocalFloraGenerator {
     /**
      * Filters all PlantMap with local climate parameters and adds passed plants and trees to lists.
      */
+    //TODO add grade of specimen spreading in this area.
     private void filterPlants() {
         PlantMap.getInstance().getAllTypes().forEach((type) -> {
-            if (rainfall < type.getMinRainfall()
-                    || rainfall > type.getMaxRainfall()) {
-                return; // too dry or wet
-            }
-            if (minTemp < type.getMinRainfall()
-                    || maxTemp > type.getMaxTemperature()) {
-                return; // too hot or cold
-            }
-            if (minTemp > type.getMaxGrowingTemperature()
-                    || maxTemp < type.getMinGrowingTemperature()) { // plant can grow
-                return; // plant grow zone out of local temp zone
-            }
-            //TODO add grade of specimen spreading in this area.
+            if (rainfall < type.getMinRainfall() || rainfall > type.getMaxRainfall()) return; // too dry or wet
+            if (minTemp < type.getMinRainfall() || maxTemp > type.getMaxTemperature()) return; // too hot or cold
+            if (minTemp > type.getMaxGrowingTemperature() || maxTemp < type.getMinGrowingTemperature()) return; // plant grow zone out of local temp zone
             if (type.isTree()) { //is plant tree or not
                 weightedTreeTypes.put(type.getName(), 100f);
             } else {
                 weightedPlantTypes.put(type.getName(), 1f);
             }
+
         });
     }
 }

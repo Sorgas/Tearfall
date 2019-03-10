@@ -22,9 +22,9 @@ public class LocalTileMap implements ModelComponent {
     private int zSize;
 
     public LocalTileMap(LocalMap localMap) {
-        int xSize = localMap.getxSize();
-        int ySize = localMap.getySize();
-        int zSize = localMap.getzSize();
+        int xSize = localMap.xSize;
+        int ySize = localMap.ySize;
+        int zSize = localMap.zSize;
         atlasX = new byte[xSize][ySize][zSize];
         atlasY = new byte[xSize][ySize][zSize];
         atlasNum = new byte[xSize][ySize][zSize];

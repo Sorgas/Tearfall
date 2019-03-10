@@ -32,9 +32,9 @@ public class LocalRampAndFloorPlacer {
     }
 
     private void fillRamps() {
-        for (int x = 0; x < localMap.getxSize(); x++) {
-            for (int y = 0; y < localMap.getxSize(); y++) {
-                for (int z = 1; z < localMap.getzSize(); z++) {
+        for (int x = 0; x < localMap.xSize; x++) {
+            for (int y = 0; y < localMap.xSize; y++) {
+                for (int z = 1; z < localMap.zSize; z++) {
                     if (isGround(x, y, z) && hasAdjacentWall(x,y,z)) {
                         localMap.setBlock(x, y, z, (byte) rampCode, adjacentWallMaterial(x, y, z));
                     }
@@ -44,9 +44,9 @@ public class LocalRampAndFloorPlacer {
     }
 
     private void fillFloors() {
-        for (int x = 0; x < localMap.getxSize(); x++) {
-            for (int y = 0; y < localMap.getySize(); y++) {
-                for (int z = localMap.getzSize() - 1; z > 0; z--) {
+        for (int x = 0; x < localMap.xSize; x++) {
+            for (int y = 0; y < localMap.ySize; y++) {
+                for (int z = localMap.zSize - 1; z > 0; z--) {
                     if (isFloorCell(x, y, z)) { //non space sell
                         localMap.setBlock(x, y, z, BlockTypesEnum.FLOOR.CODE, localMap.getMaterial(x, y, z - 1));
                     }

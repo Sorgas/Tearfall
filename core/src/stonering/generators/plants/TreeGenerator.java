@@ -3,7 +3,7 @@ package stonering.generators.plants;
 import stonering.entity.local.plants.aspects.PlantGrowthAspect;
 import stonering.enums.materials.MaterialMap;
 import stonering.enums.plants.PlantMap;
-import stonering.enums.plants.TreeBlocksTypeEnum;
+import stonering.enums.plants.PlantBlocksTypeEnum;
 import stonering.enums.plants.TreeTileMapping;
 import stonering.enums.plants.TreeType;
 import stonering.util.geometry.Position;
@@ -48,22 +48,22 @@ public class TreeGenerator {
         PlantBlock[][][] blocks = new PlantBlock[treeWidth][treeWidth][treeType.getHeight() + rootsDepth];
 
         // stomp. single block
-        blocks[center][center][rootsDepth] = createTreePart(material, TreeBlocksTypeEnum.STOMP, tree);
+        blocks[center][center][rootsDepth] = createTreePart(material, PlantBlocksTypeEnum.STOMP, tree);
         // trunk. from stomp to top
         for (int i = rootsDepth + 1; i < blocks[0][0].length - 1; i++) {
-            blocks[center][center][i] = createTreePart(material, TreeBlocksTypeEnum.TRUNK, tree);
+            blocks[center][center][i] = createTreePart(material, PlantBlocksTypeEnum.TRUNK, tree);
         }
         // roots
         for (int i = 0; i < rootsDepth; i++) {
-            blocks[center][center][i] = createTreePart(material, TreeBlocksTypeEnum.ROOT, tree);
+            blocks[center][center][i] = createTreePart(material, PlantBlocksTypeEnum.ROOT, tree);
         }
         // branches
-        if(blocks[center][center][blocks[0][0].length - 1] == null)blocks[center][center][blocks[0][0].length - 1] = createTreePart(material, TreeBlocksTypeEnum.BRANCH, tree);
+        if(blocks[center][center][blocks[0][0].length - 1] == null)blocks[center][center][blocks[0][0].length - 1] = createTreePart(material, PlantBlocksTypeEnum.BRANCH, tree);
         for (int z = branchesStart; z < blocks[0][0].length - 1; z++) {
             for (int x = center - 1; x <= center + 1; x++) {
                 for (int y = center - 1; y <= center + 1; y++) {
                     if (blocks[x][y][z] == null && random.nextInt(3) < 2) {
-                        blocks[x][y][z] = createTreePart(material, TreeBlocksTypeEnum.BRANCH, tree);
+                        blocks[x][y][z] = createTreePart(material, PlantBlocksTypeEnum.BRANCH, tree);
                     }
                 }
             }
@@ -73,7 +73,7 @@ public class TreeGenerator {
             for (int y = 0; y < blocks[0].length; y++) {
                 for (int z = branchesStart; z < blocks[0][0].length; z++) {
                     if (blocks[x][y][z] == null) {
-                        blocks[x][y][z] = createTreePart(material, TreeBlocksTypeEnum.CROWN, tree);
+                        blocks[x][y][z] = createTreePart(material, PlantBlocksTypeEnum.CROWN, tree);
                     }
                 }
             }
@@ -88,7 +88,7 @@ public class TreeGenerator {
         return blocks;
     }
 
-    private PlantBlock createTreePart(int material, TreeBlocksTypeEnum blockType, Tree tree) {
+    private PlantBlock createTreePart(int material, PlantBlocksTypeEnum blockType, Tree tree) {
         PlantBlock block = new PlantBlock(material, blockType.getCode());
         block.setAtlasXY(new int[]{
                 TreeTileMapping.getType(blockType.getCode()).getAtlasX(),

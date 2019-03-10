@@ -19,14 +19,16 @@ public class AreaFiller {
         openSet = new HashSet<>();
     }
 
-    public void fill(Position start, byte value) {
+    public int fill(Position start, byte value) {
+        int counter = 0;
         openSet.add(start);
-        while (!openSet.isEmpty()) {
+        for(;!openSet.isEmpty(); counter++) {
             Position position = openSet.iterator().next();
             openSet.remove(position);
             localMap.getPassageMap().getArea().setValue(position, value);
             openSet.addAll(getNeighbours(position, value));
         }
+        return counter;
     }
 
     private Set<Position> getNeighbours(Position center, byte blockedArea) {
