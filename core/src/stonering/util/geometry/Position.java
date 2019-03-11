@@ -68,10 +68,6 @@ public class Position implements Serializable, Cloneable {
                 Math.pow((float) (this.z - z), 2));
     }
 
-    public Position getPositionByOffset(int x, int y, int z) {
-        return new Position(this.x + x, this.y + y, this.z + z);
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -92,8 +88,11 @@ public class Position implements Serializable, Cloneable {
         return new Vector2(x, y);
     }
 
-    public boolean isNeighbor(Position position) {
-        return getDistanse(position) < 2;
+    public boolean isNeighbour(Position position) {
+        Position result = sub(this, position);
+        return result.x > -2 && result.x < 2 &&
+                result.y > -2 && result.y < 2 &&
+                result.z > -2 && result.z < 2;
     }
 
     public boolean isZero() {

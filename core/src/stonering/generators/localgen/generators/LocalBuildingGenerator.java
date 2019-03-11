@@ -10,6 +10,8 @@ import stonering.entity.local.building.Building;
 import stonering.util.global.TagLoggersEnum;
 
 /**
+ * Generates buildings on local generation
+ *
  * @author Alexander Kuzyakov on 07.12.2017.
  */
 public class LocalBuildingGenerator {
@@ -24,10 +26,10 @@ public class LocalBuildingGenerator {
     }
 
     public void execute() {
-        TagLoggersEnum.GENERATION.log("generating buildings");
-        Position position = findSurfacePosition();
-        Building building = buildingGenerator.generateBuilding("forge", position);
-        container.getBuildings().add(building);
+//        TagLoggersEnum.GENERATION.log("generating buildings");
+//        Position position = findSurfacePosition();
+//        Building building = buildingGenerator.generateBuilding("forge", position);
+//        container.getBuildings().add(building);
     }
 
     /**

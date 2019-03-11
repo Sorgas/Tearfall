@@ -27,10 +27,9 @@ public class AStar {
         Node initialNode = new Node(initialPos, targetPos);
         //perform search and save the
         Node pathNode = search(initialNode, targetPos, exactTarget);
-        if (pathNode == null)
-            return null;
-        //return shortest path according to AStar heuristics
+        if (pathNode == null) return null;
 
+        //return shortest path according to AStar heuristics
         LinkedList<Position> path = new LinkedList<>();
         path.add(pathNode.getPosition());
         while (pathNode.getParent() != null) {

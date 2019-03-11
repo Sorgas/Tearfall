@@ -37,8 +37,8 @@ public class FallingAspect extends Aspect {
     @Override
     public void turn() {
         Position position = aspectHolder.getPosition();
-        if(position != null) { //TODO add aspect turn on pickup
-            Position lowerPosition = aspectHolder.getPosition().getPositionByOffset(0, 0, -1);
+        if (position != null) { //TODO add aspect turn on pickup
+            Position lowerPosition = Position.add(aspectHolder.getPosition(), 0, 0, -1);
             boolean isCurrentBlockSpace = localMap.getBlockType(position) == BlockTypesEnum.SPACE.CODE;
             boolean isLowerBlockWall = localMap.getBlockType(lowerPosition) == BlockTypesEnum.WALL.CODE;
 

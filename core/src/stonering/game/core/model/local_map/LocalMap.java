@@ -137,7 +137,7 @@ public class LocalMap implements ModelComponent, Initable {
     }
 
     public boolean isWalkPassable(Position pos) {
-        return isWalkPassable(pos.getX(), pos.getY(), pos.getZ());
+        return isWalkPassable(pos.x, pos.y, pos.z);
     }
 
     public boolean isWalkPassable(int x, int y, int z) {
@@ -160,10 +160,14 @@ public class LocalMap implements ModelComponent, Initable {
      * Only for adjacent cells.
      */
     public boolean hasPathBetween(Position pos1, Position pos2) {
-        boolean passable1 = BlockTypesEnum.getType(getBlockType(pos1)).PASSING == 2;
-        boolean passable2 = BlockTypesEnum.getType(getBlockType(pos2)).PASSING == 2;
-        boolean sameLevel = pos1.getZ() == pos2.getZ();
-        boolean lowRamp = BlockTypesEnum.getType(getBlockType(pos1.getZ() < pos2.getZ() ? pos1 : pos2)) == BlockTypesEnum.RAMP; // can descend on ramps
+        return hasPathBetween(pos1.x, pos1.y, pos1.z, pos2.x, pos2.y, pos2.z);
+    }
+
+    public boolean hasPathBetween(int x1, int y1, int z1, int x2, int y2, int z2) {
+        boolean passable1 = isWalkPassable(x1, y1, z1);
+        boolean passable2 = isWalkPassable(x2, y2, z2);
+        boolean sameLevel = z1 == z2;
+        boolean lowRamp = BlockTypesEnum.getType(z1 < z2 ? getBlockType(x1, y1, z1) : getBlockType(x2, y2, z2)) == BlockTypesEnum.RAMP; // can descend on ramps
         return (passable1 && passable2 && (sameLevel || lowRamp));
     }
 

@@ -61,7 +61,7 @@ public abstract class ActionTarget {
                     createActionToStepOff(currentPosition); // make 1 step away
                     return false;
                 } else {
-                    return currentPosition.isNeighbor(getPosition()); // near only
+                    return currentPosition.isNeighbour(getPosition()); // near only
                 }
             }
             System.out.println("WARN: action " + action + " target not defined as exact or near");

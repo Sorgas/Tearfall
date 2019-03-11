@@ -31,7 +31,8 @@ public class BuildingAction extends Action {
         super(new PositionActionTarget(designation.getPosition(), false, true));
         this.itemSelectors = new ArrayList<>(itemSelectors);
         buildingType = BuildingTypeMap.getInstance().getBuilding(designation.getBuilding());
-        actionTarget = new PositionActionTarget(designation.getPosition(), !"wall".equals(buildingType.getTitle()), true);
+        actionTarget = new PositionActionTarget(designation.getPosition(), !"wall".equals(buildingType.getBuilding()), true);
+        actionTarget.setAction(this);
     }
 
     @Override

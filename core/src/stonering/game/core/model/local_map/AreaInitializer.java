@@ -55,7 +55,7 @@ public class AreaInitializer {
         for (int x = 0; x < localMap.xSize; x++) {
             for (int y = 0; y < localMap.ySize; y++) {
                 for (int z = 0; z < localMap.zSize; z++) {
-                    if (isWalkPassable(x, y, z)) { // not wall
+                    if (localMap.isWalkPassable(x, y, z)) { // not wall
                         Set<Byte> neighbours = getNeighbours(x, y, z);
                         byte toSet = areaNum;
                         if (neighbours.size() == 0) {
@@ -125,23 +125,21 @@ public class AreaInitializer {
     }
 
     /**
-     * Returns area numbers of areas around given position.
+     * Returns area numbers of areas accessible from given position.
      */
     private Set<Byte> getNeighbours(int cx, int cy, int cz) {
         Set<Byte> neighbours = new HashSet<>();
+        if (!localMap.isWalkPassable(cx, cy, cz)) return neighbours;
         for (int x = cx - 1; x < cx + 2; x++) {
             for (int y = cy - 1; y < cy + 2; y++) {
                 for (int z = cz - 1; z < cz + 2; z++) {
-                    if (!localMap.inMap(x, y, z)) continue;
+                    if (!localMap.hasPathBetween(x, y, z, cx, cy, cz)) continue;
                     byte currentArea = passageMap.getArea().getValue(x, y, z);
-                    if (currentArea != 0) neighbours.add(currentArea);
+                    neighbours.add(currentArea);
                 }
             }
         }
+        neighbours.remove((byte) 0);
         return neighbours;
-    }
-
-    private boolean isWalkPassable(int x, int y, int z) {
-        return BlockTypesEnum.getType(localMap.getBlockType(x, y, z)).PASSING == 2;
     }
 }
