@@ -12,7 +12,8 @@ import stonering.game.core.view.render.ui.menus.util.PlaceSelectComponent;
 import stonering.game.core.view.render.ui.util.ListItem;
 
 /**
- * Designation sequence for buildings. Shows {@link PlaceSelectComponent},
+ * Designation sequence for buildings.
+ * Shows {@link PlaceSelectComponent},
  * and then lists with materials for each building part.
  * Creates {@link BuildingOrder} as player proceeds through widgets.
  * TODO Validation for preview sprite rendering.

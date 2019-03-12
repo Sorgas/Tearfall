@@ -5,7 +5,16 @@ import stonering.util.geometry.Position;
 import stonering.util.global.TagLoggersEnum;
 import stonering.util.pathfinding.a_star.AStar;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * Manages isolated areas on localMap to prevent pathfinding between them.
@@ -66,6 +75,10 @@ public class PassageMap {
 
     /**
      * Refills areas if they were split. Areas that were different before update cannot be merged.
+     * Gets sets of tiles of same area and splits them into subsets of connected tiles.
+     * If there were more than 1 subset(area has been split), refills such areas with new number.
+     *
+     * @param posMap area number is mapped to set of positions of this area.
      */
     private void splitAreas(Map<Byte, List<Position>> posMap, Position center) {
         TagLoggersEnum.PATH.logDebug("Splitting areas around " + center + " in positions " + posMap);
@@ -79,32 +92,32 @@ public class PassageMap {
                 connectedPositions.add(firstPos);
                 for (Iterator<Position> iterator = posList.iterator(); iterator.hasNext(); ) {
                     Position pos = iterator.next();
-                    if (pos.isNeighbour(firstPos) && localMap.hasPathBetween(pos, firstPos) || aStar.makeShortestPath(pos, firstPos, true) != null) {
-                        iterator.remove();
-                        connectedPositions.add(pos);
-                    }
+                    if (!(pos.isNeighbour(firstPos) && localMap.hasPathBetween(pos, firstPos))
+                            && aStar.makeShortestPath(pos, firstPos, true) == null)
+                        continue; // skip inaccessible tiles.
+                    iterator.remove();
+                    connectedPositions.add(pos);
                 }
                 isolatedPositions.add(connectedPositions);
             }
             if (isolatedPositions.size() < 2) continue; // all positions from old areas remain connected, do nothing.
             isolatedPositions.remove(0);
+            int oldCount = areaNumbers.get(areaValue);
             for (Set<Position> positions : isolatedPositions) {
-                int filledCells = fill(positions.iterator().next(), getUnusedAreaNumber()); // refill isolated area with new number
-
+                oldCount -= fill(positions.iterator().next(), getUnusedAreaNumber()); // refill isolated area with new number
             }
+            if (areaNumbers.get(areaValue) != oldCount)
+                TagLoggersEnum.PATH.logWarn("Areas sizes inconsistency after split.");
         }
     }
 
-    private byte getUnusedAreaNumber() {
-        for (byte i = 0; i < Byte.MAX_VALUE; i++)
-            if (!areaNumbers.keySet().contains(i)) return i;
-        return 0;
-    }
-
+    /**
+     * Merges all given areas into one, keeping number of largest one.
+     */
     private void mergeAreas(Set<Byte> areas) {
         TagLoggersEnum.PATH.logDebug("Merging areas " + areas);
+        if (areas.isEmpty()) return;
         Optional<Byte> largestAreaOptional = areas.stream().max(Comparator.comparingInt(o -> areaNumbers.get(o)));
-        if (!largestAreaOptional.isPresent()) return; //TODO
         byte largestArea = largestAreaOptional.get();
         areas.remove(largestArea);
         HashMap<Byte, Integer> areaSizes = new HashMap<>();
@@ -113,13 +126,11 @@ public class PassageMap {
             for (int y = 0; y < localMap.ySize; y++) {
                 for (int z = 0; z < localMap.zSize; z++) {
                     if (areas.contains(area.getValue(x, y, z))) {
-                        area.setValue(x, y, z, largestArea);
+                        updateValue(x, y, z, largestArea);
                     }
                 }
             }
         }
-        // update merged area counters
-        areas.forEach(areaNumber -> areaNumbers.put(largestArea, areaNumbers.remove(areaNumber) + areaNumbers.get(largestArea)));
     }
 
     /**
@@ -140,18 +151,24 @@ public class PassageMap {
         return positionLists;
     }
 
+    /**
+     * Fills all tiles available from given with new area value.
+     */
     public int fill(Position start, byte value) {
         int counter = 0;
         Set<Position> openSet = new HashSet<>();
         for (openSet.add(start); !openSet.isEmpty(); counter++) {
             Position position = openSet.iterator().next();
             openSet.remove(position);
-            updateValue(position, value);
+            updateValue(position.x, position.y, position.z, value);
             openSet.addAll(getNeighbours(position, value));
         }
         return counter;
     }
 
+    /**
+     * Returns neighbour positions, accessible from given one.
+     */
     private Set<Position> getNeighbours(Position center, byte blockedArea) {
         Set<Position> neighbours = new HashSet<>();
         for (int x = center.x - 1; x < center.x + 2; x++) {
@@ -168,15 +185,24 @@ public class PassageMap {
         return neighbours;
     }
 
-    private void updateValue(Position position, byte value) {
-        byte old = area.getValue(position);
-        area.setValue(position, value);
+    /**
+     * Updates area value and counter.
+     */
+    private void updateValue(int x, int y, int z, byte value) {
+        byte old = area.getValue(x, y, z);
+        area.setValue(x, y, z, value);
         areaNumbers.put(value, areaNumbers.get(value) + 1);
-        if (areaNumbers.get(old) == 1) {
+        if (areaNumbers.get(old) < 2) {
             areaNumbers.remove(old);
         } else {
             areaNumbers.put(old, areaNumbers.get(old) - 1);
         }
+    }
+
+    private byte getUnusedAreaNumber() {
+        for (byte i = 0; i < Byte.MAX_VALUE; i++)
+            if (!areaNumbers.keySet().contains(i)) return i;
+        return 0;
     }
 
     public UtilByteArray getArea() {

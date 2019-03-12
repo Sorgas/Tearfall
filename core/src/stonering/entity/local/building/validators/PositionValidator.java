@@ -4,6 +4,8 @@ import stonering.game.core.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 
 /**
+ * Used to validate position with some logic.
+ *
  * @author Alexander on 23.11.2018.
  */
 public abstract class PositionValidator {
