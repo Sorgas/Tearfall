@@ -76,5 +76,19 @@
             ]
         }
     ]
+}, {
+    "name": "build_campfire",
+    "title": "Campfire",
+    "building": "campfire",
+    "menuPath": ["start"],
+    "placing": "floor",
+    "components": [
+        {
+            "name": "canmfire",
+            "variants": [
+                ["log", "2", "1", "1"], ["plank", "4", "1", "1"], ["branch", "4", "1", "1"]
+            ]
+        }
+    ]
 }
 ]

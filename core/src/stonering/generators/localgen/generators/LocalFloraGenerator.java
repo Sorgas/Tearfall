@@ -17,9 +17,8 @@ import stonering.entity.local.plants.PlantBlock;
 import stonering.entity.local.plants.Tree;
 import stonering.util.global.Pair;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Random;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static stonering.enums.blocks.BlockTypesEnum.FLOOR;
 
@@ -35,12 +34,13 @@ public class LocalFloraGenerator {
     private PerlinNoiseGenerator noiseGenerator;
     private float maxTemp;
     private float minTemp;
+    private float midTemp;
     private float rainfall;
     private int areaSize;
 
 
-    private HashMap<String, Float> weightedPlantTypes;
-    private HashMap<String, Float> weightedTreeTypes;
+    private Map<String, Float> weightedPlantTypes;
+    private Map<String, Float> weightedTreeTypes;
 
     public LocalFloraGenerator(LocalGenContainer container) {
         this.container = container;
@@ -53,6 +53,8 @@ public class LocalFloraGenerator {
         weightedTreeTypes = new HashMap<>();
         countTemperature();
         filterPlants();
+        normalizeWeights(weightedPlantTypes);
+        normalizeWeights(weightedTreeTypes);
         generateFlora();
     }
 
@@ -66,16 +68,16 @@ public class LocalFloraGenerator {
         noiseGenerator = new PerlinNoiseGenerator();
     }
 
-    /**
-     * Counts min and max temperature of the year.
-     */
     private void countTemperature() {
         minTemp = container.getMonthlyTemperatures()[0];
         maxTemp = minTemp;
+        midTemp = 0;
         for (float temp : container.getMonthlyTemperatures()) {
             minTemp = temp < minTemp ? temp : minTemp;
             maxTemp = temp > maxTemp ? temp : maxTemp;
+            midTemp += temp;
         }
+        midTemp /= container.getMonthlyTemperatures().length;
     }
 
     /**
@@ -89,24 +91,21 @@ public class LocalFloraGenerator {
 
     /**
      * Generates and places trees on local map. Uses limited attempts with random positions.
-     *
-     * @param specimen PlantType key from PlantMap representing tree
-     * @param amount   relative amount
      */
     private void placeTrees(String specimen, float amount) {
-        float[][] forestArea = noiseGenerator.generateOctavedSimplexNoise(areaSize, areaSize, 6, 0.5f, 0.015f);
         TreeGenerator treeGenerator = new TreeGenerator();
+        float[][] forestArea = noiseGenerator.generateOctavedSimplexNoise(areaSize, areaSize, 6, 0.5f, 0.015f);
         int tries = 200;
+        int maxAge = PlantMap.getInstance().getPlantType(specimen).getMaxAge();
         Random random = new Random();
-        Tree tree = treeGenerator.generateTree(specimen, 1);
-        while (amount > 0 && tries-- > 0) {
+        for (Tree tree = treeGenerator.generateTree(specimen, random.nextInt(maxAge)); amount > 0 && tries > 0; tries--) {
             int x = random.nextInt(areaSize);
             int y = random.nextInt(areaSize);
             int z = container.getRoundedHeightsMap()[x][y] + 1;
             if (!(forestArea[x][y] > 0) || !checkTreePlacing(tree, x, y, z)) continue;
             placeTree(tree, x, y, z);
             tree.setPosition(new Position(x, y, z));
-            tree = treeGenerator.generateTree(specimen, 1);
+            tree = treeGenerator.generateTree(specimen, random.nextInt(maxAge));
             amount--;
         }
     }
@@ -166,7 +165,6 @@ public class LocalFloraGenerator {
      * Generates and places plants in {@link LocalGenContainer}
      *
      * @param specimen PlantType key from PlantMap representing tree
-     * @param amount   relative amount
      */
     private void placePlants(String specimen, float amount) {
         PlantGenerator plantGenerator = new PlantGenerator();
@@ -222,13 +220,33 @@ public class LocalFloraGenerator {
         PlantMap.getInstance().getAllTypes().forEach((type) -> {
             if (rainfall < type.getMinRainfall() || rainfall > type.getMaxRainfall()) return; // too dry or wet
             if (minTemp < type.getMinRainfall() || maxTemp > type.getMaxTemperature()) return; // too hot or cold
-            if (minTemp > type.getMaxGrowingTemperature() || maxTemp < type.getMinGrowingTemperature()) return; // plant grow zone out of local temp zone
+            if (minTemp > type.getMaxGrowingTemperature() || maxTemp < type.getMinGrowingTemperature())
+                return; // plant grow zone out of local temp zone
             if (type.isTree()) { //is plant tree or not
-                weightedTreeTypes.put(type.getName(), 100f);
+                weightedTreeTypes.put(type.getName(), getSpreadModifier(type.getName()));
             } else {
-                weightedPlantTypes.put(type.getName(), 1f);
+                weightedPlantTypes.put(type.getName(), getSpreadModifier(type.getName()));
             }
-
         });
+    }
+
+    /**
+     * Translates all weights so their sum is not greater than 1.
+     * Thus, area can be filled with big number of low-adapted plants, but cannot be fully filled with single low-adapted plant.
+     * Highly-adapted plants will crowd out others proportionally. Shares of plants with same adaptation level will be equal.
+     */
+    private void normalizeWeights(Map<String, Float> plantWeights) {
+        float total = 0;
+        for (Float aFloat : plantWeights.values()) total += aFloat;
+        if (total < 1f) return;
+        for (String specimen : plantWeights.keySet()) plantWeights.put(specimen, plantWeights.get(specimen) / total);
+    }
+
+    /**
+     * Specimen will be spreaded more widely, if its grom range is closer to year middle temperature.
+     */
+    private float getSpreadModifier(String specimen) {
+        PlantType type = PlantMap.getInstance().getPlantType(specimen);
+        return Math.abs(((type.getMaxGrowingTemperature() + type.getMinGrowingTemperature()) / 2f) - midTemp) / (maxTemp - midTemp);
     }
 }

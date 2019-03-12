@@ -26,5 +26,23 @@
     "passage":"floor",
     "atlasXY":["0", "0"],
     "color":"0xffffffff"
+}, {
+    "building":"kitchen",
+    "title":"Kitchen",
+    "description":"Used to cook food.",
+    "aspects":[["workbench"], ["item_container", "solid", "100"]],
+    "parts":["table", "chair"],
+    "passage":"floor",
+    "atlasXY":["0", "0"],
+    "color":"0xffffffff"
+}, {
+    "building":"campfire",
+    "title":"Campfire",
+    "description":"Used for heating, cooking, and cast away shadows.",
+    "aspects":[["workbench"], ["light_source"], ["campfire"]],
+    "parts":["campfire"],
+    "passage":"wall",
+    "atlasXY":["0", "0"],
+    "color":"0xffffffff"
 }
 ]

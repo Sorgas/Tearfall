@@ -20,6 +20,8 @@ public class PlantType implements Initable {
     private ArrayList<PlantLifeStage> lifeStages;
     private ArrayList<String> placingTags;
 
+
+
     public PlantType() {
         temperatureBounds = new int[4];
         rainfallBounds = new int[2];
@@ -35,6 +37,10 @@ public class PlantType implements Initable {
             totalAge += lifeStage.stageLength;
             lifeStage.stageEnd = totalAge;
         }
+    }
+
+    public int getMaxAge() {
+        return lifeStages.get(lifeStages.size() - 1).getStageEnd();
     }
 
     public static class PlantLifeStage {
