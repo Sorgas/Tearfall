@@ -21,7 +21,7 @@ public enum BlockTypesEnum {
 
     public final byte CODE;
     public final byte PASSING;
-    public final String NAME;
+    public final String NAME; // name of constructions.
     private static HashMap<Byte, BlockTypesEnum> map;
     private static HashMap<String, BlockTypesEnum> nameMap;
 

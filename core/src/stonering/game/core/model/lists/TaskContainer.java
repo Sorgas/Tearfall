@@ -6,6 +6,7 @@ import stonering.designations.OrderDesignation;
 import stonering.entity.jobs.actions.*;
 import stonering.entity.local.building.BuildingOrder;
 import stonering.enums.blocks.BlockTypesEnum;
+import stonering.enums.buildings.BuildingTypeMap;
 import stonering.enums.designations.DesignationTypeEnum;
 import stonering.enums.designations.PlaceValidatorsEnum;
 import stonering.game.core.GameMvc;
@@ -136,9 +137,14 @@ public class TaskContainer implements ModelComponent, Initable {
     /**
      * Creates tasks for building various buildings.
      */
-    private Task createBuildingTask(BuildingDesignation designation, Collection<ItemSelector> items, int priority) {
-        BuildingAction buildingAction = new BuildingAction(designation, items);
-        Task task = new Task("designation", TaskTypesEnum.DESIGNATION, buildingAction, priority);
+    private Task createBuildingTask(BuildingDesignation designation, Collection<ItemSelector> itemSelectors, int priority) {
+        Action action;
+        if(BuildingTypeMap.getInstance().getBuilding(designation.getBuilding()).isConstruction()) {
+            action = new ConstructionAction(designation, itemSelectors);
+        } else {
+            action = new BuildingAction(designation, itemSelectors);
+        }
+        Task task = new Task("designation", TaskTypesEnum.DESIGNATION, action, priority);
         task.setDesignation(designation);
         return task;
     }

@@ -32,6 +32,7 @@ public class BuildingMenu extends SubMenuMenu {
 
     private void fillMenu() {
         for (Blueprint blueprint : BlueprintsMap.getInstance().getBlueprints().values()) {
+            if(!BuildingTypeMap.getInstance().hasBuilding(blueprint.getBuilding())) continue; //skip invalid blueprints
             addItem(blueprint.getTitle(), new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
