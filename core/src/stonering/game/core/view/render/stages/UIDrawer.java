@@ -15,7 +15,7 @@ import stonering.util.geometry.Position;
  * @author Alexander Kuzyakov on 12.10.2017.
  */
 public class UIDrawer extends UiStage {
-    private MaterialMap materialMap;
+    private transient MaterialMap materialMap;
     private Toolbar toolbar;
     private TileStatusBar tileStatusBar;
 

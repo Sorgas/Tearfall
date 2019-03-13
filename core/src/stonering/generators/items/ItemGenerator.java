@@ -23,7 +23,7 @@ import java.util.Set;
  */
 public class ItemGenerator {
     private ItemTypeMap itemTypeMap;
-    private MaterialMap materialMap;
+    private transient MaterialMap materialMap;
 
     public ItemGenerator() {
         init();

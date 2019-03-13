@@ -1,9 +1,11 @@
 package stonering.game.core.view.render.ui.menus;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.game.core.view.render.ui.menus.util.ButtonMenu;
+import stonering.util.saving.GameSaver;
 
 
 public class PauseMenu extends ButtonMenu {
@@ -51,11 +53,11 @@ public class PauseMenu extends ButtonMenu {
     }
 
     private void saveGame() {
-
+        GameSaver.saveGame();
     }
 
     private void quitGame() {
-
+        Gdx.app.exit();
     }
 
     @Override

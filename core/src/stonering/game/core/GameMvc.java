@@ -4,12 +4,14 @@ import stonering.game.core.controller.controllers.GameController;
 import stonering.game.core.model.GameModel;
 import stonering.game.core.view.GameView;
 
+import java.io.Serializable;
+
 /**
  * Main game singleton MVC.
  *
  * @author Alexander Kuzyakov on 10.06.2017.
  */
-public class GameMvc {
+public class GameMvc implements Serializable {
     private static GameMvc instance;
     private GameModel model;
     private GameView view;

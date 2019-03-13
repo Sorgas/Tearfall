@@ -18,7 +18,7 @@ import stonering.util.global.Initable;
 public class LocalTileMapUpdater implements ModelComponent, Initable {
     private LocalMap localMap;
     private LocalTileMap localTileMap;
-    private MaterialMap materialMap;
+    private transient MaterialMap materialMap;
 
     @Override
     public void init() {

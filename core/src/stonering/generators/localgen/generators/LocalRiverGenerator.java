@@ -31,7 +31,7 @@ public class LocalRiverGenerator {
     private ArrayList<Flow> flows;
 
     private Inflow outflow;
-    private MaterialMap materialMap;
+    private transient MaterialMap materialMap;
 
     public LocalRiverGenerator(LocalGenContainer container) {
         this.container = container;

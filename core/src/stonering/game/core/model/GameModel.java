@@ -4,6 +4,7 @@ import com.badlogic.gdx.utils.Timer;
 import stonering.util.global.Initable;
 import stonering.util.global.TagLoggersEnum;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 /**
@@ -12,7 +13,7 @@ import java.util.HashMap;
  *
  * @author Alexander on 04.02.2019.
  */
-public abstract class GameModel implements Initable {
+public abstract class GameModel implements Initable, Serializable {
     private HashMap<Class, ModelComponent> components;
     private Timer timer;                 //makes turns for entity containers and calendar.
     private boolean paused;

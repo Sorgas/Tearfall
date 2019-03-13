@@ -2,12 +2,14 @@ package stonering.game.core.model.util;
 
 import stonering.util.geometry.Position;
 
+import java.io.Serializable;
+
 /**
  * Byte Array with util methods.
  *
  * @author Alexander Kuzyakov
  */
-public class UtilByteArray {
+public class UtilByteArray implements Serializable {
     private byte[][][] array;
 
     public UtilByteArray(int xSize, int ySize, int zSize) {
