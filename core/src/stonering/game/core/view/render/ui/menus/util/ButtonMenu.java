@@ -12,17 +12,24 @@ import stonering.util.global.StaticSkin;
 import stonering.util.global.TagLoggersEnum;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public abstract class ButtonMenu extends Table implements HideableComponent {
     protected GameMvc gameMvc;
     protected boolean hideable;
+    protected boolean defaultHandleResult = false;
 
-    private HashMap<Integer, Button> buttons;
+    private LinkedHashMap<Integer, Button> buttons;
 
     public ButtonMenu(boolean hideable) {
         this.gameMvc = GameMvc.getInstance();
         this.hideable = hideable;
-        buttons = new HashMap<>();
+        buttons = new LinkedHashMap<>();
+    }
+
+    public ButtonMenu(boolean hideable, boolean defaultHandleResult) {
+        this(hideable);
+        this.defaultHandleResult = defaultHandleResult;
     }
 
     public ButtonMenu() {
@@ -61,7 +68,7 @@ public abstract class ButtonMenu extends Table implements HideableComponent {
                     reset();
                     return true;
                 }
-                return false;
+                return defaultHandleResult;
             }
         });
     }

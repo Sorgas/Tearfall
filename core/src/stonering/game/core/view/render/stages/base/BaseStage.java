@@ -5,8 +5,10 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import stonering.game.core.GameMvc;
 import stonering.game.core.model.EntitySelector;
 import stonering.game.core.view.render.stages.MapEntitySelectStage;
+import stonering.game.core.view.render.stages.PauseMenuStage;
 import stonering.game.core.view.render.stages.UIDrawer;
 import stonering.util.geometry.Position;
+import stonering.util.global.Initable;
 
 /**
  * Stage with local world sprites and toolbar.
@@ -14,7 +16,7 @@ import stonering.util.geometry.Position;
  *
  * @author Alexander on 09.11.2018.
  */
-public class BaseStage extends Stage {
+public class BaseStage extends Stage implements Initable {
     private GameMvc gameMvc;
     private LocalWorldDrawer worldDrawer;
     private UIDrawer uiDrawer;
@@ -25,6 +27,7 @@ public class BaseStage extends Stage {
         uiDrawer = new UIDrawer();
     }
 
+    @Override
     public void init() {
         uiDrawer.init();
     }
@@ -44,7 +47,10 @@ public class BaseStage extends Stage {
      */
     @Override
     public boolean keyDown(int keyCode) {
-        if(uiDrawer.keyDown(keyCode)) return true;
+        if(uiDrawer.keyDown(keyCode))
+            return true;
+        if(tryShowPauseStage(keyCode))
+            return true;
         return trySelectMapEntity(keyCode);
     }
 
@@ -65,6 +71,12 @@ public class BaseStage extends Stage {
     //TODO add filters
     private void showMapEntityListStage(Position position) {
         gameMvc.getView().addStageToList(new MapEntitySelectStage(gameMvc, position, -1));
+    }
+
+    private boolean tryShowPauseStage(int keycode) {
+        if (keycode != Input.Keys.Q) return false;
+        gameMvc.getView().addStageToList(new PauseMenuStage());
+        return true;
     }
 
     public void resize(int width, int height) {

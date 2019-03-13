@@ -1,6 +1,5 @@
 package stonering.game.core.view.render.stages;
 
-import com.badlogic.gdx.Input;
 import stonering.entity.local.building.BuildingBlock;
 import stonering.game.core.GameMvc;
 import stonering.game.core.model.local_map.LocalMap;
@@ -19,7 +18,6 @@ import stonering.util.global.TagLoggersEnum;
  * @author Alexander on 11.11.2018.
  */
 public class MapEntitySelectStage extends UiStage implements Initable {
-    public static final int ALL = -1;
     public static final int ITEMS = 0;
     public static final int UNITS = 1;
     public static final int PLANTS = 2;
@@ -44,16 +42,6 @@ public class MapEntitySelectStage extends UiStage implements Initable {
         this.currentPosition = currentPosition;
         this.activeMode = activeMode;
         observingList = new ObservingList(gameMvc);
-
-    }
-
-    public boolean invoke(int keycode) {
-        switch (keycode) {
-            case Input.Keys.Q :
-                gameMvc.getView().removeStage(this);
-                return true;
-        }
-        return false;
     }
 
     /**
@@ -63,20 +51,17 @@ public class MapEntitySelectStage extends UiStage implements Initable {
     public void init() {
         observingList.clear();
         switch (activeMode) {
-            case ALL:
-                //TODO add method for all categories
-                tryShowBuildingStage(gameMvc.getModel().get(LocalMap.class).getBuildingBlock(currentPosition));
-                break;
             case ITEMS:
-                break;
+                return;
             case UNITS:
-                break;
+                return;
             case PLANTS:
-                break;
+                return;
             case BUILDINGS:
                 tryShowBuildingStage(gameMvc.getModel().get(LocalMap.class).getBuildingBlock(currentPosition));
-                break;
+                return;
         }
+        gameMvc.getView().removeStage(this);
     }
 
     private void tryShowBuildingStage(BuildingBlock buildingBlock) {

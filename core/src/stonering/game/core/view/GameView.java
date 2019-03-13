@@ -21,7 +21,6 @@ import java.util.List;
  */
 public class GameView extends SimpleScreen {
     private BaseStage baseStage;                // sprites and toolbar. is always rendered.
-    private PauseMenuStage pauseMenuStage;
     private List<Stage> stageList;      // init called on adding.
 
     //TODO get rid of inits.
@@ -29,8 +28,6 @@ public class GameView extends SimpleScreen {
         stageList = new ArrayList<>();
         baseStage = new BaseStage();
         baseStage.init();
-        pauseMenuStage = new PauseMenuStage();
-        pauseMenuStage.init();
     }
 
     @Override
@@ -57,7 +54,6 @@ public class GameView extends SimpleScreen {
     public void addStageToList(Stage stage) {
         TagLoggersEnum.UI.logDebug("showing stage " + stage.toString());
         stageList.add(stage);
-        System.out.println(stage.toString() + " added to view");
         if (stage instanceof Initable) ((Initable) stage).init();
         if (stage instanceof Resizeable) ((Resizeable) stage).resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
