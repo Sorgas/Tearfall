@@ -16,6 +16,7 @@ public class BuildingType {
     private List<List<String>> aspects;
     private List<String> parts;
     private String passage;
+    private boolean construction;
 
     private int[] atlasXY;
     private String color;
@@ -98,5 +99,13 @@ public class BuildingType {
 
     public void setRecipes(List<String> recipes) {
         this.recipes = recipes;
+    }
+
+    public boolean isConstruction() {
+        return construction;
+    }
+
+    public void setConstruction(boolean construction) {
+        this.construction = construction;
     }
 }

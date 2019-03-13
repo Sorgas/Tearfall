@@ -40,9 +40,10 @@ public class BuildingTypeMap {
         for (BuildingType buildingType : elements) {
             buildings.put(buildingType.getBuilding(), buildingType);
         }
-        TagLoggersEnum.LOADING.log("buildings");
+        TagLoggersEnum.LOADING.log("constructions");
         elements = json.fromJson(ArrayList.class, BuildingType.class, FileLoader.getFile(FileLoader.CONSTRUCTIONS_PATH));
         for (BuildingType buildingType : elements) {
+            buildingType.setConstruction(true);
             buildings.put(buildingType.getBuilding(), buildingType);
         }
     }
@@ -53,6 +54,10 @@ public class BuildingTypeMap {
 
     public BuildingType getBuilding(String name) {
         return buildings.get(name);
+    }
+
+    public boolean hasBuilding(String name) {
+        return buildings.containsKey(name);
     }
 
     private void loadLists() {

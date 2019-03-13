@@ -64,6 +64,7 @@ public class PassageMap {
         for (int x = cx - 1; x < cx + 2; x++) {
             for (int y = cy - 1; y < cy + 2; y++) {
                 for (int z = cz - 1; z < cz + 2; z++) {
+                    if (!localMap.inMap(x, y, z)) continue;
                     byte areaValue = area.getValue(x, y, z);
                     if (areaValue == 0 || !localMap.hasPathBetween(x, y, z, cx, cy, cz)) continue;
                     neighbours.add(areaValue);
@@ -141,6 +142,7 @@ public class PassageMap {
         for (int x = cx - 1; x < cx + 2; x++) {
             for (int y = cy - 1; y < cy + 2; y++) {
                 for (int z = cz - 1; z < cz + 2; z++) {
+                    if (!localMap.inMap(x, y, z)) continue;
                     byte areaValue = area.getValue(x, y, z);
                     if (areaValue == 0 || !localMap.hasPathBetween(x, y, z, cx, cy, cz)) continue;
                     List<Position> positions = positionLists.getOrDefault(areaValue, positionLists.put(areaValue, new LinkedList<>()));

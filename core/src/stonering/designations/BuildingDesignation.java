@@ -1,5 +1,7 @@
 package stonering.designations;
 
+import stonering.enums.blocks.BlockTypesEnum;
+import stonering.enums.buildings.BuildingTypeMap;
 import stonering.enums.designations.DesignationTypeEnum;
 import stonering.util.geometry.Position;
 
@@ -11,10 +13,12 @@ import stonering.util.geometry.Position;
  */
 public class BuildingDesignation extends Designation {
     private String building;
+    private boolean construction;
 
     public BuildingDesignation(Position position, DesignationTypeEnum type, String building) {
         super(position, type);
         this.building = building;
+        construction = BlockTypesEnum.hasType(building);
     }
 
     public String getBuilding() {
@@ -23,5 +27,13 @@ public class BuildingDesignation extends Designation {
 
     public void setBuilding(String building) {
         this.building = building;
+    }
+
+    public boolean isConstruction() {
+        return construction;
+    }
+
+    public void setConstruction(boolean construction) {
+        this.construction = construction;
     }
 }

@@ -60,7 +60,7 @@
     "name": "build_sawing_rack",
     "title": "Sawing rack",
     "building": "sawing_rack",
-    "menuPath": ["constructions"],
+    "menuPath": ["workbenches", "wood"],
     "placing": "construction",
     "components": [
         {
