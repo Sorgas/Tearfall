@@ -2,7 +2,7 @@ package stonering.game.core.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import stonering.game.core.view.render.stages.MainMenu;
+import stonering.game.core.view.render.stages.PauseMenuStage;
 import stonering.game.core.view.render.stages.UIDrawer;
 import stonering.game.core.view.render.stages.base.BaseStage;
 import stonering.game.core.view.render.stages.base.Resizeable;
@@ -21,7 +21,7 @@ import java.util.List;
  */
 public class GameView extends SimpleScreen {
     private BaseStage baseStage;                // sprites and toolbar. is always rendered.
-    private MainMenu mainMenu;
+    private PauseMenuStage pauseMenuStage;
     private List<Stage> stageList;      // init called on adding.
 
     //TODO get rid of inits.
@@ -29,8 +29,8 @@ public class GameView extends SimpleScreen {
         stageList = new ArrayList<>();
         baseStage = new BaseStage();
         baseStage.init();
-        mainMenu = new MainMenu();
-        mainMenu.init();
+        pauseMenuStage = new PauseMenuStage();
+        pauseMenuStage.init();
     }
 
     @Override

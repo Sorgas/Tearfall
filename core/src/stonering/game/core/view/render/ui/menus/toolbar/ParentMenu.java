@@ -1,4 +1,4 @@
-package stonering.game.core.view.render.ui.menus;
+package stonering.game.core.view.render.ui.menus.toolbar;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.utils.Align;

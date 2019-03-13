@@ -8,26 +8,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.game.core.GameMvc;
-import stonering.game.core.view.render.ui.menus.Toolbar;
 import stonering.util.global.StaticSkin;
 import stonering.util.global.TagLoggersEnum;
 
 import java.util.HashMap;
 
-/**
- * Abstract screen for toolbar.
- * Holds mappings of hotkeys to buttons and can simulate presses.
- * Some buttons show submenus.
- * Menus don't have their controllers, all behavior logic is written in their buttons.
- * Input comes from parent ButtonMenu, through invoke method.
- * Keys sets of menus should not overlap.
- * <p>
- *
- * @author Alexander Kuzyakov on 27.12.2017.
- */
 public abstract class ButtonMenu extends Table implements HideableComponent {
     protected GameMvc gameMvc;
-    protected Toolbar toolbar;
     protected boolean hideable;
 
     private HashMap<Integer, Button> buttons;
@@ -36,7 +23,6 @@ public abstract class ButtonMenu extends Table implements HideableComponent {
         this.gameMvc = GameMvc.getInstance();
         this.hideable = hideable;
         buttons = new HashMap<>();
-        this.bottom();
     }
 
     public ButtonMenu() {
@@ -49,7 +35,6 @@ public abstract class ButtonMenu extends Table implements HideableComponent {
     public void init() {
         this.defaults().right().expandX().fill();
         buttons.values().forEach((button) -> this.add(button).row());
-        toolbar = gameMvc.getView().getUiDrawer().getToolbar();
         createDefaultListener();
     }
 
@@ -94,14 +79,4 @@ public abstract class ButtonMenu extends Table implements HideableComponent {
      * Cancels all inputs, like selected tools.
      */
     public abstract void reset();
-
-    @Override
-    public void show() {
-        toolbar.addMenu(this);
-    }
-
-    @Override
-    public void hide() {
-        toolbar.hideMenu(this);
-    }
 }

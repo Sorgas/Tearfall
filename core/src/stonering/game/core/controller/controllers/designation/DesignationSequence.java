@@ -1,9 +1,10 @@
 package stonering.game.core.controller.controllers.designation;
 
 import stonering.game.core.GameMvc;
+import stonering.game.core.view.render.ui.menus.toolbar.Toolbar;
 
 /**
- * Designation sequences used to add actors to {@link stonering.game.core.view.render.ui.menus.Toolbar}
+ * Designation sequences used to add actors to {@link Toolbar}
  * in order to maintain designating player's order.
  * (like selecting place for building and then selecting items for building parts).
  *

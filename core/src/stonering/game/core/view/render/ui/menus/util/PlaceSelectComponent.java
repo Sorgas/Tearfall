@@ -9,7 +9,7 @@ import stonering.entity.local.building.validators.PositionValidator;
 import stonering.game.core.GameMvc;
 import stonering.game.core.model.EntitySelector;
 import stonering.game.core.model.local_map.LocalMap;
-import stonering.game.core.view.render.ui.menus.Toolbar;
+import stonering.game.core.view.render.ui.menus.toolbar.Toolbar;
 import stonering.util.geometry.Position;
 import stonering.util.global.StaticSkin;
 

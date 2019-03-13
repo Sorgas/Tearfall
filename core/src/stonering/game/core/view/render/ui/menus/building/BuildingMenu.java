@@ -3,12 +3,10 @@ package stonering.game.core.view.render.ui.menus.building;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.entity.local.building.Blueprint;
-import stonering.entity.local.building.BuildingType;
 import stonering.enums.buildings.BlueprintsMap;
 import stonering.enums.buildings.BuildingTypeMap;
 import stonering.game.core.controller.controllers.designation.BuildingDesignationSequence;
 import stonering.game.core.view.render.ui.menus.util.SubMenuMenu;
-import stonering.util.global.TagLoggersEnum;
 
 /**
  * ButtonMenu for selecting building.

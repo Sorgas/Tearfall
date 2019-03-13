@@ -4,7 +4,7 @@ import stonering.entity.local.crafting.CommonComponent;
 import stonering.game.core.GameMvc;
 import stonering.game.core.controller.controllers.toolbar.DesignationsController;
 import stonering.game.core.model.lists.ItemContainer;
-import stonering.game.core.view.render.ui.menus.Toolbar;
+import stonering.game.core.view.render.ui.menus.toolbar.Toolbar;
 import stonering.game.core.view.render.ui.menus.util.HideableComponent;
 import stonering.entity.local.items.Item;
 import stonering.game.core.view.render.ui.util.ListItem;

@@ -8,7 +8,7 @@ import stonering.game.core.model.GameModel;
 import stonering.game.core.model.local_map.LocalMap;
 import stonering.game.core.view.render.stages.base.UiStage;
 import stonering.game.core.view.render.ui.TileStatusBar;
-import stonering.game.core.view.render.ui.menus.Toolbar;
+import stonering.game.core.view.render.ui.menus.toolbar.Toolbar;
 import stonering.util.geometry.Position;
 
 /**

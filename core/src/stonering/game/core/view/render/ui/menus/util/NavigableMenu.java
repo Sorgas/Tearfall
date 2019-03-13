@@ -4,7 +4,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import stonering.game.core.GameMvc;
 import stonering.util.global.TagLoggersEnum;
 
 import java.util.ArrayList;
@@ -14,7 +13,7 @@ import java.util.ArrayList;
  *
  * @author Alexander on 20.10.2018.
  */
-public abstract class NavigableMenu extends ButtonMenu {
+public abstract class NavigableMenu extends ToolbarButtonMenu {
     private boolean enabled = true;
     private int selectedItem = -1;
     private ArrayList<Button> buttonsList;
