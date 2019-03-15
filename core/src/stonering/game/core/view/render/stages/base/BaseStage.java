@@ -83,4 +83,8 @@ public class BaseStage extends Stage implements Initable {
         uiDrawer.resize(width, height);
         worldDrawer.resize(width, height);
     }
+
+    public LocalWorldDrawer getWorldDrawer() {
+        return worldDrawer;
+    }
 }

@@ -3,17 +3,19 @@ package stonering.game.core.view.render.stages.base;
 import stonering.entity.local.building.BuildingBlock;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.plants.PlantBlock;
-import stonering.entity.local.unit.UnitBlock;
+import stonering.entity.local.unit.Unit;
 import stonering.enums.designations.DesignationsTileMapping;
 import stonering.game.core.GameMvc;
 import stonering.game.core.model.EntitySelector;
 import stonering.game.core.model.GameModel;
 import stonering.game.core.model.lists.ItemContainer;
+import stonering.game.core.model.lists.UnitContainer;
 import stonering.game.core.model.local_map.LocalMap;
 import stonering.game.core.view.render.util.Int3DBounds;
 import stonering.game.core.view.tilemaps.LocalTileMap;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Alexander on 06.02.2019.
@@ -22,17 +24,22 @@ public class TileRenderer extends Renderer {
     private LocalMap localMap;
     private LocalTileMap localTileMap;
     private EntitySelector selector;
+    private UnitContainer unitContainer;
+    private Int3DBounds visibleArea;
 
-    public TileRenderer(GameModel gameModel, DrawingUtil drawingUtil) {
-        super(gameModel, drawingUtil);
+    public TileRenderer(DrawingUtil drawingUtil, Int3DBounds visibleArea) {
+        super(drawingUtil);
+        this.visibleArea = visibleArea;
+        GameModel gameModel = GameMvc.getInstance().getModel();
         localMap = gameModel.get(LocalMap.class);
         localTileMap = gameModel.get(LocalTileMap.class);
         selector = gameModel.get(EntitySelector.class);
+        unitContainer = gameModel.get(UnitContainer.class);
     }
 
     @Override
     public void render() {
-        drawTiles(defineframe(), gameModel.get(EntitySelector.class));
+        drawTiles(visibleArea, GameMvc.getInstance().getModel().get(EntitySelector.class));
     }
 
     public void drawTiles(Int3DBounds bounds, EntitySelector selector) {
@@ -63,10 +70,13 @@ public class TileRenderer extends Renderer {
         BuildingBlock buildingBlock = localMap.getBuildingBlock(x, y, z);
         if (buildingBlock != null)
             drawingUtil.drawSprite(drawingUtil.selectSprite(3, 0, 0), x, y, z, selector.getPosition());
-        UnitBlock unitBlock = localMap.getUnitBlock(x, y, z);
-        if (unitBlock != null)
-            drawingUtil.drawSprite(drawingUtil.selectSprite(2, 0, 0), x, y, z, selector.getPosition());
-        if(GameMvc.getInstance().getModel().get(ItemContainer.class) != null) {
+        List<Unit> units = unitContainer.getUnitsInPosiiton(x, y, z);
+        if (units != null)
+            units.forEach(unit -> {
+                //TODO ((RenderAspect) unit.getAspects().get(RenderAspect.NAME)).getTexture();
+                drawingUtil.drawSprite(drawingUtil.selectSprite(2, 0, 0), x, y, z, selector.getPosition());
+            });
+        if (GameMvc.getInstance().getModel().get(ItemContainer.class) != null) {
             ArrayList<Item> items = GameMvc.getInstance().getModel().get(ItemContainer.class).getItems(x, y, z);
             if (!items.isEmpty())
                 items.forEach((item) -> drawingUtil.drawSprite(drawingUtil.selectSprite(5, item.getType().getAtlasXY()[0], item.getType().getAtlasXY()[1]), x, y, z, selector.getPosition()));
@@ -102,15 +112,5 @@ public class TileRenderer extends Renderer {
                 drawingUtil.drawSprite(drawingUtil.selectToping(0, 20, 0), x, y, z, selector.getPosition());
             }
         }
-    }
-
-    private Int3DBounds defineframe() {
-        EntitySelector selector = gameModel.get(EntitySelector.class);
-        return new Int3DBounds(Math.max(selector.getPosition().x - DrawingUtil.viewAreaWidth, 0),
-                Math.max(selector.getPosition().y - DrawingUtil.viewAreaWidth, 0),
-                Math.max(selector.getPosition().z - DrawingUtil.viewAreDepth, 0),
-                Math.min(selector.getPosition().x + DrawingUtil.viewAreaWidth, localTileMap.getxSize() - 1),
-                Math.min(selector.getPosition().y + DrawingUtil.viewAreaWidth, localTileMap.getySize() - 1),
-                Math.min(selector.getPosition().z, localTileMap.getzSize() - 1));
     }
 }

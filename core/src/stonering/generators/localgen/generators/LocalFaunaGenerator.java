@@ -1,15 +1,14 @@
 package stonering.generators.localgen.generators;
 
-import stonering.game.core.model.local_map.LocalMap;
 import stonering.generators.creatures.CreatureGenerator;
 import stonering.generators.localgen.LocalGenConfig;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.entity.local.unit.Unit;
 
 /**
+ * Generates wild animals on LocalMap.
+ *
  * @author Alexander Kuzyakov on 03.12.2017.
- *         <p>
- *         Generates wild animals on LoclMap
  */
 public class LocalFaunaGenerator {
     private LocalGenContainer container;
@@ -23,11 +22,7 @@ public class LocalFaunaGenerator {
     }
 
     public void execute() {
-        LocalMap localMap = container.getLocalMap();
         Unit unit = creatureGenerator.generateUnit("human");
-        if (unit != null) {
-            unit.setLocalMap(localMap);
-            container.getUnits().add(unit);
-        }
+        if (unit != null) container.getUnits().add(unit);
     }
 }

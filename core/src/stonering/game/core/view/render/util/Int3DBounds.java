@@ -12,6 +12,10 @@ public class Int3DBounds {
     private int maxZ;
 
     public Int3DBounds(int minX, int minY, int minZ, int maxX, int maxY, int maxZ) {
+        set(minX, minY, minZ, maxX, maxY, maxZ);
+    }
+
+    public void set(int minX, int minY, int minZ, int maxX, int maxY, int maxZ) {
         this.minX = minX;
         this.minY = minY;
         this.minZ = minZ;

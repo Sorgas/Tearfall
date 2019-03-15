@@ -69,6 +69,15 @@ public class GameView extends SimpleScreen {
         baseStage.resize(width, height);
         Stage stage = getActiveStage();
         if (stage instanceof Resizeable) ((Resizeable) stage).resize(width, height);
+        updateDrawableArea();
+    }
+
+    /**
+     * Updates visible area in {@link stonering.game.core.view.render.stages.base.LocalWorldDrawer}.
+     * Used on resize, {@link stonering.game.core.model.EntitySelector} move and zoom.
+     */
+    public void updateDrawableArea() {
+        baseStage.getWorldDrawer().updateVisibleArea();
     }
 
     public UIDrawer getUiDrawer() {

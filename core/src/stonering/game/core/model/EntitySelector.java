@@ -6,6 +6,7 @@ import stonering.entity.local.building.validators.PositionValidator;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.core.GameMvc;
 import stonering.game.core.model.local_map.LocalMap;
+import stonering.game.core.view.render.stages.base.LocalWorldDrawer;
 import stonering.util.geometry.Position;
 import stonering.util.global.Initable;
 
@@ -55,6 +56,7 @@ public class EntitySelector implements ModelComponent, Initable {
         position.setZ(position.getZ() + dz);
         localMap.normalizePosition(position);
         updateStatusAndSprite();
+        GameMvc.getInstance().getView().updateDrawableArea();
     }
 
     /**

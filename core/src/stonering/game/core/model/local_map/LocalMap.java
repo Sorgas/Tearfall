@@ -9,7 +9,6 @@ import stonering.game.core.view.tilemaps.LocalTileMapUpdater;
 import stonering.util.geometry.Position;
 import stonering.entity.local.building.BuildingBlock;
 import stonering.entity.local.plants.PlantBlock;
-import stonering.entity.local.unit.UnitBlock;
 import stonering.util.global.Initable;
 
 import java.util.ArrayList;
@@ -30,10 +29,9 @@ public class LocalMap implements ModelComponent, Initable {
     public final UtilByteArray light;                          //for light from dynamic sources (torches, lamps)
     private PlantBlock[][][] plantBlocks;
     private BuildingBlock[][][] buildingBlocks;
-    private UnitBlock[][][] unitBlocks;
 
-    private PassageMap passageMap;
-    private LocalTileMapUpdater localTileMapUpdater;
+    private PassageMap passageMap;                             // not saved to savegame,
+    private LocalTileMapUpdater localTileMapUpdater;           // not saved to savegame,
 
     public final int xSize;
     public final int ySize;
@@ -45,7 +43,6 @@ public class LocalMap implements ModelComponent, Initable {
         designatedBlockType = new byte[xSize][ySize][zSize];
         plantBlocks = new PlantBlock[xSize][ySize][zSize];
         buildingBlocks = new BuildingBlock[xSize][ySize][zSize];
-        unitBlocks = new UnitBlock[xSize][ySize][zSize];
         flooding = new byte[xSize][ySize][zSize];
         temperature = new byte[xSize][ySize][zSize];
         generalLight = new UtilByteArray(xSize, ySize, zSize);
@@ -207,26 +204,6 @@ public class LocalMap implements ModelComponent, Initable {
 
     public BuildingBlock getBuildingBlock(Position position) {
         return buildingBlocks[position.getX()][position.getY()][position.getZ()];
-    }
-
-    public void setUnitBlock(int x, int y, int z, UnitBlock unit) {
-        unitBlocks[x][y][z] = unit;
-    }
-
-    public void setUnitBlock(Position pos, UnitBlock unit) {
-        unitBlocks[pos.getX()][pos.getY()][pos.getZ()] = unit;
-    }
-
-    public void freeUnitBlock(Position pos) {
-        unitBlocks[pos.getX()][pos.getY()][pos.getZ()] = null;
-    }
-
-    public void freeUnitBlock(int x, int y, int z) {
-        unitBlocks[x][y][z] = null;
-    }
-
-    public UnitBlock getUnitBlock(int x, int y, int z) {
-        return unitBlocks[x][y][z];
     }
 
     public void setDesignatedBlockType(Position pos, byte blockType) {

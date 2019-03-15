@@ -1,7 +1,6 @@
 package stonering.util.saving;
 
 
-import stonering.entity.world.World;
 import stonering.game.core.GameMvc;
 
 import java.io.*;

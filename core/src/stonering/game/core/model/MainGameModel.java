@@ -1,6 +1,5 @@
 package stonering.game.core.model;
 
-import annotator.scanner.LocalClassScanner;
 import stonering.entity.world.World;
 import stonering.game.core.model.lists.BuildingContainer;
 import stonering.game.core.model.lists.ItemContainer;

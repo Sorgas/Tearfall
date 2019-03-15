@@ -1,22 +1,26 @@
 package stonering.game.core.view.render.stages.base;
 
+import stonering.game.core.GameMvc;
 import stonering.game.core.model.EntitySelector;
-import stonering.game.core.model.GameModel;
 
 /**
  * @author Alexander on 06.02.2019.
  */
 public class EntitySelectorRenderer extends Renderer {
 
-    public EntitySelectorRenderer(GameModel gameModel, DrawingUtil drawingUtil) {
-        super(gameModel, drawingUtil);
+    public EntitySelectorRenderer(DrawingUtil drawingUtil) {
+        super(drawingUtil);
     }
 
     @Override
     public void render() {
-        drawSelector(gameModel.get(EntitySelector.class));
+        drawSelector(GameMvc.getInstance().getModel().get(EntitySelector.class));
     }
 
+    /**
+     * Draws {@link EntitySelector} and selection frame;
+     * @param selector
+     */
     public void drawSelector(EntitySelector selector) {
         drawingUtil.drawSprite(selector.getSelectorSprite(), selector.getPosition(), selector.getPosition());
         if (selector.getStatusSprite() != null) {
@@ -56,8 +60,10 @@ public class EntitySelectorRenderer extends Renderer {
                         if (x == maxX && z > minZ && y == minY)
                             drawingUtil.drawSprite(drawingUtil.selectSprite(4, 9, 1), x, y, z, selector.getPosition());
                         drawingUtil.updateColorA(0.5f);
-                        if (z == maxZ) drawingUtil.drawSprite(drawingUtil.selectSprite(4, 10, 1), x, y, z, selector.getPosition());
-                        if (y == minY) drawingUtil.drawSprite(drawingUtil.selectSprite(4, 11, 1), x, y, z, selector.getPosition());
+                        if (z == maxZ)
+                            drawingUtil.drawSprite(drawingUtil.selectSprite(4, 10, 1), x, y, z, selector.getPosition());
+                        if (y == minY)
+                            drawingUtil.drawSprite(drawingUtil.selectSprite(4, 11, 1), x, y, z, selector.getPosition());
                         if (z > minZ && y == minY)
                             drawingUtil.drawSprite(drawingUtil.selectSprite(4, 12, 1), x, y, z, selector.getPosition());
                         drawingUtil.updateColorA(1f);

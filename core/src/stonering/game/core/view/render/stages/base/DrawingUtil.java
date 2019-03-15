@@ -29,8 +29,6 @@ public class DrawingUtil {
     public static final int tileHeight = 96;            // z size(up-down) plus depth
     public static final int topingTileHeight = 70;      // depth plus floor height(10)
     public static final int blockTileHeight = 166;      // total block height
-    protected static int viewAreaWidth = 30;            // radius
-    protected static int viewAreDepth = 10;
     private Vector2 screenCenter;
 
     public DrawingUtil(Batch batch) {
