@@ -27,7 +27,6 @@ public class PondPlantsModel extends GameModel {
     @Override
     public void init() {
         super.init();
-        get(LocalTileMapUpdater.class).flushLocalMap();
         get(GameCalendar.class).addListener("minute", get(World.class).getStarSystem());
     }
 
@@ -38,7 +37,6 @@ public class PondPlantsModel extends GameModel {
         put(createWorld());
         put(createMap());
         put(new LocalTileMap(get(LocalMap.class)));
-        put(new LocalTileMapUpdater());
         put(new EntitySelector());
         put(new GameCalendar());
     }

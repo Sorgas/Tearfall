@@ -36,7 +36,6 @@ public class SinglePlantModel extends GameModel {
     @Override
     public void init() {
         super.init();
-        get(LocalTileMapUpdater.class).flushLocalMap();
         get(GameCalendar.class).addListener("minute", get(World.class).getStarSystem());
         get(GameCalendar.class).addListener("minute", get(PlantContainer.class));
     }
@@ -49,7 +48,6 @@ public class SinglePlantModel extends GameModel {
         put(createMap());
         put(new PlantContainer(createPlant()));
         put(new LocalTileMap(get(LocalMap.class)));
-        put(new LocalTileMapUpdater());
         put(new EntitySelector());
         put(new GameCalendar());
     }

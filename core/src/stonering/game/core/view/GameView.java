@@ -2,7 +2,6 @@ package stonering.game.core.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import stonering.game.core.view.render.stages.PauseMenuStage;
 import stonering.game.core.view.render.stages.UIDrawer;
 import stonering.game.core.view.render.stages.base.BaseStage;
 import stonering.game.core.view.render.stages.base.Resizeable;

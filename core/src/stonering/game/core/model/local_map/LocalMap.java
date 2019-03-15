@@ -11,6 +11,8 @@ import stonering.entity.local.building.BuildingBlock;
 import stonering.entity.local.plants.PlantBlock;
 import stonering.util.global.Initable;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,8 +32,8 @@ public class LocalMap implements ModelComponent, Initable {
     private PlantBlock[][][] plantBlocks;
     private BuildingBlock[][][] buildingBlocks;
 
-    private PassageMap passageMap;                             // not saved to savegame,
-    private LocalTileMapUpdater localTileMapUpdater;           // not saved to savegame,
+    private transient PassageMap passageMap;                             // not saved to savegame,
+    private transient LocalTileMapUpdater localTileMapUpdater;           // not saved to savegame,
 
     public final int xSize;
     public final int ySize;
@@ -54,7 +56,8 @@ public class LocalMap implements ModelComponent, Initable {
 
     public void init() {
         passageMap = new AreaInitializer(this).initAreas();
-        localTileMapUpdater = GameMvc.getInstance().getModel().get(LocalTileMapUpdater.class);
+        localTileMapUpdater = new LocalTileMapUpdater();
+        localTileMapUpdater.flushLocalMap();
     }
 
     /**
@@ -143,6 +146,11 @@ public class LocalMap implements ModelComponent, Initable {
                 (plantBlocks[x][y][z] == null || plantBlocks[x][y][z].getType().passable) &&
                 (buildingBlocks[x][y][z] == null ||
                         BlockTypesEnum.getType(buildingBlocks[x][y][z].getBuilding().getType().getPassage()).PASSING == 2);
+    }
+
+    private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
+        stream.defaultReadObject();
+        init();
     }
 
     public boolean isFlyPassable(Position pos) {

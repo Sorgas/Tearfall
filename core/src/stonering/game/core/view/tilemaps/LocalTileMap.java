@@ -8,18 +8,17 @@ import stonering.util.geometry.Position;
 /**
  * Contains resolved tiles of blocks and plants.
  * It is introduced as cache for rarely updated tiles.
- * Ramps are main reason, because require observation of neighbour tiles.
+ * Ramps are main reason, because they require observation of neighbour tiles.
  *
  * @author Alexander Kuzyakov on 02.08.2017.
  */
 public class LocalTileMap implements ModelComponent {
-
-    private byte[][][] atlasX;
-    private byte[][][] atlasY;
-    private byte[][][] atlasNum;
-    private int xSize;
-    private int ySize;
-    private int zSize;
+    private transient byte[][][] atlasX;
+    private transient byte[][][] atlasY;
+    private transient byte[][][] atlasNum;
+    private transient int xSize;
+    private transient int ySize;
+    private transient int zSize;
 
     public LocalTileMap(LocalMap localMap) {
         int xSize = localMap.xSize;
