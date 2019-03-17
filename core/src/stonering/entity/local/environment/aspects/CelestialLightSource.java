@@ -1,6 +1,7 @@
 package stonering.entity.local.environment.aspects;
 
 import stonering.enums.blocks.BlockTypesEnum;
+import stonering.game.core.GameMvc;
 import stonering.game.core.model.local_map.LocalMap;
 import stonering.entity.local.AspectHolder;
 
@@ -40,7 +41,7 @@ public class CelestialLightSource extends AbstractLighSourceAspect {
      */
     private void applyLightToMap() {
         byte forceDelta = (byte) ((force - previousForce) * Byte.MAX_VALUE);
-        LocalMap localMap = gameContainer.get(LocalMap.class);
+        LocalMap localMap = GameMvc.getInstance().getModel().get(LocalMap.class);
         for (int x = 0; x < localMap.xSize; x++) {
             for (int y = 0; y < localMap.ySize; y++) {
                 for (int z = localMap.zSize - 1; z >= 0; z--) {

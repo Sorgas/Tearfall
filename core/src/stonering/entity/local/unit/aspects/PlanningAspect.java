@@ -4,6 +4,7 @@ import stonering.entity.jobs.Task;
 import stonering.entity.jobs.actions.Action;
 import stonering.entity.local.Aspect;
 import stonering.entity.local.AspectHolder;
+import stonering.game.core.GameMvc;
 import stonering.game.core.model.lists.TaskContainer;
 import stonering.util.geometry.Position;
 import stonering.entity.local.unit.Unit;
@@ -100,27 +101,21 @@ public class PlanningAspect extends Aspect {
 
     /**
      * Calls NeedAspect to create task for satisfying strongest need.
-     * Can return null;
-     *
-     * @return
+     * Can return null.
      */
     private Task takeTaskFromNeedsAspect() {
         NeedsAspect needsAspect = ((NeedsAspect) aspectHolder.getAspects().get(NeedsAspect.NAME));
-        Task needTask = null;
-        if (needsAspect != null) {
-            needsAspect.update();
-            needTask = needsAspect.getStrongestNeed().tryCreateTask();
-        }
-        return needTask;
+        if (needsAspect == null || needsAspect.getStrongestNeed() == null)
+            return null; // no needs at all, or no strong needs
+        return needsAspect.getStrongestNeed().tryCreateTask(aspectHolder);
     }
 
     /**
-     * Calls TaskContainer to find appropriate task for this actor and his position
-     *
-     * @return
+     * Calls TaskContainer to find appropriate task for this actor and his position.
+     * Can return null.
      */
     private Task getTaskFromContainer() {
-        return gameContainer.get(TaskContainer.class).getActiveTask(aspectHolder.getPosition());
+        return GameMvc.getInstance().getModel().get(TaskContainer.class).getActiveTask(aspectHolder.getPosition());
     }
 
     /**

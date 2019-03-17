@@ -17,16 +17,16 @@ import stonering.game.core.model.lists.ItemContainer;
  * @author Alexander Kuzyakov on 21.09.2018.
  */
 public class WearNeed extends Need {
-    private static final int GET_WEAR_PRIORITY = 4;
+    private static final int GET_WEAR_PRIORITY = 4; //priority for equipping items into desired slots.
 
     /**
      * Counts current priority for creature to find wear.
      * Having no wear only gives comfort penalty, so priority is never high.
-     *
-     * @return
+     * TODO add prioritizing based on environment temperature
+     * @param aspectHolder
      */
     @Override
-    public int countPriority() {
+    public int countPriority(AspectHolder aspectHolder) {
         EquipmentAspect equipmentAspect = (EquipmentAspect) aspectHolder.getAspects().get(EquipmentAspect.NAME);
         if (equipmentAspect != null) {
             if (!equipmentAspect.getEmptyDesiredSlots().isEmpty()) {
@@ -37,7 +37,7 @@ public class WearNeed extends Need {
     }
 
     @Override
-    public Task tryCreateTask() {
+    public Task tryCreateTask(AspectHolder aspectHolder) {
         if (!aspectHolder.getAspects().containsKey(EquipmentAspect.NAME)) return null;
         EquipmentAspect equipmentAspect = (EquipmentAspect) aspectHolder.getAspects().get("equipment");
         if (equipmentAspect.getEmptyDesiredSlots().isEmpty()) return null;

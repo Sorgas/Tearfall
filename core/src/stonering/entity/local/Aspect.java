@@ -1,7 +1,6 @@
 package stonering.entity.local;
 
 import stonering.game.core.GameMvc;
-import stonering.game.core.model.GameModel;
 import stonering.game.core.model.Turnable;
 import stonering.util.global.Initable;
 
@@ -12,11 +11,9 @@ import java.io.Serializable;
  */
 public abstract class Aspect extends Turnable implements Initable, Serializable {
     protected GameMvc gameMvc;
-    protected GameModel gameContainer;
     protected AspectHolder aspectHolder;
 
     public Aspect(AspectHolder aspectHolder) {
-        gameMvc = GameMvc.getInstance();
         this.aspectHolder = aspectHolder;
     }
 
@@ -32,7 +29,7 @@ public abstract class Aspect extends Turnable implements Initable, Serializable 
 
     @Override
     public void init() {
-        this.gameContainer = GameMvc.getInstance().getModel();
+        gameMvc = GameMvc.getInstance();
     }
 
     @Override

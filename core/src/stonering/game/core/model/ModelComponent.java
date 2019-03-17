@@ -7,4 +7,7 @@ import java.io.Serializable;
  *
  * @author Alexander on 04.02.2019.
  */
-public interface ModelComponent extends Serializable {}
+public interface ModelComponent extends Serializable {
+
+
+}

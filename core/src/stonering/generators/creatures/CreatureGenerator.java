@@ -4,11 +4,11 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import stonering.generators.creatures.needs.NeedAspectGenerator;
 import stonering.util.geometry.Position;
-import stonering.entity.local.Aspect;
 import stonering.entity.local.unit.aspects.MovementAspect;
 import stonering.entity.local.unit.aspects.PlanningAspect;
 import stonering.entity.local.unit.Unit;
 import stonering.util.global.FileLoader;
+import stonering.util.global.TagLoggersEnum;
 
 /**
  * Creates creatures from json files by specimen title.
@@ -30,46 +30,37 @@ public class CreatureGenerator {
         creatures = reader.parse(FileLoader.getFile(FileLoader.CREATURES_PATH));
     }
 
+    /**
+     * Generates unit and fills it's aspects.
+     */
     public Unit generateUnit(String specimen) {
-        JsonValue creature = null;
+        JsonValue creature = getCreatureDescriptor(specimen);
+        if (creature == null) return null;
+        Unit unit = new Unit(new Position(0, 0, 0));    // empty unit //TODO change constructor.
+        return addAspects(unit, creature);
+    }
+
+    /**
+     * Create aspects and add them to unit.
+     */
+    private Unit addAspects(Unit unit, JsonValue creature) {
+        unit.addAspect(bodyGenerator.generateBodyAspect(creature));
+        unit.addAspect(new PlanningAspect(null));
+        unit.addAspect(new MovementAspect(null));
+        unit.addAspect(equipmentAspectGenerator.generateEquipmentAspect(creature));
+        unit.addAspect(needAspectGenerator.generateNeedAspect(creature));
+        return unit;
+    }
+
+    /**
+     * Fetches creature descriptor from json by creature name.
+     * Returns null, if no descriptor exists.
+     */
+    private JsonValue getCreatureDescriptor(String specimen) {
         for (JsonValue c : creatures) {
-            if (c.getString("title").equals(specimen)) {
-                creature = c;
-                break;
-            }
+            if (c.getString("title").equals(specimen)) return c;
         }
-        Unit unit = new Unit(new Position(0, 0, 0)); //TODO change constructor.
-        Aspect bodyAspect = generateBodyAspect(unit, creature);
-        if (bodyAspect != null) {
-            unit.addAspect(bodyAspect);
-            //TODO remove unit argument from generators
-            unit.addAspect(generatePlanningAspect(unit));
-            unit.addAspect(generateMovementAspect(unit));
-            unit.addAspect(generateEquipmentAspect(creature));
-            unit.addAspect(generateNeedsAspect(creature));
-            return unit;
-        } else {
-            return null;
-        }
-    }
-
-    private Aspect generateMovementAspect(Unit unit) {
-        return new MovementAspect(unit);
-    }
-
-    private Aspect generateBodyAspect(Unit unit, JsonValue creature) {
-        return bodyGenerator.generateBody(creature, unit);
-    }
-
-    private Aspect generatePlanningAspect(Unit unit) {
-        return new PlanningAspect(unit);
-    }
-
-    private Aspect generateEquipmentAspect(JsonValue creature) {
-        return equipmentAspectGenerator.generateEquipmentAspect(creature);
-    }
-
-    private Aspect generateNeedsAspect(JsonValue creature) {
-        return needAspectGenerator.generateNeedAspect(creature);
+        TagLoggersEnum.GENERATION.logWarn("Creature descriptor with name + " + specimen + " not found.");
+        return null;
     }
 }

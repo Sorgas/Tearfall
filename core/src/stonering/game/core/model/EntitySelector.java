@@ -93,6 +93,7 @@ public class EntitySelector implements ModelComponent, Initable {
 
     public void setPositionValidator(PositionValidator positionValidator) {
         this.positionValidator = positionValidator;
+        updateStatusAndSprite();
     }
 
     public Position getPosition() {

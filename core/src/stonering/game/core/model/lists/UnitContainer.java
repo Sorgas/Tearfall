@@ -4,16 +4,19 @@ import stonering.game.core.model.ModelComponent;
 import stonering.game.core.model.Turnable;
 import stonering.util.geometry.Position;
 import stonering.entity.local.unit.Unit;
+import stonering.util.global.Initable;
 
 import java.util.*;
 
 /**
  * Contains all Units on localMap. Units are mapped with their positions(for faster rendering).
+ * TODO add crud methods for units.
  *
  * @author Alexander Kuzyakov on 03.12.2017.
  */
-public class UnitContainer extends Turnable implements ModelComponent {
+public class UnitContainer extends Turnable implements ModelComponent, Initable {
     private Map<Position, List<Unit>> unitsMap;
+    private List<Unit> units;
 
     private Position positionCache; // used for faster getting units from map
 
@@ -27,23 +30,30 @@ public class UnitContainer extends Turnable implements ModelComponent {
     public UnitContainer(List<Unit> units) {
         positionCache = new Position(0, 0, 0);
         unitsMap = new HashMap<>();
-        for (Unit unit : units) {
-            List<Unit> unitList = this.unitsMap.get(unit.getPosition());
-            if (unitList == null) {
-                unitsMap.put(unit.getPosition(), Arrays.asList(unit));
-            } else {
-                unitsMap.get(unit.getPosition()).add(unit);
-            }
+        this.units = new ArrayList<>(units);
+        for (Unit unit : this.units) {
+            putUnitToPosition(unit, unit.getPosition());
         }
+    }
+
+    private void putUnitToPosition(Unit unit, Position position) {
+        List<Unit> unitList = this.unitsMap.get(unit.getPosition());
+        if (unitList == null) unitsMap.put(position, new ArrayList<>());
+        unitsMap.get(position).add(unit);
+        unit.setPosition(position);
+    }
+
+    private void removeUnit(Unit unit) {
+        List<Unit> unitsInOldPosition = unitsMap.get(unit.getPosition());
+        unitsInOldPosition.remove(unit);
+        if (unitsInOldPosition.isEmpty()) unitsMap.remove(unit.getPosition());
     }
 
     /**
      * Calls turn() for all units.
      */
     public void turn() {
-        for (List<Unit> unitList : unitsMap.values()) {
-            unitList.forEach(Unit::turn);
-        }
+        units.forEach(Unit::turn);
     }
 
     /**
@@ -54,5 +64,15 @@ public class UnitContainer extends Turnable implements ModelComponent {
         positionCache.y = y;
         positionCache.z = z;
         return unitsMap.get(positionCache);
+    }
+
+    @Override
+    public void init() {
+        units.forEach(Unit::init);
+    }
+
+    public void updateUnitPosiiton(Unit unit, Position newPosition) {
+        removeUnit(unit);
+        putUnitToPosition(unit, newPosition);
     }
 }

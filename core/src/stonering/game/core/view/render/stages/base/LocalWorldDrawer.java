@@ -99,6 +99,7 @@ public class LocalWorldDrawer extends UiStage {
         LocalMap localMap = gameModel.get(LocalMap.class);
         int widthInTiles = Math.round(Gdx.graphics.getWidth() / 2f / (camera.zoom * DrawingUtil.tileWidth)) + 1;
         int depthInTiles = Math.round(Gdx.graphics.getHeight() / (camera.zoom * DrawingUtil.tileDepth)) + 1;
+        if (visibleArea == null) visibleArea = new Int3DBounds(0, 0, 0, 0, 0, 0);
         visibleArea.set(
                 Math.max(selector.getPosition().x - widthInTiles, 0),
                 Math.max(selector.getPosition().y - widthInTiles, 0),

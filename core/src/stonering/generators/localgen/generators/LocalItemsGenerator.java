@@ -37,20 +37,18 @@ public class LocalItemsGenerator {
     }
 
     private void createItemInCenter(String itemType, String material, int xOffset, int yOffset) {
-//        try {
             LocalMap localMap = container.getLocalMap();
             Item item = itemGenerator.generateItem(itemType, material);
-            item.setPosition(new Position(localMap.xSize / 2 + xOffset, localMap.ySize / 2 + yOffset, findSurfaceZ()));
+            Position position = new Position(localMap.xSize / 2 + xOffset, localMap.ySize / 2 + yOffset, 0);
+            position.z = findSurfaceZ(position.x, position.y);
+            item.setPosition(position);
             container.getItems().add(item);
-//        } catch (FaultDescriptionException e) {
-//            e.printStackTrace();
-//        }
     }
 
-    private int findSurfaceZ() {
+    private int findSurfaceZ(int x, int y) {
         LocalMap localMap = container.getLocalMap();
         for (int z = localMap.zSize - 1; z >= 0; z--) {
-            if (localMap.getBlockType(localMap.xSize / 2, localMap.ySize / 2, z) != 0) {
+            if (localMap.getBlockType(x, y, z) != 0) {
                 return z;
             }
         }

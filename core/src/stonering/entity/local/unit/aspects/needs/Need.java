@@ -4,29 +4,32 @@ import stonering.game.core.GameMvc;
 import stonering.game.core.model.GameModel;
 import stonering.entity.jobs.Task;
 import stonering.entity.local.AspectHolder;
+import stonering.util.global.Initable;
 
 /**
  * Abstract class for needs.
  * Need priority should be checked before creating task for performance purposes.
- *c
+ * TODO refactor to system.
  * @author Alexander Kuzyakov on 21.09.2018.
  */
-public abstract class Need {
-    protected AspectHolder aspectHolder;
+public abstract class Need implements Initable {
     protected GameModel container;
     protected float priorityMod;
 
     public Need() {
     }
 
-    public void init(AspectHolder aspectHolder) {
-        this.aspectHolder = aspectHolder;
+    public void init() {
         this.container = GameMvc.getInstance().getModel();
     }
 
-    public abstract int countPriority();
+    /**
+     * Returns priority of need. Returns -1 if need can be tolerated.
+     * @param aspectHolder
+     */
+    public abstract int countPriority(AspectHolder aspectHolder);
 
-    public abstract Task tryCreateTask();
+    public abstract Task tryCreateTask(AspectHolder aspectHolder);
 
     public float getPriorityMod() {
         return priorityMod;

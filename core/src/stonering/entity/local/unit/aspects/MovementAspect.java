@@ -1,5 +1,7 @@
 package stonering.entity.local.unit.aspects;
 
+import stonering.game.core.GameMvc;
+import stonering.game.core.model.lists.UnitContainer;
 import stonering.game.core.model.local_map.LocalMap;
 import stonering.util.pathfinding.a_star.AStar;
 import stonering.entity.local.Aspect;
@@ -42,25 +44,25 @@ public class MovementAspect extends Aspect {
     }
 
     private void makeStep() {
-        if (planning.isMovementNeeded()) {
-            if (cachedTarget != null && cachedTarget.equals(planning.getTarget())) { //old target
-                if (cachedPath != null && !cachedPath.isEmpty()) {// path not finished
-                    Position nextPosition = cachedPath.remove(0); // get next step, remove from path
-                    if (localMap.isWalkPassable(nextPosition)) { // path has not been blocked after calculation
-                        aspectHolder.setPosition(nextPosition); //step
-                    } else { // path blocked
-                        TagLoggersEnum.PATH.log("path to " + cachedTarget + " was blocked in " + nextPosition);
-                        cachedTarget = null; // drop path
-                    }
+        if (!planning.isMovementNeeded()) return;
+        if (cachedTarget != null && cachedTarget.equals(planning.getTarget())) { //old target
+            if (cachedPath != null && !cachedPath.isEmpty()) {// path not finished
+                Position nextPosition = cachedPath.remove(0); // get next step, remove from path
+                if (localMap.isWalkPassable(nextPosition)) { // path has not been blocked after calculation
+                    gameMvc.getModel().get(UnitContainer.class).updateUnitPosiiton((Unit) aspectHolder, nextPosition);
+                    aspectHolder.setPosition(nextPosition); //step
+                } else { // path blocked
+                    TagLoggersEnum.PATH.log("path to " + cachedTarget + " was blocked in " + nextPosition);
+                    cachedTarget = null; // drop path
                 }
-                // path finished, stay
-            } else { // new target
-                cachedTarget = planning.getTarget();
-                if (cachedTarget != null) {
-                    makeRouteToTarget();
-                    if (cachedPath == null) { // no path found, fail task
-                        planning.reset();
-                    }
+            }
+            // path finished, stay
+        } else { // new target
+            cachedTarget = planning.getTarget();
+            if (cachedTarget != null) {
+                makeRouteToTarget();
+                if (cachedPath == null) { // no path found, fail task
+                    planning.reset();
                 }
             }
         }
@@ -76,11 +78,11 @@ public class MovementAspect extends Aspect {
         super.init();
         if (aspectHolder.getAspects().containsKey("planning"))
             planning = (PlanningAspect) aspectHolder.getAspects().get("planning");
-        localMap = gameContainer.get(LocalMap.class);
+        localMap = GameMvc.getInstance().getModel().get(LocalMap.class);
     }
 
     private void makeRouteToTarget() {
-        cachedPath = new AStar(gameContainer.get(LocalMap.class)).makeShortestPath(aspectHolder.getPosition(), planning.getTarget(), planning.isTargetExact());
+        cachedPath = new AStar(GameMvc.getInstance().getModel().get(LocalMap.class)).makeShortestPath(aspectHolder.getPosition(), planning.getTarget(), planning.isTargetExact());
     }
 
     /**
