@@ -16,9 +16,9 @@ import stonering.entity.local.plants.Plant;
 import stonering.entity.local.plants.PlantBlock;
 import stonering.entity.local.plants.Tree;
 import stonering.util.global.Pair;
+import stonering.util.global.TagLoggersEnum;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static stonering.enums.blocks.BlockTypesEnum.FLOOR;
 
@@ -47,7 +47,7 @@ public class LocalFloraGenerator {
     }
 
     public void execute() {
-        System.out.println("generating flora");
+        TagLoggersEnum.GENERATION.log("generating flora");
         extractContainer();
         weightedPlantTypes = new HashMap<>();
         weightedTreeTypes = new HashMap<>();
@@ -85,54 +85,28 @@ public class LocalFloraGenerator {
      * Trees give shadow, therefore they should be placed before plants.
      */
     private void generateFlora() {
-        weightedTreeTypes.forEach(this::placeTrees);
+        weightedTreeTypes.forEach(this::placeInitialTrees);
         weightedPlantTypes.forEach(this::placePlants);
     }
 
     /**
      * Generates and places trees on local map. Uses limited attempts with random positions.
      */
-    private void placeTrees(String specimen, float amount) {
+    private void placeInitialTrees(String specimen, float amount) {
         TreeGenerator treeGenerator = new TreeGenerator();
-        float[][] forestArea = noiseGenerator.generateOctavedSimplexNoise(areaSize, areaSize, 6, 0.5f, 0.015f);
-        int tries = 200;
-        int maxAge = PlantMap.getInstance().getPlantType(specimen).getMaxAge();
+
         Random random = new Random();
-        for (Tree tree = treeGenerator.generateTree(specimen, random.nextInt(maxAge)); amount > 0 && tries > 0; tries--) {
+        Tree tree = treeGenerator.generateTree(specimen, 0);
+        for (int tries = 200; amount > 0 && tries > 0; tries--) {
             int x = random.nextInt(areaSize);
             int y = random.nextInt(areaSize);
             int z = container.getRoundedHeightsMap()[x][y] + 1;
-            if (!(forestArea[x][y] > 0) || !checkTreePlacing(tree, x, y, z)) continue;
+            if (!checkTreePlacing(tree, x, y, z)) continue;
             placeTree(tree, x, y, z);
             tree.setPosition(new Position(x, y, z));
-            tree = treeGenerator.generateTree(specimen, random.nextInt(maxAge));
+            tree = treeGenerator.generateTree(specimen, 0);
             amount--;
         }
-    }
-
-    /**
-     * Places tree on map. Area on map should be checked before placing.
-     *
-     * @param tree tree to place
-     */
-    private void placeTree(Tree tree, int cx, int cy, int cz) {
-        PlantBlock[][][] treeParts = tree.getBlocks();
-        int treeCenterZ = tree.getCurrentStage().getTreeType().getRootDepth();
-        int treeRadius = tree.getCurrentStage().getTreeType().getTreeRadius();
-        for (int x = 0; x < treeParts.length; x++) {
-            for (int y = 0; y < treeParts[x].length; y++) {
-                for (int z = 0; z < treeParts[x][y].length; z++) {
-                    if (treeParts[x][y][z] == null) continue;
-                    Position onMapPosition = new Position(
-                            cx + x - treeRadius,
-                            cy + y - treeRadius,
-                            cz + z - treeCenterZ);
-                    localMap.setPlantBlock(onMapPosition, treeParts[x][y][z]);
-                    treeParts[x][y][z].setPosition(onMapPosition);
-                }
-            }
-        }
-        container.getPlants().add(tree);
     }
 
     /**
@@ -159,6 +133,31 @@ public class LocalFloraGenerator {
             }
         }
         return true;
+    }
+
+    /**
+     * Places tree on map. Area on map should be checked before placing.
+     *
+     * @param tree tree to place
+     */
+    private void placeTree(Tree tree, int cx, int cy, int cz) {
+        PlantBlock[][][] treeParts = tree.getBlocks();
+        int treeCenterZ = tree.getCurrentStage().getTreeType().getRootDepth();
+        int treeRadius = tree.getCurrentStage().getTreeType().getTreeRadius();
+        for (int x = 0; x < treeParts.length; x++) {
+            for (int y = 0; y < treeParts[x].length; y++) {
+                for (int z = 0; z < treeParts[x][y].length; z++) {
+                    if (treeParts[x][y][z] == null) continue;
+                    Position onMapPosition = new Position(
+                            cx + x - treeRadius,
+                            cy + y - treeRadius,
+                            cz + z - treeCenterZ);
+                    localMap.setPlantBlock(onMapPosition, treeParts[x][y][z]);
+                    treeParts[x][y][z].setPosition(onMapPosition);
+                }
+            }
+        }
+        container.getPlants().add(tree);
     }
 
     /**
@@ -222,7 +221,7 @@ public class LocalFloraGenerator {
             if (minTemp < type.getMinRainfall() || maxTemp > type.getMaxTemperature()) return; // too hot or cold
             if (minTemp > type.getMaxGrowingTemperature() || maxTemp < type.getMinGrowingTemperature())
                 return; // plant grow zone out of local temp zone
-            if (type.isTree()) { //is plant tree or not
+            if (type.isTree()) {
                 weightedTreeTypes.put(type.getName(), getSpreadModifier(type.getName()));
             } else {
                 weightedPlantTypes.put(type.getName(), getSpreadModifier(type.getName()));

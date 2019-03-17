@@ -56,7 +56,8 @@
                     "crownRadius":"2",
                     "height":"5",
                     "rootDepth":"2",
-                    "rootRadius":"1"
+                    "rootRadius":"1",
+                    "seedRadius": "5"
                 }
             }, {
                 "titlePrefixSuffix":["old", ""],
@@ -71,7 +72,8 @@
                     "crownRadius":"2",
                     "height":"5",
                     "rootDepth":"2",
-                    "rootRadius":"1"
+                    "rootRadius":"1",
+                    "seedRadius": "5"
                 }
             }
         ]

@@ -12,6 +12,7 @@ public class TreeType {
     private int height;
     private int rootDepth;
     private int rootRadius;
+    private int seedRadius;
 
     public Position getStompPosition() {
         return new Position(crownRadius, crownRadius, rootDepth);
@@ -67,5 +68,13 @@ public class TreeType {
 
     public void setRootRadius(int rootRadius) {
         this.rootRadius = rootRadius;
+    }
+
+    public int getSeedRadius() {
+        return seedRadius;
+    }
+
+    public void setSeedRadius(int seedRadius) {
+        this.seedRadius = seedRadius;
     }
 }

@@ -23,7 +23,7 @@ public class RectangleSelectComponent extends Label implements HideableComponent
     private LocalMap localMap;
     private Toolbar toolbar;
     private EntitySelector selector;
-    private EventListener listener;
+    private EventListener listener; //finished rectangle confirmation handler
 
     public RectangleSelectComponent(EventListener listener) {
         super("rectangle", StaticSkin.getSkin());
