@@ -14,8 +14,8 @@ import stonering.util.global.StaticSkin;
 import stonering.util.global.TagLoggersEnum;
 
 /**
- * Selects rectangle.
- *
+ * Selects rectangle. Selected zone can have multiple z-levels.
+ * TODO remove invoke methods, keeping mouse input.
  * @author Alexander on 22.11.2018.
  */
 public class RectangleSelectComponent extends Label implements HideableComponent, MouseInvocable {
@@ -25,6 +25,9 @@ public class RectangleSelectComponent extends Label implements HideableComponent
     private EntitySelector selector;
     private EventListener listener; //finished rectangle confirmation handler
 
+    /**
+     * @param listener is called when selection is complete.
+     */
     public RectangleSelectComponent(EventListener listener) {
         super("rectangle", StaticSkin.getSkin());
         gameMvc = GameMvc.getInstance();
@@ -35,6 +38,9 @@ public class RectangleSelectComponent extends Label implements HideableComponent
         createDefaultListener();
     }
 
+    /**
+     * Used for confirming and cancelling selection.
+     */
     private void createDefaultListener() {
         addListener(new InputListener() {
             @Override
@@ -77,12 +83,12 @@ public class RectangleSelectComponent extends Label implements HideableComponent
      * Finishes handling or adds position to select box
      */
     private void handleConfirm(Position eventPosition) {
-        if (selector.getFrameStart() == null) {                                // box not started, start
-            localMap.normalizePosition(eventPosition); // when mouse dragged out of map
+        localMap.normalizePosition(eventPosition);             // when mouse dragged out of map
+        if (selector.getFrameStart() == null) {                // box not started, start
             selector.setFrameStart(eventPosition.clone());
-        } else {                                                               // box started, finish
+        } else {                                               // box started, finish
             listener.handle(null);
-            selector.setFrameStart(null); // ready for new rectangle after this.
+            selector.setFrameStart(null);                      // ready for new rectangle after this.
         }
     }
 

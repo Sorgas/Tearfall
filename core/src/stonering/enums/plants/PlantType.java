@@ -3,6 +3,7 @@ package stonering.enums.plants;
 import stonering.util.global.Initable;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Stores plant parameters
@@ -19,12 +20,12 @@ public class PlantType implements Initable {
     private String soilType;
     private ArrayList<PlantLifeStage> lifeStages;
     private ArrayList<String> placingTags;
-
-
+    private List<Integer> plantingStart;
 
     public PlantType() {
         temperatureBounds = new int[4];
         rainfallBounds = new int[2];
+        plantingStart = new ArrayList<>();
     }
 
     /**
@@ -253,5 +254,13 @@ public class PlantType implements Initable {
 
     public void setPlacingTags(ArrayList<String> placingTags) {
         this.placingTags = placingTags;
+    }
+
+    public List<Integer> getPlantingStart() {
+        return plantingStart;
+    }
+
+    public void setPlantingStart(List<Integer> plantingStart) {
+        this.plantingStart = plantingStart;
     }
 }

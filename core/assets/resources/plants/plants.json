@@ -170,5 +170,42 @@
                 "color": "0xffffffff"
             }
         ]
+    },
+    {
+        "name": "tomato",
+        "title": "Tomato",
+        "description": "Tomato",
+        "temperatureBounds": ["-40", "40", "-40", "40"],
+        "rainfallBounds": ["0", "100"],
+        "waterSource": ["far"],
+        "lightNeed": ["open"],
+        "soilType": "soil",
+        "plantingStart": ["1","2","3"],
+        "lifeStages": [
+            {
+                "stageLength": "2",
+                "harvestProducts": null,
+                "cutProducts": null,
+                "materialName": "willow",
+                "atlasXY": ["0", "0"],
+                "color": "0xffffffff"
+            },
+            {
+                "stageLength": "3",
+                "harvestProducts": null,
+                "cutProducts": null,
+                "materialName": "willow",
+                "atlasXY": ["7", "0"],
+                "color": "0xffffffff"
+            },
+            {
+                "stageLength": "1",
+                "harvestProducts": null,
+                "cutProducts": null,
+                "materialName": "willow",
+                "atlasXY": ["8", "0"],
+                "color": "0xffffffff"
+            }
+        ]
     }
 ]

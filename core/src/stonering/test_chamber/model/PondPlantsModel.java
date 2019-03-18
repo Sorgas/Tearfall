@@ -11,7 +11,6 @@ import stonering.game.core.model.EntitySelector;
 import stonering.game.core.model.GameModel;
 import stonering.game.core.model.local_map.LocalMap;
 import stonering.game.core.view.tilemaps.LocalTileMap;
-import stonering.game.core.view.tilemaps.LocalTileMapUpdater;
 
 /**
  * @author Alexander on 22.02.2019.

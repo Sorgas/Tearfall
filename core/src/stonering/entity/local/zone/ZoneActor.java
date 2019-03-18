@@ -4,15 +4,18 @@ import stonering.entity.local.AspectHolder;
 
 /**
  * Zone actor manages zones and creates {@link stonering.entity.jobs.Task}.
+ * Created through {@link stonering.enums.ZoneTypesEnum}
  *
  * @author Alexander on 04.03.2019.
  */
-public abstract class ZoneActor extends AspectHolder {
+public abstract class ZoneActor extends AspectHolder implements Cloneable {
     private String name;
     private Zone zone;
 
-    protected ZoneActor() {
-        super(null); // zones have no particular position.
+    public ZoneActor(String name, Zone zone) {
+        super(null);
+        this.name = name;
+        this.zone = zone;
     }
 
     public Zone getZone() {
