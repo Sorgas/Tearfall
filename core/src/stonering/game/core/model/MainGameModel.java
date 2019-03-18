@@ -1,12 +1,7 @@
 package stonering.game.core.model;
 
 import stonering.entity.world.World;
-import stonering.game.core.model.lists.BuildingContainer;
-import stonering.game.core.model.lists.ItemContainer;
-import stonering.game.core.model.lists.LiquidContainer;
-import stonering.game.core.model.lists.PlantContainer;
-import stonering.game.core.model.lists.TaskContainer;
-import stonering.game.core.model.lists.UnitContainer;
+import stonering.game.core.model.lists.*;
 import stonering.game.core.model.local_map.LocalMap;
 import stonering.game.core.view.tilemaps.LocalTileMap;
 import stonering.game.core.view.tilemaps.LocalTileMapUpdater;
@@ -42,6 +37,7 @@ public class MainGameModel extends GameModel {
         put(new PlantContainer(container.getPlants()));
         put(new BuildingContainer(container.getBuildings()));
         put(new UnitContainer(container.getUnits()));
+        put(new ZonesContainer());
         put(new ItemContainer().placeItems(container.getItems()));
         put(new TaskContainer());
         put(new LiquidContainer().loadWater(container));

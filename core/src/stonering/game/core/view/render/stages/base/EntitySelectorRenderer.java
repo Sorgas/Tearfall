@@ -4,6 +4,8 @@ import stonering.game.core.GameMvc;
 import stonering.game.core.model.EntitySelector;
 
 /**
+ * Renders {@link EntitySelector} sprite and frame.
+ *
  * @author Alexander on 06.02.2019.
  */
 public class EntitySelectorRenderer extends Renderer {

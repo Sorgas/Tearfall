@@ -3,6 +3,7 @@ package stonering.game.core.view.render.ui.menus.zone;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.enums.ZoneTypesEnum;
+import stonering.game.core.GameMvc;
 import stonering.game.core.controller.controllers.designation.ZoneDesignationSequence;
 import stonering.game.core.controller.controllers.toolbar.DesignationsController;
 import stonering.game.core.view.render.ui.menus.util.SubMenuMenu;
@@ -18,6 +19,7 @@ public class ZonesMenu extends SubMenuMenu {
     @Override
     public void init() {
         createButtons();
+        designationsController = GameMvc.getInstance().getController().getDesignationsController();
         super.init();
     }
 
@@ -27,6 +29,7 @@ public class ZonesMenu extends SubMenuMenu {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
                     designationsController.setActiveDesignation(new ZoneDesignationSequence(type));
+                    designationsController.startSequence();
                 }
             }, null);
         }

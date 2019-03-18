@@ -1,5 +1,8 @@
 package stonering.game.core.controller.controllers.designation;
 
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import stonering.entity.local.building.validators.PositionValidator;
 import stonering.entity.local.zone.ZoneActor;
 import stonering.enums.ZoneTypesEnum;
@@ -21,6 +24,7 @@ public class ZoneDesignationSequence extends DesignationSequence {
     private RectangleSelectComponent rectangleSelectComponent;
 
     public ZoneDesignationSequence(ZoneTypesEnum type) {
+        super();
         this.type = type;
         rectangleSelectComponent = new RectangleSelectComponent(event -> {
             EntitySelector selector = gameMvc.getModel().get(EntitySelector.class);
@@ -55,16 +59,19 @@ public class ZoneDesignationSequence extends DesignationSequence {
 
     @Override
     public void start() {
+        System.out.println("starting zone");
         rectangleSelectComponent.show();
     }
 
     @Override
     public void end() {
+        System.out.println("ending zone");
         rectangleSelectComponent.hide();
     }
 
     @Override
     public void reset() {
+        System.out.println("resetting zone");
         end();
     }
 

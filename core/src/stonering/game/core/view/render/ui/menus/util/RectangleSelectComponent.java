@@ -16,6 +16,7 @@ import stonering.util.global.TagLoggersEnum;
 /**
  * Selects rectangle. Selected zone can have multiple z-levels.
  * TODO remove invoke methods, keeping mouse input.
+ *
  * @author Alexander on 22.11.2018.
  */
 public class RectangleSelectComponent extends Label implements HideableComponent, MouseInvocable {
@@ -83,6 +84,7 @@ public class RectangleSelectComponent extends Label implements HideableComponent
      * Finishes handling or adds position to select box
      */
     private void handleConfirm(Position eventPosition) {
+        TagLoggersEnum.UI.logDebug("confirming " + eventPosition + "in RectangleSelectComponent");
         localMap.normalizePosition(eventPosition);             // when mouse dragged out of map
         if (selector.getFrameStart() == null) {                // box not started, start
             selector.setFrameStart(eventPosition.clone());

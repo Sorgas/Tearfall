@@ -46,7 +46,7 @@ public class UIDrawer extends UiStage {
         tileStatusBar.setData(focus,
                 material != null ? material.getName() : "",
                 gameModel.get(LocalMap.class).getPassageMap().getArea().getValue(focus),
-                gameModel.get(LocalMap.class).getFlooding(focus));
+                gameModel.get(LocalMap.class).getBlockType(focus));
     }
 
     public Toolbar getToolbar() {

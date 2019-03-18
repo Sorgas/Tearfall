@@ -106,7 +106,7 @@ public class LocalWorldDrawer extends UiStage {
                 Math.max(selector.getPosition().z - depthInTiles, 0),
                 Math.min(selector.getPosition().x + widthInTiles, localMap.xSize - 1),
                 Math.min(selector.getPosition().y + widthInTiles, localMap.ySize - 1),
-                Math.min(selector.getPosition().z + widthInTiles, localMap.zSize - 1));
+                selector.getPosition().z);
         return visibleArea;
     }
 
