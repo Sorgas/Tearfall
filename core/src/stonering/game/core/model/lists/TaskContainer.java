@@ -5,6 +5,7 @@ import stonering.designations.Designation;
 import stonering.designations.OrderDesignation;
 import stonering.entity.jobs.actions.*;
 import stonering.entity.local.building.BuildingOrder;
+import stonering.enums.ZoneTypesEnum;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.buildings.BuildingTypeMap;
 import stonering.enums.designations.DesignationTypeEnum;
@@ -130,6 +131,9 @@ public class TaskContainer implements ModelComponent, Initable {
                     return task;
                 }
             }
+            case FARM: {
+
+            }
         }
         return null;
     }
@@ -182,6 +186,8 @@ public class TaskContainer implements ModelComponent, Initable {
                 return block != null && !block.getPlant().getType().isTree();
             case BUILD:
                 break;
+            case FARM:
+                return ZoneTypesEnum.FARM.getValidator().validate(localMap, position);
         }
         return false;
     }

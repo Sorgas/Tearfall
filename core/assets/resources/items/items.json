@@ -39,6 +39,45 @@
         "atlasXY":["0", "0"],
         "color":"0xffffffff"
     }, {
+        "name":"hoe",
+        "description":"Tool for preparing soil for farming.",
+        "aspects":{
+            "falling":["1"]
+        },
+        "valueMod":"0",
+        "tool":{
+            "class":"tool_c",
+            "actions":[
+                {
+                    "class":"action_c",
+                    "action":"hoe",
+                    "speedMod":"1",
+                    "part":"head"
+                }
+            ],
+            "attacks":[
+                {
+                    "class":"attack_c",
+                    "attack":"hit",
+                    "baseReload":1,
+                    "damageMod":0.3,
+                    "damageType":"pierce",
+                    "part":"head"
+                }
+            ]
+        },
+        "parts":[
+            {
+                "title":"head",
+                "required":"true"
+            }, {
+                "title":"handle",
+                "required":"true"
+            }
+        ],
+        "atlasXY":["10", "0"],
+        "color":"0xffffffff"
+    }, {
     "name":"sickle",
     "description":"Tool for harvesting plants.",
     "aspects":{

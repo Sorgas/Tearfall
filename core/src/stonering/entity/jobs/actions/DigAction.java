@@ -27,11 +27,8 @@ public class DigAction extends Action {
     @Override
     public boolean check() {
         EquipmentAspect aspect = (EquipmentAspect) task.getPerformer().getAspects().get("equipment");
-        if (aspect != null) {
-            return toolItemSelector.check(aspect.getEquippedItems()) || addEquipAction();
-        }
-
-        return false;
+        if (aspect == null) return false;
+        return toolItemSelector.check(aspect.getEquippedItems()) || addEquipAction();
     }
 
     private boolean addEquipAction() {
@@ -84,9 +81,7 @@ public class DigAction extends Action {
             case SPACE:
                 valid = true;
         }
-        if (valid) {
-            map.setBlockType(pos, type.CODE);
-        }
+        if (valid) map.setBlockType(pos, type.CODE);
     }
 
     /**

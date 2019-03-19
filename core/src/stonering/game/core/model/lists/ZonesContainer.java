@@ -5,6 +5,7 @@ import stonering.entity.local.zone.Zone;
 import stonering.enums.ZoneTypesEnum;
 import stonering.game.core.GameMvc;
 import stonering.game.core.model.ModelComponent;
+import stonering.game.core.model.Turnable;
 import stonering.game.core.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 import stonering.util.global.TagLoggersEnum;
@@ -16,13 +17,19 @@ import java.util.*;
  * <p>
  * Each tile can belong to one zone. //TODO give multiple zones to tiles.
  */
-public class ZonesContainer implements ModelComponent {
+public class ZonesContainer extends Turnable implements ModelComponent {
     private List<Zone> zones;
     private Map<Position, Zone> zoneMap;
 
     public ZonesContainer() {
         zones = new ArrayList<>();
         zoneMap = new HashMap<>();
+    }
+
+    @Override
+    public void turn() {
+        if(zones.isEmpty()) return;
+        zones.forEach(Zone::turn);
     }
 
     /**

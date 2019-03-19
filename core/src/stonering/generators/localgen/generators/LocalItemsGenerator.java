@@ -24,6 +24,7 @@ public class LocalItemsGenerator {
     public void execute() {
         createItemInCenter("axe", "iron", 0, 0);
         createItemInCenter("pickaxe", "iron", 0, -1);
+        createItemInCenter("hoe", "iron", 0, -2);
         createItemInCenter("rock", "rhyolite", 0, 1);
         createItemInCenter("pants", "cotton", 1, 0);
         createItemInCenter("shirt", "cotton", 2, 0);
