@@ -20,19 +20,21 @@ import stonering.util.global.TagLoggersEnum;
  * @author Alexander on 22.11.2018.
  */
 public class RectangleSelectComponent extends Label implements HideableComponent, MouseInvocable {
-    private GameMvc gameMvc;
     private LocalMap localMap;
     private Toolbar toolbar;
     private EntitySelector selector;
-    private EventListener listener; //finished rectangle confirmation handler
+    private EventListener startListener; //started rectangle confirmation handler
+    private EventListener finishListener; //finished rectangle confirmation handler
+
 
     /**
-     * @param listener is called when selection is complete.
+     * @param finishListener is called when selection is complete.
      */
-    public RectangleSelectComponent(EventListener listener) {
+    public RectangleSelectComponent(EventListener startListener, EventListener finishListener) {
         super("rectangle", StaticSkin.getSkin());
-        gameMvc = GameMvc.getInstance();
-        this.listener = listener;
+        this.finishListener = finishListener;
+        this.startListener = startListener;
+        GameMvc gameMvc = GameMvc.getInstance();
         selector = gameMvc.getModel().get(EntitySelector.class);
         localMap = gameMvc.getModel().get(LocalMap.class);
         toolbar = gameMvc.getView().getUiDrawer().getToolbar();
@@ -88,8 +90,9 @@ public class RectangleSelectComponent extends Label implements HideableComponent
         localMap.normalizePosition(eventPosition);             // when mouse dragged out of map
         if (selector.getFrameStart() == null) {                // box not started, start
             selector.setFrameStart(eventPosition.clone());
+            if (startListener != null) startListener.handle(null);
         } else {                                               // box started, finish
-            listener.handle(null);
+            if (finishListener != null) finishListener.handle(null);
             selector.setFrameStart(null);                      // ready for new rectangle after this.
         }
     }

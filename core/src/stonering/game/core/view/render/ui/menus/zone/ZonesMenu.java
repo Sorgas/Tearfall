@@ -33,5 +33,12 @@ public class ZonesMenu extends SubMenuMenu {
                 }
             }, null);
         }
+        addItem("Update zone", new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                designationsController.setActiveDesignation(new ZoneDesignationSequence());
+                designationsController.startSequence();
+            }
+        }, null);
     }
 }

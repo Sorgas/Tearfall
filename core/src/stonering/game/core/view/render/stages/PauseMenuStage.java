@@ -25,4 +25,12 @@ public class PauseMenuStage extends UiStage implements Initable {
         pauseMenu.init();
         setKeyboardFocus(pauseMenu);
     }
+
+    @Override
+    public void resize(int width, int height) {
+        getViewport().update(width, height, true);
+        getCamera().viewportWidth = width;
+        getCamera().viewportHeight = height;
+        getCamera().update();
+    }
 }
