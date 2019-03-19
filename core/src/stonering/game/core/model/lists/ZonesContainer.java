@@ -7,11 +7,9 @@ import stonering.game.core.GameMvc;
 import stonering.game.core.model.ModelComponent;
 import stonering.game.core.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
+import stonering.util.global.TagLoggersEnum;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Contains and manages all zones(farms, stocks).
@@ -27,14 +25,15 @@ public class ZonesContainer implements ModelComponent {
         zoneMap = new HashMap<>();
     }
 
+    /**
+     * Creates new zone with given type and tiles between given positions.
+     */
     public void createNewZone(Position pos1, Position pos2, ZoneTypesEnum type) {
         Zone zone = type.createZone();
         addPositionsToZone(pos1, pos2, zone);
         zones.add(zone);
-    }
-
-    public Zone getZoneActor(Position pos) {
-        return zoneMap.get(pos);
+        TagLoggersEnum.ZONES.logDebug("Zone " + zone + " created");
+        recountZones();
     }
 
     private void addPositionsToZone(Position pos1, Position pos2, Zone zone) {
@@ -51,6 +50,7 @@ public class ZonesContainer implements ModelComponent {
                 }
             }
         }
+        recountZones();
     }
 
     /**
@@ -64,7 +64,7 @@ public class ZonesContainer implements ModelComponent {
             for (cachePos.x = Math.min(pos1.x, pos2.x); cachePos.x <= Math.max(pos1.x, pos2.x); cachePos.x++) {
                 for (cachePos.y = Math.min(pos1.y, pos2.y); cachePos.y <= Math.max(pos1.y, pos2.y); cachePos.y++) {
                     for (cachePos.z = Math.min(pos1.z, pos2.z); cachePos.z <= Math.max(pos1.z, pos2.z); cachePos.z++) {
-                        if (zone.getType().getValidator().validate(localMap, cachePos)) setTile(cachePos, zone);
+                        if (zone.getType().getValidator().validate(localMap, cachePos)) setTile(cachePos.clone(), zone);
                     }
                 }
             }
@@ -77,16 +77,31 @@ public class ZonesContainer implements ModelComponent {
                 }
             }
         }
+        TagLoggersEnum.ZONES.logDebug("Zone " + zone + " updated");
+        recountZones();
     }
 
-    public void freeTile(Position pos) {
+    private void recountZones() {
+        for(Iterator<Zone> iterator = zones.iterator(); iterator.hasNext();) {
+            Zone zone = iterator.next();
+            if(!zone.getTiles().isEmpty()) continue;
+            iterator.remove();
+            TagLoggersEnum.ZONES.logDebug("Zone " + zone + " deleted");
+        }
+    }
+
+    private void freeTile(Position pos) {
         Zone zone = zoneMap.remove(pos);
         if (zone != null) zone.getTiles().remove(pos);
     }
 
-    public void setTile(Position pos, Zone zone) {
+    private void setTile(Position pos, Zone zone) {
         freeTile(pos);
         zoneMap.put(pos, zone);
         zone.getTiles().add(pos);
+    }
+
+    public Zone getZone(Position pos) {
+        return zoneMap.get(pos);
     }
 }

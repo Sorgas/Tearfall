@@ -15,9 +15,7 @@ public class Position implements Serializable, Cloneable {
     public int z;
 
     public Position(int x, int y, int z) {
-        this.x = x;
-        this.y = y;
-        this.z = z;
+        set(x,y,z);
     }
 
     public Position(float x, float y, float z) {
@@ -109,6 +107,12 @@ public class Position implements Serializable, Cloneable {
         result = 31 * result + y;
         result = 31 * result + z;
         return result;
+    }
+
+    public void set(int x, int y, int z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
     }
 
     public String toString() {

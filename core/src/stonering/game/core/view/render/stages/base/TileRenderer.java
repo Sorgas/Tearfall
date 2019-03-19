@@ -4,15 +4,18 @@ import stonering.entity.local.building.BuildingBlock;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.plants.PlantBlock;
 import stonering.entity.local.unit.Unit;
+import stonering.entity.local.zone.Zone;
 import stonering.enums.designations.DesignationsTileMapping;
 import stonering.game.core.GameMvc;
 import stonering.game.core.model.EntitySelector;
 import stonering.game.core.model.GameModel;
 import stonering.game.core.model.lists.ItemContainer;
 import stonering.game.core.model.lists.UnitContainer;
+import stonering.game.core.model.lists.ZonesContainer;
 import stonering.game.core.model.local_map.LocalMap;
 import stonering.game.core.view.render.util.Int3DBounds;
 import stonering.game.core.view.tilemaps.LocalTileMap;
+import stonering.util.geometry.Position;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +30,8 @@ public class TileRenderer extends Renderer {
     private UnitContainer unitContainer;
     private Int3DBounds visibleArea;
 
+    private Position cachePosition;
+
     public TileRenderer(DrawingUtil drawingUtil, Int3DBounds visibleArea) {
         super(drawingUtil);
         this.visibleArea = visibleArea;
@@ -35,18 +40,16 @@ public class TileRenderer extends Renderer {
         localTileMap = gameModel.get(LocalTileMap.class);
         selector = gameModel.get(EntitySelector.class);
         unitContainer = gameModel.get(UnitContainer.class);
+        cachePosition = new Position(0, 0, 0);
     }
 
     @Override
     public void render() {
-        drawTiles(visibleArea, GameMvc.getInstance().getModel().get(EntitySelector.class));
-    }
-
-    public void drawTiles(Int3DBounds bounds, EntitySelector selector) {
-        for (int z = bounds.getMinZ(); z <= bounds.getMaxZ(); z++) {
+        EntitySelector selector = GameMvc.getInstance().getModel().get(EntitySelector.class);
+        for (int z = visibleArea.getMinZ(); z <= visibleArea.getMaxZ(); z++) {
             drawingUtil.shadeByZ(selector.getPosition().z - z);
-            for (int x = bounds.getMinX(); x <= bounds.getMaxX(); x++) {
-                for (int y = bounds.getMaxY(); y >= bounds.getMinY(); y--) {
+            for (int x = visibleArea.getMinX(); x <= visibleArea.getMaxX(); x++) {
+                for (int y = visibleArea.getMaxY(); y >= visibleArea.getMinY(); y--) {
                     drawTile(x, y, z);
                 }
             }
@@ -60,6 +63,7 @@ public class TileRenderer extends Renderer {
     private void drawTile(int x, int y, int z) {
         //byte lightLevel = (byte) (localMap.getLight().getValue(x, y, z) + localMap.getGeneralLight().getValue(x, y, z));  //TODO limit light level
         //drawingUtil.shadeByLight(lightLevel);
+        cachePosition.set(x, y, z);
         drawBlock(x, y, z);
         drawingUtil.updateColorA(0.6f);
         drawWaterBlock(x, y, z);
@@ -83,6 +87,10 @@ public class TileRenderer extends Renderer {
         }
         if (localMap.getDesignatedBlockType(x, y, z) > 0)
             drawingUtil.drawSprite(drawingUtil.selectSprite(4, DesignationsTileMapping.getAtlasX(localMap.getDesignatedBlockType(x, y, z)), 0), x, y, z, selector.getPosition());
+        Zone zone = GameMvc.getInstance().getModel().get(ZonesContainer.class).getZone(cachePosition);
+        if (zone != null) {
+            drawingUtil.drawSprite(zone.getType().sprite, x, y, z, selector.getPosition());
+        }
         drawingUtil.resetColor();
     }
 

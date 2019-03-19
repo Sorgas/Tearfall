@@ -40,21 +40,22 @@ public class ZoneDesignationSequence extends DesignationSequence {
     }
 
     /**
-     * Will update existent zones. If rectangle is started on a zone, it is expanded. Otherwise, selected tiles is removed from all zones.
+     * Will update existent zones. If rectangle is started on a zone, it is expanded.
+     * Otherwise, selected tiles is removed from all zones.
      */
     public ZoneDesignationSequence() {
         super();
         rectangleSelectComponent = new RectangleSelectComponent(event -> { // updates toolbar text depending on start of selected frame
             EntitySelector selector = gameMvc.getModel().get(EntitySelector.class);
             ZonesContainer zonesContainer = GameMvc.getInstance().getModel().get(ZonesContainer.class);
-            Zone zone = zonesContainer.getZoneActor(selector.getFrameStart());
+            Zone zone = zonesContainer.getZone(selector.getFrameStart());
             Toolbar toolbar = gameMvc.getView().getUiDrawer().getToolbar();
             toolbar.setText(zone != null ? "Expanding zone " + zone.getName() + "." : "Deleting zones.");
             return true;
         }, event -> {
             EntitySelector selector = gameMvc.getModel().get(EntitySelector.class);
             ZonesContainer zonesContainer = GameMvc.getInstance().getModel().get(ZonesContainer.class);
-            Zone zone = zonesContainer.getZoneActor(selector.getFrameStart()); // tiles in selected area will get this zone, and removed from previous.
+            Zone zone = zonesContainer.getZone(selector.getFrameStart()); // tiles in selected area will get this zone, and removed from previous.
             gameMvc.getModel().get(ZonesContainer.class).updateZones(selector.getFrameStart(), selector.getPosition(), zone);
             return true;
         });
@@ -100,6 +101,6 @@ public class ZoneDesignationSequence extends DesignationSequence {
 
     @Override
     public String getText() {
-        return "Select zone for " + type.name() + ".";
+        return type != null ? "Select zone for " + type.name() + "." : "Modify zones.";
     }
 }

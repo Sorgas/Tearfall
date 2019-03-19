@@ -30,7 +30,7 @@ public class FarmZone extends Zone {
     private Set<Integer> months; // planting tasks are created only in these months
     private ItemSelector seedSelector; // planting tasks share this selector. it is updated as months change.
 
-    public FarmZone(String name, List<Position> tiles) {
+    public FarmZone(String name, Set<Position> tiles) {
         super(name, tiles);
         initZone();
     }

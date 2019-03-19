@@ -24,7 +24,7 @@ public class SimpleDesignationSequence extends DesignationSequence {
     }
 
     private void createRectangleSelectComponent() {
-        rectangleSelectComponent = new RectangleSelectComponent(event -> {
+        rectangleSelectComponent = new RectangleSelectComponent(null, event -> {
             EntitySelector selector = gameMvc.getModel().get(EntitySelector.class);
             completeDesignation(selector.getFrameStart(), selector.getPosition());
             return true;
