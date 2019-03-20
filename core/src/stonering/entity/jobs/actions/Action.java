@@ -1,7 +1,7 @@
 package stonering.entity.jobs.actions;
 
 import stonering.entity.jobs.actions.target.ActionTarget;
-import stonering.game.core.GameMvc;
+import stonering.game.GameMvc;
 import stonering.entity.jobs.Task;
 import stonering.util.global.TagLoggersEnum;
 

@@ -1,6 +1,6 @@
 package stonering.util.pathfinding.a_star;
 
-import stonering.game.core.model.local_map.LocalMap;
+import stonering.game.model.local_map.LocalMap;
 import stonering.util.HashPriorityQueue;
 import stonering.util.geometry.Position;
 import stonering.util.global.TagLoggersEnum;

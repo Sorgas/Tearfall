@@ -6,7 +6,7 @@ import stonering.entity.local.items.selectors.ItemSelector;
 import stonering.entity.local.items.selectors.ToolWithActionItemSelector;
 import stonering.entity.local.plants.PlantBlock;
 import stonering.entity.local.unit.aspects.equipment.EquipmentAspect;
-import stonering.game.core.model.lists.ItemContainer;
+import stonering.game.model.lists.ItemContainer;
 import stonering.generators.items.PlantProductGenerator;
 import stonering.util.global.TagLoggersEnum;
 

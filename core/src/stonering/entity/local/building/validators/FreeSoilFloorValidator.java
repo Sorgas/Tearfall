@@ -1,7 +1,7 @@
 package stonering.entity.local.building.validators;
 
 import stonering.enums.materials.MaterialMap;
-import stonering.game.core.model.local_map.LocalMap;
+import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 
 public class FreeSoilFloorValidator extends FreeFloorValidator {

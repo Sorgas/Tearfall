@@ -1,6 +1,6 @@
 package stonering.entity.local;
 
-import stonering.game.core.model.IntervalTurnable;
+import stonering.game.model.IntervalTurnable;
 import stonering.util.geometry.Position;
 import stonering.util.global.Initable;
 

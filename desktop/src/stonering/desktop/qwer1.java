@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
-import stonering.game.core.view.render.stages.base.UiStage;
+import stonering.game.view.render.stages.base.UiStage;
 import stonering.screen.SimpleScreen;
 import stonering.util.global.StaticSkin;
 

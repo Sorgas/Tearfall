@@ -2,10 +2,10 @@ package stonering.entity.jobs;
 
 import stonering.designations.Designation;
 import stonering.entity.local.unit.aspects.PlanningAspect;
-import stonering.game.core.GameMvc;
-import stonering.game.core.model.lists.TaskContainer;
-import stonering.game.core.model.local_map.LocalMap;
-import stonering.game.core.model.util.UtilByteArray;
+import stonering.game.GameMvc;
+import stonering.game.model.lists.TaskContainer;
+import stonering.game.model.local_map.LocalMap;
+import stonering.game.model.util.UtilByteArray;
 import stonering.util.geometry.Position;
 import stonering.entity.jobs.actions.Action;
 import stonering.entity.jobs.actions.TaskTypesEnum;

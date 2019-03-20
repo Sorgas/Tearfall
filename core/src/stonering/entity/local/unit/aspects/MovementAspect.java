@@ -1,8 +1,8 @@
 package stonering.entity.local.unit.aspects;
 
-import stonering.game.core.GameMvc;
-import stonering.game.core.model.lists.UnitContainer;
-import stonering.game.core.model.local_map.LocalMap;
+import stonering.game.GameMvc;
+import stonering.game.model.lists.UnitContainer;
+import stonering.game.model.local_map.LocalMap;
 import stonering.util.pathfinding.a_star.AStar;
 import stonering.entity.local.Aspect;
 import stonering.entity.local.unit.Unit;

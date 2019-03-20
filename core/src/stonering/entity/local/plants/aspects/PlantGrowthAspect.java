@@ -6,8 +6,8 @@ import stonering.entity.local.environment.GameCalendar;
 import stonering.entity.local.plants.AbstractPlant;
 import stonering.entity.local.plants.Plant;
 import stonering.entity.local.plants.Tree;
-import stonering.game.core.GameMvc;
-import stonering.game.core.model.lists.PlantContainer;
+import stonering.game.GameMvc;
+import stonering.game.model.lists.PlantContainer;
 import stonering.generators.plants.PlantGenerator;
 import stonering.generators.plants.TreeGenerator;
 

@@ -11,11 +11,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import stonering.TearFall;
 import stonering.entity.world.World;
-import stonering.game.core.GameMvc;
-import stonering.game.core.model.MainGameModel;
+import stonering.game.GameMvc;
+import stonering.game.model.MainGameModel;
 import stonering.generators.localgen.LocalGenConfig;
 import stonering.generators.localgen.LocalGeneratorContainer;
-import stonering.game.core.model.local_map.LocalMap;
+import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 import stonering.screen.ui_components.LabeledProgressBar;
 

@@ -7,7 +7,7 @@ import stonering.entity.local.crafting.ItemOrder;
 import stonering.entity.local.crafting.ItemPartOrder;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.items.aspects.ItemContainerAspect;
-import stonering.game.core.model.lists.ItemContainer;
+import stonering.game.model.lists.ItemContainer;
 import stonering.generators.items.ItemGenerator;
 import stonering.util.global.TagLoggersEnum;
 

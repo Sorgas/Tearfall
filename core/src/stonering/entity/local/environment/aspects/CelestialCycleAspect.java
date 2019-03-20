@@ -2,7 +2,6 @@ package stonering.entity.local.environment.aspects;
 
 import stonering.entity.local.Aspect;
 import stonering.entity.local.AspectHolder;
-import stonering.game.core.model.MainGameModel;
 
 /**
  * Determines body state change over time. Has orbit position and phase.

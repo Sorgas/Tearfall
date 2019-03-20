@@ -6,8 +6,8 @@ import stonering.entity.local.items.Item;
 import stonering.entity.local.items.selectors.ItemSelector;
 import stonering.entity.local.unit.aspects.equipment.EquipmentAspect;
 import stonering.enums.blocks.BlockTypesEnum;
-import stonering.game.core.model.lists.ItemContainer;
-import stonering.game.core.model.local_map.LocalMap;
+import stonering.game.model.lists.ItemContainer;
+import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 import stonering.util.global.TagLoggersEnum;
 

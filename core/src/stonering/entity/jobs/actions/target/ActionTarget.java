@@ -1,8 +1,8 @@
 package stonering.entity.jobs.actions.target;
 
 import stonering.entity.jobs.actions.MoveAction;
-import stonering.game.core.GameMvc;
-import stonering.game.core.model.local_map.LocalMap;
+import stonering.game.GameMvc;
+import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 import stonering.entity.jobs.actions.Action;
 import stonering.util.global.TagLoggersEnum;

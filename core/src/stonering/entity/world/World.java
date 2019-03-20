@@ -1,6 +1,6 @@
 package stonering.entity.world;
 
-import stonering.game.core.model.ModelComponent;
+import stonering.game.model.ModelComponent;
 import stonering.util.global.Initable;
 
 import java.io.Serializable;

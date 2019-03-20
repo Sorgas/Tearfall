@@ -10,9 +10,9 @@ import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.designations.DesignationTypeEnum;
 import stonering.enums.plants.PlantMap;
 import stonering.enums.plants.PlantType;
-import stonering.game.core.GameMvc;
-import stonering.game.core.model.lists.TaskContainer;
-import stonering.game.core.model.local_map.LocalMap;
+import stonering.game.GameMvc;
+import stonering.game.model.lists.TaskContainer;
+import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 
 import java.util.*;
@@ -56,6 +56,7 @@ public class FarmZone extends Zone {
 
     /**
      * Passes through all tiles and creates hoeing task for first found.
+     * Soil preparation begins one month before first plant can be planted, disregarding seed availability.
      */
     private void checkTilesForHoeing() {
         LocalMap localMap = GameMvc.getInstance().getModel().get(LocalMap.class);

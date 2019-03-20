@@ -1,7 +1,7 @@
 package stonering.entity.local.unit.aspects.needs;
 
-import stonering.game.core.GameMvc;
-import stonering.game.core.model.GameModel;
+import stonering.game.GameMvc;
+import stonering.game.model.GameModel;
 import stonering.entity.jobs.Task;
 import stonering.entity.local.AspectHolder;
 import stonering.util.global.Initable;

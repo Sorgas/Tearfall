@@ -4,7 +4,7 @@ import stonering.entity.jobs.actions.Action;
 import stonering.entity.jobs.actions.target.ItemActionTarget;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.unit.aspects.equipment.EquipmentAspect;
-import stonering.game.core.model.lists.ItemContainer;
+import stonering.game.model.lists.ItemContainer;
 
 /**
  * Action for picking and hauling item. Performer should have {@link EquipmentAspect}

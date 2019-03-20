@@ -1,10 +1,9 @@
 package stonering.entity.local.items.aspects;
 
 import stonering.enums.blocks.BlockTypesEnum;
-import stonering.game.core.GameMvc;
-import stonering.game.core.model.MainGameModel;
-import stonering.game.core.model.lists.ItemContainer;
-import stonering.game.core.model.local_map.LocalMap;
+import stonering.game.GameMvc;
+import stonering.game.model.lists.ItemContainer;
+import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 import stonering.entity.local.Aspect;
 import stonering.entity.local.AspectHolder;

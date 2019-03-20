@@ -1,7 +1,7 @@
 package stonering.util.saving;
 
 
-import stonering.game.core.GameMvc;
+import stonering.game.GameMvc;
 
 import java.io.*;
 import java.util.HashSet;

@@ -3,7 +3,7 @@ package stonering.generators.localgen.generators;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.materials.MaterialMap;
 import stonering.exceptions.DescriptionNotFoundException;
-import stonering.game.core.model.local_map.LocalMap;
+import stonering.game.model.local_map.LocalMap;
 import stonering.generators.localgen.LocalGenContainer;
 
 import java.util.*;

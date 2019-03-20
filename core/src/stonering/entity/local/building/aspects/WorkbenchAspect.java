@@ -10,8 +10,8 @@ import stonering.entity.local.crafting.ItemOrder;
 import stonering.entity.local.items.Item;
 import stonering.enums.items.recipe.Recipe;
 import stonering.enums.items.recipe.RecipeMap;
-import stonering.game.core.GameMvc;
-import stonering.game.core.model.lists.TaskContainer;
+import stonering.game.GameMvc;
+import stonering.game.model.lists.TaskContainer;
 import stonering.util.global.TagLoggersEnum;
 
 import java.util.ArrayList;

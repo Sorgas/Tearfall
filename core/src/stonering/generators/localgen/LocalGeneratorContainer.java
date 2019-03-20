@@ -1,7 +1,7 @@
 package stonering.generators.localgen;
 
 import stonering.entity.world.World;
-import stonering.game.core.model.local_map.LocalMap;
+import stonering.game.model.local_map.LocalMap;
 import stonering.generators.localgen.generators.*;
 
 /**

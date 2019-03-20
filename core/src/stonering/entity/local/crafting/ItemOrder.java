@@ -2,7 +2,7 @@ package stonering.entity.local.crafting;
 
 import stonering.enums.items.recipe.ItemPartRecipe;
 import stonering.enums.items.recipe.Recipe;
-import stonering.game.core.GameMvc;
+import stonering.game.GameMvc;
 
 import java.util.*;
 

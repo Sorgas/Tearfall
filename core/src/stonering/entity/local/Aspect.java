@@ -1,7 +1,7 @@
 package stonering.entity.local;
 
-import stonering.game.core.GameMvc;
-import stonering.game.core.model.Turnable;
+import stonering.game.GameMvc;
+import stonering.game.model.Turnable;
 import stonering.util.global.Initable;
 
 import java.io.Serializable;

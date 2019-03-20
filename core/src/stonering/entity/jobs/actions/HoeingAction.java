@@ -7,10 +7,10 @@ import stonering.entity.local.items.selectors.ToolWithActionItemSelector;
 import stonering.entity.local.unit.aspects.equipment.EquipmentAspect;
 import stonering.enums.ZoneTypesEnum;
 import stonering.enums.blocks.BlockTypesEnum;
-import stonering.game.core.GameMvc;
-import stonering.game.core.model.lists.ItemContainer;
-import stonering.game.core.model.lists.ZonesContainer;
-import stonering.game.core.model.local_map.LocalMap;
+import stonering.game.GameMvc;
+import stonering.game.model.lists.ItemContainer;
+import stonering.game.model.lists.ZonesContainer;
+import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 
 /**

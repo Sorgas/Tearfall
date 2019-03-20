@@ -1,13 +1,11 @@
 package stonering.generators.localgen.generators;
 
 import stonering.enums.blocks.BlockTypesEnum;
-import stonering.game.core.model.local_map.LocalMap;
+import stonering.game.model.local_map.LocalMap;
 import stonering.generators.buildings.BuildingGenerator;
 import stonering.generators.localgen.LocalGenConfig;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.util.geometry.Position;
-import stonering.entity.local.building.Building;
-import stonering.util.global.TagLoggersEnum;
 
 /**
  * Generates buildings on local generation

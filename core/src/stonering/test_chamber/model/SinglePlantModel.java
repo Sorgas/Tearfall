@@ -10,12 +10,11 @@ import stonering.entity.world.World;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.materials.MaterialMap;
 import stonering.exceptions.DescriptionNotFoundException;
-import stonering.game.core.model.EntitySelector;
-import stonering.game.core.model.GameModel;
-import stonering.game.core.model.lists.PlantContainer;
-import stonering.game.core.model.local_map.LocalMap;
-import stonering.game.core.view.tilemaps.LocalTileMap;
-import stonering.game.core.view.tilemaps.LocalTileMapUpdater;
+import stonering.game.model.EntitySelector;
+import stonering.game.model.GameModel;
+import stonering.game.model.lists.PlantContainer;
+import stonering.game.model.local_map.LocalMap;
+import stonering.game.view.tilemaps.LocalTileMap;
 import stonering.generators.plants.PlantGenerator;
 import stonering.util.geometry.Position;
 

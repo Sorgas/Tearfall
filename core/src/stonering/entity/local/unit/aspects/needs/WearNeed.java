@@ -9,7 +9,7 @@ import stonering.entity.local.items.selectors.ItemSelector;
 import stonering.entity.local.items.selectors.WearForLimbItemSelector;
 import stonering.entity.local.unit.aspects.equipment.EquipmentAspect;
 import stonering.entity.local.unit.aspects.equipment.EquipmentSlot;
-import stonering.game.core.model.lists.ItemContainer;
+import stonering.game.model.lists.ItemContainer;
 
 /**
  * Basic need for clothes. Each creature species has own list of limbs to be covered by wear.

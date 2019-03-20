@@ -1,10 +1,9 @@
 package stonering.generators.localgen;
 
 import stonering.entity.world.World;
-import stonering.game.core.model.local_map.LocalMap;
+import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 import stonering.entity.local.building.Building;
-import stonering.entity.local.environment.CelestialBody;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.plants.AbstractPlant;
 import stonering.entity.local.unit.Unit;
