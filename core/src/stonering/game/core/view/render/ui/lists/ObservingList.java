@@ -17,8 +17,8 @@ public class ObservingList extends Table implements Invokable {
     private GameMvc gameMvc;
     private Map<String, List<String>> content; // categorized content
 
-    public ObservingList(GameMvc gameMvc) {
-        this.gameMvc = gameMvc;
+    public ObservingList() {
+        gameMvc = GameMvc.getInstance();
         content = new HashMap<>();
     }
 

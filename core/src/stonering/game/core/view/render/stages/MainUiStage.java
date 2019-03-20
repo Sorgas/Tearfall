@@ -12,14 +12,16 @@ import stonering.game.core.view.render.ui.menus.toolbar.Toolbar;
 import stonering.util.geometry.Position;
 
 /**
+ * Contains toolbar and status bar.
+ *
  * @author Alexander Kuzyakov on 12.10.2017.
  */
-public class UIDrawer extends UiStage {
+public class MainUiStage extends UiStage {
     private transient MaterialMap materialMap;
     private Toolbar toolbar;
     private TileStatusBar tileStatusBar;
 
-    public UIDrawer() {
+    public MainUiStage() {
         super();
         materialMap = MaterialMap.getInstance();
         toolbar = new Toolbar();

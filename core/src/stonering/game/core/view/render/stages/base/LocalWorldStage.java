@@ -28,14 +28,14 @@ import stonering.game.core.view.render.util.Int3DBounds;
  *
  * @author Alexander Kuzyakov on 13.06.2017.
  */
-public class LocalWorldDrawer extends UiStage {
+public class LocalWorldStage extends UiStage {
     private DrawingUtil drawingUtil;
     private TileRenderer tileRenderer;
     private EntitySelectorRenderer entitySelectorRenderer;
     private OrthographicCamera camera;
     private Int3DBounds visibleArea;
 
-    public LocalWorldDrawer(GameModel gameModel) {
+    public LocalWorldStage() {
         super();
         camera = (OrthographicCamera) getCamera();
         camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);

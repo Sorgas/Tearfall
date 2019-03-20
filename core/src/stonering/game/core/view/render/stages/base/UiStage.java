@@ -5,7 +5,6 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 /**
  * Stage with screen viewport. Added widgets do no scaling on window resize.
- * {@method resize} should be called on screen resize.
  *
  * @author Alexander on 20.02.2019.
  */

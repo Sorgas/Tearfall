@@ -60,7 +60,8 @@ public class FarmZone extends Zone {
     private void checkTilesForHoeing() {
         LocalMap localMap = GameMvc.getInstance().getModel().get(LocalMap.class);
         TaskContainer taskContainer = GameMvc.getInstance().getModel().get(TaskContainer.class);
-        if (months.contains(GameMvc.getInstance().getModel().get(GameCalendar.class).getMonth())) {
+        int currentMonth = GameMvc.getInstance().getModel().get(GameCalendar.class).getMonth();
+        if (months.contains(getNextMonth(currentMonth)) || months.contains(currentMonth)) {
             for (Position tile : tiles) {
                 if (localMap.getBlockType(tile) == BlockTypesEnum.FARM.CODE
                         || taskContainer.getDesignations().get(tile) != null) continue; // tile is ready or designated
@@ -95,6 +96,10 @@ public class FarmZone extends Zone {
      */
     private void checkPlants() {
 
+    }
+
+    private int getNextMonth(int current) {
+        return current >= 11 ? 0 : current + 1;
     }
 
     /**

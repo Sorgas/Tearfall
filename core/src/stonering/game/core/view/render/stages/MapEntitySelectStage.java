@@ -22,26 +22,24 @@ public class MapEntitySelectStage extends UiStage implements Initable {
     public static final int UNITS = 1;
     public static final int PLANTS = 2;
     public static final int BUILDINGS = 3;
+    public static final int ZONES = 4;
 
     private int activeMode;
 
-    private GameMvc gameMvc;
     private ObservingList observingList;
     private Position currentPosition;
 
     /**
      * -1 mode means all entities.
      *
-     * @param gameMvc
      * @param currentPosition
      * @param activeMode
      */
-    public MapEntitySelectStage(GameMvc gameMvc, Position currentPosition, int activeMode) {
+    public MapEntitySelectStage(Position currentPosition, int activeMode) {
         super();
-        this.gameMvc = gameMvc;
         this.currentPosition = currentPosition;
         this.activeMode = activeMode;
-        observingList = new ObservingList(gameMvc);
+        observingList = new ObservingList();
     }
 
     /**
@@ -49,6 +47,7 @@ public class MapEntitySelectStage extends UiStage implements Initable {
      */
     @Override
     public void init() {
+        GameMvc gameMvc = GameMvc.getInstance();
         observingList.clear();
         switch (activeMode) {
             case ITEMS:
@@ -60,16 +59,17 @@ public class MapEntitySelectStage extends UiStage implements Initable {
             case BUILDINGS:
                 tryShowBuildingStage(gameMvc.getModel().get(LocalMap.class).getBuildingBlock(currentPosition));
                 return;
+            case ZONES:
         }
         gameMvc.getView().removeStage(this);
     }
 
     private void tryShowBuildingStage(BuildingBlock buildingBlock) {
-        if (buildingBlock != null) {
-            TagLoggersEnum.UI.logDebug("showing building stage for: " + buildingBlock.getBuilding());
-            gameMvc.getView().removeStage(this);
-            gameMvc.getView().addStageToList(new BuildingStage(gameMvc, buildingBlock.getBuilding()));
-            System.out.println("adding new building stage");
-        }
+        if (buildingBlock == null) return;
+        GameMvc gameMvc = GameMvc.getInstance();
+        TagLoggersEnum.UI.logDebug("showing building stage for: " + buildingBlock.getBuilding());
+        gameMvc.getView().removeStage(this);
+        gameMvc.getView().addStageToList(new BuildingStage(gameMvc, buildingBlock.getBuilding()));
+        System.out.println("adding new building stage");
     }
 }

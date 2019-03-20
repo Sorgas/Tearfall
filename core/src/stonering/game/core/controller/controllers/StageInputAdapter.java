@@ -5,7 +5,7 @@ import com.badlogic.gdx.InputAdapter;
 import stonering.game.core.view.GameView;
 
 /**
- * Ensures that input always goes to active stage from {@link GameView}.
+ * Dispatches input to {@link GameView} for invoking UI components.
  *
  * @author Alexander
  */
@@ -18,14 +18,14 @@ public class StageInputAdapter extends InputAdapter {
 
     @Override
     public boolean keyDown(int keycode) {
-        return gameView.getActiveStage().keyDown(keycode);
+        return gameView.keyDown(keycode);
     }
 
     @Override
     public boolean keyTyped(char character) {
         int keycode = charToKeycode(character);
         if(keycode < 0 || keycode > 255) return true;
-        return gameView.getActiveStage().keyDown(keycode);
+        return gameView.keyDown(keycode);
     }
 
     @Override
