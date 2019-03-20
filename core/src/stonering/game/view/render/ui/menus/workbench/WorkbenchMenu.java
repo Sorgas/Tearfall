@@ -66,7 +66,6 @@ public class WorkbenchMenu extends Window implements HintedActor {
         add(horizontalGroup).prefHeight(20).left().top();
         setWidth(800);
         setHeight(600);
-
     }
 
     private TextButton createCloseButton() {
