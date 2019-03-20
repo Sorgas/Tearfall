@@ -26,7 +26,7 @@ import java.util.List;
  *
  * @author Alexander Kuzyakov on 10.06.2017.
  */
-public class GameView extends SimpleScreen {
+public class GameView extends SimpleScreen implements Initable {
     private LocalWorldStage localWorldStage;
     private MainUiStage mainUiStage;
     private List<Stage> stageList;      // init called on adding.
@@ -35,6 +35,8 @@ public class GameView extends SimpleScreen {
     public void init() {
         stageList = new ArrayList<>();
         localWorldStage = new LocalWorldStage();
+        mainUiStage = new MainUiStage();
+        mainUiStage.init();
     }
 
     @Override
@@ -45,7 +47,8 @@ public class GameView extends SimpleScreen {
         localWorldStage.draw();
         mainUiStage.act(delta);
         mainUiStage.draw();
-        getActiveStage().draw();
+        Stage activeStage = getActiveStage();
+        if(activeStage != null) activeStage.draw();
     }
 
     public Stage getActiveStage() {

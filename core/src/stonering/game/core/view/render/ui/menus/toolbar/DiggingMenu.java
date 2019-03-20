@@ -32,18 +32,18 @@ public class DiggingMenu extends SubMenuMenu {
     }
 
     private void initMenu() {
-        addButton("P: dig", new SimpleDesignationSequence(DIG), Input.Keys.P);
-        addButton("O: ramp", new SimpleDesignationSequence(RAMP), Input.Keys.O);
-        addButton("I: channel", new SimpleDesignationSequence(CHANNEL), Input.Keys.I);
-        addButton("U: stairs", new SimpleDesignationSequence(STAIRS), Input.Keys.U);
-        addButton("Y: clear", new SimpleDesignationSequence(NONE), Input.Keys.Y);
+        addButton("P: dig", DIG, Input.Keys.P);
+        addButton("O: ramp", RAMP, Input.Keys.O);
+        addButton("I: channel", CHANNEL, Input.Keys.I);
+        addButton("U: stairs", STAIRS, Input.Keys.U);
+        addButton("Y: clear", NONE, Input.Keys.Y);
     }
 
-    private void addButton(String text, DesignationSequence sequence, int hotKey) {
+    private void addButton(String text, DesignationTypeEnum type, int hotKey) {
         super.createButton(text, hotKey, new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                controller.setActiveDesignation(sequence); //no buildings here
+                controller.setActiveDesignation(new SimpleDesignationSequence(type)); //no buildings here
                 controller.startSequence();
             }
         }, true);

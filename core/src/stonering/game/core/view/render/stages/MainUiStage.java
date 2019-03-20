@@ -10,30 +10,29 @@ import stonering.game.core.view.render.stages.base.UiStage;
 import stonering.game.core.view.render.ui.TileStatusBar;
 import stonering.game.core.view.render.ui.menus.toolbar.Toolbar;
 import stonering.util.geometry.Position;
+import stonering.util.global.Initable;
 
 /**
  * Contains toolbar and status bar.
  *
  * @author Alexander Kuzyakov on 12.10.2017.
  */
-public class MainUiStage extends UiStage {
-    private transient MaterialMap materialMap;
+public class MainUiStage extends UiStage implements Initable {
     private Toolbar toolbar;
     private TileStatusBar tileStatusBar;
 
     public MainUiStage() {
         super();
-        materialMap = MaterialMap.getInstance();
         toolbar = new Toolbar();
+        tileStatusBar = new TileStatusBar();
+        addActor(toolbar);
+        addActor(tileStatusBar);
+        setKeyboardFocus(toolbar);
+        setDebugAll(true);
     }
 
     public void init() {
         toolbar.init();
-        addActor(toolbar);
-        tileStatusBar = new TileStatusBar();
-        addActor(tileStatusBar);
-        setKeyboardFocus(toolbar);
-        setDebugAll(true);
     }
 
     public void draw() {
@@ -44,7 +43,7 @@ public class MainUiStage extends UiStage {
     private void updateStatusBar() {
         GameModel gameModel = GameMvc.getInstance().getModel();
         Position focus = gameModel.get(EntitySelector.class).getPosition();
-        Material material = materialMap.getMaterial(gameModel.get(LocalMap.class).getMaterial(focus));
+        Material material = MaterialMap.getInstance().getMaterial(gameModel.get(LocalMap.class).getMaterial(focus));
         tileStatusBar.setData(focus,
                 material != null ? material.getName() : "",
                 gameModel.get(LocalMap.class).getPassageMap().getArea().getValue(focus),
