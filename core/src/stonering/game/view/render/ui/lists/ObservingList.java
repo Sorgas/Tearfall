@@ -2,7 +2,6 @@ package stonering.game.view.render.ui.lists;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import stonering.game.GameMvc;
-import stonering.game.view.render.ui.menus.util.Invokable;
 
 import java.util.HashMap;
 import java.util.List;
@@ -13,7 +12,7 @@ import java.util.Map;
  *
  * @author Alexander on 11.11.2018.
  */
-public class ObservingList extends Table implements Invokable {
+public class ObservingList extends Table {
     private GameMvc gameMvc;
     private Map<String, List<String>> content; // categorized content
 
@@ -24,13 +23,5 @@ public class ObservingList extends Table implements Invokable {
 
     public void select() {
 
-    }
-
-    @Override
-    public boolean invoke(int keycode) {
-        switch (keycode) {
-
-        }
-        return false;
     }
 }

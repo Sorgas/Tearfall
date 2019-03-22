@@ -6,8 +6,11 @@ import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
+import stonering.game.view.render.ui.menus.util.Highlightable;
 import stonering.util.global.StaticSkin;
 import stonering.util.global.TagLoggersEnum;
+
+import java.util.function.Consumer;
 
 /**
  * Extends {@link List} with navigation methods.
@@ -15,10 +18,12 @@ import stonering.util.global.TagLoggersEnum;
  *
  * @author Alexander Kuzyakov on 03.07.2018.
  */
-public class NavigableList<T> extends List<T> {
+public class NavigableList<T> extends List<T> implements Highlightable {
     private EventListener hideListener;
     private EventListener selectListener;
     private EventListener showListener;
+    private Consumer<Boolean> highlightHandler;
+    private boolean highlighted;
 
     public NavigableList() {
         super(StaticSkin.getSkin());
@@ -81,6 +86,13 @@ public class NavigableList<T> extends List<T> {
         }
     }
 
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+        if (highlightHandler != null && (getStage().getKeyboardFocus() == this) != highlighted)
+            highlightHandler.accept(!highlighted);
+    }
+
     public void setHideListener(EventListener hideListener) {
         this.hideListener = hideListener;
     }
@@ -91,5 +103,14 @@ public class NavigableList<T> extends List<T> {
 
     public void setShowListener(EventListener showListener) {
         this.showListener = showListener;
+    }
+
+    public Consumer<Boolean> getHighlightHandler() {
+        return highlightHandler;
+    }
+
+    @Override
+    public void setHighlightHandler(Consumer<Boolean> handler) {
+        highlightHandler = handler;
     }
 }
