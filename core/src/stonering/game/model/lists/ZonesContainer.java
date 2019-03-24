@@ -43,6 +43,11 @@ public class ZonesContainer extends Turnable implements ModelComponent {
         recountZones();
     }
 
+    public void deleteZone(Zone zone) {
+        zone.getTiles().forEach(position -> zoneMap.remove(position));
+        zones.remove(zone);
+    }
+
     private void addPositionsToZone(Position pos1, Position pos2, Zone zone) {
         Position cachePos = new Position(0, 0, 0);
         LocalMap localMap = GameMvc.getInstance().getModel().get(LocalMap.class);

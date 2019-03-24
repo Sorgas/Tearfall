@@ -114,7 +114,7 @@ public class GameView extends SimpleScreen implements Initable {
      */
     //TODO add filters
     private void showMapEntityListStage(Position position) {
-        addStageToList(new MapEntitySelectStage(position, -1));
+        addStageToList(new MapEntitySelectStage(position, MapEntitySelectStage.NONE));
     }
 
     /**

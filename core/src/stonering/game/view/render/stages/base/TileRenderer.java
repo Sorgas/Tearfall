@@ -74,7 +74,7 @@ public class TileRenderer extends Renderer {
         BuildingBlock buildingBlock = localMap.getBuildingBlock(x, y, z);
         if (buildingBlock != null)
             drawingUtil.drawSprite(drawingUtil.selectSprite(3, 0, 0), x, y, z, selector.getPosition());
-        List<Unit> units = unitContainer.getUnitsInPosiiton(x, y, z);
+        List<Unit> units = unitContainer.getUnitsInPosition(x, y, z);
         if (units != null)
             units.forEach(unit -> {
                 //TODO ((RenderAspect) unit.getAspects().get(RenderAspect.NAME)).getTexture();

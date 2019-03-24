@@ -29,7 +29,8 @@ public class BuildingStage extends UiStage implements Initable {
     @Override
     public void init() {
         createWorkbenchMenu();
-        menu.updateStageFocus(menu);
+        setKeyboardFocus(menu);
+        menu.updateMenuHint(menu);
         gameMvc.getController().setCameraEnabled(false);
         wasPaused = gameMvc.getModel().isPaused();
         gameMvc.getModel().setPaused(true);

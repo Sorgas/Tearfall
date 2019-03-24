@@ -7,7 +7,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.game.view.render.ui.menus.util.ButtonMenu;
 import stonering.util.saving.GameSaver;
 
-
 public class PauseMenu extends ButtonMenu {
 
     public PauseMenu() {

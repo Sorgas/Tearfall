@@ -28,8 +28,7 @@ public class ItemOrder {
 
     private String selectedString;
 
-    public ItemOrder(GameMvc gameMvc, Recipe recipe) {
-        this.gameMvc = gameMvc;
+    public ItemOrder(Recipe recipe) {
         this.recipe = recipe;
         initParts(recipe);
     }

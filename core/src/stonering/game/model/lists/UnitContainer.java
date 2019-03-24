@@ -59,12 +59,17 @@ public class UnitContainer extends Turnable implements ModelComponent, Initable 
     /**
      * returns list of units in given position. Returns null, if no units exist in this position.
      */
-    public List<Unit> getUnitsInPosiiton(int x, int y, int z) {
+    public List<Unit> getUnitsInPosition(int x, int y, int z) {
         positionCache.x = x;
         positionCache.y = y;
         positionCache.z = z;
-        return unitsMap.get(positionCache);
+        return getUnitsInPosition(positionCache);
     }
+
+    public List<Unit> getUnitsInPosition(Position position) {
+        return unitsMap.containsKey(position) ? unitsMap.get(position) : new ArrayList<>();
+    }
+
 
     @Override
     public void init() {

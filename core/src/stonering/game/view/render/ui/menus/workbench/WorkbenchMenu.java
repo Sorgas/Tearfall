@@ -91,9 +91,10 @@ public class WorkbenchMenu extends Window implements HintedActor {
         addOrderButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                ItemCraftingOrderLine orderLine = new ItemCraftingOrderLine(gameMvc, menu, null);
+                ItemCraftingOrderLine orderLine = new ItemCraftingOrderLine(menu, null);
                 orderLine.show();                                   // add to list
-                updateStageFocus(orderLine);
+                getStage().setKeyboardFocus(orderLine);
+                updateMenuHint(orderLine);
             }
         });
         return addOrderButton;
@@ -105,23 +106,26 @@ public class WorkbenchMenu extends Window implements HintedActor {
         orderList.getSelectKeys().add(Input.Keys.D);
         orderList.setPreNavigationListener(event -> {  // un highlight selected actor before navigation
             if (orderList.getSelectedElement() instanceof Highlightable) {
-                ((Highlightable) orderList.getSelectedElement()).setHighlighted(false);
+//                ((Highlightable) orderList.getSelectedElement()).setHighlighted(false);
             }
             return true;
         });
         orderList.setNavigationListener(event -> {     // highlight selected actor after navigation
             if (orderList.getSelectedElement() instanceof Highlightable) {
-                ((Highlightable) orderList.getSelectedElement()).setHighlighted(true);
+//                ((Highlightable) orderList.getSelectedElement()).setHighlighted(true);
             }
             return true;
         });
         orderList.setSelectListener(event -> {         // go to order line
             Actor selected = orderList.getSelectedElement();
-            updateStageFocus(selected != null ? selected : this);
+            selected = selected != null ? selected : this;
+            getStage().setKeyboardFocus(selected);
+            updateMenuHint(selected);
             return true;
         });
         orderList.setCancelListener(event -> {
-            updateStageFocus(this);              // return focus to screen
+            getStage().setKeyboardFocus(this);
+            updateMenuHint(this);              // return focus to screen
             orderList.setHighlighted(false);          // de highlight all
             return true;
         });
@@ -139,7 +143,7 @@ public class WorkbenchMenu extends Window implements HintedActor {
     }
 
     private ItemCraftingOrderLine createOrderLine(ItemOrder order) {
-        return new ItemCraftingOrderLine(gameMvc, this, order);
+        return new ItemCraftingOrderLine(this, order);
     }
 
     /**
@@ -159,19 +163,11 @@ public class WorkbenchMenu extends Window implements HintedActor {
     /**
      * Moves focus of stage to given actor, highlights it and changes hint, if possible.
      */
-    public void updateStageFocus(Actor actor) {
-        Actor old = getStage().getKeyboardFocus();
-        if (old instanceof Highlightable) {
-            ((Highlightable) old).setHighlighted(false);
-        }
-        getStage().setKeyboardFocus(actor);
+    public void updateMenuHint(Actor actor) {
         if (actor instanceof HintedActor) {
             hintLabel.setText(((HintedActor) actor).getHint());
         } else {
             hintLabel.setText("");
-        }
-        if (actor instanceof Highlightable) {
-            ((Highlightable) actor).setHighlighted(true);
         }
     }
 
@@ -194,7 +190,8 @@ public class WorkbenchMenu extends Window implements HintedActor {
                         orderList.setHighlighted(false);
                         orderList.setSelectedIndex(0);
                         orderList.navigate(keycode == Input.Keys.S ? 0 : -1);
-                        updateStageFocus(orderList);
+                        getStage().setKeyboardFocus(orderList);
+                        updateMenuHint(orderList);
                     }
                     return true;
                 }

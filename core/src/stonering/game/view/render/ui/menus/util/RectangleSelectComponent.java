@@ -62,13 +62,6 @@ public class RectangleSelectComponent extends Label implements HideableComponent
         });
     }
 
-    @Override
-    public boolean invoke(int keycode) {
-        //TODO add reference to Key Settings
-        TagLoggersEnum.UI.logWarn("Call to invoke() on RectangleSelectComponent.");
-        return true;
-    }
-
     @Override // TODO for mouse input
     public boolean invoke(int modelX, int modelY, int button, int action) {
 //        Position position = new Position(modelX, modelY, selector.getPosition().getZ());

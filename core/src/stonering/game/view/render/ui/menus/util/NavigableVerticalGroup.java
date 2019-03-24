@@ -10,6 +10,7 @@ import stonering.util.global.TagLoggersEnum;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Consumer;
 
 
 /**
@@ -148,11 +149,11 @@ public class NavigableVerticalGroup extends VerticalGroup implements HideableCom
      * Tries to highlight selected child.
      * @param value
      */
-    @Override
+//    @Override
     public void setHighlighted(boolean value) {
         for (Actor child : getChildren()) {
             if(child != null && child instanceof Highlightable) {
-                ((Highlightable) child).setHighlighted(getSelectedElement() == child && value); // highlight only selected
+//                ((Highlightable) child).setHighlighted(getSelectedElement() == child && value); // highlight only selected
             }
         }
     }
@@ -223,5 +224,10 @@ public class NavigableVerticalGroup extends VerticalGroup implements HideableCom
 
     public void setSelectedIndex(int selectedIndex) {
         this.selectedIndex = selectedIndex;
+    }
+
+    @Override
+    public void setHighlightHandler(Consumer<Boolean> handler) {
+
     }
 }

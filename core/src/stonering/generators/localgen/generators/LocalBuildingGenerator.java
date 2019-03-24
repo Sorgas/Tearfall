@@ -1,11 +1,13 @@
 package stonering.generators.localgen.generators;
 
+import stonering.entity.local.building.Building;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.model.local_map.LocalMap;
 import stonering.generators.buildings.BuildingGenerator;
 import stonering.generators.localgen.LocalGenConfig;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.util.geometry.Position;
+import stonering.util.global.TagLoggersEnum;
 
 /**
  * Generates buildings on local generation
@@ -24,10 +26,10 @@ public class LocalBuildingGenerator {
     }
 
     public void execute() {
-//        TagLoggersEnum.GENERATION.log("generating buildings");
-//        Position position = findSurfacePosition();
-//        Building building = buildingGenerator.generateBuilding("forge", position);
-//        container.getBuildings().add(building);
+        TagLoggersEnum.GENERATION.log("generating buildings");
+        Position position = findSurfacePosition();
+        Building building = buildingGenerator.generateBuilding("forge", position);
+        container.getBuildings().add(building);
     }
 
     /**

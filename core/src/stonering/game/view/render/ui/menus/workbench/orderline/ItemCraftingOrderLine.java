@@ -14,11 +14,9 @@ import stonering.entity.local.items.selectors.ItemSelector;
 import stonering.entity.local.items.selectors.SimpleItemSelector;
 import stonering.enums.items.type.ItemTypeMap;
 import stonering.enums.items.recipe.Recipe;
-import stonering.game.GameMvc;
 import stonering.game.view.render.ui.background.BackgroundImagesMap;
 import stonering.game.view.render.ui.lists.PlaceHolderSelectBox;
 import stonering.game.view.render.ui.menus.util.HideableComponent;
-import stonering.game.view.render.ui.menus.util.Highlightable;
 import stonering.game.view.render.ui.menus.util.HintedActor;
 import stonering.game.view.render.ui.menus.workbench.WorkbenchMenu;
 import stonering.util.geometry.Position;
@@ -29,6 +27,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 
 /**
  * This line shows list of available crafting recipes.
@@ -37,12 +36,11 @@ import java.util.Map;
  *
  * @author Alexander
  */
-public class ItemCraftingOrderLine extends Table implements HideableComponent, HintedActor, Highlightable {
+public class ItemCraftingOrderLine extends Table implements HideableComponent, HintedActor {
     private static final String LINE_HINT = "";
     private static final SimpleItemSelector MATERIAL_SELECT_PLACEHOLDER = new SimpleItemSelector("Select Material");
     private static final Recipe RECIPE_SELECT_PLACEHOLDER = new Recipe("Select item");
     private static final String NAME = "workbench_order_line";
-    private GameMvc gameMvc;
     private WorkbenchMenu menu;
     private ItemOrder order;
 
@@ -60,13 +58,13 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
     private TextButton downButton;
 
     private PlaceHolderSelectBox focusedSelectBox;
+    private HighlightHandler highlightHandler;
 
     /**
      * Creates line with filled order.
      */
-    public ItemCraftingOrderLine(GameMvc gameMvc, WorkbenchMenu menu, ItemOrder order) {
+    public ItemCraftingOrderLine(WorkbenchMenu menu, ItemOrder order) {
         super();
-        this.gameMvc = gameMvc;
         this.menu = menu;
         this.order = order;
         partSelectBoxes = new ArrayList<>();
@@ -89,6 +87,13 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
         leftHG.right();
     }
 
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+        if ((getStage().getKeyboardFocus() == this) != highlightHandler.value)
+            highlightHandler.accept(highlightHandler.value);
+    }
+
     /**
      * Creates select box for recipe, if no order is given, or fills line from order.
      */
@@ -104,6 +109,7 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
             focusedSelectBox = partSelectBoxes.get(0);
             createAndAddControlButtons();
         }
+        highlightHandler = new HighlightHandler();
     }
 
     /**
@@ -124,7 +130,7 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
                         if (recipeSelectBox.getList().getStage() != null) { // select recipe and proceed
                             recipeSelectBox.hideList();
                             if (!recipeSelectBox.getSelected().equals(recipeSelectBox.getPlaceHolder())) {
-                                order = new ItemOrder(gameMvc, recipeSelectBox.getSelected());
+                                order = new ItemOrder(recipeSelectBox.getSelected());
                                 leftHG.removeActor(recipeSelectBox);
                                 leftHG.addActorAfter(statusLabel, createItemLabel());
                                 tryAddPartSelectBox(order.getParts().get(0)); // add SB or warning label
@@ -157,8 +163,9 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchDown(event, x, y, pointer, button);
-                menu.updateStageFocus(line);
-                setHighlighted(true);                         // restore highlighting
+                getStage().setKeyboardFocus(line);
+                menu.updateMenuHint(line);
+//                setHighlighted(true);                         // restore highlighting
                 return true;
             }
         });
@@ -252,8 +259,9 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchDown(event, x, y, pointer, button);
-                menu.updateStageFocus(line);
-                setHighlighted(true);                         // restore highlighting
+                getStage().setKeyboardFocus(line);
+                menu.updateMenuHint(line);
+//                setHighlighted(true);                         // restore highlighting
                 return true;
             }
         });
@@ -265,10 +273,9 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
      */
     private void handleMaterialSelection(int index) {
         order.getParts().get(index).setSelected(partSelectBoxes.get(index).getSelected()); // update item part order
-        if (order.isDefined()) {
-            TagLoggersEnum.TASKS.logDebug("Order " + order.getRecipe().getName() + " added to " + menu.getWorkbench());
-            menu.getWorkbenchAspect().addOrder(order);
-        }
+        if (!order.isDefined()) return;
+        TagLoggersEnum.TASKS.logDebug("Order " + order.getRecipe().getName() + " added to " + menu.getWorkbench());
+        menu.getWorkbenchAspect().addOrder(order);
     }
 
     /**
@@ -301,43 +308,42 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
     }
 
     private void createAndAddControlButtons() {
-        if (!rightHG.hasChildren()) {
-            deleteButton = new TextButton("X", StaticSkin.getSkin());
-            deleteButton.addListener(new ChangeListener() {
-                @Override
-                public void changed(ChangeEvent event, Actor actor) {
-                    menu.getWorkbenchAspect().removeOrder(order);
-                    hide();
-                    goToListOrMenu();
-                }
-            });
-            repeatButton = new TextButton("R", StaticSkin.getSkin());
-            repeatButton.addListener(new ChangeListener() {
-                @Override
-                public void changed(ChangeEvent event, Actor actor) {
-                    order.setRepeated(!order.isRepeated());
+        if (rightHG.hasChildren()) return;
+        deleteButton = new TextButton("X", StaticSkin.getSkin());
+        deleteButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                menu.getWorkbenchAspect().removeOrder(order);
+                hide();
+                goToListOrMenu();
+            }
+        });
+        repeatButton = new TextButton("R", StaticSkin.getSkin());
+        repeatButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                order.setRepeated(!order.isRepeated());
 //                        statusLabel  //TODO set repeated status
-                }
-            });
-            upButton = new TextButton("R↑", StaticSkin.getSkin());
-            upButton.addListener(new ChangeListener() {
-                @Override
-                public void changed(ChangeEvent event, Actor actor) {
-                    tryMoveThisLine(-1);
-                }
-            });
-            downButton = new TextButton("F↓", StaticSkin.getSkin());
-            downButton.addListener(new ChangeListener() {
-                @Override
-                public void changed(ChangeEvent event, Actor actor) {
-                    tryMoveThisLine(1);
-                }
-            });
-            rightHG.addActor(repeatButton);
-            rightHG.addActor(upButton);
-            rightHG.addActor(downButton);
-            rightHG.addActor(deleteButton);
-        }
+            }
+        });
+        upButton = new TextButton("R↑", StaticSkin.getSkin());
+        upButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                tryMoveThisLine(-1);
+            }
+        });
+        downButton = new TextButton("F↓", StaticSkin.getSkin());
+        downButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                tryMoveThisLine(1);
+            }
+        });
+        rightHG.addActor(repeatButton);
+        rightHG.addActor(upButton);
+        rightHG.addActor(downButton);
+        rightHG.addActor(deleteButton);
     }
 
     /**
@@ -348,24 +354,24 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 event.stop();
-                if (focusedSelectBox == null || !focusedSelectBox.notify(event, false)) { // transitions between selectboxes should be handled in them.
-                    switch (keycode) {
-                        case Input.Keys.X: { // delete order from screen and workbench
-                            if (deleteButton != null) deleteButton.toggle();
-                            return true;
+                // transitions between select boxes should be handled in them.
+                if (focusedSelectBox != null && focusedSelectBox.notify(event, false)) return false;
+                switch (keycode) {
+                    case Input.Keys.X: { // delete order from screen and workbench
+                        if (deleteButton != null) deleteButton.toggle();
+                        return true;
+                    }
+                    case Input.Keys.R: {
+                        if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
+                            if (repeatButton != null) repeatButton.toggle();
+                        } else {
+                            if (upButton != null) upButton.toggle();
                         }
-                        case Input.Keys.R: {
-                            if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
-                                if (repeatButton != null) repeatButton.toggle();
-                            } else {
-                                if (upButton != null) upButton.toggle();
-                            }
-                            return true;
-                        }
-                        case Input.Keys.F: {
-                            if (downButton != null) downButton.toggle();
-                            return true;
-                        }
+                        return true;
+                    }
+                    case Input.Keys.F: {
+                        if (downButton != null) downButton.toggle();
+                        return true;
                     }
                 }
                 return false;
@@ -428,20 +434,12 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
             hide();
         }
         if (menu.getOrderList().hasChildren()) {
-            menu.updateStageFocus(menu.getOrderList());
+            getStage().setKeyboardFocus(menu.getOrderList());
+            menu.updateMenuHint(menu.getOrderList());
             menu.getOrderList().navigate(0);
         } else {
-            menu.updateStageFocus(menu);
-        }
-    }
-
-    @Override
-    public void setHighlighted(boolean value) {
-        Image image = BackgroundImagesMap.getInstance().getBackground(NAME + (value ? ":focused" : ""));
-        if (image != null) {
-            image.setWidth(this.getWidth());
-            image.setHeight(this.getHeight());
-            this.setBackground(image.getDrawable());
+            getStage().setKeyboardFocus(menu);
+            menu.updateMenuHint(menu);
         }
     }
 
@@ -449,4 +447,19 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
     public String getHint() {
         return LINE_HINT;
     }
+
+    private class HighlightHandler implements Consumer<Boolean> {
+        boolean value;
+
+        @Override
+        public void accept(Boolean value) {
+            Image image = BackgroundImagesMap.getInstance().getBackground(NAME + (value ? ":focused" : ""));
+            this.value = value;
+            if (image == null) return;
+            image.setWidth(ItemCraftingOrderLine.this.getWidth());
+            image.setHeight(ItemCraftingOrderLine.this.getHeight());
+            ItemCraftingOrderLine.this.setBackground(image.getDrawable());
+        }
+    }
 }
+
