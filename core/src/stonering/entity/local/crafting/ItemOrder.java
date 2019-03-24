@@ -20,7 +20,6 @@ import java.util.*;
  * @author Alexander on 27.10.2018.
  */
 public class ItemOrder {
-    private GameMvc gameMvc;
     private Recipe recipe;
     private List<ItemPartOrder> parts;                            // itemPart to items selected for variant.
     private boolean repeated;
@@ -41,7 +40,7 @@ public class ItemOrder {
     private void initParts(Recipe recipe) {
         parts = new ArrayList<>();
         for (ItemPartRecipe itemPartRecipe : recipe.getParts()) {
-            parts.add(new ItemPartOrder(gameMvc, this, itemPartRecipe.getName()));
+            parts.add(new ItemPartOrder(this, itemPartRecipe.getName()));
         }
     }
 

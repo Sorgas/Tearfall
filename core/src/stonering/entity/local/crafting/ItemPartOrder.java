@@ -5,27 +5,27 @@ import stonering.game.GameMvc;
 import stonering.game.model.lists.ItemContainer;
 import stonering.util.geometry.Position;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author Alexander on 05.01.2019.
  */
 public class ItemPartOrder {
-    private GameMvc gameMvc;
     private ItemOrder order;
     private String name;                     // ItemPart name
     private List<ItemSelector> itemSelectors;
     private ItemSelector selected;
 
-    public ItemPartOrder(GameMvc gameMvc, ItemOrder order, String name) {
-        this.gameMvc = gameMvc;
+    public ItemPartOrder(ItemOrder order, String name) {
         this.order = order;
         this.name = name;
+        itemSelectors = new ArrayList<>();
     }
 
     public void refreshSelectors(Position workbenchPosition) {
-        itemSelectors = gameMvc.getModel().get(ItemContainer.class).getItemSelectorsForItemPartRecipe(order.getRecipe().getItemPartRecipe(name), workbenchPosition);
-
+        itemSelectors = GameMvc.getInstance().getModel().get(ItemContainer.class)
+                .getItemSelectorsForItemPartRecipe(order.getRecipe().getItemPartRecipe(name), workbenchPosition);
     }
 
     /**
@@ -34,7 +34,7 @@ public class ItemPartOrder {
     public boolean isSelectedPossible() {
         if (selected == null) return true;                 // no items selected for this step
         for (ItemSelector itemSelector : itemSelectors) {
-            if(itemSelector.equals(selected)) return true;
+            if (itemSelector.equals(selected)) return true;
         }
         return false;
     }

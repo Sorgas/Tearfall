@@ -23,6 +23,7 @@ import stonering.util.geometry.Position;
 import stonering.util.global.StaticSkin;
 import stonering.util.global.TagLoggersEnum;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,33 +38,31 @@ import java.util.function.Consumer;
  * @author Alexander
  */
 public class ItemCraftingOrderLine extends Table implements HideableComponent, HintedActor {
-    private static final String LINE_HINT = "";
-    private static final SimpleItemSelector MATERIAL_SELECT_PLACEHOLDER = new SimpleItemSelector("Select Material");
-    private static final Recipe RECIPE_SELECT_PLACEHOLDER = new Recipe("Select item");
+    private static final String LINE_HINT = "order line hint";
     private static final String NAME = "workbench_order_line";
+
     private WorkbenchMenu menu;
     private ItemOrder order;
 
-    private HorizontalGroup leftHG;  // contains select boxes for item parts.
-    private HorizontalGroup rightHG; // contains control buttons.
-
+    private HorizontalGroup leftHG;                             // contains select boxes for item parts.
+    private HorizontalGroup rightHG;                            // contains control buttons.
     private Label statusLabel;                                  // shows status, updates on status change //TODO make icon
     private PlaceHolderSelectBox<Recipe> recipeSelectBox;
-    private Label itemLabel;
     private ArrayList<PlaceHolderSelectBox<ItemSelector>> partSelectBoxes;
     private Label warningLabel;                                 // shown when something is not ok
+
     private TextButton deleteButton;
     private TextButton repeatButton;
     private TextButton upButton;
     private TextButton downButton;
 
-    private PlaceHolderSelectBox focusedSelectBox;
+    private PlaceHolderSelectBox focusedSelectBox; // manual focus for select boxes of this line
     private HighlightHandler highlightHandler;
 
     /**
      * Creates line with filled order.
      */
-    public ItemCraftingOrderLine(WorkbenchMenu menu, ItemOrder order) {
+    public ItemCraftingOrderLine(WorkbenchMenu menu, @Nullable ItemOrder order) {
         super();
         this.menu = menu;
         this.order = order;
@@ -87,6 +86,11 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
         leftHG.right();
     }
 
+    /**
+     * Applies highlighting, id this line is focused.
+     *
+     * @param delta
+     */
     @Override
     public void act(float delta) {
         super.act(delta);
@@ -102,24 +106,23 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
             leftHG.addActor(createRecipeSelectBox(new ArrayList<>(menu.getWorkbenchAspect().getRecipes())));
             focusedSelectBox = recipeSelectBox;
         } else {
-            leftHG.addActor(createItemLabel());
-            for (ItemPartOrder itemPartOrder : order.getParts()) {
+            leftHG.addActor(createItemLabel());                      // item name from order
+            for (ItemPartOrder itemPartOrder : order.getParts()) {   // select boxes for item parts
                 tryAddPartSelectBox(itemPartOrder);
             }
             focusedSelectBox = partSelectBoxes.get(0);
-            createAndAddControlButtons();
+            createAndAddControlButtons();                            // buttons for managing order
         }
-        highlightHandler = new HighlightHandler();
+        highlightHandler = new HighlightHandler();                   // changes background image
     }
 
     /**
      * Creates selectBox with list of all workbench recipes. After selection of recipe, this select box is replaced with material selection.
      */
     public PlaceHolderSelectBox createRecipeSelectBox(ArrayList<Recipe> recipeList) {
-        ItemCraftingOrderLine line = this;
         Map<String, Recipe> recipeMap = new HashMap<>();
         recipeList.forEach(recipe -> recipeMap.put(recipe.getTitle(), recipe));                                 // create mapping of recipes to select box lines.
-        recipeSelectBox = new PlaceHolderSelectBox<>(RECIPE_SELECT_PLACEHOLDER);
+        recipeSelectBox = new PlaceHolderSelectBox<>(new Recipe("Select item"));
         recipeSelectBox.setItems(recipeList.toArray(new Recipe[]{}));
         recipeSelectBox.getListeners().insert(0, new InputListener() {
             @Override
@@ -127,9 +130,9 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
                 switch (keycode) {
                     case Input.Keys.D:
                     case Input.Keys.E: { // opens list or saves selected value
-                        if (recipeSelectBox.getList().getStage() != null) { // select recipe and proceed
+                        if (recipeSelectBox.getList().getStage() != null) { // list is shown
                             recipeSelectBox.hideList();
-                            if (!recipeSelectBox.getSelected().equals(recipeSelectBox.getPlaceHolder())) {
+                            if (!recipeSelectBox.getSelected().equals(recipeSelectBox.getPlaceHolder())) { // placeholder is selected
                                 order = new ItemOrder(recipeSelectBox.getSelected());
                                 leftHG.removeActor(recipeSelectBox);
                                 leftHG.addActorAfter(statusLabel, createItemLabel());
@@ -144,7 +147,6 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
                     }
                     case Input.Keys.A:
                     case Input.Keys.Q: {
-                        hide();
                         goToListOrMenu();
                         return true;
                     }
@@ -159,16 +161,7 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
                 return true;
             }
         });
-        recipeSelectBox.getList().addListener(new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                super.touchDown(event, x, y, pointer, button);
-                getStage().setKeyboardFocus(line);
-                menu.updateMenuHint(line);
-//                setHighlighted(true);                         // restore highlighting
-                return true;
-            }
-        });
+        recipeSelectBox.getList().addListener(createTouchListener());
         return recipeSelectBox;
     }
 
@@ -194,9 +187,8 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
      * SelectBox can have no items after this (if no items available on map).
      */
     private PlaceHolderSelectBox createMaterialSelectBox(ItemPartOrder itemPartOrder, List<ItemSelector> itemSelectors) {
-        ItemCraftingOrderLine line = this;
         int currentIndex = order.getParts().indexOf(itemPartOrder);
-        PlaceHolderSelectBox<ItemSelector> materialSelectBox = new PlaceHolderSelectBox<>(MATERIAL_SELECT_PLACEHOLDER);
+        PlaceHolderSelectBox<ItemSelector> materialSelectBox = new PlaceHolderSelectBox<>(new SimpleItemSelector("Select Material"));
         Position workbenchPosition = menu.getWorkbenchAspect().getAspectHolder().getPosition();
         itemPartOrder.refreshSelectors(workbenchPosition);
         if (itemPartOrder.isSelectedPossible()) {   // selected is null or is in array
@@ -255,17 +247,21 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
                 return true;
             }
         });
-        materialSelectBox.getList().addListener(new InputListener() {
+        materialSelectBox.getList().addListener(createTouchListener());
+        return materialSelectBox;
+    }
+
+    private InputListener createTouchListener() {
+        ItemCraftingOrderLine line = this;
+        return new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchDown(event, x, y, pointer, button);
                 getStage().setKeyboardFocus(line);
                 menu.updateMenuHint(line);
-//                setHighlighted(true);                         // restore highlighting
                 return true;
             }
-        });
-        return materialSelectBox;
+        };
     }
 
     /**
@@ -398,8 +394,7 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
      */
     private Label createItemLabel() {
         String itemTitle = ItemTypeMap.getInstance().getItemType(order.getRecipe().getItemName()).getTitle();
-        itemLabel = new Label(itemTitle, StaticSkin.getSkin()); // label with item type
-        return itemLabel;
+        return new Label(itemTitle, StaticSkin.getSkin()); // label with item type
     }
 
     /**
@@ -419,7 +414,7 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
     }
 
     /**
-     * Hides this line from screen.
+     * Hides this line from screen. Stage focus not changed.
      */
     public void hide() {
         menu.getOrderList().removeActor(this);
@@ -429,17 +424,16 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
      * Returns focus to order list or menu, removes current order, if it's not defined.
      */
     private void goToListOrMenu() {
-        if (order != null && !order.isDefined()) {
+        Actor target = menu;
+        if (menu.getOrderList().hasChildren()) {
+            menu.getOrderList().navigate(0);
+            target = menu.getOrderList();
+        }
+        getStage().setKeyboardFocus(target);
+        menu.updateMenuHint(target);
+        if (order == null || !order.isDefined()) { // row with not started or incomplete order
             TagLoggersEnum.UI.logDebug("Removing incomplete order from list.");
             hide();
-        }
-        if (menu.getOrderList().hasChildren()) {
-            getStage().setKeyboardFocus(menu.getOrderList());
-            menu.updateMenuHint(menu.getOrderList());
-            menu.getOrderList().navigate(0);
-        } else {
-            getStage().setKeyboardFocus(menu);
-            menu.updateMenuHint(menu);
         }
     }
 
