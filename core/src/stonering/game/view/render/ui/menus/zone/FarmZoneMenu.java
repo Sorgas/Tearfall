@@ -4,26 +4,41 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.List;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Value;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import stonering.entity.local.plants.Plant;
 import stonering.entity.local.zone.FarmZone;
+import stonering.enums.plants.PlantType;
 import stonering.game.GameMvc;
+import stonering.game.model.lists.PlantContainer;
 import stonering.game.model.lists.ZonesContainer;
 import stonering.game.view.render.ui.lists.NavigableList;
 import stonering.util.global.StaticSkin;
 
+import java.util.function.Predicate;
+
 /**
  * Menu for managing farms. Plants for growing are configured from here.
+ * Contains list of enabled plants and list of disabled ones.
+ * Only these lists get stage focus and have similar input handlers.
+ * <p>
+ * Controls:
+ * E select/deselect plant for planting(depends on active list).
+ * Q close menu
+ * X delete zone
+ * WS fetch lists
+ * AD switch active list
  *
  * @author Alexander on 20.03.2019.
  */
 public class FarmZoneMenu extends Window {
-    private NavigableList<Plant> enabledPlants;
-    private NavigableList<Plant> disabledPlants;
-
+    private NavigableList<PlantType> enabledPlants;
+    private NavigableList<PlantType> disabledPlants;
     private HorizontalGroup bottomButtons;
-
 
     private FarmZone farmZone;
 
@@ -35,7 +50,8 @@ public class FarmZoneMenu extends Window {
 
     private void createTable() {
         setDebug(true, true);
-        disabledPlants = new NavigableList<>();
+        disabledPlants = createList();
+        enabledPlants = createList();
         add(new Label("All plants:", StaticSkin.getSkin()));
         add(new Label("Selected plants:", StaticSkin.getSkin())).row();
         add(enabledPlants).prefWidth(Value.percentWidth(0.5f, this)).prefHeight(Value.percentHeight(0.5f, this));
@@ -63,48 +79,97 @@ public class FarmZoneMenu extends Window {
         setHeight(600);
     }
 
-    private void createList() {
-        enabledPlants = new NavigableList<>();
-        enabledPlants.setHighlightHandler(focused -> {
-        });
-        enabledPlants.addListener(new InputListener() {
-            @Override
-            public boolean keyDown(InputEvent event, int keycode) {
-                switch (keycode) {
-                    case Input.Keys.A: {
-
-                    }
-                }
-                return super.keyDown(event, keycode);
-            }
-        });
+    private void fillLists() {
+//        PlantMap
+//        List<PlantType> list = GameMvc.getInstance().getModel().get(PlantContainer.class).
+//        enabledPlants.getItems().addAll((PlantType[]) farmZone.getPlants().toArray());
+//        disabledPlants.getItems().addAll();
     }
 
-    private void createMenuListener() {
-        this.addListener(new InputListener() {
+    private NavigableList<PlantType> createList() {
+        NavigableList<PlantType> list = new NavigableList<>();
+        list.setSize(150, 300);
+        list.setHighlightHandler(focused -> {
+            //TODO
+        });
+        ListInputHandler handler = new ListInputHandler(list);
+        list.addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
-                switch (keycode) {
-                    case Input.Keys.Q: {
-                        close();
-                    }
-                    case Input.Keys.X: {
-                        deleteZone();
-                        close();
-                    }
-                }
-                return super.keyDown(event, keycode);
+                return handler.test(keycode);
             }
         });
+        return list;
     }
 
     private void deleteZone() {
         GameMvc.getInstance().getModel().get(ZonesContainer.class).deleteZone(farmZone);
     }
 
+    /**
+     * Moves plant to another list, selecting or deselecting it.
+     *
+     * @param plant
+     * @param list
+     */
+    private void select(PlantType plant, NavigableList<PlantType> list) {
+        list.getItems().removeValue(plant, true);
+        getAnotherList(list).getItems().add(plant);
+    }
 
+    /**
+     * Changes focus to another list.
+     *
+     * @param list
+     */
+    private void switchList(NavigableList<PlantType> list) {
+        getStage().setKeyboardFocus(getAnotherList(list));
+    }
+
+    private NavigableList<PlantType> getAnotherList(NavigableList<PlantType> list) {
+        return list == enabledPlants ? disabledPlants : enabledPlants;
+    }
+
+    /**
+     * Closes this stage.
+     */
     private void close() {
         GameMvc.getInstance().getView().removeStage(getStage());
-        getStage().dispose();
+    }
+
+    /**
+     * Handles input for both lists.
+     */
+    private class ListInputHandler implements Predicate<Integer> {
+        private NavigableList<PlantType> list;
+
+        public ListInputHandler(NavigableList<PlantType> list) {
+            this.list = list;
+        }
+
+        @Override
+        public boolean test(Integer keycode) {
+            switch (keycode) {
+                case Input.Keys.E:
+                    select(list.getSelected(), list);
+                    break;
+                case Input.Keys.Q:
+                    close();
+                    break;
+                case Input.Keys.X:
+                    deleteZone();
+                    break;
+                case Input.Keys.W:
+                    list.up();
+                    break;
+                case Input.Keys.S:
+                    list.down();
+                    break;
+                case Input.Keys.A:
+                case Input.Keys.D:
+                    switchList(list);
+            }
+            return true;
+        }
     }
 }
