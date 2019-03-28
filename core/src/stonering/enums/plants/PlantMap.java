@@ -13,10 +13,12 @@ import java.util.HashMap;
 public class PlantMap {
     private static PlantMap instance;
     private HashMap<String, PlantType> types;
+    private HashMap<String, PlantType> domesticTypes;
     private Json json;
 
     private PlantMap() {
         types = new HashMap<>();
+        domesticTypes = new HashMap<>();
         json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
         json.addClassTag("color_c", Color.class);
@@ -39,6 +41,7 @@ public class PlantMap {
         ArrayList<PlantType> elements = json.fromJson(ArrayList.class, PlantType.class, FileLoader.getFile(FileLoader.PLANTS_PATH));
         for (PlantType plantType : elements) {
             types.put(plantType.getName(), plantType);
+            if(plantType.getPlantingStart() != null) domesticTypes.put(plantType.getName(), plantType);
         }
     }
 
@@ -62,5 +65,9 @@ public class PlantMap {
 
     public Collection<PlantType> getAllTypes() {
         return types.values();
+    }
+
+    public Collection<PlantType> getDonesticTypes() {
+        return domesticTypes.values();
     }
 }

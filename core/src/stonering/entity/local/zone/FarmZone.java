@@ -99,6 +99,14 @@ public class FarmZone extends Zone {
 
     }
 
+    public void enablePlant(String plantName) {
+
+    }
+
+    public void disablePlant(String plantName) {
+
+    }
+
     private int getNextMonth(int current) {
         return current >= 11 ? 0 : current + 1;
     }

@@ -196,5 +196,4 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
         return plants;
     }
 
-    public
 }

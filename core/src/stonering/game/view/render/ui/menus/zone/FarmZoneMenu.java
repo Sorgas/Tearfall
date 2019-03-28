@@ -6,19 +6,20 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.entity.local.zone.FarmZone;
+import stonering.enums.plants.PlantMap;
 import stonering.enums.plants.PlantType;
 import stonering.game.GameMvc;
-import stonering.game.model.lists.PlantContainer;
 import stonering.game.model.lists.ZonesContainer;
 import stonering.game.view.render.ui.lists.NavigableList;
 import stonering.util.global.StaticSkin;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Predicate;
 
 /**
@@ -52,6 +53,7 @@ public class FarmZoneMenu extends Window {
         setDebug(true, true);
         disabledPlants = createList();
         enabledPlants = createList();
+        fillLists();
         add(new Label("All plants:", StaticSkin.getSkin()));
         add(new Label("Selected plants:", StaticSkin.getSkin())).row();
         add(enabledPlants).prefWidth(Value.percentWidth(0.5f, this)).prefHeight(Value.percentHeight(0.5f, this));
@@ -80,10 +82,10 @@ public class FarmZoneMenu extends Window {
     }
 
     private void fillLists() {
-//        PlantMap
-//        List<PlantType> list = GameMvc.getInstance().getModel().get(PlantContainer.class).
-//        enabledPlants.getItems().addAll((PlantType[]) farmZone.getPlants().toArray());
-//        disabledPlants.getItems().addAll();
+        enabledPlants.getItems().addAll((PlantType[]) farmZone.getPlants().toArray());
+        List<PlantType> allTypes = new ArrayList<>(PlantMap.getInstance().getDonesticTypes());
+        allTypes.removeAll(farmZone.getPlants());
+        disabledPlants.getItems().addAll((PlantType[]) allTypes.toArray());
     }
 
     private NavigableList<PlantType> createList() {
@@ -109,12 +111,17 @@ public class FarmZoneMenu extends Window {
     /**
      * Moves plant to another list, selecting or deselecting it.
      *
-     * @param plant
+     * @param type
      * @param list
      */
-    private void select(PlantType plant, NavigableList<PlantType> list) {
-        list.getItems().removeValue(plant, true);
-        getAnotherList(list).getItems().add(plant);
+    private void select(PlantType type, NavigableList<PlantType> list) {
+        list.getItems().removeValue(type, true);
+        getAnotherList(list).getItems().add(type);
+        if(list == disabledPlants) {
+            farmZone.enablePlant(type.getName());
+        } else {
+            farmZone.disablePlant(type.getName());
+        }
     }
 
     /**
