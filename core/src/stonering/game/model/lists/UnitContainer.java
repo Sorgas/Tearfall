@@ -67,7 +67,7 @@ public class UnitContainer extends Turnable implements ModelComponent, Initable 
     }
 
     public List<Unit> getUnitsInPosition(Position position) {
-        return unitsMap.containsKey(position) ? unitsMap.get(position) : new ArrayList<>();
+        return unitsMap.getOrDefault(position, Collections.EMPTY_LIST);
     }
 
 

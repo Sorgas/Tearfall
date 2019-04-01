@@ -1,5 +1,6 @@
 package stonering.game.view.render.stages.base;
 
+import stonering.designations.Designation;
 import stonering.entity.local.building.BuildingBlock;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.plants.PlantBlock;
@@ -10,6 +11,7 @@ import stonering.game.GameMvc;
 import stonering.game.model.EntitySelector;
 import stonering.game.model.GameModel;
 import stonering.game.model.lists.ItemContainer;
+import stonering.game.model.lists.TaskContainer;
 import stonering.game.model.lists.UnitContainer;
 import stonering.game.model.lists.ZonesContainer;
 import stonering.game.model.local_map.LocalMap;
@@ -28,6 +30,7 @@ public class TileRenderer extends Renderer {
     private LocalTileMap localTileMap;
     private EntitySelector selector;
     private UnitContainer unitContainer;
+    private TaskContainer taskContainer;
     private Int3DBounds visibleArea;
 
     private Position cachePosition;
@@ -40,6 +43,7 @@ public class TileRenderer extends Renderer {
         localTileMap = gameModel.get(LocalTileMap.class);
         selector = gameModel.get(EntitySelector.class);
         unitContainer = gameModel.get(UnitContainer.class);
+        taskContainer = gameModel.get(TaskContainer.class);
         cachePosition = new Position(0, 0, 0);
     }
 
@@ -59,6 +63,7 @@ public class TileRenderer extends Renderer {
     /**
      * Draws all content of the tile.
      * Draw order: block, plants, building, unit, items, designation.
+     * //TODO refactor
      */
     private void drawTile(int x, int y, int z) {
         //byte lightLevel = (byte) (localMap.getLight().getValue(x, y, z) + localMap.getGeneralLight().getValue(x, y, z));  //TODO limit light level
@@ -85,8 +90,9 @@ public class TileRenderer extends Renderer {
             if (!items.isEmpty())
                 items.forEach((item) -> drawingUtil.drawSprite(drawingUtil.selectSprite(5, item.getType().getAtlasXY()[0], item.getType().getAtlasXY()[1]), x, y, z, selector.getPosition()));
         }
-        if (localMap.getDesignatedBlockType(x, y, z) > 0)
-            drawingUtil.drawSprite(drawingUtil.selectSprite(4, DesignationsTileMapping.getAtlasX(localMap.getDesignatedBlockType(x, y, z)), 0), x, y, z, selector.getPosition());
+        Designation designation = taskContainer.getDesignation(x, y, z);
+        if (designation != null)
+            drawingUtil.drawSprite(drawingUtil.selectSprite(4, DesignationsTileMapping.getAtlasX(designation.getType().CODE), 0), x, y, z, selector.getPosition());
         Zone zone = GameMvc.getInstance().getModel().get(ZonesContainer.class).getZone(cachePosition);
         if (zone != null) {
             drawingUtil.drawSprite(zone.getType().sprite, x, y, z, selector.getPosition());

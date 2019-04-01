@@ -23,7 +23,6 @@ import java.util.List;
 public class LocalMap implements ModelComponent, Initable {
     private int[][][] material;
     private byte[][][] blockType;
-    private byte[][][] designatedBlockType;
     private byte[][][] flooding;
     private byte[][][] temperature;
     public final UtilByteArray generalLight;                   //for light from celestial bodies
@@ -41,7 +40,6 @@ public class LocalMap implements ModelComponent, Initable {
     public LocalMap(int xSize, int ySize, int zSize) {
         material = new int[xSize][ySize][zSize];
         blockType = new byte[xSize][ySize][zSize];
-        designatedBlockType = new byte[xSize][ySize][zSize];
         plantBlocks = new PlantBlock[xSize][ySize][zSize];
         buildingBlocks = new BuildingBlock[xSize][ySize][zSize];
         flooding = new byte[xSize][ySize][zSize];
@@ -175,10 +173,6 @@ public class LocalMap implements ModelComponent, Initable {
         return (passable1 && passable2 && (sameLevel || lowRamp));
     }
 
-    public void setDesignatedBlockType(int x, int y, int z, byte blockType) {
-        designatedBlockType[x][y][z] = blockType;
-    }
-
     public void setLocalTileMapUpdater(LocalTileMapUpdater localTileMapUpdater) {
         this.localTileMapUpdater = localTileMapUpdater;
     }
@@ -213,10 +207,6 @@ public class LocalMap implements ModelComponent, Initable {
         return buildingBlocks[position.getX()][position.getY()][position.getZ()];
     }
 
-    public void setDesignatedBlockType(Position pos, byte blockType) {
-        setDesignatedBlockType(pos.getX(), pos.getY(), pos.getZ(), blockType);
-    }
-
     public byte getTemperature(int x, int y, int z) {
         return temperature[x][y][z];
     }
@@ -240,11 +230,6 @@ public class LocalMap implements ModelComponent, Initable {
     public void setBlockType(Position pos, byte type) {
         setBlockType(pos.getX(), pos.getY(), pos.getZ(), type);
     }
-
-    public byte getDesignatedBlockType(int x, int y, int z) {
-        return designatedBlockType[x][y][z];
-    }
-
 
     public byte getFlooding(int x, int y, int z) {
         return flooding[x][y][z];

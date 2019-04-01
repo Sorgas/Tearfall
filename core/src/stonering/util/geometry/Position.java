@@ -109,10 +109,11 @@ public class Position implements Serializable, Cloneable {
         return result;
     }
 
-    public void set(int x, int y, int z) {
+    public Position set(int x, int y, int z) {
         this.x = x;
         this.y = y;
         this.z = z;
+        return this;
     }
 
     public String toString() {

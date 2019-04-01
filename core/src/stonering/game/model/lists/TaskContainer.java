@@ -28,7 +28,6 @@ import java.util.HashMap;
  * Contains all tasks for settlers on map and Designations for rendering.
  * {@link Task} are orders for units.
  * {@link Designation} are used for drawing given orders as tiles.
- * Designations
  *
  * @author Alexander Kuzyakov
  */
@@ -36,8 +35,10 @@ public class TaskContainer implements ModelComponent, Initable {
     private LocalMap localMap;
     private ArrayList<Task> tasks;
     private HashMap<Position, Designation> designations;
+    private Position cachePosition; // state is not maintained. should be set before use
 
     public TaskContainer() {
+        cachePosition = new Position(0, 0, 0);
         tasks = new ArrayList<>();
         designations = new HashMap<>();
     }
@@ -57,7 +58,6 @@ public class TaskContainer implements ModelComponent, Initable {
     }
 
     /**
-     * Called from {@link stonering.game.controller.controllers.toolbar.DesignationsController}.
      * Adds designation and creates comprehensive task.
      * All simple orders like digging and foraging submitted through this method.
      *
@@ -65,28 +65,15 @@ public class TaskContainer implements ModelComponent, Initable {
      * @param type
      */
     public void submitOrderDesignation(Position position, DesignationTypeEnum type, int priority) {
-        switch (type) {
-            case BUILD:
-            case NONE:
-            case DIG:
-            case STAIRS:
-            case RAMP:
-            case CHANNEL:
-            case CHOP:
-            case HARVEST:
-            case CUT: {
-                if (validateDesignations(position, type)) {
-                    OrderDesignation designation = new OrderDesignation(position, type);
-                    Task task = createOrderTask(designation, priority);
-                    if (task != null) {
-                        task.setDesignation(designation);
-                        designation.setTask(task);
-                        tasks.add(task);
-                        addDesignation(designation);
-                    }
-                }
-            }
-        }
+        if (!validateDesignations(position, type)) return; // no designation for invalid position
+        OrderDesignation designation = new OrderDesignation(position, type);
+        Task task = createOrderTask(designation, priority);
+        if (task == null) return; // no designation with no task
+        task.setDesignation(designation);
+        designation.setTask(task);
+        tasks.add(task);
+        addDesignation(designation);
+        TagLoggersEnum.TASKS.log(task.getName() + " designated");
     }
 
     /**
@@ -143,7 +130,7 @@ public class TaskContainer implements ModelComponent, Initable {
      */
     private Task createBuildingTask(BuildingDesignation designation, Collection<ItemSelector> itemSelectors, int priority) {
         Action action;
-        if(BuildingTypeMap.getInstance().getBuilding(designation.getBuilding()).isConstruction()) {
+        if (BuildingTypeMap.getInstance().getBuilding(designation.getBuilding()).isConstruction()) {
             action = new ConstructionAction(designation, itemSelectors);
         } else {
             action = new BuildingAction(designation, itemSelectors);
@@ -153,6 +140,9 @@ public class TaskContainer implements ModelComponent, Initable {
         return task;
     }
 
+    /**
+     * Validates applying given designation type to position.
+     */
     private boolean validateDesignations(Position position, DesignationTypeEnum type) {
         BlockTypesEnum blockOnMap = BlockTypesEnum.getType(localMap.getBlockType(position));
         switch (type) {
@@ -207,22 +197,20 @@ public class TaskContainer implements ModelComponent, Initable {
 
     /**
      * Adds designation to designations map. Updates local map.
-     *
-     * @param designation
      */
     private void addDesignation(Designation designation) {
         designations.put(designation.getPosition(), designation);
-        localMap.setDesignatedBlockType(designation.getPosition(), designation.getType().CODE);
     }
 
     /**
      * Removes designation from designations map. Updates local map.
-     *
-     * @param designation
      */
     private void removeDesignation(Designation designation) {
         designations.remove(designation.getPosition());
-        localMap.setDesignatedBlockType(designation.getPosition(), DesignationTypeEnum.NONE.CODE);
+    }
+
+    public Designation getDesignation(int x, int y, int z) {
+        return designations.get(cachePosition.set(x, y, z));
     }
 
     public void setTasks(ArrayList<Task> tasks) {

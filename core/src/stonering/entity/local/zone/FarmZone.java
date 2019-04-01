@@ -61,17 +61,12 @@ public class FarmZone extends Zone {
     private void checkTilesForHoeing() {
         LocalMap localMap = GameMvc.getInstance().getModel().get(LocalMap.class);
         TaskContainer taskContainer = GameMvc.getInstance().getModel().get(TaskContainer.class);
-        int currentMonth = GameMvc.getInstance().getModel().get(GameCalendar.class).getMonth();
-        if (months.contains(getNextMonth(currentMonth)) || months.contains(currentMonth)) {
-            for (Position tile : tiles) {
-                if (localMap.getBlockType(tile) == BlockTypesEnum.FARM.CODE
-                        || taskContainer.getDesignations().get(tile) != null) continue; // tile is ready or designated
-                taskContainer.submitOrderDesignation(tile, DesignationTypeEnum.FARM, 1);
-            }
+        if (!monthForPreparingSoil()) return;
+        for (Position tile : tiles) {
+            if (localMap.getBlockType(tile) == BlockTypesEnum.FARM.CODE
+                    || taskContainer.getDesignations().get(tile) != null) continue; // tile is prepared or already designated
+            taskContainer.submitOrderDesignation(tile, DesignationTypeEnum.FARM, 1);
         }
-    }
-
-    private void createTaskForHoeing(Position position) {
     }
 
     private void tryCreatePlantingTasks() {
@@ -99,12 +94,27 @@ public class FarmZone extends Zone {
 
     }
 
-    public void enablePlant(String plantName) {
+    private boolean monthForPreparingSoil() {
+        int currentMonth = GameMvc.getInstance().getModel().get(GameCalendar.class).getMonth();
+        return months.contains(getNextMonth(currentMonth)) || months.contains(currentMonth);
+    }
 
+    private boolean monthForPlanting() {
+        int currentMonth = GameMvc.getInstance().getModel().get(GameCalendar.class).getMonth();
+        return months.contains(currentMonth);
+    }
+
+    public void enablePlant(String plantName) {
+        plants.add(plantName);
     }
 
     public void disablePlant(String plantName) {
+        plants.remove(plantName);
+        cancelGrowingTasks(plantName);
+    }
 
+    private void cancelGrowingTasks(String plantName) {
+        //TODO
     }
 
     private int getNextMonth(int current) {

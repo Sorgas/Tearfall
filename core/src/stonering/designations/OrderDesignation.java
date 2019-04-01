@@ -4,7 +4,7 @@ import stonering.enums.designations.DesignationTypeEnum;
 import stonering.util.geometry.Position;
 
 /**
- * Designation of order to be stored and drawn on map. Exact order specified by type field.
+ * Designation of order to be stored and rendered on map. Exact order specified by type field.
  *
  * @author Alexander Kuzyakov
  */
