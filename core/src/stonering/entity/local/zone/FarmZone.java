@@ -5,6 +5,7 @@ import stonering.designations.Designation;
 import stonering.entity.jobs.Task;
 import stonering.entity.local.environment.GameCalendar;
 import stonering.entity.local.items.selectors.ItemSelector;
+import stonering.entity.local.plants.PlantBlock;
 import stonering.enums.ZoneTypesEnum;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.designations.DesignationTypeEnum;
@@ -52,16 +53,20 @@ public class FarmZone extends Zone {
     @Override
     public void turn() {
         checkTilesForHoeing();
+        tryCreatePlantingTasks();
     }
 
     /**
-     * Passes through all tiles and creates hoeing task for first found.
+     * Observes all tiles and creates tasks.
+     * 1. Designates unprepared soil floor tiles for hoeing.
+     * 2. Designates existent plants not from enabled list for cutting.
+     * 3. Designates prepared tiles(1) for planting enabled plants.
      * Soil preparation begins one month before first plant can be planted, disregarding seed availability.
      */
     private void checkTilesForHoeing() {
+        if (!monthForPreparingSoil()) return;
         LocalMap localMap = GameMvc.getInstance().getModel().get(LocalMap.class);
         TaskContainer taskContainer = GameMvc.getInstance().getModel().get(TaskContainer.class);
-        if (!monthForPreparingSoil()) return;
         for (Position tile : tiles) {
             if (localMap.getBlockType(tile) == BlockTypesEnum.FARM.CODE
                     || taskContainer.getDesignations().get(tile) != null) continue; // tile is prepared or already designated
@@ -69,8 +74,55 @@ public class FarmZone extends Zone {
         }
     }
 
+    /**
+     * Observes all tiles and creates tasks for planting enabled plants, or cutting other plants.
+     */
     private void tryCreatePlantingTasks() {
+        String plant = getPlantForPlanting();
+        if(plant == null) return;
+        LocalMap localMap = GameMvc.getInstance().getModel().get(LocalMap.class);
+        TaskContainer taskContainer = GameMvc.getInstance().getModel().get(TaskContainer.class);
+        for (Position tile : tiles) {
+            PlantBlock plantBlock = localMap.getPlantBlock(tile);
+            if (plantBlock != null)
+                if (plants.contains(plantBlock.getPlant().getType().getName())) {
+                    continue; // plant from enabled plants is planted
+                } else {
+                    createTaskForCutting(position); // unwanted plant is present
+                }
+            else {
+                if(localMap.getBlockType(tile) == BlockTypesEnum.FARM.CODE) {
+                    createTaskForPlanting(position, )
+                }
+            }
 
+
+                taskContainer.getDesignations().get(tile) != null) continue; // tile is prepared or already designated
+            taskContainer.submitOrderDesignation(tile, DesignationTypeEnum.FARM, 1);
+        }
+    }
+
+    /**
+     * For clearing zone form not enabled plants.
+     */
+    private void createTaskForCutting(Position position) {
+
+    }
+
+    private void createTaskForPlanting(Position position, String plantName) {
+
+    }
+
+    /**
+     * Selects plant from enabled list for planting in current month.
+     */
+    private String getPlantForPlanting() {
+        int currentMonth = GameMvc.getInstance().getModel().get(GameCalendar.class).getMonth();
+        for (String plant : plants) {
+            PlantType plantType = PlantMap.getInstance().getPlantType(plant);
+            if(plantType.getPlantingStart().contains(currentMonth)) return plant;
+        }
+        return null;
     }
 
     /**
@@ -91,17 +143,14 @@ public class FarmZone extends Zone {
      * Checks plants inside farm, creates tasks.
      */
     private void checkPlants() {
+        for(Iterator<String> iterator = plants.iterator()) {
 
+        }
     }
 
     private boolean monthForPreparingSoil() {
         int currentMonth = GameMvc.getInstance().getModel().get(GameCalendar.class).getMonth();
         return months.contains(getNextMonth(currentMonth)) || months.contains(currentMonth);
-    }
-
-    private boolean monthForPlanting() {
-        int currentMonth = GameMvc.getInstance().getModel().get(GameCalendar.class).getMonth();
-        return months.contains(currentMonth);
     }
 
     public void enablePlant(String plantName) {

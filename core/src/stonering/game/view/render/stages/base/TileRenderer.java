@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Class for rendering tiles.
+ *
  * @author Alexander on 06.02.2019.
  */
 public class TileRenderer extends Renderer {
