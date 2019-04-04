@@ -3,6 +3,7 @@ package stonering.entity.local.zone;
 
 import stonering.designations.Designation;
 import stonering.entity.jobs.Task;
+import stonering.entity.local.building.validators.PositionValidator;
 import stonering.entity.local.environment.GameCalendar;
 import stonering.entity.local.items.selectors.ItemSelector;
 import stonering.entity.local.plants.PlantBlock;
@@ -13,10 +14,12 @@ import stonering.enums.plants.PlantMap;
 import stonering.enums.plants.PlantType;
 import stonering.game.GameMvc;
 import stonering.game.model.lists.TaskContainer;
+import stonering.game.model.lists.ZonesContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 
 import java.util.*;
+import java.util.function.Consumer;
 
 /**
  * Farm keeps track on plants condition in its zone, and create tasks respectively.
@@ -52,7 +55,7 @@ public class FarmZone extends Zone {
 
     @Override
     public void turn() {
-        checkTilesForHoeing();
+        checkTiles();
         tryCreatePlantingTasks();
     }
 
@@ -63,14 +66,32 @@ public class FarmZone extends Zone {
      * 3. Designates prepared tiles(1) for planting enabled plants.
      * Soil preparation begins one month before first plant can be planted, disregarding seed availability.
      */
-    private void checkTilesForHoeing() {
-        if (!monthForPreparingSoil()) return;
+    private void checkTiles() {
+        boolean monthForHoeing = monthForPreparingSoil();
+        String plant = getPlantForPlanting();
+        if (!monthForHoeing && plant == null) return;
         LocalMap localMap = GameMvc.getInstance().getModel().get(LocalMap.class);
         TaskContainer taskContainer = GameMvc.getInstance().getModel().get(TaskContainer.class);
         for (Position tile : tiles) {
-            if (localMap.getBlockType(tile) == BlockTypesEnum.FARM.CODE
-                    || taskContainer.getDesignations().get(tile) != null) continue; // tile is prepared or already designated
-            taskContainer.submitOrderDesignation(tile, DesignationTypeEnum.FARM, 1);
+            byte tileType = localMap.getBlockType(position);
+            if (tileType != BlockTypesEnum.FARM.CODE && tileType != BlockTypesEnum.FLOOR.CODE) { // non-floor tiles are ignored and removed from zone.
+                removeTileFromZone(tile);
+                continue;
+            }
+            // tile is already designated for something. building or digging in zones is allowed, non-floor tiles will be removed on next iteration.
+            if (taskContainer.getActiveTask(tile) != null) continue;
+            PlantBlock plantBlock = localMap.getPlantBlock(tile);
+            if (plantBlock != null && !plants.contains(plantBlock.getPlant().getType().getTitle())) { // unwanted plant is present
+                taskContainer.submitOrderDesignation(tile, DesignationTypeEnum.CUT, 1);
+                continue;
+            }
+            if (tileType == BlockTypesEnum.FLOOR.CODE) {
+                taskContainer.submitOrderDesignation(position, DesignationTypeEnum.FARM, 1);
+                continue;
+            }
+            if(plantBlock == null) {
+                createTaskForPlanting(tile, plant);
+            }
         }
     }
 
@@ -79,34 +100,13 @@ public class FarmZone extends Zone {
      */
     private void tryCreatePlantingTasks() {
         String plant = getPlantForPlanting();
-        if(plant == null) return;
+        if (plant == null) return;
         LocalMap localMap = GameMvc.getInstance().getModel().get(LocalMap.class);
         TaskContainer taskContainer = GameMvc.getInstance().getModel().get(TaskContainer.class);
         for (Position tile : tiles) {
-            PlantBlock plantBlock = localMap.getPlantBlock(tile);
-            if (plantBlock != null)
-                if (plants.contains(plantBlock.getPlant().getType().getName())) {
-                    continue; // plant from enabled plants is planted
-                } else {
-                    createTaskForCutting(position); // unwanted plant is present
-                }
-            else {
-                if(localMap.getBlockType(tile) == BlockTypesEnum.FARM.CODE) {
-                    createTaskForPlanting(position, )
-                }
-            }
-
-
-                taskContainer.getDesignations().get(tile) != null) continue; // tile is prepared or already designated
+            taskContainer.getDesignations().get(tile) != null)continue; // tile is prepared or already designated
             taskContainer.submitOrderDesignation(tile, DesignationTypeEnum.FARM, 1);
         }
-    }
-
-    /**
-     * For clearing zone form not enabled plants.
-     */
-    private void createTaskForCutting(Position position) {
-
     }
 
     private void createTaskForPlanting(Position position, String plantName) {
@@ -120,7 +120,7 @@ public class FarmZone extends Zone {
         int currentMonth = GameMvc.getInstance().getModel().get(GameCalendar.class).getMonth();
         for (String plant : plants) {
             PlantType plantType = PlantMap.getInstance().getPlantType(plant);
-            if(plantType.getPlantingStart().contains(currentMonth)) return plant;
+            if (plantType.getPlantingStart().contains(currentMonth)) return plant;
         }
         return null;
     }
@@ -136,15 +136,6 @@ public class FarmZone extends Zone {
             if (type.getPlantingStart() != null) {
                 months.addAll(type.getPlantingStart());
             }
-        }
-    }
-
-    /**
-     * Checks plants inside farm, creates tasks.
-     */
-    private void checkPlants() {
-        for(Iterator<String> iterator = plants.iterator()) {
-
         }
     }
 
@@ -170,14 +161,15 @@ public class FarmZone extends Zone {
         return current >= 11 ? 0 : current + 1;
     }
 
-    /**
-     * Creates {@link Designation} based on given task and adds it to container.
-     */
-    private void submitTaskToContainer(Task task) {
-        GameMvc.getInstance().getModel().get(TaskContainer.class);
-    }
-
     public Set<String> getPlants() {
         return plants;
+    }
+
+    /**
+     * Removes single tile from this zone.
+     * Zone modification is fully handled through container.
+     */
+    private void removeTileFromZone(Position position) {
+        GameMvc.getInstance().getModel().get(ZonesContainer.class).updateZones(position, position, null);
     }
 }

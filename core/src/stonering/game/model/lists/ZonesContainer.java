@@ -102,7 +102,11 @@ public class ZonesContainer extends Turnable implements ModelComponent {
         }
     }
 
-    private void freeTile(Position pos) {
+    /**
+     * Frees tile from any zones.
+     * @param pos
+     */
+    public void freeTile(Position pos) {
         Zone zone = zoneMap.remove(pos);
         if (zone != null) zone.getTiles().remove(pos);
     }
