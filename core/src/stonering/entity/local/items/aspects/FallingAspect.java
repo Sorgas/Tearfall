@@ -15,7 +15,7 @@ import stonering.entity.local.items.Item;
  * @author Savva Kodeikin
  */
 public class FallingAspect extends Aspect {
-    private static final String NAME = "falling";
+    public static final String NAME = "falling";
 
     private LocalMap localMap;
 
@@ -24,14 +24,9 @@ public class FallingAspect extends Aspect {
     }
 
     @Override
-    public String getName() {
-        return NAME;
-    }
-
-    @Override
     public void init() {
         super.init();
-        localMap = GameMvc.getInstance().getModel().get(LocalMap.class);
+        localMap = GameMvc.instance().getModel().get(LocalMap.class);
     }
 
     @Override
@@ -43,7 +38,7 @@ public class FallingAspect extends Aspect {
             boolean isLowerBlockWall = localMap.getBlockType(lowerPosition) == BlockTypesEnum.WALL.CODE;
 
             if (localMap.inMap(lowerPosition) && isCurrentBlockSpace && !isLowerBlockWall) {
-                GameMvc.getInstance().getModel().get(ItemContainer.class).moveItem((Item) aspectHolder, lowerPosition);
+                GameMvc.instance().getModel().get(ItemContainer.class).moveItem((Item) aspectHolder, lowerPosition);
             }
         }
     }

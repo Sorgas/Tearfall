@@ -4,6 +4,7 @@ import stonering.entity.jobs.actions.target.ItemActionTarget;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.unit.aspects.equipment.EquipmentAspect;
 import stonering.exceptions.NotSuitableItemException;
+import stonering.game.GameMvc;
 import stonering.game.model.lists.ItemContainer;
 import stonering.util.global.TagLoggersEnum;
 
@@ -21,14 +22,14 @@ public class EquipItemAction extends Action {
     @Override
     protected void performLogic() {
         //TODO manage equipped items in item container
-        if (((EquipmentAspect) task.getPerformer().getAspects().get("equipment")).equipItem(item))
-            gameMvc.getModel().get(ItemContainer.class).pickItem(item);
+        if ((task.getPerformer().getAspect(EquipmentAspect.class)).equipItem(item))
+            GameMvc.instance().getModel().get(ItemContainer.class).pickItem(item);
     }
 
     @Override
     public boolean check() {
         try {
-            EquipmentAspect equipmentAspect = (EquipmentAspect) task.getPerformer().getAspects().get("equipment");
+            EquipmentAspect equipmentAspect = task.getPerformer().getAspect(EquipmentAspect.class);
             Item blockingItem = equipmentAspect.checkItemForEquip(this.item);
             if (blockingItem == null) return true;
             if (!force) return true; // do not unequip if not forced.

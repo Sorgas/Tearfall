@@ -99,10 +99,10 @@ public class GameView extends SimpleScreen implements Initable {
     private boolean handleKeyDown(int keyCode) {
         switch (keyCode) {
             case Input.Keys.Q:
-                GameMvc.getInstance().getView().addStageToList(new PauseMenuStage());
+                GameMvc.instance().getView().addStageToList(new PauseMenuStage());
                 return true;
             case Input.Keys.E:
-                showMapEntityListStage(GameMvc.getInstance().getModel().get(EntitySelector.class).getPosition());
+                showMapEntityListStage(GameMvc.instance().getModel().get(EntitySelector.class).getPosition());
                 return true;
         }
         return false;

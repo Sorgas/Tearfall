@@ -75,7 +75,7 @@ public class TearFall extends Game {
     }
 
     public void switchToGame() {
-        setScreen(GameMvc.getInstance().getView());
+        setScreen(GameMvc.instance().getView());
     }
 
     private void createFont() {

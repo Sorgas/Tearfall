@@ -7,6 +7,7 @@ import stonering.entity.local.AspectHolder;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.items.aspects.ItemContainerAspect;
 import stonering.entity.local.unit.aspects.equipment.EquipmentAspect;
+import stonering.game.GameMvc;
 import stonering.game.model.lists.ItemContainer;
 import stonering.util.geometry.Position;
 
@@ -36,19 +37,19 @@ public class ItemPutAction extends Action {
 
     @Override
     public void performLogic() {
-        EquipmentAspect equipmentAspect = (EquipmentAspect) task.getPerformer().getAspects().get(EquipmentAspect.NAME);
+        EquipmentAspect equipmentAspect = (EquipmentAspect) task.getPerformer().getAspect(EquipmentAspect.class);
         equipmentAspect.getHauledItems().remove(targetItem);
         if (target != null) {
-            ((ItemContainerAspect) target.getAspects().get(ItemContainerAspect.NAME)).getItems().add(targetItem);
+            ((ItemContainerAspect) target.getAspect(ItemContainerAspect.class)).getItems().add(targetItem);
         } else {
-            gameMvc.getModel().get(ItemContainer.class).putItem(targetItem, targetPosition);
+            GameMvc.instance().getModel().get(ItemContainer.class).putItem(targetItem, targetPosition);
         }
     }
 
     @Override
     public boolean check() {
-        if (target != null && !target.getAspects().containsKey(ItemContainerAspect.NAME)) return false;
-        EquipmentAspect equipmentAspect = (EquipmentAspect) task.getPerformer().getAspects().get(EquipmentAspect.NAME);
+        if (target != null && target.getAspect(ItemContainerAspect.class) != null) return false;
+        EquipmentAspect equipmentAspect = task.getPerformer().getAspect(EquipmentAspect.class);
         if (equipmentAspect == null) return false; // performer can carry items
         if (equipmentAspect.getHauledItems().contains(targetItem)) return true; // performer already has item
         return createPickingAction(targetItem);

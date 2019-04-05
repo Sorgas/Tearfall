@@ -26,9 +26,4 @@ public class JobsAspect extends Aspect {
     public void setJobs(ArrayList<String> jobs) {
         this.jobs = jobs;
     }
-
-    @Override
-    public String getName() {
-        return NAME;
-    }
 }

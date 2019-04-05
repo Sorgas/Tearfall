@@ -21,7 +21,7 @@ public abstract class AbstractPlant extends AspectHolder {
         return type.getLifeStages().get(currentStage);
     }
 
-    /**
+    /**-
      * Increases age by 1 month.
      *
      * @return 1, if stage changed, -1 if last stage ended.

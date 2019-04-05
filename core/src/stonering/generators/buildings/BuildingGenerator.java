@@ -44,15 +44,14 @@ public class BuildingGenerator {
             if (!aspect.isEmpty()) {
                 switch (aspect.get(0)) {
                     case WorkbenchAspect.NAME: {
-                        WorkbenchAspect workbenchAspect = new WorkbenchAspect(building);
-                        building.getAspects().put(WorkbenchAspect.NAME, workbenchAspect);
+                        building.addAspect(new WorkbenchAspect(building));
                         break;
                     }
                     case ItemContainerAspect.NAME: {
                         ItemContainerAspect itemContainerAspect = new ItemContainerAspect(building);
                         itemContainerAspect.setItemType(aspect.get(1));
                         itemContainerAspect.setVolume(Integer.parseInt(aspect.get(2)));
-                        building.getAspects().put(ItemContainerAspect.NAME, itemContainerAspect);
+                        building.addAspect(itemContainerAspect);
                         break;
                     }
                 }

@@ -46,7 +46,7 @@ public class WorkbenchMenu extends Window implements HintedActor {
         super(building.toString(), StaticSkin.getSkin());
         this.gameMvc = gameMvc;
         this.workbench = building;
-        workbenchAspect = (WorkbenchAspect) building.getAspects().get(WorkbenchAspect.NAME);
+        workbenchAspect = (WorkbenchAspect) building.getAspect(WorkbenchAspect.class);
         setKeepWithinStage(true);
         createTable();
         this.addListener(new MenuKeyInputListener());
@@ -150,7 +150,7 @@ public class WorkbenchMenu extends Window implements HintedActor {
      * Checks if building is workbench (has workbench aspect).
      */
     private static boolean validateBuilding(Building building) {
-        return building.getAspects().containsKey(WorkbenchAspect.NAME);
+        return building.getAspect(WorkbenchAspect.class) != null;
     }
 
     /**

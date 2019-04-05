@@ -19,8 +19,8 @@ public class LocalTileMapUpdater {
     private transient MaterialMap materialMap;
 
     public LocalTileMapUpdater() {
-        localMap = GameMvc.getInstance().getModel().get(LocalMap.class);
-        localTileMap = GameMvc.getInstance().getModel().get(LocalTileMap.class);
+        localMap = GameMvc.instance().getModel().get(LocalMap.class);
+        localTileMap = GameMvc.instance().getModel().get(LocalTileMap.class);
         materialMap = MaterialMap.getInstance();
     }
 

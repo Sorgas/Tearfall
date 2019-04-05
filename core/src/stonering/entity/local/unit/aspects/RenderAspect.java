@@ -18,11 +18,6 @@ public class RenderAspect extends Aspect {
         super(aspectHolder);
     }
 
-    @Override
-    public String getName() {
-        return NAME;
-    }
-
     public int[] getAtlasXY() {
         return atlasXY;
     }

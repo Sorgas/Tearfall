@@ -13,7 +13,6 @@ import stonering.util.global.TagLoggersEnum;
  * If action requirements are not met, Action and its task are failed.
  */
 public abstract class Action {
-    protected GameMvc gameMvc;
     protected Task task; // can be modified during execution
     protected ActionTarget actionTarget;
     protected boolean finished;
@@ -21,7 +20,6 @@ public abstract class Action {
 
     protected Action(ActionTarget actionTarget) {
         this.actionTarget = actionTarget;
-        this.gameMvc = GameMvc.getInstance();
         actionTarget.setAction(this);
     }
 

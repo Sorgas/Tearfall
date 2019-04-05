@@ -1,9 +1,7 @@
 package stonering.entity.local.zone;
 
 
-import stonering.designations.Designation;
 import stonering.entity.jobs.Task;
-import stonering.entity.local.building.validators.PositionValidator;
 import stonering.entity.local.environment.GameCalendar;
 import stonering.entity.local.items.selectors.ItemSelector;
 import stonering.entity.local.plants.PlantBlock;
@@ -19,7 +17,6 @@ import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 
 import java.util.*;
-import java.util.function.Consumer;
 
 /**
  * Farm keeps track on plants condition in its zone, and create tasks respectively.
@@ -70,8 +67,8 @@ public class FarmZone extends Zone {
         boolean monthForHoeing = monthForPreparingSoil();
         String plant = getPlantForPlanting();
         if (!monthForHoeing && plant == null) return;
-        LocalMap localMap = GameMvc.getInstance().getModel().get(LocalMap.class);
-        TaskContainer taskContainer = GameMvc.getInstance().getModel().get(TaskContainer.class);
+        LocalMap localMap = GameMvc.instance().getModel().get(LocalMap.class);
+        TaskContainer taskContainer = GameMvc.instance().getModel().get(TaskContainer.class);
         for (Position tile : tiles) {
             byte tileType = localMap.getBlockType(position);
             if (tileType != BlockTypesEnum.FARM.CODE && tileType != BlockTypesEnum.FLOOR.CODE) { // non-floor tiles are ignored and removed from zone.
@@ -89,7 +86,7 @@ public class FarmZone extends Zone {
                 taskContainer.submitOrderDesignation(position, DesignationTypeEnum.FARM, 1);
                 continue;
             }
-            if(plantBlock == null) {
+            if (plantBlock == null) {
                 createTaskForPlanting(tile, plant);
             }
         }
@@ -101,10 +98,10 @@ public class FarmZone extends Zone {
     private void tryCreatePlantingTasks() {
         String plant = getPlantForPlanting();
         if (plant == null) return;
-        LocalMap localMap = GameMvc.getInstance().getModel().get(LocalMap.class);
-        TaskContainer taskContainer = GameMvc.getInstance().getModel().get(TaskContainer.class);
+        LocalMap localMap = GameMvc.instance().getModel().get(LocalMap.class);
+        TaskContainer taskContainer = GameMvc.instance().getModel().get(TaskContainer.class);
         for (Position tile : tiles) {
-            taskContainer.getDesignations().get(tile) != null)continue; // tile is prepared or already designated
+            if (taskContainer.getDesignations().get(tile) != null) continue; // tile is prepared or already designated
             taskContainer.submitOrderDesignation(tile, DesignationTypeEnum.FARM, 1);
         }
     }
@@ -117,7 +114,7 @@ public class FarmZone extends Zone {
      * Selects plant from enabled list for planting in current month.
      */
     private String getPlantForPlanting() {
-        int currentMonth = GameMvc.getInstance().getModel().get(GameCalendar.class).getMonth();
+        int currentMonth = GameMvc.instance().getModel().get(GameCalendar.class).getMonth();
         for (String plant : plants) {
             PlantType plantType = PlantMap.getInstance().getPlantType(plant);
             if (plantType.getPlantingStart().contains(currentMonth)) return plant;
@@ -140,7 +137,7 @@ public class FarmZone extends Zone {
     }
 
     private boolean monthForPreparingSoil() {
-        int currentMonth = GameMvc.getInstance().getModel().get(GameCalendar.class).getMonth();
+        int currentMonth = GameMvc.instance().getModel().get(GameCalendar.class).getMonth();
         return months.contains(getNextMonth(currentMonth)) || months.contains(currentMonth);
     }
 
@@ -170,6 +167,6 @@ public class FarmZone extends Zone {
      * Zone modification is fully handled through container.
      */
     private void removeTileFromZone(Position position) {
-        GameMvc.getInstance().getModel().get(ZonesContainer.class).updateZones(position, position, null);
+        GameMvc.instance().getModel().get(ZonesContainer.class).updateZones(position, position, null);
     }
 }

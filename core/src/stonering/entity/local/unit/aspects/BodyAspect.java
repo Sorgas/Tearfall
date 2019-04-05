@@ -70,9 +70,4 @@ public class BodyAspect extends Aspect {
     public void addBodyPart(BodyPart bodyPart) {
         bodyParts.put(bodyPart.title, bodyPart);
     }
-
-    @Override
-    public String getName() {
-        return NAME;
-    }
 }

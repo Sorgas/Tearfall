@@ -23,7 +23,7 @@ public class TreeGenerator {
         Tree tree = new Tree(null, age);
         tree.setType(PlantMap.getInstance().getPlantType(specimen));
         tree.setBlocks(createTreeBlocks(tree));
-        tree.getAspects().put(PlantGrowthAspect.NAME, new PlantGrowthAspect(tree));
+        tree.addAspect(new PlantGrowthAspect(tree));
         return tree;
     }
 

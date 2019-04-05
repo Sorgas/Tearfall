@@ -27,7 +27,7 @@ public class WearNeed extends Need {
      */
     @Override
     public int countPriority(AspectHolder aspectHolder) {
-        EquipmentAspect equipmentAspect = (EquipmentAspect) aspectHolder.getAspects().get(EquipmentAspect.NAME);
+        EquipmentAspect equipmentAspect = (EquipmentAspect) aspectHolder.getAspect(EquipmentAspect.class);
         if (equipmentAspect != null) {
             if (!equipmentAspect.getEmptyDesiredSlots().isEmpty()) {
                 return GET_WEAR_PRIORITY;
@@ -38,8 +38,8 @@ public class WearNeed extends Need {
 
     @Override
     public Task tryCreateTask(AspectHolder aspectHolder) {
-        if (!aspectHolder.getAspects().containsKey(EquipmentAspect.NAME)) return null;
-        EquipmentAspect equipmentAspect = (EquipmentAspect) aspectHolder.getAspects().get("equipment");
+        EquipmentAspect equipmentAspect = aspectHolder.getAspect(EquipmentAspect.class);
+        if (equipmentAspect == null) return null;
         if (equipmentAspect.getEmptyDesiredSlots().isEmpty()) return null;
         for (EquipmentSlot equipmentSlot : equipmentAspect.getDesiredSlots()) {
             Task task = tryCreateEquipTask(aspectHolder, equipmentSlot);

@@ -27,11 +27,6 @@ public class NeedsAspect extends Aspect {
         needsCheckDelay = maxNeedsCheckDelay;
     }
 
-    @Override
-    public String getName() {
-        return NAME;
-    }
-
     /**
      * Once in maxNeedsCheckDelay turns updates current need and its priority.
      * Strongest need for tasks then taken by {@link PlanningAspect}

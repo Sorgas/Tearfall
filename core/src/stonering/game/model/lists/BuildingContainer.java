@@ -31,7 +31,7 @@ public class BuildingContainer extends Turnable implements ModelComponent, Inita
     }
 
     public void init() {
-        localMap = GameMvc.getInstance().getModel().get(LocalMap.class);
+        localMap = GameMvc.instance().getModel().get(LocalMap.class);
         buildingGenerator.init();
         buildings.forEach(this::placeBuilding);
     }

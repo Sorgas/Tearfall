@@ -23,6 +23,13 @@ public class Tree extends AbstractPlant {
         );
     }
 
+    /**
+     * Changes positions in blocks according to main plant position.
+     */
+    private void updateBlockPositions() {
+
+    }
+
     public PlantBlock[][][] getBlocks() {
         return blocks;
     }
@@ -50,5 +57,6 @@ public class Tree extends AbstractPlant {
 
     public void setPosition(Position position) {
         this.position = position;
+        updateBlockPositions();
     }
 }

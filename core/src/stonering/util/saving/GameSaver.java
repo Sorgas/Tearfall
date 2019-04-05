@@ -20,7 +20,7 @@ public class GameSaver {
             file.createNewFile();
             FileOutputStream fos = new FileOutputStream(file.getPath());
             ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(GameMvc.getInstance().getModel());
+            oos.writeObject(GameMvc.instance().getModel());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

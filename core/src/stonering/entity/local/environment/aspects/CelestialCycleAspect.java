@@ -47,14 +47,8 @@ public class CelestialCycleAspect extends Aspect {
     }
 
     private void updateOtherAspects() {
-        if (aspectHolder.getAspects().containsKey(CelestialLightSource.NAME)) {
-            ((CelestialLightSource) aspectHolder.getAspects().get(CelestialLightSource.NAME)).setForce(countLightForce());
-        }
-    }
-
-    @Override
-    public String getName() {
-        return NAME;
+        if (aspectHolder.getAspect(CelestialLightSourceAspect.class) == null) return;
+        aspectHolder.getAspect(CelestialLightSourceAspect.class).setForce(countLightForce());
     }
 
     public float getOrbitPos() {

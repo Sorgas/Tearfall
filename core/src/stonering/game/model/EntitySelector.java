@@ -34,7 +34,7 @@ public class EntitySelector implements ModelComponent, Initable {
 
     @Override
     public void init() {
-        localMap = GameMvc.getInstance().getModel().get(LocalMap.class);
+        localMap = GameMvc.instance().getModel().get(LocalMap.class);
         selectorSprite = new TextureRegion(new Texture("sprites/ui_tiles.png"), 0, 406, 64, 96);
         placeToCenter();
     }
@@ -55,7 +55,7 @@ public class EntitySelector implements ModelComponent, Initable {
         position.setZ(position.getZ() + dz);
         localMap.normalizePosition(position);
         updateStatusAndSprite();
-        GameMvc.getInstance().getView().updateDrawableArea();
+        GameMvc.instance().getView().updateDrawableArea();
     }
 
     /**

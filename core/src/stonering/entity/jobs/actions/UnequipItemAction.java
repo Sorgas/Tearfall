@@ -19,7 +19,7 @@ public class UnequipItemAction extends Action {
 
     @Override
     public boolean check() {
-        EquipmentAspect equipmentAspect = ((EquipmentAspect) task.getPerformer().getAspects().get("equipment"));
+        EquipmentAspect equipmentAspect = task.getPerformer().getAspect(EquipmentAspect.class);
         if (equipmentAspect == null) return false;
 
         //item is equipped
@@ -48,7 +48,7 @@ public class UnequipItemAction extends Action {
     public void performLogic() {
         //TODO count work amount based on item weight and creature stats
         //TODO implement with slots
-        ((EquipmentAspect) task.getPerformer().getAspects().get("equipment")).unequipItem(item);
+        task.getPerformer().getAspect(EquipmentAspect.class).unequipItem(item);
     }
 
     @Override

@@ -14,7 +14,7 @@ public abstract class DesignationSequence {
     protected GameMvc gameMvc;
 
     public DesignationSequence() {
-        gameMvc = GameMvc.getInstance();
+        gameMvc = GameMvc.instance();
     }
 
     /**

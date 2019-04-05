@@ -33,10 +33,6 @@ public class Building extends AspectHolder { // TODO split to aspects
         this.owner = owner;
     }
 
-    public void setAspects(HashMap<String, Aspect> aspects) {
-        this.aspects = aspects;
-    }
-
     public int getMaterial() {
         return material;
     }

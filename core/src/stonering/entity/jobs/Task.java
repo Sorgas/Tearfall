@@ -35,7 +35,7 @@ public class Task {
     private int priority;
 
     public Task(String name, TaskTypesEnum taskType, Action initialAction, int priority) {
-        gameMvc = GameMvc.getInstance();
+        gameMvc = GameMvc.instance();
         this.name = name;
         this.taskType = taskType;
         this.initialAction = initialAction;
@@ -77,7 +77,7 @@ public class Task {
         preActions = new LinkedList<>();
         postActions = new LinkedList<>();
         if (performer == null) return;
-        PlanningAspect planningAspect = ((PlanningAspect) performer.getAspects().get(PlanningAspect.NAME));
+        PlanningAspect planningAspect = (performer.getAspect(PlanningAspect.class));
         performer = null;
         planningAspect.reset();
     }

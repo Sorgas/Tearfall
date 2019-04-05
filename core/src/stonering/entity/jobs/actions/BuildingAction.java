@@ -8,6 +8,7 @@ import stonering.entity.local.items.Item;
 import stonering.entity.local.items.selectors.ItemSelector;
 import stonering.entity.local.unit.aspects.equipment.EquipmentAspect;
 import stonering.enums.buildings.BuildingTypeMap;
+import stonering.game.GameMvc;
 import stonering.game.model.lists.BuildingContainer;
 import stonering.game.model.lists.ItemContainer;
 import stonering.util.geometry.Position;
@@ -40,7 +41,7 @@ public class BuildingAction extends Action {
 
     private void build() {
         TagLoggersEnum.TASKS.log("Performing building action: " + buildingType.getBuilding());
-        ItemContainer itemContainer = gameMvc.getModel().get(ItemContainer.class);
+        ItemContainer itemContainer = GameMvc.instance().getModel().get(ItemContainer.class);
         Position target = actionTarget.getPosition();
         ArrayList<Item> items = itemContainer.getItems(target);
         int mainMaterial = -1; // first item of first selector will give material.
@@ -49,7 +50,7 @@ public class BuildingAction extends Action {
             if (mainMaterial < 0) mainMaterial = itemList.get(0).getMaterial();
             itemContainer.removeItems(itemList);
         }
-        BuildingContainer buildingContainer = gameMvc.getModel().get(BuildingContainer.class);
+        BuildingContainer buildingContainer = GameMvc.instance().getModel().get(BuildingContainer.class);
         Building building = buildingContainer.getBuildingGenerator().generateBuilding(buildingType.getBuilding(), target);
         buildingContainer.addBuilding(building);
     }
@@ -61,8 +62,8 @@ public class BuildingAction extends Action {
     @Override
     public boolean check() {
         TagLoggersEnum.TASKS.log("Checking building action: " + buildingType.getBuilding());
-        ArrayList<Item> uncheckedItems = new ArrayList<>(gameMvc.getModel().get(ItemContainer.class).getItems(actionTarget.getPosition()));
-        uncheckedItems.addAll(((EquipmentAspect) task.getPerformer().getAspects().get(EquipmentAspect.NAME)).getHauledItems()); // from performer inventory
+        ArrayList<Item> uncheckedItems = new ArrayList<>(GameMvc.instance().getModel().get(ItemContainer.class).getItems(actionTarget.getPosition()));
+        uncheckedItems.addAll(task.getPerformer().getAspect(EquipmentAspect.class).getHauledItems()); // from performer inventory
         for (ItemSelector itemSelector : itemSelectors) {
             List<Item> selectedItems = itemSelector.selectItems(uncheckedItems);
             if (selectedItems.isEmpty()) return tryCreateDroppingAction(itemSelector); // create actions for item
@@ -81,7 +82,7 @@ public class BuildingAction extends Action {
      */
     private boolean tryCreateDroppingAction(ItemSelector itemSelector) {
         Position position = actionTarget.getPosition();
-        ItemContainer itemContainer = gameMvc.getModel().get(ItemContainer.class);
+        ItemContainer itemContainer = GameMvc.instance().getModel().get(ItemContainer.class);
         if (!itemContainer.hasItemsAvailableBySelector(itemSelector, position)) return false;
         Item item = itemContainer.getItemAvailableBySelector(itemSelector, position);
         if (item == null) return false;

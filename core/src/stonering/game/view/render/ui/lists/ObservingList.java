@@ -1,24 +1,15 @@
 package stonering.game.view.render.ui.lists;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.utils.Array;
 import stonering.entity.local.AspectHolder;
-import stonering.entity.local.zone.Zone;
 import stonering.game.GameMvc;
 import stonering.util.global.CompatibleArray;
 import stonering.util.global.StaticSkin;
 
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Consumer;
 
 /**
@@ -82,6 +73,6 @@ public class ObservingList extends Window {
     }
 
     private void close() {
-        GameMvc.getInstance().getView().removeStage(getStage());
+        GameMvc.instance().getView().removeStage(getStage());
     }
 }

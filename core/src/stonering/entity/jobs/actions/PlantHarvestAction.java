@@ -7,6 +7,7 @@ import stonering.entity.local.items.selectors.ToolWithActionItemSelector;
 import stonering.entity.local.plants.AbstractPlant;
 import stonering.entity.local.plants.PlantBlock;
 import stonering.entity.local.unit.aspects.equipment.EquipmentAspect;
+import stonering.game.GameMvc;
 import stonering.game.model.lists.ItemContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.generators.items.PlantProductGenerator;
@@ -24,17 +25,17 @@ public class PlantHarvestAction extends Action {
 
     @Override
     public boolean check() {
-        EquipmentAspect aspect = (EquipmentAspect) task.getPerformer().getAspects().get("equipment");
+        EquipmentAspect aspect = task.getPerformer().getAspect(EquipmentAspect.class);
         if (aspect == null) return false;
         AbstractPlant abstractPlant = ((PlantActionTarget) actionTarget).getPlant();
         Position position = actionTarget.getPosition();
-        PlantBlock block = gameMvc.getModel().get(LocalMap.class).getPlantBlock(position);
+        PlantBlock block = GameMvc.instance().getModel().get(LocalMap.class).getPlantBlock(position);
         if (block == null || block.getPlant() != abstractPlant) return false;
         return toolItemSelector.check(aspect.getEquippedItems()) || addActionToTask();
     }
 
     private boolean addActionToTask() {
-        Item target = gameMvc.getModel().get(ItemContainer.class).getItemAvailableBySelector(toolItemSelector, task.getPerformer().getPosition());
+        Item target = GameMvc.instance().getModel().get(ItemContainer.class).getItemAvailableBySelector(toolItemSelector, task.getPerformer().getPosition());
         if (target == null) return false;
         EquipItemAction equipItemAction = new EquipItemAction(target, true);
         task.addFirstPreAction(equipItemAction);
@@ -45,8 +46,8 @@ public class PlantHarvestAction extends Action {
     public void performLogic() {
         System.out.println("harvesting plant");
         Position position = actionTarget.getPosition();
-        PlantBlock block = gameMvc.getModel().get(LocalMap.class).getPlantBlock(position);
+        PlantBlock block = GameMvc.instance().getModel().get(LocalMap.class).getPlantBlock(position);
         List<Item> items = new PlantProductGenerator().generateHarvestProduct(block);
-        items.forEach(item -> gameMvc.getModel().get(ItemContainer.class).putItem(item, position));
+        items.forEach(item -> GameMvc.instance().getModel().get(ItemContainer.class).putItem(item, position));
     }
 }

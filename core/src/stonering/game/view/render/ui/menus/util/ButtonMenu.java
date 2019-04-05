@@ -21,7 +21,7 @@ public abstract class ButtonMenu extends Table implements HideableComponent {
     private LinkedHashMap<Integer, Button> buttons;
 
     public ButtonMenu(boolean hideable) {
-        this.gameMvc = GameMvc.getInstance();
+        this.gameMvc = GameMvc.instance();
         this.hideable = hideable;
         buttons = new LinkedHashMap<>();
     }

@@ -105,7 +105,7 @@ public class FarmZoneMenu extends Window {
     }
 
     private void deleteZone() {
-        GameMvc.getInstance().getModel().get(ZonesContainer.class).deleteZone(farmZone);
+        GameMvc.instance().getModel().get(ZonesContainer.class).deleteZone(farmZone);
     }
 
     /**
@@ -141,7 +141,7 @@ public class FarmZoneMenu extends Window {
      * Closes this stage.
      */
     private void close() {
-        GameMvc.getInstance().getView().removeStage(getStage());
+        GameMvc.instance().getView().removeStage(getStage());
     }
 
     /**

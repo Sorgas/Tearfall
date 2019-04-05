@@ -45,7 +45,7 @@ public class TaskContainer implements ModelComponent, Initable {
 
     @Override
     public void init() {
-        localMap = GameMvc.getInstance().getModel().get(LocalMap.class);
+        localMap = GameMvc.instance().getModel().get(LocalMap.class);
     }
 
     public Task getActiveTask(Position pos) {

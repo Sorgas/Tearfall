@@ -32,23 +32,23 @@ public class HoeingAction extends Action {
     @Override
     public boolean check() {
         Position target = actionTarget.getPosition();
-        LocalMap localMap = GameMvc.getInstance().getModel().get(LocalMap.class);
+        LocalMap localMap = GameMvc.instance().getModel().get(LocalMap.class);
         if (!ZoneTypesEnum.FARM.getValidator().validate(localMap, target)) return false; // 1
-        if (GameMvc.getInstance().getModel().get(ZonesContainer.class).getZone(target) == null) return false; // 2
-        EquipmentAspect equipmentAspect = (EquipmentAspect) task.getPerformer().getAspects().get(EquipmentAspect.NAME);
+        if (GameMvc.instance().getModel().get(ZonesContainer.class).getZone(target) == null) return false; // 2
+        EquipmentAspect equipmentAspect = task.getPerformer().getAspect(EquipmentAspect.class);
         return equipmentAspect.toolWithActionEquipped("hoeing") || tryCreateEquippingAction();
     }
 
 
     @Override
     protected void performLogic() {
-        LocalMap localMap = GameMvc.getInstance().getModel().get(LocalMap.class);
+        LocalMap localMap = GameMvc.instance().getModel().get(LocalMap.class);
         localMap.setBlockType(actionTarget.getPosition(), BlockTypesEnum.FARM.CODE);
     }
 
     private boolean tryCreateEquippingAction() {
         ItemSelector toolItemSelector = new ToolWithActionItemSelector("hoe");
-        ItemContainer itemContainer = GameMvc.getInstance().getModel().get(ItemContainer.class);
+        ItemContainer itemContainer = GameMvc.instance().getModel().get(ItemContainer.class);
         Item item = itemContainer.getItemAvailableBySelector(toolItemSelector, actionTarget.getPosition());
         if(item == null) return false;
         task.addFirstPreAction(new EquipItemAction(item, true));

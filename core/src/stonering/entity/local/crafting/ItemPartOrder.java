@@ -24,7 +24,7 @@ public class ItemPartOrder {
     }
 
     public void refreshSelectors(Position workbenchPosition) {
-        itemSelectors = GameMvc.getInstance().getModel().get(ItemContainer.class)
+        itemSelectors = GameMvc.instance().getModel().get(ItemContainer.class)
                 .getItemSelectorsForItemPartRecipe(order.getRecipe().getItemPartRecipe(name), workbenchPosition);
     }
 

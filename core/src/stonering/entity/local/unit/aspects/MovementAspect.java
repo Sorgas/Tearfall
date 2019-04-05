@@ -69,20 +69,14 @@ public class MovementAspect extends Aspect {
     }
 
     @Override
-    public String getName() {
-        return NAME;
-    }
-
-    @Override
     public void init() {
         super.init();
-        if (aspectHolder.getAspects().containsKey("planning"))
-            planning = (PlanningAspect) aspectHolder.getAspects().get("planning");
-        localMap = GameMvc.getInstance().getModel().get(LocalMap.class);
+        planning = aspectHolder.getAspect(PlanningAspect.class);
+        localMap = GameMvc.instance().getModel().get(LocalMap.class);
     }
 
     private void makeRouteToTarget() {
-        cachedPath = new AStar(GameMvc.getInstance().getModel().get(LocalMap.class)).makeShortestPath(aspectHolder.getPosition(), planning.getTarget(), planning.isTargetExact());
+        cachedPath = new AStar(GameMvc.instance().getModel().get(LocalMap.class)).makeShortestPath(aspectHolder.getPosition(), planning.getTarget(), planning.isTargetExact());
     }
 
     /**

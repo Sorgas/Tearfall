@@ -17,8 +17,6 @@ public abstract class Aspect extends Turnable implements Initable, Serializable 
         this.aspectHolder = aspectHolder;
     }
 
-    public abstract String getName();
-
     public AspectHolder getAspectHolder() {
         return aspectHolder;
     }
@@ -29,7 +27,7 @@ public abstract class Aspect extends Turnable implements Initable, Serializable 
 
     @Override
     public void init() {
-        gameMvc = GameMvc.getInstance();
+        gameMvc = GameMvc.instance();
     }
 
     @Override

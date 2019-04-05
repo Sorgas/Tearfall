@@ -19,7 +19,7 @@ public class ZonesMenu extends SubMenuMenu {
     @Override
     public void init() {
         createButtons();
-        designationsController = GameMvc.getInstance().getController().getDesignationsController();
+        designationsController = GameMvc.instance().getController().getDesignationsController();
         super.init();
     }
 

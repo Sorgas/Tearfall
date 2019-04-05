@@ -11,6 +11,6 @@ public abstract class Controller {
     protected GameMvc gameMvc;
 
     public void init() {
-        gameMvc = GameMvc.getInstance();
+        gameMvc = GameMvc.instance();
     }
 }

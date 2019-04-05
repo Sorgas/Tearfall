@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 /**
  * Manages all items on map.
  * //TODO move large methods to some util class
+ * //TODO add tracking of equipped items.
  *
  * @author Alexander Kuzyakov on 14.06.2017.
  */
@@ -31,7 +32,7 @@ public class ItemContainer extends Turnable implements ModelComponent, Initable 
     private HashMap<Position, ArrayList<Item>> itemMap;      // maps tiles position to list of items it that position
 
     public ItemContainer() {
-        gameMvc = GameMvc.getInstance();
+        gameMvc = GameMvc.instance();
         items = new ArrayList<>();
         itemMap = new HashMap<>();
     }
@@ -159,7 +160,7 @@ public class ItemContainer extends Turnable implements ModelComponent, Initable 
 
     //TODO carried items have no position
     public List<Item> filterUnreachable(List<Item> items, Position pos) {
-        UtilByteArray area = GameMvc.getInstance().getModel().get(LocalMap.class).getPassageMap().getArea();
+        UtilByteArray area = GameMvc.instance().getModel().get(LocalMap.class).getPassageMap().getArea();
         return items.stream().filter(item -> item.getPosition() != null && area.getValue(item.getPosition()) == area.getValue(pos)).collect(Collectors.toList());
     }
 

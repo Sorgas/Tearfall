@@ -52,8 +52,8 @@ public class ModelSelectStage extends UiStage {
             public void changed(ChangeEvent event, Actor actor) {
                 System.out.println(selectBox.getSelected().toString());
                 GameMvc.createInstance(selectBox.getSelected());
-                GameMvc.getInstance().init();
-                testChamberGame.setScreen(GameMvc.getInstance().getView());
+                GameMvc.instance().init();
+                testChamberGame.setScreen(GameMvc.instance().getView());
             }
         });
         return table;

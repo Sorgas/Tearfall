@@ -20,7 +20,7 @@ public class ItemType {
 
     private ArrayList<ItemPartType> parts;              // defines parts of items. first one is main
 
-    private HashMap<String, ArrayList<Object>> aspects; // other aspects
+    private HashMap<String, ArrayList<Object>> aspects; // other aspects, item aspects filled from this on generation.
 
     // render
     private int[] atlasXY;

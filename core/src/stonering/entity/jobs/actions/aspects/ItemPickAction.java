@@ -4,6 +4,7 @@ import stonering.entity.jobs.actions.Action;
 import stonering.entity.jobs.actions.target.ItemActionTarget;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.unit.aspects.equipment.EquipmentAspect;
+import stonering.game.GameMvc;
 import stonering.game.model.lists.ItemContainer;
 
 /**
@@ -20,14 +21,14 @@ public class ItemPickAction extends Action {
     @Override
     public void performLogic() {
         Item targetItem = getTargetItem();
-        ((EquipmentAspect) task.getPerformer().getAspects().get(EquipmentAspect.NAME)).pickupItem(targetItem);
-        gameMvc.getModel().get(ItemContainer.class).pickItem(targetItem);
+        task.getPerformer().getAspect(EquipmentAspect.class).pickupItem(targetItem);
+        GameMvc.instance().getModel().get(ItemContainer.class).pickItem(targetItem);
     }
 
     @Override
     public boolean check() {
-        if (!task.getPerformer().getAspects().containsKey(EquipmentAspect.NAME)) return false;
-        return gameMvc.getModel().get(ItemContainer.class).checkItem(getTargetItem());
+        if (task.getPerformer().getAspect(EquipmentAspect.class) != null) return false;
+        return GameMvc.instance().getModel().get(ItemContainer.class).checkItem(getTargetItem());
     }
 
     private Item getTargetItem() {

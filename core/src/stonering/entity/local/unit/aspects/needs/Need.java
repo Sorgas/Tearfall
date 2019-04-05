@@ -20,7 +20,7 @@ public abstract class Need implements Initable {
     }
 
     public void init() {
-        this.container = GameMvc.getInstance().getModel();
+        this.container = GameMvc.instance().getModel();
     }
 
     /**

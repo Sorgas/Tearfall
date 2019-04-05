@@ -1,6 +1,8 @@
 package stonering.generators.items;
 
+import stonering.entity.local.Aspect;
 import stonering.entity.local.crafting.ItemOrder;
+import stonering.entity.local.items.aspects.SeedAspect;
 import stonering.enums.items.type.ItemPartType;
 import stonering.entity.local.items.ItemPart;
 import stonering.entity.local.items.aspects.FallingAspect;
@@ -12,6 +14,7 @@ import stonering.generators.aspect.AspectGenerator;
 import stonering.entity.local.items.Item;
 import stonering.util.global.TagLoggersEnum;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -36,23 +39,40 @@ public class ItemGenerator {
 
     /**
      * MVP method for creating items.
-     *
-     * @param name
-     * @param material
-     * @return
      */
     public Item generateItem(String name, int material) {
         Item item = new Item(null, itemTypeMap.getItemType(name));
         item.setMaterial(material);
-        item.getAspects().put("falling", new FallingAspect(item));
+        generateItemAspects(item);
         return item;
     }
 
     public Item generateItem(String name, String material) {
-        Item item = new Item(null, itemTypeMap.getItemType(name));
-        item.setMaterial(materialMap.getId(material));
-        item.getAspects().put("falling", new FallingAspect(item));
-        return item;
+        return generateItem(name, materialMap.getId(material));
+    }
+
+    /**
+     * Creates item aspects by map of aspects names and arguments from {@link ItemType}
+     */
+    private void generateItemAspects(Item item) {
+        ItemType type = item.getType();
+        for (String aspectName : type.getAspects().keySet()) {
+            item.addAspect(createItemAspect(aspectName, type.getAspects().get(aspectName)));
+        }
+    }
+
+    /**
+     * Creates single aspect of item. All possible aspects should be listed here.
+     */
+    private Aspect createItemAspect(String name, List<Object> params) {
+        switch (name) {
+            case FallingAspect.NAME:
+                return new FallingAspect(null);
+            case SeedAspect.NAME:
+                return new SeedAspect(null, (String) params.get(0));
+            default:
+                return null;
+        }
     }
 
 //TODO non-MVP feature
@@ -151,18 +171,19 @@ public class ItemGenerator {
 //        return item;
 //    }
 
-        /**
-         * Creates itemPart with material from first variant.
-         *
-         * @param step
-         * @param itemName
-         * @return
-         * @throws FaultDescriptionException
-         */
+    /**
+     * Creates itemPart with material from first variant.
+     *
+     * @param step
+     * @param itemName
+     * @return
+     * @throws FaultDescriptionException
+     */
     private ItemPart createMockItemPart(ItemPartType step, String itemName) throws FaultDescriptionException {
         String tag = step.getComponentVariants().get(0).getTag();
         Set<Integer> materials = materialMap.getMaterialsByType(tag);
-        if(materials.isEmpty()) throw new FaultDescriptionException("Material type " + tag + " for item " + itemName + " is invalid");
+        if (materials.isEmpty())
+            throw new FaultDescriptionException("Material type " + tag + " for item " + itemName + " is invalid");
         return new ItemPart(step.getTitle(), materials.iterator().next(), 10); //TODO
     }
 

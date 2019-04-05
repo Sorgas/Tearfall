@@ -26,7 +26,7 @@ public class MaterialSelectList extends ItemsCountList implements HideableCompon
 
     public MaterialSelectList() {
         super();
-        gameMvc = GameMvc.getInstance();
+        gameMvc = GameMvc.instance();
         controller = gameMvc.getController().getDesignationsController();
         toolbar = gameMvc.getView().getUiDrawer().getToolbar();
     }

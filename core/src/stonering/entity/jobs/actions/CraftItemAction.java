@@ -7,6 +7,7 @@ import stonering.entity.local.crafting.ItemOrder;
 import stonering.entity.local.crafting.ItemPartOrder;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.items.aspects.ItemContainerAspect;
+import stonering.game.GameMvc;
 import stonering.game.model.lists.ItemContainer;
 import stonering.generators.items.ItemGenerator;
 import stonering.util.global.TagLoggersEnum;
@@ -36,7 +37,7 @@ public class CraftItemAction extends Action {
     @Override
     protected void performLogic() {
         Item product = new ItemGenerator().generateItem(itemOrder);
-        ItemContainerAspect workbenchContainer = ((ItemContainerAspect) workbench.getAspects().get(ItemContainerAspect.NAME));
+        ItemContainerAspect workbenchContainer = workbench.getAspect(ItemContainerAspect.class);
         workbenchContainer.getItems().removeAll(desiredItems); // spend components
         workbenchContainer.getItems().add(product); // add product
     }
@@ -46,8 +47,8 @@ public class CraftItemAction extends Action {
      */
     @Override
     public boolean check() {
-        ItemContainerAspect containerAspect = (ItemContainerAspect) workbench.getAspects().get(ItemContainerAspect.NAME); //TODO remove item container requirement (items in units inventory, on the ground or in !nearby containers!).
-        if (workbench.getAspects().get(WorkbenchAspect.NAME) == null || containerAspect == null) {
+        ItemContainerAspect containerAspect = workbench.getAspect(ItemContainerAspect.class); //TODO remove item container requirement (items in units inventory, on the ground or in !nearby containers!).
+        if (workbench.getAspect(WorkbenchAspect.class) == null || containerAspect == null) {
             TagLoggersEnum.TASKS.logWarn("Building " + workbench.toString() + " is not a workbench with item container.");
             return false;
         }
@@ -66,7 +67,7 @@ public class CraftItemAction extends Action {
      * @return true, if items exist or found.
      */
     private boolean updateDesiredItems() {
-        if (desiredItems.isEmpty() || !gameMvc.getModel().get(ItemContainer.class).checkItemList(desiredItems)) {
+        if (desiredItems.isEmpty() || !GameMvc.instance().getModel().get(ItemContainer.class).checkItemList(desiredItems)) {
             return findDesiredItems();
         }
         return true;
@@ -79,14 +80,14 @@ public class CraftItemAction extends Action {
         List<Item> uncheckedItems = new ArrayList<>();
         uncheckedItems.addAll(desiredItems);
         for (ItemPartOrder part : itemOrder.getParts()) {
-            List<Item> foundItems = gameMvc.getModel().get(ItemContainer.class).getItemsAvailableBySelector(part.getSelected(), workbench.getPosition());
+            List<Item> foundItems = GameMvc.instance().getModel().get(ItemContainer.class).getItemsAvailableBySelector(part.getSelected(), workbench.getPosition());
             if (foundItems.isEmpty()) {
                 desiredItems.clear();
                 return false;
             }
             //TODO add amount
             foundItems.removeAll(desiredItems);
-            desiredItems.addAll(gameMvc.getModel().get(ItemContainer.class).getNearestItems(foundItems, 1));
+            desiredItems.addAll(GameMvc.instance().getModel().get(ItemContainer.class).getNearestItems(foundItems, 1));
         }
         return true;
     }

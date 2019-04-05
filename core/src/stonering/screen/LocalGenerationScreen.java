@@ -65,7 +65,7 @@ public class LocalGenerationScreen extends SimpleScreen {
                 MainGameModel mainGameModel = new MainGameModel();
                 mainGameModel.loadFromContainer(getLocalGeneratorContainer().getLocalGenContainer());
                 GameMvc.createInstance(mainGameModel);
-                GameMvc.getInstance().init();
+                GameMvc.instance().init();
                 game.switchToGame();
             }
         });

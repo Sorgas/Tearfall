@@ -46,7 +46,7 @@ public class PlantGrowthAspect extends Aspect {
      * Changes plant loot and tree structure.
      */
     private void applyNewStage() {
-        PlantContainer plantContainer = GameMvc.getInstance().getModel().get(PlantContainer.class);
+        PlantContainer plantContainer = GameMvc.instance().getModel().get(PlantContainer.class);
         if (aspectHolder instanceof Tree) {
             Tree tree = (Tree) aspectHolder;
             plantContainer.removePlantBlocks(tree);
@@ -68,10 +68,5 @@ public class PlantGrowthAspect extends Aspect {
     private void die() {
         //TODO
         ((AbstractPlant) aspectHolder).setDead(true);
-    }
-
-    @Override
-    public String getName() {
-        return NAME;
     }
 }

@@ -40,7 +40,7 @@ public class TileRenderer extends Renderer {
     public TileRenderer(DrawingUtil drawingUtil, Int3DBounds visibleArea) {
         super(drawingUtil);
         this.visibleArea = visibleArea;
-        GameModel gameModel = GameMvc.getInstance().getModel();
+        GameModel gameModel = GameMvc.instance().getModel();
         localMap = gameModel.get(LocalMap.class);
         localTileMap = gameModel.get(LocalTileMap.class);
         selector = gameModel.get(EntitySelector.class);
@@ -51,7 +51,7 @@ public class TileRenderer extends Renderer {
 
     @Override
     public void render() {
-        EntitySelector selector = GameMvc.getInstance().getModel().get(EntitySelector.class);
+        EntitySelector selector = GameMvc.instance().getModel().get(EntitySelector.class);
         for (int z = visibleArea.getMinZ(); z <= visibleArea.getMaxZ(); z++) {
             drawingUtil.shadeByZ(selector.getPosition().z - z);
             for (int x = visibleArea.getMinX(); x <= visibleArea.getMaxX(); x++) {
@@ -87,15 +87,15 @@ public class TileRenderer extends Renderer {
                 //TODO ((RenderAspect) unit.getAspects().get(RenderAspect.NAME)).getTexture();
                 drawingUtil.drawSprite(drawingUtil.selectSprite(2, 0, 0), x, y, z, selector.getPosition());
             });
-        if (GameMvc.getInstance().getModel().get(ItemContainer.class) != null) {
-            ArrayList<Item> items = GameMvc.getInstance().getModel().get(ItemContainer.class).getItems(x, y, z);
+        if (GameMvc.instance().getModel().get(ItemContainer.class) != null) {
+            ArrayList<Item> items = GameMvc.instance().getModel().get(ItemContainer.class).getItems(x, y, z);
             if (!items.isEmpty())
                 items.forEach((item) -> drawingUtil.drawSprite(drawingUtil.selectSprite(5, item.getType().getAtlasXY()[0], item.getType().getAtlasXY()[1]), x, y, z, selector.getPosition()));
         }
         Designation designation = taskContainer.getDesignation(x, y, z);
         if (designation != null)
             drawingUtil.drawSprite(drawingUtil.selectSprite(4, DesignationsTileMapping.getAtlasX(designation.getType().CODE), 0), x, y, z, selector.getPosition());
-        Zone zone = GameMvc.getInstance().getModel().get(ZonesContainer.class).getZone(cachePosition);
+        Zone zone = GameMvc.instance().getModel().get(ZonesContainer.class).getZone(cachePosition);
         if (zone != null) {
             drawingUtil.drawSprite(zone.getType().sprite, x, y, z, selector.getPosition());
         }

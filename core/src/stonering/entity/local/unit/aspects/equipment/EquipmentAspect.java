@@ -266,9 +266,4 @@ public class EquipmentAspect extends Aspect {
     public void setEmptyDesiredSlotsCount(int emptyDesiredSlotsCount) {
         this.emptyDesiredSlotsCount = emptyDesiredSlotsCount;
     }
-
-    @Override
-    public String getName() {
-        return NAME;
-    }
 }

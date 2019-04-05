@@ -31,7 +31,7 @@ public class PlaceSelectComponent extends Label implements HideableComponent {
 
     public PlaceSelectComponent(EventListener eventListener) {
         super("", StaticSkin.getSkin());
-        this.gameMvc = GameMvc.getInstance();
+        this.gameMvc = GameMvc.instance();
         this.eventListener = eventListener;
         selector = gameMvc.getModel().get(EntitySelector.class);
         toolbar = gameMvc.getView().getUiDrawer().getToolbar();

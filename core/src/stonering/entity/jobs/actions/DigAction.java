@@ -8,6 +8,7 @@ import stonering.entity.local.items.selectors.ToolWithActionItemSelector;
 import stonering.entity.local.unit.aspects.equipment.EquipmentAspect;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.designations.DesignationTypeEnum;
+import stonering.game.GameMvc;
 import stonering.game.model.lists.ItemContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.generators.items.DiggingProductGenerator;
@@ -26,13 +27,13 @@ public class DigAction extends Action {
 
     @Override
     public boolean check() {
-        EquipmentAspect aspect = (EquipmentAspect) task.getPerformer().getAspects().get("equipment");
+        EquipmentAspect aspect = task.getPerformer().getAspect(EquipmentAspect.class);
         if (aspect == null) return false;
         return toolItemSelector.check(aspect.getEquippedItems()) || addEquipAction();
     }
 
     private boolean addEquipAction() {
-        Item target = gameMvc.getModel().get(ItemContainer.class).getItemAvailableBySelector(toolItemSelector, task.getPerformer().getPosition());
+        Item target = GameMvc.instance().getModel().get(ItemContainer.class).getItemAvailableBySelector(toolItemSelector, task.getPerformer().getPosition());
         if (target == null) return false;
         task.addFirstPreAction(new EquipItemAction(target, true));
         return true;
@@ -62,12 +63,12 @@ public class DigAction extends Action {
                 break;
             }
         }
-        leaveStone(gameMvc.getModel().get(LocalMap.class).getMaterial(actionTarget.getPosition()));
+        leaveStone(GameMvc.instance().getModel().get(LocalMap.class).getMaterial(actionTarget.getPosition()));
     }
 
     private void validateAndChangeBlock(Position pos, BlockTypesEnum type) {
         boolean valid = false;
-        LocalMap map = gameMvc.getModel().get(LocalMap.class);
+        LocalMap map = GameMvc.instance().getModel().get(LocalMap.class);
         switch (type) {
             case RAMP:
             case STAIRS:
@@ -92,7 +93,7 @@ public class DigAction extends Action {
     private void leaveStone(int material) {
         DiggingProductGenerator generator = new DiggingProductGenerator();
         if (generator.productRequired(material))
-            gameMvc.getModel().get(ItemContainer.class).addItem(generator.generateDigProduct(material), actionTarget.getPosition());
+            GameMvc.instance().getModel().get(ItemContainer.class).addItem(generator.generateDigProduct(material), actionTarget.getPosition());
     }
 
     private void logStart() {

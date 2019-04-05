@@ -34,7 +34,7 @@ public class GameMvc implements Serializable {
         view.init();
     }
 
-    public static GameMvc getInstance() {
+    public static GameMvc instance() {
         return instance;
     }
 

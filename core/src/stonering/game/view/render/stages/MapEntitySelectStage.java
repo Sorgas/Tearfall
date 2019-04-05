@@ -20,7 +20,6 @@ import stonering.util.global.TagLoggersEnum;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 
 /**
  * Stage for selecting entities on local map.
@@ -58,7 +57,7 @@ public class MapEntitySelectStage extends UiStage implements Initable {
      */
     @Override
     public void init() {
-        GameMvc gameMvc = GameMvc.getInstance();
+        GameMvc gameMvc = GameMvc.instance();
         switch (activeMode) {
             case ITEMS:
                 break;
@@ -84,7 +83,7 @@ public class MapEntitySelectStage extends UiStage implements Initable {
      * IF there are several, shows select list.
      */
     private void collectEntities(List<AspectHolder> aspectHolders) {
-        GameModel gameModel = GameMvc.getInstance().getModel();
+        GameModel gameModel = GameMvc.instance().getModel();
         BuildingBlock buildingBlock = gameModel.get(LocalMap.class).getBuildingBlock(currentPosition);
         if (buildingBlock != null) aspectHolders.add(buildingBlock.getBuilding());
         PlantBlock plantBlock = gameModel.get(LocalMap.class).getPlantBlock(currentPosition);
@@ -117,7 +116,7 @@ public class MapEntitySelectStage extends UiStage implements Initable {
     private void tryShowBuildingStage(BuildingBlock block) {
         if (block == null) return;
         Building building = block.getBuilding();
-        GameMvc gameMvc = GameMvc.getInstance();
+        GameMvc gameMvc = GameMvc.instance();
         TagLoggersEnum.UI.logDebug("showing building stage for: " + building);
         gameMvc.getView().removeStage(this);
         gameMvc.getView().addStageToList(new BuildingStage(gameMvc, building));
@@ -126,7 +125,7 @@ public class MapEntitySelectStage extends UiStage implements Initable {
 
     private void tryShowZoneStage(Zone zone) {
         if (zone == null) return;
-        GameMvc gameMvc = GameMvc.getInstance();
+        GameMvc gameMvc = GameMvc.instance();
         TagLoggersEnum.UI.logDebug("showing zone stage for: " + zone.getName());
         gameMvc.getView().removeStage(this);
         gameMvc.getView().addStageToList(new ZoneMenuStage(zone));

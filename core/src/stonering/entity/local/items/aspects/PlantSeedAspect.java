@@ -9,16 +9,11 @@ import stonering.entity.local.AspectHolder;
  * @author Alexander on 13.02.2019.
  */
 public class PlantSeedAspect extends Aspect {
-    private static final String NAME = "plant_seed";
+    public static final String NAME = "plant_seed";
     private String plantName;
 
     public PlantSeedAspect(AspectHolder aspectHolder, String plantName) {
         super(aspectHolder);
         this.plantName = plantName;
-    }
-
-    @Override
-    public String getName() {
-        return NAME;
     }
 }

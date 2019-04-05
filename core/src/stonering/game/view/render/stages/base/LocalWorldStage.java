@@ -88,7 +88,7 @@ public class LocalWorldStage extends UiStage {
      * Area is counted basing on zoom level and {@link EntitySelector} position.
      */
     public Int3DBounds updateVisibleArea() {
-        GameModel gameModel = GameMvc.getInstance().getModel();
+        GameModel gameModel = GameMvc.instance().getModel();
         EntitySelector selector = gameModel.get(EntitySelector.class);
         LocalMap localMap = gameModel.get(LocalMap.class);
         int widthInTiles = Math.round(Gdx.graphics.getWidth() / 2f / (camera.zoom * DrawingUtil.tileWidth)) + 1;

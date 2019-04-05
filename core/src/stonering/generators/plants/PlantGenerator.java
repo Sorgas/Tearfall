@@ -1,5 +1,6 @@
 package stonering.generators.plants;
 
+import stonering.entity.local.items.aspects.SeedAspect;
 import stonering.entity.local.plants.aspects.PlantGrowthAspect;
 import stonering.enums.materials.MaterialMap;
 import stonering.enums.plants.PlantMap;
@@ -22,8 +23,16 @@ public class PlantGenerator {
         plant.setType(PlantMap.getInstance().getPlantType(specimen));
         plant.setAge(age);
         plant.setBlock(createPlantBlock(plant, age));
-        plant.getAspects().put(PlantGrowthAspect.NAME, new PlantGrowthAspect(plant));
+        plant.addAspect(new PlantGrowthAspect(plant));
         return plant;
+    }
+
+    /**
+     * Generates plant by seed aspect of item.
+     * Used for planting on farms.
+     */
+    public Plant generatePlant(SeedAspect aspect) throws DescriptionNotFoundException {
+        return generatePlant(aspect.getSpecimen(), 0);
     }
 
     private void initBlockProducts(PlantBlock block, int age) {

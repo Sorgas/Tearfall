@@ -6,6 +6,7 @@ import stonering.entity.local.items.selectors.ItemSelector;
 import stonering.entity.local.items.selectors.ToolWithActionItemSelector;
 import stonering.entity.local.plants.PlantBlock;
 import stonering.entity.local.unit.aspects.equipment.EquipmentAspect;
+import stonering.game.GameMvc;
 import stonering.game.model.lists.ItemContainer;
 import stonering.generators.items.PlantProductGenerator;
 import stonering.util.global.TagLoggersEnum;
@@ -25,7 +26,7 @@ public class HarvestPlantAction extends Action {
 
     @Override
     public boolean check() {
-        EquipmentAspect aspect = (EquipmentAspect) task.getPerformer().getAspects().get("equipment");
+        EquipmentAspect aspect = task.getPerformer().getAspect(EquipmentAspect.class);
         if (aspect == null) return false;
         return toolItemSelector.check(aspect.getEquippedItems()) || addActionToTask();
     }
@@ -34,12 +35,12 @@ public class HarvestPlantAction extends Action {
     public void performLogic() {
         PlantBlock plantBlock = ((PlantActionTarget) actionTarget).getPlant().getBlock();
         List<Item> items = new PlantProductGenerator().generateHarvestProduct(plantBlock);
-        items.forEach(item -> gameMvc.getModel().get(ItemContainer.class).putItem(item, actionTarget.getPosition()));
+        items.forEach(item -> GameMvc.instance().getModel().get(ItemContainer.class).putItem(item, actionTarget.getPosition()));
         TagLoggersEnum.TASKS.logDebug("harvesting plant finished at " + actionTarget.getPosition() + " by " + task.getPerformer());
     }
 
     private boolean addActionToTask() {
-        Item target = gameMvc.getModel().get(ItemContainer.class).getItemAvailableBySelector(toolItemSelector, task.getPerformer().getPosition());
+        Item target = GameMvc.instance().getModel().get(ItemContainer.class).getItemAvailableBySelector(toolItemSelector, task.getPerformer().getPosition());
         if (target == null) return false;
         EquipItemAction equipItemAction = new EquipItemAction(target, true);
         task.addFirstPreAction(equipItemAction);

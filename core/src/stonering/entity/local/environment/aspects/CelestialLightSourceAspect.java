@@ -13,10 +13,10 @@ import stonering.entity.local.AspectHolder;
  *
  * @author Alexander Kuzyakov
  */
-public class CelestialLightSource extends AbstractLighSourceAspect {
+public class CelestialLightSourceAspect extends AbstractLighSourceAspect {
     public static String NAME = "celestial_light_source";
 
-    public CelestialLightSource(AspectHolder aspectHolder) {
+    public CelestialLightSourceAspect(AspectHolder aspectHolder) {
         super(aspectHolder);
     }
 
@@ -24,11 +24,6 @@ public class CelestialLightSource extends AbstractLighSourceAspect {
     public void init() {
         super.init();
         applyLightToMap();
-    }
-
-    @Override
-    public String getName() {
-        return NAME;
     }
 
     @Override
@@ -41,7 +36,7 @@ public class CelestialLightSource extends AbstractLighSourceAspect {
      */
     private void applyLightToMap() {
         byte forceDelta = (byte) ((force - previousForce) * Byte.MAX_VALUE);
-        LocalMap localMap = GameMvc.getInstance().getModel().get(LocalMap.class);
+        LocalMap localMap = GameMvc.instance().getModel().get(LocalMap.class);
         for (int x = 0; x < localMap.xSize; x++) {
             for (int y = 0; y < localMap.ySize; y++) {
                 for (int z = localMap.zSize - 1; z >= 0; z--) {

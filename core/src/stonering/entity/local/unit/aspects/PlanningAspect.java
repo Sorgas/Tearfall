@@ -28,11 +28,6 @@ public class PlanningAspect extends Aspect {
         super(aspectHolder);
     }
 
-    @Override
-    public String getName() {
-        return NAME;
-    }
-
     public void turn() {
         if (!checkTask()) selectTask();// try find task, check it and claim
         if (checkActionSequence()) { // check all actions in a sequence.
@@ -104,7 +99,7 @@ public class PlanningAspect extends Aspect {
      * Can return null.
      */
     private Task takeTaskFromNeedsAspect() {
-        NeedsAspect needsAspect = ((NeedsAspect) aspectHolder.getAspects().get(NeedsAspect.NAME));
+        NeedsAspect needsAspect = aspectHolder.getAspect(NeedsAspect.class);
         if (needsAspect == null || needsAspect.getStrongestNeed() == null)
             return null; // no needs at all, or no strong needs
         return needsAspect.getStrongestNeed().tryCreateTask(aspectHolder);
@@ -115,7 +110,7 @@ public class PlanningAspect extends Aspect {
      * Can return null.
      */
     private Task getTaskFromContainer() {
-        return GameMvc.getInstance().getModel().get(TaskContainer.class).getActiveTask(aspectHolder.getPosition());
+        return GameMvc.instance().getModel().get(TaskContainer.class).getActiveTask(aspectHolder.getPosition());
     }
 
     /**

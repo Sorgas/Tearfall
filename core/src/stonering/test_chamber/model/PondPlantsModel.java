@@ -3,7 +3,7 @@ package stonering.test_chamber.model;
 import stonering.entity.local.environment.CelestialBody;
 import stonering.entity.local.environment.GameCalendar;
 import stonering.entity.local.environment.aspects.CelestialCycleAspect;
-import stonering.entity.local.environment.aspects.CelestialLightSource;
+import stonering.entity.local.environment.aspects.CelestialLightSourceAspect;
 import stonering.entity.world.World;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.materials.MaterialMap;
@@ -62,7 +62,7 @@ public class PondPlantsModel extends GameModel {
     private World createWorld() {
         World world = new World(1, 1);
         CelestialBody sun = new CelestialBody();
-        sun.addAspect(new CelestialLightSource(sun));
+        sun.addAspect(new CelestialLightSourceAspect(sun));
         float dayScale = 0.01f;
         sun.addAspect(new CelestialCycleAspect(dayScale, dayScale, sun));
         world.getStarSystem().getCelestialBodies().add(sun);

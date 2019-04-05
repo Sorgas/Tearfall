@@ -18,7 +18,7 @@ public abstract class ActionTarget {
     private Random random;
 
     public ActionTarget(boolean exactTarget, boolean nearTarget) {
-        gameMvc = GameMvc.getInstance();
+        gameMvc = GameMvc.instance();
         this.exactTarget = exactTarget;
         this.nearTarget = nearTarget;
         random = new Random();

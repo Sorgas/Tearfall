@@ -14,20 +14,21 @@ import java.util.HashMap;
  */
 public abstract class AspectHolder extends IntervalTurnable implements Serializable, Initable {
     protected Position position; //TODO move to PositionAspect
-    protected HashMap<String, Aspect> aspects;
+    protected HashMap<Class, Aspect> aspects;
 
     protected AspectHolder(Position position) {
         this.position = position;
         aspects = new HashMap<>();
     }
 
-    public HashMap<String, Aspect> getAspects() {
-        return aspects;
+    public <T extends Aspect> T getAspect(Class<T> type) {
+        return (T) aspects.get(type);
     }
 
-    public void addAspect(Aspect aspect) {
+    public <T extends Aspect> void addAspect(T aspect) {
+        if (aspect == null) return;
         aspect.setAspectHolder(this);
-        aspects.put(aspect.getName(), aspect);
+        aspects.put(aspect.getClass(), aspect);
     }
 
     public Position getPosition() {

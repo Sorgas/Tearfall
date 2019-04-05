@@ -40,7 +40,7 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
 
     @Override
     public void init() {
-        gameMvc = GameMvc.getInstance();
+        gameMvc = GameMvc.instance();
         localMap = gameMvc.getModel().get(LocalMap.class);
         plants.forEach(this::place);
     }

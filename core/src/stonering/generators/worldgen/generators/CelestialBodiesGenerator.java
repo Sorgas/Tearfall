@@ -1,6 +1,6 @@
 package stonering.generators.worldgen.generators;
 
-import stonering.entity.local.environment.aspects.CelestialLightSource;
+import stonering.entity.local.environment.aspects.CelestialLightSourceAspect;
 import stonering.generators.worldgen.WorldGenContainer;
 import stonering.entity.local.environment.CelestialBody;
 import stonering.entity.local.environment.aspects.CelestialCycleAspect;
@@ -29,7 +29,7 @@ public class CelestialBodiesGenerator extends AbstractGenerator {
      */
     private void generateSun() {
         CelestialBody sun = new CelestialBody();
-        sun.addAspect(new CelestialLightSource(sun));
+        sun.addAspect(new CelestialLightSourceAspect(sun));
         float dayScale = 0.01f;
         sun.addAspect(new CelestialCycleAspect(dayScale, dayScale, sun));
         container.getWorld().getStarSystem().getCelestialBodies().add(sun);
@@ -40,7 +40,7 @@ public class CelestialBodiesGenerator extends AbstractGenerator {
      */
     private void generateMoons() {
         CelestialBody moon = new CelestialBody();
-        moon.addAspect(new CelestialLightSource(moon));
+        moon.addAspect(new CelestialLightSourceAspect(moon));
         float dayScale = 0.0001f;
         moon.addAspect(new CelestialCycleAspect(dayScale, dayScale, moon));
         container.getWorld().getStarSystem().getCelestialBodies().add(moon);

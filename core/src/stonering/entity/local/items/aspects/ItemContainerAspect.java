@@ -22,11 +22,6 @@ public class ItemContainerAspect extends Aspect {
     }
 
     @Override
-    public String getName() {
-        return NAME;
-    }
-
-    @Override
     public void turn() {
         items.forEach(AspectHolder::turn);
     }
