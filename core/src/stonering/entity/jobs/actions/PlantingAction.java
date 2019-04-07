@@ -22,10 +22,10 @@ import java.util.List;
  * Planting always use single seed item.
  * Seed item should have {@link SeedAspect}
  */
-public class PlantAction extends Action {
+public class PlantingAction extends Action {
     private SingleItemSelector seedSelector;
 
-    protected PlantAction(ActionTarget actionTarget, SingleItemSelector seedSelector) {
+    protected PlantingAction(ActionTarget actionTarget, SingleItemSelector seedSelector) {
         super(actionTarget);
         this.seedSelector = seedSelector;
     }

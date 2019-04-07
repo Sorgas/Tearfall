@@ -18,6 +18,7 @@ public class NeedsAspect extends Aspect {
     public static final int maxNeedsCheckDelay = 10;
     private ArrayList<Need> needs;
     private int needsCheckDelay;
+
     private Need strongestNeed;
     private int priority;
 

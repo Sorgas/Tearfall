@@ -1,6 +1,5 @@
 package stonering.entity.local.zone;
 
-
 import stonering.entity.jobs.Task;
 import stonering.entity.local.environment.GameCalendar;
 import stonering.entity.local.items.selectors.ItemSelector;
@@ -16,7 +15,10 @@ import stonering.game.model.lists.ZonesContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Farm keeps track on plants condition in its zone, and create tasks respectively.
@@ -53,7 +55,6 @@ public class FarmZone extends Zone {
     @Override
     public void turn() {
         checkTiles();
-        tryCreatePlantingTasks();
     }
 
     /**
