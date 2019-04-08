@@ -28,11 +28,11 @@ import java.util.function.Predicate;
  * Only these lists get stage focus and have similar input handlers.
  * <p>
  * Controls:
- * E select/deselect plant for planting(depends on active list).
- * Q close menu
- * X delete zone
- * WS fetch lists
- * AD switch active list
+ *    E select/deselect plant for planting(depends on active list).
+ *    Q close menu
+ *    X delete zone
+ *    WS fetch lists
+ *    AD switch active list
  *
  * @author Alexander on 20.03.2019.
  */
@@ -67,7 +67,7 @@ public class FarmZoneMenu extends Window {
             }
         });
         bottomButtons.addActor(quitButton);
-        TextButton deleteButton = new TextButton("Quit", StaticSkin.getSkin());
+        TextButton deleteButton = new TextButton("Remove Zone", StaticSkin.getSkin());
         deleteButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -82,8 +82,10 @@ public class FarmZoneMenu extends Window {
     }
 
     private void fillLists() {
-        enabledPlants.getItems().addAll((PlantType[]) farmZone.getPlants().toArray());
-        List<PlantType> allTypes = new ArrayList<>(PlantMap.getInstance().getDonesticTypes());
+        for(String typeName : farmZone.getPlants()) {
+            enabledPlants.getItems().add(PlantMap.getInstance().getPlantType(typeName));
+        }
+        List<PlantType> allTypes = new ArrayList<>(PlantMap.getInstance().getDomesticTypes());
         allTypes.removeAll(farmZone.getPlants());
         disabledPlants.getItems().addAll((PlantType[]) allTypes.toArray());
     }
@@ -110,18 +112,11 @@ public class FarmZoneMenu extends Window {
 
     /**
      * Moves plant to another list, selecting or deselecting it.
-     *
-     * @param type
-     * @param list
      */
     private void select(PlantType type, NavigableList<PlantType> list) {
         list.getItems().removeValue(type, true);
         getAnotherList(list).getItems().add(type);
-        if(list == disabledPlants) {
-            farmZone.enablePlant(type.getName());
-        } else {
-            farmZone.disablePlant(type.getName());
-        }
+        farmZone.setPlant(type.getName(), list == disabledPlants);
     }
 
     /**

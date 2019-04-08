@@ -67,7 +67,7 @@ public class PlantMap {
         return types.values();
     }
 
-    public Collection<PlantType> getDonesticTypes() {
+    public Collection<PlantType> getDomesticTypes() {
         return domesticTypes.values();
     }
 }

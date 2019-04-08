@@ -25,7 +25,7 @@ import java.util.List;
 public class PlantingAction extends Action {
     private SingleItemSelector seedSelector;
 
-    protected PlantingAction(ActionTarget actionTarget, SingleItemSelector seedSelector) {
+    public PlantingAction(ActionTarget actionTarget, SingleItemSelector seedSelector) {
         super(actionTarget);
         this.seedSelector = seedSelector;
     }
@@ -62,6 +62,9 @@ public class PlantingAction extends Action {
         return seed;
     }
 
+    /**
+     * Finds seed item on map tiles.
+     */
     private Item getSeedFromMap() {
         ItemContainer itemContainer = GameMvc.instance().getModel().get(ItemContainer.class);
         List<Item> items = new ArrayList<>(itemContainer.getItems(actionTarget.getPosition()));
@@ -69,6 +72,9 @@ public class PlantingAction extends Action {
         return foundItem;
     }
 
+    /**
+     * Finds seed item in performer's inventory.
+     */
     private Item getSeedFromEquipment() {
         EquipmentAspect equipmentAspect = task.getPerformer().getAspect(EquipmentAspect.class);
         List<Item> items = equipmentAspect.getHauledItems();
@@ -76,6 +82,9 @@ public class PlantingAction extends Action {
         return foundItem;
     }
 
+    /**
+     * Creates new plant from seed item in target position.
+     */
     private void createPlant(Item seed) {
         try {
             PlantContainer plantContainer = GameMvc.instance().getModel().get(PlantContainer.class);

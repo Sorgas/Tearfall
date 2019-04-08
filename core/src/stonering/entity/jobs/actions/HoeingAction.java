@@ -39,7 +39,6 @@ public class HoeingAction extends Action {
         return equipmentAspect.toolWithActionEquipped("hoeing") || tryCreateEquippingAction();
     }
 
-
     @Override
     protected void performLogic() {
         LocalMap localMap = GameMvc.instance().getModel().get(LocalMap.class);

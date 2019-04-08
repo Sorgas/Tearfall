@@ -1,13 +1,16 @@
 package stonering.entity.local.zone;
 
 import stonering.entity.jobs.Task;
+import stonering.entity.jobs.actions.PlantingAction;
+import stonering.entity.jobs.actions.TaskTypesEnum;
+import stonering.entity.jobs.actions.target.PositionActionTarget;
 import stonering.entity.local.environment.GameCalendar;
 import stonering.entity.local.items.selectors.ItemSelector;
+import stonering.entity.local.items.selectors.SeedItemSelector;
 import stonering.entity.local.plants.PlantBlock;
 import stonering.enums.ZoneTypesEnum;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.designations.DesignationTypeEnum;
-import stonering.enums.plants.PlantMap;
 import stonering.enums.plants.PlantType;
 import stonering.game.GameMvc;
 import stonering.game.model.lists.TaskContainer;
@@ -30,7 +33,7 @@ import java.util.Set;
  * @author Alexander on 04.03.2019.
  */
 public class FarmZone extends Zone {
-    private Set<String> plants; // plants selected for growing.
+    private Set<PlantType> plants; // plants selected for growing.
     private Set<Integer> months; // planting tasks are created only in these months
     private ItemSelector seedSelector; // planting tasks share this selector. it is updated as months change.
     private Map<Position, Task> hoeingTasksMap;
@@ -66,8 +69,8 @@ public class FarmZone extends Zone {
      */
     private void checkTiles() {
         boolean monthForHoeing = monthForPreparingSoil();
-        String plant = getPlantForPlanting();
-        if (!monthForHoeing && plant == null) return;
+        PlantType type = getPlantForPlanting();
+        if (!monthForHoeing && type == null) return;
         LocalMap localMap = GameMvc.instance().getModel().get(LocalMap.class);
         TaskContainer taskContainer = GameMvc.instance().getModel().get(TaskContainer.class);
         for (Position tile : tiles) {
@@ -88,37 +91,28 @@ public class FarmZone extends Zone {
                 continue;
             }
             if (plantBlock == null) {
-                createTaskForPlanting(tile, plant);
+                createTaskForPlanting(tile, type);
             }
         }
     }
 
     /**
-     * Observes all tiles and creates tasks for planting enabled plants, or cutting other plants.
+     * Creates planting task and adds it to TaskContainer.
      */
-    private void tryCreatePlantingTasks() {
-        String plant = getPlantForPlanting();
-        if (plant == null) return;
-        LocalMap localMap = GameMvc.instance().getModel().get(LocalMap.class);
-        TaskContainer taskContainer = GameMvc.instance().getModel().get(TaskContainer.class);
-        for (Position tile : tiles) {
-            if (taskContainer.getDesignations().get(tile) != null) continue; // tile is prepared or already designated
-            taskContainer.submitOrderDesignation(tile, DesignationTypeEnum.FARM, 1);
-        }
-    }
-
-    private void createTaskForPlanting(Position position, String plantName) {
-
+    private void createTaskForPlanting(Position position, PlantType type) {
+        SeedItemSelector selector = new SeedItemSelector(type.getName());
+        PlantingAction action = new PlantingAction(new PositionActionTarget(position, true, true), selector);
+        Task task = new Task("plant " + type.getName(), TaskTypesEnum.DESIGNATION, action, 1);
+        GameMvc.instance().getModel().get(TaskContainer.class).getTasks().add(task);
     }
 
     /**
      * Selects plant from enabled list for planting in current month.
      */
-    private String getPlantForPlanting() {
+    private PlantType getPlantForPlanting() {
         int currentMonth = GameMvc.instance().getModel().get(GameCalendar.class).getMonth();
-        for (String plant : plants) {
-            PlantType plantType = PlantMap.getInstance().getPlantType(plant);
-            if (plantType.getPlantingStart().contains(currentMonth)) return plant;
+        for (PlantType plantType : plants) {
+            if (plantType.getPlantingStart().contains(currentMonth)) return plantType;
         }
         return null;
     }
@@ -128,11 +122,9 @@ public class FarmZone extends Zone {
      */
     public void updateMonths() {
         months.clear();
-        PlantMap plantMap = PlantMap.getInstance();
-        for (String plant : plants) {
-            PlantType type = plantMap.getPlantType(plant);
-            if (type.getPlantingStart() != null) {
-                months.addAll(type.getPlantingStart());
+        for (PlantType plantType : plants) {
+            if (plantType.getPlantingStart() != null) {
+                months.addAll(plantType.getPlantingStart());
             }
         }
     }
@@ -142,16 +134,17 @@ public class FarmZone extends Zone {
         return months.contains(getNextMonth(currentMonth)) || months.contains(currentMonth);
     }
 
-    public void enablePlant(String plantName) {
-        plants.add(plantName);
+    public void setPlant(PlantType plantType, boolean status) {
+        if(status) {
+            plants.add(plantType);
+        } else {
+            plants.remove(plantType);
+            cancelGrowingTasks(plantType);
+        }
+        updateMonths();
     }
 
-    public void disablePlant(String plantName) {
-        plants.remove(plantName);
-        cancelGrowingTasks(plantName);
-    }
-
-    private void cancelGrowingTasks(String plantName) {
+    private void cancelGrowingTasks(PlantType plantType) {
         //TODO
     }
 
@@ -159,8 +152,8 @@ public class FarmZone extends Zone {
         return current >= 11 ? 0 : current + 1;
     }
 
-    public Set<String> getPlants() {
-        return plants;
+    public Set<PlantType> getPlants() {
+        return new HashSet<>(plants);
     }
 
     /**
