@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 import stonering.game.view.render.stages.base.UiStage;
+import stonering.game.view.render.ui.menus.toolbar.ToolbarButton;
 import stonering.screen.SimpleScreen;
 import stonering.util.global.StaticSkin;
 
@@ -80,7 +81,8 @@ public class qwer1 {
 
         private Table createTable() {
             table = new Table();
-            table.add(new TextButton("qwer1", StaticSkin.getSkin())).left().top().expand(true, true).fill();
+
+            table.add(new ToolbarButton("tool")).left().top().expand(true, true).fill();
             table.add(new TextButton("qwer2", StaticSkin.getSkin())).right().top().expand(true, true).row();
             table.add(new TextButton("qwer3", StaticSkin.getSkin())).left().bottom().expand(true, true);
             table.add(new TextButton("qwer4", StaticSkin.getSkin())).bottom().right().expand(true, true);

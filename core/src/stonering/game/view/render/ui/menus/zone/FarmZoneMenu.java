@@ -82,8 +82,8 @@ public class FarmZoneMenu extends Window {
     }
 
     private void fillLists() {
-        for(String typeName : farmZone.getPlants()) {
-            enabledPlants.getItems().add(PlantMap.getInstance().getPlantType(typeName));
+        for(PlantType type : farmZone.getPlants()) {
+            enabledPlants.getItems().add(type);
         }
         List<PlantType> allTypes = new ArrayList<>(PlantMap.getInstance().getDomesticTypes());
         allTypes.removeAll(farmZone.getPlants());
@@ -116,7 +116,7 @@ public class FarmZoneMenu extends Window {
     private void select(PlantType type, NavigableList<PlantType> list) {
         list.getItems().removeValue(type, true);
         getAnotherList(list).getItems().add(type);
-        farmZone.setPlant(type.getName(), list == disabledPlants);
+        farmZone.setPlant(type, list == disabledPlants);
     }
 
     /**
