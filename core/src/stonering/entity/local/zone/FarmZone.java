@@ -74,7 +74,7 @@ public class FarmZone extends Zone {
         LocalMap localMap = GameMvc.instance().getModel().get(LocalMap.class);
         TaskContainer taskContainer = GameMvc.instance().getModel().get(TaskContainer.class);
         for (Position tile : tiles) {
-            byte tileType = localMap.getBlockType(position);
+            byte tileType = localMap.getBlockType(tile);
             if (tileType != BlockTypesEnum.FARM.CODE && tileType != BlockTypesEnum.FLOOR.CODE) { // non-floor tiles are ignored and removed from zone.
                 removeTileFromZone(tile);
                 continue;

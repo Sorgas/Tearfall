@@ -1,6 +1,7 @@
 package stonering.game.view.render.ui.menus.zone;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -81,7 +82,6 @@ public class FarmZoneMenu extends Window {
         add(bottomButtons).colspan(2);
         setWidth(800);
         setHeight(600);
-
     }
 
     private void createDefaultListener() {
@@ -124,12 +124,14 @@ public class FarmZoneMenu extends Window {
         NavigableList<PlantType> list = new NavigableList<>();
         list.setSize(150, 300);
         list.setHighlightHandler(focused -> {
-            //TODO
+            list.setColor(focused ? Color.BLUE : Color.RED);
         });
         ListInputHandler handler = new ListInputHandler(list);
+        list.getListeners().clear();
         list.addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
+                event.stop();
                 return handler.test(keycode);
             }
         });
