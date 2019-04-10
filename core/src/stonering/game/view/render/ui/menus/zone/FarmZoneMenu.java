@@ -17,6 +17,7 @@ import stonering.game.GameMvc;
 import stonering.game.model.lists.ZonesContainer;
 import stonering.game.view.render.ui.lists.NavigableList;
 import stonering.util.global.StaticSkin;
+import stonering.util.global.TagLoggersEnum;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,6 +88,7 @@ public class FarmZoneMenu extends Window {
         this.addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
+                TagLoggersEnum.UI.logDebug(keycode + " on farm menu");
                 switch (keycode) {
                     case Input.Keys.E:
                     case Input.Keys.W:
@@ -179,6 +181,7 @@ public class FarmZoneMenu extends Window {
 
         @Override
         public boolean test(Integer keycode) {
+            TagLoggersEnum.UI.logDebug(keycode + " on plant list");
             switch (keycode) {
                 case Input.Keys.E:
                     select(list.getSelected(), list);
