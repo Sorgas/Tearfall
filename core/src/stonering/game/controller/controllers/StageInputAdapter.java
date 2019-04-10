@@ -2,6 +2,7 @@ package stonering.game.controller.controllers;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import stonering.game.view.GameView;
 
 /**
@@ -30,12 +31,16 @@ public class StageInputAdapter extends InputAdapter {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        return gameView.getActiveStage().touchDown(screenX, screenY, pointer, button);
+        Stage stage = gameView.getActiveStage();
+        if(stage != null) return stage.touchDown(screenX, screenY, pointer, button);
+        return false;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return gameView.getActiveStage().touchUp(screenX, screenY, pointer, button);
+        Stage stage = gameView.getActiveStage();
+        if(stage != null) return stage.touchUp(screenX, screenY, pointer, button);
+        return false;
     }
 
     /**

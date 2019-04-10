@@ -71,6 +71,7 @@ public class MapEntitySelectStage extends UiStage implements Initable {
             case ZONES:
                 break;
             case NONE:
+                System.out.println("selecting zone");
                 showEntitySelectList();
                 return;
         }

@@ -28,11 +28,11 @@ import java.util.function.Predicate;
  * Only these lists get stage focus and have similar input handlers.
  * <p>
  * Controls:
- *    E select/deselect plant for planting(depends on active list).
- *    Q close menu
- *    X delete zone
- *    WS fetch lists
- *    AD switch active list
+ * E select/deselect plant for planting(depends on active list).
+ * Q close menu
+ * X delete zone
+ * WS fetch lists
+ * AD switch active list
  *
  * @author Alexander on 20.03.2019.
  */
@@ -47,6 +47,7 @@ public class FarmZoneMenu extends Window {
         super("qwer", StaticSkin.getSkin());
         this.farmZone = farmZone;
         createTable();
+        createDefaultListener();
     }
 
     private void createTable() {
@@ -79,15 +80,42 @@ public class FarmZoneMenu extends Window {
         add(bottomButtons).colspan(2);
         setWidth(800);
         setHeight(600);
+
+    }
+
+    private void createDefaultListener() {
+        this.addListener(new InputListener() {
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                switch (keycode) {
+                    case Input.Keys.E:
+                    case Input.Keys.W:
+                    case Input.Keys.S:
+                    case Input.Keys.A:
+                        switchList(disabledPlants);
+                        return true;
+                    case Input.Keys.Q:
+                        close();
+                        return true;
+                    case Input.Keys.X:
+                        deleteZone();
+                        return true;
+                    case Input.Keys.D:
+                        switchList(enabledPlants);
+                        return true;
+                }
+                return false;
+            }
+        });
     }
 
     private void fillLists() {
-        for(PlantType type : farmZone.getPlants()) {
+        for (PlantType type : farmZone.getPlants()) {
             enabledPlants.getItems().add(type);
         }
         List<PlantType> allTypes = new ArrayList<>(PlantMap.getInstance().getDomesticTypes());
         allTypes.removeAll(farmZone.getPlants());
-        disabledPlants.getItems().addAll((PlantType[]) allTypes.toArray());
+        allTypes.forEach(type -> disabledPlants.getItems().add(type));
     }
 
     private NavigableList<PlantType> createList() {
