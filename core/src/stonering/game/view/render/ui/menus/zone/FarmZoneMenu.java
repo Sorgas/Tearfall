@@ -42,11 +42,12 @@ public class FarmZoneMenu extends Window {
     private NavigableList<PlantType> enabledPlants;
     private NavigableList<PlantType> disabledPlants;
     private HorizontalGroup bottomButtons;
+    private Label hintLabel;
 
     private FarmZone farmZone;
 
     public FarmZoneMenu(FarmZone farmZone) {
-        super("qwer", StaticSkin.getSkin());
+        super(farmZone.getName(), StaticSkin.getSkin());
         this.farmZone = farmZone;
         createTable();
         createDefaultListener();
@@ -59,8 +60,10 @@ public class FarmZoneMenu extends Window {
         fillLists();
         add(new Label("All plants:", StaticSkin.getSkin()));
         add(new Label("Selected plants:", StaticSkin.getSkin())).row();
-        add(enabledPlants).prefWidth(Value.percentWidth(0.5f, this)).prefHeight(Value.percentHeight(0.5f, this));
         add(disabledPlants).prefWidth(Value.percentWidth(0.5f, this)).prefHeight(Value.percentHeight(0.5f, this)).row();
+        add(enabledPlants).prefWidth(Value.percentWidth(0.5f, this)).prefHeight(Value.percentHeight(0.5f, this));
+        hintLabel = new Label("", StaticSkin.getSkin());
+        add(hintLabel).fillX().colspan(2);
         bottomButtons = new HorizontalGroup();
         TextButton quitButton = new TextButton("Quit", StaticSkin.getSkin());
         quitButton.addListener(new ChangeListener() {
@@ -112,9 +115,7 @@ public class FarmZoneMenu extends Window {
     }
 
     private void fillLists() {
-        for (PlantType type : farmZone.getPlants()) {
-            enabledPlants.getItems().add(type);
-        }
+        farmZone.getPlants().forEach(type -> enabledPlants.getItems().add(type));
         List<PlantType> allTypes = new ArrayList<>(PlantMap.getInstance().getDomesticTypes());
         allTypes.removeAll(farmZone.getPlants());
         allTypes.forEach(type -> disabledPlants.getItems().add(type));
@@ -127,35 +128,29 @@ public class FarmZoneMenu extends Window {
             list.setColor(focused ? Color.BLUE : Color.RED);
         });
         ListInputHandler handler = new ListInputHandler(list);
-        list.getListeners().clear();
+        list.getListeners().clear(); // to replace standard listener.
         list.addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
-                event.stop();
+                event.stop(); // to prevent handling on menu level.
                 return handler.test(keycode);
             }
         });
         return list;
     }
 
-    private void deleteZone() {
-        GameMvc.instance().getModel().get(ZonesContainer.class).deleteZone(farmZone);
-    }
-
     /**
+     * Picks selected plantType from given list, and moves it to another list.
      * Moves plant to another list, selecting or deselecting it.
      */
-    private void select(PlantType type, NavigableList<PlantType> list) {
+    private void select(NavigableList<PlantType> list) {
+        PlantType type = list.getSelected();
+        if (type == null) return;
         list.getItems().removeValue(type, true);
         getAnotherList(list).getItems().add(type);
         farmZone.setPlant(type, list == disabledPlants);
     }
 
-    /**
-     * Changes focus to another list.
-     *
-     * @param list
-     */
     private void switchList(NavigableList<PlantType> list) {
         getStage().setKeyboardFocus(getAnotherList(list));
     }
@@ -164,9 +159,10 @@ public class FarmZoneMenu extends Window {
         return list == enabledPlants ? disabledPlants : enabledPlants;
     }
 
-    /**
-     * Closes this stage.
-     */
+    private void deleteZone() {
+        GameMvc.instance().getModel().get(ZonesContainer.class).deleteZone(farmZone);
+    }
+
     private void close() {
         GameMvc.instance().getView().removeStage(getStage());
     }
@@ -186,7 +182,7 @@ public class FarmZoneMenu extends Window {
             TagLoggersEnum.UI.logDebug(keycode + " on plant list");
             switch (keycode) {
                 case Input.Keys.E:
-                    select(list.getSelected(), list);
+                    select(list);
                     break;
                 case Input.Keys.Q:
                     close();

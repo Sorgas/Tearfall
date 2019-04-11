@@ -4,11 +4,14 @@ import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.utils.Align;
 import stonering.entity.local.zone.FarmZone;
 import stonering.entity.local.zone.Zone;
+import stonering.game.model.EntitySelector;
 import stonering.game.view.render.stages.base.UiStage;
 import stonering.game.view.render.ui.menus.zone.FarmZoneMenu;
 
 /**
- * Stage for showing
+ * Stage for showing menu for selected zone.
+ * This stage is shown when player selects zone tile with {@link EntitySelector}.
+ * After creation this stage creates menu corresponding to zone type, shows and focuses it for keyboard input.
  *
  * @author Alexander on 20.03.2019.
  */
