@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Array;
 import stonering.entity.local.zone.FarmZone;
 import stonering.enums.plants.PlantMap;
 import stonering.enums.plants.PlantType;
@@ -146,8 +147,13 @@ public class FarmZoneMenu extends Window {
     private void select(NavigableList<PlantType> list) {
         PlantType type = list.getSelected();
         if (type == null) return;
-        list.getItems().removeValue(type, true);
-        getAnotherList(list).getItems().add(type);
+        Array<PlantType> listItems = list.getItems();
+        listItems.removeValue(type, true);
+        list.setItems(listItems);
+        NavigableList<PlantType> list2 = getAnotherList(list);
+        listItems = list2.getItems();
+        listItems.add(type);
+        list2.setItems(listItems);
         farmZone.setPlant(type, list == disabledPlants);
     }
 
