@@ -18,7 +18,7 @@ public enum DesignationTypeEnum {
     CUT(6, "cutting plants"), // cut plants
     HARVEST(7, "harvesting plants"), // harvest plants
     BUILD(8, "building"), // build construction or building
-    FARM(9, "hoeing"); // prepare soil for planting
+    HOE(9, "hoeing"); // prepare soil for planting
 
     private static HashMap<Byte, DesignationTypeEnum> map;
     public final byte CODE;

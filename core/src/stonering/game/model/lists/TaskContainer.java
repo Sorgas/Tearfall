@@ -118,7 +118,7 @@ public class TaskContainer implements ModelComponent, Initable {
                     return task;
                 }
             }
-            case FARM: {
+            case HOE: {
 
             }
         }
@@ -176,7 +176,7 @@ public class TaskContainer implements ModelComponent, Initable {
                 return block != null && !block.getPlant().getType().isTree();
             case BUILD:
                 break;
-            case FARM:
+            case HOE:
                 return ZoneTypesEnum.FARM.getValidator().validate(localMap, position);
         }
         return false;

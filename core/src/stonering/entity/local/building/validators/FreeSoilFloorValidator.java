@@ -4,6 +4,11 @@ import stonering.enums.materials.MaterialMap;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 
+/**
+ * Checks that tile is free floor and consists of soil.
+ *
+ * @author Alexander on 18.03.2019.
+ */
 public class FreeSoilFloorValidator extends FreeFloorValidator {
     private static final String SOIL_TAG = "soil";
 

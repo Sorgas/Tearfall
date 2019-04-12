@@ -4,6 +4,7 @@ import stonering.entity.jobs.Task;
 import stonering.entity.jobs.actions.PlantingAction;
 import stonering.entity.jobs.actions.TaskTypesEnum;
 import stonering.entity.jobs.actions.target.PositionActionTarget;
+import stonering.entity.local.building.validators.PositionValidator;
 import stonering.entity.local.environment.GameCalendar;
 import stonering.entity.local.items.selectors.ItemSelector;
 import stonering.entity.local.items.selectors.SeedItemSelector;
@@ -38,11 +39,6 @@ public class FarmZone extends Zone {
     private ItemSelector seedSelector; // planting tasks share this selector. it is updated as months change.
     private Map<Position, Task> hoeingTasksMap;
 
-    public FarmZone(String name, Set<Position> tiles) {
-        super(name, tiles);
-        initZone();
-    }
-
     public FarmZone(String name) {
         super(name);
         initZone();
@@ -73,21 +69,23 @@ public class FarmZone extends Zone {
         if (!monthForHoeing && type == null) return;
         LocalMap localMap = GameMvc.instance().getModel().get(LocalMap.class);
         TaskContainer taskContainer = GameMvc.instance().getModel().get(TaskContainer.class);
+        PositionValidator validator = ZoneTypesEnum.FARM.getValidator();
         for (Position tile : tiles) {
             byte tileType = localMap.getBlockType(tile);
-            if (tileType != BlockTypesEnum.FARM.CODE && tileType != BlockTypesEnum.FLOOR.CODE) { // non-floor tiles are ignored and removed from zone.
+            // non-floor tiles are ignored and removed from zone. This can occur when tile is dug out, built on or under colla
+            if (tileType != BlockTypesEnum.FARM.CODE && tileType != BlockTypesEnum.FLOOR.CODE) {
                 removeTileFromZone(tile);
                 continue;
             }
             // tile is already designated for something. building or digging in zones is allowed, non-floor tiles will be removed on next iteration.
             if (taskContainer.getActiveTask(tile) != null) continue;
             PlantBlock plantBlock = localMap.getPlantBlock(tile);
-            if (plantBlock != null && !plants.contains(plantBlock.getPlant().getType().getTitle())) { // unwanted plant is present
+            if (plantBlock != null && !plants.contains(plantBlock.getPlant().getType().getTitle())) { // unwanted plant is present, cut
                 taskContainer.submitOrderDesignation(tile, DesignationTypeEnum.CUT, 1);
                 continue;
             }
-            if (tileType == BlockTypesEnum.FLOOR.CODE) {
-                taskContainer.submitOrderDesignation(position, DesignationTypeEnum.FARM, 1);
+            if (validator.validate(localMap, tile)) {
+                taskContainer.submitOrderDesignation(tile, DesignationTypeEnum.HOE, 1);
                 continue;
             }
             if (plantBlock == null) {
