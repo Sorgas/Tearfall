@@ -61,10 +61,10 @@ public class FarmZoneMenu extends Window {
         fillLists();
         add(new Label("All plants:", StaticSkin.getSkin()));
         add(new Label("Selected plants:", StaticSkin.getSkin())).row();
-        add(disabledPlants).prefWidth(Value.percentWidth(0.5f, this)).prefHeight(Value.percentHeight(0.5f, this)).row();
-        add(enabledPlants).prefWidth(Value.percentWidth(0.5f, this)).prefHeight(Value.percentHeight(0.5f, this));
+        add(disabledPlants).prefWidth(Value.percentWidth(0.5f, this)).prefHeight(Value.percentHeight(0.5f, this)).fill();
+        add(enabledPlants).prefWidth(Value.percentWidth(0.5f, this)).prefHeight(Value.percentHeight(0.5f, this)).fill().row();
         hintLabel = new Label("", StaticSkin.getSkin());
-        add(hintLabel).fillX().colspan(2);
+        add(hintLabel).fillX().colspan(2).row();
         bottomButtons = new HorizontalGroup();
         TextButton quitButton = new TextButton("Quit", StaticSkin.getSkin());
         quitButton.addListener(new ChangeListener() {
@@ -146,19 +146,23 @@ public class FarmZoneMenu extends Window {
      */
     private void select(NavigableList<PlantType> list) {
         PlantType type = list.getSelected();
+        int index = list.getSelectedIndex();
         if (type == null) return;
-        Array<PlantType> listItems = list.getItems();
-        listItems.removeValue(type, true);
-        list.setItems(listItems);
-        NavigableList<PlantType> list2 = getAnotherList(list);
-        listItems = list2.getItems();
-        listItems.add(type);
-        list2.setItems(listItems);
+        list.getItems().removeValue(type, true);
+        getAnotherList(list).getItems().add(type);
+        list.setSelectedIndex(Math.min(index, list.getItems().size -1));
         farmZone.setPlant(type, list == disabledPlants);
     }
 
+    /**
+     * Switches focus to another list and sets selection to first item, if needed.
+     * If another list is empty, no switching happens.
+     */
     private void switchList(NavigableList<PlantType> list) {
-        getStage().setKeyboardFocus(getAnotherList(list));
+        NavigableList<PlantType> targetList = getAnotherList(list);
+        if (targetList.getItems().isEmpty()) return;
+        getStage().setKeyboardFocus(targetList);
+        targetList.setSelectedIndex(Math.max(0, targetList.getSelectedIndex()));
     }
 
     private NavigableList<PlantType> getAnotherList(NavigableList<PlantType> list) {

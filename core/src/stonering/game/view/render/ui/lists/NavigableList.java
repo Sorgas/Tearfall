@@ -11,7 +11,6 @@ import stonering.game.view.render.ui.menus.util.Highlightable;
 import stonering.util.global.StaticSkin;
 import stonering.util.global.TagLoggersEnum;
 
-import java.util.Collection;
 import java.util.function.Consumer;
 
 /**
@@ -94,8 +93,9 @@ public class NavigableList<T> extends List<T> implements Highlightable {
     @Override
     public void act(float delta) {
         super.act(delta);
-        if (highlightHandler != null && (getStage().getKeyboardFocus() == this) != highlighted)
-            highlightHandler.accept(!highlighted);
+        if (highlightHandler != null && (getStage().getKeyboardFocus() == this) != highlighted) {
+            highlightHandler.accept(highlighted = !highlighted);
+        }
     }
 
     public void setHideListener(EventListener hideListener) {

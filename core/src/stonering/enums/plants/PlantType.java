@@ -124,6 +124,11 @@ public class PlantType implements Initable {
         }
     }
 
+    @Override
+    public String toString() {
+        return title;
+    }
+
     public String getName() {
         return name;
     }
