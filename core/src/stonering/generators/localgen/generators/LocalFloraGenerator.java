@@ -18,7 +18,10 @@ import stonering.entity.local.plants.Tree;
 import stonering.util.global.Pair;
 import stonering.util.global.TagLoggersEnum;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
 import static stonering.enums.blocks.BlockTypesEnum.FLOOR;
 
@@ -83,6 +86,10 @@ public class LocalFloraGenerator {
     /**
      * Calls placing method for all filtered plants and trees.
      * Trees give shadow, therefore they should be placed before plants.
+     * Trees placing:
+     *      1. all floor tiles are collected.
+     *      2. tiles are filtered by tree's requirements.
+     *      3. required amount of trees is placed.
      */
     private void generateFlora() {
         weightedTreeTypes.forEach(this::placeInitialTrees);
@@ -97,7 +104,7 @@ public class LocalFloraGenerator {
 
         Random random = new Random();
         Tree tree = treeGenerator.generateTree(specimen, 0);
-        for (int tries = 200; amount > 0 && tries > 0; tries--) {
+        for (int tries = 500; amount > 0 && tries > 0; tries--) {
             int x = random.nextInt(areaSize);
             int y = random.nextInt(areaSize);
             int z = container.getRoundedHeightsMap()[x][y] + 1;
@@ -118,7 +125,7 @@ public class LocalFloraGenerator {
         PlantBlock[][][] treeParts = tree.getBlocks();
         int treeCenterZ = tree.getCurrentStage().getTreeType().getRootDepth();
         int treeRadius = tree.getCurrentStage().getTreeType().getTreeRadius();
-        String soilType = tree.getType().getSoilType();
+        String soilType = getBlockMateriaTag(tree.getType());
         for (int x = 0; x < treeParts.length; x++) {
             for (int y = 0; y < treeParts[x].length; y++) {
                 for (int z = 0; z < treeParts[x][y].length; z++) {
@@ -165,13 +172,13 @@ public class LocalFloraGenerator {
      *
      * @param specimen PlantType key from PlantMap representing tree
      */
-    private void placePlants(String specimen, float amount) {
+    private void placePlants(String specimen, float relativeAmount) {
         PlantGenerator plantGenerator = new PlantGenerator();
         Pair<boolean[][][], ArrayList<Position>> pair = findAllAvailablePositions(specimen);
         ArrayList<Position> positions = pair.getValue();
         boolean[][][] array = pair.getKey();
         Random random = new Random();
-        for (int number = (int) (positions.size() * amount / 2); number > 0; number--) {
+        for (int number = (int) (positions.size() * relativeAmount / 2); number > 0; number--) {
             try {
                 Position position = positions.remove(random.nextInt(positions.size()));
                 array[position.getX()][position.getY()][position.getZ()] = false;
@@ -192,8 +199,7 @@ public class LocalFloraGenerator {
         ArrayList<Position> positions = new ArrayList<>();
         boolean[][][] array = new boolean[localMap.xSize][localMap.ySize][localMap.zSize];
         PlantType type = PlantMap.getInstance().getPlantType(specimen);
-        type.getWaterSource();
-        String soilType = type.getSoilType();
+        String soilType = getBlockMateriaTag(type);
         for (int x = 0; x < localMap.xSize; x++) {
             for (int y = 0; y < localMap.ySize; y++) {
                 for (int z = 0; z < localMap.zSize; z++) {
@@ -247,5 +253,12 @@ public class LocalFloraGenerator {
     private float getSpreadModifier(String specimen) {
         PlantType type = PlantMap.getInstance().getPlantType(specimen);
         return Math.abs(((type.getMaxGrowingTemperature() + type.getMinGrowingTemperature()) / 2f) - midTemp) / (maxTemp - midTemp);
+    }
+
+    /**
+     * Gets soil placing tag from {@link PlantMap} and truncates it to material tag.
+     */
+    private String getBlockMateriaTag(PlantType type) {
+        return PlantMap.getInstance().resolveSoilType(type).substring(5); // skips tag prefix.
     }
 }

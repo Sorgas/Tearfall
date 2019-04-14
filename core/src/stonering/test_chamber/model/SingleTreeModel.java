@@ -11,6 +11,9 @@ import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.model.EntitySelector;
 import stonering.game.model.GameModel;
+import stonering.game.model.lists.TaskContainer;
+import stonering.game.model.lists.UnitContainer;
+import stonering.game.model.lists.ZonesContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.lists.PlantContainer;
 import stonering.game.view.tilemaps.LocalTileMap;
@@ -45,6 +48,10 @@ public class SingleTreeModel extends GameModel {
         put(new LocalTileMap(get(LocalMap.class)));
         put(new EntitySelector());
         put(new GameCalendar());
+        put(new UnitContainer());
+        put(new TaskContainer());
+        put(new ZonesContainer());
+
     }
 
     private LocalMap createMap() {

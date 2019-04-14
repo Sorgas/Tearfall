@@ -8,9 +8,7 @@
         "description":"Willow",
         "temperatureBounds":["-40", "40", "-40", "40"],
         "rainfallBounds":["0", "100"],
-        "waterSource":["near", "far"],
-        "lightNeed":["low", "high"],
-        "soilType":"soil",
+        "placingTags" : ["water_near", "water_far"],
         "lifeStages":[
             {
                 "titlePrefixSuffix":["", "sapling"],

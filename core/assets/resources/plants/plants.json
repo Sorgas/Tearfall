@@ -2,19 +2,22 @@
     temperatureBounds:
         1,2: max/min year temperature for plant to occur during generation,
         3,4: max/min temperature to grow in realtime.
-    placingTags:
-        water_near
-        water_far
-        water_on
-        water_under
+    placingTags:     // determines special requirements of this plant to environment
+        //TODO distinct running and stagnant water
+        water_near   // 1-2 tiles to water source.
+        water_far    // farer than 1-2 tiles.         default
+        water_on     // surface of full water tiles.
+        water_under  // bottom of water pool.
 
-    environmentTags
-    waterSource:
-        position related to ponds or river (under, surface, near, far (multiple)) //TODO distinct running and stagnant water
-    lightNeed:
-        light level for plant to grow. (underground, low, high, open (multiple))
-    soilType:
-        material tag of surface (soil, stone, wood)
+        light_underground  // only tiles in caves
+        light_low          // low light like in the tree shadow
+        light_high         // direct acces to light
+        light_open         // low or high                   default
+
+        soil_soil          // grows on soil                default
+        soil_stone         // grows on stones (mosses)
+        soil_wood          // grows on wooden floors
+
     treeType:
         crownRadius, height, rootDepth, rootRadius for trees
     lifeStages:
@@ -27,10 +30,7 @@
         "description": "Grass",
         "temperatureBounds": ["-40", "40", "-40", "40"],
         "rainfallBounds": ["0", "100"],
-        "placingTags" : [],
-        "waterSource": ["near", "far"],
-        "lightNeed": ["low", "high"],
-        "soilType": "soil",
+        "placingTags" : ["water_near", "water_far"],
         "lifeStages": [
             {
                 "stageLength": "1",
@@ -47,9 +47,7 @@
     "description": "Red Moss",
     "temperatureBounds": ["-40", "40", "-40", "40"],
     "rainfallBounds": ["0", "100"],
-    "waterSource": ["near", "far"],
-    "lightNeed": ["low", "high"],
-    "soilType": "stone",
+    "placingTags": ["water_near", "water_far", "soil_stone"],
     "lifeStages": [
         {
             "stageLength": "1",
@@ -66,9 +64,7 @@
     "description": "Bush",
     "temperatureBounds": ["-40", "40", "-40", "40"],
     "rainfallBounds": ["0", "100"],
-    "waterSource": ["near", "far"],
-    "lightNeed": ["low", "high"],
-    "soilType": "soil",
+    "placingTags": ["near", "far"],
     "lifeStages": [
         {
             "stageLength": "1",
@@ -85,9 +81,7 @@
     "description": "Small plant with blue edible berries.",
     "temperatureBounds": ["-40", "40", "-40", "40"],
     "rainfallBounds": ["0", "100"],
-    "waterSource": ["near", "far"],
-    "lightNeed": ["low", "high"],
-    "soilType": "soil",
+    "placingTags": ["water_near", "water_far"],
     "lifeStages": [
         {
             "stageLength": "1",
@@ -105,9 +99,7 @@
         "description": "Edible mushroom  ",
         "temperatureBounds": ["-40", "40", "-40", "40"],
         "rainfallBounds": ["0", "100"],
-        "waterSource": ["far"],
-        "lightNeed": ["low", "underground"],
-        "soilType": "soil",
+        "placingTags": ["light_low", "light_underground"],
         "lifeStages": [
             {
                 "stageLength": "2",
@@ -141,9 +133,7 @@
         "description": "Сattail",
         "temperatureBounds": ["-40", "40", "-40", "40"],
         "rainfallBounds": ["0", "100"],
-        "waterSource": ["near"],
-        "lightNeed": ["open"],
-        "soilType": "soil",
+        "placingTags": ["water_near"],
         "lifeStages": [
             {
                 "stageLength": "2",
@@ -177,9 +167,7 @@
         "description": "Tomato",
         "temperatureBounds": ["-40", "40", "-40", "40"],
         "rainfallBounds": ["0", "100"],
-        "waterSource": ["far"],
-        "lightNeed": ["open"],
-        "soilType": "soil",
+        "placingTags": [],
         "plantingStart": ["1","2","3"],
         "lifeStages": [
             {

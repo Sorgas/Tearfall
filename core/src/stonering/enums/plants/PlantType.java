@@ -15,9 +15,6 @@ public class PlantType implements Initable {
     private String description;
     private int[] temperatureBounds;
     private int[] rainfallBounds;
-    private ArrayList<String> waterSource;
-    private ArrayList<String> lightNeed;
-    private String soilType;
     private ArrayList<PlantLifeStage> lifeStages;
     private ArrayList<String> placingTags;
     private List<Integer> plantingStart;
@@ -199,30 +196,6 @@ public class PlantType implements Initable {
 
     public void setMaxRainfall(int maxRainfall) {
         rainfallBounds[1] = maxRainfall;
-    }
-
-    public ArrayList<String> getWaterSource() {
-        return waterSource;
-    }
-
-    public void setWaterSource(ArrayList<String> waterSource) {
-        this.waterSource = waterSource;
-    }
-
-    public ArrayList<String> getLightNeed() {
-        return lightNeed;
-    }
-
-    public void setLightNeed(ArrayList<String> lightNeed) {
-        this.lightNeed = lightNeed;
-    }
-
-    public String getSoilType() {
-        return soilType;
-    }
-
-    public void setSoilType(String soilTypes) {
-        this.soilType = soilTypes;
     }
 
     public ArrayList<PlantLifeStage> getLifeStages() {

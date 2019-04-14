@@ -9,7 +9,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
-// loads plant types fromm plants.json
+/**
+ *
+ */
 public class PlantMap {
     private static PlantMap instance;
     private HashMap<String, PlantType> types;
@@ -50,6 +52,17 @@ public class PlantMap {
         for (PlantType plantType : elements) {
             types.put(plantType.getName(), plantType);
         }
+    }
+
+    /**
+     * Returns soil type tag from type, or default tag, if none available.
+     * @return
+     */
+    public String resolveSoilType(PlantType type) {
+        for (String placingTag : type.getPlacingTags()) {
+            if(placingTag.startsWith("soil_")) return placingTag;
+        }
+        return "soil_soil";
     }
 
     /**
