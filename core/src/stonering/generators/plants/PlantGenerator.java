@@ -36,15 +36,15 @@ public class PlantGenerator {
     }
 
     private void initBlockProducts(PlantBlock block, int age) {
-        block.setHarvestProducts(block.getPlant().getCurrentStage().getHarvestProducts());
-        block.setCutProducts(block.getPlant().getCurrentStage().getCutProducts());
+        block.setHarvestProducts(block.getPlant().getCurrentStage().harvestProducts);
+        block.setCutProducts(block.getPlant().getCurrentStage().cutProducts);
     }
 
     private PlantBlock createPlantBlock(Plant plant, int age) {
-        PlantBlock plantBlock = new PlantBlock(MaterialMap.getInstance().getId(plant.getCurrentStage().getMaterialName()), PlantBlocksTypeEnum.SINGLE_PASSABLE.getCode());
+        PlantBlock plantBlock = new PlantBlock(MaterialMap.getInstance().getId(plant.getType().materialName), PlantBlocksTypeEnum.SINGLE_PASSABLE.getCode());
         plantBlock.setAtlasXY(new int[]{
-                plant.getCurrentStage().getAtlasXY()[0],
-                plant.getCurrentStage().getAtlasXY()[1]});
+                plant.getCurrentStage().atlasXY[0],
+                plant.getCurrentStage().atlasXY[1]});
         plantBlock.setPlant(plant);
         initBlockProducts(plantBlock, age);
         return plantBlock;

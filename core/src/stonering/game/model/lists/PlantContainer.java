@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Vector3;
 import stonering.enums.OrientationEnum;
 import stonering.enums.blocks.BlockTypesEnum;
-import stonering.enums.plants.TreeType;
 import stonering.game.GameMvc;
 import stonering.game.model.IntervalTurnable;
 import stonering.game.model.ModelComponent;
@@ -69,9 +68,9 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
      * @param tree Tree object with not null tree field
      */
     private void placeTree(Tree tree) {
-        TreeType type = tree.getCurrentStage().getTreeType();
-        int radius = type.getTreeRadius();
-        Position vector = Position.sub(tree.getPosition(), radius, radius, type.getRootDepth()); // position of 0,0,0 tree part on map
+        List<Integer> treeForm = tree.getCurrentStage().treeForm;
+        int radius = treeForm.get(0);
+        Position vector = Position.sub(tree.getPosition(), radius, radius, treeForm.get(2)); // position of 0,0,0 tree part on map
         PlantBlock[][][] treeParts = tree.getBlocks();
         for (int x = 0; x < treeParts.length; x++) {
             for (int y = 0; y < treeParts[x].length; y++) {
@@ -97,7 +96,7 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
 
     public void removeTree(Tree tree) {
         if (plants.remove(tree)) {
-            int stompZ = tree.getCurrentStage().getTreeType().getRootDepth();
+            int stompZ = tree.getCurrentStage().treeForm.get(2);
             PlantBlock[][][] treeParts = tree.getBlocks();
             for (int x = 0; x < treeParts.length; x++) {
                 for (int y = 0; y < treeParts[x].length; y++) {
@@ -144,7 +143,7 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
     public void fellTree(Tree tree, OrientationEnum orientation) {
         if (orientation == OrientationEnum.N) {
             Position treePosition = tree.getPosition();
-            int stompZ = tree.getCurrentStage().getTreeType().getRootDepth();
+            int stompZ = tree.getCurrentStage().treeForm.get(2);
             PlantBlock[][][] treeParts = tree.getBlocks();
             for (int x = 0; x < treeParts.length; x++) {
                 for (int y = 0; y < treeParts[x].length; y++) {

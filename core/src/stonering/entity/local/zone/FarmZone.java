@@ -80,7 +80,7 @@ public class FarmZone extends Zone {
             // tile is already designated for something. building or digging in zones is allowed, non-floor tiles will be removed on next iteration.
             if (taskContainer.getActiveTask(tile) != null) continue;
             PlantBlock plantBlock = localMap.getPlantBlock(tile);
-            if (plantBlock != null && !plants.contains(plantBlock.getPlant().getType().getTitle())) { // unwanted plant is present, cut
+            if (plantBlock != null && !plants.contains(plantBlock.getPlant().getType().title)) { // unwanted plant is present, cut
                 taskContainer.submitOrderDesignation(tile, DesignationTypeEnum.CUT, 1);
                 continue;
             }
@@ -98,9 +98,9 @@ public class FarmZone extends Zone {
      * Creates planting task and adds it to TaskContainer.
      */
     private void createTaskForPlanting(Position position, PlantType type) {
-        SeedItemSelector selector = new SeedItemSelector(type.getName());
+        SeedItemSelector selector = new SeedItemSelector(type.name);
         PlantingAction action = new PlantingAction(new PositionActionTarget(position, true, true), selector);
-        Task task = new Task("plant " + type.getName(), TaskTypesEnum.DESIGNATION, action, 1);
+        Task task = new Task("plant " + type.name, TaskTypesEnum.DESIGNATION, action, 1);
         GameMvc.instance().getModel().get(TaskContainer.class).getTasks().add(task);
     }
 
@@ -110,7 +110,7 @@ public class FarmZone extends Zone {
     private PlantType getPlantForPlanting() {
         int currentMonth = GameMvc.instance().getModel().get(GameCalendar.class).getMonth();
         for (PlantType plantType : plants) {
-            if (plantType.getPlantingStart().contains(currentMonth)) return plantType;
+            if (plantType.plantingStart.contains(currentMonth)) return plantType;
         }
         return null;
     }
@@ -121,8 +121,8 @@ public class FarmZone extends Zone {
     public void updateMonths() {
         months.clear();
         for (PlantType plantType : plants) {
-            if (plantType.getPlantingStart() != null) {
-                months.addAll(plantType.getPlantingStart());
+            if (plantType.plantingStart != null) {
+                months.addAll(plantType.plantingStart);
             }
         }
     }

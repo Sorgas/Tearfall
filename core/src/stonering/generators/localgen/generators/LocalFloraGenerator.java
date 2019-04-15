@@ -123,8 +123,8 @@ public class LocalFloraGenerator {
      */
     private boolean checkTreePlacing(Tree tree, int cx, int cy, int cz) {
         PlantBlock[][][] treeParts = tree.getBlocks();
-        int treeCenterZ = tree.getCurrentStage().getTreeType().getRootDepth();
-        int treeRadius = tree.getCurrentStage().getTreeType().getTreeRadius();
+        int treeCenterZ = tree.getCurrentStage().treeForm.get(2);
+        int treeRadius = tree.getCurrentStage().treeForm.get(0);
         String soilType = getBlockMateriaTag(tree.getType());
         for (int x = 0; x < treeParts.length; x++) {
             for (int y = 0; y < treeParts[x].length; y++) {
@@ -149,8 +149,8 @@ public class LocalFloraGenerator {
      */
     private void placeTree(Tree tree, int cx, int cy, int cz) {
         PlantBlock[][][] treeParts = tree.getBlocks();
-        int treeCenterZ = tree.getCurrentStage().getTreeType().getRootDepth();
-        int treeRadius = tree.getCurrentStage().getTreeType().getTreeRadius();
+        int treeCenterZ = tree.getCurrentStage().treeForm.get(2);
+        int treeRadius = tree.getCurrentStage().treeForm.get(0);
         for (int x = 0; x < treeParts.length; x++) {
             for (int y = 0; y < treeParts[x].length; y++) {
                 for (int z = 0; z < treeParts[x][y].length; z++) {
@@ -223,14 +223,14 @@ public class LocalFloraGenerator {
     //TODO add grade of specimen spreading in this area.
     private void filterPlants() {
         PlantMap.getInstance().getAllTypes().forEach((type) -> {
-            if (rainfall < type.getMinRainfall() || rainfall > type.getMaxRainfall()) return; // too dry or wet
-            if (minTemp < type.getMinRainfall() || maxTemp > type.getMaxTemperature()) return; // too hot or cold
-            if (minTemp > type.getMaxGrowingTemperature() || maxTemp < type.getMinGrowingTemperature())
+            if (rainfall < type.rainfallBounds[0] || rainfall > type.rainfallBounds[1]) return; // too dry or wet
+            if (minTemp < type.temperatureBounds[0] || maxTemp > type.temperatureBounds[1]) return; // too hot or cold
+            if (minTemp > type.temperatureBounds[3] || maxTemp < type.temperatureBounds[2])
                 return; // plant grow zone out of local temp zone
             if (type.isTree()) {
-                weightedTreeTypes.put(type.getName(), getSpreadModifier(type.getName()));
+                weightedTreeTypes.put(type.name, getSpreadModifier(type.name));
             } else {
-                weightedPlantTypes.put(type.getName(), getSpreadModifier(type.getName()));
+                weightedPlantTypes.put(type.name, getSpreadModifier(type.name));
             }
         });
     }
@@ -252,7 +252,7 @@ public class LocalFloraGenerator {
      */
     private float getSpreadModifier(String specimen) {
         PlantType type = PlantMap.getInstance().getPlantType(specimen);
-        return Math.abs(((type.getMaxGrowingTemperature() + type.getMinGrowingTemperature()) / 2f) - midTemp) / (maxTemp - midTemp);
+        return Math.abs(((type.temperatureBounds[2] + type.temperatureBounds[3]) / 2f) - midTemp) / (maxTemp - midTemp);
     }
 
     /**

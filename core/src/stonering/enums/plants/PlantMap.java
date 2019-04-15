@@ -24,7 +24,6 @@ public class PlantMap {
         json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
         json.addClassTag("color_c", Color.class);
-        json.addClassTag("tree_c", TreeType.class);
         json.addClassTag("stage_c", PlantType.PlantLifeStage.class);
         System.out.println("loading plant types");
         //TODO add json validation
@@ -42,15 +41,15 @@ public class PlantMap {
     private void loadPlantTypes() {
         ArrayList<PlantType> elements = json.fromJson(ArrayList.class, PlantType.class, FileLoader.getFile(FileLoader.PLANTS_PATH));
         for (PlantType plantType : elements) {
-            types.put(plantType.getName(), plantType);
-            if(plantType.getPlantingStart() != null) domesticTypes.put(plantType.getName(), plantType);
+            types.put(plantType.name, plantType);
+            if(plantType.plantingStart != null) domesticTypes.put(plantType.name, plantType);
         }
     }
 
     private void loadTreeTypes() {
         ArrayList<PlantType> elements = json.fromJson(ArrayList.class, PlantType.class, FileLoader.getFile(FileLoader.TREES_PATH));
         for (PlantType plantType : elements) {
-            types.put(plantType.getName(), plantType);
+            types.put(plantType.name, plantType);
         }
     }
 
@@ -59,7 +58,7 @@ public class PlantMap {
      * @return
      */
     public String resolveSoilType(PlantType type) {
-        for (String placingTag : type.getPlacingTags()) {
+        for (String placingTag : type.placingTags) {
             if(placingTag.startsWith("soil_")) return placingTag;
         }
         return "soil_soil";

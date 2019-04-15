@@ -5,11 +5,11 @@ import stonering.enums.materials.MaterialMap;
 import stonering.enums.plants.PlantMap;
 import stonering.enums.plants.PlantBlocksTypeEnum;
 import stonering.enums.plants.TreeTileMapping;
-import stonering.enums.plants.TreeType;
 import stonering.util.geometry.Position;
 import stonering.entity.local.plants.PlantBlock;
 import stonering.entity.local.plants.Tree;
 
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -38,14 +38,14 @@ public class TreeGenerator {
      * Creates tree blocks array
      */
     private PlantBlock[][][] createTreeBlocks(Tree tree) {
-        TreeType treeType = tree.getCurrentStage().getTreeType();
-        int material = MaterialMap.getInstance().getId(tree.getCurrentStage().getMaterialName());
+        List<Integer> treeForm = tree.getCurrentStage().treeForm;
+        int material = MaterialMap.getInstance().getId(tree.getType().materialName);
         Random random = new Random();
-        int center = treeType.getCrownRadius();
-        int rootsDepth = treeType.getRootDepth();
+        int center = treeForm.get(0);
+        int rootsDepth = treeForm.get(2);
         int treeWidth = 1 + center * 2;
-        int branchesStart = treeType.getHeight() / 2 + rootsDepth;
-        PlantBlock[][][] blocks = new PlantBlock[treeWidth][treeWidth][treeType.getHeight() + rootsDepth];
+        int branchesStart = treeForm.get(1) / 2 + rootsDepth;
+        PlantBlock[][][] blocks = new PlantBlock[treeWidth][treeWidth][treeForm.get(1) + rootsDepth];
 
         // stomp. single block
         blocks[center][center][rootsDepth] = createTreePart(material, PlantBlocksTypeEnum.STOMP, tree);
@@ -92,7 +92,7 @@ public class TreeGenerator {
         PlantBlock block = new PlantBlock(material, blockType.getCode());
         block.setAtlasXY(new int[]{
                 TreeTileMapping.getType(blockType.getCode()).getAtlasX(),
-                tree.getCurrentStage().getAtlasXY()[1]});
+                tree.getCurrentStage().atlasXY[1]});
         block.setPlant(tree);
         return block;
     }

@@ -31,7 +31,7 @@ public class PlantProductGenerator {
             Position plantPosition = block.getPosition();
             products.addAll(block.getCutProducts());
             products.addAll(block.getHarvestProducts());
-            products.forEach((product) -> createItem(product, plant.getCurrentStage().getMaterialName()));
+            products.forEach((product) -> createItem(product, plant.getType().materialName));
         } else if (plant instanceof Tree) {
             ArrayList<String> products = new ArrayList<>();
             Item cutItem = generateCutProductForTreePart(block);
@@ -39,7 +39,7 @@ public class PlantProductGenerator {
                 items.add(cutItem);
             }
             products.addAll(block.getHarvestProducts());
-            products.forEach((product) -> items.add(createItem(product, plant.getCurrentStage().getMaterialName())));
+            products.forEach((product) -> items.add(createItem(product, plant.getType().materialName)));
         }
         return items;
     }
@@ -90,7 +90,7 @@ public class PlantProductGenerator {
             }
         }
         AbstractPlant plant = block.getPlant();
-        if (plant.getCurrentStage().getCutProducts().contains(itemTitle))
+        if (plant.getCurrentStage().cutProducts.contains(itemTitle))
             return itemGenerator.generateItem(itemTitle, block.getMaterial());
 //        } catch (FaultDescriptionException e) {
 //            e.printStackTrace();

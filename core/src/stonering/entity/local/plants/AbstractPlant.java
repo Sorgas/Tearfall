@@ -18,7 +18,7 @@ public abstract class AbstractPlant extends AspectHolder {
     }
 
     public PlantType.PlantLifeStage getCurrentStage() {
-        return type.getLifeStages().get(currentStage);
+        return type.lifeStages.get(currentStage);
     }
 
     /**-
@@ -29,9 +29,9 @@ public abstract class AbstractPlant extends AspectHolder {
     public int increaceAge() {
         if (dead) return -1;
         age++;
-        if (type.getLifeStages().get(currentStage).getStageEnd() > age) return 0;
+        if (type.lifeStages.get(currentStage).getStageEnd() > age) return 0;
         currentStage++;
-        return currentStage == type.getLifeStages().size() ? -1 : 1;
+        return currentStage == type.lifeStages.size() ? -1 : 1;
     }
 
     public abstract boolean isHarvestable();

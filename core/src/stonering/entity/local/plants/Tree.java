@@ -2,6 +2,8 @@ package stonering.entity.local.plants;
 
 import stonering.util.geometry.Position;
 
+import java.util.List;
+
 /**
  * Multitile plant, generally for trees. Position is coordinates of tree stomp on map.
  *
@@ -17,9 +19,9 @@ public class Tree extends AbstractPlant {
 
     public Position getRelativePosition(Position mapPos) {
         return new Position(
-                mapPos.x + getCurrentStage().getTreeType().getTreeRadius() - position.x,
-                mapPos.y + getCurrentStage().getTreeType().getTreeRadius() - position.y,
-                mapPos.z + getCurrentStage().getTreeType().getRootDepth() - position.z
+                mapPos.x + getCurrentStage().getTreeRadius() - position.x,
+                mapPos.y + getCurrentStage().getTreeRadius() - position.y,
+                mapPos.z + getCurrentStage().treeForm.get(2) - position.z
         );
     }
 
@@ -40,7 +42,7 @@ public class Tree extends AbstractPlant {
 
     @Override
     public boolean isHarvestable() {
-        return getCurrentStage().getHarvestProducts() != null;
+        return getCurrentStage().harvestProducts != null;
     }
 
     public int getAge() {
