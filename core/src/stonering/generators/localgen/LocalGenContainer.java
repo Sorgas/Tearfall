@@ -1,5 +1,6 @@
 package stonering.generators.localgen;
 
+import stonering.entity.local.plants.SubstratePlant;
 import stonering.entity.world.World;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
@@ -9,6 +10,7 @@ import stonering.entity.local.plants.AbstractPlant;
 import stonering.entity.local.unit.Unit;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Stores intermediate results of local generation.
@@ -16,21 +18,22 @@ import java.util.ArrayList;
  * @author Alexander Kuzyakov on 29.08.2017.
  */
 public class LocalGenContainer {
-    private LocalGenConfig config;
-    private World world;
-    private LocalMap localMap;
+    public LocalGenConfig config;
+    public World world;
+    public LocalMap localMap;
 
-    private int localElevation;
-    private int[][] roundedHeightsMap;
-    private float[][] heightsMap;
-    private float[] monthlyTemperatures;
+    public int localElevation;
+    public int[][] roundedHeightsMap;
+    public float[][] heightsMap;
+    public float[] monthlyTemperatures;
 
-    private ArrayList<AbstractPlant> plants;
-    private ArrayList<Unit> units;
-    private ArrayList<Building> buildings;
-    private ArrayList<Item> items;
-    private ArrayList<Position> waterSources;
-    private ArrayList<Position> waterTiles;
+    public ArrayList<AbstractPlant> plants;
+    public List<SubstratePlant> substratePlants;
+    public ArrayList<Unit> units;
+    public ArrayList<Building> buildings;
+    public ArrayList<Item> items;
+    public ArrayList<Position> waterSources;
+    public ArrayList<Position> waterTiles;
 
     public LocalGenContainer(LocalGenConfig config, World world) {
         this.config = config;
@@ -50,77 +53,5 @@ public class LocalGenContainer {
         waterTiles = new ArrayList<>();
         waterSources = new ArrayList<>();
         monthlyTemperatures = new float[12];
-    }
-
-    public LocalGenConfig getConfig() {
-        return config;
-    }
-
-    public World getWorld() {
-        return world;
-    }
-
-    public int[][] getRoundedHeightsMap() {
-        return roundedHeightsMap;
-    }
-
-    public void setRoundedHeightsMap(int[][] roundedHeightsMap) {
-        this.roundedHeightsMap = roundedHeightsMap;
-    }
-
-    public LocalMap getLocalMap() {
-        return localMap;
-    }
-
-    public ArrayList<AbstractPlant> getPlants() {
-        return plants;
-    }
-
-    public ArrayList<Unit> getUnits() {
-        return units;
-    }
-
-    public ArrayList<Building> getBuildings() {
-        return buildings;
-    }
-
-    public ArrayList<Item> getItems() {
-        return items;
-    }
-
-    public void setItems(ArrayList<Item> items) {
-        this.items = items;
-    }
-
-    public float[] getMonthlyTemperatures() {
-        return monthlyTemperatures;
-    }
-
-    public int getLocalElevation() {
-        return localElevation;
-    }
-
-    public float[][] getHeightsMap() {
-        return heightsMap;
-    }
-
-    public void setHeightsMap(float[][] heightsMap) {
-        this.heightsMap = heightsMap;
-    }
-
-    public ArrayList<Position> getWaterSources() {
-        return waterSources;
-    }
-
-    public void setWaterSources(ArrayList<Position> waterSources) {
-        this.waterSources = waterSources;
-    }
-
-    public ArrayList<Position> getWaterTiles() {
-        return waterTiles;
-    }
-
-    public void setWaterTiles(ArrayList<Position> waterTiles) {
-        this.waterTiles = waterTiles;
     }
 }

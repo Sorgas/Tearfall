@@ -54,7 +54,7 @@ public class ChopTreeAction extends Action {
     }
 
     private void cutTree(Tree tree) {
-        GameMvc.instance().getModel().get(PlantContainer.class).removeTree(tree);
+        GameMvc.instance().getModel().get(PlantContainer.class).removeTree(tree, true);
     }
 
     private void cutPlant(Plant plant) {

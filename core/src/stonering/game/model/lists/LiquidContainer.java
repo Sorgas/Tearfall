@@ -60,12 +60,12 @@ public class LiquidContainer extends Turnable implements ModelComponent, Initabl
      */
     public LiquidContainer loadWater(LocalGenContainer container) {
         //TODO support other liquids
-        container.getWaterTiles().forEach(position -> {
+        container.waterTiles.forEach(position -> {
             createLiquidTile(position, "water", 7);
         });
         flushTempTiles();
         //TODO add intensity based on river/brook water amount
-        container.getWaterSources().forEach(position -> {
+        container.waterSources.forEach(position -> {
             liquidSources.put(position, new LiquidSource(position, materialMap.getId("water"), 1));
         });
         cacheConstants();

@@ -17,7 +17,7 @@ public class LocalItemsGenerator {
 
     public LocalItemsGenerator(LocalGenContainer container) {
         this.container = container;
-        config = container.getConfig();
+        config = container.config;
         itemGenerator = new ItemGenerator();
     }
 
@@ -38,16 +38,16 @@ public class LocalItemsGenerator {
     }
 
     private void createItemInCenter(String itemType, String material, int xOffset, int yOffset) {
-            LocalMap localMap = container.getLocalMap();
+            LocalMap localMap = container.localMap;
             Item item = itemGenerator.generateItem(itemType, material);
             Position position = new Position(localMap.xSize / 2 + xOffset, localMap.ySize / 2 + yOffset, 0);
             position.z = findSurfaceZ(position.x, position.y);
             item.setPosition(position);
-            container.getItems().add(item);
+            container.items.add(item);
     }
 
     private int findSurfaceZ(int x, int y) {
-        LocalMap localMap = container.getLocalMap();
+        LocalMap localMap = container.localMap;
         for (int z = localMap.zSize - 1; z >= 0; z--) {
             if (localMap.getBlockType(x, y, z) != 0) {
                 return z;

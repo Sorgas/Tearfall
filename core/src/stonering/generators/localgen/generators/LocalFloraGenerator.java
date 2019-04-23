@@ -18,12 +18,9 @@ import stonering.entity.local.plants.Tree;
 import stonering.util.global.Pair;
 import stonering.util.global.TagLoggersEnum;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
-import static stonering.enums.blocks.BlockTypesEnum.FLOOR;
+import static stonering.enums.blocks.BlockTypesEnum.*;
 
 /**
  * Generates plants suitable for local climate and places them on local map.
@@ -42,9 +39,12 @@ public class LocalFloraGenerator extends LocalAbstractGenerator {
 
     private Map<String, Float> weightedPlantTypes;
     private Map<String, Float> weightedTreeTypes;
+    private Map<String, Float> weightedSubstrateTypes;
+    private Set<Byte> substrateBlockTypes;
 
     public LocalFloraGenerator(LocalGenContainer container) {
         super(container);
+        substrateBlockTypes = new HashSet<>(Arrays.asList(FLOOR.CODE, RAMP.CODE));
     }
 
     public void execute() {
@@ -52,6 +52,7 @@ public class LocalFloraGenerator extends LocalAbstractGenerator {
         extractContainer();
         weightedPlantTypes = new HashMap<>();
         weightedTreeTypes = new HashMap<>();
+        weightedSubstrateTypes = new HashMap<>();
 
         countTemperature();
         filterPlants();
@@ -61,12 +62,12 @@ public class LocalFloraGenerator extends LocalAbstractGenerator {
     }
 
     private void extractContainer() {
-        this.config = container.getConfig();
-        this.localMap = container.getLocalMap();
+        this.config = container.config;
+        this.localMap = container.localMap;
         int x = config.getLocation().getX();
         int y = config.getLocation().getY();
         areaSize = config.getAreaSize();
-        rainfall = container.getWorld().getWorldMap().getRainfall(x, y);
+        rainfall = container.world.getWorldMap().getRainfall(x, y);
         noiseGenerator = new PerlinNoiseGenerator();
     }
 
@@ -74,27 +75,28 @@ public class LocalFloraGenerator extends LocalAbstractGenerator {
      * Counts temperature bounds for local area.
      */
     private void countTemperature() {
-        minTemp = container.getMonthlyTemperatures()[0];
+        minTemp = container.monthlyTemperatures[0];
         maxTemp = minTemp;
         midTemp = 0;
-        for (float temp : container.getMonthlyTemperatures()) {
+        for (float temp : container.monthlyTemperatures) {
             minTemp = temp < minTemp ? temp : minTemp;
             maxTemp = temp > maxTemp ? temp : maxTemp;
             midTemp += temp;
         }
-        midTemp /= container.getMonthlyTemperatures().length;
+        midTemp /= container.monthlyTemperatures.length;
     }
 
     /**
-     * Calls placing method for all filtered plants and trees.
-     * Trees give shadow, therefore they should be placed before plants.
+     * Calls placing method for all filtered plants.
+     * Trees give shadow, therefore they should be placed before plants and substrates.
      * Trees placing:
-     *      1. all floor tiles are collected.
-     *      2. tiles are filtered by tree's requirements.
-     *      3. required amount of trees is placed.
+     * 1. all floor tiles are collected.
+     * 2. tiles are filtered by tree's requirements.
+     * 3. required amount of trees is placed.
      */
     private void generateFlora() {
         weightedTreeTypes.forEach(this::placeInitialTrees);
+        weightedSubstrateTypes.forEach(this::placeSubstrates);
         weightedPlantTypes.forEach(this::placePlants);
     }
 
@@ -109,7 +111,7 @@ public class LocalFloraGenerator extends LocalAbstractGenerator {
         for (int tries = 500; amount > 0 && tries > 0; tries--) {
             int x = random.nextInt(areaSize);
             int y = random.nextInt(areaSize);
-            int z = container.getRoundedHeightsMap()[x][y] + 1;
+            int z = container.roundedHeightsMap[x][y] + 1;
             if (!checkTreePlacing(tree, x, y, z)) continue;
             placeTree(tree, x, y, z);
             tree.setPosition(new Position(x, y, z));
@@ -166,7 +168,7 @@ public class LocalFloraGenerator extends LocalAbstractGenerator {
                 }
             }
         }
-        container.getPlants().add(tree);
+        container.plants.add(tree);
     }
 
     /**
@@ -176,7 +178,7 @@ public class LocalFloraGenerator extends LocalAbstractGenerator {
      */
     private void placePlants(String specimen, float relativeAmount) {
         PlantGenerator plantGenerator = new PlantGenerator();
-        Pair<boolean[][][], ArrayList<Position>> pair = findAllAvailablePositions(specimen);
+        Pair<boolean[][][], ArrayList<Position>> pair = findAllAvailablePlantPositions(specimen);
         ArrayList<Position> positions = pair.getValue();
         boolean[][][] array = pair.getKey();
         Random random = new Random();
@@ -186,7 +188,29 @@ public class LocalFloraGenerator extends LocalAbstractGenerator {
                 array[position.getX()][position.getY()][position.getZ()] = false;
                 Plant plant = plantGenerator.generatePlant(specimen, 0);
                 plant.setPosition(position);
-                container.getPlants().add(plant);
+                container.plants.add(plant);
+            } catch (DescriptionNotFoundException e) {
+                System.out.println("material for plant " + specimen + " not found");
+            }
+        }
+    }
+
+    /**
+     * Places substrate plants into separate list in {@link LocalGenContainer}.
+     */
+    private void placeSubstrates(String specimen, float relativeAmount) {
+        PlantGenerator plantGenerator = new PlantGenerator();
+        Pair<boolean[][][], ArrayList<Position>> pair = findAllAvailableSubstratePositions(specimen);
+        ArrayList<Position> positions = pair.getValue();
+        boolean[][][] array = pair.getKey();
+        Random random = new Random();
+        for (int number = (int) (positions.size() * relativeAmount / 2); number > 0; number--) {
+            try {
+                Position position = positions.remove(random.nextInt(positions.size()));
+                array[position.getX()][position.getY()][position.getZ()] = false;
+                Plant plant = plantGenerator.generatePlant(specimen, 0);
+                plant.setPosition(position);
+                container.plants.add(plant);
             } catch (DescriptionNotFoundException e) {
                 System.out.println("material for plant " + specimen + " not found");
             }
@@ -196,7 +220,7 @@ public class LocalFloraGenerator extends LocalAbstractGenerator {
     /**
      * Collects all positions suitable for specific plant. Used only for single tile plants.
      */
-    private Pair<boolean[][][], ArrayList<Position>> findAllAvailablePositions(String specimen) {
+    private Pair<boolean[][][], ArrayList<Position>> findAllAvailablePlantPositions(String specimen) {
         //TODO should count plant requirements for light level, water source, soil type
         ArrayList<Position> positions = new ArrayList<>();
         boolean[][][] array = new boolean[localMap.xSize][localMap.ySize][localMap.zSize];
@@ -215,8 +239,31 @@ public class LocalFloraGenerator extends LocalAbstractGenerator {
                 }
             }
         }
-        Pair<boolean[][][], ArrayList<Position>> pair = new Pair<>(array, positions);
-        return pair;
+        return new Pair<>(array, positions);
+    }
+
+    /**
+     * Collects all positions suitable for specific plant. Used only for single tile plants.
+     */
+    private Pair<boolean[][][], ArrayList<Position>> findAllAvailableSubstratePositions(String specimen) {
+        //TODO should count plant requirements for light level, water source, soil type
+        ArrayList<Position> positions = new ArrayList<>();
+        boolean[][][] array = new boolean[localMap.xSize][localMap.ySize][localMap.zSize];
+        PlantType type = PlantMap.getInstance().getPlantType(specimen);
+        String soilType = getBlockMateriaTag(type);
+        for (int x = 0; x < localMap.xSize; x++) {
+            for (int y = 0; y < localMap.ySize; y++) {
+                for (int z = 0; z < localMap.zSize; z++) {
+                    if (!substrateBlockTypes.contains(localMap.getBlockType(x, y, z))) continue;
+                    Material material = MaterialMap.getInstance().getMaterial(localMap.getMaterial(x, y, z));
+                    if (material == null) TagLoggersEnum.GENERATION.logError("material in tile " + x + " " + y + " " + z + " is null.");
+                    if (!material.getTags().contains(soilType)) continue;
+                    positions.add(new Position(x, y, z));
+                    array[x][y][z] = true;
+                }
+            }
+        }
+        return new Pair<>(array, positions);
     }
 
     /**
@@ -229,10 +276,13 @@ public class LocalFloraGenerator extends LocalAbstractGenerator {
             if (minTemp < type.temperatureBounds[0] || maxTemp > type.temperatureBounds[1]) return; // too hot or cold
             if (minTemp > type.temperatureBounds[3] || maxTemp < type.temperatureBounds[2])
                 return; // plant grow zone out of local temp zone
+            float spreadModifier = getSpreadModifier(type.name);
             if (type.isTree()) {
-                weightedTreeTypes.put(type.name, getSpreadModifier(type.name));
+                weightedTreeTypes.put(type.name, spreadModifier);
+            } else if (type.isSubstrate()) {
+                weightedSubstrateTypes.put(type.name, spreadModifier);
             } else {
-                weightedPlantTypes.put(type.name, getSpreadModifier(type.name));
+                weightedPlantTypes.put(type.name, spreadModifier);
             }
         });
     }

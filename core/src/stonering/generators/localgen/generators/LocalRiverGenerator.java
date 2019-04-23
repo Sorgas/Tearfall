@@ -47,11 +47,11 @@ public class LocalRiverGenerator {
     }
 
     private void extractContainer() {
-        worldMap = container.getWorld().getWorldMap();
-        location = container.getConfig().getLocation();
+        worldMap = container.world.getWorldMap();
+        location = container.config.getLocation();
         inflows = new ArrayList<>();
         flows = new ArrayList<>();
-        localMap = container.getLocalMap();
+        localMap = container.localMap;
         materialMap = MaterialMap.getInstance();
     }
 

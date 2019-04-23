@@ -7,12 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Stores plant parameters
+ * Stores plant parameters.
  */
 public class PlantType implements Initable {
     public String name;
     public String title;
-    public String materialName;
+    public String materialName; // in null for substrates
 
     public String description;
     public int[] temperatureBounds;
@@ -21,6 +21,10 @@ public class PlantType implements Initable {
     public ArrayList<String> placingTags;
     public List<Integer> plantingStart;
 
+    // set after loading types
+    private boolean isTree;
+    private boolean isSubstrate;
+
     public PlantType() {
         temperatureBounds = new int[4];
         rainfallBounds = new int[2];
@@ -28,7 +32,7 @@ public class PlantType implements Initable {
     }
 
     /**
-     * Recounts life stages bounds.
+     * Recounts life stages bounds. Sets type flags.
      */
     @Override
     public void init() {
@@ -37,12 +41,17 @@ public class PlantType implements Initable {
             totalAge += lifeStage.stageLength;
             lifeStage.stageEnd = totalAge;
         }
+        isTree = lifeStages.get(0).treeForm != null;
+        isSubstrate = materialName == null;
     }
 
     public int getMaxAge() {
         return lifeStages.get(lifeStages.size() - 1).getStageEnd();
     }
 
+    /**
+     * Represents period in plant's life.
+     */
     public static class PlantLifeStage {
         public String[] titlePrefixSuffix;
         public int stageLength;
@@ -51,7 +60,7 @@ public class PlantType implements Initable {
         public ArrayList<String> cutProducts;
         public int[] atlasXY;
         public String color;
-        public List<Integer> treeForm;
+        public List<Integer> treeForm; // in null for non-trees
 
         public int getTreeRadius() {
             return Math.max(treeForm.get(0), treeForm.get(3));
@@ -72,6 +81,10 @@ public class PlantType implements Initable {
     }
 
     public boolean isTree() {
-        return lifeStages.get(0).treeForm != null;
+        return isTree;
+    }
+
+    public boolean isSubstrate() {
+        return isSubstrate;
     }
 }

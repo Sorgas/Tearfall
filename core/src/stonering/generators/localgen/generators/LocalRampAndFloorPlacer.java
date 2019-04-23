@@ -16,7 +16,7 @@ public class LocalRampAndFloorPlacer {
     private LocalGenContainer container;
 
     public LocalRampAndFloorPlacer(LocalGenContainer container) {
-        this.config = container.getConfig();
+        this.config = container.config;
         this.container = container;
     }
 
@@ -26,7 +26,7 @@ public class LocalRampAndFloorPlacer {
 
     public void execute() {
         System.out.println("placing ramps");
-        this.localMap = container.getLocalMap();
+        this.localMap = container.localMap;
         fillRamps();
         fillFloors();
     }

@@ -21,7 +21,7 @@ public class LocalBuildingGenerator {
 
     public LocalBuildingGenerator(LocalGenContainer container) {
         this.container = container;
-        config = container.getConfig();
+        config = container.config;
         buildingGenerator = new BuildingGenerator();
     }
 
@@ -29,7 +29,7 @@ public class LocalBuildingGenerator {
         TagLoggersEnum.GENERATION.log("generating buildings");
         Position position = findSurfacePosition();
         Building building = buildingGenerator.generateBuilding("forge", position);
-        container.getBuildings().add(building);
+        container.buildings.add(building);
     }
 
     /**
@@ -37,7 +37,7 @@ public class LocalBuildingGenerator {
      * @return
      */
     private Position findSurfacePosition() {
-        LocalMap localMap = container.getLocalMap();
+        LocalMap localMap = container.localMap;
         int x = localMap.xSize /2;
         int y = localMap.ySize /2;
         for (int z = localMap.zSize - 1; z > 0; z--) {

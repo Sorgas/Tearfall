@@ -53,9 +53,15 @@ public class PlantMap {
         }
     }
 
+    private void loadSubstrateTypes() {
+        ArrayList<PlantType> elements = json.fromJson(ArrayList.class, PlantType.class, FileLoader.getFile(FileLoader.SUBSTRATES_PATH));
+        for (PlantType plantType : elements) {
+            types.put(plantType.name, plantType);
+        }
+    }
+
     /**
      * Returns soil type tag from type, or default tag, if none available.
-     * @return
      */
     public String resolveSoilType(PlantType type) {
         for (String placingTag : type.placingTags) {

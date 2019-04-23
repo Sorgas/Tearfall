@@ -29,15 +29,15 @@ public class MainGameModel extends GameModel {
      * @param container
      */
     public void loadFromContainer(LocalGenContainer container) {
-        put(container.getWorld());
-        put(container.getLocalMap());
+        put(container.world);
+        put(container.localMap);
         put(new LocalTileMap(get(LocalMap.class)));
 
-        put(new PlantContainer(container.getPlants()));
-        put(new BuildingContainer(container.getBuildings()));
-        put(new UnitContainer(container.getUnits()));
+        put(new PlantContainer(container.plants));
+        put(new BuildingContainer(container.buildings));
+        put(new UnitContainer(container.units));
         put(new ZonesContainer());
-        put(new ItemContainer().placeItems(container.getItems()));
+        put(new ItemContainer().placeItems(container.items));
         put(new TaskContainer());
         put(new LiquidContainer().loadWater(container));
         put(new GameCalendar());            // slow game entities make turns through this.

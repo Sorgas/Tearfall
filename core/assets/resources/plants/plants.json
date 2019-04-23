@@ -25,168 +25,151 @@
 */
 [
     {
-        "name": "grass",
-        "title": "grass",
-        "description": "Grass",
-        "materialName": "willow",
-        "temperatureBounds": ["-40", "40", "-40", "40"],
-        "rainfallBounds": ["0", "100"],
-        "placingTags" : ["water_near", "water_far"],
-        "lifeStages": [
+        "name":"red_moss",
+        "title":"Red Moss",
+        "description":"Red Moss",
+        "materialName":"willow",
+        "temperatureBounds":["-40", "40", "-40", "40"],
+        "rainfallBounds":["0", "100"],
+        "placingTags":["water_near", "water_far", "soil_stone"],
+        "lifeStages":[
             {
-                "stageLength": "1",
-                "harvestProducts": null,
-                "cutProducts": null,
-                "atlasXY": ["0", "0"],
-                "color": "0xffffffff"
+                "stageLength":"1",
+                "harvestProducts":["red_moss"],
+                "cutProducts":["red_moss"],
+                "atlasXY":["1", "0"],
+                "color":"0xffffffff"
             }
         ]
     }, {
-    "name": "red_moss",
-    "title": "Red Moss",
-    "description": "Red Moss",
-    "materialName": "willow",
-    "temperatureBounds": ["-40", "40", "-40", "40"],
-    "rainfallBounds": ["0", "100"],
-    "placingTags": ["water_near", "water_far", "soil_stone"],
-    "lifeStages": [
+    "name":"bush",
+    "title":"bush",
+    "description":"Bush",
+    "materialName":"willow",
+    "temperatureBounds":["-40", "40", "-40", "40"],
+    "rainfallBounds":["0", "100"],
+    "placingTags":["near", "far"],
+    "lifeStages":[
         {
-            "stageLength": "1",
-            "harvestProducts": ["red_moss"],
-            "cutProducts": ["red_moss"],
-            "atlasXY": ["1", "0"],
-            "color": "0xffffffff"
+            "stageLength":"1",
+            "harvestProducts":null,
+            "cutProducts":["branch", "root"],
+            "atlasXY":["0", "0"],
+            "color":"0xffffffff"
         }
     ]
 }, {
-    "name": "bush",
-    "title": "bush",
-    "description": "Bush",
-    "materialName": "willow",
-    "temperatureBounds": ["-40", "40", "-40", "40"],
-    "rainfallBounds": ["0", "100"],
-    "placingTags": ["near", "far"],
-    "lifeStages": [
+    "name":"blue_berry",
+    "title":"Blueberry",
+    "description":"Small plant with blue edible berries.",
+    "materialName":"generic_plant",
+    "temperatureBounds":["-40", "40", "-40", "40"],
+    "rainfallBounds":["0", "100"],
+    "placingTags":["water_near", "water_far"],
+    "lifeStages":[
         {
-            "stageLength": "1",
-            "harvestProducts": null,
-            "cutProducts": ["branch", "root"],
-            "atlasXY": ["0", "0"],
-            "color": "0xffffffff"
-        }
-    ]
-}, {
-    "name": "blue_berry",
-    "title": "Blueberry",
-    "description": "Small plant with blue edible berries.",
-    "materialName": "generic_plant",
-    "temperatureBounds": ["-40", "40", "-40", "40"],
-    "rainfallBounds": ["0", "100"],
-    "placingTags": ["water_near", "water_far"],
-    "lifeStages": [
-        {
-            "stageLength": "1",
-            "harvestProducts": ["blueberry"],
-            "cutProducts": ["blueberry"],
-            "atlasXY": ["2", "0"],
-            "color": "0xffffffff"
+            "stageLength":"1",
+            "harvestProducts":["blueberry"],
+            "cutProducts":["blueberry"],
+            "atlasXY":["2", "0"],
+            "color":"0xffffffff"
         }
     ]
 },
     {
-        "name": "puffball_mushroom",
-        "title": "Puffball mushroom",
-        "description": "Edible mushroom  ",
-        "materialName": "willow",
-        "temperatureBounds": ["-40", "40", "-40", "40"],
-        "rainfallBounds": ["0", "100"],
-        "placingTags": ["light_low", "light_underground"],
-        "lifeStages": [
+        "name":"puffball_mushroom",
+        "title":"Puffball mushroom",
+        "description":"Edible mushroom  ",
+        "materialName":"willow",
+        "temperatureBounds":["-40", "40", "-40", "40"],
+        "rainfallBounds":["0", "100"],
+        "placingTags":["light_low", "light_underground"],
+        "lifeStages":[
             {
-                "stageLength": "2",
-                "harvestProducts": null,
-                "cutProducts": null,
-                "atlasXY": ["3", "0"],
-                "color": "0xffffffff"
+                "stageLength":"2",
+                "harvestProducts":null,
+                "cutProducts":null,
+                "atlasXY":["3", "0"],
+                "color":"0xffffffff"
             },
             {
-                "stageLength": "3",
-                "harvestProducts": null,
-                "cutProducts": null,
-                "atlasXY": ["4", "0"],
-                "color": "0xffffffff"
+                "stageLength":"3",
+                "harvestProducts":null,
+                "cutProducts":null,
+                "atlasXY":["4", "0"],
+                "color":"0xffffffff"
             },
             {
-                "stageLength": "1",
-                "harvestProducts": null,
-                "cutProducts": null,
-                "atlasXY": ["5", "0"],
-                "color": "0xffffffff"
+                "stageLength":"1",
+                "harvestProducts":null,
+                "cutProducts":null,
+                "atlasXY":["5", "0"],
+                "color":"0xffffffff"
             }
         ]
     },
     {
-        "name": "cattail",
-        "title": "Сattail",
-        "description": "Сattail",
-        "materialName": "willow",
-        "temperatureBounds": ["-40", "40", "-40", "40"],
-        "rainfallBounds": ["0", "100"],
-        "placingTags": ["water_near"],
-        "lifeStages": [
+        "name":"cattail",
+        "title":"Сattail",
+        "description":"Сattail",
+        "materialName":"willow",
+        "temperatureBounds":["-40", "40", "-40", "40"],
+        "rainfallBounds":["0", "100"],
+        "placingTags":["water_near"],
+        "lifeStages":[
             {
-                "stageLength": "2",
-                "harvestProducts": null,
-                "cutProducts": null,
-                "atlasXY": ["6", "0"],
-                "color": "0xffffffff"
+                "stageLength":"2",
+                "harvestProducts":null,
+                "cutProducts":null,
+                "atlasXY":["6", "0"],
+                "color":"0xffffffff"
             },
             {
-                "stageLength": "3",
-                "harvestProducts": null,
-                "cutProducts": null,
-                "atlasXY": ["7", "0"],
-                "color": "0xffffffff"
+                "stageLength":"3",
+                "harvestProducts":null,
+                "cutProducts":null,
+                "atlasXY":["7", "0"],
+                "color":"0xffffffff"
             },
             {
-                "stageLength": "1",
-                "harvestProducts": null,
-                "cutProducts": null,
-                "atlasXY": ["8", "0"],
-                "color": "0xffffffff"
+                "stageLength":"1",
+                "harvestProducts":null,
+                "cutProducts":null,
+                "atlasXY":["8", "0"],
+                "color":"0xffffffff"
             }
         ]
     },
     {
-        "name": "tomato",
-        "title": "Tomato",
-        "description": "Tomato",
-        "materialName": "willow",
-        "temperatureBounds": ["-40", "40", "-40", "40"],
-        "rainfallBounds": ["0", "100"],
-        "placingTags": [],
-        "plantingStart": ["1","2","3"],
-        "lifeStages": [
+        "name":"tomato",
+        "title":"Tomato",
+        "description":"Tomato",
+        "materialName":"willow",
+        "temperatureBounds":["-40", "40", "-40", "40"],
+        "rainfallBounds":["0", "100"],
+        "placingTags":[],
+        "plantingStart":["1", "2", "3"],
+        "lifeStages":[
             {
-                "stageLength": "2",
-                "harvestProducts": null,
-                "cutProducts": null,
-                "atlasXY": ["0", "0"],
-                "color": "0xffffffff"
+                "stageLength":"2",
+                "harvestProducts":null,
+                "cutProducts":null,
+                "atlasXY":["0", "0"],
+                "color":"0xffffffff"
             },
             {
-                "stageLength": "3",
-                "harvestProducts": null,
-                "cutProducts": null,
-                "atlasXY": ["7", "0"],
-                "color": "0xffffffff"
+                "stageLength":"3",
+                "harvestProducts":null,
+                "cutProducts":null,
+                "atlasXY":["7", "0"],
+                "color":"0xffffffff"
             },
             {
-                "stageLength": "1",
-                "harvestProducts": null,
-                "cutProducts": null,
-                "atlasXY": ["8", "0"],
-                "color": "0xffffffff"
+                "stageLength":"1",
+                "harvestProducts":null,
+                "cutProducts":null,
+                "atlasXY":["8", "0"],
+                "color":"0xffffffff"
             }
         ]
     }
