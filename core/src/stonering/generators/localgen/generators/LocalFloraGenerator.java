@@ -30,8 +30,7 @@ import static stonering.enums.blocks.BlockTypesEnum.FLOOR;
  *
  * @author Alexander Kuzyakov on 10.04.2018.
  */
-public class LocalFloraGenerator {
-    private LocalGenContainer container;
+public class LocalFloraGenerator extends LocalAbstractGenerator {
     private LocalGenConfig config;
     private LocalMap localMap;
     private PerlinNoiseGenerator noiseGenerator;
@@ -41,12 +40,11 @@ public class LocalFloraGenerator {
     private float rainfall;
     private int areaSize;
 
-
     private Map<String, Float> weightedPlantTypes;
     private Map<String, Float> weightedTreeTypes;
 
     public LocalFloraGenerator(LocalGenContainer container) {
-        this.container = container;
+        super(container);
     }
 
     public void execute() {
@@ -54,6 +52,7 @@ public class LocalFloraGenerator {
         extractContainer();
         weightedPlantTypes = new HashMap<>();
         weightedTreeTypes = new HashMap<>();
+
         countTemperature();
         filterPlants();
         normalizeWeights(weightedPlantTypes);
@@ -71,6 +70,9 @@ public class LocalFloraGenerator {
         noiseGenerator = new PerlinNoiseGenerator();
     }
 
+    /**
+     * Counts temperature bounds for local area.
+     */
     private void countTemperature() {
         minTemp = container.getMonthlyTemperatures()[0];
         maxTemp = minTemp;

@@ -2,6 +2,7 @@ package stonering.game.model.lists;
 
 import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Vector3;
+import stonering.entity.local.plants.*;
 import stonering.enums.OrientationEnum;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.GameMvc;
@@ -11,19 +12,15 @@ import stonering.game.model.local_map.LocalMap;
 import stonering.generators.items.PlantProductGenerator;
 import stonering.util.geometry.Position;
 import stonering.entity.local.items.Item;
-import stonering.entity.local.plants.AbstractPlant;
-import stonering.entity.local.plants.Plant;
-import stonering.entity.local.plants.PlantBlock;
-import stonering.entity.local.plants.Tree;
 import stonering.util.global.Initable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
  * Contains plants on localMap. Trees are stored by their parts as separate plants.
- * Destroyed entity do not persist in container and their blocks are not in localMap.
- * <p>
+ * Destroyed entities do not persist in container and their blocks are not in localMap.
  *
  * @author Alexander Kuzyakov on 09.11.2017.
  */
@@ -32,9 +29,11 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
     private List<AbstractPlant> plants;
     private LocalMap localMap;
     private final int WALL_CODE = BlockTypesEnum.WALL.CODE;
+    private HashMap<Position, SubstratePlant> substratePlants;
 
     public PlantContainer(List<AbstractPlant> plants) {
         this.plants = plants;
+        substratePlants = new HashMap<>();
     }
 
     @Override
@@ -49,6 +48,9 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
         plants.forEach(abstractPlant -> abstractPlant.turn());
     }
 
+    /**
+     * Entry method for placing plants and trees on map.
+     */
     public void place(AbstractPlant plant) {
         if (plant.getType().isTree() && plant instanceof Tree) placeTree((Tree) plant);
         if (plant instanceof Plant) placePlant((Plant) plant);
@@ -87,14 +89,15 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
 
     /**
      * Deletes plant from map and container
-     *
-     * @param plant
      */
     public void removePlant(Plant plant) {
         if (plants.remove(plant)) localMap.setPlantBlock(plant.getPosition(), null);
     }
 
-    public void removeTree(Tree tree) {
+    /**
+     * Removes tree blocks, can leave blocks products.
+     */
+    public void removeTree(Tree tree, boolean leaveProduct) {
         if (plants.remove(tree)) {
             int stompZ = tree.getCurrentStage().treeForm.get(2);
             PlantBlock[][][] treeParts = tree.getBlocks();
@@ -104,23 +107,24 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
                         PlantBlock block = treeParts[x][y][z];
                         if (block == null) continue;
                         localMap.setPlantBlock(block.getPosition(), null);
-                        leavePlantProduct(block);
+                        if(leaveProduct) leavePlantProduct(block);
                     }
                 }
             }
         }
     }
 
+    /**
+     * Creates block's products in block's position.
+     */
     private void leavePlantProduct(PlantBlock block) {
         ArrayList<Item> items = new PlantProductGenerator().generateCutProduct(block);
         items.forEach((item) -> gameMvc.getModel().get(ItemContainer.class).addItem(item, block.getPosition()));
     }
 
     /**
-     * Deletes block from map and it's plant. If plants was a Plant, deletes is too.
+     * Deletes block from map and block's plant. If plant was a Plant, deletes is too.
      * If plant was a Tree than checks deleting for other effects.
-     *
-     * @param block
      */
     public void removePlantBlock(PlantBlock block, boolean leaveProducts) {
         AbstractPlant plant = block.getPlant();
@@ -132,6 +136,11 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
         }
     }
 
+    /**
+     * Method for all interactions that damages tree parts(chopping, braking branches, partial burning).
+     * Handles different effects of this removing.
+     * //TODO implementing out of mvp.
+     */
     public void removeBlockFromTree(PlantBlock block, Tree tree) {
         fellTree(tree, OrientationEnum.N);
 //        Position relPos = tree.getRelativePosition(block.getPosition());
@@ -140,6 +149,10 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
         //TODO manage case for separating tree parts from each other
     }
 
+    /**
+     * Removes tree blocks and places blocks of fallen tree instead. On given orientation.
+     * //TODO brake buildings or wooden constructions, damage creatures.
+     */
     public void fellTree(Tree tree, OrientationEnum orientation) {
         if (orientation == OrientationEnum.N) {
             Position treePosition = tree.getPosition();
@@ -195,4 +208,7 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
         return plants;
     }
 
+    public HashMap<Position, SubstratePlant> getSubstratePlants() {
+        return substratePlants;
+    }
 }

@@ -10,7 +10,7 @@ import java.util.List;
  * @author Alexander Kuzyakov on 19.10.2017.
  */
 public class Tree extends AbstractPlant {
-    private PlantBlock[][][] blocks;
+    private PlantBlock[][][] blocks; //TODO replace with map(vector from stomp, block)
 
     public Tree(Position position, int age) {
         super(position);
