@@ -207,7 +207,7 @@ public class LocalFloraGenerator extends LocalAbstractGenerator {
         for (int number = (int) (positions.size() * relativeAmount / 2); number > 0; number--) {
             try {
                 Position position = positions.remove(random.nextInt(positions.size()));
-                array[position.getX()][position.getY()][position.getZ()] = false;
+                array[position.x][position.y][position.z] = false;
                 Plant plant = plantGenerator.generatePlant(specimen, 0);
                 plant.setPosition(position);
                 container.plants.add(plant);

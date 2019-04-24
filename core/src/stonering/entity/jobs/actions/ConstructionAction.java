@@ -42,7 +42,7 @@ public class ConstructionAction extends Action {
     @Override
     public boolean check() {
         TagLoggersEnum.TASKS.log("Checking " + toString());
-        ArrayList<Item> uncheckedItems = new ArrayList<>(GameMvc.instance().getModel().get(ItemContainer.class).getItems(actionTarget.getPosition())); //TODO check positions near target.
+        ArrayList<Item> uncheckedItems = new ArrayList<>(GameMvc.instance().getModel().get(ItemContainer.class).getItemsInPosition(actionTarget.getPosition())); //TODO check positions near target.
         uncheckedItems.addAll(((EquipmentAspect) task.getPerformer().getAspect(EquipmentAspect.class)).getHauledItems()); // from performer inventory
         for (ItemSelector itemSelector : itemSelectors) {
             List<Item> selectedItems = itemSelector.selectItems(uncheckedItems);
@@ -64,7 +64,7 @@ public class ConstructionAction extends Action {
         TagLoggersEnum.TASKS.log("Performing " + toString());
         Position target = actionTarget.getPosition();
         ItemContainer itemContainer = GameMvc.instance().getModel().get(ItemContainer.class);
-        ArrayList<Item> items = itemContainer.getItems(target);
+        ArrayList<Item> items = itemContainer.getItemsInPosition(target);
         int mainMaterial = -1; // first item of first selector will give material.
         for (ItemSelector itemSelector : itemSelectors) {
             List<Item> itemList = itemSelector.selectItems(items);

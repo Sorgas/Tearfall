@@ -67,7 +67,7 @@ public class PlantingAction extends Action {
      */
     private Item getSeedFromMap() {
         ItemContainer itemContainer = GameMvc.instance().getModel().get(ItemContainer.class);
-        List<Item> items = new ArrayList<>(itemContainer.getItems(actionTarget.getPosition()));
+        List<Item> items = new ArrayList<>(itemContainer.getItemsInPosition(actionTarget.getPosition()));
         Item foundItem = seedSelector.selectItem(items);
         return foundItem;
     }

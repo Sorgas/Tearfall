@@ -9,6 +9,7 @@ import stonering.util.geometry.Position;
  *
  */
 public class SubstratePlant extends AbstractPlant {
+    private PlantBlock block;
 
     protected SubstratePlant(Position position) {
         super(position);

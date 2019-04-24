@@ -64,7 +64,7 @@ public class LocalGeneratorContainer {
     }
 
     public LocalMap getLocalMap() {
-        return localGenContainer.getLocalMap();
+        return localGenContainer.localMap;
     }
 
     public void setWorld(World world) {

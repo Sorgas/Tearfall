@@ -4,23 +4,18 @@ import stonering.designations.Designation;
 import stonering.entity.local.building.BuildingBlock;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.plants.PlantBlock;
-import stonering.entity.local.unit.Unit;
 import stonering.entity.local.zone.Zone;
 import stonering.enums.designations.DesignationsTileMapping;
 import stonering.game.GameMvc;
 import stonering.game.model.EntitySelector;
 import stonering.game.model.GameModel;
-import stonering.game.model.lists.ItemContainer;
-import stonering.game.model.lists.TaskContainer;
-import stonering.game.model.lists.UnitContainer;
-import stonering.game.model.lists.ZonesContainer;
+import stonering.game.model.lists.*;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.view.render.util.Int3DBounds;
 import stonering.game.view.tilemaps.LocalTileMap;
 import stonering.util.geometry.Position;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Class for rendering tiles.
@@ -75,20 +70,17 @@ public class TileRenderer extends Renderer {
         drawingUtil.updateColorA(0.6f);
         drawWaterBlock(x, y, z);
         drawingUtil.updateColorA(1f);
-        PlantBlock plantBlock = localMap.getPlantBlock(x, y, z);
-        if (plantBlock != null)
-            drawingUtil.drawSprite(drawingUtil.selectSprite(1, plantBlock.getAtlasXY()[0], plantBlock.getAtlasXY()[1]), x, y, z, selector.getPosition());
+        GameMvc.instance().getModel().get(PlantContainer.class).getPlantBlocks().get(cachePosition).forEach(plantBlock ->
+                drawingUtil.drawSprite(drawingUtil.selectSprite(1, plantBlock.getAtlasXY()[0], plantBlock.getAtlasXY()[1]), x, y, z, selector.getPosition()));
         BuildingBlock buildingBlock = localMap.getBuildingBlock(x, y, z);
         if (buildingBlock != null)
             drawingUtil.drawSprite(drawingUtil.selectSprite(3, 0, 0), x, y, z, selector.getPosition());
-        List<Unit> units = unitContainer.getUnitsInPosition(x, y, z);
-        if (units != null)
-            units.forEach(unit -> {
+        unitContainer.getUnitsInPosition(x, y, z).forEach(unit -> {
                 //TODO ((RenderAspect) unit.getAspects().get(RenderAspect.NAME)).getTexture();
                 drawingUtil.drawSprite(drawingUtil.selectSprite(2, 0, 0), x, y, z, selector.getPosition());
             });
         if (GameMvc.instance().getModel().get(ItemContainer.class) != null) {
-            ArrayList<Item> items = GameMvc.instance().getModel().get(ItemContainer.class).getItems(x, y, z);
+            ArrayList<Item> items = GameMvc.instance().getModel().get(ItemContainer.class).getItemsInPosition(x, y, z);
             if (!items.isEmpty())
                 items.forEach((item) -> drawingUtil.drawSprite(drawingUtil.selectSprite(5, item.getType().getAtlasXY()[0], item.getType().getAtlasXY()[1]), x, y, z, selector.getPosition()));
         }

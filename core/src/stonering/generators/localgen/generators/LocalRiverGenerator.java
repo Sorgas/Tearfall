@@ -213,7 +213,7 @@ public class LocalRiverGenerator {
         int x = Math.round(vector.x);
         int y = Math.round(vector.y);
         if (localMap.inMap(x, y, 0)) {
-            return container.getRoundedHeightsMap()[x][y];
+            return container.roundedHeightsMap[x][y];
         }
         return -1;
     }
@@ -233,7 +233,7 @@ public class LocalRiverGenerator {
         for (int x = cx; x < cx + brush.depthPattern.length; x++) {
             for (int y = cy; y < cy + brush.depthPattern.length; y++) {
                 if (localMap.inMap(x, y, 0)) {
-                    int elevation = Math.min(container.getRoundedHeightsMap()[x][y], maxElevation);
+                    int elevation = Math.min(container.roundedHeightsMap[x][y], maxElevation);
                     updateLocalMapAndRoundedHeightMap(x, y, elevation, isStart && localMap.isBorder(x, y));
                 }
             }
@@ -248,17 +248,17 @@ public class LocalRiverGenerator {
      * @param elevation
      */
     private void updateLocalMapAndRoundedHeightMap(int x, int y, int elevation, boolean isWaterSource) {
-        for (int z = elevation; z <= container.getRoundedHeightsMap()[x][y]; z++) {
+        for (int z = elevation; z <= container.roundedHeightsMap[x][y]; z++) {
             localMap.setBlock(x, y, z, BlockTypesEnum.SPACE, materialMap.getId("air"));
             if (z <= elevation) {
 //                localMap.setFlooding(x, y, z, 8);
-                container.getWaterTiles().add(new Position(x,y,z));
+                container.waterTiles.add(new Position(x,y,z));
                 if (isWaterSource) {
                     Position position = new Position(x, y, z);
-                    if (!container.getWaterSources().contains(position)) {
+                    if (!container.waterSources.contains(position)) {
                         System.out.println("water source: " + position);
                         WaterSource waterSource = new WaterSource(position, materialMap.getId("water"));
-                        container.getWaterSources().add(position);
+                        container.waterSources.add(position);
 //                        localMap.getWaterSources().put(position, waterSource);
                     }
                 }

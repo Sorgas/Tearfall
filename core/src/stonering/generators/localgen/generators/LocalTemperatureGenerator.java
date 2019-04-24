@@ -18,12 +18,12 @@ public class LocalTemperatureGenerator {
 
     public void execute() {
         System.out.println("generating temperature");
-        Position location = container.getConfig().getLocation();
-        float summerTemp = container.getWorld().getWorldMap().getSummerTemperature(location.getX(), location.getY());
-        float winterTemp = container.getWorld().getWorldMap().getWinterTemperature(location.getX(), location.getY());
+        Position location = container.config.getLocation();
+        float summerTemp = container.world.getWorldMap().getSummerTemperature(location.getX(), location.getY());
+        float winterTemp = container.world.getWorldMap().getWinterTemperature(location.getX(), location.getY());
         float yearMiddleTemp = (summerTemp + winterTemp) / 2f;
         for (int i = 0; i < 12; i++) {
-            container.getMonthlyTemperatures()[i] = (float) (yearMiddleTemp + Math.sin(Math.PI / 12 * i) * (yearMiddleTemp - winterTemp));
+            container.monthlyTemperatures[i] = (float) (yearMiddleTemp + Math.sin(Math.PI / 12 * i) * (yearMiddleTemp - winterTemp));
         }
     }
 }

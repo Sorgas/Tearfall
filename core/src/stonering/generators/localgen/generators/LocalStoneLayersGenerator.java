@@ -39,9 +39,9 @@ public class LocalStoneLayersGenerator {
 
     public void execute() {
         System.out.println("generating stone layers");
-        map = this.container.getLocalMap();
-        heigtsMap = this.container.getRoundedHeightsMap();
-        surfaceLevel = container.getLocalElevation();
+        map = this.container.localMap;
+        heigtsMap = this.container.roundedHeightsMap;
+        surfaceLevel = container.localElevation;
         layerIds = new int[surfaceLevel];
         if (surfaceLevel > 300) {
             hasExtrusive = true;
@@ -70,7 +70,7 @@ public class LocalStoneLayersGenerator {
     }
 
     private void countLayers() {
-        soilLayer = (int) (10 - (surfaceLevel - container.getConfig().getWorldToLocalElevationModifier() * 0.5f) / 20);
+        soilLayer = (int) (10 - (surfaceLevel - container.config.getWorldToLocalElevationModifier() * 0.5f) / 20);
 
         intrusiveLayer = surfaceLevel - 150;
 
@@ -96,8 +96,8 @@ public class LocalStoneLayersGenerator {
                 sedimentaryLayer - metamorficLayer,
                 metamorficLayer - intrusiveLayer,
                 intrusiveLayer};
-        int[] maxSubLayerNumber = container.getConfig().getSublayerMaxCount();
-        int[] minSubLayerThickness = container.getConfig().getSublayerMinThickness();
+        int[] maxSubLayerNumber = container.config.getSublayerMaxCount();
+        int[] minSubLayerThickness = container.config.getSublayerMinThickness();
         for (int g = 0; g < globalLayers.length; g++) {
             if (globalLayers[g] > 0) { //check thickness
                 int subLayerNumber = Math.min(globalLayers[g] / minSubLayerThickness[g] + 1, maxSubLayerNumber[g]);

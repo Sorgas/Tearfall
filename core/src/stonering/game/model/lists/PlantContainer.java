@@ -13,33 +13,38 @@ import stonering.generators.items.PlantProductGenerator;
 import stonering.util.geometry.Position;
 import stonering.entity.local.items.Item;
 import stonering.util.global.Initable;
+import stonering.util.global.TagLoggersEnum;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
- * Contains plants on localMap. Trees are stored by their parts as separate plants.
+ * Contains plants. {@link Plant}s and {@link Tree}s are stored in list, Substrate Plants are stored in separate list.
+ * {@link PlantBlock}s are stored in map (by {@link Position}).
  * Destroyed entities do not persist in container and their blocks are not in localMap.
+ * Plants do not move.
+ * //TODO update passage map on blocks change.
  *
  * @author Alexander Kuzyakov on 09.11.2017.
  */
 public class PlantContainer extends IntervalTurnable implements Initable, ModelComponent {
-    private GameMvc gameMvc;
     private List<AbstractPlant> plants;
+    private List<SubstratePlant> substratePlants;
+    private HashMap<Position, List<PlantBlock>> plantBlocks;
     private LocalMap localMap;
     private final int WALL_CODE = BlockTypesEnum.WALL.CODE;
-    private HashMap<Position, SubstratePlant> substratePlants;
 
     public PlantContainer(List<AbstractPlant> plants) {
         this.plants = plants;
-        substratePlants = new HashMap<>();
+        substratePlants = new ArrayList<>();
     }
 
     @Override
     public void init() {
-        gameMvc = GameMvc.instance();
-        localMap = gameMvc.getModel().get(LocalMap.class);
+        localMap = GameMvc.instance().getModel().get(LocalMap.class);
         plants.forEach(this::place);
     }
 
@@ -56,8 +61,12 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
         if (plant instanceof Plant) placePlant((Plant) plant);
     }
 
+    /**
+     * Places single-tile plant block into map to be rendered and accessed by other entities.
+     */
     private void placePlant(Plant plant) {
-        localMap.setPlantBlock(plant.getPosition(), plant.getBlock());
+        List<PlantBlock> blocks = plantBlocks.getOrDefault(plant.getPosition(), Collections.EMPTY_LIST);
+        blocks.add(plant.getBlock());
         plant.getBlock().setPosition(plant.getPosition());
     }
 
@@ -79,9 +88,12 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
                 for (int z = 0; z < treeParts[x][y].length; z++) {
                     if (treeParts[x][y][z] == null) continue;
                     Position onMapPosition = Position.add(vector, x, y, z);
-                    if (!localMap.inMap(onMapPosition)) continue;
-                    localMap.setPlantBlock(onMapPosition, treeParts[x][y][z]);
+                    if (!localMap.inMap(onMapPosition)) {
+                        treeParts[x][y][z] = null; // remove block that is out of map
+                        continue;
+                    }
                     treeParts[x][y][z].setPosition(onMapPosition);
+                    placeBlock(treeParts[x][y][z]);
                 }
             }
         }
@@ -91,7 +103,7 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
      * Deletes plant from map and container
      */
     public void removePlant(Plant plant) {
-        if (plants.remove(plant)) localMap.setPlantBlock(plant.getPosition(), null);
+        if (plants.remove(plant)) removeBlock(plant.getBlock());
     }
 
     /**
@@ -106,7 +118,7 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
                     for (int z = stompZ; z < treeParts[x][y].length; z++) {
                         PlantBlock block = treeParts[x][y][z];
                         if (block == null) continue;
-                        localMap.setPlantBlock(block.getPosition(), null);
+                        removeBlock(block);
                         if(leaveProduct) leavePlantProduct(block);
                     }
                 }
@@ -119,7 +131,8 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
      */
     private void leavePlantProduct(PlantBlock block) {
         ArrayList<Item> items = new PlantProductGenerator().generateCutProduct(block);
-        items.forEach((item) -> gameMvc.getModel().get(ItemContainer.class).addItem(item, block.getPosition()));
+        ItemContainer itemContainer = GameMvc.instance().getModel().get(ItemContainer.class);
+        items.forEach((item) -> itemContainer.addItem(item, block.getPosition()));
     }
 
     /**
@@ -130,7 +143,7 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
         AbstractPlant plant = block.getPlant();
         if (plant == null) return;
         if (plant instanceof Plant) {
-            if (plants.remove(plant)) localMap.setPlantBlock(block.getPosition(), null);
+            if (plants.remove(plant)) removeBlock(block);
         } else if (plant instanceof Tree) {
             removeBlockFromTree(block, (Tree) plant);
         }
@@ -165,9 +178,9 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
                         if (block == null) continue;
                         Position newPosition = translatePosition(block.getPosition().toVector3(), treePosition.toVector3(), orientation);
                         if (localMap.getBlockType(newPosition) != WALL_CODE) {
-                            localMap.setPlantBlock(block.getPosition(), null);
+                            removeBlock(block);
                             block.setPosition(newPosition);
-                            localMap.setPlantBlock(block.getPosition(), block);
+                            placeBlock(block);
                         } else {
                             treeParts[x][y][z] = null;
                         }
@@ -195,20 +208,50 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
             for (int x = 0; x < treeParts.length; x++) {
                 for (int y = 0; y < treeParts[x].length; y++) {
                     for (int z = 0; z < treeParts[x][y].length; z++) {
-                        if (treeParts[x][y][z] != null) localMap.setPlantBlock(treeParts[x][y][z].getPosition(), null);
+                        if (treeParts[x][y][z] != null)
+                            removeBlock(treeParts[x][y][z]);
                     }
                 }
             }
         } else if (plant instanceof Plant) {
-            localMap.setPlantBlock(((Plant) plant).getBlock().getPosition(), null);
+            removeBlock(((Plant) plant).getBlock());
         }
+    }
+
+    /**
+     * Puts block to blocks map by position from it.
+     */
+    private void placeBlock(PlantBlock block) {
+        List<PlantBlock> blocks = plantBlocks.getOrDefault(block.getPosition(), Collections.EMPTY_LIST);
+        blocks.add(block);
+    }
+
+    /**
+     * Removes block from blocks map.
+     */
+    private void removeBlock(PlantBlock block) {
+        List<PlantBlock> blocks = plantBlocks.getOrDefault(block.getPosition(), Collections.EMPTY_LIST);
+        if(!blocks.remove(block)) TagLoggersEnum.PLANTS.logError("Plant block with position " + block.getPosition() + " not stored in its position.") ;
     }
 
     public List<AbstractPlant> getPlants() {
         return plants;
     }
 
-    public HashMap<Position, SubstratePlant> getSubstratePlants() {
+    public List<SubstratePlant> getSubstratePlants() {
         return substratePlants;
+    }
+
+    public HashMap<Position, List<PlantBlock>> getPlantBlocks() {
+        return plantBlocks;
+    }
+
+    /**
+     * Returns all plants with blocks in given position.
+     */
+    public List<AbstractPlant> getPlantsInPosition(Position position) {
+        List<AbstractPlant> plants = new ArrayList<>();
+        plantBlocks.getOrDefault(position, Collections.EMPTY_LIST).forEach(block -> plants.add(((PlantBlock) block).getPlant()));
+        return plants;
     }
 }

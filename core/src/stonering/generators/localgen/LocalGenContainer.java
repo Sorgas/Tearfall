@@ -1,5 +1,6 @@
 package stonering.generators.localgen;
 
+import stonering.entity.local.plants.PlantBlock;
 import stonering.entity.local.plants.SubstratePlant;
 import stonering.entity.world.World;
 import stonering.game.model.local_map.LocalMap;
@@ -11,6 +12,7 @@ import stonering.entity.local.unit.Unit;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Stores intermediate results of local generation.
@@ -29,6 +31,7 @@ public class LocalGenContainer {
 
     public ArrayList<AbstractPlant> plants;
     public List<SubstratePlant> substratePlants;
+    public Map<Position, List<PlantBlock>> plantBlocks;
     public ArrayList<Unit> units;
     public ArrayList<Building> buildings;
     public ArrayList<Item> items;

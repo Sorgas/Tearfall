@@ -101,11 +101,11 @@ public class ItemContainer extends Turnable implements ModelComponent, Initable 
         }
     }
 
-    public ArrayList<Item> getItems(int x, int y, int z) {
-        return getItems(new Position(x, y, z));
+    public ArrayList<Item> getItemsInPosition(int x, int y, int z) {
+        return getItemsInPosition(new Position(x, y, z));
     }
 
-    public ArrayList<Item> getItems(Position position) {
+    public ArrayList<Item> getItemsInPosition(Position position) {
         if (itemMap.get(position) == null) {
             return new ArrayList<>();
         } else {

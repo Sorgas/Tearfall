@@ -19,7 +19,7 @@ public class LocalFaunaGenerator {
 
     public LocalFaunaGenerator(LocalGenContainer container) {
         this.container = container;
-        config = container.getConfig();
+        config = container.config;
         creatureGenerator = new CreatureGenerator();
     }
 
@@ -27,18 +27,18 @@ public class LocalFaunaGenerator {
         Unit unit = creatureGenerator.generateUnit("human");
         if (unit != null) {
             unit.setPosition(selectPosition());
-            container.getUnits().add(unit);
+            container.units.add(unit);
         }
     }
 
     private Position selectPosition() {
-        Position position = new Position(container.getLocalMap().xSize / 2 - 15, container.getLocalMap().ySize / 2 , 0);
+        Position position = new Position(container.localMap.xSize / 2 - 15, container.localMap.ySize / 2 , 0);
         position.z = findSurfaceZ(position.x, position.y);
         return position;
     }
 
     private int findSurfaceZ(int x, int y) {
-        LocalMap localMap = container.getLocalMap();
+        LocalMap localMap = container.localMap;
         for (int z = localMap.zSize - 1; z >= 0; z--) {
             if (localMap.getBlockType(x, y, z) != 0) {
                 return z;

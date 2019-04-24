@@ -43,7 +43,7 @@ public class BuildingAction extends Action {
         TagLoggersEnum.TASKS.log("Performing building action: " + buildingType.getBuilding());
         ItemContainer itemContainer = GameMvc.instance().getModel().get(ItemContainer.class);
         Position target = actionTarget.getPosition();
-        ArrayList<Item> items = itemContainer.getItems(target);
+        ArrayList<Item> items = itemContainer.getItemsInPosition(target);
         int mainMaterial = -1; // first item of first selector will give material.
         for (ItemSelector itemSelector : itemSelectors) {
             List<Item> itemList = itemSelector.selectItems(items);
@@ -62,7 +62,7 @@ public class BuildingAction extends Action {
     @Override
     public boolean check() {
         TagLoggersEnum.TASKS.log("Checking building action: " + buildingType.getBuilding());
-        ArrayList<Item> uncheckedItems = new ArrayList<>(GameMvc.instance().getModel().get(ItemContainer.class).getItems(actionTarget.getPosition()));
+        ArrayList<Item> uncheckedItems = new ArrayList<>(GameMvc.instance().getModel().get(ItemContainer.class).getItemsInPosition(actionTarget.getPosition()));
         uncheckedItems.addAll(task.getPerformer().getAspect(EquipmentAspect.class).getHauledItems()); // from performer inventory
         for (ItemSelector itemSelector : itemSelectors) {
             List<Item> selectedItems = itemSelector.selectItems(uncheckedItems);

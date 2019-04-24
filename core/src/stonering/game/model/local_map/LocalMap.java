@@ -27,7 +27,6 @@ public class LocalMap implements ModelComponent, Initable {
     private byte[][][] temperature;
     public final UtilByteArray generalLight;                   //for light from celestial bodies
     public final UtilByteArray light;                          //for light from dynamic sources (torches, lamps)
-    private PlantBlock[][][] plantBlocks;
     private BuildingBlock[][][] buildingBlocks;
 
     private transient PassageMap passageMap;                             // not saved to savegame,
@@ -40,7 +39,6 @@ public class LocalMap implements ModelComponent, Initable {
     public LocalMap(int xSize, int ySize, int zSize) {
         material = new int[xSize][ySize][zSize];
         blockType = new byte[xSize][ySize][zSize];
-        plantBlocks = new PlantBlock[xSize][ySize][zSize];
         buildingBlocks = new BuildingBlock[xSize][ySize][zSize];
         flooding = new byte[xSize][ySize][zSize];
         temperature = new byte[xSize][ySize][zSize];
@@ -128,6 +126,7 @@ public class LocalMap implements ModelComponent, Initable {
     }
 
     public void setBlockType(int x, int y, int z, byte type) {
+        //TODO update passage
         blockType[x][y][z] = type;
         if (localTileMapUpdater != null)
             localTileMapUpdater.updateTile(x, y, z);
@@ -138,11 +137,13 @@ public class LocalMap implements ModelComponent, Initable {
     }
 
     public boolean isWalkPassable(int x, int y, int z) {
-        return inMap(x, y, z) &&
+        //TODO reuse
+        boolean value = inMap(x, y, z) &&
                 BlockTypesEnum.getType(getBlockType(x, y, z)).PASSING == 2 &&
-                (plantBlocks[x][y][z] == null || plantBlocks[x][y][z].getType().passable) &&
+//                (plantBlocks[x][y][z] == null || plantBlocks[x][y][z].getType().passable) &&
                 (buildingBlocks[x][y][z] == null ||
                         BlockTypesEnum.getType(buildingBlocks[x][y][z].getBuilding().getType().getPassage()).PASSING == 2);
+        return passageMap.getPassage(x,y,z) == 1;
     }
 
     private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
@@ -155,6 +156,7 @@ public class LocalMap implements ModelComponent, Initable {
     }
 
     public boolean isFlyPassable(int x, int y, int z) {
+        //TODO
         return inMap(x, y, z) && BlockTypesEnum.getType(getBlockType(x, y, z)).PASSING != 0; // 1 || 2
     }
 
@@ -175,19 +177,6 @@ public class LocalMap implements ModelComponent, Initable {
 
     public void setLocalTileMapUpdater(LocalTileMapUpdater localTileMapUpdater) {
         this.localTileMapUpdater = localTileMapUpdater;
-    }
-
-    public void setPlantBlock(int x, int y, int z, PlantBlock block) {
-        plantBlocks[x][y][z] = block;
-        if (passageMap != null) passageMap.updateCell(x, y, z);
-    }
-
-    public void setPlantBlock(Position pos, PlantBlock block) {
-        setPlantBlock(pos.x, pos.y, pos.z, block);
-    }
-
-    public PlantBlock getPlantBlock(int x, int y, int z) {
-        return plantBlocks[x][y][z];
     }
 
     public void setBuildingBlock(int x, int y, int z, BuildingBlock building) {
@@ -257,10 +246,6 @@ public class LocalMap implements ModelComponent, Initable {
 
     public void setBlock(int x, int y, int z, BlockTypesEnum blockType, int materialId) {
         setBlock(x, y, z, blockType.CODE, materialId);
-    }
-
-    public PlantBlock getPlantBlock(Position pos) {
-        return getPlantBlock(pos.getX(), pos.getY(), pos.getZ());
     }
 
     public UtilByteArray getGeneralLight() {

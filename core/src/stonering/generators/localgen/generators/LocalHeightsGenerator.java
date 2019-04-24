@@ -22,8 +22,8 @@ public class LocalHeightsGenerator {
 
     public LocalHeightsGenerator(LocalGenContainer container) {
         this.container = container;
-        this.worldMap = container.getWorld().getWorldMap();
-        config = container.getConfig();
+        this.worldMap = container.world.getWorldMap();
+        config = container.config;
         localAreaSize = config.getAreaSize();
     }
 
@@ -40,8 +40,8 @@ public class LocalHeightsGenerator {
         diamondSquare(localHightMap);
         fillHeights(localHightMap, 6);
         addPerlinNoise();
-        container.setHeightsMap(localHightMap);
-        container.setRoundedHeightsMap(roundLocalHightMap());
+        container.heightsMap = localHightMap;
+        container.roundedHeightsMap = roundLocalHightMap();
     }
 
     private void calculateCorners(float[][] localHights, int x, int y) {

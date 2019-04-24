@@ -21,7 +21,8 @@ import java.util.Set;
  * Updates areas on local map change.
  * When tile becomes passable, some areas may merge.
  * When tile becomes impassable, some areas may split.
- * Building walls performed in two steps, building floor first, then building wall.
+ * Building walls performed in two steps, building floor above first, then building wall itself.
+ *  (for proper area update)
  * Destroying walls performed in opposite direction.
  *
  * @author Alexander on 05.11.2018.
@@ -213,5 +214,9 @@ public class PassageMap {
 
     public Map<Byte, Integer> getAreaNumbers() {
         return areaNumbers;
+    }
+
+    public byte getPassage(int x, int y, int z) {
+        return passage.getValue(x,y,z);
     }
 }

@@ -17,7 +17,8 @@ public enum TagLoggersEnum {
     BUILDING("building"),
     ITEMS("items"),
     GENERATION("geneartion"),
-    ZONES("zones");
+    ZONES("zones"),
+    PLANTS("plants");
 
     private static TaggedLogger logger = new TaggedLogger();
     private String tag;
