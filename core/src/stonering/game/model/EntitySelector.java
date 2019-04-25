@@ -2,7 +2,7 @@ package stonering.game.model;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import stonering.entity.local.building.validators.PositionValidator;
+import stonering.util.validation.PositionValidator;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;

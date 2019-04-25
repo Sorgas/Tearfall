@@ -1,4 +1,4 @@
-package stonering.generators.localgen.generators;
+package stonering.generators.localgen.generators.flora;
 
 import stonering.enums.materials.Material;
 import stonering.enums.materials.MaterialMap;
@@ -9,6 +9,7 @@ import stonering.game.model.local_map.LocalMap;
 import stonering.generators.PerlinNoiseGenerator;
 import stonering.generators.localgen.LocalGenConfig;
 import stonering.generators.localgen.LocalGenContainer;
+import stonering.generators.localgen.generators.LocalAbstractGenerator;
 import stonering.generators.plants.PlantGenerator;
 import stonering.generators.plants.TreeGenerator;
 import stonering.util.geometry.Position;
@@ -33,9 +34,10 @@ import static stonering.enums.blocks.BlockTypesEnum.*;
 /**
  * Generates plants suitable for local climate and places them on local map.
  *
+ *
  * @author Alexander Kuzyakov on 10.04.2018.
  */
-public class LocalFloraGenerator extends LocalAbstractGenerator {
+public abstract class LocalFloraGenerator extends LocalAbstractGenerator {
     private LocalGenConfig config;
     private LocalMap localMap;
     private PerlinNoiseGenerator noiseGenerator;
@@ -46,7 +48,6 @@ public class LocalFloraGenerator extends LocalAbstractGenerator {
     private int areaSize;
 
     private Map<String, Float> weightedPlantTypes;
-    private Map<String, Float> weightedTreeTypes;
     private Map<String, Float> weightedSubstrateTypes;
     private Set<Byte> substrateBlockTypes;
 
@@ -60,7 +61,6 @@ public class LocalFloraGenerator extends LocalAbstractGenerator {
         TagLoggersEnum.GENERATION.log("generating flora");
         extractContainer();
         weightedPlantTypes = new HashMap<>();
-        weightedTreeTypes = new HashMap<>();
         weightedSubstrateTypes = new HashMap<>();
         cachePosition = new Position(0, 0, 0);
         substrateBlockTypes = new HashSet<>(Arrays.asList(FLOOR.CODE, RAMP.CODE));
@@ -68,7 +68,6 @@ public class LocalFloraGenerator extends LocalAbstractGenerator {
         countTemperature();
         filterPlants();
         normalizeWeights(weightedPlantTypes);
-        normalizeWeights(weightedTreeTypes);
         normalizeWeights(weightedSubstrateTypes);
         generateFlora();
     }
@@ -305,7 +304,7 @@ public class LocalFloraGenerator extends LocalAbstractGenerator {
      * Thus, area can be filled with big number of low-adapted plants, but cannot be fully filled with single low-adapted plant.
      * Highly-adapted plants will crowd out others proportionally. Shares of plants with same adaptation level will be equal.
      */
-    private void normalizeWeights(Map<String, Float> plantWeights) {
+    protected void normalizeWeights(Map<String, Float> plantWeights) {
         float total = 0;
         for (Float aFloat : plantWeights.values()) total += aFloat;
         if (total < 1f) return;
@@ -315,7 +314,7 @@ public class LocalFloraGenerator extends LocalAbstractGenerator {
     /**
      * Specimen will be spreaded more widely, if its grom range is closer to year middle temperature.
      */
-    private float getSpreadModifier(String specimen) {
+    protected float getSpreadModifier(String specimen) {
         PlantType type = PlantMap.getInstance().getPlantType(specimen);
         return Math.abs(((type.temperatureBounds[2] + type.temperatureBounds[3]) / 2f) - midTemp) / (maxTemp - midTemp);
     }

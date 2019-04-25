@@ -4,7 +4,7 @@ import stonering.entity.jobs.Task;
 import stonering.entity.jobs.actions.PlantingAction;
 import stonering.entity.jobs.actions.TaskTypesEnum;
 import stonering.entity.jobs.actions.target.PositionActionTarget;
-import stonering.entity.local.building.validators.PositionValidator;
+import stonering.util.validation.PositionValidator;
 import stonering.entity.local.environment.GameCalendar;
 import stonering.entity.local.items.selectors.ItemSelector;
 import stonering.entity.local.items.selectors.SeedItemSelector;

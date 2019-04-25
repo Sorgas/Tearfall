@@ -31,7 +31,7 @@ public class PassageMap {
     private LocalMap localMap;
     private AStar aStar;
     private UtilByteArray area; // number of area
-    private UtilByteArray passage; // stores
+    private UtilByteArray passage; // 1 is passable, 0 is not
     private Map<Byte, Integer> areaNumbers; // counts number of cells in areas
 
     public PassageMap(LocalMap localMap) {

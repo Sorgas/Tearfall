@@ -2,8 +2,8 @@ package stonering.enums;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import stonering.entity.local.building.validators.FreeSoilFloorValidator;
-import stonering.entity.local.building.validators.PositionValidator;
+import stonering.util.validation.FreeSoilFloorValidator;
+import stonering.util.validation.PositionValidator;
 import stonering.entity.local.zone.FarmZone;
 import stonering.entity.local.zone.Zone;
 

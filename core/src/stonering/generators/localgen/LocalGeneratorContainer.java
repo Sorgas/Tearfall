@@ -3,6 +3,7 @@ package stonering.generators.localgen;
 import stonering.entity.world.World;
 import stonering.game.model.local_map.LocalMap;
 import stonering.generators.localgen.generators.*;
+import stonering.generators.localgen.generators.flora.LocalFloraGenerator;
 
 /**
  * Executes local generators in correct order.

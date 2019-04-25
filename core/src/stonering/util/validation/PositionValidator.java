@@ -1,4 +1,4 @@
-package stonering.entity.local.building.validators;
+package stonering.util.validation;
 
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;

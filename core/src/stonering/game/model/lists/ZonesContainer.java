@@ -1,6 +1,6 @@
 package stonering.game.model.lists;
 
-import stonering.entity.local.building.validators.PositionValidator;
+import stonering.util.validation.PositionValidator;
 import stonering.entity.local.zone.Zone;
 import stonering.enums.ZoneTypesEnum;
 import stonering.game.GameMvc;

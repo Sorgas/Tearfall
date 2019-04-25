@@ -1,8 +1,8 @@
 package stonering.enums.designations;
 
-import stonering.entity.local.building.validators.FreeFloorValidator;
-import stonering.entity.local.building.validators.NearSolidBlockValidator;
-import stonering.entity.local.building.validators.PositionValidator;
+import stonering.util.validation.FreeFloorValidator;
+import stonering.util.validation.NearSolidBlockValidator;
+import stonering.util.validation.PositionValidator;
 
 import java.util.HashMap;
 
