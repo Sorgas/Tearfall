@@ -11,7 +11,7 @@ import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.model.EntitySelector;
 import stonering.game.model.GameModel;
-import stonering.game.model.lists.TaskContainer;
+import stonering.game.model.lists.tasks.TaskContainer;
 import stonering.game.model.lists.UnitContainer;
 import stonering.game.model.lists.ZonesContainer;
 import stonering.game.model.local_map.LocalMap;

@@ -3,7 +3,7 @@ package stonering.entity.jobs;
 import stonering.designations.Designation;
 import stonering.entity.local.unit.aspects.PlanningAspect;
 import stonering.game.GameMvc;
-import stonering.game.model.lists.TaskContainer;
+import stonering.game.model.lists.tasks.TaskContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.util.UtilByteArray;
 import stonering.util.geometry.Position;

@@ -6,7 +6,7 @@ import stonering.entity.local.building.BuildingOrder;
 import stonering.entity.local.crafting.CommonComponent;
 import stonering.entity.local.items.selectors.SimpleItemSelector;
 import stonering.enums.designations.PlaceValidatorsEnum;
-import stonering.game.model.lists.TaskContainer;
+import stonering.game.model.lists.tasks.TaskContainer;
 import stonering.game.view.render.ui.lists.MaterialSelectList;
 import stonering.game.view.render.ui.menus.util.PlaceSelectComponent;
 import stonering.game.view.render.ui.util.ListItem;

@@ -18,7 +18,15 @@ import stonering.entity.local.plants.Tree;
 import stonering.util.global.Pair;
 import stonering.util.global.TagLoggersEnum;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.Set;
 
 import static stonering.enums.blocks.BlockTypesEnum.*;
 
@@ -42,9 +50,10 @@ public class LocalFloraGenerator extends LocalAbstractGenerator {
     private Map<String, Float> weightedSubstrateTypes;
     private Set<Byte> substrateBlockTypes;
 
+    private Position cachePosition;
+
     public LocalFloraGenerator(LocalGenContainer container) {
         super(container);
-        substrateBlockTypes = new HashSet<>(Arrays.asList(FLOOR.CODE, RAMP.CODE));
     }
 
     public void execute() {
@@ -53,11 +62,14 @@ public class LocalFloraGenerator extends LocalAbstractGenerator {
         weightedPlantTypes = new HashMap<>();
         weightedTreeTypes = new HashMap<>();
         weightedSubstrateTypes = new HashMap<>();
+        cachePosition = new Position(0, 0, 0);
+        substrateBlockTypes = new HashSet<>(Arrays.asList(FLOOR.CODE, RAMP.CODE));
 
         countTemperature();
         filterPlants();
         normalizeWeights(weightedPlantTypes);
         normalizeWeights(weightedTreeTypes);
+        normalizeWeights(weightedSubstrateTypes);
         generateFlora();
     }
 
@@ -102,12 +114,14 @@ public class LocalFloraGenerator extends LocalAbstractGenerator {
 
     /**
      * Generates and places trees on local map. Uses limited attempts with random positions.
+     * //TODO add underground trees.
+     * //TODO change placing logic to fores areas.
      */
     private void placeInitialTrees(String specimen, float amount) {
         TreeGenerator treeGenerator = new TreeGenerator();
-
         Random random = new Random();
-        Tree tree = treeGenerator.generateTree(specimen, 0);
+        int maxAge = PlantMap.getInstance().getPlantType(specimen).getMaxAge();
+        Tree tree = treeGenerator.generateTree(specimen, random.nextInt(maxAge));
         for (int tries = 500; amount > 0 && tries > 0; tries--) {
             int x = random.nextInt(areaSize);
             int y = random.nextInt(areaSize);
@@ -115,15 +129,13 @@ public class LocalFloraGenerator extends LocalAbstractGenerator {
             if (!checkTreePlacing(tree, x, y, z)) continue;
             placeTree(tree, x, y, z);
             tree.setPosition(new Position(x, y, z));
-            tree = treeGenerator.generateTree(specimen, 0);
+            tree = treeGenerator.generateTree(specimen, random.nextInt(maxAge));
             amount--;
         }
     }
 
     /**
      * Checks that desired area for tree is free.
-     *
-     * @return true if placing possible.
      */
     private boolean checkTreePlacing(Tree tree, int cx, int cy, int cz) {
         PlantBlock[][][] treeParts = tree.getBlocks();
@@ -136,8 +148,9 @@ public class LocalFloraGenerator extends LocalAbstractGenerator {
                     int mapX = cx + x - treeRadius;
                     int mapY = cy + y - treeRadius;
                     int mapZ = cz + z - treeCenterZ;
+                    if (treeParts[x][y][z] != null) return false;
                     if (!localMap.inMap(mapX, mapY, mapZ)) return false;
-                    if (treeParts[x][y][z] != null && localMap.getPlantBlock(mapX, mapY, mapZ) != null) return false;
+                    if (container.plantBlocks.containsKey(cachePosition.set(mapX, mapY, mapZ))) return false;
                     Material material = MaterialMap.getInstance().getMaterial(localMap.getMaterial(x, y, z));
                     if (material != null && material.getTags().contains(soilType)) ;
                 }
@@ -148,8 +161,6 @@ public class LocalFloraGenerator extends LocalAbstractGenerator {
 
     /**
      * Places tree on map. Area on map should be checked before placing.
-     *
-     * @param tree tree to place
      */
     private void placeTree(Tree tree, int cx, int cy, int cz) {
         PlantBlock[][][] treeParts = tree.getBlocks();
@@ -163,7 +174,9 @@ public class LocalFloraGenerator extends LocalAbstractGenerator {
                             cx + x - treeRadius,
                             cy + y - treeRadius,
                             cz + z - treeCenterZ);
-                    localMap.setPlantBlock(onMapPosition, treeParts[x][y][z]);
+                    List<PlantBlock> blocks =container.plantBlocks.getOrDefault(onMapPosition, Collections.emptyList());
+                    blocks.add(treeParts[x][y][z]);
+                    container.plantBlocks.put(onMapPosition, blocks);
                     treeParts[x][y][z].setPosition(onMapPosition);
                 }
             }
@@ -173,8 +186,6 @@ public class LocalFloraGenerator extends LocalAbstractGenerator {
 
     /**
      * Generates and places plants in {@link LocalGenContainer}
-     *
-     * @param specimen PlantType key from PlantMap representing tree
      */
     private void placePlants(String specimen, float relativeAmount) {
         PlantGenerator plantGenerator = new PlantGenerator();
@@ -229,12 +240,13 @@ public class LocalFloraGenerator extends LocalAbstractGenerator {
         for (int x = 0; x < localMap.xSize; x++) {
             for (int y = 0; y < localMap.ySize; y++) {
                 for (int z = 0; z < localMap.zSize; z++) {
-                    if (localMap.getBlockType(x, y, z) == FLOOR.CODE && localMap.getPlantBlock(x, y, z) == null) { // surface material should be suitable for plant
-                        Material material = MaterialMap.getInstance().getMaterial(localMap.getMaterial(x, y, z));
-                        if (material != null && material.getTags().contains(soilType)) {
-                            positions.add(new Position(x, y, z));
-                            array[x][y][z] = true;
-                        }
+                    // surface material should be suitable for plant
+                    if(localMap.getBlockType(x, y, z) != FLOOR.CODE) continue;
+                    if(container.plantBlocks.containsKey(cachePosition.set(x, y, z))) continue;
+                    Material material = MaterialMap.getInstance().getMaterial(localMap.getMaterial(x, y, z));
+                    if (material != null && material.getTags().contains(soilType)) {
+                        positions.add(new Position(x, y, z));
+                        array[x][y][z] = true;
                     }
                 }
             }
@@ -256,7 +268,8 @@ public class LocalFloraGenerator extends LocalAbstractGenerator {
                 for (int z = 0; z < localMap.zSize; z++) {
                     if (!substrateBlockTypes.contains(localMap.getBlockType(x, y, z))) continue;
                     Material material = MaterialMap.getInstance().getMaterial(localMap.getMaterial(x, y, z));
-                    if (material == null) TagLoggersEnum.GENERATION.logError("material in tile " + x + " " + y + " " + z + " is null.");
+                    if (material == null)
+                        TagLoggersEnum.GENERATION.logError("material in tile " + x + " " + y + " " + z + " is null.");
                     if (!material.getTags().contains(soilType)) continue;
                     positions.add(new Position(x, y, z));
                     array[x][y][z] = true;
@@ -267,7 +280,7 @@ public class LocalFloraGenerator extends LocalAbstractGenerator {
     }
 
     /**
-     * Filters all PlantMap with local climate parameters and adds passed plants and trees to lists.
+     * Filters all PlantMap with local climate parameters and adds passed plants and trees to maps.
      */
     //TODO add grade of specimen spreading in this area.
     private void filterPlants() {

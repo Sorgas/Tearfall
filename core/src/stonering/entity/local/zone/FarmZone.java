@@ -14,7 +14,7 @@ import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.designations.DesignationTypeEnum;
 import stonering.enums.plants.PlantType;
 import stonering.game.GameMvc;
-import stonering.game.model.lists.TaskContainer;
+import stonering.game.model.lists.tasks.TaskContainer;
 import stonering.game.model.lists.ZonesContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;

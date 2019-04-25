@@ -1,17 +1,16 @@
-package stonering.game.model.lists;
+package stonering.game.model.lists.tasks;
 
 import stonering.designations.BuildingDesignation;
 import stonering.designations.Designation;
 import stonering.designations.OrderDesignation;
 import stonering.entity.jobs.actions.*;
 import stonering.entity.local.building.BuildingOrder;
-import stonering.enums.ZoneTypesEnum;
-import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.buildings.BuildingTypeMap;
 import stonering.enums.designations.DesignationTypeEnum;
 import stonering.enums.designations.PlaceValidatorsEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.ModelComponent;
+import stonering.game.model.lists.PlantContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 import stonering.entity.jobs.Task;
@@ -23,6 +22,7 @@ import stonering.util.global.TagLoggersEnum;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Contains all tasks for settlers on map and Designations for rendering.
@@ -32,22 +32,25 @@ import java.util.HashMap;
  * @author Alexander Kuzyakov
  */
 public class TaskContainer implements ModelComponent, Initable {
-    private LocalMap localMap;
     private ArrayList<Task> tasks;
     private HashMap<Position, Designation> designations;
     private Position cachePosition; // state is not maintained. should be set before use
+    private DesignationsValidator designationsValidator;
 
     public TaskContainer() {
         cachePosition = new Position(0, 0, 0);
         tasks = new ArrayList<>();
         designations = new HashMap<>();
+        designationsValidator = new DesignationsValidator();
     }
 
     @Override
-    public void init() {
-        localMap = GameMvc.instance().getModel().get(LocalMap.class);
-    }
+    public void init() {}
 
+    /**
+     * Gets tasks for units.
+     * //TODO
+     */
     public Task getActiveTask(Position pos) {
         for (Task task : tasks) {
             if (task.getPerformer() == null && task.isTaskTargetsAvaialbleFrom(pos)) {
@@ -60,12 +63,9 @@ public class TaskContainer implements ModelComponent, Initable {
     /**
      * Adds designation and creates comprehensive task.
      * All simple orders like digging and foraging submitted through this method.
-     *
-     * @param position
-     * @param type
      */
     public void submitOrderDesignation(Position position, DesignationTypeEnum type, int priority) {
-        if (!validateDesignations(position, type)) return; // no designation for invalid position
+        if (!designationsValidator.validateDesignations(position, type)) return; // no designation for invalid position
         OrderDesignation designation = new OrderDesignation(position, type);
         Task task = createOrderTask(designation, priority);
         if (task == null) return; // no designation with no task
@@ -83,6 +83,7 @@ public class TaskContainer implements ModelComponent, Initable {
      */
     public void submitBuildingDesignation(BuildingOrder order, int priority) {
         Position position = order.getPosition();
+        LocalMap localMap = GameMvc.instance().getModel().get(LocalMap.class);
         if (!PlaceValidatorsEnum.getValidator(order.getBlueprint().getPlacing()).validate(localMap, position)) return;
         BuildingDesignation designation = new BuildingDesignation(position, DesignationTypeEnum.BUILD, order.getBlueprint().getBuilding());
         Task task = createBuildingTask(designation, order.getItemSelectors().values(), priority);
@@ -111,11 +112,12 @@ public class TaskContainer implements ModelComponent, Initable {
                 return task;
             }
             case HARVEST: {
-                PlantBlock block = localMap.getPlantBlock(designation.getPosition());
-                if (block != null && block.getPlant().isHarvestable()) {
+                List<PlantBlock> blocks = GameMvc.instance().getModel().get(PlantContainer.class).getPlantBlocks().get(designation.getPosition());
+                for (PlantBlock block : blocks) {
+                    if (!block.getPlant().isHarvestable()) continue;
                     PlantHarvestAction plantHarvestAction = new PlantHarvestAction(block.getPlant());
-                    Task task = new Task("designation", TaskTypesEnum.DESIGNATION, plantHarvestAction, priority);
-                    return task;
+                    //TODO probably create multiple tasks for all blocks
+                    return new Task("designation", TaskTypesEnum.DESIGNATION, plantHarvestAction, priority);
                 }
             }
             case HOE: {
@@ -138,48 +140,6 @@ public class TaskContainer implements ModelComponent, Initable {
         Task task = new Task("designation", TaskTypesEnum.DESIGNATION, action, priority);
         task.setDesignation(designation);
         return task;
-    }
-
-    /**
-     * Validates applying given designation type to position.
-     */
-    private boolean validateDesignations(Position position, DesignationTypeEnum type) {
-        BlockTypesEnum blockOnMap = BlockTypesEnum.getType(localMap.getBlockType(position));
-        switch (type) {
-            case DIG: { //makes floor
-                return BlockTypesEnum.RAMP.equals(blockOnMap) ||
-                        BlockTypesEnum.WALL.equals(blockOnMap) ||
-                        BlockTypesEnum.STAIRS.equals(blockOnMap);
-            }
-            case CHANNEL: { //makes space and ramp lower
-                return !BlockTypesEnum.SPACE.equals(blockOnMap);
-            }
-            case RAMP:
-            case STAIRS: {
-                return BlockTypesEnum.WALL.equals(blockOnMap);
-            }
-            case CHOP: {
-                //TODO designate tree as whole
-                PlantBlock block = localMap.getPlantBlock(position);
-                return block != null &&
-                        (BlockTypesEnum.SPACE.equals(blockOnMap) || BlockTypesEnum.FLOOR.equals(blockOnMap))
-                        && block.getPlant().getType().isTree();
-            }
-            case NONE: {
-                return true;
-            }
-            case CUT:
-                break;
-            case HARVEST:
-                //TODO add harvesting from trees
-                PlantBlock block = localMap.getPlantBlock(position);
-                return block != null && !block.getPlant().getType().isTree();
-            case BUILD:
-                break;
-            case HOE:
-                return ZoneTypesEnum.FARM.getValidator().validate(localMap, position);
-        }
-        return false;
     }
 
     /**

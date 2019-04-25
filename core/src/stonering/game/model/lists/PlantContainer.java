@@ -33,13 +33,16 @@ import java.util.stream.Collectors;
 public class PlantContainer extends IntervalTurnable implements Initable, ModelComponent {
     private List<AbstractPlant> plants;
     private List<SubstratePlant> substratePlants;
-    private HashMap<Position, List<PlantBlock>> plantBlocks;
+    private HashMap<Position, PlantBlock> plantBlocks;
+    private HashMap<Position, PlantBlock> substrateBlocks;
     private LocalMap localMap;
     private final int WALL_CODE = BlockTypesEnum.WALL.CODE;
 
     public PlantContainer(List<AbstractPlant> plants) {
         this.plants = plants;
         substratePlants = new ArrayList<>();
+        plantBlocks = new HashMap<>();
+        substrateBlocks = new HashMap<>();
     }
 
     @Override
@@ -65,7 +68,7 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
      * Places single-tile plant block into map to be rendered and accessed by other entities.
      */
     private void placePlant(Plant plant) {
-        List<PlantBlock> blocks = plantBlocks.getOrDefault(plant.getPosition(), Collections.EMPTY_LIST);
+        List<PlantBlock> blocks = plantBlocks.getOrDefault(plant.getPosition(), Collections.emptyList());
         blocks.add(plant.getBlock());
         plant.getBlock().setPosition(plant.getPosition());
     }
@@ -222,7 +225,7 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
      * Puts block to blocks map by position from it.
      */
     private void placeBlock(PlantBlock block) {
-        List<PlantBlock> blocks = plantBlocks.getOrDefault(block.getPosition(), Collections.EMPTY_LIST);
+        List<PlantBlock> blocks = plantBlocks.getOrDefault(block.getPosition(), Collections.emptyList());
         blocks.add(block);
     }
 
@@ -230,7 +233,7 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
      * Removes block from blocks map.
      */
     private void removeBlock(PlantBlock block) {
-        List<PlantBlock> blocks = plantBlocks.getOrDefault(block.getPosition(), Collections.EMPTY_LIST);
+        List<PlantBlock> blocks = plantBlocks.getOrDefault(block.getPosition(), Collections.emptyList());
         if(!blocks.remove(block)) TagLoggersEnum.PLANTS.logError("Plant block with position " + block.getPosition() + " not stored in its position.") ;
     }
 
@@ -242,16 +245,15 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
         return substratePlants;
     }
 
-    public HashMap<Position, List<PlantBlock>> getPlantBlocks() {
+    public HashMap<Position, PlantBlock> getPlantBlocks() {
         return plantBlocks;
     }
 
     /**
      * Returns all plants with blocks in given position.
      */
-    public List<AbstractPlant> getPlantsInPosition(Position position) {
-        List<AbstractPlant> plants = new ArrayList<>();
-        plantBlocks.getOrDefault(position, Collections.EMPTY_LIST).forEach(block -> plants.add(((PlantBlock) block).getPlant()));
-        return plants;
+    public AbstractPlant getPlantInPosition(Position position) {
+        if(!plantBlocks.containsKey(position)) return null;
+        return plantBlocks.get(position).getPlant();
     }
 }

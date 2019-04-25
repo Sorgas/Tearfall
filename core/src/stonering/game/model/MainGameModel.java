@@ -2,6 +2,7 @@ package stonering.game.model;
 
 import stonering.entity.world.World;
 import stonering.game.model.lists.*;
+import stonering.game.model.lists.tasks.TaskContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.view.tilemaps.LocalTileMap;
 import stonering.generators.localgen.LocalGenContainer;

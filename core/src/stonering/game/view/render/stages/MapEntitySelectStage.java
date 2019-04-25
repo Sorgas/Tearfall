@@ -87,7 +87,7 @@ public class MapEntitySelectStage extends UiStage implements Initable {
         GameModel gameModel = GameMvc.instance().getModel();
         BuildingBlock buildingBlock = gameModel.get(LocalMap.class).getBuildingBlock(currentPosition);
         if (buildingBlock != null) aspectHolders.add(buildingBlock.getBuilding());
-        aspectHolders.addAll(gameModel.get(PlantContainer.class).getPlantsInPosition(currentPosition));
+        aspectHolders.addAll(gameModel.get(PlantContainer.class).getPlantInPosition(currentPosition));
         aspectHolders.addAll(gameModel.get(ItemContainer.class).getItemsInPosition(currentPosition));
         aspectHolders.addAll(gameModel.get(UnitContainer.class).getUnitsInPosition(currentPosition));
         Zone zone = gameModel.get(ZonesContainer.class).getZone(currentPosition);

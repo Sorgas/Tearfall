@@ -30,8 +30,8 @@ public class LocalGenContainer {
     public float[] monthlyTemperatures;
 
     public ArrayList<AbstractPlant> plants;
-    public List<SubstratePlant> substratePlants;
     public Map<Position, List<PlantBlock>> plantBlocks;
+    public Map<Position, List<PlantBlock>> substrateBlocks;
     public ArrayList<Unit> units;
     public ArrayList<Building> buildings;
     public ArrayList<Item> items;

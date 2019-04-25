@@ -16,6 +16,9 @@ import stonering.game.model.lists.PlantContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.global.TagLoggersEnum;
 
+import java.util.Collections;
+import java.util.List;
+
 public class ChopTreeAction extends Action {
     private ItemSelector toolItemSelector;
 
@@ -28,7 +31,7 @@ public class ChopTreeAction extends Action {
     public boolean check() {
         EquipmentAspect aspect = task.getPerformer().getAspect(EquipmentAspect.class);
         if (aspect == null) return false;
-        PlantBlock block = GameMvc.instance().getModel().get(LocalMap.class).getPlantBlock(actionTarget.getPosition());
+        List<PlantBlock> blocks = GameMvc.instance().getModel().get(PlantContainer.class).getPlantBlocks().getOrDefault(actionTarget.getPosition(), Collections.emptyList());
         if (block == null) return false;
         return toolItemSelector.check(aspect.getEquippedItems()) || addActionToTask();
     }
