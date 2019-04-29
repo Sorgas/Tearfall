@@ -11,6 +11,7 @@ public class DistanceToWaterValidator extends PositionValidator {
 
     @Override
     public boolean validate(LocalMap map, Position position) {
+        if(!map.inMap(position) || tag == null) return false;
         switch (tag) {
             case WATER_NEAR: {
                 return hasWaterInDistance(map, position);
@@ -18,9 +19,10 @@ public class DistanceToWaterValidator extends PositionValidator {
             case WATER_FAR: {
                 return !hasWaterInDistance(map, position);
             }
-            case WATER_ON: {
-                return map.inMap(position) &&
+            case WATER_UNDER: {
+                return map.getFlooding(position) == 7;
             }
+            // TODO case WATER_ON: {}
         }
         return false;
     }
@@ -34,5 +36,9 @@ public class DistanceToWaterValidator extends PositionValidator {
             }
         }
         return false;
+    }
+
+    public void setTag(PlantPlacingTags tag) {
+        this.tag = tag;
     }
 }

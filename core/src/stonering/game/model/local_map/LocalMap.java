@@ -7,7 +7,6 @@ import stonering.game.model.util.UtilByteArray;
 import stonering.game.view.tilemaps.LocalTileMapUpdater;
 import stonering.util.geometry.Position;
 import stonering.entity.local.building.BuildingBlock;
-import stonering.entity.local.plants.PlantBlock;
 import stonering.util.global.Initable;
 
 import java.io.IOException;
