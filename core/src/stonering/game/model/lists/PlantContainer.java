@@ -19,12 +19,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
- * Contains plants. {@link Plant}s and {@link Tree}s are stored in list, Substrate Plants are stored in separate list.
+ * Contains plants. {@link Plant}s and {@link Tree}s are stored in list, {@link SubstratePlant} are stored in separate list.
+ * One tile can have one plant block. Substrate plants can occupy same tile with other plants.
  * {@link PlantBlock}s are stored in map (by {@link Position}).
- * Destroyed entities do not persist in container and their blocks are not in localMap.
+ * When plant is destroyed (died, cut or chopped), it's products are dropped via this container.
  * Plants do not move.
  * //TODO update passage map on blocks change.
  *
@@ -66,11 +66,10 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
 
     /**
      * Places single-tile plant block into map to be rendered and accessed by other entities.
+     * Block position should be set.
      */
     private void placePlant(Plant plant) {
-        List<PlantBlock> blocks = plantBlocks.getOrDefault(plant.getPosition(), Collections.emptyList());
-        blocks.add(plant.getBlock());
-        plant.getBlock().setPosition(plant.getPosition());
+        if(placeBlock(plant.getBlock())) plants.add(plant);
     }
 
     /**
@@ -224,17 +223,22 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
     /**
      * Puts block to blocks map by position from it.
      */
-    private void placeBlock(PlantBlock block) {
-        List<PlantBlock> blocks = plantBlocks.getOrDefault(block.getPosition(), Collections.emptyList());
-        blocks.add(block);
+    private boolean placeBlock(PlantBlock block) {
+        if(plantBlocks.containsKey(block.getPosition())) return false; // tile is occupied
+        plantBlocks.put(block.getPosition(), block);
+        return true;
     }
 
     /**
-     * Removes block from blocks map.
+     * Removes block from blocks map and from it's plant.
+     * If plant was single-tiled, it is destroyed
      */
     private void removeBlock(PlantBlock block) {
-        List<PlantBlock> blocks = plantBlocks.getOrDefault(block.getPosition(), Collections.emptyList());
-        if(!blocks.remove(block)) TagLoggersEnum.PLANTS.logError("Plant block with position " + block.getPosition() + " not stored in its position.") ;
+        if(plantBlocks.get(block.getPosition()) != block) {
+            TagLoggersEnum.PLANTS.logError("Plant block with position " + block.getPosition() + " not stored in its position.") ;
+        } else {
+            plantBlocks.remove(block.getPosition());
+        }
     }
 
     public List<AbstractPlant> getPlants() {

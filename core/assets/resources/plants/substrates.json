@@ -7,7 +7,7 @@
         "name": "grass",
         "title": "grass",
         "description": "Grass",
-        "temperatureBounds": ["-40", "40", "-40", "40"],
+        "temperatureBounds": ["-40", "40"],
         "rainfallBounds": ["0", "100"],
         "placingTags" : ["water_near", "water_far"],
         "lifeStages": [

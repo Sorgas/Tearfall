@@ -3,6 +3,7 @@ package stonering.game.view.render.stages.base;
 import stonering.designations.Designation;
 import stonering.entity.local.building.BuildingBlock;
 import stonering.entity.local.items.Item;
+import stonering.entity.local.plants.PlantBlock;
 import stonering.entity.local.zone.Zone;
 import stonering.enums.designations.DesignationsTileMapping;
 import stonering.game.GameMvc;
@@ -70,15 +71,16 @@ public class TileRenderer extends Renderer {
         drawingUtil.updateColorA(0.6f);
         drawWaterBlock(x, y, z);
         drawingUtil.updateColorA(1f);
-        GameMvc.instance().getModel().get(PlantContainer.class).getPlantBlocks().get(cachePosition).forEach(plantBlock ->
-                drawingUtil.drawSprite(drawingUtil.selectSprite(1, plantBlock.getAtlasXY()[0], plantBlock.getAtlasXY()[1]), x, y, z, selector.getPosition()));
+        PlantBlock block = GameMvc.instance().getModel().get(PlantContainer.class).getPlantBlocks().get(cachePosition);
+        if (block != null)
+            drawingUtil.drawSprite(drawingUtil.selectSprite(1, block.getAtlasXY()[0], block.getAtlasXY()[1]), x, y, z, selector.getPosition());
         BuildingBlock buildingBlock = localMap.getBuildingBlock(x, y, z);
         if (buildingBlock != null)
             drawingUtil.drawSprite(drawingUtil.selectSprite(3, 0, 0), x, y, z, selector.getPosition());
         unitContainer.getUnitsInPosition(x, y, z).forEach(unit -> {
-                //TODO ((RenderAspect) unit.getAspects().get(RenderAspect.NAME)).getTexture();
-                drawingUtil.drawSprite(drawingUtil.selectSprite(2, 0, 0), x, y, z, selector.getPosition());
-            });
+            //TODO ((RenderAspect) unit.getAspects().get(RenderAspect.NAME)).getTexture();
+            drawingUtil.drawSprite(drawingUtil.selectSprite(2, 0, 0), x, y, z, selector.getPosition());
+        });
         if (GameMvc.instance().getModel().get(ItemContainer.class) != null) {
             ArrayList<Item> items = GameMvc.instance().getModel().get(ItemContainer.class).getItemsInPosition(x, y, z);
             if (!items.isEmpty())

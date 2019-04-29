@@ -1,6 +1,6 @@
 /**
     temperatureBounds:
-        1,2: max/min year temperature for plant to occur during generation,
+        1,2: temperature for plant to occur during generation,
         3,4: max/min temperature to grow in realtime.
     placingTags:     // determines special requirements of this plant to environment
         //TODO distinct running and stagnant water
@@ -29,7 +29,7 @@
         "title":"Red Moss",
         "description":"Red Moss",
         "materialName":"willow",
-        "temperatureBounds":["-40", "40", "-40", "40"],
+        "temperatureBounds":["-40", "40"],
         "rainfallBounds":["0", "100"],
         "placingTags":["water_near", "water_far", "soil_stone"],
         "lifeStages":[
@@ -46,7 +46,7 @@
     "title":"bush",
     "description":"Bush",
     "materialName":"willow",
-    "temperatureBounds":["-40", "40", "-40", "40"],
+    "temperatureBounds":["-40", "40"],
     "rainfallBounds":["0", "100"],
     "placingTags":["near", "far"],
     "lifeStages":[
@@ -63,7 +63,7 @@
     "title":"Blueberry",
     "description":"Small plant with blue edible berries.",
     "materialName":"generic_plant",
-    "temperatureBounds":["-40", "40", "-40", "40"],
+    "temperatureBounds":["-40", "40"],
     "rainfallBounds":["0", "100"],
     "placingTags":["water_near", "water_far"],
     "lifeStages":[
@@ -81,7 +81,7 @@
         "title":"Puffball mushroom",
         "description":"Edible mushroom  ",
         "materialName":"willow",
-        "temperatureBounds":["-40", "40", "-40", "40"],
+        "temperatureBounds":["-40", "40"],
         "rainfallBounds":["0", "100"],
         "placingTags":["light_low", "light_underground"],
         "lifeStages":[
@@ -113,7 +113,7 @@
         "title":"Сattail",
         "description":"Сattail",
         "materialName":"willow",
-        "temperatureBounds":["-40", "40", "-40", "40"],
+        "temperatureBounds":["-40", "40"],
         "rainfallBounds":["0", "100"],
         "placingTags":["water_near"],
         "lifeStages":[
@@ -145,7 +145,7 @@
         "title":"Tomato",
         "description":"Tomato",
         "materialName":"willow",
-        "temperatureBounds":["-40", "40", "-40", "40"],
+        "temperatureBounds":["-40", "40"],
         "rainfallBounds":["0", "100"],
         "placingTags":[],
         "plantingStart":["1", "2", "3"],

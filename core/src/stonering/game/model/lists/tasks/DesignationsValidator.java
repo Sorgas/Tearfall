@@ -37,11 +37,8 @@ public class DesignationsValidator {
             case CHOP: {
                 //TODO designate tree as whole
                 if(!(BlockTypesEnum.SPACE.equals(blockOnMap) || BlockTypesEnum.FLOOR.equals(blockOnMap))) return false;
-                List<PlantBlock> blocks = GameMvc.instance().getModel().get(PlantContainer.class).getPlantBlocks().get(position);
-                for (PlantBlock block : blocks) {
-                    if(block.getPlant().getType().isTree()) return true;
-                }
-                return false;
+                PlantBlock block = GameMvc.instance().getModel().get(PlantContainer.class).getPlantBlocks().get(position);
+                return block.getPlant().getType().isTree();
             }
             case NONE: {
                 return true;
@@ -50,11 +47,8 @@ public class DesignationsValidator {
                 break;
             case HARVEST:
                 //TODO add harvesting from trees
-                List<PlantBlock> blocks = GameMvc.instance().getModel().get(PlantContainer.class).getPlantBlocks().get(position);
-                for (PlantBlock block : blocks) {
-                    if(!block.getPlant().getType().isTree() && !block.getPlant().getType().isSubstrate()) return true;
-                }
-                return false;
+                PlantBlock block = GameMvc.instance().getModel().get(PlantContainer.class).getPlantBlocks().get(position);
+                return !block.getPlant().getType().isTree() && !block.getPlant().getType().isSubstrate();
             case BUILD:
                 break;
             case HOE:

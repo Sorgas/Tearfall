@@ -112,13 +112,11 @@ public class TaskContainer implements ModelComponent, Initable {
                 return task;
             }
             case HARVEST: {
-                List<PlantBlock> blocks = GameMvc.instance().getModel().get(PlantContainer.class).getPlantBlocks().get(designation.getPosition());
-                for (PlantBlock block : blocks) {
-                    if (!block.getPlant().isHarvestable()) continue;
-                    PlantHarvestAction plantHarvestAction = new PlantHarvestAction(block.getPlant());
-                    //TODO probably create multiple tasks for all blocks
-                    return new Task("designation", TaskTypesEnum.DESIGNATION, plantHarvestAction, priority);
-                }
+                PlantBlock block = GameMvc.instance().getModel().get(PlantContainer.class).getPlantBlocks().get(designation.getPosition());
+                if (!block.getPlant().isHarvestable()) return null;
+                PlantHarvestAction plantHarvestAction = new PlantHarvestAction(block.getPlant());
+                //TODO probably create multiple tasks for all blocks
+                return new Task("designation", TaskTypesEnum.DESIGNATION, plantHarvestAction, priority);
             }
             case HOE: {
 
