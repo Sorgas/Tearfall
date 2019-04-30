@@ -1,23 +1,14 @@
 package stonering.generators.localgen.generators.flora;
 
 import stonering.entity.local.plants.Plant;
-import stonering.enums.materials.Material;
-import stonering.enums.materials.MaterialMap;
-import stonering.enums.plants.PlantMap;
-import stonering.enums.plants.PlantType;
 import stonering.exceptions.DescriptionNotFoundException;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.generators.plants.PlantGenerator;
 import stonering.util.geometry.Position;
-import stonering.util.global.Pair;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Random;
 import java.util.stream.Collectors;
-
-import static stonering.enums.blocks.BlockTypesEnum.FLOOR;
 
 /**
  * Genarates and places {@link Plant} on local map.

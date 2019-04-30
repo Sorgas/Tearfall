@@ -1,6 +1,7 @@
 package stonering.entity.local.plants;
 
 import stonering.entity.local.AspectHolder;
+import stonering.enums.plants.PlantLifeStage;
 import stonering.enums.plants.PlantType;
 import stonering.util.geometry.Position;
 
@@ -17,7 +18,7 @@ public abstract class AbstractPlant extends AspectHolder {
         super(position);
     }
 
-    public PlantType.PlantLifeStage getCurrentStage() {
+    public PlantLifeStage getCurrentStage() {
         return type.lifeStages.get(currentStage);
     }
 

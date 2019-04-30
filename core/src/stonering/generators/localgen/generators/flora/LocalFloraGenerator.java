@@ -85,10 +85,13 @@ public abstract class LocalFloraGenerator extends LocalAbstractGenerator {
         for (PlantPlacingTags waterTag : waterTags) {
             for (PlantPlacingTags lightTag : lighttags) {
                 for (PlantPlacingTags soilTag : soilTags) {
+                    TagLoggersEnum.GENERATION.logDebug("placing " + waterTag + " " + lightTag + " " + soilTag);
                     filterPlantsByTags(waterTag, lightTag, soilTag); // get all plants with two tags simultaneously
+                    TagLoggersEnum.GENERATION.logDebug("filtered plants: " + commonPlantSet.size());
                     if(commonPlantSet.isEmpty()) continue;
                     normalizeWeights(weightedPlantTypes); // make total weight equal 1
                     gatherTagPositions(waterTag, lightTag, soilTag);
+                    TagLoggersEnum.GENERATION.logDebug("appropriate positions: " + positions.size());
                     if(positions.isEmpty()) continue;
                     modifyCounts();
                     weightedPlantTypes.forEach(this::placePlants);
@@ -127,9 +130,9 @@ public abstract class LocalFloraGenerator extends LocalAbstractGenerator {
      * Filters out plants which cannot grow in given conditions.
      */
     private void filterPlantsByTags(PlantPlacingTags waterTag, PlantPlacingTags lightTag, PlantPlacingTags soilTag) {
-        commonPlantSet.stream().filter(type -> type.placingTagsSet.contains(waterTag)
-                && (type.placingTagsSet.contains(lightTag))
-                && type.placingTagsSet.contains(soilTag))
+        commonPlantSet.stream().filter(type -> type.placingTags.contains(waterTag)
+                && (type.placingTags.contains(lightTag))
+                && type.placingTags.contains(soilTag))
                 .forEach(type -> weightedPlantTypes.put(type.name, getSpreadModifier(type)));
     }
 
@@ -341,6 +344,8 @@ public abstract class LocalFloraGenerator extends LocalAbstractGenerator {
      * Gets soil placing tag from {@link PlantMap} and truncates it to material tag.
      */
     private String getBlockMateriaTag(PlantType type) {
-        return PlantMap.getInstance().resolveSoilType(type).substring(5); // skips tag prefix.
+        Set<PlantPlacingTags> soilTags = new HashSet<>(type.placingTags);
+        soilTags.retainAll(SOIL_GROUP);
+        return soilTags.iterator().next().VALUE.substring(5); // skips tag prefix.
     }
 }

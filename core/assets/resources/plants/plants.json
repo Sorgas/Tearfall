@@ -22,6 +22,7 @@
         crownRadius, height, rootDepth, rootRadius for trees
     lifeStages:
         stages with length, products, material and sprite.
+    default values are set in PlantMap
 */
 [
     {

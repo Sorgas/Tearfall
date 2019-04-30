@@ -1,35 +1,40 @@
 package stonering.enums.plants;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import stonering.util.global.FileLoader;
+import stonering.util.global.TagLoggersEnum;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
+import java.util.*;
 
 /**
- *
+ * Load all {@link PlantType}s from jsons, and inits them.
  */
 public class PlantMap {
     private static PlantMap instance;
-    private HashMap<String, PlantType> types;
-    private HashMap<String, PlantType> domesticTypes;
+    private Map<String, PlantType> plantTypes;
+    private Map<String, PlantType> treeTypes;
+    private Map<String, PlantType> substrateTypes;
+    private Map<String, PlantType> domesticTypes;
     private Json json;
 
+    public static void main(String[] args) {
+        TagLoggersEnum.enableAll();
+        getInstance();
+    }
+
     private PlantMap() {
-        types = new HashMap<>();
-        domesticTypes = new HashMap<>();
+        plantTypes = new HashMap<>();
+        treeTypes = new HashMap<>();
+        substrateTypes = new HashMap<>();
         json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
-        json.addClassTag("color_c", Color.class);
-        json.addClassTag("stage_c", PlantType.PlantLifeStage.class);
-        System.out.println("loading plant types");
+        TagLoggersEnum.LOADING.log("plant types");
         //TODO add json validation
-        loadPlantTypes();
-        loadTreeTypes();
-        initTypes();
+        loadTypesFileToMap(FileLoader.PLANTS_PATH, plantTypes);
+        loadTypesFileToMap(FileLoader.TREES_PATH, treeTypes);
+        loadTypesFileToMap(FileLoader.SUBSTRATES_PATH, substrateTypes);
+        fillDomesticTypes();
     }
 
     public static PlantMap getInstance() {
@@ -38,51 +43,34 @@ public class PlantMap {
         return instance;
     }
 
-    private void loadPlantTypes() {
-        ArrayList<PlantType> elements = json.fromJson(ArrayList.class, PlantType.class, FileLoader.getFile(FileLoader.PLANTS_PATH));
-        for (PlantType plantType : elements) {
-            types.put(plantType.name, plantType);
-            if(plantType.plantingStart != null) domesticTypes.put(plantType.name, plantType);
-        }
-    }
-
-    private void loadTreeTypes() {
-        ArrayList<PlantType> elements = json.fromJson(ArrayList.class, PlantType.class, FileLoader.getFile(FileLoader.TREES_PATH));
-        for (PlantType plantType : elements) {
-            types.put(plantType.name, plantType);
-        }
-    }
-
-    private void loadSubstrateTypes() {
-        ArrayList<PlantType> elements = json.fromJson(ArrayList.class, PlantType.class, FileLoader.getFile(FileLoader.SUBSTRATES_PATH));
-        for (PlantType plantType : elements) {
-            types.put(plantType.name, plantType);
-        }
-    }
-
     /**
-     * Returns soil type tag from type, or default tag, if none available.
+     * Loads {@link PlantType} from given file into given file.
      */
-    public String resolveSoilType(PlantType type) {
-        for (String placingTag : type.placingTags) {
-            if(placingTag.startsWith("soil_")) return placingTag;
+    private void loadTypesFileToMap(String filePath, Map<String, PlantType> map) {
+        List<RawPlantType> elements = json.fromJson(ArrayList.class, RawPlantType.class, FileLoader.getFile(filePath));
+        PlantTypeProcessor processor = new PlantTypeProcessor();
+        for (RawPlantType rawType : elements) {
+            PlantType type = processor.processRawType(rawType);
+            map.put(rawType.name, type);
         }
-        return "soil_soil";
+        TagLoggersEnum.LOADING.logDebug(map.keySet().size() + " loaded from " + filePath);
     }
 
-    /**
-     * Does post-loading calculations.
-     */
-    private void initTypes() {
-        types.values().forEach(PlantType::init);
+    private void fillDomesticTypes() {
+        domesticTypes = new HashMap<>();
+        plantTypes.values().stream().filter(type -> type.isPlant()).forEach(type -> domesticTypes.put(type.name, type));
     }
 
     public PlantType getPlantType(String specimen) {
-        return types.get(specimen);
+        return plantTypes.get(specimen);
     }
 
-    public Collection<PlantType> getAllTypes() {
-        return types.values();
+    public PlantType getTreeType(String specimen) {
+        return treeTypes.get(specimen);
+    }
+
+    public PlantType getSubstrateType(String specimen) {
+        return treeTypes.get(specimen);
     }
 
     public Collection<PlantType> getDomesticTypes() {

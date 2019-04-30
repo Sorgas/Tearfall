@@ -26,6 +26,9 @@ public enum PlantPlacingTags {
     SOIL_WOOD("soil_wood", new FreeFloorValidator());  //TODO implement vaidators
 
     private static Map<String, PlantPlacingTags> tagMap;
+    public static final List<PlantPlacingTags> WATER_GROUP = Arrays.asList(WATER_FAR, WATER_NEAR, WATER_UNDER);
+    public static final List<PlantPlacingTags> LIGHT_GROUP = Arrays.asList(LIGHT_LOW, LIGHT_HIGH, LIGHT_UNDERGROUND, LIGHT_OPEN);
+    public static final List<PlantPlacingTags> SOIL_GROUP = Arrays.asList(SOIL_SOIL, SOIL_STONE, SOIL_WOOD);
 
     public final String VALUE;
     public final PositionValidator VALIDATOR;
