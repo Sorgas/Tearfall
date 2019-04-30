@@ -9,6 +9,7 @@ import stonering.entity.local.plants.PlantBlock;
 import stonering.entity.local.unit.aspects.equipment.EquipmentAspect;
 import stonering.game.GameMvc;
 import stonering.game.model.lists.ItemContainer;
+import stonering.game.model.lists.PlantContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.generators.items.PlantProductGenerator;
 import stonering.util.geometry.Position;
@@ -29,7 +30,7 @@ public class PlantHarvestAction extends Action {
         if (aspect == null) return false;
         AbstractPlant abstractPlant = ((PlantActionTarget) actionTarget).getPlant();
         Position position = actionTarget.getPosition();
-        PlantBlock block = GameMvc.instance().getModel().get(LocalMap.class).getPlantBlock(position);
+        PlantBlock block = GameMvc.instance().getModel().get(PlantContainer.class).getPlantBlocks().get(position);
         if (block == null || block.getPlant() != abstractPlant) return false;
         return toolItemSelector.check(aspect.getEquippedItems()) || addActionToTask();
     }
@@ -46,7 +47,7 @@ public class PlantHarvestAction extends Action {
     public void performLogic() {
         System.out.println("harvesting plant");
         Position position = actionTarget.getPosition();
-        PlantBlock block = GameMvc.instance().getModel().get(LocalMap.class).getPlantBlock(position);
+        PlantBlock block = GameMvc.instance().getModel().get(PlantContainer.class).getPlantBlocks().get(position);
         List<Item> items = new PlantProductGenerator().generateHarvestProduct(block);
         items.forEach(item -> GameMvc.instance().getModel().get(ItemContainer.class).putItem(item, position));
     }

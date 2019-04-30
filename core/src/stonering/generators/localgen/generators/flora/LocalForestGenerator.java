@@ -24,9 +24,19 @@ public class LocalForestGenerator extends LocalFloraGenerator {
         normalizeWeights(weightedTreeTypes);
     }
 
+    @Override
+    protected void filterPlantsByType() {
+
+    }
+
+    @Override
+    protected void placePlants(String specimen, float amount) {
+
+    }
+
     private void filterTrees() {
         PlantMap.getInstance().getAllTypes().stream().filter(type -> type.isTree()).forEach(type -> {
-            weightedTreeTypes.put(type.name, getSpreadModifier(type.name));
+            weightedTreeTypes.put(type.name, getSpreadModifier(type));
         });
     }
 }

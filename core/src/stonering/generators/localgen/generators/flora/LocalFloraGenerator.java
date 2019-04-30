@@ -54,12 +54,13 @@ public abstract class LocalFloraGenerator extends LocalAbstractGenerator {
 
     private PlantPlacingTags[] waterTags = {WATER_FAR, WATER_NEAR, WATER_UNDER};
     private PlantPlacingTags[] lighttags = {LIGHT_HIGH, LIGHT_LOW, LIGHT_UNDERGROUND};
+    private PlantPlacingTags[] soilTags = {SOIL_SOIL, SOIL_STONE, SOIL_WOOD};
 
     protected Set<PlantType> commonPlantSet;
     protected Map<String, Float> weightedPlantTypes;
     private Set<Byte> substrateBlockTypes;
     protected Set<Position> allPositions;
-    protected Set<Position> positions;
+    protected List<Position> positions;
 
     private Position cachePosition;
 
@@ -75,7 +76,7 @@ public abstract class LocalFloraGenerator extends LocalAbstractGenerator {
         substrateBlockTypes = new HashSet<>(Arrays.asList(FLOOR.CODE, RAMP.CODE));
         commonPlantSet = new HashSet<>();
         allPositions = new HashSet<>();
-        positions = new HashSet<>();
+        positions = new ArrayList<>();
 
         countTemperature();
         filterPlantsByType();
@@ -83,11 +84,15 @@ public abstract class LocalFloraGenerator extends LocalAbstractGenerator {
         gatherPositions();
         for (PlantPlacingTags waterTag : waterTags) {
             for (PlantPlacingTags lightTag : lighttags) {
-                filterPlantsByTags(waterTag, lightTag); // get all plants with two tags simultaneously
-                normalizeWeights(weightedPlantTypes); // make total weight equal 1
-                gatherTagPositions(waterTag, lightTag);
-                modifyCounts();
-                weightedPlantTypes.forEach(this::placePlants);
+                for (PlantPlacingTags soilTag : soilTags) {
+                    filterPlantsByTags(waterTag, lightTag, soilTag); // get all plants with two tags simultaneously
+                    if(commonPlantSet.isEmpty()) continue;
+                    normalizeWeights(weightedPlantTypes); // make total weight equal 1
+                    gatherTagPositions(waterTag, lightTag, soilTag);
+                    if(positions.isEmpty()) continue;
+                    modifyCounts();
+                    weightedPlantTypes.forEach(this::placePlants);
+                }
             }
         }
     }
@@ -96,10 +101,13 @@ public abstract class LocalFloraGenerator extends LocalAbstractGenerator {
      * Collects all tiles that can have plants (floors).
      */
     private void gatherPositions() {
+        Position cachePosition = new Position();
         for (int x = 0; x < localMap.xSize; x++) {
             for (int y = 0; y < localMap.ySize; y++) {
                 for (int z = 0; z < localMap.zSize; z++) {
-                    if (localMap.getBlockType(x, y, z) == FLOOR.CODE) allPositions.add(new Position(x, y, z));
+                    if(container.plantBlocks.containsKey(cachePosition.set(x,y,z))) continue;
+                    if (localMap.getBlockType(x, y, z) != FLOOR.CODE) continue;
+                    allPositions.add(new Position(x, y, z));
                 }
             }
         }
@@ -108,17 +116,20 @@ public abstract class LocalFloraGenerator extends LocalAbstractGenerator {
     /**
      * Collects all positions validates by both tags.
      */
-    private void gatherTagPositions(PlantPlacingTags waterTag, PlantPlacingTags lightTag) {
+    private void gatherTagPositions(PlantPlacingTags waterTag, PlantPlacingTags lightTag, PlantPlacingTags soilTag) {
         positions.clear();
         positions.addAll(allPositions.stream().filter(position -> waterTag.VALIDATOR.validate(localMap, position)
-                && lightTag.VALIDATOR.validate(localMap, position)).collect(Collectors.toList()));
+                && lightTag.VALIDATOR.validate(localMap, position)
+                && soilTag.VALIDATOR.validate(localMap, position)).collect(Collectors.toList()));
     }
 
     /**
      * Filters out plants which cannot grow in given conditions.
      */
-    private void filterPlantsByTags(PlantPlacingTags waterTag, PlantPlacingTags lightTag) {
-        commonPlantSet.stream().filter(type -> type.placingTags.contains(waterTag) && (type.placingTags.contains(lightTag)))
+    private void filterPlantsByTags(PlantPlacingTags waterTag, PlantPlacingTags lightTag, PlantPlacingTags soilTag) {
+        commonPlantSet.stream().filter(type -> type.placingTagsSet.contains(waterTag)
+                && (type.placingTagsSet.contains(lightTag))
+                && type.placingTagsSet.contains(soilTag))
                 .forEach(type -> weightedPlantTypes.put(type.name, getSpreadModifier(type)));
     }
 
@@ -245,27 +256,6 @@ public abstract class LocalFloraGenerator extends LocalAbstractGenerator {
         container.plants.add(tree);
     }
 
-    /**
-     * Generates and places plants in {@link LocalGenContainer}
-     */
-    private void placePlants2(String specimen, float relativeAmount) {
-        PlantGenerator plantGenerator = new PlantGenerator();
-        Pair<boolean[][][], ArrayList<Position>> pair = findAllAvailablePlantPositions(specimen);
-        ArrayList<Position> positions = pair.getValue();
-        boolean[][][] array = pair.getKey();
-        Random random = new Random();
-        for (int number = (int) (positions.size() * relativeAmount / 2); number > 0; number--) {
-            try {
-                Position position = positions.remove(random.nextInt(positions.size()));
-                array[position.getX()][position.getY()][position.getZ()] = false;
-                Plant plant = plantGenerator.generatePlant(specimen, 0);
-                plant.setPosition(position);
-                container.plants.add(plant);
-            } catch (DescriptionNotFoundException e) {
-                System.out.println("material for plant " + specimen + " not found");
-            }
-        }
-    }
 
     /**
      * Places substrate plants into separate list in {@link LocalGenContainer}.
@@ -289,31 +279,6 @@ public abstract class LocalFloraGenerator extends LocalAbstractGenerator {
         }
     }
 
-    /**
-     * Collects all positions suitable for specific plant. Used only for single tile plants.
-     */
-    private Pair<boolean[][][], ArrayList<Position>> findAllAvailablePlantPositions(String specimen) {
-        //TODO should count plant requirements for light level, water source, soil type
-        ArrayList<Position> positions = new ArrayList<>();
-        boolean[][][] array = new boolean[localMap.xSize][localMap.ySize][localMap.zSize];
-        PlantType type = PlantMap.getInstance().getPlantType(specimen);
-        String soilType = getBlockMateriaTag(type);
-        for (int x = 0; x < localMap.xSize; x++) {
-            for (int y = 0; y < localMap.ySize; y++) {
-                for (int z = 0; z < localMap.zSize; z++) {
-                    // surface material should be suitable for plant
-                    if (localMap.getBlockType(x, y, z) != FLOOR.CODE) continue;
-                    if (container.plantBlocks.containsKey(cachePosition.set(x, y, z))) continue;
-                    Material material = MaterialMap.getInstance().getMaterial(localMap.getMaterial(x, y, z));
-                    if (material != null && material.getTags().contains(soilType)) {
-                        positions.add(new Position(x, y, z));
-                        array[x][y][z] = true;
-                    }
-                }
-            }
-        }
-        return new Pair<>(array, positions);
-    }
 
     /**
      * Collects all positions suitable for specific plant. Used only for single tile plants.

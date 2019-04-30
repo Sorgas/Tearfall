@@ -7,4 +7,14 @@ public class LocalSubstrategenerator extends LocalFloraGenerator {
     public LocalSubstrategenerator(LocalGenContainer container) {
         super(container);
     }
+
+    @Override
+    protected void filterPlantsByType() {
+
+    }
+
+    @Override
+    protected void placePlants(String specimen, float amount) {
+
+    }
 }

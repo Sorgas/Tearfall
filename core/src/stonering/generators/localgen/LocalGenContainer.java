@@ -11,6 +11,7 @@ import stonering.entity.local.plants.AbstractPlant;
 import stonering.entity.local.unit.Unit;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -56,5 +57,7 @@ public class LocalGenContainer {
         waterTiles = new ArrayList<>();
         waterSources = new ArrayList<>();
         monthlyTemperatures = new float[12];
+        plantBlocks = new HashMap<>();
+        substrateBlocks = new HashMap<>();
     }
 }

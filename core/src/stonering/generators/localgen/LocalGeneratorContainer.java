@@ -4,6 +4,7 @@ import stonering.entity.world.World;
 import stonering.game.model.local_map.LocalMap;
 import stonering.generators.localgen.generators.*;
 import stonering.generators.localgen.generators.flora.LocalFloraGenerator;
+import stonering.generators.localgen.generators.flora.LocalPlantsGenerator;
 
 /**
  * Executes local generators in correct order.
@@ -18,7 +19,7 @@ public class LocalGeneratorContainer {
     private LocalRiverGenerator localRiverGenerator;
     private LocalCaveGenerator localCaveGenerator;
     private LocalRampAndFloorPlacer localRampAndFloorPlacer;
-    private LocalFloraGenerator localFloraGenerator;
+    private LocalPlantsGenerator localPlantsGenerator;
     private LocalFaunaGenerator localFaunaGenerator;
     private LocalBuildingGenerator localBuildingGenerator;
     private LocalItemsGenerator localItemsGenerator;
@@ -43,7 +44,7 @@ public class LocalGeneratorContainer {
         localFaunaGenerator = new LocalFaunaGenerator(localGenContainer);
         localBuildingGenerator = new LocalBuildingGenerator(localGenContainer);
         localItemsGenerator = new LocalItemsGenerator(localGenContainer);
-        localFloraGenerator = new LocalFloraGenerator(localGenContainer);
+        localPlantsGenerator = new LocalPlantsGenerator(localGenContainer);
         localSurfaceWaterPoolsGenerator = new LocalSurfaceWaterPoolsGenerator(localGenContainer);
         localRiverGenerator = new LocalRiverGenerator(localGenContainer);
     }
@@ -58,7 +59,7 @@ public class LocalGeneratorContainer {
         localRampAndFloorPlacer.execute(); // places floors and ramps upon all top blocks
 
         localTemperatureGenerator.execute(); // generates year temperature cycle
-        localFloraGenerator.execute(); // places trees and plants
+        localPlantsGenerator.execute(); // places trees and plants
         localFaunaGenerator.execute(); // places animals
         localBuildingGenerator.execute();
         localItemsGenerator.execute(); // places items

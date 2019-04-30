@@ -14,6 +14,10 @@ public class Position implements Serializable, Cloneable {
     public int y;
     public int z;
 
+    public Position() {
+        this(0,0,0);
+    }
+
     public Position(int x, int y, int z) {
         set(x,y,z);
     }
