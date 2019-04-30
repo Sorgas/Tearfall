@@ -337,7 +337,7 @@ public abstract class LocalFloraGenerator extends LocalAbstractGenerator {
      * Specimen will be spreaded more widely, if its grom range is closer to year middle temperature.
      */
     protected float getSpreadModifier(PlantType type) {
-        return Math.abs(((type.temperatureBounds[2] + type.temperatureBounds[3]) / 2f) - midTemp) / (maxTemp - midTemp);
+        return Math.abs(((type.temperatureBounds[0] + type.temperatureBounds[1]) / 2f) - midTemp) / (maxTemp - midTemp);
     }
 
     /**

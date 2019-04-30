@@ -4,7 +4,9 @@ import stonering.entity.world.World;
 import stonering.game.model.local_map.LocalMap;
 import stonering.generators.localgen.generators.*;
 import stonering.generators.localgen.generators.flora.LocalFloraGenerator;
+import stonering.generators.localgen.generators.flora.LocalForestGenerator;
 import stonering.generators.localgen.generators.flora.LocalPlantsGenerator;
+import stonering.generators.localgen.generators.flora.LocalSubstrategenerator;
 
 /**
  * Executes local generators in correct order.
@@ -20,6 +22,8 @@ public class LocalGeneratorContainer {
     private LocalCaveGenerator localCaveGenerator;
     private LocalRampAndFloorPlacer localRampAndFloorPlacer;
     private LocalPlantsGenerator localPlantsGenerator;
+    private LocalForestGenerator localForestGenerator;
+    private LocalSubstrategenerator localSubstrategenerator;
     private LocalFaunaGenerator localFaunaGenerator;
     private LocalBuildingGenerator localBuildingGenerator;
     private LocalItemsGenerator localItemsGenerator;
@@ -45,6 +49,8 @@ public class LocalGeneratorContainer {
         localBuildingGenerator = new LocalBuildingGenerator(localGenContainer);
         localItemsGenerator = new LocalItemsGenerator(localGenContainer);
         localPlantsGenerator = new LocalPlantsGenerator(localGenContainer);
+        localForestGenerator = new LocalForestGenerator(localGenContainer);
+        localSubstrategenerator = new LocalSubstrategenerator(localGenContainer);
         localSurfaceWaterPoolsGenerator = new LocalSurfaceWaterPoolsGenerator(localGenContainer);
         localRiverGenerator = new LocalRiverGenerator(localGenContainer);
     }
@@ -59,7 +65,9 @@ public class LocalGeneratorContainer {
         localRampAndFloorPlacer.execute(); // places floors and ramps upon all top blocks
 
         localTemperatureGenerator.execute(); // generates year temperature cycle
-        localPlantsGenerator.execute(); // places trees and plants
+        localPlantsGenerator.execute(); // places plants
+//        localForestGenerator.execute(); // places trees
+//        localSubstrategenerator.execute(); // places substrates
         localFaunaGenerator.execute(); // places animals
         localBuildingGenerator.execute();
         localItemsGenerator.execute(); // places items

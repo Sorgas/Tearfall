@@ -18,11 +18,6 @@ public class PlantMap {
     private Map<String, PlantType> domesticTypes;
     private Json json;
 
-    public static void main(String[] args) {
-        TagLoggersEnum.enableAll();
-        getInstance();
-    }
-
     private PlantMap() {
         plantTypes = new HashMap<>();
         treeTypes = new HashMap<>();
@@ -75,5 +70,17 @@ public class PlantMap {
 
     public Collection<PlantType> getDomesticTypes() {
         return domesticTypes.values();
+    }
+
+    public Map<String, PlantType> getPlantTypes() {
+        return plantTypes;
+    }
+
+    public Map<String, PlantType> getTreeTypes() {
+        return treeTypes;
+    }
+
+    public Map<String, PlantType> getSubstrateTypes() {
+        return substrateTypes;
     }
 }
