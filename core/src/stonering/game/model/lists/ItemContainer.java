@@ -71,10 +71,10 @@ public class ItemContainer extends Turnable implements ModelComponent, Initable 
         items.forEach(this::removeItem);
     }
 
-    public void addItem(Item item, Position position) {
+    public void addItem(Item item) {
         items.add(item);
         item.init();
-        putItem(item, position);
+        putItem(item, item.getPosition());
     }
 
     public void moveItem(Item item, Position position) {

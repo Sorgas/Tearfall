@@ -26,7 +26,7 @@ public class LocalRampAndFloorPlacer {
 
     public void execute() {
         System.out.println("placing ramps");
-        this.localMap = container.localMap;
+        this.localMap = container.model.get(LocalMap.class);
         fillRamps();
         fillFloors();
     }

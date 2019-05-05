@@ -1,14 +1,15 @@
 package stonering.game.model.lists;
 
-import stonering.game.GameMvc;
+import stonering.entity.local.building.BuildingBlock;
 import stonering.game.model.ModelComponent;
 import stonering.game.model.Turnable;
-import stonering.game.model.local_map.LocalMap;
 import stonering.generators.buildings.BuildingGenerator;
 import stonering.entity.local.building.Building;
+import stonering.util.geometry.Position;
 import stonering.util.global.Initable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -18,20 +19,20 @@ import java.util.List;
  */
 public class BuildingContainer extends Turnable implements ModelComponent, Initable {
     private List<Building> buildings;
-    private LocalMap localMap;
     private BuildingGenerator buildingGenerator;
+    private HashMap<Position, BuildingBlock> buildingBlocks;
 
     public BuildingContainer() {
         this(new ArrayList<>());
     }
 
     public BuildingContainer(List<Building> buildings) {
+        buildingBlocks = new HashMap<>();
         buildingGenerator = new BuildingGenerator();
         this.buildings = buildings;
     }
 
     public void init() {
-        localMap = GameMvc.instance().getModel().get(LocalMap.class);
         buildingGenerator.init();
         buildings.forEach(this::placeBuilding);
     }
@@ -41,7 +42,7 @@ public class BuildingContainer extends Turnable implements ModelComponent, Inita
      */
     private void placeBuilding(Building building) {
         building.init();
-        localMap.setBuildingBlock(building.getPosition(), building.getBlock());
+        buildingBlocks.put(building.getBlock().getPosition(), building.getBlock());
     }
 
     public List<Building> getBuildings() {
@@ -64,5 +65,14 @@ public class BuildingContainer extends Turnable implements ModelComponent, Inita
 
     public BuildingGenerator getBuildingGenerator() {
         return buildingGenerator;
+    }
+
+    public HashMap<Position, BuildingBlock> getBuildingBlocks() {
+        return buildingBlocks;
+    }
+
+    public boolean isBlockPassable(Position position) {
+        //TODO add passage enum
+        return !buildingBlocks.containsKey(position) || buildingBlocks.get(position).getPassage().equals("floor");
     }
 }

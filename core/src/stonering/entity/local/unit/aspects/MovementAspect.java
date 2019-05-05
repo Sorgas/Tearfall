@@ -49,8 +49,7 @@ public class MovementAspect extends Aspect {
             if (cachedPath != null && !cachedPath.isEmpty()) {// path not finished
                 Position nextPosition = cachedPath.remove(0); // get next step, remove from path
                 if (localMap.isWalkPassable(nextPosition)) { // path has not been blocked after calculation
-                    gameMvc.getModel().get(UnitContainer.class).updateUnitPosiiton((Unit) aspectHolder, nextPosition);
-                    aspectHolder.setPosition(nextPosition); //step
+                    gameMvc.getModel().get(UnitContainer.class).updateUnitPosiiton((Unit) aspectHolder, nextPosition); //step
                 } else { // path blocked
                     TagLoggersEnum.PATH.log("path to " + cachedTarget + " was blocked in " + nextPosition);
                     cachedTarget = null; // drop path

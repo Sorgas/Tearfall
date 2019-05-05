@@ -39,7 +39,7 @@ public class LocalStoneLayersGenerator {
 
     public void execute() {
         System.out.println("generating stone layers");
-        map = this.container.localMap;
+        map = this.container.model.get(LocalMap.class);
         heigtsMap = this.container.roundedHeightsMap;
         surfaceLevel = container.localElevation;
         layerIds = new int[surfaceLevel];

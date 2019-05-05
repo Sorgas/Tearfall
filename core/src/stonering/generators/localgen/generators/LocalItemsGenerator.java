@@ -1,5 +1,6 @@
 package stonering.generators.localgen.generators;
 
+import stonering.game.model.lists.ItemContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.generators.items.ItemGenerator;
 import stonering.generators.localgen.LocalGenConfig;
@@ -14,6 +15,7 @@ public class LocalItemsGenerator {
     private LocalGenContainer container;
     private LocalGenConfig config;
     private ItemGenerator itemGenerator;
+    private LocalMap localMap;
 
     public LocalItemsGenerator(LocalGenContainer container) {
         this.container = container;
@@ -22,6 +24,7 @@ public class LocalItemsGenerator {
     }
 
     public void execute() {
+        localMap = container.model.get(LocalMap.class);
         createItemInCenter("axe", "iron", 0, 0);
         createItemInCenter("pickaxe", "iron", 0, -1);
         createItemInCenter("hoe", "iron", 0, -2);
@@ -38,16 +41,15 @@ public class LocalItemsGenerator {
     }
 
     private void createItemInCenter(String itemType, String material, int xOffset, int yOffset) {
-            LocalMap localMap = container.localMap;
+            LocalMap localMap = container.model.get(LocalMap.class);
             Item item = itemGenerator.generateItem(itemType, material);
             Position position = new Position(localMap.xSize / 2 + xOffset, localMap.ySize / 2 + yOffset, 0);
             position.z = findSurfaceZ(position.x, position.y);
             item.setPosition(position);
-            container.items.add(item);
+            container.model.get(ItemContainer.class).addItem(item);
     }
 
     private int findSurfaceZ(int x, int y) {
-        LocalMap localMap = container.localMap;
         for (int z = localMap.zSize - 1; z >= 0; z--) {
             if (localMap.getBlockType(x, y, z) != 0) {
                 return z;

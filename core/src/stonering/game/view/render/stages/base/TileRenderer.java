@@ -74,7 +74,7 @@ public class TileRenderer extends Renderer {
         PlantBlock block = GameMvc.instance().getModel().get(PlantContainer.class).getPlantBlocks().get(cachePosition);
         if (block != null)
             drawingUtil.drawSprite(drawingUtil.selectSprite(1, block.getAtlasXY()[0], block.getAtlasXY()[1]), x, y, z, selector.getPosition());
-        BuildingBlock buildingBlock = localMap.getBuildingBlock(x, y, z);
+        BuildingBlock buildingBlock = GameMvc.instance().getModel().get(BuildingContainer.class).getBuildingBlocks().get(cachePosition);
         if (buildingBlock != null)
             drawingUtil.drawSprite(drawingUtil.selectSprite(3, 0, 0), x, y, z, selector.getPosition());
         unitContainer.getUnitsInPosition(x, y, z).forEach(unit -> {

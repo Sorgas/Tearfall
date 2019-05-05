@@ -1,5 +1,6 @@
 package stonering.generators.localgen.generators;
 
+import stonering.entity.world.World;
 import stonering.generators.PerlinNoiseGenerator;
 import stonering.generators.localgen.LocalGenConfig;
 import stonering.generators.localgen.LocalGenContainer;
@@ -10,6 +11,7 @@ import java.util.Random;
 
 /**
  * Generates 2d array of elevation values.
+ * Uses only world map.
  *
  * @author Alexander Kuzyakov on 21.08.2017.
  */
@@ -22,7 +24,7 @@ public class LocalHeightsGenerator {
 
     public LocalHeightsGenerator(LocalGenContainer container) {
         this.container = container;
-        this.worldMap = container.world.getWorldMap();
+        this.worldMap = container.model.get(World.class).getWorldMap();
         config = container.config;
         localAreaSize = config.getAreaSize();
     }

@@ -21,32 +21,37 @@ public class UnitContainer extends Turnable implements ModelComponent, Initable 
     private Position positionCache; // used for faster getting units from map
 
     public UnitContainer() {
-        this(new ArrayList<>());
+        positionCache = new Position();
+        unitsMap = new HashMap<>();
+        units = new ArrayList<>();
     }
 
     /**
-     * Fills container from given collection.
+     * Add unit to container. Unit's position should be set.
      */
-    public UnitContainer(List<Unit> units) {
-        positionCache = new Position(0, 0, 0);
-        unitsMap = new HashMap<>();
-        this.units = new ArrayList<>(units);
-        for (Unit unit : this.units) {
-            putUnitToPosition(unit, unit.getPosition());
-        }
-    }
-
-    private void putUnitToPosition(Unit unit, Position position) {
-        List<Unit> unitList = this.unitsMap.get(unit.getPosition());
+    public void addUnit(Unit unit) {
+        Position position = unit.getPosition();
+        List<Unit> unitList = unitsMap.get(position);
         if (unitList == null) unitsMap.put(position, new ArrayList<>());
         unitsMap.get(position).add(unit);
-        unit.setPosition(position);
     }
 
+    /**
+     * Removes Unit from container. Unit's position should be valid.
+     */
     private void removeUnit(Unit unit) {
         List<Unit> unitsInOldPosition = unitsMap.get(unit.getPosition());
         unitsInOldPosition.remove(unit);
         if (unitsInOldPosition.isEmpty()) unitsMap.remove(unit.getPosition());
+    }
+
+    /**
+     * Moves unit to new position.
+     */
+    public void updateUnitPosiiton(Unit unit, Position position) {
+        removeUnit(unit);
+        unit.setPosition(position);
+        addUnit(unit);
     }
 
     /**
@@ -74,10 +79,5 @@ public class UnitContainer extends Turnable implements ModelComponent, Initable 
     @Override
     public void init() {
         units.forEach(Unit::init);
-    }
-
-    public void updateUnitPosiiton(Unit unit, Position newPosition) {
-        removeUnit(unit);
-        putUnitToPosition(unit, newPosition);
     }
 }

@@ -1,5 +1,6 @@
 package stonering.game.model.local_map;
 
+import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.model.util.UtilByteArray;
 import stonering.util.geometry.Position;
 import stonering.util.global.TagLoggersEnum;
@@ -218,5 +219,13 @@ public class PassageMap {
 
     public byte getPassage(int x, int y, int z) {
         return passage.getValue(x,y,z);
+    }
+
+    public boolean hasPathBetween(int x1, int y1, int z1, int x2, int y2, int z2) {
+        boolean passable1 = passage.getValue(x1, y1, z1) == 1;
+        boolean passable2 = passage.getValue(x2, y2, z2) == 1;
+        boolean sameLevel = z1 == z2;
+        boolean lowRamp = BlockTypesEnum.getType(z1 < z2 ? localMap.getBlockType(x1, y1, z1) : localMap.getBlockType(x2, y2, z2)) == BlockTypesEnum.RAMP; // can descend on ramps
+        return (passable1 && passable2 && (sameLevel || lowRamp));
     }
 }

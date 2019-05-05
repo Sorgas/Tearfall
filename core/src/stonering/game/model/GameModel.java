@@ -2,10 +2,11 @@ package stonering.game.model;
 
 import com.badlogic.gdx.utils.Timer;
 import stonering.util.global.Initable;
+import stonering.util.global.LastInitable;
 import stonering.util.global.TagLoggersEnum;
 
 import java.io.Serializable;
-import java.util.HashMap;
+import java.util.TreeMap;
 
 /**
  * Generic gameModel. Can store single objects of each class implementing interface {@link Initable}.
@@ -14,12 +15,16 @@ import java.util.HashMap;
  * @author Alexander on 04.02.2019.
  */
 public abstract class GameModel implements Initable, Serializable {
-    private HashMap<Class, ModelComponent> components;
+    private TreeMap<Class, ModelComponent> components;
     private Timer timer;                 //makes turns for entity containers and calendar.
     private boolean paused;
 
     public GameModel() {
-        components = new HashMap<>();
+        components = new TreeMap<>((o1, o2) -> {
+            if(o1.equals(o2)) return 0;
+            if(o2.isAssignableFrom(LastInitable.class)) return 1;
+            return o1.getName().compareTo(o2.getName());
+        });
     }
 
     public <T extends ModelComponent> T get(Class<T> type) {
@@ -35,11 +40,9 @@ public abstract class GameModel implements Initable, Serializable {
      */
     @Override
     public void init() {
-        components.keySet().forEach(aClass -> {
-            if (Initable.class.isAssignableFrom(aClass)) {
-                ((Initable) components.get(aClass)).init();
-
-            }
+        components.values().forEach(component ->
+        {
+            if (component instanceof Initable) ((Initable) component).init();
         });
         timer = new Timer();
         paused = false;

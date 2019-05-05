@@ -23,24 +23,27 @@ public class PlantProductGenerator {
         itemGenerator = new ItemGenerator();
     }
 
+    /**
+     * On cutting, both cut and harvest products are dropped.
+     */
     public ArrayList<Item> generateCutProduct(PlantBlock block) {
         AbstractPlant plant = block.getPlant();
         ArrayList<Item> items = new ArrayList<>();
+        ArrayList<String> products = new ArrayList<>();
+        Position position = block.getPosition();
         if (plant instanceof Plant) {
-            ArrayList<String> products = new ArrayList<>();
-            Position plantPosition = block.getPosition();
             products.addAll(block.getCutProducts());
-            products.addAll(block.getHarvestProducts());
-            products.forEach((product) -> createItem(product, plant.getType().materialName));
         } else if (plant instanceof Tree) {
-            ArrayList<String> products = new ArrayList<>();
             Item cutItem = generateCutProductForTreePart(block);
             if (cutItem != null) {
                 items.add(cutItem);
             }
-            products.addAll(block.getHarvestProducts());
-            products.forEach((product) -> items.add(createItem(product, plant.getType().materialName)));
         }
+        products.addAll(block.getHarvestProducts());
+        products.forEach((product) -> {
+
+            items.add(createItem(product, plant.getType().materialName, position));
+        });
         return items;
     }
 
@@ -57,44 +60,22 @@ public class PlantProductGenerator {
         return items;
     }
 
-    private Item createItem(String name, String material) {
-//        try {
-        return itemGenerator.generateItem(name, material);
-//        } catch (FaultDescriptionException e) {
-//            e.printStackTrace();
-//        }
+    private Item createItem(String name, String material, Position position) {
+        Item item = itemGenerator.generateItem(name, material);
+        item.setPosition(position);
+        return item;
     }
 
     /**
      * Generates tree specific items for blocks.
+     * Block product is determined by its type, and permitted products of whole tree (logs from trunk).
      * //TODO add tree age in account;
-     *
-     * @param block block of tree.
-     * @return item or null;
      */
     private Item generateCutProductForTreePart(PlantBlock block) {
-//        try {
-        String itemTitle = "";
-        switch (PlantBlocksTypeEnum.getType(block.getBlockType())) {
-            case TRUNK:
-            case STOMP: {
-                itemTitle = "log";
-                break;
-            }
-            case BRANCH: {
-                itemTitle = "branch";
-                break;
-            }
-            case ROOT: {
-                itemTitle = "root";
-            }
-        }
-        AbstractPlant plant = block.getPlant();
-        if (plant.getCurrentStage().cutProducts.contains(itemTitle))
+        String itemTitle = PlantBlocksTypeEnum.getType(block.getBlockType()).cutProduct;
+        if(itemTitle == null) return null;
+        if (block.getPlant().getCurrentStage().cutProducts.contains(itemTitle))
             return itemGenerator.generateItem(itemTitle, block.getMaterial());
-//        } catch (FaultDescriptionException e) {
-//            e.printStackTrace();
-//        }
         return null;
     }
 

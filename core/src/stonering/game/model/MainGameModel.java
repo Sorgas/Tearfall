@@ -5,6 +5,7 @@ import stonering.game.model.lists.*;
 import stonering.game.model.lists.tasks.TaskContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.view.tilemaps.LocalTileMap;
+import stonering.generators.localgen.LocalGenConfig;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.entity.local.environment.GameCalendar;
 
@@ -16,31 +17,32 @@ import stonering.entity.local.environment.GameCalendar;
  */
 public class MainGameModel extends GameModel {
 
+    public MainGameModel(LocalMap map) {
+        super();
+        put(map);
+    }
+
     @Override
     public void init() {
         super.init();
         get(GameCalendar.class).addListener(GameCalendar.MINUTE, get(World.class).getStarSystem());
         get(GameCalendar.class).addListener(GameCalendar.MINUTE, get(PlantContainer.class));
-        get(LocalMap.class).init();
+        get(LocalMap.class).init(); //TODO local map inits second time here
     }
 
     /**
-     * Loads data from Local generation to gameContainer. //TODO add same for saves
-     *
-     * @param container
+     * Creates model components.
      */
-    public void loadFromContainer(LocalGenContainer container) {
-        put(container.world);
-        put(container.localMap);
+    public void createComponents(World world) {
+        put(world);
         put(new LocalTileMap(get(LocalMap.class)));
-
-        put(new PlantContainer(container.plants));
-        put(new BuildingContainer(container.buildings));
-        put(new UnitContainer(container.units));
+        put(new PlantContainer());
+        put(new BuildingContainer());
+        put(new UnitContainer());
         put(new ZonesContainer());
-        put(new ItemContainer().placeItems(container.items));
+        put(new ItemContainer());
         put(new TaskContainer());
-        put(new LiquidContainer().loadWater(container));
+        put(new LiquidContainer());
         put(new GameCalendar());            // slow game entities make turns through this.
         put(new EntitySelector());          // local map camera
     }

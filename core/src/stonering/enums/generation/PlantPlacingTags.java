@@ -1,8 +1,6 @@
 package stonering.enums.generation;
 
-import stonering.util.validation.DistanceToWaterValidator;
-import stonering.util.validation.FreeFloorValidator;
-import stonering.util.validation.PositionValidator;
+import stonering.util.validation.*;
 
 import java.util.*;
 
@@ -15,15 +13,15 @@ import java.util.*;
 public enum PlantPlacingTags {
     WATER_NEAR("water_near", new DistanceToWaterValidator()),
     WATER_FAR("water_far", new DistanceToWaterValidator()),
-//    WATER_ON("water_on", new DistanceToWaterValidator()), //TODO blocked by stable water.
+//    WATER_ON("water_on", new DistanceToWaterValidator()),              //TODO blocked by stable water.
     WATER_UNDER("water_under", new DistanceToWaterValidator()),
-    LIGHT_UNDERGROUND("light_underground", new FreeFloorValidator()),  //TODO implement vaidators
-    LIGHT_LOW("light_low ", new FreeFloorValidator()),  //TODO implement vaidators
-    LIGHT_HIGH("light_high", new FreeFloorValidator()),  //TODO implement vaidators
-    LIGHT_OPEN("light_open", new FreeFloorValidator()),  // not used outside json ad this enum. //TODO implement vaidators
-    SOIL_SOIL("soil_soil", new FreeFloorValidator()),  //TODO implement vaidators
-    SOIL_STONE("soil_stone", new FreeFloorValidator()),  //TODO implement vaidators
-    SOIL_WOOD("soil_wood", new FreeFloorValidator());  //TODO implement vaidators
+    LIGHT_UNDERGROUND("light_underground", new EmptyValidator()),   //TODO implement vaidators
+    LIGHT_LOW("light_low ", new EmptyValidator()),                  //TODO implement vaidators
+    LIGHT_HIGH("light_high", new EmptyValidator()),                 //TODO implement vaidators
+    LIGHT_OPEN("light_open", new EmptyValidator()),                 // not used outside json ad this enum. //TODO implement vaidators
+    SOIL_SOIL("soil_soil", new FloorMaterialValidator("soil")),                   //TODO implement vaidators
+    SOIL_STONE("soil_stone", new FloorMaterialValidator("stone")),                 //TODO implement vaidators
+    SOIL_WOOD("soil_wood", new FloorMaterialValidator("wood"));                   //TODO implement vaidators
 
     private static Map<String, PlantPlacingTags> tagMap;
     public static final List<PlantPlacingTags> WATER_GROUP = Arrays.asList(WATER_FAR, WATER_NEAR, WATER_UNDER);

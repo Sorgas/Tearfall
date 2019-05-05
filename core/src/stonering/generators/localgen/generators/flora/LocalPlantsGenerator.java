@@ -4,6 +4,7 @@ import stonering.entity.local.plants.Plant;
 import stonering.enums.plants.PlantMap;
 import stonering.enums.plants.PlantType;
 import stonering.exceptions.DescriptionNotFoundException;
+import stonering.game.model.lists.PlantContainer;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.generators.plants.PlantGenerator;
 import stonering.util.geometry.Position;
@@ -36,7 +37,7 @@ public class LocalPlantsGenerator extends LocalFloraGenerator {
                 Position position = positions.remove(0);
                 Plant plant = plantGenerator.generatePlant(specimen, 0);
                 plant.setPosition(position);
-                container.plants.add(plant);
+                container.model.get(PlantContainer.class).place(plant);
             }
         } catch (DescriptionNotFoundException e) {
             System.out.println("material for plant " + specimen + " not found");

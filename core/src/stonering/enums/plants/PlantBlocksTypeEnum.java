@@ -8,16 +8,17 @@ import java.util.HashMap;
  * //TODO climbing on trees, walking on branches.
  */
 public enum PlantBlocksTypeEnum {
-    STOMP(10, false), //treestomp
-    ROOT(11, false),
-    TRUNK(12, false),
-    BRANCH(13, true),
-    CROWN(14, true),
-    SINGLE_PASSABLE(15, true),
-    SINGLE_NON_PASSABLE(16, false);
+    STOMP(10, false, "log"), //treestomp
+    ROOT(11, false, "root"),
+    TRUNK(12, false, "log"),
+    BRANCH(13, true, "branch"),
+    CROWN(14, true, null),
+    SINGLE_PASSABLE(15, true, null),
+    SINGLE_NON_PASSABLE(16, false, null);
 
-    private int code;
+    public final int code;
     public final boolean passable;
+    public final String cutProduct;
     private static HashMap<Integer, PlantBlocksTypeEnum> map;
 
     static {
@@ -27,9 +28,10 @@ public enum PlantBlocksTypeEnum {
         }
     }
 
-    PlantBlocksTypeEnum(int code, boolean passable) {
+    PlantBlocksTypeEnum(int code, boolean passable, String cutProduct) {
         this.code = (byte) code;
         this.passable = passable;
+        this.cutProduct = cutProduct;
     }
 
     public int getCode() {

@@ -2,6 +2,7 @@ package stonering.game.model.lists;
 
 import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Array;
 import stonering.entity.local.plants.*;
 import stonering.enums.OrientationEnum;
 import stonering.enums.blocks.BlockTypesEnum;
@@ -12,6 +13,7 @@ import stonering.game.model.local_map.LocalMap;
 import stonering.generators.items.PlantProductGenerator;
 import stonering.util.geometry.Position;
 import stonering.entity.local.items.Item;
+import stonering.util.global.CompatibleArray;
 import stonering.util.global.Initable;
 import stonering.util.global.TagLoggersEnum;
 
@@ -31,16 +33,20 @@ import java.util.List;
  * @author Alexander Kuzyakov on 09.11.2017.
  */
 public class PlantContainer extends IntervalTurnable implements Initable, ModelComponent {
-    private List<AbstractPlant> plants;
-    private List<SubstratePlant> substratePlants;
+    private Array<AbstractPlant> plants;
+    private Array<SubstratePlant> substratePlants;
     private HashMap<Position, PlantBlock> plantBlocks;
     private HashMap<Position, PlantBlock> substrateBlocks;
     private LocalMap localMap;
     private final int WALL_CODE = BlockTypesEnum.WALL.CODE;
 
+    public PlantContainer() {
+        this(Collections.EMPTY_LIST);
+    }
+
     public PlantContainer(List<AbstractPlant> plants) {
-        this.plants = plants;
-        substratePlants = new ArrayList<>();
+        this.plants = new CompatibleArray<>(plants);
+        substratePlants = new CompatibleArray<>();
         plantBlocks = new HashMap<>();
         substrateBlocks = new HashMap<>();
     }
@@ -64,7 +70,7 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
         if (plant instanceof Plant) placePlant((Plant) plant);
     }
 
-    /**
+    /**r
      * Places single-tile plant block into map to be rendered and accessed by other entities.
      * Block position should be set.
      */
@@ -105,14 +111,14 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
      * Deletes plant from map and container
      */
     public void removePlant(Plant plant) {
-        if (plants.remove(plant)) removeBlock(plant.getBlock());
+        if (plants.removeValue(plant, true)) removeBlock(plant.getBlock());
     }
 
     /**
      * Removes tree blocks, can leave blocks products.
      */
     public void removeTree(Tree tree, boolean leaveProduct) {
-        if (plants.remove(tree)) {
+        if (plants.removeValue(tree, true)) {
             int stompZ = tree.getCurrentStage().treeForm.get(2);
             PlantBlock[][][] treeParts = tree.getBlocks();
             for (int x = 0; x < treeParts.length; x++) {
@@ -134,7 +140,7 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
     private void leavePlantProduct(PlantBlock block) {
         ArrayList<Item> items = new PlantProductGenerator().generateCutProduct(block);
         ItemContainer itemContainer = GameMvc.instance().getModel().get(ItemContainer.class);
-        items.forEach((item) -> itemContainer.addItem(item, block.getPosition()));
+        items.forEach((item) -> itemContainer.addItem(item));
     }
 
     /**
@@ -145,7 +151,7 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
         AbstractPlant plant = block.getPlant();
         if (plant == null) return;
         if (plant instanceof Plant) {
-            if (plants.remove(plant)) removeBlock(block);
+            if (plants.removeValue(plant, true)) removeBlock(block);
         } else if (plant instanceof Tree) {
             removeBlockFromTree(block, (Tree) plant);
         }
@@ -224,7 +230,10 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
      * Puts block to blocks map by position from it.
      */
     private boolean placeBlock(PlantBlock block) {
-        if(plantBlocks.containsKey(block.getPosition())) return false; // tile is occupied
+        if(plantBlocks.containsKey(block.getPosition())) {
+//            TagLoggersEnum.PLANTS.logDebug(block.getPlant() + " is blocked by " + plantBlocks.get(block.getPosition()).getPlant());
+            return false; // tile is occupied
+        }
         plantBlocks.put(block.getPosition(), block);
         return true;
     }
@@ -241,14 +250,6 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
         }
     }
 
-    public List<AbstractPlant> getPlants() {
-        return plants;
-    }
-
-    public List<SubstratePlant> getSubstratePlants() {
-        return substratePlants;
-    }
-
     public HashMap<Position, PlantBlock> getPlantBlocks() {
         return plantBlocks;
     }
@@ -259,5 +260,9 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
     public AbstractPlant getPlantInPosition(Position position) {
         if(!plantBlocks.containsKey(position)) return null;
         return plantBlocks.get(position).getPlant();
+    }
+
+    public boolean isBlockPassable(Position position) {
+        return !plantBlocks.containsKey(position) || plantBlocks.get(position).getType().passable;
     }
 }

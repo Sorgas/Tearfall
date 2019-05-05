@@ -1,5 +1,6 @@
 package stonering.generators.localgen.generators;
 
+import stonering.game.model.lists.UnitContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.generators.creatures.CreatureGenerator;
 import stonering.generators.localgen.LocalGenConfig;
@@ -16,6 +17,7 @@ public class LocalFaunaGenerator {
     private LocalGenContainer container;
     private LocalGenConfig config;
     private CreatureGenerator creatureGenerator;
+    private LocalMap localMap;
 
     public LocalFaunaGenerator(LocalGenContainer container) {
         this.container = container;
@@ -24,21 +26,21 @@ public class LocalFaunaGenerator {
     }
 
     public void execute() {
+        localMap = container.model.get(LocalMap.class);
         Unit unit = creatureGenerator.generateUnit("human");
         if (unit != null) {
             unit.setPosition(selectPosition());
-            container.units.add(unit);
+            container.model.get(UnitContainer.class).addUnit(unit);
         }
     }
 
     private Position selectPosition() {
-        Position position = new Position(container.localMap.xSize / 2 - 15, container.localMap.ySize / 2 , 0);
+        Position position = new Position(localMap.xSize / 2 - 15, localMap.ySize / 2 , 0);
         position.z = findSurfaceZ(position.x, position.y);
         return position;
     }
 
     private int findSurfaceZ(int x, int y) {
-        LocalMap localMap = container.localMap;
         for (int z = localMap.zSize - 1; z >= 0; z--) {
             if (localMap.getBlockType(x, y, z) != 0) {
                 return z;

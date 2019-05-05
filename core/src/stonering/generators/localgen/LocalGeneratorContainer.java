@@ -1,21 +1,20 @@
 package stonering.generators.localgen;
 
 import stonering.entity.world.World;
+import stonering.game.model.MainGameModel;
 import stonering.game.model.local_map.LocalMap;
 import stonering.generators.localgen.generators.*;
-import stonering.generators.localgen.generators.flora.LocalFloraGenerator;
 import stonering.generators.localgen.generators.flora.LocalForestGenerator;
 import stonering.generators.localgen.generators.flora.LocalPlantsGenerator;
 import stonering.generators.localgen.generators.flora.LocalSubstrategenerator;
 
 /**
- * Executes local generators in correct order.
+ * Executes local generators in correct order. During generation {@link MainGameModel} is filled.
  *
  * @author Alexander Kuzyakov on 27.08.2017.
  */
 public class LocalGeneratorContainer {
     private LocalGenContainer localGenContainer;
-
     private LocalHeightsGenerator localHeightsGenerator;
     private LocalStoneLayersGenerator localStoneLayersGenerator;
     private LocalRiverGenerator localRiverGenerator;
@@ -29,17 +28,15 @@ public class LocalGeneratorContainer {
     private LocalItemsGenerator localItemsGenerator;
     private LocalTemperatureGenerator localTemperatureGenerator;
     private LocalSurfaceWaterPoolsGenerator localSurfaceWaterPoolsGenerator;
-    private World world;
     private LocalGenConfig config;
 
     public LocalGeneratorContainer(LocalGenConfig config, World world) {
-        this.world = world;
         this.config = config;
-        init();
+        localGenContainer = new LocalGenContainer(config, world);
+        createGenerators();
     }
 
-    public void init() {
-        localGenContainer = new LocalGenContainer(config, world);
+    private void createGenerators() {
         localHeightsGenerator = new LocalHeightsGenerator(localGenContainer);
         localStoneLayersGenerator = new LocalStoneLayersGenerator(localGenContainer);
         localCaveGenerator = new LocalCaveGenerator(localGenContainer);
@@ -56,32 +53,32 @@ public class LocalGeneratorContainer {
     }
 
     public void execute() {
-        localGenContainer.initContainer();
+        //landscape
         localHeightsGenerator.execute(); //creates heights map
         localStoneLayersGenerator.execute(); //fills localmap with blocks by heightsmap
         localCaveGenerator.execute(); //digs caves
+        //water
 //        localRiverGenerator.execute(); // carves river beds
         localSurfaceWaterPoolsGenerator.execute(); // digs ponds
         localRampAndFloorPlacer.execute(); // places floors and ramps upon all top blocks
-
+        //plants
         localTemperatureGenerator.execute(); // generates year temperature cycle
         localPlantsGenerator.execute(); // places plants
 //        localForestGenerator.execute(); // places trees
 //        localSubstrategenerator.execute(); // places substrates
+        //creatures
         localFaunaGenerator.execute(); // places animals
+        //buildings
         localBuildingGenerator.execute();
+        //items
         localItemsGenerator.execute(); // places items
     }
 
+    public MainGameModel getGameModel() {
+        return localGenContainer.model;
+    }
+
     public LocalMap getLocalMap() {
-        return localGenContainer.localMap;
-    }
-
-    public void setWorld(World world) {
-        this.world = world;
-    }
-
-    public LocalGenContainer getLocalGenContainer() {
-        return localGenContainer;
+        return localGenContainer.model.get(LocalMap.class);
     }
 }

@@ -8,6 +8,7 @@ import stonering.game.view.tilemaps.LocalTileMapUpdater;
 import stonering.util.geometry.Position;
 import stonering.entity.local.building.BuildingBlock;
 import stonering.util.global.Initable;
+import stonering.util.global.LastInitable;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -19,14 +20,13 @@ import java.util.List;
  *
  * @author Alexander Kuzyakov on 10.06.2017.
  */
-public class LocalMap implements ModelComponent, Initable {
+public class LocalMap implements ModelComponent, Initable, LastInitable {
     private int[][][] material;
     private byte[][][] blockType;
     private byte[][][] flooding;
     private byte[][][] temperature;
     public final UtilByteArray generalLight;                   //for light from celestial bodies
     public final UtilByteArray light;                          //for light from dynamic sources (torches, lamps)
-    private BuildingBlock[][][] buildingBlocks;
 
     private transient PassageMap passageMap;                             // not saved to savegame,
     private transient LocalTileMapUpdater localTileMapUpdater;           // not saved to savegame,
@@ -38,7 +38,6 @@ public class LocalMap implements ModelComponent, Initable {
     public LocalMap(int xSize, int ySize, int zSize) {
         material = new int[xSize][ySize][zSize];
         blockType = new byte[xSize][ySize][zSize];
-        buildingBlocks = new BuildingBlock[xSize][ySize][zSize];
         flooding = new byte[xSize][ySize][zSize];
         temperature = new byte[xSize][ySize][zSize];
         generalLight = new UtilByteArray(xSize, ySize, zSize);
@@ -86,11 +85,11 @@ public class LocalMap implements ModelComponent, Initable {
 
     public List<Position> getFreeBlockNear(Position position) {
         List<Position> positions = new ArrayList<>();
-        for (int x = position.getX() - 1; x < position.getX() + 2; x++) {
-            for (int y = position.getY() - 1; y < position.getY() + 2; y++) {
-                if (x == position.getX() && y == position.getY()) continue;
-                if (inMap(x, y, position.getZ()) && isWalkPassable(x, y, position.getZ())) {
-                    positions.add(new Position(x, y, position.getZ()));
+        for (int x = position.x - 1; x < position.x + 2; x++) {
+            for (int y = position.y - 1; y < position.y + 2; y++) {
+                if (x == position.x && y == position.y) continue;
+                if (inMap(x, y, position.z) && isWalkPassable(x, y, position.z)) {
+                    positions.add(new Position(x, y, position.z));
                 }
             }
         }
@@ -102,7 +101,7 @@ public class LocalMap implements ModelComponent, Initable {
     }
 
     public boolean inMap(Position position) {
-        return inMap(position.getX(), position.getY(), position.getZ());
+        return inMap(position.x, position.y, position.z);
     }
 
     public boolean inMap(Vector2 vector) {
@@ -114,13 +113,13 @@ public class LocalMap implements ModelComponent, Initable {
     }
 
     public boolean isBorder(Position position) {
-        return isBorder(position.getX(), position.getY());
+        return isBorder(position.x, position.y);
     }
 
     public Position normalizePosition(Position position) {
-        position.setX(Math.min(Math.max(0, position.getX()), xSize - 1));
-        position.setY(Math.min(Math.max(0, position.getY()), ySize - 1));
-        position.setZ(Math.min(Math.max(0, position.getZ()), zSize - 1));
+        position.setX(Math.min(Math.max(0, position.x), xSize - 1));
+        position.setY(Math.min(Math.max(0, position.y), ySize - 1));
+        position.setZ(Math.min(Math.max(0, position.z), zSize - 1));
         return position;
     }
 
@@ -137,11 +136,6 @@ public class LocalMap implements ModelComponent, Initable {
 
     public boolean isWalkPassable(int x, int y, int z) {
         //TODO reuse
-        boolean value = inMap(x, y, z) &&
-                BlockTypesEnum.getType(getBlockType(x, y, z)).PASSING == 2 &&
-//                (plantBlocks[x][y][z] == null || plantBlocks[x][y][z].getType().passable) &&
-                (buildingBlocks[x][y][z] == null ||
-                        BlockTypesEnum.getType(buildingBlocks[x][y][z].getBuilding().getType().getPassage()).PASSING == 2);
         return passageMap.getPassage(x,y,z) == 1;
     }
 
@@ -151,7 +145,7 @@ public class LocalMap implements ModelComponent, Initable {
     }
 
     public boolean isFlyPassable(Position pos) {
-        return isFlyPassable(pos.getX(), pos.getY(), pos.getZ());
+        return isFlyPassable(pos.x, pos.y, pos.z);
     }
 
     public boolean isFlyPassable(int x, int y, int z) {
@@ -166,33 +160,15 @@ public class LocalMap implements ModelComponent, Initable {
         return hasPathBetween(pos1.x, pos1.y, pos1.z, pos2.x, pos2.y, pos2.z);
     }
 
+    /**
+     * Only for adjacent cells.
+     */
     public boolean hasPathBetween(int x1, int y1, int z1, int x2, int y2, int z2) {
-        boolean passable1 = isWalkPassable(x1, y1, z1);
-        boolean passable2 = isWalkPassable(x2, y2, z2);
-        boolean sameLevel = z1 == z2;
-        boolean lowRamp = BlockTypesEnum.getType(z1 < z2 ? getBlockType(x1, y1, z1) : getBlockType(x2, y2, z2)) == BlockTypesEnum.RAMP; // can descend on ramps
-        return (passable1 && passable2 && (sameLevel || lowRamp));
+        return passageMap.hasPathBetween(x1,y1,z1,x2,y2,z2);
     }
 
     public void setLocalTileMapUpdater(LocalTileMapUpdater localTileMapUpdater) {
         this.localTileMapUpdater = localTileMapUpdater;
-    }
-
-    public void setBuildingBlock(int x, int y, int z, BuildingBlock building) {
-        buildingBlocks[x][y][z] = building;
-        if (passageMap != null) passageMap.updateCell(x, y, z);
-    }
-
-    public void setBuildingBlock(Position pos, BuildingBlock building) {
-        setBuildingBlock(pos.getX(), pos.getY(), pos.getZ(), building);
-    }
-
-    public BuildingBlock getBuildingBlock(int x, int y, int z) {
-        return buildingBlocks[x][y][z];
-    }
-
-    public BuildingBlock getBuildingBlock(Position position) {
-        return buildingBlocks[position.getX()][position.getY()][position.getZ()];
     }
 
     public byte getTemperature(int x, int y, int z) {
@@ -200,7 +176,7 @@ public class LocalMap implements ModelComponent, Initable {
     }
 
     public int getMaterial(Position pos) {
-        return material[pos.getX()][pos.getY()][pos.getZ()];
+        return material[pos.x][pos.y][pos.z];
     }
 
     public int getMaterial(int x, int y, int z) {
@@ -208,7 +184,7 @@ public class LocalMap implements ModelComponent, Initable {
     }
 
     public byte getBlockType(Position pos) {
-        return getBlockType(pos.getX(), pos.getY(), pos.getZ());
+        return getBlockType(pos.x, pos.y, pos.z);
     }
 
     public byte getBlockType(int x, int y, int z) {
@@ -216,7 +192,7 @@ public class LocalMap implements ModelComponent, Initable {
     }
 
     public void setBlockType(Position pos, byte type) {
-        setBlockType(pos.getX(), pos.getY(), pos.getZ(), type);
+        setBlockType(pos.x, pos.y, pos.z, type);
     }
 
     public byte getFlooding(int x, int y, int z) {
@@ -224,7 +200,7 @@ public class LocalMap implements ModelComponent, Initable {
     }
 
     public byte getFlooding(Position position) {
-        return getFlooding(position.getX(), position.getY(), position.getZ());
+        return getFlooding(position.x, position.y, position.z);
     }
 
     public void setFlooding(int x, int y, int z, int value) {
@@ -232,15 +208,15 @@ public class LocalMap implements ModelComponent, Initable {
     }
 
     public void setFlooding(Position position, int value) {
-        setFlooding(position.getX(), position.getY(), position.getZ(), value);
+        setFlooding(position.x, position.y, position.z, value);
     }
 
     public void setBlock(Position pos, BlockTypesEnum blockType, int materialId) {
-        setBlock(pos.getX(), pos.getY(), pos.getZ(), blockType.CODE, materialId);
+        setBlock(pos.x, pos.y, pos.z, blockType.CODE, materialId);
     }
 
     public void setBlock(Position pos, byte blockType, int materialId) {
-        setBlock(pos.getX(), pos.getY(), pos.getZ(), blockType, materialId);
+        setBlock(pos.x, pos.y, pos.z, blockType, materialId);
     }
 
     public void setBlock(int x, int y, int z, BlockTypesEnum blockType, int materialId) {

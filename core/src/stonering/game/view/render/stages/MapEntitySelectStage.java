@@ -7,10 +7,7 @@ import stonering.entity.local.building.BuildingBlock;
 import stonering.entity.local.zone.Zone;
 import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
-import stonering.game.model.lists.ItemContainer;
-import stonering.game.model.lists.PlantContainer;
-import stonering.game.model.lists.UnitContainer;
-import stonering.game.model.lists.ZonesContainer;
+import stonering.game.model.lists.*;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.view.render.stages.base.UiStage;
 import stonering.game.view.render.ui.lists.ObservingList;
@@ -66,7 +63,7 @@ public class MapEntitySelectStage extends UiStage implements Initable {
             case PLANTS:
                 break;
             case BUILDINGS:
-                tryShowBuildingStage(gameMvc.getModel().get(LocalMap.class).getBuildingBlock(currentPosition));
+                tryShowBuildingStage(gameMvc.getModel().get(BuildingContainer.class).getBuildingBlocks().get(currentPosition));
                 break;
             case ZONES:
                 break;
@@ -85,7 +82,7 @@ public class MapEntitySelectStage extends UiStage implements Initable {
      */
     private void collectEntities(List<AspectHolder> aspectHolders) {
         GameModel gameModel = GameMvc.instance().getModel();
-        BuildingBlock buildingBlock = gameModel.get(LocalMap.class).getBuildingBlock(currentPosition);
+        BuildingBlock buildingBlock = gameModel.get(BuildingContainer.class).getBuildingBlocks().get(currentPosition);
         if (buildingBlock != null) aspectHolders.add(buildingBlock.getBuilding());
         aspectHolders.add(gameModel.get(PlantContainer.class).getPlantInPosition(currentPosition));
         aspectHolders.addAll(gameModel.get(ItemContainer.class).getItemsInPosition(currentPosition));

@@ -11,8 +11,6 @@ import stonering.util.geometry.Position;
  */
 public class FreeSoilFloorValidator extends FreeFloorValidator {
     private static final String SOIL_TAG = "soil";
-    private
-
 
     @Override
     public boolean validate(LocalMap localMap, Position position) {

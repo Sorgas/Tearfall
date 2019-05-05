@@ -27,9 +27,7 @@ public class LocalSurfaceWaterPoolsGenerator {
     public void execute() {
         System.out.println("generating pools");
         ArrayList<Pool> pools = determinePools(generateNoise());
-        pools.stream().filter(pool -> pool.points.keySet().size() > 1).forEach(pool -> {
-            tryPlacePool(pool);
-        });
+        pools.stream().filter(pool -> pool.points.keySet().size() > 1).forEach(this::tryPlacePool);
     }
 
     private class Pool {
