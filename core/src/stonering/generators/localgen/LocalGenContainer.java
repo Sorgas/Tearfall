@@ -1,6 +1,7 @@
 package stonering.generators.localgen;
 
 import stonering.entity.world.World;
+import stonering.game.GameMvc;
 import stonering.game.model.MainGameModel;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
@@ -29,6 +30,7 @@ public class LocalGenContainer {
         localElevation = (int) (world.getWorldMap().getElevation(config.getLocation().getX(), config.getLocation().getY()) * config.getWorldToLocalElevationModifier());
         model = new MainGameModel(new LocalMap(config.getAreaSize(), config.getAreaSize(), localElevation + config.getAirLayersAboveGround()));
         model.createComponents(world);
+        GameMvc.createInstance(model).init();
         waterTiles = new ArrayList<>();
         waterSources = new ArrayList<>();
         monthlyTemperatures = new float[12];

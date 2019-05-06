@@ -9,28 +9,14 @@ import stonering.util.geometry.Position;
  * They leave no seeds, instead of this they grow on a whole map.
  * It's block is stored in separate map in {@link PlantContainer}.
  */
-public class SubstratePlant extends AbstractPlant {
-    private PlantBlock block;
+public class SubstratePlant extends Plant {
 
-    protected SubstratePlant(Position position) {
-        super(position);
+    public SubstratePlant(Position position, int age) {
+        super(position, age);
     }
 
     @Override
     public boolean isHarvestable() {
         return false;
-    }
-
-    @Override
-    public Position getPosition() {
-        return position;
-    }
-
-    public PlantBlock getBlock() {
-        return block;
-    }
-
-    public void setBlock(PlantBlock block) {
-        this.block = block;
     }
 }

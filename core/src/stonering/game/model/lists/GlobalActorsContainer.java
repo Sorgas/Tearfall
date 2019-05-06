@@ -22,10 +22,6 @@ public class GlobalActorsContainer extends IntervalTurnable {
         this.container = container;
     }
 
-    public void init(LocalGenContainer container) {
-        celestialBodies.addAll(container.world.getStarSystem().getCelestialBodies());
-    }
-
     @Override
     public void turnMinute() {
         actors.forEach(IntervalTurnable::turnMinute);

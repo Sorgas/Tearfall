@@ -21,7 +21,7 @@ public class TreeGenerator {
 
     public Tree generateTree(String specimen, int age) throws IllegalArgumentException {
         Tree tree = new Tree(null, age);
-        tree.setType(PlantMap.getInstance().getPlantType(specimen));
+        tree.setType(PlantMap.getInstance().getTreeType(specimen));
         tree.setBlocks(createTreeBlocks(tree));
         tree.addAspect(new PlantGrowthAspect(tree));
         return tree;

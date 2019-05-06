@@ -24,14 +24,17 @@ public class GameMvc implements Serializable {
 
     private GameMvc(GameModel gameModel) {
         model = gameModel;
+    }
+
+    public void createViewAndController() {
         view = new GameView();
         controller = new GameController();
     }
 
     public void init() {
         model.init();
-        controller.init();
-        view.init();
+        if(controller != null) controller.init();
+        if(view != null) view.init();
     }
 
     public static GameMvc instance() {

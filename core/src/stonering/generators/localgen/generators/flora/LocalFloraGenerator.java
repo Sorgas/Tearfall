@@ -1,14 +1,15 @@
 package stonering.generators.localgen.generators.flora;
 
+import stonering.entity.world.World;
 import stonering.enums.generation.PlantPlacingTags;
 import stonering.enums.materials.Material;
 import stonering.enums.materials.MaterialMap;
 import stonering.enums.plants.PlantMap;
 import stonering.enums.plants.PlantType;
 import stonering.exceptions.DescriptionNotFoundException;
+import stonering.game.model.lists.PlantContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.generators.PerlinNoiseGenerator;
-import stonering.generators.localgen.LocalGenConfig;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.generators.localgen.generators.LocalAbstractGenerator;
 import stonering.generators.plants.PlantGenerator;
@@ -20,16 +21,9 @@ import stonering.entity.local.plants.Tree;
 import stonering.util.global.Pair;
 import stonering.util.global.TagLoggersEnum;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static stonering.enums.blocks.BlockTypesEnum.*;
 import static stonering.enums.generation.PlantPlacingTags.*;
@@ -43,125 +37,119 @@ import static stonering.enums.generation.PlantPlacingTags.*;
  * @author Alexander Kuzyakov on 10.04.2018.
  */
 public abstract class LocalFloraGenerator extends LocalAbstractGenerator {
-    protected LocalGenConfig config;
     protected LocalMap localMap;
-    protected PerlinNoiseGenerator noiseGenerator;
-    protected float maxTemp;
-    protected float minTemp;
-    protected float midTemp;
-    protected float rainfall;
-    protected int areaSize;
+    private PlantContainer plantContainer;
+    private PerlinNoiseGenerator noiseGenerator;
+    private float maxTemp;
+    private float minTemp;
+    private float midTemp;
+    private float rainfall;
+    private int areaSize;
 
     private PlantPlacingTags[] waterTags = {WATER_FAR, WATER_NEAR, WATER_UNDER};
     private PlantPlacingTags[] lighttags = {LIGHT_HIGH, LIGHT_LOW, LIGHT_UNDERGROUND};
     private PlantPlacingTags[] soilTags = {SOIL_SOIL, SOIL_STONE, SOIL_WOOD};
 
-    protected Set<PlantType> commonPlantSet;
-    protected Map<String, Float> weightedPlantTypes;
     private Set<Byte> substrateBlockTypes;
-    protected Set<Position> allPositions;
-    protected List<Position> positions;
 
+    protected List<Position> positions;
     private Position cachePosition;
 
     public LocalFloraGenerator(LocalGenContainer container) {
         super(container);
+        cachePosition = new Position(0, 0, 0);
+        substrateBlockTypes = new HashSet<>(Arrays.asList(FLOOR.CODE, RAMP.CODE));
     }
 
     public void execute() {
-        TagLoggersEnum.GENERATION.log("generating flora");
         extractContainer();
-        weightedPlantTypes = new HashMap<>();
-        cachePosition = new Position(0, 0, 0);
-        substrateBlockTypes = new HashSet<>(Arrays.asList(FLOOR.CODE, RAMP.CODE));
-        commonPlantSet = new HashSet<>();
-        allPositions = new HashSet<>();
-        positions = new ArrayList<>();
-
         countTemperature();
-        filterPlantsByType();
-        filterPlantsByBounds(); // get all plants that can grow here
-        gatherPositions();
+        Set<PlantType> commonPlantSet = filterPlantsByBounds(filterPlantsByType()); // get all plants that can grow here
+        Set<Position> allPositions = gatherPositions();
         for (PlantPlacingTags waterTag : waterTags) {
             for (PlantPlacingTags lightTag : lighttags) {
                 for (PlantPlacingTags soilTag : soilTags) {
+                    List<PlantPlacingTags> tags = Arrays.asList(waterTag, lightTag, soilTag);
+                    Map<String, Float> filteredPlants = filterPlantsByTags(tags, commonPlantSet); // get all plants with two tags simultaneously
+                    if (commonPlantSet.isEmpty()) continue;
                     TagLoggersEnum.GENERATION.logDebug("placing " + waterTag + " " + lightTag + " " + soilTag);
-                    filterPlantsByTags(waterTag, lightTag, soilTag); // get all plants with two tags simultaneously
                     TagLoggersEnum.GENERATION.logDebug("filtered plants: " + commonPlantSet.size());
-                    if(commonPlantSet.isEmpty()) continue;
-                    normalizeWeights(weightedPlantTypes); // make total weight equal 1
-                    gatherTagPositions(waterTag, lightTag, soilTag);
+                    normalizeWeights(filteredPlants); // make total weight equal 1
+                    positions = gatherTagPositions(tags, allPositions);
+                    if (positions.isEmpty()) continue;
                     TagLoggersEnum.GENERATION.logDebug("appropriate positions: " + positions.size());
-                    if(positions.isEmpty()) continue;
-                    modifyCounts();
-                    weightedPlantTypes.forEach(this::placePlants);
+                    modifyCounts(filteredPlants, positions);
+                    filteredPlants.forEach(this::placePlants);
                 }
             }
         }
+    }
+
+    private void extractContainer() {
+        plantContainer = container.model.get(PlantContainer.class);
+        localMap = container.model.get(LocalMap.class);
+        areaSize = config.getAreaSize();
+        noiseGenerator = new PerlinNoiseGenerator();
+        int x = config.getLocation().getX();
+        int y = config.getLocation().getY();
+        rainfall = container.model.get(World.class).getWorldMap().getRainfall(x, y);
     }
 
     /**
      * Collects all tiles that can have plants (floors).
      */
-    private void gatherPositions() {
-        Position cachePosition = new Position();
+    private Set<Position> gatherPositions() {
+        Set<Position> positions = new HashSet<>();
         for (int x = 0; x < localMap.xSize; x++) {
             for (int y = 0; y < localMap.ySize; y++) {
                 for (int z = 0; z < localMap.zSize; z++) {
-                    if(container.plantBlocks.containsKey(cachePosition.set(x,y,z))) continue;
+                    if (plantContainer.getPlantBlocks().containsKey(cachePosition.set(x, y, z))) continue;
                     if (localMap.getBlockType(x, y, z) != FLOOR.CODE) continue;
-                    allPositions.add(new Position(x, y, z));
+                    positions.add(new Position(x, y, z));
                 }
             }
         }
+        return positions;
     }
 
     /**
      * Collects all positions validates by both tags.
      */
-    private void gatherTagPositions(PlantPlacingTags waterTag, PlantPlacingTags lightTag, PlantPlacingTags soilTag) {
-        positions.clear();
-        positions.addAll(allPositions.stream().filter(position -> waterTag.VALIDATOR.validate(localMap, position)
-                && lightTag.VALIDATOR.validate(localMap, position)
-                && soilTag.VALIDATOR.validate(localMap, position)).collect(Collectors.toList()));
+    private List<Position> gatherTagPositions(List<PlantPlacingTags> tags, Collection<Position> positions) {
+        return positions.stream()
+                .filter(position -> tags.stream().allMatch(tag -> tag.VALIDATOR.validate(localMap, position)))
+                .collect(Collectors.toList());
     }
 
     /**
      * Filters out plants which cannot grow in given conditions.
      */
-    private void filterPlantsByTags(PlantPlacingTags waterTag, PlantPlacingTags lightTag, PlantPlacingTags soilTag) {
-        commonPlantSet.stream().filter(type -> type.placingTags.contains(waterTag)
-                && (type.placingTags.contains(lightTag))
-                && type.placingTags.contains(soilTag))
-                .forEach(type -> weightedPlantTypes.put(type.name, getSpreadModifier(type)));
+    private Map<String, Float> filterPlantsByTags(List<PlantPlacingTags> tags, Set<PlantType> types) {
+        Map<String, Float> filteredPlants = new HashMap<>();
+        types.stream().filter(type -> type.placingTags.containsAll(tags))
+                .forEach(type -> filteredPlants.put(type.name, getSpreadModifier(type)));
+        return filteredPlants;
+    }
+
+    /**
+     * Changes weights to number of plants (multiplies to available tiles count).
+     * @param filteredPlants
+     * @param filteredPositions
+     */
+    protected void modifyCounts(Map<String, Float> filteredPlants, Collection<Position> filteredPositions) {
+        int size = filteredPositions.size();
+        filteredPlants.keySet().forEach(s -> filteredPlants.put(s, filteredPlants.get(s) * size));
     }
 
     /**
      * Should put plants of desired type into commonPlantSet.
      */
-    protected abstract void filterPlantsByType();
-
-    /**
-     * Changes weights to number of plants (multiplies to available tiles count).
-     */
-    protected void modifyCounts() {
-        weightedPlantTypes.keySet().forEach(s -> weightedPlantTypes.put(s, weightedPlantTypes.get(s) * positions.size()));
-    }
+    protected abstract Set<PlantType> filterPlantsByType();
 
     /**
      * Should place plants on map in number from weightedPlantTypes.
      */
     protected abstract void placePlants(String specimen, float amount);
-
-    private void extractContainer() {
-        this.config = container.config;
-        this.localMap = container.localMap;
-        int x = config.getLocation().getX();
-        int y = config.getLocation().getY();
-        areaSize = config.getAreaSize();
-        rainfall = container.world.getWorldMap().getRainfall(x, y);
-        noiseGenerator = new PerlinNoiseGenerator();
-    }
 
     /**
      * Counts temperature bounds for local area.
@@ -225,7 +213,7 @@ public abstract class LocalFloraGenerator extends LocalAbstractGenerator {
                     int mapZ = cz + z - treeCenterZ;
                     if (treeParts[x][y][z] != null) return false;
                     if (!localMap.inMap(mapX, mapY, mapZ)) return false;
-                    if (container.plantBlocks.containsKey(cachePosition.set(mapX, mapY, mapZ))) return false;
+                    if (plantContainer.getPlantBlocks().containsKey(cachePosition.set(mapX, mapY, mapZ))) return false;
                     Material material = MaterialMap.getInstance().getMaterial(localMap.getMaterial(x, y, z));
                     if (material != null && material.getTags().contains(soilType)) ;
                 }
@@ -245,18 +233,17 @@ public abstract class LocalFloraGenerator extends LocalAbstractGenerator {
             for (int y = 0; y < treeParts[x].length; y++) {
                 for (int z = 0; z < treeParts[x][y].length; z++) {
                     if (treeParts[x][y][z] == null) continue;
-                    Position onMapPosition = new Position(
+                    cachePosition.set(
                             cx + x - treeRadius,
                             cy + y - treeRadius,
                             cz + z - treeCenterZ);
-                    List<PlantBlock> blocks = container.plantBlocks.getOrDefault(onMapPosition, Collections.emptyList());
-                    blocks.add(treeParts[x][y][z]);
-                    container.plantBlocks.put(onMapPosition, blocks);
-                    treeParts[x][y][z].setPosition(onMapPosition);
+                    if (plantContainer.getPlantBlocks().containsKey(cachePosition)) continue;
+                    plantContainer.getPlantBlocks().put(cachePosition, treeParts[x][y][z]);
+                    treeParts[x][y][z].setPosition(cachePosition);
                 }
             }
         }
-        container.plants.add(tree);
+        plantContainer.place(tree);
     }
 
 
@@ -275,7 +262,7 @@ public abstract class LocalFloraGenerator extends LocalAbstractGenerator {
                 array[position.x][position.y][position.z] = false;
                 Plant plant = plantGenerator.generatePlant(specimen, 0);
                 plant.setPosition(position);
-                container.plants.add(plant);
+                plantContainer.place(plant);
             } catch (DescriptionNotFoundException e) {
                 System.out.println("material for plant " + specimen + " not found");
             }
@@ -312,12 +299,11 @@ public abstract class LocalFloraGenerator extends LocalAbstractGenerator {
      * Filters all PlantMap with local climate parameters and adds passed plants and trees to maps.
      */
     //TODO add grade of specimen spreading in this area.
-    private void filterPlantsByBounds() {
-        commonPlantSet.stream().filter(type -> rainfall > type.rainfallBounds[0]
-                && rainfall > type.rainfallBounds[1]
+    private Set<PlantType> filterPlantsByBounds(Set<PlantType> types) {
+        return types.stream().filter(type -> rainfall > type.rainfallBounds[0]
+                && rainfall < type.rainfallBounds[1]
                 && minTemp > type.temperatureBounds[0]
-                && maxTemp < type.temperatureBounds[1])
-                .forEach(type -> commonPlantSet.add(type));
+                && maxTemp < type.temperatureBounds[1]).collect(Collectors.toSet());
     }
 
     /**

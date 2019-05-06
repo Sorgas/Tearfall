@@ -1,6 +1,7 @@
 package stonering.generators.plants;
 
 import stonering.entity.local.items.aspects.SeedAspect;
+import stonering.entity.local.plants.SubstratePlant;
 import stonering.entity.local.plants.aspects.PlantGrowthAspect;
 import stonering.enums.materials.MaterialMap;
 import stonering.enums.plants.PlantMap;
@@ -16,12 +17,27 @@ import stonering.entity.local.plants.PlantBlock;
  */
 public class PlantGenerator {
 
+    /**
+     * Generates {@link Plant} object by name of its type and initial age.
+     */
     public Plant generatePlant(String specimen, int age) throws DescriptionNotFoundException {
-        Plant plant = new Plant(null, 0);
         if (PlantMap.getInstance().getPlantType(specimen) == null)
             throw new DescriptionNotFoundException("Plant type " + specimen + " not found");
+        Plant plant = new Plant(null, 0);
         plant.setType(PlantMap.getInstance().getPlantType(specimen));
-        plant.setAge(age);
+        plant.setBlock(createPlantBlock(plant, age));
+        plant.addAspect(new PlantGrowthAspect(plant));
+        return plant;
+    }
+
+    /**
+     * Generates {@link SubstratePlant} object by name of its type and initial age.
+     */
+    public SubstratePlant generateSubstrate(String specimen, int age) throws DescriptionNotFoundException {
+        if (PlantMap.getInstance().getPlantType(specimen) == null)
+            throw new DescriptionNotFoundException("Plant type " + specimen + " not found");
+        SubstratePlant plant = new SubstratePlant(null, 0);
+        plant.setType(PlantMap.getInstance().getPlantType(specimen));
         plant.setBlock(createPlantBlock(plant, age));
         plant.addAspect(new PlantGrowthAspect(plant));
         return plant;

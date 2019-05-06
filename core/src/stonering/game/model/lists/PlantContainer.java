@@ -60,6 +60,7 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
     @Override
     public void turn() {
         plants.forEach(abstractPlant -> abstractPlant.turn());
+        substratePlants.forEach(SubstratePlant::turn);
     }
 
     /**
@@ -67,7 +68,8 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
      */
     public void place(AbstractPlant plant) {
         if (plant.getType().isTree() && plant instanceof Tree) placeTree((Tree) plant);
-        if (plant instanceof Plant) placePlant((Plant) plant);
+        if (plant.getType().isPlant()) placePlant((Plant) plant);
+        if (plant.getType().isSubstrate()) placeSubstrate((SubstratePlant) plant);
     }
 
     /**r
@@ -107,6 +109,12 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
         }
     }
 
+    private void placeSubstrate(SubstratePlant plant) {
+        if(substrateBlocks.containsKey(plant.getPosition())) return;
+        substratePlants.add(plant);
+        substrateBlocks.put(plant.getPosition(), plant.getBlock());
+    }
+
     /**
      * Deletes plant from map and container
      */
@@ -141,20 +149,6 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
         ArrayList<Item> items = new PlantProductGenerator().generateCutProduct(block);
         ItemContainer itemContainer = GameMvc.instance().getModel().get(ItemContainer.class);
         items.forEach((item) -> itemContainer.addItem(item));
-    }
-
-    /**
-     * Deletes block from map and block's plant. If plant was a Plant, deletes is too.
-     * If plant was a Tree than checks deleting for other effects.
-     */
-    public void removePlantBlock(PlantBlock block, boolean leaveProducts) {
-        AbstractPlant plant = block.getPlant();
-        if (plant == null) return;
-        if (plant instanceof Plant) {
-            if (plants.removeValue(plant, true)) removeBlock(block);
-        } else if (plant instanceof Tree) {
-            removeBlockFromTree(block, (Tree) plant);
-        }
     }
 
     /**
@@ -250,10 +244,6 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
         }
     }
 
-    public HashMap<Position, PlantBlock> getPlantBlocks() {
-        return plantBlocks;
-    }
-
     /**
      * Returns all plants with blocks in given position.
      */
@@ -264,5 +254,13 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
 
     public boolean isBlockPassable(Position position) {
         return !plantBlocks.containsKey(position) || plantBlocks.get(position).getType().passable;
+    }
+
+    public HashMap<Position, PlantBlock> getPlantBlocks() {
+        return plantBlocks;
+    }
+
+    public HashMap<Position, PlantBlock> getSubstrateBlocks() {
+        return substrateBlocks;
     }
 }

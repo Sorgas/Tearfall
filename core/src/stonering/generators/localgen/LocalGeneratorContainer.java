@@ -63,9 +63,9 @@ public class LocalGeneratorContainer {
         localRampAndFloorPlacer.execute(); // places floors and ramps upon all top blocks
         //plants
         localTemperatureGenerator.execute(); // generates year temperature cycle
+        localForestGenerator.execute(); // places trees
         localPlantsGenerator.execute(); // places plants
-//        localForestGenerator.execute(); // places trees
-//        localSubstrategenerator.execute(); // places substrates
+        localSubstrategenerator.execute(); // places substrates
         //creatures
         localFaunaGenerator.execute(); // places animals
         //buildings

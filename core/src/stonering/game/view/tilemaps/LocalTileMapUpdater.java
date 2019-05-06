@@ -19,12 +19,12 @@ public class LocalTileMapUpdater {
     private transient MaterialMap materialMap;
 
     public LocalTileMapUpdater() {
-        localMap = GameMvc.instance().getModel().get(LocalMap.class);
-        localTileMap = GameMvc.instance().getModel().get(LocalTileMap.class);
         materialMap = MaterialMap.getInstance();
     }
 
     public void flushLocalMap() {
+        if(GameMvc.instance() == null) return;
+        localMap = GameMvc.instance().getModel().get(LocalMap.class);
         for (int x = 0; x < localMap.xSize; x++) {
             for (int y = 0; y < localMap.ySize; y++) {
                 for (int z = 0; z < localMap.zSize; z++) {
@@ -35,6 +35,9 @@ public class LocalTileMapUpdater {
     }
 
     public void updateTile(int x, int y, int z) {
+        if(GameMvc.instance() == null) return;
+        localMap = GameMvc.instance().getModel().get(LocalMap.class);
+        localTileMap = GameMvc.instance().getModel().get(LocalTileMap.class);
         localTileMap.setTile(x, y, z, 0, 0, -1, null);
         byte blockType = localMap.getBlockType(x, y, z);
         if (blockType > 0) { // non space

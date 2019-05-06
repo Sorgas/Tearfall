@@ -44,9 +44,6 @@ public abstract class GameModel implements Initable, Serializable {
         {
             if (component instanceof Initable) ((Initable) component).init();
         });
-        timer = new Timer();
-        paused = false;
-        startContainer();
     }
 
     /**
@@ -60,7 +57,9 @@ public abstract class GameModel implements Initable, Serializable {
         });
     }
 
-    private void startContainer() {
+    public void startContainer() {
+        timer = new Timer();
+        paused = false;
         timer.scheduleTask(new Timer.Task() {
             @Override
             public void run() {
