@@ -3,7 +3,6 @@ package stonering.generators.localgen.generators;
 import stonering.game.model.lists.UnitContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.generators.creatures.CreatureGenerator;
-import stonering.generators.localgen.LocalGenConfig;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.entity.local.unit.Unit;
 import stonering.util.geometry.Position;
@@ -13,15 +12,12 @@ import stonering.util.geometry.Position;
  *
  * @author Alexander Kuzyakov on 03.12.2017.
  */
-public class LocalFaunaGenerator {
-    private LocalGenContainer container;
-    private LocalGenConfig config;
+public class LocalFaunaGenerator extends LocalAbstractGenerator {
     private CreatureGenerator creatureGenerator;
     private LocalMap localMap;
 
     public LocalFaunaGenerator(LocalGenContainer container) {
-        this.container = container;
-        config = container.config;
+        super(container);
         creatureGenerator = new CreatureGenerator();
     }
 

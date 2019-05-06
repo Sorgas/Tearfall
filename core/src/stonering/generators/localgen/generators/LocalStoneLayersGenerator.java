@@ -2,7 +2,6 @@ package stonering.generators.localgen.generators;
 
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.materials.MaterialMap;
-import stonering.exceptions.DescriptionNotFoundException;
 import stonering.game.model.local_map.LocalMap;
 import stonering.generators.localgen.LocalGenContainer;
 
@@ -14,8 +13,7 @@ import java.util.*;
  *
  * @author Alexander Kuzyakov on 01.08.2017.
  */
-public class LocalStoneLayersGenerator {
-    private LocalGenContainer container;
+public class LocalStoneLayersGenerator extends LocalAbstractGenerator {
     private LocalMap map;
     private int[][] heigtsMap;
     private int surfaceLevel;
@@ -33,8 +31,7 @@ public class LocalStoneLayersGenerator {
             {"granite", "diorite", "gabbro", "peridotite", "pegmatite"}};  //intrusive
 
     public LocalStoneLayersGenerator(LocalGenContainer container) {
-        this.container = container;
-
+        super(container);
     }
 
     public void execute() {
@@ -46,11 +43,7 @@ public class LocalStoneLayersGenerator {
         if (surfaceLevel > 300) {
             hasExtrusive = true;
         }countLayers();
-        try {
-            generateLayers();
-        } catch (DescriptionNotFoundException e) {
-            e.printStackTrace();
-        }
+        generateLayers();
         fillLayers();
     }
 
@@ -84,7 +77,7 @@ public class LocalStoneLayersGenerator {
         }
     }
 
-    private void generateLayers() throws DescriptionNotFoundException {
+    private void generateLayers() {
         int i = layerIds.length - 1;
         int soilId = MaterialMap.getInstance().getId("soil");
         for (int soilIndex = 0; soilIndex < soilLayer; soilIndex++) {
@@ -115,7 +108,7 @@ public class LocalStoneLayersGenerator {
         }
     }
 
-    public int[] getIdsByStoneType(int num, int seed, int stoneType) throws DescriptionNotFoundException {
+    public int[] getIdsByStoneType(int num, int seed, int stoneType) {
         Random random = new Random(seed);
         MaterialMap materialMap = MaterialMap.getInstance();
         int[] ids = new int[num];
@@ -129,13 +122,5 @@ public class LocalStoneLayersGenerator {
             stoneTypeNames.remove(0);
         }
         return ids;
-    }
-
-    public void setSurfaceLevel(int surfaceLevel) {
-        this.surfaceLevel = surfaceLevel;
-    }
-
-    public void setHeigtsMap(int[][] heigtsMap) {
-        this.heigtsMap = heigtsMap;
     }
 }

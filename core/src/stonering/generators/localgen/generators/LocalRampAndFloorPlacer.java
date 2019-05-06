@@ -6,18 +6,15 @@ import stonering.generators.localgen.LocalGenConfig;
 import stonering.generators.localgen.LocalGenContainer;
 
 /**
- * @author Alexander Kuzyakov on 17.10.2017.
+ * fills local map with ramps on z-layer borders.
  *
- * fills local map with ramps on z-layer borders
+ * @author Alexander Kuzyakov on 17.10.2017.
  */
-public class LocalRampAndFloorPlacer {
+public class LocalRampAndFloorPlacer extends LocalAbstractGenerator {
     private LocalMap localMap;
-    private LocalGenConfig config;
-    private LocalGenContainer container;
 
     public LocalRampAndFloorPlacer(LocalGenContainer container) {
-        this.config = container.config;
-        this.container = container;
+        super(container);
     }
 
     int wallCode = BlockTypesEnum.WALL.CODE;

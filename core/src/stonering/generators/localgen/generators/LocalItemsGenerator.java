@@ -3,23 +3,21 @@ package stonering.generators.localgen.generators;
 import stonering.game.model.lists.ItemContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.generators.items.ItemGenerator;
-import stonering.generators.localgen.LocalGenConfig;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.util.geometry.Position;
 import stonering.entity.local.items.Item;
 
 /**
+ * Creates items and puts them on map.
+ *
  * @author Alexander Kuzyakov on 26.01.2018.
  */
-public class LocalItemsGenerator {
-    private LocalGenContainer container;
-    private LocalGenConfig config;
+public class LocalItemsGenerator extends LocalAbstractGenerator  {
     private ItemGenerator itemGenerator;
     private LocalMap localMap;
 
     public LocalItemsGenerator(LocalGenContainer container) {
-        this.container = container;
-        config = container.config;
+        super(container);
         itemGenerator = new ItemGenerator();
     }
 

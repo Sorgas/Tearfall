@@ -10,7 +10,7 @@ import stonering.generators.localgen.LocalGenContainer;
  *
  * @author Alexander Kuzyakov on 28.02.2019.
  */
-public class LocalClimateGenerator {
+public class LocalClimateGenerator extends LocalAbstractGenerator {
     private LocalGenContainer container;
     private LocalGenConfig config;
     private LocalMap localMap;
@@ -20,12 +20,11 @@ public class LocalClimateGenerator {
     private float rainfall;
     private int areaSize;
 
+    public LocalClimateGenerator(LocalGenContainer container) {
+        super(container);
+    }
+
     public void execute() {
-
+        //TODO
     }
-
-    private void countRainfall() {
-//        container.
-    }
-
 }

@@ -2,6 +2,7 @@ package stonering.generators.localgen.generators;
 
 import com.badlogic.gdx.math.CatmullRomSpline;
 import com.badlogic.gdx.math.Vector2;
+import stonering.entity.world.World;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.model.local_map.LocalMap;
@@ -21,8 +22,7 @@ import java.util.Collections;
  *
  * @author Alexander Kuzyakov on 10.07.2017.
  */
-public class LocalRiverGenerator {
-    private LocalGenContainer container;
+public class LocalRiverGenerator extends LocalAbstractGenerator {
     private WorldMap worldMap;
     private LocalMap localMap;
     private Position location;
@@ -34,7 +34,7 @@ public class LocalRiverGenerator {
     private transient MaterialMap materialMap;
 
     public LocalRiverGenerator(LocalGenContainer container) {
-        this.container = container;
+        super(container);
     }
 
     public void execute() {
@@ -47,11 +47,11 @@ public class LocalRiverGenerator {
     }
 
     private void extractContainer() {
-        worldMap = container.world.getWorldMap();
+        worldMap = container.model.get(World.class).getWorldMap();
         location = container.config.getLocation();
         inflows = new ArrayList<>();
         flows = new ArrayList<>();
-        localMap = container.localMap;
+        localMap = container.model.get(LocalMap.class);
         materialMap = MaterialMap.getInstance();
     }
 

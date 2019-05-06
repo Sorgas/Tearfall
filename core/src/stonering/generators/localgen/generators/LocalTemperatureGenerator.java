@@ -6,16 +6,15 @@ import stonering.generators.localgen.LocalGenContainer;
 import stonering.util.geometry.Position;
 
 /**
- * @author Alexander Kuzyakov on 14.03.2018.
- *
- * calculates month specific temperature. summer and winter temps are max and min.
+ * Calculates month specific temperature. summer and winter temps are max and min.
  * 0 month is middle spring.
+ *
+ * @author Alexander Kuzyakov on 14.03.2018.
  */
-public class LocalTemperatureGenerator {
-    private LocalGenContainer container;
+public class LocalTemperatureGenerator extends LocalAbstractGenerator {
 
     public LocalTemperatureGenerator(LocalGenContainer container) {
-        this.container = container;
+        super(container);
     }
 
     public void execute() {

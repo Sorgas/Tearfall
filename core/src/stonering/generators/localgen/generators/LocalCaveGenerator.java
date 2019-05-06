@@ -1,12 +1,9 @@
 package stonering.generators.localgen.generators;
 
-import stonering.entity.world.World;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.model.local_map.LocalMap;
 import stonering.generators.PerlinNoiseGenerator;
-import stonering.generators.localgen.LocalGenConfig;
 import stonering.generators.localgen.LocalGenContainer;
-import stonering.entity.world.WorldMap;
 import stonering.util.geometry.Position;
 
 import java.util.Random;
@@ -14,18 +11,13 @@ import java.util.Random;
 /**
  * @author Alexander Kuzyakov on 22.10.2017.
  */
-public class LocalCaveGenerator {
-    private LocalGenContainer container;
-    private WorldMap worldMap;
-    private LocalGenConfig config;
+public class LocalCaveGenerator extends LocalAbstractGenerator {
     private int localAreaSize;
     private LocalMap localMap;
     private Random random;
 
     public LocalCaveGenerator(LocalGenContainer container) {
-        this.container = container;
-        worldMap = container.model.get(World.class).getWorldMap();
-        config = container.config;
+        super(container);
         localAreaSize = config.getAreaSize();
         random = new Random();
     }

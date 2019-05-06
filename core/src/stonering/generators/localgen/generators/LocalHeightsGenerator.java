@@ -2,7 +2,6 @@ package stonering.generators.localgen.generators;
 
 import stonering.entity.world.World;
 import stonering.generators.PerlinNoiseGenerator;
-import stonering.generators.localgen.LocalGenConfig;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.entity.world.WorldMap;
 
@@ -15,17 +14,14 @@ import java.util.Random;
  *
  * @author Alexander Kuzyakov on 21.08.2017.
  */
-public class LocalHeightsGenerator {
-    private LocalGenContainer container;
+public class LocalHeightsGenerator extends LocalAbstractGenerator {
     private WorldMap worldMap;
-    private LocalGenConfig config;
     private int localAreaSize;
     private float[][] localHightMap;
 
     public LocalHeightsGenerator(LocalGenContainer container) {
-        this.container = container;
+        super(container);
         this.worldMap = container.model.get(World.class).getWorldMap();
-        config = container.config;
         localAreaSize = config.getAreaSize();
     }
 
