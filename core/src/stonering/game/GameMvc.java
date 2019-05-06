@@ -3,6 +3,7 @@ package stonering.game;
 import stonering.game.controller.controllers.GameController;
 import stonering.game.model.GameModel;
 import stonering.game.view.GameView;
+import stonering.util.global.TagLoggersEnum;
 
 import java.io.Serializable;
 
@@ -32,7 +33,7 @@ public class GameMvc implements Serializable {
     }
 
     public void init() {
-        model.init();
+        if(model != null) model.init();
         if(controller != null) controller.init();
         if(view != null) view.init();
     }

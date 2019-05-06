@@ -8,6 +8,7 @@ import stonering.game.view.tilemaps.LocalTileMap;
 import stonering.generators.localgen.LocalGenConfig;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.entity.local.environment.GameCalendar;
+import stonering.util.global.TagLoggersEnum;
 
 /**
  * Model of game, contains LocalMap and sub-Containers. Inits all components after creation.
@@ -27,13 +28,14 @@ public class MainGameModel extends GameModel {
         super.init();
         get(GameCalendar.class).addListener(GameCalendar.MINUTE, get(World.class).getStarSystem());
         get(GameCalendar.class).addListener(GameCalendar.MINUTE, get(PlantContainer.class));
-        get(LocalMap.class).init(); //TODO local map inits second time here
+        get(LocalMap.class).init(); //TODO local map inited second time here
     }
 
     /**
      * Creates model components.
      */
     public void createComponents(World world) {
+        TagLoggersEnum.GENERAL.logDebug("creating model components");
         put(world);
         put(new LocalTileMap(get(LocalMap.class)));
         put(new PlantContainer());
@@ -45,5 +47,6 @@ public class MainGameModel extends GameModel {
         put(new LiquidContainer());
         put(new GameCalendar());            // slow game entities make turns through this.
         put(new EntitySelector());          // local map camera
+
     }
 }

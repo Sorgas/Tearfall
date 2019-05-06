@@ -17,13 +17,6 @@ import java.util.List;
  */
 public class BuildingGenerator {
 
-    public BuildingGenerator() {
-        init();
-    }
-
-    public void init() {
-    }
-
     public Building generateBuilding(String name, Position position) {
         BuildingType type = BuildingTypeMap.getInstance().getBuilding(name);
         if (type == null) {

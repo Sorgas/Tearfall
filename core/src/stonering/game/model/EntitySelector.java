@@ -2,6 +2,7 @@ package stonering.game.model;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import stonering.util.global.Startable;
 import stonering.util.validation.PositionValidator;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.GameMvc;
@@ -18,7 +19,7 @@ import stonering.util.global.Initable;
  * //TODO add binds for entities and positions (numbers prob.).
  * @author Alexander Kuzyakov on 10.12.2017.
  */
-public class EntitySelector implements ModelComponent, Initable {
+public class EntitySelector implements ModelComponent, Initable, Startable {
     private LocalMap localMap;
     private Position position;
     private TextureRegion selectorSprite; // shows selector position, and selected designation.
@@ -36,16 +37,16 @@ public class EntitySelector implements ModelComponent, Initable {
     public void init() {
         localMap = GameMvc.instance().getModel().get(LocalMap.class);
         selectorSprite = new TextureRegion(new Texture("sprites/ui_tiles.png"), 0, 406, 64, 96);
-        placeToCenter();
     }
 
     /**
      * Places selector to the center of local map.
      */
-    private void placeToCenter() {
+    @Override
+    public void start() {
         position = new Position(localMap.xSize / 2, localMap.ySize / 2, localMap.zSize - 1);
-        while (localMap.getBlockType(position.getX(), position.getY(), position.getZ()) <= BlockTypesEnum.SPACE.CODE) {
-            position.setZ(position.getZ() - 1);
+        while (localMap.getBlockType(position.x, position.y, position.z) == BlockTypesEnum.SPACE.CODE) {
+            position.z--;
         }
     }
 

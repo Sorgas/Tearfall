@@ -33,7 +33,6 @@ public class BuildingContainer extends Turnable implements ModelComponent, Inita
     }
 
     public void init() {
-        buildingGenerator.init();
         buildings.forEach(this::placeBuilding);
     }
 

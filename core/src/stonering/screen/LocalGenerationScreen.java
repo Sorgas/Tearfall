@@ -62,11 +62,12 @@ public class LocalGenerationScreen extends SimpleScreen {
         proceedButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                GameMvc.createInstance(localGeneratorContainer.getGameModel());
-                GameMvc.instance().createViewAndController();
-                GameMvc.instance().init();
+                GameMvc gameMvc = GameMvc.createInstance(localGeneratorContainer.getGameModel());
+                gameMvc.createViewAndController();
+                gameMvc.getModel().startContainer();
+                gameMvc.init();
                 game.switchToGame();
-                GameMvc.instance().getModel().startContainer();
+                gameMvc.getModel().setPaused(false);
             }
         });
         menuTable.add(proceedButton).pad(0);
