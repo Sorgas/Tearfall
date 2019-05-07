@@ -6,9 +6,12 @@ import stonering.entity.local.plants.aspects.PlantGrowthAspect;
 import stonering.enums.materials.MaterialMap;
 import stonering.enums.plants.PlantMap;
 import stonering.enums.plants.PlantBlocksTypeEnum;
+import stonering.enums.plants.PlantType;
 import stonering.exceptions.DescriptionNotFoundException;
 import stonering.entity.local.plants.Plant;
 import stonering.entity.local.plants.PlantBlock;
+
+import java.util.Arrays;
 
 /**
  * Generates single tile plants (not trees).
@@ -21,10 +24,9 @@ public class PlantGenerator {
      * Generates {@link Plant} object by name of its type and initial age.
      */
     public Plant generatePlant(String specimen, int age) throws DescriptionNotFoundException {
-        if (PlantMap.getInstance().getPlantType(specimen) == null)
-            throw new DescriptionNotFoundException("Plant type " + specimen + " not found");
-        Plant plant = new Plant(null, 0);
-        plant.setType(PlantMap.getInstance().getPlantType(specimen));
+        PlantType type = PlantMap.getInstance().getPlantType(specimen);
+        if (type == null) throw new DescriptionNotFoundException("Plant type " + specimen + " not found");
+        Plant plant = new Plant(null, type, 0);
         plant.setBlock(createPlantBlock(plant, age));
         plant.addAspect(new PlantGrowthAspect(plant));
         return plant;
@@ -34,10 +36,9 @@ public class PlantGenerator {
      * Generates {@link SubstratePlant} object by name of its type and initial age.
      */
     public SubstratePlant generateSubstrate(String specimen, int age) throws DescriptionNotFoundException {
-        if (PlantMap.getInstance().getPlantType(specimen) == null)
-            throw new DescriptionNotFoundException("Plant type " + specimen + " not found");
-        SubstratePlant plant = new SubstratePlant(null, 0);
-        plant.setType(PlantMap.getInstance().getPlantType(specimen));
+        PlantType type = PlantMap.getInstance().getSubstrateType(specimen);
+        if (type == null) throw new DescriptionNotFoundException("Plant type " + specimen + " not found");
+        SubstratePlant plant = new SubstratePlant(null, type, 0);
         plant.setBlock(createPlantBlock(plant, age));
         plant.addAspect(new PlantGrowthAspect(plant));
         return plant;
@@ -58,9 +59,7 @@ public class PlantGenerator {
 
     private PlantBlock createPlantBlock(Plant plant, int age) {
         PlantBlock plantBlock = new PlantBlock(MaterialMap.getInstance().getId(plant.getType().materialName), PlantBlocksTypeEnum.SINGLE_PASSABLE.getCode());
-        plantBlock.setAtlasXY(new int[]{
-                plant.getCurrentStage().atlasXY[0],
-                plant.getCurrentStage().atlasXY[1]});
+        plantBlock.setAtlasXY(Arrays.copyOf(plant.getCurrentStage().atlasXY, 2));
         plantBlock.setPlant(plant);
         initBlockProducts(plantBlock, age);
         return plantBlock;

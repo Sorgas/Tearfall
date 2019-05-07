@@ -6,6 +6,7 @@ import stonering.enums.materials.Material;
 import stonering.enums.materials.MaterialMap;
 import stonering.enums.plants.PlantMap;
 import stonering.enums.plants.PlantType;
+import stonering.exceptions.DescriptionNotFoundException;
 import stonering.game.model.lists.PlantContainer;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.generators.plants.TreeGenerator;
@@ -38,16 +39,22 @@ public class LocalForestGenerator extends LocalFloraGenerator {
 
     @Override
     protected void placePlants(String specimen, float amount) {
-        Collections.shuffle(positions);
-        TreeGenerator treeGenerator = new TreeGenerator();
-        int maxAge = PlantMap.getInstance().getTreeType(specimen).getMaxAge();
-        for (int i = 0; i < amount; i++) {
-            if (positions.isEmpty()) return;
-            Position position = positions.remove(0);
-            Tree tree = treeGenerator.generateTree(specimen, random.nextInt(maxAge));
-            if (!checkTreePlacing(tree, position.x, position.y, position.z)) continue;
-            tree.setPosition(position);
-            container.model.get(PlantContainer.class).place(tree);
+        try {
+            amount /= 20; // amount is lowered for trees.
+            Collections.shuffle(positions);
+            TreeGenerator treeGenerator = new TreeGenerator();
+            int maxAge = PlantMap.getInstance().getTreeType(specimen).getMaxAge();
+            for (int i = 0; i < amount; i++) {
+                if (positions.isEmpty()) return;
+                Position position = positions.remove(0);
+                Tree tree = treeGenerator.generateTree(specimen, random.nextInt(maxAge));
+                if (!checkTreePlacing(tree, position.x, position.y, position.z)) continue;
+                tree.setPosition(position);
+                container.model.get(PlantContainer.class).place(tree);
+            }
+        } catch (DescriptionNotFoundException e) {
+            e.printStackTrace();
+            return;
         }
     }
 
@@ -68,6 +75,17 @@ public class LocalForestGenerator extends LocalFloraGenerator {
                     if (!localMap.inMap(mapX, mapY, mapZ)) continue;
                     //TODO add blocks validation
                     if (plantContainer.getPlantBlocks().containsKey(cachePosition.set(mapX, mapY, mapZ))) return false;
+                }
+            }
+        }
+        return hasTreesNear(tree.getPosition(), 2);
+    }
+
+    private boolean hasTreesNear(Position position, int radius) {
+        for (int x = position.x - radius; x < position.x + radius; x++) {
+            for (int y = position.y - radius; y < position.y + radius; y++) {
+                for (int z = position.z - 1; z < position.z + 3; z++) {
+                    if(plantContainer.getPlantBlocks().get(cachePosition.set(x,y,z)) != null) return false;
                 }
             }
         }

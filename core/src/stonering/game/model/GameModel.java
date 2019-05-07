@@ -41,8 +41,7 @@ public abstract class GameModel implements Initable, Serializable {
      * Used for components binding.
      */
     @Override
-    public void init() {
-        components.values().forEach(component ->
+    public void init() { components.values().forEach(component ->
         {
             if (component instanceof Initable) ((Initable) component).init();
         });

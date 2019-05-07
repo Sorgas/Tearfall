@@ -10,22 +10,33 @@ import stonering.util.geometry.Position;
  */
 public abstract class AbstractPlant extends AspectHolder {
     protected PlantType type;
-    protected int age; // months
-    protected boolean dead;
+    private int age; // months
     private int currentStage;
+    private boolean dead;
 
-    protected AbstractPlant(Position position) {
+    protected AbstractPlant(Position position, PlantType type, int age) {
         super(position);
+        this.age = age;
+        this.type = type;
+        countStage();
     }
 
-    public PlantLifeStage getCurrentStage() {
-        return type.lifeStages.get(currentStage);
+    /**
+     * Initializes stage number by plant name;
+     */
+    private void countStage() {
+        for (PlantLifeStage stage : type.lifeStages) {
+            if(stage.stageEnd > age && (stage.stageEnd - stage.stageLength) <= age)
+                currentStage = type.lifeStages.indexOf(stage);
+        }
     }
 
-    /**-
+    /**
      * Increases age by 1 month.
      *
-     * @return 1, if stage changed, -1 if last stage ended.
+     * @return 0 - stage continues,
+     *         1 - stage changed,
+     *         -1 - last stage ended.
      */
     public int increaceAge() {
         if (dead) return -1;
@@ -33,6 +44,10 @@ public abstract class AbstractPlant extends AspectHolder {
         if (type.lifeStages.get(currentStage).getStageEnd() > age) return 0;
         currentStage++;
         return currentStage == type.lifeStages.size() ? -1 : 1;
+    }
+
+    public PlantLifeStage getCurrentStage() {
+        return type.lifeStages.get(currentStage);
     }
 
     public abstract boolean isHarvestable();
@@ -43,10 +58,6 @@ public abstract class AbstractPlant extends AspectHolder {
 
     public PlantType getType() {
         return type;
-    }
-
-    public void setType(PlantType type) {
-        this.type = type;
     }
 
     public int getAge() {

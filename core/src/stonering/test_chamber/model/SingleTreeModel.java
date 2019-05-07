@@ -9,6 +9,7 @@ import stonering.entity.local.plants.Tree;
 import stonering.entity.world.World;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.materials.MaterialMap;
+import stonering.exceptions.DescriptionNotFoundException;
 import stonering.game.model.EntitySelector;
 import stonering.game.model.GameModel;
 import stonering.game.model.lists.tasks.TaskContainer;
@@ -69,10 +70,14 @@ public class SingleTreeModel extends GameModel {
 
     private List<AbstractPlant> createTree() {
         List<AbstractPlant> plants = new ArrayList<>();
-        TreeGenerator treeGenerator = new TreeGenerator();
-        Tree tree = treeGenerator.generateTree("willow", 0);
-        tree.setPosition(new Position(TREE_CENTER, TREE_CENTER, 2));
-        plants.add(tree);
+        try {
+            TreeGenerator treeGenerator = new TreeGenerator();
+            Tree tree = treeGenerator.generateTree("willow", 0);
+            tree.setPosition(new Position(TREE_CENTER, TREE_CENTER, 2));
+            plants.add(tree);
+        } catch (DescriptionNotFoundException e) {
+            e.printStackTrace();
+        }
         return plants;
     }
 

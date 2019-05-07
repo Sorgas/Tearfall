@@ -1,5 +1,6 @@
 package stonering.entity.local.plants;
 
+import stonering.enums.plants.PlantType;
 import stonering.game.model.lists.PlantContainer;
 import stonering.util.geometry.Position;
 
@@ -13,17 +14,8 @@ import java.util.List;
 public class Tree extends AbstractPlant {
     private PlantBlock[][][] blocks; //TODO replace with map(vector from stomp, block)
 
-    public Tree(Position position, int age) {
-        super(position);
-        this.age = age;
-    }
-
-    public Position getRelativePosition(Position mapPos) {
-        return new Position(
-                mapPos.x + getCurrentStage().getTreeRadius() - position.x,
-                mapPos.y + getCurrentStage().getTreeRadius() - position.y,
-                mapPos.z + getCurrentStage().treeForm.get(2) - position.z
-        );
+    public Tree(Position position, PlantType type, int age) {
+        super(position, type, age);
     }
 
     /**
@@ -44,14 +36,6 @@ public class Tree extends AbstractPlant {
     @Override
     public boolean isHarvestable() {
         return getCurrentStage().harvestProducts != null;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
     }
 
     public Position getPosition() {

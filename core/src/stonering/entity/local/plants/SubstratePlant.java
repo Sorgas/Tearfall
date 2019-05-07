@@ -1,5 +1,6 @@
 package stonering.entity.local.plants;
 
+import stonering.enums.plants.PlantType;
 import stonering.game.model.lists.PlantContainer;
 import stonering.util.geometry.Position;
 
@@ -11,8 +12,8 @@ import stonering.util.geometry.Position;
  */
 public class SubstratePlant extends Plant {
 
-    public SubstratePlant(Position position, int age) {
-        super(position, age);
+    public SubstratePlant(Position position, PlantType type, int age) {
+        super(position, type, age);
     }
 
     @Override

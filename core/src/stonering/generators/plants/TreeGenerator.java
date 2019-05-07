@@ -4,7 +4,9 @@ import stonering.entity.local.plants.aspects.PlantGrowthAspect;
 import stonering.enums.materials.MaterialMap;
 import stonering.enums.plants.PlantMap;
 import stonering.enums.plants.PlantBlocksTypeEnum;
+import stonering.enums.plants.PlantType;
 import stonering.enums.plants.TreeTileMapping;
+import stonering.exceptions.DescriptionNotFoundException;
 import stonering.util.geometry.Position;
 import stonering.entity.local.plants.PlantBlock;
 import stonering.entity.local.plants.Tree;
@@ -19,9 +21,9 @@ import java.util.Random;
  */
 public class TreeGenerator {
 
-    public Tree generateTree(String specimen, int age) throws IllegalArgumentException {
-        Tree tree = new Tree(null, age);
-        tree.setType(PlantMap.getInstance().getTreeType(specimen));
+    public Tree generateTree(String specimen, int age) throws DescriptionNotFoundException {
+        PlantType type = PlantMap.getInstance().getTreeType(specimen);
+        Tree tree = new Tree(null, type, age);
         tree.setBlocks(createTreeBlocks(tree));
         tree.addAspect(new PlantGrowthAspect(tree));
         return tree;

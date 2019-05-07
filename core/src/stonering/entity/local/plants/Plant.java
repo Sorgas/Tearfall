@@ -1,5 +1,6 @@
 package stonering.entity.local.plants;
 
+import stonering.enums.plants.PlantType;
 import stonering.util.geometry.Position;
 
 /**
@@ -10,9 +11,8 @@ import stonering.util.geometry.Position;
 public class Plant extends AbstractPlant {
     private PlantBlock block;
 
-    public Plant(Position position, int age) {
-        super(position);
-        this.age = age;
+    public Plant(Position position, PlantType type, int age) {
+        super(position, type, age);
     }
 
     @Override

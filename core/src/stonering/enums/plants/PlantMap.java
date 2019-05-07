@@ -2,6 +2,7 @@ package stonering.enums.plants;
 
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
+import stonering.exceptions.DescriptionNotFoundException;
 import stonering.util.global.FileLoader;
 import stonering.util.global.TagLoggersEnum;
 
@@ -56,16 +57,22 @@ public class PlantMap {
         plantTypes.values().stream().filter(type -> type.isPlant()).forEach(type -> domesticTypes.put(type.name, type));
     }
 
-    public PlantType getPlantType(String specimen) {
+    public PlantType getPlantType(String specimen) throws DescriptionNotFoundException {
+        if (!plantTypes.containsKey(specimen))
+            throw new DescriptionNotFoundException("Plant type with name " + specimen + " not found1");
         return plantTypes.get(specimen);
     }
 
-    public PlantType getTreeType(String specimen) {
+    public PlantType getTreeType(String specimen) throws DescriptionNotFoundException {
+        if (!treeTypes.containsKey(specimen))
+            throw new DescriptionNotFoundException("Plant type with name " + specimen + " not found1");
         return treeTypes.get(specimen);
     }
 
-    public PlantType getSubstrateType(String specimen) {
-        return treeTypes.get(specimen);
+    public PlantType getSubstrateType(String specimen) throws DescriptionNotFoundException {
+        if (!substrateTypes.containsKey(specimen))
+            throw new DescriptionNotFoundException("Plant type with name " + specimen + " not found1");
+        return substrateTypes.get(specimen);
     }
 
     public Collection<PlantType> getDomesticTypes() {
