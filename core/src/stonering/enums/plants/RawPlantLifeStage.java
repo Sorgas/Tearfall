@@ -10,7 +10,7 @@ import java.util.List;
 public class RawPlantLifeStage {
     public String[] titlePrefixSuffix;
     public int stageLength;
-    public List<String> harvestProducts;
+    public List<String> harvestProduct;
     public List<String> cutProducts;
     public int[] atlasXY;
     public String color;

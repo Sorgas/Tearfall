@@ -46,7 +46,7 @@ public class PlantTypeProcessor {
         PlantLifeStage stage = new PlantLifeStage();
         stage.titlePrefixSuffix = rawStage.titlePrefixSuffix;
         stage.stageLength = rawStage.stageLength;
-        stage.harvestProducts = rawStage.harvestProducts;
+        stage.harvestProducts = rawStage.harvestProduct;
         stage.cutProducts = rawStage.cutProducts;
         stage.atlasXY = rawStage.atlasXY;
         stage.color = rawStage.color;
@@ -68,5 +68,9 @@ public class PlantTypeProcessor {
             type.placingTags.add(LIGHT_HIGH);
             type.placingTags.add(LIGHT_LOW);
         }
+    }
+
+    private void processHarvestProduct() {
+
     }
 }

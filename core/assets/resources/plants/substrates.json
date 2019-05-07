@@ -13,8 +13,6 @@
         "lifeStages": [
             {
                 "stageLength": "1",
-                "harvestProducts": null,
-                "cutProducts": null,
                 "atlasXY": ["0", "0"],
                 "color": "0xffffffff"
             }
