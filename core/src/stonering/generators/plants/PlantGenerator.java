@@ -26,8 +26,8 @@ public class PlantGenerator {
     public Plant generatePlant(String specimen, int age) throws DescriptionNotFoundException {
         PlantType type = PlantMap.getInstance().getPlantType(specimen);
         if (type == null) throw new DescriptionNotFoundException("Plant type " + specimen + " not found");
-        Plant plant = new Plant(null, type, 0);
-        plant.setBlock(createPlantBlock(plant, age));
+        Plant plant = new Plant(null, type, age);
+        plant.setBlock(createPlantBlock(plant));
         plant.addAspect(new PlantGrowthAspect(plant));
         return plant;
     }
@@ -38,8 +38,8 @@ public class PlantGenerator {
     public SubstratePlant generateSubstrate(String specimen, int age) throws DescriptionNotFoundException {
         PlantType type = PlantMap.getInstance().getSubstrateType(specimen);
         if (type == null) throw new DescriptionNotFoundException("Plant type " + specimen + " not found");
-        SubstratePlant plant = new SubstratePlant(null, type, 0);
-        plant.setBlock(createPlantBlock(plant, age));
+        SubstratePlant plant = new SubstratePlant(null, type, age);
+        plant.setBlock(createPlantBlock(plant));
         plant.addAspect(new PlantGrowthAspect(plant));
         return plant;
     }
@@ -52,20 +52,15 @@ public class PlantGenerator {
         return generatePlant(aspect.getSpecimen(), 0);
     }
 
-    private void initBlockProducts(PlantBlock block, int age) {
-        block.setHarvestProducts(block.getPlant().getCurrentStage().harvestProducts);
-        block.setCutProducts(block.getPlant().getCurrentStage().cutProducts);
-    }
-
-    private PlantBlock createPlantBlock(Plant plant, int age) {
+    private PlantBlock createPlantBlock(Plant plant) {
         PlantBlock plantBlock = new PlantBlock(MaterialMap.getInstance().getId(plant.getType().materialName), PlantBlocksTypeEnum.SINGLE_PASSABLE.getCode());
         plantBlock.setAtlasXY(Arrays.copyOf(plant.getCurrentStage().atlasXY, 2));
         plantBlock.setPlant(plant);
-        initBlockProducts(plantBlock, age);
+        plantBlock.setHarvested(false);
         return plantBlock;
     }
 
     public void applyPlantGrowth(Plant plant) {
-        plant.setBlock(createPlantBlock(plant, plant.getAge()));
+        plant.setBlock(createPlantBlock(plant));
     }
 }

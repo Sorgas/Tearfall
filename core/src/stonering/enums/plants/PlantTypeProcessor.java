@@ -1,6 +1,7 @@
 package stonering.enums.plants;
 
-import java.util.Collections;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static stonering.enums.generation.PlantPlacingTags.*;
 
@@ -10,6 +11,7 @@ import static stonering.enums.generation.PlantPlacingTags.*;
  * @author Alexander_Kuzyakov on 30.04.2019.
  */
 public class PlantTypeProcessor {
+    private Set<Integer> allMonthsSet = new HashSet<>(Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11));
 
     public PlantType processRawType(RawPlantType rawType) {
         PlantType type = new PlantType();
@@ -46,7 +48,7 @@ public class PlantTypeProcessor {
         PlantLifeStage stage = new PlantLifeStage();
         stage.titlePrefixSuffix = rawStage.titlePrefixSuffix;
         stage.stageLength = rawStage.stageLength;
-        stage.harvestProducts = rawStage.harvestProduct;
+        stage.harvestProducts = processHarvestProduct(rawStage.harvestProduct);
         stage.cutProducts = rawStage.cutProducts;
         stage.atlasXY = rawStage.atlasXY;
         stage.color = rawStage.color;
@@ -70,7 +72,15 @@ public class PlantTypeProcessor {
         }
     }
 
-    private void processHarvestProduct() {
-
+    private PlantProduct processHarvestProduct(List<String> productArgs) {
+        PlantProduct product = new PlantProduct();
+        product.name = productArgs.get(0);
+        product.setFormulaArgs(Arrays.stream(productArgs.get(1).split("-")).map(s -> Integer.valueOf(s)).collect(Collectors.toList()).toArray(new Integer[3]));
+        if ("all".equals(productArgs.get(2))) {
+            product.months = allMonthsSet;
+        } else {
+            product.months = Arrays.stream(productArgs.get(2).split(",")).map(s -> Integer.valueOf(s)).collect(Collectors.toSet());
+        }
+        return product;
     }
 }

@@ -22,7 +22,7 @@
         crownRadius, height, rootDepth, rootRadius for trees
     lifeStages:
         stages with length, products, material and sprite.
-    harvestProducts:
+    harvestProduct:
         item,
         number formula (per block), // format: [min]-[max]/[divider] roll [min, max] will be lowered by divider and rounded up
         months // numbers of months (0,11) or 'all' keyword when product can be got.
@@ -42,7 +42,7 @@
         "lifeStages":[
             {
                 "stageLength":"1",
-                "harvestProducts":[["red_moss", "1-1/1", "all"]],
+                "harvestProducts":["red_moss", "1-1-1", "all"],
                 "atlasXY":["1", "0"],
                 "color":"0xffffffff"
             }
@@ -74,7 +74,7 @@
     "lifeStages":[
         {
             "stageLength":"1",
-            "harvestProducts":[["blueberry", "1-1/1", "4,5,6"]],
+            "harvestProducts":["blueberry", "1-1-1", "4,5,6"],
             "atlasXY":["2", "0"],
             "color":"0xffffffff"
         }

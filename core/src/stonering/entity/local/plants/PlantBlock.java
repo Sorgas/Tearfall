@@ -4,7 +4,9 @@ import stonering.enums.plants.PlantBlocksTypeEnum;
 import stonering.util.geometry.Position;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Class to be contained on LocalMap. Also stores render data
@@ -17,14 +19,11 @@ public class PlantBlock {
     private int material;
     private int blockType; // type from enum
     private int[] atlasXY;
-    private List<String> harvestProducts;
-    private List<String> cutProducts;
+    private boolean harvested;
 
     public PlantBlock(int material, int blockType) {
         this.material = material;
         this.blockType = blockType;
-        harvestProducts = new ArrayList<>();
-        cutProducts = new ArrayList<>();
     }
 
     public PlantBlocksTypeEnum getType() {
@@ -67,23 +66,15 @@ public class PlantBlock {
         this.position = position;
     }
 
-    public List<String> getHarvestProducts() {
-        return harvestProducts;
-    }
-
-    public void setHarvestProducts(List<String> harvestProducts) {
-        this.harvestProducts = harvestProducts;
-    }
-
-    public List<String> getCutProducts() {
-        return cutProducts;
-    }
-
-    public void setCutProducts(List<String> cutProducts) {
-        this.cutProducts = cutProducts;
-    }
-
     public AbstractPlant getPlant() {
         return plant;
+    }
+
+    public boolean isHarvested() {
+        return harvested;
+    }
+
+    public void setHarvested(boolean harvested) {
+        this.harvested = harvested;
     }
 }

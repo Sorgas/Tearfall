@@ -1,6 +1,7 @@
 package stonering.enums.plants;
 
-import java.util.List;
+import java.util.Random;
+import java.util.Set;
 
 /**
  * Represents items harvested from or dropped by plant when cut.
@@ -8,8 +9,19 @@ import java.util.List;
  * @author Alexander_Kuzyakov on 07.05.2019.
  */
 public class PlantProduct {
+    private static Random random = new Random();
     public String name;
-    public int minNumber;
-    public int maxNumber;
-    public List<Integer> months;
+    private Integer[] formulaArgs;
+    public Set<Integer> months;
+
+    /**
+     * Rolls the number of products by formula.
+     */
+    public int roll() {
+        return (int) Math.max(Math.ceil((random.nextFloat() * formulaArgs[1] - formulaArgs[0]) / formulaArgs[2]), 0);
+    }
+
+    public void setFormulaArgs(Integer[] formulaArgs) {
+        this.formulaArgs = formulaArgs;
+    }
 }
