@@ -1,10 +1,12 @@
 package stonering.game.view.render.stages.base;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import stonering.designations.Designation;
 import stonering.entity.local.building.BuildingBlock;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.plants.PlantBlock;
 import stonering.entity.local.zone.Zone;
+import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.designations.DesignationsTileMapping;
 import stonering.game.GameMvc;
 import stonering.game.model.EntitySelector;
@@ -15,6 +17,7 @@ import stonering.game.model.local_map.LocalMap;
 import stonering.game.view.render.util.Int3DBounds;
 import stonering.game.view.tilemaps.LocalTileMap;
 import stonering.util.geometry.Position;
+import stonering.util.global.TagLoggersEnum;
 
 import java.util.ArrayList;
 
@@ -26,6 +29,7 @@ import java.util.ArrayList;
 public class TileRenderer extends Renderer {
     private LocalMap localMap;
     private LocalTileMap localTileMap;
+    private PlantContainer plantContainer;
     private EntitySelector selector;
     private UnitContainer unitContainer;
     private TaskContainer taskContainer;
@@ -36,12 +40,13 @@ public class TileRenderer extends Renderer {
     public TileRenderer(DrawingUtil drawingUtil, Int3DBounds visibleArea) {
         super(drawingUtil);
         this.visibleArea = visibleArea;
-        GameModel gameModel = GameMvc.instance().getModel();
-        localMap = gameModel.get(LocalMap.class);
-        localTileMap = gameModel.get(LocalTileMap.class);
-        selector = gameModel.get(EntitySelector.class);
-        unitContainer = gameModel.get(UnitContainer.class);
-        taskContainer = gameModel.get(TaskContainer.class);
+        GameModel model = GameMvc.instance().getModel();
+        localMap = model.get(LocalMap.class);
+        localTileMap = model.get(LocalTileMap.class);
+        selector = model.get(EntitySelector.class);
+        unitContainer = model.get(UnitContainer.class);
+        taskContainer = model.get(TaskContainer.class);
+        plantContainer = model.get(PlantContainer.class);
         cachePosition = new Position(0, 0, 0);
     }
 
@@ -60,7 +65,7 @@ public class TileRenderer extends Renderer {
 
     /**
      * Draws all content of the tile.
-     * Draw order: block, plants, building, unit, items, designation.
+     * Draw order: block, water, substrate plants, plants, building, unit, items, designation.
      * //TODO refactor
      */
     private void drawTile(int x, int y, int z) {
@@ -69,13 +74,12 @@ public class TileRenderer extends Renderer {
         //byte lightLevel = (byte) (localMap.getLight().getValue(x, y, z) + localMap.getGeneralLight().getValue(x, y, z));  //TODO limit light level
         //drawingUtil.shadeByLight(lightLevel);
         drawBlock(x, y, z);
+        drawSubstrate(x, y, z);
         drawingUtil.updateColorA(0.6f);
         drawWaterBlock(x, y, z);
         drawingUtil.updateColorA(1f);
-        PlantBlock block = model.get(PlantContainer.class).getSubstrateBlocks().get(cachePosition);
-        if (block != null)
-            drawingUtil.drawSprite(drawingUtil.selectSprite(6, localTileMap.getAtlasX(x, y, z), block.getAtlasXY()[1]), x, y, z, selector.getPosition());
-        block = model.get(PlantContainer.class).getPlantBlocks().get(cachePosition);
+        cachePosition.set(x, y, z);
+        PlantBlock block = plantContainer.getPlantBlocks().get(cachePosition);
         if (block != null)
             drawingUtil.drawSprite(drawingUtil.selectSprite(1, block.getAtlasXY()[0], block.getAtlasXY()[1]), x, y, z, selector.getPosition());
         BuildingBlock buildingBlock = model.get(BuildingContainer.class).getBuildingBlocks().get(cachePosition);
@@ -101,18 +105,33 @@ public class TileRenderer extends Renderer {
     }
 
     /**
-     * Draws block parts.
+     * Draws block parts. Rendering data is stored in {@link LocalTileMap}.
+     * Also draws topping part of lower block.
      */
     private void drawBlock(int x, int y, int z) {
         int atlas = localTileMap.getAtlasNum(x, y, z);
+        TextureRegion region = null;
         if (atlas >= 0) { // not empty cell
-            drawingUtil.drawSprite(drawingUtil.selectSprite(atlas, localTileMap.getAtlasX(x, y, z), localTileMap.getAtlasY(x, y, z)), x, y, z, selector.getPosition());
+            region = drawingUtil.selectSprite(atlas, localTileMap.getAtlasX(x, y, z), localTileMap.getAtlasY(x, y, z));
         } else {
             int lowerAtlas;
             if (z > 0 && (lowerAtlas = localTileMap.getAtlasNum(x, y, z - 1)) >= 0) {// not empty cell lower
-                drawingUtil.drawSprite(drawingUtil.selectToping(lowerAtlas, localTileMap.getAtlasX(x, y, z - 1), localTileMap.getAtlasY(x, y, z - 1)), x, y, z, selector.getPosition());
+                region = drawingUtil.selectToping(lowerAtlas, localTileMap.getAtlasX(x, y, z - 1), localTileMap.getAtlasY(x, y, z - 1));
             }
         }
+        if (region != null) drawingUtil.drawSprite(region, x, y, z, selector.getPosition());
+    }
+
+    private void drawSubstrate(int x, int y, int z) {
+        TextureRegion region = null;
+        PlantBlock block = plantContainer.getSubstrateBlocks().get(cachePosition.set(x, y, z));
+        if (block != null)
+            region = drawingUtil.selectSprite(6, localTileMap.getAtlasX(x, y, z), block.getAtlasXY()[1]);
+        else if (z > 0 && (block = plantContainer.getSubstrateBlocks().get(cachePosition.set(x,y,z-1))) != null) {
+            region = drawingUtil.selectToping(6, localTileMap.getAtlasX(x, y, z - 1), block.getAtlasXY()[1]);
+        }
+        if (region != null)
+            drawingUtil.drawSprite(region, x, y, z, selector.getPosition());
     }
 
     /**

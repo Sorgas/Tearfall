@@ -2,6 +2,7 @@ package stonering.generators.localgen.generators.flora;
 
 import stonering.entity.local.plants.SubstratePlant;
 import stonering.entity.local.plants.Tree;
+import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.plants.PlantMap;
 import stonering.enums.plants.PlantType;
 import stonering.exceptions.DescriptionNotFoundException;
@@ -41,10 +42,12 @@ public class LocalSubstrateGenerator extends LocalFloraGenerator {
             for (int i = 0; i < amount; i++) {
                 if (positions.isEmpty()) return;
                 Position position = positions.remove(0);
-                if(plantContainer.getSubstrateBlocks().containsKey(position)) continue;
+                if (plantContainer.getSubstrateBlocks().containsKey(position)) continue;
                 SubstratePlant plant = plantGenerator.generateSubstrate(specimen, 0);
                 plant.setPosition(position);
+                if(localMap.getBlockType(plant.getPosition()) == BlockTypesEnum.RAMP.CODE) System.out.println("qe");
                 container.model.get(PlantContainer.class).place(plant);
+
                 counter++;
             }
         } catch (DescriptionNotFoundException e) {

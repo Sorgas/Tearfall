@@ -4,6 +4,9 @@ import stonering.enums.generation.PlantPlacingTags;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 
+/**
+ * Checks that distance to water is within bounds.
+ */
 public class DistanceToWaterValidator extends PositionValidator {
     public static final int XY_DISTANCE = 5;
     public static final int Z_DISTANCE = 1;

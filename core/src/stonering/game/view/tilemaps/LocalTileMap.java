@@ -6,9 +6,8 @@ import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 
 /**
- * Contains resolved tiles of blocks and plants.
- * It is introduced as cache for rarely updated tiles.
- * Ramps are main reason, because they require observation of neighbour tiles.
+ * Contains resolved sprite data of blocks as they are updated rarely.
+ * Ramps are main reason, because their resolving require observation of neighbour tiles.
  *
  * @author Alexander Kuzyakov on 02.08.2017.
  */

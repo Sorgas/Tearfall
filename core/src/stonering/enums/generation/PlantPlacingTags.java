@@ -19,9 +19,9 @@ public enum PlantPlacingTags {
     LIGHT_LOW("light_low ", new EmptyValidator()),                  //TODO implement vaidators
     LIGHT_HIGH("light_high", new EmptyValidator()),                 //TODO implement vaidators
     LIGHT_OPEN("light_open", new EmptyValidator()),                 // not used outside json ad this enum. //TODO implement vaidators
-    SOIL_SOIL("soil_soil", new FloorMaterialValidator("soil")),                   //TODO implement vaidators
-    SOIL_STONE("soil_stone", new FloorMaterialValidator("stone")),                 //TODO implement vaidators
-    SOIL_WOOD("soil_wood", new FloorMaterialValidator("wood"));                   //TODO implement vaidators
+    SOIL_SOIL("soil_soil", new TileMaterialValidator("soil")),                   //TODO implement vaidators
+    SOIL_STONE("soil_stone", new TileMaterialValidator("stone")),                 //TODO implement vaidators
+    SOIL_WOOD("soil_wood", new TileMaterialValidator("wood"));                   //TODO implement vaidators
 
     private static Map<String, PlantPlacingTags> tagMap;
     public static final List<PlantPlacingTags> WATER_GROUP = Arrays.asList(WATER_FAR, WATER_NEAR, WATER_UNDER);
