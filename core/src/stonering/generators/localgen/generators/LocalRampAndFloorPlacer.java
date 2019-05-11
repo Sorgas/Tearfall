@@ -2,7 +2,6 @@ package stonering.generators.localgen.generators;
 
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.model.local_map.LocalMap;
-import stonering.generators.localgen.LocalGenConfig;
 import stonering.generators.localgen.LocalGenContainer;
 
 /**
@@ -12,18 +11,17 @@ import stonering.generators.localgen.LocalGenContainer;
  */
 public class LocalRampAndFloorPlacer extends LocalAbstractGenerator {
     private LocalMap localMap;
+    private int wallCode = BlockTypesEnum.WALL.CODE;
+    private int spaceCode = BlockTypesEnum.SPACE.CODE;
+    private int rampCode = BlockTypesEnum.RAMP.CODE;
 
     public LocalRampAndFloorPlacer(LocalGenContainer container) {
         super(container);
     }
 
-    int wallCode = BlockTypesEnum.WALL.CODE;
-    int spaceCode = BlockTypesEnum.SPACE.CODE;
-    int rampCode = BlockTypesEnum.RAMP.CODE;
-
     public void execute() {
         System.out.println("placing ramps");
-        this.localMap = container.model.get(LocalMap.class);
+        localMap = container.model.get(LocalMap.class);
         fillRamps();
         fillFloors();
     }

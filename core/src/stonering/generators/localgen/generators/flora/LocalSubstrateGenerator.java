@@ -1,12 +1,14 @@
 package stonering.generators.localgen.generators.flora;
 
 import stonering.entity.local.plants.SubstratePlant;
+import stonering.entity.local.plants.Tree;
 import stonering.enums.plants.PlantMap;
 import stonering.enums.plants.PlantType;
 import stonering.exceptions.DescriptionNotFoundException;
 import stonering.game.model.lists.PlantContainer;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.generators.plants.PlantGenerator;
+import stonering.generators.plants.TreeGenerator;
 import stonering.util.geometry.Position;
 import stonering.util.global.TagLoggersEnum;
 
@@ -16,10 +18,10 @@ import java.util.stream.Collectors;
 import static stonering.enums.blocks.BlockTypesEnum.FLOOR;
 import static stonering.enums.blocks.BlockTypesEnum.RAMP;
 
-public class LocalSubstrategenerator extends LocalFloraGenerator {
+public class LocalSubstrateGenerator extends LocalFloraGenerator {
     private Set<Byte> substrateBlockTypes;
 
-    public LocalSubstrategenerator(LocalGenContainer container) {
+    public LocalSubstrateGenerator(LocalGenContainer container) {
         super(container);
         substrateBlockTypes = new HashSet<>(Arrays.asList(FLOOR.CODE, RAMP.CODE));
     }
@@ -32,18 +34,23 @@ public class LocalSubstrategenerator extends LocalFloraGenerator {
 
     @Override
     protected void placePlants(String specimen, float amount) {
+        int counter = 0;
         try {
             Collections.shuffle(positions);
             PlantGenerator plantGenerator = new PlantGenerator();
             for (int i = 0; i < amount; i++) {
                 if (positions.isEmpty()) return;
                 Position position = positions.remove(0);
+                if(plantContainer.getSubstrateBlocks().containsKey(position)) continue;
                 SubstratePlant plant = plantGenerator.generateSubstrate(specimen, 0);
                 plant.setPosition(position);
                 container.model.get(PlantContainer.class).place(plant);
+                counter++;
             }
         } catch (DescriptionNotFoundException e) {
             System.out.println("material for plant " + specimen + " not found");
+        } finally {
+            TagLoggersEnum.GENERATION.logDebug(counter + " substrates placed.");
         }
     }
 

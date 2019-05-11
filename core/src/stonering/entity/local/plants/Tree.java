@@ -35,7 +35,7 @@ public class Tree extends AbstractPlant {
 
     @Override
     public boolean isHarvestable() {
-        return getCurrentStage().harvestProducts != null;
+        return getCurrentStage().harvestProduct != null;
     }
 
     public Position getPosition() {

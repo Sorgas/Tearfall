@@ -34,8 +34,8 @@ public class HarvestPlantAction extends Action {
     @Override
     public void performLogic() {
         PlantBlock plantBlock = ((PlantActionTarget) actionTarget).getPlant().getBlock();
-        List<Item> items = new PlantProductGenerator().generateHarvestProduct(plantBlock);
-        items.forEach(item -> GameMvc.instance().getModel().get(ItemContainer.class).putItem(item, actionTarget.getPosition()));
+        Item item = new PlantProductGenerator().generateHarvestProduct(plantBlock);
+        GameMvc.instance().getModel().get(ItemContainer.class).putItem(item, actionTarget.getPosition());
         TagLoggersEnum.TASKS.logDebug("harvesting plant finished at " + actionTarget.getPosition() + " by " + task.getPerformer());
     }
 

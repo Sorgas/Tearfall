@@ -6,7 +6,7 @@ import stonering.game.model.local_map.LocalMap;
 import stonering.generators.localgen.generators.*;
 import stonering.generators.localgen.generators.flora.LocalForestGenerator;
 import stonering.generators.localgen.generators.flora.LocalPlantsGenerator;
-import stonering.generators.localgen.generators.flora.LocalSubstrategenerator;
+import stonering.generators.localgen.generators.flora.LocalSubstrateGenerator;
 
 /**
  * Executes local generators in correct order. During generation {@link MainGameModel} is filled.
@@ -22,7 +22,7 @@ public class LocalGeneratorContainer {
     private LocalRampAndFloorPlacer localRampAndFloorPlacer;
     private LocalPlantsGenerator localPlantsGenerator;
     private LocalForestGenerator localForestGenerator;
-    private LocalSubstrategenerator localSubstrategenerator;
+    private LocalSubstrateGenerator localSubstrategenerator;
     private LocalFaunaGenerator localFaunaGenerator;
     private LocalBuildingGenerator localBuildingGenerator;
     private LocalItemsGenerator localItemsGenerator;
@@ -47,7 +47,7 @@ public class LocalGeneratorContainer {
         localItemsGenerator = new LocalItemsGenerator(localGenContainer);
         localPlantsGenerator = new LocalPlantsGenerator(localGenContainer);
         localForestGenerator = new LocalForestGenerator(localGenContainer);
-        localSubstrategenerator = new LocalSubstrategenerator(localGenContainer);
+        localSubstrategenerator = new LocalSubstrateGenerator(localGenContainer);
         localSurfaceWaterPoolsGenerator = new LocalSurfaceWaterPoolsGenerator(localGenContainer);
         localRiverGenerator = new LocalRiverGenerator(localGenContainer);
     }

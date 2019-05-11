@@ -68,13 +68,14 @@ public class DrawingUtil {
     }
 
     private void createAtlases() {
-        atlases = new Texture[6];
+        atlases = new Texture[7];
         atlases[0] = new Texture("sprites/blocks4.png");
         atlases[1] = new Texture("sprites/plants.png");
         atlases[2] = new Texture("sprites/units.png");
         atlases[3] = new Texture("sprites/buildings.png");
         atlases[4] = new Texture("sprites/ui_tiles.png");
         atlases[5] = new Texture("sprites/items.png");
+        atlases[6] = new Texture("sprites/substrates.png");
     }
 
 

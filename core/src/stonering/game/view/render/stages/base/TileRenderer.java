@@ -74,7 +74,7 @@ public class TileRenderer extends Renderer {
         drawingUtil.updateColorA(1f);
         PlantBlock block = model.get(PlantContainer.class).getSubstrateBlocks().get(cachePosition);
         if (block != null)
-            drawingUtil.drawSprite(drawingUtil.selectSprite(1, block.getAtlasXY()[0], block.getAtlasXY()[1]), x, y, z, selector.getPosition());
+            drawingUtil.drawSprite(drawingUtil.selectSprite(6, localTileMap.getAtlasX(x, y, z), block.getAtlasXY()[1]), x, y, z, selector.getPosition());
         block = model.get(PlantContainer.class).getPlantBlocks().get(cachePosition);
         if (block != null)
             drawingUtil.drawSprite(drawingUtil.selectSprite(1, block.getAtlasXY()[0], block.getAtlasXY()[1]), x, y, z, selector.getPosition());

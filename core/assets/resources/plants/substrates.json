@@ -1,5 +1,5 @@
 /*
-
+    only Y is valid for tile coordinates in atlas, X is taken by block form.
 */
 
 [

@@ -2,8 +2,6 @@ package stonering.generators.localgen.generators.flora;
 
 import stonering.entity.local.plants.PlantBlock;
 import stonering.entity.local.plants.Tree;
-import stonering.enums.materials.Material;
-import stonering.enums.materials.MaterialMap;
 import stonering.enums.plants.PlantMap;
 import stonering.enums.plants.PlantType;
 import stonering.exceptions.DescriptionNotFoundException;
@@ -39,6 +37,7 @@ public class LocalForestGenerator extends LocalFloraGenerator {
 
     @Override
     protected void placePlants(String specimen, float amount) {
+        int counter = 0;
         try {
             amount /= 20; // amount is lowered for trees.
             Collections.shuffle(positions);
@@ -51,10 +50,12 @@ public class LocalForestGenerator extends LocalFloraGenerator {
                 if (!checkTreePlacing(tree, position.x, position.y, position.z)) continue;
                 tree.setPosition(position);
                 container.model.get(PlantContainer.class).place(tree);
+                counter ++;
             }
         } catch (DescriptionNotFoundException e) {
             e.printStackTrace();
-            return;
+        } finally {
+            TagLoggersEnum.GENERATION.logDebug(counter + " trees placed.");
         }
     }
 
@@ -78,17 +79,20 @@ public class LocalForestGenerator extends LocalFloraGenerator {
                 }
             }
         }
-        return hasTreesNear(tree.getPosition(), 2);
+        return !hasTreesNear(new Position(cx, cy, cz), 2);
     }
 
+    /**
+     * Checks that in radius around position no plant blocks is present (There is only tree blocks on tree generation stage).
+     */
     private boolean hasTreesNear(Position position, int radius) {
         for (int x = position.x - radius; x < position.x + radius; x++) {
             for (int y = position.y - radius; y < position.y + radius; y++) {
                 for (int z = position.z - 1; z < position.z + 3; z++) {
-                    if(plantContainer.getPlantBlocks().get(cachePosition.set(x,y,z)) != null) return false;
+                    if(plantContainer.getPlantBlocks().get(cachePosition.set(x,y,z)) != null) return true;
                 }
             }
         }
-        return true;
+        return false;
     }
 }

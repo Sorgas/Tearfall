@@ -14,7 +14,7 @@ public class PlantLifeStage {
     public String[] titlePrefixSuffix;
     public int stageLength;
     public int stageEnd;
-    public PlantProduct harvestProducts;
+    public PlantProduct harvestProduct;
     public List<String> cutProducts;
     public int[] atlasXY;
     public String color;

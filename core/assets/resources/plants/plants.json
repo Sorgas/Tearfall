@@ -42,7 +42,7 @@
         "lifeStages":[
             {
                 "stageLength":"1",
-                "harvestProducts":["red_moss", "1-1-1", "all"],
+                "harvestProduct":["red_moss", "1-1-1", "all"],
                 "atlasXY":["1", "0"],
                 "color":"0xffffffff"
             }
@@ -74,7 +74,7 @@
     "lifeStages":[
         {
             "stageLength":"1",
-            "harvestProducts":["blueberry", "1-1-1", "4,5,6"],
+            "harvestProduct":["blueberry", "1-1-1", "4,5,6"],
             "atlasXY":["2", "0"],
             "color":"0xffffffff"
         }

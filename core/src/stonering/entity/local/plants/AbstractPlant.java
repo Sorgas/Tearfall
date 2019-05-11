@@ -75,6 +75,4 @@ public abstract class AbstractPlant extends AspectHolder {
     public void setDead(boolean dead) {
         this.dead = dead;
     }
-
-    public abstract Position getPosition();
 }

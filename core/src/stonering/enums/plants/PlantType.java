@@ -8,7 +8,6 @@ import java.util.List;
 /**
  * Stores plant parameters. Created from {@link RawPlantType}
  *
- *
  * @author Alexander_Kuzyakov on 06.03.2018
  */
 public class PlantType {
