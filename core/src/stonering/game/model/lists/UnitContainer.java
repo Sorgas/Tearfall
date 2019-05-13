@@ -16,14 +16,12 @@ import java.util.*;
  */
 public class UnitContainer extends Turnable implements ModelComponent, Initable {
     private Map<Position, List<Unit>> unitsMap;
-    private List<Unit> units;
 
-    private Position positionCache; // used for faster getting units from map
+    private Position cachePosition; // used for faster getting units from map
 
     public UnitContainer() {
-        positionCache = new Position();
+        cachePosition = new Position();
         unitsMap = new HashMap<>();
-        units = new ArrayList<>();
     }
 
     /**
@@ -31,8 +29,7 @@ public class UnitContainer extends Turnable implements ModelComponent, Initable 
      */
     public void addUnit(Unit unit) {
         Position position = unit.getPosition();
-        List<Unit> unitList = unitsMap.get(position);
-        if (unitList == null) unitsMap.put(position, new ArrayList<>());
+        if (!unitsMap.containsKey(position)) unitsMap.put(position, new ArrayList<>());
         unitsMap.get(position).add(unit);
     }
 
@@ -58,17 +55,14 @@ public class UnitContainer extends Turnable implements ModelComponent, Initable 
      * Calls turn() for all units.
      */
     public void turn() {
-        units.forEach(Unit::turn);
+        unitsMap.values().forEach(units -> units.forEach(Unit::turn));
     }
 
     /**
      * returns list of units in given position. Returns null, if no units exist in this position.
      */
     public List<Unit> getUnitsInPosition(int x, int y, int z) {
-        positionCache.x = x;
-        positionCache.y = y;
-        positionCache.z = z;
-        return getUnitsInPosition(positionCache);
+        return getUnitsInPosition(cachePosition.set(x,y,z));
     }
 
     public List<Unit> getUnitsInPosition(Position position) {
@@ -78,6 +72,6 @@ public class UnitContainer extends Turnable implements ModelComponent, Initable 
 
     @Override
     public void init() {
-        units.forEach(Unit::init);
+        unitsMap.values().forEach(units -> units.forEach(Unit::init));
     }
 }

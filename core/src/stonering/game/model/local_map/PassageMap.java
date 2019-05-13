@@ -47,7 +47,7 @@ public class PassageMap {
      * Called when local map passage is updated. If cell becomes non-passable, it may split area into two.
      */
     public void updateCell(int x, int y, int z) {
-        if (localMap.isWalkPassable(x, y, z)) { // areas should be merged
+        if (isTilePassable(x, y, z)) { // areas should be merged
             passage.setValue(x, y, z, 1);
             Set<Byte> areas = observeAreasAround(x, y, z);
             if (areas.size() > 1) mergeAreas(areas);
@@ -227,5 +227,9 @@ public class PassageMap {
         boolean sameLevel = z1 == z2;
         boolean lowRamp = BlockTypesEnum.getType(z1 < z2 ? localMap.getBlockType(x1, y1, z1) : localMap.getBlockType(x2, y2, z2)) == BlockTypesEnum.RAMP; // can descend on ramps
         return (passable1 && passable2 && (sameLevel || lowRamp));
+    }
+
+    private boolean isTilePassable(int x, int y, int z) {
+
     }
 }

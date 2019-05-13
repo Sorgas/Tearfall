@@ -45,9 +45,7 @@ public class LocalSubstrateGenerator extends LocalFloraGenerator {
                 if (plantContainer.getSubstrateBlocks().containsKey(position)) continue;
                 SubstratePlant plant = plantGenerator.generateSubstrate(specimen, 0);
                 plant.setPosition(position);
-                if(localMap.getBlockType(plant.getPosition()) == BlockTypesEnum.RAMP.CODE) System.out.println("qe");
                 container.model.get(PlantContainer.class).place(plant);
-
                 counter++;
             }
         } catch (DescriptionNotFoundException e) {
