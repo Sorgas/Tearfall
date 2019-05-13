@@ -82,7 +82,7 @@ public class qwer1 {
         private Table createTable() {
             table = new Table();
 
-            table.add(new ToolbarButton("tool")).left().top().expand(true, true).fill();
+            table.add(new ToolbarButton("tool")).left().top().expand(true, true).fill().size(100,100);
             table.add(new TextButton("qwer2", StaticSkin.getSkin())).right().top().expand(true, true).row();
             table.add(new TextButton("qwer3", StaticSkin.getSkin())).left().bottom().expand(true, true);
             table.add(new TextButton("qwer4", StaticSkin.getSkin())).bottom().right().expand(true, true);

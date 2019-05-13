@@ -21,7 +21,7 @@ import java.util.List;
 
 /**
  * Main game screen.
- * Contains current stages sequence for rendering (localWorldStage and mainUiStage are always rendered on background).
+ * Contains current stages sequence for rendering (localWorldStage and mainUiStage are always rendered on images).
  * Additional menus are rendered in separate stages.
  *
  * @author Alexander Kuzyakov on 10.06.2017.

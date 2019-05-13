@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import stonering.entity.local.building.aspects.WorkbenchAspect;
 import stonering.entity.local.crafting.ItemOrder;
 import stonering.entity.local.crafting.ItemPartOrder;
@@ -14,7 +15,7 @@ import stonering.entity.local.items.selectors.ItemSelector;
 import stonering.entity.local.items.selectors.SimpleItemSelector;
 import stonering.enums.items.type.ItemTypeMap;
 import stonering.enums.items.recipe.Recipe;
-import stonering.game.view.render.ui.background.BackgroundImagesMap;
+import stonering.game.view.render.ui.images.DrawableMap;
 import stonering.game.view.render.ui.lists.PlaceHolderSelectBox;
 import stonering.game.view.render.ui.menus.util.HideableComponent;
 import stonering.game.view.render.ui.menus.util.HintedActor;
@@ -39,7 +40,7 @@ import java.util.function.Consumer;
  */
 public class ItemCraftingOrderLine extends Table implements HideableComponent, HintedActor {
     private static final String LINE_HINT = "order line hint";
-    private static final String NAME = "workbench_order_line";
+    private static final String BACKGROUND_NAME = "workbench_order_line";
 
     private WorkbenchMenu menu;
     private ItemOrder order;
@@ -113,7 +114,7 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
             focusedSelectBox = partSelectBoxes.get(0);
             createAndAddControlButtons();                            // buttons for managing order
         }
-        highlightHandler = new HighlightHandler();                   // changes background image
+        highlightHandler = new HighlightHandler();                   // changes images image
     }
 
     /**
@@ -447,12 +448,10 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
 
         @Override
         public void accept(Boolean value) {
-            Image image = BackgroundImagesMap.getInstance().getBackground(NAME + (value ? ":focused" : ""));
+            Drawable drawable = DrawableMap.getInstance().getDrawable(BACKGROUND_NAME + (value ? ":focused" : ""));
             this.value = value;
-            if (image == null) return;
-            image.setWidth(ItemCraftingOrderLine.this.getWidth());
-            image.setHeight(ItemCraftingOrderLine.this.getHeight());
-            ItemCraftingOrderLine.this.setBackground(image.getDrawable());
+            if (drawable == null) return;
+            ItemCraftingOrderLine.this.setBackground(drawable);
         }
     }
 }
