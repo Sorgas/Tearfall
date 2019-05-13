@@ -14,19 +14,17 @@ import stonering.game.view.render.ui.util.ListItem;
 /**
  * Designation sequence for buildings.
  * Shows {@link PlaceSelectComponent},
- * and then lists with materials for each building part.
+ * and then material lists for each building part.
  * Creates {@link BuildingOrder} as player proceeds through widgets.
  * TODO Validation for preview sprite rendering.
  *
  * @author Alexander on 21.01.2019.
  */
 public class BuildingDesignationSequence extends DesignationSequence {
-    private Blueprint blueprint;
     private BuildingOrder order;
     private PlaceSelectComponent placeSelectComponent;
 
     public BuildingDesignationSequence(Blueprint blueprint) {
-        this.blueprint = blueprint;
         order = new BuildingOrder(blueprint, null);
         createPlaceSelectComponent();
         reset();
@@ -47,9 +45,6 @@ public class BuildingDesignationSequence extends DesignationSequence {
 
     /**
      * Returns select list with items, available for given step.
-     *
-     * @param step
-     * @return
      */
     private Actor createSelectListForStep(CommonComponent step) {
         MaterialSelectList materialList = new MaterialSelectList();
@@ -71,7 +66,7 @@ public class BuildingDesignationSequence extends DesignationSequence {
     }
 
     /**
-     * Shows list for unfilled step, or, if all steps completed, creates {@link BuildingOrder} and submits it to {@link TaskContainer}
+     * Shows list for unfilled step, or, if all steps completed, submits {@link BuildingOrder} to {@link TaskContainer}
      */
     private void showNextList() {
         for (CommonComponent component : order.getBlueprint().getComponents()) {
@@ -83,16 +78,6 @@ public class BuildingDesignationSequence extends DesignationSequence {
         reset();
     }
 
-    @Override
-    public void start() {
-        placeSelectComponent.show();
-    }
-
-    @Override
-    public void end() {
-        placeSelectComponent.hide();
-    }
-
     /**
      * Resets this component to place selection. Used for designation multiple buildings.
      */
@@ -101,6 +86,16 @@ public class BuildingDesignationSequence extends DesignationSequence {
         order.getItemSelectors().clear();
         placeSelectComponent.hide(); // hides all select lists
         placeSelectComponent.show();
+    }
+
+    @Override
+    public void start() {
+        placeSelectComponent.show();
+    }
+
+    @Override
+    public void end() {
+        placeSelectComponent.hide();
     }
 
     @Override

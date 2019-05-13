@@ -1,3 +1,6 @@
+/*
+    Describes constructions. for constructions, only atlas X is used, Y is defined by material.
+*/
 [
     {
         "building": "wall",

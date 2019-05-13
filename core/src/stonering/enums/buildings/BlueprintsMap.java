@@ -9,6 +9,9 @@ import stonering.util.global.TagLoggersEnum;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Stores all blueprints from blueprints.json.
+ */
 public class BlueprintsMap {
     private static BlueprintsMap instance;
     private HashMap<String, Blueprint> blueprints;

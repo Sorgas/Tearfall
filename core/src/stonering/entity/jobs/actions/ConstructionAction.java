@@ -28,8 +28,7 @@ public class ConstructionAction extends Action {
     private List<ItemSelector> itemSelectors;
 
     public ConstructionAction(BuildingDesignation designation, Collection<ItemSelector> itemSelectors) {
-        super(new PositionActionTarget(designation.getPosition(),
-                BlockTypesEnum.getType(designation.getBuilding()).PASSING != 0, true));
+        super(new PositionActionTarget(designation.getPosition(), BlockTypesEnum.getType(designation.getBuilding()).PASSING != 0, true));
         this.itemSelectors = new ArrayList<>(itemSelectors);
         blockType = BlockTypesEnum.getType(designation.getBuilding()).CODE;
         actionTarget.setAction(this);
@@ -43,7 +42,7 @@ public class ConstructionAction extends Action {
     public boolean check() {
         TagLoggersEnum.TASKS.log("Checking " + toString());
         ArrayList<Item> uncheckedItems = new ArrayList<>(GameMvc.instance().getModel().get(ItemContainer.class).getItemsInPosition(actionTarget.getPosition())); //TODO check positions near target.
-        uncheckedItems.addAll(((EquipmentAspect) task.getPerformer().getAspect(EquipmentAspect.class)).getHauledItems()); // from performer inventory
+        uncheckedItems.addAll(task.getPerformer().getAspect(EquipmentAspect.class).getHauledItems()); // from performer inventory
         for (ItemSelector itemSelector : itemSelectors) {
             List<Item> selectedItems = itemSelector.selectItems(uncheckedItems);
             if (selectedItems.isEmpty()) return tryCreateDroppingAction(itemSelector); // create actions for item
@@ -61,17 +60,20 @@ public class ConstructionAction extends Action {
     }
 
     private void build() {
-        TagLoggersEnum.TASKS.log("Performing " + toString());
-        Position target = actionTarget.getPosition();
+        int material = spendItems();
+        GameMvc.instance().getModel().get(LocalMap.class).setBlock(actionTarget.getPosition(), blockType, material);
+    }
+
+    private int spendItems() {
         ItemContainer itemContainer = GameMvc.instance().getModel().get(ItemContainer.class);
-        ArrayList<Item> items = itemContainer.getItemsInPosition(target);
+        ArrayList<Item> items = itemContainer.getItemsInPosition(actionTarget.getPosition());
         int mainMaterial = -1; // first item of first selector will give material.
         for (ItemSelector itemSelector : itemSelectors) {
             List<Item> itemList = itemSelector.selectItems(items);
             if (mainMaterial < 0) mainMaterial = itemList.get(0).getMaterial(); //actual material of item
             itemContainer.removeItems(itemList);                                //spend items
         }
-        GameMvc.instance().getModel().get(LocalMap.class).setBlock(target, blockType, mainMaterial);
+        return mainMaterial;
     }
 
     /**
@@ -92,7 +94,7 @@ public class ConstructionAction extends Action {
     }
 
     private void logStart() {
-        TagLoggersEnum.TASKS.logDebug("construction of " + BlockTypesEnum.getType(blockType).NAME
+        TagLoggersEnum.TASKS.logDebug("Construction of " + BlockTypesEnum.getType(blockType).NAME
                 + " started at " + actionTarget.getPosition()
                 + " by " + task.getPerformer().toString());
     }

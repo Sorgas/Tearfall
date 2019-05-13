@@ -1,4 +1,8 @@
-// placing are keys from PlacingValidatorEnum. no validation applied otherwise.
+/*
+    Blueprints determine what options are displayed in building menu, resources to spend, and building to create.
+    Objects of buildings are described in separate files.
+    Placing are keys from PlacingValidatorEnum. No validation applied otherwise.
+*/
 [
     {
         "name": "build_wall",

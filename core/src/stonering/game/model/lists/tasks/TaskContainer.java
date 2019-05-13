@@ -9,6 +9,7 @@ import stonering.enums.buildings.BuildingTypeMap;
 import stonering.enums.designations.DesignationTypeEnum;
 import stonering.enums.designations.PlaceValidatorsEnum;
 import stonering.game.GameMvc;
+import stonering.game.controller.controllers.designation.BuildingDesignationSequence;
 import stonering.game.model.ModelComponent;
 import stonering.game.model.lists.PlantContainer;
 import stonering.game.model.local_map.LocalMap;
@@ -72,12 +73,12 @@ public class TaskContainer implements ModelComponent, Initable {
         task.setDesignation(designation);
         designation.setTask(task);
         tasks.add(task);
-        addDesignation(designation);
+        designations.put(designation.getPosition(), designation);
         TagLoggersEnum.TASKS.log(task.getName() + " designated");
     }
 
     /**
-     * Called from {@link stonering.game.controller.controllers.designation.BuildingDesignationSequence}.
+     * Called from {@link BuildingDesignationSequence}.
      * Adds designation and creates comprehensive task.
      * All single-tile buildings are constructed through this method.
      */
@@ -89,7 +90,7 @@ public class TaskContainer implements ModelComponent, Initable {
         Task task = createBuildingTask(designation, order.getItemSelectors().values(), priority);
         designation.setTask(task);
         tasks.add(task);
-        addDesignation(designation);
+        designations.put(designation.getPosition(), designation);
         TagLoggersEnum.TASKS.log(task.getName() + " designated");
     }
 
@@ -143,28 +144,12 @@ public class TaskContainer implements ModelComponent, Initable {
     /**
      * Removes task. called if task is finished or canceled.
      * Removes tasks designation if there is one.
-     *
-     * @param task
      */
     public void removeTask(Task task) {
         tasks.remove(task);
         if (task.getDesignation() != null) {
-            removeDesignation(task.getDesignation());
+            designations.remove(task.getDesignation().getPosition());
         }
-    }
-
-    /**
-     * Adds designation to designations map. Updates local map.
-     */
-    private void addDesignation(Designation designation) {
-        designations.put(designation.getPosition(), designation);
-    }
-
-    /**
-     * Removes designation from designations map. Updates local map.
-     */
-    private void removeDesignation(Designation designation) {
-        designations.remove(designation.getPosition());
     }
 
     public Designation getDesignation(int x, int y, int z) {
