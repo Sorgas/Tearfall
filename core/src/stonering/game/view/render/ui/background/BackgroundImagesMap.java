@@ -6,11 +6,18 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import stonering.util.global.FileLoader;
+import stonering.util.global.TagLoggersEnum;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Implements lazy-loading for images.
+ * Loads {@link ImageDescriptor} from regions.json on startup.
+ * Creates {@link Image} from descriptors on demand.
+ * Saves images in a map for faster access.
+ */
 public class BackgroundImagesMap {
     private static BackgroundImagesMap instance;
     private static Map<String, ImageDescriptor> descriptors;
@@ -23,36 +30,37 @@ public class BackgroundImagesMap {
     }
 
     public static BackgroundImagesMap getInstance() {
-        if (instance == null)
-            instance = new BackgroundImagesMap();
+        if (instance == null) instance = new BackgroundImagesMap();
         return instance;
     }
 
+    /**
+     * Loads descriptors fo images.
+     */
     private void loadRegions() {
-        System.out.println("loading item types");
+        System.out.println("loading images");
         Json json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
-        json.addClassTag("descriptor_c", ImageDescriptor.class);
         ArrayList<ImageDescriptor> elements = json.fromJson(ArrayList.class, ImageDescriptor.class, FileLoader.getFile(FileLoader.REGIONS_PATH));
         for (ImageDescriptor descriptor : elements) {
-            descriptors.put(descriptor.getName(), descriptor);
+            descriptors.put(descriptor.name, descriptor);
         }
     }
 
+    /**
+     * Resolves {@link Image} by string key. Only images described in regions.json can be got.
+     * After first creation of image object, saves it in a map.
+     */
     public Image getBackground(String key) {
-        if(images.containsKey(key)) {
+        if (images.containsKey(key)) return images.get(key); // image exists
+        if (descriptors.containsKey(key)) { // create image
+            ImageDescriptor descriptor = descriptors.get(key);
+            Image image = new Image(new TextureRegion(new Texture("sprites/ui_back.png"), descriptor.x, descriptor.y, descriptor.width, descriptor.height));
+            images.put(key, image);
             return images.get(key);
-        } else {
-            if(descriptors.containsKey(key)) {
-                images.put(key, prepareImage(descriptors.get(key)));
-                return images.get(key);
-            }
         }
-        return null;
-    }
-
-    private Image prepareImage(ImageDescriptor descriptor) {
-        return new Image(new TextureRegion(new Texture("sprites/ui_back.png"), descriptor.x, descriptor.y, descriptor.width, descriptor.height));
+        TagLoggersEnum.UI.logWarn("Image with key " + key + " not found");
+        return null; // image not descripted
     }
 
     private static class ImageDescriptor {
@@ -61,45 +69,5 @@ public class BackgroundImagesMap {
         int height;
         int x;
         int y;
-
-        public int getWidth() {
-            return width;
-        }
-
-        public void setWidth(int width) {
-            this.width = width;
-        }
-
-        public int getHeight() {
-            return height;
-        }
-
-        public void setHeight(int height) {
-            this.height = height;
-        }
-
-        public int getX() {
-            return x;
-        }
-
-        public void setX(int x) {
-            this.x = x;
-        }
-
-        public int getY() {
-            return y;
-        }
-
-        public void setY(int y) {
-            this.y = y;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
     }
 }

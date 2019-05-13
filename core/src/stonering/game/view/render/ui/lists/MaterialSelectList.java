@@ -21,13 +21,11 @@ import java.util.List;
  */
 public class MaterialSelectList extends ItemsCountList implements HideableComponent {
     private GameMvc gameMvc;
-    private DesignationsController controller;
     protected Toolbar toolbar;
 
     public MaterialSelectList() {
         super();
         gameMvc = GameMvc.instance();
-        controller = gameMvc.getController().getDesignationsController();
         toolbar = gameMvc.getView().getUiDrawer().getToolbar();
     }
 
