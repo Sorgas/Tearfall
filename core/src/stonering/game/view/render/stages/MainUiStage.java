@@ -46,7 +46,7 @@ public class MainUiStage extends UiStage implements Initable {
         Material material = MaterialMap.getInstance().getMaterial(gameModel.get(LocalMap.class).getMaterial(focus));
         tileStatusBar.setData(focus,
                 material != null ? material.getName() : "",
-                gameModel.get(LocalMap.class).getPassageMap().getArea().getValue(focus),
+                gameModel.get(LocalMap.class).getPassage().getArea().getValue(focus),
                 gameModel.get(LocalMap.class).getBlockType(focus));
     }
 

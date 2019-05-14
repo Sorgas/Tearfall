@@ -23,6 +23,12 @@ public enum BlockTypesEnum {
     public final byte CODE;
     public final byte PASSING;
     public final String NAME; // name of constructions.
+
+    // for use outside of enum
+    public static final byte NOT_PASSABLE = 0;
+    public static final byte FLY_ONLY_PASSABLE = 1;
+    public static final byte PASSABLE = 2;
+
     private static HashMap<Byte, BlockTypesEnum> map;
     private static HashMap<String, BlockTypesEnum> nameMap;
 

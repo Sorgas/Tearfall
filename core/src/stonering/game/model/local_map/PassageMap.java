@@ -1,6 +1,10 @@
 package stonering.game.model.local_map;
 
 import stonering.enums.blocks.BlockTypesEnum;
+import stonering.game.GameMvc;
+import stonering.game.model.GameModel;
+import stonering.game.model.lists.BuildingContainer;
+import stonering.game.model.lists.PlantContainer;
 import stonering.game.model.util.UtilByteArray;
 import stonering.util.geometry.Position;
 import stonering.util.global.TagLoggersEnum;
@@ -34,6 +38,7 @@ public class PassageMap {
     private UtilByteArray area; // number of area
     private UtilByteArray passage; // 1 is passable, 0 is not
     private Map<Byte, Integer> areaNumbers; // counts number of cells in areas
+    private Position cachePosition;
 
     public PassageMap(LocalMap localMap) {
         this.localMap = localMap;
@@ -41,13 +46,14 @@ public class PassageMap {
         areaNumbers = new HashMap<>();
         area = new UtilByteArray(localMap.xSize, localMap.ySize, localMap.zSize);
         passage = new UtilByteArray(localMap.xSize, localMap.ySize, localMap.zSize);
+        cachePosition = new Position();
     }
 
     /**
      * Called when local map passage is updated. If cell becomes non-passable, it may split area into two.
      */
     public void updateCell(int x, int y, int z) {
-        if (isTilePassable(x, y, z)) { // areas should be merged
+        if (isTilePassable(cachePosition.set(x, y, z))) { // areas should be merged
             passage.setValue(x, y, z, 1);
             Set<Byte> areas = observeAreasAround(x, y, z);
             if (areas.size() > 1) mergeAreas(areas);
@@ -68,7 +74,7 @@ public class PassageMap {
                 for (int z = cz - 1; z < cz + 2; z++) {
                     if (!localMap.inMap(x, y, z)) continue;
                     byte areaValue = area.getValue(x, y, z);
-                    if (areaValue == 0 || !localMap.hasPathBetween(x, y, z, cx, cy, cz)) continue;
+                    if (areaValue == 0 || !hasPathBetween(x, y, z, cx, cy, cz)) continue;
                     neighbours.add(areaValue);
                 }
             }
@@ -95,7 +101,7 @@ public class PassageMap {
                 connectedPositions.add(firstPos);
                 for (Iterator<Position> iterator = posList.iterator(); iterator.hasNext(); ) {
                     Position pos = iterator.next();
-                    if (!(pos.isNeighbour(firstPos) && localMap.hasPathBetween(pos, firstPos))
+                    if (!(pos.isNeighbour(firstPos) && hasPathBetween(pos, firstPos))
                             && aStar.makeShortestPath(pos, firstPos, true) == null)
                         continue; // skip inaccessible tiles.
                     iterator.remove();
@@ -146,7 +152,7 @@ public class PassageMap {
                 for (int z = cz - 1; z < cz + 2; z++) {
                     if (!localMap.inMap(x, y, z)) continue;
                     byte areaValue = area.getValue(x, y, z);
-                    if (areaValue == 0 || !localMap.hasPathBetween(x, y, z, cx, cy, cz)) continue;
+                    if (areaValue == 0 || !hasPathBetween(x, y, z, cx, cy, cz)) continue;
                     List<Position> positions = positionLists.getOrDefault(areaValue, positionLists.put(areaValue, new LinkedList<>()));
                     positions.add(new Position(x, y, z));
                 }
@@ -182,7 +188,7 @@ public class PassageMap {
                     Position position = new Position(center.x + x, center.y + y, center.z + z);
                     if (!localMap.inMap(position)) continue;             // neighbour is out of map
                     if (area.getValue(position) == blockedArea) continue; // same area
-                    if (localMap.hasPathBetween(center, position)) neighbours.add(position);
+                    if (hasPathBetween(center, position)) neighbours.add(position);
                 }
             }
         }
@@ -229,7 +235,19 @@ public class PassageMap {
         return (passable1 && passable2 && (sameLevel || lowRamp));
     }
 
-    private boolean isTilePassable(int x, int y, int z) {
+    public boolean hasPathBetween(Position pos1, Position pos2) {
+        return hasPathBetween(pos1.x, pos1.y, pos1.z,pos2.x, pos2.y, pos2.z);
+    }
 
+    /**
+     * Tile is passable, if its block type allows walking(like floor, ramp, etc.), plant is passable(not tree trunk), building is passable.
+     */
+    private boolean isTilePassable(Position position) {
+        GameModel model = GameMvc.instance().getModel();
+        PlantContainer plantContainer = model.get(PlantContainer.class);
+        BuildingContainer buildingContainer = model.get(BuildingContainer.class);
+        return BlockTypesEnum.getType(localMap.getBlockType(position)).PASSING == BlockTypesEnum.PASSABLE &&
+                (!plantContainer.getPlantBlocks().containsKey(position) || plantContainer.getPlantBlocks().get(position).isPassable()) &&
+                (!buildingContainer.getBuildingBlocks().containsKey(position) || model.get(PlantContainer.class).getPlantBlocks().get(position).isPassable());
     }
 }

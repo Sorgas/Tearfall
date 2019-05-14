@@ -2,7 +2,6 @@ package stonering.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -13,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import stonering.TearFall;
+import stonering.util.global.StaticSkin;
 
 import java.io.File;
 
@@ -78,7 +78,7 @@ public class MainMenuScreen extends SimpleScreen {
         menuTable.pad(0, 10, 10, 10);
         menuTable.setBackground(new TextureRegionDrawable(
                 new TextureRegion(new Texture("sprites/ui_back.png"), 0, 0, 100, 100)));
-        createWorldButton = new TextButton("C: Create world", game.getSkin());
+        createWorldButton = new TextButton("C: Create world", StaticSkin.getSkin());
         createWorldButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -88,7 +88,7 @@ public class MainMenuScreen extends SimpleScreen {
         menuTable.add(createWorldButton).row();
 
         if (worldExist()) {
-            startGameButton = new TextButton("E: Start game", game.getSkin());
+            startGameButton = new TextButton("E: Start game", StaticSkin.getSkin());
             startGameButton.addListener(new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
@@ -97,14 +97,14 @@ public class MainMenuScreen extends SimpleScreen {
             });
             menuTable.add(startGameButton).row();
 
-            loadGameButton = new TextButton("L: Load game", game.getSkin());
+            loadGameButton = new TextButton("L: Load game", StaticSkin.getSkin());
             menuTable.add(loadGameButton).row();
         }
 
-        aboutButton = new TextButton("A: About", game.getSkin());
+        aboutButton = new TextButton("A: About", StaticSkin.getSkin());
         menuTable.add(aboutButton).row();
 
-        quitButton = new TextButton("Q: Quit", game.getSkin());
+        quitButton = new TextButton("Q: Quit", StaticSkin.getSkin());
         quitButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {

@@ -26,6 +26,10 @@ public class PlantBlock {
         this.blockType = blockType;
     }
 
+    public boolean isPassable() {
+        return PlantBlocksTypeEnum.getType(blockType).passable;
+    }
+
     public PlantBlocksTypeEnum getType() {
         return PlantBlocksTypeEnum.getType(blockType);
     }

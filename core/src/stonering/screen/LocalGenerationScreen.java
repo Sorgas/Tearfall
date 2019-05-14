@@ -18,6 +18,7 @@ import stonering.generators.localgen.LocalGeneratorContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 import stonering.screen.ui_components.LabeledProgressBar;
+import stonering.util.global.StaticSkin;
 
 /**
  * Local generation screen to be shown during local generation.
@@ -56,9 +57,9 @@ public class LocalGenerationScreen extends SimpleScreen {
         Table menuTable = new Table();
         menuTable.defaults().prefHeight(30).prefWidth(300).padBottom(10).minWidth(300);
         menuTable.align(Align.bottomLeft);
-        progressBar = new LabeledProgressBar("Generation", game.getSkin());
+        progressBar = new LabeledProgressBar("Generation", StaticSkin.getSkin());
         menuTable.add(progressBar).row();
-        proceedButton = new TextButton("Proceed", game.getSkin());
+        proceedButton = new TextButton("Proceed", StaticSkin.getSkin());
         proceedButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {

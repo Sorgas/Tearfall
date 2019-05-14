@@ -1,11 +1,9 @@
 package stonering.entity.local.building;
 
-import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 
 /**
- * Proxy for BuildingType. This is stored on {@link LocalMap} and points to real object.
- *
+ * As buildings can have multiple tiles, block represent single tile from a building.
  *
  * @author Alexander Kuzyakov on 09.12.2017.
  */
@@ -13,6 +11,10 @@ public class BuildingBlock {
     private Building building;
     private Position position;
     private String passage;
+
+    public boolean isPassable() {
+        return false;
+    }
 
     public BuildingBlock(Building building) {
         this.building = building;

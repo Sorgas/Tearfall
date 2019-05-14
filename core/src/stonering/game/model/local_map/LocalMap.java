@@ -6,7 +6,6 @@ import stonering.game.model.ModelComponent;
 import stonering.game.model.util.UtilByteArray;
 import stonering.game.view.tilemaps.LocalTileMapUpdater;
 import stonering.util.geometry.Position;
-import stonering.entity.local.building.BuildingBlock;
 import stonering.util.global.Initable;
 import stonering.util.global.LastInitable;
 
@@ -28,7 +27,7 @@ public class LocalMap implements ModelComponent, Initable, LastInitable {
     public final UtilByteArray generalLight;                   //for light from celestial bodies
     public final UtilByteArray light;                          //for light from dynamic sources (torches, lamps)
 
-    private transient PassageMap passageMap;                             // not saved to savegame,
+    public transient PassageMap passage;                             // not saved to savegame,
     private transient LocalTileMapUpdater localTileMapUpdater;           // not saved to savegame,
 
     public final int xSize;
@@ -48,7 +47,7 @@ public class LocalMap implements ModelComponent, Initable, LastInitable {
     }
 
     public void init() {
-        passageMap = new AreaInitializer(this).initAreas();
+        passage = new AreaInitializer(this).formPassageMap();
         localTileMapUpdater = new LocalTileMapUpdater();
         localTileMapUpdater.flushLocalMap();
     }
@@ -62,8 +61,8 @@ public class LocalMap implements ModelComponent, Initable, LastInitable {
         material[x][y][z] = materialId;
         if (localTileMapUpdater != null)
             localTileMapUpdater.updateTile(x, y, z);
-        if (passageMap != null) {
-            passageMap.updateCell(x, y, z);
+        if (passage != null) {
+            passage.updateCell(x, y, z);
         }
     }
 
@@ -136,7 +135,7 @@ public class LocalMap implements ModelComponent, Initable, LastInitable {
 
     public boolean isWalkPassable(int x, int y, int z) {
         //TODO reuse
-        return passageMap.getPassage(x,y,z) == 1;
+        return passage.getPassage(x,y,z) == 1;
     }
 
     private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
@@ -164,7 +163,7 @@ public class LocalMap implements ModelComponent, Initable, LastInitable {
      * Only for adjacent cells.
      */
     public boolean hasPathBetween(int x1, int y1, int z1, int x2, int y2, int z2) {
-        return passageMap.hasPathBetween(x1,y1,z1,x2,y2,z2);
+        return passage.hasPathBetween(x1,y1,z1,x2,y2,z2);
     }
 
     public void setLocalTileMapUpdater(LocalTileMapUpdater localTileMapUpdater) {
@@ -231,7 +230,7 @@ public class LocalMap implements ModelComponent, Initable, LastInitable {
         return light;
     }
 
-    public PassageMap getPassageMap() {
-        return passageMap;
+    public PassageMap getPassage() {
+        return passage;
     }
 }

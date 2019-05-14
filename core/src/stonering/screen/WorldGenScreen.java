@@ -16,6 +16,7 @@ import stonering.generators.worldgen.WorldGeneratorContainer;
 import stonering.screen.ui_components.MiniMap;
 import stonering.screen.util.WorldCellInfo;
 import stonering.screen.util.WorldSaver;
+import stonering.util.global.StaticSkin;
 
 import java.util.Random;
 
@@ -79,13 +80,13 @@ public class WorldGenScreen implements Screen {
         menuTable.columnDefaults(1).prefWidth(30).padLeft(10);
         menuTable.align(Align.bottomLeft);
 
-        menuTable.add(new Label("Seed: ", game.getSkin()));
+        menuTable.add(new Label("Seed: ", StaticSkin.getSkin()));
         menuTable.row();
 
-        seedField = new TextField(Long.toString(seed), game.getSkin());
+        seedField = new TextField(Long.toString(seed), StaticSkin.getSkin());
         menuTable.add(seedField);
 
-        TextButton randButton = new TextButton("R", game.getSkin());
+        TextButton randButton = new TextButton("R", StaticSkin.getSkin());
         randButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -96,12 +97,12 @@ public class WorldGenScreen implements Screen {
         menuTable.add(randButton);
         menuTable.row();
 
-        menuTable.add(new Label("World size: ", game.getSkin()));
+        menuTable.add(new Label("World size: ", StaticSkin.getSkin()));
         menuTable.row();
 
-        Slider worldSizeSlider = new Slider(100, 500, 100, false, game.getSkin());
+        Slider worldSizeSlider = new Slider(100, 500, 100, false, StaticSkin.getSkin());
         worldSizeSlider.setValue(worldSize);
-        Label worldSizeLabel = new Label(Integer.toString(worldSize), game.getSkin());
+        Label worldSizeLabel = new Label(Integer.toString(worldSize), StaticSkin.getSkin());
 
         worldSizeSlider.addListener(new ChangeListener() {
             @Override
@@ -116,14 +117,14 @@ public class WorldGenScreen implements Screen {
         menuTable.add(worldSizeLabel);
         menuTable.row();
 
-        worldInfoLabel = new Label("", game.getSkin());
+        worldInfoLabel = new Label("", StaticSkin.getSkin());
         menuTable.add(worldInfoLabel);
         menuTable.row();
 
         menuTable.add().expandY();
         menuTable.row();
 
-        TextButton generateButton = new TextButton("Generate", game.getSkin());
+        TextButton generateButton = new TextButton("Generate", StaticSkin.getSkin());
         generateButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -134,7 +135,7 @@ public class WorldGenScreen implements Screen {
         menuTable.add(generateButton).colspan(2);
         menuTable.row();
 
-        TextButton saveButton = new TextButton("Save", game.getSkin());
+        TextButton saveButton = new TextButton("Save", StaticSkin.getSkin());
         saveButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -144,7 +145,7 @@ public class WorldGenScreen implements Screen {
         menuTable.add(saveButton).colspan(2);
         menuTable.row();
 
-        TextButton backButton = new TextButton("Back", game.getSkin());
+        TextButton backButton = new TextButton("Back", StaticSkin.getSkin());
         backButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {

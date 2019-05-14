@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import stonering.entity.world.World;
 import stonering.util.geometry.Position;
+import stonering.util.global.StaticSkin;
 
 /**
  * ButtonMenu for choosing settlers and resources for game start.
@@ -49,9 +50,9 @@ public class PrepareExpeditionMenu extends SimpleScreen {
         Table menuTable = new Table();
         menuTable.defaults().prefHeight(30).prefWidth(300).padBottom(10).minWidth(300);
         menuTable.align(Align.bottomLeft);
-        menuTable.add(new Label("Prepare to advance", game.getSkin())).row();
+        menuTable.add(new Label("Prepare to advance", StaticSkin.getSkin())).row();
         menuTable.add().expandY().row();
-        proceedButton = new TextButton("E: Start", game.getSkin());
+        proceedButton = new TextButton("E: Start", StaticSkin.getSkin());
         proceedButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -59,7 +60,7 @@ public class PrepareExpeditionMenu extends SimpleScreen {
             }
         });
         menuTable.add(proceedButton).row();
-        backButton = new TextButton("Q: Back", game.getSkin());
+        backButton = new TextButton("Q: Back", StaticSkin.getSkin());
         backButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {

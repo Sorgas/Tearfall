@@ -2,10 +2,6 @@ package stonering;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import stonering.entity.world.World;
 import stonering.game.GameMvc;
 import stonering.screen.MainMenuScreen;
@@ -29,13 +25,8 @@ public class TearFall extends Game {
     private PrepareExpeditionMenu prepareExpeditionMenuMvc;
     private LocalGenerationScreen localGenerationScreen;
 
-    private BitmapFont font;
-    private Skin skin;
-
     @Override
     public void create() {
-        createFont();
-        createSkin();
         switchMainMenu();
     }
 
@@ -76,24 +67,6 @@ public class TearFall extends Game {
 
     public void switchToGame() {
         setScreen(GameMvc.instance().getView());
-    }
-
-    private void createFont() {
-        font = new BitmapFont();
-        font.setColor(0.2f, 0.2f, 0.2f, 1);
-    }
-
-    private void createSkin() {
-        TextureAtlas atlas = new TextureAtlas(new FileHandle("ui_skin/uiskin.atlas"));
-        skin = new Skin(new FileHandle("ui_skin/uiskin.json"), atlas);
-    }
-
-    public BitmapFont getFont() {
-        return font;
-    }
-
-    public Skin getSkin() {
-        return skin;
     }
 
     @Override

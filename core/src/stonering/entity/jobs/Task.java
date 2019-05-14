@@ -113,7 +113,7 @@ public class Task {
     }
 
     public boolean isTaskTargetsAvaialbleFrom(Position position) {
-        UtilByteArray area = gameMvc.getModel().get(LocalMap.class).getPassageMap().getArea();
+        UtilByteArray area = gameMvc.getModel().get(LocalMap.class).getPassage().getArea();
         int sourceArea = area.getValue(position);
         Position target = initialAction.getActionTarget().getPosition();
         for (int x = -1; x < 2; x++) {

@@ -44,7 +44,7 @@ public class AreaInitializer {
      * Creates {@link PassageMap} based on localMap.
      * @return
      */
-    public PassageMap initAreas() {
+    public PassageMap formPassageMap() {
         passageMap = new PassageMap(localMap);
         synonyms = new HashSet<>();
         areaMapping = new HashMap<>();

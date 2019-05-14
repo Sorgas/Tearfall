@@ -17,6 +17,7 @@ import stonering.game.view.render.ui.lists.NavigableList;
 import stonering.screen.ui_components.MiniMap;
 import stonering.screen.ui_components.WorldListItem;
 import stonering.screen.util.WorldSaver;
+import stonering.util.global.StaticSkin;
 
 import java.io.File;
 
@@ -142,10 +143,10 @@ public class SelectWorldScreen extends SimpleScreen {
         Table menuTable = new Table();
         menuTable.defaults().prefHeight(30).prefWidth(300).padBottom(10).minWidth(300);
         menuTable.align(Align.bottomLeft);
-        menuTable.add(new Label("Select world:", game.getSkin())).row();
+        menuTable.add(new Label("Select world:", StaticSkin.getSkin())).row();
         menuTable.add(createWorldList()).row();
         menuTable.add().expandY().row();
-        proceedButton = new TextButton("E: Proceed", game.getSkin());
+        proceedButton = new TextButton("E: Proceed", StaticSkin.getSkin());
         menuTable.add(proceedButton).row();
         if (worldList.getItems().size > 0) {
             proceedButton.addListener(new ChangeListener() {
@@ -157,7 +158,7 @@ public class SelectWorldScreen extends SimpleScreen {
         } else {
             //TODO dim button
         }
-        backButton = new TextButton("Back", game.getSkin());
+        backButton = new TextButton("Back", StaticSkin.getSkin());
         backButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {

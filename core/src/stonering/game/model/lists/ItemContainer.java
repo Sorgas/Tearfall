@@ -160,7 +160,7 @@ public class ItemContainer extends Turnable implements ModelComponent, Initable 
 
     //TODO carried items have no position
     public List<Item> filterUnreachable(List<Item> items, Position pos) {
-        UtilByteArray area = GameMvc.instance().getModel().get(LocalMap.class).getPassageMap().getArea();
+        UtilByteArray area = GameMvc.instance().getModel().get(LocalMap.class).getPassage().getArea();
         return items.stream().filter(item -> item.getPosition() != null && area.getValue(item.getPosition()) == area.getValue(pos)).collect(Collectors.toList());
     }
 

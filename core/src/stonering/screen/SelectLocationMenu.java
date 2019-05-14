@@ -19,6 +19,7 @@ import stonering.entity.world.World;
 import stonering.screen.ui_components.MiniMap;
 import stonering.screen.ui_components.WorldListItem;
 import stonering.screen.util.WorldCellInfo;
+import stonering.util.global.StaticSkin;
 
 import java.io.File;
 
@@ -152,11 +153,11 @@ public class SelectLocationMenu extends SimpleScreen {
         Table menuTable = new Table();
         menuTable.defaults().prefHeight(30).prefWidth(300).padBottom(10).minWidth(300);
         menuTable.align(Align.bottomLeft);
-        menuTable.add(new Label("Select location", game.getSkin())).row();
-        worldInfoLabel = new Label("", game.getSkin());
+        menuTable.add(new Label("Select location", StaticSkin.getSkin())).row();
+        worldInfoLabel = new Label("", StaticSkin.getSkin());
         menuTable.add(worldInfoLabel).row();
         menuTable.add().expandY().row();
-        proceedButton = new TextButton("E: Proceed", game.getSkin());
+        proceedButton = new TextButton("E: Proceed", StaticSkin.getSkin());
         proceedButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -164,7 +165,7 @@ public class SelectLocationMenu extends SimpleScreen {
             }
         });
         menuTable.add(proceedButton).row();
-        backButton = new TextButton("Q: Back", game.getSkin());
+        backButton = new TextButton("Q: Back", StaticSkin.getSkin());
         backButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
