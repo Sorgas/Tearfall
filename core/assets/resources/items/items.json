@@ -7,10 +7,8 @@
         },
         "valueMod":"0",
         "tool":{
-            "class":"tool_c",
             "actions":[
                 {
-                    "class":"action_c",
                     "action":"dig",
                     "speedMod":"1",
                     "part":"head"
@@ -18,7 +16,6 @@
             ],
             "attacks":[
                 {
-                    "class":"attack_c",
                     "attack":"hit",
                     "baseReload":1,
                     "damageMod":0.3,
@@ -46,10 +43,8 @@
         },
         "valueMod":"0",
         "tool":{
-            "class":"tool_c",
             "actions":[
                 {
-                    "class":"action_c",
                     "action":"hoe",
                     "speedMod":"1",
                     "part":"head"
@@ -57,7 +52,6 @@
             ],
             "attacks":[
                 {
-                    "class":"attack_c",
                     "attack":"hit",
                     "baseReload":1,
                     "damageMod":0.3,
@@ -85,17 +79,14 @@
     },
     "valueMod":"0",
     "tool":{
-        "class":"tool_c",
         "actions":[
             {
-                "class":"action_c",
                 "action":"harvest_plants",
                 "speedMod":"1"
             }
         ],
         "attacks":[
             {
-                "class":"attack_c",
                 "attack":"hit",
                 "baseReload":1,
                 "damageMod":0.3,
@@ -122,17 +113,14 @@
     },
     "valueMod":"0",
     "tool":{
-        "class":"tool_c",
         "actions":[
             {
-                "class":"action_c",
                 "action":"chop",
                 "speedMod":"1"
             }
         ],
         "attacks":[
             {
-                "class":"attack_c",
                 "attack":"hit",
                 "baseReload":1,
                 "damageMod":0.8,
@@ -150,17 +138,14 @@
     },
     "valueMod":"0",
     "tool":{
-        "class":"tool_c",
         "actions":[
             {
-                "class":"action_c",
                 "action":"smith",
                 "speedMod":"1"
             }
         ],
         "attacks":[
             {
-                "class":"attack_c",
                 "attack":"hit",
                 "baseReload":1,
                 "damageMod":0.8,
