@@ -394,7 +394,7 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
      * Creates label with item title.
      */
     private Label createItemLabel() {
-        String itemTitle = ItemTypeMap.getInstance().getItemType(order.getRecipe().getItemName()).getTitle();
+        String itemTitle = ItemTypeMap.getInstance().getItemType(order.getRecipe().getItemName()).title;
         return new Label(itemTitle, StaticSkin.getSkin()); // label with item type
     }
 

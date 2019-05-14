@@ -24,14 +24,14 @@ public class EquipmentSlot {
     }
 
     public int getTopLayer() {
-        return !items.isEmpty() ? items.get(items.size() - 1).getType().getWear().getLayer() : 0;
+        return !items.isEmpty() ? items.get(items.size() - 1).getType().wear.getLayer() : 0;
     }
 
     public boolean isLayerOccupied(int layer) {
-        return items.stream().anyMatch(item -> item.getType().getWear().getLayer() == layer);
+        return items.stream().anyMatch(item -> item.getType().wear.getLayer() == layer);
     }
 
     public int getItemCountAboveLayer(int layer) {
-        return (int) items.stream().filter(item -> item.getType().getWear().getLayer() > layer).count();
+        return (int) items.stream().filter(item -> item.getType().wear.getLayer() > layer).count();
     }
 }

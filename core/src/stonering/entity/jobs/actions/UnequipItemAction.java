@@ -29,7 +29,7 @@ public class UnequipItemAction extends Action {
         for (EquipmentSlot slot : equipmentAspect.getSlots().values()) {
             if (slot.items.contains(item)) {
                 for (int i = slot.items.size() - 1; i >= 0; i--) {
-                    if (slot.items.get(i).getType().getWear().getLayer() > item.getType().getWear().getLayer()) { // slot has item with higher layer.
+                    if (slot.items.get(i).getType().wear.getLayer() > item.getType().wear.getLayer()) { // slot has item with higher layer.
                         return tryAddUnequipAction(slot.items.get(i));
                     }
                 }

@@ -92,7 +92,7 @@ public class TileRenderer extends Renderer {
         if (model.get(ItemContainer.class) != null) {
             ArrayList<Item> items = model.get(ItemContainer.class).getItemsInPosition(x, y, z);
             if (!items.isEmpty())
-                items.forEach((item) -> drawingUtil.drawSprite(drawingUtil.selectSprite(5, item.getType().getAtlasXY()[0], item.getType().getAtlasXY()[1]), x, y, z, selector.getPosition()));
+                items.forEach((item) -> drawingUtil.drawSprite(drawingUtil.selectSprite(5, item.getType().atlasXY[0], item.getType().atlasXY[1]), x, y, z, selector.getPosition()));
         }
         Designation designation = taskContainer.getDesignation(x, y, z);
         if (designation != null)

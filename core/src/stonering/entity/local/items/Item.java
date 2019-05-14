@@ -23,18 +23,18 @@ public class Item extends AspectHolder {
     public Item(Position position, ItemType type) {
         super(position);
         this.type = type;
-        this.name = type.getName();
-        this.title = type.getTitle();
+        this.name = type.name;
+        this.title = type.title;
 //        this.mainPart = type.getParts().get(0).getTitle();
 //        parts = new HashMap<>();
     }
 
     public boolean isTool() {
-        return type.getTool() != null;
+        return type.tool != null;
     }
 
     public boolean isWear() {
-        return type.getWear() != null;
+        return type.wear != null;
     }
 
     @Override

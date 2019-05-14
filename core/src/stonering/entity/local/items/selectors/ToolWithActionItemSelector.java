@@ -28,7 +28,7 @@ public class ToolWithActionItemSelector extends ItemSelector {
         List<Item> foundItems = new ArrayList<>();
         for (Item item : items) {
             ToolItemType tool;
-            if ((tool = item.getType().getTool()) != null) {
+            if ((tool = item.getType().tool) != null) {
                 if (tool.getActions().size() > 0) {
                     for (ToolItemType.ToolAction toolAction : tool.getActions()) {
                         if (toolAction.action.equals(actionName)) {

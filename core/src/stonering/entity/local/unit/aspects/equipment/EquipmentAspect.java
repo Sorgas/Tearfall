@@ -86,8 +86,8 @@ public class EquipmentAspect extends Aspect {
         if (item.isWear()) {
             List<EquipmentSlot> slots = new ArrayList<>(this.slots.values());
             List<EquipmentSlot> selectedSlots = new ArrayList<>();
-            for (String type : item.getType().getWear().getAllBodyParts()) {
-                EquipmentSlot slot = selectMostSuitableSlotWithType(slots, type, item.getType().getWear().getLayer());
+            for (String type : item.getType().wear.getAllBodyParts()) {
+                EquipmentSlot slot = selectMostSuitableSlotWithType(slots, type, item.getType().wear.getLayer());
                 if (slot == null) continue;
                 slots.remove(slot);
                 selectedSlots.add(slot);
@@ -134,7 +134,7 @@ public class EquipmentAspect extends Aspect {
     public Item checkItemForEquip(Item item) throws NotSuitableItemException {
         if (item.isWear()) {
             //slots with this limb types should exist. types in the list nto unique.
-            ArrayList<String> requiredSlotTypes = item.getType().getWear().getRequiredBodyParts();
+            ArrayList<String> requiredSlotTypes = item.getType().wear.getRequiredBodyParts();
             if (!checkSlotsWithTypes(requiredSlotTypes)) { // required slots exist on creature
                 throw new NotSuitableItemException("Creature " + aspectHolder + " has no required slots for item " + item);
             }
@@ -166,7 +166,7 @@ public class EquipmentAspect extends Aspect {
 
     public boolean toolWithActionEquipped(String action) {
         return equippedItems.stream().anyMatch(item ->
-                item.getType().getTool().getActions().stream().anyMatch(toolAction ->
+                item.getType().tool.getActions().stream().anyMatch(toolAction ->
                         toolAction.action.equals(action)));
     }
 
@@ -175,7 +175,7 @@ public class EquipmentAspect extends Aspect {
      */
     private Item findItemToUnequip(EquipmentSlot slot, Item item) {
         for (int i = slot.items.size() - 1; i >= 0; i--) {
-            if (slot.items.get(i).getType().getWear().getLayer() <= item.getType().getWear().getLayer()) continue;
+            if (slot.items.get(i).getType().wear.getLayer() <= item.getType().wear.getLayer()) continue;
             slot.items.get(i); // if action possible
         }
         return null; //action not required

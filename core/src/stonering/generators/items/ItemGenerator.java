@@ -55,11 +55,11 @@ public class ItemGenerator {
     private void generateItemAspects(Item item) {
         ItemType type = item.getType();
         for (String aspectName : defaultAspects.keySet()) {
-            if (!type.getAspects().containsKey(aspectName))
+            if (!type.aspects.containsKey(aspectName))
                 item.addAspect(createItemAspect(aspectName, defaultAspects.get(aspectName)));
         }
-        for (String aspectName : type.getAspects().keySet()) {
-            item.addAspect(createItemAspect(aspectName, type.getAspects().get(aspectName)));
+        for (String aspectName : type.aspects.keySet()) {
+            item.addAspect(createItemAspect(aspectName, type.aspects.get(aspectName)));
         }
     }
 
@@ -117,7 +117,7 @@ public class ItemGenerator {
      * @return
      */
     private ItemPartType selectStep(ItemType type, String title) {
-        for (ItemPartType step : type.getParts()) {
+        for (ItemPartType step : type.parts) {
             if (step.getTitle().equals(title)) {
                 return step;
             }
@@ -133,7 +133,7 @@ public class ItemGenerator {
      */
     private Item createItem(ItemType itemType) {
         Item item = new Item(null, itemType);
-        itemType.getAspects().keySet().forEach(aspectName -> AspectGenerator.createAspect(aspectName, item).ifPresent(item::addAspect));
+        itemType.aspects.keySet().forEach(aspectName -> AspectGenerator.createAspect(aspectName, item).ifPresent(item::addAspect));
         return item;
     }
 

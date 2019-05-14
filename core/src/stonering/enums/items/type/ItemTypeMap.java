@@ -37,7 +37,7 @@ public class ItemTypeMap {
             ArrayList<ItemType> elements = json.fromJson(ArrayList.class, ItemType.class, fileHandle);
             for (ItemType itemType : elements) {
                 initItemType(itemType);
-                types.put(itemType.getName(), itemType);
+                types.put(itemType.name, itemType);
             }
         }
     }
@@ -46,8 +46,8 @@ public class ItemTypeMap {
      * Generates title, if needed.
      */
     private void initItemType(ItemType itemType) {
-        if (itemType.getTitle() == null) {
-            itemType.setTitle(itemType.getName().substring(0, 1).toUpperCase() + itemType.getName().substring(1));
+        if (itemType.title == null) {
+            itemType.title = itemType.name.substring(0, 1).toUpperCase() + itemType.name.substring(1);
         }
     }
 
