@@ -15,7 +15,7 @@ public class FileLoader {
     public final static String BLUEPRINTS_PATH = "resources/buildings/blueprints.json";
     public final static String UI_TILES_PATH = "resources/ui_tiles.json";
     public final static String ITEMTYPE_TAGS_PATH = "resources/itemtype_tags.json";
-    public final static String ITEMS_PATH = "resources/items/items.json";
+    public final static String ITEMS_PATH = "resources/items";
     public final static String RECIPE_LISTS_PATH = "resources/crafting/lists.json";
     public final static String RECIPES_PATH = "resources/items/recipes.json";
     public final static String REGIONS_PATH = "resources/ui_background/regions.json";

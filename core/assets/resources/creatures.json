@@ -1,32 +1,18 @@
 [
-  {
-    "title": "human",
-    "description": "This is a human",
-    "body_template": "humanoid",
-    "limbs_to_cover": ["lower torso", "right foot", "left foot"],
-    "atlasY": "0",
-    "atlasX": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    {
+        "title": "human",
+        "description": "This is a human",
+        "body_template": "humanoid",
+        "limbs_to_cover": ["lower torso", "right foot", "left foot"],
+        "baseHP": "100",
+        "atlasXY": ["0", "0"],
+        "color": "0xffffffff"
+    }, {
     "title": "dog",
     "description": "This is a dog",
     "body_template": "beast",
-    "limbs_to_cover": [],
-    "atlasY": "0",
-    "atlasX": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  }
+    "baseHP": "100",
+    "atlasXY": ["0", "0"],
+    "color": "0xffffffff"
+}
 ]

@@ -1,0 +1,148 @@
+[
+    {
+        "name": "pickaxe",
+        "description": "Tool for digging through rock and ore.",
+        "valueMod": "0",
+        "tool": {
+            "actions": [
+                {
+                    "action": "dig",
+                    "speedMod": "1",
+                    "part": "head"
+                }
+            ], "attacks": [
+                {
+                    "attack": "hit",
+                    "baseReload": 1,
+                    "damageMod": 0.3,
+                    "damageType": "pierce",
+                    "part": "head"
+                }
+            ]
+        },
+        "parts": [
+            {
+                "title": "head",
+                "required": "true"
+            }, {
+                "title": "handle",
+                "required": "true"
+            }
+        ],
+        "atlasXY": ["0", "0"],
+        "color": "0xffffffff"
+    }, {
+    "name": "hoe",
+    "description": "Tool for preparing soil for farming.",
+    "valueMod": "0",
+    "tool": {
+        "actions": [
+            {
+                "action": "hoe",
+                "speedMod": "1",
+                "part": "head"
+            }
+        ], "attacks": [
+            {
+                "attack": "hit",
+                "baseReload": 1,
+                "damageMod": 0.2,
+                "damageType": "pierce",
+                "part": "head"
+            }
+        ]
+    },
+    "parts": [
+        {
+            "title": "head",
+            "required": "true"
+        }, {
+            "title": "handle",
+            "required": "true"
+        }
+    ],
+    "atlasXY": ["10", "0"],
+    "color": "0xffffffff"
+}, {
+    "name": "sickle",
+    "description": "Tool for harvesting plants.",
+    "valueMod": "0",
+    "tool": {
+        "actions": [
+            {
+                "action": "harvest_plants",
+                "speedMod": "1"
+            }
+        ], "attacks": [
+            {
+                "attack": "hit",
+                "baseReload": 1,
+                "damageMod": 0.1,
+                "damageType": "cut"
+            }
+        ]
+    },
+    "parts": [
+        {
+            "title": "head",
+            "required": "true"
+        }, {
+            "title": "handle",
+            "required": "true"
+        }
+    ],
+    "atlasXY": ["7", "0"],
+    "color": "0xffffffff"
+}, {
+    "name": "axe",
+    "description": "Tool for chopping down trees.",
+    "valueMod": "0",
+    "tool": {
+        "actions": [
+            {
+                "action": "chop",
+                "speedMod": "1"
+            }
+        ], "attacks": [
+            {
+                "attack": "hit",
+                "baseReload": 1,
+                "damageMod": 0.8,
+                "damageType": "chop"
+            }
+        ]
+    },
+    "atlasXY": ["1", "0"],
+    "color": "0xffffffff"
+}, {
+    "name": "hammer",
+    "description": "Smith tool.",
+    "valueMod": "0",
+    "tool": {
+        "actions": [
+            {
+                "action": "smith",
+                "speedMod": "1"
+            }
+        ], "attacks": [
+            {
+                "attack": "hit",
+                "baseReload": 1,
+                "damageMod": 0.8,
+                "damageType": "blunt"
+            }
+        ]
+    },
+    "parts": [
+        {
+            "title": "head",
+            "required": "true"
+        }, {
+            "title": "handle",
+            "required": "true"
+        }
+    ],
+    "atlasXY": ["1", "0"],
+    "color": "0xffffffff"
+}
+]

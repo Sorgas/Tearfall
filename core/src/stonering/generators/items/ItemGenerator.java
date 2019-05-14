@@ -14,8 +14,7 @@ import stonering.generators.aspect.AspectGenerator;
 import stonering.entity.local.items.Item;
 import stonering.util.global.TagLoggersEnum;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Generates items.
@@ -27,14 +26,13 @@ import java.util.Set;
 public class ItemGenerator {
     private ItemTypeMap itemTypeMap;
     private transient MaterialMap materialMap;
+    private Map<String, List<Object>> defaultAspects;
 
     public ItemGenerator() {
-        init();
-    }
-
-    private void init() {
         itemTypeMap = ItemTypeMap.getInstance();
         materialMap = MaterialMap.getInstance();
+        defaultAspects = new HashMap<>();
+        defaultAspects.put("falling", Arrays.asList("1"));
     }
 
     /**
@@ -52,10 +50,14 @@ public class ItemGenerator {
     }
 
     /**
-     * Creates item aspects by map of aspects names and arguments from {@link ItemType}
+     * Creates item aspects by map of aspects names and arguments from {@link ItemType} and default aspects.
      */
     private void generateItemAspects(Item item) {
         ItemType type = item.getType();
+        for (String aspectName : defaultAspects.keySet()) {
+            if (!type.getAspects().containsKey(aspectName))
+                item.addAspect(createItemAspect(aspectName, defaultAspects.get(aspectName)));
+        }
         for (String aspectName : type.getAspects().keySet()) {
             item.addAspect(createItemAspect(aspectName, type.getAspects().get(aspectName)));
         }

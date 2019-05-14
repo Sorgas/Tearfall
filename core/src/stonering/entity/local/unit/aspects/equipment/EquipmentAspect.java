@@ -12,8 +12,7 @@ import java.util.stream.Collectors;
 
 /**
  * Stores all items equipped and hauled by unit.
- * Equipped items are ones, weared on body.
- * <p>
+ * Equipped items are ones, worn on body.
  * Does not takes or puts items to map, this should be done by actions.
  *
  * @author Alexander Kuzyakov on 03.01.2018.
@@ -39,8 +38,6 @@ public class EquipmentAspect extends Aspect {
     /**
      * For hauling items.
      * Validity should be fully checked by actions (slots should be free).
-     *
-     * @param item Item to grab.
      */
     public void pickupItem(Item item) {
         for (GrabEquipmentSlot slot : grabSlots.values()) {
@@ -56,7 +53,6 @@ public class EquipmentAspect extends Aspect {
      * Equips wear on body and tools into hands.
      * Validity should be fully checked by actions (slots should be free).
      *
-     * @param item item to equip.
      * @return false, if equipping failed.
      */
     public boolean equipItem(Item item) {
@@ -112,10 +108,6 @@ public class EquipmentAspect extends Aspect {
 
     /**
      * Selects slot most suitable for equipping item of given layer.
-     *
-     * @param slots
-     * @param type
-     * @return
      */
     private EquipmentSlot selectMostSuitableSlotWithType(List<EquipmentSlot> slots, String type, int layer) {
         //TODO take in account insulation and other properties
@@ -136,7 +128,6 @@ public class EquipmentAspect extends Aspect {
      * Checks if given item can be equipped to creature.
      * Checks required and optional slots, demanded by item.
      *
-     * @param item
      * @return Item that should be unequipped. nullm if all needed slots are free enough.
      * @throws NotSuitableItemException if ite cannot be equipped.
      */
@@ -163,9 +154,6 @@ public class EquipmentAspect extends Aspect {
 
     /**
      * Checks if for each type from given list exists an least one slot with this type.
-     *
-     * @param limbTypes
-     * @return
      */
     private boolean checkSlotsWithTypes(List<String> limbTypes) {
         limbTypes = new ArrayList<>(limbTypes);
@@ -183,11 +171,7 @@ public class EquipmentAspect extends Aspect {
     }
 
     /**
-     * Returns one of items from given that should be unequipped to equip given item.
-     *
-     * @param slot
-     * @param item
-     * @return
+     * Returns one of items from given slot that should be unequipped to equip given item.
      */
     private Item findItemToUnequip(EquipmentSlot slot, Item item) {
         for (int i = slot.items.size() - 1; i >= 0; i--) {
@@ -236,8 +220,6 @@ public class EquipmentAspect extends Aspect {
 
     /**
      * Removes given item from all grab slots.
-     *
-     * @param item
      */
     public void dropItem(Item item) {
         if (!hauledItems.contains(item)) return;

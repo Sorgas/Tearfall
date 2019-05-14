@@ -1,5 +1,6 @@
 package stonering.enums.items.type;
 
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import stonering.util.global.FileLoader;
@@ -30,10 +31,14 @@ public class ItemTypeMap {
         System.out.println("loading item types");
         Json json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
-        ArrayList<ItemType> elements = json.fromJson(ArrayList.class, ItemType.class, FileLoader.getFile(FileLoader.ITEMS_PATH));
-        for (ItemType itemType : elements) {
-            initItemType(itemType);
-            types.put(itemType.getName(), itemType);
+        FileHandle itemsDirectory = FileLoader.getFile(FileLoader.ITEMS_PATH);
+        for (FileHandle fileHandle : itemsDirectory.list()) {
+            if(fileHandle.isDirectory()) continue;
+            ArrayList<ItemType> elements = json.fromJson(ArrayList.class, ItemType.class, fileHandle);
+            for (ItemType itemType : elements) {
+                initItemType(itemType);
+                types.put(itemType.getName(), itemType);
+            }
         }
     }
 
