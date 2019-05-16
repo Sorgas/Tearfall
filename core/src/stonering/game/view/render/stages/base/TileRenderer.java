@@ -33,6 +33,8 @@ public class TileRenderer extends Renderer {
     private EntitySelector selector;
     private UnitContainer unitContainer;
     private TaskContainer taskContainer;
+    private ItemContainer itemContainer;
+    private ZonesContainer zonesContainer;
     private Int3DBounds visibleArea;
 
     private Position cachePosition;
@@ -47,6 +49,8 @@ public class TileRenderer extends Renderer {
         unitContainer = model.get(UnitContainer.class);
         taskContainer = model.get(TaskContainer.class);
         plantContainer = model.get(PlantContainer.class);
+        itemContainer = model.get(ItemContainer.class);
+        zonesContainer = model.get(ZonesContainer.class);
         cachePosition = new Position(0, 0, 0);
     }
 
@@ -85,21 +89,24 @@ public class TileRenderer extends Renderer {
         BuildingBlock buildingBlock = model.get(BuildingContainer.class).getBuildingBlocks().get(cachePosition);
         if (buildingBlock != null)
             drawingUtil.drawSprite(drawingUtil.selectSprite(3, 0, 0), x, y, z, selector.getPosition());
-        unitContainer.getUnitsInPosition(x, y, z).forEach(unit -> {
-            //TODO ((RenderAspect) unit.getAspects().get(RenderAspect.NAME)).getTexture();
-            drawingUtil.drawSprite(drawingUtil.selectSprite(2, 0, 0), x, y, z, selector.getPosition());
-        });
-        if (model.get(ItemContainer.class) != null) {
-            ArrayList<Item> items = model.get(ItemContainer.class).getItemsInPosition(x, y, z);
+        if (unitContainer != null)
+            unitContainer.getUnitsInPosition(x, y, z).forEach(unit -> {
+                //TODO ((RenderAspect) unit.getAspects().get(RenderAspect.NAME)).getTexture();
+                drawingUtil.drawSprite(drawingUtil.selectSprite(2, 0, 0), x, y, z, selector.getPosition());
+            });
+        if (itemContainer != null) {
+            ArrayList<Item> items = itemContainer.getItemsInPosition(x, y, z);
             if (!items.isEmpty())
                 items.forEach((item) -> drawingUtil.drawSprite(drawingUtil.selectSprite(5, item.getType().atlasXY[0], item.getType().atlasXY[1]), x, y, z, selector.getPosition()));
         }
-        Designation designation = taskContainer.getDesignation(x, y, z);
-        if (designation != null)
-            drawingUtil.drawSprite(drawingUtil.selectSprite(4, DesignationsTileMapping.getAtlasX(designation.getType().CODE), 0), x, y, z, selector.getPosition());
-        Zone zone = model.get(ZonesContainer.class).getZone(cachePosition);
-        if (zone != null) {
-            drawingUtil.drawSprite(zone.getType().sprite, x, y, z, selector.getPosition());
+        if (taskContainer != null) {
+            Designation designation = taskContainer.getDesignation(x, y, z);
+            if (designation != null)
+                drawingUtil.drawSprite(drawingUtil.selectSprite(4, DesignationsTileMapping.getAtlasX(designation.getType().CODE), 0), x, y, z, selector.getPosition());
+        }
+        if(zonesContainer != null) {
+            Zone zone = zonesContainer.getZone(cachePosition);
+            if (zone != null) drawingUtil.drawSprite(zone.getType().sprite, x, y, z, selector.getPosition());
         }
         drawingUtil.resetColor();
     }
@@ -127,7 +134,7 @@ public class TileRenderer extends Renderer {
         PlantBlock block = plantContainer.getSubstrateBlocks().get(cachePosition.set(x, y, z));
         if (block != null)
             region = drawingUtil.selectSprite(6, localTileMap.getAtlasX(x, y, z), block.getAtlasXY()[1]);
-        else if (z > 0 && (block = plantContainer.getSubstrateBlocks().get(cachePosition.set(x,y,z-1))) != null) {
+        else if (z > 0 && (block = plantContainer.getSubstrateBlocks().get(cachePosition.set(x, y, z - 1))) != null) {
             region = drawingUtil.selectToping(6, localTileMap.getAtlasX(x, y, z - 1), block.getAtlasXY()[1]);
         }
         if (region != null)
