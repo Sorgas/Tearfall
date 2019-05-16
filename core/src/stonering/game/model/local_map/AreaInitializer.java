@@ -42,6 +42,7 @@ public class AreaInitializer {
 
     /**
      * Creates {@link PassageMap} based on localMap.
+     *
      * @return
      */
     public PassageMap formPassageMap() {
@@ -64,14 +65,13 @@ public class AreaInitializer {
                 for (int z = 0; z < localMap.zSize; z++) {
                     if (isWalkPassable(x, y, z)) { // not wall
                         Set<Byte> neighbours = getNeighbours(x, y, z);
-                        byte toSet = areaNum;
-                        if (neighbours.size() == 0) {
-                            areaNum++; // new area found
+                        if (neighbours.isEmpty()) {
+                            // new area found
+                            passageMap.getArea().setValue(x, y, z, ++areaNum);
                         } else {
                             if (neighbours.size() > 1) addSynonyms(neighbours); // multiple areas near.
-                            toSet = neighbours.iterator().next();
+                            passageMap.getArea().setValue(x, y, z, neighbours.iterator().next());
                         }
-                        passageMap.getArea().setValue(x, y, z, toSet);
                     }
                 }
             }
@@ -80,6 +80,7 @@ public class AreaInitializer {
 
     /**
      * Maps values from synonyms to lowest value from synonym
+     *
      */
     private void processSynonyms() {
         for (Set<Byte> synonym : synonyms) {
@@ -104,11 +105,11 @@ public class AreaInitializer {
         for (int x = 0; x < localMap.xSize; x++) {
             for (int y = 0; y < localMap.ySize; y++) {
                 for (int z = 0; z < localMap.zSize; z++) {
-                    oldArea = area.getValue(x, y, z);
-                    if (oldArea == 0) continue;
-                    newArea = areaMapping.getOrDefault(oldArea, oldArea);
-                    area.setValue(x, y, z, newArea);
-                    areaNumbers.put(newArea, areaNumbers.getOrDefault(newArea, 0) + 1);
+                    oldArea = area.getValue(x, y, z); // unmapped value
+                    if (oldArea == 0) continue; // non passable tile
+                    newArea = areaMapping.getOrDefault(oldArea, oldArea); // area number can be not mapped, if area is isolated.
+                    area.setValue(x, y, z, newArea); // set mapped value
+                    areaNumbers.put(newArea, areaNumbers.getOrDefault(newArea, 0) + 1); // increment counter
                 }
             }
         }
@@ -121,18 +122,20 @@ public class AreaInitializer {
      */
     private void addSynonyms(Set<Byte> neighbours) {
         // synonyms, intersecting with new one
-        Set<Set<Byte>> intersectingSynonyms =
-                synonyms.stream().filter(bytes -> !Collections.disjoint(bytes, neighbours)).collect(Collectors.toSet());
+        Set<Set<Byte>> intersectingSynonyms = synonyms.stream().filter(bytes -> !Collections.disjoint(bytes, neighbours)).collect(Collectors.toSet());
+        // no synonyms are merged, new synonym is fully contained in another
         if (intersectingSynonyms.size() == 1 && intersectingSynonyms.iterator().next().containsAll(neighbours)) return;
+        // merge all found synonyms
         synonyms.removeAll(intersectingSynonyms);
         Set<Byte> mergedSynonym = new HashSet<>();
-        intersectingSynonyms.forEach(bytes -> mergedSynonym.addAll(bytes));
+        intersectingSynonyms.forEach(mergedSynonym::addAll);
         mergedSynonym.addAll(neighbours);
         synonyms.add(mergedSynonym);
     }
 
     /**
      * Returns area numbers of areas accessible from given position.
+     * Does not return unset areas (0).
      */
     private Set<Byte> getNeighbours(int cx, int cy, int cz) {
         Set<Byte> neighbours = new HashSet<>();
@@ -153,7 +156,7 @@ public class AreaInitializer {
     private boolean isWalkPassable(int x, int y, int z) {
         boolean value = localMap.inMap(x, y, z) &&
                 BlockTypesEnum.getType(localMap.getBlockType(x, y, z)).PASSING == 2 &&
-                GameMvc.instance().getModel().get(PlantContainer.class).isBlockPassable(cachePosition.set(x,y,z)) &&
+                GameMvc.instance().getModel().get(PlantContainer.class).isBlockPassable(cachePosition.set(x, y, z)) &&
                 GameMvc.instance().getModel().get(BuildingContainer.class).isBlockPassable(cachePosition);
         return value;
     }
