@@ -78,7 +78,7 @@ public class EquipmentAspect extends Aspect {
     }
 
     /**
-     * Pics most unfilled slots with specified limb types.
+     * Picks most unfilled slots with specified limb types.
      *
      * @return list of found slots otherwise.
      */
