@@ -12,7 +12,6 @@ import com.badlogic.gdx.utils.Align;
 import stonering.TearFall;
 import stonering.entity.world.World;
 import stonering.game.GameMvc;
-import stonering.game.model.MainGameModel;
 import stonering.generators.localgen.LocalGenConfig;
 import stonering.generators.localgen.LocalGeneratorContainer;
 import stonering.game.model.local_map.LocalMap;
@@ -22,6 +21,7 @@ import stonering.util.global.StaticSkin;
 
 /**
  * Local generation screen to be shown during local generation.
+ * Generation starts on show().
  * //TODO progress bar and some visualization.
  *
  * @author Alexander Kuzyakov on 01.06.2017.
@@ -66,7 +66,7 @@ public class LocalGenerationScreen extends SimpleScreen {
                 GameMvc gameMvc = GameMvc.createInstance(localGeneratorContainer.getGameModel());
                 gameMvc.createViewAndController();
                 gameMvc.getModel().startContainer();
-                gameMvc.init();
+                gameMvc.init(); // for initing V & C
                 game.switchToGame();
                 gameMvc.getModel().setPaused(false);
             }

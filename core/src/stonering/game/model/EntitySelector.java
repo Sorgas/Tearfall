@@ -19,7 +19,7 @@ import stonering.util.global.Initable;
  * //TODO add binds for entities and positions (numbers prob.).
  * @author Alexander Kuzyakov on 10.12.2017.
  */
-public class EntitySelector implements ModelComponent, Initable, Startable {
+public class EntitySelector implements ModelComponent, Startable {
     private LocalMap localMap;
     private Position position;
     private TextureRegion selectorSprite; // shows selector position, and selected designation.
@@ -33,17 +33,18 @@ public class EntitySelector implements ModelComponent, Initable, Startable {
 
     private Position frameStart; // if not null, frame from start to current position is drawn
 
-    @Override
-    public void init() {
-        localMap = GameMvc.instance().getModel().get(LocalMap.class);
-        selectorSprite = new TextureRegion(new Texture("sprites/ui_tiles.png"), 0, 406, 64, 96);
-    }
+//    @Override
+//    public void init() {
+//
+//    }
 
     /**
      * Places selector to the center of local map.
      */
     @Override
     public void start() {
+        localMap = GameMvc.instance().getModel().get(LocalMap.class);
+        selectorSprite = new TextureRegion(new Texture("sprites/ui_tiles.png"), 0, 406, 64, 96);
         position = new Position(localMap.xSize / 2, localMap.ySize / 2, localMap.zSize - 1);
         while (localMap.getBlockType(position.x, position.y, position.z) == BlockTypesEnum.SPACE.CODE) {
             position.z--;

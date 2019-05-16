@@ -10,6 +10,7 @@ import stonering.game.model.GameModel;
 import stonering.game.view.render.stages.base.UiStage;
 import stonering.game.view.render.ui.lists.PlaceHolderSelectBox;
 import stonering.test_chamber.TestChamberGame;
+import stonering.test_chamber.model.PassageModel;
 import stonering.test_chamber.model.PondPlantsModel;
 import stonering.test_chamber.model.SinglePlantModel;
 import stonering.test_chamber.model.SingleTreeModel;
@@ -51,9 +52,12 @@ public class ModelSelectStage extends UiStage {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 System.out.println(selectBox.getSelected().toString());
-                GameMvc.createInstance(selectBox.getSelected());
-                GameMvc.instance().init();
+                GameMvc gameMvc = GameMvc.createInstance(selectBox.getSelected());
+                gameMvc.createViewAndController();
+                gameMvc.getModel().startContainer();
+                gameMvc.init();
                 testChamberGame.setScreen(GameMvc.instance().getView());
+                gameMvc.getModel().setPaused(false);
             }
         });
         return table;
@@ -64,6 +68,7 @@ public class ModelSelectStage extends UiStage {
         testModels.add(new SingleTreeModel());
         testModels.add(new SinglePlantModel());
         testModels.add(new PondPlantsModel());
+        testModels.add(new PassageModel());
         return testModels;
     }
 

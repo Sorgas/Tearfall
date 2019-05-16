@@ -57,15 +57,11 @@ public class AStar {
             //get element with the least sum of costs
             Node currentNode = openSet.poll();
 
-            //path is complete
+            //check if path is complete
             if (exactTarget) {
-                if (targetPos.equals(currentNode.getPosition())) {
-                    return currentNode;
-                }
+                if (targetPos.equals(currentNode.getPosition())) return currentNode;
             } else {
-                if (isAdjacent(targetPos, currentNode.getPosition())) {
-                    return currentNode;
-                }
+                if (isAdjacent(targetPos, currentNode.getPosition())) return currentNode;
             }
 
             //get successor nodes
@@ -74,9 +70,7 @@ public class AStar {
             //process successor nodes
             for (Node successorNode : successorNodes) {
                 // node already closed, skip
-                if (closedSet.containsValue(successorNode)) {
-                    continue;
-                }
+                if (closedSet.containsValue(successorNode)) continue;
 
                 //compute tentativeG
                 int pathLength = currentNode.getPathLength() + 1;
@@ -91,18 +85,15 @@ public class AStar {
                     successorNode = discSuccessorNode;
                     inOpenSet = true;
 
-                    if (inOpenSet && pathLength >= successorNode.getPathLength())
-                        continue;
-
+                    if (inOpenSet && pathLength >= successorNode.getPathLength()) continue;
                 } else {
                     inOpenSet = false;
                 }
                 //node was already discovered and this path is worse than the last one
                 successorNode.setParent(currentNode);
-                if (inOpenSet) {
-                    // if successorNode is already in data structure it has to be inserted again to regain the order
-                    openSet.remove(successorNode, successorNode);
-                }
+                // if successorNode is already in data structure it has to be inserted again to regain the order
+                if (inOpenSet) openSet.remove(successorNode, successorNode);
+
                 successorNode.setPathLength(pathLength);
                 openSet.add(successorNode, successorNode);
             }
@@ -113,6 +104,9 @@ public class AStar {
         return null;
     }
 
+    /**
+     * Gets tiles that can be stepped in from given tile.
+     */
     private ArrayList<Node> getSuccessors(Node node, Position target) {
         ArrayList<Node> nodes = new ArrayList<>();
         final Position nodePos = node.getPosition();
@@ -120,13 +114,14 @@ public class AStar {
         for (offset.z = -1; offset.z < 2; offset.z++) {
             for (offset.y = -1; offset.y < 2; offset.y++) {
                 for (offset.x = -1; offset.x < 2; offset.x++) {
-                    if (offset.isZero()) continue; // same pos
+                    if (offset.isZero()) continue; // skip same pos
                     Position newPos = Position.add(nodePos, offset);
-                    if (!localMap.inMap(newPos)) continue;
+                    if (!localMap.inMap(newPos)) continue; // sip out of map tile
                     if (localMap.hasPathBetween(nodePos, newPos)) nodes.add(new Node(newPos, target));
                 }
             }
         }
+        TagLoggersEnum.PATH.logDebug("Successors for " + nodePos + ": " + nodes.size());
         return nodes;
     }
 

@@ -22,6 +22,7 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
+ * Subcomponent of {@link LocalMap}, is created on local map init.
  * Manages isolated areas on localMap to prevent pathfinding between them.
  * Updates areas on local map change.
  * When tile becomes passable, some areas may merge.
@@ -227,6 +228,9 @@ public class PassageMap {
         return passage.getValue(x,y,z);
     }
 
+    /**
+     * Checks that walking creature can move from one tile to another.
+     */
     public boolean hasPathBetween(int x1, int y1, int z1, int x2, int y2, int z2) {
         boolean passable1 = passage.getValue(x1, y1, z1) == 1;
         boolean passable2 = passage.getValue(x2, y2, z2) == 1;

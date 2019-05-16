@@ -34,6 +34,7 @@ public class GameMvc implements Serializable {
 
     public void init() {
         if(model != null) model.init();
+        else TagLoggersEnum.GENERAL.logWarn("Attempt to init MVC with no model.");
         if(controller != null) controller.init();
         if(view != null) view.init();
     }
