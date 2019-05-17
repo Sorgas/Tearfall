@@ -2,9 +2,7 @@ package stonering.game.model;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import stonering.util.global.Startable;
 import stonering.util.validation.PositionValidator;
-import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
@@ -17,9 +15,10 @@ import stonering.util.global.Initable;
  * <p>
  * //TODO divide entity selecting and rendering (change this to selector, add camera class).
  * //TODO add binds for entities and positions (numbers prob.).
+ *
  * @author Alexander Kuzyakov on 10.12.2017.
  */
-public class EntitySelector implements ModelComponent, Startable {
+public class EntitySelector implements ModelComponent, Initable{
     private LocalMap localMap;
     private Position position;
     private TextureRegion selectorSprite; // shows selector position, and selected designation.
@@ -33,22 +32,15 @@ public class EntitySelector implements ModelComponent, Startable {
 
     private Position frameStart; // if not null, frame from start to current position is drawn
 
-//    @Override
-//    public void init() {
-//
-//    }
-
-    /**
-     * Places selector to the center of local map.
-     */
     @Override
-    public void start() {
+    public void init() {
         localMap = GameMvc.instance().getModel().get(LocalMap.class);
         selectorSprite = new TextureRegion(new Texture("sprites/ui_tiles.png"), 0, 406, 64, 96);
         position = new Position(localMap.xSize / 2, localMap.ySize / 2, localMap.zSize - 1);
-        while (localMap.getBlockType(position.x, position.y, position.z) == BlockTypesEnum.SPACE.CODE) {
-            position.z--;
-        }
+    }
+
+    public void setSelector(int x, int y, int z) {
+        position.set(x, y, z);
     }
 
     public void moveSelector(int dx, int dy, int dz) {

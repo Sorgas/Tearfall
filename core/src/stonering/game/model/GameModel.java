@@ -3,7 +3,6 @@ package stonering.game.model;
 import com.badlogic.gdx.utils.Timer;
 import stonering.util.global.Initable;
 import stonering.util.global.LastInitable;
-import stonering.util.global.Startable;
 import stonering.util.global.TagLoggersEnum;
 
 import java.io.Serializable;
@@ -45,6 +44,14 @@ public abstract class GameModel implements Initable, Serializable {
         {
             if (component instanceof Initable) ((Initable) component).init();
         });
+        timer = new Timer();
+        paused = true;
+        timer.scheduleTask(new Timer.Task() {
+            @Override
+            public void run() {
+                turn();
+            }
+        }, 0, 1f / 60);
     }
 
     /**
@@ -56,24 +63,6 @@ public abstract class GameModel implements Initable, Serializable {
                 ((Turnable) components.get(aClass)).turn();
             }
         });
-    }
-
-    /**
-     * Final preparation to game.
-     */
-    public void startContainer() {
-        components.values().forEach(component ->
-        {
-            if (component instanceof Startable) ((Startable) component).start();
-        });
-        timer = new Timer();
-        paused = true;
-        timer.scheduleTask(new Timer.Task() {
-            @Override
-            public void run() {
-                turn();
-            }
-        }, 0, 1f / 60);
     }
 
     public boolean isPaused() {

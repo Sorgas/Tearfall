@@ -1,9 +1,11 @@
 package stonering.game.model.lists;
 
+import com.badlogic.gdx.utils.Array;
 import stonering.game.model.ModelComponent;
 import stonering.game.model.Turnable;
 import stonering.util.geometry.Position;
 import stonering.entity.local.unit.Unit;
+import stonering.util.global.CompatibleArray;
 import stonering.util.global.Initable;
 
 import java.util.*;
@@ -16,46 +18,59 @@ import java.util.*;
  */
 public class UnitContainer extends Turnable implements ModelComponent, Initable {
     private Map<Position, List<Unit>> unitsMap;
+    private Array<Unit> units; // list for turning
 
     private Position cachePosition; // used for faster getting units from map
 
     public UnitContainer() {
         cachePosition = new Position();
         unitsMap = new HashMap<>();
+        units = new Array();
     }
 
     /**
      * Add unit to container. Unit's position should be set.
      */
     public void addUnit(Unit unit) {
-        Position position = unit.getPosition();
-        if (!unitsMap.containsKey(position)) unitsMap.put(position, new ArrayList<>());
-        unitsMap.get(position).add(unit);
+        addUnitToMap(unit);
+        units.add(unit);
+        unit.init();
     }
 
     /**
      * Removes Unit from container. Unit's position should be valid.
      */
     private void removeUnit(Unit unit) {
-        List<Unit> unitsInOldPosition = unitsMap.get(unit.getPosition());
-        unitsInOldPosition.remove(unit);
-        if (unitsInOldPosition.isEmpty()) unitsMap.remove(unit.getPosition());
+        removeUnitFromMap(unit);
+        units.removeValue(unit, true);
     }
 
     /**
      * Moves unit to new position.
      */
     public void updateUnitPosiiton(Unit unit, Position position) {
-        removeUnit(unit);
+        removeUnitFromMap(unit);
         unit.setPosition(position);
-        addUnit(unit);
+        addUnitToMap(unit);
+    }
+
+    private void addUnitToMap(Unit unit) {
+        Position position = unit.getPosition();
+        if (!unitsMap.containsKey(position)) unitsMap.put(position, new ArrayList<>());
+        unitsMap.get(position).add(unit);
+    }
+
+    private void removeUnitFromMap(Unit unit) {
+        List<Unit> unitsInOldPosition = unitsMap.get(unit.getPosition());
+        unitsInOldPosition.remove(unit);
+        if (unitsInOldPosition.isEmpty()) unitsMap.remove(unit.getPosition());
     }
 
     /**
      * Calls turn() for all units.
      */
     public void turn() {
-        unitsMap.values().forEach(units -> units.forEach(Unit::turn));
+        units.forEach(Unit::turn);
     }
 
     /**

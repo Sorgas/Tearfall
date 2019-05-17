@@ -34,7 +34,7 @@ public class MovementAspect extends Aspect {
     }
 
     public void turn() {
-        tryFall();
+        if (tryFall()) return;
         if (stepDelay > 0) {
             stepDelay--; //counting ticks to step
         } else {
@@ -83,13 +83,15 @@ public class MovementAspect extends Aspect {
      * Also deletes it's path, as target may be inaccessible after fall.
      * //TODO apply fall damage
      */
-    private void tryFall() {
+    private boolean tryFall() {
         Position pos = aspectHolder.getPosition();
         if (localMap.isFlyPassable(pos) &&
                 !localMap.isWalkPassable(pos) &&
                 pos.getZ() > 0 && localMap.isFlyPassable(pos.getX(), pos.getY(), pos.getZ() - 1)) {
             aspectHolder.setPosition(new Position(pos.getX(), pos.getY(), pos.getZ() - 1));
             cachedPath = null;
+            return true;
         }
+        return false;
     }
 }

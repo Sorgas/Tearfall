@@ -54,7 +54,6 @@ public class ModelSelectStage extends UiStage {
                 System.out.println(selectBox.getSelected().toString());
                 GameMvc gameMvc = GameMvc.createInstance(selectBox.getSelected());
                 gameMvc.createViewAndController();
-                gameMvc.getModel().startContainer();
                 gameMvc.init();
                 testChamberGame.setScreen(GameMvc.instance().getView());
                 gameMvc.getModel().setPaused(false);

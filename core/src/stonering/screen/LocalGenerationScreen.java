@@ -65,7 +65,6 @@ public class LocalGenerationScreen extends SimpleScreen {
             public void changed(ChangeEvent event, Actor actor) {
                 GameMvc gameMvc = GameMvc.createInstance(localGeneratorContainer.getGameModel());
                 gameMvc.createViewAndController();
-                gameMvc.getModel().startContainer();
                 gameMvc.init(); // for initing V & C
                 game.switchToGame();
                 gameMvc.getModel().setPaused(false);
@@ -88,7 +87,7 @@ public class LocalGenerationScreen extends SimpleScreen {
 
     @Override
     public void show() {
-        generateLocal();
+        generateLocalMap();
     }
 
     @Override
@@ -113,7 +112,7 @@ public class LocalGenerationScreen extends SimpleScreen {
         this.location = location;
     }
 
-    public void generateLocal() {
+    private void generateLocalMap() {
         LocalGenConfig config = new LocalGenConfig();
         config.setLocation(location);
         localGeneratorContainer = new LocalGeneratorContainer(config, world);
