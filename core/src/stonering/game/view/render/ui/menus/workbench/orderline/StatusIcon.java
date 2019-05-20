@@ -1,22 +1,21 @@
 package stonering.game.view.render.ui.menus.workbench.orderline;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import stonering.enums.OrderStatusEnum;
-import stonering.util.global.StaticSkin;
+import stonering.game.view.render.ui.images.DrawableMap;
 
 /**
  * Icon for showing status of order in workbenches.
- * TODO replace with image implementation.
  *
  * @author Alexander_Kuzyakov on 20.05.2019.
  */
-public class StatusIcon extends Label {
+public class StatusIcon extends Image {
 
     public StatusIcon(OrderStatusEnum status) {
-        super(status.toString(), StaticSkin.getSkin());
+        update(status);
     }
 
     public void update(OrderStatusEnum status) {
-        setText(status.toString());
+        setDrawable(DrawableMap.getInstance().getDrawable("order_status_icon:" + status.toString().toLowerCase()));
     }
 }

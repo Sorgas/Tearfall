@@ -45,7 +45,7 @@ public class EntitySelector implements ModelComponent, Initable{
      */
     public void setToMapCenter() {
         int z = localMap.zSize - 1;
-        while(z > 0 && BlockTypesEnum.SPACE.CODE == localMap.getBlockType(position)) {
+        while(z > 0 && BlockTypesEnum.SPACE.CODE == localMap.getBlockType(position.x, position.y, z)) {
             z--;
         }
         position.z = z;
