@@ -47,9 +47,9 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
 
     private HorizontalGroup leftHG;                             // contains select boxes for item parts.
     private HorizontalGroup rightHG;                            // contains control buttons.
-    private Label statusLabel;                                  // shows status, updates on status change //TODO make icon
+    private StatusIcon statusIcon;                              // shows status, updates on status change
     private PlaceHolderSelectBox<Recipe> recipeSelectBox;
-    private ArrayList<PlaceHolderSelectBox<ItemSelector>> partSelectBoxes;
+    private List<PlaceHolderSelectBox<ItemSelector>> partSelectBoxes;
     private Label warningLabel;                                 // shown when something is not ok
 
     private TextButton deleteButton;
@@ -89,8 +89,6 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
 
     /**
      * Applies highlighting, id this line is focused.
-     *
-     * @param delta
      */
     @Override
     public void act(float delta) {
@@ -136,7 +134,7 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
                             if (!recipeSelectBox.getSelected().equals(recipeSelectBox.getPlaceHolder())) { // placeholder is selected
                                 order = new ItemOrder(recipeSelectBox.getSelected());
                                 leftHG.removeActor(recipeSelectBox);
-                                leftHG.addActorAfter(statusLabel, createItemLabel());
+                                leftHG.addActorAfter(statusIcon, createItemLabel());
                                 tryAddPartSelectBox(order.getParts().get(0)); // add SB or warning label
                             } else { // not a valid case
                                 warningLabel.setText("Item not selected");
@@ -319,8 +317,8 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
         repeatButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                order.setRepeated(!order.isRepeated());
-//                        statusLabel  //TODO set repeated status
+                order.setRepeated(!(order.getAmount() > 0));
+//                        statusIcon  //TODO set repeated status
             }
         });
         upButton = new TextButton("R↑", StaticSkin.getSkin());
@@ -385,9 +383,9 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
     /**
      * Creates order status label.
      */
-    private Label createStatusLabel() {
-        statusLabel = new Label("new", StaticSkin.getSkin());
-        return statusLabel;
+    private StatusIcon createStatusLabel() {
+        statusIcon = new StatusIcon("new");
+        return statusIcon;
     }
 
     /**
@@ -455,4 +453,3 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
         }
     }
 }
-

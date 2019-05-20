@@ -6,7 +6,7 @@ import java.util.*;
 
 /**
  * Enumeration of tags for plants placing.
- * Each tag have {@link PositionValidator} for selecting appropriate tile.
+ * Each tag has {@link PositionValidator} for selecting appropriate tile.
  *
  * Used in plants.json, trees.json, substrates.json.
  */

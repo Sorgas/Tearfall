@@ -8,6 +8,7 @@ import stonering.entity.local.AspectHolder;
 import stonering.entity.local.building.Building;
 import stonering.entity.local.crafting.ItemOrder;
 import stonering.entity.local.items.Item;
+import stonering.enums.OrderStatusEnum;
 import stonering.enums.items.recipe.Recipe;
 import stonering.enums.items.recipe.RecipeMap;
 import stonering.game.GameMvc;
@@ -15,13 +16,14 @@ import stonering.game.model.lists.tasks.TaskContainer;
 import stonering.util.global.TagLoggersEnum;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Aspect for workbenches. Manages entries of workbench.
+ * Aspect for workbenches. Manages orders of workbench.
  * Orders for this workbench are stored in cycled list.
  * After creation order can be cancelled, suspended, moved in the list, set for repeating.
- * Only first order can be executed. After executing, order id removed from the list.
+ * Only first order is executed. After executing, order is removed from the list.
  * If order is repeated, instead of removing, it moves to the bottom of the list.
  * If execution is not possible, order is suspended.
  * Suspended entries are skipped.
@@ -33,52 +35,45 @@ import java.util.List;
 public class WorkbenchAspect extends Aspect {
     public static final String NAME = "workbench";
     private List<Recipe> recipes;
-    private List<Item> storage;  //TODO move to separate aspect
-    private List<OrderTaskEntry> entries; // entry may have no task.
+    private LinkedList<OrderTaskEntry> entries; // entry may have no task.
 
-    private int current = -1;
 //    private boolean hasActiveOrders = false; // false on empty list or if all orders are suspended
 
     public WorkbenchAspect(AspectHolder aspectHolder) {
         super(aspectHolder);
-        entries = new ArrayList<>();
+        entries = new LinkedList<>();
         recipes = new ArrayList<>();
-        storage = new ArrayList<>();
         initRecipes();
     }
 
     /**
-     * Checks task of current order and moves to next not suspended order if it's finished.
+     * Checks task of order and moves to next not suspended order if it's finished.
      */
     @Override
     public void turn() {
-        if (entries.isEmpty() ) return;
-        OrderTaskEntry entry = entries.get(current);
+        if (entries.isEmpty()) return;
+        OrderTaskEntry entry = entries.getFirst();
         if (entry.task == null) {                     // new order
             TagLoggersEnum.BUILDING.logDebug("Initing task for order " + entry.order.getRecipe().getName());
             createTaskForOrder(entry);
             GameMvc.instance().getModel().get(TaskContainer.class).getTasks().add(entry.task);
         } else if (entry.task.isFinished()) {          // if task is finished normally
+            entries.removeFirst();
             if (entry.order.isRepeated()) {
                 entry.task.reset();
-            } else {
-                entries.remove(current);
-                current--;
+                entries.addLast(entry);
             }
             rollToNextNotSuspended();
         }
     }
 
     /**
-     * Moves current pointer to next not suspended order.
+     * Rolls entry list to make first element not suspended.
      */
     private void rollToNextNotSuspended() {
         if (entries.size() < 2) return; // no roll on 1 or 0 entries.
-        int previous = current;
-        do {
-            current++;
-            if (current >= entries.size()) current = 0;
-        } while (entries.get(current).order.isSuspended() || current != previous);
+        if (entries.stream().allMatch(entry -> entry.order.isPaused())) return; // all orders paused
+
     }
 
     /**
@@ -115,6 +110,7 @@ public class WorkbenchAspect extends Aspect {
 
     /**
      * Suspends order. If order was in progress, it is interrupted immediately.
+     * TODO rework
      */
     public void setOrderSuspended(ItemOrder order, boolean value) {
         TagLoggersEnum.TASKS.logDebug("Setting order " + order.toString() + " in " + NAME + "suspended: " + value);
@@ -124,7 +120,7 @@ public class WorkbenchAspect extends Aspect {
                 int index = entries.indexOf(entry);
                 if (index == current) entry.task.fail(); // interrupt currently executing order.
             }
-            entry.order.setSuspended(value);
+            entry.order.setStatus(value ? OrderStatusEnum.PAUSED : OrderStatusEnum.WAITING);
         }
         updateFlag();
     }
@@ -144,7 +140,7 @@ public class WorkbenchAspect extends Aspect {
     private void updateFlag() {
 //        hasActiveOrders = false;
         for (OrderTaskEntry entry : entries) {
-            if (!entry.order.isSuspended()) {
+            if (entry.order.isPaused()) {
 //                hasActiveOrders = true;
                 break;
             }
@@ -184,18 +180,12 @@ public class WorkbenchAspect extends Aspect {
     }
 
     public static class OrderTaskEntry {
-
-        ItemOrder order;
-        Task task;
+        public ItemOrder order;
+        public Task task;
 
         public OrderTaskEntry(ItemOrder order) {
             this.order = order;
         }
-
-        public ItemOrder getOrder() {
-            return order;
-        }
-
     }
 
     private boolean inBounds(int index) {
@@ -210,19 +200,7 @@ public class WorkbenchAspect extends Aspect {
         return entries;
     }
 
-    public void setEntries(List<OrderTaskEntry> entries) {
-        this.entries = entries;
-    }
-
     public List<Recipe> getRecipes() {
         return recipes;
-    }
-
-    public void setRecipes(List<Recipe> recipes) {
-        this.recipes = recipes;
-    }
-
-    public List<Item> getStorage() {
-        return storage;
     }
 }

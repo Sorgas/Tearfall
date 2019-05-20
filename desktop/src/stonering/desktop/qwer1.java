@@ -2,6 +2,7 @@ package stonering.desktop;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -45,12 +46,17 @@ public class qwer1 {
             stageMock.act(delta);
             stageMock.getViewport().apply();
             stageMock.draw();
+            handleInput();
         }
 
         @Override
         public void resize(int width, int height) {
             super.resize(width, height);
             stageMock.resize(width, height);
+        }
+
+        private void handleInput() {
+            if(Gdx.input.isKeyJustPressed(Input.Keys.H)) System.out.println("h");
         }
     }
 

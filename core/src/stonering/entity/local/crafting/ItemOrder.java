@@ -1,8 +1,8 @@
 package stonering.entity.local.crafting;
 
+import stonering.enums.OrderStatusEnum;
 import stonering.enums.items.recipe.ItemPartRecipe;
 import stonering.enums.items.recipe.Recipe;
-import stonering.game.GameMvc;
 
 import java.util.*;
 
@@ -21,45 +21,44 @@ import java.util.*;
  */
 public class ItemOrder {
     private Recipe recipe;
-    private List<ItemPartOrder> parts;                            // itemPart to items selected for variant.
+    private List<ItemPartOrder> parts; // itemPart to items selected for variant.
+    private OrderStatusEnum status;
+
+    private int amount;
     private boolean repeated;
-    private boolean suspended;
 
-    private String selectedString;
-
-    public ItemOrder(Recipe recipe) {
-        this.recipe = recipe;
-        initParts(recipe);
+    public ItemOrder() {
+        amount = 1;
+        status = OrderStatusEnum.WAITING;
+        parts = new ArrayList<>();
     }
 
-    /**
-     * Creates order parts for each recipe part.
-     *
-     * @param recipe
-     */
-    private void initParts(Recipe recipe) {
-        parts = new ArrayList<>();
+    public ItemOrder(Recipe recipe) {
+        this();
+        if(recipe == null) return;
+        this.recipe = recipe;
         for (ItemPartRecipe itemPartRecipe : recipe.getParts()) {
             parts.add(new ItemPartOrder(this, itemPartRecipe.getName()));
         }
     }
 
-    @Override
-    public String toString() {
-        return "ItemOrder{" +
-                "recipe=" + recipe +
-                ", selectedString='" + selectedString + '\'' +
-                '}';
-    }
-
     /**
-     * Order is finished, if all itemPartOrders have itemSelectors.
+     * Order is defined, if all itemPartOrders have itemSelectors.
      */
     public boolean isDefined() {
         for (ItemPartOrder part : parts) {
             if (part.getSelected() == null) return false;
         }
         return true;
+    }
+
+    public boolean isPaused() {
+        return status == OrderStatusEnum.PAUSED || status == OrderStatusEnum.SUSPENDED;
+    }
+
+    @Override
+    public String toString() {
+        return "ItemOrder{" + "recipe=" + recipe + '}';
     }
 
     public List<ItemPartOrder> getParts() {
@@ -74,12 +73,20 @@ public class ItemOrder {
         return recipe;
     }
 
-    public String getSelectedString() {
-        return selectedString;
+    public OrderStatusEnum getStatus() {
+        return status;
     }
 
-    public void setSelectedString(String selectedString) {
-        this.selectedString = selectedString;
+    public void setStatus(OrderStatusEnum status) {
+        this.status = status;
+    }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
     }
 
     public boolean isRepeated() {
@@ -88,13 +95,5 @@ public class ItemOrder {
 
     public void setRepeated(boolean repeated) {
         this.repeated = repeated;
-    }
-
-    public boolean isSuspended() {
-        return suspended;
-    }
-
-    public void setSuspended(boolean suspended) {
-        this.suspended = suspended;
     }
 }

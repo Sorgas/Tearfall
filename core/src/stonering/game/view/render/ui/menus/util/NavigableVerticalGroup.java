@@ -83,11 +83,8 @@ public class NavigableVerticalGroup extends VerticalGroup implements HideableCom
 
     /**
      * Navigates through children. Navigation
-     * @param delta
-     * @return
      */
     public boolean navigate(int delta) {
-
         if (preNavigationListener == null || preNavigationListener.handle(null)) {
             if(delta != 0) {
                 int size = getChildren().size;

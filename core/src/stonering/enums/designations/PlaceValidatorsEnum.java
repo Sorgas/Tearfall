@@ -7,7 +7,9 @@ import stonering.util.validation.PositionValidator;
 import java.util.HashMap;
 
 /**
- * Contains mapping from String placing fiels in blueprints.json to actual validators classes
+ * Contains mapping from String placing fiels in blueprints.json to actual validators classes.
+ *
+ * TODO add validators from plants.
  */
 public enum PlaceValidatorsEnum {
     FLOOR(FreeFloorValidator.NAME, new FreeFloorValidator()),

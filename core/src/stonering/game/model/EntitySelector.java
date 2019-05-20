@@ -2,6 +2,7 @@ package stonering.game.model;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import stonering.enums.blocks.BlockTypesEnum;
 import stonering.util.validation.PositionValidator;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
@@ -39,14 +40,25 @@ public class EntitySelector implements ModelComponent, Initable{
         position = new Position(localMap.xSize / 2, localMap.ySize / 2, localMap.zSize - 1);
     }
 
+    /**
+     * Sets position of selector to the ground surface in the center of the map.
+     */
+    public void setToMapCenter() {
+        int z = localMap.zSize - 1;
+        while(z > 0 && BlockTypesEnum.SPACE.CODE == localMap.getBlockType(position)) {
+            z--;
+        }
+        position.z = z;
+    }
+
     public void setSelector(int x, int y, int z) {
         position.set(x, y, z);
     }
 
     public void moveSelector(int dx, int dy, int dz) {
-        position.setX(position.getX() + dx);
-        position.setY(position.getY() + dy);
-        position.setZ(position.getZ() + dz);
+        position.x = position.x + dx;
+        position.y = position.y + dy;
+        position.z = position.z + dz;
         localMap.normalizePosition(position);
         updateStatusAndSprite();
         GameMvc.instance().getView().updateDrawableArea();

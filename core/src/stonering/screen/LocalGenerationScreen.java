@@ -12,6 +12,7 @@ import com.badlogic.gdx.utils.Align;
 import stonering.TearFall;
 import stonering.entity.world.World;
 import stonering.game.GameMvc;
+import stonering.game.model.EntitySelector;
 import stonering.generators.localgen.LocalGenConfig;
 import stonering.generators.localgen.LocalGeneratorContainer;
 import stonering.game.model.local_map.LocalMap;
@@ -66,8 +67,10 @@ public class LocalGenerationScreen extends SimpleScreen {
                 GameMvc gameMvc = GameMvc.createInstance(localGeneratorContainer.getGameModel());
                 gameMvc.createViewAndController();
                 gameMvc.init(); // for initing V & C
+                gameMvc.getModel().get(EntitySelector.class).setToMapCenter();
                 game.switchToGame();
                 gameMvc.getModel().setPaused(false);
+
             }
         });
         menuTable.add(proceedButton).pad(0);
