@@ -13,7 +13,6 @@ import stonering.entity.local.building.Building;
 import stonering.entity.local.building.aspects.WorkbenchAspect;
 import stonering.entity.local.crafting.ItemOrder;
 import stonering.game.GameMvc;
-import stonering.game.view.render.ui.menus.util.Highlightable;
 import stonering.game.view.render.ui.menus.util.HintedActor;
 import stonering.game.view.render.ui.menus.util.NavigableVerticalGroup;
 import stonering.game.view.render.ui.menus.workbench.orderline.ItemCraftingOrderLine;
@@ -77,7 +76,7 @@ public class WorkbenchMenu extends Window implements HintedActor {
         addOrderButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                ItemCraftingOrderLine orderLine = new ItemCraftingOrderLine(menu, new ItemOrder());
+                ItemCraftingOrderLine orderLine = new ItemCraftingOrderLine(menu, null);
                 orderLine.show();                                   // add to list
                 getStage().setKeyboardFocus(orderLine);
                 updateMenuHint(orderLine);
@@ -116,9 +115,7 @@ public class WorkbenchMenu extends Window implements HintedActor {
      * Refills list of screen with existing orders.
      */
     private void refillWorkbenchOrders() {
-        workbenchAspect.getEntries().forEach(entry -> {
-            orderList.addActor(createOrderLine(entry.getOrder()));
-        });
+        workbenchAspect.getEntries().forEach(entry -> orderList.addActor(createOrderLine(entry.order)));
         orderList.setHighlighted(false);
     }
 

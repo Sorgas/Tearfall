@@ -73,7 +73,9 @@ public class WorkbenchAspect extends Aspect {
     private void rollToNextNotSuspended() {
         if (entries.size() < 2) return; // no roll on 1 or 0 entries.
         if (entries.stream().allMatch(entry -> entry.order.isPaused())) return; // all orders paused
-
+        while(entries.getFirst().order.isPaused()) {
+            entries.addLast(entries.removeFirst());
+        }
     }
 
     /**
@@ -84,7 +86,6 @@ public class WorkbenchAspect extends Aspect {
         OrderTaskEntry entry = new OrderTaskEntry(order);
         entries.add(0, entry);
         updateFlag();
-        current++;
     }
 
     /**
@@ -96,10 +97,9 @@ public class WorkbenchAspect extends Aspect {
         if (entry != null) {
             int index = entries.indexOf(entry);
             entries.remove(index);
-            if (index == current) failEntryTask(entry); // interrupt currently executing order.
-            if (index <= current) {
-                current--;
-            }
+            if (index == 0) failEntryTask(entry); // interrupt currently executing order.
+        } else {
+            TagLoggersEnum.TASKS.logWarn("Trying to remove unknown order " + order.toString() + " from " + NAME);
         }
         updateFlag();
     }
@@ -118,7 +118,7 @@ public class WorkbenchAspect extends Aspect {
         if (entry != null) {
             if (value) {
                 int index = entries.indexOf(entry);
-                if (index == current) entry.task.fail(); // interrupt currently executing order.
+//                if (index == current) entry.task.fail(); // interrupt currently executing order.
             }
             entry.order.setStatus(value ? OrderStatusEnum.PAUSED : OrderStatusEnum.WAITING);
         }

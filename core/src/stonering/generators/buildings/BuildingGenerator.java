@@ -26,6 +26,7 @@ public class BuildingGenerator {
         Building building = new Building(position, type);
         building.setMaterial(38); //TODO replace with material from task
         initAspects(building, type);
+        initBlocks(building, type);
         return building;
     }
 
@@ -50,5 +51,10 @@ public class BuildingGenerator {
                 }
             }
         }
+    }
+
+    private void initBlocks(Building building, BuildingType type) {
+        building.getBlock().setPosition(building.getPosition());
+        building.getBlock().setPassage("wall");
     }
 }

@@ -41,7 +41,7 @@ public class BuildingStage extends UiStage implements Initable {
      * Creates screen for workbench buildings and adds it to stage.
      */
     private void createWorkbenchMenu() {
-        menu = new WorkbenchMenu(gameMvc, building);
+        menu = new WorkbenchMenu(building);
         menu.align(Align.center);
         Container container = new Container(menu).center();
         container.setFillParent(true);

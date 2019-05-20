@@ -13,6 +13,7 @@ import stonering.entity.local.crafting.ItemOrder;
 import stonering.entity.local.crafting.ItemPartOrder;
 import stonering.entity.local.items.selectors.ItemSelector;
 import stonering.entity.local.items.selectors.SimpleItemSelector;
+import stonering.enums.OrderStatusEnum;
 import stonering.enums.items.type.ItemTypeMap;
 import stonering.enums.items.recipe.Recipe;
 import stonering.game.view.render.ui.images.DrawableMap;
@@ -77,7 +78,7 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
      */
     private void createTable() {
         left();
-        add(createStatusLabel());
+        add(new StatusIcon(OrderStatusEnum.WAITING));
         add(leftHG = new HorizontalGroup());
         add(createWarningLabel());
         add().expandX();
@@ -378,14 +379,6 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
         WorkbenchAspect aspect = menu.getWorkbenchAspect();
         aspect.swapOrders(aspect.getEntries().indexOf(order), delta);
         menu.getOrderList().moveItem(this, delta);
-    }
-
-    /**
-     * Creates order status label.
-     */
-    private StatusIcon createStatusLabel() {
-        statusIcon = new StatusIcon("new");
-        return statusIcon;
     }
 
     /**
