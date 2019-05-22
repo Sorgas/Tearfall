@@ -34,7 +34,7 @@ public class BuildingGenerator {
      * Creates aspects from description in type.
      */
     private void initAspects(Building building, BuildingType type) {
-        for (List<String> aspect : type.getAspects()) {
+        for (List<String> aspect : type.aspects) {
             if (!aspect.isEmpty()) {
                 switch (aspect.get(0)) {
                     case WorkbenchAspect.NAME: {

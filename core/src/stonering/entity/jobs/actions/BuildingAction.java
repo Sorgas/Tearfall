@@ -40,7 +40,7 @@ public class BuildingAction extends Action {
     }
 
     private void build() {
-        TagLoggersEnum.TASKS.log("Performing building action: " + buildingType.getBuilding());
+        TagLoggersEnum.TASKS.log("Performing building action: " + buildingType.building);
         ItemContainer itemContainer = GameMvc.instance().getModel().get(ItemContainer.class);
         Position target = actionTarget.getPosition();
         ArrayList<Item> items = itemContainer.getItemsInPosition(target);
@@ -51,7 +51,7 @@ public class BuildingAction extends Action {
             itemContainer.removeItems(itemList);
         }
         BuildingContainer buildingContainer = GameMvc.instance().getModel().get(BuildingContainer.class);
-        Building building = buildingContainer.getBuildingGenerator().generateBuilding(buildingType.getBuilding(), target);
+        Building building = buildingContainer.getBuildingGenerator().generateBuilding(buildingType.building, target);
         buildingContainer.addBuilding(building);
     }
 
@@ -61,7 +61,7 @@ public class BuildingAction extends Action {
      */
     @Override
     public boolean check() {
-        TagLoggersEnum.TASKS.log("Checking building action: " + buildingType.getBuilding());
+        TagLoggersEnum.TASKS.log("Checking building action: " + buildingType.building);
         ArrayList<Item> uncheckedItems = new ArrayList<>(GameMvc.instance().getModel().get(ItemContainer.class).getItemsInPosition(actionTarget.getPosition()));
         uncheckedItems.addAll(task.getPerformer().getAspect(EquipmentAspect.class).getHauledItems()); // from performer inventory
         for (ItemSelector itemSelector : itemSelectors) {
@@ -92,13 +92,13 @@ public class BuildingAction extends Action {
     }
 
     private void logStart() {
-        TagLoggersEnum.TASKS.logDebug("construction of " + buildingType.getTitle()
+        TagLoggersEnum.TASKS.logDebug("construction of " + buildingType.title
                 + " started at " + actionTarget.getPosition()
                 + " by " + task.getPerformer().toString());
     }
 
     @Override
     public String toString() {
-        return "Building action: " + buildingType.getTitle();
+        return "Building action: " + buildingType.title;
     }
 }

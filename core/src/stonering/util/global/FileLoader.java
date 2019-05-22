@@ -12,6 +12,7 @@ public class FileLoader {
     public final static String CREATURES_PATH = "resources/creatures.json";
     public final static String BUILDINGS_PATH = "resources/buildings/buildings.json";
     public final static String CONSTRUCTIONS_PATH = "resources/buildings/constructions.json";
+    public final static String FURNITURE_PATH = "resources/buildings/furniture.json";
     public final static String BLUEPRINTS_PATH = "resources/buildings/blueprints.json";
     public final static String UI_TILES_PATH = "resources/ui_tiles.json";
     public final static String ITEMTYPE_TAGS_PATH = "resources/itemtype_tags.json";

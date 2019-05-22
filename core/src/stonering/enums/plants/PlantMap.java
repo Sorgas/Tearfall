@@ -59,19 +59,19 @@ public class PlantMap {
 
     public PlantType getPlantType(String specimen) throws DescriptionNotFoundException {
         if (!plantTypes.containsKey(specimen))
-            throw new DescriptionNotFoundException("Plant type with name " + specimen + " not found1");
+            throw new DescriptionNotFoundException("Plant type with name " + specimen + " not found.");
         return plantTypes.get(specimen);
     }
 
     public PlantType getTreeType(String specimen) throws DescriptionNotFoundException {
         if (!treeTypes.containsKey(specimen))
-            throw new DescriptionNotFoundException("Plant type with name " + specimen + " not found1");
+            throw new DescriptionNotFoundException("Plant type with name " + specimen + " not found.");
         return treeTypes.get(specimen);
     }
 
     public PlantType getSubstrateType(String specimen) throws DescriptionNotFoundException {
         if (!substrateTypes.containsKey(specimen))
-            throw new DescriptionNotFoundException("Plant type with name " + specimen + " not found1");
+            throw new DescriptionNotFoundException("Plant type with name " + specimen + " not found.");
         return substrateTypes.get(specimen);
     }
 

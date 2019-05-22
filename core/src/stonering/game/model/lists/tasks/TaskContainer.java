@@ -131,7 +131,7 @@ public class TaskContainer implements ModelComponent, Initable {
      */
     private Task createBuildingTask(BuildingDesignation designation, Collection<ItemSelector> itemSelectors, int priority) {
         Action action;
-        if (BuildingTypeMap.getInstance().getBuilding(designation.getBuilding()).isConstruction()) {
+        if (BuildingTypeMap.getInstance().getBuilding(designation.getBuilding()).construction) {
             action = new ConstructionAction(designation, itemSelectors);
         } else {
             action = new BuildingAction(designation, itemSelectors);

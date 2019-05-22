@@ -3,12 +3,16 @@ package stonering.enums.buildings;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import stonering.entity.local.building.BuildingType;
+import stonering.enums.plants.PlantType;
+import stonering.enums.plants.PlantTypeProcessor;
+import stonering.enums.plants.RawPlantType;
 import stonering.util.global.FileLoader;
 import stonering.util.global.TagLoggersEnum;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Singleton map of building descriptors. Descriptors are stored by their names.
@@ -24,7 +28,9 @@ public class BuildingTypeMap {
         buildings = new HashMap<>();
         json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
-        loadBuildings();
+        loadTypesFileToMap(FileLoader.BUILDINGS_PATH, buildings);
+        loadTypesFileToMap(FileLoader.CONSTRUCTIONS_PATH, buildings);
+        loadTypesFileToMap(FileLoader.FURNITURE_PATH, buildings);
         loadLists();
     }
 
@@ -34,18 +40,15 @@ public class BuildingTypeMap {
         return instance;
     }
 
-    private void loadBuildings() {
-        TagLoggersEnum.LOADING.log("buildings");
-        ArrayList<BuildingType> elements = json.fromJson(ArrayList.class, BuildingType.class, FileLoader.getFile(FileLoader.BUILDINGS_PATH));
+    /**
+     * Loads {@link PlantType} from given file into given file.
+     */
+    private void loadTypesFileToMap(String filePath, Map<String, BuildingType> map) {
+        List<BuildingType> elements = json.fromJson(ArrayList.class, BuildingType.class, FileLoader.getFile(filePath));
         for (BuildingType buildingType : elements) {
-            buildings.put(buildingType.getBuilding(), buildingType);
+            buildings.put(buildingType.building, buildingType);
         }
-        TagLoggersEnum.LOADING.log("constructions");
-        elements = json.fromJson(ArrayList.class, BuildingType.class, FileLoader.getFile(FileLoader.CONSTRUCTIONS_PATH));
-        for (BuildingType buildingType : elements) {
-            buildingType.setConstruction(true);
-            buildings.put(buildingType.getBuilding(), buildingType);
-        }
+        TagLoggersEnum.LOADING.logDebug(map.keySet().size() + " loaded from " + filePath);
     }
 
     public boolean hasMaterial(String title) {
@@ -66,7 +69,7 @@ public class BuildingTypeMap {
         for (RecipeList recipeList : elements) {
             if (validateList(recipeList)) {
                 BuildingType type = buildings.get(recipeList.workbench);
-                recipeList.recipes.forEach(s -> type.getRecipes().add(s));
+                recipeList.recipes.forEach(s -> type.recipes.add(s));
             }
         }
     }

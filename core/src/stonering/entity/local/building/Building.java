@@ -55,6 +55,6 @@ public class Building extends AspectHolder { // TODO split to aspects
 
     @Override
     public String toString() {
-        return type.getTitle();
+        return type.title;
     }
 }
