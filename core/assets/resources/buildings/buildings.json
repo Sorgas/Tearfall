@@ -20,7 +20,7 @@
 }, {
     "building":"tailor_shop",
     "title":"Tailor's workbench",
-    "description":"qwer",
+    "description":"Workbench for sewing clothes",
     "aspects":[["workbench"], ["item_container", "solid", "100"]],
     "parts":["table", "chair"],
     "passage":"floor",

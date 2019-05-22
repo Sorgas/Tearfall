@@ -63,27 +63,18 @@ public class BuildingTypeMap {
         return buildings.containsKey(name);
     }
 
+    /**
+     * Loads lists of crafting recipes for building. First item in array should be building name.
+     */
     private void loadLists() {
         TagLoggersEnum.LOADING.log("crafting recipes");
-        ArrayList<RecipeList> elements = json.fromJson(ArrayList.class, RecipeList.class, FileLoader.getFile(FileLoader.RECIPE_LISTS_PATH));
-        for (RecipeList recipeList : elements) {
-            if (validateList(recipeList)) {
-                BuildingType type = buildings.get(recipeList.workbench);
-                recipeList.recipes.forEach(s -> type.recipes.add(s));
+        ArrayList<ArrayList<String>> elements = json.fromJson(ArrayList.class, ArrayList.class, FileLoader.getFile(FileLoader.RECIPE_LISTS_PATH));
+        for (List<String> recipeList : elements) {
+            String buildingName = recipeList.remove(0);
+            if(buildings.containsKey(buildingName)) {
+                BuildingType type = buildings.get(buildingName);
+                type.recipes = recipeList;
             }
-        }
-    }
-
-    private boolean validateList(RecipeList list) {
-        return buildings.keySet().contains(list.workbench);
-    }
-
-    private static class RecipeList {
-        String workbench;
-        List<String> recipes;
-
-        public RecipeList() {
-            recipes = new ArrayList<>();
         }
     }
 }
