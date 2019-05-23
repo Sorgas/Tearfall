@@ -1,80 +1,39 @@
+/*
+    Parts should include all item parts with:
+        1. item part name
+        2. material tag.
+*/
+
 [
     {
-        "name":"make_pickaxe",
-        "title":"Metal pickaxe",
-        "itemName":"pickaxe",
-        "parts":[
-            {
-                "name":"head",
-                "materialType":"metal"
-            },
-            {
-                "name":"handle",
-                "materialType":"wood"
-            }
-        ]
-    },
-    {
-        "name":"make_sickle",
-        "title":"Metal sickle",
-        "itemName":"sickle",
-        "parts":[
-            {
-                "name":"head",
-                "materialType":"metal"
-            },
-            {
-                "name":"handle",
-                "materialType":"wood"
-            }
-        ]
-    },
-    {
-        "name":"make_axe",
-        "title":"Metal axe",
-        "itemName":"axe",
-        "parts":[
-            {
-                "name":"head",
-                "materialType":"metal"
-            },
-            {
-                "name":"handle",
-                "materialType":"wood"
-            }
-        ]
-    },
-    {
-        "name":"make_shirt",
-        "title":"Cloth shirt",
-        "itemName":"shirt",
-        "parts":[
-            {
-                "name":"shirt",
-                "materialType":"cloth"
-            }
-        ]
-    },
-    {
-        "name":"make_pants",
-        "title":"Cloth pants",
-        "itemName":"pants",
-        "parts":[
-            {
-                "name":"shirt",
-                "materialType":"cloth"
-            }
-        ]
-    },
-    {
-        "name":"make_backpack",
-        "title":"Cloth backpack",
-        "itemName":"backpack",
-        "parts":[
-            {
-                "name":"shirt",
-                "materialType":"cloth"
-            }
-        ]
-    }
+        "name": "make_pickaxe",
+        "title": "Metal pickaxe",
+        "itemName": "pickaxe",
+        "parts": [["head", "metal"], ["handle", "wood"]]
+    }, {
+    "name": "make_sickle",
+    "title": "Metal sickle",
+    "itemName": "sickle",
+    "parts": [["head", "metal"], ["handle", "wood"]]
+}, {
+    "name": "make_axe",
+    "title": "Metal axe",
+    "itemName": "axe",
+    "parts": [["head", "metal"], ["handle", "wood"]]
+}, {
+    "name": "make_shirt",
+    "title": "Cloth shirt",
+    "itemName": "shirt",
+    "parts": [["shirt", "cloth"]]
+}, {
+    "name": "make_pants",
+    "title": "Cloth pants",
+    "itemName": "pants",
+    "parts": [["pants", "cloth"]]
+}, {
+    "name": "make_backpack",
+    "title": "Cloth backpack",
+    "itemName": "backpack",
+    "parts": [["backpack", "cloth"]]
+}
 ]

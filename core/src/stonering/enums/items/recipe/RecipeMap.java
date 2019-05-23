@@ -3,11 +3,14 @@ package stonering.enums.items.recipe;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import stonering.util.global.FileLoader;
+import stonering.util.global.TagLoggersEnum;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
+ * Loads from json and stores {@link Recipe}.
+ *
  * @author Alexander on 19.11.2018.
  */
 public class RecipeMap {
@@ -29,16 +32,13 @@ public class RecipeMap {
     }
 
     private void loadRecipes() {
-        System.out.println("loading buildings");
-//        json.addClassTag("c_part");
-        ArrayList<Recipe> elements = json.fromJson(ArrayList.class, Recipe.class, FileLoader.getFile(FileLoader.RECIPES_PATH));
-        for (Recipe recipe : elements) {
-            recipes.put(recipe.getName(), recipe);
+        TagLoggersEnum.LOADING.log("recipes");
+        ArrayList<RawRecipe> elements = json.fromJson(ArrayList.class, RawRecipe.class, FileLoader.getFile(FileLoader.RECIPES_PATH));
+        RecipeProcessor processor = new RecipeProcessor();
+        for (RawRecipe rawRecipe : elements) {
+            recipes.put(rawRecipe.name, processor.processRawRecipe(rawRecipe));
         }
-    }
-
-    public boolean hasMaterial(String title) {
-        return recipes.containsKey(title);
+        TagLoggersEnum.LOADING.logDebug(recipes.keySet().size() + " loaded from " + FileLoader.RECIPES_PATH);
     }
 
     public Recipe getRecipe(String name) {

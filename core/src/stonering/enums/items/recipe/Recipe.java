@@ -2,7 +2,8 @@ package stonering.enums.items.recipe;
 
 import stonering.util.global.TagLoggersEnum;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Recipe for crafting.
@@ -11,26 +12,28 @@ import java.util.List;
  * @author Alexander on 19.11.2018.
  */
 public class Recipe {
-    private String name;     // recipe NAME
-    private String title;    // displayed title
-    private String itemName; // item NAME, points to ItemType
-//    private String skill;
+    public String name;     // recipe NAME
+    public String title;    // displayed title
+    public String itemName; // item NAME, points to ItemType
+    //    private String skill;
 //    private int duration;                                                         //TODO crafting with usage of multiple workbenches.
 //    private int expGain;
-    private List<ItemPartRecipe> parts;  // itemPart NAME to material categories   //TODO map of item parts to allowed materials.
+    public Map<String, ItemPartRecipe> parts;  // itemPart NAME to material categories   //TODO map of item parts to allowed materials.
     //    private String material; // mvp material category
-
-
-    public Recipe() {}
 
     public Recipe(String title) {
         this.title = title;
+        parts = new HashMap<>();
     }
 
+    /**
+     * Looks for {@link ItemPartRecipe} by name of item part.
+     *
+     * @param itemPartName
+     * @return
+     */
     public ItemPartRecipe getItemPartRecipe(String itemPartName) {
-        for (ItemPartRecipe part : parts) {
-            if(part.getName().equals(itemPartName)) return part;
-        }
+        if (parts.containsKey(itemPartName)) return parts.get(itemPartName);
         TagLoggersEnum.TASKS.logWarn("Item part with name " + itemPartName + " not found in recipe " + name);
         return null;
     }
@@ -38,37 +41,5 @@ public class Recipe {
     @Override
     public String toString() {
         return title;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getItemName() {
-        return itemName;
-    }
-
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public List<ItemPartRecipe> getParts() {
-        return parts;
-    }
-
-    public void setParts(List<ItemPartRecipe> parts) {
-        this.parts = parts;
     }
 }

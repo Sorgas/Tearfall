@@ -193,7 +193,7 @@ public class ItemContainer extends Turnable implements ModelComponent, Initable 
      */
     public List<ItemSelector> getItemSelectorsForItemPartRecipe(ItemPartRecipe itemPartRecipe, Position position) {
         Set<ItemSelector> itemSelectors = new HashSet<>();
-        Set<Integer> allowedMaterials = MaterialMap.getInstance().getMaterialsByType(itemPartRecipe.getMaterialType());
+        Set<Integer> allowedMaterials = MaterialMap.getInstance().getMaterialsByType(itemPartRecipe.getMaterialTag());
         List<Item> materialItems = items.stream().filter(item -> item.getType().isResource && allowedMaterials.contains(item.getMaterial())).collect(Collectors.toList());
         materialItems = filterUnreachable(materialItems, position); // TODO carried items has no position giving NPE
         for (ItemGroup itemGroup : groupItemsByTypesAndMaterials(materialItems)) {

@@ -1,25 +1,16 @@
 package stonering.enums.items.recipe;
 
 /**
+ * Determines crafting of item part. Is part of {@link Recipe}.
+ *
  * @author Alexander on 05.01.2019.
  */
 public class ItemPartRecipe {
-    private String name;
-    private String materialType;
+    public String name;
+    public String materialTag;
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
+    public ItemPartRecipe(String name, String materialTag) {
         this.name = name;
-    }
-
-    public String getMaterialType() {
-        return materialType;
-    }
-
-    public void setMaterialType(String materialType) {
-        this.materialType = materialType;
+        this.materialTag = materialTag;
     }
 }
