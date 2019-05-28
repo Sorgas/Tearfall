@@ -54,7 +54,7 @@ public class WorkbenchAspect extends Aspect {
         if (entries.isEmpty()) return;
         OrderTaskEntry entry = entries.getFirst();
         if (entry.task == null) {                     // new order
-            TagLoggersEnum.BUILDING.logDebug("Initing task for order " + entry.order.getRecipe().getName());
+            TagLoggersEnum.BUILDING.logDebug("Initing task for order " + entry.order.getRecipe().name);
             createTaskForOrder(entry);
             GameMvc.instance().getModel().get(TaskContainer.class).getTasks().add(entry.task);
         } else if (entry.task.isFinished()) {          // if task is finished normally
@@ -162,7 +162,7 @@ public class WorkbenchAspect extends Aspect {
      */
     private void createTaskForOrder(OrderTaskEntry entry) {
         CraftItemAction action = new CraftItemAction(entry.order, aspectHolder);
-        entry.task = new Task(entry.order.getRecipe().getName(), TaskTypesEnum.CRAFTING, action, 1);
+        entry.task = new Task(entry.order.getRecipe().name, TaskTypesEnum.CRAFTING, action, 1);
     }
 
     /**

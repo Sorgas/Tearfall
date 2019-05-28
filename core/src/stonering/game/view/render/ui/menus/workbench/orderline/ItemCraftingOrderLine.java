@@ -123,7 +123,7 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
      */
     public PlaceHolderSelectBox createRecipeSelectBox(ArrayList<Recipe> recipeList) {
         Map<String, Recipe> recipeMap = new HashMap<>();
-        recipeList.forEach(recipe -> recipeMap.put(recipe.getTitle(), recipe));                                 // create mapping of recipes to select box lines.
+        recipeList.forEach(recipe -> recipeMap.put(recipe.title, recipe));                                 // create mapping of recipes to select box lines.
         recipeSelectBox = new PlaceHolderSelectBox<>(new Recipe("Select item"));
         recipeSelectBox.setItems(recipeList.toArray(new Recipe[]{}));
         recipeSelectBox.getListeners().insert(0, new InputListener() {
@@ -272,7 +272,7 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
     private void handleMaterialSelection(int index) {
         order.getParts().get(index).setSelected(partSelectBoxes.get(index).getSelected()); // update item part order
         if (!order.isDefined()) return;
-        TagLoggersEnum.TASKS.logDebug("Order " + order.getRecipe().getName() + " added to " + menu.getWorkbench());
+        TagLoggersEnum.TASKS.logDebug("Order " + order.getRecipe().name + " added to " + menu.getWorkbench());
         menu.getWorkbenchAspect().addOrder(order);
     }
 
@@ -387,7 +387,7 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
      * Creates label with item title.
      */
     private Label createItemLabel() {
-        String itemTitle = ItemTypeMap.getInstance().getItemType(order.getRecipe().getItemName()).title;
+        String itemTitle = ItemTypeMap.getInstance().getItemType(order.getRecipe().itemName).title;
         return new Label(itemTitle, StaticSkin.getSkin()); // label with item type
     }
 

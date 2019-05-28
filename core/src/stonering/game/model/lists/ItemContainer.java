@@ -27,12 +27,10 @@ import java.util.stream.Collectors;
  * @author Alexander Kuzyakov on 14.06.2017.
  */
 public class ItemContainer extends Turnable implements ModelComponent, Initable {
-    private GameMvc gameMvc;
     private ArrayList<Item> items;  // all items on the map (tiles, containers, units)
     private HashMap<Position, ArrayList<Item>> itemMap;      // maps tiles position to list of items it that position
 
     public ItemContainer() {
-        gameMvc = GameMvc.instance();
         items = new ArrayList<>();
         itemMap = new HashMap<>();
     }
@@ -193,7 +191,7 @@ public class ItemContainer extends Turnable implements ModelComponent, Initable 
      */
     public List<ItemSelector> getItemSelectorsForItemPartRecipe(ItemPartRecipe itemPartRecipe, Position position) {
         Set<ItemSelector> itemSelectors = new HashSet<>();
-        Set<Integer> allowedMaterials = MaterialMap.getInstance().getMaterialsByType(itemPartRecipe.getMaterialTag());
+        Set<Integer> allowedMaterials = MaterialMap.getInstance().getMaterialsByType(itemPartRecipe.materialTag);
         List<Item> materialItems = items.stream().filter(item -> item.getType().isResource && allowedMaterials.contains(item.getMaterial())).collect(Collectors.toList());
         materialItems = filterUnreachable(materialItems, position); // TODO carried items has no position giving NPE
         for (ItemGroup itemGroup : groupItemsByTypesAndMaterials(materialItems)) {
