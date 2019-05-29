@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  */
 public class EquipmentAspect extends Aspect {
     public static String NAME = "equipment";
-    private HashMap<String, EquipmentSlot> slots;            // equipped items
+    private HashMap<String, EquipmentSlot> slots;            // all slots of creature
     private ArrayList<EquipmentSlot> desiredSlots;           // uncovered limbs give comfort penalty
     private HashMap<String, GrabEquipmentSlot> grabSlots;    // equipped items
     private ArrayList<Item> hauledItems;                     // hauled item list for faster checking
