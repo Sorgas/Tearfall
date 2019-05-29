@@ -36,6 +36,13 @@ public class NeedsAspect extends Aspect {
     public void turn() {
         if(needsCheckDelay-- > 0) return;
         needsCheckDelay = maxNeedsCheckDelay;
+        update();
+    }
+
+    /**
+     * Updates this aspect.
+     */
+    public void update() {
         strongestNeed = null;
         this.priority = -1;
         for (Need need : needs) {

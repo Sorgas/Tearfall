@@ -6,6 +6,7 @@ import stonering.entity.local.AspectHolder;
 import stonering.entity.local.items.Item;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -183,11 +184,9 @@ public class EquipmentAspect extends Aspect {
 
     /**
      * Filters and returns slots needed to be filled to avoid nudity penalty.
-     *
-     * @return
      */
     public List<EquipmentSlot> getEmptyDesiredSlots() {
-        if (emptyDesiredSlotsCount == 0) return new ArrayList<>();
+        if (emptyDesiredSlotsCount == 0) return Collections.EMPTY_LIST;
         return desiredSlots.stream().filter(equipmentSlot -> equipmentSlot.isEmpty()).collect(Collectors.toList());
     }
 
@@ -195,8 +194,6 @@ public class EquipmentAspect extends Aspect {
     /**
      * Removes given item from all slots disregarding other items in these slots (even if overlapping is present).
      * Item should not be blocked by other items. This should be checked by actions.
-     *
-     * @param item
      */
     public void unequipItem(Item item) {
         if (!equippedItems.contains(item)) return;
