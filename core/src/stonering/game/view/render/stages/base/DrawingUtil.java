@@ -1,12 +1,15 @@
 package stonering.game.view.render.stages.base;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import stonering.util.geometry.Position;
+import stonering.util.global.StaticSkin;
 
 /**
  * Provides utility methods and rules for drawing scene.
@@ -16,6 +19,7 @@ import stonering.util.geometry.Position;
 public class DrawingUtil {
     private Batch batch;
     private Texture[] atlases;
+    private BitmapFont font;
 
     private float shadingStep = 0.06f;
     private Color batchColor;               // default batch color without light or transparency
@@ -29,6 +33,7 @@ public class DrawingUtil {
 
     public DrawingUtil(Batch batch) {
         this.batch = batch;
+        font = new BitmapFont();
         batch.enableBlending();
         batchColor = new Color();
         createAtlases();
@@ -65,6 +70,12 @@ public class DrawingUtil {
                 x * tileWidth,
                 y * blockTileHeight,
                 tileWidth, topingTileHeight);
+    }
+
+    public void writeText(String text, int x, int y, int z, Position selectorPosition) {
+        float screenX = getScreenPosX(x - selectorPosition.x);
+        float screenY = getScreenPosY(y - selectorPosition.y, z - selectorPosition.z);
+        font.draw(batch, text, screenX, screenY);
     }
 
     private void createAtlases() {

@@ -64,6 +64,11 @@ public class TileRenderer extends Renderer {
                     drawTile(x, y, z);
                 }
             }
+            for (int x = visibleArea.getMinX(); x <= visibleArea.getMaxX(); x++) {
+                for (int y = visibleArea.getMaxY(); y >= visibleArea.getMinY(); y--) {
+                    drawAreaLabel(x, y, z);
+                }
+            }
         }
     }
 
@@ -104,11 +109,16 @@ public class TileRenderer extends Renderer {
             if (designation != null)
                 drawingUtil.drawSprite(drawingUtil.selectSprite(4, DesignationsTileMapping.getAtlasX(designation.getType().CODE), 0), x, y, z, selector.getPosition());
         }
-        if(zonesContainer != null) {
+        if (zonesContainer != null) {
             Zone zone = zonesContainer.getZone(cachePosition);
             if (zone != null) drawingUtil.drawSprite(zone.getType().sprite, x, y, z, selector.getPosition());
         }
         drawingUtil.resetColor();
+    }
+
+    private void drawAreaLabel(int x, int y, int z) {
+        if(localMap.getBlockType(x,y,z) == BlockTypesEnum.SPACE.CODE) return;
+        drawingUtil.writeText(String.valueOf(localMap.getPassage().getArea().getValue(x, y, z)), x, y + 1, z, selector.getPosition());
     }
 
     /**
