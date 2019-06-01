@@ -117,7 +117,7 @@ public class AStar {
                     if (offset.isZero()) continue; // skip same pos
                     Position newPos = Position.add(nodePos, offset);
                     if (!localMap.inMap(newPos)) continue; // sip out of map tile
-                    if (localMap.hasPathBetween(nodePos, newPos)) nodes.add(new Node(newPos, target));
+                    if (localMap.hasPathBetweenNeighbours(nodePos, newPos)) nodes.add(new Node(newPos, target));
                 }
             }
         }

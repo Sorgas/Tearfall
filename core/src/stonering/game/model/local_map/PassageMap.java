@@ -28,7 +28,7 @@ import java.util.Set;
  * When tile becomes passable, some areas may merge.
  * When tile becomes impassable, some areas may split.
  * Building walls performed in two steps, building floor above first, then building wall itself.
- *  (for proper area update)
+ * (for proper area update)
  * Destroying walls performed in opposite direction.
  *
  * @author Alexander on 05.11.2018.
@@ -37,7 +37,7 @@ public class PassageMap {
     private LocalMap localMap;
     private AStar aStar;
     private UtilByteArray area; // number of area
-    private UtilByteArray passage; // 1 is passable, 0 is not
+    private UtilByteArray passage; /** see {@link BlockTypesEnum} for passage values. */
     private Map<Byte, Integer> areaNumbers; // counts number of cells in areas
     private Position cachePosition;
 
@@ -51,15 +51,30 @@ public class PassageMap {
     }
 
     /**
+     * Inits passage numbers for tiles.
+     * @return
+     */
+    public PassageMap initPassage() {
+        for (int x = 0; x < localMap.xSize; x++) {
+            for (int y = 0; y < localMap.ySize; y++) {
+                for (int z = 0; z < localMap.zSize; z++) {
+                    passage.setValue(x, y, z, isTilePassable(cachePosition.set(x, y, z)));
+                }
+            }
+        }
+        return this;
+    }
+
+    /**
      * Called when local map passage is updated. If cell becomes non-passable, it may split area into two.
      */
     public void updateCell(int x, int y, int z) {
-        if (isTilePassable(cachePosition.set(x, y, z))) { // areas should be merged
-            passage.setValue(x, y, z, 1);
+        int passing = isTilePassable(cachePosition.set(x, y, z));
+        passage.setValue(x, y, z, passing);
+        if (passing == BlockTypesEnum.PASSABLE) { // areas should be merged
             Set<Byte> areas = observeAreasAround(x, y, z);
             if (areas.size() > 1) mergeAreas(areas);
         } else { // areas may split
-            passage.setValue(x, y, z, 0);
             splitAreas(collectNeighbourPositions(x, y, z), new Position(x, y, z));
         }
     }
@@ -216,42 +231,45 @@ public class PassageMap {
         return 0;
     }
 
-    public UtilByteArray getArea() {
-        return area;
+    /**
+     * Checks that walking creature can move from one tile to another.
+     * Tiles should be adjacent.
+     */
+    public boolean hasPathBetween(int x1, int y1, int z1, int x2, int y2, int z2) {
+        if (!localMap.inMap(x1, y1, z1)) return false;
+        if (!localMap.inMap(x2, y2, z2)) return false;
+        if (passage.getValue(x1, y1, z1) != BlockTypesEnum.PASSABLE) return false; // cell not passable
+        if (passage.getValue(x2, y2, z2) != BlockTypesEnum.PASSABLE) return false; // cell not passable
+        if (z1 == z2) return true; // passable tiles on same level
+        return BlockTypesEnum.getType(z1 < z2 ? localMap.getBlockType(x1, y1, z1) : localMap.getBlockType(x2, y2, z2)) == BlockTypesEnum.RAMP; // can descend on ramps
+    }
+
+    public boolean hasPathBetween(Position pos1, Position pos2) {
+        return hasPathBetween(pos1.x, pos1.y, pos1.z, pos2.x, pos2.y, pos2.z);
+    }
+
+    /**
+     * Tile is passable, if its block type allows walking(like floor, ramp, etc.), plant is passable(not tree trunk), building is passable.
+     */
+    private int isTilePassable(Position position) {
+        GameModel model = GameMvc.instance().getModel();
+        PlantContainer plantContainer = model.get(PlantContainer.class);
+        BuildingContainer buildingContainer = model.get(BuildingContainer.class);
+        if(plantContainer.getPlantBlocks().containsKey(position) && !plantContainer.getPlantBlocks().get(position).isPassable()) return BlockTypesEnum.NOT_PASSABLE;
+        if(buildingContainer.getBuildingBlocks().containsKey(position) && !buildingContainer.getBuildingBlocks().get(position).isPassable()) return BlockTypesEnum.NOT_PASSABLE;
+        //TODO add water depth checking, etc.
+        return BlockTypesEnum.getType(localMap.getBlockType(position)).PASSING;
+    }
+
+    public byte getPassage(int x, int y, int z) {
+        return passage.getValue(x, y, z);
     }
 
     public Map<Byte, Integer> getAreaNumbers() {
         return areaNumbers;
     }
 
-    public byte getPassage(int x, int y, int z) {
-        return passage.getValue(x,y,z);
-    }
-
-    /**
-     * Checks that walking creature can move from one tile to another.
-     */
-    public boolean hasPathBetween(int x1, int y1, int z1, int x2, int y2, int z2) {
-        boolean passable1 = passage.getValue(x1, y1, z1) == 1;
-        boolean passable2 = passage.getValue(x2, y2, z2) == 1;
-        boolean sameLevel = z1 == z2;
-        boolean lowRamp = BlockTypesEnum.getType(z1 < z2 ? localMap.getBlockType(x1, y1, z1) : localMap.getBlockType(x2, y2, z2)) == BlockTypesEnum.RAMP; // can descend on ramps
-        return (passable1 && passable2 && (sameLevel || lowRamp));
-    }
-
-    public boolean hasPathBetween(Position pos1, Position pos2) {
-        return hasPathBetween(pos1.x, pos1.y, pos1.z,pos2.x, pos2.y, pos2.z);
-    }
-
-    /**
-     * Tile is passable, if its block type allows walking(like floor, ramp, etc.), plant is passable(not tree trunk), building is passable.
-     */
-    private boolean isTilePassable(Position position) {
-        GameModel model = GameMvc.instance().getModel();
-        PlantContainer plantContainer = model.get(PlantContainer.class);
-        BuildingContainer buildingContainer = model.get(BuildingContainer.class);
-        return BlockTypesEnum.getType(localMap.getBlockType(position)).PASSING == BlockTypesEnum.PASSABLE &&
-                (!plantContainer.getPlantBlocks().containsKey(position) || plantContainer.getPlantBlocks().get(position).isPassable()) &&
-                (!buildingContainer.getBuildingBlocks().containsKey(position) || model.get(PlantContainer.class).getPlantBlocks().get(position).isPassable());
+    public UtilByteArray getArea() {
+        return area;
     }
 }

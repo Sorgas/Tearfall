@@ -47,7 +47,9 @@ public class LocalMap implements ModelComponent, Initable, LastInitable {
     }
 
     public void init() {
-        passage = new AreaInitializer(this).formPassageMap();
+        passage = new PassageMap(this);
+        passage.initPassage();
+        new AreaInitializer(this).formPassageMap(passage);
         localTileMapUpdater = new LocalTileMapUpdater();
         localTileMapUpdater.flushLocalMap();
     }
@@ -135,7 +137,7 @@ public class LocalMap implements ModelComponent, Initable, LastInitable {
 
     public boolean isWalkPassable(int x, int y, int z) {
         //TODO reuse
-        return passage.getPassage(x,y,z) == 1;
+        return passage.getPassage(x,y,z) == BlockTypesEnum.PASSABLE;
     }
 
     private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
@@ -149,20 +151,20 @@ public class LocalMap implements ModelComponent, Initable, LastInitable {
 
     public boolean isFlyPassable(int x, int y, int z) {
         //TODO
-        return inMap(x, y, z) && BlockTypesEnum.getType(getBlockType(x, y, z)).PASSING != 0; // 1 || 2
+        return inMap(x, y, z) && BlockTypesEnum.getType(getBlockType(x, y, z)).PASSING != BlockTypesEnum.NOT_PASSABLE; // 1 || 2
     }
 
     /**
      * Only for adjacent cells.
      */
-    public boolean hasPathBetween(Position pos1, Position pos2) {
-        return hasPathBetween(pos1.x, pos1.y, pos1.z, pos2.x, pos2.y, pos2.z);
+    public boolean hasPathBetweenNeighbours(Position pos1, Position pos2) {
+        return hasPathBetweenNeighbours(pos1.x, pos1.y, pos1.z, pos2.x, pos2.y, pos2.z);
     }
 
     /**
      * Only for adjacent cells.
      */
-    public boolean hasPathBetween(int x1, int y1, int z1, int x2, int y2, int z2) {
+    public boolean hasPathBetweenNeighbours(int x1, int y1, int z1, int x2, int y2, int z2) {
         return passage.hasPathBetween(x1,y1,z1,x2,y2,z2);
     }
 

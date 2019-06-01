@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
  */
 public class AreaInitializer {
     private LocalMap localMap;
-    private PassageMap passageMap;
+    private PassageMap passage;
     private Set<Set<Byte>> synonyms; // sets contain numbers of connected areas
     private Map<Byte, Byte> areaMapping; // synonym values to synonym min
     private Position cachePosition;
@@ -45,14 +45,13 @@ public class AreaInitializer {
      *
      * @return
      */
-    public PassageMap formPassageMap() {
-        passageMap = new PassageMap(localMap);
+    public void formPassageMap(PassageMap passage) {
+        this.passage = passage;
         synonyms = new HashSet<>();
         areaMapping = new HashMap<>();
         initAreaNumbers();
         processSynonyms();
         applyMapping();
-        return passageMap;
     }
 
     /**
@@ -63,14 +62,14 @@ public class AreaInitializer {
         for (int x = 0; x < localMap.xSize; x++) {
             for (int y = 0; y < localMap.ySize; y++) {
                 for (int z = 0; z < localMap.zSize; z++) {
-                    if (isWalkPassable(x, y, z)) { // not wall
+                    if (passage.getPassage(x, y, z) == BlockTypesEnum.PASSABLE) { // not wall
                         Set<Byte> neighbours = getNeighbours(x, y, z);
                         if (neighbours.isEmpty()) {
                             // new area found
-                            passageMap.getArea().setValue(x, y, z, areaNum++);
+                            passage.getArea().setValue(x, y, z, areaNum++);
                         } else {
                             if (neighbours.size() > 1) addSynonyms(neighbours); // multiple areas near.
-                            passageMap.getArea().setValue(x, y, z, neighbours.iterator().next());
+                            passage.getArea().setValue(x, y, z, neighbours.iterator().next());
                         }
                     }
                 }
@@ -100,8 +99,8 @@ public class AreaInitializer {
     private void applyMapping() {
         byte oldArea;
         byte newArea;
-        Map<Byte, Integer> areaNumbers = passageMap.getAreaNumbers();
-        UtilByteArray area = passageMap.getArea();
+        Map<Byte, Integer> areaNumbers = passage.getAreaNumbers();
+        UtilByteArray area = passage.getArea();
         for (int x = 0; x < localMap.xSize; x++) {
             for (int y = 0; y < localMap.ySize; y++) {
                 for (int z = 0; z < localMap.zSize; z++) {
@@ -139,33 +138,17 @@ public class AreaInitializer {
      */
     private Set<Byte> getNeighbours(int cx, int cy, int cz) {
         Set<Byte> neighbours = new HashSet<>();
-        if (!isWalkPassable(cx, cy, cz)) return neighbours;
+        if (passage.getPassage(cx, cy, cz) != BlockTypesEnum.PASSABLE) return neighbours;
         for (int x = cx - 1; x < cx + 2; x++) {
             for (int y = cy - 1; y < cy + 2; y++) {
                 for (int z = cz - 1; z < cz + 2; z++) {
-                    if (!hasPathBetween(x, y, z, cx, cy, cz)) continue;
-                    byte currentArea = passageMap.getArea().getValue(x, y, z);
+                    if (!passage.hasPathBetween(x, y, z, cx, cy, cz)) continue;
+                    byte currentArea = passage.getArea().getValue(x, y, z);
                     neighbours.add(currentArea);
                 }
             }
         }
         neighbours.remove((byte) 0);
         return neighbours;
-    }
-
-    private boolean isWalkPassable(int x, int y, int z) {
-        boolean value = localMap.inMap(x, y, z) &&
-                BlockTypesEnum.getType(localMap.getBlockType(x, y, z)).PASSING == 2 &&
-                GameMvc.instance().getModel().get(PlantContainer.class).isBlockPassable(cachePosition.set(x, y, z)) &&
-                GameMvc.instance().getModel().get(BuildingContainer.class).isBlockPassable(cachePosition);
-        return value;
-    }
-
-    public boolean hasPathBetween(int x1, int y1, int z1, int x2, int y2, int z2) {
-        boolean passable1 = isWalkPassable(x1, y1, z1);
-        boolean passable2 = isWalkPassable(x2, y2, z2);
-        boolean sameLevel = z1 == z2;
-        boolean lowRamp = BlockTypesEnum.getType(z1 < z2 ? localMap.getBlockType(x1, y1, z1) : localMap.getBlockType(x2, y2, z2)) == BlockTypesEnum.RAMP; // can descend on ramps
-        return (passable1 && passable2 && (sameLevel || lowRamp));
     }
 }
