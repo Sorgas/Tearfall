@@ -3,6 +3,7 @@ package stonering.game.view.render.ui.lists;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import stonering.util.global.StaticSkin;
 
 /**

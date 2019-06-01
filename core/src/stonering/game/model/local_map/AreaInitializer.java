@@ -67,7 +67,7 @@ public class AreaInitializer {
                         Set<Byte> neighbours = getNeighbours(x, y, z);
                         if (neighbours.isEmpty()) {
                             // new area found
-                            passageMap.getArea().setValue(x, y, z, ++areaNum);
+                            passageMap.getArea().setValue(x, y, z, areaNum++);
                         } else {
                             if (neighbours.size() > 1) addSynonyms(neighbours); // multiple areas near.
                             passageMap.getArea().setValue(x, y, z, neighbours.iterator().next());

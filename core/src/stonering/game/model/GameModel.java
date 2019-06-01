@@ -21,8 +21,8 @@ public abstract class GameModel implements Initable, Serializable {
 
     public GameModel() {
         components = new TreeMap<>((o1, o2) -> {
-            if(o1.equals(o2)) return 0;
-            if(o2.isAssignableFrom(LastInitable.class)) return 1;
+            if (o1.equals(o2)) return 0;
+            if (o2.isAssignableFrom(LastInitable.class)) return 1;
             return o1.getName().compareTo(o2.getName());
         });
     }
@@ -40,8 +40,8 @@ public abstract class GameModel implements Initable, Serializable {
      * Used for components binding.
      */
     @Override
-    public void init() { components.values().forEach(component ->
-        {
+    public void init() {
+        components.values().forEach(component -> {
             if (component instanceof Initable) ((Initable) component).init();
         });
         timer = new Timer();
@@ -58,6 +58,7 @@ public abstract class GameModel implements Initable, Serializable {
      * Turns all {@link Turnable components}
      */
     protected void turn() {
+        if (paused) return;
         components.keySet().forEach(aClass -> {
             if (Turnable.class.isAssignableFrom(aClass)) {
                 ((Turnable) components.get(aClass)).turn();

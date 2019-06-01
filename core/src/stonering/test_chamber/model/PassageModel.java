@@ -61,6 +61,12 @@ public class PassageModel extends GameModel {
                 localMap.setBlock(x, y, 2, BlockTypesEnum.FLOOR, materialMap.getId("soil"));
             }
         }
+        for (int y = 0; y < MAP_SIZE; y++) {
+            localMap.setBlock(MAP_SIZE / 2, y, 2, BlockTypesEnum.WALL, materialMap.getId("soil"));
+            localMap.setBlock(MAP_SIZE / 2, y, 3, BlockTypesEnum.FLOOR, materialMap.getId("soil"));
+        }
+        localMap.setBlock(MAP_SIZE / 2, MAP_SIZE / 2, 3, BlockTypesEnum.WALL, materialMap.getId("soil"));
+        localMap.setBlock(MAP_SIZE / 2, MAP_SIZE / 2, 4, BlockTypesEnum.FLOOR, materialMap.getId("soil"));
         return localMap;
     }
 
