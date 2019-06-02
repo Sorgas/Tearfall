@@ -39,16 +39,16 @@ public class DrawingUtil {
         createAtlases();
     }
 
-    public void drawSprite(TextureRegion sprite, Position position, Position selectorPosition) {
-        drawSprite(sprite, position.x, position.y, position.z, selectorPosition);
+    public void drawSprite(TextureRegion sprite, Position position) {
+        drawSprite(sprite, position.x, position.y, position.z);
     }
 
     /**
      * Draws sprite on localMap position.
      */
-    public void drawSprite(TextureRegion sprite, int x, int y, int z, Position selectorPosition) {
-        float screenX = getScreenPosX(x - selectorPosition.x);
-        float screenY = getScreenPosY(y - selectorPosition.y, z - selectorPosition.z);
+    public void drawSprite(TextureRegion sprite, int x, int y, int z) {
+        float screenX = getScreenPosX(x);
+        float screenY = getScreenPosY(y, z);
         batch.draw(sprite, screenX, screenY);
     }
 
@@ -72,9 +72,9 @@ public class DrawingUtil {
                 tileWidth, topingTileHeight);
     }
 
-    public void writeText(String text, int x, int y, int z, Position selectorPosition) {
-        float screenX = getScreenPosX(x - selectorPosition.x);
-        float screenY = getScreenPosY(y - selectorPosition.y, z - selectorPosition.z);
+    public void writeText(String text, int x, int y, int z) {
+        float screenX = getScreenPosX(x);
+        float screenY = getScreenPosY(y, z);
         font.draw(batch, text, screenX, screenY);
     }
 

@@ -32,7 +32,7 @@ public class LocalWorldStage extends UiStage {
     public LocalWorldStage() {
         super();
         camera = (OrthographicCamera) getCamera();
-        camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
+//        camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
         camera.update();
         visibleArea = updateVisibleArea();
         drawingUtil = new DrawingUtil(this.getBatch());

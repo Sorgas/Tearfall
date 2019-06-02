@@ -91,28 +91,28 @@ public class TileRenderer extends Renderer {
         cachePosition.set(x, y, z);
         PlantBlock block = plantContainer.getPlantBlocks().get(cachePosition);
         if (block != null)
-            drawingUtil.drawSprite(drawingUtil.selectSprite(1, block.getAtlasXY()[0], block.getAtlasXY()[1]), x, y, z, selector.getPosition());
+            drawingUtil.drawSprite(drawingUtil.selectSprite(1, block.getAtlasXY()[0], block.getAtlasXY()[1]), x, y, z);
         BuildingBlock buildingBlock = model.get(BuildingContainer.class).getBuildingBlocks().get(cachePosition);
         if (buildingBlock != null)
-            drawingUtil.drawSprite(drawingUtil.selectSprite(3, 0, 0), x, y, z, selector.getPosition());
+            drawingUtil.drawSprite(drawingUtil.selectSprite(3, 0, 0), x, y, z);
         if (unitContainer != null)
             unitContainer.getUnitsInPosition(x, y, z).forEach(unit -> {
                 //TODO ((RenderAspect) unit.getAspects().get(RenderAspect.NAME)).getTexture();
-                drawingUtil.drawSprite(drawingUtil.selectSprite(2, 0, 0), x, y, z, selector.getPosition());
+                drawingUtil.drawSprite(drawingUtil.selectSprite(2, 0, 0), x, y, z);
             });
         if (itemContainer != null) {
             List<Item> items = itemContainer.getItemsInPosition(x, y, z);
             if (!items.isEmpty())
-                items.forEach((item) -> drawingUtil.drawSprite(drawingUtil.selectSprite(5, item.getType().atlasXY[0], item.getType().atlasXY[1]), x, y, z, selector.getPosition()));
+                items.forEach((item) -> drawingUtil.drawSprite(drawingUtil.selectSprite(5, item.getType().atlasXY[0], item.getType().atlasXY[1]), x, y, z));
         }
         if (taskContainer != null) {
             Designation designation = taskContainer.getDesignation(x, y, z);
             if (designation != null)
-                drawingUtil.drawSprite(drawingUtil.selectSprite(4, DesignationsTileMapping.getAtlasX(designation.getType().CODE), 0), x, y, z, selector.getPosition());
+                drawingUtil.drawSprite(drawingUtil.selectSprite(4, DesignationsTileMapping.getAtlasX(designation.getType().CODE), 0), x, y, z);
         }
         if (zonesContainer != null) {
             Zone zone = zonesContainer.getZone(cachePosition);
-            if (zone != null) drawingUtil.drawSprite(zone.getType().sprite, x, y, z, selector.getPosition());
+            if (zone != null) drawingUtil.drawSprite(zone.getType().sprite, x, y, z);
         }
         drawingUtil.resetColor();
     }
@@ -120,7 +120,7 @@ public class TileRenderer extends Renderer {
     private void drawAreaLabel(int x, int y, int z) {
         if (localMap.getBlockType(x, y, z) == BlockTypesEnum.SPACE.CODE) return;
         String text = localMap.getPassage().getArea().getValue(x, y, z) + " " + localMap.getPassage().getPassage(x, y, z);
-        drawingUtil.writeText(text, x, y + 1, z, selector.getPosition());
+        drawingUtil.writeText(text, x, y + 1, z);
     }
 
     /**
@@ -138,7 +138,7 @@ public class TileRenderer extends Renderer {
                 region = drawingUtil.selectToping(lowerAtlas, localTileMap.getAtlasX(x, y, z - 1), localTileMap.getAtlasY(x, y, z - 1));
             }
         }
-        if (region != null) drawingUtil.drawSprite(region, x, y, z, selector.getPosition());
+        if (region != null) drawingUtil.drawSprite(region, x, y, z);
     }
 
     private void drawSubstrate(int x, int y, int z) {
@@ -150,7 +150,7 @@ public class TileRenderer extends Renderer {
             region = drawingUtil.selectToping(6, localTileMap.getAtlasX(x, y, z - 1), block.getAtlasXY()[1]);
         }
         if (region != null)
-            drawingUtil.drawSprite(region, x, y, z, selector.getPosition());
+            drawingUtil.drawSprite(region, x, y, z);
     }
 
     /**
@@ -158,10 +158,10 @@ public class TileRenderer extends Renderer {
      */
     private void drawWaterBlock(int x, int y, int z) {
         if (localMap.getFlooding(x, y, z) != 0) {
-            drawingUtil.drawSprite(drawingUtil.selectSprite(0, 13 + localMap.getFlooding(x, y, z), 0), x, y, z, selector.getPosition());
+            drawingUtil.drawSprite(drawingUtil.selectSprite(0, 13 + localMap.getFlooding(x, y, z), 0), x, y, z);
         } else {
             if (z > 0 && localMap.getFlooding(x, y, z - 1) >= 7) {// not empty cell lower
-                drawingUtil.drawSprite(drawingUtil.selectToping(0, 20, 0), x, y, z, selector.getPosition());
+                drawingUtil.drawSprite(drawingUtil.selectToping(0, 20, 0), x, y, z);
             }
         }
     }
