@@ -1,8 +1,11 @@
 package stonering.game.model.lists;
 
 import stonering.entity.local.building.BuildingBlock;
+import stonering.enums.blocks.BlockTypesEnum;
+import stonering.game.GameMvc;
 import stonering.game.model.ModelComponent;
 import stonering.game.model.Turnable;
+import stonering.game.model.local_map.LocalMap;
 import stonering.generators.buildings.BuildingGenerator;
 import stonering.entity.local.building.Building;
 import stonering.util.geometry.Position;
@@ -42,6 +45,16 @@ public class BuildingContainer extends Turnable implements ModelComponent, Inita
     private void placeBuilding(Building building) {
         building.init();
         buildingBlocks.put(building.getBlock().getPosition(), building.getBlock());
+        tryMoveItems(building.getBlock().getPosition());
+    }
+
+    /**
+     * Moves items from the target tile to neighbour one.
+     */
+    private void tryMoveItems(Position target) {
+        ItemContainer container = GameMvc.instance().getModel().get(ItemContainer.class);
+        Position newPosition = GameMvc.instance().getModel().get(LocalMap.class).getAnyNeighbourPosition(target, BlockTypesEnum.PASSABLE);
+        container.getItemsInPosition(target).forEach(item -> container.moveItem(item, newPosition));
     }
 
     public List<Building> getBuildings() {

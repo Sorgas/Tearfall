@@ -23,7 +23,7 @@ public class LocalItemsGenerator extends LocalAbstractGenerator  {
 
     public void execute() {
         localMap = container.model.get(LocalMap.class);
-        createItemInCenter("axe", "iron", 0, 0);
+        createItemInCenter("axe", "iron", 0, -3);
         createItemInCenter("pickaxe", "iron", 0, -1);
         createItemInCenter("hoe", "iron", 0, -2);
         createItemInCenter("rock", "rhyolite", 0, 1);

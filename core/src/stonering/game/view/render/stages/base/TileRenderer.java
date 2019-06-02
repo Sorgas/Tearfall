@@ -20,6 +20,7 @@ import stonering.util.geometry.Position;
 import stonering.util.global.TagLoggersEnum;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class for rendering tiles.
@@ -100,7 +101,7 @@ public class TileRenderer extends Renderer {
                 drawingUtil.drawSprite(drawingUtil.selectSprite(2, 0, 0), x, y, z, selector.getPosition());
             });
         if (itemContainer != null) {
-            ArrayList<Item> items = itemContainer.getItemsInPosition(x, y, z);
+            List<Item> items = itemContainer.getItemsInPosition(x, y, z);
             if (!items.isEmpty())
                 items.forEach((item) -> drawingUtil.drawSprite(drawingUtil.selectSprite(5, item.getType().atlasXY[0], item.getType().atlasXY[1]), x, y, z, selector.getPosition()));
         }
@@ -117,8 +118,9 @@ public class TileRenderer extends Renderer {
     }
 
     private void drawAreaLabel(int x, int y, int z) {
-        if(localMap.getBlockType(x,y,z) == BlockTypesEnum.SPACE.CODE) return;
-        drawingUtil.writeText(String.valueOf(localMap.getPassage().getArea().getValue(x, y, z)), x, y + 1, z, selector.getPosition());
+        if (localMap.getBlockType(x, y, z) == BlockTypesEnum.SPACE.CODE) return;
+        String text = localMap.getPassage().getArea().getValue(x, y, z) + " " + localMap.getPassage().getPassage(x, y, z);
+        drawingUtil.writeText(text, x, y + 1, z, selector.getPosition());
     }
 
     /**

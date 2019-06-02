@@ -130,6 +130,7 @@ public class PlanningAspect extends Aspect {
         movementNeeded = false;
         if (task != null) task.reset();
     }
+
     public boolean isTargetExact() {
         if (currentTask != null) {
             return currentTask.getNextAction().getActionTarget().isExactTarget();

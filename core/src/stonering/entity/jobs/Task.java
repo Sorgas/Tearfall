@@ -112,14 +112,13 @@ public class Task {
         taskContainer.removeTask(this);
     }
 
-    public boolean isTaskTargetsAvaialbleFrom(Position position) {
+    public boolean isTaskTargetsAvailableFrom(Position position) {
         UtilByteArray area = gameMvc.getModel().get(LocalMap.class).getPassage().getArea();
         int sourceArea = area.getValue(position);
         Position target = initialAction.getActionTarget().getPosition();
         for (int x = -1; x < 2; x++) {
             for (int y = -1; y < 2; y++) {
-                if (x != 0 && y != 0
-                        && area.getValue(target.getX() + x, target.getY() + y, target.getZ()) == sourceArea) {
+                if ((x != 0 || y != 0) && area.getValue(target.x + x, target.y + y, target.z) == sourceArea) {
                     return true;
                 }
             }

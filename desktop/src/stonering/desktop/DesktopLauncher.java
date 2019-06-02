@@ -12,8 +12,8 @@ public class DesktopLauncher {
     public static void main(String[] arg) {
         System.out.println("main");
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-        config.width = 1200;
-        config.height = 600;
+        config.width = 2000;
+        config.height = 1400;
         config.title = "TearFall";
         config.foregroundFPS = 30;
         Game game = new TearFall();

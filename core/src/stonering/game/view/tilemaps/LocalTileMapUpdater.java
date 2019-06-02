@@ -53,7 +53,7 @@ public class LocalTileMapUpdater {
                     material != null ? material.getAtlasY() : 0,
                     0, null);
         }
-//        updateRampsAround(x, y, z);
+        updateRampsAround(x, y, z);
     }
 
     private void updateRampsAround(int xc, int yc, int z) {
@@ -68,10 +68,6 @@ public class LocalTileMapUpdater {
 
     /**
      * Chooses ramp tile by surrounding walls.
-     *
-     * @param x
-     * @param y
-     * @param z
      * @return ramp atlas X
      */
     private byte countRamp(int x, int y, int z) {
@@ -106,10 +102,6 @@ public class LocalTileMapUpdater {
 
     /**
      * Counts near walls to choose ramp type and orientation.
-     *
-     * @param x
-     * @param y
-     * @param z
      * @return int representing adjacent walls.
      */
     public int observeWalls(int x, int y, int z) {

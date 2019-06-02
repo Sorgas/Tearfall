@@ -59,18 +59,8 @@ public class LocalMap implements ModelComponent, Initable, LastInitable {
      * Is called from localgen, digging.
      */
     public void setBlock(int x, int y, int z, byte type, int materialId) {
-        blockType[x][y][z] = type;
         material[x][y][z] = materialId;
-        if (localTileMapUpdater != null)
-            localTileMapUpdater.updateTile(x, y, z);
-        if (passage != null) {
-            passage.updateCell(x, y, z);
-        }
-    }
-
-    public void updateBlock(int x, int y, int z) {
-        if (localTileMapUpdater != null)
-            localTileMapUpdater.updateTile(x, y, z);
+        setBlockType(x, y, z, type);
     }
 
     public boolean isWorkingRamp(int x, int y, int z) {
@@ -129,6 +119,23 @@ public class LocalMap implements ModelComponent, Initable, LastInitable {
         blockType[x][y][z] = type;
         if (localTileMapUpdater != null)
             localTileMapUpdater.updateTile(x, y, z);
+        if (passage != null) {
+            passage.updateCell(x, y, z);
+        }
+        if (localTileMapUpdater != null) localTileMapUpdater.updateTile(x, y, z);
+    }
+
+    /**
+     * Returns tile adjacent to given and with give passing.
+     * Returns same position if no neighbour found.
+     */
+    public Position getAnyNeighbourPosition(Position position, int passing) {
+        for (int x = position.x - 1; x < position.x + 2; x++) {
+            for (int y = position.y - 1; y < position.y + 2; y++) {
+                if (passage.getPassage(x, y, position.z) == passing) return new Position(x, y, position.z);
+            }
+        }
+        return position;
     }
 
     public boolean isWalkPassable(Position pos) {
@@ -137,7 +144,7 @@ public class LocalMap implements ModelComponent, Initable, LastInitable {
 
     public boolean isWalkPassable(int x, int y, int z) {
         //TODO reuse
-        return passage.getPassage(x,y,z) == BlockTypesEnum.PASSABLE;
+        return passage.getPassage(x, y, z) == BlockTypesEnum.PASSABLE;
     }
 
     private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
@@ -165,7 +172,7 @@ public class LocalMap implements ModelComponent, Initable, LastInitable {
      * Only for adjacent cells.
      */
     public boolean hasPathBetweenNeighbours(int x1, int y1, int z1, int x2, int y2, int z2) {
-        return passage.hasPathBetween(x1,y1,z1,x2,y2,z2);
+        return passage.hasPathBetween(x1, y1, z1, x2, y2, z2);
     }
 
     public void setLocalTileMapUpdater(LocalTileMapUpdater localTileMapUpdater) {

@@ -43,7 +43,7 @@ public class BuildingAction extends Action {
         TagLoggersEnum.TASKS.log("Performing building action: " + buildingType.building);
         ItemContainer itemContainer = GameMvc.instance().getModel().get(ItemContainer.class);
         Position target = actionTarget.getPosition();
-        ArrayList<Item> items = itemContainer.getItemsInPosition(target);
+        List<Item> items = itemContainer.getItemsInPosition(target);
         int mainMaterial = -1; // first item of first selector will give material.
         for (ItemSelector itemSelector : itemSelectors) {
             List<Item> itemList = itemSelector.selectItems(items);

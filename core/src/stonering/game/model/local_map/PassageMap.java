@@ -73,6 +73,7 @@ public class PassageMap {
         passage.setValue(x, y, z, passing);
         if (passing == BlockTypesEnum.PASSABLE) { // areas should be merged
             Set<Byte> areas = observeAreasAround(x, y, z);
+            if(areas.size() == 1) area.setValue(x,y,z, areas.iterator().next());
             if (areas.size() > 1) mergeAreas(areas);
         } else { // areas may split
             splitAreas(collectNeighbourPositions(x, y, z), new Position(x, y, z));

@@ -66,7 +66,7 @@ public class ConstructionAction extends Action {
 
     private int spendItems() {
         ItemContainer itemContainer = GameMvc.instance().getModel().get(ItemContainer.class);
-        ArrayList<Item> items = itemContainer.getItemsInPosition(actionTarget.getPosition());
+        List<Item> items = itemContainer.getItemsInPosition(actionTarget.getPosition());
         int mainMaterial = -1; // first item of first selector will give material.
         for (ItemSelector itemSelector : itemSelectors) {
             List<Item> itemList = itemSelector.selectItems(items);

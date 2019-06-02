@@ -23,7 +23,6 @@ import stonering.util.global.TagLoggersEnum;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Contains all tasks for settlers on map and Designations for rendering.
@@ -54,7 +53,7 @@ public class TaskContainer implements ModelComponent, Initable {
      */
     public Task getActiveTask(Position pos) {
         for (Task task : tasks) {
-            if (task.getPerformer() == null && task.isTaskTargetsAvaialbleFrom(pos)) {
+            if (task.getPerformer() == null && task.isTaskTargetsAvailableFrom(pos)) {
                 return task;
             }
         }
@@ -75,6 +74,8 @@ public class TaskContainer implements ModelComponent, Initable {
         tasks.add(task);
         designations.put(designation.getPosition(), designation);
         TagLoggersEnum.TASKS.log(task.getName() + " designated");
+        TagLoggersEnum.TASKS.logDebug("tasks number: " + tasks.size());
+        TagLoggersEnum.TASKS.logDebug("designations number: " + designations.size());
     }
 
     /**
