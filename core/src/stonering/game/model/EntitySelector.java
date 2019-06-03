@@ -56,12 +56,12 @@ public class EntitySelector implements ModelComponent, Initable{
     }
 
     public void moveSelector(int dx, int dy, int dz) {
-        position.x = position.x + dx;
-        position.y = position.y + dy;
-        position.z = position.z + dz;
+        position.x += dx;
+        position.y += dy;
+        position.z += dz;
         localMap.normalizePosition(position);
         updateStatusAndSprite();
-        GameMvc.instance().getView().updateDrawableArea();
+        GameMvc.instance().getView().updateCameraPosition();
     }
 
     /**

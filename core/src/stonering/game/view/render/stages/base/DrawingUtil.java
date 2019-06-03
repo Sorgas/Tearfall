@@ -1,7 +1,6 @@
 package stonering.game.view.render.stages.base;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -9,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import stonering.util.geometry.Position;
-import stonering.util.global.StaticSkin;
 
 /**
  * Provides utility methods and rules for drawing scene.
@@ -24,11 +22,11 @@ public class DrawingUtil {
     private float shadingStep = 0.06f;
     private Color batchColor;               // default batch color without light or transparency
 
-    public static final int tileWidth = 64;             // x size(left-right)
-    public static final int tileDepth = 64;             // y size(back-forth)
-    public static final int tileHeight = 96;            // z size(up-down) plus depth
-    public static final int topingTileHeight = 70;      // depth plus floor height(10)
-    public static final int blockTileHeight = 166;      // total block height
+    public static final int TILE_WIDTH = 64;             // x size(left-right)
+    public static final int TILE_DEPTH = 64;             // y size(back-forth)
+    public static final int TILE_HEIGHT = 96;            // z size(up-down) plus depth
+    public static final int TOPING_TILE_HEIGHT = 70;      // depth plus floor height(10)
+    public static final int BLOCK_TILE_HEIGHT = 166;      // total block height
     private Vector2 screenCenter;
 
     public DrawingUtil(Batch batch) {
@@ -57,9 +55,9 @@ public class DrawingUtil {
      */
     public TextureRegion selectSprite(int atlas, int x, int y) {
         return new TextureRegion(atlases[atlas],
-                x * tileWidth,
-                y * (blockTileHeight) + topingTileHeight,
-                tileWidth, tileHeight);
+                x * TILE_WIDTH,
+                y * (BLOCK_TILE_HEIGHT) + TOPING_TILE_HEIGHT,
+                TILE_WIDTH, TILE_HEIGHT);
     }
 
     /**
@@ -67,9 +65,9 @@ public class DrawingUtil {
      */
     public TextureRegion selectToping(int atlas, int x, int y) {
         return new TextureRegion(atlases[atlas],
-                x * tileWidth,
-                y * blockTileHeight,
-                tileWidth, topingTileHeight);
+                x * TILE_WIDTH,
+                y * BLOCK_TILE_HEIGHT,
+                TILE_WIDTH, TOPING_TILE_HEIGHT);
     }
 
     public void writeText(String text, int x, int y, int z) {
@@ -91,11 +89,11 @@ public class DrawingUtil {
 
 
     protected float getScreenPosX(int x) {
-        return x * tileWidth + screenCenter.x;
+        return x * TILE_WIDTH + screenCenter.x;
     }
 
     protected float getScreenPosY(int y, int z) {
-        return y * tileDepth + z * (tileHeight - tileDepth) + screenCenter.y;
+        return y * TILE_DEPTH + z * (TILE_HEIGHT - TILE_DEPTH) + screenCenter.y;
     }
 
     /**

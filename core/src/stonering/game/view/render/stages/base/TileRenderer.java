@@ -31,7 +31,6 @@ public class TileRenderer extends Renderer {
     private LocalMap localMap;
     private LocalTileMap localTileMap;
     private PlantContainer plantContainer;
-    private EntitySelector selector;
     private UnitContainer unitContainer;
     private TaskContainer taskContainer;
     private ItemContainer itemContainer;
@@ -46,7 +45,6 @@ public class TileRenderer extends Renderer {
         GameModel model = GameMvc.instance().getModel();
         localMap = model.get(LocalMap.class);
         localTileMap = model.get(LocalTileMap.class);
-        selector = model.get(EntitySelector.class);
         unitContainer = model.get(UnitContainer.class);
         taskContainer = model.get(TaskContainer.class);
         plantContainer = model.get(PlantContainer.class);

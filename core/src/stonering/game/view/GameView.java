@@ -80,7 +80,7 @@ public class GameView extends SimpleScreen implements Initable {
         mainUiStage.resize(width, height);
         Stage stage = getActiveStage();
         if (stage instanceof Resizeable) ((Resizeable) stage).resize(width, height);
-        updateDrawableArea();
+        updateCameraPosition();
     }
 
     /**
@@ -121,7 +121,7 @@ public class GameView extends SimpleScreen implements Initable {
      * Updates visible area in {@link LocalWorldStage}.
      * Used on resize, {@link stonering.game.model.EntitySelector} move and zoom.
      */
-    public void updateDrawableArea() {
+    public void updateCameraPosition() {
         localWorldStage.updateVisibleArea();
     }
 

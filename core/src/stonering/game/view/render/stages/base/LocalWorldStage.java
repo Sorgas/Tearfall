@@ -8,6 +8,7 @@ import stonering.game.GameMvc;
 import stonering.game.model.EntitySelector;
 import stonering.game.model.GameModel;
 import stonering.game.model.local_map.LocalMap;
+import stonering.game.view.MovableCamera;
 import stonering.game.view.render.util.Int3DBounds;
 
 /**
@@ -26,13 +27,12 @@ public class LocalWorldStage extends UiStage {
     private DrawingUtil drawingUtil;
     private TileRenderer tileRenderer;
     private EntitySelectorRenderer entitySelectorRenderer;
-    private OrthographicCamera camera;
+    private MovableCamera camera;
     private Int3DBounds visibleArea;
 
     public LocalWorldStage() {
         super();
-        camera = (OrthographicCamera) getCamera();
-//        camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
+        camera = new MovableCamera();
         camera.update();
         visibleArea = updateVisibleArea();
         drawingUtil = new DrawingUtil(this.getBatch());
@@ -45,8 +45,8 @@ public class LocalWorldStage extends UiStage {
      */
     public void draw() {
         handleInput();
-        getBatch().setProjectionMatrix(camera.combined);
         camera.update();
+        getBatch().setProjectionMatrix(camera.combined);
         drawingUtil.begin();
         tileRenderer.render();
         entitySelectorRenderer.render();
@@ -55,7 +55,7 @@ public class LocalWorldStage extends UiStage {
 
 //    public Vector2 translateScreenPositionToModel(Vector2 screenPos) {
 //        Vector2 vector = screenPos.sub(new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2)); // to click point from center
-//        vector.set(vector.x / tileWidth, -vector.y / tileDepth);
+//        vector.set(vector.x / TILE_WIDTH, -vector.y / TILE_DEPTH);
 //        return new Vector2((float) Math.floor(selector.getPosition().getX() + vector.x), (float) Math.floor(selector.getPosition().getY() + vector.y));
 //    }
 
@@ -84,15 +84,15 @@ public class LocalWorldStage extends UiStage {
     }
 
     /**
-     * Performs updating of tile coordinates ranges to draw. Called on {@link EntitySelector} move and camera zoom.
-     * Area is counted basing on zoom level and {@link EntitySelector} position.
+     * Updates coordinate ranges of drawable draw. Called on camera move and zoom, and window resize.
+     * Area is counted basing on camera position, size and zoom.
      */
     public Int3DBounds updateVisibleArea() {
         GameModel gameModel = GameMvc.instance().getModel();
         EntitySelector selector = gameModel.get(EntitySelector.class);
         LocalMap localMap = gameModel.get(LocalMap.class);
-        int widthInTiles = Math.round(Gdx.graphics.getWidth() / 2f / (camera.zoom * DrawingUtil.tileWidth)) + 1;
-        int depthInTiles = Math.round(Gdx.graphics.getHeight() / (camera.zoom * DrawingUtil.tileDepth)) + 1;
+        int widthInTiles = Math.round(Gdx.graphics.getWidth() / 2f / (camera.zoom * DrawingUtil.TILE_WIDTH)) + 1;
+        int depthInTiles = Math.round(Gdx.graphics.getHeight() / (camera.zoom * DrawingUtil.TILE_DEPTH)) + 1;
         if (visibleArea == null) visibleArea = new Int3DBounds(0, 0, 0, 0, 0, 0);
         visibleArea.set(
                 Math.max(selector.getPosition().x - widthInTiles, 0),
@@ -101,10 +101,6 @@ public class LocalWorldStage extends UiStage {
                 Math.min(selector.getPosition().x + widthInTiles, localMap.xSize - 1),
                 Math.min(selector.getPosition().y + widthInTiles, localMap.ySize - 1),
                 selector.getPosition().z);
-        return visibleArea;
-    }
-
-    public Int3DBounds getVisibleArea() {
         return visibleArea;
     }
 }
