@@ -122,7 +122,7 @@ public class GameView extends SimpleScreen implements Initable {
      * Used on resize, {@link stonering.game.model.EntitySelector} move and zoom.
      */
     public void updateCameraPosition() {
-        localWorldStage.updateVisibleArea();
+        localWorldStage.resize();
     }
 
     public MainUiStage getUiDrawer() {

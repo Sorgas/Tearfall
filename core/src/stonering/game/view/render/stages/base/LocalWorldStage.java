@@ -73,6 +73,7 @@ public class LocalWorldStage extends UiStage {
      */
     public void resize(int width, int height) {
         super.resize(width, height);
+        camera.resize(width, height);
         getCamera().position.set(width / 2f + 32, height / 2f + 32, 0);
         updateVisibleArea();
     }
@@ -83,24 +84,5 @@ public class LocalWorldStage extends UiStage {
         updateVisibleArea();
     }
 
-    /**
-     * Updates coordinate ranges of drawable draw. Called on camera move and zoom, and window resize.
-     * Area is counted basing on camera position, size and zoom.
-     */
-    public Int3DBounds updateVisibleArea() {
-        GameModel gameModel = GameMvc.instance().getModel();
-        EntitySelector selector = gameModel.get(EntitySelector.class);
-        LocalMap localMap = gameModel.get(LocalMap.class);
-        int widthInTiles = Math.round(Gdx.graphics.getWidth() / 2f / (camera.zoom * DrawingUtil.TILE_WIDTH)) + 1;
-        int depthInTiles = Math.round(Gdx.graphics.getHeight() / (camera.zoom * DrawingUtil.TILE_DEPTH)) + 1;
-        if (visibleArea == null) visibleArea = new Int3DBounds(0, 0, 0, 0, 0, 0);
-        visibleArea.set(
-                Math.max(selector.getPosition().x - widthInTiles, 0),
-                Math.max(selector.getPosition().y - widthInTiles, 0),
-                Math.max(selector.getPosition().z - depthInTiles, 0),
-                Math.min(selector.getPosition().x + widthInTiles, localMap.xSize - 1),
-                Math.min(selector.getPosition().y + widthInTiles, localMap.ySize - 1),
-                selector.getPosition().z);
-        return visibleArea;
-    }
+
 }
