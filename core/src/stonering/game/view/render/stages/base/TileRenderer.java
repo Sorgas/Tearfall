@@ -14,12 +14,10 @@ import stonering.game.model.GameModel;
 import stonering.game.model.lists.*;
 import stonering.game.model.lists.tasks.TaskContainer;
 import stonering.game.model.local_map.LocalMap;
-import stonering.game.view.render.util.Int3DBounds;
+import stonering.game.view.render.util.Float3DBounds;
 import stonering.game.view.tilemaps.LocalTileMap;
 import stonering.util.geometry.Position;
-import stonering.util.global.TagLoggersEnum;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,11 +33,11 @@ public class TileRenderer extends Renderer {
     private TaskContainer taskContainer;
     private ItemContainer itemContainer;
     private ZonesContainer zonesContainer;
-    private Int3DBounds visibleArea;
+    private Float3DBounds visibleArea;
 
     private Position cachePosition;
 
-    public TileRenderer(DrawingUtil drawingUtil, Int3DBounds visibleArea) {
+    public TileRenderer(DrawingUtil drawingUtil, Float3DBounds visibleArea) {
         super(drawingUtil);
         this.visibleArea = visibleArea;
         GameModel model = GameMvc.instance().getModel();

@@ -2,14 +2,9 @@ package stonering.game.view.render.stages.base;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.MathUtils;
-import stonering.game.GameMvc;
-import stonering.game.model.EntitySelector;
-import stonering.game.model.GameModel;
-import stonering.game.model.local_map.LocalMap;
 import stonering.game.view.MovableCamera;
-import stonering.game.view.render.util.Int3DBounds;
+import stonering.game.view.render.util.Float3DBounds;
 
 /**
  * Contains renderers for drawing local world and launches them in a sequence.
@@ -28,15 +23,13 @@ public class LocalWorldStage extends UiStage {
     private TileRenderer tileRenderer;
     private EntitySelectorRenderer entitySelectorRenderer;
     private MovableCamera camera;
-    private Int3DBounds visibleArea;
 
     public LocalWorldStage() {
         super();
         camera = new MovableCamera();
         camera.update();
-        visibleArea = updateVisibleArea();
         drawingUtil = new DrawingUtil(this.getBatch());
-        tileRenderer = new TileRenderer(drawingUtil, visibleArea);
+        tileRenderer = new TileRenderer(drawingUtil, camera.getVisibleArea());
         entitySelectorRenderer = new EntitySelectorRenderer(drawingUtil);
     }
 
@@ -59,30 +52,23 @@ public class LocalWorldStage extends UiStage {
 //        return new Vector2((float) Math.floor(selector.getPosition().getX() + vector.x), (float) Math.floor(selector.getPosition().getY() + vector.y));
 //    }
 
+    /**
+     * This stage handles input directly. So zoom keys cannot be used anywhere else.
+     */
     private void handleInput() {
         if (Gdx.input.isKeyPressed(Input.Keys.PLUS)) {
-            zoom(0.1f);
+            camera.zoom(0.1f);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.MINUS)) {
-            zoom(-0.1f);
+            camera.zoom(-0.1f);
         }
     }
 
     /**
-     * Called in window resize.
+     * Called in window resize. Resizes camera to update it's visible area.
      */
     public void resize(int width, int height) {
         super.resize(width, height);
         camera.resize(width, height);
-        getCamera().position.set(width / 2f + 32, height / 2f + 32, 0);
-        updateVisibleArea();
     }
-
-    public void zoom(float delta) {
-        camera.zoom += delta;
-        camera.zoom = MathUtils.clamp(camera.zoom, 0.5f, 2f);
-        updateVisibleArea();
-    }
-
-
 }
