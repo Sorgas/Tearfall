@@ -5,19 +5,19 @@ import stonering.util.geometry.Position;
 /**
  * Represents 3d box.
  */
-public class Float3DBounds {
-    private float minX;
-    private float minY;
-    private float minZ;
-    private float maxX;
-    private float maxY;
-    private float maxZ;
+public class Int3dBounds {
+    private int minX;
+    private int minY;
+    private int minZ;
+    private int maxX;
+    private int maxY;
+    private int maxZ;
 
-    public Float3DBounds() {
+    public Int3dBounds() {
         this(0, 0, 0, 0, 0, 0);
     }
 
-    public Float3DBounds(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
+    public Int3dBounds(int minX, int minY, int minZ, int maxX, int maxY, int maxZ) {
         set(minX, minY, minZ, maxX, maxY, maxZ);
     }
 
@@ -30,7 +30,7 @@ public class Float3DBounds {
                 position.z <= maxZ;
     }
 
-    public void set(float minX, float minY, float minZ, float maxX, float maxY, float maxZ) {
+    public void set(int minX, int minY, int minZ, int maxX, int maxY, int maxZ) {
         this.minX = minX;
         this.minY = minY;
         this.minZ = minZ;
@@ -39,27 +39,32 @@ public class Float3DBounds {
         this.maxZ = maxZ;
     }
 
-    public float getMinX() {
+    public int getMinX() {
         return minX;
     }
 
-    public float getMinY() {
+    public int getMinY() {
         return minY;
     }
 
-    public float getMinZ() {
+    public int getMinZ() {
         return minZ;
     }
 
-    public float getMaxX() {
+    public int getMaxX() {
         return maxX;
     }
 
-    public float getMaxY() {
+    public int getMaxY() {
         return maxY;
     }
 
-    public float getMaxZ() {
+    public int getMaxZ() {
         return maxZ;
+    }
+
+    @Override
+    public String toString() {
+        return "Int3dBounds{" + " " + minX + " " + minY + " " + minZ + " " + maxX + " " + maxY + " " + maxZ + '}';
     }
 }

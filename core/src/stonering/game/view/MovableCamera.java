@@ -7,10 +7,13 @@ import stonering.game.GameMvc;
 import stonering.game.model.EntitySelector;
 import stonering.game.model.GameModel;
 import stonering.game.model.local_map.LocalMap;
-import stonering.game.view.render.stages.base.DrawingUtil;
 import stonering.game.view.render.stages.base.Resizeable;
-import stonering.game.view.render.util.Float3DBounds;
+import stonering.game.view.render.util.Int3dBounds;
 import stonering.util.geometry.Position;
+import stonering.util.global.TagLoggersEnum;
+
+import static stonering.game.view.render.stages.base.DrawingUtil.*;
+import static stonering.game.view.render.stages.base.DrawingUtil.TILE_DEPTH;
 
 /**
  * {@link OrthographicCamera} extension which have goal posiiton and speed.
@@ -21,19 +24,17 @@ import stonering.util.geometry.Position;
  * @author Alexander_Kuzyakov on 03.06.2019.
  */
 public class MovableCamera extends OrthographicCamera implements Resizeable {
-    private Float3DBounds visibleArea; // inclusive ranges of fully visible tiles.
+    private Int3dBounds visibleArea; // inclusive ranges of fully visible tiles.
     private float zoom = 1;
     private float[] zoomBounds = {1, 3};
+    private Position modelPosition;
+    private static final Vector3 correctionVector = new Vector3(TILE_WIDTH / 2, TILE_DEPTH / 2, 0);
 
     public MovableCamera() {
-        visibleArea = new Float3DBounds();
+        modelPosition = GameMvc.instance().getModel().get(EntitySelector.class).getPosition().clone();
+        visibleArea = new Int3dBounds();
+        centerCameraToPosition(modelPosition);
         updateVisibleArea();
-    }
-
-    @Override
-    public void update() {
-        super.update();
-
     }
 
     /**
@@ -41,16 +42,16 @@ public class MovableCamera extends OrthographicCamera implements Resizeable {
      * Area is counted basing on camera position, size and zoom.
      */
     private void updateVisibleArea() {
-        GameModel gameModel = GameMvc.instance().getModel();
-        LocalMap localMap = gameModel.get(LocalMap.class);
-        EntitySelector selector = gameModel.get(EntitySelector.class);
+        LocalMap localMap = GameMvc.instance().getModel().get(LocalMap.class);
+        int halfWidth = (int) Math.ceil(viewportWidth / 2 / TILE_WIDTH);
+        int halfHeight = (int) Math.ceil(viewportHeight / 2 / TILE_DEPTH);
         visibleArea.set(
-                (int) Math.max((position.x - viewportWidth / 2) / DrawingUtil.TILE_WIDTH, 0),
-                (int) Math.max((position.y - viewportHeight / 2) / DrawingUtil.TILE_DEPTH, 0),
-                (int) Math.max((viewportHeight / 2) / (DrawingUtil.TILE_HEIGHT - DrawingUtil.TILE_DEPTH), 0),
-                (int) Math.min((position.x + viewportWidth / 2) / DrawingUtil.TILE_WIDTH, localMap.xSize - 1),
-                (int) Math.min((position.y + viewportHeight / 2) / DrawingUtil.TILE_DEPTH, localMap.ySize - 1),
-                selector.getPosition().z);
+                Math.max(modelPosition.x - halfWidth, 0),
+                Math.max(modelPosition.y - halfHeight, 0),
+                modelPosition.z,
+                Math.min(modelPosition.x + halfWidth, localMap.xSize - 1),
+                Math.min(modelPosition.y + halfHeight, localMap.ySize - 1),
+                modelPosition.z - 10);
     }
 
     @Override
@@ -74,16 +75,42 @@ public class MovableCamera extends OrthographicCamera implements Resizeable {
     public void selectorMoved() {
         Position selectorPosition = GameMvc.instance().getModel().get(EntitySelector.class).getPosition();
         if (visibleArea.isIn(selectorPosition)) return;
-        Vector3 offset = new Vector3();
-        if (selectorPosition.x < visibleArea.getMinX()) offset.x = -DrawingUtil.TILE_WIDTH;
-        if (selectorPosition.x > visibleArea.getMaxX()) offset.x = DrawingUtil.TILE_WIDTH;
-        if (selectorPosition.y < visibleArea.getMinY()) offset.y = -DrawingUtil.TILE_DEPTH;
-        if (selectorPosition.y > visibleArea.getMaxY()) offset.y = DrawingUtil.TILE_DEPTH;
-        position.add(offset);
+        Vector2 offset = new Vector2();
+        if (selectorPosition.x < visibleArea.getMinX()) offset.x = selectorPosition.x - visibleArea.getMinX();
+        if (selectorPosition.x > visibleArea.getMaxX()) offset.x = selectorPosition.x - visibleArea.getMaxX();
+        if (selectorPosition.y < visibleArea.getMinY()) offset.y = selectorPosition.y - visibleArea.getMinY();
+        if (selectorPosition.y > visibleArea.getMaxY()) offset.y = selectorPosition.y - visibleArea.getMaxY();
+        modelPosition.x += offset.x;
+        modelPosition.y += offset.y;
+        modelPosition.z = selectorPosition.z;
+        centerCameraToPosition(selectorPosition);
         updateVisibleArea();
+        TagLoggersEnum.UI.logDebug("Selector position: " + selectorPosition);
+        TagLoggersEnum.UI.logDebug("Model position: " + modelPosition);
+        TagLoggersEnum.UI.logDebug("Visible area+: " + visibleArea);
+        TagLoggersEnum.UI.logDebug("Camera position: " + position.x + " " + position.y);
+        System.out.println();
     }
 
-    public Float3DBounds getVisibleArea() {
+    private void centerCameraToPosition(Position newPosition) {
+        position.x = modelXtoBatchX(newPosition.x);
+        position.y = modelYZtoBatchY(newPosition.y, newPosition.z);
+        position.add(correctionVector);
+    }
+
+    private int modelXtoBatchX(int x) {
+        return x * TILE_WIDTH;
+    }
+
+    private int modelYZtoBatchY(int y, int z) {
+        return y * TILE_DEPTH + z * (TILE_HEIGHT - TILE_DEPTH);
+    }
+
+    public Int3dBounds getVisibleArea() {
         return visibleArea;
+    }
+
+    public Position getModelPosition() {
+        return modelPosition;
     }
 }

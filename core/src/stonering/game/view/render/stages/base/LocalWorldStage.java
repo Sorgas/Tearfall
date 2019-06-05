@@ -2,9 +2,7 @@ package stonering.game.view.render.stages.base;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.math.MathUtils;
 import stonering.game.view.MovableCamera;
-import stonering.game.view.render.util.Float3DBounds;
 
 /**
  * Contains renderers for drawing local world and launches them in a sequence.
@@ -16,7 +14,7 @@ import stonering.game.view.render.util.Float3DBounds;
  * <p>
  * Only this component does zooming.
  *
- * @author Alexander Kuzyakov on 13.06.2017.
+ * @author Alexander Kuzyakov on 13.06.2017.21
  */
 public class LocalWorldStage extends UiStage {
     private DrawingUtil drawingUtil;
@@ -28,7 +26,7 @@ public class LocalWorldStage extends UiStage {
         super();
         camera = new MovableCamera();
         camera.update();
-        drawingUtil = new DrawingUtil(this.getBatch());
+        drawingUtil = new DrawingUtil(getBatch());
         tileRenderer = new TileRenderer(drawingUtil, camera.getVisibleArea());
         entitySelectorRenderer = new EntitySelectorRenderer(drawingUtil);
     }
@@ -70,5 +68,10 @@ public class LocalWorldStage extends UiStage {
     public void resize(int width, int height) {
         super.resize(width, height);
         camera.resize(width, height);
+    }
+
+    @Override
+    public MovableCamera getCamera() {
+        return camera;
     }
 }

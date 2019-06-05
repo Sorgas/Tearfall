@@ -61,7 +61,7 @@ public class EntitySelector implements ModelComponent, Initable{
         position.z += dz;
         localMap.normalizePosition(position);
         updateStatusAndSprite();
-        GameMvc.instance().getView().updateCameraPosition();
+        GameMvc.instance().getView().getBaseStage().getCamera().selectorMoved();
     }
 
     /**

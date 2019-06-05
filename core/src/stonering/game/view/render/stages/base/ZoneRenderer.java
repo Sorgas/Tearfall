@@ -3,7 +3,7 @@ package stonering.game.view.render.stages.base;
 import stonering.game.model.EntitySelector;
 import stonering.game.model.lists.UnitContainer;
 import stonering.game.model.local_map.LocalMap;
-import stonering.game.view.render.util.Float3DBounds;
+import stonering.game.view.render.util.Int3dBounds;
 import stonering.game.view.tilemaps.LocalTileMap;
 
 /**
@@ -14,9 +14,9 @@ public class ZoneRenderer extends Renderer {
     private LocalTileMap localTileMap;
     private EntitySelector selector;
     private UnitContainer unitContainer;
-    private Float3DBounds visibleArea;
+    private Int3dBounds visibleArea;
 
-    public ZoneRenderer(DrawingUtil drawingUtil, Float3DBounds visibleArea) {
+    public ZoneRenderer(DrawingUtil drawingUtil, Int3dBounds visibleArea) {
         super(drawingUtil);
         this.visibleArea = visibleArea;
     }

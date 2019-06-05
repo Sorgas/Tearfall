@@ -12,13 +12,11 @@ import stonering.game.model.EntitySelector;
  * @author Alexander Kuzyakov
  */
 public class EntitySelectorInputAdapter extends InputAdapter {
-    private GameMvc gameMvc;
-    private EntitySelector camera;
+    private EntitySelector selector;
     private boolean enabled;
 
-    public EntitySelectorInputAdapter(GameMvc gameMvc) {
-        this.gameMvc = gameMvc;
-        camera = gameMvc.getModel().get(EntitySelector.class);
+    public EntitySelectorInputAdapter() {
+        selector = GameMvc.instance().getModel().get(EntitySelector.class);
         enabled = true;
     }
 
@@ -28,22 +26,22 @@ public class EntitySelectorInputAdapter extends InputAdapter {
             int offset = Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) ? 10 : 1;
             switch (keycode) {
                 case Input.Keys.W:
-                    camera.moveSelector(0, offset, 0);
+                    selector.moveSelector(0, offset, 0);
                     return true;
                 case Input.Keys.A:
-                    camera.moveSelector(-offset, 0, 0);
+                    selector.moveSelector(-offset, 0, 0);
                     return true;
                 case Input.Keys.S:
-                    camera.moveSelector(0, -offset, 0);
+                    selector.moveSelector(0, -offset, 0);
                     return true;
                 case Input.Keys.D:
-                    camera.moveSelector(offset, 0, 0);
+                    selector.moveSelector(offset, 0, 0);
                     return true;
                 case Input.Keys.R:
-                    camera.moveSelector(0, 0, 1);
+                    selector.moveSelector(0, 0, 1);
                     return true;
                 case Input.Keys.F:
-                    camera.moveSelector(0, 0, -1);
+                    selector.moveSelector(0, 0, -1);
                     return true;
             }
         }
@@ -60,23 +58,23 @@ public class EntitySelectorInputAdapter extends InputAdapter {
                 case Input.Keys.D:
                     int offset = Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) ? 10 : 1;
                     if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-                        camera.moveSelector(0, offset, 0);
+                        selector.moveSelector(0, offset, 0);
                     }
                     if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-                        camera.moveSelector(0, -offset, 0);
+                        selector.moveSelector(0, -offset, 0);
                     }
                     if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-                        camera.moveSelector(-offset, 0, 0);
+                        selector.moveSelector(-offset, 0, 0);
                     }
                     if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-                        camera.moveSelector(offset, 0, 0);
+                        selector.moveSelector(offset, 0, 0);
                     }
                     return true;
                 case Input.Keys.R:
-                    camera.moveSelector(0, 0, 1);
+                    selector.moveSelector(0, 0, 1);
                     return true;
                 case Input.Keys.F:
-                    camera.moveSelector(0, 0, -1);
+                    selector.moveSelector(0, 0, -1);
                     return true;
             }
         }

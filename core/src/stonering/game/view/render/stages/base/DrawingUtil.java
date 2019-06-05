@@ -1,12 +1,10 @@
 package stonering.game.view.render.stages.base;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import stonering.util.geometry.Position;
 
 /**
@@ -27,7 +25,7 @@ public class DrawingUtil {
     public static final int TILE_HEIGHT = 96;            // z size(up-down) plus depth
     public static final int TOPING_TILE_HEIGHT = 70;      // depth plus floor height(10)
     public static final int BLOCK_TILE_HEIGHT = 166;      // total block height
-    private Vector2 screenCenter;
+//    private Vector2 screenCenter;
 
     public DrawingUtil(Batch batch) {
         this.batch = batch;
@@ -45,8 +43,8 @@ public class DrawingUtil {
      * Draws sprite on localMap position.
      */
     public void drawSprite(TextureRegion sprite, int x, int y, int z) {
-        float screenX = getScreenPosX(x);
-        float screenY = getScreenPosY(y, z);
+        float screenX = getBatchPosX(x);
+        float screenY = getBatchPosY(y, z);
         batch.draw(sprite, screenX, screenY);
     }
 
@@ -71,8 +69,8 @@ public class DrawingUtil {
     }
 
     public void writeText(String text, int x, int y, int z) {
-        float screenX = getScreenPosX(x);
-        float screenY = getScreenPosY(y, z);
+        float screenX = getBatchPosX(x);
+        float screenY = getBatchPosY(y, z);
         font.draw(batch, text, screenX, screenY);
     }
 
@@ -88,12 +86,12 @@ public class DrawingUtil {
     }
 
 
-    protected float getScreenPosX(int x) {
-        return x * TILE_WIDTH + screenCenter.x;
+    protected float getBatchPosX(int x) {
+        return x * TILE_WIDTH;
     }
 
-    protected float getScreenPosY(int y, int z) {
-        return y * TILE_DEPTH + z * (TILE_HEIGHT - TILE_DEPTH) + screenCenter.y;
+    protected float getBatchPosY(int y, int z) {
+        return y * TILE_DEPTH + z * (TILE_HEIGHT - TILE_DEPTH);
     }
 
     /**
@@ -128,19 +126,9 @@ public class DrawingUtil {
 
     public void begin() {
         batch.begin();
-        screenCenter = new Vector2(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f);
-//        System.out.println(screenCenter);
     }
 
     public void end() {
         batch.end();
-    }
-
-    public Vector2 getScreenCenter() {
-        return screenCenter;
-    }
-
-    public Batch getBatch() {
-        return batch;
     }
 }

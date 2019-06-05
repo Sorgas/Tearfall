@@ -14,7 +14,7 @@ import stonering.game.model.GameModel;
 import stonering.game.model.lists.*;
 import stonering.game.model.lists.tasks.TaskContainer;
 import stonering.game.model.local_map.LocalMap;
-import stonering.game.view.render.util.Float3DBounds;
+import stonering.game.view.render.util.Int3dBounds;
 import stonering.game.view.tilemaps.LocalTileMap;
 import stonering.util.geometry.Position;
 
@@ -33,11 +33,11 @@ public class TileRenderer extends Renderer {
     private TaskContainer taskContainer;
     private ItemContainer itemContainer;
     private ZonesContainer zonesContainer;
-    private Float3DBounds visibleArea;
+    private Int3dBounds visibleArea;
 
     private Position cachePosition;
 
-    public TileRenderer(DrawingUtil drawingUtil, Float3DBounds visibleArea) {
+    public TileRenderer(DrawingUtil drawingUtil, Int3dBounds visibleArea) {
         super(drawingUtil);
         this.visibleArea = visibleArea;
         GameModel model = GameMvc.instance().getModel();
@@ -53,9 +53,8 @@ public class TileRenderer extends Renderer {
 
     @Override
     public void render() {
-        EntitySelector selector = GameMvc.instance().getModel().get(EntitySelector.class);
         for (int z = visibleArea.getMinZ(); z <= visibleArea.getMaxZ(); z++) {
-            drawingUtil.shadeByZ(selector.getPosition().z - z);
+            drawingUtil.shadeByZ(visibleArea.getMaxZ() - z);
             for (int x = visibleArea.getMinX(); x <= visibleArea.getMaxX(); x++) {
                 for (int y = visibleArea.getMaxY(); y >= visibleArea.getMinY(); y--) {
                     drawTile(x, y, z);
