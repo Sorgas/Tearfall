@@ -10,10 +10,7 @@ import stonering.game.model.GameModel;
 import stonering.game.view.render.stages.base.UiStage;
 import stonering.game.view.render.ui.lists.PlaceHolderSelectBox;
 import stonering.test_chamber.TestChamberGame;
-import stonering.test_chamber.model.PassageModel;
-import stonering.test_chamber.model.PondPlantsModel;
-import stonering.test_chamber.model.SinglePlantModel;
-import stonering.test_chamber.model.SingleTreeModel;
+import stonering.test_chamber.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,6 +65,7 @@ public class ModelSelectStage extends UiStage {
         testModels.add(new SinglePlantModel());
         testModels.add(new PondPlantsModel());
         testModels.add(new PassageModel());
+        testModels.add(new CameraModel());
         return testModels;
     }
 

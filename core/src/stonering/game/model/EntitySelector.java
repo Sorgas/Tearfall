@@ -19,11 +19,12 @@ import stonering.util.global.Initable;
  *
  * @author Alexander Kuzyakov on 10.12.2017.
  */
-public class EntitySelector implements ModelComponent, Initable{
+public class EntitySelector implements ModelComponent, Initable {
     private LocalMap localMap;
     private Position position;
     private TextureRegion selectorSprite; // shows selector position, and selected designation.
     private TextureRegion statusSprite;   // indicates position validity.
+    private Position cachePosition;
 
     private PositionValidator positionValidator;
     private int status;
@@ -38,6 +39,7 @@ public class EntitySelector implements ModelComponent, Initable{
         localMap = GameMvc.instance().getModel().get(LocalMap.class);
         selectorSprite = new TextureRegion(new Texture("sprites/ui_tiles.png"), 0, 406, 64, 96);
         position = new Position(localMap.xSize / 2, localMap.ySize / 2, localMap.zSize - 1);
+        cachePosition = new Position();
     }
 
     /**
@@ -45,10 +47,11 @@ public class EntitySelector implements ModelComponent, Initable{
      */
     public void setToMapCenter() {
         int z = localMap.zSize - 1;
-        while(z > 0 && BlockTypesEnum.SPACE.CODE == localMap.getBlockType(position.x, position.y, z)) {
+        while (z > 0 && BlockTypesEnum.SPACE.CODE == localMap.getBlockType(position.x, position.y, z)) {
             z--;
         }
         position.z = z;
+        GameMvc.instance().getView().getBaseStage().getCamera().selectorMoved();
     }
 
     public void setSelector(int x, int y, int z) {
@@ -56,10 +59,13 @@ public class EntitySelector implements ModelComponent, Initable{
     }
 
     public void moveSelector(int dx, int dy, int dz) {
-        position.x += dx;
-        position.y += dy;
-        position.z += dz;
+        cachePosition.set(position);
+        position.add(dx, dy, dz);
         localMap.normalizePosition(position);
+        if (!cachePosition.equals(position)) selectorMoved();
+    }
+
+    private void selectorMoved() {
         updateStatusAndSprite();
         GameMvc.instance().getView().getBaseStage().getCamera().selectorMoved();
     }

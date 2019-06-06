@@ -21,13 +21,20 @@ public class Int3dBounds {
         set(minX, minY, minZ, maxX, maxY, maxZ);
     }
 
+    public boolean isInByXY(Position position) {
+        return position.x >= minX &&
+                position.x <= maxX &&
+                position.y >= minY &&
+                position.y <= maxY;
+    }
+
     public boolean isIn(Position position) {
         return position.x >= minX &&
                 position.x <= maxX &&
                 position.y >= minY &&
                 position.y <= maxY &&
-                position.z >= minZ &&
-                position.z <= maxZ;
+                position.z <= maxZ &&
+                position.z >= minZ;
     }
 
     public void set(int minX, int minY, int minZ, int maxX, int maxY, int maxZ) {

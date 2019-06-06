@@ -108,9 +108,9 @@ public class LocalMap implements ModelComponent, Initable, LastInitable {
     }
 
     public Position normalizePosition(Position position) {
-        position.setX(Math.min(Math.max(0, position.x), xSize - 1));
-        position.setY(Math.min(Math.max(0, position.y), ySize - 1));
-        position.setZ(Math.min(Math.max(0, position.z), zSize - 1));
+        position.x = Math.min(Math.max(0, position.x), xSize - 1);
+        position.y = Math.min(Math.max(0, position.y), ySize - 1);
+        position.z = Math.min(Math.max(0, position.z), zSize - 1);
         return position;
     }
 

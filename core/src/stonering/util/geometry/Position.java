@@ -15,11 +15,11 @@ public class Position implements Serializable, Cloneable {
     public int z;
 
     public Position() {
-        this(0,0,0);
+        this(0, 0, 0);
     }
 
     public Position(int x, int y, int z) {
-        set(x,y,z);
+        set(x, y, z);
     }
 
     public Position(float x, float y, float z) {
@@ -150,5 +150,17 @@ public class Position implements Serializable, Cloneable {
 
     public void setZ(int z) {
         this.z = z;
+    }
+
+    public void set(Position position) {
+        x = position.x;
+        y = position.y;
+        z = position.z;
+    }
+
+    public void add(int dx, int dy, int dz) {
+        x += dx;
+        y += dy;
+        z += dz;
     }
 }
