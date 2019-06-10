@@ -3,7 +3,7 @@ package stonering.game.view.render.stages.base;
 import stonering.game.model.EntitySelector;
 import stonering.game.model.lists.UnitContainer;
 import stonering.game.model.local_map.LocalMap;
-import stonering.game.view.render.util.Int3dBounds;
+import stonering.util.geometry.Int3dBounds;
 import stonering.game.view.tilemaps.LocalTileMap;
 
 /**

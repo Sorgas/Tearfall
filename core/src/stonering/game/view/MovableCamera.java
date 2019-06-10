@@ -7,11 +7,11 @@ import stonering.game.GameMvc;
 import stonering.game.model.EntitySelector;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.view.render.stages.base.Resizeable;
-import stonering.game.view.render.util.Int3dBounds;
+import stonering.util.geometry.Int2dBounds;
+import stonering.util.geometry.Int3dBounds;
 import stonering.util.geometry.Position;
 
 import static stonering.game.view.render.stages.base.DrawingUtil.*;
-import static stonering.game.view.render.stages.base.DrawingUtil.TILE_DEPTH;
 
 /**
  * {@link OrthographicCamera} extension.
@@ -29,7 +29,9 @@ import static stonering.game.view.render.stages.base.DrawingUtil.TILE_DEPTH;
 public class MovableCamera extends OrthographicCamera implements Resizeable {
     private Position modelPosition;
     private Int3dBounds visibleArea; // inclusive ranges of fully visible tiles.
-    private Int3dBounds selectorBounds; // inclusive ranges of allowed selector positions.
+    private Int2dBounds selectorBounds; // inclusive ranges of allowed selector positions.
+    int[] visibleAreaSize;
+    int[] controlAreaSize;
     private float zoom = 1;
     private float[] zoomBounds = {1, 3};
     private static final Vector3 correctionVector = new Vector3(TILE_WIDTH / 2, TILE_DEPTH / 2, 0);
@@ -38,6 +40,8 @@ public class MovableCamera extends OrthographicCamera implements Resizeable {
         modelPosition = GameMvc.instance().getModel().get(EntitySelector.class).getPosition().clone();
         visibleArea = new Int3dBounds();
         selectorBounds = new Int3dBounds();
+        visibleAreaSize = new int[3];
+        controlAreaSize = new int[2];
         centerCameraToPosition(modelPosition);
         updateAreas();
     }
@@ -45,34 +49,38 @@ public class MovableCamera extends OrthographicCamera implements Resizeable {
     /**
      * Updates coordinate ranges of drawable tiles.
      * Updates selector allowed area.
-     * Selector bounds are always more narrow than visible area, so selector tile is fully visible.
      * Called on camera move and zoom, and window resize.
      * Area is counted basing on camera position, size and zoom.
      */
     private void updateAreas() {
         LocalMap localMap = GameMvc.instance().getModel().get(LocalMap.class);
-        int halfWidth = (int) Math.ceil(viewportWidth / 2 / TILE_WIDTH);
-        int halfHeight = (int) Math.ceil(viewportHeight / 2 / TILE_DEPTH);
         visibleArea.set(
-                Math.max(modelPosition.x - halfWidth, 0),
-                Math.max(modelPosition.y - halfHeight, 0),
-                Math.max(modelPosition.z - 10, 0),
-                Math.min(modelPosition.x + halfWidth, localMap.xSize - 1),
-                Math.min(modelPosition.y + halfHeight, localMap.ySize - 1),
+                Math.max(modelPosition.x - visibleAreaSize[0], 0),
+                Math.max(modelPosition.y - visibleAreaSize[1], 0),
+                Math.max(modelPosition.z - visibleAreaSize[2], 0),
+                Math.min(modelPosition.x + visibleAreaSize[0], localMap.xSize - 1),
+                Math.min(modelPosition.y + visibleAreaSize[1], localMap.ySize - 1),
                 Math.min(modelPosition.z, localMap.zSize - 1));
         selectorBounds.set(
-                Math.max(visibleArea.getMinX() + 1, 0),
-                Math.max(visibleArea.getMinY() + 1, 0),
-                modelPosition.z,
-                Math.min(visibleArea.getMaxX(), localMap.xSize) - 1,
-                Math.min(visibleArea.getMaxY(), localMap.xSize) - 1,
-                modelPosition.z);
+                Math.max(modelPosition.x - controlAreaSize[0], 0),
+                Math.max(modelPosition.y - controlAreaSize[1], 0),
+                Math.min(modelPosition.x + controlAreaSize[0], localMap.xSize - 1),
+                Math.min(modelPosition.y + controlAreaSize[1], localMap.ySize - 1));
     }
 
+    /**
+     * Updates camera and areas size.
+     * Selector bounds are always more narrow than visible area, so selector tile is fully visible.
+     */
     @Override
     public void resize(int width, int height) {
         viewportWidth = width;
         viewportHeight = height;
+        visibleAreaSize[0] = (int) Math.ceil((viewportWidth - TILE_WIDTH) / 2 / TILE_WIDTH);
+        visibleAreaSize[1] = (int) Math.ceil((viewportHeight - TILE_DEPTH) / 2 / TILE_DEPTH);
+        visibleAreaSize[2] = 15; //TODO number of z levels should depend on screen height
+        controlAreaSize[0] = visibleAreaSize[0] - 1;
+        controlAreaSize[1] = visibleAreaSize[1] - 1;
         updateAreas();
     }
 
@@ -89,10 +97,10 @@ public class MovableCamera extends OrthographicCamera implements Resizeable {
      */
     public void selectorMoved() {
         Position selectorPosition = GameMvc.instance().getModel().get(EntitySelector.class).getPosition();
-        // no actions, if selector moves within it's bounds;
-        if (selectorBounds.isIn(selectorPosition)) return;
+        if (selectorBounds.isIn(selectorPosition) && selectorPosition.z == modelPosition.z)
+            return; // no actions, if selector moves within it's bounds;
         modelPosition.z = selectorPosition.z;
-        if (!selectorBounds.isInByXY(selectorPosition)) {
+        if (!selectorBounds.isIn(selectorPosition)) {
             Vector2 offset = new Vector2();
             if (selectorPosition.x < selectorBounds.getMinX()) offset.x = selectorPosition.x - selectorBounds.getMinX();
             if (selectorPosition.x > selectorBounds.getMaxX()) offset.x = selectorPosition.x - selectorBounds.getMaxX();

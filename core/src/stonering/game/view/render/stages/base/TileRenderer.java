@@ -9,12 +9,11 @@ import stonering.entity.local.zone.Zone;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.designations.DesignationsTileMapping;
 import stonering.game.GameMvc;
-import stonering.game.model.EntitySelector;
 import stonering.game.model.GameModel;
 import stonering.game.model.lists.*;
 import stonering.game.model.lists.tasks.TaskContainer;
 import stonering.game.model.local_map.LocalMap;
-import stonering.game.view.render.util.Int3dBounds;
+import stonering.util.geometry.Int3dBounds;
 import stonering.game.view.tilemaps.LocalTileMap;
 import stonering.util.geometry.Position;
 
