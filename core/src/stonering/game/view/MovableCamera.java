@@ -81,7 +81,7 @@ public class MovableCamera extends OrthographicCamera implements Resizeable {
         visibleAreaSize[2] = 15; //TODO number of z levels should depend on screen height
         controlAreaSize[0] = visibleAreaSize[0] - 1;
         controlAreaSize[1] = visibleAreaSize[1] - 1;
-        updateAreas();
+        selectorMoved();
     }
 
     /**
@@ -111,6 +111,35 @@ public class MovableCamera extends OrthographicCamera implements Resizeable {
         }
         centerCameraToPosition(modelPosition);
         updateAreas();
+    }
+
+    /**
+     * Notifies camera about {@link EntitySelector} moves.
+     * If selector moves by z-axis, camera changes position by z.
+     * If it moves out of visible area by x or y axis, camera changes position.
+     */
+    private void selectorMove() {
+        Position selectorPosition = GameMvc.instance().getModel().get(EntitySelector.class).getPosition();
+        Vector2 vector = getOutOfFrameVector(selectorPosition);
+        if (modelPosition.z == selectorPosition.z && vector.isZero()) return;
+        modelPosition.z = selectorPosition.z;
+        modelPosition.x += vector.x;
+        modelPosition.y += vector.y;
+        updateAreas();
+    }
+
+    /**
+     * Checks that floor part of tile in given position is fully shown in frame.
+     * Forms a vector to show direction to that tile.
+     * Tile should be on the same z-level with camera.
+     */
+    private Vector2 getOutOfFrameVector(Position position) {
+        Vector2 vector = new Vector2();
+        if(this.position.x - viewportWidth / 2 < position.x * TILE_WIDTH) vector.x = -1;
+        if(this.position.x + viewportWidth / 2 > (position.x + 1) * TILE_WIDTH - 1) vector.x = 1;
+        if(this.position.y - viewportHeight / 2 < position.y * TILE_DEPTH) vector.y = -1;
+        if(this.position.y + viewportHeight / 2 < (position.y + 1) * TILE_DEPTH - 1) vector.y = 1;
+        return vector;
     }
 
     /**
