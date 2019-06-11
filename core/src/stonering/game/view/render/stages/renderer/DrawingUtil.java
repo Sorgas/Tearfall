@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector3;
 import stonering.util.geometry.Position;
 
 /**
@@ -35,17 +36,18 @@ public class DrawingUtil {
         createAtlases();
     }
 
-    public void drawSprite(TextureRegion sprite, Position position) {
-        drawSprite(sprite, position.x, position.y, position.z);
-    }
-
     /**
      * Draws sprite on localMap position.
      */
-    public void drawSprite(TextureRegion sprite, int x, int y, int z) {
-        float screenX = getBatchPosX(x);
-        float screenY = getBatchPosY(y, z);
-        batch.draw(sprite, screenX, screenY);
+    public void drawSprite(TextureRegion sprite, Position position) {
+        batch.draw(sprite, getBatchPosX(position.x), getBatchPosY(position.y, position.z));
+    }
+
+    /**
+     * Draws sprite by vector. Values can be fractional, sprite will be rendered between cells.
+     */
+    public void drawSprite(TextureRegion sprite, Vector3 vector) {
+        batch.draw(sprite, getBatchPosX(vector.x), getBatchPosY(vector.y, vector.z));
     }
 
     /**
@@ -86,11 +88,11 @@ public class DrawingUtil {
     }
 
 
-    protected float getBatchPosX(int x) {
+    protected float getBatchPosX(float x) {
         return x * TILE_WIDTH;
     }
 
-    protected float getBatchPosY(int y, int z) {
+    protected float getBatchPosY(float y, float z) {
         return y * TILE_DEPTH + z * (TILE_HEIGHT - TILE_DEPTH);
     }
 

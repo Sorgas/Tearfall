@@ -8,6 +8,7 @@ import stonering.util.geometry.Position;
 /**
  * Contains resolved sprite data of blocks as they are updated rarely.
  * Ramps are main reason, because their resolving require observation of neighbour tiles.
+ * //TODO rewrite to use hashmaps only with ramps.
  *
  * @author Alexander Kuzyakov on 02.08.2017.
  */

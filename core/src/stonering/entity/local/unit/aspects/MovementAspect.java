@@ -1,5 +1,6 @@
 package stonering.entity.local.unit.aspects;
 
+import com.badlogic.gdx.math.Vector3;
 import stonering.game.GameMvc;
 import stonering.game.model.lists.UnitContainer;
 import stonering.game.model.local_map.LocalMap;
@@ -23,30 +24,30 @@ public class MovementAspect extends Aspect {
     private Position cachedTarget;
     private List<Position> cachedPath;
 
-    private int stepDelay;
-    private int stepTime;
+    private float stepProgress;
+    private int stepInterval;
 
     public MovementAspect(Unit unit) {
         super(unit);
         this.aspectHolder = unit;
-        stepTime = 15;
-        stepDelay = stepTime;
+        stepInterval = 15;
+        stepProgress = stepInterval;
     }
 
     public void turn() {
         if (tryFall()) return;
-        if (stepDelay > 0) {
-            stepDelay--; //counting ticks to step
+        if (stepProgress > 0) {
+            stepProgress--; // counting ticks to step.
         } else {
             makeStep();
-            stepDelay = stepTime;
+            stepProgress = stepInterval;
         }
     }
 
     private void makeStep() {
         if (!planning.isMovementNeeded()) return;
         if (cachedTarget != null && cachedTarget.equals(planning.getTarget())) { //old target
-            if (cachedPath != null && !cachedPath.isEmpty()) {// path not finished
+            if (hasPath()) {
                 Position nextPosition = cachedPath.remove(0); // get next step, remove from path
                 if (localMap.isWalkPassable(nextPosition)) { // path has not been blocked after calculation
                     gameMvc.getModel().get(UnitContainer.class).updateUnitPosiiton((Unit) aspectHolder, nextPosition); //step
@@ -93,5 +94,31 @@ public class MovementAspect extends Aspect {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Checks that this aspect holder has poth to move on.
+     *
+     * @return
+     */
+    private boolean hasPath() {
+        return cachedPath != null && !cachedPath.isEmpty();
+    }
+
+    /**
+     * Returns vector with [0:1] floats, representing current progress of movement.
+     */
+    public Vector3 getStepProgressVector() {
+        if (!hasPath()) return new Vector3(); // zero vector for staying still.
+        Position nextPosition = cachedPath.get(0);
+        Position unitPosition = aspectHolder.getPosition();
+        return new Vector3(
+                getStepProgressVectorComponent(unitPosition.x, nextPosition.x),
+                getStepProgressVectorComponent(unitPosition.y, nextPosition.y),
+                getStepProgressVectorComponent(unitPosition.z, nextPosition.z));
+    }
+
+    private float getStepProgressVectorComponent(int from, int to) {
+        return (from - to) * stepProgress / stepInterval;
     }
 }

@@ -7,10 +7,10 @@ package stonering.game.view.render.stages.renderer;
  * @author Alexander on 06.02.2019.
  */
 public abstract class Renderer {
-    protected DrawingUtil drawingUtil;
+    protected DrawingUtil util;
 
-    public Renderer(DrawingUtil drawingUtil) {
-        this.drawingUtil = drawingUtil;
+    public Renderer(DrawingUtil util) {
+        this.util = util;
     }
 
     public abstract void render();
