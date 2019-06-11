@@ -6,10 +6,9 @@ import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
-import com.badlogic.gdx.utils.Array;
 import stonering.game.view.render.ui.menus.util.Highlightable;
+import stonering.util.global.Logger;
 import stonering.util.global.StaticSkin;
-import stonering.util.global.TagLoggersEnum;
 
 import java.util.function.Consumer;
 
@@ -37,7 +36,7 @@ public class NavigableList<T> extends List<T> implements Highlightable {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 event.stop();
-                TagLoggersEnum.UI.logDebug("handling " + Input.Keys.toString(keycode) + " on NavigableList");
+                Logger.UI.logDebug("handling " + Input.Keys.toString(keycode) + " on NavigableList");
                 switch (keycode) {
                     case Input.Keys.W:
                         up();

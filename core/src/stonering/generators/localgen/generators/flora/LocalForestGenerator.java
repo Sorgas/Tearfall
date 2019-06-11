@@ -9,7 +9,7 @@ import stonering.game.model.lists.PlantContainer;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.generators.plants.TreeGenerator;
 import stonering.util.geometry.Position;
-import stonering.util.global.TagLoggersEnum;
+import stonering.util.global.Logger;
 
 import java.util.Collections;
 import java.util.Random;
@@ -31,7 +31,7 @@ public class LocalForestGenerator extends LocalFloraGenerator {
 
     @Override
     protected Set<PlantType> filterPlantsByType() {
-        TagLoggersEnum.GENERATION.log("generating trees");
+        Logger.GENERATION.log("generating trees");
         return PlantMap.getInstance().getTreeTypes().values().stream().filter(PlantType::isTree).collect(Collectors.toSet());
     }
 
@@ -55,7 +55,7 @@ public class LocalForestGenerator extends LocalFloraGenerator {
         } catch (DescriptionNotFoundException e) {
             e.printStackTrace();
         } finally {
-            TagLoggersEnum.GENERATION.logDebug(counter + " trees placed.");
+            Logger.GENERATION.logDebug(counter + " trees placed.");
         }
     }
 

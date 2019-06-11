@@ -1,5 +1,6 @@
 package stonering.game.model.lists;
 
+import stonering.util.global.Logger;
 import stonering.util.validation.PositionValidator;
 import stonering.entity.local.zone.Zone;
 import stonering.enums.ZoneTypesEnum;
@@ -8,7 +9,6 @@ import stonering.game.model.ModelComponent;
 import stonering.game.model.Turnable;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
-import stonering.util.global.TagLoggersEnum;
 
 import java.util.*;
 
@@ -39,7 +39,7 @@ public class ZonesContainer extends Turnable implements ModelComponent {
         Zone zone = type.createZone();
         addPositionsToZone(pos1, pos2, zone);
         zones.add(zone);
-        TagLoggersEnum.ZONES.logDebug("Zone " + zone + " created");
+        Logger.ZONES.logDebug("Zone " + zone + " created");
         recountZones();
     }
 
@@ -89,7 +89,7 @@ public class ZonesContainer extends Turnable implements ModelComponent {
                 }
             }
         }
-        TagLoggersEnum.ZONES.logDebug("Zone " + zone + " updated");
+        Logger.ZONES.logDebug("Zone " + zone + " updated");
         recountZones();
     }
 
@@ -98,7 +98,7 @@ public class ZonesContainer extends Turnable implements ModelComponent {
             Zone zone = iterator.next();
             if(!zone.getTiles().isEmpty()) continue;
             iterator.remove();
-            TagLoggersEnum.ZONES.logDebug("Zone " + zone + " deleted");
+            Logger.ZONES.logDebug("Zone " + zone + " deleted");
         }
     }
 

@@ -3,7 +3,7 @@ package stonering.game.model;
 import com.badlogic.gdx.utils.Timer;
 import stonering.util.global.Initable;
 import stonering.util.global.LastInitable;
-import stonering.util.global.TagLoggersEnum;
+import stonering.util.global.Logger;
 
 import java.io.Serializable;
 import java.util.TreeMap;
@@ -71,7 +71,7 @@ public abstract class GameModel implements Initable, Serializable {
     }
 
     public void setPaused(boolean paused) {
-        TagLoggersEnum.GENERAL.logDebug("Game paused set to " + paused);
+        Logger.GENERAL.logDebug("Game paused set to " + paused);
         if (paused) {
             timer.stop();
             this.paused = true;

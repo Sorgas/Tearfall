@@ -1,17 +1,15 @@
 package stonering.entity.local.zone;
 
-import stonering.entity.jobs.Task;
-import stonering.entity.jobs.actions.PlantingAction;
-import stonering.entity.jobs.actions.TaskTypesEnum;
-import stonering.entity.jobs.actions.target.PositionActionTarget;
+import stonering.entity.job.Task;
+import stonering.entity.job.action.PlantingAction;
+import stonering.entity.job.action.TaskTypesEnum;
+import stonering.entity.job.action.target.PositionActionTarget;
 import stonering.entity.local.plants.AbstractPlant;
-import stonering.entity.local.plants.Plant;
 import stonering.game.model.lists.PlantContainer;
 import stonering.util.validation.PositionValidator;
 import stonering.entity.local.environment.GameCalendar;
 import stonering.entity.local.items.selectors.ItemSelector;
 import stonering.entity.local.items.selectors.SeedItemSelector;
-import stonering.entity.local.plants.PlantBlock;
 import stonering.enums.ZoneTypesEnum;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.designations.DesignationTypeEnum;

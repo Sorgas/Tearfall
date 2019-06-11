@@ -8,7 +8,7 @@ import stonering.entity.local.unit.aspects.MovementAspect;
 import stonering.entity.local.unit.aspects.PlanningAspect;
 import stonering.entity.local.unit.Unit;
 import stonering.util.global.FileLoader;
-import stonering.util.global.TagLoggersEnum;
+import stonering.util.global.Logger;
 
 /**
  * Creates creatures from json files by specimen title.
@@ -60,7 +60,7 @@ public class CreatureGenerator {
         for (JsonValue c : creatures) {
             if (c.getString("title").equals(specimen)) return c;
         }
-        TagLoggersEnum.GENERATION.logWarn("Creature descriptor with name + " + specimen + " not found.");
+        Logger.GENERATION.logWarn("Creature descriptor with name + " + specimen + " not found.");
         return null;
     }
 }

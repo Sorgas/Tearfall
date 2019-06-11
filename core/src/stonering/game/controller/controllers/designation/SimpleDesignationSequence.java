@@ -5,7 +5,7 @@ import stonering.game.model.EntitySelector;
 import stonering.game.model.lists.tasks.TaskContainer;
 import stonering.game.view.render.ui.menus.util.RectangleSelectComponent;
 import stonering.util.geometry.Position;
-import stonering.util.global.TagLoggersEnum;
+import stonering.util.global.Logger;
 
 /**
  * Designation sequence for orders like digging and harvesting plants.
@@ -44,7 +44,7 @@ public class SimpleDesignationSequence extends DesignationSequence {
 
     @Override
     public void start() {
-        TagLoggersEnum.TASKS.logDebug("Starting SimpleDesignationSequence for " + designationType);
+        Logger.TASKS.logDebug("Starting SimpleDesignationSequence for " + designationType);
         rectangleSelectComponent.show();
     }
 

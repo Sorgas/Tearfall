@@ -14,7 +14,7 @@ import stonering.util.geometry.Position;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.items.selectors.ItemSelector;
 import stonering.util.global.Initable;
-import stonering.util.global.TagLoggersEnum;
+import stonering.util.global.Logger;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -60,7 +60,7 @@ public class ItemContainer extends Turnable implements ModelComponent, Initable 
     }
 
     public void removeItem(Item item) {
-        if (!items.contains(item)) TagLoggersEnum.ITEMS.logWarn("Removing not present item " + item.getName());
+        if (!items.contains(item)) Logger.ITEMS.logWarn("Removing not present item " + item.getName());
         items.remove(item);
         itemMap.get(item.getPosition()).remove(item);
     }
@@ -179,7 +179,7 @@ public class ItemContainer extends Turnable implements ModelComponent, Initable 
         List<Item> items = itemSelector.selectItems(this.items);
         items = filterUnreachable(items, position);
         if (items == null) {
-            TagLoggersEnum.ITEMS.logError("NULL returned instead of empty list");
+            Logger.ITEMS.logError("NULL returned instead of empty list");
         }
         return items;
     }

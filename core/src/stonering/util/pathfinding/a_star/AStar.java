@@ -3,7 +3,7 @@ package stonering.util.pathfinding.a_star;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.HashPriorityQueue;
 import stonering.util.geometry.Position;
-import stonering.util.global.TagLoggersEnum;
+import stonering.util.global.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +45,7 @@ public class AStar {
      * @return goal node from which you can reconstruct the path
      */
     private Node search(Node initialNode, Position targetPos, boolean exactTarget) {
-        TagLoggersEnum.PATH.logDebug("searching path from " + initialNode.getPosition() + " to " + targetPos);
+        Logger.PATH.logDebug("searching path from " + initialNode.getPosition() + " to " + targetPos);
         HashPriorityQueue<Node, Node> openSet = new HashPriorityQueue(new NodeComparator());
         HashMap<Integer, Node> closedSet = new HashMap<>();
 
@@ -100,7 +100,7 @@ public class AStar {
             closedSet.put(currentNode.hashCode(), currentNode);
             numSearchSteps += 1;
         }
-        TagLoggersEnum.PATH.logDebug("no path found");
+        Logger.PATH.logDebug("no path found");
         return null;
     }
 
@@ -121,7 +121,7 @@ public class AStar {
                 }
             }
         }
-        TagLoggersEnum.PATH.logDebug("Successors for " + nodePos + ": " + nodes.size());
+        Logger.PATH.logDebug("Successors for " + nodePos + ": " + nodes.size());
         return nodes;
     }
 

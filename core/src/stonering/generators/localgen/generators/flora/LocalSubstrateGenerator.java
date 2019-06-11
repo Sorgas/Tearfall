@@ -1,17 +1,14 @@
 package stonering.generators.localgen.generators.flora;
 
 import stonering.entity.local.plants.SubstratePlant;
-import stonering.entity.local.plants.Tree;
-import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.plants.PlantMap;
 import stonering.enums.plants.PlantType;
 import stonering.exceptions.DescriptionNotFoundException;
 import stonering.game.model.lists.PlantContainer;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.generators.plants.PlantGenerator;
-import stonering.generators.plants.TreeGenerator;
 import stonering.util.geometry.Position;
-import stonering.util.global.TagLoggersEnum;
+import stonering.util.global.Logger;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -29,7 +26,7 @@ public class LocalSubstrateGenerator extends LocalFloraGenerator {
 
     @Override
     protected Set<PlantType> filterPlantsByType() {
-        TagLoggersEnum.GENERATION.log("generating small plants");
+        Logger.GENERATION.log("generating small plants");
         return PlantMap.getInstance().getSubstrateTypes().values().stream().filter(PlantType::isSubstrate).collect(Collectors.toSet());
     }
 
@@ -51,7 +48,7 @@ public class LocalSubstrateGenerator extends LocalFloraGenerator {
         } catch (DescriptionNotFoundException e) {
             System.out.println("material for plant " + specimen + " not found");
         } finally {
-            TagLoggersEnum.GENERATION.logDebug(counter + " substrates placed.");
+            Logger.GENERATION.logDebug(counter + " substrates placed.");
         }
     }
 

@@ -7,7 +7,7 @@ import stonering.game.model.lists.BuildingContainer;
 import stonering.game.model.lists.PlantContainer;
 import stonering.game.model.util.UtilByteArray;
 import stonering.util.geometry.Position;
-import stonering.util.global.TagLoggersEnum;
+import stonering.util.global.Logger;
 import stonering.util.pathfinding.a_star.AStar;
 
 import java.util.ArrayList;
@@ -107,7 +107,7 @@ public class PassageMap {
      * @param posMap area number is mapped to set of positions of this area.
      */
     private void splitAreas(Map<Byte, List<Position>> posMap, Position center) {
-        TagLoggersEnum.PATH.logDebug("Splitting areas around " + center + " in positions " + posMap);
+        Logger.PATH.logDebug("Splitting areas around " + center + " in positions " + posMap);
         for (Byte areaValue : posMap.keySet()) {
             List<Position> posList = posMap.get(areaValue);
             if (posList.size() < 2) continue;
@@ -133,7 +133,7 @@ public class PassageMap {
                 oldCount -= fill(positions.iterator().next(), getUnusedAreaNumber()); // refill isolated area with new number
             }
             if (areaNumbers.get(areaValue) != oldCount)
-                TagLoggersEnum.PATH.logWarn("Areas sizes inconsistency after split.");
+                Logger.PATH.logWarn("Areas sizes inconsistency after split.");
         }
     }
 
@@ -141,7 +141,7 @@ public class PassageMap {
      * Merges all given areas into one, keeping number of largest one.
      */
     private void mergeAreas(Set<Byte> areas) {
-        TagLoggersEnum.PATH.logDebug("Merging areas " + areas);
+        Logger.PATH.logDebug("Merging areas " + areas);
         if (areas.isEmpty()) return;
         Optional<Byte> largestAreaOptional = areas.stream().max(Comparator.comparingInt(o -> areaNumbers.get(o)));
         byte largestArea = largestAreaOptional.get();

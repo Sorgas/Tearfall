@@ -1,14 +1,14 @@
 package stonering.entity.local.unit.aspects;
 
-import stonering.entity.jobs.Task;
-import stonering.entity.jobs.actions.Action;
+import stonering.entity.job.Task;
+import stonering.entity.job.action.Action;
 import stonering.entity.local.Aspect;
 import stonering.entity.local.AspectHolder;
 import stonering.game.GameMvc;
 import stonering.game.model.lists.tasks.TaskContainer;
 import stonering.util.geometry.Position;
 import stonering.entity.local.unit.Unit;
-import stonering.util.global.TagLoggersEnum;
+import stonering.util.global.Logger;
 
 import java.util.ArrayList;
 
@@ -30,11 +30,11 @@ public class PlanningAspect extends Aspect {
 
     public void turn() {
         if (!checkTask()) selectTask();// try find task, check it and claim
-        if (checkActionSequence()) { // check all actions in a sequence.
+        if (checkActionSequence()) { // check all action in a sequence.
             if (!(movementNeeded = !currentTask.getNextAction().getActionTarget().check(aspectHolder.getPosition()))) { // actor on position, so movement is not needed
                 String actionName = currentTask.getNextAction().toString();
                 if (currentTask.getNextAction().perform()) { // act. called several times
-                    TagLoggersEnum.TASKS.logDebug(aspectHolder + " completes action " + actionName);
+                    Logger.TASKS.logDebug(aspectHolder + " completes action " + actionName);
                     System.out.println("check");
                 }
             }
@@ -44,7 +44,7 @@ public class PlanningAspect extends Aspect {
 
     /**
      * Checks if task can be performed.
-     * During this method requirement aspects create additional actions.
+     * During this method requirement aspects create additional action.
      *
      * @return false, if some action in sequence cannot be performed.
      */
@@ -54,9 +54,9 @@ public class PlanningAspect extends Aspect {
         boolean lastCheck;
         do {
             currentAction = currentTask.getNextAction();
-            lastCheck = currentAction.check(); // can create additional actions
+            lastCheck = currentAction.check(); // can create additional action
         }
-        while (currentAction != currentTask.getNextAction()); // no additional actions created, return check result of last action.
+        while (currentAction != currentTask.getNextAction()); // no additional action created, return check result of last action.
         return lastCheck;
     }
 
@@ -118,7 +118,7 @@ public class PlanningAspect extends Aspect {
      */
     private void claimTask() {
         currentTask.setPerformer((Unit) aspectHolder);
-        TagLoggersEnum.TASKS.logDebug("Task " + currentTask.getName() + " has taken by " + aspectHolder.toString() + ".");
+        Logger.TASKS.logDebug("Task " + currentTask.getName() + " has taken by " + aspectHolder.toString() + ".");
     }
 
     /**

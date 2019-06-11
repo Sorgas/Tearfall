@@ -1,8 +1,8 @@
 package stonering.entity.local.unit.aspects.needs;
 
-import stonering.entity.jobs.actions.EquipItemAction;
-import stonering.entity.jobs.Task;
-import stonering.entity.jobs.actions.TaskTypesEnum;
+import stonering.entity.job.action.EquipItemAction;
+import stonering.entity.job.Task;
+import stonering.entity.job.action.TaskTypesEnum;
 import stonering.entity.local.AspectHolder;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.items.selectors.ItemSelector;

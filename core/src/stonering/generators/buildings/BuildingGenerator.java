@@ -6,7 +6,7 @@ import stonering.entity.local.items.aspects.ItemContainerAspect;
 import stonering.enums.buildings.BuildingTypeMap;
 import stonering.util.geometry.Position;
 import stonering.entity.local.building.Building;
-import stonering.util.global.TagLoggersEnum;
+import stonering.util.global.Logger;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ public class BuildingGenerator {
     public Building generateBuilding(String name, Position position) {
         BuildingType type = BuildingTypeMap.getInstance().getBuilding(name);
         if (type == null) {
-            TagLoggersEnum.BUILDING.logWarn("No building with name '" + name + "' found.");
+            Logger.BUILDING.logWarn("No building with name '" + name + "' found.");
             return null;
         }
         Building building = new Building(position, type);

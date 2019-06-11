@@ -8,7 +8,7 @@ import stonering.game.model.lists.PlantContainer;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.generators.plants.PlantGenerator;
 import stonering.util.geometry.Position;
-import stonering.util.global.TagLoggersEnum;
+import stonering.util.global.Logger;
 
 import java.util.Collections;
 import java.util.Set;
@@ -27,7 +27,7 @@ public class LocalPlantsGenerator extends LocalFloraGenerator {
 
     @Override
     protected Set<PlantType> filterPlantsByType() {
-        TagLoggersEnum.GENERATION.log("generating plants");
+        Logger.GENERATION.log("generating plants");
         return PlantMap.getInstance().getPlantTypes().values().stream().filter(PlantType::isPlant).collect(Collectors.toSet());
     }
 

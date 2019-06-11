@@ -2,7 +2,7 @@ package stonering.game.controller.inputProcessors;
 
 import com.badlogic.gdx.InputAdapter;
 import stonering.game.GameMvc;
-import stonering.util.global.TagLoggersEnum;
+import stonering.util.global.Logger;
 
 /**
  * Can be disabled.
@@ -21,7 +21,7 @@ public class PauseInputAdapter extends InputAdapter {
     public boolean keyTyped(char character) {
         if (enabled && character == ' ') {
             gameMvc.getModel().setPaused(!gameMvc.getModel().isPaused());
-            TagLoggersEnum.GENERAL.logDebug(gameMvc.getModel().isPaused() ? "Pausing game" : "Unpausing game");
+            Logger.GENERAL.logDebug(gameMvc.getModel().isPaused() ? "Pausing game" : "Unpausing game");
         }
         return false;
     }

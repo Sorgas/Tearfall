@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Zone manages it's tiles and creates {@link stonering.entity.jobs.Task}.
+ * Zone manages it's tiles and creates {@link stonering.entity.job.Task}.
  * Created through {@link stonering.enums.ZoneTypesEnum}
  *
  * @author Alexander on 04.03.2019.

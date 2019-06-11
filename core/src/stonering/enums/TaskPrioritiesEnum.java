@@ -5,7 +5,7 @@ package stonering.enums;
  */
 public enum TaskPrioritiesEnum {
     LOW(3), //comfort
-    NORMAL(5), //jobs
+    NORMAL(5), //job
     HIGH(7), // avoiding health harm
     EXTREME(10); //avoiding death
 

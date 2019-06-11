@@ -11,7 +11,7 @@ import stonering.game.model.lists.*;
 import stonering.game.view.render.ui.lists.ObservingList;
 import stonering.util.geometry.Position;
 import stonering.util.global.Initable;
-import stonering.util.global.TagLoggersEnum;
+import stonering.util.global.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -112,7 +112,7 @@ public class MapEntitySelectStage extends UiStage implements Initable {
         if (block == null) return;
         Building building = block.getBuilding();
         GameMvc gameMvc = GameMvc.instance();
-        TagLoggersEnum.UI.logDebug("showing building stage for: " + building);
+        Logger.UI.logDebug("showing building stage for: " + building);
         gameMvc.getView().removeStage(this);
         gameMvc.getView().addStageToList(new BuildingStage(gameMvc, building));
         System.out.println("adding new building stage");
@@ -121,7 +121,7 @@ public class MapEntitySelectStage extends UiStage implements Initable {
     private void tryShowZoneStage(Zone zone) {
         if (zone == null) return;
         GameMvc gameMvc = GameMvc.instance();
-        TagLoggersEnum.UI.logDebug("showing zone stage for: " + zone.getName());
+        Logger.UI.logDebug("showing zone stage for: " + zone.getName());
         gameMvc.getView().removeStage(this);
         gameMvc.getView().addStageToList(new ZoneMenuStage(zone));
         System.out.println("adding new zone stage");

@@ -4,7 +4,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import stonering.util.global.TagLoggersEnum;
+import stonering.util.global.Logger;
 
 import java.util.ArrayList;
 
@@ -26,7 +26,7 @@ public abstract class NavigableMenu extends ToolbarButtonMenu {
         addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
-                TagLoggersEnum.UI.logDebug("handling " + Input.Keys.toString(keycode) + " in NavigableMenu");
+                Logger.UI.logDebug("handling " + Input.Keys.toString(keycode) + " in NavigableMenu");
                 event.stop();
                 if (enabled) {
                     if (keycode == Input.Keys.W) {

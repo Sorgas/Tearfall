@@ -2,8 +2,6 @@ package stonering.game.view.render.ui.menus.workbench.orderline;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -25,7 +23,7 @@ import stonering.game.view.render.ui.menus.util.HintedActor;
 import stonering.game.view.render.ui.menus.workbench.WorkbenchMenu;
 import stonering.util.geometry.Position;
 import stonering.util.global.StaticSkin;
-import stonering.util.global.TagLoggersEnum;
+import stonering.util.global.Logger;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -272,7 +270,7 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
     private void handleMaterialSelection(int index) {
         order.getParts().get(index).setSelected(partSelectBoxes.get(index).getSelected()); // update item part order
         if (!order.isDefined()) return;
-        TagLoggersEnum.TASKS.logDebug("Order " + order.getRecipe().name + " added to " + menu.getWorkbench());
+        Logger.TASKS.logDebug("Order " + order.getRecipe().name + " added to " + menu.getWorkbench());
         menu.getWorkbenchAspect().addOrder(order);
     }
 
@@ -426,7 +424,7 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
         getStage().setKeyboardFocus(target);
         menu.updateMenuHint(target);
         if (order == null || !order.isDefined()) { // row with not started or incomplete order
-            TagLoggersEnum.UI.logDebug("Removing incomplete order from list.");
+            Logger.UI.logDebug("Removing incomplete order from list.");
             hide();
         }
     }

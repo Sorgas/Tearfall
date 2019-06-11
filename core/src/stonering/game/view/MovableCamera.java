@@ -98,7 +98,7 @@ public class MovableCamera extends OrthographicCamera implements Resizeable {
     public void selectorMoved() {
         Position selectorPosition = GameMvc.instance().getModel().get(EntitySelector.class).getPosition();
         if (selectorBounds.isIn(selectorPosition) && selectorPosition.z == modelPosition.z)
-            return; // no actions, if selector moves within it's bounds;
+            return; // no action, if selector moves within it's bounds;
         modelPosition.z = selectorPosition.z;
         if (!selectorBounds.isIn(selectorPosition)) {
             Vector2 offset = new Vector2();

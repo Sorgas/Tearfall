@@ -12,7 +12,7 @@ import stonering.enums.materials.MaterialMap;
 import stonering.exceptions.FaultDescriptionException;
 import stonering.generators.aspect.AspectGenerator;
 import stonering.entity.local.items.Item;
-import stonering.util.global.TagLoggersEnum;
+import stonering.util.global.Logger;
 
 import java.util.*;
 
@@ -190,7 +190,7 @@ public class ItemGenerator {
     }
 
     public Item generateItem(ItemOrder order) {
-        TagLoggersEnum.ITEMS.logWarn("Generating mock item"); //TODO
+        Logger.ITEMS.logWarn("Generating mock item"); //TODO
         return new Item(null, ItemTypeMap.getInstance().getItemType("sickle"));
     }
 }

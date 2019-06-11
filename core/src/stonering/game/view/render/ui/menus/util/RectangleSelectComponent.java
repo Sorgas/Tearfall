@@ -10,8 +10,8 @@ import stonering.game.model.EntitySelector;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.view.render.ui.menus.toolbar.Toolbar;
 import stonering.util.geometry.Position;
+import stonering.util.global.Logger;
 import stonering.util.global.StaticSkin;
-import stonering.util.global.TagLoggersEnum;
 
 /**
  * Selects rectangle. Selected zone can have multiple z-levels.
@@ -79,7 +79,7 @@ public class RectangleSelectComponent extends Label implements HideableComponent
      * Finishes handling or adds position to select box
      */
     private void handleConfirm(Position eventPosition) {
-        TagLoggersEnum.UI.logDebug("confirming " + eventPosition + "in RectangleSelectComponent");
+        Logger.UI.logDebug("confirming " + eventPosition + "in RectangleSelectComponent");
         localMap.normalizePosition(eventPosition);             // when mouse dragged out of map
         if (selector.getFrameStart() == null) {                // box not started, start
             selector.setFrameStart(eventPosition.clone());

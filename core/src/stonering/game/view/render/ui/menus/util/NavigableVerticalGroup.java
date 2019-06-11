@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
-import stonering.util.global.TagLoggersEnum;
+import stonering.util.global.Logger;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -63,7 +63,7 @@ public class NavigableVerticalGroup extends VerticalGroup implements HideableCom
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 event.stop();
-                TagLoggersEnum.UI.logDebug("handling " + Input.Keys.toString(keycode) + " on NavigableVerticalGroup");
+                Logger.UI.logDebug("handling " + Input.Keys.toString(keycode) + " on NavigableVerticalGroup");
                 if (selectKeys.contains(keycode)) {
                     select(event);
                     return true;

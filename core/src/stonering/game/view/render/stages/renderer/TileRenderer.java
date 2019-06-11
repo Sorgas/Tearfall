@@ -1,7 +1,7 @@
 package stonering.game.view.render.stages.renderer;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import stonering.designations.Designation;
+import stonering.entity.job.designation.Designation;
 import stonering.entity.local.building.BuildingBlock;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.plants.PlantBlock;

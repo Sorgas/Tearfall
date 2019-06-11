@@ -1,6 +1,6 @@
 package stonering.enums.items.recipe;
 
-import stonering.util.global.TagLoggersEnum;
+import stonering.util.global.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,7 +34,7 @@ public class Recipe {
      */
     public ItemPartRecipe getItemPartRecipe(String itemPartName) {
         if (parts.containsKey(itemPartName)) return parts.get(itemPartName);
-        TagLoggersEnum.TASKS.logWarn("Item part with name " + itemPartName + " not found in recipe " + name);
+        Logger.TASKS.logWarn("Item part with name " + itemPartName + " not found in recipe " + name);
         return null;
     }
 

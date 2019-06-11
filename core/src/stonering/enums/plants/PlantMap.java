@@ -4,7 +4,7 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import stonering.exceptions.DescriptionNotFoundException;
 import stonering.util.global.FileLoader;
-import stonering.util.global.TagLoggersEnum;
+import stonering.util.global.Logger;
 
 import java.util.*;
 
@@ -25,7 +25,7 @@ public class PlantMap {
         substrateTypes = new HashMap<>();
         json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
-        TagLoggersEnum.LOADING.log("plant types");
+        Logger.LOADING.log("plant types");
         //TODO add json validation
         loadTypesFileToMap(FileLoader.PLANTS_PATH, plantTypes);
         loadTypesFileToMap(FileLoader.TREES_PATH, treeTypes);
@@ -49,7 +49,7 @@ public class PlantMap {
             PlantType type = processor.processRawType(rawType);
             map.put(rawType.name, type);
         }
-        TagLoggersEnum.LOADING.logDebug(map.keySet().size() + " loaded from " + filePath);
+        Logger.LOADING.logDebug(map.keySet().size() + " loaded from " + filePath);
     }
 
     private void fillDomesticTypes() {

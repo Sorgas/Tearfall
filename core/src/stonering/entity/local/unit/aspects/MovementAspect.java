@@ -7,7 +7,7 @@ import stonering.util.pathfinding.a_star.AStar;
 import stonering.entity.local.Aspect;
 import stonering.entity.local.unit.Unit;
 import stonering.util.geometry.Position;
-import stonering.util.global.TagLoggersEnum;
+import stonering.util.global.Logger;
 
 import java.util.List;
 
@@ -51,7 +51,7 @@ public class MovementAspect extends Aspect {
                 if (localMap.isWalkPassable(nextPosition)) { // path has not been blocked after calculation
                     gameMvc.getModel().get(UnitContainer.class).updateUnitPosiiton((Unit) aspectHolder, nextPosition); //step
                 } else { // path blocked
-                    TagLoggersEnum.PATH.log("path to " + cachedTarget + " was blocked in " + nextPosition);
+                    Logger.PATH.log("path to " + cachedTarget + " was blocked in " + nextPosition);
                     cachedTarget = null; // drop path
                 }
             }

@@ -1,11 +1,10 @@
 package stonering.desktop;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import stonering.TearFall;
-import stonering.util.global.TagLoggersEnum;
+import stonering.util.global.Logger;
 
 public class DesktopLauncher {
 
@@ -17,8 +16,8 @@ public class DesktopLauncher {
         config.title = "TearFall";
         config.foregroundFPS = 30;
         Game game = new TearFall();
-        TagLoggersEnum.enableAll();
-//        TagLoggersEnum.UI.setEnabled(false);
+        Logger.enableAll();
+//        Logger.UI.setEnabled(false);
         new LwjglApplication(game, config);
     }
 }

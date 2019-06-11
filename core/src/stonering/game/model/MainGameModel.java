@@ -5,10 +5,8 @@ import stonering.game.model.lists.*;
 import stonering.game.model.lists.tasks.TaskContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.view.tilemaps.LocalTileMap;
-import stonering.generators.localgen.LocalGenConfig;
-import stonering.generators.localgen.LocalGenContainer;
 import stonering.entity.local.environment.GameCalendar;
-import stonering.util.global.TagLoggersEnum;
+import stonering.util.global.Logger;
 
 /**
  * Model of game, contains LocalMap and sub-Containers. Inits all components after creation.
@@ -35,7 +33,7 @@ public class MainGameModel extends GameModel {
      * Creates model components.
      */
     public void createComponents(World world) {
-        TagLoggersEnum.GENERAL.logDebug("creating model components");
+        Logger.GENERAL.logDebug("creating model components");
         put(world);
         put(new LocalTileMap(get(LocalMap.class)));
         put(new PlantContainer());

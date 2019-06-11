@@ -3,7 +3,7 @@ package stonering.game;
 import stonering.game.controller.controllers.GameController;
 import stonering.game.model.GameModel;
 import stonering.game.view.GameView;
-import stonering.util.global.TagLoggersEnum;
+import stonering.util.global.Logger;
 
 import java.io.Serializable;
 
@@ -34,7 +34,7 @@ public class GameMvc implements Serializable {
 
     public void init() {
         if(model != null) model.init();
-        else TagLoggersEnum.GENERAL.logWarn("Attempt to init MVC with no model.");
+        else Logger.GENERAL.logWarn("Attempt to init MVC with no model.");
         if(controller != null) controller.init();
         if(view != null) view.init();
     }

@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 /**
  * Stores all items equipped and hauled by unit.
  * Equipped items are ones, worn on body.
- * Does not takes or puts items to map, this should be done by actions.
+ * Does not takes or puts items to map, this should be done by action.
  *
  * @author Alexander Kuzyakov on 03.01.2018.
  */
@@ -38,7 +38,7 @@ public class EquipmentAspect extends Aspect {
 
     /**
      * For hauling items.
-     * Validity should be fully checked by actions (slots should be free).
+     * Validity should be fully checked by action (slots should be free).
      */
     public void pickupItem(Item item) {
         for (GrabEquipmentSlot slot : grabSlots.values()) {
@@ -52,7 +52,7 @@ public class EquipmentAspect extends Aspect {
 
     /**
      * Equips wear on body and tools into hands.
-     * Validity should be fully checked by actions (slots should be free).
+     * Validity should be fully checked by action (slots should be free).
      *
      * @return false, if equipping failed.
      */
@@ -193,7 +193,7 @@ public class EquipmentAspect extends Aspect {
 
     /**
      * Removes given item from all slots disregarding other items in these slots (even if overlapping is present).
-     * Item should not be blocked by other items. This should be checked by actions.
+     * Item should not be blocked by other items. This should be checked by action.
      */
     public void unequipItem(Item item) {
         if (!equippedItems.contains(item)) return;

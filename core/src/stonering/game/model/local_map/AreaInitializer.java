@@ -1,12 +1,9 @@
 package stonering.game.model.local_map;
 
 import stonering.enums.blocks.BlockTypesEnum;
-import stonering.game.GameMvc;
-import stonering.game.model.lists.BuildingContainer;
-import stonering.game.model.lists.PlantContainer;
 import stonering.game.model.util.UtilByteArray;
 import stonering.util.geometry.Position;
-import stonering.util.global.TagLoggersEnum;
+import stonering.util.global.Logger;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -86,7 +83,7 @@ public class AreaInitializer {
             byte min = Collections.min(synonym);
             for (Byte aByte : synonym) {
                 if (areaMapping.keySet().contains(aByte))
-                    TagLoggersEnum.LOADING.logWarn("Passage areas: not merged synonym intersection " + aByte);
+                    Logger.LOADING.logWarn("Passage areas: not merged synonym intersection " + aByte);
                 areaMapping.put(aByte, min);
             }
         }

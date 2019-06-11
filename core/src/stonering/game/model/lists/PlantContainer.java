@@ -15,7 +15,7 @@ import stonering.util.geometry.Position;
 import stonering.entity.local.items.Item;
 import stonering.util.global.CompatibleArray;
 import stonering.util.global.Initable;
-import stonering.util.global.TagLoggersEnum;
+import stonering.util.global.Logger;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -225,7 +225,7 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
      */
     private boolean placeBlock(PlantBlock block) {
         if(plantBlocks.containsKey(block.getPosition())) {
-//            TagLoggersEnum.PLANTS.logDebug(block.getPlant() + " is blocked by " + plantBlocks.get(block.getPosition()).getPlant());
+//            Logger.PLANTS.logDebug(block.getPlant() + " is blocked by " + plantBlocks.get(block.getPosition()).getPlant());
             return false; // tile is occupied
         }
         plantBlocks.put(block.getPosition(), block);
@@ -238,7 +238,7 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
      */
     private void removeBlock(PlantBlock block) {
         if(plantBlocks.get(block.getPosition()) != block) {
-            TagLoggersEnum.PLANTS.logError("Plant block with position " + block.getPosition() + " not stored in its position.") ;
+            Logger.PLANTS.logError("Plant block with position " + block.getPosition() + " not stored in its position.") ;
         } else {
             plantBlocks.remove(block.getPosition());
         }

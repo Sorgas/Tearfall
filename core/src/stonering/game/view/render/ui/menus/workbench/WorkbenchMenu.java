@@ -17,7 +17,7 @@ import stonering.game.view.render.ui.menus.util.HintedActor;
 import stonering.game.view.render.ui.menus.util.NavigableVerticalGroup;
 import stonering.game.view.render.ui.menus.workbench.orderline.ItemCraftingOrderLine;
 import stonering.util.global.StaticSkin;
-import stonering.util.global.TagLoggersEnum;
+import stonering.util.global.Logger;
 
 /**
  * Menu for workbenches to manage crafting orders.
@@ -155,7 +155,7 @@ public class WorkbenchMenu extends Window implements HintedActor {
 
         @Override
         public boolean keyDown(InputEvent event, int keycode) {
-            TagLoggersEnum.UI.logDebug("handling " + Input.Keys.toString(keycode) + " on WorkbenchMenu");
+            Logger.UI.logDebug("handling " + Input.Keys.toString(keycode) + " on WorkbenchMenu");
             event.stop();
             switch (keycode) {
                 case Input.Keys.E: {

@@ -8,10 +8,10 @@ import java.util.ArrayList;
 /**
  * @author Alexander Kuzyakov on 31.01.2018.
  *
- * stores jobs enabled for unit
+ * stores job enabled for unit
  */
 public class JobsAspect extends Aspect {
-    public static final String NAME = "jobs";
+    public static final String NAME = "job";
     private ArrayList<String> jobs;
 
     public JobsAspect(String name, AspectHolder aspectHolder) {

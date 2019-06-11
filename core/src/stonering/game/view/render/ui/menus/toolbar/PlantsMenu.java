@@ -7,7 +7,7 @@ import stonering.enums.designations.DesignationTypeEnum;
 import stonering.game.controller.controllers.designation.SimpleDesignationSequence;
 import stonering.game.controller.controllers.toolbar.DesignationsController;
 import stonering.game.view.render.ui.menus.util.SubMenuMenu;
-import stonering.util.global.TagLoggersEnum;
+import stonering.util.global.Logger;
 
 import static stonering.enums.designations.DesignationTypeEnum.*;
 
@@ -47,7 +47,7 @@ public class PlantsMenu extends SubMenuMenu {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 event.stop();
-                TagLoggersEnum.UI.logDebug("Toggling button " + text);
+                Logger.UI.logDebug("Toggling button " + text);
                 controller.setActiveDesignation(new SimpleDesignationSequence(designationType));
                 controller.startSequence();
             }

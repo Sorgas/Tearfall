@@ -1,6 +1,6 @@
 package stonering.enums.items.recipe;
 
-import stonering.util.global.TagLoggersEnum;
+import stonering.util.global.Logger;
 
 import java.util.List;
 
@@ -29,7 +29,7 @@ public class RecipeProcessor {
 
     private boolean validateItemPartArgs(List<String> args, String recipe) {
         if (args != null && args.size() > 1) return true;
-        TagLoggersEnum.LOADING.logWarn("Item part arguments in recipe " + recipe + " has invalid arguments.");
+        Logger.LOADING.logWarn("Item part arguments in recipe " + recipe + " has invalid arguments.");
         return false;
     }
 }

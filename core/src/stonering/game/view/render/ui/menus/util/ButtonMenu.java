@@ -8,8 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.game.GameMvc;
+import stonering.util.global.Logger;
 import stonering.util.global.StaticSkin;
-import stonering.util.global.TagLoggersEnum;
 
 import java.util.LinkedHashMap;
 
@@ -58,7 +58,7 @@ public abstract class ButtonMenu extends Table implements HideableComponent {
             public boolean keyDown(InputEvent event, int keycode) {
                 event.stop();
                 if (buttons.keySet().contains(keycode)) {
-                    TagLoggersEnum.UI.logDebug("handling " + Input.Keys.toString(keycode) + " in " + this);
+                    Logger.UI.logDebug("handling " + Input.Keys.toString(keycode) + " in " + this);
                     buttons.get(keycode).toggle();
                     return true;
                 }

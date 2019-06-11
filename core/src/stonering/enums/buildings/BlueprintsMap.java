@@ -4,7 +4,7 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import stonering.entity.local.building.Blueprint;
 import stonering.util.global.FileLoader;
-import stonering.util.global.TagLoggersEnum;
+import stonering.util.global.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,7 +31,7 @@ public class BlueprintsMap {
     }
 
     private void loadBlueprints() {
-        TagLoggersEnum.LOADING.log("blueprints");
+        Logger.LOADING.log("blueprints");
         ArrayList<Blueprint> elements = json.fromJson(ArrayList.class, Blueprint.class, FileLoader.getFile(FileLoader.BLUEPRINTS_PATH));
         for (Blueprint blueprint : elements) {
             blueprints.put(blueprint.getName(), blueprint);

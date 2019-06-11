@@ -1,11 +1,11 @@
 package stonering.entity.local.building;
 
-import stonering.designations.Designation;
-import stonering.entity.jobs.Task;
+import stonering.entity.job.designation.Designation;
+import stonering.entity.job.Task;
 import stonering.entity.local.items.selectors.ItemSelector;
 import stonering.game.controller.controllers.designation.BuildingDesignationSequence;
 import stonering.util.geometry.Position;
-import stonering.util.global.TagLoggersEnum;
+import stonering.util.global.Logger;
 
 import java.util.HashMap;
 
@@ -28,7 +28,7 @@ public class BuildingOrder {
 
     public void addItemSelectorForPart(String partName, ItemSelector selector) {
         if(blueprint.getStepByPartName(partName) == null) {
-            TagLoggersEnum.TASKS.logWarn("Trying to add item selector to invalid part name in blueprint " + blueprint.getName());
+            Logger.TASKS.logWarn("Trying to add item selector to invalid part name in blueprint " + blueprint.getName());
             return;
         }
         itemSelectors.put(partName, selector);

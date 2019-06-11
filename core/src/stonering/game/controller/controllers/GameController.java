@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import stonering.game.controller.controllers.toolbar.DesignationsController;
 import stonering.game.controller.inputProcessors.*;
-import stonering.util.global.TagLoggersEnum;
+import stonering.util.global.Logger;
 
 /**
  * Container for all controllers. Also creates and registers all InputProcessors.
@@ -44,7 +44,7 @@ public class GameController extends Controller {
         if(entitySelectorInputAdapter != null) {
             entitySelectorInputAdapter.setEnabled(value);
         } else {
-            TagLoggersEnum.UI.logDebug("Changing EntitySelectorInputAdapter state before GameController init.");
+            Logger.UI.logDebug("Changing EntitySelectorInputAdapter state before GameController init.");
         }
     }
 

@@ -3,7 +3,7 @@ package stonering.enums.designations;
 import java.util.HashMap;
 
 /**
- * Enum of designation types. All build designations are combined, because
+ * Enum of designation types. All build designation are combined, because
  * they are one order logically and detailed with building title provided on task creation.
  *
  * @author Alexander Kuzyakov

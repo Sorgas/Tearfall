@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import stonering.util.global.FileLoader;
-import stonering.util.global.TagLoggersEnum;
+import stonering.util.global.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -61,7 +61,7 @@ public class DrawableMap {
             drawables.put(key, drawable);
             return drawables.get(key);
         }
-        TagLoggersEnum.UI.logWarn("Drawable with key " + key + " not found");
+        Logger.UI.logWarn("Drawable with key " + key + " not found");
         return null; // drawable not descripted
     }
 }

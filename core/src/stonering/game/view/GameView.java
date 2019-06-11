@@ -14,7 +14,7 @@ import stonering.game.view.render.util.Resizeable;
 import stonering.screen.SimpleScreen;
 import stonering.util.geometry.Position;
 import stonering.util.global.Initable;
-import stonering.util.global.TagLoggersEnum;
+import stonering.util.global.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,14 +62,14 @@ public class GameView extends SimpleScreen implements Initable {
      * @param stage
      */
     public void addStageToList(Stage stage) {
-        TagLoggersEnum.UI.logDebug("showing stage " + stage.toString());
+        Logger.UI.logDebug("showing stage " + stage.toString());
         stageList.add(stage);
         if (stage instanceof Initable) ((Initable) stage).init();
         if (stage instanceof Resizeable) ((Resizeable) stage).resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     }
 
     public void removeStage(Stage stage) {
-        TagLoggersEnum.UI.logDebug("hiding stage " + stage.toString());
+        Logger.UI.logDebug("hiding stage " + stage.toString());
         stageList.remove(stage);
         stage.dispose();
     }

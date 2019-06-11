@@ -2,28 +2,17 @@ package stonering.generators.localgen.generators.flora;
 
 import stonering.entity.world.World;
 import stonering.enums.generation.PlantPlacingTags;
-import stonering.enums.materials.Material;
-import stonering.enums.materials.MaterialMap;
 import stonering.enums.plants.PlantMap;
 import stonering.enums.plants.PlantType;
-import stonering.exceptions.DescriptionNotFoundException;
 import stonering.game.model.lists.PlantContainer;
 import stonering.game.model.local_map.LocalMap;
-import stonering.generators.PerlinNoiseGenerator;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.generators.localgen.generators.LocalAbstractGenerator;
-import stonering.generators.plants.PlantGenerator;
-import stonering.generators.plants.TreeGenerator;
 import stonering.util.geometry.Position;
-import stonering.entity.local.plants.Plant;
-import stonering.entity.local.plants.PlantBlock;
-import stonering.entity.local.plants.Tree;
-import stonering.util.global.Pair;
-import stonering.util.global.TagLoggersEnum;
+import stonering.util.global.Logger;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static stonering.enums.blocks.BlockTypesEnum.*;
 import static stonering.enums.generation.PlantPlacingTags.*;
@@ -66,12 +55,12 @@ public abstract class LocalFloraGenerator extends LocalAbstractGenerator {
                     List<PlantPlacingTags> tags = Arrays.asList(waterTag, lightTag, soilTag);
                     Map<String, Float> filteredPlants = filterPlantsByTags(tags, commonPlantSet); // get all plants with two tags simultaneously
                     if (commonPlantSet.isEmpty()) continue;
-                    TagLoggersEnum.GENERATION.logDebug("placing " + waterTag + " " + lightTag + " " + soilTag);
-                    TagLoggersEnum.GENERATION.logDebug("filtered plants: " + commonPlantSet.size());
+                    Logger.GENERATION.logDebug("placing " + waterTag + " " + lightTag + " " + soilTag);
+                    Logger.GENERATION.logDebug("filtered plants: " + commonPlantSet.size());
                     normalizeWeights(filteredPlants); // make total weight equal 1
                     positions = gatherTagPositions(tags, allPositions);
                     if (positions.isEmpty()) continue;
-                    TagLoggersEnum.GENERATION.logDebug("appropriate positions: " + positions.size());
+                    Logger.GENERATION.logDebug("appropriate positions: " + positions.size());
                     modifyCounts(filteredPlants, positions);
                     filteredPlants.forEach(this::placePlants);
                 }

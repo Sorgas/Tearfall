@@ -4,10 +4,8 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import stonering.entity.local.building.BuildingType;
 import stonering.enums.plants.PlantType;
-import stonering.enums.plants.PlantTypeProcessor;
-import stonering.enums.plants.RawPlantType;
 import stonering.util.global.FileLoader;
-import stonering.util.global.TagLoggersEnum;
+import stonering.util.global.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,7 +46,7 @@ public class BuildingTypeMap {
         for (BuildingType buildingType : elements) {
             buildings.put(buildingType.building, buildingType);
         }
-        TagLoggersEnum.LOADING.logDebug(map.keySet().size() + " loaded from " + filePath);
+        Logger.LOADING.logDebug(map.keySet().size() + " loaded from " + filePath);
     }
 
     public boolean hasMaterial(String title) {
@@ -67,7 +65,7 @@ public class BuildingTypeMap {
      * Loads lists of crafting recipes for building. First item in array should be building name.
      */
     private void loadLists() {
-        TagLoggersEnum.LOADING.log("crafting recipes");
+        Logger.LOADING.log("crafting recipes");
         ArrayList<ArrayList<String>> elements = json.fromJson(ArrayList.class, ArrayList.class, FileLoader.getFile(FileLoader.RECIPE_LISTS_PATH));
         for (List<String> recipeList : elements) {
             String buildingName = recipeList.remove(0);

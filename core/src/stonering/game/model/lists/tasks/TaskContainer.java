@@ -1,9 +1,9 @@
 package stonering.game.model.lists.tasks;
 
-import stonering.designations.BuildingDesignation;
-import stonering.designations.Designation;
-import stonering.designations.OrderDesignation;
-import stonering.entity.jobs.actions.*;
+import stonering.entity.job.designation.BuildingDesignation;
+import stonering.entity.job.designation.Designation;
+import stonering.entity.job.designation.OrderDesignation;
+import stonering.entity.job.action.*;
 import stonering.entity.local.building.BuildingOrder;
 import stonering.enums.buildings.BuildingTypeMap;
 import stonering.enums.designations.DesignationTypeEnum;
@@ -14,11 +14,11 @@ import stonering.game.model.ModelComponent;
 import stonering.game.model.lists.PlantContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
-import stonering.entity.jobs.Task;
+import stonering.entity.job.Task;
 import stonering.entity.local.items.selectors.ItemSelector;
 import stonering.entity.local.plants.PlantBlock;
 import stonering.util.global.Initable;
-import stonering.util.global.TagLoggersEnum;
+import stonering.util.global.Logger;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -73,9 +73,9 @@ public class TaskContainer implements ModelComponent, Initable {
         designation.setTask(task);
         tasks.add(task);
         designations.put(designation.getPosition(), designation);
-        TagLoggersEnum.TASKS.log(task.getName() + " designated");
-        TagLoggersEnum.TASKS.logDebug("tasks number: " + tasks.size());
-        TagLoggersEnum.TASKS.logDebug("designations number: " + designations.size());
+        Logger.TASKS.log(task.getName() + " designated");
+        Logger.TASKS.logDebug("tasks number: " + tasks.size());
+        Logger.TASKS.logDebug("designation number: " + designations.size());
     }
 
     /**
@@ -92,7 +92,7 @@ public class TaskContainer implements ModelComponent, Initable {
         designation.setTask(task);
         tasks.add(task);
         designations.put(designation.getPosition(), designation);
-        TagLoggersEnum.TASKS.log(task.getName() + " designated");
+        Logger.TASKS.log(task.getName() + " designated");
     }
 
     private Task createOrderTask(OrderDesignation designation, int priority) {

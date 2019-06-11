@@ -1,19 +1,18 @@
 package stonering.entity.local.building.aspects;
 
-import stonering.entity.jobs.Task;
-import stonering.entity.jobs.actions.CraftItemAction;
-import stonering.entity.jobs.actions.TaskTypesEnum;
+import stonering.entity.job.Task;
+import stonering.entity.job.action.CraftItemAction;
+import stonering.entity.job.action.TaskTypesEnum;
 import stonering.entity.local.Aspect;
 import stonering.entity.local.AspectHolder;
 import stonering.entity.local.building.Building;
 import stonering.entity.local.crafting.ItemOrder;
-import stonering.entity.local.items.Item;
 import stonering.enums.OrderStatusEnum;
 import stonering.enums.items.recipe.Recipe;
 import stonering.enums.items.recipe.RecipeMap;
 import stonering.game.GameMvc;
 import stonering.game.model.lists.tasks.TaskContainer;
-import stonering.util.global.TagLoggersEnum;
+import stonering.util.global.Logger;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -54,7 +53,7 @@ public class WorkbenchAspect extends Aspect {
         if (entries.isEmpty()) return;
         OrderTaskEntry entry = entries.getFirst();
         if (entry.task == null) {                     // new order
-            TagLoggersEnum.BUILDING.logDebug("Initing task for order " + entry.order.getRecipe().name);
+            Logger.BUILDING.logDebug("Initing task for order " + entry.order.getRecipe().name);
             createTaskForOrder(entry);
             GameMvc.instance().getModel().get(TaskContainer.class).getTasks().add(entry.task);
         } else if (entry.task.isFinished()) {          // if task is finished normally
@@ -82,7 +81,7 @@ public class WorkbenchAspect extends Aspect {
      * Adds order to WB. Orders are always added to the beginning of the list.
      */
     public void addOrder(ItemOrder order) {
-        TagLoggersEnum.TASKS.logDebug("Adding order " + order.toString() + " to " + NAME);
+        Logger.TASKS.logDebug("Adding order " + order.toString() + " to " + NAME);
         OrderTaskEntry entry = new OrderTaskEntry(order);
         entries.add(0, entry);
         updateFlag();
@@ -92,14 +91,14 @@ public class WorkbenchAspect extends Aspect {
      * Removes order from workbench. If order was in progress, it is interrupted immediately.
      */
     public void removeOrder(ItemOrder order) {
-        TagLoggersEnum.TASKS.logDebug("Removing order " + order.toString() + " from " + NAME);
+        Logger.TASKS.logDebug("Removing order " + order.toString() + " from " + NAME);
         OrderTaskEntry entry = findEntry(order);
         if (entry != null) {
             int index = entries.indexOf(entry);
             entries.remove(index);
             if (index == 0) failEntryTask(entry); // interrupt currently executing order.
         } else {
-            TagLoggersEnum.TASKS.logWarn("Trying to remove unknown order " + order.toString() + " from " + NAME);
+            Logger.TASKS.logWarn("Trying to remove unknown order " + order.toString() + " from " + NAME);
         }
         updateFlag();
     }
@@ -113,7 +112,7 @@ public class WorkbenchAspect extends Aspect {
      * TODO rework
      */
     public void setOrderSuspended(ItemOrder order, boolean value) {
-        TagLoggersEnum.TASKS.logDebug("Setting order " + order.toString() + " in " + NAME + "suspended: " + value);
+        Logger.TASKS.logDebug("Setting order " + order.toString() + " in " + NAME + "suspended: " + value);
         OrderTaskEntry entry = findEntry(order);
         if (entry != null) {
             if (value) {
@@ -129,7 +128,7 @@ public class WorkbenchAspect extends Aspect {
      * Sets order as repeated.
      */
     public void setOrderRepeated(ItemOrder order, boolean value) {
-        TagLoggersEnum.TASKS.logDebug("Setting order " + order.toString() + " in " + NAME + "repeated: " + value);
+        Logger.TASKS.logDebug("Setting order " + order.toString() + " in " + NAME + "repeated: " + value);
         OrderTaskEntry entry = findEntry(order);
         if (entry != null) {
             entry.order.setRepeated(value);

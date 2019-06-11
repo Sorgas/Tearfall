@@ -7,7 +7,7 @@ import stonering.game.model.local_map.LocalMap;
 import stonering.generators.buildings.BuildingGenerator;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.util.geometry.Position;
-import stonering.util.global.TagLoggersEnum;
+import stonering.util.global.Logger;
 
 /**
  * Generates buildings on local generation
@@ -23,7 +23,7 @@ public class LocalBuildingGenerator extends LocalAbstractGenerator {
     }
 
     public void execute() {
-        TagLoggersEnum.GENERATION.log("generating buildings");
+        Logger.GENERATION.log("generating buildings");
         Position position = findSurfacePosition();
         Building building = buildingGenerator.generateBuilding("forge", position);
         container.model.get(BuildingContainer.class).addBuilding(building);
