@@ -23,7 +23,7 @@ public class LocalTileMapUpdater {
     }
 
     public void flushLocalMap() {
-        if(GameMvc.instance() == null) return;
+        if (GameMvc.instance() == null) return;
         localMap = GameMvc.instance().getModel().get(LocalMap.class);
         for (int x = 0; x < localMap.xSize; x++) {
             for (int y = 0; y < localMap.ySize; y++) {
@@ -35,7 +35,7 @@ public class LocalTileMapUpdater {
     }
 
     public void updateTile(int x, int y, int z) {
-        if(GameMvc.instance() == null) return;
+        if (GameMvc.instance() == null) return;
         localMap = GameMvc.instance().getModel().get(LocalMap.class);
         localTileMap = GameMvc.instance().getModel().get(LocalTileMap.class);
         localTileMap.setTile(x, y, z, 0, 0, -1, null);
@@ -68,6 +68,7 @@ public class LocalTileMapUpdater {
 
     /**
      * Chooses ramp tile by surrounding walls.
+     *
      * @return ramp atlas X
      */
     private byte countRamp(int x, int y, int z) {
@@ -101,22 +102,18 @@ public class LocalTileMapUpdater {
     }
 
     /**
-     * Counts near walls to choose ramp type and orientation.
+     * Counts neighbour walls to choose ramp type and orientation.
+     *
      * @return int representing adjacent walls.
      */
-    public int observeWalls(int x, int y, int z) {
+    public int observeWalls(int cx, int cy, int cz) {
         int bitpos = 1;
         int walls = 0;
-        for (int yOffset = -1; yOffset < 2; yOffset++) {
-            for (int xOffset = -1; xOffset < 2; xOffset++) {
-                if ((xOffset != 0) || (yOffset != 0)) {
-                    if (localMap.inMap(x + xOffset, y + yOffset, z)) {
-                        if (localMap.getBlockType(x + xOffset, y + yOffset, z) == BlockTypesEnum.WALL.CODE) {
-                            walls |= bitpos;
-                        }
-                    }
-                    bitpos *= 2;
-                }
+        for (int y = cy - 1; y <= cy + 1; y++) {
+            for (int x = cx - 1; x <= cx + 1; x++) {
+                if ((x == cx) && (y == cy)) continue;
+                if (localMap.getBlockType(x, y, cz) == BlockTypesEnum.WALL.CODE) walls |= bitpos;
+                bitpos *= 2; // shift to 1 bit
             }
         }
         return walls;

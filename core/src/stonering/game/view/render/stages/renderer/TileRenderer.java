@@ -10,7 +10,9 @@ import stonering.entity.local.unit.Unit;
 import stonering.entity.local.unit.aspects.MovementAspect;
 import stonering.entity.local.zone.Zone;
 import stonering.enums.blocks.BlockTypesEnum;
+import stonering.enums.blocks.BlocksTileMapping;
 import stonering.enums.designations.DesignationsTileMapping;
+import stonering.enums.materials.MaterialMap;
 import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
 import stonering.game.model.lists.*;
@@ -109,17 +111,32 @@ public class TileRenderer extends Renderer {
      * Also draws topping part of lower block.
      */
     private void drawBlock(int x, int y, int z) {
-        int atlas = localTileMap.getAtlasNum(x, y, z);
-        TextureRegion region = null;
-        if (atlas >= 0) { // not empty cell
-            region = util.selectSprite(atlas, localTileMap.getAtlasX(x, y, z), localTileMap.getAtlasY(x, y, z));
-        } else {
-            int lowerAtlas;
-            if (z > 0 && (lowerAtlas = localTileMap.getAtlasNum(x, y, z - 1)) >= 0) {// not empty cell lower
-                region = util.selectToping(lowerAtlas, localTileMap.getAtlasX(x, y, z - 1), localTileMap.getAtlasY(x, y, z - 1));
-            }
-        }
-        if (region != null) util.drawSprite(region, cacheVector);
+        util.drawSprite(getSpriteForBlock(x, y, z), cacheVector);
+    }
+
+    /**
+     * Selects sprite to draw in given position, block or toping.
+     */
+    private TextureRegion getSpriteForBlock(int x, int y, int z) {
+        int atlasX = getAtlasXForBlock(x, y, z);
+        if (atlasX != -1) return util.selectSprite(0, atlasX, getAtlasYForBlock(x, y, z));
+        atlasX = getAtlasXForBlock(x, y, z - 1);
+        if (atlasX != -1) return util.selectToping(0, atlasX, getAtlasYForBlock(x, y, z - 1));
+        return null;
+    }
+
+    /**
+     * Returns atlas x for given block. Blocks and topings have similar coordinates.
+     */
+    private int getAtlasXForBlock(int x, int y, int z) {
+        byte blockType = localMap.getBlockType(x, y, z);
+        if (blockType == BlockTypesEnum.SPACE.CODE) return -1;
+        if (blockType == BlockTypesEnum.RAMP.CODE) return localTileMap.getMappedRamp(x, y, z).getVal1();
+        return BlocksTileMapping.getType(blockType).ATLAS_X;
+    }
+
+    private int getAtlasYForBlock(int x, int y, int z) {
+        return MaterialMap.getInstance().getMaterial(localMap.getMaterial(x, y, z)).getAtlasY();
     }
 
     private void drawSubstrate(int x, int y, int z) {

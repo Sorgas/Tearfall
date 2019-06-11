@@ -191,12 +191,16 @@ public class LocalMap implements ModelComponent, Initable, LastInitable {
         return material[x][y][z];
     }
 
+    public BlockTypesEnum getBlockTypeEnumValue(int x, int y, int z) {
+        return BlockTypesEnum.getType(getBlockType(x, y, z));
+    }
+
     public byte getBlockType(Position pos) {
         return getBlockType(pos.x, pos.y, pos.z);
     }
 
     public byte getBlockType(int x, int y, int z) {
-        return inMap(x, y, z) ? blockType[x][y][z] : 0;
+        return inMap(x, y, z) ? blockType[x][y][z] : BlockTypesEnum.SPACE.CODE;
     }
 
     public void setBlockType(Position pos, byte type) {
