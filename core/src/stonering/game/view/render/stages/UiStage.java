@@ -1,14 +1,15 @@
-package stonering.game.view.render.stages.base;
+package stonering.game.view.render.stages;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import stonering.game.view.render.util.Resizeable;
 
 /**
  * Stage with screen viewport. Added widgets do no scaling on window resize.
  *
  * @author Alexander on 20.02.2019.
  */
-public class UiStage extends Stage implements Resizeable{
+public class UiStage extends Stage implements Resizeable {
 
     public UiStage() {
         super();

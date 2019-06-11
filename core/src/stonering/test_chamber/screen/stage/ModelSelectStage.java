@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
-import stonering.game.view.render.stages.base.UiStage;
+import stonering.game.view.render.stages.UiStage;
 import stonering.game.view.render.ui.lists.PlaceHolderSelectBox;
 import stonering.test_chamber.TestChamberGame;
 import stonering.test_chamber.model.*;

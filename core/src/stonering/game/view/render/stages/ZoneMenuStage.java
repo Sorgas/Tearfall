@@ -5,7 +5,6 @@ import com.badlogic.gdx.utils.Align;
 import stonering.entity.local.zone.FarmZone;
 import stonering.entity.local.zone.Zone;
 import stonering.game.model.EntitySelector;
-import stonering.game.view.render.stages.base.UiStage;
 import stonering.game.view.render.ui.menus.zone.FarmZoneMenu;
 
 /**

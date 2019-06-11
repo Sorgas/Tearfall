@@ -9,7 +9,7 @@ import stonering.enums.designations.PlaceValidatorsEnum;
 import stonering.game.model.lists.tasks.TaskContainer;
 import stonering.game.view.render.ui.lists.MaterialSelectList;
 import stonering.game.view.render.ui.menus.util.PlaceSelectComponent;
-import stonering.game.view.render.ui.util.ListItem;
+import stonering.game.view.render.ui.lists.ListItem;
 
 /**
  * Designation sequence for buildings.

@@ -1,4 +1,4 @@
-package stonering.game.view.render.stages.base;
+package stonering.game.view.render.stages.renderer;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import stonering.designations.Designation;

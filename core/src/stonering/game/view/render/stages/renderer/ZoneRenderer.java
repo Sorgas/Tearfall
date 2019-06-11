@@ -1,4 +1,4 @@
-package stonering.game.view.render.stages.base;
+package stonering.game.view.render.stages.renderer;
 
 import stonering.game.model.EntitySelector;
 import stonering.game.model.lists.UnitContainer;

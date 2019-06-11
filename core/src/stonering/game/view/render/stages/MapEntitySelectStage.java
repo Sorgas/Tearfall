@@ -8,8 +8,6 @@ import stonering.entity.local.zone.Zone;
 import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
 import stonering.game.model.lists.*;
-import stonering.game.model.local_map.LocalMap;
-import stonering.game.view.render.stages.base.UiStage;
 import stonering.game.view.render.ui.lists.ObservingList;
 import stonering.util.geometry.Position;
 import stonering.util.global.Initable;

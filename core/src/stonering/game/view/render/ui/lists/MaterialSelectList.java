@@ -7,7 +7,6 @@ import stonering.game.model.lists.ItemContainer;
 import stonering.game.view.render.ui.menus.toolbar.Toolbar;
 import stonering.game.view.render.ui.menus.util.HideableComponent;
 import stonering.entity.local.items.Item;
-import stonering.game.view.render.ui.util.ListItem;
 import stonering.util.geometry.Position;
 
 import java.util.List;

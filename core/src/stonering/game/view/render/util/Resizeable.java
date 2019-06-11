@@ -1,4 +1,4 @@
-package stonering.game.view.render.stages.base;
+package stonering.game.view.render.util;
 
 /**
  * @author Alexander on 20.02.2019.

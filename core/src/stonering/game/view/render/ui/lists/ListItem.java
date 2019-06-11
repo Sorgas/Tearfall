@@ -1,4 +1,4 @@
-package stonering.game.view.render.ui.util;
+package stonering.game.view.render.ui.lists;
 
 import stonering.entity.local.items.Item;
 

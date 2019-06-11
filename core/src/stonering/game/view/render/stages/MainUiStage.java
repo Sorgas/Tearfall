@@ -6,7 +6,6 @@ import stonering.game.GameMvc;
 import stonering.game.model.EntitySelector;
 import stonering.game.model.GameModel;
 import stonering.game.model.local_map.LocalMap;
-import stonering.game.view.render.stages.base.UiStage;
 import stonering.game.view.render.ui.TileStatusBar;
 import stonering.game.view.render.ui.menus.toolbar.Toolbar;
 import stonering.util.geometry.Position;

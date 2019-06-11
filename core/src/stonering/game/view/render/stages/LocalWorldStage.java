@@ -1,8 +1,11 @@
-package stonering.game.view.render.stages.base;
+package stonering.game.view.render.stages;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import stonering.game.view.MovableCamera;
+import stonering.game.view.render.stages.renderer.DrawingUtil;
+import stonering.game.view.render.stages.renderer.EntitySelectorRenderer;
+import stonering.game.view.render.stages.renderer.TileRenderer;
 
 /**
  * Contains renderers for drawing local world and launches them in a sequence.

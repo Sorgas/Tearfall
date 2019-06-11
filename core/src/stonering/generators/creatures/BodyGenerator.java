@@ -88,7 +88,7 @@ public class BodyGenerator {
     }
 
     /**
-     * Links body parts to their base ones, e.g. hands to lower arms, heads to necks etc.
+     * Links body parts to their renderer ones, e.g. hands to lower arms, heads to necks etc.
      *
      * @param bodyParts
      * @throws FaultDescriptionException if "root" in body part description is wrong.

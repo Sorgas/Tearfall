@@ -2,7 +2,6 @@ package stonering.game.view.render.stages;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import stonering.game.GameMvc;
-import stonering.game.view.render.stages.base.UiStage;
 import stonering.game.view.render.ui.menus.PauseMenu;
 import stonering.util.global.Initable;
 

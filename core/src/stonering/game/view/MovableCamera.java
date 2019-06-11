@@ -6,12 +6,12 @@ import com.badlogic.gdx.math.Vector3;
 import stonering.game.GameMvc;
 import stonering.game.model.EntitySelector;
 import stonering.game.model.local_map.LocalMap;
-import stonering.game.view.render.stages.base.Resizeable;
+import stonering.game.view.render.util.Resizeable;
 import stonering.util.geometry.Int2dBounds;
 import stonering.util.geometry.Int3dBounds;
 import stonering.util.geometry.Position;
 
-import static stonering.game.view.render.stages.base.DrawingUtil.*;
+import static stonering.game.view.render.stages.renderer.DrawingUtil.*;
 
 /**
  * {@link OrthographicCamera} extension.
