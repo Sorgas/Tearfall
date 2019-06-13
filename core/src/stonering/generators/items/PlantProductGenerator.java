@@ -1,7 +1,7 @@
 package stonering.generators.items;
 
 import stonering.enums.plants.PlantBlocksTypeEnum;
-import stonering.entity.local.items.Item;
+import stonering.entity.local.item.Item;
 import stonering.entity.local.plants.AbstractPlant;
 import stonering.entity.local.plants.PlantBlock;
 
@@ -48,7 +48,7 @@ public class PlantProductGenerator {
     }
 
     /**
-     * Generates tree specific items for blocks. Block can have only one product.
+     * Generates tree specific item for blocks. Block can have only one product.
      * Block product is determined by its type, and permitted products of whole tree (logs from trunk, etc.).
      */
     private Item generateCutProductForTreePart(PlantBlock block) {

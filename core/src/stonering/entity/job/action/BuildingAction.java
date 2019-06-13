@@ -4,8 +4,8 @@ import stonering.entity.job.designation.BuildingDesignation;
 import stonering.entity.job.action.target.PositionActionTarget;
 import stonering.entity.local.building.Building;
 import stonering.entity.local.building.BuildingType;
-import stonering.entity.local.items.Item;
-import stonering.entity.local.items.selectors.ItemSelector;
+import stonering.entity.local.item.Item;
+import stonering.entity.local.item.selectors.ItemSelector;
 import stonering.entity.local.unit.aspects.equipment.EquipmentAspect;
 import stonering.enums.buildings.BuildingTypeMap;
 import stonering.game.GameMvc;
@@ -56,8 +56,8 @@ public class BuildingAction extends Action {
     }
 
     /**
-     * Checks that all material selectors have corresponding items in building position or in performer's inventory.
-     * Creates action for bringing missing items.
+     * Checks that all material selectors have corresponding item in building position or in performer's inventory.
+     * Creates action for bringing missing item.
      */
     @Override
     public boolean check() {
@@ -71,14 +71,14 @@ public class BuildingAction extends Action {
                 uncheckedItems.remove(selectedItem);
             }
         }
-        return true; // all selectors have items.
+        return true; // all selectors have item.
     }
 
     /**
      * Creates action for putting item to position of this action and adds it to task.
      *
      * @param itemSelector selector for item
-     * @return false if no items available.
+     * @return false if no item available.
      */
     private boolean tryCreateDroppingAction(ItemSelector itemSelector) {
         Position position = actionTarget.getPosition();

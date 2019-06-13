@@ -1,9 +1,9 @@
 package stonering.entity.job.action;
 
 import stonering.entity.job.action.target.ActionTarget;
-import stonering.entity.local.items.Item;
-import stonering.entity.local.items.selectors.ItemSelector;
-import stonering.entity.local.items.selectors.ToolWithActionItemSelector;
+import stonering.entity.local.item.Item;
+import stonering.entity.local.item.selectors.ItemSelector;
+import stonering.entity.local.item.selectors.ToolWithActionItemSelector;
 import stonering.entity.local.unit.aspects.equipment.EquipmentAspect;
 import stonering.enums.ZoneTypesEnum;
 import stonering.enums.blocks.BlockTypesEnum;

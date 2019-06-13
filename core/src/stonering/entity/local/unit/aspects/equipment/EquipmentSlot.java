@@ -1,6 +1,6 @@
 package stonering.entity.local.unit.aspects.equipment;
 
-import stonering.entity.local.items.Item;
+import stonering.entity.local.item.Item;
 
 import java.util.ArrayList;
 
@@ -9,7 +9,7 @@ import java.util.ArrayList;
  */
 public class EquipmentSlot {
     //TODO add multi-item support for one layer
-    public ArrayList<Item> items; //lower indexes means item is under other items.
+    public ArrayList<Item> items; //lower indexes means item is under other item.
     public String limbName;
     public String limbType;
 

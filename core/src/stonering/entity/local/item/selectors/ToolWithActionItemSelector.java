@@ -1,7 +1,7 @@
-package stonering.entity.local.items.selectors;
+package stonering.entity.local.item.selectors;
 
 import stonering.enums.items.type.ToolItemType;
-import stonering.entity.local.items.Item;
+import stonering.entity.local.item.Item;
 
 import java.util.ArrayList;
 import java.util.List;

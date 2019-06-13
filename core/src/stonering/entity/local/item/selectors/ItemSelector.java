@@ -1,11 +1,11 @@
-package stonering.entity.local.items.selectors;
+package stonering.entity.local.item.selectors;
 
 
-import stonering.entity.local.items.Item;
+import stonering.entity.local.item.Item;
 import java.util.List;
 
 /**
- * Class for selecting one or many items from given collection.
+ * Class for selecting one or many item from given collection.
  *
  * @author Alexander Kuzyakov on 21.07.2018.
  */
@@ -20,10 +20,10 @@ public abstract class ItemSelector {
     public abstract boolean check(List<Item> items);
 
     /**
-     * Selects sublist of appropriate items.
+     * Selects sublist of appropriate item.
      *
      * @param items
-     * @return collection of items;
+     * @return collection of item;
      */
     public abstract List<Item> selectItems(List<Item> items);
 }

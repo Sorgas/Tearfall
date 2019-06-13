@@ -25,6 +25,7 @@ public class LocalBuildingGenerator extends LocalAbstractGenerator {
     public void execute() {
         Logger.GENERATION.log("generating buildings");
         Position position = findSurfacePosition();
+        if(position == null) return;
         Building building = buildingGenerator.generateBuilding("forge", position);
         container.model.get(BuildingContainer.class).addBuilding(building);
     }

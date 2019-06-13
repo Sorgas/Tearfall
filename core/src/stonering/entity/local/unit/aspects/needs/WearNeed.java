@@ -4,9 +4,10 @@ import stonering.entity.job.action.EquipItemAction;
 import stonering.entity.job.Task;
 import stonering.entity.job.action.TaskTypesEnum;
 import stonering.entity.local.Entity;
-import stonering.entity.local.items.Item;
-import stonering.entity.local.items.selectors.ItemSelector;
-import stonering.entity.local.items.selectors.WearForLimbItemSelector;
+import stonering.entity.local.PositionAspect;
+import stonering.entity.local.item.Item;
+import stonering.entity.local.item.selectors.ItemSelector;
+import stonering.entity.local.item.selectors.WearForLimbItemSelector;
 import stonering.entity.local.unit.aspects.equipment.EquipmentAspect;
 import stonering.entity.local.unit.aspects.equipment.EquipmentSlot;
 import stonering.game.model.lists.ItemContainer;
@@ -17,7 +18,7 @@ import stonering.game.model.lists.ItemContainer;
  * @author Alexander Kuzyakov on 21.09.2018.
  */
 public class WearNeed extends Need {
-    private static final int GET_WEAR_PRIORITY = 4; //priority for equipping items into desired slots.
+    private static final int GET_WEAR_PRIORITY = 4; //priority for equipping item into desired slots.
 
     /**
      * Counts current priority for creature to find wear.
@@ -35,6 +36,10 @@ public class WearNeed extends Need {
         return -1;
     }
 
+    /**
+     * Creates task to equip wear if needed.
+     * @param entity unit.
+     */
     @Override
     public Task tryCreateTask(Entity entity) {
         EquipmentAspect equipmentAspect = entity.getAspect(EquipmentAspect.class);
@@ -49,7 +54,7 @@ public class WearNeed extends Need {
 
     private Task tryCreateEquipTask(Entity entity, EquipmentSlot equipmentSlot) {
         ItemSelector itemSelector = new WearForLimbItemSelector(equipmentSlot.limbName);
-        Item item = container.get(ItemContainer.class).getItemAvailableBySelector(itemSelector, entity.getPosition());
+        Item item = container.get(ItemContainer.class).getItemAvailableBySelector(itemSelector, entity.getAspect(PositionAspect.class).position);
         if (item == null) return null;
         EquipItemAction equipItemAction = new EquipItemAction(item, true);
         return new Task("Equip item " + item.getTitle(), TaskTypesEnum.EQUIPPING, equipItemAction, GET_WEAR_PRIORITY);

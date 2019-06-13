@@ -1,7 +1,6 @@
 package stonering.enums.items.type;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 
 /**
  * @author Alexander_Kuzyakov on 13.06.2019.
@@ -13,11 +12,12 @@ public class RawItemType {
 
     public WearItemType wear;                          // is set if this item could be worn
     public ToolItemType tool;                          // is set if this item could be used as tool
-    public ContainerItemType container;                // is set if this item could contain other items
+    public ContainerItemType container;                // is set if this item could contain other item
 
-    public ArrayList<ItemPartType> parts;              // defines parts of items. first one is main
+    public List<ItemPartType> parts;              // defines parts of item. first one is main
 
-    public HashMap<String, ArrayList<Object>> aspects; // other aspects, item aspects filled from this on generation.
+    public List<List<String>> typeAspects; // constant aspects. first element of lists is aspect name
+    public List<List<String>> aspects; // other aspects, item aspects filled from this on generation. first element of lists is aspect name.
 
     // render
     public int[] atlasXY;

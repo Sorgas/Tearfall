@@ -1,12 +1,12 @@
 package stonering.entity.job.action;
 
 import stonering.entity.job.action.target.ItemActionTarget;
-import stonering.entity.local.items.Item;
+import stonering.entity.local.item.Item;
 import stonering.entity.local.unit.aspects.equipment.EquipmentAspect;
 import stonering.entity.local.unit.aspects.equipment.EquipmentSlot;
 
 /**
- * Action for unequipping items from units.
+ * Action for unequipping item from units.
  * Does nothing, if unit doesn't have this item.
  */
 public class UnequipItemAction extends Action {

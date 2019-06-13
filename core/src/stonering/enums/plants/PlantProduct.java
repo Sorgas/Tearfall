@@ -4,7 +4,7 @@ import java.util.Random;
 import java.util.Set;
 
 /**
- * Represents items harvested from or dropped by plant when cut.
+ * Represents item harvested from or dropped by plant when cut.
  *
  * @author Alexander_Kuzyakov on 07.05.2019.
  */

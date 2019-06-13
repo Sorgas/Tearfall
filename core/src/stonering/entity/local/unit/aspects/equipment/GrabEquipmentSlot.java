@@ -1,6 +1,6 @@
 package stonering.entity.local.unit.aspects.equipment;
 
-import stonering.entity.local.items.Item;
+import stonering.entity.local.item.Item;
 
 /**
  * @author Alexander on 22.02.2019.

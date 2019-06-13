@@ -2,8 +2,8 @@ package stonering.entity.job.action;
 
 import stonering.entity.job.designation.BuildingDesignation;
 import stonering.entity.job.action.target.PositionActionTarget;
-import stonering.entity.local.items.Item;
-import stonering.entity.local.items.selectors.ItemSelector;
+import stonering.entity.local.item.Item;
+import stonering.entity.local.item.selectors.ItemSelector;
 import stonering.entity.local.unit.aspects.equipment.EquipmentAspect;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.GameMvc;
@@ -35,8 +35,8 @@ public class ConstructionAction extends Action {
     }
 
     /**
-     * Checks that all material selectors have corresponding items in building position or in performer's inventory.
-     * Creates action for bringing missing items.
+     * Checks that all material selectors have corresponding item in building position or in performer's inventory.
+     * Creates action for bringing missing item.
      */
     @Override
     public boolean check() {
@@ -50,7 +50,7 @@ public class ConstructionAction extends Action {
                 uncheckedItems.remove(selectedItem);
             }
         }
-        return true; // all selectors have items.
+        return true; // all selectors have item.
     }
 
     @Override
@@ -71,7 +71,7 @@ public class ConstructionAction extends Action {
         for (ItemSelector itemSelector : itemSelectors) {
             List<Item> itemList = itemSelector.selectItems(items);
             if (mainMaterial < 0) mainMaterial = itemList.get(0).getMaterial(); //actual material of item
-            itemContainer.removeItems(itemList);                                //spend items
+            itemContainer.removeItems(itemList);                                //spend item
         }
         return mainMaterial;
     }
@@ -80,7 +80,7 @@ public class ConstructionAction extends Action {
      * Creates action for putting item to position of this action and adds it to task.
      *
      * @param itemSelector selector for item
-     * @return false if no items available.
+     * @return false if no item available.
      */
     private boolean tryCreateDroppingAction(ItemSelector itemSelector) {
         Position position = actionTarget.getPosition();

@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.entity.local.zone.FarmZone;
-import stonering.enums.plants.PlantMap;
+import stonering.enums.plants.PlantTypeMap;
 import stonering.enums.plants.PlantType;
 import stonering.game.GameMvc;
 import stonering.game.model.lists.ZonesContainer;
@@ -116,7 +116,7 @@ public class FarmZoneMenu extends Window {
 
     private void fillLists() {
         farmZone.getPlants().forEach(type -> enabledPlants.getItems().add(type));
-        List<PlantType> allTypes = new ArrayList<>(PlantMap.getInstance().getDomesticTypes());
+        List<PlantType> allTypes = new ArrayList<>(PlantTypeMap.getInstance().getDomesticTypes());
         allTypes.removeAll(farmZone.getPlants());
         allTypes.forEach(type -> disabledPlants.getItems().add(type));
     }

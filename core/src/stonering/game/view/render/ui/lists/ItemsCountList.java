@@ -3,15 +3,15 @@ package stonering.game.view.render.ui.lists;
 import com.badlogic.gdx.utils.Array;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.controller.controllers.toolbar.DesignationsController;
-import stonering.entity.local.items.Item;
+import stonering.entity.local.item.Item;
 import stonering.util.global.Pair;
 
 import java.util.HashMap;
 import java.util.List;
 
 /**
- * List items and groups them by title and material.
- * List lines are linked to arrays of items for passing them to {@link DesignationsController}.
+ * List item and groups them by title and material.
+ * List lines are linked to arrays of item for passing them to {@link DesignationsController}.
  *
  * @author Alexander Kuzyakov on 26.06.2018
  */
@@ -21,14 +21,14 @@ public abstract class ItemsCountList extends NavigableList {
     }
 
     /**
-     * Groups given items by NAME and material and stores them as ListItems.
+     * Groups given item by NAME and material and stores them as ListItems.
      *
      * @param items
      */
     public void addItems(List<Item> items) {
         HashMap<Pair<String, Integer>, ListItem> map = new HashMap<>(); // item NAME & material to ListItem
         MaterialMap materialMap = MaterialMap.getInstance();
-        items.forEach(item -> { // groups items
+        items.forEach(item -> { // groups item
             Pair<String, Integer> pair = new Pair<>(item.getName(), item.getMaterial());
             if (map.keySet().contains(pair)) {
                 map.get(pair).getItems().add(item);

@@ -21,11 +21,11 @@ public class LocalTileMap implements ModelComponent {
     public LocalTileMap() {
         this.map = new HashMap<>();
         cachePosition = new Position();
-        zeroTriple = new IntTriple();
+        zeroTriple = new IntTriple(0, 0, 0);
     }
 
     public void setTile(int x, int y, int z, int atlasX, int atlasY, int color) {
-        setTile(cachePosition.set(x, y, z), atlasX, atlasY, color);
+        setTile(new Position(x, y, z), atlasX, atlasY, color);
     }
 
     public void setTile(Position pos, int atlasX, int atlasY, int color) {

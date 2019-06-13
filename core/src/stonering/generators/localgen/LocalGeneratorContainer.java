@@ -70,8 +70,8 @@ public class LocalGeneratorContainer {
         localFaunaGenerator.execute(); // places animals
         //buildings
         localBuildingGenerator.execute();
-        //items
-        localItemsGenerator.execute(); // places items
+        //item
+        localItemsGenerator.execute(); // places item
     }
 
     public MainGameModel getGameModel() {

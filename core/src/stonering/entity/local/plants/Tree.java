@@ -38,12 +38,8 @@ public class Tree extends AbstractPlant {
         return getCurrentStage().harvestProduct != null;
     }
 
-    public Position getPosition() {
-        return position;
-    }
-
     public void setPosition(Position position) {
-        this.position = position;
+        super.setPosition(position);
         updateBlockPositions();
     }
 }

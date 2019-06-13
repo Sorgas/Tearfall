@@ -1,6 +1,7 @@
 package stonering.entity.job.action.target;
 
 import stonering.entity.local.Entity;
+import stonering.entity.local.PositionAspect;
 import stonering.util.geometry.Position;
 
 /**
@@ -16,6 +17,6 @@ public class AspectHolderActionTarget extends ActionTarget {
 
     @Override
     public Position getPosition() {
-        return entity.getPosition();
+        return entity.getAspect(PositionAspect.class).position;
     }
 }

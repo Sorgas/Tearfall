@@ -2,7 +2,7 @@
     {
         "name": "pickaxe",
         "description": "Tool for digging through rock and ore.",
-        "valueMod": "0",
+        "typeAspects" : [["value", "0"]],
         "tool": {
             "actions": [
                 {
@@ -34,7 +34,7 @@
     }, {
     "name": "hoe",
     "description": "Tool for preparing soil for farming.",
-    "valueMod": "0",
+    "typeAspects" : [["value", "0"]],
     "tool": {
         "actions": [
             {
@@ -66,7 +66,7 @@
 }, {
     "name": "sickle",
     "description": "Tool for harvesting plants.",
-    "valueMod": "0",
+    "typeAspects" : [["value", "0"]],
     "tool": {
         "actions": [
             {
@@ -96,7 +96,7 @@
 }, {
     "name": "axe",
     "description": "Tool for chopping down trees.",
-    "valueMod": "0",
+    "typeAspects" : [["value", "0"]],
     "tool": {
         "actions": [
             {
@@ -117,7 +117,7 @@
 }, {
     "name": "hammer",
     "description": "Smith tool.",
-    "valueMod": "0",
+    "typeAspects" : [["value", "0"]],
     "tool": {
         "actions": [
             {

@@ -12,7 +12,7 @@ import stonering.game.model.ModelComponent;
 import stonering.game.model.local_map.LocalMap;
 import stonering.generators.items.PlantProductGenerator;
 import stonering.util.geometry.Position;
-import stonering.entity.local.items.Item;
+import stonering.entity.local.item.Item;
 import stonering.util.global.CompatibleArray;
 import stonering.util.global.Initable;
 import stonering.util.global.Logger;

@@ -1,7 +1,7 @@
 package stonering.generators.localgen.generators.flora;
 
 import stonering.entity.local.plants.SubstratePlant;
-import stonering.enums.plants.PlantMap;
+import stonering.enums.plants.PlantTypeMap;
 import stonering.enums.plants.PlantType;
 import stonering.exceptions.DescriptionNotFoundException;
 import stonering.game.model.lists.PlantContainer;
@@ -27,7 +27,7 @@ public class LocalSubstrateGenerator extends LocalFloraGenerator {
     @Override
     protected Set<PlantType> filterPlantsByType() {
         Logger.GENERATION.log("generating small plants");
-        return PlantMap.getInstance().getSubstrateTypes().values().stream().filter(PlantType::isSubstrate).collect(Collectors.toSet());
+        return PlantTypeMap.getInstance().getSubstrateTypes().values().stream().filter(PlantType::isSubstrate).collect(Collectors.toSet());
     }
 
     @Override

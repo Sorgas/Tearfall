@@ -15,7 +15,7 @@ public enum Logger {
     LOADING("loading"),
     GENERAL("general"),
     BUILDING("building"),
-    ITEMS("items"),
+    ITEMS("item"),
     GENERATION("generation"),
     ZONES("zones"),
     PLANTS("plants");

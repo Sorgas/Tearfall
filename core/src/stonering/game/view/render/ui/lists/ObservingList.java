@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 /**
- * Shows items, divided to categories.
+ * Shows item, divided to categories.
  *
  * @author Alexander on 11.11.2018.
  */

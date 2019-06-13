@@ -11,15 +11,15 @@ import java.util.*;
 /**
  * Load all {@link PlantType}s from jsons, and inits them.
  */
-public class PlantMap {
-    private static PlantMap instance;
+public class PlantTypeMap {
+    private static PlantTypeMap instance;
     private Map<String, PlantType> plantTypes;
     private Map<String, PlantType> treeTypes;
     private Map<String, PlantType> substrateTypes;
     private Map<String, PlantType> domesticTypes;
     private Json json;
 
-    private PlantMap() {
+    private PlantTypeMap() {
         plantTypes = new HashMap<>();
         treeTypes = new HashMap<>();
         substrateTypes = new HashMap<>();
@@ -33,9 +33,9 @@ public class PlantMap {
         fillDomesticTypes();
     }
 
-    public static PlantMap getInstance() {
+    public static PlantTypeMap getInstance() {
         if (instance == null)
-            instance = new PlantMap();
+            instance = new PlantTypeMap();
         return instance;
     }
 

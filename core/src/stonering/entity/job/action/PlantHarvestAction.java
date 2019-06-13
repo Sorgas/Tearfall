@@ -1,9 +1,9 @@
 package stonering.entity.job.action;
 
 import stonering.entity.job.action.target.PlantActionTarget;
-import stonering.entity.local.items.Item;
-import stonering.entity.local.items.selectors.ItemSelector;
-import stonering.entity.local.items.selectors.ToolWithActionItemSelector;
+import stonering.entity.local.item.Item;
+import stonering.entity.local.item.selectors.ItemSelector;
+import stonering.entity.local.item.selectors.ToolWithActionItemSelector;
 import stonering.entity.local.plants.AbstractPlant;
 import stonering.entity.local.plants.PlantBlock;
 import stonering.entity.local.unit.aspects.equipment.EquipmentAspect;

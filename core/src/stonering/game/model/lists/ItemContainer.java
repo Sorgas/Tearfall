@@ -2,8 +2,8 @@ package stonering.game.model.lists;
 
 import stonering.entity.local.Entity;
 import stonering.entity.local.crafting.CommonComponent;
-import stonering.entity.local.items.aspects.ResourceAspect;
-import stonering.entity.local.items.selectors.SimpleItemSelector;
+import stonering.entity.local.item.aspects.ResourceAspect;
+import stonering.entity.local.item.selectors.SimpleItemSelector;
 import stonering.enums.items.recipe.ItemPartRecipe;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.GameMvc;
@@ -12,8 +12,8 @@ import stonering.game.model.Turnable;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.util.UtilByteArray;
 import stonering.util.geometry.Position;
-import stonering.entity.local.items.Item;
-import stonering.entity.local.items.selectors.ItemSelector;
+import stonering.entity.local.item.Item;
+import stonering.entity.local.item.selectors.ItemSelector;
 import stonering.util.global.Initable;
 import stonering.util.global.Logger;
 
@@ -21,15 +21,15 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * Manages all items on map.
+ * Manages all item on map.
  * //TODO move large methods to some util class
- * //TODO add tracking of equipped items.
+ * //TODO add tracking of equipped item.
  *
  * @author Alexander Kuzyakov on 14.06.2017.
  */
 public class ItemContainer extends Turnable implements ModelComponent, Initable {
-    private ArrayList<Item> items;  // all items on the map (tiles, containers, units)
-    private HashMap<Position, ArrayList<Item>> itemMap;      // maps tiles position to list of items it that position
+    private ArrayList<Item> items;  // all item on the map (tiles, containers, units)
+    private HashMap<Position, ArrayList<Item>> itemMap;      // maps tiles position to list of item it that position
 
     public ItemContainer() {
         items = new ArrayList<>();
@@ -43,14 +43,14 @@ public class ItemContainer extends Turnable implements ModelComponent, Initable 
     }
 
     /**
-     * Turns all items for rust, burn, spoil, etc.
+     * Turns all item for rust, burn, spoil, etc.
      */
     public void turn() {
         items.forEach(Entity::turn);
     }
 
     /**
-     * For initial items placing
+     * For initial item placing
      */
     public ItemContainer placeItems(List<Item> items) {
         items.forEach(item -> {
@@ -112,7 +112,7 @@ public class ItemContainer extends Turnable implements ModelComponent, Initable 
 
     /**
      * Gets all materials for all variants of crafting step. Used for filling materialSelectList.
-     * Currently works only with resource items.
+     * Currently works only with resource item.
      *
      * @param step
      * @param pos
@@ -125,7 +125,7 @@ public class ItemContainer extends Turnable implements ModelComponent, Initable 
     }
 
     /**
-     * Searches all material items made of given material type.
+     * Searches all material item made of given material type.
      */
     public List<Item> getResourceItemsByMaterialType(String materialType) {
         MaterialMap materialMap = MaterialMap.getInstance();
@@ -138,7 +138,7 @@ public class ItemContainer extends Turnable implements ModelComponent, Initable 
     }
 
     /**
-     * Groups given items by material and titles, and count their quantity to show in UI lists.
+     * Groups given item by material and titles, and count their quantity to show in UI lists.
      */
     public List<ItemGroup> groupItemsByTypesAndMaterials(List<Item> items) {
         Map<ItemGroup, Integer> groupingMap = new HashMap<>();                                   // groups by material and item NAME. Stores quantity.
@@ -155,14 +155,14 @@ public class ItemContainer extends Turnable implements ModelComponent, Initable 
         return resultList;
     }
 
-    //TODO carried items have no position
+    //TODO carried item have no position
     public List<Item> filterUnreachable(List<Item> items, Position pos) {
         UtilByteArray area = GameMvc.instance().getModel().get(LocalMap.class).getPassage().getArea();
         return items.stream().filter(item -> item.getPosition() != null && area.getValue(item.getPosition()) == area.getValue(pos)).collect(Collectors.toList());
     }
 
     public boolean hasItemsAvailableBySelector(ItemSelector itemSelector, Position position) {
-        return true; //TODO implement items lookup with areas
+        return true; //TODO implement item lookup with areas
     }
 
     public Item getItemAvailableBySelector(ItemSelector itemSelector, Position position) {
@@ -170,7 +170,7 @@ public class ItemContainer extends Turnable implements ModelComponent, Initable 
         List<Item> items = itemSelector.selectItems(this.items);
         items = filterUnreachable(items, position);
         if (items != null && !items.isEmpty()) {
-            //TODO return nearest items
+            //TODO return nearest item
             return items.get(0);
         }
         return null;
@@ -186,7 +186,7 @@ public class ItemContainer extends Turnable implements ModelComponent, Initable 
     }
 
     /**
-     * Gets item selectors for items, suitable for recipe and available from given position.
+     * Gets item selectors for item, suitable for recipe and available from given position.
      */
     public List<ItemSelector> getItemSelectorsForItemPartRecipe(ItemPartRecipe itemPartRecipe, Position position) {
         Set<ItemSelector> itemSelectors = new HashSet<>();
@@ -195,7 +195,7 @@ public class ItemContainer extends Turnable implements ModelComponent, Initable 
                 filter(item -> item.getType().hasAspect(ResourceAspect.class)).
                 filter(item -> allowedMaterials.contains(item.getMaterial())).
                 collect(Collectors.toList());
-        materialItems = filterUnreachable(materialItems, position); // TODO carried items has no position giving NPE
+        materialItems = filterUnreachable(materialItems, position); // TODO carried item has no position giving NPE
         for (ItemGroup itemGroup : groupItemsByTypesAndMaterials(materialItems)) {
             itemSelectors.add(createItemSelector(itemGroup));
         }
@@ -216,7 +216,7 @@ public class ItemContainer extends Turnable implements ModelComponent, Initable 
     }
 
     /**
-     * Checks that given items exist on map.
+     * Checks that given item exist on map.
      */
     public boolean checkItemList(Collection<Item> items) {
         return items.containsAll(items);
@@ -227,7 +227,7 @@ public class ItemContainer extends Turnable implements ModelComponent, Initable 
     }
 
     /**
-     * Groups items by type and material. Stores quantity.
+     * Groups item by type and material. Stores quantity.
      */
     private class ItemGroup {
         String type;

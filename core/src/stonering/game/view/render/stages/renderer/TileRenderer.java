@@ -5,13 +5,12 @@ import com.badlogic.gdx.math.Vector3;
 import stonering.entity.job.designation.Designation;
 import stonering.entity.local.PositionAspect;
 import stonering.entity.local.building.BuildingBlock;
-import stonering.entity.local.items.Item;
+import stonering.entity.local.item.Item;
 import stonering.entity.local.plants.PlantBlock;
 import stonering.entity.local.unit.Unit;
 import stonering.entity.local.unit.aspects.MovementAspect;
 import stonering.entity.local.zone.Zone;
 import stonering.enums.blocks.BlockTypesEnum;
-import stonering.enums.blocks.BlocksTileMapping;
 import stonering.enums.designations.DesignationsTileMapping;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.GameMvc;
@@ -80,7 +79,7 @@ public class TileRenderer extends Renderer {
 
     /**
      * Draws all content of the tile.
-     * Draw order: block, water, substrate plants, plants, building, unit, items, designation.
+     * Draw order: block, water, substrate plants, plants, building, unit, item, designation.
      * //TODO refactor
      */
     private void drawTile(int x, int y, int z) {
@@ -112,13 +111,14 @@ public class TileRenderer extends Renderer {
      * Also draws topping part of lower block.
      */
     private void drawBlock(int x, int y, int z) {
-        util.drawSprite(getSpriteForBlock(x, y, z), cacheVector);
+        TextureRegion region = selectSpriteForBlock(x, y, z);
+        if (region != null) util.drawSprite(region, cacheVector);
     }
 
     /**
      * Selects sprite to draw in given position, block or toping.
      */
-    private TextureRegion getSpriteForBlock(int x, int y, int z) {
+    private TextureRegion selectSpriteForBlock(int x, int y, int z) {
         int atlasX = getAtlasXForBlock(x, y, z);
         if (atlasX != -1) return util.selectSprite(0, atlasX, getAtlasYForBlock(x, y, z));
         atlasX = getAtlasXForBlock(x, y, z - 1);
@@ -194,6 +194,7 @@ public class TileRenderer extends Renderer {
     }
 
     private void drawItem(Item item) {
+        System.out.println();
         util.drawSprite(util.selectSprite(5, item.getType().atlasXY[0], item.getType().atlasXY[1]), item.getAspect(PositionAspect.class).position);
     }
 

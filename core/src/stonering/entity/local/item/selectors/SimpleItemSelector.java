@@ -1,15 +1,15 @@
-package stonering.entity.local.items.selectors;
+package stonering.entity.local.item.selectors;
 
 import stonering.enums.materials.MaterialMap;
-import stonering.entity.local.items.Item;
+import stonering.entity.local.item.Item;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 /**
- * Selects items by their title and material.
- * //TODO handle amount of items.
+ * Selects item by their title and material.
+ * //TODO handle amount of item.
  *
  * @author Alexander Kuzyakov on 21.07.2018.
  */

@@ -4,8 +4,8 @@ import stonering.entity.job.action.aspects.ItemPickAction;
 import stonering.entity.job.action.target.AspectHolderActionTarget;
 import stonering.entity.job.action.target.PositionActionTarget;
 import stonering.entity.local.Entity;
-import stonering.entity.local.items.Item;
-import stonering.entity.local.items.aspects.ItemContainerAspect;
+import stonering.entity.local.item.Item;
+import stonering.entity.local.item.aspects.ItemContainerAspect;
 import stonering.entity.local.unit.aspects.equipment.EquipmentAspect;
 import stonering.game.GameMvc;
 import stonering.game.model.lists.ItemContainer;
@@ -50,7 +50,7 @@ public class ItemPutAction extends Action {
     public boolean check() {
         if (target != null && target.getAspect(ItemContainerAspect.class) != null) return false;
         EquipmentAspect equipmentAspect = task.getPerformer().getAspect(EquipmentAspect.class);
-        if (equipmentAspect == null) return false; // performer can carry items
+        if (equipmentAspect == null) return false; // performer can carry item
         if (equipmentAspect.getHauledItems().contains(targetItem)) return true; // performer already has item
         return createPickingAction(targetItem);
     }

@@ -1,7 +1,7 @@
 package stonering.entity.job.action;
 
 import stonering.entity.job.action.target.ItemActionTarget;
-import stonering.entity.local.items.Item;
+import stonering.entity.local.item.Item;
 import stonering.entity.local.unit.aspects.equipment.EquipmentAspect;
 import stonering.exceptions.NotSuitableItemException;
 import stonering.game.GameMvc;
@@ -10,7 +10,7 @@ import stonering.util.global.Logger;
 
 public class EquipItemAction extends Action {
     private Item item;
-    private boolean force; //enables unequipping other items.
+    private boolean force; //enables unequipping other item.
 
     public EquipItemAction(Item item, boolean force) {
         super(new ItemActionTarget(item));
@@ -21,7 +21,7 @@ public class EquipItemAction extends Action {
 
     @Override
     protected void performLogic() {
-        //TODO manage equipped items in item container
+        //TODO manage equipped item in item container
         if ((task.getPerformer().getAspect(EquipmentAspect.class)).equipItem(item))
             GameMvc.instance().getModel().get(ItemContainer.class).pickItem(item);
     }

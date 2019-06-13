@@ -13,7 +13,7 @@ import java.util.List;
  * @author Alexander on 22.10.2018.
  */
 public class SubMenuMenu extends ToolbarButtonMenu {
-    protected HashMap<String, SubMenuMenu> menus;   // strings from items paths to submenus
+    protected HashMap<String, SubMenuMenu> menus;   // strings from item paths to submenus
     private HotkeySequence sequence;
 
     public SubMenuMenu() {

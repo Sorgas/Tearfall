@@ -49,7 +49,7 @@ public class BuildingContainer extends Turnable implements ModelComponent, Inita
     }
 
     /**
-     * Moves items from the target tile to neighbour one.
+     * Moves item from the target tile to neighbour one.
      */
     private void tryMoveItems(Position target) {
         ItemContainer container = GameMvc.instance().getModel().get(ItemContainer.class);

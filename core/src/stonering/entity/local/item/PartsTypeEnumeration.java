@@ -1,4 +1,4 @@
-package stonering.entity.local.items;
+package stonering.entity.local.item;
 
 /**
  * Contains description of different item part types and their prefixes for different damages.

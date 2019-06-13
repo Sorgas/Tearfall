@@ -13,6 +13,14 @@ public class ItemPartType extends CommonComponent {
 
     //TODO allowed materials and volumes.
 
+
+    public ItemPartType() {}
+
+    public ItemPartType(String title, boolean required) {
+        this.title = title;
+        this.required = required;
+    }
+
     public String getTitle() {
         return title;
     }

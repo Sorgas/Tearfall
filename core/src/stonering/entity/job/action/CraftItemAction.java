@@ -2,11 +2,12 @@ package stonering.entity.job.action;
 
 import stonering.entity.job.action.target.AspectHolderActionTarget;
 import stonering.entity.local.Entity;
+import stonering.entity.local.PositionAspect;
 import stonering.entity.local.building.aspects.WorkbenchAspect;
 import stonering.entity.local.crafting.ItemOrder;
 import stonering.entity.local.crafting.ItemPartOrder;
-import stonering.entity.local.items.Item;
-import stonering.entity.local.items.aspects.ItemContainerAspect;
+import stonering.entity.local.item.Item;
+import stonering.entity.local.item.aspects.ItemContainerAspect;
 import stonering.game.GameMvc;
 import stonering.game.model.lists.ItemContainer;
 import stonering.generators.items.ItemGenerator;
@@ -24,7 +25,7 @@ import java.util.List;
 public class CraftItemAction extends Action {
     private ItemOrder itemOrder;
     private Entity workbench;
-    private List<Item> desiredItems; // these items should be in WB.
+    private List<Item> desiredItems; // these item should be in WB.
     private Item tool; //TODO
 
     public CraftItemAction(ItemOrder itemOrder, Entity workbench) {
@@ -47,13 +48,13 @@ public class CraftItemAction extends Action {
      */
     @Override
     public boolean check() {
-        ItemContainerAspect containerAspect = workbench.getAspect(ItemContainerAspect.class); //TODO remove item container requirement (items in units inventory, on the ground or in !nearby containers!).
+        ItemContainerAspect containerAspect = workbench.getAspect(ItemContainerAspect.class); //TODO remove item container requirement (item in units inventory, on the ground or in !nearby containers!).
         if (workbench.getAspect(WorkbenchAspect.class) == null || containerAspect == null) {
             Logger.TASKS.logWarn("Building " + workbench.toString() + " is not a workbench with item container.");
             return false;
         }
         if (!updateDesiredItems()) return false; // desiredItems valid after this
-        if (!containerAspect.getItems().containsAll(desiredItems)) { // some items are out of WB.
+        if (!containerAspect.getItems().containsAll(desiredItems)) { // some item are out of WB.
             List<Item> outOfWBItems = new ArrayList<>(desiredItems);
             outOfWBItems.removeAll(containerAspect.getItems());
             task.addFirstPreAction(new ItemPutAction(outOfWBItems.get(0), workbench)); // create action to bring item
@@ -62,9 +63,9 @@ public class CraftItemAction extends Action {
     }
 
     /**
-     * Checks that desired items are still valid or tries to find new ones.
+     * Checks that desired item are still valid or tries to find new ones.
      *
-     * @return true, if items exist or found.
+     * @return true, if item exist or found.
      */
     private boolean updateDesiredItems() {
         if (desiredItems.isEmpty() || !GameMvc.instance().getModel().get(ItemContainer.class).checkItemList(desiredItems)) {
@@ -80,7 +81,7 @@ public class CraftItemAction extends Action {
         List<Item> uncheckedItems = new ArrayList<>();
         uncheckedItems.addAll(desiredItems);
         for (ItemPartOrder part : itemOrder.getParts()) {
-            List<Item> foundItems = GameMvc.instance().getModel().get(ItemContainer.class).getItemsAvailableBySelector(part.getSelected(), workbench.getPosition());
+            List<Item> foundItems = GameMvc.instance().getModel().get(ItemContainer.class).getItemsAvailableBySelector(part.getSelected(), workbench.getAspect(PositionAspect.class).position);
             if (foundItems.isEmpty()) {
                 desiredItems.clear();
                 return false;

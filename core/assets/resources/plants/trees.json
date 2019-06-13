@@ -2,7 +2,7 @@
     !!!all life stages should have treeForm.
     titlePrefixSuffix             // plant title changes on this stage
     stageLength                   // stage length in months
-    cutProducts                   // on cutting plant will leave this items, made of plant material
+    cutProducts                   // on cutting plant will leave this item, made of plant material
     materialName "willow",        // material for products
     atlasXY ["0", "1"],           // only Y matters for trees, Xs taken by tree part
     color "0xffffffff",           // sprite tinting color

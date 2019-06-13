@@ -1,4 +1,4 @@
-package stonering.entity.local.items.aspects;
+package stonering.entity.local.item.aspects;
 
 import stonering.entity.local.Entity;
 import stonering.entity.local.PositionAspect;
@@ -8,10 +8,10 @@ import stonering.game.model.lists.ItemContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 import stonering.entity.local.Aspect;
-import stonering.entity.local.items.Item;
+import stonering.entity.local.item.Item;
 
 /**
- * Aspect for items to fall down.
+ * Aspect for item to fall down.
  *
  * @author Savva Kodeikin
  */

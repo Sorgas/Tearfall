@@ -1,14 +1,14 @@
-package stonering.entity.local.items.aspects;
+package stonering.entity.local.item.aspects;
 
 import stonering.entity.local.Aspect;
 import stonering.entity.local.Entity;
-import stonering.entity.local.items.Item;
+import stonering.entity.local.item.Item;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Entities with this aspect can hold items.
+ * Entities with this aspect can hold item.
  */
 public class ItemContainerAspect extends Aspect {
     public static final String NAME = "item_container";

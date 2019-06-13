@@ -26,7 +26,7 @@ public class DesignationsController extends Controller {
 
     /**
      * Sets sequence for controller.
-     * Saves chosen designation type to be stored between events of starting and finishing designation rectangle and items selection.
+     * Saves chosen designation type to be stored between events of starting and finishing designation rectangle and item selection.
      */
     public void setActiveDesignation(DesignationSequence sequence) {
         this.sequence = sequence;

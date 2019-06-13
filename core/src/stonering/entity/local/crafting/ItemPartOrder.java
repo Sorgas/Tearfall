@@ -1,6 +1,6 @@
 package stonering.entity.local.crafting;
 
-import stonering.entity.local.items.selectors.ItemSelector;
+import stonering.entity.local.item.selectors.ItemSelector;
 import stonering.game.GameMvc;
 import stonering.game.model.lists.ItemContainer;
 import stonering.util.geometry.Position;
@@ -32,7 +32,7 @@ public class ItemPartOrder {
      * Checks if selected item selector is present and similar to one of item selectors.
      */
     public boolean isSelectedPossible() {
-        if (selected == null) return true;                 // no items selected for this step
+        if (selected == null) return true;                 // no item selected for this step
         for (ItemSelector itemSelector : itemSelectors) {
             if (itemSelector.equals(selected)) return true;
         }

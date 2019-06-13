@@ -5,10 +5,10 @@ import stonering.game.model.local_map.LocalMap;
 import stonering.generators.items.ItemGenerator;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.util.geometry.Position;
-import stonering.entity.local.items.Item;
+import stonering.entity.local.item.Item;
 
 /**
- * Creates items and puts them on map.
+ * Creates item and puts them on map.
  *
  * @author Alexander Kuzyakov on 26.01.2018.
  */

@@ -1,4 +1,4 @@
-package stonering.entity.local.items;
+package stonering.entity.local.item;
 
 import stonering.entity.local.PositionAspect;
 import stonering.enums.items.type.ItemType;

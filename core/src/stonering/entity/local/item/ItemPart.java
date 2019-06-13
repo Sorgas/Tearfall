@@ -1,4 +1,4 @@
-package stonering.entity.local.items;
+package stonering.entity.local.item;
 
 /**
  * Item part. Has own condition.

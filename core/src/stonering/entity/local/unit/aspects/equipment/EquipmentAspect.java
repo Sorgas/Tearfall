@@ -3,7 +3,7 @@ package stonering.entity.local.unit.aspects.equipment;
 import stonering.entity.local.Entity;
 import stonering.exceptions.NotSuitableItemException;
 import stonering.entity.local.Aspect;
-import stonering.entity.local.items.Item;
+import stonering.entity.local.item.Item;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,16 +12,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Stores all items equipped and hauled by unit.
- * Equipped items are ones, worn on body.
- * Does not takes or puts items to map, this should be done by actions.
+ * Stores all item equipped and hauled by unit.
+ * Equipped item are ones, worn on body.
+ * Does not takes or puts item to map, this should be done by actions.
  *
  * @author Alexander Kuzyakov on 03.01.2018.
  */
 public class EquipmentAspect extends Aspect {
     public static String NAME = "equipment";
     private HashMap<String, EquipmentSlot> slots;            // all slots of a creature
-    private HashMap<String, GrabEquipmentSlot> grabSlots;    // equipped items
+    private HashMap<String, GrabEquipmentSlot> grabSlots;    // equipped item
     private ArrayList<Item> hauledItems;                     // hauled item list for faster checking
     private ArrayList<Item> equippedItems;                   // equipped item list for faster checking
     private ArrayList<EquipmentSlot> desiredSlots;           // uncovered limbs give comfort penalty
@@ -37,7 +37,7 @@ public class EquipmentAspect extends Aspect {
     }
 
     /**
-     * For hauling items.
+     * For hauling item.
      * Validity should be fully checked by action (slots should be free).
      */
     public void pickupItem(Item item) {
@@ -172,7 +172,7 @@ public class EquipmentAspect extends Aspect {
     }
 
     /**
-     * Returns one of items from given slot that should be unequipped to equip given item.
+     * Returns one of item from given slot that should be unequipped to equip given item.
      */
     private Item findItemToUnequip(EquipmentSlot slot, Item item) {
         for (int i = slot.items.size() - 1; i >= 0; i--) {
@@ -192,8 +192,8 @@ public class EquipmentAspect extends Aspect {
 
 
     /**
-     * Removes given item from all slots disregarding other items in these slots (even if overlapping is present).
-     * Item should not be blocked by other items. This should be checked by action.
+     * Removes given item from all slots disregarding other item in these slots (even if overlapping is present).
+     * Item should not be blocked by other item. This should be checked by action.
      */
     public void unequipItem(Item item) {
         if (!equippedItems.contains(item)) return;

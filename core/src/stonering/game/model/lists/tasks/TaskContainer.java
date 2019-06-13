@@ -15,7 +15,7 @@ import stonering.game.model.lists.PlantContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 import stonering.entity.job.Task;
-import stonering.entity.local.items.selectors.ItemSelector;
+import stonering.entity.local.item.selectors.ItemSelector;
 import stonering.entity.local.plants.PlantBlock;
 import stonering.util.global.Initable;
 import stonering.util.global.Logger;

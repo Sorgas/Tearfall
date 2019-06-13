@@ -6,7 +6,7 @@ import stonering.game.view.render.ui.menus.toolbar.Toolbar;
 /**
  * Designation sequences used to add actors to {@link Toolbar}
  * in order to maintain designating player's order.
- * (like selecting place for building and then selecting items for building parts).
+ * (like selecting place for building and then selecting item for building parts).
  *
  * @author Alexander on 21.01.2019.
  */

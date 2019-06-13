@@ -46,7 +46,7 @@ public class LocalTileMapUpdater {
         localMap = GameMvc.instance().getModel().get(LocalMap.class);
         localTileMap = GameMvc.instance().getModel().get(LocalTileMap.class);
         byte blockType = localMap.getBlockType(x, y, z);
-        if (blockType == 0) { // space
+        if (blockType == BlockTypesEnum.SPACE.CODE) {
             localTileMap.removeTile(x, y, z);
         } else { // non space
             Material material = materialMap.getMaterial(localMap.getMaterial(x, y, z));

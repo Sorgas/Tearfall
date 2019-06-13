@@ -4,7 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import stonering.entity.local.building.Blueprint;
 import stonering.entity.local.building.BuildingOrder;
 import stonering.entity.local.crafting.CommonComponent;
-import stonering.entity.local.items.selectors.SimpleItemSelector;
+import stonering.entity.local.item.selectors.SimpleItemSelector;
 import stonering.enums.designations.PlaceValidatorsEnum;
 import stonering.game.model.lists.tasks.TaskContainer;
 import stonering.game.view.render.ui.lists.MaterialSelectList;
@@ -44,7 +44,7 @@ public class BuildingDesignationSequence extends DesignationSequence {
     }
 
     /**
-     * Returns select list with items, available for given step.
+     * Returns select list with item, available for given step.
      */
     private Actor createSelectListForStep(CommonComponent step) {
         MaterialSelectList materialList = new MaterialSelectList();

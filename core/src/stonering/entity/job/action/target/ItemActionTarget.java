@@ -1,7 +1,7 @@
 package stonering.entity.job.action.target;
 
 import stonering.util.geometry.Position;
-import stonering.entity.local.items.Item;
+import stonering.entity.local.item.Item;
 
 /**
  * Targets action to item

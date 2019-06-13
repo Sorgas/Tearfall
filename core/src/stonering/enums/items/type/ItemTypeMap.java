@@ -4,6 +4,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import stonering.util.global.FileLoader;
+import stonering.util.global.Logger;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,6 +28,8 @@ public class ItemTypeMap {
         return instance;
     }
 
+
+
     private void loadItemTypes() {
         System.out.println("loading item types");
         Json json = new Json();
@@ -34,21 +37,20 @@ public class ItemTypeMap {
         FileHandle itemsDirectory = FileLoader.getFile(FileLoader.ITEMS_PATH);
         for (FileHandle fileHandle : itemsDirectory.list()) {
             if(fileHandle.isDirectory()) continue;
-            ArrayList<ItemType> elements = json.fromJson(ArrayList.class, ItemType.class, fileHandle);
-            for (ItemType itemType : elements) {
-                initItemType(itemType);
-                types.put(itemType.name, itemType);
+            ArrayList<RawItemType> elements = json.fromJson(ArrayList.class, RawItemType.class, fileHandle);
+            for (RawItemType rawItemType : elements) {
+                types.put(rawItemType.name, processRawItemType(rawItemType));
             }
+            Logger.LOADING.logDebug(elements.size() + " loaded from " + fileHandle.path());
         }
     }
 
-    /**
-     * Generates title, if needed.
-     */
-    private void initItemType(ItemType itemType) {
+    private ItemType processRawItemType(RawItemType rawItemType) {
+        ItemType itemType = new ItemType(rawItemType);
         if (itemType.title == null) {
             itemType.title = itemType.name.substring(0, 1).toUpperCase() + itemType.name.substring(1);
         }
+        return itemType;
     }
 
     public ItemType getItemType(String name) {

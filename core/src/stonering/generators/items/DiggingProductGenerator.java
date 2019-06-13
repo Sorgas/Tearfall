@@ -1,11 +1,11 @@
 package stonering.generators.items;
 
-import stonering.entity.local.items.Item;
+import stonering.entity.local.item.Item;
 import stonering.enums.materials.Material;
 import stonering.enums.materials.MaterialMap;
 
 /**
- * Generates stone, ore, gem, clay, sand items for leaving while tile is dug out.
+ * Generates stone, ore, gem, clay, sand item for leaving while tile is dug out.
  *
  * @author Alexander Kuzyakov on 08.01.2018.
  */

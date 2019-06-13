@@ -2,7 +2,7 @@ package stonering.generators.aspect;
 
 import stonering.entity.local.Aspect;
 import stonering.entity.local.Entity;
-import stonering.entity.local.items.aspects.FallingAspect;
+import stonering.entity.local.item.aspects.FallingAspect;
 
 import java.lang.reflect.Constructor;
 import java.util.HashMap;

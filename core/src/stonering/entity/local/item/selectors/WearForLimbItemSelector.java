@@ -1,12 +1,12 @@
-package stonering.entity.local.items.selectors;
+package stonering.entity.local.item.selectors;
 
-import stonering.entity.local.items.Item;
+import stonering.entity.local.item.Item;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Selects wear items, which can cover specified limb.
+ * Selects wear item, which can cover specified limb.
  *
  * @author Alexander Kuzyakov on 21.09.2018.
  */

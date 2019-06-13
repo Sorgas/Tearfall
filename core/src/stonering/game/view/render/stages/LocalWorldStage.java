@@ -11,7 +11,7 @@ import stonering.game.view.render.stages.renderer.TileRenderer;
  * Contains renderers for drawing local world and launches them in a sequence.
  * <p>
  * Draws LocalMap. Blocks and plants are taken from LocalTileMap,
- * Buildings, units, and items are taken from LocalMap.
+ * Buildings, units, and item are taken from LocalMap.
  * <p>
  * TODO move color from batch to sprites.
  * <p>

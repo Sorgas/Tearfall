@@ -11,8 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import stonering.entity.local.building.aspects.WorkbenchAspect;
 import stonering.entity.local.crafting.ItemOrder;
 import stonering.entity.local.crafting.ItemPartOrder;
-import stonering.entity.local.items.selectors.ItemSelector;
-import stonering.entity.local.items.selectors.SimpleItemSelector;
+import stonering.entity.local.item.selectors.ItemSelector;
+import stonering.entity.local.item.selectors.SimpleItemSelector;
 import stonering.enums.OrderStatusEnum;
 import stonering.enums.items.type.ItemTypeMap;
 import stonering.enums.items.recipe.Recipe;
@@ -166,13 +166,13 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
     }
 
     /**
-     * Creates and adds SB for itemPartOrder, or updates warning label if no items found.
+     * Creates and adds SB for itemPartOrder, or updates warning label if no item found.
      */
     private void tryAddPartSelectBox(ItemPartOrder itemPartOrder) {
         itemPartOrder.refreshSelectors(menu.getWorkbench().getPosition());
         List<ItemSelector> itemSelectors = itemPartOrder.getItemSelectors();
         if (itemSelectors.isEmpty()) {
-            warningLabel.setText("No items for " + itemPartOrder.getName() + " available");
+            warningLabel.setText("No item for " + itemPartOrder.getName() + " available");
         } else {
             PlaceHolderSelectBox<ItemSelector> materialSelectBox = createMaterialSelectBox(itemPartOrder, itemSelectors);
             leftHG.addActor(materialSelectBox);
@@ -183,13 +183,13 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
 
     /**
      * Creates selectBox for selecting material for item part.
-     * If no items is available,
-     * SelectBox can have no items after this (if no items available on map).
+     * If no item is available,
+     * SelectBox can have no item after this (if no item available on map).
      */
     private PlaceHolderSelectBox createMaterialSelectBox(ItemPartOrder itemPartOrder, List<ItemSelector> itemSelectors) {
         int currentIndex = order.getParts().indexOf(itemPartOrder);
         PlaceHolderSelectBox<ItemSelector> materialSelectBox = new PlaceHolderSelectBox<>(new SimpleItemSelector("Select Material"));
-        Position workbenchPosition = menu.getWorkbenchAspect().getEntity().getPosition();
+        Position workbenchPosition = menu.getWorkbench().getPosition();
         itemPartOrder.refreshSelectors(workbenchPosition);
         if (itemPartOrder.isSelectedPossible()) {   // selected is null or is in array
             materialSelectBox.setItems(itemSelectors);

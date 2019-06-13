@@ -2,7 +2,7 @@ package stonering.generators.buildings;
 
 import stonering.entity.local.building.BuildingType;
 import stonering.entity.local.building.aspects.WorkbenchAspect;
-import stonering.entity.local.items.aspects.ItemContainerAspect;
+import stonering.entity.local.item.aspects.ItemContainerAspect;
 import stonering.enums.buildings.BuildingTypeMap;
 import stonering.util.geometry.Position;
 import stonering.entity.local.building.Building;

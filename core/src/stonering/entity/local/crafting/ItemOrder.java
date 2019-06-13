@@ -21,7 +21,7 @@ import java.util.*;
  */
 public class ItemOrder {
     private Recipe recipe;
-    private List<ItemPartOrder> parts; // itemPart to items selected for variant.
+    private List<ItemPartOrder> parts; // itemPart to item selected for variant.
     private OrderStatusEnum status;
 
     private int amount;

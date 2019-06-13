@@ -2,22 +2,22 @@ package stonering.generators.items;
 
 import stonering.entity.local.Aspect;
 import stonering.entity.local.crafting.ItemOrder;
-import stonering.entity.local.items.aspects.SeedAspect;
+import stonering.entity.local.item.aspects.SeedAspect;
 import stonering.enums.items.type.ItemPartType;
-import stonering.entity.local.items.ItemPart;
-import stonering.entity.local.items.aspects.FallingAspect;
+import stonering.entity.local.item.ItemPart;
+import stonering.entity.local.item.aspects.FallingAspect;
 import stonering.enums.items.type.ItemType;
 import stonering.enums.items.type.ItemTypeMap;
 import stonering.enums.materials.MaterialMap;
 import stonering.exceptions.FaultDescriptionException;
 import stonering.generators.aspect.AspectGenerator;
-import stonering.entity.local.items.Item;
+import stonering.entity.local.item.Item;
 import stonering.util.global.Logger;
 
 import java.util.*;
 
 /**
- * Generates items.
+ * Generates item.
  * When player orders some item to produce, he specifies
  * materials for part of this item (through itemSelectors).
  *
@@ -26,7 +26,7 @@ import java.util.*;
 public class ItemGenerator {
     private ItemTypeMap itemTypeMap;
     private transient MaterialMap materialMap;
-    private Map<String, List<Object>> defaultAspects;
+    private Map<String, List<String>> defaultAspects;
 
     public ItemGenerator() {
         itemTypeMap = ItemTypeMap.getInstance();
@@ -36,7 +36,7 @@ public class ItemGenerator {
     }
 
     /**
-     * MVP method for creating items.
+     * MVP method for creating item.
      */
     public Item generateItem(String name, int material) {
         Item item = new Item(null, itemTypeMap.getItemType(name));
@@ -66,12 +66,12 @@ public class ItemGenerator {
     /**
      * Creates single aspect of item. All possible aspects should be listed here.
      */
-    private Aspect createItemAspect(String name, List<Object> params) {
+    private Aspect createItemAspect(String name, List<String> params) {
         switch (name) {
             case FallingAspect.NAME:
                 return new FallingAspect(null);
             case SeedAspect.NAME:
-                return new SeedAspect(null, (String) params.get(0));
+                return new SeedAspect(null, params.get(0));
             default:
                 return null;
         }
@@ -82,7 +82,7 @@ public class ItemGenerator {
 //     * Normal creation of item (order from workbench).
 //     *
 //     * @param order     order specified by player
-//     * @param resources items, carried to workbench
+//     * @param resources item, carried to workbench
 //     * @return
 //     */
 //    public Item generateItem(ItemOrder order, List<Item> resources) throws InvalidCraftingOrder {
@@ -105,8 +105,8 @@ public class ItemGenerator {
 //     * @return
 //     */
 //    private ItemPart createItemPart(ItemType itemType, String partTitle, ItemSelector selector, List<Item> resources) {
-//        List<Item> items = selector.selectItems(resources); // items to spend
-//        return new ItemPart(partTitle, items.get(0).getMainMaterial(), selectStep(itemType, partTitle).getVolume());
+//        List<Item> item = selector.selectItems(resources); // item to spend
+//        return new ItemPart(partTitle, item.get(0).getMainMaterial(), selectStep(itemType, partTitle).getVolume());
 //    }
 
     /**

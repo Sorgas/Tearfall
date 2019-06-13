@@ -2,7 +2,7 @@ package stonering.generators.localgen.generators.flora;
 
 import stonering.entity.local.plants.PlantBlock;
 import stonering.entity.local.plants.Tree;
-import stonering.enums.plants.PlantMap;
+import stonering.enums.plants.PlantTypeMap;
 import stonering.enums.plants.PlantType;
 import stonering.exceptions.DescriptionNotFoundException;
 import stonering.game.model.lists.PlantContainer;
@@ -32,7 +32,7 @@ public class LocalForestGenerator extends LocalFloraGenerator {
     @Override
     protected Set<PlantType> filterPlantsByType() {
         Logger.GENERATION.log("generating trees");
-        return PlantMap.getInstance().getTreeTypes().values().stream().filter(PlantType::isTree).collect(Collectors.toSet());
+        return PlantTypeMap.getInstance().getTreeTypes().values().stream().filter(PlantType::isTree).collect(Collectors.toSet());
     }
 
     @Override
@@ -42,7 +42,7 @@ public class LocalForestGenerator extends LocalFloraGenerator {
             amount /= 20; // amount is lowered for trees.
             Collections.shuffle(positions);
             TreeGenerator treeGenerator = new TreeGenerator();
-            int maxAge = PlantMap.getInstance().getTreeType(specimen).getMaxAge();
+            int maxAge = PlantTypeMap.getInstance().getTreeType(specimen).getMaxAge();
             for (int i = 0; i < amount; i++) {
                 if (positions.isEmpty()) return;
                 Position position = positions.remove(0);

@@ -49,18 +49,6 @@ public class BuildingTypeMap {
         Logger.LOADING.logDebug(map.keySet().size() + " loaded from " + filePath);
     }
 
-    public boolean hasMaterial(String title) {
-        return buildings.containsKey(title);
-    }
-
-    public BuildingType getBuilding(String name) {
-        return buildings.get(name);
-    }
-
-    public boolean hasBuilding(String name) {
-        return buildings.containsKey(name);
-    }
-
     /**
      * Loads lists of crafting recipes for building. First item in array should be building name.
      */
@@ -74,5 +62,17 @@ public class BuildingTypeMap {
                 type.recipes = recipeList;
             }
         }
+    }
+
+    public boolean hasMaterial(String title) {
+        return buildings.containsKey(title);
+    }
+
+    public BuildingType getBuilding(String name) {
+        return buildings.get(name);
+    }
+
+    public boolean hasBuilding(String name) {
+        return buildings.containsKey(name);
     }
 }

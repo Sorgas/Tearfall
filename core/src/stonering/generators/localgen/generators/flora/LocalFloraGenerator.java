@@ -2,7 +2,7 @@ package stonering.generators.localgen.generators.flora;
 
 import stonering.entity.world.World;
 import stonering.enums.generation.PlantPlacingTags;
-import stonering.enums.plants.PlantMap;
+import stonering.enums.plants.PlantTypeMap;
 import stonering.enums.plants.PlantType;
 import stonering.game.model.lists.PlantContainer;
 import stonering.game.model.local_map.LocalMap;
@@ -21,7 +21,7 @@ import static stonering.enums.generation.PlantPlacingTags.*;
  * Parent class for local generators of different plant types.
  * Generates plants suitable for local climate and places them on local map.
  * Generation steps:
- * 1. filter all plants from {@link PlantMap}
+ * 1. filter all plants from {@link PlantTypeMap}
  *
  * @author Alexander Kuzyakov on 10.04.2018.
  */
@@ -92,7 +92,7 @@ public abstract class LocalFloraGenerator extends LocalAbstractGenerator {
     }
 
     /**
-     * Filters all PlantMap with local climate parameters and adds passed plants and trees to maps.
+     * Filters all PlantTypeMap with local climate parameters and adds passed plants and trees to maps.
      */
     //TODO add grade of specimen spreading in this area.
     private Set<PlantType> filterPlantsByBounds(Set<PlantType> types) {

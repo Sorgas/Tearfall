@@ -2,7 +2,7 @@ package stonering.entity.local.building;
 
 import stonering.entity.job.designation.Designation;
 import stonering.entity.job.Task;
-import stonering.entity.local.items.selectors.ItemSelector;
+import stonering.entity.local.item.selectors.ItemSelector;
 import stonering.game.controller.controllers.designation.BuildingDesignationSequence;
 import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
