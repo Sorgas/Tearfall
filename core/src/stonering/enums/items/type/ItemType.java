@@ -1,5 +1,7 @@
 package stonering.enums.items.type;
 
+import stonering.entity.local.Entity;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -7,7 +9,7 @@ import java.util.HashMap;
  * Descriptor class of item. Stores all aspects, valid to the whole type of items, not for specific ones.
  * (e.g. not material, condition, ownership)
  */
-public class ItemType {
+public class ItemType extends Entity {
     public String name;                                // id
     public String title;                               // displayable title
     public String description;                         // displayable description

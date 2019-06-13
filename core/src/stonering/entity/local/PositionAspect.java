@@ -15,7 +15,7 @@ public class PositionAspect extends Aspect {
     }
 
     public PositionAspect(Entity entity, Position position) {
-        super(entity);
+        this(entity);
         this.position = position;
     }
 }

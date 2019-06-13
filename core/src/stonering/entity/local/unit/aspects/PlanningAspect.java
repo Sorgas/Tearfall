@@ -4,6 +4,7 @@ import stonering.entity.job.Task;
 import stonering.entity.job.action.Action;
 import stonering.entity.local.Aspect;
 import stonering.entity.local.Entity;
+import stonering.entity.local.PositionAspect;
 import stonering.game.GameMvc;
 import stonering.game.model.lists.tasks.TaskContainer;
 import stonering.util.geometry.Position;
@@ -31,7 +32,7 @@ public class PlanningAspect extends Aspect {
     public void turn() {
         if (!checkTask()) selectTask();// try find task, check it and claim
         if (checkActionSequence()) { // check all action in a sequence.
-            if (!(movementNeeded = !currentTask.getNextAction().getActionTarget().check(entity.getPosition()))) { // actor on position, so movement is not needed
+            if (!(movementNeeded = !currentTask.getNextAction().getActionTarget().check(getEntityPosition()))) { // actor on position, so movement is not needed
                 String actionName = currentTask.getNextAction().toString();
                 if (currentTask.getNextAction().perform()) { // act. called several times
                     Logger.TASKS.logDebug(entity + " completes action " + actionName);
@@ -110,7 +111,7 @@ public class PlanningAspect extends Aspect {
      * Can return null.
      */
     private Task getTaskFromContainer() {
-        return GameMvc.instance().getModel().get(TaskContainer.class).getActiveTask(entity.getPosition());
+        return GameMvc.instance().getModel().get(TaskContainer.class).getActiveTask(getEntityPosition());
     }
 
     /**
@@ -146,5 +147,9 @@ public class PlanningAspect extends Aspect {
 
     public boolean isMovementNeeded() {
         return movementNeeded;
+    }
+
+    private Position getEntityPosition() {
+        return entity.getAspect(PositionAspect.class).position;
     }
 }

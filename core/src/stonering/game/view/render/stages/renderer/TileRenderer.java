@@ -3,6 +3,7 @@ package stonering.game.view.render.stages.renderer;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import stonering.entity.job.designation.Designation;
+import stonering.entity.local.PositionAspect;
 import stonering.entity.local.building.BuildingBlock;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.plants.PlantBlock;
@@ -193,7 +194,7 @@ public class TileRenderer extends Renderer {
     }
 
     private void drawItem(Item item) {
-        util.drawSprite(util.selectSprite(5, item.getType().atlasXY[0], item.getType().atlasXY[1]), item.getPosition());
+        util.drawSprite(util.selectSprite(5, item.getType().atlasXY[0], item.getType().atlasXY[1]), item.getAspect(PositionAspect.class).position);
     }
 
     private void drawDesignation(Designation designation) {

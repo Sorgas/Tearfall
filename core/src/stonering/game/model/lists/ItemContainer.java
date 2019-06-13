@@ -2,6 +2,7 @@ package stonering.game.model.lists;
 
 import stonering.entity.local.Entity;
 import stonering.entity.local.crafting.CommonComponent;
+import stonering.entity.local.items.aspects.ResourceAspect;
 import stonering.entity.local.items.selectors.SimpleItemSelector;
 import stonering.enums.items.recipe.ItemPartRecipe;
 import stonering.enums.materials.MaterialMap;
@@ -131,7 +132,7 @@ public class ItemContainer extends Turnable implements ModelComponent, Initable 
         List<Item> itemListForFiltering = new ArrayList<>(items);
         Set<Integer> materialIds = materialMap.getMaterialsByType(materialType);
         return itemListForFiltering.stream().
-                filter(item -> item.getType().isResource).
+                filter(item -> item.getType().hasAspect(ResourceAspect.class)).
                 filter(item -> materialIds.contains(item.getMaterial())).
                 collect(Collectors.toList());
     }
@@ -190,7 +191,10 @@ public class ItemContainer extends Turnable implements ModelComponent, Initable 
     public List<ItemSelector> getItemSelectorsForItemPartRecipe(ItemPartRecipe itemPartRecipe, Position position) {
         Set<ItemSelector> itemSelectors = new HashSet<>();
         Set<Integer> allowedMaterials = MaterialMap.getInstance().getMaterialsByType(itemPartRecipe.materialTag);
-        List<Item> materialItems = items.stream().filter(item -> item.getType().isResource && allowedMaterials.contains(item.getMaterial())).collect(Collectors.toList());
+        List<Item> materialItems = items.stream().
+                filter(item -> item.getType().hasAspect(ResourceAspect.class)).
+                filter(item -> allowedMaterials.contains(item.getMaterial())).
+                collect(Collectors.toList());
         materialItems = filterUnreachable(materialItems, position); // TODO carried items has no position giving NPE
         for (ItemGroup itemGroup : groupItemsByTypesAndMaterials(materialItems)) {
             itemSelectors.add(createItemSelector(itemGroup));

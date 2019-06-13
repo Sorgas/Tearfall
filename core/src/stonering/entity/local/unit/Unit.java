@@ -1,6 +1,6 @@
 package stonering.entity.local.unit;
 
-import stonering.entity.local.Entity;
+import stonering.entity.local.PositionedEntity;
 import stonering.util.geometry.Position;
 
 /**
@@ -8,18 +8,10 @@ import stonering.util.geometry.Position;
  * <p>
  * Represents living creatures
  */
-public class Unit extends Entity {
+public class Unit extends PositionedEntity {
 
     public Unit(Position position) {
         super(position);
-    }
-
-    public Position getPosition() {
-        return position;
-    }
-
-    public void setPosition(Position position) {
-        this.position = position;
     }
 
     public void turn() {

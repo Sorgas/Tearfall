@@ -1,6 +1,7 @@
 package stonering.entity.local.items.aspects;
 
 import stonering.entity.local.Entity;
+import stonering.entity.local.PositionAspect;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.lists.ItemContainer;
@@ -28,10 +29,10 @@ public class FallingAspect extends Aspect {
 
     @Override
     public void turn() {
-        Position position = entity.getPosition();
+        Position position = getPosition();
         if (position != null) { //TODO add aspect turn on pickup
             LocalMap localMap = GameMvc.instance().getModel().get(LocalMap.class);
-            Position lowerPosition = Position.add(entity.getPosition(), 0, 0, -1);
+            Position lowerPosition = Position.add(getPosition(), 0, 0, -1);
             boolean isCurrentBlockSpace = localMap.getBlockType(position) == BlockTypesEnum.SPACE.CODE;
             boolean isLowerBlockWall = localMap.getBlockType(lowerPosition) == BlockTypesEnum.WALL.CODE;
 
@@ -39,5 +40,9 @@ public class FallingAspect extends Aspect {
                 GameMvc.instance().getModel().get(ItemContainer.class).moveItem((Item) entity, lowerPosition);
             }
         }
+    }
+
+    private Position getPosition() {
+        return entity.getAspect(PositionAspect.class).position;
     }
 }

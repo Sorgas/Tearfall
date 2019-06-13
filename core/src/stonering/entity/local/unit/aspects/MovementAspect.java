@@ -1,6 +1,7 @@
 package stonering.entity.local.unit.aspects;
 
 import com.badlogic.gdx.math.Vector3;
+import stonering.entity.local.PositionAspect;
 import stonering.game.GameMvc;
 import stonering.game.model.lists.UnitContainer;
 import stonering.game.model.local_map.LocalMap;
@@ -76,7 +77,7 @@ public class MovementAspect extends Aspect {
     }
 
     private void makeRouteToTarget() {
-        cachedPath = new AStar(GameMvc.instance().getModel().get(LocalMap.class)).makeShortestPath(entity.getPosition(), planning.getTarget(), planning.isTargetExact());
+        cachedPath = new AStar(GameMvc.instance().getModel().get(LocalMap.class)).makeShortestPath(getPosition(), planning.getTarget(), planning.isTargetExact());
     }
 
     /**
@@ -85,11 +86,11 @@ public class MovementAspect extends Aspect {
      * //TODO apply fall damage
      */
     private boolean tryFall() {
-        Position pos = entity.getPosition();
+        Position pos = getPosition();
         if (localMap.isFlyPassable(pos) &&
                 !localMap.isWalkPassable(pos) &&
                 pos.getZ() > 0 && localMap.isFlyPassable(pos.getX(), pos.getY(), pos.getZ() - 1)) {
-            entity.setPosition(new Position(pos.getX(), pos.getY(), pos.getZ() - 1));
+            entity.getAspect(PositionAspect.class).position = new Position(pos.getX(), pos.getY(), pos.getZ() - 1);
             cachedPath = null;
             return true;
         }
@@ -111,7 +112,7 @@ public class MovementAspect extends Aspect {
     public Vector3 getStepProgressVector() {
         if (!hasPath()) return new Vector3(); // zero vector for staying still.
         Position nextPosition = cachedPath.get(0);
-        Position unitPosition = entity.getPosition();
+        Position unitPosition = entity.getAspect(PositionAspect.class).position;
         return new Vector3(
                 getStepProgressVectorComponent(unitPosition.x, nextPosition.x),
                 getStepProgressVectorComponent(unitPosition.y, nextPosition.y),
@@ -120,5 +121,9 @@ public class MovementAspect extends Aspect {
 
     private float getStepProgressVectorComponent(int from, int to) {
         return (from - to) * stepProgress / stepInterval;
+    }
+
+    private Position getPosition() {
+        return entity.getAspect(PositionAspect.class).position;
     }
 }

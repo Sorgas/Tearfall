@@ -1,5 +1,6 @@
 package stonering.entity.local.items;
 
+import stonering.entity.local.PositionAspect;
 import stonering.enums.items.type.ItemType;
 import stonering.util.geometry.Position;
 import stonering.entity.local.Entity;
@@ -40,7 +41,7 @@ public class Item extends Entity {
     @Override
     public String toString() {
         return "title: " + title +
-                " position: " + position +
+                " position: " + getPosition() +
                 " weight: " + weight;
     }
 
@@ -106,5 +107,13 @@ public class Item extends Entity {
 
     public void setMaterial(int material) {
         this.material = material;
+    }
+
+    public Position getPosition() {
+        return getAspect(PositionAspect.class).position;
+    }
+
+    public void setPosition(Position position) {
+        getAspect(PositionAspect.class).position = position;
     }
 }

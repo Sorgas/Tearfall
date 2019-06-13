@@ -23,11 +23,10 @@ public class WearNeed extends Need {
      * Counts current priority for creature to find wear.
      * Having no wear only gives comfort penalty, so priority is never high.
      * TODO add prioritizing based on environment temperature
-     * @param entity
      */
     @Override
     public int countPriority(Entity entity) {
-        EquipmentAspect equipmentAspect = (EquipmentAspect) entity.getAspect(EquipmentAspect.class);
+        EquipmentAspect equipmentAspect = entity.getAspect(EquipmentAspect.class);
         if (equipmentAspect != null) {
             if (!equipmentAspect.getEmptyDesiredSlots().isEmpty()) {
                 return GET_WEAR_PRIORITY;
@@ -49,14 +48,10 @@ public class WearNeed extends Need {
     }
 
     private Task tryCreateEquipTask(Entity entity, EquipmentSlot equipmentSlot) {
-        ItemSelector itemSelector = createItemSelectorForLimb(equipmentSlot.limbName);
+        ItemSelector itemSelector = new WearForLimbItemSelector(equipmentSlot.limbName);
         Item item = container.get(ItemContainer.class).getItemAvailableBySelector(itemSelector, entity.getPosition());
         if (item == null) return null;
         EquipItemAction equipItemAction = new EquipItemAction(item, true);
         return new Task("Equip item " + item.getTitle(), TaskTypesEnum.EQUIPPING, equipItemAction, GET_WEAR_PRIORITY);
-    }
-
-    private ItemSelector createItemSelectorForLimb(String limbName) {
-        return new WearForLimbItemSelector(limbName);
     }
 }

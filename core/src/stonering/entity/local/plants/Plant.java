@@ -31,11 +31,10 @@ public class Plant extends AbstractPlant {
     }
 
     public Position getPosition() {
-        return position;
+        return block.getPosition();
     }
 
     public void setPosition(Position position) {
-        super.setPosition(position);
         block.setPosition(position);
     }
 }
