@@ -10,6 +10,7 @@ import stonering.game.view.render.util.Resizeable;
 import stonering.util.geometry.Int2dBounds;
 import stonering.util.geometry.Int3dBounds;
 import stonering.util.geometry.Position;
+import stonering.util.geometry.Vector;
 
 import static stonering.game.view.render.stages.renderer.DrawingUtil.*;
 
@@ -95,7 +96,7 @@ public class MovableCamera extends OrthographicCamera implements Resizeable {
     /**
      * Notifies camera about {@link EntitySelector} moves. If it moves out of visible area by x or y axis, camera changes position.
      */
-    public void selectorMoved() {
+    public void selectorMoved2() {
         Position selectorPosition = GameMvc.instance().getModel().get(EntitySelector.class).getPosition();
         if (selectorBounds.isIn(selectorPosition) && selectorPosition.z == modelPosition.z)
             return; // no action, if selector moves within it's bounds;
@@ -118,7 +119,7 @@ public class MovableCamera extends OrthographicCamera implements Resizeable {
      * If selector moves by z-axis, camera changes position by z.
      * If it moves out of visible area by x or y axis, camera changes position.
      */
-    private void selectorMove() {
+    public void selectorMoved() {
         Position selectorPosition = GameMvc.instance().getModel().get(EntitySelector.class).getPosition();
         Vector2 vector = getOutOfFrameVector(selectorPosition);
         if (modelPosition.z == selectorPosition.z && vector.isZero()) return;
@@ -135,8 +136,16 @@ public class MovableCamera extends OrthographicCamera implements Resizeable {
      */
     private Vector2 getOutOfFrameVector(Position position) {
         Vector2 vector = new Vector2();
-        if(this.position.x - viewportWidth / 2 < position.x * TILE_WIDTH) vector.x = -1;
-        if(this.position.x + viewportWidth / 2 > (position.x + 1) * TILE_WIDTH - 1) vector.x = 1;
+        vector.x = (position.x + 0.5f) * TILE_WIDTH - this.position.x;
+        vector.y = (position.y + 0.5f) * TILE_DEPTH - this.position.y;
+        Vector2 vector2 = vector.cpy();
+        if(Math.abs(vector.x) < viewportWidth / 2) vector.x = 0;
+        if(Math.abs(vector.y) < viewportHeight / 2) vector.y = 0;
+
+        if(vector2.x > viewportWidth / 2) vector2.x -= viewportWidth / 2;
+        if(vector2.y > viewportHeight/ 2) vector2.y -= viewportHeight / 2;
+        if(this.position.x - viewportWidth / 2 > position.x * TILE_WIDTH) vector.x = -1;
+        if(this.position.x + viewportWidth / 2 < (position.x + 1) * TILE_WIDTH - 1) vector.x = 1;
         if(this.position.y - viewportHeight / 2 < position.y * TILE_DEPTH) vector.y = -1;
         if(this.position.y + viewportHeight / 2 < (position.y + 1) * TILE_DEPTH - 1) vector.y = 1;
         return vector;
