@@ -21,7 +21,7 @@ public class GameController extends Controller {
         super.init();
         inputMultiplexer = new InputMultiplexer();
         designationsController = new DesignationsController();
-        pauseInputAdapter = new PauseInputAdapter(gameMvc);
+        pauseInputAdapter = new PauseInputAdapter();
         entitySelectorInputAdapter = new EntitySelectorInputAdapter();
         designationsController.init();
         inputMultiplexer.addProcessor(new KeyBufferInputAdapter());                 // only buffers events
