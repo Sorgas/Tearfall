@@ -1,14 +1,14 @@
 package stonering.entity.local.items.aspects;
 
 import stonering.entity.local.Aspect;
-import stonering.entity.local.AspectHolder;
+import stonering.entity.local.Entity;
 
 public class SeedAspect extends Aspect {
     public static final String NAME = "seed";
     private String specimen;
 
-    public SeedAspect(AspectHolder aspectHolder, String specimen) {
-        super(aspectHolder);
+    public SeedAspect(Entity entity, String specimen) {
+        super(entity);
         this.specimen = specimen;
     }
 

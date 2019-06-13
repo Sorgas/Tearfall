@@ -1,6 +1,6 @@
 package stonering.entity.local.zone;
 
-import stonering.entity.local.AspectHolder;
+import stonering.entity.local.Entity;
 import stonering.enums.ZoneTypesEnum;
 import stonering.util.geometry.Position;
 
@@ -13,7 +13,7 @@ import java.util.Set;
  *
  * @author Alexander on 04.03.2019.
  */
-public abstract class Zone extends AspectHolder implements Cloneable {
+public abstract class Zone extends Entity implements Cloneable {
     protected String name;
     protected Set<Position> tiles;
     protected ZoneTypesEnum type;

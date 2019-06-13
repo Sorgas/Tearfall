@@ -4,7 +4,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
-import stonering.entity.local.AspectHolder;
+import stonering.entity.local.Entity;
 import stonering.game.GameMvc;
 import stonering.util.global.CompatibleArray;
 import stonering.util.global.StaticSkin;
@@ -18,18 +18,18 @@ import java.util.function.Consumer;
  * @author Alexander on 11.11.2018.
  */
 public class ObservingList extends Window {
-    private NavigableList<AspectHolder> list;
-    private Consumer<AspectHolder> selectHandler;
+    private NavigableList<Entity> list;
+    private Consumer<Entity> selectHandler;
 
 
-    public ObservingList(Consumer<AspectHolder> selectHandler) {
+    public ObservingList(Consumer<Entity> selectHandler) {
         this(null, selectHandler);
     }
 
-    public ObservingList(List<AspectHolder> aspectHolders, Consumer<AspectHolder> selectHandler) {
+    public ObservingList(List<Entity> entities, Consumer<Entity> selectHandler) {
         super("qwer", StaticSkin.getSkin());
         this.selectHandler = selectHandler;
-        fillList(aspectHolders);
+        fillList(entities);
         createListener();
         createWindow();
     }
@@ -39,11 +39,11 @@ public class ObservingList extends Window {
         setWidth(800);
     }
 
-    public void fillList(List<AspectHolder> aspectHolders) {
+    public void fillList(List<Entity> entities) {
         list = new NavigableList<>();
         add(list).width(400).height(700);
-        if (aspectHolders == null) return;
-        list.getItems().addAll(new CompatibleArray<>(aspectHolders));
+        if (entities == null) return;
+        list.getItems().addAll(new CompatibleArray<>(entities));
 
     }
 

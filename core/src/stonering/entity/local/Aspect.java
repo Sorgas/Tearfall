@@ -11,18 +11,18 @@ import java.io.Serializable;
  */
 public abstract class Aspect extends Turnable implements Initable, Serializable {
     protected GameMvc gameMvc;
-    protected AspectHolder aspectHolder;
+    protected Entity entity;
 
-    public Aspect(AspectHolder aspectHolder) {
-        this.aspectHolder = aspectHolder;
+    public Aspect(Entity entity) {
+        this.entity = entity;
     }
 
-    public AspectHolder getAspectHolder() {
-        return aspectHolder;
+    public Entity getEntity() {
+        return entity;
     }
 
-    public void setAspectHolder(AspectHolder aspectHolder) {
-        this.aspectHolder = aspectHolder;
+    public void setEntity(Entity entity) {
+        this.entity = entity;
     }
 
     @Override

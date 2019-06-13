@@ -3,7 +3,7 @@ package stonering.entity.local.unit.aspects;
 import stonering.entity.job.Task;
 import stonering.entity.job.action.Action;
 import stonering.entity.local.Aspect;
-import stonering.entity.local.AspectHolder;
+import stonering.entity.local.Entity;
 import stonering.game.GameMvc;
 import stonering.game.model.lists.tasks.TaskContainer;
 import stonering.util.geometry.Position;
@@ -24,17 +24,17 @@ public class PlanningAspect extends Aspect {
     private Task currentTask;
     private boolean movementNeeded = false; // true, when has task and not in position.
 
-    public PlanningAspect(AspectHolder aspectHolder) {
-        super(aspectHolder);
+    public PlanningAspect(Entity entity) {
+        super(entity);
     }
 
     public void turn() {
         if (!checkTask()) selectTask();// try find task, check it and claim
         if (checkActionSequence()) { // check all action in a sequence.
-            if (!(movementNeeded = !currentTask.getNextAction().getActionTarget().check(aspectHolder.getPosition()))) { // actor on position, so movement is not needed
+            if (!(movementNeeded = !currentTask.getNextAction().getActionTarget().check(entity.getPosition()))) { // actor on position, so movement is not needed
                 String actionName = currentTask.getNextAction().toString();
                 if (currentTask.getNextAction().perform()) { // act. called several times
-                    Logger.TASKS.logDebug(aspectHolder + " completes action " + actionName);
+                    Logger.TASKS.logDebug(entity + " completes action " + actionName);
                     System.out.println("check");
                 }
             }
@@ -99,10 +99,10 @@ public class PlanningAspect extends Aspect {
      * Can return null.
      */
     private Task takeTaskFromNeedsAspect() {
-        NeedsAspect needsAspect = aspectHolder.getAspect(NeedsAspect.class);
+        NeedsAspect needsAspect = entity.getAspect(NeedsAspect.class);
         if (needsAspect == null || needsAspect.getStrongestNeed() == null)
             return null; // no needs at all, or no strong needs
-        return needsAspect.getStrongestNeed().tryCreateTask(aspectHolder);
+        return needsAspect.getStrongestNeed().tryCreateTask(entity);
     }
 
     /**
@@ -110,15 +110,15 @@ public class PlanningAspect extends Aspect {
      * Can return null.
      */
     private Task getTaskFromContainer() {
-        return GameMvc.instance().getModel().get(TaskContainer.class).getActiveTask(aspectHolder.getPosition());
+        return GameMvc.instance().getModel().get(TaskContainer.class).getActiveTask(entity.getPosition());
     }
 
     /**
      * Sets this actor as performer to taken task.
      */
     private void claimTask() {
-        currentTask.setPerformer((Unit) aspectHolder);
-        Logger.TASKS.logDebug("Task " + currentTask.getName() + " has taken by " + aspectHolder.toString() + ".");
+        currentTask.setPerformer((Unit) entity);
+        Logger.TASKS.logDebug("Task " + currentTask.getName() + " has taken by " + entity.toString() + ".");
     }
 
     /**

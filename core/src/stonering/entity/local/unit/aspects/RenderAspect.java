@@ -2,7 +2,7 @@ package stonering.entity.local.unit.aspects;
 
 import com.badlogic.gdx.graphics.Texture;
 import stonering.entity.local.Aspect;
-import stonering.entity.local.AspectHolder;
+import stonering.entity.local.Entity;
 
 /**
  * Stores Unit's render information.
@@ -14,8 +14,8 @@ public class RenderAspect extends Aspect {
     private int[] atlasXY;
     private Texture texture;
 
-    public RenderAspect(AspectHolder aspectHolder) {
-        super(aspectHolder);
+    public RenderAspect(Entity entity) {
+        super(entity);
     }
 
     public int[] getAtlasXY() {

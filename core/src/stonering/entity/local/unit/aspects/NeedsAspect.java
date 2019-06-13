@@ -1,7 +1,7 @@
 package stonering.entity.local.unit.aspects;
 
 import stonering.entity.local.Aspect;
-import stonering.entity.local.AspectHolder;
+import stonering.entity.local.Entity;
 import stonering.entity.local.unit.aspects.needs.Need;
 
 import java.util.ArrayList;
@@ -22,8 +22,8 @@ public class NeedsAspect extends Aspect {
     private Need strongestNeed;
     private int priority;
 
-    public NeedsAspect(AspectHolder aspectHolder) {
-        super(aspectHolder);
+    public NeedsAspect(Entity entity) {
+        super(entity);
         needs = new ArrayList<>();
         needsCheckDelay = maxNeedsCheckDelay;
     }
@@ -46,7 +46,7 @@ public class NeedsAspect extends Aspect {
         strongestNeed = null;
         this.priority = -1;
         for (Need need : needs) {
-            int priority = need.countPriority(aspectHolder);
+            int priority = need.countPriority(entity);
             if (priority <= this.priority) continue; // weaker or same need
             strongestNeed = need;
             this.priority = priority;

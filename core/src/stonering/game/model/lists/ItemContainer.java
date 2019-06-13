@@ -1,6 +1,6 @@
 package stonering.game.model.lists;
 
-import stonering.entity.local.AspectHolder;
+import stonering.entity.local.Entity;
 import stonering.entity.local.crafting.CommonComponent;
 import stonering.entity.local.items.selectors.SimpleItemSelector;
 import stonering.enums.items.recipe.ItemPartRecipe;
@@ -45,7 +45,7 @@ public class ItemContainer extends Turnable implements ModelComponent, Initable 
      * Turns all items for rust, burn, spoil, etc.
      */
     public void turn() {
-        items.forEach(AspectHolder::turn);
+        items.forEach(Entity::turn);
     }
 
     /**

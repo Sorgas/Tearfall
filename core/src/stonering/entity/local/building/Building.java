@@ -1,8 +1,7 @@
 package stonering.entity.local.building;
 
 import stonering.util.geometry.Position;
-import stonering.entity.local.Aspect;
-import stonering.entity.local.AspectHolder;
+import stonering.entity.local.Entity;
 import stonering.entity.local.unit.Unit;
 
 import java.util.HashMap;
@@ -12,7 +11,7 @@ import java.util.HashMap;
  *
  * @author Alexander Kuzyakov on 07.12.2017.
  */
-public class Building extends AspectHolder { // TODO split to aspects
+public class Building extends Entity { // TODO split to aspects
     private Unit owner;
     private int material;
     private BuildingType type;

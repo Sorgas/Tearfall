@@ -1,7 +1,7 @@
 package stonering.entity.local.plants.aspects;
 
 import stonering.entity.local.Aspect;
-import stonering.entity.local.AspectHolder;
+import stonering.entity.local.Entity;
 import stonering.entity.local.environment.GameCalendar;
 import stonering.entity.local.plants.AbstractPlant;
 import stonering.entity.local.plants.Plant;
@@ -22,8 +22,8 @@ public class PlantGrowthAspect extends Aspect {
 
     private int counter = 0;
 
-    public PlantGrowthAspect(AspectHolder aspectHolder) {
-        super(aspectHolder);
+    public PlantGrowthAspect(Entity entity) {
+        super(entity);
     }
 
     /**
@@ -33,7 +33,7 @@ public class PlantGrowthAspect extends Aspect {
     public void turn() {
         if (counter++ != MONTH_SIZE) return;
         counter = 0;
-        switch (((AbstractPlant) aspectHolder).increaceAge()) {
+        switch (((AbstractPlant) entity).increaceAge()) {
             case 1:
                 applyNewStage();
                 return;
@@ -47,14 +47,14 @@ public class PlantGrowthAspect extends Aspect {
      */
     private void applyNewStage() {
         PlantContainer plantContainer = GameMvc.instance().getModel().get(PlantContainer.class);
-        if (aspectHolder instanceof Tree) {
-            Tree tree = (Tree) aspectHolder;
+        if (entity instanceof Tree) {
+            Tree tree = (Tree) entity;
             plantContainer.removePlantBlocks(tree);
             TreeGenerator treeGenerator = new TreeGenerator();
             treeGenerator.applyTreeGrowth(tree);
             plantContainer.place(tree);
-        } else if (aspectHolder instanceof Plant) {
-            Plant plant = (Plant) aspectHolder;
+        } else if (entity instanceof Plant) {
+            Plant plant = (Plant) entity;
             plantContainer.removePlantBlocks(plant);
             PlantGenerator plantGenerator = new PlantGenerator();
             plantGenerator.applyPlantGrowth(plant);
@@ -67,6 +67,6 @@ public class PlantGrowthAspect extends Aspect {
      */
     private void die() {
         //TODO
-        ((AbstractPlant) aspectHolder).setDead(true);
+        ((AbstractPlant) entity).setDead(true);
     }
 }

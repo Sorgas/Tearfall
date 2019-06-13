@@ -1,7 +1,7 @@
 package stonering.entity.local.environment.aspects;
 
 import stonering.entity.local.Aspect;
-import stonering.entity.local.AspectHolder;
+import stonering.entity.local.Entity;
 
 /**
  * Determines body state change over time. Has orbit position and phase.
@@ -16,8 +16,8 @@ public class CelestialCycleAspect extends Aspect {
     private float phaseScale;
     private float orbitScale;       // part of orbit passed in one minute
 
-    public CelestialCycleAspect(float phaseScale, float orbitScale, AspectHolder aspectHolder) {
-        super(aspectHolder);
+    public CelestialCycleAspect(float phaseScale, float orbitScale, Entity entity) {
+        super(entity);
         this.phaseScale = phaseScale;
         this.orbitScale = orbitScale;
     }
@@ -47,8 +47,8 @@ public class CelestialCycleAspect extends Aspect {
     }
 
     private void updateOtherAspects() {
-        if (aspectHolder.getAspect(CelestialLightSourceAspect.class) == null) return;
-        aspectHolder.getAspect(CelestialLightSourceAspect.class).setForce(countLightForce());
+        if (entity.getAspect(CelestialLightSourceAspect.class) == null) return;
+        entity.getAspect(CelestialLightSourceAspect.class).setForce(countLightForce());
     }
 
     public float getOrbitPos() {

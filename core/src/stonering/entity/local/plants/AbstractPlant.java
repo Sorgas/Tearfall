@@ -1,6 +1,6 @@
 package stonering.entity.local.plants;
 
-import stonering.entity.local.AspectHolder;
+import stonering.entity.local.Entity;
 import stonering.enums.plants.PlantLifeStage;
 import stonering.enums.plants.PlantType;
 import stonering.util.geometry.Position;
@@ -8,7 +8,7 @@ import stonering.util.geometry.Position;
 /**
  * Parent class for single and multi tile plants.
  */
-public abstract class AbstractPlant extends AspectHolder {
+public abstract class AbstractPlant extends Entity {
     protected PlantType type;
     private int age; // months
     private int currentStage;

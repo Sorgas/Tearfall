@@ -1,9 +1,9 @@
 package stonering.entity.local.environment.aspects;
 
+import stonering.entity.local.Entity;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
-import stonering.entity.local.AspectHolder;
 
 
 /**
@@ -16,8 +16,8 @@ import stonering.entity.local.AspectHolder;
 public class CelestialLightSourceAspect extends AbstractLighSourceAspect {
     public static String NAME = "celestial_light_source";
 
-    public CelestialLightSourceAspect(AspectHolder aspectHolder) {
-        super(aspectHolder);
+    public CelestialLightSourceAspect(Entity entity) {
+        super(entity);
     }
 
     @Override

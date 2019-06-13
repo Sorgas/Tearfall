@@ -1,7 +1,7 @@
 package stonering.game.view.render.stages;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
-import stonering.entity.local.AspectHolder;
+import stonering.entity.local.Entity;
 import stonering.entity.local.building.Building;
 import stonering.entity.local.building.BuildingBlock;
 import stonering.entity.local.zone.Zone;
@@ -78,32 +78,32 @@ public class MapEntitySelectStage extends UiStage implements Initable {
      * If there is only one entity, shows it's stage.
      * IF there are several, shows select list.
      */
-    private void collectEntities(List<AspectHolder> aspectHolders) {
+    private void collectEntities(List<Entity> entities) {
         GameModel gameModel = GameMvc.instance().getModel();
         BuildingBlock buildingBlock = gameModel.get(BuildingContainer.class).getBuildingBlocks().get(currentPosition);
-        if (buildingBlock != null) aspectHolders.add(buildingBlock.getBuilding());
-        aspectHolders.add(gameModel.get(PlantContainer.class).getPlantInPosition(currentPosition));
-        aspectHolders.addAll(gameModel.get(ItemContainer.class).getItemsInPosition(currentPosition));
-        aspectHolders.addAll(gameModel.get(UnitContainer.class).getUnitsInPosition(currentPosition));
+        if (buildingBlock != null) entities.add(buildingBlock.getBuilding());
+        entities.add(gameModel.get(PlantContainer.class).getPlantInPosition(currentPosition));
+        entities.addAll(gameModel.get(ItemContainer.class).getItemsInPosition(currentPosition));
+        entities.addAll(gameModel.get(UnitContainer.class).getUnitsInPosition(currentPosition));
         Zone zone = gameModel.get(ZonesContainer.class).getZone(currentPosition);
-        if (zone != null) aspectHolders.add(zone);
+        if (zone != null) entities.add(zone);
     }
 
     private void showEntitySelectList() {
-        List<AspectHolder> aspectHolders = new ArrayList<>();
-        collectEntities(aspectHolders);
-        if (aspectHolders.size() == 1) {
-            showEntityStage(aspectHolders.get(0));
+        List<Entity> entities = new ArrayList<>();
+        collectEntities(entities);
+        if (entities.size() == 1) {
+            showEntityStage(entities.get(0));
         } else {
-            createObservingList(aspectHolders);
+            createObservingList(entities);
         }
     }
 
-    private void showEntityStage(AspectHolder aspectHolder) {
-        if (aspectHolder instanceof Building) {
-            tryShowBuildingStage(((Building) aspectHolder).getBlock());
-        } else if (aspectHolder instanceof Zone) {
-            tryShowZoneStage((Zone) aspectHolder);
+    private void showEntityStage(Entity entity) {
+        if (entity instanceof Building) {
+            tryShowBuildingStage(((Building) entity).getBlock());
+        } else if (entity instanceof Zone) {
+            tryShowZoneStage((Zone) entity);
         }
         //TODO add other entity types
     }
@@ -127,8 +127,8 @@ public class MapEntitySelectStage extends UiStage implements Initable {
         System.out.println("adding new zone stage");
     }
 
-    private void createObservingList(List<AspectHolder> aspectHolders) {
-        ObservingList observingList = new ObservingList(aspectHolders, aspectHolder -> showEntityStage(aspectHolder));
+    private void createObservingList(List<Entity> entities) {
+        ObservingList observingList = new ObservingList(entities, aspectHolder -> showEntityStage(aspectHolder));
         Container container = new Container().center();
         container.setFillParent(true);
         container.setDebug(true, true);

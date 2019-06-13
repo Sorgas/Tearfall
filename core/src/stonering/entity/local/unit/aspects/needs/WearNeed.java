@@ -3,7 +3,7 @@ package stonering.entity.local.unit.aspects.needs;
 import stonering.entity.job.action.EquipItemAction;
 import stonering.entity.job.Task;
 import stonering.entity.job.action.TaskTypesEnum;
-import stonering.entity.local.AspectHolder;
+import stonering.entity.local.Entity;
 import stonering.entity.local.items.Item;
 import stonering.entity.local.items.selectors.ItemSelector;
 import stonering.entity.local.items.selectors.WearForLimbItemSelector;
@@ -23,11 +23,11 @@ public class WearNeed extends Need {
      * Counts current priority for creature to find wear.
      * Having no wear only gives comfort penalty, so priority is never high.
      * TODO add prioritizing based on environment temperature
-     * @param aspectHolder
+     * @param entity
      */
     @Override
-    public int countPriority(AspectHolder aspectHolder) {
-        EquipmentAspect equipmentAspect = (EquipmentAspect) aspectHolder.getAspect(EquipmentAspect.class);
+    public int countPriority(Entity entity) {
+        EquipmentAspect equipmentAspect = (EquipmentAspect) entity.getAspect(EquipmentAspect.class);
         if (equipmentAspect != null) {
             if (!equipmentAspect.getEmptyDesiredSlots().isEmpty()) {
                 return GET_WEAR_PRIORITY;
@@ -37,20 +37,20 @@ public class WearNeed extends Need {
     }
 
     @Override
-    public Task tryCreateTask(AspectHolder aspectHolder) {
-        EquipmentAspect equipmentAspect = aspectHolder.getAspect(EquipmentAspect.class);
+    public Task tryCreateTask(Entity entity) {
+        EquipmentAspect equipmentAspect = entity.getAspect(EquipmentAspect.class);
         if (equipmentAspect == null) return null;
         if (equipmentAspect.getEmptyDesiredSlots().isEmpty()) return null;
         for (EquipmentSlot equipmentSlot : equipmentAspect.getDesiredSlots()) {
-            Task task = tryCreateEquipTask(aspectHolder, equipmentSlot);
+            Task task = tryCreateEquipTask(entity, equipmentSlot);
             if (task != null) return task;
         }
         return null;
     }
 
-    private Task tryCreateEquipTask(AspectHolder aspectHolder, EquipmentSlot equipmentSlot) {
+    private Task tryCreateEquipTask(Entity entity, EquipmentSlot equipmentSlot) {
         ItemSelector itemSelector = createItemSelectorForLimb(equipmentSlot.limbName);
-        Item item = container.get(ItemContainer.class).getItemAvailableBySelector(itemSelector, aspectHolder.getPosition());
+        Item item = container.get(ItemContainer.class).getItemAvailableBySelector(itemSelector, entity.getPosition());
         if (item == null) return null;
         EquipItemAction equipItemAction = new EquipItemAction(item, true);
         return new Task("Equip item " + item.getTitle(), TaskTypesEnum.EQUIPPING, equipItemAction, GET_WEAR_PRIORITY);

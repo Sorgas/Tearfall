@@ -1,7 +1,7 @@
 package stonering.entity.local.items.aspects;
 
 import stonering.entity.local.Aspect;
-import stonering.entity.local.AspectHolder;
+import stonering.entity.local.Entity;
 import stonering.entity.local.items.Item;
 
 import java.util.ArrayList;
@@ -16,14 +16,14 @@ public class ItemContainerAspect extends Aspect {
     private int volume;
     private List<Item> items;
 
-    public ItemContainerAspect(AspectHolder aspectHolder) {
-        super(aspectHolder);
+    public ItemContainerAspect(Entity entity) {
+        super(entity);
         items = new ArrayList<>();
     }
 
     @Override
     public void turn() {
-        items.forEach(AspectHolder::turn);
+        items.forEach(Entity::turn);
     }
 
     public List<Item> getItems() {

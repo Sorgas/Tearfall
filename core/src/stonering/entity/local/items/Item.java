@@ -2,14 +2,14 @@ package stonering.entity.local.items;
 
 import stonering.enums.items.type.ItemType;
 import stonering.util.geometry.Position;
-import stonering.entity.local.AspectHolder;
+import stonering.entity.local.Entity;
 
 /**
  * In game item. Consists of parts.
  *
  * @author Alexander Kuzyakov on 09.12.2017.
  */
-public class Item extends AspectHolder {
+public class Item extends Entity {
     private String name;
     private String title;
     private ItemType type;

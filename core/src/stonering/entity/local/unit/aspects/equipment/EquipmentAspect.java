@@ -1,8 +1,8 @@
 package stonering.entity.local.unit.aspects.equipment;
 
+import stonering.entity.local.Entity;
 import stonering.exceptions.NotSuitableItemException;
 import stonering.entity.local.Aspect;
-import stonering.entity.local.AspectHolder;
 import stonering.entity.local.items.Item;
 
 import java.util.ArrayList;
@@ -27,8 +27,8 @@ public class EquipmentAspect extends Aspect {
     private ArrayList<EquipmentSlot> desiredSlots;           // uncovered limbs give comfort penalty
     private int emptyDesiredSlotsCount;                      // for faster checking nudity
 
-    public EquipmentAspect(AspectHolder aspectHolder) {
-        super(aspectHolder);
+    public EquipmentAspect(Entity entity) {
+        super(entity);
         slots = new HashMap<>();
         grabSlots = new HashMap<>();
         equippedItems = new ArrayList<>();
@@ -137,7 +137,7 @@ public class EquipmentAspect extends Aspect {
             //slots with this limb types should exist. types in the list nto unique.
             ArrayList<String> requiredSlotTypes = item.getType().wear.getRequiredBodyParts();
             if (!checkSlotsWithTypes(requiredSlotTypes)) { // required slots exist on creature
-                throw new NotSuitableItemException("Creature " + aspectHolder + " has no required slots for item " + item);
+                throw new NotSuitableItemException("Creature " + entity + " has no required slots for item " + item);
             }
             List<EquipmentSlot> slots = selectMostEmptySlotsForItem(item);
             for (EquipmentSlot slot : slots) {

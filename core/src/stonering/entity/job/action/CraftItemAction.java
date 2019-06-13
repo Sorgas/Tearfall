@@ -1,7 +1,7 @@
 package stonering.entity.job.action;
 
 import stonering.entity.job.action.target.AspectHolderActionTarget;
-import stonering.entity.local.AspectHolder;
+import stonering.entity.local.Entity;
 import stonering.entity.local.building.aspects.WorkbenchAspect;
 import stonering.entity.local.crafting.ItemOrder;
 import stonering.entity.local.crafting.ItemPartOrder;
@@ -23,11 +23,11 @@ import java.util.List;
  */
 public class CraftItemAction extends Action {
     private ItemOrder itemOrder;
-    private AspectHolder workbench;
+    private Entity workbench;
     private List<Item> desiredItems; // these items should be in WB.
     private Item tool; //TODO
 
-    public CraftItemAction(ItemOrder itemOrder, AspectHolder workbench) {
+    public CraftItemAction(ItemOrder itemOrder, Entity workbench) {
         super(new AspectHolderActionTarget(workbench, true, false));
         desiredItems = new ArrayList<>();
         this.itemOrder = itemOrder;

@@ -1,7 +1,7 @@
 package stonering.entity.local.building.aspects;
 
 import stonering.entity.local.Aspect;
-import stonering.entity.local.AspectHolder;
+import stonering.entity.local.Entity;
 
 /**
  * Aspect for item containers.
@@ -10,7 +10,7 @@ import stonering.entity.local.AspectHolder;
  */
 public class ItemStorageAspect extends Aspect {
 
-    public ItemStorageAspect(AspectHolder aspectHolder) {
-        super(aspectHolder);
+    public ItemStorageAspect(Entity entity) {
+        super(entity);
     }
 }

@@ -189,7 +189,7 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
     private PlaceHolderSelectBox createMaterialSelectBox(ItemPartOrder itemPartOrder, List<ItemSelector> itemSelectors) {
         int currentIndex = order.getParts().indexOf(itemPartOrder);
         PlaceHolderSelectBox<ItemSelector> materialSelectBox = new PlaceHolderSelectBox<>(new SimpleItemSelector("Select Material"));
-        Position workbenchPosition = menu.getWorkbenchAspect().getAspectHolder().getPosition();
+        Position workbenchPosition = menu.getWorkbenchAspect().getEntity().getPosition();
         itemPartOrder.refreshSelectors(workbenchPosition);
         if (itemPartOrder.isSelectedPossible()) {   // selected is null or is in array
             materialSelectBox.setItems(itemSelectors);

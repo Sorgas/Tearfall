@@ -1,7 +1,7 @@
 package stonering.entity.local.unit.aspects;
 
 import stonering.entity.local.Aspect;
-import stonering.entity.local.AspectHolder;
+import stonering.entity.local.Entity;
 
 import java.util.ArrayList;
 
@@ -14,8 +14,8 @@ public class JobsAspect extends Aspect {
     public static final String NAME = "job";
     private ArrayList<String> jobs;
 
-    public JobsAspect(String name, AspectHolder aspectHolder) {
-        super(aspectHolder);
+    public JobsAspect(String name, Entity entity) {
+        super(entity);
         jobs = new ArrayList<>();
     }
 

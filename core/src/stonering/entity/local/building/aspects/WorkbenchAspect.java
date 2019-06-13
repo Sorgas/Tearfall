@@ -4,7 +4,7 @@ import stonering.entity.job.Task;
 import stonering.entity.job.action.CraftItemAction;
 import stonering.entity.job.action.TaskTypesEnum;
 import stonering.entity.local.Aspect;
-import stonering.entity.local.AspectHolder;
+import stonering.entity.local.Entity;
 import stonering.entity.local.building.Building;
 import stonering.entity.local.crafting.ItemOrder;
 import stonering.enums.OrderStatusEnum;
@@ -38,8 +38,8 @@ public class WorkbenchAspect extends Aspect {
 
 //    private boolean hasActiveOrders = false; // false on empty list or if all orders are suspended
 
-    public WorkbenchAspect(AspectHolder aspectHolder) {
-        super(aspectHolder);
+    public WorkbenchAspect(Entity entity) {
+        super(entity);
         entries = new LinkedList<>();
         recipes = new ArrayList<>();
         initRecipes();
@@ -160,7 +160,7 @@ public class WorkbenchAspect extends Aspect {
      * Creates task and adds it to given entry.
      */
     private void createTaskForOrder(OrderTaskEntry entry) {
-        CraftItemAction action = new CraftItemAction(entry.order, aspectHolder);
+        CraftItemAction action = new CraftItemAction(entry.order, entity);
         entry.task = new Task(entry.order.getRecipe().name, TaskTypesEnum.CRAFTING, action, 1);
     }
 
@@ -192,7 +192,7 @@ public class WorkbenchAspect extends Aspect {
     }
 
     private void initRecipes() { //ok
-        ((Building) aspectHolder).getType().recipes.forEach(s -> recipes.add(RecipeMap.getInstance().getRecipe(s)));
+        ((Building) entity).getType().recipes.forEach(s -> recipes.add(RecipeMap.getInstance().getRecipe(s)));
     }
 
     public List<OrderTaskEntry> getEntries() {

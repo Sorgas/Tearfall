@@ -29,7 +29,7 @@ public class MovementAspect extends Aspect {
 
     public MovementAspect(Unit unit) {
         super(unit);
-        this.aspectHolder = unit;
+        this.entity = unit;
         stepInterval = 15;
         stepProgress = stepInterval;
     }
@@ -50,7 +50,7 @@ public class MovementAspect extends Aspect {
             if (hasPath()) {
                 Position nextPosition = cachedPath.remove(0); // get next step, remove from path
                 if (localMap.isWalkPassable(nextPosition)) { // path has not been blocked after calculation
-                    gameMvc.getModel().get(UnitContainer.class).updateUnitPosiiton((Unit) aspectHolder, nextPosition); //step
+                    gameMvc.getModel().get(UnitContainer.class).updateUnitPosiiton((Unit) entity, nextPosition); //step
                 } else { // path blocked
                     Logger.PATH.log("path to " + cachedTarget + " was blocked in " + nextPosition);
                     cachedTarget = null; // drop path
@@ -71,12 +71,12 @@ public class MovementAspect extends Aspect {
     @Override
     public void init() {
         super.init();
-        planning = aspectHolder.getAspect(PlanningAspect.class);
+        planning = entity.getAspect(PlanningAspect.class);
         localMap = GameMvc.instance().getModel().get(LocalMap.class);
     }
 
     private void makeRouteToTarget() {
-        cachedPath = new AStar(GameMvc.instance().getModel().get(LocalMap.class)).makeShortestPath(aspectHolder.getPosition(), planning.getTarget(), planning.isTargetExact());
+        cachedPath = new AStar(GameMvc.instance().getModel().get(LocalMap.class)).makeShortestPath(entity.getPosition(), planning.getTarget(), planning.isTargetExact());
     }
 
     /**
@@ -85,11 +85,11 @@ public class MovementAspect extends Aspect {
      * //TODO apply fall damage
      */
     private boolean tryFall() {
-        Position pos = aspectHolder.getPosition();
+        Position pos = entity.getPosition();
         if (localMap.isFlyPassable(pos) &&
                 !localMap.isWalkPassable(pos) &&
                 pos.getZ() > 0 && localMap.isFlyPassable(pos.getX(), pos.getY(), pos.getZ() - 1)) {
-            aspectHolder.setPosition(new Position(pos.getX(), pos.getY(), pos.getZ() - 1));
+            entity.setPosition(new Position(pos.getX(), pos.getY(), pos.getZ() - 1));
             cachedPath = null;
             return true;
         }
@@ -111,7 +111,7 @@ public class MovementAspect extends Aspect {
     public Vector3 getStepProgressVector() {
         if (!hasPath()) return new Vector3(); // zero vector for staying still.
         Position nextPosition = cachedPath.get(0);
-        Position unitPosition = aspectHolder.getPosition();
+        Position unitPosition = entity.getPosition();
         return new Vector3(
                 getStepProgressVectorComponent(unitPosition.x, nextPosition.x),
                 getStepProgressVectorComponent(unitPosition.y, nextPosition.y),

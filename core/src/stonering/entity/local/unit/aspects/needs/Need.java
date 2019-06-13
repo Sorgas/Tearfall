@@ -1,9 +1,9 @@
 package stonering.entity.local.unit.aspects.needs;
 
+import stonering.entity.local.Entity;
 import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
 import stonering.entity.job.Task;
-import stonering.entity.local.AspectHolder;
 import stonering.util.global.Initable;
 
 /**
@@ -25,11 +25,11 @@ public abstract class Need implements Initable {
 
     /**
      * Returns priority of need. Returns -1 if need can be tolerated.
-     * @param aspectHolder
+     * @param entity
      */
-    public abstract int countPriority(AspectHolder aspectHolder);
+    public abstract int countPriority(Entity entity);
 
-    public abstract Task tryCreateTask(AspectHolder aspectHolder);
+    public abstract Task tryCreateTask(Entity entity);
 
     public float getPriorityMod() {
         return priorityMod;

@@ -1,7 +1,6 @@
 package stonering.entity.local;
 
 import stonering.game.model.IntervalTurnable;
-import stonering.util.geometry.Position;
 import stonering.util.global.Initable;
 
 import java.io.Serializable;
@@ -12,12 +11,10 @@ import java.util.HashMap;
  *
  * @author Alexander Kuzyakov on 25.01.2018.
  */
-public abstract class AspectHolder extends IntervalTurnable implements Serializable, Initable {
-    protected Position position; //TODO move to PositionAspect
+public abstract class Entity extends IntervalTurnable implements Serializable, Initable {
     protected HashMap<Class, Aspect> aspects;
 
-    protected AspectHolder(Position position) {
-        this.position = position;
+    protected Entity() {
         aspects = new HashMap<>();
     }
 
@@ -27,16 +24,8 @@ public abstract class AspectHolder extends IntervalTurnable implements Serializa
 
     public <T extends Aspect> void addAspect(T aspect) {
         if (aspect == null) return;
-        aspect.setAspectHolder(this);
+        aspect.setEntity(this);
         aspects.put(aspect.getClass(), aspect);
-    }
-
-    public Position getPosition() {
-        return position;
-    }
-
-    public void setPosition(Position position) {
-        this.position = position;
     }
 
     public void turn() {

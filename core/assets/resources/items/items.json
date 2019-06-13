@@ -2,37 +2,86 @@
     {
         "name": "log",
         "description": "Large part of a tree.",
-        "valueMod": "0",
-        "isResource": true,
+        "aspects": [["resource"], ["value", "0"]],
         "atlasXY": ["2", "0"],
         "color": "0xffffffff"
     }, {
     "name": "branch",
     "description": "Small part of a tree.",
-    "valueMod": "0",
-    "isResource": true,
+    "aspects": [["resource"], ["value", "0"]],
     "atlasXY": ["3", "0"],
     "color": "0xffffffff"
 }, {
     "name": "rock",
     "description": "Rock.",
-    "valueMod": "0",
-    "isResource": true,
+    "aspects": [["resource"], ["value", "0"]],
     "atlasXY": ["4", "0"],
     "color": "0xffffffff"
 }, {
     "name": "bar",
     "description": "Piece of metal, formed for further use.",
-    "valueMod": "0",
-    "isResource": true,
+    "aspects": [["resource"], ["value", "0"]],
     "atlasXY": ["9", "0"],
     "color": "0xffffffff"
 }, {
     "name": "blueberry",
-    "description": "Edible plant, common for temperate climate",
-    "valueMod": "0",
-    "isResource": true,
+    "description": "Edible plant, common for temperate climate.",
+    "aspects": [["resource"], ["value", "0"]],
     "atlasXY": ["8", "0"],
+    "color": "0xffffffff"
+}, {
+    "name": "roll",
+    "description": "Rolled cloth.",
+    "aspects": [["resource"], ["value", "0"]],
+    "atlasXY": ["10", "0"],
+    "color": "0xffffffff"
+}, {
+    "name": "leather",
+    "description": "Large leather piece.",
+    "aspects": [["resource"], ["value", "0"]],
+    "atlasXY": ["11", "0"],
+    "color": "0xffffffff"
+}, {
+    "name": "brick",
+    "description": "Building brick made of clay.",
+    "aspects": [["resource"], ["value", "0"]],
+    "atlasXY": ["12", "0"],
+    "color": "0xffffffff"
+}, {
+    "name": "pot",
+    "description": "For storing things or growing small plants.",
+    "aspects": [["resource"], ["value", "0"]],
+    "atlasXY": ["13", "0"],
+    "color": "0xffffffff"
+}, {
+    "name": "rope",
+    "description": "For binding items to each other.",
+    "aspects": [["resource"], ["value", "0"]],
+    "atlasXY": ["14", "0"],
+    "color": "0xffffffff"
+}, {
+    "name": "lantern",
+    "description": "Shows path in the dark.",
+    "aspects": [["resource"], ["value", "0"]],
+    "atlasXY": ["14", "0"],
+    "color": "0xffffffff"
+}, {
+    "name": "flask",
+    "description": "Keeps drinks close.",
+    "aspects": [["resource"], ["value", "0"]],
+    "atlasXY": ["15", "0"],
+    "color": "0xffffffff"
+}, {
+    "name": "torch",
+    "description": "Lights the way.",
+    "aspects": [["resource"], ["value", "0"]],
+    "atlasXY": ["15", "0"],
+    "color": "0xffffffff"
+}, {
+    "name": "lantern",
+    "description": "Shows path in the dark.",
+    "aspects": [["resource"], ["value", "0"]],
+    "atlasXY": ["14", "0"],
     "color": "0xffffffff"
 }
 ]
