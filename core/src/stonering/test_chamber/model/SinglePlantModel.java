@@ -46,7 +46,7 @@ public class SinglePlantModel extends GameModel {
         put(createWorld());
         put(createMap());
         put(new PlantContainer(createPlant()));
-        put(new LocalTileMap(get(LocalMap.class)));
+        put(new LocalTileMap());
         put(new EntitySelector());
         put(new GameCalendar());
     }

@@ -39,7 +39,7 @@ public class CameraModel extends GameModel {
         put(createMap());
         put(new PlantContainer());
         put(new BuildingContainer());
-        put(new LocalTileMap(get(LocalMap.class)));
+        put(new LocalTileMap());
         put(new EntitySelector());
         put(new GameCalendar());
     }

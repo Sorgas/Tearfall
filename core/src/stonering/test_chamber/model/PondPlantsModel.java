@@ -35,7 +35,7 @@ public class PondPlantsModel extends GameModel {
     public void reset() {
         put(createWorld());
         put(createMap());
-        put(new LocalTileMap(get(LocalMap.class)));
+        put(new LocalTileMap());
         put(new EntitySelector());
         put(new GameCalendar());
     }

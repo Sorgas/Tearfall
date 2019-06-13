@@ -14,17 +14,17 @@ import java.util.stream.Collectors;
 /**
  * Stores all items equipped and hauled by unit.
  * Equipped items are ones, worn on body.
- * Does not takes or puts items to map, this should be done by action.
+ * Does not takes or puts items to map, this should be done by actions.
  *
  * @author Alexander Kuzyakov on 03.01.2018.
  */
 public class EquipmentAspect extends Aspect {
     public static String NAME = "equipment";
-    private HashMap<String, EquipmentSlot> slots;            // all slots of creature
-    private ArrayList<EquipmentSlot> desiredSlots;           // uncovered limbs give comfort penalty
+    private HashMap<String, EquipmentSlot> slots;            // all slots of a creature
     private HashMap<String, GrabEquipmentSlot> grabSlots;    // equipped items
     private ArrayList<Item> hauledItems;                     // hauled item list for faster checking
     private ArrayList<Item> equippedItems;                   // equipped item list for faster checking
+    private ArrayList<EquipmentSlot> desiredSlots;           // uncovered limbs give comfort penalty
     private int emptyDesiredSlotsCount;                      // for faster checking nudity
 
     public EquipmentAspect(AspectHolder aspectHolder) {
@@ -203,6 +203,17 @@ public class EquipmentAspect extends Aspect {
         });
     }
 
+    /**
+     * Removes given item from all grab slots.
+     */
+    public void dropItem(Item item) {
+        if (!hauledItems.contains(item)) return;
+        hauledItems.remove(item);
+        grabSlots.forEach((s, slot) -> {
+            if (slot.grabbedItem == item) slot.grabbedItem = null;
+        });
+    }
+
     public boolean checkItem(Item item) {
         return equippedItems.contains(item) || hauledItems.contains(item);
     }
@@ -213,17 +224,6 @@ public class EquipmentAspect extends Aspect {
 
     public ArrayList<Item> getHauledItems() {
         return hauledItems;
-    }
-
-    /**
-     * Removes given item from all grab slots.
-     */
-    public void dropItem(Item item) {
-        if (!hauledItems.contains(item)) return;
-        hauledItems.remove(item);
-        grabSlots.forEach((s, slot) -> {
-            if (slot.grabbedItem == item) slot.grabbedItem = null;
-        });
     }
 
     public HashMap<String, EquipmentSlot> getSlots() {

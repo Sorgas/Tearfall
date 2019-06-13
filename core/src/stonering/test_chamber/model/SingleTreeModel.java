@@ -49,7 +49,7 @@ public class SingleTreeModel extends GameModel {
         put(createMap());
         put(new BuildingContainer());
         put(new PlantContainer(createTree()));
-        put(new LocalTileMap(get(LocalMap.class)));
+        put(new LocalTileMap());
         put(new EntitySelector());
         put(new GameCalendar());
         put(new UnitContainer());

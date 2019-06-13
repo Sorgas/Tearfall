@@ -2,6 +2,7 @@ package stonering.util.global;
 
 /**
  * Stores 3 int values.
+ *
  * @author Alexander_Kuzyakov on 11.06.2019.
  */
 public class IntTriple {
@@ -17,6 +18,13 @@ public class IntTriple {
         this.val1 = val1;
         this.val2 = val2;
         this.val3 = val3;
+    }
+
+    public IntTriple set(int val1, int val2, int val3) {
+        this.val1 = val1;
+        this.val2 = val2;
+        this.val3 = val3;
+        return this;
     }
 
     public int getVal1() {

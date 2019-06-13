@@ -131,8 +131,7 @@ public class TileRenderer extends Renderer {
     private int getAtlasXForBlock(int x, int y, int z) {
         byte blockType = localMap.getBlockType(x, y, z);
         if (blockType == BlockTypesEnum.SPACE.CODE) return -1;
-        if (blockType == BlockTypesEnum.RAMP.CODE) return localTileMap.getMappedRamp(x, y, z).getVal1();
-        return BlocksTileMapping.getType(blockType).ATLAS_X;
+        return localTileMap.get(x, y, z).getVal1();
     }
 
     private int getAtlasYForBlock(int x, int y, int z) {
@@ -149,13 +148,15 @@ public class TileRenderer extends Renderer {
      * Atlas X determined by form of block.
      */
     private TextureRegion selectSpriteForSubstrate(int x, int y, int z) {
-        PlantBlock block = plantContainer.getSubstrateBlocks().get(cachePosition.set(x, y, z));
+        cachePosition.set(x, y, z);
+        PlantBlock block = plantContainer.getSubstrateBlocks().get(cachePosition);
         if (block != null)
-            return util.selectSprite(6, localTileMap.getAtlasX(x, y, z), block.getAtlasXY()[1]);
+            return util.selectSprite(6, localTileMap.get(cachePosition).getVal1(), block.getAtlasXY()[1]);
         if (z == 0) return null;
-        block = plantContainer.getSubstrateBlocks().get(cachePosition.set(x, y, z - 1));
+        cachePosition.set(x, y, z - 1);
+        block = plantContainer.getSubstrateBlocks().get(cachePosition);
         if (block != null)
-            return util.selectToping(6, localTileMap.getAtlasX(x, y, z - 1), block.getAtlasXY()[1]);
+            return util.selectToping(6, localTileMap.get(cachePosition).getVal1(), block.getAtlasXY()[1]);
         return null;
     }
 

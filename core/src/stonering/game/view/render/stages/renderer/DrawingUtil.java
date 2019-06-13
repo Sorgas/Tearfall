@@ -112,7 +112,7 @@ public class DrawingUtil {
      * @param dz
      */
     public void shadeByZ(int dz) {
-        float shadedColorChannel = 1 - (dz) * shadingStep;
+        float shadedColorChannel = 1 - (dz - 4) * shadingStep;
         batchColor.set(shadedColorChannel, shadedColorChannel, shadedColorChannel, 1f);
         resetColor();
     }

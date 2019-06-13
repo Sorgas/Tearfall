@@ -35,7 +35,7 @@ public class MainGameModel extends GameModel {
     public void createComponents(World world) {
         Logger.GENERAL.logDebug("creating model components");
         put(world);
-        put(new LocalTileMap(get(LocalMap.class)));
+        put(new LocalTileMap());
         put(new PlantContainer());
         put(new BuildingContainer());
         put(new UnitContainer());
