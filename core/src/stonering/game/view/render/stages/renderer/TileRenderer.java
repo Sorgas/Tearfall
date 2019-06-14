@@ -18,6 +18,7 @@ import stonering.game.model.GameModel;
 import stonering.game.model.lists.*;
 import stonering.game.model.lists.tasks.TaskContainer;
 import stonering.game.model.local_map.LocalMap;
+import stonering.game.view.render.util.VisibleArea;
 import stonering.util.geometry.Int3dBounds;
 import stonering.game.view.tilemaps.LocalTileMap;
 import stonering.util.geometry.Position;
@@ -36,12 +37,12 @@ public class TileRenderer extends Renderer {
     private TaskContainer taskContainer;
     private ItemContainer itemContainer;
     private ZonesContainer zonesContainer;
-    private Int3dBounds visibleArea;
+    private VisibleArea visibleArea;
 
     private Position cachePosition;
     private Vector3 cacheVector;
 
-    public TileRenderer(DrawingUtil drawingUtil, Int3dBounds visibleArea) {
+    public TileRenderer(DrawingUtil drawingUtil, VisibleArea visibleArea) {
         super(drawingUtil);
         this.visibleArea = visibleArea;
         GameModel model = GameMvc.instance().getModel();
@@ -62,10 +63,12 @@ public class TileRenderer extends Renderer {
      */
     @Override
     public void render() {
-        for (int z = visibleArea.getMinZ(); z <= visibleArea.getMaxZ(); z++) {
+        for (int z = (int) (visibleArea.getMaxZ() - util.maxZLevels); z <= visibleArea.getMaxZ(); z++) {
             util.shadeByZ(visibleArea.getMaxZ() - z);
-            for (int x = visibleArea.getMinX(); x <= visibleArea.getMaxX(); x++) {
-                for (int y = visibleArea.getMaxY(); y >= visibleArea.getMinY(); y--) {
+            int minY = util.getModelY(z, visibleArea.getMinY());
+            int maxY = util.getModelY(z, visibleArea.getMaxY());
+            for (int y = maxY; y >= minY; y--) {
+                for (int x = visibleArea.getMinX(); x <= visibleArea.getMaxX(); x++) {
                     drawTile(x, y, z);
                 }
             }

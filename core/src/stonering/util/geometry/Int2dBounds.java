@@ -31,6 +31,13 @@ public class Int2dBounds {
         this.maxY = maxY;
     }
 
+    public void clamp(int minX, int minY, int maxX, int maxY) {
+        this.minX = Math.max(this.minX, minX);
+        this.minY = Math.max(this.minY, minY);
+        this.maxX = Math.min(this.maxX, maxX);
+        this.maxY = Math.min(this.maxY, maxY);
+    }
+
     public int getMinX() {
         return minX;
     }

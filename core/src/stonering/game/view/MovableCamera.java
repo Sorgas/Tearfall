@@ -10,7 +10,6 @@ import stonering.game.view.render.util.Resizeable;
 import stonering.util.geometry.Int2dBounds;
 import stonering.util.geometry.Int3dBounds;
 import stonering.util.geometry.Position;
-import stonering.util.geometry.Vector;
 
 import static stonering.game.view.render.stages.renderer.DrawingUtil.*;
 
@@ -31,7 +30,7 @@ public class MovableCamera extends OrthographicCamera implements Resizeable {
     private Position modelPosition;
     private Int3dBounds visibleArea; // inclusive ranges of fully visible tiles.
     private Int2dBounds selectorBounds; // inclusive ranges of allowed selector positions.
-    int[] visibleAreaSize;
+    int[] visibleAreaSize; // half of screen width, depth and height counted in tiles
     int[] controlAreaSize;
     private float zoom = 1;
     private float[] zoomBounds = {1, 3};
@@ -48,6 +47,15 @@ public class MovableCamera extends OrthographicCamera implements Resizeable {
     }
 
     /**
+     * Moves camera to goal, if {@link EntitySelector} is out of screen.
+     */
+    @Override
+    public void update() {
+        super.update();
+
+    }
+
+    /**
      * Updates coordinate ranges of drawable tiles.
      * Updates selector allowed area.
      * Called on camera move and zoom, and window resize.
@@ -56,17 +64,19 @@ public class MovableCamera extends OrthographicCamera implements Resizeable {
     private void updateAreas() {
         LocalMap localMap = GameMvc.instance().getModel().get(LocalMap.class);
         visibleArea.set(
-                Math.max(modelPosition.x - visibleAreaSize[0], 0),
-                Math.max(modelPosition.y - visibleAreaSize[1], 0),
-                Math.max(modelPosition.z - visibleAreaSize[2], 0),
-                Math.min(modelPosition.x + visibleAreaSize[0], localMap.xSize - 1),
-                Math.min(modelPosition.y + visibleAreaSize[1], localMap.ySize - 1),
-                Math.min(modelPosition.z, localMap.zSize - 1));
+                modelPosition.x - visibleAreaSize[0],
+                modelPosition.y - visibleAreaSize[1],
+                modelPosition.z - visibleAreaSize[2],
+                modelPosition.x + visibleAreaSize[0],
+                modelPosition.y + visibleAreaSize[1],
+                modelPosition.z);
+        visibleArea.clamp(0, 0, 0, localMap.xSize - 1, localMap.ySize - 1, localMap.zSize - 1);
         selectorBounds.set(
-                Math.max(modelPosition.x - controlAreaSize[0], 0),
-                Math.max(modelPosition.y - controlAreaSize[1], 0),
-                Math.min(modelPosition.x + controlAreaSize[0], localMap.xSize - 1),
-                Math.min(modelPosition.y + controlAreaSize[1], localMap.ySize - 1));
+                modelPosition.x - controlAreaSize[0],
+                modelPosition.y - controlAreaSize[1],
+                modelPosition.x + controlAreaSize[0],
+                modelPosition.y + controlAreaSize[1]);
+        selectorBounds.clamp(0, 0, localMap.xSize - 1, localMap.ySize - 1);
     }
 
     /**
@@ -139,15 +149,15 @@ public class MovableCamera extends OrthographicCamera implements Resizeable {
         vector.x = (position.x + 0.5f) * TILE_WIDTH - this.position.x;
         vector.y = (position.y + 0.5f) * TILE_DEPTH - this.position.y;
         Vector2 vector2 = vector.cpy();
-        if(Math.abs(vector.x) < viewportWidth / 2) vector.x = 0;
-        if(Math.abs(vector.y) < viewportHeight / 2) vector.y = 0;
+        if (Math.abs(vector.x) < viewportWidth / 2) vector.x = 0;
+        if (Math.abs(vector.y) < viewportHeight / 2) vector.y = 0;
 
-        if(vector2.x > viewportWidth / 2) vector2.x -= viewportWidth / 2;
-        if(vector2.y > viewportHeight/ 2) vector2.y -= viewportHeight / 2;
-        if(this.position.x - viewportWidth / 2 > position.x * TILE_WIDTH) vector.x = -1;
-        if(this.position.x + viewportWidth / 2 < (position.x + 1) * TILE_WIDTH - 1) vector.x = 1;
-        if(this.position.y - viewportHeight / 2 < position.y * TILE_DEPTH) vector.y = -1;
-        if(this.position.y + viewportHeight / 2 < (position.y + 1) * TILE_DEPTH - 1) vector.y = 1;
+        if (vector2.x > viewportWidth / 2) vector2.x -= viewportWidth / 2;
+        if (vector2.y > viewportHeight / 2) vector2.y -= viewportHeight / 2;
+        if (this.position.x - viewportWidth / 2 > position.x * TILE_WIDTH) vector.x = -1;
+        if (this.position.x + viewportWidth / 2 < (position.x + 1) * TILE_WIDTH - 1) vector.x = 1;
+        if (this.position.y - viewportHeight / 2 < position.y * TILE_DEPTH) vector.y = -1;
+        if (this.position.y + viewportHeight / 2 < (position.y + 1) * TILE_DEPTH - 1) vector.y = 1;
         return vector;
     }
 

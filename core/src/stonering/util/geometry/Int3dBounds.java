@@ -25,6 +25,12 @@ public class Int3dBounds extends Int2dBounds {
         this.maxZ = maxZ;
     }
 
+    public void clamp(int minX, int minY, int minZ, int maxX, int maxY, int maxZ) {
+        super.clamp(minX, minY, maxX, maxY);
+        this.minZ = Math.max(this.minZ, minZ);
+        this.maxZ = Math.min(this.maxZ, maxZ);
+    }
+
     public int getMinZ() {
         return minZ;
     }

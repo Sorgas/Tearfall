@@ -18,14 +18,15 @@ public class DrawingUtil {
     private Texture[] atlases;
     private BitmapFont font;
 
-    private float shadingStep = 0.06f;
+    private final float shadingStep = 0.06f;
+    public final float maxZLevels = 1f / shadingStep; // levels further are shaded to black
     private Color batchColor;               // default batch color without light or transparency
 
     public static final int TILE_WIDTH = 64;             // x size(left-right)
     public static final int TILE_DEPTH = 64;             // y size(back-forth)
     public static final int TILE_HEIGHT = 96;            // z size(up-down) plus depth
-    public static final int TOPING_TILE_HEIGHT = 70;      // depth plus floor height(10)
-    public static final int BLOCK_TILE_HEIGHT = 166;      // total block height
+    public static final int TOPING_TILE_HEIGHT = 70;     // depth plus floor height(6)
+    public static final int BLOCK_TILE_HEIGHT = 166;     // total block height
 //    private Vector2 screenCenter;
 
     public DrawingUtil(Batch batch) {
@@ -40,14 +41,14 @@ public class DrawingUtil {
      * Draws sprite on localMap position.
      */
     public void drawSprite(TextureRegion sprite, Position position) {
-        batch.draw(sprite, getBatchPosX(position.x), getBatchPosY(position.y, position.z));
+        batch.draw(sprite, getBatchX(position.x), getBatchY(position.y, position.z));
     }
 
     /**
      * Draws sprite by vector. Values can be fractional, sprite will be rendered between cells.
      */
     public void drawSprite(TextureRegion sprite, Vector3 vector) {
-        batch.draw(sprite, getBatchPosX(vector.x), getBatchPosY(vector.y, vector.z));
+        batch.draw(sprite, getBatchX(vector.x), getBatchY(vector.y, vector.z));
     }
 
     /**
@@ -71,8 +72,8 @@ public class DrawingUtil {
     }
 
     public void writeText(String text, int x, int y, int z) {
-        float screenX = getBatchPosX(x);
-        float screenY = getBatchPosY(y, z);
+        float screenX = getBatchX(x);
+        float screenY = getBatchY(y, z);
         font.draw(batch, text, screenX, screenY);
     }
 
@@ -87,13 +88,21 @@ public class DrawingUtil {
         atlases[6] = new Texture("sprites/substrates.png");
     }
 
-
-    protected float getBatchPosX(float x) {
+    private float getBatchX(float x) {
         return x * TILE_WIDTH;
     }
 
-    protected float getBatchPosY(float y, float z) {
+    private float getBatchY(float y, float z) {
         return y * TILE_DEPTH + z * (TILE_HEIGHT - TILE_DEPTH);
+    }
+
+    /**
+     * @param z model z
+     * @param batchY batch coordinate
+     * @return model y
+     */
+    public int getModelY(int z, float batchY) {
+        return (int) Math.ceil((batchY - z * (TILE_HEIGHT - TILE_DEPTH)) / TILE_DEPTH);
     }
 
     /**
