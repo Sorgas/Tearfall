@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import stonering.util.geometry.Position;
 
+import static stonering.game.view.render.stages.renderer.BatchUtil.*;
+
 /**
  * Provides utility methods and rules for drawing scene.
  *
@@ -21,13 +23,6 @@ public class DrawingUtil {
     private final float shadingStep = 0.06f;
     public final float maxZLevels = 1f / shadingStep; // levels further are shaded to black
     private Color batchColor;               // default batch color without light or transparency
-
-    public static final int TILE_WIDTH = 64;             // x size(left-right)
-    public static final int TILE_DEPTH = 64;             // y size(back-forth)
-    public static final int TILE_HEIGHT = 96;            // z size(up-down) plus depth
-    public static final int TOPING_TILE_HEIGHT = 70;     // depth plus floor height(6)
-    public static final int BLOCK_TILE_HEIGHT = 166;     // total block height
-//    private Vector2 screenCenter;
 
     public DrawingUtil(Batch batch) {
         this.batch = batch;
@@ -86,23 +81,6 @@ public class DrawingUtil {
         atlases[4] = new Texture("sprites/ui_tiles.png");
         atlases[5] = new Texture("sprites/items.png");
         atlases[6] = new Texture("sprites/substrates.png");
-    }
-
-    private float getBatchX(float x) {
-        return x * TILE_WIDTH;
-    }
-
-    private float getBatchY(float y, float z) {
-        return y * TILE_DEPTH + z * (TILE_HEIGHT - TILE_DEPTH);
-    }
-
-    /**
-     * @param z model z
-     * @param batchY batch coordinate
-     * @return model y
-     */
-    public int getModelY(int z, float batchY) {
-        return (int) Math.ceil((batchY - z * (TILE_HEIGHT - TILE_DEPTH)) / TILE_DEPTH);
     }
 
     /**

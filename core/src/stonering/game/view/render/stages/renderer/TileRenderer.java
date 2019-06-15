@@ -1,6 +1,8 @@
 package stonering.game.view.render.stages.renderer;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import stonering.entity.job.designation.Designation;
 import stonering.entity.local.PositionAspect;
@@ -18,9 +20,9 @@ import stonering.game.model.GameModel;
 import stonering.game.model.lists.*;
 import stonering.game.model.lists.tasks.TaskContainer;
 import stonering.game.model.local_map.LocalMap;
-import stonering.game.view.render.util.VisibleArea;
-import stonering.util.geometry.Int3dBounds;
+import stonering.game.view.MovableCamera;
 import stonering.game.view.tilemaps.LocalTileMap;
+import stonering.util.geometry.Int2dBounds;
 import stonering.util.geometry.Position;
 
 /**
@@ -37,14 +39,16 @@ public class TileRenderer extends Renderer {
     private TaskContainer taskContainer;
     private ItemContainer itemContainer;
     private ZonesContainer zonesContainer;
-    private VisibleArea visibleArea;
+    private MovableCamera camera;
+    private ShapeRenderer shapeRenderer;
 
     private Position cachePosition;
     private Vector3 cacheVector;
+    private Int2dBounds cacheBounds;
 
-    public TileRenderer(DrawingUtil drawingUtil, VisibleArea visibleArea) {
+    public TileRenderer(DrawingUtil drawingUtil, MovableCamera camera) {
         super(drawingUtil);
-        this.visibleArea = visibleArea;
+        this.camera = camera;
         GameModel model = GameMvc.instance().getModel();
         localMap = model.get(LocalMap.class);
         localTileMap = model.get(LocalTileMap.class);
@@ -54,8 +58,10 @@ public class TileRenderer extends Renderer {
         plantContainer = model.get(PlantContainer.class);
         itemContainer = model.get(ItemContainer.class);
         zonesContainer = model.get(ZonesContainer.class);
+        shapeRenderer = new ShapeRenderer();
         cachePosition = new Position();
         cacheVector = new Vector3();
+        cacheBounds = new Int2dBounds();
     }
 
     /**
@@ -63,21 +69,35 @@ public class TileRenderer extends Renderer {
      */
     @Override
     public void render() {
-        for (int z = (int) (visibleArea.getMaxZ() - util.maxZLevels); z <= visibleArea.getMaxZ(); z++) {
-            util.shadeByZ(visibleArea.getMaxZ() - z);
-            int minY = util.getModelY(z, visibleArea.getMinY());
-            int maxY = util.getModelY(z, visibleArea.getMaxY());
-            for (int y = maxY; y >= minY; y--) {
-                for (int x = visibleArea.getMinX(); x <= visibleArea.getMaxX(); x++) {
+        int maxZ = camera.getCameraZ();
+        int minZ = (int) Math.max(maxZ - util.maxZLevels, 0);
+        System.out.println(maxZ);
+        for (int z = minZ; z <= maxZ; z++) {
+            util.shadeByZ(maxZ - z);
+            defineLayerBounds(z);
+            for (int y = cacheBounds.getMaxY(); y >= cacheBounds.getMinY(); y--) {
+                for (int x = cacheBounds.getMinX(); x <= cacheBounds.getMaxX(); x++) {
                     drawTile(x, y, z);
                 }
             }
-            for (int x = visibleArea.getMinX(); x <= visibleArea.getMaxX(); x++) {
-                for (int y = visibleArea.getMaxY(); y >= visibleArea.getMinY(); y--) {
+            for (int y = cacheBounds.getMaxY(); y >= cacheBounds.getMinY(); y--) {
+                for (int x = cacheBounds.getMinX(); x <= cacheBounds.getMaxX(); x++) {
                     drawAreaLabel(x, y, z); // for debug purposes
                 }
             }
         }
+//        drawAxis();
+    }
+
+    /**
+     * Calculates visible part of z level.
+     */
+    private void defineLayerBounds(int z) {
+        cacheBounds.set(BatchUtil.getModelX(camera.getFrame().getMinX()),
+                BatchUtil.getModelY(z, camera.getFrame().getMinY()),
+                BatchUtil.getModelX(camera.getFrame().getMaxX()),
+                BatchUtil.getModelY(z, camera.getFrame().getMaxY()));
+        cacheBounds.clamp(0, 0, localMap.xSize - 1, localMap.ySize - 1);
     }
 
     /**
@@ -197,7 +217,6 @@ public class TileRenderer extends Renderer {
     }
 
     private void drawItem(Item item) {
-        System.out.println();
         util.drawSprite(util.selectSprite(5, item.getType().atlasXY[0], item.getType().atlasXY[1]), item.getAspect(PositionAspect.class).position);
     }
 
@@ -218,4 +237,6 @@ public class TileRenderer extends Renderer {
         if (block != null)
             util.drawSprite(util.selectSprite(1, block.getAtlasXY()[0], block.getAtlasXY()[1]), cacheVector);
     }
+
+
 }

@@ -7,11 +7,12 @@ import stonering.game.GameMvc;
 import stonering.game.model.EntitySelector;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.view.render.util.Resizeable;
-import stonering.util.geometry.Int2dBounds;
-import stonering.util.geometry.Int3dBounds;
+import stonering.util.geometry.Float2dBounds;
 import stonering.util.geometry.Position;
 
-import static stonering.game.view.render.stages.renderer.DrawingUtil.*;
+import static stonering.game.view.render.stages.renderer.BatchUtil.*;
+import static stonering.game.view.render.stages.renderer.BatchUtil.TILE_DEPTH;
+import static stonering.game.view.render.stages.renderer.BatchUtil.TILE_WIDTH;
 
 /**
  * {@link OrthographicCamera} extension.
@@ -27,23 +28,16 @@ import static stonering.game.view.render.stages.renderer.DrawingUtil.*;
  * @author Alexander_Kuzyakov on 03.06.2019.
  */
 public class MovableCamera extends OrthographicCamera implements Resizeable {
-    private Position modelPosition;
-    private Int3dBounds visibleArea; // inclusive ranges of fully visible tiles.
-    private Int2dBounds selectorBounds; // inclusive ranges of allowed selector positions.
-    int[] visibleAreaSize; // half of screen width, depth and height counted in tiles
-    int[] controlAreaSize;
+    private int cameraZ;
+    private Float2dBounds frame; // position and screen size casted to visible batch coordinates.
     private float zoom = 1;
     private float[] zoomBounds = {1, 3};
     private static final Vector3 correctionVector = new Vector3(TILE_WIDTH / 2, TILE_DEPTH / 2, 0);
 
     public MovableCamera() {
-        modelPosition = GameMvc.instance().getModel().get(EntitySelector.class).getPosition().clone();
-        visibleArea = new Int3dBounds();
-        selectorBounds = new Int3dBounds();
-        visibleAreaSize = new int[3];
-        controlAreaSize = new int[2];
-        centerCameraToPosition(modelPosition);
-        updateAreas();
+        frame = new Float2dBounds();
+        centerCameraToPosition(GameMvc.instance().getModel().get(EntitySelector.class).getPosition().clone());
+        updateFrame();
     }
 
     /**
@@ -52,31 +46,6 @@ public class MovableCamera extends OrthographicCamera implements Resizeable {
     @Override
     public void update() {
         super.update();
-
-    }
-
-    /**
-     * Updates coordinate ranges of drawable tiles.
-     * Updates selector allowed area.
-     * Called on camera move and zoom, and window resize.
-     * Area is counted basing on camera position, size and zoom.
-     */
-    private void updateAreas() {
-        LocalMap localMap = GameMvc.instance().getModel().get(LocalMap.class);
-        visibleArea.set(
-                modelPosition.x - visibleAreaSize[0],
-                modelPosition.y - visibleAreaSize[1],
-                modelPosition.z - visibleAreaSize[2],
-                modelPosition.x + visibleAreaSize[0],
-                modelPosition.y + visibleAreaSize[1],
-                modelPosition.z);
-        visibleArea.clamp(0, 0, 0, localMap.xSize - 1, localMap.ySize - 1, localMap.zSize - 1);
-        selectorBounds.set(
-                modelPosition.x - controlAreaSize[0],
-                modelPosition.y - controlAreaSize[1],
-                modelPosition.x + controlAreaSize[0],
-                modelPosition.y + controlAreaSize[1]);
-        selectorBounds.clamp(0, 0, localMap.xSize - 1, localMap.ySize - 1);
     }
 
     /**
@@ -87,12 +56,7 @@ public class MovableCamera extends OrthographicCamera implements Resizeable {
     public void resize(int width, int height) {
         viewportWidth = width;
         viewportHeight = height;
-        visibleAreaSize[0] = (int) Math.ceil((viewportWidth - TILE_WIDTH) / 2 / TILE_WIDTH);
-        visibleAreaSize[1] = (int) Math.ceil((viewportHeight - TILE_DEPTH) / 2 / TILE_DEPTH);
-        visibleAreaSize[2] = 15; //TODO number of z levels should depend on screen height
-        controlAreaSize[0] = visibleAreaSize[0] - 1;
-        controlAreaSize[1] = visibleAreaSize[1] - 1;
-        selectorMoved();
+        updateFrame();
     }
 
     /**
@@ -100,28 +64,7 @@ public class MovableCamera extends OrthographicCamera implements Resizeable {
      */
     public void zoom(float delta) {
         zoom = Math.max(zoomBounds[0], Math.min(zoomBounds[1], zoom + delta));
-        updateAreas();
-    }
-
-    /**
-     * Notifies camera about {@link EntitySelector} moves. If it moves out of visible area by x or y axis, camera changes position.
-     */
-    public void selectorMoved2() {
-        Position selectorPosition = GameMvc.instance().getModel().get(EntitySelector.class).getPosition();
-        if (selectorBounds.isIn(selectorPosition) && selectorPosition.z == modelPosition.z)
-            return; // no action, if selector moves within it's bounds;
-        modelPosition.z = selectorPosition.z;
-        if (!selectorBounds.isIn(selectorPosition)) {
-            Vector2 offset = new Vector2();
-            if (selectorPosition.x < selectorBounds.getMinX()) offset.x = selectorPosition.x - selectorBounds.getMinX();
-            if (selectorPosition.x > selectorBounds.getMaxX()) offset.x = selectorPosition.x - selectorBounds.getMaxX();
-            if (selectorPosition.y < selectorBounds.getMinY()) offset.y = selectorPosition.y - selectorBounds.getMinY();
-            if (selectorPosition.y > selectorBounds.getMaxY()) offset.y = selectorPosition.y - selectorBounds.getMaxY();
-            modelPosition.x += offset.x;
-            modelPosition.y += offset.y;
-        }
-        centerCameraToPosition(modelPosition);
-        updateAreas();
+        updateFrame();
     }
 
     /**
@@ -131,12 +74,16 @@ public class MovableCamera extends OrthographicCamera implements Resizeable {
      */
     public void selectorMoved() {
         Position selectorPosition = GameMvc.instance().getModel().get(EntitySelector.class).getPosition();
+        System.out.println(GameMvc.instance().getModel().get(LocalMap.class).zSize);
+        System.out.println(selectorPosition);
+        //        System.out.println("selector " + selectorPosition);
         Vector2 vector = getOutOfFrameVector(selectorPosition);
-        if (modelPosition.z == selectorPosition.z && vector.isZero()) return;
-        modelPosition.z = selectorPosition.z;
-        modelPosition.x += vector.x;
-        modelPosition.y += vector.y;
-        updateAreas();
+//        System.out.println(vector);
+        if (cameraZ == selectorPosition.z && vector.isZero()) return;
+        cameraZ = selectorPosition.z;
+        position.x += vector.x;
+        position.y += vector.y;
+        updateFrame();
     }
 
     /**
@@ -145,40 +92,34 @@ public class MovableCamera extends OrthographicCamera implements Resizeable {
      * Tile should be on the same z-level with camera.
      */
     private Vector2 getOutOfFrameVector(Position position) {
-        Vector2 vector = new Vector2();
-        vector.x = (position.x + 0.5f) * TILE_WIDTH - this.position.x;
-        vector.y = (position.y + 0.5f) * TILE_DEPTH - this.position.y;
-        Vector2 vector2 = vector.cpy();
-        if (Math.abs(vector.x) < viewportWidth / 2) vector.x = 0;
-        if (Math.abs(vector.y) < viewportHeight / 2) vector.y = 0;
-
-        if (vector2.x > viewportWidth / 2) vector2.x -= viewportWidth / 2;
-        if (vector2.y > viewportHeight / 2) vector2.y -= viewportHeight / 2;
-        if (this.position.x - viewportWidth / 2 > position.x * TILE_WIDTH) vector.x = -1;
-        if (this.position.x + viewportWidth / 2 < (position.x + 1) * TILE_WIDTH - 1) vector.x = 1;
-        if (this.position.y - viewportHeight / 2 < position.y * TILE_DEPTH) vector.y = -1;
-        if (this.position.y + viewportHeight / 2 < (position.y + 1) * TILE_DEPTH - 1) vector.y = 1;
-        return vector;
+        return frame.getOutVector(new Vector2(getBatchX(position.x + 0.5f), getBatchY(position.y + 0.5f, 0)));
     }
 
     /**
      * Sets camera position to given model position.
      */
     private void centerCameraToPosition(Position newPosition) {
-        position.x = modelXtoBatchX(newPosition.x);
-        position.y = modelYZtoBatchY(newPosition.y, newPosition.z);
+        cameraZ = newPosition.z;
+        position.x = getBatchX(newPosition.x);
+        position.y = getBatchY(newPosition.y, newPosition.z);
         position.add(correctionVector);
     }
 
-    private int modelXtoBatchX(int x) {
-        return x * TILE_WIDTH;
+    /**
+     * Updates visible frame of camera.
+     */
+    private void updateFrame() {
+        frame.set(position.x - viewportWidth / 2,
+                position.y - viewportHeight / 2,
+                position.x + viewportWidth / 2,
+                position.y + viewportHeight / 2);
     }
 
-    private int modelYZtoBatchY(int y, int z) {
-        return y * TILE_DEPTH + z * (TILE_HEIGHT - TILE_DEPTH);
+    public Float2dBounds getFrame() {
+        return frame;
     }
 
-    public Int3dBounds getVisibleArea() {
-        return visibleArea;
+    public int getCameraZ() {
+        return cameraZ;
     }
 }

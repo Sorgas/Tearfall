@@ -30,7 +30,7 @@ public class LocalWorldStage extends UiStage {
         camera = new MovableCamera();
         camera.update();
         drawingUtil = new DrawingUtil(getBatch());
-        tileRenderer = new TileRenderer(drawingUtil, camera.getVisibleArea());
+        tileRenderer = new TileRenderer(drawingUtil, camera);
         entitySelectorRenderer = new EntitySelectorRenderer(drawingUtil);
     }
 

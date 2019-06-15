@@ -4,6 +4,8 @@ import stonering.game.GameMvc;
 import stonering.game.model.EntitySelector;
 import stonering.util.geometry.Position;
 
+import javax.xml.transform.Source;
+
 /**
  * Renders {@link EntitySelector} sprite and frame.
  *
@@ -19,6 +21,7 @@ public class EntitySelectorRenderer extends Renderer {
 
     @Override
     public void render() {
+        System.out.println("qwer");
         drawSelector(GameMvc.instance().getModel().get(EntitySelector.class));
     }
 
