@@ -14,6 +14,8 @@ import stonering.game.model.lists.PlantContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.view.tilemaps.LocalTileMap;
 
+import java.util.Random;
+
 /**
  * @author Alexander on 06.06.2019.
  */
@@ -57,6 +59,13 @@ public class CameraModel extends GameModel {
                 localMap.setBlock(x, y, 1, BlockTypesEnum.WALL, materialMap.getId("soil"));
                 localMap.setBlock(x, y, 2, BlockTypesEnum.FLOOR, materialMap.getId("soil"));
             }
+        }
+        Random random = new Random();
+        for (int i = 0; i < 200; i++){
+            int x = random.nextInt(MAP_SIZE);
+            int y = random.nextInt(MAP_SIZE);
+            localMap.setBlock(x, y, 2, BlockTypesEnum.WALL, materialMap.getId("soil"));
+            localMap.setBlock(x, y, 3, BlockTypesEnum.FLOOR, materialMap.getId("soil"));
         }
         return localMap;
     }

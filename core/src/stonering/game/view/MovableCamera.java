@@ -6,9 +6,11 @@ import com.badlogic.gdx.math.Vector3;
 import stonering.game.GameMvc;
 import stonering.game.model.EntitySelector;
 import stonering.game.model.local_map.LocalMap;
+import stonering.game.view.render.stages.renderer.BatchUtil;
 import stonering.game.view.render.util.Resizeable;
 import stonering.util.geometry.Float2dBounds;
 import stonering.util.geometry.Position;
+import stonering.util.global.Logger;
 
 import static stonering.game.view.render.stages.renderer.BatchUtil.*;
 import static stonering.game.view.render.stages.renderer.BatchUtil.TILE_DEPTH;
@@ -29,12 +31,14 @@ import static stonering.game.view.render.stages.renderer.BatchUtil.TILE_WIDTH;
  */
 public class MovableCamera extends OrthographicCamera implements Resizeable {
     private int cameraZ;
-    private Float2dBounds frame; // position and screen size casted to visible batch coordinates.
+    private Float2dBounds frame; // visible batch area
     private float zoom = 1;
     private float[] zoomBounds = {1, 3};
     private static final Vector3 correctionVector = new Vector3(TILE_WIDTH / 2, TILE_DEPTH / 2, 0);
 
-    public MovableCamera() {
+    public MovableCamera(float viewportWidth, float viewportHeight) {
+        super(viewportWidth, viewportHeight);
+        Logger.UI.logDebug("camera constructor");
         frame = new Float2dBounds();
         centerCameraToPosition(GameMvc.instance().getModel().get(EntitySelector.class).getPosition().clone());
         updateFrame();
@@ -54,6 +58,7 @@ public class MovableCamera extends OrthographicCamera implements Resizeable {
      */
     @Override
     public void resize(int width, int height) {
+        Logger.UI.logDebug("camera resize");
         viewportWidth = width;
         viewportHeight = height;
         updateFrame();
@@ -63,6 +68,7 @@ public class MovableCamera extends OrthographicCamera implements Resizeable {
      * Changes zoom value and ensures it is within bounds;
      */
     public void zoom(float delta) {
+        Logger.UI.logDebug("camera zoom");
         zoom = Math.max(zoomBounds[0], Math.min(zoomBounds[1], zoom + delta));
         updateFrame();
     }
@@ -74,13 +80,14 @@ public class MovableCamera extends OrthographicCamera implements Resizeable {
      */
     public void selectorMoved() {
         Position selectorPosition = GameMvc.instance().getModel().get(EntitySelector.class).getPosition();
-        System.out.println(GameMvc.instance().getModel().get(LocalMap.class).zSize);
-        System.out.println(selectorPosition);
-        //        System.out.println("selector " + selectorPosition);
+        int delta = selectorPosition.z - cameraZ;
+        if (delta != 0) {
+            position.y += getBatchY(0, delta);
+            cameraZ += selectorPosition.z;
+            updateFrame();
+        }
         Vector2 vector = getOutOfFrameVector(selectorPosition);
-//        System.out.println(vector);
-        if (cameraZ == selectorPosition.z && vector.isZero()) return;
-        cameraZ = selectorPosition.z;
+        if (vector.isZero()) return;
         position.x += vector.x;
         position.y += vector.y;
         updateFrame();
@@ -92,13 +99,13 @@ public class MovableCamera extends OrthographicCamera implements Resizeable {
      * Tile should be on the same z-level with camera.
      */
     private Vector2 getOutOfFrameVector(Position position) {
-        return frame.getOutVector(new Vector2(getBatchX(position.x + 0.5f), getBatchY(position.y + 0.5f, 0)));
+        return frame.getOutVector(BatchUtil.getBottomLeftCorner(position), BatchUtil.getRightTopCorner(position));
     }
 
     /**
      * Sets camera position to given model position.
      */
-    private void centerCameraToPosition(Position newPosition) {
+    public void centerCameraToPosition(Position newPosition) {
         cameraZ = newPosition.z;
         position.x = getBatchX(newPosition.x);
         position.y = getBatchY(newPosition.y, newPosition.z);

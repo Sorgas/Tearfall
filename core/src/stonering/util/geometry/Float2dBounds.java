@@ -26,12 +26,12 @@ public class Float2dBounds {
         this.maxY = maxY;
     }
 
-    public Vector2 getOutVector(Vector2 position) {
+    public Vector2 getOutVector(Vector2 bottomLeft, Vector2 topRight) {
         Vector2 vector = new Vector2();
-        if (position.x < minX) vector.x = position.x - minX;
-        if (position.x > maxX) vector.x = position.x - maxX;
-        if (position.y < minY) vector.y = position.y - minY;
-        if (position.y > maxY) vector.y = position.y - maxY;
+        if (bottomLeft.x < minX) vector.x = bottomLeft.x - minX;
+        if (topRight.x > maxX) vector.x = topRight.x - maxX;
+        if (bottomLeft.y < minY) vector.y = bottomLeft.y - minY;
+        if (topRight.y > maxY) vector.y = topRight.y - maxY;
         return vector;
     }
 

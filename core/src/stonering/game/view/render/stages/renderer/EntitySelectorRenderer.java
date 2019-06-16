@@ -21,7 +21,6 @@ public class EntitySelectorRenderer extends Renderer {
 
     @Override
     public void render() {
-        System.out.println("qwer");
         drawSelector(GameMvc.instance().getModel().get(EntitySelector.class));
     }
 

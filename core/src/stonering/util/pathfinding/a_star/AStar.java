@@ -121,7 +121,7 @@ public class AStar {
                 }
             }
         }
-        Logger.PATH.logDebug("Successors for " + nodePos + ": " + nodes.size());
+//        Logger.PATH.logDebug("Successors for " + nodePos + ": " + nodes.size());
         return nodes;
     }
 

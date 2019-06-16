@@ -1,8 +1,6 @@
 package stonering.game.view.render.stages.renderer;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import stonering.entity.job.designation.Designation;
 import stonering.entity.local.PositionAspect;
@@ -40,7 +38,6 @@ public class TileRenderer extends Renderer {
     private ItemContainer itemContainer;
     private ZonesContainer zonesContainer;
     private MovableCamera camera;
-    private ShapeRenderer shapeRenderer;
 
     private Position cachePosition;
     private Vector3 cacheVector;
@@ -58,7 +55,6 @@ public class TileRenderer extends Renderer {
         plantContainer = model.get(PlantContainer.class);
         itemContainer = model.get(ItemContainer.class);
         zonesContainer = model.get(ZonesContainer.class);
-        shapeRenderer = new ShapeRenderer();
         cachePosition = new Position();
         cacheVector = new Vector3();
         cacheBounds = new Int2dBounds();
@@ -71,7 +67,6 @@ public class TileRenderer extends Renderer {
     public void render() {
         int maxZ = camera.getCameraZ();
         int minZ = (int) Math.max(maxZ - util.maxZLevels, 0);
-        System.out.println(maxZ);
         for (int z = minZ; z <= maxZ; z++) {
             util.shadeByZ(maxZ - z);
             defineLayerBounds(z);
@@ -80,23 +75,22 @@ public class TileRenderer extends Renderer {
                     drawTile(x, y, z);
                 }
             }
-            for (int y = cacheBounds.getMaxY(); y >= cacheBounds.getMinY(); y--) {
-                for (int x = cacheBounds.getMinX(); x <= cacheBounds.getMaxX(); x++) {
-                    drawAreaLabel(x, y, z); // for debug purposes
-                }
-            }
+//            for (int y = cacheBounds.getMaxY(); y >= cacheBounds.getMinY(); y--) {
+//                for (int x = cacheBounds.getMinX(); x <= cacheBounds.getMaxX(); x++) {
+//                    drawAreaLabel(x, y, z); // for debug purposes
+//                }
+//            }
         }
-//        drawAxis();
     }
 
     /**
      * Calculates visible part of z level.
      */
     private void defineLayerBounds(int z) {
-        cacheBounds.set(BatchUtil.getModelX(camera.getFrame().getMinX()),
-                BatchUtil.getModelY(z, camera.getFrame().getMinY()),
-                BatchUtil.getModelX(camera.getFrame().getMaxX()),
-                BatchUtil.getModelY(z, camera.getFrame().getMaxY()));
+        cacheBounds.set(BatchUtil.getModelX(camera.getFrame().getMinX()) - 1,
+                BatchUtil.getModelY(z, camera.getFrame().getMinY()) - 1,
+                BatchUtil.getModelX(camera.getFrame().getMaxX()) + 1,
+                BatchUtil.getModelY(z, camera.getFrame().getMaxY()) + 1);
         cacheBounds.clamp(0, 0, localMap.xSize - 1, localMap.ySize - 1);
     }
 

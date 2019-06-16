@@ -51,7 +51,7 @@ public class EntitySelector implements ModelComponent, Initable {
             z--;
         }
         position.z = z;
-        GameMvc.instance().getView().getBaseStage().getCamera().selectorMoved();
+        GameMvc.instance().getView().getBaseStage().getCamera().centerCameraToPosition(position);
     }
 
     public void setSelector(int x, int y, int z) {

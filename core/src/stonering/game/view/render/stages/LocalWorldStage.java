@@ -27,7 +27,7 @@ public class LocalWorldStage extends UiStage {
 
     public LocalWorldStage() {
         super();
-        camera = new MovableCamera();
+        camera = new MovableCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         camera.update();
         drawingUtil = new DrawingUtil(getBatch());
         tileRenderer = new TileRenderer(drawingUtil, camera);
@@ -46,12 +46,6 @@ public class LocalWorldStage extends UiStage {
         entitySelectorRenderer.render();
         drawingUtil.end();
     }
-
-//    public Vector2 translateScreenPositionToModel(Vector2 screenPos) {
-//        Vector2 vector = screenPos.sub(new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2)); // to click point from center
-//        vector.set(vector.x / TILE_WIDTH, -vector.y / TILE_DEPTH);
-//        return new Vector2((float) Math.floor(selector.getPosition().getX() + vector.x), (float) Math.floor(selector.getPosition().getY() + vector.y));
-//    }
 
     /**
      * This stage handles input directly. So zoom keys cannot be used anywhere else.
