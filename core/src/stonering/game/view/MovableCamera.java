@@ -9,7 +9,6 @@ import stonering.game.view.render.stages.renderer.BatchUtil;
 import stonering.game.view.render.util.Resizeable;
 import stonering.util.geometry.Float2dBounds;
 import stonering.util.geometry.Position;
-import stonering.util.global.Logger;
 
 import static stonering.game.view.render.stages.renderer.BatchUtil.*;
 import static stonering.game.view.render.stages.renderer.BatchUtil.TILE_DEPTH;

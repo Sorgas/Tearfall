@@ -18,7 +18,7 @@ public class PlantLifeStage {
     public List<String> cutProducts;
     public int[] atlasXY;
     public String color;
-    public List<Integer> treeForm; // in null for non-trees
+    public List<Integer> treeForm; // is null for non-trees
 
     public int getTreeRadius() {
         return Math.max(treeForm.get(0), treeForm.get(3));

@@ -27,7 +27,7 @@ public class ItemPickAction extends Action {
 
     @Override
     public boolean check() {
-        if (task.getPerformer().getAspect(EquipmentAspect.class) != null) return false;
+        if (task.getPerformer().getAspect(EquipmentAspect.class) == null) return false;
         return GameMvc.instance().getModel().get(ItemContainer.class).checkItem(getTargetItem());
     }
 

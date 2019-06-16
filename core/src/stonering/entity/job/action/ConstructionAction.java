@@ -4,10 +4,15 @@ import stonering.entity.job.designation.BuildingDesignation;
 import stonering.entity.job.action.target.PositionActionTarget;
 import stonering.entity.local.item.Item;
 import stonering.entity.local.item.selectors.ItemSelector;
+import stonering.entity.local.plants.AbstractPlant;
+import stonering.entity.local.plants.Plant;
+import stonering.entity.local.plants.Tree;
 import stonering.entity.local.unit.aspects.equipment.EquipmentAspect;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.GameMvc;
+import stonering.game.model.GameModel;
 import stonering.game.model.lists.ItemContainer;
+import stonering.game.model.lists.PlantContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
@@ -60,8 +65,10 @@ public class ConstructionAction extends Action {
     }
 
     private void build() {
-        int material = spendItems();
-        GameMvc.instance().getModel().get(LocalMap.class).setBlock(actionTarget.getPosition(), blockType, material);
+        PlantContainer container = GameMvc.instance().getModel().get(PlantContainer.class);
+        GameMvc.instance().getModel().get(LocalMap.class).setBlock(actionTarget.getPosition(), blockType, spendItems());
+        container.removeSubstrate(actionTarget.getPosition());
+        container.removePlant(actionTarget.getPosition());
     }
 
     private int spendItems() {

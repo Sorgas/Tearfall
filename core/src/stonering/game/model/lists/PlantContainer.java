@@ -33,9 +33,9 @@ import java.util.List;
  * @author Alexander Kuzyakov on 09.11.2017.
  */
 public class PlantContainer extends IntervalTurnable implements Initable, ModelComponent {
-    private Array<AbstractPlant> plants;
+    private Array<AbstractPlant> plants; // trees and plants
     private Array<SubstratePlant> substratePlants;
-    private HashMap<Position, PlantBlock> plantBlocks;
+    private HashMap<Position, PlantBlock> plantBlocks; // trees and plants blocks
     private HashMap<Position, PlantBlock> substrateBlocks;
     private LocalMap localMap;
     private final int WALL_CODE = BlockTypesEnum.WALL.CODE;
@@ -67,7 +67,7 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
      * Entry method for placing plants and trees on map.
      */
     public void place(AbstractPlant plant) {
-        if (plant.getType().isTree() && plant instanceof Tree) placeTree((Tree) plant);
+        if (plant.getType().isTree()) placeTree((Tree) plant);
         if (plant.getType().isPlant()) placePlant((Plant) plant);
         if (plant.getType().isSubstrate()) placeSubstrate((SubstratePlant) plant);
     }
@@ -89,9 +89,7 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
      * @param tree Tree object with not null tree field
      */
     private void placeTree(Tree tree) {
-        List<Integer> treeForm = tree.getCurrentStage().treeForm;
-        int radius = treeForm.get(0);
-        Position vector = Position.sub(tree.getPosition(), radius, radius, treeForm.get(2)); // position of 0,0,0 tree part on map
+        Position vector = tree.getArrayStartPosition();
         PlantBlock[][][] treeParts = tree.getBlocks();
         for (int x = 0; x < treeParts.length; x++) {
             for (int y = 0; y < treeParts[x].length; y++) {
@@ -113,6 +111,12 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
         if(substrateBlocks.containsKey(plant.getPosition())) return;
         substratePlants.add(plant);
         substrateBlocks.put(plant.getPosition(), plant.getBlock());
+    }
+
+    public void remove(AbstractPlant plant) {
+        if (plant.getType().isTree()) removeTree((Tree) plant);
+        if (plant.getType().isPlant()) removePlant((Plant) plant);
+        if (plant.getType().isSubstrate()) placeSubstrate((SubstratePlant) plant);
     }
 
     /**
@@ -234,14 +238,33 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
 
     /**
      * Removes block from blocks map and from it's plant.
-     * If plant was single-tiled, it is destroyed
+     * If plant was single-tiled, it is destroyed.
      */
     private void removeBlock(PlantBlock block) {
         if(plantBlocks.get(block.getPosition()) != block) {
+            //TODO debug
             Logger.PLANTS.logError("Plant block with position " + block.getPosition() + " not stored in its position.") ;
         } else {
             plantBlocks.remove(block.getPosition());
         }
+    }
+
+    /**
+     * Removes plants and tree parts from position.
+     * @param position
+     */
+    public void removePlant(Position position) {
+        PlantBlock block = plantBlocks.get(position);
+
+        if(plantBlocks.containsKey(position)) removeBlock(plantBlocks.get(position));
+    }
+
+    /**
+     * Removes substrate plant from given position if there is any.
+     */
+    public void removeSubstrate(Position position) {
+        if(!substrateBlocks.containsKey(position)) return;
+        substratePlants.removeValue((SubstratePlant) substrateBlocks.remove(position).getPlant(), true);
     }
 
     /**
