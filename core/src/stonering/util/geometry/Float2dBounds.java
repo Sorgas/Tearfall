@@ -1,6 +1,7 @@
 package stonering.util.geometry;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 
 /**
  * @author Alexander on 14.06.2019.
@@ -26,8 +27,8 @@ public class Float2dBounds {
         this.maxY = maxY;
     }
 
-    public Vector2 getOutVector(Vector2 bottomLeft, Vector2 topRight) {
-        Vector2 vector = new Vector2();
+    public Vector3 getOutVector(Vector2 bottomLeft, Vector2 topRight) {
+        Vector3 vector = new Vector3();
         if (bottomLeft.x < minX) vector.x = bottomLeft.x - minX;
         if (topRight.x > maxX) vector.x = topRight.x - maxX;
         if (bottomLeft.y < minY) vector.y = bottomLeft.y - minY;

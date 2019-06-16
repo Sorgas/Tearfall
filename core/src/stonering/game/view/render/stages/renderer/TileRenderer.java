@@ -87,10 +87,10 @@ public class TileRenderer extends Renderer {
      * Calculates visible part of z level.
      */
     private void defineLayerBounds(int z) {
-        cacheBounds.set(BatchUtil.getModelX(camera.getFrame().getMinX()) - 1,
-                BatchUtil.getModelY(z, camera.getFrame().getMinY()) - 1,
-                BatchUtil.getModelX(camera.getFrame().getMaxX()) + 1,
-                BatchUtil.getModelY(z, camera.getFrame().getMaxY()) + 1);
+        cacheBounds.set(BatchUtil.getModelX(camera.getFrame().getMinX()) - 5,
+                BatchUtil.getModelY(z, camera.getFrame().getMinY()) - 5,
+                BatchUtil.getModelX(camera.getFrame().getMaxX()) + 5,
+                BatchUtil.getModelY(z, camera.getFrame().getMaxY()) + 5);
         cacheBounds.clamp(0, 0, localMap.xSize - 1, localMap.ySize - 1);
     }
 
