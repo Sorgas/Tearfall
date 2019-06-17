@@ -3,6 +3,7 @@ package stonering.game.model.lists;
 import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
+import stonering.entity.local.Entity;
 import stonering.entity.local.plants.*;
 import stonering.enums.OrientationEnum;
 import stonering.enums.blocks.BlockTypesEnum;
@@ -18,7 +19,6 @@ import stonering.util.global.Initable;
 import stonering.util.global.Logger;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -37,11 +37,12 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
     private Array<SubstratePlant> substratePlants;
     private HashMap<Position, PlantBlock> plantBlocks; // trees and plants blocks
     private HashMap<Position, PlantBlock> substrateBlocks;
+
     private LocalMap localMap;
     private final int WALL_CODE = BlockTypesEnum.WALL.CODE;
 
     public PlantContainer() {
-        this(Collections.EMPTY_LIST);
+        this(new ArrayList<>());
     }
 
     public PlantContainer(List<AbstractPlant> plants) {
@@ -59,7 +60,7 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
 
     @Override
     public void turn() {
-        plants.forEach(abstractPlant -> abstractPlant.turn());
+        plants.forEach(Entity::turn);
         substratePlants.forEach(SubstratePlant::turn);
     }
 
@@ -72,12 +73,13 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
         if (plant.getType().isSubstrate()) placeSubstrate((SubstratePlant) plant);
     }
 
-    /**r
+    /**
+     * r
      * Places single-tile plant block into map to be rendered and accessed by other entities.
      * Block position should be set.
      */
     private void placePlant(Plant plant) {
-        if(placeBlock(plant.getBlock())) plants.add(plant);
+        if (placeBlock(plant.getBlock())) plants.add(plant);
     }
 
     /**
@@ -108,41 +110,69 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
     }
 
     private void placeSubstrate(SubstratePlant plant) {
-        if(substrateBlocks.containsKey(plant.getPosition())) return;
+        if (substrateBlocks.containsKey(plant.getPosition())) return;
         substratePlants.add(plant);
         substrateBlocks.put(plant.getPosition(), plant.getBlock());
     }
 
-    public void remove(AbstractPlant plant) {
-        if (plant.getType().isTree()) removeTree((Tree) plant);
-        if (plant.getType().isPlant()) removePlant((Plant) plant);
-        if (plant.getType().isSubstrate()) placeSubstrate((SubstratePlant) plant);
+    /**
+     * Puts block to blocks map by position from it.
+     */
+    private boolean placeBlock(PlantBlock block) {
+        if (plantBlocks.containsKey(block.getPosition())) {
+            Logger.PLANTS.logDebug(block.getPlant() + " is blocked by " + plantBlocks.get(block.getPosition()).getPlant());
+            return false; // tile is occupied
+        }
+        plantBlocks.put(block.getPosition(), block);
+        return true;
     }
 
     /**
-     * Deletes plant from map and container
+     * Removes plant from map completely. Can leave products.
      */
-    public void removePlant(Plant plant) {
-        if (plants.removeValue(plant, true)) removeBlock(plant.getBlock());
+    public void remove(AbstractPlant plant, boolean leaveProduct) {
+        if (plant.getType().isSubstrate()) {
+            removeSubstrate((SubstratePlant) plant);
+        } else {
+            removePlant(plant, leaveProduct);
+        }
     }
 
     /**
-     * Removes tree blocks, can leave blocks products.
+     * Deletes plant or tree from map and container. Can leave products.
      */
-    public void removeTree(Tree tree, boolean leaveProduct) {
-        if (plants.removeValue(tree, true)) {
-            int stompZ = tree.getCurrentStage().treeForm.get(2);
+    public void removePlant(AbstractPlant plant, boolean leaveProduct) {
+        if (plants.removeValue(plant, true)) removePlantBlocks(plant, leaveProduct);
+    }
+
+    /**
+     * Removes substrate plant and it's block.
+     */
+    public void removeSubstrate(SubstratePlant plant) {
+        if (substrateBlocks.containsKey(plant.getPosition())) return;
+        substratePlants.removeValue(plant, true);
+        substrateBlocks.remove(plant.getPosition());
+    }
+
+    /**
+     * Removes blocks of given plant or tree from map. Can leave products.
+     */
+    public void removePlantBlocks(AbstractPlant plant, boolean leaveProduct) {
+        if (plant instanceof Tree) {
+            Tree tree = (Tree) plant;
             PlantBlock[][][] treeParts = tree.getBlocks();
             for (int x = 0; x < treeParts.length; x++) {
                 for (int y = 0; y < treeParts[x].length; y++) {
-                    for (int z = stompZ; z < treeParts[x][y].length; z++) {
-                        PlantBlock block = treeParts[x][y][z];
-                        if (block == null) continue;
-                        removeBlock(block);
-                        if(leaveProduct) leavePlantProduct(block);
+                    for (int z = 0; z < treeParts[x][y].length; z++) {
+                        if (treeParts[x][y][z] != null)
+                            plantBlocks.remove(treeParts[x][y][z]);
+                        if (leaveProduct) leavePlantProduct(treeParts[x][y][z]);
                     }
                 }
             }
+        } else if (plant instanceof Plant) {
+            plantBlocks.remove(((Plant) plant).getBlock().getPosition());
+            if (leaveProduct) leavePlantProduct(((Plant) plant).getBlock());
         }
     }
 
@@ -153,6 +183,46 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
         ArrayList<Item> items = new PlantProductGenerator().generateCutProduct(block);
         ItemContainer itemContainer = GameMvc.instance().getModel().get(ItemContainer.class);
         items.forEach((item) -> itemContainer.addItem(item));
+    }
+
+    /**
+     * Removes block from blocks map and from it's plant.
+     * If plant was single-tiled, it is destroyed.
+     */
+    private void removeBlock(PlantBlock block, boolean leaveProduct) {
+        if (plantBlocks.get(block.getPosition()) != block) {
+            //TODO debug
+            Logger.PLANTS.logError("Plant block with position " + block.getPosition() + " not stored in its position.");
+        } else {
+            plantBlocks.remove(block.getPosition());
+        }
+    }
+
+    /**
+     * Removes plants and tree parts from position.
+     *
+     * @param position
+     */
+    public void removePlant(Position position) {
+        PlantBlock block = plantBlocks.get(position);
+
+        if (plantBlocks.containsKey(position)) removeBlock(plantBlocks.get(position));
+    }
+
+    /**
+     * Removes substrate plant from given position if there is any.
+     */
+    public void removeSubstrate(Position position) {
+        if (!substrateBlocks.containsKey(position)) return;
+        substratePlants.removeValue((SubstratePlant) substrateBlocks.remove(position).getPlant(), true);
+    }
+
+    /**
+     * Returns all plants with blocks in given position.
+     */
+    public AbstractPlant getPlantInPosition(Position position) {
+        if (!plantBlocks.containsKey(position)) return null;
+        return plantBlocks.get(position).getPlant();
     }
 
     /**
@@ -184,7 +254,7 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
                         if (block == null) continue;
                         Position newPosition = translatePosition(block.getPosition().toVector3(), treePosition.toVector3(), orientation);
                         if (localMap.getBlockType(newPosition) != WALL_CODE) {
-                            removeBlock(block);
+                            plantBlocks.remove(block.getPosition());
                             block.setPosition(newPosition);
                             placeBlock(block);
                         } else {
@@ -196,83 +266,15 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
         }
     }
 
+    /**
+     * Translates block position of growing tree to position of fallen one.
+     */
     private Position translatePosition(Vector3 position, Vector3 center, OrientationEnum orientation) {
         Vector3 offset = position.sub(center);
         Matrix3 matrix3 = new Matrix3();
         matrix3.setToRotation(new Vector3(1, 0, 0), -90);
         offset.mul(matrix3);
         return new Position(center.add(offset.mul(matrix3)));
-    }
-
-    /**
-     * Removes blocks of given plant from map.
-     */
-    public void removePlantBlocks(AbstractPlant plant) {
-        if (plant instanceof Tree) {
-            Tree tree = (Tree) plant;
-            PlantBlock[][][] treeParts = tree.getBlocks();
-            for (int x = 0; x < treeParts.length; x++) {
-                for (int y = 0; y < treeParts[x].length; y++) {
-                    for (int z = 0; z < treeParts[x][y].length; z++) {
-                        if (treeParts[x][y][z] != null)
-                            removeBlock(treeParts[x][y][z]);
-                    }
-                }
-            }
-        } else if (plant instanceof Plant) {
-            removeBlock(((Plant) plant).getBlock());
-        }
-    }
-
-    /**
-     * Puts block to blocks map by position from it.
-     */
-    private boolean placeBlock(PlantBlock block) {
-        if(plantBlocks.containsKey(block.getPosition())) {
-//            Logger.PLANTS.logDebug(block.getPlant() + " is blocked by " + plantBlocks.get(block.getPosition()).getPlant());
-            return false; // tile is occupied
-        }
-        plantBlocks.put(block.getPosition(), block);
-        return true;
-    }
-
-    /**
-     * Removes block from blocks map and from it's plant.
-     * If plant was single-tiled, it is destroyed.
-     */
-    private void removeBlock(PlantBlock block) {
-        if(plantBlocks.get(block.getPosition()) != block) {
-            //TODO debug
-            Logger.PLANTS.logError("Plant block with position " + block.getPosition() + " not stored in its position.") ;
-        } else {
-            plantBlocks.remove(block.getPosition());
-        }
-    }
-
-    /**
-     * Removes plants and tree parts from position.
-     * @param position
-     */
-    public void removePlant(Position position) {
-        PlantBlock block = plantBlocks.get(position);
-
-        if(plantBlocks.containsKey(position)) removeBlock(plantBlocks.get(position));
-    }
-
-    /**
-     * Removes substrate plant from given position if there is any.
-     */
-    public void removeSubstrate(Position position) {
-        if(!substrateBlocks.containsKey(position)) return;
-        substratePlants.removeValue((SubstratePlant) substrateBlocks.remove(position).getPlant(), true);
-    }
-
-    /**
-     * Returns all plants with blocks in given position.
-     */
-    public AbstractPlant getPlantInPosition(Position position) {
-        if(!plantBlocks.containsKey(position)) return null;
-        return plantBlocks.get(position).getPlant();
     }
 
     public boolean isBlockPassable(Position position) {
