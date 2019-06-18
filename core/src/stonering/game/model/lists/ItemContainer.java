@@ -133,7 +133,7 @@ public class ItemContainer extends Turnable implements ModelComponent, Initable 
         items.forEach((item) -> {
             String materialName = MaterialMap.getInstance().getMaterial(item.getMaterial()).getName();
             ItemGroup key = new ItemGroup(item.getTitle(), materialName, 0);
-            groupingMap.put(key, groupingMap.getOrDefault(key, 0) + 1);                          // increment quantity
+            groupingMap.put(key, groupingMap.getOrDefault(key, 0) + 1);               // increment quantity
         });
         List<ItemGroup> resultList = new ArrayList<>();
         groupingMap.keySet().forEach(group -> {
