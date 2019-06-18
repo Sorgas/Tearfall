@@ -55,7 +55,6 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
     @Override
     public void init() {
         localMap = GameMvc.instance().getModel().get(LocalMap.class);
-        plants.forEach(this::place);
     }
 
     @Override
@@ -65,20 +64,20 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
     }
 
     /**
-     * Entry method for placing plants and trees on map.
+     * Entry method for placing new plants and trees on map.
      */
-    public void place(AbstractPlant plant) {
-        if (plant.getType().isTree()) placeTree((Tree) plant);
-        if (plant.getType().isPlant()) placePlant((Plant) plant);
-        if (plant.getType().isSubstrate()) placeSubstrate((SubstratePlant) plant);
+    public void place(AbstractPlant plant, Position position) {
+        if (plant.getType().isTree()) placeTree((Tree) plant, position);
+        if (plant.getType().isPlant()) placePlant((Plant) plant, position);
+        if (plant.getType().isSubstrate()) placeSubstrate((SubstratePlant) plant, position);
     }
 
     /**
-     * r
      * Places single-tile plant block into map to be rendered and accessed by other entities.
      * Block position should be set.
      */
-    private void placePlant(Plant plant) {
+    private void placePlant(Plant plant, Position position) {
+        plant.setPosition(position);
         if (placeBlock(plant.getBlock())) plants.add(plant);
     }
 
@@ -90,7 +89,8 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
      *
      * @param tree Tree object with not null tree field
      */
-    private void placeTree(Tree tree) {
+    private void placeTree(Tree tree, Position position) {
+        tree.setPosition(position);
         Position vector = tree.getArrayStartPosition();
         PlantBlock[][][] treeParts = tree.getBlocks();
         for (int x = 0; x < treeParts.length; x++) {
@@ -100,17 +100,18 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
                     Position onMapPosition = Position.add(vector, x, y, z);
                     if (!localMap.inMap(onMapPosition)) {
                         treeParts[x][y][z] = null; // remove block that is out of map
-                        continue;
+                    } else {
+                        treeParts[x][y][z].setPosition(onMapPosition);
+                        placeBlock(treeParts[x][y][z]);
                     }
-                    treeParts[x][y][z].setPosition(onMapPosition);
-                    placeBlock(treeParts[x][y][z]);
                 }
             }
         }
     }
 
-    private void placeSubstrate(SubstratePlant plant) {
+    private void placeSubstrate(SubstratePlant plant, Position position) {
         if (substrateBlocks.containsKey(plant.getPosition())) return;
+        plant.setPosition(position);
         substratePlants.add(plant);
         substrateBlocks.put(plant.getPosition(), plant.getBlock());
     }
@@ -131,27 +132,14 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
      * Removes plant from map completely. Can leave products.
      */
     public void remove(AbstractPlant plant, boolean leaveProduct) {
+        if(plant == null) return;
         if (plant.getType().isSubstrate()) {
-            removeSubstrate((SubstratePlant) plant);
+            if (substrateBlocks.containsKey(plant.getPosition())) return;
+            substratePlants.removeValue((SubstratePlant) plant, true);
+            substrateBlocks.remove(plant.getPosition());
         } else {
-            removePlant(plant, leaveProduct);
+            if (plants.removeValue(plant, true)) removePlantBlocks(plant, leaveProduct);
         }
-    }
-
-    /**
-     * Deletes plant or tree from map and container. Can leave products.
-     */
-    public void removePlant(AbstractPlant plant, boolean leaveProduct) {
-        if (plants.removeValue(plant, true)) removePlantBlocks(plant, leaveProduct);
-    }
-
-    /**
-     * Removes substrate plant and it's block.
-     */
-    public void removeSubstrate(SubstratePlant plant) {
-        if (substrateBlocks.containsKey(plant.getPosition())) return;
-        substratePlants.removeValue(plant, true);
-        substrateBlocks.remove(plant.getPosition());
     }
 
     /**
@@ -164,25 +152,13 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
             for (int x = 0; x < treeParts.length; x++) {
                 for (int y = 0; y < treeParts[x].length; y++) {
                     for (int z = 0; z < treeParts[x][y].length; z++) {
-                        if (treeParts[x][y][z] != null)
-                            plantBlocks.remove(treeParts[x][y][z]);
-                        if (leaveProduct) leavePlantProduct(treeParts[x][y][z]);
+                        if (treeParts[x][y][z] != null) removeBlock(treeParts[x][y][z], leaveProduct);
                     }
                 }
             }
         } else if (plant instanceof Plant) {
-            plantBlocks.remove(((Plant) plant).getBlock().getPosition());
-            if (leaveProduct) leavePlantProduct(((Plant) plant).getBlock());
+            removeBlock(((Plant) plant).getBlock(), leaveProduct);
         }
-    }
-
-    /**
-     * Creates block's products in block's position.
-     */
-    private void leavePlantProduct(PlantBlock block) {
-        ArrayList<Item> items = new PlantProductGenerator().generateCutProduct(block);
-        ItemContainer itemContainer = GameMvc.instance().getModel().get(ItemContainer.class);
-        items.forEach((item) -> itemContainer.addItem(item));
     }
 
     /**
@@ -195,34 +171,17 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
             Logger.PLANTS.logError("Plant block with position " + block.getPosition() + " not stored in its position.");
         } else {
             plantBlocks.remove(block.getPosition());
+            if (leaveProduct) leavePlantProduct(block);
         }
     }
 
     /**
-     * Removes plants and tree parts from position.
-     *
-     * @param position
+     * Creates block's products in block's position.
      */
-    public void removePlant(Position position) {
-        PlantBlock block = plantBlocks.get(position);
-
-        if (plantBlocks.containsKey(position)) removeBlock(plantBlocks.get(position));
-    }
-
-    /**
-     * Removes substrate plant from given position if there is any.
-     */
-    public void removeSubstrate(Position position) {
-        if (!substrateBlocks.containsKey(position)) return;
-        substratePlants.removeValue((SubstratePlant) substrateBlocks.remove(position).getPlant(), true);
-    }
-
-    /**
-     * Returns all plants with blocks in given position.
-     */
-    public AbstractPlant getPlantInPosition(Position position) {
-        if (!plantBlocks.containsKey(position)) return null;
-        return plantBlocks.get(position).getPlant();
+    private void leavePlantProduct(PlantBlock block) {
+        ArrayList<Item> items = new PlantProductGenerator().generateCutProduct(block);
+        ItemContainer itemContainer = GameMvc.instance().getModel().get(ItemContainer.class);
+        items.forEach(itemContainer::addItem);
     }
 
     /**
@@ -277,15 +236,31 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
         return new Position(center.add(offset.mul(matrix3)));
     }
 
-    public boolean isBlockPassable(Position position) {
-        return !plantBlocks.containsKey(position) || plantBlocks.get(position).getType().passable;
+    public boolean isPlantBlockPassable(Position position) {
+        return !plantBlocks.containsKey(position) || plantBlocks.get(position).isPassable();
     }
 
-    public HashMap<Position, PlantBlock> getPlantBlocks() {
-        return plantBlocks;
+    public AbstractPlant getPlantInPosition(Position position) {
+        return plantBlocks.containsKey(position) ? plantBlocks.get(position).getPlant() : null;
     }
 
-    public HashMap<Position, PlantBlock> getSubstrateBlocks() {
-        return substrateBlocks;
+    public PlantBlock getPlantBlock(Position position) {
+        return plantBlocks.get(position);
+    }
+
+    public PlantBlock getSubstrateBlock(Position position) {
+        return substrateBlocks.get(position);
+    }
+
+    public SubstratePlant getSubstrateInPosition(Position position) {
+        return substrateBlocks.containsKey(position) ? (SubstratePlant) substrateBlocks.get(position).getPlant() : null;
+    }
+
+    public boolean isPlantBlockExists(Position position) {
+        return plantBlocks.containsKey(position);
+    }
+
+    public boolean isSubstrateBlockExists(Position position) {
+        return substrateBlocks.containsKey(position);
     }
 }

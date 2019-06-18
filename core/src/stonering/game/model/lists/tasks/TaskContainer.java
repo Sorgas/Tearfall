@@ -107,6 +107,7 @@ public class TaskContainer implements ModelComponent, Initable {
                 Task task = new Task("designation", TaskTypesEnum.DESIGNATION, digAction, priority);
                 return task;
             }
+            //TODO split actions
             case CUT:
             case CHOP: {
                 ChopTreeAction chopTreeAction = new ChopTreeAction(designation);
@@ -114,7 +115,7 @@ public class TaskContainer implements ModelComponent, Initable {
                 return task;
             }
             case HARVEST: {
-                PlantBlock block = GameMvc.instance().getModel().get(PlantContainer.class).getPlantBlocks().get(designation.getPosition());
+                PlantBlock block = GameMvc.instance().getModel().get(PlantContainer.class).getPlantBlock(designation.getPosition());
                 if (!block.getPlant().isHarvestable()) return null;
                 PlantHarvestAction plantHarvestAction = new PlantHarvestAction(block.getPlant());
                 //TODO probably create multiple tasks for all blocks

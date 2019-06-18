@@ -2,7 +2,6 @@ package stonering.entity.job.action.target;
 
 import stonering.util.geometry.Position;
 import stonering.entity.local.plants.AbstractPlant;
-import stonering.entity.local.plants.Plant;
 
 public class PlantActionTarget extends ActionTarget {
     protected AbstractPlant plant;
@@ -17,11 +16,11 @@ public class PlantActionTarget extends ActionTarget {
         return plant.getPosition();
     }
 
-    public Plant getPlant() {
-        return (Plant) plant;
+    public AbstractPlant getPlant() {
+        return plant;
     }
 
-    public void setPlant(Plant plant) {
+    public void setPlant(AbstractPlant plant) {
         this.plant = plant;
     }
 }

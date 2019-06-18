@@ -4,6 +4,7 @@ import stonering.entity.job.action.target.PlantActionTarget;
 import stonering.entity.local.item.Item;
 import stonering.entity.local.item.selectors.ItemSelector;
 import stonering.entity.local.item.selectors.ToolWithActionItemSelector;
+import stonering.entity.local.plants.Plant;
 import stonering.entity.local.plants.PlantBlock;
 import stonering.entity.local.unit.aspects.equipment.EquipmentAspect;
 import stonering.game.GameMvc;
@@ -12,6 +13,8 @@ import stonering.generators.items.PlantProductGenerator;
 import stonering.util.global.Logger;
 
 /**
+ * Action for harvesting wild single-tile plants.
+ *
  * @author Alexander on 15.01.2019.
  */
 public class HarvestPlantAction extends Action {
@@ -24,6 +27,7 @@ public class HarvestPlantAction extends Action {
 
     @Override
     public boolean check() {
+        if (!(((PlantActionTarget) actionTarget).getPlant() instanceof Plant)) return false;
         EquipmentAspect aspect = task.getPerformer().getAspect(EquipmentAspect.class);
         if (aspect == null) return false;
         return toolItemSelector.check(aspect.getEquippedItems()) || addActionToTask();
@@ -31,7 +35,7 @@ public class HarvestPlantAction extends Action {
 
     @Override
     public void performLogic() {
-        PlantBlock plantBlock = ((PlantActionTarget) actionTarget).getPlant().getBlock();
+        PlantBlock plantBlock = ((Plant) ((PlantActionTarget) actionTarget).getPlant()).getBlock();
         Item item = new PlantProductGenerator().generateHarvestProduct(plantBlock);
         GameMvc.instance().getModel().get(ItemContainer.class).putItem(item, actionTarget.getPosition());
         Logger.TASKS.logDebug("harvesting plant finished at " + actionTarget.getPosition() + " by " + task.getPerformer());

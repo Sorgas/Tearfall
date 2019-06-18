@@ -90,8 +90,7 @@ public class PlantingAction extends Action {
             PlantContainer plantContainer = GameMvc.instance().getModel().get(PlantContainer.class);
             PlantGenerator plantGenerator = new PlantGenerator();
             Plant plant = plantGenerator.generatePlant(seed.getAspect(SeedAspect.class));
-            plant.setPosition(actionTarget.getPosition());
-            plantContainer.place(plant);
+            plantContainer.place(plant, actionTarget.getPosition());
         } catch (DescriptionNotFoundException e) {
             e.printStackTrace();
         }

@@ -49,16 +49,16 @@ public class PlantGrowthAspect extends Aspect {
         PlantContainer plantContainer = GameMvc.instance().getModel().get(PlantContainer.class);
         if (entity instanceof Tree) {
             Tree tree = (Tree) entity;
-            plantContainer.removePlantBlocks(tree);
+            plantContainer.removePlantBlocks(tree, false);
             TreeGenerator treeGenerator = new TreeGenerator();
             treeGenerator.applyTreeGrowth(tree);
-            plantContainer.place(tree);
+            plantContainer.place(tree, tree.getPosition());
         } else if (entity instanceof Plant) {
             Plant plant = (Plant) entity;
-            plantContainer.removePlantBlocks(plant);
+            plantContainer.removePlantBlocks(plant, false);
             PlantGenerator plantGenerator = new PlantGenerator();
             plantGenerator.applyPlantGrowth(plant);
-            plantContainer.place(plant);
+            plantContainer.place(plant, plant.getPosition());
         }
     }
 

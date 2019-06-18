@@ -15,7 +15,8 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Generates trees and used for tree growth.
+ * Generates trees and is used for tree growth.
+ * Does not set tree's positions.
  *
  * @author Alexander Kuzyakov on 19.10.2017.
  */

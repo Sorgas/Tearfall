@@ -108,7 +108,7 @@ public class TileRenderer extends Renderer {
         drawSubstrate(x, y, z);
         drawWaterBlock(x, y, z);
         cachePosition.set(x, y, z);
-        if (plantContainer != null) drawPlantBlock(plantContainer.getPlantBlocks().get(cachePosition));
+        if (plantContainer != null) drawPlantBlock(plantContainer.getPlantBlock(cachePosition));
         if (buildingContainer != null) drawBuildingBlock(buildingContainer.getBuildingBlocks().get(cachePosition));
         if (unitContainer != null) unitContainer.getUnitsInPosition(x, y, z).forEach(this::drawUnit);
         if (itemContainer != null) itemContainer.getItemsInPosition(x, y, z).forEach(this::drawItem);
@@ -167,12 +167,12 @@ public class TileRenderer extends Renderer {
      */
     private TextureRegion selectSpriteForSubstrate(int x, int y, int z) {
         cachePosition.set(x, y, z);
-        PlantBlock block = plantContainer.getSubstrateBlocks().get(cachePosition);
+        PlantBlock block = plantContainer.getSubstrateBlock(cachePosition);
         if (block != null)
             return util.selectSprite(6, localTileMap.get(cachePosition).getVal1(), block.getAtlasXY()[1]);
         if (z == 0) return null;
         cachePosition.set(x, y, z - 1);
-        block = plantContainer.getSubstrateBlocks().get(cachePosition);
+        block = plantContainer.getSubstrateBlock(cachePosition);
         if (block != null)
             return util.selectToping(6, localTileMap.get(cachePosition).getVal1(), block.getAtlasXY()[1]);
         return null;

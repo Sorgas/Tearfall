@@ -15,6 +15,7 @@ import java.util.Arrays;
 
 /**
  * Generates single tile plants (not trees).
+ * Does not set plant's positions.
  *
  * @author Alexander Kuzyakov on 05.04.2018.
  */

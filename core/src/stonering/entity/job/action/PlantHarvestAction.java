@@ -23,12 +23,11 @@ public class PlantHarvestAction extends Action {
 
     @Override
     public boolean check() {
+        PlantContainer container = GameMvc.instance().getModel().get(PlantContainer.class);
         EquipmentAspect aspect = task.getPerformer().getAspect(EquipmentAspect.class);
         if (aspect == null) return false;
-        AbstractPlant abstractPlant = ((PlantActionTarget) actionTarget).getPlant();
-        Position position = actionTarget.getPosition();
-        PlantBlock block = GameMvc.instance().getModel().get(PlantContainer.class).getPlantBlocks().get(position);
-        if (block == null || block.getPlant() != abstractPlant) return false;
+        AbstractPlant targetPlant = ((PlantActionTarget) actionTarget).getPlant();
+        if (container.getPlantInPosition(actionTarget.getPosition()) != targetPlant) return false;
         return toolItemSelector.check(aspect.getEquippedItems()) || addActionToTask();
     }
 
@@ -44,7 +43,7 @@ public class PlantHarvestAction extends Action {
     public void performLogic() {
         System.out.println("harvesting plant");
         Position position = actionTarget.getPosition();
-        PlantBlock block = GameMvc.instance().getModel().get(PlantContainer.class).getPlantBlocks().get(position);
+        PlantBlock block = GameMvc.instance().getModel().get(PlantContainer.class).getPlantBlock(position);
         Item item = new PlantProductGenerator().generateHarvestProduct(block);
         GameMvc.instance().getModel().get(ItemContainer.class).putItem(item, position);
     }

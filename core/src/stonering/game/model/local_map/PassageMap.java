@@ -256,7 +256,7 @@ public class PassageMap {
         GameModel model = GameMvc.instance().getModel();
         PlantContainer plantContainer = model.get(PlantContainer.class);
         BuildingContainer buildingContainer = model.get(BuildingContainer.class);
-        if(plantContainer.getPlantBlocks().containsKey(position) && !plantContainer.getPlantBlocks().get(position).isPassable()) return BlockTypesEnum.NOT_PASSABLE;
+        if(plantContainer.isPlantBlockPassable(position)) return BlockTypesEnum.NOT_PASSABLE;
         if(buildingContainer.getBuildingBlocks().containsKey(position) && !buildingContainer.getBuildingBlocks().get(position).isPassable()) return BlockTypesEnum.NOT_PASSABLE;
         //TODO add water depth checking, etc.
         return BlockTypesEnum.getType(localMap.getBlockType(position)).PASSING;

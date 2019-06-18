@@ -65,10 +65,11 @@ public class ConstructionAction extends Action {
     }
 
     private void build() {
+        Position target = actionTarget.getPosition();
         PlantContainer container = GameMvc.instance().getModel().get(PlantContainer.class);
-        GameMvc.instance().getModel().get(LocalMap.class).setBlock(actionTarget.getPosition(), blockType, spendItems());
-        container.removeSubstrate(actionTarget.getPosition());
-        container.removePlant(actionTarget.getPosition());
+        GameMvc.instance().getModel().get(LocalMap.class).setBlock(target, blockType, spendItems());
+        container.remove(container.getPlantInPosition(target), true);
+        container.remove(container.getSubstrateInPosition(target), false);
     }
 
     private int spendItems() {

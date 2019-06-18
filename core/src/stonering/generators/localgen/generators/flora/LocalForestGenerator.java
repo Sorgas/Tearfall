@@ -48,9 +48,8 @@ public class LocalForestGenerator extends LocalFloraGenerator {
                 Position position = positions.remove(0);
                 Tree tree = treeGenerator.generateTree(specimen, random.nextInt(maxAge));
                 if (!checkTreePlacing(tree, position.x, position.y, position.z)) continue;
-                tree.setPosition(position);
-                container.model.get(PlantContainer.class).place(tree);
-                counter ++;
+                container.model.get(PlantContainer.class).place(tree, position);
+                counter++;
             }
         } catch (DescriptionNotFoundException e) {
             e.printStackTrace();
@@ -75,7 +74,7 @@ public class LocalForestGenerator extends LocalFloraGenerator {
                     if (treeParts[x][y][z] == null) continue;
                     if (!localMap.inMap(mapX, mapY, mapZ)) continue;
                     //TODO add blocks validation
-                    if (plantContainer.getPlantBlocks().containsKey(cachePosition.set(mapX, mapY, mapZ))) return false;
+                    if (plantContainer.isPlantBlockExists(cachePosition.set(mapX, mapY, mapZ))) return false;
                 }
             }
         }
@@ -89,7 +88,7 @@ public class LocalForestGenerator extends LocalFloraGenerator {
         for (int x = position.x - radius; x < position.x + radius; x++) {
             for (int y = position.y - radius; y < position.y + radius; y++) {
                 for (int z = position.z - 1; z < position.z + 3; z++) {
-                    if(plantContainer.getPlantBlocks().get(cachePosition.set(x,y,z)) != null) return true;
+                    if (plantContainer.isPlantBlockExists(cachePosition.set(x, y, z))) return true;
                 }
             }
         }

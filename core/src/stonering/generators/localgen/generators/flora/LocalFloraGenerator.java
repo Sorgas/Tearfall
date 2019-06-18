@@ -133,7 +133,7 @@ public abstract class LocalFloraGenerator extends LocalAbstractGenerator {
         for (int x = 0; x < localMap.xSize; x++) {
             for (int y = 0; y < localMap.ySize; y++) {
                 for (int z = 0; z < localMap.zSize; z++) {
-                    if (plantContainer.getPlantBlocks().containsKey(cachePosition.set(x, y, z))) continue;
+                    if (plantContainer.isPlantBlockExists(cachePosition.set(x, y, z))) continue;
                     if (localMap.getBlockType(x, y, z) != FLOOR.CODE) continue;
                     positions.add(new Position(x, y, z));
                 }
@@ -153,6 +153,7 @@ public abstract class LocalFloraGenerator extends LocalAbstractGenerator {
 
     /**
      * Changes weights to number of plants (multiplies to available tiles count).
+     *
      * @param filteredPlants
      * @param filteredPositions
      */

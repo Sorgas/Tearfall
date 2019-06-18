@@ -27,9 +27,9 @@ public class ChopTreeAction extends Action {
     public boolean check() {
         EquipmentAspect aspect = task.getPerformer().getAspect(EquipmentAspect.class);
         if (aspect == null) return false;
-        PlantBlock block = GameMvc.instance().getModel().get(PlantContainer.class).getPlantBlocks().get(actionTarget.getPosition());
-        if (block == null) return false;
-        if(toolItemSelector.check(aspect.getEquippedItems())) return true;
+        if (!GameMvc.instance().getModel().get(PlantContainer.class).isPlantBlockExists(actionTarget.getPosition()))
+            return false;
+        if (toolItemSelector.check(aspect.getEquippedItems())) return true;
 
         Logger.TASKS.logDebug("No tool equipped by performer for chopTreeAction");
         Item target = GameMvc.instance().getModel().get(ItemContainer.class).getItemAvailableBySelector(toolItemSelector, task.getPerformer().getPosition());
@@ -46,21 +46,9 @@ public class ChopTreeAction extends Action {
     @Override
     public void performLogic() {
         logStart();
-        PlantBlock block = GameMvc.instance().getModel().get(PlantContainer.class).getPlantBlocks().get(actionTarget.getPosition());
-        AbstractPlant plant = block.getPlant();
-        if (plant.getType().isTree()) {
-            cutTree((Tree) plant);
-        } else {
-            cutPlant((Plant) plant);
-        }
-    }
-
-    private void cutTree(Tree tree) {
-        GameMvc.instance().getModel().get(PlantContainer.class).removeTree(tree, true);
-    }
-
-    private void cutPlant(Plant plant) {
-        GameMvc.instance().getModel().get(PlantContainer.class).removePlant(plant);
+        PlantContainer container = GameMvc.instance().getModel().get(PlantContainer.class);
+        AbstractPlant plant = container.getPlantInPosition(actionTarget.getPosition());
+        if (plant.getType().isTree()) container.remove(plant, true);
     }
 
     private void logStart() {
