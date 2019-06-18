@@ -34,9 +34,7 @@ import java.util.List;
  */
 public class PlantContainer extends IntervalTurnable implements Initable, ModelComponent {
     private Array<AbstractPlant> plants; // trees and plants
-    private Array<SubstratePlant> substratePlants;
     private HashMap<Position, PlantBlock> plantBlocks; // trees and plants blocks
-    private HashMap<Position, PlantBlock> substrateBlocks;
 
     private LocalMap localMap;
     private final int WALL_CODE = BlockTypesEnum.WALL.CODE;
@@ -47,9 +45,7 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
 
     public PlantContainer(List<AbstractPlant> plants) {
         this.plants = new CompatibleArray<>(plants);
-        substratePlants = new CompatibleArray<>();
         plantBlocks = new HashMap<>();
-        substrateBlocks = new HashMap<>();
     }
 
     @Override
@@ -60,7 +56,6 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
     @Override
     public void turn() {
         plants.forEach(Entity::turn);
-        substratePlants.forEach(SubstratePlant::turn);
     }
 
     /**
@@ -69,7 +64,6 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
     public void place(AbstractPlant plant, Position position) {
         if (plant.getType().isTree()) placeTree((Tree) plant, position);
         if (plant.getType().isPlant()) placePlant((Plant) plant, position);
-        if (plant.getType().isSubstrate()) placeSubstrate((SubstratePlant) plant, position);
     }
 
     /**
@@ -109,12 +103,6 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
         }
     }
 
-    private void placeSubstrate(SubstratePlant plant, Position position) {
-        if (substrateBlocks.containsKey(plant.getPosition())) return;
-        plant.setPosition(position);
-        substratePlants.add(plant);
-        substrateBlocks.put(plant.getPosition(), plant.getBlock());
-    }
 
     /**
      * Puts block to blocks map by position from it.
@@ -132,14 +120,8 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
      * Removes plant from map completely. Can leave products.
      */
     public void remove(AbstractPlant plant, boolean leaveProduct) {
-        if(plant == null) return;
-        if (plant.getType().isSubstrate()) {
-            if (substrateBlocks.containsKey(plant.getPosition())) return;
-            substratePlants.removeValue((SubstratePlant) plant, true);
-            substrateBlocks.remove(plant.getPosition());
-        } else {
-            if (plants.removeValue(plant, true)) removePlantBlocks(plant, leaveProduct);
-        }
+        if (plant == null) return;
+        if (plants.removeValue(plant, true)) removePlantBlocks(plant, leaveProduct);
     }
 
     /**
@@ -248,19 +230,7 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
         return plantBlocks.get(position);
     }
 
-    public PlantBlock getSubstrateBlock(Position position) {
-        return substrateBlocks.get(position);
-    }
-
-    public SubstratePlant getSubstrateInPosition(Position position) {
-        return substrateBlocks.containsKey(position) ? (SubstratePlant) substrateBlocks.get(position).getPlant() : null;
-    }
-
     public boolean isPlantBlockExists(Position position) {
         return plantBlocks.containsKey(position);
-    }
-
-    public boolean isSubstrateBlockExists(Position position) {
-        return substrateBlocks.containsKey(position);
     }
 }

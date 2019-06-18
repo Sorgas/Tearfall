@@ -32,6 +32,7 @@ public class TileRenderer extends Renderer {
     private LocalMap localMap;
     private LocalTileMap localTileMap;
     private PlantContainer plantContainer;
+    private SubstrateContainer substrateContainer;
     private BuildingContainer buildingContainer;
     private UnitContainer unitContainer;
     private TaskContainer taskContainer;
@@ -53,6 +54,7 @@ public class TileRenderer extends Renderer {
         unitContainer = model.get(UnitContainer.class);
         taskContainer = model.get(TaskContainer.class);
         plantContainer = model.get(PlantContainer.class);
+        substrateContainer = model.get(SubstrateContainer.class);
         itemContainer = model.get(ItemContainer.class);
         zonesContainer = model.get(ZonesContainer.class);
         cachePosition = new Position();
@@ -105,7 +107,7 @@ public class TileRenderer extends Renderer {
         //byte lightLevel = (byte) (localMap.getLight().getValue(x, y, z) + localMap.getGeneralLight().getValue(x, y, z));  //TODO limit light level
         //util.shadeByLight(lightLevel);
         drawBlock(x, y, z);
-        drawSubstrate(x, y, z);
+        if (substrateContainer != null) drawSubstrate(x, y, z);
         drawWaterBlock(x, y, z);
         cachePosition.set(x, y, z);
         if (plantContainer != null) drawPlantBlock(plantContainer.getPlantBlock(cachePosition));
@@ -167,12 +169,12 @@ public class TileRenderer extends Renderer {
      */
     private TextureRegion selectSpriteForSubstrate(int x, int y, int z) {
         cachePosition.set(x, y, z);
-        PlantBlock block = plantContainer.getSubstrateBlock(cachePosition);
+        PlantBlock block = substrateContainer.getSubstrateBlock(cachePosition);
         if (block != null)
             return util.selectSprite(6, localTileMap.get(cachePosition).getVal1(), block.getAtlasXY()[1]);
         if (z == 0) return null;
         cachePosition.set(x, y, z - 1);
-        block = plantContainer.getSubstrateBlock(cachePosition);
+        block = substrateContainer.getSubstrateBlock(cachePosition);
         if (block != null)
             return util.selectToping(6, localTileMap.get(cachePosition).getVal1(), block.getAtlasXY()[1]);
         return null;
@@ -231,6 +233,4 @@ public class TileRenderer extends Renderer {
         if (block != null)
             util.drawSprite(util.selectSprite(1, block.getAtlasXY()[0], block.getAtlasXY()[1]), cacheVector);
     }
-
-
 }

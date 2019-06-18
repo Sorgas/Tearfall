@@ -37,6 +37,7 @@ public class MainGameModel extends GameModel {
         put(world);
         put(new LocalTileMap());
         put(new PlantContainer());
+        put(new SubstrateContainer());
         put(new BuildingContainer());
         put(new UnitContainer());
         put(new ZonesContainer());

@@ -13,6 +13,7 @@ import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
 import stonering.game.model.lists.ItemContainer;
 import stonering.game.model.lists.PlantContainer;
+import stonering.game.model.lists.SubstrateContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
@@ -66,10 +67,11 @@ public class ConstructionAction extends Action {
 
     private void build() {
         Position target = actionTarget.getPosition();
-        PlantContainer container = GameMvc.instance().getModel().get(PlantContainer.class);
         GameMvc.instance().getModel().get(LocalMap.class).setBlock(target, blockType, spendItems());
+        PlantContainer container = GameMvc.instance().getModel().get(PlantContainer.class);
         container.remove(container.getPlantInPosition(target), true);
-        container.remove(container.getSubstrateInPosition(target), false);
+        SubstrateContainer substrateContainer = GameMvc.instance().getModel().get(SubstrateContainer.class);
+        substrateContainer.remove(substrateContainer.getSubstrateInPosition(target));
     }
 
     private int spendItems() {
