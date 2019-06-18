@@ -99,7 +99,6 @@ public class TileRenderer extends Renderer {
     /**
      * Draws all content of the tile.
      * Draw order: block, water, substrate plants, plants, building, unit, item, designation.
-     * //TODO refactor
      */
     private void drawTile(int x, int y, int z) {
         cachePosition.set(x, y, z);

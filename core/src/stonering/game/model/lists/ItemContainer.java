@@ -39,7 +39,6 @@ public class ItemContainer extends Turnable implements ModelComponent, Initable 
     @Override
     public void init() {
         items.forEach(Item::init);
-
     }
 
     /**
@@ -47,17 +46,6 @@ public class ItemContainer extends Turnable implements ModelComponent, Initable 
      */
     public void turn() {
         items.forEach(Entity::turn);
-    }
-
-    /**
-     * For initial item placing
-     */
-    public ItemContainer placeItems(List<Item> items) {
-        items.forEach(item -> {
-            this.items.add(item);
-            putItem(item, item.getPosition());
-        });
-        return this;
     }
 
     public void removeItem(Item item) {
@@ -155,10 +143,12 @@ public class ItemContainer extends Turnable implements ModelComponent, Initable 
         return resultList;
     }
 
-    //TODO carried item have no position
-    public List<Item> filterUnreachable(List<Item> items, Position pos) {
+    public List<Item> filterUnreachable(List<Item> items, Position fromPosition) {
         UtilByteArray area = GameMvc.instance().getModel().get(LocalMap.class).getPassage().getArea();
-        return items.stream().filter(item -> item.getPosition() != null && area.getValue(item.getPosition()) == area.getValue(pos)).collect(Collectors.toList());
+        return items.stream().
+                filter(item -> item.getPosition() != null).
+                filter(item -> area.getValue(item.getPosition()) == area.getValue(fromPosition)).
+                collect(Collectors.toList());
     }
 
     public boolean hasItemsAvailableBySelector(ItemSelector itemSelector, Position position) {
@@ -169,19 +159,14 @@ public class ItemContainer extends Turnable implements ModelComponent, Initable 
         //TODO implement ordering by distance
         List<Item> items = itemSelector.selectItems(this.items);
         items = filterUnreachable(items, position);
-        if (items != null && !items.isEmpty()) {
-            //TODO return nearest item
-            return items.get(0);
-        }
-        return null;
+        if (items.isEmpty()) return null;
+        return items.stream().min((item1, item2) -> Math.round(item1.getPosition().getDistanse(position))).get();
     }
 
     public List<Item> getItemsAvailableBySelector(ItemSelector itemSelector, Position position) {
         List<Item> items = itemSelector.selectItems(this.items);
         items = filterUnreachable(items, position);
-        if (items == null) {
-            Logger.ITEMS.logError("NULL returned instead of empty list");
-        }
+        if (items == null) Logger.ITEMS.logError("NULL returned instead of empty list");
         return items;
     }
 
@@ -195,7 +180,7 @@ public class ItemContainer extends Turnable implements ModelComponent, Initable 
                 filter(item -> item.getType().hasAspect(ResourceAspect.class)).
                 filter(item -> allowedMaterials.contains(item.getMaterial())).
                 collect(Collectors.toList());
-        materialItems = filterUnreachable(materialItems, position); // TODO carried item has no position giving NPE
+        materialItems = filterUnreachable(materialItems, position);
         for (ItemGroup itemGroup : groupItemsByTypesAndMaterials(materialItems)) {
             itemSelectors.add(createItemSelector(itemGroup));
         }
