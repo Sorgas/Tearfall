@@ -36,9 +36,10 @@ public class DesignationsValidator {
             }
             case CHOP: {
                 //TODO designate tree as whole
-                if(!(BlockTypesEnum.SPACE.equals(blockOnMap) || BlockTypesEnum.FLOOR.equals(blockOnMap))) return false;
-                PlantBlock block = GameMvc.instance().getModel().get(PlantContainer.class).getPlantBlock(position);
-                return block.getPlant().getType().isTree();
+                PlantContainer container = GameMvc.instance().getModel().get(PlantContainer.class);
+                return ((BlockTypesEnum.SPACE.equals(blockOnMap) || BlockTypesEnum.FLOOR.equals(blockOnMap)))
+                        && container.isPlantBlockExists(position)
+                        && container.getPlantBlock(position).getPlant().getType().isTree();
             }
             case NONE: {
                 return true;

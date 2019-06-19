@@ -10,6 +10,7 @@ import stonering.enums.plants.PlantType;
 import stonering.exceptions.DescriptionNotFoundException;
 import stonering.entity.local.plants.Plant;
 import stonering.entity.local.plants.PlantBlock;
+import stonering.util.geometry.Position;
 
 import java.util.Arrays;
 
@@ -53,17 +54,18 @@ public class PlantGenerator {
         return generatePlant(aspect.getSpecimen(), 0);
     }
 
+    public void applyPlantGrowth(Plant plant) {
+        Position oldPosition = plant.getPosition();
+        plant.setBlock(createPlantBlock(plant));
+        plant.setPosition(oldPosition);
+    }
+
     private PlantBlock createPlantBlock(Plant plant) {
         String materialName = plant.getType().materialName;
         if(materialName == null) materialName = "generic_plant";
-        PlantBlock plantBlock = new PlantBlock(MaterialMap.getInstance().getId(materialName), PlantBlocksTypeEnum.SINGLE_PASSABLE.getCode());
-        plantBlock.setAtlasXY(Arrays.copyOf(plant.getCurrentStage().atlasXY, 2));
-        plantBlock.setPlant(plant);
-        plantBlock.setHarvested(false);
-        return plantBlock;
-    }
-
-    public void applyPlantGrowth(Plant plant) {
-        plant.setBlock(createPlantBlock(plant));
+        PlantBlock block = new PlantBlock(MaterialMap.getInstance().getId(materialName), PlantBlocksTypeEnum.SINGLE_PASSABLE.getCode());
+        block.setAtlasXY(Arrays.copyOf(plant.getCurrentStage().atlasXY, 2));
+        block.setHarvested(false);
+        return block;
     }
 }

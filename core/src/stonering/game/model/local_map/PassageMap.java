@@ -37,7 +37,10 @@ public class PassageMap {
     private LocalMap localMap;
     private AStar aStar;
     private UtilByteArray area; // number of area
-    private UtilByteArray passage; /** see {@link BlockTypesEnum} for passage values. */
+    private UtilByteArray passage;
+    /**
+     * see {@link BlockTypesEnum} for passage values.
+     */
     private Map<Byte, Integer> areaNumbers; // counts number of cells in areas
     private Position cachePosition;
 
@@ -52,6 +55,7 @@ public class PassageMap {
 
     /**
      * Inits passage numbers for tiles.
+     *
      * @return
      */
     public PassageMap initPassage() {
@@ -68,12 +72,18 @@ public class PassageMap {
     /**
      * Called when local map passage is updated. If cell becomes non-passable, it may split area into two.
      */
+    public void updateCell(Position position) {
+        if(position == null)
+            System.out.println();
+        updateCell(position.x, position.y, position.z);
+    }
+
     public void updateCell(int x, int y, int z) {
         int passing = isTilePassable(cachePosition.set(x, y, z));
         passage.setValue(x, y, z, passing);
         if (passing == BlockTypesEnum.PASSABLE) { // areas should be merged
             Set<Byte> areas = observeAreasAround(x, y, z);
-            if(areas.size() == 1) area.setValue(x,y,z, areas.iterator().next());
+            if (areas.size() == 1) area.setValue(x, y, z, areas.iterator().next());
             if (areas.size() > 1) mergeAreas(areas);
         } else { // areas may split
             splitAreas(collectNeighbourPositions(x, y, z), new Position(x, y, z));
@@ -256,8 +266,9 @@ public class PassageMap {
         GameModel model = GameMvc.instance().getModel();
         PlantContainer plantContainer = model.get(PlantContainer.class);
         BuildingContainer buildingContainer = model.get(BuildingContainer.class);
-        if(plantContainer.isPlantBlockPassable(position)) return BlockTypesEnum.NOT_PASSABLE;
-        if(buildingContainer.getBuildingBlocks().containsKey(position) && !buildingContainer.getBuildingBlocks().get(position).isPassable()) return BlockTypesEnum.NOT_PASSABLE;
+        if (!plantContainer.isPlantBlockPassable(position)) return BlockTypesEnum.NOT_PASSABLE;
+        if (buildingContainer.getBuildingBlocks().containsKey(position) && !buildingContainer.getBuildingBlocks().get(position).isPassable())
+            return BlockTypesEnum.NOT_PASSABLE;
         //TODO add water depth checking, etc.
         return BlockTypesEnum.getType(localMap.getBlockType(position)).PASSING;
     }

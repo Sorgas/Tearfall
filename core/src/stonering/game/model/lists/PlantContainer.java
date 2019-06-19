@@ -84,6 +84,7 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
      * @param tree Tree object with not null tree field
      */
     private void placeTree(Tree tree, Position position) {
+        plants.add(tree);
         tree.setPosition(position);
         Position vector = tree.getArrayStartPosition();
         PlantBlock[][][] treeParts = tree.getBlocks();
@@ -113,6 +114,7 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
             return false; // tile is occupied
         }
         plantBlocks.put(block.getPosition(), block);
+        localMap.passage.updateCell(block.getPosition());
         return true;
     }
 
@@ -154,6 +156,7 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
         } else {
             plantBlocks.remove(block.getPosition());
             if (leaveProduct) leavePlantProduct(block);
+            localMap.passage.updateCell(block.getPosition());
         }
     }
 
@@ -163,7 +166,10 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
     private void leavePlantProduct(PlantBlock block) {
         ArrayList<Item> items = new PlantProductGenerator().generateCutProduct(block);
         ItemContainer itemContainer = GameMvc.instance().getModel().get(ItemContainer.class);
-        items.forEach(itemContainer::addItem);
+        items.forEach(item -> {
+            item.setPosition(block.getPosition());
+            itemContainer.addItem(item);
+        });
     }
 
     /**
@@ -172,7 +178,7 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
      * //TODO implementing out of mvp.
      */
     public void removeBlockFromTree(PlantBlock block, Tree tree) {
-        fellTree(tree, OrientationEnum.N);
+//        fellTree(tree, OrientationEnum.N);
 //        Position relPos = tree.getRelativePosition(block.getPosition());
 //        tree.getBlocks()[relPos.getX()][relPos.getY()][relPos.getZ()] = null;
 //        localMap.setPlantBlock(block.getPosition(), null);

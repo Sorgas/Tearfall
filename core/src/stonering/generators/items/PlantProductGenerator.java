@@ -4,6 +4,7 @@ import stonering.enums.plants.PlantBlocksTypeEnum;
 import stonering.entity.local.item.Item;
 import stonering.entity.local.plants.AbstractPlant;
 import stonering.entity.local.plants.PlantBlock;
+import stonering.enums.plants.PlantProduct;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,8 +44,9 @@ public class PlantProductGenerator {
      */
     public Item generateHarvestProduct(PlantBlock block) {
         if(block.isHarvested()) return null;
-        String itemName = block.getPlant().getCurrentStage().harvestProduct.name;
-        return itemGenerator.generateItem(itemName, block.getMaterial());
+        PlantProduct product = block.getPlant().getCurrentStage().harvestProduct;
+        if(product == null) return null;
+        return itemGenerator.generateItem(product.name, block.getMaterial());
     }
 
     /**
@@ -54,7 +56,8 @@ public class PlantProductGenerator {
     private Item generateCutProductForTreePart(PlantBlock block) {
         String itemName = PlantBlocksTypeEnum.getType(block.getBlockType()).cutProduct;
         if(itemName == null) return null;
-        if (!block.getPlant().getCurrentStage().cutProducts.contains(itemName)) return null;
+        List<String> cutProducts = block.getPlant().getCurrentStage().cutProducts;
+        if(cutProducts == null || !cutProducts.contains(itemName)) return null;
         return itemGenerator.generateItem(itemName, block.getMaterial());
     }
 }

@@ -39,7 +39,9 @@ public class ItemGenerator {
      * MVP method for creating item.
      */
     public Item generateItem(String name, int material) {
-        Item item = new Item(null, itemTypeMap.getItemType(name));
+        ItemType type = itemTypeMap.getItemType(name);
+        if(type == null) return null;
+        Item item = new Item(null, type);
         item.setMaterial(material);
         generateItemAspects(item);
         return item;
