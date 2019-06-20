@@ -38,8 +38,8 @@
 }, {
     "building":"campfire",
     "title":"Campfire",
-    "description":"Used for heating, cooking, and cast away shadows.",
-    "aspects":[["workbench"], ["light_source"], ["campfire"]],
+    "description":"Used for heating, cooking, and casting away shadows.",
+    "aspects":[["workbench"], ["light_source"]],
     "parts":["campfire"],
     "passage":"wall",
     "atlasXY":["0", "0"],

@@ -35,5 +35,17 @@
     "title": "Cloth backpack",
     "itemName": "backpack",
     "parts": [["backpack", "cloth"]]
+}, {
+    "name": "roast_meal",
+    "title": "Make roasted meal",
+    "itemName": "meal",
+    "parts": [["meal", ""]],
+    "consume": ["fuel", "1"]
+}, {
+    "name": "boil_meal",
+    "title": "Cook soup",
+    "itemName": "liquid_meal",
+    "parts": [["liquid_meal"]],
+    "consume": ["fuel", "1"]
 }
 ]

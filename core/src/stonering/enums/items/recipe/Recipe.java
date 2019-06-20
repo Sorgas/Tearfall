@@ -16,8 +16,8 @@ public class Recipe {
     public String title;    // displayed title
     public String itemName; // item NAME, points to ItemType
     //    private String skill;
-//    private int duration;                                                         //TODO crafting with usage of multiple workbenches.
-//    private int expGain;
+    //    private int duration;                                                          //TODO crafting with usage of multiple workbenches.
+    //    private int expGain;
     public Map<String, ItemPartRecipe> parts;  // itemPart NAME to material categories   //TODO map of item parts to allowed materials.
     //    private String material; // mvp material category
 

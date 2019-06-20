@@ -12,6 +12,12 @@
     "atlasXY": ["3", "0"],
     "color": "0xffffffff"
 }, {
+    "name": "branch",
+    "description": "Underground tree part.",
+    "typeAspects": [["resource"], ["value", "0"]],
+    "atlasXY": ["3", "0"],
+    "color": "0xffffffff"
+}, {
     "name": "rock",
     "description": "Rock.",
     "typeAspects": [["resource"], ["value", "0"]],
@@ -24,8 +30,8 @@
     "atlasXY": ["9", "0"],
     "color": "0xffffffff"
 }, {
-    "name": "blueberry",
-    "description": "Edible plant, common for temperate climate.",
+    "name": "berry",
+    "description": ".",
     "typeAspects": [["resource"], ["value", "0"]],
     "atlasXY": ["8", "0"],
     "color": "0xffffffff"
@@ -68,17 +74,23 @@
 }, {
     "name": "flask",
     "description": "Keeps drinks close.",
-    "typeAspects": [["resource"], ["value", "0"]],
+    "typeAspects": [["value", "0"]],
     "atlasXY": ["15", "0"],
     "color": "0xffffffff"
 }, {
     "name": "torch",
     "description": "Lights the way.",
-    "typeAspects": [["resource"], ["value", "0"]],
+    "typeAspects": [["value", "0"]],
     "atlasXY": ["15", "0"],
     "color": "0xffffffff"
 }, {
     "name": "lantern",
+    "description": "Shows path in the dark.",
+    "typeAspects": [["value", "0"]],
+    "atlasXY": ["14", "0"],
+    "color": "0xffffffff"
+}, {
+    "name": "",
     "description": "Shows path in the dark.",
     "typeAspects": [["resource"], ["value", "0"]],
     "atlasXY": ["14", "0"],

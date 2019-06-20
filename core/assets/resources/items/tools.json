@@ -144,5 +144,68 @@
     ],
     "atlasXY": ["1", "0"],
     "color": "0xffffffff"
+}, {
+    "name": "Kettle",
+    "description": "Holds liquids and is used for cooking and alchemy.",
+    "typeAspects" : [["value", "0"]],
+    "tool": {
+        "actions": [
+            {
+                "action": "cook_boil",
+                "speedMod": "1"
+            }
+        ], "attacks": [
+            {
+                "attack": "hit",
+                "baseReload": 1,
+                "damageMod": 0.1,
+                "damageType": "blunt"
+            }
+        ]
+    },
+    "parts": [
+        {
+            "title": "head",
+            "required": "true"
+        }, {
+            "title": "handle",
+            "required": "true"
+        }, {
+            "title": "feet",
+            "required": "false"
+        }
+    ],
+    "atlasXY": ["1", "0"],
+    "color": "0xffffffff"
+}, {
+    "name": "pan",
+    "description": "Cooking tool.",
+    "typeAspects" : [["value", "0"]],
+    "tool": {
+        "actions": [
+            {
+                "action": "cook_fry",
+                "speedMod": "1"
+            }
+        ], "attacks": [
+            {
+                "attack": "hit",
+                "baseReload": 1,
+                "damageMod": 0.2,
+                "damageType": "blunt"
+            }
+        ]
+    },
+    "parts": [
+        {
+            "title": "plate",
+            "required": "true"
+        }, {
+            "title": "handle",
+            "required": "true"
+        }
+    ],
+    "atlasXY": ["1", "0"],
+    "color": "0xffffffff"
 }
 ]

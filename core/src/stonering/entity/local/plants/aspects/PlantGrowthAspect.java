@@ -10,6 +10,7 @@ import stonering.game.GameMvc;
 import stonering.game.model.lists.PlantContainer;
 import stonering.generators.plants.PlantGenerator;
 import stonering.generators.plants.TreeGenerator;
+import stonering.util.geometry.Position;
 
 /**
  * Switches plant life stages. Restructures tree if needed to represent growth.
@@ -55,10 +56,11 @@ public class PlantGrowthAspect extends Aspect {
             plantContainer.place(tree, tree.getPosition());
         } else if (entity instanceof Plant) {
             Plant plant = (Plant) entity;
+            Position oldPosition = plant.getPosition();
             plantContainer.removePlantBlocks(plant, false);
             PlantGenerator plantGenerator = new PlantGenerator();
             plantGenerator.applyPlantGrowth(plant);
-            plantContainer.place(plant, plant.getPosition());
+            plantContainer.place(plant, oldPosition);
         }
     }
 

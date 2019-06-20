@@ -55,9 +55,7 @@ public class PlantGenerator {
     }
 
     public void applyPlantGrowth(Plant plant) {
-        Position oldPosition = plant.getPosition();
         plant.setBlock(createPlantBlock(plant));
-        plant.setPosition(oldPosition);
     }
 
     private PlantBlock createPlantBlock(Plant plant) {

@@ -4,5 +4,6 @@
 
 [
     ["forge", "make_pickaxe", "make_axe", "make_sickle"],
-    ["tailor_shop", "make_shirt", "make_pants", "make_backpack"]
+    ["tailor_shop", "make_shirt", "make_pants", "make_backpack"],
+    ["campfire", "roast_meal", "boil_meal"]
 ]
