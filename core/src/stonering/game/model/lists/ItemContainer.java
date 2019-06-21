@@ -2,7 +2,6 @@ package stonering.game.model.lists;
 
 import stonering.entity.local.Entity;
 import stonering.entity.local.crafting.CommonComponent;
-import stonering.entity.local.item.aspects.ResourceAspect;
 import stonering.entity.local.item.selectors.SimpleItemSelector;
 import stonering.enums.items.recipe.ItemPartRecipe;
 import stonering.enums.materials.MaterialMap;

@@ -2,73 +2,73 @@
     {
         "name": "log",
         "description": "Large part of a tree.",
-        "typeAspects": [["resource"], ["value", "0"]],
+        "typeAspects": [["value", "0"]],
         "atlasXY": ["2", "0"],
         "color": "0xffffffff"
     }, {
     "name": "branch",
     "description": "Small part of a tree.",
-    "typeAspects": [["resource"], ["value", "0"]],
+    "typeAspects": [["value", "0"]],
     "atlasXY": ["3", "0"],
     "color": "0xffffffff"
 }, {
     "name": "branch",
     "description": "Underground tree part.",
-    "typeAspects": [["resource"], ["value", "0"]],
+    "typeAspects": [["value", "0"]],
     "atlasXY": ["3", "0"],
     "color": "0xffffffff"
 }, {
     "name": "rock",
     "description": "Rock.",
-    "typeAspects": [["resource"], ["value", "0"]],
+    "typeAspects": [["value", "0"]],
     "atlasXY": ["4", "0"],
     "color": "0xffffffff"
 }, {
     "name": "bar",
     "description": "Piece of metal, formed for further use.",
-    "typeAspects": [["resource"], ["value", "0"]],
+    "typeAspects": [["value", "0"]],
     "atlasXY": ["9", "0"],
     "color": "0xffffffff"
 }, {
     "name": "berry",
     "description": ".",
-    "typeAspects": [["resource"], ["value", "0"]],
+    "typeAspects": [["value", "0"]],
     "atlasXY": ["8", "0"],
     "color": "0xffffffff"
 }, {
     "name": "roll",
     "description": "Rolled cloth.",
-    "typeAspects": [["resource"], ["value", "0"]],
+    "typeAspects": [["value", "0"]],
     "atlasXY": ["10", "0"],
     "color": "0xffffffff"
 }, {
     "name": "leather",
     "description": "Large leather piece.",
-    "typeAspects": [["resource"], ["value", "0"]],
+    "typeAspects": [["value", "0"]],
     "atlasXY": ["11", "0"],
     "color": "0xffffffff"
 }, {
     "name": "brick",
     "description": "Building brick made of clay.",
-    "typeAspects": [["resource"], ["value", "0"]],
+    "typeAspects": [["value", "0"]],
     "atlasXY": ["12", "0"],
     "color": "0xffffffff"
 }, {
     "name": "pot",
     "description": "For storing things or growing small plants.",
-    "typeAspects": [["resource"], ["value", "0"]],
+    "typeAspects": [["value", "0"]],
     "atlasXY": ["13", "0"],
     "color": "0xffffffff"
 }, {
     "name": "rope",
     "description": "For binding items to each other.",
-    "typeAspects": [["resource"], ["value", "0"]],
+    "typeAspects": [["value", "0"]],
     "atlasXY": ["14", "0"],
     "color": "0xffffffff"
 }, {
     "name": "lantern",
     "description": "Shows path in the dark.",
-    "typeAspects": [["resource"], ["value", "0"]],
+    "typeAspects": [["value", "0"]],
     "atlasXY": ["14", "0"],
     "color": "0xffffffff"
 }, {
@@ -92,7 +92,7 @@
 }, {
     "name": "",
     "description": "Shows path in the dark.",
-    "typeAspects": [["resource"], ["value", "0"]],
+    "typeAspects": [["value", "0"]],
     "atlasXY": ["14", "0"],
     "color": "0xffffffff"
 }

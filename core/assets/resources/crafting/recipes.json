@@ -9,32 +9,32 @@
         "name": "make_pickaxe",
         "title": "Metal pickaxe",
         "itemName": "pickaxe",
-        "parts": [["head", "metal"], ["handle", "wood"]]
+        "parts": [["head", "metal bar"], ["handle", "wood log/plank"]]
     }, {
     "name": "make_sickle",
     "title": "Metal sickle",
     "itemName": "sickle",
-    "parts": [["head", "metal"], ["handle", "wood"]]
+    "parts": [["head", "metal bar"], ["handle", "wood  log/plank/branch"]]
 }, {
     "name": "make_axe",
     "title": "Metal axe",
     "itemName": "axe",
-    "parts": [["head", "metal"], ["handle", "wood"]]
+    "parts": [["head", "metal bar"], ["handle", "wood log/plank"]]
 }, {
     "name": "make_shirt",
     "title": "Cloth shirt",
     "itemName": "shirt",
-    "parts": [["shirt", "cloth"]]
+    "parts": [["shirt", "cloth roll"]]
 }, {
     "name": "make_pants",
     "title": "Cloth pants",
     "itemName": "pants",
-    "parts": [["pants", "cloth"]]
+    "parts": [["pants", "cloth roll"]]
 }, {
     "name": "make_backpack",
     "title": "Cloth backpack",
     "itemName": "backpack",
-    "parts": [["backpack", "cloth"]]
+    "parts": [["backpack", "cloth roll"]]
 }, {
     "name": "roast_meal",
     "title": "Make roasted meal",

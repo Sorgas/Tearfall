@@ -16,8 +16,9 @@ public class RawItemType {
 
     public List<ItemPartType> parts;              // defines parts of item. first one is main
 
-    public List<List<String>> typeAspects; // constant aspects. first element of lists is aspect name
-    public List<List<String>> aspects; // other aspects, item aspects filled from this on generation. first element of lists is aspect name.
+    // first element of lists is aspect name
+    public List<List<String>> typeAspects; // constant aspects. stored in type (value, resource)
+    public List<List<String>> aspects; // other aspects, item aspects filled from this on generation.
 
     // render
     public int[] atlasXY;

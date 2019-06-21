@@ -1,7 +1,6 @@
 package stonering.enums.items.type;
 
 import stonering.entity.local.Entity;
-import stonering.entity.local.item.aspects.ResourceAspect;
 import stonering.entity.local.item.aspects.ValueAspect;
 import stonering.util.global.Logger;
 
