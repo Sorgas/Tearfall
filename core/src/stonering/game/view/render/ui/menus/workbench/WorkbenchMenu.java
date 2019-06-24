@@ -49,6 +49,13 @@ public class WorkbenchMenu extends Window implements HintedActor {
         refillWorkbenchOrders();
     }
 
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+        Actor focused = getStage().getKeyboardFocus();
+        hintLabel.setText(focused instanceof HintedActor ? ((HintedActor) focused).getHint() : "");
+    }
+
     /**
      * Creates menu table.
      */
@@ -85,8 +92,6 @@ public class WorkbenchMenu extends Window implements HintedActor {
         ItemCraftingOrderLine orderLine = new ItemCraftingOrderLine(this, null);
         orderLine.show();
         getStage().setKeyboardFocus(orderLine);
-        updateMenuHint(orderLine);
-
     }
 
     private NavigableVerticalGroup createOrderList() {
@@ -97,12 +102,10 @@ public class WorkbenchMenu extends Window implements HintedActor {
             Actor selected = orderList.getSelectedElement();
             selected = selected != null ? selected : this;
             getStage().setKeyboardFocus(selected);
-            updateMenuHint(selected);
             return true;
         });
         orderList.setCancelListener(event -> {
             getStage().setKeyboardFocus(this);
-            updateMenuHint(this);              // return focus to screen
             return true;
         });
         return orderList;
@@ -127,17 +130,6 @@ public class WorkbenchMenu extends Window implements HintedActor {
     }
 
     /**
-     * Moves focus of stage to given actor, highlights it and changes hint, if possible.
-     */
-    public void updateMenuHint(Actor actor) {
-        if (actor instanceof HintedActor) {
-            hintLabel.setText(((HintedActor) actor).getHint());
-        } else {
-            hintLabel.setText("");
-        }
-    }
-
-    /**
      * Input listener for this menu.
      */
     private class MenuKeyInputListener extends InputListener {
@@ -157,7 +149,6 @@ public class WorkbenchMenu extends Window implements HintedActor {
                         orderList.setSelectedIndex(0);
                         orderList.navigate(keycode == Input.Keys.S ? 0 : -1);
                         getStage().setKeyboardFocus(orderList);
-                        updateMenuHint(orderList);
                     }
                     return true;
                 }
