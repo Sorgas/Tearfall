@@ -6,75 +6,60 @@ import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
+import stonering.enums.ControlActionsEnum;
 import stonering.util.global.Logger;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Consumer;
-
 
 /**
  * Vertical group which can handle input to change selected element.
  *
  * @author Alexander
  */
-public class NavigableVerticalGroup extends VerticalGroup implements HideableComponent, Highlightable {
-    private Set<Integer> selectKeys;
-    private Set<Integer> upKeys;
-    private Set<Integer> downKeys;
-    private Set<Integer> cancelKeys;
-
+public class NavigableVerticalGroup extends VerticalGroup implements Highlightable {
+    public Map<Integer, ControlActionsEnum> keyMapping;
     private EventListener selectListener;
     private EventListener cancelListener;
-    private EventListener showListener;
-    private EventListener hideListener;
-    private EventListener preNavigationListener;   // if exists and returns false, no navigation performed
-    private EventListener navigationListener;      // if exists and returns false, navigation does not stop event handling
-
+    private boolean highlighted;
+    private Consumer<Boolean> highlightHandler;
     private int selectedIndex = -1;
 
-    public NavigableVerticalGroup(boolean useDefaultKeys) {
-        super();
-        createDefaultListener();
-        selectKeys = new HashSet<>();
-        upKeys = new HashSet<>();
-        downKeys = new HashSet<>();
-        cancelKeys = new HashSet<>();
-        if (useDefaultKeys) {
-            initDefaultKeys();
-        }
-    }
 
     public NavigableVerticalGroup() {
-        this(true);
+        super();
+        keyMapping = new HashMap<>();
+        createDefaultListener();
     }
 
-    private void initDefaultKeys() {
-        selectKeys.add(Input.Keys.E);
-        selectKeys.add(Input.Keys.D);
-        upKeys.add(Input.Keys.W);
-        downKeys.add(Input.Keys.S);
-        cancelKeys.add(Input.Keys.Q);
-        cancelKeys.add(Input.Keys.A);
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+        if (getStage() == null || highlightHandler == null) return;
+        // highlighted should be true if this group is focused.
+        if ((getStage().getKeyboardFocus() == this) != highlighted) highlightHandler.accept(highlighted = !highlighted);
     }
 
     private void createDefaultListener() {
         addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
-                event.stop();
+                ControlActionsEnum action = keyMapping.get(keycode);
+                if (action == null) action = ControlActionsEnum.getAction(keycode);
                 Logger.UI.logDebug("handling " + Input.Keys.toString(keycode) + " on NavigableVerticalGroup");
-                if (selectKeys.contains(keycode)) {
-                    select(event);
-                    return true;
-                } else if (upKeys.contains(keycode)) {
-                    return navigate(-1);
-                } else if (downKeys.contains(keycode)) {
-                    return navigate(1);
-                } else if (cancelKeys.contains(keycode)) {
-                    cancel(event);
-                } else {
-                    return false;
+                event.stop();
+                switch (action) {
+                    case UP:
+                        return navigate(-1);
+                    case DOWN:
+                        return navigate(1);
+                    case SELECT:
+                        select(event);
+                        return true;
+                    case CANCEL:
+                        cancel(event);
+                        return true;
                 }
                 return true;
             }
@@ -82,34 +67,25 @@ public class NavigableVerticalGroup extends VerticalGroup implements HideableCom
     }
 
     /**
-     * Navigates through children. Navigation
+     * Navigates through children.
      */
     public boolean navigate(int delta) {
-        if (preNavigationListener == null || preNavigationListener.handle(null)) {
-            if(delta != 0) {
-                int size = getChildren().size;
-                if (size != 0) {
-                    int newIndex = ((selectedIndex + delta) % size);
-                    newIndex += newIndex < 0 ? size : 0;
-                    selectedIndex = newIndex;
-                } else {
-                    selectedIndex = -1;
-                }
-            }
-        }
-        return navigationListener == null || navigationListener.handle(null);
+        int size = getChildren().size;
+        selectedIndex = size != 0 ? (selectedIndex + delta + size) % size : -1;
+        return true;
     }
 
+    /**
+     * Tries to move given actor on specified delta positions.
+     */
     public void moveItem(Actor actor, int delta) {
-        delta = (int) Math.signum(delta);
-        int index = getChildren().indexOf(actor, true);
-        if (index >= 0) {
-            int newIndex = index + delta;
-            if (newIndex >= 0) {
-                removeActor(actor, false);
-                addActorAt(newIndex, actor);
-                getStage().setKeyboardFocus(actor);
-            }
+        int currentIndex = getChildren().indexOf(actor, true);
+        if (currentIndex >= 0) {
+            int size = getChildren().size; // size is never 0 here
+            removeActor(actor, false);
+            int newIndex = (currentIndex + (delta % size) + size) % size;
+            addActorAt(newIndex, actor);
+            getStage().setKeyboardFocus(actor);
         }
     }
 
@@ -121,38 +97,11 @@ public class NavigableVerticalGroup extends VerticalGroup implements HideableCom
         return cancelListener != null && cancelListener.handle(event);
     }
 
-    @Override
-    public void show() {
-        if (showListener != null) {
-            showListener.handle(null);
-        }
-    }
-
-    @Override
-    public void hide() {
-        if (hideListener != null) {
-            hideListener.handle(null);
-        }
-    }
-
     public Actor getSelectedElement() {
         if (selectedIndex >= 0 && selectedIndex < getChildren().size) {
             return getChildren().get(selectedIndex);
         }
         return null;
-    }
-
-    /**
-     * Tries to highlight selected child.
-     * @param value
-     */
-//    @Override
-    public void setHighlighted(boolean value) {
-        for (Actor child : getChildren()) {
-            if(child != null && child instanceof Highlightable) {
-//                ((Highlightable) child).setHighlighted(getSelectedElement() == child && value); // highlight only selected
-            }
-        }
     }
 
     public void setCancelListener(EventListener cancelListener) {
@@ -161,58 +110,6 @@ public class NavigableVerticalGroup extends VerticalGroup implements HideableCom
 
     public void setSelectListener(EventListener selectListener) {
         this.selectListener = selectListener;
-    }
-
-    public void setShowListener(EventListener showListener) {
-        this.showListener = showListener;
-    }
-
-    public void setHideListener(EventListener hideListener) {
-        this.hideListener = hideListener;
-    }
-
-    public void setNavigationListener(EventListener navigationListener) {
-        this.navigationListener = navigationListener;
-    }
-
-    public Set<Integer> getSelectKeys() {
-        return selectKeys;
-    }
-
-    public void setSelectKeys(Set<Integer> selectKeys) {
-        this.selectKeys = selectKeys;
-    }
-
-    public Set<Integer> getUpKeys() {
-        return upKeys;
-    }
-
-    public void setUpKeys(Set<Integer> upKeys) {
-        this.upKeys = upKeys;
-    }
-
-    public Set<Integer> getDownKeys() {
-        return downKeys;
-    }
-
-    public void setDownKeys(Set<Integer> downKeys) {
-        this.downKeys = downKeys;
-    }
-
-    public Set<Integer> getCancelKeys() {
-        return cancelKeys;
-    }
-
-    public void setCancelKeys(Set<Integer> cancelKeys) {
-        this.cancelKeys = cancelKeys;
-    }
-
-    public EventListener getPreNavigationListener() {
-        return preNavigationListener;
-    }
-
-    public void setPreNavigationListener(EventListener preNavigationListener) {
-        this.preNavigationListener = preNavigationListener;
     }
 
     public int getSelectedIndex() {
@@ -225,6 +122,6 @@ public class NavigableVerticalGroup extends VerticalGroup implements HideableCom
 
     @Override
     public void setHighlightHandler(Consumer<Boolean> handler) {
-
+        highlightHandler = handler;
     }
 }

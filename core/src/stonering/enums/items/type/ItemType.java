@@ -72,10 +72,6 @@ public class ItemType extends Entity {
         for (List<String> aspectDescription : rawAspects) {
             if (aspectDescription.isEmpty()) Logger.LOADING.logWarn("Invalid aspect description for item " + name);
             switch (aspectDescription.get(0)) {
-                case "resource": {
-                    addAspect(new ResourceAspect(this));
-                    continue;
-                }
                 case "value": {
                     addAspect(new ValueAspect(this, Float.valueOf(aspectDescription.get(1))));
                     continue;

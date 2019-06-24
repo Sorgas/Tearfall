@@ -13,6 +13,7 @@ import stonering.entity.local.crafting.ItemOrder;
 import stonering.entity.local.crafting.ItemPartOrder;
 import stonering.entity.local.item.selectors.ItemSelector;
 import stonering.entity.local.item.selectors.SimpleItemSelector;
+import stonering.enums.ControlActionsEnum;
 import stonering.enums.OrderStatusEnum;
 import stonering.enums.items.type.ItemTypeMap;
 import stonering.enums.items.recipe.Recipe;
@@ -89,7 +90,7 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
     }
 
     /**
-     * Applies highlighting, id this line is focused.
+     * Applies highlighting if this line is focused.
      */
     @Override
     public void act(float delta) {
@@ -99,7 +100,7 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
     }
 
     /**
-     * Creates select box for recipe, if no order is given, or fills line from order.
+     * Creates select box for recipe if no order is given, or fills line from order.
      */
     private void initLine() {
         if (order == null) {
@@ -127,9 +128,9 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
         recipeSelectBox.getListeners().insert(0, new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
-                switch (keycode) {
-                    case Input.Keys.D:
-                    case Input.Keys.E: { // opens list or saves selected value
+                switch (ControlActionsEnum.getAction(keycode)) {
+                    case RIGHT:
+                    case SELECT: { // opens list or saves selected value
                         if (recipeSelectBox.getList().getStage() != null) { // list is shown
                             recipeSelectBox.hideList();
                             if (!recipeSelectBox.getSelected().equals(recipeSelectBox.getPlaceHolder())) { // placeholder is selected
@@ -145,8 +146,8 @@ public class ItemCraftingOrderLine extends Table implements HideableComponent, H
                         }
                         return true;
                     }
-                    case Input.Keys.A:
-                    case Input.Keys.Q: {
+                    case LEFT:
+                    case CANCEL: {
                         goToListOrMenu();
                         return true;
                     }

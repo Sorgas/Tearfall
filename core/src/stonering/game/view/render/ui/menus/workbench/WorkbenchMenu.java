@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.entity.local.building.Building;
 import stonering.entity.local.building.aspects.WorkbenchAspect;
 import stonering.entity.local.crafting.ItemOrder;
+import stonering.enums.ControlActionsEnum;
 import stonering.game.GameMvc;
 import stonering.game.view.render.ui.menus.util.HintedActor;
 import stonering.game.view.render.ui.menus.util.NavigableVerticalGroup;
@@ -21,7 +22,7 @@ import stonering.util.global.Logger;
 
 /**
  * Menu for workbenches to manage crafting orders.
- * Has list of orders and buttons for closing and creating new order.
+ * Has list of orders, close button and button for new order.
  * If building has {@link WorkbenchAspect} this menu is used.
  *
  * @author Alexander on 28.10.2018.
@@ -29,12 +30,9 @@ import stonering.util.global.Logger;
 public class WorkbenchMenu extends Window implements HintedActor {
     private static final String MENU_HINT = "E: new order, WS: navigate, Q: quit";
 
-    private GameMvc gameMvc;
     private Building workbench;
     private WorkbenchAspect workbenchAspect; // aspect of selected workbench (M thing)
-
     private NavigableVerticalGroup orderList;
-    private TextButton addOrderButton;
     private Label hintLabel;
 
     /**
@@ -43,7 +41,6 @@ public class WorkbenchMenu extends Window implements HintedActor {
      */
     public WorkbenchMenu(Building building) {
         super(building.toString(), StaticSkin.getSkin());
-        this.gameMvc = GameMvc.instance();
         this.workbench = building;
         workbenchAspect = building.getAspect(WorkbenchAspect.class);
         setKeepWithinStage(true);
@@ -71,30 +68,31 @@ public class WorkbenchMenu extends Window implements HintedActor {
      * Button for creating orders.
      */
     private TextButton createAddButton() {
-        WorkbenchMenu menu = this;
-        addOrderButton = new TextButton("New", StaticSkin.getSkin());
-        addOrderButton.addListener(new ChangeListener() {
+        TextButton button = new TextButton("New", StaticSkin.getSkin());
+        button.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                ItemCraftingOrderLine orderLine = new ItemCraftingOrderLine(menu, null);
-                orderLine.show();                                   // add to list
-                getStage().setKeyboardFocus(orderLine);
-                updateMenuHint(orderLine);
+                createNewOrder();
             }
         });
-        return addOrderButton;
+        return button;
+    }
+
+    /**
+     * Creates new order line and adds it to list
+     */
+    private void createNewOrder() {
+        ItemCraftingOrderLine orderLine = new ItemCraftingOrderLine(this, null);
+        orderLine.show();
+        getStage().setKeyboardFocus(orderLine);
+        updateMenuHint(orderLine);
+
     }
 
     private NavigableVerticalGroup createOrderList() {
         orderList = new NavigableVerticalGroup();
         orderList.grow();
-        orderList.getSelectKeys().add(Input.Keys.D);
-        orderList.setPreNavigationListener(event -> {  // un highlight selected actor before navigation
-            return true;
-        });
-        orderList.setNavigationListener(event -> {     // highlight selected actor after navigation
-            return true;
-        });
+        orderList.keyMapping.put(Input.Keys.D, ControlActionsEnum.SELECT);
         orderList.setSelectListener(event -> {         // go to order line
             Actor selected = orderList.getSelectedElement();
             selected = selected != null ? selected : this;
@@ -105,7 +103,6 @@ public class WorkbenchMenu extends Window implements HintedActor {
         orderList.setCancelListener(event -> {
             getStage().setKeyboardFocus(this);
             updateMenuHint(this);              // return focus to screen
-            orderList.setHighlighted(false);          // de highlight all
             return true;
         });
         return orderList;
@@ -116,7 +113,6 @@ public class WorkbenchMenu extends Window implements HintedActor {
      */
     private void refillWorkbenchOrders() {
         workbenchAspect.getEntries().forEach(entry -> orderList.addActor(createOrderLine(entry.order)));
-        orderList.setHighlighted(false);
     }
 
     private ItemCraftingOrderLine createOrderLine(ItemOrder order) {
@@ -124,17 +120,10 @@ public class WorkbenchMenu extends Window implements HintedActor {
     }
 
     /**
-     * Checks if building is workbench (has workbench aspect).
-     */
-    private static boolean validateBuilding(Building building) {
-        return building.getAspect(WorkbenchAspect.class) != null;
-    }
-
-    /**
      * Closes stage with this screen.
      */
     public void close() {
-        gameMvc.getView().removeStage(getStage());
+        GameMvc.instance().getView().removeStage(getStage());
     }
 
     /**
@@ -159,13 +148,12 @@ public class WorkbenchMenu extends Window implements HintedActor {
             event.stop();
             switch (keycode) {
                 case Input.Keys.E: {
-                    addOrderButton.toggle();
+                    createNewOrder();
                     return true;
                 }
                 case Input.Keys.W:
                 case Input.Keys.S: {
                     if (orderList.hasChildren()) {
-                        orderList.setHighlighted(false);
                         orderList.setSelectedIndex(0);
                         orderList.navigate(keycode == Input.Keys.S ? 0 : -1);
                         getStage().setKeyboardFocus(orderList);

@@ -35,7 +35,6 @@ public class ItemOrder {
 
     public ItemOrder(Recipe recipe) {
         this();
-        if(recipe == null) return;
         this.recipe = recipe;
         for (ItemPartRecipe itemPartRecipe : recipe.parts.values()) {
             parts.add(new ItemPartOrder(this, itemPartRecipe.name));

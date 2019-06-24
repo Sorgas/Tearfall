@@ -119,7 +119,6 @@ public class ItemContainer extends Turnable implements ModelComponent, Initable 
         List<Item> itemListForFiltering = new ArrayList<>(items);
         Set<Integer> materialIds = materialMap.getMaterialsByType(materialType);
         return itemListForFiltering.stream().
-                filter(item -> item.getType().hasAspect(ResourceAspect.class)).
                 filter(item -> materialIds.contains(item.getMaterial())).
                 collect(Collectors.toList());
     }
@@ -176,7 +175,6 @@ public class ItemContainer extends Turnable implements ModelComponent, Initable 
         Set<ItemSelector> itemSelectors = new HashSet<>();
         Set<Integer> allowedMaterials = MaterialMap.getInstance().getMaterialsByType(itemPartRecipe.materialTag);
         List<Item> materialItems = items.stream().
-                filter(item -> item.getType().hasAspect(ResourceAspect.class)).
                 filter(item -> allowedMaterials.contains(item.getMaterial())).
                 collect(Collectors.toList());
         materialItems = filterUnreachable(materialItems, position);
