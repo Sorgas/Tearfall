@@ -16,7 +16,9 @@ import stonering.enums.ControlActionsEnum;
 import stonering.game.GameMvc;
 import stonering.game.view.render.ui.menus.util.HintedActor;
 import stonering.game.view.render.ui.menus.util.NavigableVerticalGroup;
+import stonering.game.view.render.ui.menus.workbench.orderline.EmptyItemCraftingOrderLine;
 import stonering.game.view.render.ui.menus.workbench.orderline.ItemCraftingOrderLine;
+import stonering.game.view.render.ui.menus.workbench.orderline.OrderLine;
 import stonering.util.global.StaticSkin;
 import stonering.util.global.Logger;
 
@@ -89,7 +91,7 @@ public class WorkbenchMenu extends Window implements HintedActor {
      * Creates new order line and adds it to list
      */
     private void createNewOrder() {
-        ItemCraftingOrderLine orderLine = new ItemCraftingOrderLine(this, null);
+        OrderLine orderLine = new EmptyItemCraftingOrderLine(this);
         orderLine.show();
         getStage().setKeyboardFocus(orderLine);
     }
