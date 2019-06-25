@@ -1,5 +1,6 @@
 package stonering.game.view.render.ui.menus.workbench.orderline;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -14,8 +15,10 @@ import stonering.enums.OrderStatusEnum;
 import stonering.game.view.render.ui.images.DrawableMap;
 import stonering.game.view.render.ui.lists.PlaceHolderSelectBox;
 import stonering.game.view.render.ui.menus.util.HideableComponent;
+import stonering.game.view.render.ui.menus.util.Highlightable;
 import stonering.game.view.render.ui.menus.util.HintedActor;
 import stonering.game.view.render.ui.menus.workbench.WorkbenchMenu;
+import stonering.util.global.Logger;
 import stonering.util.global.StaticSkin;
 
 import java.util.function.Consumer;
@@ -26,7 +29,7 @@ import java.util.function.Consumer;
  *
  * @author Alexander_Kuzyakov on 24.06.2019.
  */
-public class OrderLine extends Table implements HideableComponent, HintedActor {
+public class OrderLine extends Table implements HideableComponent, HintedActor, Highlightable {
     private static final String BACKGROUND_NAME = "workbench_order_line";
     protected String hint;
     protected WorkbenchMenu menu;
@@ -35,13 +38,16 @@ public class OrderLine extends Table implements HideableComponent, HintedActor {
     protected HorizontalGroup rightHG;                            // contains control buttons.
     protected StatusIcon statusIcon;                              // shows status, updates on status change
     protected Label warningLabel;                                 // shown when something is not ok
-    protected HighlightHandler highlightHandler;
+    protected Consumer<Boolean> highlightHandler;
     protected TextButton closeButton;
+
+    protected PlaceHolderSelectBox focusedSelectBox; // manual focus for select boxes of this line
 
     public OrderLine(WorkbenchMenu menu, String hint) {
         this.menu = menu;
         this.hint = hint;
         createTable();
+        highlightHandler = new HighlightHandler();                   // changes background image
     }
 
     /**
@@ -50,8 +56,12 @@ public class OrderLine extends Table implements HideableComponent, HintedActor {
     @Override
     public void act(float delta) {
         super.act(delta);
-        if ((getStage().getKeyboardFocus() == this) != highlightHandler.value)
-            highlightHandler.accept(highlightHandler.value);
+        if(highlightHandler instanceof HighlightHandler) {
+            if ((getStage().getKeyboardFocus() == this) != ((HighlightHandler) highlightHandler).value)
+                highlightHandler.accept(!((HighlightHandler) highlightHandler).value);
+        } else {
+            highlightHandler.accept(getStage().getKeyboardFocus() == this);
+        }
     }
 
     /**
@@ -59,14 +69,14 @@ public class OrderLine extends Table implements HideableComponent, HintedActor {
      */
     private void createTable() {
         left();
-        add(new StatusIcon(OrderStatusEnum.WAITING));
+        add(statusIcon = new StatusIcon(OrderStatusEnum.WAITING));
         add(leftHG = new HorizontalGroup());
         add(warningLabel = new Label("", StaticSkin.getSkin())).expandX();
         add(rightHG = new HorizontalGroup());
         leftHG.right();
         defaults().prefHeight(30);
         addListener(new CloseInputListener());
-        highlightHandler = new HighlightHandler();                   // changes background image
+        addListener(new LineInputListener());
         closeButton = addControlButton("X", new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -94,7 +104,23 @@ public class OrderLine extends Table implements HideableComponent, HintedActor {
         return button;
     }
 
+    /**
+     * Fires event to focused selectBox.
+     */
+    private class LineInputListener extends InputListener {
+
+        @Override
+        public boolean keyDown(InputEvent event, int keycode) {
+            Logger.UI.logDebug("handling " + Input.Keys.toString(keycode) + " on OrderLine");
+            if (focusedSelectBox == null) return false;
+            event.setTarget(focusedSelectBox);
+            return focusedSelectBox.notify(event, false);
+//            return focusedSelectBox.fire(event);
+        }
+    }
+
     private class ListTouchListener extends InputListener {
+
         @Override
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
             getStage().setKeyboardFocus((event.getListenerActor()));
@@ -103,6 +129,7 @@ public class OrderLine extends Table implements HideableComponent, HintedActor {
     }
 
     private class CloseInputListener extends InputListener {
+
         @Override
         public boolean keyDown(InputEvent event, int keycode) {
             event.stop();
@@ -118,9 +145,10 @@ public class OrderLine extends Table implements HideableComponent, HintedActor {
         @Override
         public void accept(Boolean value) {
             Drawable drawable = DrawableMap.getInstance().getDrawable(BACKGROUND_NAME + (value ? ":focused" : ""));
-            this.value = value;
+            this.value = !value;
             if (drawable != null) setBackground(drawable);
         }
+
     }
 
     /**
@@ -138,14 +166,24 @@ public class OrderLine extends Table implements HideableComponent, HintedActor {
         menu.getOrderList().removeActor(this);
         if (menu.getOrderList().hasChildren()) {
             menu.getOrderList().navigate(0);
-            getStage().setKeyboardFocus(menu.getOrderList());
+            menu.getStage().setKeyboardFocus(menu.getOrderList());
         } else {
-            getStage().setKeyboardFocus(menu);
+            menu.getStage().setKeyboardFocus(menu);
         }
     }
 
     @Override
     public String getHint() {
         return hint;
+    }
+
+    @Override
+    public void setHighlightHandler(Consumer<Boolean> handler) {
+        highlightHandler = handler;
+    }
+
+    @Override
+    public Consumer<Boolean> getHighlightHandler() {
+        return highlightHandler;
     }
 }

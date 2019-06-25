@@ -94,28 +94,11 @@ public class SimpleItemSelector extends ItemSelector {
         materialId = MaterialMap.getInstance().getId(material);
     }
 
-    public int getMaterialId() {
-        return materialId;
-    }
-
-    public void setMaterialId(int materialId) {
-        this.materialId = materialId;
-        material = MaterialMap.getInstance().getMaterial(materialId).getName();
-    }
-
     public int getAmount() {
         return amount;
     }
 
     public void setAmount(int amount) {
         this.amount = amount;
-    }
-
-    public String getDisplayedTitle() {
-        return displayedTitle;
-    }
-
-    public void setDisplayedTitle(String displayedTitle) {
-        this.displayedTitle = displayedTitle;
     }
 }

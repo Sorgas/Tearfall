@@ -10,4 +10,6 @@ import java.util.function.Consumer;
  */
 public interface Highlightable {
     void setHighlightHandler(Consumer<Boolean> handler);
+
+    Consumer<Boolean> getHighlightHandler();
 }

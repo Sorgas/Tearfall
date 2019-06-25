@@ -17,37 +17,38 @@ import java.util.List;
  *
  * @author Alexander_Kuzyakov on 24.06.2019.
  */
-public class EmptyItemCraftingOrderLine extends OrderLine {
-    private static final String LINE_HINT = "order line hint";
+public class EmptyOrderLine extends OrderLine {
+    private static final String LINE_HINT = "WS: select recipe, ED: confirm";
     private PlaceHolderSelectBox<Recipe> recipeSelectBox;
 
-    public EmptyItemCraftingOrderLine(WorkbenchMenu menu) {
+    public EmptyOrderLine(WorkbenchMenu menu) {
         super(menu, LINE_HINT);
-        leftHG.addActor(createRecipeSelectBox());
+        leftHG.addActor(recipeSelectBox = createRecipeSelectBox());
+        focusedSelectBox = recipeSelectBox;
     }
 
     /**
      * Creates selectBox with list of all workbench recipes. After selection of recipe, this select box is replaced with material selection.
      */
-    public PlaceHolderSelectBox createRecipeSelectBox() {
+    public PlaceHolderSelectBox<Recipe> createRecipeSelectBox() {
         List<Recipe> recipeList = new ArrayList<>(menu.getWorkbenchAspect().getRecipes());
-        recipeSelectBox = new PlaceHolderSelectBox<>(new Recipe("Select item"));
-        recipeSelectBox.setItems(recipeList.toArray(new Recipe[]{}));
-        recipeSelectBox.getListeners().insert(0, new InputListener() {
+        PlaceHolderSelectBox<Recipe> selectBox = new PlaceHolderSelectBox<>(new Recipe("Select item"));
+        selectBox.setItems(recipeList.toArray(new Recipe[]{}));
+        selectBox.getListeners().insert(0, new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 switch (ControlActionsEnum.getAction(keycode)) {
                     case RIGHT:
                     case SELECT: { // opens list or saves selected value
-                        if (recipeSelectBox.getList().getStage() != null) { // list is shown
-                            recipeSelectBox.hideList();
-                            if (!recipeSelectBox.getSelected().equals(recipeSelectBox.getPlaceHolder())) { // placeholder is selected
-                                replaceSelfWith(recipeSelectBox.getSelected());
+                        if (selectBox.getList().getStage() != null) { // list is shown
+                            selectBox.hideList();
+                            if (!selectBox.getSelected().equals(selectBox.getPlaceHolder())) { // placeholder is selected
+                                replaceSelfWith(selectBox.getSelected());
                             } else { // not a valid case
                                 warningLabel.setText("Item not selected");
                             }
                         } else {  // open list
-                            showSelectBoxList(recipeSelectBox);
+                            showSelectBoxList(selectBox);
                         }
                         return true;
                     }
@@ -63,12 +64,12 @@ public class EmptyItemCraftingOrderLine extends OrderLine {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 super.touchDown(event, x, y, pointer, button);
-                recipeSelectBox.navigate(1);
+                selectBox.navigate(1);
                 return true;
             }
         });
 //        recipeSelectBox.getList().addListener(createTouchListener());
-        return recipeSelectBox;
+        return selectBox;
     }
 
     private void replaceSelfWith(Recipe recipe) {

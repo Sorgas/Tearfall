@@ -18,14 +18,13 @@ import java.util.function.Consumer;
  *
  * @author Alexander
  */
-public class NavigableVerticalGroup extends VerticalGroup implements Highlightable {
+public class NavigableVerticalGroup extends VerticalGroup implements Highlightable, HintedActor {
     public Map<Integer, ControlActionsEnum> keyMapping;
     private EventListener selectListener;
     private EventListener cancelListener;
     private boolean highlighted;
     private Consumer<Boolean> highlightHandler;
     private int selectedIndex = -1;
-
 
     public NavigableVerticalGroup() {
         super();
@@ -123,5 +122,15 @@ public class NavigableVerticalGroup extends VerticalGroup implements Highlightab
     @Override
     public void setHighlightHandler(Consumer<Boolean> handler) {
         highlightHandler = handler;
+    }
+
+    @Override
+    public Consumer<Boolean> getHighlightHandler() {
+        return highlightHandler;
+    }
+
+    @Override
+    public String getHint() {
+        return "WS: navigate, ED: select";
     }
 }

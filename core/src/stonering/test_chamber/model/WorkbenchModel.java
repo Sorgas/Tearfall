@@ -34,13 +34,30 @@ public class WorkbenchModel extends GameModel {
     }
 
     private LocalMap createLocalMap() {
-        LocalMap localMap = new LocalMap(1, 1, 2);
-        localMap.setBlock(0, 0, 0, BlockTypesEnum.WALL, MaterialMap.getInstance().getId("soil"));
-        localMap.setBlock(0, 0, 1, BlockTypesEnum.FLOOR, MaterialMap.getInstance().getId("soil"));
+        LocalMap localMap = new LocalMap(9, 9, 2);
+        for (int x = 0; x < 9; x++) {
+            for (int y = 0; y < 9; y++) {
+                localMap.setBlock(x, y, 0, BlockTypesEnum.WALL, MaterialMap.getInstance().getId("soil"));
+                localMap.setBlock(x, y, 1, BlockTypesEnum.FLOOR, MaterialMap.getInstance().getId("soil"));
+            }
+        }
         return localMap;
+    }
+
+    private void putItems() {
+
+    }
+
+    private void putUnit() {
+
     }
 
     private Building createBuilding() {
         return new BuildingGenerator().generateBuilding("forge", new Position(0, 0, 1));
+    }
+
+    @Override
+    public String toString() {
+        return "WorkbenchModel";
     }
 }

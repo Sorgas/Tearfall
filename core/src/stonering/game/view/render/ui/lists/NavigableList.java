@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 import stonering.game.view.render.ui.menus.util.Highlightable;
+import stonering.game.view.render.ui.menus.util.HintedActor;
 import stonering.util.global.Logger;
 import stonering.util.global.StaticSkin;
 
@@ -90,6 +91,7 @@ public class NavigableList<T> extends List<T> implements Highlightable {
      * Invokes handler if actor is focused.
      */
     @Override
+
     public void act(float delta) {
         super.act(delta);
         if (highlightHandler != null && (getStage().getKeyboardFocus() == this) != highlighted) {
