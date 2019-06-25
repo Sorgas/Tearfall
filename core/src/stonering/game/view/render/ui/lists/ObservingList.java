@@ -44,7 +44,6 @@ public class ObservingList extends Window {
         add(list).width(400).height(700);
         if (entities == null) return;
         list.getItems().addAll(new CompatibleArray<>(entities));
-
     }
 
     private void createListener() {

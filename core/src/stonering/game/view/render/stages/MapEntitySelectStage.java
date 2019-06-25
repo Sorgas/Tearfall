@@ -4,6 +4,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import stonering.entity.local.Entity;
 import stonering.entity.local.building.Building;
 import stonering.entity.local.building.BuildingBlock;
+import stonering.entity.local.plants.AbstractPlant;
+import stonering.entity.local.plants.Plant;
 import stonering.entity.local.zone.Zone;
 import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
@@ -82,7 +84,8 @@ public class MapEntitySelectStage extends UiStage implements Initable {
         GameModel gameModel = GameMvc.instance().getModel();
         BuildingBlock buildingBlock = gameModel.get(BuildingContainer.class).getBuildingBlocks().get(currentPosition);
         if (buildingBlock != null) entities.add(buildingBlock.getBuilding());
-        entities.add(gameModel.get(PlantContainer.class).getPlantInPosition(currentPosition));
+        AbstractPlant plant = gameModel.get(PlantContainer.class).getPlantInPosition(currentPosition);
+        if(plant != null) entities.add(plant);
         entities.addAll(gameModel.get(ItemContainer.class).getItemsInPosition(currentPosition));
         entities.addAll(gameModel.get(UnitContainer.class).getUnitsInPosition(currentPosition));
         Zone zone = gameModel.get(ZonesContainer.class).getZone(currentPosition);
@@ -100,6 +103,7 @@ public class MapEntitySelectStage extends UiStage implements Initable {
     }
 
     private void showEntityStage(Entity entity) {
+        Logger.UI.logDebug("Showing stage for " + entity);
         if (entity instanceof Building) {
             tryShowBuildingStage(((Building) entity).getBlock());
         } else if (entity instanceof Zone) {
@@ -128,6 +132,7 @@ public class MapEntitySelectStage extends UiStage implements Initable {
     }
 
     private void createObservingList(List<Entity> entities) {
+        Logger.UI.logDebug("Creating entity selection list.");
         ObservingList observingList = new ObservingList(entities, aspectHolder -> showEntityStage(aspectHolder));
         Container container = new Container().center();
         container.setFillParent(true);
