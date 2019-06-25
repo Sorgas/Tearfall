@@ -38,7 +38,6 @@ public class SingleTreeModel extends GameModel {
         super.init();
         get(GameCalendar.class).addListener("minute", get(World.class).getStarSystem());
         get(GameCalendar.class).addListener("minute", get(PlantContainer.class));
-
     }
 
     /**
@@ -55,7 +54,6 @@ public class SingleTreeModel extends GameModel {
         put(new UnitContainer());
         put(new TaskContainer());
         put(new ZonesContainer());
-
     }
 
     private LocalMap createMap() {

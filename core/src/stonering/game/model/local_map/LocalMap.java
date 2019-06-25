@@ -132,7 +132,7 @@ public class LocalMap implements ModelComponent, Initable, LastInitable {
     public Position getAnyNeighbourPosition(Position position, int passing) {
         for (int x = position.x - 1; x < position.x + 2; x++) {
             for (int y = position.y - 1; y < position.y + 2; y++) {
-                if (passage.getPassage(x, y, position.z) == passing) return new Position(x, y, position.z);
+                if (inMap(position) && passage.getPassage(x, y, position.z) == passing) return new Position(x, y, position.z);
             }
         }
         return position;

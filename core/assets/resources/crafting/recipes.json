@@ -1,7 +1,9 @@
 /*
     Parts should include all item parts with:
-        1. item part name
-        2. material tag.
+        1. item part name (null for consuming ingredient with no part produced).
+        2. item types (null for any type).
+        3. material tag.
+        4. number of items.
 */
 
 [
@@ -9,43 +11,41 @@
         "name": "make_pickaxe",
         "title": "Metal pickaxe",
         "itemName": "pickaxe",
-        "parts": [["head", "metal bar"], ["handle", "wood log/plank"]]
+        "parts": [["head", "bar", "metal", "1"], ["handle", "log/plank", "wood", "1"]]
     }, {
     "name": "make_sickle",
     "title": "Metal sickle",
     "itemName": "sickle",
-    "parts": [["head", "metal bar"], ["handle", "wood  log/plank/branch"]]
+    "parts": [["head", "bar", "metal", "1"], ["handle", "log/plank/branch", "wood", "1"]]
 }, {
     "name": "make_axe",
     "title": "Metal axe",
     "itemName": "axe",
-    "parts": [["head", "metal bar"], ["handle", "wood log/plank"]]
+    "parts": [["head", "bar", "metal", "1"], ["handle", "log/plank", "wood", "1"]]
 }, {
     "name": "make_shirt",
     "title": "Cloth shirt",
     "itemName": "shirt",
-    "parts": [["shirt", "cloth roll"]]
+    "parts": [["shirt", "roll", "cloth", "1"]]
 }, {
     "name": "make_pants",
     "title": "Cloth pants",
     "itemName": "pants",
-    "parts": [["pants", "cloth roll"]]
+    "parts": [["pants", "roll", "cloth", "1"]]
 }, {
     "name": "make_backpack",
     "title": "Cloth backpack",
     "itemName": "backpack",
-    "parts": [["backpack", "cloth roll"]]
+    "parts": [["backpack", "roll", "cloth", "1"]]
 }, {
     "name": "roast_meal",
     "title": "Make roasted meal",
     "itemName": "meal",
-    "parts": [["meal", ""]],
-    "consume": ["fuel", "1"]
+    "parts": [["meal", "piece", "meat", "1"], [null, null, "fuel", "1"]]
 }, {
     "name": "boil_meal",
     "title": "Cook soup",
     "itemName": "liquid_meal",
-    "parts": [["liquid_meal"]],
-    "consume": ["fuel", "1"]
+    "parts": [["meal", "piece", "meat", "1"], [null, null, "fuel", "1"], [null, null, "water", "1"]]
 }
 ]

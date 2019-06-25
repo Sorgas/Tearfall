@@ -1,7 +1,5 @@
 package stonering.game.view.render.ui.menus.workbench.orderline;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -23,7 +21,7 @@ import stonering.util.global.StaticSkin;
 import java.util.function.Consumer;
 
 /**
- * Order line with just hint string and close button.
+ * Order line with status icon, hint string and close button.
  * Creates table with no select boxes.
  *
  * @author Alexander_Kuzyakov on 24.06.2019.
@@ -44,13 +42,6 @@ public class OrderLine extends Table implements HideableComponent, HintedActor {
         this.menu = menu;
         this.hint = hint;
         createTable();
-        highlightHandler = new HighlightHandler();                   // changes images image
-        closeButton = addControlButton("X", new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                hide();
-            }
-        });
     }
 
     /**
@@ -70,12 +61,18 @@ public class OrderLine extends Table implements HideableComponent, HintedActor {
         left();
         add(new StatusIcon(OrderStatusEnum.WAITING));
         add(leftHG = new HorizontalGroup());
-        add(warningLabel = new Label("", StaticSkin.getSkin()));
-        add().expandX();
+        add(warningLabel = new Label("", StaticSkin.getSkin())).expandX();
         add(rightHG = new HorizontalGroup());
+        leftHG.right();
         defaults().prefHeight(30);
         addListener(new CloseInputListener());
-        leftHG.right();
+        highlightHandler = new HighlightHandler();                   // changes background image
+        closeButton = addControlButton("X", new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                hide();
+            }
+        });
     }
 
     /**
@@ -100,7 +97,7 @@ public class OrderLine extends Table implements HideableComponent, HintedActor {
     private class ListTouchListener extends InputListener {
         @Override
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-            getStage().setKeyboardFocus((event.getListenerActor();
+            getStage().setKeyboardFocus((event.getListenerActor()));
             return super.touchDown(event, x, y, pointer, button);
         }
     }
@@ -122,8 +119,7 @@ public class OrderLine extends Table implements HideableComponent, HintedActor {
         public void accept(Boolean value) {
             Drawable drawable = DrawableMap.getInstance().getDrawable(BACKGROUND_NAME + (value ? ":focused" : ""));
             this.value = value;
-            if (drawable == null) return;
-            setBackground(drawable);
+            if (drawable != null) setBackground(drawable);
         }
     }
 

@@ -23,9 +23,6 @@ public class EmptyItemCraftingOrderLine extends OrderLine {
 
     public EmptyItemCraftingOrderLine(WorkbenchMenu menu) {
         super(menu, LINE_HINT);
-    }
-
-    private void initLine() {
         leftHG.addActor(createRecipeSelectBox());
     }
 
@@ -70,7 +67,7 @@ public class EmptyItemCraftingOrderLine extends OrderLine {
                 return true;
             }
         });
-        recipeSelectBox.getList().addListener(createTouchListener());
+//        recipeSelectBox.getList().addListener(createTouchListener());
         return recipeSelectBox;
     }
 

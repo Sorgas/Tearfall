@@ -66,6 +66,7 @@ public class ModelSelectStage extends UiStage {
         testModels.add(new PondPlantsModel());
         testModels.add(new PassageModel());
         testModels.add(new CameraModel());
+        testModels.add(new WorkbenchModel());
         return testModels;
     }
 

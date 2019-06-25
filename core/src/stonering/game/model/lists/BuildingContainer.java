@@ -53,7 +53,9 @@ public class BuildingContainer extends Turnable implements ModelComponent, Inita
      */
     private void tryMoveItems(Position target) {
         ItemContainer container = GameMvc.instance().getModel().get(ItemContainer.class);
+        if (container.getItemsInPosition(target).isEmpty()) return; // no items in target position
         Position newPosition = GameMvc.instance().getModel().get(LocalMap.class).getAnyNeighbourPosition(target, BlockTypesEnum.PASSABLE);
+        if (newPosition.equals(target)) return; // no moving, if no valid position found
         container.getItemsInPosition(target).forEach(item -> container.moveItem(item, newPosition));
     }
 
