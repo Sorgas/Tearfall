@@ -1,8 +1,12 @@
 package stonering.entity.local.plants;
 
-import stonering.global.utils.Position;
+import stonering.enums.plants.PlantBlocksTypeEnum;
+import stonering.util.geometry.Position;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Class to be contained on LocalMap. Also stores render data
@@ -13,17 +17,21 @@ public class PlantBlock {
     private AbstractPlant plant;
     private Position position; // position on map
     private int material;
-    private int blockType;
-    private int atlasX;
-    private int atlasY;
-    private ArrayList<String> harvestProducts;
-    private ArrayList<String> cutProducts;
+    private int blockType; // type from enum
+    private int[] atlasXY;
+    private boolean harvested;
 
     public PlantBlock(int material, int blockType) {
         this.material = material;
         this.blockType = blockType;
-        harvestProducts = new ArrayList<>();
-        cutProducts = new ArrayList<>();
+    }
+
+    public boolean isPassable() {
+        return PlantBlocksTypeEnum.getType(blockType).passable;
+    }
+
+    public PlantBlocksTypeEnum getType() {
+        return PlantBlocksTypeEnum.getType(blockType);
     }
 
     public int getMaterial() {
@@ -42,20 +50,12 @@ public class PlantBlock {
         this.blockType = blockType;
     }
 
-    public int getAtlasX() {
-        return atlasX;
+    public int[] getAtlasXY() {
+        return atlasXY;
     }
 
-    public void setAtlasX(int atlasX) {
-        this.atlasX = atlasX;
-    }
-
-    public int getAtlasY() {
-        return atlasY;
-    }
-
-    public void setAtlasY(int atlasY) {
-        this.atlasY = atlasY;
+    public void setAtlasXY(int[] atlasXY) {
+        this.atlasXY = atlasXY;
     }
 
     public void setPlant(AbstractPlant plant) {
@@ -70,23 +70,15 @@ public class PlantBlock {
         this.position = position;
     }
 
-    public ArrayList<String> getHarvestProducts() {
-        return harvestProducts;
-    }
-
-    public void setHarvestProducts(ArrayList<String> harvestProducts) {
-        this.harvestProducts = harvestProducts;
-    }
-
-    public ArrayList<String> getCutProducts() {
-        return cutProducts;
-    }
-
-    public void setCutProducts(ArrayList<String> cutProducts) {
-        this.cutProducts = cutProducts;
-    }
-
     public AbstractPlant getPlant() {
         return plant;
+    }
+
+    public boolean isHarvested() {
+        return harvested;
+    }
+
+    public void setHarvested(boolean harvested) {
+        this.harvested = harvested;
     }
 }

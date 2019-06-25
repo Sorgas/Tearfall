@@ -1,25 +1,63 @@
 package stonering.entity.local.plants;
 
+import stonering.entity.local.PositionedEntity;
+import stonering.enums.plants.PlantLifeStage;
 import stonering.enums.plants.PlantType;
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 
-public abstract class AbstractPlant {
+/**
+ * Parent class for single and multi tile plants.
+ */
+public abstract class AbstractPlant extends PositionedEntity {
     protected PlantType type;
-    protected int age;
+    private int age; // months
     private int currentStage;
+    private boolean dead;
 
-    public PlantType.PlantLifeStage getCurrentStage() {
-        return type.getLifeStages().get(currentStage);
+    protected AbstractPlant(Position position, PlantType type, int age) {
+        super(position);
+        this.age = age;
+        this.type = type;
+        countStage();
+    }
+
+    /**
+     * Initializes stage number by plant name;
+     */
+    private void countStage() {
+        for (PlantLifeStage stage : type.lifeStages) {
+            if(stage.stageEnd > age && (stage.stageEnd - stage.stageLength) <= age)
+                currentStage = type.lifeStages.indexOf(stage);
+        }
+    }
+
+    /**
+     * Increases age by 1 month.
+     *
+     * @return 0 - stage continues,
+     *         1 - stage changed,
+     *         -1 - last stage ended.
+     */
+    public int increaceAge() {
+        if (dead) return -1;
+        age++;
+        if (type.lifeStages.get(currentStage).getStageEnd() > age) return 0;
+        currentStage++;
+        return currentStage == type.lifeStages.size() ? -1 : 1;
+    }
+
+    public PlantLifeStage getCurrentStage() {
+        return type.lifeStages.get(currentStage);
     }
 
     public abstract boolean isHarvestable();
 
-    public PlantType getType() {
-        return type;
+    public int getCurrentStageIndex() {
+        return currentStage;
     }
 
-    public void setType(PlantType type) {
-        this.type = type;
+    public PlantType getType() {
+        return type;
     }
 
     public int getAge() {
@@ -30,5 +68,11 @@ public abstract class AbstractPlant {
         this.age = age;
     }
 
-    public abstract Position getPosition();
+    public boolean isDead() {
+        return dead;
+    }
+
+    public void setDead(boolean dead) {
+        this.dead = dead;
+    }
 }

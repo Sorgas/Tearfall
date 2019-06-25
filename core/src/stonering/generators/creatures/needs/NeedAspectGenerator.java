@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.JsonWriter;
 import stonering.exceptions.DescriptionNotFoundException;
 import stonering.entity.local.unit.aspects.NeedsAspect;
 import stonering.entity.local.unit.aspects.needs.WearNeed;
-import stonering.utils.global.FileLoader;
+import stonering.util.global.FileLoader;
 
 /**
  * Generates needs for creatures.
@@ -33,13 +33,12 @@ public class NeedAspectGenerator {
     public NeedsAspect generateNeedAspect(JsonValue creature) {
         try {
             NeedsAspect needsAspect = new NeedsAspect(null);
-            String[] needs = new String[0];
-            needs = creature.has("needs") ?
+            String[] needs = creature.has("needs") ?
                     creature.get("needs").asStringArray() :
                     findTemplate(creature.get("body_template").asString()).get("needs").asStringArray();
             for (String need : needs) {
                 switch (need) {
-                    case "wear":
+                    case "wear": //TODO make enum of aspects
                         needsAspect.getNeeds().add(new WearNeed());
                         break;
                 }

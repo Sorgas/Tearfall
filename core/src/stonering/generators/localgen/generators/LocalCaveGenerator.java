@@ -1,38 +1,31 @@
 package stonering.generators.localgen.generators;
 
 import stonering.enums.blocks.BlockTypesEnum;
-import stonering.game.core.model.LocalMap;
+import stonering.game.model.local_map.LocalMap;
 import stonering.generators.PerlinNoiseGenerator;
-import stonering.generators.localgen.LocalGenConfig;
 import stonering.generators.localgen.LocalGenContainer;
-import stonering.entity.world.WorldMap;
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 
 import java.util.Random;
 
 /**
  * @author Alexander Kuzyakov on 22.10.2017.
  */
-public class LocalCaveGenerator {
-    private LocalGenContainer container;
-    private WorldMap worldMap;
-    private LocalGenConfig config;
+public class LocalCaveGenerator extends LocalAbstractGenerator {
     private int localAreaSize;
     private LocalMap localMap;
     private Random random;
 
     public LocalCaveGenerator(LocalGenContainer container) {
-        this.container = container;
-        worldMap = container.getWorld().getWorldMap();
-        config = container.getConfig();
+        super(container);
         localAreaSize = config.getAreaSize();
         random = new Random();
     }
 
     public void execute() {
         System.out.println("generating caves");
-        localMap = container.getLocalMap();
-        int localElevation = localMap.getzSize() - config.getAirLayersAboveGround();
+        localMap = container.model.get(LocalMap.class);
+        int localElevation = localMap.zSize - config.getAirLayersAboveGround();
         int step = 50;
         int prevLeyer = -1;
         for (int z = localElevation - step; z > 20; z -= step) {
@@ -97,8 +90,8 @@ public class LocalCaveGenerator {
         while (count > 0 && rejects > 0) {
             int x = random.nextInt(config.getAreaSize() - 10) + 5;
             int y = random.nextInt(config.getAreaSize() - 10) + 5;
-            if (localMap.getBlockType(x, y, top) == BlockTypesEnum.SPACE.getCode()) continue;
-            if (localMap.getBlockType(x, y, bottom) == BlockTypesEnum.SPACE.getCode()) continue;
+            if (localMap.getBlockType(x, y, top) == BlockTypesEnum.SPACE.CODE) continue;
+            if (localMap.getBlockType(x, y, bottom) == BlockTypesEnum.SPACE.CODE) continue;
 
             boolean reject = false;
             for (int i = xs.length - 1; i > count - 1; i--) {

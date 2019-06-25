@@ -1,18 +1,9 @@
+/*
+    Lists all recipes available in workbenches. first element should be building name.
+*/
+
 [
-    {
-        "workbench":"forge",
-        "recipes" : [
-            "make_pickaxe",
-            "make_axe",
-            "make_sickle"
-        ]
-    },
-    {
-        "workbench":"tailor_shop",
-        "recipes" : [
-            "make_shirt",
-            "make_pants",
-            "make_backpack"
-        ]
-    }
+    ["forge", "make_pickaxe", "make_axe", "make_sickle"],
+    ["tailor_shop", "make_shirt", "make_pants", "make_backpack"],
+    ["campfire", "roast_meal", "boil_meal"]
 ]

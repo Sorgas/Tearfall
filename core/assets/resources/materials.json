@@ -1,1633 +1,785 @@
 [
-  {
-    "id": "0",
-    "name": "air",
-    "types": [
-      "air"
-    ],
-    "density": "0.1",
-    "reactions": [
-    ],
-    "reaction_args": [
-    ],
-    "value": "0",
-    "atlasY": "-1",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    {
+        "id": "0",
+        "name": "air",
+        "tags": ["air"],
+        "density": "0.1",
+        "reactions": {},
+        "value": "0",
+        "atlasY": "-1",
+        "colorCode": "0xffffffff"
+    }, {
     "id": "1",
     "name": "granite",
-    "types": [
-      "stone",
-      "stone_intrusive"
-    ],
+    "tags": ["stone", "stone_intrusive"],
     "density": "2.7",
-    "reactions": [
-      "melt"
-    ],
-    "reaction_args": [
-      "1513"
-    ],
+    "reactions": {
+        "melt": ["1513"]
+    },
     "value": "10",
     "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "2",
     "name": "diorite",
-    "types": [
-      "stone",
-      "stone_intrusive"
-    ],
+    "tags": ["stone", "stone_intrusive"],
     "density": "2.8",
-    "reactions": [
-      "melt"
-    ],
-    "reaction_args": [
-      "1523"
-    ],
+    "reactions": {
+        "melt": ["1523"]
+    },
     "value": "10",
     "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "3",
     "name": "gabbro",
-    "types": [
-      "stone",
-      "stone_intrusive"
-    ],
+    "tags": ["stone", "stone_intrusive"],
     "density": "3",
-    "reactions": [
-      "melt"
-    ],
-    "reaction_args": [
-      "1523"
-    ],
+    "reactions": {
+        "melt": ["1523"]
+    },
     "value": "10",
     "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "4",
     "name": "peridotite",
-    "types": [
-      "stone",
-      "stone_intrusive"
-    ],
+    "tags": ["stone", "stone_intrusive"],
     "density": "3.1",
-    "reactions": [
-      "melt"
-    ],
-    "reaction_args": [
-      "2173"
-    ],
+    "reactions": {
+        "melt": ["2173"]
+    },
     "value": "10",
     "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "5",
     "name": "pegmatite",
-    "types": [
-      "stone",
-      "stone_intrusive"
-    ],
+    "tags": ["stone", "stone_intrusive"],
     "density": "2.7",
-    "reactions": [
-      "melt"
-    ],
-    "reaction_args": [
-      "4000"
-    ],
+    "reactions": {
+        "melt": ["4000"]
+    },
     "value": "10",
     "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "6",
     "name": "rhyolite",
-    "types": [
-      "stone",
-      "stone_extrusive"
-    ],
+    "tags": ["stone", "stone_extrusive"],
     "density": "2.4",
-    "reactions": [
-      "melt"
-    ],
-    "reaction_args": [
-      "1513"
-    ],
+    "reactions": {
+        "melt": ["1513"]
+    },
     "value": "10",
     "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "7",
     "name": "andesite",
-    "types": [
-      "stone",
-      "stone_extrusive"
-    ],
+    "tags": ["stone", "stone_extrusive"],
     "density": "42918",
-    "reactions": [
-      "melt"
-    ],
-    "reaction_args": [
-      "1473"
-    ],
+    "reactions": {
+        "melt": ["1473"]
+    },
     "value": "10",
     "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "8",
     "name": "obsidian",
-    "types": [
-      "stone",
-      "stone_extrusive"
-    ],
+    "tags": ["stone", "stone_extrusive"],
     "density": "4",
-    "reactions": [
-      "melt"
-    ],
-    "reaction_args": [
-      "4000"
-    ],
+    "reactions": {
+        "melt": ["4000"]
+    },
     "value": "10",
     "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "9",
     "name": "tuff",
-    "types": [
-      "stone",
-      "stone_extrusive"
-    ],
+    "tags": ["stone", "stone_extrusive"],
     "density": "4",
-    "reactions": [
-      "melt"
-    ],
-    "reaction_args": [
-      "4000"
-    ],
+    "reactions": {
+        "melt": ["4000"]
+    },
     "value": "10",
     "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "10",
     "name": "basalt",
-    "types": [
-      "stone",
-      "stone_extrusive"
-    ],
+    "tags": ["stone", "stone_extrusive"],
     "density": "42918",
-    "reactions": [
-      "melt"
-    ],
-    "reaction_args": [
-      "1450"
-    ],
+    "reactions": {
+        "melt": ["1450"]
+    },
     "value": "10",
     "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "11",
     "name": "schist",
-    "types": [
-      "stone",
-      "stone_metamorfic"
-    ],
+    "tags": ["stone", "stone_metamorfic"],
     "density": "4",
-    "reactions": [
-      "melt"
-    ],
-    "reaction_args": [
-      "4000"
-    ],
+    "reactions": {
+        "melt": ["4000"]
+    },
     "value": "10",
     "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "12",
     "name": "chlorite",
-    "types": [
-      "stone",
-      "stone_metamorfic"
-    ],
+    "tags": ["stone", "stone_metamorfic"],
     "density": "42949",
-    "reactions": [
-      "melt"
-    ],
-    "reaction_args": [
-      "4000"
-    ],
+    "reactions": {
+        "melt": ["4000"]
+    },
     "value": "10",
     "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "13",
     "name": "kaolinite",
-    "types": [
-      "stone",
-      "stone_metamorfic"
-    ],
+    "tags": ["stone", "stone_metamorfic"],
     "density": "42949",
-    "reactions": [
-      "melt"
-    ],
-    "reaction_args": [
-      "4000"
-    ],
+    "reactions": {
+        "melt": ["4000"]
+    },
     "value": "10",
     "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "14",
     "name": "phyllite",
-    "types": [
-      "stone",
-      "stone_metamorfic"
-    ],
+    "tags": ["stone", "stone_metamorfic"],
     "density": "42949",
-    "reactions": [
-      "melt"
-    ],
-    "reaction_args": [
-      "4000"
-    ],
+    "reactions": {
+        "melt": ["4000"]
+    },
     "value": "10",
     "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "15",
     "name": "quarzite",
-    "types": [
-      "stone",
-      "stone_metamorfic"
+    "tags": [
+        "stone", "stone_metamorfic"
     ],
     "density": "42888",
-    "reactions": [
-      "melt"
-    ],
-    "reaction_args": [
-      "1713"
-    ],
+    "reactions": {
+        "melt": ["1713"]
+    },
     "value": "10",
     "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "16",
     "name": "gneiss",
-    "types": [
-      "stone",
-      "stone_metamorfic"
-    ],
+    "tags": ["stone", "stone_metamorfic"],
     "density": "42888",
-    "reactions": [
-      "melt"
-    ],
-    "reaction_args": [
-      "4000"
-    ],
+    "reactions": {
+        "melt": ["4000"]
+    },
     "value": "10",
     "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "17",
     "name": "marble",
-    "types": [
-      "stone",
-      "stone_metamorfic"
-    ],
+    "tags": ["stone", "stone_metamorfic"],
     "density": "42857",
-    "reactions": [
-      "melt"
-    ],
-    "reaction_args": [
-      "4000"
-    ],
+    "reactions": {
+        "melt": ["4000"]
+    },
     "value": "10",
     "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "18",
     "name": "gneiss",
-    "types": [
-      "stone",
-      "stone_sedimentary"
-    ],
+    "tags": ["stone", "stone_sedimentary"],
     "density": "42888",
-    "reactions": [
-      "melt"
-    ],
-    "reaction_args": [
-      "4000"
-    ],
+    "reactions": {
+        "melt": ["4000"]
+    },
     "value": "10",
     "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "19",
     "name": "shale",
-    "types": [
-      "stone",
-      "stone_sedimentary"
-    ],
+    "tags": ["stone", "stone_sedimentary"],
     "density": "42888",
-    "reactions": [
-      "melt"
-    ],
-    "reaction_args": [
-      "4000"
-    ],
+    "reactions": {
+        "melt": ["4000"]
+    },
     "value": "10",
     "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "20",
     "name": "limestone",
-    "types": [
-      "stone",
-      "stone_sedimentary"
-    ],
+    "tags": ["stone", "stone_sedimentary"],
     "density": "42888",
-    "reactions": [
-      "melt"
-    ],
-    "reaction_args": [
-      "1515"
-    ],
+    "reactions": {
+        "melt": ["1515"]
+    },
     "value": "10",
     "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "21",
     "name": "sandstone",
-    "types": [
-      "stone",
-      "stone_sedimentary"
-    ],
+    "tags": ["stone", "stone_sedimentary", "solid"],
     "density": "42827",
-    "reactions": [
-      "melt"
-    ],
-    "reaction_args": [
-      "1673"
-    ],
+    "reactions": {
+        "melt": ["1673"]
+    },
     "value": "10",
     "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "22",
     "name": "dolomite",
-    "types": [
-      "stone",
-      "stone_sedimentary"
-    ],
+    "tags": ["stone", "stone_sedimentary"],
     "density": "2.9",
-    "reactions": [
-      "melt"
-    ],
-    "reaction_args": [
-      "4000"
-    ],
+    "reactions": {
+        "melt": ["4000"]
+    },
     "value": "10",
     "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "23",
     "name": "chalk",
-    "types": [
-      "stone",
-      "stone_sedimentary"
-    ],
+    "tags": ["stone", "stone_sedimentary"],
     "density": "2.4",
-    "reactions": [
-      "melt"
-    ],
-    "reaction_args": [
-      "4000"
-    ],
+    "reactions": {
+        "melt": ["4000"]
+    },
     "value": "10",
     "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "24",
     "name": "siltstone",
-    "types": [
-      "stone",
-      "stone_sedimentary"
-    ],
+    "tags": ["stone", "stone_sedimentary"],
     "density": "4",
-    "reactions": [
-      "melt"
-    ],
-    "reaction_args": [
-      "4000"
-    ],
+    "reactions": {
+        "melt": ["4000"]
+    },
     "value": "10",
     "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "25",
     "name": "chert",
-    "types": [
-      "stone",
-      "stone_sedimentary"
-    ],
+    "tags": ["stone", "stone_sedimentary"],
     "density": "4",
-    "reactions": [
-      "melt"
-    ],
-    "reaction_args": [
-      "4000"
-    ],
+    "reactions": {
+        "melt": ["4000"]
+    },
     "value": "10",
     "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "26",
     "name": "chalcopyrite ",
-    "types": [
-      "ore"
-    ],
+    "tags": ["ore"],
     "density": "4.2",
-    "reactions": [
-      "melt"
-    ],
-    "reaction_args": [
-      "1223"
-    ],
+    "reactions": {
+        "melt": ["1223"]
+    },
     "value": "10",
     "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "27",
     "name": "tetrahedrite",
-    "types": [
-      "ore"
-    ],
+    "tags": ["ore"],
     "density": "5",
-    "reactions": [
-      "melt"
-    ],
-    "reaction_args": [
-      "890"
-    ],
+    "reactions": {
+        "melt": [
+            "890"
+        ]
+    },
     "value": "10",
     "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "28",
     "name": "magnetite",
-    "types": [
-      "ore"
-    ],
+    "tags": ["ore"],
     "density": "5.2",
-    "reactions": [
-      "melt"
-    ],
-    "reaction_args": [
-      "1867"
-    ],
+    "reactions": {
+        "melt": ["1867"]
+    },
     "value": "10",
     "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "29",
     "name": "hematite",
-    "types": [
-      "ore"
-    ],
+    "tags": ["ore"],
     "density": "5.2",
-    "reactions": [
-      "melt"
-    ],
-    "reaction_args": [
-      "1838"
-    ],
+    "reactions": {
+        "melt": ["1838"]
+    },
     "value": "10",
     "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "30",
     "name": "limonite",
-    "types": [
-      "ore"
-    ],
+    "tags": ["ore"],
     "density": "4",
-    "reactions": [
-      "melt"
-    ],
-    "reaction_args": [
-      "1523"
-    ],
+    "reactions": {
+        "melt": ["1523"]
+    },
     "value": "10",
     "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "31",
     "name": "native aluminium",
-    "types": [
-      "ore"
-    ],
+    "tags": ["ore"],
     "density": "2.7",
-    "reactions": [
-      "melt"
-    ],
-    "reaction_args": [
-      "933"
-    ],
+    "reactions": {
+        "melt": [
+            "933"
+        ]
+    },
     "value": "10",
     "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "32",
     "name": "native gold",
-    "types": [
-      "ore"
-    ],
+    "tags": ["ore"],
     "density": "19",
-    "reactions": [
-      "melt"
-    ],
-    "reaction_args": [
-      "1337"
-    ],
+    "reactions": {
+        "melt": ["1337"]
+    },
     "value": "10",
     "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "33",
     "name": "galena",
-    "types": [
-      "ore"
-    ],
+    "tags": ["ore"],
     "density": "7.4",
-    "reactions": [
-      "melt"
-    ],
-    "reaction_args": [
-      "1386"
-    ],
+    "reactions": {
+        "melt": ["1386"]
+    },
     "value": "10",
     "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "34",
     "name": "sphalerite(blende)",
-    "types": [
-      "ore"
-    ],
+    "tags": ["ore"],
     "density": "4.1",
-    "reactions": [
-      "melt"
-    ],
-    "reaction_args": [
-      "1973"
-    ],
+    "reactions": {
+        "melt": ["1973"]
+    },
     "value": "10",
     "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "35",
     "name": "garnierite",
-    "types": [
-      "ore"
-    ],
+    "tags": ["ore"],
     "density": "2.4",
-    "reactions": [
-      "melt"
-    ],
-    "reaction_args": [
-      "1010"
-    ],
+    "reactions": {
+        "melt": ["1010"]
+    },
     "value": "10",
     "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "36",
     "name": "cassiterite",
-    "types": [
-      "ore"
-    ],
+    "tags": ["ore"],
     "density": "6.9",
-    "reactions": [
-      "melt"
-    ],
-    "reaction_args": [
-      "1395"
-    ],
+    "reactions": {
+        "melt": ["1395"]
+    },
     "value": "10",
     "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "37",
     "name": "native silver",
-    "types": [
-      "ore"
-    ],
+    "tags": ["ore"],
     "density": "10.5",
-    "reactions": [
-      "melt"
-    ],
-    "reaction_args": [
-      "1235"
-    ],
+    "reactions": {
+        "melt": ["1235"]
+    },
     "value": "10",
     "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "38",
     "name": "iron",
-    "types": [
-      "metal"
-    ],
+    "tags": ["metal"],
     "density": "7.7",
-    "reactions": [
-      "melt"
-    ],
-    "reaction_args": [
-      "1538"
-    ],
+    "reactions": {
+        "melt": ["1538"]
+    },
     "value": "10",
     "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "39",
     "name": "steel",
-    "types": [
-      "metal"
-    ],
+    "tags": ["metal"],
     "density": "8",
-    "reactions": [
-      "melt"
-    ],
-    "reaction_args": [
-      "1510"
-    ],
+    "reactions": {
+        "melt": ["1510"]
+    },
     "value": "10",
     "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "40",
     "name": "copper",
-    "types": [
-      "metal"
-    ],
+    "tags": ["metal"],
     "density": "9",
-    "reactions": [
-      "melt"
-    ],
-    "reaction_args": [
-      "1084"
-    ],
+    "reactions": {
+        "melt": ["1084"]
+    },
     "value": "10",
     "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "41",
     "name": "silver",
-    "types": [
-      "metal"
-    ],
+    "tags": ["metal"],
     "density": "10.5",
-    "reactions": [
-      "melt"
-    ],
-    "reaction_args": [
-      "961"
-    ],
+    "reactions": {
+        "melt": [
+            "961"
+        ]
+    },
     "value": "10",
     "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "42",
     "name": "gold",
-    "types": [
-      "metal"
-    ],
+    "tags": ["metal"],
     "density": "19.3",
-    "reactions": [
-      "melt"
-    ],
-    "reaction_args": [
-      "1064"
-    ],
+    "reactions": {
+        "melt": ["1064"]
+    },
     "value": "10",
     "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "43",
     "name": "zinc",
-    "types": [
-      "metal"
-    ],
+    "tags": ["metal"],
     "density": "7.1",
-    "reactions": [
-      "melt"
-    ],
-    "reaction_args": [
-      "419"
-    ],
+    "reactions": {
+        "melt": [
+            "419"
+        ]
+    },
     "value": "10",
     "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "44",
     "name": "lead",
-    "types": [
-      "metal"
-    ],
+    "tags": ["metal"],
     "density": "11.4",
-    "reactions": [
-      "melt"
-    ],
-    "reaction_args": [
-      "327"
-    ],
+    "reactions": {
+        "melt": [
+            "327"
+        ]
+    },
     "value": "10",
     "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "45",
     "name": "nickel",
-    "types": [
-      "metal"
-    ],
+    "tags": ["metal"],
     "density": "8.9",
-    "reactions": [
-      "melt"
-    ],
-    "reaction_args": [
-      "1453"
-    ],
+    "reactions": {
+        "melt": ["1453"]
+    },
     "value": "10",
     "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "46",
     "name": "tin",
-    "types": [
-      "metal"
-    ],
+    "tags": ["metal"],
     "density": "7.3",
-    "reactions": [
-      "melt"
-    ],
-    "reaction_args": [
-      "232"
-    ],
+    "reactions": {
+        "melt": [
+            "232"
+        ]
+    },
     "value": "10",
     "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "47",
     "name": "aluminium",
-    "types": [
-      "metal"
-    ],
+    "tags": ["metal"],
     "density": "2.7",
-    "reactions": [
-      "melt"
-    ],
-    "reaction_args": [
-      "660"
-    ],
+    "reactions": {
+        "melt": [
+            "660"
+        ]
+    },
     "value": "10",
     "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "48",
     "name": "beech wood",
-    "types": [
-      "wood"
-    ],
+    "tags": ["wood"],
     "density": "0.8",
-    "reactions": [
-      "burn"
-    ],
-    "reaction_args": [
-      "3600"
-    ],
+    "reactions": {
+        "burn": ["3600"]
+    },
     "value": "10",
     "atlasY": "1",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "49",
     "name": "oak",
-    "types": [
-      "wood"
-    ],
+    "tags": ["wood"],
     "density": "0.9",
-    "reactions": [
-      "burn"
-    ],
-    "reaction_args": [
-      "3600"
-    ],
+    "reactions": {
+        "burn": ["3600"]
+    },
     "value": "10",
     "atlasY": "1",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "50",
     "name": "ash",
-    "types": [
-      "wood"
-    ],
+    "tags": ["wood"],
     "density": "0.7",
-    "reactions": [
-      "burn"
-    ],
-    "reaction_args": [
-      "3600"
-    ],
+    "reactions": {
+        "burn": ["3600"]
+    },
     "value": "10",
     "atlasY": "1",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "51",
     "name": "rowan",
-    "types": [
-      "wood"
-    ],
+    "tags": ["wood"],
     "density": "0.8",
-    "reactions": [
-      "burn"
-    ],
-    "reaction_args": [
-      "3600"
-    ],
+    "reactions": {
+        "burn": ["3600"]
+    },
     "value": "10",
     "atlasY": "1",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "52",
     "name": "birch",
-    "types": [
-      "wood"
-    ],
+    "tags": ["wood"],
     "density": "0.7",
-    "reactions": [
-      "burn"
-    ],
-    "reaction_args": [
-      "3600"
-    ],
+    "reactions": {
+        "burn": ["3600"]
+    },
     "value": "10",
     "atlasY": "1",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "53",
     "name": "elm",
-    "types": [
-      "wood"
-    ],
+    "tags": ["wood"],
     "density": "0.5",
-    "reactions": [
-      "burn"
-    ],
-    "reaction_args": [
-      "3600"
-    ],
+    "reactions": {
+        "burn": ["3600"]
+    },
     "value": "10",
     "atlasY": "1",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "54",
     "name": "maple",
-    "types": [
-      "wood"
-    ],
+    "tags": ["wood"],
     "density": "0.7",
-    "reactions": [
-      "burn"
-    ],
-    "reaction_args": [
-      "3600"
-    ],
+    "reactions": {
+        "burn": ["3600"]
+    },
     "value": "10",
     "atlasY": "1",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "55",
     "name": "alder",
-    "types": [
-      "wood"
-    ],
+    "tags": ["wood"],
     "density": "0.5",
-    "reactions": [
-      "burn"
-    ],
-    "reaction_args": [
-      "3600"
-    ],
+    "reactions": {
+        "burn": ["3600"]
+    },
     "value": "10",
     "atlasY": "1",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "56",
     "name": "willow",
-    "types": [
-      "wood"
-    ],
+    "tags": ["wood"],
     "density": "0.5",
-    "reactions": [
-      "burn"
-    ],
-    "reaction_args": [
-      "3600"
-    ],
+    "reactions": {
+        "burn": ["3600"]
+    },
     "value": "10",
     "atlasY": "1",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "57",
     "name": "poplar",
-    "types": [
-      "wood"
-    ],
+    "tags": ["wood"],
     "density": "0.4",
-    "reactions": [
-      "burn"
-    ],
-    "reaction_args": [
-      "3600"
-    ],
+    "reactions": {
+        "burn": ["3600"]
+    },
     "value": "10",
     "atlasY": "1",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "58",
     "name": "pine",
-    "types": [
-      "wood"
-    ],
+    "tags": ["wood"],
     "density": "0.5",
-    "reactions": [
-      "burn"
-    ],
-    "reaction_args": [
-      "3600"
-    ],
+    "reactions": {
+        "burn": ["3600"]
+    },
     "value": "10",
     "atlasY": "1",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "59",
     "name": "larch",
-    "types": [
-      "wood"
-    ],
+    "tags": ["wood"],
     "density": "0.5",
-    "reactions": [
-      "burn"
-    ],
-    "reaction_args": [
-      "3600"
-    ],
+    "reactions": {
+        "burn": ["3600"]
+    },
     "value": "10",
     "atlasY": "1",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "60",
     "name": "fir",
-    "types": [
-      "wood"
-    ],
+    "tags": ["wood"],
     "density": "0.5",
-    "reactions": [
-      "burn"
-    ],
-    "reaction_args": [
-      "3600"
-    ],
+    "reactions": {
+        "burn": ["3600"]
+    },
     "value": "10",
     "atlasY": "1",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "61",
     "name": "linen",
-    "types": [
-      "cloth"
-    ],
+    "tags": ["cloth"],
     "density": "200",
-    "reactions": [
-      "burn"
-    ],
-    "reaction_args": [
-      "3000"
-    ],
+    "reactions": {
+        "burn": ["3000"]
+    },
     "value": "10",
     "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "62",
     "name": "silk",
-    "types": [
-      "cloth"
-    ],
+    "tags": ["cloth"],
     "density": "200",
-    "reactions": [
-      "burn"
-    ],
-    "reaction_args": [
-      "3000"
-    ],
+    "reactions": {
+        "burn": ["3000"]
+    },
     "value": "10",
     "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "63",
     "name": "wool",
-    "types": [
-      "cloth"
-    ],
+    "tags": ["cloth"],
     "density": "200",
-    "reactions": [
-      "burn"
-    ],
-    "reaction_args": [
-      "3000"
-    ],
+    "reactions": {
+        "burn": ["3000"]
+    },
     "value": "10",
     "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "64",
     "name": "cotton",
-    "types": [
-      "cloth"
-    ],
+    "tags": ["cloth"],
     "density": "200",
-    "reactions": [
-      "burn"
-    ],
-    "reaction_args": [
-      "3000"
-    ],
+    "reactions": {
+        "burn": ["3000"]
+    },
     "value": "10",
     "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "65",
     "name": "hemp",
-    "types": [
-      "cloth"
-    ],
+    "tags": ["cloth"],
     "density": "200",
-    "reactions": [
-      "burn"
-    ],
-    "reaction_args": [
-      "3000"
-    ],
+    "reactions": {
+        "burn": ["3000"]
+    },
     "value": "10",
     "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "66",
     "name": "byssus",
-    "types": [
-      "cloth"
-    ],
+    "tags": ["cloth"],
     "density": "200",
-    "reactions": [
-      "burn"
-    ],
-    "reaction_args": [
-      "3000"
-    ],
+    "reactions": {
+        "burn": ["3000"]
+    },
     "value": "10",
     "atlasY": "0",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "67",
     "name": "soil",
-    "types": [
-      "soil"
-    ],
+    "tags": ["soil"],
     "density": "1.5",
-    "reactions": [
-      "melt"
-    ],
-    "reaction_args": [
-      "1000"
-    ],
+    "reactions": {
+        "melt": ["1000"]
+    },
     "value": "0",
     "atlasY": "1",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "68",
     "name": "water",
-    "types": [
-      "liquid"
-    ],
+    "tags": ["liquid"],
     "density": "1",
-    "reactions": [
-    ],
-    "reaction_args": [
-    ],
+    "reactions": {},
     "value": "0",
     "atlasY": "-1",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  },
-  {
+    "colorCode": "0xffffffff"
+}, {
     "id": "69",
     "name": "generic_plant",
-    "types": [
-      "biomass"
-    ],
+    "tags": ["biomass"],
     "density": "1",
-    "reactions": [
-      "burn"
-    ],
-    "reaction_args": [
-      "2500"
-    ],
+    "reactions": {
+        "burn": ["2500"]
+    },
     "value": "0",
     "atlasY": "-1",
-    "color": {
-      "class": "color_c",
-      "r": "1",
-      "g": "1",
-      "b": "1",
-      "a": "1"
-    }
-  }
+    "colorCode": "0xffffffff"
+}
 ]

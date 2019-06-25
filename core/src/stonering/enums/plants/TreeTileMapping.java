@@ -3,9 +3,10 @@ package stonering.enums.plants;
 import java.util.HashMap;
 
 /**
+ * Stores atlas x for different parts of a tree.
+ * Atlas Y is determined by specimen and lifestage
+ *
  * @author Alexander Kuzyakov on 25.11.2017.
- * <p>
- * stores atlas x for different perts of a tree
  */
 public enum TreeTileMapping {
     TRUNK(12, 0),

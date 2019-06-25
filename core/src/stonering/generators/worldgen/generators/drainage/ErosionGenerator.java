@@ -3,10 +3,8 @@ package stonering.generators.worldgen.generators.drainage;
 import com.badlogic.gdx.math.Vector2;
 import stonering.generators.worldgen.WorldGenContainer;
 import stonering.generators.worldgen.generators.AbstractGenerator;
-import stonering.global.utils.Position;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 
 /**

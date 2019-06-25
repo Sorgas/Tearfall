@@ -1,83 +1,98 @@
 package stonering.entity.local.crafting;
 
-import stonering.entity.local.items.Item;
-import stonering.entity.local.items.selectors.ItemSelector;
-import stonering.enums.items.Recipe;
-import stonering.game.core.GameMvc;
-import stonering.game.core.model.lists.ItemContainer;
-import stonering.global.utils.Position;
-import stonering.utils.global.Pair;
+import stonering.enums.OrderStatusEnum;
+import stonering.enums.items.recipe.ItemPartRecipe;
+import stonering.enums.items.recipe.Recipe;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
- * Contains recipe, item name and material id for crafting item.
+ * Contains recipe, item NAME and material id for crafting item.
  * Task for crafting creation is based on this.
- *
+ * <p>
  * For each required item part, player should specify item selector.
- *
+ * <p>
  * Changing order properties during task execution will not update task.
  * Repeated task will update on next iteration.
- *
+ * <p>
  * mvp is crafting 1 item from 1 item/material.
  *
  * @author Alexander on 27.10.2018.
  */
 public class ItemOrder {
-    private GameMvc gameMvc;
     private Recipe recipe;
-    private HashMap<String, ItemSelector> selectors;                            // itemPart to items selected for variant.
+    private List<ItemPartOrder> parts; // itemPart to item selected for variant.
+    private OrderStatusEnum status;
 
-    private Map<String, Pair<String, String>> materialItemMap;                  // ui string to (item type, material name)
-    private String selectedString;
+    private int amount;
+    private boolean repeated;
 
-    public ItemOrder(GameMvc gameMvc, Recipe recipe) {
-        this.gameMvc = gameMvc;
+    public ItemOrder() {
+        amount = 1;
+        status = OrderStatusEnum.WAITING;
+        parts = new ArrayList<>();
+    }
+
+    public ItemOrder(Recipe recipe) {
+        this();
         this.recipe = recipe;
-        materialItemMap = new HashMap<>();
-        selectors = new HashMap<>();
+        for (ItemPartRecipe itemPartRecipe : recipe.parts.values()) {
+            parts.add(new ItemPartOrder(this, itemPartRecipe.name));
+        }
     }
 
     /**
-     * Mvp for selecting material item. Gets items from map, filters them by availability and groups by materials and types.
-     *
-     * //TODO add steps usage.
-     * @return
+     * Order is defined, if all itemPartOrders have itemSelectors.
      */
-    public Set<String> getAvailableItemList(Position position) {
-        ItemContainer itemContainer = gameMvc.getModel().getItemContainer();
-        List<Item> items = itemContainer.getResourceItemListByMaterialType(recipe.getMaterial());
-        items = itemContainer.filterUnreachable(items, position);
-        materialItemMap = itemContainer.groupItemsByTypesAndMaterials(items);
-        return materialItemMap.keySet();
+    public boolean isDefined() {
+        for (ItemPartOrder part : parts) {
+            if (part.getSelected() == null) return false;
+        }
+        return true;
     }
 
-    /**
-     * Updates one selector. Used when payer selects some items for crafting.
-     *
-     * @param part
-     * @param selector
-     */
-    public void setSelector(String part, ItemSelector selector) {
-        selectors.put(part, selector);
+    public boolean isPaused() {
+        return status == OrderStatusEnum.PAUSED || status == OrderStatusEnum.SUSPENDED;
+    }
+
+    @Override
+    public String toString() {
+        return "ItemOrder{" + "recipe=" + recipe + '}';
+    }
+
+    public List<ItemPartOrder> getParts() {
+        return parts;
+    }
+
+    public void setParts(List<ItemPartOrder> parts) {
+        this.parts = parts;
     }
 
     public Recipe getRecipe() {
         return recipe;
     }
 
-    public HashMap<String, ItemSelector> getSelectors() {
-        return selectors;
+    public OrderStatusEnum getStatus() {
+        return status;
     }
 
-    public String getSelectedString() {
-        return selectedString;
+    public void setStatus(OrderStatusEnum status) {
+        this.status = status;
     }
 
-    public void setSelectedString(String selectedString) {
-        this.selectedString = selectedString;
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+    public boolean isRepeated() {
+        return repeated;
+    }
+
+    public void setRepeated(boolean repeated) {
+        this.repeated = repeated;
     }
 }

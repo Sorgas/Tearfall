@@ -1,21 +1,16 @@
 package stonering.generators.items;
 
-import stonering.enums.materials.MaterialMap;
-import stonering.enums.plants.TreeBlocksTypeEnum;
-import stonering.exceptions.DescriptionNotFoundException;
-import stonering.exceptions.FaultDescriptionException;
-import stonering.global.utils.Position;
-import stonering.entity.local.items.Item;
+import stonering.enums.plants.PlantBlocksTypeEnum;
+import stonering.entity.local.item.Item;
 import stonering.entity.local.plants.AbstractPlant;
-import stonering.entity.local.plants.Plant;
 import stonering.entity.local.plants.PlantBlock;
-import stonering.entity.local.plants.Tree;
+import stonering.enums.plants.PlantProduct;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Generator for products from plants.
- * //TODO refactor
  */
 public class PlantProductGenerator {
     private ItemGenerator itemGenerator;
@@ -24,82 +19,45 @@ public class PlantProductGenerator {
         itemGenerator = new ItemGenerator();
     }
 
+    /**
+     * On cutting, both cut and harvest products are dropped.
+     * Single tile plants can have multiple cut products.
+     */
     public ArrayList<Item> generateCutProduct(PlantBlock block) {
+        ArrayList<Item> items = new ArrayList<>();
         AbstractPlant plant = block.getPlant();
-        ArrayList<Item> items = new ArrayList<>();
-        if (plant instanceof Plant) {
-            ArrayList<String> products = new ArrayList<>();
-            Position plantPosition = block.getPosition();
-            products.addAll(block.getCutProducts());
-            products.addAll(block.getHarvestProducts());
-            products.forEach((product) -> createItem(product, plant.getCurrentStage().getMaterialName()));
-        } else if (plant instanceof Tree) {
-            ArrayList<String> products = new ArrayList<>();
+        if (plant.getType().isPlant()) {
+            List<String> productNames = block.getPlant().getCurrentStage().cutProducts;
+            productNames.forEach(name -> items.add(itemGenerator.generateItem(name, block.getMaterial())));
+        } else if (plant.getType().isTree()) {
             Item cutItem = generateCutProductForTreePart(block);
-            if (cutItem != null) {
-                items.add(cutItem);
-            }
-            products.addAll(block.getHarvestProducts());
-            products.forEach((product) -> items.add(createItem(product, plant.getCurrentStage().getMaterialName())));
+            if (cutItem != null) items.add(cutItem);
         }
+        Item harvestProduct = generateHarvestProduct(block);
+        if(harvestProduct != null) items.add(harvestProduct);
         return items;
-    }
-
-    public ArrayList<Item> generateHarvestProduct(PlantBlock block) {
-        ArrayList<Item> items = new ArrayList<>();
-        block.getCutProducts().forEach(s -> {
-            try {
-                items.add(generateProductForBlock(block, s));
-            } catch (FaultDescriptionException e) {
-                System.out.println("Descriptor for item " + s + " not found.");
-                e.printStackTrace();
-            }
-        });
-        return items;
-    }
-
-    private Item createItem(String name, String material) {
-//        try {
-        return itemGenerator.generateItem(name, material);
-//        } catch (FaultDescriptionException e) {
-//            e.printStackTrace();
-//        }
     }
 
     /**
-     * Generates tree specific items for blocks.
-     * //TODO add tree age in account;
-     *
-     * @param block block of tree.
-     * @return item or null;
+     * Generates harvest product from block only.
+     * Blocks can only have one product, Tree blocks are harvested separately.
      */
-    private Item generateCutProductForTreePart(PlantBlock block) {
-//        try {
-        String itemTitle = "";
-        switch (TreeBlocksTypeEnum.getType(block.getBlockType())) {
-            case TRUNK:
-            case STOMP: {
-                itemTitle = "log";
-                break;
-            }
-            case BRANCH: {
-                itemTitle = "branch";
-                break;
-            }
-            case ROOT: {
-                itemTitle = "root";
-            }
-        }
-        AbstractPlant plant = block.getPlant();
-        if (plant.getCurrentStage().getCutProducts().contains(itemTitle))
-            return itemGenerator.generateItem(itemTitle, block.getMaterial());
-//        } catch (FaultDescriptionException e) {
-//            e.printStackTrace();
-//        }
-        return null;
+    public Item generateHarvestProduct(PlantBlock block) {
+        if(block.isHarvested()) return null;
+        PlantProduct product = block.getPlant().getCurrentStage().harvestProduct;
+        if(product == null) return null;
+        return itemGenerator.generateItem(product.name, block.getMaterial());
     }
 
-    private Item generateProductForBlock(PlantBlock block, String itemTitle) throws FaultDescriptionException {
-        return itemGenerator.generateItem(itemTitle, block.getMaterial());
+    /**
+     * Generates tree specific item for blocks. Block can have only one product.
+     * Block product is determined by its type, and permitted products of whole tree (logs from trunk, etc.).
+     */
+    private Item generateCutProductForTreePart(PlantBlock block) {
+        String itemName = PlantBlocksTypeEnum.getType(block.getBlockType()).cutProduct;
+        if(itemName == null) return null;
+        List<String> cutProducts = block.getPlant().getCurrentStage().cutProducts;
+        if(cutProducts == null || !cutProducts.contains(itemName)) return null;
+        return itemGenerator.generateItem(itemName, block.getMaterial());
     }
 }

@@ -1,40 +1,35 @@
 package stonering.generators.localgen.generators;
 
 import stonering.enums.blocks.BlockTypesEnum;
-import stonering.game.core.model.LocalMap;
-import stonering.generators.localgen.LocalGenConfig;
+import stonering.game.model.local_map.LocalMap;
 import stonering.generators.localgen.LocalGenContainer;
 
 /**
- * @author Alexander Kuzyakov on 17.10.2017.
+ * fills local map with ramps on z-layer borders.
  *
- * fills local map with ramps on z-layer borders
+ * @author Alexander Kuzyakov on 17.10.2017.
  */
-public class LocalRampAndFloorPlacer {
+public class LocalRampAndFloorPlacer extends LocalAbstractGenerator {
     private LocalMap localMap;
-    private LocalGenConfig config;
-    private LocalGenContainer container;
+    private int wallCode = BlockTypesEnum.WALL.CODE;
+    private int spaceCode = BlockTypesEnum.SPACE.CODE;
+    private int rampCode = BlockTypesEnum.RAMP.CODE;
 
     public LocalRampAndFloorPlacer(LocalGenContainer container) {
-        this.config = container.getConfig();
-        this.container = container;
+        super(container);
     }
-
-    int wallCode = BlockTypesEnum.WALL.getCode();
-    int spaceCode = BlockTypesEnum.SPACE.getCode();
-    int rampCode = BlockTypesEnum.RAMP.getCode();
 
     public void execute() {
         System.out.println("placing ramps");
-        this.localMap = container.getLocalMap();
+        localMap = container.model.get(LocalMap.class);
         fillRamps();
         fillFloors();
     }
 
     private void fillRamps() {
-        for (int x = 0; x < localMap.getxSize(); x++) {
-            for (int y = 0; y < localMap.getxSize(); y++) {
-                for (int z = 1; z < localMap.getzSize(); z++) {
+        for (int x = 0; x < localMap.xSize; x++) {
+            for (int y = 0; y < localMap.xSize; y++) {
+                for (int z = 1; z < localMap.zSize; z++) {
                     if (isGround(x, y, z) && hasAdjacentWall(x,y,z)) {
                         localMap.setBlock(x, y, z, (byte) rampCode, adjacentWallMaterial(x, y, z));
                     }
@@ -44,11 +39,11 @@ public class LocalRampAndFloorPlacer {
     }
 
     private void fillFloors() {
-        for (int x = 0; x < localMap.getxSize(); x++) {
-            for (int y = 0; y < localMap.getySize(); y++) {
-                for (int z = localMap.getzSize() - 1; z > 0; z--) {
+        for (int x = 0; x < localMap.xSize; x++) {
+            for (int y = 0; y < localMap.ySize; y++) {
+                for (int z = localMap.zSize - 1; z > 0; z--) {
                     if (isFloorCell(x, y, z)) { //non space sell
-                        localMap.setBlock(x, y, z, BlockTypesEnum.FLOOR.getCode(), localMap.getMaterial(x, y, z - 1));
+                        localMap.setBlock(x, y, z, BlockTypesEnum.FLOOR.CODE, localMap.getMaterial(x, y, z - 1));
                     }
                 }
             }
@@ -86,7 +81,7 @@ public class LocalRampAndFloorPlacer {
     }
 
     private boolean isFloorCell(int x, int y, int z) {
-        return localMap.getBlockType(x, y, z) == BlockTypesEnum.SPACE.getCode() &&
-                localMap.getBlockType(x, y, z - 1) == BlockTypesEnum.WALL.getCode();
+        return localMap.getBlockType(x, y, z) == BlockTypesEnum.SPACE.CODE &&
+                localMap.getBlockType(x, y, z - 1) == BlockTypesEnum.WALL.CODE;
     }
 }

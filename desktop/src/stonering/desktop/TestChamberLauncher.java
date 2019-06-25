@@ -3,7 +3,8 @@ package stonering.desktop;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import stonering.game.MockGame;
+import stonering.test_chamber.TestChamberGame;
+import stonering.util.global.Logger;
 
 /**
  * @author Alexander on 30.10.2018.
@@ -16,7 +17,8 @@ public class TestChamberLauncher {
         config.height = 900;
         config.title = "TearFall";
         config.foregroundFPS = 30;
-        Game game = new MockGame();
+        Game game = new TestChamberGame();
+        Logger.enableAll();
         new LwjglApplication(game, config);
     }
 }

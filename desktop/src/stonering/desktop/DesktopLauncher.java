@@ -4,19 +4,20 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import stonering.TearFall;
-import stonering.utils.global.TagLoggersEnum;
+import stonering.util.global.Logger;
 
 public class DesktopLauncher {
 
     public static void main(String[] arg) {
         System.out.println("main");
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-        config.width = 1600;
-        config.height = 900;
+        config.width = 2000;
+        config.height = 1500;
         config.title = "TearFall";
         config.foregroundFPS = 30;
         Game game = new TearFall();
-        TagLoggersEnum.enableAll();
+        Logger.enableAll();
+//        Logger.UI.setEnabled(false);
         new LwjglApplication(game, config);
     }
 }

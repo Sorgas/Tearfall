@@ -2,8 +2,7 @@ package stonering.generators.localgen.generators;
 
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.materials.MaterialMap;
-import stonering.exceptions.DescriptionNotFoundException;
-import stonering.game.core.model.LocalMap;
+import stonering.game.model.local_map.LocalMap;
 import stonering.generators.localgen.LocalGenContainer;
 
 import java.util.*;
@@ -14,8 +13,7 @@ import java.util.*;
  *
  * @author Alexander Kuzyakov on 01.08.2017.
  */
-public class LocalStoneLayersGenerator {
-    private LocalGenContainer container;
+public class LocalStoneLayersGenerator extends LocalAbstractGenerator {
     private LocalMap map;
     private int[][] heigtsMap;
     private int surfaceLevel;
@@ -33,32 +31,27 @@ public class LocalStoneLayersGenerator {
             {"granite", "diorite", "gabbro", "peridotite", "pegmatite"}};  //intrusive
 
     public LocalStoneLayersGenerator(LocalGenContainer container) {
-        this.container = container;
-
+        super(container);
     }
 
     public void execute() {
         System.out.println("generating stone layers");
-        map = this.container.getLocalMap();
-        heigtsMap = this.container.getRoundedHeightsMap();
-        surfaceLevel = container.getLocalElevation();
+        map = this.container.model.get(LocalMap.class);
+        heigtsMap = this.container.roundedHeightsMap;
+        surfaceLevel = container.localElevation;
         layerIds = new int[surfaceLevel];
         if (surfaceLevel > 300) {
             hasExtrusive = true;
         }countLayers();
-        try {
-            generateLayers();
-        } catch (DescriptionNotFoundException e) {
-            e.printStackTrace();
-        }
+        generateLayers();
         fillLayers();
     }
 
     private void fillLayers() {
         int id;
-        for (int x = 0; x < map.getxSize(); x++) {
-            for (int y = 0; y < map.getySize(); y++) {
-                for (int z = map.getzSize() - 1; z >= 0; z--) {
+        for (int x = 0; x < map.xSize; x++) {
+            for (int y = 0; y < map.ySize; y++) {
+                for (int z = map.zSize - 1; z >= 0; z--) {
                     if (z <= heigtsMap[x][y]) { //non space sell
                         id = z - (heigtsMap[x][y] - (layerIds.length - 1));
                         id = id < 0 ? 0 : id;
@@ -70,7 +63,7 @@ public class LocalStoneLayersGenerator {
     }
 
     private void countLayers() {
-        soilLayer = (int) (10 - (surfaceLevel - container.getConfig().getWorldToLocalElevationModifier() * 0.5f) / 20);
+        soilLayer = (int) (10 - (surfaceLevel - container.config.getWorldToLocalElevationModifier() * 0.5f) / 20);
 
         intrusiveLayer = surfaceLevel - 150;
 
@@ -84,7 +77,7 @@ public class LocalStoneLayersGenerator {
         }
     }
 
-    private void generateLayers() throws DescriptionNotFoundException {
+    private void generateLayers() {
         int i = layerIds.length - 1;
         int soilId = MaterialMap.getInstance().getId("soil");
         for (int soilIndex = 0; soilIndex < soilLayer; soilIndex++) {
@@ -96,8 +89,8 @@ public class LocalStoneLayersGenerator {
                 sedimentaryLayer - metamorficLayer,
                 metamorficLayer - intrusiveLayer,
                 intrusiveLayer};
-        int[] maxSubLayerNumber = container.getConfig().getSublayerMaxCount();
-        int[] minSubLayerThickness = container.getConfig().getSublayerMinThickness();
+        int[] maxSubLayerNumber = container.config.getSublayerMaxCount();
+        int[] minSubLayerThickness = container.config.getSublayerMinThickness();
         for (int g = 0; g < globalLayers.length; g++) {
             if (globalLayers[g] > 0) { //check thickness
                 int subLayerNumber = Math.min(globalLayers[g] / minSubLayerThickness[g] + 1, maxSubLayerNumber[g]);
@@ -115,7 +108,7 @@ public class LocalStoneLayersGenerator {
         }
     }
 
-    public int[] getIdsByStoneType(int num, int seed, int stoneType) throws DescriptionNotFoundException {
+    public int[] getIdsByStoneType(int num, int seed, int stoneType) {
         Random random = new Random(seed);
         MaterialMap materialMap = MaterialMap.getInstance();
         int[] ids = new int[num];
@@ -129,13 +122,5 @@ public class LocalStoneLayersGenerator {
             stoneTypeNames.remove(0);
         }
         return ids;
-    }
-
-    public void setSurfaceLevel(int surfaceLevel) {
-        this.surfaceLevel = surfaceLevel;
-    }
-
-    public void setHeigtsMap(int[][] heigtsMap) {
-        this.heigtsMap = heigtsMap;
     }
 }

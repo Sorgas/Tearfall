@@ -4,6 +4,8 @@ import stonering.generators.worldgen.WorldGenContainer;
 
 /**
  * Determines biomes marks for each cell of the world.
+ * Should be used only for rendering world maps and not for flora/fauna areals determination.
+ * Plants and animals should spread across different biomes.
  *
  * @author Alexander on 02.10.2018.
  */

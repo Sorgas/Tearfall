@@ -8,7 +8,7 @@ import stonering.exceptions.DescriptionNotFoundException;
 import stonering.exceptions.FaultDescriptionException;
 import stonering.entity.local.unit.Unit;
 import stonering.entity.local.unit.aspects.BodyAspect;
-import stonering.utils.global.FileLoader;
+import stonering.util.global.FileLoader;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -35,10 +35,10 @@ public class BodyGenerator {
         templates = reader.parse(FileLoader.getFile(FileLoader.BODY_TEMPLATE_PATH));
     }
 
-    public BodyAspect generateBody(JsonValue creature, Unit unit) {
+    public BodyAspect generateBodyAspect(JsonValue creature) {
         try {
             JsonValue template = findTemplate(creature.getString("body_template"));
-            BodyAspect bodyAspect = generateBodyAspectFromTemplate(template, unit);
+            BodyAspect bodyAspect = generateBodyAspectFromTemplate(template);
             return bodyAspect;
         } catch (DescriptionNotFoundException | FaultDescriptionException e) {
             e.printStackTrace();
@@ -53,8 +53,8 @@ public class BodyGenerator {
         throw new DescriptionNotFoundException("Body template " + template + "not found");
     }
 
-    private BodyAspect generateBodyAspectFromTemplate(JsonValue template, Unit unit) throws FaultDescriptionException {
-        BodyAspect bodyAspect = new BodyAspect(unit);
+    private BodyAspect generateBodyAspectFromTemplate(JsonValue template) throws FaultDescriptionException {
+        BodyAspect bodyAspect = new BodyAspect(null);
         HashMap<String, BodyAspect.BodyPart> bodyParts = new HashMap<>();
         for (JsonValue bp : template.get("body")) { // read template to map
             BodyAspect.BodyPart bodyPart = generateBodyPart(bp, template, bodyAspect);
@@ -88,7 +88,7 @@ public class BodyGenerator {
     }
 
     /**
-     * Links body parts to their base ones, e.g. hands to lower arms, heads to necks etc.
+     * Links body parts to their renderer ones, e.g. hands to lower arms, heads to necks etc.
      *
      * @param bodyParts
      * @throws FaultDescriptionException if "root" in body part description is wrong.

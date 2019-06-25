@@ -1,37 +1,33 @@
 package stonering.entity.local;
 
-import stonering.game.core.model.GameContainer;
-import stonering.game.core.model.Turnable;
+import stonering.game.GameMvc;
+import stonering.game.model.Turnable;
+import stonering.util.global.Initable;
 
 import java.io.Serializable;
 
 /**
  * @author Alexander Kuzyakov on 10.10.2017.
  */
-public abstract class Aspect extends Turnable implements Serializable {
-    protected GameContainer gameContainer;
-    protected String name;
-    protected AspectHolder aspectHolder;
+public abstract class Aspect extends Turnable implements Initable, Serializable {
+    protected GameMvc gameMvc;
+    protected Entity entity;
 
-    public Aspect(String name, AspectHolder aspectHolder) {
-        this.name = name;
-        this.aspectHolder = aspectHolder;
+    public Aspect(Entity entity) {
+        this.entity = entity;
     }
 
-    public String getName() {
-        return name;
+    public Entity getEntity() {
+        return entity;
     }
 
-    public AspectHolder getAspectHolder() {
-        return aspectHolder;
+    public void setEntity(Entity entity) {
+        this.entity = entity;
     }
 
-    public void setAspectHolder(AspectHolder aspectHolder) {
-        this.aspectHolder = aspectHolder;
-    }
-
-    public void init(GameContainer gameContainer) {
-        this.gameContainer = gameContainer;
+    @Override
+    public void init() {
+        gameMvc = GameMvc.instance();
     }
 
     @Override

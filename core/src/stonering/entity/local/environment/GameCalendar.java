@@ -1,7 +1,9 @@
 package stonering.entity.local.environment;
 
-import stonering.game.core.model.IntervalTurnable;
-import stonering.game.core.model.Turnable;
+import stonering.game.model.IntervalTurnable;
+import stonering.game.model.ModelComponent;
+import stonering.game.model.Turnable;
+import stonering.util.global.Initable;
 
 import java.util.*;
 
@@ -10,14 +12,19 @@ import java.util.*;
  *
  * @author Alexander on 07.10.2018.
  */
-public class GameCalendar extends Turnable {
-    private HashMap<String, List<IntervalTurnable>> listeners;
-    private static int MINUTE_SIZE = 60;
-    private static int HOUR_SIZE = 60;
-    private static int DAY_SIZE = 24;
-    private static int MONTH_SIZE = 30;
-    private static int YEAR_SIZE = 12;
+public class GameCalendar extends Turnable implements ModelComponent, Initable {
+    public static int MINUTE_SIZE = 10;
+    public static int HOUR_SIZE = 5;
+    public static int DAY_SIZE = 24;
+    public static int MONTH_SIZE = 2;
+    public static int YEAR_SIZE = 12;
+    public static final String MINUTE = "minute";
+    public static final String HOUR = "hour";
+    public static final String DAY = "day";
+    public static final String MONTH = "month";
+    public static final String YEAR = "year";
 
+    private HashMap<String, List<IntervalTurnable>> listeners;
     private int time;
     private int minute;
     private int hour;
@@ -28,11 +35,16 @@ public class GameCalendar extends Turnable {
     public GameCalendar() {
         listeners = new HashMap<>();
         ArrayList<IntervalTurnable> mock = new ArrayList<>(Collections.singleton(new MockTurnable()));
-        listeners.put("minute", mock);
-        listeners.put("hour", mock);
-        listeners.put("day", mock);
-        listeners.put("month", mock);
-        listeners.put("year", mock);
+        listeners.put(MINUTE, mock);
+        listeners.put(HOUR, mock);
+        listeners.put(DAY, mock);
+        listeners.put(MONTH, mock);
+        listeners.put(YEAR, mock);
+    }
+
+    @Override
+    public void init() {
+
     }
 
     /**
@@ -44,22 +56,25 @@ public class GameCalendar extends Turnable {
         if (time >= MINUTE_SIZE) {
             time = 0;
             minute++;
-            listeners.get("minute").forEach(IntervalTurnable::turnMinute);
+            listeners.get(MINUTE).forEach(IntervalTurnable::turnMinute);
             if (minute >= HOUR_SIZE) {
                 minute = 0;
                 hour++;
-                listeners.get("hour").forEach(IntervalTurnable::turnHour);
+//                System.out.println("hour" + hour);
+                listeners.get(HOUR).forEach(IntervalTurnable::turnHour);
                 if (hour >= DAY_SIZE) {
                     hour = 0;
                     day++;
-                    listeners.get("day").forEach(IntervalTurnable::turnDay);
+//                    System.out.println("day" + day);
+                    listeners.get(DAY).forEach(IntervalTurnable::turnDay);
                     if (day >= MONTH_SIZE) {
                         day = 0;
                         month++;
-                        listeners.get("month").forEach(IntervalTurnable::turnMonth);
+//                        System.out.println("month" + month);
+                        listeners.get(MONTH).forEach(IntervalTurnable::turnMonth);
                         if (month >= YEAR_SIZE) {
                             year++;
-                            listeners.get("year").forEach(IntervalTurnable::turnYear);
+                            listeners.get(YEAR).forEach(IntervalTurnable::turnYear);
                         }
                     }
                 }
@@ -76,10 +91,6 @@ public class GameCalendar extends Turnable {
     }
 
     private class MockTurnable extends IntervalTurnable {}
-
-    public void init() {
-        //TODO
-    }
 
     public int getTime() {
         return time;

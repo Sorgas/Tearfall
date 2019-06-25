@@ -2,12 +2,13 @@ package stonering.generators.localgen.generators;
 
 import com.badlogic.gdx.math.CatmullRomSpline;
 import com.badlogic.gdx.math.Vector2;
+import stonering.entity.world.World;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.materials.MaterialMap;
-import stonering.game.core.model.LocalMap;
+import stonering.game.model.local_map.LocalMap;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.entity.world.WorldMap;
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 import stonering.entity.local.environment.WaterSource;
 
 import java.util.ArrayList;
@@ -21,8 +22,7 @@ import java.util.Collections;
  *
  * @author Alexander Kuzyakov on 10.07.2017.
  */
-public class LocalRiverGenerator {
-    private LocalGenContainer container;
+public class LocalRiverGenerator extends LocalAbstractGenerator {
     private WorldMap worldMap;
     private LocalMap localMap;
     private Position location;
@@ -31,10 +31,10 @@ public class LocalRiverGenerator {
     private ArrayList<Flow> flows;
 
     private Inflow outflow;
-    private MaterialMap materialMap;
+    private transient MaterialMap materialMap;
 
     public LocalRiverGenerator(LocalGenContainer container) {
-        this.container = container;
+        super(container);
     }
 
     public void execute() {
@@ -47,11 +47,11 @@ public class LocalRiverGenerator {
     }
 
     private void extractContainer() {
-        worldMap = container.getWorld().getWorldMap();
-        location = container.getConfig().getLocation();
+        worldMap = container.model.get(World.class).getWorldMap();
+        location = container.config.getLocation();
         inflows = new ArrayList<>();
         flows = new ArrayList<>();
-        localMap = container.getLocalMap();
+        localMap = container.model.get(LocalMap.class);
         materialMap = MaterialMap.getInstance();
     }
 
@@ -118,7 +118,7 @@ public class LocalRiverGenerator {
     private void makeFlows() {
         //TODO currently all flows have straight splines with common end point on the border of the map. This need to be changed to curved splines merging one to another.
         inflows.sort((o1, o2) -> Math.round((o1.waterAmount - o2.waterAmount))); // sort by size
-        Position currentEnd = outflow != null ? outflow.localStart : new Position(localMap.getxSize() / 2, localMap.getySize() / 2, 0);
+        Position currentEnd = outflow != null ? outflow.localStart : new Position(localMap.xSize / 2, localMap.ySize / 2, 0);
         if (!inflows.isEmpty()) {
             for (Inflow inflow : inflows) {
                 Flow flow = new Flow();
@@ -132,7 +132,7 @@ public class LocalRiverGenerator {
             }
         } else {
             Flow flow = new Flow();
-            flow.start = new Position(localMap.getxSize() / 2, localMap.getySize() / 2, 0);
+            flow.start = new Position(localMap.xSize / 2, localMap.ySize / 2, 0);
             flow.end = currentEnd;
             flow.isRiver = outflow.isRiver;
             flow.waterAmount = outflow.waterAmount;
@@ -171,7 +171,7 @@ public class LocalRiverGenerator {
         Inflow inflow = new Inflow();
         inflow.isRiver = river;
         inflow.offset = new Position(dx, dy, 0);
-        inflow.localStart = new Position((dx + 1) * ((localMap.getxSize() - 1) / 2), (dy + 1) * ((localMap.getySize() - 1) / 2), 0);
+        inflow.localStart = new Position((dx + 1) * ((localMap.xSize - 1) / 2), (dy + 1) * ((localMap.ySize - 1) / 2), 0);
         if (river) {
             inflow.waterAmount = worldMap.getRiver(location.getX() + dx, location.getY() + dy).len();
         } else {
@@ -191,7 +191,7 @@ public class LocalRiverGenerator {
         Vector2 point = new Vector2();
         Vector2 start = spline.valueAt(point, 0).cpy();
         int currentElevation = getElevationInPoint(start);
-        float step = 1f / localMap.getxSize();
+        float step = 1f / localMap.xSize;
         for (float i = 0; i < 1; i += step) {
             spline.valueAt(point, i);
             if (localMap.inMap(point)) {
@@ -213,7 +213,7 @@ public class LocalRiverGenerator {
         int x = Math.round(vector.x);
         int y = Math.round(vector.y);
         if (localMap.inMap(x, y, 0)) {
-            return container.getRoundedHeightsMap()[x][y];
+            return container.roundedHeightsMap[x][y];
         }
         return -1;
     }
@@ -233,7 +233,7 @@ public class LocalRiverGenerator {
         for (int x = cx; x < cx + brush.depthPattern.length; x++) {
             for (int y = cy; y < cy + brush.depthPattern.length; y++) {
                 if (localMap.inMap(x, y, 0)) {
-                    int elevation = Math.min(container.getRoundedHeightsMap()[x][y], maxElevation);
+                    int elevation = Math.min(container.roundedHeightsMap[x][y], maxElevation);
                     updateLocalMapAndRoundedHeightMap(x, y, elevation, isStart && localMap.isBorder(x, y));
                 }
             }
@@ -248,17 +248,17 @@ public class LocalRiverGenerator {
      * @param elevation
      */
     private void updateLocalMapAndRoundedHeightMap(int x, int y, int elevation, boolean isWaterSource) {
-        for (int z = elevation; z <= container.getRoundedHeightsMap()[x][y]; z++) {
+        for (int z = elevation; z <= container.roundedHeightsMap[x][y]; z++) {
             localMap.setBlock(x, y, z, BlockTypesEnum.SPACE, materialMap.getId("air"));
             if (z <= elevation) {
 //                localMap.setFlooding(x, y, z, 8);
-                container.getWaterTiles().add(new Position(x,y,z));
+                container.waterTiles.add(new Position(x,y,z));
                 if (isWaterSource) {
                     Position position = new Position(x, y, z);
-                    if (!container.getWaterSources().contains(position)) {
+                    if (!container.waterSources.contains(position)) {
                         System.out.println("water source: " + position);
                         WaterSource waterSource = new WaterSource(position, materialMap.getId("water"));
-                        container.getWaterSources().add(position);
+                        container.waterSources.add(position);
 //                        localMap.getWaterSources().put(position, waterSource);
                     }
                 }

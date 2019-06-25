@@ -1,8 +1,8 @@
 package stonering.entity.local.building;
 
-import stonering.global.utils.Position;
-import stonering.entity.local.Aspect;
-import stonering.entity.local.AspectHolder;
+import stonering.entity.local.PositionedEntity;
+import stonering.util.geometry.Position;
+import stonering.entity.local.Entity;
 import stonering.entity.local.unit.Unit;
 
 import java.util.HashMap;
@@ -12,26 +12,16 @@ import java.util.HashMap;
  *
  * @author Alexander Kuzyakov on 07.12.2017.
  */
-public class Building extends AspectHolder {
-    private String name;
+public class Building extends PositionedEntity { // TODO split to aspects
     private Unit owner;
     private int material;
     private BuildingType type;
     private BuildingBlock block;
 
-    public Building(Position position,BuildingType type) {
+    public Building(Position position, BuildingType type) {
         super(position);
         this.type = type;
-        aspects = new HashMap<>();
         block = new BuildingBlock(this);
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public Unit getOwner() {
@@ -40,10 +30,6 @@ public class Building extends AspectHolder {
 
     public void setOwner(Unit owner) {
         this.owner = owner;
-    }
-
-    public void setAspects(HashMap<String, Aspect> aspects) {
-        this.aspects = aspects;
     }
 
     public int getMaterial() {
@@ -64,5 +50,10 @@ public class Building extends AspectHolder {
 
     public BuildingType getType() {
         return type;
+    }
+
+    @Override
+    public String toString() {
+        return type.title;
     }
 }

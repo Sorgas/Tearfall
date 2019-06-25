@@ -1,20 +1,16 @@
 package stonering;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.Gdx;
 import stonering.entity.world.World;
-import stonering.game.core.GameMvc;
-import stonering.generators.localgen.LocalGenContainer;
-import stonering.menu.main.MainMenu;
-import stonering.menu.new_game.LocalGenerationScreen;
-import stonering.menu.new_game.PrepareExpeditionMenu;
-import stonering.menu.new_game.SelectLocationMenu;
-import stonering.menu.new_game.SelectWorldMenu;
-import stonering.global.utils.Position;
-import stonering.menu.worldgen.WorldGenScreen;
+import stonering.game.GameMvc;
+import stonering.screen.MainMenuScreen;
+import stonering.screen.LocalGenerationScreen;
+import stonering.screen.PrepareExpeditionMenu;
+import stonering.screen.SelectLocationMenu;
+import stonering.screen.SelectWorldScreen;
+import stonering.util.geometry.Position;
+import stonering.screen.WorldGenScreen;
 
 /**
  * Game object. Container of screens.
@@ -22,27 +18,21 @@ import stonering.menu.worldgen.WorldGenScreen;
  * @author Alexander Kuzyakov on 08.04.2017.
  */
 public class TearFall extends Game {
-    private MainMenu mainMenu;
+    private MainMenuScreen mainMenuScreen;
     private WorldGenScreen worldGenScreen;
-    private SelectWorldMenu selectWorldMenu;
+    private SelectWorldScreen selectWorldScreen;
     private SelectLocationMenu selectLocationMenu;
     private PrepareExpeditionMenu prepareExpeditionMenuMvc;
     private LocalGenerationScreen localGenerationScreen;
-    private GameMvc gameMvc;
-
-    private BitmapFont font;
-    private Skin skin;
 
     @Override
     public void create() {
-        createFont();
-        createSkin();
         switchMainMenu();
     }
 
     public void switchMainMenu() {
-        if (mainMenu == null) mainMenu = new MainMenu(this);
-        setScreen(mainMenu);
+        if (mainMenuScreen == null) mainMenuScreen = new MainMenuScreen(this);
+        setScreen(mainMenuScreen);
     }
 
     public void switchWorldGenMenu() {
@@ -51,8 +41,8 @@ public class TearFall extends Game {
     }
 
     public void switchWorldsSelectMenu() {
-        if (selectWorldMenu == null) selectWorldMenu = new SelectWorldMenu(this);
-        setScreen(selectWorldMenu);
+        if (selectWorldScreen == null) selectWorldScreen = new SelectWorldScreen(this);
+        setScreen(selectWorldScreen);
     }
 
     public void switchLocationSelectMenu(World world) {
@@ -75,26 +65,19 @@ public class TearFall extends Game {
         setScreen(localGenerationScreen);
     }
 
-    public void switchToGame(LocalGenContainer container) {
-        gameMvc = new GameMvc(container);
-        setScreen(gameMvc.getView());
+    public void switchToGame() {
+        setScreen(GameMvc.instance().getView());
     }
 
-    private void createFont() {
-        font = new BitmapFont();
-        font.setColor(0.2f, 0.2f, 0.2f, 1);
+    @Override
+    public void resize(int width, int height) {
+        super.resize(width, height);
     }
 
-    private void createSkin() {
-        TextureAtlas atlas = new TextureAtlas(new FileHandle("ui_skin/uiskin.atlas"));
-        skin = new Skin(new FileHandle("ui_skin/uiskin.json"), atlas);
-    }
-
-    public BitmapFont getFont() {
-        return font;
-    }
-
-    public Skin getSkin() {
-        return skin;
+    @Override
+    public void render() {
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClear(Gdx.gl20.GL_COLOR_BUFFER_BIT | Gdx.gl20.GL_DEPTH_BUFFER_BIT);
+        super.render();
     }
 }

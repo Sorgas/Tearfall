@@ -8,47 +8,39 @@ import java.util.HashMap;
  * @author Alexander Kuzyakov on 01.08.2017.
  */
 public enum BlocksTileMapping {
-    WALL((byte) 1, (byte) 0),
-    FLOOR((byte) 2, (byte) 1),
-    STAIRS((byte) 3, (byte) 14),
+    WALL(1, 0),
+    FLOOR(2, 1),
+    STAIRS(3, 14), //TODO move STAIRS next to FLOOR, add STAIR_FLOOR and FARM, update assets
 
-    RAMP_N((byte) 3, (byte) 2),//(0,1)
-    RAMP_S((byte) 4, (byte) 3),//(0,-1)
-    RAMP_W((byte) 5, (byte) 4),//(-1,0)
-    RAMP_E((byte) 6, (byte) 5),//(1,0)
+    RAMP_N(3, 2), // (0,1)
+    RAMP_S(4, 3), // (0,-1)
+    RAMP_W(5, 4), // (-1,0)
+    RAMP_E(6, 5), // (1,0)
 
-    RAMP_NW((byte) 7, (byte) 6),
-    RAMP_NE((byte) 8, (byte) 7),
-    RAMP_SW((byte) 9, (byte) 8),
-    RAMP_SE((byte) 10, (byte) 9),
+    RAMP_NW(7, 6),
+    RAMP_NE(8, 7),
+    RAMP_SW(9, 8),
+    RAMP_SE(10, 9),
 
-    RAMP_NWO((byte) 11, (byte) 10),
-    RAMP_NEO((byte) 12, (byte) 11),
-    RAMP_SWO((byte) 13, (byte) 12),
-    RAMP_SEO((byte) 14, (byte) 13);
+    RAMP_NWO(11, 10),
+    RAMP_NEO(12, 11),
+    RAMP_SWO(13, 12),
+    RAMP_SEO(14, 13);
 
-    private byte code;
-    private byte atlasX;
+    public final byte CODE;
+    public final byte ATLAS_X;
     private static HashMap<Byte, BlocksTileMapping> map;
 
     static {
         map = new HashMap<>();
         for (BlocksTileMapping type : BlocksTileMapping.values()) {
-            map.put(type.code, type);
+            map.put(type.CODE, type);
         }
     }
 
-    BlocksTileMapping(byte code, byte atlasX) {
-        this.code = code;
-        this.atlasX = atlasX;
-    }
-
-    public byte getCode() {
-        return code;
-    }
-
-    public byte getAtlasX() {
-        return atlasX;
+    BlocksTileMapping(int code, int atlasX) {
+        this.CODE = (byte) code;
+        this.ATLAS_X = (byte) atlasX;
     }
 
     public static BlocksTileMapping getType(byte code) {

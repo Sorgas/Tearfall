@@ -1,7 +1,7 @@
 package stonering.entity.world;
 
 import com.badlogic.gdx.math.Vector2;
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 
 import java.util.ArrayList;
 import java.util.List;

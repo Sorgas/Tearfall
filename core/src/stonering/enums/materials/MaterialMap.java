@@ -3,12 +3,11 @@ package stonering.enums.materials;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
-import stonering.utils.global.FileLoader;
+import stonering.util.global.FileLoader;
+import stonering.util.global.Logger;
 
 import java.util.*;
-import java.util.stream.Collectors;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Singleton map of material types. Types are stored by their names.
@@ -59,6 +58,7 @@ public class MaterialMap {
     }
 
     public int getId(String name) {
+        if(!ids.containsKey(name)) Logger.ITEMS.logError("no material with name " + name + " exist");
         return ids.get(name);
     }
 
@@ -71,7 +71,7 @@ public class MaterialMap {
         HashSet<String> typesSet = new HashSet<>(types);
         HashSet<Integer> idsSet = new HashSet<>();
         materials.values().stream().
-                filter(material -> !Collections.disjoint(typesSet, material.getTypes())).
+                filter(material -> !Collections.disjoint(typesSet, material.getTags())).
                 forEach(material -> idsSet.add(material.getId()));
         return idsSet;
     }
@@ -81,10 +81,10 @@ public class MaterialMap {
      * @param type
      * @return HashSet of material ids
      */
-    public HashSet<Integer> getMaterialsByType(String type) {
+    public Set<Integer> getMaterialsByType(String type) {
         HashSet<Integer> idsSet = new HashSet<>();
         materials.values().stream().
-                filter(material -> material.getTypes().contains(type)).
+                filter(material -> material.getTags().contains(type)).
                 forEach(material -> idsSet.add(material.getId()));
         return idsSet;
     }

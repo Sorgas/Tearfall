@@ -1,8 +1,8 @@
 package stonering.generators.aspect;
 
 import stonering.entity.local.Aspect;
-import stonering.entity.local.AspectHolder;
-import stonering.entity.local.items.aspects.FallingAspect;
+import stonering.entity.local.Entity;
+import stonering.entity.local.item.aspects.FallingAspect;
 
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
@@ -21,16 +21,16 @@ public class AspectGenerator {
         aspectMapping.put("falling", FallingAspect.class);
     }
 
-    public static Optional<Aspect> createAspect(String name, AspectHolder aspectHolder) {
+    public static Optional<Aspect> createAspect(String name, Entity entity) {
         Class aspectClass = aspectMapping.get(name);
         Optional<Aspect> maybeAspect = Optional.empty();
 
         if (aspectClass != null) {
 
             try {
-                Class[] types = { AspectHolder.class };
+                Class[] types = { Entity.class };
                 Constructor<Aspect> constructor = aspectClass.getConstructor(types);
-                Object[] params = { aspectHolder };
+                Object[] params = {entity};
                 maybeAspect = Optional.of(constructor.newInstance(params));
             } catch (Exception e) {
                 e.printStackTrace();

@@ -1,0 +1,164 @@
+/**
+    temperatureBounds:
+        1,2: temperature for plant to occur during generation,
+        3,4: max/min temperature to grow in realtime.
+    placingTags:     // determines special requirements of this plant to environment
+        //TODO distinct running and stagnant water
+        water_near   // 1-2 tiles to water source.
+        water_far    // farer than 1-2 tiles.         default
+        water_on     // surface of full water tiles.
+        water_under  // bottom of water pool.
+
+        light_underground  // only tiles in caves
+        light_low          // low light like in the tree shadow
+        light_high         // direct acces to light
+        light_open         // low or high                   default
+
+        soil_soil          // grows on soil                default
+        soil_stone         // grows on stones (mosses)
+        soil_wood          // grows on wooden floors
+
+    treeType:
+        crownRadius, height, rootDepth, rootRadius for trees
+    lifeStages:
+        stages with length, products, material and sprite.
+    harvestProduct:
+        item,
+        number formula (per block), // format: [min]-[max]/[divider] roll [min, max] will be lowered by divider and rounded up
+        months // numbers of months (0,11) or 'all' keyword when product can be got.
+        // for trees, products got only from crone.
+
+    default values are set in PlantMap
+*/
+[
+    {
+        "name":"red_moss",
+        "title":"Red Moss",
+        "description":"Red Moss",
+        "materialName":"willow",
+        "temperatureBounds":["-40", "40"],
+        "rainfallBounds":["0", "100"],
+        "placingTags":["water_near", "water_far", "soil_stone"],
+        "lifeStages":[
+            {
+                "stageLength":"1",
+                "harvestProduct":["red_moss", "1-1-1", "all"],
+                "atlasXY":["1", "0"],
+                "color":"0xffffffff"
+            }
+        ]
+    }, {
+    "name":"bush",
+    "title":"bush",
+    "description":"Bush",
+    "materialName":"willow",
+    "temperatureBounds":["-40", "40"],
+    "rainfallBounds":["0", "100"],
+    "placingTags":["near", "far"],
+    "lifeStages":[
+        {
+            "stageLength":"1",
+            "cutProducts":["branch", "root"],
+            "atlasXY":["0", "0"],
+            "color":"0xffffffff"
+        }
+    ]
+}, {
+    "name":"blue_berry",
+    "title":"Blueberry",
+    "description":"Small plant with blue edible berries.",
+    "materialName":"generic_plant",
+    "temperatureBounds":["-40", "40"],
+    "rainfallBounds":["0", "100"],
+    "placingTags":["water_near", "water_far"],
+    "lifeStages":[
+        {
+            "stageLength":"1",
+            "harvestProduct":["blueberry", "1-1-1", "4,5,6"],
+            "atlasXY":["2", "0"],
+            "color":"0xffffffff"
+        }
+    ]
+},
+    {
+        "name":"puffball_mushroom",
+        "title":"Puffball mushroom",
+        "description":"Edible mushroom  ",
+        "materialName":"willow",
+        "temperatureBounds":["-40", "40"],
+        "rainfallBounds":["0", "100"],
+        "placingTags":["light_low", "light_underground"],
+        "lifeStages":[
+            {
+                "stageLength":"2",
+                "atlasXY":["3", "0"],
+                "color":"0xffffffff"
+            },
+            {
+                "stageLength":"3",
+                "atlasXY":["4", "0"],
+                "color":"0xffffffff"
+            },
+            {
+                "stageLength":"1",
+                "atlasXY":["5", "0"],
+                "color":"0xffffffff"
+            }
+        ]
+    },
+    {
+        "name":"cattail",
+        "title":"Сattail",
+        "description":"Сattail",
+        "materialName":"willow",
+        "temperatureBounds":["-40", "40"],
+        "rainfallBounds":["0", "100"],
+        "placingTags":["water_near"],
+        "lifeStages":[
+            {
+                "stageLength":"2",
+                "atlasXY":["6", "0"],
+                "color":"0xffffffff"
+            },
+            {
+                "stageLength":"3",
+                "atlasXY":["7", "0"],
+                "color":"0xffffffff"
+            },
+            {
+                "stageLength":"1",
+                "atlasXY":["8", "0"],
+                "color":"0xffffffff"
+            }
+        ]
+    },
+    {
+        "name":"tomato",
+        "title":"Tomato",
+        "description":"Tomato",
+        "materialName":"willow",
+        "temperatureBounds":["-40", "40"],
+        "rainfallBounds":["0", "100"],
+        "placingTags":[],
+        "plantingStart":["1", "2", "3"],
+        "lifeStages":[
+            {
+                "titlePrefixSuffix":["", "sapling"],
+                "stageLength":"2",
+                "atlasXY":["0", "0"],
+                "color":"0xffffffff"
+            },
+            {
+                "stageLength":"3",
+                "atlasXY":["7", "0"],
+                "color":"0xffffffff"
+            },
+            {
+                "titlePrefixSuffix":["", ""],
+                "stageLength":"1",
+                "atlasXY":["8", "0"],
+                "color":"0xffffffff"
+            }
+        ]
+    }
+]

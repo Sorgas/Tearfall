@@ -1,331 +1,99 @@
 [
     {
-        "name":"pickaxe",
-        "title":"Pickaxe",
-        "aspects":{
-            "falling":[
-                "1"
-            ]
-        },
-        "valueMod":"0",
-        "isResource":false,
-        "tool":{
-            "class":"tool_c",
-            "actions":[
-                {
-                    "class":"action_c",
-                    "action":"dig",
-                    "speedMod":"1",
-                    "part":"head"
-                }
-            ],
-            "attacks":[
-                {
-                    "class":"attack_c",
-                    "attack":"hit",
-                    "baseReload":1,
-                    "damageMod":0.3,
-                    "damageType":"pierce",
-                    "part":"head"
-                }
-            ]
-        },
-        "atlasY":"0",
-        "atlasX":"0",
-        "color":{
-            "class":"color_c",
-            "r":"1",
-            "g":"1",
-            "b":"1",
-            "a":"1"
-        }
-    },
-    {
-        "name":"sickle",
-        "title":"Sickle",
-        "aspects":{
-            "falling":[
-                "1"
-            ]
-        },
-        "valueMod":"0",
-        "isResource":false,
-        "tool":{
-            "class":"tool_c",
-            "actions":[
-                {
-                    "class":"action_c",
-                    "action":"harvest_plants",
-                    "speedMod":"1"
-                }
-            ],
-            "attacks":[
-                {
-                    "class":"attack_c",
-                    "attack":"hit",
-                    "baseReload":1,
-                    "damageMod":0.3,
-                    "damageType":"cut"
-                }
-            ]
-        },
-        "atlasY":"0",
-        "atlasX":"7",
-        "color":{
-            "class":"color_c",
-            "r":"1",
-            "g":"1",
-            "b":"1",
-            "a":"1"
-        }
-    },
-    {
-        "name":"axe",
-        "title":"Axe",
-        "aspects":{
-            "falling":[
-                "1"
-            ]
-        },
-        "valueMod":"0",
-        "isResource":false,
-        "tool":{
-            "class":"tool_c",
-            "actions":[
-                {
-                    "class":"action_c",
-                    "action":"chop",
-                    "speedMod":"1"
-                }
-            ],
-            "attacks":[
-                {
-                    "class":"attack_c",
-                    "attack":"hit",
-                    "baseReload":1,
-                    "damageMod":0.8,
-                    "damageType":"chop"
-                }
-            ]
-        },
-        "atlasY":"0",
-        "atlasX":"1",
-        "color":{
-            "class":"color_c",
-            "r":"1",
-            "g":"1",
-            "b":"1",
-            "a":"1"
-        }
-    },
-    {
-        "name":"log",
-        "title":"Log",
-        "aspects":{
-            "falling":[
-                "1"
-            ]
-        },
-        "valueMod":"0",
-        "isResource":true,
-        "atlasY":"0",
-        "atlasX":"2",
-        "color":{
-            "class":"color_c",
-            "r":"1",
-            "g":"1",
-            "b":"1",
-            "a":"1"
-        }
-    },
-    {
-        "name":"branch",
-        "title":"Branch",
-        "aspects":{
-            "falling":[
-                "1"
-            ]
-        },
-        "valueMod":"0",
-        "isResource":true,
-        "atlasY":"0",
-        "atlasX":"3",
-        "color":{
-            "class":"color_c",
-            "r":"1",
-            "g":"1",
-            "b":"1",
-            "a":"1"
-        }
-    },
-    {
-        "name":"rock",
-        "title":"Rock",
-        "aspects":{
-            "falling":[
-                "1"
-            ]
-        },
-        "valueMod":"0",
-        "isResource":true,
-        "atlasY":"0",
-        "atlasX":"4",
-        "color":{
-            "class":"color_c",
-            "r":"1",
-            "g":"1",
-            "b":"1",
-            "a":"1"
-        }
-    },
-    {
-        "name":"bar",
-        "title":"Bar",
-        "aspects":{
-            "falling":[
-                "1"
-            ]
-        },
-        "valueMod":"0",
-        "isResource":true,
-        "atlasY":"0",
-        "atlasX":"9",
-        "color":{
-            "class":"color_c",
-            "r":"1",
-            "g":"1",
-            "b":"1",
-            "a":"1"
-        }
-    },
-    {
-        "name":"shirt",
-        "title":"Shirt",
-        "aspects":{
-            "falling":[
-                "1"
-            ]
-        },
-        "valueMod":"0",
-        "isResource":false,
-        "wear":{
-            "layer":2,
-            "bodyTemplate":"humanoid",
-            "requiredBodyParts":["upper torso"],
-            "allBodyParts":[
-                "upper torso",
-                "upper arm",
-                "upper arm",
-                "lower arm",
-                "lower arm"
-            ],
-            "baseInsulation":0.2,
-            "baseWetResistance":0.3
-        },
-        "atlasY":"0",
-        "atlasX":"6",
-        "color":{
-            "class":"color_c",
-            "r":"1",
-            "g":"1",
-            "b":"1",
-            "a":"1"
-        }
-    },
-    {
-        "name":"pants",
-        "title":"Pants",
-        "aspects":{
-            "falling":[
-                "1"
-            ]
-        },
-        "valueMod":"0",
-        "isResource":false,
-        "wear":{
-            "layer":2,
-            "bodyTemplate":"humanoid",
-            "requiredBodyParts":["lower torso"],
-            "allBodyParts":[
-                "lower torso",
-                "upper leg",
-                "upper leg",
-                "lower leg",
-                "lower leg"
-            ],
-            "baseInsulation":0.2,
-            "baseWetResistance":0.3
-        },
-        "container":{
-            "itemTypes":[
-                "solid"
-            ],
-            "innerVolume":4
-        },
-        "atlasY":"0",
-        "atlasX":"5",
-        "color":{
-            "class":"color_c",
-            "r":"1",
-            "g":"1",
-            "b":"1",
-            "a":"1"
-        }
-    },
-    {
-        "name":"backpack",
-        "title":"Backpack",
-        "aspects":{
-            "falling":[
-                "1"
-            ]
-        },
-        "valueMod":"0",
-        "isResource":false,
-        "wear":{
-            "layer":5,
-            "bodyTemplate":"humanoid",
-            "requiredBodyParts":["upper_torso"],
-            "allBodyParts":[
-                "upper_torso"
-            ],
-            "baseInsulation":0.05,
-            "baseWetResistance":0.05
-        },
-        "container":{
-            "itemTypes":[
-                "solid"
-            ],
-            "innerVolume":2000
-        },
-        "atlasY":"0",
-        "atlasX":"4",
-        "color":{
-            "class":"color_c",
-            "r":"1",
-            "g":"1",
-            "b":"1",
-            "a":"1"
-        }
-    },
-    {
-        "name":"blueberry",
-        "title":"Blueberry",
-        "aspects":{
-            "falling":[
-                "1"
-            ]
-        },
-        "valueMod":"0",
-        "isResource":true,
-        "atlasY":"0",
-        "atlasX":"8",
-        "color":{
-            "class":"color_c",
-            "r":"1",
-            "g":"1",
-            "b":"1",
-            "a":"1"
-        }
-    }
+        "name": "log",
+        "description": "Large part of a tree.",
+        "typeAspects": [["value", "0"]],
+        "atlasXY": ["2", "0"],
+        "color": "0xffffffff"
+    }, {
+    "name": "branch",
+    "description": "Small part of a tree.",
+    "typeAspects": [["value", "0"]],
+    "atlasXY": ["3", "0"],
+    "color": "0xffffffff"
+}, {
+    "name": "branch",
+    "description": "Underground tree part.",
+    "typeAspects": [["value", "0"]],
+    "atlasXY": ["3", "0"],
+    "color": "0xffffffff"
+}, {
+    "name": "rock",
+    "description": "Rock.",
+    "typeAspects": [["value", "0"]],
+    "atlasXY": ["4", "0"],
+    "color": "0xffffffff"
+}, {
+    "name": "bar",
+    "description": "Piece of metal, formed for further use.",
+    "typeAspects": [["value", "0"]],
+    "atlasXY": ["9", "0"],
+    "color": "0xffffffff"
+}, {
+    "name": "berry",
+    "description": ".",
+    "typeAspects": [["value", "0"]],
+    "atlasXY": ["8", "0"],
+    "color": "0xffffffff"
+}, {
+    "name": "roll",
+    "description": "Rolled cloth.",
+    "typeAspects": [["value", "0"]],
+    "atlasXY": ["10", "0"],
+    "color": "0xffffffff"
+}, {
+    "name": "leather",
+    "description": "Large leather piece.",
+    "typeAspects": [["value", "0"]],
+    "atlasXY": ["11", "0"],
+    "color": "0xffffffff"
+}, {
+    "name": "brick",
+    "description": "Building brick made of clay.",
+    "typeAspects": [["value", "0"]],
+    "atlasXY": ["12", "0"],
+    "color": "0xffffffff"
+}, {
+    "name": "pot",
+    "description": "For storing things or growing small plants.",
+    "typeAspects": [["value", "0"]],
+    "atlasXY": ["13", "0"],
+    "color": "0xffffffff"
+}, {
+    "name": "rope",
+    "description": "For binding items to each other.",
+    "typeAspects": [["value", "0"]],
+    "atlasXY": ["14", "0"],
+    "color": "0xffffffff"
+}, {
+    "name": "lantern",
+    "description": "Shows path in the dark.",
+    "typeAspects": [["value", "0"]],
+    "atlasXY": ["14", "0"],
+    "color": "0xffffffff"
+}, {
+    "name": "flask",
+    "description": "Keeps drinks close.",
+    "typeAspects": [["value", "0"]],
+    "atlasXY": ["15", "0"],
+    "color": "0xffffffff"
+}, {
+    "name": "torch",
+    "description": "Lights the way.",
+    "typeAspects": [["value", "0"]],
+    "atlasXY": ["15", "0"],
+    "color": "0xffffffff"
+}, {
+    "name": "lantern",
+    "description": "Shows path in the dark.",
+    "typeAspects": [["value", "0"]],
+    "atlasXY": ["14", "0"],
+    "color": "0xffffffff"
+}, {
+    "name": "",
+    "description": "Shows path in the dark.",
+    "typeAspects": [["value", "0"]],
+    "atlasXY": ["14", "0"],
+    "color": "0xffffffff"
+}
 ]

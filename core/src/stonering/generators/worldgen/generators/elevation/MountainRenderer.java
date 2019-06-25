@@ -5,7 +5,7 @@ import stonering.generators.worldgen.generators.AbstractGenerator;
 import stonering.entity.world.Edge;
 import stonering.entity.world.Mountain;
 import stonering.entity.world.Slope;
-import stonering.global.utils.Position;
+import stonering.util.geometry.Position;
 
 /**
  * @author Alexander Kuzyakov on 03.03.2017.

@@ -1,7 +1,7 @@
 package stonering.generators.localgen.generators;
 
+import stonering.entity.world.World;
 import stonering.generators.PerlinNoiseGenerator;
-import stonering.generators.localgen.LocalGenConfig;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.entity.world.WorldMap;
 
@@ -10,20 +10,18 @@ import java.util.Random;
 
 /**
  * Generates 2d array of elevation values.
+ * Uses only world map.
  *
  * @author Alexander Kuzyakov on 21.08.2017.
  */
-public class LocalHeightsGenerator {
-    private LocalGenContainer container;
+public class LocalHeightsGenerator extends LocalAbstractGenerator {
     private WorldMap worldMap;
-    private LocalGenConfig config;
     private int localAreaSize;
     private float[][] localHightMap;
 
     public LocalHeightsGenerator(LocalGenContainer container) {
-        this.container = container;
-        this.worldMap = container.getWorld().getWorldMap();
-        config = container.getConfig();
+        super(container);
+        this.worldMap = container.model.get(World.class).getWorldMap();
         localAreaSize = config.getAreaSize();
     }
 
@@ -40,8 +38,8 @@ public class LocalHeightsGenerator {
         diamondSquare(localHightMap);
         fillHeights(localHightMap, 6);
         addPerlinNoise();
-        container.setHeightsMap(localHightMap);
-        container.setRoundedHeightsMap(roundLocalHightMap());
+        container.heightsMap = localHightMap;
+        container.roundedHeightsMap = roundLocalHightMap();
     }
 
     private void calculateCorners(float[][] localHights, int x, int y) {
@@ -116,7 +114,6 @@ public class LocalHeightsGenerator {
                 midValue += array[x][y + step];
                 midValue += array[x + step][y + step];
                 array[x + step / 2][y + step / 2] = (int) (midValue / 4);
-//                System.out.println("s: " + (x + step / 2) + " " + (y + step / 2) + " " + " " + array[x + step / 2][y + step / 2]);
             }
         }
     }

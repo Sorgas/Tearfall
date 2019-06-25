@@ -2,8 +2,7 @@ package stonering.generators.worldgen;
 
 import com.badlogic.gdx.math.Vector2;
 import stonering.entity.world.*;
-import stonering.global.utils.Position;
-import stonering.entity.local.environment.CelestialBody;
+import stonering.util.geometry.Position;
 
 import java.util.ArrayList;
 import java.util.HashSet;

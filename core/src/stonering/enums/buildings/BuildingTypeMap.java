@@ -1,19 +1,16 @@
 package stonering.enums.buildings;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter;
 import stonering.entity.local.building.BuildingType;
-import stonering.entity.local.crafting.BrakeableComponentStep;
-import stonering.entity.local.crafting.CraftingComponentVariant;
-import stonering.utils.global.FileLoader;
-import stonering.utils.global.TagLoggersEnum;
+import stonering.enums.plants.PlantType;
+import stonering.util.global.FileLoader;
+import stonering.util.global.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 /**
  * Singleton map of building descriptors. Descriptors are stored by their names.
@@ -29,10 +26,9 @@ public class BuildingTypeMap {
         buildings = new HashMap<>();
         json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
-        json.addClassTag("color_c", Color.class);
-        json.addClassTag("step_c", BrakeableComponentStep.class);
-        json.addClassTag("variant_c", CraftingComponentVariant.class);
-        loadBuildings();
+        loadTypesFileToMap(FileLoader.BUILDINGS_PATH, buildings);
+        loadTypesFileToMap(FileLoader.CONSTRUCTIONS_PATH, buildings);
+        loadTypesFileToMap(FileLoader.FURNITURE_PATH, buildings);
         loadLists();
     }
 
@@ -42,11 +38,29 @@ public class BuildingTypeMap {
         return instance;
     }
 
-    private void loadBuildings() {
-        TagLoggersEnum.LOADING.log("buildings");
-        ArrayList<BuildingType> elements = json.fromJson(ArrayList.class, BuildingType.class, FileLoader.getFile(FileLoader.BUILDINGS_PATH));
+    /**
+     * Loads {@link PlantType} from given file into given file.
+     */
+    private void loadTypesFileToMap(String filePath, Map<String, BuildingType> map) {
+        List<BuildingType> elements = json.fromJson(ArrayList.class, BuildingType.class, FileLoader.getFile(filePath));
         for (BuildingType buildingType : elements) {
-            buildings.put(buildingType.getBuilding(), buildingType);
+            buildings.put(buildingType.building, buildingType);
+        }
+        Logger.LOADING.logDebug(map.keySet().size() + " loaded from " + filePath);
+    }
+
+    /**
+     * Loads lists of crafting recipes for building. First item in array should be building name.
+     */
+    private void loadLists() {
+        Logger.LOADING.log("crafting recipes");
+        ArrayList<ArrayList<String>> elements = json.fromJson(ArrayList.class, ArrayList.class, FileLoader.getFile(FileLoader.RECIPE_LISTS_PATH));
+        for (List<String> recipeList : elements) {
+            String buildingName = recipeList.remove(0);
+            if(buildings.containsKey(buildingName)) {
+                BuildingType type = buildings.get(buildingName);
+                type.recipes = recipeList;
+            }
         }
     }
 
@@ -58,31 +72,7 @@ public class BuildingTypeMap {
         return buildings.get(name);
     }
 
-    public List<BuildingType> getCategoryBuildings(String categoryName) {
-        return buildings.values().stream().filter((buildingType -> buildingType.getCategory().equals(categoryName))).collect(Collectors.toList());
-    }
-
-    private void loadLists() {
-        TagLoggersEnum.LOADING.log("crafting recipes");
-        ArrayList<RecipeList> elements = json.fromJson(ArrayList.class, RecipeList.class, FileLoader.getFile(FileLoader.RECIPE_LISTS_PATH));
-        for (RecipeList recipeList : elements) {
-            if (validateList(recipeList)) {
-                BuildingType type = buildings.get(recipeList.workbench);
-                recipeList.recipes.forEach(s -> type.getRecipes().add(s));
-            }
-        }
-    }
-
-    private boolean validateList(RecipeList list) {
-        return buildings.keySet().contains(list.workbench);
-    }
-
-    private static class RecipeList {
-        String workbench;
-        List<String> recipes;
-
-        public RecipeList() {
-            recipes = new ArrayList<>();
-        }
+    public boolean hasBuilding(String name) {
+        return buildings.containsKey(name);
     }
 }

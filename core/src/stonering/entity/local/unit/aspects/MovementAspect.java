@@ -1,13 +1,15 @@
 package stonering.entity.local.unit.aspects;
 
-import stonering.game.core.model.GameContainer;
-import stonering.game.core.model.LocalMap;
-import stonering.game.core.model.util.PassageMap;
-import stonering.global.utils.pathfinding.a_star.AStar;
+import com.badlogic.gdx.math.Vector3;
+import stonering.entity.local.PositionAspect;
+import stonering.game.GameMvc;
+import stonering.game.model.lists.UnitContainer;
+import stonering.game.model.local_map.LocalMap;
+import stonering.util.pathfinding.a_star.AStar;
 import stonering.entity.local.Aspect;
 import stonering.entity.local.unit.Unit;
-import stonering.global.utils.Position;
-import stonering.utils.global.TagLoggersEnum;
+import stonering.util.geometry.Position;
+import stonering.util.global.Logger;
 
 import java.util.List;
 
@@ -17,65 +19,66 @@ import java.util.List;
  * @author Alexander Kuzyakov on 06.10.2017.
  */
 public class MovementAspect extends Aspect {
-    private int stepTime;
-    private int stepDelay;
-    private PassageMap passageMap;
+    public static String NAME = "movement";
+    private LocalMap localMap;
     private PlanningAspect planning;
     private Position cachedTarget;
     private List<Position> cachedPath;
 
+    private float stepProgress;
+    private int stepInterval;
+
     public MovementAspect(Unit unit) {
-        super("movement", unit);
-        this.aspectHolder = unit;
-        stepTime = 6;
-        stepDelay = stepTime;
+        super(unit);
+        this.entity = unit;
+        stepInterval = 15;
+        stepProgress = stepInterval;
     }
 
     public void turn() {
-        tryFall();
-        if (stepDelay > 0) {
-            stepDelay--; //counting ticks to step
+        if (tryFall()) return;
+        if (stepProgress > 0) {
+            stepProgress--; // counting ticks to step.
         } else {
             makeStep();
-            stepDelay = stepTime;
+            stepProgress = stepInterval;
         }
     }
 
     private void makeStep() {
-        if (planning.isMovementNeeded()) {
-            if (cachedTarget != null && cachedTarget.equals(planning.getTarget())) { //old target
-                if (cachedPath != null && !cachedPath.isEmpty()) {// path not finished
-                    Position nextPosition = cachedPath.remove(0); // get next step, remove from path
-                    if (passageMap.isWalkPassable(nextPosition)) { // path has not been blocked after calculation
-                        aspectHolder.setPosition(nextPosition); //step
-                    } else { // path blocked
-                        TagLoggersEnum.PATH.log("path to " + cachedTarget + " was blocked in " + nextPosition);
-                        cachedTarget = null; // drop path
-                    }
+        if (!planning.isMovementNeeded()) return;
+        if (cachedTarget != null && cachedTarget.equals(planning.getTarget())) { //old target
+            if (hasPath()) {
+                Position nextPosition = cachedPath.remove(0); // get next step, remove from path
+                if (localMap.isWalkPassable(nextPosition)) { // path has not been blocked after calculation
+                    gameMvc.getModel().get(UnitContainer.class).updateUnitPosiiton((Unit) entity, nextPosition); //step
+                } else { // path blocked
+                    Logger.PATH.log("path to " + cachedTarget + " was blocked in " + nextPosition);
+                    cachedTarget = null; // drop path
                 }
-                // path finished, stay
-            } else { // new target
-                cachedTarget = planning.getTarget();
-                if (cachedTarget != null) {
-                    makeRouteToTarget();
-                    if (cachedPath == null) { // no path found, fail task
-                        planning.freeTask();
-                    }
+            }
+            // path finished, stay
+        } else { // new target
+            cachedTarget = planning.getTarget();
+            if (cachedTarget != null) {
+                makeRouteToTarget();
+                if (cachedPath == null) { // no path found, fail task
+                    cachedTarget = null;
+                    planning.reset();
                 }
             }
         }
     }
 
     @Override
-    public void init(GameContainer gameContainer) {
-        super.init(gameContainer);
-        if (aspectHolder.getAspects().containsKey("planning"))
-            planning = (PlanningAspect) aspectHolder.getAspects().get("planning");
-        passageMap = gameContainer.getLocalMap().getPassageMap();
+    public void init() {
+        super.init();
+        planning = entity.getAspect(PlanningAspect.class);
+        localMap = GameMvc.instance().getModel().get(LocalMap.class);
     }
 
     private void makeRouteToTarget() {
-        cachedPath = new AStar(gameContainer.getLocalMap()).makeShortestPath(aspectHolder.getPosition(), planning.getTarget(), planning.isTargetExact());
+        cachedPath = new AStar(GameMvc.instance().getModel().get(LocalMap.class)).makeShortestPath(getPosition(), planning.getTarget(), planning.isTargetExact());
     }
 
     /**
@@ -83,13 +86,45 @@ public class MovementAspect extends Aspect {
      * Also deletes it's path, as target may be inaccessible after fall.
      * //TODO apply fall damage
      */
-    private void tryFall() {
-        Position pos = aspectHolder.getPosition();
-        if (passageMap.isFlyPassable(pos) &&
-                !passageMap.isWalkPassable(pos) &&
-                pos.getZ() > 0 && passageMap.isFlyPassable(pos.getX(), pos.getY(), pos.getZ() - 1)) {
-            aspectHolder.setPosition(new Position(pos.getX(), pos.getY(), pos.getZ() - 1));
+    private boolean tryFall() {
+        Position pos = getPosition();
+        if (localMap.isFlyPassable(pos) &&
+                !localMap.isWalkPassable(pos) &&
+                pos.getZ() > 0 && localMap.isFlyPassable(pos.getX(), pos.getY(), pos.getZ() - 1)) {
+            entity.getAspect(PositionAspect.class).position = new Position(pos.getX(), pos.getY(), pos.getZ() - 1);
             cachedPath = null;
+            return true;
         }
+        return false;
+    }
+
+    /**
+     * Checks that this aspect holder has poth to move on.
+     *
+     * @return
+     */
+    private boolean hasPath() {
+        return cachedPath != null && !cachedPath.isEmpty();
+    }
+
+    /**
+     * Returns vector with [0:1] floats, representing current progress of movement.
+     */
+    public Vector3 getStepProgressVector() {
+        if (!hasPath()) return new Vector3(); // zero vector for staying still.
+        Position nextPosition = cachedPath.get(0);
+        Position unitPosition = entity.getAspect(PositionAspect.class).position;
+        return new Vector3(
+                getStepProgressVectorComponent(unitPosition.x, nextPosition.x),
+                getStepProgressVectorComponent(unitPosition.y, nextPosition.y),
+                getStepProgressVectorComponent(unitPosition.z, nextPosition.z));
+    }
+
+    private float getStepProgressVectorComponent(int from, int to) {
+        return (from - to) * stepProgress / stepInterval;
+    }
+
+    private Position getPosition() {
+        return entity.getAspect(PositionAspect.class).position;
     }
 }

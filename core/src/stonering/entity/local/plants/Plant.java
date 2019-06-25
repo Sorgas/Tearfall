@@ -1,23 +1,23 @@
 package stonering.entity.local.plants;
 
-import stonering.global.utils.Position;
+import stonering.enums.plants.PlantType;
+import stonering.util.geometry.Position;
 
 /**
- * Represents plant
- * <p>
+ * Represents single-tile plant.
  *
  * @author Alexander Kuzyakov on 19.10.2017.
  */
 public class Plant extends AbstractPlant {
     private PlantBlock block;
 
-    public Plant(int age) {
-        this.age = age;
+    public Plant(Position position, PlantType type, int age) {
+        super(position, type, age);
     }
 
     @Override
     public boolean isHarvestable() {
-        return getCurrentStage().getHarvestProducts() != null;
+        return getCurrentStage().harvestProduct != null;
     }
 
     public PlantBlock getBlock() {
@@ -26,6 +26,8 @@ public class Plant extends AbstractPlant {
 
     public void setBlock(PlantBlock block) {
         this.block = block;
+        block.setPlant(this);
+        block.setPosition(getPosition());
     }
 
     public Position getPosition() {
@@ -33,6 +35,7 @@ public class Plant extends AbstractPlant {
     }
 
     public void setPosition(Position position) {
+        super.setPosition(position);
         block.setPosition(position);
     }
 }

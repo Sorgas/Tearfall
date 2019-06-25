@@ -1,8 +1,8 @@
 package stonering.entity.world;
 
-import stonering.global.utils.Plane;
-import stonering.global.utils.Position;
-import stonering.global.utils.Vector;
+import stonering.util.geometry.Plane;
+import stonering.util.geometry.Position;
+import stonering.util.geometry.Vector;
 
 import java.util.ArrayList;
 import java.util.Iterator;

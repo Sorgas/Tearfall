@@ -1,5 +1,8 @@
 package stonering.entity.world;
 
+import stonering.game.model.ModelComponent;
+import stonering.util.global.Initable;
+
 import java.io.Serializable;
 
 /**
@@ -9,7 +12,7 @@ import java.io.Serializable;
  *
  * @author Alexander Kuzyakov
  */
-public class World implements Serializable {
+public class World implements Serializable, Initable, ModelComponent {
     private WorldMap worldMap;
     private StarSystem starSystem;
     private int seed;
@@ -25,5 +28,10 @@ public class World implements Serializable {
 
     public StarSystem getStarSystem() {
         return starSystem;
+    }
+
+    @Override
+    public void init() {
+        starSystem.init();
     }
 }

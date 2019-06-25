@@ -1,32 +1,31 @@
 package stonering.generators.localgen.generators;
 
-import stonering.enums.materials.MaterialMap;
-import stonering.exceptions.DescriptionNotFoundException;
-import stonering.exceptions.FaultDescriptionException;
-import stonering.game.core.model.LocalMap;
+import stonering.game.model.lists.ItemContainer;
+import stonering.game.model.local_map.LocalMap;
 import stonering.generators.items.ItemGenerator;
-import stonering.generators.localgen.LocalGenConfig;
 import stonering.generators.localgen.LocalGenContainer;
-import stonering.global.utils.Position;
-import stonering.entity.local.items.Item;
+import stonering.util.geometry.Position;
+import stonering.entity.local.item.Item;
 
 /**
+ * Creates item and puts them on map.
+ *
  * @author Alexander Kuzyakov on 26.01.2018.
  */
-public class LocalItemsGenerator {
-    private LocalGenContainer container;
-    private LocalGenConfig config;
+public class LocalItemsGenerator extends LocalAbstractGenerator  {
     private ItemGenerator itemGenerator;
+    private LocalMap localMap;
 
     public LocalItemsGenerator(LocalGenContainer container) {
-        this.container = container;
-        config = container.getConfig();
+        super(container);
         itemGenerator = new ItemGenerator();
     }
 
     public void execute() {
-        createItemInCenter("axe", "iron", 0, 0);
+        localMap = container.model.get(LocalMap.class);
+        createItemInCenter("axe", "iron", 0, -3);
         createItemInCenter("pickaxe", "iron", 0, -1);
+        createItemInCenter("hoe", "iron", 0, -2);
         createItemInCenter("rock", "rhyolite", 0, 1);
         createItemInCenter("pants", "cotton", 1, 0);
         createItemInCenter("shirt", "cotton", 2, 0);
@@ -36,23 +35,21 @@ public class LocalItemsGenerator {
         createItemInCenter("bar", "copper", 4, 3);
         createItemInCenter("bar", "silver", 4, 4);
         createItemInCenter("bar", "steel", 4, 5);
+        createItemInCenter("log", "birch", 3, 0);
     }
 
     private void createItemInCenter(String itemType, String material, int xOffset, int yOffset) {
-//        try {
-            LocalMap localMap = container.getLocalMap();
+            LocalMap localMap = container.model.get(LocalMap.class);
             Item item = itemGenerator.generateItem(itemType, material);
-            item.setPosition(new Position(localMap.getxSize() / 2 + xOffset, localMap.getySize() / 2 + yOffset, findSurfaceZ()));
-            container.getItems().add(item);
-//        } catch (FaultDescriptionException e) {
-//            e.printStackTrace();
-//        }
+            Position position = new Position(localMap.xSize / 2 + xOffset, localMap.ySize / 2 + yOffset, 0);
+            position.z = findSurfaceZ(position.x, position.y);
+            item.setPosition(position);
+            container.model.get(ItemContainer.class).addItem(item);
     }
 
-    private int findSurfaceZ() {
-        LocalMap localMap = container.getLocalMap();
-        for (int z = localMap.getzSize() - 1; z >= 0; z--) {
-            if (localMap.getBlockType(localMap.getxSize() / 2, localMap.getySize() / 2, z) != 0) {
+    private int findSurfaceZ(int x, int y) {
+        for (int z = localMap.zSize - 1; z >= 0; z--) {
+            if (localMap.getBlockType(x, y, z) != 0) {
                 return z;
             }
         }

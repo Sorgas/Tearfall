@@ -1,228 +1,55 @@
 package stonering.enums.plants;
 
-import com.badlogic.gdx.graphics.Color;
+import stonering.enums.generation.PlantPlacingTags;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Stores plant parameters
+ * Stores plant parameters. Created from {@link RawPlantType}
+ *
+ * @author Alexander_Kuzyakov on 06.03.2018
  */
 public class PlantType {
-    private String specimen;
-    private String title;
+    public String name;
+    public String title;
+    public String materialName; // in null for substrates
+    public String description;
 
-    private String description;
-    private int minTemperature;
-    private int maxTemperature;
-    private int minGrowingTemperature;
-    private int maxGrowingTemperature;
-    private int minRainfall;
-    private int maxRainfall;
-    private ArrayList<String> waterSource;
-    private ArrayList<String> lightNeed;
-    private String soilType;
-//    private int atlasX;
-//
-//    private int atlasY;
-    private ArrayList<PlantLifeStage> lifeStages;
+    public int[] temperatureBounds = new int[2]; // min and max temperature
+    public int[] rainfallBounds = new int[2];  // min and max painfall
+    public List<PlantLifeStage> lifeStages = new ArrayList<>();
+    public List<PlantPlacingTags> placingTags = new ArrayList<>();
+    public List<Integer> plantingStart = new ArrayList<>();
 
-    private TreeType treeType;
+    private boolean isPlant;
+    private boolean isTree;
+    private boolean isSubstrate;
 
-    public static class PlantLifeStage {
-        private int stageLength;
-        private ArrayList<String> harvestProducts;
-        private ArrayList<String> cutProducts;
-        private String materialName;
-        private int atlasX;
-        private int atlasY;
-        private Color color;
+    public void setTypeFlags() {
+        isTree = lifeStages.get(0).treeForm != null;
+        isSubstrate = materialName == null;
+        isPlant = !isTree && !isSubstrate;
+    }
 
-        public int getStageLength() {
-            return stageLength;
-        }
-
-        public void setStageLength(int stageLength) {
-            this.stageLength = stageLength;
-        }
-
-        public ArrayList<String> getHarvestProducts() {
-            return harvestProducts;
-        }
-
-        public void setHarvestProducts(ArrayList<String> harvestProducts) {
-            this.harvestProducts = harvestProducts;
-        }
-
-        public ArrayList<String> getCutProducts() {
-            return cutProducts;
-        }
-
-        public void setCutProducts(ArrayList<String> cutProducts) {
-            this.cutProducts = cutProducts;
-        }
-
-        public int getAtlasX() {
-            return atlasX;
-        }
-
-        public void setAtlasX(int atlasX) {
-            this.atlasX = atlasX;
-        }
-
-        public int getAtlasY() {
-            return atlasY;
-        }
-
-        public void setAtlasY(int atlasY) {
-            this.atlasY = atlasY;
-        }
-
-        public Color getColor() {
-            return color;
-        }
-
-        public void setColor(Color color) {
-            this.color = color;
-        }
-
-        public String getMaterialName() {
-            return materialName;
-        }
-
-        public void setMaterialName(String materialName) {
-            this.materialName = materialName;
-        }
+    public int getMaxAge() {
+        return lifeStages.get(lifeStages.size() - 1).getStageEnd();
     }
 
     public boolean isTree() {
-        return treeType != null;
+        return isTree;
     }
 
-    public String getSpecimen() {
-        return specimen;
+    public boolean isSubstrate() {
+        return isSubstrate;
     }
 
-    public void setSpecimen(String specimen) {
-        this.specimen = specimen;
+    public boolean isPlant() {
+        return isPlant;
     }
 
-    public String getTitle() {
+    @Override
+    public String toString() {
         return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public int getMinTemperature() {
-        return minTemperature;
-    }
-
-    public void setMinTemperature(int minTemperature) {
-        this.minTemperature = minTemperature;
-    }
-
-    public int getMaxTemperature() {
-        return maxTemperature;
-    }
-
-    public void setMaxTemperature(int maxTemperature) {
-        this.maxTemperature = maxTemperature;
-    }
-
-    public int getMinGrowingTemperature() {
-        return minGrowingTemperature;
-    }
-
-    public void setMinGrowingTemperature(int minGrowingTemperature) {
-        this.minGrowingTemperature = minGrowingTemperature;
-    }
-
-    public int getMaxGrowingTemperature() {
-        return maxGrowingTemperature;
-    }
-
-    public void setMaxGrowingTemperature(int maxGrowingTemperature) {
-        this.maxGrowingTemperature = maxGrowingTemperature;
-    }
-
-    public int getMinRainfall() {
-        return minRainfall;
-    }
-
-    public void setMinRainfall(int minRainfall) {
-        this.minRainfall = minRainfall;
-    }
-
-    public int getMaxRainfall() {
-        return maxRainfall;
-    }
-
-    public void setMaxRainfall(int maxRainfall) {
-        this.maxRainfall = maxRainfall;
-    }
-
-    public ArrayList<String> getWaterSource() {
-        return waterSource;
-    }
-
-    public void setWaterSource(ArrayList<String> waterSource) {
-        this.waterSource = waterSource;
-    }
-
-    public ArrayList<String> getLightNeed() {
-        return lightNeed;
-    }
-
-    public void setLightNeed(ArrayList<String> lightNeed) {
-        this.lightNeed = lightNeed;
-    }
-
-    public String getSoilType() {
-        return soilType;
-    }
-
-    public void setSoilType(String soilTypes) {
-        this.soilType = soilTypes;
-    }
-
-    public TreeType getTreeType() {
-        return treeType;
-    }
-
-    public void setTreeType(TreeType treeType) {
-        this.treeType = treeType;
-    }
-
-//    public int getAtlasX() {
-//        return atlasX;
-//    }
-//
-//    public void setAtlasX(int atlasX) {
-//        this.atlasX = atlasX;
-//    }
-//
-//    public int getAtlasY() {
-//        return atlasY;
-//    }
-//
-//    public void setAtlasY(int atlasY) {
-//        this.atlasY = atlasY;
-//    }
-
-    public ArrayList<PlantLifeStage> getLifeStages() {
-        return lifeStages;
-    }
-
-    public void setLifeStages(ArrayList<PlantLifeStage> lifeStages) {
-        this.lifeStages = lifeStages;
     }
 }

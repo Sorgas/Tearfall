@@ -1,0 +1,98 @@
+/*
+    Blueprints determine what options are displayed in building menu, resources to spend, and building to create.
+    Objects of buildings are described in separate files.
+    Placing are keys from PlacingValidatorEnum. No validation applied otherwise.
+*/
+[
+    {
+        "name": "build_wall",
+        "title": "Wall",
+        "building": "wall",
+        "menuPath": ["constructions"],
+        "placing": "construction",
+        "components": [
+            {
+                "name": "wall",
+                "variants": [
+                    ["stone", "4", "1", "1"], ["clay", "4", "1", "1"], ["metal", "4", "1", "1"], ["log", "4", "1", "1"], ["plank", "4", "1", "1"]
+                ]
+            }
+        ]
+    }, {
+    "name": "build_floor",
+    "title": "Floor",
+    "building": "floor",
+    "menuPath": ["constructions"],
+    "placing": "construction",
+    "components": [
+        {
+            "name": "floor",
+            "variants": [
+                ["stone", "4", "1", "1"], ["clay", "4", "1", "1"], ["metal", "4", "1", "1"], ["log", "4", "1", "1"], ["plank", "4", "1", "1"]
+            ]
+        }
+    ]
+}, {
+    "name": "build_ramp",
+    "title": "Ramp",
+    "building": "ramp",
+    "menuPath": ["constructions"],
+    "placing": "construction",
+    "components": [
+        {
+            "name": "ramp",
+            "variants": [
+                ["stone", "4", "1", "1"], ["clay", "4", "1", "1"], ["metal", "4", "1", "1"], ["log", "4", "1", "1"], ["plank", "4", "1", "1"]
+            ]
+        }
+    ]
+}, {
+    "name": "build_stairs",
+    "title": "Stairs",
+    "building": "stairs",
+    "menuPath": ["constructions"],
+    "placing": "construction",
+    "components": [
+        {
+            "name": "stairs",
+            "variants": [
+                ["stone", "4", "1", "1"], ["clay", "4", "1", "1"], ["metal", "4", "1", "1"], ["log", "4", "1", "1"], ["plank", "4", "1", "1"]
+            ]
+        }
+    ]
+}, {
+    "name": "build_sawing_rack",
+    "title": "Sawing rack",
+    "building": "sawing_rack",
+    "menuPath": ["workbenches", "wood"],
+    "placing": "construction",
+    "components": [
+        {
+            "name": "table",
+            "variants": [
+                ["metal", "4", "1", "1"], ["log", "4", "1", "1"], ["plank", "4", "1", "1"]
+            ]
+        },
+        {
+            "name": "saw",
+            "variants": [
+                ["saw", "1", "1", "1"]
+            ]
+        }
+    ]
+}, {
+    "name": "build_campfire",
+    "title": "Campfire",
+    "building": "campfire",
+    "menuPath": ["start"],
+    "placing": "floor",
+    "components": [
+        {
+            "name": "campfire",
+            "variants": [
+                ["log", "2", "1", "1"], ["plank", "4", "1", "1"], ["branch", "4", "1", "1"]
+            ]
+        }
+    ]
+}
+]
