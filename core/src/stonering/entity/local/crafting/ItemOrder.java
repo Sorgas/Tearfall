@@ -23,21 +23,16 @@ public class ItemOrder {
     private Recipe recipe;
     private List<ItemPartOrder> parts; // itemPart to item selected for variant.
     private OrderStatusEnum status;
-
     private int amount;
     private boolean repeated;
 
-    public ItemOrder() {
+    public ItemOrder(Recipe recipe) {
+        this.recipe = recipe;
         amount = 1;
         status = OrderStatusEnum.WAITING;
         parts = new ArrayList<>();
-    }
-
-    public ItemOrder(Recipe recipe) {
-        this();
-        this.recipe = recipe;
-        for (ItemPartRecipe itemPartRecipe : recipe.parts.values()) {
-            parts.add(new ItemPartOrder(this, itemPartRecipe.name));
+        for (ItemPartRecipe itemPartRecipe : recipe.parts) {
+            parts.add(new ItemPartOrder(this, itemPartRecipe.itemPart));
         }
     }
 

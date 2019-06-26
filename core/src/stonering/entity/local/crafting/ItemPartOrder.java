@@ -11,25 +11,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Part of {@link ItemOrder}.
+ *
  * @author Alexander on 05.01.2019.
  */
 public class ItemPartOrder {
     private ItemOrder order;
-    private String name;                     // ItemPart name
+    private String name;
     private List<ItemSelector> itemSelectors;
     private ItemSelector selected;
+    private ItemSelector anyMaterialSelector;
 
     public ItemPartOrder(ItemOrder order, String name) {
         this.order = order;
         this.name = name;
         itemSelectors = new ArrayList<>();
+        anyMaterialSelector = new AnyMaterialTagItemSelector(order.getRecipe().getItemPartRecipe(name));
     }
 
+    /**
+     * Updates selectors, to have only those which have items available from selected position.
+     */
     public void refreshSelectors(Position workbenchPosition) {
         ItemPartRecipe partRecipe = order.getRecipe().getItemPartRecipe(name);
-        itemSelectors = GameMvc.instance().getModel().get(ItemContainer.class)
-                .getItemSelectorsForItemPartRecipe(partRecipe, workbenchPosition);
-        itemSelectors.add(new AnyMaterialTagItemSelector(partRecipe));
+        ItemContainer container = GameMvc.instance().getModel().get(ItemContainer.class);
+        itemSelectors = container.getItemSelectorsForItemPartRecipe(partRecipe, workbenchPosition);
     }
 
     /**
@@ -55,15 +61,19 @@ public class ItemPartOrder {
         return itemSelectors;
     }
 
-    public void setItemSelectors(List<ItemSelector> itemSelectors) {
-        this.itemSelectors = itemSelectors;
-    }
-
     public ItemSelector getSelected() {
         return selected;
     }
 
     public void setSelected(ItemSelector selected) {
         this.selected = selected;
+    }
+
+    public ItemOrder getOrder() {
+        return order;
+    }
+
+    public ItemSelector getAnyMaterialSelector() {
+        return anyMaterialSelector;
     }
 }

@@ -11,13 +11,10 @@ import org.jetbrains.annotations.NotNull;
 import stonering.entity.local.building.aspects.WorkbenchAspect;
 import stonering.entity.local.crafting.ItemOrder;
 import stonering.entity.local.crafting.ItemPartOrder;
-import stonering.entity.local.item.selectors.AnyMaterialTagItemSelector;
 import stonering.entity.local.item.selectors.ItemSelector;
-import stonering.entity.local.item.selectors.SimpleItemSelector;
 import stonering.enums.items.type.ItemTypeMap;
 import stonering.game.view.render.ui.lists.PlaceHolderSelectBox;
 import stonering.game.view.render.ui.menus.workbench.WorkbenchMenu;
-import stonering.util.geometry.Position;
 import stonering.util.global.StaticSkin;
 import stonering.util.global.Logger;
 
@@ -25,6 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Shows {@link ItemPartSelection} for each part of recipe.
+ * Selections are filled with {@link stonering.entity.local.item.selectors.AnyMaterialTagItemSelector} by default.
+ * Player can navigate between them to specify items to use in order.
  * When player cancels order creation, this line is hidden.
  *
  * @author Alexander
@@ -49,12 +49,11 @@ public class ItemCraftingOrderLine extends OrderLine {
      * Creates select box for recipe if no order is given, or fills line from order.
      */
     private void initLine() {
-        leftHG.addActor(createItemLabel());                      // item name from order
+        leftHG.addActor(createItemLabel());
         for (ItemPartOrder itemPartOrder : order.getParts()) {   // select boxes for item parts
             tryAddPartSelectBox(itemPartOrder);
         }
-        focusedSelectBox = partSelectBoxes.isEmpty() ? null : partSelectBoxes.get(0);
-        hint = partSelectBoxes.isEmpty() ? "empty" : "qwer";
+        focusedSelectBox = partSelectBoxes.get(0); // part select boxes should never be empty, otherwise recipe is invalid
         createAndAddControlButtons();                            // buttons for managing order
     }
 
@@ -63,7 +62,7 @@ public class ItemCraftingOrderLine extends OrderLine {
      */
     private void tryAddPartSelectBox(ItemPartOrder itemPartOrder) {
         itemPartOrder.refreshSelectors(menu.getWorkbench().getPosition());
-        PlaceHolderSelectBox<ItemSelector> materialSelectBox = new MaterialSelectBox(itemPartOrder);
+        PlaceHolderSelectBox<ItemSelector> materialSelectBox = new ItemPartOrderSelectBox(itemPartOrder);
         leftHG.addActor(materialSelectBox);
         focusedSelectBox = materialSelectBox;
         partSelectBoxes.add(materialSelectBox);

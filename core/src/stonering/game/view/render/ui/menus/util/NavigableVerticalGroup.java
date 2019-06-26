@@ -44,9 +44,9 @@ public class NavigableVerticalGroup extends VerticalGroup implements Highlightab
         addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
+                Logger.UI.logDebug("handling " + Input.Keys.toString(keycode) + " on NavigableVerticalGroup");
                 ControlActionsEnum action = keyMapping.get(keycode);
                 if (action == null) action = ControlActionsEnum.getAction(keycode);
-                Logger.UI.logDebug("handling " + Input.Keys.toString(keycode) + " on NavigableVerticalGroup");
                 event.stop();
                 switch (action) {
                     case UP:

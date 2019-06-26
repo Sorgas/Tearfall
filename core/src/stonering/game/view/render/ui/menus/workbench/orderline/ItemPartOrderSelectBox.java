@@ -5,37 +5,37 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import stonering.entity.local.crafting.ItemPartOrder;
 import stonering.entity.local.item.selectors.ItemSelector;
-import stonering.entity.local.item.selectors.SimpleItemSelector;
 import stonering.game.view.render.ui.lists.PlaceHolderSelectBox;
 import stonering.util.geometry.Position;
 
 import java.util.List;
 
 /**
+ * Select box for crafting UI to select materials for item parts.
+ * By default, 'any' item selector is selected.
+ * Player can specify specific items by opening select box and selecting another option.
+ *
  * @author Alexander on 25.06.2019.
  */
-public class MaterialSelectBox extends PlaceHolderSelectBox<ItemSelector> {
-
-    public MaterialSelectBox(ItemSelector placeHolder) {
-        super(placeHolder);
-    }
-
-
-    public MaterialSelectBox(ItemPartOrder itemPartOrder) {
-        super();
-    }
+public class ItemPartOrderSelectBox extends PlaceHolderSelectBox<ItemSelector> {
+    private ItemPartOrder itemPartOrder; // changed on SB change.
 
     /**
-     * Creates selectBox for selecting material for item part.
-     * If no item is available,
-     * SelectBox can have no item after this (if no item available on map).
+     * Creates select box, puts 'any' itemselector as a placeholder.
+     * @param itemPartOrder all data is taken from order for item part.
      */
-    private PlaceHolderSelectBox createMaterialSelectBox(ItemPartOrder itemPartOrder) {
-        List<ItemSelector> itemSelectors = itemPartOrder.getItemSelectors()l
-        int currentIndex = order.getParts().indexOf(itemPartOrder);
-        PlaceHolderSelectBox<ItemSelector> materialSelectBox = new PlaceHolderSelectBox<>(new SimpleItemSelector("Select Material"));
-        Position workbenchPosition = menu.getWorkbench().getPosition();
+    public ItemPartOrderSelectBox(ItemPartOrder itemPartOrder, Position workbenchPosition) {
+        super(itemPartOrder.getAnyMaterialSelector());
+        this.itemPartOrder = itemPartOrder;
+        fillSelectorsList(itemPartOrder, workbenchPosition);
+    }
+
+    private void fillSelectorsList(ItemPartOrder itemPartOrder, Position workbenchPosition) {
+
+        List<ItemSelector> itemSelectors = itemPartOrder.getItemSelectors();
+        PlaceHolderSelectBox<ItemSelector> materialSelectBox = new PlaceHolderSelectBox<>(itemPartOrder.getAnyMaterialSelector());
         itemPartOrder.refreshSelectors(workbenchPosition);
+
         if (itemPartOrder.isSelectedPossible()) {   // selected is null or is in array
             materialSelectBox.setItems(itemSelectors);
             materialSelectBox.setSelected(itemPartOrder.getSelected());
@@ -45,6 +45,16 @@ public class MaterialSelectBox extends PlaceHolderSelectBox<ItemSelector> {
             materialSelectBox.setSelected(itemPartOrder.getSelected());
             //TODO add red status
         }
+    }
+
+    /**
+     * Creates selectBox for selecting material for item part.
+     * If no item is available,
+     * SelectBox can have no item after this (if no item available on map).
+     */
+    private PlaceHolderSelectBox createMaterialSelectBox(ItemPartOrder itemPartOrder) {
+
+
         materialSelectBox.addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {

@@ -58,24 +58,18 @@ public class WorkbenchMenu extends Window implements HintedActor {
         hintLabel.setText(focused instanceof HintedActor ? ((HintedActor) focused).getHint() : "");
     }
 
-    /**
-     * Creates menu table.
-     */
     private void createTable() {
         setDebug(true, true);
         add(createOrderList().fill()).prefWidth(600).prefHeight(200).expandX();
         add(createCloseButton()).prefWidth(20).prefHeight(20).right().top().row();
         HorizontalGroup horizontalGroup = new HorizontalGroup();
         horizontalGroup.addActor(createAddButton());
-        horizontalGroup.addActor(hintLabel = new Label(MENU_HINT, StaticSkin.getSkin()));
+        horizontalGroup.addActor(hintLabel = new Label("", StaticSkin.getSkin()));
         add(horizontalGroup).prefHeight(20).left().top();
         setWidth(800);
         setHeight(600);
     }
 
-    /**
-     * Button for creating orders.
-     */
     private TextButton createAddButton() {
         TextButton button = new TextButton("New", StaticSkin.getSkin());
         button.addListener(new ChangeListener() {
@@ -87,9 +81,6 @@ public class WorkbenchMenu extends Window implements HintedActor {
         return button;
     }
 
-    /**
-     * Creates new order line and adds it to list
-     */
     private void createNewOrder() {
         OrderLine orderLine = new EmptyOrderLine(this);
         orderLine.show();
@@ -100,10 +91,9 @@ public class WorkbenchMenu extends Window implements HintedActor {
         orderList = new NavigableVerticalGroup();
         orderList.grow();
         orderList.keyMapping.put(Input.Keys.D, ControlActionsEnum.SELECT);
-        orderList.setSelectListener(event -> {         // go to order line
+        orderList.setSelectListener(event -> {                             // go to order line or menu
             Actor selected = orderList.getSelectedElement();
-            selected = selected != null ? selected : this;
-            getStage().setKeyboardFocus(selected);
+            getStage().setKeyboardFocus(selected != null ? selected : this);
             return true;
         });
         orderList.setHighlightHandler(aBoolean -> {          // try highlight selected element
@@ -129,13 +119,6 @@ public class WorkbenchMenu extends Window implements HintedActor {
     }
 
     /**
-     * Closes stage with this screen.
-     */
-    public void close() {
-        GameMvc.instance().getView().removeStage(getStage());
-    }
-
-    /**
      * Input listener for this menu.
      */
     private class MenuKeyInputListener extends InputListener {
@@ -144,13 +127,13 @@ public class WorkbenchMenu extends Window implements HintedActor {
         public boolean keyDown(InputEvent event, int keycode) {
             Logger.UI.logDebug("handling " + Input.Keys.toString(keycode) + " on WorkbenchMenu");
             event.stop();
-            switch (keycode) {
-                case Input.Keys.E: {
+            switch (ControlActionsEnum.getAction(keycode)) {
+                case SELECT: {
                     createNewOrder();
                     return true;
                 }
-                case Input.Keys.W:
-                case Input.Keys.S: {
+                case UP:
+                case DOWN: {
                     if (orderList.hasChildren()) {
                         orderList.setSelectedIndex(0);
                         orderList.navigate(keycode == Input.Keys.S ? 0 : -1);
@@ -158,9 +141,8 @@ public class WorkbenchMenu extends Window implements HintedActor {
                     }
                     return true;
                 }
-                case Input.Keys.Q: {
-                    close();
-                    return true;
+                case CANCEL: {
+                    return close();
                 }
             }
             return false;
@@ -172,11 +154,15 @@ public class WorkbenchMenu extends Window implements HintedActor {
         closeButton.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                close();
-                return true;
+                return close();
             }
         });
         return closeButton;
+    }
+
+    public boolean close() {
+        GameMvc.instance().getView().removeStage(getStage());
+        return true;
     }
 
     public NavigableVerticalGroup getOrderList() {
