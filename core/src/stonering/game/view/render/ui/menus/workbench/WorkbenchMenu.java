@@ -14,9 +14,10 @@ import stonering.entity.local.building.aspects.WorkbenchAspect;
 import stonering.entity.local.crafting.ItemOrder;
 import stonering.enums.ControlActionsEnum;
 import stonering.game.GameMvc;
+import stonering.game.view.render.ui.menus.util.Highlightable;
 import stonering.game.view.render.ui.menus.util.HintedActor;
 import stonering.game.view.render.ui.menus.util.NavigableVerticalGroup;
-import stonering.game.view.render.ui.menus.workbench.orderline.EmptyItemCraftingOrderLine;
+import stonering.game.view.render.ui.menus.workbench.orderline.EmptyOrderLine;
 import stonering.game.view.render.ui.menus.workbench.orderline.ItemCraftingOrderLine;
 import stonering.game.view.render.ui.menus.workbench.orderline.OrderLine;
 import stonering.util.global.StaticSkin;
@@ -31,7 +32,6 @@ import stonering.util.global.Logger;
  */
 public class WorkbenchMenu extends Window implements HintedActor {
     private static final String MENU_HINT = "E: new order, WS: navigate, Q: quit";
-
     private Building workbench;
     private WorkbenchAspect workbenchAspect; // aspect of selected workbench (M thing)
     private NavigableVerticalGroup orderList;
@@ -91,7 +91,7 @@ public class WorkbenchMenu extends Window implements HintedActor {
      * Creates new order line and adds it to list
      */
     private void createNewOrder() {
-        OrderLine orderLine = new EmptyItemCraftingOrderLine(this);
+        OrderLine orderLine = new EmptyOrderLine(this);
         orderLine.show();
         getStage().setKeyboardFocus(orderLine);
     }
@@ -105,6 +105,10 @@ public class WorkbenchMenu extends Window implements HintedActor {
             selected = selected != null ? selected : this;
             getStage().setKeyboardFocus(selected);
             return true;
+        });
+        orderList.setHighlightHandler(aBoolean -> {          // try highlight selected element
+            if(orderList.getSelectedElement() instanceof Highlightable)
+                ((Highlightable) orderList.getSelectedElement()).getHighlightHandler().accept(aBoolean);
         });
         orderList.setCancelListener(event -> {
             getStage().setKeyboardFocus(this);

@@ -11,6 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import stonering.entity.local.building.aspects.WorkbenchAspect;
 import stonering.entity.local.crafting.ItemOrder;
 import stonering.entity.local.crafting.ItemPartOrder;
+import stonering.entity.local.item.selectors.AnyMaterialTagItemSelector;
 import stonering.entity.local.item.selectors.ItemSelector;
 import stonering.entity.local.item.selectors.SimpleItemSelector;
 import stonering.enums.items.type.ItemTypeMap;
@@ -24,13 +25,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * When players cancels order creation, this line hides.
+ * When player cancels order creation, this line is hidden.
  *
  * @author Alexander
  */
 public class ItemCraftingOrderLine extends OrderLine {
-    private static final String LINE_HINT = "order line hint";
-
     private ItemOrder order;
     private List<PlaceHolderSelectBox<ItemSelector>> partSelectBoxes;
 
@@ -38,13 +37,8 @@ public class ItemCraftingOrderLine extends OrderLine {
     private TextButton upButton;
     private TextButton downButton;
 
-    private PlaceHolderSelectBox focusedSelectBox; // manual focus for select boxes of this line
-
-    /**
-     * Creates line with filled order.
-     */
     public ItemCraftingOrderLine(WorkbenchMenu menu, @NotNull ItemOrder order) {
-        super(menu, LINE_HINT);
+        super(menu, "");
         this.menu = menu;
         this.order = order;
         partSelectBoxes = new ArrayList<>();
@@ -59,95 +53,20 @@ public class ItemCraftingOrderLine extends OrderLine {
         for (ItemPartOrder itemPartOrder : order.getParts()) {   // select boxes for item parts
             tryAddPartSelectBox(itemPartOrder);
         }
-        focusedSelectBox = partSelectBoxes.get(0);
+        focusedSelectBox = partSelectBoxes.isEmpty() ? null : partSelectBoxes.get(0);
+        hint = partSelectBoxes.isEmpty() ? "empty" : "qwer";
         createAndAddControlButtons();                            // buttons for managing order
     }
-
 
     /**
      * Creates and adds SB for itemPartOrder, or updates warning label if no item found.
      */
     private void tryAddPartSelectBox(ItemPartOrder itemPartOrder) {
         itemPartOrder.refreshSelectors(menu.getWorkbench().getPosition());
-        List<ItemSelector> itemSelectors = itemPartOrder.getItemSelectors();
-        if (itemSelectors.isEmpty()) {
-            warningLabel.setText("No item for " + itemPartOrder.getName() + " available");
-        } else {
-            PlaceHolderSelectBox<ItemSelector> materialSelectBox = createMaterialSelectBox(itemPartOrder, itemSelectors);
-            leftHG.addActor(materialSelectBox);
-            focusedSelectBox = materialSelectBox;
-            partSelectBoxes.add(materialSelectBox);
-        }
-    }
-
-    /**
-     * Creates selectBox for selecting material for item part.
-     * If no item is available,
-     * SelectBox can have no item after this (if no item available on map).
-     */
-    private PlaceHolderSelectBox createMaterialSelectBox(ItemPartOrder itemPartOrder, List<ItemSelector> itemSelectors) {
-        int currentIndex = order.getParts().indexOf(itemPartOrder);
-        PlaceHolderSelectBox<ItemSelector> materialSelectBox = new PlaceHolderSelectBox<>(new SimpleItemSelector("Select Material"));
-        Position workbenchPosition = menu.getWorkbench().getPosition();
-        itemPartOrder.refreshSelectors(workbenchPosition);
-        if (itemPartOrder.isSelectedPossible()) {   // selected is null or is in array
-            materialSelectBox.setItems(itemSelectors);
-            materialSelectBox.setSelected(itemPartOrder.getSelected());
-        } else {
-            itemSelectors.add(itemPartOrder.getSelected());
-            materialSelectBox.setItems(itemSelectors);
-            materialSelectBox.setSelected(itemPartOrder.getSelected());
-            //TODO add red status
-        }
-        materialSelectBox.addListener(new InputListener() {
-            @Override
-            public boolean keyDown(InputEvent event, int keycode) {
-                // TODO update status and warning labels
-                switch (keycode) {
-                    // confirms selected option, if dropdown is open. Otherwise, opens dropdown. no transition
-                    case Input.Keys.E: {
-                        if (materialSelectBox.getList().getStage() != null) {
-                            handleMaterialSelection(currentIndex);
-                            materialSelectBox.hideList();
-                        } else {
-                            showSelectBoxList(materialSelectBox);
-                        }
-                        return true;
-                    }
-                    // confirms selected option, if dropdown is open. Then, moves to next or previous select box, or creates it, or exits to list
-                    // (recipe selection is unavalable at this point)
-                    case Input.Keys.A:
-                    case Input.Keys.D: {
-                        if (materialSelectBox.getList().getStage() != null) { // select and move
-                            handleMaterialSelection(currentIndex);
-                            materialSelectBox.hideList();
-                            handleOrderLineNavigation(currentIndex, (keycode == Input.Keys.D ? 1 : -1)); // move to one SB left or right.
-                        } else if (materialSelectBox.getPlaceHolder().equals(materialSelectBox.getSelected())) { // show list if nothing was selected
-                            showSelectBoxList(materialSelectBox);
-                        } else {
-                            handleOrderLineNavigation(currentIndex, (keycode == Input.Keys.D ? 1 : -1)); // move to one SB left or right.
-                        }
-                        return true;
-                    }
-                    // hides dropdown and goes to list. if order is not finished, cancels it.
-                    case Input.Keys.Q: {
-                        materialSelectBox.hideList();
-                        goToListOrMenu();
-                        return true;
-                    }
-                }
-                return false;
-            }
-
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                super.touchDown(event, x, y, pointer, button);
-                materialSelectBox.navigate(0);
-                return true;
-            }
-        });
-        materialSelectBox.getList().addListener(createTouchListener());
-        return materialSelectBox;
+        PlaceHolderSelectBox<ItemSelector> materialSelectBox = new MaterialSelectBox(itemPartOrder);
+        leftHG.addActor(materialSelectBox);
+        focusedSelectBox = materialSelectBox;
+        partSelectBoxes.add(materialSelectBox);
     }
 
     private InputListener createTouchListener() {
@@ -191,7 +110,6 @@ public class ItemCraftingOrderLine extends OrderLine {
     }
 
     private void createAndAddControlButtons() {
-        if (rightHG.hasChildren()) return;
         repeatButton = addControlButton("R", new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -236,7 +154,7 @@ public class ItemCraftingOrderLine extends OrderLine {
             menu.getOrderList().navigate(0);
             target = menu.getOrderList();
         }
-        getStage().setKeyboardFocus(target);
+        menu.getStage().setKeyboardFocus(target);
         if (order == null || !order.isDefined()) { // row with not started or incomplete order
             Logger.UI.logDebug("Removing incomplete order from list.");
             hide();
