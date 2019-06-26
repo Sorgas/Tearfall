@@ -81,7 +81,7 @@ public class CraftItemAction extends Action {
         List<Item> uncheckedItems = new ArrayList<>();
         uncheckedItems.addAll(desiredItems);
         for (ItemPartOrder part : itemOrder.getParts()) {
-            List<Item> foundItems = GameMvc.instance().getModel().get(ItemContainer.class).getItemsAvailableBySelector(part.getSelected(), workbench.getAspect(PositionAspect.class).position);
+            List<Item> foundItems = GameMvc.instance().getModel().get(ItemContainer.class).getItemsAvailableBySelector(part.getItemSelector(), workbench.getAspect(PositionAspect.class).position);
             if (foundItems.isEmpty()) {
                 desiredItems.clear();
                 return false;

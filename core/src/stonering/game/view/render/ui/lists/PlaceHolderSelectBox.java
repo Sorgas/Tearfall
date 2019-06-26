@@ -7,7 +7,6 @@ import java.util.List;
 
 /**
  * SelectBox that shows its placeholder before any selection made.
- * @param <T>
  */
 public class PlaceHolderSelectBox<T> extends NavigableSelectBox<T> {
     private T placeHolder;
@@ -44,6 +43,7 @@ public class PlaceHolderSelectBox<T> extends NavigableSelectBox<T> {
 
     /**
      * Adds placeHolder as first item in list. And selects it.
+     *
      * @param newItems
      */
     private void addItemsWithPlaceHolder(Array<T> newItems) {
@@ -55,8 +55,8 @@ public class PlaceHolderSelectBox<T> extends NavigableSelectBox<T> {
     }
 
     //TODO some bug with empty list here
-    public void removePlaceHolder() {
-        if(getItems().contains(placeHolder, true)) {
+    private void removePlaceHolder() {
+        if (getItems().contains(placeHolder, true)) {
             T selected = getSelected();
             Array<T> items = new Array<>(getItems());
             items.removeValue(placeHolder, true);
@@ -69,5 +69,14 @@ public class PlaceHolderSelectBox<T> extends NavigableSelectBox<T> {
 
     public T getPlaceHolder() {
         return placeHolder;
+    }
+
+    /**
+     * Removes placeholder, so it'l never shown in open list.
+     */
+    @Override
+    public void showList() {
+        if (getItems().contains(placeHolder, true)) navigate(0);
+        super.showList();
     }
 }

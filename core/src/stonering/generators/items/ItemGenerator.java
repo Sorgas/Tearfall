@@ -185,7 +185,7 @@ public class ItemGenerator {
      */
     private ItemPart createMockItemPart(ItemPartType step, String itemName) throws FaultDescriptionException {
         String tag = step.getComponentVariants().get(0).getTag();
-        Set<Integer> materials = materialMap.getMaterialsByType(tag);
+        Set<Integer> materials = materialMap.getMaterialsByTag(tag);
         if (materials.isEmpty())
             throw new FaultDescriptionException("Material type " + tag + " for item " + itemName + " is invalid");
         return new ItemPart(step.getTitle(), materials.iterator().next(), 10); //TODO

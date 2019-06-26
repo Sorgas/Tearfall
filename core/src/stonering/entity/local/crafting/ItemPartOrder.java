@@ -3,77 +3,67 @@ package stonering.entity.local.crafting;
 import stonering.entity.local.item.selectors.AnyMaterialTagItemSelector;
 import stonering.entity.local.item.selectors.ItemSelector;
 import stonering.enums.items.recipe.ItemPartRecipe;
-import stonering.game.GameMvc;
-import stonering.game.model.lists.ItemContainer;
-import stonering.util.geometry.Position;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Part of {@link ItemOrder}.
+ * On creation, accepts items of first type and any material from {@link ItemPartRecipe}.
  *
  * @author Alexander on 05.01.2019.
  */
 public class ItemPartOrder {
+    private String name; // produced item part, null for consumed ingredients
     private ItemOrder order;
-    private String name;
-    private List<ItemSelector> itemSelectors;
-    private ItemSelector selected;
-    private ItemSelector anyMaterialSelector;
+    private ItemPartRecipe itemPartRecipe;
+    private String selectedMaterial;
+    private String selectedItemType;
+    private ItemSelector itemSelector;
 
     public ItemPartOrder(ItemOrder order, String name) {
         this.order = order;
         this.name = name;
-        itemSelectors = new ArrayList<>();
-        anyMaterialSelector = new AnyMaterialTagItemSelector(order.getRecipe().getItemPartRecipe(name));
+        itemPartRecipe = order.getRecipe().getItemPartRecipe(name);
+        selectedMaterial = "any " + itemPartRecipe.materialTag;
+        selectedItemType = itemPartRecipe.itemTypes.get(0);
     }
 
     /**
-     * Updates selectors, to have only those which have items available from selected position.
+     * Updates item selector for this item part selector.
      */
-    public void refreshSelectors(Position workbenchPosition) {
-        ItemPartRecipe partRecipe = order.getRecipe().getItemPartRecipe(name);
-        ItemContainer container = GameMvc.instance().getModel().get(ItemContainer.class);
-        itemSelectors = container.getItemSelectorsForItemPartRecipe(partRecipe, workbenchPosition);
-    }
-
-    /**
-     * Checks if selected item selector is present and similar to one of item selectors.
-     */
-    public boolean isSelectedPossible() {
-        if (selected == null) return true;                 // no item selected for this step
-        for (ItemSelector itemSelector : itemSelectors) {
-            if (itemSelector.equals(selected)) return true;
+    public void refreshSelector() {
+        if(selectedMaterial.startsWith("any ")) {
+            itemSelector = new AnyMaterialTagItemSelector(selectedItemType, itemPartRecipe.materialTag);
         }
-        return false;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<ItemSelector> getItemSelectors() {
-        return itemSelectors;
-    }
-
-    public ItemSelector getSelected() {
-        return selected;
-    }
-
-    public void setSelected(ItemSelector selected) {
-        this.selected = selected;
-    }
-
     public ItemOrder getOrder() {
         return order;
     }
 
-    public ItemSelector getAnyMaterialSelector() {
-        return anyMaterialSelector;
+    public ItemPartRecipe getItemPartRecipe() {
+        return itemPartRecipe;
+    }
+
+    public String getSelectedMaterial() {
+        return selectedMaterial;
+    }
+
+    public void setSelectedMaterial(String selectedMaterial) {
+        this.selectedMaterial = selectedMaterial;
+    }
+
+    public String getSelectedItemType() {
+        return selectedItemType;
+    }
+
+    public void setSelectedItemType(String selectedItemType) {
+        this.selectedItemType = selectedItemType;
+    }
+
+    public ItemSelector getItemSelector() {
+        return itemSelector;
     }
 }

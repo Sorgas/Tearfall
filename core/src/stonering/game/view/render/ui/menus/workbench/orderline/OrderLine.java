@@ -41,8 +41,6 @@ public class OrderLine extends Table implements HideableComponent, HintedActor, 
     protected Consumer<Boolean> highlightHandler;
     protected TextButton closeButton;
 
-    protected PlaceHolderSelectBox focusedSelectBox; // manual focus for select boxes of this line
-
     public OrderLine(WorkbenchMenu menu, String hint) {
         this.menu = menu;
         this.hint = hint;
@@ -56,7 +54,7 @@ public class OrderLine extends Table implements HideableComponent, HintedActor, 
     @Override
     public void act(float delta) {
         super.act(delta);
-        if(highlightHandler instanceof HighlightHandler) {
+        if (highlightHandler instanceof HighlightHandler) {
             if ((getStage().getKeyboardFocus() == this) != ((HighlightHandler) highlightHandler).value)
                 highlightHandler.accept(!((HighlightHandler) highlightHandler).value);
         } else {
@@ -76,22 +74,12 @@ public class OrderLine extends Table implements HideableComponent, HintedActor, 
         leftHG.right();
         defaults().prefHeight(30);
         addListener(new CloseInputListener());
-        addListener(new LineInputListener());
         closeButton = addControlButton("X", new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 hide();
             }
         });
-    }
-
-    /**
-     * Shows list of given select box. PlaceHolder is removed after this.
-     */
-    protected void showSelectBoxList(PlaceHolderSelectBox selectBox) {
-        selectBox.navigate(0);
-        selectBox.showList();
-        selectBox.getList().toFront();
     }
 
     /**
@@ -104,37 +92,13 @@ public class OrderLine extends Table implements HideableComponent, HintedActor, 
         return button;
     }
 
-    /**
-     * Fires event to focused selectBox.
-     */
-    private class LineInputListener extends InputListener {
-
-        @Override
-        public boolean keyDown(InputEvent event, int keycode) {
-            Logger.UI.logDebug("handling " + Input.Keys.toString(keycode) + " on OrderLine");
-            if (focusedSelectBox == null) return false;
-            event.setTarget(focusedSelectBox);
-            return focusedSelectBox.notify(event, false);
-//            return focusedSelectBox.fire(event);
-        }
-    }
-
-    private class ListTouchListener extends InputListener {
-
-        @Override
-        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-            getStage().setKeyboardFocus((event.getListenerActor()));
-            return super.touchDown(event, x, y, pointer, button);
-        }
-    }
-
     private class CloseInputListener extends InputListener {
 
         @Override
         public boolean keyDown(InputEvent event, int keycode) {
+            if (ControlActionsEnum.getAction(keycode) != ControlActionsEnum.CANCEL) return false;
             event.stop();
-            if (ControlActionsEnum.getAction(keycode) == ControlActionsEnum.CANCEL)// delete order from menu and workbench
-                if (closeButton != null) closeButton.toggle();
+            if (closeButton != null) closeButton.toggle();
             return true;
         }
     }

@@ -36,16 +36,6 @@ public class ItemOrder {
         }
     }
 
-    /**
-     * Order is defined, if all itemPartOrders have itemSelectors.
-     */
-    public boolean isDefined() {
-        for (ItemPartOrder part : parts) {
-            if (part.getSelected() == null) return false;
-        }
-        return true;
-    }
-
     public boolean isPaused() {
         return status == OrderStatusEnum.PAUSED || status == OrderStatusEnum.SUSPENDED;
     }

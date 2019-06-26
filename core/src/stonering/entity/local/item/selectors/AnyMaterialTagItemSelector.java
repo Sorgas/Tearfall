@@ -1,7 +1,6 @@
 package stonering.entity.local.item.selectors;
 
 import stonering.entity.local.item.Item;
-import stonering.enums.items.recipe.ItemPartRecipe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,10 +17,6 @@ public class AnyMaterialTagItemSelector extends ItemSelector {
     public AnyMaterialTagItemSelector(String name, String materialTag) {
         this.name = name;
         this.materialTag = materialTag;
-    }
-
-    public AnyMaterialTagItemSelector(ItemPartRecipe partRecipe) {
-        this(partRecipe.name, partRecipe.materialTag);
     }
 
     @Override
@@ -52,21 +47,5 @@ public class AnyMaterialTagItemSelector extends ItemSelector {
     @Override
     public String toString() {
         return "any " + materialTag + " " + name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getMaterialTag() {
-        return materialTag;
-    }
-
-    public void setMaterialTag(String materialTag) {
-        this.materialTag = materialTag;
     }
 }

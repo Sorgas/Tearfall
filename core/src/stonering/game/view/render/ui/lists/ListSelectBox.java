@@ -25,4 +25,10 @@ public class ListSelectBox<T> extends SelectBox<T> {
     public void setItems(List<T> items) {
         super.setItems((T[]) items.toArray());
     }
+
+    @Override
+    public void showList() {
+        super.showList();
+        getList().toFront(); // ensures that list will be visible.
+    }
 }

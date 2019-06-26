@@ -45,10 +45,11 @@ public class ModelSelectStage extends UiStage {
             }
         })).row();
         selectBox.setItems(fillModels());
+        selectBox.getSelection().setProgrammaticChangeEvents(false);
         selectBox.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                System.out.println(selectBox.getSelected().toString());
+                System.out.println(selectBox.getSelected( ).toString());
                 GameMvc gameMvc = GameMvc.createInstance(selectBox.getSelected());
                 gameMvc.createViewAndController();
                 gameMvc.init();

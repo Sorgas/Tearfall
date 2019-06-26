@@ -11,15 +11,15 @@ import org.jetbrains.annotations.NotNull;
 import stonering.entity.local.building.aspects.WorkbenchAspect;
 import stonering.entity.local.crafting.ItemOrder;
 import stonering.entity.local.crafting.ItemPartOrder;
-import stonering.entity.local.item.selectors.ItemSelector;
+import stonering.enums.ControlActionsEnum;
 import stonering.enums.items.type.ItemTypeMap;
-import stonering.game.view.render.ui.lists.PlaceHolderSelectBox;
 import stonering.game.view.render.ui.menus.workbench.WorkbenchMenu;
 import stonering.util.global.StaticSkin;
-import stonering.util.global.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static stonering.enums.ControlActionsEnum.*;
 
 /**
  * Shows {@link ItemPartSelection} for each part of recipe.
@@ -31,7 +31,7 @@ import java.util.List;
  */
 public class ItemCraftingOrderLine extends OrderLine {
     private ItemOrder order;
-    private List<PlaceHolderSelectBox<ItemSelector>> partSelectBoxes;
+    private List<ItemPartSelection> selections;
 
     private TextButton repeatButton;
     private TextButton upButton;
@@ -41,71 +41,23 @@ public class ItemCraftingOrderLine extends OrderLine {
         super(menu, "");
         this.menu = menu;
         this.order = order;
-        partSelectBoxes = new ArrayList<>();
-        initLine();
+        selections = new ArrayList<>();
+        createSelections();
+        createAndAddControlButtons();
     }
 
-    /**
-     * Creates select box for recipe if no order is given, or fills line from order.
-     */
-    private void initLine() {
+    private void createSelections() {
         leftHG.addActor(createItemLabel());
-        for (ItemPartOrder itemPartOrder : order.getParts()) {   // select boxes for item parts
-            tryAddPartSelectBox(itemPartOrder);
+        for (ItemPartOrder itemPartOrder : order.getParts()) {
+            addPartSelection(itemPartOrder);
         }
-        focusedSelectBox = partSelectBoxes.get(0); // part select boxes should never be empty, otherwise recipe is invalid
-        createAndAddControlButtons();                            // buttons for managing order
     }
 
-    /**
-     * Creates and adds SB for itemPartOrder, or updates warning label if no item found.
-     */
-    private void tryAddPartSelectBox(ItemPartOrder itemPartOrder) {
-        itemPartOrder.refreshSelectors(menu.getWorkbench().getPosition());
-        PlaceHolderSelectBox<ItemSelector> materialSelectBox = new ItemPartOrderSelectBox(itemPartOrder);
-        leftHG.addActor(materialSelectBox);
-        focusedSelectBox = materialSelectBox;
-        partSelectBoxes.add(materialSelectBox);
-    }
-
-    private InputListener createTouchListener() {
-        ItemCraftingOrderLine line = this;
-        return new InputListener() {
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                super.touchDown(event, x, y, pointer, button);
-                getStage().setKeyboardFocus(line);
-                return true;
-            }
-        };
-    }
-
-    /**
-     * Handles update of given SB. If order becomes defined, saves it to WB.
-     */
-    private void handleMaterialSelection(int index) {
-        order.getParts().get(index).setSelected(partSelectBoxes.get(index).getSelected()); // update item part order
-        if (!order.isDefined()) return;
-        Logger.TASKS.logDebug("Order " + order.getRecipe().name + " added to " + menu.getWorkbench());
-        menu.getWorkbenchAspect().addOrder(order);
-    }
-
-    /**
-     * Moves focus for delta SB, creates next SB if needed, exits to orderList if no SB available.
-     */
-    private void handleOrderLineNavigation(int previousIndex, int delta) {
-        int index = previousIndex + Integer.signum(delta);
-        if (index < 0) {                                // was first SB
-            goToListOrMenu();
-        } else if (index >= partSelectBoxes.size()) {    // was last SB
-            if (order.getParts().size() - 1 > previousIndex) {         // order has more parts
-                tryAddPartSelectBox(order.getParts().get(index));
-            } else { // no mere parts, exit
-                goToListOrMenu();
-            }
-        } else { // normal transition
-            focusedSelectBox = partSelectBoxes.get(index);
-        }
+    private void addPartSelection(ItemPartOrder itemPartOrder) {
+        itemPartOrder.refreshSelector();
+        ItemPartSelection selection = new ItemPartSelection(itemPartOrder, this);
+        leftHG.addActor(selection);
+        selections.add(selection);
     }
 
     private void createAndAddControlButtons() {
@@ -145,22 +97,6 @@ public class ItemCraftingOrderLine extends OrderLine {
     }
 
     /**
-     * Returns focus to order list or menu, removes current order, if it's not defined.
-     */
-    private void goToListOrMenu() {
-        Actor target = menu;
-        if (menu.getOrderList().hasChildren()) {
-            menu.getOrderList().navigate(0);
-            target = menu.getOrderList();
-        }
-        menu.getStage().setKeyboardFocus(target);
-        if (order == null || !order.isDefined()) { // row with not started or incomplete order
-            Logger.UI.logDebug("Removing incomplete order from list.");
-            hide();
-        }
-    }
-
-    /**
      * Input listener for order line as a whole. Presses right side buttons, cancels order modification.
      */
     private InputListener createOrderLineInputListener() {
@@ -186,5 +122,28 @@ public class ItemCraftingOrderLine extends OrderLine {
                 return false;
             }
         };
+    }
+
+    /**
+     * Navigates between select boxes inside selections or returns to menu;
+     */
+    public boolean navigate(ControlActionsEnum action, ItemPartSelection selection) {
+        if(action == CANCEL) {
+            Actor target = menu;
+            if (menu.getOrderList().hasChildren()) {
+                menu.getOrderList().navigate(0);
+                target = menu.getOrderList();
+            }
+            menu.getStage().setKeyboardFocus(target);
+        }
+        int delta = action == LEFT ? -1 : 0; // invert action
+        delta = action == RIGHT ? 1 : delta;
+        if(delta == 0) return false; // invalid case
+        int index = (selections.indexOf(selection) + delta + selections.size()) % selections.size();
+        return selections.get(index).navigate(action == RIGHT ? LEFT : RIGHT);
+    }
+
+    public void navigateToFirst() {
+        selections.get(0).navigate(LEFT);
     }
 }

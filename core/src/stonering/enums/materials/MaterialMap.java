@@ -8,6 +8,7 @@ import stonering.util.global.Logger;
 
 import java.util.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Singleton map of material types. Types are stored by their names.
@@ -58,12 +59,13 @@ public class MaterialMap {
     }
 
     public int getId(String name) {
-        if(!ids.containsKey(name)) Logger.ITEMS.logError("no material with name " + name + " exist");
+        if (!ids.containsKey(name)) Logger.ITEMS.logError("no material with name " + name + " exist");
         return ids.get(name);
     }
 
     /**
      * Filters all materials having types from given list.
+     *
      * @param types
      * @return HashSet of material ids
      */
@@ -77,16 +79,22 @@ public class MaterialMap {
     }
 
     /**
-     * Filters all materials having types from given list.
-     * @param type
-     * @return HashSet of material ids
+     * Filters all materials having given tag.
      */
-    public Set<Integer> getMaterialsByType(String type) {
+    public Set<Integer> getMaterialsByTag(String tag) {
         HashSet<Integer> idsSet = new HashSet<>();
         materials.values().stream().
-                filter(material -> material.getTags().contains(type)).
+                filter(material -> material.getTags().contains(tag)).
                 forEach(material -> idsSet.add(material.getId()));
         return idsSet;
+    }
+
+    public List<String> getMaterialNamesByTag(String tag) {
+        List<String> list = new ArrayList<>();
+        materials.values().stream().
+                filter(material -> material.getTags().contains(tag)).
+                forEach(material -> list.add(material.getName()));
+        return list;
     }
 
     public byte getAtlasY(int id) {

@@ -84,7 +84,6 @@ public class WorkbenchMenu extends Window implements HintedActor {
     private void createNewOrder() {
         OrderLine orderLine = new EmptyOrderLine(this);
         orderLine.show();
-        getStage().setKeyboardFocus(orderLine);
     }
 
     private NavigableVerticalGroup createOrderList() {
@@ -93,6 +92,7 @@ public class WorkbenchMenu extends Window implements HintedActor {
         orderList.keyMapping.put(Input.Keys.D, ControlActionsEnum.SELECT);
         orderList.setSelectListener(event -> {                             // go to order line or menu
             Actor selected = orderList.getSelectedElement();
+            ((ItemCraftingOrderLine) selected).navigateToFirst();
             getStage().setKeyboardFocus(selected != null ? selected : this);
             return true;
         });

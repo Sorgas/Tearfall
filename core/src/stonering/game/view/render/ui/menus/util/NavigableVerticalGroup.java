@@ -54,11 +54,9 @@ public class NavigableVerticalGroup extends VerticalGroup implements Highlightab
                     case DOWN:
                         return navigate(1);
                     case SELECT:
-                        select(event);
-                        return true;
+                        return selectListener != null && selectListener.handle(event);
                     case CANCEL:
-                        cancel(event);
-                        return true;
+                        return cancelListener != null && cancelListener.handle(event);
                 }
                 return true;
             }
@@ -86,14 +84,6 @@ public class NavigableVerticalGroup extends VerticalGroup implements Highlightab
             addActorAt(newIndex, actor);
             getStage().setKeyboardFocus(actor);
         }
-    }
-
-    public boolean select(InputEvent event) {
-        return selectListener != null && selectListener.handle(event);
-    }
-
-    public boolean cancel(InputEvent event) {
-        return cancelListener != null && cancelListener.handle(event);
     }
 
     public Actor getSelectedElement() {

@@ -1,9 +1,8 @@
 package stonering.game.view.render.ui.lists;
 
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
+import stonering.enums.ControlActionsEnum;
 import stonering.util.global.StaticSkin;
 
 /**
@@ -13,8 +12,6 @@ import stonering.util.global.StaticSkin;
  * @author Alexander on 27.11.2018.
  */
 public class NavigableSelectBox<T> extends ListSelectBox<T> {
-    private int upKey = Input.Keys.W;
-    private int downKey = Input.Keys.S;
 
     public NavigableSelectBox() {
         super(StaticSkin.getSkin());
@@ -26,19 +23,26 @@ public class NavigableSelectBox<T> extends ListSelectBox<T> {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 event.stop();
-                if (keycode == upKey) {
-                    navigate(-1);
-                    showList();
-                    return true;
-                } else if (keycode == downKey) {
-                    navigate(1);
-                    showList();
-                    return true;
-                } else {
-                    return false;
+                switch (ControlActionsEnum.getAction(keycode)) {
+                    case UP: {
+                        return handleNavigation(-1);
+                    }
+                    case DOWN: {
+                        return handleNavigation(1);
+                    }
                 }
+                return false;
             }
         });
+    }
+
+    private boolean handleNavigation(int delta) {
+        if (getList().getStage() == null) {
+            showList();
+        } else {
+            navigate(delta);
+        }
+        return true;
     }
 
     public void navigate(int delta) {
@@ -47,13 +51,5 @@ public class NavigableSelectBox<T> extends ListSelectBox<T> {
             setSelectedIndex(newIndex);
             getList().setSelectedIndex(newIndex);
         }
-    }
-
-    public void setUpKey(int upKey) {
-        this.upKey = upKey;
-    }
-
-    public void setDownKey(int downKey) {
-        this.downKey = downKey;
     }
 }

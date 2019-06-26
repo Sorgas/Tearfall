@@ -1,12 +1,15 @@
 package stonering.game.view.render.ui.menus.workbench.orderline;
 
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import stonering.entity.local.crafting.ItemPartOrder;
+import stonering.enums.ControlActionsEnum;
 import stonering.enums.items.recipe.ItemPartRecipe;
 import stonering.game.view.render.ui.menus.util.Highlightable;
 import stonering.game.view.render.ui.menus.util.HintedActor;
+import stonering.game.view.render.ui.menus.workbench.orderline.selectbox.ItemTypeSelectBox;
+import stonering.game.view.render.ui.menus.workbench.orderline.selectbox.MaterialSelectBox;
 import stonering.util.global.StaticSkin;
-import sun.font.TextLabel;
 
 import java.util.function.Consumer;
 
@@ -21,45 +24,34 @@ import java.util.function.Consumer;
  */
 public class ItemPartSelection extends Table implements HintedActor, Highlightable {
     private String hint;
-    private ItemPartOrderSelectBox materialSelectBox;
-    private ItemPartOrderSelectBox itemTypeSelectBox;
-    private TextLabel itemTypeLabel;
+    private ItemCraftingOrderLine orderLine;
+    private MaterialSelectBox materialSelectBox;
+    private ItemTypeSelectBox itemTypeSelectBox;
 
-    private ItemPartOrderSelectBox focusedBox;
+    public ItemPartSelection(ItemPartOrder itemPartOrder, ItemCraftingOrderLine orderLine) {
+        this.orderLine = orderLine;
+        add(materialSelectBox = new MaterialSelectBox(itemPartOrder, this));
+        if(itemPartOrder.getItemPartRecipe().itemTypes.size() > 0) {
+            add(itemTypeSelectBox = new ItemTypeSelectBox(itemPartOrder, this));
+        } else {
+            add(new Label(itemPartOrder.getItemPartRecipe().itemTypes.get(0), StaticSkin.getSkin()));
+        }
+    }
 
     @Override
     public void act(float delta) {
         super.act(delta);
-        if (itemTypeSelectBox == null) {
-            if (focusedBox == materialSelectBox) {
-                if (materialSelectBox.getList().getStage() == getStage()) {
-                    hint = "WS: navigate, ED: select material.";
-                } else {
-                    hint = "WSE: show materials";
-                }
-            }
-        } else {
-            if (focusedBox == materialSelectBox) {
-                if (materialSelectBox.getList().getStage() == getStage()) {
-                    hint = "WS: navigate, ED: select material.";
-                } else {
-                    hint = "WSE: show materials";
-                }
-            } else if (itemTypeSelectBox != null) {
-                if (itemTypeSelectBox.getList().getStage() == getStage()) {
-                    hint = "WS: navigate, ED: select material.";
-                } else {
-                    hint = "WSE: show materials";
-                }
-            }
 
-        }
     }
 
-    public ItemPartSelection(ItemPartOrder itemPartOrder) {
-        super(StaticSkin.getSkin());
-        materialSelectBox = new ItemPartOrderSelectBox(itemPartOrder);
-        if (itemPartOrder.)
+    private void updateHint() {
+        if(itemTypeSelectBox == null) {
+            if (materialSelectBox.getList().getStage() == getStage()) {
+                hint = "WS: navigate, ED: select material.";
+            } else {
+                hint = "WSE: show materials";
+            }
+        }
     }
 
     @Override
@@ -75,5 +67,15 @@ public class ItemPartSelection extends Table implements HintedActor, Highlightab
     @Override
     public String getHint() {
         return null;
+    }
+
+    public boolean navigate(ControlActionsEnum action) {
+        if(getStage().getKeyboardFocus() != itemTypeSelectBox && action == ControlActionsEnum.RIGHT) {
+            return getStage().setKeyboardFocus(itemTypeSelectBox);
+        }
+        if(getStage().getKeyboardFocus() != materialSelectBox && action == ControlActionsEnum.LEFT) {
+            return getStage().setKeyboardFocus(materialSelectBox);
+        }
+        return orderLine.navigate(action, this);
     }
 }
