@@ -17,6 +17,7 @@ import stonering.enums.plants.PlantType;
 import stonering.game.GameMvc;
 import stonering.game.model.lists.ZonesContainer;
 import stonering.game.view.render.ui.lists.NavigableList;
+import stonering.game.view.render.ui.menus.util.Highlightable;
 import stonering.util.global.Logger;
 import stonering.util.global.StaticSkin;
 
@@ -124,8 +125,12 @@ public class FarmZoneMenu extends Window {
     private NavigableList<PlantType> createList() {
         NavigableList<PlantType> list = new NavigableList<>();
         list.setSize(150, 300);
-        list.setHighlightHandler(focused -> {
-            list.setColor(focused ? Color.BLUE : Color.RED);
+        list.setHighlightHandler(new Highlightable.CheckHighlightHandler() {
+
+            @Override
+            public void handle() {
+                list.setColor(value ? Color.BLUE : Color.RED);
+            }
         });
         ListInputHandler handler = new ListInputHandler(list);
         list.getListeners().clear(); // to replace standard listener.
@@ -149,7 +154,7 @@ public class FarmZoneMenu extends Window {
         if (type == null) return;
         list.getItems().removeValue(type, true);
         getAnotherList(list).getItems().add(type);
-        list.setSelectedIndex(Math.min(index, list.getItems().size -1));
+        list.setSelectedIndex(Math.min(index, list.getItems().size - 1));
         farmZone.setPlant(type, list == disabledPlants);
     }
 

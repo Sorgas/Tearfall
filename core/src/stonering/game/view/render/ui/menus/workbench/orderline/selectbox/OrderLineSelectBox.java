@@ -11,8 +11,6 @@ import stonering.game.view.render.ui.menus.util.HintedActor;
 import stonering.game.view.render.ui.menus.workbench.orderline.ItemPartSelection;
 import stonering.game.view.render.ui.menus.workbench.orderline.OrderLine;
 
-import java.util.function.Consumer;
-
 /**
  * Select box to be shown within {@link OrderLine}.
  *
@@ -21,6 +19,7 @@ import java.util.function.Consumer;
 public abstract class OrderLineSelectBox extends NavigableSelectBox<String> implements HintedActor, Highlightable {
     protected ItemPartOrder itemPartOrder; // updated on SB change.
     protected ItemPartSelection selection;
+    private HighlightHandler highlightHandler;
 
     /**
      * @param itemPartOrder all data is taken from order for item part.
@@ -31,6 +30,13 @@ public abstract class OrderLineSelectBox extends NavigableSelectBox<String> impl
         this.selection = selection;
         createListener();
         getList().addListener(createTouchListener());
+        highlightHandler = new HighlightHandler();
+    }
+
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+        updateHighlighting(getStage().getKeyboardFocus() == this);
     }
 
     /**
@@ -92,18 +98,21 @@ public abstract class OrderLineSelectBox extends NavigableSelectBox<String> impl
         };
     }
 
-    @Override
-    public void setHighlightHandler(Consumer<Boolean> handler) {
+    private class HighlightHandler extends Highlightable.CheckHighlightHandler {
 
-    }
-
-    @Override
-    public Consumer<Boolean> getHighlightHandler() {
-        return null;
+        @Override
+        public void handle() {
+            //TODO update background
+        }
     }
 
     @Override
     public String getHint() {
         return "";
+    }
+
+    @Override
+    public Highlightable.HighlightHandler getHighlightHandler() {
+        return highlightHandler;
     }
 }

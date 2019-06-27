@@ -11,7 +11,6 @@ import stonering.game.view.render.ui.menus.workbench.orderline.selectbox.ItemTyp
 import stonering.game.view.render.ui.menus.workbench.orderline.selectbox.MaterialSelectBox;
 import stonering.util.global.StaticSkin;
 
-import java.util.function.Consumer;
 
 /**
  * Keeps two select boxes:
@@ -27,11 +26,14 @@ public class ItemPartSelection extends Table implements HintedActor, Highlightab
     private ItemCraftingOrderLine orderLine;
     private MaterialSelectBox materialSelectBox;
     private ItemTypeSelectBox itemTypeSelectBox;
+    private HighlightHandler highlightHandler;
 
     public ItemPartSelection(ItemPartOrder itemPartOrder, ItemCraftingOrderLine orderLine) {
         this.orderLine = orderLine;
+        highlightHandler = new HighlightHandler();
+        add(new Label(itemPartOrder.getName(), StaticSkin.getSkin())).row();
         add(materialSelectBox = new MaterialSelectBox(itemPartOrder, this));
-        if(itemPartOrder.getItemPartRecipe().itemTypes.size() > 0) {
+        if (itemPartOrder.getItemPartRecipe().itemTypes.size() > 0) {
             add(itemTypeSelectBox = new ItemTypeSelectBox(itemPartOrder, this));
         } else {
             add(new Label(itemPartOrder.getItemPartRecipe().itemTypes.get(0), StaticSkin.getSkin()));
@@ -41,11 +43,14 @@ public class ItemPartSelection extends Table implements HintedActor, Highlightab
     @Override
     public void act(float delta) {
         super.act(delta);
-
+        boolean isFocused = getStage().getKeyboardFocus() == materialSelectBox ||
+                itemTypeSelectBox != null && getStage().getKeyboardFocus() == itemTypeSelectBox;
+        updateHighlighting(isFocused);
+        updateHint();
     }
 
     private void updateHint() {
-        if(itemTypeSelectBox == null) {
+        if (itemTypeSelectBox == null) {
             if (materialSelectBox.getList().getStage() == getStage()) {
                 hint = "WS: navigate, ED: select material.";
             } else {
@@ -55,27 +60,31 @@ public class ItemPartSelection extends Table implements HintedActor, Highlightab
     }
 
     @Override
-    public void setHighlightHandler(Consumer<Boolean> handler) {
-
-    }
-
-    @Override
-    public Consumer<Boolean> getHighlightHandler() {
-        return null;
-    }
-
-    @Override
     public String getHint() {
         return null;
     }
 
     public boolean navigate(ControlActionsEnum action) {
-        if(getStage().getKeyboardFocus() != itemTypeSelectBox && action == ControlActionsEnum.RIGHT) {
+        if (getStage().getKeyboardFocus() != itemTypeSelectBox && action == ControlActionsEnum.RIGHT) {
             return getStage().setKeyboardFocus(itemTypeSelectBox);
         }
-        if(getStage().getKeyboardFocus() != materialSelectBox && action == ControlActionsEnum.LEFT) {
+        if (getStage().getKeyboardFocus() != materialSelectBox && action == ControlActionsEnum.LEFT) {
             return getStage().setKeyboardFocus(materialSelectBox);
         }
         return orderLine.navigate(action, this);
+    }
+
+    private class HighlightHandler extends Highlightable.CheckHighlightHandler {
+
+        @Override
+        public void handle() {
+            // TODO update background
+        }
+
+    }
+
+    @Override
+    public Highlightable.HighlightHandler getHighlightHandler() {
+        return highlightHandler;
     }
 }

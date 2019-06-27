@@ -1,6 +1,5 @@
 package stonering.game.view.render.ui.menus.workbench.orderline;
 
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -13,15 +12,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import stonering.enums.ControlActionsEnum;
 import stonering.enums.OrderStatusEnum;
 import stonering.game.view.render.ui.images.DrawableMap;
-import stonering.game.view.render.ui.lists.PlaceHolderSelectBox;
 import stonering.game.view.render.ui.menus.util.HideableComponent;
 import stonering.game.view.render.ui.menus.util.Highlightable;
 import stonering.game.view.render.ui.menus.util.HintedActor;
 import stonering.game.view.render.ui.menus.workbench.WorkbenchMenu;
-import stonering.util.global.Logger;
 import stonering.util.global.StaticSkin;
-
-import java.util.function.Consumer;
 
 /**
  * Order line with status icon, hint string and close button.
@@ -38,7 +33,7 @@ public class OrderLine extends Table implements HideableComponent, HintedActor, 
     protected HorizontalGroup rightHG;                            // contains control buttons.
     protected StatusIcon statusIcon;                              // shows status, updates on status change
     protected Label warningLabel;                                 // shown when something is not ok
-    protected Consumer<Boolean> highlightHandler;
+    protected HighlightHandler highlightHandler;
     protected TextButton closeButton;
 
     public OrderLine(WorkbenchMenu menu, String hint) {
@@ -54,12 +49,7 @@ public class OrderLine extends Table implements HideableComponent, HintedActor, 
     @Override
     public void act(float delta) {
         super.act(delta);
-        if (highlightHandler instanceof HighlightHandler) {
-            if ((getStage().getKeyboardFocus() == this) != ((HighlightHandler) highlightHandler).value)
-                highlightHandler.accept(!((HighlightHandler) highlightHandler).value);
-        } else {
-            highlightHandler.accept(getStage().getKeyboardFocus() == this);
-        }
+//        updateHighlighting(getStage().getKeyboardFocus() == this);
     }
 
     /**
@@ -101,20 +91,20 @@ public class OrderLine extends Table implements HideableComponent, HintedActor, 
             if (closeButton != null) closeButton.toggle();
             return true;
         }
-    }
 
-    private class HighlightHandler implements Consumer<Boolean> {
-        boolean value;
+    }
+    /**
+     * Updates drawable, if focus changed.
+     */
+    private class HighlightHandler extends Highlightable.CheckHighlightHandler {
 
         @Override
-        public void accept(Boolean value) {
+        public void handle() {
             Drawable drawable = DrawableMap.getInstance().getDrawable(BACKGROUND_NAME + (value ? ":focused" : ""));
-            this.value = !value;
             if (drawable != null) setBackground(drawable);
         }
 
     }
-
     /**
      * Shows this line in its screen.
      */
@@ -142,12 +132,7 @@ public class OrderLine extends Table implements HideableComponent, HintedActor, 
     }
 
     @Override
-    public void setHighlightHandler(Consumer<Boolean> handler) {
-        highlightHandler = handler;
-    }
-
-    @Override
-    public Consumer<Boolean> getHighlightHandler() {
+    public Highlightable.HighlightHandler getHighlightHandler() {
         return highlightHandler;
     }
 }

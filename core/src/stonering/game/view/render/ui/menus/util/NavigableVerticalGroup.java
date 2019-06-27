@@ -11,7 +11,6 @@ import stonering.util.global.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Consumer;
 
 /**
  * Vertical group which can handle input to change selected element.
@@ -23,7 +22,7 @@ public class NavigableVerticalGroup extends VerticalGroup implements Highlightab
     private EventListener selectListener;
     private EventListener cancelListener;
     private boolean highlighted;
-    private Consumer<Boolean> highlightHandler;
+    private HighlightHandler highlightHandler;
     private int selectedIndex = -1;
 
     public NavigableVerticalGroup() {
@@ -35,9 +34,9 @@ public class NavigableVerticalGroup extends VerticalGroup implements Highlightab
     @Override
     public void act(float delta) {
         super.act(delta);
-        if (getStage() == null || highlightHandler == null) return;
+        if (getStage() == null) return;
         // highlighted should be true if this group is focused.
-        if ((getStage().getKeyboardFocus() == this) != highlighted) highlightHandler.accept(highlighted = !highlighted);
+        updateHighlighting(getStage().getKeyboardFocus() == this);
     }
 
     private void createDefaultListener() {
@@ -110,12 +109,12 @@ public class NavigableVerticalGroup extends VerticalGroup implements Highlightab
     }
 
     @Override
-    public void setHighlightHandler(Consumer<Boolean> handler) {
+    public void setHighlightHandler(HighlightHandler handler) {
         highlightHandler = handler;
     }
 
     @Override
-    public Consumer<Boolean> getHighlightHandler() {
+    public HighlightHandler getHighlightHandler() {
         return highlightHandler;
     }
 

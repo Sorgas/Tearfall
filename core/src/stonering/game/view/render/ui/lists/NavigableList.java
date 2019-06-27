@@ -23,7 +23,7 @@ public class NavigableList<T> extends List<T> implements Highlightable {
     private EventListener hideListener;
     private EventListener selectListener;
     private EventListener showListener;
-    private Consumer<Boolean> highlightHandler;
+    private HighlightHandler highlightHandler;
     private boolean highlighted;
 
     public NavigableList() {
@@ -94,9 +94,7 @@ public class NavigableList<T> extends List<T> implements Highlightable {
 
     public void act(float delta) {
         super.act(delta);
-        if (highlightHandler != null && (getStage().getKeyboardFocus() == this) != highlighted) {
-            highlightHandler.accept(highlighted = !highlighted);
-        }
+        updateHighlighting(getStage().getKeyboardFocus() == this);
     }
 
     public void setHideListener(EventListener hideListener) {
@@ -111,12 +109,13 @@ public class NavigableList<T> extends List<T> implements Highlightable {
         this.showListener = showListener;
     }
 
-    public Consumer<Boolean> getHighlightHandler() {
+    @Override
+    public HighlightHandler getHighlightHandler() {
         return highlightHandler;
     }
 
     @Override
-    public void setHighlightHandler(Consumer<Boolean> handler) {
+    public void setHighlightHandler(HighlightHandler handler) {
         highlightHandler = handler;
     }
 }

@@ -96,9 +96,12 @@ public class WorkbenchMenu extends Window implements HintedActor {
             getStage().setKeyboardFocus(selected != null ? selected : this);
             return true;
         });
-        orderList.setHighlightHandler(aBoolean -> {          // try highlight selected element
-            if(orderList.getSelectedElement() instanceof Highlightable)
-                ((Highlightable) orderList.getSelectedElement()).getHighlightHandler().accept(aBoolean);
+        orderList.setHighlightHandler(new Highlightable.HighlightHandler() {
+            @Override
+            public void handle() {
+                if (orderList.getSelectedElement() instanceof Highlightable)
+                    ((Highlightable) orderList.getSelectedElement()).updateHighlighting(true);
+            }
         });
         orderList.setCancelListener(event -> {
             getStage().setKeyboardFocus(this);
