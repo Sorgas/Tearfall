@@ -1,4 +1,4 @@
-package stonering.test_chamber.screen.stage;
+package stonering.test_chamber.screen;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;

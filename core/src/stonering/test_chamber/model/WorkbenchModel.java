@@ -15,6 +15,7 @@ import stonering.util.geometry.Position;
  * @author Alexander_Kuzyakov on 25.06.2019.
  */
 public class WorkbenchModel extends GameModel {
+    private static final int MAP_SIZE = 9;
 
     public WorkbenchModel() {
         put(createLocalMap());
@@ -34,12 +35,11 @@ public class WorkbenchModel extends GameModel {
     }
 
     private LocalMap createLocalMap() {
-        LocalMap localMap = new LocalMap(1, 1, 2);
-        localMap.setBlock(0, 0, 0, BlockTypesEnum.WALL, MaterialMap.getInstance().getId("soil"));
-        localMap.setBlock(0, 0, 1, BlockTypesEnum.FLOOR, MaterialMap.getInstance().getId("soil"));
-
-        for (int x = 0; x < 9; x++) {
-            for (int y = 0; y < 9; y++) {
+        LocalMap localMap = new LocalMap(MAP_SIZE, MAP_SIZE, 2);
+        for (int x = 0; x < MAP_SIZE; x++) {
+            for (int y = 0; y < MAP_SIZE; y++) {
+                localMap.setBlock(x, y, 0, BlockTypesEnum.WALL, MaterialMap.getInstance().getId("soil"));
+                localMap.setBlock(x, y, 1, BlockTypesEnum.FLOOR, MaterialMap.getInstance().getId("soil"));
             }
         }
 

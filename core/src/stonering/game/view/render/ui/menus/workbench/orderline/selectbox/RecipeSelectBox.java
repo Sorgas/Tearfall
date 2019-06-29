@@ -1,8 +1,10 @@
 package stonering.game.view.render.ui.menus.workbench.orderline.selectbox;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.enums.ControlActionsEnum;
 import stonering.enums.items.recipe.Recipe;
 import stonering.game.view.render.ui.lists.PlaceHolderSelectBox;
@@ -10,6 +12,8 @@ import stonering.game.view.render.ui.lists.PlaceHolderSelectBox;
 import java.util.List;
 
 /**
+ * Select box for selecting recipes in workbenches.
+ *
  * @author Alexander on 26.06.2019.
  */
 public class RecipeSelectBox extends PlaceHolderSelectBox<Recipe> {
@@ -18,7 +22,18 @@ public class RecipeSelectBox extends PlaceHolderSelectBox<Recipe> {
 
     public RecipeSelectBox(List<Recipe> recipes) {
         super(new Recipe("Select item"));
+        getSelection().setProgrammaticChangeEvents(false);
         setItems(recipes);
+        createListeners();
+    }
+
+    private void createListeners() {
+        addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                selectListener.handle(event);
+            }
+        });
         getListeners().insert(0, new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {

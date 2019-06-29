@@ -3,7 +3,6 @@ package stonering.test_chamber.screen;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import stonering.test_chamber.TestChamberGame;
-import stonering.test_chamber.screen.stage.ModelSelectStage;
 
 public class TestChamberScreen implements Screen {
     private TestChamberGame testChamberGame;
