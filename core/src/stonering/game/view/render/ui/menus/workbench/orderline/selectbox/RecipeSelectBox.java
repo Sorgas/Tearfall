@@ -50,12 +50,12 @@ public class RecipeSelectBox extends PlaceHolderSelectBox<Recipe> {
                 return super.keyDown(event, keycode);
             }
 
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                super.touchDown(event, x, y, pointer, button);
-                navigate(1);
-                return true;
-            }
+//            @Override
+//            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+//                super.touchDown(event, x, y, pointer, button);
+//                navigate(1);
+//                return true;
+//            }
         });
     }
 

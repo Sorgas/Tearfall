@@ -7,6 +7,7 @@ import stonering.entity.local.Aspect;
 import stonering.entity.local.Entity;
 import stonering.entity.local.building.Building;
 import stonering.entity.local.crafting.ItemOrder;
+import stonering.enums.TaskStatusEnum;
 import stonering.enums.items.recipe.Recipe;
 import stonering.enums.items.recipe.RecipeMap;
 import stonering.game.GameMvc;
@@ -138,7 +139,7 @@ public class WorkbenchAspect extends Aspect {
                 int index = entries.indexOf(entry);
 //                if (index == current) entry.task.fail(); // interrupt currently executing order.
             }
-            entry.order.setStatus(value ? OrderStatusEnum.PAUSED : OrderStatusEnum.WAITING);
+            entry.order.setStatus(value ? PAUSED : OPEN);
         }
         updateFlag();
     }

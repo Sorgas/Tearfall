@@ -1,3 +1,6 @@
+/*
+  bounds [start XY, size XY]
+*/
 [
   {
     "name": "workbench_order_line",
@@ -40,13 +43,8 @@
     "bounds": [32,0,32,32]
   },
   {
-    "name": "order_selection",
-    "texture": "icons.png",
-    "bounds": [32,0,32,32]
-  },
-  {
     "name": "order_selection:focused",
     "texture": "icons.png",
-    "bounds": [32,0,32,32]
-  },
+    "bounds": [0,32,60,16]
+  }
 ]

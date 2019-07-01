@@ -74,7 +74,7 @@ public class TileRenderer extends Renderer {
             defineLayerBounds(z);
             for (int y = cacheBounds.getMaxY(); y >= cacheBounds.getMinY(); y--) {
                 for (int x = cacheBounds.getMinX(); x <= cacheBounds.getMaxX(); x++) {
-//                    drawTile(x, y, z);
+                    drawTile(x, y, z);
                 }
             }
             for (int y = cacheBounds.getMaxY(); y >= cacheBounds.getMinY(); y--) {

@@ -1,18 +1,16 @@
 package stonering.game.view.render.ui.menus.workbench.orderline;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Cell;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Stack;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import stonering.entity.local.crafting.ItemPartOrder;
 import stonering.enums.ControlActionsEnum;
 import stonering.enums.items.recipe.ItemPartRecipe;
+import stonering.game.view.render.ui.images.DrawableMap;
 import stonering.game.view.render.ui.menus.util.Highlightable;
 import stonering.game.view.render.ui.menus.util.HintedActor;
 import stonering.game.view.render.ui.menus.workbench.orderline.selectbox.ItemTypeSelectBox;
 import stonering.game.view.render.ui.menus.workbench.orderline.selectbox.MaterialSelectBox;
 import stonering.util.global.StaticSkin;
-
 
 /**
  * Keeps two select boxes:
@@ -24,11 +22,11 @@ import stonering.util.global.StaticSkin;
  * @author Alexander_Kuzyakov on 26.06.2019.
  */
 public class ItemPartSelection extends Stack implements HintedActor, Highlightable {
-    private final static String regionName = "order_selection"; // name of background from regions.json
+    private final static String focusedRegionName = "order_selection:focused";
     private String hint;
     private Table table;
-    private Cell materialCell;
-    private Cell itemTypeCell;
+    private Image materialImage;
+    private Image itemTypeImage;
     private ItemCraftingOrderLine orderLine;
     private MaterialSelectBox materialSelectBox;
     private ItemTypeSelectBox itemTypeSelectBox;
@@ -37,16 +35,17 @@ public class ItemPartSelection extends Stack implements HintedActor, Highlightab
     public ItemPartSelection(ItemPartOrder itemPartOrder, ItemCraftingOrderLine orderLine) {
         this.orderLine = orderLine;
         highlightHandler = new HighlightHandler();
-        add(new Label(itemPartOrder.getName(), StaticSkin.getSkin()));
         add(createTable(itemPartOrder));
+        add(new Container(new Label(itemPartOrder.getName(), StaticSkin.getSkin())).left().top());
     }
 
     private Table createTable(ItemPartOrder itemPartOrder) {
         table = new Table();
-        materialCell = table.add(); // cells change background on selectboxes focus.
-        itemTypeCell = table.add();
+        table.defaults().prefHeight(30);
+        table.add(materialImage = new Image()).fillX(); // images change drawables on focus change.
+        table.add(itemTypeImage = new Image()).fillX().row();
         table.add(materialSelectBox = new MaterialSelectBox(itemPartOrder, this));
-        if (itemPartOrder.getItemPartRecipe().itemTypes.size() > 0) {
+        if (itemPartOrder.getItemPartRecipe().itemTypes.size() > 1) {
             table.add(itemTypeSelectBox = new ItemTypeSelectBox(itemPartOrder, this));
         } else {
             table.add(new Label(itemPartOrder.getItemPartRecipe().itemTypes.get(0), StaticSkin.getSkin()));
@@ -57,9 +56,7 @@ public class ItemPartSelection extends Stack implements HintedActor, Highlightab
     @Override
     public void act(float delta) {
         super.act(delta);
-        boolean isFocused = getStage().getKeyboardFocus() == materialSelectBox ||
-                itemTypeSelectBox != null && getStage().getKeyboardFocus() == itemTypeSelectBox;
-        updateHighlighting(isFocused);
+        updateHighlighting(true);
         updateHint();
     }
 
@@ -79,22 +76,32 @@ public class ItemPartSelection extends Stack implements HintedActor, Highlightab
     }
 
     public boolean navigate(ControlActionsEnum action) {
-        if (getStage().getKeyboardFocus() != itemTypeSelectBox && action == ControlActionsEnum.RIGHT) {
-            return getStage().setKeyboardFocus(itemTypeSelectBox);
+        Actor focused  = getStage().getKeyboardFocus();
+        if(itemTypeSelectBox != null) {
+            if (focused != itemTypeSelectBox && action == ControlActionsEnum.RIGHT) {
+                return getStage().setKeyboardFocus(itemTypeSelectBox);
+            }
+            if (focused != materialSelectBox && action == ControlActionsEnum.LEFT) {
+                return getStage().setKeyboardFocus(materialSelectBox);
+            }
+            return orderLine.navigate(action, this);
+        } else {
+            if(focused == materialSelectBox) {
+                return orderLine.navigate(action, this);
+            } else {
+                return getStage().setKeyboardFocus(materialSelectBox);
+            }
         }
-        if (getStage().getKeyboardFocus() != materialSelectBox && action == ControlActionsEnum.LEFT) {
-            return getStage().setKeyboardFocus(materialSelectBox);
-        }
-        return orderLine.navigate(action, this);
     }
 
-    private class HighlightHandler extends Highlightable.CheckHighlightHandler {
+    private class HighlightHandler extends Highlightable.HighlightHandler {
 
         @Override
         public void handle() {
-            // TODO update background
+            materialImage.setDrawable(getStage().getKeyboardFocus() == materialSelectBox ? DrawableMap.getInstance().getDrawable(focusedRegionName) : null);
+            if (itemTypeSelectBox != null)
+                itemTypeImage.setDrawable(getStage().getKeyboardFocus() == itemTypeSelectBox ? DrawableMap.getInstance().getDrawable(focusedRegionName) : null);
         }
-
     }
 
     @Override

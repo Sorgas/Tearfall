@@ -133,18 +133,20 @@ public class ItemCraftingOrderLine extends OrderLine {
      * Navigates between select boxes inside selections or returns to menu;
      */
     public boolean navigate(ControlActionsEnum action, ItemPartSelection selection) {
-        if (action == CANCEL) {
+        if (action == CANCEL || action == LEFT && selection == selections.get(0)) { // quit with cancel or left on first selection.
             Actor target = menu;
             if (menu.getOrderList().hasChildren()) {
                 menu.getOrderList().navigate(0);
                 target = menu.getOrderList();
             }
-            menu.getStage().setKeyboardFocus(target);
+            return menu.getStage().setKeyboardFocus(target);
         }
-        int delta = action == LEFT ? -1 : 0; // invert action
+        if(action == RIGHT && selection == selections.get(selections.size() - 1)) return false; // nothing on right on last selection.
+
+        int delta = action == LEFT ? -1 : 0;
         delta = action == RIGHT ? 1 : delta;
         if (delta == 0) return false; // invalid case
-        int index = (selections.indexOf(selection) + delta + selections.size()) % selections.size();
+        int index = selections.indexOf(selection) + delta;
         return selections.get(index).navigate(action == RIGHT ? LEFT : RIGHT);
     }
 
