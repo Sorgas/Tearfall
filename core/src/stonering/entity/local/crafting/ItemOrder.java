@@ -1,6 +1,6 @@
 package stonering.entity.local.crafting;
 
-import stonering.enums.OrderStatusEnum;
+import stonering.enums.TaskStatusEnum;
 import stonering.enums.items.recipe.ItemPartRecipe;
 import stonering.enums.items.recipe.Recipe;
 
@@ -22,14 +22,14 @@ import java.util.*;
 public class ItemOrder {
     private Recipe recipe;
     private List<ItemPartOrder> parts; // itemPart to item selected for variant.
-    private OrderStatusEnum status;
     private int amount;
+    private TaskStatusEnum status;
     private boolean repeated;
 
     public ItemOrder(Recipe recipe) {
         this.recipe = recipe;
         amount = 1;
-        status = OrderStatusEnum.WAITING;
+        status = TaskStatusEnum.OPEN;
         parts = new ArrayList<>();
         for (ItemPartRecipe itemPartRecipe : recipe.parts) {
             parts.add(new ItemPartOrder(this, itemPartRecipe.itemPart));
@@ -37,7 +37,7 @@ public class ItemOrder {
     }
 
     public boolean isPaused() {
-        return status == OrderStatusEnum.PAUSED || status == OrderStatusEnum.SUSPENDED;
+        return status == TaskStatusEnum.PAUSED;
     }
 
     @Override
@@ -57,11 +57,11 @@ public class ItemOrder {
         return recipe;
     }
 
-    public OrderStatusEnum getStatus() {
+    public TaskStatusEnum getStatus() {
         return status;
     }
 
-    public void setStatus(OrderStatusEnum status) {
+    public void setStatus(TaskStatusEnum status) {
         this.status = status;
     }
 

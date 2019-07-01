@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import org.jetbrains.annotations.NotNull;
+import stonering.entity.job.action.ActionTypeEnum;
 import stonering.entity.local.building.aspects.WorkbenchAspect;
 import stonering.entity.local.crafting.ItemOrder;
 import stonering.entity.local.crafting.ItemPartOrder;
@@ -22,6 +23,8 @@ import java.util.List;
 import static stonering.enums.ControlActionsEnum.*;
 
 /**
+ * Order line for selected recipe. {@link ItemOrder}
+ * <p>
  * Shows {@link ItemPartSelection} for each part of recipe.
  * Selections are filled with {@link stonering.entity.local.item.selectors.AnyMaterialTagItemSelector} by default.
  * Player can navigate between them to specify items to use in order.
@@ -105,18 +108,20 @@ public class ItemCraftingOrderLine extends OrderLine {
             public boolean keyDown(InputEvent event, int keycode) {
                 event.stop();
                 // transitions between select boxes should be handled in them.
-                switch (keycode) {
-                    case Input.Keys.R: {
+                switch (ControlActionsEnum.getAction(keycode)) {
+                    case Z_UP: {
                         if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
-                            if (repeatButton != null) repeatButton.toggle();
-                        } else {
                             if (upButton != null) upButton.toggle();
+                        } else {
+                            if (repeatButton != null) repeatButton.toggle();
                         }
                         return true;
                     }
-                    case Input.Keys.F: {
-                        if (downButton != null) downButton.toggle();
-                        return true;
+                    case Z_DOWN: {
+                        if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
+                            if (downButton != null) downButton.toggle();
+                            return true;
+                        }
                     }
                 }
                 return false;
@@ -128,7 +133,7 @@ public class ItemCraftingOrderLine extends OrderLine {
      * Navigates between select boxes inside selections or returns to menu;
      */
     public boolean navigate(ControlActionsEnum action, ItemPartSelection selection) {
-        if(action == CANCEL) {
+        if (action == CANCEL) {
             Actor target = menu;
             if (menu.getOrderList().hasChildren()) {
                 menu.getOrderList().navigate(0);
@@ -138,7 +143,7 @@ public class ItemCraftingOrderLine extends OrderLine {
         }
         int delta = action == LEFT ? -1 : 0; // invert action
         delta = action == RIGHT ? 1 : delta;
-        if(delta == 0) return false; // invalid case
+        if (delta == 0) return false; // invalid case
         int index = (selections.indexOf(selection) + delta + selections.size()) % selections.size();
         return selections.get(index).navigate(action == RIGHT ? LEFT : RIGHT);
     }

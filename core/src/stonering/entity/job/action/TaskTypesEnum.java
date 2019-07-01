@@ -6,8 +6,8 @@ package stonering.entity.job.action;
  * @author Alexander Kuzyakov on 26.12.2017.
  */
 public enum TaskTypesEnum {
-    DESIGNATION,
+    DESIGNATION, // tasks have designation field
     EQUIPPING,
-    CRAFTING,
+    CRAFTING, // tasks have itemOrder field
     OTHER
 }

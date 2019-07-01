@@ -41,7 +41,9 @@ public class EmptyOrderLine extends OrderLine {
 
     private void replaceSelfWith(Recipe recipe) {
         hide();
-        ItemCraftingOrderLine orderLine = new ItemCraftingOrderLine(menu, new ItemOrder(recipe));
+        ItemOrder order = new ItemOrder(recipe);
+        menu.getWorkbenchAspect().addOrder(order);
+        ItemCraftingOrderLine orderLine = new ItemCraftingOrderLine(menu, order);
         orderLine.show();
         orderLine.navigateToFirst();
     }

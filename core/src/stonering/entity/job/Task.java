@@ -1,7 +1,9 @@
 package stonering.entity.job;
 
 import stonering.entity.job.designation.Designation;
+import stonering.entity.local.crafting.ItemOrder;
 import stonering.entity.local.unit.aspects.PlanningAspect;
+import stonering.enums.TaskStatusEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.lists.tasks.TaskContainer;
 import stonering.game.model.local_map.LocalMap;
@@ -23,8 +25,6 @@ import java.util.LinkedList;
  * @author Alexander Kuzyakov
  */
 public class Task {
-    private GameMvc gameMvc;
-    private TaskContainer taskContainer;
     private String name;
     private Unit performer;
     private TaskTypesEnum taskType;
@@ -32,25 +32,26 @@ public class Task {
     private LinkedList<Action> preActions;
     private LinkedList<Action> postActions;
     private Designation designation;
+    private ItemOrder itemOrder;
     private int priority;
+    private TaskStatusEnum status;
 
     public Task(String name, TaskTypesEnum taskType, Action initialAction, int priority) {
-        gameMvc = GameMvc.instance();
         this.name = name;
         this.taskType = taskType;
         this.initialAction = initialAction;
         initialAction.setTask(this);
-        this.taskContainer = gameMvc.getModel().get(TaskContainer.class);
         preActions = new LinkedList<>();
         postActions = new LinkedList<>();
         this.priority = priority;
+        status = TaskStatusEnum.OPEN;
     }
 
     /**
      * Removes this task from container  if it's finished.
      */
     public void tryFinishTask() {
-        if (isFinished()) taskContainer.removeTask(this);
+        if (isFinished()) GameMvc.instance().getModel().get(TaskContainer.class).removeTask(this);
     }
 
     /**
@@ -109,11 +110,11 @@ public class Task {
     public void fail() {
         //TODO add interruption
         reset();
-        taskContainer.removeTask(this);
+        GameMvc.instance().getModel().get(TaskContainer.class).removeTask(this);
     }
 
     public boolean isTaskTargetsAvailableFrom(Position position) {
-        UtilByteArray area = gameMvc.getModel().get(LocalMap.class).getPassage().getArea();
+        UtilByteArray area = GameMvc.instance().getModel().get(LocalMap.class).getPassage().getArea();
         int sourceArea = area.getValue(position);
         Position target = initialAction.getActionTarget().getPosition();
         for (int x = -1; x < 2; x++) {
@@ -213,5 +214,21 @@ public class Task {
 
     public void setPerformer(Unit performer) {
         this.performer = performer;
+    }
+
+    public TaskStatusEnum getStatus() {
+        return status;
+    }
+
+    public void setStatus(TaskStatusEnum status) {
+        this.status = status;
+    }
+
+    public ItemOrder getItemOrder() {
+        return itemOrder;
+    }
+
+    public void setItemOrder(ItemOrder itemOrder) {
+        this.itemOrder = itemOrder;
     }
 }

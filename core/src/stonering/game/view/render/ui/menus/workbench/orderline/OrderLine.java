@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import stonering.enums.ControlActionsEnum;
-import stonering.enums.OrderStatusEnum;
+import stonering.enums.TaskStatusEnum;
 import stonering.game.view.render.ui.images.DrawableMap;
 import stonering.game.view.render.ui.menus.util.HideableComponent;
 import stonering.game.view.render.ui.menus.util.Highlightable;
@@ -19,7 +19,7 @@ import stonering.game.view.render.ui.menus.workbench.WorkbenchMenu;
 import stonering.util.global.StaticSkin;
 
 /**
- * Order line with status icon, hint string and close button.
+ * Order line with general structure, status icon, hint string and close button.
  * Creates table with no select boxes.
  *
  * @author Alexander_Kuzyakov on 24.06.2019.
@@ -57,7 +57,7 @@ public class OrderLine extends Table implements HideableComponent, HintedActor, 
      */
     private void createTable() {
         left();
-        add(statusIcon = new StatusIcon(OrderStatusEnum.WAITING));
+        add(statusIcon = new StatusIcon(TaskStatusEnum.OPEN));
         add(leftHG = new HorizontalGroup());
         add(warningLabel = new Label("", StaticSkin.getSkin())).expandX();
         add(rightHG = new HorizontalGroup());
@@ -86,10 +86,14 @@ public class OrderLine extends Table implements HideableComponent, HintedActor, 
 
         @Override
         public boolean keyDown(InputEvent event, int keycode) {
-            if (ControlActionsEnum.getAction(keycode) != ControlActionsEnum.CANCEL) return false;
-            event.stop();
-            if (closeButton != null) closeButton.toggle();
-            return true;
+            switch(ControlActionsEnum.getAction(keycode)) {
+                case CANCEL:
+                case LEFT:
+                    event.stop();
+                    hide();
+                    return true;
+            }
+            return false;
         }
 
     }

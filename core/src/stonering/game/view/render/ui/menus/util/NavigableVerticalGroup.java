@@ -21,7 +21,6 @@ public class NavigableVerticalGroup extends VerticalGroup implements Highlightab
     public Map<Integer, ControlActionsEnum> keyMapping;
     private EventListener selectListener;
     private EventListener cancelListener;
-    private boolean highlighted;
     private HighlightHandler highlightHandler;
     private int selectedIndex = -1;
 
@@ -48,9 +47,9 @@ public class NavigableVerticalGroup extends VerticalGroup implements Highlightab
                 if (action == null) action = ControlActionsEnum.getAction(keycode);
                 event.stop();
                 switch (action) {
-                    case UP:
+                    case Z_UP:
                         return navigate(-1);
-                    case DOWN:
+                    case Z_DOWN:
                         return navigate(1);
                     case SELECT:
                         return selectListener != null && selectListener.handle(event);
@@ -98,10 +97,6 @@ public class NavigableVerticalGroup extends VerticalGroup implements Highlightab
 
     public void setSelectListener(EventListener selectListener) {
         this.selectListener = selectListener;
-    }
-
-    public int getSelectedIndex() {
-        return selectedIndex;
     }
 
     public void setSelectedIndex(int selectedIndex) {

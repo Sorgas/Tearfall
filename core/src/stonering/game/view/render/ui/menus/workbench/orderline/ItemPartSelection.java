@@ -1,6 +1,8 @@
 package stonering.game.view.render.ui.menus.workbench.orderline;
 
+import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import stonering.entity.local.crafting.ItemPartOrder;
 import stonering.enums.ControlActionsEnum;
@@ -21,8 +23,12 @@ import stonering.util.global.StaticSkin;
  *
  * @author Alexander_Kuzyakov on 26.06.2019.
  */
-public class ItemPartSelection extends Table implements HintedActor, Highlightable {
+public class ItemPartSelection extends Stack implements HintedActor, Highlightable {
+    private final static String regionName = "order_selection"; // name of background from regions.json
     private String hint;
+    private Table table;
+    private Cell materialCell;
+    private Cell itemTypeCell;
     private ItemCraftingOrderLine orderLine;
     private MaterialSelectBox materialSelectBox;
     private ItemTypeSelectBox itemTypeSelectBox;
@@ -31,13 +37,21 @@ public class ItemPartSelection extends Table implements HintedActor, Highlightab
     public ItemPartSelection(ItemPartOrder itemPartOrder, ItemCraftingOrderLine orderLine) {
         this.orderLine = orderLine;
         highlightHandler = new HighlightHandler();
-        add(new Label(itemPartOrder.getName(), StaticSkin.getSkin())).row();
-        add(materialSelectBox = new MaterialSelectBox(itemPartOrder, this));
+        add(new Label(itemPartOrder.getName(), StaticSkin.getSkin()));
+        add(createTable(itemPartOrder));
+    }
+
+    private Table createTable(ItemPartOrder itemPartOrder) {
+        table = new Table();
+        materialCell = table.add(); // cells change background on selectboxes focus.
+        itemTypeCell = table.add();
+        table.add(materialSelectBox = new MaterialSelectBox(itemPartOrder, this));
         if (itemPartOrder.getItemPartRecipe().itemTypes.size() > 0) {
-            add(itemTypeSelectBox = new ItemTypeSelectBox(itemPartOrder, this));
+            table.add(itemTypeSelectBox = new ItemTypeSelectBox(itemPartOrder, this));
         } else {
-            add(new Label(itemPartOrder.getItemPartRecipe().itemTypes.get(0), StaticSkin.getSkin()));
+            table.add(new Label(itemPartOrder.getItemPartRecipe().itemTypes.get(0), StaticSkin.getSkin()));
         }
+        return table;
     }
 
     @Override

@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SingleTreeModel extends GameModel {
+    public static final String NAME = "SingleTreeModel";
     private static final int MAP_SIZE = 11;
     private static final int TREE_CENTER = 5;
 

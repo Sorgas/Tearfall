@@ -31,7 +31,7 @@ import stonering.util.global.Logger;
  * @author Alexander on 28.10.2018.
  */
 public class WorkbenchMenu extends Window implements HintedActor {
-    private static final String MENU_HINT = "E: new order, WS: navigate, Q: quit";
+    private static final String MENU_HINT = "E: new order, WSD: navigate, AQ: quit";
     private Building workbench;
     private WorkbenchAspect workbenchAspect; // aspect of selected workbench (M thing)
     private NavigableVerticalGroup orderList;
@@ -70,26 +70,11 @@ public class WorkbenchMenu extends Window implements HintedActor {
         setHeight(600);
     }
 
-    private TextButton createAddButton() {
-        TextButton button = new TextButton("New", StaticSkin.getSkin());
-        button.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                createNewOrder();
-            }
-        });
-        return button;
-    }
-
-    private void createNewOrder() {
-        OrderLine orderLine = new EmptyOrderLine(this);
-        orderLine.show();
-    }
-
     private NavigableVerticalGroup createOrderList() {
         orderList = new NavigableVerticalGroup();
         orderList.grow();
-        orderList.keyMapping.put(Input.Keys.D, ControlActionsEnum.SELECT);
+        orderList.keyMapping.put(Input.Keys.D, ControlActionsEnum.SELECT); // add additional control key, so pressing D-D on menu will get player to order.
+        orderList.keyMapping.put(Input.Keys.A, ControlActionsEnum.CANCEL); // add additional control key, so pressing A-A on order will get player to menu.
         orderList.setSelectListener(event -> {                             // go to order line or menu
             Actor selected = orderList.getSelectedElement();
             ((ItemCraftingOrderLine) selected).navigateToFirst();
@@ -136,10 +121,10 @@ public class WorkbenchMenu extends Window implements HintedActor {
                     return true;
                 }
                 case UP:
-                case DOWN: {
+                case DOWN:
+                case RIGHT: {
                     if (orderList.hasChildren()) {
                         orderList.setSelectedIndex(0);
-                        orderList.navigate(keycode == Input.Keys.S ? 0 : -1);
                         getStage().setKeyboardFocus(orderList);
                     }
                     return true;
@@ -150,6 +135,22 @@ public class WorkbenchMenu extends Window implements HintedActor {
             }
             return false;
         }
+    }
+
+    private TextButton createAddButton() {
+        TextButton button = new TextButton("New", StaticSkin.getSkin());
+        button.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                createNewOrder();
+            }
+        });
+        return button;
+    }
+
+    private void createNewOrder() {
+        OrderLine orderLine = new EmptyOrderLine(this);
+        orderLine.show();
     }
 
     private TextButton createCloseButton() {

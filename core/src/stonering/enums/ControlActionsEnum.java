@@ -19,7 +19,9 @@ public enum ControlActionsEnum {
     RIGHT,
     SELECT,
     CANCEL,
-    REPEAT;
+    Z_UP,
+    Z_DOWN;
+
 
     static Map<Integer, ControlActionsEnum> mapping = new HashMap<>();
 
@@ -30,7 +32,8 @@ public enum ControlActionsEnum {
         mapping.put(Input.Keys.D, RIGHT);
         mapping.put(Input.Keys.E, SELECT);
         mapping.put(Input.Keys.Q, CANCEL);
-        mapping.put(Input.Keys.R, REPEAT);
+        mapping.put(Input.Keys.R, Z_UP);
+        mapping.put(Input.Keys.F, Z_DOWN);
     }
 
     public static ControlActionsEnum getAction(int keycode) {

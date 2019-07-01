@@ -13,14 +13,17 @@ import stonering.test_chamber.TestChamberGame;
 import stonering.test_chamber.model.*;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ModelSelectStage extends UiStage {
     private TestChamberGame testChamberGame;
-    private PlaceHolderSelectBox<GameModel> selectBox;
+    private PlaceHolderSelectBox<String> selectBox;
+    private Map<String, Class> classMap;
 
     public ModelSelectStage(TestChamberGame testChamberGame) {
         this.testChamberGame = testChamberGame;
+        fillModels();
         createStage();
     }
 
@@ -38,41 +41,41 @@ public class ModelSelectStage extends UiStage {
         table.defaults().pad(10);
         table.setWidth(300);
         table.setHeight(300);
-        table.add(selectBox = new PlaceHolderSelectBox<>(new GameModel() {
-            @Override
-            public String toString() {
-                return "Select Model";
-            }
-        })).row();
-        selectBox.setItems(fillModels());
+        table.add(selectBox = new PlaceHolderSelectBox<>("Select Model")).row();
+        selectBox.setItems(new ArrayList<>(classMap.keySet()));
         selectBox.getSelection().setProgrammaticChangeEvents(false);
         selectBox.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                System.out.println(selectBox.getSelected( ).toString());
-                GameMvc gameMvc = GameMvc.createInstance(selectBox.getSelected());
+                System.out.println(selectBox.getSelected());
+                GameMvc gameMvc = GameMvc.createInstance(getInstance(selectBox.getSelected()));
                 gameMvc.createViewAndController();
                 gameMvc.init();
                 testChamberGame.setScreen(GameMvc.instance().getView());
                 gameMvc.getModel().setPaused(false);
             }
         });
+        setKeyboardFocus(selectBox);
         return table;
     }
 
-    private List<GameModel> fillModels() {
-        List<GameModel> testModels = new ArrayList<>();
-        testModels.add(new SingleTreeModel());
-        testModels.add(new SinglePlantModel());
-        testModels.add(new PondPlantsModel());
-        testModels.add(new PassageModel());
-        testModels.add(new CameraModel());
-        testModels.add(new WorkbenchModel());
-        return testModels;
+    private void fillModels() {
+        classMap = new HashMap<>();
+        classMap.put(SingleTreeModel.class.getSimpleName(), SingleTreeModel.class);
+        classMap.put(SingleTreeModel.class.getSimpleName(), SingleTreeModel.class);
+        classMap.put(SinglePlantModel.class.getSimpleName(), SinglePlantModel.class);
+        classMap.put(PondPlantsModel.class.getSimpleName(), PondPlantsModel.class);
+        classMap.put(PassageModel.class.getSimpleName(), PassageModel.class);
+        classMap.put(CameraModel.class.getSimpleName(), CameraModel.class);
+        classMap.put(WorkbenchModel.class.getSimpleName(), WorkbenchModel.class);
     }
 
-    @Override
-    public void draw() {
-        super.draw();
+    private GameModel getInstance(String name) {
+        try {
+            return (GameModel) classMap.get(name).newInstance();
+        } catch (InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

@@ -7,24 +7,28 @@ import stonering.entity.local.Aspect;
 import stonering.entity.local.Entity;
 import stonering.entity.local.building.Building;
 import stonering.entity.local.crafting.ItemOrder;
-import stonering.enums.OrderStatusEnum;
 import stonering.enums.items.recipe.Recipe;
 import stonering.enums.items.recipe.RecipeMap;
 import stonering.game.GameMvc;
 import stonering.game.model.lists.tasks.TaskContainer;
+import stonering.game.view.render.ui.menus.workbench.WorkbenchMenu;
 import stonering.util.global.Logger;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import static stonering.enums.TaskStatusEnum.*;
+
 /**
  * Aspect for workbenches. Manages orders of workbench.
- * Orders for this workbench are stored in cycled list.
- * After creation order can be cancelled, suspended, moved in the list, set for repeating.
- * Only first order is executed. After executing, order is removed from the list.
- * If order is repeated, instead of removing, it moves to the bottom of the list.
- * If execution is not possible, order is suspended.
+ * Orders for workbench are stored in cycled list.
+ * Orders are configured via {@link WorkbenchMenu}.
+ * When order becomes first in the list, {@link Task} is created.
+ * Order status id updated when task changes status.
+ * After creation, order can be cancelled, suspended, moved in the list, set for repeating.
+ * Only first order is executed. After executing, order is removed from the list, or moved to the bottom, if it is repeated.
+ * If execution is not possible, order is suspended or cancelled (TODO add config for this).
  * Suspended entries are skipped.
  * <p>
  * Fail on execution generates general warning for player.
@@ -33,10 +37,10 @@ import java.util.List;
  */
 public class WorkbenchAspect extends Aspect {
     public static final String NAME = "workbench";
-    private List<Recipe> recipes;
+    private List<Recipe> recipes; // all available recipes
     private LinkedList<OrderTaskEntry> entries; // entry may have no task.
-
-//    private boolean hasActiveOrders = false; // false on empty list or if all orders are suspended
+    private boolean hasActiveOrders = false; // false on empty list or if all orders are suspended
+    private boolean deleteFailedTasks = false; // setting for deleting or suspending failed tasks.
 
     public WorkbenchAspect(Entity entity) {
         super(entity);
@@ -50,19 +54,21 @@ public class WorkbenchAspect extends Aspect {
      */
     @Override
     public void turn() {
-        if (entries.isEmpty()) return;
+        if (entries.isEmpty() || !hasActiveOrders) return;
         OrderTaskEntry entry = entries.getFirst();
-        if (entry.task == null) {                     // new order
-            Logger.BUILDING.logDebug("Initing task for order " + entry.order.getRecipe().name);
-            createTaskForOrder(entry);
-            GameMvc.instance().getModel().get(TaskContainer.class).getTasks().add(entry.task);
-        } else if (entry.task.isFinished()) {          // if task is finished normally
-            entries.removeFirst();
-            if (entry.order.isRepeated()) {
-                entry.task.reset();
-                entries.addLast(entry);
+        switch (entry.order.getStatus()) {
+            case OPEN: {
+                // newly added order with no task.
+                if (entry.task == null) createTaskForOrder(entry);
+                break;
             }
-            rollToNextNotSuspended();
+            case PAUSED: {
+                rollToNextNotSuspended(); // try to move to the next task
+                break;
+            }
+            case COMPLETE:
+            case FAILED:
+                handleOrderCompletion(entry); // remove, suspend or move to bottom
         }
     }
 
@@ -70,10 +76,23 @@ public class WorkbenchAspect extends Aspect {
      * Rolls entry list to make first element not suspended.
      */
     private void rollToNextNotSuspended() {
-        if (entries.size() < 2) return; // no roll on 1 or 0 entries.
-        if (entries.stream().allMatch(entry -> entry.order.isPaused())) return; // all orders paused
-        while(entries.getFirst().order.isPaused()) {
+        if (entries.size() < 2 || !hasActiveOrders) return; // no roll on 1 or 0 entries, or if all orders suspended.
+        while (entries.getFirst().order.isPaused()) {
             entries.addLast(entries.removeFirst());
+        }
+    }
+
+    /**
+     * Pauses or deletes failed task (depending on setting).
+     * Rolls or deletes completed tasks (depending on repeated).
+     */
+    private void handleOrderCompletion(OrderTaskEntry entry) {
+        entries.remove(entry);
+        entry.task.reset();
+        if (entry.order.getStatus() == COMPLETE && entry.order.isRepeated()) {
+            entries.addLast(entry); // move to the bottom of the list
+        } else if (entry.order.getStatus() == FAILED && !deleteFailedTasks) {
+            entry.order.setStatus(PAUSED); // pause failed task
         }
     }
 
@@ -157,11 +176,13 @@ public class WorkbenchAspect extends Aspect {
     }
 
     /**
-     * Creates task and adds it to given entry.
+     * Creates task and adds it to given entry and {@link TaskContainer}.
      */
     private void createTaskForOrder(OrderTaskEntry entry) {
+        Logger.BUILDING.logDebug("Creating task for order " + entry.order.getRecipe().name);
         CraftItemAction action = new CraftItemAction(entry.order, entity);
         entry.task = new Task(entry.order.getRecipe().name, TaskTypesEnum.CRAFTING, action, 1);
+        GameMvc.instance().getModel().get(TaskContainer.class).getTasks().add(entry.task);
     }
 
     /**
