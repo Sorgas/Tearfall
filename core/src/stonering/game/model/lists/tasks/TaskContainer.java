@@ -26,7 +26,7 @@ import java.util.HashMap;
 
 /**
  * Contains all tasks for settlers on map and Designations for rendering.
- * {@link Task} are orders for units.
+ * {@link Task} are orders for unit.
  * {@link Designation} are used for drawing given orders as tiles.
  *
  * @author Alexander Kuzyakov
@@ -48,7 +48,7 @@ public class TaskContainer implements ModelComponent, Initable {
     public void init() {}
 
     /**
-     * Gets tasks for units.
+     * Gets tasks for unit.
      * //TODO
      */
     public Task getActiveTask(Position pos) {

@@ -1,4 +1,4 @@
-package stonering.entity.local.unit.aspects;
+package stonering.entity.local.unit.aspects.body;
 
 import stonering.entity.local.Aspect;
 import stonering.entity.local.unit.Unit;
@@ -14,29 +14,13 @@ import java.util.HashMap;
 public class BodyAspect extends Aspect {
     public static String NAME = "body";
     private String bodyType;
-    private HashMap<String, BodyPart> bodyParts; // title to bodyPart
+    private HashMap<String, BodyPart> bodyParts; // name to bodyPart
     private ArrayList<String> bodyPartsToCover;
 
     public BodyAspect(Unit unit) {
         super(unit);
         bodyParts = new HashMap<>();
         bodyPartsToCover = new ArrayList<>();
-    }
-
-    public class BodyPart {
-        public String title;
-        public int size;
-        public int weight;
-        public String type;
-        public String[] layers;
-        public Organ[] organs;
-        public BodyPart root; // each body part points to one it`s connected to
-        public String rootName;
-        public String[] tags;
-
-        public BodyPart(String title) {
-            this.title = title;
-        }
     }
 
     public class Organ {

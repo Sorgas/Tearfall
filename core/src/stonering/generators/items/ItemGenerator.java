@@ -112,7 +112,7 @@ public class ItemGenerator {
 //    }
 
     /**
-     * Selects item crafting step by title.
+     * Selects item crafting step by name.
      *
      * @param type
      * @param title

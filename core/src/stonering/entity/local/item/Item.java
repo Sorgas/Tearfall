@@ -40,7 +40,7 @@ public class Item extends Entity {
 
     @Override
     public String toString() {
-        return "title: " + title +
+        return "name: " + title +
                 " position: " + getPosition() +
                 " weight: " + weight;
     }

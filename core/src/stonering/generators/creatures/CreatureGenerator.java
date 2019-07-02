@@ -1,54 +1,51 @@
 package stonering.generators.creatures;
 
-import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
+import stonering.enums.unit.CreatureType;
+import stonering.enums.unit.CreatureTypeMap;
 import stonering.generators.creatures.needs.NeedAspectGenerator;
 import stonering.util.geometry.Position;
 import stonering.entity.local.unit.aspects.MovementAspect;
 import stonering.entity.local.unit.aspects.PlanningAspect;
 import stonering.entity.local.unit.Unit;
-import stonering.util.global.FileLoader;
 import stonering.util.global.Logger;
 
 /**
- * Creates creatures from json files by specimen title.
+ * Creates creatures from json files by specimen name.
  *
  * @author Alexander Kuzyakov on 03.12.2017.
  */
 public class CreatureGenerator {
-    private JsonReader reader;
     private BodyGenerator bodyGenerator;
     private EquipmentAspectGenerator equipmentAspectGenerator;
     private NeedAspectGenerator needAspectGenerator;
-    private JsonValue creatures;
 
     public CreatureGenerator() {
-        reader = new JsonReader();
         bodyGenerator = new BodyGenerator();
         equipmentAspectGenerator = new EquipmentAspectGenerator();
         needAspectGenerator = new NeedAspectGenerator();
-        creatures = reader.parse(FileLoader.getFile(FileLoader.CREATURES_PATH));
     }
 
     /**
      * Generates unit and fills it's aspects.
      */
     public Unit generateUnit(String specimen) {
-        JsonValue creature = getCreatureDescriptor(specimen);
-        if (creature == null) return null;
+        CreatureType type = CreatureTypeMap.instance().getCreatureType(specimen);
+        if (type == null) return null;
         Unit unit = new Unit(new Position(0, 0, 0));    // empty unit //TODO change constructor.
-        return addAspects(unit, creature);
+        return addAspects(unit, type);
     }
 
     /**
      * Create aspects and add them to unit.
      */
-    private Unit addAspects(Unit unit, JsonValue creature) {
-        unit.addAspect(bodyGenerator.generateBodyAspect(creature));
+    private Unit addAspects(Unit unit, CreatureType type) {
+        unit.addAspect(bodyGenerator.generateBodyAspect(type));
         unit.addAspect(new PlanningAspect(null));
         unit.addAspect(new MovementAspect(null));
-        unit.addAspect(equipmentAspectGenerator.generateEquipmentAspect(creature));
-        unit.addAspect(needAspectGenerator.generateNeedAspect(creature));
+        unit.addAspect(equipmentAspectGenerator.generateEquipmentAspect(type));
+
+        unit.addAspect(needAspectGenerator.generateNeedAspect(type));
         return unit;
     }
 

@@ -15,7 +15,7 @@ import java.util.Map;
  */
 public class ItemType extends Entity {
     public String name;                                // id
-    public String title;                               // displayable title
+    public String title;                               // displayable name
     public String description;                         // displayable description
     public WearItemType wear;                          // is set if this item could be worn
     public ToolItemType tool;                          // is set if this item could be used as tool

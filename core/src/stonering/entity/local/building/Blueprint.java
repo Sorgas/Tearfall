@@ -13,7 +13,7 @@ import java.util.List;
 public class Blueprint implements Initable {
     private String name; // blueprint id.
     private String building; //building id
-    private String title; // button title
+    private String title; // button name
     private String placing; // maps to position validator for place selecting and task checking.
     private List<String> menuPath; // button path in toolbar
     private List<CommonComponent> components; // red from json

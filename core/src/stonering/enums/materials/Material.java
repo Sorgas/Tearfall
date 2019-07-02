@@ -109,7 +109,7 @@ public class Material {
     public String toString() {
         return "Material{" +
                 "id=" + id +
-                ", title='" + name + '\'' +
+                ", name='" + name + '\'' +
                 '}';
     }
 }

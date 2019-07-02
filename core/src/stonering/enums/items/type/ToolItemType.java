@@ -21,7 +21,7 @@ public class ToolItemType {
     }
 
     public static class ToolAction {
-        public String action; // action title
+        public String action; // action name
         public float speedMod; // efficiency
         public String part;
     }
@@ -31,7 +31,7 @@ public class ToolItemType {
         public float damageMod; // item efficiency or this attack
         public float baseReload; // attack reload turns
         public String damageType; //TODO replace with enum
-        public String ammo; // ammo item title
+        public String ammo; // ammo item name
         public String part;
     }
 

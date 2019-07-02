@@ -1,4 +1,4 @@
-package stonering.enums.units;
+package stonering.enums.unit;
 
 import java.util.List;
 
@@ -11,6 +11,7 @@ public class CreatureType {
     public String description;
     public BodyTemplate bodyTemplate;
     public List<String> limbsToCover;
+    public List<String> aspects;
     public int baseHP;
     public int[] atlasXY;
     public String color;
@@ -23,5 +24,6 @@ public class CreatureType {
         baseHP = rawType.baseHP;
         atlasXY = rawType.atlasXY;
         color = rawType.color;
+        aspects = rawType.aspects;
     }
 }

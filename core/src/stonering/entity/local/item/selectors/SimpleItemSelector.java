@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Selects item by their title and material.
+ * Selects item by their name and material.
  * //TODO handle amount of item.
  *
  * @author Alexander Kuzyakov on 21.07.2018.
