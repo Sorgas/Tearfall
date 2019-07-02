@@ -92,7 +92,7 @@ public class ItemCraftingOrderLine extends OrderLine {
     }
 
     /**
-     * Creates label with item title.
+     * Creates label with item name.
      */
     private Label createItemLabel() {
         String itemTitle = ItemTypeMap.getInstance().getItemType(order.getRecipe().itemName).title;

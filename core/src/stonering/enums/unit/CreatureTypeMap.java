@@ -1,4 +1,4 @@
-package stonering.enums.units;
+package stonering.enums.unit;
 
 import com.badlogic.gdx.utils.Json;
 import stonering.util.global.FileLoader;
@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Loads, and stores {@link CreatureType} and {@link BodyTemplate}.
+ *
  * @author Alexander on 29.05.2019.
  */
 public class CreatureTypeMap {
@@ -29,8 +31,8 @@ public class CreatureTypeMap {
 
     private void loadTemplates() {
         Json json = new Json();
-        ArrayList<BodyTemplate> types = json.fromJson(ArrayList.class, BodyTemplate.class, FileLoader.CREATURES_PATH);
-        for (BodyTemplate type : types) {
+        ArrayList<RawBodyTemplate> types = json.fromJson(ArrayList.class, RawBodyTemplate.class, FileLoader.BODY_TEMPLATE_PATH);
+        for (RawBodyTemplate type : types) {
             bodyTemplates.put(type.name, type);
         }
     }
@@ -43,9 +45,18 @@ public class CreatureTypeMap {
         }
     }
 
+    private BodyTemplate processRawBodyTemplate(RawBodyTemplate rawBodyTemplate) {
+        BodyTemplate bodyTemplate = new BodyTemplate(rawBodyTemplate);
+
+    }
+
     private CreatureType processRawCreatureType(RawCreatureType rawType) {
         CreatureType type = new CreatureType(rawType);
         type.bodyTemplate = bodyTemplates.get(rawType.bodyTemplate);
         return type;
+    }
+
+    public CreatureType getCreatureType(String specimen) {
+        return creatureTypes.get(specimen);
     }
 }

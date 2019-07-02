@@ -17,7 +17,7 @@ import stonering.util.global.Logger;
 import java.util.LinkedList;
 
 /**
- * Task object for units behavior in the game.
+ * Task object for unit behavior in the game.
  * Consists of main action, sequence of action to be performed before main, and after main.
  * <p>
  * Firstly pre action with lowest indexes are executed, then initial action, and then post action with lowest indexes.

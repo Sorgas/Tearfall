@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * List item and groups them by title and material.
+ * List item and groups them by name and material.
  * List lines are linked to arrays of item for passing them to {@link DesignationsController}.
  *
  * @author Alexander Kuzyakov on 26.06.2018

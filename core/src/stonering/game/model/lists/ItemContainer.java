@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
  * @author Alexander Kuzyakov on 14.06.2017.
  */
 public class ItemContainer extends Turnable implements ModelComponent, Initable {
-    private ArrayList<Item> items;  // all item on the map (tiles, containers, units)
+    private ArrayList<Item> items;  // all item on the map (tiles, containers, unit)
     private HashMap<Position, ArrayList<Item>> itemMap;      // maps tiles position to list of item it that position
 
     public ItemContainer() {

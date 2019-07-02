@@ -1,0 +1,193 @@
+/*
+    mirrored limbs are doubled with left/right prefixes.
+*/
+[
+    {
+        "name":"beast",
+        "default_layers":["skin", "fat", "muscle", "bone"],
+        "needs":["hunger", "thirst", "rest", "heat", "communication"],
+        "body":[
+            {
+                "name":"upper torso",
+                "type":"upper torso",
+                "root":"body",
+                "internal":["left lung", "right lung", "heart"],
+                "size":"",
+                "tags":[]
+            },
+            {
+                "name":"lower torso",
+                "type":"lower torso",
+                "root":"body",
+                "layers":["skin", "fat", "muscle"],
+                "internal":["stomach"],
+                "size":"",
+                "tags":[]
+            },
+            {
+                "name":"neck",
+                "type":"neck",
+                "root":"upper torso",
+                "layers":["skin", "fat", "muscle"],
+                "internal":["neck part spine"],
+                "size":"",
+                "tags":[]
+            },
+            {
+                "name":"head",
+                "type":"head",
+                "root":"neck",
+                "internal":["brain", "tongue", "teeth"],
+                "external":["left eye", "right eye", "nose", "left ear", "right ear"],
+                "size":"",
+                "tags":[]
+            },
+            {
+                "name":"front upper leg",
+                "type":"upper leg",
+                "root":"upper torso",
+                "size":"",
+                "tags":[],
+                "mirrored" : true
+            },
+            {
+                "name":"front lower leg",
+                "type":"lower leg",
+                "root":"front upper leg",
+                "size":"",
+                "tags":[],
+                "mirrored" : true
+            },
+            {
+                "name":"front paw",
+                "type":"paw",
+                "root":"front lower leg",
+                "size":"",
+                "tags":[],
+                "mirrored" : true
+            },
+            {
+                "name":"rear upper leg",
+                "type":"upper leg",
+                "root":"lower torso",
+                "size":"",
+                "tags":[],
+                "mirrored" : true
+            },
+            {
+                "name":"rear lower leg",
+                "type":"lower leg",
+                "root":"rear upper leg",
+                "size":"",
+                "tags":[],
+                "mirrored" : true
+            },
+            {
+                "name":"rear paw",
+                "type":"paw",
+                "root":"rear lower leg",
+                "size":"",
+                "tags":[],
+                "mirrored" : true
+            },
+            {
+                "name":"tail",
+                "type":"tail",
+                "root":"lower torso",
+                "size":"",
+                "tags":[]
+            }
+        ]
+    },
+    {
+        "name":"humanoid",
+        "limbs_to_cover":["foot", "upper_body", "lower_body"],
+        "default_layers":["skin", "fat", "muscle", "bone"],
+        "needs":["hunger", "thirst", "rest", "heat", "wear", "communication", "entertainment", "luxury"],
+        "body":[
+            {
+                "name":"upper torso",
+                "type":"upper torso",
+                "root":"body",
+                "internal":["left lung", "right lung", "heart"],
+                "size":"",
+                "tags":[]
+            },
+            {
+                "name":"lower torso",
+                "type":"lower torso",
+                "root":"body",
+                "layers":["skin", "fat", "muscle"],
+                "internal":["stomach"],
+                "size":"",
+                "tags":[]
+            },
+            {
+                "name":"neck",
+                "type":"neck",
+                "root":"upper torso",
+                "layers":["skin", "fat", "muscle"],
+                "internal":["neck part spine"],
+                "size":"",
+                "tags":[]
+            },
+            {
+                "name":"head",
+                "type":"head",
+                "root":"neck",
+                "internal":["brain", "tongue", "teeth"],
+                "external":["left eye", "right eye", "nose", "left ear", "right ear"],
+                "size":"",
+                "tags":[]
+            },
+            {
+                "name":"upper arm",
+                "type":"upper arm",
+                "root":"upper torso",
+                "size":"",
+                "tags":[],
+                "mirrored" : true
+            },
+            {
+                "name":"lower arm",
+                "type":"lower arm",
+                "root":"upper arm",
+                "size":"",
+                "tags":[],
+                "mirrored" : true
+            },
+            {
+                "name":"hand",
+                "type":"right hand",
+                "root":"upper arm",
+                "size":"",
+                "tags":["grab"],
+                "mirrored" : true
+            },
+            {
+                "name":"upper leg",
+                "type":"upper leg",
+                "root":"lower torso",
+                "size":"",
+                "tags":[],
+                "mirrored" : true
+            },
+            {
+                "name":"lower leg",
+                "type":"lower leg",
+                "root":"upper leg",
+                "size":"",
+                "tags":[],
+                "mirrored" : true
+            },
+            {
+                "name":"foot",
+                "type":"foot",
+                "root":"lower leg",
+                "size":"",
+                "tags":[],
+                "mirrored" : true
+            }
+        ]
+    }
+]

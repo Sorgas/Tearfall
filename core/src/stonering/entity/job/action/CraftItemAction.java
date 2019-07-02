@@ -48,7 +48,7 @@ public class CraftItemAction extends Action {
      */
     @Override
     public boolean check() {
-        ItemContainerAspect containerAspect = workbench.getAspect(ItemContainerAspect.class); //TODO remove item container requirement (item in units inventory, on the ground or in !nearby containers!).
+        ItemContainerAspect containerAspect = workbench.getAspect(ItemContainerAspect.class); //TODO remove item container requirement (item in unit inventory, on the ground or in !nearby containers!).
         if (workbench.getAspect(WorkbenchAspect.class) == null || containerAspect == null) {
             Logger.TASKS.logWarn("Building " + workbench.toString() + " is not a workbench with item container.");
             return false;

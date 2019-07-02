@@ -1,9 +1,11 @@
 package stonering.test_chamber.screen;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
@@ -44,19 +46,20 @@ public class ModelSelectStage extends UiStage {
         table.add(selectBox = new PlaceHolderSelectBox<>("Select Model")).row();
         selectBox.setItems(new ArrayList<>(classMap.keySet()));
         selectBox.getSelection().setProgrammaticChangeEvents(false);
-        selectBox.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                System.out.println(selectBox.getSelected());
-                GameMvc gameMvc = GameMvc.createInstance(getInstance(selectBox.getSelected()));
-                gameMvc.createViewAndController();
-                gameMvc.init();
-                testChamberGame.setScreen(GameMvc.instance().getView());
-                gameMvc.getModel().setPaused(false);
-            }
+        selectBox.setSelectListener(e -> {
+            switchToModel(selectBox.getSelected());
+            return true;
         });
         setKeyboardFocus(selectBox);
         return table;
+    }
+
+    private void switchToModel(String name) {
+        GameMvc gameMvc = GameMvc.createInstance(getInstance(name));
+        gameMvc.createViewAndController();
+        gameMvc.init();
+        testChamberGame.setScreen(GameMvc.instance().getView());
+        gameMvc.getModel().setPaused(false);
     }
 
     private void fillModels() {

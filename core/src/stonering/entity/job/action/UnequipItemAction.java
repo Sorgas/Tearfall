@@ -6,7 +6,7 @@ import stonering.entity.local.unit.aspects.equipment.EquipmentAspect;
 import stonering.entity.local.unit.aspects.equipment.EquipmentSlot;
 
 /**
- * Action for unequipping item from units.
+ * Action for unequipping item from unit.
  * Does nothing, if unit doesn't have this item.
  */
 public class UnequipItemAction extends Action {

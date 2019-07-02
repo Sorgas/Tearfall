@@ -75,7 +75,7 @@ public class WorkbenchMenu extends Window implements HintedActor {
         orderList.grow();
         orderList.keyMapping.put(Input.Keys.D, ControlActionsEnum.SELECT); // add additional control key, so pressing D-D on menu will get player to order.
         orderList.keyMapping.put(Input.Keys.A, ControlActionsEnum.CANCEL); // add additional control key, so pressing A-A on order will get player to menu.
-        orderList.setSelectListener(event -> {                             // go to order line or menu
+        orderList.setSelectListener(event -> {                             // go to order line or menu (invalid case)
             Actor selected = orderList.getSelectedElement();
             ((ItemCraftingOrderLine) selected).navigateToFirst();
             getStage().setKeyboardFocus(selected != null ? selected : this);
@@ -83,12 +83,14 @@ public class WorkbenchMenu extends Window implements HintedActor {
         });
         orderList.setHighlightHandler(new Highlightable.HighlightHandler() {
             @Override
-            public void handle() {
-                if (orderList.getSelectedElement() instanceof Highlightable)
-                    ((Highlightable) orderList.getSelectedElement()).updateHighlighting(true);
+            public void handle() {                              // highlight selected element
+                for (Actor actor : orderList.getChildren()) {
+                    if (actor instanceof Highlightable)
+                        ((Highlightable) actor).updateHighlighting(actor == orderList.getSelectedElement());
+                }
             }
         });
-        orderList.setCancelListener(event -> {
+        orderList.setCancelListener(event -> {                            // go to menu
             getStage().setKeyboardFocus(this);
             return true;
         });

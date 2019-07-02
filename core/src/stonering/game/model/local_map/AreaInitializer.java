@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  * 2.1. areas in synonyms are rewritten to have one number.
  * <p>
  * //TODO support doors, gates, bridges, etc.
- * //TODO add areas for flying units.
+ * //TODO add areas for flying unit.
  *
  * @author Alexander on 31.01.2019.
  */

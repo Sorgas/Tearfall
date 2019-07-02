@@ -12,7 +12,7 @@ import java.util.*;
 
 /**
  * Contains all Units on localMap. Units are mapped with their positions(for faster rendering).
- * TODO add crud methods for units.
+ * TODO add crud methods for unit.
  *
  * @author Alexander Kuzyakov on 03.12.2017.
  */
@@ -20,7 +20,7 @@ public class UnitContainer extends Turnable implements ModelComponent, Initable 
     private Map<Position, List<Unit>> unitsMap;
     private Array<Unit> units; // list for turning
 
-    private Position cachePosition; // used for faster getting units from map
+    private Position cachePosition; // used for faster getting unit from map
 
     public UnitContainer() {
         cachePosition = new Position();
@@ -67,14 +67,14 @@ public class UnitContainer extends Turnable implements ModelComponent, Initable 
     }
 
     /**
-     * Calls turn() for all units.
+     * Calls turn() for all unit.
      */
     public void turn() {
         units.forEach(Unit::turn);
     }
 
     /**
-     * returns list of units in given position. Returns null, if no units exist in this position.
+     * returns list of unit in given position. Returns null, if no unit exist in this position.
      */
     public List<Unit> getUnitsInPosition(int x, int y, int z) {
         return getUnitsInPosition(cachePosition.set(x,y,z));

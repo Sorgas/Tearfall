@@ -201,7 +201,7 @@ public class TileRenderer extends Renderer {
     }
 
     /**
-     * Draws unit. Calculates position to draw unit, basing on units movement progress.
+     * Draws unit. Calculates position to draw unit, basing on unit movement progress.
      * Units in motion are drawn 'between' tiles.
      */
     private void drawUnit(Unit unit) {

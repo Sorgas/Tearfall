@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class Recipe {
     public String name;     // recipe NAME
-    public String title;    // displayed title
+    public String title;    // displayed name
     public String itemName; // item NAME, points to ItemType
     public List<ItemPartRecipe> parts;  // itemPart NAME to material categories.
 

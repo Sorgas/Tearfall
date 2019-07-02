@@ -4,6 +4,7 @@
         "description": "This is a human",
         "body_template": "humanoid",
         "limbs_to_cover": ["lower torso", "right foot", "left foot"],
+        "aspects" : ["equipment"],
         "baseHP": "100",
         "atlasXY": ["0", "0"],
         "color": "0xffffffff"

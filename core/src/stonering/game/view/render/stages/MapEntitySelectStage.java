@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * Stage for selecting entities on local map.
  * Has modes of selection for different entities groups.
- * Shows List of entities (units, item) if there is more than one.
+ * Shows List of entities (unit, item) if there is more than one.
  * Single entity con be selected from list.
  *
  * @author Alexander on 11.11.2018.
