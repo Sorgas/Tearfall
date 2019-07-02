@@ -7,14 +7,16 @@ import java.util.List;
 
 /**
  * SelectBox that shows its placeholder before any selection made.
+ * When the list is open, placeholder is removed.
+ * Can be controlled with keys {@see NavigableSelectBox}.
  */
 public class PlaceHolderSelectBox<T> extends NavigableSelectBox<T> {
-    private T placeHolder;
+    private T placeholder;
 
-    public PlaceHolderSelectBox(T placeHolder) {
+    public PlaceHolderSelectBox(T placeholder) {
         super();
-        this.placeHolder = placeHolder;
-        setItems();
+        this.placeholder = placeholder;
+        addItemsWithPlaceHolder(new Array<>());
     }
 
     /**
@@ -24,6 +26,28 @@ public class PlaceHolderSelectBox<T> extends NavigableSelectBox<T> {
     public void navigate(int delta) {
         super.navigate(delta);
         removePlaceHolder();
+    }
+
+    /**
+     * Adds placeholder as first item in the list and selects it.
+     */
+    private void addItemsWithPlaceHolder(Array<T> newItems) {
+        Array<T> array = new Array<>();
+        array.add(placeholder);
+        array.addAll(newItems);
+        super.setItems(array);
+        setSelected(placeholder);
+    }
+
+    /**
+     * Removes placeholder from the list.
+     */
+    private void removePlaceHolder() {
+        if (!getItems().contains(placeholder, true)) return;
+        Array<T> items = getList().getItems();
+        items.removeValue(placeholder, true);
+        super.setItems(items);
+        setSelectedIndex(0);
     }
 
     @Override
@@ -40,43 +64,23 @@ public class PlaceHolderSelectBox<T> extends NavigableSelectBox<T> {
     public void setItems(List<T> items) {
         addItemsWithPlaceHolder(new CompatibleArray<T>(items));
     }
-
-    /**
-     * Adds placeHolder as first item in list. And selects it.
-     *
-     * @param newItems
-     */
-    private void addItemsWithPlaceHolder(Array<T> newItems) {
-        Array<T> array = new Array<>();
-        array.add(placeHolder);
-        array.addAll(newItems);
-        super.setItems(array);
-        setSelected(placeHolder);
-    }
-
     //TODO some bug with empty list here
-    private void removePlaceHolder() {
-        if (getItems().contains(placeHolder, true)) {
-            T selected = getSelected();
-            Array<T> items = new Array<>(getItems());
-            items.removeValue(placeHolder, true);
-            super.setItems(items);
-            getList().clearItems();
-            getList().setItems(items);
-            setSelected(placeHolder == selected ? getItems().get(0) : selected);
-        }
-    }
-
-    public T getPlaceHolder() {
-        return placeHolder;
-    }
 
     /**
      * Removes placeholder, so it'l never shown in open list.
      */
     @Override
     public void showList() {
-        if (getItems().contains(placeHolder, true)) navigate(0);
+        removePlaceHolder();
         super.showList();
+    }
+
+    @Override
+    public void hideList() {
+        super.hideList();
+    }
+
+    public T getPlaceholder() {
+        return placeholder;
     }
 }

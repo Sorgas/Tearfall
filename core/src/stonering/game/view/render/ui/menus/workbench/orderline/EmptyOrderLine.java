@@ -22,7 +22,7 @@ public class EmptyOrderLine extends OrderLine {
             e.stop();
             if (selectBox.getList().getStage() != null) { // list is shown
                 selectBox.hideList();
-                if (!selectBox.getSelected().equals(selectBox.getPlaceHolder())) { // placeholder is selected
+                if (!selectBox.getSelected().equals(selectBox.getPlaceholder())) { // placeholder is selected
                     replaceSelfWith(selectBox.getSelected());
                 } else { // not a valid case
                     warningLabel.setText("Item not selected");

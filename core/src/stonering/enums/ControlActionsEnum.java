@@ -20,8 +20,8 @@ public enum ControlActionsEnum {
     SELECT,
     CANCEL,
     Z_UP,
-    Z_DOWN;
-
+    Z_DOWN,
+    NONE; // to avoid NPE in switches
 
     static Map<Integer, ControlActionsEnum> mapping = new HashMap<>();
 
@@ -37,6 +37,6 @@ public enum ControlActionsEnum {
     }
 
     public static ControlActionsEnum getAction(int keycode) {
-        return mapping.get(keycode);
+        return mapping.getOrDefault(keycode, NONE);
     }
 }
