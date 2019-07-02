@@ -79,19 +79,23 @@ public class ItemPartSelection extends Stack implements HintedActor, Highlightab
         Actor focused  = getStage().getKeyboardFocus();
         if(itemTypeSelectBox != null) {
             if (focused != itemTypeSelectBox && action == ControlActionsEnum.RIGHT) {
-                return getStage().setKeyboardFocus(itemTypeSelectBox);
+                return changeFocus(itemTypeSelectBox);
             }
             if (focused != materialSelectBox && action == ControlActionsEnum.LEFT) {
-                return getStage().setKeyboardFocus(materialSelectBox);
+                return changeFocus(materialSelectBox);
             }
             return orderLine.navigate(action, this);
         } else {
             if(focused == materialSelectBox) {
                 return orderLine.navigate(action, this);
             } else {
-                return getStage().setKeyboardFocus(materialSelectBox);
+                return changeFocus(materialSelectBox);
             }
         }
+    }
+
+    private boolean changeFocus(Actor target) {
+        return getStage().setKeyboardFocus(target);
     }
 
     private class HighlightHandler extends Highlightable.HighlightHandler {
@@ -107,5 +111,10 @@ public class ItemPartSelection extends Stack implements HintedActor, Highlightab
     @Override
     public Highlightable.HighlightHandler getHighlightHandler() {
         return highlightHandler;
+    }
+
+    public boolean isFocused() {
+        Actor focused  = getStage().getKeyboardFocus();
+        return focused == materialSelectBox || itemTypeSelectBox != null && focused == itemTypeSelectBox;
     }
 }

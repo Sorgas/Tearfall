@@ -14,12 +14,12 @@ public class BodyTemplate {
     public String name;
     public List<String> defaultLayers;
     public List<String> needs;
-    private HashMap<String, BodyPart> bodyParts; // name to bodyPart
+    public HashMap<String, BodyPart> body; // name to bodyPart
 
-    public BodyTemplate(String name, List<String> defaultLayers, List<String> needs) {
-        this.name = name;
-        this.defaultLayers = defaultLayers;
-        this.needs = needs;
-        body
+    public BodyTemplate(RawBodyTemplate rawBodyTemplate) {
+        name = rawBodyTemplate.name;
+        defaultLayers = rawBodyTemplate.defaultLayers;
+        needs = rawBodyTemplate.needs;
+        body = new HashMap<>();
     }
 }

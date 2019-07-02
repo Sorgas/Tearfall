@@ -17,12 +17,13 @@ public class ItemType extends Entity {
     public String name;                                // id
     public String title;                               // displayable name
     public String description;                         // displayable description
+
     public WearItemType wear;                          // is set if this item could be worn
     public ToolItemType tool;                          // is set if this item could be used as tool
     public ContainerItemType container;                // is set if this item could contain other item
 
     public ArrayList<ItemPartType> parts;              // defines parts of item. first one is main
-    public Map<String, List<String>> aspects; // other aspects, item aspects filled from this on generation.
+    public Map<String, List<String>> aspects;          // other aspects, item aspects filled from this on generation.
 
     // render
     public int[] atlasXY;

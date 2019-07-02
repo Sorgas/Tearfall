@@ -25,15 +25,16 @@ public class CreatureTypeMap {
     }
 
     public static CreatureTypeMap instance() {
-        if(instance == null) instance = new CreatureTypeMap();
+        if (instance == null) instance = new CreatureTypeMap();
         return instance;
     }
 
     private void loadTemplates() {
         Json json = new Json();
+        BodyTemplateProcessor processor = new BodyTemplateProcessor();
         ArrayList<RawBodyTemplate> types = json.fromJson(ArrayList.class, RawBodyTemplate.class, FileLoader.BODY_TEMPLATE_PATH);
         for (RawBodyTemplate type : types) {
-            bodyTemplates.put(type.name, type);
+            bodyTemplates.put(type.name, processor.process(type));
         }
     }
 
@@ -45,11 +46,6 @@ public class CreatureTypeMap {
         }
     }
 
-    private BodyTemplate processRawBodyTemplate(RawBodyTemplate rawBodyTemplate) {
-        BodyTemplate bodyTemplate = new BodyTemplate(rawBodyTemplate);
-
-    }
-
     private CreatureType processRawCreatureType(RawCreatureType rawType) {
         CreatureType type = new CreatureType(rawType);
         type.bodyTemplate = bodyTemplates.get(rawType.bodyTemplate);
@@ -58,5 +54,9 @@ public class CreatureTypeMap {
 
     public CreatureType getCreatureType(String specimen) {
         return creatureTypes.get(specimen);
+    }
+
+    public BodyTemplate getTemplate(String specimen) {
+        return bodyTemplates.get(specimen);
     }
 }

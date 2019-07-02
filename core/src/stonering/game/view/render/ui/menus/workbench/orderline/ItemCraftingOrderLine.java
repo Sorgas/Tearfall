@@ -8,12 +8,12 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import org.jetbrains.annotations.NotNull;
-import stonering.entity.job.action.ActionTypeEnum;
 import stonering.entity.local.building.aspects.WorkbenchAspect;
 import stonering.entity.local.crafting.ItemOrder;
 import stonering.entity.local.crafting.ItemPartOrder;
 import stonering.enums.ControlActionsEnum;
 import stonering.enums.items.type.ItemTypeMap;
+import stonering.game.view.render.ui.menus.util.Highlightable;
 import stonering.game.view.render.ui.menus.workbench.WorkbenchMenu;
 import stonering.util.global.StaticSkin;
 
@@ -32,10 +32,9 @@ import static stonering.enums.ControlActionsEnum.*;
  *
  * @author Alexander
  */
-public class ItemCraftingOrderLine extends OrderLine {
+public class ItemCraftingOrderLine extends OrderLine implements Highlightable {
     private ItemOrder order;
     private List<ItemPartSelection> selections;
-
     private TextButton repeatButton;
     private TextButton upButton;
     private TextButton downButton;
@@ -47,6 +46,19 @@ public class ItemCraftingOrderLine extends OrderLine {
         selections = new ArrayList<>();
         createSelections();
         createAndAddControlButtons();
+    }
+
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+        updateHighlighting(isChildrenFocused());
+    }
+
+    private boolean isChildrenFocused() {
+        for (ItemPartSelection selection : selections) {
+            if(selection.isFocused()) return true;
+        }
+        return false;
     }
 
     private void createSelections() {
@@ -142,7 +154,6 @@ public class ItemCraftingOrderLine extends OrderLine {
             return menu.getStage().setKeyboardFocus(target);
         }
         if(action == RIGHT && selection == selections.get(selections.size() - 1)) return false; // nothing on right on last selection.
-
         int delta = action == LEFT ? -1 : 0;
         delta = action == RIGHT ? 1 : delta;
         if (delta == 0) return false; // invalid case

@@ -12,11 +12,22 @@ import stonering.game.view.render.ui.menus.workbench.orderline.selectbox.RecipeS
  * @author Alexander_Kuzyakov on 24.06.2019.
  */
 public class EmptyOrderLine extends OrderLine {
+    private static final String BACKGROUND_NAME = "workbench_order_line";
     private static final String LINE_HINT = "WS: select recipe, ED: confirm";
     private RecipeSelectBox selectBox;
 
     public EmptyOrderLine(WorkbenchMenu menu) {
         super(menu, LINE_HINT);
+        createSelectBox();
+    }
+
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+        updateHighlighting(getStage().getKeyboardFocus() == selectBox);
+    }
+
+    private void createSelectBox() {
         leftHG.addActor(selectBox = new RecipeSelectBox(menu.getWorkbenchAspect().getRecipes()));
         selectBox.setSelectListener(e -> {
             e.stop();

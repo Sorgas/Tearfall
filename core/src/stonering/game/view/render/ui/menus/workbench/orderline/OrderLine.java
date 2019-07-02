@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import stonering.enums.ControlActionsEnum;
 import stonering.enums.TaskStatusEnum;
 import stonering.game.view.render.ui.images.DrawableMap;
@@ -49,7 +48,6 @@ public class OrderLine extends Table implements HideableComponent, HintedActor, 
     @Override
     public void act(float delta) {
         super.act(delta);
-//        updateHighlighting(getStage().getKeyboardFocus() == this);
     }
 
     /**
@@ -97,6 +95,7 @@ public class OrderLine extends Table implements HideableComponent, HintedActor, 
         }
 
     }
+
     /**
      * Updates drawable, if focus changed.
      */
@@ -104,8 +103,7 @@ public class OrderLine extends Table implements HideableComponent, HintedActor, 
 
         @Override
         public void handle() {
-            Drawable drawable = DrawableMap.getInstance().getDrawable(BACKGROUND_NAME + (value ? ":focused" : ""));
-            if (drawable != null) setBackground(drawable);
+            setBackground(DrawableMap.getInstance().getDrawable(BACKGROUND_NAME + (value ? ":focused" : "")));
         }
 
     }

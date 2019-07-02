@@ -12,7 +12,6 @@ import java.util.HashMap;
  * @author Alexander Kuzyakov on 19.10.2017.
  */
 public class BodyAspect extends Aspect {
-    public static String NAME = "body";
     private String bodyType;
     private HashMap<String, BodyPart> bodyParts; // name to bodyPart
     private ArrayList<String> bodyPartsToCover;
@@ -21,10 +20,6 @@ public class BodyAspect extends Aspect {
         super(unit);
         bodyParts = new HashMap<>();
         bodyPartsToCover = new ArrayList<>();
-    }
-
-    public class Organ {
-        public String name;
     }
 
     public HashMap<String, BodyPart> getBodyParts() {
@@ -52,6 +47,6 @@ public class BodyAspect extends Aspect {
     }
 
     public void addBodyPart(BodyPart bodyPart) {
-        bodyParts.put(bodyPart.title, bodyPart);
+        bodyParts.put(bodyPart.name, bodyPart);
     }
 }

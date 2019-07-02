@@ -19,7 +19,7 @@ public class WorkbenchModel extends TestModel {
     }
 
     private Building createBuilding() {
-        return new BuildingGenerator().generateBuilding("forge", new Position(0, 0, 1));
+        return new BuildingGenerator().generateBuilding("forge", new Position(4, 4, 1));
     }
 
     @Override
