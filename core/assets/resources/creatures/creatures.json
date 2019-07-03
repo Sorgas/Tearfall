@@ -1,17 +1,19 @@
 [
     {
-        "title": "human",
+        "name": "human",
+        "title" : "Human",
         "description": "This is a human",
-        "body_template": "humanoid",
-        "limbs_to_cover": ["lower torso", "right foot", "left foot"],
+        "bodyTemplate": "humanoid",
+        "limbsToCover": ["lower torso", "foot", "foot"],
         "aspects" : ["equipment"],
         "baseHP": "100",
         "atlasXY": ["0", "0"],
         "color": "0xffffffff"
     }, {
-    "title": "dog",
+    "name": "dog",
+    "title" : "Dog",
     "description": "This is a dog",
-    "body_template": "beast",
+    "bodyTemplate": "beast",
     "baseHP": "100",
     "atlasXY": ["0", "0"],
     "color": "0xffffffff"

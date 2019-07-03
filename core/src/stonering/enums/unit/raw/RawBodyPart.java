@@ -1,5 +1,6 @@
 package stonering.enums.unit.raw;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,6 +13,7 @@ public class RawBodyPart implements Cloneable {
     public String type;
     public String root;
     public List<String> internal;
+    public List<String> external;
     public List<String> tags;
     public List<String> layers;
     public int size;
@@ -19,14 +21,18 @@ public class RawBodyPart implements Cloneable {
 
     // for json reader
     public RawBodyPart() {
+        internal = new ArrayList<>();
+        external = new ArrayList<>();
+        tags = new ArrayList<>();
+        layers = new ArrayList<>();
     }
 
     public RawBodyPart(RawBodyPart rawBodyPart) {
         type = rawBodyPart.type;
         name = rawBodyPart.name;
-        if (name == null) name = type;
         root = rawBodyPart.root;
         internal = rawBodyPart.internal;
+        external = rawBodyPart.external;
         tags = rawBodyPart.tags;
         layers = rawBodyPart.layers;
         size = rawBodyPart.size;

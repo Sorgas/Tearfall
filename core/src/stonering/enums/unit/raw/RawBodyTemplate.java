@@ -14,6 +14,6 @@ public class RawBodyTemplate {
     public String name;
     public List<String> defaultLayers;
     public List<String> needs;
-    public List<RawBodyPart> body;
     public List<String> limbsToCover = new ArrayList<>(); // array can be omitted in json
+    public List<RawBodyPart> body;
 }

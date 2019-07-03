@@ -30,6 +30,7 @@ public class BodyTemplateProcessor {
     private Map<String, RawBodyPart> collectPartsToMap(RawBodyTemplate rawBodyTemplate) {
         Map<String, RawBodyPart> map = new HashMap<>();
         for (RawBodyPart part : rawBodyTemplate.body) {
+            if(part.name == null) part.name = part.type;
             map.put(part.name, part);
         }
         return map;
@@ -44,6 +45,7 @@ public class BodyTemplateProcessor {
         for (RawBodyPart value : map.values()) {
             RawBodyPart part = value;
             while (!part.root.equals("body")) {
+                System.out.println(part.root);
                 if (map.get(part.root).mirrored) value.mirrored = true;
                 part = map.get(part.root);
             }

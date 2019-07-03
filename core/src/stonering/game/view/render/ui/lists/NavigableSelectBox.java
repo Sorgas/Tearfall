@@ -34,6 +34,10 @@ public class NavigableSelectBox<T> extends ListSelectBox<T> {
                         return handleNavigation(1);
                     }
                     case SELECT: {
+                        if (getList().getStage() == null) {
+                            showList();
+                            return true;
+                        }
                         return selectListener == null || selectListener.handle(event);
                     }
                     case CANCEL: {
@@ -46,7 +50,7 @@ public class NavigableSelectBox<T> extends ListSelectBox<T> {
         getList().addListener(new ClickListener() { // tries to select item after clicking
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if(selectListener != null) selectListener.handle(event);
+                if (selectListener != null) selectListener.handle(event);
             }
         });
     }

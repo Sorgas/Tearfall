@@ -8,8 +8,8 @@ import com.badlogic.gdx.files.FileHandle;
 public class FileLoader {
     public final static String MATERIALS_PATH = "resources/materials.json";
     public final static String PLANTS_PATH = "resources/plants/plants.json";
-    public final static String BODY_TEMPLATE_PATH = "resources/body_templates.json";
-    public final static String CREATURES_PATH = "resources/creatures.json";
+    public final static String BODY_TEMPLATE_PATH = "resources/creatures/body_templates.json";
+    public final static String CREATURES_PATH = "resources/creatures/creatures.json";
     public final static String BUILDINGS_PATH = "resources/buildings/buildings.json";
     public final static String CONSTRUCTIONS_PATH = "resources/buildings/constructions.json";
     public final static String FURNITURE_PATH = "resources/buildings/furniture.json";

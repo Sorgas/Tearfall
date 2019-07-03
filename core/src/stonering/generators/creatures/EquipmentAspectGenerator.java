@@ -56,8 +56,10 @@ public class EquipmentAspectGenerator {
      * Creates slots and counter for {@link stonering.entity.local.unit.aspects.needs.WearNeed}
      */
     private void initDesiredSlots(CreatureType type, EquipmentAspect equipmentAspect) {
-        for (String limbName : type.limbsToCover) {
-            equipmentAspect.getDesiredSlots().add(equipmentAspect.getSlots().get(limbName));
+        for (String limbType : type.limbsToCover) {
+            type.bodyTemplate.body.values().stream().
+                    filter(part -> part.type.equals(limbType)).
+                    forEach(part -> equipmentAspect.getDesiredSlots().add(equipmentAspect.getSlots().get(part.name)));
         }
         equipmentAspect.setEmptyDesiredSlotsCount(equipmentAspect.getDesiredSlots().size());
     }

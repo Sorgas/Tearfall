@@ -1,11 +1,7 @@
 package stonering.test_chamber.screen;
 
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
@@ -71,6 +67,7 @@ public class ModelSelectStage extends UiStage {
         classMap.put(PassageModel.class.getSimpleName(), PassageModel.class);
         classMap.put(CameraModel.class.getSimpleName(), CameraModel.class);
         classMap.put(WorkbenchModel.class.getSimpleName(), WorkbenchModel.class);
+        classMap.put(SingleUnitModel.class.getSimpleName(), SingleUnitModel.class);
     }
 
     private GameModel getInstance(String name) {
