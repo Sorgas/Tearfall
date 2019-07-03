@@ -1,8 +1,7 @@
-package stonering.enums.unit;
+package stonering.enums.unit.body;
 
 import stonering.entity.local.unit.aspects.body.BodyAspect;
-import stonering.entity.local.unit.aspects.body.Wound;
-import stonering.enums.unit.raw.RawBodyPart;
+import stonering.enums.unit.body.raw.RawBodyPart;
 
 import java.util.ArrayList;
 import java.util.List;

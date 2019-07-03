@@ -1,6 +1,6 @@
-package stonering.enums.unit.raw;
+package stonering.enums.unit.body.raw;
 
-import stonering.enums.unit.BodyTemplate;
+import stonering.enums.unit.body.BodyTemplate;
 
 import java.util.ArrayList;
 import java.util.List;

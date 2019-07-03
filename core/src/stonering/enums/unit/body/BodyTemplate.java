@@ -1,6 +1,6 @@
-package stonering.enums.unit;
+package stonering.enums.unit.body;
 
-import stonering.enums.unit.raw.RawBodyTemplate;
+import stonering.enums.unit.body.raw.RawBodyTemplate;
 
 import java.util.HashMap;
 import java.util.List;

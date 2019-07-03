@@ -4,19 +4,26 @@ import stonering.entity.local.Aspect;
 import stonering.entity.local.Entity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * @author Alexander Kuzyakov on 31.01.2018.
+ * Stores skills and job enabled for unit.
  *
- * stores job enabled for unit
+ * @author Alexander Kuzyakov on 31.01.2018.
  */
 public class JobsAspect extends Aspect {
-    public static final String NAME = "job";
     private ArrayList<String> jobs;
+    private Map<String, Integer> skills; // skill name to level.
 
-    public JobsAspect(String name, Entity entity) {
+    public JobsAspect(Entity entity) {
         super(entity);
         jobs = new ArrayList<>();
+        skills = new HashMap<>();
+    }
+
+    public float getSkillModifier(String skillName) {
+        return 1f;
     }
 
     public ArrayList<String> getJobs() {
@@ -26,4 +33,6 @@ public class JobsAspect extends Aspect {
     public void setJobs(ArrayList<String> jobs) {
         this.jobs = jobs;
     }
+
+
 }

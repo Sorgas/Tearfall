@@ -6,13 +6,10 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter;
 import stonering.entity.local.unit.aspects.equipment.EquipmentSlot;
 import stonering.entity.local.unit.aspects.equipment.GrabEquipmentSlot;
-import stonering.enums.unit.BodyPart;
+import stonering.enums.unit.body.BodyPart;
 import stonering.enums.unit.CreatureType;
-import stonering.exceptions.DescriptionNotFoundException;
 import stonering.entity.local.unit.aspects.equipment.EquipmentAspect;
 import stonering.util.global.FileLoader;
-
-import java.util.Arrays;
 
 /**
  * Generates {@link EquipmentAspect} wi9th slots by json.

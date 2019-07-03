@@ -1,7 +1,7 @@
-package stonering.enums.unit.raw;
+package stonering.enums.unit.body.raw;
 
-import stonering.enums.unit.BodyPart;
-import stonering.enums.unit.BodyTemplate;
+import stonering.enums.unit.body.BodyPart;
+import stonering.enums.unit.body.BodyTemplate;
 
 import java.util.HashMap;
 import java.util.Map;

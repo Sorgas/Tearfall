@@ -1,9 +1,9 @@
 package stonering.enums.unit;
 
 import com.badlogic.gdx.utils.Json;
-import stonering.enums.unit.raw.BodyTemplateProcessor;
-import stonering.enums.unit.raw.RawBodyTemplate;
-import stonering.enums.unit.raw.RawCreatureType;
+import stonering.enums.unit.body.BodyTemplate;
+import stonering.enums.unit.body.raw.BodyTemplateProcessor;
+import stonering.enums.unit.body.raw.RawBodyTemplate;
 import stonering.util.global.FileLoader;
 
 import java.util.ArrayList;

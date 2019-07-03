@@ -2,6 +2,8 @@ package stonering.entity.job.action;
 
 import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.job.Task;
+import stonering.entity.local.unit.aspects.JobsAspect;
+import stonering.enums.unit.Skill;
 import stonering.util.global.Logger;
 
 /**
@@ -15,7 +17,9 @@ public abstract class Action {
     protected Task task; // can be modified during execution
     protected ActionTarget actionTarget;
     protected boolean finished;
-    private int workAmount;
+    protected String usedSkill;
+    private float workAmount = 1f;
+    private float baseSpeed = 0.01f; // distracted from workAmount to make action progress.
 
     protected Action(ActionTarget actionTarget) {
         this.actionTarget = actionTarget;
@@ -34,7 +38,8 @@ public abstract class Action {
      * @return true, when action is finished.
      */
     public final boolean perform() {
-        if (workAmount-- > 0) return false;
+        float skillModifier = task.getPerformer().getAspect(JobsAspect.class).getSkillModifier(usedSkill);
+        if ((workAmount -= baseSpeed * skillModifier) > 0) return false;
         performLogic();
         finish();
         return true;
