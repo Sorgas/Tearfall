@@ -2,6 +2,8 @@ package stonering.enums.plants;
 
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
+import stonering.enums.plants.raw.PlantTypeProcessor;
+import stonering.enums.plants.raw.RawPlantType;
 import stonering.exceptions.DescriptionNotFoundException;
 import stonering.util.global.FileLoader;
 import stonering.util.global.Logger;

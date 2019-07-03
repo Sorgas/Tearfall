@@ -1,6 +1,7 @@
 package stonering.enums.plants;
 
 import stonering.enums.generation.PlantPlacingTags;
+import stonering.enums.plants.raw.RawPlantType;
 
 import java.util.ArrayList;
 import java.util.List;

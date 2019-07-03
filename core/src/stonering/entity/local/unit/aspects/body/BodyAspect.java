@@ -4,49 +4,38 @@ import stonering.entity.local.Aspect;
 import stonering.entity.local.unit.Unit;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 
 /**
- * Holds creature's body parts and connections between them.
+ * Points to creature's body, stored in type.
+ * Stores wounds on the creature's body, which are individual.
  *
  * @author Alexander Kuzyakov on 19.10.2017.
  */
 public class BodyAspect extends Aspect {
-    private String bodyType;
-    private HashMap<String, BodyPart> bodyParts; // name to bodyPart
-    private ArrayList<String> bodyPartsToCover;
+    private String bodyTemplate;
+    private List<String> bodyPartsToCover;
+    private List<Wound> wounds;
 
     public BodyAspect(Unit unit) {
         super(unit);
-        bodyParts = new HashMap<>();
+        wounds = new ArrayList<>();
         bodyPartsToCover = new ArrayList<>();
     }
 
-    public HashMap<String, BodyPart> getBodyParts() {
-        return bodyParts;
+    public String getBodyTemplate() {
+        return bodyTemplate;
     }
 
-    public void setBodyParts(HashMap<String, BodyPart> bodyParts) {
-        this.bodyParts = bodyParts;
+    public void setBodyTemplate(String bodyTemplate) {
+        this.bodyTemplate = bodyTemplate;
     }
 
-    public String getBodyType() {
-        return bodyType;
-    }
-
-    public void setBodyType(String bodyType) {
-        this.bodyType = bodyType;
-    }
-
-    public void setBodyPartsToCover(ArrayList<String> bodyPartsToCover) {
+    public void setBodyPartsToCover(List<String> bodyPartsToCover) {
         this.bodyPartsToCover = bodyPartsToCover;
     }
 
-    public ArrayList<String> getBodyPartsToCover() {
-        return new ArrayList<>();
-    }
-
-    public void addBodyPart(BodyPart bodyPart) {
-        bodyParts.put(bodyPart.name, bodyPart);
+    public List<String> getBodyPartsToCover() {
+        return bodyPartsToCover;
     }
 }

@@ -4,6 +4,7 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter;
+import stonering.enums.unit.CreatureType;
 import stonering.exceptions.DescriptionNotFoundException;
 import stonering.entity.local.unit.aspects.NeedsAspect;
 import stonering.entity.local.unit.aspects.needs.WearNeed;
@@ -30,30 +31,15 @@ public class NeedAspectGenerator {
         templates = reader.parse(FileLoader.getFile(FileLoader.BODY_TEMPLATE_PATH));
     }
 
-    public NeedsAspect generateNeedAspect(JsonValue creature) {
-        try {
-            NeedsAspect needsAspect = new NeedsAspect(null);
-            String[] needs = creature.has("needs") ?
-                    creature.get("needs").asStringArray() :
-                    findTemplate(creature.get("body_template").asString()).get("needs").asStringArray();
-            for (String need : needs) {
-                switch (need) {
-                    case "wear": //TODO make enum of aspects
-                        needsAspect.getNeeds().add(new WearNeed());
-                        break;
-                }
+    public NeedsAspect generateNeedAspect(CreatureType type) {
+        NeedsAspect needsAspect = new NeedsAspect(null);
+        for (String need : type.bodyTemplate.needs) {
+            switch (need) {
+                case "wear": //TODO make enum of aspects
+                    needsAspect.getNeeds().add(new WearNeed());
+                    break;
             }
-            return needsAspect;
-        } catch (DescriptionNotFoundException e) {
-            e.printStackTrace();
-            return null;
         }
-    }
-
-    private JsonValue findTemplate(String template) throws DescriptionNotFoundException {
-        for (JsonValue t : templates) {
-            if (t.getString("title").equals(template)) return t;
-        }
-        throw new DescriptionNotFoundException("Body template " + template + "not found");
+        return needsAspect;
     }
 }

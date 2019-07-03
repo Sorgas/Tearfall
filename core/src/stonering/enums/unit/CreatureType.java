@@ -1,5 +1,7 @@
 package stonering.enums.unit;
 
+import stonering.enums.unit.raw.RawCreatureType;
+
 import java.util.List;
 
 /**

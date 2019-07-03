@@ -1,4 +1,8 @@
-package stonering.enums.plants;
+package stonering.enums.plants.raw;
+
+import stonering.enums.plants.PlantLifeStage;
+import stonering.enums.plants.PlantProduct;
+import stonering.enums.plants.PlantType;
 
 import java.util.*;
 import java.util.stream.Collectors;

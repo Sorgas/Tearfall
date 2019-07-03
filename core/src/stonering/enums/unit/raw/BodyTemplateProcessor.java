@@ -1,7 +1,8 @@
-package stonering.enums.unit;
+package stonering.enums.unit.raw;
 
-import stonering.entity.local.unit.aspects.body.BodyPart;
-import stonering.enums.unit.RawBodyTemplate.RawBodyPart;
+import stonering.enums.unit.BodyPart;
+import stonering.enums.unit.BodyTemplate;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,6 +20,7 @@ public class BodyTemplateProcessor {
         Map<String, RawBodyPart> rawPartMap = collectPartsToMap(rawBodyTemplate);
         rawPartMap = doubleMirroredParts(rawPartMap);
         fillBodyParts(rawPartMap, bodyTemplate);
+
         return bodyTemplate;
     }
 
@@ -38,15 +40,17 @@ public class BodyTemplateProcessor {
      */
     private Map<String, RawBodyPart> doubleMirroredParts(Map<String, RawBodyPart> map) {
         Map<String, RawBodyPart> newMap = new HashMap<>();
+        // go up to the root and update flags
         for (RawBodyPart value : map.values()) {
             RawBodyPart part = value;
-            while (!part.root.equals("body")) { // go up to the root and update flags
+            while (!part.root.equals("body")) {
                 if (map.get(part.root).mirrored) value.mirrored = true;
                 part = map.get(part.root);
             }
         }
+        // double mirrored parts
         for (RawBodyPart value : map.values()) {
-            if (value.mirrored) { // double mirrored parts
+            if (value.mirrored) {
                 RawBodyPart leftPart = new RawBodyPart(value);
                 RawBodyPart rightPart = new RawBodyPart(value);
                 leftPart.name = LEFT_PREFIX + leftPart.name;
@@ -65,13 +69,13 @@ public class BodyTemplateProcessor {
     }
 
     /**
-     * Fills body parts id links the between each other.
+     * Creates body parts and links the between each other.
      */
     private void fillBodyParts(Map<String, RawBodyPart> rawPartsMap, BodyTemplate bodyTemplate) {
         for (RawBodyPart value : rawPartsMap.values()) {
             bodyTemplate.body.put(value.name, new BodyPart(value));
         }
-        for(BodyPart part : bodyTemplate.body.values()) {
+        for (BodyPart part : bodyTemplate.body.values()) {
             part.root = bodyTemplate.body.get(rawPartsMap.get(part.name).root);
         }
     }

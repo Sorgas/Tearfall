@@ -1,4 +1,4 @@
-package stonering.enums.plants;
+package stonering.enums.plants.raw;
 
 import java.util.List;
 

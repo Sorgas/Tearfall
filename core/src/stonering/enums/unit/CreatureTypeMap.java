@@ -1,6 +1,9 @@
 package stonering.enums.unit;
 
 import com.badlogic.gdx.utils.Json;
+import stonering.enums.unit.raw.BodyTemplateProcessor;
+import stonering.enums.unit.raw.RawBodyTemplate;
+import stonering.enums.unit.raw.RawCreatureType;
 import stonering.util.global.FileLoader;
 
 import java.util.ArrayList;
@@ -49,6 +52,7 @@ public class CreatureTypeMap {
     private CreatureType processRawCreatureType(RawCreatureType rawType) {
         CreatureType type = new CreatureType(rawType);
         type.bodyTemplate = bodyTemplates.get(rawType.bodyTemplate);
+        if(type.limbsToCover == null) type.limbsToCover = type.bodyTemplate.limbsToCover;
         return type;
     }
 

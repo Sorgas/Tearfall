@@ -1,6 +1,6 @@
 package stonering.enums.unit;
 
-import stonering.entity.local.unit.aspects.body.BodyPart;
+import stonering.enums.unit.raw.RawBodyTemplate;
 
 import java.util.HashMap;
 import java.util.List;
@@ -14,12 +14,14 @@ public class BodyTemplate {
     public String name;
     public List<String> defaultLayers;
     public List<String> needs;
+    public List<String> limbsToCover;
     public HashMap<String, BodyPart> body; // name to bodyPart
 
     public BodyTemplate(RawBodyTemplate rawBodyTemplate) {
         name = rawBodyTemplate.name;
         defaultLayers = rawBodyTemplate.defaultLayers;
         needs = rawBodyTemplate.needs;
+        limbsToCover = rawBodyTemplate.limbsToCover;
         body = new HashMap<>();
     }
 }

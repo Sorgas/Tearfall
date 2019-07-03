@@ -6,6 +6,8 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter;
 import stonering.entity.local.unit.aspects.equipment.EquipmentSlot;
 import stonering.entity.local.unit.aspects.equipment.GrabEquipmentSlot;
+import stonering.enums.unit.BodyPart;
+import stonering.enums.unit.CreatureType;
 import stonering.exceptions.DescriptionNotFoundException;
 import stonering.entity.local.unit.aspects.equipment.EquipmentAspect;
 import stonering.util.global.FileLoader;
@@ -29,38 +31,20 @@ public class EquipmentAspectGenerator {
         templates = reader.parse(FileLoader.getFile(FileLoader.BODY_TEMPLATE_PATH));
     }
 
-    public EquipmentAspect generateEquipmentAspect(JsonValue creature) {
+    public EquipmentAspect generateEquipmentAspect(CreatureType type) {
         EquipmentAspect equipmentAspect = null;
-        try {
-            JsonValue template = findTemplate(creature);
-            equipmentAspect = new EquipmentAspect(null);
-            generateAspectWithSlots(template, equipmentAspect);
-            initDesiredSlots(creature, template, equipmentAspect);
-        } catch (DescriptionNotFoundException e) {
-            e.printStackTrace();
-        }
+        equipmentAspect = new EquipmentAspect(null);
+        generateAspectWithSlots(type, equipmentAspect);
+        initDesiredSlots(type, equipmentAspect);
         return equipmentAspect;
-    }
-
-    /**
-     * Returns template for creature, or throws an exception.
-     *
-     * @throws DescriptionNotFoundException
-     */
-    private JsonValue findTemplate(JsonValue creature) throws DescriptionNotFoundException {
-        String template = creature.getString("body_template");
-        for (JsonValue t : templates) {
-            if (t.getString("title").equals(template)) return t;
-        }
-        throw new DescriptionNotFoundException("Body template " + template + "not found");
     }
 
     /**
      * Loops through body parts of creature, generating slots for them.
      */
-    private void generateAspectWithSlots(JsonValue template, EquipmentAspect aspect) {
-        for (JsonValue bp : template.get("body")) { // read template to map
-            EquipmentSlot slot = generateSlotByBodyPart(bp);
+    private void generateAspectWithSlots(CreatureType type, EquipmentAspect aspect) {
+        for (BodyPart part : type.bodyTemplate.body.values()) {
+            EquipmentSlot slot = generateSlotByBodyPart(part);
             if (slot instanceof GrabEquipmentSlot) {
                 aspect.getGrabSlots().put(slot.limbName, (GrabEquipmentSlot) slot);
             }
@@ -71,29 +55,20 @@ public class EquipmentAspectGenerator {
     /**
      * Creates slots and counter for {@link stonering.entity.local.unit.aspects.needs.WearNeed}
      */
-    private void initDesiredSlots(JsonValue creature, JsonValue template, EquipmentAspect equipmentAspect) {
-        String[] limbs;
-        if (creature.has("limbs_to_cover")) {
-            limbs = creature.get("limbs_to_cover").asStringArray();
-        } else if (template.has("limbs_to_cover")) {
-            limbs = creature.get("limbs_to_cover").asStringArray();
-        } else return;
-        for (String s : limbs) {
-            equipmentAspect.getDesiredSlots().add(equipmentAspect.getSlots().get(s));
+    private void initDesiredSlots(CreatureType type, EquipmentAspect equipmentAspect) {
+        for (String limbName : type.limbsToCover) {
+            equipmentAspect.getDesiredSlots().add(equipmentAspect.getSlots().get(limbName));
         }
         equipmentAspect.setEmptyDesiredSlotsCount(equipmentAspect.getDesiredSlots().size());
     }
 
     /**
-     * Creates {@link EquipmentSlot} from template.
+     * Creates {@link EquipmentSlot} for bodyparts from template.
      */
-    private EquipmentSlot generateSlotByBodyPart(JsonValue partTemplate) {
-        EquipmentSlot slot;
-        if (Arrays.asList(partTemplate.get("tags").asStringArray()).contains("grab")) {
-            slot = new GrabEquipmentSlot(partTemplate.getString("title"), partTemplate.getString("type"));
-        } else {
-            slot = new EquipmentSlot(partTemplate.getString("title"), partTemplate.getString("type"));
+    private EquipmentSlot generateSlotByBodyPart(BodyPart part) {
+        if (part.tags.contains("grab")) {
+            return new GrabEquipmentSlot(part.name, part.type);
         }
-        return slot;
+        return new EquipmentSlot(part.name, part.type);
     }
 }

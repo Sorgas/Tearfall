@@ -1,7 +1,8 @@
-package stonering.entity.local.unit.aspects.body;
+package stonering.enums.unit;
 
-import stonering.enums.unit.BodyTemplate;
-import stonering.enums.unit.RawBodyTemplate;
+import stonering.entity.local.unit.aspects.body.BodyAspect;
+import stonering.entity.local.unit.aspects.body.Wound;
+import stonering.enums.unit.raw.RawBodyPart;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,18 +16,18 @@ public class BodyPart {
     public String name;
     public BodyPart root; // each body part points to one it`s connected to
     public String type; // determines wear items, that can be equipped.
-    public String[] layers; // tissue layers
-    public String[] organs;
-    public String[] tags;
+    public List<String> layers; // tissue layers
+    public List<String> organs;
+    public List<String> tags;
     public List<Wound> wounds;
 
     public int size;
     public int weight; // TODO add calculation.
 
-    public BodyPart(RawBodyTemplate.RawBodyPart rawBodyPart) {
+    public BodyPart(RawBodyPart rawBodyPart) {
         name = rawBodyPart.name;
         type = rawBodyPart.type;
-        layers =rawBodyPart.layers;
+        layers = rawBodyPart.layers;
         organs = rawBodyPart.internal;
         tags = rawBodyPart.tags;
         size = rawBodyPart.size;
