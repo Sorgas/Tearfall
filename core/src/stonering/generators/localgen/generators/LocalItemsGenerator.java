@@ -5,7 +5,7 @@ import stonering.game.model.local_map.LocalMap;
 import stonering.generators.items.ItemGenerator;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.util.geometry.Position;
-import stonering.entity.local.item.Item;
+import stonering.entity.item.Item;
 
 /**
  * Creates item and puts them on map.

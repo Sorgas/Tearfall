@@ -1,9 +1,9 @@
 package stonering.test_chamber.model;
 
 import stonering.entity.local.environment.GameCalendar;
-import stonering.entity.local.plants.AbstractPlant;
-import stonering.entity.local.plants.Tree;
-import stonering.entity.world.World;
+import stonering.entity.plants.AbstractPlant;
+import stonering.entity.plants.Tree;
+import stonering.entity.World;
 import stonering.exceptions.DescriptionNotFoundException;
 import stonering.game.model.lists.PlantContainer;
 import stonering.generators.plants.TreeGenerator;

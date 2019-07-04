@@ -1,6 +1,6 @@
 package stonering.generators.worldgen.generators.elevation;
 
-import stonering.entity.world.WorldMap;
+import stonering.entity.WorldMap;
 import stonering.generators.worldgen.WorldGenContainer;
 
 import java.util.Random;

@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import stonering.TearFall;
-import stonering.entity.world.World;
+import stonering.entity.World;
 import stonering.game.GameMvc;
 import stonering.game.model.EntitySelector;
 import stonering.generators.localgen.LocalGenConfig;

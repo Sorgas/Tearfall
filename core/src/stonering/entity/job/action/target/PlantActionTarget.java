@@ -1,7 +1,7 @@
 package stonering.entity.job.action.target;
 
 import stonering.util.geometry.Position;
-import stonering.entity.local.plants.AbstractPlant;
+import stonering.entity.plants.AbstractPlant;
 
 public class PlantActionTarget extends ActionTarget {
     protected AbstractPlant plant;

@@ -1,7 +1,7 @@
 package stonering.enums.items.type;
 
-import stonering.entity.local.Entity;
-import stonering.entity.local.item.aspects.ValueAspect;
+import stonering.entity.Entity;
+import stonering.entity.item.aspects.ValueAspect;
 import stonering.util.global.Logger;
 
 import java.util.ArrayList;

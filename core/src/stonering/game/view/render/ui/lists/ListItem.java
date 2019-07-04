@@ -1,6 +1,6 @@
 package stonering.game.view.render.ui.lists;
 
-import stonering.entity.local.item.Item;
+import stonering.entity.item.Item;
 
 import java.util.ArrayList;
 import java.util.List;

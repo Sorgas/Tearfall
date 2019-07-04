@@ -1,17 +1,17 @@
 package stonering.generators.items;
 
-import stonering.entity.local.Aspect;
+import stonering.entity.Aspect;
 import stonering.entity.local.crafting.ItemOrder;
-import stonering.entity.local.item.aspects.SeedAspect;
+import stonering.entity.item.aspects.SeedAspect;
 import stonering.enums.items.type.ItemPartType;
-import stonering.entity.local.item.ItemPart;
-import stonering.entity.local.item.aspects.FallingAspect;
+import stonering.entity.item.ItemPart;
+import stonering.entity.item.aspects.FallingAspect;
 import stonering.enums.items.type.ItemType;
 import stonering.enums.items.type.ItemTypeMap;
 import stonering.enums.materials.MaterialMap;
 import stonering.exceptions.FaultDescriptionException;
 import stonering.generators.aspect.AspectGenerator;
-import stonering.entity.local.item.Item;
+import stonering.entity.item.Item;
 import stonering.util.global.Logger;
 
 import java.util.*;

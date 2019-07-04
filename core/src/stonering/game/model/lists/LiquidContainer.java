@@ -3,7 +3,6 @@ package stonering.game.model.lists;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.GameMvc;
-import stonering.game.model.ModelComponent;
 import stonering.game.model.Turnable;
 import stonering.game.model.local_map.LocalMap;
 import stonering.generators.localgen.LocalGenContainer;

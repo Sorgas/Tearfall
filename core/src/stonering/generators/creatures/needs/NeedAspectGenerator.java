@@ -5,9 +5,8 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter;
 import stonering.enums.unit.CreatureType;
-import stonering.exceptions.DescriptionNotFoundException;
-import stonering.entity.local.unit.aspects.NeedsAspect;
-import stonering.entity.local.unit.aspects.needs.WearNeed;
+import stonering.entity.unit.aspects.NeedsAspect;
+import stonering.entity.unit.aspects.needs.WearNeed;
 import stonering.util.global.FileLoader;
 
 /**

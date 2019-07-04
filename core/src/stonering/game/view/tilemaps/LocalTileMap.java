@@ -1,6 +1,6 @@
 package stonering.game.view.tilemaps;
 
-import stonering.game.model.ModelComponent;
+import stonering.game.model.lists.ModelComponent;
 import stonering.util.geometry.Position;
 import stonering.util.global.IntTriple;
 

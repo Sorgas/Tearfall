@@ -1,12 +1,11 @@
 package stonering.game.view.render.stages;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
-import stonering.entity.local.Entity;
+import stonering.entity.Entity;
 import stonering.entity.local.building.Building;
 import stonering.entity.local.building.BuildingBlock;
-import stonering.entity.local.plants.AbstractPlant;
-import stonering.entity.local.plants.Plant;
-import stonering.entity.local.zone.Zone;
+import stonering.entity.plants.AbstractPlant;
+import stonering.entity.zone.Zone;
 import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
 import stonering.game.model.lists.*;

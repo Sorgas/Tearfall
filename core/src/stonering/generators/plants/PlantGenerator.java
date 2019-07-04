@@ -1,16 +1,15 @@
 package stonering.generators.plants;
 
-import stonering.entity.local.item.aspects.SeedAspect;
-import stonering.entity.local.plants.SubstratePlant;
-import stonering.entity.local.plants.aspects.PlantGrowthAspect;
+import stonering.entity.item.aspects.SeedAspect;
+import stonering.entity.plants.SubstratePlant;
+import stonering.entity.plants.aspects.PlantGrowthAspect;
 import stonering.enums.materials.MaterialMap;
 import stonering.enums.plants.PlantTypeMap;
 import stonering.enums.plants.PlantBlocksTypeEnum;
 import stonering.enums.plants.PlantType;
 import stonering.exceptions.DescriptionNotFoundException;
-import stonering.entity.local.plants.Plant;
-import stonering.entity.local.plants.PlantBlock;
-import stonering.util.geometry.Position;
+import stonering.entity.plants.Plant;
+import stonering.entity.plants.PlantBlock;
 
 import java.util.Arrays;
 

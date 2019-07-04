@@ -4,11 +4,11 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter;
-import stonering.entity.local.unit.aspects.equipment.EquipmentSlot;
-import stonering.entity.local.unit.aspects.equipment.GrabEquipmentSlot;
+import stonering.entity.unit.aspects.equipment.EquipmentSlot;
+import stonering.entity.unit.aspects.equipment.GrabEquipmentSlot;
 import stonering.enums.unit.body.BodyPart;
 import stonering.enums.unit.CreatureType;
-import stonering.entity.local.unit.aspects.equipment.EquipmentAspect;
+import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.util.global.FileLoader;
 
 /**
@@ -50,7 +50,7 @@ public class EquipmentAspectGenerator {
     }
 
     /**
-     * Creates slots and counter for {@link stonering.entity.local.unit.aspects.needs.WearNeed}
+     * Creates slots and counter for {@link stonering.entity.unit.aspects.needs.WearNeed}
      */
     private void initDesiredSlots(CreatureType type, EquipmentAspect equipmentAspect) {
         for (String limbType : type.limbsToCover) {

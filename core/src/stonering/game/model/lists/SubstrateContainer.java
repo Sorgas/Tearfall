@@ -1,11 +1,10 @@
 package stonering.game.model.lists;
 
 import com.badlogic.gdx.utils.Array;
-import stonering.entity.local.plants.AbstractPlant;
-import stonering.entity.local.plants.PlantBlock;
-import stonering.entity.local.plants.SubstratePlant;
+import stonering.entity.plants.AbstractPlant;
+import stonering.entity.plants.PlantBlock;
+import stonering.entity.plants.SubstratePlant;
 import stonering.game.model.IntervalTurnable;
-import stonering.game.model.ModelComponent;
 import stonering.util.geometry.Position;
 import stonering.util.global.CompatibleArray;
 import stonering.util.global.Initable;

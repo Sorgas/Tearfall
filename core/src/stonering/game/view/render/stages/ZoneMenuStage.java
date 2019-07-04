@@ -2,8 +2,8 @@ package stonering.game.view.render.stages;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.utils.Align;
-import stonering.entity.local.zone.FarmZone;
-import stonering.entity.local.zone.Zone;
+import stonering.entity.zone.FarmZone;
+import stonering.entity.zone.Zone;
 import stonering.game.model.EntitySelector;
 import stonering.game.view.render.ui.menus.zone.FarmZoneMenu;
 

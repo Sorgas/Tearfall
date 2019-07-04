@@ -4,9 +4,9 @@ import stonering.enums.unit.CreatureType;
 import stonering.enums.unit.CreatureTypeMap;
 import stonering.generators.creatures.needs.NeedAspectGenerator;
 import stonering.util.geometry.Position;
-import stonering.entity.local.unit.aspects.MovementAspect;
-import stonering.entity.local.unit.aspects.PlanningAspect;
-import stonering.entity.local.unit.Unit;
+import stonering.entity.unit.aspects.MovementAspect;
+import stonering.entity.unit.aspects.PlanningAspect;
+import stonering.entity.unit.Unit;
 
 /**
  * Creates creatures from json files by specimen name.

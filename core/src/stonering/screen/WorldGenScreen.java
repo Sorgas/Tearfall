@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import stonering.TearFall;
-import stonering.entity.world.World;
+import stonering.entity.World;
 import stonering.generators.worldgen.WorldGenConfig;
 import stonering.generators.worldgen.WorldGeneratorContainer;
 import stonering.screen.ui_components.MiniMap;

@@ -1,6 +1,6 @@
 package stonering.screen.util;
 
-import stonering.entity.world.World;
+import stonering.entity.World;
 
 import java.io.*;
 import java.util.HashSet;

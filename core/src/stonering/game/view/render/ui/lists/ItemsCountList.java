@@ -3,7 +3,7 @@ package stonering.game.view.render.ui.lists;
 import com.badlogic.gdx.utils.Array;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.controller.controllers.toolbar.DesignationsController;
-import stonering.entity.local.item.Item;
+import stonering.entity.item.Item;
 import stonering.util.global.Pair;
 
 import java.util.HashMap;

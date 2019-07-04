@@ -1,7 +1,7 @@
 package stonering.test_chamber.model;
 
 import stonering.entity.local.environment.GameCalendar;
-import stonering.entity.world.World;
+import stonering.entity.World;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.model.lists.PlantContainer;

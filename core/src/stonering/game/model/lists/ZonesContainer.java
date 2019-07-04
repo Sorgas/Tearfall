@@ -2,10 +2,9 @@ package stonering.game.model.lists;
 
 import stonering.util.global.Logger;
 import stonering.util.validation.PositionValidator;
-import stonering.entity.local.zone.Zone;
+import stonering.entity.zone.Zone;
 import stonering.enums.ZoneTypesEnum;
 import stonering.game.GameMvc;
-import stonering.game.model.ModelComponent;
 import stonering.game.model.Turnable;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;

@@ -1,14 +1,11 @@
 package stonering.test_chamber.model;
 
 import stonering.entity.local.environment.GameCalendar;
-import stonering.entity.local.plants.AbstractPlant;
-import stonering.entity.local.plants.Plant;
-import stonering.entity.world.World;
-import stonering.enums.blocks.BlockTypesEnum;
-import stonering.enums.materials.MaterialMap;
+import stonering.entity.plants.AbstractPlant;
+import stonering.entity.plants.Plant;
+import stonering.entity.World;
 import stonering.exceptions.DescriptionNotFoundException;
 import stonering.game.model.lists.PlantContainer;
-import stonering.game.model.local_map.LocalMap;
 import stonering.generators.plants.PlantGenerator;
 import stonering.util.geometry.Position;
 

@@ -1,8 +1,8 @@
 package stonering.entity.job.action;
 
 import stonering.entity.job.action.target.ItemActionTarget;
-import stonering.entity.local.item.Item;
-import stonering.entity.local.unit.aspects.equipment.EquipmentAspect;
+import stonering.entity.item.Item;
+import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.exceptions.NotSuitableItemException;
 import stonering.game.GameMvc;
 import stonering.game.model.lists.ItemContainer;

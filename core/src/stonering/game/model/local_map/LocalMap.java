@@ -2,7 +2,7 @@ package stonering.game.model.local_map;
 
 import com.badlogic.gdx.math.Vector2;
 import stonering.enums.blocks.BlockTypesEnum;
-import stonering.game.model.ModelComponent;
+import stonering.game.model.lists.ModelComponent;
 import stonering.game.model.util.UtilByteArray;
 import stonering.game.view.tilemaps.LocalTileMapUpdater;
 import stonering.util.geometry.Position;

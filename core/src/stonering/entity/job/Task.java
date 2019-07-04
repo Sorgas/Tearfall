@@ -2,7 +2,7 @@ package stonering.entity.job;
 
 import stonering.entity.job.designation.Designation;
 import stonering.entity.local.crafting.ItemOrder;
-import stonering.entity.local.unit.aspects.PlanningAspect;
+import stonering.entity.unit.aspects.PlanningAspect;
 import stonering.enums.TaskStatusEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.lists.tasks.TaskContainer;
@@ -11,7 +11,7 @@ import stonering.game.model.util.UtilByteArray;
 import stonering.util.geometry.Position;
 import stonering.entity.job.action.Action;
 import stonering.entity.job.action.TaskTypesEnum;
-import stonering.entity.local.unit.Unit;
+import stonering.entity.unit.Unit;
 import stonering.util.global.Logger;
 
 import java.util.LinkedList;

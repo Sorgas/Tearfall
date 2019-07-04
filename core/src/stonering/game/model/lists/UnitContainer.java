@@ -1,11 +1,9 @@
 package stonering.game.model.lists;
 
 import com.badlogic.gdx.utils.Array;
-import stonering.game.model.ModelComponent;
 import stonering.game.model.Turnable;
 import stonering.util.geometry.Position;
-import stonering.entity.local.unit.Unit;
-import stonering.util.global.CompatibleArray;
+import stonering.entity.unit.Unit;
 import stonering.util.global.Initable;
 
 import java.util.*;

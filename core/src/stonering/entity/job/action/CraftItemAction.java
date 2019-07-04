@@ -1,13 +1,13 @@
 package stonering.entity.job.action;
 
 import stonering.entity.job.action.target.AspectHolderActionTarget;
-import stonering.entity.local.Entity;
-import stonering.entity.local.PositionAspect;
+import stonering.entity.Entity;
+import stonering.entity.PositionAspect;
 import stonering.entity.local.building.aspects.WorkbenchAspect;
 import stonering.entity.local.crafting.ItemOrder;
 import stonering.entity.local.crafting.ItemPartOrder;
-import stonering.entity.local.item.Item;
-import stonering.entity.local.item.aspects.ItemContainerAspect;
+import stonering.entity.item.Item;
+import stonering.entity.item.aspects.ItemContainerAspect;
 import stonering.game.GameMvc;
 import stonering.game.model.lists.ItemContainer;
 import stonering.generators.items.ItemGenerator;

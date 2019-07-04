@@ -1,7 +1,7 @@
 package stonering.game.controller.controllers.designation;
 
 import stonering.util.validation.PositionValidator;
-import stonering.entity.local.zone.Zone;
+import stonering.entity.zone.Zone;
 import stonering.enums.ZoneTypesEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.EntitySelector;

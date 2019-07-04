@@ -1,6 +1,6 @@
 package stonering.generators.worldgen.generators.drainage;
 
-import stonering.entity.world.WorldMap;
+import stonering.entity.WorldMap;
 import stonering.generators.worldgen.generators.AbstractGenerator;
 import stonering.generators.worldgen.WorldGenContainer;
 

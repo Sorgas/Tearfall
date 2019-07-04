@@ -2,7 +2,7 @@ package stonering;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import stonering.entity.world.World;
+import stonering.entity.World;
 import stonering.game.GameMvc;
 import stonering.screen.MainMenuScreen;
 import stonering.screen.LocalGenerationScreen;

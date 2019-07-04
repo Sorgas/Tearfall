@@ -2,7 +2,7 @@ package stonering.generators.worldgen.generators.elevation;
 
 import stonering.generators.PerlinNoiseGenerator;
 import stonering.generators.worldgen.WorldGenContainer;
-import stonering.entity.world.WorldMap;
+import stonering.entity.WorldMap;
 import stonering.generators.worldgen.generators.AbstractGenerator;
 
 

@@ -2,15 +2,11 @@ package stonering.entity.job.action;
 
 import stonering.entity.job.designation.BuildingDesignation;
 import stonering.entity.job.action.target.PositionActionTarget;
-import stonering.entity.local.item.Item;
-import stonering.entity.local.item.selectors.ItemSelector;
-import stonering.entity.local.plants.AbstractPlant;
-import stonering.entity.local.plants.Plant;
-import stonering.entity.local.plants.Tree;
-import stonering.entity.local.unit.aspects.equipment.EquipmentAspect;
+import stonering.entity.item.Item;
+import stonering.entity.item.selectors.ItemSelector;
+import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.GameMvc;
-import stonering.game.model.GameModel;
 import stonering.game.model.lists.ItemContainer;
 import stonering.game.model.lists.PlantContainer;
 import stonering.game.model.lists.SubstrateContainer;

@@ -11,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import stonering.entity.local.zone.FarmZone;
+import stonering.entity.zone.FarmZone;
 import stonering.enums.plants.PlantTypeMap;
 import stonering.enums.plants.PlantType;
 import stonering.game.GameMvc;

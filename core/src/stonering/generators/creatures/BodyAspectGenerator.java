@@ -1,7 +1,7 @@
 package stonering.generators.creatures;
 
 import stonering.enums.unit.CreatureType;
-import stonering.entity.local.unit.aspects.body.BodyAspect;
+import stonering.entity.unit.aspects.body.BodyAspect;
 
 /**
  * Generates {@link BodyAspect} for creature by given species.

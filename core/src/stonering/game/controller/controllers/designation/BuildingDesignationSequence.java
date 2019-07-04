@@ -4,7 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import stonering.entity.local.building.Blueprint;
 import stonering.entity.local.building.BuildingOrder;
 import stonering.entity.local.crafting.CommonComponent;
-import stonering.entity.local.item.selectors.SimpleItemSelector;
+import stonering.entity.item.selectors.SimpleItemSelector;
 import stonering.enums.designations.PlaceValidatorsEnum;
 import stonering.game.model.lists.tasks.TaskContainer;
 import stonering.game.view.render.ui.lists.MaterialSelectList;

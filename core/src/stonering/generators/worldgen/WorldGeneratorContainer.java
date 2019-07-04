@@ -1,6 +1,6 @@
 package stonering.generators.worldgen;
 
-import stonering.entity.world.World;
+import stonering.entity.World;
 import stonering.generators.worldgen.generators.BiomeGenerator;
 import stonering.generators.worldgen.generators.CelestialBodiesGenerator;
 import stonering.generators.worldgen.generators.drainage.*;

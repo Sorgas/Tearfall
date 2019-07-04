@@ -4,8 +4,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import stonering.util.validation.FreeSoilFloorValidator;
 import stonering.util.validation.PositionValidator;
-import stonering.entity.local.zone.FarmZone;
-import stonering.entity.local.zone.Zone;
+import stonering.entity.zone.FarmZone;
+import stonering.entity.zone.Zone;
 
 /**
  * Enum for all zone types. Zone Actors are also created here.

@@ -26,7 +26,7 @@ import static stonering.enums.ControlActionsEnum.*;
  * Order line for selected recipe. {@link ItemOrder}
  * <p>
  * Shows {@link ItemPartSelection} for each part of recipe.
- * Selections are filled with {@link stonering.entity.local.item.selectors.AnyMaterialTagItemSelector} by default.
+ * Selections are filled with {@link stonering.entity.item.selectors.AnyMaterialTagItemSelector} by default.
  * Player can navigate between them to specify items to use in order.
  * When player cancels order creation, this line is hidden.
  *

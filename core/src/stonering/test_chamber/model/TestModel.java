@@ -4,7 +4,7 @@ import stonering.entity.local.environment.CelestialBody;
 import stonering.entity.local.environment.GameCalendar;
 import stonering.entity.local.environment.aspects.CelestialCycleAspect;
 import stonering.entity.local.environment.aspects.CelestialLightSourceAspect;
-import stonering.entity.world.World;
+import stonering.entity.World;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.model.EntitySelector;

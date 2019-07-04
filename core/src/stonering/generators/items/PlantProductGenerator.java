@@ -1,9 +1,9 @@
 package stonering.generators.items;
 
 import stonering.enums.plants.PlantBlocksTypeEnum;
-import stonering.entity.local.item.Item;
-import stonering.entity.local.plants.AbstractPlant;
-import stonering.entity.local.plants.PlantBlock;
+import stonering.entity.item.Item;
+import stonering.entity.plants.AbstractPlant;
+import stonering.entity.plants.PlantBlock;
 import stonering.enums.plants.PlantProduct;
 
 import java.util.ArrayList;

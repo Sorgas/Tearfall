@@ -2,8 +2,8 @@ package stonering.entity.job.action.aspects;
 
 import stonering.entity.job.action.Action;
 import stonering.entity.job.action.target.ItemActionTarget;
-import stonering.entity.local.item.Item;
-import stonering.entity.local.unit.aspects.equipment.EquipmentAspect;
+import stonering.entity.item.Item;
+import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.game.GameMvc;
 import stonering.game.model.lists.ItemContainer;
 

@@ -1,6 +1,6 @@
 package stonering.generators.localgen;
 
-import stonering.entity.world.World;
+import stonering.entity.World;
 import stonering.game.GameMvc;
 import stonering.game.model.MainGameModel;
 import stonering.game.model.local_map.LocalMap;

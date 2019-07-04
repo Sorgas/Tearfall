@@ -1,6 +1,6 @@
 package stonering.test_chamber.model;
 
-import stonering.entity.local.unit.Unit;
+import stonering.entity.unit.Unit;
 import stonering.game.model.lists.UnitContainer;
 import stonering.generators.creatures.CreatureGenerator;
 

@@ -1,6 +1,7 @@
 package stonering.game.model;
 
 import com.badlogic.gdx.utils.Timer;
+import stonering.game.model.lists.ModelComponent;
 import stonering.util.global.Initable;
 import stonering.util.global.LastInitable;
 import stonering.util.global.Logger;

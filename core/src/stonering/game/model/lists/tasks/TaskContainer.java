@@ -10,13 +10,13 @@ import stonering.enums.designations.DesignationTypeEnum;
 import stonering.enums.designations.PlaceValidatorsEnum;
 import stonering.game.GameMvc;
 import stonering.game.controller.controllers.designation.BuildingDesignationSequence;
-import stonering.game.model.ModelComponent;
+import stonering.game.model.lists.ModelComponent;
 import stonering.game.model.lists.PlantContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 import stonering.entity.job.Task;
-import stonering.entity.local.item.selectors.ItemSelector;
-import stonering.entity.local.plants.PlantBlock;
+import stonering.entity.item.selectors.ItemSelector;
+import stonering.entity.plants.PlantBlock;
 import stonering.util.global.Initable;
 import stonering.util.global.Logger;
 

@@ -8,7 +8,7 @@ import stonering.entity.local.environment.CelestialBody;
 import java.util.ArrayList;
 
 /**
- * Container for actors which make turns once in a some period of time like gods, fractions, weather, etc.
+ * Container for actors which make turns once in a some period of time like gods, factions, weather, etc.
  *
  * @author Alexander Kuzyakov on 07.10.2018.
  */

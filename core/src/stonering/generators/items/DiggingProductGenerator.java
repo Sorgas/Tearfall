@@ -1,6 +1,6 @@
 package stonering.generators.items;
 
-import stonering.entity.local.item.Item;
+import stonering.entity.item.Item;
 import stonering.enums.materials.Material;
 import stonering.enums.materials.MaterialMap;
 

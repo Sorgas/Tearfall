@@ -2,7 +2,6 @@ package stonering.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -14,14 +13,10 @@ import com.badlogic.gdx.utils.Align;
 import stonering.TearFall;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.utils.Array;
-import stonering.entity.world.World;
+import stonering.entity.World;
 import stonering.screen.ui_components.MiniMap;
-import stonering.screen.ui_components.WorldListItem;
 import stonering.screen.util.WorldCellInfo;
 import stonering.util.global.StaticSkin;
-
-import java.io.File;
 
 /**
  * Screen for selecting location for settlement on game start.

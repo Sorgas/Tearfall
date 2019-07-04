@@ -3,13 +3,13 @@ package stonering.game.view.render.stages.renderer;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import stonering.entity.job.designation.Designation;
-import stonering.entity.local.PositionAspect;
+import stonering.entity.PositionAspect;
 import stonering.entity.local.building.BuildingBlock;
-import stonering.entity.local.item.Item;
-import stonering.entity.local.plants.PlantBlock;
-import stonering.entity.local.unit.Unit;
-import stonering.entity.local.unit.aspects.MovementAspect;
-import stonering.entity.local.zone.Zone;
+import stonering.entity.item.Item;
+import stonering.entity.plants.PlantBlock;
+import stonering.entity.unit.Unit;
+import stonering.entity.unit.aspects.MovementAspect;
+import stonering.entity.zone.Zone;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.designations.DesignationsTileMapping;
 import stonering.enums.materials.MaterialMap;
@@ -103,8 +103,8 @@ public class TileRenderer extends Renderer {
     private void drawTile(int x, int y, int z) {
         cachePosition.set(x, y, z);
         cacheVector.set(x, y, z); // not changed after
-        //byte lightLevel = (byte) (localMap.getLight().getValue(x, y, z) + localMap.getGeneralLight().getValue(x, y, z));  //TODO limit light level
-        //util.shadeByLight(lightLevel);
+        byte lightLevel = (byte) (localMap.getLight().getValue(x, y, z) + localMap.getGeneralLight().getValue(x, y, z));  //TODO limit light level
+        util.shadeByLight(lightLevel);
         drawBlock(x, y, z);
         if (substrateContainer != null) drawSubstrate(x, y, z);
         drawWaterBlock(x, y, z);

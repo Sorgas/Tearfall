@@ -1,12 +1,12 @@
 package stonering.entity.job.action;
 
 import stonering.entity.job.action.target.PlantActionTarget;
-import stonering.entity.local.item.Item;
-import stonering.entity.local.item.selectors.ItemSelector;
-import stonering.entity.local.item.selectors.ToolWithActionItemSelector;
-import stonering.entity.local.plants.AbstractPlant;
-import stonering.entity.local.plants.PlantBlock;
-import stonering.entity.local.unit.aspects.equipment.EquipmentAspect;
+import stonering.entity.item.Item;
+import stonering.entity.item.selectors.ItemSelector;
+import stonering.entity.item.selectors.ToolWithActionItemSelector;
+import stonering.entity.plants.AbstractPlant;
+import stonering.entity.plants.PlantBlock;
+import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.game.GameMvc;
 import stonering.game.model.lists.ItemContainer;
 import stonering.game.model.lists.PlantContainer;

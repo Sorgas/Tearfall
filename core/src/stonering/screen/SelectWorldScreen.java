@@ -12,7 +12,7 @@ import com.badlogic.gdx.utils.Align;
 import stonering.TearFall;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.Array;
-import stonering.entity.world.World;
+import stonering.entity.World;
 import stonering.game.view.render.ui.lists.NavigableList;
 import stonering.screen.ui_components.MiniMap;
 import stonering.screen.ui_components.WorldListItem;

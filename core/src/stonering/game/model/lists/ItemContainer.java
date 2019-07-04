@@ -1,18 +1,17 @@
 package stonering.game.model.lists;
 
-import stonering.entity.local.Entity;
+import stonering.entity.Entity;
 import stonering.entity.local.crafting.CommonComponent;
-import stonering.entity.local.item.selectors.SimpleItemSelector;
+import stonering.entity.item.selectors.SimpleItemSelector;
 import stonering.enums.items.recipe.ItemPartRecipe;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.GameMvc;
-import stonering.game.model.ModelComponent;
 import stonering.game.model.Turnable;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.util.UtilByteArray;
 import stonering.util.geometry.Position;
-import stonering.entity.local.item.Item;
-import stonering.entity.local.item.selectors.ItemSelector;
+import stonering.entity.item.Item;
+import stonering.entity.item.selectors.ItemSelector;
 import stonering.util.global.Initable;
 import stonering.util.global.Logger;
 

@@ -1,6 +1,6 @@
 package stonering.generators.localgen.generators.flora;
 
-import stonering.entity.world.World;
+import stonering.entity.World;
 import stonering.enums.generation.PlantPlacingTags;
 import stonering.enums.plants.PlantTypeMap;
 import stonering.enums.plants.PlantType;

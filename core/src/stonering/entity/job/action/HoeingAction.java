@@ -1,10 +1,10 @@
 package stonering.entity.job.action;
 
 import stonering.entity.job.action.target.ActionTarget;
-import stonering.entity.local.item.Item;
-import stonering.entity.local.item.selectors.ItemSelector;
-import stonering.entity.local.item.selectors.ToolWithActionItemSelector;
-import stonering.entity.local.unit.aspects.equipment.EquipmentAspect;
+import stonering.entity.item.Item;
+import stonering.entity.item.selectors.ItemSelector;
+import stonering.entity.item.selectors.ToolWithActionItemSelector;
+import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.enums.ZoneTypesEnum;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.GameMvc;

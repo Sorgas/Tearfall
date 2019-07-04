@@ -4,7 +4,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
-import stonering.entity.local.Entity;
+import stonering.entity.Entity;
 import stonering.game.GameMvc;
 import stonering.util.global.CompatibleArray;
 import stonering.util.global.StaticSkin;

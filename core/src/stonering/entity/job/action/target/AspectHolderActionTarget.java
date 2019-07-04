@@ -1,7 +1,7 @@
 package stonering.entity.job.action.target;
 
-import stonering.entity.local.Entity;
-import stonering.entity.local.PositionAspect;
+import stonering.entity.Entity;
+import stonering.entity.PositionAspect;
 import stonering.util.geometry.Position;
 
 /**

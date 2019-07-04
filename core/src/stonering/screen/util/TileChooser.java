@@ -3,7 +3,7 @@ package stonering.screen.util;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import stonering.generators.worldgen.WorldGenConfig;
-import stonering.entity.world.WorldMap;
+import stonering.entity.WorldMap;
 
 /**
  * @author Alexander Kuzyakov on 23.04.2017.

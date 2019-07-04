@@ -2,8 +2,7 @@ package stonering.entity.job.action;
 
 import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.job.Task;
-import stonering.entity.local.unit.aspects.JobsAspect;
-import stonering.enums.unit.Skill;
+import stonering.entity.unit.aspects.JobsAspect;
 import stonering.util.global.Logger;
 
 /**

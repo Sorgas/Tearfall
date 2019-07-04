@@ -1,9 +1,9 @@
 package stonering.entity.job.action;
 
 import stonering.entity.job.action.target.ItemActionTarget;
-import stonering.entity.local.item.Item;
-import stonering.entity.local.unit.aspects.equipment.EquipmentAspect;
-import stonering.entity.local.unit.aspects.equipment.EquipmentSlot;
+import stonering.entity.item.Item;
+import stonering.entity.unit.aspects.equipment.EquipmentAspect;
+import stonering.entity.unit.aspects.equipment.EquipmentSlot;
 
 /**
  * Action for unequipping item from unit.

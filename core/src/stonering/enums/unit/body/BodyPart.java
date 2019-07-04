@@ -1,6 +1,6 @@
 package stonering.enums.unit.body;
 
-import stonering.entity.local.unit.aspects.body.BodyAspect;
+import stonering.entity.unit.aspects.body.BodyAspect;
 import stonering.enums.unit.body.raw.RawBodyPart;
 
 import java.util.ArrayList;

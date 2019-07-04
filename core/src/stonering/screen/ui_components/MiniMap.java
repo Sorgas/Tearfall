@@ -7,8 +7,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import stonering.entity.world.World;
-import stonering.entity.world.WorldMap;
+import stonering.entity.World;
+import stonering.entity.WorldMap;
 import stonering.util.geometry.Position;
 import stonering.screen.util.TileChooser;
 
