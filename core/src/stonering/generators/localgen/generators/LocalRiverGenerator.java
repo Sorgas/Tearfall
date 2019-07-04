@@ -52,7 +52,7 @@ public class LocalRiverGenerator extends LocalAbstractGenerator {
         inflows = new ArrayList<>();
         flows = new ArrayList<>();
         localMap = container.model.get(LocalMap.class);
-        materialMap = MaterialMap.getInstance();
+        materialMap = MaterialMap.instance();
     }
 
     /**
@@ -161,7 +161,7 @@ public class LocalRiverGenerator extends LocalAbstractGenerator {
      * @return
      */
     private boolean isInflow(int rx, int ry, Vector2 inflow) {
-        System.out.println("inflow check: " + rx + " " + ry + " " + inflow);
+        System.out.println("inflow checkItems: " + rx + " " + ry + " " + inflow);
         System.out.println("vector: " + Math.round(inflow.x) + " " + Math.round(inflow.y));
         IntVector2 intVector = new IntVector2(inflow);
         return intVector.x == -rx && intVector.y == -ry; // inflow vector points from observed position to current. [rx, ry] is offset from current position to position where inflow comes from.

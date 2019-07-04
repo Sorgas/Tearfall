@@ -27,7 +27,7 @@ public class HoeingAction extends Action {
      * 1. target tile is soil FLOOR
      * 2. target tile is farm zone
      * 3. performer has hoe tool
-     * Creates sub action only for equipping hoe, other cases handled by player.
+     * Creates sub name only for equipping hoe, other cases handled by player.
      */
     @Override
     public boolean check() {

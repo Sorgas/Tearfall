@@ -1,13 +1,9 @@
 package stonering.entity.item.selectors;
 
-import stonering.enums.items.type.ToolItemType;
 import stonering.entity.item.Item;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * Selects tools which allows specified action.
+ * Selects tools which allows specified name.
  *
  * @author Alexander Kuzyakov on 11.09.2018.
  */
@@ -18,26 +14,11 @@ public class ToolWithActionItemSelector extends ItemSelector {
         this.actionName = actionName;
     }
 
+    /**
+     * Checks that item is tool and has name with name.
+     */
     @Override
-    public boolean check(List<Item> items) {
-        return !selectItems(items).isEmpty();
-    }
-
-    @Override
-    public List<Item> selectItems(List<Item> items) {
-        List<Item> foundItems = new ArrayList<>();
-        for (Item item : items) {
-            ToolItemType tool;
-            if ((tool = item.getType().tool) != null) {
-                if (tool.getActions().size() > 0) {
-                    for (ToolItemType.ToolAction toolAction : tool.getActions()) {
-                        if (toolAction.action.equals(actionName)) {
-                            foundItems.add(item);
-                        }
-                    }
-                }
-            }
-        }
-        return foundItems;
+    public boolean checkItem(Item item) {
+        return item.isTool() && item.getType().tool.getActions().stream().anyMatch(action -> action.name.equals(actionName));
     }
 }

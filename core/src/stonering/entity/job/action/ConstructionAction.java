@@ -20,7 +20,7 @@ import java.util.List;
 
 /**
  * Action for creating constructions on map.
- * Creates action for bringing materials to construction site.
+ * Creates name for bringing materials to construction site.
  * //TODO combine with BuildingAction into ItemConsumingAction
  *
  * @author Alexander on 12.03.2019.
@@ -38,16 +38,16 @@ public class ConstructionAction extends Action {
 
     /**
      * Checks that all material selectors have corresponding item in building position or in performer's inventory.
-     * Creates action for bringing missing item.
+     * Creates name for bringing missing item.
      */
     @Override
     public boolean check() {
         Logger.TASKS.log("Checking " + toString());
-        ArrayList<Item> uncheckedItems = new ArrayList<>(GameMvc.instance().getModel().get(ItemContainer.class).getItemsInPosition(actionTarget.getPosition())); //TODO check positions near target.
+        ArrayList<Item> uncheckedItems = new ArrayList<>(GameMvc.instance().getModel().get(ItemContainer.class).getItemsInPosition(actionTarget.getPosition())); //TODO checkItems positions near target.
         uncheckedItems.addAll(task.getPerformer().getAspect(EquipmentAspect.class).getHauledItems()); // from performer inventory
         for (ItemSelector itemSelector : itemSelectors) {
             List<Item> selectedItems = itemSelector.selectItems(uncheckedItems);
-            if (selectedItems.isEmpty()) return tryCreateDroppingAction(itemSelector); // create action for item
+            if (selectedItems.isEmpty()) return tryCreateDroppingAction(itemSelector); // create name for item
             for (Item selectedItem : selectedItems) {
                 uncheckedItems.remove(selectedItem);
             }
@@ -83,7 +83,7 @@ public class ConstructionAction extends Action {
     }
 
     /**
-     * Creates action for putting item to position of this action and adds it to task.
+     * Creates name for putting item to position of this name and adds it to task.
      *
      * @param itemSelector selector for item
      * @return false if no item available.
@@ -107,6 +107,6 @@ public class ConstructionAction extends Action {
 
     @Override
     public String toString() {
-        return "Construction action: " + BlockTypesEnum.getType(blockType).NAME;
+        return "Construction name: " + BlockTypesEnum.getType(blockType).NAME;
     }
 }

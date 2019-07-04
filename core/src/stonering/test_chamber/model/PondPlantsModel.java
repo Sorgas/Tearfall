@@ -23,7 +23,7 @@ public class PondPlantsModel extends TestModel {
     @Override
     protected LocalMap createLocalMap(int size) {
         LocalMap localMap = new LocalMap(size, size, 20);
-        MaterialMap materialMap = MaterialMap.getInstance();
+        MaterialMap materialMap = MaterialMap.instance();
         for (int x = 0; x < size; x++) {
             for (int y = 0; y < size; y++) {
                 localMap.setBlock(x, y, 0, BlockTypesEnum.WALL, materialMap.getId("soil"));

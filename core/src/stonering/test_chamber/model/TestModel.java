@@ -50,9 +50,9 @@ public abstract class TestModel extends GameModel {
         LocalMap localMap = new LocalMap(size, size, 20);
         for (int x = 0; x < size; x++) {
             for (int y = 0; y < size; y++) {
-                localMap.setBlock(x, y, 0, BlockTypesEnum.WALL, MaterialMap.getInstance().getId("soil"));
-                localMap.setBlock(x, y, 1, BlockTypesEnum.WALL, MaterialMap.getInstance().getId("soil"));
-                localMap.setBlock(x, y, 2, BlockTypesEnum.FLOOR, MaterialMap.getInstance().getId("soil"));
+                localMap.setBlock(x, y, 0, BlockTypesEnum.WALL, MaterialMap.instance().getId("soil"));
+                localMap.setBlock(x, y, 1, BlockTypesEnum.WALL, MaterialMap.instance().getId("soil"));
+                localMap.setBlock(x, y, 2, BlockTypesEnum.FLOOR, MaterialMap.instance().getId("soil"));
             }
         }
         return localMap;

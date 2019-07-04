@@ -4,14 +4,14 @@ import java.util.ArrayList;
 
 /**
  * Item type aspect for tools.
- * Determines, in which action item can be used, and its efficiency.
+ * Determines, in which name item can be used, and its efficiency.
  *
  * By default, all tools are one handed.
  *
  * @author Alexander Kuzyakov on 11.09.2018.
  */
 public class ToolItemType {
-    private ArrayList<ToolAction> actions;  // some job, (mining, lumbering) require tools with specific action.
+    private ArrayList<ToolAction> actions;  // some job, (mining, lumbering) require tools with specific name.
     private ArrayList<ToolAttack> attacks;  // creatures will choose tools with best attack characteristics to use in combat.
     private String usedSkill; //TODO replace with enum
 
@@ -21,7 +21,7 @@ public class ToolItemType {
     }
 
     public static class ToolAction {
-        public String action; // action name
+        public String name; // name name
         public float speedMod; // efficiency
         public String part;
     }

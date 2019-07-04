@@ -15,6 +15,6 @@ public class FreeSoilFloorValidator extends FreeFloorValidator {
     @Override
     public boolean validate(LocalMap localMap, Position position) {
         return super.validate(localMap, position) &&
-                MaterialMap.getInstance().getMaterial(localMap.getMaterial(position)).getTags().contains(SOIL_TAG);
+                MaterialMap.instance().getMaterial(localMap.getMaterial(position)).getTags().contains(SOIL_TAG);
     }
 }

@@ -1,7 +1,7 @@
 package stonering.generators.items;
 
 import stonering.entity.Aspect;
-import stonering.entity.local.crafting.ItemOrder;
+import stonering.entity.crafting.ItemOrder;
 import stonering.entity.item.aspects.SeedAspect;
 import stonering.enums.items.type.ItemPartType;
 import stonering.entity.item.ItemPart;
@@ -30,7 +30,7 @@ public class ItemGenerator {
 
     public ItemGenerator() {
         itemTypeMap = ItemTypeMap.getInstance();
-        materialMap = MaterialMap.getInstance();
+        materialMap = MaterialMap.instance();
         defaultAspects = new HashMap<>();
         defaultAspects.put("falling", Arrays.asList("1"));
     }

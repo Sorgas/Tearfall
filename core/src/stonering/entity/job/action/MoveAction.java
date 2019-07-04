@@ -4,7 +4,7 @@ import stonering.entity.job.action.target.PositionActionTarget;
 import stonering.util.geometry.Position;
 
 /**
- * Action for moving to tile. Has no check or logic.
+ * Action for moving to tile. Has no checkItems or logic.
  */
 public class MoveAction extends Action {
 
@@ -23,6 +23,6 @@ public class MoveAction extends Action {
 
     @Override
     public String toString() {
-        return "Move action";
+        return "Move name";
     }
 }

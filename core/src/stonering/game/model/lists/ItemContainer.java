@@ -1,7 +1,7 @@
 package stonering.game.model.lists;
 
 import stonering.entity.Entity;
-import stonering.entity.local.crafting.CommonComponent;
+import stonering.entity.crafting.CommonComponent;
 import stonering.entity.item.selectors.SimpleItemSelector;
 import stonering.enums.items.recipe.ItemPartRecipe;
 import stonering.enums.materials.MaterialMap;
@@ -99,10 +99,6 @@ public class ItemContainer extends Turnable implements ModelComponent, Initable 
     /**
      * Gets all materials for all variants of crafting step. Used for filling materialSelectList.
      * Currently works only with resource item.
-     *
-     * @param step
-     * @param pos
-     * @return
      */
     public List<Item> getAvailableMaterialsCraftingStep(CommonComponent step, Position pos) {
         List<Item> items = new ArrayList<>();
@@ -114,7 +110,7 @@ public class ItemContainer extends Turnable implements ModelComponent, Initable 
      * Searches all material item made of given material type.
      */
     public List<Item> getResourceItemsByMaterialType(String materialType) {
-        MaterialMap materialMap = MaterialMap.getInstance();
+        MaterialMap materialMap = MaterialMap.instance();
         List<Item> itemListForFiltering = new ArrayList<>(items);
         Set<Integer> materialIds = materialMap.getMaterialsByTag(materialType);
         return itemListForFiltering.stream().
@@ -128,7 +124,7 @@ public class ItemContainer extends Turnable implements ModelComponent, Initable 
     public List<ItemGroup> groupItemsByTypesAndMaterials(List<Item> items) {
         Map<ItemGroup, Integer> groupingMap = new HashMap<>();                                   // groups by material and item NAME. Stores quantity.
         items.forEach((item) -> {
-            String materialName = MaterialMap.getInstance().getMaterial(item.getMaterial()).getName();
+            String materialName = MaterialMap.instance().getMaterial(item.getMaterial()).getName();
             ItemGroup key = new ItemGroup(item.getTitle(), materialName, 0);
             groupingMap.put(key, groupingMap.getOrDefault(key, 0) + 1);               // increment quantity
         });
@@ -172,7 +168,7 @@ public class ItemContainer extends Turnable implements ModelComponent, Initable 
      */
     public List<ItemSelector> getItemSelectorsForItemPartRecipe(ItemPartRecipe itemPartRecipe, Position position) {
         Set<ItemSelector> itemSelectors = new HashSet<>();
-        Set<Integer> allowedMaterials = MaterialMap.getInstance().getMaterialsByTag(itemPartRecipe.materialTag);
+        Set<Integer> allowedMaterials = MaterialMap.instance().getMaterialsByTag(itemPartRecipe.materialTag);
         List<Item> materialItems = items.stream().
                 filter(item -> allowedMaterials.contains(item.getMaterial())).
                 collect(Collectors.toList());

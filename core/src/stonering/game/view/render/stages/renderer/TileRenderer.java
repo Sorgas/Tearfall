@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import stonering.entity.job.designation.Designation;
 import stonering.entity.PositionAspect;
-import stonering.entity.local.building.BuildingBlock;
+import stonering.entity.building.BuildingBlock;
 import stonering.entity.item.Item;
 import stonering.entity.plants.PlantBlock;
 import stonering.entity.unit.Unit;
@@ -154,7 +154,7 @@ public class TileRenderer extends Renderer {
     }
 
     private int getAtlasYForBlock(int x, int y, int z) {
-        return MaterialMap.getInstance().getMaterial(localMap.getMaterial(x, y, z)).getAtlasY();
+        return MaterialMap.instance().getMaterial(localMap.getMaterial(x, y, z)).getAtlasY();
     }
 
     private void drawSubstrate(int x, int y, int z) {

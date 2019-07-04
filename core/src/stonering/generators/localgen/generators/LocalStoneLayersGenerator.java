@@ -79,7 +79,7 @@ public class LocalStoneLayersGenerator extends LocalAbstractGenerator {
 
     private void generateLayers() {
         int i = layerIds.length - 1;
-        int soilId = MaterialMap.getInstance().getId("soil");
+        int soilId = MaterialMap.instance().getId("soil");
         for (int soilIndex = 0; soilIndex < soilLayer; soilIndex++) {
             layerIds[i] = soilId;
             i--;
@@ -92,7 +92,7 @@ public class LocalStoneLayersGenerator extends LocalAbstractGenerator {
         int[] maxSubLayerNumber = container.config.getSublayerMaxCount();
         int[] minSubLayerThickness = container.config.getSublayerMinThickness();
         for (int g = 0; g < globalLayers.length; g++) {
-            if (globalLayers[g] > 0) { //check thickness
+            if (globalLayers[g] > 0) { //checkItems thickness
                 int subLayerNumber = Math.min(globalLayers[g] / minSubLayerThickness[g] + 1, maxSubLayerNumber[g]);
                 int[] ids = getIdsByStoneType(subLayerNumber, 1, g);
                 float globalLayerThickness = globalLayers[g];
@@ -110,7 +110,7 @@ public class LocalStoneLayersGenerator extends LocalAbstractGenerator {
 
     public int[] getIdsByStoneType(int num, int seed, int stoneType) {
         Random random = new Random(seed);
-        MaterialMap materialMap = MaterialMap.getInstance();
+        MaterialMap materialMap = MaterialMap.instance();
         int[] ids = new int[num];
         LinkedList<String> stoneTypeNames = new LinkedList<>(Arrays.asList(stoneTypes[stoneType]));
         for (int i = 0; i < num; i++) {

@@ -30,7 +30,7 @@ public class HarvestPlantAction extends Action {
         if (!(((PlantActionTarget) actionTarget).getPlant() instanceof Plant)) return false;
         EquipmentAspect aspect = task.getPerformer().getAspect(EquipmentAspect.class);
         if (aspect == null) return false;
-        return toolItemSelector.check(aspect.getEquippedItems()) || addActionToTask();
+        return toolItemSelector.checkItems(aspect.getEquippedItems()) || addActionToTask();
     }
 
     @Override

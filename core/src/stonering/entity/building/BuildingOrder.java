@@ -1,4 +1,4 @@
-package stonering.entity.local.building;
+package stonering.entity.building;
 
 import stonering.entity.job.designation.Designation;
 import stonering.entity.job.Task;

@@ -2,8 +2,8 @@ package stonering.entity.job.action;
 
 import stonering.entity.job.designation.BuildingDesignation;
 import stonering.entity.job.action.target.PositionActionTarget;
-import stonering.entity.local.building.Building;
-import stonering.entity.local.building.BuildingType;
+import stonering.entity.building.Building;
+import stonering.entity.building.BuildingType;
 import stonering.entity.item.Item;
 import stonering.entity.item.selectors.ItemSelector;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
@@ -20,7 +20,7 @@ import java.util.List;
 
 /**
  * Action for creating buildings on map.
- * Creates action for bringing materials to construction site.
+ * Creates name for bringing materials to construction site.
  */
 public class BuildingAction extends Action {
     private BuildingType buildingType;
@@ -40,7 +40,7 @@ public class BuildingAction extends Action {
     }
 
     private void build() {
-        Logger.TASKS.log("Performing building action: " + buildingType.building);
+        Logger.TASKS.log("Performing building name: " + buildingType.building);
         ItemContainer itemContainer = GameMvc.instance().getModel().get(ItemContainer.class);
         Position target = actionTarget.getPosition();
         List<Item> items = itemContainer.getItemsInPosition(target);
@@ -57,16 +57,16 @@ public class BuildingAction extends Action {
 
     /**
      * Checks that all material selectors have corresponding item in building position or in performer's inventory.
-     * Creates action for bringing missing item.
+     * Creates name for bringing missing item.
      */
     @Override
     public boolean check() {
-        Logger.TASKS.log("Checking building action: " + buildingType.building);
+        Logger.TASKS.log("Checking building name: " + buildingType.building);
         ArrayList<Item> uncheckedItems = new ArrayList<>(GameMvc.instance().getModel().get(ItemContainer.class).getItemsInPosition(actionTarget.getPosition()));
         uncheckedItems.addAll(task.getPerformer().getAspect(EquipmentAspect.class).getHauledItems()); // from performer inventory
         for (ItemSelector itemSelector : itemSelectors) {
             List<Item> selectedItems = itemSelector.selectItems(uncheckedItems);
-            if (selectedItems.isEmpty()) return tryCreateDroppingAction(itemSelector); // create action for item
+            if (selectedItems.isEmpty()) return tryCreateDroppingAction(itemSelector); // create name for item
             for (Item selectedItem : selectedItems) {
                 uncheckedItems.remove(selectedItem);
             }
@@ -75,7 +75,7 @@ public class BuildingAction extends Action {
     }
 
     /**
-     * Creates action for putting item to position of this action and adds it to task.
+     * Creates name for putting item to position of this name and adds it to task.
      *
      * @param itemSelector selector for item
      * @return false if no item available.
@@ -99,6 +99,6 @@ public class BuildingAction extends Action {
 
     @Override
     public String toString() {
-        return "Building action: " + buildingType.title;
+        return "Building name: " + buildingType.title;
     }
 }

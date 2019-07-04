@@ -1,4 +1,4 @@
-package stonering.entity.local.crafting;
+package stonering.entity.crafting;
 
 import stonering.enums.TaskStatusEnum;
 import stonering.enums.items.recipe.ItemPartRecipe;

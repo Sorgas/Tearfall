@@ -42,7 +42,7 @@ public class TreeGenerator {
      */
     private PlantBlock[][][] createTreeBlocks(Tree tree) {
         List<Integer> treeForm = tree.getCurrentStage().treeForm;
-        int material = MaterialMap.getInstance().getId(tree.getType().materialName);
+        int material = MaterialMap.instance().getId(tree.getType().materialName);
         Random random = new Random();
         int center = treeForm.get(0);
         int rootsDepth = treeForm.get(2);

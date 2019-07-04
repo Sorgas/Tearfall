@@ -4,7 +4,7 @@ import stonering.entity.job.designation.BuildingDesignation;
 import stonering.entity.job.designation.Designation;
 import stonering.entity.job.designation.OrderDesignation;
 import stonering.entity.job.action.*;
-import stonering.entity.local.building.BuildingOrder;
+import stonering.entity.building.BuildingOrder;
 import stonering.enums.buildings.BuildingTypeMap;
 import stonering.enums.designations.DesignationTypeEnum;
 import stonering.enums.designations.PlaceValidatorsEnum;
@@ -152,6 +152,13 @@ public class TaskContainer implements ModelComponent, Initable {
         if (task.getDesignation() != null) {
             designations.remove(task.getDesignation().getPosition());
         }
+    }
+
+    /**
+     * For adding simple tasks.
+     */
+    public void addTask(Task task) {
+        tasks.add(task);
     }
 
     public Designation getDesignation(int x, int y, int z) {

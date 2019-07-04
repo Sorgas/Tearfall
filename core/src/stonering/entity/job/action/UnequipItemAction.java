@@ -53,6 +53,6 @@ public class UnequipItemAction extends Action {
 
     @Override
     public String toString() {
-        return "Unequipping action: " + item.getTitle();
+        return "Unequipping name: " + item.getTitle();
     }
 }

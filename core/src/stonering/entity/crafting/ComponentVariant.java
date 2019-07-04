@@ -1,4 +1,4 @@
-package stonering.entity.local.crafting;
+package stonering.entity.crafting;
 
 /**
  * @author Alexander on 08.03.2019.

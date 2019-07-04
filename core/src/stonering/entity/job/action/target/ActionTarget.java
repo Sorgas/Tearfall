@@ -43,7 +43,7 @@ public abstract class ActionTarget {
     }
 
     /**
-     * Checks if action performer has reached action target.
+     * Checks if name performer has reached name target.
      *
      * @param currentPosition
      * @return
@@ -64,7 +64,7 @@ public abstract class ActionTarget {
                     return currentPosition.isNeighbour(getPosition()); // near only
                 }
             }
-            System.out.println("WARN: action " + action + " target not defined as exact or near");
+            System.out.println("WARN: name " + action + " target not defined as exact or near");
             return getPosition().getDistanse(currentPosition) < 2; // not valid
         }
     }

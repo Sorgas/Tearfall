@@ -20,7 +20,7 @@ public class LocalTileMapUpdater {
     private transient MaterialMap materialMap;
 
     public LocalTileMapUpdater() {
-        materialMap = MaterialMap.getInstance();
+        materialMap = MaterialMap.instance();
     }
 
     /**

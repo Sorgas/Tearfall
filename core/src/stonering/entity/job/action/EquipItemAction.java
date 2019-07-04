@@ -38,7 +38,7 @@ public class EquipItemAction extends Action {
             } else if (item.isTool()) {
                 return createUnequipToolAction(blockingItem);
             }
-            Logger.ITEMS.logError("Invalid case in EquipItemAction:check()");
+            Logger.ITEMS.logError("Invalid case in EquipItemAction:checkItems()");
             return false;
         } catch (NotSuitableItemException e) {
             Logger.ITEMS.logError(task.getPerformer().toString() + " tried to equip not tool or wear item " + item.toString() + " .");
@@ -47,26 +47,26 @@ public class EquipItemAction extends Action {
     }
 
     /**
-     * Creates action for unequipping/equipping high-layer item and adds them to task,
+     * Creates name for unequipping/equipping high-layer item and adds them to task,
      * so equipping of low-layer item will be in between them.
-     * Equipping action will not be performed, if there is no room for item.
+     * Equipping name will not be performed, if there is no room for item.
      *
      * @param item item(high-layer), that blocks equipping of main item(low-layer)
-     * @return false if action are impossible or item is invalid.
+     * @return false if name are impossible or item is invalid.
      */
     private boolean createUnequipWearAction(Item item) {
-        // unequip action
+        // unequip name
         UnequipItemAction action = new UnequipItemAction(item);
         task.addFirstPreAction(action);
 
-        // equip action
+        // equip name
         EquipItemAction equipItemAction = new EquipItemAction(item, false);
         task.addFirstPreAction(action);
         return true;
     }
 
     /**
-     * Creates action only for unequipping item. Used to unequip tool when equipping another tool, as tools are highest layer,
+     * Creates name only for unequipping item. Used to unequip tool when equipping another tool, as tools are highest layer,
      * and two tools cannot be held simultaneously.
      *
      * @param item unequipping tool.
@@ -80,6 +80,6 @@ public class EquipItemAction extends Action {
 
     @Override
     public String toString() {
-        return "Equipping action: " + item.getTitle();
+        return "Equipping name: " + item.getTitle();
     }
 }

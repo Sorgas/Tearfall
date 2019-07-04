@@ -3,9 +3,9 @@ package stonering.entity.job.action;
 import stonering.entity.job.action.target.AspectHolderActionTarget;
 import stonering.entity.Entity;
 import stonering.entity.PositionAspect;
-import stonering.entity.local.building.aspects.WorkbenchAspect;
-import stonering.entity.local.crafting.ItemOrder;
-import stonering.entity.local.crafting.ItemPartOrder;
+import stonering.entity.building.aspects.WorkbenchAspect;
+import stonering.entity.crafting.ItemOrder;
+import stonering.entity.crafting.ItemPartOrder;
 import stonering.entity.item.Item;
 import stonering.entity.item.aspects.ItemContainerAspect;
 import stonering.game.GameMvc;
@@ -44,7 +44,7 @@ public class CraftItemAction extends Action {
     }
 
     /**
-     * Checks that action conditions are met. Creates sub action otherwise.
+     * Checks that name conditions are met. Creates sub name otherwise.
      */
     @Override
     public boolean check() {
@@ -57,7 +57,7 @@ public class CraftItemAction extends Action {
         if (!containerAspect.getItems().containsAll(desiredItems)) { // some item are out of WB.
             List<Item> outOfWBItems = new ArrayList<>(desiredItems);
             outOfWBItems.removeAll(containerAspect.getItems());
-            task.addFirstPreAction(new ItemPutAction(outOfWBItems.get(0), workbench)); // create action to bring item
+            task.addFirstPreAction(new ItemPutAction(outOfWBItems.get(0), workbench)); // create name to bring item
         }
         return true;
     }
@@ -95,6 +95,6 @@ public class CraftItemAction extends Action {
 
     @Override
     public String toString() {
-        return "Crafting action: " + itemOrder.toString();
+        return "Crafting name: " + itemOrder.toString();
     }
 }

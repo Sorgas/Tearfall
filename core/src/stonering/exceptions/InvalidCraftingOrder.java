@@ -1,6 +1,6 @@
 package stonering.exceptions;
 
-import stonering.entity.local.crafting.ItemOrder;
+import stonering.entity.crafting.ItemOrder;
 
 /**
  * Is thrown by consumers of item item orders ({@link stonering.generators.items.ItemGenerator}) if order is invalid.

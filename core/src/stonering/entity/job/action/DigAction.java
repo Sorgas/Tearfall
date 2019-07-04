@@ -29,7 +29,7 @@ public class DigAction extends Action {
     public boolean check() {
         EquipmentAspect aspect = task.getPerformer().getAspect(EquipmentAspect.class);
         if (aspect == null) return false;
-        return toolItemSelector.check(aspect.getEquippedItems()) || addEquipAction();
+        return toolItemSelector.checkItems(aspect.getEquippedItems()) || addEquipAction();
     }
 
     private boolean addEquipAction() {
@@ -104,6 +104,6 @@ public class DigAction extends Action {
 
     @Override
     public String toString() {
-        return "Digging action";
+        return "Digging name";
     }
 }

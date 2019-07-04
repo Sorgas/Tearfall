@@ -27,7 +27,7 @@ import java.util.Set;
 
 /**
  * Farm keeps track on plants condition in its zone, and create tasks respectively.
- * Farm have list of enabled plants and list of months;
+ * Farm have list of enabled plants and list of months; months in the list depend on the plants selected.
  * when current game month in one from the list, farm will generate tasks for planting seeds.
  * <p>
  * Farm generates tasks for each tile of farm separately. For performance, it can commit only one task per turn.

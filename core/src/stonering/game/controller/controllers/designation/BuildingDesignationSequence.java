@@ -1,9 +1,9 @@
 package stonering.game.controller.controllers.designation;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import stonering.entity.local.building.Blueprint;
-import stonering.entity.local.building.BuildingOrder;
-import stonering.entity.local.crafting.CommonComponent;
+import stonering.entity.building.Blueprint;
+import stonering.entity.building.BuildingOrder;
+import stonering.entity.crafting.CommonComponent;
 import stonering.entity.item.selectors.SimpleItemSelector;
 import stonering.enums.designations.PlaceValidatorsEnum;
 import stonering.game.model.lists.tasks.TaskContainer;

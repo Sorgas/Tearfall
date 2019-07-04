@@ -1,6 +1,6 @@
 package stonering.game.view.render.ui.lists;
 
-import stonering.entity.local.crafting.CommonComponent;
+import stonering.entity.crafting.CommonComponent;
 import stonering.game.GameMvc;
 import stonering.game.controller.controllers.toolbar.DesignationsController;
 import stonering.game.model.lists.ItemContainer;

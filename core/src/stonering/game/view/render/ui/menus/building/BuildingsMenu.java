@@ -2,7 +2,7 @@ package stonering.game.view.render.ui.menus.building;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import stonering.entity.local.building.Blueprint;
+import stonering.entity.building.Blueprint;
 import stonering.enums.buildings.BlueprintsMap;
 import stonering.game.controller.controllers.designation.BuildingDesignationSequence;
 import stonering.game.view.render.ui.menus.util.SubMenuMenu;

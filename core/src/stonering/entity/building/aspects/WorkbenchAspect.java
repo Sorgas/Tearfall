@@ -1,12 +1,12 @@
-package stonering.entity.local.building.aspects;
+package stonering.entity.building.aspects;
 
+import stonering.entity.building.Building;
 import stonering.entity.job.Task;
 import stonering.entity.job.action.CraftItemAction;
 import stonering.entity.job.action.TaskTypesEnum;
 import stonering.entity.Aspect;
 import stonering.entity.Entity;
-import stonering.entity.local.building.Building;
-import stonering.entity.local.crafting.ItemOrder;
+import stonering.entity.crafting.ItemOrder;
 import stonering.enums.items.recipe.Recipe;
 import stonering.enums.items.recipe.RecipeMap;
 import stonering.game.GameMvc;

@@ -31,7 +31,7 @@ public class PassageModel extends TestModel {
     @Override
     protected LocalMap createLocalMap(int size) {
         LocalMap localMap = super.createLocalMap(size);
-        MaterialMap materialMap = MaterialMap.getInstance();
+        MaterialMap materialMap = MaterialMap.instance();
         for (int y = 0; y < MAP_SIZE; y++) {
             localMap.setBlock(MAP_SIZE / 2, y, 2, BlockTypesEnum.WALL, materialMap.getId("soil"));
             localMap.setBlock(MAP_SIZE / 2, y, 3, BlockTypesEnum.FLOOR, materialMap.getId("soil"));

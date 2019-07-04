@@ -1,4 +1,4 @@
-package stonering.entity.local.building;
+package stonering.entity.building;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -67,7 +67,7 @@ public class LocalSurfaceWaterPoolsGenerator extends LocalAbstractGenerator {
                 lowestPoint = currentElevation < lowestPoint ? currentElevation : lowestPoint;
                 highestPoint = currentElevation > highestPoint ? currentElevation : highestPoint;
             }
-            MaterialMap materialMap = MaterialMap.getInstance();
+            MaterialMap materialMap = MaterialMap.instance();
             for (Point point : points) {
                 for (int z = highestPoint; z >= lowestPoint; z--) {
                     localMap.setBlock(point.x, point.y, z, BlockTypesEnum.SPACE, materialMap.getId("air"));

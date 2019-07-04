@@ -60,7 +60,7 @@ public class PlantGenerator {
     private PlantBlock createPlantBlock(Plant plant) {
         String materialName = plant.getType().materialName;
         if(materialName == null) materialName = "generic_plant";
-        PlantBlock block = new PlantBlock(MaterialMap.getInstance().getId(materialName), PlantBlocksTypeEnum.SINGLE_PASSABLE.getCode());
+        PlantBlock block = new PlantBlock(MaterialMap.instance().getId(materialName), PlantBlocksTypeEnum.SINGLE_PASSABLE.getCode());
         block.setAtlasXY(Arrays.copyOf(plant.getCurrentStage().atlasXY, 2));
         block.setHarvested(false);
         return block;

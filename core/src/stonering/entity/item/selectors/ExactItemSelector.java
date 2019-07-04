@@ -17,12 +17,12 @@ public class ExactItemSelector extends SingleItemSelector {
     }
 
     @Override
-    public boolean check(List<Item> items) {
-        return items.contains(item);
+    public boolean checkItem(Item item) {
+        return item == this.item;
     }
 
     @Override
     public Item selectItem(List<Item> items) {
-        return check(items) ? item : null;
+        return checkItems(items) ? item : null;
     }
 }

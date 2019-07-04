@@ -32,7 +32,7 @@ public class CameraModel extends TestModel {
     protected LocalMap createLocalMap(int size) {
         LocalMap localMap = super.createLocalMap(size);
         Random random = new Random();
-        MaterialMap materialMap = MaterialMap.getInstance();
+        MaterialMap materialMap = MaterialMap.instance();
         for (int i = 0; i < 200; i++) {
             int x = random.nextInt(size);
             int y = random.nextInt(size);

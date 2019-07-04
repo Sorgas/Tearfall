@@ -1,6 +1,6 @@
 package stonering.game.view.render.ui.menus.workbench.orderline;
 
-import stonering.entity.local.crafting.ItemOrder;
+import stonering.entity.crafting.ItemOrder;
 import stonering.enums.items.recipe.Recipe;
 import stonering.game.view.render.ui.menus.workbench.WorkbenchMenu;
 import stonering.game.view.render.ui.menus.workbench.orderline.selectbox.RecipeSelectBox;

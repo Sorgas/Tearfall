@@ -2,6 +2,7 @@ package stonering.enums;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import stonering.util.validation.FreeFloorValidator;
 import stonering.util.validation.FreeSoilFloorValidator;
 import stonering.util.validation.PositionValidator;
 import stonering.entity.zone.FarmZone;
@@ -13,7 +14,8 @@ import stonering.entity.zone.Zone;
  * @author Alexander on 04.03.2019.
  */
 public enum ZoneTypesEnum {
-    FARM(new FreeSoilFloorValidator(), new TextureRegion(new Texture("sprites/zones.png"), 0, 70, 64, 96));
+    FARM(new FreeSoilFloorValidator(), new TextureRegion(new Texture("sprites/zones.png"), 0, 70, 64, 96)),
+    STORAGE(new FreeFloorValidator(), new TextureRegion(new Texture("sprites/zones.png"), 0, 70, 64, 96));
 
     private PositionValidator validator;
     public final TextureRegion sprite;

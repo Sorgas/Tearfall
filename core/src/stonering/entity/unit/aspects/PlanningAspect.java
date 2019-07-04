@@ -30,13 +30,13 @@ public class PlanningAspect extends Aspect {
     }
 
     public void turn() {
-        if (!checkTask()) selectTask();// try find task, check it and claim
-        if (checkActionSequence()) { // check all action in a sequence.
+        if (!checkTask()) selectTask();// try find task, checkItems it and claim
+        if (checkActionSequence()) { // checkItems all name in a sequence.
             if (!(movementNeeded = !currentTask.getNextAction().getActionTarget().check(getEntityPosition()))) { // actor on position, so movement is not needed
                 String actionName = currentTask.getNextAction().toString();
                 if (currentTask.getNextAction().perform()) { // act. called several times
-                    Logger.TASKS.logDebug(entity + " completes action " + actionName);
-                    System.out.println("check");
+                    Logger.TASKS.logDebug(entity + " completes name " + actionName);
+                    System.out.println("checkItems");
                 }
             }
         }
@@ -45,9 +45,9 @@ public class PlanningAspect extends Aspect {
 
     /**
      * Checks if task can be performed.
-     * During this method requirement aspects create additional action.
+     * During this method requirement aspects create additional name.
      *
-     * @return false, if some action in sequence cannot be performed.
+     * @return false, if some name in sequence cannot be performed.
      */
     private boolean checkActionSequence() {
         if (currentTask == null) return false;
@@ -55,9 +55,9 @@ public class PlanningAspect extends Aspect {
         boolean lastCheck;
         do {
             currentAction = currentTask.getNextAction();
-            lastCheck = currentAction.check(); // can create additional action
+            lastCheck = currentAction.check(); // can create additional name
         }
-        while (currentAction != currentTask.getNextAction()); // no additional action created, return check result of last action.
+        while (currentAction != currentTask.getNextAction()); // no additional name created, return checkItems result of last name.
         return lastCheck;
     }
 

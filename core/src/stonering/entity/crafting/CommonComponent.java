@@ -1,4 +1,4 @@
-package stonering.entity.local.crafting;
+package stonering.entity.crafting;
 
 import stonering.util.global.Initable;
 

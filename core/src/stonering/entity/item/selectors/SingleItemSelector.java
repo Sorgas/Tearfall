@@ -2,7 +2,6 @@ package stonering.entity.item.selectors;
 
 import stonering.entity.item.Item;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -12,10 +11,7 @@ import java.util.List;
  */
 public abstract class SingleItemSelector extends ItemSelector {
 
-    @Override
-    public final List<Item> selectItems(List<Item> items) {
-        return Arrays.asList(selectItem(items));
+    public Item selectItem(List<Item> items) {
+        return items.stream().filter(this::checkItem).findFirst().get();
     }
-
-    public abstract Item selectItem(List<Item> items);
 }

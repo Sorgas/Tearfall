@@ -38,7 +38,7 @@ public class EquipmentAspect extends Aspect {
 
     /**
      * For hauling item.
-     * Validity should be fully checked by action (slots should be free).
+     * Validity should be fully checked by name (slots should be free).
      */
     public void pickupItem(Item item) {
         for (GrabEquipmentSlot slot : grabSlots.values()) {
@@ -52,12 +52,12 @@ public class EquipmentAspect extends Aspect {
 
     /**
      * Equips wear on body and tools into hands.
-     * Validity should be fully checked by action (slots should be free).
+     * Validity should be fully checked by name (slots should be free).
      *
      * @return false, if equipping failed.
      */
     public boolean equipItem(Item item) {
-        //TODO check hauling
+        //TODO checkItems hauling
         if (item == null || equippedItems.contains(item)) return false;
         if (item.isWear()) { // equip as wear
             //TODO add layers checking
@@ -168,7 +168,7 @@ public class EquipmentAspect extends Aspect {
     public boolean toolWithActionEquipped(String action) {
         return equippedItems.stream().anyMatch(item ->
                 item.getType().tool.getActions().stream().anyMatch(toolAction ->
-                        toolAction.action.equals(action)));
+                        toolAction.name.equals(action)));
     }
 
     /**
@@ -177,9 +177,9 @@ public class EquipmentAspect extends Aspect {
     private Item findItemToUnequip(EquipmentSlot slot, Item item) {
         for (int i = slot.items.size() - 1; i >= 0; i--) {
             if (slot.items.get(i).getType().wear.getLayer() <= item.getType().wear.getLayer()) continue;
-            slot.items.get(i); // if action possible
+            slot.items.get(i); // if name possible
         }
-        return null; //action not required
+        return null; //name not required
     }
 
     /**
@@ -193,7 +193,7 @@ public class EquipmentAspect extends Aspect {
 
     /**
      * Removes given item from all slots disregarding other item in these slots (even if overlapping is present).
-     * Item should not be blocked by other item. This should be checked by action.
+     * Item should not be blocked by other item. This should be checked by name.
      */
     public void unequipItem(Item item) {
         if (!equippedItems.contains(item)) return;

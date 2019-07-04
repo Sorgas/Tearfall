@@ -1,6 +1,6 @@
 package stonering.test_chamber.model;
 
-import stonering.entity.local.building.Building;
+import stonering.entity.building.Building;
 import stonering.game.model.lists.*;
 import stonering.generators.buildings.BuildingGenerator;
 import stonering.util.geometry.Position;

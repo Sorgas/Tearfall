@@ -1,9 +1,7 @@
 package stonering.entity.item.selectors;
 
 import stonering.entity.item.Item;
-
-import java.util.ArrayList;
-import java.util.List;
+import stonering.enums.materials.MaterialMap;
 
 /**
  * Selects any item with given name and material tag.
@@ -19,29 +17,9 @@ public class AnyMaterialTagItemSelector extends ItemSelector {
         this.materialTag = materialTag;
     }
 
-    @Override
-    public boolean check(List<Item> items) {
-        for (int i = 0; i < items.size(); i++) {
-            if (checkItem(items.get(i)))
-                return true;
-        }
-        return false;
-    }
-
-    @Override
-    public List<Item> selectItems(List<Item> items) {
-        ArrayList<Item> selectedItems = new ArrayList<>();
-        for (int i = 0; i < items.size(); i++) {
-            if (checkItem(items.get(i))) {
-                selectedItems.add(items.get(i));
-                return selectedItems;
-            }
-        }
-        return selectedItems;
-    }
-
-    private boolean checkItem(Item item) {
-        return item.getTitle().equals(name);
+    public boolean checkItem(Item item) {
+        return item.getType().name.equals(name) &&
+                MaterialMap.instance().getMaterial(item.getMaterial()).getTags().contains(materialTag);
     }
 
     @Override

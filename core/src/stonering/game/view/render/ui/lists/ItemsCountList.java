@@ -27,7 +27,7 @@ public abstract class ItemsCountList extends NavigableList {
      */
     public void addItems(List<Item> items) {
         HashMap<Pair<String, Integer>, ListItem> map = new HashMap<>(); // item NAME & material to ListItem
-        MaterialMap materialMap = MaterialMap.getInstance();
+        MaterialMap materialMap = MaterialMap.instance();
         items.forEach(item -> { // groups item
             Pair<String, Integer> pair = new Pair<>(item.getName(), item.getMaterial());
             if (map.keySet().contains(pair)) {

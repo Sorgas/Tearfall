@@ -1,7 +1,7 @@
 package stonering.entity.job;
 
 import stonering.entity.job.designation.Designation;
-import stonering.entity.local.crafting.ItemOrder;
+import stonering.entity.crafting.ItemOrder;
 import stonering.entity.unit.aspects.PlanningAspect;
 import stonering.enums.TaskStatusEnum;
 import stonering.game.GameMvc;
@@ -18,9 +18,9 @@ import java.util.LinkedList;
 
 /**
  * Task object for unit behavior in the game.
- * Consists of main action, sequence of action to be performed before main, and after main.
+ * Consists of main name, sequence of name to be performed before main, and after main.
  * <p>
- * Firstly pre action with lowest indexes are executed, then initial action, and then post action with lowest indexes.
+ * Firstly pre name with lowest indexes are executed, then initial name, and then post name with lowest indexes.
  *
  * @author Alexander Kuzyakov
  */
@@ -55,7 +55,7 @@ public class Task {
     }
 
     /**
-     * Returns next action to be performed.
+     * Returns next name to be performed.
      *
      * @return
      */
@@ -84,7 +84,7 @@ public class Task {
     }
 
     /**
-     * Task is finished, if initial action is finished, and no other action remain.
+     * Task is finished, if initial name is finished, and no other name remain.
      */
     public boolean isFinished() {
 //        Logger.TASKS.logDebug("Checking task " + name +
@@ -92,13 +92,13 @@ public class Task {
 //                ",postActions: " + postActions.size() +
 //                ", initial finished:" + initialAction.isDefined() + "]");
         if (!preActions.isEmpty() && initialAction.isFinished()) {
-            Logger.TASKS.logError("Task " + name + ": initial action finished before pre action.");
+            Logger.TASKS.logError("Task " + name + ": initial name finished before pre name.");
         }
         return preActions.isEmpty() && initialAction.isFinished() && postActions.isEmpty();
     }
 
     /**
-     * Removes pre and post action from task
+     * Removes pre and post name from task
      */
     public void finishAction(Action action) {
         if (action != initialAction) {
@@ -128,7 +128,7 @@ public class Task {
     }
 
     /**
-     * This action will be executed in the first place
+     * This name will be executed in the first place
      *
      * @param action
      */
@@ -139,7 +139,7 @@ public class Task {
     }
 
     /**
-     * This action will be executed just before main action.
+     * This name will be executed just before main name.
      *
      * @param action
      */
@@ -149,7 +149,7 @@ public class Task {
     }
 
     /**
-     * This action will be executed right after main action.
+     * This name will be executed right after main name.
      *
      * @param action
      */
@@ -159,7 +159,7 @@ public class Task {
     }
 
     /**
-     * This action will be executed in the last place.
+     * This name will be executed in the last place.
      *
      * @param action
      */

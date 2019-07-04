@@ -3,7 +3,7 @@ package stonering.game.view.render.ui.menus.workbench.orderline.selectbox;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import stonering.entity.local.crafting.ItemPartOrder;
+import stonering.entity.crafting.ItemPartOrder;
 import stonering.enums.ControlActionsEnum;
 import stonering.game.view.render.ui.lists.NavigableSelectBox;
 import stonering.game.view.render.ui.menus.util.Highlightable;

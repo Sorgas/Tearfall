@@ -31,7 +31,7 @@ public class MaterialMap {
         loadMaterials();
     }
 
-    public static MaterialMap getInstance() {
+    public static MaterialMap instance() {
         if (instance == null)
             instance = new MaterialMap();
         return instance;

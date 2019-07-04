@@ -1,12 +1,12 @@
 package stonering.game.model.lists;
 
-import stonering.entity.local.building.BuildingBlock;
+import stonering.entity.building.BuildingBlock;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.Turnable;
 import stonering.game.model.local_map.LocalMap;
 import stonering.generators.buildings.BuildingGenerator;
-import stonering.entity.local.building.Building;
+import stonering.entity.building.Building;
 import stonering.util.geometry.Position;
 import stonering.util.global.Initable;
 

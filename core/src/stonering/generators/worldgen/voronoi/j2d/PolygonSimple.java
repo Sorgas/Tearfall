@@ -433,7 +433,7 @@ public class PolygonSimple implements Shape, Cloneable, Iterable<Point2D>{
 		//bounding box have to match for intersection
 		if (!this.getBounds2D().intersects(poly.getBounds2D()))
 			return null;
-		//check if bounding box corners are in polygon: then poly is contained completely inside the outer polygon
+		//checkItems if bounding box corners are in polygon: then poly is contained completely inside the outer polygon
 		if (this.contains(poly.getBounds2D()))
 			return poly;		
 
@@ -470,7 +470,7 @@ public class PolygonSimple implements Shape, Cloneable, Iterable<Point2D>{
 			}
 			return res;
 		} 
-		//no intersection between the two polygons, so check if one is inside the other
+		//no intersection between the two polygons, so checkItems if one is inside the other
 		if(contains(poly.x[0],poly.y[0]))
 			return poly;
 		

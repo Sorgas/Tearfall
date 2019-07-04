@@ -4,7 +4,7 @@ import stonering.util.geometry.Position;
 import stonering.entity.item.Item;
 
 /**
- * Targets action to item
+ * Targets name to item
  *
  * @author Alexander Kuzyakov on 28.01.2018.
  */

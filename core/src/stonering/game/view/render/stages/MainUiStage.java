@@ -42,7 +42,7 @@ public class MainUiStage extends UiStage implements Initable {
     private void updateStatusBar() {
         GameModel gameModel = GameMvc.instance().getModel();
         Position focus = gameModel.get(EntitySelector.class).getPosition();
-        Material material = MaterialMap.getInstance().getMaterial(gameModel.get(LocalMap.class).getMaterial(focus));
+        Material material = MaterialMap.instance().getMaterial(gameModel.get(LocalMap.class).getMaterial(focus));
         tileStatusBar.setData(focus,
                 material != null ? material.getName() : "",
                 gameModel.get(LocalMap.class).getPassage().getArea().getValue(focus),

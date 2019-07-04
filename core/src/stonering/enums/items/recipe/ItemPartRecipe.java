@@ -20,7 +20,7 @@ public class ItemPartRecipe {
         this.itemPart = itemPart;
         this.itemTypes = itemTypes;
         this.materialTag = materialTag;
-        possibleMaterials = new ArrayList<>(MaterialMap.getInstance().getMaterialNamesByTag(materialTag));
+        possibleMaterials = new ArrayList<>(MaterialMap.instance().getMaterialNamesByTag(materialTag));
         possibleMaterials.add(0, "any " + materialTag);
     }
 

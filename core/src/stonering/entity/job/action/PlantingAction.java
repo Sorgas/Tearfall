@@ -32,7 +32,7 @@ public class PlantingAction extends Action {
 
     @Override
     public boolean check() {
-        Logger.TASKS.log("Checking planting action");
+        Logger.TASKS.log("Checking planting name");
         return getSeedFromMap() != null || getSeedFromEquipment() != null || tryCreatePickingAction();
     }
 
@@ -57,7 +57,7 @@ public class PlantingAction extends Action {
             GameMvc.instance().getModel().get(ItemContainer.class).removeItem(seed);
             return seed;
         }
-        seed = getSeedFromEquipment(); // seed should never be null after check()
+        seed = getSeedFromEquipment(); // seed should never be null after checkItems()
         task.getPerformer().getAspect(EquipmentAspect.class).dropItem(seed);
         return seed;
     }

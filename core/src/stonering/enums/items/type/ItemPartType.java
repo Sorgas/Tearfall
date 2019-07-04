@@ -1,6 +1,6 @@
 package stonering.enums.items.type;
 
-import stonering.entity.local.crafting.CommonComponent;
+import stonering.entity.crafting.CommonComponent;
 
 /**
  * Specifies crafting info for one itemPart.

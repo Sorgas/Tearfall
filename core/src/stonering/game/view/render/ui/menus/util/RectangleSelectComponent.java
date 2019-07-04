@@ -65,7 +65,7 @@ public class RectangleSelectComponent extends Label implements HideableComponent
     @Override // TODO for mouse input
     public boolean invoke(int modelX, int modelY, int button, int action) {
 //        Position position = new Position(modelX, modelY, selector.getPosition().getZ());
-//        switch (action) {
+//        switch (name) {
 //            case GameInputProcessor.DOWN_CODE:
 //            case GameInputProcessor.UP_CODE: {
 //                handleConfirm(position);

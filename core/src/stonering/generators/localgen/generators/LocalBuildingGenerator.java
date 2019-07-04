@@ -1,6 +1,6 @@
 package stonering.generators.localgen.generators;
 
-import stonering.entity.local.building.Building;
+import stonering.entity.building.Building;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.model.lists.BuildingContainer;
 import stonering.game.model.local_map.LocalMap;

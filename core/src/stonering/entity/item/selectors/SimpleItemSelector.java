@@ -18,7 +18,6 @@ public class SimpleItemSelector extends ItemSelector {
     private String material;      // material name
     private int materialId;
     private int amount;
-    private String displayedTitle;// overrides toString if set
 
     public SimpleItemSelector(String title, String material, int amount) {
         super();
@@ -27,38 +26,12 @@ public class SimpleItemSelector extends ItemSelector {
         this.amount = amount;
     }
 
-    public SimpleItemSelector(String displayedTitle) {
-        this.displayedTitle = displayedTitle;
-    }
-
-    @Override
-    public boolean check(List<Item> items) {
-        for (int i = 0; i < items.size(); i++) {
-            if (checkItem(items.get(i)))
-                return true;
-        }
-        return false;
-    }
-
-    @Override
-    public List<Item> selectItems(List<Item> items) {
-        ArrayList<Item> selectedItems = new ArrayList<>();
-        for (int i = 0; i < items.size(); i++) {
-            if (checkItem(items.get(i))) {
-                selectedItems.add(items.get(i));
-                return selectedItems;
-            }
-        }
-        return selectedItems;
-    }
-
-    private boolean checkItem(Item item) {
+    public boolean checkItem(Item item) {
         return item.getTitle().equals(title) && item.getMaterial() == materialId;
     }
 
     @Override
     public String toString() {
-        if (displayedTitle != null) return displayedTitle;
         return  material + " " + title + " " + (amount != 0 ? amount : "");
     }
 
@@ -91,7 +64,7 @@ public class SimpleItemSelector extends ItemSelector {
 
     public void setMaterial(String material) {
         this.material = material;
-        materialId = MaterialMap.getInstance().getId(material);
+        materialId = MaterialMap.instance().getId(material);
     }
 
     public int getAmount() {

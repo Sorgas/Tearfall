@@ -2,7 +2,7 @@ package stonering.game.view.render.ui.menus.workbench.orderline;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import stonering.entity.local.crafting.ItemPartOrder;
+import stonering.entity.crafting.ItemPartOrder;
 import stonering.enums.ControlActionsEnum;
 import stonering.enums.items.recipe.ItemPartRecipe;
 import stonering.game.view.render.ui.images.DrawableMap;

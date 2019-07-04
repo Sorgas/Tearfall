@@ -62,6 +62,6 @@ public class ItemPutAction extends Action {
 
     @Override
     public String toString() {
-        return "Item put action: " + targetItem.getTitle();
+        return "Item put name: " + targetItem.getTitle();
     }
 }

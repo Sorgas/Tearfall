@@ -1,6 +1,6 @@
-package stonering.entity.local.building;
+package stonering.entity.building;
 
-import stonering.entity.local.crafting.CommonComponent;
+import stonering.entity.crafting.CommonComponent;
 import stonering.util.global.Initable;
 
 import java.util.LinkedHashMap;

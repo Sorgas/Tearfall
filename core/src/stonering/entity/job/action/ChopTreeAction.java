@@ -26,7 +26,7 @@ public class ChopTreeAction extends Action {
         if (aspect == null) return false;
         if (!GameMvc.instance().getModel().get(PlantContainer.class).isPlantBlockExists(actionTarget.getPosition()))
             return false;
-        if (toolItemSelector.check(aspect.getEquippedItems())) return true;
+        if (toolItemSelector.checkItems(aspect.getEquippedItems())) return true;
 
         Logger.TASKS.logDebug("No tool equipped by performer for chopTreeAction");
         Item target = GameMvc.instance().getModel().get(ItemContainer.class).getItemAvailableBySelector(toolItemSelector, task.getPerformer().getPosition());
@@ -54,6 +54,6 @@ public class ChopTreeAction extends Action {
 
     @Override
     public String toString() {
-        return "Chopping tree action";
+        return "Chopping tree name";
     }
 }
