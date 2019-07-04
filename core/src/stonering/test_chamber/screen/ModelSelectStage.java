@@ -68,6 +68,8 @@ public class ModelSelectStage extends UiStage {
         classMap.put(CameraModel.class.getSimpleName(), CameraModel.class);
         classMap.put(WorkbenchModel.class.getSimpleName(), WorkbenchModel.class);
         classMap.put(SingleUnitModel.class.getSimpleName(), SingleUnitModel.class);
+        classMap.put(FarmModel.class.getSimpleName(), FarmModel.class);
+        classMap.put(LightingModel.class.getSimpleName(), LightingModel.class);
     }
 
     private GameModel getInstance(String name) {

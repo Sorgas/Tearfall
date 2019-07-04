@@ -65,20 +65,14 @@ public class FarmZone extends Zone {
      * Soil preparation begins one month before first plant can be planted, disregarding seed availability.
      */
     private void checkTiles() {
-        boolean monthForHoeing = monthForPreparingSoil();
         PlantType type = getPlantForPlanting();
-        if (!monthForHoeing && type == null) return;
+        if (!monthForPreparingSoil() && type == null) return;
         LocalMap localMap = GameMvc.instance().getModel().get(LocalMap.class);
         TaskContainer taskContainer = GameMvc.instance().getModel().get(TaskContainer.class);
         PositionValidator validator = ZoneTypesEnum.FARM.getValidator();
         PlantContainer plantContainer = GameMvc.instance().getModel().get(PlantContainer.class);
         for (Position tile : tiles) {
-            byte tileType = localMap.getBlockType(tile);
-            // non-floor tiles are ignored and removed from zone. This can occur when tile is dug out, built on or under colla
-            if (tileType != BlockTypesEnum.FARM.CODE && tileType != BlockTypesEnum.FLOOR.CODE) {
-                removeTileFromZone(tile);
-                continue;
-            }
+            if(!validateAndRemoveTile(tile, localMap)) continue;
             // tile is already designated for something. building or digging in zones is allowed, non-floor tiles will be removed on next iteration.
             if (taskContainer.getActiveTask(tile) != null) continue;
             AbstractPlant plant = plantContainer.getPlantInPosition(tile);
@@ -94,6 +88,18 @@ public class FarmZone extends Zone {
                 createTaskForPlanting(tile, type);
             }
         }
+    }
+
+    /**
+     * Checks that tiles are floors or farms, otherwise removes them from zone.
+     */
+    private boolean validateAndRemoveTile(Position tile, LocalMap localMap) {
+        byte tileType = localMap.getBlockType(tile);
+        if (tileType != BlockTypesEnum.FARM.CODE && tileType != BlockTypesEnum.FLOOR.CODE) {
+            removeTileFromZone(tile);
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -129,6 +135,9 @@ public class FarmZone extends Zone {
         }
     }
 
+    /**
+     * Current or next month are for planting.
+     */
     private boolean monthForPreparingSoil() {
         int currentMonth = GameMvc.instance().getModel().get(GameCalendar.class).getMonth();
         return months.contains(getNextMonth(currentMonth)) || months.contains(currentMonth);
