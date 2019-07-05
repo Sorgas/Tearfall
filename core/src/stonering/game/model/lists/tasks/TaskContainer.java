@@ -64,11 +64,11 @@ public class TaskContainer implements ModelComponent, Initable {
      * Adds designation and creates comprehensive task.
      * All simple orders like digging and foraging submitted through this method.
      */
-    public void submitOrderDesignation(Position position, DesignationTypeEnum type, int priority) {
-        if (!designationsValidator.validateDesignations(position, type)) return; // no designation for invalid position
+    public Task submitOrderDesignation(Position position, DesignationTypeEnum type, int priority) {
+        if (!designationsValidator.validateDesignations(position, type)) return null; // no designation for invalid position
         OrderDesignation designation = new OrderDesignation(position, type);
         Task task = createOrderTask(designation, priority);
-        if (task == null) return; // no designation with no task
+        if (task == null) return null; // no designation with no task
         task.setDesignation(designation);
         designation.setTask(task);
         tasks.add(task);
@@ -76,6 +76,7 @@ public class TaskContainer implements ModelComponent, Initable {
         Logger.TASKS.log(task.getName() + " designated");
         Logger.TASKS.logDebug("tasks number: " + tasks.size());
         Logger.TASKS.logDebug("designation number: " + designations.size());
+        return task;
     }
 
     /**

@@ -17,7 +17,6 @@ public class FreeFloorValidator extends PositionValidator {
     @Override
     public boolean validate(LocalMap localMap, Position position) {
         return localMap.getBlockType(position) == BlockTypesEnum.FLOOR.CODE &&
-                (GameMvc.instance() == null || // instance is null during generation
-                        GameMvc.instance().getModel().get(BuildingContainer.class).getBuildingBlocks().get(position) == null);
+                GameMvc.instance().getModel().get(BuildingContainer.class).getBuildingBlocks().get(position) == null;
     }
 }

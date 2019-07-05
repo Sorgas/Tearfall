@@ -87,13 +87,6 @@ public class Task {
      * Task is finished, if initial name is finished, and no other name remain.
      */
     public boolean isFinished() {
-//        Logger.TASKS.logDebug("Checking task " + name +
-//                " completion[preActions: " + preActions.size() +
-//                ",postActions: " + postActions.size() +
-//                ", initial finished:" + initialAction.isDefined() + "]");
-        if (!preActions.isEmpty() && initialAction.isFinished()) {
-            Logger.TASKS.logError("Task " + name + ": initial name finished before pre name.");
-        }
         return preActions.isEmpty() && initialAction.isFinished() && postActions.isEmpty();
     }
 

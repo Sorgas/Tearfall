@@ -1,17 +1,13 @@
 package stonering.game.view.render.ui.menus.zone;
 
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Value;
-import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.entity.zone.FarmZone;
+import stonering.enums.ControlActionsEnum;
 import stonering.enums.plants.PlantTypeMap;
 import stonering.enums.plants.PlantType;
 import stonering.game.GameMvc;
@@ -40,10 +36,11 @@ import java.util.function.Predicate;
  * @author Alexander on 20.03.2019.
  */
 public class FarmZoneMenu extends Window {
-    private NavigableList<PlantType> enabledPlants;
     private NavigableList<PlantType> disabledPlants;
     private HorizontalGroup bottomButtons;
     private Label hintLabel;
+    private Label selectedPlantLabel;
+    private Label monthsLabel;
 
     private FarmZone farmZone;
 
@@ -56,13 +53,14 @@ public class FarmZoneMenu extends Window {
 
     private void createTable() {
         setDebug(true, true);
-        disabledPlants = createList();
-        enabledPlants = createList();
         fillLists();
         add(new Label("All plants:", StaticSkin.getSkin()));
-        add(new Label("Selected plants:", StaticSkin.getSkin())).row();
-        add(disabledPlants).prefWidth(Value.percentWidth(0.5f, this)).prefHeight(Value.percentHeight(0.5f, this)).fill();
-        add(enabledPlants).prefWidth(Value.percentWidth(0.5f, this)).prefHeight(Value.percentHeight(0.5f, this)).fill().row();
+        add(new Label("Selected:", StaticSkin.getSkin())).row();
+        add(disabledPlants = createList()).prefWidth(Value.percentWidth(0.5f, this)).prefHeight(Value.percentHeight(0.5f, this)).fill();
+        VerticalGroup verticalGroup = new VerticalGroup();
+        verticalGroup.addActor(selectedPlantLabel = new Label("", StaticSkin.getSkin()));
+        verticalGroup.addActor(monthsLabel = new Label("", StaticSkin.getSkin()));
+        add(verticalGroup).prefWidth(Value.percentWidth(0.5f, this)).prefHeight(Value.percentHeight(0.5f, this)).fill().row();
         hintLabel = new Label("", StaticSkin.getSkin());
         add(hintLabel).fillX().colspan(2).row();
         bottomButtons = new HorizontalGroup();
@@ -89,24 +87,24 @@ public class FarmZoneMenu extends Window {
     }
 
     private void createDefaultListener() {
-        this.addListener(new InputListener() {
+        addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 Logger.UI.logDebug(keycode + " on farm menu");
-                switch (keycode) {
-                    case Input.Keys.E:
-                    case Input.Keys.W:
-                    case Input.Keys.S:
-                    case Input.Keys.A:
+                switch (ControlActionsEnum.getAction(keycode)) {
+                    case SELECT:
+                    case UP:
+                    case DOWN:
+                    case LEFT:
                         switchList(disabledPlants);
                         return true;
-                    case Input.Keys.Q:
+                    case CANCEL:
                         close();
                         return true;
-                    case Input.Keys.X:
+                    case DELETE:
                         deleteZone();
                         return true;
-                    case Input.Keys.D:
+                    case RIGHT:
                         switchList(enabledPlants);
                         return true;
                 }
@@ -116,9 +114,11 @@ public class FarmZoneMenu extends Window {
     }
 
     private void fillLists() {
-        farmZone.getPlants().forEach(type -> enabledPlants.getItems().add(type));
         List<PlantType> allTypes = new ArrayList<>(PlantTypeMap.getInstance().getDomesticTypes());
-        allTypes.removeAll(farmZone.getPlants());
+        if (farmZone.getPlantType() != null) {
+            enabledPlants.getItems().add(farmZone.getPlantType());
+            allTypes.remove(farmZone.getPlantType());
+        }
         allTypes.forEach(type -> disabledPlants.getItems().add(type));
     }
 
@@ -126,7 +126,6 @@ public class FarmZoneMenu extends Window {
         NavigableList<PlantType> list = new NavigableList<>();
         list.setSize(150, 300);
         list.setHighlightHandler(new Highlightable.CheckHighlightHandler() {
-
             @Override
             public void handle() {
                 list.setColor(value ? Color.BLUE : Color.RED);
@@ -194,24 +193,24 @@ public class FarmZoneMenu extends Window {
         @Override
         public boolean test(Integer keycode) {
             Logger.UI.logDebug(keycode + " on plant list");
-            switch (keycode) {
-                case Input.Keys.E:
+            switch (ControlActionsEnum.getAction(keycode)) {
+                case SELECT:
                     select(list);
                     break;
-                case Input.Keys.Q:
+                case CANCEL:
                     close();
                     break;
-                case Input.Keys.X:
+                case DELETE:
                     deleteZone();
                     break;
-                case Input.Keys.W:
+                case UP:
                     list.up();
                     break;
-                case Input.Keys.S:
+                case DOWN:
                     list.down();
                     break;
-                case Input.Keys.A:
-                case Input.Keys.D:
+                case LEFT:
+                case RIGHT:
                     switchList(list);
             }
             return true;
