@@ -103,8 +103,8 @@ public class TileRenderer extends Renderer {
     private void drawTile(int x, int y, int z) {
         cachePosition.set(x, y, z);
         cacheVector.set(x, y, z); // not changed after
-        byte lightLevel = (byte) (localMap.getLight().getValue(x, y, z) + localMap.getGeneralLight().getValue(x, y, z));  //TODO limit light level
-        util.shadeByLight(lightLevel);
+//        byte lightLevel = (byte) (localMap.getLight().getValue(x, y, z) + localMap.getGeneralLight().getValue(x, y, z));  //TODO limit light level
+//        util.shadeByLight(lightLevel);
         drawBlock(x, y, z);
         if (substrateContainer != null) drawSubstrate(x, y, z);
         drawWaterBlock(x, y, z);

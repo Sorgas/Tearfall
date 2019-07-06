@@ -6,5 +6,5 @@ package stonering.game.view.render.ui.menus.util;
  * @author Alexander
  */
 public interface HintedActor {
-    public String getHint();
+    String getHint();
 }

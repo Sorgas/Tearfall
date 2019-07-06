@@ -5,6 +5,7 @@ import stonering.entity.Entity;
 import stonering.entity.building.Building;
 import stonering.entity.building.BuildingBlock;
 import stonering.entity.plants.AbstractPlant;
+import stonering.entity.zone.FarmZone;
 import stonering.entity.zone.Zone;
 import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
@@ -126,7 +127,7 @@ public class MapEntitySelectStage extends UiStage implements Initable {
         GameMvc gameMvc = GameMvc.instance();
         Logger.UI.logDebug("showing zone stage for: " + zone.getName());
         gameMvc.getView().removeStage(this);
-        gameMvc.getView().addStageToList(new ZoneMenuStage(zone));
+        if(zone instanceof FarmZone) gameMvc.getView().addStageToList(new ZoneMenuStage((FarmZone) zone));
         System.out.println("adding new zone stage");
     }
 

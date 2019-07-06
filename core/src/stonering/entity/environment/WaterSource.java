@@ -1,4 +1,4 @@
-package stonering.entity.local.environment;
+package stonering.entity.environment;
 
 import stonering.util.geometry.Position;
 

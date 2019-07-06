@@ -8,7 +8,7 @@ import stonering.entity.plants.AbstractPlant;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.model.lists.PlantContainer;
 import stonering.util.validation.PositionValidator;
-import stonering.entity.local.environment.GameCalendar;
+import stonering.entity.environment.GameCalendar;
 import stonering.entity.item.selectors.SeedItemSelector;
 import stonering.enums.ZoneTypesEnum;
 import stonering.enums.designations.DesignationTypeEnum;

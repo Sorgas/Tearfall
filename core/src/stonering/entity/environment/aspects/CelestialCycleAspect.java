@@ -1,4 +1,4 @@
-package stonering.entity.local.environment.aspects;
+package stonering.entity.environment.aspects;
 
 import stonering.entity.Aspect;
 import stonering.entity.Entity;

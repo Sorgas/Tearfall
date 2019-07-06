@@ -1,9 +1,9 @@
 package stonering.generators.worldgen.generators;
 
-import stonering.entity.local.environment.aspects.CelestialLightSourceAspect;
+import stonering.entity.environment.aspects.CelestialLightSourceAspect;
 import stonering.generators.worldgen.WorldGenContainer;
-import stonering.entity.local.environment.CelestialBody;
-import stonering.entity.local.environment.aspects.CelestialCycleAspect;
+import stonering.entity.environment.CelestialBody;
+import stonering.entity.environment.aspects.CelestialCycleAspect;
 
 /**
  * Creates celestial bodies like sun, moons, and other planets.

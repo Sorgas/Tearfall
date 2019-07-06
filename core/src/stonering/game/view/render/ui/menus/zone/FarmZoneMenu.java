@@ -1,9 +1,6 @@
 package stonering.game.view.render.ui.menus.zone;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.entity.zone.FarmZone;
@@ -13,13 +10,12 @@ import stonering.enums.plants.PlantType;
 import stonering.game.GameMvc;
 import stonering.game.model.lists.ZonesContainer;
 import stonering.game.view.render.ui.lists.NavigableList;
-import stonering.game.view.render.ui.menus.util.Highlightable;
+import stonering.game.view.render.ui.menus.util.HintedActor;
 import stonering.util.global.Logger;
 import stonering.util.global.StaticSkin;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
 
 /**
  * Menu for managing farms. Plants for growing are configured from here.
@@ -36,24 +32,29 @@ import java.util.function.Predicate;
  * @author Alexander on 20.03.2019.
  */
 public class FarmZoneMenu extends Window {
-    private NavigableList<PlantType> disabledPlants;
-    private HorizontalGroup bottomButtons;
-    private Label hintLabel;
+    private PlantTypeSelectList disabledPlants;
     private Label selectedPlantLabel;
     private Label monthsLabel;
-
+    private Label hintLabel;
     private FarmZone farmZone;
 
     public FarmZoneMenu(FarmZone farmZone) {
         super(farmZone.getName(), StaticSkin.getSkin());
         this.farmZone = farmZone;
         createTable();
-        createDefaultListener();
+        fillList();
+        setLabels();
+    }
+
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+        Actor focused = getStage().getKeyboardFocus();
+        hintLabel.setText((focused instanceof HintedActor) ? ((HintedActor) focused).getHint() : "");
     }
 
     private void createTable() {
         setDebug(true, true);
-        fillLists();
         add(new Label("All plants:", StaticSkin.getSkin()));
         add(new Label("Selected:", StaticSkin.getSkin())).row();
         add(disabledPlants = createList()).prefWidth(Value.percentWidth(0.5f, this)).prefHeight(Value.percentHeight(0.5f, this)).fill();
@@ -61,159 +62,73 @@ public class FarmZoneMenu extends Window {
         verticalGroup.addActor(selectedPlantLabel = new Label("", StaticSkin.getSkin()));
         verticalGroup.addActor(monthsLabel = new Label("", StaticSkin.getSkin()));
         add(verticalGroup).prefWidth(Value.percentWidth(0.5f, this)).prefHeight(Value.percentHeight(0.5f, this)).fill().row();
-        hintLabel = new Label("", StaticSkin.getSkin());
-        add(hintLabel).fillX().colspan(2).row();
-        bottomButtons = new HorizontalGroup();
-        TextButton quitButton = new TextButton("Quit", StaticSkin.getSkin());
-        quitButton.addListener(new ChangeListener() {
+        add(hintLabel = new Label("", StaticSkin.getSkin())).fillX().colspan(2).row();
+        add(createButtonsGroup()).colspan(2);
+        setWidth(800);
+        setHeight(600);
+    }
+
+    private HorizontalGroup createButtonsGroup() {
+        HorizontalGroup group = new HorizontalGroup();
+        group.addActor(createButton("Quit", new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 close();
             }
-        });
-        bottomButtons.addActor(quitButton);
-        TextButton deleteButton = new TextButton("Remove Zone", StaticSkin.getSkin());
-        deleteButton.addListener(new ChangeListener() {
+        }));
+        group.addActor(createButton("Delete zone", new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 deleteZone();
                 close();
             }
-        });
-        bottomButtons.addActor(deleteButton);
-        add(bottomButtons).colspan(2);
-        setWidth(800);
-        setHeight(600);
+        }));
+        return group;
     }
 
-    private void createDefaultListener() {
-        addListener(new InputListener() {
-            @Override
-            public boolean keyDown(InputEvent event, int keycode) {
-                Logger.UI.logDebug(keycode + " on farm menu");
-                switch (ControlActionsEnum.getAction(keycode)) {
-                    case SELECT:
-                    case UP:
-                    case DOWN:
-                    case LEFT:
-                        switchList(disabledPlants);
-                        return true;
-                    case CANCEL:
-                        close();
-                        return true;
-                    case DELETE:
-                        deleteZone();
-                        return true;
-                    case RIGHT:
-                        switchList(enabledPlants);
-                        return true;
-                }
-                return false;
-            }
-        });
+    private TextButton createButton(String text, ChangeListener listener) {
+        TextButton button = new TextButton(text, StaticSkin.getSkin());
+        button.addListener(listener);
+        return button;
     }
 
-    private void fillLists() {
+    private void fillList() {
+        disabledPlants.clearItems();
         List<PlantType> allTypes = new ArrayList<>(PlantTypeMap.getInstance().getDomesticTypes());
-        if (farmZone.getPlantType() != null) {
-            enabledPlants.getItems().add(farmZone.getPlantType());
-            allTypes.remove(farmZone.getPlantType());
-        }
-        allTypes.forEach(type -> disabledPlants.getItems().add(type));
+        PlantType selectedType = farmZone.getPlantType();
+        allTypes.stream().filter(type -> !type.equals(selectedType)).forEach(type -> disabledPlants.getItems().add(type));
     }
 
-    private NavigableList<PlantType> createList() {
-        NavigableList<PlantType> list = new NavigableList<>();
+    private PlantTypeSelectList createList() {
+        PlantTypeSelectList list = new PlantTypeSelectList(this);
         list.setSize(150, 300);
-        list.setHighlightHandler(new Highlightable.CheckHighlightHandler() {
-            @Override
-            public void handle() {
-                list.setColor(value ? Color.BLUE : Color.RED);
-            }
-        });
-        ListInputHandler handler = new ListInputHandler(list);
-        list.getListeners().clear(); // to replace standard listener.
-        list.addListener(new InputListener() {
-            @Override
-            public boolean keyDown(InputEvent event, int keycode) {
-                event.stop(); // to prevent handling on menu level.
-                return handler.test(keycode);
-            }
-        });
         return list;
     }
 
-    /**
-     * Picks selected plantType from given list, and moves it to another list.
-     * Moves plant to another list, selecting or deselecting it.
-     */
-    private void select(NavigableList<PlantType> list) {
-        PlantType type = list.getSelected();
-        int index = list.getSelectedIndex();
-        if (type == null) return;
-        list.getItems().removeValue(type, true);
-        getAnotherList(list).getItems().add(type);
-        list.setSelectedIndex(Math.min(index, list.getItems().size - 1));
-        farmZone.setPlant(type, list == disabledPlants);
+    public void select(PlantType type) {
+        farmZone.setPlant(type);
+        fillList();
+        setLabels();
     }
 
     /**
-     * Switches focus to another list and sets selection to first item, if needed.
-     * If another list is empty, no switching happens.
+     * Updates texts in labels for plant and months.
      */
-    private void switchList(NavigableList<PlantType> list) {
-        NavigableList<PlantType> targetList = getAnotherList(list);
-        if (targetList.getItems().isEmpty()) return;
-        getStage().setKeyboardFocus(targetList);
-        targetList.setSelectedIndex(Math.max(0, targetList.getSelectedIndex()));
+    private void setLabels() {
+        PlantType type = farmZone.getPlantType();
+        selectedPlantLabel.setText(type != null ? type.title : "none");
+        monthsLabel.setText(type != null ? type.plantingStart.toString() : "none");
     }
 
-    private NavigableList<PlantType> getAnotherList(NavigableList<PlantType> list) {
-        return list == enabledPlants ? disabledPlants : enabledPlants;
-    }
-
-    private void deleteZone() {
+    public void deleteZone() {
         GameMvc.instance().getModel().get(ZonesContainer.class).deleteZone(farmZone);
     }
 
-    private void close() {
+    public void close() {
         GameMvc.instance().getView().removeStage(getStage());
     }
 
-    /**
-     * Handles input for both lists.
-     */
-    private class ListInputHandler implements Predicate<Integer> {
-        private NavigableList<PlantType> list;
-
-        public ListInputHandler(NavigableList<PlantType> list) {
-            this.list = list;
-        }
-
-        @Override
-        public boolean test(Integer keycode) {
-            Logger.UI.logDebug(keycode + " on plant list");
-            switch (ControlActionsEnum.getAction(keycode)) {
-                case SELECT:
-                    select(list);
-                    break;
-                case CANCEL:
-                    close();
-                    break;
-                case DELETE:
-                    deleteZone();
-                    break;
-                case UP:
-                    list.up();
-                    break;
-                case DOWN:
-                    list.down();
-                    break;
-                case LEFT:
-                case RIGHT:
-                    switchList(list);
-            }
-            return true;
-        }
+    public NavigableList<PlantType> getDisabledPlants() {
+        return disabledPlants;
     }
 }

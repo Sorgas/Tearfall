@@ -91,7 +91,6 @@ public class NavigableList<T> extends List<T> implements Highlightable {
      * Invokes handler if actor is focused.
      */
     @Override
-
     public void act(float delta) {
         super.act(delta);
         updateHighlighting(getStage().getKeyboardFocus() == this);

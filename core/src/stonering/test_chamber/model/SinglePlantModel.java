@@ -1,6 +1,6 @@
 package stonering.test_chamber.model;
 
-import stonering.entity.local.environment.GameCalendar;
+import stonering.entity.environment.GameCalendar;
 import stonering.entity.plants.AbstractPlant;
 import stonering.entity.plants.Plant;
 import stonering.entity.World;

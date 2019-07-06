@@ -5,7 +5,7 @@ import stonering.game.model.lists.*;
 import stonering.game.model.lists.tasks.TaskContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.view.tilemaps.LocalTileMap;
-import stonering.entity.local.environment.GameCalendar;
+import stonering.entity.environment.GameCalendar;
 import stonering.util.global.Logger;
 
 /**

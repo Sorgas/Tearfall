@@ -15,23 +15,19 @@ import stonering.game.view.render.ui.menus.zone.FarmZoneMenu;
  * @author Alexander on 20.03.2019.
  */
 public class ZoneMenuStage extends UiStage {
-    private Zone zone;
     private FarmZoneMenu menu;
 
-    public ZoneMenuStage(Zone zone) {
-        this.zone = zone;
-        createMenu();
+    public ZoneMenuStage(FarmZone zone) {
+        createMenu(zone);
     }
 
-    private void createMenu() {
-        if(zone instanceof FarmZone) {
-            menu = new FarmZoneMenu((FarmZone) zone);
-            menu.align(Align.center);
-            Container container = new Container(menu).center();
-            container.setFillParent(true);
-            container.setDebug(true, true);
-            this.addActor(container);
-            this.setKeyboardFocus(menu);
-        }
+    private void createMenu(FarmZone zone) {
+        menu = new FarmZoneMenu(zone);
+        menu.align(Align.center);
+        Container container = new Container(menu).center();
+        container.setFillParent(true);
+        container.setDebug(true, true);
+        this.addActor(container);
+        this.setKeyboardFocus(menu.getDisabledPlants());
     }
 }

@@ -1,6 +1,6 @@
 package stonering.entity;
 
-import stonering.entity.local.environment.CelestialBody;
+import stonering.entity.environment.CelestialBody;
 import stonering.game.model.IntervalTurnable;
 
 import java.io.Serializable;

@@ -3,6 +3,7 @@ package stonering.game.view.render.ui;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
+import stonering.enums.blocks.BlockTypesEnum;
 import stonering.util.global.StaticSkin;
 import stonering.util.geometry.Position;
 
@@ -17,7 +18,7 @@ public class TileStatusBar extends Table {
     private int z;
     private int area;
     private String material;
-    private int blockType;
+    private byte blockType;
 
     private Label coordinates;
     private Label cellType;
@@ -46,12 +47,12 @@ public class TileStatusBar extends Table {
         z = camera.z;
         this.area = area;
         this.material = material;
-        this.blockType = blocktype;
+        this.blockType = (byte) blocktype;
         updateLabels();
     }
 
     private void updateLabels() {
-        coordinates.setText("(" + x + ", " + y + ", " + z + ") " + blockType);
+        coordinates.setText("(" + x + ", " + y + ", " + z + ") " + BlockTypesEnum.getType(blockType));
         cellType.setText(material);
     }
 }

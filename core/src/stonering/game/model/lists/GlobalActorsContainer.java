@@ -3,7 +3,7 @@ package stonering.game.model.lists;
 import stonering.game.model.MainGameModel;
 import stonering.game.model.IntervalTurnable;
 import stonering.generators.localgen.LocalGenContainer;
-import stonering.entity.local.environment.CelestialBody;
+import stonering.entity.environment.CelestialBody;
 
 import java.util.ArrayList;
 

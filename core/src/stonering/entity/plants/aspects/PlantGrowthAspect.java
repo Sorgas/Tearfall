@@ -2,7 +2,7 @@ package stonering.entity.plants.aspects;
 
 import stonering.entity.Aspect;
 import stonering.entity.Entity;
-import stonering.entity.local.environment.GameCalendar;
+import stonering.entity.environment.GameCalendar;
 import stonering.entity.plants.AbstractPlant;
 import stonering.entity.plants.Plant;
 import stonering.entity.plants.Tree;
