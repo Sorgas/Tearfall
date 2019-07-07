@@ -1,12 +1,14 @@
 package stonering.entity.zone;
 
 import stonering.entity.job.Task;
+import stonering.entity.job.action.HoeingAction;
 import stonering.entity.job.action.PlantingAction;
 import stonering.entity.job.action.TaskTypesEnum;
 import stonering.entity.job.action.target.PositionActionTarget;
 import stonering.entity.plants.AbstractPlant;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.model.lists.PlantContainer;
+import stonering.util.global.Logger;
 import stonering.util.validation.PositionValidator;
 import stonering.entity.environment.GameCalendar;
 import stonering.entity.item.selectors.SeedItemSelector;
@@ -39,10 +41,6 @@ public class FarmZone extends Zone {
 
     public FarmZone(String name) {
         super(name);
-        initZone();
-    }
-
-    private void initZone() {
         type = ZoneTypesEnum.FARM;
         taskMap = new HashMap<>();
     }
@@ -71,15 +69,18 @@ public class FarmZone extends Zone {
         for (Position tile : tiles) {
             AbstractPlant plant = plantContainer.getPlantInPosition(tile);
             // can delete tile from zone
-            if (!checkTile(validator, tile, localMap)) continue;
+            if (!isTileValid(validator, tile, localMap)) continue;
             // can delete task from zone
-            if (!checkTask(tile)) continue;
+            if (isTaskExist(tile)) continue;
             // can create task for cutting or harvesting
             if (!checkExistingPlant(plant, tile, taskContainer)) continue;
             if (localMap.getBlockType(tile) != BlockTypesEnum.FARM.CODE) {
-                if (hoeingEnabled) taskContainer.submitOrderDesignation(tile, DesignationTypeEnum.HOE, 1);
+                Logger.ZONES.logDebug("Creating hoeing task on farm");
+                if (hoeingEnabled)
+                    addTask(createTaskForHoeing(tile), tile);
             } else {
-                if (plantingEnabled) createTaskForPlanting(tile, plantType);
+                if (plantingEnabled)
+                    addTask(createTaskForPlanting(tile, plantType), tile);
             }
         }
     }
@@ -88,7 +89,7 @@ public class FarmZone extends Zone {
      * Checks that tile can hold a plant (floor or farm, soil, no buildings).
      * Building or digging in zones are allowed, non-floor tiles are removed on every iteration.
      */
-    private boolean checkTile(PositionValidator validator, Position tile, LocalMap localMap) {
+    private boolean isTileValid(PositionValidator validator, Position tile, LocalMap localMap) {
         if (validator.validate(localMap, tile)) return true;
         GameMvc.instance().getModel().get(ZonesContainer.class).updateZones(tile, tile, null); // remove invalid tile
         return false;
@@ -96,14 +97,14 @@ public class FarmZone extends Zone {
 
     /**
      * Checks that task for this tile is created or not yet finished.
+     * Also removes finished tasks.
      *
      * @return true, if task can be created after this method.
      */
-    private boolean checkTask(Position tile) {
-        if (!taskMap.containsKey(tile)) return false; // no task
-        if (!taskMap.get(tile).isFinished()) return true; // active task
-        taskMap.remove(tile); // finished task, remove. tasks are removed from container on finish
-        return false;
+    private boolean isTaskExist(Position tile) {
+        if (taskMap.containsKey(tile) && taskMap.get(tile).isFinished())
+            taskMap.remove(tile); // finished task, remove. tasks are removed from container on finish
+        return taskMap.containsKey(tile);
     }
 
     /**
@@ -126,10 +127,22 @@ public class FarmZone extends Zone {
     /**
      * Creates planting task and adds it to TaskContainer.
      */
-    private void createTaskForPlanting(Position tile, PlantType type) {
+    private Task createTaskForPlanting(Position tile, PlantType type) {
+        Logger.ZONES.logDebug("Creating planting task on farm");
         PlantingAction action = new PlantingAction(new PositionActionTarget(tile, true, true), seedSelector);
         Task task = new Task("plant " + type.name, TaskTypesEnum.DESIGNATION, action, 1);
+        return task;
+    }
+
+    private Task createTaskForHoeing(Position tile) {
+        HoeingAction action = new HoeingAction(new PositionActionTarget(tile, true, true));
+        Task task = new Task("hoe", TaskTypesEnum.OTHER, action, 1);
+        return task;
+    }
+
+    private void addTask(Task task, Position tile) {
         GameMvc.instance().getModel().get(TaskContainer.class).getTasks().add(task);
+        taskMap.put(tile, task);
     }
 
     public void setPlant(PlantType plantType) {

@@ -122,9 +122,6 @@ public class TaskContainer implements ModelComponent, Initable {
                 //TODO probably create multiple tasks for all blocks
                 return new Task("designation", TaskTypesEnum.DESIGNATION, plantHarvestAction, priority);
             }
-            case HOE: {
-
-            }
         }
         return null;
     }

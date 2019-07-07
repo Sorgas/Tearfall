@@ -18,7 +18,7 @@ import stonering.util.geometry.Position;
  */
 public class HoeingAction extends Action {
 
-    protected HoeingAction(ActionTarget actionTarget) {
+    public HoeingAction(ActionTarget actionTarget) {
         super(actionTarget);
     }
 

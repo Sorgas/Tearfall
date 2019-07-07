@@ -168,7 +168,7 @@ public class EquipmentAspect extends Aspect {
     public boolean toolWithActionEquipped(String action) {
         return equippedItems.stream().anyMatch(item ->
                 item.getType().tool.getActions().stream().anyMatch(toolAction ->
-                        toolAction.name.equals(action)));
+                        toolAction.action.equals(action)));
     }
 
     /**

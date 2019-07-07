@@ -160,5 +160,34 @@
                 "color":"0xffffffff"
             }
         ]
+    },
+    {
+        "name":"farm test plant",
+        "title":"Farm test",
+        "description":"For testing farms, grows in all seasons.",
+        "materialName":"willow",
+        "temperatureBounds":["-40", "40"],
+        "rainfallBounds":["0", "100"],
+        "placingTags":[],
+        "plantingStart":["0","1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"],
+        "lifeStages":[
+            {
+                "titlePrefixSuffix":["", "sapling"],
+                "stageLength":"2",
+                "atlasXY":["0", "0"],
+                "color":"0xffffffff"
+            },
+            {
+                "stageLength":"3",
+                "atlasXY":["7", "0"],
+                "color":"0xffffffff"
+            },
+            {
+                "titlePrefixSuffix":["", ""],
+                "stageLength":"1",
+                "atlasXY":["8", "0"],
+                "color":"0xffffffff"
+            }
+        ]
     }
 ]

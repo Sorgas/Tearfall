@@ -50,8 +50,6 @@ public class DesignationsValidator {
                 return !block.getPlant().getType().isTree() && !block.getPlant().getType().isSubstrate();
             case BUILD:
                 break;
-            case HOE:
-                return ZoneTypesEnum.FARM.getValidator().validate(localMap, position);
         }
         return false;
     }
