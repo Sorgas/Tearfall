@@ -2,19 +2,25 @@
     {
         "name": "log",
         "description": "Large part of a tree.",
-        "typeAspects": [["value", "0"]],
+        "typeAspects": [["value", "0"], ["fuel", "1"]],
         "atlasXY": ["2", "0"],
         "color": "0xffffffff"
     }, {
     "name": "branch",
     "description": "Small part of a tree.",
-    "typeAspects": [["value", "0"]],
+    "typeAspects": [["value", "0"], ["fuel", "1"]],
     "atlasXY": ["3", "0"],
     "color": "0xffffffff"
 }, {
     "name": "root",
     "description": "Underground tree part.",
-    "typeAspects": [["value", "0"]],
+    "typeAspects": [["value", "0"], ["fuel", "1"]],
+    "atlasXY": ["3", "0"],
+    "color": "0xffffffff"
+}, {
+    "name": "plank",
+    "description": "Fine formed piece of wood.",
+    "typeAspects": [["value", "0"], ["fuel", "0"]],
     "atlasXY": ["3", "0"],
     "color": "0xffffffff"
 }, {
@@ -82,18 +88,6 @@
     "description": "Lights the way.",
     "typeAspects": [["value", "0"]],
     "atlasXY": ["15", "0"],
-    "color": "0xffffffff"
-}, {
-    "name": "lantern",
-    "description": "Shows path in the dark.",
-    "typeAspects": [["value", "0"]],
-    "atlasXY": ["14", "0"],
-    "color": "0xffffffff"
-}, {
-    "name": "",
-    "description": "Shows path in the dark.",
-    "typeAspects": [["value", "0"]],
-    "atlasXY": ["14", "0"],
     "color": "0xffffffff"
 }
 ]

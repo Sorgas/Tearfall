@@ -1,6 +1,7 @@
 package stonering.enums.items.type;
 
 import stonering.entity.Entity;
+import stonering.entity.item.aspects.FuelAspect;
 import stonering.entity.item.aspects.ValueAspect;
 import stonering.util.global.Logger;
 
@@ -60,7 +61,7 @@ public class ItemType extends Entity {
      */
     private void fillAspects(List<List<String>> rawAspects) {
         aspects = new HashMap<>();
-        if(rawAspects == null || rawAspects.isEmpty()) return;
+        if (rawAspects == null || rawAspects.isEmpty()) return;
         for (List<String> rawAspect : rawAspects) {
             aspects.put(rawAspect.remove(0), rawAspect);
         }
@@ -75,6 +76,10 @@ public class ItemType extends Entity {
             switch (aspectDescription.get(0)) {
                 case "value": {
                     addAspect(new ValueAspect(this, Float.valueOf(aspectDescription.get(1))));
+                    continue;
+                }
+                case "fuel": {
+                    addAspect(new FuelAspect(this));
                     continue;
                 }
             }
