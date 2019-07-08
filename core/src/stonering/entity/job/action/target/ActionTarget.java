@@ -37,24 +37,17 @@ public abstract class ActionTarget {
 
     public boolean createActionToStepOff(Position from) {
         Position to = findPositionToStepOff(from);
-        if(to == null) return false;
+        if (to == null) return false;
         action.getTask().addFirstPreAction(new MoveAction(to));
         return true;
     }
 
     /**
      * Checks if name performer has reached name target.
-     *
-     * @param currentPosition
-     * @return
      */
     public boolean check(Position currentPosition) {
         if (exactTarget) {
-            if (nearTarget) {
-                return currentPosition.getDistanse(getPosition()) < 2; // exact and near
-            } else {
-                return currentPosition.equals(getPosition()); // exact only
-            }
+            return currentPosition.equals(getPosition()) || nearTarget && currentPosition.isNeighbour(getPosition());
         } else {
             if (nearTarget) {
                 if (currentPosition.equals(getPosition())) {

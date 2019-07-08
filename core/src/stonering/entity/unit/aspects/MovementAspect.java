@@ -32,25 +32,34 @@ public class MovementAspect extends Aspect {
         super(unit);
         this.entity = unit;
         stepInterval = 15;
-        stepProgress = stepInterval;
+        stepProgress = 0;
     }
 
     public void turn() {
         if (tryFall()) return;
-        if (stepProgress > 0) {
-            stepProgress--; // counting ticks to step.
+//        if(!hasPath()) return;
+        if (stepProgress < stepInterval) {
+            stepProgress++; // counting ticks to step.
         } else {
             makeStep();
-            stepProgress = stepInterval;
+            stepProgress = 0;
         }
     }
 
     private void makeStep() {
-        if (!planning.isMovementNeeded()) return;
+        if (!planning.isMovementNeeded()) {
+//            cachedPath = null;
+//            cachedTarget = null;
+//            stepProgress = 0;
+            return;
+        }
         if (cachedTarget != null && cachedTarget.equals(planning.getTarget())) { //old target
             if (hasPath()) {
                 Position nextPosition = cachedPath.remove(0); // get next step, remove from path
                 if (localMap.isWalkPassable(nextPosition)) { // path has not been blocked after calculation
+                    System.out.println("---" + entity.getAspect(PositionAspect.class).position + "           " + nextPosition);
+                    System.out.println(cachedTarget);
+                    System.out.println(cachedPath.size());
                     gameMvc.getModel().get(UnitContainer.class).updateUnitPosiiton((Unit) entity, nextPosition); //step
                 } else { // path blocked
                     Logger.PATH.log("path to " + cachedTarget + " was blocked in " + nextPosition);
@@ -100,8 +109,6 @@ public class MovementAspect extends Aspect {
 
     /**
      * Checks that this aspect holder has poth to move on.
-     *
-     * @return
      */
     private boolean hasPath() {
         return cachedPath != null && !cachedPath.isEmpty();
@@ -121,7 +128,7 @@ public class MovementAspect extends Aspect {
     }
 
     private float getStepProgressVectorComponent(int from, int to) {
-        return (from - to) * stepProgress / stepInterval;
+        return (to - from) * stepProgress / stepInterval;
     }
 
     private Position getPosition() {

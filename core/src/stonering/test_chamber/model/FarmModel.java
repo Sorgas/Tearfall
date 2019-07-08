@@ -20,7 +20,7 @@ public class FarmModel extends TestModel {
         super.init();
         get(EntitySelector.class).setPosition(MAP_SIZE / 2, MAP_SIZE / 2, 2);
         get(UnitContainer.class).addUnit(createUnit());
-        get(ItemContainer.class).putItem(createHoe(), new Position(0, 0, 2));
+        get(ItemContainer.class).addItem(createHoe());
     }
 
     private Unit createUnit() {
@@ -30,6 +30,8 @@ public class FarmModel extends TestModel {
     }
 
     private Item createHoe() {
-        return new Item(null, ItemTypeMap.getInstance().getItemType("hoe"));
+        Item item = new Item(null, ItemTypeMap.getInstance().getItemType("hoe"));
+        item.setPosition(new Position(0, 0, 2));
+        return item;
     }
 }

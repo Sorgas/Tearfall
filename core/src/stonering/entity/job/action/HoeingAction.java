@@ -12,6 +12,7 @@ import stonering.game.model.lists.ItemContainer;
 import stonering.game.model.lists.ZonesContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
+import stonering.util.global.Logger;
 
 /**
  * @author Alexander on 20.03.2019.
@@ -31,6 +32,7 @@ public class HoeingAction extends Action {
      */
     @Override
     public boolean check() {
+//        Logger.TASKS.logDebug("Checking hoeing of " + actionTarget.getPosition());
         Position target = actionTarget.getPosition();
         LocalMap localMap = GameMvc.instance().getModel().get(LocalMap.class);
         if (!ZoneTypesEnum.FARM.getValidator().validate(localMap, target)) return false; // 1
@@ -41,11 +43,13 @@ public class HoeingAction extends Action {
 
     @Override
     protected void performLogic() {
+        Logger.TASKS.logDebug("Hoeing tile " + actionTarget.getPosition());
         LocalMap localMap = GameMvc.instance().getModel().get(LocalMap.class);
         localMap.setBlockType(actionTarget.getPosition(), BlockTypesEnum.FARM.CODE);
     }
 
     private boolean tryCreateEquippingAction() {
+        Logger.TASKS.logDebug("Creating equipping action of hoe");
         ItemSelector toolItemSelector = new ToolWithActionItemSelector("hoe");
         ItemContainer itemContainer = GameMvc.instance().getModel().get(ItemContainer.class);
         Item item = itemContainer.getItemAvailableBySelector(toolItemSelector, actionTarget.getPosition());

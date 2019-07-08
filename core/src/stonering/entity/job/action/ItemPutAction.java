@@ -12,21 +12,23 @@ import stonering.game.model.lists.ItemContainer;
 import stonering.util.geometry.Position;
 
 /**
- * Action for putting item to some target. Item will be picked up.
- * Action performer should have {@link EquipmentAspect}
- * Target should have {@link ItemContainerAspect}
+ * Action for putting item to some targetEntity. Item will be picked up.
+ * Action performer should have {@link EquipmentAspect}.
+ * Target should have {@link ItemContainerAspect}.
+ *
+ * Target can be either a position or a container(like chest).
  *
  * @author Alexander on 11.01.2019.
  */
 public class ItemPutAction extends Action {
     private Item targetItem;
-    private Entity target;
+    private Entity targetEntity;
     private Position targetPosition;
 
-    public ItemPutAction(Item targetItem, Entity target) {
-        super(new AspectHolderActionTarget(target, true, true));
+    public ItemPutAction(Item targetItem, Entity targetEntity) {
+        super(new AspectHolderActionTarget(targetEntity, true, true));
         this.targetItem = targetItem;
-        this.target = target;
+        this.targetEntity = targetEntity;
     }
 
     public ItemPutAction(Item targetItem, Position targetPosition) {
@@ -39,16 +41,16 @@ public class ItemPutAction extends Action {
     public void performLogic() {
         EquipmentAspect equipmentAspect = task.getPerformer().getAspect(EquipmentAspect.class);
         equipmentAspect.getHauledItems().remove(targetItem);
-        if (target != null) {
-            (target.getAspect(ItemContainerAspect.class)).getItems().add(targetItem);
+        if (targetEntity != null) {
+            (targetEntity.getAspect(ItemContainerAspect.class)).getItems().add(targetItem); // put into container
         } else {
-            GameMvc.instance().getModel().get(ItemContainer.class).putItem(targetItem, targetPosition);
+            GameMvc.instance().getModel().get(ItemContainer.class).putItem(targetItem, targetPosition); // put on position
         }
     }
 
     @Override
     public boolean check() {
-        if (target != null && target.getAspect(ItemContainerAspect.class) != null) return false;
+        if (targetEntity != null && targetEntity.getAspect(ItemContainerAspect.class) != null) return false;
         EquipmentAspect equipmentAspect = task.getPerformer().getAspect(EquipmentAspect.class);
         if (equipmentAspect == null) return false; // performer can carry item
         if (equipmentAspect.getHauledItems().contains(targetItem)) return true; // performer already has item

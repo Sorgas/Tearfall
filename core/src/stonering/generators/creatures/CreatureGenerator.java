@@ -1,5 +1,6 @@
 package stonering.generators.creatures;
 
+import stonering.entity.unit.aspects.JobsAspect;
 import stonering.enums.unit.CreatureType;
 import stonering.enums.unit.CreatureTypeMap;
 import stonering.generators.creatures.needs.NeedAspectGenerator;
@@ -30,19 +31,36 @@ public class CreatureGenerator {
     public Unit generateUnit(String specimen) {
         CreatureType type = CreatureTypeMap.instance().getCreatureType(specimen);
         if (type == null) return null;
-        Unit unit = new Unit(new Position(0, 0, 0));    // empty unit //TODO change constructor.
-        return addAspects(unit, type);
+        Unit unit = new Unit(type);    // empty unit //TODO change constructor.
+        addAspects(unit);
+        addOptionalAspects(unit);
+        return unit;
     }
 
     /**
      * Create aspects and add them to unit.
      */
-    private Unit addAspects(Unit unit, CreatureType type) {
+    private void addAspects(Unit unit) {
+        CreatureType type = unit.getType();
         unit.addAspect(bodyAspectGenerator.generateBodyAspect(type));
         unit.addAspect(new PlanningAspect(null));
         unit.addAspect(new MovementAspect(null));
-        unit.addAspect(equipmentAspectGenerator.generateEquipmentAspect(type));
         unit.addAspect(needAspectGenerator.generateNeedAspect(type));
-        return unit;
+    }
+
+    private void addOptionalAspects(Unit unit) {
+        CreatureType type = unit.getType();
+        for (String aspect : type.aspects) {
+            switch(aspect) {
+                case "equipment" : {
+                    unit.addAspect(equipmentAspectGenerator.generateEquipmentAspect(type));
+                    continue;
+                }
+                case "jobs" : {
+                    unit.addAspect(new JobsAspect(null));
+                    continue;
+                }
+            }
+        }
     }
 }

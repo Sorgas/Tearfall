@@ -29,8 +29,7 @@ public class EquipmentAspectGenerator {
     }
 
     public EquipmentAspect generateEquipmentAspect(CreatureType type) {
-        EquipmentAspect equipmentAspect = null;
-        equipmentAspect = new EquipmentAspect(null);
+        EquipmentAspect equipmentAspect = new EquipmentAspect(null);
         generateAspectWithSlots(type, equipmentAspect);
         initDesiredSlots(type, equipmentAspect);
         return equipmentAspect;

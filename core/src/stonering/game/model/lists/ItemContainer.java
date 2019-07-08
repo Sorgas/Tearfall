@@ -2,8 +2,6 @@ package stonering.game.model.lists;
 
 import stonering.entity.Entity;
 import stonering.entity.crafting.CommonComponent;
-import stonering.entity.item.selectors.SimpleItemSelector;
-import stonering.enums.items.recipe.ItemPartRecipe;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.GameMvc;
 import stonering.game.model.Turnable;
@@ -56,6 +54,9 @@ public class ItemContainer extends Turnable implements ModelComponent, Initable 
         items.forEach(this::removeItem);
     }
 
+    /**
+     * Adds item to the global list, and puts to position. Should be used for dropping new items.
+     */
     public void addItem(Item item) {
         items.add(item);
         item.init();
@@ -76,6 +77,9 @@ public class ItemContainer extends Turnable implements ModelComponent, Initable 
         item.setPosition(null);
     }
 
+    /**
+     * Puts item to tile on map. should be used for dropping existent items.
+     */
     public void putItem(Item item, Position pos) {
         item.setPosition(pos);
         ArrayList<Item> list = itemMap.get(pos);
@@ -118,24 +122,6 @@ public class ItemContainer extends Turnable implements ModelComponent, Initable 
                 collect(Collectors.toList());
     }
 
-    /**
-     * Groups given item by material and titles, and count their quantity to show in UI lists.
-     */
-    public List<ItemGroup> groupItemsByTypesAndMaterials(List<Item> items) {
-        Map<ItemGroup, Integer> groupingMap = new HashMap<>();                                   // groups by material and item NAME. Stores quantity.
-        items.forEach((item) -> {
-            String materialName = MaterialMap.instance().getMaterial(item.getMaterial()).getName();
-            ItemGroup key = new ItemGroup(item.getTitle(), materialName, 0);
-            groupingMap.put(key, groupingMap.getOrDefault(key, 0) + 1);               // increment quantity
-        });
-        List<ItemGroup> resultList = new ArrayList<>();
-        groupingMap.keySet().forEach(group -> {
-            group.quantity = groupingMap.get(group);
-            resultList.add(group);
-        });
-        return resultList;
-    }
-
     public List<Item> filterUnreachable(List<Item> items, Position fromPosition) {
         UtilByteArray area = GameMvc.instance().getModel().get(LocalMap.class).getPassage().getArea();
         return items.stream().
@@ -163,26 +149,6 @@ public class ItemContainer extends Turnable implements ModelComponent, Initable 
         return items;
     }
 
-    /**
-     * Gets item selectors for item, suitable for recipe and available from given position.
-     */
-    public List<ItemSelector> getItemSelectorsForItemPartRecipe(ItemPartRecipe itemPartRecipe, Position position) {
-        Set<ItemSelector> itemSelectors = new HashSet<>();
-        Set<Integer> allowedMaterials = MaterialMap.instance().getMaterialsByTag(itemPartRecipe.materialTag);
-        List<Item> materialItems = items.stream().
-                filter(item -> allowedMaterials.contains(item.getMaterial())).
-                collect(Collectors.toList());
-        materialItems = filterUnreachable(materialItems, position);
-        for (ItemGroup itemGroup : groupItemsByTypesAndMaterials(materialItems)) {
-            itemSelectors.add(createItemSelector(itemGroup));
-        }
-        return new ArrayList<>(itemSelectors);
-    }
-
-    private ItemSelector createItemSelector(ItemGroup itemGroup) {
-        return new SimpleItemSelector(itemGroup.type, itemGroup.material, 1);
-    }
-
     public List<Item> getNearestItems(List<Item> items, int number) {
         List<Item> result = new ArrayList<>();
         if (number > 0 && items != null && !items.isEmpty()) {
@@ -201,20 +167,5 @@ public class ItemContainer extends Turnable implements ModelComponent, Initable 
 
     public boolean checkItem(Item item) {
         return items.contains(item);
-    }
-
-    /**
-     * Groups item by type and material. Stores quantity.
-     */
-    private class ItemGroup {
-        String type;
-        String material;
-        int quantity;
-
-        public ItemGroup(String type, String material, int quantity) {
-            this.type = type;
-            this.material = material;
-            this.quantity = quantity;
-        }
     }
 }

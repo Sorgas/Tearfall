@@ -1,7 +1,7 @@
 package stonering.entity.unit;
 
 import stonering.entity.PositionedEntity;
-import stonering.util.geometry.Position;
+import stonering.enums.unit.CreatureType;
 
 /**
  * @author Alexander Kuzyakov on 06.10.2017.
@@ -9,12 +9,13 @@ import stonering.util.geometry.Position;
  * Represents living creatures
  */
 public class Unit extends PositionedEntity {
+    CreatureType type;
 
-    public Unit(Position position) {
-        super(position);
+    public Unit(CreatureType type) {
+        this.type = type;
     }
 
-    public void turn() {
-        aspects.values().forEach((aspect) -> aspect.turn());
+    public CreatureType getType() {
+        return type;
     }
 }

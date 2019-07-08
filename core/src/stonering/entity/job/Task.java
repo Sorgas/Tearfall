@@ -107,14 +107,15 @@ public class Task {
     }
 
     public boolean isTaskTargetsAvailableFrom(Position position) {
-        UtilByteArray area = GameMvc.instance().getModel().get(LocalMap.class).getPassage().getArea();
+        LocalMap localMap = GameMvc.instance().getModel().get(LocalMap.class);
+        UtilByteArray area = localMap.getPassage().getArea();
         int sourceArea = area.getValue(position);
         Position target = initialAction.getActionTarget().getPosition();
-        for (int x = -1; x < 2; x++) {
-            for (int y = -1; y < 2; y++) {
-                if ((x != 0 || y != 0) && area.getValue(target.x + x, target.y + y, target.z) == sourceArea) {
-                    return true;
-                }
+        for (int x = target.x - 1; x <= target.x + 1; x++) {
+            for (int y = target.y - 1; y <= target.y + 1; y++) {
+                if (localMap.inMap(x, y, target.z) &&
+                        (x != target.x || y != target.y) &&
+                        area.getValue(x, y, target.z) == sourceArea) return true;
             }
         }
         return false;

@@ -5,7 +5,7 @@
         "description": "This is a human",
         "bodyTemplate": "humanoid",
         "limbsToCover": ["lower torso", "foot", "foot"],
-        "aspects" : ["equipment"],
+        "aspects" : ["equipment", "jobs"],
         "baseHP": "100",
         "atlasXY": ["0", "0"],
         "color": "0xffffffff"
