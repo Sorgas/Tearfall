@@ -26,17 +26,18 @@ public class DigAction extends Action {
     }
 
     @Override
-    public boolean check() {
+    public int check() {
         EquipmentAspect aspect = task.getPerformer().getAspect(EquipmentAspect.class);
-        if (aspect == null) return false;
-        return toolItemSelector.checkItems(aspect.getEquippedItems()) || addEquipAction();
+        if (aspect == null) return FAIL;
+        if(toolItemSelector.checkItems(aspect.getEquippedItems())) return OK;
+        return addEquipAction();
     }
 
-    private boolean addEquipAction() {
+    private int addEquipAction() {
         Item target = GameMvc.instance().getModel().get(ItemContainer.class).getItemAvailableBySelector(toolItemSelector, task.getPerformer().getPosition());
-        if (target == null) return false;
+        if (target == null) return FAIL;
         task.addFirstPreAction(new EquipItemAction(target, true));
-        return true;
+        return NEW;
     }
 
     @Override

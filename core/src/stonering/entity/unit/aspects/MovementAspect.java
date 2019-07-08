@@ -47,12 +47,6 @@ public class MovementAspect extends Aspect {
     }
 
     private void makeStep() {
-        if (!planning.isMovementNeeded()) {
-//            cachedPath = null;
-//            cachedTarget = null;
-//            stepProgress = 0;
-            return;
-        }
         if (cachedTarget != null && cachedTarget.equals(planning.getTarget())) { //old target
             if (hasPath()) {
                 Position nextPosition = cachedPath.remove(0); // get next step, remove from path

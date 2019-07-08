@@ -27,59 +27,55 @@ public class EquipItemAction extends Action {
     }
 
     @Override
-    public boolean check() {
+    public int check() {
         try {
             EquipmentAspect equipmentAspect = task.getPerformer().getAspect(EquipmentAspect.class);
             Item blockingItem = equipmentAspect.checkItemForEquip(this.item);
-            if (blockingItem == null) return true;
-            if (!force) return true; // do not unequip if not forced.
+            if (blockingItem == null || !force) return OK; // do not unequip if not forced.
             if (item.isWear()) {
                 return createUnequipWearAction(blockingItem);
             } else if (item.isTool()) {
                 return createUnequipToolAction(blockingItem);
             }
-            Logger.ITEMS.logError("Invalid case in EquipItemAction:checkItems()");
-            return false;
+            Logger.ITEMS.logError("Invalid case in EquipItemAction:check()");
+            return FAIL;
         } catch (NotSuitableItemException e) {
             Logger.ITEMS.logError(task.getPerformer().toString() + " tried to equip not tool or wear item " + item.toString() + " .");
-            return false;
+            return FAIL;
         }
     }
 
     /**
-     * Creates name for unequipping/equipping high-layer item and adds them to task,
+     * Creates action for unequipping/equipping high-layer item and adds them to task,
      * so equipping of low-layer item will be in between them.
-     * Equipping name will not be performed, if there is no room for item.
+     * Equipping action will not be performed, if there is no room for item.
      *
      * @param item item(high-layer), that blocks equipping of main item(low-layer)
-     * @return false if name are impossible or item is invalid.
+     * @return false if action are impossible or item is invalid.
      */
-    private boolean createUnequipWearAction(Item item) {
-        // unequip name
+    private int createUnequipWearAction(Item item) {
+        // unequip action
         UnequipItemAction action = new UnequipItemAction(item);
         task.addFirstPreAction(action);
 
-        // equip name
+        // equip action
         EquipItemAction equipItemAction = new EquipItemAction(item, false);
-        task.addFirstPreAction(action);
-        return true;
+        task.addFirstPreAction(equipItemAction);
+        return NEW;
     }
 
     /**
-     * Creates name only for unequipping item. Used to unequip tool when equipping another tool, as tools are highest layer,
+     * Creates action only for unequipping item. Used to unequip tool when equipping another tool, as tools are highest layer,
      * and two tools cannot be held simultaneously.
-     *
-     * @param item unequipping tool.
-     * @return
      */
-    private boolean createUnequipToolAction(Item item) {
+    private int createUnequipToolAction(Item item) {
         UnequipItemAction unequipItemAction = new UnequipItemAction(item);
         task.addFirstPreAction(unequipItemAction);
-        return true;
+        return NEW;
     }
 
     @Override
     public String toString() {
-        return "Equipping name: " + item.getTitle();
+        return "Equipping action: " + item.getTitle();
     }
 }

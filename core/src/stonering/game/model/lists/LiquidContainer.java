@@ -118,7 +118,7 @@ public class LiquidContainer extends Turnable implements ModelComponent, Initabl
     private void trySpreadTile(Position position) {
         Position lowerPos = new Position(position.getX(), position.getY(), position.getZ() - 1);
         int currentWater = localMap.getFlooding(position);
-        if (localMap.inMap(lowerPos)) { // checkItems to flow lower
+        if (localMap.inMap(lowerPos)) { // check to flow lower
             byte currentBlockType = localMap.getBlockType(position);
             byte lowerBlockType = localMap.getBlockType(lowerPos);
             if ((currentBlockType == spaceCode || currentBlockType == stairfloorCode || // liquid falls from space and stairfloor

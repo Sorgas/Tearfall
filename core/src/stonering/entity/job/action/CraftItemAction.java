@@ -47,19 +47,20 @@ public class CraftItemAction extends Action {
      * Checks that name conditions are met. Creates sub name otherwise.
      */
     @Override
-    public boolean check() {
+    public int check() {
         ItemContainerAspect containerAspect = workbench.getAspect(ItemContainerAspect.class); //TODO remove item container requirement (item in unit inventory, on the ground or in !nearby containers!).
         if (workbench.getAspect(WorkbenchAspect.class) == null || containerAspect == null) {
             Logger.TASKS.logWarn("Building " + workbench.toString() + " is not a workbench with item container.");
-            return false;
+            return FAIL;
         }
-        if (!updateDesiredItems()) return false; // desiredItems valid after this
+        if (!updateDesiredItems()) return FAIL; // desiredItems valid after this
         if (!containerAspect.getItems().containsAll(desiredItems)) { // some item are out of WB.
             List<Item> outOfWBItems = new ArrayList<>(desiredItems);
             outOfWBItems.removeAll(containerAspect.getItems());
             task.addFirstPreAction(new ItemPutAction(outOfWBItems.get(0), workbench)); // create name to bring item
+            return NEW;
         }
-        return true;
+        return OK;
     }
 
     /**

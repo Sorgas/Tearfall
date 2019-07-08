@@ -56,8 +56,6 @@ public class Task {
 
     /**
      * Returns next name to be performed.
-     *
-     * @return
      */
     public Action getNextAction() {
         if (!preActions.isEmpty()) {
@@ -74,9 +72,13 @@ public class Task {
         return null;
     }
 
+    /**
+     * Resets this task if it was failed to return it to container.
+     */
     public void reset() {
-        preActions = new LinkedList<>();
-        postActions = new LinkedList<>();
+        Logger.TASKS.logDebug("Resetting task " + toString());
+        preActions.clear();
+        postActions.clear();
         if (performer == null) return;
         PlanningAspect planningAspect = (performer.getAspect(PlanningAspect.class));
         performer = null;

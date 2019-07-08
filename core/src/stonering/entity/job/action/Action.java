@@ -8,17 +8,20 @@ import stonering.util.global.Logger;
 /**
  * Action of a unit. Actions are parts of {@link Task}.
  * Actions do some changes in game model(digging, crafting).
- * Actions have target where unit should be to perform name.
- * Actions have requirements and create sub name and add them to task if possible.
- * If name requirements are not met, Action and its task are failed.
+ * Actions have target where unit should be to perform action.
+ * Actions have requirements and create sub action and add them to task if possible.
+ * If action requirements are not met, Action and its task are failed.
  */
 public abstract class Action {
+    public static final int OK = 1;
+    public static final int NEW = 0;
+    public static final int FAIL = -1;
     protected Task task; // can be modified during execution
     protected ActionTarget actionTarget;
     protected boolean finished;
     protected String usedSkill;
     private float workAmount = 1f;
-    private float baseSpeed = 0.01f; // distracted from workAmount to make name progress.
+    private float baseSpeed = 0.01f; // distracted from workAmount to make action progress.
 
     protected Action(ActionTarget actionTarget) {
         this.actionTarget = actionTarget;
@@ -26,15 +29,14 @@ public abstract class Action {
     }
 
     /**
-     * Returns false if unable perform name or create sub name.
-     * Task can have more name after this.
+     * Returns {@value FAIL} if unable perform action or create sub action.
+     * Task can have more actions  after this.
      */
-    public abstract boolean check();
+    public abstract int check();
 
     /**
-     * Fetches remaining work amount and performs name.
-     *
-     * @return true, when name is finished.
+     * Fetches remaining work amount and performs action.
+     * @return true, when action is finished.
      */
     public final boolean perform() {
         float skillModifier = task.getPerformer().getAspect(JobsAspect.class).getSkillModifier(usedSkill);
@@ -45,7 +47,7 @@ public abstract class Action {
     }
 
     /**
-     * Applies name logic to model.
+     * Applies action logic to model.
      */
     protected abstract void performLogic();
 
@@ -56,7 +58,7 @@ public abstract class Action {
         finished = true;
         task.finishAction(this);
         task.tryFinishTask();
-        Logger.TASKS.logDebug("name " + this + " finished");
+        Logger.TASKS.logDebug(this + " finished");
     }
 
     public Task getTask() {

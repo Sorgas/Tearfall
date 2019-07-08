@@ -92,7 +92,7 @@ public class LocalStoneLayersGenerator extends LocalAbstractGenerator {
         int[] maxSubLayerNumber = container.config.getSublayerMaxCount();
         int[] minSubLayerThickness = container.config.getSublayerMinThickness();
         for (int g = 0; g < globalLayers.length; g++) {
-            if (globalLayers[g] > 0) { //checkItems thickness
+            if (globalLayers[g] > 0) { //check thickness
                 int subLayerNumber = Math.min(globalLayers[g] / minSubLayerThickness[g] + 1, maxSubLayerNumber[g]);
                 int[] ids = getIdsByStoneType(subLayerNumber, 1, g);
                 float globalLayerThickness = globalLayers[g];

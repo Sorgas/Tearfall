@@ -31,14 +31,15 @@ public class HoeingAction extends Action {
      * Creates sub name only for equipping hoe, other cases handled by player.
      */
     @Override
-    public boolean check() {
+    public int check() {
 //        Logger.TASKS.logDebug("Checking hoeing of " + actionTarget.getPosition());
         Position target = actionTarget.getPosition();
         LocalMap localMap = GameMvc.instance().getModel().get(LocalMap.class);
-        if (!ZoneTypesEnum.FARM.getValidator().validate(localMap, target)) return false; // 1
-        if (GameMvc.instance().getModel().get(ZonesContainer.class).getZone(target) == null) return false; // 2
+        if (!ZoneTypesEnum.FARM.getValidator().validate(localMap, target)) return FAIL; // 1
+        if (GameMvc.instance().getModel().get(ZonesContainer.class).getZone(target) == null) return FAIL; // 2
         EquipmentAspect equipmentAspect = task.getPerformer().getAspect(EquipmentAspect.class);
-        return equipmentAspect.toolWithActionEquipped("hoe") || tryCreateEquippingAction();
+        if(equipmentAspect.toolWithActionEquipped("hoe")) return OK;
+        return tryCreateEquippingAction();
     }
 
     @Override
@@ -48,13 +49,13 @@ public class HoeingAction extends Action {
         localMap.setBlockType(actionTarget.getPosition(), BlockTypesEnum.FARM.CODE);
     }
 
-    private boolean tryCreateEquippingAction() {
+    private int tryCreateEquippingAction() {
         Logger.TASKS.logDebug("Creating equipping action of hoe");
         ItemSelector toolItemSelector = new ToolWithActionItemSelector("hoe");
         ItemContainer itemContainer = GameMvc.instance().getModel().get(ItemContainer.class);
         Item item = itemContainer.getItemAvailableBySelector(toolItemSelector, actionTarget.getPosition());
-        if(item == null) return false;
+        if(item == null) return FAIL;
         task.addFirstPreAction(new EquipItemAction(item, true));
-        return true;
+        return OK;
     }
 }

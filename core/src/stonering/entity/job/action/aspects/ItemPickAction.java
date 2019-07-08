@@ -26,9 +26,10 @@ public class ItemPickAction extends Action {
     }
 
     @Override
-    public boolean check() {
-        if (task.getPerformer().getAspect(EquipmentAspect.class) == null) return false;
-        return GameMvc.instance().getModel().get(ItemContainer.class).checkItem(getTargetItem());
+    public int check() {
+        if (task.getPerformer().getAspect(EquipmentAspect.class) == null) return FAIL;
+        if(GameMvc.instance().getModel().get(ItemContainer.class).checkItem(getTargetItem())) return OK; // no item on map
+        return FAIL;
     }
 
     private Item getTargetItem() {

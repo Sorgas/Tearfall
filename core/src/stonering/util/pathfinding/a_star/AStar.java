@@ -57,7 +57,7 @@ public class AStar {
             //get element with the least sum of costs
             Node currentNode = openSet.poll();
 
-            //checkItems if path is complete
+            //check if path is complete
             if (exactTarget) {
                 if (targetPos.equals(currentNode.getPosition())) return currentNode;
             } else {

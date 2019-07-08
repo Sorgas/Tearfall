@@ -21,23 +21,21 @@ public class ChopTreeAction extends Action {
     }
 
     @Override
-    public boolean check() {
+    public int check() {
         EquipmentAspect aspect = task.getPerformer().getAspect(EquipmentAspect.class);
-        if (aspect == null) return false;
+        if (aspect == null) return FAIL;
         if (!GameMvc.instance().getModel().get(PlantContainer.class).isPlantBlockExists(actionTarget.getPosition()))
-            return false;
-        if (toolItemSelector.checkItems(aspect.getEquippedItems())) return true;
+            return FAIL;
+        if (toolItemSelector.checkItems(aspect.getEquippedItems())) return OK;
 
         Logger.TASKS.logDebug("No tool equipped by performer for chopTreeAction");
         Item target = GameMvc.instance().getModel().get(ItemContainer.class).getItemAvailableBySelector(toolItemSelector, task.getPerformer().getPosition());
-        if (target != null) return addActionToTask(target);
-        Logger.TASKS.logDebug("No tool item found for chopTreeAction");
-        return false;
-    }
-
-    private boolean addActionToTask(Item target) {
+        if (target == null) {
+            Logger.TASKS.logDebug("No tool item found for chopTreeAction");
+            return FAIL;
+        }
         task.addFirstPreAction(new EquipItemAction(target, true));
-        return true;
+        return NEW;
     }
 
     @Override

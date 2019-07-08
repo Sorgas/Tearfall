@@ -41,7 +41,7 @@ public class ConstructionAction extends Action {
      * Creates name for bringing missing item.
      */
     @Override
-    public boolean check() {
+    public int check() {
         Logger.TASKS.log("Checking " + toString());
         ArrayList<Item> uncheckedItems = new ArrayList<>(GameMvc.instance().getModel().get(ItemContainer.class).getItemsInPosition(actionTarget.getPosition())); //TODO checkItems positions near target.
         uncheckedItems.addAll(task.getPerformer().getAspect(EquipmentAspect.class).getHauledItems()); // from performer inventory
@@ -52,7 +52,7 @@ public class ConstructionAction extends Action {
                 uncheckedItems.remove(selectedItem);
             }
         }
-        return true; // all selectors have item.
+        return OK; // all selectors have item.
     }
 
     @Override
@@ -88,15 +88,15 @@ public class ConstructionAction extends Action {
      * @param itemSelector selector for item
      * @return false if no item available.
      */
-    private boolean tryCreateDroppingAction(ItemSelector itemSelector) {
+    private int tryCreateDroppingAction(ItemSelector itemSelector) {
         Position position = actionTarget.getPosition();
         ItemContainer itemContainer = GameMvc.instance().getModel().get(ItemContainer.class);
-        if (!itemContainer.hasItemsAvailableBySelector(itemSelector, position)) return false;
+        if (!itemContainer.hasItemsAvailableBySelector(itemSelector, position)) return FAIL;
         Item item = itemContainer.getItemAvailableBySelector(itemSelector, position);
-        if (item == null) return false;
+        if (item == null) return FAIL;
         ItemPutAction itemPutAction = new ItemPutAction(item, position);
         task.addFirstPreAction(itemPutAction);
-        return true;
+        return NEW;
     }
 
     private void logStart() {

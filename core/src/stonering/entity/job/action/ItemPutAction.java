@@ -49,17 +49,17 @@ public class ItemPutAction extends Action {
     }
 
     @Override
-    public boolean check() {
-        if (targetEntity != null && targetEntity.getAspect(ItemContainerAspect.class) != null) return false;
+    public int check() {
+        if (targetEntity != null && targetEntity.getAspect(ItemContainerAspect.class) != null) return FAIL;
         EquipmentAspect equipmentAspect = task.getPerformer().getAspect(EquipmentAspect.class);
-        if (equipmentAspect == null) return false; // performer can carry item
-        if (equipmentAspect.getHauledItems().contains(targetItem)) return true; // performer already has item
+        if (equipmentAspect == null) return FAIL; // performer can't carry items
+        if (equipmentAspect.getHauledItems().contains(targetItem)) return OK; // performer already has item
         return createPickingAction(targetItem);
     }
 
-    private boolean createPickingAction(Item item) {
+    private int createPickingAction(Item item) {
         task.addFirstPreAction(new ItemPickAction(item));
-        return true;
+        return NEW;
     }
 
     @Override

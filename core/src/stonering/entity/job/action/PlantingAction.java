@@ -30,9 +30,10 @@ public class PlantingAction extends Action {
     }
 
     @Override
-    public boolean check() {
+    public int check() {
         Logger.TASKS.log("Checking planting name");
-        return getSeedFromEquipment() != null || tryCreatePickingAction();
+        if(getSeedFromEquipment() != null) return OK;
+        return tryCreatePickingAction();
     }
 
     @Override
@@ -41,18 +42,18 @@ public class PlantingAction extends Action {
         createPlant(spendSeed());
     }
 
-    private boolean tryCreatePickingAction() {
+    private int tryCreatePickingAction() {
         Item item = GameMvc.instance().getModel().get(ItemContainer.class).getItemAvailableBySelector(seedSelector, task.getPerformer().getPosition());
-        if (item == null) return false;
+        if (item == null) return FAIL;
         task.addFirstPreAction(new ItemPickAction(item));
-        return true;
+        return NEW;
     }
 
     /**
      * Seeks seed item in performers inventory.
      */
     private Item spendSeed() {
-        Item seed = getSeedFromEquipment(); // seed should never be null after checkItems()
+        Item seed = getSeedFromEquipment(); // seed should never be null after check()
         task.getPerformer().getAspect(EquipmentAspect.class).dropItem(seed);
         return seed;
     }

@@ -22,21 +22,22 @@ public class PlantHarvestAction extends Action {
     }
 
     @Override
-    public boolean check() {
+    public int check() {
         PlantContainer container = GameMvc.instance().getModel().get(PlantContainer.class);
         EquipmentAspect aspect = task.getPerformer().getAspect(EquipmentAspect.class);
-        if (aspect == null) return false;
+        if (aspect == null) return FAIL;
         AbstractPlant targetPlant = ((PlantActionTarget) actionTarget).getPlant();
-        if (container.getPlantInPosition(actionTarget.getPosition()) != targetPlant) return false;
-        return toolItemSelector.checkItems(aspect.getEquippedItems()) || addActionToTask();
+        if (container.getPlantInPosition(actionTarget.getPosition()) != targetPlant) return FAIL;
+        if(toolItemSelector.checkItems(aspect.getEquippedItems())) return OK;
+        return addActionToTask();
     }
 
-    private boolean addActionToTask() {
+    private int addActionToTask() {
         Item target = GameMvc.instance().getModel().get(ItemContainer.class).getItemAvailableBySelector(toolItemSelector, task.getPerformer().getPosition());
-        if (target == null) return false;
+        if (target == null) return FAIL;
         EquipItemAction equipItemAction = new EquipItemAction(target, true);
         task.addFirstPreAction(equipItemAction);
-        return true;
+        return NEW;
     }
 
     @Override

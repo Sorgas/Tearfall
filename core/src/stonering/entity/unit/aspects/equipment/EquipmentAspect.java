@@ -57,7 +57,7 @@ public class EquipmentAspect extends Aspect {
      * @return false, if equipping failed.
      */
     public boolean equipItem(Item item) {
-        //TODO checkItems hauling
+        //TODO check hauling
         if (item == null || equippedItems.contains(item)) return false;
         if (item.isWear()) { // equip as wear
             //TODO add layers checking

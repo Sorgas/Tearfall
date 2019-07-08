@@ -22,52 +22,63 @@ import java.util.ArrayList;
  */
 public class PlanningAspect extends Aspect {
     public final static String NAME = "planning";
-    private Task currentTask;
-    private boolean movementNeeded = false; // true, when has task and not in position.
+    private Task task;
+    private Position target;
+    private Action action; // is set while performing action.
+    private boolean exactTarget;
 
     public PlanningAspect(Entity entity) {
         super(entity);
     }
 
+    /**
+     * There are three states of unit:
+     * 1. with no task
+     * 2. with task moving to target
+     * 3. with task and in target, performing action.
+     */
     public void turn() {
-        if (!checkTask()) selectTask();// try find task, checkItems it and claim
-        if (checkActionSequence()) { // checkItems all name in a sequence.
-            if (!(movementNeeded = !currentTask.getNextAction().getActionTarget().check(getEntityPosition()))) { // actor on position, so movement is not needed
-                String actionName = currentTask.getNextAction().toString();
-                if (currentTask.getNextAction().perform()) { // act. called several times
-                    Logger.TASKS.logDebug(entity + " completes name " + actionName);
-                    System.out.println("checkItems");
-                }
+        if (action == null) {
+            if (!isTaskInProgress()) selectTask();// try find task, check it and claim
+            if (task == null) return;
+            if (!task.getNextAction().getActionTarget().check(getEntityPosition()))
+                return; // actor not in position, keep moving
+            if (!checkActionSequence()) { // check all actions in a sequence before performing
+                Logger.TASKS.logDebug("Checking of " + task + " failed.");
+                return;
+            }
+            action = task.getNextAction();
+        }
+        if (action != null) { // currently performing
+            if (!action.getActionTarget().check(getEntityPosition())) return; // actor not in position, keep moving
+            if (action.perform()) { // act. called several times
+                System.out.println("action " + action.toString() + "performed");
+                action = null;
+                target = task.isFinished() ? null : task.getNextAction().getActionTarget().getPosition();
             }
         }
-        // keep moving to target
     }
 
     /**
      * Checks if task can be performed.
-     * During this method requirement aspects create additional name.
+     * During this method requirement aspects create additional action.
      *
-     * @return false, if some name in sequence cannot be performed.
+     * @return false, if some action in sequence cannot be performed.
      */
     private boolean checkActionSequence() {
-        if (currentTask == null) return false;
-        Action currentAction;
-        boolean lastCheck;
-        do {
-            currentAction = currentTask.getNextAction();
-            lastCheck = currentAction.check(); // can create additional name
+        if (task == null) return false;
+        while (task.getNextAction().check() == Action.NEW) {
+            Logger.TASKS.logDebug(task.getNextAction().toString() + " created on checking sequence.");
         }
-        while (currentAction != currentTask.getNextAction()); // no additional name created, return checkItems result of last name.
-        return lastCheck;
+        return task.getNextAction().check() == Action.OK;
     }
 
     /**
-     * Task taken and not yet finished.
-     *
-     * @return
+     * Checks if unit has no task or current is finished.
+     * Finished tasks remove themselves from container.
      */
-    private boolean checkTask() {
-        return currentTask != null && !currentTask.isFinished();
+    private boolean isTaskInProgress() {
+        return task != null && !task.isFinished();
     }
 
     /**
@@ -82,17 +93,19 @@ public class PlanningAspect extends Aspect {
         tasks.add(takeTaskFromNeedsAspect());
         tasks.add(getTaskFromContainer());
         for (Task task : tasks) { // selects task with highest priority
-            if (task == null) continue;
-            if (currentTask == null) {
-                currentTask = task;
-                continue;
-            }
-            currentTask = currentTask.getPriority() > task.getPriority() ? currentTask : task;
+            if (task != null && (this.task == null || this.task.getPriority() < task.getPriority()))
+                this.task = task;
         }
-        if (currentTask == null) return;
-        claimTask();
-        // initial task checking.
-        if (!checkActionSequence()) reset(); // if requirements are not met.
+        if (task == null) return;
+        task.setPerformer((Unit) entity);
+
+        if (checkActionSequence()) {
+            Logger.TASKS.logDebug("Task " + task.getName() + " has taken by " + entity.toString() + ".");
+            if (task.getNextAction() != null) target = task.getNextAction().getActionTarget().getPosition();
+        } else {
+            Logger.TASKS.logDebug("Initial checking of " + task + " failed.");
+            reset(); // if requirements are not met.
+        }
     }
 
     /**
@@ -115,38 +128,25 @@ public class PlanningAspect extends Aspect {
     }
 
     /**
-     * Sets this actor as performer to taken task.
-     */
-    private void claimTask() {
-        currentTask.setPerformer((Unit) entity);
-        Logger.TASKS.logDebug("Task " + currentTask.getName() + " has taken by " + entity.toString() + ".");
-    }
-
-    /**
      * Resets state of task and this aspect.
      */
     public void reset() {
-        Task task = currentTask;
-        currentTask = null;
-        movementNeeded = false;
-        if (task != null) task.reset();
+        if (task == null) return;
+        Logger.TASKS.logDebug("Resetting planning aspect of " + toString());
+        task.reset();
+        task = null;
+        target = null;
     }
 
     public boolean isTargetExact() {
-        if (currentTask != null) {
-            return currentTask.getNextAction().getActionTarget().isExactTarget();
+        if (task != null) {
+            return task.getNextAction().getActionTarget().isExactTarget();
         }
         return false;
     }
 
     public Position getTarget() {
-        return currentTask != null && currentTask.getNextAction() != null ?
-                currentTask.getNextAction().getActionTarget().getPosition() :
-                null;
-    }
-
-    public boolean isMovementNeeded() {
-        return movementNeeded;
+        return target;
     }
 
     private Position getEntityPosition() {

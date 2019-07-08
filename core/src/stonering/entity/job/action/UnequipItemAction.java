@@ -18,12 +18,12 @@ public class UnequipItemAction extends Action {
     }
 
     @Override
-    public boolean check() {
+    public int check() {
         EquipmentAspect equipmentAspect = task.getPerformer().getAspect(EquipmentAspect.class);
-        if (equipmentAspect == null) return false;
+        if (equipmentAspect == null) return FAIL;
 
         //item is equipped
-        if (!equipmentAspect.getEquippedItems().contains(item)) return true;
+        if (!equipmentAspect.getEquippedItems().contains(item)) return OK;
         //item is on top
         //TODO move to equipment aspect
         for (EquipmentSlot slot : equipmentAspect.getSlots().values()) {
@@ -35,13 +35,13 @@ public class UnequipItemAction extends Action {
                 }
             }
         }
-        return true;
+        return OK;
     }
 
-    private boolean tryAddUnequipAction(Item item) {
+    private int tryAddUnequipAction(Item item) {
         UnequipItemAction unequipItemAction = new UnequipItemAction(item);
         task.addFirstPreAction(unequipItemAction);
-        return true;
+        return NEW;
     }
 
     @Override
