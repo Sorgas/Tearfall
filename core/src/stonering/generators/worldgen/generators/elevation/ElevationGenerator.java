@@ -5,9 +5,9 @@ import stonering.generators.PerlinNoiseGenerator;
 import stonering.generators.worldgen.WorldGenContainer;
 
 /**
+ * Applies Perlin noise to heightMap.
+ *
  * @author Alexander Kuzyakov on 01.04.2017.
- * <p>
- * applies Perlin noise to heightMap
  */
 public class ElevationGenerator extends AbstractGenerator {
     private int width;
@@ -39,11 +39,6 @@ public class ElevationGenerator extends AbstractGenerator {
 
     /**
      * Adds Perlin noise with parameters and amplitude to elevation array
-     *
-     * @param octaves
-     * @param roughness
-     * @param scale
-     * @param amplitude
      */
     private void addElevation(int octaves, float roughness, float scale, float amplitude) {
         PerlinNoiseGenerator noise = new PerlinNoiseGenerator();
@@ -62,8 +57,7 @@ public class ElevationGenerator extends AbstractGenerator {
         float mapRadius = (float) (width * Math.sqrt(2) / 2f);
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                //
-                float distance = Math.min(1, - 10f / 4 *((getAbsoluteDistanceToCenter(x, y) - mapRadius)/ mapRadius));
+                float distance = Math.min(1, -10f / 4 * ((getAbsoluteDistanceToCenter(x, y) - mapRadius) / mapRadius));
                 elevation[x][y] = ((elevation[x][y] + 1) * (distance)) - 1f;
             }
         }
@@ -71,9 +65,6 @@ public class ElevationGenerator extends AbstractGenerator {
 
     /**
      * Counts distance from map center to given point
-     * @param x x
-     * @param y y
-     * @return distance
      */
     private float getAbsoluteDistanceToCenter(int x, int y) {
         float dx = x - width / 2f;
@@ -87,8 +78,7 @@ public class ElevationGenerator extends AbstractGenerator {
     private void normalizeElevation() {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                elevation[x][y] = (elevation[x][y] + 1) / 2f;
-                container.setElevation(x, y, elevation[x][y]);
+                container.setElevation(x, y, elevation[x][y] = (elevation[x][y] + 1) / 2f);
             }
         }
     }

@@ -42,6 +42,9 @@ public class LocalHeightsGenerator extends LocalAbstractGenerator {
         container.roundedHeightsMap = roundLocalHightMap();
     }
 
+    /**
+     * Calculates heights in the corners of a map.
+     */
     private void calculateCorners(float[][] localHights, int x, int y) {
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 2; j++) {

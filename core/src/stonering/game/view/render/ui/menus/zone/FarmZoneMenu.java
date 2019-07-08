@@ -4,14 +4,12 @@ import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.entity.zone.FarmZone;
-import stonering.enums.ControlActionsEnum;
 import stonering.enums.plants.PlantTypeMap;
 import stonering.enums.plants.PlantType;
 import stonering.game.GameMvc;
 import stonering.game.model.lists.ZonesContainer;
 import stonering.game.view.render.ui.lists.NavigableList;
 import stonering.game.view.render.ui.menus.util.HintedActor;
-import stonering.util.global.Logger;
 import stonering.util.global.StaticSkin;
 
 import java.util.ArrayList;

@@ -10,43 +10,80 @@
 */
 [
     {
-        "name":"willow",
-        "title":"willow",
-        "description":"Willow",
-        "materialName":"willow",
-        "temperatureBounds":["-40", "40"],
-        "rainfallBounds":["0", "100"],
-        "placingTags":["water_near", "water_far"],
-        "lifeStages":[
+        "name": "willow",
+        "title": "willow",
+        "description": "Willow",
+        "materialName": "willow",
+        "temperatureBounds": ["-40", "40"],
+        "rainfallBounds": ["0", "100"],
+        "placingTags": ["water_near", "water_far"],
+        "lifeStages": [
             {
-                "titlePrefixSuffix":["", "sapling"],
-                "stageLength":"12",
-                "cutProducts":["branch", "root"],
-                "atlasXY":["0", "1"],
-                "color":"0xffffffff",
-                "treeForm":["0", "1", "1", "0", "0"]
-            },
-            {
-                "titlePrefixSuffix":["young", ""],
-                "stageLength":"60",
-                "cutProducts":["branch", "root", "log"],
-                "atlasXY":["0", "1"],
-                "color":"0xffffffff",
-                "treeForm":["1", "3", "2", "1", "0"]
+                "titlePrefixSuffix": ["", "sapling"],
+                "stageLength": "12",
+                "cutProducts": ["branch", "root"],
+                "atlasXY": ["0", "1"],
+                "color": "0xffffffff",
+                "treeForm": ["0", "1", "1", "0", "0"]
             }, {
-                "stageLength":"180",
-                "cutProducts":["branch", "root", "log"],
-                "atlasXY":["0", "1"],
-                "color":"0xffffffff",
-                "treeForm":["2", "5", "2", "1", "5"]
+                "titlePrefixSuffix": ["young", ""],
+                "stageLength": "60",
+                "cutProducts": ["branch", "root", "log"],
+                "atlasXY": ["0", "1"],
+                "color": "0xffffffff",
+                "treeForm": ["1", "3", "2", "1", "0"]
             }, {
-                "titlePrefixSuffix":["old", ""],
-                "stageLength":"240",
-                "cutProducts":["branch", "root", "log"],
-                "atlasXY":["0", "1"],
-                "color":"0xffffffff",
-                "treeForm":["2", "5", "2", "1", "5"]
+                "stageLength": "180",
+                "cutProducts": ["branch", "root", "log"],
+                "atlasXY": ["0", "1"],
+                "color": "0xffffffff",
+                "treeForm": ["2", "5", "2", "1", "5"]
+            }, {
+                "titlePrefixSuffix": ["old", ""],
+                "stageLength": "240",
+                "cutProducts": ["branch", "root", "log"],
+                "atlasXY": ["0", "1"],
+                "color": "0xffffffff",
+                "treeForm": ["2", "5", "2", "1", "5"]
             }
         ]
-    }
+    }, {
+    "name": "pine",
+    "title": "Pine",
+    "description": "This is pine.",
+    "materialName": "pine",
+    "temperatureBounds": ["-40", "40"],
+    "rainfallBounds": ["0", "100"],
+    "placingTags": ["water_near", "water_far"],
+    "lifeStages": [
+        {
+            "titlePrefixSuffix": ["", "sapling"],
+            "stageLength": "12",
+            "cutProducts": ["branch", "root"],
+            "atlasXY": ["0", "1"],
+            "color": "0xffffffff",
+            "treeForm": ["0", "1", "1", "0", "0"]
+        }, {
+            "titlePrefixSuffix": ["young", ""],
+            "stageLength": "60",
+            "cutProducts": ["branch", "root", "log"],
+            "atlasXY": ["0", "1"],
+            "color": "0xffffffff",
+            "treeForm": ["1", "3", "2", "1", "0"]
+        }, {
+            "stageLength": "180",
+            "cutProducts": ["branch", "root", "log"],
+            "atlasXY": ["0", "1"],
+            "color": "0xffffffff",
+            "treeForm": ["2", "5", "2", "1", "5"]
+        }, {
+            "titlePrefixSuffix": ["old", ""],
+            "stageLength": "240",
+            "cutProducts": ["branch", "root", "log"],
+            "atlasXY": ["0", "1"],
+            "color": "0xffffffff",
+            "treeForm": ["2", "5", "2", "1", "5"]
+        }
+    ]
+}
 ]

@@ -1,10 +1,10 @@
 package stonering.entity.job.action;
 
+import stonering.entity.item.selectors.SeedItemSelector;
 import stonering.entity.job.action.aspects.ItemPickAction;
 import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.item.Item;
 import stonering.entity.item.aspects.SeedAspect;
-import stonering.entity.item.selectors.SingleItemSelector;
 import stonering.entity.plants.Plant;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.exceptions.DescriptionNotFoundException;
@@ -14,7 +14,6 @@ import stonering.game.model.lists.PlantContainer;
 import stonering.generators.plants.PlantGenerator;
 import stonering.util.global.Logger;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,9 +22,9 @@ import java.util.List;
  * Seed item should have {@link SeedAspect}
  */
 public class PlantingAction extends Action {
-    private SingleItemSelector seedSelector;
+    private SeedItemSelector seedSelector;
 
-    public PlantingAction(ActionTarget actionTarget, SingleItemSelector seedSelector) {
+    public PlantingAction(ActionTarget actionTarget, SeedItemSelector seedSelector) {
         super(actionTarget);
         this.seedSelector = seedSelector;
     }
@@ -33,11 +32,12 @@ public class PlantingAction extends Action {
     @Override
     public boolean check() {
         Logger.TASKS.log("Checking planting name");
-        return getSeedFromMap() != null || getSeedFromEquipment() != null || tryCreatePickingAction();
+        return getSeedFromEquipment() != null || tryCreatePickingAction();
     }
 
     @Override
     protected void performLogic() {
+        Logger.TASKS.logDebug("Planting seed of " + seedSelector.getSpecimen());
         createPlant(spendSeed());
     }
 
@@ -49,31 +49,16 @@ public class PlantingAction extends Action {
     }
 
     /**
-     * Seeks seed item in target position on map and in performers inventory.
+     * Seeks seed item in performers inventory.
      */
     private Item spendSeed() {
-        Item seed = getSeedFromMap();
-        if(seed != null) {
-            GameMvc.instance().getModel().get(ItemContainer.class).removeItem(seed);
-            return seed;
-        }
-        seed = getSeedFromEquipment(); // seed should never be null after checkItems()
+        Item seed = getSeedFromEquipment(); // seed should never be null after checkItems()
         task.getPerformer().getAspect(EquipmentAspect.class).dropItem(seed);
         return seed;
     }
 
     /**
-     * Finds seed item on map tiles.
-     */
-    private Item getSeedFromMap() {
-        ItemContainer itemContainer = GameMvc.instance().getModel().get(ItemContainer.class);
-        List<Item> items = new ArrayList<>(itemContainer.getItemsInPosition(actionTarget.getPosition()));
-        Item foundItem = seedSelector.selectItem(items);
-        return foundItem;
-    }
-
-    /**
-     * Finds seed item in performer's inventory.
+     * Looks for seed item in performer's inventory.
      */
     private Item getSeedFromEquipment() {
         EquipmentAspect equipmentAspect = task.getPerformer().getAspect(EquipmentAspect.class);

@@ -12,7 +12,7 @@
     "atlasXY": ["3", "0"],
     "color": "0xffffffff"
 }, {
-    "name": "branch",
+    "name": "root",
     "description": "Underground tree part.",
     "typeAspects": [["value", "0"]],
     "atlasXY": ["3", "0"],

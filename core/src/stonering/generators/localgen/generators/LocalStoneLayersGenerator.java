@@ -10,6 +10,7 @@ import java.util.*;
 /**
  * Fills localmap with blocks according to heightsMap.
  * Values in heights map are z of highest wall block.
+ * //TODO reduce number of stonetypes.
  *
  * @author Alexander Kuzyakov on 01.08.2017.
  */
@@ -40,9 +41,8 @@ public class LocalStoneLayersGenerator extends LocalAbstractGenerator {
         heigtsMap = this.container.roundedHeightsMap;
         surfaceLevel = container.localElevation;
         layerIds = new int[surfaceLevel];
-        if (surfaceLevel > 300) {
-            hasExtrusive = true;
-        }countLayers();
+        hasExtrusive = surfaceLevel > 300;
+        countLayers();
         generateLayers();
         fillLayers();
     }

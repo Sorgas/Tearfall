@@ -12,8 +12,10 @@ public class SeedItemSelector extends SingleItemSelector {
 
     @Override
     public boolean checkItem(Item item) {
-        SeedAspect aspect = item.getAspect(SeedAspect.class);
-        if(aspect == null) return false;
-        return specimen.equals(aspect.getSpecimen());
+        return item.hasAspect(SeedAspect.class) && specimen.equals(item.getAspect(SeedAspect.class).getSpecimen());
+    }
+
+    public String getSpecimen() {
+        return specimen;
     }
 }
