@@ -18,9 +18,8 @@ import java.util.LinkedList;
 
 /**
  * Task object for unit behavior in the game.
- * Consists of main name, sequence of name to be performed before main, and after main.
- * <p>
- * Firstly pre name with lowest indexes are executed, then initial name, and then post name with lowest indexes.
+ * Consists of main action, sequence of actions to be performed before main, and after main.
+ * Firstly pre action with lowest indexes are executed, then initial action, and then post action with lowest indexes.
  *
  * @author Alexander Kuzyakov
  */
@@ -55,20 +54,12 @@ public class Task {
     }
 
     /**
-     * Returns next name to be performed.
+     * Returns next action to be performed.
      */
     public Action getNextAction() {
-        if (!preActions.isEmpty()) {
-            return preActions.get(0);
-        } else {
-            if (initialAction.isFinished()) {
-                if (!postActions.isEmpty()) {
-                    return postActions.get(0);
-                }
-            } else {
-                return initialAction;
-            }
-        }
+        if (!preActions.isEmpty()) return preActions.get(0);
+        if (!initialAction.isFinished()) return initialAction;
+        if (!postActions.isEmpty()) return postActions.get(0);
         return null;
     }
 
@@ -82,18 +73,18 @@ public class Task {
         if (performer == null) return;
         PlanningAspect planningAspect = (performer.getAspect(PlanningAspect.class));
         performer = null;
-        planningAspect.reset();
+        planningAspect.interrupt();
     }
 
     /**
-     * Task is finished, if initial name is finished, and no other name remain.
+     * Task is finished, if initial action is finished, and no other action remain.
      */
     public boolean isFinished() {
         return preActions.isEmpty() && initialAction.isFinished() && postActions.isEmpty();
     }
 
     /**
-     * Removes pre and post name from task
+     * Removes pre and post action from task
      */
     public void finishAction(Action action) {
         if (action != initialAction) {
@@ -124,9 +115,7 @@ public class Task {
     }
 
     /**
-     * This name will be executed in the first place
-     *
-     * @param action
+     * This action will be executed in the first place
      */
     public void addFirstPreAction(Action action) {
         preActions.add(0, action);
@@ -135,9 +124,7 @@ public class Task {
     }
 
     /**
-     * This name will be executed just before main name.
-     *
-     * @param action
+     * This action will be executed just before main action.
      */
     public void addLastPreAction(Action action) {
         preActions.add(action);
@@ -145,9 +132,7 @@ public class Task {
     }
 
     /**
-     * This name will be executed right after main name.
-     *
-     * @param action
+     * This action will be executed right after main action.
      */
     public void addFirstPostAction(Action action) {
         preActions.add(0, action);
@@ -155,9 +140,7 @@ public class Task {
     }
 
     /**
-     * This name will be executed in the last place.
-     *
-     * @param action
+     * This action will be executed in the last place.
      */
     public void addLastPostAction(Action action) {
         preActions.add(action);

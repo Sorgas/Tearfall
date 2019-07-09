@@ -36,8 +36,7 @@ public class MovementAspect extends Aspect {
     }
 
     public void turn() {
-        if (tryFall()) return;
-//        if(!hasPath()) return;
+        if (tryFall()) return; // if creature is not on the passable tile, it falls.
         if (stepProgress < stepInterval) {
             stepProgress++; // counting ticks to step.
         } else {
@@ -47,13 +46,11 @@ public class MovementAspect extends Aspect {
     }
 
     private void makeStep() {
+
         if (cachedTarget != null && cachedTarget.equals(planning.getTarget())) { //old target
             if (hasPath()) {
                 Position nextPosition = cachedPath.remove(0); // get next step, remove from path
                 if (localMap.isWalkPassable(nextPosition)) { // path has not been blocked after calculation
-                    System.out.println("---" + entity.getAspect(PositionAspect.class).position + "           " + nextPosition);
-                    System.out.println(cachedTarget);
-                    System.out.println(cachedPath.size());
                     gameMvc.getModel().get(UnitContainer.class).updateUnitPosiiton((Unit) entity, nextPosition); //step
                 } else { // path blocked
                     Logger.PATH.log("path to " + cachedTarget + " was blocked in " + nextPosition);
@@ -64,13 +61,30 @@ public class MovementAspect extends Aspect {
         } else { // new target
             cachedTarget = planning.getTarget();
             if (cachedTarget != null) {
-                makeRouteToTarget();
+                updatePath();
                 if (cachedPath == null) { // no path found, fail task
                     cachedTarget = null;
-                    planning.reset();
+                    planning.interrupt();
                 }
             }
         }
+    }
+
+    private void updateTargetAndPath() {
+        if (cachedTarget != planning.getTarget()) { // planning aspect had changed target
+            cachedTarget = planning.getTarget(); // update
+            updatePath();
+        } else { // target persists
+            // target is old, but path is lost (falling or blocking)
+            if ((cachedTarget == null) != (cachedPath == null)) updatePath();
+        }
+    }
+
+    /**
+     * Updates path according to cached target.
+     */
+    private void updatePath() {
+        cachedPath = cachedTarget != null ? new AStar(GameMvc.instance().getModel().get(LocalMap.class)).makeShortestPath(getPosition(), cachedTarget, planning.isTargetExact()) : null;
     }
 
     @Override
@@ -78,10 +92,6 @@ public class MovementAspect extends Aspect {
         super.init();
         planning = entity.getAspect(PlanningAspect.class);
         localMap = GameMvc.instance().getModel().get(LocalMap.class);
-    }
-
-    private void makeRouteToTarget() {
-        cachedPath = new AStar(GameMvc.instance().getModel().get(LocalMap.class)).makeShortestPath(getPosition(), planning.getTarget(), planning.isTargetExact());
     }
 
     /**

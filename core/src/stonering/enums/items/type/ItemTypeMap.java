@@ -28,8 +28,6 @@ public class ItemTypeMap {
         return instance;
     }
 
-
-
     private void loadItemTypes() {
         System.out.println("loading item types");
         Json json = new Json();

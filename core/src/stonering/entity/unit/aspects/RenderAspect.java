@@ -6,6 +6,7 @@ import stonering.entity.Entity;
 
 /**
  * Stores Unit's render information.
+ * Used for rendering moving creatures 'between' the tiles.
  * //TODO add texture.
  */
 public class RenderAspect extends Aspect {

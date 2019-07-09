@@ -12,6 +12,8 @@ import stonering.entity.unit.Unit;
 import stonering.util.global.Logger;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Objects;
 
 /**
  * Holds current creature's task and it's steps. resolves behavior, if some step fails.
@@ -23,62 +25,27 @@ import java.util.ArrayList;
 public class PlanningAspect extends Aspect {
     public final static String NAME = "planning";
     private Task task;
+    private Action action;
     private Position target;
-    private Action action; // is set while performing action.
-    private boolean exactTarget;
 
     public PlanningAspect(Entity entity) {
         super(entity);
     }
 
-    /**
-     * There are three states of unit:
-     * 1. with no task
-     * 2. with task moving to target
-     * 3. with task and in target, performing action.
-     */
     public void turn() {
-        if (action == null) {
-            if (!isTaskInProgress()) selectTask();// try find task, check it and claim
-            if (task == null) return;
-            if (!task.getNextAction().getActionTarget().check(getEntityPosition()))
-                return; // actor not in position, keep moving
-            if (!checkActionSequence()) { // check all actions in a sequence before performing
-                Logger.TASKS.logDebug("Checking of " + task + " failed.");
-                return;
-            }
-            action = task.getNextAction();
-        }
-        if (action != null) { // currently performing
-            if (!action.getActionTarget().check(getEntityPosition())) return; // actor not in position, keep moving
-            if (action.perform()) { // act. called several times
-                System.out.println("action " + action.toString() + "performed");
-                action = null;
-                target = task.isFinished() ? null : task.getNextAction().getActionTarget().getPosition();
-            }
-        }
-    }
-
-    /**
-     * Checks if task can be performed.
-     * During this method requirement aspects create additional action.
-     *
-     * @return false, if some action in sequence cannot be performed.
-     */
-    private boolean checkActionSequence() {
-        if (task == null) return false;
-        while (task.getNextAction().check() == Action.NEW) {
-            Logger.TASKS.logDebug(task.getNextAction().toString() + " created on checking sequence.");
-        }
-        return task.getNextAction().check() == Action.OK;
+        if (hasNoActiveTask() && !trySelectTask()) return; // no active task, and no new found
+        if (!action.getActionTarget().check(getEntityPosition())) return; // keep moving to target
+        if (!action.perform()) return; // keep performing action
+        updateState(task); // update state after finishing action
     }
 
     /**
      * Checks if unit has no task or current is finished.
-     * Finished tasks remove themselves from container.
+     * Finished tasks remove themselves from container, so only link nullifying is needed.
      */
-    private boolean isTaskInProgress() {
-        return task != null && !task.isFinished();
+    private boolean hasNoActiveTask() {
+        if (task != null && task.isFinished()) updateState(null);
+        return task == null;
     }
 
     /**
@@ -87,25 +54,57 @@ public class PlanningAspect extends Aspect {
      * After this method task is updated.
      * TODO combat tasks
      */
-    private void selectTask() {
-        reset();
+    private boolean trySelectTask() {
         ArrayList<Task> tasks = new ArrayList<>();
         tasks.add(takeTaskFromNeedsAspect());
         tasks.add(getTaskFromContainer());
-        for (Task task : tasks) { // selects task with highest priority
-            if (task != null && (this.task == null || this.task.getPriority() < task.getPriority()))
-                this.task = task;
-        }
-        if (task == null) return;
-        task.setPerformer((Unit) entity);
+        Task task = tasks.stream().filter(Objects::nonNull).max(Comparator.comparingInt(Task::getPriority)).orElse(null);
+        return updateState(task); // claim task, if any
+    }
 
-        if (checkActionSequence()) {
-            Logger.TASKS.logDebug("Task " + task.getName() + " has taken by " + entity.toString() + ".");
-            if (task.getNextAction() != null) target = task.getNextAction().getActionTarget().getPosition();
-        } else {
-            Logger.TASKS.logDebug("Initial checking of " + task + " failed.");
-            reset(); // if requirements are not met.
+    /**
+     * Changes state of this aspect to given task. Passing null means no task is performed.
+     * With finished task, state of this aspect is reset.
+     */
+    private boolean updateState(Task task) {
+        this.task = task;
+        if (task != null) {
+            task.setPerformer((Unit) entity); // performer is required for checking
+            if (checkActionSequence(task)) { // valid task
+                action = task.getNextAction();
+                target = action.getActionTarget().getPosition();
+                return true;
+            }
         }
+        // clear state or invalid task
+        action = null;
+        target = null;
+        return false;
+    }
+
+    /**
+     * Checks if task can be performed.
+     * In this method requirement aspects of actions create additional actions.
+     *
+     * @return false, if some action in sequence cannot be performed.
+     */
+    private boolean checkActionSequence(Task task) {
+        if (task.isFinished()) return false;
+        int result;
+        while ((result = task.getNextAction().check()) == Action.NEW) { // can create sub actions
+        }
+        return result == Action.OK;
+    }
+
+    /**
+     * For cancelling task, caused by external factor (path blocking, enemy, player).
+     */
+    public void interrupt() {
+        if (task == null) return;
+        Logger.TASKS.logDebug("Resetting planning aspect of " + toString());
+        Task task = this.task;
+        updateState(null);
+        task.reset();
     }
 
     /**
@@ -113,36 +112,14 @@ public class PlanningAspect extends Aspect {
      * Can return null.
      */
     private Task takeTaskFromNeedsAspect() {
-        NeedsAspect needsAspect = entity.getAspect(NeedsAspect.class);
-        if (needsAspect == null || needsAspect.getStrongestNeed() == null)
-            return null; // no needs at all, or no strong needs
-        return needsAspect.getStrongestNeed().tryCreateTask(entity);
+        if (!entity.hasAspect(NeedsAspect.class)) return null;
+        NeedsAspect aspect = entity.getAspect(NeedsAspect.class);
+        if (aspect.getStrongestNeed() != null) return aspect.getStrongestNeed().tryCreateTask(entity);
+        return null;
     }
 
-    /**
-     * Calls TaskContainer to find appropriate task for this actor and his position.
-     * Can return null.
-     */
     private Task getTaskFromContainer() {
         return GameMvc.instance().getModel().get(TaskContainer.class).getActiveTask(getEntityPosition());
-    }
-
-    /**
-     * Resets state of task and this aspect.
-     */
-    public void reset() {
-        if (task == null) return;
-        Logger.TASKS.logDebug("Resetting planning aspect of " + toString());
-        task.reset();
-        task = null;
-        target = null;
-    }
-
-    public boolean isTargetExact() {
-        if (task != null) {
-            return task.getNextAction().getActionTarget().isExactTarget();
-        }
-        return false;
     }
 
     public Position getTarget() {
@@ -151,5 +128,9 @@ public class PlanningAspect extends Aspect {
 
     private Position getEntityPosition() {
         return entity.getAspect(PositionAspect.class).position;
+    }
+
+    public boolean isTargetExact() {
+        return action.getActionTarget().isExactTarget();
     }
 }
