@@ -210,4 +210,9 @@ public class Task {
     public void setItemOrder(ItemOrder itemOrder) {
         this.itemOrder = itemOrder;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

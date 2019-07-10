@@ -31,14 +31,14 @@ public class PlantingAction extends Action {
 
     @Override
     public int check() {
-        Logger.TASKS.log("Checking planting name");
+        Logger.TASKS.logDebug("Checking planting action");
         if(getSeedFromEquipment() != null) return OK;
         return tryCreatePickingAction();
     }
 
     @Override
     protected void performLogic() {
-        Logger.TASKS.logDebug("Planting seed of " + seedSelector.getSpecimen());
+        Logger.TASKS.logDebug("Planting seed of " + seedSelector.getSpecimen() + " to " + actionTarget.getPosition());
         createPlant(spendSeed());
     }
 
@@ -49,6 +49,7 @@ public class PlantingAction extends Action {
         Item item = GameMvc.instance().getModel().get(ItemContainer.class).getItemAvailableBySelector(seedSelector, task.getPerformer().getPosition());
         if (item == null) return FAIL;
         task.addFirstPreAction(new ItemPickAction(item));
+        Logger.TASKS.logDebug("Creating pocking action for " + seedSelector.getSpecimen() + " seed.");
         return NEW;
     }
 

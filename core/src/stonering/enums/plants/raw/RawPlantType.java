@@ -24,5 +24,5 @@ public class RawPlantType {
     public List<String> placingTags = new ArrayList<>();
     public Set<PlantPlacingTags> placingTagsSet = new HashSet<>();
     public List<Integer> plantingStart = new ArrayList<>();
-    public int[] atlasXY;
+    public int[] atlasXY = new int[2];
 }

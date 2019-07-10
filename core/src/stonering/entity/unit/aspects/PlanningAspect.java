@@ -5,6 +5,7 @@ import stonering.entity.job.action.Action;
 import stonering.entity.Aspect;
 import stonering.entity.Entity;
 import stonering.entity.PositionAspect;
+import stonering.entity.job.action.PlantingAction;
 import stonering.game.GameMvc;
 import stonering.game.model.lists.tasks.TaskContainer;
 import stonering.util.geometry.Position;
@@ -53,6 +54,7 @@ public class PlanningAspect extends Aspect {
      * Checks priorities of all available tasks.
      * After this method task is updated.
      * TODO combat tasks
+     * TODO non possible tasks with high priority can block other tasks
      */
     private boolean trySelectTask() {
         ArrayList<Task> tasks = new ArrayList<>();
@@ -67,16 +69,22 @@ public class PlanningAspect extends Aspect {
      * With finished task, state of this aspect is reset.
      */
     private boolean updateState(Task task) {
-        this.task = task;
         if (task != null) {
+            if (task.getInitialAction() instanceof PlantingAction) {
+                System.out.println();
+            }
+            Logger.TASKS.logDebug("Checking of task " + task.toString() + " for " + entity.toString());
             task.setPerformer((Unit) entity); // performer is required for checking
             if (checkActionSequence(task)) { // valid task
+                this.task = task;
                 action = task.getNextAction();
                 target = action.getActionTarget().getPosition();
                 return true;
             }
         }
         // clear state or invalid task
+        this.task = null;
+        if (task != null) task.reset();
         action = null;
         target = null;
         return false;

@@ -13,6 +13,7 @@ import stonering.game.model.lists.*;
 import stonering.game.model.lists.tasks.TaskContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.view.tilemaps.LocalTileMap;
+import stonering.util.pathfinding.a_star.AStar;
 
 /**
  * Game model for testing features without starting the game.
@@ -41,6 +42,7 @@ public abstract class TestModel extends GameModel {
         put(new ZonesContainer());
         put(new GameCalendar());
         put(new TaskContainer());
+        put(new AStar());
     }
 
     /**

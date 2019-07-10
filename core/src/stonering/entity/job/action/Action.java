@@ -80,4 +80,9 @@ public abstract class Action {
     public ActionTarget getActionTarget() {
         return actionTarget;
     }
+
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName();
+    }
 }

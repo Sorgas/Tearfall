@@ -6,6 +6,7 @@ import stonering.entity.item.Item;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.game.GameMvc;
 import stonering.game.model.lists.ItemContainer;
+import stonering.util.global.Logger;
 
 /**
  * Action for picking and hauling item. Performer should have {@link EquipmentAspect}
@@ -21,12 +22,14 @@ public class ItemPickAction extends Action {
     @Override
     public void performLogic() {
         Item targetItem = getTargetItem();
+        Logger.TASKS.logDebug("Picking item " + targetItem.getTitle());
         task.getPerformer().getAspect(EquipmentAspect.class).pickupItem(targetItem);
         GameMvc.instance().getModel().get(ItemContainer.class).pickItem(targetItem);
     }
 
     @Override
     public int check() {
+        Logger.TASKS.logDebug("Checking picking action");
         if (task.getPerformer().getAspect(EquipmentAspect.class) == null) return FAIL;
         if(GameMvc.instance().getModel().get(ItemContainer.class).checkItem(getTargetItem())) return OK; // no item on map
         return FAIL;

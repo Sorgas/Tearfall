@@ -49,7 +49,7 @@ public class MovementAspect extends Aspect {
 
     public void turn() {
         if (tryFall()) return; // if creature is not on the passable tile, it falls.
-        if (!rollStepProgress()) return;
+        if (stepInProgeress()) return;
         update();
         if (hasPath()) makeStep();
     }
@@ -82,7 +82,7 @@ public class MovementAspect extends Aspect {
     /**
      * Counts ticks to the next step;
      */
-    private boolean rollStepProgress() {
+    private boolean stepInProgeress() {
         return (++stepProgress < stepInterval);
     }
 
@@ -90,6 +90,7 @@ public class MovementAspect extends Aspect {
      * Update state of this aspect, according target from {@link PlanningAspect}.
      */
     private void update() {
+        stepProgress = 0;
         if (target == planning.getTarget()) return; // target is old
         target = planning.getTarget();
         if (updatePath()) return; // path successfully found or not needed
@@ -105,7 +106,6 @@ public class MovementAspect extends Aspect {
         Position nextPosition = path.remove(0); // get next step, remove from path
         if (localMap.isWalkPassable(nextPosition)) { // path has not been blocked after calculation
             unitContainer.updateUnitPosiiton((Unit) entity, nextPosition); //step
-            stepProgress = 0;
         } else { // path blocked
             Logger.PATH.log("path to " + target + " was blocked in " + nextPosition);
             target = null; // drop path, will be recounted on next step.

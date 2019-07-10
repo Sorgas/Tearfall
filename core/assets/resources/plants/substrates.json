@@ -10,10 +10,10 @@
         "temperatureBounds": ["-40", "40"],
         "rainfallBounds": ["0", "100"],
         "placingTags" : ["water_near", "water_far"],
+        "atlasXY": ["0", "0"],
         "lifeStages": [
             {
                 "stageLength": "1",
-                "atlasXY": ["0", "0"],
                 "color": "0xffffffff"
             }
         ]

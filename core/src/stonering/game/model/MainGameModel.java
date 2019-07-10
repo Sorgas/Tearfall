@@ -7,6 +7,7 @@ import stonering.game.model.local_map.LocalMap;
 import stonering.game.view.tilemaps.LocalTileMap;
 import stonering.entity.environment.GameCalendar;
 import stonering.util.global.Logger;
+import stonering.util.pathfinding.a_star.AStar;
 
 /**
  * Model of game, contains LocalMap and sub-Containers. Inits all components after creation.
@@ -46,5 +47,6 @@ public class MainGameModel extends GameModel {
         put(new LiquidContainer());
         put(new GameCalendar());            // slow game entities make turns through this.
         put(new EntitySelector());          // local map camera
+        put(new AStar());
     }
 }

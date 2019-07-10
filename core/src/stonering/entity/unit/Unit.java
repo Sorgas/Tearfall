@@ -18,4 +18,9 @@ public class Unit extends PositionedEntity {
     public CreatureType getType() {
         return type;
     }
+
+    @Override
+    public String toString() {
+        return type.title;
+    }
 }

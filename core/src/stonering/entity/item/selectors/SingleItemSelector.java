@@ -12,6 +12,6 @@ import java.util.List;
 public abstract class SingleItemSelector extends ItemSelector {
 
     public Item selectItem(List<Item> items) {
-        return items.stream().filter(this::checkItem).findFirst().get();
+        return items.stream().filter(this::checkItem).findFirst().orElse(null);
     }
 }
