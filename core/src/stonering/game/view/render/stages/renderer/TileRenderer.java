@@ -79,6 +79,7 @@ public class TileRenderer extends Renderer {
             }
             for (int y = cacheBounds.getMaxY(); y >= cacheBounds.getMinY(); y--) {
                 for (int x = cacheBounds.getMinX(); x <= cacheBounds.getMaxX(); x++) {
+                    drawUnits(x, y, z);
                     drawAreaLabel(x, y, z); // for debug purposes
                 }
             }
@@ -111,7 +112,6 @@ public class TileRenderer extends Renderer {
         cachePosition.set(x, y, z);
         if (plantContainer != null) drawPlantBlock(plantContainer.getPlantBlock(cachePosition));
         if (buildingContainer != null) drawBuildingBlock(buildingContainer.getBuildingBlocks().get(cachePosition));
-        if (unitContainer != null) unitContainer.getUnitsInPosition(x, y, z).forEach(this::drawUnit);
         if (itemContainer != null) itemContainer.getItemsInPosition(x, y, z).forEach(this::drawItem);
         if (taskContainer != null) drawDesignation(taskContainer.getDesignation(x, y, z));
         if (zonesContainer != null) drawZone(zonesContainer.getZone(cachePosition));
@@ -201,14 +201,16 @@ public class TileRenderer extends Renderer {
     }
 
     /**
-     * Draws unit. Calculates position to draw unit, basing on unit movement progress.
+     * Draws units in given cell. Calculates position to draw unit, basing on unit's movement progress.
      * Units in motion are drawn 'between' tiles.
      */
-    private void drawUnit(Unit unit) {
-        Vector3 vector = new Vector3(unit.getPosition().x, unit.getPosition().y, unit.getPosition().z);
-        MovementAspect aspect = unit.getAspect(MovementAspect.class);
-        if (aspect != null) vector.add(aspect.getStepProgressVector());
-        util.drawSprite(util.selectSprite(2, 0, 0), vector);
+    private void drawUnits(int x, int y, int z) {
+        if (unitContainer == null) return;
+        for (Unit unit : unitContainer.getUnitsInPosition(x, y, z)) {
+            if (!unit.hasAspect(MovementAspect.class)) continue;
+            Vector3 vector = unit.getAspect(MovementAspect.class).getStepProgressVector().add(x, y, z);
+            util.drawSprite(util.selectSprite(2, 0, 0), vector); //TODO add correct sprite selection
+        }
     }
 
     private void drawItem(Item item) {
