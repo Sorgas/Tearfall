@@ -1,8 +1,11 @@
 package stonering.util.pathfinding.a_star;
 
+import stonering.game.GameMvc;
+import stonering.game.model.lists.ModelComponent;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.HashPriorityQueue;
 import stonering.util.geometry.Position;
+import stonering.util.global.Initable;
 import stonering.util.global.Logger;
 
 import java.util.ArrayList;
@@ -11,12 +14,13 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-public class AStar {
+public class AStar implements ModelComponent, Initable {
     private LocalMap localMap;
     private int maxSteps = 10000; // unlimited if negative
 
-    public AStar(LocalMap localMap) {
-        this.localMap = localMap;
+    @Override
+    public void init() {
+        localMap = GameMvc.instance().getModel().get(LocalMap.class);
     }
 
     /**

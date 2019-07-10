@@ -46,7 +46,7 @@ public class PassageMap {
 
     public PassageMap(LocalMap localMap) {
         this.localMap = localMap;
-        aStar = new AStar(localMap);
+        aStar = GameMvc.instance().getModel().get(AStar.class);
         areaNumbers = new HashMap<>();
         area = new UtilByteArray(localMap.xSize, localMap.ySize, localMap.zSize);
         passage = new UtilByteArray(localMap.xSize, localMap.ySize, localMap.zSize);

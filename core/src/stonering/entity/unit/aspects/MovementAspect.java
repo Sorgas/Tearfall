@@ -3,6 +3,7 @@ package stonering.entity.unit.aspects;
 import com.badlogic.gdx.math.Vector3;
 import stonering.entity.PositionAspect;
 import stonering.game.GameMvc;
+import stonering.game.model.GameModel;
 import stonering.game.model.lists.UnitContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.pathfinding.a_star.AStar;
@@ -21,10 +22,11 @@ import java.util.List;
 public class MovementAspect extends Aspect {
     public static String NAME = "movement";
     private LocalMap localMap;
+    private UnitContainer unitContainer;
+    private AStar aStar;
     private PlanningAspect planning;
-    private Position cachedTarget;
-    private List<Position> cachedPath;
-
+    private Position target;
+    private List<Position> path;
     private float stepProgress;
     private int stepInterval;
 
@@ -35,87 +37,97 @@ public class MovementAspect extends Aspect {
         stepProgress = 0;
     }
 
-    public void turn() {
-        if (tryFall()) return; // if creature is not on the passable tile, it falls.
-        if (stepProgress < stepInterval) {
-            stepProgress++; // counting ticks to step.
-        } else {
-            makeStep();
-            stepProgress = 0;
-        }
-    }
-
-    private void makeStep() {
-
-        if (cachedTarget != null && cachedTarget.equals(planning.getTarget())) { //old target
-            if (hasPath()) {
-                Position nextPosition = cachedPath.remove(0); // get next step, remove from path
-                if (localMap.isWalkPassable(nextPosition)) { // path has not been blocked after calculation
-                    gameMvc.getModel().get(UnitContainer.class).updateUnitPosiiton((Unit) entity, nextPosition); //step
-                } else { // path blocked
-                    Logger.PATH.log("path to " + cachedTarget + " was blocked in " + nextPosition);
-                    cachedTarget = null; // drop path
-                }
-            }
-            // path finished, stay
-        } else { // new target
-            cachedTarget = planning.getTarget();
-            if (cachedTarget != null) {
-                updatePath();
-                if (cachedPath == null) { // no path found, fail task
-                    cachedTarget = null;
-                    planning.interrupt();
-                }
-            }
-        }
-    }
-
-    private void updateTargetAndPath() {
-        if (cachedTarget != planning.getTarget()) { // planning aspect had changed target
-            cachedTarget = planning.getTarget(); // update
-            updatePath();
-        } else { // target persists
-            // target is old, but path is lost (falling or blocking)
-            if ((cachedTarget == null) != (cachedPath == null)) updatePath();
-        }
-    }
-
-    /**
-     * Updates path according to cached target.
-     */
-    private void updatePath() {
-        cachedPath = cachedTarget != null ? new AStar(GameMvc.instance().getModel().get(LocalMap.class)).makeShortestPath(getPosition(), cachedTarget, planning.isTargetExact()) : null;
-    }
-
     @Override
     public void init() {
         super.init();
+        GameModel model = GameMvc.instance().getModel();
+        localMap = model.get(LocalMap.class);
+        unitContainer = model.get(UnitContainer.class);
+        aStar = model.get(AStar.class);
         planning = entity.getAspect(PlanningAspect.class);
-        localMap = GameMvc.instance().getModel().get(LocalMap.class);
+    }
+
+    public void turn() {
+        if (tryFall()) return; // if creature is not on the passable tile, it falls.
+        if (!rollStepProgress()) return;
+        update();
+        if (hasPath()) makeStep();
     }
 
     /**
      * Moves creature lower, if it is above ground.
-     * Also deletes it's path, as target may be inaccessible after fall.
+     * Deletes target and path, for recalculation on next iteration.
      * //TODO apply fall damage
      */
     private boolean tryFall() {
         Position pos = getPosition();
-        if (localMap.isFlyPassable(pos) &&
-                !localMap.isWalkPassable(pos) &&
-                pos.getZ() > 0 && localMap.isFlyPassable(pos.getX(), pos.getY(), pos.getZ() - 1)) {
-            entity.getAspect(PositionAspect.class).position = new Position(pos.getX(), pos.getY(), pos.getZ() - 1);
-            cachedPath = null;
-            return true;
+        if (!canFall()) return false;
+        unitContainer.updateUnitPosiiton((Unit) entity, new Position(pos.x, pos.y, pos.z - 1));
+        target = null;
+        path = null;
+        return true;
+    }
+
+    /**
+     * Creature can fall, if is in space cell, and cell below is not wall.
+     */
+    private boolean canFall() {
+        Position pos = getPosition();
+        return !localMap.isWalkPassable(pos) &&
+                localMap.isFlyPassable(pos) &&
+                pos.z > 0 &&
+                localMap.isFlyPassable(pos.x, pos.y, pos.z - 1);
+    }
+
+    /**
+     * Counts ticks to the next step;
+     */
+    private boolean rollStepProgress() {
+        return (++stepProgress < stepInterval);
+    }
+
+    /**
+     * Update state of this aspect, according target from {@link PlanningAspect}.
+     */
+    private void update() {
+        if (target == planning.getTarget()) return; // target is old
+        target = planning.getTarget();
+        if (updatePath()) return; // path successfully found or not needed
+        target = null;
+        path = null;
+        planning.interrupt();
+    }
+
+    /**
+     * Moves creature to the next tile from path. path should not be null.
+     */
+    private void makeStep() {
+        Position nextPosition = path.remove(0); // get next step, remove from path
+        if (localMap.isWalkPassable(nextPosition)) { // path has not been blocked after calculation
+            unitContainer.updateUnitPosiiton((Unit) entity, nextPosition); //step
+            stepProgress = 0;
+        } else { // path blocked
+            Logger.PATH.log("path to " + target + " was blocked in " + nextPosition);
+            target = null; // drop path, will be recounted on next step.
+            path = null;
         }
-        return false;
+    }
+
+    /**
+     * Updates path according to target. For null target path is set to null;
+     *
+     * @return false, if no path found for non-null target.
+     */
+    private boolean updatePath() {
+        path = target != null ? aStar.makeShortestPath(getPosition(), target, planning.isTargetExact()) : null;
+        return (path == null) == (target == null); // target and path should be both either set or null.
     }
 
     /**
      * Checks that this aspect holder has poth to move on.
      */
     private boolean hasPath() {
-        return cachedPath != null && !cachedPath.isEmpty();
+        return path != null && !path.isEmpty();
     }
 
     /**
@@ -123,7 +135,7 @@ public class MovementAspect extends Aspect {
      */
     public Vector3 getStepProgressVector() {
         if (!hasPath()) return new Vector3(); // zero vector for staying still.
-        Position nextPosition = cachedPath.get(0);
+        Position nextPosition = path.get(0);
         Position unitPosition = entity.getAspect(PositionAspect.class).position;
         return new Vector3(
                 getStepProgressVectorComponent(unitPosition.x, nextPosition.x),
