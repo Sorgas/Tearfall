@@ -8,6 +8,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import stonering.util.geometry.Position;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static stonering.game.view.render.stages.renderer.BatchUtil.*;
 
 /**
@@ -23,12 +26,16 @@ public class DrawingUtil {
     private final float shadingStep = 0.06f;
     public final float maxZLevels = 1f / shadingStep; // levels further are shaded to black
     private Color batchColor;               // default batch color without light or transparency
+    private Map<Position, TextureRegion> spriteCache;
+    private Position cachePosition;
 
     public DrawingUtil(Batch batch) {
         this.batch = batch;
         font = new BitmapFont();
         batch.enableBlending();
         batchColor = new Color();
+        spriteCache = new HashMap<>();
+        cachePosition = new Position();
         createAtlases();
     }
 
@@ -50,20 +57,28 @@ public class DrawingUtil {
      * Cuts standard tile from x y position in specified atlas.
      */
     public TextureRegion selectSprite(int atlas, int x, int y) {
-        return new TextureRegion(atlases[atlas],
-                x * TILE_WIDTH,
-                y * (BLOCK_TILE_HEIGHT) + TOPING_TILE_HEIGHT,
-                TILE_WIDTH, TILE_HEIGHT);
+        cachePosition.set(x, y, atlas);
+        if (!spriteCache.containsKey(cachePosition)) {
+            spriteCache.put(cachePosition, new TextureRegion(atlases[atlas],
+                    x * TILE_WIDTH,
+                    y * (BLOCK_TILE_HEIGHT) + TOPING_TILE_HEIGHT,
+                    TILE_WIDTH, TILE_HEIGHT));
+        }
+        return spriteCache.get(cachePosition);
     }
 
     /**
      * Cuts tile toping from x y position in specified atlas.
      */
     public TextureRegion selectToping(int atlas, int x, int y) {
-        return new TextureRegion(atlases[atlas],
-                x * TILE_WIDTH,
-                y * BLOCK_TILE_HEIGHT,
-                TILE_WIDTH, TOPING_TILE_HEIGHT);
+        cachePosition.set(x, y, atlas + atlases.length);
+        if (!spriteCache.containsKey(cachePosition)) {
+            spriteCache.put(cachePosition, new TextureRegion(atlases[atlas],
+                    x * TILE_WIDTH,
+                    y * BLOCK_TILE_HEIGHT,
+                    TILE_WIDTH, TOPING_TILE_HEIGHT));
+        }
+        return spriteCache.get(cachePosition);
     }
 
     public void writeText(String text, int x, int y, int z) {

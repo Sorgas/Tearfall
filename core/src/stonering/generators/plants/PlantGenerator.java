@@ -31,7 +31,7 @@ public class PlantGenerator {
         plant.setBlock(createPlantBlock(plant));
         plant.addAspect(new PlantGrowthAspect(plant));
         return plant;
-}
+    }
 
     /**
      * Generates {@link SubstratePlant} object by name of its type and initial age.
@@ -59,9 +59,11 @@ public class PlantGenerator {
 
     private PlantBlock createPlantBlock(Plant plant) {
         String materialName = plant.getType().materialName;
-        if(materialName == null) materialName = "generic_plant";
+        if (materialName == null) materialName = "generic_plant";
         PlantBlock block = new PlantBlock(MaterialMap.instance().getId(materialName), PlantBlocksTypeEnum.SINGLE_PASSABLE.getCode());
-        block.setAtlasXY(Arrays.copyOf(plant.getCurrentStage().atlasXY, 2));
+        int[] atlasXY = Arrays.copyOf(plant.getType().atlasXY, 2);
+        atlasXY[0] += plant.getCurrentStageIndex();
+        block.setAtlasXY(atlasXY);
         block.setHarvested(false);
         return block;
     }

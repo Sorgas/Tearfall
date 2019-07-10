@@ -22,6 +22,7 @@ public class PlantType {
     public List<PlantLifeStage> lifeStages = new ArrayList<>();
     public List<PlantPlacingTags> placingTags = new ArrayList<>();
     public List<Integer> plantingStart = new ArrayList<>(); // months, when plant can be planted on farms
+    public int[] atlasXY = new int[2];
 
     private boolean isPlant;
     private boolean isTree;

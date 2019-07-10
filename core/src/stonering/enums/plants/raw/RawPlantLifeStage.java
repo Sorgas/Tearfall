@@ -12,7 +12,7 @@ public class RawPlantLifeStage {
     public int stageLength;
     public List<String> harvestProduct;
     public List<String> cutProducts;
-    public int[] atlasXY;
-    public String color;
+    public String color = "0xffffffff"; // white is default
     public List<Integer> treeForm; // not null only for trees
+    public int xOffset;
 }

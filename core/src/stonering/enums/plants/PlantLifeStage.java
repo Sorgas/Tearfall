@@ -16,7 +16,7 @@ public class PlantLifeStage {
     public int stageEnd;
     public PlantProduct harvestProduct;
     public List<String> cutProducts;
-    public int[] atlasXY;
+    public int xOffset;
     public String color;
     public List<Integer> treeForm; // is null for non-trees
 

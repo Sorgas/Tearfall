@@ -21,7 +21,8 @@
     treeType:
         crownRadius, height, rootDepth, rootRadius for trees
     lifeStages:
-        stages with length, products, material and sprite.
+        for single tiled plants sprite is taken with a number of life stage as x offset.
+        stages with length, products, material.
     harvestProduct:
         item,
         number formula (per block), // format: [min]-[max]/[divider] roll [min, max] will be lowered by divider and rounded up
@@ -39,12 +40,11 @@
         "temperatureBounds":["-40", "40"],
         "rainfallBounds":["0", "100"],
         "placingTags":["water_near", "water_far", "soil_stone"],
+        "atlasXY":["0", "0"],
         "lifeStages":[
             {
                 "stageLength":"1",
-                "harvestProduct":["red_moss", "1-1-1", "all"],
-                "atlasXY":["1", "0"],
-                "color":"0xffffffff"
+                "harvestProduct":["red_moss", "1-1-1", "all"]
             }
         ]
     }, {
@@ -55,12 +55,11 @@
     "temperatureBounds":["-40", "40"],
     "rainfallBounds":["0", "100"],
     "placingTags":["near", "far"],
+    "atlasXY":["0", "0"],
     "lifeStages":[
         {
             "stageLength":"1",
-            "cutProducts":["branch", "root"],
-            "atlasXY":["0", "0"],
-            "color":"0xffffffff"
+            "cutProducts":["branch", "root"]
         }
     ]
 }, {
@@ -71,12 +70,11 @@
     "temperatureBounds":["-40", "40"],
     "rainfallBounds":["0", "100"],
     "placingTags":["water_near", "water_far"],
+    "atlasXY":["0", "0"],
     "lifeStages":[
         {
             "stageLength":"1",
-            "harvestProduct":["blueberry", "1-1-1", "4,5,6"],
-            "atlasXY":["2", "0"],
-            "color":"0xffffffff"
+            "harvestProduct":["blueberry", "1-1-1", "4,5,6"]
         }
     ]
 },
@@ -88,21 +86,16 @@
         "temperatureBounds":["-40", "40"],
         "rainfallBounds":["0", "100"],
         "placingTags":["light_low", "light_underground"],
+        "atlasXY":["0", "0"],
         "lifeStages":[
             {
-                "stageLength":"2",
-                "atlasXY":["3", "0"],
-                "color":"0xffffffff"
+                "stageLength":"2"
             },
             {
-                "stageLength":"3",
-                "atlasXY":["4", "0"],
-                "color":"0xffffffff"
+                "stageLength":"3"
             },
             {
-                "stageLength":"1",
-                "atlasXY":["5", "0"],
-                "color":"0xffffffff"
+                "stageLength":"1"
             }
         ]
     },
@@ -114,21 +107,16 @@
         "temperatureBounds":["-40", "40"],
         "rainfallBounds":["0", "100"],
         "placingTags":["water_near"],
+        "atlasXY":["0", "0"],
         "lifeStages":[
             {
-                "stageLength":"2",
-                "atlasXY":["6", "0"],
-                "color":"0xffffffff"
+                "stageLength":"2"
             },
             {
-                "stageLength":"3",
-                "atlasXY":["7", "0"],
-                "color":"0xffffffff"
+                "stageLength":"3"
             },
             {
-                "stageLength":"1",
-                "atlasXY":["8", "0"],
-                "color":"0xffffffff"
+                "stageLength":"1"
             }
         ]
     },
@@ -141,23 +129,18 @@
         "rainfallBounds":["0", "100"],
         "placingTags":[],
         "plantingStart":["1", "2", "3"],
+        "atlasXY":["0", "0"],
         "lifeStages":[
             {
                 "titlePrefixSuffix":["", "sapling"],
-                "stageLength":"2",
-                "atlasXY":["0", "0"],
-                "color":"0xffffffff"
+                "stageLength":"2"
             },
             {
-                "stageLength":"3",
-                "atlasXY":["7", "0"],
-                "color":"0xffffffff"
+                "stageLength":"3"
             },
             {
                 "titlePrefixSuffix":["", ""],
-                "stageLength":"1",
-                "atlasXY":["8", "0"],
-                "color":"0xffffffff"
+                "stageLength":"1"
             }
         ]
     },
@@ -173,20 +156,14 @@
         "lifeStages":[
             {
                 "titlePrefixSuffix":["", "sapling"],
-                "stageLength":"2",
-                "atlasXY":["0", "0"],
-                "color":"0xffffffff"
+                "stageLength":"2"
             },
             {
-                "stageLength":"3",
-                "atlasXY":["7", "0"],
-                "color":"0xffffffff"
+                "stageLength":"3"
             },
             {
                 "titlePrefixSuffix":["", ""],
-                "stageLength":"1",
-                "atlasXY":["8", "0"],
-                "color":"0xffffffff"
+                "stageLength":"1"
             }
         ]
     }

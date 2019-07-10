@@ -11,6 +11,7 @@ import stonering.util.geometry.Position;
 import stonering.entity.plants.PlantBlock;
 import stonering.entity.plants.Tree;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -93,9 +94,9 @@ public class TreeGenerator {
 
     private PlantBlock createTreePart(int material, PlantBlocksTypeEnum blockType, Tree tree) {
         PlantBlock block = new PlantBlock(material, blockType.getCode());
-        block.setAtlasXY(new int[]{
-                TreeTileMapping.getType(blockType.getCode()).getAtlasX(),
-                tree.getCurrentStage().atlasXY[1]});
+        int[] atlasXY = Arrays.copyOf(tree.getType().atlasXY, 2);
+        atlasXY[0] += TreeTileMapping.getType(blockType.getCode()).getAtlasX();
+        block.setAtlasXY(atlasXY);
         block.setPlant(tree);
         return block;
     }

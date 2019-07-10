@@ -26,6 +26,7 @@ public class PlantTypeProcessor {
         type.temperatureBounds = rawType.temperatureBounds; // min and max temperature
         type.rainfallBounds = rawType.rainfallBounds;  // min and max painfall
         type.plantingStart = rawType.plantingStart;
+        type.atlasXY = rawType.atlasXY;
         processPlacingTags(rawType, type);
         processRawLifeStages(rawType, type);
         type.setTypeFlags(); // should be after th setting of life stages
@@ -52,10 +53,10 @@ public class PlantTypeProcessor {
         PlantLifeStage stage = new PlantLifeStage();
         stage.titlePrefixSuffix = rawStage.titlePrefixSuffix;
         stage.stageLength = rawStage.stageLength;
-        if(rawStage.harvestProduct != null)
+        if (rawStage.harvestProduct != null)
             stage.harvestProduct = processHarvestProduct(rawStage.harvestProduct);
         stage.cutProducts = rawStage.cutProducts;
-        stage.atlasXY = rawStage.atlasXY;
+        stage.xOffset = rawStage.xOffset;
         stage.color = rawStage.color;
         stage.treeForm = rawStage.treeForm;
         return stage;
