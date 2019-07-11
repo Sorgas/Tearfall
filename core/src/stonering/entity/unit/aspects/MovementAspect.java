@@ -25,6 +25,7 @@ public class MovementAspect extends Aspect {
     private UnitContainer unitContainer;
     private AStar aStar;
     private PlanningAspect planning;
+    private AttributeAspect attribute;
     private Position target;
     private List<Position> path;
     private float stepProgress;
@@ -45,6 +46,7 @@ public class MovementAspect extends Aspect {
         unitContainer = model.get(UnitContainer.class);
         aStar = model.get(AStar.class);
         planning = entity.getAspect(PlanningAspect.class);
+        attribute = entity.getAspect(AttributeAspect.class);
     }
 
     public void turn() {

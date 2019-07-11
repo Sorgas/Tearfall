@@ -30,6 +30,7 @@ import java.util.Map;
  * when current game month in one from the list, farm will generate tasks for planting seeds.
  * <p>
  * Farm generates tasks for each tile of farm separately. For performance, it can commit only one task per turn.
+ * Farm is updated every in game minute.
  * // TODO farms check temperature conditions for planting, create tasks for irrigation, and caring after plants. plants can get deseases.
  *
  * @author Alexander on 04.03.2019.
@@ -47,6 +48,10 @@ public class FarmZone extends Zone {
 
     @Override
     public void turn() {
+    }
+
+    @Override
+    public void turnMinute() {
         checkTiles();
     }
 

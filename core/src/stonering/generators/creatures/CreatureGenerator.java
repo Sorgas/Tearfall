@@ -4,7 +4,6 @@ import stonering.entity.unit.aspects.JobsAspect;
 import stonering.enums.unit.CreatureType;
 import stonering.enums.unit.CreatureTypeMap;
 import stonering.generators.creatures.needs.NeedAspectGenerator;
-import stonering.util.geometry.Position;
 import stonering.entity.unit.aspects.MovementAspect;
 import stonering.entity.unit.aspects.PlanningAspect;
 import stonering.entity.unit.Unit;
@@ -18,11 +17,13 @@ public class CreatureGenerator {
     private BodyAspectGenerator bodyAspectGenerator;
     private EquipmentAspectGenerator equipmentAspectGenerator;
     private NeedAspectGenerator needAspectGenerator;
+    private AttributeAspectGenerator attributeAspectGenerator;
 
     public CreatureGenerator() {
         bodyAspectGenerator = new BodyAspectGenerator();
         equipmentAspectGenerator = new EquipmentAspectGenerator();
         needAspectGenerator = new NeedAspectGenerator();
+        attributeAspectGenerator = new AttributeAspectGenerator();
     }
 
     /**
@@ -32,7 +33,7 @@ public class CreatureGenerator {
         CreatureType type = CreatureTypeMap.instance().getCreatureType(specimen);
         if (type == null) return null;
         Unit unit = new Unit(type);    // empty unit //TODO change constructor.
-        addAspects(unit);
+        addMandatoryAspects(unit);
         addOptionalAspects(unit);
         return unit;
     }
@@ -40,12 +41,13 @@ public class CreatureGenerator {
     /**
      * Create aspects and add them to unit.
      */
-    private void addAspects(Unit unit) {
+    private void addMandatoryAspects(Unit unit) {
         CreatureType type = unit.getType();
         unit.addAspect(bodyAspectGenerator.generateBodyAspect(type));
         unit.addAspect(new PlanningAspect(null));
         unit.addAspect(new MovementAspect(null));
         unit.addAspect(needAspectGenerator.generateNeedAspect(type));
+        unit.addAspect(attributeAspectGenerator.generateAttributeAspect(unit));
     }
 
     private void addOptionalAspects(Unit unit) {
