@@ -1,6 +1,7 @@
 package stonering.entity;
 
 import stonering.game.GameMvc;
+import stonering.game.model.IntervalTurnable;
 import stonering.game.model.Turnable;
 import stonering.util.global.Initable;
 
@@ -9,7 +10,7 @@ import java.io.Serializable;
 /**
  * @author Alexander Kuzyakov on 10.10.2017.
  */
-public abstract class Aspect extends Turnable implements Initable, Serializable {
+public abstract class Aspect extends IntervalTurnable implements Initable, Serializable {
     protected GameMvc gameMvc;
     protected Entity entity;
 

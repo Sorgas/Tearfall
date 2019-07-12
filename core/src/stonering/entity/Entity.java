@@ -53,6 +53,4 @@ public abstract class Entity extends IntervalTurnable implements Serializable, I
     public void init() {
         aspects.forEach((s, aspect) -> aspect.init());
     }
-
-
 }
