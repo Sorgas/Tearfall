@@ -22,7 +22,7 @@
             {
                 "titlePrefixSuffix": ["", "sapling"],
                 "stageLength": "12",
-                "cutProducts": ["branch", "root"],
+                "cutProducts": ["branch", "root", "log"],
                 "color": "0xffffffff",
                 "treeForm": ["0", "1", "1", "0", "0"]
             }, {

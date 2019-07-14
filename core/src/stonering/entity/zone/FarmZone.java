@@ -72,12 +72,12 @@ public class FarmZone extends Zone {
         PlantContainer plantContainer = GameMvc.instance().getModel().get(PlantContainer.class);
         PositionValidator validator = ZoneTypesEnum.FARM.getValidator();
         for (Position tile : tiles) {
-            AbstractPlant plant = plantContainer.getPlantInPosition(tile);
             // can delete tile from zone
             if (!isTileValid(validator, tile, localMap)) continue;
             // can delete task from zone
             if (isTaskExist(tile)) continue;
             // can create task for cutting or harvesting
+            AbstractPlant plant = plantContainer.getPlantInPosition(tile);
             if (!checkExistingPlant(plant, tile, taskContainer)) continue;
             if (localMap.getBlockType(tile) != BlockTypesEnum.FARM.CODE) {
                 Logger.ZONES.logDebug("Creating hoeing task on farm");
@@ -113,20 +113,23 @@ public class FarmZone extends Zone {
     }
 
     /**
-     * Checks plant that currently exists on the tile. Creates task for cutting if needed.
+     * Checks plant that currently exists on the tile.
+     * Creates task for cutting if it's not permitted.
+     * Creates task for harvesting, if it's harvestable.
      *
      * @return true, if task can be created after this method.
      */
     private boolean checkExistingPlant(AbstractPlant plant, Position tile, TaskContainer container) {
         if (plant == null) return true;
-        Task task = null;
-        if (plant.isHarvestable()) { // harvest any plants
-            task = container.submitOrderDesignation(tile, DesignationTypeEnum.HARVEST, 1);
-        } else if (!plantType.equals(plant.getType())) { // cut unwanted plants
-            task = container.submitOrderDesignation(tile, DesignationTypeEnum.CUT, 1);
+        if (!plantType.equals(plant.getType())) { // cut unwanted plants
+            addTask(container.submitOrderDesignation(tile, DesignationTypeEnum.CUT, 1), tile);
+            return false;
         }
-        if (task != null) taskMap.put(tile, task);
-        return false;
+        if (plant.isHarvestable()) { // harvest if ready
+            addTask(container.submitOrderDesignation(tile, DesignationTypeEnum.HARVEST, 1), tile);
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -146,6 +149,10 @@ public class FarmZone extends Zone {
     }
 
     private void addTask(Task task, Position tile) {
+        if(task == null) {
+            Logger.ZONES.logError("Farm tries to allocate null task");
+            System.out.println(Thread.currentThread().getStackTrace());
+        }
         GameMvc.instance().getModel().get(TaskContainer.class).getTasks().add(task);
         taskMap.put(tile, task);
     }

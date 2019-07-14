@@ -8,10 +8,14 @@ import stonering.entity.item.selectors.ToolWithActionItemSelector;
 import stonering.entity.plants.AbstractPlant;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.game.GameMvc;
+import stonering.game.model.GameModel;
 import stonering.game.model.lists.ItemContainer;
 import stonering.game.model.lists.PlantContainer;
 import stonering.util.global.Logger;
 
+/**
+ * Action for chopping trees.
+ */
 public class ChopTreeAction extends Action {
     private ItemSelector toolItemSelector;
 
@@ -20,16 +24,23 @@ public class ChopTreeAction extends Action {
         toolItemSelector = new ToolWithActionItemSelector("chop");
     }
 
+    /**
+     * Checks that tree exists on target position.
+     * Checks that performer has chopping tool, creates equipping action if needed.
+     */
     @Override
     public int check() {
+        GameModel model = GameMvc.instance().getModel();
         EquipmentAspect aspect = task.getPerformer().getAspect(EquipmentAspect.class);
         if (aspect == null) return FAIL;
-        if (!GameMvc.instance().getModel().get(PlantContainer.class).isPlantBlockExists(actionTarget.getPosition()))
+        if (!model.get(PlantContainer.class).isPlantBlockExists(actionTarget.getPosition())) {
+            Logger.TASKS.logDebug("No tool equipped by performer for chopTreeAction");
             return FAIL;
+        }
         if (toolItemSelector.checkItems(aspect.getEquippedItems())) return OK;
 
         Logger.TASKS.logDebug("No tool equipped by performer for chopTreeAction");
-        Item target = GameMvc.instance().getModel().get(ItemContainer.class).getItemAvailableBySelector(toolItemSelector, task.getPerformer().getPosition());
+        Item target = model.get(ItemContainer.class).getItemAvailableBySelector(toolItemSelector, task.getPerformer().getPosition());
         if (target == null) {
             Logger.TASKS.logDebug("No tool item found for chopTreeAction");
             return FAIL;
