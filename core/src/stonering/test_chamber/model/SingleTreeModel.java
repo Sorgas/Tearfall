@@ -1,16 +1,22 @@
 package stonering.test_chamber.model;
 
 import stonering.entity.environment.GameCalendar;
+import stonering.entity.item.Item;
 import stonering.entity.plants.AbstractPlant;
 import stonering.entity.plants.Tree;
 import stonering.entity.World;
+import stonering.entity.unit.Unit;
 import stonering.exceptions.DescriptionNotFoundException;
+import stonering.game.model.lists.ItemContainer;
 import stonering.game.model.lists.PlantContainer;
+import stonering.game.model.lists.UnitContainer;
+import stonering.generators.creatures.CreatureGenerator;
+import stonering.generators.items.ItemGenerator;
 import stonering.generators.plants.TreeGenerator;
 import stonering.util.geometry.Position;
 
 /**
- * Model for testing stages of single tree.
+ * Model for testing stages of single tree and chopping.
  *
  * @author Alexander_Kuzyakov
  */
@@ -22,6 +28,11 @@ public class SingleTreeModel extends TestModel {
         super.init();
         get(GameCalendar.class).addListener("minute", get(World.class).getStarSystem());
         get(GameCalendar.class).addListener("minute", get(PlantContainer.class));
+        get(UnitContainer.class).addUnit(createUnit());
+        get(ItemContainer.class).addItem(createItem());
+        get(GameCalendar.class).MINUTE_SIZE = 1;
+        get(GameCalendar.class).HOUR_SIZE = 1;
+        get(GameCalendar.class).DAY_SIZE = 4;
         get(PlantContainer.class).place(createTree(), new Position(TREE_CENTER, TREE_CENTER, 2));
     }
 
@@ -34,5 +45,17 @@ public class SingleTreeModel extends TestModel {
             e.printStackTrace();
             return null;
         }
+    }
+
+    private Unit createUnit() {
+        Unit unit =  new CreatureGenerator().generateUnit("human");
+        unit.setPosition(new Position(2,2,2));
+        return unit;
+    }
+
+    private Item createItem() {
+        Item item = new ItemGenerator().generateItem("axe", "iron");
+        item.setPosition(new Position(0,0,2));
+        return item;
     }
 }

@@ -19,12 +19,13 @@ import stonering.util.geometry.Position;
  */
 public class PlantGrowthAspect extends Aspect {
     public static final String NAME = "tree_growth";
-    private static int MONTH_SIZE = GameCalendar.MONTH_SIZE * GameCalendar.DAY_SIZE * GameCalendar.HOUR_SIZE;
+    private int MONTH_SIZE;
 
     private int counter = 0;
 
     public PlantGrowthAspect(Entity entity) {
         super(entity);
+        MONTH_SIZE = GameCalendar.MONTH_SIZE * GameCalendar.DAY_SIZE * GameCalendar.HOUR_SIZE;
     }
 
     /**
