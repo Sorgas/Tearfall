@@ -64,7 +64,7 @@ public class FarmZone extends Zone {
      */
     private void checkTiles() {
         if (plantType == null) return; // no plant set for farm
-        int currentMonth = GameMvc.instance().getModel().get(GameCalendar.class).getMonth();
+        int currentMonth = GameMvc.instance().getModel().get(GameCalendar.class).getMonthOfYear();
         boolean plantingEnabled = plantType.plantingStart.contains(currentMonth);
         boolean hoeingEnabled = plantingEnabled || plantType.plantingStart.contains((currentMonth + 1) % 12);
         LocalMap localMap = GameMvc.instance().getModel().get(LocalMap.class);

@@ -1,5 +1,7 @@
 package stonering.entity.environment;
 
+import stonering.enums.time.TimeUnit;
+import stonering.enums.time.TimeUnitEnum;
 import stonering.game.model.IntervalTurnable;
 import stonering.game.model.lists.ModelComponent;
 import stonering.game.model.Turnable;
@@ -12,72 +14,22 @@ import java.util.*;
  *
  * @author Alexander on 07.10.2018.
  */
-public class GameCalendar extends Turnable implements ModelComponent, Initable {
-    public static int MINUTE_SIZE = 25;
-    public static int HOUR_SIZE = 60;
-    public static int DAY_SIZE = 24;
-    public static int MONTH_SIZE = 20;
-    public static int YEAR_SIZE = 12;
-    public static final String MINUTE = "minute";
-    public static final String HOUR = "hour";
-    public static final String DAY = "day";
-    public static final String MONTH = "month";
-    public static final String YEAR = "year";
-
-    private HashMap<String, List<IntervalTurnable>> listeners;
-    private int time;
-    private int minute;
-    private int hour;
-    private int day;
-    private int month;
-    private int year;
+public class GameCalendar extends Turnable implements ModelComponent {
+    private Map<TimeUnitEnum, TimeUnit> units;
 
     public GameCalendar() {
-        listeners = new HashMap<>();
-        ArrayList<IntervalTurnable> mock = new ArrayList<>(Collections.singleton(new MockTurnable()));
-        listeners.put(MINUTE, mock);
-        listeners.put(HOUR, mock);
-        listeners.put(DAY, mock);
-        listeners.put(MONTH, mock);
-        listeners.put(YEAR, mock);
+        loadUnitsFromEnum();
     }
 
-    @Override
-    public void init() {
-
-    }
-
-    /**
-     * For tick.
-     */
     @Override
     public void turn() {
-        time++;
-        if (time >= MINUTE_SIZE) {
-            time = 0;
-            minute++;
-            listeners.get(MINUTE).forEach(IntervalTurnable::turnMinute);
-            if (minute >= HOUR_SIZE) {
-                minute = 0;
-                hour++;
-                listeners.get(HOUR).forEach(IntervalTurnable::turnHour);
-                if (hour >= DAY_SIZE) {
-                    hour = 0;
-                    day++;
-                    listeners.get(DAY).forEach(IntervalTurnable::turnDay);
-                    if (day >= MONTH_SIZE) {
-                        day = 0;
-                        month++;
-                        listeners.get(MONTH).forEach(IntervalTurnable::turnMonth);
-                        if (month >= YEAR_SIZE) {
-                            month = 0;
-                            year++;
-                            listeners.get(YEAR).forEach(IntervalTurnable::turnYear);
-                        }
-                    }
-                }
-            }
-        }
+        turnUnit(0);
+    }
+
+    private void turnUnit(int index) {
+        if(index >= units.size()) return;
+        units.get(index).listeners.forEach(IntervalTurnable::turnDay);
+        if(units.get(index).increment()) turnUnit(index + 1);
     }
 
     public void addListener(String key, IntervalTurnable listener) {
@@ -88,31 +40,39 @@ public class GameCalendar extends Turnable implements ModelComponent, Initable {
         }
     }
 
-    private class MockTurnable extends IntervalTurnable {
+    /**
+     * Loads units from enum to list.
+     * they than can be altered.
+     */
+    private void loadUnitsFromEnum() {
+        units = new HashMap<>();
+        for (TimeUnitEnum value : TimeUnitEnum.values()) {
+            units.put(value, value.getTimeUnit());
+        }
     }
 
     public String getCurrentDate() {
-        return year + ":" + month + ":" + day + ":" + hour + ":" + minute;
+        return year + ":" + monthOfYear + ":" + dayOfMonth + ":" + hourOfDay + ":" + minuteOfHour;
     }
 
-    public int getTime() {
-        return time;
+    public int getTicksOfMinute() {
+        return ticksOfMinute;
     }
 
-    public int getMinute() {
-        return minute;
+    public int getMinuteOfHour() {
+        return minuteOfHour;
     }
 
-    public int getHour() {
-        return hour;
+    public int getHourOfDay() {
+        return hourOfDay;
     }
 
-    public int getDay() {
-        return day;
+    public int getDayOfMonth() {
+        return dayOfMonth;
     }
 
-    public int getMonth() {
-        return month;
+    public int getMonthOfYear() {
+        return monthOfYear;
     }
 
     public int getYear() {

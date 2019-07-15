@@ -7,7 +7,7 @@ public abstract class IntervalTurnable extends Turnable {
     /**
      * To be called once in a minute.
      */
-    public void turnMinute() {
+    public void turnIntera() {
     }
 
     /**
