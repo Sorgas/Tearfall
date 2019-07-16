@@ -26,13 +26,13 @@ public class SingleTreeModel extends TestModel {
     @Override
     public void init() {
         super.init();
-        get(GameCalendar.class).addListener("minute", get(World.class).getStarSystem());
-        get(GameCalendar.class).addListener("minute", get(PlantContainer.class));
+        get(GameCalendar.class).minute.listeners.add(get(World.class).getStarSystem());
+        get(GameCalendar.class).minute.listeners.add(get(PlantContainer.class));
         get(UnitContainer.class).addUnit(createUnit());
         get(ItemContainer.class).addItem(createItem());
-        get(GameCalendar.class).MINUTE_SIZE = 1;
-        get(GameCalendar.class).HOUR_SIZE = 1;
-        get(GameCalendar.class).DAY_SIZE = 4;
+        get(GameCalendar.class).minute.setSize(1);
+        get(GameCalendar.class).hour.setSize(1);
+        get(GameCalendar.class).day.setSize(4);
         get(PlantContainer.class).place(createTree(), new Position(TREE_CENTER, TREE_CENTER, 2));
     }
 

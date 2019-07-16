@@ -24,12 +24,12 @@ public class StarSystem extends IntervalTurnable implements Serializable {
         return celestialBodies;
     }
 
-    @Override
-    public void turnMinute() {
-        celestialBodies.forEach(CelestialBody::turn);
-    }
-
     public void init() {
         celestialBodies.forEach(celestialBody -> celestialBody.init());
+    }
+
+    @Override
+    public void turnInterval() {
+        celestialBodies.forEach(CelestialBody::turn);
     }
 }

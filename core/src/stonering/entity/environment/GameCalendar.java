@@ -3,22 +3,31 @@ package stonering.entity.environment;
 import stonering.enums.time.TimeUnit;
 import stonering.enums.time.TimeUnitEnum;
 import stonering.game.model.IntervalTurnable;
-import stonering.game.model.lists.ModelComponent;
 import stonering.game.model.Turnable;
-import stonering.util.global.Initable;
-
-import java.util.*;
+import stonering.game.model.lists.ModelComponent;
 
 /**
  * Date and time storing class. Makes turns to roll time.
+ * On creation, sizes of units are taken from {@link TimeUnitEnum}, then they can be altered.
  *
  * @author Alexander on 07.10.2018.
  */
 public class GameCalendar extends Turnable implements ModelComponent {
-    private Map<TimeUnitEnum, TimeUnit> units;
+    public final TimeUnit minute; // for faster rendering
+    public final TimeUnit hour;
+    public final TimeUnit day;
+    public final TimeUnit month;
+    public final TimeUnit year;
+
+    private TimeUnit[] units; // for storing 'next' relation between units
 
     public GameCalendar() {
-        loadUnitsFromEnum();
+        minute = TimeUnitEnum.MINUTE.getTimeUnit();
+        hour = TimeUnitEnum.HOUR.getTimeUnit();
+        day = TimeUnitEnum.DAY.getTimeUnit();
+        month = TimeUnitEnum.MONTH.getTimeUnit();
+        year = TimeUnitEnum.YEAR.getTimeUnit();
+        units = new TimeUnit[]{minute, hour, day, month, year};
     }
 
     @Override
@@ -27,55 +36,12 @@ public class GameCalendar extends Turnable implements ModelComponent {
     }
 
     private void turnUnit(int index) {
-        if(index >= units.size()) return;
-        units.get(index).listeners.forEach(IntervalTurnable::turnDay);
-        if(units.get(index).increment()) turnUnit(index + 1);
-    }
-
-    public void addListener(String key, IntervalTurnable listener) {
-        if (listeners.containsKey(key)) {
-            listeners.get(key).add(listener);
-        } else {
-            listeners.put(key, Arrays.asList(listener));
-        }
-    }
-
-    /**
-     * Loads units from enum to list.
-     * they than can be altered.
-     */
-    private void loadUnitsFromEnum() {
-        units = new HashMap<>();
-        for (TimeUnitEnum value : TimeUnitEnum.values()) {
-            units.put(value, value.getTimeUnit());
-        }
+        if (index >= units.length) return;
+        units[index].listeners.forEach(IntervalTurnable::turnInterval);
+        if (units[index].increment()) turnUnit(index + 1);
     }
 
     public String getCurrentDate() {
-        return year + ":" + monthOfYear + ":" + dayOfMonth + ":" + hourOfDay + ":" + minuteOfHour;
-    }
-
-    public int getTicksOfMinute() {
-        return ticksOfMinute;
-    }
-
-    public int getMinuteOfHour() {
-        return minuteOfHour;
-    }
-
-    public int getHourOfDay() {
-        return hourOfDay;
-    }
-
-    public int getDayOfMonth() {
-        return dayOfMonth;
-    }
-
-    public int getMonthOfYear() {
-        return monthOfYear;
-    }
-
-    public int getYear() {
-        return year;
+        return year.state + ":" + month.state + ":" + day.state + ":" + hour.state + ":" + minute.state;
     }
 }

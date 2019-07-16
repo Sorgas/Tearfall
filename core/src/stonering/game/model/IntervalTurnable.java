@@ -1,36 +1,15 @@
 package stonering.game.model;
 
 /**
+ * Components of this class can be updated once in some interval of time.
+ *
  * @author Alexander Kuzyakov
+ * @see stonering.entity.environment.GameCalendar
  */
 public abstract class IntervalTurnable extends Turnable {
     /**
-     * To be called once in a minute.
+     * To be called once in a specified interval.
      */
-    public void turnIntera() {
-    }
-
-    /**
-     * To be called once in a hour.
-     */
-    public void turnHour() {
-    }
-
-    /**
-     * To be called once in a day.
-     */
-    public void turnDay() {
-    }
-
-    /**
-     * To be called once in a month.
-     */
-    public void turnMonth() {
-    }
-
-    /**
-     * To be called once in a year.
-     */
-    public void turnYear() {
+    public void turnInterval() {
     }
 }

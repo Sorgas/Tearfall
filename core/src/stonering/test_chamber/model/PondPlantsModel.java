@@ -17,7 +17,7 @@ public class PondPlantsModel extends TestModel {
     @Override
     public void init() {
         super.init();
-        get(GameCalendar.class).addListener("minute", get(World.class).getStarSystem());
+        get(GameCalendar.class).minute.listeners.add(get(World.class).getStarSystem());
     }
 
     @Override

@@ -50,8 +50,9 @@ public class FarmZone extends Zone {
     public void turn() {
     }
 
+
     @Override
-    public void turnMinute() {
+    public void turnInterval() {
         checkTiles();
     }
 
