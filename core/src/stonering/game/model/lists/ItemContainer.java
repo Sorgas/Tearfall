@@ -4,7 +4,6 @@ import stonering.entity.Entity;
 import stonering.entity.crafting.CommonComponent;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.GameMvc;
-import stonering.game.model.Turnable;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.util.UtilByteArray;
 import stonering.util.geometry.Position;
@@ -23,30 +22,29 @@ import java.util.stream.Collectors;
  *
  * @author Alexander Kuzyakov on 14.06.2017.
  */
-public class ItemContainer extends Turnable implements ModelComponent, Initable {
-    private ArrayList<Item> items;  // all item on the map (tiles, containers, unit)
+public class ItemContainer extends EntityContainer<Item> implements Initable {
     private HashMap<Position, ArrayList<Item>> itemMap;      // maps tiles position to list of item it that position
 
     public ItemContainer() {
-        items = new ArrayList<>();
+        super();
         itemMap = new HashMap<>();
     }
 
     @Override
     public void init() {
-        items.forEach(Item::init);
+        entities.forEach(Item::init);
     }
 
     /**
      * Turns all item for rust, burn, spoil, etc.
      */
     public void turn() {
-        items.forEach(Entity::turn);
+        entities.forEach(Entity::turn);
     }
 
     public void removeItem(Item item) {
-        if (!items.contains(item)) Logger.ITEMS.logWarn("Removing not present item " + item.getName());
-        items.remove(item);
+        if (!entities.contains(item)) Logger.ITEMS.logWarn("Removing not present item " + item.getName());
+        entities.remove(item);
         itemMap.get(item.getPosition()).remove(item);
     }
 
@@ -58,7 +56,7 @@ public class ItemContainer extends Turnable implements ModelComponent, Initable 
      * Adds item to the global list, and puts to position. Should be used for dropping new items.
      */
     public void addItem(Item item) {
-        items.add(item);
+        entities.add(item);
         item.init();
         putItem(item, item.getPosition());
     }
@@ -115,7 +113,7 @@ public class ItemContainer extends Turnable implements ModelComponent, Initable 
      */
     public List<Item> getResourceItemsByMaterialType(String materialType) {
         MaterialMap materialMap = MaterialMap.instance();
-        List<Item> itemListForFiltering = new ArrayList<>(items);
+        List<Item> itemListForFiltering = new ArrayList<>(entities);
         Set<Integer> materialIds = materialMap.getMaterialsByTag(materialType);
         return itemListForFiltering.stream().
                 filter(item -> materialIds.contains(item.getMaterial())).
@@ -136,14 +134,14 @@ public class ItemContainer extends Turnable implements ModelComponent, Initable 
 
     public Item getItemAvailableBySelector(ItemSelector itemSelector, Position position) {
         //TODO implement ordering by distance
-        List<Item> items = itemSelector.selectItems(this.items);
+        List<Item> items = itemSelector.selectItems(entities);
         items = filterUnreachable(items, position);
         if (items.isEmpty()) return null;
         return items.stream().min((item1, item2) -> Math.round(item1.getPosition().getDistanse(position))).get();
     }
 
     public List<Item> getItemsAvailableBySelector(ItemSelector itemSelector, Position position) {
-        List<Item> items = itemSelector.selectItems(this.items);
+        List<Item> items = itemSelector.selectItems(entities);
         items = filterUnreachable(items, position);
         if (items == null) Logger.ITEMS.logError("NULL returned instead of empty list");
         return items;
@@ -166,6 +164,6 @@ public class ItemContainer extends Turnable implements ModelComponent, Initable 
     }
 
     public boolean checkItem(Item item) {
-        return items.contains(item);
+        return entities.contains(item);
     }
 }

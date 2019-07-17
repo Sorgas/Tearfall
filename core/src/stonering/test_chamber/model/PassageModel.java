@@ -20,8 +20,6 @@ public class PassageModel extends TestModel {
     @Override
     public void init() {
         super.init();
-        get(GameCalendar.class).addListener("minute", get(World.class).getStarSystem());
-        get(GameCalendar.class).addListener("minute", get(PlantContainer.class));
     }
 
     /**

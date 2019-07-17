@@ -1,10 +1,7 @@
 package stonering.test_chamber.model;
 
-import stonering.entity.environment.GameCalendar;
-import stonering.entity.World;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.materials.MaterialMap;
-import stonering.game.model.lists.PlantContainer;
 import stonering.game.model.local_map.LocalMap;
 
 import java.util.Random;
@@ -20,8 +17,6 @@ public class CameraModel extends TestModel {
     @Override
     public void init() {
         super.init();
-        get(GameCalendar.class).addListener("minute", get(World.class).getStarSystem());
-        get(GameCalendar.class).addListener("minute", get(PlantContainer.class));
     }
 
     /**

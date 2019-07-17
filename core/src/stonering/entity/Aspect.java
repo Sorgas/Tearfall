@@ -2,7 +2,6 @@ package stonering.entity;
 
 import stonering.game.GameMvc;
 import stonering.game.model.IntervalTurnable;
-import stonering.game.model.Turnable;
 import stonering.util.global.Initable;
 
 import java.io.Serializable;

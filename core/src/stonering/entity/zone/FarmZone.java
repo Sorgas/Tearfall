@@ -7,6 +7,7 @@ import stonering.entity.job.action.TaskTypesEnum;
 import stonering.entity.job.action.target.PositionActionTarget;
 import stonering.entity.plants.AbstractPlant;
 import stonering.enums.blocks.BlockTypesEnum;
+import stonering.enums.time.TimeUnitEnum;
 import stonering.game.model.lists.PlantContainer;
 import stonering.util.global.Logger;
 import stonering.util.validation.PositionValidator;
@@ -47,13 +48,8 @@ public class FarmZone extends Zone {
     }
 
     @Override
-    public void turn() {
-    }
-
-
-    @Override
-    public void turnInterval() {
-        checkTiles();
+    public void turnInterval(TimeUnitEnum unit) {
+        if (unit == TimeUnitEnum.MINUTE) checkTiles();
     }
 
     /**
@@ -65,7 +61,7 @@ public class FarmZone extends Zone {
      */
     private void checkTiles() {
         if (plantType == null) return; // no plant set for farm
-        int currentMonth = GameMvc.instance().getModel().get(GameCalendar.class).getMonthOfYear();
+        int currentMonth = GameMvc.instance().getModel().get(GameCalendar.class).year.state;
         boolean plantingEnabled = plantType.plantingStart.contains(currentMonth);
         boolean hoeingEnabled = plantingEnabled || plantType.plantingStart.contains((currentMonth + 1) % 12);
         LocalMap localMap = GameMvc.instance().getModel().get(LocalMap.class);
@@ -150,7 +146,7 @@ public class FarmZone extends Zone {
     }
 
     private void addTask(Task task, Position tile) {
-        if(task == null) {
+        if (task == null) {
             Logger.ZONES.logError("Farm tries to allocate null task");
             System.out.println(Thread.currentThread().getStackTrace());
         }

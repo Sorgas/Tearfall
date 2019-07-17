@@ -14,16 +14,14 @@ import java.util.*;
  *
  * @author Alexander Kuzyakov on 03.12.2017.
  */
-public class UnitContainer extends Turnable implements ModelComponent, Initable {
+public class UnitContainer extends EntityContainer<Unit> implements Initable {
     private Map<Position, List<Unit>> unitsMap;
-    private Array<Unit> units; // list for turning
 
     private Position cachePosition; // used for faster getting unit from map
 
     public UnitContainer() {
         cachePosition = new Position();
         unitsMap = new HashMap<>();
-        units = new Array();
     }
 
     /**
@@ -31,7 +29,7 @@ public class UnitContainer extends Turnable implements ModelComponent, Initable 
      */
     public void addUnit(Unit unit) {
         addUnitToMap(unit);
-        units.add(unit);
+        entities.add(unit);
         unit.init();
     }
 
@@ -40,7 +38,7 @@ public class UnitContainer extends Turnable implements ModelComponent, Initable 
      */
     private void removeUnit(Unit unit) {
         removeUnitFromMap(unit);
-        units.removeValue(unit, true);
+        entities.remove(unit);
     }
 
     /**
@@ -68,7 +66,7 @@ public class UnitContainer extends Turnable implements ModelComponent, Initable 
      * Calls turn() for all unit.
      */
     public void turn() {
-        units.forEach(Unit::turn);
+        entities.forEach(Unit::turn);
     }
 
     /**

@@ -26,8 +26,6 @@ public class SingleTreeModel extends TestModel {
     @Override
     public void init() {
         super.init();
-        get(GameCalendar.class).minute.listeners.add(get(World.class).getStarSystem());
-        get(GameCalendar.class).minute.listeners.add(get(PlantContainer.class));
         get(UnitContainer.class).addUnit(createUnit());
         get(ItemContainer.class).addItem(createItem());
         get(GameCalendar.class).minute.setSize(1);

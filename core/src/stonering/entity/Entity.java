@@ -1,5 +1,6 @@
 package stonering.entity;
 
+import stonering.enums.time.TimeUnitEnum;
 import stonering.game.model.IntervalTurnable;
 import stonering.util.geometry.Position;
 import stonering.util.global.Initable;
@@ -44,6 +45,11 @@ public abstract class Entity extends IntervalTurnable implements Serializable, I
 
     public void turn() {
         aspects.values().forEach(Aspect::turn);
+    }
+
+    @Override
+    public void turnInterval(TimeUnitEnum unit) {
+        aspects.values().forEach(aspect -> aspect.turnInterval(unit));
     }
 
     /**

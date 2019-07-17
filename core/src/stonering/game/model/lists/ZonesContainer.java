@@ -5,7 +5,6 @@ import stonering.util.validation.PositionValidator;
 import stonering.entity.zone.Zone;
 import stonering.enums.ZoneTypesEnum;
 import stonering.game.GameMvc;
-import stonering.game.model.Turnable;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 
@@ -16,19 +15,11 @@ import java.util.*;
  * <p>
  * Each tile can belong to one zone. //TODO give multiple zones to tiles.
  */
-public class ZonesContainer extends Turnable implements ModelComponent {
-    private List<Zone> zones;
+public class ZonesContainer extends EntityContainer<Zone> {
     private Map<Position, Zone> zoneMap;
 
     public ZonesContainer() {
-        zones = new ArrayList<>();
         zoneMap = new HashMap<>();
-    }
-
-    @Override
-    public void turn() {
-        if(zones.isEmpty()) return;
-        zones.forEach(Zone::turn);
     }
 
     /**
@@ -37,14 +28,14 @@ public class ZonesContainer extends Turnable implements ModelComponent {
     public void createNewZone(Position pos1, Position pos2, ZoneTypesEnum type) {
         Zone zone = type.createZone();
         addPositionsToZone(pos1, pos2, zone);
-        zones.add(zone);
+        entities.add(zone);
         Logger.ZONES.logDebug("Zone " + zone + " created");
         recountZones();
     }
 
     public void deleteZone(Zone zone) {
         zone.getTiles().forEach(position -> zoneMap.remove(position));
-        zones.remove(zone);
+        entities.remove(zone);
     }
 
     private void addPositionsToZone(Position pos1, Position pos2, Zone zone) {
@@ -93,7 +84,7 @@ public class ZonesContainer extends Turnable implements ModelComponent {
     }
 
     private void recountZones() {
-        for(Iterator<Zone> iterator = zones.iterator(); iterator.hasNext();) {
+        for(Iterator<Zone> iterator = entities.iterator(); iterator.hasNext();) {
             Zone zone = iterator.next();
             if(!zone.getTiles().isEmpty()) continue;
             iterator.remove();

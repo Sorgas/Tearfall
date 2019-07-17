@@ -1,6 +1,8 @@
 package stonering.game.model;
 
 import com.badlogic.gdx.utils.Timer;
+import stonering.entity.environment.GameCalendar;
+import stonering.enums.time.TimeUnitEnum;
 import stonering.game.model.lists.ModelComponent;
 import stonering.util.global.Initable;
 import stonering.util.global.LastInitable;
@@ -15,9 +17,10 @@ import java.util.TreeMap;
  *
  * @author Alexander on 04.02.2019.
  */
-public abstract class GameModel implements Initable, Serializable {
+public abstract class GameModel extends IntervalTurnable implements Initable, Serializable {
     private TreeMap<Class, ModelComponent> components;
     private Timer timer;                 //makes turns for entity containers and calendar.
+    private GameCalendar calendar;
     private boolean paused;
 
     public GameModel() {
@@ -26,6 +29,7 @@ public abstract class GameModel implements Initable, Serializable {
             if (o2.isAssignableFrom(LastInitable.class)) return 1;
             return o1.getName().compareTo(o2.getName());
         });
+        put(calendar = new GameCalendar());
     }
 
     public <T extends ModelComponent> T get(Class<T> type) {
@@ -56,13 +60,26 @@ public abstract class GameModel implements Initable, Serializable {
     }
 
     /**
-     * Turns all {@link Turnable components}
+     * Turns all {@link Turnable components}. This is an entry point from timer.
+     * GameCalendar is turned from here, and then turns model for intervals.
      */
-    protected void turn() {
+    public void turn() {
         if (paused) return;
         components.keySet().forEach(aClass -> {
             if (Turnable.class.isAssignableFrom(aClass)) {
                 ((Turnable) components.get(aClass)).turn();
+            }
+        });
+    }
+
+    /**
+     * Called by {@link GameCalendar}.
+     */
+    @Override
+    public void turnInterval(TimeUnitEnum unit) {
+        components.keySet().forEach(aClass -> {
+            if (IntervalTurnable.class.isAssignableFrom(aClass)) {
+                ((IntervalTurnable) components.get(aClass)).turnInterval(unit);
             }
         });
     }

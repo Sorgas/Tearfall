@@ -6,6 +6,7 @@ import stonering.entity.environment.GameCalendar;
 import stonering.entity.plants.AbstractPlant;
 import stonering.entity.plants.Plant;
 import stonering.entity.plants.Tree;
+import stonering.enums.time.TimeUnitEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.lists.PlantContainer;
 import stonering.generators.plants.PlantGenerator;
@@ -18,22 +19,22 @@ import stonering.util.geometry.Position;
  * @author Alexander on 13.02.2019.
  */
 public class PlantGrowthAspect extends Aspect {
-    public static final String NAME = "tree_growth";
-    private int MONTH_SIZE;
-
+    private int monthSize; // month size in minutes.
     private int counter = 0;
 
     public PlantGrowthAspect(Entity entity) {
         super(entity);
-        MONTH_SIZE = GameCalendar.MONTH_SIZE * GameCalendar.DAY_SIZE * GameCalendar.HOUR_SIZE;
+        GameCalendar calendar = GameMvc.instance().getModel().get(GameCalendar.class);
+        monthSize = calendar.month.getSize() * calendar.day.getSize() * calendar.hour.getSize();
     }
 
     /**
      * Increases plant age if month has ended.
      */
     @Override
-    public void turn() {
-        if (counter++ != MONTH_SIZE) return;
+    public void turnInterval(TimeUnitEnum unit) {
+        if(unit != TimeUnitEnum.MINUTE) return;
+        if (counter++ < monthSize) return;
         counter = 0;
         switch (((AbstractPlant) entity).increaceAge()) {
             case 1:

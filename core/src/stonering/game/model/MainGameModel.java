@@ -25,8 +25,6 @@ public class MainGameModel extends GameModel {
     @Override
     public void init() {
         super.init();
-        get(GameCalendar.class).addListener(GameCalendar.MINUTE, get(World.class).getStarSystem());
-        get(GameCalendar.class).addListener(GameCalendar.MINUTE, get(PlantContainer.class));
         get(LocalMap.class).init(); //TODO local map inited second time here
     }
 

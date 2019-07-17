@@ -2,6 +2,7 @@ package stonering.entity.environment;
 
 import stonering.enums.time.TimeUnit;
 import stonering.enums.time.TimeUnitEnum;
+import stonering.game.GameMvc;
 import stonering.game.model.IntervalTurnable;
 import stonering.game.model.Turnable;
 import stonering.game.model.lists.ModelComponent;
@@ -36,9 +37,9 @@ public class GameCalendar extends Turnable implements ModelComponent {
     }
 
     private void turnUnit(int index) {
-        if (index >= units.length) return;
-        units[index].listeners.forEach(IntervalTurnable::turnInterval);
-        if (units[index].increment()) turnUnit(index + 1);
+        if (index >= units.length || !units[index].increment()) return; // if out of array, or unit not ended
+        GameMvc.instance().getModel().turnInterval(units[index].unit);
+        turnUnit(index + 1);
     }
 
     public String getCurrentDate() {

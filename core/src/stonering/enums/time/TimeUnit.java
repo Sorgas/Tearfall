@@ -1,10 +1,5 @@
 package stonering.enums.time;
 
-import stonering.game.model.IntervalTurnable;
-
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Represent unit of time, like hours and days.
  * Has size, counted in other units.
@@ -12,15 +7,13 @@ import java.util.List;
  * @author Alexander on 15.07.2019.
  */
 public class TimeUnit {
-    private String name;
+    public final TimeUnitEnum unit;
     private int size;
     public int state;
-    public List<IntervalTurnable> listeners;
 
-    public TimeUnit(String name, int size) {
-        this.name = name;
+    public TimeUnit(TimeUnitEnum unit, int size) {
+        this.unit = unit;
         this.size = size;
-        listeners = new ArrayList<>();
     }
 
     /**
@@ -28,14 +21,6 @@ public class TimeUnit {
      */
     public boolean increment() {
         return (++state < size || (state = 0) == 0) && state == 0;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public int getSize() {

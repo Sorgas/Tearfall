@@ -3,10 +3,10 @@ package stonering.game.model.lists;
 import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
-import stonering.entity.Entity;
 import stonering.entity.plants.*;
 import stonering.enums.OrientationEnum;
 import stonering.enums.blocks.BlockTypesEnum;
+import stonering.enums.time.TimeUnitEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.IntervalTurnable;
 import stonering.game.model.local_map.LocalMap;
@@ -26,7 +26,7 @@ import java.util.List;
  * One tile can have one plant block. Substrate plants can occupy same tile with other plants.
  * {@link PlantBlock}s are stored in map (by {@link Position}).
  * When plant is destroyed (died, cut or chopped), it's products are dropped via this container.
- * Plants do not move.
+ * Plants are updated once in a minute. Plants do not move.
  * //TODO update passage map on blocks change.
  *
  * @author Alexander Kuzyakov on 09.11.2017.
@@ -53,8 +53,9 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
     }
 
     @Override
-    public void turn() {
-        plants.forEach(Entity::turn);
+    public void turnInterval(TimeUnitEnum unit) {
+        if (unit != TimeUnitEnum.MINUTE) return;
+        plants.forEach(entity -> entity.turnInterval(unit));
     }
 
     /**

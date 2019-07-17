@@ -1,6 +1,7 @@
 package stonering.entity;
 
 import stonering.entity.environment.CelestialBody;
+import stonering.enums.time.TimeUnitEnum;
 import stonering.game.model.IntervalTurnable;
 
 import java.io.Serializable;
@@ -29,7 +30,8 @@ public class StarSystem extends IntervalTurnable implements Serializable {
     }
 
     @Override
-    public void turnInterval() {
-        celestialBodies.forEach(CelestialBody::turn);
+    public void turnInterval(TimeUnitEnum unit) {
+        if(unit != TimeUnitEnum.HOUR) return;
+        celestialBodies.forEach(body -> body.turnInterval(unit));
     }
 }

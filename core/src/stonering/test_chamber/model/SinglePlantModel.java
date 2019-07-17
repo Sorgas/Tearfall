@@ -20,8 +20,6 @@ public class SinglePlantModel extends TestModel {
     @Override
     public void init() {
         super.init();
-        get(GameCalendar.class).addListener("minute", get(World.class).getStarSystem());
-        get(GameCalendar.class).addListener("minute", get(PlantContainer.class));
         get(PlantContainer.class).place(createPlant(), new Position(5, 5, 2));
     }
 

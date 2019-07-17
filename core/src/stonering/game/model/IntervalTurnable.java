@@ -1,5 +1,7 @@
 package stonering.game.model;
 
+import stonering.enums.time.TimeUnitEnum;
+
 /**
  * Components of this class can be updated once in some interval of time.
  *
@@ -7,9 +9,8 @@ package stonering.game.model;
  * @see stonering.entity.environment.GameCalendar
  */
 public abstract class IntervalTurnable extends Turnable {
-    /**
-     * To be called once in a specified interval.
-     */
-    public void turnInterval() {
+
+    public void turnInterval(TimeUnitEnum unit) {
+
     }
 }

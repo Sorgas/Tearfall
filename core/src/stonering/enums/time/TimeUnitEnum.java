@@ -33,6 +33,6 @@ public enum TimeUnitEnum {
     }
 
     public TimeUnit getTimeUnit() {
-        return new TimeUnit(NAME, map.get(NAME));
+        return new TimeUnit(this, map.get(NAME));
     }
 }
