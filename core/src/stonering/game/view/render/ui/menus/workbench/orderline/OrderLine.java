@@ -11,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.enums.ControlActionsEnum;
 import stonering.enums.TaskStatusEnum;
 import stonering.game.view.render.ui.images.DrawableMap;
-import stonering.game.view.render.ui.menus.util.HideableComponent;
+import stonering.game.view.render.ui.menus.util.Hideable;
 import stonering.game.view.render.ui.menus.util.Highlightable;
 import stonering.game.view.render.ui.menus.util.HintedActor;
 import stonering.game.view.render.ui.menus.workbench.WorkbenchMenu;
@@ -23,7 +23,7 @@ import stonering.util.global.StaticSkin;
  *
  * @author Alexander_Kuzyakov on 24.06.2019.
  */
-public class OrderLine extends Table implements HideableComponent, HintedActor, Highlightable {
+public class OrderLine extends Table implements Hideable, HintedActor, Highlightable {
     private static final String BACKGROUND_NAME = "workbench_order_line";
     protected String hint;
     protected WorkbenchMenu menu;

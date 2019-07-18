@@ -1,7 +1,5 @@
 package stonering.game.view.render.ui.menus.util;
 
-import javax.xml.transform.Source;
-
 /**
  * Shows that widget with this interface can be highlighted.
  * If handler should be set externally, getter and setter should be overridden.

@@ -19,7 +19,7 @@ import stonering.util.global.StaticSkin;
  *
  * @author Alexander on 22.11.2018.
  */
-public class RectangleSelectComponent extends Label implements HideableComponent, MouseInvocable {
+public class RectangleSelectComponent extends Label implements Hideable, MouseInvocable {
     private LocalMap localMap;
     private Toolbar toolbar;
     private EntitySelector selector;

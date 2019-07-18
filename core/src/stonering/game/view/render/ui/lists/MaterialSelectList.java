@@ -5,7 +5,7 @@ import stonering.game.GameMvc;
 import stonering.game.controller.controllers.toolbar.DesignationsController;
 import stonering.game.model.lists.ItemContainer;
 import stonering.game.view.render.ui.menus.toolbar.Toolbar;
-import stonering.game.view.render.ui.menus.util.HideableComponent;
+import stonering.game.view.render.ui.menus.util.Hideable;
 import stonering.entity.item.Item;
 import stonering.util.geometry.Position;
 
@@ -18,7 +18,7 @@ import java.util.List;
  *
  * @author Alexander on 03.07.2018.
  */
-public class MaterialSelectList extends ItemsCountList implements HideableComponent {
+public class MaterialSelectList extends ItemsCountList implements Hideable {
     private GameMvc gameMvc;
     protected Toolbar toolbar;
 
