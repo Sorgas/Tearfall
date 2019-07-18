@@ -7,67 +7,42 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import stonering.game.GameMvc;
 import stonering.util.global.Logger;
 import stonering.util.global.StaticSkin;
 
 import java.util.LinkedHashMap;
 
-public abstract class ButtonMenu extends Table implements HideableComponent {
-    protected GameMvc gameMvc;
-    protected boolean hideable;
-    protected boolean defaultHandleResult = false;
+/**
+ * Table that stores buttons, and maps hotkeys to buttons.
+ * Hides itself on Q.
+ */
+public abstract class ButtonMenu extends Table implements Hideable {
 
     private LinkedHashMap<Integer, Button> buttons;
 
-    public ButtonMenu(boolean hideable) {
-        this.gameMvc = GameMvc.instance();
-        this.hideable = hideable;
-        buttons = new LinkedHashMap<>();
-    }
-
-    public ButtonMenu(boolean hideable, boolean defaultHandleResult) {
-        this(hideable);
-        this.defaultHandleResult = defaultHandleResult;
-    }
-
     public ButtonMenu() {
-        this(false);
-    }
-
-    /**
-     * Builds screen widget.
-     */
-    public void init() {
+        buttons = new LinkedHashMap<>();
         this.defaults().right().expandX().fill();
-        buttons.values().forEach((button) -> this.add(button).row());
         createDefaultListener();
     }
 
     /**
-     * Presses button with given hotkey. By default tries to press button.
-     * If char is ESC and this screen can be closed, closes itself.
-     * Most times there is no need for overriding this for menus. For special closing logic use reset() method.
-     *
-     * @return true, if button with given hotkey exists, prevents further handling of this press.
-     * False otherwise, handling continues.
+     * Presses button with given hotkey. If char is Q and this menu can be hidden, hides itself.
+     * Most times there is no need for overriding this for menus. For special closing logic use onHide() method.
      */
     private void createDefaultListener() {
         addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 event.stop();
-                if (buttons.keySet().contains(keycode)) {
-                    Logger.UI.logDebug("handling " + Input.Keys.toString(keycode) + " in " + this);
+                if (buttons.containsKey(keycode)) {
+                    Logger.UI.logDebug("Pressing " + Input.Keys.toString(keycode) + " button in " + this);
                     buttons.get(keycode).toggle();
-                    return true;
-                }
-                if (keycode == Input.Keys.Q && hideable) {
+                } else if (keycode == Input.Keys.Q) { //
                     hide();
                     reset();
-                    return true;
                 }
-                return defaultHandleResult;
+                return true;
             }
         });
     }
@@ -79,10 +54,12 @@ public abstract class ButtonMenu extends Table implements HideableComponent {
         TextButton button = new TextButton(appendHotkey ? Input.Keys.toString(hotKey) + ": " + text : text, StaticSkin.getSkin());
         button.addListener(listener);
         buttons.put(hotKey, button);
+        add(button).row();
     }
 
     /**
      * Cancels all inputs, like selected tools.
      */
-    public abstract void reset();
+    protected void onHide() {
+    }
 }

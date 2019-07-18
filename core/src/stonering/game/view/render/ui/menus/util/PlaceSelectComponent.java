@@ -18,7 +18,7 @@ import stonering.util.global.StaticSkin;
  *
  * @author Alexander Kuzyakov on 12.07.2018.
  */
-public class PlaceSelectComponent extends Label implements HideableComponent {
+public class PlaceSelectComponent extends Label implements Hideable {
     private GameMvc gameMvc;
     private PositionValidator positionValidator; // validates position on each move
     private EntitySelector selector; // points to position

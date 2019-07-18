@@ -5,7 +5,7 @@ package stonering.game.view.render.ui.menus.util;
  *
  * @author Alexander Kuzyakov
  */
-public interface HideableComponent {
+public interface Hideable {
 
     /**
      * Adds all buttons from map to table and adds table to Toolbar widget.

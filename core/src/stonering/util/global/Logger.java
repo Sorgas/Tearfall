@@ -21,6 +21,7 @@ public enum Logger {
     PLANTS("plants");
 
     private static TaggedLogger logger = new TaggedLogger();
+
     private String tag;
     private String tagWord;
     private boolean enabled;

@@ -6,10 +6,17 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import stonering.TearFall;
 import stonering.util.global.Logger;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
+/**
+ * Entry point for the game.
+ */
 public class DesktopLauncher {
 
     public static void main(String[] arg) {
-        System.out.println("main");
+        Logger.GENERAL.logDebug("Main launcher.");
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         config.width = 2000;
         config.height = 1500;
@@ -17,7 +24,6 @@ public class DesktopLauncher {
         config.foregroundFPS = 30;
         Game game = new TearFall();
         Logger.enableAll();
-//        Logger.UI.setEnabled(false);
         new LwjglApplication(game, config);
     }
 }

@@ -4,13 +4,18 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import stonering.game.GameMvc;
 import stonering.game.view.render.ui.menus.util.ButtonMenu;
 import stonering.util.saving.GameSaver;
 
+/**
+ * This menu appears, when no menu is shown and Q is pressed.
+ * Pauses the game on showing.
+ */
 public class PauseMenu extends ButtonMenu {
 
     public PauseMenu() {
-        super(false, true);
+        super();
         createTable();
         addButtons();
     }
@@ -23,10 +28,10 @@ public class PauseMenu extends ButtonMenu {
     }
 
     private void addButtons() {
-        createButton("Resume", Input.Keys.Q, new ChangeListener() {
+        createButton("Resume", Input.Keys.Q, new ChangeListener() { // this button intercepts input from
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                gameMvc.getModel().setPaused(false);
+                GameMvc.instance().getModel().setPaused(false);
                 hide();
             }
         }, true);
@@ -71,6 +76,6 @@ public class PauseMenu extends ButtonMenu {
 
     @Override
     public void hide() {
-        gameMvc.getView().removeStage(getStage());
+        GameMvc.instance().getView().removeStage(getStage());
     }
 }

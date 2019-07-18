@@ -3,6 +3,7 @@ package stonering.game.view.render.ui.menus.util;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.enums.HotkeySequence;
+import stonering.game.GameMvc;
 
 import java.util.HashMap;
 import java.util.List;
@@ -17,18 +18,15 @@ public class SubMenuMenu extends ToolbarButtonMenu {
     private HotkeySequence sequence;
 
     public SubMenuMenu() {
-        super(true);
         menus = new HashMap<>();
         sequence = new HotkeySequence();
     }
 
     /**
-     * Builds screen widget and inits child menus.
+     * Builds menu widget and inits child menus.
      */
-    @Override
     public void init() {
         menus.values().forEach(SubMenuMenu::init);
-        super.init();
     }
 
     /**
@@ -39,7 +37,7 @@ public class SubMenuMenu extends ToolbarButtonMenu {
         createButton(identifier, hotkey, new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                toolbar.hideSubMenus(thisMenu);
+                GameMvc.instance().getView().getUiDrawer().getToolbar().hideSubMenus(thisMenu);
                 menu.show();
             }
         }, true);
@@ -48,7 +46,7 @@ public class SubMenuMenu extends ToolbarButtonMenu {
 
     /**
      * Tries to add button with given text and listener to the end of given submenu sequence.
-     * Adds submenu or button to this screen.
+     * Adds submenu or button to this menu .
      */
     public void addItem(String lastButtonText, ChangeListener listener, List<String> path) {
         if (path != null && !path.isEmpty()) {              // create submenu
@@ -60,9 +58,5 @@ public class SubMenuMenu extends ToolbarButtonMenu {
         } else { //create button
             createButton(lastButtonText, sequence.getNext(), listener, true);
         }
-    }
-
-    @Override
-    public void reset() {
     }
 }

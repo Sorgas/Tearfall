@@ -17,7 +17,7 @@ public class Blueprint implements Initable {
     private String placing; // maps to position validator for place selecting and task checking.
     private List<String> menuPath; // button path in toolbar
     private List<CommonComponent> components; // red from json
-    private LinkedHashMap<String, CommonComponent> mappedComponents; //
+    private LinkedHashMap<String, CommonComponent> mappedComponents; // components mapped to building parts
 
     @Override
     public void init() {
