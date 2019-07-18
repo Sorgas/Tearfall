@@ -21,7 +21,6 @@ public class PauseMenuStage extends UiStage implements Initable {
         container.setFillParent(true);
         container.setDebug(true, true);
         this.addActor(container);
-        pauseMenu.init();
         setKeyboardFocus(pauseMenu);
     }
 

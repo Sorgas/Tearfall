@@ -4,6 +4,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.enums.designations.DesignationTypeEnum;
+import stonering.game.GameMvc;
 import stonering.game.controller.controllers.designation.SimpleDesignationSequence;
 import stonering.game.controller.controllers.toolbar.DesignationsController;
 import stonering.game.view.render.ui.menus.util.SubMenuMenu;
@@ -20,14 +21,13 @@ public class PlantsMenu extends SubMenuMenu {
     private DesignationsController controller;
 
     public PlantsMenu() {
-        hideable = true;
         initMenu();
     }
 
     @Override
     public void init() {
         super.init();
-        controller = gameMvc.getController().getDesignationsController();
+        controller = GameMvc.instance().getController().getDesignationsController();
     }
 
     @Override

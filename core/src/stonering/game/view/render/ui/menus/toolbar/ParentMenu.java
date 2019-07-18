@@ -15,7 +15,6 @@ import stonering.game.view.render.ui.menus.zone.ZonesMenu;
 public class ParentMenu extends SubMenuMenu {
 
     public ParentMenu() {
-        hideable = false;
         this.align(Align.bottom);
         createMenus();
     }
@@ -25,9 +24,5 @@ public class ParentMenu extends SubMenuMenu {
         addMenu(new DiggingMenu(), Input.Keys.O, "O: digging");
         addMenu(new ToolbarBuildingMenu(), Input.Keys.I, "I: building");
         addMenu(new ZonesMenu(), Input.Keys.U, "U: zones");
-    }
-
-    @Override
-    public void reset() {
     }
 }
