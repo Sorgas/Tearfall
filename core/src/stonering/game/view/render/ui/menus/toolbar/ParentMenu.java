@@ -25,4 +25,10 @@ public class ParentMenu extends SubMenuMenu {
         addMenu(new ToolbarBuildingMenu(), Input.Keys.I, "I: building");
         addMenu(new ZonesMenu(), Input.Keys.U, "U: zones");
     }
+
+    /**
+     * Overrode to prevent closing.
+     */
+    @Override
+    public void hide() {}
 }

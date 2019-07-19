@@ -29,4 +29,9 @@ public class ToolbarBuildingMenu extends SubMenuMenu {
         }
         super.init();
     }
+
+    @Override
+    protected void onHide() {
+        super.onHide();
+    }
 }

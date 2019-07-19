@@ -22,7 +22,7 @@ public abstract class ButtonMenu extends Table implements Hideable {
 
     public ButtonMenu() {
         buttons = new LinkedHashMap<>();
-        this.defaults().right().expandX().fill();
+        defaults().right().expandX().fill();
         createDefaultListener();
     }
 
@@ -40,7 +40,7 @@ public abstract class ButtonMenu extends Table implements Hideable {
                     buttons.get(keycode).toggle();
                 } else if (keycode == Input.Keys.Q) { //
                     hide();
-                    reset();
+                    onHide();
                 }
                 return true;
             }

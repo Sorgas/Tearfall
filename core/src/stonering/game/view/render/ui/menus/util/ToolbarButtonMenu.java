@@ -1,6 +1,7 @@
 package stonering.game.view.render.ui.menus.util;
 
 import stonering.game.GameMvc;
+import stonering.game.view.render.ui.images.DrawableMap;
 import stonering.game.view.render.ui.menus.toolbar.Toolbar;
 
 /**
@@ -8,13 +9,19 @@ import stonering.game.view.render.ui.menus.toolbar.Toolbar;
  * Menus don't have their controllers, all behavior logic is written in their buttons.
  * Keys sets of menus should not overlap.
  *
- *
  * @author Alexander Kuzyakov on 27.12.2017.
  */
-public abstract class ToolbarButtonMenu extends ButtonMenu {
+public abstract class ToolbarButtonMenu extends ButtonMenu implements Highlightable {
+    private HighlightHandler handler;
 
     public ToolbarButtonMenu() {
-        this.bottom();
+        defaults().size(120, 30).padBottom(10).padRight(10);
+        bottom();
+    }
+
+    @Override
+    public void act(float delta) {
+        super.act(delta);
     }
 
     @Override
@@ -25,5 +32,13 @@ public abstract class ToolbarButtonMenu extends ButtonMenu {
     @Override
     public void hide() {
         GameMvc.instance().getView().getUiDrawer().getToolbar().hideMenu(this);
+    }
+
+    private class HighlightHandler extends Highlightable.CheckHighlightHandler {
+
+        @Override
+        public void handle() {
+            setBackground(DrawableMap.getInstance().getDrawable("toolbar_menu" + (value ? ":focused" : "")));
+        }
     }
 }

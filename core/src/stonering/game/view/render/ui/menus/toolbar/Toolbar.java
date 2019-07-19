@@ -8,25 +8,27 @@ import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
+import stonering.game.view.render.ui.menus.util.Highlightable;
 import stonering.util.global.StaticSkin;
 
 import java.util.*;
 
 /**
- * Contains all general orders menus.
+ * Contains table with all general orders menus.
  *
  * @author Alexander Kuzyakov on 17.06.2018.
  */
-public class Toolbar extends Container {
-    private Table toolbarTable;     // in container
+public class Toolbar extends Container implements Highlightable {
     private Table menusTable;       // in first row
     private Label status;           // in second row
     private ParentMenu parentMenu;  // always on the right end
-
     private List<Actor> displayedMenus; // index increases from left to right
+    private HighlightHandler handler;
 
     public Toolbar() {
         displayedMenus = new ArrayList<>();
+        handler = new HighlightHandler();
+        handler.toolbar = this;
     }
 
     public void init() {
@@ -40,10 +42,10 @@ public class Toolbar extends Container {
      * Creates menus row and status row.
      */
     private Table createToolbarTable() {
-        toolbarTable = new Table(StaticSkin.getSkin());
-        toolbarTable.add(createMenusTable()).row();
-        toolbarTable.add(status = new Label("", StaticSkin.getSkin())).right();
-        return toolbarTable;
+        Table table = new Table(StaticSkin.getSkin());
+        table.add(createMenusTable()).row();
+        table.add(status = new Label("", StaticSkin.getSkin())).right();
+        return table;
     }
 
     private Table createMenusTable() {
@@ -57,11 +59,16 @@ public class Toolbar extends Container {
         return menusTable;
     }
 
+    /**
+     * This is used, because tool bar is a table and cannot be modified after creation.
+     * TODO refactor toolbar to horizontalGroup
+     */
     private void refill() {
         menusTable.clearChildren();
         for (Actor displayedMenu : displayedMenus) {
             menusTable.add(displayedMenu);
         }
+        handler.handle(); // will re-highlight actors
     }
 
     /**
@@ -71,6 +78,7 @@ public class Toolbar extends Container {
         System.out.println(menu.getClass().getSimpleName() + " shown");
         displayedMenus.add(0, menu);
         refill();
+        updateHighlighting(true);
     }
 
 
@@ -103,13 +111,10 @@ public class Toolbar extends Container {
     }
 
     /**
-     * Returns visible screen with lowest level (most left one).
+     * Returns visible menu with lowest level (most left one).
      */
     public Actor getActiveMenu() {
-        for (int i = 0; i < menusTable.getChildren().size; i++) {
-            return menusTable.getChildren().get(i);
-        }
-        return null;
+        return menusTable.getChildren().isEmpty() ? null : menusTable.getChildren().get(0);
     }
 
     /**
@@ -128,5 +133,26 @@ public class Toolbar extends Container {
 
     public void setText(String text) {
         status.setText(text);
+    }
+
+    @Override
+    public Highlightable.HighlightHandler getHighlightHandler() {
+        return handler;
+    }
+
+    /**
+     * Highlights menus in this toolbar.
+     */
+    private static class HighlightHandler extends Highlightable.HighlightHandler {
+        private Toolbar toolbar;
+
+        @Override
+        public void handle() {
+            for (int i = 0; i < toolbar.menusTable.getChildren().size; i++) {
+                Actor child = toolbar.menusTable.getChildren().get(i);
+                if(!(child instanceof Highlightable)) continue;
+                ((Highlightable) child).updateHighlighting(i == 0); // only first child is highlighted
+            }
+        }
     }
 }

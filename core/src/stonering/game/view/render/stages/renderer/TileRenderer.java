@@ -67,23 +67,23 @@ public class TileRenderer extends Renderer {
      */
     @Override
     public void render() {
-        int maxZ = camera.getCameraZ();
-        int minZ = (int) Math.max(maxZ - util.maxZLevels, 0);
-        for (int z = minZ; z <= maxZ; z++) {
-            util.shadeByZ(maxZ - z);
-            defineLayerBounds(z);
-            for (int y = cacheBounds.getMaxY(); y >= cacheBounds.getMinY(); y--) {
-                for (int x = cacheBounds.getMinX(); x <= cacheBounds.getMaxX(); x++) {
-                    drawTile(x, y, z);
-                }
-            }
-            for (int y = cacheBounds.getMaxY(); y >= cacheBounds.getMinY(); y--) {
-                for (int x = cacheBounds.getMinX(); x <= cacheBounds.getMaxX(); x++) {
-                    drawUnits(x, y, z);
-                    drawAreaLabel(x, y, z); // for debug purposes
-                }
-            }
-        }
+//        int maxZ = camera.getCameraZ();
+//        int minZ = (int) Math.max(maxZ - util.maxZLevels, 0);
+//        for (int z = minZ; z <= maxZ; z++) {
+//            util.shadeByZ(maxZ - z);
+//            defineLayerBounds(z);
+//            for (int y = cacheBounds.getMaxY(); y >= cacheBounds.getMinY(); y--) {
+//                for (int x = cacheBounds.getMinX(); x <= cacheBounds.getMaxX(); x++) {
+//                    drawTile(x, y, z);
+//                }
+//            }
+//            for (int y = cacheBounds.getMaxY(); y >= cacheBounds.getMinY(); y--) {
+//                for (int x = cacheBounds.getMinX(); x <= cacheBounds.getMaxX(); x++) {
+//                    drawUnits(x, y, z);
+//                    drawAreaLabel(x, y, z); // for debug purposes
+//                }
+//            }
+//        }
     }
 
     /**

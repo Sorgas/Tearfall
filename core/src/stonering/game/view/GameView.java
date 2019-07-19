@@ -92,12 +92,12 @@ public class GameView extends SimpleScreen implements Initable {
     }
 
     /**
-     * Called, if toolbar didn't handle event, shows selection list for map tile or pause menu.
+     * Called, if toolbar didn't handle event, shows selection list for map tile.
      */
     //TODO add filters like Shift+E Ctrl+E etc
     private boolean handleKeyDown(int keyCode) {
         switch (keyCode) {
-            case Input.Keys.Q:
+            case Input.Keys.ESCAPE:
                 GameMvc.instance().getView().addStageToList(new PauseMenuStage());
                 return true;
             case Input.Keys.E:

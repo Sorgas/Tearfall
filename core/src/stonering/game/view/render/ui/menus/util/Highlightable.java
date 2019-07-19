@@ -3,6 +3,7 @@ package stonering.game.view.render.ui.menus.util;
 /**
  * Shows that widget with this interface can be highlighted.
  * If handler should be set externally, getter and setter should be overridden.
+ * General approach is to use updateHighlighting method in widget's act method.
  *
  * @author Alexander
  */
@@ -15,6 +16,9 @@ public interface Highlightable {
     default void setHighlightHandler(HighlightHandler handler) {
     }
 
+    /**
+     * Ensures, that highlightHandler will be extended.
+     */
     HighlightHandler getHighlightHandler();
 
     /**
@@ -34,6 +38,9 @@ public interface Highlightable {
     abstract class CheckHighlightHandler extends HighlightHandler {
         protected static boolean value = false;
 
+        /**
+         * Handle method is called only if the value changes.
+         */
         @Override
         public void accept(Boolean newValue) {
             if (checkValue(newValue)) handle();

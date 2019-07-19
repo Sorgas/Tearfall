@@ -18,15 +18,9 @@ import static stonering.enums.designations.DesignationTypeEnum.*;
  * @author Alexander Kuzyakov
  */
 public class DiggingMenu extends SubMenuMenu {
-    private DesignationsController controller;
 
     public DiggingMenu() {
         initMenu();
-    }
-
-    public void init() {
-        super.init();
-        controller = GameMvc.instance().getController().getDesignationsController();
     }
 
     private void initMenu() {
@@ -41,6 +35,7 @@ public class DiggingMenu extends SubMenuMenu {
         super.createButton(text, hotKey, new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                DesignationsController controller = GameMvc.instance().getController().getDesignationsController();
                 controller.setActiveDesignation(new SimpleDesignationSequence(type)); //no buildings here
                 controller.startSequence();
             }
@@ -48,7 +43,7 @@ public class DiggingMenu extends SubMenuMenu {
     }
 
     @Override
-    public void reset() {
-        controller.handleCancel();
+    protected void onHide() {
+        GameMvc.instance().getController().getDesignationsController().handleCancel();
     }
 }
