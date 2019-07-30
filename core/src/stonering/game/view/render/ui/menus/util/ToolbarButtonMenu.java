@@ -34,6 +34,11 @@ public abstract class ToolbarButtonMenu extends ButtonMenu implements Highlighta
         GameMvc.instance().getView().getUiDrawer().getToolbar().hideMenu(this);
     }
 
+    @Override
+    public Highlightable.HighlightHandler getHighlightHandler() {
+        return handler;
+    }
+
     private class HighlightHandler extends Highlightable.CheckHighlightHandler {
 
         @Override
