@@ -18,6 +18,7 @@ public class PauseMenu extends ButtonMenu {
         super();
         createTable();
         addButtons();
+        forbidEventPass = true;
     }
 
     private void createTable() {

@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import stonering.game.view.render.ui.menus.util.Highlightable;
+import stonering.util.global.Logger;
 import stonering.util.global.StaticSkin;
 
 import java.util.*;
@@ -119,12 +120,14 @@ public class Toolbar extends Container implements Highlightable {
 
     /**
      * Simply transfers event to current active menu.
+     *
      * @return true, if press handled
      */
     private void createInputListener() {
         addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
+                Logger.UI.logDebug("handling " + keycode + " in toolbar");
                 if (keycode == Input.Keys.E && getActiveMenu() == parentMenu) return false;
                 return getActiveMenu().notify(event, false);
             }

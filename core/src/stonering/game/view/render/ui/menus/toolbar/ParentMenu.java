@@ -2,6 +2,8 @@ package stonering.game.view.render.ui.menus.toolbar;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.utils.Align;
+import stonering.game.GameMvc;
+import stonering.game.view.render.stages.PauseMenuStage;
 import stonering.game.view.render.ui.menus.building.ToolbarBuildingMenu;
 import stonering.game.view.render.ui.menus.util.SubMenuMenu;
 import stonering.game.view.render.ui.menus.zone.ZonesMenu;
@@ -30,5 +32,7 @@ public class ParentMenu extends SubMenuMenu {
      * Overrode to prevent closing.
      */
     @Override
-    public void hide() {}
+    public void hide() {
+//        GameMvc.instance().getView().addStageToList(new PauseMenuStage());
+    }
 }

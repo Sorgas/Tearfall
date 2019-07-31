@@ -45,7 +45,7 @@ public class PlanningAspect extends Aspect {
      * Finished tasks remove themselves from container, so only link nullifying is needed.
      */
     private boolean hasNoActiveTask() {
-        if (task != null && task.isFinished()) updateState(null);
+        if (task != null && task.isFinished()) updateState(null); // reset state of this aspect
         return task == null;
     }
 
@@ -68,23 +68,23 @@ public class PlanningAspect extends Aspect {
      * Changes state of this aspect to given task. Passing null means no task is performed.
      * With finished task, state of this aspect is reset.
      */
-    private boolean updateState(Task task) {
-        if (task != null) {
-            if (task.getInitialAction() instanceof PlantingAction) {
+    private boolean updateState(Task newTask) {
+        if (newTask != null) {
+            if (newTask.getInitialAction() instanceof PlantingAction) {
                 System.out.println();
             }
-            Logger.TASKS.logDebug("Checking of task " + task.toString() + " for " + entity.toString());
-            task.setPerformer((Unit) entity); // performer is required for checking
-            if (checkActionSequence(task)) { // valid task
-                this.task = task;
-                action = task.getNextAction();
+            Logger.TASKS.logDebug("Checking of task " + newTask.toString() + " for " + entity.toString());
+            newTask.setPerformer((Unit) entity); // performer is required for checking
+            if (checkActionSequence(newTask)) { // valid task
+                this.task = newTask;
+                action = newTask.getNextAction();
                 target = action.getActionTarget().getPosition();
                 return true;
             }
         }
         // clear state or invalid task
-        this.task = null;
-        if (task != null) task.reset();
+        if (newTask != null) newTask.reset(); // reset created action sequence in invalid task
+        task = null;
         action = null;
         target = null;
         return false;

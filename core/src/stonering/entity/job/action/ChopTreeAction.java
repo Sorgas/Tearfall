@@ -51,14 +51,11 @@ public class ChopTreeAction extends Action {
 
     @Override
     public void performLogic() {
-        logStart();
+        Logger.TASKS.logDebug("tree chopping started at " + actionTarget.getPosition().toString() + " by " + task.getPerformer().toString());
+        if(check() != OK) return; // tree died during chopping. rare case
         PlantContainer container = GameMvc.instance().getModel().get(PlantContainer.class);
         AbstractPlant plant = container.getPlantInPosition(actionTarget.getPosition());
         if (plant.getType().isTree()) container.remove(plant, true);
-    }
-
-    private void logStart() {
-        Logger.TASKS.logDebug("tree chopping started at " + actionTarget.getPosition().toString() + " by " + task.getPerformer().toString());
     }
 
     @Override

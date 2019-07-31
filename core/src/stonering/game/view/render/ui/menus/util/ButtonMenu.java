@@ -17,8 +17,8 @@ import java.util.LinkedHashMap;
  * Hides itself on Q.
  */
 public abstract class ButtonMenu extends Table implements Hideable {
-
     private LinkedHashMap<Integer, Button> buttons;
+    protected boolean forbidEventPass = false; // if true, key events will be handled further
 
     public ButtonMenu() {
         buttons = new LinkedHashMap<>();
@@ -34,6 +34,7 @@ public abstract class ButtonMenu extends Table implements Hideable {
         addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
+                Logger.UI.logDebug("handling " + keycode + " in button menu");
                 event.stop();
                 if (buttons.containsKey(keycode)) {
                     Logger.UI.logDebug("Pressing " + Input.Keys.toString(keycode) + " button in " + this);
@@ -42,7 +43,7 @@ public abstract class ButtonMenu extends Table implements Hideable {
                     hide();
                     onHide();
                 }
-                return true;
+                return forbidEventPass;
             }
         });
     }

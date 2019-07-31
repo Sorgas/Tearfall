@@ -122,8 +122,7 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
      * Removes plant from map completely. Can leave products.
      */
     public void remove(AbstractPlant plant, boolean leaveProduct) {
-        if (plant == null) return;
-        if (plants.removeValue(plant, true)) removePlantBlocks(plant, leaveProduct);
+        if (plant != null && plants.removeValue(plant, true)) removePlantBlocks(plant, leaveProduct);
     }
 
     /**
