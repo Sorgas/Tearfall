@@ -72,5 +72,6 @@ public class PlantGrowthAspect extends Aspect {
     private void die() {
         //TODO
         ((AbstractPlant) entity).setDead(true);
+        GameMvc.instance().getModel().get(PlantContainer.class).remove((AbstractPlant) entity, true);
     }
 }
