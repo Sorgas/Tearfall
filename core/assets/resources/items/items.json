@@ -89,11 +89,18 @@
     "typeAspects": [["value", "0"]],
     "atlasXY": ["15", "0"],
     "color": "0xffffffff"
-}, {
+}, {// generic seed for plants
     "name": "seed",
     "description": "Can give birth to a plant",
     "typeAspects": [["value", "0"]],
     "aspects": [["seed"]],
+    "atlasXY": ["15", "0"],
+    "color": "0xffffffff"
+}, {
+    "name": "apple",
+    "description": "Juicy fruit",
+    "typeAspects": [["value", "0"]],
+    "aspects": [["seed", "apple"]],
     "atlasXY": ["15", "0"],
     "color": "0xffffffff"
 }

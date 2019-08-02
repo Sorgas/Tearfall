@@ -15,8 +15,6 @@ public class SeedAspect extends Aspect {
         this.specimen = specimen;
     }
 
-
-
     public String getSpecimen() {
         return specimen;
     }

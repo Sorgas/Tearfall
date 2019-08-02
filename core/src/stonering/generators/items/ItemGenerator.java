@@ -1,5 +1,6 @@
 package stonering.generators.items;
 
+import com.sun.xml.internal.ws.util.StringUtils;
 import stonering.entity.Aspect;
 import stonering.entity.crafting.ItemOrder;
 import stonering.entity.item.aspects.SeedAspect;
@@ -40,7 +41,7 @@ public class ItemGenerator {
      */
     public Item generateItem(String name, int material) {
         ItemType type = itemTypeMap.getItemType(name);
-        if(type == null) return null;
+        if (type == null) return null;
         Item item = new Item(null, type);
         item.setMaterial(material);
         generateItemAspects(item);
@@ -178,9 +179,6 @@ public class ItemGenerator {
     /**
      * Creates itemPart with material from first variant.
      *
-     * @param step
-     * @param itemName
-     * @return
      * @throws FaultDescriptionException
      */
     private ItemPart createMockItemPart(ItemPartType step, String itemName) throws FaultDescriptionException {
@@ -194,5 +192,15 @@ public class ItemGenerator {
     public Item generateItem(ItemOrder order) {
         Logger.ITEMS.logWarn("Generating mock item"); //TODO
         return new Item(null, ItemTypeMap.getInstance().getItemType("sickle"));
+    }
+
+    /**
+     * Seeds have single {@link ItemType} for all plants species.
+     */
+    public Item generateSeedItem(String specimen) {
+        Item item = new Item(null, itemTypeMap.getItemType("seed"));
+        item.setTitle(StringUtils.capitalize(specimen) + "seed");
+        item.addAspect(new SeedAspect(item, specimen));
+        return item;
     }
 }
