@@ -145,7 +145,7 @@
         ]
     },
     {
-        "name":"farm test plant",
+        "name":"farm_test_plant",
         "title":"Farm test",
         "description":"For testing farms, grows in all seasons.",
         "materialName":"willow",
@@ -156,12 +156,10 @@
         "lifeStages":[
             {
                 "titlePrefixSuffix":["", "sapling"],
-                "stageLength":"2"
+                "stageLength":"1"
             },
             {
-                "stageLength":"3"
-            },
-            {
+                "harvestProduct":["seed", "1-1-1", "all"],
                 "titlePrefixSuffix":["", ""],
                 "stageLength":"1"
             }
