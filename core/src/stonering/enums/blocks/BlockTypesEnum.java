@@ -11,13 +11,13 @@ public enum BlockTypesEnum {
     SPACE(0, 1, "space"), //not passable for walkers, liquids fall
     WALL(1, 0, "wall"), // not passable
     FLOOR(2, 2, "floor"), // passable, liquids don't fall
-    RAMP(3, 2, "ramp"), // passable, liquids don't fall
-
     // leads 1 level up if there is STAIRS or STAIRFLOOR. leads 1 level down, if there is STAIRS.
-    STAIRS(4, 2, "stairs"), // passable, liquids don't fall if lower block is not stairs
+    STAIRS(3, 2, "stairs"), // passable, liquids don't fall if lower block is not stairs
 
     // automatically placed when stairs constructed, turns to SPACE when stairs removed
-    STAIRFLOOR(5, 2, "stairfloor"), // passable, liquids fall
+    STAIRFLOOR(4, 2, "stairfloor"), // passable, liquids fall
+
+    RAMP(5, 2, "ramp"), // passable, liquids don't fall
     FARM(6, 2, "farm plot"); // passable
 
     public final byte CODE;

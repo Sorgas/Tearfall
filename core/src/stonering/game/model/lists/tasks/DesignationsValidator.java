@@ -28,9 +28,14 @@ public class DesignationsValidator {
             case CHANNEL: { //makes space and ramp lower
                 return !BlockTypesEnum.SPACE.equals(blockOnMap);
             }
-            case RAMP:
-            case STAIRS: {
+            case RAMP: {
                 return BlockTypesEnum.WALL.equals(blockOnMap);
+            }
+            case STAIRS: {
+                return BlockTypesEnum.WALL.equals(blockOnMap) ||
+                        BlockTypesEnum.FLOOR.equals(blockOnMap) ||
+                        BlockTypesEnum.FARM.equals(blockOnMap) ||
+                        BlockTypesEnum.RAMP.equals(blockOnMap);
             }
             case CHOP: {
                 //TODO designate tree as whole

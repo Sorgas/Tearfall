@@ -13,6 +13,7 @@ import java.util.HashMap;
 
 /**
  * Container for substrates
+ *
  * @author Alexander_Kuzyakov on 18.06.2019.
  */
 public class SubstrateContainer extends IntervalTurnable implements Initable, ModelComponent {
@@ -45,9 +46,16 @@ public class SubstrateContainer extends IntervalTurnable implements Initable, Mo
      */
     public void remove(AbstractPlant plant) {
         if (plant == null) return;
-        if (substrateBlocks.containsKey(plant.getPosition())) return;
+        if (!substrateBlocks.containsKey(plant.getPosition())) return;
         substratePlants.removeValue((SubstratePlant) plant, true);
         substrateBlocks.remove(plant.getPosition());
+    }
+
+    /**
+     * Removes plant from position, if any.
+     */
+    public void remove(Position pos) {
+        if (substrateBlocks.containsKey(pos)) remove(substrateBlocks.get(pos).getPlant());
     }
 
     public PlantBlock getSubstrateBlock(Position position) {

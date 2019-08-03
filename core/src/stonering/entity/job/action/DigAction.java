@@ -15,6 +15,8 @@ import stonering.generators.items.DiggingProductGenerator;
 import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
 
+import static stonering.enums.blocks.BlockTypesEnum.*;
+
 public class DigAction extends Action {
     private DesignationTypeEnum type;
     private ItemSelector toolItemSelector;
@@ -29,7 +31,7 @@ public class DigAction extends Action {
     public int check() {
         EquipmentAspect aspect = task.getPerformer().getAspect(EquipmentAspect.class);
         if (aspect == null) return FAIL;
-        if(toolItemSelector.checkItems(aspect.getEquippedItems())) return OK;
+        if (toolItemSelector.checkItems(aspect.getEquippedItems())) return OK;
         return addEquipAction();
     }
 
@@ -46,21 +48,21 @@ public class DigAction extends Action {
         Position pos = actionTarget.getPosition();
         switch (type) {
             case DIG: {
-                validateAndChangeBlock(pos, BlockTypesEnum.FLOOR);
+                validateAndChangeBlock(pos, FLOOR);
                 break;
             }
             case RAMP: {
-                validateAndChangeBlock(pos, BlockTypesEnum.RAMP);
-                validateAndChangeBlock(new Position(pos.getX(), pos.getY(), pos.getZ() + 1), BlockTypesEnum.SPACE);
+                validateAndChangeBlock(pos, RAMP);
+                validateAndChangeBlock(new Position(pos.getX(), pos.getY(), pos.getZ() + 1), SPACE);
                 break;
             }
             case STAIRS: {
-                validateAndChangeBlock(pos, BlockTypesEnum.STAIRS);
+                validateAndChangeStairs(pos);
                 break;
             }
             case CHANNEL: {
-                validateAndChangeBlock(pos, BlockTypesEnum.SPACE);
-                validateAndChangeBlock(new Position(pos.getX(), pos.getY(), pos.getZ() - 1), BlockTypesEnum.RAMP);
+                validateAndChangeBlock(pos, SPACE);
+                validateAndChangeBlock(new Position(pos.getX(), pos.getY(), pos.getZ() - 1), RAMP);
                 break;
             }
         }
@@ -72,18 +74,34 @@ public class DigAction extends Action {
         LocalMap map = GameMvc.instance().getModel().get(LocalMap.class);
         switch (type) {
             case RAMP:
-            case STAIRS:
-                valid = map.getBlockType(pos) == BlockTypesEnum.WALL.CODE;
+                valid = map.getBlockType(pos) == WALL.CODE;
                 break;
             case FLOOR:
-                valid = map.getBlockType(pos) == BlockTypesEnum.WALL.CODE ||
-                        map.getBlockType(pos) == BlockTypesEnum.RAMP.CODE ||
-                        map.getBlockType(pos) == BlockTypesEnum.STAIRS.CODE;
+                valid = map.getBlockType(pos) == WALL.CODE ||
+                        map.getBlockType(pos) == RAMP.CODE ||
+                        map.getBlockType(pos) == STAIRS.CODE;
                 break;
             case SPACE:
                 valid = true;
         }
         if (valid) map.setBlockType(pos, type.CODE);
+    }
+
+    /**
+     * Stairs and stairfloor are created with the same designation, depending on block type.
+     */
+    private void validateAndChangeStairs(Position pos) {
+        LocalMap map = GameMvc.instance().getModel().get(LocalMap.class);
+        switch (BlockTypesEnum.getType(map.getBlockType(pos))) {
+            case WALL:
+                map.setBlockType(pos, FLOOR.CODE);
+                return;
+            case FLOOR:
+            case RAMP:
+            case FARM:
+                map.setBlockType(pos, STAIRFLOOR.CODE);
+                return;
+        }
     }
 
     /**

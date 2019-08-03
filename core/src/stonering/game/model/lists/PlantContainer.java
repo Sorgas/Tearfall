@@ -22,8 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Contains plants. {@link Plant}s and {@link Tree}s are stored in list, {@link SubstratePlant} are stored in separate list.
- * One tile can have one plant block. Substrate plants can occupy same tile with other plants.
+ * Contains plants. {@link Plant}s and {@link Tree}s are stored in list. One tile can have one plant block.
  * {@link PlantBlock}s are stored in map (by {@link Position}).
  * When plant is destroyed (died, cut or chopped), it's products are dropped via this container.
  * Plants are updated once in a minute. Plants do not move.
@@ -237,5 +236,15 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
 
     public boolean isPlantBlockExists(Position position) {
         return plantBlocks.containsKey(position);
+    }
+
+    public void handleBlockRemoval(Position position) {
+        if(!plantBlocks.containsKey(position)) return;
+        PlantBlock block = plantBlocks.get(position);
+        if(block.getPlant().getType().isTree()) {
+            //TODO trees should have underground roots, and stay while enough root blocks are in the soil
+        } else if(block.getPlant().getType().isPlant()) {
+            remove(block.getPlant(), true);
+        }
     }
 }

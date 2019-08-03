@@ -5,6 +5,7 @@ import stonering.entity.item.Item;
 import stonering.entity.plants.AbstractPlant;
 import stonering.entity.plants.PlantBlock;
 import stonering.enums.plants.PlantProduct;
+import stonering.util.global.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,15 +27,17 @@ public class PlantProductGenerator {
     public ArrayList<Item> generateCutProduct(PlantBlock block) {
         ArrayList<Item> items = new ArrayList<>();
         AbstractPlant plant = block.getPlant();
+        Logger.PLANTS.logDebug("generating cut products for " + plant.getType().title);
         if (plant.getType().isPlant()) {
             List<String> productNames = block.getPlant().getCurrentStage().cutProducts;
-            productNames.forEach(name -> items.add(itemGenerator.generateItem(name, block.getMaterial())));
+            if (productNames != null)
+                productNames.forEach(name -> items.add(itemGenerator.generateItem(name, block.getMaterial())));
         } else if (plant.getType().isTree()) {
             Item cutItem = generateCutProductForTreePart(block);
             if (cutItem != null) items.add(cutItem);
         }
         Item harvestProduct = generateHarvestProduct(block);
-        if(harvestProduct != null) items.add(harvestProduct);
+        if (harvestProduct != null) items.add(harvestProduct);
         return items;
     }
 
@@ -43,9 +46,9 @@ public class PlantProductGenerator {
      * Blocks can only have one product, Tree blocks are harvested separately.
      */
     public Item generateHarvestProduct(PlantBlock block) {
-        if(block.isHarvested()) return null;
+        if (block.isHarvested()) return null;
         PlantProduct product = block.getPlant().getCurrentStage().harvestProduct;
-        if(product == null) return null;
+        if (product == null) return null;
         return itemGenerator.generateItem(product.name, block.getMaterial());
     }
 
@@ -55,9 +58,9 @@ public class PlantProductGenerator {
      */
     private Item generateCutProductForTreePart(PlantBlock block) {
         String itemName = PlantBlocksTypeEnum.getType(block.getBlockType()).cutProduct;
-        if(itemName == null) return null;
+        if (itemName == null) return null;
         List<String> cutProducts = block.getPlant().getCurrentStage().cutProducts;
-        if(cutProducts == null || !cutProducts.contains(itemName)) return null;
+        if (cutProducts == null || !cutProducts.contains(itemName)) return null;
         return itemGenerator.generateItem(itemName, block.getMaterial());
     }
 }

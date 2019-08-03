@@ -2,13 +2,17 @@ package stonering.game.model.local_map;
 
 import com.badlogic.gdx.math.Vector2;
 import stonering.enums.blocks.BlockTypesEnum;
+import stonering.game.GameMvc;
 import stonering.game.model.lists.ModelComponent;
+import stonering.game.model.lists.PlantContainer;
+import stonering.game.model.lists.SubstrateContainer;
 import stonering.game.model.util.UtilByteArray;
 import stonering.game.view.tilemaps.LocalTileMapUpdater;
 import stonering.util.geometry.Position;
 import stonering.util.global.Initable;
 import stonering.util.global.LastInitable;
 
+import java.awt.color.ColorSpace;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
@@ -26,6 +30,7 @@ public class LocalMap implements ModelComponent, Initable, LastInitable {
     private byte[][][] temperature;
     public final UtilByteArray generalLight;                   //for light from celestial bodies
     public final UtilByteArray light;                          //for light from dynamic sources (torches, lamps)
+    private Position cachePosition;
 
     public transient PassageMap passage;                             // not saved to savegame,
     private transient LocalTileMapUpdater localTileMapUpdater;           // not saved to savegame,
@@ -44,6 +49,7 @@ public class LocalMap implements ModelComponent, Initable, LastInitable {
         this.xSize = xSize;
         this.ySize = ySize;
         this.zSize = zSize;
+        cachePosition = new Position();
     }
 
     public void init() {
@@ -114,15 +120,22 @@ public class LocalMap implements ModelComponent, Initable, LastInitable {
         return position;
     }
 
-    public void setBlockType(int x, int y, int z, byte type) {
-        //TODO update passage
+    private void setBlockType(int x, int y, int z, byte type) {
+        if (type == BlockTypesEnum.SPACE.CODE) deletePlantsOnDeletedBlock(x, y, z);
         blockType[x][y][z] = type;
-        if (localTileMapUpdater != null)
+        if (localTileMapUpdater != null) {
             localTileMapUpdater.updateTile(x, y, z);
+        }
         if (passage != null) {
             passage.updateCell(x, y, z);
         }
         if (localTileMapUpdater != null) localTileMapUpdater.updateTile(x, y, z);
+    }
+
+    private void deletePlantsOnDeletedBlock(int x, int y, int z) {
+        GameMvc.instance().getModel().get(SubstrateContainer.class).remove(cachePosition.set(x, y, z));
+        GameMvc.instance().getModel().get(PlantContainer.class).handleBlockRemoval(cachePosition);
+
     }
 
     /**
@@ -132,7 +145,8 @@ public class LocalMap implements ModelComponent, Initable, LastInitable {
     public Position getAnyNeighbourPosition(Position position, int passing) {
         for (int x = position.x - 1; x < position.x + 2; x++) {
             for (int y = position.y - 1; y < position.y + 2; y++) {
-                if (inMap(position) && passage.getPassage(x, y, position.z) == passing) return new Position(x, y, position.z);
+                if (inMap(position) && passage.getPassage(x, y, position.z) == passing)
+                    return new Position(x, y, position.z);
             }
         }
         return position;
