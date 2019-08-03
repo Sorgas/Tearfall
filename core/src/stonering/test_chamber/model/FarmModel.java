@@ -22,7 +22,7 @@ public class FarmModel extends TestModel {
         get(EntitySelector.class).setPosition(MAP_SIZE / 2, MAP_SIZE / 2, 2);
         get(UnitContainer.class).addUnit(createUnit());
         get(ItemContainer.class).addItem(createHoe());
-        get(ItemContainer.class).addItem(createSeed());
+        putSeeds();
     }
 
     private Unit createUnit() {
@@ -37,9 +37,15 @@ public class FarmModel extends TestModel {
         return item;
     }
 
-    private Item createSeed() {
+    private void putSeeds() {
+        for (int i = 0; i < 4; i++) {
+            get(ItemContainer.class).addItem(createSeed(i));
+        }
+    }
+
+    private Item createSeed(int offset) {
         Item item = new ItemGenerator().generateSeedItem("farm_test_plant");
-        item.setPosition(new Position(1, 0, 2));
+        item.setPosition(new Position(1 + offset, 0, 2));
         return item;
     }
 }

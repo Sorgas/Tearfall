@@ -14,6 +14,7 @@ import stonering.game.model.lists.ModelComponent;
  * @author Alexander on 07.10.2018.
  */
 public class GameCalendar extends Turnable implements ModelComponent {
+    private int yearNumber; //
     public final TimeUnit minute; // for faster rendering
     public final TimeUnit hour;
     public final TimeUnit day;

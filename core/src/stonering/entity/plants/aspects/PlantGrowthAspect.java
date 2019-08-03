@@ -6,6 +6,7 @@ import stonering.entity.environment.GameCalendar;
 import stonering.entity.plants.AbstractPlant;
 import stonering.entity.plants.Plant;
 import stonering.entity.plants.Tree;
+import stonering.enums.plants.PlantType;
 import stonering.enums.time.TimeUnitEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.lists.PlantContainer;
@@ -15,17 +16,18 @@ import stonering.util.geometry.Position;
 
 /**
  * Switches plant life stages. Restructures tree if needed to represent growth.
+ * Stage length is taken from {@link PlantType} and measured in weeks.
  *
  * @author Alexander on 13.02.2019.
  */
 public class PlantGrowthAspect extends Aspect {
-    private int monthSize; // month size in minutes.
+    private int weekSize; // week size in minutes.
     private int counter = 0;
 
     public PlantGrowthAspect(Entity entity) {
         super(entity);
         GameCalendar calendar = GameMvc.instance().getModel().get(GameCalendar.class);
-        monthSize = calendar.month.getSize() * calendar.day.getSize() * calendar.hour.getSize();
+        weekSize = 7 * calendar.day.getSize() * calendar.hour.getSize();
     }
 
     /**
@@ -34,7 +36,7 @@ public class PlantGrowthAspect extends Aspect {
     @Override
     public void turnInterval(TimeUnitEnum unit) {
         if(unit != TimeUnitEnum.MINUTE) return;
-        if (counter++ < monthSize) return;
+        if (counter++ < weekSize) return;
         counter = 0;
         switch (((AbstractPlant) entity).increaceAge()) {
             case 1:

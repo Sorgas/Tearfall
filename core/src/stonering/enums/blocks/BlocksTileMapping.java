@@ -10,24 +10,25 @@ import java.util.HashMap;
 public enum BlocksTileMapping {
     WALL(1, 0),
     FLOOR(2, 1),
-    STAIRS(3, 14), //TODO move STAIRS next to FLOOR, add STAIR_FLOOR and FARM, update assets
+    STAIRS(3, 2),
+    STAIRFLOOR(4,3),
 
-    RAMP_N(3, 2), // (0,1)
-    RAMP_S(4, 3), // (0,-1)
-    RAMP_W(5, 4), // (-1,0)
-    RAMP_E(6, 5), // (1,0)
+    RAMP_N(5, 4), // (0,1)
+    RAMP_S(6, 5), // (0,-1)
+    RAMP_W(7, 6), // (-1,0)
+    RAMP_E(8, 7), // (1,0)
 
-    RAMP_NW(7, 6),
-    RAMP_NE(8, 7),
-    RAMP_SW(9, 8),
-    RAMP_SE(10, 9),
+    RAMP_NW(9, 8),
+    RAMP_NE(10, 9),
+    RAMP_SW(11, 10),
+    RAMP_SE(12, 11),
 
-    RAMP_NWO(11, 10),
-    RAMP_NEO(12, 11),
-    RAMP_SWO(13, 12),
-    RAMP_SEO(14, 13),;
-//    FARM();
-
+    RAMP_NWO(13, 12),
+    RAMP_NEO(14, 13),
+    RAMP_SWO(15, 14),
+    RAMP_SEO(16, 15),
+    FARM(17, 16),
+;
     public final byte CODE;
     public final byte ATLAS_X;
     private static HashMap<Byte, BlocksTileMapping> map;
