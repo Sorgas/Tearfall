@@ -23,6 +23,8 @@ import stonering.game.view.tilemaps.LocalTileMap;
 import stonering.util.geometry.Int2dBounds;
 import stonering.util.geometry.Position;
 
+import static stonering.game.view.render.stages.renderer.AtlasesEnum.*;
+
 /**
  * Class for rendering tiles.
  *
@@ -138,9 +140,9 @@ public class TileRenderer extends Renderer {
      */
     private TextureRegion selectSpriteForBlock(int x, int y, int z) {
         int atlasX = getAtlasXForBlock(x, y, z);
-        if (atlasX != -1) return util.selectSprite(0, atlasX, getAtlasYForBlock(x, y, z));
+        if (atlasX != -1) return util.selectSprite(blocks, atlasX, getAtlasYForBlock(x, y, z));
         atlasX = getAtlasXForBlock(x, y, z - 1);
-        if (atlasX != -1) return util.selectToping(0, atlasX, getAtlasYForBlock(x, y, z - 1));
+        if (atlasX != -1) return util.selectToping(blocks, atlasX, getAtlasYForBlock(x, y, z - 1));
         return null;
     }
 
@@ -170,12 +172,12 @@ public class TileRenderer extends Renderer {
         cachePosition.set(x, y, z);
         PlantBlock block = substrateContainer.getSubstrateBlock(cachePosition);
         if (block != null)
-            return util.selectSprite(6, localTileMap.get(cachePosition).getVal1(), block.getAtlasXY()[1]);
+            return util.selectSprite(substrates, localTileMap.get(cachePosition).getVal1(), block.getAtlasXY()[1]);
         if (z == 0) return null;
         cachePosition.set(x, y, z - 1);
         block = substrateContainer.getSubstrateBlock(cachePosition);
         if (block != null)
-            return util.selectToping(6, localTileMap.get(cachePosition).getVal1(), block.getAtlasXY()[1]);
+            return util.selectToping(substrates, localTileMap.get(cachePosition).getVal1(), block.getAtlasXY()[1]);
         return null;
     }
 
@@ -195,8 +197,8 @@ public class TileRenderer extends Renderer {
      */
     private TextureRegion selectSpriteForFlooding(int x, int y, int z) {
         int flooding = localMap.getFlooding(x, y, z);
-        if (flooding != 0) return util.selectSprite(0, 13 + flooding, 0);
-        if (z > 0 && localMap.getFlooding(x, y, z - 1) >= 7) return util.selectToping(0, 20, 0);
+        if (flooding != 0) return util.selectSprite(liquids, flooding - 1, 0);
+        if (z > 0 && localMap.getFlooding(x, y, z - 1) >= 7) return util.selectToping(liquids, 6, 0);
         return null;
     }
 
@@ -209,17 +211,17 @@ public class TileRenderer extends Renderer {
         for (Unit unit : unitContainer.getUnitsInPosition(x, y, z)) {
             if (!unit.hasAspect(MovementAspect.class)) continue;
             Vector3 vector = unit.getAspect(MovementAspect.class).getStepProgressVector().add(x, y, z);
-            util.drawSprite(util.selectSprite(2, 0, 0), vector); //TODO add correct sprite selection
+            util.drawSprite(util.selectSprite(units, 0, 0), vector); //TODO add correct sprite selection
         }
     }
 
     private void drawItem(Item item) {
-        util.drawSprite(util.selectSprite(5, item.getType().atlasXY[0], item.getType().atlasXY[1]), item.getAspect(PositionAspect.class).position);
+        util.drawSprite(util.selectSprite(items, item.getType().atlasXY[0], item.getType().atlasXY[1]), item.getAspect(PositionAspect.class).position);
     }
 
     private void drawDesignation(Designation designation) {
         if (designation != null)
-            util.drawSprite(util.selectSprite(4, DesignationsTileMapping.getAtlasX(designation.getType().CODE), 0), designation.getPosition());
+            util.drawSprite(util.selectSprite(ui_tiles, DesignationsTileMapping.getAtlasX(designation.getType().CODE), 0), designation.getPosition());
     }
 
     private void drawZone(Zone zone) {
@@ -227,11 +229,11 @@ public class TileRenderer extends Renderer {
     }
 
     private void drawBuildingBlock(BuildingBlock block) {
-        if (block != null) util.drawSprite(util.selectSprite(3, 0, 0), cachePosition);
+        if (block != null) util.drawSprite(util.selectSprite(buildings, 0, 0), cachePosition);
     }
 
     private void drawPlantBlock(PlantBlock block) {
         if (block != null)
-            util.drawSprite(util.selectSprite(1, block.getAtlasXY()[0], block.getAtlasXY()[1]), cacheVector);
+            util.drawSprite(util.selectSprite(plants, block.getAtlasXY()[0], block.getAtlasXY()[1]), cacheVector);
     }
 }

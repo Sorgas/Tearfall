@@ -20,7 +20,6 @@ import static stonering.game.view.render.stages.renderer.BatchUtil.*;
  */
 public class DrawingUtil {
     private Batch batch;
-    private Texture[] atlases;
     private BitmapFont font;
 
     private final float shadingStep = 0.06f;
@@ -36,7 +35,6 @@ public class DrawingUtil {
         batchColor = new Color();
         spriteCache = new HashMap<>();
         cachePosition = new Position();
-        createAtlases();
     }
 
     /**
@@ -56,10 +54,9 @@ public class DrawingUtil {
     /**
      * Cuts standard tile from x y position in specified atlas.
      */
-    public TextureRegion selectSprite(int atlas, int x, int y) {
-        cachePosition.set(x, y, atlas);
-        if (!spriteCache.containsKey(cachePosition)) {
-            spriteCache.put(cachePosition, new TextureRegion(atlases[atlas],
+    public TextureRegion selectSprite(AtlasesEnum atlas, int x, int y) {
+        if(!atlas.spriteCache.containsKey(cachePosition.set(x, y, 0))) {
+            spriteCache.put(cachePosition, new TextureRegion(atlas.atlas,
                     x * TILE_WIDTH,
                     y * (BLOCK_TILE_HEIGHT) + TOPING_TILE_HEIGHT,
                     TILE_WIDTH, TILE_HEIGHT));
@@ -70,10 +67,9 @@ public class DrawingUtil {
     /**
      * Cuts tile toping from x y position in specified atlas.
      */
-    public TextureRegion selectToping(int atlas, int x, int y) {
-        cachePosition.set(x, y, atlas + atlases.length);
-        if (!spriteCache.containsKey(cachePosition)) {
-            spriteCache.put(cachePosition, new TextureRegion(atlases[atlas],
+    public TextureRegion selectToping(AtlasesEnum atlas, int x, int y) {
+        if (!atlas.spriteCache.containsKey(cachePosition.set(x, y, 1))) {
+            spriteCache.put(cachePosition, new TextureRegion(atlas.atlas,
                     x * TILE_WIDTH,
                     y * BLOCK_TILE_HEIGHT,
                     TILE_WIDTH, TOPING_TILE_HEIGHT));
@@ -85,17 +81,6 @@ public class DrawingUtil {
         float screenX = getBatchX(x);
         float screenY = getBatchY(y, z);
         font.draw(batch, text, screenX, screenY);
-    }
-
-    private void createAtlases() {
-        atlases = new Texture[7];
-        atlases[0] = new Texture("sprites/blocks.png");
-        atlases[1] = new Texture("sprites/plants.png");
-        atlases[2] = new Texture("sprites/units.png");
-        atlases[3] = new Texture("sprites/buildings.png");
-        atlases[4] = new Texture("sprites/ui_tiles.png");
-        atlases[5] = new Texture("sprites/items.png");
-        atlases[6] = new Texture("sprites/substrates.png");
     }
 
     /**

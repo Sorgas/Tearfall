@@ -25,7 +25,8 @@ public enum BlocksTileMapping {
     RAMP_NWO(11, 10),
     RAMP_NEO(12, 11),
     RAMP_SWO(13, 12),
-    RAMP_SEO(14, 13);
+    RAMP_SEO(14, 13),;
+//    FARM();
 
     public final byte CODE;
     public final byte ATLAS_X;

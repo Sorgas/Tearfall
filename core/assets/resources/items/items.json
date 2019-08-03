@@ -94,7 +94,7 @@
     "description": "Can give birth to a plant",
     "typeAspects": [["value", "0"]],
     "aspects": [["seed"]],
-    "atlasXY": ["15", "0"],
+    "atlasXY": ["11", "0"],
     "color": "0xffffffff"
 }, {
     "name": "apple",
