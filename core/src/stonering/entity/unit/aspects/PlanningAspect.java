@@ -16,6 +16,9 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Objects;
 
+import static stonering.entity.job.action.target.ActionTarget.*;
+
+
 /**
  * Holds current creature's task and it's steps. resolves behavior, if some step fails.
  * Selects new tasks.
@@ -35,9 +38,19 @@ public class PlanningAspect extends Aspect {
 
     public void turn() {
         if (hasNoActiveTask() && !trySelectTask()) return; // no active task, and no new found
-        if (!action.getActionTarget().check(getEntityPosition())) return; // keep moving to target
-        if (!action.perform()) return; // keep performing action
-        updateState(task); // update state after finishing action
+        switch (action.getActionTarget().check(getEntityPosition())) {
+            case FAIL :
+                updateState(null);
+                return;
+            case NEW:
+                updateState(task);
+                return;
+            case WAIT:
+                return;
+            case READY:
+                if (!action.perform()) return; // keep performing action
+                updateState(task); // update state after finishing action
+        }
     }
 
     /**

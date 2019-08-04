@@ -17,6 +17,10 @@ import stonering.util.global.Logger;
 
 import static stonering.enums.blocks.BlockTypesEnum.*;
 
+/**
+ * This action requires digging tool in performers hands.
+ * Should be only created with digging designation types.
+ */
 public class DigAction extends Action {
     private DesignationTypeEnum type;
     private ItemSelector toolItemSelector;
@@ -29,6 +33,7 @@ public class DigAction extends Action {
 
     @Override
     public int check() {
+        if(!validate()) return FAIL;
         EquipmentAspect aspect = task.getPerformer().getAspect(EquipmentAspect.class);
         if (aspect == null) return FAIL;
         if (toolItemSelector.checkItems(aspect.getEquippedItems())) return OK;
@@ -44,70 +49,70 @@ public class DigAction extends Action {
 
     @Override
     protected void performLogic() {
-        logStart();
-        Position pos = actionTarget.getPosition();
-        switch (type) {
-            case DIG: {
-                validateAndChangeBlock(pos, FLOOR);
-                break;
-            }
-            case RAMP: {
-                validateAndChangeBlock(pos, RAMP);
-                validateAndChangeBlock(new Position(pos.getX(), pos.getY(), pos.getZ() + 1), SPACE);
-                break;
-            }
-            case STAIRS: {
-                validateAndChangeStairs(pos);
-                break;
-            }
-            case CHANNEL: {
-                validateAndChangeBlock(pos, SPACE);
-                validateAndChangeBlock(new Position(pos.getX(), pos.getY(), pos.getZ() - 1), RAMP);
-                break;
-            }
-        }
+        if(validate()) updateMap();
         leaveStone(GameMvc.instance().getModel().get(LocalMap.class).getMaterial(actionTarget.getPosition()));
     }
 
-    private void validateAndChangeBlock(Position pos, BlockTypesEnum type) {
-        boolean valid = false;
+    /**
+     * Checks that target block can be changed to a type.
+     */
+    private boolean validate() {
         LocalMap map = GameMvc.instance().getModel().get(LocalMap.class);
+        byte blockType = map.getBlockType(actionTarget.getPosition());
         switch (type) {
+            case DIG:
+                return blockType == WALL.CODE ||
+                        blockType == RAMP.CODE ||
+                        blockType == STAIRS.CODE;
+            case STAIRS:
+                return blockType == WALL.CODE ||
+                        blockType == RAMP.CODE ||
+                        blockType == FLOOR.CODE ||
+                        blockType == STAIRS.CODE;
             case RAMP:
-                valid = map.getBlockType(pos) == WALL.CODE;
-                break;
-            case FLOOR:
-                valid = map.getBlockType(pos) == WALL.CODE ||
-                        map.getBlockType(pos) == RAMP.CODE ||
-                        map.getBlockType(pos) == STAIRS.CODE;
-                break;
-            case SPACE:
-                valid = true;
+                return blockType == WALL.CODE;
+            case CHANNEL:
+                return blockType == WALL.CODE ||
+                        blockType == RAMP.CODE ||
+                        blockType == FLOOR.CODE ||
+                        blockType == STAIRS.CODE;
         }
-        if (valid) map.setBlockType(pos, type.CODE);
+        return false;
     }
 
     /**
-     * Stairs and stairfloor are created with the same designation, depending on block type.
+     * Applies changes to local map.
      */
-    private void validateAndChangeStairs(Position pos) {
+    private void updateMap() {
         LocalMap map = GameMvc.instance().getModel().get(LocalMap.class);
-        switch (BlockTypesEnum.getType(map.getBlockType(pos))) {
-            case WALL:
-                map.setBlockType(pos, FLOOR.CODE);
-                return;
-            case FLOOR:
+        Position target = actionTarget.getPosition();
+        switch(type) {
+            case DIG:
+                map.setBlockType(target, FLOOR.CODE);
+                break;
+            case STAIRS:
+                if(map.getBlockType(target) == WALL.CODE) {
+                    map.setBlockType(target, STAIRS.CODE);
+                } else {
+                    map.setBlockType(target, STAIRFLOOR.CODE);
+                }
+                break;
             case RAMP:
-            case FARM:
-                map.setBlockType(pos, STAIRFLOOR.CODE);
-                return;
+                map.setBlockType(target, RAMP.CODE);
+                Position upperPosition = new Position(target.x, target.y, target.z + 1);
+                if(map.inMap(upperPosition))
+                    map.setBlockType(upperPosition, SPACE.CODE);
+                break;
+            case CHANNEL:
+                map.setBlockType(target, SPACE.CODE);
+                Position lowerPosition = new Position(target.x, target.y, target.z - 1);
+                if(map.inMap(lowerPosition) && map.getBlockType(lowerPosition) == WALL.CODE)
+                    map.setBlockType(lowerPosition, RAMP.CODE);
         }
     }
 
     /**
      * Puts rock of dug material if needed.
-     *
-     * @param material
      */
     private void leaveStone(int material) {
         DiggingProductGenerator generator = new DiggingProductGenerator();
@@ -117,12 +122,8 @@ public class DigAction extends Action {
         GameMvc.instance().getModel().get(ItemContainer.class).addItem(item);
     }
 
-    private void logStart() {
-        Logger.TASKS.logDebug("digging " + type + " started at " + actionTarget.getPosition() + " by " + task.getPerformer().toString());
-    }
-
     @Override
     public String toString() {
-        return "Digging name";
+        return "Digging " + type;
     }
 }

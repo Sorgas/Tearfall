@@ -34,6 +34,7 @@ public abstract class TestModel extends GameModel {
         put(createWorld());
         put(createLocalMap(getMapSize()));
         put(new PlantContainer());
+        put(new SubstrateContainer());
         put(new BuildingContainer());
         put(new ItemContainer());
         put(new LocalTileMap());

@@ -69,6 +69,7 @@ public class TaskContainer implements ModelComponent, Initable {
         OrderDesignation designation = new OrderDesignation(position, type);
         Task task = createOrderTask(designation, priority);
         if (task == null) return null; // no designation with no task
+        Logger.TASKS.logDebug("designation " + type + " submitted");
         task.setDesignation(designation);
         designation.setTask(task);
         tasks.add(task);
