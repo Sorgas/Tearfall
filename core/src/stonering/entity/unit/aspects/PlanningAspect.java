@@ -39,15 +39,15 @@ public class PlanningAspect extends Aspect {
     public void turn() {
         if (hasNoActiveTask() && !trySelectTask()) return; // no active task, and no new found
         switch (action.getActionTarget().check(getEntityPosition())) {
-            case FAIL :
+            case FAIL : // checking failed
                 updateState(null);
                 return;
-            case NEW:
+            case NEW: // new action created
                 updateState(task);
                 return;
-            case WAIT:
+            case WAIT: // keep moving to target
                 return;
-            case READY:
+            case READY: // target reached
                 if (!action.perform()) return; // keep performing action
                 updateState(task); // update state after finishing action
         }
