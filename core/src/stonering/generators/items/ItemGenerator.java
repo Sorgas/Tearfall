@@ -203,4 +203,18 @@ public class ItemGenerator {
         item.addAspect(new SeedAspect(item, specimen));
         return item;
     }
+
+    public static void main(String[] args) {
+        List<String> q = new ArrayList<>();
+        q.addAll(Arrays.asList("qwe","qwe1","qwe2"));
+        System.out.println(q);
+        for(Iterator<String> iterator = q.iterator();iterator.hasNext();) {
+            String item = iterator.next();
+            if(item.equals("qwe2")) {
+                iterator.remove();
+                System.out.println(q);
+                System.out.println(item);
+            }
+        }
+    }
 }

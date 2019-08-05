@@ -120,7 +120,7 @@ public class AStar implements ModelComponent, Initable {
                 for (offset.x = -1; offset.x < 2; offset.x++) {
                     if (offset.isZero()) continue; // skip same pos
                     Position newPos = Position.add(nodePos, offset);
-                    if (!localMap.inMap(newPos)) continue; // sip out of map tile
+                    if (!localMap.inMap(newPos)) continue; // skip out of map tile
                     if (localMap.hasPathBetweenNeighbours(nodePos, newPos)) nodes.add(new Node(newPos, target));
                 }
             }

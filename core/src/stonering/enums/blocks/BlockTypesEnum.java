@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 /**
  * Enum of all block types.
+ * Stairs give vertical passages. From STAIR walker can ascend to STAIR or STAIRFLOOR, and return back respectively.
  *
  * @author Alexander Kuzyakov on 10.06.2017.
  */

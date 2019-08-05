@@ -21,6 +21,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
+import static stonering.enums.blocks.BlockTypesEnum.*;
+
 /**
  * Subcomponent of {@link LocalMap}, is created on local map init.
  * Manages isolated areas on localMap to prevent pathfinding between them.
@@ -81,7 +83,7 @@ public class PassageMap {
     public void updateCell(int x, int y, int z) {
         int passing = isTilePassable(cachePosition.set(x, y, z));
         passage.setValue(x, y, z, passing);
-        if (passing == BlockTypesEnum.PASSABLE) { // areas should be merged
+        if (passing == PASSABLE) { // areas should be merged
             Set<Byte> areas = observeAreasAround(x, y, z);
             if (areas.size() == 1) area.setValue(x, y, z, areas.iterator().next());
             if (areas.size() > 1) mergeAreas(areas);
@@ -249,10 +251,16 @@ public class PassageMap {
     public boolean hasPathBetween(int x1, int y1, int z1, int x2, int y2, int z2) {
         if (!localMap.inMap(x1, y1, z1)) return false;
         if (!localMap.inMap(x2, y2, z2)) return false;
-        if (passage.getValue(x1, y1, z1) != BlockTypesEnum.PASSABLE) return false; // cell not passable
-        if (passage.getValue(x2, y2, z2) != BlockTypesEnum.PASSABLE) return false; // cell not passable
+        if (passage.getValue(x1, y1, z1) != PASSABLE) return false; // cell not passable
+        if (passage.getValue(x2, y2, z2) != PASSABLE) return false; // cell not passable
         if (z1 == z2) return true; // passable tiles on same level
-        return BlockTypesEnum.getType(z1 < z2 ? localMap.getBlockType(x1, y1, z1) : localMap.getBlockType(x2, y2, z2)) == BlockTypesEnum.RAMP; // can descend on ramps
+        byte lower = z1 < z2 ? localMap.getBlockType(x1, y1, z1) : localMap.getBlockType(x2, y2, z2);
+        if (x1 != x2 || y1 != y2) { // check ramps
+            return lower == RAMP.CODE && (x1 == x2 || y1 == y2); // lower tile is ramp
+        } else { // check stairs
+            byte upper = z1 > z2 ? localMap.getBlockType(x1, y1, z1) : localMap.getBlockType(x2, y2, z2);
+            return (upper == STAIRS.CODE || upper == STAIRFLOOR.CODE) && lower == STAIRS.CODE;
+        }
     }
 
     public boolean hasPathBetween(Position pos1, Position pos2) {
@@ -266,11 +274,11 @@ public class PassageMap {
         GameModel model = GameMvc.instance().getModel();
         PlantContainer plantContainer = model.get(PlantContainer.class);
         BuildingContainer buildingContainer = model.get(BuildingContainer.class);
-        if (!plantContainer.isPlantBlockPassable(position)) return BlockTypesEnum.NOT_PASSABLE;
+        if (!plantContainer.isPlantBlockPassable(position)) return NOT_PASSABLE;
         if (buildingContainer.getBuildingBlocks().containsKey(position) && !buildingContainer.getBuildingBlocks().get(position).isPassable())
-            return BlockTypesEnum.NOT_PASSABLE;
+            return NOT_PASSABLE;
         //TODO add water depth checking, etc.
-        return BlockTypesEnum.getType(localMap.getBlockType(position)).PASSING;
+        return getType(localMap.getBlockType(position)).PASSING;
     }
 
     public byte getPassage(int x, int y, int z) {

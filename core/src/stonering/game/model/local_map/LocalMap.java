@@ -12,7 +12,6 @@ import stonering.util.geometry.Position;
 import stonering.util.global.Initable;
 import stonering.util.global.LastInitable;
 
-import java.awt.color.ColorSpace;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
@@ -28,7 +27,7 @@ public class LocalMap implements ModelComponent, Initable, LastInitable {
     private byte[][][] blockType;
     private byte[][][] flooding;
     private byte[][][] temperature;
-    public final UtilByteArray generalLight;                   //for light from celestial bodies
+    public final UtilByteArray generalLight;                   //for light from celestial bodies -1 for hidden tiles.
     public final UtilByteArray light;                          //for light from dynamic sources (torches, lamps)
     private Position cachePosition;
 
@@ -178,14 +177,7 @@ public class LocalMap implements ModelComponent, Initable, LastInitable {
      * Only for adjacent cells.
      */
     public boolean hasPathBetweenNeighbours(Position pos1, Position pos2) {
-        return hasPathBetweenNeighbours(pos1.x, pos1.y, pos1.z, pos2.x, pos2.y, pos2.z);
-    }
-
-    /**
-     * Only for adjacent cells.
-     */
-    public boolean hasPathBetweenNeighbours(int x1, int y1, int z1, int x2, int y2, int z2) {
-        return passage.hasPathBetween(x1, y1, z1, x2, y2, z2);
+        return passage.hasPathBetween(pos1.x, pos1.y, pos1.z, pos2.x, pos2.y, pos2.z);
     }
 
     public void setLocalTileMapUpdater(LocalTileMapUpdater localTileMapUpdater) {
@@ -246,14 +238,6 @@ public class LocalMap implements ModelComponent, Initable, LastInitable {
 
     public void setBlock(int x, int y, int z, BlockTypesEnum blockType, int materialId) {
         setBlock(x, y, z, blockType.CODE, materialId);
-    }
-
-    public UtilByteArray getGeneralLight() {
-        return generalLight;
-    }
-
-    public UtilByteArray getLight() {
-        return light;
     }
 
     public PassageMap getPassage() {
