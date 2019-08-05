@@ -104,6 +104,7 @@ public class TileRenderer extends Renderer {
      * Draw order: block, water, substrate plants, plants, building, unit, item, designation.
      */
     private void drawTile(int x, int y, int z) {
+        if(localMap.generalLight.getValue(x,y,z) == -1) return; // skip unrevealed tile
         cachePosition.set(x, y, z);
         cacheVector.set(x, y, z); // not changed after
 //        byte lightLevel = q(byte) (localMap.getLight().getValue(x, y, z) + localMap.getGeneralLight().getValue(x, y, z));  //TODO limit light level

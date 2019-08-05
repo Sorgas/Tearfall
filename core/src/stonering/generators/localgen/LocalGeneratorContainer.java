@@ -72,6 +72,7 @@ public class LocalGeneratorContainer {
         localBuildingGenerator.execute();
         //item
         localItemsGenerator.execute(); // places item
+
     }
 
     public MainGameModel getGameModel() {
