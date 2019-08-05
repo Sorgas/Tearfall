@@ -79,12 +79,12 @@ public class TileRenderer extends Renderer {
                     drawTile(x, y, z);
                 }
             }
-            for (int y = cacheBounds.getMaxY(); y >= cacheBounds.getMinY(); y--) {
-                for (int x = cacheBounds.getMinX(); x <= cacheBounds.getMaxX(); x++) {
-                    drawUnits(x, y, z);
-                    drawAreaLabel(x, y, z); // for debug purposes
-                }
-            }
+//            for (int y = cacheBounds.getMaxY(); y >= cacheBounds.getMinY(); y--) {
+//                for (int x = cacheBounds.getMinX(); x <= cacheBounds.getMaxX(); x++) {
+//                    drawUnits(x, y, z);
+//                    drawAreaLabel(x, y, z); // for debug purposes
+//                }
+//            }
         }
     }
 

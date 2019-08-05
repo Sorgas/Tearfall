@@ -16,7 +16,7 @@ public enum BlockTypesEnum {
     STAIRS(3, 2, "stairs"), // passable, liquids don't fall if lower block is not stairs
 
     // automatically placed when stairs constructed, turns to SPACE when stairs removed
-    STAIRFLOOR(4, 2, "stairfloor"), // passable, liquids fall
+    STAIRFLOOR(4, 2, "stairfloor"), // passable, liquids fall, if STAIRS are lower
 
     RAMP(5, 2, "ramp"), // passable, liquids don't fall
     FARM(6, 2, "farm plot"); // passable
