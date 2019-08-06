@@ -28,7 +28,6 @@ public class LocalGeneratorContainer {
     private LocalItemsGenerator localItemsGenerator;
     private LocalTemperatureGenerator localTemperatureGenerator;
     private LocalSurfaceWaterPoolsGenerator localSurfaceWaterPoolsGenerator;
-    private LocalRevealGenerator localRevealGenerator;
     private LocalGenConfig config;
 
     public LocalGeneratorContainer(LocalGenConfig config, World world) {
@@ -51,7 +50,6 @@ public class LocalGeneratorContainer {
         localSubstrategenerator = new LocalSubstrateGenerator(localGenContainer);
         localSurfaceWaterPoolsGenerator = new LocalSurfaceWaterPoolsGenerator(localGenContainer);
         localRiverGenerator = new LocalRiverGenerator(localGenContainer);
-        localRevealGenerator = new LocalRevealGenerator(localGenContainer);
     }
 
     public void execute() {
@@ -74,7 +72,6 @@ public class LocalGeneratorContainer {
         localBuildingGenerator.execute();
         //item
         localItemsGenerator.execute(); // places item
-        localRevealGenerator.execute();
     }
 
     public MainGameModel getGameModel() {

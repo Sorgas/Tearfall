@@ -6,7 +6,6 @@ import stonering.game.GameMvc;
 import stonering.game.model.lists.ModelComponent;
 import stonering.game.model.lists.PlantContainer;
 import stonering.game.model.lists.SubstrateContainer;
-import stonering.game.model.util.UtilByteArray;
 import stonering.game.view.tilemaps.LocalTileMapUpdater;
 import stonering.util.geometry.Position;
 import stonering.util.global.Initable;
@@ -27,10 +26,9 @@ public class LocalMap implements ModelComponent, Initable, LastInitable {
     private byte[][][] blockType;
     private byte[][][] flooding;
     private byte[][][] temperature;
-    public final UtilByteArray generalLight;                   //for light from celestial bodies -1 for hidden tiles.
-    public final UtilByteArray light;                          //for light from dynamic sources (torches, lamps)
     private Position cachePosition;
 
+    public LightMap light;
     public transient PassageMap passage;                             // not saved to savegame,
     private transient LocalTileMapUpdater localTileMapUpdater;           // not saved to savegame,
 
@@ -43,8 +41,6 @@ public class LocalMap implements ModelComponent, Initable, LastInitable {
         blockType = new byte[xSize][ySize][zSize];
         flooding = new byte[xSize][ySize][zSize];
         temperature = new byte[xSize][ySize][zSize];
-        generalLight = new UtilByteArray(xSize, ySize, zSize);
-        light = new UtilByteArray(xSize, ySize, zSize);
         this.xSize = xSize;
         this.ySize = ySize;
         this.zSize = zSize;
@@ -52,6 +48,8 @@ public class LocalMap implements ModelComponent, Initable, LastInitable {
     }
 
     public void init() {
+        light = new LightMap(this);
+        light.initLight();
         passage = new PassageMap(this);
         passage.initPassage();
         new AreaInitializer(this).formPassageMap(passage);

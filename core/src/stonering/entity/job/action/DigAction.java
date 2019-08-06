@@ -122,6 +122,19 @@ public class DigAction extends Action {
         GameMvc.instance().getModel().get(ItemContainer.class).addItem(item);
     }
 
+    private void updateAndRevealMap(Position position, BlockTypesEnum type) {
+        LocalMap map = GameMvc.instance().getModel().get(LocalMap.class);
+        map.setBlockType(position, type.CODE);
+
+    }
+
+    /**
+     * Reveals tiles, opened by digging.
+     */
+    private void revealMap() {
+
+    }
+
     @Override
     public String toString() {
         return "Digging " + type;
