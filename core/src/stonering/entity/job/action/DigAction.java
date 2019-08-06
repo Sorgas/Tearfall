@@ -13,7 +13,6 @@ import stonering.game.model.lists.ItemContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.generators.items.DiggingProductGenerator;
 import stonering.util.geometry.Position;
-import stonering.util.global.Logger;
 
 import static stonering.enums.blocks.BlockTypesEnum.*;
 
@@ -58,24 +57,24 @@ public class DigAction extends Action {
      */
     private boolean validate() {
         LocalMap map = GameMvc.instance().getModel().get(LocalMap.class);
-        byte blockType = map.getBlockType(actionTarget.getPosition());
+        BlockTypesEnum blockType = BlockTypesEnum.getType(map.getBlockType(actionTarget.getPosition()));
         switch (type) {
             case DIG:
-                return blockType == WALL.CODE ||
-                        blockType == RAMP.CODE ||
-                        blockType == STAIRS.CODE;
+                return blockType == WALL ||
+                        blockType == RAMP ||
+                        blockType == STAIRS;
             case STAIRS:
-                return blockType == WALL.CODE ||
-                        blockType == RAMP.CODE ||
-                        blockType == FLOOR.CODE ||
-                        blockType == STAIRS.CODE;
+                return blockType == WALL ||
+                        blockType == RAMP ||
+                        blockType == FLOOR ||
+                        blockType == STAIRS;
             case RAMP:
-                return blockType == WALL.CODE;
+                return blockType == WALL;
             case CHANNEL:
-                return blockType == WALL.CODE ||
-                        blockType == RAMP.CODE ||
-                        blockType == FLOOR.CODE ||
-                        blockType == STAIRS.CODE;
+                return blockType == WALL ||
+                        blockType == RAMP ||
+                        blockType == FLOOR ||
+                        blockType == STAIRS;
         }
         return false;
     }
@@ -88,26 +87,26 @@ public class DigAction extends Action {
         Position target = actionTarget.getPosition();
         switch(type) {
             case DIG:
-                map.setBlockType(target, FLOOR.CODE);
+                updateAndRevealMap(target, FLOOR);
                 break;
             case STAIRS:
                 if(map.getBlockType(target) == WALL.CODE) {
-                    map.setBlockType(target, STAIRS.CODE);
+                    updateAndRevealMap(target, STAIRS);
                 } else {
-                    map.setBlockType(target, STAIRFLOOR.CODE);
+                    updateAndRevealMap(target, STAIRFLOOR);
                 }
                 break;
             case RAMP:
-                map.setBlockType(target, RAMP.CODE);
+                updateAndRevealMap(target, RAMP);
                 Position upperPosition = new Position(target.x, target.y, target.z + 1);
                 if(map.inMap(upperPosition))
-                    map.setBlockType(upperPosition, SPACE.CODE);
+                    updateAndRevealMap(upperPosition, SPACE);
                 break;
             case CHANNEL:
-                map.setBlockType(target, SPACE.CODE);
+                updateAndRevealMap(target, SPACE);
                 Position lowerPosition = new Position(target.x, target.y, target.z - 1);
                 if(map.inMap(lowerPosition) && map.getBlockType(lowerPosition) == WALL.CODE)
-                    map.setBlockType(lowerPosition, RAMP.CODE);
+                    updateAndRevealMap(lowerPosition, RAMP);
         }
     }
 
@@ -125,14 +124,7 @@ public class DigAction extends Action {
     private void updateAndRevealMap(Position position, BlockTypesEnum type) {
         LocalMap map = GameMvc.instance().getModel().get(LocalMap.class);
         map.setBlockType(position, type.CODE);
-
-    }
-
-    /**
-     * Reveals tiles, opened by digging.
-     */
-    private void revealMap() {
-
+        map.light.handleDigging(position);
     }
 
     @Override

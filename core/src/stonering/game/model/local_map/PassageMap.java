@@ -48,7 +48,6 @@ public class PassageMap {
 
     public PassageMap(LocalMap localMap) {
         this.localMap = localMap;
-        aStar = GameMvc.instance().getModel().get(AStar.class);
         areaNumbers = new HashMap<>();
         area = new UtilByteArray(localMap.xSize, localMap.ySize, localMap.zSize);
         passage = new UtilByteArray(localMap.xSize, localMap.ySize, localMap.zSize);
@@ -57,10 +56,9 @@ public class PassageMap {
 
     /**
      * Inits passage numbers for tiles.
-     *
-     * @return
      */
     public PassageMap initPassage() {
+        aStar = GameMvc.instance().getModel().get(AStar.class);
         for (int x = 0; x < localMap.xSize; x++) {
             for (int y = 0; y < localMap.ySize; y++) {
                 for (int z = 0; z < localMap.zSize; z++) {
@@ -254,12 +252,12 @@ public class PassageMap {
         if (passage.getValue(x1, y1, z1) != PASSABLE) return false; // cell not passable
         if (passage.getValue(x2, y2, z2) != PASSABLE) return false; // cell not passable
         if (z1 == z2) return true; // passable tiles on same level
-        byte lower = z1 < z2 ? localMap.getBlockType(x1, y1, z1) : localMap.getBlockType(x2, y2, z2);
+        BlockTypesEnum lower = BlockTypesEnum.getType(z1 < z2 ? localMap.getBlockType(x1, y1, z1) : localMap.getBlockType(x2, y2, z2));
         if (x1 != x2 || y1 != y2) { // check ramps
-            return lower == RAMP.CODE && (x1 == x2 || y1 == y2); // lower tile is ramp
+            return lower == RAMP && (x1 == x2 || y1 == y2); // lower tile is ramp
         } else { // check stairs
-            byte upper = z1 > z2 ? localMap.getBlockType(x1, y1, z1) : localMap.getBlockType(x2, y2, z2);
-            return (upper == STAIRS.CODE || upper == STAIRFLOOR.CODE) && lower == STAIRS.CODE;
+            BlockTypesEnum upper = BlockTypesEnum.getType(z1 > z2 ? localMap.getBlockType(x1, y1, z1) : localMap.getBlockType(x2, y2, z2));
+            return (upper == STAIRS || upper == STAIRFLOOR) && lower == STAIRS;
         }
     }
 

@@ -115,17 +115,16 @@ public class AStar implements ModelComponent, Initable {
         ArrayList<Node> nodes = new ArrayList<>();
         final Position nodePos = node.getPosition();
         Position offset = new Position(0, 0, 0);
-        for (offset.z = -1; offset.z < 2; offset.z++) {
-            for (offset.y = -1; offset.y < 2; offset.y++) {
-                for (offset.x = -1; offset.x < 2; offset.x++) {
+        for (offset.z = -1; offset.z <= 1; offset.z++) {
+            for (offset.y = -1; offset.y <= 1; offset.y++) {
+                for (offset.x = -1; offset.x <= 1; offset.x++) {
                     if (offset.isZero()) continue; // skip same pos
                     Position newPos = Position.add(nodePos, offset);
                     if (!localMap.inMap(newPos)) continue; // skip out of map tile
-                    if (localMap.hasPathBetweenNeighbours(nodePos, newPos)) nodes.add(new Node(newPos, target));
+                    if (localMap.passage.hasPathBetween(nodePos, newPos)) nodes.add(new Node(newPos, target));
                 }
             }
         }
-//        Logger.PATH.logDebug("Successors for " + nodePos + ": " + nodes.size());
         return nodes;
     }
 

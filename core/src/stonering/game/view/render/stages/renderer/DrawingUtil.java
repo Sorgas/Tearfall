@@ -51,11 +51,15 @@ public class DrawingUtil {
         batch.draw(sprite, getBatchX(vector.x), getBatchY(vector.y, vector.z));
     }
 
+    public void drawScale(TextureRegion sprite, Position position, int width, int height) {
+        batch.draw(sprite, getBatchX(position.x), getBatchY(position.y, position.z), width, height);
+    }
+
     /**
      * Cuts standard tile from x y position in specified atlas.
      */
     public TextureRegion selectSprite(AtlasesEnum atlas, int x, int y) {
-        if(!atlas.spriteCache.containsKey(cachePosition.set(x, y, 0))) {
+        if (!atlas.spriteCache.containsKey(cachePosition.set(x, y, 0))) {
             spriteCache.put(cachePosition, new TextureRegion(atlas.atlas,
                     x * TILE_WIDTH,
                     y * (BLOCK_TILE_HEIGHT) + TOPING_TILE_HEIGHT,

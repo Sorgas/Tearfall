@@ -1,10 +1,7 @@
 package stonering.test_chamber.model;
 
-import stonering.entity.environment.GameCalendar;
-import stonering.entity.World;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.materials.MaterialMap;
-import stonering.game.model.lists.PlantContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.local_map.PassageMap;
 
@@ -24,18 +21,24 @@ public class PassageModel extends TestModel {
 
     /**
      * Creates flat layers of soil.
-     * //TODO add more complex relief
      */
     @Override
     protected LocalMap createLocalMap(int size) {
         LocalMap localMap = super.createLocalMap(size);
+
         MaterialMap materialMap = MaterialMap.instance();
         for (int y = 0; y < MAP_SIZE; y++) {
             localMap.setBlock(MAP_SIZE / 2, y, 2, BlockTypesEnum.WALL, materialMap.getId("soil"));
-            localMap.setBlock(MAP_SIZE / 2, y, 3, BlockTypesEnum.FLOOR, materialMap.getId("soil"));
+            localMap.setBlock(MAP_SIZE / 2, y, 3, BlockTypesEnum.WALL, materialMap.getId("soil"));
+            localMap.setBlock(MAP_SIZE / 2, y, 4, BlockTypesEnum.WALL, materialMap.getId("soil"));
+            localMap.setBlock(MAP_SIZE / 2, y, 5, BlockTypesEnum.FLOOR, materialMap.getId("soil"));
         }
-        localMap.setBlock(MAP_SIZE / 2, MAP_SIZE / 2, 3, BlockTypesEnum.WALL, materialMap.getId("soil"));
-        localMap.setBlock(MAP_SIZE / 2, MAP_SIZE / 2, 4, BlockTypesEnum.FLOOR, materialMap.getId("soil"));
+        for (int z = 2; z < 5; z++) {
+            localMap.setBlock(MAP_SIZE / 2 + 1, MAP_SIZE / 2, z, BlockTypesEnum.STAIRS, materialMap.getId("marble"));
+            localMap.setBlock(MAP_SIZE / 2 - 1, MAP_SIZE / 2, z, BlockTypesEnum.STAIRS, materialMap.getId("marble"));
+        }
+        localMap.setBlock(MAP_SIZE / 2 + 1, MAP_SIZE / 2, 5, BlockTypesEnum.STAIRFLOOR, materialMap.getId("marble"));
+        localMap.setBlock(MAP_SIZE / 2 - 1, MAP_SIZE / 2, 5, BlockTypesEnum.STAIRFLOOR, materialMap.getId("marble"));
         return localMap;
     }
 }

@@ -45,12 +45,12 @@ public class LocalMap implements ModelComponent, Initable, LastInitable {
         this.ySize = ySize;
         this.zSize = zSize;
         cachePosition = new Position();
+        light = new LightMap(this);
+        passage = new PassageMap(this);
     }
 
     public void init() {
-        light = new LightMap(this);
         light.initLight();
-        passage = new PassageMap(this);
         passage.initPassage();
         new AreaInitializer(this).formPassageMap(passage);
         localTileMapUpdater = new LocalTileMapUpdater();
@@ -169,13 +169,6 @@ public class LocalMap implements ModelComponent, Initable, LastInitable {
     public boolean isFlyPassable(int x, int y, int z) {
         //TODO
         return inMap(x, y, z) && BlockTypesEnum.getType(getBlockType(x, y, z)).PASSING != BlockTypesEnum.NOT_PASSABLE; // 1 || 2
-    }
-
-    /**
-     * Only for adjacent cells.
-     */
-    public boolean hasPathBetweenNeighbours(Position pos1, Position pos2) {
-        return passage.hasPathBetween(pos1.x, pos1.y, pos1.z, pos2.x, pos2.y, pos2.z);
     }
 
     public void setLocalTileMapUpdater(LocalTileMapUpdater localTileMapUpdater) {

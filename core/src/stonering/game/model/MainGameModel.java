@@ -24,8 +24,8 @@ public class MainGameModel extends GameModel {
 
     @Override
     public void init() {
+//        get(LocalMap.class).init(); //TODO local map inited second time here
         super.init();
-        get(LocalMap.class).init(); //TODO local map inited second time here
     }
 
     /**

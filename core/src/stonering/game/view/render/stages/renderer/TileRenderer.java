@@ -1,5 +1,9 @@
 package stonering.game.view.render.stages.renderer;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import stonering.entity.job.designation.Designation;
@@ -23,6 +27,7 @@ import stonering.game.view.tilemaps.LocalTileMap;
 import stonering.util.geometry.Int2dBounds;
 import stonering.util.geometry.Position;
 
+import static com.badlogic.gdx.graphics.Pixmap.Format.RGBA8888;
 import static stonering.game.view.render.stages.renderer.AtlasesEnum.*;
 
 /**
@@ -45,6 +50,7 @@ public class TileRenderer extends Renderer {
     private Position cachePosition;
     private Vector3 cacheVector;
     private Int2dBounds cacheBounds;
+    TextureRegion blackTile;
 
     public TileRenderer(DrawingUtil drawingUtil, MovableCamera camera) {
         super(drawingUtil);
@@ -62,6 +68,10 @@ public class TileRenderer extends Renderer {
         cachePosition = new Position();
         cacheVector = new Vector3();
         cacheBounds = new Int2dBounds();
+        Pixmap pixmap = new Pixmap(1,1, RGBA8888);
+        pixmap.setColor(Color.BLACK);
+        pixmap.drawPixel(0, 0);
+        blackTile = new TextureRegion(new Texture(pixmap));
     }
 
     /**
@@ -76,7 +86,11 @@ public class TileRenderer extends Renderer {
             defineLayerBounds(z);
             for (int y = cacheBounds.getMaxY(); y >= cacheBounds.getMinY(); y--) {
                 for (int x = cacheBounds.getMinX(); x <= cacheBounds.getMaxX(); x++) {
-                    drawTile(x, y, z);
+                    if (localMap.light.localLight.getValue(x, y, z) != -1) {
+                        drawTile(x, y, z);
+                    } else {
+                        util.drawScale(blackTile, cachePosition.set(x,y,z), BatchUtil.TILE_WIDTH, BatchUtil.TILE_DEPTH);
+                    }
                 }
             }
             for (int y = cacheBounds.getMaxY(); y >= cacheBounds.getMinY(); y--) {
@@ -105,7 +119,6 @@ public class TileRenderer extends Renderer {
      * Draw order: block, water, substrate plants, plants, building, unit, item, designation.
      */
     private void drawTile(int x, int y, int z) {
-        if(localMap.light.localLight.getValue(x,y,z) == -1) return; // skip unrevealed tile
         cachePosition.set(x, y, z);
         cacheVector.set(x, y, z); // not changed after
 //        byte lightLevel = q(byte) (localMap.getLight().getValue(x, y, z) + localMap.getGeneralLight().getValue(x, y, z));  //TODO limit light level
