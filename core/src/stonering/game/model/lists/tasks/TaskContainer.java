@@ -17,7 +17,6 @@ import stonering.util.geometry.Position;
 import stonering.entity.job.Task;
 import stonering.entity.item.selectors.ItemSelector;
 import stonering.entity.plants.PlantBlock;
-import stonering.util.global.Initable;
 import stonering.util.global.Logger;
 
 import java.util.ArrayList;
@@ -31,7 +30,7 @@ import java.util.HashMap;
  *
  * @author Alexander Kuzyakov
  */
-public class TaskContainer implements ModelComponent, Initable {
+public class TaskContainer implements ModelComponent {
     private ArrayList<Task> tasks;
     private HashMap<Position, Designation> designations;
     private Position cachePosition; // state is not maintained. should be set before use
@@ -43,9 +42,6 @@ public class TaskContainer implements ModelComponent, Initable {
         designations = new HashMap<>();
         designationsValidator = new DesignationsValidator();
     }
-
-    @Override
-    public void init() {}
 
     /**
      * Gets tasks for unit.
