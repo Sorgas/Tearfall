@@ -23,11 +23,6 @@ public class FallingAspect extends Aspect {
     }
 
     @Override
-    public void init() {
-        super.init();
-    }
-
-    @Override
     public void turn() {
         Position position = getPosition();
         if (position != null) { //TODO add aspect turn on pickup

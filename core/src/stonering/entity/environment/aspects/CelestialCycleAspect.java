@@ -3,6 +3,7 @@ package stonering.entity.environment.aspects;
 import stonering.entity.Aspect;
 import stonering.entity.Entity;
 import stonering.enums.time.TimeUnitEnum;
+import stonering.util.global.Initable;
 
 /**
  * Determines body state change over time. Has orbit position.
@@ -10,7 +11,7 @@ import stonering.enums.time.TimeUnitEnum;
  *
  * @author Alexander Kuzyakov
  */
-public class CelestialCycleAspect extends Aspect {
+public class CelestialCycleAspect extends Aspect implements Initable {
     public static String NAME = "celestial_cycle";
     private float orbitPos;         //[0,1] position on orbit in radians * 2
     private float orbitSpeed;       // part of orbit passed in one minute
@@ -26,7 +27,6 @@ public class CelestialCycleAspect extends Aspect {
 
     @Override
     public void init() {
-        super.init();
         updateOtherAspects();
     }
 

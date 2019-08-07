@@ -20,11 +20,11 @@ public class PondPlantsModel extends TestModel {
     }
 
     @Override
-    protected LocalMap createLocalMap(int size) {
-        LocalMap localMap = new LocalMap(size, size, 20);
+    protected void updateLocalMap() {
+        LocalMap localMap = get(LocalMap.class);
         MaterialMap materialMap = MaterialMap.instance();
-        for (int x = 0; x < size; x++) {
-            for (int y = 0; y < size; y++) {
+        for (int x = 0; x < localMap.xSize; x++) {
+            for (int y = 0; y < localMap.ySize; y++) {
                 localMap.setBlock(x, y, 0, BlockTypesEnum.WALL, materialMap.getId("soil"));
                 if (Math.pow(x - MAP_CENTER, 2) + Math.pow(y - MAP_CENTER, 2) <= 9) {
                     localMap.setBlock(x, y, 1, BlockTypesEnum.FLOOR, materialMap.getId("soil"));
@@ -35,7 +35,5 @@ public class PondPlantsModel extends TestModel {
                 }
             }
         }
-
-        return localMap;
     }
 }

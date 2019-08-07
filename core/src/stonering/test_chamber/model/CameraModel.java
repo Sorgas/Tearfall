@@ -24,17 +24,16 @@ public class CameraModel extends TestModel {
      * //TODO add more complex relief
      */
     @Override
-    protected LocalMap createLocalMap(int size) {
-        LocalMap localMap = super.createLocalMap(size);
+    protected void updateLocalMap() {
+        LocalMap localMap = get(LocalMap.class);
         Random random = new Random();
         MaterialMap materialMap = MaterialMap.instance();
         for (int i = 0; i < 200; i++) {
-            int x = random.nextInt(size);
-            int y = random.nextInt(size);
+            int x = random.nextInt(localMap.xSize);
+            int y = random.nextInt(localMap.ySize);
             localMap.setBlock(x, y, 2, BlockTypesEnum.WALL, materialMap.getId("soil"));
             localMap.setBlock(x, y, 3, BlockTypesEnum.FLOOR, materialMap.getId("soil"));
         }
-        return localMap;
     }
 
     @Override

@@ -3,6 +3,7 @@ package stonering.entity.environment.aspects;
 import stonering.entity.Entity;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
+import stonering.util.global.Initable;
 
 /**
  * Light source of sun, moon, etc.
@@ -10,7 +11,7 @@ import stonering.game.model.local_map.LocalMap;
  *
  * @author Alexander Kuzyakov
  */
-public class CelestialLightSourceAspect extends AbstractLightSourceAspect {
+public class CelestialLightSourceAspect extends AbstractLightSourceAspect implements Initable {
     public static String NAME = "celestial_light_source";
 
     public CelestialLightSourceAspect(Entity entity) {
@@ -19,7 +20,6 @@ public class CelestialLightSourceAspect extends AbstractLightSourceAspect {
 
     @Override
     public void init() {
-        super.init();
         applyLightToMap();
     }
 

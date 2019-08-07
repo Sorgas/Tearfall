@@ -17,8 +17,7 @@ import stonering.game.view.render.ui.menus.util.SubMenuMenu;
  */
 public class ToolbarBuildingMenu extends SubMenuMenu {
 
-    @Override
-    public void init() {
+    public ToolbarBuildingMenu() {
         for (Blueprint blueprint : BlueprintsMap.getInstance().getBlueprints().values()) {
             addItem(blueprint.getTitle(), new ChangeListener() {
                 @Override
@@ -27,7 +26,6 @@ public class ToolbarBuildingMenu extends SubMenuMenu {
                 }
             }, blueprint.getMenuPath());
         }
-        super.init();
     }
 
     @Override

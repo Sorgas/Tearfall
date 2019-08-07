@@ -23,9 +23,9 @@ public class PassageModel extends TestModel {
      * Creates flat layers of soil.
      */
     @Override
-    protected LocalMap createLocalMap(int size) {
-        LocalMap localMap = super.createLocalMap(size);
-
+    protected void updateLocalMap() {
+        super.updateLocalMap();
+        LocalMap localMap = get(LocalMap.class);
         MaterialMap materialMap = MaterialMap.instance();
         for (int y = 0; y < MAP_SIZE; y++) {
             localMap.setBlock(MAP_SIZE / 2, y, 2, BlockTypesEnum.WALL, materialMap.getId("soil"));
@@ -39,6 +39,5 @@ public class PassageModel extends TestModel {
         }
         localMap.setBlock(MAP_SIZE / 2 + 1, MAP_SIZE / 2, 5, BlockTypesEnum.STAIRFLOOR, materialMap.getId("marble"));
         localMap.setBlock(MAP_SIZE / 2 - 1, MAP_SIZE / 2, 5, BlockTypesEnum.STAIRFLOOR, materialMap.getId("marble"));
-        return localMap;
     }
 }

@@ -49,14 +49,14 @@ public class SubMenuMenu extends ToolbarButtonMenu {
      * Adds submenu or button to this menu .
      */
     public void addItem(String lastButtonText, ChangeListener listener, List<String> path) {
-        if (path != null && !path.isEmpty()) {              // create submenu
+        if (path == null || path.isEmpty()) { //create button
+            createButton(lastButtonText, sequence.getNext(), listener, true);
+        } else { // create submenu
             String currentStep = path.remove(0);
             if (!menus.keySet().contains(currentStep)) {    // no submenu for this step, create submenu
                 addMenu(new SubMenuMenu(), sequence.getNext(), currentStep); //TODO generalize
             }
             menus.get(currentStep).addItem(lastButtonText, listener, path); // proceed to submenu with reduced path
-        } else { //create button
-            createButton(lastButtonText, sequence.getNext(), listener, true);
         }
     }
 }

@@ -32,7 +32,7 @@ public abstract class TestModel extends GameModel {
      */
     void createDefaultComponents() {
         put(createWorld());
-        put(createLocalMap(getMapSize()));
+        put(new LocalMap(getMapSize(), getMapSize(), 20));
         put(new PlantContainer());
         put(new SubstrateContainer());
         put(new BuildingContainer());
@@ -49,16 +49,15 @@ public abstract class TestModel extends GameModel {
     /**
      * Creates default local map with 3 layers of soil.
      */
-    protected LocalMap createLocalMap(int size) {
-        LocalMap localMap = new LocalMap(size, size, 20);
-        for (int x = 0; x < size; x++) {
-            for (int y = 0; y < size; y++) {
+    protected void updateLocalMap() {
+        LocalMap localMap = get(LocalMap.class);
+        for (int x = 0; x < getMapSize(); x++) {
+            for (int y = 0; y < getMapSize(); y++) {
                 localMap.setBlock(x, y, 0, BlockTypesEnum.WALL, MaterialMap.instance().getId("soil"));
                 localMap.setBlock(x, y, 1, BlockTypesEnum.WALL, MaterialMap.instance().getId("soil"));
                 localMap.setBlock(x, y, 2, BlockTypesEnum.FLOOR, MaterialMap.instance().getId("soil"));
             }
         }
-        return localMap;
     }
 
     /**

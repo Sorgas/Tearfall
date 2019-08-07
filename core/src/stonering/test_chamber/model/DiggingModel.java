@@ -28,17 +28,16 @@ public class DiggingModel extends TestModel {
     }
 
     @Override
-    protected LocalMap createLocalMap(int size) {
-        LocalMap localMap = new LocalMap(size, size, 20);
-        for (int x = 0; x < size; x++) {
-            for (int y = 0; y < size; y++) {
+    protected void updateLocalMap() {
+        LocalMap localMap = get(LocalMap.class);
+        for (int x = 0; x < localMap.xSize; x++) {
+            for (int y = 0; y < localMap.ySize; y++) {
                 for (int z = 0; z < 10; z++) {
                     localMap.setBlock(x, y, z, BlockTypesEnum.WALL, MaterialMap.instance().getId("soil"));
                 }
                 localMap.setBlock(x, y, 10, BlockTypesEnum.FLOOR, MaterialMap.instance().getId("soil"));
             }
         }
-        return localMap;
     }
 
     private Unit createUnit() {

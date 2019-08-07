@@ -6,6 +6,7 @@ import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
 import stonering.game.model.lists.UnitContainer;
 import stonering.game.model.local_map.LocalMap;
+import stonering.util.global.Initable;
 import stonering.util.pathfinding.a_star.AStar;
 import stonering.entity.Aspect;
 import stonering.entity.unit.Unit;
@@ -19,7 +20,7 @@ import java.util.List;
  *
  * @author Alexander Kuzyakov on 06.10.2017.
  */
-public class MovementAspect extends Aspect {
+public class MovementAspect extends Aspect implements Initable {
     public static String NAME = "movement";
     private LocalMap localMap;
     private UnitContainer unitContainer;
@@ -40,7 +41,6 @@ public class MovementAspect extends Aspect {
 
     @Override
     public void init() {
-        super.init();
         GameModel model = GameMvc.instance().getModel();
         localMap = model.get(LocalMap.class);
         unitContainer = model.get(UnitContainer.class);

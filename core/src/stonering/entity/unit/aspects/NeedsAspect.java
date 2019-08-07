@@ -3,6 +3,7 @@ package stonering.entity.unit.aspects;
 import stonering.entity.Aspect;
 import stonering.entity.Entity;
 import stonering.entity.unit.aspects.needs.Need;
+import stonering.util.global.Initable;
 
 import java.util.ArrayList;
 
@@ -13,7 +14,7 @@ import java.util.ArrayList;
  *
  * @author Alexander Kuzyakov on 16.09.2018.
  */
-public class NeedsAspect extends Aspect {
+public class NeedsAspect extends Aspect implements Initable {
     public static final String NAME = "needs";
     public static final int maxNeedsCheckDelay = 10;
     private ArrayList<Need> needs;
