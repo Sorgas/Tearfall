@@ -9,7 +9,6 @@ import stonering.game.model.util.UtilByteArray;
 import stonering.util.geometry.Position;
 import stonering.entity.item.Item;
 import stonering.entity.item.selectors.ItemSelector;
-import stonering.util.global.Initable;
 import stonering.util.global.Logger;
 
 import java.util.*;
@@ -22,7 +21,7 @@ import java.util.stream.Collectors;
  *
  * @author Alexander Kuzyakov on 14.06.2017.
  */
-public class ItemContainer extends EntityContainer<Item> implements Initable {
+public class ItemContainer extends EntityContainer<Item> {
     private HashMap<Position, ArrayList<Item>> itemMap;      // maps tiles position to list of item it that position
 
     public ItemContainer() {
@@ -30,16 +29,20 @@ public class ItemContainer extends EntityContainer<Item> implements Initable {
         itemMap = new HashMap<>();
     }
 
-    @Override
-    public void init() {
-        entities.forEach(Item::init);
-    }
-
     /**
      * Turns all item for rust, burn, spoil, etc.
      */
     public void turn() {
         entities.forEach(Entity::turn);
+    }
+
+    /**
+     * Adds item to the global list, and puts to position. Should be used for dropping new items.
+     */
+    public void addItem(Item item) {
+        entities.add(item);
+        item.init();
+        putItem(item, item.getPosition());
     }
 
     public void removeItem(Item item) {
@@ -50,15 +53,6 @@ public class ItemContainer extends EntityContainer<Item> implements Initable {
 
     public void removeItems(List<Item> items) {
         items.forEach(this::removeItem);
-    }
-
-    /**
-     * Adds item to the global list, and puts to position. Should be used for dropping new items.
-     */
-    public void addItem(Item item) {
-        entities.add(item);
-        item.init();
-        putItem(item, item.getPosition());
     }
 
     public void moveItem(Item item, Position position) {
