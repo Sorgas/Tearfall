@@ -68,8 +68,8 @@ public abstract class TestModel extends GameModel {
         World world = new World(1, 1);
         CelestialBody sun = new CelestialBody();
         sun.addAspect(new CelestialLightSourceAspect(sun));
-        float dayScale = 0.01f;
-        sun.addAspect(new CelestialCycleAspect(dayScale, dayScale, sun));
+        float orbitSpeed = 0.01f;
+        sun.addAspect(new CelestialCycleAspect(orbitSpeed, sun));
         world.getStarSystem().getCelestialBodies().add(sun);
         return world;
     }

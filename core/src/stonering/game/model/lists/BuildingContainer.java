@@ -8,43 +8,50 @@ import stonering.game.model.local_map.LocalMap;
 import stonering.generators.buildings.BuildingGenerator;
 import stonering.entity.building.Building;
 import stonering.util.geometry.Position;
-import stonering.util.global.Initable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 /**
- * Contains all Buildings on localMap
+ * Contains all Buildings on localMap.
+ * Buildings are stored in the list as a whole entities. Building blocks stored in a map for rendering.
+ * //TODO post mvp: multi-block buildings
  *
  * @author Alexander Kuzyakov on 09.12.2017.
  */
-public class BuildingContainer extends Turnable implements ModelComponent, Initable {
+public class BuildingContainer extends Turnable implements ModelComponent {
     private List<Building> buildings;
-    private BuildingGenerator buildingGenerator;
+    public final BuildingGenerator buildingGenerator;
     private HashMap<Position, BuildingBlock> buildingBlocks;
 
     public BuildingContainer() {
-        this(new ArrayList<>());
-    }
-
-    public BuildingContainer(List<Building> buildings) {
         buildingBlocks = new HashMap<>();
         buildingGenerator = new BuildingGenerator();
-        this.buildings = buildings;
+        this.buildings = new ArrayList<>();
     }
 
-    public void init() {
-        buildings.forEach(this::placeBuilding);
+    public void turn() {
+        for (Building building : buildings) {
+            building.turn();
+        }
     }
 
     /**
-     * Places building block on local map.
+     * Adds building to container and places it on map.
      */
-    private void placeBuilding(Building building) {
+    public void addBuilding(Building building) {
         building.init();
+        buildings.add(building);
         buildingBlocks.put(building.getBlock().getPosition(), building.getBlock());
         tryMoveItems(building.getBlock().getPosition());
+    }
+
+    /**
+     * Removes building from container and from map.
+     */
+    public void removeBuilding(Building building) {
+        //TODO
     }
 
     /**
@@ -58,34 +65,7 @@ public class BuildingContainer extends Turnable implements ModelComponent, Inita
         container.getItemsInPosition(target).forEach(item -> container.moveItem(item, newPosition));
     }
 
-    public List<Building> getBuildings() {
-        return buildings;
-    }
-
-    public void turn() {
-        for (Building building : buildings) {
-            building.turn();
-        }
-    }
-
-    /**
-     * Adds building to container and places it on map.
-     */
-    public void addBuilding(Building building) {
-        buildings.add(building);
-        placeBuilding(building);
-    }
-
-    public BuildingGenerator getBuildingGenerator() {
-        return buildingGenerator;
-    }
-
     public HashMap<Position, BuildingBlock> getBuildingBlocks() {
         return buildingBlocks;
-    }
-
-    public boolean isBlockPassable(Position position) {
-        //TODO add passage enum
-        return !buildingBlocks.containsKey(position) || buildingBlocks.get(position).getPassage().equals("floor");
     }
 }

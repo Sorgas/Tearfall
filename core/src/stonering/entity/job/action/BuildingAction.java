@@ -51,7 +51,7 @@ public class BuildingAction extends Action {
             itemContainer.removeItems(itemList);
         }
         BuildingContainer buildingContainer = GameMvc.instance().getModel().get(BuildingContainer.class);
-        Building building = buildingContainer.getBuildingGenerator().generateBuilding(buildingType.building, target);
+        Building building = buildingContainer.buildingGenerator.generateBuilding(buildingType.building, target);
         buildingContainer.addBuilding(building);
     }
 
