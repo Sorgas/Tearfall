@@ -8,6 +8,9 @@ import stonering.generators.worldgen.generators.elevation.*;
 import stonering.generators.worldgen.generators.elevation.PlateGenerator;
 import stonering.generators.worldgen.generators.temperature.TemperatureGenerator;
 
+/**
+ * Holds world generators and runs them in a right order.
+ */
 public class WorldGeneratorContainer {
     private boolean rejected;
 
@@ -92,7 +95,6 @@ public class WorldGeneratorContainer {
 
     /**
      * Returns world map from container.
-     * @return
      */
     public World getWorld() {
         return worldGenContainer.getWorld();

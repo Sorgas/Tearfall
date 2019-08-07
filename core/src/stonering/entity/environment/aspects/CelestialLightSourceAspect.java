@@ -1,19 +1,16 @@
 package stonering.entity.environment.aspects;
 
 import stonering.entity.Entity;
-import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
 
-
 /**
- * Light source of sun, moon, etc. Emits rays from up to down, first non-space tile becomes illuminated.
- * Should be used only for bodies that emit noticeable amount of light.
- * Should be updated by {@link CelestialCycleAspect}
+ * Light source of sun, moon, etc.
+ * Can consider {@link CelestialCycleAspect} to calculate light amount.
  *
  * @author Alexander Kuzyakov
  */
-public class CelestialLightSourceAspect extends AbstractLighSourceAspect {
+public class CelestialLightSourceAspect extends AbstractLightSourceAspect {
     public static String NAME = "celestial_light_source";
 
     public CelestialLightSourceAspect(Entity entity) {
@@ -39,6 +36,15 @@ public class CelestialLightSourceAspect extends AbstractLighSourceAspect {
         LocalMap localMap = GameMvc.instance().getModel().get(LocalMap.class);
         localMap.light.generalLight += forceDelta;
         saveCurrentSpot();
+    }
+
+    /**
+     *
+     */
+    private void updateForce() {
+        if(entity.hasAspect(CelestialCycleAspect.class)) {
+//            entity.getAspect(CelestialCycleAspect.class).
+        }
     }
 
     @Override

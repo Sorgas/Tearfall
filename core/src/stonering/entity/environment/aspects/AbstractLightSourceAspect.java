@@ -9,12 +9,11 @@ import stonering.entity.Entity;
  *
  * @author Alexander on 07.10.2018.
  */
-public abstract class AbstractLighSourceAspect extends Aspect {
-    public static final String NAME = "light_source";
+public abstract class AbstractLightSourceAspect extends Aspect {
     protected float force;                  // [0,1]
     protected float previousForce;          // [0,1]
 
-    public AbstractLighSourceAspect(Entity entity) {
+    public AbstractLightSourceAspect(Entity entity) {
         super(entity);
     }
 
@@ -29,6 +28,14 @@ public abstract class AbstractLighSourceAspect extends Aspect {
      */
     protected void saveCurrentSpot() {
         previousForce = force;
+    }
+
+    public float getForce() {
+        return force;
+    }
+
+    public void setForce(float force) {
+        this.force = force;
     }
 
 //    private void unapplyPreviousSpot() {
@@ -59,14 +66,6 @@ public abstract class AbstractLighSourceAspect extends Aspect {
 //        private int radius;
 //        private float force;          // [0,1]
 //        private Position position;
+
 //    }
-
-
-    public float getForce() {
-        return force;
-    }
-
-    public void setForce(float force) {
-        this.force = force;
-    }
 }

@@ -2,28 +2,25 @@ package stonering.entity.environment.aspects;
 
 import stonering.entity.Aspect;
 import stonering.entity.Entity;
+import stonering.enums.time.TimeUnitEnum;
 
 /**
- * Determines body state change over time. Has orbit position and phase.
+ * Determines body state change over time. Has orbit position.
  * Currently, all bodies except current planet considered orbiting this planet(sun too).
  *
  * @author Alexander Kuzyakov
  */
 public class CelestialCycleAspect extends Aspect {
     public static String NAME = "celestial_cycle";
-    private float phase;            //[0,1]
     private float orbitPos;         //[0,1] position on orbit in radians * 2
-    private float phaseScale;
-    private float orbitScale;       // part of orbit passed in one minute
+    private float orbitSpeed;       // part of orbit passed in one minute
 
-    public CelestialCycleAspect(float phaseScale, float orbitScale, Entity entity) {
+    public CelestialCycleAspect(float orbitSpeed, Entity entity) {
         super(entity);
-        this.phaseScale = phaseScale;
-        this.orbitScale = orbitScale;
+        this.orbitSpeed = orbitSpeed;
     }
 
     private float countLightForce() {
-//        System.out.println((float) (Math.cos(orbitPos * 2 * Math.PI) + 1) / 2f);
         return (float) (Math.cos(orbitPos * 2 * Math.PI) + 1) / 2f;
     }
 
@@ -39,7 +36,12 @@ public class CelestialCycleAspect extends Aspect {
     //TODO add longitude
     @Override
     public void turn() {
-        orbitPos += orbitScale;
+    }
+
+    @Override
+    public void turnInterval(TimeUnitEnum unit) {
+        if (unit != TimeUnitEnum.MINUTE) return;
+            orbitPos += orbitSpeed;
         if (orbitPos > 1) {
             orbitPos -= 1;
         }
@@ -53,13 +55,5 @@ public class CelestialCycleAspect extends Aspect {
 
     public float getOrbitPos() {
         return orbitPos;
-    }
-
-    public float getPhase() {
-        return phase;
-    }
-
-    public float getPhaseScale() {
-        return phaseScale;
     }
 }

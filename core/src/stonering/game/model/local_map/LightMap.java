@@ -87,10 +87,8 @@ public class LightMap {
     }
 
     /**
-     * Collects invisible tiles around center.
-     * All tiles are visible from non-wall tile.
-     * Lower tile is visible, if current tile is not floor-like.
-     * Only space tiles are revealed from down to up.
+     * Collects invisible tiles around center. All tiles with same z are visible from non-wall tile.
+     * Lower tile is visible, if current tile is not floor-like. Only space tiles are revealed from down to up.
      * Stair and stairfloor tiles can be revealed from lower stairs.
      */
     private Set<Position> observe(Position center) {
