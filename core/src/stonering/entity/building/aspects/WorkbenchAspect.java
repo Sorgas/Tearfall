@@ -182,7 +182,7 @@ public class WorkbenchAspect extends Aspect {
         Logger.BUILDING.logDebug("Creating task for order " + entry.order.getRecipe().name);
         CraftItemAction action = new CraftItemAction(entry.order, entity);
         entry.task = new Task(entry.order.getRecipe().name, TaskTypesEnum.CRAFTING, action, 1);
-        GameMvc.instance().getModel().get(TaskContainer.class).getTasks().add(entry.task);
+        GameMvc.instance().getModel().get(TaskContainer.class).addTask(entry.task);
     }
 
     /**

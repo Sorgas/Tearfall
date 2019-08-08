@@ -5,6 +5,8 @@ import stonering.entity.job.designation.Designation;
 import stonering.entity.job.designation.OrderDesignation;
 import stonering.entity.job.action.*;
 import stonering.entity.building.BuildingOrder;
+import stonering.entity.unit.Unit;
+import stonering.entity.unit.aspects.JobsAspect;
 import stonering.enums.buildings.BuildingTypeMap;
 import stonering.enums.designations.DesignationTypeEnum;
 import stonering.enums.designations.PlaceValidatorsEnum;
@@ -19,9 +21,7 @@ import stonering.entity.item.selectors.ItemSelector;
 import stonering.entity.plants.PlantBlock;
 import stonering.util.global.Logger;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
+import java.util.*;
 
 /**
  * Contains all tasks for settlers on map and Designations for rendering.
@@ -31,26 +31,35 @@ import java.util.HashMap;
  * @author Alexander Kuzyakov
  */
 public class TaskContainer implements ModelComponent {
-    private ArrayList<Task> tasks;
-    private HashMap<Position, Designation> designations;
-    private Position cachePosition; // state is not maintained. should be set before use
+    private Map<String, List<Task>> tasks;
+    private HashMap<Position, Designation> designations; // designations are rendered on map
     private DesignationsValidator designationsValidator;
+    private Position cachePosition; // state is not maintained. should be set before use
 
     public TaskContainer() {
         cachePosition = new Position(0, 0, 0);
-        tasks = new ArrayList<>();
+        tasks = new HashMap<>();
         designations = new HashMap<>();
         designationsValidator = new DesignationsValidator();
     }
 
     /**
-     * Gets tasks for unit.
-     * //TODO
+     * Gets tasks for unit. Filters task by units's allowed jobs.
      */
-    public Task getActiveTask(Position pos) {
-        for (Task task : tasks) {
-            if (task.getPerformer() == null && task.isTaskTargetsAvailableFrom(pos)) {
-                return task;
+    public Task getActiveTask(Unit unit) {
+        JobsAspect aspect = unit.getAspect(JobsAspect.class);
+        if (aspect == null) {
+            Logger.TASKS.logError("Creature without jobs aspect gets task from container");
+            return null;
+        }
+        Position position = unit.getPosition();
+        for (String enabledJob : aspect.getEnabledJobs()) {
+            if (!tasks.containsKey(enabledJob)) continue;
+            for (Task task : tasks.get(enabledJob)) {
+                if (task.getPerformer() == null && task.isTaskTargetsAvailableFrom(position)) {
+                    //TODO add selecting nearest task.
+                    return task;
+                }
             }
         }
         return null;
@@ -61,14 +70,15 @@ public class TaskContainer implements ModelComponent {
      * All simple orders like digging and foraging submitted through this method.
      */
     public Task submitOrderDesignation(Position position, DesignationTypeEnum type, int priority) {
-        if (!designationsValidator.validateDesignations(position, type)) return null; // no designation for invalid position
+        if (!designationsValidator.validateDesignations(position, type))
+            return null; // no designation for invalid position
         OrderDesignation designation = new OrderDesignation(position, type);
         Task task = createOrderTask(designation, priority);
         if (task == null) return null; // no designation with no task
         Logger.TASKS.logDebug("designation " + type + " submitted");
         task.setDesignation(designation);
         designation.setTask(task);
-        tasks.add(task);
+        addTask(task);
         designations.put(designation.getPosition(), designation);
         Logger.TASKS.log(task.getName() + " designated");
         Logger.TASKS.logDebug("tasks number: " + tasks.size());
@@ -88,7 +98,7 @@ public class TaskContainer implements ModelComponent {
         BuildingDesignation designation = new BuildingDesignation(position, DesignationTypeEnum.BUILD, order.getBlueprint().getBuilding());
         Task task = createBuildingTask(designation, order.getItemSelectors().values(), priority);
         designation.setTask(task);
-        tasks.add(task);
+        addTask(task);
         designations.put(designation.getPosition(), designation);
         Logger.TASKS.log(task.getName() + " designated");
     }
@@ -150,22 +160,15 @@ public class TaskContainer implements ModelComponent {
     }
 
     /**
-     * For adding simple tasks.
+     * For adding simple tasks (w/o designation).
      */
     public void addTask(Task task) {
-        tasks.add(task);
+        if (!tasks.containsKey(task.getJob())) tasks.put(task.getJob(), new ArrayList<>());
+        tasks.get(task.getJob()).add(task);
     }
 
     public Designation getDesignation(int x, int y, int z) {
         return designations.get(cachePosition.set(x, y, z));
-    }
-
-    public void setTasks(ArrayList<Task> tasks) {
-        this.tasks = tasks;
-    }
-
-    public ArrayList<Task> getTasks() {
-        return tasks;
     }
 
     public HashMap<Position, Designation> getDesignations() {

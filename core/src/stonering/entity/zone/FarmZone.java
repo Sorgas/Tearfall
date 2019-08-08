@@ -149,8 +149,9 @@ public class FarmZone extends Zone {
         if (task == null) {
             Logger.ZONES.logError("Farm tries to allocate null task");
             System.out.println(Thread.currentThread().getStackTrace());
+            return;
         }
-        GameMvc.instance().getModel().get(TaskContainer.class).getTasks().add(task);
+        GameMvc.instance().getModel().get(TaskContainer.class).addTask(task);
         taskMap.put(tile, task);
     }
 

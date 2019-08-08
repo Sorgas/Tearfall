@@ -140,7 +140,7 @@ public class PlanningAspect extends Aspect {
     }
 
     private Task getTaskFromContainer() {
-        return GameMvc.instance().getModel().get(TaskContainer.class).getActiveTask(getEntityPosition());
+        return GameMvc.instance().getModel().get(TaskContainer.class).getActiveTask((Unit) entity);
     }
 
     public Position getTarget() {

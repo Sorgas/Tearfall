@@ -16,6 +16,8 @@ import stonering.util.global.Logger;
 
 import java.util.LinkedList;
 
+import static stonering.enums.unit.job.JobsEnum.NONE;
+
 /**
  * Task object for unit behavior in the game.
  * Consists of main action, sequence of actions to be performed before main, and after main.
@@ -27,13 +29,15 @@ public class Task {
     private String name;
     private Unit performer;
     private TaskTypesEnum taskType;
-    private Action initialAction;
-    private LinkedList<Action> preActions;
-    private LinkedList<Action> postActions;
     private Designation designation;
     private ItemOrder itemOrder;
     private int priority;
     private TaskStatusEnum status;
+    private String job;
+
+    private Action initialAction;
+    private LinkedList<Action> preActions;
+    private LinkedList<Action> postActions;
 
     public Task(String name, TaskTypesEnum taskType, Action initialAction, int priority) {
         this.name = name;
@@ -44,6 +48,7 @@ public class Task {
         postActions = new LinkedList<>();
         this.priority = priority;
         status = TaskStatusEnum.OPEN;
+        job = NONE.NAME;
     }
 
     /**
@@ -209,6 +214,14 @@ public class Task {
 
     public void setItemOrder(ItemOrder itemOrder) {
         this.itemOrder = itemOrder;
+    }
+
+    public String getJob() {
+        return job;
+    }
+
+    public void setJob(String job) {
+        this.job = job;
     }
 
     @Override
