@@ -6,6 +6,7 @@ import stonering.entity.building.Building;
 import stonering.game.GameMvc;
 import stonering.game.view.render.ui.menus.workbench.WorkbenchMenu;
 import stonering.util.global.Initable;
+import stonering.util.global.Logger;
 
 /**
  * Stage with screen for building like workbenches and furniture.
@@ -54,5 +55,13 @@ public class BuildingStage extends UiStage implements Initable {
         gameMvc.getModel().setPaused(wasPaused);
         gameMvc.getController().getPauseInputAdapter().setEnabled(true);
         super.dispose();
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        Logger.UI.logDebug("resizing Building stage to " + width + " " + height);
+        super.resize(width, height);
+        menu.setWidth(width / 2);
+        menu.setHeight(height / 2);
     }
 }

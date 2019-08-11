@@ -1,7 +1,7 @@
 /*
     Parts should include all item parts with:
         1. item part name (null for consuming ingredient with no part produced).
-        2. item types (null for any type).
+        2. item type (null for any type).
         3. material tag.
         4. number of items.
 */

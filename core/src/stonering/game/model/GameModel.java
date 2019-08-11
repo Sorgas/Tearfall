@@ -47,7 +47,10 @@ public abstract class GameModel extends IntervalTurnable implements Initable, Se
     @Override
     public void init() {
         components.values().forEach(component -> {
-            if (component instanceof Initable) ((Initable) component).init();
+            if (component instanceof Initable) {
+                Logger.LOADING.logDebug("Initing model component: " + component.getClass().getSimpleName());
+                ((Initable) component).init();
+            }
         });
         timer = new Timer();
         paused = true;

@@ -18,15 +18,11 @@ public class UiStage extends Stage implements Resizeable {
 
     @Override
     public void draw() {
-        getViewport().apply();
         act();
         super.draw();
     }
 
     public void resize(int width, int height) {
         getViewport().update(width, height, true);
-        getCamera().viewportWidth = width;
-        getCamera().viewportHeight = height;
-        getCamera().update();
     }
 }

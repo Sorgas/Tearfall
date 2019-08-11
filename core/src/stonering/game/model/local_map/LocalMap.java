@@ -10,6 +10,7 @@ import stonering.game.view.tilemaps.LocalTileMapUpdater;
 import stonering.util.geometry.Position;
 import stonering.util.global.Initable;
 import stonering.util.global.LastInitable;
+import stonering.util.global.Logger;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -50,6 +51,7 @@ public class LocalMap implements ModelComponent, Initable, LastInitable {
     }
 
     public void init() {
+        Logger.LOADING.logDebug("Initing local map");
         light.initLight();
         passage.initPassage();
         new AreaInitializer(this).formPassageMap(passage);
@@ -64,17 +66,6 @@ public class LocalMap implements ModelComponent, Initable, LastInitable {
     public void setBlock(int x, int y, int z, byte type, int materialId) {
         material[x][y][z] = materialId;
         setBlockType(x, y, z, type);
-    }
-
-    public boolean isWorkingRamp(int x, int y, int z) {
-        return blockType[x][y][z] == BlockTypesEnum.RAMP.CODE
-                && blockType[x][y][z + 1] == BlockTypesEnum.SPACE.CODE;
-    }
-
-    public boolean isWorkingStair(int x, int y, int z) {
-        return blockType[x][y][z] == BlockTypesEnum.STAIRS.CODE
-                && (blockType[x][y][z + 1] == BlockTypesEnum.STAIRS.CODE
-                || blockType[x][y][z + 1] == BlockTypesEnum.STAIRFLOOR.CODE);
     }
 
     public List<Position> getFreeBlockNear(Position position) {
