@@ -20,7 +20,6 @@ import stonering.game.view.render.ui.menus.util.NavigableVerticalGroup;
 import stonering.game.view.render.ui.menus.workbench.orderline.EmptyOrderLine;
 import stonering.game.view.render.ui.menus.workbench.orderline.ItemCraftingOrderLine;
 import stonering.game.view.render.ui.menus.workbench.orderline.OrderLine;
-import stonering.game.view.render.util.Resizeable;
 import stonering.util.global.StaticSkin;
 import stonering.util.global.Logger;
 
@@ -31,9 +30,8 @@ import stonering.util.global.Logger;
  *
  * @author Alexander on 28.10.2018.
  */
-public class WorkbenchMenu extends Window implements HintedActor{
+public class WorkbenchMenu extends Window implements HintedActor {
     private static final String MENU_HINT = "E: new order, WSD: navigate, AQ: quit";
-    private Building workbench;
     private WorkbenchAspect workbenchAspect; // aspect of selected workbench (M thing)
     private NavigableVerticalGroup orderList;
     private Label hintLabel;
@@ -44,7 +42,6 @@ public class WorkbenchMenu extends Window implements HintedActor{
      */
     public WorkbenchMenu(Building building) {
         super(building.toString(), StaticSkin.getSkin());
-        this.workbench = building;
         workbenchAspect = building.getAspect(WorkbenchAspect.class);
         setKeepWithinStage(true);
         createTable();
@@ -138,6 +135,7 @@ public class WorkbenchMenu extends Window implements HintedActor{
         }
 
     }
+
     private TextButton createAddButton() {
         TextButton button = new TextButton("New", StaticSkin.getSkin());
         button.addListener(new ChangeListener() {
@@ -172,10 +170,6 @@ public class WorkbenchMenu extends Window implements HintedActor{
 
     public NavigableVerticalGroup getOrderList() {
         return orderList;
-    }
-
-    public Building getWorkbench() {
-        return workbench;
     }
 
     public WorkbenchAspect getWorkbenchAspect() {

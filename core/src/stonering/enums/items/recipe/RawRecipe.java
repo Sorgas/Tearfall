@@ -9,6 +9,7 @@ import java.util.List;
  */
 public class RawRecipe {
     public String name;
+    public String category;
     public String title;
     public String itemName;
     public List<List<String>> parts;

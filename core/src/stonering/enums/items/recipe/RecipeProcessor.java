@@ -16,6 +16,7 @@ public class RecipeProcessor {
         Recipe recipe = new Recipe(rawRecipe.title);
         recipe.name = rawRecipe.name;
         recipe.itemName = rawRecipe.itemName;
+        recipe.category = rawRecipe.category;
         rawRecipe.parts.forEach(part -> recipe.parts.add(processItemPartRecipe(part, recipe.name)));
         return recipe;
     }
