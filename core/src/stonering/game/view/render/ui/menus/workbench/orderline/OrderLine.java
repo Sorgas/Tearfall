@@ -84,7 +84,7 @@ public class OrderLine extends Table implements Hideable, HintedActor, Highlight
 
         @Override
         public boolean keyDown(InputEvent event, int keycode) {
-            switch(ControlActionsEnum.getAction(keycode)) {
+            switch (ControlActionsEnum.getAction(keycode)) {
                 case CANCEL:
                 case LEFT:
                     event.stop();
@@ -105,8 +105,8 @@ public class OrderLine extends Table implements Hideable, HintedActor, Highlight
         public void handle() {
             setBackground(DrawableMap.getInstance().getDrawable(BACKGROUND_NAME + (value ? ":focused" : "")));
         }
-
     }
+
     /**
      * Shows this line in its screen.
      */

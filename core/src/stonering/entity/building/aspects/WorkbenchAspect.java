@@ -213,7 +213,7 @@ public class WorkbenchAspect extends Aspect {
     }
 
     private void initRecipes() { //ok
-        ((Building) entity).getType().recipes.forEach(s -> recipes.add(RecipeMap.getInstance().getRecipe(s)));
+        ((Building) entity).getType().recipes.forEach(s -> recipes.add(RecipeMap.instance().getRecipe(s)));
     }
 
     public List<OrderTaskEntry> getEntries() {

@@ -7,6 +7,7 @@ import stonering.util.global.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Loads from json and stores {@link Recipe}.
@@ -15,7 +16,7 @@ import java.util.HashMap;
  */
 public class RecipeMap {
     private static RecipeMap instance;
-    private HashMap<String, Recipe> recipes;
+    private Map<String, Recipe> recipes;
     private Json json;
 
     private RecipeMap() {
@@ -25,7 +26,7 @@ public class RecipeMap {
         loadRecipes();
     }
 
-    public static RecipeMap getInstance() {
+    public static RecipeMap instance() {
         if (instance == null)
             instance = new RecipeMap();
         return instance;

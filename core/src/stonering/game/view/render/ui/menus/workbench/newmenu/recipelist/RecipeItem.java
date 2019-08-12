@@ -1,10 +1,11 @@
 package stonering.game.view.render.ui.menus.workbench.newmenu.recipelist;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.enums.items.recipe.Recipe;
+import stonering.enums.items.recipe.RecipeMap;
+import stonering.util.global.StaticSkin;
 
 /**
  * Item for recipe in the {@link RecipeList}.
@@ -14,10 +15,14 @@ import stonering.enums.items.recipe.Recipe;
  */
 public class RecipeItem extends TextButton {
     private Recipe recipe;
+    private RecipeList recipeList;
+    public final RecipeCategoryItem category;
 
-    public RecipeItem(Recipe recipe, Skin skin) {
-        super(recipe.title, skin);
-        this.recipe = recipe;
+    public RecipeItem(String recipe, RecipeList recipeList, RecipeCategoryItem category) {
+        super(recipe, StaticSkin.getSkin());
+        this.recipe = RecipeMap.instance().getRecipe(recipe);
+        this.recipeList = recipeList;
+        this.category = category;
         createDefaultListener();
     }
 
@@ -25,7 +30,7 @@ public class RecipeItem extends TextButton {
         addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                //TODO
+                recipeList.createNewOrder(recipe.name);
             }
         });
     }

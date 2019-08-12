@@ -3,7 +3,8 @@ package stonering.game.view.render.ui.menus.util;
 /**
  * Shows that widget with this interface can be highlighted.
  * If handler should be set externally, getter and setter should be overridden.
- * General approach is to use updateHighlighting method in widget's act method.
+ * <p>
+ * How to use: Use updateHighlighting method in widget's act method, passing highlighting state.
  *
  * @author Alexander
  */
@@ -23,6 +24,7 @@ public interface Highlightable {
 
     /**
      * Handles highlighting.
+     * Can be used for actors with children, when actor itself has no state.
      */
     abstract class HighlightHandler {
         protected void accept(Boolean newValue) {
@@ -34,6 +36,7 @@ public interface Highlightable {
 
     /**
      * Stores old value and updates highlighting only if it changes.
+     * Can be used for actors with no children.
      */
     abstract class CheckHighlightHandler extends HighlightHandler {
         protected static boolean value = false;
