@@ -72,7 +72,7 @@ public class RecipeCategoryItem extends TextButton implements Highlightable {
 
     private void createRecipeItems() {
         for (String recipeName : recipeNames) {
-            recipeItems.add(new RecipeItem(recipeName, recipeList));
+            recipeItems.add(new RecipeItem(recipeName, recipeList, this));
         }
     }
 

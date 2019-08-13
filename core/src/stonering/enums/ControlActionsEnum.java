@@ -22,6 +22,7 @@ public enum ControlActionsEnum {
     Z_UP,
     Z_DOWN,
     DELETE,
+    ADDITIONAL_Z,
     NONE; // to avoid NPE in switches
 
     static Map<Integer, ControlActionsEnum> mapping = new HashMap<>();
@@ -35,6 +36,7 @@ public enum ControlActionsEnum {
         mapping.put(Input.Keys.Q, CANCEL);
         mapping.put(Input.Keys.R, Z_UP);
         mapping.put(Input.Keys.F, Z_DOWN);
+        mapping.put(Input.Keys.Z, ADDITIONAL_Z);
         mapping.put(Input.Keys.X, DELETE);
     }
 

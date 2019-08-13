@@ -18,7 +18,7 @@ import java.util.Map;
  * @author Alexander
  */
 public class NavigableVerticalGroup extends VerticalGroup implements Highlightable, HintedActor {
-    public Map<Integer, ControlActionsEnum> keyMapping; // additional keys to actions mapping.
+    public final Map<Integer, ControlActionsEnum> keyMapping; // additional keys to actions mapping.
     private EventListener selectListener;
     private EventListener cancelListener;
     private HighlightHandler highlightHandler;
@@ -84,10 +84,8 @@ public class NavigableVerticalGroup extends VerticalGroup implements Highlightab
     }
 
     public Actor getSelectedElement() {
-        if (selectedIndex >= 0 && selectedIndex < getChildren().size) {
-            return getChildren().get(selectedIndex);
-        }
-        return null;
+        if (selectedIndex < 0 || selectedIndex >= getChildren().size) return null;
+        return getChildren().get(selectedIndex);
     }
 
     public void setCancelListener(EventListener cancelListener) {
