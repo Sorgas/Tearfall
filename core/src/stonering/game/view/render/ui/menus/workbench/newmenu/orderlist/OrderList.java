@@ -20,11 +20,11 @@ public class OrderList extends NavigableVerticalGroup {
     private WorkbenchAspect aspect;
     private HighlightHandler highlightHandler;
 
-    public OrderList() {
+    public OrderList(WorkbenchAspect aspect) {
         super();
+        this.aspect = aspect;
         keyMapping.put(Input.Keys.D, SELECT);
         fillOrderList();
-
     }
 
     /**
