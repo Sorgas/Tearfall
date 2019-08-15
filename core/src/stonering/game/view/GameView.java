@@ -94,7 +94,7 @@ public class GameView extends SimpleScreen implements Initable {
     /**
      * Called, if toolbar didn't handle event, shows selection list for map tile.
      */
-    //TODO add filters like Shift+E Ctrl+E etc
+    //TODO add filters like Shift+E Ctrl+E etc, move to mainUiStage
     private boolean handleKeyDown(int keyCode) {
         switch (keyCode) {
             case Input.Keys.ESCAPE:

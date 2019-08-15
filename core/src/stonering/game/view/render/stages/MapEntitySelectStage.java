@@ -37,12 +37,6 @@ public class MapEntitySelectStage extends UiStage implements Initable {
     private int activeMode;
     private Position currentPosition;
 
-    /**
-     * -1 mode means all entities.
-     *
-     * @param currentPosition
-     * @param activeMode
-     */
     public MapEntitySelectStage(Position currentPosition, int activeMode) {
         super();
         this.currentPosition = currentPosition;
@@ -78,17 +72,20 @@ public class MapEntitySelectStage extends UiStage implements Initable {
     /**
      * Observes map in current position.
      * If there is only one entity, shows it's stage.
-     * IF there are several, shows select list.
+     * If there are several, shows select list.
      */
     private void collectEntities(List<Entity> entities) {
-        GameModel gameModel = GameMvc.instance().getModel();
-        BuildingBlock buildingBlock = gameModel.get(BuildingContainer.class).getBuildingBlocks().get(currentPosition);
-        if (buildingBlock != null) entities.add(buildingBlock.getBuilding());
-        AbstractPlant plant = gameModel.get(PlantContainer.class).getPlantInPosition(currentPosition);
+        GameModel model = GameMvc.instance().getModel();
+        if(model.get(BuildingContainer.class).hasBuilding(currentPosition)) {
+            entities.add(model.get(BuildingContainer.class).getBuildingBlocks())
+        }
+        BuildingBlock buildingBlock = model.get(BuildingContainer.class).getBuildingBlocks().get(currentPosition);
+        ;
+        AbstractPlant plant = model.get(PlantContainer.class).getPlantInPosition(currentPosition);
         if(plant != null) entities.add(plant);
-        entities.addAll(gameModel.get(ItemContainer.class).getItemsInPosition(currentPosition));
-        entities.addAll(gameModel.get(UnitContainer.class).getUnitsInPosition(currentPosition));
-        Zone zone = gameModel.get(ZonesContainer.class).getZone(currentPosition);
+        entities.addAll(model.get(ItemContainer.class).getItemsInPosition(currentPosition));
+        entities.addAll(model.get(UnitContainer.class).getUnitsInPosition(currentPosition));
+        Zone zone = model.get(ZonesContainer.class).getZone(currentPosition);
         if (zone != null) entities.add(zone);
     }
 

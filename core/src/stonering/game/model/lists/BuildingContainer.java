@@ -24,16 +24,29 @@ public class BuildingContainer extends Turnable implements ModelComponent {
     private List<Building> buildings;
     public final BuildingGenerator buildingGenerator;
     private HashMap<Position, BuildingBlock> buildingBlocks;
+    private List<Building> removedBuildings;
 
     public BuildingContainer() {
         buildingBlocks = new HashMap<>();
         buildingGenerator = new BuildingGenerator();
         this.buildings = new ArrayList<>();
+        removedBuildings = new ArrayList<>();
     }
 
+    /**
+     * Every tick.
+     */
     public void turn() {
+        removeMarkedForDelete();
         for (Building building : buildings) {
             building.turn();
+        }
+    }
+
+    private void removeMarkedForDelete() {
+        buildings.removeAll(removedBuildings);
+        for (Building removedBuilding : removedBuildings) {
+            buildingBlocks.remove(removedBuilding.getBlock().getPosition());
         }
     }
 
@@ -51,7 +64,8 @@ public class BuildingContainer extends Turnable implements ModelComponent {
      * Removes building from container and from map.
      */
     public void removeBuilding(Building building) {
-        //TODO
+        buildings.remove(building);
+        buildingBlocks.remove(building.getBlock().getPosition());
     }
 
     /**
@@ -63,6 +77,15 @@ public class BuildingContainer extends Turnable implements ModelComponent {
         Position newPosition = GameMvc.instance().getModel().get(LocalMap.class).getAnyNeighbourPosition(target, BlockTypesEnum.PASSABLE);
         if (newPosition.equals(target)) return; // no moving, if no valid position found
         container.getItemsInPosition(target).forEach(item -> container.moveItem(item, newPosition));
+    }
+
+    public boolean hasBuilding(Position position) {
+        return buildingBlocks.containsKey(position);
+    }
+
+    public Building getBuiding(Position position) {
+        if(!hasBuilding(position)) return null;
+        return buildingBlocks.get(position).getBuilding();
     }
 
     public HashMap<Position, BuildingBlock> getBuildingBlocks() {
