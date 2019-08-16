@@ -1,9 +1,9 @@
-package stonering.game.view.render.ui.menus.workbench.orderline;
+package stonering.game.view.render.stages.workbench.orderline;
 
 import stonering.entity.crafting.ItemOrder;
 import stonering.enums.items.recipe.Recipe;
-import stonering.game.view.render.ui.menus.workbench.WorkbenchMenu;
-import stonering.game.view.render.ui.menus.workbench.orderline.selectbox.RecipeSelectBox;
+import stonering.game.view.render.stages.workbench.WorkbenchMenu;
+import stonering.game.view.render.stages.workbench.orderline.selectbox.RecipeSelectBox;
 
 /**
  * This line shows select box with list of available crafting recipes.

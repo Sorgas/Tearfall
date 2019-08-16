@@ -1,4 +1,4 @@
-package stonering.game.view.render.ui.menus.workbench.newmenu.recipelist;
+package stonering.game.view.render.stages.workbench.newmenu.recipelist;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;

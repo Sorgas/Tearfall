@@ -11,7 +11,7 @@ import stonering.enums.items.recipe.Recipe;
 import stonering.enums.items.recipe.RecipeMap;
 import stonering.game.GameMvc;
 import stonering.game.model.lists.tasks.TaskContainer;
-import stonering.game.view.render.ui.menus.workbench.WorkbenchMenu;
+import stonering.game.view.render.stages.workbench.WorkbenchMenu;
 import stonering.util.global.Logger;
 
 import java.util.ArrayList;

@@ -15,10 +15,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Implements lazy-loading for drawables.
+ * Implements lazy-loading for {@link Drawable}s.
  * Loads {@link TextureRegionDescriptor} from regions.json on startup.
  * Creates {@link TextureRegionDrawable} from descriptors on demand.
- * Saves drawables in a map for faster access.
+ * Saves drawables in a maps by descriptor's name for faster access.
  */
 public class DrawableMap {
     private static DrawableMap instance;

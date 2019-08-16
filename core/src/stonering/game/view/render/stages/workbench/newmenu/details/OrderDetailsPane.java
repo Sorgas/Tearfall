@@ -1,4 +1,4 @@
-package stonering.game.view.render.ui.menus.workbench.newmenu.details;
+package stonering.game.view.render.stages.workbench.newmenu.details;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;

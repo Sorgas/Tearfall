@@ -1,4 +1,4 @@
-package stonering.game.view.render.ui.menus.workbench.orderline;
+package stonering.game.view.render.stages.workbench.orderline;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -14,7 +14,7 @@ import stonering.entity.crafting.ItemPartOrder;
 import stonering.enums.ControlActionsEnum;
 import stonering.enums.items.type.ItemTypeMap;
 import stonering.game.view.render.ui.menus.util.Highlightable;
-import stonering.game.view.render.ui.menus.workbench.WorkbenchMenu;
+import stonering.game.view.render.stages.workbench.WorkbenchMenu;
 import stonering.util.global.StaticSkin;
 
 import java.util.ArrayList;

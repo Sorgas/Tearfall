@@ -1,8 +1,8 @@
-package stonering.game.view.render.ui.menus.workbench.orderline.selectbox;
+package stonering.game.view.render.stages.workbench.orderline.selectbox;
 
 import stonering.entity.crafting.ItemPartOrder;
 import stonering.enums.items.recipe.ItemPartRecipe;
-import stonering.game.view.render.ui.menus.workbench.orderline.ItemPartSelection;
+import stonering.game.view.render.stages.workbench.orderline.ItemPartSelection;
 
 /**
  * Select box for selecting item type for {@link ItemPartRecipe}

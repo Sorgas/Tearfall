@@ -1,4 +1,4 @@
-package stonering.game.view.render.ui.menus.workbench.orderline;
+package stonering.game.view.render.stages.workbench.orderline;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -14,7 +14,7 @@ import stonering.game.view.render.ui.images.DrawableMap;
 import stonering.game.view.render.ui.menus.util.Hideable;
 import stonering.game.view.render.ui.menus.util.Highlightable;
 import stonering.game.view.render.ui.menus.util.HintedActor;
-import stonering.game.view.render.ui.menus.workbench.WorkbenchMenu;
+import stonering.game.view.render.stages.workbench.WorkbenchMenu;
 import stonering.util.global.StaticSkin;
 
 /**

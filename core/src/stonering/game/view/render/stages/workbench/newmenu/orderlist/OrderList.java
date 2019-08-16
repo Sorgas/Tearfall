@@ -1,4 +1,4 @@
-package stonering.game.view.render.ui.menus.workbench.newmenu.orderlist;
+package stonering.game.view.render.stages.workbench.newmenu.orderlist;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;

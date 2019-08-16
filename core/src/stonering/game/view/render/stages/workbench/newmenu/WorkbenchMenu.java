@@ -1,14 +1,12 @@
-package stonering.game.view.render.ui.menus.workbench.newmenu;
+package stonering.game.view.render.stages.workbench.newmenu;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import stonering.entity.building.Building;
 import stonering.entity.building.aspects.WorkbenchAspect;
-import stonering.game.view.render.ui.menus.workbench.newmenu.details.OrderDetailsPane;
-import stonering.game.view.render.ui.menus.workbench.newmenu.orderlist.OrderList;
-import stonering.game.view.render.ui.menus.workbench.newmenu.recipelist.RecipeList;
+import stonering.game.view.render.stages.workbench.newmenu.details.OrderDetailsPane;
+import stonering.game.view.render.stages.workbench.newmenu.orderlist.OrderList;
+import stonering.game.view.render.stages.workbench.newmenu.recipelist.RecipeList;
 import stonering.util.global.StaticSkin;
-
-import java.awt.*;
 
 /**
  * Contains three sections: {@link RecipeList}, {@link OrderList}, {@link OrderDetailsPane}
@@ -25,4 +23,6 @@ public class WorkbenchMenu extends Window {
         orderList = new OrderList(workbench.getAspect(WorkbenchAspect.class));
         orderDetailsPane = new OrderDetailsPane();
     }
+
+
 }

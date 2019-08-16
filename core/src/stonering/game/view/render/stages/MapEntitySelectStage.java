@@ -10,6 +10,7 @@ import stonering.entity.zone.Zone;
 import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
 import stonering.game.model.lists.*;
+import stonering.game.view.render.stages.workbench.BuildingStage;
 import stonering.game.view.render.ui.lists.ObservingList;
 import stonering.util.geometry.Position;
 import stonering.util.global.Initable;
@@ -77,7 +78,7 @@ public class MapEntitySelectStage extends UiStage implements Initable {
     private void collectEntities(List<Entity> entities) {
         GameModel model = GameMvc.instance().getModel();
         if(model.get(BuildingContainer.class).hasBuilding(currentPosition)) {
-            entities.add(model.get(BuildingContainer.class).getBuildingBlocks())
+            entities.add(model.get(BuildingContainer.class).getBuiding(currentPosition));
         }
         BuildingBlock buildingBlock = model.get(BuildingContainer.class).getBuildingBlocks().get(currentPosition);
         ;

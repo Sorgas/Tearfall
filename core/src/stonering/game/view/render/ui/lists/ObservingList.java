@@ -21,13 +21,8 @@ public class ObservingList extends Window {
     private NavigableList<Entity> list;
     private Consumer<Entity> selectHandler;
 
-
-    public ObservingList(Consumer<Entity> selectHandler) {
-        this(null, selectHandler);
-    }
-
     public ObservingList(List<Entity> entities, Consumer<Entity> selectHandler) {
-        super("qwer", StaticSkin.getSkin());
+        super("", StaticSkin.getSkin());
         this.selectHandler = selectHandler;
         fillList(entities);
         createListener();

@@ -15,9 +15,11 @@ import stonering.screen.SimpleScreen;
 import stonering.util.global.StaticSkin;
 
 /**
+ * Demonstrates Camera work.
+ *
  * @author Alexander on 19.02.2019.
  */
-public class qwer {
+public class CameraDemo {
 
     public static void main(String[] args) {
         new LwjglApplication(new OrthographicCameraExample());
@@ -39,7 +41,7 @@ public class qwer {
         public void create() {
             rotationSpeed = 0.5f;
 
-            mapSprite = new Sprite(new Texture(Gdx.files.internal("sprites/qwer.jpg")));
+            mapSprite = new Sprite(new Texture(Gdx.files.internal("sprites/plants.png")));
             mapSprite.setPosition(0, 0);
             mapSprite.setSize(WORLD_WIDTH, WORLD_HEIGHT);
 
