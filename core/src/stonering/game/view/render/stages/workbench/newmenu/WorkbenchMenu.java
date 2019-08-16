@@ -9,7 +9,8 @@ import stonering.game.view.render.stages.workbench.newmenu.recipelist.RecipeList
 import stonering.util.global.StaticSkin;
 
 /**
- * Contains three sections: {@link RecipeList}, {@link OrderList}, {@link OrderDetailsPane}
+ * Contains three sections: {@link RecipeList}, {@link OrderList}, {@link OrderDetailsPane}.
+ *
  * @author Alexander on 12.08.2019.
  */
 public class WorkbenchMenu extends Window {
@@ -19,10 +20,8 @@ public class WorkbenchMenu extends Window {
 
     public WorkbenchMenu(Building workbench) {
         super(workbench.getType().title, StaticSkin.getSkin());
-        recipeList = new RecipeList(workbench.getAspect(WorkbenchAspect.class));
-        orderList = new OrderList(workbench.getAspect(WorkbenchAspect.class));
-        orderDetailsPane = new OrderDetailsPane();
+        add(recipeList = new RecipeList(workbench.getAspect(WorkbenchAspect.class)));
+        add(orderList = new OrderList(workbench.getAspect(WorkbenchAspect.class)));
+        add(orderDetailsPane = new OrderDetailsPane());
     }
-
-
 }

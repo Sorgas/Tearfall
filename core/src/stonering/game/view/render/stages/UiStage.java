@@ -1,5 +1,6 @@
 package stonering.game.view.render.stages;
 
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import stonering.game.view.render.util.Resizeable;
