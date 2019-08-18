@@ -1,6 +1,7 @@
 package stonering.test_chamber.model;
 
 import stonering.entity.building.Building;
+import stonering.game.model.EntitySelector;
 import stonering.game.model.lists.*;
 import stonering.generators.buildings.BuildingGenerator;
 import stonering.util.geometry.Position;
@@ -16,6 +17,7 @@ public class WorkbenchModel extends TestModel {
     public void init() {
         super.init();
         get(BuildingContainer.class).addBuilding(createBuilding());
+        get(EntitySelector.class).setPosition(4, 4, 2);
     }
 
     private Building createBuilding() {

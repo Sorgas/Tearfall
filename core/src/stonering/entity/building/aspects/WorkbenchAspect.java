@@ -11,7 +11,7 @@ import stonering.enums.items.recipe.Recipe;
 import stonering.enums.items.recipe.RecipeMap;
 import stonering.game.GameMvc;
 import stonering.game.model.lists.tasks.TaskContainer;
-import stonering.game.view.render.stages.workbench.WorkbenchMenu;
+import stonering.game.view.render.stages.workbench.WorkbenchMenuq;
 import stonering.util.global.Logger;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ import static stonering.enums.TaskStatusEnum.*;
 /**
  * Aspect for workbenches. Manages orders of workbench.
  * Orders for workbench are stored in cycled list.
- * Orders are configured via {@link WorkbenchMenu}.
+ * Orders are configured via {@link WorkbenchMenuq}.
  * When order becomes first in the list, {@link Task} is created.
  * Order status id updated when task changes status.
  * After creation, order can be cancelled, suspended, moved in the list, set for repeating.

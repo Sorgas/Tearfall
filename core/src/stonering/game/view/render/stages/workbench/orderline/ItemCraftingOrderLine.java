@@ -13,8 +13,8 @@ import stonering.entity.crafting.ItemOrder;
 import stonering.entity.crafting.ItemPartOrder;
 import stonering.enums.ControlActionsEnum;
 import stonering.enums.items.type.ItemTypeMap;
+import stonering.game.view.render.stages.workbench.WorkbenchMenuq;
 import stonering.game.view.render.ui.menus.util.Highlightable;
-import stonering.game.view.render.stages.workbench.WorkbenchMenu;
 import stonering.util.global.StaticSkin;
 
 import java.util.ArrayList;
@@ -39,7 +39,7 @@ public class ItemCraftingOrderLine extends OrderLine implements Highlightable {
     private TextButton upButton;
     private TextButton downButton;
 
-    public ItemCraftingOrderLine(WorkbenchMenu menu, @NotNull ItemOrder order) {
+    public ItemCraftingOrderLine(WorkbenchMenuq menu, @NotNull ItemOrder order) {
         super(menu, "");
         this.menu = menu;
         this.order = order;

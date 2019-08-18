@@ -8,7 +8,9 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.utils.Align;
+import org.lwjgl.openal.AL;
 import stonering.game.view.render.stages.UiStage;
 import stonering.game.view.render.ui.menus.toolbar.ToolbarButton;
 import stonering.screen.SimpleScreen;
@@ -41,6 +43,30 @@ public class UiDemo extends Game {
             container = createContainer();
             stage.addActor(container);
             Gdx.input.setInputProcessor(stage);
+
+            Container container2 = new Container();
+            VerticalGroup group = new VerticalGroup();
+//            group.align(Align.left);
+            group.left();
+            group.columnLeft();
+
+            TextButton button = new TextButton("1", StaticSkin.getSkin());
+            Container buttonContainer = new Container(button);
+            buttonContainer.size(80,50);
+            buttonContainer.align(Align.left);
+            group.addActor(buttonContainer);
+
+            button = new TextButton("2", StaticSkin.getSkin());
+            buttonContainer = new Container(button);
+            buttonContainer.size(80,50);
+            buttonContainer.padLeft(20);
+            group.addActor(buttonContainer);
+
+            container2.setActor(group);
+            container2.setFillParent(true);
+            container2.align(Align.topLeft);
+            container2.setDebug(true, true);
+            stage.addActor(container2);
         }
 
         @Override

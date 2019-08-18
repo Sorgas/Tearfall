@@ -1,35 +1,38 @@
 package stonering.game.view.render.stages.workbench.newmenu.recipelist;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Align;
 import stonering.game.view.render.ui.images.DrawableMap;
 import stonering.game.view.render.ui.menus.util.Highlightable;
+import stonering.game.view.render.util.WrappedTextButton;
 import stonering.util.global.StaticSkin;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Item for category of recipes in {@link RecipeList}.
+ * Item for category of recipes in {@link RecipeListSection}.
  * When activated expands or collapses list of it's recipes;
  * Keys input is handled in recipe list. Clicked as normal button.
  *
  * @author Alexander on 12.08.2019.
  */
-public class RecipeCategoryItem extends TextButton implements Highlightable {
+public class RecipeCategoryItem extends WrappedTextButton implements Highlightable {
     private static final String BACKGROUND_NAME = "recipe_category_item";
     public final String categoryName;
-    private RecipeList recipeList;
+    private RecipeListSection recipeListSection;
     private HighlightHandler highlightHandler;
     private List<RecipeItem> recipeItems;
     private List<String> recipeNames;
     private boolean expanded = false;
 
-    public RecipeCategoryItem(String text, RecipeList recipeList, List<String> recipeNames) {
-        super(text, StaticSkin.getSkin());
-        categoryName = text;
-        this.recipeList = recipeList;
+    public RecipeCategoryItem(String categoryName, RecipeListSection recipeListSection, List<String> recipeNames) {
+        super(categoryName);
+        this.categoryName = categoryName;
+        this.recipeListSection = recipeListSection;
         this.recipeNames = recipeNames;
         recipeItems = new ArrayList<>();
         updateText();
@@ -39,18 +42,20 @@ public class RecipeCategoryItem extends TextButton implements Highlightable {
                 setBackground(DrawableMap.getInstance().getDrawable(BACKGROUND_NAME + (value ? ":focused" : "")));
             }
         };
-        addListener(new ChangeListener() {
+        button.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 update();
             }
         });
+        align(Align.left);
+        size(200, 25);
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
-        updateHighlighting(recipeList.getSelectedElement().equals(this));
+        updateHighlighting(this.equals(recipeListSection.getSelectedElement()));
     }
 
     /**
@@ -59,7 +64,7 @@ public class RecipeCategoryItem extends TextButton implements Highlightable {
     private void update() {
         expanded = !expanded; // toggle value
         if (expanded && recipeItems.isEmpty()) createRecipeItems(); // first creation of buttons
-        recipeList.updateCategory(this);
+        recipeListSection.updateCategory(this);
         updateText();
     }
 
@@ -67,12 +72,12 @@ public class RecipeCategoryItem extends TextButton implements Highlightable {
      * Changes arrow on the line end.
      */
     private void updateText() {
-        setText(categoryName + (expanded ? " E" : " C"));
+        button.setText(categoryName + (expanded ? " E" : " C"));
     }
 
     private void createRecipeItems() {
         for (String recipeName : recipeNames) {
-            recipeItems.add(new RecipeItem(recipeName, recipeList, this));
+            recipeItems.add(new RecipeItem(recipeName, recipeListSection, this));
         }
     }
 

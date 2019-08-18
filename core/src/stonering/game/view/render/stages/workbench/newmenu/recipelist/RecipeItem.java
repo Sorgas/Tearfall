@@ -1,36 +1,38 @@
 package stonering.game.view.render.stages.workbench.newmenu.recipelist;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.enums.items.recipe.Recipe;
 import stonering.enums.items.recipe.RecipeMap;
-import stonering.util.global.StaticSkin;
+import stonering.game.view.render.util.WrappedTextButton;
 
 /**
- * Item for recipe in the {@link RecipeList}.
+ * Item for recipe in the {@link RecipeListSection}.
  * Keys input is handled in recipe list. Clicked as normal button.
  *
  * @author Alexander on 12.08.2019.
  */
-public class RecipeItem extends TextButton {
+public class RecipeItem extends WrappedTextButton {
     private Recipe recipe;
-    private RecipeList recipeList;
+    private RecipeListSection recipeListSection;
     public final RecipeCategoryItem category;
 
-    public RecipeItem(String recipe, RecipeList recipeList, RecipeCategoryItem category) {
-        super(recipe, StaticSkin.getSkin());
-        this.recipe = RecipeMap.instance().getRecipe(recipe);
-        this.recipeList = recipeList;
+    public RecipeItem(String recipeName, RecipeListSection recipeListSection, RecipeCategoryItem category) {
+        super(recipeName);
+        this.recipe = RecipeMap.instance().getRecipe(recipeName);
+        this.recipeListSection = recipeListSection;
         this.category = category;
         createDefaultListener();
+        size(185, 25).padLeft(15);
     }
 
     private void createDefaultListener() {
-        addListener(new ChangeListener() {
+        button.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                recipeList.createNewOrder(recipe.name);
+                recipeListSection.createNewOrder(recipe.name);
             }
         });
     }

@@ -80,8 +80,6 @@ public class MapEntitySelectStage extends UiStage implements Initable {
         if(model.get(BuildingContainer.class).hasBuilding(currentPosition)) {
             entities.add(model.get(BuildingContainer.class).getBuiding(currentPosition));
         }
-        BuildingBlock buildingBlock = model.get(BuildingContainer.class).getBuildingBlocks().get(currentPosition);
-        ;
         AbstractPlant plant = model.get(PlantContainer.class).getPlantInPosition(currentPosition);
         if(plant != null) entities.add(plant);
         entities.addAll(model.get(ItemContainer.class).getItemsInPosition(currentPosition));

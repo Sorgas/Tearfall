@@ -30,7 +30,7 @@ import stonering.util.global.Logger;
  *
  * @author Alexander on 28.10.2018.
  */
-public class WorkbenchMenu extends Window implements HintedActor {
+public class WorkbenchMenuq extends Window implements HintedActor {
     private static final String MENU_HINT = "E: new order, WSD: navigate, AQ: quit";
     private WorkbenchAspect workbenchAspect; // aspect of selected workbench (M thing)
     private NavigableVerticalGroup orderList;
@@ -40,7 +40,7 @@ public class WorkbenchMenu extends Window implements HintedActor {
      * Creates screen for selected built workbench on localMap. Can be used only for workbenches.
      * Will throw NPE if created on non-workbench workbench.
      */
-    public WorkbenchMenu(Building building) {
+    public WorkbenchMenuq(Building building) {
         super(building.toString(), StaticSkin.getSkin());
         workbenchAspect = building.getAspect(WorkbenchAspect.class);
         setKeepWithinStage(true);

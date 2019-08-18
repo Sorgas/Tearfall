@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.utils.Align;
 import stonering.entity.building.aspects.WorkbenchAspect;
 import stonering.entity.crafting.ItemOrder;
 import stonering.enums.ControlActionsEnum;
@@ -25,15 +26,15 @@ import java.util.Map;
  *
  * @author Alexander on 12.08.2019.
  */
-public class RecipeList extends NavigableVerticalGroup {
+public class RecipeListSection extends NavigableVerticalGroup {
     private Map<String, List<String>> recipeMap;
 
-    public RecipeList(WorkbenchAspect aspect) {
+    public RecipeListSection(WorkbenchAspect aspect) {
         fillCategoryMap(aspect);
         createCategoryItems();
         createListeners();
         keyMapping.put(Input.Keys.D, ControlActionsEnum.SELECT);
-
+        align(Align.topLeft);
     }
 
     private void fillCategoryMap(WorkbenchAspect aspect) {
@@ -45,7 +46,7 @@ public class RecipeList extends NavigableVerticalGroup {
     }
 
     /**
-     * Cerates buttons for categories. These cannot be hidden.
+     * Creates buttons for categories. These cannot be hidden.
      */
     private void createCategoryItems() {
         for (String categoryName : recipeMap.keySet()) {

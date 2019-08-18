@@ -10,11 +10,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.enums.ControlActionsEnum;
 import stonering.enums.TaskStatusEnum;
+import stonering.game.view.render.stages.workbench.WorkbenchMenuq;
 import stonering.game.view.render.ui.images.DrawableMap;
 import stonering.game.view.render.ui.menus.util.Hideable;
 import stonering.game.view.render.ui.menus.util.Highlightable;
 import stonering.game.view.render.ui.menus.util.HintedActor;
-import stonering.game.view.render.stages.workbench.WorkbenchMenu;
 import stonering.util.global.StaticSkin;
 
 /**
@@ -26,7 +26,7 @@ import stonering.util.global.StaticSkin;
 public class OrderLine extends Table implements Hideable, HintedActor, Highlightable {
     private static final String BACKGROUND_NAME = "workbench_order_line";
     protected String hint;
-    protected WorkbenchMenu menu;
+    protected WorkbenchMenuq menu;
 
     protected HorizontalGroup leftHG;                             // contains select boxes for item parts.
     protected HorizontalGroup rightHG;                            // contains control buttons.
@@ -35,7 +35,7 @@ public class OrderLine extends Table implements Hideable, HintedActor, Highlight
     protected HighlightHandler highlightHandler;
     protected TextButton closeButton;
 
-    public OrderLine(WorkbenchMenu menu, String hint) {
+    public OrderLine(WorkbenchMenuq menu, String hint) {
         this.menu = menu;
         this.hint = hint;
         createTable();

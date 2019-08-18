@@ -2,7 +2,7 @@ package stonering.game.view.render.stages.workbench.orderline;
 
 import stonering.entity.crafting.ItemOrder;
 import stonering.enums.items.recipe.Recipe;
-import stonering.game.view.render.stages.workbench.WorkbenchMenu;
+import stonering.game.view.render.stages.workbench.WorkbenchMenuq;
 import stonering.game.view.render.stages.workbench.orderline.selectbox.RecipeSelectBox;
 
 /**
@@ -16,7 +16,7 @@ public class EmptyOrderLine extends OrderLine {
     private static final String LINE_HINT = "WS: select recipe, ED: confirm";
     private RecipeSelectBox selectBox;
 
-    public EmptyOrderLine(WorkbenchMenu menu) {
+    public EmptyOrderLine(WorkbenchMenuq menu) {
         super(menu, LINE_HINT);
         createSelectBox();
     }
