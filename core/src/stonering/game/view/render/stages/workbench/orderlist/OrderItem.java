@@ -51,7 +51,7 @@ public class OrderItem extends Table {
 
     private void createElements() {
         image = new Image(); //TODO select/generate item tile.
-        recipeTitle = new Label(order.getRecipe().title, StaticSkin.getSkin());
+        recipeTitle = new Label(order.recipe.title, StaticSkin.getSkin());
         quotesSummary = new Label("", StaticSkin.getSkin());
         updateText();
     }
@@ -90,7 +90,7 @@ public class OrderItem extends Table {
     }
 
     private Button createButton(String drawableName) {
-        DrawableMap map = DrawableMap.getInstance();
+        DrawableMap map = DrawableMap.instance();
         return new Button(map.getDrawable(drawableName),
                 map.getDrawable(drawableName + ":down"),
                 map.getDrawable(drawableName + ":checked"));

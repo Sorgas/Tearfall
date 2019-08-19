@@ -33,8 +33,8 @@ public class ItemType extends Entity {
     public ItemType(RawItemType rawItemType) {
         super();
         name = rawItemType.name;
-        title = rawItemType.name;
-        description = rawItemType.name;
+        title = rawItemType.title.isEmpty() ? capitalize(rawItemType.name) : rawItemType.title;
+        description = rawItemType.description;
         wear = rawItemType.wear;
         tool = rawItemType.tool;
         container = rawItemType.container;
@@ -84,5 +84,9 @@ public class ItemType extends Entity {
                 }
             }
         }
+    }
+
+    private String capitalize(String text) {
+        return (text.substring(0, 1).toUpperCase() + text.substring(1).toLowerCase()).replace('_', ' ');
     }
 }

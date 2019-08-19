@@ -65,7 +65,7 @@ public class NavigableVerticalGroup extends VerticalGroup implements Highlightab
      */
     public boolean navigate(int delta) {
         int size = getChildren().size;
-        selectedIndex = size != 0 ? (selectedIndex + delta + size) % size : -1;
+        setSelectedIndex(size != 0 ? (selectedIndex + delta + size) % size : -1);
         return true;
     }
 

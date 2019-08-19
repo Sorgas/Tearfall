@@ -43,7 +43,7 @@ public abstract class ToolbarButtonMenu extends ButtonMenu implements Highlighta
 
         @Override
         public void handle() {
-            setBackground(DrawableMap.getInstance().getDrawable("toolbar_menu" + (value ? ":focused" : "")));
+            setBackground(DrawableMap.instance().getDrawable("toolbar_menu" + (value ? ":focused" : "")));
         }
     }
 }

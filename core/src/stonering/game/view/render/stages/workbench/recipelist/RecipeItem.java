@@ -13,13 +13,13 @@ import stonering.game.view.render.util.WrappedTextButton;
  * @author Alexander on 12.08.2019.
  */
 public class RecipeItem extends WrappedTextButton {
-    private Recipe recipe;
+    public final Recipe recipe;
     private RecipeListSection recipeListSection;
     public final RecipeCategoryItem category;
 
-    public RecipeItem(String recipeName, RecipeListSection recipeListSection, RecipeCategoryItem category) {
-        super(recipeName);
-        this.recipe = RecipeMap.instance().getRecipe(recipeName);
+    public RecipeItem(Recipe recipe, RecipeListSection recipeListSection, RecipeCategoryItem category) {
+        super(recipe.title);
+        this.recipe = recipe;
         this.recipeListSection = recipeListSection;
         this.category = category;
         createDefaultListener();

@@ -2,7 +2,10 @@ package stonering.game.view.render.stages.workbench.recipelist;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
+import stonering.enums.items.recipe.Recipe;
+import stonering.enums.items.recipe.RecipeMap;
 import stonering.game.view.render.ui.images.DrawableMap;
 import stonering.game.view.render.ui.menus.util.Highlightable;
 import stonering.game.view.render.util.WrappedTextButton;
@@ -32,13 +35,7 @@ public class RecipeCategoryItem extends WrappedTextButton implements Highlightab
         this.recipeListSection = recipeListSection;
         this.recipeNames = recipeNames;
         recipeItems = new ArrayList<>();
-        updateText();
-        highlightHandler = new CheckHighlightHandler() {
-            @Override
-            public void handle() {
-                setBackground(DrawableMap.getInstance().getDrawable(BACKGROUND_NAME + (value ? ":focused" : "")));
-            }
-        };
+        createHighlightHandler();
         button.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -63,20 +60,28 @@ public class RecipeCategoryItem extends WrappedTextButton implements Highlightab
         expanded = toValue;
         if (expanded && recipeItems.isEmpty()) createRecipeItems(); // lazy creation of buttons
         recipeListSection.updateCategory(this);
-        updateText();
-    }
-
-    /**
-     * Changes arrow on the line end.
-     */
-    private void updateText() {
-        button.setText(categoryName + (expanded ? " E" : " C"));
     }
 
     private void createRecipeItems() {
+        Recipe recipe;
+        RecipeMap map = RecipeMap.instance();
         for (String recipeName : recipeNames) {
-            recipeItems.add(new RecipeItem(recipeName, recipeListSection, this));
+            if ((recipe = map.getRecipe(recipeName)) == null) continue;
+            recipeItems.add(new RecipeItem(recipe, recipeListSection, this));
         }
+    }
+
+    private void createHighlightHandler() {
+        highlightHandler = new CheckHighlightHandler() {
+            private Drawable normal = DrawableMap.instance().getDrawable(BACKGROUND_NAME);
+            private Drawable focused = DrawableMap.instance().getDrawable(BACKGROUND_NAME + ":focused");
+
+            @Override
+            public void handle() {
+                setBackground(value ? focused : normal);
+            }
+        };
+
     }
 
     @Override

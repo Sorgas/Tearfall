@@ -7,20 +7,16 @@ import stonering.enums.items.recipe.Recipe;
 import java.util.*;
 
 /**
- * Contains recipe, item NAME and material id for crafting item.
- * Task for crafting creation is based on this.
- * <p>
- * For each required item part, player should specify item selector.
- * <p>
+ * Contains recipe, item name, material id and list of {@link ItemPartOrder} for each item part.
+ * For each required item part, player can specify item selector, otherwise any appropriate ingredient will be used.
  * Changing order properties during task execution will not update task.
  * Repeated task will update on next iteration.
- * <p>
  * mvp is crafting 1 item from 1 item/material.
  *
  * @author Alexander on 27.10.2018.
  */
 public class ItemOrder {
-    private Recipe recipe;
+    public final Recipe recipe;
     private List<ItemPartOrder> parts; // itemPart to item selected for variant.
     private int amount;
     private TaskStatusEnum status;
@@ -51,10 +47,6 @@ public class ItemOrder {
 
     public void setParts(List<ItemPartOrder> parts) {
         this.parts = parts;
-    }
-
-    public Recipe getRecipe() {
-        return recipe;
     }
 
     public TaskStatusEnum getStatus() {

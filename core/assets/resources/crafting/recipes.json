@@ -58,14 +58,14 @@
 }, {
     "name": "boil_water",
     "category": "Drinks",
-    "title": "Boil water for safer consuming.",
+    "title": "Boil water",
     "itemName": "water",
     "parts": [["meal", "piece", "meat", "1"], [null, null, "fuel", "1"], [null, null, "water", "1"]]
     //todo
 }, {
     "name": "boil_drink",
     "category": "Drinks",
-    "title": "Prepare drink from water and some ingredient like tea leaves or coffee beans.",
+    "title": "Boil drink",
     "itemName": "water",
     "parts": [["meal", "piece", "meat", "1"], [null, null, "fuel", "1"], [null, null, "water", "1"]]
     //todo

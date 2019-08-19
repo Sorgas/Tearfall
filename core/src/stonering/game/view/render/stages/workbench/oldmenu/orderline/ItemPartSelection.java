@@ -102,9 +102,9 @@ public class ItemPartSelection extends Stack implements HintedActor, Highlightab
 
         @Override
         public void handle() {
-            materialImage.setDrawable(getStage().getKeyboardFocus() == materialSelectBox ? DrawableMap.getInstance().getDrawable(focusedRegionName) : null);
+            materialImage.setDrawable(getStage().getKeyboardFocus() == materialSelectBox ? DrawableMap.instance().getDrawable(focusedRegionName) : null);
             if (itemTypeSelectBox != null)
-                itemTypeImage.setDrawable(getStage().getKeyboardFocus() == itemTypeSelectBox ? DrawableMap.getInstance().getDrawable(focusedRegionName) : null);
+                itemTypeImage.setDrawable(getStage().getKeyboardFocus() == itemTypeSelectBox ? DrawableMap.instance().getDrawable(focusedRegionName) : null);
         }
     }
 

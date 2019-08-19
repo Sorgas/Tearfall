@@ -107,7 +107,7 @@ public class ItemCraftingOrderLine extends OrderLine implements Highlightable {
      * Creates label with item name.
      */
     private Label createItemLabel() {
-        String itemTitle = ItemTypeMap.getInstance().getItemType(order.getRecipe().itemName).title;
+        String itemTitle = ItemTypeMap.getInstance().getItemType(order.recipe.itemName).title;
         return new Label(itemTitle, StaticSkin.getSkin()); // label with item type
     }
 

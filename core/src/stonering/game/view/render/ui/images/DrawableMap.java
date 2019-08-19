@@ -31,7 +31,7 @@ public class DrawableMap {
         loadRegions();
     }
 
-    public static DrawableMap getInstance() {
+    public static DrawableMap instance() {
         if (instance == null) instance = new DrawableMap();
         return instance;
     }

@@ -81,7 +81,7 @@ public enum Logger {
     }
 
     public void logWarn(String message) {
-        if (enabled) logger.debug(tagWord, message);
+        if (enabled) logger.warn(tagWord, message);
     }
 
     public void logError(String message) {

@@ -13,10 +13,7 @@ import java.util.List;
 public class RecipeProcessor {
 
     public Recipe processRawRecipe(RawRecipe rawRecipe) {
-        Recipe recipe = new Recipe(rawRecipe.title);
-        recipe.name = rawRecipe.name;
-        recipe.itemName = rawRecipe.itemName;
-        recipe.category = rawRecipe.category;
+        Recipe recipe = new Recipe(rawRecipe);
         rawRecipe.parts.forEach(part -> recipe.parts.add(processItemPartRecipe(part, recipe.name)));
         return recipe;
     }

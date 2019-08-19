@@ -21,7 +21,7 @@ public class ItemPartOrder {
     public ItemPartOrder(ItemOrder order, String name) {
         this.order = order;
         this.name = name;
-        itemPartRecipe = order.getRecipe().getItemPartRecipe(name);
+        itemPartRecipe = order.recipe.getItemPartRecipe(name);
         selectedMaterial = "any " + itemPartRecipe.materialTag;
         selectedItemType = itemPartRecipe.itemTypes.get(0);
     }

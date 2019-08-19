@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import stonering.entity.building.aspects.WorkbenchAspect;
 import stonering.entity.crafting.ItemOrder;
 import stonering.enums.ControlActionsEnum;
+import stonering.enums.items.recipe.Recipe;
 import stonering.game.GameMvc;
 import stonering.game.view.render.stages.workbench.WorkbenchMenu;
 import stonering.game.view.render.ui.menus.util.NavigableVerticalGroup;
@@ -49,6 +50,13 @@ public class OrderListSection extends NavigableVerticalGroup {
                 }
             }
         };
+    }
+
+    public void createOrder(Recipe recipe) {
+        ItemOrder order = new ItemOrder(recipe);
+        aspect.addOrder(order);
+        addActor(new OrderItem(order, this));
+        menu.orderDetailsSection.showOrder(order);
     }
 
     /**

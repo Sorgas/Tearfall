@@ -46,7 +46,7 @@ public class TileRenderer extends Renderer {
     private ItemContainer itemContainer;
     private ZonesContainer zonesContainer;
     private MovableCamera camera;
-    private boolean disabled = true;
+    private boolean disabled = false;
 
     private Position cachePosition;
     private Vector3 cacheVector;

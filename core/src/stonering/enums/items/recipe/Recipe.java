@@ -12,15 +12,24 @@ import java.util.List;
  * @author Alexander on 19.11.2018.
  */
 public class Recipe {
-    public String name;     // recipe NAME
-    public String category; // recipes are divided into categories in workbench menu
-    public String title;    // displayed name
-    public String itemName; // item NAME, points to ItemType
-    public List<ItemPartRecipe> parts;  // itemPart NAME to material categories.
+    public final String name;     // recipe NAME
+    public final String category; // recipes are divided into categories in workbench menu
+    public final String title;    // displayed name
+    public final String itemName; // item NAME, points to ItemType
+    public final List<ItemPartRecipe> parts = new ArrayList<>();  // itemPart NAME to material categories.
 
     public Recipe(String title) {
         this.title = title;
-        parts = new ArrayList();
+        category = "";
+        name = "";
+        itemName = "";
+    }
+
+    public Recipe(RawRecipe raw) {
+        name = raw.name;
+        category = raw.category;
+        title = raw.title;
+        itemName = raw.itemName;
     }
 
     /**
