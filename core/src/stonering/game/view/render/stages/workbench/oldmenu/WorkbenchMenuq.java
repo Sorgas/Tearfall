@@ -1,4 +1,4 @@
-package stonering.game.view.render.stages.workbench;
+package stonering.game.view.render.stages.workbench.oldmenu;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -17,9 +17,9 @@ import stonering.game.GameMvc;
 import stonering.game.view.render.ui.menus.util.Highlightable;
 import stonering.game.view.render.ui.menus.util.HintedActor;
 import stonering.game.view.render.ui.menus.util.NavigableVerticalGroup;
-import stonering.game.view.render.stages.workbench.orderline.EmptyOrderLine;
-import stonering.game.view.render.stages.workbench.orderline.ItemCraftingOrderLine;
-import stonering.game.view.render.stages.workbench.orderline.OrderLine;
+import stonering.game.view.render.stages.workbench.oldmenu.orderline.EmptyOrderLine;
+import stonering.game.view.render.stages.workbench.oldmenu.orderline.ItemCraftingOrderLine;
+import stonering.game.view.render.stages.workbench.oldmenu.orderline.OrderLine;
 import stonering.util.global.StaticSkin;
 import stonering.util.global.Logger;
 

@@ -46,6 +46,7 @@ public class TileRenderer extends Renderer {
     private ItemContainer itemContainer;
     private ZonesContainer zonesContainer;
     private MovableCamera camera;
+    private boolean disabled = true;
 
     private Position cachePosition;
     private Vector3 cacheVector;
@@ -79,6 +80,7 @@ public class TileRenderer extends Renderer {
      */
     @Override
     public void render() {
+        if(disabled) return;
         int maxZ = camera.getCameraZ();
         int minZ = (int) Math.max(maxZ - util.maxZLevels, 0);
         for (int z = minZ; z <= maxZ; z++) {

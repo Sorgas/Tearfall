@@ -5,7 +5,6 @@ import com.badlogic.gdx.utils.Align;
 import stonering.entity.building.Building;
 import stonering.game.GameMvc;
 import stonering.game.view.render.stages.UiStage;
-import stonering.game.view.render.stages.workbench.newmenu.WorkbenchMenu;
 import stonering.util.global.Initable;
 import stonering.util.global.Logger;
 

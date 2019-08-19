@@ -1,4 +1,4 @@
-package stonering.game.view.render.stages.workbench.orderline;
+package stonering.game.view.render.stages.workbench.oldmenu.orderline;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -8,8 +8,8 @@ import stonering.enums.items.recipe.ItemPartRecipe;
 import stonering.game.view.render.ui.images.DrawableMap;
 import stonering.game.view.render.ui.menus.util.Highlightable;
 import stonering.game.view.render.ui.menus.util.HintedActor;
-import stonering.game.view.render.stages.workbench.orderline.selectbox.ItemTypeSelectBox;
-import stonering.game.view.render.stages.workbench.orderline.selectbox.MaterialSelectBox;
+import stonering.game.view.render.stages.workbench.oldmenu.orderline.selectbox.ItemTypeSelectBox;
+import stonering.game.view.render.stages.workbench.oldmenu.orderline.selectbox.MaterialSelectBox;
 import stonering.util.global.StaticSkin;
 
 /**

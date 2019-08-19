@@ -1,4 +1,4 @@
-package stonering.game.view.render.stages.workbench.orderline.selectbox;
+package stonering.game.view.render.stages.workbench.oldmenu.orderline.selectbox;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.EventListener;

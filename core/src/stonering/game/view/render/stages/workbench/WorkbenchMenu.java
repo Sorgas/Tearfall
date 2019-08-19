@@ -1,11 +1,11 @@
-package stonering.game.view.render.stages.workbench.newmenu;
+package stonering.game.view.render.stages.workbench;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import stonering.entity.building.Building;
 import stonering.entity.building.aspects.WorkbenchAspect;
-import stonering.game.view.render.stages.workbench.newmenu.details.OrderDetailsPane;
-import stonering.game.view.render.stages.workbench.newmenu.orderlist.OrderList;
-import stonering.game.view.render.stages.workbench.newmenu.recipelist.RecipeListSection;
+import stonering.game.view.render.stages.workbench.details.OrderDetailsPane;
+import stonering.game.view.render.stages.workbench.orderlist.OrderList;
+import stonering.game.view.render.stages.workbench.recipelist.RecipeListSection;
 import stonering.util.global.StaticSkin;
 
 /**

@@ -1,4 +1,4 @@
-package stonering.game.view.render.stages.workbench.newmenu.recipelist;
+package stonering.game.view.render.stages.workbench.recipelist;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;

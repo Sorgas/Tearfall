@@ -1,4 +1,4 @@
-package stonering.game.view.render.stages.workbench.orderline;
+package stonering.game.view.render.stages.workbench.oldmenu.orderline;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.enums.ControlActionsEnum;
 import stonering.enums.TaskStatusEnum;
-import stonering.game.view.render.stages.workbench.WorkbenchMenuq;
+import stonering.game.view.render.stages.workbench.oldmenu.WorkbenchMenuq;
 import stonering.game.view.render.ui.images.DrawableMap;
 import stonering.game.view.render.ui.menus.util.Hideable;
 import stonering.game.view.render.ui.menus.util.Highlightable;

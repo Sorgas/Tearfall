@@ -1,4 +1,4 @@
-package stonering.game.view.render.stages.workbench.newmenu.orderlist;
+package stonering.game.view.render.stages.workbench.orderlist;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import stonering.entity.crafting.ItemOrder;
