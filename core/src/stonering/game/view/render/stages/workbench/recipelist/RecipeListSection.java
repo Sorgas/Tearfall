@@ -50,7 +50,7 @@ public class RecipeListSection extends NavigableVerticalGroup implements Highlig
             public void handle() { // fetch elements and change color
                 Actor selected = list.getSelectedElement();
                 for (Actor child : list.getChildren()) {
-                    ((WrappedTextButton) child).getActor().setColor(child.equals(selected) ? Color.RED : Color.BLUE);
+                    ((WrappedTextButton) child).getActor().setColor(child.equals(selected) ? Color.RED : Color.LIGHT_GRAY);
                 }
             }
         });

@@ -1,11 +1,15 @@
 package stonering.game.view.render.stages.workbench.orderlist;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import stonering.entity.building.aspects.WorkbenchAspect;
 import stonering.entity.crafting.ItemOrder;
 import stonering.enums.ControlActionsEnum;
+import stonering.game.GameMvc;
+import stonering.game.view.render.stages.workbench.WorkbenchMenu;
 import stonering.game.view.render.ui.menus.util.NavigableVerticalGroup;
 
 import static stonering.enums.ControlActionsEnum.SELECT;
@@ -26,14 +30,25 @@ import static stonering.enums.ControlActionsEnum.SELECT;
  * @author Alexander on 13.08.2019.
  */
 public class OrderListSection extends NavigableVerticalGroup {
+    private WorkbenchMenu menu;
     public final WorkbenchAspect aspect;
     private HighlightHandler highlightHandler;
 
-    public OrderListSection(WorkbenchAspect aspect) {
+    public OrderListSection(WorkbenchAspect aspect, WorkbenchMenu menu) {
         super();
         this.aspect = aspect;
+        this.menu = menu;
         keyMapping.put(Input.Keys.D, SELECT);
         fillOrderList();
+        createListener();
+        highlightHandler = new HighlightHandler() {
+            @Override
+            public void handle() {
+                for (Actor child : getChildren()) {
+                    child.setColor(child.equals(getSelectedElement()) ? Color.RED : Color.LIGHT_GRAY);
+                }
+            }
+        };
     }
 
     /**
@@ -61,28 +76,28 @@ public class OrderListSection extends NavigableVerticalGroup {
                         break;
                     }
                     case LEFT: {
-                        // new order
+                        getStage().setKeyboardFocus(menu.recipeListSection);
                         break;
                     }
                     case DELETE: {
-                        // remove order
+                        ((OrderItem) getSelectedElement()).cancelButton.toggle();
                         break;
                     }
                 }
                 return true;
             }
         });
-        setSelectListener(new InputListener() {
+        setSelectListener(new InputListener() { // configure order.
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
-                // configure
+                getStage().setKeyboardFocus(menu.orderDetailsSection);
                 return true;
             }
         });
-        setCancelListener(new InputListener() {
+        setCancelListener(new InputListener() { // close menu
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
-                // close menu
+                GameMvc.instance().getView().removeStage(getStage());
                 return true;
             }
         });

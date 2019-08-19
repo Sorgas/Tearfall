@@ -22,7 +22,7 @@ public class WorkbenchMenu extends Window {
         super(workbench.getType().title, StaticSkin.getSkin());
         defaults().size(300, 700).pad(10);
         add(recipeListSection = new RecipeListSection(workbench.getAspect(WorkbenchAspect.class), this));
-        add(orderListSection = new OrderListSection(workbench.getAspect(WorkbenchAspect.class)));
+        add(orderListSection = new OrderListSection(workbench.getAspect(WorkbenchAspect.class), this));
         add(orderDetailsSection = new OrderDetailsSection());
     }
 

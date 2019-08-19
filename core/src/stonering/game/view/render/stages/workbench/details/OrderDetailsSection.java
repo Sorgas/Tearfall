@@ -54,8 +54,4 @@ public class OrderDetailsSection extends Table {
     private void createTable() {
 
     }
-
-    private void createListeners() {
-
-    }
 }

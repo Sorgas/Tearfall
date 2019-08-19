@@ -133,7 +133,6 @@ public class WorkbenchMenuq extends Window implements HintedActor {
             }
             return false;
         }
-
     }
 
     private TextButton createAddButton() {
