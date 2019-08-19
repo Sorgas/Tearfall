@@ -49,7 +49,8 @@ public class RecipeCategoryItem extends WrappedTextButton implements Highlightab
             }
         });
         align(Align.left);
-        size(200, 25);
+        size(290, 35);
+        pad(5);
     }
 
     @Override

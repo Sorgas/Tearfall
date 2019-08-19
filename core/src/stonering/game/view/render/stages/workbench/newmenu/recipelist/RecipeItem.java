@@ -25,7 +25,7 @@ public class RecipeItem extends WrappedTextButton {
         this.recipeListSection = recipeListSection;
         this.category = category;
         createDefaultListener();
-        size(185, 25).padLeft(15);
+        size(270, 35).pad(5).padLeft(25);
     }
 
     private void createDefaultListener() {

@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -51,6 +52,7 @@ public class UiDemo extends Game {
             group.columnLeft();
 
             TextButton button = new TextButton("1", StaticSkin.getSkin());
+            button.setColor(Color.GREEN);
             Container buttonContainer = new Container(button);
             buttonContainer.size(80,50);
             buttonContainer.align(Align.left);

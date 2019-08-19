@@ -24,6 +24,11 @@ public class WorkbenchMenu extends Window {
         add(recipeListSection = new RecipeListSection(workbench.getAspect(WorkbenchAspect.class)));
         add(orderList = new OrderList(workbench.getAspect(WorkbenchAspect.class)));
         add(orderDetailsPane = new OrderDetailsPane());
-        setDebug(true, true);
     }
+
+    public void initFocus() {
+        getStage().setKeyboardFocus(recipeListSection);
+    }
+
+
 }

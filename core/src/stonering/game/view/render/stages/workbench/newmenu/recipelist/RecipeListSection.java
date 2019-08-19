@@ -1,6 +1,7 @@
 package stonering.game.view.render.stages.workbench.newmenu.recipelist;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -11,7 +12,9 @@ import stonering.entity.building.aspects.WorkbenchAspect;
 import stonering.entity.crafting.ItemOrder;
 import stonering.enums.ControlActionsEnum;
 import stonering.enums.items.recipe.Recipe;
+import stonering.game.view.render.ui.menus.util.Highlightable;
 import stonering.game.view.render.ui.menus.util.NavigableVerticalGroup;
+import stonering.game.view.render.util.WrappedTextButton;
 import stonering.util.global.Logger;
 
 import java.util.ArrayList;
@@ -26,7 +29,7 @@ import java.util.Map;
  *
  * @author Alexander on 12.08.2019.
  */
-public class RecipeListSection extends NavigableVerticalGroup {
+public class RecipeListSection extends NavigableVerticalGroup implements Highlightable {
     private Map<String, List<String>> recipeMap;
 
     public RecipeListSection(WorkbenchAspect aspect) {
@@ -35,6 +38,22 @@ public class RecipeListSection extends NavigableVerticalGroup {
         createListeners();
         keyMapping.put(Input.Keys.D, ControlActionsEnum.SELECT);
         align(Align.topLeft);
+        RecipeListSection list = this;
+        setHighlightHandler(new HighlightHandler() {
+            @Override
+            public void handle() {
+                Actor selected = list.getSelectedElement();
+                for (Actor child : list.getChildren()) {
+                    ((WrappedTextButton) child).getActor().setColor(child.equals(selected) ? Color.RED : Color.BLUE);
+                }
+            }
+        });
+    }
+
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+        updateHighlighting(this.equals(getStage().getKeyboardFocus()));
     }
 
     private void fillCategoryMap(WorkbenchAspect aspect) {

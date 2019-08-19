@@ -17,7 +17,6 @@ public class WrappedTextButton extends Container<TextButton> {
     public WrappedTextButton(String text) {
         button = new TextButton(text, StaticSkin.getSkin());
         setActor(button);
-
     }
 
     public void toggle() {

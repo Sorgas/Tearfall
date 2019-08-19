@@ -29,12 +29,11 @@ public class BuildingStage extends UiStage implements Initable {
 
     @Override
     public void init() {
-        createWorkbenchMenu();
-        setKeyboardFocus(menu);
         gameMvc.getController().setCameraEnabled(false);
-        wasPaused = gameMvc.getModel().isPaused();
+        wasPaused = gameMvc.getModel().isPaused(); // used for unpausing when menu is closed
         gameMvc.getModel().setPaused(true);
         gameMvc.getController().getPauseInputAdapter().setEnabled(false);
+        createWorkbenchMenu();
     }
 
     /**
@@ -43,10 +42,11 @@ public class BuildingStage extends UiStage implements Initable {
     private void createWorkbenchMenu() {
         menu = new WorkbenchMenu(building);
         menu.align(Align.center);
-        Container container = new Container(menu).center();
+        Container container = new Container<>(menu).center();
         container.setFillParent(true);
         container.setDebug(true, true);
         this.addActor(container);
+        menu.initFocus();
     }
 
     @Override
