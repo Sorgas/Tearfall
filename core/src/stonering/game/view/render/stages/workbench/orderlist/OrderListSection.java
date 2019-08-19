@@ -13,14 +13,23 @@ import static stonering.enums.ControlActionsEnum.SELECT;
 /**
  * Displays list of orders of workbench, and their statuses.
  * Allows to navigate the list, select order for configuring, pausing/unpausing, setting for repeat, switching to recipe list for creating new order.
+ * Controls:
+ * R: toggle order repeated.
+ * F: toggle order paused.
+ * A: new order.
+ * X: cancel order.
+ * W: S: navigation.
+ * Q: close menu.
+ * E, D: configure order.
+ * W, S: navigation.
  *
  * @author Alexander on 13.08.2019.
  */
-public class OrderList extends NavigableVerticalGroup {
-    private WorkbenchAspect aspect;
+public class OrderListSection extends NavigableVerticalGroup {
+    public final WorkbenchAspect aspect;
     private HighlightHandler highlightHandler;
 
-    public OrderList(WorkbenchAspect aspect) {
+    public OrderListSection(WorkbenchAspect aspect) {
         super();
         this.aspect = aspect;
         keyMapping.put(Input.Keys.D, SELECT);
@@ -33,7 +42,7 @@ public class OrderList extends NavigableVerticalGroup {
     private void fillOrderList() {
         for (WorkbenchAspect.OrderTaskEntry entry : aspect.getEntries()) {
             ItemOrder order = entry.order;
-            addActor(new OrderItem(order));
+            addActor(new OrderItem(order, this));
         }
     }
 
@@ -44,11 +53,11 @@ public class OrderList extends NavigableVerticalGroup {
                 if (getSelectedElement() == null) return true;
                 switch (ControlActionsEnum.getAction(keycode)) {
                     case Z_UP: {
-                        ((OrderItem) getSelectedElement()).toggleRepeat();
+                        ((OrderItem) getSelectedElement()).repeatButton.toggle();
                         break;
                     }
                     case Z_DOWN: {
-                        ((OrderItem) getSelectedElement()).togglePause();
+                        ((OrderItem) getSelectedElement()).suspendButton.toggle();
                         break;
                     }
                     case LEFT: {

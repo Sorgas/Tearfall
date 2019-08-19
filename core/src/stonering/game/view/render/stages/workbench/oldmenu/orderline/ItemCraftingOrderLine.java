@@ -99,7 +99,7 @@ public class ItemCraftingOrderLine extends OrderLine implements Highlightable {
 
     private void tryMoveThisLine(int delta) {
         WorkbenchAspect aspect = menu.getWorkbenchAspect();
-        aspect.swapOrders(aspect.getEntries().indexOf(order), delta);
+        aspect.swapOrders(order, delta);
         menu.getOrderList().moveItem(this, delta);
     }
 

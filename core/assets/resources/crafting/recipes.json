@@ -9,7 +9,7 @@
 [
     {
         "name": "make_pickaxe",
-        "category":"Tools",
+        "category": "Tools",
         "title": "Metal pickaxe",
         "itemName": "pickaxe",
         "parts": [["head", "bar", "metal", "1"], ["handle", "log/plank", "wood", "1"]]
@@ -55,5 +55,19 @@
     "title": "Cook soup",
     "itemName": "liquid_meal",
     "parts": [["meal", "piece", "meat", "1"], [null, null, "fuel", "1"], [null, null, "water", "1"]]
+}, {
+    "name": "boil_water",
+    "category": "Drinks",
+    "title": "Boil water for safer consuming.",
+    "itemName": "water",
+    "parts": [["meal", "piece", "meat", "1"], [null, null, "fuel", "1"], [null, null, "water", "1"]]
+    //todo
+}, {
+    "name": "boil_drink",
+    "category": "Drinks",
+    "title": "Prepare drink from water and some ingredient like tea leaves or coffee beans.",
+    "itemName": "water",
+    "parts": [["meal", "piece", "meat", "1"], [null, null, "fuel", "1"], [null, null, "water", "1"]]
+    //todo
 }
 ]

@@ -61,7 +61,5 @@ public class BuildingStage extends UiStage implements Initable {
     public void resize(int width, int height) {
         Logger.UI.logDebug("resizing Building stage to " + width + " " + height);
         super.resize(width, height);
-        menu.setWidth(width / 2);
-        menu.setHeight(height / 2);
     }
 }

@@ -188,15 +188,14 @@ public class WorkbenchAspect extends Aspect {
     /**
      * Swap entries on positions index and (index + delta). Does nothing, if indexes not in list range.
      */
-    public void swapOrders(int index, int delta) {
-        if (inBounds(index)) {
-            int newIndex = index + delta;
-            if (inBounds(newIndex)) {
-                OrderTaskEntry entry = entries.get(index);
-                entries.set(index, entries.get(newIndex));
-                entries.set(newIndex, entry);
-            }
-        }
+    public void swapOrders(ItemOrder order, int delta) {
+        int index = getOrderIndex(order);
+        if (!inBounds(index)) return;
+        int newIndex = index + delta;
+        if (!inBounds(newIndex)) return;
+        OrderTaskEntry entry = entries.get(index);
+        entries.set(index, entries.get(newIndex));
+        entries.set(newIndex, entry);
     }
 
     public static class OrderTaskEntry {
@@ -206,6 +205,14 @@ public class WorkbenchAspect extends Aspect {
         public OrderTaskEntry(ItemOrder order) {
             this.order = order;
         }
+    }
+
+    private int getOrderIndex(ItemOrder order) {
+        for (int i = 0; i < entries.size(); i++) {
+            if (entries.get(i).order.equals(order)) return i;
+        }
+        Logger.TASKS.logError("Getting index of item order " + order + " that is not in workbench " + toString());
+        return -1;
     }
 
     private boolean inBounds(int index) {

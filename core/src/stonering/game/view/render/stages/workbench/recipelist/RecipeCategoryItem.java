@@ -42,7 +42,7 @@ public class RecipeCategoryItem extends WrappedTextButton implements Highlightab
         button.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                update();
+                update(!expanded); // toggle state
             }
         });
         align(Align.left);
@@ -57,11 +57,11 @@ public class RecipeCategoryItem extends WrappedTextButton implements Highlightab
     }
 
     /**
-     * Calls list to create recipe buttons.
+     * Expands/collapses this category in {@link RecipeListSection}.
      */
-    private void update() {
-        expanded = !expanded; // toggle value
-        if (expanded && recipeItems.isEmpty()) createRecipeItems(); // first creation of buttons
+    public void update(boolean toValue) {
+        expanded = toValue;
+        if (expanded && recipeItems.isEmpty()) createRecipeItems(); // lazy creation of buttons
         recipeListSection.updateCategory(this);
         updateText();
     }
