@@ -30,7 +30,7 @@ public class RecipeItem extends WrappedTextButton {
         button.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                recipeListSection.createNewOrder(recipe.name);
+                recipeListSection.createNewOrder(recipe);
             }
         });
     }

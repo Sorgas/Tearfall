@@ -55,8 +55,10 @@ public class OrderListSection extends NavigableVerticalGroup {
     public void createOrder(Recipe recipe) {
         ItemOrder order = new ItemOrder(recipe);
         aspect.addOrder(order);
-        addActor(new OrderItem(order, this));
+        OrderItem orderItem = new OrderItem(order, this);
+        addActor(orderItem);
         menu.orderDetailsSection.showOrder(order);
+        getStage().setKeyboardFocus(orderItem);
     }
 
     /**

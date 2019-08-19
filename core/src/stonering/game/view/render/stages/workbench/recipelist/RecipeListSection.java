@@ -100,9 +100,8 @@ public class RecipeListSection extends NavigableVerticalGroup implements Highlig
     /**
      * Creates new {@link ItemOrder} and adds it to order list of this workbench.
      */
-    public void createNewOrder(String recipeName) {
-        menu.orderListSection.
-        //TODO create new order, add to list, show in right pane
+    public void createNewOrder(Recipe recipe) {
+        menu.orderListSection.createOrder(recipe);
         setSelectedIndex(-1);
     }
 
