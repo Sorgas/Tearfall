@@ -22,11 +22,9 @@
         },
         "parts": [
             {
-                "title": "head",
-                "required": "true"
+                "title": "head"
             }, {
-                "title": "handle",
-                "required": "true"
+                "title": "handle"
             }
         ],
         "atlasXY": ["0", "0"],
@@ -54,11 +52,9 @@
     },
     "parts": [
         {
-            "title": "head",
-            "required": "true"
+            "title": "head"
         }, {
-            "title": "handle",
-            "required": "true"
+            "title": "handle"
         }
     ],
     "atlasXY": ["10", "0"],
@@ -84,11 +80,9 @@
     },
     "parts": [
         {
-            "title": "head",
-            "required": "true"
+            "title": "head"
         }, {
-            "title": "handle",
-            "required": "true"
+            "title": "handle"
         }
     ],
     "atlasXY": ["7", "0"],
@@ -135,11 +129,9 @@
     },
     "parts": [
         {
-            "title": "head",
-            "required": "true"
+            "title": "head"
         }, {
-            "title": "handle",
-            "required": "true"
+            "title": "handle"
         }
     ],
     "atlasXY": ["1", "0"],
@@ -165,14 +157,11 @@
     },
     "parts": [
         {
-            "title": "head",
-            "required": "true"
+            "title": "head"
         }, {
-            "title": "handle",
-            "required": "true"
+            "title": "handle"
         }, {
-            "title": "feet",
-            "required": "false"
+            "title": "feet"
         }
     ],
     "atlasXY": ["1", "0"],
@@ -198,11 +187,9 @@
     },
     "parts": [
         {
-            "title": "plate",
-            "required": "true"
+            "title": "plate"
         }, {
-            "title": "handle",
-            "required": "true"
+            "title": "handle"
         }
     ],
     "atlasXY": ["1", "0"],

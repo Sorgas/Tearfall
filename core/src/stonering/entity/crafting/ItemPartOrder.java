@@ -11,19 +11,18 @@ import stonering.enums.items.recipe.ItemPartRecipe;
  * @author Alexander on 05.01.2019.
  */
 public class ItemPartOrder {
-    private String name; // produced item part, null for consumed ingredients
-    private ItemOrder order;
-    private ItemPartRecipe itemPartRecipe;
+    public final ItemOrder order;
+    public final ItemPartRecipe partRecipe;
+
     private String selectedMaterial;
     private String selectedItemType;
     private ItemSelector itemSelector;
 
-    public ItemPartOrder(ItemOrder order, String name) {
+    public ItemPartOrder(ItemOrder order, ItemPartRecipe partRecipe) {
         this.order = order;
-        this.name = name;
-        itemPartRecipe = order.recipe.getItemPartRecipe(name);
-        selectedMaterial = "any " + itemPartRecipe.materialTag;
-        selectedItemType = itemPartRecipe.itemTypes.get(0);
+        this.partRecipe = partRecipe;
+        selectedMaterial = "any " + partRecipe.materialTag;
+        selectedItemType = partRecipe.itemTypes.get(0);
     }
 
     /**
@@ -31,20 +30,8 @@ public class ItemPartOrder {
      */
     public void refreshSelector() {
         if(selectedMaterial.startsWith("any ")) {
-            itemSelector = new AnyMaterialTagItemSelector(selectedItemType, itemPartRecipe.materialTag);
+            itemSelector = new AnyMaterialTagItemSelector(selectedItemType, partRecipe.materialTag);
         }
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public ItemOrder getOrder() {
-        return order;
-    }
-
-    public ItemPartRecipe getItemPartRecipe() {
-        return itemPartRecipe;
     }
 
     public String getSelectedMaterial() {

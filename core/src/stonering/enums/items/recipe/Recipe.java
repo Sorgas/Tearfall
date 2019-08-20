@@ -16,7 +16,7 @@ public class Recipe {
     public final String category; // recipes are divided into categories in workbench menu
     public final String title;    // displayed name
     public final String itemName; // item NAME, points to ItemType
-    public final List<ItemPartRecipe> parts = new ArrayList<>();  // itemPart NAME to material categories.
+    public List<ItemPartRecipe> parts = new ArrayList<>();  // itemPart NAME to material categories.
 
     public Recipe(String title) {
         this.title = title;
@@ -37,7 +37,8 @@ public class Recipe {
      */
     public ItemPartRecipe getItemPartRecipe(String itemPartName) {
         for (ItemPartRecipe part : parts) {
-            if(part.itemPart.equals(itemPartName)) return part;
+            if(part.itemPart != null)
+                if(part.itemPart.equals(itemPartName)) return part;
         }
         Logger.TASKS.logWarn("Item part with name " + itemPartName + " not found in recipe " + name);
         return null;

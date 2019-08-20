@@ -13,7 +13,7 @@ public class ItemTypeSelectBox extends OrderLineSelectBox {
 
     public ItemTypeSelectBox(ItemPartOrder itemPartOrder, ItemPartSelection selection) {
         super(itemPartOrder, selection);
-        setItems(itemPartOrder.getItemPartRecipe().itemTypes);
+        setItems(itemPartOrder.partRecipe.itemTypes);
         setSelectedIndex(0);
     }
 

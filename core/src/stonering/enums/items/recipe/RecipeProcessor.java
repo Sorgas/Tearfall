@@ -2,6 +2,7 @@ package stonering.enums.items.recipe;
 
 import stonering.util.global.Logger;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class RecipeProcessor {
 
     private ItemPartRecipe processItemPartRecipe(List<String> args, String recipe) {
         if (!validateItemPartArgs(args, recipe)) return null;
-        List<String> itemTypes = args.get(1) != null ? Arrays.asList(args.get(1).split("/")) : null;
+        List<String> itemTypes = args.get(1) != null ? Arrays.asList(args.get(1).split("/")) : new ArrayList<>();
         return new ItemPartRecipe(args.get(0), itemTypes, args.get(2));
     }
 

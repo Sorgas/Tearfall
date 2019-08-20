@@ -28,7 +28,7 @@ public class ItemOrder {
         status = TaskStatusEnum.OPEN;
         parts = new ArrayList<>();
         for (ItemPartRecipe itemPartRecipe : recipe.parts) {
-            parts.add(new ItemPartOrder(this, itemPartRecipe.itemPart));
+            parts.add(new ItemPartOrder(this, itemPartRecipe));
         }
     }
 

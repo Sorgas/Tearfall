@@ -36,7 +36,7 @@ public class ItemPartSelection extends Stack implements HintedActor, Highlightab
         this.orderLine = orderLine;
         highlightHandler = new HighlightHandler();
         add(createTable(itemPartOrder));
-        add(new Container(new Label(itemPartOrder.getName(), StaticSkin.getSkin())).left().top());
+        add(new Container(new Label(itemPartOrder.partRecipe.itemPart, StaticSkin.getSkin())).left().top());
     }
 
     private Table createTable(ItemPartOrder itemPartOrder) {
@@ -45,10 +45,10 @@ public class ItemPartSelection extends Stack implements HintedActor, Highlightab
         table.add(materialImage = new Image()).fillX(); // images change drawables on focus change.
         table.add(itemTypeImage = new Image()).fillX().row();
         table.add(materialSelectBox = new MaterialSelectBox(itemPartOrder, this));
-        if (itemPartOrder.getItemPartRecipe().itemTypes.size() > 1) {
+        if (itemPartOrder.partRecipe.itemTypes.size() > 1) {
             table.add(itemTypeSelectBox = new ItemTypeSelectBox(itemPartOrder, this));
         } else {
-            table.add(new Label(itemPartOrder.getItemPartRecipe().itemTypes.get(0), StaticSkin.getSkin()));
+            table.add(new Label(itemPartOrder.partRecipe.itemTypes.get(0), StaticSkin.getSkin()));
         }
         return table;
     }

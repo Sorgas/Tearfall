@@ -11,10 +11,14 @@ import java.util.List;
  * @author Alexander on 05.01.2019.
  */
 public class ItemPartRecipe {
-    public String itemPart;
-    public List<String> itemTypes;
-    public String materialTag;
-    private List<String> possibleMaterials;
+    public String itemPart;          // produced item part
+    // properties of ingredient
+    public final List<String> itemTypes;   // acceptable item types
+    public final String materialTag;       // acceptable material
+    private int quantity;            // quantity
+    //TODO add weight to ingredients consumed as matter
+
+    private List<String> possibleMaterials;  // list of materials to display in ui
 
     public ItemPartRecipe(String itemPart, List<String> itemTypes, String materialTag) {
         this.itemPart = itemPart;

@@ -119,8 +119,8 @@
     "atlasXY": ["15", "0"],
     "color": "0xffffffff"
 }, {
-    "name": "water",
-    "description": "Water",
+    "name": "liquid",
+    "description": "Liquid",
     "typeAspects": [["value", "0"]],
     "aspects": [["liquid"]],
     "atlasXY": ["15", "0"],
