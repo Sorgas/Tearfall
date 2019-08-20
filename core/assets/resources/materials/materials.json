@@ -1,6 +1,5 @@
 [
     {
-        "id": "0",
         "name": "air",
         "tags": ["air"],
         "density": "0.1",
@@ -9,7 +8,6 @@
         "atlasY": "-1",
         "colorCode": "0xffffffff"
     }, {
-    "id": "1",
     "name": "granite",
     "tags": ["stone", "stone_intrusive"],
     "density": "2.7",
@@ -20,7 +18,6 @@
     "atlasY": "0",
     "colorCode": "0xffffffff"
 }, {
-    "id": "2",
     "name": "diorite",
     "tags": ["stone", "stone_intrusive"],
     "density": "2.8",
@@ -31,7 +28,6 @@
     "atlasY": "0",
     "colorCode": "0xffffffff"
 }, {
-    "id": "3",
     "name": "gabbro",
     "tags": ["stone", "stone_intrusive"],
     "density": "3",
@@ -42,29 +38,6 @@
     "atlasY": "0",
     "colorCode": "0xffffffff"
 }, {
-    "id": "4",
-    "name": "peridotite",
-    "tags": ["stone", "stone_intrusive"],
-    "density": "3.1",
-    "reactions": {
-        "melt": ["2173"]
-    },
-    "value": "10",
-    "atlasY": "0",
-    "colorCode": "0xffffffff"
-}, {
-    "id": "5",
-    "name": "pegmatite",
-    "tags": ["stone", "stone_intrusive"],
-    "density": "2.7",
-    "reactions": {
-        "melt": ["4000"]
-    },
-    "value": "10",
-    "atlasY": "0",
-    "colorCode": "0xffffffff"
-}, {
-    "id": "6",
     "name": "rhyolite",
     "tags": ["stone", "stone_extrusive"],
     "density": "2.4",
@@ -75,18 +48,6 @@
     "atlasY": "0",
     "colorCode": "0xffffffff"
 }, {
-    "id": "7",
-    "name": "andesite",
-    "tags": ["stone", "stone_extrusive"],
-    "density": "42918",
-    "reactions": {
-        "melt": ["1473"]
-    },
-    "value": "10",
-    "atlasY": "0",
-    "colorCode": "0xffffffff"
-}, {
-    "id": "8",
     "name": "obsidian",
     "tags": ["stone", "stone_extrusive"],
     "density": "4",
@@ -97,18 +58,6 @@
     "atlasY": "0",
     "colorCode": "0xffffffff"
 }, {
-    "id": "9",
-    "name": "tuff",
-    "tags": ["stone", "stone_extrusive"],
-    "density": "4",
-    "reactions": {
-        "melt": ["4000"]
-    },
-    "value": "10",
-    "atlasY": "0",
-    "colorCode": "0xffffffff"
-}, {
-    "id": "10",
     "name": "basalt",
     "tags": ["stone", "stone_extrusive"],
     "density": "42918",
@@ -119,51 +68,6 @@
     "atlasY": "0",
     "colorCode": "0xffffffff"
 }, {
-    "id": "11",
-    "name": "schist",
-    "tags": ["stone", "stone_metamorfic"],
-    "density": "4",
-    "reactions": {
-        "melt": ["4000"]
-    },
-    "value": "10",
-    "atlasY": "0",
-    "colorCode": "0xffffffff"
-}, {
-    "id": "12",
-    "name": "chlorite",
-    "tags": ["stone", "stone_metamorfic"],
-    "density": "42949",
-    "reactions": {
-        "melt": ["4000"]
-    },
-    "value": "10",
-    "atlasY": "0",
-    "colorCode": "0xffffffff"
-}, {
-    "id": "13",
-    "name": "kaolinite",
-    "tags": ["stone", "stone_metamorfic"],
-    "density": "42949",
-    "reactions": {
-        "melt": ["4000"]
-    },
-    "value": "10",
-    "atlasY": "0",
-    "colorCode": "0xffffffff"
-}, {
-    "id": "14",
-    "name": "phyllite",
-    "tags": ["stone", "stone_metamorfic"],
-    "density": "42949",
-    "reactions": {
-        "melt": ["4000"]
-    },
-    "value": "10",
-    "atlasY": "0",
-    "colorCode": "0xffffffff"
-}, {
-    "id": "15",
     "name": "quarzite",
     "tags": [
         "stone", "stone_metamorfic"
@@ -176,7 +80,6 @@
     "atlasY": "0",
     "colorCode": "0xffffffff"
 }, {
-    "id": "16",
     "name": "gneiss",
     "tags": ["stone", "stone_metamorfic"],
     "density": "42888",
@@ -187,7 +90,6 @@
     "atlasY": "0",
     "colorCode": "0xffffffff"
 }, {
-    "id": "17",
     "name": "marble",
     "tags": ["stone", "stone_metamorfic"],
     "density": "42857",
@@ -198,18 +100,6 @@
     "atlasY": "0",
     "colorCode": "0xffffffff"
 }, {
-    "id": "18",
-    "name": "gneiss",
-    "tags": ["stone", "stone_sedimentary"],
-    "density": "42888",
-    "reactions": {
-        "melt": ["4000"]
-    },
-    "value": "10",
-    "atlasY": "0",
-    "colorCode": "0xffffffff"
-}, {
-    "id": "19",
     "name": "shale",
     "tags": ["stone", "stone_sedimentary"],
     "density": "42888",
@@ -220,7 +110,6 @@
     "atlasY": "0",
     "colorCode": "0xffffffff"
 }, {
-    "id": "20",
     "name": "limestone",
     "tags": ["stone", "stone_sedimentary"],
     "density": "42888",
@@ -231,7 +120,6 @@
     "atlasY": "0",
     "colorCode": "0xffffffff"
 }, {
-    "id": "21",
     "name": "sandstone",
     "tags": ["stone", "stone_sedimentary", "solid"],
     "density": "42827",
@@ -242,7 +130,6 @@
     "atlasY": "0",
     "colorCode": "0xffffffff"
 }, {
-    "id": "22",
     "name": "dolomite",
     "tags": ["stone", "stone_sedimentary"],
     "density": "2.9",
@@ -253,40 +140,6 @@
     "atlasY": "0",
     "colorCode": "0xffffffff"
 }, {
-    "id": "23",
-    "name": "chalk",
-    "tags": ["stone", "stone_sedimentary"],
-    "density": "2.4",
-    "reactions": {
-        "melt": ["4000"]
-    },
-    "value": "10",
-    "atlasY": "0",
-    "colorCode": "0xffffffff"
-}, {
-    "id": "24",
-    "name": "siltstone",
-    "tags": ["stone", "stone_sedimentary"],
-    "density": "4",
-    "reactions": {
-        "melt": ["4000"]
-    },
-    "value": "10",
-    "atlasY": "0",
-    "colorCode": "0xffffffff"
-}, {
-    "id": "25",
-    "name": "chert",
-    "tags": ["stone", "stone_sedimentary"],
-    "density": "4",
-    "reactions": {
-        "melt": ["4000"]
-    },
-    "value": "10",
-    "atlasY": "0",
-    "colorCode": "0xffffffff"
-}, {
-    "id": "26",
     "name": "chalcopyrite ",
     "tags": ["ore"],
     "density": "4.2",
@@ -297,7 +150,6 @@
     "atlasY": "0",
     "colorCode": "0xffffffff"
 }, {
-    "id": "27",
     "name": "tetrahedrite",
     "tags": ["ore"],
     "density": "5",
@@ -310,7 +162,6 @@
     "atlasY": "0",
     "colorCode": "0xffffffff"
 }, {
-    "id": "28",
     "name": "magnetite",
     "tags": ["ore"],
     "density": "5.2",
@@ -321,7 +172,6 @@
     "atlasY": "0",
     "colorCode": "0xffffffff"
 }, {
-    "id": "29",
     "name": "hematite",
     "tags": ["ore"],
     "density": "5.2",
@@ -332,7 +182,6 @@
     "atlasY": "0",
     "colorCode": "0xffffffff"
 }, {
-    "id": "30",
     "name": "limonite",
     "tags": ["ore"],
     "density": "4",
@@ -343,7 +192,6 @@
     "atlasY": "0",
     "colorCode": "0xffffffff"
 }, {
-    "id": "31",
     "name": "native aluminium",
     "tags": ["ore"],
     "density": "2.7",
@@ -356,7 +204,6 @@
     "atlasY": "0",
     "colorCode": "0xffffffff"
 }, {
-    "id": "32",
     "name": "native gold",
     "tags": ["ore"],
     "density": "19",
@@ -367,7 +214,6 @@
     "atlasY": "0",
     "colorCode": "0xffffffff"
 }, {
-    "id": "33",
     "name": "galena",
     "tags": ["ore"],
     "density": "7.4",
@@ -378,7 +224,6 @@
     "atlasY": "0",
     "colorCode": "0xffffffff"
 }, {
-    "id": "34",
     "name": "sphalerite(blende)",
     "tags": ["ore"],
     "density": "4.1",
@@ -389,7 +234,6 @@
     "atlasY": "0",
     "colorCode": "0xffffffff"
 }, {
-    "id": "35",
     "name": "garnierite",
     "tags": ["ore"],
     "density": "2.4",
@@ -400,7 +244,6 @@
     "atlasY": "0",
     "colorCode": "0xffffffff"
 }, {
-    "id": "36",
     "name": "cassiterite",
     "tags": ["ore"],
     "density": "6.9",
@@ -411,7 +254,6 @@
     "atlasY": "0",
     "colorCode": "0xffffffff"
 }, {
-    "id": "37",
     "name": "native silver",
     "tags": ["ore"],
     "density": "10.5",
@@ -422,7 +264,6 @@
     "atlasY": "0",
     "colorCode": "0xffffffff"
 }, {
-    "id": "38",
     "name": "iron",
     "tags": ["metal"],
     "density": "7.7",
@@ -433,7 +274,6 @@
     "atlasY": "0",
     "colorCode": "0xffffffff"
 }, {
-    "id": "39",
     "name": "steel",
     "tags": ["metal"],
     "density": "8",
@@ -444,7 +284,6 @@
     "atlasY": "0",
     "colorCode": "0xffffffff"
 }, {
-    "id": "40",
     "name": "copper",
     "tags": ["metal"],
     "density": "9",
@@ -455,7 +294,6 @@
     "atlasY": "0",
     "colorCode": "0xffffffff"
 }, {
-    "id": "41",
     "name": "silver",
     "tags": ["metal"],
     "density": "10.5",
@@ -468,7 +306,6 @@
     "atlasY": "0",
     "colorCode": "0xffffffff"
 }, {
-    "id": "42",
     "name": "gold",
     "tags": ["metal"],
     "density": "19.3",
@@ -479,7 +316,6 @@
     "atlasY": "0",
     "colorCode": "0xffffffff"
 }, {
-    "id": "43",
     "name": "zinc",
     "tags": ["metal"],
     "density": "7.1",
@@ -492,7 +328,6 @@
     "atlasY": "0",
     "colorCode": "0xffffffff"
 }, {
-    "id": "44",
     "name": "lead",
     "tags": ["metal"],
     "density": "11.4",
@@ -505,18 +340,6 @@
     "atlasY": "0",
     "colorCode": "0xffffffff"
 }, {
-    "id": "45",
-    "name": "nickel",
-    "tags": ["metal"],
-    "density": "8.9",
-    "reactions": {
-        "melt": ["1453"]
-    },
-    "value": "10",
-    "atlasY": "0",
-    "colorCode": "0xffffffff"
-}, {
-    "id": "46",
     "name": "tin",
     "tags": ["metal"],
     "density": "7.3",
@@ -529,20 +352,6 @@
     "atlasY": "0",
     "colorCode": "0xffffffff"
 }, {
-    "id": "47",
-    "name": "aluminium",
-    "tags": ["metal"],
-    "density": "2.7",
-    "reactions": {
-        "melt": [
-            "660"
-        ]
-    },
-    "value": "10",
-    "atlasY": "0",
-    "colorCode": "0xffffffff"
-}, {
-    "id": "48",
     "name": "beech wood",
     "tags": ["wood"],
     "density": "0.8",
@@ -553,7 +362,6 @@
     "atlasY": "1",
     "colorCode": "0xffffffff"
 }, {
-    "id": "49",
     "name": "oak",
     "tags": ["wood"],
     "density": "0.9",
@@ -564,7 +372,6 @@
     "atlasY": "1",
     "colorCode": "0xffffffff"
 }, {
-    "id": "50",
     "name": "ash",
     "tags": ["wood"],
     "density": "0.7",
@@ -575,7 +382,6 @@
     "atlasY": "1",
     "colorCode": "0xffffffff"
 }, {
-    "id": "51",
     "name": "rowan",
     "tags": ["wood"],
     "density": "0.8",
@@ -586,7 +392,6 @@
     "atlasY": "1",
     "colorCode": "0xffffffff"
 }, {
-    "id": "52",
     "name": "birch",
     "tags": ["wood"],
     "density": "0.7",
@@ -597,7 +402,6 @@
     "atlasY": "1",
     "colorCode": "0xffffffff"
 }, {
-    "id": "53",
     "name": "elm",
     "tags": ["wood"],
     "density": "0.5",
@@ -608,7 +412,6 @@
     "atlasY": "1",
     "colorCode": "0xffffffff"
 }, {
-    "id": "54",
     "name": "maple",
     "tags": ["wood"],
     "density": "0.7",
@@ -619,7 +422,6 @@
     "atlasY": "1",
     "colorCode": "0xffffffff"
 }, {
-    "id": "55",
     "name": "alder",
     "tags": ["wood"],
     "density": "0.5",
@@ -630,7 +432,6 @@
     "atlasY": "1",
     "colorCode": "0xffffffff"
 }, {
-    "id": "56",
     "name": "willow",
     "tags": ["wood"],
     "density": "0.5",
@@ -641,7 +442,6 @@
     "atlasY": "1",
     "colorCode": "0xffffffff"
 }, {
-    "id": "57",
     "name": "poplar",
     "tags": ["wood"],
     "density": "0.4",
@@ -652,7 +452,6 @@
     "atlasY": "1",
     "colorCode": "0xffffffff"
 }, {
-    "id": "58",
     "name": "pine",
     "tags": ["wood"],
     "density": "0.5",
@@ -663,7 +462,6 @@
     "atlasY": "1",
     "colorCode": "0xffffffff"
 }, {
-    "id": "59",
     "name": "larch",
     "tags": ["wood"],
     "density": "0.5",
@@ -674,7 +472,6 @@
     "atlasY": "1",
     "colorCode": "0xffffffff"
 }, {
-    "id": "60",
     "name": "fir",
     "tags": ["wood"],
     "density": "0.5",
@@ -685,7 +482,6 @@
     "atlasY": "1",
     "colorCode": "0xffffffff"
 }, {
-    "id": "61",
     "name": "linen",
     "tags": ["cloth"],
     "density": "200",
@@ -696,7 +492,6 @@
     "atlasY": "0",
     "colorCode": "0xffffffff"
 }, {
-    "id": "62",
     "name": "silk",
     "tags": ["cloth"],
     "density": "200",
@@ -707,7 +502,6 @@
     "atlasY": "0",
     "colorCode": "0xffffffff"
 }, {
-    "id": "63",
     "name": "wool",
     "tags": ["cloth"],
     "density": "200",
@@ -718,7 +512,6 @@
     "atlasY": "0",
     "colorCode": "0xffffffff"
 }, {
-    "id": "64",
     "name": "cotton",
     "tags": ["cloth"],
     "density": "200",
@@ -729,7 +522,6 @@
     "atlasY": "0",
     "colorCode": "0xffffffff"
 }, {
-    "id": "65",
     "name": "hemp",
     "tags": ["cloth"],
     "density": "200",
@@ -740,7 +532,6 @@
     "atlasY": "0",
     "colorCode": "0xffffffff"
 }, {
-    "id": "66",
     "name": "byssus",
     "tags": ["cloth"],
     "density": "200",
@@ -751,7 +542,6 @@
     "atlasY": "0",
     "colorCode": "0xffffffff"
 }, {
-    "id": "67",
     "name": "soil",
     "tags": ["soil"],
     "density": "1.5",
@@ -762,7 +552,6 @@
     "atlasY": "1",
     "colorCode": "0xffffffff"
 }, {
-    "id": "68",
     "name": "water",
     "tags": ["liquid"],
     "density": "1",
@@ -771,7 +560,6 @@
     "atlasY": "-1",
     "colorCode": "0xffffffff"
 }, {
-    "id": "69",
     "name": "generic_plant",
     "tags": ["biomass"],
     "density": "1",
