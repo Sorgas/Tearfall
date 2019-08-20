@@ -27,8 +27,8 @@ public class DiggingMenu extends SubMenuMenu {
         addButton("P: dig", DIG, Input.Keys.P);
         addButton("O: ramp", RAMP, Input.Keys.O);
         addButton("I: channel", CHANNEL, Input.Keys.I);
-        addButton("U: stairs", STAIRS, Input.Keys.U);
-        addButton("Y: clear", NONE, Input.Keys.Y);
+        addButton("U: stairs", STAIRS, Input.Keys.U); // other types of stairs are handled automatically
+        addButton("Y: clear", NONE, Input.Keys.T);
     }
 
     private void addButton(String text, DesignationTypeEnum type, int hotKey) {

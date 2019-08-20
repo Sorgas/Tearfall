@@ -25,22 +25,25 @@ import java.util.*;
 
 /**
  * Contains all tasks for settlers on map and Designations for rendering.
+ * Tasks are created by player or by building(farm tasks or workbenches).
+ *
  * {@link Task} are orders for unit.
  * {@link Designation} are used for drawing given orders as tiles.
+ * Tasks and designations are linked to each other if needed.
  *
  * @author Alexander Kuzyakov
  */
 public class TaskContainer implements ModelComponent {
-    private Map<String, List<Task>> tasks;
+    private Map<String, List<Task>> tasks; // units take tasks from here
     private HashMap<Position, Designation> designations; // designations are rendered on map
     private DesignationsValidator designationsValidator;
     private Position cachePosition; // state is not maintained. should be set before use
 
     public TaskContainer() {
-        cachePosition = new Position(0, 0, 0);
         tasks = new HashMap<>();
         designations = new HashMap<>();
         designationsValidator = new DesignationsValidator();
+        cachePosition = new Position(0, 0, 0);
     }
 
     /**
@@ -70,8 +73,7 @@ public class TaskContainer implements ModelComponent {
      * All simple orders like digging and foraging submitted through this method.
      */
     public Task submitOrderDesignation(Position position, DesignationTypeEnum type, int priority) {
-        if (!designationsValidator.validateDesignations(position, type))
-            return null; // no designation for invalid position
+        if (!designationsValidator.validateDesignations(position, type)) return null; // no designation for invalid position
         OrderDesignation designation = new OrderDesignation(position, type);
         Task task = createOrderTask(designation, priority);
         if (task == null) return null; // no designation with no task

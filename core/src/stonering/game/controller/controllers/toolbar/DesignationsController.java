@@ -6,7 +6,7 @@ import stonering.game.view.GameView;
 
 /**
  * Controller for designating various tasks. Used as adapter for designation sequences.
- * Leaf buttons in menus create {@link DesignationSequence} instances and start them.
+ * Leaf buttons in toolbar menus create {@link DesignationSequence} instances and start them.
  * On start, sequences create first actor for toolbar.
  * After completion, sequences reset their state for repeating designation.
  * On cancelling sequences remove their actors from toolbar, so last menu is first actor again.
@@ -51,9 +51,8 @@ public class DesignationsController extends Controller {
     }
 
     public void stopSequence() {
-        if (sequence != null) {
-            sequence.end();
-            sequence = null;
-        }
+        if (sequence == null) return;
+        sequence.end();
+        sequence = null;
     }
 }

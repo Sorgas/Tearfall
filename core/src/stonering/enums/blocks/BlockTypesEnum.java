@@ -18,6 +18,8 @@ public enum BlockTypesEnum {
     // automatically placed when stairs constructed, turns to SPACE when stairs removed
     STAIRFLOOR(4, 2, "stairfloor"), // passable, liquids fall, if STAIRS are lower
 
+    COMBINED_STAIRS(4, 2, "stairs_combined"),
+
     RAMP(5, 2, "ramp"), // passable, liquids don't fall
     FARM(6, 2, "farm plot"); // passable
 
