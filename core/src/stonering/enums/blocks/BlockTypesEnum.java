@@ -9,14 +9,13 @@ import java.util.HashMap;
  * @author Alexander Kuzyakov on 10.06.2017.
  */
 public enum BlockTypesEnum {
-    SPACE(0, 1, 6, "space"), //not passable for walkers, liquids fall
+    SPACE(0, 1, 5, "space"), //not passable for walkers, liquids fall
     WALL(1, 0, 0, "wall"), // not passable
-    FLOOR(2, 2, 4, "floor"), // passable, liquids don't fall
-    STAIRS(3, 2, 3, "stairs"), //DF-like stairs
-    DOWNSTAIRS(4, 2, 5, "downstairs"),
-    UPSTAIRS(4, 2, 2, "upstairs"),
+    FLOOR(2, 2, 3, "floor"), // passable, liquids don't fall
+    STAIRS(3, 2, 2, "stairs"), //DF-like stairs
+    DOWNSTAIRS(4, 2, 4, "downstairs"),
     RAMP(5, 2, 1, "ramp"), // passable, liquids don't fall
-    FARM(6, 2, 4, "farm plot"); // passable
+    FARM(6, 2, 3, "farm plot"); // passable
 
     public final byte CODE;
     public final byte PASSING;

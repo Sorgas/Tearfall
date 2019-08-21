@@ -24,7 +24,6 @@ public class DesignationsValidator {
         switch (type) {
             case DIG:  //makes floor
             case CHANNEL:  //makes space and ramp lower
-            case UPSTAIRS:
             case DOWNSTAIRS:
             case RAMP:
             case STAIRS:
@@ -66,8 +65,6 @@ public class DesignationsValidator {
                 return FLOOR;
             case STAIRS:
                 return STAIRS;
-            case UPSTAIRS:
-                return UPSTAIRS;
             case DOWNSTAIRS:
                 return DOWNSTAIRS;
             case RAMP:

@@ -24,13 +24,12 @@ public class DiggingMenu extends SubMenuMenu {
     }
 
     private void initMenu() {
-        addButton("Y: dig", DIG, Input.Keys.P);
-        addButton("U: ramp", RAMP, Input.Keys.O);
+        addButton("Y: dig", DIG, Input.Keys.Y);
+        addButton("U: ramp", RAMP, Input.Keys.U);
         addButton("I: channel", CHANNEL, Input.Keys.I);
-        addButton("H: stairs", STAIRS, Input.Keys.U); // other types of stairs are handled automatically
-        addButton("J: upstairs", UPSTAIRS, Input.Keys.T);
-        addButton("K: downstairs", DOWNSTAIRS, Input.Keys.T);
-        addButton("N: clear", NONE, Input.Keys.T);
+        addButton("H: stairs", STAIRS, Input.Keys.H); // other types of stairs are handled automatically
+        addButton("K: downstairs", DOWNSTAIRS, Input.Keys.J);
+        addButton("N: clear", NONE, Input.Keys.N);
     }
 
     private void addButton(String text, DesignationTypeEnum type, int hotKey) {

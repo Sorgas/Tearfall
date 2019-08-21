@@ -1,9 +1,17 @@
 package stonering.test_chamber.model;
 
+import stonering.entity.job.Task;
+import stonering.entity.job.action.MoveAction;
+import stonering.entity.job.action.TaskTypesEnum;
+import stonering.entity.unit.Unit;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.materials.MaterialMap;
+import stonering.game.model.lists.UnitContainer;
+import stonering.game.model.lists.tasks.TaskContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.local_map.PassageMap;
+import stonering.generators.creatures.CreatureGenerator;
+import stonering.util.geometry.Position;
 
 /**
  * Model for testing {@link PassageMap} functionality.
@@ -17,6 +25,9 @@ public class PassageModel extends TestModel {
     @Override
     public void init() {
         super.init();
+        updateLocalMap();
+        get(UnitContainer.class).addUnit(createUnit());
+        get(TaskContainer.class).addTask(createTask());
     }
 
     /**
@@ -39,5 +50,15 @@ public class PassageModel extends TestModel {
         }
         localMap.setBlock(MAP_SIZE / 2 + 1, MAP_SIZE / 2, 5, BlockTypesEnum.DOWNSTAIRS, materialMap.getId("marble"));
         localMap.setBlock(MAP_SIZE / 2 - 1, MAP_SIZE / 2, 5, BlockTypesEnum.DOWNSTAIRS, materialMap.getId("marble"));
+    }
+
+    private Unit createUnit() {
+        Unit unit = new CreatureGenerator().generateUnit("human");
+        unit.setPosition(new Position(3, 3, 2));
+        return unit;
+    }
+
+    private Task createTask() {
+        return new Task("move", TaskTypesEnum.OTHER, new MoveAction(new Position(10,10,2)), 1);
     }
 }

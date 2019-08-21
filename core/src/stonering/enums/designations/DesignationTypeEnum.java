@@ -15,7 +15,6 @@ public enum DesignationTypeEnum {
     NONE(0, "none", JobsEnum.NONE), // for removing simple designations
     DIG(1, "digging", MINER), // removes walls and ramps. leaves floor
     STAIRS(2, "cutting stairs", MINER), // cuts stairs from wall.
-    UPSTAIRS(3, "cutting upstairs", MINER), // cuts stairfloor from floor.
     DOWNSTAIRS(4, "cutting downstairs", MINER), // cuts combined stairs from wall. assigned automatically.
     RAMP(5, "cutting ramp", MINER), // digs ramp and upper cell.
     CHANNEL(6, "digging channel", MINER), // digs cell and ramp on lower level

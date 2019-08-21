@@ -254,7 +254,7 @@ public class PassageMap {
         if (z1 == z2) return true; // passable tiles on same level
         BlockTypesEnum lower = BlockTypesEnum.getType(z1 < z2 ? localMap.getBlockType(x1, y1, z1) : localMap.getBlockType(x2, y2, z2));
         if (x1 != x2 || y1 != y2) { // check ramps
-            return lower == RAMP && (x1 == x2 || y1 == y2); // lower tile is ramp
+            return lower == RAMP && (x1 == x2 || y1 == y2); // lower tile is ramp, and transition is not diagonal
         } else { // check stairs
             BlockTypesEnum upper = BlockTypesEnum.getType(z1 > z2 ? localMap.getBlockType(x1, y1, z1) : localMap.getBlockType(x2, y2, z2));
             return (upper == STAIRS || upper == DOWNSTAIRS) && lower == STAIRS;
