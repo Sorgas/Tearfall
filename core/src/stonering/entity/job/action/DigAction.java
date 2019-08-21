@@ -93,7 +93,7 @@ public class DigAction extends Action {
                 if(map.getBlockType(target) == WALL.CODE) {
                     updateAndRevealMap(target, STAIRS);
                 } else {
-                    updateAndRevealMap(target, STAIRFLOOR);
+                    updateAndRevealMap(target, DOWNSTAIRS);
                 }
                 break;
             case RAMP:

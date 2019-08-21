@@ -14,7 +14,8 @@ import stonering.util.global.Logger;
 import stonering.util.global.StaticSkin;
 
 /**
- * Selects rectangle. Selected zone can have multiple z-levels.
+ * Invisible component that selects rectangle. Accepts E/Q keys input like menu.
+ * Selected zone can have multiple z-levels.
  * TODO remove invoke methods, keeping mouse input.
  *
  * @author Alexander on 22.11.2018.
@@ -25,7 +26,6 @@ public class RectangleSelectComponent extends Label implements Hideable, MouseIn
     private EntitySelector selector;
     private EventListener startListener; //started rectangle confirmation handler
     private EventListener finishListener; //finished rectangle confirmation handler
-
 
     /**
      * @param finishListener is called when selection is complete.

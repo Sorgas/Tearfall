@@ -37,7 +37,7 @@ public class PassageModel extends TestModel {
             localMap.setBlock(MAP_SIZE / 2 + 1, MAP_SIZE / 2, z, BlockTypesEnum.STAIRS, materialMap.getId("marble"));
             localMap.setBlock(MAP_SIZE / 2 - 1, MAP_SIZE / 2, z, BlockTypesEnum.STAIRS, materialMap.getId("marble"));
         }
-        localMap.setBlock(MAP_SIZE / 2 + 1, MAP_SIZE / 2, 5, BlockTypesEnum.STAIRFLOOR, materialMap.getId("marble"));
-        localMap.setBlock(MAP_SIZE / 2 - 1, MAP_SIZE / 2, 5, BlockTypesEnum.STAIRFLOOR, materialMap.getId("marble"));
+        localMap.setBlock(MAP_SIZE / 2 + 1, MAP_SIZE / 2, 5, BlockTypesEnum.DOWNSTAIRS, materialMap.getId("marble"));
+        localMap.setBlock(MAP_SIZE / 2 - 1, MAP_SIZE / 2, 5, BlockTypesEnum.DOWNSTAIRS, materialMap.getId("marble"));
     }
 }

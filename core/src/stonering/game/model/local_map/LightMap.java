@@ -114,7 +114,7 @@ public class LightMap {
     private boolean checkZPairForReveal(Position lower, Position upper) {
         BlockTypesEnum lowerType = BlockTypesEnum.getType(localMap.getBlockType(lower));
         BlockTypesEnum upperType = BlockTypesEnum.getType(localMap.getBlockType(upper));
-        return upperType == SPACE || (lowerType == STAIRS && (upperType == STAIRS || upperType == STAIRFLOOR));
+        return upperType == SPACE || (lowerType == STAIRS && (upperType == STAIRS || upperType == DOWNSTAIRS));
     }
 
     /**

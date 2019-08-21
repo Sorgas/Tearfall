@@ -7,23 +7,22 @@ import java.util.HashMap;
 import static stonering.enums.unit.job.JobsEnum.*;
 
 /**
- * Enum of designation types. All build designation are combined, because logically
- * they are one order and detailed with building name provided on task creation.
+ * Enum of designation types for simple orders like digging, cutting plants, etc.
  *
  * @author Alexander Kuzyakov
  */
 public enum DesignationTypeEnum {
-    NONE(0, "none", JobsEnum.NONE),
-    DIG(1, "digging wall", MINER), // removes walls and ramps. leaves floor
+    NONE(0, "none", JobsEnum.NONE), // for removing simple designations
+    DIG(1, "digging", MINER), // removes walls and ramps. leaves floor
     STAIRS(2, "cutting stairs", MINER), // cuts stairs from wall.
-    STAIR_FLOOR(3, "cutting stairfloor", MINER), // cuts stairfloor from floor.
-    STAIRS_COMBINED(4, "cutting stairs and stairfloor", MINER), // cuts combined stairs from wall. assigned automatically.
+    UPSTAIRS(3, "cutting upstairs", MINER), // cuts stairfloor from floor.
+    DOWNSTAIRS(4, "cutting downstairs", MINER), // cuts combined stairs from wall. assigned automatically.
     RAMP(5, "cutting ramp", MINER), // digs ramp and upper cell.
     CHANNEL(6, "digging channel", MINER), // digs cell and ramp on lower level
-    CHOP(7, "chopping trees", LUMBERJACK), // chop trees in th area
-    CUT(8, "cutting plants", HARVESTER), // cut plants
-    HARVEST(9, "harvesting plants", HARVESTER), // harvest plants
-    BUILD(10, "building", BUILDER), // build construction or building
+    CHOP(2, "chopping trees", LUMBERJACK), // chop trees in th area
+    CUT(3, "cutting plants", HARVESTER), // cut plants
+    HARVEST(4, "harvesting plants", HARVESTER), // harvest plants
+    BUILD(5, "building", BUILDER), // build construction or building
     ;
 
     private static HashMap<Byte, DesignationTypeEnum> map;

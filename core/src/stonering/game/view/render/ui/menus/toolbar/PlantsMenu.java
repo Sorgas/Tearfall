@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.enums.designations.DesignationTypeEnum;
 import stonering.game.GameMvc;
-import stonering.game.controller.controllers.designation.SimpleDesignationSequence;
+import stonering.game.controller.controllers.designation.BoxDesignationSequence;
 import stonering.game.controller.controllers.toolbar.DesignationsController;
 import stonering.game.view.render.ui.menus.util.SubMenuMenu;
 import stonering.util.global.Logger;
@@ -42,7 +42,7 @@ public class PlantsMenu extends SubMenuMenu {
                 event.stop();
                 Logger.UI.logDebug("Toggling button " + text);
                 DesignationsController controller = GameMvc.instance().getController().getDesignationsController();
-                controller.setActiveDesignation(new SimpleDesignationSequence(designationType));
+                controller.setActiveDesignation(new BoxDesignationSequence(designationType));
                 controller.startSequence();
             }
         }, true);

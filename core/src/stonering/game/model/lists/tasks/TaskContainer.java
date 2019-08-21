@@ -7,6 +7,7 @@ import stonering.entity.job.action.*;
 import stonering.entity.building.BuildingOrder;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.JobsAspect;
+import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.buildings.BuildingTypeMap;
 import stonering.enums.designations.DesignationTypeEnum;
 import stonering.enums.designations.PlaceValidatorsEnum;
@@ -38,6 +39,7 @@ public class TaskContainer implements ModelComponent {
     private HashMap<Position, Designation> designations; // designations are rendered on map
     private DesignationsValidator designationsValidator;
     private Position cachePosition; // state is not maintained. should be set before use
+    //TODO add building order
 
     public TaskContainer() {
         tasks = new HashMap<>();
@@ -72,8 +74,8 @@ public class TaskContainer implements ModelComponent {
      * Adds designation and creates comprehensive task.
      * All simple orders like digging and foraging submitted through this method.
      */
-    public Task submitOrderDesignation(Position position, DesignationTypeEnum type, int priority) {
-        if (!designationsValidator.validateDesignations(position, type)) return null; // no designation for invalid position
+    public Task submitDesignation(Position position, DesignationTypeEnum type, int priority) {
+        if (!designationsValidator.validateDesignation(position, type)) return null; // no designation for invalid position
         OrderDesignation designation = new OrderDesignation(position, type);
         Task task = createOrderTask(designation, priority);
         if (task == null) return null; // no designation with no task

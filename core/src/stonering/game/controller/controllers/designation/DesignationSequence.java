@@ -1,6 +1,5 @@
 package stonering.game.controller.controllers.designation;
 
-import stonering.game.GameMvc;
 import stonering.game.view.render.ui.menus.toolbar.Toolbar;
 
 /**
@@ -11,11 +10,8 @@ import stonering.game.view.render.ui.menus.toolbar.Toolbar;
  * @author Alexander on 21.01.2019.
  */
 public abstract class DesignationSequence {
-    protected GameMvc gameMvc;
 
-    public DesignationSequence() {
-        gameMvc = GameMvc.instance();
-    }
+    public DesignationSequence() {}
 
     /**
      * Starts designation sequence showing first actor.

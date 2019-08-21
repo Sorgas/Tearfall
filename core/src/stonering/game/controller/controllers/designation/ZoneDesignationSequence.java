@@ -1,5 +1,7 @@
 package stonering.game.controller.controllers.designation;
 
+import stonering.game.model.GameModel;
+import stonering.game.view.GameView;
 import stonering.util.validation.PositionValidator;
 import stonering.entity.zone.Zone;
 import stonering.enums.ZoneTypesEnum;
@@ -21,6 +23,8 @@ import stonering.util.geometry.Position;
 public class ZoneDesignationSequence extends DesignationSequence {
     private ZoneTypesEnum type;
     private RectangleSelectComponent rectangleSelectComponent;
+    private GameModel model;
+    private GameView view;
 
     /**
      * Designates new zone with given type.
@@ -28,12 +32,14 @@ public class ZoneDesignationSequence extends DesignationSequence {
     public ZoneDesignationSequence(ZoneTypesEnum type) {
         super();
         this.type = type;
+        model = GameMvc.instance().getModel();
+        view = GameMvc.instance().getView();
         rectangleSelectComponent = new RectangleSelectComponent(null, event -> {
-            EntitySelector selector = gameMvc.getModel().get(EntitySelector.class);
+            EntitySelector selector = model.get(EntitySelector.class);
             if (validateZoneDesignation()) {
-                gameMvc.getModel().get(ZonesContainer.class).createNewZone(selector.getFrameStart(), selector.getPosition(), type);
+                model.get(ZonesContainer.class).createNewZone(selector.getFrameStart(), selector.getPosition(), type);
             } else {
-                gameMvc.getView().getUiDrawer().getToolbar().setText("No valid tiles selected");
+                view.getUiDrawer().getToolbar().setText("No valid tiles selected");
             }
             return true;
         });
@@ -46,17 +52,17 @@ public class ZoneDesignationSequence extends DesignationSequence {
     public ZoneDesignationSequence() {
         super();
         rectangleSelectComponent = new RectangleSelectComponent(event -> { // updates toolbar text depending on start of selected frame
-            EntitySelector selector = gameMvc.getModel().get(EntitySelector.class);
+            EntitySelector selector = model.get(EntitySelector.class);
             ZonesContainer zonesContainer = GameMvc.instance().getModel().get(ZonesContainer.class);
             Zone zone = zonesContainer.getZone(selector.getFrameStart());
-            Toolbar toolbar = gameMvc.getView().getUiDrawer().getToolbar();
+            Toolbar toolbar = view.getUiDrawer().getToolbar();
             toolbar.setText(zone != null ? "Expanding zone " + zone.getName() + "." : "Deleting zones.");
             return true;
         }, event -> {
-            EntitySelector selector = gameMvc.getModel().get(EntitySelector.class);
+            EntitySelector selector = model.get(EntitySelector.class);
             ZonesContainer zonesContainer = GameMvc.instance().getModel().get(ZonesContainer.class);
             Zone zone = zonesContainer.getZone(selector.getFrameStart()); // tiles in selected area will get this zone, and removed from previous.
-            gameMvc.getModel().get(ZonesContainer.class).updateZones(selector.getFrameStart(), selector.getPosition(), zone);
+            model.get(ZonesContainer.class).updateZones(selector.getFrameStart(), selector.getPosition(), zone);
             return true;
         });
     }
@@ -65,8 +71,8 @@ public class ZoneDesignationSequence extends DesignationSequence {
      * Checks that zone has at least one valid tile.
      */
     private boolean validateZoneDesignation() {
-        EntitySelector selector = gameMvc.getModel().get(EntitySelector.class);
-        LocalMap localMap = gameMvc.getModel().get(LocalMap.class);
+        EntitySelector selector = model.get(EntitySelector.class);
+        LocalMap localMap = model.get(LocalMap.class);
         Position pos1 = selector.getFrameStart();
         Position pos2 = selector.getPosition();
         Position cachePos = new Position(0, 0, 0);

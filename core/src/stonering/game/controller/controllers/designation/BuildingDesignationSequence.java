@@ -6,6 +6,7 @@ import stonering.entity.building.BuildingOrder;
 import stonering.entity.crafting.CommonComponent;
 import stonering.entity.item.selectors.SimpleItemSelector;
 import stonering.enums.designations.PlaceValidatorsEnum;
+import stonering.game.GameMvc;
 import stonering.game.model.lists.tasks.TaskContainer;
 import stonering.game.view.render.ui.lists.MaterialSelectList;
 import stonering.game.view.render.ui.menus.util.PlaceSelectComponent;
@@ -71,10 +72,10 @@ public class BuildingDesignationSequence extends DesignationSequence {
     private void showNextList() {
         for (CommonComponent component : order.getBlueprint().getComponents()) {
             if(order.getItemSelectors().containsKey(component.getName())) continue;  // skip already added component
-            gameMvc.getView().getUiDrawer().getToolbar().addMenu(createSelectListForStep(component));
+            GameMvc.instance().getView().getUiDrawer().getToolbar().addMenu(createSelectListForStep(component));
             return;
         }
-        gameMvc.getModel().get(TaskContainer.class).submitBuildingDesignation(order, 1);
+        GameMvc.instance().getModel().get(TaskContainer.class).submitBuildingDesignation(order, 1);
         reset();
     }
 

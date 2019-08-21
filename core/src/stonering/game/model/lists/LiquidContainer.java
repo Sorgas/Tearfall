@@ -88,7 +88,7 @@ public class LiquidContainer extends Turnable implements ModelComponent, Initabl
         floorCode = BlockTypesEnum.FLOOR.CODE;
         rampCode = BlockTypesEnum.RAMP.CODE;
         stairsCode = BlockTypesEnum.STAIRS.CODE;
-        stairfloorCode = BlockTypesEnum.STAIRFLOOR.CODE;
+        stairfloorCode = BlockTypesEnum.DOWNSTAIRS.CODE;
     }
 
     /**

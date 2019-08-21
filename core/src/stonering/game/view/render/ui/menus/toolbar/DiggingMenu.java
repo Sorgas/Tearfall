@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.enums.designations.DesignationTypeEnum;
 import stonering.game.GameMvc;
-import stonering.game.controller.controllers.designation.SimpleDesignationSequence;
+import stonering.game.controller.controllers.designation.BoxDesignationSequence;
 import stonering.game.controller.controllers.toolbar.DesignationsController;
 import stonering.game.view.render.ui.menus.util.SubMenuMenu;
 
@@ -24,11 +24,13 @@ public class DiggingMenu extends SubMenuMenu {
     }
 
     private void initMenu() {
-        addButton("P: dig", DIG, Input.Keys.P);
-        addButton("O: ramp", RAMP, Input.Keys.O);
+        addButton("Y: dig", DIG, Input.Keys.P);
+        addButton("U: ramp", RAMP, Input.Keys.O);
         addButton("I: channel", CHANNEL, Input.Keys.I);
-        addButton("U: stairs", STAIRS, Input.Keys.U); // other types of stairs are handled automatically
-        addButton("Y: clear", NONE, Input.Keys.T);
+        addButton("H: stairs", STAIRS, Input.Keys.U); // other types of stairs are handled automatically
+        addButton("J: upstairs", UPSTAIRS, Input.Keys.T);
+        addButton("K: downstairs", DOWNSTAIRS, Input.Keys.T);
+        addButton("N: clear", NONE, Input.Keys.T);
     }
 
     private void addButton(String text, DesignationTypeEnum type, int hotKey) {
@@ -36,7 +38,7 @@ public class DiggingMenu extends SubMenuMenu {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 DesignationsController controller = GameMvc.instance().getController().getDesignationsController();
-                controller.setActiveDesignation(new SimpleDesignationSequence(type)); //no buildings here
+                controller.setActiveDesignation(new BoxDesignationSequence(type)); //no buildings here
                 controller.startSequence();
             }
         }, true);
