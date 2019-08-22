@@ -9,8 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import org.jetbrains.annotations.NotNull;
 import stonering.entity.building.aspects.WorkbenchAspect;
+import stonering.entity.crafting.IngredientOrder;
 import stonering.entity.crafting.ItemOrder;
-import stonering.entity.crafting.ItemPartOrder;
 import stonering.enums.ControlActionsEnum;
 import stonering.enums.items.type.ItemTypeMap;
 import stonering.game.view.render.stages.workbench.oldmenu.WorkbenchMenuq;
@@ -63,14 +63,14 @@ public class ItemCraftingOrderLine extends OrderLine implements Highlightable {
 
     private void createSelections() {
         leftHG.addActor(createItemLabel());
-        for (ItemPartOrder itemPartOrder : order.getParts()) {
-            addPartSelection(itemPartOrder);
+        for (IngredientOrder ingredientOrder : order.parts.values()) {
+            addPartSelection(ingredientOrder);
         }
     }
 
-    private void addPartSelection(ItemPartOrder itemPartOrder) {
-        itemPartOrder.refreshSelector();
-        ItemPartSelection selection = new ItemPartSelection(itemPartOrder, this);
+    private void addPartSelection(IngredientOrder ingredientOrder) {
+        ingredientOrder.refreshSelector();
+        ItemPartSelection selection = new ItemPartSelection(ingredientOrder, this);
         leftHG.addActor(selection);
         selections.add(selection);
     }

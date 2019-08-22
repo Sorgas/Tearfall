@@ -3,7 +3,7 @@ package stonering.game.view.render.stages.workbench.oldmenu.orderline.selectbox;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import stonering.entity.crafting.ItemPartOrder;
+import stonering.entity.crafting.IngredientOrder;
 import stonering.enums.ControlActionsEnum;
 import stonering.game.view.render.ui.lists.NavigableSelectBox;
 import stonering.game.view.render.ui.menus.util.Highlightable;
@@ -17,16 +17,16 @@ import stonering.game.view.render.stages.workbench.oldmenu.orderline.OrderLine;
  * @author Alexander on 26.06.2019.
  */
 public abstract class OrderLineSelectBox extends NavigableSelectBox<String> implements HintedActor, Highlightable {
-    protected ItemPartOrder itemPartOrder; // updated on SB change.
+    protected IngredientOrder ingredientOrder; // updated on SB change.
     protected ItemPartSelection selection;
     private HighlightHandler highlightHandler;
 
     /**
-     * @param itemPartOrder all data is taken from order for item part.
+     * @param ingredientOrder all data is taken from order for item part.
      */
-    public OrderLineSelectBox(ItemPartOrder itemPartOrder, ItemPartSelection selection) {
+    public OrderLineSelectBox(IngredientOrder ingredientOrder, ItemPartSelection selection) {
         super();
-        this.itemPartOrder = itemPartOrder;
+        this.ingredientOrder = ingredientOrder;
         this.selection = selection;
         createListener();
         getList().addListener(createTouchListener());

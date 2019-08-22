@@ -6,22 +6,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Determines crafting of item part. Is part of {@link Recipe}.
+ * Determines ingredient for crafting. Is part of {@link Recipe}.
  *
  * @author Alexander on 05.01.2019.
  */
-public class ItemPartRecipe {
-    public String itemPart;          // produced item part
+public class Ingredient {
     // properties of ingredient
     public final List<String> itemTypes;   // acceptable item types
     public final String materialTag;       // acceptable material
-    private int quantity;            // quantity
+    private int quantity;                  // quantity
     //TODO add weight to ingredients consumed as matter
 
     private List<String> possibleMaterials;  // list of materials to display in ui
 
-    public ItemPartRecipe(String itemPart, List<String> itemTypes, String materialTag) {
-        this.itemPart = itemPart;
+    public Ingredient(List<String> itemTypes, String materialTag) {
         this.itemTypes = itemTypes;
         this.materialTag = materialTag;
         possibleMaterials = new ArrayList<>(MaterialMap.instance().getMaterialNamesByTag(materialTag));

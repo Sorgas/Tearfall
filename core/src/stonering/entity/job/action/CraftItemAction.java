@@ -1,11 +1,11 @@
 package stonering.entity.job.action;
 
+import stonering.entity.crafting.IngredientOrder;
 import stonering.entity.job.action.target.AspectHolderActionTarget;
 import stonering.entity.Entity;
 import stonering.entity.PositionAspect;
 import stonering.entity.building.aspects.WorkbenchAspect;
 import stonering.entity.crafting.ItemOrder;
-import stonering.entity.crafting.ItemPartOrder;
 import stonering.entity.item.Item;
 import stonering.entity.item.aspects.ItemContainerAspect;
 import stonering.game.GameMvc;
@@ -69,7 +69,7 @@ public class CraftItemAction extends Action {
      * @return true, if item exist or found.
      */
     private boolean updateDesiredItems() {
-        if (desiredItems.isEmpty() || !GameMvc.instance().getModel().get(ItemContainer.class).checkItemList(desiredItems)) {
+        if (desiredItems.isEmpty() || !GameMvc.instance().getModel().get(ItemContainer.class).checkItemList(desiredItems)) { // items are not yet searched on map, or was 000000removed from map
             return findDesiredItems();
         }
         return true;
@@ -79,17 +79,18 @@ public class CraftItemAction extends Action {
      * Searches desiredItems for each order part. Returns false if no desiredItems for order part found.
      */
     private boolean findDesiredItems() {
-        List<Item> uncheckedItems = new ArrayList<>();
-        uncheckedItems.addAll(desiredItems);
-        for (ItemPartOrder part : itemOrder.getParts()) {
-            List<Item> foundItems = GameMvc.instance().getModel().get(ItemContainer.class).getItemsAvailableBySelector(part.getItemSelector(), workbench.getAspect(PositionAspect.class).position);
-            if (foundItems.isEmpty()) {
+        ItemContainer container = GameMvc.instance().getModel().get(ItemContainer.class);
+        desiredItems.clear();
+        List<IngredientOrder> ingredientOrders = new ArrayList<>(itemOrder.parts.values());
+        ingredientOrders.addAll(itemOrder.consumed);
+        for (IngredientOrder ingredientOrder : ingredientOrders) {
+            List<Item> foundItems = container.getItemsAvailableBySelector(ingredientOrder.getItemSelector(), workbench.getAspect(PositionAspect.class).position);
+            foundItems.removeAll(desiredItems); // remove already added items
+            if (foundItems.isEmpty()) { // no items found for ingredient
                 desiredItems.clear();
                 return false;
             }
-            //TODO add amount
-            foundItems.removeAll(desiredItems);
-            desiredItems.addAll(GameMvc.instance().getModel().get(ItemContainer.class).getNearestItems(foundItems, 1));
+            desiredItems.addAll(container.getNearestItems(foundItems, 1)); // add nearest items to order
         }
         return true;
     }

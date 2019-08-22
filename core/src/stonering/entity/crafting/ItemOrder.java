@@ -1,13 +1,13 @@
 package stonering.entity.crafting;
 
 import stonering.enums.TaskStatusEnum;
-import stonering.enums.items.recipe.ItemPartRecipe;
+import stonering.enums.items.recipe.Ingredient;
 import stonering.enums.items.recipe.Recipe;
 
 import java.util.*;
 
 /**
- * Contains recipe, item name, material id and list of {@link ItemPartOrder} for each item part.
+ * Contains recipe, item name, material id and list of {@link IngredientOrder} for each item part.
  * For each required item part, player can specify item selector, otherwise any appropriate ingredient will be used.
  * Changing order properties during task execution will not update task.
  * Repeated task will update on next iteration.
@@ -17,18 +17,23 @@ import java.util.*;
  */
 public class ItemOrder {
     public final Recipe recipe;
-    private List<ItemPartOrder> parts; // itemPart to item selected for variant.
-    private int amount;
+    public final HashMap<String, IngredientOrder> parts;
+    public final List<IngredientOrder> consumed;
     private TaskStatusEnum status;
     private boolean repeated;
+    private int amount;
 
     public ItemOrder(Recipe recipe) {
         this.recipe = recipe;
         amount = 1;
         status = TaskStatusEnum.OPEN;
-        parts = new ArrayList<>();
-        for (ItemPartRecipe itemPartRecipe : recipe.parts) {
-            parts.add(new ItemPartOrder(this, itemPartRecipe));
+        parts = new HashMap<>();
+        consumed = new ArrayList<>();
+        for (String itemPart : recipe.parts.keySet()) { // create item partOrder for
+            parts.put(itemPart, new IngredientOrder(this, recipe.parts.get(itemPart)));
+        }
+        for (Ingredient ingredient : recipe.consumed) {
+            consumed.add(new IngredientOrder(this, ingredient));
         }
     }
 
@@ -39,14 +44,6 @@ public class ItemOrder {
     @Override
     public String toString() {
         return "ItemOrder{" + "recipe=" + recipe + '}';
-    }
-
-    public List<ItemPartOrder> getParts() {
-        return parts;
-    }
-
-    public void setParts(List<ItemPartOrder> parts) {
-        this.parts = parts;
     }
 
     public TaskStatusEnum getStatus() {

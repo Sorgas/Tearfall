@@ -13,4 +13,5 @@ public class RawRecipe {
     public String title;
     public String itemName;
     public List<List<String>> parts;
+    public List<List<String>> consumed;
 }

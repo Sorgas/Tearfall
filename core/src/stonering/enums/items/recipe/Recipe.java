@@ -3,6 +3,7 @@ package stonering.enums.items.recipe;
 import stonering.util.global.Logger;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -16,7 +17,8 @@ public class Recipe {
     public final String category; // recipes are divided into categories in workbench menu
     public final String title;    // displayed name
     public final String itemName; // item NAME, points to ItemType
-    public List<ItemPartRecipe> parts = new ArrayList<>();  // itemPart NAME to material categories.
+    public HashMap<String, Ingredient> parts; // itemPart NAME to ingredients.
+    public List<Ingredient> consumed = new ArrayList<>();  // do not produce item parts.
 
     public Recipe(String title) {
         this.title = title;
@@ -33,14 +35,13 @@ public class Recipe {
     }
 
     /**
-     * Looks for {@link ItemPartRecipe} by name of item part.
+     * Looks for {@link Ingredient} by name of item part.
      */
-    public ItemPartRecipe getItemPartRecipe(String itemPartName) {
-        for (ItemPartRecipe part : parts) {
-            if(part.itemPart != null)
-                if(part.itemPart.equals(itemPartName)) return part;
+    public Ingredient getItemPartRecipe(String itemPartName) {
+        if(parts.containsKey(itemPartName)) {
+            return parts.get(itemPartName);
         }
-        Logger.TASKS.logWarn("Item part with name " + itemPartName + " not found in recipe " + name);
+        Logger.CRAFTING.logWarn("Item part with name " + itemPartName + " not found in recipe " + name);
         return null;
     }
 

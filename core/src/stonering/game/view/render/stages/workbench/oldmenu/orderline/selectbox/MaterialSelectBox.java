@@ -1,6 +1,6 @@
 package stonering.game.view.render.stages.workbench.oldmenu.orderline.selectbox;
 
-import stonering.entity.crafting.ItemPartOrder;
+import stonering.entity.crafting.IngredientOrder;
 import stonering.game.view.render.stages.workbench.oldmenu.orderline.ItemPartSelection;
 
 /**
@@ -12,15 +12,15 @@ import stonering.game.view.render.stages.workbench.oldmenu.orderline.ItemPartSel
  */
 public class MaterialSelectBox extends OrderLineSelectBox {
 
-    public MaterialSelectBox(ItemPartOrder itemPartOrder, ItemPartSelection selection) {
-        super(itemPartOrder, selection);
-        setItems(itemPartOrder.partRecipe.getPossibleMaterials());
+    public MaterialSelectBox(IngredientOrder ingredientOrder, ItemPartSelection selection) {
+        super(ingredientOrder, selection);
+        setItems(ingredientOrder.partRecipe.getPossibleMaterials());
         setSelectedIndex(0);
     }
 
     @Override
     protected void handleSelection() {
-        itemPartOrder.setSelectedMaterial(getSelected());
+        ingredientOrder.setSelectedMaterial(getSelected());
         super.handleSelection();
     }
 }

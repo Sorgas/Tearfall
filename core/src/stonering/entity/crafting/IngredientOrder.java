@@ -2,23 +2,23 @@ package stonering.entity.crafting;
 
 import stonering.entity.item.selectors.AnyMaterialTagItemSelector;
 import stonering.entity.item.selectors.ItemSelector;
-import stonering.enums.items.recipe.ItemPartRecipe;
+import stonering.enums.items.recipe.Ingredient;
 
 /**
  * Part of {@link ItemOrder}.
- * On creation, accepts items of first type and any material from {@link ItemPartRecipe}.
+ * On creation, accepts items of first type and any material from {@link Ingredient}.
  *
  * @author Alexander on 05.01.2019.
  */
-public class ItemPartOrder {
+public class IngredientOrder {
     public final ItemOrder order;
-    public final ItemPartRecipe partRecipe;
+    public final Ingredient partRecipe;
 
     private String selectedMaterial;
     private String selectedItemType;
     private ItemSelector itemSelector;
 
-    public ItemPartOrder(ItemOrder order, ItemPartRecipe partRecipe) {
+    public IngredientOrder(ItemOrder order, Ingredient partRecipe) {
         this.order = order;
         this.partRecipe = partRecipe;
         selectedMaterial = "any " + partRecipe.materialTag;

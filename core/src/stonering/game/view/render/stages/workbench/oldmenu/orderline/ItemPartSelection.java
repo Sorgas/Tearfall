@@ -2,9 +2,9 @@ package stonering.game.view.render.stages.workbench.oldmenu.orderline;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import stonering.entity.crafting.ItemPartOrder;
+import stonering.entity.crafting.IngredientOrder;
 import stonering.enums.ControlActionsEnum;
-import stonering.enums.items.recipe.ItemPartRecipe;
+import stonering.enums.items.recipe.Ingredient;
 import stonering.game.view.render.ui.images.DrawableMap;
 import stonering.game.view.render.ui.menus.util.Highlightable;
 import stonering.game.view.render.ui.menus.util.HintedActor;
@@ -17,7 +17,7 @@ import stonering.util.global.StaticSkin;
  * 1. for selecting material
  * 2. for selecting item type.
  * <p>
- * If {@link ItemPartRecipe} allows only one type of item, there is a label instead of SB.
+ * If {@link Ingredient} allows only one type of item, there is a label instead of SB.
  *
  * @author Alexander_Kuzyakov on 26.06.2019.
  */
@@ -32,23 +32,23 @@ public class ItemPartSelection extends Stack implements HintedActor, Highlightab
     private ItemTypeSelectBox itemTypeSelectBox;
     private HighlightHandler highlightHandler;
 
-    public ItemPartSelection(ItemPartOrder itemPartOrder, ItemCraftingOrderLine orderLine) {
+    public ItemPartSelection(IngredientOrder ingredientOrder, ItemCraftingOrderLine orderLine) {
         this.orderLine = orderLine;
         highlightHandler = new HighlightHandler();
-        add(createTable(itemPartOrder));
-        add(new Container(new Label(itemPartOrder.partRecipe.itemPart, StaticSkin.getSkin())).left().top());
+        add(createTable(ingredientOrder));
+//        add(new Container(new Label(ingredientOrder., StaticSkin.getSkin())).left().top());
     }
 
-    private Table createTable(ItemPartOrder itemPartOrder) {
+    private Table createTable(IngredientOrder ingredientOrder) {
         table = new Table();
         table.defaults().prefHeight(30);
         table.add(materialImage = new Image()).fillX(); // images change drawables on focus change.
         table.add(itemTypeImage = new Image()).fillX().row();
-        table.add(materialSelectBox = new MaterialSelectBox(itemPartOrder, this));
-        if (itemPartOrder.partRecipe.itemTypes.size() > 1) {
-            table.add(itemTypeSelectBox = new ItemTypeSelectBox(itemPartOrder, this));
+        table.add(materialSelectBox = new MaterialSelectBox(ingredientOrder, this));
+        if (ingredientOrder.partRecipe.itemTypes.size() > 1) {
+            table.add(itemTypeSelectBox = new ItemTypeSelectBox(ingredientOrder, this));
         } else {
-            table.add(new Label(itemPartOrder.partRecipe.itemTypes.get(0), StaticSkin.getSkin()));
+            table.add(new Label(ingredientOrder.partRecipe.itemTypes.get(0), StaticSkin.getSkin()));
         }
         return table;
     }

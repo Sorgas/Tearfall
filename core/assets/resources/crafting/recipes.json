@@ -1,9 +1,13 @@
 /*
-    Arguments of ingredients:
+    Arguments of part ingredients:
         1. item part name. null for consuming ingredient with no part produced. unspecified item parts will not be created.
-        2. item type. null for creating part without consuming ingredient.
+        2. item type.
         3. material tag.
         4. number of items.
+    Arguments of consumed ingredient:
+        1. item type.
+        2. material tag.
+        3. number of items.
 */
 
 [
@@ -12,60 +16,63 @@
         "category": "Tools",
         "title": "Metal pickaxe",
         "itemName": "pickaxe",
-        "ingredients": [["head", "bar", "metal", "1"], ["handle", "log/plank", "wood", "1"]]
+        "parts": [["head", "bar", "metal", "1"], ["handle", "log/plank", "wood", "1"]]
     }, {
     "name": "make_sickle",
     "category": "Tools",
     "title": "Metal sickle",
     "itemName": "sickle",
-    "ingredients": [["head", "bar", "metal", "1"], ["handle", "log/plank/branch", "wood", "1"]]
+    "parts": [["head", "bar", "metal", "1"], ["handle", "log/plank/branch", "wood", "1"]]
 }, {
     "name": "make_axe",
     "category": "Tools",
     "title": "Metal axe",
     "itemName": "axe",
-    "ingredients": [["head", "bar", "metal", "1"], ["handle", "log/plank", "wood", "1"]]
+    "parts": [["head", "bar", "metal", "1"], ["handle", "log/plank", "wood", "1"]]
 }, {
     "name": "make_shirt",
     "category": "Wear",
     "title": "Cloth shirt",
     "itemName": "shirt",
-    "ingredients": [["shirt", "roll", "cloth", "1"]]
+    "parts": [["shirt", "roll", "cloth", "1"]]
 }, {
     "name": "make_pants",
     "category": "Wear",
     "title": "Cloth pants",
     "itemName": "pants",
-    "ingredients": [["pants", "roll", "cloth", "1"]]
+    "parts": [["pants", "roll", "cloth", "1"]]
 }, {
     "name": "make_backpack",
     "category": "Other",
     "title": "Cloth backpack",
     "itemName": "backpack",
-    "ingredients": [["backpack", "roll", "cloth", "1"]]
+    "parts": [["backpack", "roll", "cloth", "1"]]
 }, {
     "name": "roast_meal",
     "category": "Food",
     "title": "Make roasted meal",
     "itemName": "meal",
-    "ingredients": [["meal", "piece", "meat", "1"], [null, "bar", "fuel", "1"]]
+    "parts": [["meal", "piece", "meat", "1"]]
 }, {
     "name": "boil_meal",
     "category": "Food",
     "title": "Cook soup",
     "itemName": "liquid_meal",
-    "ingredients": [["meal", "piece", "meat", "1"], [null, "bar", "fuel", "1"], [null, "liquid", "water", "1"]]
+    "parts": [["meal", "piece", "meat", "1"]],
+    "consumed": [["liquid", "water", "1"]]
 }, {
     "name": "boil_water",
     "category": "Drinks",
     "title": "Boil water",
     "itemName": "water",
-    "ingredients": [["meal", "piece", "meat", "1"], [null, "bar", "fuel", "1"], [null, "liquid", "water", "1"]]
+    "parts": [["meal", "piece", "meat", "1"]],
+    "consumed": [["liquid", "water", "1"]]
 }, {
     "name": "boil_drink",
     "category": "Drinks",
     "title": "Boil drink",
     "itemName": "liquid",
-    "ingredients": [["liquid", null, "drink", "1"], [null, "bar", "fuel", "1"], [null, "liquid", "water", "1"]]
+    "parts": [["liquid", null, "drink", "1"]],
+    "consumed": [["liquid", "water", "1"]]
 }
 ]

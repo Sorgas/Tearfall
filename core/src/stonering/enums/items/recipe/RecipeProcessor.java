@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Processes {@link RawRecipe} into {@link Recipe}
+ * Processes {@link RawRecipe} into {@link Recipe}.
  *
  * @author Alexander_Kuzyakov on 23.05.2019.
  */
@@ -15,19 +15,36 @@ public class RecipeProcessor {
 
     public Recipe processRawRecipe(RawRecipe rawRecipe) {
         Recipe recipe = new Recipe(rawRecipe);
-        rawRecipe.parts.forEach(part -> recipe.parts.add(processItemPartRecipe(part, recipe.name)));
+        rawRecipe.parts.forEach(ingredient -> // map parts to ingredients
+                recipe.parts.put(ingredient.get(0), processIngredient(ingredient.subList(1, ingredient.size()), recipe.name))
+        );
+        rawRecipe.consumed.forEach(ingredient -> // add consumed ingredients
+                recipe.consumed.add(processIngredient(ingredient, recipe.name))
+        );
         return recipe;
     }
 
-    private ItemPartRecipe processItemPartRecipe(List<String> args, String recipe) {
-        if (!validateItemPartArgs(args, recipe)) return null;
+    private Ingredient processIngredient(List<String> args, String recipe) {
+        if (!validateIngredient(args, recipe)) return null;
         List<String> itemTypes = args.get(1) != null ? Arrays.asList(args.get(1).split("/")) : new ArrayList<>();
-        return new ItemPartRecipe(args.get(0), itemTypes, args.get(2));
+        return new Ingredient(itemTypes, args.get(2));
     }
 
-    private boolean validateItemPartArgs(List<String> args, String recipe) {
-        if (args != null && args.size() > 1) return true;
-        Logger.LOADING.logWarn("Item part arguments in recipe " + recipe + " has invalid arguments.");
-        return false;
+    /**
+     * Checks that ingredient definition has 3 non-null arguments
+     */
+    private boolean validateIngredient(List<String> args, String recipe) {
+        if (args == null && args.size() < 3) {
+            Logger.LOADING.logError("Consumed ingredient in recipe " + recipe + "is empty or missing args.");
+            return false;
+        } else {
+            for (String arg : args) {
+                if (arg == null || arg.isEmpty()) {
+                    Logger.LOADING.logError("Argument of consumed ingredient in recipe " + recipe + "has empty argument.");
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }
