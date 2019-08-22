@@ -38,7 +38,6 @@ public class WearNeed extends Need {
 
     /**
      * Creates task to equip wear if needed.
-     * @param entity unit.
      */
     @Override
     public Task tryCreateTask(Entity entity) {

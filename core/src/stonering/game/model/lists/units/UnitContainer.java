@@ -1,7 +1,6 @@
-package stonering.game.model.lists;
+package stonering.game.model.lists.units;
 
-import com.badlogic.gdx.utils.Array;
-import stonering.game.model.Turnable;
+import stonering.game.model.lists.EntityContainer;
 import stonering.util.geometry.Position;
 import stonering.entity.unit.Unit;
 import stonering.util.global.Initable;
@@ -16,12 +15,14 @@ import java.util.*;
  */
 public class UnitContainer extends EntityContainer<Unit> implements Initable {
     private Map<Position, List<Unit>> unitsMap;
+    private CreatureNeedSystem needSystem;
 
     private Position cachePosition; // used for faster getting unit from map
 
     public UnitContainer() {
         cachePosition = new Position();
         unitsMap = new HashMap<>();
+        needSystem = new CreatureNeedSystem();
     }
 
     /**
@@ -67,6 +68,7 @@ public class UnitContainer extends EntityContainer<Unit> implements Initable {
      */
     public void turn() {
         entities.forEach(Unit::turn);
+
     }
 
     /**

@@ -11,6 +11,7 @@ import stonering.game.model.EntitySelector;
 import stonering.game.model.GameModel;
 import stonering.game.model.lists.*;
 import stonering.game.model.lists.tasks.TaskContainer;
+import stonering.game.model.lists.units.UnitContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.view.tilemaps.LocalTileMap;
 import stonering.util.pathfinding.a_star.AStar;

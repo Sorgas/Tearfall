@@ -1,7 +1,7 @@
 package stonering.test_chamber.model;
 
 import stonering.entity.unit.Unit;
-import stonering.game.model.lists.UnitContainer;
+import stonering.game.model.lists.units.UnitContainer;
 import stonering.generators.creatures.CreatureGenerator;
 
 /**

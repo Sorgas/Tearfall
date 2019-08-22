@@ -3,6 +3,7 @@ package stonering.game.model;
 import stonering.entity.World;
 import stonering.game.model.lists.*;
 import stonering.game.model.lists.tasks.TaskContainer;
+import stonering.game.model.lists.units.UnitContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.view.tilemaps.LocalTileMap;
 import stonering.entity.environment.GameCalendar;

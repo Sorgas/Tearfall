@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Vector3;
 import stonering.entity.PositionAspect;
 import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
-import stonering.game.model.lists.UnitContainer;
+import stonering.game.model.lists.units.UnitContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.global.Initable;
 import stonering.util.pathfinding.a_star.AStar;

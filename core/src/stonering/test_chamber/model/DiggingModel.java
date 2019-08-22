@@ -7,10 +7,9 @@ import stonering.enums.items.type.ItemTypeMap;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.model.EntitySelector;
 import stonering.game.model.lists.ItemContainer;
-import stonering.game.model.lists.UnitContainer;
+import stonering.game.model.lists.units.UnitContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.generators.creatures.CreatureGenerator;
-import stonering.generators.items.ItemGenerator;
 import stonering.util.geometry.Position;
 
 /**

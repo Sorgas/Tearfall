@@ -15,6 +15,7 @@ import static stonering.enums.blocks.BlockTypesEnum.*;
 /**
  * Holds lighting of map tiles, visible and not visible tiles(undiscovered by player).
  * Inits map tiles, handles revealing on digging.
+ * Tile lighting formula: generalLight *  + localLight
  * Light is measured from 0 to 7.
  *
  * @author Alexander on 06.08.2019.
@@ -23,7 +24,7 @@ public class LightMap {
     private LocalMap localMap;
     public float generalLight; // light of a whole map (day/night) [0,1]
     public final UtilByteArray generalLightMap; // spreading of a daylight (multiplied to general light) [0,7]
-    public final UtilByteArray localLight; // holds light level from small sources -1 is for (added to general light) [0,7]
+    public final UtilByteArray localLight; // holds light level from small sources. -1 is for (added to general light) [0,7]
 
     private Position cachePosition;
 

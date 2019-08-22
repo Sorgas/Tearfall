@@ -11,6 +11,7 @@ import stonering.entity.crafting.ItemOrder;
 import stonering.enums.ControlActionsEnum;
 import stonering.enums.items.recipe.Recipe;
 import stonering.game.view.render.stages.workbench.WorkbenchMenu;
+import stonering.game.view.render.stages.workbench.orderlist.OrderListSection;
 import stonering.game.view.render.ui.menus.util.Highlightable;
 import stonering.game.view.render.ui.menus.util.NavigableVerticalGroup;
 import stonering.game.view.render.util.WrappedTextButton;
@@ -98,11 +99,11 @@ public class RecipeListSection extends NavigableVerticalGroup implements Highlig
     }
 
     /**
-     * Creates new {@link ItemOrder} and adds it to order list of this workbench.
+     * Unselects items in this list and calls {@link OrderListSection} to create order.
      */
     public void createNewOrder(Recipe recipe) {
-        menu.orderListSection.createOrder(recipe);
         setSelectedIndex(-1);
+        menu.orderListSection.createOrder(recipe);
     }
 
     private void createListeners() {

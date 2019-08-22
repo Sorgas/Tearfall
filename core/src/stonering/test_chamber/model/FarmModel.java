@@ -5,7 +5,7 @@ import stonering.entity.unit.Unit;
 import stonering.enums.items.type.ItemTypeMap;
 import stonering.game.model.EntitySelector;
 import stonering.game.model.lists.ItemContainer;
-import stonering.game.model.lists.UnitContainer;
+import stonering.game.model.lists.units.UnitContainer;
 import stonering.generators.creatures.CreatureGenerator;
 import stonering.generators.items.ItemGenerator;
 import stonering.util.geometry.Position;

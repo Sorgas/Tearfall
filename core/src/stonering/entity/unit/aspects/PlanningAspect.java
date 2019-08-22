@@ -133,8 +133,8 @@ public class PlanningAspect extends Aspect {
      * Can return null.
      */
     private Task takeTaskFromNeedsAspect() {
-        if (!entity.hasAspect(NeedsAspect.class)) return null;
-        NeedsAspect aspect = entity.getAspect(NeedsAspect.class);
+        if (!entity.hasAspect(NeedAspect.class)) return null;
+        NeedAspect aspect = entity.getAspect(NeedAspect.class);
         if (aspect.getStrongestNeed() != null) return aspect.getStrongestNeed().tryCreateTask(entity);
         return null;
     }

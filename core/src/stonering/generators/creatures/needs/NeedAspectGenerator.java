@@ -5,7 +5,7 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter;
 import stonering.enums.unit.CreatureType;
-import stonering.entity.unit.aspects.NeedsAspect;
+import stonering.entity.unit.aspects.NeedAspect;
 import stonering.entity.unit.aspects.needs.WearNeed;
 import stonering.util.global.FileLoader;
 
@@ -30,15 +30,15 @@ public class NeedAspectGenerator {
         templates = reader.parse(FileLoader.getFile(FileLoader.BODY_TEMPLATE_PATH));
     }
 
-    public NeedsAspect generateNeedAspect(CreatureType type) {
-        NeedsAspect needsAspect = new NeedsAspect(null);
+    public NeedAspect generateNeedAspect(CreatureType type) {
+        NeedAspect needAspect = new NeedAspect(null);
         for (String need : type.bodyTemplate.needs) {
             switch (need) {
                 case "wear": //TODO make enum of aspects
-                    needsAspect.getNeeds().add(new WearNeed());
+                    needAspect.getNeeds().add(new WearNeed());
                     break;
             }
         }
-        return needsAspect;
+        return needAspect;
     }
 }
