@@ -5,6 +5,7 @@ import stonering.enums.unit.body.BodyTemplate;
 import stonering.enums.unit.body.raw.BodyTemplateProcessor;
 import stonering.enums.unit.body.raw.RawBodyTemplate;
 import stonering.util.global.FileLoader;
+import stonering.util.global.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,10 +58,7 @@ public class CreatureTypeMap {
     }
 
     public CreatureType getCreatureType(String specimen) {
+        Logger.UNITS.logError("Creature type " + specimen + "not found");
         return creatureTypes.get(specimen);
-    }
-
-    public BodyTemplate getTemplate(String specimen) {
-        return bodyTemplates.get(specimen);
     }
 }

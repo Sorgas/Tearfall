@@ -2,6 +2,7 @@ package stonering.entity.unit.aspects;
 
 import stonering.entity.Aspect;
 import stonering.entity.Entity;
+import stonering.enums.unit.job.JobsEnum;
 
 import java.util.*;
 
@@ -22,6 +23,7 @@ public class JobsAspect extends Aspect {
         super(entity);
         enabledJobs = new HashSet<>();
         skills = new HashMap<>();
+        enabledJobs.add(JobsEnum.NONE.NAME);
     }
 
     public float getSkillModifier(String skillName) {

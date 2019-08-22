@@ -58,6 +58,7 @@ public class TaskContainer implements ModelComponent {
             return null;
         }
         Position position = unit.getPosition();
+        Logger.TASKS.logDebug("Getting task for unit " + unit);
         for (String enabledJob : aspect.getEnabledJobs()) {
             if (!tasks.containsKey(enabledJob)) continue;
             for (Task task : tasks.get(enabledJob)) {

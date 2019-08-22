@@ -6,6 +6,7 @@ import stonering.entity.job.action.TaskTypesEnum;
 import stonering.entity.unit.Unit;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.materials.MaterialMap;
+import stonering.game.model.EntitySelector;
 import stonering.game.model.lists.UnitContainer;
 import stonering.game.model.lists.tasks.TaskContainer;
 import stonering.game.model.local_map.LocalMap;
@@ -28,6 +29,7 @@ public class PassageModel extends TestModel {
         updateLocalMap();
         get(UnitContainer.class).addUnit(createUnit());
         get(TaskContainer.class).addTask(createTask());
+        get(EntitySelector.class).setPosition(MAP_SIZE / 2, MAP_SIZE / 2, 5);
     }
 
     /**
@@ -59,6 +61,6 @@ public class PassageModel extends TestModel {
     }
 
     private Task createTask() {
-        return new Task("move", TaskTypesEnum.OTHER, new MoveAction(new Position(10,10,2)), 1);
+        return new Task("move", TaskTypesEnum.OTHER, new MoveAction(new Position(10, 10, 2)), 1);
     }
 }

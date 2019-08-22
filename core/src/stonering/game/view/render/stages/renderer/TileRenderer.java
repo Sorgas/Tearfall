@@ -46,7 +46,7 @@ public class TileRenderer extends Renderer {
     private ItemContainer itemContainer;
     private ZonesContainer zonesContainer;
     private MovableCamera camera;
-    private boolean disabled = true;
+    private boolean disabled = false;
 
     private Position cachePosition;
     private Vector3 cacheVector;
@@ -98,7 +98,7 @@ public class TileRenderer extends Renderer {
             for (int y = cacheBounds.getMaxY(); y >= cacheBounds.getMinY(); y--) {
                 for (int x = cacheBounds.getMinX(); x <= cacheBounds.getMaxX(); x++) {
                     drawUnits(x, y, z);
-//                    drawAreaLabel(x, y, z); // for debug purposes
+                    drawAreaLabel(x, y, z); // for debug purposes
                 }
             }
             //TODO draw local light spots.
