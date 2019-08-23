@@ -18,7 +18,6 @@ import java.util.Objects;
 
 import static stonering.entity.job.action.target.ActionTarget.*;
 
-
 /**
  * Holds current creature's task and it's steps. resolves behavior, if some step fails.
  * Selects new tasks.
@@ -39,7 +38,7 @@ public class PlanningAspect extends Aspect {
     public void turn() {
         if (hasNoActiveTask() && !trySelectTask()) return; // no active task, and no new found
         switch (action.getActionTarget().check(getEntityPosition())) {
-            case FAIL : // checking failed
+            case FAIL: // checking failed
                 updateState(null);
                 return;
             case NEW: // new action created
@@ -71,7 +70,7 @@ public class PlanningAspect extends Aspect {
      */
     private boolean trySelectTask() {
         ArrayList<Task> tasks = new ArrayList<>();
-        tasks.add(takeTaskFromNeedsAspect());
+        if (entity.hasAspect(NeedAspect.class)) tasks.add(entity.getAspect(NeedAspect.class).satisfyingTask);
         tasks.add(getTaskFromContainer());
         Task task = tasks.stream().filter(Objects::nonNull).max(Comparator.comparingInt(Task::getPriority)).orElse(null);
         return updateState(task); // claim task, if any
@@ -126,17 +125,6 @@ public class PlanningAspect extends Aspect {
         Task task = this.task;
         updateState(null);
         task.reset();
-    }
-
-    /**
-     * Calls NeedAspect to create task for satisfying strongest need.
-     * Can return null.
-     */
-    private Task takeTaskFromNeedsAspect() {
-        if (!entity.hasAspect(NeedAspect.class)) return null;
-        NeedAspect aspect = entity.getAspect(NeedAspect.class);
-        if (aspect.getStrongestNeed() != null) return aspect.getStrongestNeed().tryCreateTask(entity);
-        return null;
     }
 
     private Task getTaskFromContainer() {

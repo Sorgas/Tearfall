@@ -51,6 +51,10 @@ public class WearNeed extends Need {
         return null;
     }
 
+    /**
+     * Attempts to create task for equipping wear into given slot.
+     * Task is not created, if item cannot be found on map.
+     */
     private Task tryCreateEquipTask(Entity entity, EquipmentSlot equipmentSlot) {
         ItemSelector itemSelector = new WearForLimbItemSelector(equipmentSlot.limbName);
         Item item = container.get(ItemContainer.class).getItemAvailableBySelector(itemSelector, entity.getAspect(PositionAspect.class).position);
