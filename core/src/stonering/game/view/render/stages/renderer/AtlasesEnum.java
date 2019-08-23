@@ -14,20 +14,22 @@ import java.util.Map;
  * @author Alexander on 03.08.2019.
  */
 public enum AtlasesEnum {
-    blocks(new Texture("sprites/blocks.png")),
-    plants(new Texture("sprites/plants.png")),
-    units(new Texture("sprites/units.png")),
-    buildings(new Texture("sprites/buildings.png")),
-    ui_tiles(new Texture("sprites/ui_tiles.png")),
-    items(new Texture("sprites/items.png")),
-    substrates(new Texture("sprites/substrates.png")),
-    liquids(new Texture("sprites/liquids.png"));
+    blocks(new Texture("sprites/blocks.png"), true),
+    plants(new Texture("sprites/plants.png"), true),
+    units(new Texture("sprites/units.png"), true),
+    buildings(new Texture("sprites/buildings.png"), true),
+    ui_tiles(new Texture("sprites/ui_tiles.png"), true),
+    items(new Texture("sprites/items.png"), true),
+    substrates(new Texture("sprites/substrates.png"), true),
+    liquids(new Texture("sprites/liquids.png"), true);
 
     public final Texture atlas;
+    public final boolean hasToppings;
     public final Map<Position, TextureRegion> spriteCache;
 
-    AtlasesEnum(Texture texture) {
+    AtlasesEnum(Texture texture, boolean hasToppings) {
         atlas = texture;
+        this.hasToppings = hasToppings;
         spriteCache = new HashMap<>();
     }
 }

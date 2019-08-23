@@ -56,22 +56,25 @@ public class DrawingUtil {
     }
 
     /**
-     * Cuts standard tile from x y position in specified atlas.
+     * Cuts main part of a block tile from x y position in specified atlas.
+     * Handles atlases with no toppings.
      */
-    public TextureRegion selectSprite(AtlasesEnum atlas, int x, int y) {
+    public TextureRegion selectBlockTile(AtlasesEnum atlas, int x, int y) {
         if (!atlas.spriteCache.containsKey(cachePosition.set(x, y, 0))) {
+            int atlasY = atlas.hasToppings ? y * (BLOCK_TILE_HEIGHT) + TOPING_TILE_HEIGHT : y * TILE_HEIGHT; // consider toppings or not
             spriteCache.put(cachePosition, new TextureRegion(atlas.atlas,
                     x * TILE_WIDTH,
-                    y * (BLOCK_TILE_HEIGHT) + TOPING_TILE_HEIGHT,
+                    atlasY,
                     TILE_WIDTH, TILE_HEIGHT));
         }
         return spriteCache.get(cachePosition);
     }
 
     /**
-     * Cuts tile toping from x y position in specified atlas.
+     * Cuts toping part of a block tile from x y position in specified atlas.
+     * Atlas should have toppings.
      */
-    public TextureRegion selectToping(AtlasesEnum atlas, int x, int y) {
+    public TextureRegion selectTopingTile(AtlasesEnum atlas, int x, int y) {
         if (!atlas.spriteCache.containsKey(cachePosition.set(x, y, 1))) {
             spriteCache.put(cachePosition, new TextureRegion(atlas.atlas,
                     x * TILE_WIDTH,

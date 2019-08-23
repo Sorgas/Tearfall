@@ -4,10 +4,11 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import com.badlogic.gdx.utils.JsonWriter;
+import stonering.entity.unit.aspects.needs.NeedEnum;
 import stonering.enums.unit.CreatureType;
 import stonering.entity.unit.aspects.NeedAspect;
-import stonering.entity.unit.aspects.needs.WearNeed;
 import stonering.util.global.FileLoader;
+import stonering.util.global.Logger;
 
 /**
  * Generates needs for creatures.
@@ -33,10 +34,14 @@ public class NeedAspectGenerator {
     public NeedAspect generateNeedAspect(CreatureType type) {
         NeedAspect needAspect = new NeedAspect(null);
         for (String need : type.bodyTemplate.needs) {
+            if(!NeedEnum.map.containsKey(need)) {
+                Logger.GENERATION.
+            }
             switch (need) {
                 case "wear": //TODO make enum of aspects
-                    needAspect.getNeeds().add(new WearNeed());
+                    needAspect.needs.add(NeedEnum.WEAR);
                     break;
+
             }
         }
         return needAspect;

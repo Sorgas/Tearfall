@@ -1,6 +1,7 @@
 package stonering.enums.unit;
 
 import com.badlogic.gdx.utils.Json;
+import stonering.entity.unit.aspects.needs.NeedEnum;
 import stonering.enums.unit.body.BodyTemplate;
 import stonering.enums.unit.body.raw.BodyTemplateProcessor;
 import stonering.enums.unit.body.raw.RawBodyTemplate;
@@ -38,7 +39,7 @@ public class CreatureTypeMap {
         BodyTemplateProcessor processor = new BodyTemplateProcessor();
         ArrayList<RawBodyTemplate> types = json.fromJson(ArrayList.class, RawBodyTemplate.class, FileLoader.getFile(FileLoader.BODY_TEMPLATE_PATH));
         for (RawBodyTemplate type : types) {
-            bodyTemplates.put(type.name, processor.process(type));
+            if (validateTemplate(type)) bodyTemplates.put(type.name, processor.process(type));
         }
     }
 
@@ -53,8 +54,21 @@ public class CreatureTypeMap {
     private CreatureType processRawCreatureType(RawCreatureType rawType) {
         CreatureType type = new CreatureType(rawType);
         type.bodyTemplate = bodyTemplates.get(rawType.bodyTemplate);
-        if(type.limbsToCover == null) type.limbsToCover = type.bodyTemplate.limbsToCover;
+        if (type.limbsToCover == null) type.limbsToCover = type.bodyTemplate.limbsToCover;
         return type;
+    }
+
+    /**
+     * Checks that creature is defined correctly.
+     */
+    private boolean validateTemplate(RawBodyTemplate template) {
+        for (String need : template.needs) {
+            if (!NeedEnum.map.containsKey(need)) {
+                Logger.LOADING.logError("Body template " + template.name + " has invalid need entry: " + need + ".");
+                return false;
+            }
+        }
+        return true;
     }
 
     public CreatureType getCreatureType(String specimen) {

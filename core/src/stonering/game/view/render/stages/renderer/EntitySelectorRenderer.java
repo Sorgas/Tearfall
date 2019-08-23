@@ -4,8 +4,6 @@ import stonering.game.GameMvc;
 import stonering.game.model.EntitySelector;
 import stonering.util.geometry.Position;
 
-import javax.xml.transform.Source;
-
 import static stonering.game.view.render.stages.renderer.AtlasesEnum.ui_tiles;
 
 /**
@@ -72,6 +70,6 @@ public class EntitySelectorRenderer extends Renderer {
     }
 
     private void drawSprite(int x) {
-        util.drawSprite(util.selectSprite(ui_tiles, x, 1), cachePosition);
+        util.drawSprite(util.selectBlockTile(ui_tiles, x, 1), cachePosition);
     }
 }
