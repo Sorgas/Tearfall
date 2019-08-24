@@ -62,6 +62,6 @@ public class DrawableMap {
             return drawables.get(key);
         }
         Logger.UI.logWarn("Drawable with key " + key + " not found");
-        return null; // drawable not descripted
+        return getDrawable("order_status_icon:suspended");
     }
 }

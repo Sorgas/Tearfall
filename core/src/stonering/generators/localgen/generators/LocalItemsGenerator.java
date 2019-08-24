@@ -40,7 +40,7 @@ public class LocalItemsGenerator extends LocalAbstractGenerator  {
 
     private void createItemInCenter(String itemType, String material, int xOffset, int yOffset) {
             LocalMap localMap = container.model.get(LocalMap.class);
-            Item item = itemGenerator.generateItem(itemType, material);
+            Item item = itemGenerator.generateItemByOrder(itemType, material);
             Position position = new Position(localMap.xSize / 2 + xOffset, localMap.ySize / 2 + yOffset, 0);
             position.z = findSurfaceZ(position.x, position.y);
             item.setPosition(position);

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Descriptor of material.
+ * Descriptor of material. Tags are copied to item on creation.
  *
  * @author Alexander Kuzyakov on 04.06.2017.
  */

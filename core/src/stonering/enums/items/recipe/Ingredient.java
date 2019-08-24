@@ -13,17 +13,17 @@ import java.util.List;
 public class Ingredient {
     // properties of ingredient
     public final List<String> itemTypes;   // acceptable item types
-    public final String materialTag;       // acceptable material
+    public final String tag;               // acceptable item tags
     private int quantity;                  // quantity
     //TODO add weight to ingredients consumed as matter
 
     private List<String> possibleMaterials;  // list of materials to display in ui
 
-    public Ingredient(List<String> itemTypes, String materialTag) {
+    public Ingredient(List<String> itemTypes, String tag) {
         this.itemTypes = itemTypes;
-        this.materialTag = materialTag;
-        possibleMaterials = new ArrayList<>(MaterialMap.instance().getMaterialNamesByTag(materialTag));
-        possibleMaterials.add(0, "any " + materialTag);
+        this.tag = tag;
+        possibleMaterials = new ArrayList<>(MaterialMap.instance().getMaterialNamesByTag(tag));
+        possibleMaterials.add(0, "any " + tag);
     }
 
     public List<String> getPossibleMaterials() {

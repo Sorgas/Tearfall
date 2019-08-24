@@ -105,7 +105,7 @@ public class ItemContainer extends EntityContainer<Item> {
     /**
      * Searches all material item made of given material type.
      */
-    public List<Item> getResourceItemsByMaterialType(String materialType) {
+    private List<Item> getResourceItemsByMaterialType(String materialType) {
         MaterialMap materialMap = MaterialMap.instance();
         List<Item> itemListForFiltering = new ArrayList<>(entities);
         Set<Integer> materialIds = materialMap.getMaterialsByTag(materialType);

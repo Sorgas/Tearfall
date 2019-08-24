@@ -28,6 +28,7 @@
         number formula (per block), // format: [min]-[max]/[divider] roll [min, max] will be lowered by divider and rounded up
         months // numbers of months (0,11) or 'all' keyword when product can be got.
         // for trees, products got only from crone.
+    productTags: tags of products
 
     default values are set in PlantMap
 */
@@ -44,7 +45,7 @@
         "lifeStages":[
             {
                 "stageLength":"1",
-                "harvestProduct":["red_moss", "1-1-1", "all"]
+                "harvestProduct":["red_moss", "1-1-1", "all", "test_tag"]
             }
         ]
     }, {
@@ -160,9 +161,9 @@
                 "stageLength":"1"
             },
             {
-                "harvestProduct":["seed", "1-1-1", "all"],
                 "titlePrefixSuffix":["", ""],
-                "stageLength":"1"
+                "stageLength":"1",
+                "harvestProduct":["seed", "1-1-1", "all"]
             }
         ]
     }

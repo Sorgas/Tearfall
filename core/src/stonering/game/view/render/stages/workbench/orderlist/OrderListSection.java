@@ -57,8 +57,8 @@ public class OrderListSection extends NavigableVerticalGroup {
         aspect.addOrder(order);
         OrderItem orderItem = new OrderItem(order, this);
         addActor(orderItem);
-        menu.orderDetailsSection.showOrder(order);
-        getStage().setKeyboardFocus(orderItem);
+        menu.orderDetailsSection.showItem(orderItem);
+        getStage().setKeyboardFocus(this);
     }
 
     /**
@@ -111,5 +111,11 @@ public class OrderListSection extends NavigableVerticalGroup {
                 return true;
             }
         });
+    }
+
+    @Override
+    public void setSelectedIndex(int selectedIndex) {
+        super.setSelectedIndex(selectedIndex);
+        menu.orderDetailsSection.showItem(getSelectedElement());
     }
 }

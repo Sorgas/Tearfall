@@ -5,6 +5,7 @@ import stonering.util.global.Logger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Recipe for crafting.
@@ -17,7 +18,7 @@ public class Recipe {
     public final String category; // recipes are divided into categories in workbench menu
     public final String title;    // displayed name
     public final String itemName; // item NAME, points to ItemType
-    public HashMap<String, Ingredient> parts; // itemPart NAME to ingredients.
+    public Map<String, Ingredient> parts = new HashMap<>(); // itemPart NAME to ingredients.
     public List<Ingredient> consumed = new ArrayList<>();  // do not produce item parts.
 
     public Recipe(String title) {

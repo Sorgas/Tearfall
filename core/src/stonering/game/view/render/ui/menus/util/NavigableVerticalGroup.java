@@ -53,6 +53,7 @@ public class NavigableVerticalGroup extends VerticalGroup implements Highlightab
                     case SELECT:
                         return selectListener != null && selectListener.handle(event);
                     case CANCEL:
+                        System.out.println("qqqqqqqqqqqqqqqqq");
                         return cancelListener != null && cancelListener.handle(event);
                 }
                 return true;
@@ -114,4 +115,6 @@ public class NavigableVerticalGroup extends VerticalGroup implements Highlightab
     public String getHint() {
         return "WS: navigate, ED: select";
     }
+
+
 }

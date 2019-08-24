@@ -35,7 +35,7 @@ public class NeedAspectGenerator {
         NeedAspect needAspect = new NeedAspect(null);
         for (String need : type.bodyTemplate.needs) {
             if(!NeedEnum.map.containsKey(need)) {
-                Logger.GENERATION.
+                Logger.GENERATION.logError("Creature type " + type + " has invalid need " + need);
             }
             switch (need) {
                 case "wear": //TODO make enum of aspects

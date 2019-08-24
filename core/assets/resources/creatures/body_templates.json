@@ -6,7 +6,7 @@
     {
         "name": "beast",
         "defaultLayers": ["skin", "fat", "muscle", "bone"],
-        "needs": ["hunger", "thirst", "rest", "heat", "communication"],
+        "needs": ["rest"],
         "body": [
             {
                 "type": "upper torso",
@@ -74,7 +74,7 @@
     "name": "humanoid",
     "limbsToCover": ["foot", "upper_body", "lower_body"],
     "defaultLayers": ["skin", "fat", "muscle", "bone"],
-    "needs": ["hunger", "thirst", "rest", "heat", "wear", "communication", "entertainment", "luxury"],
+    "needs": ["rest", "wear"],
     "body": [
         {
             "type": "upper torso",

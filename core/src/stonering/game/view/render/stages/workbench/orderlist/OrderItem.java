@@ -14,7 +14,7 @@ import stonering.util.global.StaticSkin;
  * @author Alexander on 13.08.2019.
  */
 public class OrderItem extends Table {
-    private ItemOrder order;
+    public final ItemOrder order;
     private OrderListSection section;
     private Image image;
     private Label recipeTitle;
@@ -28,12 +28,13 @@ public class OrderItem extends Table {
     public OrderItem(ItemOrder order, OrderListSection section) {
         this.order = order;
         this.section = section;
+        setDebug(true, true);
         createElements();
         createListeners();
         HorizontalGroup group = new HorizontalGroup();
         group.addActor(image);
         group.addActor(createTable());
-        setSize(300, 150);
+        add(group).size(300, 150);
     }
 
     private Table createTable() {

@@ -7,11 +7,11 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.utils.Align;
 import stonering.entity.building.aspects.WorkbenchAspect;
-import stonering.entity.crafting.ItemOrder;
 import stonering.enums.ControlActionsEnum;
 import stonering.enums.items.recipe.Recipe;
 import stonering.game.view.render.stages.workbench.WorkbenchMenu;
 import stonering.game.view.render.stages.workbench.orderlist.OrderListSection;
+import stonering.game.view.render.ui.images.DrawableMap;
 import stonering.game.view.render.ui.menus.util.Highlightable;
 import stonering.game.view.render.ui.menus.util.NavigableVerticalGroup;
 import stonering.game.view.render.util.WrappedTextButton;
@@ -45,16 +45,6 @@ public class RecipeListSection extends NavigableVerticalGroup implements Highlig
         createListeners();
         keyMapping.put(Input.Keys.D, ControlActionsEnum.SELECT);
         align(Align.topLeft);
-        RecipeListSection list = this;
-        setHighlightHandler(new HighlightHandler() {
-            @Override
-            public void handle() { // fetch elements and change color
-                Actor selected = list.getSelectedElement();
-                for (Actor child : list.getChildren()) {
-                    ((WrappedTextButton) child).getActor().setColor(child.equals(selected) ? Color.RED : Color.LIGHT_GRAY);
-                }
-            }
-        });
     }
 
     @Override
@@ -117,6 +107,24 @@ public class RecipeListSection extends NavigableVerticalGroup implements Highlig
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 return keycode == Input.Keys.A && handleCollapse();
+            }
+        });
+        RecipeListSection list = this;
+        setHighlightHandler(new CheckHighlightHandler() {
+
+            @Override
+            public void accept(Boolean newValue) {
+                super.accept(newValue);
+                Actor selected = list.getSelectedElement(); // always update recipes colors
+                for (Actor child : list.getChildren()) {
+                    ((WrappedTextButton) child).getActor().setColor(child.equals(selected) ? Color.RED : Color.LIGHT_GRAY);
+                }
+            }
+
+            @Override
+            public void handle() { // fetch elements and change color
+                menu.recipesHeader.setBackground(DrawableMap.instance().getDrawable("workbench_order_line" +
+                        (getStage().getKeyboardFocus().equals(list) ? ":focused" : "")));
             }
         });
     }

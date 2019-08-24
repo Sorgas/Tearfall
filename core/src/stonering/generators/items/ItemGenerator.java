@@ -5,12 +5,11 @@ import stonering.entity.Aspect;
 import stonering.entity.crafting.ItemOrder;
 import stonering.entity.item.aspects.SeedAspect;
 import stonering.enums.items.type.ItemPartType;
-import stonering.entity.item.ItemPart;
 import stonering.entity.item.aspects.FallingAspect;
 import stonering.enums.items.type.ItemType;
 import stonering.enums.items.type.ItemTypeMap;
+import stonering.enums.materials.Material;
 import stonering.enums.materials.MaterialMap;
-import stonering.exceptions.FaultDescriptionException;
 import stonering.generators.aspect.AspectGenerator;
 import stonering.entity.item.Item;
 import stonering.util.global.Logger;
@@ -39,17 +38,39 @@ public class ItemGenerator {
     /**
      * MVP method for creating item.
      */
-    public Item generateItem(String name, int material) {
+    public Item generateItemByOrder(String name, int materialId) {
         ItemType type = itemTypeMap.getItemType(name);
         if (type == null) return null;
         Item item = new Item(null, type);
-        item.setMaterial(material);
+        Material material = MaterialMap.instance().getMaterial(materialId);
+        item.setMaterial(materialId);
+        item.tags.addAll(material.getTags());
         generateItemAspects(item);
         return item;
     }
 
-    public Item generateItem(String name, String material) {
-        return generateItem(name, materialMap.getId(material));
+    public Item generateItemByOrder(String name, String material) {
+        return generateItemByOrder(name, materialMap.getId(material));
+    }
+
+    /**
+     * Seeds have single {@link ItemType} for all plants species.
+     */
+    public Item generateSeedItem(String specimen) {
+        Item item = new Item(null, itemTypeMap.getItemType("seed"));
+        item.setTitle(StringUtils.capitalize(specimen) + "seed");
+        item.addAspect(new SeedAspect(item, specimen));
+        return item;
+    }
+
+    /**
+     * Generates item by {@link ItemOrder} formed in workbench.
+     */
+    public Item generateItemByOrder(ItemOrder order) {
+        // mvp, no parts
+        Logger.ITEMS.logWarn("Generating mock item");
+        //TODO fetch item part orders and create corresponding item parts
+        return new Item(null, ItemTypeMap.getInstance().getItemType("sickle"));
     }
 
     /**
@@ -65,7 +86,6 @@ public class ItemGenerator {
             item.addAspect(createItemAspect(aspectName, type.aspects.get(aspectName)));
         }
     }
-
     /**
      * Creates single aspect of item. All possible aspects should be listed here.
      */
@@ -79,7 +99,6 @@ public class ItemGenerator {
                 return null;
         }
     }
-
 //TODO non-MVP feature
 //    /**
 //     * Normal creation of item (order from workbench).
@@ -88,16 +107,16 @@ public class ItemGenerator {
 //     * @param resources item, carried to workbench
 //     * @return
 //     */
-//    public Item generateItem(ItemOrder order, List<Item> resources) throws InvalidCraftingOrder {
+//    public Item generateItemByOrder(ItemOrder order, List<Item> resources) throws InvalidCraftingOrder {
 //        if(validateOrder(order)) {
 //            Item item = createItem(order.getType());
 //            order.getSelectors().forEach((partTitle, selector) -> item.getParts().put(partTitle, createItemPart(order.getType(), partTitle, selector, resources)));
 //            return item;
 //        } else {
 //            throw new InvalidCraftingOrder(order);
+
 //        }
 //    }
-
 //    /**
 //     * Creates item part to be added to item.
 //     *
@@ -109,7 +128,9 @@ public class ItemGenerator {
 //     */
 //    private ItemPart createItemPart(ItemType itemType, String partTitle, ItemSelector selector, List<Item> resources) {
 //        List<Item> item = selector.selectItems(resources); // item to spend
+
 //        return new ItemPart(partTitle, item.get(0).getMainMaterial(), selectStep(itemType, partTitle).getVolume());
+
 //    }
 
     /**
@@ -154,9 +175,7 @@ public class ItemGenerator {
 //        }
         return true;
     }
-
     //TODO add itemName everywhere
-
 //    /**
 //     * Generates item with default materials of parts.
 //     *
@@ -173,48 +192,8 @@ public class ItemGenerator {
 //        if(mainMaterial >= 0) {
 //            item.getMainPart_().setMaterial(mainMaterial);
 //        }
+
 //        return item;
+
 //    }
-
-    /**
-     * Creates itemPart with material from first variant.
-     *
-     * @throws FaultDescriptionException
-     */
-    private ItemPart createMockItemPart(ItemPartType step, String itemName) throws FaultDescriptionException {
-        String tag = step.getComponentVariants().get(0).getTag();
-        Set<Integer> materials = materialMap.getMaterialsByTag(tag);
-        if (materials.isEmpty())
-            throw new FaultDescriptionException("Material type " + tag + " for item " + itemName + " is invalid");
-        return new ItemPart(step.getTitle(), materials.iterator().next(), 10); //TODO
-    }
-
-    public Item generateItem(ItemOrder order) {
-        Logger.ITEMS.logWarn("Generating mock item"); //TODO
-        return new Item(null, ItemTypeMap.getInstance().getItemType("sickle"));
-    }
-
-    /**
-     * Seeds have single {@link ItemType} for all plants species.
-     */
-    public Item generateSeedItem(String specimen) {
-        Item item = new Item(null, itemTypeMap.getItemType("seed"));
-        item.setTitle(StringUtils.capitalize(specimen) + "seed");
-        item.addAspect(new SeedAspect(item, specimen));
-        return item;
-    }
-
-    public static void main(String[] args) {
-        List<String> q = new ArrayList<>();
-        q.addAll(Arrays.asList("qwe","qwe1","qwe2"));
-        System.out.println(q);
-        for(Iterator<String> iterator = q.iterator();iterator.hasNext();) {
-            String item = iterator.next();
-            if(item.equals("qwe2")) {
-                iterator.remove();
-                System.out.println(q);
-                System.out.println(item);
-            }
-        }
-    }
 }

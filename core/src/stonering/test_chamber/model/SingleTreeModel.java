@@ -51,7 +51,7 @@ public class SingleTreeModel extends TestModel {
     }
 
     private Item createItem() {
-        Item item = new ItemGenerator().generateItem("axe", "iron");
+        Item item = new ItemGenerator().generateItemByOrder("axe", "iron");
         item.setPosition(new Position(0,0,2));
         return item;
     }

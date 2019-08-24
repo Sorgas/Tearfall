@@ -1,5 +1,6 @@
 package stonering.enums.items.recipe;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,5 +14,5 @@ public class RawRecipe {
     public String title;
     public String itemName;
     public List<List<String>> parts;
-    public List<List<String>> consumed;
+    public List<List<String>> consumed = new ArrayList<>();
 }

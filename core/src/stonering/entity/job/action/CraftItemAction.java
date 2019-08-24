@@ -37,7 +37,7 @@ public class CraftItemAction extends Action {
 
     @Override
     protected void performLogic() {
-        Item product = new ItemGenerator().generateItem(itemOrder);
+        Item product = new ItemGenerator().generateItemByOrder(itemOrder);
         ItemContainerAspect workbenchContainer = workbench.getAspect(ItemContainerAspect.class);
         workbenchContainer.getItems().removeAll(desiredItems); // spend components
         workbenchContainer.getItems().add(product); // add product

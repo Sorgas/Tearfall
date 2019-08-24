@@ -19,7 +19,7 @@ public enum AtlasesEnum {
     units(new Texture("sprites/units.png"), true),
     buildings(new Texture("sprites/buildings.png"), true),
     ui_tiles(new Texture("sprites/ui_tiles.png"), true),
-    items(new Texture("sprites/items.png"), true),
+    items(new Texture("sprites/items.png"), false),
     substrates(new Texture("sprites/substrates.png"), true),
     liquids(new Texture("sprites/liquids.png"), true);
 

@@ -5,6 +5,9 @@ import stonering.enums.items.type.ItemType;
 import stonering.util.geometry.Position;
 import stonering.entity.Entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * In game item. Consists of parts.
  *
@@ -14,6 +17,7 @@ public class Item extends Entity {
     private String name;
     private String title;
     private ItemType type;
+    public final List<String> tags;
 
     //TODO commented as non-MVP feature
 //    private HashMap<String, ItemPart> parts;
@@ -26,6 +30,7 @@ public class Item extends Entity {
         this.type = type;
         this.name = type.name;
         this.title = type.title;
+        tags = new ArrayList<>();
 //        this.mainPart = type.getParts().get(0).getTitle();
 //        parts = new HashMap<>();
     }
@@ -44,10 +49,6 @@ public class Item extends Entity {
                 " position: " + getPosition() +
                 " weight: " + weight;
     }
-
-//    public int getMainMaterial() {
-//        return parts.get(mainPart).getMaterial();
-//    }
 
     public int getWeight() {
         return weight;
@@ -72,26 +73,6 @@ public class Item extends Entity {
     public void setType(ItemType type) {
         this.type = type;
     }
-
-//    public HashMap<String, ItemPart> getParts() {
-//        return parts;
-//    }
-//
-//    public void setParts(HashMap<String, ItemPart> parts) {
-//        this.parts = parts;
-//    }
-
-//    public String getMainPart() {
-//        return mainPart;
-//    }
-//
-//    public void setMainPart(String mainPart) {
-//        this.mainPart = mainPart;
-//    }
-//
-//    public ItemPart getMainPart_() {
-//        return parts.get(mainPart);
-//    }
 
     public String getName() {
         return name;

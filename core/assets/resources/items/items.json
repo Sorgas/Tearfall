@@ -111,14 +111,6 @@
     "atlasXY": ["15", "0"],
     "color": "0xffffffff"
 }, {
-    "name": "liquid_meal",
-    "title": "Meal",
-    "description": "Liquid meal",
-    "typeAspects": [["value", "0"]],
-    "aspects": [["food"], ["liquid"]],
-    "atlasXY": ["15", "0"],
-    "color": "0xffffffff"
-}, {
     "name": "liquid",
     "description": "Liquid",
     "typeAspects": [["value", "0"]],

@@ -21,7 +21,7 @@ public class IngredientOrder {
     public IngredientOrder(ItemOrder order, Ingredient partRecipe) {
         this.order = order;
         this.partRecipe = partRecipe;
-        selectedMaterial = "any " + partRecipe.materialTag;
+        selectedMaterial = "any " + partRecipe.tag;
         selectedItemType = partRecipe.itemTypes.get(0);
     }
 
@@ -30,7 +30,7 @@ public class IngredientOrder {
      */
     public void refreshSelector() {
         if(selectedMaterial.startsWith("any ")) {
-            itemSelector = new AnyMaterialTagItemSelector(selectedItemType, partRecipe.materialTag);
+            itemSelector = new AnyMaterialTagItemSelector(selectedItemType, partRecipe.tag);
         }
     }
 

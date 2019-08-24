@@ -15,6 +15,7 @@ public class RecipeProcessor {
 
     public Recipe processRawRecipe(RawRecipe rawRecipe) {
         Recipe recipe = new Recipe(rawRecipe);
+        if(rawRecipe.parts == null) Logger.LOADING.logError("Recipe " + rawRecipe.name + " has no parts.");
         rawRecipe.parts.forEach(ingredient -> // map parts to ingredients
                 recipe.parts.put(ingredient.get(0), processIngredient(ingredient.subList(1, ingredient.size()), recipe.name))
         );

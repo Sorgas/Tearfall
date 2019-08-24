@@ -53,7 +53,7 @@ public class BuildingTypeMap {
      * Loads lists of crafting recipes for building. First item in array should be building name.
      */
     private void loadLists() {
-        Logger.LOADING.log("crafting recipes");
+        Logger.LOADING.log("building recipes");
         ArrayList<ArrayList<String>> elements = json.fromJson(ArrayList.class, ArrayList.class, FileLoader.getFile(FileLoader.RECIPE_LISTS_PATH));
         for (List<String> recipeList : elements) {
             String buildingName = recipeList.remove(0);

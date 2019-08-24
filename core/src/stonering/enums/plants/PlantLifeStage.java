@@ -5,7 +5,7 @@ import stonering.util.geometry.Position;
 import java.util.List;
 
 /**
- * One period of plant life. Stages differs by name modificators, used sprites, color, and plant's products.
+ * One period of plant life. Stages differs by name modifiers, used sprites, color, and plant's products.
  * //TODO add additional description
  *
  * @author Alexander_Kuzyakov on 30.04.2019.

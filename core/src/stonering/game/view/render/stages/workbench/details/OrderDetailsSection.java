@@ -10,6 +10,7 @@ import stonering.entity.crafting.ItemOrder;
 import stonering.enums.items.recipe.Recipe;
 import stonering.enums.items.type.ItemType;
 import stonering.enums.items.type.ItemTypeMap;
+import stonering.game.view.render.stages.workbench.orderlist.OrderItem;
 import stonering.game.view.render.stages.workbench.recipelist.RecipeCategoryItem;
 import stonering.game.view.render.stages.workbench.recipelist.RecipeItem;
 import stonering.util.global.Logger;
@@ -37,23 +38,16 @@ public class OrderDetailsSection extends Table {
         group.addActor(itemDescription = new Label("", StaticSkin.getSkin()));
     }
 
-    /**
-     * Refills this pane with data of new order.
-     */
-    public void showOrder(ItemOrder order) {
-        this.order = order;
-        ItemType type = ItemTypeMap.getInstance().getItemType(order.recipe.itemName);
-        itemName.setText(type.title);
-        itemDescription.setText(type.description);
-    }
-
     public void showItem(Actor actor) {
-        if(actor instanceof RecipeItem) {
+        clearSection();
+        String actorName = actor != null ? actor.getName() : "null";
+        Logger.UI.logDebug("Showing " + actorName + " in details section.");
+        if (actor instanceof RecipeItem) {
             showRecipeDetails((RecipeItem) actor);
-        } else if (actor instanceof RecipeCategoryItem) {
-            showRecipeCategory(((RecipeCategoryItem) actor));
+        } else if(actor instanceof OrderItem) {
+            showOrderDetails((OrderItem) actor);
         } else {
-            Logger.UI.logError("Attempt to show details of invalid item " + actor.toString()); // invalid case
+            Logger.UI.logWarn("Attempt to show details of invalid item " + actorName); // invalid case
         }
     }
 
@@ -61,16 +55,22 @@ public class OrderDetailsSection extends Table {
      * Shows description of a {@link Recipe}.
      */
     private void showRecipeDetails(RecipeItem recipeItem) {
-        ItemType type = ItemTypeMap.getInstance().getItemType(((RecipeItem) recipeItem).recipe.itemName);
+        ItemType type = ItemTypeMap.getInstance().getItemType(recipeItem.recipe.itemName);
         itemName.setText(type.title);
         itemDescription.setText(type.description);
     }
 
-    /**
-     * Shows recipe category, and its description.
-     */
-    public void showRecipeCategory(RecipeCategoryItem recipeCategoryItem) {
+    private void showOrderDetails(OrderItem orderItem) {
+        //TODO
+        order = orderItem.order;
+        ItemType type = ItemTypeMap.getInstance().getItemType(order.recipe.itemName);
+        itemName.setText(type.title);
+    }
+
+    private void clearSection() {
+        order = null;
         itemName.setText("");
         itemDescription.setText("");
+        image.setDrawable(null);
     }
 }
