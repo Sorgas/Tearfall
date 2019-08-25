@@ -39,7 +39,7 @@ public interface Highlightable {
      * Can be used for actors with no children.
      */
     abstract class CheckHighlightHandler extends HighlightHandler {
-        protected static boolean value = false;
+        protected boolean value = false;
 
         /**
          * Handle method is called only if the value changes.
@@ -54,8 +54,13 @@ public interface Highlightable {
          *
          * @return true, if values was different, false, if equal.
          */
-        private static boolean checkValue(boolean newValue) {
-            return (value != newValue) && ((value = newValue) || true);
+        private boolean checkValue(boolean newValue) {
+            if(value != newValue) {
+                value = newValue;
+                System.out.println("value updated to " + value);
+                return true;
+            }
+            return false;
         }
     }
 }

@@ -115,6 +115,4 @@ public class NavigableVerticalGroup extends VerticalGroup implements Highlightab
     public String getHint() {
         return "WS: navigate, ED: select";
     }
-
-
 }

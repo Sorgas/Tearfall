@@ -47,12 +47,6 @@ public class RecipeListSection extends NavigableVerticalGroup implements Highlig
         align(Align.topLeft);
     }
 
-    @Override
-    public void act(float delta) {
-        super.act(delta);
-        updateHighlighting(this.equals(getStage().getKeyboardFocus()));
-    }
-
     /**
      * Collects recipes from flat list of aspect and maps them to categories in a {@link HashMap}
      */
@@ -98,7 +92,7 @@ public class RecipeListSection extends NavigableVerticalGroup implements Highlig
 
     private void createListeners() {
         setSelectListener(event -> { // toggles categories and recipes buttons
-                    ((WrappedTextButton) getSelectedElement()).toggle();
+                    ((WrappedTextButton) getSelectedElement()).toggle(); // npe
                     return true;
                 }
         );
@@ -109,22 +103,12 @@ public class RecipeListSection extends NavigableVerticalGroup implements Highlig
                 return keycode == Input.Keys.A && handleCollapse();
             }
         });
-        RecipeListSection list = this;
         setHighlightHandler(new CheckHighlightHandler() {
 
             @Override
-            public void accept(Boolean newValue) {
-                super.accept(newValue);
-                Actor selected = list.getSelectedElement(); // always update recipes colors
-                for (Actor child : list.getChildren()) {
-                    ((WrappedTextButton) child).getActor().setColor(child.equals(selected) ? Color.RED : Color.LIGHT_GRAY);
-                }
-            }
-
-            @Override
-            public void handle() { // fetch elements and change color
+            public void handle() {
                 menu.recipesHeader.setBackground(DrawableMap.instance().getDrawable("workbench_order_line" +
-                        (getStage().getKeyboardFocus().equals(list) ? ":focused" : "")));
+                        (value ? ":focused" : "")));
             }
         });
     }

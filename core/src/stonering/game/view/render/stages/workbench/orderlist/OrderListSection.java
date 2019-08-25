@@ -59,6 +59,7 @@ public class OrderListSection extends NavigableVerticalGroup {
         addActor(orderItem);
         menu.orderDetailsSection.showItem(orderItem);
         getStage().setKeyboardFocus(this);
+        System.out.println("refocus");
     }
 
     /**

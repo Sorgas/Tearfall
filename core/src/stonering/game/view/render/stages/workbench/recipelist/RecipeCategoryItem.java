@@ -1,5 +1,6 @@
 package stonering.game.view.render.stages.workbench.recipelist;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -42,9 +43,9 @@ public class RecipeCategoryItem extends WrappedTextButton implements Highlightab
                 update(!expanded); // toggle state
             }
         });
-        align(Align.left);
-        size(290, 35);
-        pad(5);
+        align(Align.top);
+        size(300, 35);
+        padBottom(5);
     }
 
     @Override
@@ -78,10 +79,10 @@ public class RecipeCategoryItem extends WrappedTextButton implements Highlightab
 
             @Override
             public void handle() {
-                setBackground(value ? focused : normal);
+//                setBackground(value ? focused : normal);
+                button.setColor(value ? Color.RED : Color.LIGHT_GRAY);
             }
         };
-
     }
 
     @Override
