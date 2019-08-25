@@ -28,10 +28,10 @@ public interface Highlightable {
      */
     abstract class HighlightHandler {
         protected void accept(Boolean newValue) {
-            handle();
+            handle(newValue);
         }
 
-        public abstract void handle();
+        public abstract void handle(boolean value);
     }
 
     /**
@@ -40,13 +40,14 @@ public interface Highlightable {
      */
     abstract class CheckHighlightHandler extends HighlightHandler {
         protected boolean value = false;
+        protected boolean first = true;
 
         /**
          * Handle method is called only if the value changes.
          */
         @Override
         public void accept(Boolean newValue) {
-            if (checkValue(newValue)) handle();
+            if (checkValue(newValue)) handle(newValue);
         }
 
         /**
@@ -55,9 +56,11 @@ public interface Highlightable {
          * @return true, if values was different, false, if equal.
          */
         private boolean checkValue(boolean newValue) {
+            if(first) {
+                return !(first = false);
+            }
             if(value != newValue) {
                 value = newValue;
-                System.out.println("value updated to " + value);
                 return true;
             }
             return false;

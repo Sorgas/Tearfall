@@ -27,7 +27,7 @@ public class PlantTypeSelectList extends NavigableList<PlantType> implements Hin
     @Override
     public void act(float delta) {
         super.act(delta);
-        getHighlightHandler().handle();
+        updateHighlighting(true); // TODO fix
     }
 
     private void createListeners() {
@@ -41,7 +41,7 @@ public class PlantTypeSelectList extends NavigableList<PlantType> implements Hin
         });
         setHighlightHandler(new Highlightable.CheckHighlightHandler() {
             @Override
-            public void handle() {
+            public void handle(boolean value) {
                 setColor(value ? Color.BLUE : Color.RED);
             }
         });

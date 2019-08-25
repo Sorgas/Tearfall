@@ -14,18 +14,19 @@ public class GameSaver {
     }
 
     public static void saveGame() {
-        try {
-            File file = new File("saves/" + makeSaveName() + "/game.dat");
-            file.getParentFile().mkdirs();
-            file.createNewFile();
-            FileOutputStream fos = new FileOutputStream(file.getPath());
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-            oos.writeObject(GameMvc.instance().getModel());
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        return; // mvp
+//        try {
+//            File file = new File("saves/" + makeSaveName() + "/game.dat");
+//            file.getParentFile().mkdirs();
+//            file.createNewFile();
+//            FileOutputStream fos = new FileOutputStream(file.getPath());
+//            ObjectOutputStream oos = new ObjectOutputStream(fos);
+//            oos.writeObject(GameMvc.instance().getModel());
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     private static String makeSaveName() {

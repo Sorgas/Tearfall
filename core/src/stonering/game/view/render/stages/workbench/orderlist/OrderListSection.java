@@ -1,17 +1,18 @@
 package stonering.game.view.render.stages.workbench.orderlist;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import stonering.entity.building.aspects.WorkbenchAspect;
 import stonering.entity.crafting.ItemOrder;
 import stonering.enums.ControlActionsEnum;
 import stonering.enums.items.recipe.Recipe;
 import stonering.game.GameMvc;
 import stonering.game.view.render.stages.workbench.WorkbenchMenu;
+import stonering.game.view.render.ui.images.DrawableMap;
 import stonering.game.view.render.ui.menus.util.NavigableVerticalGroup;
+import stonering.util.global.StaticSkin;
 
 import static stonering.enums.ControlActionsEnum.SELECT;
 
@@ -33,29 +34,23 @@ import static stonering.enums.ControlActionsEnum.SELECT;
 public class OrderListSection extends NavigableVerticalGroup {
     private WorkbenchMenu menu;
     public final WorkbenchAspect aspect;
-    private HighlightHandler highlightHandler;
+    private final Label emptyLabel;
 
     public OrderListSection(WorkbenchAspect aspect, WorkbenchMenu menu) {
         super();
         this.aspect = aspect;
         this.menu = menu;
         keyMapping.put(Input.Keys.D, SELECT);
+        emptyLabel = new Label("This workbench has no orders.", StaticSkin.getSkin());
         fillOrderList();
         createListener();
-        highlightHandler = new HighlightHandler() {
-            @Override
-            public void handle() {
-                for (Actor child : getChildren()) {
-                    child.setColor(child.equals(getSelectedElement()) ? Color.RED : Color.LIGHT_GRAY);
-                }
-            }
-        };
     }
 
     public void createOrder(Recipe recipe) {
         ItemOrder order = new ItemOrder(recipe);
         aspect.addOrder(order);
         OrderItem orderItem = new OrderItem(order, this);
+        removeActor(emptyLabel);
         addActor(orderItem);
         menu.orderDetailsSection.showItem(orderItem);
         getStage().setKeyboardFocus(this);
@@ -66,9 +61,13 @@ public class OrderListSection extends NavigableVerticalGroup {
      * Fetches orders from workbench aspect and creates order items for them.
      */
     private void fillOrderList() {
-        for (WorkbenchAspect.OrderTaskEntry entry : aspect.getEntries()) {
-            ItemOrder order = entry.order;
-            addActor(new OrderItem(order, this));
+        if(aspect.getEntries().isEmpty()) {
+            addActor(emptyLabel);
+        } else {
+            for (WorkbenchAspect.OrderTaskEntry entry : aspect.getEntries()) {
+                ItemOrder order = entry.order;
+                addActor(new OrderItem(order, this));
+            }
         }
     }
 
@@ -112,11 +111,22 @@ public class OrderListSection extends NavigableVerticalGroup {
                 return true;
             }
         });
+        setHighlightHandler(new CheckHighlightHandler() {
+            @Override
+            public void handle(boolean value) {
+                menu.ordersHeader.setBackground(DrawableMap.instance().getDrawable("workbench_order_line" +
+                        (value ? ":focused" : "")));
+            }
+        });
     }
 
     @Override
     public void setSelectedIndex(int selectedIndex) {
         super.setSelectedIndex(selectedIndex);
         menu.orderDetailsSection.showItem(getSelectedElement());
+    }
+
+    public boolean isEmpty() {
+        return aspect.getEntries().isEmpty();
     }
 }

@@ -102,7 +102,7 @@ public class OrderLine extends Table implements Hideable, HintedActor, Highlight
     private class HighlightHandler extends Highlightable.CheckHighlightHandler {
 
         @Override
-        public void handle() {
+        public void handle(boolean value) {
             setBackground(DrawableMap.instance().getDrawable(BACKGROUND_NAME + (value ? ":focused" : "")));
         }
     }

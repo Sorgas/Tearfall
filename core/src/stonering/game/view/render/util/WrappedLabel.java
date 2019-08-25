@@ -8,9 +8,13 @@ import stonering.util.global.StaticSkin;
  * @author Alexander on 24.08.2019.
  */
 public class WrappedLabel extends Container {
-    private Label label;
+    public final Label label;
 
     public WrappedLabel(String text) {
         setActor(label = new Label(text, StaticSkin.getSkin()));
+    }
+
+    public void setText(String text) {
+        label.setText(text);
     }
 }

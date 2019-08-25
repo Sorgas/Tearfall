@@ -52,6 +52,8 @@ public class OrderItem extends Table {
 
     private void createElements() {
         image = new Image(); //TODO select/generate item tile.
+        image.setDrawable(DrawableMap.instance().getDrawable("order_status_icon:suspended"));
+        image.setSize(90, 150);
         recipeTitle = new Label(order.recipe.title, StaticSkin.getSkin());
         quotesSummary = new Label("", StaticSkin.getSkin());
         updateText();

@@ -1,7 +1,9 @@
 package stonering.game.view.render.stages.workbench;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.utils.Align;
 import stonering.entity.building.Building;
 import stonering.entity.building.aspects.WorkbenchAspect;
 import stonering.game.view.render.stages.workbench.details.OrderDetailsSection;
@@ -22,6 +24,7 @@ public class WorkbenchMenu extends Window {
     public final WrappedLabel recipesHeader;
     public final WrappedLabel ordersHeader;
     public final WrappedLabel detailsHeader;
+    public final WrappedLabel hintLabel;
 
     public WorkbenchMenu(Building workbench) {
         super(workbench.getType().title, StaticSkin.getSkin());
@@ -31,10 +34,13 @@ public class WorkbenchMenu extends Window {
         add(detailsHeader = new WrappedLabel("Details:")).height(20).row();
         add(recipeListSection = new RecipeListSection(workbench.getAspect(WorkbenchAspect.class), this));
         add(orderListSection = new OrderListSection(workbench.getAspect(WorkbenchAspect.class), this));
-        add(orderDetailsSection = new OrderDetailsSection());
+        add(orderDetailsSection = new OrderDetailsSection()).row();
+        add(hintLabel = new WrappedLabel("")).colspan(3).size(900, 30).height(30).align(Align.left);
     }
 
     public void initFocus() {
-        getStage().setKeyboardFocus(recipeListSection);
+        Actor target = orderListSection;
+        if(orderListSection.isEmpty())  target = recipeListSection; // focus recipes, if no orders
+        getStage().setKeyboardFocus(target);
     }
 }

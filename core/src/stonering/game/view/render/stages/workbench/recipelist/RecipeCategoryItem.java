@@ -22,6 +22,8 @@ import java.util.List;
  * @author Alexander on 12.08.2019.
  */
 public class RecipeCategoryItem extends WrappedTextButton implements Highlightable {
+    private static final String EXPANDED_HINT_TEXT = "WS: navigate recipes ED: to recipes A: collapse Q: to orders";
+    private static final String COLLAPSED_HINT_TEXT = "WS: navigate recipes ED: expand Q: to orders";
     private static final String BACKGROUND_NAME = "recipe_category_item";
     public final String categoryName;
     private RecipeListSection recipeListSection;
@@ -78,7 +80,8 @@ public class RecipeCategoryItem extends WrappedTextButton implements Highlightab
             private Drawable focused = DrawableMap.instance().getDrawable(BACKGROUND_NAME + ":focused");
 
             @Override
-            public void handle() {
+            public void handle(boolean value) {
+                if(value) recipeListSection.menu.hintLabel.setText(isExpanded() ? EXPANDED_HINT_TEXT : COLLAPSED_HINT_TEXT);
 //                setBackground(value ? focused : normal);
                 button.setColor(value ? Color.RED : Color.LIGHT_GRAY);
             }

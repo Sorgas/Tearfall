@@ -79,7 +79,7 @@ public class WorkbenchMenuq extends Window implements HintedActor {
         });
         orderList.setHighlightHandler(new Highlightable.HighlightHandler() {
             @Override
-            public void handle() {                              // highlight selected element
+            public void handle(boolean value) {                              // highlight selected element
                 for (Actor actor : orderList.getChildren()) {
                     if (actor instanceof Highlightable)
                         ((Highlightable) actor).updateHighlighting(actor == orderList.getSelectedElement());

@@ -101,7 +101,7 @@ public abstract class OrderLineSelectBox extends NavigableSelectBox<String> impl
     private class HighlightHandler extends Highlightable.CheckHighlightHandler {
 
         @Override
-        public void handle() {
+        public void handle(boolean value) {
             //TODO update background
         }
     }

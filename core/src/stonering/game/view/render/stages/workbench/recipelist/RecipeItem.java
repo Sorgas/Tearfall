@@ -17,6 +17,7 @@ import stonering.game.view.render.util.WrappedTextButton;
  */
 public class RecipeItem extends WrappedTextButton implements Highlightable {
     private static final String BACKGROUND_NAME = "recipe_category_item";
+    private static final String HINT_TEXT = "WS: navigate recipes ED: add order A: to category Q: to orders";
     public final Recipe recipe;
     private RecipeListSection recipeListSection;
     private HighlightHandler highlightHandler;
@@ -53,7 +54,8 @@ public class RecipeItem extends WrappedTextButton implements Highlightable {
             private Drawable focused = DrawableMap.instance().getDrawable(BACKGROUND_NAME + ":focused");
 
             @Override
-            public void handle() {
+            public void handle(boolean value) {
+                if(value) recipeListSection.menu.hintLabel.setText(HINT_TEXT);
 //                setBackground(value ? focused : normal);
                 button.setColor(value ? Color.RED : Color.LIGHT_GRAY);
             }

@@ -69,7 +69,7 @@ public class Toolbar extends Container implements Highlightable {
         for (Actor displayedMenu : displayedMenus) {
             menusTable.add(displayedMenu);
         }
-        handler.handle(); // will re-highlight actors
+        updateHighlighting(true);
     }
 
     /**
@@ -150,7 +150,7 @@ public class Toolbar extends Container implements Highlightable {
         private Toolbar toolbar;
 
         @Override
-        public void handle() {
+        public void handle(boolean value) {
             for (int i = 0; i < toolbar.menusTable.getChildren().size; i++) {
                 Actor child = toolbar.menusTable.getChildren().get(i);
                 if(!(child instanceof Highlightable)) continue;

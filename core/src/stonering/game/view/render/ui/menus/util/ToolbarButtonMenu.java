@@ -42,7 +42,7 @@ public abstract class ToolbarButtonMenu extends ButtonMenu implements Highlighta
     private class HighlightHandler extends Highlightable.CheckHighlightHandler {
 
         @Override
-        public void handle() {
+        public void handle(boolean value) {
             setBackground(DrawableMap.instance().getDrawable("toolbar_menu" + (value ? ":focused" : "")));
         }
     }

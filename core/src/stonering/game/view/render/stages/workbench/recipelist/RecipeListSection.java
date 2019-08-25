@@ -36,7 +36,7 @@ import java.util.Map;
  */
 public class RecipeListSection extends NavigableVerticalGroup implements Highlightable {
     private Map<String, List<String>> recipeMap;
-    private WorkbenchMenu menu;
+    public final WorkbenchMenu menu;
 
     public RecipeListSection(WorkbenchAspect aspect, WorkbenchMenu menu) {
         this.menu = menu;
@@ -92,7 +92,7 @@ public class RecipeListSection extends NavigableVerticalGroup implements Highlig
 
     private void createListeners() {
         setSelectListener(event -> { // toggles categories and recipes buttons
-                    ((WrappedTextButton) getSelectedElement()).toggle(); // npe
+                    if(getSelectedElement() != null) ((WrappedTextButton) getSelectedElement()).toggle();
                     return true;
                 }
         );
@@ -106,7 +106,10 @@ public class RecipeListSection extends NavigableVerticalGroup implements Highlig
         setHighlightHandler(new CheckHighlightHandler() {
 
             @Override
-            public void handle() {
+            public void handle(boolean value) {
+                if(value) {
+//                    menu.hintLabel.setText();+
+                }
                 menu.recipesHeader.setBackground(DrawableMap.instance().getDrawable("workbench_order_line" +
                         (value ? ":focused" : "")));
             }
