@@ -28,25 +28,25 @@ public class OrderItem extends Table {
     public OrderItem(ItemOrder order, OrderListSection section) {
         this.order = order;
         this.section = section;
-        setDebug(true, true);
         createElements();
         createListeners();
-        HorizontalGroup group = new HorizontalGroup();
-        group.addActor(image);
-        group.addActor(createTable());
-        add(group).size(300, 150);
+        Table table = new Table();
+        table.add(image).size(100, 150);
+        table.add(createTable()).size(200, 150);
+        add(table).size(300, 150);
+        setDebug(true, true);
     }
 
     private Table createTable() {
-        Table table = new Table();
-        table.defaults().size(35); // button size
-        table.add(recipeTitle).expandX().align(Align.left);
-        table.add(upButton);
-        table.add(downButton);
-        table.add(repeatButton);
-        table.add(suspendButton);
-        table.add(cancelButton).row();
-        table.add(quotesSummary).colspan(6);
+        Table table = new Table().align(Align.top);
+        table.add(upButton).expandX().align(Align.right).size(20);
+        table.add(downButton).size(20);
+        table.add(repeatButton).size(20);
+        table.add(suspendButton).size(20);
+        table.add(cancelButton).size(20).row();
+        table.add(recipeTitle).expandX().align(Align.left).colspan(6).row();
+        table.add(quotesSummary).expandX().align(Align.left).colspan(6);
+
         return table;
     }
 
@@ -55,7 +55,7 @@ public class OrderItem extends Table {
         image.setDrawable(DrawableMap.instance().getDrawable("order_status_icon:suspended"));
         image.setSize(90, 150);
         recipeTitle = new Label(order.recipe.title, StaticSkin.getSkin());
-        quotesSummary = new Label("", StaticSkin.getSkin());
+        quotesSummary = new Label("quotes summary", StaticSkin.getSkin());
         updateText();
     }
 
