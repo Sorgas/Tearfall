@@ -140,8 +140,8 @@ public class RecipeListSection extends NavigableVerticalGroup implements Highlig
     }
 
     @Override
-    public void setSelectedIndex(int selectedIndex) {
-        super.setSelectedIndex(selectedIndex);
+    public void setSelectedIndex(int newIndex) {
+        super.setSelectedIndex(newIndex);
         menu.orderDetailsSection.showItem(getSelectedElement());
     }
 }

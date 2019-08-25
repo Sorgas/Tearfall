@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import stonering.entity.crafting.ItemOrder;
 import stonering.game.view.render.ui.images.DrawableMap;
+import stonering.game.view.render.ui.menus.util.Highlightable;
 import stonering.util.global.StaticSkin;
 
 /**
@@ -13,7 +14,10 @@ import stonering.util.global.StaticSkin;
  *
  * @author Alexander on 13.08.2019.
  */
-public class OrderItem extends Table {
+public class OrderItem extends Container implements Highlightable {
+    private static final String HINT_TEXT = "A: new order ED: configure order R:repeat F: pause X: cancel order Q:close";
+    private static final String MULTIPLE_HINT_TEXT = "WS: navigate orders ";
+    private HighlightHandler highlightHandler;
     public final ItemOrder order;
     private OrderListSection section;
     private Image image;
@@ -33,8 +37,15 @@ public class OrderItem extends Table {
         Table table = new Table();
         table.add(image).size(100, 150);
         table.add(createTable()).size(200, 150);
-        add(table).size(300, 150);
+        setActor(table);
+        size(300, 150);
         setDebug(true, true);
+    }
+
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+        updateHighlighting(section.getSelectedElement() == this);
     }
 
     private Table createTable() {
@@ -46,7 +57,6 @@ public class OrderItem extends Table {
         table.add(cancelButton).size(20).row();
         table.add(recipeTitle).expandX().align(Align.left).colspan(6).row();
         table.add(quotesSummary).expandX().align(Align.left).colspan(6);
-
         return table;
     }
 
@@ -63,7 +73,10 @@ public class OrderItem extends Table {
         cancelButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                int selected = section.getSelectedIndex();
                 section.aspect.removeOrder(order);
+                section.fillOrderList();
+                section.setSelectedIndex(selected);
             }
         });
         suspendButton.addListener(new ChangeListener() {
@@ -81,15 +94,29 @@ public class OrderItem extends Table {
         upButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+//                int selected = section.getSelectedIndex();
                 section.aspect.swapOrders(order, -1);
+                section.fillOrderList();
+//                section.setSelectedIndex(selected); // order moved up
             }
         });
         downButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+//                int selected = section.getSelectedIndex();
                 section.aspect.swapOrders(order, 1);
+                section.fillOrderList();
+//                section.setSelectedIndex(selected); // order moved down
             }
         });
+        highlightHandler = new CheckHighlightHandler() {
+            @Override
+            public void handle(boolean value) {
+                setBackground(DrawableMap.instance().getDrawable("workbench_order_line" +
+                        (value ? ":focused" : "")));
+                section.menu.hintLabel.setText(section.getChildren().size > 1 ? MULTIPLE_HINT_TEXT : "" + HINT_TEXT);
+            }
+        };
     }
 
     private Button createButton(String drawableName) {
@@ -104,5 +131,10 @@ public class OrderItem extends Table {
      */
     private void updateText() {
         // TODO generate quotes description.
+    }
+
+    @Override
+    public HighlightHandler getHighlightHandler() {
+        return highlightHandler;
     }
 }

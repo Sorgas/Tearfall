@@ -1,5 +1,6 @@
 package stonering.game.view.render.stages.workbench.orderlist;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -14,6 +15,8 @@ import stonering.game.view.render.ui.images.DrawableMap;
 import stonering.game.view.render.ui.menus.util.NavigableVerticalGroup;
 import stonering.util.global.StaticSkin;
 
+import static com.badlogic.gdx.Input.Keys.SHIFT_LEFT;
+import static stonering.enums.ControlActionsEnum.LEFT;
 import static stonering.enums.ControlActionsEnum.SELECT;
 
 /**
@@ -32,7 +35,7 @@ import static stonering.enums.ControlActionsEnum.SELECT;
  * @author Alexander on 13.08.2019.
  */
 public class OrderListSection extends NavigableVerticalGroup {
-    private WorkbenchMenu menu;
+    public final WorkbenchMenu menu;
     public final WorkbenchAspect aspect;
     private final Label emptyLabel;
 
@@ -51,7 +54,7 @@ public class OrderListSection extends NavigableVerticalGroup {
         aspect.addOrder(order);
         OrderItem orderItem = new OrderItem(order, this);
         removeActor(emptyLabel);
-        addActor(orderItem);
+        addActorAt(0, orderItem);
         menu.orderDetailsSection.showItem(orderItem);
         getStage().setKeyboardFocus(this);
         System.out.println("refocus");
@@ -60,8 +63,9 @@ public class OrderListSection extends NavigableVerticalGroup {
     /**
      * Fetches orders from workbench aspect and creates order items for them.
      */
-    private void fillOrderList() {
-        if(aspect.getEntries().isEmpty()) {
+    public void fillOrderList() {
+        this.clearChildren();
+        if (aspect.getEntries().isEmpty()) {
             addActor(emptyLabel);
         } else {
             for (WorkbenchAspect.OrderTaskEntry entry : aspect.getEntries()) {
@@ -72,27 +76,42 @@ public class OrderListSection extends NavigableVerticalGroup {
     }
 
     private void createListener() {
-        addListener(new InputListener() {
+        getListeners().insert(0, new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
-                if (getSelectedElement() == null) return true;
-                switch (ControlActionsEnum.getAction(keycode)) {
+                ControlActionsEnum action = ControlActionsEnum.getAction(keycode);
+                if (action == LEFT) {
+                    getStage().setKeyboardFocus(menu.recipeListSection);
+                    setSelectedIndex(-1);
+                    return true;
+                }
+                if (getSelectedElement() == null || !(getSelectedElement() instanceof OrderItem)) return true;
+                OrderItem target = ((OrderItem) getSelectedElement());
+                switch (action) {
                     case Z_UP: {
-                        ((OrderItem) getSelectedElement()).repeatButton.toggle();
-                        break;
+                        target.repeatButton.toggle();
+                        return true;
                     }
                     case Z_DOWN: {
-                        ((OrderItem) getSelectedElement()).suspendButton.toggle();
-                        break;
-                    }
-                    case LEFT: {
-                        getStage().setKeyboardFocus(menu.recipeListSection);
-                        break;
+                        target.suspendButton.toggle();
+                        return true;
                     }
                     case DELETE: {
-                        ((OrderItem) getSelectedElement()).cancelButton.toggle();
-                        break;
+                        target.cancelButton.toggle();
+                        return true;
                     }
+                    case UP:
+                        if (Gdx.input.isKeyPressed(SHIFT_LEFT) || Gdx.input.isKeyPressed(SHIFT_LEFT)) {
+                            target.upButton.toggle();
+                            return true;
+                        }
+                        return false;
+                    case DOWN:
+                        if (Gdx.input.isKeyPressed(SHIFT_LEFT) || Gdx.input.isKeyPressed(SHIFT_LEFT)) {
+                            target.downButton.toggle();
+                            return true;
+                        }
+                        return false;
                 }
                 return true;
             }
@@ -121,8 +140,8 @@ public class OrderListSection extends NavigableVerticalGroup {
     }
 
     @Override
-    public void setSelectedIndex(int selectedIndex) {
-        super.setSelectedIndex(selectedIndex);
+    public void setSelectedIndex(int newIndex) {
+        super.setSelectedIndex(newIndex);
         menu.orderDetailsSection.showItem(getSelectedElement());
     }
 

@@ -190,9 +190,11 @@ public class WorkbenchAspect extends Aspect {
      */
     public void swapOrders(ItemOrder order, int delta) {
         int index = getOrderIndex(order);
+        System.out.println("qwer " + index + " qwer " + delta);
         if (!inBounds(index)) return;
         int newIndex = index + delta;
         if (!inBounds(newIndex)) return;
+        System.out.println("swapping " + index + " to " + newIndex);
         OrderTaskEntry entry = entries.get(index);
         entries.set(index, entries.get(newIndex));
         entries.set(newIndex, entry);

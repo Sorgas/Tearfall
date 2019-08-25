@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import stonering.enums.ControlActionsEnum;
 import stonering.util.global.Logger;
+import stonering.util.math.MathUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -41,7 +42,7 @@ public class NavigableVerticalGroup extends VerticalGroup implements Highlightab
         addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
-                Logger.UI.logDebug("handling " + Input.Keys.toString(keycode) + " on NavigableVerticalGroup");
+//                Logger.UI.logDebug("handling " + Input.Keys.toString(keycode) + " on NavigableVerticalGroup");
                 ControlActionsEnum action = keyMapping.get(keycode);
                 if (action == null) action = ControlActionsEnum.getAction(keycode);
                 event.stop();
@@ -53,7 +54,6 @@ public class NavigableVerticalGroup extends VerticalGroup implements Highlightab
                     case SELECT:
                         return selectListener != null && selectListener.handle(event);
                     case CANCEL:
-                        System.out.println("qqqqqqqqqqqqqqqqq");
                         return cancelListener != null && cancelListener.handle(event);
                 }
                 return true;
@@ -89,16 +89,19 @@ public class NavigableVerticalGroup extends VerticalGroup implements Highlightab
         return getChildren().get(selectedIndex);
     }
 
+    /**
+     * Sets selected index to given. If child with this index not exists, sets to last child.
+     */
+    public void setSelectedIndex(int newIndex) {
+        selectedIndex = MathUtil.toRange(newIndex, -1, getChildren().size -1);
+    }
+
     public void setCancelListener(EventListener cancelListener) {
         this.cancelListener = cancelListener;
     }
 
     public void setSelectListener(EventListener selectListener) {
         this.selectListener = selectListener;
-    }
-
-    public void setSelectedIndex(int selectedIndex) {
-        this.selectedIndex = selectedIndex;
     }
 
     @Override
@@ -114,5 +117,9 @@ public class NavigableVerticalGroup extends VerticalGroup implements Highlightab
     @Override
     public String getHint() {
         return "WS: navigate, ED: select";
+    }
+
+    public int getSelectedIndex() {
+        return selectedIndex;
     }
 }
