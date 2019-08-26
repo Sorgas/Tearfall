@@ -1,0 +1,10 @@
+[
+    {
+        "name": "[animal] meat",
+        "tags": ["meat", "edible", "raw", "boilable", "roastable"],
+        "density": "1",
+        "value": "0",
+        "atlasY": "-1",
+        "colorCode": "0xffffffff"
+    }
+]

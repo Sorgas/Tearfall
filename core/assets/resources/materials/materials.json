@@ -553,7 +553,7 @@
     "colorCode": "0xffffffff"
 }, {
     "name": "water",
-    "tags": ["liquid"],
+    "tags": ["liquid", "water"],
     "density": "1",
     "reactions": {},
     "value": "0",

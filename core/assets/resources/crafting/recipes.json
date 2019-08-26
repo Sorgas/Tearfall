@@ -51,22 +51,21 @@
     "name": "roast_meal",
     "category": "Food",
     "title": "Make roasted meal",
-    "itemName": "meal",
-    "parts": [["meal", "piece", "meat", "1"]]
+    "itemName": "piece",
+    "parts": [["meal", "piece", "roastable", "1"]]
 }, {
     "name": "boil_meal",
     "category": "Food",
     "title": "Cook soup",
     "itemName": "liquid",
-    "parts": [["meal", "piece", "meat", "1"]],
+    "parts": [["meal", "piece", "boilable", "1"]],
     "consumed": [["liquid", "water", "1"]]
 }, {
     "name": "boil_water",
     "category": "Drinks",
     "title": "Boil water",
     "itemName": "liquid",
-    "parts": [["meal", "piece", "meat", "1"]],
-    "consumed": [["liquid", "water", "1"]]
+    "parts": [["liquid", "liquid", "water", "1"]]
 }, {
     "name": "boil_drink",
     "category": "Drinks",

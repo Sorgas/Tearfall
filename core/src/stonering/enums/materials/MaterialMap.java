@@ -46,14 +46,16 @@ public class MaterialMap {
         Logger.GENERAL.log("loading materials");
         int id = 0;
         for (FileHandle fileHandle : FileLoader.getFile(FileLoader.MATERIALS_PATH).list()) {
-            ArrayList<Material> elements = json.fromJson(ArrayList.class, Material.class, fileHandle);
-            for (Material material : elements) {
-                material.setId(id);
-                ids.put(material.getName(), id);
-                materials.put(id, material);
-                id++;
+            for(FileHandle file : fileHandle.list()) {
+                ArrayList<Material> elements = json.fromJson(ArrayList.class, Material.class, file);
+                for (Material material : elements) {
+                    material.setId(id);
+                    ids.put(material.getName(), id);
+                    materials.put(id, material);
+                    id++;
+                }
+                Logger.GENERAL.logDebug(elements.size() + " loaded from " + fileHandle.nameWithoutExtension());
             }
-            Logger.GENERAL.logDebug(elements.size() + " loaded from " + fileHandle.nameWithoutExtension());
         }
     }
 
