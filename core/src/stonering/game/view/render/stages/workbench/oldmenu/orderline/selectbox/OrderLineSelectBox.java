@@ -30,7 +30,7 @@ public abstract class OrderLineSelectBox extends NavigableSelectBox<String> impl
         this.selection = selection;
         createListener();
         getList().addListener(createTouchListener());
-        highlightHandler = new HighlightHandler();
+        createHighlightHandler();
     }
 
     @Override
@@ -98,12 +98,13 @@ public abstract class OrderLineSelectBox extends NavigableSelectBox<String> impl
         };
     }
 
-    private class HighlightHandler extends Highlightable.CheckHighlightHandler {
-
-        @Override
-        public void handle(boolean value) {
-            //TODO update background
-        }
+    private void createHighlightHandler() {
+        highlightHandler = new CheckHighlightHandler(this) {
+            @Override
+            public void handle(boolean value) {
+                //TODO update background
+            }
+        };
     }
 
     @Override

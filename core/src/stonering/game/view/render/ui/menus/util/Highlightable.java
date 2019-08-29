@@ -1,5 +1,7 @@
 package stonering.game.view.render.ui.menus.util;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
+
 /**
  * Shows that widget with this interface can be highlighted.
  * If handler should be set externally, getter and setter should be overridden.
@@ -27,6 +29,12 @@ public interface Highlightable {
      * Can be used for actors with children, when actor itself has no state.
      */
     abstract class HighlightHandler {
+        protected Actor owner; // owning actor.
+        public HighlightHandler(Actor owner) {
+            this.owner = owner;
+        }
+
+
         protected void accept(Boolean newValue) {
             handle(newValue);
         }
@@ -40,7 +48,11 @@ public interface Highlightable {
      */
     abstract class CheckHighlightHandler extends HighlightHandler {
         protected boolean value = false;
-        protected boolean first = true;
+        protected boolean first = true; // first handle() is forced by this
+
+        public CheckHighlightHandler(Actor owner) {
+            super(owner);
+        }
 
         /**
          * Handle method is called only if the value changes.
@@ -58,8 +70,7 @@ public interface Highlightable {
         private boolean checkValue(boolean newValue) {
             if(first) {
                 return !(first = false);
-            }
-            if(value != newValue) {
+            } else if(value != newValue) {
                 value = newValue;
                 return true;
             }

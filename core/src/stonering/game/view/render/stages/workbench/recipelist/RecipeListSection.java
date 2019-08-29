@@ -103,7 +103,7 @@ public class RecipeListSection extends NavigableVerticalGroup implements Highlig
                 return keycode == Input.Keys.A && handleCollapse();
             }
         });
-        setHighlightHandler(new CheckHighlightHandler() {
+        setHighlightHandler(new CheckHighlightHandler(this) {
 
             @Override
             public void handle(boolean value) {

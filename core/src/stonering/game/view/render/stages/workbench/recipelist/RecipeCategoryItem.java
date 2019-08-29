@@ -75,7 +75,7 @@ public class RecipeCategoryItem extends WrappedTextButton implements Highlightab
     }
 
     private void createHighlightHandler() {
-        highlightHandler = new CheckHighlightHandler() {
+        highlightHandler = new CheckHighlightHandler(this) {
             private Drawable normal = DrawableMap.instance().getDrawable(BACKGROUND_NAME);
             private Drawable focused = DrawableMap.instance().getDrawable(BACKGROUND_NAME + ":focused");
 

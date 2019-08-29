@@ -109,7 +109,7 @@ public class OrderItem extends Container implements Highlightable {
 //                section.setSelectedIndex(selected); // order moved down
             }
         });
-        highlightHandler = new CheckHighlightHandler() {
+        highlightHandler = new CheckHighlightHandler(this) {
             @Override
             public void handle(boolean value) {
                 setBackground(DrawableMap.instance().getDrawable("workbench_order_line" +

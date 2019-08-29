@@ -77,7 +77,7 @@ public class WorkbenchMenuq extends Window implements HintedActor {
             getStage().setKeyboardFocus(selected != null ? selected : this);
             return true;
         });
-        orderList.setHighlightHandler(new Highlightable.HighlightHandler() {
+        orderList.setHighlightHandler(new Highlightable.HighlightHandler(this) {
             @Override
             public void handle(boolean value) {                              // highlight selected element
                 for (Actor actor : orderList.getChildren()) {

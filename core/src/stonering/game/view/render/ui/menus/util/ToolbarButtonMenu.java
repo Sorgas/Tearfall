@@ -22,6 +22,17 @@ public abstract class ToolbarButtonMenu extends ButtonMenu implements Highlighta
     @Override
     public void act(float delta) {
         super.act(delta);
+        updateHighlighting(false); // TODO
+    }
+
+    private void createHighlightHandler() {
+        handler = new CheckHighlightHandler(this) {
+
+            @Override
+            public void handle(boolean value) {
+                setBackground(DrawableMap.instance().getDrawable("toolbar_menu" + (value ? ":focused" : "")));
+            }
+        };
     }
 
     @Override
@@ -37,13 +48,5 @@ public abstract class ToolbarButtonMenu extends ButtonMenu implements Highlighta
     @Override
     public Highlightable.HighlightHandler getHighlightHandler() {
         return handler;
-    }
-
-    private class HighlightHandler extends Highlightable.CheckHighlightHandler {
-
-        @Override
-        public void handle(boolean value) {
-            setBackground(DrawableMap.instance().getDrawable("toolbar_menu" + (value ? ":focused" : "")));
-        }
     }
 }

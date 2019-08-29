@@ -49,13 +49,16 @@ public class RecipeItem extends WrappedTextButton implements Highlightable {
     }
 
     private void createHighlightHandler() {
-        highlightHandler = new Highlightable.CheckHighlightHandler() {
+        highlightHandler = new Highlightable.CheckHighlightHandler(this) {
             private Drawable normal = DrawableMap.instance().getDrawable(BACKGROUND_NAME);
             private Drawable focused = DrawableMap.instance().getDrawable(BACKGROUND_NAME + ":focused");
 
             @Override
             public void handle(boolean value) {
-                if(value) recipeListSection.menu.hintLabel.setText(HINT_TEXT);
+                if (value) {
+                    recipeListSection.menu.hintLabel.setText(HINT_TEXT);
+                    recipeListSection.menu.orderDetailsSection.showItem(owner);
+                }
 //                setBackground(value ? focused : normal);
                 button.setColor(value ? Color.RED : Color.LIGHT_GRAY);
             }

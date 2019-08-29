@@ -98,14 +98,16 @@ public class ItemPartSelection extends Stack implements HintedActor, Highlightab
         return getStage().setKeyboardFocus(target);
     }
 
-    private class HighlightHandler extends Highlightable.HighlightHandler {
+    private void createHighlightHandler() {
+        highlightHandler = new Highlightable.HighlightHandler(this) {
 
-        @Override
-        public void handle(boolean value) {
-            materialImage.setDrawable(getStage().getKeyboardFocus() == materialSelectBox ? DrawableMap.instance().getDrawable(focusedRegionName) : null);
-            if (itemTypeSelectBox != null)
-                itemTypeImage.setDrawable(getStage().getKeyboardFocus() == itemTypeSelectBox ? DrawableMap.instance().getDrawable(focusedRegionName) : null);
-        }
+            @Override
+            public void handle(boolean value) {
+                materialImage.setDrawable(getStage().getKeyboardFocus() == materialSelectBox ? DrawableMap.instance().getDrawable(focusedRegionName) : null);
+                if (itemTypeSelectBox != null)
+                    itemTypeImage.setDrawable(getStage().getKeyboardFocus() == itemTypeSelectBox ? DrawableMap.instance().getDrawable(focusedRegionName) : null);
+            }
+        };
     }
 
     @Override

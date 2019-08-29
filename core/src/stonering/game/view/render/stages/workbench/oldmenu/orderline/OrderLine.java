@@ -39,7 +39,7 @@ public class OrderLine extends Table implements Hideable, HintedActor, Highlight
         this.menu = menu;
         this.hint = hint;
         createTable();
-        highlightHandler = new HighlightHandler();                   // changes background image
+        createHighlightHandler();
     }
 
     /**
@@ -96,15 +96,14 @@ public class OrderLine extends Table implements Hideable, HintedActor, Highlight
 
     }
 
-    /**
-     * Updates drawable, if focus changed.
-     */
-    private class HighlightHandler extends Highlightable.CheckHighlightHandler {
+    private void createHighlightHandler() {
+        highlightHandler = new CheckHighlightHandler(this) {
 
-        @Override
-        public void handle(boolean value) {
-            setBackground(DrawableMap.instance().getDrawable(BACKGROUND_NAME + (value ? ":focused" : "")));
-        }
+            @Override
+            public void handle(boolean value) {
+                setBackground(DrawableMap.instance().getDrawable(BACKGROUND_NAME + (value ? ":focused" : "")));
+            }
+        };
     }
 
     /**

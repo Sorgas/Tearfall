@@ -39,7 +39,7 @@ public class PlantTypeSelectList extends NavigableList<PlantType> implements Hin
             menu.close();
             return true;
         });
-        setHighlightHandler(new Highlightable.CheckHighlightHandler() {
+        setHighlightHandler(new Highlightable.CheckHighlightHandler(this) {
             @Override
             public void handle(boolean value) {
                 setColor(value ? Color.BLUE : Color.RED);
