@@ -13,13 +13,13 @@ public class ItemTypeSelectBox extends OrderLineSelectBox {
 
     public ItemTypeSelectBox(IngredientOrder ingredientOrder, ItemPartSelection selection) {
         super(ingredientOrder, selection);
-        setItems(ingredientOrder.partRecipe.itemTypes);
+        setItems(ingredientOrder.ingredient.itemTypes);
         setSelectedIndex(0);
     }
 
     @Override
     protected void handleSelection() {
-        ingredientOrder.setSelectedItemType(getSelected());
+//        ingredientOrder.setSelectedItemType(getSelected());
         super.handleSelection();
     }
 }

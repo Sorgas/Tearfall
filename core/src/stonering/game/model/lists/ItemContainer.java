@@ -2,6 +2,8 @@ package stonering.game.model.lists;
 
 import stonering.entity.Entity;
 import stonering.entity.crafting.CommonComponent;
+import stonering.entity.crafting.IngredientOrder;
+import stonering.enums.items.recipe.Ingredient;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
@@ -148,6 +150,15 @@ public class ItemContainer extends EntityContainer<Item> {
             return items.subList(0, number > items.size() ? items.size() : number);
         }
         return result;
+    }
+
+    /**
+     * Returns list of items from map, that can be used for given recipe.
+     */
+    public List<Item> getItemsForIngredient(Ingredient ingredient) {
+        return entities.stream().filter(item -> item.tags.contains(ingredient.tag)) // have tag
+                .filter(item -> ingredient.itemTypes.contains(item.getType().name)) // appropriate item type
+                .collect(Collectors.toList());
     }
 
     /**

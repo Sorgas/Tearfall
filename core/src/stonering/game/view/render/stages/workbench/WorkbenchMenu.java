@@ -34,7 +34,7 @@ public class WorkbenchMenu extends Window {
         add(detailsHeader = new WrappedLabel("Details:")).height(20).row();
         add(recipeListSection = new RecipeListSection(workbench.getAspect(WorkbenchAspect.class), this));
         add(orderListSection = new OrderListSection(workbench.getAspect(WorkbenchAspect.class), this));
-        add(orderDetailsSection = new OrderDetailsSection()).row();
+        add(orderDetailsSection = new OrderDetailsSection(workbench.getAspect(WorkbenchAspect.class), this)).row();
         add(hintLabel = new WrappedLabel("")).colspan(3).size(900, 30).height(30).align(Align.left);
     }
 

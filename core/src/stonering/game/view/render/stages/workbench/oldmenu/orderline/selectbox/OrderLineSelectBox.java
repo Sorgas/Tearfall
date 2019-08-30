@@ -22,6 +22,7 @@ public abstract class OrderLineSelectBox extends NavigableSelectBox<String> impl
     private HighlightHandler highlightHandler;
 
     /**
+     *
      * @param ingredientOrder all data is taken from order for item part.
      */
     public OrderLineSelectBox(IngredientOrder ingredientOrder, ItemPartSelection selection) {

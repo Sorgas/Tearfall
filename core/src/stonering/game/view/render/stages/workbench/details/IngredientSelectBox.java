@@ -1,0 +1,16 @@
+package stonering.game.view.render.stages.workbench.details;
+
+import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
+import stonering.util.global.StaticSkin;
+
+/**
+ * Selects ingredient item for item part.
+ *
+ * @author Alexander on 30.08.2019.
+ */
+public class IngredientSelectBox extends SelectBox {
+
+    public IngredientSelectBox() {
+        super(StaticSkin.getSkin());
+    }
+}

@@ -4,25 +4,37 @@ import stonering.entity.item.selectors.AnyMaterialTagItemSelector;
 import stonering.entity.item.selectors.ItemSelector;
 import stonering.enums.items.recipe.Ingredient;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 /**
  * Part of {@link ItemOrder}.
- * On creation, accepts items of first type and any material from {@link Ingredient}.
+ * Tag and item type taken from recipe. Material is set to any on creation and then can be changed by player.
+ * On creation, all items are observed, combined by material and type, and added to dropdown.
  *
  * @author Alexander on 05.01.2019.
  */
 public class IngredientOrder {
     public final ItemOrder order;
-    public final Ingredient partRecipe;
+    public final Ingredient ingredient;
+    private HashMap<String, List<String>> options; // item type to materials
 
+    public final List<String> itemType;
+    private ItemSelector itemSelector;
     private String selectedMaterial;
     private String selectedItemType;
-    private ItemSelector itemSelector;
 
-    public IngredientOrder(ItemOrder order, Ingredient partRecipe) {
+    public IngredientOrder(ItemOrder order, Ingredient ingredient) {
         this.order = order;
-        this.partRecipe = partRecipe;
-        selectedMaterial = "any " + partRecipe.tag;
-        selectedItemType = partRecipe.itemTypes.get(0);
+        this.ingredient = ingredient;
+        selectedMaterial = "any " + ingredient.tag;
+        itemType = new ArrayList<>(ingredient.itemTypes);
+        options = new HashMap<>();
+    }
+
+    void updateOptions() {
+
     }
 
     /**
@@ -30,7 +42,7 @@ public class IngredientOrder {
      */
     public void refreshSelector() {
         if(selectedMaterial.startsWith("any ")) {
-            itemSelector = new AnyMaterialTagItemSelector(selectedItemType, partRecipe.tag);
+            itemSelector = new AnyMaterialTagItemSelector(selectedItemType, ingredient.tag);
         }
     }
 
@@ -40,14 +52,6 @@ public class IngredientOrder {
 
     public void setSelectedMaterial(String selectedMaterial) {
         this.selectedMaterial = selectedMaterial;
-    }
-
-    public String getSelectedItemType() {
-        return selectedItemType;
-    }
-
-    public void setSelectedItemType(String selectedItemType) {
-        this.selectedItemType = selectedItemType;
     }
 
     public ItemSelector getItemSelector() {

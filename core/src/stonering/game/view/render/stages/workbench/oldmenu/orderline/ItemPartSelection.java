@@ -45,10 +45,10 @@ public class ItemPartSelection extends Stack implements HintedActor, Highlightab
         table.add(materialImage = new Image()).fillX(); // images change drawables on focus change.
         table.add(itemTypeImage = new Image()).fillX().row();
         table.add(materialSelectBox = new MaterialSelectBox(ingredientOrder, this));
-        if (ingredientOrder.partRecipe.itemTypes.size() > 1) {
+        if (ingredientOrder.ingredient.itemTypes.size() > 1) {
             table.add(itemTypeSelectBox = new ItemTypeSelectBox(ingredientOrder, this));
         } else {
-            table.add(new Label(ingredientOrder.partRecipe.itemTypes.get(0), StaticSkin.getSkin()));
+            table.add(new Label(ingredientOrder.ingredient.itemTypes.get(0), StaticSkin.getSkin()));
         }
         return table;
     }

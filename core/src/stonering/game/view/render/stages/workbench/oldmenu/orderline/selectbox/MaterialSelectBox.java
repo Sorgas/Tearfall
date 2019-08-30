@@ -14,7 +14,7 @@ public class MaterialSelectBox extends OrderLineSelectBox {
 
     public MaterialSelectBox(IngredientOrder ingredientOrder, ItemPartSelection selection) {
         super(ingredientOrder, selection);
-        setItems(ingredientOrder.partRecipe.getPossibleMaterials());
+        setItems(ingredientOrder.ingredient.getPossibleMaterials());
         setSelectedIndex(0);
     }
 
