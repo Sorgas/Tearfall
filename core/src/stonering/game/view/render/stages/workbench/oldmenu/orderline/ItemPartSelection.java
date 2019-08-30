@@ -34,7 +34,7 @@ public class ItemPartSelection extends Stack implements HintedActor, Highlightab
 
     public ItemPartSelection(IngredientOrder ingredientOrder, ItemCraftingOrderLine orderLine) {
         this.orderLine = orderLine;
-        highlightHandler = new HighlightHandler();
+        createHighlightHandler();
         add(createTable(ingredientOrder));
 //        add(new Container(new Label(ingredientOrder., StaticSkin.getSkin())).left().top());
     }
@@ -56,7 +56,7 @@ public class ItemPartSelection extends Stack implements HintedActor, Highlightab
     @Override
     public void act(float delta) {
         super.act(delta);
-        updateHighlighting(true);
+        updateHighlighting(isFocused());
         updateHint();
     }
 
@@ -79,23 +79,19 @@ public class ItemPartSelection extends Stack implements HintedActor, Highlightab
         Actor focused  = getStage().getKeyboardFocus();
         if(itemTypeSelectBox != null) {
             if (focused != itemTypeSelectBox && action == ControlActionsEnum.RIGHT) {
-                return changeFocus(itemTypeSelectBox);
+                return getStage().setKeyboardFocus(itemTypeSelectBox);
             }
             if (focused != materialSelectBox && action == ControlActionsEnum.LEFT) {
-                return changeFocus(materialSelectBox);
+                return getStage().setKeyboardFocus(materialSelectBox);
             }
             return orderLine.navigate(action, this);
         } else {
             if(focused == materialSelectBox) {
                 return orderLine.navigate(action, this);
             } else {
-                return changeFocus(materialSelectBox);
+                return getStage().setKeyboardFocus(materialSelectBox);
             }
         }
-    }
-
-    private boolean changeFocus(Actor target) {
-        return getStage().setKeyboardFocus(target);
     }
 
     private void createHighlightHandler() {

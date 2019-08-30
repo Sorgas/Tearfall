@@ -13,6 +13,7 @@ public class RawRecipe {
     public String category;
     public String title;
     public String itemName;
+    public String description;
     public List<List<String>> parts;
     public List<List<String>> consumed = new ArrayList<>();
 }

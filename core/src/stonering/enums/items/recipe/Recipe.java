@@ -18,6 +18,7 @@ public class Recipe {
     public final String category; // recipes are divided into categories in workbench menu
     public final String title;    // displayed name
     public final String itemName; // item NAME, points to ItemType
+    public final String description;
     public Map<String, Ingredient> parts = new HashMap<>(); // itemPart NAME to ingredients.
     public List<Ingredient> consumed = new ArrayList<>();  // do not produce item parts.
 
@@ -26,6 +27,7 @@ public class Recipe {
         category = "";
         name = "";
         itemName = "";
+        description = "";
     }
 
     public Recipe(RawRecipe raw) {
@@ -33,6 +35,7 @@ public class Recipe {
         category = raw.category;
         title = raw.title;
         itemName = raw.itemName;
+        description = raw.description;
     }
 
     /**

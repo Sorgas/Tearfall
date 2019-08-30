@@ -27,6 +27,7 @@
         item,
         number formula (per block), // format: [min]-[max]/[divider] roll [min, max] will be lowered by divider and rounded up
         months // numbers of months (0,11) or 'all' keyword when product can be got.
+        tags // list of tags to be copied to item.
         // for trees, products got only from crone.
     productTags: tags of products
 

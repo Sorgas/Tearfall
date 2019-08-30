@@ -1,17 +1,13 @@
 package stonering.game.view.render.stages.workbench.details;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
 import stonering.entity.crafting.ItemOrder;
 import stonering.enums.items.recipe.Recipe;
 import stonering.enums.items.type.ItemType;
 import stonering.enums.items.type.ItemTypeMap;
 import stonering.game.view.render.stages.workbench.orderlist.OrderItem;
-import stonering.game.view.render.stages.workbench.recipelist.RecipeCategoryItem;
 import stonering.game.view.render.stages.workbench.recipelist.RecipeItem;
 import stonering.util.global.Logger;
 import stonering.util.global.StaticSkin;
@@ -27,20 +23,23 @@ public class OrderDetailsSection extends Table {
     private Label itemName;
     private Label itemDescription;
     private Image image;
+    private Container itemParts;
 
     public OrderDetailsSection() {
         align(Align.topLeft);
         defaults().align(Align.left).expandX();
         add(image = new Image());
         VerticalGroup group = new VerticalGroup();
-        group.align(Align.top);
+        group.align(Align.topLeft).columnAlign(Align.left);
         group.addActor(itemName = new Label("", StaticSkin.getSkin()));
         group.addActor(itemDescription = new Label("", StaticSkin.getSkin()));
+        add(group);
+        add(itemParts = new )
     }
 
     public void showItem(Actor actor) {
         clearSection();
-        String actorName = actor != null ? actor.getName() : "null";
+        String actorName = actor != null ? actor.getClass().getSimpleName() : "null";
         Logger.UI.logDebug("Showing " + actorName + " in details section.");
         if (actor instanceof RecipeItem) {
             showRecipeDetails((RecipeItem) actor);
@@ -55,16 +54,18 @@ public class OrderDetailsSection extends Table {
      * Shows description of a {@link Recipe}.
      */
     private void showRecipeDetails(RecipeItem recipeItem) {
-        ItemType type = ItemTypeMap.getInstance().getItemType(recipeItem.recipe.itemName);
-        itemName.setText(type.title);
-        itemDescription.setText(type.description);
+        itemName.setText(recipeItem.recipe.title);
+        itemDescription.setText(recipeItem.recipe.description);
+        //TODO collect available items, and display in a list, divided by item parts.
     }
 
     private void showOrderDetails(OrderItem orderItem) {
         //TODO
         order = orderItem.order;
         ItemType type = ItemTypeMap.getInstance().getItemType(order.recipe.itemName);
-        itemName.setText(type.title);
+        itemName.setText(orderItem.order.recipe.title);
+        itemDescription.setText(orderItem.order.recipe.description);
+
     }
 
     private void clearSection() {

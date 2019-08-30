@@ -28,8 +28,7 @@ public class Toolbar extends Container implements Highlightable {
 
     public Toolbar() {
         displayedMenus = new ArrayList<>();
-        handler = new HighlightHandler();
-        handler.toolbar = this;
+        createHighlightHandler();
     }
 
     public void init() {
@@ -138,24 +137,22 @@ public class Toolbar extends Container implements Highlightable {
         status.setText(text);
     }
 
+    private void createHighlightHandler() {
+        handler = new HighlightHandler(this) {
+
+            @Override
+            public void handle(boolean value) {
+                for (int i = 0; i < ((Toolbar) owner).menusTable.getChildren().size; i++) {
+                    Actor child = ((Toolbar) owner).menusTable.getChildren().get(i);
+                    if (!(child instanceof Highlightable)) continue;
+                    ((Highlightable) child).updateHighlighting(i == 0); // only first child is highlighted
+                }
+            }
+        };
+    }
+
     @Override
     public Highlightable.HighlightHandler getHighlightHandler() {
         return handler;
-    }
-
-    /**
-     * Highlights menus in this toolbar.
-     */
-    private static class HighlightHandler extends Highlightable.HighlightHandler {
-        private Toolbar toolbar;
-
-        @Override
-        public void handle(boolean value) {
-            for (int i = 0; i < toolbar.menusTable.getChildren().size; i++) {
-                Actor child = toolbar.menusTable.getChildren().get(i);
-                if(!(child instanceof Highlightable)) continue;
-                ((Highlightable) child).updateHighlighting(i == 0); // only first child is highlighted
-            }
-        }
     }
 }
