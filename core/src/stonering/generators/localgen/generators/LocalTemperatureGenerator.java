@@ -4,6 +4,7 @@ import stonering.entity.World;
 import stonering.entity.WorldMap;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.util.geometry.Position;
+import stonering.util.global.Logger;
 
 /**
  * Calculates month specific temperature. summer and winter temps are max and min.
@@ -18,7 +19,7 @@ public class LocalTemperatureGenerator extends LocalAbstractGenerator {
     }
 
     public void execute() {
-        System.out.println("generating temperature");
+        Logger.GENERATION.logDebug("generating temperature");
         Position location = container.config.getLocation();
         WorldMap worldMap = container.model.get(World.class).getWorldMap();
         float summerTemp = worldMap.getSummerTemperature(location.getX(), location.getY());

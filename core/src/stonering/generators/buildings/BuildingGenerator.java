@@ -37,7 +37,7 @@ public class BuildingGenerator {
         for (List<String> aspect : type.aspects) {
             if (!aspect.isEmpty()) {
                 switch (aspect.get(0)) {
-                    case WorkbenchAspect.NAME: {
+                    case "workbench": {
                         building.addAspect(new WorkbenchAspect(building));
                         break;
                     }

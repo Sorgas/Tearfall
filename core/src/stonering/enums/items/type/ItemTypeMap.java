@@ -29,7 +29,7 @@ public class ItemTypeMap {
     }
 
     private void loadItemTypes() {
-        System.out.println("loading item types");
+        Logger.LOADING.logDebug("loading item types");
         Json json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
         FileHandle itemsDirectory = FileLoader.getFile(FileLoader.ITEMS_PATH);

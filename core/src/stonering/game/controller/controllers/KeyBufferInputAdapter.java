@@ -32,7 +32,6 @@ public class KeyBufferInputAdapter extends InputAdapter {
      */
     @Override
     public boolean keyTyped(char character) {
-//        System.out.println("typed");
         return keyBuffer.remove(charToKeycode(character)); // stop processing if key was in buffer
     }
 

@@ -45,7 +45,6 @@ public class BodyTemplateProcessor {
         for (RawBodyPart value : map.values()) {
             RawBodyPart part = value;
             while (!part.root.equals("body")) {
-                System.out.println(part.root);
                 if (map.get(part.root).mirrored) value.mirrored = true;
                 part = map.get(part.root);
             }

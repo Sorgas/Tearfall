@@ -19,7 +19,7 @@ public class ItemOrder {
     public final Recipe recipe;
     public final HashMap<String, IngredientOrder> parts;
     public final List<IngredientOrder> consumed;
-    private TaskStatusEnum status;
+    public TaskStatusEnum status;
     private boolean repeated;
     private int amount;
 
@@ -37,21 +37,9 @@ public class ItemOrder {
         }
     }
 
-    public boolean isPaused() {
-        return status == TaskStatusEnum.PAUSED;
-    }
-
     @Override
     public String toString() {
         return "ItemOrder{" + "recipe=" + recipe + '}';
-    }
-
-    public TaskStatusEnum getStatus() {
-        return status;
-    }
-
-    public void setStatus(TaskStatusEnum status) {
-        this.status = status;
     }
 
     public int getAmount() {

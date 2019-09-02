@@ -2,6 +2,7 @@ package stonering.game.controller.controllers.designation;
 
 import stonering.game.model.GameModel;
 import stonering.game.view.GameView;
+import stonering.util.global.Logger;
 import stonering.util.validation.PositionValidator;
 import stonering.entity.zone.Zone;
 import stonering.enums.ZoneTypesEnum;
@@ -89,19 +90,19 @@ public class ZoneDesignationSequence extends DesignationSequence {
 
     @Override
     public void start() {
-        System.out.println("starting zone");
+        Logger.ZONES.logDebug("starting zone");
         rectangleSelectComponent.show();
     }
 
     @Override
     public void end() {
-        System.out.println("ending zone");
+        Logger.ZONES.logDebug("ending zone");
         rectangleSelectComponent.hide();
     }
 
     @Override
     public void reset() {
-        System.out.println("resetting zone");
+        Logger.ZONES.logDebug("resetting zone");
         end();
     }
 

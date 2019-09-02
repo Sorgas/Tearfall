@@ -73,8 +73,6 @@ public class PassageMap {
      * Called when local map passage is updated. If cell becomes non-passable, it may split area into two.
      */
     public void updateCell(Position position) {
-        if(position == null)
-            System.out.println();
         updateCell(position.x, position.y, position.z);
     }
 

@@ -32,7 +32,7 @@ public class Task {
     private Designation designation;
     private ItemOrder itemOrder;
     private int priority;
-    private TaskStatusEnum status;
+    public TaskStatusEnum status;
     private String job;
 
     private Action initialAction;
@@ -198,14 +198,6 @@ public class Task {
 
     public void setPerformer(Unit performer) {
         this.performer = performer;
-    }
-
-    public TaskStatusEnum getStatus() {
-        return status;
-    }
-
-    public void setStatus(TaskStatusEnum status) {
-        this.status = status;
     }
 
     public ItemOrder getItemOrder() {

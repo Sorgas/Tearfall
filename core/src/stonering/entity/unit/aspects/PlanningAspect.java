@@ -82,9 +82,6 @@ public class PlanningAspect extends Aspect {
      */
     private boolean updateState(Task newTask) {
         if (newTask != null) {
-            if (newTask.getInitialAction() instanceof PlantingAction) {
-                System.out.println();
-            }
             Logger.TASKS.logDebug("Checking of task " + newTask.toString() + " for " + entity.toString());
             newTask.setPerformer((Unit) entity); // performer is required for checking
             if (checkActionSequence(newTask)) { // valid task

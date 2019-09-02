@@ -3,6 +3,7 @@ package stonering.generators.localgen.generators;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.model.local_map.LocalMap;
 import stonering.generators.localgen.LocalGenContainer;
+import stonering.util.global.Logger;
 
 /**
  * fills local map with ramps on z-layer borders.
@@ -20,7 +21,7 @@ public class LocalRampAndFloorPlacer extends LocalAbstractGenerator {
     }
 
     public void execute() {
-        System.out.println("placing ramps");
+        Logger.GENERATION.logDebug("placing ramps");
         localMap = container.model.get(LocalMap.class);
         fillRamps();
         fillFloors();

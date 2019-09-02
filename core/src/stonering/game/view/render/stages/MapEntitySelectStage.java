@@ -64,7 +64,6 @@ public class MapEntitySelectStage extends UiStage implements Initable {
             case ZONES:
                 break;
             case NONE:
-                System.out.println("selecting zone");
                 showEntitySelectList();
                 return;
         }
@@ -116,7 +115,6 @@ public class MapEntitySelectStage extends UiStage implements Initable {
         Logger.UI.logDebug("showing building stage for: " + building);
         gameMvc.getView().removeStage(this);
         gameMvc.getView().addStageToList(new BuildingStage(gameMvc, building));
-        System.out.println("adding new building stage");
     }
 
     private void tryShowZoneStage(Zone zone) {
@@ -125,7 +123,6 @@ public class MapEntitySelectStage extends UiStage implements Initable {
         Logger.UI.logDebug("showing zone stage for: " + zone.getName());
         gameMvc.getView().removeStage(this);
         if(zone instanceof FarmZone) gameMvc.getView().addStageToList(new ZoneMenuStage((FarmZone) zone));
-        System.out.println("adding new zone stage");
     }
 
     private void createObservingList(List<Entity> entities) {

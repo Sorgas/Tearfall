@@ -10,6 +10,7 @@ import stonering.generators.localgen.LocalGenContainer;
 import stonering.entity.WorldMap;
 import stonering.util.geometry.Position;
 import stonering.entity.environment.WaterSource;
+import stonering.util.global.Logger;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,7 +39,7 @@ public class LocalRiverGenerator extends LocalAbstractGenerator {
     }
 
     public void execute() {
-        System.out.println("generating rivers");
+        Logger.GENERATION.logDebug("generating rivers");
         extractContainer();
         lookupInflows(); // fill inflow collection
         makeOutFlow();
@@ -112,7 +113,7 @@ public class LocalRiverGenerator extends LocalAbstractGenerator {
             IntVector2 intVector = new IntVector2(worldMap.getBrook(cx, cy)); // pointing out
             this.outflow = createInflow(intVector.x, intVector.y, false); // localStart is end of flow
         }
-        System.out.println("inflows: " + inflows.size());
+//        System.out.println("inflows: " + inflows.size());
     }
 
     private void makeFlows() {
@@ -128,7 +129,7 @@ public class LocalRiverGenerator extends LocalAbstractGenerator {
                 flow.waterAmount = inflow.waterAmount;
                 createFlowSpline(flow);
                 flows.add(flow);
-                System.out.println("added flow: " + flow.toString());
+//                System.out.println("added flow: " + flow.toString());
             }
         } else {
             Flow flow = new Flow();
@@ -138,7 +139,7 @@ public class LocalRiverGenerator extends LocalAbstractGenerator {
             flow.waterAmount = outflow.waterAmount;
             createFlowSpline(flow);
             flows.add(flow);
-            System.out.println("added flow: " + flow.toString());
+//            System.out.println("added flow: " + flow.toString());
         }
     }
 
@@ -161,8 +162,8 @@ public class LocalRiverGenerator extends LocalAbstractGenerator {
      * @return
      */
     private boolean isInflow(int rx, int ry, Vector2 inflow) {
-        System.out.println("inflow check: " + rx + " " + ry + " " + inflow);
-        System.out.println("vector: " + Math.round(inflow.x) + " " + Math.round(inflow.y));
+//        System.out.println("inflow check: " + rx + " " + ry + " " + inflow);
+//        System.out.println("vector: " + Math.round(inflow.x) + " " + Math.round(inflow.y));
         IntVector2 intVector = new IntVector2(inflow);
         return intVector.x == -rx && intVector.y == -ry; // inflow vector points from observed position to current. [rx, ry] is offset from current position to position where inflow comes from.
     }
@@ -187,7 +188,7 @@ public class LocalRiverGenerator extends LocalAbstractGenerator {
      * @param brush
      */
     private void carveWithBrush(CatmullRomSpline<Vector2> spline, LandscapeBrush brush) {
-        System.out.println("new flow");
+//        System.out.println("new flow");
         Vector2 point = new Vector2();
         Vector2 start = spline.valueAt(point, 0).cpy();
         int currentElevation = getElevationInPoint(start);
@@ -256,7 +257,7 @@ public class LocalRiverGenerator extends LocalAbstractGenerator {
                 if (isWaterSource) {
                     Position position = new Position(x, y, z);
                     if (!container.waterSources.contains(position)) {
-                        System.out.println("water source: " + position);
+//                        System.out.println("water source: " + position);
                         WaterSource waterSource = new WaterSource(position, materialMap.getId("water"));
                         container.waterSources.add(position);
 //                        localMap.getWaterSources().put(position, waterSource);

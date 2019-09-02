@@ -4,6 +4,7 @@ import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.model.local_map.LocalMap;
 import stonering.generators.localgen.LocalGenContainer;
+import stonering.util.global.Logger;
 
 import java.util.*;
 
@@ -36,7 +37,7 @@ public class LocalStoneLayersGenerator extends LocalAbstractGenerator {
     }
 
     public void execute() {
-        System.out.println("generating stone layers");
+        Logger.GENERATION.logDebug("generating stone layers");
         map = this.container.model.get(LocalMap.class);
         heigtsMap = this.container.roundedHeightsMap;
         surfaceLevel = container.localElevation;

@@ -5,6 +5,7 @@ import stonering.game.model.local_map.LocalMap;
 import stonering.generators.PerlinNoiseGenerator;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.util.geometry.Position;
+import stonering.util.global.Logger;
 
 import java.util.Random;
 
@@ -23,7 +24,7 @@ public class LocalCaveGenerator extends LocalAbstractGenerator {
     }
 
     public void execute() {
-        System.out.println("generating caves");
+        Logger.GENERATION.logDebug("generating caves");
         localMap = container.model.get(LocalMap.class);
         int localElevation = localMap.zSize - config.getAirLayersAboveGround();
         int step = 50;

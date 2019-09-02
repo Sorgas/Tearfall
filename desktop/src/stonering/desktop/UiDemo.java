@@ -93,7 +93,6 @@ public class UiDemo extends Game {
 
         private void zoom(float delta) {
             table.setScale(table.getScaleX() + delta, table.getScaleY() * delta);
-            System.out.println(table.getWidth());
 
 //            ((OrthographicCamera) stage.getCamera()).zoom += delta;
 //            float zoom = ((OrthographicCamera) stage.getCamera()).zoom;

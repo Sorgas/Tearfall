@@ -1,7 +1,7 @@
 package stonering.enums;
 
 /**
- * Enumeration of all statuses of tasks.
+ * Enumeration of all statuses of tasks. Used for orders and tasks.
  * Shown in workbenches. Available name depend on status.
  *
  * @author Alexander_Kuzyakov on 20.05.2019.

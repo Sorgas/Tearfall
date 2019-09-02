@@ -112,16 +112,4 @@ public class PerlinNoiseGenerator {
     private static double dot(int g[], double x, double y) {
         return g[0] * x + g[1] * y;
     }
-
-    public static void main(String[] args) {
-        PerlinNoiseGenerator generator = new PerlinNoiseGenerator();
-        float[][] noise = generator.generateOctavedSimplexNoise(100, 100, 6, 0.5f, 0.15f);
-        float[][] noise2 = generator.generateOctavedSimplexNoise(100, 100, 6, 0.5f, 0.07f);
-        for (int x = 0; x < noise.length; x++) {
-            for (int y = 0; y < noise[0].length; y++) {
-                System.out.print(noise[x][y] > 0.5f && noise2[x][y] > 0.5f ? '#' : ' ');
-            }
-            System.out.println();
-        }
-    }
 }

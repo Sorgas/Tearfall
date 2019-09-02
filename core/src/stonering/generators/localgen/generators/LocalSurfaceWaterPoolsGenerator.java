@@ -6,6 +6,7 @@ import stonering.game.model.local_map.LocalMap;
 import stonering.generators.PerlinNoiseGenerator;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.util.geometry.Position;
+import stonering.util.global.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,7 +27,7 @@ public class LocalSurfaceWaterPoolsGenerator extends LocalAbstractGenerator {
     }
 
     public void execute() {
-        System.out.println("generating pools");
+        Logger.GENERATION.logDebug("generating pools");
         ArrayList<Pool> pools = determinePools(generateNoise());
         pools.stream().filter(pool -> pool.points.keySet().size() > 1).forEach(this::tryPlacePool);
     }

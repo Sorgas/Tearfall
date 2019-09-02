@@ -23,6 +23,7 @@ import static stonering.enums.TaskStatusEnum.*;
 /**
  * Aspect for workbenches. Manages (crafting) orders of workbench.
  * Orders for workbench are stored in cycled list. When order becomes first in the list, {@link Task} is created and passed to {@link TaskContainer}.
+ * Task conditions are checked when task is taken by performer.
  * Order status id updated when task changes status.
  * <p>
  * After creation, order can be cancelled, suspended, moved in the list, set for repeating.
@@ -36,7 +37,6 @@ import static stonering.enums.TaskStatusEnum.*;
  * @author Alexander on 01.11.2018.
  */
 public class WorkbenchAspect extends Aspect {
-    public static final String NAME = "workbench";
     private List<Recipe> recipes; // all available recipes
     private LinkedList<OrderTaskEntry> entries; // entry may have no task.
     private boolean hasActiveOrders = false; // false on empty list or if all orders are suspended
@@ -46,7 +46,7 @@ public class WorkbenchAspect extends Aspect {
         super(entity);
         entries = new LinkedList<>();
         recipes = new ArrayList<>();
-        initRecipes();
+        ((Building) entity).getType().recipes.forEach(s -> recipes.add(RecipeMap.instance().getRecipe(s)));
     }
 
     /**
@@ -56,7 +56,7 @@ public class WorkbenchAspect extends Aspect {
     public void turn() {
         if (entries.isEmpty() || !hasActiveOrders) return;
         OrderTaskEntry entry = entries.getFirst();
-        switch (entry.order.getStatus()) {
+        switch (entry.order.status) {
             case OPEN: { // newly added order with no task.
                 if (entry.task == null) createTaskForOrder(entry);
                 break;
@@ -76,7 +76,7 @@ public class WorkbenchAspect extends Aspect {
      */
     private void rollToNextNotSuspended() {
         if (entries.size() < 2 || !hasActiveOrders) return; // no roll on 1 or 0 entries, or if all orders suspended.
-        while (entries.getFirst().order.isPaused()) {
+        while (entries.getFirst().order.status == PAUSED) {
             entries.addLast(entries.removeFirst());
         }
     }
@@ -88,10 +88,10 @@ public class WorkbenchAspect extends Aspect {
     private void handleOrderCompletion(OrderTaskEntry entry) {
         entries.remove(entry);
         entry.task.reset();
-        if (entry.order.getStatus() == COMPLETE && entry.order.isRepeated()) {
-            entries.addLast(entry); // move to the bottom of the list
-        } else if (entry.order.getStatus() == FAILED && !deleteFailedTasks) {
-            entry.order.setStatus(PAUSED); // pause failed task
+        if (entry.order.status == COMPLETE && entry.order.isRepeated()) { // move to the bottom of the list
+            entries.addLast(entry);
+        } else if (entry.order.status == FAILED && !deleteFailedTasks) { // pause failed task
+            entry.order.status = PAUSED;
         }
     }
 
@@ -99,7 +99,7 @@ public class WorkbenchAspect extends Aspect {
      * Adds order to WB. Orders are always added to the beginning of the list.
      */
     public void addOrder(ItemOrder order) {
-        Logger.TASKS.logDebug("Adding order " + order.toString() + " to " + NAME);
+        Logger.TASKS.logDebug("Adding order " + order.toString() + " to " + entity.toString());
         OrderTaskEntry entry = new OrderTaskEntry(order);
         entries.add(0, entry);
         updateFlag();
@@ -109,14 +109,14 @@ public class WorkbenchAspect extends Aspect {
      * Removes order from workbench. If order was in progress, it is interrupted immediately.
      */
     public void removeOrder(ItemOrder order) {
-        Logger.TASKS.logDebug("Removing order " + order.toString() + " from " + NAME);
+        Logger.TASKS.logDebug("Removing order " + order.toString() + " from " + entity.toString());
         OrderTaskEntry entry = findEntry(order);
         if (entry != null) {
             int index = entries.indexOf(entry);
             entries.remove(index);
             if (index == 0) failEntryTask(entry); // interrupt currently executing order.
         } else {
-            Logger.TASKS.logWarn("Trying to remove unknown order " + order.toString() + " from " + NAME);
+            Logger.TASKS.logWarn("Trying to remove unknown order " + order.toString() + " from " + entity.toString());
         }
         updateFlag();
     }
@@ -130,14 +130,11 @@ public class WorkbenchAspect extends Aspect {
      * TODO rework
      */
     public void setOrderSuspended(ItemOrder order, boolean value) {
-        Logger.TASKS.logDebug("Setting order " + order.toString() + " in " + NAME + "suspended: " + value);
+        Logger.TASKS.logDebug("Setting order " + order.toString() + " in " + entity.toString() + " suspended: " + value);
         OrderTaskEntry entry = findEntry(order);
         if (entry != null) {
-            if (value) {
-                int index = entries.indexOf(entry);
-//                if (index == current) entry.task.fail(); // interrupt currently executing order.
-            }
-            entry.order.setStatus(value ? PAUSED : OPEN);
+            if (value && entry.task.status == ACTIVE) entry.task.fail(); // interrupt currently executing order.
+            entry.order.status = (value ? PAUSED : OPEN);
         }
         updateFlag();
     }
@@ -146,7 +143,7 @@ public class WorkbenchAspect extends Aspect {
      * Sets order as repeated.
      */
     public void setOrderRepeated(ItemOrder order, boolean value) {
-        Logger.TASKS.logDebug("Setting order " + order.toString() + " in " + NAME + "repeated: " + value);
+        Logger.TASKS.logDebug("Setting order " + order.toString() + " in " + entity.toString() + " repeated: " + value);
         OrderTaskEntry entry = findEntry(order);
         if (entry != null) {
             entry.order.setRepeated(value);
@@ -155,9 +152,9 @@ public class WorkbenchAspect extends Aspect {
     }
 
     private void updateFlag() {
-//        hasActiveOrders = false;
+        hasActiveOrders = false;
         for (OrderTaskEntry entry : entries) {
-            if (entry.order.isPaused()) {
+            if (entry.order.status == PAUSED) {
 //                hasActiveOrders = true;
                 break;
             }
@@ -189,11 +186,9 @@ public class WorkbenchAspect extends Aspect {
      */
     public void swapOrders(ItemOrder order, int delta) {
         int index = getOrderIndex(order);
-        System.out.println("qwer " + index + " qwer " + delta);
-        if (!inBounds(index)) return;
+        if (outOfBounds(index)) return;
         int newIndex = index + delta;
-        if (!inBounds(newIndex)) return;
-        System.out.println("swapping " + index + " to " + newIndex);
+        if (outOfBounds(newIndex)) return;
         OrderTaskEntry entry = entries.get(index);
         entries.set(index, entries.get(newIndex));
         entries.set(newIndex, entry);
@@ -216,12 +211,8 @@ public class WorkbenchAspect extends Aspect {
         return -1;
     }
 
-    private boolean inBounds(int index) {
-        return index >= 0 && index < entries.size();
-    }
-
-    private void initRecipes() { //ok
-        ((Building) entity).getType().recipes.forEach(s -> recipes.add(RecipeMap.instance().getRecipe(s)));
+    private boolean outOfBounds(int index) {
+        return index < 0 || index >= entries.size();
     }
 
     public List<OrderTaskEntry> getEntries() {

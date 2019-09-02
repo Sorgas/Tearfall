@@ -174,7 +174,6 @@ public class SelectLocationMenu extends SimpleScreen {
     private Table createMinimap() {
         minimap = new MiniMap(new Texture("sprites/map_tiles.png"));
         minimap.setWorld(world);
-        System.out.println(getWorld());
         return minimap;
     }
 

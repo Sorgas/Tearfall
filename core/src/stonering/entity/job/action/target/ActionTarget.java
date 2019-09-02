@@ -64,7 +64,7 @@ public abstract class ActionTarget {
                     return currentPosition.isNeighbour(getPosition()) ? READY : WAIT; // near only
                 }
             }
-            System.out.println("WARN: name " + action + " target not defined as exact or near");
+            Logger.TASKS.logError("WARN: name " + action + " target not defined as exact or near");
             return FAIL;
         }
     }

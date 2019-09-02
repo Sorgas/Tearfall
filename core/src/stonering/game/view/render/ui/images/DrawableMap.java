@@ -40,7 +40,7 @@ public class DrawableMap {
      * Loads descriptors for drawables.
      */
     private void loadRegions() {
-        System.out.println("loading drawables");
+        Logger.LOADING.logDebug("loading drawables");
         Json json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
         ArrayList<TextureRegionDescriptor> elements = json.fromJson(ArrayList.class, TextureRegionDescriptor.class, FileLoader.getFile(FileLoader.REGIONS_PATH));

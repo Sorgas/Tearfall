@@ -75,7 +75,6 @@ public class Toolbar extends Container implements Highlightable {
      * Levels counted from right to left, widget indexes is opposite.
      */
     public void addMenu(Actor menu) {
-        System.out.println(menu.getClass().getSimpleName() + " shown");
         displayedMenus.add(0, menu);
         refill();
         updateHighlighting(true);
@@ -91,7 +90,6 @@ public class Toolbar extends Container implements Highlightable {
             while (displayedMenus.contains(menu)) {
                 displayedMenus.remove(0);
             }
-            System.out.println(menu.getClass().getSimpleName() + " hidden");
             refill();
         }
     }

@@ -4,6 +4,7 @@ import stonering.entity.World;
 import stonering.generators.PerlinNoiseGenerator;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.entity.WorldMap;
+import stonering.util.global.Logger;
 
 import java.util.Arrays;
 import java.util.Random;
@@ -26,7 +27,7 @@ public class LocalHeightsGenerator extends LocalAbstractGenerator {
     }
 
     public void execute() {
-        System.out.println("generating heights");
+        Logger.GENERATION.logDebug("generating heights");
         int x = config.getLocation().getX();
         int y = config.getLocation().getY();
         localHightMap = new float[localAreaSize + 1][localAreaSize + 1];
@@ -92,7 +93,6 @@ public class LocalHeightsGenerator extends LocalAbstractGenerator {
             array[(right + left) / 2] = (array[left] + array[right]) / 2 + random.nextInt(2) - 1;
             recursiveMidpoint(array, left, (right + left) / 2, random);
             recursiveMidpoint(array, (right + left) / 2, right, random);
-//            System.out.println(left + "   " + right + " | " + array[(right + left) / 2]);
         } else {
             for (int i = left + 1; i < right; i++) {
                 array[i] = array[left] + ((array[left] - array[right]) / (right - left)) * i;

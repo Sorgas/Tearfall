@@ -109,7 +109,6 @@ public class AreaInitializer {
                 }
             }
         }
-        areaNumbers.keySet().forEach(byteA -> System.out.println(byteA + " " + areaNumbers.get(byteA)));
     }
 
     /**
