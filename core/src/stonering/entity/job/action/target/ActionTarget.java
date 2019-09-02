@@ -1,7 +1,6 @@
 package stonering.entity.job.action.target;
 
 import stonering.entity.job.action.MoveAction;
-import stonering.enums.TaskStatusEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
@@ -16,16 +15,19 @@ public abstract class ActionTarget {
     public static final int WAIT = 0; // target position no reached
     public static final int NEW = 2; // new action created. planning aspect should update task
     public static final int FAIL = -1; // failed to create action
+
+    public static final int EXACT = 0;
+    public static final int NEAR = 1;
+    public static final int ANY = 2;
+    private int targetPlacement;
+
     protected GameMvc gameMvc;
     protected Action action;
-    protected boolean exactTarget; //TODO replace with enum
-    protected boolean nearTarget;
     private Random random;
 
-    public ActionTarget(boolean exactTarget, boolean nearTarget) {
+    public ActionTarget(int targetPlacement) {
         gameMvc = GameMvc.instance();
-        this.exactTarget = exactTarget;
-        this.nearTarget = nearTarget;
+        this.targetPlacement = targetPlacement;
         random = new Random();
     }
 
@@ -51,30 +53,17 @@ public abstract class ActionTarget {
     }
 
     /**
-     * Checks if name performer has reached name target.
+     * Checks if task performer has reached task target.
      */
     public int check(Position currentPosition) {
-        if (exactTarget) {
-            return (currentPosition.equals(getPosition()) || nearTarget && currentPosition.isNeighbour(getPosition())) ? READY : WAIT;
-        } else {
-            if (nearTarget) {
-                if (currentPosition.equals(getPosition())) {
-                    return createActionToStepOff(currentPosition); // make 1 step away
-                } else {
-                    return currentPosition.isNeighbour(getPosition()) ? READY : WAIT; // near only
-                }
-            }
-            Logger.TASKS.logError("WARN: name " + action + " target not defined as exact or near");
-            return FAIL;
+        switch(targetPlacement) {
+            case(EXACT) :
+                return currentPosition.equals(getPosition()) ? READY : WAIT;
+            case(NEAR) :
+                if(currentPosition.equals(getPosition())) return createActionToStepOff(currentPosition);
+                return currentPosition.isNeighbour(getPosition()) ? READY : WAIT;
         }
-    }
-
-    public boolean isExactTarget() {
-        return exactTarget;
-    }
-
-    public boolean isNearTarget() {
-        return nearTarget;
+        return currentPosition.equals(getPosition()) || currentPosition.isNeighbour(getPosition()) ? READY : WAIT;
     }
 
     public Action getAction() {
