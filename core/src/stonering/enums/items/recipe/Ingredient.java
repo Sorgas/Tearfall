@@ -21,7 +21,7 @@ public class Ingredient {
     private List<String> possibleMaterials;  // list of materials to display in ui
 
     public Ingredient(List<String> itemTypes, String tag) {
-        this.itemTypes = itemTypes;
+        this.itemTypes = new ArrayList<>(itemTypes);
         this.tag = TagEnum.get(tag);
         possibleMaterials = new ArrayList<>(MaterialMap.instance().getMaterialNamesByTag(tag));
         possibleMaterials.add(0, "any " + tag);

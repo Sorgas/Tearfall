@@ -41,7 +41,8 @@ public class OrderDetailsSection extends Table {
         group.addActor(itemName = new Label("", StaticSkin.getSkin()));
         group.addActor(itemDescription = new Label("", StaticSkin.getSkin()));
         add(group).row();
-        add(itemParts = new VerticalGroup());
+        add(itemParts = new VerticalGroup()).colspan(2).fillX().align(Align.left);
+        itemParts.columnAlign(Align.left).align(Align.left);
     }
 
     public void showItem(Actor actor) {
@@ -74,7 +75,7 @@ public class OrderDetailsSection extends Table {
         for (String key : order.parts.keySet()) { // rows for parts
             itemParts.addActor(new ItemPartRow(order.parts.get(key), order.parts.keySet().size() > 1 ? key : null, this));
         }
-        itemParts.addActor(new Label("Consumed:", StaticSkin.getSkin()));
+//        itemParts.addActor(new Label("Consumed:", StaticSkin.getSkin()));
         for (IngredientOrder ingredientOrder : order.consumed) { // rows for consumed items
             itemParts.addActor(new ItemPartRow(ingredientOrder, null, this));
         }

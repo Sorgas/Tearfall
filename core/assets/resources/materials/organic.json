@@ -1,6 +1,6 @@
 [
     {
-        "name": "[animal] meat",
+        "name": "meat",
         "tags": ["meat", "edible", "raw", "boilable", "roastable"],
         "density": "1",
         "value": "0",

@@ -20,13 +20,14 @@ import java.util.Map;
  *
  * On creation, all items are observed, combined by material and type, and added to dropdown.
  *
+ * //TODO add checkboxes for item types.
  * @author Alexander on 05.01.2019.
  */
 public class IngredientOrder {
     public final ItemOrder order;
     public final Ingredient ingredient;
 
-    public final List<String> itemType;
+    public final List<String> itemTypes;
     private ItemSelector itemSelector;
     private String selectedMaterial;
     private String selectedOrigin;
@@ -38,7 +39,7 @@ public class IngredientOrder {
         this.order = order;
         this.ingredient = ingredient;
         selectedMaterial = "any " + ingredient.tag;
-        itemType = new ArrayList<>(ingredient.itemTypes);
+        itemTypes = new ArrayList<>(ingredient.itemTypes);
         options = new HashMap<>();
     }
 

@@ -27,8 +27,9 @@ public class RecipeProcessor {
 
     private Ingredient processIngredient(List<String> args, String recipe) {
         if (!validateIngredient(args, recipe)) return null;
-        List<String> itemTypes = args.get(1) != null ? Arrays.asList(args.get(1).split("/")) : new ArrayList<>();
-        return new Ingredient(itemTypes, args.get(2));
+        List<String> itemTypes = Arrays.asList(args.get(0).split("/"));
+        return new Ingredient(itemTypes, args.get(1));
+        //TODO quantity
     }
 
     /**
