@@ -7,7 +7,6 @@ import stonering.util.global.StaticSkin;
 
 /**
  * Shows item part name and ingredient properties.
- *
  * TODO allow to select ingredient items for it.
  *
  * @author Alexander on 30.08.2019.
@@ -23,5 +22,6 @@ public class ItemPartRow extends Table {
         this.ingredientOrder = ingredientOrder;
         add(name = new Label(title, StaticSkin.getSkin())).row();
         add(description = new Label(ingredientOrder.ingredient.tag + " " + ingredientOrder.itemType, StaticSkin.getSkin()));
+        //TODO add dropdown with ingredientOrder.options.
     }
 }

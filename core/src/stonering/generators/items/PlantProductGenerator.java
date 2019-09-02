@@ -1,5 +1,6 @@
 package stonering.generators.items;
 
+import stonering.enums.items.TagEnum;
 import stonering.enums.plants.PlantBlocksTypeEnum;
 import stonering.entity.item.Item;
 import stonering.entity.plants.AbstractPlant;
@@ -50,7 +51,9 @@ public class PlantProductGenerator {
         PlantProduct product = block.getPlant().getCurrentStage().harvestProduct;
         if (product == null) return null;
         Item productItem = itemGenerator.generateItemByOrder(product.name, block.getMaterial());
-        productItem.tags.addAll(product.tags);
+        for (String tag : product.tags) {
+            productItem.tags.add(TagEnum.get(tag));
+        }
         return productItem;
     }
 

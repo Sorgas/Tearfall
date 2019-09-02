@@ -1,6 +1,8 @@
 package stonering.entity.item;
 
+import stonering.entity.Aspect;
 import stonering.entity.PositionAspect;
+import stonering.enums.items.TagEnum;
 import stonering.enums.items.type.ItemType;
 import stonering.util.geometry.Position;
 import stonering.entity.Entity;
@@ -10,20 +12,25 @@ import java.util.List;
 
 /**
  * In game item. Consists of parts.
+ * Some items can have origin (cow meat, apple (fruit)).
+ * Origin is set on item creation, and not mentioned on item definition and {@link ItemType}, instead of this, sources of items (animals, plants), give them origin.
+ * Different effects, like poisonous, are provided with {@link Aspect}s.
  *
  * @author Alexander Kuzyakov on 09.12.2017.
  */
 public class Item extends Entity {
     private String name;
-    private String title;
+    private String title; // title combined of origin, material, and type
+    private String conditionPostfix; // put after title in a brackets. shows item's condition, like raw, spoiled, rusty
+    private String origin; // set on item creation,
+    private int material;
     private ItemType type;
-    public final List<String> tags;
+    public final List<TagEnum> tags;
+    private int weight; // cache for faster counting.
 
     //TODO commented as non-MVP feature
-//    private HashMap<String, ItemPart> parts;
-//    private String mainPart;
-    private int material;
-    private int weight; // cache for faster counting.
+    //    private HashMap<String, ItemPart> parts;
+    //    private String mainPart;
 
     public Item(Position position, ItemType type) {
         super(position);
@@ -96,5 +103,21 @@ public class Item extends Entity {
 
     public void setPosition(Position position) {
         getAspect(PositionAspect.class).position = position;
+    }
+
+    public String getOrigin() {
+        return origin;
+    }
+
+    public void setOrigin(String origin) {
+        this.origin = origin;
+    }
+
+    public String getConditionPostfix() {
+        return conditionPostfix;
+    }
+
+    public void setConditionPostfix(String conditionPostfix) {
+        this.conditionPostfix = conditionPostfix;
     }
 }

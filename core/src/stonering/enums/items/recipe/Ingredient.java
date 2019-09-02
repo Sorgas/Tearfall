@@ -1,5 +1,6 @@
 package stonering.enums.items.recipe;
 
+import stonering.enums.items.TagEnum;
 import stonering.enums.materials.MaterialMap;
 
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import java.util.List;
 public class Ingredient {
     // properties of ingredient
     public final List<String> itemTypes;   // acceptable item types
-    public final String tag;               // acceptable item tags
+    public final TagEnum tag;               // acceptable item tags
     private int quantity;                  // quantity
     //TODO add weight to ingredients consumed as matter
 
@@ -21,7 +22,7 @@ public class Ingredient {
 
     public Ingredient(List<String> itemTypes, String tag) {
         this.itemTypes = itemTypes;
-        this.tag = tag;
+        this.tag = TagEnum.get(tag);
         possibleMaterials = new ArrayList<>(MaterialMap.instance().getMaterialNamesByTag(tag));
         possibleMaterials.add(0, "any " + tag);
     }

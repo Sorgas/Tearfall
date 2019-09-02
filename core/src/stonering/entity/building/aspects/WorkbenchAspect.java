@@ -11,7 +11,7 @@ import stonering.enums.items.recipe.Recipe;
 import stonering.enums.items.recipe.RecipeMap;
 import stonering.game.GameMvc;
 import stonering.game.model.lists.tasks.TaskContainer;
-import stonering.game.view.render.stages.workbench.oldmenu.WorkbenchMenuq;
+import stonering.game.view.render.stages.workbench.WorkbenchMenu;
 import stonering.util.global.Logger;
 
 import java.util.ArrayList;
@@ -21,15 +21,15 @@ import java.util.List;
 import static stonering.enums.TaskStatusEnum.*;
 
 /**
- * Aspect for workbenches. Manages orders of workbench.
- * Orders for workbench are stored in cycled list.
- * Orders are configured via {@link WorkbenchMenuq}.
- * When order becomes first in the list, {@link Task} is created.
+ * Aspect for workbenches. Manages (crafting) orders of workbench.
+ * Orders for workbench are stored in cycled list. When order becomes first in the list, {@link Task} is created and passed to {@link TaskContainer}.
  * Order status id updated when task changes status.
+ * <p>
  * After creation, order can be cancelled, suspended, moved in the list, set for repeating.
- * Only first order is executed. After executing, order is removed from the list, or moved to the bottom, if it is repeated.
+ * After executing, order is removed from the list, or moved to the bottom, if it is repeated.
  * If execution is not possible, order is suspended or cancelled (TODO add config for this).
  * Suspended entries are skipped.
+ * Orders are configured via {@link WorkbenchMenu}.
  * <p>
  * Fail on execution generates general warning for player.
  *
@@ -57,8 +57,7 @@ public class WorkbenchAspect extends Aspect {
         if (entries.isEmpty() || !hasActiveOrders) return;
         OrderTaskEntry entry = entries.getFirst();
         switch (entry.order.getStatus()) {
-            case OPEN: {
-                // newly added order with no task.
+            case OPEN: { // newly added order with no task.
                 if (entry.task == null) createTaskForOrder(entry);
                 break;
             }

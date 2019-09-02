@@ -16,8 +16,8 @@ import stonering.util.global.Logger;
 import stonering.util.global.StaticSkin;
 
 /**
- * Table for displaying detailed information about {@link ItemOrder}.
- * Order can be configured from this section.
+ * This section of menu shows details of selected menu element.
+ * {@link ItemOrder} can be configured from this section.
  *
  * @author Alexander on 14.08.2019.
  */
@@ -40,7 +40,7 @@ public class OrderDetailsSection extends Table {
         group.align(Align.topLeft).columnAlign(Align.left);
         group.addActor(itemName = new Label("", StaticSkin.getSkin()));
         group.addActor(itemDescription = new Label("", StaticSkin.getSkin()));
-        add(group);
+        add(group).row();
         add(itemParts = new VerticalGroup());
     }
 
@@ -74,6 +74,7 @@ public class OrderDetailsSection extends Table {
         for (String key : order.parts.keySet()) { // rows for parts
             itemParts.addActor(new ItemPartRow(order.parts.get(key), order.parts.keySet().size() > 1 ? key : null, this));
         }
+        itemParts.addActor(new Label("Consumed:", StaticSkin.getSkin()));
         for (IngredientOrder ingredientOrder : order.consumed) { // rows for consumed items
             itemParts.addActor(new ItemPartRow(ingredientOrder, null, this));
         }

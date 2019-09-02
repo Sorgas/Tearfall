@@ -1,9 +1,11 @@
+
 package stonering.generators.items;
 
 import com.sun.xml.internal.ws.util.StringUtils;
 import stonering.entity.Aspect;
 import stonering.entity.crafting.ItemOrder;
 import stonering.entity.item.aspects.SeedAspect;
+import stonering.enums.items.TagEnum;
 import stonering.enums.items.type.ItemPartType;
 import stonering.entity.item.aspects.FallingAspect;
 import stonering.enums.items.type.ItemType;
@@ -44,7 +46,9 @@ public class ItemGenerator {
         Item item = new Item(null, type);
         Material material = MaterialMap.instance().getMaterial(materialId);
         item.setMaterial(materialId);
-        item.tags.addAll(material.getTags());
+        for (String tag : material.getTags()) {
+            item.tags.add(TagEnum.get(tag));
+        }
         generateItemAspects(item);
         return item;
     }
