@@ -20,7 +20,7 @@ public class MaterialSelectBox extends OrderLineSelectBox {
 
     @Override
     protected void handleSelection() {
-        ingredientOrder.setSelectedMaterial(getSelected());
+//        ingredientOrder.setSelectedMaterial(getSelected());
         super.handleSelection();
     }
 }

@@ -1,5 +1,6 @@
 package stonering.entity.building.aspects;
 
+import stonering.entity.PositionedEntity;
 import stonering.entity.building.Building;
 import stonering.entity.job.Task;
 import stonering.entity.job.action.CraftItemAction;
@@ -176,7 +177,7 @@ public class WorkbenchAspect extends Aspect {
      */
     private void createTaskForOrder(OrderTaskEntry entry) {
         Logger.BUILDING.logDebug("Creating task for order " + entry.order.recipe.name);
-        CraftItemAction action = new CraftItemAction(entry.order, entity);
+        CraftItemAction action = new CraftItemAction(entry.order, (PositionedEntity) entity);
         entry.task = new Task(entry.order.recipe.name, TaskTypesEnum.CRAFTING, action, 1);
         GameMvc.instance().getModel().get(TaskContainer.class).addTask(entry.task);
     }

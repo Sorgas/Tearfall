@@ -2,6 +2,7 @@ package stonering.entity.crafting;
 
 import stonering.entity.item.Item;
 import stonering.entity.item.selectors.AnyMaterialTagItemSelector;
+import stonering.entity.item.selectors.IngredientOrderItemSelector;
 import stonering.entity.item.selectors.ItemSelector;
 import stonering.enums.items.recipe.Ingredient;
 import stonering.enums.materials.MaterialMap;
@@ -9,14 +10,12 @@ import stonering.game.GameMvc;
 import stonering.game.model.lists.ItemContainer;
 import stonering.util.global.Triple;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
  * Part of {@link ItemOrder}.
- * Tag and item type taken from recipe. Material and origin are set to any on creation and then can be changed by player.
+ * Tag and item type taken from recipe. Material and origin are set to any on creation and then can be changed by player. //TODO
  *
  * On creation, all items are observed, combined by material and type, and added to dropdown.
  *
@@ -26,21 +25,16 @@ import java.util.Map;
 public class IngredientOrder {
     public final ItemOrder order;
     public final Ingredient ingredient;
+    public final ItemSelector itemSelector;
 
-    public final List<String> itemTypes;
-    private ItemSelector itemSelector;
-    private String selectedMaterial;
-    private String selectedOrigin;
-    private String selectedItemType;
 
     public final Map<Triple<String, String, String>, Integer> options; // items, grouped by origin, material, type, to their quantity
 
     public IngredientOrder(ItemOrder order, Ingredient ingredient) {
         this.order = order;
         this.ingredient = ingredient;
-        selectedMaterial = "any " + ingredient.tag;
-        itemTypes = new ArrayList<>(ingredient.itemTypes);
         options = new HashMap<>();
+        itemSelector = new IngredientOrderItemSelector(this);
     }
 
     /**
@@ -55,26 +49,4 @@ public class IngredientOrder {
             options.put(cacheTriple, options.getOrDefault(cacheTriple, 0));
         }
     }
-
-    /**
-     * Updates item selector for this item part selector.
-     */
-    public void refreshSelector() {
-        if(selectedMaterial.startsWith("any ")) {
-            itemSelector = new AnyMaterialTagItemSelector(selectedItemType, ingredient.tag);
-        }
-    }
-
-    public String getSelectedMaterial() {
-        return selectedMaterial;
-    }
-
-    public void setSelectedMaterial(String selectedMaterial) {
-        this.selectedMaterial = selectedMaterial;
-    }
-
-    public ItemSelector getItemSelector() {
-        return itemSelector;
-    }
-
 }

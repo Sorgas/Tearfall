@@ -14,6 +14,7 @@ import stonering.enums.materials.Material;
 import stonering.enums.materials.MaterialMap;
 import stonering.generators.aspect.AspectGenerator;
 import stonering.entity.item.Item;
+import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
 
 import java.util.*;
@@ -69,12 +70,11 @@ public class ItemGenerator {
 
     /**
      * Generates item by {@link ItemOrder} formed in workbench.
+     * TODO fetch item part orders and create corresponding item parts
      */
-    public Item generateItemByOrder(ItemOrder order) {
-        // mvp, no parts
-        Logger.ITEMS.logWarn("Generating mock item");
-        //TODO fetch item part orders and create corresponding item parts
-        return new Item(null, ItemTypeMap.getInstance().getItemType("sickle"));
+    public Item generateItemByOrder(Position position, ItemOrder order) {
+        Logger.ITEMS.logWarn("Generating creafted item " + order.recipe.itemName + " for " + order.recipe.title);
+        return new Item(position, ItemTypeMap.getInstance().getItemType("sickle"));
     }
 
     /**

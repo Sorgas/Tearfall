@@ -1,5 +1,6 @@
 package stonering.entity.job.action;
 
+import stonering.entity.PositionedEntity;
 import stonering.entity.crafting.IngredientOrder;
 import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.job.action.target.EntityActionTarget;
@@ -25,11 +26,11 @@ import java.util.List;
  */
 public class CraftItemAction extends Action {
     private ItemOrder itemOrder;
-    private Entity workbench;
+    private PositionedEntity workbench;
     private List<Item> desiredItems; // these item should be in WB.
     private Item tool; //TODO
 
-    public CraftItemAction(ItemOrder itemOrder, Entity workbench) {
+    public CraftItemAction(ItemOrder itemOrder, PositionedEntity workbench) {
         super(new EntityActionTarget(workbench, ActionTarget.EXACT));
         desiredItems = new ArrayList<>();
         this.itemOrder = itemOrder;
@@ -38,14 +39,14 @@ public class CraftItemAction extends Action {
 
     @Override
     protected void performLogic() {
-        Item product = new ItemGenerator().generateItemByOrder(itemOrder);
+        Item product = new ItemGenerator().generateItemByOrder(workbench.position, itemOrder);
         ItemContainerAspect workbenchContainer = workbench.getAspect(ItemContainerAspect.class);
         workbenchContainer.getItems().removeAll(desiredItems); // spend components
         workbenchContainer.getItems().add(product); // add product
     }
 
     /**
-     * Checks that name conditions are met. Creates sub name otherwise.
+     * Checks that action conditions are met. Creates sub action otherwise.
      */
     @Override
     public int check() {
@@ -58,7 +59,7 @@ public class CraftItemAction extends Action {
         if (!containerAspect.getItems().containsAll(desiredItems)) { // some item are out of WB.
             List<Item> outOfWBItems = new ArrayList<>(desiredItems);
             outOfWBItems.removeAll(containerAspect.getItems());
-            task.addFirstPreAction(new ItemPutAction(outOfWBItems.get(0), workbench)); // create name to bring item
+            task.addFirstPreAction(new ItemPutAction(outOfWBItems.get(0), workbench)); // create action to bring item
             return NEW;
         }
         return OK;
@@ -85,7 +86,7 @@ public class CraftItemAction extends Action {
         List<IngredientOrder> ingredientOrders = new ArrayList<>(itemOrder.parts.values());
         ingredientOrders.addAll(itemOrder.consumed);
         for (IngredientOrder ingredientOrder : ingredientOrders) {
-            List<Item> foundItems = container.getItemsAvailableBySelector(ingredientOrder.getItemSelector(), workbench.getAspect(PositionAspect.class).position);
+            List<Item> foundItems = container.getItemsAvailableBySelector(ingredientOrder.itemSelector, workbench.getAspect(PositionAspect.class).position);
             foundItems.removeAll(desiredItems); // remove already added items
             if (foundItems.isEmpty()) { // no items found for ingredient
                 desiredItems.clear();
@@ -98,6 +99,6 @@ public class CraftItemAction extends Action {
 
     @Override
     public String toString() {
-        return "Crafting name: " + itemOrder.toString();
+        return "Crafting action: " + itemOrder.toString();
     }
 }

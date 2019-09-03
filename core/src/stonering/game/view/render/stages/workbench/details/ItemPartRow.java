@@ -33,10 +33,10 @@ public class ItemPartRow extends Table {
 
     private String getDescriptionText() {
         String text = "any " + (ingredientOrder.ingredient.tag.isDisplayable() ? ingredientOrder.ingredient.tag.toString().toLowerCase() : "");
-        if(ingredientOrder.itemTypes.contains("any")) {
-            return text + (ingredientOrder.ingredient.tag != TagEnum.WATER ? " item" : "");
+        if(ingredientOrder.ingredient.itemTypes.contains("any")) {
+            return text + (ingredientOrder.ingredient.tag != TagEnum.WATER ? " item" : ""); // TODO move condition to TagEnum
         } else {
-            return text + " " + enumerateList(ingredientOrder.itemTypes, ", ", " or ");
+            return text + " " + enumerateList(ingredientOrder.ingredient.itemTypes, ", ", " or ");
         }
     }
 

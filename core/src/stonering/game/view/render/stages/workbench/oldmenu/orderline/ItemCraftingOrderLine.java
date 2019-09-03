@@ -69,7 +69,7 @@ public class ItemCraftingOrderLine extends OrderLine implements Highlightable {
     }
 
     private void addPartSelection(IngredientOrder ingredientOrder) {
-        ingredientOrder.refreshSelector();
+//        ingredientOrder.refreshSelector();
         ItemPartSelection selection = new ItemPartSelection(ingredientOrder, this);
         leftHG.addActor(selection);
         selections.add(selection);
