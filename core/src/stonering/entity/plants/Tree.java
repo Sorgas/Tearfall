@@ -33,7 +33,7 @@ public class Tree extends AbstractPlant {
     }
 
     public void setPosition(Position position) {
-        super.setPosition(position);
+        super.position.set(position);
     }
 
     public PlantBlock getBlock(Position position) {
@@ -47,6 +47,6 @@ public class Tree extends AbstractPlant {
     public Position getArrayStartPosition() {
         List<Integer> treeForm = getCurrentStage().treeForm;
         int radius = treeForm.get(0);
-        return Position.sub(getPosition(), radius, radius, treeForm.get(2));
+        return Position.sub(position, radius, radius, treeForm.get(2));
     }
 }

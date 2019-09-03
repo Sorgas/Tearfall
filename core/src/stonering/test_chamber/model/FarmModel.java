@@ -26,8 +26,7 @@ public class FarmModel extends TestModel {
     }
 
     private Unit createUnit() {
-        Unit unit = new CreatureGenerator().generateUnit("human");
-        unit.setPosition(new Position(3, 3, 2));
+        Unit unit = new CreatureGenerator().generateUnit(new Position(3,3,2),"human");
         return unit;
     }
 

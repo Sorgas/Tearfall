@@ -2,10 +2,10 @@ package stonering.entity.item;
 
 import stonering.entity.Aspect;
 import stonering.entity.PositionAspect;
+import stonering.entity.PositionedEntity;
 import stonering.enums.items.TagEnum;
 import stonering.enums.items.type.ItemType;
 import stonering.util.geometry.Position;
-import stonering.entity.Entity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +18,7 @@ import java.util.List;
  *
  * @author Alexander Kuzyakov on 09.12.2017.
  */
-public class Item extends Entity {
+public class Item extends PositionedEntity {
     private String name;
     private String title; // title combined of origin, material, and type
     private String conditionPostfix; // put after title in a brackets. shows item's condition, like raw, spoiled, rusty

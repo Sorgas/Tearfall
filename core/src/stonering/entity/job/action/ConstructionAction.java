@@ -18,6 +18,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import static stonering.entity.job.action.target.ActionTarget.ANY;
+import static stonering.entity.job.action.target.ActionTarget.NEAR;
+import static stonering.enums.blocks.BlockTypesEnum.NOT_PASSABLE;
+
 /**
  * Action for creating constructions on map.
  * Creates name for bringing materials to construction site.
@@ -30,7 +34,7 @@ public class ConstructionAction extends Action {
     private List<ItemSelector> itemSelectors;
 
     public ConstructionAction(BuildingDesignation designation, Collection<ItemSelector> itemSelectors) {
-        super(new PositionActionTarget(designation.getPosition(), BlockTypesEnum.getType(designation.getBuilding()).PASSING != 0, true));
+        super(new PositionActionTarget(designation.getPosition(), BlockTypesEnum.getType(designation.getBuilding()).PASSING == NOT_PASSABLE ? NEAR : ANY));
         this.itemSelectors = new ArrayList<>(itemSelectors);
         blockType = BlockTypesEnum.getType(designation.getBuilding()).CODE;
         actionTarget.setAction(this);

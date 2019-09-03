@@ -20,15 +20,6 @@ public abstract class Entity extends IntervalTurnable implements Serializable, I
         aspects = new HashMap<>();
     }
 
-    public Entity(Position position) {
-        this();
-        createPositionAspect(position);
-    }
-
-    private void createPositionAspect(Position position) {
-        addAspect(new PositionAspect(this, position));
-    }
-
     public <T extends Aspect> boolean hasAspect(Class<T> type) {
         return aspects.containsKey(type);
     }
@@ -52,9 +43,6 @@ public abstract class Entity extends IntervalTurnable implements Serializable, I
         aspects.values().forEach(aspect -> aspect.turnInterval(unit));
     }
 
-    /**
-     * Inits aspects of building.
-     */
     @Override
     public void init() {
         for (Aspect aspect : aspects.values()) {

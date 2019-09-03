@@ -1,5 +1,6 @@
 package stonering.entity.job.action;
 
+import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.job.designation.OrderDesignation;
 import stonering.entity.job.action.target.PositionActionTarget;
 import stonering.entity.item.Item;
@@ -25,7 +26,7 @@ public class DigAction extends Action {
     private ItemSelector toolItemSelector;
 
     public DigAction(OrderDesignation designation) {
-        super(new PositionActionTarget(designation.getPosition(), false, true));
+        super(new PositionActionTarget(designation.getPosition(), ActionTarget.NEAR));
         type = designation.getType();
         toolItemSelector = new ToolWithActionItemSelector("dig");
     }
@@ -40,7 +41,7 @@ public class DigAction extends Action {
     }
 
     private int addEquipAction() {
-        Item target = GameMvc.instance().getModel().get(ItemContainer.class).getItemAvailableBySelector(toolItemSelector, task.getPerformer().getPosition());
+        Item target = GameMvc.instance().getModel().get(ItemContainer.class).getItemAvailableBySelector(toolItemSelector, task.getPerformer().position);
         if (target == null) return FAIL;
         task.addFirstPreAction(new EquipItemAction(target, true));
         return NEW;

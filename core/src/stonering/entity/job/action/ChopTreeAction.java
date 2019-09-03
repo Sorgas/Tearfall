@@ -1,5 +1,6 @@
 package stonering.entity.job.action;
 
+import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.job.designation.Designation;
 import stonering.entity.job.action.target.PositionActionTarget;
 import stonering.entity.item.Item;
@@ -20,7 +21,7 @@ public class ChopTreeAction extends Action {
     private ItemSelector toolItemSelector;
 
     public ChopTreeAction(Designation designation) {
-        super(new PositionActionTarget(designation.getPosition(), false, true));
+        super(new PositionActionTarget(designation.getPosition(), ActionTarget.NEAR));
         toolItemSelector = new ToolWithActionItemSelector("chop");
     }
 
@@ -40,7 +41,7 @@ public class ChopTreeAction extends Action {
         if (toolItemSelector.checkItems(aspect.getEquippedItems())) return OK;
 
         Logger.TASKS.logDebug("No tool equipped by performer for chopTreeAction");
-        Item target = model.get(ItemContainer.class).getItemAvailableBySelector(toolItemSelector, task.getPerformer().getPosition());
+        Item target = model.get(ItemContainer.class).getItemAvailableBySelector(toolItemSelector, task.getPerformer().position);
         if (target == null) {
             Logger.TASKS.logDebug("No tool item found for chopTreeAction");
             return FAIL;

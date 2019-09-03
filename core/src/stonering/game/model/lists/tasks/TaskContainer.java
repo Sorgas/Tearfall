@@ -58,7 +58,7 @@ public class TaskContainer implements ModelComponent {
             Logger.TASKS.logError("Creature without jobs aspect gets task from container");
             return null;
         }
-        Position position = unit.getPosition();
+        final Position position = unit.position;
         Logger.TASKS.logDebug("Getting task for unit " + unit);
         for (String enabledJob : aspect.getEnabledJobs()) {
             if (!tasks.containsKey(enabledJob)) continue;

@@ -40,9 +40,7 @@ public class DiggingModel extends TestModel {
     }
 
     private Unit createUnit() {
-        Unit unit = new CreatureGenerator().generateUnit("human");
-        unit.setPosition(new Position(3, 3, 10));
-        return unit;
+        return new CreatureGenerator().generateUnit(new Position(3, 3, 10), "human");
     }
 
     private Item createHoe() {

@@ -47,20 +47,20 @@ public class UnitContainer extends EntityContainer<Unit> implements Initable {
      */
     public void updateUnitPosiiton(Unit unit, Position position) {
         removeUnitFromMap(unit);
-        unit.setPosition(position);
+        unit.position.set(position);
         addUnitToMap(unit);
     }
 
     private void addUnitToMap(Unit unit) {
-        Position position = unit.getPosition();
+        Position position = unit.position;
         if (!unitsMap.containsKey(position)) unitsMap.put(position, new ArrayList<>());
         unitsMap.get(position).add(unit);
     }
 
     private void removeUnitFromMap(Unit unit) {
-        List<Unit> unitsInOldPosition = unitsMap.get(unit.getPosition());
+        List<Unit> unitsInOldPosition = unitsMap.get(unit.position);
         unitsInOldPosition.remove(unit);
-        if (unitsInOldPosition.isEmpty()) unitsMap.remove(unit.getPosition());
+        if (unitsInOldPosition.isEmpty()) unitsMap.remove(unit.position);
     }
 
     /**

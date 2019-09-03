@@ -8,8 +8,8 @@ import stonering.util.geometry.Position;
 public class PositionActionTarget extends ActionTarget {
     private Position targetPosition;
 
-    public PositionActionTarget(Position targetPosition, boolean exactTarget, boolean nearTarget) {
-        super(exactTarget, nearTarget);
+    public PositionActionTarget(Position targetPosition, int targetPlacing) {
+        super(targetPlacing);
         this.targetPosition = targetPosition;
     }
 

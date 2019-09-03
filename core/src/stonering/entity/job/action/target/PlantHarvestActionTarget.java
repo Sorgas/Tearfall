@@ -18,7 +18,7 @@ public class PlantHarvestActionTarget extends PlantActionTarget {
     @Override
     public Position getPosition() {
         if (plant instanceof Plant) {
-            return plant.getPosition();
+            return plant.position;
         } else {
             return findUnharvestedPlantPart();
         }
@@ -26,6 +26,6 @@ public class PlantHarvestActionTarget extends PlantActionTarget {
 
     private Position findUnharvestedPlantPart() {
         //TODO implement position fetching
-        return plant.getPosition();
+        return plant.position;
     }
 }

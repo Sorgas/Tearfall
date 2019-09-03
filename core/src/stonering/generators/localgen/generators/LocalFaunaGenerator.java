@@ -23,9 +23,8 @@ public class LocalFaunaGenerator extends LocalAbstractGenerator {
 
     public void execute() {
         localMap = container.model.get(LocalMap.class);
-        Unit unit = creatureGenerator.generateUnit("human");
+        Unit unit = creatureGenerator.generateUnit(selectPosition(), "human");
         if (unit != null) {
-            unit.setPosition(selectPosition());
             container.model.get(UnitContainer.class).addUnit(unit);
         }
     }

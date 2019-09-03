@@ -6,6 +6,7 @@ import stonering.entity.Aspect;
 import stonering.entity.Entity;
 import stonering.entity.PositionAspect;
 import stonering.entity.job.action.PlantingAction;
+import stonering.entity.job.action.target.ActionTarget;
 import stonering.game.GameMvc;
 import stonering.game.model.lists.tasks.TaskContainer;
 import stonering.util.geometry.Position;
@@ -137,6 +138,6 @@ public class PlanningAspect extends Aspect {
     }
 
     public boolean isTargetExact() {
-        return action.getActionTarget().isExactTarget();
+        return action.getActionTarget().getTargetPlacement() != ActionTarget.NEAR;
     }
 }

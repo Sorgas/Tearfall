@@ -23,7 +23,6 @@ public abstract class Zone extends Entity implements Cloneable {
     }
 
     public Zone(String name, Set<Position> tiles) {
-        super(null);
         this.name = name;
         this.tiles = tiles;
     }

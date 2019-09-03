@@ -1,21 +1,18 @@
 package stonering.entity;
 
 import stonering.util.geometry.Position;
+import stonering.util.global.Logger;
 
 /**
- * Aspect for entities that have position in {@link stonering.game.model.local_map.LocalMap}
- *
- * @author Alexander_Kuzyakov on 13.06.2019.
+ * Stores {@link Entity}'s position;
+ * @author Alexander on 03.09.2019.
  */
 public class PositionAspect extends Aspect {
     public Position position;
 
-    public PositionAspect(Entity entity) {
-        super(entity);
-    }
-
     public PositionAspect(Entity entity, Position position) {
-        this(entity);
+        super(entity);
+        if(entity == null) Logger.GENERAL.logError("Creation of aspect with null entity.");
         this.position = position;
     }
 }

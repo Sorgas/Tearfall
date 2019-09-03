@@ -45,9 +45,7 @@ public class SingleTreeModel extends TestModel {
     }
 
     private Unit createUnit() {
-        Unit unit =  new CreatureGenerator().generateUnit("human");
-        unit.setPosition(new Position(2,2,2));
-        return unit;
+        return new CreatureGenerator().generateUnit(new Position(2,2,2), "human");
     }
 
     private Item createItem() {

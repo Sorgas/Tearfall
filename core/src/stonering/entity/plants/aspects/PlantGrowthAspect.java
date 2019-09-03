@@ -57,7 +57,7 @@ public class PlantGrowthAspect extends Aspect {
             plantContainer.removePlantBlocks(tree, false);
             TreeGenerator treeGenerator = new TreeGenerator();
             treeGenerator.applyTreeGrowth(tree);
-            plantContainer.place(tree, tree.getPosition());
+            plantContainer.place(tree, tree.position);
         } else if (entity instanceof Plant) {
             Plant plant = (Plant) entity;
             Position oldPosition = plant.getPosition();

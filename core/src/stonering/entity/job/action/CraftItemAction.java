@@ -1,7 +1,8 @@
 package stonering.entity.job.action;
 
 import stonering.entity.crafting.IngredientOrder;
-import stonering.entity.job.action.target.AspectHolderActionTarget;
+import stonering.entity.job.action.target.ActionTarget;
+import stonering.entity.job.action.target.EntityActionTarget;
 import stonering.entity.Entity;
 import stonering.entity.PositionAspect;
 import stonering.entity.building.aspects.WorkbenchAspect;
@@ -29,7 +30,7 @@ public class CraftItemAction extends Action {
     private Item tool; //TODO
 
     public CraftItemAction(ItemOrder itemOrder, Entity workbench) {
-        super(new AspectHolderActionTarget(workbench, true, false));
+        super(new EntityActionTarget(workbench, ActionTarget.EXACT));
         desiredItems = new ArrayList<>();
         this.itemOrder = itemOrder;
         this.workbench = workbench;

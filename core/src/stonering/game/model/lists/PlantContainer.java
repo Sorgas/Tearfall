@@ -189,7 +189,7 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
      */
     public void fellTree(Tree tree, OrientationEnum orientation) {
         if (orientation == OrientationEnum.N) {
-            Position treePosition = tree.getPosition();
+            Position treePosition = tree.position;
             int stompZ = tree.getCurrentStage().treeForm.get(2);
             PlantBlock[][][] treeParts = tree.getBlocks();
             for (int x = 0; x < treeParts.length; x++) {

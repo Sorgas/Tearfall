@@ -7,13 +7,13 @@ public class PlantActionTarget extends ActionTarget {
     protected AbstractPlant plant;
 
     public PlantActionTarget(AbstractPlant plant) {
-        super(true, true);
+        super(ActionTarget.ANY);
         this.plant = plant;
     }
 
     @Override
     public Position getPosition() {
-        return plant.getPosition();
+        return plant.position;
     }
 
     public AbstractPlant getPlant() {

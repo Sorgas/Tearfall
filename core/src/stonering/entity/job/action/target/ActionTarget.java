@@ -19,6 +19,7 @@ public abstract class ActionTarget {
     public static final int EXACT = 0;
     public static final int NEAR = 1;
     public static final int ANY = 2;
+    public static final int FAR = 3; // used for checking position
     private int targetPlacement;
 
     protected GameMvc gameMvc;
@@ -56,14 +57,20 @@ public abstract class ActionTarget {
      * Checks if task performer has reached task target.
      */
     public int check(Position currentPosition) {
-        switch(targetPlacement) {
-            case(EXACT) :
-                return currentPosition.equals(getPosition()) ? READY : WAIT;
-            case(NEAR) :
-                if(currentPosition.equals(getPosition())) return createActionToStepOff(currentPosition);
-                return currentPosition.isNeighbour(getPosition()) ? READY : WAIT;
-        }
-        return currentPosition.equals(getPosition()) || currentPosition.isNeighbour(getPosition()) ? READY : WAIT;
+        int distance = getDistance(currentPosition);
+        if (distance == FAR) return WAIT;
+        if (distance == targetPlacement) return READY;
+        if (targetPlacement == ANY) return distance < ANY ? READY : WAIT;
+        if (targetPlacement == NEAR && distance < NEAR) return createActionToStepOff(currentPosition);
+        Logger.PATH.logError("checking action target with " + targetPlacement + " and " + currentPosition + " to " + getPosition() + " failed.");
+        return FAIL;
+    }
+
+    private int getDistance(Position currentPosition) {
+        Position targetPosition = getPosition();
+        if (currentPosition.equals(targetPosition)) return EXACT;
+        if (currentPosition.isNeighbour(targetPosition)) return NEAR;
+        return FAR;
     }
 
     public Action getAction() {
@@ -72,5 +79,9 @@ public abstract class ActionTarget {
 
     public void setAction(Action action) {
         this.action = action;
+    }
+
+    public int getTargetPlacement() {
+        return targetPlacement;
     }
 }

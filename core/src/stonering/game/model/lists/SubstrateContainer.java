@@ -46,9 +46,9 @@ public class SubstrateContainer extends IntervalTurnable implements Initable, Mo
      */
     public void remove(AbstractPlant plant) {
         if (plant == null) return;
-        if (!substrateBlocks.containsKey(plant.getPosition())) return;
+        if (!substrateBlocks.containsKey(plant.position)) return;
         substratePlants.removeValue((SubstratePlant) plant, true);
-        substrateBlocks.remove(plant.getPosition());
+        substrateBlocks.remove(plant.position);
     }
 
     /**

@@ -7,11 +7,11 @@ import stonering.util.geometry.Position;
 /**
  * Targets to some {@link Entity}. Can be used with any single-tiled entities.
  */
-public class AspectHolderActionTarget extends ActionTarget {
-    private Entity entity;
+public class EntityActionTarget extends ActionTarget {
+    protected Entity entity;
 
-    public AspectHolderActionTarget(Entity entity, boolean exactTarget, boolean nearTarget) {
-        super(exactTarget, nearTarget);
+    public EntityActionTarget(Entity entity, int targetPlacement) {
+        super(targetPlacement);
         this.entity = entity;
     }
 

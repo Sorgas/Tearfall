@@ -7,6 +7,7 @@ import stonering.generators.creatures.needs.NeedAspectGenerator;
 import stonering.entity.unit.aspects.MovementAspect;
 import stonering.entity.unit.aspects.PlanningAspect;
 import stonering.entity.unit.Unit;
+import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
 
 /**
@@ -30,11 +31,11 @@ public class CreatureGenerator {
     /**
      * Generates unit and fills it's aspects.
      */
-    public Unit generateUnit(String specimen) {
+    public Unit generateUnit(Position position, String specimen) {
         Logger.GENERATION.log("generating unit " + specimen);
         CreatureType type = CreatureTypeMap.instance().getCreatureType(specimen);
         if (type == null) return null;
-        Unit unit = new Unit(type);
+        Unit unit = new Unit(position.clone(), type);
         addMandatoryAspects(unit);
         addOptionalAspects(unit);
         return unit;

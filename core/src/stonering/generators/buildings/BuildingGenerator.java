@@ -54,7 +54,7 @@ public class BuildingGenerator {
     }
 
     private void initBlocks(Building building, BuildingType type) {
-        building.getBlock().setPosition(building.getPosition());
+        building.getBlock().setPosition(building.position);
         building.getBlock().setPassage("wall");
     }
 }
