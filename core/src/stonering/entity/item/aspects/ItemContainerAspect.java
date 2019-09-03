@@ -9,33 +9,29 @@ import java.util.List;
 
 /**
  * Entities with this aspect can hold item.
+ * Different containers can hold different types of items (liquids, grains).
+ * Liquids and grains cannot be mixed with other types (wine and milk).
+ *
+ * @author Alexander_Kuzyakov
  */
 public class ItemContainerAspect extends Aspect {
     public static final String NAME = "item_container";
-    private String itemType; //TODO move to enum
-    private int volume;
-    private List<Item> items;
+    public static final String SOLID = "solid";
+    public static final String LIQUID = "liquid"; // items with liquid aspect
+    public static final String GRAIN = "grain"; // items with grain aspect
+    public final List<String> itemTypes; // any combinaiton of above constants
+    public final List<Item> items;
+    private int volume; // total items volume
 
-    public ItemContainerAspect(Entity entity) {
+    public ItemContainerAspect(Entity entity, List<String> types) {
         super(entity);
         items = new ArrayList<>();
+        itemTypes = new ArrayList<>();
     }
 
     @Override
     public void turn() {
         items.forEach(Entity::turn);
-    }
-
-    public List<Item> getItems() {
-        return items;
-    }
-
-    public String getItemType() {
-        return itemType;
-    }
-
-    public void setItemType(String itemType) {
-        this.itemType = itemType;
     }
 
     public int getVolume() {

@@ -10,9 +10,12 @@ import stonering.entity.building.aspects.WorkbenchAspect;
 import stonering.entity.crafting.ItemOrder;
 import stonering.entity.item.Item;
 import stonering.entity.item.aspects.ItemContainerAspect;
+import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.lists.ItemContainer;
+import stonering.game.model.local_map.LocalMap;
 import stonering.generators.items.ItemGenerator;
+import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
 
 import java.util.ArrayList;
@@ -39,10 +42,11 @@ public class CraftItemAction extends Action {
 
     @Override
     protected void performLogic() {
-        Item product = new ItemGenerator().generateItemByOrder(workbench.position, itemOrder);
+        Position targetPosition = GameMvc.instance().getModel().get(LocalMap.class).getAnyNeighbourPosition(workbench.position, BlockTypesEnum.PASSABLE);
+        Item product = new ItemGenerator().generateItemByOrder(targetPosition, itemOrder);
         ItemContainerAspect workbenchContainer = workbench.getAspect(ItemContainerAspect.class);
-        workbenchContainer.getItems().removeAll(desiredItems); // spend components
-        workbenchContainer.getItems().add(product); // add product
+        workbenchContainer.items.removeAll(desiredItems); // spend components
+        GameMvc.instance().getModel().get(ItemContainer.class).addItem(product);
     }
 
     /**
@@ -56,9 +60,9 @@ public class CraftItemAction extends Action {
             return FAIL;
         }
         if (!updateDesiredItems()) return FAIL; // desiredItems valid after this
-        if (!containerAspect.getItems().containsAll(desiredItems)) { // some item are out of WB.
+        if (!containerAspect.items.containsAll(desiredItems)) { // some item are out of WB.
             List<Item> outOfWBItems = new ArrayList<>(desiredItems);
-            outOfWBItems.removeAll(containerAspect.getItems());
+            outOfWBItems.removeAll(containerAspect.items);
             task.addFirstPreAction(new ItemPutAction(outOfWBItems.get(0), workbench)); // create action to bring item
             return NEW;
         }

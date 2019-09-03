@@ -4,15 +4,14 @@ package stonering.generators.items;
 import com.sun.xml.internal.ws.util.StringUtils;
 import stonering.entity.Aspect;
 import stonering.entity.crafting.ItemOrder;
+import stonering.entity.item.aspects.ItemContainerAspect;
 import stonering.entity.item.aspects.SeedAspect;
 import stonering.enums.items.TagEnum;
-import stonering.enums.items.type.ItemPartType;
 import stonering.entity.item.aspects.FallingAspect;
 import stonering.enums.items.type.ItemType;
 import stonering.enums.items.type.ItemTypeMap;
 import stonering.enums.materials.Material;
 import stonering.enums.materials.MaterialMap;
-import stonering.generators.aspect.AspectGenerator;
 import stonering.entity.item.Item;
 import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
@@ -28,7 +27,7 @@ import java.util.*;
  */
 public class ItemGenerator {
     private ItemTypeMap itemTypeMap;
-    private transient MaterialMap materialMap;
+    private MaterialMap materialMap;
     private Map<String, List<String>> defaultAspects;
 
     public ItemGenerator() {
@@ -99,6 +98,9 @@ public class ItemGenerator {
                 return new FallingAspect(null);
             case SeedAspect.NAME:
                 return new SeedAspect(null, params.get(0));
+            case ItemContainerAspect
+                        .NAME :
+                return new ItemContainerAspect(null, params.get(0).split("/"));
             default:
                 return null;
         }
@@ -138,38 +140,7 @@ public class ItemGenerator {
 //    }
 
     /**
-     * Selects item crafting step by name.
-     *
-     * @param type
-     * @param title
-     * @return
-     */
-    private ItemPartType selectStep(ItemType type, String title) {
-        for (ItemPartType step : type.parts) {
-            if (step.getTitle().equals(title)) {
-                return step;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Creates item without parts.
-     *
-     * @param itemType
-     * @return
-     */
-    private Item createItem(ItemType itemType) {
-        Item item = new Item(null, itemType);
-        itemType.aspects.keySet().forEach(aspectName -> AspectGenerator.createAspect(aspectName, item).ifPresent(item::addAspect));
-        return item;
-    }
-
-    /**
      * Checks if all required steps from item type persist in the order.
-     *
-     * @param order
-     * @return
      */
     private boolean validateOrder(ItemOrder order) {
 //        for (ItemPartType step : order.getType().getParts()) {

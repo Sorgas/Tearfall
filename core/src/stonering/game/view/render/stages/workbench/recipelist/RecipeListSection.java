@@ -1,7 +1,6 @@
 package stonering.game.view.render.stages.workbench.recipelist;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -107,9 +106,6 @@ public class RecipeListSection extends NavigableVerticalGroup implements Highlig
 
             @Override
             public void handle(boolean value) {
-                if(value) {
-//                    menu.hintLabel.setText();+
-                }
                 menu.recipesHeader.setBackground(DrawableMap.instance().getDrawable("workbench_order_line" +
                         (value ? ":focused" : "")));
             }
