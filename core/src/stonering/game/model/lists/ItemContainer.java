@@ -3,6 +3,7 @@ package stonering.game.model.lists;
 import stonering.entity.Entity;
 import stonering.entity.crafting.CommonComponent;
 import stonering.entity.crafting.IngredientOrder;
+import stonering.entity.item.aspects.ItemContainerAspect;
 import stonering.enums.items.recipe.Ingredient;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.GameMvc;
@@ -24,11 +25,13 @@ import java.util.stream.Collectors;
  * @author Alexander Kuzyakov on 14.06.2017.
  */
 public class ItemContainer extends EntityContainer<Item> {
-    private HashMap<Position, ArrayList<Item>> itemMap;      // maps tiles position to list of item it that position
+    private Map<Position, ArrayList<Item>> itemMap;      // maps tiles position to list of item it that position.
+    private Map<Item, Entity> containedMap; // maps contained items to containers they are in.
 
     public ItemContainer() {
         super();
         itemMap = new HashMap<>();
+        containedMap = new HashMap<>();
     }
 
     /**
@@ -159,6 +162,16 @@ public class ItemContainer extends EntityContainer<Item> {
         return entities.stream().filter(item -> item.tags.contains(ingredient.tag)) // have tag
                 .filter(item -> ingredient.itemTypes.contains(item.getType().name)) // appropriate item type
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * Adds item to given container.
+     */
+    public void addItemToContainer(Item item, Entity container) {
+        if (container.hasAspect(ItemContainerAspect.class)) {
+            containedMap.containsKey(item)
+        }
+        Logger.ITEMS.logError("Trying to put item " + item + " into " + container);
     }
 
     /**
