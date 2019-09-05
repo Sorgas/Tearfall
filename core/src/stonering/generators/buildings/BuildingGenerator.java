@@ -1,6 +1,7 @@
 package stonering.generators.buildings;
 
 import stonering.entity.building.BuildingType;
+import stonering.entity.building.aspects.RestFurnitureAspect;
 import stonering.entity.building.aspects.WorkbenchAspect;
 import stonering.entity.item.aspects.ItemContainerAspect;
 import stonering.enums.buildings.BuildingTypeMap;
@@ -46,6 +47,10 @@ public class BuildingGenerator {
                         ItemContainerAspect itemContainerAspect = new ItemContainerAspect(building, aspect.get(1).split("/"));
                         itemContainerAspect.setVolume(Integer.parseInt(aspect.get(2)));
                         building.addAspect(itemContainerAspect);
+                        break;
+                    }
+                    case "rest_furniture": {
+                        building.addAspect(new RestFurnitureAspect(building));
                         break;
                     }
                 }

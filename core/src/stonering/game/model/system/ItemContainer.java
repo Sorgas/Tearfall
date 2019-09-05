@@ -118,12 +118,8 @@ public class ItemContainer extends EntityContainer<Item> {
                 collect(Collectors.toList());
     }
 
-    public List<Item> filterUnreachable(List<Item> items, Position fromPosition) {
-        UtilByteArray area = GameMvc.instance().getModel().get(LocalMap.class).getPassage().getArea();
-        return items.stream().
-                filter(item -> item.position != null).
-                filter(item -> area.getValue(item.position) == area.getValue(fromPosition)).
-                collect(Collectors.toList());
+    public List<Item> filterUnreachable(List<Item> items, Position target) {
+        return GameMvc.instance().getModel().get(LocalMap.class).getPassage().filterEntitiesByReachability(items, target);
     }
 
     public boolean hasItemsAvailableBySelector(ItemSelector itemSelector, Position position) {

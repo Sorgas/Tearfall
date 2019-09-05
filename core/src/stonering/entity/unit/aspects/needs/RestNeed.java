@@ -1,7 +1,14 @@
 package stonering.entity.unit.aspects.needs;
 
 import stonering.entity.Entity;
+import stonering.entity.building.Building;
+import stonering.entity.building.aspects.RestFurnitureAspect;
 import stonering.entity.job.Task;
+import stonering.game.GameMvc;
+import stonering.game.model.local_map.LocalMap;
+import stonering.game.model.system.BuildingContainer;
+
+import java.util.List;
 
 /**
  * Need for rest. Generates tasks for:
@@ -22,8 +29,13 @@ public class RestNeed extends Need {
         return 0;
     }
 
+    /**
+     * Returns null, if no bed available on medium exhaustion, Returns task to sleep on the floor on strong exhaustion.
+     */
     @Override
     public Task tryCreateTask(Entity entity) {
-        return null;
+        List<Building> buildings = GameMvc.instance().getModel().get(BuildingContainer.class).getBuildingWithAspect(RestFurnitureAspect.class);
+        buildings = GameMvc.instance().getModel().get(LocalMap.class).getPassage().filterEntitiesByReachability(buildings, entity.position);
+        if(buildings.isEmpty()) return null;
     }
 }

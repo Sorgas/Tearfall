@@ -1,5 +1,6 @@
 package stonering.game.model.system.units;
 
+import javafx.collections.transformation.SortedList;
 import stonering.entity.job.Task;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.NeedAspect;
@@ -7,6 +8,8 @@ import stonering.entity.unit.aspects.PlanningAspect;
 import stonering.entity.unit.aspects.needs.Need;
 import stonering.entity.unit.aspects.needs.NeedEnum;
 import stonering.util.global.Pair;
+
+import java.util.*;
 
 /**
  * System for generation needs satisfying tasks for units.
@@ -18,27 +21,31 @@ import stonering.util.global.Pair;
  */
 public class CreatureNeedSystem {
 
+    /**
+     * Fetches untolerated needs in the order of their priority, tries to create task fo satisfaction.
+     * First successfully created task is saved to aspect.
+     */
     public void updateNeedForCreature(Unit unit) {
         NeedAspect aspect = unit.getAspect(NeedAspect.class);
-        if(aspect == null) return;
-        Pair<Need, Integer> strongestNeed = getNeedWithMaxPriority(unit, aspect);
-        if(strongestNeed.getValue() < 0) aspect.satisfyingTask = null; // need can be tolerated.
-        aspect.satisfyingTask = strongestNeed.getKey().tryCreateTask(unit);
+        if(aspect == null || aspect.satisfyingTask != null) return; // creature has no needs, or already has a task for a need.
+        List<Pair<NeedEnum, Integer>> needs = getUntoleratedNeeds(unit, aspect);
+        if(needs.size() > 1) needs.sort(Comparator.comparingInt(Pair::getValue));
+        for (Pair<NeedEnum, Integer> need : needs) {
+            aspect.satisfyingTask = need.getKey().need.tryCreateTask(unit);
+            if(aspect.satisfyingTask != null) return;
+        }
     }
 
     /**
-     * Selects need with maximum priority,
+     * Collects creature needs that cannot be tolerated. Returns them ordered by priorities.
      */
-    private Pair<Need, Integer> getNeedWithMaxPriority(Unit unit, NeedAspect aspect) {
-        NeedEnum strongestNeed = null;
-        int maxPriority = 0;
-        int priority = 0;
+    private List<Pair<NeedEnum, Integer>> getUntoleratedNeeds(Unit unit, NeedAspect aspect) {
+        int priority;
+        List<Pair<NeedEnum, Integer>> list = new ArrayList<>();
         for (NeedEnum need : aspect.needs) {
-            if(strongestNeed == null || maxPriority < (priority = need.need.countPriority(unit))) {
-                strongestNeed = need;
-                maxPriority = priority;
-            }
+            if((priority = need.need.countPriority(unit)) < 0) continue; // skip tolerated need
+            list.add(new Pair<>(need, priority));
         }
-        return new Pair<>(strongestNeed.need, maxPriority);
+        return list;
     }
 }

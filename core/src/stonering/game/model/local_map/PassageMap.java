@@ -1,5 +1,7 @@
 package stonering.game.model.local_map;
 
+import stonering.entity.Entity;
+import stonering.entity.building.Building;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
@@ -20,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static stonering.enums.blocks.BlockTypesEnum.*;
 
@@ -275,6 +278,13 @@ public class PassageMap {
             return NOT_PASSABLE;
         //TODO add water depth checking, etc.
         return getType(localMap.getBlockType(position)).PASSING;
+    }
+
+    public <T extends Entity> List<T> filterEntitiesByReachability(List<T> entities, Position target) {
+        return entities.stream().
+                filter(entity -> entity.position != null).
+                filter(entity -> area.getValue(entity.position) == area.getValue(target)).
+                collect(Collectors.toList());
     }
 
     public byte getPassage(int x, int y, int z) {

@@ -48,7 +48,7 @@
         "building":"bed",
         "title":"Bed",
         "description":"Bed",
-        "aspects": [["furniture"]],
+        "aspects": [["furniture"], ["rest_furniture"]],
         "passage": "floor",
         "atlasXY":["0", "0"],
         "color":"0xffffffff"

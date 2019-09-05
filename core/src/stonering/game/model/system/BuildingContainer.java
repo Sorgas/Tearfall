@@ -1,10 +1,12 @@
 package stonering.game.model.system;
 
+import stonering.entity.Aspect;
 import stonering.entity.building.BuildingBlock;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.Turnable;
 import stonering.game.model.local_map.LocalMap;
+import stonering.game.model.util.UtilByteArray;
 import stonering.generators.buildings.BuildingGenerator;
 import stonering.entity.building.Building;
 import stonering.util.geometry.Position;
@@ -12,6 +14,7 @@ import stonering.util.geometry.Position;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Contains all Buildings on localMap.
@@ -90,5 +93,9 @@ public class BuildingContainer extends Turnable implements ModelComponent {
 
     public HashMap<Position, BuildingBlock> getBuildingBlocks() {
         return buildingBlocks;
+    }
+
+    public List<Building> getBuildingWithAspect(Class T) {
+        return buildings.stream().filter(building -> building.hasAspect(T)).collect(Collectors.toList());
     }
 }
