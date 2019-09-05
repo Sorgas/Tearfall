@@ -131,5 +131,12 @@
     "aspects": [["item_container", "liquid/solid/grain", "1"]],
     "atlasXY": ["15", "0"],
     "color": "0xffffffff"
+},{
+    "name": "leaf",
+    "description": "Tree leaf.",
+    "typeAspects": [["value", "0"]],
+    "aspects": [["slow_falling", "0.1"], ["wind_moved", "0.8"]],
+    "atlasXY": ["15", "0"],
+    "color": "0xffffffff"
 }
 ] 

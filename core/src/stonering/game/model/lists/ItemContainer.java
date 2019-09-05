@@ -169,7 +169,7 @@ public class ItemContainer extends EntityContainer<Item> {
      */
     public void addItemToContainer(Item item, Entity container) {
         if (container.hasAspect(ItemContainerAspect.class)) {
-            containedMap.containsKey(item)
+            containedMap.containsKey(item);
         }
         Logger.ITEMS.logError("Trying to put item " + item + " into " + container);
     }

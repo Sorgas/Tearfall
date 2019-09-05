@@ -23,7 +23,7 @@ public class ItemContainerAspect extends Aspect {
     public final List<Item> items;
     private int volume; // total items volume
 
-    public ItemContainerAspect(Entity entity, List<String> types) {
+    public ItemContainerAspect(Entity entity, String[] types) {
         super(entity);
         items = new ArrayList<>();
         itemTypes = new ArrayList<>();

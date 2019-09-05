@@ -15,9 +15,15 @@ import java.util.HashMap;
  */
 public abstract class Entity extends IntervalTurnable implements Serializable, Initable {
     protected HashMap<Class, Aspect> aspects;
+    public Position position;
 
     protected Entity() {
         aspects = new HashMap<>();
+        position = null;
+    }
+
+    public Entity(Position position) {
+        this.position = position;
     }
 
     public <T extends Aspect> boolean hasAspect(Class<T> type) {

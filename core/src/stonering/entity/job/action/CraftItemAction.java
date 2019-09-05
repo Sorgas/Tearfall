@@ -1,6 +1,5 @@
 package stonering.entity.job.action;
 
-import stonering.entity.PositionedEntity;
 import stonering.entity.crafting.IngredientOrder;
 import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.job.action.target.EntityActionTarget;
@@ -29,11 +28,11 @@ import java.util.List;
  */
 public class CraftItemAction extends Action {
     private ItemOrder itemOrder;
-    private PositionedEntity workbench;
+    private Entity workbench;
     private List<Item> desiredItems; // these item should be in WB.
     private Item tool; //TODO
 
-    public CraftItemAction(ItemOrder itemOrder, PositionedEntity workbench) {
+    public CraftItemAction(ItemOrder itemOrder, Entity workbench) {
         super(new EntityActionTarget(workbench, ActionTarget.EXACT));
         desiredItems = new ArrayList<>();
         this.itemOrder = itemOrder;

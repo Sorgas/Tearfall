@@ -8,6 +8,7 @@ import stonering.util.geometry.Position;
 import stonering.entity.building.Building;
 import stonering.util.global.Logger;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -42,8 +43,7 @@ public class BuildingGenerator {
                         break;
                     }
                     case ItemContainerAspect.NAME: {
-                        ItemContainerAspect itemContainerAspect = new ItemContainerAspect(building);
-                        itemContainerAspect.setItemType(aspect.get(1));
+                        ItemContainerAspect itemContainerAspect = new ItemContainerAspect(building, aspect.get(1).split("/"));
                         itemContainerAspect.setVolume(Integer.parseInt(aspect.get(2)));
                         building.addAspect(itemContainerAspect);
                         break;

@@ -43,7 +43,7 @@ public class ItemPutAction extends Action {
         EquipmentAspect equipmentAspect = task.getPerformer().getAspect(EquipmentAspect.class);
         equipmentAspect.getHauledItems().remove(targetItem);
         if (targetEntity != null) {
-            (targetEntity.getAspect(ItemContainerAspect.class)).getItems().add(targetItem); // put into container
+            (targetEntity.getAspect(ItemContainerAspect.class)).items.add(targetItem); // put into container
         } else {
             GameMvc.instance().getModel().get(ItemContainer.class).putItem(targetItem, targetPosition); // put on position
         }

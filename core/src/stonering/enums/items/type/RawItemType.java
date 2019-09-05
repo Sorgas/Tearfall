@@ -12,7 +12,6 @@ public class RawItemType {
 
     public WearItemType wear;                          // is set if this item could be worn
     public ToolItemType tool;                          // is set if this item could be used as tool
-    public ContainerItemType container;                // is set if this item could contain other item
 
     public List<ItemPartType> parts;              // defines parts of item. first one is main
 

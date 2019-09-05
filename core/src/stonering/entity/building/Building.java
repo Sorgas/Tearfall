@@ -1,6 +1,6 @@
 package stonering.entity.building;
 
-import stonering.entity.PositionedEntity;
+import stonering.entity.Entity;
 import stonering.util.geometry.Position;
 import stonering.entity.unit.Unit;
 
@@ -9,7 +9,7 @@ import stonering.entity.unit.Unit;
  *
  * @author Alexander Kuzyakov on 07.12.2017.
  */
-public class Building extends PositionedEntity { // TODO split to aspects
+public class Building extends Entity { // TODO split to aspects
     private Unit owner;
     private int material;
     private BuildingType type;
