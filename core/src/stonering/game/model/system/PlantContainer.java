@@ -1,4 +1,4 @@
-package stonering.game.model.lists;
+package stonering.game.model.system;
 
 import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Vector3;

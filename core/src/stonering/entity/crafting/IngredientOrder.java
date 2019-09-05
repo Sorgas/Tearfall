@@ -1,13 +1,12 @@
 package stonering.entity.crafting;
 
 import stonering.entity.item.Item;
-import stonering.entity.item.selectors.AnyMaterialTagItemSelector;
 import stonering.entity.item.selectors.IngredientOrderItemSelector;
 import stonering.entity.item.selectors.ItemSelector;
 import stonering.enums.items.recipe.Ingredient;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.GameMvc;
-import stonering.game.model.lists.ItemContainer;
+import stonering.game.model.system.ItemContainer;
 import stonering.util.global.Triple;
 
 import java.util.HashMap;

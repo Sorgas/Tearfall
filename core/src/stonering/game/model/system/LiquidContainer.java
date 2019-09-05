@@ -1,4 +1,4 @@
-package stonering.game.model.lists;
+package stonering.game.model.system;
 
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.materials.MaterialMap;

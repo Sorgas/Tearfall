@@ -5,7 +5,7 @@ import stonering.entity.crafting.ItemOrder;
 import stonering.entity.unit.aspects.PlanningAspect;
 import stonering.enums.TaskStatusEnum;
 import stonering.game.GameMvc;
-import stonering.game.model.lists.tasks.TaskContainer;
+import stonering.game.model.system.tasks.TaskContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.util.UtilByteArray;
 import stonering.util.geometry.Position;

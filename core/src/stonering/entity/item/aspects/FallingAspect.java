@@ -4,7 +4,7 @@ import stonering.entity.Entity;
 import stonering.entity.PositionAspect;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.GameMvc;
-import stonering.game.model.lists.ItemContainer;
+import stonering.game.model.system.ItemContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 import stonering.entity.Aspect;

@@ -1,14 +1,14 @@
 package stonering.test_chamber.model;
 
-import stonering.entity.environment.GameCalendar;
+import stonering.game.model.system.GameCalendar;
 import stonering.entity.item.Item;
 import stonering.entity.plants.AbstractPlant;
 import stonering.entity.plants.Tree;
 import stonering.entity.unit.Unit;
 import stonering.exceptions.DescriptionNotFoundException;
-import stonering.game.model.lists.ItemContainer;
-import stonering.game.model.lists.PlantContainer;
-import stonering.game.model.lists.units.UnitContainer;
+import stonering.game.model.system.ItemContainer;
+import stonering.game.model.system.PlantContainer;
+import stonering.game.model.system.units.UnitContainer;
 import stonering.generators.creatures.CreatureGenerator;
 import stonering.generators.items.ItemGenerator;
 import stonering.generators.plants.TreeGenerator;

@@ -1,7 +1,7 @@
 package stonering.entity.plants;
 
 import stonering.enums.plants.PlantType;
-import stonering.game.model.lists.PlantContainer;
+import stonering.game.model.system.PlantContainer;
 import stonering.util.geometry.Position;
 
 import java.util.List;

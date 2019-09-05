@@ -10,8 +10,8 @@ import stonering.entity.item.selectors.ItemSelector;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.enums.buildings.BuildingTypeMap;
 import stonering.game.GameMvc;
-import stonering.game.model.lists.BuildingContainer;
-import stonering.game.model.lists.ItemContainer;
+import stonering.game.model.system.BuildingContainer;
+import stonering.game.model.system.ItemContainer;
 import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
 

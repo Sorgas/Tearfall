@@ -2,7 +2,7 @@ package stonering.entity;
 
 import stonering.enums.time.TimeUnitEnum;
 import stonering.game.model.IntervalTurnable;
-import stonering.game.model.lists.ModelComponent;
+import stonering.game.model.system.ModelComponent;
 import stonering.util.global.Initable;
 
 import java.io.Serializable;

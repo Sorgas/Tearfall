@@ -1,7 +1,7 @@
 package stonering.entity.job.designation;
 
 import stonering.enums.designations.DesignationTypeEnum;
-import stonering.game.model.lists.tasks.TaskContainer;
+import stonering.game.model.system.tasks.TaskContainer;
 import stonering.util.geometry.Position;
 import stonering.entity.job.Task;
 

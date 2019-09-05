@@ -2,7 +2,7 @@ package stonering.test_chamber.model;
 
 import stonering.entity.building.Building;
 import stonering.game.model.EntitySelector;
-import stonering.game.model.lists.*;
+import stonering.game.model.system.*;
 import stonering.generators.buildings.BuildingGenerator;
 import stonering.util.geometry.Position;
 

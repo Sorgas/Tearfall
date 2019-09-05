@@ -2,12 +2,13 @@ package stonering.entity.environment;
 
 import stonering.entity.Entity;
 import stonering.entity.environment.aspects.CelestialLightSourceAspect;
+import stonering.game.model.system.GameCalendar;
 
 import java.io.Serializable;
 
 /**
  * Represents sun, moon or other important celestial bodies.
- * Celestial bodies have their phases, changed by {@link stonering.entity.environment.GameCalendar}
+ * Celestial bodies have their phases, changed by {@link GameCalendar}
  *
  * @author Alexander on 07.10.2018.
  */

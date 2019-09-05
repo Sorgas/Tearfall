@@ -1,9 +1,9 @@
 package stonering.game.model;
 
 import com.badlogic.gdx.utils.Timer;
-import stonering.entity.environment.GameCalendar;
+import stonering.game.model.system.GameCalendar;
 import stonering.enums.time.TimeUnitEnum;
-import stonering.game.model.lists.ModelComponent;
+import stonering.game.model.system.ModelComponent;
 import stonering.util.global.Initable;
 import stonering.util.global.LastInitable;
 import stonering.util.global.Logger;

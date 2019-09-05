@@ -3,7 +3,7 @@ package stonering.game.view.render.ui;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
-import stonering.entity.environment.GameCalendar;
+import stonering.game.model.system.GameCalendar;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.GameMvc;
 import stonering.util.global.StaticSkin;

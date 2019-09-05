@@ -7,7 +7,7 @@ import stonering.entity.zone.FarmZone;
 import stonering.enums.plants.PlantTypeMap;
 import stonering.enums.plants.PlantType;
 import stonering.game.GameMvc;
-import stonering.game.model.lists.ZonesContainer;
+import stonering.game.model.system.ZonesContainer;
 import stonering.game.view.render.ui.lists.NavigableList;
 import stonering.game.view.render.ui.menus.util.HintedActor;
 import stonering.util.global.StaticSkin;

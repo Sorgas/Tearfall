@@ -1,4 +1,4 @@
-package stonering.game.model.lists.tasks;
+package stonering.game.model.system.tasks;
 
 import stonering.entity.job.designation.BuildingDesignation;
 import stonering.entity.job.designation.Designation;
@@ -12,8 +12,8 @@ import stonering.enums.designations.DesignationTypeEnum;
 import stonering.enums.designations.PlaceValidatorsEnum;
 import stonering.game.GameMvc;
 import stonering.game.controller.controllers.designation.BuildingDesignationSequence;
-import stonering.game.model.lists.ModelComponent;
-import stonering.game.model.lists.PlantContainer;
+import stonering.game.model.system.ModelComponent;
+import stonering.game.model.system.PlantContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 import stonering.entity.job.Task;

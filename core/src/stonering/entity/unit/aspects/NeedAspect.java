@@ -4,7 +4,7 @@ import stonering.entity.Aspect;
 import stonering.entity.Entity;
 import stonering.entity.job.Task;
 import stonering.entity.unit.aspects.needs.NeedEnum;
-import stonering.game.model.lists.units.CreatureNeedSystem;
+import stonering.game.model.system.units.CreatureNeedSystem;
 
 import java.util.ArrayList;
 

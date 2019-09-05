@@ -1,4 +1,4 @@
-package stonering.game.model.lists;
+package stonering.game.model.system;
 
 import stonering.entity.Entity;
 import stonering.enums.time.TimeUnitEnum;

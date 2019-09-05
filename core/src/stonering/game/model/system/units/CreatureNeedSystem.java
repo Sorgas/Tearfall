@@ -1,4 +1,4 @@
-package stonering.game.model.lists.units;
+package stonering.game.model.system.units;
 
 import stonering.entity.job.Task;
 import stonering.entity.unit.Unit;

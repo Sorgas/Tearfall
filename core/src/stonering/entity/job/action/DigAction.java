@@ -10,7 +10,7 @@ import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.designations.DesignationTypeEnum;
 import stonering.game.GameMvc;
-import stonering.game.model.lists.ItemContainer;
+import stonering.game.model.system.ItemContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.generators.items.DiggingProductGenerator;
 import stonering.util.geometry.Position;

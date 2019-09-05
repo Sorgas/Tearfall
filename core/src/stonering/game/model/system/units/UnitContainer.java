@@ -1,6 +1,6 @@
-package stonering.game.model.lists.units;
+package stonering.game.model.system.units;
 
-import stonering.game.model.lists.EntityContainer;
+import stonering.game.model.system.EntityContainer;
 import stonering.util.geometry.Position;
 import stonering.entity.unit.Unit;
 import stonering.util.global.Initable;

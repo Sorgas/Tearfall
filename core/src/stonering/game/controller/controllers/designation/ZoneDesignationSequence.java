@@ -8,7 +8,7 @@ import stonering.entity.zone.Zone;
 import stonering.enums.ZoneTypesEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.EntitySelector;
-import stonering.game.model.lists.ZonesContainer;
+import stonering.game.model.system.ZonesContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.view.render.ui.menus.toolbar.Toolbar;
 import stonering.game.view.render.ui.menus.util.RectangleSelectComponent;

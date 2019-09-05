@@ -2,7 +2,7 @@ package stonering.util.validation;
 
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.GameMvc;
-import stonering.game.model.lists.BuildingContainer;
+import stonering.game.model.system.BuildingContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 

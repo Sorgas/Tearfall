@@ -1,12 +1,12 @@
 package stonering.game.model;
 
 import stonering.entity.World;
-import stonering.game.model.lists.*;
-import stonering.game.model.lists.tasks.TaskContainer;
-import stonering.game.model.lists.units.UnitContainer;
+import stonering.game.model.system.*;
+import stonering.game.model.system.tasks.TaskContainer;
+import stonering.game.model.system.units.UnitContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.view.tilemaps.LocalTileMap;
-import stonering.entity.environment.GameCalendar;
+import stonering.game.model.system.GameCalendar;
 import stonering.util.global.Logger;
 import stonering.util.pathfinding.a_star.AStar;
 

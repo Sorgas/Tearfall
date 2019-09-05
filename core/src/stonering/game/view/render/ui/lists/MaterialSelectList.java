@@ -3,7 +3,7 @@ package stonering.game.view.render.ui.lists;
 import stonering.entity.crafting.CommonComponent;
 import stonering.game.GameMvc;
 import stonering.game.controller.controllers.toolbar.DesignationsController;
-import stonering.game.model.lists.ItemContainer;
+import stonering.game.model.system.ItemContainer;
 import stonering.game.view.render.ui.menus.toolbar.Toolbar;
 import stonering.game.view.render.ui.menus.util.Hideable;
 import stonering.entity.item.Item;

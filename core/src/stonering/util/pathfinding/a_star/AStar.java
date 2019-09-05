@@ -1,7 +1,7 @@
 package stonering.util.pathfinding.a_star;
 
 import stonering.game.GameMvc;
-import stonering.game.model.lists.ModelComponent;
+import stonering.game.model.system.ModelComponent;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.HashPriorityQueue;
 import stonering.util.geometry.Position;

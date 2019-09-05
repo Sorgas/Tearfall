@@ -2,14 +2,14 @@ package stonering.entity.plants.aspects;
 
 import stonering.entity.Aspect;
 import stonering.entity.Entity;
-import stonering.entity.environment.GameCalendar;
+import stonering.game.model.system.GameCalendar;
 import stonering.entity.plants.AbstractPlant;
 import stonering.entity.plants.Plant;
 import stonering.entity.plants.Tree;
 import stonering.enums.plants.PlantType;
 import stonering.enums.time.TimeUnitEnum;
 import stonering.game.GameMvc;
-import stonering.game.model.lists.PlantContainer;
+import stonering.game.model.system.PlantContainer;
 import stonering.generators.plants.PlantGenerator;
 import stonering.generators.plants.TreeGenerator;
 import stonering.util.geometry.Position;

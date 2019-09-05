@@ -1,8 +1,7 @@
-package stonering.game.model.lists;
+package stonering.game.model.system;
 
 import stonering.entity.Entity;
 import stonering.entity.crafting.CommonComponent;
-import stonering.entity.crafting.IngredientOrder;
 import stonering.entity.item.aspects.ItemContainerAspect;
 import stonering.enums.items.recipe.Ingredient;
 import stonering.enums.materials.MaterialMap;
