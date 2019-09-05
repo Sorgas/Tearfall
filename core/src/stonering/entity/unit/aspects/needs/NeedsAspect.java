@@ -1,4 +1,4 @@
-package stonering.entity.unit.aspects;
+package stonering.entity.unit.aspects.needs;
 
 import stonering.entity.Aspect;
 import stonering.entity.Entity;
@@ -13,11 +13,11 @@ import java.util.ArrayList;
  *
  * @author Alexander Kuzyakov on 16.09.2018.
  */
-public class NeedAspect extends Aspect {
+public class NeedsAspect extends Aspect {
     public final ArrayList<NeedEnum> needs; // need names
     public Task satisfyingTask; // taken by planning
 
-    public NeedAspect(Entity entity) {
+    public NeedsAspect(Entity entity) {
         super(entity);
         needs = new ArrayList<>();
     }

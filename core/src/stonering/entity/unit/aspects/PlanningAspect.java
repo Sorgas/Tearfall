@@ -5,6 +5,7 @@ import stonering.entity.job.action.Action;
 import stonering.entity.Aspect;
 import stonering.entity.Entity;
 import stonering.entity.job.action.target.ActionTarget;
+import stonering.entity.unit.aspects.needs.NeedsAspect;
 import stonering.game.GameMvc;
 import stonering.game.model.system.tasks.TaskContainer;
 import stonering.util.geometry.Position;
@@ -69,7 +70,7 @@ public class PlanningAspect extends Aspect {
      */
     private boolean trySelectTask() {
         ArrayList<Task> tasks = new ArrayList<>();
-        if (entity.hasAspect(NeedAspect.class)) tasks.add(entity.getAspect(NeedAspect.class).satisfyingTask);
+        if (entity.hasAspect(NeedsAspect.class)) tasks.add(entity.getAspect(NeedsAspect.class).satisfyingTask);
         tasks.add(getTaskFromContainer());
         Task task = tasks.stream().filter(Objects::nonNull).max(Comparator.comparingInt(Task::getPriority)).orElse(null);
         return updateState(task); // claim task, if any

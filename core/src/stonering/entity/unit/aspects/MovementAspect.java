@@ -25,16 +25,14 @@ public class MovementAspect extends Aspect implements Initable {
     private UnitContainer unitContainer;
     private AStar aStar;
     private PlanningAspect planning;
-    private AttributeAspect attribute;
+    public int movementDelay;
     private Position target;
     private List<Position> path;
     private float stepProgress;
-    private int stepInterval;
 
     public MovementAspect(Unit unit) {
         super(unit);
         this.entity = unit;
-        stepInterval = 15;
         stepProgress = 0;
     }
 
@@ -45,7 +43,6 @@ public class MovementAspect extends Aspect implements Initable {
         unitContainer = model.get(UnitContainer.class);
         aStar = model.get(AStar.class);
         planning = entity.getAspect(PlanningAspect.class);
-        attribute = entity.getAspect(AttributeAspect.class);
     }
 
     public void turn() {
@@ -84,7 +81,7 @@ public class MovementAspect extends Aspect implements Initable {
      * Counts ticks to the next step;
      */
     private boolean stepInProgeress() {
-        return (++stepProgress < stepInterval);
+        return (++stepProgress < movementDelay);
     }
 
     /**
@@ -107,6 +104,7 @@ public class MovementAspect extends Aspect implements Initable {
         Position nextPosition = path.remove(0); // get next step, remove from path
         if (localMap.isWalkPassable(nextPosition)) { // path has not been blocked after calculation
             unitContainer.updateUnitPosiiton((Unit) entity, nextPosition); //step
+            entity.getAspect(StaminaAspect.class).apllyMoveExhaustion();
         } else { // path blocked
             Logger.PATH.log("path to " + target + " was blocked in " + nextPosition);
             target = null; // drop path, will be recounted on next step.
@@ -145,7 +143,7 @@ public class MovementAspect extends Aspect implements Initable {
     }
 
     private float getStepProgressVectorComponent(int from, int to) {
-        return (to - from) * stepProgress / stepInterval;
+        return (to - from) * stepProgress / movementDelay;
     }
 
     private Position getPosition() {

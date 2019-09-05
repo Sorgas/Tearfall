@@ -164,10 +164,7 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
     private void leavePlantProduct(PlantBlock block) {
         ArrayList<Item> items = new PlantProductGenerator().generateCutProduct(block);
         ItemContainer itemContainer = GameMvc.instance().getModel().get(ItemContainer.class);
-        items.forEach(item -> {
-            item.position = block.getPosition();
-            itemContainer.addItem(item);
-        });
+        items.forEach(itemContainer::addItem);
     }
 
     /**

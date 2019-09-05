@@ -16,7 +16,8 @@ public class AttributeAspectGenerator {
 
     public AttributeAspect generateAttributeAspect(Unit unit) {
         AttributeAspect aspect = new AttributeAspect(null);
-        aspect.setAgility(10);
+        aspect.agility = 10;
+        aspect.endurance = 10;
         return aspect;
     }
 }

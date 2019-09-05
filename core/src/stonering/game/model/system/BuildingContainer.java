@@ -6,7 +6,6 @@ import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.Turnable;
 import stonering.game.model.local_map.LocalMap;
-import stonering.game.model.util.UtilByteArray;
 import stonering.generators.buildings.BuildingGenerator;
 import stonering.entity.building.Building;
 import stonering.util.geometry.Position;
@@ -95,7 +94,7 @@ public class BuildingContainer extends Turnable implements ModelComponent {
         return buildingBlocks;
     }
 
-    public List<Building> getBuildingWithAspect(Class T) {
+    public List<Building> getBuildingsWithAspect(Class<? extends Aspect> T) {
         return buildings.stream().filter(building -> building.hasAspect(T)).collect(Collectors.toList());
     }
 }

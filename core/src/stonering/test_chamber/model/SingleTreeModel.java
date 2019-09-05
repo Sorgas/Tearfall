@@ -45,12 +45,11 @@ public class SingleTreeModel extends TestModel {
     }
 
     private Unit createUnit() {
-        return new CreatureGenerator().generateUnit(new Position(2,2,2), "human");
+        return new CreatureGenerator().generateUnit(new Position(2, 2, 2), "human");
     }
 
     private Item createItem() {
-        Item item = new ItemGenerator().generateItemByOrder("axe", "iron");
-        item.position = new Position(0,0,2);
+        Item item = new ItemGenerator().generateItem("axe", "iron", new Position(0, 0, 2));
         return item;
     }
 }

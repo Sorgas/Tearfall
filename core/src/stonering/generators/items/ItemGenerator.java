@@ -40,10 +40,10 @@ public class ItemGenerator {
     /**
      * MVP method for creating item.
      */
-    public Item generateItemByOrder(String name, int materialId) {
+    public Item generateItem(String name, int materialId, Position position) {
         ItemType type = itemTypeMap.getItemType(name);
         if (type == null) return null;
-        Item item = new Item(null, type);
+        Item item = new Item(position, type);
         Material material = MaterialMap.instance().getMaterial(materialId);
         item.setMaterial(materialId);
         for (String tag : material.getTags()) {
@@ -53,8 +53,8 @@ public class ItemGenerator {
         return item;
     }
 
-    public Item generateItemByOrder(String name, String material) {
-        return generateItemByOrder(name, materialMap.getId(material));
+    public Item generateItem(String name, String material, Position position) {
+        return generateItem(name, materialMap.getId(material), position);
     }
 
     /**

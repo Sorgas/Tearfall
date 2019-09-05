@@ -218,6 +218,13 @@ public class EquipmentAspect extends Aspect {
         return equippedItems.contains(item) || hauledItems.contains(item);
     }
 
+    /**
+     * Current load / MAx load.
+     */
+    public float getRelativeLoad() {
+        return 1; //TODO
+    }
+
     public ArrayList<Item> getEquippedItems() {
         return equippedItems;
     }

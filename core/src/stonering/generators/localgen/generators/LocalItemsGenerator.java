@@ -12,7 +12,7 @@ import stonering.entity.item.Item;
  *
  * @author Alexander Kuzyakov on 26.01.2018.
  */
-public class LocalItemsGenerator extends LocalAbstractGenerator  {
+public class LocalItemsGenerator extends LocalAbstractGenerator {
     private ItemGenerator itemGenerator;
     private LocalMap localMap;
 
@@ -39,12 +39,11 @@ public class LocalItemsGenerator extends LocalAbstractGenerator  {
     }
 
     private void createItemInCenter(String itemType, String material, int xOffset, int yOffset) {
-            LocalMap localMap = container.model.get(LocalMap.class);
-            Item item = itemGenerator.generateItemByOrder(itemType, material);
-            Position position = new Position(localMap.xSize / 2 + xOffset, localMap.ySize / 2 + yOffset, 0);
-            position.z = findSurfaceZ(position.x, position.y);
-            item.position = position;
-            container.model.get(ItemContainer.class).addItem(item);
+        LocalMap localMap = container.model.get(LocalMap.class);
+        Position position = new Position(localMap.xSize / 2 + xOffset, localMap.ySize / 2 + yOffset, 0);
+        position.z = findSurfaceZ(position.x, position.y);
+        Item item = itemGenerator.generateItem(itemType, material, position);
+        container.model.get(ItemContainer.class).addItem(item);
     }
 
     private int findSurfaceZ(int x, int y) {

@@ -1,11 +1,9 @@
 package stonering.game.model.system.units;
 
-import javafx.collections.transformation.SortedList;
 import stonering.entity.job.Task;
 import stonering.entity.unit.Unit;
-import stonering.entity.unit.aspects.NeedAspect;
+import stonering.entity.unit.aspects.needs.NeedsAspect;
 import stonering.entity.unit.aspects.PlanningAspect;
-import stonering.entity.unit.aspects.needs.Need;
 import stonering.entity.unit.aspects.needs.NeedEnum;
 import stonering.util.global.Pair;
 
@@ -14,7 +12,7 @@ import java.util.*;
 /**
  * System for generation needs satisfying tasks for units.
  * Works in {@link UnitContainer}.
- * On update, counts creature needs and creates {@link Task} in {@link NeedAspect}.
+ * On update, counts creature needs and creates {@link Task} in {@link NeedsAspect}.
  * This task is then considered by {@link PlanningAspect}.
  *
  * @author Alexander on 22.08.2019.
@@ -26,7 +24,7 @@ public class CreatureNeedSystem {
      * First successfully created task is saved to aspect.
      */
     public void updateNeedForCreature(Unit unit) {
-        NeedAspect aspect = unit.getAspect(NeedAspect.class);
+        NeedsAspect aspect = unit.getAspect(NeedsAspect.class);
         if(aspect == null || aspect.satisfyingTask != null) return; // creature has no needs, or already has a task for a need.
         List<Pair<NeedEnum, Integer>> needs = getUntoleratedNeeds(unit, aspect);
         if(needs.size() > 1) needs.sort(Comparator.comparingInt(Pair::getValue));
@@ -39,7 +37,7 @@ public class CreatureNeedSystem {
     /**
      * Collects creature needs that cannot be tolerated. Returns them ordered by priorities.
      */
-    private List<Pair<NeedEnum, Integer>> getUntoleratedNeeds(Unit unit, NeedAspect aspect) {
+    private List<Pair<NeedEnum, Integer>> getUntoleratedNeeds(Unit unit, NeedsAspect aspect) {
         int priority;
         List<Pair<NeedEnum, Integer>> list = new ArrayList<>();
         for (NeedEnum need : aspect.needs) {

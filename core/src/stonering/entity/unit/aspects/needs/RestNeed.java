@@ -34,7 +34,7 @@ public class RestNeed extends Need {
      */
     @Override
     public Task tryCreateTask(Entity entity) {
-        List<Building> buildings = GameMvc.instance().getModel().get(BuildingContainer.class).getBuildingWithAspect(RestFurnitureAspect.class);
+        List<Building> buildings = GameMvc.instance().getModel().get(BuildingContainer.class).getBuildingsWithAspect(RestFurnitureAspect.class);
         buildings = GameMvc.instance().getModel().get(LocalMap.class).getPassage().filterEntitiesByReachability(buildings, entity.position);
         if(buildings.isEmpty()) return null;
     }
