@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import stonering.entity.job.designation.Designation;
-import stonering.entity.PositionAspect;
 import stonering.entity.building.BuildingBlock;
 import stonering.entity.item.Item;
 import stonering.entity.plants.PlantBlock;
@@ -233,7 +232,7 @@ public class TileRenderer extends Renderer {
     }
 
     private void drawItem(Item item) {
-        util.drawSprite(util.selectBlockTile(items, item.getType().atlasXY[0], item.getType().atlasXY[1]), item.getAspect(PositionAspect.class).position);
+        util.drawSprite(util.selectBlockTile(items, item.getType().atlasXY[0], item.getType().atlasXY[1]), item.position);
     }
 
     private void drawDesignation(Designation designation) {

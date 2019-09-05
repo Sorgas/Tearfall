@@ -118,7 +118,7 @@ public class DigAction extends Action {
         DiggingProductGenerator generator = new DiggingProductGenerator();
         if (!generator.productRequired(material)) return;
         Item item = generator.generateDigProduct(material);
-        item.setPosition(actionTarget.getPosition());
+        item.position = actionTarget.getPosition();
         GameMvc.instance().getModel().get(ItemContainer.class).addItem(item);
     }
 

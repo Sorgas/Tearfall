@@ -38,7 +38,7 @@ public class HarvestPlantAction extends Action {
     public void performLogic() {
         PlantBlock plantBlock = ((Plant) ((PlantActionTarget) actionTarget).getPlant()).getBlock();
         Item item = new PlantProductGenerator().generateHarvestProduct(plantBlock);
-        item.setPosition(actionTarget.getPosition());
+        item.position = actionTarget.getPosition();
         GameMvc.instance().getModel().get(ItemContainer.class).addItem(item);
         Logger.TASKS.logDebug("harvesting plant finished at " + actionTarget.getPosition() + " by " + task.getPerformer());
     }

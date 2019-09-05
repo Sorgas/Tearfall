@@ -1,7 +1,6 @@
 package stonering.entity.unit.aspects;
 
 import com.badlogic.gdx.math.Vector3;
-import stonering.entity.PositionAspect;
 import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
 import stonering.game.model.system.units.UnitContainer;
@@ -138,7 +137,7 @@ public class MovementAspect extends Aspect implements Initable {
     public Vector3 getStepProgressVector() {
         if (!hasPath()) return new Vector3(); // zero vector for staying still.
         Position nextPosition = path.get(0);
-        Position unitPosition = entity.getAspect(PositionAspect.class).position;
+        Position unitPosition = entity.position;
         return new Vector3(
                 getStepProgressVectorComponent(unitPosition.x, nextPosition.x),
                 getStepProgressVectorComponent(unitPosition.y, nextPosition.y),
@@ -150,6 +149,6 @@ public class MovementAspect extends Aspect implements Initable {
     }
 
     private Position getPosition() {
-        return entity.getAspect(PositionAspect.class).position;
+        return entity.position;
     }
 }

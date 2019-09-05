@@ -32,7 +32,7 @@ public class FarmModel extends TestModel {
 
     private Item createHoe() {
         Item item = new Item(null, ItemTypeMap.getInstance().getItemType("hoe"));
-        item.setPosition(new Position(0, 0, 2));
+        item.position = new Position(0, 0, 2);
         return item;
     }
 
@@ -43,8 +43,7 @@ public class FarmModel extends TestModel {
     }
 
     private Item createSeed(int offset) {
-        Item item = new ItemGenerator().generateSeedItem("farm_test_plant");
-        item.setPosition(new Position(1 + offset, 0, 2));
+        Item item = new ItemGenerator().generateSeedItem("farm_test_plant", new Position(1 + offset, 0, 2));
         return item;
     }
 }

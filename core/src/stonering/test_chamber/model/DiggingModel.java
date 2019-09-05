@@ -44,8 +44,7 @@ public class DiggingModel extends TestModel {
     }
 
     private Item createHoe() {
-        Item item = new Item(null, ItemTypeMap.getInstance().getItemType("pickaxe"));
-        item.setPosition(new Position(0, 0, 10));
+        Item item = new Item(new Position(0, 0, 10), ItemTypeMap.getInstance().getItemType("pickaxe"));
         return item;
     }
 }

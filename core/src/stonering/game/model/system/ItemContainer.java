@@ -46,13 +46,13 @@ public class ItemContainer extends EntityContainer<Item> {
     public void addItem(Item item) {
         entities.add(item);
         item.init();
-        putItem(item, item.getPosition());
+        putItem(item, item.position);
     }
 
     public void removeItem(Item item) {
         if (!entities.contains(item)) Logger.ITEMS.logWarn("Removing not present item " + item.getName());
         entities.remove(item);
-        itemMap.get(item.getPosition()).remove(item);
+        itemMap.get(item.position).remove(item);
     }
 
     public void removeItems(List<Item> items) {
@@ -65,19 +65,19 @@ public class ItemContainer extends EntityContainer<Item> {
     }
 
     public void pickItem(Item item) {
-        ArrayList<Item> list = itemMap.get(item.getPosition());
+        ArrayList<Item> list = itemMap.get(item.position);
         list.remove(item);
         if (list.isEmpty()) {
-            itemMap.remove(item.getPosition());
+            itemMap.remove(item.position);
         }
-        item.setPosition(null);
+        item.position = null;
     }
 
     /**
      * Puts item to tile on map. should be used for dropping existent items.
      */
     public void putItem(Item item, Position pos) {
-        item.setPosition(pos);
+        item.position = pos;
         ArrayList<Item> list = itemMap.get(pos);
         if (list == null) {
             itemMap.put(pos, new ArrayList<>(Arrays.asList(item)));
@@ -121,8 +121,8 @@ public class ItemContainer extends EntityContainer<Item> {
     public List<Item> filterUnreachable(List<Item> items, Position fromPosition) {
         UtilByteArray area = GameMvc.instance().getModel().get(LocalMap.class).getPassage().getArea();
         return items.stream().
-                filter(item -> item.getPosition() != null).
-                filter(item -> area.getValue(item.getPosition()) == area.getValue(fromPosition)).
+                filter(item -> item.position != null).
+                filter(item -> area.getValue(item.position) == area.getValue(fromPosition)).
                 collect(Collectors.toList());
     }
 
@@ -135,7 +135,7 @@ public class ItemContainer extends EntityContainer<Item> {
         List<Item> items = itemSelector.selectItems(entities);
         items = filterUnreachable(items, position);
         if (items.isEmpty()) return null;
-        return items.stream().min((item1, item2) -> Math.round(item1.getPosition().getDistanse(position))).get();
+        return items.stream().min((item1, item2) -> Math.round(item1.position.getDistanse(position))).get();
     }
 
     public List<Item> getItemsAvailableBySelector(ItemSelector itemSelector, Position position) {

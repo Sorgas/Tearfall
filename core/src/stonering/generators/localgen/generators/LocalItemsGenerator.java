@@ -43,7 +43,7 @@ public class LocalItemsGenerator extends LocalAbstractGenerator  {
             Item item = itemGenerator.generateItemByOrder(itemType, material);
             Position position = new Position(localMap.xSize / 2 + xOffset, localMap.ySize / 2 + yOffset, 0);
             position.z = findSurfaceZ(position.x, position.y);
-            item.setPosition(position);
+            item.position = position;
             container.model.get(ItemContainer.class).addItem(item);
     }
 

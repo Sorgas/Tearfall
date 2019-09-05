@@ -73,7 +73,7 @@ public class StorageZone extends Zone {
         if (items.isEmpty()) return null;
         ZonesContainer zonesContainer = model.get(ZonesContainer.class);
         for (Item item : items) {
-            Zone zone = zonesContainer.getZone(item.getPosition());
+            Zone zone = zonesContainer.getZone(item.position);
             if (zone == null || zone.type != ZoneTypesEnum.STORAGE || !((StorageZone) zone).selector.checkItem(item)) // item is not stored on appropriate storage.
                 return item;
         }

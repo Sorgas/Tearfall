@@ -4,7 +4,6 @@ import stonering.entity.job.action.EquipItemAction;
 import stonering.entity.job.Task;
 import stonering.entity.job.action.TaskTypesEnum;
 import stonering.entity.Entity;
-import stonering.entity.PositionAspect;
 import stonering.entity.item.Item;
 import stonering.entity.item.selectors.ItemSelector;
 import stonering.entity.item.selectors.WearForLimbItemSelector;
@@ -57,7 +56,7 @@ public class WearNeed extends Need {
      */
     private Task tryCreateEquipTask(Entity entity, EquipmentSlot equipmentSlot) {
         ItemSelector itemSelector = new WearForLimbItemSelector(equipmentSlot.limbName);
-        Item item = container.get(ItemContainer.class).getItemAvailableBySelector(itemSelector, entity.getAspect(PositionAspect.class).position);
+        Item item = container.get(ItemContainer.class).getItemAvailableBySelector(itemSelector, entity.position);
         if (item == null) return null;
         EquipItemAction equipItemAction = new EquipItemAction(item, true);
         return new Task("Equip item " + item.getTitle(), TaskTypesEnum.EQUIPPING, equipItemAction, GET_WEAR_PRIORITY);

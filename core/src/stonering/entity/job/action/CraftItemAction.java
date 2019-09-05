@@ -4,7 +4,6 @@ import stonering.entity.crafting.IngredientOrder;
 import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.job.action.target.EntityActionTarget;
 import stonering.entity.Entity;
-import stonering.entity.PositionAspect;
 import stonering.entity.building.aspects.WorkbenchAspect;
 import stonering.entity.crafting.ItemOrder;
 import stonering.entity.item.Item;
@@ -89,7 +88,7 @@ public class CraftItemAction extends Action {
         List<IngredientOrder> ingredientOrders = new ArrayList<>(itemOrder.parts.values());
         ingredientOrders.addAll(itemOrder.consumed);
         for (IngredientOrder ingredientOrder : ingredientOrders) {
-            List<Item> foundItems = container.getItemsAvailableBySelector(ingredientOrder.itemSelector, workbench.getAspect(PositionAspect.class).position);
+            List<Item> foundItems = container.getItemsAvailableBySelector(ingredientOrder.itemSelector, workbench.position);
             foundItems.removeAll(desiredItems); // remove already added items
             if (foundItems.isEmpty()) { // no items found for ingredient
                 desiredItems.clear();

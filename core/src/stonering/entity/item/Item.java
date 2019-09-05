@@ -2,7 +2,6 @@ package stonering.entity.item;
 
 import stonering.entity.Aspect;
 import stonering.entity.Entity;
-import stonering.entity.PositionAspect;
 import stonering.enums.items.TagEnum;
 import stonering.enums.items.type.ItemType;
 import stonering.util.geometry.Position;
@@ -53,7 +52,7 @@ public class Item extends Entity {
     @Override
     public String toString() {
         return "name: " + title +
-                " position: " + getPosition() +
+                " position: " + position +
                 " weight: " + weight;
     }
 
@@ -95,14 +94,6 @@ public class Item extends Entity {
 
     public void setMaterial(int material) {
         this.material = material;
-    }
-
-    public Position getPosition() {
-        return getAspect(PositionAspect.class).position;
-    }
-
-    public void setPosition(Position position) {
-        getAspect(PositionAspect.class).position = position;
     }
 
     public String getOrigin() {

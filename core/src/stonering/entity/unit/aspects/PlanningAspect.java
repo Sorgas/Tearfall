@@ -4,7 +4,6 @@ import stonering.entity.job.Task;
 import stonering.entity.job.action.Action;
 import stonering.entity.Aspect;
 import stonering.entity.Entity;
-import stonering.entity.PositionAspect;
 import stonering.entity.job.action.target.ActionTarget;
 import stonering.game.GameMvc;
 import stonering.game.model.system.tasks.TaskContainer;
@@ -37,7 +36,7 @@ public class PlanningAspect extends Aspect {
 
     public void turn() {
         if (hasNoActiveTask() && !trySelectTask()) return; // no active task, and no new found
-        switch (action.getActionTarget().check(getEntityPosition())) {
+        switch (action.getActionTarget().check(entity.position)) {
             case FAIL: // checking failed
                 updateState(null);
                 return;
@@ -130,10 +129,6 @@ public class PlanningAspect extends Aspect {
 
     public Position getTarget() {
         return target;
-    }
-
-    private Position getEntityPosition() {
-        return entity.getAspect(PositionAspect.class).position;
     }
 
     public boolean isTargetExact() {
