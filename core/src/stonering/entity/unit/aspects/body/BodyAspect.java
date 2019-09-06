@@ -13,29 +13,14 @@ import java.util.List;
  * @author Alexander Kuzyakov on 19.10.2017.
  */
 public class BodyAspect extends Aspect {
-    private String bodyTemplate;
-    private List<String> bodyPartsToCover;
-    private List<Wound> wounds;
+    public final String bodyTemplate;
+    public final List<String> bodyPartsToCover;
+    public final List<Wound> wounds;
 
-    public BodyAspect(Unit unit) {
+    public BodyAspect(Unit unit, String bodyTemplate) {
         super(unit);
+        this.bodyTemplate = bodyTemplate;
         wounds = new ArrayList<>();
         bodyPartsToCover = new ArrayList<>();
-    }
-
-    public String getBodyTemplate() {
-        return bodyTemplate;
-    }
-
-    public void setBodyTemplate(String bodyTemplate) {
-        this.bodyTemplate = bodyTemplate;
-    }
-
-    public void setBodyPartsToCover(List<String> bodyPartsToCover) {
-        this.bodyPartsToCover = bodyPartsToCover;
-    }
-
-    public List<String> getBodyPartsToCover() {
-        return bodyPartsToCover;
     }
 }

@@ -67,7 +67,7 @@ public class PlantingAction extends Action {
      */
     private Item getSeedFromEquipment() {
         EquipmentAspect equipmentAspect = task.getPerformer().getAspect(EquipmentAspect.class);
-        List<Item> items = equipmentAspect.getHauledItems();
+        List<Item> items = equipmentAspect.hauledItems;
         Item foundItem = seedSelector.selectItem(items);
         return foundItem;
     }

@@ -29,7 +29,7 @@ public class PlantHarvestAction extends Action {
         if (aspect == null) return FAIL;
         AbstractPlant targetPlant = ((PlantActionTarget) actionTarget).getPlant();
         if (container.getPlantInPosition(actionTarget.getPosition()) != targetPlant) return FAIL;
-        if(toolItemSelector.checkItems(aspect.getEquippedItems())) return OK;
+        if(toolItemSelector.checkItems(aspect.equippedItems)) return OK;
         return addActionToTask();
     }
 

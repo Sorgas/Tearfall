@@ -43,7 +43,7 @@ public class WearNeed extends Need {
         EquipmentAspect equipmentAspect = entity.getAspect(EquipmentAspect.class);
         if (equipmentAspect == null) return null;
         if (equipmentAspect.getEmptyDesiredSlots().isEmpty()) return null;
-        for (EquipmentSlot equipmentSlot : equipmentAspect.getDesiredSlots()) {
+        for (EquipmentSlot equipmentSlot : equipmentAspect.desiredSlots) {
             Task task = tryCreateEquipTask(entity, equipmentSlot);
             if (task != null) return task;
         }

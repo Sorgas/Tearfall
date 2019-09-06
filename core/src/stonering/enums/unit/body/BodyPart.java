@@ -3,7 +3,6 @@ package stonering.enums.unit.body;
 import stonering.entity.unit.aspects.body.BodyAspect;
 import stonering.enums.unit.body.raw.RawBodyPart;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,23 +11,15 @@ import java.util.List;
  * @author Alexander_Kuzyakov on 02.07.2019.
  */
 public class BodyPart {
-    public String name;
+    //determine wear items, that can be equipped (slot name = side + type)
+    public final String name; //
+    public final String type;
+
     public BodyPart root; // each body part points to one it`s connected to
-    public String type; // determines wear items, that can be equipped.
     public List<String> layers; // tissue layers
     public List<String> external;
     public List<String> internal;
     public List<String> tags;
-
-    public int size;
-    public int weight; // TODO add calculation.
-
-    public BodyPart() {
-        internal = new ArrayList<>();
-        external = new ArrayList<>();
-        tags = new ArrayList<>();
-        layers = new ArrayList<>();
-    }
 
     public BodyPart(RawBodyPart rawBodyPart) {
         name = rawBodyPart.name;
@@ -37,10 +28,5 @@ public class BodyPart {
         internal = rawBodyPart.internal;
         external = rawBodyPart.internal;
         tags = rawBodyPart.tags;
-        size = rawBodyPart.size;
-    }
-
-    public BodyPart(String name) {
-        this.name = name;
     }
 }

@@ -1,6 +1,9 @@
 /*
     mirrored limbs are doubled with left/right prefixes. siblings of mirrored limbs are mirrored too.
-    name is same as type, if omitted
+    slots:
+        slot name, slot limbs
+    slots include only mandatory limbs. all covered limbs are defined in item.
+    slots are mirrored, if they use mirrored limbs (giving two slots). if both mirrored and single limbs are used, one slot is created.
 */
 [
     {
@@ -11,63 +14,48 @@
             {
                 "type": "upper torso",
                 "root": "body",
-                "internal": ["left lung", "right lung", "heart"],
-                "size": "1"
+                "internal": ["left lung", "right lung", "heart"]
             }, {
                 "type": "lower torso",
                 "root": "body",
                 "layers": ["skin", "fat", "muscle"],
-                "internal": ["stomach"],
-                "size": "1"
+                "internal": ["stomach"]
             }, {
                 "type": "neck",
                 "root": "upper torso",
                 "layers": ["skin", "fat", "muscle"],
-                "internal": ["neck part spine"],
-                "size": "1"
+                "internal": ["neck part spine"]
             }, {
                 "type": "head",
                 "root": "neck",
                 "internal": ["brain", "tongue", "teeth"],
-                "external": ["left eye", "right eye", "nose", "left ear", "right ear"],
-                "size": "1"
+                "external": ["left eye", "right eye", "nose", "left ear", "right ear"]
             }, {
-                "name": "front upper leg",
                 "type": "upper leg",
                 "root": "upper torso",
-                "size": "1",
-                "mirrored": true
+                "mirrored": "bi"
             }, {
-                "name": "front lower leg",
                 "type": "lower leg",
-                "root": "front upper leg",
-                "size": "1"
+                "root": "front upper leg"
             }, {
-                "name": "front paw",
                 "type": "paw",
-                "root": "front lower leg",
-                "size": "1"
+                "root": "front lower leg"
             }, {
-                "name": "rear upper leg",
-                "type": "upper leg",
+                "type": "rear upper leg",
                 "root": "lower torso",
-                "size": "1",
-                "mirrored": true
+                "mirrored": "bi"
             }, {
-                "name": "rear lower leg",
-                "type": "lower leg",
+                "type": "rear lower leg",
                 "root": "rear upper leg",
                 "size": "1"
             }, {
-                "name": "rear paw",
-                "type": "paw",
+                "type": "rear paw",
                 "root": "rear lower leg",
                 "size": "1"
             }, {
                 "name": "tail",
                 "type": "tail",
-                "root": "lower torso",
-                "size": "1"
+                "root": "lower torso"
             }
         ]
     }, {
@@ -79,54 +67,47 @@
         {
             "type": "upper torso",
             "root": "body",
-            "internal": ["left lung", "right lung", "heart"],
-            "size": "1"
+            "internal": ["left lung", "right lung", "heart"]
         }, {
             "type": "lower torso",
             "root": "body",
             "layers": ["skin", "fat", "muscle"],
-            "internal": ["stomach"],
-            "size": "1"
+            "internal": ["stomach"]
         }, {
             "type": "neck",
             "root": "upper torso",
             "layers": ["skin", "fat", "muscle"],
-            "internal": ["neck part spine"],
-            "size": "1"
+            "internal": ["neck part spine"]
         }, {
             "type": "head",
             "root": "neck",
             "internal": ["brain", "tongue", "teeth"],
-            "external": ["left eye", "right eye", "nose", "left ear", "right ear"],
-            "size": "1"
+            "external": ["left eye", "right eye", "nose", "left ear", "right ear"]
         }, {
             "type": "upper arm",
             "root": "upper torso",
-            "size": "1",
-            "mirrored": true
+            "mirrored": "bi"
         }, {
             "type": "lower arm",
-            "root": "upper arm",
-            "size": "1"
+            "root": "upper arm"
         }, {
             "type": "hand",
             "root": "lower arm",
-            "size": "1",
             "tags": ["grab"]
         }, {
             "type": "upper leg",
             "root": "lower torso",
-            "size": "1",
-            "mirrored": true
+            "mirrored": "bi"
         }, {
             "type": "lower leg",
-            "root": "upper leg",
-            "size": "1"
+            "root": "upper leg"
         }, {
             "type": "foot",
-            "root": "lower leg",
-            "size": "1"
+            "root": "lower leg"
         }
+    ],
+    "slots": [
+        ["head", "head"], ["neck", "neck"], ["hand", "hand"], ["lower arm", "lower arm"], ["body", "upper_body", "upper_arm"], ["legs", "lower_torso", "upper_leg"], ["foot", "foot"]
     ]
 }
 ]

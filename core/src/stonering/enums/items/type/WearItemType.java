@@ -16,10 +16,6 @@ public class WearItemType {
     private ArrayList<String> requiredBodyParts;   // body parts, required to use item
     private String side;
 
-    private float baseInsulation;
-    private float baseWetResistance;
-    private int layer;
-
     public String getBodyTemplate() {
         return bodyTemplate;
     }
@@ -34,30 +30,6 @@ public class WearItemType {
 
     public void setAllBodyParts(ArrayList<String> allBodyParts) {
         this.allBodyParts = allBodyParts;
-    }
-
-    public float getBaseInsulation() {
-        return baseInsulation;
-    }
-
-    public void setBaseInsulation(float baseInsulation) {
-        this.baseInsulation = baseInsulation;
-    }
-
-    public float getBaseWetResistance() {
-        return baseWetResistance;
-    }
-
-    public void setBaseWetResistance(float baseWetResistance) {
-        this.baseWetResistance = baseWetResistance;
-    }
-
-    public int getLayer() {
-        return layer;
-    }
-
-    public void setLayer(int layer) {
-        this.layer = layer;
     }
 
     public ArrayList<String> getRequiredBodyParts() {

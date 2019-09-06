@@ -1,36 +1,27 @@
 package stonering.generators.creatures;
 
-import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.JsonReader;
-import com.badlogic.gdx.utils.JsonValue;
-import com.badlogic.gdx.utils.JsonWriter;
 import stonering.entity.unit.aspects.equipment.EquipmentSlot;
 import stonering.entity.unit.aspects.equipment.GrabEquipmentSlot;
 import stonering.enums.unit.body.BodyPart;
 import stonering.enums.unit.CreatureType;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
-import stonering.util.global.FileLoader;
+import stonering.enums.unit.body.BodyTemplate;
+
+import java.util.List;
 
 /**
- * Generates {@link EquipmentAspect} wi9th slots by json.
+ * Generates {@link EquipmentAspect} with slots by json.
+ * Slots are provided by {@link BodyTemplate}.
  *
  * @author Alexander on 19.09.2018.
  */
 public class EquipmentAspectGenerator {
-    private Json json;
-    private JsonReader reader;
-    private JsonValue templates;
 
-    public EquipmentAspectGenerator() {
-        reader = new JsonReader();
-        json = new Json();
-        json.setOutputType(JsonWriter.OutputType.json);
-        templates = reader.parse(FileLoader.getFile(FileLoader.BODY_TEMPLATE_PATH));
-    }
+    public EquipmentAspectGenerator() {}
 
     public EquipmentAspect generateEquipmentAspect(CreatureType type) {
         EquipmentAspect equipmentAspect = new EquipmentAspect(null);
-        generateAspectWithSlots(type, equipmentAspect);
+        generateSlots(type, equipmentAspect);
         initDesiredSlots(type, equipmentAspect);
         return equipmentAspect;
     }
@@ -38,13 +29,24 @@ public class EquipmentAspectGenerator {
     /**
      * Loops through body parts of creature, generating slots for them.
      */
-    private void generateAspectWithSlots(CreatureType type, EquipmentAspect aspect) {
+    private void generateSlots(CreatureType type, EquipmentAspect aspect) {
+        for (String slotName : type.bodyTemplate.slots.keySet()) {
+            EquipmentSlot slot = generateSlot(slotName, type.bodyTemplate.slots.get(slotName), type);
+        }
         for (BodyPart part : type.bodyTemplate.body.values()) {
             EquipmentSlot slot = generateSlotByBodyPart(part);
             if (slot instanceof GrabEquipmentSlot) {
-                aspect.getGrabSlots().put(slot.limbName, (GrabEquipmentSlot) slot);
+                aspect.grabSlots.put(slot.limbName, (GrabEquipmentSlot) slot);
             }
-            aspect.getSlots().put(slot.limbName, slot);
+            aspect.slots.put(slot.limbName, slot);
+        }
+    }
+
+    private EquipmentSlot generateSlot(String slotName, List<String> limbs, CreatureType type) {
+        if(limbs.stream().anyMatch(s -> type.bodyTemplate.body.get(s).tags.contains("grab"))) {
+            return new GrabEquipmentSlot();
+        } else {
+            return new EquipmentSlot();
         }
     }
 
@@ -55,9 +57,8 @@ public class EquipmentAspectGenerator {
         for (String limbType : type.limbsToCover) {
             type.bodyTemplate.body.values().stream().
                     filter(part -> part.type.equals(limbType)).
-                    forEach(part -> equipmentAspect.getDesiredSlots().add(equipmentAspect.getSlots().get(part.name)));
+                    forEach(part -> equipmentAspect.desiredSlots.add(equipmentAspect.slots.get(part.name)));
         }
-        equipmentAspect.setEmptyDesiredSlotsCount(equipmentAspect.getDesiredSlots().size());
     }
 
     /**

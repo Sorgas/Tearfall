@@ -64,7 +64,7 @@ public class BuildingAction extends Action {
     public int check() {
         Logger.TASKS.log("Checking building name: " + buildingType.building);
         ArrayList<Item> uncheckedItems = new ArrayList<>(GameMvc.instance().getModel().get(ItemContainer.class).getItemsInPosition(actionTarget.getPosition()));
-        uncheckedItems.addAll(task.getPerformer().getAspect(EquipmentAspect.class).getHauledItems()); // from performer inventory
+        uncheckedItems.addAll(task.getPerformer().getAspect(EquipmentAspect.class).hauledItems); // from performer inventory
         for (ItemSelector itemSelector : itemSelectors) {
             List<Item> selectedItems = itemSelector.selectItems(uncheckedItems);
             if (selectedItems.isEmpty()) return tryCreateDroppingAction(itemSelector); // create name for item

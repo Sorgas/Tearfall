@@ -36,7 +36,7 @@ public class DigAction extends Action {
         if(!validate()) return FAIL;
         EquipmentAspect aspect = task.getPerformer().getAspect(EquipmentAspect.class);
         if (aspect == null) return FAIL;
-        if (toolItemSelector.checkItems(aspect.getEquippedItems())) return OK;
+        if (toolItemSelector.checkItems(aspect.equippedItems)) return OK;
         return addEquipAction();
     }
 

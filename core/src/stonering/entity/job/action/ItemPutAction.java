@@ -41,7 +41,7 @@ public class ItemPutAction extends Action {
     @Override
     public void performLogic() {
         EquipmentAspect equipmentAspect = task.getPerformer().getAspect(EquipmentAspect.class);
-        equipmentAspect.getHauledItems().remove(targetItem);
+        equipmentAspect.hauledItems.remove(targetItem);
         if (targetEntity != null) {
             (targetEntity.getAspect(ItemContainerAspect.class)).items.add(targetItem); // put into container
         } else {
@@ -54,7 +54,7 @@ public class ItemPutAction extends Action {
         if (targetEntity != null && targetEntity.getAspect(ItemContainerAspect.class) != null) return FAIL;
         EquipmentAspect equipmentAspect = task.getPerformer().getAspect(EquipmentAspect.class);
         if (equipmentAspect == null) return FAIL; // performer can't carry items
-        if (equipmentAspect.getHauledItems().contains(targetItem)) return OK; // performer already has item
+        if (equipmentAspect.hauledItems.contains(targetItem)) return OK; // performer already has item
         return createPickingAction(targetItem);
     }
 

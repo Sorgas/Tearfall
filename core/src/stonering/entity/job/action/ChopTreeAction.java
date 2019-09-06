@@ -38,7 +38,7 @@ public class ChopTreeAction extends Action {
             Logger.TASKS.logDebug("No tool equipped by performer for chopTreeAction");
             return FAIL;
         }
-        if (toolItemSelector.checkItems(aspect.getEquippedItems())) return OK;
+        if (toolItemSelector.checkItems(aspect.equippedItems)) return OK;
 
         Logger.TASKS.logDebug("No tool equipped by performer for chopTreeAction");
         Item target = model.get(ItemContainer.class).getItemAvailableBySelector(toolItemSelector, task.getPerformer().position);

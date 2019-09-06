@@ -23,10 +23,10 @@ public class UnequipItemAction extends Action {
         if (equipmentAspect == null) return FAIL;
 
         //item is equipped
-        if (!equipmentAspect.getEquippedItems().contains(item)) return OK;
+        if (!equipmentAspect.equippedItems.contains(item)) return OK;
         //item is on top
         //TODO move to equipment aspect
-        for (EquipmentSlot slot : equipmentAspect.getSlots().values()) {
+        for (EquipmentSlot slot : equipmentAspect.slots.values()) {
             if (slot.items.contains(item)) {
                 for (int i = slot.items.size() - 1; i >= 0; i--) {
                     if (slot.items.get(i).getType().wear.getLayer() > item.getType().wear.getLayer()) { // slot has item with higher layer.

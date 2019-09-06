@@ -75,4 +75,8 @@ public class CreatureTypeMap {
         Logger.UNITS.logError("Creature type " + specimen + "not found");
         return creatureTypes.get(specimen);
     }
+
+    public static void main(String[] args) {
+        new CreatureTypeMap();
+    }
 }

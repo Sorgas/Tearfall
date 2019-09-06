@@ -5,6 +5,8 @@ import stonering.entity.item.Item;
 import java.util.ArrayList;
 
 /**
+ * Slots are stored in creature's {@link EquipmentAspect} and can hold items.
+ *
  * @author Alexander on 22.02.2019.
  */
 public class EquipmentSlot {

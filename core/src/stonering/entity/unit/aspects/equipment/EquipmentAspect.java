@@ -1,31 +1,33 @@
 package stonering.entity.unit.aspects.equipment;
 
 import stonering.entity.Entity;
+import stonering.entity.job.action.Action;
 import stonering.exceptions.NotSuitableItemException;
 import stonering.entity.Aspect;
 import stonering.entity.item.Item;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
 /**
  * Stores all item equipped and hauled by unit.
- * Equipped item are ones, worn on body.
- * Does not takes or puts item to map, this should be done by actions.
+ * Equipped item are ones in slots. Hauled items are ones in the grab slots.
+ * Equipping and unequipping can require additional actions, this logic should be implemented in {@link Action}s.
+ * Does not takes or puts item to map, this should be done by {@link Action}.
+ * <p>
+ * MVP: items have no layers, all slots mentioned in item type are occupied. Items can be hauled only in hands
  *
  * @author Alexander Kuzyakov on 03.01.2018.
  */
 public class EquipmentAspect extends Aspect {
     public static String NAME = "equipment";
-    private HashMap<String, EquipmentSlot> slots;            // all slots of a creature
-    private HashMap<String, GrabEquipmentSlot> grabSlots;    // equipped item
-    private ArrayList<Item> hauledItems;                     // hauled item list for faster checking
-    private ArrayList<Item> equippedItems;                   // equipped item list for faster checking
-    private ArrayList<EquipmentSlot> desiredSlots;           // uncovered limbs give comfort penalty
-    private int emptyDesiredSlotsCount;                      // for faster checking nudity
+    public final HashMap<String, EquipmentSlot> slots;            // all slots of a creature
+    public final HashMap<String, GrabEquipmentSlot> grabSlots;    // equipped item
+    public final ArrayList<Item> hauledItems;                     // hauled item list for faster checking
+    public final ArrayList<Item> equippedItems;                   // equipped item list for faster checking
+    public final ArrayList<EquipmentSlot> desiredSlots;           // uncovered limbs give comfort penalty
 
     public EquipmentAspect(Entity entity) {
         super(entity);
@@ -38,7 +40,7 @@ public class EquipmentAspect extends Aspect {
 
     /**
      * For hauling item.
-     * Validity should be fully checked by name (slots should be free).
+     * Validity should be fully checked by action (slots should be free).
      */
     public void pickupItem(Item item) {
         for (GrabEquipmentSlot slot : grabSlots.values()) {
@@ -52,30 +54,38 @@ public class EquipmentAspect extends Aspect {
 
     /**
      * Equips wear on body and tools into hands.
-     * Validity should be fully checked by name (slots should be free).
+     * Validity should be fully prechecked by action (slots should be free), otherwise action will fail.
      *
      * @return false, if equipping failed.
      */
     public boolean equipItem(Item item) {
         //TODO check hauling
         if (item == null || equippedItems.contains(item)) return false;
-        if (item.isWear()) { // equip as wear
-            //TODO add layers checking
-            List<EquipmentSlot> slots = selectMostEmptySlotsForItem(item);
-            for (EquipmentSlot slot : slots) {
-                slot.items.add(item);
-            }
+     // grab as tool
+        for (GrabEquipmentSlot slot : grabSlots.values()) {
+            if (slot.grabbedItem != null) continue;
+            slot.grabbedItem = item;
             equippedItems.add(item);
             return true;
-        } else if (item.isTool()) { // grab as tool
-            for (GrabEquipmentSlot slot : grabSlots.values()) {
-                if (slot.grabbedItem != null) continue;
-                slot.grabbedItem = item;
-                equippedItems.add(item);
-                return true;
-            }
         }
         return false;
+    }
+
+    public boolean equipWearItem(Item item) {
+        if (item == null || !item.isWear() || equippedItems.contains(item)) return false;
+        //TODO add layers checking
+        List<EquipmentSlot> slots = selectMostEmptySlotsForItem(item);
+        for (EquipmentSlot slot : slots) {
+            slot.items.add(item);
+        }
+        equippedItems.add(item);
+        return true;
+
+    }
+
+    public boolean equipToolItem(Item item) {
+        if (item == null || equippedItems.contains(item)) return false;
+
     }
 
     /**
@@ -85,15 +95,6 @@ public class EquipmentAspect extends Aspect {
      */
     private List<EquipmentSlot> selectMostEmptySlotsForItem(Item item) {
         if (item.isWear()) {
-            List<EquipmentSlot> slots = new ArrayList<>(this.slots.values());
-            List<EquipmentSlot> selectedSlots = new ArrayList<>();
-            for (String type : item.getType().wear.getAllBodyParts()) {
-                EquipmentSlot slot = selectMostSuitableSlotWithType(slots, type, item.getType().wear.getLayer());
-                if (slot == null) continue;
-                slots.remove(slot);
-                selectedSlots.add(slot);
-            }
-            return selectedSlots;
         } else if (item.isTool()) {
             List<EquipmentSlot> slots = new ArrayList<>();
             for (GrabEquipmentSlot slot : grabSlots.values()) {
@@ -107,11 +108,26 @@ public class EquipmentAspect extends Aspect {
         return new ArrayList<>();
     }
 
+    private List<EquipmentSlot> selectSlotsForWear(Item item) {
+        List<EquipmentSlot> slots = new ArrayList<>(this.slots.values());
+        List<EquipmentSlot> selectedSlots = new ArrayList<>();
+        for (String type : item.getType().wear.getAllBodyParts()) {
+            EquipmentSlot slot = selectMostSuitableSlotWithType(slots, type);
+            if (slot == null) continue;
+            slots.remove(slot);
+            selectedSlots.add(slot);
+        }
+        return selectedSlots;
+
+    }
+
     /**
-     * Selects slot most suitable for equipping item of given layer.
+     * Selects slot most suitable for equipping item.
+     * //TODO add item layers
      */
-    private EquipmentSlot selectMostSuitableSlotWithType(List<EquipmentSlot> slots, String type, int layer) {
+    private EquipmentSlot selectMostSuitableSlotWithType(List<EquipmentSlot> slots, String type) {
         //TODO take in account insulation and other properties
+
         EquipmentSlot emptyestSlot = null;
         for (EquipmentSlot slot : slots) {
             if (!slot.limbType.equals(type)) continue;
@@ -129,7 +145,7 @@ public class EquipmentAspect extends Aspect {
      * Checks if given item can be equipped to creature.
      * Checks required and optional slots, demanded by item.
      *
-     * @return Item that should be unequipped. nullm if all needed slots are free enough.
+     * @return Item that should be unequipped. null, if all needed slots are free enough.
      * @throws NotSuitableItemException if ite cannot be equipped.
      */
     public Item checkItemForEquip(Item item) throws NotSuitableItemException {
@@ -186,10 +202,8 @@ public class EquipmentAspect extends Aspect {
      * Filters and returns slots needed to be filled to avoid nudity penalty.
      */
     public List<EquipmentSlot> getEmptyDesiredSlots() {
-        if (emptyDesiredSlotsCount == 0) return Collections.EMPTY_LIST;
         return desiredSlots.stream().filter(equipmentSlot -> equipmentSlot.isEmpty()).collect(Collectors.toList());
     }
-
 
     /**
      * Removes given item from all slots disregarding other item in these slots (even if overlapping is present).
@@ -214,42 +228,10 @@ public class EquipmentAspect extends Aspect {
         });
     }
 
-    public boolean checkItem(Item item) {
-        return equippedItems.contains(item) || hauledItems.contains(item);
-    }
-
     /**
-     * Current load / MAx load.
+     * Current load / Max load.
      */
     public float getRelativeLoad() {
         return 1; //TODO
-    }
-
-    public ArrayList<Item> getEquippedItems() {
-        return equippedItems;
-    }
-
-    public ArrayList<Item> getHauledItems() {
-        return hauledItems;
-    }
-
-    public HashMap<String, EquipmentSlot> getSlots() {
-        return slots;
-    }
-
-    public HashMap<String, GrabEquipmentSlot> getGrabSlots() {
-        return grabSlots;
-    }
-
-    public ArrayList<EquipmentSlot> getDesiredSlots() {
-        return desiredSlots;
-    }
-
-    public int getEmptyDesiredSlotsCount() {
-        return emptyDesiredSlotsCount;
-    }
-
-    public void setEmptyDesiredSlotsCount(int emptyDesiredSlotsCount) {
-        this.emptyDesiredSlotsCount = emptyDesiredSlotsCount;
     }
 }

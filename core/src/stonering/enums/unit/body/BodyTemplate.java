@@ -1,12 +1,13 @@
 package stonering.enums.unit.body;
 
+import stonering.enums.unit.CreatureTypeMap;
 import stonering.enums.unit.body.raw.RawBodyTemplate;
 
 import java.util.HashMap;
 import java.util.List;
 
 /**
- * Represents body structure of a creature.
+ * Represents body structure of a creature. Store in {@link CreatureTypeMap}.
  *
  * @author Alexander on 29.05.2019.
  */
@@ -16,6 +17,7 @@ public class BodyTemplate {
     public List<String> needs;
     public List<String> limbsToCover;
     public HashMap<String, BodyPart> body; // name to bodyPart
+    public HashMap<String, List<String>> slots;
 
     public BodyTemplate(RawBodyTemplate rawBodyTemplate) {
         name = rawBodyTemplate.name;
@@ -23,5 +25,6 @@ public class BodyTemplate {
         needs = rawBodyTemplate.needs;
         limbsToCover = rawBodyTemplate.limbsToCover;
         body = new HashMap<>();
+        slots = new HashMap<>();
     }
 }

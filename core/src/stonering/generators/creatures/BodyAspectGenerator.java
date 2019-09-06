@@ -11,9 +11,8 @@ import stonering.entity.unit.aspects.body.BodyAspect;
 public class BodyAspectGenerator {
 
     public BodyAspect generateBodyAspect(CreatureType type) {
-        BodyAspect aspect = new BodyAspect(null);
-        aspect.setBodyTemplate(type.bodyTemplate.name);
-        aspect.setBodyPartsToCover(type.limbsToCover);
+        BodyAspect aspect = new BodyAspect(null, type.bodyTemplate.name);
+        aspect.bodyPartsToCover.addAll(type.limbsToCover);
         return aspect;
     }
 }
