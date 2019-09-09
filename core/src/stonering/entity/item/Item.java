@@ -45,8 +45,15 @@ public class Item extends Entity {
         return type.tool != null;
     }
 
-    public boolean isWear() {
-        return type.wear != null;
+    @Override
+    public <T extends Aspect> boolean hasAspect(Class<T> type) {
+        return super.hasAspect(type) || this.type.hasAspect(type);
+    }
+
+    @Override
+    public <T extends Aspect> T getAspect(Class<T> type) {
+        if(this.type.hasAspect(type)) return this.type.getAspect(type);
+        return super.getAspect(type);
     }
 
     @Override

@@ -18,11 +18,13 @@ public class WearAspect extends Aspect {
     public final String bodyTemplate; // creatures with this template can use item
     public final WearLayers layer;
     public final List<String> additionalLimbs; // body parts, covered by item
+    public final String slot;
 
     public WearAspect(Entity entity, List<String> arguments) {
         super(entity);
         bodyTemplate = arguments.get(0);
-        layer = WearLayers.getByName(arguments.get(1));
-        additionalLimbs = arguments.subList(2, arguments.size());
+        slot = arguments.get(1);
+        layer = WearLayers.getByName(arguments.get(2));
+        additionalLimbs = arguments.subList(3, arguments.size());
     }
 }

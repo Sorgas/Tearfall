@@ -63,63 +63,38 @@ public class EquipmentAspect extends Aspect {
         //TODO check hauling
         if (item == null || equippedItems.contains(item)) return false;
         // grab as tool
-        for (GrabEquipmentSlot slot : grabSlots.values()) {
-            if (slot.grabbedItem != null) continue;
+        if(item.isTool()) {
+            GrabEquipmentSlot slot = selectSlotForTool(item);
+            if (slot == null) return false; // task failed, all grab slots are full
             slot.grabbedItem = item;
             equippedItems.add(item);
-            return true;
+        } else if(item.hasAspect(WearAspect.class)) {
+            EquipmentSlot slot = selectSlotsForWear(item);
+            if(slot == null) return false;
+            slot.addItem(item);
+            equippedItems.add(item);
         }
         return false;
     }
 
-    public boolean equipWearItem(Item item) {
-        if (item == null || !item.isWear() || equippedItems.contains(item)) return false;
-        //TODO add layers checking
-        List<EquipmentSlot> slots = selectMostEmptySlotsForItem(item);
-        for (EquipmentSlot slot : slots) {
-            slot.items.add(item);
-        }
-        equippedItems.add(item);
-        return true;
-
-    }
-
-    public boolean equipToolItem(Item item) {
-        if (item == null || equippedItems.contains(item)) return false;
-
-    }
-
     /**
-     * Picks most unfilled slots with specified limb types.
-     *
-     * @return list of found slots otherwise.
+     * Selects slot for item.
      */
-    private List<EquipmentSlot> selectMostEmptySlotsForItem(Item item) {
-        if (item.isWear()) {
-        } else if (item.isTool()) {
-            List<EquipmentSlot> slots = new ArrayList<>();
-            for (GrabEquipmentSlot slot : grabSlots.values()) {
-                if (slot.grabbedItem != null) continue;
-                slots.add(slot);
-                break;
-            }
-            slots.add(grabSlots.values().iterator().next());
-            return slots;
+    private EquipmentSlot selectSlotForItem(Item item) {
+        if (item.hasAspect(WearAspect.class) && slots.get(item.getAspect(WearAspect.class).ca)) {
+            return slots.get(item.getAspect(WearAspect.class).slot);
         }
-        return new ArrayList<>();
+        return grabSlots.values().stream().filter(slot -> slot.grabbedItem == null).findFirst().orElse(null);
     }
 
-    private List<EquipmentSlot> selectSlotsForWear(Item item) {
-        List<EquipmentSlot> slots = new ArrayList<>(this.slots.values());
-        List<EquipmentSlot> selectedSlots = new ArrayList<>();
-        for (String type : item.getType().wear.getAllBodyParts()) {
-            EquipmentSlot slot = selectMostSuitableSlotWithType(slots, type);
-            if (slot == null) continue;
-            slots.remove(slot);
-            selectedSlots.add(slot);
-        }
-        return selectedSlots;
+    private GrabEquipmentSlot selectSlotForTool(Item item) {
+    }
 
+    private EquipmentSlot selectSlotsForWear(Item item) {
+        if (item.hasAspect(WearAspect.class)) {
+            return slots.get(item.getAspect(WearAspect.class).slot);
+        }
+        return null;
     }
 
     /**
@@ -156,14 +131,14 @@ public class EquipmentAspect extends Aspect {
             if (!checkSlotsWithTypes(requiredSlotTypes)) { // required slots exist on creature
                 throw new NotSuitableItemException("Creature " + entity + " has no required slots for item " + item);
             }
-            List<EquipmentSlot> slots = selectMostEmptySlotsForItem(item);
+            List<EquipmentSlot> slots = selectSlotForItem(item);
             for (EquipmentSlot slot : slots) {
                 Item itemToUnequip = findItemToUnequip(slot, item);
                 if (itemToUnequip != null) return itemToUnequip;
             }
             return null;
         } else if (item.isTool()) {
-            List<EquipmentSlot> slots = selectMostEmptySlotsForItem(item);
+            List<EquipmentSlot> slots = selectSlotForItem(item);
             if (slots.size() > 0) return ((GrabEquipmentSlot) slots.get(0)).grabbedItem;
             throw new NotSuitableItemException("No slots for tool found");
         }
@@ -214,26 +189,26 @@ public class EquipmentAspect extends Aspect {
         if (!equippedItems.contains(item)) return; // item not equipped
         if (!item.getType().hasAspect(WearAspect.class)) {
             equippedItems.remove(item);
-        slots.forEach((s, slot) -> {
-            if (slot.items[item.getType().] (item))slot.items.remove(item);
-        });
-    }
+            slots.forEach((s, slot) -> {
+                if (slot.hasItem(item)) slot.item = null;
+            });
+        }
 
-    /**
-     * Removes given item from all grab slots.
-     */
-    public void dropItem(Item item) {
-        if (!hauledItems.contains(item)) return;
-        hauledItems.remove(item);
-        grabSlots.forEach((s, slot) -> {
-            if (slot.grabbedItem == item) slot.grabbedItem = null;
-        });
-    }
+        /**
+         * Removes given item from all grab slots.
+         */
+        public void dropItem (Item item){
+            if (!hauledItems.contains(item)) return;
+            hauledItems.remove(item);
+            grabSlots.forEach((s, slot) -> {
+                if (slot.grabbedItem == item) slot.grabbedItem = null;
+            });
+        }
 
-    /**
-     * Current load / Max load.
-     */
-    public float getRelativeLoad() {
-        return 1; //TODO
+        /**
+         * Current load / Max load.
+         */
+        public float getRelativeLoad () {
+            return 1; //TODO
+        }
     }
-}
