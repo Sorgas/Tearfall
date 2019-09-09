@@ -3,11 +3,9 @@ package stonering.enums.unit.body.raw;
 import stonering.enums.unit.body.BodyPart;
 import stonering.enums.unit.body.BodyTemplate;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Processes {@link RawBodyTemplate} into {@link BodyTemplate}.
@@ -18,15 +16,43 @@ public class BodyTemplateProcessor {
     private static final String LEFT_PREFIX = "left ";
     private static final String RIGHT_PREFIX = "right ";
 
-    public BodyTemplate process(RawBodyTemplate rawBodyTemplate) {
-        BodyTemplate bodyTemplate = new BodyTemplate(rawBodyTemplate);
-        Map<String, RawBodyPart> rawPartMap = rawBodyTemplate.body.stream().collect(Collectors.toMap(part -> part.type, part -> part, (a, b) -> b));
+    public BodyTemplate process(RawBodyTemplate rawTemplate) {
+        BodyTemplate template = new BodyTemplate(rawTemplate);
+        Map<String, RawBodyPart> rawPartMap = rawTemplate.body.stream().collect(Collectors.toMap(part -> part.type, part -> part, (a, b) -> b)); // part name to part
         updateMirroringFlags(rawPartMap);
-        rawBodyTemplate.slots = mirrorSlots(rawBodyTemplate, rawPartMap);
-        fillSlots(rawBodyTemplate, bodyTemplate);
+        rawTemplate.slots = mirrorSlots(rawTemplate, rawPartMap);
+        rawTemplate.slots.forEach(slot -> template.slots.put(slot.get(0), slot.subList(1, slot.size())));
         rawPartMap = doubleMirroredParts(rawPartMap);
-        fillBodyParts(rawPartMap, bodyTemplate);
-        return bodyTemplate;
+        fillBodyParts(rawPartMap, template);
+        return template;
+    }
+
+    /**
+     * Mirrors slots which use only mirrored parts. Mirrors only limbs in a slot, if there are non-mirrored limbs in that slot.
+     * Also mirrors desired slots.
+     */
+    private List<List<String>> mirrorSlots(RawBodyTemplate rawTemplate, Map<String, RawBodyPart> rawPartMap) {
+        List<List<String>> newSlots = new ArrayList<>();
+        for (List<String> slot : rawTemplate.slots) {
+            String slotName = slot.get(0);
+            List<String> slotLimbs = slot.subList(1, slot.size());
+            if (containsOnlyMirroredLimbs(slotLimbs, rawPartMap)) { // create two slots (names are prefixed)
+                newSlots.add(slot.stream().map(s -> LEFT_PREFIX + s).collect(Collectors.toList())); // left copy of a slot
+                newSlots.add(slot.stream().map(s -> RIGHT_PREFIX + s).collect(Collectors.toList())); // right copy of a slot
+                if (rawTemplate.desiredSlots.contains(slotName)) {
+                    rawTemplate.desiredSlots.remove(slotName);
+                    rawTemplate.desiredSlots.add(LEFT_PREFIX + slotName);
+                    rawTemplate.desiredSlots.add(RIGHT_PREFIX + slotName);
+                }
+            } else { // some limbs are single, so mirrored limbs are duplicated in same slot
+                List<String> newSlot = slotLimbs.stream() // copy some limbs with prefixes
+                        .flatMap(s -> rawPartMap.get(s).mirrored ? Stream.of(LEFT_PREFIX + s, RIGHT_PREFIX + s) : Stream.of(s))
+                        .collect(Collectors.toList());
+                newSlot.add(0, slotName);
+                newSlots.add(newSlot);
+            }
+        }
+        return newSlots;
     }
 
     /**
@@ -36,12 +62,12 @@ public class BodyTemplateProcessor {
         Map<String, RawBodyPart> newMap = new HashMap<>();
         // double mirrored parts
         for (RawBodyPart bodyPart : map.values()) {
-            if (bodyPart.mirrored != null) {
+            if (bodyPart.mirrored) {
                 RawBodyPart leftPart = new RawBodyPart(bodyPart); // copy parts
                 RawBodyPart rightPart = new RawBodyPart(bodyPart);
                 leftPart.name = LEFT_PREFIX + leftPart.name; // update name
                 rightPart.name = RIGHT_PREFIX + rightPart.name;
-                if (map.get(bodyPart.root).mirrored != null) { // root is mirrored
+                if (map.get(bodyPart.root).mirrored) { // root is mirrored
                     leftPart.root = LEFT_PREFIX + leftPart.root; // update root
                     rightPart.root = RIGHT_PREFIX + rightPart.root;
                 }
@@ -54,42 +80,8 @@ public class BodyTemplateProcessor {
         return newMap;
     }
 
-
-    private List<List<String>> mirrorSlots(RawBodyTemplate rawTemplate, Map<String, RawBodyPart> rawPartMap) {
-        List<List<String>> newSlots = new ArrayList<>();
-        for (List<String> slot : rawTemplate.slots) {
-            if(containsOnlyMirroriedLibms(slot.subList(1, slot.size()), rawPartMap)) { // create two slots (names are prefixed)
-                List<String> leftSlot = new ArrayList<>();
-                slot.forEach(s -> leftSlot.add(LEFT_PREFIX + s));
-                newSlots.add(leftSlot);
-                List<String> rightSlot = new ArrayList<>();
-                slot.forEach(s -> rightSlot.add(RIGHT_PREFIX + s));
-                newSlots.add(rightSlot);
-            } else { // some limbs are single, so 1 slot remains, mirrored limbs duplicated in slot
-                List<String> newSlot = new ArrayList<>();
-                newSlot.add(slot.get(0));
-                for (String slotLimb : slot.subList(1, slot.size())) {
-                    if(rawPartMap.get(slotLimb).mirrored != null) {
-                        newSlot.add(LEFT_PREFIX + slotLimb); // mirror limbs which will be mirrored in template
-                        newSlot.add(RIGHT_PREFIX + slotLimb);
-                    } else {
-                        newSlot.add(slotLimb);
-                    }
-                }
-                newSlots.add(newSlot);
-            }
-        }
-        return newSlots;
-    }
-
-    private boolean containsOnlyMirroriedLibms(List<String> slotLimbs, Map<String, RawBodyPart> rawPartMap) {
-        return slotLimbs.stream().anyMatch(limb -> rawPartMap.get(limb).mirrored == null);
-    }
-
-    private void fillSlots(RawBodyTemplate rawTemplate, BodyTemplate template) {
-        for (List<String> slot : rawTemplate.slots) {
-            template.slots.put(slot.get(0), slot.subList(1, slot.size()));
-        }
+    private boolean containsOnlyMirroredLimbs(List<String> slotLimbs, Map<String, RawBodyPart> rawPartMap) {
+        return slotLimbs.stream().allMatch(limb -> rawPartMap.get(limb).mirrored);
     }
 
     /**
@@ -98,11 +90,10 @@ public class BodyTemplateProcessor {
      */
     private void updateMirroringFlags(Map<String, RawBodyPart> map) {
         for (RawBodyPart currentLimb : map.values()) {
-            if (currentLimb.mirrored != null) continue; // limb already have mirroring
+            if (currentLimb.mirrored) continue; // limb already have mirroring
             RawBodyPart limb = currentLimb;
-
             while (!limb.root.equals("body")) { // to the root limb
-                if (map.get(limb.root).mirrored != null) { // limb with mirroring found
+                if (map.get(limb.root).mirrored) { // limb with mirroring found
                     currentLimb.mirrored = map.get(limb.root).mirrored; // copy flag
                     break;
                 }

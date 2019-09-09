@@ -12,7 +12,7 @@ public class RawBodyPart implements Cloneable {
     public String name;
     public String type;
     public String root;
-    public String mirrored; // bi for left and right, quadro for front left, rear right, etc
+    public boolean mirrored; // bi for left and right, quadro for front left, rear right, etc
     public List<String> layers;
     public List<String> internal;
     public List<String> external;

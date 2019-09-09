@@ -60,7 +60,7 @@
         ]
     }, {
     "name": "humanoid",
-    "limbsToCover": ["foot", "upper_body", "lower_body"],
+    "desiredSlots": ["foot", "body"],
     "defaultLayers": ["skin", "fat", "muscle", "bone"],
     "needs": ["rest", "wear"],
     "body": [
@@ -107,7 +107,13 @@
         }
     ],
     "slots": [
-        ["head", "head"], ["neck", "neck"], ["hand", "hand"], ["lower arm", "lower arm"], ["body", "upper_body", "upper_arm"], ["legs", "lower_torso", "upper_leg"], ["foot", "foot"]
+        ["head", "head"],
+        ["neck", "neck"],
+        ["hand", "hand"],
+        ["lower arm", "lower arm"],
+        ["body", "upper_body", "upper_arm"],
+        ["legs", "lower_torso", "upper_leg"],
+        ["foot", "foot"]
     ]
 }
 ]

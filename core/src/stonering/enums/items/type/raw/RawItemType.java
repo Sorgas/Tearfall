@@ -1,4 +1,7 @@
-package stonering.enums.items.type;
+package stonering.enums.items.type.raw;
+
+import stonering.enums.items.type.ItemPartType;
+import stonering.enums.items.type.ToolItemType;
 
 import java.util.List;
 
@@ -9,10 +12,7 @@ public class RawItemType {
     public String name;                                // id
     public String title = "";                               // displayable name
     public String description;                         // displayable description
-
-    public WearItemType wear;                          // is set if this item could be worn
     public ToolItemType tool;                          // is set if this item could be used as tool
-
     public List<ItemPartType> parts;              // defines parts of item. first one is main
 
     // first element of lists is aspect name

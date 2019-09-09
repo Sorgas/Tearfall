@@ -2,12 +2,12 @@ package stonering.generators.creatures;
 
 import stonering.entity.unit.aspects.equipment.EquipmentSlot;
 import stonering.entity.unit.aspects.equipment.GrabEquipmentSlot;
-import stonering.enums.unit.body.BodyPart;
 import stonering.enums.unit.CreatureType;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.enums.unit.body.BodyTemplate;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Generates {@link EquipmentAspect} with slots by json.
@@ -30,24 +30,20 @@ public class EquipmentAspectGenerator {
      * Loops through body parts of creature, generating slots for them.
      */
     private void generateSlots(CreatureType type, EquipmentAspect aspect) {
-        for (String slotName : type.bodyTemplate.slots.keySet()) {
-            EquipmentSlot slot = generateSlot(slotName, type.bodyTemplate.slots.get(slotName), type);
-        }
-        for (BodyPart part : type.bodyTemplate.body.values()) {
-            EquipmentSlot slot = generateSlotByBodyPart(part);
+        Map<String, List<String>> slotLimbs = type.bodyTemplate.slots;
+        for (String name : slotLimbs.keySet()) {
+            EquipmentSlot slot = isGrabSlot(name, type)
+                    ? new GrabEquipmentSlot(name, slotLimbs.get(name))
+                    : new EquipmentSlot(name, slotLimbs.get(name));
             if (slot instanceof GrabEquipmentSlot) {
-                aspect.grabSlots.put(slot.limbName, (GrabEquipmentSlot) slot);
+                aspect.grabSlots.put(name, (GrabEquipmentSlot) slot);
             }
-            aspect.slots.put(slot.limbName, slot);
+            aspect.slots.put(name, slot);
         }
     }
 
-    private EquipmentSlot generateSlot(String slotName, List<String> limbs, CreatureType type) {
-        if(limbs.stream().anyMatch(s -> type.bodyTemplate.body.get(s).tags.contains("grab"))) {
-            return new GrabEquipmentSlot();
-        } else {
-            return new EquipmentSlot();
-        }
+    private boolean isGrabSlot(String slotName, CreatureType type) {
+        return type.bodyTemplate.slots.get(slotName).stream().anyMatch(s -> type.bodyTemplate.body.get(s).tags.contains("grab"));
     }
 
     /**
@@ -59,15 +55,5 @@ public class EquipmentAspectGenerator {
                     filter(part -> part.type.equals(limbType)).
                     forEach(part -> equipmentAspect.desiredSlots.add(equipmentAspect.slots.get(part.name)));
         }
-    }
-
-    /**
-     * Creates {@link EquipmentSlot} for bodyparts from template.
-     */
-    private EquipmentSlot generateSlotByBodyPart(BodyPart part) {
-        if (part.tags.contains("grab")) {
-            return new GrabEquipmentSlot(part.name, part.type);
-        }
-        return new EquipmentSlot(part.name, part.type);
     }
 }

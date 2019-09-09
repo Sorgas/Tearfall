@@ -1,6 +1,7 @@
 package stonering.entity.unit.aspects.equipment;
 
 import stonering.entity.Entity;
+import stonering.entity.item.aspects.WearAspect;
 import stonering.entity.job.action.Action;
 import stonering.exceptions.NotSuitableItemException;
 import stonering.entity.Aspect;
@@ -61,7 +62,7 @@ public class EquipmentAspect extends Aspect {
     public boolean equipItem(Item item) {
         //TODO check hauling
         if (item == null || equippedItems.contains(item)) return false;
-     // grab as tool
+        // grab as tool
         for (GrabEquipmentSlot slot : grabSlots.values()) {
             if (slot.grabbedItem != null) continue;
             slot.grabbedItem = item;
@@ -207,13 +208,14 @@ public class EquipmentAspect extends Aspect {
 
     /**
      * Removes given item from all slots disregarding other item in these slots (even if overlapping is present).
-     * Item should not be blocked by other item. This should be checked by name.
+     * Item should not be blocked by other item. This should be checked by action.
      */
     public void unequipItem(Item item) {
-        if (!equippedItems.contains(item)) return;
-        equippedItems.remove(item);
+        if (!equippedItems.contains(item)) return; // item not equipped
+        if (!item.getType().hasAspect(WearAspect.class)) {
+            equippedItems.remove(item);
         slots.forEach((s, slot) -> {
-            if (slot.items.contains(item)) slot.items.remove(item);
+            if (slot.items[item.getType().] (item))slot.items.remove(item);
         });
     }
 

@@ -14,7 +14,7 @@ public class RawBodyTemplate {
     public String name;
     public List<String> defaultLayers;
     public List<String> needs;
-    public List<String> limbsToCover = new ArrayList<>();
+    public List<String> desiredSlots = new ArrayList<>();
     public List<RawBodyPart> body;
     public List<List<String>> slots = new ArrayList<>();
 }

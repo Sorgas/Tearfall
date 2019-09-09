@@ -17,13 +17,13 @@ public class BodyTemplate {
     public List<String> needs;
     public List<String> limbsToCover;
     public HashMap<String, BodyPart> body; // name to bodyPart
-    public HashMap<String, List<String>> slots;
+    public HashMap<String, List<String>> slots; // slot name to default limbs
 
     public BodyTemplate(RawBodyTemplate rawBodyTemplate) {
         name = rawBodyTemplate.name;
         defaultLayers = rawBodyTemplate.defaultLayers;
         needs = rawBodyTemplate.needs;
-        limbsToCover = rawBodyTemplate.limbsToCover;
+        limbsToCover = rawBodyTemplate.desiredSlots;
         body = new HashMap<>();
         slots = new HashMap<>();
     }
