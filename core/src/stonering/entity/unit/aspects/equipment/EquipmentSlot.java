@@ -12,12 +12,9 @@ import java.util.List;
  * @author Alexander on 22.02.2019.
  */
 public class EquipmentSlot {
-    //TODO add multi-item support for one layer
-
-    // public final Item[] items; // single item of each layer
     public Item item; //TODO mvp single item
     public final String name;
-    public final List<String> limbs; // limbs covered by items in this slot. items can cover additional slots
+    public final List<String> limbs; // limbs covered by items in this slot. items can cover additional limbs
 
     public EquipmentSlot(String name, List<String> limbs) {
         this.name = name;
@@ -29,7 +26,7 @@ public class EquipmentSlot {
     }
 
     public boolean addItem(Item item) {
-        if(isEquippable(item)) {
+        if(isEquippableWear(item)) {
             this.item = item;
             return true;
         }
@@ -45,15 +42,7 @@ public class EquipmentSlot {
     }
 
     public boolean canEquip(Item item) {
-        return isEquippable(item);
-    }
-
-    /**
-     * TODO mvp
-     * Item is equippable wear and slot is free.
-     */
-    private boolean isEquippable(Item item) {
-        return this.item == null && item != null && item.hasAspect(WearAspect.class);
+        return isEquippableWear(item);
     }
 
     /**
@@ -62,5 +51,24 @@ public class EquipmentSlot {
      */
     public boolean canUnequip(Item item) {
         return hasItem(item);
+    }
+
+    /**
+     * @return item that blocks equipping or unequipping of given item.
+     */
+    public Item getBlockingItem(Item item) {
+        if(hasItem(item)) {
+            return null;
+        } else {
+            return canEquip(item) ? null : item; //TODO add layers
+        }
+    }
+
+    /**
+     * Item is equippable wear and slot is free.
+     * TODO mvp
+     */
+    private boolean isEquippableWear(Item item) {
+        return this.item == null && item != null && item.hasAspect(WearAspect.class);
     }
 }

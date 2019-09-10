@@ -54,4 +54,9 @@ public class GrabEquipmentSlot extends EquipmentSlot {
     public boolean canUnequip(Item item) {
         return grabbedItem == item || super.canUnequip(item);
     }
+
+    @Override
+    public Item getBlockingItem(Item item) {
+        return super.getBlockingItem(item);
+    }
 }

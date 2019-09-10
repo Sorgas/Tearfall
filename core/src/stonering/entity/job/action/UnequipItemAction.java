@@ -4,6 +4,7 @@ import stonering.entity.job.action.target.ItemActionTarget;
 import stonering.entity.item.Item;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.entity.unit.aspects.equipment.EquipmentSlot;
+import stonering.util.global.Logger;
 
 /**
  * Action for unequipping item from unit.
@@ -20,20 +21,11 @@ public class UnequipItemAction extends Action {
     @Override
     public int check() {
         EquipmentAspect equipmentAspect = task.getPerformer().getAspect(EquipmentAspect.class);
-        if (equipmentAspect == null) return FAIL;
-
-        //item is equipped
-        if (!equipmentAspect.equippedItems.contains(item)) return OK;
-        //item is on top
-        //TODO move to equipment aspect
-        for (EquipmentSlot slot : equipmentAspect.slots.values()) {
-            if (slot.items.contains(item)) {
-                for (int i = slot.items.size() - 1; i >= 0; i--) {
-                    if (slot.items.get(i).getType().wear.getLayer() > item.getType().wear.getLayer()) { // slot has item with higher layer.
-                        return tryAddUnequipAction(slot.items.get(i));
-                    }
-                }
-            }
+        if (equipmentAspect == null) return failWithLog("unit " + task.getPerformer() + " has no Equipment Aspect.");
+        EquipmentSlot slot = equipmentAspect.getSlotWithItem(item);
+        if (slot == null) return failWithLog("item " + item + " is not equipped by unit " + getTask().getPerformer());
+        if (!slot.canUnequip(item)) {
+            return tryAddUnequipAction(slot.getBlockingItem(item));
         }
         return OK;
     }
@@ -54,5 +46,10 @@ public class UnequipItemAction extends Action {
     @Override
     public String toString() {
         return "Unequipping name: " + item.getTitle();
+    }
+
+    private int failWithLog(String message) {
+        Logger.ITEMS.logError(message);
+        return FAIL;
     }
 }

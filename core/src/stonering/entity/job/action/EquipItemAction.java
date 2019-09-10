@@ -1,23 +1,26 @@
 package stonering.entity.job.action;
 
+import stonering.entity.item.aspects.WearAspect;
 import stonering.entity.job.action.target.ItemActionTarget;
 import stonering.entity.item.Item;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
-import stonering.exceptions.NotSuitableItemException;
+import stonering.entity.unit.aspects.equipment.EquipmentSlot;
 import stonering.game.GameMvc;
 import stonering.game.model.system.ItemContainer;
 import stonering.util.global.Logger;
 
+/**
+ * Action for equipping wear and tool items, and hauling other items.
+ */
 public class EquipItemAction extends Action {
     private Item item;
-    private boolean force; //enables unequipping other item.
+    private boolean force; //enables unequipping other items.
 
     public EquipItemAction(Item item, boolean force) {
         super(new ItemActionTarget(item));
         this.item = item;
         this.force = force;
     }
-
 
     @Override
     protected void performLogic() {
@@ -28,21 +31,19 @@ public class EquipItemAction extends Action {
 
     @Override
     public int check() {
-        try {
-            EquipmentAspect equipmentAspect = task.getPerformer().getAspect(EquipmentAspect.class);
-            Item blockingItem = equipmentAspect.checkItemForEquip(this.item);
-            if (blockingItem == null || !force) return OK; // do not unequip if not forced.
-            if (item.isWear()) {
-                return createUnequipWearAction(blockingItem);
-            } else if (item.isTool()) {
-                return createUnequipToolAction(blockingItem);
-            }
-            Logger.ITEMS.logError("Invalid case in EquipItemAction:check()");
-            return FAIL;
-        } catch (NotSuitableItemException e) {
-            Logger.ITEMS.logError(task.getPerformer().toString() + " tried to equip not tool or wear item " + item.toString() + " .");
-            return FAIL;
+        if (!task.getPerformer().hasAspect(EquipmentAspect.class))
+            return failWithLog("unit " + task.getPerformer() + " has no Equipment Aspect.");
+        EquipmentSlot slot = task.getPerformer().getAspect(EquipmentAspect.class).getSlotForItem(item);
+        if (slot == null) return failWithLog("unit " + task.getPerformer() + " has no appropriate slots for item " + item);
+        Item blockingItem = slot.getBlockingItem(item);
+        if (blockingItem == null) return OK; // slot is not blocked
+        if (!force) return failWithLog("unit " + task.getPerformer() + " cannot equip item " + item + " no empty slots.");
+        if (item.hasAspect(WearAspect.class)) {
+            return createUnequipWearAction(blockingItem); // wear can block only wear items
+        } else if (item.isTool()) {
+            return createUnequipToolAction(blockingItem);
         }
+        return failWithLog("Invalid case in EquipItemAction:check()");
     }
 
     /**
@@ -72,6 +73,11 @@ public class EquipItemAction extends Action {
         UnequipItemAction unequipItemAction = new UnequipItemAction(item);
         task.addFirstPreAction(unequipItemAction);
         return NEW;
+    }
+
+    private int failWithLog(String message) {
+        Logger.ITEMS.logError(message);
+        return FAIL;
     }
 
     @Override
