@@ -89,6 +89,7 @@ public class ItemGenerator {
             item.addAspect(createItemAspect(aspectName, type.aspects.get(aspectName)));
         }
     }
+
     /**
      * Creates single aspect of item. All possible aspects should be listed here.
      */
@@ -98,8 +99,7 @@ public class ItemGenerator {
                 return new FallingAspect(null);
             case SeedAspect.NAME:
                 return new SeedAspect(null, params.get(0));
-            case ItemContainerAspect
-                        .NAME :
+            case ItemContainerAspect.NAME:
                 return new ItemContainerAspect(null, params.get(0).split("/"));
             default:
                 return null;

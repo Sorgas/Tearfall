@@ -13,7 +13,6 @@ import java.util.List;
 public class BodyPart {
     //determine wear items, that can be equipped (slot name = side + type)
     public final String name; //
-    public final String type;
 
     public BodyPart root; // each body part points to one it`s connected to
     public List<String> layers; // tissue layers
@@ -23,7 +22,6 @@ public class BodyPart {
 
     public BodyPart(RawBodyPart rawBodyPart) {
         name = rawBodyPart.name;
-        type = rawBodyPart.type;
         layers = rawBodyPart.layers;
         internal = rawBodyPart.internal;
         external = rawBodyPart.internal;

@@ -4,6 +4,11 @@ import stonering.entity.Entity;
 import stonering.entity.building.Building;
 import stonering.entity.building.aspects.RestFurnitureAspect;
 import stonering.entity.job.Task;
+import stonering.entity.job.action.Action;
+import stonering.entity.job.action.RestAction;
+import stonering.entity.job.action.TaskTypesEnum;
+import stonering.entity.job.action.target.ActionTarget;
+import stonering.entity.job.action.target.EntityActionTarget;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.BuildingContainer;
@@ -37,5 +42,7 @@ public class RestNeed extends Need {
         List<Building> buildings = GameMvc.instance().getModel().get(BuildingContainer.class).getBuildingsWithAspect(RestFurnitureAspect.class);
         buildings = GameMvc.instance().getModel().get(LocalMap.class).getPassage().filterEntitiesByReachability(buildings, entity.position);
         if(buildings.isEmpty()) return null;
+        Action restAction = new RestAction(new EntityActionTarget(buildings.get(0), ActionTarget.EXACT));
+        return new Task("sleep", TaskTypesEnum.OTHER, restAction, 1);
     }
 }

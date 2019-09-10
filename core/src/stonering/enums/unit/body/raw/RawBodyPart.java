@@ -10,13 +10,12 @@ import java.util.List;
  */
 public class RawBodyPart implements Cloneable {
     public String name;
-    public String type;
     public String root;
     public boolean mirrored; // bi for left and right, quadro for front left, rear right, etc
-    public List<String> layers;
-    public List<String> internal;
-    public List<String> external;
-    public List<String> tags;
+    public final List<String> layers;
+    public final List<String> internal;
+    public final List<String> external;
+    public final List<String> tags;
 
     // for json reader
     public RawBodyPart() {
@@ -26,19 +25,13 @@ public class RawBodyPart implements Cloneable {
         layers = new ArrayList<>();
     }
 
-    public RawBodyPart(RawBodyPart rawBodyPart) {
-        type = rawBodyPart.type;
-        root = rawBodyPart.root;
-        internal = rawBodyPart.internal;
-        external = rawBodyPart.external;
-        tags = rawBodyPart.tags;
-        layers = rawBodyPart.layers;
-        mirrored = rawBodyPart.mirrored;
-    }
-
     @Override
     protected Object clone() {
-        return new RawBodyPart(this);
+        RawBodyPart clone = new RawBodyPart();
+        clone.root = root;
+        clone.internal.addAll(internal);
+        clone.external.addAll(external);
+        return clone;
     }
 }
 

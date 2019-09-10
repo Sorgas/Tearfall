@@ -10,6 +10,7 @@ import java.util.List;
 
 /**
  * {@link Item}s of {@link ItemType} with this aspect can be worn by units.
+ *
  * //TODO handle left and right items and limbs.
  *
  * @author Alexander on 09.09.2019.

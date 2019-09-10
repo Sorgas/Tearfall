@@ -12,8 +12,8 @@ import java.util.List;
  * @author Alexander on 22.02.2019.
  */
 public class EquipmentSlot {
-    public Item item; //TODO mvp single item
     public final String name;
+    public Item item; //TODO mvp single item
     public final List<String> limbs; // limbs covered by items in this slot. items can cover additional limbs
 
     public EquipmentSlot(String name, List<String> limbs) {

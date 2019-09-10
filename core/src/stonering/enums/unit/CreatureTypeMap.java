@@ -72,7 +72,7 @@ public class CreatureTypeMap {
     }
 
     public CreatureType getCreatureType(String specimen) {
-        Logger.UNITS.logError("Creature type " + specimen + "not found");
+        if (!creatureTypes.containsKey(specimen)) Logger.UNITS.logError("Creature type " + specimen + " not found");
         return creatureTypes.get(specimen);
     }
 

@@ -6,7 +6,7 @@ import stonering.entity.job.action.TaskTypesEnum;
 import stonering.entity.Entity;
 import stonering.entity.item.Item;
 import stonering.entity.item.selectors.ItemSelector;
-import stonering.entity.item.selectors.WearForLimbItemSelector;
+import stonering.entity.item.selectors.WearForSlotItemSelector;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.entity.unit.aspects.equipment.EquipmentSlot;
 import stonering.game.model.system.ItemContainer;
@@ -31,6 +31,7 @@ public class WearNeed extends Need {
             if (!equipmentAspect.getEmptyDesiredSlots().isEmpty()) {
                 return GET_WEAR_PRIORITY;
             }
+
         }
         return -1;
     }
@@ -55,7 +56,7 @@ public class WearNeed extends Need {
      * Task is not created, if item cannot be found on map.
      */
     private Task tryCreateEquipTask(Entity entity, EquipmentSlot equipmentSlot) {
-        ItemSelector itemSelector = new WearForLimbItemSelector(equipmentSlot.limbName);
+        ItemSelector itemSelector = new WearForSlotItemSelector(equipmentSlot.name);
         Item item = container.get(ItemContainer.class).getItemAvailableBySelector(itemSelector, entity.position);
         if (item == null) return null;
         EquipItemAction equipItemAction = new EquipItemAction(item, true);

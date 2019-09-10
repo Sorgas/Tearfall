@@ -3,20 +3,20 @@ package stonering.entity.unit.aspects.equipment;
 import stonering.entity.Entity;
 import stonering.entity.item.aspects.WearAspect;
 import stonering.entity.job.action.Action;
-import stonering.exceptions.NotSuitableItemException;
 import stonering.entity.Aspect;
 import stonering.entity.item.Item;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
  * Stores all item equipped and hauled by unit.
- * Equipped item are ones in slots. Hauled items are ones in the grab slots.
+ * Equipped item are ones in slots. Hauled items are ones in the grab slots and worn containers.
  * Equipping and unequipping can require additional actions, this logic should be implemented in {@link Action}s.
- * Does not takes or puts item to map, this should be done by {@link Action}.
+ * Does not takes or puts item to map, this should be done by {@link Action}s.
+ * TODO add ears and fingers.
  * <p>
  * MVP: items have no layers, all slots mentioned in item type are occupied. Items can be hauled only in hands
  *
@@ -40,18 +40,16 @@ public class EquipmentAspect extends Aspect {
     }
 
     /**
-     * For hauling items.
-     *
-     * Validity should be fully checked by action (slots should be free).
+     * For hauling items in hands. Validity should be fully checked by action (slots should be free).
+     * //TODO add hauling of large items in two hands.
      */
-    public void pickupItem(Item item) {
-        for (GrabEquipmentSlot slot : grabSlots.values()) {
-            if (slot.grabbedItem != null) continue;
-            slot.grabbedItem = item;
-            hauledItems.add(item);
-            return;
-        }
+    public boolean pickupItem(Item item) {
         //TODO haul in containers
+        Optional<GrabEquipmentSlot> optional = grabSlots.values().stream().filter(slot -> slot.grabbedItem == null).findFirst();
+        if(!optional.isPresent()) return false; // no free slot found
+        optional.get().grabbedItem = item;
+        hauledItems.add(item);
+        return true;
     }
 
     /**
@@ -62,10 +60,22 @@ public class EquipmentAspect extends Aspect {
      */
     public boolean equipItem(Item item) {
         //TODO check hauling
-        if (item == null || equippedItems.contains(item)) return false; // already equipped
+        if (item == null || equippedItems.contains(item)) return false;
         EquipmentSlot slot = getSlotForItem(item);
         if (slot == null || !slot.addItem(item)) return false; // slot is full
         equippedItems.add(item);
+        return true;
+    }
+
+    /**
+     * Removes given item from slot disregarding other item in this slot (even if overlapping is present).
+     * Item should not be blocked by other items. This should be checked by action.
+     */
+    public boolean unequipItem(Item item) {
+        EquipmentSlot slot = getSlotWithItem(item);
+        if (slot == null) return false;
+        equippedItems.remove(item);
+        slot.removeItem(item);
         return true;
     }
 
@@ -87,20 +97,6 @@ public class EquipmentAspect extends Aspect {
         return equippedItems.stream().anyMatch(item ->
                 item.getType().tool.getActions().stream().anyMatch(toolAction ->
                         toolAction.action.equals(action)));
-    }
-
-    /**
-     * Removes given item from slot disregarding other item in this slot (even if overlapping is present).
-     * Item should not be blocked by other items. This should be checked by action.
-     */
-    public void unequipItem(Item item) {
-        if (!equippedItems.contains(item)) return; // item not equipped
-        if (!item.getType().hasAspect(WearAspect.class)) {
-            equippedItems.remove(item);
-            slots.forEach((s, slot) -> {
-                if (slot.hasItem(item)) slot.item = null;
-            });
-        }
     }
 
     /**

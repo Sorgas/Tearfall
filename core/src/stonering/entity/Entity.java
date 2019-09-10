@@ -19,10 +19,10 @@ public abstract class Entity extends IntervalTurnable implements Serializable, I
 
     protected Entity() {
         aspects = new HashMap<>();
-        position = null;
     }
 
     public Entity(Position position) {
+        this();
         this.position = position;
     }
 

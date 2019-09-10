@@ -1,5 +1,6 @@
 package stonering.entity.unit.aspects.equipment;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -17,7 +18,7 @@ public enum WearLayers {
     public final int index;
     public final String name;
 
-    public static Map<String, WearLayers> map;
+    public static Map<String, WearLayers> map = new HashMap();
 
     static {
         for (WearLayers value : WearLayers.values()) {

@@ -32,6 +32,7 @@ public class EquipmentAspectGenerator {
     private void generateSlots(CreatureType type, EquipmentAspect aspect) {
         Map<String, List<String>> slotLimbs = type.bodyTemplate.slots;
         for (String name : slotLimbs.keySet()) {
+            System.out.println(name + " " + type);
             EquipmentSlot slot = isGrabSlot(name, type)
                     ? new GrabEquipmentSlot(name, slotLimbs.get(name))
                     : new EquipmentSlot(name, slotLimbs.get(name));
@@ -52,7 +53,7 @@ public class EquipmentAspectGenerator {
     private void initDesiredSlots(CreatureType type, EquipmentAspect equipmentAspect) {
         for (String limbType : type.limbsToCover) {
             type.bodyTemplate.body.values().stream().
-                    filter(part -> part.type.equals(limbType)).
+                    filter(part -> part.name.equals(limbType)).
                     forEach(part -> equipmentAspect.desiredSlots.add(equipmentAspect.slots.get(part.name)));
         }
     }

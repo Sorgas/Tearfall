@@ -2,6 +2,7 @@ package stonering.enums.items.type.raw;
 
 import stonering.entity.Aspect;
 import stonering.entity.item.aspects.FuelAspect;
+import stonering.entity.item.aspects.ItemContainerAspect;
 import stonering.entity.item.aspects.ValueAspect;
 import stonering.entity.item.aspects.WearAspect;
 import stonering.enums.items.type.ItemPartType;
@@ -53,6 +54,7 @@ public class RawItemTypeProcessor {
             Logger.LOADING.logWarn("Invalid type aspect description for item type" + type.name);
             return null;
         }
+        List<String> args = aspectDescription.subList(1, aspectDescription.size());
         switch (aspectDescription.get(0)) {
             case "value": {
                 return new ValueAspect(type, Float.valueOf(aspectDescription.get(1)));
@@ -61,7 +63,7 @@ public class RawItemTypeProcessor {
                 return new FuelAspect(type);
             }
             case "wear": {
-                return new WearAspect(type, aspectDescription.subList(1, aspectDescription.size()));
+                return new WearAspect(type, args);
             }
         }
         return null;

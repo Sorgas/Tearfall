@@ -2,6 +2,7 @@ package stonering.enums.unit.body.raw;
 
 import stonering.enums.unit.body.BodyPart;
 import stonering.enums.unit.body.BodyTemplate;
+import stonering.util.global.Logger;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -15,10 +16,11 @@ import java.util.stream.Stream;
 public class BodyTemplateProcessor {
     private static final String LEFT_PREFIX = "left ";
     private static final String RIGHT_PREFIX = "right ";
+    private boolean debugMode = true;
 
     public BodyTemplate process(RawBodyTemplate rawTemplate) {
         BodyTemplate template = new BodyTemplate(rawTemplate);
-        Map<String, RawBodyPart> rawPartMap = rawTemplate.body.stream().collect(Collectors.toMap(part -> part.type, part -> part, (a, b) -> b)); // part name to part
+        Map<String, RawBodyPart> rawPartMap = rawTemplate.body.stream().collect(Collectors.toMap(part -> part.name, part -> part, (a, b) -> b)); // part name to part
         updateMirroringFlags(rawPartMap);
         rawTemplate.slots = mirrorSlots(rawTemplate, rawPartMap);
         rawTemplate.slots.forEach(slot -> template.slots.put(slot.get(0), slot.subList(1, slot.size())));
@@ -63,8 +65,8 @@ public class BodyTemplateProcessor {
         // double mirrored parts
         for (RawBodyPart bodyPart : map.values()) {
             if (bodyPart.mirrored) {
-                RawBodyPart leftPart = new RawBodyPart(bodyPart); // copy parts
-                RawBodyPart rightPart = new RawBodyPart(bodyPart);
+                RawBodyPart leftPart = (RawBodyPart) bodyPart.clone(); // copy parts
+                RawBodyPart rightPart = (RawBodyPart) bodyPart.clone();
                 leftPart.name = LEFT_PREFIX + leftPart.name; // update name
                 rightPart.name = RIGHT_PREFIX + rightPart.name;
                 if (map.get(bodyPart.root).mirrored) { // root is mirrored
@@ -112,5 +114,9 @@ public class BodyTemplateProcessor {
         for (BodyPart part : bodyTemplate.body.values()) { // link limbs
             part.root = bodyTemplate.body.get(rawPartsMap.get(part.name).root);
         }
+    }
+
+    private void log(String message) {
+        if(debugMode) Logger.GENERATION.logDebug(message);
     }
 }
