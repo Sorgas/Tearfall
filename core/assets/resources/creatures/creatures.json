@@ -4,7 +4,6 @@
         "title" : "Human",
         "description": "This is a human",
         "bodyTemplate": "humanoid",
-        "limbsToCover": ["lower torso", "foot", "foot"],
         "aspects" : ["equipment", "jobs"],
         "baseHP": "100",
         "atlasXY": ["0", "0"],

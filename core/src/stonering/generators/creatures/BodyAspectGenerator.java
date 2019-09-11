@@ -12,7 +12,7 @@ public class BodyAspectGenerator {
 
     public BodyAspect generateBodyAspect(CreatureType type) {
         BodyAspect aspect = new BodyAspect(null, type.bodyTemplate.name);
-        aspect.bodyPartsToCover.addAll(type.limbsToCover);
+        aspect.bodyPartsToCover.addAll(type.desiredSlots);
         return aspect;
     }
 }

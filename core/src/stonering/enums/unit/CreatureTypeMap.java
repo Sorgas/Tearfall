@@ -55,7 +55,7 @@ public class CreatureTypeMap {
     private CreatureType processRawCreatureType(RawCreatureType rawType) {
         CreatureType type = new CreatureType(rawType);
         type.bodyTemplate = bodyTemplates.get(rawType.bodyTemplate);
-        if (type.limbsToCover == null) type.limbsToCover = type.bodyTemplate.limbsToCover;
+        if (type.desiredSlots == null) type.desiredSlots = type.bodyTemplate.desiredSlots;
         return type;
     }
 

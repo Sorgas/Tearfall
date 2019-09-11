@@ -15,7 +15,7 @@ public class BodyTemplate {
     public String name;
     public List<String> defaultLayers;
     public List<String> needs;
-    public List<String> limbsToCover;
+    public List<String> desiredSlots;
     public HashMap<String, BodyPart> body; // name to bodyPart
     public HashMap<String, List<String>> slots; // slot name to default limbs
 
@@ -23,7 +23,7 @@ public class BodyTemplate {
         name = rawBodyTemplate.name;
         defaultLayers = rawBodyTemplate.defaultLayers;
         needs = rawBodyTemplate.needs;
-        limbsToCover = rawBodyTemplate.desiredSlots;
+        desiredSlots = rawBodyTemplate.desiredSlots;
         body = new HashMap<>();
         slots = new HashMap<>();
     }

@@ -26,9 +26,9 @@ public class EquipmentAspect extends Aspect {
     public static String NAME = "equipment";
     public final HashMap<String, EquipmentSlot> slots;            // all slots of a creature
     public final HashMap<String, GrabEquipmentSlot> grabSlots;    // equipped item
-    public final ArrayList<Item> hauledItems;                     // hauled item list for faster checking
-    public final ArrayList<Item> equippedItems;                   // equipped item list for faster checking
-    public final ArrayList<EquipmentSlot> desiredSlots;           // uncovered limbs give comfort penalty
+    public final List<Item> hauledItems;                     // hauled item list for faster checking
+    public final List<Item> equippedItems;                   // equipped item list for faster checking
+    public final List<EquipmentSlot> desiredSlots;           // uncovered limbs give comfort penalty
 
     public EquipmentAspect(Entity entity) {
         super(entity);

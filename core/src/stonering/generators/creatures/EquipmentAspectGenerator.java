@@ -8,6 +8,7 @@ import stonering.enums.unit.body.BodyTemplate;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Generates {@link EquipmentAspect} with slots by json.
@@ -17,12 +18,10 @@ import java.util.Map;
  */
 public class EquipmentAspectGenerator {
 
-    public EquipmentAspectGenerator() {}
-
     public EquipmentAspect generateEquipmentAspect(CreatureType type) {
         EquipmentAspect equipmentAspect = new EquipmentAspect(null);
         generateSlots(type, equipmentAspect);
-        initDesiredSlots(type, equipmentAspect);
+        equipmentAspect.desiredSlots.addAll(type.desiredSlots.stream().map(equipmentAspect.slots::get).collect(Collectors.toList()));
         return equipmentAspect;
     }
 
@@ -32,7 +31,6 @@ public class EquipmentAspectGenerator {
     private void generateSlots(CreatureType type, EquipmentAspect aspect) {
         Map<String, List<String>> slotLimbs = type.bodyTemplate.slots;
         for (String name : slotLimbs.keySet()) {
-            System.out.println(name + " " + type);
             EquipmentSlot slot = isGrabSlot(name, type)
                     ? new GrabEquipmentSlot(name, slotLimbs.get(name))
                     : new EquipmentSlot(name, slotLimbs.get(name));
@@ -45,16 +43,5 @@ public class EquipmentAspectGenerator {
 
     private boolean isGrabSlot(String slotName, CreatureType type) {
         return type.bodyTemplate.slots.get(slotName).stream().anyMatch(s -> type.bodyTemplate.body.get(s).tags.contains("grab"));
-    }
-
-    /**
-     * Creates slots and counter for {@link stonering.entity.unit.aspects.needs.WearNeed}
-     */
-    private void initDesiredSlots(CreatureType type, EquipmentAspect equipmentAspect) {
-        for (String limbType : type.limbsToCover) {
-            type.bodyTemplate.body.values().stream().
-                    filter(part -> part.name.equals(limbType)).
-                    forEach(part -> equipmentAspect.desiredSlots.add(equipmentAspect.slots.get(part.name)));
-        }
     }
 }

@@ -12,7 +12,7 @@ public class CreatureType {
     public String title;
     public String description;
     public BodyTemplate bodyTemplate;
-    public List<String> limbsToCover;
+    public List<String> desiredSlots;
     public List<String> aspects;
     public int baseHP;
     public int[] atlasXY;
@@ -22,7 +22,7 @@ public class CreatureType {
         name = rawType.name;
         title = rawType.title;
         description = rawType.description;
-        limbsToCover = rawType.limbsToCover;
+        desiredSlots = rawType.limbsToCover;
         baseHP = rawType.baseHP;
         atlasXY = rawType.atlasXY;
         color = rawType.color;
