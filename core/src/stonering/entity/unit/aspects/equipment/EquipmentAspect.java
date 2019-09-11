@@ -5,6 +5,8 @@ import stonering.entity.item.aspects.WearAspect;
 import stonering.entity.job.action.Action;
 import stonering.entity.Aspect;
 import stonering.entity.item.Item;
+import stonering.util.global.Logger;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -46,7 +48,7 @@ public class EquipmentAspect extends Aspect {
     public boolean pickupItem(Item item) {
         //TODO haul in containers
         Optional<GrabEquipmentSlot> optional = grabSlots.values().stream().filter(slot -> slot.grabbedItem == null).findFirst();
-        if(!optional.isPresent()) return false; // no free slot found
+        if (!optional.isPresent()) return false; // no free slot found
         optional.get().grabbedItem = item;
         hauledItems.add(item);
         return true;
@@ -62,8 +64,12 @@ public class EquipmentAspect extends Aspect {
         //TODO check hauling
         if (item == null || equippedItems.contains(item)) return false;
         EquipmentSlot slot = getSlotForItem(item);
-        if (slot == null || !slot.addItem(item)) return false; // slot is full
+        if (slot == null || !slot.addItem(item)) {
+            Logger.ITEMS.logDebug(entity + " failed to equip item " + item + " into slot " + slot);
+            return false; // slot is full
+        }
         equippedItems.add(item);
+        Logger.ITEMS.logDebug("Item " + item + " equipped by " + entity + " into slot " + slot);
         return true;
     }
 
@@ -125,7 +131,7 @@ public class EquipmentAspect extends Aspect {
     }
 
     public EquipmentSlot getSlotWithItem(Item item) {
-        if(!equippedItems.contains(item)) return null; // item not equipped
+        if (!equippedItems.contains(item)) return null; // item not equipped
         return slots.values().stream().filter(slot -> slot.hasItem(item)).findFirst().orElse(null); // find slot with item
     }
 }
