@@ -33,7 +33,7 @@
             }, {
                 "name": "front upper leg",
                 "root": "upper torso",
-                "mirrored": "bi"
+                "mirrored": true
             }, {
                 "name": "front lower leg",
                 "root": "front upper leg"
@@ -43,7 +43,7 @@
             }, {
                 "name": "rear upper leg",
                 "root": "lower torso",
-                "mirrored": "bi"
+                "mirrored": true
             }, {
                 "name": "rear lower leg",
                 "root": "rear upper leg"
@@ -83,7 +83,7 @@
         }, {
             "name": "upper arm",
             "root": "upper torso",
-            "mirrored": "bi"
+            "mirrored": true
         }, {
             "name": "lower arm",
             "root": "upper arm"
@@ -94,7 +94,7 @@
         }, {
             "name": "upper leg",
             "root": "lower torso",
-            "mirrored": "bi"
+            "mirrored": true
         }, {
             "name": "lower leg",
             "root": "upper leg"

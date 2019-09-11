@@ -35,6 +35,7 @@ public class CreatureTypeMap {
     }
 
     private void loadTemplates() {
+        Logger.LOADING.logDebug("loading body templates");
         Json json = new Json();
         BodyTemplateProcessor processor = new BodyTemplateProcessor();
         ArrayList<RawBodyTemplate> types = json.fromJson(ArrayList.class, RawBodyTemplate.class, FileLoader.getFile(FileLoader.BODY_TEMPLATE_PATH));
@@ -77,6 +78,7 @@ public class CreatureTypeMap {
     }
 
     public static void main(String[] args) {
-        new CreatureTypeMap();
+        Logger.enableAll();
+        CreatureTypeMap.instance();
     }
 }

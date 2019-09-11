@@ -31,6 +31,11 @@ public class RawBodyPart implements Cloneable {
         clone.root = root;
         clone.internal.addAll(internal);
         clone.external.addAll(external);
+        clone.tags.addAll(tags);
+        clone.layers.addAll(layers);
+        clone.name = name;
+        clone.root = root;
+        clone.mirrored = mirrored;
         return clone;
     }
 }

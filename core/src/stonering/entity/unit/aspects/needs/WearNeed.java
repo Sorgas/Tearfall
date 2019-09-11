@@ -9,6 +9,7 @@ import stonering.entity.item.selectors.ItemSelector;
 import stonering.entity.item.selectors.WearForSlotItemSelector;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.entity.unit.aspects.equipment.EquipmentSlot;
+import stonering.game.GameMvc;
 import stonering.game.model.system.ItemContainer;
 
 /**
@@ -57,7 +58,7 @@ public class WearNeed extends Need {
      */
     private Task tryCreateEquipTask(Entity entity, EquipmentSlot equipmentSlot) {
         ItemSelector itemSelector = new WearForSlotItemSelector(equipmentSlot.name);
-        Item item = container.get(ItemContainer.class).getItemAvailableBySelector(itemSelector, entity.position);
+        Item item = GameMvc.instance().getModel().get(ItemContainer.class).getItemAvailableBySelector(itemSelector, entity.position);
         if (item == null) return null;
         EquipItemAction equipItemAction = new EquipItemAction(item, true);
         return new Task("Equip item " + item.getTitle(), TaskTypesEnum.EQUIPPING, equipItemAction, GET_WEAR_PRIORITY);

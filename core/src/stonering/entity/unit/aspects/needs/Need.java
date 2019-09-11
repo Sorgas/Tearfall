@@ -13,11 +13,6 @@ import stonering.entity.job.Task;
  * @author Alexander Kuzyakov on 21.09.2018.
  */
 public abstract class Need {
-    protected GameModel container;
-
-    public Need() {
-        container = GameMvc.instance().getModel();
-    }
 
     /**
      * Returns priority of need. Returns -1 if need can be tolerated.
