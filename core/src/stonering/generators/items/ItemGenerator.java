@@ -1,7 +1,7 @@
 
 package stonering.generators.items;
 
-import com.sun.xml.internal.ws.util.StringUtils;
+import com.sun.xml.ws.util.StringUtils;
 import stonering.entity.Aspect;
 import stonering.entity.crafting.ItemOrder;
 import stonering.entity.item.aspects.ItemContainerAspect;
