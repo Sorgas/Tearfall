@@ -54,15 +54,24 @@ project(":core") {
     apply plugin: "java"
     apply plugin: "idea"
 
-    test {
-        useJUnit()
-    }
+    sourceSets.test.java.srcDirs = ["test/"]
+    sourceSets.main.java.srcDirs = ["src/"]
 
     dependencies {
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
+        testImplementation project(":core")
+        testRuntimeOnly project(":core")
+
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
         compile 'org.checkerframework:checker:2.1.12'
         compile group: 'com.sun.xml.ws', name: 'jaxws-rt', version: '2.1.4'
+    }
+
+    test {
+        useJUnitPlatform()
+        workingDir = new File('/assets/')
     }
 }

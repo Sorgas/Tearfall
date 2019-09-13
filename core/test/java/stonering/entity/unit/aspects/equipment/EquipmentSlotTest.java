@@ -1,9 +1,11 @@
-package stonering.entity.unit.aspects.equipment;
+package test.java.stonering.entity.unit.aspects.equipment;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import stonering.entity.item.Item;
 import stonering.entity.unit.Unit;
+import stonering.entity.unit.aspects.equipment.EquipmentAspect;
+import stonering.entity.unit.aspects.equipment.EquipmentSlot;
 import stonering.generators.creatures.CreatureGenerator;
 import stonering.generators.items.ItemGenerator;
 import stonering.util.geometry.Position;
@@ -25,7 +27,7 @@ public class EquipmentSlotTest {
      * Tests that tool is equipped into hands.
      */
     @Test
-    void testEquipTool() {
+    public void testEquipTool() {
         Unit unit = creatureGenerator.generateUnit(new Position(0,0,0), "human");
         EquipmentAspect aspect = unit.getAspect(EquipmentAspect.class);
         EquipmentSlot slot = aspect.slots.get("right hand");
