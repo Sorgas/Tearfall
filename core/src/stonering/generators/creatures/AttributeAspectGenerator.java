@@ -2,6 +2,9 @@ package stonering.generators.creatures;
 
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.AttributeAspect;
+import stonering.enums.unit.Attributes;
+
+import static stonering.enums.unit.Attributes.*;
 
 /**
  * Generates {@link AttributeAspect}.
@@ -16,8 +19,8 @@ public class AttributeAspectGenerator {
 
     public AttributeAspect generateAttributeAspect(Unit unit) {
         AttributeAspect aspect = new AttributeAspect(null);
-        aspect.agility = 10;
-        aspect.endurance = 10;
+        aspect.attributes.put(AGILITY, 10);
+        aspect.attributes.put(ENDURANCE, 10);
         return aspect;
     }
 }

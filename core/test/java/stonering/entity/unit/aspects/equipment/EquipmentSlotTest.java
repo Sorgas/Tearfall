@@ -24,7 +24,7 @@ public class EquipmentSlotTest {
     }
 
     /**
-     * Tests that tool is equipped into hands.
+     * Tests equipping tools into single slot.
      */
     @Test
     public void testEquipTool() {

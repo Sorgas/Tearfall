@@ -117,7 +117,7 @@ public class EquipmentAspect extends Aspect {
     }
 
     /**
-     * Current load / Max load.
+     * Current load / Max load [0,1].
      */
     public float getRelativeLoad() {
         return 1; //TODO

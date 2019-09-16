@@ -16,6 +16,7 @@ import java.util.*;
 public class UnitContainer extends EntityContainer<Unit> implements Initable {
     private Map<Position, List<Unit>> unitsMap;
     private CreatureNeedSystem needSystem;
+    private CreatureBuffSystem buffSystem;
 
     private Position cachePosition; // used for faster getting unit from map
 
@@ -23,6 +24,7 @@ public class UnitContainer extends EntityContainer<Unit> implements Initable {
         cachePosition = new Position();
         unitsMap = new HashMap<>();
         needSystem = new CreatureNeedSystem();
+        buffSystem = new CreatureBuffSystem();
     }
 
     /**
@@ -70,6 +72,7 @@ public class UnitContainer extends EntityContainer<Unit> implements Initable {
         for (Unit entity : entities) {
             entity.turn(); // TODO rework all aspects behaviour to systems
             needSystem.updateNeedForCreature(entity);
+            buffSystem.updateCreatureBuffs(entity);
         }
     }
 
@@ -83,7 +86,6 @@ public class UnitContainer extends EntityContainer<Unit> implements Initable {
     public List<Unit> getUnitsInPosition(Position position) {
         return unitsMap.getOrDefault(position, Collections.emptyList());
     }
-
 
     @Override
     public void init() {

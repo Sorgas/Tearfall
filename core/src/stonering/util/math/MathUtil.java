@@ -7,4 +7,15 @@ public class MathUtil {
     public static int toRange(int value, int min, int max) {
         return Math.min(Math.max(value, min), max);
     }
+
+    /**
+     * Checks that val1 and val2 are both more than range low end and range high end.
+     * Range ends are percents of a base value.
+     * If lowRange > highRange,
+     */
+    public static boolean inSamePercentRange(float val1, float val2, float base, int lowRange, int highRange) {
+        float low = base * lowRange;
+        float high = base * highRange;
+        return val1 > low && val1 <= high && val2 > low && val2 <= high;
+    }
 }

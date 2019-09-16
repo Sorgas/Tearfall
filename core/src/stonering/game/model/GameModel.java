@@ -9,6 +9,8 @@ import stonering.util.global.LastInitable;
 import stonering.util.global.Logger;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.TreeMap;
 
 /**
@@ -19,6 +21,8 @@ import java.util.TreeMap;
  */
 public abstract class GameModel extends IntervalTurnable implements Initable, Serializable {
     private TreeMap<Class, ModelComponent> components;
+    private List<Turnable> turnableComponents;
+    private List<IntervalTurnable> intervalTurnableComponents;
     private Timer timer;                 //makes turns for entity containers and calendar.
     private GameCalendar calendar;
     private boolean paused;
@@ -29,6 +33,8 @@ public abstract class GameModel extends IntervalTurnable implements Initable, Se
             if (o2.isAssignableFrom(LastInitable.class)) return 1;
             return o1.getName().compareTo(o2.getName());
         });
+        turnableComponents = new ArrayList<>();
+        intervalTurnableComponents = new ArrayList<>();
         put(calendar = new GameCalendar());
     }
 
@@ -38,6 +44,9 @@ public abstract class GameModel extends IntervalTurnable implements Initable, Se
 
     public <T extends ModelComponent> void put(T object) {
         components.put(object.getClass(), object);
+        if(object instanceof IntervalTurnable) {
+            intervalTurnableComponents.add((IntervalTurnable) object);
+        } else if(object instanceof Turnable) turnableComponents.add((Turnable) object);
     }
 
     /**
@@ -68,23 +77,15 @@ public abstract class GameModel extends IntervalTurnable implements Initable, Se
      */
     public void turn() {
         if (paused) return;
-        components.keySet().forEach(aClass -> {
-            if (Turnable.class.isAssignableFrom(aClass)) {
-                ((Turnable) components.get(aClass)).turn();
-            }
-        });
+        turnableComponents.forEach(Turnable::turn);
     }
 
     /**
-     * Called by {@link GameCalendar}.
+     * Called by {@link GameCalendar}. Calendar is not called, if game is paused, so no check is needed.
      */
     @Override
     public void turnInterval(TimeUnitEnum unit) {
-        components.keySet().forEach(aClass -> {
-            if (IntervalTurnable.class.isAssignableFrom(aClass)) {
-                ((IntervalTurnable) components.get(aClass)).turnInterval(unit);
-            }
-        });
+        intervalTurnableComponents.forEach(component -> component.turnInterval(unit));
     }
 
     public boolean isPaused() {
