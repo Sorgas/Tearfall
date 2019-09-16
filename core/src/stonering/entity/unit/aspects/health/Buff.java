@@ -3,6 +3,9 @@ package stonering.entity.unit.aspects.health;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import stonering.game.model.system.units.CreatureBuffSystem;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Can be applied to creature by {@link CreatureBuffSystem}
  *
@@ -13,9 +16,11 @@ public abstract class Buff {
     public final boolean displayed = true; // is buff icon displayed
     public final Drawable sprite = null; // buff icon
     public int ticksLeft; // decreases every tick. buff is removed, when reaches zero. -1 for infinite buffs
+    public final Set<String> tags;
 
     public Buff(int delta) {
         this.delta = delta;
+        tags = new HashSet<>();
     }
 
     public void decrease() {

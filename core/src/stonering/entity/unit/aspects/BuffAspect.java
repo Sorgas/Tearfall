@@ -6,6 +6,7 @@ import stonering.entity.unit.aspects.health.Buff;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Stores {@link Buff}s, applied to a creature. Should be updated only by CreatureBuffSystem.
@@ -18,5 +19,9 @@ public class BuffAspect extends Aspect {
     public BuffAspect(Entity entity) {
         super(entity);
         buffs = new HashSet<>();
+    }
+
+    public Set<Buff> getBuffsByTag(String tag) {
+        return buffs.stream().filter(buff -> buff.tags.contains(tag)).collect(Collectors.toSet());
     }
 }

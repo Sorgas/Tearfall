@@ -14,9 +14,9 @@ import java.util.*;
  * @author Alexander Kuzyakov on 03.12.2017.
  */
 public class UnitContainer extends EntityContainer<Unit> implements Initable {
-    private Map<Position, List<Unit>> unitsMap;
-    private CreatureNeedSystem needSystem;
-    private CreatureBuffSystem buffSystem;
+    Map<Position, List<Unit>> unitsMap;
+    CreatureNeedSystem needSystem;
+    CreatureBuffSystem buffSystem;
 
     private Position cachePosition; // used for faster getting unit from map
 
