@@ -4,6 +4,7 @@ import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.entity.unit.aspects.health.Buff;
 import stonering.entity.unit.aspects.health.HealthAspect;
+import stonering.entity.unit.aspects.health.HealthBuff;
 import stonering.game.GameMvc;
 import stonering.util.global.Logger;
 import stonering.util.math.MathUtil;
@@ -19,6 +20,7 @@ import stonering.util.math.MathUtil;
  * @author Alexander on 16.09.2019.
  */
 public class CreatureHealthSystem {
+    private int[] fatigueRanges = {20, 50, 60, 70, 80, 90};
 
     /**
      * Called for every walked tile, adds fatigue to counter. Walking with high load exhausts faster.
@@ -30,41 +32,33 @@ public class CreatureHealthSystem {
             Logger.UNITS.logError("Trying to add move fatigue to creature " + unit + " with no HealthAspect");
             return;
         }
-        changeFatigue(aspect, aspect.moveFatigueNoLoad + aspect.moveFatigueFullLoad * unit.getAspect(EquipmentAspect.class).getRelativeLoad());
+        changeFatigue(unit, aspect.moveFatigueNoLoad + aspect.moveFatigueFullLoad * unit.getAspect(EquipmentAspect.class).getRelativeLoad());
     }
 
-    private void changeFatigue(HealthAspect aspect, float delta) {
-        float oldFatigue = aspect.fatigue;
+    private void changeFatigue(Unit unit, float delta) {
+        HealthAspect aspect = unit.getAspect(HealthAspect.class);
+        float relativeOldFatigue = aspect.fatigue;
         aspect.fatigue += delta;
-
-    }
-
-    private Buff getFatigueBuff(float fatigue, float newFatigue, float maxFatigue) {
-        if (MathUtil.rangeChanged(fatigue, newFatigue, maxFatigue, 20)) {
-        } else if (MathUtil.rangeChanged(fatigue, newFatigue, maxFatigue, 50)) {
-        } else if (MathUtil.rangeChanged(fatigue, newFatigue, maxFatigue, 60)) {
-        } else if (MathUtil.rangeChanged(fatigue, newFatigue, maxFatigue, 70)) {
-        } else if (MathUtil.rangeChanged(fatigue, newFatigue, maxFatigue, 80)) {
-        } else if (MathUtil.rangeChanged(fatigue, newFatigue, maxFatigue, 90)) {
-        } else if (MathUtil.rangeChanged(fatigue, newFatigue, maxFatigue, 100)) {
+        if (aspect.fatigue > aspect.maxFatigue) {
+            // die
+        }
+        float relativeFatigue = aspect.maxFatigue / aspect.fatigue;
+        if (MathUtil.inDifferentRanges(relativeOldFatigue, relativeFatigue, fatigueRanges)) {
+            CreatureBuffSystem buffSystem = GameMvc.instance().getModel().get(UnitContainer.class).buffSystem;
+            buffSystem.addBuff(unit, getFatigueBuff(relativeFatigue));
         }
     }
 
     /**
-     * Applies new and removes old buffs, when fatigue passes relative threshold.
+     * Creates {@link Buff} for each fatigue range.
      */
-    private Buff updateFatigueBuffs(float value, float maxValue, float oldFatigue) {
-        if (MathUtil.inSamePercentRange(oldFatigue, fatigue, maxFatigue, 0, 20)) { // rested buff
-            GameMvc.instance().getModel().get(UnitContainer.class).buffSystem.addBuff();
-        } else if (MathUtil.inSamePercentRange(oldFatigue, fatigue, maxFatigue, 20, 50)) { // no buffs
-
-        } else if (MathUtil.inSamePercentRange(oldFatigue, fatigue, maxFatigue, 50, 60)) {
-        } else if (MathUtil.inSamePercentRange(oldFatigue, fatigue, maxFatigue, 60, 70)) {
-        } else if (MathUtil.inSamePercentRange(oldFatigue, fatigue, maxFatigue, 70, 80)) {
-        } else if (MathUtil.inSamePercentRange(oldFatigue, fatigue, maxFatigue, 80, 90)) {
-        } else if (MathUtil.inSamePercentRange(oldFatigue, fatigue, maxFatigue, 90, 100)) {
-        } else if (fatigue > maxFatigue) { // die
-
-        }
+    private Buff getFatigueBuff(float fatigue) {
+        if (fatigue < 20) return new HealthBuff(10, "performance"); // performance in increased after sleep
+        if (fatigue < 50) return null; // no buff normally
+        if (fatigue < 60) return new HealthBuff(-10, "performance"); // performance decreased
+        if (fatigue < 70) return new HealthBuff(-15, "performance");
+        if (fatigue < 80) return new HealthBuff(-20, "performance");
+        if (fatigue < 90) return new HealthBuff(-25, "performance");
+        return new HealthBuff(-30, "performance");
     }
 }

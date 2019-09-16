@@ -1,6 +1,7 @@
 package stonering.entity.unit.aspects.health;
 
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import stonering.entity.unit.Unit;
 import stonering.game.model.system.units.CreatureBuffSystem;
 
 import java.util.HashSet;
@@ -23,11 +24,21 @@ public abstract class Buff {
         tags = new HashSet<>();
     }
 
+    /**
+     * Decreases buff timer
+     */
     public void decrease() {
         if (ticksLeft > 0) ticksLeft--;
     }
 
+    /**
+     * Checks if buff should be removed.
+     */
     public boolean expired() {
         return ticksLeft == 0;
     }
+
+    public abstract boolean apply(Unit unit);
+
+    public abstract boolean unapply(Unit unit);
 }

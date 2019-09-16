@@ -15,8 +15,9 @@ import java.util.*;
  */
 public class UnitContainer extends EntityContainer<Unit> implements Initable {
     Map<Position, List<Unit>> unitsMap;
-    CreatureNeedSystem needSystem;
-    CreatureBuffSystem buffSystem;
+    public final CreatureNeedSystem needSystem;
+    public final CreatureBuffSystem buffSystem;
+    public final CreatureHealthSystem healthSystem;
 
     private Position cachePosition; // used for faster getting unit from map
 
@@ -25,6 +26,7 @@ public class UnitContainer extends EntityContainer<Unit> implements Initable {
         unitsMap = new HashMap<>();
         needSystem = new CreatureNeedSystem();
         buffSystem = new CreatureBuffSystem();
+        healthSystem = new CreatureHealthSystem();
     }
 
     /**

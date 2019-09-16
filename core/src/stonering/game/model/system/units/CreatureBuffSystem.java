@@ -5,6 +5,8 @@ import stonering.entity.unit.aspects.AttributeAspect;
 import stonering.entity.unit.aspects.BuffAspect;
 import stonering.entity.unit.aspects.health.AttributeBuff;
 import stonering.entity.unit.aspects.health.Buff;
+import stonering.entity.unit.aspects.health.HealthAspect;
+import stonering.entity.unit.aspects.health.HealthBuff;
 import stonering.game.model.Turnable;
 import stonering.util.global.Logger;
 
@@ -25,25 +27,22 @@ public class CreatureBuffSystem extends Turnable {
             buff.decrease();
             if (!buff.expired()) continue; // skip active buffs
             iterator.remove();
-            unapplyBuff(unit, buff);
+            if(!unapplyBuff(unit, buff)) Logger.UNITS.logError("Error unapplying buff " + buff + " from creature " + unit);
         }
     }
 
-    public void addBuff(Unit unit, Buff buff) {
-        if (unitHasBuffAspect(unit)) {
-            if (unit.getAspect(BuffAspect.class).buffs.add(buff)) {
-                if (buff instanceof AttributeBuff) {
-                    unit.getAspect(AttributeAspect.class).update(((AttributeBuff) buff).attribute, buff.delta);
-                    return;
-                }
-                Logger.UNITS.logError("Buff " + buff + " has unknown type");
-            } else {
-                Logger.UNITS.logError("Buff " + buff + " already applied to unit");
-            }
+    public boolean addBuff(Unit unit, Buff buff) {
+        Logger.UNITS.logDebug("Adding buff " + buff + " to creature " + unit);
+        if (buff == null || !unitHasBuffAspect(unit)) return false;
+        if (buff.apply(unit)) unit.getAspect(BuffAspect.class).buffs.add(buff);
+        Logger.UNITS.logError("Buff " + buff + " has unknown type");
+        {
+            Logger.UNITS.logError("Buff " + buff + " already applied to unit");
         }
     }
 
-    public void unapplyBuff(Unit unit, Buff buff) {
+    public boolean unapplyBuff(Unit unit, Buff buff) {
+        buff.unapply(unit);
         if (buff instanceof AttributeBuff) {
             unit.getAspect(AttributeAspect.class).update(((AttributeBuff) buff).attribute, -buff.delta);
             return;

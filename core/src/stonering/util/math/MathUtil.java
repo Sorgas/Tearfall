@@ -1,5 +1,7 @@
 package stonering.util.math;
 
+import java.util.Arrays;
+
 /**
  * @author Alexander on 26.08.2019.
  */
@@ -23,9 +25,15 @@ public class MathUtil {
         return val1 > low && val1 <= high && val2 > low && val2 <= high;
     }
 
-    public static boolean rangeChanged(float val1, float val2, float base, int range) {
-        float border = base * range;
-        return (val1 > border && val2 <= border)
-                || (val2 > border && val1 <= border);
+    /**
+     * Fetches given ranges and returns true, if values are on different sides around it.
+     */
+    public static boolean inDifferentRanges(float val1, float val2, int[] ranges) {
+        return Arrays.stream(ranges).anyMatch(range -> rangeChanged(val1, val2, range));
+    }
+
+    public static boolean rangeChanged(float from, float to, int range) {
+        return (from > range && to <= range)
+                || (to > range && from <= range);
     }
 }

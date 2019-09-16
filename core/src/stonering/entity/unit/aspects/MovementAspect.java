@@ -105,7 +105,7 @@ public class MovementAspect extends Aspect implements Initable {
         Position nextPosition = path.remove(0); // get next step, remove from path
         if (localMap.isWalkPassable(nextPosition)) { // path has not been blocked after calculation
             unitContainer.updateUnitPosiiton((Unit) entity, nextPosition); //step
-            entity.getAspect(HealthAspect.class).applyMoveFatigue();
+            unitContainer.healthSystem.applyMoveFatigue((Unit) entity);
         } else { // path blocked
             Logger.PATH.log("path to " + target + " was blocked in " + nextPosition);
             target = null; // drop path, will be recounted on next step.

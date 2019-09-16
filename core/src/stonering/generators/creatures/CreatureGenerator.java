@@ -20,12 +20,14 @@ public class CreatureGenerator {
     private EquipmentAspectGenerator equipmentAspectGenerator;
     private NeedAspectGenerator needAspectGenerator;
     private AttributeAspectGenerator attributeAspectGenerator;
+    private HealthAspectGenerator healthAspectGenerator;
 
     public CreatureGenerator() {
         bodyAspectGenerator = new BodyAspectGenerator();
         equipmentAspectGenerator = new EquipmentAspectGenerator();
         needAspectGenerator = new NeedAspectGenerator();
         attributeAspectGenerator = new AttributeAspectGenerator();
+        healthAspectGenerator = new HealthAspectGenerator();
     }
 
     /**
@@ -51,6 +53,7 @@ public class CreatureGenerator {
         unit.addAspect(new MovementAspect(null));
         unit.addAspect(needAspectGenerator.generateNeedAspect(type));
         unit.addAspect(attributeAspectGenerator.generateAttributeAspect(unit));
+        unit.addAspect(healthAspectGenerator.generateHealthAspect(unit));
     }
 
     private void addOptionalAspects(Unit unit) {
