@@ -31,6 +31,7 @@ public class RestNeed extends Need {
 
     @Override
     public int countPriority(Entity entity) {
+
         return 0;
     }
 

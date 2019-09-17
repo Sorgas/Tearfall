@@ -1,8 +1,6 @@
 package stonering.entity.unit.aspects.needs;
 
 import stonering.entity.Entity;
-import stonering.game.GameMvc;
-import stonering.game.model.GameModel;
 import stonering.entity.job.Task;
 
 /**
