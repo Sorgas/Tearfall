@@ -42,10 +42,8 @@ public class PassageMap {
     private LocalMap localMap;
     private AStar aStar;
     private UtilByteArray area; // number of area
-    private UtilByteArray passage;
-    /**
-     * see {@link BlockTypesEnum} for passage values.
-     */
+    private UtilByteArray passage; // see {@link BlockTypesEnum} for passage values.
+    private boolean started = false;
     private Map<Byte, Integer> areaNumbers; // counts number of cells in areas
     private Position cachePosition;
 
@@ -61,6 +59,7 @@ public class PassageMap {
      * Inits passage numbers for tiles.
      */
     public PassageMap initPassage() {
+
         aStar = GameMvc.instance().getModel().get(AStar.class);
         for (int x = 0; x < localMap.xSize; x++) {
             for (int y = 0; y < localMap.ySize; y++) {

@@ -112,8 +112,9 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
             Logger.PLANTS.logDebug(block.getPlant() + " is blocked by " + plantBlocks.get(block.getPosition()).getPlant());
             return false; // tile is occupied
         }
+        Position blockPosition = block.getPosition();
         plantBlocks.put(block.getPosition(), block);
-        localMap.passage.updateCell(block.getPosition());
+        localMap.updateTile(blockPosition.x, blockPosition.y, blockPosition.z);
         return true;
     }
 
@@ -152,9 +153,10 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
             //TODO debug
             Logger.PLANTS.logError("Plant block with position " + block.getPosition() + " not stored in its position.");
         } else {
-            plantBlocks.remove(block.getPosition());
+            Position blockPosition = block.getPosition();
+            plantBlocks.remove(blockPosition);
             if (leaveProduct) leavePlantProduct(block);
-            localMap.passage.updateCell(block.getPosition());
+            localMap.updateTile(blockPosition.x, blockPosition.y, blockPosition.z);
         }
     }
 

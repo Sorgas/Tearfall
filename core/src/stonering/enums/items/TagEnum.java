@@ -9,6 +9,9 @@ import stonering.util.global.Logger;
  */
 public enum TagEnum {
     STONE(false), // gabbro(material) stone(type) // stones have no origin
+    STONE_EXTRUSIVE(false), // used for stone layers generation
+    STONE_INTRUSIVE(false),
+    STONE_SEDIMENTARY(false),
     METAL(false), // brass(material) bar(type) // stones have no origin
     WOOD(false), // birch(material) log
     MEAT(false), // fox(origin) meat(material) piece(type)
@@ -18,6 +21,7 @@ public enum TagEnum {
     ROASTABLE(false),
     BREWABLE(false),
     WATER(false),
+    CLOTH(false),
     DEFAULT_TAG(false);
 
     private static boolean debug = true;

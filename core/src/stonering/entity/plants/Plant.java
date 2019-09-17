@@ -35,7 +35,7 @@ public class Plant extends AbstractPlant {
     }
 
     public void setPosition(Position position) {
-        super.position.set(position);
+        super.setPosition(position);
         block.setPosition(position);
     }
 }

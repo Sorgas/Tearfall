@@ -30,7 +30,7 @@ public class LocalMap implements ModelComponent, Initable, LastInitable {
     private Position cachePosition;
 
     public LightMap light;
-    public transient PassageMap passage;                             // not saved to savegame,
+    public transient PassageMap passage;                                 // not saved to savegame,
     private transient LocalTileMapUpdater localTileMapUpdater;           // not saved to savegame,
 
     public final int xSize;
@@ -47,16 +47,19 @@ public class LocalMap implements ModelComponent, Initable, LastInitable {
         this.zSize = zSize;
         cachePosition = new Position();
         light = new LightMap(this);
-        passage = new PassageMap(this);
     }
 
     public void init() {
         Logger.LOADING.logDebug("Initing local map");
         light.initLight();
-        passage.initPassage();
-        new AreaInitializer(this).formPassageMap(passage);
         localTileMapUpdater = new LocalTileMapUpdater();
         localTileMapUpdater.flushLocalMap();
+    }
+
+    public void initAreas() {
+        passage = new PassageMap(this);
+        passage.initPassage();
+        new AreaInitializer(this).formPassageMap(passage);
     }
 
     /**
@@ -120,6 +123,10 @@ public class LocalMap implements ModelComponent, Initable, LastInitable {
         if (localTileMapUpdater != null) localTileMapUpdater.updateTile(x, y, z);
     }
 
+    public void updateTile(int x, int y, int z) {
+        if(passage != null) passage.updateCell(x, y, z);
+    }
+
     private void deletePlantsOnDeletedBlock(int x, int y, int z) {
         GameMvc.instance().getModel().get(SubstrateContainer.class).remove(cachePosition.set(x, y, z));
         GameMvc.instance().getModel().get(PlantContainer.class).handleBlockRemoval(cachePosition);
@@ -160,10 +167,6 @@ public class LocalMap implements ModelComponent, Initable, LastInitable {
     public boolean isFlyPassable(int x, int y, int z) {
         //TODO
         return inMap(x, y, z) && BlockTypesEnum.getType(getBlockType(x, y, z)).PASSING != BlockTypesEnum.NOT_PASSABLE; // 1 || 2
-    }
-
-    public void setLocalTileMapUpdater(LocalTileMapUpdater localTileMapUpdater) {
-        this.localTileMapUpdater = localTileMapUpdater;
     }
 
     public byte getTemperature(int x, int y, int z) {

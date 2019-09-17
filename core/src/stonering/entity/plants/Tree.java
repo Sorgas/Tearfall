@@ -17,6 +17,7 @@ public class Tree extends AbstractPlant {
 
     public Tree(Position position, PlantType type, int age) {
         super(position, type, age);
+
     }
 
     public PlantBlock[][][] getBlocks() {
@@ -32,10 +33,6 @@ public class Tree extends AbstractPlant {
         return getCurrentStage().harvestProduct != null;
     }
 
-    public void setPosition(Position position) {
-        super.position.set(position);
-    }
-
     public PlantBlock getBlock(Position position) {
         Position target = Position.sub(position, getArrayStartPosition());
         return blocks[target.x][target.y][target.z];
@@ -48,5 +45,10 @@ public class Tree extends AbstractPlant {
         List<Integer> treeForm = getCurrentStage().treeForm;
         int radius = treeForm.get(0);
         return Position.sub(position, radius, radius, treeForm.get(2));
+    }
+
+    public void setPosition(Position position) {
+        super.setPosition(position);
+        this.position.set(position);
     }
 }

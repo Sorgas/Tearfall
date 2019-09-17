@@ -68,6 +68,7 @@ public class LocalGenerationScreen extends SimpleScreen {
                 gameMvc.createViewAndController();
                 gameMvc.init(); // for initing V & C
                 gameMvc.getModel().get(EntitySelector.class).setToMapCenter();
+                gameMvc.getModel().get(LocalMap.class).initAreas();
                 game.switchToGame();
                 gameMvc.getModel().setPaused(false);
 

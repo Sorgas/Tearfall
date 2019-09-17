@@ -113,13 +113,6 @@ public class Position implements Serializable, Cloneable {
         return result;
     }
 
-    public Position set(int x, int y, int z) {
-        this.x = x;
-        this.y = y;
-        this.z = z;
-        return this;
-    }
-
     public String toString() {
         return (new Integer(x).toString() + " " + new Integer(y).toString() + " " + new Integer(z).toString());
     }
@@ -152,10 +145,15 @@ public class Position implements Serializable, Cloneable {
         this.z = z;
     }
 
-    public void set(Position position) {
-        x = position.x;
-        y = position.y;
-        z = position.z;
+    public Position set(int x, int y, int z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        return this;
+    }
+
+    public Position set(Position position) {
+        return set(position.x, position.y, position.z);
     }
 
     public void add(int dx, int dy, int dz) {

@@ -27,10 +27,10 @@ public class LocalStoneLayersGenerator extends LocalAbstractGenerator {
     private boolean hasExtrusive;
     private int[] layerIds;
     private String[][] stoneTypes = {
-            {"rhyolite", "andesite", "obsidian", "tuff", "basalt"}, //extrusive
-            {"shale", "limestone", "sandstone", "dolomite", "chalk", "siltstone", "chert"},  //sedimentary
-            {"schist", "chlorite", "phyllite", "quarzite", "gneiss", "marble"}, //metamorfic
-            {"granite", "diorite", "gabbro", "peridotite", "pegmatite"}};  //intrusive
+            {"rhyolite", "obsidian", "basalt"}, //extrusive
+            {"limestone", "sandstone", "dolomite"}, //sedimentary
+            {"quarzite", "gneiss", "marble"}, //metamorfic
+            {"granite", "diorite", "gabbro"}}; //intrusive
 
     public LocalStoneLayersGenerator(LocalGenContainer container) {
         super(container);

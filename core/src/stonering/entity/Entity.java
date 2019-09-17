@@ -55,4 +55,9 @@ public abstract class Entity extends IntervalTurnable implements Serializable, I
             if(aspect instanceof Initable) ((Initable) aspect).init();
         }
     }
+
+    public void setPosition(Position position) {
+        if(this.position == null) this.position = new Position();
+        this.position.set(position);
+    }
 }
