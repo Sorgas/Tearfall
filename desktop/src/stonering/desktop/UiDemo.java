@@ -11,9 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.utils.Align;
-import org.lwjgl.openal.AL;
-import stonering.game.view.render.stages.UiStage;
-import stonering.game.view.render.ui.menus.toolbar.ToolbarButton;
+import stonering.stage.UiStage;
+import stonering.stage.toolbar.menus.ToolbarButton;
 import stonering.screen.SimpleScreen;
 import stonering.util.global.StaticSkin;
 

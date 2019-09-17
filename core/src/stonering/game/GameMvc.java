@@ -2,7 +2,7 @@ package stonering.game;
 
 import stonering.game.controller.controllers.GameController;
 import stonering.game.model.GameModel;
-import stonering.game.view.GameView;
+import stonering.screen.game.GameView;
 import stonering.util.global.Logger;
 
 import java.io.Serializable;

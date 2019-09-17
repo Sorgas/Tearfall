@@ -5,8 +5,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
-import stonering.game.view.render.stages.UiStage;
-import stonering.game.view.render.ui.lists.PlaceHolderSelectBox;
+import stonering.stage.UiStage;
+import stonering.widget.lists.PlaceHolderSelectBox;
 import stonering.test_chamber.TestChamberGame;
 import stonering.test_chamber.model.*;
 

@@ -1,7 +1,7 @@
 package stonering.game.controller.controllers.designation;
 
 import stonering.game.model.GameModel;
-import stonering.game.view.GameView;
+import stonering.screen.game.GameView;
 import stonering.util.global.Logger;
 import stonering.util.validation.PositionValidator;
 import stonering.entity.zone.Zone;
@@ -10,8 +10,8 @@ import stonering.game.GameMvc;
 import stonering.game.model.EntitySelector;
 import stonering.game.model.system.ZonesContainer;
 import stonering.game.model.local_map.LocalMap;
-import stonering.game.view.render.ui.menus.toolbar.Toolbar;
-import stonering.game.view.render.ui.menus.util.RectangleSelectComponent;
+import stonering.stage.toolbar.menus.Toolbar;
+import stonering.widget.RectangleSelectComponent;
 import stonering.util.geometry.Position;
 
 /**

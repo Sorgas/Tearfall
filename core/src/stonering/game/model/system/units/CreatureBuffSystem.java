@@ -20,39 +20,36 @@ import java.util.Iterator;
  */
 public class CreatureBuffSystem extends Turnable {
 
+    /**
+     * Updates counters on creature's buffs, removing expired ones.
+     */
     public void updateCreatureBuffs(Unit unit) {
-        if (!unitHasBuffAspect(unit)) return;
+        if (!unit.hasAspect(BuffAspect.class)) return;
         for (Iterator<Buff> iterator = unit.getAspect(BuffAspect.class).buffs.iterator(); iterator.hasNext(); ) {
             Buff buff = iterator.next();
             buff.decrease();
             if (!buff.expired()) continue; // skip active buffs
             iterator.remove();
-            if(!unapplyBuff(unit, buff)) Logger.UNITS.logError("Error unapplying buff " + buff + " from creature " + unit);
+            unapplyBuff(unit, buff);
         }
     }
 
     public boolean addBuff(Unit unit, Buff buff) {
         Logger.UNITS.logDebug("Adding buff " + buff + " to creature " + unit);
-        if (buff == null || !unitHasBuffAspect(unit)) return false;
-        if (buff.apply(unit)) unit.getAspect(BuffAspect.class).buffs.add(buff);
-        Logger.UNITS.logError("Buff " + buff + " has unknown type");
-        {
-            Logger.UNITS.logError("Buff " + buff + " already applied to unit");
-        }
+        if(buff == null) return failWithLog("Trying to add null buff to creature " + unit);
+        if (!unit.hasAspect(BuffAspect.class)) return failWithLog("Trying to add buff " + buff + " to creature " + unit + " without BuffAspect");
+        if (!buff.apply(unit)) return failWithLog("Failed to apply buff " + buff + " to creature " + unit);
+        unit.getAspect(BuffAspect.class).buffs.add(buff);
+        return true;
     }
 
     public boolean unapplyBuff(Unit unit, Buff buff) {
-        buff.unapply(unit);
-        if (buff instanceof AttributeBuff) {
-            unit.getAspect(AttributeAspect.class).update(((AttributeBuff) buff).attribute, -buff.delta);
-            return;
-        }
-        Logger.UNITS.logError("Buff " + buff + " has unknown type");
+        if (!buff.unapply(unit)) return failWithLog("Failed to unapply buff " + buff + " to creature " + unit);
+        return true;
     }
 
-    private boolean unitHasBuffAspect(Unit unit) {
-        if (unit.hasAspect(BuffAspect.class)) return true;
-        Logger.UNITS.logError("Trying to apply buff to unit " + unit + " which has no buff aspect.");
+    private boolean failWithLog(String message) {
+        Logger.UNITS.logError(message);
         return false;
     }
 }

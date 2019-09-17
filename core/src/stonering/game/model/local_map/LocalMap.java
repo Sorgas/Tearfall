@@ -6,7 +6,7 @@ import stonering.game.GameMvc;
 import stonering.game.model.system.ModelComponent;
 import stonering.game.model.system.PlantContainer;
 import stonering.game.model.system.SubstrateContainer;
-import stonering.game.view.tilemaps.LocalTileMapUpdater;
+import stonering.game.model.tilemaps.LocalTileMapUpdater;
 import stonering.util.geometry.Position;
 import stonering.util.global.Initable;
 import stonering.util.global.LastInitable;

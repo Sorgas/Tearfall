@@ -3,7 +3,7 @@ package stonering.game.controller.controllers;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import stonering.game.view.GameView;
+import stonering.screen.game.GameView;
 
 /**
  * Dispatches input to {@link GameView} for invoking UI components.

@@ -18,8 +18,8 @@ public class DesktopLauncher {
     public static void main(String[] arg) {
         Logger.GENERAL.logDebug("Main launcher.");
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-        config.width = 2000;
-        config.height = 1500;
+        config.width = 1000;
+        config.height = 500;
         config.title = "TearFall";
         config.foregroundFPS = 30;
         Game game = new TearFall();

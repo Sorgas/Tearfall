@@ -4,7 +4,7 @@ import stonering.enums.designations.DesignationTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.EntitySelector;
 import stonering.game.model.system.tasks.TaskContainer;
-import stonering.game.view.render.ui.menus.util.RectangleSelectComponent;
+import stonering.widget.RectangleSelectComponent;
 import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
 

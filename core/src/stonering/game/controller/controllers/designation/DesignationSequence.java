@@ -1,6 +1,6 @@
 package stonering.game.controller.controllers.designation;
 
-import stonering.game.view.render.ui.menus.toolbar.Toolbar;
+import stonering.stage.toolbar.menus.Toolbar;
 
 /**
  * Designation sequences used to add actors to {@link Toolbar}
