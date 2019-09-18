@@ -9,7 +9,16 @@ import stonering.entity.Entity;
  * @author Alexander_Kuzyakov on 08.07.2019.
  */
 public class FuelAspect extends Aspect {
+
     public FuelAspect(Entity entity) {
         super(entity);
+    }
+
+    /**
+     * Burning is disabled for furniture and finished goods. It also can be disabled in settings.
+     * TODO
+     */
+    public boolean isEnabled() {
+        return true;
     }
 }

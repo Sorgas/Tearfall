@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
+import stonering.game.model.local_map.LocalMap;
 import stonering.stage.UiStage;
 import stonering.widget.lists.PlaceHolderSelectBox;
 import stonering.test_chamber.TestChamberGame;
@@ -55,6 +56,7 @@ public class ModelSelectStage extends UiStage {
         gameMvc.createViewAndController();
         gameMvc.init();
         testChamberGame.setScreen(GameMvc.instance().getView());
+        gameMvc.getModel().get(LocalMap.class).initAreas();
         gameMvc.getModel().setPaused(false);
     }
 

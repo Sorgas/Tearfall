@@ -33,17 +33,14 @@ public class BoxDesignationSequence extends DesignationSequence {
      * Submits designation of this sequence for all tiles in a box.
      */
     private void submitSelectedFrame(Position start, Position end) {
+        Logger.TASKS.logDebug("Submitting box " + start + ", " + end + " of designation " + designationType);
         for (int x = Math.min(end.x, start.x); x <= Math.max(end.x, start.x); x++) {
             for (int y = Math.min(end.y, start.y); y <= Math.max(end.y, start.y); y++) {
                 for (int z = Math.min(end.z, start.z); z <= Math.max(end.z, start.z); z++) {
-                    submitDesignation(new Position(x, y, z), 1);
+                    container.submitDesignation(new Position(x, y, z), designationType, 1);
                 }
             }
         }
-    }
-
-    private void submitDesignation(Position position, int priority) {
-        container.submitDesignation(position, designationType, priority);
     }
 
     @Override

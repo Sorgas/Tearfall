@@ -37,15 +37,16 @@ import static stonering.enums.TaskStatusEnum.OPEN;
  */
 public class TaskContainer implements ModelComponent {
     private Map<String, List<Task>> tasks; // units take tasks from here
-    private HashMap<Position, Designation> designations; // designations are rendered on map
-    private DesignationsValidator designationsValidator;
+    //this map is for rendering and modifying designations
+    private HashMap<Position, Designation> designations;
+    private DesignationsValidator validator;
     private Position cachePosition; // state is not maintained. should be set before use
     //TODO add building order
 
     public TaskContainer() {
         tasks = new HashMap<>();
         designations = new HashMap<>();
-        designationsValidator = new DesignationsValidator();
+        validator = new DesignationsValidator();
         cachePosition = new Position(0, 0, 0);
     }
 
@@ -78,8 +79,7 @@ public class TaskContainer implements ModelComponent {
      * All simple orders like digging and foraging submitted through this method.
      */
     public Task submitDesignation(Position position, DesignationTypeEnum type, int priority) {
-        if (!designationsValidator.validateDesignation(position, type))
-            return null; // no designation for invalid position
+        if (!validator.validateDesignation(position, type)) return null; // no designation for invalid position
         OrderDesignation designation = new OrderDesignation(position, type);
         Task task = createOrderTask(designation, priority);
         if (task == null) return null; // no designation with no task
@@ -171,7 +171,7 @@ public class TaskContainer implements ModelComponent {
      * For adding simple tasks (w/o designation).
      */
     public void addTask(Task task) {
-        if (!tasks.containsKey(task.getJob())) tasks.put(task.getJob(), new ArrayList<>());
+        if (!tasks.containsKey(task.getJob())) tasks.put(task.getJob(), new ArrayList<>()); // new list for job
         tasks.get(task.getJob()).add(task);
     }
 

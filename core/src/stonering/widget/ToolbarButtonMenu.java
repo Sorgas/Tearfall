@@ -16,7 +16,7 @@ public abstract class ToolbarButtonMenu extends ButtonMenu implements Highlighta
     private HighlightHandler handler;
 
     public ToolbarButtonMenu() {
-        defaults().size(120, 30).padBottom(10).padLeft(10);
+        defaults().size(120, 30).pad(5).padBottom(10);
         bottom();
         createHighlightHandler();
     }

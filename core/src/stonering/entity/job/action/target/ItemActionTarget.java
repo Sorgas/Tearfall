@@ -3,7 +3,7 @@ package stonering.entity.job.action.target;
 import stonering.entity.item.Item;
 
 /**
- * Targets name to item
+ * Targets action to item.
  *
  * @author Alexander Kuzyakov on 28.01.2018.
  */

@@ -4,7 +4,7 @@ import stonering.entity.item.Item;
 import stonering.entity.item.selectors.ItemSelector;
 import stonering.entity.job.Task;
 import stonering.entity.job.action.Action;
-import stonering.entity.job.action.ItemPutAction;
+import stonering.entity.job.action.PutItemToContainerAction;
 import stonering.entity.job.action.TaskTypesEnum;
 import stonering.enums.ZoneTypesEnum;
 import stonering.game.GameMvc;
@@ -59,7 +59,7 @@ public class StorageZone extends Zone {
      */
     private void createHaulingTask(Item item, Position tile) {
         if (item == null) return;
-        Action action = new ItemPutAction(item, tile);
+        Action action = new PutItemToContainerAction(item, tile);
         Task task = new Task("Store " + item.getTitle(), TaskTypesEnum.OTHER, action, 1);
         GameMvc.instance().getModel().get(TaskContainer.class).addTask(task);
     }

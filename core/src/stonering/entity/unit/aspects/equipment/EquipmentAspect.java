@@ -106,7 +106,7 @@ public class EquipmentAspect extends Aspect {
     }
 
     /**
-     * Removes given item from all grab slots.
+     * Removes given item from all grab slots. TODO handle containers, like backpacks
      */
     public void dropItem(Item item) {
         if (!hauledItems.contains(item)) return;

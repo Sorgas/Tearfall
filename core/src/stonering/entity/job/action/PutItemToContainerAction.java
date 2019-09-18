@@ -21,18 +21,18 @@ import stonering.util.geometry.Position;
  *
  * @author Alexander on 11.01.2019.
  */
-public class ItemPutAction extends Action {
+public class PutItemToContainerAction extends Action {
     private Item targetItem;
     private Entity targetEntity;
     private Position targetPosition;
 
-    public ItemPutAction(Item targetItem, Entity targetEntity) {
+    public PutItemToContainerAction(Item targetItem, Entity targetEntity) {
         super(new EntityActionTarget(targetEntity, ActionTarget.ANY));
         this.targetItem = targetItem;
         this.targetEntity = targetEntity;
     }
 
-    public ItemPutAction(Item targetItem, Position targetPosition) {
+    public PutItemToContainerAction(Item targetItem, Position targetPosition) {
         super(new PositionActionTarget(targetPosition, ActionTarget.EXACT));
         this.targetItem = targetItem;
         this.targetPosition = targetPosition;

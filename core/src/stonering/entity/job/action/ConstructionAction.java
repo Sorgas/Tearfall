@@ -98,8 +98,8 @@ public class ConstructionAction extends Action {
         if (!itemContainer.hasItemsAvailableBySelector(itemSelector, position)) return FAIL;
         Item item = itemContainer.getItemAvailableBySelector(itemSelector, position);
         if (item == null) return FAIL;
-        ItemPutAction itemPutAction = new ItemPutAction(item, position);
-        task.addFirstPreAction(itemPutAction);
+        PutItemToContainerAction putItemToContainerAction = new PutItemToContainerAction(item, position);
+        task.addFirstPreAction(putItemToContainerAction);
         return NEW;
     }
 

@@ -7,7 +7,7 @@ import stonering.util.geometry.Position;
  * Targets to some {@link Entity}. Can be used with any single-tiled entities.
  */
 public class EntityActionTarget extends ActionTarget {
-    protected Entity entity;
+    public Entity entity;
 
     public EntityActionTarget(Entity entity, int targetPlacement) {
         super(targetPlacement);

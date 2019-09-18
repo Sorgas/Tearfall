@@ -1,7 +1,6 @@
 package stonering.test_chamber.model;
 
 import stonering.entity.building.Building;
-import stonering.entity.item.Item;
 import stonering.game.model.EntitySelector;
 import stonering.game.model.system.*;
 import stonering.generators.buildings.BuildingGenerator;
@@ -20,15 +19,17 @@ public class WorkbenchModel extends TestModel {
         super.init();
         get(BuildingContainer.class).addBuilding(createBuilding());
         get(EntitySelector.class).setPosition(4, 4, 2);
-        get(ItemContainer.class).addItem(createItem());
+        createItems();
     }
 
     private Building createBuilding() {
         return new BuildingGenerator().generateBuilding("campfire", new Position(4, 4, 2));
     }
 
-    private Item createItem() {
-        return new ItemGenerator().generateItem("piece", "meat", new Position(0,0,2));
+    private void createItems() {
+        get(ItemContainer.class).addItem(new ItemGenerator().generateItem("piece", "meat", new Position(0,0,2)));
+        get(ItemContainer.class).addItem(new ItemGenerator().generateItem("log", "pine", new Position(1,0,2)));
+        get(ItemContainer.class).addItem(new ItemGenerator().generateItem("log", "pine", new Position(2,0,2)));
     }
 
     @Override

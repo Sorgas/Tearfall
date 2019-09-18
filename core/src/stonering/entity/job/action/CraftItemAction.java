@@ -1,5 +1,6 @@
 package stonering.entity.job.action;
 
+import stonering.entity.building.aspects.FuelConsumerAspect;
 import stonering.entity.crafting.IngredientOrder;
 import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.job.action.target.EntityActionTarget;
@@ -49,6 +50,7 @@ public class CraftItemAction extends Action {
 
     /**
      * Checks that action conditions are met. Creates sub action otherwise.
+     * TODO check ingredients and fuel availability before bringing something to workbench
      */
     @Override
     public int check() {
@@ -61,7 +63,11 @@ public class CraftItemAction extends Action {
         if (!containerAspect.items.containsAll(desiredItems)) { // some item are out of WB.
             List<Item> outOfWBItems = new ArrayList<>(desiredItems);
             outOfWBItems.removeAll(containerAspect.items);
-            task.addFirstPreAction(new ItemPutAction(outOfWBItems.get(0), workbench)); // create action to bring item
+            task.addFirstPreAction(new PutItemToContainerAction(outOfWBItems.get(0), workbench)); // create action to bring item
+            return NEW;
+        }
+        if(workbench.hasAspect(FuelConsumerAspect.class) && !workbench.getAspect(FuelConsumerAspect.class).isFueled()) { // workbench requires fuel
+            task.addFirstPreAction(new FuelingAciton(workbench));
             return NEW;
         }
         return OK;
