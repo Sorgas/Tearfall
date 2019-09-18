@@ -13,7 +13,7 @@ import static stonering.enums.designations.DesignationTypeEnum.*;
 
 /**
  * ButtonMenu for selecting designation type.
- * Opens screen for selecting place.
+ * Starts sequence for selecting place.
  *
  * @author Alexander Kuzyakov
  */

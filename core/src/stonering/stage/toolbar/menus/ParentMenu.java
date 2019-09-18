@@ -6,7 +6,6 @@ import stonering.widget.SubMenuMenu;
 
 /**
  * Component of toolbar.
- * All screen commands first dispatched here, and then passed active screen.
  *
  * @author Alexander Kuzyakov on 19.12.2017.
  */

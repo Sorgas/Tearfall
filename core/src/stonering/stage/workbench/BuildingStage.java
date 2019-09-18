@@ -9,9 +9,9 @@ import stonering.util.global.Initable;
 import stonering.util.global.Logger;
 
 /**
- * Stage with screen for building like workbenches and furniture.
+ * Stage with menu for building like workbenches and furniture.
  * Its keyboard focus is updated by ui elements.
- * Game is paused while screen is shown.
+ * Game is paused while menu is shown.
  *
  * @author Alexander on 09.11.2018.
  */
@@ -36,7 +36,7 @@ public class BuildingStage extends UiStage implements Initable {
     }
 
     /**
-     * Creates screen for workbench buildings and adds it to stage.
+     * Creates menu for workbench buildings and adds it to stage.
      */
     private void createWorkbenchMenu() {
         menu = new WorkbenchMenu(building);
