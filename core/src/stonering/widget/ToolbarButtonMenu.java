@@ -1,5 +1,6 @@
 package stonering.widget;
 
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import stonering.game.GameMvc;
 import stonering.enums.images.DrawableMap;
 import stonering.stage.toolbar.menus.Toolbar;
@@ -15,7 +16,7 @@ public abstract class ToolbarButtonMenu extends ButtonMenu implements Highlighta
     private HighlightHandler handler;
 
     public ToolbarButtonMenu() {
-        defaults().size(120, 30).padBottom(10).padRight(10);
+        defaults().size(120, 30).padBottom(10).padLeft(10);
         bottom();
         createHighlightHandler();
     }
@@ -31,7 +32,10 @@ public abstract class ToolbarButtonMenu extends ButtonMenu implements Highlighta
 
             @Override
             public void handle(boolean value) {
-                setBackground(DrawableMap.instance().getDrawable("toolbar_menu" + (value ? ":focused" : "")));
+                Drawable drawable = DrawableMap.instance().getDrawable("toolbar_menu" + (value ? ":focused" : ""));
+                drawable.setMinWidth(getWidth());
+                drawable.setMinHeight(getHeight());
+                setBackground(drawable);
             }
         };
     }

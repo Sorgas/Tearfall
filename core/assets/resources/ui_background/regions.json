@@ -41,10 +41,10 @@
 }, {
     "name": "toolbar_menu",
     "texture": "ui_back.png",
-    "bounds": [0, 0, 600, 30]
+    "bounds": [600, 0, 30, 30]
 }, {
     "name": "toolbar_menu:focused",
     "texture": "ui_back.png",
-    "bounds": [0, 30, 600, 30]
+    "bounds": [600, 30, 30, 30]
 }
 ]

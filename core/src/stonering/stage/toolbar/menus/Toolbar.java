@@ -9,22 +9,18 @@ import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
-import stonering.widget.Highlightable;
 import stonering.util.global.Logger;
 import stonering.util.global.StaticSkin;
-
-import java.util.*;
 
 /**
  * Contains table with all general orders menus.
  *
  * @author Alexander Kuzyakov on 17.06.2018.
  */
-public class Toolbar extends Container<Table> implements Highlightable {
+public class Toolbar extends Container<Table> {
     public final HorizontalGroup menusGroup; // in first row
     private Label status; // in second row
     private ParentMenu parentMenu; // always on the right end
-    private HighlightHandler handler;
 
     public Toolbar() {
         menusGroup = new HorizontalGroup();
@@ -33,7 +29,14 @@ public class Toolbar extends Container<Table> implements Highlightable {
     public void init() {
         setFillParent(true);
         align(Align.bottomLeft);
-        createListeners();
+        addListener(new InputListener() {
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                Logger.UI.logDebug("handling " + keycode + " in toolbar");
+                if (keycode == Input.Keys.E && menusGroup.getChildren().peek() == parentMenu) return false;
+                return menusGroup.getChildren().peek().notify(event, false);
+            }
+        });
         setActor(createToolbarTable());
         parentMenu = new ParentMenu();
         parentMenu.show();
@@ -48,60 +51,34 @@ public class Toolbar extends Container<Table> implements Highlightable {
         menusGroup.align(Align.bottomRight);
         menusGroup.rowAlign(Align.bottom);
         table.add(menusGroup).row();
-        table.add(status = new Label("", StaticSkin.getSkin())).right();
+        table.add(status = new Label("", StaticSkin.getSkin())).left();
         return table;
     }
 
-    /**
-     * Levels counted from right to left, widget indexes is opposite.
-     */
     public void addMenu(Actor menu) {
         menusGroup.addActor(menu);
-        updateHighlighting(true);
+        Logger.UI.logDebug("Menu " + menu.getClass().getSimpleName() + " added to toolbar");
     }
 
     /**
      * Removes given menu and all actors to the left.
-     * Should be called before adding any other actors to tollbar.
+     * Should be called before adding any other actors to toolbar.
      */
     public void hideMenu(Actor menu) {
-        if (!menusGroup.getChildren().contains(menu, true)) return;
-        menusGroup.getChildren().removeRange(menusGroup.getChildren().indexOf(menu, true), menusGroup.getChildren().size - 1);
+        while (menusGroup.getChildren().contains(menu, true)) {
+            menusGroup.removeActor(menusGroup.getChildren().peek());
+        }
+        Logger.UI.logDebug("Menu " + menu.getClass().getSimpleName() + " removed from toolbar");
     }
 
     /**
-     * Removes all actors to the right from given menu.
+     * Removes all actors to the right from given menu, so it becomes last one.
      */
     public void hideSubMenus(Actor menu) {
-        if (!menusGroup.getChildren().contains(menu, true) || menusGroup.getChildren().peek() == menu) return;
-        menusGroup.getChildren().removeRange(menusGroup.getChildren().indexOf(menu, true) + 1, menusGroup.getChildren().size - 1);
-    }
-
-    private void createListeners() {
-        addListener(new InputListener() {
-            @Override
-            public boolean keyDown(InputEvent event, int keycode) {
-                Logger.UI.logDebug("handling " + keycode + " in toolbar");
-                if (keycode == Input.Keys.E && menusGroup.getChildren().peek() == parentMenu) return false;
-                return menusGroup.getChildren().peek().notify(event, false);
-            }
-        });
-        handler = new HighlightHandler(this) {
-
-            @Override
-            public void handle(boolean value) {
-                for (int i = 0; i < ((Toolbar) owner).menusGroup.getChildren().size; i++) {
-                    Actor child = ((Toolbar) owner).menusGroup.getChildren().get(i);
-                    if (!(child instanceof Highlightable)) continue;
-                    ((Highlightable) child).updateHighlighting(i == 0); // only first child is highlighted
-                }
-            }
-        };
-    }
-
-    @Override
-    public Highlightable.HighlightHandler getHighlightHandler() {
-        return handler;
+        while (menusGroup.getChildren().contains(menu, true) && menusGroup.getChildren().peek() != menu) {
+            menusGroup.removeActor(menusGroup.getChildren().peek());
+        }
+        Logger.UI.logDebug("Submenus of " + menu.getClass().getSimpleName() + " removed from toolbar");
     }
 
     public void setText(String text) {
