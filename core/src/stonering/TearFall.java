@@ -59,9 +59,7 @@ public class TearFall extends Game {
     }
 
     public void switchToLocalGen(World world, Position location) {
-        if (localGenerationScreen == null) localGenerationScreen = new LocalGenerationScreen(this);
-        localGenerationScreen.setWorld(world);
-        localGenerationScreen.setLocation(location);
+        if (localGenerationScreen == null) localGenerationScreen = new LocalGenerationScreen(this, world, location);
         setScreen(localGenerationScreen);
     }
 

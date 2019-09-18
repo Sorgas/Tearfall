@@ -1,7 +1,7 @@
 package stonering.game.controller.controllers.designation;
 
 import stonering.game.model.GameModel;
-import stonering.screen.game.GameView;
+import stonering.screen.GameView;
 import stonering.util.global.Logger;
 import stonering.util.validation.PositionValidator;
 import stonering.entity.zone.Zone;

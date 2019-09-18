@@ -24,11 +24,12 @@ import stonering.util.pathfinding.a_star.AStar;
 public abstract class TestModel extends GameModel {
     public static final int MAP_SIZE = 11;
 
-    public TestModel() {}
+    public TestModel() {
+        createDefaultComponents();
+    }
 
     @Override
     public void init() {
-        createDefaultComponents();
         super.init();
     }
 

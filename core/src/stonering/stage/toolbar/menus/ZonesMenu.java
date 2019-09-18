@@ -14,12 +14,10 @@ import stonering.widget.SubMenuMenu;
  * @author Alexander on 04.03.2019.
  */
 public class ZonesMenu extends SubMenuMenu {
-    private DesignationsController designationsController;
 
     @Override
     public void init() {
         createButtons();
-        designationsController = GameMvc.instance().getController().getDesignationsController();
         super.init();
     }
 
@@ -28,6 +26,7 @@ public class ZonesMenu extends SubMenuMenu {
             addItem(type.toString(), new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
+                    DesignationsController designationsController = GameMvc.instance().getController().getDesignationsController();
                     designationsController.setActiveDesignation(new ZoneDesignationSequence(type));
                     designationsController.startSequence();
                 }
@@ -36,6 +35,7 @@ public class ZonesMenu extends SubMenuMenu {
         addItem("Update zone", new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                DesignationsController designationsController = GameMvc.instance().getController().getDesignationsController();
                 designationsController.setActiveDesignation(new ZoneDesignationSequence());
                 designationsController.startSequence();
             }

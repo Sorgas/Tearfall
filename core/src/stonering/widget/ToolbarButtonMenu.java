@@ -17,12 +17,13 @@ public abstract class ToolbarButtonMenu extends ButtonMenu implements Highlighta
     public ToolbarButtonMenu() {
         defaults().size(120, 30).padBottom(10).padRight(10);
         bottom();
+        createHighlightHandler();
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
-        updateHighlighting(false); // TODO
+        updateHighlighting(false); // TODO highlight, if menu is first in toolbar
     }
 
     private void createHighlightHandler() {

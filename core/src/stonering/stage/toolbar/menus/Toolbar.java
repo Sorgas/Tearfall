@@ -19,7 +19,7 @@ import java.util.*;
  *
  * @author Alexander Kuzyakov on 17.06.2018.
  */
-public class Toolbar extends Container implements Highlightable {
+public class Toolbar extends Container<Table> implements Highlightable {
     private Table menusTable;       // in first row
     private Label status;           // in second row
     private ParentMenu parentMenu;  // always on the right end
@@ -34,8 +34,9 @@ public class Toolbar extends Container implements Highlightable {
     public void init() {
         setFillParent(true);
         align(Align.bottomRight);
-        setActor(createToolbarTable());
         createInputListener();
+        setActor(createToolbarTable());
+        parentMenu.init();
     }
 
     /**
@@ -53,7 +54,6 @@ public class Toolbar extends Container implements Highlightable {
         menusTable.align(Align.bottomRight);
         menusTable.defaults().align(Align.bottom);
         parentMenu = new ParentMenu();
-        parentMenu.init();
         parentMenu.show();
         refill();
         return menusTable;

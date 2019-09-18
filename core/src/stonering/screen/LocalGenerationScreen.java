@@ -22,24 +22,25 @@ import stonering.util.global.StaticSkin;
 
 /**
  * Local generation screen to be shown during local generation.
- * Generation starts on show().
+ * Generation starts on show(). After generation, there is an instance of {@link GameMvc} with inited model.
  * //TODO progress bar and some visualization.
  *
  * @author Alexander Kuzyakov on 01.06.2017.
  */
-public class LocalGenerationScreen extends SimpleScreen {
+public class LocalGenerationScreen extends SingleStageScreen {
     private LocalGeneratorContainer localGeneratorContainer;
     private World world;
     private Position location;
-    private LocalMap localMap;
-    private Stage stage;
     private TearFall game;
 
     private LabeledProgressBar progressBar;
     private TextButton proceedButton;
 
-    public LocalGenerationScreen(TearFall game) {
+    public LocalGenerationScreen(TearFall game, World world, Position location) {
+        super(null);
         this.game = game;
+        this.world = world;
+        this.location = location;
     }
 
     private void init() {
@@ -55,28 +56,24 @@ public class LocalGenerationScreen extends SimpleScreen {
     }
 
     private Table createMenuTable() {
-        Table menuTable = new Table();
-        menuTable.defaults().prefHeight(30).prefWidth(300).padBottom(10).minWidth(300);
-        menuTable.align(Align.bottomLeft);
-        progressBar = new LabeledProgressBar("Generation", StaticSkin.getSkin());
-        menuTable.add(progressBar).row();
-        proceedButton = new TextButton("Proceed", StaticSkin.getSkin());
+        Table table = new Table();
+        table.defaults().prefHeight(30).prefWidth(300).padBottom(10).minWidth(300);
+        table.align(Align.bottomLeft);
+        table.add(progressBar = new LabeledProgressBar("Generation", StaticSkin.getSkin())).row();
+        table.add(proceedButton = new TextButton("Proceed", StaticSkin.getSkin())).pad(0);
         proceedButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                GameMvc gameMvc = GameMvc.createInstance(localGeneratorContainer.getGameModel());
-                gameMvc.createViewAndController();
-                gameMvc.init(); // for initing V & C
-                gameMvc.getModel().get(EntitySelector.class).setToMapCenter();
-                gameMvc.getModel().get(LocalMap.class).initAreas();
-                game.switchToGame();
-                gameMvc.getModel().setPaused(false);
-
+                GameMvc.instance().createViewAndController();
+                GameMvc.instance().init(); // for initing V & C
+                GameMvc.instance().getModel().get(EntitySelector.class).setToMapCenter();
+                GameMvc.instance().getModel().get(LocalMap.class).initAreas(); // to avoid recalculations on map generation
+                game.switchToGame(); // show game screen
+                GameMvc.instance().getModel().setPaused(false);
             }
         });
-        menuTable.add(proceedButton).pad(0);
-        stage.addActor(menuTable);
-        return menuTable;
+//        stage.addActor(table);
+        return table;
     }
 
     private InputListener createKeyListener() {
@@ -90,30 +87,10 @@ public class LocalGenerationScreen extends SimpleScreen {
     }
 
     @Override
-    public void show() {
-        generateLocalMap();
-    }
-
-    @Override
-    public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(Gdx.gl20.GL_COLOR_BUFFER_BIT | Gdx.gl20.GL_DEPTH_BUFFER_BIT);
-        stage.draw();
-    }
-
-    @Override
     public void resize(int width, int height) {
         if (stage != null) stage.dispose();
         init();
         Gdx.input.setInputProcessor(stage);
-    }
-
-    public void setWorld(World world) {
-        this.world = world;
-    }
-
-    public void setLocation(Position location) {
-        this.location = location;
     }
 
     private void generateLocalMap() {
@@ -121,14 +98,10 @@ public class LocalGenerationScreen extends SimpleScreen {
         config.setLocation(location);
         localGeneratorContainer = new LocalGeneratorContainer(config, world);
         localGeneratorContainer.execute();
-        localMap = localGeneratorContainer.getLocalMap();
     }
 
-    public LocalMap getLocalMap() {
-        return localMap;
-    }
-
-    public LocalGeneratorContainer getLocalGeneratorContainer() {
-        return localGeneratorContainer;
+    @Override
+    public void show() {
+        generateLocalMap();
     }
 }

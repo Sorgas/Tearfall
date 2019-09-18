@@ -58,6 +58,15 @@ public class ModelSelectStage extends UiStage {
         gameMvc.getModel().setPaused(false);
     }
 
+    private GameModel getInstance(String name) {
+        try {
+            return (GameModel) classMap.get(name).newInstance();
+        } catch (InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     private void fillModels() {
         classMap = new HashMap<>();
         classMap.put(SingleTreeModel.class.getSimpleName(), SingleTreeModel.class);
@@ -71,14 +80,5 @@ public class ModelSelectStage extends UiStage {
         classMap.put(FarmModel.class.getSimpleName(), FarmModel.class);
         classMap.put(LightingModel.class.getSimpleName(), LightingModel.class);
         classMap.put(DiggingModel.class.getSimpleName(), DiggingModel.class);
-    }
-
-    private GameModel getInstance(String name) {
-        try {
-            return (GameModel) classMap.get(name).newInstance();
-        } catch (InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 }

@@ -2,7 +2,7 @@ package stonering.game;
 
 import stonering.game.controller.controllers.GameController;
 import stonering.game.model.GameModel;
-import stonering.screen.game.GameView;
+import stonering.screen.GameView;
 import stonering.util.global.Logger;
 
 import java.io.Serializable;
@@ -19,12 +19,14 @@ public class GameMvc implements Serializable {
     private GameController controller;
 
     public static GameMvc createInstance(GameModel gameModel) {
-        instance = new GameMvc(gameModel);
+        new GameMvc(gameModel);
         return instance;
     }
 
     private GameMvc(GameModel gameModel) {
+        instance = this;
         model = gameModel;
+
     }
 
     public void createViewAndController() {

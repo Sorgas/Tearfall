@@ -1,4 +1,4 @@
-package stonering.screen.game;
+package stonering.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -11,7 +11,6 @@ import stonering.stage.MapEntitySelectStage;
 import stonering.stage.pause.PauseMenuStage;
 import stonering.stage.localworld.LocalWorldStage;
 import stonering.widget.util.Resizeable;
-import stonering.screen.SimpleScreen;
 import stonering.util.geometry.Position;
 import stonering.util.global.Initable;
 import stonering.util.global.Logger;
@@ -27,9 +26,12 @@ import java.util.List;
  * @author Alexander Kuzyakov on 10.06.2017.
  */
 public class GameView extends SimpleScreen implements Initable {
-    private LocalWorldStage localWorldStage;
-    private MainUiStage mainUiStage;
-    private List<Stage> stageList;      // init called on adding.
+    public LocalWorldStage localWorldStage;
+    public MainUiStage mainUiStage;
+    public List<Stage> stageList;      // init called on adding.
+
+    public GameView() {
+    }
 
     //TODO get rid of inits.
     public void init() {

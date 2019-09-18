@@ -2,7 +2,7 @@ package stonering.game.controller.controllers.toolbar;
 
 import stonering.game.controller.controllers.Controller;
 import stonering.game.controller.controllers.designation.DesignationSequence;
-import stonering.screen.game.GameView;
+import stonering.screen.GameView;
 
 /**
  * Controller for designating various tasks. Used as adapter for designation sequences.
