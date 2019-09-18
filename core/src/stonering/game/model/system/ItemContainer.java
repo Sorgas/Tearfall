@@ -1,13 +1,12 @@
 package stonering.game.model.system;
 
 import stonering.entity.Entity;
-import stonering.entity.crafting.CommonComponent;
+import stonering.entity.crafting.BuildingComponent;
 import stonering.entity.item.aspects.ItemContainerAspect;
 import stonering.enums.items.recipe.Ingredient;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
-import stonering.game.model.util.UtilByteArray;
 import stonering.util.geometry.Position;
 import stonering.entity.item.Item;
 import stonering.entity.item.selectors.ItemSelector;
@@ -100,9 +99,9 @@ public class ItemContainer extends EntityContainer<Item> {
      * Gets all materials for all variants of crafting step. Used for filling materialSelectList.
      * Currently works only with resource item.
      */
-    public List<Item> getAvailableMaterialsCraftingStep(CommonComponent step, Position pos) {
+    public List<Item> getAvailableMaterialsCraftingStep(BuildingComponent step, Position pos) {
         List<Item> items = new ArrayList<>();
-        step.getComponentVariants().forEach(variant -> items.addAll(getResourceItemsByMaterialType(variant.getTag())));
+        step.componentVariants.forEach(variant -> items.addAll(getResourceItemsByMaterialType(variant.getTag())));
         return filterUnreachable(items, pos);
     }
 

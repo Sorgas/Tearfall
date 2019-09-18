@@ -18,13 +18,13 @@ import stonering.widget.SubMenuMenu;
 public class ToolbarBuildingMenu extends SubMenuMenu {
 
     public ToolbarBuildingMenu() {
-        for (Blueprint blueprint : BlueprintsMap.getInstance().getBlueprints().values()) {
-            addItem(blueprint.getTitle(), new ChangeListener() {
+        for (Blueprint blueprint : BlueprintsMap.getInstance().blueprints.values()) {
+            addItem(blueprint.title, new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
                     GameMvc.instance().getController().getDesignationsController().setActiveDesignation(new BuildingDesignationSequence(blueprint));
                 }
-            }, blueprint.getMenuPath());
+            }, blueprint.menuPath);
         }
     }
 

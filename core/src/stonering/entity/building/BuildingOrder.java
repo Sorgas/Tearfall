@@ -27,8 +27,8 @@ public class BuildingOrder {
     }
 
     public void addItemSelectorForPart(String partName, ItemSelector selector) {
-        if(blueprint.getStepByPartName(partName) == null) {
-            Logger.TASKS.logWarn("Trying to add item selector to invalid part name in blueprint " + blueprint.getName());
+        if(blueprint.mappedComponents.get(partName) == null) {
+            Logger.TASKS.logWarn("Trying to add item selector to invalid part name in blueprint " + blueprint.name);
             return;
         }
         itemSelectors.put(partName, selector);

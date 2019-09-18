@@ -102,8 +102,8 @@ public class TaskContainer implements ModelComponent {
     public void submitBuildingDesignation(BuildingOrder order, int priority) {
         Position position = order.getPosition();
         LocalMap localMap = GameMvc.instance().getModel().get(LocalMap.class);
-        if (!PlaceValidatorsEnum.getValidator(order.getBlueprint().getPlacing()).validate(localMap, position)) return;
-        BuildingDesignation designation = new BuildingDesignation(position, DesignationTypeEnum.BUILD, order.getBlueprint().getBuilding());
+        if (!PlaceValidatorsEnum.getValidator(order.getBlueprint().placing).validate(localMap, position)) return;
+        BuildingDesignation designation = new BuildingDesignation(position, DesignationTypeEnum.BUILD, order.getBlueprint().building);
         Task task = createBuildingTask(designation, order.getItemSelectors().values(), priority);
         designation.setTask(task);
         addTask(task);

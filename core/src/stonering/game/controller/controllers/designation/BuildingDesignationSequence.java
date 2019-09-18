@@ -3,7 +3,7 @@ package stonering.game.controller.controllers.designation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import stonering.entity.building.Blueprint;
 import stonering.entity.building.BuildingOrder;
-import stonering.entity.crafting.CommonComponent;
+import stonering.entity.crafting.BuildingComponent;
 import stonering.entity.item.selectors.SimpleItemSelector;
 import stonering.enums.designations.PlaceValidatorsEnum;
 import stonering.game.GameMvc;
@@ -41,20 +41,20 @@ public class BuildingDesignationSequence extends DesignationSequence {
             showNextList();
             return true;
         });
-        placeSelectComponent.setPositionValidator(PlaceValidatorsEnum.getValidator(order.getBlueprint().getPlacing()));
+        placeSelectComponent.setPositionValidator(PlaceValidatorsEnum.getValidator(order.getBlueprint().placing));
     }
 
     /**
      * Returns select list with item, available for given step.
      */
-    private Actor createSelectListForStep(CommonComponent step) {
+    private Actor createSelectListForStep(BuildingComponent step) {
         MaterialSelectList materialList = new MaterialSelectList();
         materialList.fillForCraftingStep(step, order.getPosition());
         materialList.setSelectListener(event -> { // saves selection to map and creates next list
             if (materialList.getSelectedIndex() >= 0) {
                 ListItem selected = (ListItem) materialList.getSelected();
                 //TODO handle amount requirements more than 1
-                order.addItemSelectorForPart(step.getName(), new SimpleItemSelector(selected.getTitle(), selected.getMaterial(), 1));
+                order.addItemSelectorForPart(step.name, new SimpleItemSelector(selected.getTitle(), selected.getMaterial(), 1));
                 showNextList();
             }
             return true;
@@ -70,8 +70,8 @@ public class BuildingDesignationSequence extends DesignationSequence {
      * Shows list for unfilled step, or, if all steps completed, submits {@link BuildingOrder} to {@link TaskContainer}
      */
     private void showNextList() {
-        for (CommonComponent component : order.getBlueprint().getComponents()) {
-            if(order.getItemSelectors().containsKey(component.getName())) continue;  // skip already added component
+        for (BuildingComponent component : order.getBlueprint().mappedComponents.values()) {
+            if(order.getItemSelectors().containsKey(component.name)) continue;  // skip already added component
             GameMvc.instance().getView().getUiDrawer().getToolbar().addMenu(createSelectListForStep(component));
             return;
         }
