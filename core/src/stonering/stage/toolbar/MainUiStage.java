@@ -23,10 +23,8 @@ public class MainUiStage extends UiStage implements Initable {
 
     public MainUiStage() {
         super();
-        toolbar = new Toolbar();
-        tileStatusBar = new TileStatusBar();
-        addActor(toolbar);
-        addActor(tileStatusBar);
+        addActor(toolbar = new Toolbar());
+        addActor(tileStatusBar = new TileStatusBar());
         setKeyboardFocus(toolbar);
         setDebugAll(true);
     }

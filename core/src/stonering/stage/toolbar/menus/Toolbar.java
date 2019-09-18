@@ -33,7 +33,7 @@ public class Toolbar extends Container<Table> implements Highlightable {
 
     public void init() {
         setFillParent(true);
-        align(Align.bottomRight);
+        align(Align.bottomLeft);
         createInputListener();
         setActor(createToolbarTable());
         parentMenu.init();

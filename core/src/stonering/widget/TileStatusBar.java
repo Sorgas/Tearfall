@@ -1,5 +1,6 @@
 package stonering.widget;
 
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
@@ -14,46 +15,33 @@ import stonering.util.geometry.Position;
  *
  * @author Alexander Kuzyakov on 12.10.2017.
  */
-public class TileStatusBar extends Table {
-    private int x;
-    private int y;
-    private int z;
-    private int area;
-    private String material;
-    private byte blockType;
-
+public class TileStatusBar extends Container<Table> {
     private Label date;
     private Label coordinates;
     private Label cellType;
 
     public TileStatusBar() {
         super();
-        createTable();
+        setActor(createTable());
+        setFillParent(true);
+        align(Align.bottomRight);
     }
 
-    private void createTable() {
-        align(Align.bottomLeft);
-        defaults().align(Align.left);
-        add(new Label("Date: ", StaticSkin.getSkin()));
-        add(date = new Label("", StaticSkin.getSkin())).row();
-        add(new Label("Material: ", StaticSkin.getSkin()));
-        add(cellType = new Label("", StaticSkin.getSkin())).row();
-        add(new Label("Coordinates: ", StaticSkin.getSkin()));
-        add(coordinates = new Label("", StaticSkin.getSkin())).row();
+    private Table createTable() {
+        Table table = new Table();
+        table.defaults().align(Align.left);
+        table.add(new Label("Date: ", StaticSkin.getSkin()));
+        table.add(date = new Label("", StaticSkin.getSkin())).row();
+        table.add(new Label("Material: ", StaticSkin.getSkin()));
+        table.add(cellType = new Label("", StaticSkin.getSkin())).row();
+        table.add(new Label("Coordinates: ", StaticSkin.getSkin()));
+        table.add(coordinates = new Label("", StaticSkin.getSkin())).row();
+        setDebug(true, true);
+        return table;
     }
 
-    public void setData(Position camera, String material, int area, int blocktype) {
-        x = camera.x;
-        y = camera.y;
-        z = camera.z;
-        this.area = area;
-        this.material = material;
-        this.blockType = (byte) blocktype;
-        updateLabels();
-    }
-
-    private void updateLabels() {
-        coordinates.setText("(" + x + ", " + y + ", " + z + ") " + BlockTypesEnum.getType(blockType));
+    public void setData(Position camera, String material, int area, int blockType) {
+        coordinates.setText("(" + camera.x + ", " + camera.y + ", " + camera.z + ") " + BlockTypesEnum.getType((byte) blockType));
         cellType.setText(material);
         date.setText(GameMvc.instance().getModel().get(GameCalendar.class).getCurrentDate());
     }

@@ -28,7 +28,5 @@ public class ParentMenu extends SubMenuMenu {
      * Overrode to prevent closing.
      */
     @Override
-    public void hide() {
-//        GameMvc.instance().getView().addStageToList(new PauseMenuStage());
-    }
+    public void hide() {}
 }
