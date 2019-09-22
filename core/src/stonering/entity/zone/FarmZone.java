@@ -48,10 +48,6 @@ public class FarmZone extends Zone {
         taskMap = new HashMap<>();
     }
 
-    @Override
-    public void turnInterval(TimeUnitEnum unit) {
-        if (unit == TimeUnitEnum.MINUTE) checkTiles();
-    }
 
     /**
      * Observes all tiles and creates tasks.
@@ -60,7 +56,7 @@ public class FarmZone extends Zone {
      * 3. Designates prepared tiles(1) for planting enabled plantType.
      * Soil preparation begins one month before first plant can be planted, disregarding seed availability.
      */
-    private void checkTiles() {
+    public void turn() {
         if (plantType == null) return; // no plant set for farm
         int currentMonth = GameMvc.instance().getModel().get(GameCalendar.class).year.state;
         boolean plantingEnabled = plantType.plantingStart.contains(currentMonth);

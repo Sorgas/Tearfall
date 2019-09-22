@@ -2,7 +2,7 @@ package stonering.entity;
 
 import stonering.entity.environment.CelestialBody;
 import stonering.enums.time.TimeUnitEnum;
-import stonering.game.model.IntervalTurnable;
+import stonering.game.model.Turnable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ import java.util.List;
  *
  * @author Alexander Kuzyakov
  */
-public class StarSystem extends IntervalTurnable implements Serializable {
+public class StarSystem extends Turnable implements Serializable {
     private List<CelestialBody> celestialBodies;
 
     public StarSystem() {
@@ -30,8 +30,7 @@ public class StarSystem extends IntervalTurnable implements Serializable {
     }
 
     @Override
-    public void turnInterval(TimeUnitEnum unit) {
-        if(unit != TimeUnitEnum.HOUR) return;
-        celestialBodies.forEach(body -> body.turnInterval(unit));
+    public void turn() {
+        celestialBodies.forEach(CelestialBody::turn);
     }
 }

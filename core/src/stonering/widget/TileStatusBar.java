@@ -17,8 +17,9 @@ import stonering.util.geometry.Position;
  */
 public class TileStatusBar extends Container<Table> {
     private Label date;
-    private Label coordinates;
     private Label cellType;
+    private Label coordinates;
+    private Label area;
 
     public TileStatusBar() {
         super();
@@ -36,6 +37,8 @@ public class TileStatusBar extends Container<Table> {
         table.add(cellType = new Label("", StaticSkin.getSkin())).row();
         table.add(new Label("Coordinates: ", StaticSkin.getSkin()));
         table.add(coordinates = new Label("", StaticSkin.getSkin())).row();
+        table.add(new Label("Area: ", StaticSkin.getSkin()));
+        table.add(area = new Label("", StaticSkin.getSkin()));
         setDebug(true, true);
         return table;
     }
@@ -44,5 +47,6 @@ public class TileStatusBar extends Container<Table> {
         coordinates.setText("(" + camera.x + ", " + camera.y + ", " + camera.z + ") " + BlockTypesEnum.getType((byte) blockType));
         cellType.setText(material);
         date.setText(GameMvc.instance().getModel().get(GameCalendar.class).getCurrentDate());
+        this.area.setText(area);
     }
 }

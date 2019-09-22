@@ -1,27 +1,24 @@
 package stonering.game.model.system;
 
-import com.badlogic.gdx.utils.Array;
 import stonering.entity.plants.AbstractPlant;
 import stonering.entity.plants.PlantBlock;
 import stonering.entity.plants.SubstratePlant;
-import stonering.game.model.IntervalTurnable;
+import stonering.game.model.IntervalTurnableContainer;
 import stonering.util.geometry.Position;
-import stonering.util.global.CompatibleArray;
 import stonering.util.global.Initable;
 
 import java.util.HashMap;
 
 /**
  * Container for substrates
+ *  TODO add deletion list
  *
  * @author Alexander_Kuzyakov on 18.06.2019.
  */
-public class SubstrateContainer extends IntervalTurnable implements Initable, ModelComponent {
-    private Array<SubstratePlant> substratePlants;
+public class SubstrateContainer extends IntervalTurnableContainer<SubstratePlant> implements Initable, ModelComponent {
     private HashMap<Position, PlantBlock> substrateBlocks;
 
     public SubstrateContainer() {
-        substratePlants = new CompatibleArray<>();
         substrateBlocks = new HashMap<>();
     }
 
@@ -31,13 +28,13 @@ public class SubstrateContainer extends IntervalTurnable implements Initable, Mo
 
     @Override
     public void turn() {
-        substratePlants.forEach(SubstratePlant::turn);
+        entities.forEach(SubstratePlant::turn);
     }
 
     public void place(SubstratePlant plant, Position position) {
         if (substrateBlocks.containsKey(plant.getPosition())) return;
         plant.setPosition(position);
-        substratePlants.add(plant);
+        entities.add(plant);
         substrateBlocks.put(plant.getPosition(), plant.getBlock());
     }
 
@@ -47,7 +44,7 @@ public class SubstrateContainer extends IntervalTurnable implements Initable, Mo
     public void remove(AbstractPlant plant) {
         if (plant == null) return;
         if (!substrateBlocks.containsKey(plant.position)) return;
-        substratePlants.removeValue((SubstratePlant) plant, true);
+        entities.remove(plant);
         substrateBlocks.remove(plant.position);
     }
 

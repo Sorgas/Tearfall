@@ -31,9 +31,7 @@ allprojects {
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
     }
 
-    dependencies {
-//        compile "org.junit.jupiter:junit-jupiter-api:5.5.2"
-    }
+    dependencies {}
 }
 
 project(":desktop") {
@@ -59,6 +57,7 @@ project(":core") {
 
     dependencies {
         testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
+        testImplementation group: 'org.mockito', name: 'mockito-core', version: '2.1.0'
         testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
         testImplementation project(":core")
         testRuntimeOnly project(":core")

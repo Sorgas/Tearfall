@@ -1,17 +1,15 @@
 package stonering.game.model;
 
 import com.badlogic.gdx.utils.Timer;
-import stonering.game.model.system.GameCalendar;
 import stonering.enums.time.TimeUnitEnum;
+import stonering.game.model.system.GameCalendar;
 import stonering.game.model.system.ModelComponent;
 import stonering.util.global.Initable;
 import stonering.util.global.LastInitable;
 import stonering.util.global.Logger;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * Generic gameModel. Can store single objects of each class implementing interface {@link Initable}.
@@ -19,12 +17,11 @@ import java.util.TreeMap;
  *
  * @author Alexander on 04.02.2019.
  */
-public abstract class GameModel extends IntervalTurnable implements Initable, Serializable {
+public abstract class GameModel implements Initable, Serializable {
     private TreeMap<Class, ModelComponent> components;
-    private List<Turnable> turnableComponents;
-    private List<IntervalTurnable> intervalTurnableComponents;
-    private Timer timer;                 //makes turns for entity containers and calendar.
-    private GameCalendar calendar;
+    private List<IntervalTurnableContainer> intervalContainers;
+    private List<Turnable> turnableComponents; // not all components are Turnable
+    private Timer timer;                 //makes turns for entity containers and calendar
     private boolean paused;
 
     public GameModel() {
@@ -34,8 +31,8 @@ public abstract class GameModel extends IntervalTurnable implements Initable, Se
             return o1.getName().compareTo(o2.getName());
         });
         turnableComponents = new ArrayList<>();
-        intervalTurnableComponents = new ArrayList<>();
-        put(calendar = new GameCalendar());
+        intervalContainers = new ArrayList<>();
+        put(new GameCalendar());
     }
 
     public <T extends ModelComponent> T get(Class<T> type) {
@@ -44,9 +41,11 @@ public abstract class GameModel extends IntervalTurnable implements Initable, Se
 
     public <T extends ModelComponent> void put(T object) {
         components.put(object.getClass(), object);
-        if(object instanceof IntervalTurnable) {
-            intervalTurnableComponents.add((IntervalTurnable) object);
-        } else if(object instanceof Turnable) turnableComponents.add((Turnable) object);
+        if (object instanceof IntervalTurnableContainer) { // map container to its interval
+            intervalContainers.add((IntervalTurnableContainer) object);
+        } else if (object instanceof Turnable) {
+            turnableComponents.add((Turnable) object);
+        }
     }
 
     /**
@@ -66,26 +65,20 @@ public abstract class GameModel extends IntervalTurnable implements Initable, Se
         timer.scheduleTask(new Timer.Task() {
             @Override
             public void run() {
-                turn();
+                if (!paused) turnableComponents.forEach(Turnable::turn); // calendar turns others on time unit end
             }
         }, 0, 1f / 60);
     }
 
     /**
-     * Turns all {@link Turnable components}. This is an entry point from timer.
-     * GameCalendar is turned from here, and then turns model for intervals.
+     * Called from {@link GameCalendar}
      */
-    public void turn() {
-        if (paused) return;
-        turnableComponents.forEach(Turnable::turn);
+    public void turn(TimeUnitEnum unit) {
+        intervalContainers.forEach(container -> container.turnInterval(unit));
     }
 
-    /**
-     * Called by {@link GameCalendar}. Calendar is not called, if game is paused, so no check is needed.
-     */
-    @Override
-    public void turnInterval(TimeUnitEnum unit) {
-        intervalTurnableComponents.forEach(component -> component.turnInterval(unit));
+    public void turn() {
+        turnableComponents.forEach(Turnable::turn);
     }
 
     public boolean isPaused() {
@@ -93,13 +86,13 @@ public abstract class GameModel extends IntervalTurnable implements Initable, Se
     }
 
     public void setPaused(boolean paused) {
-        Logger.GENERAL.logDebug("Game paused set to " + paused);
+        this.paused = paused;
         if (paused) {
             timer.stop();
-            this.paused = true;
+            Logger.GENERAL.logDebug("Game paused");
         } else {
             timer.start();
-            this.paused = false;
+            Logger.GENERAL.logDebug("Game unpaused");
         }
     }
 }

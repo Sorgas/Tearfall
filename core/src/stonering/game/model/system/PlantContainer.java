@@ -8,7 +8,7 @@ import stonering.enums.OrientationEnum;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.time.TimeUnitEnum;
 import stonering.game.GameMvc;
-import stonering.game.model.IntervalTurnable;
+import stonering.game.model.IntervalTurnableContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.generators.items.PlantProductGenerator;
 import stonering.util.geometry.Position;
@@ -27,11 +27,11 @@ import java.util.List;
  * When plant is destroyed (died, cut or chopped), it's products are dropped via this container.
  * Plants are updated once in a minute. Plants do not move.
  * //TODO update passage map on blocks change.
+ * TODO add deletion list
  *
  * @author Alexander Kuzyakov on 09.11.2017.
  */
-public class PlantContainer extends IntervalTurnable implements Initable, ModelComponent {
-    private Array<AbstractPlant> plants; // trees and plants
+public class PlantContainer extends IntervalTurnableContainer<AbstractPlant> implements Initable, ModelComponent {
     private HashMap<Position, PlantBlock> plantBlocks; // trees and plants blocks
 
     private LocalMap localMap;
@@ -42,7 +42,6 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
     }
 
     public PlantContainer(List<AbstractPlant> plants) {
-        this.plants = new CompatibleArray<>(plants);
         plantBlocks = new HashMap<>();
     }
 
@@ -53,8 +52,7 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
 
     @Override
     public void turnInterval(TimeUnitEnum unit) {
-        if (unit != TimeUnitEnum.MINUTE) return;
-        plants.forEach(entity -> entity.turnInterval(unit));
+        if (unit == TimeUnitEnum.MINUTE) turn();
     }
 
     /**
@@ -71,7 +69,7 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
      */
     private void placePlant(Plant plant, Position position) {
         plant.setPosition(position);
-        if (placeBlock(plant.getBlock())) plants.add(plant);
+        if (placeBlock(plant.getBlock())) entities.add(plant);
     }
 
     /**
@@ -83,7 +81,7 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
      * @param tree Tree object with not null tree field
      */
     private void placeTree(Tree tree, Position position) {
-        plants.add(tree);
+        entities.add(tree);
         tree.setPosition(position);
         Position vector = tree.getArrayStartPosition();
         PlantBlock[][][] treeParts = tree.getBlocks();
@@ -122,7 +120,7 @@ public class PlantContainer extends IntervalTurnable implements Initable, ModelC
      * Removes plant from map completely. Can leave products.
      */
     public void remove(AbstractPlant plant, boolean leaveProduct) {
-        if (plant != null && plants.removeValue(plant, true)) removePlantBlocks(plant, leaveProduct);
+        if (plant != null && entities.remove(plant)) removePlantBlocks(plant, leaveProduct);
     }
 
     /**

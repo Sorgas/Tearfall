@@ -2,7 +2,6 @@ package stonering.test_chamber.model;
 
 import stonering.entity.item.Item;
 import stonering.entity.unit.Unit;
-import stonering.enums.items.type.ItemTypeMap;
 import stonering.game.model.EntitySelector;
 import stonering.game.model.system.ItemContainer;
 import stonering.game.model.system.units.UnitContainer;
@@ -11,19 +10,18 @@ import stonering.generators.items.ItemGenerator;
 import stonering.util.geometry.Position;
 
 /**
- * Model for testing farms.
+ * Model for testing furniture buildings.
  *
- * @author Alexander_Kuzyakov on 04.07.2019.
+ * @author Alexander on 22.09.2019.
  */
-public class FarmModel extends TestModel {
+public class FurnitureModel extends TestModel {
 
     @Override
     public void init() {
         super.init();
         get(EntitySelector.class).setPosition(MAP_SIZE / 2, MAP_SIZE / 2, 2);
         get(UnitContainer.class).addUnit(createUnit());
-        get(ItemContainer.class).addItem(createHoe());
-        putSeeds();
+        get(ItemContainer.class).addItem(createItem());
     }
 
     private Unit createUnit() {
@@ -31,20 +29,7 @@ public class FarmModel extends TestModel {
         return unit;
     }
 
-    private Item createHoe() {
-        Item item = new Item(null, ItemTypeMap.getInstance().getItemType("hoe"));
-        item.position = new Position(0, 0, 2);
-        return item;
-    }
-
-    private void putSeeds() {
-        for (int i = 0; i < 4; i++) {
-            get(ItemContainer.class).addItem(createSeed(i));
-        }
-    }
-
-    private Item createSeed(int offset) {
-        Item item = new ItemGenerator().generateSeedItem("farm_test_plant", new Position(1 + offset, 0, 2));
-        return item;
+    private Item createItem() {
+        return new ItemGenerator().generateItem("pants", "cotton", new Position(7,7,2));
     }
 }

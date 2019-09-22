@@ -1,8 +1,7 @@
 package stonering.game.model.system;
 
 import stonering.entity.Entity;
-import stonering.enums.time.TimeUnitEnum;
-import stonering.game.model.IntervalTurnable;
+import stonering.game.model.Turnable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,16 +11,11 @@ import java.util.List;
  *
  * @author Alexander on 17.07.2019.
  */
-public abstract class EntityContainer<T extends Entity> extends IntervalTurnable implements ModelComponent {
+public abstract class EntityContainer<T extends Entity> extends Turnable implements ModelComponent {
     protected List<T> entities;
 
     public EntityContainer() {
         entities = new ArrayList<>();
-    }
-
-    @Override
-    public void turnInterval(TimeUnitEnum unit) {
-        entities.forEach(entity -> entity.turnInterval(unit));
     }
 
     @Override

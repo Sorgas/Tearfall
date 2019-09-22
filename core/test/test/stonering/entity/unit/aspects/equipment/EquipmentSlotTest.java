@@ -1,4 +1,4 @@
-package test.java.stonering.entity.unit.aspects.equipment;
+package test.stonering.entity.unit.aspects.equipment;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

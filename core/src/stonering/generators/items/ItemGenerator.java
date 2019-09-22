@@ -1,7 +1,6 @@
 
 package stonering.generators.items;
 
-import com.sun.xml.internal.ws.util.StringUtils;
 import stonering.entity.Aspect;
 import stonering.entity.crafting.ItemOrder;
 import stonering.entity.item.aspects.ItemContainerAspect;
@@ -62,7 +61,7 @@ public class ItemGenerator {
      */
     public Item generateSeedItem(String specimen, Position position) {
         Item item = new Item(position, itemTypeMap.getItemType("seed"));
-        item.setTitle(StringUtils.capitalize(specimen) + "seed");
+        item.setTitle(specimen.substring(0,1).toUpperCase() + specimen.substring(1).toLowerCase() + " seed");
         item.addAspect(new SeedAspect(item, specimen));
         return item;
     }

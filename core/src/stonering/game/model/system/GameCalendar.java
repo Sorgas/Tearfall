@@ -40,9 +40,9 @@ public class GameCalendar extends Turnable implements ModelComponent {
             yearNumber++;
             return;
         }
-        if (!units[index].increment()) return; // or unit not ended
-        GameMvc.instance().getModel().turnInterval(units[index].unit); // turn model on unit end
-        turnUnit(index + 1); // increase next unit
+        if (!units[index].increment()) return; // unit not ended (minute not finished)
+        GameMvc.instance().getModel().turn(units[index].unit);
+        turnUnit(index + 1); // increase next unit (on minute end, hour gets +1)
     }
 
     public String getCurrentDate() {

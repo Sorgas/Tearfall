@@ -47,7 +47,6 @@ public abstract class TestModel extends GameModel {
         put(new EntitySelector());
         put(new UnitContainer());
         put(new ZonesContainer());
-        put(new GameCalendar());
         put(new TaskContainer());
         put(new AStar());
         updateLocalMap();

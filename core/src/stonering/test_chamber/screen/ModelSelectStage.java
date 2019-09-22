@@ -83,5 +83,6 @@ public class ModelSelectStage extends UiStage {
         classMap.put(FarmModel.class.getSimpleName(), FarmModel.class);
         classMap.put(LightingModel.class.getSimpleName(), LightingModel.class);
         classMap.put(DiggingModel.class.getSimpleName(), DiggingModel.class);
+        classMap.put(FurnitureModel.class.getSimpleName(), FurnitureModel.class);
     }
 }
