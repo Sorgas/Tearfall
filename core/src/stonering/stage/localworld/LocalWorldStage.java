@@ -28,7 +28,7 @@ public class LocalWorldStage extends UiStage {
     public LocalWorldStage() {
         super();
         camera = new MovableCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        camera.update();
+//        camera.update();
         drawingUtil = new DrawingUtil(getBatch());
         tileRenderer = new TileRenderer(drawingUtil, camera);
         entitySelectorRenderer = new EntitySelectorRenderer(drawingUtil);

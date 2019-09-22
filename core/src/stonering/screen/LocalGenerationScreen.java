@@ -66,6 +66,7 @@ public class LocalGenerationScreen extends SingleStageScreen {
             public void changed(ChangeEvent event, Actor actor) {
                 GameMvc.instance().createViewAndController();
                 GameMvc.instance().init(); // for initing V & C
+                GameMvc.instance().getView().getLocalWorldStage().getCamera().centerCameraToPosition(GameMvc.instance().getModel().get(EntitySelector.class).getPosition().clone());
                 GameMvc.instance().getModel().get(EntitySelector.class).setToMapCenter();
                 GameMvc.instance().getModel().get(LocalMap.class).initAreas(); // to avoid recalculations on map generation
                 game.switchToGame(); // show game screen

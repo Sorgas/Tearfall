@@ -25,20 +25,14 @@ import java.util.List;
  *
  * @author Alexander Kuzyakov on 10.06.2017.
  */
-public class GameView extends SimpleScreen implements Initable {
+public class GameView extends SimpleScreen {
     public LocalWorldStage localWorldStage;
     public MainUiStage mainUiStage;
-    public List<Stage> stageList;      // init called on adding.
+    public List<Stage> stageList = new ArrayList<>();      // init called on adding.
 
     public GameView() {
-    }
-
-    //TODO get rid of inits.
-    public void init() {
-        stageList = new ArrayList<>();
         localWorldStage = new LocalWorldStage();
         mainUiStage = new MainUiStage();
-        mainUiStage.init();
     }
 
     @Override
@@ -122,7 +116,7 @@ public class GameView extends SimpleScreen implements Initable {
         return mainUiStage;
     }
 
-    public LocalWorldStage getBaseStage() {
+    public LocalWorldStage getLocalWorldStage() {
         return localWorldStage;
     }
 }

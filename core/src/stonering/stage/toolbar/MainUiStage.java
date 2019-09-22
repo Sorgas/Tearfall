@@ -10,14 +10,13 @@ import stonering.stage.UiStage;
 import stonering.widget.TileStatusBar;
 import stonering.stage.toolbar.menus.Toolbar;
 import stonering.util.geometry.Position;
-import stonering.util.global.Initable;
 
 /**
  * Contains toolbar and status bar.
  *
  * @author Alexander Kuzyakov on 12.10.2017.
  */
-public class MainUiStage extends UiStage implements Initable {
+public class MainUiStage extends UiStage {
     private Toolbar toolbar;
     private TileStatusBar tileStatusBar;
 
@@ -27,10 +26,6 @@ public class MainUiStage extends UiStage implements Initable {
         addActor(tileStatusBar = new TileStatusBar());
         setKeyboardFocus(toolbar);
         setDebugAll(true);
-    }
-
-    public void init() {
-        toolbar.init();
     }
 
     public void draw() {

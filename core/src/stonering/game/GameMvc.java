@@ -38,7 +38,6 @@ public class GameMvc implements Serializable {
         if(model != null) model.init();
         else Logger.GENERAL.logWarn("Attempt to init MVC with no model.");
         if(controller != null) controller.init();
-        if(view != null) view.init();
     }
 
     public static GameMvc instance() {

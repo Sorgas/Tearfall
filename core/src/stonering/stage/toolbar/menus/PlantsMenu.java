@@ -7,7 +7,7 @@ import stonering.enums.designations.DesignationTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.controller.controllers.designation.BoxDesignationSequence;
 import stonering.game.controller.controllers.toolbar.DesignationsController;
-import stonering.widget.SubMenuMenu;
+import stonering.widget.ToolbarSubMenuMenu;
 import stonering.util.global.Logger;
 
 import static stonering.enums.designations.DesignationTypeEnum.*;
@@ -17,9 +17,10 @@ import static stonering.enums.designations.DesignationTypeEnum.*;
  *
  * @author Alexander Kuzyakov on 28.05.2018.
  */
-public class PlantsMenu extends SubMenuMenu {
+public class PlantsMenu extends ToolbarSubMenuMenu {
 
-    public PlantsMenu() {
+    public PlantsMenu(Toolbar toolbar) {
+        super(toolbar);
         initMenu();
     }
 

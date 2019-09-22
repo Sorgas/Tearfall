@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import stonering.game.GameMvc;
+import stonering.game.model.EntitySelector;
 import stonering.game.model.GameModel;
 import stonering.game.model.local_map.LocalMap;
 import stonering.stage.UiStage;
@@ -55,6 +56,7 @@ public class ModelSelectStage extends UiStage {
         GameMvc gameMvc = GameMvc.createInstance(getInstance(name));
         gameMvc.createViewAndController();
         gameMvc.init();
+        gameMvc.getView().getLocalWorldStage().getCamera().centerCameraToPosition(GameMvc.instance().getModel().get(EntitySelector.class).getPosition().clone());
         testChamberGame.setScreen(GameMvc.instance().getView());
         gameMvc.getModel().get(LocalMap.class).initAreas();
         gameMvc.getModel().setPaused(false);
@@ -78,7 +80,6 @@ public class ModelSelectStage extends UiStage {
         classMap.put(PassageModel.class.getSimpleName(), PassageModel.class);
         classMap.put(CameraModel.class.getSimpleName(), CameraModel.class);
         classMap.put(WorkbenchModel.class.getSimpleName(), WorkbenchModel.class);
-        classMap.put(SingleUnitModel.class.getSimpleName(), SingleUnitModel.class);
         classMap.put(FarmModel.class.getSimpleName(), FarmModel.class);
         classMap.put(LightingModel.class.getSimpleName(), LightingModel.class);
         classMap.put(DiggingModel.class.getSimpleName(), DiggingModel.class);

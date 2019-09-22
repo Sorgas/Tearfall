@@ -40,7 +40,6 @@ public class MovableCamera extends OrthographicCamera implements Resizeable {
         super(viewportWidth, viewportHeight);
         screenSize = new float[2];
         frame = new Float2dBounds();
-        centerCameraToPosition(GameMvc.instance().getModel().get(EntitySelector.class).getPosition().clone());
     }
 
     /**

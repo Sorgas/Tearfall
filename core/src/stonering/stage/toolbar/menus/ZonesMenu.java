@@ -6,14 +6,18 @@ import stonering.enums.ZoneTypesEnum;
 import stonering.game.GameMvc;
 import stonering.game.controller.controllers.designation.ZoneDesignationSequence;
 import stonering.game.controller.controllers.toolbar.DesignationsController;
-import stonering.widget.SubMenuMenu;
+import stonering.widget.ToolbarSubMenuMenu;
 
 /**
  * Contains buttons for designating zones.
  *
  * @author Alexander on 04.03.2019.
  */
-public class ZonesMenu extends SubMenuMenu {
+public class ZonesMenu extends ToolbarSubMenuMenu {
+
+    public ZonesMenu(Toolbar toolbar) {
+        super(toolbar);
+    }
 
     @Override
     public void init() {

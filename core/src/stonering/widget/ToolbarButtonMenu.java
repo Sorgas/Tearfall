@@ -13,9 +13,11 @@ import stonering.stage.toolbar.menus.Toolbar;
  * @author Alexander Kuzyakov on 27.12.2017.
  */
 public abstract class ToolbarButtonMenu extends ButtonMenu implements Highlightable {
+    protected Toolbar toolbar;
     private HighlightHandler handler;
 
-    public ToolbarButtonMenu() {
+    public ToolbarButtonMenu(Toolbar toolbar) {
+        this.toolbar = toolbar;
         defaults().size(120, 30).pad(5).padBottom(10);
         bottom();
         createHighlightHandler();
@@ -42,12 +44,12 @@ public abstract class ToolbarButtonMenu extends ButtonMenu implements Highlighta
 
     @Override
     public void show() {
-        GameMvc.instance().getView().getUiDrawer().getToolbar().addMenu(this);
+        toolbar.addMenu(this);
     }
 
     @Override
     public void hide() {
-        GameMvc.instance().getView().getUiDrawer().getToolbar().hideMenu(this);
+        toolbar.hideMenu(this);
     }
 
     @Override

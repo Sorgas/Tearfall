@@ -24,9 +24,6 @@ public class Toolbar extends Container<Table> {
 
     public Toolbar() {
         menusGroup = new HorizontalGroup();
-    }
-
-    public void init() {
         setFillParent(true);
         align(Align.bottomLeft);
         addListener(new InputListener() {
@@ -38,7 +35,7 @@ public class Toolbar extends Container<Table> {
             }
         });
         setActor(createToolbarTable());
-        parentMenu = new ParentMenu();
+        parentMenu = new ParentMenu(this);
         parentMenu.show();
         parentMenu.init();
     }

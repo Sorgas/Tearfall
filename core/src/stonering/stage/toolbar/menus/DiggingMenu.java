@@ -7,7 +7,7 @@ import stonering.enums.designations.DesignationTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.controller.controllers.designation.BoxDesignationSequence;
 import stonering.game.controller.controllers.toolbar.DesignationsController;
-import stonering.widget.SubMenuMenu;
+import stonering.widget.ToolbarSubMenuMenu;
 
 import static stonering.enums.designations.DesignationTypeEnum.*;
 
@@ -17,13 +17,10 @@ import static stonering.enums.designations.DesignationTypeEnum.*;
  *
  * @author Alexander Kuzyakov
  */
-public class DiggingMenu extends SubMenuMenu {
+public class DiggingMenu extends ToolbarSubMenuMenu {
 
-    public DiggingMenu() {
-        initMenu();
-    }
-
-    private void initMenu() {
+    public DiggingMenu(Toolbar toolbar) {
+        super(toolbar);
         addButton("Y: dig", DIG, Input.Keys.Y);
         addButton("U: ramp", RAMP, Input.Keys.U);
         addButton("I: channel", CHANNEL, Input.Keys.I);

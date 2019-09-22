@@ -52,7 +52,7 @@ public class EntitySelector implements ModelComponent, Initable {
             z--;
         }
         position.z = z;
-        GameMvc.instance().getView().getBaseStage().getCamera().centerCameraToPosition(position);
+        GameMvc.instance().getView().getLocalWorldStage().getCamera().centerCameraToPosition(position);
     }
 
     public void setPosition(int x, int y, int z) {
@@ -68,7 +68,7 @@ public class EntitySelector implements ModelComponent, Initable {
 
     private void selectorMoved() {
         updateStatusAndSprite();
-        GameMvc.instance().getView().getBaseStage().getCamera().selectorMoved();
+        GameMvc.instance().getView().getLocalWorldStage().getCamera().selectorMoved();
     }
 
     /**

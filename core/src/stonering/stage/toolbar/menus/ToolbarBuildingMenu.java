@@ -6,7 +6,7 @@ import stonering.entity.building.Blueprint;
 import stonering.enums.buildings.BlueprintsMap;
 import stonering.game.GameMvc;
 import stonering.game.controller.controllers.designation.BuildingDesignationSequence;
-import stonering.widget.SubMenuMenu;
+import stonering.widget.ToolbarSubMenuMenu;
 
 /**
  * ButtonMenu for selecting building.
@@ -15,9 +15,10 @@ import stonering.widget.SubMenuMenu;
  *
  * @author Alexander Kuzyakov on 25.01.2018.
  */
-public class ToolbarBuildingMenu extends SubMenuMenu {
+public class ToolbarBuildingMenu extends ToolbarSubMenuMenu {
 
-    public ToolbarBuildingMenu() {
+    public ToolbarBuildingMenu(Toolbar toolbar) {
+        super(toolbar);
         for (Blueprint blueprint : BlueprintsMap.getInstance().blueprints.values()) {
             addItem(blueprint.title, new ChangeListener() {
                 @Override
