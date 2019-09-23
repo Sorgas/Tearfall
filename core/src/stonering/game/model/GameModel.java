@@ -21,6 +21,7 @@ public abstract class GameModel implements Initable, Serializable {
     private TreeMap<Class, ModelComponent> components;
     private List<IntervalTurnableContainer> intervalContainers;
     private List<Turnable> turnableComponents; // not all components are Turnable
+    private GameCalendar calendar;
     private Timer timer;                 //makes turns for entity containers and calendar
     private boolean paused;
 
@@ -32,7 +33,7 @@ public abstract class GameModel implements Initable, Serializable {
         });
         turnableComponents = new ArrayList<>();
         intervalContainers = new ArrayList<>();
-        put(new GameCalendar());
+        calendar = new GameCalendar();
     }
 
     public <T extends ModelComponent> T get(Class<T> type) {
@@ -74,10 +75,11 @@ public abstract class GameModel implements Initable, Serializable {
      * Called from {@link GameCalendar}
      */
     public void turn(TimeUnitEnum unit) {
-        intervalContainers.forEach(container -> container.turnInterval(unit));
+
     }
 
     public void turn() {
+
         turnableComponents.forEach(Turnable::turn);
     }
 
@@ -94,5 +96,9 @@ public abstract class GameModel implements Initable, Serializable {
             timer.start();
             Logger.GENERAL.logDebug("Game unpaused");
         }
+    }
+
+    public GameCalendar getCalendar() {
+        return calendar;
     }
 }

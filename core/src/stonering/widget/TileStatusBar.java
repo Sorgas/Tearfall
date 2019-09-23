@@ -46,7 +46,7 @@ public class TileStatusBar extends Container<Table> {
     public void setData(Position camera, String material, int area, int blockType) {
         coordinates.setText("(" + camera.x + ", " + camera.y + ", " + camera.z + ") " + BlockTypesEnum.getType((byte) blockType));
         cellType.setText(material);
-        date.setText(GameMvc.instance().getModel().get(GameCalendar.class).getCurrentDate());
+        date.setText(GameMvc.instance().getModel().getCalendar().getCurrentDate());
         this.area.setText(area);
     }
 }
