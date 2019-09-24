@@ -1,6 +1,5 @@
 package stonering.test_chamber.model;
 
-import stonering.game.model.system.GameCalendar;
 import stonering.entity.item.Item;
 import stonering.entity.plants.AbstractPlant;
 import stonering.entity.plants.Tree;
@@ -27,9 +26,9 @@ public class SingleTreeModel extends TestModel {
         super.init();
         get(UnitContainer.class).addUnit(createUnit());
         get(ItemContainer.class).addItem(createItem());
-        get(GameCalendar.class).minute.setSize(1);
-        get(GameCalendar.class).hour.setSize(1);
-        get(GameCalendar.class).day.setSize(4);
+        calendar.minute.setSize(1);
+        calendar.hour.setSize(1);
+        calendar.day.setSize(4);
         get(PlantContainer.class).place(createTree(), new Position(TREE_CENTER, TREE_CENTER, 2));
     }
 

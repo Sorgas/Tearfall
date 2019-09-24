@@ -2,18 +2,15 @@ package stonering.game.model.system;
 
 import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.Array;
 import stonering.entity.plants.*;
 import stonering.enums.OrientationEnum;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.time.TimeUnitEnum;
 import stonering.game.GameMvc;
-import stonering.game.model.IntervalTurnableContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.generators.items.PlantProductGenerator;
 import stonering.util.geometry.Position;
 import stonering.entity.item.Item;
-import stonering.util.global.CompatibleArray;
 import stonering.util.global.Initable;
 import stonering.util.global.Logger;
 
@@ -31,7 +28,7 @@ import java.util.List;
  *
  * @author Alexander Kuzyakov on 09.11.2017.
  */
-public class PlantContainer extends IntervalTurnableContainer<AbstractPlant> implements Initable, ModelComponent {
+public class PlantContainer extends EntityContainer<AbstractPlant> implements Initable, ModelComponent {
     private HashMap<Position, PlantBlock> plantBlocks; // trees and plants blocks
 
     private LocalMap localMap;
@@ -51,7 +48,7 @@ public class PlantContainer extends IntervalTurnableContainer<AbstractPlant> imp
     }
 
     @Override
-    public void turnInterval(TimeUnitEnum unit) {
+    public void turn(TimeUnitEnum unit) {
         if (unit == TimeUnitEnum.MINUTE) turn();
     }
 

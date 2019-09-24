@@ -39,7 +39,7 @@ public class CelestialCycleAspect extends Aspect implements Initable {
     }
 
     @Override
-    public void turnInterval(TimeUnitEnum unit) {
+    public void turn(TimeUnitEnum unit) {
         if (unit != TimeUnitEnum.MINUTE) return;
             orbitPos += orbitSpeed;
         if (orbitPos > 1) {

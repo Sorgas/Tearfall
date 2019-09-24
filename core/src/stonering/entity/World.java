@@ -1,7 +1,7 @@
 package stonering.entity;
 
 import stonering.enums.time.TimeUnitEnum;
-import stonering.game.model.IntervalTurnableContainer;
+import stonering.game.model.Turnable;
 import stonering.game.model.system.ModelComponent;
 import stonering.util.global.Initable;
 
@@ -14,7 +14,7 @@ import java.io.Serializable;
  *
  * @author Alexander Kuzyakov
  */
-public class World extends IntervalTurnableContainer implements Serializable, Initable, ModelComponent {
+public class World extends Turnable implements Serializable, Initable, ModelComponent {
     private WorldMap worldMap;
     private StarSystem starSystem;
     private int seed;
@@ -30,7 +30,7 @@ public class World extends IntervalTurnableContainer implements Serializable, In
     }
 
     @Override
-    public void turnInterval(TimeUnitEnum unit) {
+    public void turn(TimeUnitEnum unit) {
         if(unit == TimeUnitEnum.HOUR) starSystem.turn();
     }
 

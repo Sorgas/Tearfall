@@ -1,7 +1,6 @@
 package stonering.game.model;
 
 import com.badlogic.gdx.utils.Timer;
-import stonering.enums.time.TimeUnitEnum;
 import stonering.game.model.system.GameCalendar;
 import stonering.game.model.system.ModelComponent;
 import stonering.util.global.Initable;
@@ -19,9 +18,8 @@ import java.util.*;
  */
 public abstract class GameModel implements Initable, Serializable {
     private TreeMap<Class, ModelComponent> components;
-    private List<IntervalTurnableContainer> intervalContainers;
     private List<Turnable> turnableComponents; // not all components are Turnable
-    private GameCalendar calendar;
+    protected GameCalendar calendar;
     private Timer timer;                 //makes turns for entity containers and calendar
     private boolean paused;
 
@@ -32,7 +30,6 @@ public abstract class GameModel implements Initable, Serializable {
             return o1.getName().compareTo(o2.getName());
         });
         turnableComponents = new ArrayList<>();
-        intervalContainers = new ArrayList<>();
         calendar = new GameCalendar();
     }
 
@@ -42,11 +39,7 @@ public abstract class GameModel implements Initable, Serializable {
 
     public <T extends ModelComponent> void put(T object) {
         components.put(object.getClass(), object);
-        if (object instanceof IntervalTurnableContainer) { // map container to its interval
-            intervalContainers.add((IntervalTurnableContainer) object);
-        } else if (object instanceof Turnable) {
-            turnableComponents.add((Turnable) object);
-        }
+        if (object instanceof Turnable) turnableComponents.add((Turnable) object);
     }
 
     /**
@@ -66,21 +59,9 @@ public abstract class GameModel implements Initable, Serializable {
         timer.scheduleTask(new Timer.Task() {
             @Override
             public void run() {
-                if (!paused) turnableComponents.forEach(Turnable::turn); // calendar turns others on time unit end
+                if (!paused) calendar.turn(); // calendar turns others
             }
         }, 0, 1f / 60);
-    }
-
-    /**
-     * Called from {@link GameCalendar}
-     */
-    public void turn(TimeUnitEnum unit) {
-
-    }
-
-    public void turn() {
-
-        turnableComponents.forEach(Turnable::turn);
     }
 
     public boolean isPaused() {
@@ -100,5 +81,9 @@ public abstract class GameModel implements Initable, Serializable {
 
     public GameCalendar getCalendar() {
         return calendar;
+    }
+
+    public List<Turnable> getTurnableComponents() {
+        return turnableComponents;
     }
 }

@@ -43,7 +43,6 @@ public class MainGameModel extends GameModel {
         put(new ItemContainer());
         put(new TaskContainer());
         put(new LiquidContainer());
-        put(new GameCalendar());            // slow game entities make turns through this.
         put(new EntitySelector());          // local map camera
         put(new AStar());
     }

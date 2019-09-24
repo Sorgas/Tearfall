@@ -3,7 +3,7 @@ package stonering.game.model.system;
 import stonering.entity.plants.AbstractPlant;
 import stonering.entity.plants.PlantBlock;
 import stonering.entity.plants.SubstratePlant;
-import stonering.game.model.IntervalTurnableContainer;
+import stonering.game.model.Turnable;
 import stonering.util.geometry.Position;
 import stonering.util.global.Initable;
 
@@ -15,7 +15,7 @@ import java.util.HashMap;
  *
  * @author Alexander_Kuzyakov on 18.06.2019.
  */
-public class SubstrateContainer extends IntervalTurnableContainer<SubstratePlant> implements Initable, ModelComponent {
+public class SubstrateContainer extends EntityContainer<SubstratePlant> implements Initable, ModelComponent {
     private HashMap<Position, PlantBlock> substrateBlocks;
 
     public SubstrateContainer() {

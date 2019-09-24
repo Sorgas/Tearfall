@@ -22,7 +22,7 @@ public class FuelConsumerAspect extends Aspect {
     }
 
     @Override
-    public void turnInterval(TimeUnitEnum unit) {
+    public void turn(TimeUnitEnum unit) {
         if (isFueled() && unit == TimeUnitEnum.MINUTE) remainingTime--;
     }
 
