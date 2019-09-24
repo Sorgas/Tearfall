@@ -9,7 +9,6 @@ import stonering.game.model.system.SubstrateContainer;
 import stonering.game.model.tilemaps.LocalTileMapUpdater;
 import stonering.util.geometry.Position;
 import stonering.util.global.Initable;
-import stonering.util.global.LastInitable;
 import stonering.util.global.Logger;
 
 import java.io.IOException;
@@ -22,7 +21,7 @@ import java.util.List;
  *
  * @author Alexander Kuzyakov on 10.06.2017.
  */
-public class LocalMap implements ModelComponent, Initable, LastInitable {
+public class LocalMap implements ModelComponent, Initable {
     private int[][][] material;
     private byte[][][] blockType;
     private byte[][][] flooding;

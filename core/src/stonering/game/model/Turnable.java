@@ -13,9 +13,7 @@ public interface Turnable {
     /**
      * Updates this object.
      */
-    default void turn() {
-    }
+    void turn();
 
-    default void turn(TimeUnitEnum unit) {
-    }
+    void turn(TimeUnitEnum unit);
 }

@@ -1,10 +1,10 @@
 package stonering.game.model;
 
 import com.badlogic.gdx.utils.Timer;
+import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.GameCalendar;
 import stonering.game.model.system.ModelComponent;
 import stonering.util.global.Initable;
-import stonering.util.global.LastInitable;
 import stonering.util.global.Logger;
 
 import java.io.Serializable;
@@ -26,7 +26,7 @@ public abstract class GameModel implements Initable, Serializable {
     public GameModel() {
         components = new TreeMap<>((o1, o2) -> {
             if (o1.equals(o2)) return 0;
-            if (o2.isAssignableFrom(LastInitable.class)) return 1;
+            if (o2.isAssignableFrom(LocalMap.class)) return 1;
             return o1.getName().compareTo(o2.getName());
         });
         turnableComponents = new ArrayList<>();
@@ -59,7 +59,7 @@ public abstract class GameModel implements Initable, Serializable {
         timer.scheduleTask(new Timer.Task() {
             @Override
             public void run() {
-                if (!paused) calendar.turn(); // calendar turns others
+                if (!paused) calendar.turn(); // calendar turns other components
             }
         }, 0, 1f / 60);
     }

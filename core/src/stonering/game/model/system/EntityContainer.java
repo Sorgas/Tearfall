@@ -1,6 +1,7 @@
 package stonering.game.model.system;
 
 import stonering.entity.Entity;
+import stonering.enums.time.TimeUnitEnum;
 import stonering.game.model.Turnable;
 
 import java.util.ArrayList;
@@ -21,5 +22,10 @@ public abstract class EntityContainer<T extends Entity> implements ModelComponen
     @Override
     public void turn() {
         entities.forEach(T::turn);
+    }
+
+    @Override
+    public void turn(TimeUnitEnum unit) {
+        entities.forEach(entity -> entity.turn(unit));
     }
 }
