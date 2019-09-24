@@ -20,7 +20,7 @@ import java.util.Random;
  *
  * @author Alexander on 22.08.2018.
  */
-public class LiquidContainer extends Turnable implements ModelComponent, Initable {
+public class LiquidContainer implements ModelComponent, Initable, Turnable {
     private LocalMap localMap;
     private HashMap<Position, LiquidTile> liquidTiles;
     private HashMap<Position, LiquidTile> tempLiquidTiles;

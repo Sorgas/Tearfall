@@ -14,7 +14,7 @@ import java.util.List;
  *
  * @author Alexander Kuzyakov
  */
-public class StarSystem extends Turnable implements Serializable {
+public class StarSystem implements Serializable, Turnable {
     private List<CelestialBody> celestialBodies;
 
     public StarSystem() {

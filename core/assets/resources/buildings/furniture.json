@@ -63,15 +63,6 @@
         "color":"0xffffffff"
     },
     {
-        "building":"",
-        "title":"Chair",
-        "description":"Chair",
-        "aspects": [["furniture"]],
-        "passage": "floor",
-        "atlasXY":["0", "0"],
-        "color":"0xffffffff"
-    },
-    {
         "building":"Chair",
         "title":"Chair",
         "description":"Chair",

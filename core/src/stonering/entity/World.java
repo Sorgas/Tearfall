@@ -14,7 +14,7 @@ import java.io.Serializable;
  *
  * @author Alexander Kuzyakov
  */
-public class World extends Turnable implements Serializable, Initable, ModelComponent {
+public class World implements Serializable, Initable, ModelComponent, Turnable {
     private WorldMap worldMap;
     private StarSystem starSystem;
     private int seed;
@@ -28,6 +28,9 @@ public class World extends Turnable implements Serializable, Initable, ModelComp
     public void init() {
         starSystem.init();
     }
+
+    @Override
+    public void turn() {}
 
     @Override
     public void turn(TimeUnitEnum unit) {

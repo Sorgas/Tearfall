@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  *
  * @author Alexander Kuzyakov on 09.12.2017.
  */
-public class BuildingContainer extends Turnable implements ModelComponent {
+public class BuildingContainer implements ModelComponent, Turnable {
     private List<Building> buildings;
     public final BuildingGenerator buildingGenerator;
     private HashMap<Position, BuildingBlock> buildingBlocks;
@@ -86,7 +86,7 @@ public class BuildingContainer extends Turnable implements ModelComponent {
     }
 
     public Building getBuiding(Position position) {
-        if(!hasBuilding(position)) return null;
+        if (!hasBuilding(position)) return null;
         return buildingBlocks.get(position).getBuilding();
     }
 

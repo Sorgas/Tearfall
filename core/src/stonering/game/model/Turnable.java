@@ -4,19 +4,18 @@ import stonering.enums.time.TimeUnitEnum;
 
 /**
  * Object that can make turns.
- * Update logic in {@mecthod turn} and {@method turnInterval} should not be the same.
+ * Update logic in {@method turn} and {@method turnInterval} should not be the same.
  *
  * @author Alexander on 07.10.2018.
  */
-public abstract class Turnable {
+public interface Turnable {
 
     /**
      * Updates this object.
      */
-    public void turn() {
+    default void turn() {
     }
 
-    public void turn(TimeUnitEnum unit) {
-
+    default void turn(TimeUnitEnum unit) {
     }
 }

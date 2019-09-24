@@ -35,7 +35,14 @@ public class PlantGrowthAspect extends Aspect {
      */
     @Override
     public void turn(TimeUnitEnum unit) {
-        if(unit != TimeUnitEnum.MINUTE) return;
+        if (unit == TimeUnitEnum.MINUTE) update();
+    }
+
+    /**
+     * Increases growth counter(every minute) and plant age(counted in weeks).
+     * When age increases, plant body is recreated with new life stage.
+     */
+    private void update() {
         if (counter++ < weekSize) return;
         counter = 0;
         switch (((AbstractPlant) entity).increaceAge()) {
