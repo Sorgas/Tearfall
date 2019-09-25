@@ -58,12 +58,19 @@ public abstract class ActionTarget {
      */
     public int check(Position currentPosition) {
         int distance = getDistance(currentPosition);
-        if (distance == FAR) return WAIT;
-        if (distance == targetPlacement) return READY;
-        if (targetPlacement == ANY) return distance < ANY ? READY : WAIT;
-        if (targetPlacement == NEAR && distance < NEAR) return createActionToStepOff(currentPosition);
-        Logger.PATH.logError("checking action target with " + targetPlacement + " and " + currentPosition + " to " + getPosition() + " failed.");
-        return FAIL;
+        if (distance > 1) return WAIT; // target not yet reached
+        switch (targetPlacement) {
+            case EXACT:
+                return distance == EXACT ? READY : WAIT;
+            case NEAR:
+                return distance == NEAR ? READY : createActionToStepOff(currentPosition);
+            case ANY:
+                return READY;
+            default: {
+                Logger.PATH.logError("checking action target with " + targetPlacement + " and " + currentPosition + " to " + getPosition() + " failed.");
+                return FAIL;
+            }
+        }
     }
 
     private int getDistance(Position currentPosition) {

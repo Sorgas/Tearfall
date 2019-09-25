@@ -2,6 +2,10 @@ package stonering.enums.items;
 
 import stonering.util.global.Logger;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+
 /**
  * Enumeration of all tags for items.
  *
@@ -22,22 +26,29 @@ public enum TagEnum {
     BREWABLE(false),
     WATER(false),
     CLOTH(false),
+    CRAFTING_MATERIAL(false),
     DEFAULT_TAG(false);
 
     private static boolean debug = true;
     private boolean displayable; // tags with true are displayed in items titles.
+    private static Map<String, TagEnum> map = new HashMap<>();
+
+    static {
+        for (TagEnum tag : values()) {
+            map.put(tag.name().toLowerCase(), tag);
+        }
+    }
 
     TagEnum(boolean displayable) {
         this.displayable = displayable;
     }
 
     public static TagEnum get(String name) {
-        try {
-            return valueOf(name.toUpperCase());
-        } catch (IllegalArgumentException e) {
-            Logger.ITEMS.logError("Item tag with name: " + name + " not found.");
-            return DEFAULT_TAG;
-        }
+        return map.getOrDefault(name, DEFAULT_TAG);
+    }
+
+    public static boolean isTag(String name) {
+        return map.containsKey(name);
     }
 
     public boolean isDisplayable() {

@@ -16,9 +16,6 @@ import java.util.List;
  * @author Alexander Kuzyakov on 26.06.2018
  */
 public abstract class ItemsCountList extends NavigableList {
-    public ItemsCountList() {
-        super();
-    }
 
     /**
      * Groups given item by NAME and material and stores them as ListItems.

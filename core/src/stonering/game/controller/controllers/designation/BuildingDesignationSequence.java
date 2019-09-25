@@ -8,6 +8,7 @@ import stonering.entity.item.selectors.SimpleItemSelector;
 import stonering.enums.designations.PlaceValidatorsEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.system.tasks.TaskContainer;
+import stonering.util.global.Logger;
 import stonering.widget.lists.MaterialSelectList;
 import stonering.widget.PlaceSelectComponent;
 import stonering.widget.lists.ListItem;
@@ -36,6 +37,7 @@ public class BuildingDesignationSequence extends DesignationSequence {
      * Blueprint determines position validator type for component.
      */
     private void createPlaceSelectComponent() {
+        Logger.UI.logDebug("Creating placeSelectComponent for " + order.getBlueprint().building);
         placeSelectComponent = new PlaceSelectComponent(event -> {
             order.setPosition(placeSelectComponent.getPosition());
             showNextList();
@@ -45,13 +47,14 @@ public class BuildingDesignationSequence extends DesignationSequence {
     }
 
     /**
-     * Returns select list with item, available for given step.
+     * Returns select list with items, available for given step.
      */
     private Actor createSelectListForStep(BuildingComponent step) {
+        Logger.UI.logDebug("Creating item list for step " + step.name);
         MaterialSelectList materialList = new MaterialSelectList();
         materialList.fillForCraftingStep(step, order.getPosition());
         materialList.setSelectListener(event -> { // saves selection to map and creates next list
-            if (materialList.getSelectedIndex() >= 0) {
+            if (materialList.active && materialList.getSelectedIndex() >= 0) {
                 ListItem selected = (ListItem) materialList.getSelected();
                 //TODO handle amount requirements more than 1
                 order.addItemSelectorForPart(step.name, new SimpleItemSelector(selected.getTitle(), selected.getMaterial(), 1));

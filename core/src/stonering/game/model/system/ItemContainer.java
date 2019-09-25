@@ -3,6 +3,7 @@ package stonering.game.model.system;
 import stonering.entity.Entity;
 import stonering.entity.crafting.BuildingComponent;
 import stonering.entity.item.aspects.ItemContainerAspect;
+import stonering.enums.items.TagEnum;
 import stonering.enums.items.recipe.Ingredient;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.GameMvc;
@@ -99,22 +100,18 @@ public class ItemContainer extends EntityContainer<Item> {
      * Gets all materials for all variants of crafting step. Used for filling materialSelectList.
      * Currently works only with resource item.
      */
-    public List<Item> getAvailableMaterialsCraftingStep(BuildingComponent step, Position pos) {
+    public List<Item> getAvailableMaterialsForBuildingStep(BuildingComponent step, Position pos) {
         List<Item> items = new ArrayList<>();
-        step.componentVariants.forEach(variant -> items.addAll(getResourceItemsByMaterialType(variant.getTag())));
+        step.componentVariants.forEach(variant -> {
+            String variantArg = variant.getTag();
+                    if (TagEnum.isTag(variant.getTag())) {
+                        items.addAll(entities.stream().filter(item -> item.tags.contains(TagEnum.get(variantArg))).collect(Collectors.toList()));
+                    } else {
+                        items.addAll(entities.stream().filter(item -> item.getType().name.equals(variantArg)).collect(Collectors.toList()));
+                    }
+                }
+        );
         return filterUnreachable(items, pos);
-    }
-
-    /**
-     * Searches all material item made of given material type.
-     */
-    private List<Item> getResourceItemsByMaterialType(String materialType) {
-        MaterialMap materialMap = MaterialMap.instance();
-        List<Item> itemListForFiltering = new ArrayList<>(entities);
-        Set<Integer> materialIds = materialMap.getMaterialsByTag(materialType);
-        return itemListForFiltering.stream().
-                filter(item -> materialIds.contains(item.getMaterial())).
-                collect(Collectors.toList());
     }
 
     public List<Item> filterUnreachable(List<Item> items, Position target) {

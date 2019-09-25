@@ -1,6 +1,10 @@
 package stonering.entity.crafting;
 
+import stonering.entity.building.Blueprint;
+
 /**
+ * Variant for {@link BuildingComponent} of {@link Blueprint}.
+ *
  * @author Alexander on 08.03.2019.
  */
 public class ComponentVariant {
