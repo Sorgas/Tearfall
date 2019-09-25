@@ -6,6 +6,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import stonering.entity.crafting.ItemOrder;
 import stonering.enums.images.DrawableMap;
+import stonering.game.GameMvc;
+import stonering.game.model.system.building.BuildingContainer;
+import stonering.game.model.system.building.WorkbenchSystem;
 import stonering.widget.Highlightable;
 import stonering.util.global.StaticSkin;
 
@@ -70,11 +73,12 @@ public class OrderItem extends Container implements Highlightable {
     }
 
     private void createListeners() {
+        WorkbenchSystem system = GameMvc.instance().getModel().get(BuildingContainer.class).workbenchSystem;
         cancelButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 int selected = section.getSelectedIndex();
-                section.aspect.removeOrder(order);
+                system.removeOrder(section.aspect, order);
                 section.fillOrderList();
                 section.setSelectedIndex(selected);
             }
@@ -82,20 +86,20 @@ public class OrderItem extends Container implements Highlightable {
         suspendButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                section.aspect.setOrderSuspended(order, suspendButton.isChecked());
+                system.setOrderSuspended(section.aspect, order, suspendButton.isChecked());
             }
         });
         repeatButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                section.aspect.setOrderRepeated(order, repeatButton.isChecked());
+                system.setOrderRepeated(section.aspect, order, repeatButton.isChecked());
             }
         });
         upButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
 //                int selected = section.getSelectedIndex();
-                section.aspect.swapOrders(order, -1);
+                system.swapOrders(section.aspect, order, -1);
                 section.fillOrderList();
 //                section.setSelectedIndex(selected); // order moved up
             }
@@ -104,7 +108,7 @@ public class OrderItem extends Container implements Highlightable {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
 //                int selected = section.getSelectedIndex();
-                section.aspect.swapOrders(order, 1);
+                system.swapOrders(section.aspect, order, 1);
                 section.fillOrderList();
 //                section.setSelectedIndex(selected); // order moved down
             }

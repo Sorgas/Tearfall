@@ -2,6 +2,8 @@ package stonering.stage.workbench.zz_oldmenu.orderline;
 
 import stonering.entity.crafting.ItemOrder;
 import stonering.enums.items.recipe.Recipe;
+import stonering.game.GameMvc;
+import stonering.game.model.system.building.BuildingContainer;
 import stonering.stage.workbench.zz_oldmenu.WorkbenchMenuq;
 import stonering.stage.workbench.zz_oldmenu.orderline.selectbox.RecipeSelectBox;
 
@@ -53,7 +55,7 @@ public class EmptyOrderLine extends OrderLine {
     private void replaceSelfWith(Recipe recipe) {
         hide();
         ItemOrder order = new ItemOrder(recipe);
-        menu.getWorkbenchAspect().addOrder(order);
+        GameMvc.instance().getModel().get(BuildingContainer.class).workbenchSystem.addOrder(menu.getWorkbenchAspect(), order);
         ItemCraftingOrderLine orderLine = new ItemCraftingOrderLine(menu, order);
         orderLine.show();
         orderLine.navigateToFirst();

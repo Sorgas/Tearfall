@@ -44,8 +44,10 @@ public class WorkbenchSystem {
                 break;
             }
             case COMPLETE:
-            case FAILED:
                 handleOrderCompletion(aspect, entry); // remove, suspend or move to bottom
+                break;
+            case FAILED:
+                handleOrderFail(aspect, entry);
         }
     }
 
@@ -69,7 +71,7 @@ public class WorkbenchSystem {
             removeOrder(aspect, entry.order);
         } else { // suspend failed order
             entry.task.reset();
-            setOrderSuspended(entry.order, true);
+            setOrderSuspended(aspect, entry.order, true);
         }
     }
 
@@ -88,7 +90,7 @@ public class WorkbenchSystem {
      */
     public void removeOrder(WorkbenchAspect aspect, ItemOrder order) {
         Logger.TASKS.logDebug("Removing order " + order.toString() + " from " + aspect.getEntity().toString());
-        OrderTaskEntry entry = findEntry(order);
+        OrderTaskEntry entry = findEntry(aspect, order);
         if (entry != null) {
             int index = aspect.entries.indexOf(entry);
             aspect.entries.remove(index);
@@ -109,7 +111,7 @@ public class WorkbenchSystem {
      */
     public void setOrderSuspended(WorkbenchAspect aspect, ItemOrder order, boolean value) {
         Logger.TASKS.logDebug("Setting order " + order.toString() + " in " + aspect.getEntity().toString() + " suspended: " + value);
-        OrderTaskEntry entry = findEntry(order);
+        OrderTaskEntry entry = findEntry(aspect, order);
         if (entry != null) {
             if (value && entry.task.status == ACTIVE) entry.task.fail(); // interrupt currently executing order.
             entry.order.status = (value ? PAUSED : OPEN);
@@ -120,18 +122,18 @@ public class WorkbenchSystem {
     /**
      * Sets order as repeated.
      */
-    public void setOrderRepeated(ItemOrder order, boolean value) {
-        Logger.TASKS.logDebug("Setting order " + order.toString() + " in " + entity.toString() + " repeated: " + value);
-        OrderTaskEntry entry = findEntry(order);
+    public void setOrderRepeated(WorkbenchAspect aspect, ItemOrder order, boolean value) {
+        Logger.TASKS.logDebug("Setting order " + order.toString() + " in " + aspect.getEntity().toString() + " repeated: " + value);
+        OrderTaskEntry entry = findEntry(aspect, order);
         if (entry != null) {
             entry.order.setRepeated(value);
         }
-        updateFlag();
+        aspect.updateActiveOrders();
     }
 
-    private OrderTaskEntry findEntry(ItemOrder order) {
+    private OrderTaskEntry findEntry(WorkbenchAspect aspect, ItemOrder order) {
         OrderTaskEntry found = null;
-        for (OrderTaskEntry entry : entries) {
+        for (OrderTaskEntry entry : aspect.entries) {
             if (entry.order == order) {
                 found = entry;
             }
@@ -159,5 +161,19 @@ public class WorkbenchSystem {
         while (entries.getFirst().order.status == PAUSED) {
             entries.addLast(entries.removeFirst());
         }
+    }
+
+
+    /**
+     * Swap entries on positions index and (index + delta). Does nothing, if indexes not in list range.
+     */
+    public void swapOrders(WorkbenchAspect aspect, ItemOrder order, int delta) {
+        int index = aspect.getOrderIndex(order);
+        if (aspect.outOfBounds(index)) return;
+        int newIndex = index + delta;
+        if (aspect.outOfBounds(newIndex)) return;
+        WorkbenchAspect.OrderTaskEntry entry = aspect.entries.get(index);
+        aspect.entries.set(index, aspect.entries.get(newIndex));
+        aspect.entries.set(newIndex, entry);
     }
 }

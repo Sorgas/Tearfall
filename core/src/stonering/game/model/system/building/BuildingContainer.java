@@ -29,7 +29,7 @@ public class BuildingContainer implements ModelComponent, Turnable {
     public final BuildingGenerator buildingGenerator;
     private HashMap<Position, BuildingBlock> buildingBlocks;
     private List<Building> removedBuildings;
-    private WorkbenchSystem workbenchSystem;
+    public final WorkbenchSystem workbenchSystem;
 
     public BuildingContainer() {
         buildingBlocks = new HashMap<>();

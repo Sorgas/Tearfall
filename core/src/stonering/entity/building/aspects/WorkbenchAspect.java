@@ -59,20 +59,7 @@ public class WorkbenchAspect extends Aspect {
         }
     }
 
-    /**
-     * Swap entries on positions index and (index + delta). Does nothing, if indexes not in list range.
-     */
-    public void swapOrders(WorkbenchAspect aspect, ItemOrder order, int delta) {
-        int index = getOrderIndex(order);
-        if (outOfBounds(index)) return;
-        int newIndex = index + delta;
-        if (outOfBounds(newIndex)) return;
-        WorkbenchAspect.OrderTaskEntry entry = entries.get(index);
-        entries.set(index, entries.get(newIndex));
-        entries.set(newIndex, entry);
-    }
-
-    private int getOrderIndex(ItemOrder order) {
+    public int getOrderIndex(ItemOrder order) {
         for (int i = 0; i < entries.size(); i++) {
             if (entries.get(i).order.equals(order)) return i;
         }
@@ -87,7 +74,7 @@ public class WorkbenchAspect extends Aspect {
         hasActiveOrders = entries.stream().anyMatch(entry -> entry.order.status == OPEN || entry.order.status == ACTIVE);
     }
 
-    private boolean outOfBounds(int index) {
+    public boolean outOfBounds(int index) {
         return index < 0 || index >= entries.size();
     }
 

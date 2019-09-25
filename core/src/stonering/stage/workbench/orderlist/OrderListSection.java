@@ -10,6 +10,7 @@ import stonering.entity.crafting.ItemOrder;
 import stonering.enums.ControlActionsEnum;
 import stonering.enums.items.recipe.Recipe;
 import stonering.game.GameMvc;
+import stonering.game.model.system.building.BuildingContainer;
 import stonering.stage.workbench.WorkbenchMenu;
 import stonering.enums.images.DrawableMap;
 import stonering.widget.NavigableVerticalGroup;
@@ -51,7 +52,7 @@ public class OrderListSection extends NavigableVerticalGroup {
 
     public void createOrder(Recipe recipe) {
         ItemOrder order = new ItemOrder(recipe);
-        aspect.addOrder(order);
+        GameMvc.instance().getModel().get(BuildingContainer.class).workbenchSystem.addOrder(aspect, order);
         OrderItem orderItem = new OrderItem(order, this);
         removeActor(emptyLabel);
         addActorAt(0, orderItem);
