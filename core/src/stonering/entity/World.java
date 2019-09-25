@@ -33,7 +33,7 @@ public class World implements Serializable, Initable, ModelComponent, Turnable {
     public void turn() {}
 
     @Override
-    public void turn(TimeUnitEnum unit) {
+    public void turnUnit(TimeUnitEnum unit) {
         if(unit == TimeUnitEnum.HOUR) starSystem.turn();
     }
 

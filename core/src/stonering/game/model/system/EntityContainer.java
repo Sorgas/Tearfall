@@ -25,7 +25,7 @@ public abstract class EntityContainer<T extends Entity> implements ModelComponen
     }
 
     @Override
-    public void turn(TimeUnitEnum unit) {
-        entities.forEach(entity -> entity.turn(unit));
+    public void turnUnit(TimeUnitEnum unit) {
+        entities.forEach(entity -> entity.turnUnit(unit));
     }
 }

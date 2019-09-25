@@ -47,8 +47,8 @@ public abstract class Entity implements Serializable, Initable, Turnable {
     }
 
     @Override
-    public void turn(TimeUnitEnum unit) {
-        aspects.values().forEach(aspect -> aspect.turn(unit));
+    public void turnUnit(TimeUnitEnum unit) {
+        aspects.values().forEach(aspect -> aspect.turnUnit(unit));
     }
 
     @Override

@@ -31,6 +31,6 @@ public abstract class Aspect implements Serializable, Turnable {
     public void turn() {}
 
     @Override
-    public void turn(TimeUnitEnum unit) {}
+    public void turnUnit(TimeUnitEnum unit) {}
 
 }

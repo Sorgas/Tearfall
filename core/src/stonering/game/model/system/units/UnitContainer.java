@@ -68,7 +68,7 @@ public class UnitContainer extends EntityContainer<Unit> implements Initable {
     }
 
     /**
-     * Calls turn() for all unit.
+     * Calls turnUnit() for all unit.
      */
     public void turn() {
         for (Unit entity : entities) {

@@ -23,7 +23,7 @@ public class FallingAspect extends Aspect {
 
     @Override
     public void turn() {
-        if (entity.position != null) { //TODO add aspect turn on pickup
+        if (entity.position != null) { //TODO add aspect turnUnit on pickup
             LocalMap localMap = GameMvc.instance().getModel().get(LocalMap.class);
             Position lowerPosition = Position.add(entity.position, 0, 0, -1);
             boolean isCurrentBlockSpace = localMap.getBlockType(entity.position) == BlockTypesEnum.SPACE.CODE;

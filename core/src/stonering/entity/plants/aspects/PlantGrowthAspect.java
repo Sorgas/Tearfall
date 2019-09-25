@@ -34,7 +34,7 @@ public class PlantGrowthAspect extends Aspect {
      * Increases plant age if month has ended.
      */
     @Override
-    public void turn(TimeUnitEnum unit) {
+    public void turnUnit(TimeUnitEnum unit) {
         if (unit == TimeUnitEnum.MINUTE) update();
     }
 

@@ -31,7 +31,7 @@ import java.util.Map;
  * Farm have list of enabled plantType and list of months; months in the list depend on the plantType selected.
  * when current game month in one from the list, farm will generate tasks for planting seeds.
  * <p>
- * Farm generates tasks for each tile of farm separately. For performance, it can commit only one task per turn.
+ * Farm generates tasks for each tile of farm separately. For performance, it can commit only one task per turnUnit.
  * Farm is updated every in game minute.
  * // TODO farms check temperature conditions for planting, create tasks for irrigation, and caring after plants. plants can get deseases.
  *

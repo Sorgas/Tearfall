@@ -75,7 +75,7 @@ public class DrainageGenerator extends AbstractGenerator {
 
     /**
      * Rivers & brooks increase drainage in humid areas and lower it in dry areas.
-     * There should not be swamps around rivers in common, and deserts should turn to savannas.
+     * There should not be swamps around rivers in common, and deserts should turnUnit to savannas.
      */
     private void applyBasins() {
         for (int x = 0; x < width; x++) {
