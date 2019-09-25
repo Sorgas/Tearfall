@@ -18,7 +18,7 @@ import java.util.Iterator;
  *
  * @author Alexander on 16.09.2019.
  */
-public class CreatureBuffSystem implements Turnable {
+public class CreatureBuffSystem {
 
     /**
      * Updates counters on creature's buffs, removing expired ones.

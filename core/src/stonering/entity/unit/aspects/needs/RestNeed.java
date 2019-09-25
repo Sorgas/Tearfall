@@ -11,7 +11,7 @@ import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.job.action.target.EntityActionTarget;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
-import stonering.game.model.system.BuildingContainer;
+import stonering.game.model.system.building.BuildingContainer;
 
 import java.util.List;
 

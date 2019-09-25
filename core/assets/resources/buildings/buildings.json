@@ -44,5 +44,14 @@
     "passage":"wall",
     "atlasXY":["0", "0"],
     "color":"0xffffffff"
+}, {
+    "building":"carpenter_workbench",
+    "title":"Carpenter workbench",
+    "description":"Most wooden things can be made here.",
+    "aspects":[["workbench"], ["item_container", "solid", "100"]],
+    "parts":["table"],
+    "passage":"floor",
+    "atlasXY":["0", "0"],
+    "color":"0xffffffff"
 }
 ]

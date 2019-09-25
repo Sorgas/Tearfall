@@ -1,0 +1,11 @@
+[
+    {
+        "name": "simple_bed_prefab",
+        "title": "Simple bed",
+        "description": "Simple bed, ready to take its place in someone's room.",
+        "typeAspects": [["value", "0"]],
+        "aspects": [],
+        "atlasXY": ["15", "0"],
+        "color": "0xffffffff"
+    }
+]

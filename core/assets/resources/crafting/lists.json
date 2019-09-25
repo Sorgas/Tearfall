@@ -5,5 +5,6 @@
 [
     ["forge", "make_pickaxe", "make_axe", "make_sickle"],
     ["tailor_shop", "make_shirt", "make_pants", "make_backpack"],
-    ["campfire", "roast_meal", "boil_meal", "boil_water", "boil_drink"]
+    ["campfire", "roast_meal", "boil_meal", "boil_water", "boil_drink"],
+    ["carpenter_workbench", "make_simple_bed"]
 ]

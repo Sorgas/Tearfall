@@ -1,4 +1,4 @@
-package stonering.game.model.system;
+package stonering.game.model.system.building;
 
 import stonering.entity.Aspect;
 import stonering.entity.building.BuildingBlock;
@@ -6,6 +6,8 @@ import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.Turnable;
 import stonering.game.model.local_map.LocalMap;
+import stonering.game.model.system.ItemContainer;
+import stonering.game.model.system.ModelComponent;
 import stonering.generators.buildings.BuildingGenerator;
 import stonering.entity.building.Building;
 import stonering.util.geometry.Position;
@@ -27,12 +29,14 @@ public class BuildingContainer implements ModelComponent, Turnable {
     public final BuildingGenerator buildingGenerator;
     private HashMap<Position, BuildingBlock> buildingBlocks;
     private List<Building> removedBuildings;
+    private WorkbenchSystem workbenchSystem;
 
     public BuildingContainer() {
         buildingBlocks = new HashMap<>();
         buildingGenerator = new BuildingGenerator();
         this.buildings = new ArrayList<>();
         removedBuildings = new ArrayList<>();
+        workbenchSystem = new WorkbenchSystem();
     }
 
     /**
@@ -42,6 +46,7 @@ public class BuildingContainer implements ModelComponent, Turnable {
         removeMarkedForDelete();
         for (Building building : buildings) {
             building.turn();
+            workbenchSystem.updateWorkbenchState(building);
         }
     }
 

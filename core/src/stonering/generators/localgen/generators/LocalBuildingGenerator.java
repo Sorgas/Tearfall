@@ -2,7 +2,7 @@ package stonering.generators.localgen.generators;
 
 import stonering.entity.building.Building;
 import stonering.enums.blocks.BlockTypesEnum;
-import stonering.game.model.system.BuildingContainer;
+import stonering.game.model.system.building.BuildingContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.generators.buildings.BuildingGenerator;
 import stonering.generators.localgen.LocalGenContainer;

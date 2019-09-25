@@ -73,5 +73,11 @@
     "itemName": "liquid",
     "parts": [["liquid", "any", "brewable", "1"]],
     "consumed": [["any", "water", "1"]]
+}, {
+    "name": "make_simple_bed",
+    "category": "Futniture",
+    "title": "Make simple bed",
+    "itemName": "simple_bed",
+    "parts": [["bed", "any", "wood", "1"]]
 }
 ]

@@ -10,6 +10,7 @@ import stonering.entity.zone.Zone;
 import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
 import stonering.game.model.system.*;
+import stonering.game.model.system.building.BuildingContainer;
 import stonering.game.model.system.units.UnitContainer;
 import stonering.stage.workbench.BuildingStage;
 import stonering.stage.zone.ZoneMenuStage;

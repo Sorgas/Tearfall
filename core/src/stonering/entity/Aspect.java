@@ -26,11 +26,4 @@ public abstract class Aspect implements Serializable, Turnable {
     public void setEntity(Entity entity) {
         this.entity = entity;
     }
-
-    @Override
-    public void turn() {}
-
-    @Override
-    public void turnUnit(TimeUnitEnum unit) {}
-
 }

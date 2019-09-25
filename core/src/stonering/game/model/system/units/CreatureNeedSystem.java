@@ -21,7 +21,7 @@ public class CreatureNeedSystem {
 
     /**
      * Fetches untolerated needs in the order of their priority, tries to create task fo satisfaction.
-     * First successfully created task is saved to aspect.
+     * First successfully created task is saved to aspect (and then considered in {@link PlanningAspect}).
      */
     public void updateNeedForCreature(Unit unit) {
         NeedsAspect aspect = unit.getAspect(NeedsAspect.class);

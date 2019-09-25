@@ -1,11 +1,10 @@
 package stonering.game.model.local_map;
 
 import stonering.entity.Entity;
-import stonering.entity.building.Building;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
-import stonering.game.model.system.BuildingContainer;
+import stonering.game.model.system.building.BuildingContainer;
 import stonering.game.model.system.PlantContainer;
 import stonering.game.model.util.UtilByteArray;
 import stonering.util.geometry.Position;
