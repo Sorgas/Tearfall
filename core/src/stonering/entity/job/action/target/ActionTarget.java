@@ -22,12 +22,10 @@ public abstract class ActionTarget {
     public static final int FAR = 3; // used for checking position
     private int targetPlacement;
 
-    protected GameMvc gameMvc;
     protected Action action;
     private Random random;
 
     public ActionTarget(int targetPlacement) {
-        gameMvc = GameMvc.instance();
         this.targetPlacement = targetPlacement;
         random = new Random();
     }
@@ -35,7 +33,7 @@ public abstract class ActionTarget {
     public abstract Position getPosition();
 
     public Position findPositionToStepOff(Position from) {
-        List<Position> positions = gameMvc.getModel().get(LocalMap.class).getFreeBlockNear(from);
+        List<Position> positions = GameMvc.instance()   .getModel().get(LocalMap.class).getFreeBlockNear(from);
         if (!positions.isEmpty()) {
             return positions.get(random.nextInt(positions.size()));
         }
