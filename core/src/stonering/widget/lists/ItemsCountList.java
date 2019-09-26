@@ -5,6 +5,7 @@ import stonering.enums.materials.MaterialMap;
 import stonering.game.controller.controllers.toolbar.DesignationsController;
 import stonering.entity.item.Item;
 import stonering.util.global.Pair;
+import stonering.widget.NavigableVerticalGroup;
 
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
  *
  * @author Alexander Kuzyakov on 26.06.2018
  */
-public abstract class ItemsCountList extends NavigableList {
+public abstract class ItemsCountList extends NavigableVerticalGroup {
 
     /**
      * Groups given item by NAME and material and stores them as ListItems.

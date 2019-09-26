@@ -1,9 +1,6 @@
 package stonering.enums.items;
 
-import stonering.util.global.Logger;
-
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 
 /**
@@ -16,7 +13,7 @@ public enum TagEnum {
     STONE_EXTRUSIVE(false), // used for stone layers generation
     STONE_INTRUSIVE(false),
     STONE_SEDIMENTARY(false),
-    METAL(false), // brass(material) bar(type) // stones have no origin
+    METAL(false), // brass(material) bar(type) // bars have no origin
     WOOD(false), // birch(material) log
     MEAT(false), // fox(origin) meat(material) piece(type)
     EDIBLE(false),

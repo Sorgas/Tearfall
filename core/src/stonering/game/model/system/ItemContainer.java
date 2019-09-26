@@ -5,7 +5,6 @@ import stonering.entity.crafting.BuildingComponent;
 import stonering.entity.item.aspects.ItemContainerAspect;
 import stonering.enums.items.TagEnum;
 import stonering.enums.items.recipe.Ingredient;
-import stonering.enums.materials.MaterialMap;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
@@ -103,12 +102,9 @@ public class ItemContainer extends EntityContainer<Item> {
     public List<Item> getAvailableMaterialsForBuildingStep(BuildingComponent step, Position pos) {
         List<Item> items = new ArrayList<>();
         step.componentVariants.forEach(variant -> {
-            String variantArg = variant.getTag();
-                    if (TagEnum.isTag(variant.getTag())) {
-                        items.addAll(entities.stream().filter(item -> item.tags.contains(TagEnum.get(variantArg))).collect(Collectors.toList()));
-                    } else {
-                        items.addAll(entities.stream().filter(item -> item.getType().name.equals(variantArg)).collect(Collectors.toList()));
-                    }
+                    String itemType = variant.itemType;
+                    TagEnum tag = TagEnum.get(variant.tag);
+                    items.addAll(entities.stream().filter(item -> item.tags.contains(tag) && item.getType().name.equals(itemType)).collect(Collectors.toList()));
                 }
         );
         return filterUnreachable(items, pos);

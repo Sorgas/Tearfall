@@ -6,7 +6,7 @@
         4. number of items.
     Arguments of consumed ingredient:
         1. item type.
-        2. material tag.
+        2. tag.
         3. number of items.
 */
 

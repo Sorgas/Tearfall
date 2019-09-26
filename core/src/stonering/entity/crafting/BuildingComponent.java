@@ -10,9 +10,8 @@ import java.util.ArrayList;
  */
 public class BuildingComponent {
     public String name;
-    public ArrayList<ArrayList<String>> variants;
+    public ArrayList<ArrayList<String>> variants; // loaded from json
     public ArrayList<ComponentVariant> componentVariants;
-    public boolean optional = false;
 
     public BuildingComponent() {
         variants = new ArrayList<>();
@@ -21,9 +20,11 @@ public class BuildingComponent {
 
     public void init() {
         variants.forEach(
-                strings -> componentVariants.add(new ComponentVariant(strings.get(0),
-                        Integer.parseInt(strings.get(1)),
-                        new int[]{Integer.parseInt(strings.get(2)), Integer.parseInt(strings.get(3))}))
+                strings -> componentVariants.add(new ComponentVariant(
+                        strings.get(0),
+                        strings.get(1),
+                        Integer.parseInt(strings.get(2)),
+                        new int[]{Integer.parseInt(strings.get(3)), Integer.parseInt(strings.get(4))}))
         );
     }
 }
