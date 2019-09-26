@@ -1,17 +1,14 @@
 package stonering.widget.lists;
 
-import com.badlogic.gdx.utils.Array;
-import stonering.enums.materials.MaterialMap;
 import stonering.game.controller.controllers.toolbar.DesignationsController;
 import stonering.entity.item.Item;
-import stonering.util.global.Pair;
 import stonering.widget.NavigableVerticalGroup;
 
 import java.util.HashMap;
 import java.util.List;
 
 /**
- * List item and groups them by name and material.
+ * Lists items and groups them by name and material.
  * List lines are linked to arrays of item for passing them to {@link DesignationsController}.
  *
  * @author Alexander Kuzyakov on 26.06.2018
@@ -19,23 +16,14 @@ import java.util.List;
 public abstract class ItemsCountList extends NavigableVerticalGroup {
 
     /**
-     * Groups given item by NAME and material and stores them as ListItems.
-     *
-     * @param items
+     * Groups given item by title and stores them as ItemCards.
      */
     public void addItems(List<Item> items) {
-        HashMap<Pair<String, Integer>, ListItem> map = new HashMap<>(); // item NAME & material to ListItem
-        MaterialMap materialMap = MaterialMap.instance();
+        HashMap<String, ItemCardButton> map = new HashMap<>(); // item title to itemCard
         items.forEach(item -> { // groups item
-            Pair<String, Integer> pair = new Pair<>(item.getName(), item.getMaterial());
-            if (map.keySet().contains(pair)) {
-                map.get(pair).getItems().add(item);
-            } else {
-                map.put(pair, new ListItem(item.getTitle(), materialMap.getMaterial(item.getMaterial()).getName(), item));
-            }
+            item.updateTitle();
+            map.put(item.getTitle(), map.getOrDefault(item.getTitle(), new ItemCardButton(item, 0)).increment()); // count items of same type and material
         });
-        Array<ListItem> listItems = new Array<>();
-        listItems.addAll(map.values().toArray(new ListItem[1]));
-        this.setItems(listItems);
+        map.values().forEach(card -> addActor(card));
     }
 }

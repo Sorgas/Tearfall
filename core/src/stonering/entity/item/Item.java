@@ -4,6 +4,7 @@ import stonering.entity.Aspect;
 import stonering.entity.Entity;
 import stonering.enums.items.TagEnum;
 import stonering.enums.items.type.ItemType;
+import stonering.enums.materials.MaterialMap;
 import stonering.util.geometry.Position;
 
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public class Item extends Entity {
     private String conditionPostfix; // put after title in a brackets. shows item's condition, like raw, spoiled, rusty
     private String origin; // set on item creation,
     private int material;
+    public String materialString;
     private ItemType type;
     public final List<TagEnum> tags;
     private int weight; // cache for faster counting.
@@ -52,7 +54,7 @@ public class Item extends Entity {
 
     @Override
     public <T extends Aspect> T getAspect(Class<T> type) {
-        if(this.type.hasAspect(type)) return this.type.getAspect(type);
+        if (this.type.hasAspect(type)) return this.type.getAspect(type);
         return super.getAspect(type);
     }
 
@@ -61,6 +63,16 @@ public class Item extends Entity {
         return "name: " + title +
                 " position: " + position +
                 " weight: " + weight;
+    }
+
+    public void updateTitle() {
+        title = origin + " " + materialString + " " + type.title;
+    }
+
+    public void setMaterial(int material) {
+        this.material = material;
+        materialString = MaterialMap.instance().getMaterial(material).getName();
+        updateTitle();
     }
 
     public int getWeight() {
@@ -85,6 +97,7 @@ public class Item extends Entity {
 
     public void setType(ItemType type) {
         this.type = type;
+        updateTitle();
     }
 
     public String getName() {
@@ -99,16 +112,13 @@ public class Item extends Entity {
         return material;
     }
 
-    public void setMaterial(int material) {
-        this.material = material;
-    }
-
     public String getOrigin() {
         return origin;
     }
 
     public void setOrigin(String origin) {
         this.origin = origin;
+        updateTitle();
     }
 
     public String getConditionPostfix() {

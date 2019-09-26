@@ -64,4 +64,9 @@ public class DrawableMap {
 //        Logger.UI.logWarn("Drawable with key " + key + " not found");
         return getDrawable("order_status_icon:suspended");
     }
+
+
+    public Drawable getTileAtlasDrawable(String atlasName, int x, int y) {
+        return getDrawable("order_status_icon:suspended");
+    }
 }

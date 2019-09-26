@@ -119,10 +119,10 @@
     "atlasXY": ["15", "0"],
     "color": "0xffffffff"
 }, {
-    "name": "piece",
+    "name": "meat_piece",
     "description": "Should be replaced with dynamic description.",
     "typeAspects": [["value", "0"]],
-    "atlasXY": ["15", "0"],
+    "atlasXY": ["12", "0"],
     "color": "0xffffffff"
 }, {
     "name": "bucket",

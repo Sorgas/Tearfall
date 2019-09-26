@@ -9,9 +9,9 @@ import stonering.enums.designations.PlaceValidatorsEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.system.tasks.TaskContainer;
 import stonering.util.global.Logger;
+import stonering.widget.lists.ItemCardButton;
 import stonering.widget.lists.MaterialSelectList;
 import stonering.widget.PlaceSelectComponent;
-import stonering.widget.lists.ListItem;
 
 /**
  * Designation sequence for buildings.
@@ -55,14 +55,14 @@ public class BuildingDesignationSequence extends DesignationSequence {
         materialList.fillForCraftingStep(step, order.getPosition());
         materialList.setSelectListener(event -> { // saves selection to map and creates next list
             if (materialList.active && materialList.getSelectedIndex() >= 0) {
-                ListItem selected = (ListItem) materialList.getSelected();
+                ItemCardButton selected = (ItemCardButton) materialList.getSelectedElement();
                 //TODO handle amount requirements more than 1
-                order.addItemSelectorForPart(step.name, new SimpleItemSelector(selected.getTitle(), selected.getMaterial(), 1));
+                order.addItemSelectorForPart(step.name, selected.getSelector());
                 showNextList();
             }
             return true;
         });
-        materialList.setHideListener(event -> { // cancels selection ad hides list
+        materialList.setCancelListener(event -> { // cancels selection ad hides list
             materialList.hide();
             return true;
         });

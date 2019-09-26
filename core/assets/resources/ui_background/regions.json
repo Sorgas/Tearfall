@@ -46,5 +46,13 @@
     "name": "toolbar_menu:focused",
     "texture": "ui_back.png",
     "bounds": [600, 30, 30, 30]
+}, {
+    "name": "default",
+    "texture": "ui_back.png",
+    "bounds": [600, 0, 30, 30]
+}, {
+    "name": "default:focused",
+    "texture": "ui_back.png",
+    "bounds": [600, 30, 30, 30]
 }
 ]

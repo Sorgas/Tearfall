@@ -13,6 +13,7 @@ import java.util.Map;
 
 /**
  * Vertical group which can handle input to change selected element.
+ * Also has listeners for selecting element and closing list.
  *
  * @author Alexander
  */
