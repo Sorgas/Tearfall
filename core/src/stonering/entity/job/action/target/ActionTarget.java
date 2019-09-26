@@ -19,7 +19,6 @@ public abstract class ActionTarget {
     public static final int EXACT = 0;
     public static final int NEAR = 1;
     public static final int ANY = 2;
-    public static final int FAR = 3; // used for checking position
     private int targetPlacement;
 
     protected Action action;
@@ -33,7 +32,7 @@ public abstract class ActionTarget {
     public abstract Position getPosition();
 
     public Position findPositionToStepOff(Position from) {
-        List<Position> positions = GameMvc.instance()   .getModel().get(LocalMap.class).getFreeBlockNear(from);
+        List<Position> positions = GameMvc.instance().getModel().get(LocalMap.class).getFreeBlockNear(from);
         if (!positions.isEmpty()) {
             return positions.get(random.nextInt(positions.size()));
         }
@@ -63,8 +62,8 @@ public abstract class ActionTarget {
             case NEAR:
                 return distance == NEAR ? READY : createActionToStepOff(currentPosition);
             case ANY:
-                return READY;
-            default: {
+                return READY; // distance is 0 or 1 here
+            default: { // should never be reached
                 Logger.PATH.logError("checking action target with " + targetPlacement + " and " + currentPosition + " to " + getPosition() + " failed.");
                 return FAIL;
             }
@@ -75,7 +74,7 @@ public abstract class ActionTarget {
         Position targetPosition = getPosition();
         if (currentPosition.equals(targetPosition)) return EXACT;
         if (currentPosition.isNeighbour(targetPosition)) return NEAR;
-        return FAR;
+        return 2;
     }
 
     public Action getAction() {

@@ -132,7 +132,7 @@ public class LocalMap implements ModelComponent, Initable {
     }
 
     /**
-     * Returns tile adjacent to given and with give passing.
+     * Returns tile adjacent to given and with walk passing.
      * Returns same position if no neighbour found.
      */
     public Position getAnyNeighbourPosition(Position position, int passing) {
