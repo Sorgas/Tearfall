@@ -24,16 +24,12 @@ public class DrawingUtil {
     private final float shadingStep = 0.06f;
     public final float maxZLevels = 1f / shadingStep; // levels further are shaded to black
     private Color batchColor;               // default batch color without light or transparency
-    private Map<Position, TextureRegion> spriteCache;
-    private Position cachePosition;
 
     public DrawingUtil(Batch batch) {
         this.batch = batch;
         font = new BitmapFont();
         batch.enableBlending();
         batchColor = new Color();
-        spriteCache = new HashMap<>();
-        cachePosition = new Position();
     }
 
     /**
@@ -54,35 +50,6 @@ public class DrawingUtil {
         batch.draw(sprite, getBatchX(position.x), getBatchY(position.y, position.z), width, height);
     }
 
-    /**
-     * Cuts main part of a block tile from x y position in specified atlas.
-     * Handles atlases with no toppings.
-     */
-    public TextureRegion selectBlockTile(AtlasesEnum atlas, int x, int y) {
-        if (!atlas.spriteCache.containsKey(cachePosition.set(x, y, 0))) {
-            int atlasY = atlas.hasToppings ? y * (BLOCK_TILE_HEIGHT) + TOPING_TILE_HEIGHT : y * TILE_HEIGHT; // consider toppings or not
-            spriteCache.put(cachePosition, new TextureRegion(atlas.atlas,
-                    x * TILE_WIDTH,
-                    atlasY,
-                    TILE_WIDTH, TILE_HEIGHT));
-        }
-        return spriteCache.get(cachePosition);
-    }
-
-    /**
-     * Cuts toping part of a block tile from x y position in specified atlas.
-     * Atlas should have toppings.
-     */
-    public TextureRegion selectTopingTile(AtlasesEnum atlas, int x, int y) {
-        if (!atlas.spriteCache.containsKey(cachePosition.set(x, y, 1))) {
-            spriteCache.put(cachePosition, new TextureRegion(atlas.atlas,
-                    x * TILE_WIDTH,
-                    y * BLOCK_TILE_HEIGHT,
-                    TILE_WIDTH, TOPING_TILE_HEIGHT));
-        }
-        return spriteCache.get(cachePosition);
-    }
-
     public void writeText(String text, int x, int y, int z) {
         float screenX = getBatchX(x);
         float screenY = getBatchY(y, z);
@@ -91,8 +58,6 @@ public class DrawingUtil {
 
     /**
      * Makes color transparent.
-     *
-     * @param a
      */
     public void updateColorA(float a) {
         Color color = batch.getColor();
@@ -101,8 +66,6 @@ public class DrawingUtil {
 
     /**
      * Shades batch color to correspond lowering z coord.
-     *
-     * @param dz
      */
     public void shadeByZ(int dz) {
         float shadedColorChannel = 1 - (dz - 4) * shadingStep;

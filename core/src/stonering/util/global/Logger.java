@@ -20,6 +20,7 @@ public enum Logger {
     ZONES("zones"),
     UNITS("units"),
     CRAFTING("crafting"),
+    RENDER("render"),
     PLANTS("plants");
 
     private static TaggedLogger logger = new TaggedLogger();

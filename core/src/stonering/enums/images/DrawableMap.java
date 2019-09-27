@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
+import stonering.stage.renderer.AtlasesEnum;
 import stonering.util.global.FileLoader;
 import stonering.util.global.Logger;
 
@@ -16,9 +17,10 @@ import java.util.Map;
 
 /**
  * Implements lazy-loading for {@link Drawable}s.
- * Loads {@link TextureRegionDescriptor} from regions.json on startup.
- * Creates {@link TextureRegionDrawable} from descriptors on demand.
+ * Loads {@link TextureRegionDescriptor}s from regions.json on startup.
+ * Creates {@link TextureRegionDrawable}s from descriptors on demand.
  * Saves drawables in a maps by descriptor's name for faster access.
+ * Works with non-tiled atlases.
  */
 public class DrawableMap {
     private static DrawableMap instance;
@@ -65,8 +67,7 @@ public class DrawableMap {
         return getDrawable("order_status_icon:suspended");
     }
 
-
-    public Drawable getTileAtlasDrawable(String atlasName, int x, int y) {
+    public Drawable getTileAtlasDrawable(AtlasesEnum atlas, int x, int y) {
         return getDrawable("order_status_icon:suspended");
     }
 }

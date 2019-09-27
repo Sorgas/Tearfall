@@ -70,6 +70,6 @@ public class EntitySelectorRenderer extends Renderer {
     }
 
     private void drawSprite(int x) {
-        util.drawSprite(util.selectBlockTile(ui_tiles, x, 1), cachePosition);
+        util.drawSprite(ui_tiles.getBlockTile(x, 1), cachePosition);
     }
 }

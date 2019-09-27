@@ -81,7 +81,7 @@ public class UiDemo extends Game {
         RawItemType rawType = new RawItemType();
         rawType.name = "chunk";
         rawType.title = "chunk";
-        rawType.atlasXY = new int[]{1,1};
+        rawType.atlasXY = new int[]{12,0};
         ItemType type = new ItemType(rawType);
         Item item = new Item(null, type);
         item.setMaterial(MaterialMap.instance().getMaterial("meat").getId());

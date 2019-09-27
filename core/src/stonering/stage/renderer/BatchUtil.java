@@ -13,7 +13,7 @@ public class BatchUtil {
     public static final int TILE_DEPTH = 64;             // y size(back-forth)
     public static final int TILE_HEIGHT = 96;            // z size(up-down) plus depth
     public static final int TOPING_TILE_HEIGHT = 70;     // depth plus floor height(6)
-    public static final int BLOCK_TILE_HEIGHT = 166;     // total block height
+    public static final int BLOCK_TILE_HEIGHT = 166;     // toping and block height in atlas
 
     public static float getBatchX(float x) {
         return x * TILE_WIDTH;
