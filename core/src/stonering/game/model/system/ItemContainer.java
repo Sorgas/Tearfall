@@ -2,7 +2,6 @@ package stonering.game.model.system;
 
 import stonering.entity.Entity;
 import stonering.entity.crafting.BuildingComponent;
-import stonering.entity.item.aspects.ItemContainerAspect;
 import stonering.enums.items.TagEnum;
 import stonering.enums.items.recipe.Ingredient;
 import stonering.game.GameMvc;
@@ -133,13 +132,17 @@ public class ItemContainer extends EntityContainer<Item> {
         return items;
     }
 
-    public List<Item> getNearestItems(List<Item> items, int number) {
+    public List<Item> getNearestItems(List<Item> items, Position target, int number) {
         List<Item> result = new ArrayList<>();
         if (number > 0 && items != null && !items.isEmpty()) {
             //TODO
             return items.subList(0, number > items.size() ? items.size() : number);
         }
         return result;
+    }
+
+    public Item getNearestItem(List<Item> items, Position target) {
+        return getNearestItems(items, target, 1).get(0); //TODO
     }
 
     /**
@@ -151,14 +154,13 @@ public class ItemContainer extends EntityContainer<Item> {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Adds item to given container.
-     */
-    public void addItemToContainer(Item item, Entity container) {
-        if (container.hasAspect(ItemContainerAspect.class)) {
-            containedMap.containsKey(item);
-        }
-        Logger.ITEMS.logError("Trying to put item " + item + " into " + container);
+    public Item getNearestItemWithTag(Position position, TagEnum tag) {
+        List<Item> list = entities.stream().filter(item -> item.tags.contains(tag)).collect(Collectors.toList());
+        return getNearestItem(filterUnreachable(list, position), position);
+    }
+
+    public List<Item> getItemsByType() {
+
     }
 
     /**

@@ -20,7 +20,7 @@ import java.util.List;
  *  stop activities on medium exhaustion,
  *  sleeping in a bed,
  *  sleeping at safe place,
- *  sleeping an any place.
+ *  sleeping at any place.
  *
  *  Tries to stick to day/night cycle.
  *  //TODO night shift
@@ -31,7 +31,6 @@ public class RestNeed extends Need {
 
     @Override
     public int countPriority(Entity entity) {
-
         return 0;
     }
 

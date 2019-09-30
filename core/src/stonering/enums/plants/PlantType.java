@@ -14,7 +14,7 @@ import java.util.List;
 public class PlantType {
     public String name;
     public String title;
-    public String materialName; // in null for substrates
+    public String materialName; // is null for substrates
     public String description;
 
     public int[] temperatureBounds = new int[2]; // min and max temperature

@@ -18,6 +18,7 @@ public enum TagEnum {
     MEAT(false), // fox(origin) meat(material) piece(type)
     EDIBLE(false),
     RAW(true), // raw cow meat piece
+    SPOILED(true), // spoiled raw cow meat peace
     BOILABLE(false),
     ROASTABLE(false),
     BREWABLE(false),

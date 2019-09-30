@@ -9,7 +9,8 @@ import stonering.game.model.system.units.CreatureNeedSystem;
 import java.util.ArrayList;
 
 /**
- * Holds names of creature's needs. Needs updated in a system {@link CreatureNeedSystem}.
+ * Stores names of creature's needs. Needs updated in a {@link CreatureNeedSystem}.
+ * Stores task for satisfying creature strongest need.
  *
  * @author Alexander Kuzyakov on 16.09.2018.
  */

@@ -1,0 +1,72 @@
+package stonering.entity.job.action;
+
+import stonering.entity.item.Item;
+import stonering.entity.job.action.target.ActionTarget;
+import stonering.entity.job.action.target.EntityActionTarget;
+import stonering.entity.unit.Unit;
+import stonering.entity.unit.aspects.equipment.EquipmentAspect;
+import stonering.entity.unit.aspects.health.HealthAspect;
+import stonering.entity.unit.aspects.needs.FoodNeed;
+import stonering.enums.items.TagEnum;
+import stonering.game.GameMvc;
+import stonering.game.model.system.ItemContainer;
+
+/**
+ * Action for consuming edible items and satisfying {@link FoodNeed}.
+ * Edible is an item tag, see {@link TagEnum}.
+ *
+ * @author Alexander on 30.09.2019.
+ */
+public class EatAction extends Action {
+    private Item item;
+
+    protected EatAction(Item item) {
+        super(new EntityActionTarget(item, ActionTarget.ANY));
+        this.item = item;
+    }
+
+    /**
+     * TODO create action to put food to table and use dishes.
+     */
+    @Override
+    public int check() {
+        if(!item.tags.contains(TagEnum.EDIBLE)) return FAIL; // item is not edible
+        if(checkBetterFood()) return FAIL; // better food is available, recreate.
+        //TODO if tables available, use
+        //TODO if dishes available, use
+        Unit performer = task.getPerformer();
+        if(performer.hasAspect(EquipmentAspect.class)) {
+            if(performer.getAspect(EquipmentAspect.class).hauledItems.contains(item)) return OK;
+        } else {
+
+        }
+    }
+
+    /**
+     * Consumes item, restores hunger in {@link HealthAspect}.
+     */
+    @Override
+    protected void performLogic() {
+
+    }
+
+    /**
+     * Checks that more suitable item for food is available.
+     * Action is failed, and will be recreated with best food item on next {@link FoodNeed} update.
+     */
+    private boolean checkBetterFood() {
+        //TODO if item is not prepared and prepared available, fail
+        //TODO if item is raw and not raw available, fail
+        //TODO if item is spoiled and not spoiled available, fail
+        return false;
+    }
+
+    private boolean tryCreateActionForDishes() {
+        //TODO by food type, select dish type
+        GameMvc.instance().getModel().get(ItemContainer.class).getNearestItemWithTag(task.getPerformer().position, )
+    }
+
+    private boolean tryCreateActionForTables() {
+        if()
+    }
+}

@@ -70,6 +70,7 @@ public abstract class ActionTarget {
         }
     }
 
+    //TODO check passing for neighbour
     private int getDistance(Position currentPosition) {
         Position targetPosition = getPosition();
         if (currentPosition.equals(targetPosition)) return EXACT;
