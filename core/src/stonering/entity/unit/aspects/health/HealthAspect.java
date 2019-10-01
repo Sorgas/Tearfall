@@ -21,6 +21,10 @@ public class HealthAspect extends Aspect {
     public float moveFatigueNoLoad;
     public float moveFatigueFullLoad;
 
+    public float hunger;
+    public float maxHunger;
+    public float moveHungerNoLoad;
+    public float moveHungerFullLoad;
 
     public HealthAspect(Entity entity) {
         super(entity);

@@ -73,6 +73,7 @@ public class UnitContainer extends EntityContainer<Unit> implements Initable {
     public void turn() {
         for (Unit entity : entities) {
             entity.turn(); // TODO rework all aspects behaviour to systems
+            healthSystem.up
             needSystem.updateNeedForCreature(entity);
             buffSystem.updateCreatureBuffs(entity);
         }

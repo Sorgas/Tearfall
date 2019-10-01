@@ -100,7 +100,7 @@ public class CraftItemAction extends Action {
                 desiredItems.clear();
                 return false;
             }
-            desiredItems.addAll(container.getNearestItems(foundItems, 1)); // add nearest items to order
+            desiredItems.addAll(container.getNearestItems(foundItems, task.getPerformer().position, 1)); // add nearest items to order
         }
         return true;
     }

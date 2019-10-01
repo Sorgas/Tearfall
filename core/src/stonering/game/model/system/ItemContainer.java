@@ -145,6 +145,15 @@ public class ItemContainer extends EntityContainer<Item> {
         return getNearestItems(items, target, 1).get(0); //TODO
     }
 
+    public static void main(String[] args) {
+        Boolean bool = null;
+        if(bool) {
+            System.out.println("qwer");
+        } else {
+            System.out.println("asdf");
+        }
+    }
+
     /**
      * Returns list of items from map, that can be used for given recipe.
      */
@@ -160,7 +169,7 @@ public class ItemContainer extends EntityContainer<Item> {
     }
 
     public List<Item> getItemsByType() {
-
+        return null;
     }
 
     /**

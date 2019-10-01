@@ -20,7 +20,7 @@ import stonering.game.model.system.ItemContainer;
 public class EatAction extends Action {
     private Item item;
 
-    protected EatAction(Item item) {
+    public EatAction(Item item) {
         super(new EntityActionTarget(item, ActionTarget.ANY));
         this.item = item;
     }
@@ -40,6 +40,7 @@ public class EatAction extends Action {
         } else {
 
         }
+        return 1;
     }
 
     /**
@@ -63,10 +64,11 @@ public class EatAction extends Action {
 
     private boolean tryCreateActionForDishes() {
         //TODO by food type, select dish type
-        GameMvc.instance().getModel().get(ItemContainer.class).getNearestItemWithTag(task.getPerformer().position, )
+//        GameMvc.instance().getModel().get(ItemContainer.class).getNearestItemWithTag(task.getPerformer().position, )
+        return false;
     }
 
     private boolean tryCreateActionForTables() {
-        if()
+        return false;
     }
 }

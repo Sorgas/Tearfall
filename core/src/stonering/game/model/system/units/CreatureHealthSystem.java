@@ -12,15 +12,22 @@ import stonering.util.math.MathUtil;
 /**
  * Updates health condition of a unit ({@link HealthAspect}).
  * <p>
- * Fatigue - shows creature's tiredness. Performing actions, moving, and being awake increase fatigue.
+ * FATIGUE - shows creature's tiredness. Performing actions, moving, and being awake increase fatigue.
  * Rest lowers fatigue. Maximum fatigue is based on endurance attribute, ilnesses, worn items.
- * Having fatigue <20% gives buff, every 10% above 50% gives stacking debuffs.
+ * Having fatigue <20% gives buff, every 10% above 50% give stacking debuffs.
  * Creatures will seek rest on 50%, rest priority increases with growing fatigue.
+ *
+ * HUNGER - how hungry creature is. Hunger increased over time, by actions and movement. Eating lowers hunger.
+ * Maximum hunger is based on endurance attribute and ilnesses.
+ * Having fatigue <20% gives debuff, every 10% above 50% give stacking debuff. TODO have 'fat' body parameter, decreace it on high hunger.
+ * Creatures will look for food on 50%, eating priority increases with growing hunger.
  *
  * @author Alexander on 16.09.2019.
  */
 public class CreatureHealthSystem {
     private int[] fatigueRanges = {20, 50, 60, 70, 80, 90};
+
+
 
     /**
      * Called for every walked tile, adds fatigue to counter. Walking with high load exhausts faster.

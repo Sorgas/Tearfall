@@ -4,6 +4,8 @@ import stonering.entity.Entity;
 import stonering.entity.item.Item;
 import stonering.entity.job.Task;
 import stonering.entity.job.action.Action;
+import stonering.entity.job.action.EatAction;
+import stonering.entity.job.action.TaskTypesEnum;
 
 /**
  *
@@ -14,14 +16,15 @@ public class FoodNeed extends Need {
 
     @Override
     public int countPriority(Entity entity) {
-        return 0;
+        entity.getAspect()
     }
 
     @Override
     public Task tryCreateTask(Entity entity) {
-        Action
-        Task task = new Task();
-
+        Item item = getBestAvailableFood();
+        if (item == null) return null;
+        Action eatAction = new EatAction(item);
+        return new Task("Eat task", TaskTypesEnum.OTHER, eatAction, countPriority(entity));
     }
 
     /**
@@ -29,6 +32,6 @@ public class FoodNeed extends Need {
      * Bad decreases task priority. Substracted from hunger level, this will make units refuse to eat bad food even being very hungry.
      */
     private Item getBestAvailableFood() {
-
+        return null;
     }
 }
