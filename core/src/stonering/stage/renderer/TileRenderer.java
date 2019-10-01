@@ -229,6 +229,7 @@ public class TileRenderer extends Renderer {
             if (!unit.hasAspect(MovementAspect.class)) continue;
             Vector3 vector = unit.getAspect(MovementAspect.class).getStepProgressVector().add(x, y, z);
             util.drawSprite(units.getBlockTile(0, 0), vector); //TODO add correct sprite selection
+            //TODO draw needs icons.
         }
     }
 

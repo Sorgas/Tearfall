@@ -1,5 +1,6 @@
 package stonering.game.model.system.units;
 
+import stonering.entity.Entity;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.entity.unit.aspects.health.Buff;
@@ -27,7 +28,18 @@ import stonering.util.math.MathUtil;
 public class CreatureHealthSystem {
     private int[] fatigueRanges = {20, 50, 60, 70, 80, 90};
 
-
+    /**
+     * Updates
+     */
+    public void updateCreatureHealth(Entity entity) {
+        HealthAspect aspect = entity.getAspect(HealthAspect.class);
+        if(aspect == null) {
+            Logger.UNITS.logError("Trying to add move fatigue to creature " + entity + " with no HealthAspect");
+            return;
+        }
+        changeFatigue((Unit) entity, 0.01f);
+        aspect.hunger += 0.01f;
+    }
 
     /**
      * Called for every walked tile, adds fatigue to counter. Walking with high load exhausts faster.
@@ -43,6 +55,20 @@ public class CreatureHealthSystem {
     }
 
     private void changeFatigue(Unit unit, float delta) {
+        HealthAspect aspect = unit.getAspect(HealthAspect.class);
+        float relativeOldFatigue = aspect.fatigue;
+        aspect.fatigue += delta;
+        if (aspect.fatigue > aspect.maxFatigue) {
+            // die
+        }
+        float relativeFatigue = aspect.maxFatigue / aspect.fatigue;
+        if (MathUtil.inDifferentRanges(relativeOldFatigue, relativeFatigue, fatigueRanges)) {
+            CreatureBuffSystem buffSystem = GameMvc.instance().getModel().get(UnitContainer.class).buffSystem;
+            buffSystem.addBuff(unit, getFatigueBuff(relativeFatigue));
+        }
+    }
+
+    private void changeHunger(Unit unit, float delta) {
         HealthAspect aspect = unit.getAspect(HealthAspect.class);
         float relativeOldFatigue = aspect.fatigue;
         aspect.fatigue += delta;

@@ -9,6 +9,7 @@ import stonering.entity.item.selectors.ItemSelector;
 import stonering.entity.item.selectors.WearForSlotItemSelector;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.entity.unit.aspects.equipment.EquipmentSlot;
+import stonering.enums.TaskPrioritiesEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.system.ItemContainer;
 
@@ -26,15 +27,15 @@ public class WearNeed extends Need {
      * TODO add prioritizing based on environment temperature
      */
     @Override
-    public int countPriority(Entity entity) {
+    public TaskPrioritiesEnum countPriority(Entity entity) {
         EquipmentAspect equipmentAspect = entity.getAspect(EquipmentAspect.class);
         if (equipmentAspect != null) {
             if (!equipmentAspect.getEmptyDesiredSlots().isEmpty()) {
-                return GET_WEAR_PRIORITY;
+                return TaskPrioritiesEnum.HEALTH_NEEDS;
             }
 
         }
-        return -1;
+        return TaskPrioritiesEnum.NONE;
     }
 
     /**

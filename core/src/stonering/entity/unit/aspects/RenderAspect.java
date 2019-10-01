@@ -1,8 +1,8 @@
 package stonering.entity.unit.aspects;
 
-import com.badlogic.gdx.graphics.Texture;
 import stonering.entity.Aspect;
 import stonering.entity.Entity;
+import stonering.stage.renderer.AtlasesEnum;
 
 /**
  * Stores Unit's render information.
@@ -10,28 +10,13 @@ import stonering.entity.Entity;
  * //TODO add texture.
  */
 public class RenderAspect extends Aspect {
-    public static String NAME = "render";
+    public final int[] atlasXY;
+    public final AtlasesEnum atlas;
+    public boolean needsVisible = true; // needs icons are visible only for controlled units.
 
-    private int[] atlasXY;
-    private Texture texture;
-
-    public RenderAspect(Entity entity) {
+    public RenderAspect(Entity entity, int x, int y, AtlasesEnum atlas) {
         super(entity);
-    }
-
-    public int[] getAtlasXY() {
-        return atlasXY;
-    }
-
-    public void setAtlasXY(int[] atlasXY) {
-        this.atlasXY = atlasXY;
-    }
-
-    public Texture getTexture() {
-        return texture;
-    }
-
-    public void setTexture(Texture texture) {
-        this.texture = texture;
+        atlasXY = new int[]{x,y};
+        this.atlas = atlas;
     }
 }

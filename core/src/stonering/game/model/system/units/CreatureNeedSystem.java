@@ -41,7 +41,7 @@ public class CreatureNeedSystem {
         int priority;
         List<Pair<NeedEnum, Integer>> list = new ArrayList<>();
         for (NeedEnum need : aspect.needs) {
-            if((priority = need.need.countPriority(unit)) < 0) continue; // skip tolerated need
+            if((priority = need.need.countPriority(unit).VALUE) < 0) continue; // skip tolerated need
             list.add(new Pair<>(need, priority));
         }
         return list;
