@@ -30,9 +30,9 @@ public class EntitySelectorRenderer extends Renderer {
      * @param selector
      */
     public void drawSelector(EntitySelector selector) {
-        util.drawSprite(selector.getSelectorSprite(), selector.getPosition());
+        util.drawSprite(selector.getSelectorSprite(), selector.getPosition().toVector3());
         if (selector.getStatusSprite() != null) {
-            util.drawSprite(selector.getStatusSprite(), selector.getPosition());
+            util.drawSprite(selector.getStatusSprite(), selector.getPosition().toVector3());
         }
 
         //TODO add landscape dependant rendering
@@ -70,6 +70,6 @@ public class EntitySelectorRenderer extends Renderer {
     }
 
     private void drawSprite(int x) {
-        util.drawSprite(ui_tiles.getBlockTile(x, 1), cachePosition);
+        util.drawSprite(ui_tiles.getBlockTile(x, 1), ui_tiles, cachePosition);
     }
 }

@@ -19,9 +19,9 @@ import java.util.Map;
  */
 public enum AtlasesEnum {
     blocks(new Texture("sprites/blocks.png"), true, 64, 64, 32, 6), // regular map blocks
-    plants(new Texture("sprites/plants.png"), true, 64, 64, 32, 6), // all trees is plants TODO remove topings
-    units(new Texture("sprites/units.png"), true, 64, 64, 32, 6), //TODO remove topings
-    buildings(new Texture("sprites/buildings.png"), true, 64, 64, 32, 6), // buildings and furniture
+    plants(new Texture("sprites/plants.png"), false, 64, 64, 0, 0), // all trees is plants TODO remove topings
+    units(new Texture("sprites/units.png"), false, 64, 64, 0, 0), //TODO remove topings
+    buildings(new Texture("sprites/buildings.png"), false, 64, 64, 0, 0), // buildings and furniture
     ui_tiles(new Texture("sprites/ui_tiles.png"), true, 64, 64, 32, 6), // designations
     items(new Texture("sprites/items.png"), false, 32, 32, 0, 0),
     substrates(new Texture("sprites/substrates.png"), true, 64, 64, 32, 6), // flat plants like mosses TODO remove topings
@@ -35,6 +35,8 @@ public enum AtlasesEnum {
     public final int BLOCK_HEIGHT; // depth and height
     public final int TOPPING_BLOCK_HEIGHT; // depth and height
     public final int FULL_TILE_HEIGHT;
+    public final int X_CORRECTION; // batch grid are 64x64, but some atlas tiles are smaller, correction is offset from left bottom corner of grid
+    public final int Y_CORRECTION;
     public final Map<Pair<Integer, Integer>, TextureRegion> spriteCache;
     private Position cachePosition;
 
@@ -47,6 +49,8 @@ public enum AtlasesEnum {
         BLOCK_HEIGHT = depth + height;
         TOPPING_BLOCK_HEIGHT = toppingHeight + depth;
         FULL_TILE_HEIGHT = BLOCK_HEIGHT + TOPPING_BLOCK_HEIGHT;
+        X_CORRECTION = (BatchUtil.TILE_WIDTH - WIDTH) / 2;
+        Y_CORRECTION = (BatchUtil.TILE_DEPTH - DEPTH) / 2;
         spriteCache = new HashMap<>();
         cachePosition = new Position();
     }

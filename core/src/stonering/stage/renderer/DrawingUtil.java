@@ -35,8 +35,8 @@ public class DrawingUtil {
     /**
      * Draws sprite on localMap position.
      */
-    public void drawSprite(TextureRegion sprite, Position position) {
-        batch.draw(sprite, getBatchX(position.x), getBatchY(position.y, position.z));
+    public void drawSprite(TextureRegion sprite, AtlasesEnum atlas, Position position) {
+        batch.draw(sprite, getBatchX(position.x) + atlas.X_CORRECTION, getBatchY(position.y, position.z) + atlas.Y_CORRECTION);
     }
 
     /**

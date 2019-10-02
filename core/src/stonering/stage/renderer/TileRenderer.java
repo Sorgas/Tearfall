@@ -205,7 +205,7 @@ public class TileRenderer extends Renderer {
         TextureRegion sprite = selectSpriteForFlooding(x, y, z);
         if (sprite == null) return;
         util.updateColorA(0.6f);
-        util.drawSprite(sprite, cachePosition);
+        util.drawSprite(sprite, cachePosition.toVector3());
         util.updateColorA(1f);
     }
 
@@ -234,20 +234,20 @@ public class TileRenderer extends Renderer {
     }
 
     private void drawItem(Item item) {
-        util.drawSprite(items.getBlockTile(item.getType().atlasXY[0], item.getType().atlasXY[1]), item.position);
+        util.drawSprite(items.getBlockTile(item.getType().atlasXY[0], item.getType().atlasXY[1]), items, item.position);
     }
 
     private void drawDesignation(Designation designation) {
         if (designation != null)
-            util.drawSprite(ui_tiles.getBlockTile(DesignationsTileMapping.getAtlasX(designation.getType().CODE), 0), designation.getPosition());
+            util.drawSprite(ui_tiles.getBlockTile(DesignationsTileMapping.getAtlasX(designation.getType().CODE), 0), ui_tiles, designation.getPosition());
     }
 
     private void drawZone(Zone zone) {
-        if (zone != null) util.drawSprite(zone.getType().sprite, cachePosition);
+        if (zone != null) util.drawSprite(zone.getType().sprite, cachePosition.toVector3());
     }
 
     private void drawBuildingBlock(BuildingBlock block) {
-        if (block != null) util.drawSprite(buildings.getBlockTile(0, 0), cachePosition);
+        if (block != null) util.drawSprite(buildings.getBlockTile(0, 0), buildings, cachePosition);
     }
 
     private void drawPlantBlock(PlantBlock block) {

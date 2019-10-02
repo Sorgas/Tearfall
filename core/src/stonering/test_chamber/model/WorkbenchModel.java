@@ -36,9 +36,9 @@ public class WorkbenchModel extends TestModel {
     }
 
     private void createItems() {
-        get(ItemContainer.class).addItem(new ItemGenerator().generateItem("piece", "meat", new Position(0,0,2)));
-        get(ItemContainer.class).addItem(new ItemGenerator().generateItem("log", "pine", new Position(1,0,2)));
-        get(ItemContainer.class).addItem(new ItemGenerator().generateItem("log", "pine", new Position(2,0,2)));
+        get(ItemContainer.class).addItem(new ItemGenerator().generateItem("meat_piece", "meat", new Position(0,0,2)));
+        get(ItemContainer.class).addItem(new ItemGenerator().generateItem("log", "wood", new Position(1,0,2)));
+        get(ItemContainer.class).addItem(new ItemGenerator().generateItem("log", "wood", new Position(2,0,2)));
     }
 
     @Override
