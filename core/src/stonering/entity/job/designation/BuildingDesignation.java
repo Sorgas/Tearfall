@@ -17,7 +17,7 @@ public class BuildingDesignation extends Designation {
     public BuildingDesignation(Position position, DesignationTypeEnum type, String building) {
         super(position, type);
         this.building = building;
-        construction = BlockTypesEnum.hasType(building);
+        construction = BlockTypesEnum.hasType(building); // constructions defined as buildings
     }
 
     public String getBuilding() {
