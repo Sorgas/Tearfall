@@ -26,7 +26,7 @@ import stonering.util.math.MathUtil;
  * @author Alexander on 16.09.2019.
  */
 public class CreatureHealthSystem {
-    private int[] fatigueRanges = {20, 50, 60, 70, 80, 90};
+    private int[] fatigueRanges = {20, 50, 60, 70, 80, 90}; // used to assign buffs
 
     /**
      * Updates

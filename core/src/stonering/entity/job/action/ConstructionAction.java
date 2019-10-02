@@ -23,49 +23,49 @@ import static stonering.entity.job.action.target.ActionTarget.NEAR;
 import static stonering.enums.blocks.BlockTypesEnum.NOT_PASSABLE;
 
 /**
- * Action for creating constructions on map.
- * Creates name for bringing materials to construction site.
+ * Action for creating constructions on map. Constructions are just blocks of material.
+ * Creates action for bringing materials to and removing all other items from construction site,
+ *
  * //TODO combine with BuildingAction into ItemConsumingAction
  *
  * @author Alexander on 12.03.2019.
  */
-public class ConstructionAction extends Action {
+public class ConstructionAction extends ItemConsumingAction {
     private byte blockType;
-    private List<ItemSelector> itemSelectors;
 
     public ConstructionAction(BuildingDesignation designation, Collection<ItemSelector> itemSelectors) {
         super(new PositionActionTarget(designation.getPosition(), BlockTypesEnum.getType(designation.getBuilding()).PASSING == NOT_PASSABLE ? NEAR : ANY));
-        this.itemSelectors = new ArrayList<>(itemSelectors);
+        selectors = new ArrayList<>(itemSelectors);
         blockType = BlockTypesEnum.getType(designation.getBuilding()).CODE;
         actionTarget.setAction(this);
     }
 
     /**
      * Checks that all material selectors have corresponding item in building position or in performer's inventory.
-     * Creates name for bringing missing item.
+     * Creates action for bringing missing item to target position.
+     * All missing items will be dropped as it's somewhat tough to count last one.
+     * Creates action for removing blocking items from target position
      */
     @Override
     public int check() {
-        Logger.TASKS.log("Checking " + toString());
-        ArrayList<Item> uncheckedItems = new ArrayList<>(GameMvc.instance().getModel().get(ItemContainer.class).getItemsInPosition(actionTarget.getPosition())); //TODO checkItems positions near target.
-        uncheckedItems.addAll(task.getPerformer().getAspect(EquipmentAspect.class).hauledItems); // from performer inventory
-        for (ItemSelector itemSelector : itemSelectors) {
-            List<Item> selectedItems = itemSelector.selectItems(uncheckedItems);
-            if (selectedItems.isEmpty()) return tryCreateDroppingAction(itemSelector); // create name for item
-            for (Item selectedItem : selectedItems) {
-                uncheckedItems.remove(selectedItem);
-            }
+        Logger.TASKS.log("Checking " + this);
+        List<Item> availableItems = getAvailableItems();
+        List<Item> itemsOnSite = GameMvc.instance().getModel().get(ItemContainer.class).getItemsInPosition(actionTarget.getPosition());
+        for (ItemSelector itemSelector : selectors) {
+            List<Item> selectedItems = itemSelector.selectItems(availableItems);
+            if (selectedItems.isEmpty()) return tryCreateBringingAction(itemSelector); // some selector has no item
+            availableItems.removeAll(selectedItems);
+            itemsOnSite.removeAll(selectedItems);
         }
-        return OK; // all selectors have item.
+        if (itemsOnSite.isEmpty()) return OK; // no blocking items on target position
+        return createSiteClearingAction(itemsOnSite.get(0)); // target position not free
     }
 
     @Override
     public void performLogic() {
-        logStart();
-        build();
-    }
-
-    private void build() {
+        Logger.TASKS.logDebug("Construction of " + BlockTypesEnum.getType(blockType).NAME
+                + " started at " + actionTarget.getPosition()
+                + " by " + task.getPerformer().toString());
         Position target = actionTarget.getPosition();
         GameMvc.instance().getModel().get(LocalMap.class).setBlock(target, blockType, spendItems());
         PlantContainer container = GameMvc.instance().getModel().get(PlantContainer.class);
@@ -78,7 +78,7 @@ public class ConstructionAction extends Action {
         ItemContainer itemContainer = GameMvc.instance().getModel().get(ItemContainer.class);
         List<Item> items = itemContainer.getItemsInPosition(actionTarget.getPosition());
         int mainMaterial = -1; // first item of first selector will give material.
-        for (ItemSelector itemSelector : itemSelectors) {
+        for (ItemSelector itemSelector : selectors) {
             List<Item> itemList = itemSelector.selectItems(items);
             if (mainMaterial < 0) mainMaterial = itemList.get(0).getMaterial(); //actual material of item
             itemContainer.removeItems(itemList);                                //spend item
@@ -92,21 +92,32 @@ public class ConstructionAction extends Action {
      * @param itemSelector selector for item
      * @return false if no item available.
      */
-    private int tryCreateDroppingAction(ItemSelector itemSelector) {
+    private int tryCreateBringingAction(ItemSelector itemSelector) {
         Position position = actionTarget.getPosition();
         ItemContainer itemContainer = GameMvc.instance().getModel().get(ItemContainer.class);
         if (!itemContainer.hasItemsAvailableBySelector(itemSelector, position)) return FAIL;
         Item item = itemContainer.getItemAvailableBySelector(itemSelector, position);
         if (item == null) return FAIL;
-        PutItemToContainerAction putItemToContainerAction = new PutItemToContainerAction(item, position);
-        task.addFirstPreAction(putItemToContainerAction);
+        PutItemAction putItemAction = new PutItemAction(item, position);
+        task.addFirstPreAction(putItemAction);
         return NEW;
     }
 
-    private void logStart() {
-        Logger.TASKS.logDebug("Construction of " + BlockTypesEnum.getType(blockType).NAME
-                + " started at " + actionTarget.getPosition()
-                + " by " + task.getPerformer().toString());
+    @Override
+    protected List<Item> getAvailableItems() {
+        List<Item> items = new ArrayList<>(GameMvc.instance().getModel().get(ItemContainer.class).getItemsInPosition(actionTarget.getPosition())); //TODO checkItems positions near target.
+        items.addAll(task.getPerformer().getAspect(EquipmentAspect.class).hauledItems); // from performer inventory
+        return items;
+    }
+
+    /**
+     * Creates {@link PutItemAction} for placing blocking item out of target position(to neighbour one).
+     */
+    private int createSiteClearingAction(Item item) {
+        LocalMap localMap = GameMvc.instance().getModel().get(LocalMap.class);
+        PutItemAction putItemAction = new PutItemAction(item, localMap.getAnyNeighbourPosition(actionTarget.getPosition(), BlockTypesEnum.PASSABLE));
+        task.addFirstPreAction(putItemAction);
+        return NEW;
     }
 
     @Override

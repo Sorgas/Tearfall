@@ -13,26 +13,26 @@ import stonering.game.model.system.ItemContainer;
 import stonering.util.geometry.Position;
 
 /**
- * Action for putting item to some targetEntity. Item will be picked up.
+ * Action for putting item to some target {@link Entity} or position on map. Item will be picked up.
  * Action performer should have {@link EquipmentAspect}.
- * Target should have {@link ItemContainerAspect}.
+ * Target entity should have {@link ItemContainerAspect}.
  *
  * Target can be either a position or a container(like chest).
  *
  * @author Alexander on 11.01.2019.
  */
-public class PutItemToContainerAction extends Action {
+public class PutItemAction extends Action {
     private Item targetItem;
     private Entity targetEntity;
     private Position targetPosition;
 
-    public PutItemToContainerAction(Item targetItem, Entity targetEntity) {
+    public PutItemAction(Item targetItem, Entity targetEntity) {
         super(new EntityActionTarget(targetEntity, ActionTarget.ANY));
         this.targetItem = targetItem;
         this.targetEntity = targetEntity;
     }
 
-    public PutItemToContainerAction(Item targetItem, Position targetPosition) {
+    public PutItemAction(Item targetItem, Position targetPosition) {
         super(new PositionActionTarget(targetPosition, ActionTarget.EXACT));
         this.targetItem = targetItem;
         this.targetPosition = targetPosition;

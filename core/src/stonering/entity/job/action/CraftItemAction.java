@@ -63,7 +63,7 @@ public class CraftItemAction extends Action {
         if (!containerAspect.items.containsAll(desiredItems)) { // some item are out of WB.
             List<Item> outOfWBItems = new ArrayList<>(desiredItems);
             outOfWBItems.removeAll(containerAspect.items);
-            task.addFirstPreAction(new PutItemToContainerAction(outOfWBItems.get(0), workbench)); // create action to bring item
+            task.addFirstPreAction(new PutItemAction(outOfWBItems.get(0), workbench)); // create action to bring item
             return NEW;
         }
         if(workbench.hasAspect(FuelConsumerAspect.class) && !workbench.getAspect(FuelConsumerAspect.class).isFueled()) { // workbench requires fuel

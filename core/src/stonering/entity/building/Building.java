@@ -2,31 +2,21 @@ package stonering.entity.building;
 
 import stonering.entity.Entity;
 import stonering.util.geometry.Position;
-import stonering.entity.unit.Unit;
 
 /**
  * Represents furniture, workbenches and other built game entities.
  *
  * @author Alexander Kuzyakov on 07.12.2017.
  */
-public class Building extends Entity { // TODO split to aspects
-    private Unit owner;
+public class Building extends Entity {
     private int material;
     private BuildingType type;
-    private BuildingBlock block;
+    private BuildingBlock block; //TODO ad multiple blocks for buildings
 
     public Building(Position position, BuildingType type) {
         super(position);
         this.type = type;
         block = new BuildingBlock(this);
-    }
-
-    public Unit getOwner() {
-        return owner;
-    }
-
-    public void setOwner(Unit owner) {
-        this.owner = owner;
     }
 
     public int getMaterial() {

@@ -22,6 +22,7 @@ public abstract class ItemSelector {
 
     /**
      * Selects sublist of appropriate items.
+     * If selector should select multiple items, but not all can be selected, this should return empty list.
      */
     public List<Item> selectItems(List<Item> items) {
         return items.stream().filter(this::checkItem).collect(Collectors.toList());

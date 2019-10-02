@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 /**
  * Contains all Buildings on localMap.
  * Buildings are stored in the list as a whole entities. Building blocks stored in a map for rendering.
- * //TODO post mvp: multi-block buildings
  *
  * @author Alexander Kuzyakov on 09.12.2017.
  */
