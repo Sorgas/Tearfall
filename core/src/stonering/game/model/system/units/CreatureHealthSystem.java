@@ -17,11 +17,12 @@ import stonering.util.math.MathUtil;
  * Rest lowers fatigue. Maximum fatigue is based on endurance attribute, ilnesses, worn items.
  * Having fatigue <20% gives buff, every 10% above 50% give stacking debuffs.
  * Creatures will seek rest on 50%, rest priority increases with growing fatigue.
- *
+ * <p>
  * HUNGER - how hungry creature is. Hunger increased over time, by actions and movement. Eating lowers hunger.
  * Maximum hunger is based on endurance attribute and ilnesses.
  * Having fatigue <20% gives debuff, every 10% above 50% give stacking debuff. TODO have 'fat' body parameter, decreace it on high hunger.
  * Creatures will look for food on 50%, eating priority increases with growing hunger.
+ * TODO move constants to difficulty settings
  *
  * @author Alexander on 16.09.2019.
  */
@@ -33,12 +34,12 @@ public class CreatureHealthSystem {
      */
     public void updateCreatureHealth(Entity entity) {
         HealthAspect aspect = entity.getAspect(HealthAspect.class);
-        if(aspect == null) {
+        if (aspect == null) {
             Logger.UNITS.logError("Trying to add move fatigue to creature " + entity + " with no HealthAspect");
             return;
         }
         changeFatigue((Unit) entity, 0.01f);
-        aspect.hunger += 0.01f;
+        changeHunger((Unit) entity, 0.01f);
     }
 
     /**
@@ -86,12 +87,25 @@ public class CreatureHealthSystem {
      * Creates {@link Buff} for each fatigue range.
      */
     private Buff getFatigueBuff(float fatigue) {
-        if (fatigue < 20) return new HealthBuff(10, "performance"); // performance in increased after sleep
+        if (fatigue < 20) return new HealthBuff(10, "performance", -1, 0); // performance is increased after sleep
         if (fatigue < 50) return null; // no buff normally
-        if (fatigue < 60) return new HealthBuff(-10, "performance"); // performance decreased
-        if (fatigue < 70) return new HealthBuff(-15, "performance");
-        if (fatigue < 80) return new HealthBuff(-20, "performance");
-        if (fatigue < 90) return new HealthBuff(-25, "performance");
-        return new HealthBuff(-30, "performance");
+        if (fatigue < 60) return new HealthBuff(-10, "performance", 0, 0); // performance decreased
+        if (fatigue < 70) return new HealthBuff(-15, "performance", 1, 0);
+        if (fatigue < 80) return new HealthBuff(-20, "performance", 2, 0);
+        if (fatigue < 90) return new HealthBuff(-25, "performance", 3, 0);
+        return new HealthBuff(-30, "performance", 4, 0);
+    }
+
+    /**
+     * Creates {@link Buff} for each fatigue range.
+     */
+    private Buff getHungerBuff(float fatigue) {
+        if (fatigue < 20) return new HealthBuff(10, "performance", -1, 0); // performance is increased after sleep
+        if (fatigue < 50) return null; // no buff normally
+        if (fatigue < 60) return new HealthBuff(-10, "performance", 0, 0); // performance decreased
+        if (fatigue < 70) return new HealthBuff(-15, "performance", 1, 0);
+        if (fatigue < 80) return new HealthBuff(-20, "performance", 2, 0);
+        if (fatigue < 90) return new HealthBuff(-25, "performance", 3, 0);
+        return new HealthBuff(-30, "performance", 4, 0);
     }
 }

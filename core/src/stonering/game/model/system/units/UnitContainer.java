@@ -1,5 +1,6 @@
 package stonering.game.model.system.units;
 
+import stonering.enums.time.TimeUnitEnum;
 import stonering.game.model.system.EntityContainer;
 import stonering.util.geometry.Position;
 import stonering.entity.unit.Unit;
@@ -73,6 +74,16 @@ public class UnitContainer extends EntityContainer<Unit> implements Initable {
     public void turn() {
         for (Unit entity : entities) {
             entity.turn(); // TODO rework all aspects behaviour to systems
+            healthSystem.updateCreatureHealth(entity);
+            needSystem.updateNeedForCreature(entity);
+            buffSystem.updateCreatureBuffs(entity);
+        }
+    }
+
+    @Override
+    public void turnUnit(TimeUnitEnum unit) {
+        if(unit != TimeUnitEnum.MINUTE) return;
+        for (Unit entity : entities) {
             healthSystem.updateCreatureHealth(entity);
             needSystem.updateNeedForCreature(entity);
             buffSystem.updateCreatureBuffs(entity);

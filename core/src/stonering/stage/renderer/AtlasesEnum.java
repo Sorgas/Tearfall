@@ -2,7 +2,6 @@ package stonering.stage.renderer;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
 import stonering.util.global.Pair;
 
@@ -19,13 +18,14 @@ import java.util.Map;
  */
 public enum AtlasesEnum {
     blocks(new Texture("sprites/blocks.png"), true, 64, 64, 32, 6), // regular map blocks
+    ui_tiles(new Texture("sprites/ui_tiles.png"), true, 64, 64, 32, 6), // designations
+    substrates(new Texture("sprites/substrates.png"), true, 64, 64, 32, 6), // flat plants like mosses TODO remove topings
+    liquids(new Texture("sprites/liquids.png"), true, 64, 64, 32, 6),
     plants(new Texture("sprites/plants.png"), false, 64, 64, 0, 0), // all trees is plants TODO remove topings
     units(new Texture("sprites/units.png"), false, 64, 64, 0, 0), //TODO remove topings
     buildings(new Texture("sprites/buildings.png"), false, 64, 64, 0, 0), // buildings and furniture
-    ui_tiles(new Texture("sprites/ui_tiles.png"), true, 64, 64, 32, 6), // designations
     items(new Texture("sprites/items.png"), false, 32, 32, 0, 0),
-    substrates(new Texture("sprites/substrates.png"), true, 64, 64, 32, 6), // flat plants like mosses TODO remove topings
-    liquids(new Texture("sprites/liquids.png"), true, 64, 64, 32, 6);
+    creature_icons(new Texture("sprites/creature_icons.png"), false, 16, 16, 0, 0);
 
     public final Texture atlas;
     public final boolean hasToppings;
@@ -38,7 +38,6 @@ public enum AtlasesEnum {
     public final int X_CORRECTION; // batch grid are 64x64, but some atlas tiles are smaller, correction is offset from left bottom corner of grid
     public final int Y_CORRECTION;
     public final Map<Pair<Integer, Integer>, TextureRegion> spriteCache;
-    private Position cachePosition;
 
     AtlasesEnum(Texture texture, boolean hasToppings, int width, int depth, int height, int toppingHeight) {
         atlas = texture;
@@ -52,7 +51,6 @@ public enum AtlasesEnum {
         X_CORRECTION = (BatchUtil.TILE_WIDTH - WIDTH) / 2;
         Y_CORRECTION = (BatchUtil.TILE_DEPTH - DEPTH) / 2;
         spriteCache = new HashMap<>();
-        cachePosition = new Position();
     }
 
     /**

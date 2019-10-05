@@ -11,8 +11,8 @@ import stonering.util.global.Logger;
 public class HealthBuff extends Buff {
     public final String propertyName;
 
-    public HealthBuff(int delta, String propertyName) {
-        super(delta);
+    public HealthBuff(int delta, String propertyName, int x, int y) {
+        super(delta, x, y);
         this.propertyName = propertyName;
     }
 
@@ -28,8 +28,10 @@ public class HealthBuff extends Buff {
 
     private boolean applyDeltaToProperty(Unit unit, int multiplier) {
         HealthAspect aspect = unit.getAspect(HealthAspect.class);
-        if (aspect == null) return logAndFail("Trying to apply HealthBuff " + this + " to creature " + unit + " with no HealthAspect");
-        if (!aspect.properties.containsKey(propertyName)) return logAndFail("HealthAspect of unit " + unit + " has no property " + propertyName);
+        if (aspect == null)
+            return logAndFail("Trying to apply HealthBuff " + this + " to creature " + unit + " with no HealthAspect");
+        if (!aspect.properties.containsKey(propertyName))
+            return logAndFail("HealthAspect of unit " + unit + " has no property " + propertyName);
         aspect.properties.put(propertyName, aspect.properties.get(propertyName) + delta * multiplier); // success
         return true;
     }

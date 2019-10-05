@@ -3,12 +3,14 @@ package stonering.game.model.system.units;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.AttributeAspect;
 import stonering.entity.unit.aspects.BuffAspect;
+import stonering.entity.unit.aspects.RenderAspect;
 import stonering.entity.unit.aspects.health.AttributeBuff;
 import stonering.entity.unit.aspects.health.Buff;
 import stonering.entity.unit.aspects.health.HealthAspect;
 import stonering.entity.unit.aspects.health.HealthBuff;
 import stonering.game.model.Turnable;
 import stonering.util.global.Logger;
+import stonering.util.global.Pair;
 
 import java.util.Iterator;
 
@@ -40,11 +42,13 @@ public class CreatureBuffSystem {
         if (!unit.hasAspect(BuffAspect.class)) return failWithLog("Trying to add buff " + buff + " to creature " + unit + " without BuffAspect");
         if (!buff.apply(unit)) return failWithLog("Failed to apply buff " + buff + " to creature " + unit);
         unit.getAspect(BuffAspect.class).buffs.add(buff);
+        unit.getAspect(RenderAspect.class).icons.add(buff.getIcon());
         return true;
     }
 
     public boolean unapplyBuff(Unit unit, Buff buff) {
         if (!buff.unapply(unit)) return failWithLog("Failed to unapply buff " + buff + " to creature " + unit);
+        unit.getAspect(RenderAspect.class).icons.remove(buff.getIcon());
         return true;
     }
 

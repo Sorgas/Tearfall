@@ -11,6 +11,7 @@ import stonering.entity.item.Item;
 import stonering.entity.plants.PlantBlock;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.MovementAspect;
+import stonering.entity.unit.aspects.RenderAspect;
 import stonering.entity.zone.Zone;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.designations.DesignationsTileMapping;
@@ -228,7 +229,11 @@ public class TileRenderer extends Renderer {
         for (Unit unit : unitContainer.getUnitsInPosition(x, y, z)) {
             if (!unit.hasAspect(MovementAspect.class)) continue;
             Vector3 vector = unit.getAspect(MovementAspect.class).getStepProgressVector().add(x, y, z);
-            util.drawSprite(units.getBlockTile(0, 0), vector); //TODO add correct sprite selection
+            RenderAspect aspect = unit.getAspect(RenderAspect.class);
+            util.drawSprite(aspect.getTile(), vector);
+
+
+
             //TODO draw needs icons.
         }
     }
