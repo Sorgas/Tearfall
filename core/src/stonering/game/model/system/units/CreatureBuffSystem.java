@@ -52,6 +52,14 @@ public class CreatureBuffSystem {
         return true;
     }
 
+    /**
+     * Unapplies all buffs with given tag from creature.
+     */
+    public boolean unapplyByTag(Unit unit, String tag) {
+        unit.getAspect(BuffAspect.class).buffs.removeIf(buff -> buff.tags.contains(tag));
+        return true;
+    }
+
     private boolean failWithLog(String message) {
         Logger.UNITS.logError(message);
         return false;

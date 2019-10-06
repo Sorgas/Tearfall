@@ -6,6 +6,9 @@ import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.entity.unit.aspects.health.Buff;
 import stonering.entity.unit.aspects.health.HealthAspect;
 import stonering.entity.unit.aspects.health.HealthBuff;
+import stonering.entity.unit.aspects.health.HealthParameterState;
+import stonering.enums.unit.health.HealthParameter;
+import stonering.enums.unit.health.HealthParameterEnum;
 import stonering.game.GameMvc;
 import stonering.util.global.Logger;
 import stonering.util.math.MathUtil;
@@ -27,85 +30,51 @@ import stonering.util.math.MathUtil;
  * @author Alexander on 16.09.2019.
  */
 public class CreatureHealthSystem {
-    private int[] fatigueRanges = {20, 50, 60, 70, 80, 90}; // used to assign buffs
+    public float moveParameterNoLoad = 0.05f;
+    public float moveParameterFullLoad = 0.1f;
 
     /**
-     * Updates
+     * Updates creatures health parameters to constant delta. Called by time.
      */
     public void updateCreatureHealth(Entity entity) {
         HealthAspect aspect = entity.getAspect(HealthAspect.class);
         if (aspect == null) {
-            Logger.UNITS.logError("Trying to add move fatigue to creature " + entity + " with no HealthAspect");
+            Logger.UNITS.logError("Trying to update health of creature " + entity + " with no HealthAspect");
             return;
         }
-        changeFatigue((Unit) entity, 0.01f);
-        changeHunger((Unit) entity, 0.01f);
+        changeParameter((Unit) entity, HealthParameterEnum.FATIGUE, 0.01f);
+        changeParameter((Unit) entity, HealthParameterEnum.HUNGER, 0.01f);
     }
 
     /**
-     * Called for every walked tile, adds fatigue to counter. Walking with high load exhausts faster.
+     * Called for every walked tile, adds delta to counter. Walking with high load increases delta.
      * TODO check other effects (illness, )
      */
-    public void applyMoveFatigue(Unit unit) {
+    public void applyMoveChange(Unit unit) {
         HealthAspect aspect = unit.getAspect(HealthAspect.class);
         if (aspect == null) {
             Logger.UNITS.logError("Trying to add move fatigue to creature " + unit + " with no HealthAspect");
             return;
         }
-        changeFatigue(unit, aspect.moveFatigueNoLoad + aspect.moveFatigueFullLoad * unit.getAspect(EquipmentAspect.class).getRelativeLoad());
+        changeParameter(unit, HealthParameterEnum.FATIGUE, moveParameterNoLoad + moveParameterFullLoad * unit.getAspect(EquipmentAspect.class).getRelativeLoad());
     }
 
-    private void changeFatigue(Unit unit, float delta) {
+    private void changeParameter(Unit unit, HealthParameterEnum parameterEnum, float delta) {
         HealthAspect aspect = unit.getAspect(HealthAspect.class);
-        float relativeOldFatigue = aspect.fatigue;
-        aspect.fatigue += delta;
-        if (aspect.fatigue > aspect.maxFatigue) {
-            // die
+        HealthParameter parameter = parameterEnum.PARAMETER;
+        HealthParameterState state = aspect.parameters.get(parameterEnum);
+        float old = state.current;
+        state.current += delta;
+        if (state.current > state.max) {
+            // TODO die
         }
-        float relativeFatigue = aspect.maxFatigue / aspect.fatigue;
-        if (MathUtil.inDifferentRanges(relativeOldFatigue, relativeFatigue, fatigueRanges)) {
-            CreatureBuffSystem buffSystem = GameMvc.instance().getModel().get(UnitContainer.class).buffSystem;
-            buffSystem.addBuff(unit, getFatigueBuff(relativeFatigue));
+        for (int i = 0; i < parameter.ranges.length; i++) { // check ranges
+            if (MathUtil.onDifferentSides(old, state.current, parameter.ranges[i])) {
+                CreatureBuffSystem buffSystem = GameMvc.instance().getModel().get(UnitContainer.class).buffSystem;
+                buffSystem.unapplyByTag(unit, parameterEnum.TAG);
+                if(parameter.buffs[i] != null) buffSystem.addBuff(unit, parameter.buffs[i].copy());
+                return;
+            }
         }
-    }
-
-    private void changeHunger(Unit unit, float delta) {
-        HealthAspect aspect = unit.getAspect(HealthAspect.class);
-        float relativeOldFatigue = aspect.fatigue;
-        aspect.fatigue += delta;
-        if (aspect.fatigue > aspect.maxFatigue) {
-            // die
-        }
-        float relativeFatigue = aspect.maxFatigue / aspect.fatigue;
-        if (MathUtil.inDifferentRanges(relativeOldFatigue, relativeFatigue, fatigueRanges)) {
-            CreatureBuffSystem buffSystem = GameMvc.instance().getModel().get(UnitContainer.class).buffSystem;
-            buffSystem.addBuff(unit, getFatigueBuff(relativeFatigue));
-        }
-    }
-
-    /**
-     * Creates {@link Buff} for each fatigue range.
-     */
-    private Buff getFatigueBuff(float fatigue) {
-        if (fatigue < 20) return new HealthBuff(10, "performance", -1, 0); // performance is increased after sleep
-        if (fatigue < 50) return null; // no buff normally
-        if (fatigue < 60) return new HealthBuff(-10, "performance", 0, 0); // performance decreased
-        if (fatigue < 70) return new HealthBuff(-15, "performance", 1, 0);
-        if (fatigue < 80) return new HealthBuff(-20, "performance", 2, 0);
-        if (fatigue < 90) return new HealthBuff(-25, "performance", 3, 0);
-        return new HealthBuff(-30, "performance", 4, 0);
-    }
-
-    /**
-     * Creates {@link Buff} for each fatigue range.
-     */
-    private Buff getHungerBuff(float fatigue) {
-        if (fatigue < 20) return new HealthBuff(10, "performance", -1, 0); // performance is increased after sleep
-        if (fatigue < 50) return null; // no buff normally
-        if (fatigue < 60) return new HealthBuff(-10, "performance", 0, 0); // performance decreased
-        if (fatigue < 70) return new HealthBuff(-15, "performance", 1, 0);
-        if (fatigue < 80) return new HealthBuff(-20, "performance", 2, 0);
-        if (fatigue < 90) return new HealthBuff(-25, "performance", 3, 0);
-        return new HealthBuff(-30, "performance", 4, 0);
     }
 }

@@ -1,7 +1,6 @@
 package stonering.entity.unit.aspects;
 
 import com.badlogic.gdx.math.Vector3;
-import stonering.entity.unit.aspects.health.HealthAspect;
 import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
 import stonering.game.model.system.units.UnitContainer;
@@ -105,7 +104,7 @@ public class MovementAspect extends Aspect implements Initable {
         Position nextPosition = path.remove(0); // get next step, remove from path
         if (localMap.isWalkPassable(nextPosition)) { // path has not been blocked after calculation
             unitContainer.updateUnitPosiiton((Unit) entity, nextPosition); //step
-            unitContainer.healthSystem.applyMoveFatigue((Unit) entity);
+            unitContainer.healthSystem.applyMoveChange((Unit) entity);
         } else { // path blocked
             Logger.PATH.log("path to " + target + " was blocked in " + nextPosition);
             target = null; // drop path, will be recounted on next step.

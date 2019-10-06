@@ -3,12 +3,12 @@ package stonering.entity.unit.aspects;
 import stonering.entity.Aspect;
 import stonering.entity.Entity;
 import stonering.entity.unit.aspects.health.HealthAspect;
-import stonering.enums.unit.Attributes;
+import stonering.enums.unit.AttributesEnum;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static stonering.enums.unit.Attributes.AGILITY;
+import static stonering.enums.unit.AttributesEnum.AGILITY;
 
 /**
  * Stores all attributes of a creature.
@@ -24,12 +24,12 @@ import static stonering.enums.unit.Attributes.AGILITY;
  */
 public class AttributeAspect extends Aspect {
     private static final int BASIC_MOVEMENT_DELAY = 60; // 1 tile/sec
-    public final Map<Attributes, Integer> attributes;
+    public final Map<AttributesEnum, Integer> attributes;
 
     public AttributeAspect(Entity entity) {
         super(entity);
         attributes = new HashMap<>();
-        for (Attributes value : Attributes.values()) {
+        for (AttributesEnum value : AttributesEnum.values()) {
             attributes.put(value, 0);
         }
     }
@@ -38,7 +38,7 @@ public class AttributeAspect extends Aspect {
         entity.getAspect(MovementAspect.class).movementDelay = BASIC_MOVEMENT_DELAY - attributes.get(AGILITY) * 2;
     }
 
-    public void update(Attributes attribute, int delta) {
+    public void update(AttributesEnum attribute, int delta) {
         attributes.put(attribute, attributes.get(attribute) + delta);
     }
 }

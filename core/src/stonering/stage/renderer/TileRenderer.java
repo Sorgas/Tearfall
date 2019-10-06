@@ -10,6 +10,7 @@ import stonering.entity.building.BuildingBlock;
 import stonering.entity.item.Item;
 import stonering.entity.plants.PlantBlock;
 import stonering.entity.unit.Unit;
+import stonering.entity.unit.aspects.CreatureStatusIcon;
 import stonering.entity.unit.aspects.MovementAspect;
 import stonering.entity.unit.aspects.RenderAspect;
 import stonering.entity.zone.Zone;
@@ -27,6 +28,8 @@ import stonering.stage.localworld.MovableCamera;
 import stonering.game.model.tilemaps.LocalTileMap;
 import stonering.util.geometry.Int2dBounds;
 import stonering.util.geometry.Position;
+
+import java.util.List;
 
 import static com.badlogic.gdx.graphics.Pixmap.Format.RGBA8888;
 import static stonering.stage.renderer.AtlasesEnum.*;
@@ -70,7 +73,7 @@ public class TileRenderer extends Renderer {
         cachePosition = new Position();
         cacheVector = new Vector3();
         cacheBounds = new Int2dBounds();
-        Pixmap pixmap = new Pixmap(1,1, RGBA8888);
+        Pixmap pixmap = new Pixmap(1, 1, RGBA8888);
         pixmap.setColor(Color.BLACK);
         pixmap.drawPixel(0, 0);
         blackTile = new TextureRegion(new Texture(pixmap));
@@ -81,7 +84,7 @@ public class TileRenderer extends Renderer {
      */
     @Override
     public void render() {
-        if(disabled) return;
+        if (disabled) return;
         int maxZ = camera.getCameraZ();
         int minZ = (int) Math.max(maxZ - util.maxZLevels, 0);
         for (int z = minZ; z <= maxZ; z++) {
@@ -92,7 +95,7 @@ public class TileRenderer extends Renderer {
                     if (localMap.light.localLight.getValue(x, y, z) != -1) {
                         drawTile(x, y, z);
                     } else {
-                        util.drawScale(blackTile, cachePosition.set(x,y,z), BatchUtil.TILE_WIDTH, BatchUtil.TILE_DEPTH);
+                        util.drawScale(blackTile, cachePosition.set(x, y, z), BatchUtil.TILE_WIDTH, BatchUtil.TILE_DEPTH);
                     }
                 }
             }
@@ -159,8 +162,8 @@ public class TileRenderer extends Renderer {
     private TextureRegion selectSpriteForBlock(int x, int y, int z) {
         int atlasX = getAtlasXForBlock(x, y, z);
         if (atlasX != -1) return blocks.getBlockTile(atlasX, getAtlasYForBlock(x, y, z));
-        atlasX = getAtlasXForBlock(x, y, z - 1);
-        if (atlasX != -1) return blocks.getTopingTile(atlasX, getAtlasYForBlock(x, y, z - 1));
+        atlasX = getAtlasXForBlock(x, y, z - 1); // check tile lower
+        if (atlasX != -1) return blocks.getToppingTile(atlasX, getAtlasYForBlock(x, y, z - 1));
         return null;
     }
 
@@ -195,7 +198,7 @@ public class TileRenderer extends Renderer {
         cachePosition.set(x, y, z - 1);
         block = substrateContainer.getSubstrateBlock(cachePosition);
         if (block != null)
-            return substrates.getTopingTile(localTileMap.get(cachePosition).getVal1(), block.getAtlasXY()[1]);
+            return substrates.getToppingTile(localTileMap.get(cachePosition).getVal1(), block.getAtlasXY()[1]);
         return null;
     }
 
@@ -216,7 +219,7 @@ public class TileRenderer extends Renderer {
     private TextureRegion selectSpriteForFlooding(int x, int y, int z) {
         int flooding = localMap.getFlooding(x, y, z);
         if (flooding != 0) return liquids.getBlockTile(flooding - 1, 0);
-        if (z > 0 && localMap.getFlooding(x, y, z - 1) >= 7) return liquids.getTopingTile(6, 0);
+        if (z > 0 && localMap.getFlooding(x, y, z - 1) >= 7) return liquids.getToppingTile(6, 0);
         return null;
     }
 
@@ -232,9 +235,10 @@ public class TileRenderer extends Renderer {
             RenderAspect aspect = unit.getAspect(RenderAspect.class);
             util.drawSprite(aspect.getTile(), vector);
 
-
-
-            //TODO draw needs icons.
+            List<CreatureStatusIcon> icons = aspect.icons;
+            for (int i = 0; i < icons.size(); i++) {
+                util.drawIcon(creature_icons.getBlockTile(icons.get(i).x, icons.get(i).y), vector, i);
+            }
         }
     }
 

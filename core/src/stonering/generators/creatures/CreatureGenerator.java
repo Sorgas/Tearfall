@@ -1,13 +1,10 @@
 package stonering.generators.creatures;
 
-import stonering.entity.unit.aspects.JobsAspect;
-import stonering.entity.unit.aspects.RenderAspect;
+import stonering.entity.unit.aspects.*;
 import stonering.entity.unit.aspects.health.HealthAspect;
 import stonering.enums.unit.CreatureType;
 import stonering.enums.unit.CreatureTypeMap;
 import stonering.generators.creatures.needs.NeedAspectGenerator;
-import stonering.entity.unit.aspects.MovementAspect;
-import stonering.entity.unit.aspects.PlanningAspect;
 import stonering.entity.unit.Unit;
 import stonering.stage.renderer.AtlasesEnum;
 import stonering.util.geometry.Position;
@@ -58,7 +55,7 @@ public class CreatureGenerator {
         unit.addAspect(attributeAspectGenerator.generateAttributeAspect(unit));
         unit.addAspect(healthAspectGenerator.generateHealthAspect(unit));
         unit.addAspect(new RenderAspect(unit, type.atlasXY, AtlasesEnum.units));
-        unit.addAspect(new HealthAspect(unit));
+        unit.addAspect(new BuffAspect(unit));
     }
 
     private void addOptionalAspects(Unit unit) {

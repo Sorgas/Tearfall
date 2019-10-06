@@ -9,11 +9,11 @@ import stonering.entity.job.action.TaskTypesEnum;
 import stonering.entity.unit.aspects.health.HealthAspect;
 import stonering.enums.TaskPrioritiesEnum;
 import stonering.enums.items.TagEnum;
+import stonering.enums.unit.health.HealthParameterEnum;
 import stonering.game.model.system.units.CreatureHealthSystem;
 
 /**
  * Need for eating. Part of {@link CreatureHealthSystem}.
- *
  *
  * @author Alexander on 30.09.2019.
  */
@@ -27,7 +27,7 @@ public class FoodNeed extends Need {
     @Override
     public TaskPrioritiesEnum countPriority(Entity entity) {
         HealthAspect aspect = entity.getAspect(HealthAspect.class);
-        switch(getHungerLevel(aspect)) {
+        switch (getHungerLevel(aspect)) {
             case NONE:
                 return TaskPrioritiesEnum.NONE;
             case LIGHT:
@@ -51,7 +51,7 @@ public class FoodNeed extends Need {
             case NONE:
                 return null;
             case LIGHT: {
-                if(item.tags.contains(TagEnum.SPOILED) || item.tags.contains(TagEnum.RAW)) return null;
+                if (item.tags.contains(TagEnum.SPOILED) || item.tags.contains(TagEnum.RAW)) return null;
                 Action eatAction = new EatAction(item);
                 return new Task("eat", TaskTypesEnum.OTHER, eatAction, countPriority(entity).VALUE);
             }
@@ -75,7 +75,7 @@ public class FoodNeed extends Need {
     }
 
     private int getHungerLevel(HealthAspect aspect) {
-        float relativeHunger = aspect.hunger / aspect.maxHunger;
+        float relativeHunger = aspect.parameters.get(HealthParameterEnum.HUNGER).getRelativeValue();
         if (relativeHunger < 0.5) return NONE;
         if (relativeHunger < 0.7) return LIGHT;
         if (relativeHunger < 0.9) return MEDIUM;

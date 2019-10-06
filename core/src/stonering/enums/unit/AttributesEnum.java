@@ -8,25 +8,25 @@ import java.util.Map;
  *
  * @author Alexander_Kuzyakov on 16.09.2019.
  */
-public enum Attributes {
+public enum AttributesEnum {
     AGILITY("agility"),
     ENDURANCE("endurance");
 
-    private static Map<String, Attributes> map = new HashMap<>();
+    private static Map<String, AttributesEnum> map = new HashMap<>();
 
     static {
-        for (Attributes value : values()) {
+        for (AttributesEnum value : values()) {
             map.put(value.NAME, value);
         }
     }
 
     public final String NAME;
 
-    Attributes(String name) {
+    AttributesEnum(String name) {
         NAME = name;
     }
 
-    public static Attributes get(String name) {
+    public static AttributesEnum get(String name) {
         return map.get(name);
     }
 }

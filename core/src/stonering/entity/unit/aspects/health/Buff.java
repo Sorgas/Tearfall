@@ -1,7 +1,7 @@
 package stonering.entity.unit.aspects.health;
 
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import stonering.entity.unit.Unit;
+import stonering.entity.unit.aspects.BuffAspect;
 import stonering.entity.unit.aspects.CreatureStatusIcon;
 import stonering.game.model.system.units.CreatureBuffSystem;
 
@@ -9,21 +9,27 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Can be applied to creature by {@link CreatureBuffSystem}
+ * Can be applied to creature by {@link CreatureBuffSystem}.
+ * Is part of {@link BuffAspect}.
  *
  * @author Alexander on 16.09.2019.
  */
-public abstract class Buff {
+public abstract class Buff implements Cloneable {
     public final int delta; // some creature property is changed by this value
-    public final int[] atlasXY;
-    public final Drawable sprite = null; // buff icon
+    public final int[] atlasXY; // shared between cloned instances
+    public final Set<String> tags; // shared between cloned instances
     public int ticksLeft; // decreases every tick. buff is removed, when reaches zero. -1 for infinite buffs
-    public final Set<String> tags;
 
     public Buff(int delta, int x, int y) {
         this.delta = delta;
         tags = new HashSet<>();
         atlasXY = new int[]{x, y};
+    }
+
+    public Buff(Buff buff) {
+        delta = buff.delta;
+        tags = buff.tags;
+        atlasXY = buff.atlasXY;
     }
 
     /**
@@ -47,4 +53,6 @@ public abstract class Buff {
     public abstract boolean apply(Unit unit);
 
     public abstract boolean unapply(Unit unit);
+
+    public abstract Buff copy();
 }

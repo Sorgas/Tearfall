@@ -16,6 +16,11 @@ public class HealthBuff extends Buff {
         this.propertyName = propertyName;
     }
 
+    private HealthBuff(HealthBuff healthBuff) {
+        super(healthBuff);
+        propertyName = healthBuff.propertyName;
+    }
+
     @Override
     public boolean apply(Unit unit) {
         return applyDeltaToProperty(unit, 1);
@@ -24,6 +29,11 @@ public class HealthBuff extends Buff {
     @Override
     public boolean unapply(Unit unit) {
         return applyDeltaToProperty(unit, -1);
+    }
+
+    @Override
+    public Buff copy() {
+        return new HealthBuff(this);
     }
 
     private boolean applyDeltaToProperty(Unit unit, int multiplier) {

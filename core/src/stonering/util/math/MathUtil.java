@@ -32,6 +32,10 @@ public class MathUtil {
         return Arrays.stream(ranges).anyMatch(range -> rangeChanged(val1, val2, range));
     }
 
+    public static boolean onDifferentSides(float val1, float val2, float mid) {
+        return (val1 - mid) * (val2 - mid) < 0;
+    }
+
     public static boolean rangeChanged(float from, float to, int range) {
         return (from > range && to <= range)
                 || (to > range && from <= range);

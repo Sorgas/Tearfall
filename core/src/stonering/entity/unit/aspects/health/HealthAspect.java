@@ -3,10 +3,13 @@ package stonering.entity.unit.aspects.health;
 
 import stonering.entity.Aspect;
 import stonering.entity.Entity;
+import stonering.enums.unit.health.HealthParameterEnum;
 import stonering.game.model.system.units.CreatureHealthSystem;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static stonering.enums.unit.health.HealthParameterEnum.*;
 
 /**
  * Stores health condition of a unit. See {@link CreatureHealthSystem}
@@ -16,19 +19,13 @@ import java.util.Map;
  */
 public class HealthAspect extends Aspect {
     public final Map<String, Float> properties;
-
-    public float fatigue = 0;
-    public float maxFatigue = 100;
-    public float moveFatigueNoLoad = 0.05f;
-    public float moveFatigueFullLoad = 0.1f;
-
-    public float hunger = 0;
-    public float maxHunger = 100;
-    public float moveHungerNoLoad = 0.05f;
-    public float moveHungerFullLoad = 0.1f;
+    public final Map<HealthParameterEnum, HealthParameterState> parameters;
 
     public HealthAspect(Entity entity) {
         super(entity);
         properties = new HashMap<>();
+        parameters = new HashMap<>();
+        parameters.put(FATIGUE, new HealthParameterState(FATIGUE));
+        parameters.put(HUNGER, new HealthParameterState(HUNGER));
     }
 }

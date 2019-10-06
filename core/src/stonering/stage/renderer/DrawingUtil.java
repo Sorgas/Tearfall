@@ -57,6 +57,14 @@ public class DrawingUtil {
     }
 
     /**
+     * Draws icon upon tile with given position. sprite position will be corrected with index.
+     * Icon size is 16x16, and it is drawn on top left corner of a sprite.
+     */
+    public void drawIcon(TextureRegion sprite, Vector3 vector, int index) {
+        batch.draw(sprite, getBatchXForIcon(vector.x, index), getBatchYForIcon(vector.y, vector.z));
+    }
+
+    /**
      * Makes color transparent.
      */
     public void updateColorA(float a) {

@@ -2,9 +2,8 @@ package stonering.generators.creatures;
 
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.AttributeAspect;
-import stonering.enums.unit.Attributes;
 
-import static stonering.enums.unit.Attributes.*;
+import static stonering.enums.unit.AttributesEnum.*;
 
 /**
  * Generates {@link AttributeAspect}.

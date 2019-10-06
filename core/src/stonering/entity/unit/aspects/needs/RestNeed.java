@@ -11,6 +11,7 @@ import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.job.action.target.EntityActionTarget;
 import stonering.entity.unit.aspects.health.HealthAspect;
 import stonering.enums.TaskPrioritiesEnum;
+import stonering.enums.unit.health.HealthParameterEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.building.BuildingContainer;
@@ -41,7 +42,6 @@ public class RestNeed extends Need {
     @Override
     public TaskPrioritiesEnum countPriority(Entity entity) {
         HealthAspect aspect = entity.getAspect(HealthAspect.class);
-        float relativeFatigue = aspect.fatigue / aspect.maxFatigue;
         switch (getExhaustionLevel(aspect)) {
             case NONE:
                 return TaskPrioritiesEnum.NONE;
@@ -88,12 +88,12 @@ public class RestNeed extends Need {
      * Used for defining place to sleep and rest task priority.
      */
     private int getExhaustionLevel(HealthAspect aspect) {
-        float relativeFatigue = aspect.fatigue / aspect.maxFatigue;
+        float relativeFatigue = aspect.parameters.get(HealthParameterEnum.FATIGUE).getRelativeValue();
         //TODO add day/night state to relativeFatigue (add substract )
-        if (relativeFatigue < 0.5) return NONE;
-        if (relativeFatigue < 0.7) return LIGHT;
-        if (relativeFatigue < 0.9) return MEDIUM;
-        if (relativeFatigue < 1) return HEAVY;
+        if (relativeFatigue < 50) return NONE;
+        if (relativeFatigue < 70) return LIGHT;
+        if (relativeFatigue < 90) return MEDIUM;
+        if (relativeFatigue < 101) return HEAVY;
         return DEADLY;
     }
 }

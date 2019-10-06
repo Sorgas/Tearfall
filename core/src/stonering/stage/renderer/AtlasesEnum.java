@@ -1,5 +1,6 @@
 package stonering.stage.renderer;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import stonering.util.global.Logger;
@@ -37,7 +38,7 @@ public enum AtlasesEnum {
     public final int FULL_TILE_HEIGHT;
     public final int X_CORRECTION; // batch grid are 64x64, but some atlas tiles are smaller, correction is offset from left bottom corner of grid
     public final int Y_CORRECTION;
-    public final Map<Pair<Integer, Integer>, TextureRegion> spriteCache;
+    public final Map<SpriteDescriptor, TextureRegion> spriteCache;
 
     AtlasesEnum(Texture texture, boolean hasToppings, int width, int depth, int height, int toppingHeight) {
         atlas = texture;
@@ -45,8 +46,8 @@ public enum AtlasesEnum {
         WIDTH = width;
         DEPTH = depth;
         HEIGHT = height;
-        BLOCK_HEIGHT = depth + height;
-        TOPPING_BLOCK_HEIGHT = toppingHeight + depth;
+        BLOCK_HEIGHT = height + depth;
+        TOPPING_BLOCK_HEIGHT = hasToppings ? toppingHeight + depth : 0;
         FULL_TILE_HEIGHT = BLOCK_HEIGHT + TOPPING_BLOCK_HEIGHT;
         X_CORRECTION = (BatchUtil.TILE_WIDTH - WIDTH) / 2;
         Y_CORRECTION = (BatchUtil.TILE_DEPTH - DEPTH) / 2;
@@ -55,12 +56,11 @@ public enum AtlasesEnum {
 
     /**
      * Cuts main part of a block tile from x y position in specified atlas.
-     * Handles atlases with no toppings.
      */
     public TextureRegion getBlockTile(int x, int y) {
-        Pair<Integer, Integer> key = new Pair<>(x, y);
+        SpriteDescriptor key = new SpriteDescriptor(x, y, Color.WHITE.toIntBits(), false);
         if (!spriteCache.containsKey(key)) {
-            int atlasY = y * (hasToppings ? FULL_TILE_HEIGHT + TOPPING_BLOCK_HEIGHT : BLOCK_HEIGHT); // consider toppings or not
+            int atlasY = y * FULL_TILE_HEIGHT + (hasToppings ? TOPPING_BLOCK_HEIGHT : 0); // consider toppings or not
             spriteCache.put(key, new TextureRegion(atlas, x * WIDTH, atlasY, WIDTH, BLOCK_HEIGHT));
         }
         return spriteCache.get(key);
@@ -71,16 +71,16 @@ public enum AtlasesEnum {
     }
 
     /**
-     * Cuts toping part of a block tile from x y position in specified atlas.
+     * Cuts topping part of a block tile from x y position in specified atlas.
      * Atlas should have toppings.
      */
-    public TextureRegion getTopingTile(int x, int y) {
+    public TextureRegion getToppingTile(int x, int y) {
         if (!hasToppings) {
             Logger.RENDER.logError("Attempt to get topping from atlas without toppings.");
             return null;
         }
-        Pair<Integer, Integer> key = new Pair<>(x, y);
-        spriteCache.putIfAbsent(key, new TextureRegion(atlas, x * WIDTH, y * BLOCK_HEIGHT, WIDTH, BLOCK_HEIGHT));
+        SpriteDescriptor key = new SpriteDescriptor(x, y, Color.WHITE.toIntBits(), true);
+        spriteCache.putIfAbsent(key, new TextureRegion(atlas, x * WIDTH, y * FULL_TILE_HEIGHT, WIDTH, TOPPING_BLOCK_HEIGHT));
         return spriteCache.get(key);
     }
 }

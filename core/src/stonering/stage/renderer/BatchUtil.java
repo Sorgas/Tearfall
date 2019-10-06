@@ -12,13 +12,28 @@ public class BatchUtil {
     public static final int TILE_WIDTH = 64;             // x size(left-right)
     public static final int TILE_DEPTH = 64;             // y size(back-forth)
     public static final int TILE_HEIGHT = 32;            // z size(up-down) plus depth
+    public static final int ICON_SIZE = 16; // TODO make configurable in settings
 
+    /**
+     * Left border of tile.
+     */
     public static float getBatchX(float x) {
         return x * TILE_WIDTH;
     }
 
+    /**
+     * Bottom border of tile.
+     */
     public static float getBatchY(float y, float z) {
         return y * TILE_DEPTH + z * TILE_HEIGHT;
+    }
+
+    public static float getBatchXForIcon(float x, int index) {
+        return getBatchX(x) + index * ICON_SIZE;
+    }
+
+    public static float getBatchYForIcon(float y, float z) {
+        return getBatchY(y, z) + TILE_DEPTH - ICON_SIZE;
     }
 
     /**
