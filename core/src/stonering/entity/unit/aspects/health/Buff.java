@@ -16,20 +16,20 @@ import java.util.Set;
  */
 public abstract class Buff implements Cloneable {
     public final int delta; // some creature property is changed by this value
-    public final int[] atlasXY; // shared between cloned instances
     public final Set<String> tags; // shared between cloned instances
-    public int ticksLeft; // decreases every tick. buff is removed, when reaches zero. -1 for infinite buffs
+    public int ticksLeft = -1; // decreases every tick. buff is removed, when reaches zero. -1 for infinite buffs
+    public final CreatureStatusIcon icon;
 
     public Buff(int delta, int x, int y) {
         this.delta = delta;
         tags = new HashSet<>();
-        atlasXY = new int[]{x, y};
+        icon = new CreatureStatusIcon(x, y);
     }
 
     public Buff(Buff buff) {
         delta = buff.delta;
         tags = buff.tags;
-        atlasXY = buff.atlasXY;
+        icon = buff.icon;
     }
 
     /**
@@ -44,10 +44,6 @@ public abstract class Buff implements Cloneable {
      */
     public boolean expired() {
         return ticksLeft == 0;
-    }
-
-    public CreatureStatusIcon getIcon() {
-        return new CreatureStatusIcon(atlasXY);
     }
 
     public abstract boolean apply(Unit unit);

@@ -25,19 +25,7 @@ public class MathUtil {
         return val1 > low && val1 <= high && val2 > low && val2 <= high;
     }
 
-    /**
-     * Fetches given ranges and returns true, if values are on different sides around it.
-     */
-    public static boolean inDifferentRanges(float val1, float val2, int[] ranges) {
-        return Arrays.stream(ranges).anyMatch(range -> rangeChanged(val1, val2, range));
-    }
-
     public static boolean onDifferentSides(float val1, float val2, float mid) {
         return (val1 - mid) * (val2 - mid) < 0;
-    }
-
-    public static boolean rangeChanged(float from, float to, int range) {
-        return (from > range && to <= range)
-                || (to > range && from <= range);
     }
 }

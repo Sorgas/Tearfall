@@ -42,13 +42,15 @@ public class CreatureBuffSystem {
         if (!unit.hasAspect(BuffAspect.class)) return failWithLog("Trying to add buff " + buff + " to creature " + unit + " without BuffAspect");
         if (!buff.apply(unit)) return failWithLog("Failed to apply buff " + buff + " to creature " + unit);
         unit.getAspect(BuffAspect.class).buffs.add(buff);
-        unit.getAspect(RenderAspect.class).icons.add(buff.getIcon());
+        unit.getAspect(RenderAspect.class).icons.add(buff.icon);
         return true;
     }
 
     public boolean unapplyBuff(Unit unit, Buff buff) {
+        Logger.UNITS.logDebug("Removing buff " + buff + " to creature " + unit);
         if (!buff.unapply(unit)) return failWithLog("Failed to unapply buff " + buff + " to creature " + unit);
-        unit.getAspect(RenderAspect.class).icons.remove(buff.getIcon());
+        unit.getAspect(BuffAspect.class).buffs.remove(buff);
+        unit.getAspect(RenderAspect.class).icons.remove(buff.icon);
         return true;
     }
 
@@ -56,7 +58,14 @@ public class CreatureBuffSystem {
      * Unapplies all buffs with given tag from creature.
      */
     public boolean unapplyByTag(Unit unit, String tag) {
-        unit.getAspect(BuffAspect.class).buffs.removeIf(buff -> buff.tags.contains(tag));
+        Logger.UNITS.logDebug("Removing buffs from creature " + unit + " by tag " + tag);
+        for (Iterator<Buff> iterator = unit.getAspect(BuffAspect.class).buffs.iterator(); iterator.hasNext();) {
+            Buff buff = iterator.next();
+            if(buff.tags.contains(tag)) {
+                iterator.remove();
+                unit.getAspect(RenderAspect.class).icons.remove(buff.icon);
+            }
+        }
         return true;
     }
 

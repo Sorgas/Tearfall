@@ -17,7 +17,7 @@ public class RenderAspect extends Aspect {
     public final int[] atlasXY;
     public final AtlasesEnum atlas;
     public boolean needsVisible = true; // needs icons are visible only for controlled units.
-    public final List<CreatureStatusIcon> icons= new ArrayList<>();
+    public final List<CreatureStatusIcon> icons = new ArrayList<>();
 
     public RenderAspect(Entity entity, int[] xy, AtlasesEnum atlas) {
         super(entity);

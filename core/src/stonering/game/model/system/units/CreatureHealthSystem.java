@@ -3,15 +3,12 @@ package stonering.game.model.system.units;
 import stonering.entity.Entity;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
-import stonering.entity.unit.aspects.health.Buff;
 import stonering.entity.unit.aspects.health.HealthAspect;
-import stonering.entity.unit.aspects.health.HealthBuff;
 import stonering.entity.unit.aspects.health.HealthParameterState;
 import stonering.enums.unit.health.HealthParameter;
 import stonering.enums.unit.health.HealthParameterEnum;
 import stonering.game.GameMvc;
 import stonering.util.global.Logger;
-import stonering.util.math.MathUtil;
 
 /**
  * Updates health condition of a unit ({@link HealthAspect}).
@@ -60,22 +57,14 @@ public class CreatureHealthSystem {
     }
 
     private void changeParameter(Unit unit, HealthParameterEnum parameterEnum, float delta) {
-        HealthAspect aspect = unit.getAspect(HealthAspect.class);
+        HealthParameterState state = unit.getAspect(HealthAspect.class).parameters.get(parameterEnum);
         HealthParameter parameter = parameterEnum.PARAMETER;
-        HealthParameterState state = aspect.parameters.get(parameterEnum);
         float old = state.current;
         state.current += delta;
         if (state.current > state.max) {
             // TODO die
         }
-        for (int i = 0; i < parameter.ranges.length; i++) { // check ranges
-            if (MathUtil.onDifferentSides(old, state.current, parameter.ranges[i])) {
-                CreatureBuffSystem buffSystem = GameMvc.instance().getModel().get(UnitContainer.class).buffSystem;
-                buffSystem.unapplyByTag(unit, parameterEnum.TAG);
-                if(parameter.buffs[i] != null) buffSystem.addBuff(unit, parameter.buffs[i].copy());
-                return;
-            }
-        }
+        if (parameter.isRangeChanged(old, state.current)) resetParameter(unit, parameterEnum);
     }
 
     public void resetCreatureHealth(Unit unit) {
@@ -84,16 +73,11 @@ public class CreatureHealthSystem {
     }
 
     private void resetParameter(Unit unit, HealthParameterEnum parameterEnum) {
-        HealthAspect aspect = unit.getAspect(HealthAspect.class);
+        HealthParameterState state = unit.getAspect(HealthAspect.class).parameters.get(parameterEnum);
         HealthParameter parameter = parameterEnum.PARAMETER;
-        HealthParameterState state = aspect.parameters.get(parameterEnum);
-        for (int i = 0; i < parameter.ranges.length; i++) { // check ranges
-            if (state.current < parameter.ranges[i]) {
-                CreatureBuffSystem buffSystem = GameMvc.instance().getModel().get(UnitContainer.class).buffSystem;
-                buffSystem.unapplyByTag(unit, parameterEnum.TAG);
-                if(parameter.buffs[i] != null) buffSystem.addBuff(unit, parameter.buffs[i].copy());
-                return;
-            }
-        }
+        int rangeIndex = parameter.getRangeIndex(state.current);
+        CreatureBuffSystem buffSystem = GameMvc.instance().getModel().get(UnitContainer.class).buffSystem;
+        buffSystem.unapplyByTag(unit, parameterEnum.TAG);
+        if (parameter.buffs[rangeIndex] != null) buffSystem.addBuff(unit, parameter.buffs[rangeIndex].copy());
     }
 }

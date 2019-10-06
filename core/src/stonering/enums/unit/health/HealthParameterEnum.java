@@ -9,7 +9,6 @@ package stonering.enums.unit.health;
 public enum HealthParameterEnum {
     FATIGUE(new FatigueParameter(), "fatigue"),
     HUNGER(new HungerParameter(), "hunger");
-//    THIRST();
 
     public final HealthParameter PARAMETER;
     public final String TAG;
@@ -17,5 +16,6 @@ public enum HealthParameterEnum {
     HealthParameterEnum(HealthParameter parameter, String tag) {
         PARAMETER = parameter;
         TAG = tag;
+        parameter.assignTags(tag);
     }
 }
