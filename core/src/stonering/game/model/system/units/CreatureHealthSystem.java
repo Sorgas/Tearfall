@@ -77,4 +77,23 @@ public class CreatureHealthSystem {
             }
         }
     }
+
+    public void resetCreatureHealth(Unit unit) {
+        resetParameter(unit, HealthParameterEnum.FATIGUE);
+        resetParameter(unit, HealthParameterEnum.HUNGER);
+    }
+
+    private void resetParameter(Unit unit, HealthParameterEnum parameterEnum) {
+        HealthAspect aspect = unit.getAspect(HealthAspect.class);
+        HealthParameter parameter = parameterEnum.PARAMETER;
+        HealthParameterState state = aspect.parameters.get(parameterEnum);
+        for (int i = 0; i < parameter.ranges.length; i++) { // check ranges
+            if (state.current < parameter.ranges[i]) {
+                CreatureBuffSystem buffSystem = GameMvc.instance().getModel().get(UnitContainer.class).buffSystem;
+                buffSystem.unapplyByTag(unit, parameterEnum.TAG);
+                if(parameter.buffs[i] != null) buffSystem.addBuff(unit, parameter.buffs[i].copy());
+                return;
+            }
+        }
+    }
 }

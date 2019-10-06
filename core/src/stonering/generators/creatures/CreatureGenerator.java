@@ -4,6 +4,8 @@ import stonering.entity.unit.aspects.*;
 import stonering.entity.unit.aspects.health.HealthAspect;
 import stonering.enums.unit.CreatureType;
 import stonering.enums.unit.CreatureTypeMap;
+import stonering.game.GameMvc;
+import stonering.game.model.system.units.UnitContainer;
 import stonering.generators.creatures.needs.NeedAspectGenerator;
 import stonering.entity.unit.Unit;
 import stonering.stage.renderer.AtlasesEnum;
@@ -40,6 +42,7 @@ public class CreatureGenerator {
         Unit unit = new Unit(position.clone(), type);
         addMandatoryAspects(unit);
         addOptionalAspects(unit);
+        updateBuffs(unit);
         return unit;
     }
 
@@ -53,9 +56,9 @@ public class CreatureGenerator {
         unit.addAspect(new MovementAspect(null));
         unit.addAspect(needAspectGenerator.generateNeedAspect(type));
         unit.addAspect(attributeAspectGenerator.generateAttributeAspect(unit));
-        unit.addAspect(healthAspectGenerator.generateHealthAspect(unit));
         unit.addAspect(new RenderAspect(unit, type.atlasXY, AtlasesEnum.units));
         unit.addAspect(new BuffAspect(unit));
+        unit.addAspect(healthAspectGenerator.generateHealthAspect(unit));
     }
 
     private void addOptionalAspects(Unit unit) {
@@ -72,5 +75,9 @@ public class CreatureGenerator {
                 }
             }
         }
+    }
+
+    private void updateBuffs(Unit unit) {
+        GameMvc.instance().getModel().get(UnitContainer.class).healthSystem.resetCreatureHealth(unit);
     }
 }

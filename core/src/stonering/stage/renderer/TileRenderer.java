@@ -234,7 +234,6 @@ public class TileRenderer extends Renderer {
             Vector3 vector = unit.getAspect(MovementAspect.class).getStepProgressVector().add(x, y, z);
             RenderAspect aspect = unit.getAspect(RenderAspect.class);
             util.drawSprite(aspect.getTile(), vector);
-
             List<CreatureStatusIcon> icons = aspect.icons;
             for (int i = 0; i < icons.size(); i++) {
                 util.drawIcon(creature_icons.getBlockTile(icons.get(i).x, icons.get(i).y), vector, i);
