@@ -6,8 +6,6 @@ import stonering.util.global.Logger;
 import stonering.util.math.MathUtil;
 
 import java.util.Arrays;
-import java.util.OptionalInt;
-import java.util.stream.IntStream;
 
 /**
  * Stores relation between {@link HealthParameterState} value and given {@link Buff}.
