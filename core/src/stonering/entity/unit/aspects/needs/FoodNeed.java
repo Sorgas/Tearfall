@@ -10,19 +10,21 @@ import stonering.entity.unit.aspects.health.HealthAspect;
 import stonering.enums.TaskPrioritiesEnum;
 import stonering.enums.items.TagEnum;
 import stonering.enums.unit.health.HealthParameterEnum;
+import stonering.enums.unit.health.HungerParameter;
 import stonering.game.model.system.units.CreatureHealthSystem;
 
 /**
  * Need for eating. Part of {@link CreatureHealthSystem}.
+ * See also {@link HungerParameter}.
  *
  * @author Alexander on 30.09.2019.
  */
 public class FoodNeed extends Need {
     private static final int NONE = 0; // no tasks
-    private static final int LIGHT = 1; // sleep if no job
-    private static final int MEDIUM = 2; // stop job and sleep
-    private static final int HEAVY = 3; // seek safe place and sleep
-    private static final int DEADLY = 4; // fall asleep immediately
+    private static final int LIGHT = 1; // eat if no job
+    private static final int MEDIUM = 2; // stop job and eat
+    private static final int HEAVY = 3; // TODO eat raw food
+    private static final int DEADLY = 4; // TODO eat spoiled food
 
     @Override
     public TaskPrioritiesEnum countPriority(Entity entity) {
@@ -63,7 +65,6 @@ public class FoodNeed extends Need {
                 //TODO sleep immediately
         }
         return null;
-
     }
 
     /**
@@ -76,10 +77,10 @@ public class FoodNeed extends Need {
 
     private int getHungerLevel(HealthAspect aspect) {
         float relativeHunger = aspect.parameters.get(HealthParameterEnum.HUNGER).getRelativeValue();
-        if (relativeHunger < 0.5) return NONE;
-        if (relativeHunger < 0.7) return LIGHT;
-        if (relativeHunger < 0.9) return MEDIUM;
-        if (relativeHunger < 1) return HEAVY;
+        if (relativeHunger < 50) return NONE;
+        if (relativeHunger < 60) return LIGHT;
+        if (relativeHunger < 70) return MEDIUM;
+        if (relativeHunger < 90) return HEAVY;
         return DEADLY;
     }
 }

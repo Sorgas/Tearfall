@@ -91,9 +91,9 @@ public class RestNeed extends Need {
         float relativeFatigue = aspect.parameters.get(HealthParameterEnum.FATIGUE).getRelativeValue();
         //TODO add day/night state to relativeFatigue (add substract )
         if (relativeFatigue < 50) return NONE;
-        if (relativeFatigue < 70) return LIGHT;
-        if (relativeFatigue < 90) return MEDIUM;
-        if (relativeFatigue < 101) return HEAVY;
+        if (relativeFatigue < 60) return LIGHT;
+        if (relativeFatigue < 70) return MEDIUM;
+        if (relativeFatigue < 90) return HEAVY;
         return DEADLY;
     }
 }
