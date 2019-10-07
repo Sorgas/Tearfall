@@ -11,8 +11,8 @@ import stonering.util.global.Logger;
 public class HealthBuff extends Buff {
     public final String propertyName;
 
-    public HealthBuff(int delta, String propertyName, int x, int y) {
-        super(delta, x, y);
+    public HealthBuff(String tag, int delta, String propertyName, int x, int y) {
+        super(tag, delta, x, y);
         this.propertyName = propertyName;
     }
 

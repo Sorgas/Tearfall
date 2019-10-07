@@ -14,17 +14,14 @@ import java.util.Arrays;
  */
 public abstract class HealthParameter {
     public final int[] ranges;
-    public final Buff[] buffs;
+    public final String tag; // used by buffs
 
-    public HealthParameter(int[] ranges) {
+    public HealthParameter(int[] ranges, String tag) {
         this.ranges = ranges;
-        buffs = new Buff[ranges.length];
+        this.tag = tag;
     }
 
-    /**
-     * Assigns tags to buffs.
-     */
-    public abstract void assignTags(String tag);
+    public abstract Buff getBuffForRange(int rangeIndex);
 
     public boolean isRangeChanged(float newValue, float oldValue) {
         return Arrays.stream(ranges).anyMatch(range -> MathUtil.onDifferentSides(oldValue, newValue, range));

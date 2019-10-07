@@ -5,6 +5,7 @@ import java.util.Map;
 
 /**
  * Creatures needs ore enumerated here.
+ *
  * @author Alexander on 22.08.2019.
  */
 public enum NeedEnum {

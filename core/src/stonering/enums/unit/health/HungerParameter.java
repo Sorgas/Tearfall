@@ -27,7 +27,7 @@ public class HungerParameter extends HealthParameter {
     public void assignTags(String tag) {
         for (Buff buff : buffs) {
             if(buff != null) {
-                buff.tags.add(tag);
+                buff.tag = tag;
             }
         }
     }

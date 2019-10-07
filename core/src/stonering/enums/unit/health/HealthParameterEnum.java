@@ -7,15 +7,14 @@ package stonering.enums.unit.health;
  * @author Alexander on 06.10.2019.
  */
 public enum HealthParameterEnum {
-    FATIGUE(new FatigueParameter(), "fatigue"),
-    HUNGER(new HungerParameter(), "hunger");
+    FATIGUE(new FatigueParameter("fatigue")),
+    HUNGER(new HungerParameter("hunger"));
 
     public final HealthParameter PARAMETER;
     public final String TAG;
 
-    HealthParameterEnum(HealthParameter parameter, String tag) {
+    HealthParameterEnum(HealthParameter parameter) {
         PARAMETER = parameter;
-        TAG = tag;
-        parameter.assignTags(tag);
+        TAG = parameter.tag;
     }
 }

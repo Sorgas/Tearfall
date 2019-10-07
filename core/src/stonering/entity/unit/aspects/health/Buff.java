@@ -10,33 +10,43 @@ import java.util.Set;
 
 /**
  * Can be applied to creature by {@link CreatureBuffSystem}.
- * Is part of {@link BuffAspect}.
+ * Is part of {@link BuffAspect}. Has optional item.
+ * Has counter of ticks to expiration. Expired buffs are unapplied from unit by {@link CreatureBuffSystem}.
+ * If counter is set to negative, buff is infinite and should be removed externally.
  *
  * @author Alexander on 16.09.2019.
  */
 public abstract class Buff implements Cloneable {
+    public final String tag;
     public final int delta; // some creature property is changed by this value
-    public final Set<String> tags; // shared between cloned instances
-    public int ticksLeft = -1; // decreases every tick. buff is removed, when reaches zero. -1 for infinite buffs
-    public final CreatureStatusIcon icon;
 
-    public Buff(int delta, int x, int y) {
+    public CreatureStatusIcon icon; // optional
+
+    public int ticksLeft = -1; // decreases every tick. buff is removed, when reaches zero. -1 for infinite buffs
+
+    /**
+     * Buff with no icon.
+     */
+    public Buff(String tag, int delta) {
+        this.tag = tag;
         this.delta = delta;
-        tags = new HashSet<>();
+    }
+
+    public Buff(String tag, int delta, int x, int y) {
+        this(tag, delta);
         icon = new CreatureStatusIcon(x, y);
     }
 
     public Buff(Buff buff) {
-        delta = buff.delta;
-        tags = buff.tags;
+        this(buff.tag, buff.delta);
         icon = buff.icon;
     }
 
     /**
-     * Decreases buff timer
+     * Decreases buff timer. returns true, if buff expired.
      */
-    public void decrease() {
-        if (ticksLeft > 0) ticksLeft--;
+    public boolean decrease() {
+        return expired() || ((ticksLeft > 0) && (ticksLeft-- == 0));
     }
 
     /**
