@@ -23,20 +23,20 @@ public class FatigueParameter extends HealthParameter {
             case 1:
                 return null;
             case 2:
-                return createBuffWithDelta(-10, 0);
+                return createBuffWithDelta(-10, 1);
             case 3:
-                return createBuffWithDelta(-20, 0);
+                return createBuffWithDelta(-20, 1);
             case 4:
-                return createBuffWithDelta(-30, 1);
+                return createBuffWithDelta(-30, 2);
             case 5:
-                return createBuffWithDelta(-60, 2);
+                return createBuffWithDelta(-60, 3);
             case 6:
-                return createBuffWithDelta(-80, 3);
+                return createBuffWithDelta(-80, 4);
         }
         return null;
     }
 
     private Buff createBuffWithDelta(int delta, int iconX) {
-        return new HealthBuff(tag, delta, "performance", iconX, 0);
+        return new HealthBuff(tag, delta, "performance", iconX, iconY);
     }
 }

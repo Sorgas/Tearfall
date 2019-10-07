@@ -7,28 +7,34 @@ import stonering.entity.unit.aspects.health.HealthBuff;
  * @author Alexander on 06.10.2019.
  */
 public class HungerParameter extends HealthParameter {
+    private final int iconY = 1;
 
-    public HungerParameter() {
-        super(new int[]{20, 50, 60, 70, 80, 90, 101});
-        fillBuffs();
-    }
-
-    private void fillBuffs() {
-        buffs[0] = new HealthBuff(-10, "performance", 0, 0);
-        buffs[1] = null; // no buff normally
-        buffs[2] = new HealthBuff(-10, "performance", 0, 0);
-        buffs[3] = new HealthBuff(-15, "performance", 1, 0);
-        buffs[4] = new HealthBuff(-20, "performance", 2, 0);
-        buffs[5] = new HealthBuff(-25, "performance", 3, 0);
-        buffs[6] = new HealthBuff(-30, "performance", 4, 0);
+    public HungerParameter(String tag) {
+        super(new int[]{20, 50, 60, 70, 80, 90, 101}, tag);
     }
 
     @Override
-    public void assignTags(String tag) {
-        for (Buff buff : buffs) {
-            if(buff != null) {
-                buff.tag = tag;
-            }
+    public Buff getBuffForRange(int rangeIndex) {
+        switch (rangeIndex) {
+            case 0:
+                return createBuffWithDelta(10, 0);
+            case 1:
+                return null;
+            case 2:
+                return createBuffWithDelta(-10, 1);
+            case 3:
+                return createBuffWithDelta(-15, 1);
+            case 4:
+                return createBuffWithDelta(-20, 2);
+            case 5:
+                return createBuffWithDelta(-25, 3);
+            case 6:
+                return createBuffWithDelta(-30, 4);
         }
+        return null;
+    }
+
+    private Buff createBuffWithDelta(int delta, int iconX) {
+        return new HealthBuff(HealthParameterEnum.HUNGER.TAG, delta, "performance", iconX, iconY);
     }
 }

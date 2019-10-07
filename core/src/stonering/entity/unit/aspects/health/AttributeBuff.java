@@ -13,8 +13,8 @@ import stonering.util.global.Logger;
 public class AttributeBuff extends Buff {
     public final AttributesEnum attribute; // buff is applied to this attribute
 
-    public AttributeBuff(AttributesEnum attribute, int delta, int x, int y) {
-        super(delta, x, y);
+    public AttributeBuff(String tag, AttributesEnum attribute, int delta, int x, int y) {
+        super(tag, delta, x, y);
         this.attribute = attribute;
     }
 

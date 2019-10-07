@@ -77,7 +77,7 @@ public class CreatureHealthSystem {
         HealthParameter parameter = parameterEnum.PARAMETER;
         int rangeIndex = parameter.getRangeIndex(state.current);
         CreatureBuffSystem buffSystem = GameMvc.instance().getModel().get(UnitContainer.class).buffSystem;
-        buffSystem.removeByTag(unit, parameterEnum.TAG);
-        if (parameter.buffs[rangeIndex] != null) buffSystem.addBuff(unit, parameter.buffs[rangeIndex].copy());
+        buffSystem.removeBuff(unit, parameterEnum.TAG);
+        buffSystem.addBuff(unit, parameter.getBuffForRange(rangeIndex));
     }
 }
