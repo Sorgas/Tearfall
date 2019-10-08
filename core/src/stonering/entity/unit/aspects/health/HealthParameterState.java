@@ -23,6 +23,4 @@ public class HealthParameterState {
     public float getRelativeValue() {
         return max / current * 100f;
     }
-
-
 }

@@ -2,15 +2,14 @@ package stonering.enums.unit.health;
 
 import stonering.entity.unit.aspects.health.Buff;
 import stonering.entity.unit.aspects.health.HealthBuff;
-import stonering.entity.unit.aspects.health.HealthTimedBuff;
 
 /**
- * @author Alexander on 06.10.2019.
+ * @author Alexander on 08.10.2019.
  */
-public class HungerParameter extends HealthParameter {
-    private final int iconY = 1;
+public class ThirstParameter extends HealthParameter {
+    private final int iconY = 2;
 
-    public HungerParameter(String tag) {
+    public ThirstParameter(String tag) {
         super(new int[]{20, 50, 60, 70, 80, 90, 101}, tag);
     }
 
@@ -24,18 +23,18 @@ public class HungerParameter extends HealthParameter {
             case 2:
                 return createBuffWithDelta(-10, 1);
             case 3:
-                return createBuffWithDelta(-15, 1);
+                return createBuffWithDelta(-20, 1);
             case 4:
-                return createBuffWithDelta(-20, 2);
+                return createBuffWithDelta(-30, 2);
             case 5:
-                return createBuffWithDelta(-25, 3);
+                return createBuffWithDelta(-60, 3);
             case 6:
-                return new HealthTimedBuff(HealthParameterEnum.HUNGER.TAG, -1, "hp", 5, iconY);
+                return createBuffWithDelta(-80, 4);
         }
         return null;
     }
 
     private Buff createBuffWithDelta(int delta, int iconX) {
-        return new HealthBuff(HealthParameterEnum.HUNGER.TAG, delta, "performance", iconX, iconY);
+        return new HealthBuff(tag, delta, "performance", iconX, iconY);
     }
 }

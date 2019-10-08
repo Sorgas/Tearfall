@@ -8,7 +8,8 @@ package stonering.enums.unit.health;
  */
 public enum HealthParameterEnum {
     FATIGUE(new FatigueParameter("fatigue")),
-    HUNGER(new HungerParameter("hunger"));
+    HUNGER(new HungerParameter("hunger")),
+    THIRST(new ThirstParameter("thirt"));
 
     public final HealthParameter PARAMETER;
     public final String TAG;

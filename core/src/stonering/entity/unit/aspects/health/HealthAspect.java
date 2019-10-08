@@ -25,7 +25,5 @@ public class HealthAspect extends Aspect {
         super(entity);
         properties = new HashMap<>();
         parameters = new HashMap<>();
-        parameters.put(FATIGUE, new HealthParameterState(FATIGUE));
-        parameters.put(HUNGER, new HealthParameterState(HUNGER));
     }
 }

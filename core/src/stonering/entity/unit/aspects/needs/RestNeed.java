@@ -68,6 +68,10 @@ public class RestNeed extends Need {
                 return null;
             case LIGHT:
             case MEDIUM:
+            case HEAVY:
+                //TODO sleep at safe place (at home, under roof)f
+            case DEADLY:
+                //TODO fall asleep at current place
                 List<Building> buildings = GameMvc.instance().getModel().get(BuildingContainer.class).getBuildingsWithAspect(RestFurnitureAspect.class);
                 buildings = GameMvc.instance().getModel().get(LocalMap.class).getPassage().filterEntitiesByReachability(buildings, entity.position);
                 if (!buildings.isEmpty()) { // bed available, no sleep without bed at this level of exhaustion
@@ -75,10 +79,6 @@ public class RestNeed extends Need {
                     return new Task("sleep", TaskTypesEnum.OTHER, restAction, countPriority(entity).VALUE);
                 }
                 break;
-            case HEAVY:
-                //TODO sleep at safe place (at home, under roof)
-            case DEADLY:
-                //TODO fall asleep at current place
         }
         return null;
     }

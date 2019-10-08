@@ -8,7 +8,7 @@ import stonering.util.math.MathUtil;
 import java.util.Arrays;
 
 /**
- * Stores relation between {@link HealthParameterState} value and given {@link Buff}.
+ * Produces {@link Buff}s basing on {@link HealthParameterState} value.
  *
  * @author Alexander on 06.10.2019.
  */

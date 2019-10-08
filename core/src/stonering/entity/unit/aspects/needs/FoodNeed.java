@@ -52,17 +52,18 @@ public class FoodNeed extends Need {
         switch (getHungerLevel(aspect)) {
             case NONE:
                 return null;
-            case LIGHT: {
-                if (item.tags.contains(TagEnum.SPOILED) || item.tags.contains(TagEnum.RAW)) return null;
-                Action eatAction = new EatAction(item);
-                return new Task("eat", TaskTypesEnum.OTHER, eatAction, countPriority(entity).VALUE);
-            }
+            case LIGHT:
             case MEDIUM:
                 //TODO sleep at safe place (at home, under roof)
             case HEAVY:
                 //TODO sleep at any place
             case DEADLY:
                 //TODO sleep immediately
+            {
+                if (item.tags.contains(TagEnum.SPOILED) || item.tags.contains(TagEnum.RAW)) return null;
+                Action eatAction = new EatAction(item);
+                return new Task("eat", TaskTypesEnum.OTHER, eatAction, countPriority(entity).VALUE);
+            }
         }
         return null;
     }

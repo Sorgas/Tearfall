@@ -16,9 +16,9 @@ public class HealthBuff extends Buff {
         this.propertyName = propertyName;
     }
 
-    private HealthBuff(HealthBuff healthBuff) {
-        super(healthBuff);
-        propertyName = healthBuff.propertyName;
+    public HealthBuff(String tag, int delta, String propertyName) {
+        super(tag, delta);
+        this.propertyName = propertyName;
     }
 
     @Override
@@ -31,12 +31,7 @@ public class HealthBuff extends Buff {
         return applyDeltaToProperty(unit, -1);
     }
 
-    @Override
-    public Buff copy() {
-        return new HealthBuff(this);
-    }
-
-    private boolean applyDeltaToProperty(Unit unit, int multiplier) {
+    protected boolean applyDeltaToProperty(Unit unit, int multiplier) {
         HealthAspect aspect = unit.getAspect(HealthAspect.class);
         if (aspect == null)
             return logAndFail("Trying to apply HealthBuff " + this + " to creature " + unit + " with no HealthAspect");

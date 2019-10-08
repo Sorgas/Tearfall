@@ -10,7 +10,9 @@ import java.util.Map;
  */
 public enum NeedEnum {
     WEAR("wear", new WearNeed()),
-    REST("rest", new RestNeed());
+    REST("rest", new RestNeed()),
+    FOOD("food", new FoodNeed()),
+    WATER("water", new WaterNeed());
 
     public static final Map<String, NeedEnum> map = new HashMap<>();
     static {

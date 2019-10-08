@@ -37,15 +37,10 @@ public abstract class Buff implements Cloneable {
         icon = new CreatureStatusIcon(x, y);
     }
 
-    public Buff(Buff buff) {
-        this(buff.tag, buff.delta);
-        icon = buff.icon;
-    }
-
     /**
      * Decreases buff timer. returns true, if buff expired.
      */
-    public boolean decrease() {
+    public boolean decrease(Unit unit) {
         return expired() || ((ticksLeft > 0) && (ticksLeft-- == 0));
     }
 
@@ -59,6 +54,4 @@ public abstract class Buff implements Cloneable {
     public abstract boolean apply(Unit unit);
 
     public abstract boolean unapply(Unit unit);
-
-    public abstract Buff copy();
 }
