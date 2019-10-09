@@ -17,6 +17,7 @@ public enum TagEnum {
     WOOD(false), // birch(material) log
     MEAT(false), // fox(origin) meat(material) piece(type)
     EDIBLE(false),
+    DRINKABLE(false),
     RAW(true), // raw cow meat piece
     SPOILED(true), // spoiled raw cow meat peace
     BOILABLE(false),

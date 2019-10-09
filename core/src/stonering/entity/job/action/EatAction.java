@@ -40,7 +40,7 @@ public class EatAction extends Action {
         } else {
 
         }
-        return 1;
+        return OK;
     }
 
     /**

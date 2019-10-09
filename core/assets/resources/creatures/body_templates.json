@@ -59,7 +59,7 @@
     "name": "humanoid",
     "desiredSlots": ["foot", "legs"],
     "defaultLayers": ["skin", "fat", "muscle", "bone"],
-    "needs": ["rest", "wear"],
+    "needs": ["rest", "wear", "food"],
     "body": [
         {
             "name": "upper torso",

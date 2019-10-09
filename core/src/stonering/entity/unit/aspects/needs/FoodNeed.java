@@ -20,50 +20,28 @@ import stonering.game.model.system.units.CreatureHealthSystem;
  * @author Alexander on 30.09.2019.
  */
 public class FoodNeed extends Need {
-    private static final int NONE = 0; // no tasks
-    private static final int LIGHT = 1; // eat if no job
-    private static final int MEDIUM = 2; // stop job and eat
-    private static final int HEAVY = 3; // TODO eat raw food
-    private static final int DEADLY = 4; // TODO eat spoiled food
 
     @Override
     public TaskPrioritiesEnum countPriority(Entity entity) {
         HealthAspect aspect = entity.getAspect(HealthAspect.class);
-        switch (getHungerLevel(aspect)) {
-            case NONE:
-                return TaskPrioritiesEnum.NONE;
-            case LIGHT:
-                return TaskPrioritiesEnum.COMFORT;
-            case MEDIUM:
-                return TaskPrioritiesEnum.HEALTH_NEEDS;
-            case HEAVY:
-                return TaskPrioritiesEnum.SAFETY;
-            case DEADLY:
-                return TaskPrioritiesEnum.LIFE;
-        }
-        return TaskPrioritiesEnum.NONE;
+        return HealthParameterEnum.HUNGER.PARAMETER.priorities[getHungerLevel(aspect)];
     }
 
     @Override
     public Task tryCreateTask(Entity entity) {
-        HealthAspect aspect = entity.getAspect(HealthAspect.class);
+        TaskPrioritiesEnum priority = countPriority(entity);
         Item item = getBestAvailableFood();
         if (item == null) return null;
-        switch (getHungerLevel(aspect)) {
+        switch(priority) {
             case NONE:
-                return null;
-            case LIGHT:
-            case MEDIUM:
-                //TODO sleep at safe place (at home, under roof)
-            case HEAVY:
-                //TODO sleep at any place
-            case DEADLY:
-                //TODO sleep immediately
-            {
+                break;
+            case COMFORT:
+            case HEALTH_NEEDS: // eat prepared items and raw vegetables
+            case SAFETY: // eat raw items
+            case LIFE: // eat spoiled items
                 if (item.tags.contains(TagEnum.SPOILED) || item.tags.contains(TagEnum.RAW)) return null;
                 Action eatAction = new EatAction(item);
-                return new Task("eat", TaskTypesEnum.OTHER, eatAction, countPriority(entity).VALUE);
-            }
+                return new Task("eat", TaskTypesEnum.OTHER, eatAction, priority.VALUE);
         }
         return null;
     }
@@ -78,10 +56,6 @@ public class FoodNeed extends Need {
 
     private int getHungerLevel(HealthAspect aspect) {
         float relativeHunger = aspect.parameters.get(HealthParameterEnum.HUNGER).getRelativeValue();
-        if (relativeHunger < 50) return NONE;
-        if (relativeHunger < 60) return LIGHT;
-        if (relativeHunger < 70) return MEDIUM;
-        if (relativeHunger < 90) return HEAVY;
-        return DEADLY;
+        return HealthParameterEnum.HUNGER.PARAMETER.getRangeIndex(relativeHunger);
     }
 }
