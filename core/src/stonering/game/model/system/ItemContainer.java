@@ -22,25 +22,21 @@ import java.util.stream.Collectors;
  * @author Alexander Kuzyakov on 14.06.2017.
  */
 public class ItemContainer extends EntityContainer<Item> {
-    private Map<Position, ArrayList<Item>> itemMap;      // maps tiles position to list of item it that position.
-    private Map<Item, Entity> containedMap; // maps contained items to containers they are in.
+    public final Map<Position, ArrayList<Item>> itemMap;      // maps tiles position to list of item it that position.
+    public final Map<Item, Position> itemPositions;
+    public final Map<Item, Entity> itemContainers; // maps contained items to containers they are in.
 
     public ItemContainer() {
         super();
         itemMap = new HashMap<>();
-        containedMap = new HashMap<>();
+        itemPositions = new HashMap<>();
+        itemContainers = new HashMap<>();
     }
 
-    /**
-     * Turns all item for rust, burn, spoil, etc.
-     */
     public void turn() {
         entities.forEach(Entity::turn);
     }
 
-    /**
-     * Adds item to the global list, and puts to position. Should be used for dropping new items.
-     */
     public void addItem(Item item) {
         entities.add(item);
         item.init();
@@ -114,6 +110,7 @@ public class ItemContainer extends EntityContainer<Item> {
     }
 
     public boolean hasItemsAvailableBySelector(ItemSelector itemSelector, Position position) {
+        return entities.stream()
         return true; //TODO implement item lookup with areas
     }
 
@@ -127,9 +124,7 @@ public class ItemContainer extends EntityContainer<Item> {
 
     public List<Item> getItemsAvailableBySelector(ItemSelector itemSelector, Position position) {
         List<Item> items = itemSelector.selectItems(entities);
-        items = filterUnreachable(items, position);
-        if (items == null) Logger.ITEMS.logError("NULL returned instead of empty list");
-        return items;
+        return filterUnreachable(items, position);
     }
 
     public List<Item> getNearestItems(List<Item> items, Position target, int number) {
@@ -139,10 +134,6 @@ public class ItemContainer extends EntityContainer<Item> {
             return items.subList(0, number > items.size() ? items.size() : number);
         }
         return result;
-    }
-
-    public Item getNearestItem(List<Item> items, Position target) {
-        return getNearestItems(items, target, 1).get(0); //TODO
     }
 
     /**
@@ -156,16 +147,9 @@ public class ItemContainer extends EntityContainer<Item> {
 
     public Item getNearestItemWithTag(Position position, TagEnum tag) {
         List<Item> list = entities.stream().filter(item -> item.tags.contains(tag)).collect(Collectors.toList());
-        return getNearestItem(filterUnreachable(list, position), position);
+        return getNearestItems(filterUnreachable(list, position), position, 1).get(0);
     }
 
-    public List<Item> getItemsByType() {
-        return null;
-    }
-
-    /**
-     * Checks that given item exist on map.
-     */
     public boolean checkItemList(Collection<Item> items) {
         return items.containsAll(items);
     }

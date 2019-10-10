@@ -79,7 +79,7 @@ public class CraftItemAction extends Action {
      * @return true, if item exist or found.
      */
     private boolean updateDesiredItems() {
-        if (desiredItems.isEmpty() || !GameMvc.instance().getModel().get(ItemContainer.class).checkItemList(desiredItems)) { // items are not yet searched on map, or was 000000removed from map
+        if (desiredItems.isEmpty() || !GameMvc.instance().getModel().get(ItemContainer.class).checkItemList(desiredItems)) { // items are not yet searched on map, or was removed from map
             return findDesiredItems();
         }
         return true;
