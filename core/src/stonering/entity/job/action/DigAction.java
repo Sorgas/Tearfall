@@ -10,7 +10,7 @@ import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.designations.DesignationTypeEnum;
 import stonering.game.GameMvc;
-import stonering.game.model.system.ItemContainer;
+import stonering.game.model.system.items.ItemContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.generators.items.DiggingProductGenerator;
 import stonering.util.geometry.Position;
@@ -118,7 +118,7 @@ public class DigAction extends Action {
         DiggingProductGenerator generator = new DiggingProductGenerator();
         if (!generator.productRequired(material)) return;
         Item item = generator.generateDigProduct(material, actionTarget.getPosition());
-        GameMvc.instance().getModel().get(ItemContainer.class).addItem(item);
+        GameMvc.instance().getModel().get(ItemContainer.class).addAndPut(item);
     }
 
     private void updateAndRevealMap(Position position, BlockTypesEnum type) {

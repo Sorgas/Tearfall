@@ -8,10 +8,9 @@ import stonering.entity.plants.AbstractPlant;
 import stonering.entity.plants.PlantBlock;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.game.GameMvc;
-import stonering.game.model.system.ItemContainer;
+import stonering.game.model.system.items.ItemContainer;
 import stonering.game.model.system.PlantContainer;
 import stonering.generators.items.PlantProductGenerator;
-import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
 
 public class PlantHarvestAction extends Action {
@@ -44,9 +43,8 @@ public class PlantHarvestAction extends Action {
     @Override
     public void performLogic() {
         Logger.PLANTS.logDebug("harvesting plant");
-        Position position = actionTarget.getPosition();
-        PlantBlock block = GameMvc.instance().getModel().get(PlantContainer.class).getPlantBlock(position);
+        PlantBlock block = GameMvc.instance().getModel().get(PlantContainer.class).getPlantBlock(actionTarget.getPosition());
         Item item = new PlantProductGenerator().generateHarvestProduct(block);
-        GameMvc.instance().getModel().get(ItemContainer.class).addItem(item);
+        GameMvc.instance().getModel().get(ItemContainer.class).addAndPut(item);
     }
 }

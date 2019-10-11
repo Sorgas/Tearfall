@@ -3,8 +3,8 @@ package stonering.test_chamber.model;
 import stonering.entity.building.Building;
 import stonering.entity.unit.Unit;
 import stonering.game.model.EntitySelector;
-import stonering.game.model.system.*;
 import stonering.game.model.system.building.BuildingContainer;
+import stonering.game.model.system.items.ItemContainer;
 import stonering.game.model.system.units.UnitContainer;
 import stonering.generators.buildings.BuildingGenerator;
 import stonering.generators.creatures.CreatureGenerator;
@@ -36,9 +36,9 @@ public class WorkbenchModel extends TestModel {
     }
 
     private void createItems() {
-        get(ItemContainer.class).addItem(new ItemGenerator().generateItem("meat_piece", "meat", new Position(0,0,2)));
-        get(ItemContainer.class).addItem(new ItemGenerator().generateItem("log", "wood", new Position(1,0,2)));
-        get(ItemContainer.class).addItem(new ItemGenerator().generateItem("log", "wood", new Position(2,0,2)));
+        get(ItemContainer.class).addAndPut(new ItemGenerator().generateItem("meat_piece", "meat", new Position(0, 0, 2)));
+        get(ItemContainer.class).addAndPut(new ItemGenerator().generateItem("log", "wood", new Position(1, 0, 2)));
+        get(ItemContainer.class).addAndPut(new ItemGenerator().generateItem("log", "wood", new Position(2, 0, 2)));
     }
 
     @Override

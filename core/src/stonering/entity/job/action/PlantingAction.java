@@ -9,7 +9,7 @@ import stonering.entity.plants.Plant;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.exceptions.DescriptionNotFoundException;
 import stonering.game.GameMvc;
-import stonering.game.model.system.ItemContainer;
+import stonering.game.model.system.items.ItemContainer;
 import stonering.game.model.system.PlantContainer;
 import stonering.generators.plants.PlantGenerator;
 import stonering.util.global.Logger;

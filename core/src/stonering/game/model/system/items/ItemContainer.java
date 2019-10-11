@@ -1,11 +1,15 @@
-package stonering.game.model.system;
+package stonering.game.model.system.items;
 
 import stonering.entity.Entity;
 import stonering.entity.crafting.BuildingComponent;
+import stonering.entity.item.aspects.ItemContainerAspect;
+import stonering.entity.job.action.Action;
+import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.enums.items.TagEnum;
 import stonering.enums.items.recipe.Ingredient;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
+import stonering.game.model.system.EntityContainer;
 import stonering.util.geometry.Position;
 import stonering.entity.item.Item;
 import stonering.entity.item.selectors.ItemSelector;
@@ -13,40 +17,47 @@ import stonering.util.global.Logger;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
- * Manages all item on map.
+ * Manages all item in game, including ones in containers, and equipped on units.
+ * Items can lay on map tiles, be stored in containers, or equipped by units. There are three separate maps for storing items (for pathfinding).
+ * Items have positions, when they are on map. When items are equipped or in containers, their position is null.
+ * There are methods for moving items in and out of these maps. Other logic should be made by {@link Action}s or systems.
  * //TODO move large methods to some util class
- * //TODO add tracking of equipped item.
  *
  * @author Alexander Kuzyakov on 14.06.2017.
  */
 public class ItemContainer extends EntityContainer<Item> {
-    public final Map<Position, ArrayList<Item>> itemMap;      // maps tiles position to list of item it that position.
-    public final Map<Item, Position> itemPositions;
-    public final Map<Item, Entity> itemContainers; // maps contained items to containers they are in.
-
-    public ItemContainer() {
-        super();
-        itemMap = new HashMap<>();
-        itemPositions = new HashMap<>();
-        itemContainers = new HashMap<>();
-    }
+    public final Map<Position, ArrayList<Item>> itemMap = new HashMap<>(); // maps tiles position to list of item it that position.
+    public final Map<Item, ItemContainerAspect> contained = new HashMap<>(); // maps contained items to containers they are in.
+    public final Map<Item, EquipmentAspect> equipped = new HashMap<>(); // maps eqiopped and hauled items to units.
 
     public void turn() {
+        //TODO system for updating equipment
+        //TODO system for updating ocntainers
         entities.forEach(Entity::turn);
+        //TODO rewrite items aspects to systems
     }
 
     public void addItem(Item item) {
         entities.add(item);
         item.init();
+    }
+
+    /**
+     * Registers item in container and puts on map by its position.
+     */
+    public void addAndPut(Item item) {
+        if(item.position == null) Logger.ITEMS.logWarn("Putting item " + item + " with null position.");
+        addItem(item);
         putItem(item, item.position);
     }
 
     public void removeItem(Item item) {
         if (!entities.contains(item)) Logger.ITEMS.logWarn("Removing not present item " + item.getName());
         entities.remove(item);
-        itemMap.get(item.position).remove(item);
+        pickItem(item);
     }
 
     public void removeItems(List<Item> items) {
@@ -56,28 +67,6 @@ public class ItemContainer extends EntityContainer<Item> {
     public void moveItem(Item item, Position position) {
         pickItem(item);
         putItem(item, position);
-    }
-
-    public void pickItem(Item item) {
-        ArrayList<Item> list = itemMap.get(item.position);
-        list.remove(item);
-        if (list.isEmpty()) {
-            itemMap.remove(item.position);
-        }
-        item.position = null;
-    }
-
-    /**
-     * Puts item to tile on map. should be used for dropping existent items.
-     */
-    public void putItem(Item item, Position pos) {
-        item.position = pos;
-        ArrayList<Item> list = itemMap.get(pos);
-        if (list == null) {
-            itemMap.put(pos, new ArrayList<>(Arrays.asList(item)));
-        } else {
-            list.add(item);
-        }
     }
 
     public List<Item> getItemsInPosition(int x, int y, int z) {
@@ -110,7 +99,6 @@ public class ItemContainer extends EntityContainer<Item> {
     }
 
     public boolean hasItemsAvailableBySelector(ItemSelector itemSelector, Position position) {
-        return entities.stream()
         return true; //TODO implement item lookup with areas
     }
 
@@ -150,11 +138,42 @@ public class ItemContainer extends EntityContainer<Item> {
         return getNearestItems(filterUnreachable(list, position), position, 1).get(0);
     }
 
-    public boolean checkItemList(Collection<Item> items) {
-        return items.containsAll(items);
+    public Stream<Item>
+
+//collection management methods
+
+    public void pickItem(Item item) {
+        ArrayList<Item> list = itemMap.get(item.position);
+        if (!list.remove(item)) {
+            Logger.ITEMS.logWarn("Items inconsistency: item " + item + " is not on the map in position " + item.position);
+        }
+        if (list.isEmpty()) itemMap.remove(item.position); // last item on the tile
+        item.position = null;
     }
 
-    public boolean checkItem(Item item) {
-        return entities.contains(item);
+    public void putItem(Item item, Position pos) {
+        item.position = pos;
+        itemMap.putIfAbsent(pos, new ArrayList<>()).add(item);
+    }
+
+    public void itemAddedToContainer(Item item, ItemContainerAspect aspect) {
+        item.position = null;
+        aspect.items.add(item);
+        contained.put(item, aspect);
+    }
+
+    public void itemRemovedFromContainer(Item item, ItemContainerAspect aspect) {
+        if (contained.remove(item) == null)
+            Logger.ITEMS.logWarn("Items inconsistency: item " + item + " is not registered in ItemContainer as contained");
+    }
+
+    public void itemEquipped(Item item, EquipmentAspect aspect) {
+        item.position = null;
+        equipped.put(item, aspect);
+    }
+
+    public void itemUnequipped(Item item) {
+        if (equipped.remove(item) == null)
+            Logger.ITEMS.logWarn("Items inconsistency: item " + item + " is not registered in ItemContainer as equipped");
     }
 }

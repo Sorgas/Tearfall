@@ -5,7 +5,7 @@ import stonering.entity.plants.AbstractPlant;
 import stonering.entity.plants.Tree;
 import stonering.entity.unit.Unit;
 import stonering.exceptions.DescriptionNotFoundException;
-import stonering.game.model.system.ItemContainer;
+import stonering.game.model.system.items.ItemContainer;
 import stonering.game.model.system.PlantContainer;
 import stonering.game.model.system.units.UnitContainer;
 import stonering.generators.creatures.CreatureGenerator;
@@ -25,7 +25,7 @@ public class SingleTreeModel extends TestModel {
     public void init() {
         super.init();
         get(UnitContainer.class).addUnit(createUnit());
-        get(ItemContainer.class).addItem(createItem());
+        get(ItemContainer.class).addAndPut(createItem());
         calendar.minute.setSize(1);
         calendar.hour.setSize(1);
         calendar.day.setSize(4);

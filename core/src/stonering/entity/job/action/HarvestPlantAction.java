@@ -8,7 +8,7 @@ import stonering.entity.plants.Plant;
 import stonering.entity.plants.PlantBlock;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.game.GameMvc;
-import stonering.game.model.system.ItemContainer;
+import stonering.game.model.system.items.ItemContainer;
 import stonering.generators.items.PlantProductGenerator;
 import stonering.util.global.Logger;
 
@@ -38,7 +38,7 @@ public class HarvestPlantAction extends Action {
     public void performLogic() {
         PlantBlock plantBlock = ((Plant) ((PlantActionTarget) actionTarget).getPlant()).getBlock();
         Item item = new PlantProductGenerator().generateHarvestProduct(plantBlock);
-        GameMvc.instance().getModel().get(ItemContainer.class).addItem(item);
+        GameMvc.instance().getModel().get(ItemContainer.class).addAndPut(item);
         Logger.TASKS.logDebug("harvesting plant finished at " + actionTarget.getPosition() + " by " + task.getPerformer());
     }
 

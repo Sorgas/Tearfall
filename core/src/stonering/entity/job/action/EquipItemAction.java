@@ -6,7 +6,7 @@ import stonering.entity.item.Item;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.entity.unit.aspects.equipment.EquipmentSlot;
 import stonering.game.GameMvc;
-import stonering.game.model.system.ItemContainer;
+import stonering.game.model.system.items.ItemContainer;
 import stonering.util.global.Logger;
 
 /**
@@ -24,9 +24,10 @@ public class EquipItemAction extends Action {
 
     @Override
     protected void performLogic() {
-        //TODO manage equipped item in item container
-        if ((task.getPerformer().getAspect(EquipmentAspect.class)).equipItem(item))
-            GameMvc.instance().getModel().get(ItemContainer.class).pickItem(item);
+        ItemContainer container = GameMvc.instance().getModel().get(ItemContainer.class);
+        if (!(task.getPerformer().getAspect(EquipmentAspect.class)).equipItem(item)) return; // equipping failed
+        container.equipped.put(item, task.getPerformer());
+        container.pickItem(item);
     }
 
     @Override

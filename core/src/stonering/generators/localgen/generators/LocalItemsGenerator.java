@@ -1,6 +1,6 @@
 package stonering.generators.localgen.generators;
 
-import stonering.game.model.system.ItemContainer;
+import stonering.game.model.system.items.ItemContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.generators.items.ItemGenerator;
 import stonering.generators.localgen.LocalGenContainer;
@@ -43,7 +43,7 @@ public class LocalItemsGenerator extends LocalAbstractGenerator {
         Position position = new Position(localMap.xSize / 2 + xOffset, localMap.ySize / 2 + yOffset, 0);
         position.z = findSurfaceZ(position.x, position.y);
         Item item = itemGenerator.generateItem(itemType, material, position);
-        container.model.get(ItemContainer.class).addItem(item);
+        container.model.get(ItemContainer.class).addAndPut(item);
     }
 
     private int findSurfaceZ(int x, int y) {

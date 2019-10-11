@@ -1,10 +1,9 @@
 package stonering.widget.lists;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import stonering.entity.crafting.BuildingComponent;
 import stonering.game.GameMvc;
 import stonering.game.controller.controllers.toolbar.DesignationsController;
-import stonering.game.model.system.ItemContainer;
+import stonering.game.model.system.items.ItemContainer;
 import stonering.widget.Hideable;
 import stonering.entity.item.Item;
 import stonering.util.geometry.Position;

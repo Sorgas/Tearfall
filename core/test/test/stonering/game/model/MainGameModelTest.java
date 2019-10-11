@@ -2,7 +2,7 @@ package test.stonering.game.model;
 
 import org.junit.jupiter.api.Test;
 import stonering.game.model.MainGameModel;
-import stonering.game.model.system.ItemContainer;
+import stonering.game.model.system.items.ItemContainer;
 
 import static org.mockito.Mockito.*;
 

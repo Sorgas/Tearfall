@@ -18,11 +18,6 @@ public class AttributeBuff extends Buff {
         this.attribute = attribute;
     }
 
-    public AttributeBuff(AttributeBuff buff) {
-        super(buff);
-        attribute = buff.attribute;
-    }
-
     @Override
     public boolean apply(Unit unit) {
         return updateAttribute(unit, 1);
@@ -31,11 +26,6 @@ public class AttributeBuff extends Buff {
     @Override
     public boolean unapply(Unit unit) {
         return updateAttribute(unit, -1);
-    }
-
-    @Override
-    public Buff copy() {
-        return new AttributeBuff(this);
     }
 
     private boolean updateAttribute(Unit unit, int multiplier) {

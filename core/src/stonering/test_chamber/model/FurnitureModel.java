@@ -3,7 +3,7 @@ package stonering.test_chamber.model;
 import stonering.entity.item.Item;
 import stonering.entity.unit.Unit;
 import stonering.game.model.EntitySelector;
-import stonering.game.model.system.ItemContainer;
+import stonering.game.model.system.items.ItemContainer;
 import stonering.game.model.system.units.UnitContainer;
 import stonering.generators.creatures.CreatureGenerator;
 import stonering.generators.items.ItemGenerator;
@@ -21,7 +21,7 @@ public class FurnitureModel extends TestModel {
         super.init();
         get(EntitySelector.class).setPosition(MAP_SIZE / 2, MAP_SIZE / 2, 2);
         get(UnitContainer.class).addUnit(createUnit());
-        get(ItemContainer.class).addItem(createItem());
+        get(ItemContainer.class).addAndPut(createItem());
     }
 
     private Unit createUnit() {

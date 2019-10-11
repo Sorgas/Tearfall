@@ -11,10 +11,9 @@ import stonering.entity.item.Item;
 import stonering.entity.item.aspects.ItemContainerAspect;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.GameMvc;
-import stonering.game.model.system.ItemContainer;
+import stonering.game.model.system.items.ItemContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.generators.items.ItemGenerator;
-import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
 
 import java.util.ArrayList;
@@ -22,7 +21,7 @@ import java.util.List;
 
 /**
  * Action for crafting item by item order on workbench. Items for crafting will be brought to WB.
- * WB should have {@link WorkbenchAspect} and {@link ItemContainerAspect}
+ * WB should have {@link WorkbenchAspect} and {@link ItemContainerAspect}.
  *
  * @author Alexander on 06.01.2019.
  */
@@ -39,13 +38,28 @@ public class CraftItemAction extends Action {
         this.workbench = workbench;
     }
 
+    /**
+     * Creates item, consumes ingredients.
+     * Puts item into workbench, if it has {@link ItemContainerAspect}, or on the ground near.
+     */
     @Override
     protected void performLogic() {
-        Position targetPosition = GameMvc.instance().getModel().get(LocalMap.class).getAnyNeighbourPosition(workbench.position, BlockTypesEnum.PASSABLE);
-        Item product = new ItemGenerator().generateItemByOrder(targetPosition, itemOrder);
         ItemContainerAspect workbenchContainer = workbench.getAspect(ItemContainerAspect.class);
-        workbenchContainer.items.removeAll(desiredItems); // spend components
-        GameMvc.instance().getModel().get(ItemContainer.class).addItem(product);
+        ItemContainer container = GameMvc.instance().getModel().get(ItemContainer.class);
+        Item product = new ItemGenerator().generateItemByOrder(null, itemOrder);
+        if (workbenchContainer != null) {
+            workbenchContainer.items.removeAll(desiredItems); // spend components
+            container.addItem(product);
+            workbenchContainer.items.add(product); // put product into wb
+            container.itemAddedToContainer(product, workbenchContainer);
+        } else {
+            //TODO
+            workbenchContainer.items.removeAll(desiredItems); // spend components
+            container.removeItems(desiredItems);
+
+            product.position = GameMvc.instance().getModel().get(LocalMap.class).getAnyNeighbourPosition(workbench.position, BlockTypesEnum.PASSABLE);
+            container.addAndPut(product);
+        }
     }
 
     /**
@@ -66,7 +80,7 @@ public class CraftItemAction extends Action {
             task.addFirstPreAction(new PutItemAction(outOfWBItems.get(0), workbench)); // create action to bring item
             return NEW;
         }
-        if(workbench.hasAspect(FuelConsumerAspect.class) && !workbench.getAspect(FuelConsumerAspect.class).isFueled()) { // workbench requires fuel
+        if (workbench.hasAspect(FuelConsumerAspect.class) && !workbench.getAspect(FuelConsumerAspect.class).isFueled()) { // workbench requires fuel
             task.addFirstPreAction(new FuelingAciton(workbench));
             return NEW;
         }
@@ -79,7 +93,7 @@ public class CraftItemAction extends Action {
      * @return true, if item exist or found.
      */
     private boolean updateDesiredItems() {
-        if (desiredItems.isEmpty() || !GameMvc.instance().getModel().get(ItemContainer.class).checkItemList(desiredItems)) { // items are not yet searched on map, or was removed from map
+        if (desiredItems.isEmpty() || !GameMvc.instance().getModel().get(ItemContainer.class).checkItemsForCrafting(desiredItems)) { // items are not yet searched on map, or was removed from map
             return findDesiredItems();
         }
         return true;
@@ -103,6 +117,13 @@ public class CraftItemAction extends Action {
             desiredItems.addAll(container.getNearestItems(foundItems, task.getPerformer().position, 1)); // add nearest items to order
         }
         return true;
+    }
+
+    private boolean checkItemsAvailability(List<Item> items) {
+        ItemContainer container = GameMvc.instance().getModel().get(ItemContainer.class);
+        for (Item item : items) {
+            container.
+        }
     }
 
     @Override

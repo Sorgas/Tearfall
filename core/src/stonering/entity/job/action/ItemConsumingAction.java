@@ -4,7 +4,7 @@ import stonering.entity.item.Item;
 import stonering.entity.item.selectors.ItemSelector;
 import stonering.entity.job.action.target.ActionTarget;
 import stonering.game.GameMvc;
-import stonering.game.model.system.ItemContainer;
+import stonering.game.model.system.items.ItemContainer;
 
 import java.util.ArrayList;
 import java.util.List;

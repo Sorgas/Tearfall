@@ -3,13 +3,12 @@ package stonering.entity.unit.aspects.needs;
 import stonering.entity.Entity;
 import stonering.entity.item.Item;
 import stonering.entity.job.Task;
-import stonering.entity.job.action.Action;
 import stonering.entity.unit.aspects.health.HealthAspect;
 import stonering.enums.TaskPrioritiesEnum;
 import stonering.enums.items.TagEnum;
 import stonering.enums.unit.health.HealthParameterEnum;
 import stonering.game.GameMvc;
-import stonering.game.model.system.ItemContainer;
+import stonering.game.model.system.items.ItemContainer;
 
 /**
  * @author Alexander on 08.10.2019.

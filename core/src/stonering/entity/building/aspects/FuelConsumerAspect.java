@@ -6,7 +6,7 @@ import stonering.entity.item.Item;
 import stonering.entity.item.aspects.FuelAspect;
 import stonering.enums.time.TimeUnitEnum;
 import stonering.game.GameMvc;
-import stonering.game.model.system.ItemContainer;
+import stonering.game.model.system.items.ItemContainer;
 
 /**
  * Buildings with this aspect can be loaded with fuel item, to make them operational.

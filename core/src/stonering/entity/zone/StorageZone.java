@@ -9,7 +9,7 @@ import stonering.entity.job.action.TaskTypesEnum;
 import stonering.enums.ZoneTypesEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
-import stonering.game.model.system.ItemContainer;
+import stonering.game.model.system.items.ItemContainer;
 import stonering.game.model.system.ZonesContainer;
 import stonering.game.model.system.tasks.TaskContainer;
 import stonering.util.geometry.Position;

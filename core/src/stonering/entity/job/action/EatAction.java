@@ -8,8 +8,6 @@ import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.entity.unit.aspects.health.HealthAspect;
 import stonering.entity.unit.aspects.needs.FoodNeed;
 import stonering.enums.items.TagEnum;
-import stonering.game.GameMvc;
-import stonering.game.model.system.ItemContainer;
 
 /**
  * Action for consuming edible items and satisfying {@link FoodNeed}.
