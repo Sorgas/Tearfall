@@ -26,6 +26,7 @@ public class MaterialSelectList extends ItemsCountList implements Hideable {
     public boolean active = true; // prevents clicking when no items found
 
     public MaterialSelectList() {
+        super();
         createHighlightHandler();
     }
 
@@ -33,7 +34,7 @@ public class MaterialSelectList extends ItemsCountList implements Hideable {
      * Fills this list for given crafting or building step.
      */
     public void fillForCraftingStep(BuildingComponent step, Position position) {
-        clear();
+        clearChildren();
         List<Item> items = GameMvc.instance().getModel().get(ItemContainer.class).getAvailableMaterialsForBuildingStep(step, position);
         if (items.isEmpty()) { // items not found
             addActor(new Label("No item available.", StaticSkin.getSkin()));

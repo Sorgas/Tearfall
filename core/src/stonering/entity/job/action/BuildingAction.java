@@ -1,9 +1,7 @@
 package stonering.entity.job.action;
 
-import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.job.action.target.GenericBuildingAction;
 import stonering.entity.job.designation.BuildingDesignation;
-import stonering.entity.job.action.target.PositionActionTarget;
 import stonering.entity.building.Building;
 import stonering.entity.building.BuildingType;
 import stonering.entity.item.Item;
@@ -26,8 +24,7 @@ public class BuildingAction extends GenericBuildingAction {
 
     public BuildingAction(BuildingDesignation designation, Collection<ItemSelector> itemSelectors) {
         super(designation, itemSelectors);
-        buildingType = BuildingTypeMap.getInstance().getBuilding(designation.getBuilding());
-        actionTarget.setAction(this);
+        buildingType = BuildingTypeMap.instance().getBuilding(designation.getBuilding());
     }
 
     @Override

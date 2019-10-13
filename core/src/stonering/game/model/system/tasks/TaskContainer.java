@@ -1,5 +1,8 @@
 package stonering.game.model.system.tasks;
 
+import stonering.entity.building.BuildingType;
+import stonering.entity.job.action.target.ActionTarget;
+import stonering.entity.job.action.target.PositionActionTarget;
 import stonering.entity.job.designation.BuildingDesignation;
 import stonering.entity.job.designation.Designation;
 import stonering.entity.job.designation.OrderDesignation;
@@ -7,6 +10,7 @@ import stonering.entity.job.action.*;
 import stonering.entity.building.BuildingOrder;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.JobsAspect;
+import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.buildings.BuildingTypeMap;
 import stonering.enums.designations.DesignationTypeEnum;
 import stonering.enums.designations.PlaceValidatorsEnum;
@@ -23,7 +27,10 @@ import stonering.util.global.Logger;
 
 import java.util.*;
 
+import static stonering.entity.job.action.target.ActionTarget.ANY;
+import static stonering.entity.job.action.target.ActionTarget.NEAR;
 import static stonering.enums.TaskStatusEnum.OPEN;
+import static stonering.enums.blocks.BlockTypesEnum.NOT_PASSABLE;
 
 /**
  * Contains all tasks for settlers on map and Designations for rendering.
@@ -146,7 +153,8 @@ public class TaskContainer implements ModelComponent {
      */
     private Task createBuildingTask(BuildingDesignation designation, Collection<ItemSelector> itemSelectors, int priority) {
         Action action;
-        if (BuildingTypeMap.getInstance().getBuilding(designation.getBuilding()).construction) {
+        if (BuildingTypeMap.instance().getBuilding(designation.getBuilding()).construction) {
+
             action = new ConstructionAction(designation, itemSelectors);
         } else {
             action = new BuildingAction(designation, itemSelectors);

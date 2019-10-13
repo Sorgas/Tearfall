@@ -97,10 +97,6 @@ public class ItemContainer extends EntityContainer<Item> {
         return GameMvc.instance().getModel().get(LocalMap.class).getPassage().filterEntitiesByReachability(items, target);
     }
 
-    public boolean hasItemsAvailableBySelector(ItemSelector itemSelector, Position position) {
-        return true; //TODO implement item lookup with areas
-    }
-
     public Item getItemAvailableBySelector(ItemSelector itemSelector, Position position) {
         //TODO implement ordering by distance
         List<Item> items = itemSelector.selectItems(entities);

@@ -32,7 +32,7 @@ public class BuildingTypeMap {
         loadLists();
     }
 
-    public static BuildingTypeMap getInstance() {
+    public static BuildingTypeMap instance() {
         if (instance == null)
             instance = new BuildingTypeMap();
         return instance;

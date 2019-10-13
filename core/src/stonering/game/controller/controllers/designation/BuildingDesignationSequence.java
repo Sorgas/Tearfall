@@ -38,13 +38,11 @@ public class BuildingDesignationSequence extends DesignationSequence {
     private void createPlaceSelectComponent() {
         Logger.UI.logDebug("Creating placeSelectComponent for " + order.getBlueprint().building);
         placeSelectComponent = new PlaceSelectComponent(event -> {
-            order.setPosition(placeSelectComponent.getPosition());
+            order.setPosition(placeSelectComponent.position);
             showNextList();
             return true;
         });
         placeSelectComponent.setPositionValidator(PlaceValidatorsEnum.getValidator(order.getBlueprint().placing));
-        placeSelectComponent.defaultText = "Select place for " + order.getBlueprint().building;
-        placeSelectComponent.warningText = "Wrong place for " + order.getBlueprint().building;
     }
 
     /**
@@ -87,10 +85,11 @@ public class BuildingDesignationSequence extends DesignationSequence {
     }
 
     /**
-     * Resets this component to place selection. Used for designation multiple buildings.
+     * Resets this component to place selection. Used to designate multiple buildings.
      */
     @Override
     public void reset() {
+        Logger.UI.logDebug("Resetting BuildingDesignationSequence");
         order.getItemSelectors().clear();
         placeSelectComponent.hide(); // hides all select lists
         placeSelectComponent.show();
@@ -98,11 +97,13 @@ public class BuildingDesignationSequence extends DesignationSequence {
 
     @Override
     public void start() {
+        Logger.UI.logDebug("Starting BuildingDesignationSequence");
         placeSelectComponent.show();
     }
 
     @Override
     public void end() {
+        Logger.UI.logDebug("Ending BuildingDesignationSequence");
         placeSelectComponent.hide();
     }
 

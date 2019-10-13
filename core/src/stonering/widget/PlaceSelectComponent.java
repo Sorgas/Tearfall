@@ -23,13 +23,10 @@ public class PlaceSelectComponent extends Actor implements Hideable {
     private EntitySelector selector; // points to position
     private EventListener eventListener; // fired on confirm
     private Toolbar toolbar;
-    private Position position;
-
-    public String defaultText;
-    public String warningText;
+    public Position position;
 
     public PlaceSelectComponent(EventListener eventListener) {
-        this.gameMvc = GameMvc.instance();
+        gameMvc = GameMvc.instance();
         this.eventListener = eventListener;
         selector = gameMvc.getModel().get(EntitySelector.class);
         toolbar = gameMvc.getView().mainUiStage.toolbar;
@@ -38,13 +35,11 @@ public class PlaceSelectComponent extends Actor implements Hideable {
 
     private void createDefaultListener() {
         addListener(new InputListener() {
-            //TODO !!! probably 1 event delay to EntitySelector here
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
-                boolean isValid = validatePosition(selector.getPosition());
                 switch (keycode) {
                     case Input.Keys.E:
-                        if (isValid) {
+                        if (validatePosition(selector.getPosition())) {
                             position = selector.getPosition().clone();
                             eventListener.handle(null);
                         }
@@ -66,9 +61,6 @@ public class PlaceSelectComponent extends Actor implements Hideable {
                 positionValidator.validate(gameMvc.getModel().get(LocalMap.class), position);
     }
 
-    /**
-     * Adds this to toolbar and sets position validator to selector.
-     */
     @Override
     public void show() {
         toolbar.addMenu(this);
@@ -79,15 +71,11 @@ public class PlaceSelectComponent extends Actor implements Hideable {
     @Override
     public void hide() {
         selector.setPositionValidator(null);
-        toolbar.hideMenu(this);
         selector.updateStatusAndSprite();
+        toolbar.hideMenu(this);
     }
 
     public void setPositionValidator(PositionValidator positionValidator) {
         this.positionValidator = positionValidator;
-    }
-
-    public Position getPosition() {
-        return position;
     }
 }

@@ -16,6 +16,10 @@ import java.util.List;
  */
 public abstract class ItemsCountList extends NavigableVerticalGroup {
 
+    public ItemsCountList() {
+        super();
+    }
+
     /**
      * Groups given item by title and stores them as ItemCards.
      */

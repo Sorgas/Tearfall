@@ -19,7 +19,7 @@ import java.util.List;
 public class BuildingGenerator {
 
     public Building generateBuilding(String name, Position position) {
-        BuildingType type = BuildingTypeMap.getInstance().getBuilding(name);
+        BuildingType type = BuildingTypeMap.instance().getBuilding(name);
         if (type == null) {
             Logger.BUILDING.logWarn("No building with name '" + name + "' found.");
             return null;
