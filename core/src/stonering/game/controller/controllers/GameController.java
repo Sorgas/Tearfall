@@ -31,24 +31,12 @@ public class GameController extends Controller {
         Gdx.input.setInputProcessor(inputMultiplexer);
     }
 
-    public DesignationsController getDesignationsController() {
-        return designationsController;
-    }
-
-
-    public InputMultiplexer getInputMultiplexer() {
-        return inputMultiplexer;
-    }
-
     public void setCameraEnabled(boolean value) {
         if(entitySelectorInputAdapter != null) {
+            Logger.UI.logDebug(value ? "Enabling" : "Disabling" + " EntitySelectorInputAdapter.");
             entitySelectorInputAdapter.setEnabled(value);
         } else {
             Logger.UI.logDebug("Changing EntitySelectorInputAdapter state before GameController init.");
         }
-    }
-
-    public PauseInputAdapter getPauseInputAdapter() {
-        return pauseInputAdapter;
     }
 }

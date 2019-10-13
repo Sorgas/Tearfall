@@ -23,8 +23,8 @@ public class NavigableVerticalGroup extends VerticalGroup implements Highlightab
     public final Map<Integer, ControlActionsEnum> keyMapping; // additional keys to actions mapping.
     private EventListener selectListener;
     private EventListener cancelListener;
-    private HighlightHandler highlightHandler;
-    private int selectedIndex = -1;
+    protected HighlightHandler highlightHandler;
+    protected int selectedIndex = -1;
 
     public NavigableVerticalGroup() {
         super();

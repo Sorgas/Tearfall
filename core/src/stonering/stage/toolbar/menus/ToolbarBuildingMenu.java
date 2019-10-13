@@ -23,7 +23,7 @@ public class ToolbarBuildingMenu extends ToolbarSubMenuMenu {
             addItem(blueprint.title, new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    GameMvc.instance().getController().getDesignationsController().setSequence(new BuildingDesignationSequence(blueprint));
+                    GameMvc.instance().getController().designationsController.setSequence(new BuildingDesignationSequence(blueprint));
                 }
             }, blueprint.menuPath);
         }

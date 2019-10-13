@@ -30,7 +30,7 @@ public class ZonesMenu extends ToolbarSubMenuMenu {
             addItem(type.toString(), new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    DesignationsController designationsController = GameMvc.instance().getController().getDesignationsController();
+                    DesignationsController designationsController = GameMvc.instance().getController().designationsController;
                     designationsController.setSequence(new ZoneDesignationSequence(type));
                     designationsController.startSequence();
                 }
@@ -39,7 +39,7 @@ public class ZonesMenu extends ToolbarSubMenuMenu {
         addItem("Update zone", new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                DesignationsController designationsController = GameMvc.instance().getController().getDesignationsController();
+                DesignationsController designationsController = GameMvc.instance().getController().designationsController;
                 designationsController.setSequence(new ZoneDesignationSequence());
                 designationsController.startSequence();
             }

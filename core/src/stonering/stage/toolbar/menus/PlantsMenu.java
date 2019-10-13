@@ -42,7 +42,7 @@ public class PlantsMenu extends ToolbarSubMenuMenu {
             public void changed(ChangeEvent event, Actor actor) {
                 event.stop();
                 Logger.UI.logDebug("Toggling button " + text);
-                DesignationsController controller = GameMvc.instance().getController().getDesignationsController();
+                DesignationsController controller = GameMvc.instance().getController().designationsController;
                 controller.setSequence(new BoxDesignationSequence(designationType));
                 controller.startSequence();
             }
@@ -51,6 +51,6 @@ public class PlantsMenu extends ToolbarSubMenuMenu {
 
     @Override
     protected void onHide() {
-        GameMvc.instance().getController().getDesignationsController().handleCancel();
+        GameMvc.instance().getController().designationsController.handleCancel();
     }
 }

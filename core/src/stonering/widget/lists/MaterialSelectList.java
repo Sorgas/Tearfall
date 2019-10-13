@@ -1,5 +1,7 @@
 package stonering.widget.lists;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import stonering.entity.crafting.BuildingComponent;
 import stonering.game.GameMvc;
@@ -23,6 +25,10 @@ import java.util.List;
 public class MaterialSelectList extends ItemsCountList implements Hideable {
     public boolean active = true; // prevents clicking when no items found
 
+    public MaterialSelectList() {
+        createHighlightHandler();
+    }
+
     /**
      * Fills this list for given crafting or building step.
      */
@@ -37,6 +43,18 @@ public class MaterialSelectList extends ItemsCountList implements Hideable {
             setSelectedIndex(-1); //change event is not fired without this.
             setSelectedIndex(0);
         }
+    }
+
+    private void createHighlightHandler() {
+        highlightHandler = new HighlightHandler(this) {
+            @Override
+            public void handle(boolean value) {
+                for (Actor child : getChildren()) {
+                    child.setColor(Color.LIGHT_GRAY);
+                }
+                getSelectedElement().setColor(Color.RED);
+            }
+        };
     }
 
     @Override

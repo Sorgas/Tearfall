@@ -78,9 +78,11 @@ public class BuildingDesignationSequence extends DesignationSequence {
         for (BuildingComponent component : order.getBlueprint().mappedComponents.values()) {
             if(order.getItemSelectors().containsKey(component.name)) continue;  // skip already added component
             GameMvc.instance().getView().mainUiStage.toolbar.addMenu(createSelectListForStep(component));
+            GameMvc.instance().getController().setCameraEnabled(false);
             return;
         }
         GameMvc.instance().getModel().get(TaskContainer.class).submitBuildingDesignation(order, 1);
+        GameMvc.instance().getController().setCameraEnabled(true);
         reset();
     }
 

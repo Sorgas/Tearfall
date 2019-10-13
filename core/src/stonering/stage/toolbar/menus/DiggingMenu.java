@@ -33,7 +33,7 @@ public class DiggingMenu extends ToolbarSubMenuMenu {
         super.createButton(text, hotKey, new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                DesignationsController controller = GameMvc.instance().getController().getDesignationsController();
+                DesignationsController controller = GameMvc.instance().getController().designationsController;
                 controller.setSequence(new BoxDesignationSequence(type)); //no buildings here
                 controller.startSequence();
             }
@@ -42,6 +42,6 @@ public class DiggingMenu extends ToolbarSubMenuMenu {
 
     @Override
     protected void onHide() {
-        GameMvc.instance().getController().getDesignationsController().handleCancel();
+        GameMvc.instance().getController().designationsController.handleCancel();
     }
 }
