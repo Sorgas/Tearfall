@@ -104,6 +104,7 @@ public class ItemGenerator {
                 return null;
         }
     }
+
 //TODO non-MVP feature
 //    /**
 //     * Normal creation of item (order from workbench).
@@ -119,55 +120,6 @@ public class ItemGenerator {
 //            return item;
 //        } else {
 //            throw new InvalidCraftingOrder(order);
-
 //        }
-//    }
-//    /**
-//     * Creates item part to be added to item.
-//     *
-//     * @param itemType
-//     * @param partTitle
-//     * @param selector
-//     * @param resources
-//     * @return
-//     */
-//    private ItemPart createItemPart(ItemType itemType, String partTitle, ItemSelector selector, List<Item> resources) {
-//        List<Item> item = selector.selectItems(resources); // item to spend
-
-//        return new ItemPart(partTitle, item.get(0).getMainMaterial(), selectStep(itemType, partTitle).getVolume());
-
-//    }
-
-    /**
-     * Checks if all required steps from item type persist in the order.
-     */
-    private boolean validateOrder(ItemOrder order) {
-//        for (ItemPartType step : order.getType().getParts()) {
-//            if(!step.isOptional() && !order.getSelectors().containsKey(step.getTitle())) { // required step missed in order.
-//                return false;
-//            }
-//        }
-        return true;
-    }
-    //TODO add itemName everywhere
-//    /**
-//     * Generates item with default materials of parts.
-//     *
-//     * @param itemName
-//     * @param mainMaterial material of main item part. See parts in {@link ItemType} -1 if unspecified.
-//     * @return
-//     */
-//    public Item generateMockItem(String itemName, int mainMaterial) throws FaultDescriptionException {
-//        ItemType itemType = itemTypeMap.getItemType(itemName);
-//        Item item = new Item(null, itemType);
-//        for (ItemPartType step : itemType.getParts()) {
-//            item.getParts().put(step.getTitle(), createMockItemPart(step, itemName));
-//        }
-//        if(mainMaterial >= 0) {
-//            item.getMainPart_().setMaterial(mainMaterial);
-//        }
-
-//        return item;
-
 //    }
 }

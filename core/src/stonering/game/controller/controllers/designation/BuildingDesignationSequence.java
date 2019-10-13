@@ -57,7 +57,7 @@ public class BuildingDesignationSequence extends DesignationSequence {
             if (materialList.active && materialList.getSelectedIndex() >= 0) {
                 ItemCardButton selected = (ItemCardButton) materialList.getSelectedElement();
                 //TODO handle amount requirements more than 1
-                order.addItemSelectorForPart(step.name, selected.getSelector());
+                order.addItemSelectorForPart(step.name, selected.selector);
                 showNextList();
             }
             return true;

@@ -27,7 +27,6 @@ public class Item extends Entity {
     public String materialString;
     private ItemType type;
     public final List<TagEnum> tags;
-    private int weight; // cache for faster counting.
 
     //TODO commented as non-MVP feature
     //    private HashMap<String, ItemPart> parts;
@@ -39,8 +38,6 @@ public class Item extends Entity {
         this.name = type.name;
         this.title = type.title;
         tags = new ArrayList<>();
-//        this.mainPart = type.getParts().get(0).getTitle();
-//        parts = new HashMap<>();
     }
 
     public boolean isTool() {
@@ -60,13 +57,11 @@ public class Item extends Entity {
 
     @Override
     public String toString() {
-        return "name: " + title +
-                " position: " + position +
-                " weight: " + weight;
+        return "name: " + title + " position: " + position;
     }
 
     public String updateTitle() {
-        return title = origin != null ? origin + " " : "" +
+        return title = (origin != null ? origin + " " : "") +
                 materialString + " " +
                 type.title;
     }
@@ -75,14 +70,6 @@ public class Item extends Entity {
         this.material = material;
         materialString = MaterialMap.instance().getMaterial(material).getName();
         updateTitle();
-    }
-
-    public int getWeight() {
-        return weight;
-    }
-
-    public void setWeight(int weight) {
-        this.weight = weight;
     }
 
     public String getTitle() {

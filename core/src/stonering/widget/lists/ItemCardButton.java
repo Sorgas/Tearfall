@@ -18,8 +18,7 @@ import stonering.util.global.StaticSkin;
 public class ItemCardButton extends Button {
     private int number;
     private Label numberLabel;
-    private String itemType;
-    private String material;
+    public final ItemSelector selector;
 
     public ItemCardButton(Item item, int number) {
         super(StaticSkin.getSkin());
@@ -27,16 +26,11 @@ public class ItemCardButton extends Button {
         add(new Image(AtlasesEnum.items.getBlockTile(item.getType().atlasXY))).size(32,32);
         add(new Label(item.getTitle(), StaticSkin.getSkin())).size(200, 32);
         add(numberLabel = new Label(String.valueOf(number), StaticSkin.getSkin()));
-        itemType = item.getType().name;
-        material = item.materialString;
+        selector = new SimpleItemSelector(item.getType().name, item.getMaterial(), number);
     }
 
     public ItemCardButton increment() {
         numberLabel.setText(number++);
         return this;
-    }
-
-    public ItemSelector getSelector() {
-        return new SimpleItemSelector(itemType, material, number);
     }
 }

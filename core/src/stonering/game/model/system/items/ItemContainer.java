@@ -2,7 +2,7 @@ package stonering.game.model.system.items;
 
 import stonering.entity.Entity;
 import stonering.entity.crafting.BuildingComponent;
-import stonering.entity.crafting.ComponentVariant;
+import stonering.entity.crafting.BuildingComponentVariant;
 import stonering.entity.item.aspects.ItemContainerAspect;
 import stonering.entity.job.action.Action;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
@@ -18,7 +18,6 @@ import stonering.util.global.Logger;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Manages all item in game, including ones in containers, and equipped on units.
@@ -80,19 +79,6 @@ public class ItemContainer extends EntityContainer<Item> {
         return items;
     }
 
-    /**
-     * Gets all materials for all variants of crafting step. Used for filling materialSelectList.
-     */
-    public List<Item> getAvailableMaterialsForBuildingStep(BuildingComponent step, Position pos) {
-        List<Item> items = new ArrayList<>();
-        for (ComponentVariant variant : step.componentVariants) {
-            String itemType = variant.itemType;
-            TagEnum tag = TagEnum.get(variant.tag);
-            items.addAll(entities.stream().filter(item -> item.tags.contains(tag) && item.getType().name.equals(itemType)).collect(Collectors.toList()));
-        }
-        return filterUnreachable(items, pos);
-    }
-
     public List<Item> filterUnreachable(List<Item> items, Position target) {
         return GameMvc.instance().getModel().get(LocalMap.class).getPassage().filterEntitiesByReachability(items, target);
     }
@@ -120,10 +106,25 @@ public class ItemContainer extends EntityContainer<Item> {
     }
 
     /**
+     * Gets all materials for all variants of crafting step. Used for filling materialSelectList.
+     */
+    public List<Item> getAvailableMaterialsForBuildingStep(BuildingComponent step, Position pos) {
+        List<Item> items = new ArrayList<>();
+        for (BuildingComponentVariant variant : step.componentVariants) {
+            items.addAll(entities.stream()
+                    .filter(item -> item.tags.contains(TagEnum.get(variant.tag))) // has tag
+                    .filter(item -> item.getType().name.equals(variant.itemType)) // has type TODO add reachability filter
+                    .collect(Collectors.toList()));
+        }
+        return filterUnreachable(items, pos);
+    }
+
+    /**
      * Returns list of items from map, that can be used for given recipe.
      */
     public List<Item> getItemsForIngredient(Ingredient ingredient) {
-        return entities.stream().filter(item -> item.tags.contains(ingredient.tag)) // have tag
+        return entities.stream()
+                .filter(item -> item.tags.contains(ingredient.tag)) // have tag
                 .filter(item -> ingredient.itemTypes.contains(item.getType().name)) // appropriate item type
                 .collect(Collectors.toList());
     }

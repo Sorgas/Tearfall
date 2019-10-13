@@ -3,8 +3,6 @@ package stonering.entity.item.selectors;
 import stonering.enums.materials.MaterialMap;
 import stonering.entity.item.Item;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -14,25 +12,25 @@ import java.util.Objects;
  * @author Alexander Kuzyakov on 21.07.2018.
  */
 public class SimpleItemSelector extends ItemSelector {
-    private String title;         // item type name
-    private String material;      // material name
-    private int materialId;
+    public final String title;         // item type name
+    private int material;
     private int amount;
+    private String materialName;
 
-    public SimpleItemSelector(String title, String material, int amount) {
-        super();
+    public SimpleItemSelector(String title, int material, int amount) {
         this.title = title;
-        setMaterial(material);
+        this.material = material;
+        this.materialName = MaterialMap.instance().getMaterial(material).getName();
         this.amount = amount;
     }
 
     public boolean checkItem(Item item) {
-        return item.getTitle().equals(title) && item.getMaterial() == materialId;
+        return item.getTitle().equals(title) && item.getMaterial() == material;
     }
 
     @Override
     public String toString() {
-        return  material + " " + title + " " + (amount != 0 ? amount : "");
+        return  materialName + " " + title + " " + (amount != 0 ? amount : "");
     }
 
     @Override
@@ -42,29 +40,12 @@ public class SimpleItemSelector extends ItemSelector {
         SimpleItemSelector that = (SimpleItemSelector) o;
         return amount == that.amount &&
                 title.equals(that.title) &&
-                material.equals(that.material);
+                materialName.equals(that.materialName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, material, amount);
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getMaterial() {
-        return material;
-    }
-
-    public void setMaterial(String material) {
-        this.material = material;
-        materialId = MaterialMap.instance().getId(material);
+        return Objects.hash(title, materialName, amount);
     }
 
     public int getAmount() {

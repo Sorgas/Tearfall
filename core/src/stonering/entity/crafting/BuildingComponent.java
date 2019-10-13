@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class BuildingComponent {
     public String name;
     public ArrayList<ArrayList<String>> variants; // loaded from json
-    public ArrayList<ComponentVariant> componentVariants;
+    public ArrayList<BuildingComponentVariant> componentVariants;
 
     public BuildingComponent() {
         variants = new ArrayList<>();
@@ -20,7 +20,7 @@ public class BuildingComponent {
 
     public void init() {
         variants.forEach(
-                strings -> componentVariants.add(new ComponentVariant(
+                strings -> componentVariants.add(new BuildingComponentVariant(
                         strings.get(0),
                         strings.get(1),
                         Integer.parseInt(strings.get(2)),

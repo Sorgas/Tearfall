@@ -1,6 +1,7 @@
 package stonering.test_chamber.model;
 
 import stonering.entity.building.Building;
+import stonering.entity.item.Item;
 import stonering.entity.unit.Unit;
 import stonering.game.model.EntitySelector;
 import stonering.game.model.system.building.BuildingContainer;
@@ -36,9 +37,16 @@ public class WorkbenchModel extends TestModel {
     }
 
     private void createItems() {
-        get(ItemContainer.class).addAndPut(new ItemGenerator().generateItem("meat_piece", "meat", new Position(0, 0, 2)));
-        get(ItemContainer.class).addAndPut(new ItemGenerator().generateItem("log", "wood", new Position(1, 0, 2)));
-        get(ItemContainer.class).addAndPut(new ItemGenerator().generateItem("log", "wood", new Position(2, 0, 2)));
+        ItemGenerator generator = new ItemGenerator();
+        get(ItemContainer.class).addAndPut(generator.generateItem("meat_piece", "meat", new Position(0, 0, 2)));
+        get(ItemContainer.class).addAndPut(generator.generateItem("log", "wood", new Position(1, 0, 2)));
+        get(ItemContainer.class).addAndPut(generator.generateItem("log", "wood", new Position(2, 0, 2)));
+        Item item = generator.generateItem("log", "wood", new Position(3, 0, 2));
+        item.setOrigin("willow");
+        get(ItemContainer.class).addAndPut(item);
+        item = generator.generateItem("log", "wood", new Position(4, 0, 2));
+        item.setOrigin("willow");
+        get(ItemContainer.class).addAndPut(item);
     }
 
     @Override
