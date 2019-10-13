@@ -65,8 +65,10 @@ public class Item extends Entity {
                 " weight: " + weight;
     }
 
-    public void updateTitle() {
-        title = origin + " " + materialString + " " + type.title;
+    public String updateTitle() {
+        return title = origin != null ? origin + " " : "" +
+                materialString + " " +
+                type.title;
     }
 
     public void setMaterial(int material) {

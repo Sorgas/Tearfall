@@ -4,7 +4,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import stonering.entity.building.Blueprint;
 import stonering.entity.building.BuildingOrder;
 import stonering.entity.crafting.BuildingComponent;
-import stonering.entity.item.selectors.SimpleItemSelector;
 import stonering.enums.designations.PlaceValidatorsEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.system.tasks.TaskContainer;
@@ -44,6 +43,8 @@ public class BuildingDesignationSequence extends DesignationSequence {
             return true;
         });
         placeSelectComponent.setPositionValidator(PlaceValidatorsEnum.getValidator(order.getBlueprint().placing));
+        placeSelectComponent.defaultText = "Select place for " + order.getBlueprint().building;
+        placeSelectComponent.warningText = "Wrong place for " + order.getBlueprint().building;
     }
 
     /**
@@ -54,6 +55,7 @@ public class BuildingDesignationSequence extends DesignationSequence {
         MaterialSelectList materialList = new MaterialSelectList();
         materialList.fillForCraftingStep(step, order.getPosition());
         materialList.setSelectListener(event -> { // saves selection to map and creates next list
+            Logger.UI.logDebug("Selecting " + materialList.getSelectedIndex());
             if (materialList.active && materialList.getSelectedIndex() >= 0) {
                 ItemCardButton selected = (ItemCardButton) materialList.getSelectedElement();
                 //TODO handle amount requirements more than 1
@@ -75,7 +77,7 @@ public class BuildingDesignationSequence extends DesignationSequence {
     private void showNextList() {
         for (BuildingComponent component : order.getBlueprint().mappedComponents.values()) {
             if(order.getItemSelectors().containsKey(component.name)) continue;  // skip already added component
-            GameMvc.instance().getView().getUiDrawer().getToolbar().addMenu(createSelectListForStep(component));
+            GameMvc.instance().getView().mainUiStage.toolbar.addMenu(createSelectListForStep(component));
             return;
         }
         GameMvc.instance().getModel().get(TaskContainer.class).submitBuildingDesignation(order, 1);
@@ -104,6 +106,6 @@ public class BuildingDesignationSequence extends DesignationSequence {
 
     @Override
     public String getText() {
-        return null;
+        return "Building " + order.getBlueprint().building;
     }
 }

@@ -34,7 +34,7 @@ public class DiggingMenu extends ToolbarSubMenuMenu {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 DesignationsController controller = GameMvc.instance().getController().getDesignationsController();
-                controller.setActiveDesignation(new BoxDesignationSequence(type)); //no buildings here
+                controller.setSequence(new BoxDesignationSequence(type)); //no buildings here
                 controller.startSequence();
             }
         }, true);

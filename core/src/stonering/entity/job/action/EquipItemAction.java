@@ -26,7 +26,7 @@ public class EquipItemAction extends Action {
     protected void performLogic() {
         ItemContainer container = GameMvc.instance().getModel().get(ItemContainer.class);
         if (!(task.getPerformer().getAspect(EquipmentAspect.class)).equipItem(item)) return; // equipping failed
-        container.equipped.put(item, task.getPerformer());
+        container.equipped.put(item, task.getPerformer().getAspect(EquipmentAspect.class));
         container.pickItem(item);
     }
 

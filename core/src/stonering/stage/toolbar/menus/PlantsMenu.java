@@ -43,7 +43,7 @@ public class PlantsMenu extends ToolbarSubMenuMenu {
                 event.stop();
                 Logger.UI.logDebug("Toggling button " + text);
                 DesignationsController controller = GameMvc.instance().getController().getDesignationsController();
-                controller.setActiveDesignation(new BoxDesignationSequence(designationType));
+                controller.setSequence(new BoxDesignationSequence(designationType));
                 controller.startSequence();
             }
         }, true);

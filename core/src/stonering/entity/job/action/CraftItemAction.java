@@ -93,7 +93,7 @@ public class CraftItemAction extends Action {
      * @return true, if item exist or found.
      */
     private boolean updateDesiredItems() {
-        if (desiredItems.isEmpty() || !GameMvc.instance().getModel().get(ItemContainer.class).checkItemsForCrafting(desiredItems)) { // items are not yet searched on map, or was removed from map
+        if (desiredItems.isEmpty() || !checkItemsAvailability(desiredItems)) { // items are not yet searched on map, or was removed from map
             return findDesiredItems();
         }
         return true;
@@ -121,9 +121,7 @@ public class CraftItemAction extends Action {
 
     private boolean checkItemsAvailability(List<Item> items) {
         ItemContainer container = GameMvc.instance().getModel().get(ItemContainer.class);
-        for (Item item : items) {
-            container.
-        }
+        return items.stream().allMatch(item -> container.itemIsAvailable(item, task.getPerformer().position));
     }
 
     @Override

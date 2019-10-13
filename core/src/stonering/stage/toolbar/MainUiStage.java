@@ -17,7 +17,7 @@ import stonering.util.geometry.Position;
  * @author Alexander Kuzyakov on 12.10.2017.
  */
 public class MainUiStage extends UiStage {
-    private Toolbar toolbar;
+    public Toolbar toolbar;
     private TileStatusBar tileStatusBar;
 
     public MainUiStage() {
@@ -41,13 +41,5 @@ public class MainUiStage extends UiStage {
                 material != null ? material.getName() : "",
                 gameModel.get(LocalMap.class).passage != null ? gameModel.get(LocalMap.class).passage.getArea().getValue(focus) : 0,
                 gameModel.get(LocalMap.class).getBlockType(focus));
-    }
-
-    public Toolbar getToolbar() {
-        return toolbar;
-    }
-
-    public void setToolbarLabelText(String text) {
-        toolbar.setText(text);
     }
 }

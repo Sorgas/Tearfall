@@ -40,7 +40,7 @@ public class ZoneDesignationSequence extends DesignationSequence {
             if (validateZoneDesignation()) {
                 model.get(ZonesContainer.class).createNewZone(selector.getFrameStart(), selector.getPosition(), type);
             } else {
-                view.getUiDrawer().getToolbar().setText("No valid tiles selected");
+                view.mainUiStage.toolbar.setText("No valid tiles selected");
             }
             return true;
         });
@@ -56,7 +56,7 @@ public class ZoneDesignationSequence extends DesignationSequence {
             EntitySelector selector = model.get(EntitySelector.class);
             ZonesContainer zonesContainer = GameMvc.instance().getModel().get(ZonesContainer.class);
             Zone zone = zonesContainer.getZone(selector.getFrameStart());
-            Toolbar toolbar = view.getUiDrawer().getToolbar();
+            Toolbar toolbar = view.mainUiStage.toolbar;
             toolbar.setText(zone != null ? "Expanding zone " + zone.getName() + "." : "Deleting zones.");
             return true;
         }, event -> {

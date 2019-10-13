@@ -24,8 +24,8 @@ public class ItemCardButton extends Button {
     public ItemCardButton(Item item, int number) {
         super(StaticSkin.getSkin());
         this.number = number;
-        add(new Image(AtlasesEnum.items.getBlockTile(item.getType().atlasXY))).size(64,64);
-        add(new Label(item.getTitle(), StaticSkin.getSkin())).size(200, 64);
+        add(new Image(AtlasesEnum.items.getBlockTile(item.getType().atlasXY))).size(32,32);
+        add(new Label(item.getTitle(), StaticSkin.getSkin())).size(200, 32);
         add(numberLabel = new Label(String.valueOf(number), StaticSkin.getSkin()));
         itemType = item.getType().name;
         material = item.materialString;

@@ -2,7 +2,6 @@ package stonering.game.controller.controllers.toolbar;
 
 import stonering.game.controller.controllers.Controller;
 import stonering.game.controller.controllers.designation.DesignationSequence;
-import stonering.screen.GameView;
 
 /**
  * Controller for designating various tasks. Used as adapter for designation sequences.
@@ -14,23 +13,12 @@ import stonering.screen.GameView;
  * @author Alexander Kuzyakov on 24.12.2017.
  */
 public class DesignationsController extends Controller {
-    private GameView view;
 
     //private DesignationTypeEnum activeDesignation;
     private DesignationSequence sequence;
 
     public void init() {
         super.init();
-        view = gameMvc.getView();
-    }
-
-    /**
-     * Sets sequence for controller.
-     * Saves chosen designation type to be stored between events of starting and finishing designation rectangle and item selection.
-     */
-    public void setActiveDesignation(DesignationSequence sequence) {
-        this.sequence = sequence;
-        gameMvc.getView().getUiDrawer().setToolbarLabelText(sequence.getText());
     }
 
     /**
@@ -38,9 +26,12 @@ public class DesignationsController extends Controller {
      */
     public void handleCancel() {
         stopSequence();
-        view.getUiDrawer().setToolbarLabelText("");
     }
 
+    /**
+     * Sets sequence for controller.
+     * Saves chosen designation type to be stored between events of starting and finishing designation rectangle and item selection.
+     */
     public void setSequence(DesignationSequence sequence) {
         if (this.sequence != null) this.sequence.end();
         this.sequence = sequence;

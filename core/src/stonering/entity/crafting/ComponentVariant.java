@@ -13,7 +13,7 @@ public class ComponentVariant {
     public final int amount;
     public final int[] atlasXY;
 
-    public ComponentVariant(String tag, String itemType, int amount, int[] atlasXY) {
+    public ComponentVariant(String itemType, String tag, int amount, int[] atlasXY) {
         this.itemType = itemType;
         this.tag = tag;
         this.amount = amount;

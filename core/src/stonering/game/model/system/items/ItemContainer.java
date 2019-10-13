@@ -2,6 +2,7 @@ package stonering.game.model.system.items;
 
 import stonering.entity.Entity;
 import stonering.entity.crafting.BuildingComponent;
+import stonering.entity.crafting.ComponentVariant;
 import stonering.entity.item.aspects.ItemContainerAspect;
 import stonering.entity.job.action.Action;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
@@ -49,7 +50,7 @@ public class ItemContainer extends EntityContainer<Item> {
      * Registers item in container and puts on map by its position.
      */
     public void addAndPut(Item item) {
-        if(item.position == null) Logger.ITEMS.logWarn("Putting item " + item + " with null position.");
+        if (item.position == null) Logger.ITEMS.logWarn("Putting item " + item + " with null position.");
         addItem(item);
         putItem(item, item.position);
     }
@@ -81,16 +82,14 @@ public class ItemContainer extends EntityContainer<Item> {
 
     /**
      * Gets all materials for all variants of crafting step. Used for filling materialSelectList.
-     * Currently works only with resource item.
      */
     public List<Item> getAvailableMaterialsForBuildingStep(BuildingComponent step, Position pos) {
         List<Item> items = new ArrayList<>();
-        step.componentVariants.forEach(variant -> {
-                    String itemType = variant.itemType;
-                    TagEnum tag = TagEnum.get(variant.tag);
-                    items.addAll(entities.stream().filter(item -> item.tags.contains(tag) && item.getType().name.equals(itemType)).collect(Collectors.toList()));
-                }
-        );
+        for (ComponentVariant variant : step.componentVariants) {
+            String itemType = variant.itemType;
+            TagEnum tag = TagEnum.get(variant.tag);
+            items.addAll(entities.stream().filter(item -> item.tags.contains(tag) && item.getType().name.equals(itemType)).collect(Collectors.toList()));
+        }
         return filterUnreachable(items, pos);
     }
 
@@ -138,7 +137,11 @@ public class ItemContainer extends EntityContainer<Item> {
         return getNearestItems(filterUnreachable(list, position), position, 1).get(0);
     }
 
-    public Stream<Item>
+    public boolean itemIsAvailable(Item item, Position position) {
+        //TODO check containers
+        return item.position != null &&
+                GameMvc.instance().getModel().get(LocalMap.class).passage.positionReachable(item.position, position);
+    }
 
 //collection management methods
 
@@ -153,7 +156,8 @@ public class ItemContainer extends EntityContainer<Item> {
 
     public void putItem(Item item, Position pos) {
         item.position = pos;
-        itemMap.putIfAbsent(pos, new ArrayList<>()).add(item);
+        itemMap.putIfAbsent(pos, new ArrayList<>());
+        itemMap.get(pos).add(item);
     }
 
     public void itemAddedToContainer(Item item, ItemContainerAspect aspect) {

@@ -24,7 +24,7 @@ public enum AtlasesEnum {
     liquids(new Texture("sprites/liquids.png"), true, 64, 64, 32, 6),
     plants(new Texture("sprites/plants.png"), false, 64, 64, 0, 0), // all trees is plants TODO remove topings
     units(new Texture("sprites/units.png"), false, 64, 64, 0, 0), //TODO remove topings
-    buildings(new Texture("sprites/buildings.png"), false, 64, 64, 0, 0), // buildings and furniture
+    buildings(new Texture("sprites/buildings.png"), false, 64, 64, 32, 0), // buildings and furniture
     items(new Texture("sprites/items.png"), false, 32, 32, 0, 0),
     creature_icons(new Texture("sprites/creature_icons.png"), false, 16, 16, 0, 0);
 

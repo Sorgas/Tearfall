@@ -12,10 +12,10 @@ import stonering.util.global.Logger;
  * @author Alexander Kuzyakov on 26.06.2017.
  */
 public class GameController extends Controller {
-    private DesignationsController designationsController;
-    private InputMultiplexer inputMultiplexer;
-    private EntitySelectorInputAdapter entitySelectorInputAdapter;
-    private PauseInputAdapter pauseInputAdapter;
+    public DesignationsController designationsController;
+    public InputMultiplexer inputMultiplexer;
+    public EntitySelectorInputAdapter entitySelectorInputAdapter;
+    public PauseInputAdapter pauseInputAdapter;
 
     public void init() {
         super.init();

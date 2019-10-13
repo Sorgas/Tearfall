@@ -77,9 +77,9 @@ public class EntitySelector implements ModelComponent, Initable {
     public void updateStatusAndSprite() {
         if (positionValidator != null) {
             int valid = positionValidator.validate(localMap, position) ? GREEN_STATUS : RED_STATUS;
-            if (valid != status) {
+            if (valid != status) { // status changed
                 status = valid;
-                statusSprite = getSpriteByStatus(status);
+                statusSprite = getSpriteByStatus(status); //change sprite
             }
         } else {
             status = INACTIVE_STATUS;

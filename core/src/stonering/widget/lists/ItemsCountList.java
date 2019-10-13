@@ -2,6 +2,7 @@ package stonering.widget.lists;
 
 import stonering.game.controller.controllers.toolbar.DesignationsController;
 import stonering.entity.item.Item;
+import stonering.util.global.Logger;
 import stonering.widget.NavigableVerticalGroup;
 
 import java.util.HashMap;
@@ -20,10 +21,12 @@ public abstract class ItemsCountList extends NavigableVerticalGroup {
      */
     public void addItems(List<Item> items) {
         HashMap<String, ItemCardButton> map = new HashMap<>(); // item title to itemCard
+        Logger.BUILDING.logDebug("Grouping " + items.size() + " to numbered list.");
         items.forEach(item -> { // groups item
-            item.updateTitle();
-            map.put(item.getTitle(), map.getOrDefault(item.getTitle(), new ItemCardButton(item, 0)).increment()); // count items of same type and material
+            String title = item.updateTitle();
+            map.put(title, map.getOrDefault(title, new ItemCardButton(item, 0)).increment()); // count items of same type and material
         });
         map.values().forEach(card -> addActor(card));
+        Logger.BUILDING.logDebug(map.values().size() + " cards created.");
     }
 }

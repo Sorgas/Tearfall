@@ -1,24 +1,23 @@
 package stonering.widget;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import stonering.util.validation.PositionValidator;
 import stonering.game.GameMvc;
 import stonering.game.model.EntitySelector;
 import stonering.game.model.local_map.LocalMap;
 import stonering.stage.toolbar.menus.Toolbar;
 import stonering.util.geometry.Position;
-import stonering.util.global.StaticSkin;
 
 /**
  * Component for selecting places. Can be used many times.
  *
  * @author Alexander Kuzyakov on 12.07.2018.
  */
-public class PlaceSelectComponent extends Label implements Hideable {
+public class PlaceSelectComponent extends Actor implements Hideable {
     private GameMvc gameMvc;
     private PositionValidator positionValidator; // validates position on each move
     private EntitySelector selector; // points to position
@@ -26,15 +25,14 @@ public class PlaceSelectComponent extends Label implements Hideable {
     private Toolbar toolbar;
     private Position position;
 
-    private String defaultText;
-    private String warningText;
+    public String defaultText;
+    public String warningText;
 
     public PlaceSelectComponent(EventListener eventListener) {
-        super("", StaticSkin.getSkin());
         this.gameMvc = GameMvc.instance();
         this.eventListener = eventListener;
         selector = gameMvc.getModel().get(EntitySelector.class);
-        toolbar = gameMvc.getView().getUiDrawer().getToolbar();
+        toolbar = gameMvc.getView().mainUiStage.toolbar;
         createDefaultListener();
     }
 
@@ -44,7 +42,6 @@ public class PlaceSelectComponent extends Label implements Hideable {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 boolean isValid = validatePosition(selector.getPosition());
-                setText(isValid ? defaultText : warningText);
                 switch (keycode) {
                     case Input.Keys.E:
                         if (isValid) {
@@ -88,15 +85,6 @@ public class PlaceSelectComponent extends Label implements Hideable {
 
     public void setPositionValidator(PositionValidator positionValidator) {
         this.positionValidator = positionValidator;
-    }
-
-    public void setDefaultText(String defaultText) {
-        this.defaultText = defaultText;
-        super.setText(defaultText);
-    }
-
-    public void setWarningText(String warningText) {
-        this.warningText = warningText;
     }
 
     public Position getPosition() {

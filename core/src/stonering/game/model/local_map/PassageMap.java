@@ -278,6 +278,10 @@ public class PassageMap {
         return getType(localMap.getBlockType(position)).PASSING;
     }
 
+    public boolean positionReachable(Position pos1, Position pos2) {
+        return area.getValue(pos1) == area.getValue(pos2);
+    }
+
     public <T extends Entity> List<T> filterEntitiesByReachability(List<T> entities, Position target) {
         return entities.stream().
                 filter(entity -> entity.position != null).

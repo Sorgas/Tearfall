@@ -14,24 +14,26 @@ import stonering.util.global.StaticSkin;
 
 /**
  * Contains table with all general orders menus.
+ * TODO refactor event handling.
  *
  * @author Alexander Kuzyakov on 17.06.2018.
  */
 public class Toolbar extends Container<Table> {
     public final HorizontalGroup menusGroup; // in first row
     private Label status; // in second row
-    private ParentMenu parentMenu; // always on the right end
+    private ParentMenu parentMenu; // always on the left end
 
     public Toolbar() {
         menusGroup = new HorizontalGroup();
         setFillParent(true);
         align(Align.bottomLeft);
-        addListener(new InputListener() {
+        addListener(new InputListener() { // passes events to last menu in toolbar
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
-                Logger.UI.logDebug("handling " + keycode + " in toolbar");
-                if (keycode == Input.Keys.E && menusGroup.getChildren().peek() == parentMenu) return false;
-                return menusGroup.getChildren().peek().notify(event, false);
+                Actor target = menusGroup.getChildren().peek();
+                Logger.UI.logDebug("handling " + keycode + " in toolbar. Target menu is " + target);
+                if (keycode == Input.Keys.E && target == parentMenu) return false;
+                return target.notify(event, false);
             }
         });
         setActor(createToolbarTable());
@@ -79,6 +81,7 @@ public class Toolbar extends Container<Table> {
     }
 
     public void setText(String text) {
+        Logger.UI.logDebug("Toolbar text set to " + text);
         status.setText(text);
     }
 }

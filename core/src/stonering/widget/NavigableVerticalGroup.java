@@ -1,11 +1,13 @@
 package stonering.widget;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import stonering.enums.ControlActionsEnum;
+import stonering.util.global.Logger;
 import stonering.util.math.MathUtil;
 
 import java.util.HashMap;
@@ -41,7 +43,7 @@ public class NavigableVerticalGroup extends VerticalGroup implements Highlightab
         addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
-//                Logger.UI.logDebug("handling " + Input.Keys.toString(keycode) + " on NavigableVerticalGroup");
+                Logger.UI.logDebug("handling " + Input.Keys.toString(keycode) + " on NavigableVerticalGroup");
                 ControlActionsEnum action = keyMapping.get(keycode);
                 if (action == null) action = ControlActionsEnum.getAction(keycode);
                 event.stop();
