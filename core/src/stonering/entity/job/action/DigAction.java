@@ -41,7 +41,7 @@ public class DigAction extends Action {
     }
 
     private int addEquipAction() {
-        Item target = GameMvc.instance().getModel().get(ItemContainer.class).getItemAvailableBySelector(toolItemSelector, task.getPerformer().position);
+        Item target = GameMvc.instance().getModel().get(ItemContainer.class).util.getItemAvailableBySelector(toolItemSelector, task.getPerformer().position);
         if (target == null) return FAIL;
         task.addFirstPreAction(new EquipItemAction(target, true));
         return NEW;

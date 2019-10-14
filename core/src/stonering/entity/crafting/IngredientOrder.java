@@ -7,6 +7,7 @@ import stonering.enums.items.recipe.Ingredient;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.GameMvc;
 import stonering.game.model.system.items.ItemContainer;
+import stonering.util.geometry.Position;
 import stonering.util.global.Triple;
 
 import java.util.HashMap;
@@ -40,10 +41,10 @@ public class IngredientOrder {
      * Collects all items with desired tags and types from map, filters unreachable ones,
      * combines them by origin, material, and type, and stores to list.
      */
-    void updateOptions() {
+    void updateOptions(Position position) {
         Triple<String, String, String> cacheTriple = new Triple<>("","", "");
         options.clear();
-        for (Item item : GameMvc.instance().getModel().get(ItemContainer.class).getItemsForIngredient(ingredient)) {
+        for (Item item : GameMvc.instance().getModel().get(ItemContainer.class).util.getItemsForIngredient(ingredient, position)) {
             cacheTriple.set(item.getOrigin(), MaterialMap.instance().getMaterial(item.getMaterial()).getName(), item.getType().title);
             options.put(cacheTriple, options.getOrDefault(cacheTriple, 0));
         }

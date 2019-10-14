@@ -289,6 +289,10 @@ public class PassageMap {
                 collect(Collectors.toList());
     }
 
+    public boolean entityReachable(Entity entity, Position position) {
+        return entity.position != null && area.getValue(position) == area.getValue(entity.position);
+    }
+
     public byte getPassage(int x, int y, int z) {
         return passage.getValue(x, y, z);
     }

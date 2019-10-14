@@ -69,7 +69,7 @@ public class StorageZone extends Zone {
      */
     private Item selectItem(Position position) {
         GameModel model = GameMvc.instance().getModel();
-        List<Item> items = model.get(ItemContainer.class).getItemsAvailableBySelector(selector, position);
+        List<Item> items = model.get(ItemContainer.class).util.getItemsAvailableBySelector(selector, position);
         if (items.isEmpty()) return null;
         ZonesContainer zonesContainer = model.get(ZonesContainer.class);
         for (Item item : items) {

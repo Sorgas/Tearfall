@@ -100,7 +100,8 @@ public class CraftItemAction extends Action {
     }
 
     /**
-     * Searches desiredItems for each order part. Returns false if no desiredItems for order part found.
+     * Searches desiredItems for each order part.
+     * Returns false if cannot find any items for at least one order part.
      */
     private boolean findDesiredItems() {
         ItemContainer container = GameMvc.instance().getModel().get(ItemContainer.class);
@@ -108,20 +109,20 @@ public class CraftItemAction extends Action {
         List<IngredientOrder> ingredientOrders = new ArrayList<>(itemOrder.parts.values());
         ingredientOrders.addAll(itemOrder.consumed);
         for (IngredientOrder ingredientOrder : ingredientOrders) {
-            List<Item> foundItems = container.getItemsAvailableBySelector(ingredientOrder.itemSelector, workbench.position);
+            List<Item> foundItems = container.util.getItemsAvailableBySelector(ingredientOrder.itemSelector, workbench.position);
             foundItems.removeAll(desiredItems); // remove already added items
             if (foundItems.isEmpty()) { // no items found for ingredient
                 desiredItems.clear();
                 return false;
             }
-            desiredItems.addAll(container.getNearestItems(foundItems, task.getPerformer().position, 1)); // add nearest items to order
+            desiredItems.addAll(container.util.getNearestItems(foundItems, task.getPerformer().position, 1)); // add nearest items to order
         }
         return true;
     }
 
     private boolean checkItemsAvailability(List<Item> items) {
         ItemContainer container = GameMvc.instance().getModel().get(ItemContainer.class);
-        return items.stream().allMatch(item -> container.itemIsAvailable(item, task.getPerformer().position));
+        return items.stream().allMatch(item -> container.util.itemIsAvailable(item, task.getPerformer().position));
     }
 
     @Override

@@ -43,7 +43,7 @@ public class HarvestPlantAction extends Action {
     }
 
     private int addActionToTask() {
-        Item target = GameMvc.instance().getModel().get(ItemContainer.class).getItemAvailableBySelector(toolItemSelector, task.getPerformer().position);
+        Item target = GameMvc.instance().getModel().get(ItemContainer.class).util.getItemAvailableBySelector(toolItemSelector, task.getPerformer().position);
         if (target == null) return FAIL;
         EquipItemAction equipItemAction = new EquipItemAction(target, true);
         task.addFirstPreAction(equipItemAction);
