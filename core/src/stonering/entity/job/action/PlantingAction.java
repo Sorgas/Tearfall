@@ -46,7 +46,7 @@ public class PlantingAction extends Action {
      * Tries to pick seed item if none is available in performer's inventory.
      */
     private int tryCreatePickingAction() {
-        Item item = GameMvc.instance().getModel().get(ItemContainer.class).getItemAvailableBySelector(seedSelector, task.getPerformer().position);
+        Item item = GameMvc.instance().getModel().get(ItemContainer.class).util.getItemAvailableBySelector(seedSelector, task.getPerformer().position);
         if (item == null) return FAIL;
         task.addFirstPreAction(new ItemPickAction(item));
         Logger.TASKS.logDebug("Creating pocking action for " + seedSelector.getSpecimen() + " seed.");

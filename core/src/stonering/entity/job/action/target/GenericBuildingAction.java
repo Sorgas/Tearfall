@@ -69,7 +69,7 @@ public abstract class GenericBuildingAction extends ItemConsumingAction {
         Logger.TASKS.logDebug("Creating action for bringing item.");
         Position position = actionTarget.getPosition();
         ItemContainer itemContainer = GameMvc.instance().getModel().get(ItemContainer.class);
-        Item item = itemContainer.getItemAvailableBySelector(itemSelector, position);
+        Item item = itemContainer.util.getItemAvailableBySelector(itemSelector, position);
         if (item == null) {
             Logger.TASKS.logDebug("No Item available.");
             return FAIL;

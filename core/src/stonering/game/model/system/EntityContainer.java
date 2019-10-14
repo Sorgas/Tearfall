@@ -13,7 +13,7 @@ import java.util.List;
  * @author Alexander on 17.07.2019.
  */
 public abstract class EntityContainer<T extends Entity> implements ModelComponent, Turnable {
-    protected List<T> entities;
+    public final List<T> entities;
 
     public EntityContainer() {
         entities = new ArrayList<>();

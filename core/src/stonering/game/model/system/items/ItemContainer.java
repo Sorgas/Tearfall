@@ -1,30 +1,25 @@
 package stonering.game.model.system.items;
 
 import stonering.entity.Entity;
-import stonering.entity.crafting.BuildingComponent;
-import stonering.entity.crafting.BuildingComponentVariant;
 import stonering.entity.item.aspects.ItemContainerAspect;
 import stonering.entity.job.action.Action;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
-import stonering.enums.items.TagEnum;
-import stonering.enums.items.recipe.Ingredient;
-import stonering.game.GameMvc;
-import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.EntityContainer;
 import stonering.util.geometry.Position;
 import stonering.entity.item.Item;
-import stonering.entity.item.selectors.ItemSelector;
 import stonering.util.global.Logger;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Manages all item in game, including ones in containers, and equipped on units.
  * Items can lay on map tiles, be stored in containers, or equipped by units. There are three separate maps for storing items (for pathfinding).
  * Items have positions, when they are on map. When items are equipped or in containers, their position is null.
  * There are methods for moving items in and out of these maps. Other logic should be made by {@link Action}s or systems.
- * //TODO move large methods to some util class
+ * TODO make containers and equipment consistent
  *
  * @author Alexander Kuzyakov on 14.06.2017.
  */
@@ -32,6 +27,7 @@ public class ItemContainer extends EntityContainer<Item> {
     public final Map<Position, ArrayList<Item>> itemMap = new HashMap<>(); // maps tiles position to list of item it that position.
     public final Map<Item, ItemContainerAspect> contained = new HashMap<>(); // maps contained items to containers they are in.
     public final Map<Item, EquipmentAspect> equipped = new HashMap<>(); // maps eqiopped and hauled items to units.
+    public final ItemStreamUtil util = new ItemStreamUtil(this);
 
     public void turn() {
         //TODO system for updating equipment
@@ -77,67 +73,6 @@ public class ItemContainer extends EntityContainer<Item> {
         List<Item> items = new ArrayList<>();
         if (itemMap.get(position) != null) items.addAll(itemMap.get(position));
         return items;
-    }
-
-    public List<Item> filterUnreachable(List<Item> items, Position target) {
-        return GameMvc.instance().getModel().get(LocalMap.class).getPassage().filterEntitiesByReachability(items, target);
-    }
-
-    public Item getItemAvailableBySelector(ItemSelector itemSelector, Position position) {
-        //TODO implement ordering by distance
-        List<Item> items = itemSelector.selectItems(entities);
-        items = filterUnreachable(items, position);
-        if (items.isEmpty()) return null;
-        return items.stream().min((item1, item2) -> Math.round(item1.position.getDistanse(position))).get();
-    }
-
-    public List<Item> getItemsAvailableBySelector(ItemSelector itemSelector, Position position) {
-        List<Item> items = itemSelector.selectItems(entities);
-        return filterUnreachable(items, position);
-    }
-
-    public List<Item> getNearestItems(List<Item> items, Position target, int number) {
-        List<Item> result = new ArrayList<>();
-        if (number > 0 && items != null && !items.isEmpty()) {
-            //TODO
-            return items.subList(0, number > items.size() ? items.size() : number);
-        }
-        return result;
-    }
-
-    /**
-     * Gets all materials for all variants of crafting step. Used for filling materialSelectList.
-     */
-    public List<Item> getAvailableMaterialsForBuildingStep(BuildingComponent step, Position pos) {
-        List<Item> items = new ArrayList<>();
-        for (BuildingComponentVariant variant : step.componentVariants) {
-            items.addAll(entities.stream()
-                    .filter(item -> item.tags.contains(TagEnum.get(variant.tag))) // has tag
-                    .filter(item -> item.getType().name.equals(variant.itemType)) // has type TODO add reachability filter
-                    .collect(Collectors.toList()));
-        }
-        return filterUnreachable(items, pos);
-    }
-
-    /**
-     * Returns list of items from map, that can be used for given recipe.
-     */
-    public List<Item> getItemsForIngredient(Ingredient ingredient) {
-        return entities.stream()
-                .filter(item -> item.tags.contains(ingredient.tag)) // have tag
-                .filter(item -> ingredient.itemTypes.contains(item.getType().name)) // appropriate item type
-                .collect(Collectors.toList());
-    }
-
-    public Item getNearestItemWithTag(Position position, TagEnum tag) {
-        List<Item> list = entities.stream().filter(item -> item.tags.contains(tag)).collect(Collectors.toList());
-        return getNearestItems(filterUnreachable(list, position), position, 1).get(0);
-    }
-
-    public boolean itemIsAvailable(Item item, Position position) {
-        //TODO check containers
-        return item.position != null &&
-                GameMvc.instance().getModel().get(LocalMap.class).passage.positionReachable(item.position, position);
     }
 
 //collection management methods

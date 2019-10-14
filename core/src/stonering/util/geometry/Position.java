@@ -70,6 +70,13 @@ public class Position implements Serializable, Cloneable {
                 Math.pow((float) (this.z - z), 2));
     }
 
+    /**
+     * For using in comparators. Coordinates should be positive.
+     */
+    public int fastDistance(Position p) {
+        return Math.abs(x + y + z - p.x - p.z - p.z);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
