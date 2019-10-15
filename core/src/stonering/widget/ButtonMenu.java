@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import stonering.enums.images.DrawableMap;
+import stonering.stage.renderer.AtlasesEnum;
 import stonering.util.global.Logger;
 import stonering.util.global.StaticSkin;
 import stonering.widget.lists.IconTextButton;
@@ -51,11 +52,19 @@ public abstract class ButtonMenu extends Table implements Hideable {
     /**
      * Creates button with listener and hotkey. Will overwrite buttons with same hotkey.
      */
-    protected void createButton(String text, int hotKey, ChangeListener listener, boolean appendHotkey) {
-        IconTextButton button = new IconTextButton((appendHotkey ? Input.Keys.toString(hotKey) + ": " : "") + text);
+    protected void createButton(String text, String iconName, int hotKey, ChangeListener listener, boolean appendHotkey) {
+        Drawable drawable = iconName != null ? DrawableMap.instance().getIconDrawable(iconName) : null;
+        IconTextButton button = new IconTextButton(drawable, (appendHotkey ? Input.Keys.toString(hotKey) + ": " : "") + text);
         button.addListener(listener);
         buttons.put(hotKey, button);
         add(button).row();
+    }
+
+    /**
+     * Creates button with listener and hotkey. Will overwrite buttons with same hotkey.
+     */
+    protected void createButton(String text, int hotKey, ChangeListener listener, boolean appendHotkey) {
+        createButton(text, null, hotKey, listener, appendHotkey);
     }
 
     /**

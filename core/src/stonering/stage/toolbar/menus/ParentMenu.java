@@ -18,15 +18,16 @@ public class ParentMenu extends ToolbarSubMenuMenu {
     }
 
     private void createMenus() {
-        addMenu(new PlantsMenu(toolbar), Input.Keys.P, "P: plants");
-        addMenu(new DiggingMenu(toolbar), Input.Keys.O, "O: digging");
-        addMenu(new ToolbarBuildingMenu(toolbar), Input.Keys.I, "I: building");
-        addMenu(new ZonesMenu(toolbar), Input.Keys.U, "U: zones");
+        addMenu(new PlantsMenu(toolbar), Input.Keys.P, "plants", "plants_menu");
+        addMenu(new DiggingMenu(toolbar), Input.Keys.O, "digging", "digging_menu");
+        addMenu(new ToolbarBuildingMenu(toolbar), Input.Keys.I, "building", "building_menu");
+        addMenu(new ZonesMenu(toolbar), Input.Keys.U, "zones", "zones_menu");
     }
 
     /**
      * Overrode to prevent closing.
      */
     @Override
-    public void hide() {}
+    public void hide() {
+    }
 }

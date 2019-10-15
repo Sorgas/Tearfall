@@ -30,14 +30,14 @@ public class PlantsMenu extends ToolbarSubMenuMenu {
     }
 
     private void initMenu() {
-        addButtonToTable("P: chop trees", CHOP, Input.Keys.P);
-        addButtonToTable("O: harvest", HARVEST, Input.Keys.O);
-        addButtonToTable("I: cut", CUT, Input.Keys.I);
-        addButtonToTable("U: clear", NONE, Input.Keys.U);
+        addButtonToTable("P: chop trees", "",CHOP, Input.Keys.P);
+        addButtonToTable("O: harvest", "",HARVEST, Input.Keys.O);
+        addButtonToTable("I: cut", "",CUT, Input.Keys.I);
+        addButtonToTable("U: clear", "",NONE, Input.Keys.U);
     }
 
-    private void addButtonToTable(String text, DesignationTypeEnum designationType, int hotKey) {
-        createButton(text, hotKey, new ChangeListener() {
+    private void addButtonToTable(String text, String iconName, DesignationTypeEnum designationType, int hotKey) {
+        createButton(text, iconName, hotKey, new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 event.stop();

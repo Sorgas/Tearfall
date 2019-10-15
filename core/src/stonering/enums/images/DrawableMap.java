@@ -28,12 +28,15 @@ public class DrawableMap {
     private static Map<String, TextureRegionDescriptor> descriptors;
     private static Map<String, Drawable> drawables;
     private static Map<String, Texture> textures;
+    private static Map<String, IconDescriptor> icons;
 
     private DrawableMap() {
         descriptors = new HashMap<>();
         drawables = new HashMap<>();
         textures = new HashMap<>();
+        icons = new HashMap<>();
         loadRegions();
+        loadIconDescriptors();
     }
 
     public static DrawableMap instance() {
@@ -51,6 +54,16 @@ public class DrawableMap {
         ArrayList<TextureRegionDescriptor> elements = json.fromJson(ArrayList.class, TextureRegionDescriptor.class, FileLoader.getFile(FileLoader.REGIONS_PATH));
         for (TextureRegionDescriptor descriptor : elements) {
             descriptors.put(descriptor.name, descriptor);
+        }
+    }
+
+    private void loadIconDescriptors() {
+        Logger.LOADING.logDebug("loading icons");
+        Json json = new Json();
+        json.setOutputType(JsonWriter.OutputType.json);
+        ArrayList<IconDescriptor> elements = json.fromJson(ArrayList.class, IconDescriptor.class, FileLoader.getFile(FileLoader.ICONS_PATH));
+        for (IconDescriptor descriptor : elements) {
+            icons.put(descriptor.name, descriptor);
         }
     }
 
@@ -80,5 +93,14 @@ public class DrawableMap {
      */
     public Drawable getTileAtlasDrawable(AtlasesEnum atlas, int x, int y) {
         return new TextureRegionDrawable(atlas.getBlockTile(x, y));
+    }
+
+    public Drawable getIconDrawable(String name) {
+        if (!icons.containsKey(name)) {
+            Logger.LOADING.logWarn("Icon [" + name + "] not found, check /core/assets/resources/ui_background/icons.json");
+            return new TextureRegionDrawable(AtlasesEnum.icons.getBlockTile(0, 0));
+        }
+        IconDescriptor descriptor = icons.get(name);
+        return new TextureRegionDrawable(AtlasesEnum.icons.getBlockTile(descriptor.atlasXY[0], descriptor.atlasXY[1]));
     }
 }
