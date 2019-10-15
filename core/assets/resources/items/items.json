@@ -90,7 +90,6 @@
     "atlasXY": ["15", "0"],
     "color": "0xffffffff"
 }, {
-    // generic seed for plants
     "name": "seed",
     "description": "Can give birth to a plant",
     "typeAspects": [["value", "0"]],
@@ -98,10 +97,10 @@
     "atlasXY": ["11", "0"],
     "color": "0xffffffff"
 }, {
-    "name": "apple",
+    "name": "fruit",
     "description": "Juicy fruit",
     "typeAspects": [["value", "0"]],
-    "aspects": [["seed", "apple"]],
+    "aspects": [["seed", "fruit"]],
     "atlasXY": ["15", "0"],
     "color": "0xffffffff"
 }, {
@@ -138,5 +137,68 @@
     "aspects": [["slow_falling", "0.1"], ["wind_moved", "0.8"]],
     "atlasXY": ["15", "0"],
     "color": "0xffffffff"
+},{
+    "name": "bottle",
+    "description": "Bottle for drinks.",
+    "typeAspects": [["value", "0"]],
+    "aspects": [],
+    "atlasXY": ["15", "0"],
+    "color": "0xffffffff"
+},{
+    "name": "chain",
+    "description": "Strong metal chain.",
+    "typeAspects": [["value", "0"]],
+    "aspects": [],
+    "atlasXY": ["15", "0"],
+    "color": "0xffffffff"
+},{
+    "name": "book",
+    "description": "Source of knowledge.",
+    "typeAspects": [["value", "0"]],
+    "aspects": [],
+    "atlasXY": ["15", "0"],
+    "color": "0xffffffff"
+},{
+    "name": "cup",
+    "description": "Holds liquids.",
+    "typeAspects": [["value", "0"]],
+    "aspects": [],
+    "atlasXY": ["15", "0"],
+    "color": "0xffffffff"
+},{
+    "name": "pouch",
+    "description": "Bag for small things.",
+    "typeAspects": [["value", "0"]],
+    "aspects": [],
+    "atlasXY": ["15", "0"],
+    "color": "0xffffffff"
+},{
+    "name": "nail",
+    "description": "Metal nail for building.",
+    "typeAspects": [["value", "0"]],
+    "aspects": [],
+    "atlasXY": ["15", "0"],
+    "color": "0xffffffff"
+},{
+    "name": "mushroom",
+    "description": "",
+    "typeAspects": [["value", "0"]],
+    "aspects": [],
+    "atlasXY": ["15", "0"],
+    "color": "0xffffffff"
+},{
+    "name": "arrow",
+    "description": "Ammunition for bows.",
+    "typeAspects": [["value", "0"]],
+    "aspects": [],
+    "atlasXY": ["15", "0"],
+    "color": "0xffffffff"
+},{
+    "name": "bolt",
+    "description": "Ammunition for crossbows.",
+    "typeAspects": [["value", "0"]],
+    "aspects": [],
+    "atlasXY": ["15", "0"],
+    "color": "0xffffffff"
 }
-] 
+]
