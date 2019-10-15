@@ -6,6 +6,7 @@ import stonering.entity.unit.aspects.RenderAspect;
 import stonering.entity.unit.aspects.health.Buff;
 import stonering.util.global.Logger;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -23,10 +24,10 @@ public class CreatureBuffSystem {
      */
     public void updateCreatureBuffs(Unit unit) {
         if (!unit.hasAspect(BuffAspect.class)) return;
-        for (Iterator<Map.Entry<String, Buff>> iterator = unit.getAspect(BuffAspect.class).buffs.entrySet().iterator(); iterator.hasNext(); ) {
-            Map.Entry<String, Buff> entry = iterator.next();
-            if (!entry.getValue().decrease(unit)) continue; // skip active buffs
-            unapplyBuff(unit, entry.getValue());
+        for (Iterator<Buff> iterator = unit.getAspect(BuffAspect.class).buffs.values().iterator(); iterator.hasNext(); ) {
+            Buff buff = iterator.next();
+            if (!buff.decrease(unit)) continue; // skip active buffs
+            unapplyBuff(unit, buff);
             iterator.remove();
         }
     }
