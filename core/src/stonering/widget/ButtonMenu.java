@@ -34,7 +34,6 @@ public abstract class ButtonMenu extends Table implements Hideable {
         addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
-//                Logger.UI.logDebug("handling " + keycode + " in button menu");
                 event.stop();
                 if (buttons.containsKey(keycode)) {
                     Logger.UI.logDebug("Pressing " + Input.Keys.toString(keycode) + " button in " + this);
