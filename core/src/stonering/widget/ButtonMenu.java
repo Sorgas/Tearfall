@@ -3,12 +3,13 @@ package stonering.widget;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import stonering.enums.images.DrawableMap;
 import stonering.util.global.Logger;
 import stonering.util.global.StaticSkin;
+import stonering.widget.lists.IconTextButton;
 
 import java.util.LinkedHashMap;
 
@@ -38,7 +39,7 @@ public abstract class ButtonMenu extends Table implements Hideable {
                 if (buttons.containsKey(keycode)) {
                     Logger.UI.logDebug("Pressing " + Input.Keys.toString(keycode) + " button in " + this);
                     buttons.get(keycode).toggle();
-                } else if (keycode == Input.Keys.Q) { //
+                } else if (keycode == Input.Keys.Q) {
                     hide();
                     onHide();
                 }
@@ -51,7 +52,7 @@ public abstract class ButtonMenu extends Table implements Hideable {
      * Creates button with listener and hotkey. Will overwrite buttons with same hotkey.
      */
     protected void createButton(String text, int hotKey, ChangeListener listener, boolean appendHotkey) {
-        TextButton button = new TextButton(appendHotkey ? Input.Keys.toString(hotKey) + ": " + text : text, StaticSkin.getSkin());
+        IconTextButton button = new IconTextButton((appendHotkey ? Input.Keys.toString(hotKey) + ": " : "") + text);
         button.addListener(listener);
         buttons.put(hotKey, button);
         add(button).row();
