@@ -104,7 +104,7 @@
     {
         "name":"cattail",
         "title":"Сattail",
-        "description":"Сattail",
+        "description":"Сattail is a long plant, often found near Water",
         "materialName":"generic_plant",
         "temperatureBounds":["-40", "40"],
         "rainfallBounds":["0", "100"],
@@ -125,7 +125,7 @@
     {
         "name":"tomato",
         "title":"Tomato",
-        "description":"Tomato",
+        "description":"A tomato is a red edible fruit.",
         "materialName":"generic_plant",
         "temperatureBounds":["-40", "40"],
         "rainfallBounds":["0", "100"],
