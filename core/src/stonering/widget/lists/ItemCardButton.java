@@ -1,8 +1,7 @@
 package stonering.widget.lists;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import stonering.entity.item.Item;
 import stonering.entity.item.selectors.ItemSelector;
 import stonering.entity.item.selectors.SimpleItemSelector;
@@ -15,16 +14,16 @@ import stonering.util.global.StaticSkin;
  *
  * @author Alexander on 26.09.2019.
  */
-public class ItemCardButton extends Button {
+public class ItemCardButton extends IconTextButton {
     private int number;
     private Label numberLabel;
     public final ItemSelector selector;
 
     public ItemCardButton(Item item, int number) {
-        super(StaticSkin.getSkin());
+        super(new TextureRegionDrawable(AtlasesEnum.items.getBlockTile(item.getType().atlasXY)), item.getTitle());
         this.number = number;
-        add(new Image(AtlasesEnum.items.getBlockTile(item.getType().atlasXY))).size(32,32);
-        add(new Label(item.getTitle(), StaticSkin.getSkin())).size(200, 32);
+        imageCell.size(32,32);
+        labelCell.size(200, 32);
         add(numberLabel = new Label(String.valueOf(number), StaticSkin.getSkin()));
         selector = new SimpleItemSelector(item.getType().name, item.getMaterial(), number);
     }

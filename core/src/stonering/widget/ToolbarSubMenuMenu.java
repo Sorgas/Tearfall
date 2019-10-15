@@ -34,9 +34,9 @@ public class ToolbarSubMenuMenu extends ToolbarButtonMenu {
     /**
      * Creates button, submenu, and links them via button listener.
      */
-    public void addMenu(ToolbarSubMenuMenu menu, int hotkey, String identifier) {
+    public void addMenu(ToolbarSubMenuMenu menu, int hotkey, String identifier, String iconName) {
         Actor thisMenu = this;
-        createButton(identifier, hotkey, new ChangeListener() {
+        createButton(identifier, iconName, hotkey, new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 GameMvc.instance().getView().mainUiStage.toolbar.hideSubMenus(thisMenu);
@@ -50,15 +50,15 @@ public class ToolbarSubMenuMenu extends ToolbarButtonMenu {
      * Tries to add button with given text and listener to the end of given submenu sequence.
      * Adds submenu or button to this menu .
      */
-    public void addItem(String lastButtonText, ChangeListener listener, List<String> path) {
+    public void addItem(String lastButtonText, String iconName, ChangeListener listener, List<String> path) {
         if (path == null || path.isEmpty()) { //create button
-            createButton(lastButtonText, sequence.getNext(), listener, true);
+            createButton(lastButtonText, iconName, sequence.getNext(), listener, true);
         } else { // create submenu
             String currentStep = path.remove(0);
             if (!menus.keySet().contains(currentStep)) {    // no submenu for this step, create submenu
-                addMenu(new ToolbarSubMenuMenu(toolbar), sequence.getNext(), currentStep); //TODO generalize
+                addMenu(new ToolbarSubMenuMenu(toolbar), sequence.getNext(), currentStep, iconName); //TODO generalize
             }
-            menus.get(currentStep).addItem(lastButtonText, listener, path); // proceed to submenu with reduced path
+            menus.get(currentStep).addItem(lastButtonText, iconName, listener, path); // proceed to submenu with reduced path
         }
     }
 }

@@ -25,7 +25,6 @@ public class OrderItem extends Container implements Highlightable {
     private OrderListSection section;
     private Image image;
     private Label recipeTitle;
-    private Label quotesSummary;
     public final Button cancelButton = createButton("cancel_order");
     public final Button suspendButton = createButton("suspend_order");
     public final Button repeatButton = createButton("repeat_order");
@@ -38,10 +37,11 @@ public class OrderItem extends Container implements Highlightable {
         createElements();
         createListeners();
         Table table = new Table();
-        table.add(image).size(100, 150);
-        table.add(createTable()).size(200, 150);
+        table.add(image).size(64, 64);
+        table.add(createTable()).size(236, 64);
         setActor(table);
-        size(300, 150);
+        size(300, 64);
+
         setDebug(true, true);
     }
 
@@ -51,6 +51,9 @@ public class OrderItem extends Container implements Highlightable {
         updateHighlighting(section.getSelectedElement() == this);
     }
 
+    /**
+     * Right part of the card, with buttons and description.
+     */
     private Table createTable() {
         Table table = new Table().align(Align.top);
         table.add(upButton).expandX().align(Align.right).size(20);
@@ -59,7 +62,6 @@ public class OrderItem extends Container implements Highlightable {
         table.add(suspendButton).size(20);
         table.add(cancelButton).size(20).row();
         table.add(recipeTitle).expandX().align(Align.left).colspan(6).row();
-        table.add(quotesSummary).expandX().align(Align.left).colspan(6);
         return table;
     }
 
@@ -68,7 +70,6 @@ public class OrderItem extends Container implements Highlightable {
         image.setDrawable(DrawableMap.instance().getDrawable("order_status_icon:suspended"));
         image.setSize(90, 150);
         recipeTitle = new Label(order.recipe.title, StaticSkin.getSkin());
-        quotesSummary = new Label("quotes summary", StaticSkin.getSkin());
         updateText();
     }
 

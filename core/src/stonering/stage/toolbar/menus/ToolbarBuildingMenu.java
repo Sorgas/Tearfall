@@ -20,7 +20,7 @@ public class ToolbarBuildingMenu extends ToolbarSubMenuMenu {
     public ToolbarBuildingMenu(Toolbar toolbar) {
         super(toolbar);
         for (Blueprint blueprint : BlueprintsMap.getInstance().blueprints.values()) {
-            addItem(blueprint.title, new ChangeListener() {
+            addItem(blueprint.title, null, new ChangeListener() { //TODO add blueprint.icon
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
                     GameMvc.instance().getController().designationsController.setSequence(new BuildingDesignationSequence(blueprint));

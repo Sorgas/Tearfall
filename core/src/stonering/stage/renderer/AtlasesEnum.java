@@ -3,6 +3,7 @@ package stonering.stage.renderer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import stonering.util.global.Logger;
 import stonering.util.global.Pair;
 
@@ -19,14 +20,15 @@ import java.util.Map;
  */
 public enum AtlasesEnum {
     blocks(new Texture("sprites/blocks.png"), true, 64, 64, 32, 6), // regular map blocks
-    ui_tiles(new Texture("sprites/ui_tiles.png"), true, 64, 64, 32, 6), // designations
-    substrates(new Texture("sprites/substrates.png"), true, 64, 64, 32, 6), // flat plants like mosses TODO remove topings
+    ui_tiles(new Texture("sprites/ui_tiles.png"), true, 64, 64, 32, 6), // frame, selector, zones TODO move designation to icons
+    substrates(new Texture("sprites/substrates.png"), true, 64, 64, 32, 6), // flat plants like mosses TODO remove toppings
     liquids(new Texture("sprites/liquids.png"), true, 64, 64, 32, 6),
-    plants(new Texture("sprites/plants.png"), false, 64, 64, 0, 0), // all trees is plants TODO remove topings
-    units(new Texture("sprites/units.png"), false, 64, 64, 0, 0), //TODO remove topings
+    plants(new Texture("sprites/plants.png"), false, 64, 64, 0, 0), // all trees is plants TODO remove toppings
+    units(new Texture("sprites/units.png"), false, 64, 64, 0, 0), //TODO remove toppings
     buildings(new Texture("sprites/buildings.png"), false, 64, 64, 32, 0), // buildings and furniture
     items(new Texture("sprites/items.png"), false, 32, 32, 0, 0),
-    creature_icons(new Texture("sprites/creature_icons.png"), false, 16, 16, 0, 0);
+    creature_icons(new Texture("sprites/creature_icons.png"), false, 16, 16, 0, 0),
+    icons(new Texture("sprites/creature_icons.png"), false, 32, 32, 0, 0); // ui and designation icons
 
     public final Texture atlas;
     public final boolean hasToppings;

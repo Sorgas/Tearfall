@@ -8,7 +8,7 @@ import static stonering.enums.unit.job.JobsEnum.*;
 
 /**
  * Enum of designation types for simple orders like digging, cutting plants, etc.
- *
+ * TODO add icons for designations
  * @author Alexander Kuzyakov
  */
 public enum DesignationTypeEnum {
@@ -26,6 +26,7 @@ public enum DesignationTypeEnum {
 
     private static HashMap<Byte, DesignationTypeEnum> map;
     public final byte CODE;
+    public final String iconName = null;
     private String text;
     private String job;
 

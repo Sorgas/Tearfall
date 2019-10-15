@@ -27,7 +27,7 @@ public class ZonesMenu extends ToolbarSubMenuMenu {
 
     private void createButtons() {
         for (ZoneTypesEnum type : ZoneTypesEnum.values()) {
-            addItem(type.toString(), new ChangeListener() {
+            addItem(type.toString(), type.iconName, new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
                     DesignationsController designationsController = GameMvc.instance().getController().designationsController;
@@ -36,7 +36,7 @@ public class ZonesMenu extends ToolbarSubMenuMenu {
                 }
             }, null);
         }
-        addItem("Update zone", new ChangeListener() {
+        addItem("Update zone", "update_zone", new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 DesignationsController designationsController = GameMvc.instance().getController().designationsController;

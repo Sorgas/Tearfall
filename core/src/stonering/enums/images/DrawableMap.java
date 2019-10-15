@@ -1,6 +1,7 @@
 package stonering.enums.images;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -26,11 +27,16 @@ public class DrawableMap {
     private static DrawableMap instance;
     private static Map<String, TextureRegionDescriptor> descriptors;
     private static Map<String, Drawable> drawables;
+    private static Map<String, Texture> textures;
+    private static Map<String, IconDescriptor> icons;
 
     private DrawableMap() {
         descriptors = new HashMap<>();
         drawables = new HashMap<>();
+        textures = new HashMap<>();
+        icons = new HashMap<>();
         loadRegions();
+        loadIconDescriptors();
     }
 
     public static DrawableMap instance() {
@@ -39,7 +45,7 @@ public class DrawableMap {
     }
 
     /**
-     * Loads descriptors for drawables.
+     * Loads descriptors for drawables. Drawable can be obtained only by descriptor keys.
      */
     private void loadRegions() {
         Logger.LOADING.logDebug("loading drawables");
@@ -51,23 +57,50 @@ public class DrawableMap {
         }
     }
 
+    private void loadIconDescriptors() {
+        Logger.LOADING.logDebug("loading icons");
+        Json json = new Json();
+        json.setOutputType(JsonWriter.OutputType.json);
+        ArrayList<IconDescriptor> elements = json.fromJson(ArrayList.class, IconDescriptor.class, FileLoader.getFile(FileLoader.ICONS_PATH));
+        for (IconDescriptor descriptor : elements) {
+            icons.put(descriptor.name, descriptor);
+        }
+    }
+
     /**
      * Resolves {@link Image} by string key. Only drawables described in regions.json can be got.
      * After first creation of image object, saves it in a map.
      */
     public Drawable getDrawable(String key) {
-        if (drawables.containsKey(key)) return drawables.get(key); // drawable exists
-        if (descriptors.containsKey(key)) { // create drawable
-            TextureRegionDescriptor descriptor = descriptors.get(key);
-            TextureRegionDrawable drawable = new TextureRegionDrawable(new TextureRegion(new Texture("sprites/" + descriptor.texture), descriptor.bounds[0], descriptor.bounds[1], descriptor.bounds[2], descriptor.bounds[3]));
+        if (!descriptors.containsKey(key)) return getDrawable("default"); // default drawable for unknown name
+        if (!drawables.containsKey(key)) { // first request for drawable, create
+            TextureRegionDrawable drawable = new TextureRegionDrawable(getTextureRegion(descriptors.get(key)));
             drawables.put(key, drawable);
-            return drawables.get(key);
         }
-//        Logger.UI.logWarn("Drawable with key " + key + " not found");
-        return getDrawable("order_status_icon:suspended");
+        return drawables.get(key);
     }
 
+    /**
+     * Creates {@link TextureRegion} by {@link TextureRegionDescriptor}, using {@link Texture} cache map.
+     */
+    private TextureRegion getTextureRegion(TextureRegionDescriptor desc) {
+        if (!textures.containsKey(desc.texture)) textures.put(desc.texture, new Texture("sprites/" + desc.texture));
+        return new TextureRegion(textures.get(desc.texture), desc.bounds[0], desc.bounds[1], desc.bounds[2], desc.bounds[3]);
+    }
+
+    /**
+     * Gets drawables from atlases, as {@link AtlasesEnum} is for drawing on {@link Batch} and can only return {@link TextureRegion}s.
+     */
     public Drawable getTileAtlasDrawable(AtlasesEnum atlas, int x, int y) {
-        return getDrawable("order_status_icon:suspended");
+        return new TextureRegionDrawable(atlas.getBlockTile(x, y));
+    }
+
+    public Drawable getIconDrawable(String name) {
+        if (!icons.containsKey(name)) {
+            Logger.LOADING.logWarn("Icon [" + name + "] not found, check /core/assets/resources/ui_background/icons.json");
+            return new TextureRegionDrawable(AtlasesEnum.icons.getBlockTile(0, 0));
+        }
+        IconDescriptor descriptor = icons.get(name);
+        return new TextureRegionDrawable(AtlasesEnum.icons.getBlockTile(descriptor.atlasXY[0], descriptor.atlasXY[1]));
     }
 }

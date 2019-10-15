@@ -1,0 +1,18 @@
+/*
+  Maps icon names to tile coordinates in texture.
+*/
+[
+    {
+        "name": "plants_menu",
+        "atlasXY": [0, 0]
+    }, {
+    "name": "digging_menu",
+    "atlasXY": [0, 1]
+}, {
+    "name": "building_menu",
+    "atlasXY": [0, 2]
+}, {
+    "name": "zones_menu",
+    "atlasXY": [0, 3]
+}
+]
