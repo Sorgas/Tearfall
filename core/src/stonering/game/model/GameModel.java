@@ -17,18 +17,14 @@ import java.util.*;
  * @author Alexander on 04.02.2019.
  */
 public abstract class GameModel implements Initable, Serializable {
-    private TreeMap<Class, ModelComponent> components;
+    private Map<Class, ModelComponent> components;
     private List<Turnable> turnableComponents; // not all components are Turnable
     protected GameCalendar calendar;
     private Timer timer;                 //makes turns for entity containers and calendar
     private boolean paused;
 
     public GameModel() {
-        components = new TreeMap<>((o1, o2) -> {
-            if (o1.equals(o2)) return 0;
-            if (o2.isAssignableFrom(LocalMap.class)) return 1;
-            return o1.getName().compareTo(o2.getName());
-        });
+        components = new HashMap<>();
         turnableComponents = new ArrayList<>();
         calendar = new GameCalendar();
     }

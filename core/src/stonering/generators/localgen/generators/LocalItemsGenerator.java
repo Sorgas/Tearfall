@@ -35,7 +35,7 @@ public class LocalItemsGenerator extends LocalAbstractGenerator {
         createItemInCenter("bar", "copper", 4, 3);
         createItemInCenter("bar", "silver", 4, 4);
         createItemInCenter("bar", "steel", 4, 5);
-        createItemInCenter("log", "birch", 3, 0);
+        createItemInCenter("log", "wood", 3, 0);
     }
 
     private void createItemInCenter(String itemType, String material, int xOffset, int yOffset) {
