@@ -75,20 +75,13 @@ public class TaskContainer implements ModelComponent {
     }
 
     /**
-     * Adds designation and creates comprehensive task.
+     * Validates designation and creates comprehensive task.
      * All simple orders like digging and foraging submitted through this method.
      */
     public Task submitDesignation(Position position, DesignationTypeEnum type, int priority) {
         if (!validator.validateDesignation(position, type)) return null; // no designation for invalid position
         OrderDesignation designation = new OrderDesignation(position, type);
-        Task task = taskCreator.createOrderTask(designation, priority);
-        if (task == null) return null; // no designation with no task
-        Logger.TASKS.logDebug("designation " + type + " submitted");
-        task.setDesignation(designation);
-        designation.setTask(task);
-        addTask(task);
-        designations.put(designation.position, designation);
-        return task;
+        return addTask(taskCreator.createOrderTask(designation, priority));
     }
 
     /**
@@ -99,10 +92,11 @@ public class TaskContainer implements ModelComponent {
     public void submitBuildingDesignation(BuildingOrder order, int priority) {
         Position position = order.getPosition();
         LocalMap localMap = GameMvc.instance().getModel().get(LocalMap.class);
+
         if (!PlaceValidatorsEnum.getValidator(order.getBlueprint().placing).validate(localMap, position)) return;
-        BuildingDesignation designation = new BuildingDesignation(position, DesignationTypeEnum.BUILD, order.getBlueprint().building);
+        BuildingDesignation designation = new BuildingDesignation(position, order.getBlueprint().building);
         Task task = taskCreator.createBuildingTask(designation, order.getItemSelectors().values(), priority);
-        designation.setTask(task);
+
         addTask(task);
         designations.put(designation.position, designation);
         Logger.TASKS.log(task.getName() + " designated");
@@ -114,15 +108,18 @@ public class TaskContainer implements ModelComponent {
      */
     public void removeTask(Task task) {
         tasks.get(task.getJob()).remove(task);
-        if (task.getDesignation() != null) designations.remove(task.getDesignation().position);
+        if (task.designation != null) designations.remove(task.designation.position);
     }
 
     /**
      * For adding simple tasks (w/o designation).
      */
-    public void addTask(Task task) {
-        if (!tasks.containsKey(task.getJob())) tasks.put(task.getJob(), new ArrayList<>()); // new list for job
+    public Task addTask(Task task) {
+        if(task == null) return null;
+        tasks.putIfAbsent(task.getJob(), new ArrayList<>()); // new list for job
         tasks.get(task.getJob()).add(task);
+        if (task.designation != null) designations.put(task.designation.position, task.designation);
+        return task;
     }
 
     public Designation getDesignation(int x, int y, int z) {

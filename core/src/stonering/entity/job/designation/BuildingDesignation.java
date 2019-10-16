@@ -12,8 +12,8 @@ import stonering.util.geometry.Position;
 public class BuildingDesignation extends Designation {
     public final String building; // building name
 
-    public BuildingDesignation(Position position, DesignationTypeEnum type, String building) {
-        super(position, type);
+    public BuildingDesignation(Position position, String building) {
+        super(position, DesignationTypeEnum.BUILD);
         this.building = building;
     }
 }

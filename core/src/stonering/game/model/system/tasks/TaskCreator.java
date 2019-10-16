@@ -47,7 +47,8 @@ public class TaskCreator {
                 break;
             }
         }
-        return action != null ? new Task("designation", TaskTypesEnum.DESIGNATION, action, priority) : null;
+        return action != null ? createTask(action, designation, priority) : null;
+
     }
 
     /**
@@ -60,9 +61,13 @@ public class TaskCreator {
         } else {
             action = new BuildingAction(designation, itemSelectors);
         }
-        Task task = new Task("designation", TaskTypesEnum.DESIGNATION, action, priority);
-        task.setDesignation(designation);
-        return task;
+        return createTask(action, designation, priority);
     }
 
+    private Task createTask(Action action, Designation designation, int priority) {
+        Task task = new Task("designation", TaskTypesEnum.DESIGNATION, action, priority);
+        task.designation = designation;
+        designation.setTask(task);
+        return task;
+    }
 }
