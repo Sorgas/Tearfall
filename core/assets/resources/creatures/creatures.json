@@ -1,150 +1,153 @@
 [
-  {
-    "name": "human",
-    "title": "Human",
-    "description": "This is a human",
-    "bodyTemplate": "humanoid",
-    "aspects": [
-      "equipment",
-      "jobs"
-    ],
-    "baseHP": "100",
-    "atlasXY": [
-      "0",
-      "0"
-    ],
-    "color": "0xffffffff"
-  },
-  {
-    "name": "child",
-    "title": "Child",
-    "description": "Like a human, but littler",
-    "bodyTemplate": "humanoid",
-    "baseHP": "60",
-    "atlasXY": [
-      "0",
-      "0"
-    ],
-    "color": "0xffffffff"
-  },
-  {
-    "name": "dog",
-    "title": "Dog",
-    "description": "Man's best friend",
-    "bodyTemplate": "beast",
-    "baseHP": "100",
-    "atlasXY": [
-      "0",
-      "0"
-    ],
-    "color": "0xffffffff"
-  },
-  {
-    "name": "cow",
-    "title": "Cow",
-    "description": "Maker of tasty milk",
-    "bodyTemplate": "largeBeast",
-    "baseHP": "200",
-    "atlasXY": [
-      "0",
-      "0"
-    ],
-    "color": "0xffffffff"
-  },
-  {
-    "name": "cat",
-    "title": "Cat",
-    "description": "Man's fussier, more standoffish friend",
-    "bodyTemplate": "beast",
-    "baseHP": "75",
-    "atlasXY": [
-      "0",
-      "0"
-    ],
-    "color": "0xffffffff"
-  },
-  {
-    "name": "horse",
-    "title": "Horse",
-    "description": "Who doesn't love horses? Great faithful working animals",
-    "bodyTemplate": "largeBeast",
-    "baseHP": "180",
-    "atlasXY": [
-      "0",
-      "0"
-    ],
-    "color": "0xffffffff"
-  },
-  {
-    "name": "spider",
-    "title": "Spider",
-    "description": "How can something have so many eyes?",
-    "bodyTemplate": "insect",
-    "baseHP": "5",
-    "atlasXY": [
-      "0",
-      "0"
-    ],
-    "color": "0xffffffff"
-  },
-  {
-    "name": "bird",
-    "title": "Bird",
-    "description": "Is it a bird, is it a plane? It's a bird",
-    "bodyTemplate": "flyingBeast",
-    "baseHP": "30",
-    "atlasXY": [
-      "0",
-      "0"
-    ],
-    "color": "0xffffffff"
-  },
-  {
-    "name": "bat",
-    "title": "Bat",
-    "description": "Mind your blood around these pesky flying mice",
-    "bodyTemplate": "flyingBeast",
-    "baseHP": "35",
-    "atlasXY": [
-      "0",
-      "0"
-    ],
-    "color": "0xffffffff"
-  },
-  {
-    "name": "mouse",
-    "title": "Mouse",
-    "description": "quiet and likes cheese",
-    "bodyTemplate": "smallBeast",
-    "baseHP": "20",
-    "atlasXY": [
-      "0",
-      "0"
-    ],
-    "color": "0xffffffff"
-  },
-  {
-    "name": "rat",
-    "title": "Rat",
-    "description": "Like a mouse, but bigger and bitier",
-    "bodyTemplate": "smallBeast",
-    "baseHP": "25",
-    "atlasXY": [
-      "0",
-      "0"
-    ],
-    "color": "0xffffffff"
-  },
-  {
-    "name": "bear",
-    "title": "Bear",
-    "description": "Surprisingly grumpy for something that sleeps most of the year",
-    "bodyTemplate": "largeBeast",
-    "baseHP": "200",
-    "atlasXY": [
-      "0",
-      "0"
-    ],
-    "color": "0xffffffff"
-  }
+    {
+        "name": "human",
+        "title" : "Human",
+        "description": "This is a human",
+        "bodyTemplate": "humanoid",
+        "aspects" : ["equipment", "jobs"],
+        "baseHP": "100",
+        "atlasXY": ["0", "0"],
+        "color": "0xffffffff"
+    },
+    {
+        "name": "dog",
+        "title" : "Dog",
+        "description": "This is a dog",
+        "bodyTemplate": "beast",
+        "baseHP": "100",
+        "atlasXY": ["0", "0"],
+        "color": "0xffffffff"
+    },
+    {
+        "name": "child",
+        "title": "Child",
+        "description": "Like a human, but littler",
+        "bodyTemplate": "humanoid",
+        "baseHP": "60",
+        "atlasXY": [
+            "0",
+            "0"
+        ],
+        "color": "0xffffffff"
+    },
+    {
+        "name": "dog",
+        "title": "Dog",
+        "description": "Man's best friend",
+        "bodyTemplate": "beast",
+        "baseHP": "100",
+        "atlasXY": [
+            "0",
+            "0"
+        ],
+        "color": "0xffffffff"
+    },
+    {
+        "name": "cow",
+        "title": "Cow",
+        "description": "Maker of tasty milk",
+        "bodyTemplate": "largeBeast",
+        "baseHP": "200",
+        "atlasXY": [
+            "0",
+            "0"
+        ],
+        "color": "0xffffffff"
+    },
+    {
+        "name": "cat",
+        "title": "Cat",
+        "description": "Man's fussier, more standoffish friend",
+        "bodyTemplate": "beast",
+        "baseHP": "75",
+        "atlasXY": [
+            "0",
+            "0"
+        ],
+        "color": "0xffffffff"
+    },
+    {
+        "name": "horse",
+        "title": "Horse",
+        "description": "Who doesn't love horses? Great faithful working animals",
+        "bodyTemplate": "largeBeast",
+        "baseHP": "180",
+        "atlasXY": [
+            "0",
+            "0"
+        ],
+        "color": "0xffffffff"
+    },
+    {
+        "name": "spider",
+        "title": "Spider",
+        "description": "How can something have so many eyes?",
+        "bodyTemplate": "insect",
+        "baseHP": "5",
+        "atlasXY": [
+            "0",
+            "0"
+        ],
+        "color": "0xffffffff"
+    },
+    {
+        "name": "bird",
+        "title": "Bird",
+        "description": "Is it a bird, is it a plane? It's a bird",
+        "bodyTemplate": "flyingBeast",
+        "baseHP": "30",
+        "atlasXY": [
+            "0",
+            "0"
+        ],
+        "color": "0xffffffff"
+    },
+    {
+        "name": "bat",
+        "title": "Bat",
+        "description": "Mind your blood around these pesky flying mice",
+        "bodyTemplate": "flyingBeast",
+        "baseHP": "35",
+        "atlasXY": [
+            "0",
+            "0"
+        ],
+        "color": "0xffffffff"
+    },
+    {
+        "name": "mouse",
+        "title": "Mouse",
+        "description": "quiet and likes cheese",
+        "bodyTemplate": "smallBeast",
+        "baseHP": "20",
+        "atlasXY": [
+            "0",
+            "0"
+        ],
+        "color": "0xffffffff"
+    },
+    {
+        "name": "rat",
+        "title": "Rat",
+        "description": "Like a mouse, but bigger and bitier",
+        "bodyTemplate": "smallBeast",
+        "baseHP": "25",
+        "atlasXY": [
+            "0",
+            "0"
+        ],
+        "color": "0xffffffff"
+    },
+    {
+        "name": "bear",
+        "title": "Bear",
+        "description": "Surprisingly grumpy for something that sleeps most of the year",
+        "bodyTemplate": "largeBeast",
+        "baseHP": "200",
+        "atlasXY": [
+            "0",
+            "0"
+        ],
+        "color": "0xffffffff"
+    }
 ]

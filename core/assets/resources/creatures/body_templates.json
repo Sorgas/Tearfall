@@ -6,255 +6,131 @@
     slots are mirrored, if they use mirrored limbs (giving two slots). if both mirrored and single limbs are used, one slot is created.
 */
 [
-  {
-    "name": "beast",
-    "defaultLayers": [
-      "skin",
-      "fat",
-      "muscle",
-      "bone"
-    ],
-    "needs": [
-      "rest"
-    ],
-    "body": [
-      {
-        "name": "upper torso",
-        "root": "body",
-        "internal": [
-          "left lung",
-          "right lung",
-          "heart"
+    {
+        "name": "beast",
+        "defaultLayers": ["skin", "fat", "muscle", "bone"],
+        "needs": ["rest"],
+        "body": [
+            {
+                "name": "upper torso",
+                "root": "body",
+                "internal": ["left lung", "right lung", "heart"]
+            }, {
+                "name": "lower torso",
+                "root": "body",
+                "layers": ["skin", "fat", "muscle"],
+                "internal": ["stomach"]
+            }, {
+                "name": "neck",
+                "root": "upper torso",
+                "layers": ["skin", "fat", "muscle"],
+                "internal": ["neck part spine"]
+            }, {
+                "name": "head",
+                "root": "neck",
+                "internal": ["brain", "tongue", "teeth"],
+                "external": ["left eye", "right eye", "nose", "left ear", "right ear"]
+            }, {
+                "name": "front upper leg",
+                "root": "upper torso",
+                "mirrored": true
+            }, {
+                "name": "front lower leg",
+                "root": "front upper leg"
+            }, {
+                "name": "paw",
+                "root": "front lower leg"
+            }, {
+                "name": "rear upper leg",
+                "root": "lower torso",
+                "mirrored": true
+            }, {
+                "name": "rear lower leg",
+                "root": "rear upper leg"
+            }, {
+                "name": "rear paw",
+                "root": "rear lower leg"
+            }, {
+                "name": "tail",
+                "root": "lower torso"
+            }
         ]
-      },
-      {
-        "name": "lower torso",
-        "root": "body",
-        "layers": [
-          "skin",
-          "fat",
-          "muscle"
-        ],
-        "internal": [
-          "stomach"
-        ]
-      },
-      {
-        "name": "neck",
-        "root": "upper torso",
-        "layers": [
-          "skin",
-          "fat",
-          "muscle"
-        ],
-        "internal": [
-          "neck part spine"
-        ]
-      },
-      {
-        "name": "head",
-        "root": "neck",
-        "internal": [
-          "brain",
-          "tongue",
-          "teeth"
-        ],
-        "external": [
-          "left eye",
-          "right eye",
-          "nose",
-          "left ear",
-          "right ear"
-        ]
-      },
-      {
-        "name": "front upper leg",
-        "root": "upper torso",
-        "mirrored": true
-      },
-      {
-        "name": "front lower leg",
-        "root": "front upper leg"
-      },
-      {
-        "name": "paw",
-        "root": "front lower leg"
-      },
-      {
-        "name": "rear upper leg",
-        "root": "lower torso",
-        "mirrored": true
-      },
-      {
-        "name": "rear lower leg",
-        "root": "rear upper leg"
-      },
-      {
-        "name": "rear paw",
-        "root": "rear lower leg"
-      },
-      {
-        "name": "tail",
-        "root": "lower torso"
-      }
-    ]
-  },
-  {
+    }, {
     "name": "humanoid",
-    "desiredSlots": [
-      "foot",
-      "legs"
-    ],
-    "defaultLayers": [
-      "skin",
-      "fat",
-      "muscle",
-      "bone"
-    ],
-    "needs": [
-      "rest",
-      "wear",
-      "food"
-    ],
+    "desiredSlots": ["foot", "legs"],
+    "defaultLayers": ["skin", "fat", "muscle", "bone"],
+    "needs": ["rest", "wear", "food"],
     "body": [
-      {
-        "name": "upper torso",
-        "root": "body",
-        "internal": [
-          "left lung",
-          "right lung",
-          "heart"
-        ]
-      },
-      {
-        "name": "lower torso",
-        "root": "body",
-        "layers": [
-          "skin",
-          "fat",
-          "muscle"
-        ],
-        "internal": [
-          "stomach"
-        ]
-      },
-      {
-        "name": "neck",
-        "root": "upper torso",
-        "layers": [
-          "skin",
-          "fat",
-          "muscle"
-        ],
-        "internal": [
-          "neck part spine"
-        ]
-      },
-      {
-        "name": "head",
-        "root": "neck",
-        "internal": [
-          "brain",
-          "tongue",
-          "teeth"
-        ],
-        "external": [
-          "left eye",
-          "right eye",
-          "nose",
-          "left ear",
-          "right ear"
-        ]
-      },
-      {
-        "name": "upper arm",
-        "root": "upper torso",
-        "mirrored": true
-      },
-      {
-        "name": "lower arm",
-        "root": "upper arm"
-      },
-      {
-        "name": "hand",
-        "root": "lower arm",
-        "tags": [
-          "grab"
-        ]
-      },
-      {
-        "name": "upper leg",
-        "root": "lower torso",
-        "mirrored": true
-      },
-      {
-        "name": "lower leg",
-        "root": "upper leg"
-      },
-      {
-        "name": "foot",
-        "root": "lower leg"
-      }
+        {
+            "name": "upper torso",
+            "root": "body",
+            "internal": ["left lung", "right lung", "heart"]
+        }, {
+            "name": "lower torso",
+            "root": "body",
+            "layers": ["skin", "fat", "muscle"],
+            "internal": ["stomach"]
+        }, {
+            "name": "neck",
+            "root": "upper torso",
+            "layers": ["skin", "fat", "muscle"],
+            "internal": ["neck part spine"]
+        }, {
+            "name": "head",
+            "root": "neck",
+            "internal": ["brain", "tongue", "teeth"],
+            "external": ["left eye", "right eye", "nose", "left ear", "right ear"]
+        }, {
+            "name": "upper arm",
+            "root": "upper torso",
+            "mirrored": true
+        }, {
+            "name": "lower arm",
+            "root": "upper arm"
+        }, {
+            "name": "hand",
+            "root": "lower arm",
+            "tags": ["grab"]
+        }, {
+            "name": "upper leg",
+            "root": "lower torso",
+            "mirrored": true
+        }, {
+            "name": "lower leg",
+            "root": "upper leg"
+        }, {
+            "name": "foot",
+            "root": "lower leg"
+        }
     ],
     "slots": [
-      [
-        "head",
-        "head"
-      ],
-      [
-        "neck",
-        "neck"
-      ],
-      [
-        "hand",
-        "hand"
-      ],
-      [
-        "lower arm",
-        "lower arm"
-      ],
-      [
-        "body",
-        "upper torso",
-        "upper arm"
-      ],
-      [
-        "legs",
-        "lower torso",
-        "upper leg"
-      ],
-      [
-        "foot",
-        "foot"
-      ]
+        ["head", "head"],
+        ["neck", "neck"],
+        ["hand", "hand"],
+        ["lower arm", "lower arm"],
+        ["body", "upper torso", "upper arm"],
+        ["legs", "lower torso", "upper leg"],
+        ["foot", "foot"]
     ]
-  },
-//  todo
+},
+  //todo
   {
     "name": "smallBeast",
-    "defaultLayers": [
-      "skin",
-      "fat",
-      "muscle",
-      "bone"
-    ]
+    "desiredSlots": ["foot", "legs"],
+    "defaultLayers": ["skin", "fat", "muscle", "bone"],
+    "needs": ["rest", "wear", "food"]
+  },
+  {
+    "name": "beast",
+    "desiredSlots": ["foot", "legs"],
+    "defaultLayers": ["skin", "fat", "muscle", "bone"],
+    "needs": ["rest", "wear", "food"],
   },
   {
     "name": "largeBeast",
-    "defaultLayers": [
-      "skin",
-      "fat",
-      "muscle",
-      "bone"
-    ]
-  },
-  {
-    "name": "flyingBeast",
-    "defaultLayers": [
-      "skin",
-      "fat",
-      "muscle",
-      "bone"
-    ]
+    "desiredSlots": ["foot", "legs"],
+    "defaultLayers": ["skin", "fat", "muscle", "bone"],
+    "needs": ["rest", "wear", "food"],
   }
+
 ]
