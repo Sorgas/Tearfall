@@ -12,6 +12,7 @@ import stonering.enums.designations.DesignationTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.system.items.ItemContainer;
 import stonering.game.model.local_map.LocalMap;
+import stonering.game.model.system.tasks.TaskContainer;
 import stonering.generators.items.DiggingProductGenerator;
 import stonering.util.geometry.Position;
 
@@ -26,14 +27,14 @@ public class DigAction extends Action {
     private ItemSelector toolItemSelector;
 
     public DigAction(OrderDesignation designation) {
-        super(new PositionActionTarget(designation.getPosition(), ActionTarget.NEAR));
+        super(new PositionActionTarget(designation.position, ActionTarget.NEAR));
         type = designation.getType();
         toolItemSelector = new ToolWithActionItemSelector("dig");
     }
 
     @Override
     public int check() {
-        if(!validate()) return FAIL;
+        if (!validate()) return FAIL;
         EquipmentAspect aspect = task.getPerformer().getAspect(EquipmentAspect.class);
         if (aspect == null) return FAIL;
         if (toolItemSelector.checkItems(aspect.equippedItems)) return OK;
@@ -49,49 +50,31 @@ public class DigAction extends Action {
 
     @Override
     protected void performLogic() {
-        if(validate()) updateMap();
+        if (validate()) updateMap();
         leaveStone(GameMvc.instance().getModel().get(LocalMap.class).getMaterial(actionTarget.getPosition()));
     }
 
     /**
-     * Checks that target block can be changed to a type.
+     * Checks that target block can be changed to a target type.
      */
     private boolean validate() {
         LocalMap map = GameMvc.instance().getModel().get(LocalMap.class);
-        BlockTypesEnum blockType = BlockTypesEnum.getType(map.getBlockType(actionTarget.getPosition()));
-        switch (type) {
-            case DIG:
-                return blockType == WALL ||
-                        blockType == RAMP ||
-                        blockType == STAIRS;
-            case STAIRS:
-                return blockType == WALL ||
-                        blockType == RAMP ||
-                        blockType == FLOOR ||
-                        blockType == STAIRS;
-            case RAMP:
-                return blockType == WALL;
-            case CHANNEL:
-                return blockType == WALL ||
-                        blockType == RAMP ||
-                        blockType == FLOOR ||
-                        blockType == STAIRS;
-        }
-        return false;
+        BlockTypesEnum mapBlock = BlockTypesEnum.getType(map.getBlockType(actionTarget.getPosition()));
+        return GameMvc.instance().getModel().get(TaskContainer.class).validator.validateDigging(mapBlock, type);
     }
 
     /**
-     * Applies changes to local map.
+     * Applies changes to local map. Some types of digging change not only target tile.
      */
     private void updateMap() {
         LocalMap map = GameMvc.instance().getModel().get(LocalMap.class);
         Position target = actionTarget.getPosition();
-        switch(type) {
+        switch (type) {
             case DIG:
                 updateAndRevealMap(target, FLOOR);
                 break;
             case STAIRS:
-                if(map.getBlockType(target) == WALL.CODE) {
+                if (map.getBlockType(target) == WALL.CODE) {
                     updateAndRevealMap(target, STAIRS);
                 } else {
                     updateAndRevealMap(target, DOWNSTAIRS);
@@ -100,13 +83,13 @@ public class DigAction extends Action {
             case RAMP:
                 updateAndRevealMap(target, RAMP);
                 Position upperPosition = new Position(target.x, target.y, target.z + 1);
-                if(map.inMap(upperPosition))
+                if (map.inMap(upperPosition))
                     updateAndRevealMap(upperPosition, SPACE);
                 break;
             case CHANNEL:
                 updateAndRevealMap(target, SPACE);
                 Position lowerPosition = new Position(target.x, target.y, target.z - 1);
-                if(map.inMap(lowerPosition) && map.getBlockType(lowerPosition) == WALL.CODE)
+                if (map.inMap(lowerPosition) && map.getBlockType(lowerPosition) == WALL.CODE)
                     updateAndRevealMap(lowerPosition, RAMP);
         }
     }

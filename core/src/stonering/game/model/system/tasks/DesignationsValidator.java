@@ -18,21 +18,25 @@ import static stonering.enums.blocks.BlockTypesEnum.*;
  */
 public class DesignationsValidator {
 
+    /**
+     * Calls correct validation method for designation type.
+     */
     public boolean validateDesignation(Position position, DesignationTypeEnum type) {
         LocalMap localMap = GameMvc.instance().getModel().get(LocalMap.class);
         BlockTypesEnum blockOnMap = getType(localMap.getBlockType(position));
         switch (type) {
-            case DIG:  //makes floor
-            case CHANNEL:  //makes space and ramp lower
+            case DIG: //makes floor
+            case CHANNEL: //makes space and ramp lower
             case DOWNSTAIRS:
             case RAMP:
             case STAIRS:
-                return blockOnMap.OPENNESS > getTargetBlockType(type).OPENNESS;
+                return validateDigging(blockOnMap, type);
             case CHOP:
             case HARVEST:
             case CUT:
                 return validatePlantDesignations(position, blockOnMap, type);
             case BUILD:
+                //TODO
             case NONE:
                 return true;
         }
@@ -56,10 +60,14 @@ public class DesignationsValidator {
         return false;
     }
 
+    public boolean validateDigging(BlockTypesEnum mapBlock, DesignationTypeEnum type) {
+        return mapBlock.OPENNESS > getTargetBlockType(type).OPENNESS;
+    }
+
     /**
      * Returns block type, created by digging.
      */
-    private BlockTypesEnum getTargetBlockType(DesignationTypeEnum designationType) {
+    public BlockTypesEnum getTargetBlockType(DesignationTypeEnum designationType) {
         switch (designationType) {
             case DIG:
                 return FLOOR;

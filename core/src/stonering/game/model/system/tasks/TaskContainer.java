@@ -1,8 +1,5 @@
 package stonering.game.model.system.tasks;
 
-import stonering.entity.building.BuildingType;
-import stonering.entity.job.action.target.ActionTarget;
-import stonering.entity.job.action.target.PositionActionTarget;
 import stonering.entity.job.designation.BuildingDesignation;
 import stonering.entity.job.designation.Designation;
 import stonering.entity.job.designation.OrderDesignation;
@@ -10,7 +7,6 @@ import stonering.entity.job.action.*;
 import stonering.entity.building.BuildingOrder;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.JobsAspect;
-import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.buildings.BuildingTypeMap;
 import stonering.enums.designations.DesignationTypeEnum;
 import stonering.enums.designations.PlaceValidatorsEnum;
@@ -27,14 +23,11 @@ import stonering.util.global.Logger;
 
 import java.util.*;
 
-import static stonering.entity.job.action.target.ActionTarget.ANY;
-import static stonering.entity.job.action.target.ActionTarget.NEAR;
 import static stonering.enums.TaskStatusEnum.OPEN;
-import static stonering.enums.blocks.BlockTypesEnum.NOT_PASSABLE;
 
 /**
  * Contains all tasks for settlers on map and Designations for rendering.
- * Tasks are created by player or by building(farm tasks or workbenches).
+ * Tasks are created by player or by buildings and zones(farms, storages, workbenches).
  * <p>
  * {@link Task} are orders for unit.
  * {@link Designation} are used for drawing given orders as tiles.
@@ -43,18 +36,18 @@ import static stonering.enums.blocks.BlockTypesEnum.NOT_PASSABLE;
  * @author Alexander Kuzyakov
  */
 public class TaskContainer implements ModelComponent {
-    private Map<String, List<Task>> tasks; // units take tasks from here
-    //this map is for rendering and modifying designations
-    private HashMap<Position, Designation> designations;
-    private DesignationsValidator validator;
+    private Map<String, List<Task>> tasks; // task job to all tasks with this job
+    public final HashMap<Position, Designation> designations; //this map is for rendering and modifying designations
+    public final DesignationsValidator validator;
+    private TaskCreator taskCreator;
     private Position cachePosition; // state is not maintained. should be set before use
-    //TODO add building order
 
     public TaskContainer() {
         tasks = new HashMap<>();
         designations = new HashMap<>();
         validator = new DesignationsValidator();
-        cachePosition = new Position(0, 0, 0);
+        taskCreator = new TaskCreator();
+        cachePosition = new Position();
     }
 
     /**
@@ -88,16 +81,13 @@ public class TaskContainer implements ModelComponent {
     public Task submitDesignation(Position position, DesignationTypeEnum type, int priority) {
         if (!validator.validateDesignation(position, type)) return null; // no designation for invalid position
         OrderDesignation designation = new OrderDesignation(position, type);
-        Task task = createOrderTask(designation, priority);
+        Task task = taskCreator.createOrderTask(designation, priority);
         if (task == null) return null; // no designation with no task
         Logger.TASKS.logDebug("designation " + type + " submitted");
         task.setDesignation(designation);
         designation.setTask(task);
         addTask(task);
-        designations.put(designation.getPosition(), designation);
-        Logger.TASKS.log(task.getName() + " designated");
-        Logger.TASKS.logDebug("tasks number: " + tasks.size());
-        Logger.TASKS.logDebug("designation number: " + designations.size());
+        designations.put(designation.position, designation);
         return task;
     }
 
@@ -111,57 +101,11 @@ public class TaskContainer implements ModelComponent {
         LocalMap localMap = GameMvc.instance().getModel().get(LocalMap.class);
         if (!PlaceValidatorsEnum.getValidator(order.getBlueprint().placing).validate(localMap, position)) return;
         BuildingDesignation designation = new BuildingDesignation(position, DesignationTypeEnum.BUILD, order.getBlueprint().building);
-        Task task = createBuildingTask(designation, order.getItemSelectors().values(), priority);
+        Task task = taskCreator.createBuildingTask(designation, order.getItemSelectors().values(), priority);
         designation.setTask(task);
         addTask(task);
-        designations.put(designation.getPosition(), designation);
+        designations.put(designation.position, designation);
         Logger.TASKS.log(task.getName() + " designated");
-    }
-
-    private Task createOrderTask(OrderDesignation designation, int priority) {
-        switch (designation.getType()) {
-            case NONE:
-                break;
-            case DIG:
-            case RAMP:
-            case STAIRS:
-            case CHANNEL: {
-                DigAction digAction = new DigAction(designation);
-                Task task = new Task("designation", TaskTypesEnum.DESIGNATION, digAction, priority);
-                return task;
-            }
-            //TODO split actions
-            case CUT:
-            case CHOP: {
-                ChopTreeAction chopTreeAction = new ChopTreeAction(designation);
-                Task task = new Task("designation", TaskTypesEnum.DESIGNATION, chopTreeAction, priority);
-                return task;
-            }
-            case HARVEST: {
-                PlantBlock block = GameMvc.instance().getModel().get(PlantContainer.class).getPlantBlock(designation.getPosition());
-                if (!block.getPlant().isHarvestable()) return null;
-                PlantHarvestAction plantHarvestAction = new PlantHarvestAction(block.getPlant());
-                //TODO probably create multiple tasks for all blocks
-                return new Task("designation", TaskTypesEnum.DESIGNATION, plantHarvestAction, priority);
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Creates tasks for building various buildings.
-     */
-    private Task createBuildingTask(BuildingDesignation designation, Collection<ItemSelector> itemSelectors, int priority) {
-        Action action;
-        if (BuildingTypeMap.instance().getBuilding(designation.getBuilding()).construction) {
-
-            action = new ConstructionAction(designation, itemSelectors);
-        } else {
-            action = new BuildingAction(designation, itemSelectors);
-        }
-        Task task = new Task("designation", TaskTypesEnum.DESIGNATION, action, priority);
-        task.setDesignation(designation);
-        return task;
     }
 
     /**
@@ -169,10 +113,8 @@ public class TaskContainer implements ModelComponent {
      * Removes tasks designation if there is one.
      */
     public void removeTask(Task task) {
-        tasks.remove(task);
-        if (task.getDesignation() != null) {
-            designations.remove(task.getDesignation().getPosition());
-        }
+        tasks.get(task.getJob()).remove(task);
+        if (task.getDesignation() != null) designations.remove(task.getDesignation().position);
     }
 
     /**
@@ -185,9 +127,5 @@ public class TaskContainer implements ModelComponent {
 
     public Designation getDesignation(int x, int y, int z) {
         return designations.get(cachePosition.set(x, y, z));
-    }
-
-    public HashMap<Position, Designation> getDesignations() {
-        return designations;
     }
 }

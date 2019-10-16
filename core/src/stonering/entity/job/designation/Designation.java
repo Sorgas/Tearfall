@@ -12,21 +12,13 @@ import stonering.entity.job.Task;
  * @author Alexander Kuzyakov on 26.06.2018
  */
 public abstract class Designation {
-    protected Position position;
+    public final Position position;
     protected Task task;
     private DesignationTypeEnum type;
 
     public Designation(Position position, DesignationTypeEnum type) {
         this.position = position;
         this.type = type;
-    }
-
-    public Position getPosition() {
-        return position;
-    }
-
-    public void setPosition(Position position) {
-        this.position = position;
     }
 
     public Task getTask() {

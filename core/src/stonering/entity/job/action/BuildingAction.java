@@ -24,7 +24,7 @@ public class BuildingAction extends GenericBuildingAction {
 
     public BuildingAction(BuildingDesignation designation, Collection<ItemSelector> itemSelectors) {
         super(designation, itemSelectors);
-        buildingType = BuildingTypeMap.instance().getBuilding(designation.getBuilding());
+        buildingType = BuildingTypeMap.instance().getBuilding(designation.building);
     }
 
     @Override

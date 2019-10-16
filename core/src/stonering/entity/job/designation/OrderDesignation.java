@@ -8,7 +8,7 @@ import stonering.util.geometry.Position;
  *
  * @author Alexander Kuzyakov
  */
-public class OrderDesignation extends Designation{
+public class OrderDesignation extends Designation {
 
     public OrderDesignation(Position position, DesignationTypeEnum type) {
         super(position, type);
