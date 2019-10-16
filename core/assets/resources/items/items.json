@@ -1,204 +1,530 @@
 [
-    {
-        "name": "log",
-        "description": "Large part of a tree.",
-        "typeAspects": [["value", "0"], ["fuel", "1"]],
-        "atlasXY": ["2", "0"],
-        "color": "0xffffffff"
-    }, {
+  {
+    "name": "log",
+    "description": "Large part of a tree.",
+    "typeAspects": [
+      [
+        "value",
+        "0"
+      ],
+      [
+        "fuel",
+        "1"
+      ]
+    ],
+    "atlasXY": [
+      "2",
+      "0"
+    ],
+    "color": "0xffffffff"
+  },
+  {
     "name": "branch",
     "description": "Small part of a tree.",
-    "typeAspects": [["value", "0"], ["fuel", "1"]],
-    "atlasXY": ["3", "0"],
+    "typeAspects": [
+      [
+        "value",
+        "0"
+      ],
+      [
+        "fuel",
+        "1"
+      ]
+    ],
+    "atlasXY": [
+      "3",
+      "0"
+    ],
     "color": "0xffffffff"
-}, {
+  },
+  {
     "name": "root",
     "description": "Underground tree part.",
-    "typeAspects": [["value", "0"], ["fuel", "1"]],
-    "atlasXY": ["3", "0"],
+    "typeAspects": [
+      [
+        "value",
+        "0"
+      ],
+      [
+        "fuel",
+        "1"
+      ]
+    ],
+    "atlasXY": [
+      "3",
+      "0"
+    ],
     "color": "0xffffffff"
-}, {
+  },
+  {
     "name": "plank",
     "description": "Fine formed piece of wood.",
-    "typeAspects": [["value", "0"], ["fuel", "0"]],
-    "atlasXY": ["3", "0"],
+    "typeAspects": [
+      [
+        "value",
+        "0"
+      ],
+      [
+        "fuel",
+        "0"
+      ]
+    ],
+    "atlasXY": [
+      "3",
+      "0"
+    ],
     "color": "0xffffffff"
-}, {
+  },
+  {
     "name": "rock",
     "description": "Rock.",
-    "typeAspects": [["value", "0"]],
-    "atlasXY": ["4", "0"],
+    "typeAspects": [
+      [
+        "value",
+        "0"
+      ]
+    ],
+    "atlasXY": [
+      "4",
+      "0"
+    ],
     "color": "0xffffffff"
-}, {
+  },
+  {
     "name": "bar",
     "description": "Piece of metal, formed for further use.",
-    "typeAspects": [["value", "0"]],
-    "atlasXY": ["9", "0"],
+    "typeAspects": [
+      [
+        "value",
+        "0"
+      ]
+    ],
+    "atlasXY": [
+      "9",
+      "0"
+    ],
     "color": "0xffffffff"
-}, {
+  },
+  {
     "name": "berry",
     "description": ".",
-    "typeAspects": [["value", "0"]],
-    "atlasXY": ["8", "0"],
+    "typeAspects": [
+      [
+        "value",
+        "0"
+      ]
+    ],
+    "atlasXY": [
+      "8",
+      "0"
+    ],
     "color": "0xffffffff"
-}, {
+  },
+  {
     "name": "roll",
     "description": "Rolled cloth.",
-    "typeAspects": [["value", "0"]],
-    "atlasXY": ["10", "0"],
+    "typeAspects": [
+      [
+        "value",
+        "0"
+      ]
+    ],
+    "atlasXY": [
+      "10",
+      "0"
+    ],
     "color": "0xffffffff"
-}, {
+  },
+  {
     "name": "leather",
     "description": "Large leather piece.",
-    "typeAspects": [["value", "0"]],
-    "atlasXY": ["11", "0"],
+    "typeAspects": [
+      [
+        "value",
+        "0"
+      ]
+    ],
+    "atlasXY": [
+      "11",
+      "0"
+    ],
     "color": "0xffffffff"
-}, {
+  },
+  {
     "name": "brick",
     "description": "Building brick made of clay.",
-    "typeAspects": [["value", "0"]],
-    "atlasXY": ["12", "0"],
+    "typeAspects": [
+      [
+        "value",
+        "0"
+      ]
+    ],
+    "atlasXY": [
+      "12",
+      "0"
+    ],
     "color": "0xffffffff"
-}, {
+  },
+  {
     "name": "pot",
     "description": "For storing things or growing small plants.",
-    "typeAspects": [["value", "0"]],
-    "atlasXY": ["13", "0"],
+    "typeAspects": [
+      [
+        "value",
+        "0"
+      ]
+    ],
+    "atlasXY": [
+      "13",
+      "0"
+    ],
     "color": "0xffffffff"
-}, {
+  },
+  {
     "name": "rope",
     "description": "For binding items to each other.",
-    "typeAspects": [["value", "0"]],
-    "atlasXY": ["14", "0"],
+    "typeAspects": [
+      [
+        "value",
+        "0"
+      ]
+    ],
+    "atlasXY": [
+      "14",
+      "0"
+    ],
     "color": "0xffffffff"
-}, {
+  },
+  {
     "name": "lantern",
     "description": "Shows path in the dark.",
-    "typeAspects": [["value", "0"]],
-    "atlasXY": ["14", "0"],
+    "typeAspects": [
+      [
+        "value",
+        "0"
+      ]
+    ],
+    "atlasXY": [
+      "14",
+      "0"
+    ],
     "color": "0xffffffff"
-}, {
+  },
+  {
     "name": "flask",
     "description": "Keeps drinks close.",
-    "typeAspects": [["value", "0"]],
-    "atlasXY": ["15", "0"],
+    "typeAspects": [
+      [
+        "value",
+        "0"
+      ]
+    ],
+    "atlasXY": [
+      "15",
+      "0"
+    ],
     "color": "0xffffffff"
-}, {
+  },
+  {
     "name": "torch",
     "description": "Lights the way.",
-    "typeAspects": [["value", "0"]],
-    "atlasXY": ["15", "0"],
+    "typeAspects": [
+      [
+        "value",
+        "0"
+      ]
+    ],
+    "atlasXY": [
+      "15",
+      "0"
+    ],
     "color": "0xffffffff"
-}, {
+  },
+  {
     "name": "seed",
     "description": "Can give birth to a plant",
-    "typeAspects": [["value", "0"]],
-    "aspects": [["seed"]],
-    "atlasXY": ["11", "0"],
+    "typeAspects": [
+      [
+        "value",
+        "0"
+      ]
+    ],
+    "aspects": [
+      [
+        "seed"
+      ]
+    ],
+    "atlasXY": [
+      "11",
+      "0"
+    ],
     "color": "0xffffffff"
-}, {
+  },
+  {
     "name": "fruit",
     "description": "Juicy fruit",
-    "typeAspects": [["value", "0"]],
-    "aspects": [["seed", "fruit"]],
-    "atlasXY": ["15", "0"],
+    "typeAspects": [
+      [
+        "value",
+        "0"
+      ]
+    ],
+    "aspects": [
+      [
+        "seed",
+        "fruit"
+      ]
+    ],
+    "atlasXY": [
+      "15",
+      "0"
+    ],
     "color": "0xffffffff"
-}, {
+  },
+  {
     "name": "meal",
     "description": "Edible meal",
-    "typeAspects": [["value", "0"]],
-    "aspects": [["food"]],
-    "atlasXY": ["15", "0"],
+    "typeAspects": [
+      [
+        "value",
+        "0"
+      ]
+    ],
+    "aspects": [
+      [
+        "food"
+      ]
+    ],
+    "atlasXY": [
+      "15",
+      "0"
+    ],
     "color": "0xffffffff"
-}, {
+  },
+  {
     "name": "liquid",
     "description": "Should be replaced with dynamic description.",
-    "typeAspects": [["value", "0"]],
-    "aspects": [["liquid"]],
-    "atlasXY": ["15", "0"],
+    "typeAspects": [
+      [
+        "value",
+        "0"
+      ]
+    ],
+    "aspects": [
+      [
+        "liquid"
+      ]
+    ],
+    "atlasXY": [
+      "15",
+      "0"
+    ],
     "color": "0xffffffff"
-}, {
+  },
+  {
     "name": "meat_piece",
     "description": "Should be replaced with dynamic description.",
-    "typeAspects": [["value", "0"]],
-    "atlasXY": ["12", "0"],
+    "typeAspects": [
+      [
+        "value",
+        "0"
+      ]
+    ],
+    "atlasXY": [
+      "12",
+      "0"
+    ],
     "color": "0xffffffff"
-}, {
+  },
+  {
     "name": "bucket",
     "description": "Can hold liquids.",
-    "typeAspects": [["value", "0"]],
-    "aspects": [["item_container", "liquid/solid/grain", "1"]],
-    "atlasXY": ["15", "0"],
+    "typeAspects": [
+      [
+        "value",
+        "0"
+      ]
+    ],
+    "aspects": [
+      [
+        "item_container",
+        "liquid/solid/grain",
+        "1"
+      ]
+    ],
+    "atlasXY": [
+      "15",
+      "0"
+    ],
     "color": "0xffffffff"
-},{
+  },
+  {
     "name": "leaf",
     "description": "Tree leaf.",
-    "typeAspects": [["value", "0"]],
-    "aspects": [["slow_falling", "0.1"], ["wind_moved", "0.8"]],
-    "atlasXY": ["15", "0"],
+    "typeAspects": [
+      [
+        "value",
+        "0"
+      ]
+    ],
+    "aspects": [
+      [
+        "slow_falling",
+        "0.1"
+      ],
+      [
+        "wind_moved",
+        "0.8"
+      ]
+    ],
+    "atlasXY": [
+      "15",
+      "0"
+    ],
     "color": "0xffffffff"
-},{
+  },
+  {
     "name": "bottle",
     "description": "Bottle for drinks.",
-    "typeAspects": [["value", "0"]],
+    "typeAspects": [
+      [
+        "value",
+        "0"
+      ]
+    ],
     "aspects": [],
-    "atlasXY": ["15", "0"],
+    "atlasXY": [
+      "15",
+      "0"
+    ],
     "color": "0xffffffff"
-},{
+  },
+  {
     "name": "chain",
     "description": "Strong metal chain.",
-    "typeAspects": [["value", "0"]],
+    "typeAspects": [
+      [
+        "value",
+        "0"
+      ]
+    ],
     "aspects": [],
-    "atlasXY": ["15", "0"],
+    "atlasXY": [
+      "15",
+      "0"
+    ],
     "color": "0xffffffff"
-},{
+  },
+  {
     "name": "book",
     "description": "Source of knowledge.",
-    "typeAspects": [["value", "0"]],
+    "typeAspects": [
+      [
+        "value",
+        "0"
+      ]
+    ],
     "aspects": [],
-    "atlasXY": ["15", "0"],
+    "atlasXY": [
+      "15",
+      "0"
+    ],
     "color": "0xffffffff"
-},{
+  },
+  {
     "name": "cup",
     "description": "Holds liquids.",
-    "typeAspects": [["value", "0"]],
+    "typeAspects": [
+      [
+        "value",
+        "0"
+      ]
+    ],
     "aspects": [],
-    "atlasXY": ["15", "0"],
+    "atlasXY": [
+      "15",
+      "0"
+    ],
     "color": "0xffffffff"
-},{
+  },
+  {
     "name": "pouch",
     "description": "Bag for small things.",
-    "typeAspects": [["value", "0"]],
+    "typeAspects": [
+      [
+        "value",
+        "0"
+      ]
+    ],
     "aspects": [],
-    "atlasXY": ["15", "0"],
+    "atlasXY": [
+      "15",
+      "0"
+    ],
     "color": "0xffffffff"
-},{
+  },
+  {
     "name": "nail",
     "description": "Metal nail for building.",
-    "typeAspects": [["value", "0"]],
+    "typeAspects": [
+      [
+        "value",
+        "0"
+      ]
+    ],
     "aspects": [],
-    "atlasXY": ["15", "0"],
+    "atlasXY": [
+      "15",
+      "0"
+    ],
     "color": "0xffffffff"
-},{
+  },
+  {
     "name": "mushroom",
     "description": "",
-    "typeAspects": [["value", "0"]],
+    "typeAspects": [
+      [
+        "value",
+        "0"
+      ]
+    ],
     "aspects": [],
-    "atlasXY": ["15", "0"],
+    "atlasXY": [
+      "15",
+      "0"
+    ],
     "color": "0xffffffff"
-},{
+  },
+  {
     "name": "arrow",
     "description": "Ammunition for bows.",
-    "typeAspects": [["value", "0"]],
+    "typeAspects": [
+      [
+        "value",
+        "0"
+      ]
+    ],
     "aspects": [],
-    "atlasXY": ["15", "0"],
+    "atlasXY": [
+      "15",
+      "0"
+    ],
     "color": "0xffffffff"
-},{
+  },
+  {
     "name": "bolt",
     "description": "Ammunition for crossbows.",
-    "typeAspects": [["value", "0"]],
+    "typeAspects": [
+      [
+        "value",
+        "0"
+      ]
+    ],
     "aspects": [],
-    "atlasXY": ["15", "0"],
+    "atlasXY": [
+      "15",
+      "0"
+    ],
     "color": "0xffffffff"
-}
+  }
 ]
