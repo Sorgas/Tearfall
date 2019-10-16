@@ -31,7 +31,7 @@ public class Toolbar extends Container<Table> {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 Actor target = menusGroup.getChildren().peek();
-                Logger.UI.logDebug("handling " + keycode + " in toolbar. Target menu is " + target);
+                Logger.UI.logDebug("handling " + keycode + " in toolbar. Target menu is " + target.getClass().getSimpleName());
                 if (keycode == Input.Keys.E && target == parentMenu) return false;
                 return target.notify(event, false);
             }

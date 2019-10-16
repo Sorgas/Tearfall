@@ -76,7 +76,8 @@ public class TaskContainer implements ModelComponent {
 
     /**
      * Validates designation and creates comprehensive task.
-     * All simple orders like digging and foraging submitted through this method.
+     * All simple orders like digging and foraging submitted through th
+     * is method.
      */
     public Task submitDesignation(Position position, DesignationTypeEnum type, int priority) {
         if (!validator.validateDesignation(position, type)) return null; // no designation for invalid position
@@ -119,6 +120,7 @@ public class TaskContainer implements ModelComponent {
         tasks.putIfAbsent(task.getJob(), new ArrayList<>()); // new list for job
         tasks.get(task.getJob()).add(task);
         if (task.designation != null) designations.put(task.designation.position, task.designation);
+        Logger.TASKS.logDebug("Task " + task + " added to TaskContainer.");
         return task;
     }
 

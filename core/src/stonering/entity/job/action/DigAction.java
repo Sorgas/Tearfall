@@ -60,7 +60,7 @@ public class DigAction extends Action {
     private boolean validate() {
         LocalMap map = GameMvc.instance().getModel().get(LocalMap.class);
         BlockTypesEnum mapBlock = BlockTypesEnum.getType(map.getBlockType(actionTarget.getPosition()));
-        return GameMvc.instance().getModel().get(TaskContainer.class).validator.validateDigging(mapBlock, type);
+        return GameMvc.instance().getModel().get(TaskContainer.class).validator.validateDigging(actionTarget.getPosition(), mapBlock, type);
     }
 
     /**

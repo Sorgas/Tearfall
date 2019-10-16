@@ -30,7 +30,7 @@ public class DesignationsValidator {
             case DOWNSTAIRS:
             case RAMP:
             case STAIRS:
-                return validateDigging(blockOnMap, type);
+                return validateDigging(position, blockOnMap, type);
             case CHOP:
             case HARVEST:
             case CUT:
@@ -60,8 +60,10 @@ public class DesignationsValidator {
         return false;
     }
 
-    public boolean validateDigging(BlockTypesEnum mapBlock, DesignationTypeEnum type) {
-        return mapBlock.OPENNESS > getTargetBlockType(type).OPENNESS;
+    public boolean validateDigging(Position position, BlockTypesEnum mapBlock, DesignationTypeEnum type) {
+        if (getTargetBlockType(type).OPENNESS > mapBlock.OPENNESS) return true; // tile openness can only increase on digging
+        Logger.TASKS.logWarn("Digging of " + type + " is invalid in " + position);
+        return false;
     }
 
     /**
