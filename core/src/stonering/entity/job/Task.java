@@ -29,7 +29,7 @@ public class Task {
     private String name;
     private Unit performer;
     private TaskTypesEnum taskType;
-    private Designation designation;
+    public Designation designation;
     private ItemOrder itemOrder;
     private int priority;
     public TaskStatusEnum status;
@@ -178,14 +178,6 @@ public class Task {
 
     public void setInitialAction(Action initialAction) {
         this.initialAction = initialAction;
-    }
-
-    public Designation getDesignation() {
-        return designation;
-    }
-
-    public void setDesignation(Designation designation) {
-        this.designation = designation;
     }
 
     public int getPriority() {

@@ -91,7 +91,7 @@ public abstract class GenericBuildingAction extends ItemConsumingAction {
     }
 
     private static ActionTarget createTarget(BuildingDesignation designation) {
-        BuildingType type = BuildingTypeMap.instance().getBuilding(designation.getBuilding());
-        return new PositionActionTarget(designation.getPosition(), BlockTypesEnum.getType(type.passage).PASSING == NOT_PASSABLE ? NEAR : ANY);
+        BuildingType type = BuildingTypeMap.instance().getBuilding(designation.building);
+        return new PositionActionTarget(designation.position, BlockTypesEnum.getType(type.passage).PASSING == NOT_PASSABLE ? NEAR : ANY);
     }
 }

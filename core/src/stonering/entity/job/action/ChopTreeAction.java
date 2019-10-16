@@ -21,7 +21,7 @@ public class ChopTreeAction extends Action {
     private ItemSelector toolItemSelector;
 
     public ChopTreeAction(Designation designation) {
-        super(new PositionActionTarget(designation.getPosition(), ActionTarget.NEAR));
+        super(new PositionActionTarget(designation.position, ActionTarget.NEAR));
         toolItemSelector = new ToolWithActionItemSelector("chop");
     }
 

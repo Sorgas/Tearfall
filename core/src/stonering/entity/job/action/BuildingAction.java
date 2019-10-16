@@ -24,7 +24,7 @@ public class BuildingAction extends GenericBuildingAction {
 
     public BuildingAction(BuildingDesignation designation, Collection<ItemSelector> itemSelectors) {
         super(designation, itemSelectors);
-        buildingType = BuildingTypeMap.instance().getBuilding(designation.getBuilding());
+        buildingType = BuildingTypeMap.instance().getBuilding(designation.building);
     }
 
     @Override
@@ -34,7 +34,6 @@ public class BuildingAction extends GenericBuildingAction {
                 + " by " + task.getPerformer().toString());
         Position target = actionTarget.getPosition();
         List<Item> items = selectItemsToConsume();
-        int material = items.get(0).getMaterial(); // first item of first selector will give material.
         BuildingContainer buildingContainer = GameMvc.instance().getModel().get(BuildingContainer.class);
         Building building = buildingContainer.buildingGenerator.generateBuilding(buildingType.building, target); //TODO use material
         buildingContainer.addBuilding(building);

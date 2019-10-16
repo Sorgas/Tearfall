@@ -25,7 +25,7 @@ public class ConstructionAction extends GenericBuildingAction {
 
     public ConstructionAction(BuildingDesignation designation, Collection<ItemSelector> itemSelectors) {
         super(designation, itemSelectors);
-        blockType = BlockTypesEnum.getType(designation.getBuilding()).CODE;
+        blockType = BlockTypesEnum.getType(designation.building).CODE;
     }
 
     @Override
