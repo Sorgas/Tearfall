@@ -112,5 +112,25 @@
         ["legs", "lower torso", "upper leg"],
         ["foot", "foot"]
     ]
-}
+},
+  //todo
+  {
+    "name": "smallBeast",
+    "desiredSlots": ["foot", "legs"],
+    "defaultLayers": ["skin", "fat", "muscle", "bone"],
+    "needs": ["rest", "wear", "food"]
+  },
+  {
+    "name": "beast",
+    "desiredSlots": ["foot", "legs"],
+    "defaultLayers": ["skin", "fat", "muscle", "bone"],
+    "needs": ["rest", "wear", "food"],
+  },
+  {
+    "name": "largeBeast",
+    "desiredSlots": ["foot", "legs"],
+    "defaultLayers": ["skin", "fat", "muscle", "bone"],
+    "needs": ["rest", "wear", "food"],
+  }
+
 ]
