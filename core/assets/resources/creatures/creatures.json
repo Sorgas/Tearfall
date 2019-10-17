@@ -46,7 +46,7 @@
         "name": "cow",
         "title": "Cow",
         "description": "Maker of tasty milk",
-        "bodyTemplate": "largeBeast",
+        "bodyTemplate": "beast",
         "baseHP": "200",
         "atlasXY": [
             "0",
@@ -70,7 +70,7 @@
         "name": "horse",
         "title": "Horse",
         "description": "Who doesn't love horses? Great faithful working animals",
-        "bodyTemplate": "largeBeast",
+        "bodyTemplate": "beast",
         "baseHP": "180",
         "atlasXY": [
             "0",
@@ -94,7 +94,7 @@
         "name": "bird",
         "title": "Bird",
         "description": "Is it a bird, is it a plane? It's a bird",
-        "bodyTemplate": "flyingBeast",
+        "bodyTemplate": "bird",
         "baseHP": "30",
         "atlasXY": [
             "0",
@@ -118,7 +118,7 @@
         "name": "mouse",
         "title": "Mouse",
         "description": "quiet and likes cheese",
-        "bodyTemplate": "smallBeast",
+        "bodyTemplate": "beast",
         "baseHP": "20",
         "atlasXY": [
             "0",
@@ -130,7 +130,7 @@
         "name": "rat",
         "title": "Rat",
         "description": "Like a mouse, but bigger and bitier",
-        "bodyTemplate": "smallBeast",
+        "bodyTemplate": "beast",
         "baseHP": "25",
         "atlasXY": [
             "0",
@@ -142,7 +142,7 @@
         "name": "bear",
         "title": "Bear",
         "description": "Surprisingly grumpy for something that sleeps most of the year",
-        "bodyTemplate": "largeBeast",
+        "bodyTemplate": "beast",
         "baseHP": "200",
         "atlasXY": [
             "0",

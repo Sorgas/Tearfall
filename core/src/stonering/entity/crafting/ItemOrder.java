@@ -17,7 +17,7 @@ import java.util.*;
  */
 public class ItemOrder {
     public final Recipe recipe;
-    public final HashMap<String, IngredientOrder> parts;
+    public final HashMap<String, IngredientOrder> parts; //item parts to their ingredients
     public final List<IngredientOrder> consumed;
     public TaskStatusEnum status;
     private boolean repeated;
