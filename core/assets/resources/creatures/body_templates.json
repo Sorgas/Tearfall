@@ -106,11 +106,49 @@
     "slots": [
         ["head", "head"], ["neck", "neck"], ["hand", "hand"], ["lower arm", "lower arm"], ["body", "upper torso", "upper arm"], ["legs", "lower torso", "upper leg"], ["foot", "foot"]
     ]
-}, //todo
+},
     {
         "name": "bird",
-        "desiredSlots": ["foot", "legs"],
         "defaultLayers": ["skin", "fat", "muscle", "bone"],
-        "needs": ["rest", "wear", "food"]
+        "needs": ["rest", "wear", "food"],
+        "body": [
+            {
+                "name": "upper torso",
+                "root": "body",
+                "internal": ["left lung", "right lung", "heart"]
+            }, {
+                "name": "lower torso",
+                "root": "body",
+                "layers": ["skin", "fat", "muscle"],
+                "internal": ["stomach"]
+            }, {
+                "name": "neck",
+                "root": "upper torso",
+                "layers": ["skin", "fat", "muscle"],
+                "internal": ["neck part spine"]
+            }, {
+                "name": "head",
+                "root": "neck",
+                "internal": ["brain", "tongue", "beak"],
+                "external": ["left eye", "right eye", "nose", "left ear", "right ear"]
+            }, {
+                "name": "wing",
+                "root": "upper torso",
+                "mirrored": true
+            }, {
+                "name": "upper leg",
+                "root": "lower torso",
+                "mirrored": true
+            }, {
+                "name": "lower leg",
+                "root": "upper leg"
+            }, {
+                "name": "claw",
+                "root": "lower leg"
+            }, {
+                "name": "tail",
+                "root": "lower torso"
+            }
+        ]
     }
 ]

@@ -32,7 +32,7 @@ public class CraftItemAction extends Action {
     private Item tool; //TODO
 
     public CraftItemAction(ItemOrder itemOrder, Entity workbench) {
-        super(new EntityActionTarget(workbench, ActionTarget.EXACT));
+        super(new EntityActionTarget(workbench, ActionTarget.NEAR)); // unit will stand near wb while performing task
         desiredItems = new ArrayList<>();
         this.itemOrder = itemOrder;
         this.workbench = workbench;

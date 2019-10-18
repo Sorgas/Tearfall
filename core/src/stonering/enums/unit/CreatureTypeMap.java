@@ -48,12 +48,17 @@ public class CreatureTypeMap {
         Json json = new Json();
         ArrayList<RawCreatureType> types = json.fromJson(ArrayList.class, RawCreatureType.class, FileLoader.getFile(FileLoader.CREATURES_PATH));
         for (RawCreatureType rawType : types) {
-            creatureTypes.put(rawType.name, processRawCreatureType(rawType));
+            CreatureType type = processRawCreatureType(rawType);
+            if(type != null) creatureTypes.put(rawType.name, processRawCreatureType(rawType));
         }
     }
 
     private CreatureType processRawCreatureType(RawCreatureType rawType) {
         CreatureType type = new CreatureType(rawType);
+        if(!bodyTemplates.containsKey(rawType.bodyTemplate)) {
+            Logger.LOADING.logWarn("Creature " + type.name + " has invalid body template " + type.bodyTemplate);
+            return null;
+        }
         type.bodyTemplate = bodyTemplates.get(rawType.bodyTemplate);
         if (type.desiredSlots == null) type.desiredSlots = type.bodyTemplate.desiredSlots;
         return type;
@@ -65,7 +70,7 @@ public class CreatureTypeMap {
     private boolean validateTemplate(RawBodyTemplate template) {
         for (String need : template.needs) {
             if (!NeedEnum.map.containsKey(need)) {
-                Logger.LOADING.logError("Body template " + template.name + " has invalid need entry: " + need + ".");
+                Logger.LOADING.logWarn("Body template " + template.name + " has invalid need entry: " + need + ".");
                 return false;
             }
         }

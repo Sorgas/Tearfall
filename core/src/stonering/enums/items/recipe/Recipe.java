@@ -15,8 +15,8 @@ import java.util.Map;
  */
 public class Recipe {
     public final String name;     // recipe NAME
-    public final String category; // recipes are divided into categories in workbench menu
     public final String title;    // displayed name
+    public final String category; // recipes are divided into categories in workbench menu
     public final String itemName; // item NAME, points to ItemType
     public final String description;
     public Map<String, Ingredient> parts = new HashMap<>(); // itemPart NAME to ingredients.
