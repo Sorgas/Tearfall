@@ -28,7 +28,8 @@ public class MovementAspect extends Aspect implements Initable {
     public int movementDelay;
     private Position target;
     private List<Position> path;
-    private float stepProgress;
+    public float speed;
+//    private float stepProgress;
 
     public MovementAspect(Unit unit) {
         super(unit);
