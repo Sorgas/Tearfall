@@ -54,6 +54,7 @@ public class TaskContainer implements ModelComponent {
      * Gets tasks for unit. Filters task by units's allowed jobs.
      */
     public Task getActiveTask(Unit unit) {
+        // TODO ocnsider task priority
         JobsAspect aspect = unit.getAspect(JobsAspect.class);
         if (aspect == null) {
             Logger.TASKS.logError("Creature " + unit + " without jobs aspect gets task from container");
@@ -63,7 +64,7 @@ public class TaskContainer implements ModelComponent {
         for (String enabledJob : aspect.getEnabledJobs()) {
             if (!tasks.containsKey(enabledJob)) continue;
             for (Task task : tasks.get(enabledJob)) {
-                if (task.getPerformer() == null
+                if (task.performer == null
                         && task.isTaskTargetsAvailableFrom(position)
                         && task.status == OPEN) {
                     //TODO add selecting nearest task.
@@ -99,7 +100,7 @@ public class TaskContainer implements ModelComponent {
 
         addTask(task);
         designations.put(designation.position, designation);
-        Logger.TASKS.log(task.getName() + " designated");
+        Logger.TASKS.log(task.name + " designated");
     }
 
     /**
@@ -107,7 +108,7 @@ public class TaskContainer implements ModelComponent {
      * Removes tasks designation if there is one.
      */
     public void removeTask(Task task) {
-        tasks.get(task.getJob()).remove(task);
+        tasks.get(task.job).remove(task);
         if (task.designation != null) designations.remove(task.designation.position);
     }
 
@@ -116,8 +117,8 @@ public class TaskContainer implements ModelComponent {
      */
     public Task addTask(Task task) {
         if(task == null) return null;
-        tasks.putIfAbsent(task.getJob(), new ArrayList<>()); // new list for job
-        tasks.get(task.getJob()).add(task);
+        tasks.putIfAbsent(task.job, new ArrayList<>()); // new list for job
+        tasks.get(task.job).add(task);
         if (task.designation != null) designations.put(task.designation.position, task.designation);
         Logger.TASKS.logDebug("Task " + task + " added to TaskContainer.");
         return task;

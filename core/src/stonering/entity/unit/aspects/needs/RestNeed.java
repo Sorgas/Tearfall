@@ -59,7 +59,7 @@ public class RestNeed extends Need {
                 buildings = GameMvc.instance().getModel().get(LocalMap.class).getPassage().filterEntitiesByReachability(buildings, entity.position);
                 if (!buildings.isEmpty()) { // bed available, no sleep without bed at this level of exhaustion
                     Action restAction = new RestAction(new EntityActionTarget(buildings.get(0), ActionTarget.EXACT));
-                    return new Task("sleep", TaskTypesEnum.OTHER, restAction, priority.VALUE);
+                    return new Task("sleep", restAction, priority.VALUE);
                 }
                 break;
         }

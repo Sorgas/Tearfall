@@ -65,7 +65,7 @@ public class TaskCreator {
     }
 
     private Task createTask(Action action, Designation designation, int priority) {
-        Task task = new Task("designation", TaskTypesEnum.DESIGNATION, action, priority);
+        Task task = new Task("designation", action, priority);
         task.designation = designation;
         designation.setTask(task);
         return task;

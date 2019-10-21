@@ -180,6 +180,10 @@ public class LocalMap implements ModelComponent, Initable {
         return material[x][y][z];
     }
 
+    public BlockTypesEnum getBlockTypeEnumValue(Position position) {
+        return BlockTypesEnum.getType(getBlockType(position.x, position.y, position.z));
+    }
+
     public BlockTypesEnum getBlockTypeEnumValue(int x, int y, int z) {
         return BlockTypesEnum.getType(getBlockType(x, y, z));
     }

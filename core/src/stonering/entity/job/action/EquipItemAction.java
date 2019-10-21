@@ -25,20 +25,20 @@ public class EquipItemAction extends Action {
     @Override
     protected void performLogic() {
         ItemContainer container = GameMvc.instance().getModel().get(ItemContainer.class);
-        if (!(task.getPerformer().getAspect(EquipmentAspect.class)).equipItem(item)) return; // equipping failed
-        container.equipped.put(item, task.getPerformer().getAspect(EquipmentAspect.class));
+        if (!(task.performer.getAspect(EquipmentAspect.class)).equipItem(item)) return; // equipping failed
+        container.equipped.put(item, task.performer.getAspect(EquipmentAspect.class));
         container.pickItem(item);
     }
 
     @Override
     public int check() {
-        if (!task.getPerformer().hasAspect(EquipmentAspect.class))
-            return failWithLog("unit " + task.getPerformer() + " has no Equipment Aspect.");
-        EquipmentSlot slot = task.getPerformer().getAspect(EquipmentAspect.class).getSlotForItem(item);
-        if (slot == null) return failWithLog("unit " + task.getPerformer() + " has no appropriate slots for item " + item);
+        if (!task.performer.hasAspect(EquipmentAspect.class))
+            return failWithLog("unit " + task.performer + " has no Equipment Aspect.");
+        EquipmentSlot slot = task.performer.getAspect(EquipmentAspect.class).getSlotForItem(item);
+        if (slot == null) return failWithLog("unit " + task.performer + " has no appropriate slots for item " + item);
         Item blockingItem = slot.getBlockingItem(item);
         if (blockingItem == null) return OK; // slot is not blocked
-        if (!force) return failWithLog("unit " + task.getPerformer() + " cannot equip item " + item + " no empty slots.");
+        if (!force) return failWithLog("unit " + task.performer + " cannot equip item " + item + " no empty slots.");
         if (item.hasAspect(WearAspect.class)) {
             return createUnequipWearAction(blockingItem); // wear can block only wear items
         } else if (item.isTool()) {

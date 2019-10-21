@@ -132,13 +132,13 @@ public class FarmZone extends Zone {
     private Task createTaskForPlanting(Position tile, PlantType type) {
         Logger.ZONES.logDebug("Creating planting task on farm");
         PlantingAction action = new PlantingAction(new PositionActionTarget(tile, ActionTarget.ANY), seedSelector);
-        Task task = new Task("plant " + type.name, TaskTypesEnum.DESIGNATION, action, 1);
+        Task task = new Task("plant " + type.name, action, 1);
         return task;
     }
 
     private Task createTaskForHoeing(Position tile) {
         HoeingAction action = new HoeingAction(new PositionActionTarget(tile, ActionTarget.ANY));
-        Task task = new Task("hoe", TaskTypesEnum.OTHER, action, 1);
+        Task task = new Task("hoe", action, 1);
         return task;
     }
 

@@ -46,7 +46,7 @@ public abstract class ActionTarget {
     public int createActionToStepOff(Position from) {
         Position to = findPositionToStepOff(from);
         if (to == null) return FAIL;
-        action.getTask().addFirstPreAction(new MoveAction(to));
+        action.task.addFirstPreAction(new MoveAction(to));
         return NEW;
     }
 

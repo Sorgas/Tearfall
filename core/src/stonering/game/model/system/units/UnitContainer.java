@@ -1,5 +1,6 @@
 package stonering.game.model.system.units;
 
+import com.badlogic.gdx.math.Vector3;
 import stonering.enums.time.TimeUnitEnum;
 import stonering.game.model.system.EntityContainer;
 import stonering.util.geometry.Position;
@@ -19,6 +20,7 @@ public class UnitContainer extends EntityContainer<Unit> implements Initable {
     public final CreatureNeedSystem needSystem;
     public final CreatureBuffSystem buffSystem;
     public final CreatureHealthSystem healthSystem;
+    public final CreatureMovementSystem movementSystem;
 
     private Position cachePosition; // used for faster getting unit from map
 
@@ -28,6 +30,7 @@ public class UnitContainer extends EntityContainer<Unit> implements Initable {
         needSystem = new CreatureNeedSystem();
         buffSystem = new CreatureBuffSystem();
         healthSystem = new CreatureHealthSystem();
+        movementSystem = new CreatureMovementSystem();
     }
 
     /**
@@ -50,9 +53,9 @@ public class UnitContainer extends EntityContainer<Unit> implements Initable {
     /**
      * Moves unit to new position.
      */
-    public void updateUnitPosiiton(Unit unit, Position position) {
+    public void updateUnitPosiiton(Unit unit, Vector3 vector) {
         removeUnitFromMap(unit);
-        unit.position.set(position);
+        unit.setPosition(vector);
         addUnitToMap(unit);
     }
 
@@ -72,11 +75,12 @@ public class UnitContainer extends EntityContainer<Unit> implements Initable {
      * Calls turnUnit() for all units.
      */
     public void turn() {
-        for (Unit entity : entities) {
-            entity.turn(); // TODO rework all aspects behaviour to systems
-            healthSystem.updateCreatureHealth(entity);
-            needSystem.updateNeedForCreature(entity);
-            buffSystem.updateCreatureBuffs(entity);
+        for (Unit unit : entities) {
+            unit.turn(); // TODO rework all aspects behaviour to systems
+            healthSystem.updateCreatureHealth(unit);
+            needSystem.updateNeedForCreature(unit);
+            buffSystem.updateCreatureBuffs(unit);
+            movementSystem.updateUnitPosition(unit);
         }
     }
 

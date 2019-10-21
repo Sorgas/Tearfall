@@ -35,14 +35,14 @@ public class DigAction extends Action {
     @Override
     public int check() {
         if (!validate()) return FAIL;
-        EquipmentAspect aspect = task.getPerformer().getAspect(EquipmentAspect.class);
+        EquipmentAspect aspect = task.performer.getAspect(EquipmentAspect.class);
         if (aspect == null) return FAIL;
         if (toolItemSelector.checkItems(aspect.equippedItems)) return OK;
         return addEquipAction();
     }
 
     private int addEquipAction() {
-        Item target = GameMvc.instance().getModel().get(ItemContainer.class).util.getItemAvailableBySelector(toolItemSelector, task.getPerformer().position);
+        Item target = GameMvc.instance().getModel().get(ItemContainer.class).util.getItemAvailableBySelector(toolItemSelector, task.performer.position);
         if (target == null) return FAIL;
         task.addFirstPreAction(new EquipItemAction(target, true));
         return NEW;

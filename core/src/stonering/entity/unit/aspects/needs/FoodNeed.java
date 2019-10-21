@@ -41,7 +41,7 @@ public class FoodNeed extends Need {
             case LIFE: // eat spoiled items
                 if (item.tags.contains(TagEnum.SPOILED) || item.tags.contains(TagEnum.RAW)) return null;
                 Action eatAction = new EatAction(item);
-                return new Task("eat", TaskTypesEnum.OTHER, eatAction, priority.VALUE);
+                return new Task("eat", eatAction, priority.VALUE);
         }
         return null;
     }

@@ -32,7 +32,7 @@ public class ConstructionAction extends GenericBuildingAction {
     public void performLogic() {
         Logger.TASKS.logDebug("Construction of " + BlockTypesEnum.getType(blockType).NAME
                 + " started at " + actionTarget.getPosition()
-                + " by " + task.getPerformer().toString());
+                + " by " + task.performer.toString());
         Position target = actionTarget.getPosition();
         List<Item> items = selectItemsToConsume();
         int material = items.get(0).getMaterial();

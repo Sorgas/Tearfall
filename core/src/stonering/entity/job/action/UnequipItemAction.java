@@ -20,10 +20,10 @@ public class UnequipItemAction extends Action {
 
     @Override
     public int check() {
-        EquipmentAspect equipmentAspect = task.getPerformer().getAspect(EquipmentAspect.class);
-        if (equipmentAspect == null) return failWithLog("unit " + task.getPerformer() + " has no Equipment Aspect.");
+        EquipmentAspect equipmentAspect = task.performer.getAspect(EquipmentAspect.class);
+        if (equipmentAspect == null) return failWithLog("unit " + task.performer + " has no Equipment Aspect.");
         EquipmentSlot slot = equipmentAspect.getSlotWithItem(item);
-        if (slot == null) return failWithLog("item " + item + " is not equipped by unit " + getTask().getPerformer());
+        if (slot == null) return failWithLog("item " + item + " is not equipped by unit " + task.performer);
         if (!slot.canUnequip(item)) {
             return tryAddUnequipAction(slot.getBlockingItem(item));
         }
@@ -40,7 +40,7 @@ public class UnequipItemAction extends Action {
     public void performLogic() {
         //TODO count work amount based on item weight and creature stats
         //TODO implement with slots
-        task.getPerformer().getAspect(EquipmentAspect.class).unequipItem(item);
+        task.performer.getAspect(EquipmentAspect.class).unequipItem(item);
     }
 
     @Override

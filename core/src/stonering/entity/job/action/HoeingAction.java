@@ -37,7 +37,7 @@ public class HoeingAction extends Action {
         LocalMap localMap = GameMvc.instance().getModel().get(LocalMap.class);
         if (!ZoneTypesEnum.FARM.getValidator().validate(localMap, target)) return FAIL; // 1
         if (GameMvc.instance().getModel().get(ZonesContainer.class).getZone(target) == null) return FAIL; // 2
-        EquipmentAspect equipmentAspect = task.getPerformer().getAspect(EquipmentAspect.class);
+        EquipmentAspect equipmentAspect = task.performer.getAspect(EquipmentAspect.class);
         if(equipmentAspect.toolWithActionEquipped("hoe")) return OK;
         return tryCreateEquippingAction();
     }

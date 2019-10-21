@@ -147,7 +147,7 @@ public class WorkbenchSystem {
     private void createTaskForOrder(OrderTaskEntry entry, Entity entity) {
         Logger.BUILDING.logDebug("Creating task for order " + entry.order.recipe.name);
         CraftItemAction action = new CraftItemAction(entry.order, entity);
-        entry.task = new Task(entry.order.recipe.name, TaskTypesEnum.CRAFTING, action, 1);
+        entry.task = new Task(entry.order.recipe.name, action, 1);
         GameMvc.instance().getModel().get(TaskContainer.class).addTask(entry.task);
     }
 

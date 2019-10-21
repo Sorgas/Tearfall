@@ -29,7 +29,7 @@ public class FuelingAciton extends Action {
         if (!((EntityActionTarget) actionTarget).entity.hasAspect(FuelConsumerAspect.class))
             return Action.FAIL; // invalid entity
         if (targetItem == null && (targetItem = lookupFuelItem()) == null) return FAIL; // no fuel item available
-        if (!task.getPerformer().getAspect(EquipmentAspect.class).hauledItems.contains(targetItem)) {
+        if (!task.performer.getAspect(EquipmentAspect.class).hauledItems.contains(targetItem)) {
             task.addFirstPreAction(new ItemPickAction(targetItem));
             return NEW;
         }
@@ -38,14 +38,14 @@ public class FuelingAciton extends Action {
 
     @Override
     protected void performLogic() {
-        task.getPerformer().getAspect(EquipmentAspect.class).dropItem(targetItem);
+        task.performer.getAspect(EquipmentAspect.class).dropItem(targetItem);
         ((EntityActionTarget) actionTarget).entity.getAspect(FuelConsumerAspect.class).acceptFuel(targetItem);
     }
 
     private Item lookupFuelItem() {
-        Item foundItem = task.getPerformer().getAspect(EquipmentAspect.class).hauledItems.stream().filter(item -> item.hasAspect(FuelAspect.class)
+        Item foundItem = task.performer.getAspect(EquipmentAspect.class).hauledItems.stream().filter(item -> item.hasAspect(FuelAspect.class)
                 && item.getAspect(FuelAspect.class).isEnabled()).findFirst().orElse(null); // item from inventory
         if (foundItem != null) return foundItem;
-        return GameMvc.instance().getModel().get(ItemContainer.class).util.getItemAvailableBySelector(new FuelItemSelector(), task.getPerformer().position);
+        return GameMvc.instance().getModel().get(ItemContainer.class).util.getItemAvailableBySelector(new FuelItemSelector(), task.performer.position);
     }
 }

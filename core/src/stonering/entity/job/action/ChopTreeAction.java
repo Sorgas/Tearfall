@@ -32,7 +32,7 @@ public class ChopTreeAction extends Action {
     @Override
     public int check() {
         GameModel model = GameMvc.instance().getModel();
-        EquipmentAspect aspect = task.getPerformer().getAspect(EquipmentAspect.class);
+        EquipmentAspect aspect = task.performer.getAspect(EquipmentAspect.class);
         if (aspect == null) return FAIL;
         if (!model.get(PlantContainer.class).isPlantBlockExists(actionTarget.getPosition())) {
             Logger.TASKS.logDebug("No tool equipped by performer for chopTreeAction");
@@ -41,7 +41,7 @@ public class ChopTreeAction extends Action {
         if (toolItemSelector.checkItems(aspect.equippedItems)) return OK;
 
         Logger.TASKS.logDebug("No tool equipped by performer for chopTreeAction");
-        Item target = model.get(ItemContainer.class).util.getItemAvailableBySelector(toolItemSelector, task.getPerformer().position);
+        Item target = model.get(ItemContainer.class).util.getItemAvailableBySelector(toolItemSelector, task.performer.position);
         if (target == null) {
             Logger.TASKS.logDebug("No tool item found for chopTreeAction");
             return FAIL;
@@ -52,7 +52,7 @@ public class ChopTreeAction extends Action {
 
     @Override
     public void performLogic() {
-        Logger.TASKS.logDebug("tree chopping started at " + actionTarget.getPosition().toString() + " by " + task.getPerformer().toString());
+        Logger.TASKS.logDebug("tree chopping started at " + actionTarget.getPosition().toString() + " by " + task.performer.toString());
         if(check() != OK) return; // tree died during chopping. rare case
         PlantContainer container = GameMvc.instance().getModel().get(PlantContainer.class);
         AbstractPlant plant = container.getPlantInPosition(actionTarget.getPosition());

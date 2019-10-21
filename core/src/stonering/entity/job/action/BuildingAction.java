@@ -31,7 +31,7 @@ public class BuildingAction extends GenericBuildingAction {
     public void performLogic() {
         Logger.TASKS.logDebug("construction of " + buildingType.title
                 + " started at " + actionTarget.getPosition()
-                + " by " + task.getPerformer().toString());
+                + " by " + task.performer.toString());
         Position target = actionTarget.getPosition();
         List<Item> items = selectItemsToConsume();
         BuildingContainer buildingContainer = GameMvc.instance().getModel().get(BuildingContainer.class);

@@ -115,14 +115,14 @@ public class CraftItemAction extends Action {
                 desiredItems.clear();
                 return false;
             }
-            desiredItems.addAll(container.util.getNearestItems(foundItems, task.getPerformer().position, 1)); // add nearest items to order
+            desiredItems.addAll(container.util.getNearestItems(foundItems, task.performer.position, 1)); // add nearest items to order
         }
         return true;
     }
 
     private boolean checkItemsAvailability(List<Item> items) {
         ItemContainer container = GameMvc.instance().getModel().get(ItemContainer.class);
-        return items.stream().allMatch(item -> container.util.itemIsAvailable(item, task.getPerformer().position));
+        return items.stream().allMatch(item -> container.util.itemIsAvailable(item, task.performer.position));
     }
 
     @Override

@@ -59,6 +59,6 @@ public class PassageModel extends TestModel {
     }
 
     private Task createTask() {
-        return new Task("move", TaskTypesEnum.OTHER, new MoveAction(new Position(10, 10, 2)), 1);
+        return new Task("move", new MoveAction(new Position(10, 10, 2)), 1);
     }
 }

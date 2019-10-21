@@ -16,12 +16,13 @@ public abstract class Action {
     public static final int OK = 1;
     public static final int NEW = 0;
     public static final int FAIL = -1;
-    protected Task task; // can be modified during execution
-    protected ActionTarget actionTarget;
-    protected boolean finished;
+
     protected String usedSkill;
-    private float workAmount = 1f;
-    private float baseSpeed = 0.01f; // distracted from workAmount to make action progress.
+    public Task task; // can be modified during execution
+    public final ActionTarget actionTarget;
+    public boolean finished;
+    public float workAmount = 1f;
+    public float baseSpeed = 0.01f; // distracted from workAmount to make action progress.
 
     protected Action(ActionTarget actionTarget) {
         this.actionTarget = actionTarget;
@@ -29,8 +30,10 @@ public abstract class Action {
     }
 
     /**
-     * Returns {@value FAIL} if unable perform action or create sub action.
-     * Task can have more actions  after this.
+     * Returns:
+     *    {@value FAIL} if unable perform action or create sub action.
+     *    {@value NEW} if new sub action created and added to task.
+     *    {@value OK} if checked successfully.
      */
     public abstract int check();
 
@@ -39,7 +42,7 @@ public abstract class Action {
      * @return true, when action is finished.
      */
     public final boolean perform() {
-        float skillModifier = task.getPerformer().getAspect(JobsAspect.class).getSkillModifier(usedSkill);
+        float skillModifier = task.performer.getAspect(JobsAspect.class).getSkillModifier(usedSkill);
         if ((workAmount -= baseSpeed * skillModifier) > 0) return false;
         performLogic();
         finish();
@@ -59,14 +62,6 @@ public abstract class Action {
         task.finishAction(this);
         task.tryFinishTask();
         Logger.TASKS.logDebug(this + " finished");
-    }
-
-    public Task getTask() {
-        return task;
-    }
-
-    public void setTask(Task task) {
-        this.task = task;
     }
 
     public boolean isFinished() {

@@ -25,7 +25,7 @@ public class DrinkAction extends Action{
         if(checkBetterDrink()) return FAIL; // better food is available, recreate.
         //TODO if tables available, use
         //TODO if dishes available, use
-        Unit performer = task.getPerformer();
+        Unit performer = task.performer;
         if(performer.hasAspect(EquipmentAspect.class)) {
             if(performer.getAspect(EquipmentAspect.class).hauledItems.contains(item)) return OK;
         } else {
