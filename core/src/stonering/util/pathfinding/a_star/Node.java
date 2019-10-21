@@ -23,9 +23,9 @@ public class Node {
      * @return distance between positions
      */
     private float countHeuristic(Position target) {
-        return (float) Math.sqrt(Math.pow(position.getX() - target.getX(), 2) +
-                Math.pow(position.getY() - target.getY(), 2) +
-                Math.pow(position.getZ() - target.getZ(), 2));
+        return (float) Math.sqrt(Math.pow(position.x - target.x, 2) +
+                Math.pow(position.y - target.y, 2) +
+                Math.pow(position.z - target.z, 2));
     }
 
     public float getCost() {

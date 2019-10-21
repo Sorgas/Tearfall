@@ -140,7 +140,7 @@ public class WorldGenContainer {
     }
 
     public void setElevation(Position position, float value) {
-        setElevation(position.getX(), position.getY(), value);
+        setElevation(position.x, position.y, value);
     }
 
     public float getElevation(int x, int y) {
@@ -148,7 +148,7 @@ public class WorldGenContainer {
     }
 
     public float getElevation(Position position) {
-        return getElevation(position.getX(), position.getY());
+        return getElevation(position.x, position.y);
     }
 
     public void setDebug(int x, int y, float value) {

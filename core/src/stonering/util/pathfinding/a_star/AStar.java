@@ -129,9 +129,9 @@ public class AStar implements ModelComponent, Initable {
     }
 
     private boolean isAdjacent(Position pos1, Position pos2) {
-        return Math.abs(pos1.getX() - pos2.getX()) < 2
-                && Math.abs(pos1.getY() - pos2.getY()) < 2
-                && Math.abs(pos1.getZ() - pos2.getZ()) < 2;
+        return Math.abs(pos1.x - pos2.x) < 2
+                && Math.abs(pos1.y - pos2.y) < 2
+                && Math.abs(pos1.z - pos2.z) < 2;
     }
 
     private static class NodeComparator implements Comparator<Node> {

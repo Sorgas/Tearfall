@@ -179,8 +179,8 @@ public class SelectLocationMenu extends SimpleScreen {
 
     private void updateWorldInfoLabel() {
         if (getWorld() != null) {
-            int x = minimap.getFocus().getX();
-            int y = minimap.getFocus().getY();
+            int x = minimap.getFocus().x;
+            int y = minimap.getFocus().y;
             worldInfoLabel.setText(worldCellInfo.getCellInfo(x, y,
                     Math.round(world.getWorldMap().getElevation(x, y)),
                     world.getWorldMap().getSummerTemperature(x, y),

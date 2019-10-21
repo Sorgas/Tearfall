@@ -71,8 +71,8 @@ public abstract class LocalFloraGenerator extends LocalAbstractGenerator {
     protected void extractContainer() {
         plantContainer = container.model.get(PlantContainer.class);
         localMap = container.model.get(LocalMap.class);
-        int x = config.getLocation().getX();
-        int y = config.getLocation().getY();
+        int x = config.getLocation().x;
+        int y = config.getLocation().y;
         rainfall = container.model.get(World.class).getWorldMap().getRainfall(x, y);
     }
 

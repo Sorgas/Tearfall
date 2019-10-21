@@ -85,8 +85,8 @@ public class LocalRiverGenerator extends LocalAbstractGenerator {
      * Fills collections of inflows.
      */
     private void lookupInflows() {
-        int cx = location.getX();
-        int cy = location.getY();
+        int cx = location.x;
+        int cy = location.y;
         for (int dx = -1; dx < 2; dx++) { //offset x
             int x = cx + dx; //absolute x
             for (int dy = -1; dy < 2; dy++) { //offset y
@@ -104,8 +104,8 @@ public class LocalRiverGenerator extends LocalAbstractGenerator {
     }
 
     private void makeOutFlow() {
-        int cx = location.getX();
-        int cy = location.getY();
+        int cx = location.x;
+        int cy = location.y;
         if (worldMap.getRiver(cx, cy) != null) {
             IntVector2 intVector = new IntVector2(worldMap.getRiver(cx, cy)); // pointing out
             this.outflow = createInflow(intVector.x, intVector.y, true); // localStart is end of flow
@@ -145,8 +145,8 @@ public class LocalRiverGenerator extends LocalAbstractGenerator {
 
     private void createFlowSpline(Flow flow) {
         //TODO add intermediate control points to form curved river beds
-        Vector2 start = new Vector2(flow.start.getX(), flow.start.getY());
-        Vector2 end = new Vector2(flow.end.getX(), flow.end.getY());
+        Vector2 start = new Vector2(flow.start.x, flow.start.y);
+        Vector2 end = new Vector2(flow.end.x, flow.end.y);
         CatmullRomSpline<Vector2> spline = new CatmullRomSpline<>();
         Vector2[] controlPoints = {start, start, end, end};
         spline.set(controlPoints, false);
@@ -174,9 +174,9 @@ public class LocalRiverGenerator extends LocalAbstractGenerator {
         inflow.offset = new Position(dx, dy, 0);
         inflow.localStart = new Position((dx + 1) * ((localMap.xSize - 1) / 2), (dy + 1) * ((localMap.ySize - 1) / 2), 0);
         if (river) {
-            inflow.waterAmount = worldMap.getRiver(location.getX() + dx, location.getY() + dy).len();
+            inflow.waterAmount = worldMap.getRiver(location.x + dx, location.y + dy).len();
         } else {
-            inflow.waterAmount = worldMap.getBrook(location.getX() + dx, location.getY() + dy).len();
+            inflow.waterAmount = worldMap.getBrook(location.x + dx, location.y + dy).len();
         }
         return inflow;
     }

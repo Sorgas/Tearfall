@@ -37,12 +37,12 @@ public class EntitySelectorRenderer extends Renderer {
 
         //TODO add landscape dependant rendering
         if (selector.getFrameStart() != null) {
-            int minX = Math.min(selector.getFrameStart().getX(), selector.getPosition().getX());
-            int maxX = Math.max(selector.getFrameStart().getX(), selector.getPosition().getX());
-            int minY = Math.min(selector.getFrameStart().getY(), selector.getPosition().getY());
-            int maxY = Math.max(selector.getFrameStart().getY(), selector.getPosition().getY());
-            int minZ = Math.min(selector.getFrameStart().getZ(), selector.getPosition().getZ());
-            int maxZ = selector.getPosition().getZ();
+            int minX = Math.min(selector.getFrameStart().x, selector.getPosition().x);
+            int maxX = Math.max(selector.getFrameStart().x, selector.getPosition().x);
+            int minY = Math.min(selector.getFrameStart().y, selector.getPosition().y);
+            int maxY = Math.max(selector.getFrameStart().y, selector.getPosition().y);
+            int minZ = Math.min(selector.getFrameStart().z, selector.getPosition().z);
+            int maxZ = selector.getPosition().z;
             for (int x = minX; x <= maxX; x++) {
                 for (int y = minY; y <= maxY; y++) {
                     for (int z = minZ; z <= maxZ; z++) {

@@ -77,7 +77,7 @@ public class LightMap {
             Position pos = open.iterator().next();
             open.remove(pos);
             closed.add(pos);
-            if (maxRange != -1 && maxRange < start.getDistanse(pos))
+            if (maxRange != -1 && maxRange < start.getDistance(pos))
                 continue; // terminate filling, if max range reached
             localLight.setValue(pos, (byte) 0); // reveal
             if (localMap.getBlockType(pos) == WALL.CODE) continue; // walls always terminate filling

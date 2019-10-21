@@ -24,10 +24,10 @@ public class Slope {
     public Slope(Position pos1, Position pos2, Position pos3) {
         vectors = new ArrayList<>();
         plane = new Plane(pos1, pos2, pos3);
-        minX = pos1.getX();
-        minY = pos1.getY();
-        maxX = pos1.getX();
-        maxY = pos1.getY();
+        minX = pos1.x;
+        minY = pos1.y;
+        maxX = pos1.x;
+        maxY = pos1.y;
 
         List<Position> list = new ArrayList<>();
         list.add(pos1);
@@ -39,15 +39,15 @@ public class Slope {
 
     private void defineBounds(List<Position> list) {
         for (Position pos : list) {
-            if (pos.getX() < minX) {
-                minX = pos.getX();
-            } else if (pos.getX() > maxX) {
-                maxX = pos.getX();
+            if (pos.x < minX) {
+                minX = pos.x;
+            } else if (pos.x > maxX) {
+                maxX = pos.x;
             }
-            if (pos.getY() < minY) {
-                minY = pos.getY();
-            } else if (pos.getY() > maxY) {
-                maxY = pos.getY();
+            if (pos.y < minY) {
+                minY = pos.y;
+            } else if (pos.y > maxY) {
+                maxY = pos.y;
             }
         }
     }
@@ -57,14 +57,14 @@ public class Slope {
         Position prevPos = list.get(list.size() - 1);
         for (Iterator<Position> iterator = list.iterator(); iterator.hasNext(); ) {
             Position pos = iterator.next();
-            Vector vector = new Vector(prevPos.getX(), prevPos.getY(), pos.getX(), pos.getY());
+            Vector vector = new Vector(prevPos.x, prevPos.y, pos.x, pos.y);
             prevPos = pos;
             vectors.add(vector);
         }
     }
 
     public boolean isInside(Position pos) {
-        return isInside(pos.getX(), pos.getY());
+        return isInside(pos.x, pos.y);
     }
 
     public boolean isInside(int x, int y) {
@@ -77,7 +77,7 @@ public class Slope {
     }
 
     public float getAltitude(Position pos) {
-        return plane.getZ(pos.getX(), pos.getY());
+        return plane.getZ(pos.x, pos.y);
     }
 
     public float getAltitude(int x, int y) {

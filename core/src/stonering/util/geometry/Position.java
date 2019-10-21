@@ -1,13 +1,12 @@
 package stonering.util.geometry;
 
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 import java.io.Serializable;
 
 /**
- * Class for storing in game coordinates
- * simply stores x, y, z int values
+ * Class for storing in game coordinates, stores x, y, z integer values.
+ * Has method for taking values from {@link Vector3}, does ceiling of vector components.
  */
 public class Position implements Serializable, Cloneable {
     public int x;
@@ -51,20 +50,19 @@ public class Position implements Serializable, Cloneable {
     }
 
 
-    public Position addVector(Vector vector) {
-        Position endPoint = vector.getEndPoint();
-        int xOffset = endPoint.getX() - vector.getStartPoint().getX();
-        int yOffset = endPoint.getY() - vector.getStartPoint().getY();
-        return new Position(x + xOffset, y + yOffset, z);
+    public void add(Vector vector) {
+        x += vector.getEndPoint().x - vector.getStartPoint().y;
+        y += vector.getEndPoint().y - vector.getStartPoint().y;
     }
 
-    public float getDistanse(Position pos) {
-        return (float) Math.sqrt(Math.pow((float) (x - pos.getX()), 2) +
-                Math.pow((float) (y - pos.getY()), 2) +
-                Math.pow((float) (z - pos.getZ()), 2));
+    public float getDistance(Position pos) {
+        return getDistance(pos.x, pos.y, pos.z);
     }
 
-    public float getDistanse(int x, int y, int z) {
+    /**
+     * Real distance.
+     */
+    public float getDistance(int x, int y, int z) {
         return (float) Math.sqrt(Math.pow((float) (this.x - x), 2) +
                 Math.pow((float) (this.y - y), 2) +
                 Math.pow((float) (this.z - z), 2));
@@ -75,6 +73,52 @@ public class Position implements Serializable, Cloneable {
      */
     public int fastDistance(Position p) {
         return Math.abs(x + y + z - p.x - p.z - p.z);
+    }
+
+    public boolean isNeighbour(Position position) {
+        Position result = sub(this, position);
+        return result.x > -2 && result.x < 2 &&
+                result.y > -2 && result.y < 2 &&
+                result.z > -2 && result.z < 2;
+    }
+
+    public boolean isZero() {
+        return x == 0 && y == 0 && z == 0;
+    }
+
+    public Position set(Position position) {
+        return set(position.x, position.y, position.z);
+    }
+
+    public Position set(int x, int y, int z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        return this;
+    }
+
+    public void set(Vector3 vector) {
+        x = (int) vector.x;
+        y = (int) vector.y;
+        z = (int) vector.z;
+    }
+
+    public void add(int dx, int dy, int dz) {
+        x += dx;
+        y += dy;
+        z += dz;
+    }
+
+    public Vector3 toVector3() {
+        return new Vector3(x, y, z);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = x;
+        result = 31 * result + y;
+        result = 31 * result + z;
+        return result;
     }
 
     @Override
@@ -89,83 +133,15 @@ public class Position implements Serializable, Cloneable {
         return z == position.z;
     }
 
-    public Vector3 toVector3() {
-        return new Vector3(x, y, z);
-    }
-
-    public Vector2 toVector2() {
-        return new Vector2(x, y);
-    }
-
-    public boolean isNeighbour(Position position) {
-        Position result = sub(this, position);
-        return result.x > -2 && result.x < 2 &&
-                result.y > -2 && result.y < 2 &&
-                result.z > -2 && result.z < 2;
-    }
-
-    public boolean isZero() {
-        return x == 0 && y == 0 && z == 0;
-    }
-
     public boolean equals(int x, int y, int z) {
-        return (x == this.x && y == this.y && z == this.z);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = x;
-        result = 31 * result + y;
-        result = 31 * result + z;
-        return result;
-    }
-
-    public String toString() {
-        return (new Integer(x).toString() + " " + new Integer(y).toString() + " " + new Integer(z).toString());
+        return x == this.x && y == this.y && z == this.z;
     }
 
     public Position clone() {
         return new Position(x, y, z);
     }
 
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public int getZ() {
-        return z;
-    }
-
-    public void setZ(int z) {
-        this.z = z;
-    }
-
-    public Position set(int x, int y, int z) {
-        this.x = x;
-        this.y = y;
-        this.z = z;
-        return this;
-    }
-
-    public Position set(Position position) {
-        return set(position.x, position.y, position.z);
-    }
-
-    public void add(int dx, int dy, int dz) {
-        x += dx;
-        y += dy;
-        z += dz;
+    public String toString() {
+        return (x + " " + y + " " + z);
     }
 }

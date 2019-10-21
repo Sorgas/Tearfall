@@ -53,7 +53,7 @@ public class ItemsStream {
     }
 
     public Item getNearestTo(Position position) {
-        return stream.min((item1, item2) -> Math.round(item1.position.getDistanse(position))).orElse(null);
+        return stream.min((item1, item2) -> Math.round(item1.position.getDistance(position))).orElse(null);
     }
 
     public ItemsStream getNearestTo(Position position, int number) {

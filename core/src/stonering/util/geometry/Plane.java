@@ -13,10 +13,10 @@ public class Plane {
 	private float d;
 
 	public Plane(Position pos1, Position pos2, Position pos3) {
-		xMod = (pos2.getY() - pos1.getY()) * (pos3.getZ() - pos1.getZ()) - (pos2.getZ() - pos1.getZ()) * (pos3.getY() - pos1.getY());
-		yMod = -(pos2.getX() - pos1.getX()) * (pos3.getZ() - pos1.getZ()) + (pos2.getZ() - pos1.getZ()) * (pos3.getX() - pos1.getX());
-		zMod = (pos2.getX() - pos1.getX()) * (pos3.getY() - pos1.getY()) - (pos2.getY() - pos1.getY()) * (pos3.getX() - pos1.getX());
-		d = -(yMod * pos1.getY() + xMod * pos1.getX() + zMod * pos1.getZ());
+		xMod = (pos2.y - pos1.y) * (pos3.z - pos1.z) - (pos2.z - pos1.z) * (pos3.y - pos1.y);
+		yMod = -(pos2.x - pos1.x) * (pos3.z - pos1.z) + (pos2.z - pos1.z) * (pos3.x - pos1.x);
+		zMod = (pos2.x - pos1.x) * (pos3.y - pos1.y) - (pos2.y - pos1.y) * (pos3.x - pos1.x);
+		d = -(yMod * pos1.y + xMod * pos1.x + zMod * pos1.z);
 	}
 
 	public float getZ(float x, float y) {

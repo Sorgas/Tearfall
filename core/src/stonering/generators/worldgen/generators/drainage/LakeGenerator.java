@@ -39,7 +39,7 @@ public class LakeGenerator extends AbstractGenerator {
         Position position = lake.startPos;
         lake.positions.add(position);
         addNewNeighbours(position, neighbours);
-        int lakeSize = getLakeSize(position.getX(), position.getY());
+        int lakeSize = getLakeSize(position.x, position.y);
         for (int i = 0; i < lakeSize; i++) {
             Position newPosition = getLowestPosition(neighbours, lake.positions);
             if (container.getElevation(newPosition) < container.getConfig().getSeaLevel()) {
@@ -79,8 +79,8 @@ public class LakeGenerator extends AbstractGenerator {
     }
 
     private void addNewNeighbours(Position position, HashSet<Position> positions) {
-        int cx = position.getX();
-        int cy = position.getY();
+        int cx = position.x;
+        int cy = position.y;
         for (int x = Math.round(cx) - 1; x <= cx + 1; x++) {
             for (int y = Math.round(cy) - 1; y <= cy + 1; y++) {
                 if ((x != cx || y != cy) && container.inMap(x, y)) {
@@ -133,10 +133,10 @@ public class LakeGenerator extends AbstractGenerator {
     }
 
     private float getDistance(Position pos1, Position pos2) {
-        int x1 = pos1.getX();
-        int y1 = pos1.getY();
-        int x2 = pos2.getX();
-        int y2 = pos2.getY();
+        int x1 = pos1.x;
+        int y1 = pos1.y;
+        int x2 = pos2.x;
+        int y2 = pos2.y;
         if (Math.abs(x1 - x2) > 1 || Math.abs(y1 - y2) > 1) {
             return 0;
         }

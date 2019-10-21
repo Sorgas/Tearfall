@@ -48,7 +48,7 @@ public class LiquidContainer implements ModelComponent, Initable, Turnable {
     public void init() {
         localMap = GameMvc.instance().getModel().get(LocalMap.class);
         liquidTiles.keySet().forEach(position -> {
-            localMap.setFlooding(position.getX(), position.getY(), position.getZ(), liquidTiles.get(position).amount);
+            localMap.setFlooding(position.x, position.y, position.z, liquidTiles.get(position).amount);
         });
     }
 
@@ -116,7 +116,7 @@ public class LiquidContainer implements ModelComponent, Initable, Turnable {
     }
 
     private void trySpreadTile(Position position) {
-        Position lowerPos = new Position(position.getX(), position.getY(), position.getZ() - 1);
+        Position lowerPos = new Position(position.x, position.y, position.z - 1);
         int currentWater = localMap.getFlooding(position);
         if (localMap.inMap(lowerPos)) { // check to flow lower
             byte currentBlockType = localMap.getBlockType(position);
@@ -145,14 +145,14 @@ public class LiquidContainer implements ModelComponent, Initable, Turnable {
 
     private ArrayList<Position> observeTilesAround(Position position, int currentAmountOfWater, boolean onLowerLevel) {
         ArrayList<Position> positions = new ArrayList<>();
-        for (int x = position.getX() - 1; x < position.getX() + 2; x++) {
-            for (int y = position.getY() - 1; y < position.getY() + 2; y++) {
+        for (int x = position.x - 1; x < position.x + 2; x++) {
+            for (int y = position.y - 1; y < position.y + 2; y++) {
                 if (!(x == 0 && y == 0) && // not same point
-                        localMap.inMap(x, y, position.getZ()) &&
-                        localMap.isFlyPassable(x, y, position.getZ()) &&
-                        (localMap.getFlooding(x, y, position.getZ()) < currentAmountOfWater || onLowerLevel) &&
-                        localMap.getFlooding(x, y, position.getZ()) < 7) { // can take liquid
-                    positions.add(new Position(x, y, position.getZ()));
+                        localMap.inMap(x, y, position.z) &&
+                        localMap.isFlyPassable(x, y, position.z) &&
+                        (localMap.getFlooding(x, y, position.z) < currentAmountOfWater || onLowerLevel) &&
+                        localMap.getFlooding(x, y, position.z) < 7) { // can take liquid
+                    positions.add(new Position(x, y, position.z));
                 }
             }
         }

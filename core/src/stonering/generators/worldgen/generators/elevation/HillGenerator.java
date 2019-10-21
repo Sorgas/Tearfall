@@ -45,7 +45,7 @@ public class HillGenerator  extends AbstractGenerator {
 	private Mountain createHill(int x, int y) {
 		Mountain Hill = new Mountain();
 		Hill.setTop(new Position(x,y,random.nextInt(3) + 2));
-		int slopeCount = random.nextInt(2) + 6 + Hill.getTop().getZ() / 39;
+		int slopeCount = random.nextInt(2) + 6 + Hill.getTop().z / 39;
 		int[] slopeAngles = new int[slopeCount];
 		int spinAngle = random.nextInt(360);
 		for (int i = 0; i < slopeCount; i++) {
@@ -54,9 +54,9 @@ public class HillGenerator  extends AbstractGenerator {
 			slopeAngles[i] %= 360;
 		}
 		for (int i = 0; i < slopeCount; i++) {
-			int height = Hill.getTop().getZ();
+			int height = Hill.getTop().z;
 			int hillRadius = height > 0 ? height * 3 + random.nextInt(height) : 3;
-			Vector vector = new Vector(Hill.getTop().getX(), Hill.getTop().getY(), (float) slopeAngles[i], hillRadius);
+			Vector vector = new Vector(Hill.getTop().x, Hill.getTop().y, (float) slopeAngles[i], hillRadius);
 			Hill.addCorner(vector.getEndPoint());
 		}
 		return Hill;

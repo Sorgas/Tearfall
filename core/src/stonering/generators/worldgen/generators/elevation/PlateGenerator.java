@@ -95,7 +95,7 @@ public class PlateGenerator extends AbstractGenerator {
         for (int i = 0; i < sites.size(); i++) {
             Site site = sites.get(i);
             PolygonSimple polygon = site.getPolygon();
-            TectonicPlate plate = new TectonicPlate(new Position((int) site.getX(), (int) site.getY(), 0));
+            TectonicPlate plate = new TectonicPlate(new Position((int) site.x, (int) site.y, 0));
             if (polygon != null) {
                 double[] xPoints = polygon.getXPoints();
                 double[] yPoints = polygon.getYPoints();
@@ -122,7 +122,7 @@ public class PlateGenerator extends AbstractGenerator {
             Position center = new Position(widthMargin + random.nextInt(width - 4 * widthMargin), heightMargin + random.nextInt(width - 4 * heightMargin), 0);
             boolean tooClose = false;
             for (Position center2 : centers) {
-                if (new Vector(center.getX(), center.getY(), center2.getX(), center2.getY()).getLength() < 90) {
+                if (new Vector(center.x, center.y, center2.x, center2.y).getLength() < 90) {
                     tooClose = true;
                     break;
                 }
@@ -141,13 +141,13 @@ public class PlateGenerator extends AbstractGenerator {
             double minDistance = config.getHeight();
             Position nearestCenter = centers.get(0);
             for (Position acenter : centers) {
-                double distance = Math.sqrt(Math.pow(center.getX() - acenter.getX(), 2) + Math.pow(center.getY() - acenter.getY(), 2));
+                double distance = Math.sqrt(Math.pow(center.x - acenter.x, 2) + Math.pow(center.y - acenter.y, 2));
                 if (distance < minDistance) {
                     minDistance = distance;
                     nearestCenter = acenter;
                 }
             }
-            Vector2 speed = new Vector2(nearestCenter.getX() - center.getX(), nearestCenter.getY() - center.getY());
+            Vector2 speed = new Vector2(nearestCenter.x - center.x, nearestCenter.y - center.y);
             speed.setLength(random.nextInt(maxPlateSpeed - minPlateSpeed) + minPlateSpeed);
             plate.setSpeedVector(speed);
         }

@@ -78,11 +78,11 @@ public class Edge {
     }
 
     private int getDistance(Position pos) {
-        int value = Math.abs((point2.getY() - point1.getY()) * pos.getX() -
-                (point2.getX() - point1.getX()) * pos.getY() +
-                point2.getX() * point1.getY() - point2.getY() * point1.getX());
-        value = (int) Math.round((float) value / Math.sqrt(Math.pow(point2.getY() - point1.getY(), 2) +
-                Math.pow(point2.getX() - point1.getX(), 2)));
+        int value = Math.abs((point2.y - point1.y) * pos.x -
+                (point2.x - point1.x) * pos.y +
+                point2.x * point1.y - point2.y * point1.x);
+        value = (int) Math.round((float) value / Math.sqrt(Math.pow(point2.y - point1.y, 2) +
+                Math.pow(point2.x - point1.x, 2)));
         return value;
     }
 

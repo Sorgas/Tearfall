@@ -97,7 +97,7 @@ public class LocalCaveGenerator extends LocalAbstractGenerator {
             boolean reject = false;
             for (int i = xs.length - 1; i > count - 1; i--) {
                 Position pos = new Position(x, y, 0);
-                if (pos.getDistanse(xs[i], ys[i], 0) < 15) {
+                if (pos.getDistance(xs[i], ys[i], 0) < 15) {
                     reject = true;
                     break;
                 }

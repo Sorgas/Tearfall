@@ -65,13 +65,13 @@ public class Vector implements Serializable {
      * @return if
      */
     public boolean isAtRight(Position point) {
-        return isAtRight(point.getX(), point.getY());
+        return isAtRight(point.x, point.y);
     }
 
     public boolean isAtRight(int x, int y) {
         Position endPoint = getEndPoint();
-        float value = (endPoint.getX() - this.x) * (y - this.y) -
-                (endPoint.getY() - this.y) * (x - this.x);
+        float value = (endPoint.x - this.x) * (y - this.y) -
+                (endPoint.y - this.y) * (x - this.x);
         return value >= 0;
     }
 

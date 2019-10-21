@@ -40,27 +40,27 @@ public class Mountain {
 	}
 
 	private boolean isInBounds(Position pos) {
-		if(pos.getX() > maxX || pos.getX() < minX) return false;
-		if(pos.getY() > maxY || pos.getY() < minY) return false;
+		if(pos.x > maxX || pos.x < minX) return false;
+		if(pos.y > maxY || pos.y < minY) return false;
 		return true;
 	}
 
 	private void countBounds() {
-		minX = top.getX();
-		maxX = top.getX();
-		minY = top.getY();
-		maxY = top.getY();
+		minX = top.x;
+		maxX = top.x;
+		minY = top.y;
+		maxY = top.y;
 		for (Iterator<Position> iterator = corners.iterator(); iterator.hasNext();) {
 			Position corner = iterator.next();
-			if(corner.getX() < minX) {
-				minX = corner.getX();
-			} else if(corner.getX() > maxX) {
-				maxX = corner.getX();
+			if(corner.x < minX) {
+				minX = corner.x;
+			} else if(corner.x > maxX) {
+				maxX = corner.x;
 			}
-			if(corner.getY() < minY) {
-				minY = corner.getY();
-			} else if(corner.getY() > maxY) {
-				maxY = corner.getY();
+			if(corner.y < minY) {
+				minY = corner.y;
+			} else if(corner.y > maxY) {
+				maxY = corner.y;
 			}
 		}
 	}

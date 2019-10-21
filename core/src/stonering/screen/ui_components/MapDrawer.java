@@ -43,15 +43,15 @@ public class MapDrawer {
         for (Iterator<TectonicPlate> iterator = plates.iterator(); iterator.hasNext(); ) {
             TectonicPlate plate = iterator.next();
             Position center = plate.getCenter();
-            drawPoint(center.getX(), center.getY());
+            drawPoint(center.x, center.y);
             for (Iterator<Edge> edgeIterator = plate.getEdges().iterator(); edgeIterator.hasNext(); ) {
                 Edge edge = edgeIterator.next();
-                drawLine(edge.getPoint1().getX(), edge.getPoint1().getY(), edge.getPoint2().getX(), edge.getPoint2().getY());
+                drawLine(edge.getPoint1().x, edge.getPoint1().y, edge.getPoint2().x, edge.getPoint2().y);
             }
 //            Vector vector = plate.getSpeedVector();
 //            Position endPoint = vector.getEndPoint();
-//            drawLine(Math.round(vector.getX()), Math.round(vector.getY()),
-//                    Math.round(endPoint.getX()), Math.round(endPoint.getY()));
+//            drawLine(Math.round(vector.x), Math.round(vector.y),
+//                    Math.round(endPoint.x), Math.round(endPoint.y));
         }
     }
 
@@ -63,10 +63,10 @@ public class MapDrawer {
             for (Iterator<Mountain> mountainIterator = mountains.iterator(); mountainIterator.hasNext(); ) {
                 Mountain mountain = mountainIterator.next();
                 Position top = mountain.getTop();
-                drawPoint(top.getX(), top.getY());
+                drawPoint(top.x, top.y);
                 for (Iterator<Position> cornerIterator = mountain.getCorners().iterator(); cornerIterator.hasNext(); ) {
                     Position corner = cornerIterator.next();
-                    drawLine(top.getX(), top.getY(), corner.getX(), corner.getY());
+                    drawLine(top.x, top.y, corner.x, corner.y);
                 }
             }
         }
@@ -80,10 +80,10 @@ public class MapDrawer {
             for (Iterator<Mountain> valleyIterator = valleys.iterator(); valleyIterator.hasNext(); ) {
                 Mountain valley = valleyIterator.next();
                 Position top = valley.getTop();
-                drawPoint(top.getX(), top.getY());
+                drawPoint(top.x, top.y);
                 for (Iterator<Position> cornerIterator = valley.getCorners().iterator(); cornerIterator.hasNext(); ) {
                     Position corner = cornerIterator.next();
-                    drawLine(top.getX(), top.getY(), corner.getX(), corner.getY());
+                    drawLine(top.x, top.y, corner.x, corner.y);
                 }
             }
         }

@@ -58,19 +58,19 @@ public class ValleyGenerator extends AbstractGenerator {
     private void createTops(Edge edge) {
         Position pos1 = edge.getPoint1().clone();
         Position pos2 = edge.getPoint2().clone();
-        int length = (int) Math.round(Math.sqrt(Math.pow(pos1.getX() - pos2.getX(), 2) + Math.pow(pos1.getY() - pos2.getY(), 2)));
-        float extentX = (pos1.getX() - pos2.getX()) * 0.5f;
-        float extentY = (pos1.getY() - pos2.getY()) * 0.5f;
-        pos1.setX((int) (pos1.getX() + extentX));
-        pos1.setY((int) (pos1.getY() + extentY));
-        pos2.setX((int) (pos2.getX() - extentX));
-        pos2.setY((int) (pos2.getY() - extentY));
+        int length = (int) Math.round(Math.sqrt(Math.pow(pos1.x - pos2.x, 2) + Math.pow(pos1.y - pos2.y, 2)));
+        float extentX = (pos1.x - pos2.x) * 0.5f;
+        float extentY = (pos1.y - pos2.y) * 0.5f;
+        pos1.x = (int) (pos1.x + extentX);
+        pos1.y = (int) (pos1.y + extentY);
+        pos2.x = (int) (pos2.x - extentX);
+        pos2.y = (int) (pos2.y - extentY);
         int num = length / topsDensity;
         if (num > 0) {
-            float xDensity = (pos2.getX() - pos1.getX()) / (float) num;
-            float yDensity = (pos2.getY() - pos1.getY()) / (float) num;
-            int xStart = pos1.getX();
-            int yStart = pos1.getY();
+            float xDensity = (pos2.x - pos1.x) / (float) num;
+            float yDensity = (pos2.y - pos1.y) / (float) num;
+            int xStart = pos1.x;
+            int yStart = pos1.y;
             float x = xStart + xDensity / 2;
             float y = yStart + yDensity / 2;
             for (int i = 0; i < num; i++) {
@@ -103,7 +103,7 @@ public class ValleyGenerator extends AbstractGenerator {
                 int topOffset = speed1;
                 topOffset -= speed2;
 
-                Vector edgeVector = new Vector(edge.getPoint1().getX(), edge.getPoint1().getY(), edge.getPoint2().getX(), edge.getPoint2().getY());
+                Vector edgeVector = new Vector(edge.getPoint1().x, edge.getPoint1().y, edge.getPoint2().x, edge.getPoint2().y);
                 edge.setOffsetVector(new Vector2((float) (edgeVector.getAngle() + 180 * Math.signum(speed1 - speed2) - edgeVector.getX()), topOffset - edgeVector.getY()));
             }
         }
@@ -113,7 +113,7 @@ public class ValleyGenerator extends AbstractGenerator {
         List<Mountain> valleys = edge.getValleys();
         for (int i = 0; i < valleys.size(); i++) {
             double radians = Math.PI * i / edge.getValleys().size();
-            valleys.get(i).getTop().setZ((int) Math.round((edge.getPikeHeight() + 8) * Math.sin(radians) - random.nextInt(3) - 11));
+            valleys.get(i).getTop().z = (int) Math.round((edge.getPikeHeight() + 8) * Math.sin(radians) - random.nextInt(3) - 11);
         }
     }
 
@@ -125,13 +125,13 @@ public class ValleyGenerator extends AbstractGenerator {
 //                Mountain valley = edge.getValleys().get(i);
 //                int xRand = random.nextInt(2) - 1;
 //                int yRand = random.nextInt(2) - 1;
-//                Vector topOffsetVector = new Vector(edgeOffsetVector.getStartPoint().getX(), edgeOffsetVector.getStartPoint().getY(), endPoint.getX() + xRand, endPoint.getY() + yRand);
+//                Vector topOffsetVector = new Vector(edgeOffsetVector.getStartPoint().x, edgeOffsetVector.getStartPoint().y, endPoint.x + xRand, endPoint.y + yRand);
 //                if (Double.isNaN(topOffsetVector.getAngle())) {
 //                    topOffsetVector.setAngle(edgeOffsetVector.getAngle());
 //                }
 //                double radians = Math.PI * i / edge.getValleys().size();
 //                topOffsetVector.setLength((topOffsetVector.getLength() * Math.sin(radians) * topOffsetModifier));
-//                valley.setTop(valley.getTop().addVector(topOffsetVector));
+//                valley.setTop(valley.getTop().add(topOffsetVector));
 //            }
 //        }
     }
@@ -153,9 +153,9 @@ public class ValleyGenerator extends AbstractGenerator {
                 slopeAngles[i] %= 360;
             }
             for (int i = 0; i < slopeCount; i++) {
-                int radius = valley.getTop().getZ() * 2;
+                int radius = valley.getTop().z * 2;
                 int offset = radius / 2 > 0 ? random.nextInt(radius / 2) : 1;
-                Vector vector = new Vector(valley.getTop().getX(), valley.getTop().getY(), (float) slopeAngles[i], radius * radiusModifier + offset);
+                Vector vector = new Vector(valley.getTop().x, valley.getTop().y, (float) slopeAngles[i], radius * radiusModifier + offset);
                 valley.addCorner(vector.getEndPoint());
             }
         }

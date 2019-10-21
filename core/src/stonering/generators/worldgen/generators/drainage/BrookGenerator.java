@@ -43,8 +43,8 @@ public class BrookGenerator extends AbstractGenerator {
 
     private Brook runBrook(Position start) {
         Brook brook = new Brook();
-        int x = start.getX();
-        int y = start.getY();
+        int x = start.x;
+        int y = start.y;
         Vector2 curVector2 = slopes[x][y];
 
         while (container.inMap(x, y) &&
@@ -70,7 +70,7 @@ public class BrookGenerator extends AbstractGenerator {
         for (int i = 0; i < brook.positions.size(); i++) {
             Position position = brook.positions.get(i);
 //            Vector2 vector2 = brook.vectors.get(i);
-            container.setBrook(position.getX(), position.getY(), slopes[position.getX()][position.getY()].cpy());
+            container.setBrook(position.x, position.y, slopes[position.x][position.y].cpy());
         }
     }
 

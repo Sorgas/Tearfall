@@ -177,8 +177,8 @@ public class WorldGenScreen implements Screen {
 
     private void updateWorldInfoToLabel() {
         if (world != null) {
-            int x = minimap.getFocus().getX();
-            int y = minimap.getFocus().getY();
+            int x = minimap.getFocus().x;
+            int y = minimap.getFocus().y;
             worldInfoLabel.setText(worldCellInfo.getCellInfo(x, y, Math.round(world.getWorldMap().getElevation(x, y)),
                     world.getWorldMap().getSummerTemperature(x, y),
                     world.getWorldMap().getRainfall(x, y)));

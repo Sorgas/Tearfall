@@ -28,8 +28,8 @@ public class LocalHeightsGenerator extends LocalAbstractGenerator {
 
     public void execute() {
         Logger.GENERATION.logDebug("generating heights");
-        int x = config.getLocation().getX();
-        int y = config.getLocation().getY();
+        int x = config.getLocation().x;
+        int y = config.getLocation().y;
         localHightMap = new float[localAreaSize + 1][localAreaSize + 1];
         for (int i = 0; i < localAreaSize + 1; i++) {
             Arrays.fill(localHightMap[i], -1);

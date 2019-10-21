@@ -51,16 +51,16 @@ public class MiniMap extends Table {
     private void drawTiles(Batch batch) {
         if (map != null) {
             updateSize();
-            int xStart = Math.max(focus.getX() - (size.getX() / 2), 0);
-            xStart = Math.min(xStart, map.getWidth() - size.getX());
-            int yStart = Math.max(focus.getY() - (size.getY() / 2), 0);
-            yStart = Math.min(yStart, map.getHeight() - size.getY());
-            for (int x = 0; x < size.getX(); x++) {
-                for (int y = 0; y < size.getY(); y++) {
+            int xStart = Math.max(focus.x - (size.x / 2), 0);
+            xStart = Math.min(xStart, map.getWidth() - size.x);
+            int yStart = Math.max(focus.y - (size.y / 2), 0);
+            yStart = Math.min(yStart, map.getHeight() - size.y);
+            for (int x = 0; x < size.x; x++) {
+                for (int y = 0; y < size.y; y++) {
                     drawTile(batch, tileChooser.getTile(xStart + x, yStart + y), x, y);
                 }
             }
-            drawTile(batch, tileChooser.getCross(), focus.getX() - xStart, focus.getY() - yStart);
+            drawTile(batch, tileChooser.getCross(), focus.x - xStart, focus.y - yStart);
         }
     }
 
@@ -81,33 +81,29 @@ public class MiniMap extends Table {
     }
 
     public void updateSize() {
-        size.setX((int) (getWidth() / tileSize / tileScale));
-        if (map != null && size.getX() > map.getWidth()) {
-            size.setX(map.getWidth());
+        size.x = (int) (getWidth() / tileSize / tileScale);
+        if (map != null && size.x > map.getWidth()) {
+            size.x = map.getWidth();
         }
-        size.setY((int) (getHeight() / tileSize / tileScale));
-        if (map != null && size.getY() > map.getHeight()) {
-            size.setY(map.getHeight());
+        size.y = (int) (getHeight() / tileSize / tileScale);
+        if (map != null && size.y > map.getHeight()) {
+            size.y = map.getHeight();
         }
     }
 
     public void setFocus(int x, int y) {
-        focus.setX(x);
-        focus.setY(y);
+        focus.x = x;
+        focus.y = y;
     }
 
     public void moveFocus(int dx, int dy) {
         if (map != null) {
-            focus.setX(focus.getX() + dx);
-            focus.setY(focus.getY() + dy);
-            if (focus.getX() < 0)
-                focus.setX(0);
-            if (focus.getX() >= map.getWidth())
-                focus.setX(map.getWidth() - 1);
-            if (focus.getY() < 0)
-                focus.setY(0);
-            if (focus.getY() >= map.getHeight())
-                focus.setY(map.getHeight() - 1);
+            focus.x += dx;
+            focus.y += dy;
+            if (focus.x < 0) focus.x = 0;
+            if (focus.x >= map.getWidth()) focus.x = map.getWidth() - 1;
+            if (focus.y < 0) focus.y = 0;
+            if (focus.y >= map.getHeight()) focus.y = map.getHeight() - 1;
         }
     }
 
@@ -130,7 +126,7 @@ public class MiniMap extends Table {
     }
 
     private void drawTile(Batch batch, TextureRegion tile, int x, int y) {
-        batch.draw(tile, getX() + x * tileSize * tileScale, getY() + y * tileSize * tileScale);
+        batch.draw(tile, x + x * tileSize * tileScale, y + y * tileSize * tileScale);
     }
 
     private void drawElevationDebug(int screenOffsetX) {
@@ -198,8 +194,8 @@ public class MiniMap extends Table {
         }
         shapeRenderer.setColor(1, 0, 0, 1);
         map.getLakes().forEach(position ->
-                shapeRenderer.rect(baseScreenOffsetX + screenOffsetX + position.getX() * pixelSize,
-                        screenOffsetY + position.getY() * pixelSize,
+                shapeRenderer.rect(baseScreenOffsetX + screenOffsetX + position.x * pixelSize,
+                        screenOffsetY + position.y * pixelSize,
                         pixelSize, pixelSize)
 
         );
@@ -298,8 +294,8 @@ public class MiniMap extends Table {
         if (world != null) {
             this.map = world.getWorldMap();
             tileChooser.setMap(world.getWorldMap());
-            focus.setX(map.getWidth() / 2);
-            focus.setY(map.getHeight() / 2);
+            focus.x = map.getWidth() / 2;
+            focus.y = map.getHeight() / 2;
             updateSize();
         }
     }
