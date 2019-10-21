@@ -13,7 +13,7 @@ import stonering.util.geometry.Position;
  * @author Alexander on 15.02.2019.
  */
 public class SinglePlantModel extends TestModel {
-    private static final int TREE_CENTER = MAP_SIZE / 2;
+    private static final int CENTER = MAP_SIZE / 2;
 
     @Override
     public void init() {
@@ -25,7 +25,7 @@ public class SinglePlantModel extends TestModel {
         try {
             PlantGenerator plantGenerator = new PlantGenerator();
             Plant plant = plantGenerator.generatePlant("puffball_mushroom", 0);
-            plant.setPosition(new Position(TREE_CENTER, TREE_CENTER, 2));
+            plant.setPosition(new Position(CENTER, CENTER, 2));
             return plant;
         } catch (DescriptionNotFoundException e) {
             e.printStackTrace();

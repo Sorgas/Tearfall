@@ -46,9 +46,4 @@ public class Tree extends AbstractPlant {
         int radius = treeForm.get(0);
         return Position.sub(position, radius, radius, treeForm.get(2));
     }
-
-    public void setPosition(Position position) {
-        super.setPosition(position);
-        this.position.set(position);
-    }
 }
