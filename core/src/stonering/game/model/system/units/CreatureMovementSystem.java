@@ -14,6 +14,11 @@ import stonering.util.global.Logger;
 import stonering.util.pathfinding.a_star.AStar;
 
 /**
+ * Moves all units across the map. General algorithm:
+ * Update current target with target from {@link PlanningAspect}, update path if needed.
+ * Change vectorPosition of a unit, by its speed parameter in direction of a next tile in the path (integer position will change, see {@link FloatPositionEntity}).
+ * If
+ * If unit has target in planning aspect
  * Changes {@link Unit}'s position over time, if one has target to move.
  * Works with vector position of a unit. Unit's integer position is updated accordingly, see{@link FloatPositionEntity}.
  *
@@ -30,7 +35,7 @@ public class CreatureMovementSystem {
         unitContainer = model.get(UnitContainer.class);
         aStar = model.get(AStar.class);
         if (tryFall(unit)) return; // if creature is not on the passable tile, it falls and looses its task.
-        if (checkPath()) makeStep(unit, unit.getAspect(MovementAspect.class));
+        if (checkPath(unit)) makeStep(unit, unit.getAspect(MovementAspect.class));
     }
 
     /**
@@ -74,7 +79,9 @@ public class CreatureMovementSystem {
      * Moves creature to the next tile from path.
      */
     private void makeStep(Unit unit, MovementAspect aspect) {
+        if()
         Position nextPosition = aspect.path.get(0);
+
         if (localMap.isWalkPassable(nextPosition)) { // path has not been blocked after calculation
             Vector3 movementVector = getDirectionVector(unit.position, nextPosition).scl(aspect.speed);  // movement on this update
             Vector3 newVectorPosition = unit.vectorPosition.cpy().add(movementVector);
@@ -102,11 +109,11 @@ public class CreatureMovementSystem {
      * Checks that this aspect holder has poth to move on.
      */
     private boolean checkPath(Unit unit, MovementAspect aspect) {
-        if(unit.getAspect(PlanningAspect.class). != null) { // creature has
+        if (unit.getAspect(PlanningAspect.class). != null) { // creature has
 
         }
-        if(path == null)
-        path = target != null ? aStar.makeShortestPath(entity, target, planning.isTargetExact()) : null;
+        if (path == null)
+            path = target != null ? aStar.makeShortestPath(entity, target, planning.isTargetExact()) : null;
         return (path == null) == (target == null); // target and path should be both either set or null.
         return aspect.path != null && !aspect.path.isEmpty(); // path exists
     }

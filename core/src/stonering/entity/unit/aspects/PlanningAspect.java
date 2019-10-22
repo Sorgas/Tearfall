@@ -120,11 +120,11 @@ public class PlanningAspect extends Aspect {
         task.reset();
     }
 
-    public Position getTarget() {
-        return task != null ? task.nextAction.actionTarget.getPosition() : null;
-    }
-
     private Task getTaskFromContainer() {
         return GameMvc.instance().getModel().get(TaskContainer.class).getActiveTask((Unit) entity);
+    }
+
+    public Position getTarget() {
+        return task != null ? task.nextAction.actionTarget.getPosition() : null;
     }
 }

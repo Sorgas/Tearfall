@@ -50,12 +50,15 @@ public class UnitContainer extends EntityContainer<Unit> implements Initable {
         entities.remove(unit);
     }
 
-    /**
-     * Moves unit to new position.
-     */
     public void updateUnitPosiiton(Unit unit, Vector3 vector) {
         removeUnitFromMap(unit);
         unit.setPosition(vector);
+        addUnitToMap(unit);
+    }
+
+    public void updateUnitPosiiton(Unit unit, Position position) {
+        removeUnitFromMap(unit);
+        unit.setPosition(position);
         addUnitToMap(unit);
     }
 
