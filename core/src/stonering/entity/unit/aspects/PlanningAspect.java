@@ -15,18 +15,19 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Objects;
 
-import static stonering.entity.job.action.target.ActionTarget.*;
+import static stonering.entity.job.action.target.ActionTargetStatusEnum.WAIT;
 
 /**
  * Holds current creature's task. Task itself, is a sequence of actions with pointer to active action.
- * <p>
- * Selects new tasks.
- * Updates target for movement on action change.
+ * Has flag for indicating whether movement is needed for performing task.
+ * Flag is false if task is null, or target of an action is reached.
+ * Selects new tasks from container and creature needs.
  *
  * @author Alexander Kuzyakov on 10.10.2017.
  */
 public class PlanningAspect extends Aspect {
-    private Task task;
+    public Task task;
+    private boolean movementNeeded;
 
     public PlanningAspect(Entity entity) {
         super(entity);
@@ -86,12 +87,14 @@ public class PlanningAspect extends Aspect {
             newTask.performer = (Unit) entity; // performer is required for checking
             if (checkActionSequence(newTask)) { // valid task
                 this.task = newTask;
+                movementNeeded = task.nextAction.actionTarget.check(entity.position) == WAIT;
                 return true;
             }
         }
         // clear state or invalid task
         if (newTask != null) newTask.reset(); // reset created action sequence in invalid task
         task = null; // free this aspect
+        movementNeeded = false;
         return false;
     }
 
@@ -126,5 +129,13 @@ public class PlanningAspect extends Aspect {
 
     public Position getTarget() {
         return task != null ? task.nextAction.actionTarget.getPosition() : null;
+    }
+
+    public boolean isMovementNeeded() {
+        return movementNeeded;
+    }
+
+    public Task getTask() {
+        return task;
     }
 }

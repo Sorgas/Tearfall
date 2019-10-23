@@ -47,6 +47,7 @@ public class Task {
         initialAction.task = this;
         status = TaskStatusEnum.OPEN;
         job = NONE.NAME;
+        updateNextAction();
     }
 
     /**

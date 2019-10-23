@@ -10,12 +10,9 @@ import stonering.util.global.Logger;
 import java.util.List;
 import java.util.Random;
 
-public abstract class ActionTarget {
-    public static final int READY = 1; // target position reached
-    public static final int WAIT = 0; // target position no reached
-    public static final int NEW = 2; // new action created. planning aspect should update task
-    public static final int FAIL = -1; // failed to create action
+import static stonering.entity.job.action.target.ActionTargetStatusEnum.*;
 
+public abstract class ActionTarget {
     public static final int EXACT = 0;
     public static final int NEAR = 1;
     public static final int ANY = 2;
@@ -31,29 +28,10 @@ public abstract class ActionTarget {
 
     public abstract Position getPosition();
 
-    public Position findPositionToStepOff(Position from) {
-        List<Position> positions = GameMvc.instance().getModel().get(LocalMap.class).getFreeBlockNear(from);
-        if (!positions.isEmpty()) {
-            return positions.get(random.nextInt(positions.size()));
-        }
-        Logger.PATH.logWarn("Cant find tile to step out from " + from);
-        return null;
-    }
-
-    /**
-     * Creates action to free target position. Can fail.
-     */
-    public int createActionToStepOff(Position from) {
-        Position to = findPositionToStepOff(from);
-        if (to == null) return FAIL;
-        action.task.addFirstPreAction(new MoveAction(to));
-        return NEW;
-    }
-
     /**
      * Checks if task performer has reached task target.
      */
-    public int check(Position currentPosition) {
+    public ActionTargetStatusEnum check(Position currentPosition) {
         int distance = getDistance(currentPosition);
         if (distance > 1) return WAIT; // target not yet reached
         switch (targetPlacement) {
@@ -68,6 +46,25 @@ public abstract class ActionTarget {
                 return FAIL;
             }
         }
+    }
+
+    public Position findPositionToStepOff(Position from) {
+        List<Position> positions = GameMvc.instance().getModel().get(LocalMap.class).getFreeBlockNear(from);
+        if (!positions.isEmpty()) {
+            return positions.get(random.nextInt(positions.size()));
+        }
+        Logger.PATH.logWarn("Cant find tile to step out from " + from);
+        return null;
+    }
+
+    /**
+     * Creates action to free target position. Can fail.
+     */
+    public ActionTargetStatusEnum createActionToStepOff(Position from) {
+        Position to = findPositionToStepOff(from);
+        if (to == null) return FAIL;
+        action.task.addFirstPreAction(new MoveAction(to));
+        return NEW;
     }
 
     //TODO check passing for neighbour

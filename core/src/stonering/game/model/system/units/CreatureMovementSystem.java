@@ -17,10 +17,14 @@ import stonering.util.pathfinding.a_star.AStar;
  * Moves all units across the map. General algorithm:
  * Update current target with target from {@link PlanningAspect}, update path if needed.
  * Change vectorPosition of a unit, by its speed parameter in direction of a next tile in the path (integer position will change, see {@link FloatPositionEntity}).
- * If
- * If unit has target in planning aspect
- * Changes {@link Unit}'s position over time, if one has target to move.
- * Works with vector position of a unit. Unit's integer position is updated accordingly, see{@link FloatPositionEntity}.
+ * Algorithm:
+ *     Checks if target position in planning aspect has changed, creates new path if needed.
+ *     Moves unit to the next tile in the path, removes tile from the path if it's reached.
+ *
+ * Stores action target position got from planning aspect, to avoid making path on every update.
+ * When no path is present, moves units to the 'center' of a tile, by updating their vector position to integer position.
+ * Integer position of an entity is a result of rounding of it's vector position.
+ * Planning aspect will update target when its reached.
  *
  * @author Alexander on 21.10.2019.
  */
@@ -34,54 +38,15 @@ public class CreatureMovementSystem {
         localMap = model.get(LocalMap.class);
         unitContainer = model.get(UnitContainer.class);
         aStar = model.get(AStar.class);
-        if (tryFall(unit)) return; // if creature is not on the passable tile, it falls and looses its task.
-        if (checkPath(unit)) makeStep(unit, unit.getAspect(MovementAspect.class));
-    }
-
-    /**
-     * Moves creature lower, if it is above ground.
-     * Deletes target and path, for recalculation on next iteration.
-     * //TODO apply fall damage
-     */
-    private boolean tryFall(Unit unit) {
-        if (!canFall(unit)) return false;
-        Position pos = unit.position;
-        unitContainer.updateUnitPosiiton(unit, new Position(pos.x, pos.y, pos.z - 1));
-        unit.getAspect(PlanningAspect.class).interrupt();
-        unit.getAspect(MovementAspect.class).path = null;
-        return true;
-    }
-
-    /**
-     * Creature can fall, if is in space cell, and cell below is fly passable.
-     */
-    private boolean canFall(Unit unit) {
-        Position pos = unit.position;
-        return localMap.getBlockTypeEnumValue(pos) == BlockTypesEnum.SPACE && // can fall through SPACE
-                pos.z > 0 && // not the bottom of a map
-                localMap.isFlyPassable(pos.x, pos.y, pos.z - 1); // lower tile is open
-    }
-
-    /**
-     * Update state of this aspect, according target from {@link PlanningAspect}.
-     */
-    private void update(Unit unit) {
-        stepProgress = 0;
-        if (target == planning.getTarget()) return; // target is old
-        target = planning.getTarget();
-        if (updatePath()) return; // path successfully found or not needed
-        target = null;
-        path = null;
-        planning.interrupt();
+        MovementAspect aspect = unit.getAspect(MovementAspect.class);
+        if (checkPath(unit, aspect)) makeStep(unit, aspect);
     }
 
     /**
      * Moves creature to the next tile from path.
      */
     private void makeStep(Unit unit, MovementAspect aspect) {
-        if()
         Position nextPosition = aspect.path.get(0);
-
         if (localMap.isWalkPassable(nextPosition)) { // path has not been blocked after calculation
             Vector3 movementVector = getDirectionVector(unit.position, nextPosition).scl(aspect.speed);  // movement on this update
             Vector3 newVectorPosition = unit.vectorPosition.cpy().add(movementVector);
@@ -92,53 +57,35 @@ public class CreatureMovementSystem {
             }
         } else { // path blocked
             Logger.PATH.log("path was blocked in " + nextPosition);
-            aspect.path = null; // drop path, will be recounted on next step
+            aspect.path = null; // drop path, will be recounted on next update
         }
     }
 
     /**
-     * Updates path according to target. For null target path is set to null;
-     *
-     * @return false, if no path found for non-null target.
+     * Checks that path to target exists. Creates new path if needed. Can fail task in {@link PlanningAspect}.
      */
-    private boolean updatePath() {
-
-    }
-
-    /**
-     * Checks that this aspect holder has poth to move on.
-     */
-    private boolean checkPath(Unit unit, MovementAspect aspect) {
-        if (unit.getAspect(PlanningAspect.class). != null) { // creature has
-
+    private boolean checkPath(Unit unit, MovementAspect movement) {
+        PlanningAspect planning = unit.getAspect(PlanningAspect.class);
+        if (!planning.isMovementNeeded()) return freeAspect(movement);
+        Position target = planning.getTarget();
+        if(!target.equals(movement.target) || movement.path == null) { // target has changed, or path is null for old target
+            movement.target = target;
+            movement.path = aStar.makeShortestPath(unit.position, movement.target = planning.getTarget());
+            if(movement.path == null) {
+                planning.interrupt(); // no path to target, fail task
+                return freeAspect(movement);
+            }
         }
-        if (path == null)
-            path = target != null ? aStar.makeShortestPath(entity, target, planning.isTargetExact()) : null;
-        return (path == null) == (target == null); // target and path should be both either set or null.
-        return aspect.path != null && !aspect.path.isEmpty(); // path exists
+        return true; // target is old and path exists
     }
 
-    /**
-     *
-     */
+    private boolean freeAspect(MovementAspect aspect) {
+        aspect.path = null;
+        aspect.target = null;
+        return false;
+    }
+
     private Vector3 getDirectionVector(Position from, Position to) {
         return new Vector3(to.x - from.x, to.y - from.y, to.z - from.z);
-    }
-
-    /**
-     * Returns vector with [0:1] floats, representing current progress of movement.
-     */
-    public Vector3 getStepProgressVector() {
-        if (!checkPath()) return new Vector3(); // zero vector for staying still.
-        Position nextPosition = path.get(0);
-        Position unitPosition = entity.position;
-        return new Vector3(
-                getStepProgressVectorComponent(unitPosition.x, nextPosition.x),
-                getStepProgressVectorComponent(unitPosition.y, nextPosition.y),
-                getStepProgressVectorComponent(unitPosition.z, nextPosition.z));
-    }
-
-    private float getStepProgressVectorComponent(int from, int to) {
-        return (to - from) * stepProgress / movementDelay;
     }
 }

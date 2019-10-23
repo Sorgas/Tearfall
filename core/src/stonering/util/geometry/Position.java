@@ -98,9 +98,9 @@ public class Position implements Serializable, Cloneable {
     }
 
     public void set(Vector3 vector) {
-        x = (int) vector.x;
-        y = (int) vector.y;
-        z = (int) vector.z;
+        x = Math.round(vector.x);
+        y = Math.round(vector.y);
+        z = Math.round(vector.z);
     }
 
     public void add(int dx, int dy, int dz) {

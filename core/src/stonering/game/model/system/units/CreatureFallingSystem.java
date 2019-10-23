@@ -1,0 +1,44 @@
+package stonering.game.model.system.units;
+
+import stonering.entity.unit.Unit;
+import stonering.entity.unit.aspects.MovementAspect;
+import stonering.entity.unit.aspects.PlanningAspect;
+import stonering.enums.blocks.BlockTypesEnum;
+import stonering.game.GameMvc;
+import stonering.game.model.local_map.LocalMap;
+import stonering.util.geometry.Position;
+
+/**
+ * @author Alexander on 23.10.2019.
+ */
+public class CreatureFallingSystem {
+    private UnitContainer container;
+    private LocalMap map;
+
+    public void update(Unit unit) {
+        container = GameMvc.instance().getModel().get(UnitContainer.class);
+        map = GameMvc.instance().getModel().get(LocalMap.class);
+        if(canFall(unit)) fall(unit);
+    }
+
+    /**
+     * Creature can fall, if is in space cell, and cell below is fly passable.
+     */
+    private boolean canFall(Unit unit) {
+        Position pos = unit.position;
+        return map.getBlockTypeEnumValue(pos) == BlockTypesEnum.SPACE && // can fall through SPACE
+                pos.z > 0 && // not the bottom of a map
+                map.isFlyPassable(pos.x, pos.y, pos.z - 1); // lower tile is open
+    }
+
+    /**
+     * Moves creature lower, if it is above ground.
+     * Deletes target and path, for recalculation on next iteration.
+     * //TODO apply fall damage
+     */
+    private void fall(Unit unit) {
+        Position pos = unit.position;
+        container.updateUnitPosiiton(unit, new Position(pos.x, pos.y, pos.z - 1));
+        unit.getAspect(MovementAspect.class).path = null;
+    }
+}

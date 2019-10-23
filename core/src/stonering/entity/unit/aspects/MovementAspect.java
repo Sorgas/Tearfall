@@ -12,8 +12,11 @@ import java.util.List;
  * @author Alexander Kuzyakov on 06.10.2017.
  */
 public class MovementAspect extends Aspect {
+    public Position target; // last target taken from planning aspect
+    public List<Position> path; // calculated path
+
     public int movementDelay;
-    public List<Position> path;
+
     public float speed; // part of cell, passed in 1 update
     public float fallSpeed;
     public float stepProgress;

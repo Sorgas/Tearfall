@@ -128,7 +128,7 @@ public class PassageMap {
                 for (Iterator<Position> iterator = posList.iterator(); iterator.hasNext(); ) {
                     Position pos = iterator.next();
                     if (!(pos.isNeighbour(firstPos) && hasPathBetween(pos, firstPos))
-                            && aStar.makeShortestPath(pos, firstPos, true) == null)
+                            && aStar.makeShortestPath(pos, firstPos) == null)
                         continue; // skip inaccessible tiles.
                     iterator.remove();
                     connectedPositions.add(pos);

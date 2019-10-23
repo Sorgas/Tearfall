@@ -7,7 +7,9 @@ import org.mockito.Mock;
 import stonering.entity.Entity;
 import stonering.entity.job.Task;
 import stonering.entity.job.action.Action;
+import stonering.entity.job.action.MoveAction;
 import stonering.entity.job.action.target.ActionTarget;
+import stonering.entity.job.action.target.ActionTargetStatusEnum;
 import stonering.entity.job.action.target.EntityActionTarget;
 import stonering.entity.unit.Unit;
 import stonering.game.GameMvc;
@@ -47,7 +49,7 @@ public class ActionTargetTest {
         entityMock = new Unit(targetPosition, null);
         GameMvc.createInstance(gameModelMock);
         doReturn(localMapMock).when(gameModelMock).get(LocalMap.class);
-        doReturn(taskMock).when(actionMock).getTask();
+        actionMock = new MoveAction(targetPosition);
     }
 
     private void prepareList() {
@@ -66,10 +68,10 @@ public class ActionTargetTest {
     void testCheckingExactTarget() {
         actionTarget = new EntityActionTarget(entityMock, ActionTarget.EXACT);
         actionTarget.setAction(actionMock);
-        assertEquals(ActionTarget.READY, actionTarget.check(targetPosition));
-        assertEquals(ActionTarget.WAIT, actionTarget.check(new Position(1, 0, 0)));
-        assertEquals(ActionTarget.WAIT, actionTarget.check(new Position(0, 1, 0)));
-        assertEquals(ActionTarget.WAIT, actionTarget.check(new Position(4, 4, 0)));
+        assertEquals(ActionTargetStatusEnum.READY, actionTarget.check(targetPosition));
+        assertEquals(ActionTargetStatusEnum.WAIT, actionTarget.check(new Position(1, 0, 0)));
+        assertEquals(ActionTargetStatusEnum.WAIT, actionTarget.check(new Position(0, 1, 0)));
+        assertEquals(ActionTargetStatusEnum.WAIT, actionTarget.check(new Position(4, 4, 0)));
     }
 
     @Test
@@ -77,21 +79,21 @@ public class ActionTargetTest {
         actionTarget = new EntityActionTarget(entityMock, ActionTarget.NEAR);
         actionTarget.setAction(actionMock);
         prepareList();
-        assertEquals(ActionTarget.NEW, actionTarget.check(targetPosition));
+        assertEquals(ActionTargetStatusEnum.NEW, actionTarget.check(targetPosition));
         prepareEmptyList();
-        assertEquals(ActionTarget.FAIL, actionTarget.check(targetPosition));
-        assertEquals(ActionTarget.READY, actionTarget.check(new Position(1, 0, 0)));
-        assertEquals(ActionTarget.READY, actionTarget.check(new Position(0, 1, 0)));
-        assertEquals(ActionTarget.WAIT, actionTarget.check(new Position(3, 3, 0)));
+        assertEquals(ActionTargetStatusEnum.FAIL, actionTarget.check(targetPosition));
+        assertEquals(ActionTargetStatusEnum.READY, actionTarget.check(new Position(1, 0, 0)));
+        assertEquals(ActionTargetStatusEnum.READY, actionTarget.check(new Position(0, 1, 0)));
+        assertEquals(ActionTargetStatusEnum.WAIT, actionTarget.check(new Position(3, 3, 0)));
     }
 
     @Test
     void testCheckingAnyTarget() {
         actionTarget = new EntityActionTarget(entityMock, ActionTarget.ANY);
         actionTarget.setAction(actionMock);
-        assertEquals(ActionTarget.READY, actionTarget.check(targetPosition));
-        assertEquals(ActionTarget.READY, actionTarget.check(new Position(1, 0, 1)));
-        assertEquals(ActionTarget.READY, actionTarget.check(new Position(0, 1, 1)));
-        assertEquals(ActionTarget.WAIT, actionTarget.check(new Position(3, 3, 1)));
+        assertEquals(ActionTargetStatusEnum.READY, actionTarget.check(targetPosition));
+        assertEquals(ActionTargetStatusEnum.READY, actionTarget.check(new Position(1, 0, 1)));
+        assertEquals(ActionTargetStatusEnum.READY, actionTarget.check(new Position(0, 1, 1)));
+        assertEquals(ActionTargetStatusEnum.WAIT, actionTarget.check(new Position(3, 3, 1)));
     }
 }

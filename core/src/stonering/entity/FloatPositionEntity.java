@@ -19,7 +19,7 @@ public abstract class FloatPositionEntity extends Entity {
 
     public FloatPositionEntity(Position position) {
         super(position);
-        vectorPosition.set(position.x, position.y, position.z);
+        vectorPosition = new Vector3(position.x, position.y, position.z);
     }
 
     @Override

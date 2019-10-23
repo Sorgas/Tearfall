@@ -27,10 +27,10 @@ public class AStar implements ModelComponent, Initable {
      * Returns the shortest Path from a start node to an end node according to
      * the A* heuristics (h must not overestimate). initialNode and last found node included.
      */
-    public List<Position> makeShortestPath(Position initialPos, Position targetPos, boolean exactTarget) {
+    public List<Position> makeShortestPath(Position initialPos, Position targetPos) {
         Node initialNode = new Node(initialPos, targetPos);
         //perform search and save the
-        Node pathNode = search(initialNode, targetPos, exactTarget);
+        Node pathNode = search(initialNode, targetPos);
         if (pathNode == null) return null;
 
         //return shortest path according to AStar heuristics
@@ -48,7 +48,7 @@ public class AStar implements ModelComponent, Initable {
      * @param targetPos   end of the search
      * @return goal node from which you can reconstruct the path
      */
-    private Node search(Node initialNode, Position targetPos, boolean exactTarget) {
+    private Node search(Node initialNode, Position targetPos) {
         Logger.PATH.logDebug("searching path from " + initialNode.getPosition() + " to " + targetPos);
         HashPriorityQueue<Node, Node> openSet = new HashPriorityQueue(new NodeComparator());
         HashMap<Integer, Node> closedSet = new HashMap<>();
@@ -62,11 +62,7 @@ public class AStar implements ModelComponent, Initable {
             Node currentNode = openSet.poll();
 
             //check if path is complete
-            if (exactTarget) {
-                if (targetPos.equals(currentNode.getPosition())) return currentNode;
-            } else {
-                if (isAdjacent(targetPos, currentNode.getPosition())) return currentNode;
-            }
+            if (targetPos.equals(currentNode.getPosition())) return currentNode;
 
             //get successor nodes
             ArrayList<Node> successorNodes = getSuccessors(currentNode, targetPos);
@@ -126,12 +122,6 @@ public class AStar implements ModelComponent, Initable {
             }
         }
         return nodes;
-    }
-
-    private boolean isAdjacent(Position pos1, Position pos2) {
-        return Math.abs(pos1.x - pos2.x) < 2
-                && Math.abs(pos1.y - pos2.y) < 2
-                && Math.abs(pos1.z - pos2.z) < 2;
     }
 
     private static class NodeComparator implements Comparator<Node> {
