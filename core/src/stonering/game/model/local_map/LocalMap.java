@@ -16,6 +16,9 @@ import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import static stonering.enums.blocks.BlockTypesEnum.PassageEnum.IMPASSABLE;
+import static stonering.enums.blocks.BlockTypesEnum.PassageEnum.PASSABLE;
+
 /**
  * Contains blocks, and physical parameters, and proxies to entity.
  *
@@ -135,10 +138,10 @@ public class LocalMap implements ModelComponent, Initable {
      * Returns tile adjacent to given and with walk passing.
      * Returns same position if no neighbour found.
      */
-    public Position getAnyNeighbourPosition(Position position, int passing) {
+    public Position getAnyNeighbourPosition(Position position, BlockTypesEnum.PassageEnum passing) {
         for (int x = position.x - 1; x < position.x + 2; x++) {
             for (int y = position.y - 1; y < position.y + 2; y++) {
-                if (inMap(position) && passage.getPassage(x, y, position.z) == passing)
+                if (inMap(position) && passage.getPassage(x, y, position.z) == passing.VALUE)
                     return new Position(x, y, position.z);
             }
         }
@@ -151,7 +154,7 @@ public class LocalMap implements ModelComponent, Initable {
 
     public boolean isWalkPassable(int x, int y, int z) {
         //TODO reuse
-        return passage.getPassage(x, y, z) == BlockTypesEnum.PASSABLE;
+        return passage.getPassage(x, y, z) == PASSABLE.VALUE;
     }
 
     private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
@@ -165,7 +168,7 @@ public class LocalMap implements ModelComponent, Initable {
 
     public boolean isFlyPassable(int x, int y, int z) {
         //TODO
-        return inMap(x, y, z) && BlockTypesEnum.getType(getBlockType(x, y, z)).PASSING != BlockTypesEnum.NOT_PASSABLE; // 1 || 2
+        return inMap(x, y, z) && BlockTypesEnum.getType(getBlockType(x, y, z)).PASSING != IMPASSABLE;
     }
 
     public byte getTemperature(int x, int y, int z) {

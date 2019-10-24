@@ -24,6 +24,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static stonering.enums.blocks.BlockTypesEnum.*;
+import static stonering.enums.blocks.BlockTypesEnum.PassageEnum.PASSABLE;
 
 /**
  * Subcomponent of {@link LocalMap}, is created on local map init.
@@ -58,7 +59,6 @@ public class PassageMap {
      * Inits passage numbers for tiles.
      */
     public PassageMap initPassage() {
-
         aStar = GameMvc.instance().getModel().get(AStar.class);
         for (int x = 0; x < localMap.xSize; x++) {
             for (int y = 0; y < localMap.ySize; y++) {
@@ -80,7 +80,7 @@ public class PassageMap {
     public void updateCell(int x, int y, int z) {
         int passing = isTilePassable(cachePosition.set(x, y, z));
         passage.setValue(x, y, z, passing);
-        if (passing == PASSABLE) { // areas should be merged
+        if (passing == PASSABLE.VALUE) { // areas should be merged
             Set<Byte> areas = observeAreasAround(x, y, z);
             if (areas.size() == 1) area.setValue(x, y, z, areas.iterator().next());
             if (areas.size() > 1) mergeAreas(areas);
@@ -248,8 +248,8 @@ public class PassageMap {
     public boolean hasPathBetween(int x1, int y1, int z1, int x2, int y2, int z2) {
         if (!localMap.inMap(x1, y1, z1)) return false;
         if (!localMap.inMap(x2, y2, z2)) return false;
-        if (passage.getValue(x1, y1, z1) != PASSABLE) return false; // cell not passable
-        if (passage.getValue(x2, y2, z2) != PASSABLE) return false; // cell not passable
+        if (passage.getValue(x1, y1, z1) != PASSABLE.VALUE) return false; // cell not passable
+        if (passage.getValue(x2, y2, z2) != PASSABLE.VALUE) return false; // cell not passable
         if (z1 == z2) return true; // passable tiles on same level
         BlockTypesEnum lower = BlockTypesEnum.getType(z1 < z2 ? localMap.getBlockType(x1, y1, z1) : localMap.getBlockType(x2, y2, z2));
         if (x1 != x2 || y1 != y2) { // check ramps
@@ -266,16 +266,18 @@ public class PassageMap {
 
     /**
      * Tile is passable, if its block type allows walking(like floor, ramp, etc.), plant is passable(not tree trunk), building is passable.
+     * TODO add water depth checking, etc.
      */
     private int isTilePassable(Position position) {
         GameModel model = GameMvc.instance().getModel();
+        PassageEnum tilePassage = getType(localMap.getBlockType(position)).PASSING;
+        if(tilePassage == PassageEnum.IMPASSABLE) return PassageEnum.IMPASSABLE.VALUE;
         PlantContainer plantContainer = model.get(PlantContainer.class);
         BuildingContainer buildingContainer = model.get(BuildingContainer.class);
-        if (!plantContainer.isPlantBlockPassable(position)) return NOT_PASSABLE;
-        if (buildingContainer.getBuildingBlocks().containsKey(position) && !buildingContainer.getBuildingBlocks().get(position).isPassable())
-            return NOT_PASSABLE;
-        //TODO add water depth checking, etc.
-        return getType(localMap.getBlockType(position)).PASSING;
+        if (plantContainer != null && !plantContainer.isPlantBlockPassable(position)) return PassageEnum.IMPASSABLE.VALUE;
+        if (buildingContainer != null && buildingContainer.getBuildingBlocks().containsKey(position)
+                && !buildingContainer.getBuildingBlocks().get(position).isPassable()) return PassageEnum.IMPASSABLE.VALUE;
+        return tilePassage.VALUE;
     }
 
     public boolean positionReachable(Position pos1, Position pos2) {

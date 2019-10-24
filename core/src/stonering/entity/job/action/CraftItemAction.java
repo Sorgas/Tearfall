@@ -19,6 +19,8 @@ import stonering.util.global.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
+import static stonering.enums.blocks.BlockTypesEnum.PassageEnum.PASSABLE;
+
 /**
  * Action for crafting item by item order on workbench. Items for crafting will be brought to WB.
  * WB should have {@link WorkbenchAspect} and {@link ItemContainerAspect}.
@@ -57,7 +59,7 @@ public class CraftItemAction extends Action {
             workbenchContainer.items.removeAll(desiredItems); // spend components
             container.removeItems(desiredItems);
 
-            product.position = GameMvc.instance().getModel().get(LocalMap.class).getAnyNeighbourPosition(workbench.position, BlockTypesEnum.PASSABLE);
+            product.position = GameMvc.instance().getModel().get(LocalMap.class).getAnyNeighbourPosition(workbench.position, PASSABLE);
             container.addAndPut(product);
         }
     }

@@ -21,7 +21,8 @@ import java.util.List;
 
 import static stonering.entity.job.action.target.ActionTarget.ANY;
 import static stonering.entity.job.action.target.ActionTarget.NEAR;
-import static stonering.enums.blocks.BlockTypesEnum.NOT_PASSABLE;
+import static stonering.enums.blocks.BlockTypesEnum.PassageEnum.IMPASSABLE;
+import static stonering.enums.blocks.BlockTypesEnum.PassageEnum.PASSABLE;
 
 /**
  * Action for creating constructions and buildings on map.
@@ -85,13 +86,13 @@ public abstract class GenericBuildingAction extends ItemConsumingAction {
      */
     private int createSiteClearingAction(Item item) {
         LocalMap localMap = GameMvc.instance().getModel().get(LocalMap.class);
-        PutItemAction putItemAction = new PutItemAction(item, localMap.getAnyNeighbourPosition(actionTarget.getPosition(), BlockTypesEnum.PASSABLE));
+        PutItemAction putItemAction = new PutItemAction(item, localMap.getAnyNeighbourPosition(actionTarget.getPosition(), PASSABLE));
         task.addFirstPreAction(putItemAction);
         return NEW;
     }
 
     private static ActionTarget createTarget(BuildingDesignation designation) {
         BuildingType type = BuildingTypeMap.instance().getBuilding(designation.building);
-        return new PositionActionTarget(designation.position, BlockTypesEnum.getType(type.passage).PASSING == NOT_PASSABLE ? NEAR : ANY);
+        return new PositionActionTarget(designation.position, BlockTypesEnum.getType(type.passage).PASSING == IMPASSABLE ? NEAR : ANY);
     }
 }

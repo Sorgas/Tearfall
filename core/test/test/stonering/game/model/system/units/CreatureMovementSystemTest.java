@@ -3,22 +3,24 @@ package test.stonering.game.model.system.units;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import org.mockito.Mock;
 import stonering.entity.job.Task;
 import stonering.entity.job.action.MoveAction;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.MovementAspect;
 import stonering.entity.unit.aspects.PlanningAspect;
 import stonering.enums.blocks.BlockTypesEnum;
+import stonering.enums.unit.CreatureType;
 import stonering.game.GameMvc;
 import stonering.game.model.MainGameModel;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.units.CreatureMovementSystem;
 import stonering.game.model.system.units.UnitContainer;
 import stonering.util.geometry.Position;
+import stonering.util.pathfinding.a_star.AStar;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.doReturn;
 
 /**
  * @author Alexander on 23.10.2019.
@@ -48,29 +50,47 @@ public class CreatureMovementSystemTest {
         }
         GameMvc.createInstance(new MainGameModel(localMap));
         GameMvc.instance().getModel().put(container = new UnitContainer());
+        GameMvc.instance().getModel().put(new AStar());
+        localMap.initAreas();
         system = new CreatureMovementSystem();
     }
 
     public void createUnit() {
-        unit = new Unit(new Position(0, 0, 0), null);
+        CreatureType type = new CreatureType();
+        type.title = "test_unit";
+        unit = new Unit(new Position(0, 0, 0), type);
         unit.addAspect(movementAspect = new MovementAspect(unit));
         unit.addAspect(planningAspect = new PlanningAspect(unit));
         GameMvc.instance().getModel().get(UnitContainer.class).addUnit(unit);
     }
 
     public void createTask() {
-        MoveAction action = new MoveAction(new Position(4,4,0));
+        MoveAction action = new MoveAction(new Position(4, 4, 0));
         Task task = new Task("test_task", action, 1);
-        planningAspect.task = task;
+        planningAspect.updateState(task);
     }
 
     @Test
-    public void testNewAction() {
-        assertNull(movementAspect.target);
-        assertNull(movementAspect.path);
-        planningAspect.turn();
+    public void testNewTaskWithNewAction() {
         system.updateUnitPosition(unit);
-        assertEquals(movementAspect.target, planningAspect.getTarget());
-        assertNotNull(movementAspect.path);
+        assertEquals(planningAspect.getTarget(), movementAspect.target); // movement took target from planning
+        assertNotNull(movementAspect.path); // path has been created
+    }
+
+    @Test
+    public void testNewTarget() {
+        system.updateUnitPosition(unit);
+
+        Position newTarget = new Position(0, 4, 0);
+
+        planningAspect.getTask().addFirstPreAction(new MoveAction(newTarget));
+        planningAspect.updateState(planningAspect.getTask());
+
+        assertEquals(planningAspect.getTarget(), newTarget); // new target taken by planning
+        List<Position> oldPath = movementAspect.path;
+        system.updateUnitPosition(unit);
+        assertEquals(newTarget, movementAspect.target); // movement took new target from planning
+        assertNotNull(movementAspect.path); // path has been created
+        assertNotEquals(movementAspect.path, oldPath); // path changed
     }
 }

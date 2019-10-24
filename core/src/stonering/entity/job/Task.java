@@ -137,9 +137,9 @@ public class Task {
     }
 
     public void updateNextAction() {
-        if (!preActions.isEmpty()) nextAction = preActions.get(0);
-        if (!initialAction.isFinished()) nextAction = initialAction;
         if (!postActions.isEmpty()) nextAction = postActions.get(0);
+        if (!initialAction.isFinished()) nextAction = initialAction;
+        if (!preActions.isEmpty()) nextAction = preActions.get(0);
     }
 
     @Override

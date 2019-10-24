@@ -28,4 +28,6 @@ public class CreatureType {
         color = rawType.color;
         aspects = rawType.aspects;
     }
+
+    public CreatureType() {}
 }

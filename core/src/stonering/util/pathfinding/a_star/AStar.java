@@ -5,7 +5,6 @@ import stonering.game.model.system.ModelComponent;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.HashPriorityQueue;
 import stonering.util.geometry.Position;
-import stonering.util.global.Initable;
 import stonering.util.global.Logger;
 
 import java.util.ArrayList;
@@ -14,20 +13,16 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-public class AStar implements ModelComponent, Initable {
+public class AStar implements ModelComponent {
     private LocalMap localMap;
     private int maxSteps = 10000; // unlimited if negative
-
-    @Override
-    public void init() {
-        localMap = GameMvc.instance().getModel().get(LocalMap.class);
-    }
 
     /**
      * Returns the shortest Path from a start node to an end node according to
      * the A* heuristics (h must not overestimate). initialNode and last found node included.
      */
     public List<Position> makeShortestPath(Position initialPos, Position targetPos) {
+        localMap = GameMvc.instance().getModel().get(LocalMap.class);
         Node initialNode = new Node(initialPos, targetPos);
         //perform search and save the
         Node pathNode = search(initialNode, targetPos);

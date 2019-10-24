@@ -26,7 +26,7 @@ import static stonering.entity.job.action.target.ActionTargetStatusEnum.WAIT;
  * @author Alexander Kuzyakov on 10.10.2017.
  */
 public class PlanningAspect extends Aspect {
-    public Task task;
+    private Task task;
     private boolean movementNeeded;
 
     public PlanningAspect(Entity entity) {
@@ -80,8 +80,9 @@ public class PlanningAspect extends Aspect {
     /**
      * Changes state of this aspect to given task. Passing null means no task is performed.
      * With finished task, state of this aspect is reset.
+     * New tasks for this aspect should be added with this.
      */
-    private boolean updateState(Task newTask) {
+    public boolean updateState(Task newTask) {
         if (newTask != null) {
             Logger.TASKS.logDebug("Checking of task " + newTask.toString() + " for " + entity.toString());
             newTask.performer = (Unit) entity; // performer is required for checking

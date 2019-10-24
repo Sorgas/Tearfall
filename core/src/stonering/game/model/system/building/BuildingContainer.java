@@ -17,6 +17,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static stonering.enums.blocks.BlockTypesEnum.PassageEnum.PASSABLE;
+
 /**
  * Contains all Buildings on localMap.
  * Buildings are stored in the list as a whole entities. Building blocks stored in a map for rendering.
@@ -80,7 +82,7 @@ public class BuildingContainer implements ModelComponent, Turnable {
     private void tryMoveItems(Position target) {
         ItemContainer container = GameMvc.instance().getModel().get(ItemContainer.class);
         if (container.getItemsInPosition(target).isEmpty()) return; // no items in target position
-        Position newPosition = GameMvc.instance().getModel().get(LocalMap.class).getAnyNeighbourPosition(target, BlockTypesEnum.PASSABLE);
+        Position newPosition = GameMvc.instance().getModel().get(LocalMap.class).getAnyNeighbourPosition(target, PASSABLE);
         if (newPosition.equals(target)) return; // no moving, if no valid position found
         container.getItemsInPosition(target).forEach(item -> container.moveItem(item, newPosition));
     }

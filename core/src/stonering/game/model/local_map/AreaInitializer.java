@@ -8,6 +8,8 @@ import stonering.util.global.Logger;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static stonering.enums.blocks.BlockTypesEnum.PassageEnum.PASSABLE;
+
 /**
  * Utility for initializing area numbers on game startup.
  * Isolated tiles get different numbers.
@@ -59,7 +61,7 @@ public class AreaInitializer {
         for (int x = 0; x < localMap.xSize; x++) {
             for (int y = 0; y < localMap.ySize; y++) {
                 for (int z = 0; z < localMap.zSize; z++) {
-                    if (passage.getPassage(x, y, z) == BlockTypesEnum.PASSABLE) { // not wall
+                    if (passage.getPassage(x, y, z) == PASSABLE.VALUE) { // not wall
                         Set<Byte> neighbours = getNeighbours(x, y, z);
                         if (neighbours.isEmpty()) {
                             // new area found
@@ -134,7 +136,7 @@ public class AreaInitializer {
      */
     private Set<Byte> getNeighbours(int cx, int cy, int cz) {
         Set<Byte> neighbours = new HashSet<>();
-        if (passage.getPassage(cx, cy, cz) != BlockTypesEnum.PASSABLE) return neighbours;
+        if (passage.getPassage(cx, cy, cz) != PASSABLE.VALUE) return neighbours;
         for (int x = cx - 1; x < cx + 2; x++) {
             for (int y = cy - 1; y < cy + 2; y++) {
                 for (int z = cz - 1; z < cz + 2; z++) {
@@ -146,5 +148,9 @@ public class AreaInitializer {
         }
         neighbours.remove((byte) 0);
         return neighbours;
+    }
+
+    public static void main(String[] args) {
+        System.out.println("qwer%3Aq|we%3Aasdf%3|Aasd%3Azxc|v%3Azxc".replace("%3A", ":"));
     }
 }
