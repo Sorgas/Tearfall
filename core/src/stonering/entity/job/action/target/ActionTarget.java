@@ -32,6 +32,7 @@ public abstract class ActionTarget {
      * Checks if task performer has reached task target.
      */
     public ActionTargetStatusEnum check(Position currentPosition) {
+        if(!GameMvc.instance().getModel().get(LocalMap.class).inMap(currentPosition)) return FAIL;
         int distance = getDistance(currentPosition);
         if (distance > 1) return WAIT; // target not yet reached
         switch (targetPlacement) {

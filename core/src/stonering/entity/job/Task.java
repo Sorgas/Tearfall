@@ -84,19 +84,7 @@ public class Task {
     }
 
     public boolean isTaskTargetsAvailableFrom(Position position) {
-        //TODO move to passage
-        LocalMap localMap = GameMvc.instance().getModel().get(LocalMap.class);
-        UtilByteArray area = localMap.getPassage().getArea();
-        int sourceArea = area.getValue(position);
-        Position target = initialAction.getActionTarget().getPosition();
-        for (int x = target.x - 1; x <= target.x + 1; x++) {
-            for (int y = target.y - 1; y <= target.y + 1; y++) {
-                if (localMap.inMap(x, y, target.z) &&
-                        (x != target.x || y != target.y) &&
-                        area.getValue(x, y, target.z) == sourceArea) return true;
-            }
-        }
-        return false;
+        return GameMvc.instance().getModel().get(LocalMap.class).getPassage().hasPathBetween(position, initialAction.actionTarget.getPosition());
     }
 
     /**
@@ -121,12 +109,12 @@ public class Task {
     }
 
     public void addFirstPostAction(Action action) {
-        preActions.add(0, action);
+        postActions.add(0, action);
         actionAdded(action);
     }
 
     public void addLastPostAction(Action action) {
-        preActions.add(action);
+        postActions.add(action);
         actionAdded(action);
     }
 

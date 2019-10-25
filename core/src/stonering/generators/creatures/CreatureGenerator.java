@@ -71,7 +71,6 @@ public class CreatureGenerator {
                 }
                 case "jobs" : {
                     unit.addAspect(new JobsAspect(null));
-                    continue;
                 }
             }
         }
