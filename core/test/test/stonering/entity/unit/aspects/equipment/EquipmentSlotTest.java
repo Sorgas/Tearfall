@@ -1,33 +1,64 @@
 package test.stonering.entity.unit.aspects.equipment;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
-import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Texture;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import stonering.entity.item.Item;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
-import stonering.entity.unit.aspects.equipment.EquipmentSlot;
-import stonering.generators.creatures.CreatureGenerator;
-import stonering.generators.items.ItemGenerator;
+import stonering.entity.unit.aspects.equipment.GrabEquipmentSlot;
+import stonering.enums.items.type.ItemType;
+import stonering.enums.items.type.ToolItemType;
+import stonering.enums.items.type.raw.RawItemType;
+import stonering.enums.unit.CreatureType;
 import stonering.util.geometry.Position;
-import stonering.util.global.Logger;
+
+import javax.xml.ws.soap.Addressing;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @author Alexander on 10.09.2019.
  */
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class EquipmentSlotTest {
-    private static CreatureGenerator creatureGenerator;
-    private static ItemGenerator itemGenerator;
+    private Unit unit;
+    private EquipmentAspect aspect;
+    private GrabEquipmentSlot slot1;
+    private GrabEquipmentSlot slot2;
+    private List<Item> items;
 
     @BeforeAll
-    static void prepare() {
-        creatureGenerator = new CreatureGenerator();
-        itemGenerator = new ItemGenerator();
+    void prepare() {
+        createUnit();
+        createItems();
+    }
+
+    private void createUnit() {
+        unit = new Unit(new Position(), new CreatureType());
+        aspect = new EquipmentAspect(unit);
+        slot1 = new GrabEquipmentSlot("right hand", Collections.emptyList());
+        slot2 = new GrabEquipmentSlot("left hand", Collections.emptyList());
+        aspect.slots.put(slot1.name, slot1);
+        aspect.slots.put(slot2.name, slot2);
+        aspect.grabSlots.put(slot1.name, slot1);
+        aspect.grabSlots.put(slot2.name, slot2);
+        unit.addAspect(aspect);
+    }
+
+    private void createItems() {
+        String[] actions = {"chop", "dig", "hoe"};
+        items = new ArrayList<>();
+        for (String action : actions) {
+            RawItemType rawType = new RawItemType();
+            rawType.tool = new ToolItemType();
+            ToolItemType.ToolAction toolAction = new ToolItemType.ToolAction();
+            toolAction.action = action;
+            rawType.tool.getActions().add(toolAction);
+            ItemType type = new ItemType(new RawItemType());
+            items.add(new Item(new Position(), type));
+        }
     }
 
     /**
@@ -35,37 +66,21 @@ public class EquipmentSlotTest {
      */
     @Test
     public void testEquipTool() {
-        new LwjglApplication(new ApplicationAdapter() {
-            @Override
-            public void create() {
-            }
-        }, new LwjglApplicationConfiguration());
-        FileHandle fileHandle = new FileHandle(".");
-        for (FileHandle handle : fileHandle.list()) {
-            System.out.println(handle.name());
-        }
-        new Texture("sprites/plants.png");
-        Unit unit = creatureGenerator.generateUnit(new Position(0, 0, 0), "human");
-        EquipmentAspect aspect = unit.getAspect(EquipmentAspect.class);
-        EquipmentSlot slot = aspect.slots.get("right hand");
-        EquipmentSlot slot2 = aspect.slots.get("left hand");
-
-        Item item = itemGenerator.generateItem("pickaxe", "iron", null);
+        Item item = items.get(0);
         aspect.equipItem(item);
-        assert (slot != null && slot2 != null);
-        assert (slot.hasItem(item) || slot2.hasItem(item));
+        assert (slot1.hasItem(item) || slot2.hasItem(item));
         assert (aspect.equippedItems.contains(item));
         assert (aspect.toolWithActionEquipped("dig"));
 
-        Item item2 = itemGenerator.generateItem("axe", "iron", null);
-        aspect.equipItem(item2);
-        assert (slot.hasItem(item2) || slot2.hasItem(item2));
-        assert (aspect.equippedItems.contains(item) && aspect.equippedItems.contains(item2));
+        item = items.get(1);
+        aspect.equipItem(item);
+        assert (slot1.hasItem(item) || slot2.hasItem(item));
+        assert (aspect.equippedItems.contains(item) && aspect.equippedItems.contains(item));
         assert (aspect.toolWithActionEquipped("chop"));
 
-        Item item3 = itemGenerator.generateItem("hoe", "iron", null);
-        aspect.equipItem(item3); // not equipped, as both hands are not free
-        assert (!slot.hasItem(item3) && !slot2.hasItem(item3));
+        item = items.get(2);
+        aspect.equipItem(item); // not equipped, as both hands are not free
+        assert (!slot1.hasItem(item) && !slot2.hasItem(item));
         assert (!aspect.toolWithActionEquipped("hoe"));
     }
 }

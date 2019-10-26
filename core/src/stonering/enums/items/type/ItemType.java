@@ -27,13 +27,13 @@ public class ItemType extends Entity {
     public int[] atlasXY;
     public String color;
 
-    public ItemType(RawItemType rawItemType) {
+    public ItemType(RawItemType rawType) {
         super();
-        name = rawItemType.name;
-        title = rawItemType.title.isEmpty() ? capitalize(rawItemType.name) : rawItemType.title;
-        description = rawItemType.description;
-        tool = rawItemType.tool;
-        atlasXY = rawItemType.atlasXY;
+        name = rawType.name;
+        title = rawType.title.isEmpty() ? capitalize(rawType.name) : rawType.title;
+        description = rawType.description;
+        tool = rawType.tool;
+        atlasXY = rawType.atlasXY;
         parts = new ArrayList<>();
         aspects = new HashMap<>();
     }

@@ -57,8 +57,9 @@ project(":core") {
 
     dependencies {
         testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
-        testImplementation group: 'org.mockito', name: 'mockito-core', version: '2.1.0'
         testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
+        testImplementation group: 'org.mockito', name: 'mockito-core', version: '2.1.0'
+        testImplementation "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
         testImplementation project(":core")
         testRuntimeOnly project(":core")
         

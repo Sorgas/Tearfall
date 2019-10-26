@@ -26,7 +26,6 @@ public class GameMvc implements Serializable {
     private GameMvc(GameModel gameModel) {
         instance = this;
         model = gameModel;
-
     }
 
     public void createViewAndController() {
