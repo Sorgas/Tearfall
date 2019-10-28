@@ -1,6 +1,5 @@
 package stonering.entity;
 
-import stonering.enums.time.TimeUnitEnum;
 import stonering.game.model.Turnable;
 
 import java.io.Serializable;
@@ -13,7 +12,6 @@ import java.io.Serializable;
  */
 public abstract class Aspect implements Serializable, Turnable {
     protected Entity entity;
-    protected TimeUnitEnum updateUnit;
 
     public Aspect(Entity entity) {
         this.entity = entity;

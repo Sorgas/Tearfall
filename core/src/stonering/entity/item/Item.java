@@ -27,6 +27,7 @@ public class Item extends Entity {
     public String materialString;
     private ItemType type;
     public final List<TagEnum> tags;
+    public boolean locked; // item consuming actions lock target items.
 
     //TODO commented as non-MVP feature
     //    private HashMap<String, ItemPart> parts;

@@ -1,18 +1,22 @@
 package stonering.entity.job;
 
+import stonering.entity.building.Building;
+import stonering.entity.item.Item;
 import stonering.entity.job.designation.Designation;
 import stonering.entity.unit.aspects.PlanningAspect;
 import stonering.enums.TaskStatusEnum;
 import stonering.game.GameMvc;
+import stonering.game.model.system.items.ItemContainer;
 import stonering.game.model.system.tasks.TaskContainer;
 import stonering.game.model.local_map.LocalMap;
-import stonering.game.model.util.UtilByteArray;
 import stonering.util.geometry.Position;
 import stonering.entity.job.action.Action;
 import stonering.entity.unit.Unit;
 import stonering.util.global.Logger;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 import static stonering.enums.unit.job.JobsEnum.NONE;
 
@@ -23,6 +27,8 @@ import static stonering.enums.unit.job.JobsEnum.NONE;
  *   initialAction,
  *   postActions - performed after initial action.
  * Created with one action as initial. Actions are checked before performing, and can create additional pre- and post- actions.
+ * Actions can consume some items during performing, this items are locked, when action is successfully checked first time.
+ * Locked items are stored in task and {@link ItemContainer}.
  *
  * @author Alexander Kuzyakov
  */
@@ -32,8 +38,8 @@ public class Task {
     public Designation designation; // some tasks are displayed on map (e.g. digging)
     public TaskStatusEnum status; // TaskContainer uses this
     public String job; // used to filter tasks, when task is selected for unit
+    public final List<Item> lockedItems;
     public int priority; // Unit selects task with max priority (e.g. labor vs needs)
-
 
     private final Action initialAction;
     private final LinkedList<Action> preActions = new LinkedList<>();
@@ -47,14 +53,8 @@ public class Task {
         initialAction.task = this;
         status = TaskStatusEnum.OPEN;
         job = NONE.NAME;
+        lockedItems = new ArrayList<>();
         updateNextAction();
-    }
-
-    /**
-     * Removes this task from container  if it's finished.
-     */
-    public void tryFinishTask() {
-        if (isFinished()) GameMvc.instance().getModel().get(TaskContainer.class).removeTask(this);
     }
 
     /**
@@ -77,18 +77,25 @@ public class Task {
         return preActions.isEmpty() && initialAction.isFinished() && postActions.isEmpty();
     }
 
+    /**
+     * Removes this task from container  if it's finished.
+     */
+    public void tryFinishTask() {
+        if (isFinished())
+            GameMvc.instance().getModel().get(TaskContainer.class).finishTask(this);
+    }
+
+    /**
+     * When task is failed, it is removed from container, freeing locked buildings and items.
+     */
     public void fail() {
         //TODO add interruption
         reset();
         GameMvc.instance().getModel().get(TaskContainer.class).removeTask(this);
     }
 
-    public boolean isTaskTargetsAvailableFrom(Position position) {
-        return GameMvc.instance().getModel().get(LocalMap.class).getPassage().hasPathBetween(position, initialAction.actionTarget.getPosition());
-    }
-
     /**
-     * Removes pre and post action from task
+     * Removes pre and post action from task.
      */
     public void finishAction(Action action) {
         if (action != initialAction) {
@@ -124,10 +131,10 @@ public class Task {
         updateNextAction();
     }
 
-    public void updateNextAction() {
+    private void updateNextAction() {
         if (!postActions.isEmpty()) nextAction = postActions.get(0);
         if (!initialAction.isFinished()) nextAction = initialAction;
-        if (!preActions.isEmpty()) nextAction = preActions.get(0);
+        nextAction = preActions.isEmpty() ? null : preActions.get(0);
     }
 
     @Override

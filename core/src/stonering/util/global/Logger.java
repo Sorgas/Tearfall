@@ -90,4 +90,9 @@ public enum Logger {
     public void logError(String message) {
         if (enabled) logger.error(tagWord, message);
     }
+
+    public <T> T logError(String message, T value) {
+        logError(message);
+        return value;
+    }
 }

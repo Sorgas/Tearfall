@@ -45,8 +45,7 @@ public class PlanningAspect extends Aspect {
             case WAIT: // keep moving to target
                 return;
             case READY: // target reached
-                if (!task.nextAction.perform()) return; // keep performing action
-                updateState(task); // update state after finishing action
+                if (task.nextAction.perform()) updateState(task); // update state after finishing action
         }
     }
 
@@ -65,16 +64,18 @@ public class PlanningAspect extends Aspect {
      * After this method task is updated.
      * TODO combat tasks
      * TODO non possible tasks with high priority can block other tasks
+     * @return true, if any new non-null task found;
      */
     private boolean trySelectTask() {
+        TaskContainer container = GameMvc.instance().getModel().get(TaskContainer.class);
         ArrayList<Task> tasks = new ArrayList<>();
-        if (entity.hasAspect(NeedsAspect.class)) tasks.add(entity.getAspect(NeedsAspect.class).satisfyingTask);
-        tasks.add(getTaskFromContainer());
+        if (entity.hasAspect(NeedsAspect.class)) tasks.add(entity.getAspect(NeedsAspect.class).satisfyingTask); // needs can generate tasks
+        tasks.add(container.getActiveTask((Unit) entity));
         Task task = tasks.stream()
                 .filter(Objects::nonNull)
                 .max(Comparator.comparingInt(task1 -> task1.priority))
                 .orElse(null); // task with max priority
-        return updateState(task); // claim task, if any
+        return task != null && container.claimTask(task) && updateState(task); // claim task, and set its performer to this.
     }
 
     /**
@@ -86,7 +87,7 @@ public class PlanningAspect extends Aspect {
         if (newTask != null) {
             Logger.TASKS.logDebug("Checking of task " + newTask.toString() + " for " + entity.toString());
             newTask.performer = (Unit) entity; // performer is required for checking
-            if (checkActionSequence(newTask)) { // valid task
+            if (checkActionSequence(newTask)) { // valid task, finished or invalid one won't go
                 this.task = newTask;
                 movementNeeded = task.nextAction.actionTarget.check(entity.position) == WAIT;
                 return true;
@@ -122,10 +123,6 @@ public class PlanningAspect extends Aspect {
         Task task = this.task;
         updateState(null);
         task.reset();
-    }
-
-    private Task getTaskFromContainer() {
-        return GameMvc.instance().getModel().get(TaskContainer.class).getActiveTask((Unit) entity);
     }
 
     public Position getTarget() {
