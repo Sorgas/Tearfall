@@ -7,6 +7,7 @@ import stonering.entity.Entity;
 import stonering.entity.unit.aspects.needs.NeedsAspect;
 import stonering.game.GameMvc;
 import stonering.game.model.system.tasks.TaskContainer;
+import stonering.game.model.system.units.UnitContainer;
 import stonering.util.geometry.Position;
 import stonering.entity.unit.Unit;
 import stonering.util.global.Logger;
@@ -22,6 +23,7 @@ import static stonering.entity.job.action.target.ActionTargetStatusEnum.WAIT;
  * Has flag for indicating whether movement is needed for performing task.
  * Flag is false if task is null, or target of an action is reached.
  * Selects new tasks from container and creature needs.
+ * TODO refactor to system
  *
  * @author Alexander Kuzyakov on 10.10.2017.
  */
@@ -37,6 +39,7 @@ public class PlanningAspect extends Aspect {
         if (hasNoActiveTask() && !trySelectTask()) return; // no active task, and no new found
         switch (task.nextAction.getActionTarget().check(entity.position)) { // creates actions
             case FAIL: // checking failed
+                GameMvc.instance().getModel().get(UnitContainer.class).planningSystem.failTask(task);
                 updateState(null);
                 return;
             case NEW: // new action created
@@ -107,11 +110,18 @@ public class PlanningAspect extends Aspect {
      * @return false, if some action in sequence cannot be performed.
      */
     private boolean checkActionSequence(Task task) {
-        if (task.isFinished()) return false;
+        if (task.isFinished()) {
+            GameMvc.instance().getModel().get(UnitContainer.class).planningSystem.finishTask(task);
+            return false;
+        }
         int result;
         while ((result = task.nextAction.check()) == Action.NEW) { // can create sub actions
         }
-        return result == Action.OK;
+        if (result != Action.OK) {
+            GameMvc.instance().getModel().get(UnitContainer.class).planningSystem.failTask(task);
+            return false;
+        }
+        return true;
     }
 
     /**

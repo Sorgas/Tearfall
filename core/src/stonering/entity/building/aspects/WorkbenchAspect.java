@@ -1,15 +1,13 @@
 package stonering.entity.building.aspects;
 
 import stonering.entity.building.Building;
+import stonering.entity.job.ItemOrderTask;
 import stonering.entity.job.Task;
-import stonering.entity.job.action.CraftItemAction;
-import stonering.entity.job.action.TaskTypesEnum;
 import stonering.entity.Aspect;
 import stonering.entity.Entity;
 import stonering.entity.crafting.ItemOrder;
 import stonering.enums.items.recipe.Recipe;
 import stonering.enums.items.recipe.RecipeMap;
-import stonering.game.GameMvc;
 import stonering.game.model.system.tasks.TaskContainer;
 import stonering.stage.workbench.WorkbenchMenu;
 import stonering.util.global.Logger;
@@ -52,7 +50,7 @@ public class WorkbenchAspect extends Aspect {
 
     public static class OrderTaskEntry {
         public ItemOrder order;
-        public Task task;
+        public ItemOrderTask task;
 
         public OrderTaskEntry(ItemOrder order) {
             this.order = order;

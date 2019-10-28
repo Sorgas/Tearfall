@@ -60,16 +60,7 @@ public abstract class Action {
     protected void finish() {
         finished = true;
         task.finishAction(this);
-        task.tryFinishTask();
         Logger.TASKS.logDebug(this + " finished");
-    }
-
-    public boolean isFinished() {
-        return finished;
-    }
-
-    public void setFinished(boolean finished) {
-        this.finished = finished;
     }
 
     public ActionTarget getActionTarget() {

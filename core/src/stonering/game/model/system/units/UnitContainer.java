@@ -3,6 +3,7 @@ package stonering.game.model.system.units;
 import com.badlogic.gdx.math.Vector3;
 import stonering.enums.time.TimeUnitEnum;
 import stonering.game.model.system.EntityContainer;
+import stonering.game.model.system.tasks.CreaturePlanningSystem;
 import stonering.util.geometry.Position;
 import stonering.entity.unit.Unit;
 import stonering.util.global.Initable;
@@ -21,6 +22,7 @@ public class UnitContainer extends EntityContainer<Unit> implements Initable {
     public final CreatureBuffSystem buffSystem;
     public final CreatureHealthSystem healthSystem;
     public final CreatureMovementSystem movementSystem;
+    public final CreaturePlanningSystem planningSystem;
 
     private Position cachePosition; // used for faster getting unit from map
 
@@ -31,6 +33,7 @@ public class UnitContainer extends EntityContainer<Unit> implements Initable {
         buffSystem = new CreatureBuffSystem();
         healthSystem = new CreatureHealthSystem();
         movementSystem = new CreatureMovementSystem();
+        planningSystem = new CreaturePlanningSystem();
     }
 
     /**

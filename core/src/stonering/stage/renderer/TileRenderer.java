@@ -10,9 +10,7 @@ import stonering.entity.building.BuildingBlock;
 import stonering.entity.item.Item;
 import stonering.entity.plants.PlantBlock;
 import stonering.entity.unit.Unit;
-import stonering.entity.unit.aspects.CreatureStatusIcon;
 import stonering.entity.unit.aspects.MovementAspect;
-import stonering.entity.unit.aspects.RenderAspect;
 import stonering.entity.zone.Zone;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.designations.DesignationsTileMapping;
@@ -29,8 +27,6 @@ import stonering.stage.localworld.MovableCamera;
 import stonering.game.model.tilemaps.LocalTileMap;
 import stonering.util.geometry.Int2dBounds;
 import stonering.util.geometry.Position;
-
-import java.util.List;
 
 import static com.badlogic.gdx.graphics.Pixmap.Format.RGBA8888;
 import static stonering.stage.renderer.AtlasesEnum.*;
@@ -49,9 +45,10 @@ public class TileRenderer extends Renderer {
     private UnitContainer unitContainer;
     private TaskContainer taskContainer;
     private ItemContainer itemContainer;
+
     private ZonesContainer zonesContainer;
     private MovableCamera camera;
-    private boolean disabled = true;
+    private boolean disabled = false;
 
     private Position cachePosition;
     private Vector3 cacheVector;

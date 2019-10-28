@@ -25,7 +25,7 @@ public abstract class Entity implements Serializable, Initable, Turnable {
 
     public Entity(Position position) {
         this();
-        position.set(position);
+        this.position.set(position);
     }
 
     public <T extends Aspect> boolean hasAspect(Class<T> type) {

@@ -1,6 +1,5 @@
 package stonering.entity.job;
 
-import stonering.entity.building.Building;
 import stonering.entity.item.Item;
 import stonering.entity.job.designation.Designation;
 import stonering.entity.unit.aspects.PlanningAspect;
@@ -8,10 +7,9 @@ import stonering.enums.TaskStatusEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.system.items.ItemContainer;
 import stonering.game.model.system.tasks.TaskContainer;
-import stonering.game.model.local_map.LocalMap;
-import stonering.util.geometry.Position;
 import stonering.entity.job.action.Action;
 import stonering.entity.unit.Unit;
+import stonering.game.model.system.units.UnitContainer;
 import stonering.util.global.Logger;
 
 import java.util.ArrayList;
@@ -58,7 +56,8 @@ public class Task {
     }
 
     /**
-     * Resets this task if it was failed to return it to container.
+     * Resets this task to the state after creation.
+     * Also interrupts performance, if it was taken.
      */
     public void reset() {
         Logger.TASKS.logDebug("Resetting task " + toString());
@@ -74,35 +73,19 @@ public class Task {
      * Task is finished, if initial action is finished, and no other action remain.
      */
     public boolean isFinished() {
-        return preActions.isEmpty() && initialAction.isFinished() && postActions.isEmpty();
-    }
-
-    /**
-     * Removes this task from container  if it's finished.
-     */
-    public void tryFinishTask() {
-        if (isFinished())
-            GameMvc.instance().getModel().get(TaskContainer.class).finishTask(this);
-    }
-
-    /**
-     * When task is failed, it is removed from container, freeing locked buildings and items.
-     */
-    public void fail() {
-        //TODO add interruption
-        reset();
-        GameMvc.instance().getModel().get(TaskContainer.class).removeTask(this);
+        return preActions.isEmpty() && initialAction.finished && postActions.isEmpty();
     }
 
     /**
      * Removes pre and post action from task.
      */
     public void finishAction(Action action) {
-        if (action != initialAction) {
+        if (action != initialAction) { // remove non-initial finished action
             preActions.remove(action);
             postActions.remove(action);
         }
         updateNextAction();
+        if (isFinished()) GameMvc.instance().getModel().get(UnitContainer.class).planningSystem.finishTask(this); // check if whole task is finished
     }
 
     public void addFirstPreAction(Action action) {
@@ -133,7 +116,7 @@ public class Task {
 
     private void updateNextAction() {
         if (!postActions.isEmpty()) nextAction = postActions.get(0);
-        if (!initialAction.isFinished()) nextAction = initialAction;
+        if (!initialAction.finished) nextAction = initialAction;
         nextAction = preActions.isEmpty() ? null : preActions.get(0);
     }
 

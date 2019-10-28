@@ -9,10 +9,7 @@ import stonering.util.geometry.Position;
 import stonering.entity.item.Item;
 import stonering.util.global.Logger;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Manages all item in game, including ones in containers, and equipped on units.
@@ -27,6 +24,7 @@ public class ItemContainer extends EntityContainer<Item> {
     public final Map<Position, ArrayList<Item>> itemMap = new HashMap<>(); // maps tiles position to list of item it that position.
     public final Map<Item, ItemContainerAspect> contained = new HashMap<>(); // maps contained items to containers they are in.
     public final Map<Item, EquipmentAspect> equipped = new HashMap<>(); // maps eqiopped and hauled items to units.
+    public final Set<Item> lockedItems = new HashSet<>();
     public final ItemStreamUtil util = new ItemStreamUtil(this);
 
     public void turn() {
@@ -111,5 +109,10 @@ public class ItemContainer extends EntityContainer<Item> {
     public void itemUnequipped(Item item) {
         if (equipped.remove(item) == null)
             Logger.ITEMS.logWarn("Items inconsistency: item " + item + " is not registered in ItemContainer as equipped");
+    }
+
+    public void freeItems(Collection<Item> items) {
+        lockedItems.removeAll(items);
+        items.forEach(item -> item.locked = false);
     }
 }

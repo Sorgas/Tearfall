@@ -23,8 +23,10 @@ import static stonering.enums.unit.AttributesEnum.AGILITY;
  * @author Alexander_Kuzyakov on 11.07.2019.
  */
 public class AttributeAspect extends Aspect {
-    private static final int BASIC_MOVEMENT_DELAY = 60; // 1 tile/sec
+    private static final float BASIC_SPEED = 1 / 90f;
+    private static final float AGILITY_SPEED_MODIFIER = 0.03f;
     public final Map<AttributesEnum, Integer> attributes;
+    public boolean valid;
 
     public AttributeAspect(Entity entity) {
         super(entity);
@@ -32,10 +34,11 @@ public class AttributeAspect extends Aspect {
         for (AttributesEnum value : AttributesEnum.values()) {
             attributes.put(value, 0);
         }
+        valid = false;
     }
 
-    private void updateMovementDelay() {
-        entity.getAspect(MovementAspect.class).movementDelay = BASIC_MOVEMENT_DELAY - attributes.get(AGILITY) * 2;
+    private void updateSpeed() {
+        entity.getAspect(MovementAspect.class).speed = BASIC_SPEED + attributes.get(AGILITY) * AGILITY_SPEED_MODIFIER;
     }
 
     public void update(AttributesEnum attribute, int delta) {

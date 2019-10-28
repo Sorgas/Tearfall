@@ -14,6 +14,7 @@ import stonering.game.GameMvc;
 import stonering.game.controller.controllers.designation.BuildingDesignationSequence;
 import stonering.game.model.system.ModelComponent;
 import stonering.game.model.local_map.LocalMap;
+import stonering.game.model.system.items.ItemContainer;
 import stonering.util.geometry.Position;
 import stonering.entity.job.Task;
 import stonering.util.global.Logger;
@@ -34,8 +35,8 @@ import static stonering.enums.TaskStatusEnum.OPEN;
  */
 public class TaskContainer implements ModelComponent {
     private Map<String, List<Task>> tasks; // task job to all tasks with this job
+    public final Set<Task> assignedTasks; // tasks, taken by some unit.
     public final HashMap<Position, Designation> designations; //this map is for rendering and modifying designations
-    public final Set<Task> assignedTasks;
     public final DesignationsValidator validator;
     private TaskCreator taskCreator;
     private Position cachePosition; // state is not maintained. should be set before use
@@ -65,8 +66,9 @@ public class TaskContainer implements ModelComponent {
             if (!tasks.containsKey(enabledJob)) continue;
             for (Task task : tasks.get(enabledJob)) {
                 if(task.performer != null) Logger.TASKS.logError("Task " + task + " with performer is in open map." );
-                GameMvc.instance().getModel().get(LocalMap.class).getPassage().hasPathBetween(position, task.nextAction.actionTarget.getPosition());
-                if (task.performer == null && task.isTaskTargetsAvailableFrom(position) && task.status == OPEN) {
+                if (task.performer == null &&
+                        task.status == OPEN &&
+                        GameMvc.instance().getModel().get(LocalMap.class).getPassage().hasPathBetween(position, task.nextAction.actionTarget.getPosition())) {
                     //TODO add selecting nearest task.
                     return task;
                 }
@@ -114,15 +116,6 @@ public class TaskContainer implements ModelComponent {
     }
 
     /**
-     * Removes task. called if task is finished or canceled.
-     * Removes tasks designation if there is one.
-     */
-    public void removeTask(Task task) {
-        tasks.get(task.job).remove(task);
-        if (task.designation != null) designations.remove(task.designation.position);
-    }
-
-    /**
      * For adding simple tasks (w/o designation).
      */
     public Task addTask(Task task) {
@@ -136,16 +129,5 @@ public class TaskContainer implements ModelComponent {
 
     public Designation getDesignation(int x, int y, int z) {
         return designations.get(cachePosition.set(x, y, z));
-    }
-
-    /**
-     * Removes task from container,
-     */
-    public void finishTask(Task task) {
-
-    }
-
-    public void freeTaskLocks(Task task) {
-        task.lockedItems.
     }
 }

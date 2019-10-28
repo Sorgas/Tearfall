@@ -5,11 +5,13 @@ import stonering.entity.building.Building;
 import stonering.entity.building.aspects.WorkbenchAspect;
 import stonering.entity.building.aspects.WorkbenchAspect.OrderTaskEntry;
 import stonering.entity.crafting.ItemOrder;
+import stonering.entity.job.ItemOrderTask;
 import stonering.entity.job.Task;
 import stonering.entity.job.action.CraftItemAction;
 import stonering.entity.job.action.TaskTypesEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.system.tasks.TaskContainer;
+import stonering.game.model.system.units.UnitContainer;
 import stonering.util.global.Logger;
 
 import java.util.LinkedList;
@@ -30,7 +32,7 @@ public class WorkbenchSystem {
      * i.e. rolls sequence of orders to unsuspended one, creates tasks for orders.
      */
     public void updateWorkbenchState(Building building) {
-        if(!building.hasAspect(WorkbenchAspect.class)) return;
+        if (!building.hasAspect(WorkbenchAspect.class)) return;
         WorkbenchAspect aspect = building.getAspect(WorkbenchAspect.class);
         if (aspect.entries.isEmpty() || !aspect.hasActiveOrders) return;
         OrderTaskEntry entry = aspect.entries.getFirst();
@@ -67,7 +69,7 @@ public class WorkbenchSystem {
      * Suspends or deletes failed order (depending on setting).
      */
     private void handleOrderFail(WorkbenchAspect aspect, OrderTaskEntry entry) {
-        if(aspect.deleteFailedTasks) { // delete failed order
+        if (aspect.deleteFailedTasks) { // delete failed order
             removeOrder(aspect, entry.order);
         } else { // suspend failed order
             entry.task.reset();
@@ -102,7 +104,7 @@ public class WorkbenchSystem {
     }
 
     private void failEntryTask(OrderTaskEntry entry) {
-        if (entry.task != null) entry.task.fail();
+        if (entry.task != null) GameMvc.instance().getModel().get(UnitContainer.class).planningSystem.failTask(entry.task);
     }
 
     /**
@@ -113,7 +115,7 @@ public class WorkbenchSystem {
         Logger.TASKS.logDebug("Setting order " + order.toString() + " in " + aspect.getEntity().toString() + " suspended: " + value);
         OrderTaskEntry entry = findEntry(aspect, order);
         if (entry != null) {
-            if (value && entry.task.status == ACTIVE) entry.task.fail(); // interrupt currently executing order.
+            if (value && entry.task.status == ACTIVE) failEntryTask(entry); // interrupt currently executing order.
             entry.order.status = (value ? PAUSED : OPEN);
         }
         aspect.updateActiveOrders();
@@ -132,13 +134,7 @@ public class WorkbenchSystem {
     }
 
     private OrderTaskEntry findEntry(WorkbenchAspect aspect, ItemOrder order) {
-        OrderTaskEntry found = null;
-        for (OrderTaskEntry entry : aspect.entries) {
-            if (entry.order == order) {
-                found = entry;
-            }
-        }
-        return found;
+        return aspect.entries.stream().filter(entry -> entry.order == order).findFirst().orElse(null);
     }
 
     /**
@@ -147,7 +143,7 @@ public class WorkbenchSystem {
     private void createTaskForOrder(OrderTaskEntry entry, Entity entity) {
         Logger.BUILDING.logDebug("Creating task for order " + entry.order.recipe.name);
         CraftItemAction action = new CraftItemAction(entry.order, entity);
-        entry.task = new Task(entry.order.recipe.name, action, 1);
+        entry.task = new ItemOrderTask(entry.order.recipe.name, action, 1);
         GameMvc.instance().getModel().get(TaskContainer.class).addTask(entry.task);
     }
 
@@ -155,14 +151,14 @@ public class WorkbenchSystem {
      * Rolls entry list to make first element not suspended.
      * Does nothing if no active orders exist.
      */
-    public void rollToNextNotSuspended(WorkbenchAspect aspect) {
+    private void rollToNextNotSuspended(WorkbenchAspect aspect) {
         LinkedList<OrderTaskEntry> entries = aspect.entries;
-        if (entries.size() < 2 || !aspect.hasActiveOrders) return; // no roll on 1 or 0 entries, or if all orders suspended.
+        if (entries.size() < 2 || !aspect.hasActiveOrders)
+            return; // no roll on 1 or 0 entries, or if all orders suspended.
         while (entries.getFirst().order.status == PAUSED) {
             entries.addLast(entries.removeFirst());
         }
     }
-
 
     /**
      * Swap entries on positions index and (index + delta). Does nothing, if indexes not in list range.

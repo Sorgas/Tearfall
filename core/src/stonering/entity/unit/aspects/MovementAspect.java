@@ -1,7 +1,7 @@
 package stonering.entity.unit.aspects;
 
 import stonering.entity.Aspect;
-import stonering.entity.unit.Unit;
+import stonering.entity.Entity;
 import stonering.util.geometry.Position;
 
 import java.util.List;
@@ -14,16 +14,9 @@ import java.util.List;
 public class MovementAspect extends Aspect {
     public Position target; // last target taken from planning aspect
     public List<Position> path; // calculated path
+    public float speed = 0.01f;
 
-    public int movementDelay;
-
-    public float speed; // part of cell, passed in 1 update
-    public float fallSpeed;
-    public float stepProgress;
-
-    public MovementAspect(Unit unit) {
-        super(unit);
-        this.entity = unit;
-        stepProgress = 0;
+    public MovementAspect(Entity entity) {
+        super(entity);
     }
 }
