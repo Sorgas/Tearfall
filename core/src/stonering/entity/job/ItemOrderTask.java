@@ -11,8 +11,8 @@ import stonering.entity.job.action.Action;
 public class ItemOrderTask extends Task {
     public ItemOrder order;
 
-    public ItemOrderTask(String name, Action initialAction, ItemOrder order, int priority) {
-        super(name, initialAction, priority);
+    public ItemOrderTask(ItemOrder order, Action initialAction, int priority) {
+        super(order.recipe.name, initialAction, priority);
         this.order = order;
     }
 }
