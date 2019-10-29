@@ -33,7 +33,7 @@ public class UnitContainer extends EntityContainer<Unit> implements Initable {
         buffSystem = new CreatureBuffSystem();
         healthSystem = new CreatureHealthSystem();
         movementSystem = new CreatureMovementSystem();
-        planningSystem = new CreaturePlanningSystem();
+        planningSystem = new CreaturePlanningSystem(container);
     }
 
     /**

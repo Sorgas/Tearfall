@@ -15,6 +15,7 @@ import stonering.util.geometry.Position;
 public class PlanningAspect extends Aspect {
     public Task task;
     public boolean movementNeeded;
+    public boolean actionChecked;
 
     public PlanningAspect(Entity entity) {
         super(entity);

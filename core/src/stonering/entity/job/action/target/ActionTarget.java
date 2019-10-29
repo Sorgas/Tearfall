@@ -30,6 +30,7 @@ public abstract class ActionTarget {
 
     /**
      * Checks if task performer has reached task target.
+     * Returns fail if checked from out of map.
      */
     public ActionTargetStatusEnum check(Position currentPosition) {
         if(!GameMvc.instance().getModel().get(LocalMap.class).inMap(currentPosition)) return FAIL;
