@@ -13,7 +13,6 @@ import stonering.enums.items.type.raw.RawItemType;
 import stonering.enums.unit.CreatureType;
 import stonering.util.geometry.Position;
 
-import javax.xml.ws.soap.Addressing;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -48,7 +47,7 @@ public class EquipmentSlotTest {
     }
 
     private void createItems() {
-        String[] actions = {"chop", "dig", "hoe"};
+        String[] actions = {"dig", "chop", "hoe"};
         items = new ArrayList<>();
         for (String action : actions) {
             RawItemType rawType = new RawItemType();
@@ -56,7 +55,7 @@ public class EquipmentSlotTest {
             ToolItemType.ToolAction toolAction = new ToolItemType.ToolAction();
             toolAction.action = action;
             rawType.tool.getActions().add(toolAction);
-            ItemType type = new ItemType(new RawItemType());
+            ItemType type = new ItemType(rawType);
             items.add(new Item(new Position(), type));
         }
     }

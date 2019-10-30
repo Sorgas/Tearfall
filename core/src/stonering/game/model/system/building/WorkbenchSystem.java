@@ -6,12 +6,9 @@ import stonering.entity.building.aspects.WorkbenchAspect;
 import stonering.entity.building.aspects.WorkbenchAspect.OrderTaskEntry;
 import stonering.entity.crafting.ItemOrder;
 import stonering.entity.job.ItemOrderTask;
-import stonering.entity.job.Task;
 import stonering.entity.job.action.CraftItemAction;
-import stonering.entity.job.action.TaskTypesEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.system.tasks.TaskContainer;
-import stonering.game.model.system.units.UnitContainer;
 import stonering.util.global.Logger;
 
 import java.util.LinkedList;
@@ -37,14 +34,12 @@ public class WorkbenchSystem {
         if (aspect.entries.isEmpty() || !aspect.hasActiveOrders) return;
         OrderTaskEntry entry = aspect.entries.getFirst();
         switch (entry.order.status) {
-            case OPEN: { // newly added order with no task.
+            case OPEN:  // newly added order with no task.
                 if (entry.task == null) createTaskForOrder(entry, building);
                 break;
-            }
-            case PAUSED: {
+            case PAUSED:
                 rollToNextNotSuspended(aspect); // try to move to the next task
                 break;
-            }
             case COMPLETE:
                 handleOrderCompletion(aspect, entry); // remove, suspend or move to bottom
                 break;
@@ -103,10 +98,6 @@ public class WorkbenchSystem {
         aspect.updateActiveOrders();
     }
 
-    private void failEntryTask(OrderTaskEntry entry) {
-        if (entry.task != null) GameMvc.instance().getModel().get(UnitContainer.class).planningSystem.failTask(entry.task);
-    }
-
     /**
      * Suspends order. If order was in progress, it is interrupted immediately.
      * TODO rework
@@ -119,6 +110,11 @@ public class WorkbenchSystem {
             entry.order.status = (value ? PAUSED : OPEN);
         }
         aspect.updateActiveOrders();
+    }
+
+    private void failEntryTask(OrderTaskEntry entry) {
+        if (entry.task != null)
+            entry.task.status = FAILED;
     }
 
     /**

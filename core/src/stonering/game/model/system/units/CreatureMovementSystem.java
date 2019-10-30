@@ -5,10 +5,12 @@ import stonering.entity.FloatPositionEntity;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.MovementAspect;
 import stonering.entity.unit.aspects.PlanningAspect;
+import stonering.enums.TaskStatusEnum;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
 import stonering.game.model.local_map.LocalMap;
+import stonering.game.model.system.tasks.CreaturePlanningSystem;
 import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
 import stonering.util.pathfinding.a_star.AStar;
@@ -66,13 +68,13 @@ public class CreatureMovementSystem {
      */
     private boolean checkPath(Unit unit, MovementAspect movement) {
         PlanningAspect planning = unit.getAspect(PlanningAspect.class);
-        if (!planning.isMovementNeeded()) return freeAspect(movement);
+        if (!planning.movementNeeded) return freeAspect(movement);
         Position target = planning.getTarget();
         if(!target.equals(movement.target) || movement.path == null) { // target has changed, or path is null for old target
             movement.target = target;
             movement.path = aStar.makeShortestPath(unit.position, movement.target = planning.getTarget());
             if(movement.path == null) {
-                planning.interrupt(); // no path to target, fail task
+                planning.task.status = TaskStatusEnum.FAILED; // no path to target, fail task
                 return freeAspect(movement);
             }
         }

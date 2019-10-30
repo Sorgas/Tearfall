@@ -9,7 +9,6 @@ import stonering.entity.unit.aspects.PlanningAspect;
 import stonering.enums.TaskStatusEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.system.units.UnitContainer;
-import stonering.util.global.Logger;
 
 import static stonering.entity.job.action.target.ActionTargetStatusEnum.*;
 import static stonering.enums.TaskStatusEnum.*;
@@ -20,13 +19,6 @@ import static stonering.enums.TaskStatusEnum.*;
  * @author Alexander on 29.10.2019.
  */
 public class CreatureTaskPerformingSystem {
-    private final TaskContainer container;
-    private final CreaturePlanningSystem planningSystem;
-
-    public CreatureTaskPerformingSystem(TaskContainer container, CreaturePlanningSystem planningSystem) {
-        this.container = container;
-        this.planningSystem = planningSystem;
-    }
 
     /**
      * Updates state of given unit's active task. Selects new task, fails and finishes current.
@@ -98,16 +90,4 @@ public class CreatureTaskPerformingSystem {
         GameMvc.instance().getModel().get(UnitContainer.class).planningSystem.removeTask(task);
         if (task instanceof ItemOrderTask) ((ItemOrderTask) task).order.status = status;
     }
-
-    /**
-     * For cancelling task, caused by external factor (path blocking, enemy, player).
-     */
-    public void interrupt() {
-        if (task == null) return;
-        Logger.TASKS.logDebug("Resetting planning aspect of " + toString());
-        Task task = this.task;
-        assignTaskToUnit(null);
-        task.reset();
-    }
-
 }

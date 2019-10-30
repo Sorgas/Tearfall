@@ -2,8 +2,11 @@ package stonering.game.model.system.units;
 
 import com.badlogic.gdx.math.Vector3;
 import stonering.enums.time.TimeUnitEnum;
+import stonering.game.GameMvc;
 import stonering.game.model.system.EntityContainer;
 import stonering.game.model.system.tasks.CreaturePlanningSystem;
+import stonering.game.model.system.tasks.CreatureTaskPerformingSystem;
+import stonering.game.model.system.tasks.TaskContainer;
 import stonering.util.geometry.Position;
 import stonering.entity.unit.Unit;
 import stonering.util.global.Initable;
@@ -23,6 +26,7 @@ public class UnitContainer extends EntityContainer<Unit> implements Initable {
     public final CreatureHealthSystem healthSystem;
     public final CreatureMovementSystem movementSystem;
     public final CreaturePlanningSystem planningSystem;
+    public final CreatureTaskPerformingSystem taskSystem;
 
     private Position cachePosition; // used for faster getting unit from map
 
@@ -33,7 +37,8 @@ public class UnitContainer extends EntityContainer<Unit> implements Initable {
         buffSystem = new CreatureBuffSystem();
         healthSystem = new CreatureHealthSystem();
         movementSystem = new CreatureMovementSystem();
-        planningSystem = new CreaturePlanningSystem(container);
+        planningSystem = new CreaturePlanningSystem();
+        taskSystem = new CreatureTaskPerformingSystem();
     }
 
     /**
@@ -114,5 +119,6 @@ public class UnitContainer extends EntityContainer<Unit> implements Initable {
     @Override
     public void init() {
         unitsMap.values().forEach(units -> units.forEach(Unit::init));
+        planningSystem.container = GameMvc.instance().getModel().get(TaskContainer.class);
     }
 }

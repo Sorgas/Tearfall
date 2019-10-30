@@ -63,10 +63,7 @@ public class Task {
         Logger.TASKS.logDebug("Resetting task " + toString());
         preActions.clear();
         postActions.clear();
-        if (performer == null) return;
-        PlanningAspect planningAspect = (performer.getAspect(PlanningAspect.class));
         performer = null;
-        planningAspect.interrupt();
     }
 
     /**
@@ -85,7 +82,6 @@ public class Task {
             postActions.remove(action);
         }
         updateNextAction();
-        if (isFinished()) GameMvc.instance().getModel().get(UnitContainer.class).planningSystem.finishTask(this); // check if whole task is finished
     }
 
     public void addFirstPreAction(Action action) {
@@ -115,9 +111,10 @@ public class Task {
     }
 
     private void updateNextAction() {
+        nextAction = null;
         if (!postActions.isEmpty()) nextAction = postActions.get(0);
         if (!initialAction.finished) nextAction = initialAction;
-        nextAction = preActions.isEmpty() ? null : preActions.get(0);
+        nextAction = preActions.isEmpty() ? nextAction : preActions.get(0);
     }
 
     @Override

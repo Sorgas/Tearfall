@@ -2,7 +2,6 @@ package stonering.game.model.system.tasks;
 
 import stonering.entity.job.Task;
 import stonering.entity.job.action.Action;
-import stonering.entity.job.action.target.ActionTargetStatusEnum;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.PlanningAspect;
 import stonering.entity.unit.aspects.needs.NeedsAspect;
@@ -22,15 +21,12 @@ import static stonering.enums.TaskStatusEnum.*;
  * Looks for new task for unit if it hasn't one.
  * Removes finished, failed and paused tasks from units.
  * Considers only task statuses, see {@link CreatureTaskPerformingSystem}.
+ * TODO add target aspects to systems
  *
  * @author Alexander on 28.10.2019.
  */
 public class CreaturePlanningSystem {
-    private final TaskContainer container;
-
-    public CreaturePlanningSystem(TaskContainer container) {
-        this.container = container;
-    }
+    public TaskContainer container;
 
     public void update(Unit unit) {
         PlanningAspect aspect = unit.getAspect(PlanningAspect.class);
@@ -117,5 +113,17 @@ public class CreaturePlanningSystem {
     public void removeTask(Task task) {
         container.removeTask(task);
         GameMvc.instance().getModel().get(ItemContainer.class).freeItems(task.lockedItems); // free items
+    }
+
+    /**
+     * For cancelling task, caused by external factor (path blocking, enemy, player).
+     */
+    public void interrupt(PlanningAspect aspect) {
+        if (aspect.task == null) return;
+        Logger.TASKS.logDebug("Resetting planning aspect of " + toString());
+        Task task = aspect.task;
+
+//        assignTaskToUnit(null);
+        task.reset();
     }
 }
