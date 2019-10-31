@@ -82,7 +82,7 @@ public class CreatureTaskPerformingSystem {
         }
     }
 
-    public void failTask(Task task) {
+    private void failTask(Task task) {
         task.status = FAILED;
     }
 

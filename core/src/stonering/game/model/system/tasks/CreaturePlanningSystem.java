@@ -7,6 +7,7 @@ import stonering.entity.unit.aspects.PlanningAspect;
 import stonering.entity.unit.aspects.needs.NeedsAspect;
 import stonering.game.GameMvc;
 import stonering.game.model.system.items.ItemContainer;
+import stonering.game.model.system.units.UnitContainer;
 import stonering.util.global.Logger;
 
 import javax.validation.constraints.NotNull;
@@ -26,7 +27,7 @@ import static stonering.enums.TaskStatusEnum.*;
  * @author Alexander on 28.10.2019.
  */
 public class CreaturePlanningSystem {
-    public TaskContainer container;
+    public UnitContainer container;
 
     public void update(Unit unit) {
         PlanningAspect aspect = unit.getAspect(PlanningAspect.class);
@@ -43,7 +44,7 @@ public class CreaturePlanningSystem {
             case OPEN:
                 task.status = ACTIVE; // start claimed and open task
                 break;
-            case PAUSED:
+            case PAUSED: // task was paused manually or on failure, and should be
             case SUSPENDED:
                 freeAspect(aspect); // let unit to switch to another task
                 break;
@@ -69,7 +70,7 @@ public class CreaturePlanningSystem {
         Logger.TASKS.logDebug("Looking for new task for unit " + unit);
         ArrayList<Task> tasks = new ArrayList<>();
         if (unit.hasAspect(NeedsAspect.class)) tasks.add(unit.getAspect(NeedsAspect.class).satisfyingTask);
-        tasks.add(container.getActiveTask(unit)); // player/workbench created tasks
+        tasks.add(taskContainer().getActiveTask(unit)); // player/workbench created tasks
         return tasks.stream().filter(Objects::nonNull).max(Comparator.comparingInt(task1 -> task1.priority)).orElse(null);
     }
 
@@ -78,9 +79,8 @@ public class CreaturePlanningSystem {
      */
     private void assignTaskToUnit(@NotNull Unit unit, @NotNull Task task) {
         Logger.TASKS.logDebug("Assigning task " + task + " to unit " + unit);
-        PlanningAspect aspect = unit.getAspect(PlanningAspect.class);
-        container.claimTask(task);
-        aspect.task = task;
+        taskContainer().claimTask(task);
+        unit.getAspect(PlanningAspect.class).task = task;
         task.status = OPEN;
     }
 
@@ -111,8 +111,12 @@ public class CreaturePlanningSystem {
      * Task should be assigned in {@link TaskContainer} ans have performer.
      */
     public void removeTask(Task task) {
-        container.removeTask(task);
+        taskContainer().removeTask(task);
         GameMvc.instance().getModel().get(ItemContainer.class).freeItems(task.lockedItems); // free items
+    }
+
+    private TaskContainer taskContainer() {
+        return GameMvc.instance().getModel().get(TaskContainer.class);
     }
 
     /**

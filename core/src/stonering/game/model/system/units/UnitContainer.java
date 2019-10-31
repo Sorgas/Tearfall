@@ -119,6 +119,5 @@ public class UnitContainer extends EntityContainer<Unit> implements Initable {
     @Override
     public void init() {
         unitsMap.values().forEach(units -> units.forEach(Unit::init));
-        planningSystem.container = GameMvc.instance().getModel().get(TaskContainer.class);
     }
 }

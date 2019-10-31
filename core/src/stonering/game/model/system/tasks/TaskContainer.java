@@ -55,7 +55,7 @@ public class TaskContainer implements ModelComponent {
      * Does not assign task to unit, because after this method is compared to unit's other tasks, see {@link PlanningAspect}.
      */
     public Task getActiveTask(Unit unit) {
-        // TODO ocnsider task priority
+        // TODO consider task priority
         JobsAspect aspect = unit.getAspect(JobsAspect.class);
         if (aspect == null) {
             Logger.TASKS.logError("Creature " + unit + " without jobs aspect gets task from container");
