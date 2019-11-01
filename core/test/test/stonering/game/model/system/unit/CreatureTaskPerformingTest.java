@@ -29,7 +29,6 @@ import static stonering.enums.TaskStatusEnum.*;
 public class CreatureTaskPerformingTest {
     private Unit unit;
     private UnitContainer unitContainer;
-    private TaskContainer taskContainer;
     private PlanningAspect aspect;
 
     @BeforeEach
@@ -43,7 +42,6 @@ public class CreatureTaskPerformingTest {
         GameModel model = new MainGameModel(map);
         GameMvc.createInstance(model);
         model.put(unitContainer = new UnitContainer());
-        model.put(taskContainer = new TaskContainer());
         unit = new Unit(new Position(), new CreatureType());
         unit.addAspect(aspect = new PlanningAspect(unit));
         unit.addAspect(new JobsAspect(unit));

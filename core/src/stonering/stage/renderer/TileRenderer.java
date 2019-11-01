@@ -10,7 +10,9 @@ import stonering.entity.building.BuildingBlock;
 import stonering.entity.item.Item;
 import stonering.entity.plants.PlantBlock;
 import stonering.entity.unit.Unit;
+import stonering.entity.unit.aspects.CreatureStatusIcon;
 import stonering.entity.unit.aspects.MovementAspect;
+import stonering.entity.unit.aspects.RenderAspect;
 import stonering.entity.zone.Zone;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.designations.DesignationsTileMapping;
@@ -27,6 +29,8 @@ import stonering.stage.localworld.MovableCamera;
 import stonering.game.model.tilemaps.LocalTileMap;
 import stonering.util.geometry.Int2dBounds;
 import stonering.util.geometry.Position;
+
+import java.util.List;
 
 import static com.badlogic.gdx.graphics.Pixmap.Format.RGBA8888;
 import static stonering.stage.renderer.AtlasesEnum.*;
@@ -53,7 +57,7 @@ public class TileRenderer extends Renderer {
     private Position cachePosition;
     private Vector3 cacheVector;
     private Int2dBounds cacheBounds;
-    TextureRegion blackTile;
+    private TextureRegion blackTile;
 
     public TileRenderer(DrawingUtil drawingUtil, MovableCamera camera) {
         super(drawingUtil);
@@ -231,13 +235,12 @@ public class TileRenderer extends Renderer {
             if (!unit.hasAspect(MovementAspect.class)) {
                 //TODO static units?
             } else {
-//                Vector3 vector = unit.getAspect(MovementAspect.class).getStepProgressVector().add(x, y, z);
-//                RenderAspect aspect = unit.getAspect(RenderAspect.class);
-//                util.drawSprite(aspect.getTile(), vector);
-//                List<CreatureStatusIcon> icons = aspect.icons;
-//                for (int i = 0; i < icons.size(); i++) {
-//                    util.drawIcon(creature_icons.getBlockTile(icons.get(i).x, icons.get(i).y), vector, i);
-//                }
+                RenderAspect aspect = unit.getAspect(RenderAspect.class);
+                util.drawSprite(aspect.getTile(), unit.vectorPosition);
+                List<CreatureStatusIcon> icons = aspect.icons;
+                for (int i = 0; i < icons.size(); i++) {
+                    util.drawIcon(creature_icons.getBlockTile(icons.get(i).x, icons.get(i).y), unit.vectorPosition, i);
+                }
             }
         }
     }
