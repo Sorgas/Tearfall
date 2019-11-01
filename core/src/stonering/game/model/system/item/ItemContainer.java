@@ -1,4 +1,4 @@
-package stonering.game.model.system.items;
+package stonering.game.model.system.item;
 
 import stonering.entity.Entity;
 import stonering.entity.item.aspects.ItemContainerAspect;

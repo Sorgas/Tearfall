@@ -2,14 +2,10 @@ package stonering.entity.job;
 
 import stonering.entity.item.Item;
 import stonering.entity.job.designation.Designation;
-import stonering.entity.unit.aspects.PlanningAspect;
-import stonering.enums.TaskStatusEnum;
-import stonering.game.GameMvc;
-import stonering.game.model.system.items.ItemContainer;
-import stonering.game.model.system.tasks.TaskContainer;
+import stonering.game.model.system.item.ItemContainer;
 import stonering.entity.job.action.Action;
 import stonering.entity.unit.Unit;
-import stonering.game.model.system.units.UnitContainer;
+import stonering.enums.TaskStatusEnum;
 import stonering.util.global.Logger;
 
 import java.util.ArrayList;

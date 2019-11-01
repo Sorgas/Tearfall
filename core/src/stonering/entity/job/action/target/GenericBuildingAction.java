@@ -6,12 +6,11 @@ import stonering.entity.item.selectors.ItemSelector;
 import stonering.entity.job.action.ItemConsumingAction;
 import stonering.entity.job.action.PutItemAction;
 import stonering.entity.job.designation.BuildingDesignation;
-import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.buildings.BuildingTypeMap;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
-import stonering.game.model.system.items.ItemContainer;
+import stonering.game.model.system.item.ItemContainer;
 import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
 

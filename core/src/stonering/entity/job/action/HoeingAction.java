@@ -8,7 +8,7 @@ import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.enums.ZoneTypesEnum;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.GameMvc;
-import stonering.game.model.system.items.ItemContainer;
+import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.system.ZonesContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;

@@ -6,7 +6,7 @@ import stonering.entity.item.Item;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.entity.unit.aspects.equipment.EquipmentSlot;
 import stonering.game.GameMvc;
-import stonering.game.model.system.items.ItemContainer;
+import stonering.game.model.system.item.ItemContainer;
 import stonering.util.global.Logger;
 
 /**

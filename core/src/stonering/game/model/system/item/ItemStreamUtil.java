@@ -1,4 +1,4 @@
-package stonering.game.model.system.items;
+package stonering.game.model.system.item;
 
 import stonering.entity.crafting.BuildingComponent;
 import stonering.entity.crafting.BuildingComponentVariant;
@@ -12,7 +12,6 @@ import stonering.util.geometry.Position;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Contains streams util methods for faster lookup of items from {@link ItemContainer}

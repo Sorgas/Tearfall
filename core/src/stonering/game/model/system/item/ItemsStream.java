@@ -1,4 +1,4 @@
-package stonering.game.model.system.items;
+package stonering.game.model.system.item;
 
 import stonering.entity.item.Item;
 import stonering.enums.items.TagEnum;

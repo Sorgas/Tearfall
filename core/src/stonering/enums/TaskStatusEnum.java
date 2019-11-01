@@ -1,16 +1,13 @@
 package stonering.enums;
 
 /**
- * Enumeration of all statuses of tasks. Used for orders and tasks.
- * Shown in workbenches. Available name depend on status.
+ * Statues for tasks.
  *
- * @author Alexander_Kuzyakov on 20.05.2019.
+ * @author Alexander on 01.11.2019.
  */
 public enum TaskStatusEnum {
     OPEN,                   // newly created
     ACTIVE,                 // taken by performer
-    PAUSED,                 // paused by player
-    SUSPENDED,              // paused on fail
     COMPLETE,               // complete (removed from container)
     FAILED                  // not complete (removed from container)
 }

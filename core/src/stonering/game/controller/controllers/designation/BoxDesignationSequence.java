@@ -3,7 +3,7 @@ package stonering.game.controller.controllers.designation;
 import stonering.enums.designations.DesignationTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.EntitySelector;
-import stonering.game.model.system.tasks.TaskContainer;
+import stonering.game.model.system.task.TaskContainer;
 import stonering.widget.RectangleSelectComponent;
 import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
@@ -37,7 +37,7 @@ public class BoxDesignationSequence extends DesignationSequence {
         for (int x = Math.min(end.x, start.x); x <= Math.max(end.x, start.x); x++) {
             for (int y = Math.min(end.y, start.y); y <= Math.max(end.y, start.y); y++) {
                 for (int z = Math.min(end.z, start.z); z <= Math.max(end.z, start.z); z++) {
-                    container.submitDesignation(new Position(x, y, z), designationType, 1);
+                    container.designationSystem.submitDesignation(new Position(x, y, z), designationType, 1);
                 }
             }
         }

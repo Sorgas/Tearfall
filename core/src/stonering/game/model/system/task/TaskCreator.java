@@ -1,4 +1,4 @@
-package stonering.game.model.system.tasks;
+package stonering.game.model.system.task;
 
 import stonering.entity.item.selectors.ItemSelector;
 import stonering.entity.job.Task;
@@ -67,7 +67,7 @@ public class TaskCreator {
     private Task createTask(Action action, Designation designation, int priority) {
         Task task = new Task("designation", action, priority);
         task.designation = designation;
-        designation.setTask(task);
+        designation.task = task;
         return task;
     }
 }

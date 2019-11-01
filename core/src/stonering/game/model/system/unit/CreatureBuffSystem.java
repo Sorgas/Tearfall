@@ -1,4 +1,4 @@
-package stonering.game.model.system.units;
+package stonering.game.model.system.unit;
 
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.BuffAspect;
@@ -6,9 +6,7 @@ import stonering.entity.unit.aspects.RenderAspect;
 import stonering.entity.unit.aspects.health.Buff;
 import stonering.util.global.Logger;
 
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 
 /**
  * System for updating creatures {@link Buff}s.

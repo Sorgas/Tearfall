@@ -1,6 +1,6 @@
 package stonering.generators.localgen.generators;
 
-import stonering.game.model.system.items.ItemContainer;
+import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.generators.items.ItemGenerator;
 import stonering.generators.localgen.LocalGenContainer;

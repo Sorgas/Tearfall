@@ -1,8 +1,7 @@
-package stonering.game.model.system.units;
+package stonering.game.model.system.unit;
 
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.MovementAspect;
-import stonering.entity.unit.aspects.PlanningAspect;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;

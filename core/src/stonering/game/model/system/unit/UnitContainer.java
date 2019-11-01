@@ -1,12 +1,9 @@
-package stonering.game.model.system.units;
+package stonering.game.model.system.unit;
 
 import com.badlogic.gdx.math.Vector3;
 import stonering.enums.time.TimeUnitEnum;
-import stonering.game.GameMvc;
 import stonering.game.model.system.EntityContainer;
-import stonering.game.model.system.tasks.CreaturePlanningSystem;
-import stonering.game.model.system.tasks.CreatureTaskPerformingSystem;
-import stonering.game.model.system.tasks.TaskContainer;
+import stonering.game.model.system.task.CreatureTaskPerformingSystem;
 import stonering.util.geometry.Position;
 import stonering.entity.unit.Unit;
 import stonering.util.global.Initable;

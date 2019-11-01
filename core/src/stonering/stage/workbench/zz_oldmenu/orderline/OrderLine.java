@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.enums.ControlActionsEnum;
-import stonering.enums.TaskStatusEnum;
+import stonering.enums.OrderStatusEnum;
 import stonering.stage.workbench.zz_oldmenu.WorkbenchMenuq;
 import stonering.enums.images.DrawableMap;
 import stonering.widget.Hideable;
@@ -55,7 +55,7 @@ public class OrderLine extends Table implements Hideable, HintedActor, Highlight
      */
     private void createTable() {
         left();
-        add(statusIcon = new StatusIcon(TaskStatusEnum.OPEN));
+        add(statusIcon = new StatusIcon(OrderStatusEnum.OPEN));
         add(leftHG = new HorizontalGroup());
         add(warningLabel = new Label("", StaticSkin.getSkin())).expandX();
         add(rightHG = new HorizontalGroup());

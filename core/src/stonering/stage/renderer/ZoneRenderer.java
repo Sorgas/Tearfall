@@ -1,7 +1,7 @@
 package stonering.stage.renderer;
 
 import stonering.game.model.EntitySelector;
-import stonering.game.model.system.units.UnitContainer;
+import stonering.game.model.system.unit.UnitContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Int3dBounds;
 import stonering.game.model.tilemaps.LocalTileMap;

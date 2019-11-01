@@ -5,13 +5,12 @@ import stonering.entity.item.selectors.ItemSelector;
 import stonering.entity.job.Task;
 import stonering.entity.job.action.Action;
 import stonering.entity.job.action.PutItemAction;
-import stonering.entity.job.action.TaskTypesEnum;
 import stonering.enums.ZoneTypesEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
-import stonering.game.model.system.items.ItemContainer;
+import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.system.ZonesContainer;
-import stonering.game.model.system.tasks.TaskContainer;
+import stonering.game.model.system.task.TaskContainer;
 import stonering.util.geometry.Position;
 
 import java.util.List;

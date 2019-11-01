@@ -1,6 +1,6 @@
 package stonering.entity.crafting;
 
-import stonering.enums.TaskStatusEnum;
+import stonering.enums.OrderStatusEnum;
 import stonering.enums.items.recipe.Ingredient;
 import stonering.enums.items.recipe.Recipe;
 
@@ -19,14 +19,14 @@ public class ItemOrder {
     public final Recipe recipe;
     public final HashMap<String, IngredientOrder> parts; //item parts to their ingredients
     public final List<IngredientOrder> consumed;
-    public TaskStatusEnum status;
+    public OrderStatusEnum status;
     private boolean repeated;
     private int amount;
 
     public ItemOrder(Recipe recipe) {
         this.recipe = recipe;
         amount = 1;
-        status = TaskStatusEnum.OPEN;
+        status = OrderStatusEnum.OPEN;
         parts = new HashMap<>();
         consumed = new ArrayList<>();
         for (String itemPart : recipe.parts.keySet()) { // create item partOrder for

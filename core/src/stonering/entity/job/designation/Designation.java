@@ -1,7 +1,7 @@
 package stonering.entity.job.designation;
 
 import stonering.enums.designations.DesignationTypeEnum;
-import stonering.game.model.system.tasks.TaskContainer;
+import stonering.game.model.system.task.TaskContainer;
 import stonering.util.geometry.Position;
 import stonering.entity.job.Task;
 
@@ -13,20 +13,12 @@ import stonering.entity.job.Task;
  */
 public abstract class Designation {
     public final Position position;
-    protected Task task;
+    public Task task;
     private DesignationTypeEnum type;
 
     public Designation(Position position, DesignationTypeEnum type) {
         this.position = position;
         this.type = type;
-    }
-
-    public Task getTask() {
-        return task;
-    }
-
-    public void setTask(Task task) {
-        this.task = task;
     }
 
     public DesignationTypeEnum getType() {

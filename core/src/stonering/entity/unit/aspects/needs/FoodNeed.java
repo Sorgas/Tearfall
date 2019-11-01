@@ -5,13 +5,12 @@ import stonering.entity.item.Item;
 import stonering.entity.job.Task;
 import stonering.entity.job.action.Action;
 import stonering.entity.job.action.EatAction;
-import stonering.entity.job.action.TaskTypesEnum;
 import stonering.entity.unit.aspects.health.HealthAspect;
 import stonering.enums.TaskPrioritiesEnum;
 import stonering.enums.items.TagEnum;
 import stonering.enums.unit.health.HealthParameterEnum;
 import stonering.enums.unit.health.HungerParameter;
-import stonering.game.model.system.units.CreatureHealthSystem;
+import stonering.game.model.system.unit.CreatureHealthSystem;
 
 /**
  * Need for eating. Part of {@link CreatureHealthSystem}.

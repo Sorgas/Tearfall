@@ -2,7 +2,6 @@ package stonering.entity.unit.aspects.needs;
 
 import stonering.entity.job.action.EquipItemAction;
 import stonering.entity.job.Task;
-import stonering.entity.job.action.TaskTypesEnum;
 import stonering.entity.Entity;
 import stonering.entity.item.Item;
 import stonering.entity.item.selectors.ItemSelector;
@@ -11,7 +10,7 @@ import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.entity.unit.aspects.equipment.EquipmentSlot;
 import stonering.enums.TaskPrioritiesEnum;
 import stonering.game.GameMvc;
-import stonering.game.model.system.items.ItemContainer;
+import stonering.game.model.system.item.ItemContainer;
 
 /**
  * Basic need for clothes. Each creature species has own list of limbs to be covered by wear.

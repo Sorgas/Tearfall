@@ -3,22 +3,19 @@ package stonering.entity.zone;
 import stonering.entity.job.Task;
 import stonering.entity.job.action.HoeingAction;
 import stonering.entity.job.action.PlantingAction;
-import stonering.entity.job.action.TaskTypesEnum;
 import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.job.action.target.PositionActionTarget;
 import stonering.entity.plants.AbstractPlant;
 import stonering.enums.blocks.BlockTypesEnum;
-import stonering.enums.time.TimeUnitEnum;
 import stonering.game.model.system.PlantContainer;
 import stonering.util.global.Logger;
 import stonering.util.validation.PositionValidator;
-import stonering.game.model.system.GameCalendar;
 import stonering.entity.item.selectors.SeedItemSelector;
 import stonering.enums.ZoneTypesEnum;
 import stonering.enums.designations.DesignationTypeEnum;
 import stonering.enums.plants.PlantType;
 import stonering.game.GameMvc;
-import stonering.game.model.system.tasks.TaskContainer;
+import stonering.game.model.system.task.TaskContainer;
 import stonering.game.model.system.ZonesContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
@@ -116,11 +113,11 @@ public class FarmZone extends Zone {
     private boolean checkExistingPlant(AbstractPlant plant, Position tile, TaskContainer container) {
         if (plant == null) return true;
         if (!plantType.equals(plant.getType())) { // cut unwanted plants
-            addTask(container.submitDesignation(tile, DesignationTypeEnum.CUT, 1), tile);
+            addTask(container.designationSystem.submitDesignation(tile, DesignationTypeEnum.CUT, 1), tile);
             return false;
         }
         if (plant.isHarvestable()) { // harvest if ready
-            addTask(container.submitDesignation(tile, DesignationTypeEnum.HARVEST, 1), tile);
+            addTask(container.designationSystem.submitDesignation(tile, DesignationTypeEnum.HARVEST, 1), tile);
             return false;
         }
         return true;

@@ -1,7 +1,7 @@
 package stonering.stage.workbench.zz_oldmenu.orderline;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import stonering.enums.TaskStatusEnum;
+import stonering.enums.OrderStatusEnum;
 import stonering.enums.images.DrawableMap;
 
 /**
@@ -11,11 +11,11 @@ import stonering.enums.images.DrawableMap;
  */
 public class StatusIcon extends Image {
 
-    public StatusIcon(TaskStatusEnum status) {
+    public StatusIcon(OrderStatusEnum status) {
         update(status);
     }
 
-    public void update(TaskStatusEnum status) {
+    public void update(OrderStatusEnum status) {
         setDrawable(DrawableMap.instance().getDrawable("order_status_icon:" + status.toString().toLowerCase()));
     }
 }

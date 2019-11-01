@@ -8,7 +8,7 @@ import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.time.TimeUnitEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
-import stonering.game.model.system.items.ItemContainer;
+import stonering.game.model.system.item.ItemContainer;
 import stonering.generators.items.PlantProductGenerator;
 import stonering.util.geometry.Position;
 import stonering.entity.item.Item;

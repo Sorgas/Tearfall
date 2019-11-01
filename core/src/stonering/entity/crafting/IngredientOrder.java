@@ -6,7 +6,7 @@ import stonering.entity.item.selectors.ItemSelector;
 import stonering.enums.items.recipe.Ingredient;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.GameMvc;
-import stonering.game.model.system.items.ItemContainer;
+import stonering.game.model.system.item.ItemContainer;
 import stonering.util.geometry.Position;
 import stonering.util.global.Triple;
 

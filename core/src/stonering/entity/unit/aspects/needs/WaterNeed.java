@@ -8,7 +8,7 @@ import stonering.enums.TaskPrioritiesEnum;
 import stonering.enums.items.TagEnum;
 import stonering.enums.unit.health.HealthParameterEnum;
 import stonering.game.GameMvc;
-import stonering.game.model.system.items.ItemContainer;
+import stonering.game.model.system.item.ItemContainer;
 
 /**
  * @author Alexander on 08.10.2019.

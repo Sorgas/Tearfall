@@ -2,13 +2,12 @@ package stonering.test_chamber.model;
 
 import stonering.entity.job.Task;
 import stonering.entity.job.action.MoveAction;
-import stonering.entity.job.action.TaskTypesEnum;
 import stonering.entity.unit.Unit;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.model.EntitySelector;
-import stonering.game.model.system.units.UnitContainer;
-import stonering.game.model.system.tasks.TaskContainer;
+import stonering.game.model.system.unit.UnitContainer;
+import stonering.game.model.system.task.TaskContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.local_map.PassageMap;
 import stonering.generators.creatures.CreatureGenerator;

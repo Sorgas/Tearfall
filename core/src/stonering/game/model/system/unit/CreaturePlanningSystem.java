@@ -1,4 +1,4 @@
-package stonering.game.model.system.tasks;
+package stonering.game.model.system.unit;
 
 import stonering.entity.job.Task;
 import stonering.entity.job.action.Action;
@@ -6,8 +6,9 @@ import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.PlanningAspect;
 import stonering.entity.unit.aspects.needs.NeedsAspect;
 import stonering.game.GameMvc;
-import stonering.game.model.system.items.ItemContainer;
-import stonering.game.model.system.units.UnitContainer;
+import stonering.game.model.system.item.ItemContainer;
+import stonering.game.model.system.task.CreatureTaskPerformingSystem;
+import stonering.game.model.system.task.TaskContainer;
 import stonering.util.global.Logger;
 
 import javax.validation.constraints.NotNull;
@@ -44,14 +45,10 @@ public class CreaturePlanningSystem {
             case OPEN:
                 task.status = ACTIVE; // start claimed and open task
                 break;
-            case PAUSED: // task was paused manually or on failure, and should be
-            case SUSPENDED:
-                freeAspect(aspect); // let unit to switch to another task
-                break;
-            case COMPLETE:
             case FAILED:
+            case COMPLETE:
                 freeAspect(aspect);
-                removeTask(task);
+                task.reset();
         }
     }
 
@@ -110,7 +107,7 @@ public class CreaturePlanningSystem {
      * Completely removes task from game. Used for finished and failed tasks. Repeated tasks in workbenches are handled separately.
      * Task should be assigned in {@link TaskContainer} ans have performer.
      */
-    public void removeTask(Task task) {
+    private void removeTask(Task task) {
         taskContainer().removeTask(task);
         GameMvc.instance().getModel().get(ItemContainer.class).freeItems(task.lockedItems); // free items
     }

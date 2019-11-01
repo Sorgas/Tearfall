@@ -3,10 +3,7 @@ package stonering.entity.unit.aspects.health;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.BuffAspect;
 import stonering.entity.unit.aspects.CreatureStatusIcon;
-import stonering.game.model.system.units.CreatureBuffSystem;
-
-import java.util.HashSet;
-import java.util.Set;
+import stonering.game.model.system.unit.CreatureBuffSystem;
 
 /**
  * Can be applied to creature by {@link CreatureBuffSystem}.

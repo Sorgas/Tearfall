@@ -6,7 +6,7 @@ import stonering.entity.building.BuildingOrder;
 import stonering.entity.crafting.BuildingComponent;
 import stonering.enums.designations.PlaceValidatorsEnum;
 import stonering.game.GameMvc;
-import stonering.game.model.system.tasks.TaskContainer;
+import stonering.game.model.system.task.TaskContainer;
 import stonering.util.global.Logger;
 import stonering.widget.lists.ItemCardButton;
 import stonering.widget.lists.MaterialSelectList;
@@ -79,7 +79,7 @@ public class BuildingDesignationSequence extends DesignationSequence {
             GameMvc.instance().getController().setCameraEnabled(false);
             return;
         }
-        GameMvc.instance().getModel().get(TaskContainer.class).submitBuildingDesignation(order, 1);
+        GameMvc.instance().getModel().get(TaskContainer.class).designationSystem.submitBuildingDesignation(order, 1);
         GameMvc.instance().getController().setCameraEnabled(true);
         reset();
     }

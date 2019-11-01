@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import stonering.entity.crafting.BuildingComponent;
 import stonering.game.GameMvc;
 import stonering.game.controller.controllers.toolbar.DesignationsController;
-import stonering.game.model.system.items.ItemContainer;
+import stonering.game.model.system.item.ItemContainer;
 import stonering.util.global.StaticSkin;
 import stonering.widget.Hideable;
 import stonering.entity.item.Item;

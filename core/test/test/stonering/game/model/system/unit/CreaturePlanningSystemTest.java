@@ -1,4 +1,4 @@
-package test.stonering.game.model.system.units;
+package test.stonering.game.model.system.unit;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,7 +9,6 @@ import stonering.entity.job.action.MoveAction;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.JobsAspect;
 import stonering.entity.unit.aspects.PlanningAspect;
-import stonering.enums.TaskStatusEnum;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.unit.CreatureType;
 import stonering.enums.unit.job.JobsEnum;
@@ -17,12 +16,11 @@ import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
 import stonering.game.model.MainGameModel;
 import stonering.game.model.local_map.LocalMap;
-import stonering.game.model.system.tasks.TaskContainer;
-import stonering.game.model.system.units.UnitContainer;
+import stonering.game.model.system.task.TaskContainer;
+import stonering.game.model.system.unit.UnitContainer;
 import stonering.util.geometry.Position;
 
-import static stonering.enums.TaskStatusEnum.OPEN;
-import static stonering.enums.TaskStatusEnum.PAUSED;
+import static stonering.enums.TaskStatusEnum.*;
 
 /**
  * @author Alexander on 30.10.2019.
@@ -32,6 +30,7 @@ class CreaturePlanningSystemTest {
     private Unit unit;
     private UnitContainer unitContainer;
     private TaskContainer taskContainer;
+    private PlanningAspect aspect;
 
     @BeforeEach
     void prepare() {
@@ -46,7 +45,7 @@ class CreaturePlanningSystemTest {
         model.put(unitContainer = new UnitContainer());
         model.put(taskContainer = new TaskContainer());
         unit = new Unit(new Position(), new CreatureType());
-        unit.addAspect(new PlanningAspect(unit));
+        unit.addAspect(aspect = new PlanningAspect(unit));
         unit.addAspect(new JobsAspect(unit));
         model.get(UnitContainer.class).addUnit(unit);
         map.initAreas();
@@ -58,7 +57,7 @@ class CreaturePlanningSystemTest {
         Task task = new Task("test_task", action, 1);
         taskContainer.addTask(task);
         unitContainer.planningSystem.update(unit);
-        assert (unit.getAspect(PlanningAspect.class).task == task);
+        assert (aspect.task == task);
     }
 
     @Test
@@ -68,7 +67,7 @@ class CreaturePlanningSystemTest {
         task.job = JobsEnum.MINER.NAME; // unit is not a miner and will not be assigned to this task
         taskContainer.addTask(task);
         unitContainer.planningSystem.update(unit);
-        assert (unit.getAspect(PlanningAspect.class).task == null);
+        assert (aspect.task == null);
     }
 
     @Test
@@ -77,23 +76,35 @@ class CreaturePlanningSystemTest {
         Task task = new Task("test_task", action, 1);
         taskContainer.addTask(task);
         taskContainer.claimTask(task);
-        unit.getAspect(PlanningAspect.class).task = task;
+        aspect.task = task;
         assert(task.status == OPEN);
         unitContainer.planningSystem.update(unit);
-        assert(task.status == TaskStatusEnum.ACTIVE);
+        assert(task.status == ACTIVE);
     }
 
     @Test
-    void testSuspendedTask() {
+    void testFailedTask() {
         Action action = new MoveAction(new Position(4, 4, 0));
         Task task = new Task("test_task", action, 1);
         taskContainer.addTask(task);
         taskContainer.claimTask(task);
-        unit.getAspect(PlanningAspect.class).task = task;
-        task.status = PAUSED;
+        aspect.task = task;
+        task.status = FAILED;
         unitContainer.planningSystem.update(unit);
-        assert(task.status == PAUSED);
-        assert(unit.getAspect(PlanningAspect.class).task == null);
-        assert()
+        assert(aspect.task == null);
+        assert(task.performer == null);
+    }
+
+    @Test
+    void testCompleteTask() {
+        Action action = new MoveAction(new Position(4, 4, 0));
+        Task task = new Task("test_task", action, 1);
+        taskContainer.addTask(task);
+        taskContainer.claimTask(task);
+        aspect.task = task;
+        task.status = COMPLETE;
+        unitContainer.planningSystem.update(unit);
+        assert(aspect.task == null);
+        assert(task.performer == null);
     }
 }

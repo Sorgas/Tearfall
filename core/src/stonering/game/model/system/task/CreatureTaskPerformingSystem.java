@@ -1,14 +1,10 @@
-package stonering.game.model.system.tasks;
+package stonering.game.model.system.task;
 
-import stonering.entity.job.ItemOrderTask;
 import stonering.entity.job.Task;
 import stonering.entity.job.action.Action;
 import stonering.entity.job.action.target.ActionTargetStatusEnum;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.PlanningAspect;
-import stonering.enums.TaskStatusEnum;
-import stonering.game.GameMvc;
-import stonering.game.model.system.units.UnitContainer;
 
 import static stonering.entity.job.action.target.ActionTargetStatusEnum.*;
 import static stonering.enums.TaskStatusEnum.*;
@@ -28,7 +24,13 @@ public class CreatureTaskPerformingSystem {
         PlanningAspect aspect = unit.getAspect(PlanningAspect.class);
         if (aspect == null) return;
         Task task = aspect.task;
-        if (task == null || task.status != ACTIVE) return;
+        if (task != null && task.status == ACTIVE) checkTarget(aspect, task);
+    }
+
+    /**
+     * Checks if unit is in position for performing action, handles different cases of positioning.
+     */
+    private void checkTarget(PlanningAspect aspect, Task task) {
         ActionTargetStatusEnum checkResult = task.nextAction.actionTarget.check(aspect.getEntity().position);
         aspect.movementNeeded = checkResult == WAIT;
         switch (checkResult) {
@@ -40,7 +42,7 @@ public class CreatureTaskPerformingSystem {
             case NEW: // will be handled on next update
                 break;
             case FAIL:
-                failTask(task);
+                task.status = FAILED;
                 break;
         }
     }
@@ -76,18 +78,10 @@ public class CreatureTaskPerformingSystem {
                 return;
             case Action.NEW:
                 aspect.actionChecked = false; // new action is not yet checked
+                return;
             case Action.FAIL:
-                failTask(task);
-                aspect.actionChecked = false; // new action is not yet checked
+                task.status = FAILED;
+                aspect.actionChecked = false; // task will be removed
         }
-    }
-
-    private void failTask(Task task) {
-        task.status = FAILED;
-    }
-
-    private void endTask(Task task, TaskStatusEnum status) {
-        GameMvc.instance().getModel().get(UnitContainer.class).planningSystem.removeTask(task);
-        if (task instanceof ItemOrderTask) ((ItemOrderTask) task).order.status = status;
     }
 }

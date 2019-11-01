@@ -1,4 +1,4 @@
-package stonering.game.model.system.tasks;
+package stonering.game.model.system.task;
 
 import stonering.entity.plants.PlantBlock;
 import stonering.enums.blocks.BlockTypesEnum;

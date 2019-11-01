@@ -1,27 +1,23 @@
-package stonering.game.model.system.tasks;
+package stonering.game.model.system.task;
 
 import org.jetbrains.annotations.NotNull;
-import stonering.entity.job.designation.BuildingDesignation;
 import stonering.entity.job.designation.Designation;
-import stonering.entity.job.designation.OrderDesignation;
-import stonering.entity.building.BuildingOrder;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.JobsAspect;
 import stonering.entity.unit.aspects.PlanningAspect;
-import stonering.enums.designations.DesignationTypeEnum;
-import stonering.enums.designations.PlaceValidatorsEnum;
+import stonering.enums.TaskStatusEnum;
+import stonering.enums.time.TimeUnitEnum;
 import stonering.game.GameMvc;
-import stonering.game.controller.controllers.designation.BuildingDesignationSequence;
+import stonering.game.model.Turnable;
 import stonering.game.model.system.ModelComponent;
 import stonering.game.model.local_map.LocalMap;
-import stonering.game.model.system.items.ItemContainer;
 import stonering.util.geometry.Position;
 import stonering.entity.job.Task;
 import stonering.util.global.Logger;
 
 import java.util.*;
 
-import static stonering.enums.TaskStatusEnum.OPEN;
+import static stonering.enums.OrderStatusEnum.OPEN;
 
 /**
  * Contains all tasks for settlers on map and Designations for rendering.
@@ -33,21 +29,28 @@ import static stonering.enums.TaskStatusEnum.OPEN;
  *
  * @author Alexander Kuzyakov
  */
-public class TaskContainer implements ModelComponent {
-    private Map<String, List<Task>> tasks; // task job to all tasks with this job
+public class TaskContainer implements ModelComponent, Turnable {
+    public Map<String, List<Task>> tasks; // task job to all tasks with this job
     public final Set<Task> assignedTasks; // tasks, taken by some unit.
     public final HashMap<Position, Designation> designations; //this map is for rendering and modifying designations
-    public final DesignationsValidator validator;
-    private TaskCreator taskCreator;
     private Position cachePosition; // state is not maintained. should be set before use
+    public final DesignationSystem designationSystem;
+    public final TaskStatusSystem taskStatusSystem;
 
     public TaskContainer() {
         tasks = new HashMap<>();
         assignedTasks = new HashSet<>();
         designations = new HashMap<>();
-        validator = new DesignationsValidator();
-        taskCreator = new TaskCreator();
         cachePosition = new Position();
+        designationSystem = new DesignationSystem(this);
+        taskStatusSystem = new TaskStatusSystem(this);
+    }
+
+    @Override
+    public void turnUnit(TimeUnitEnum unit) {
+        if(unit != TimeUnitEnum.MINUTE) {
+            designationSystem.update();
+        }
     }
 
     /**
@@ -67,7 +70,7 @@ public class TaskContainer implements ModelComponent {
             for (Task task : tasks.get(enabledJob)) {
                 if(task.performer != null) Logger.TASKS.logError("Task " + task + " with performer is in open map." );
                 if (task.performer == null &&
-                        task.status == OPEN &&
+                        task.status == TaskStatusEnum.OPEN &&
                         GameMvc.instance().getModel().get(LocalMap.class).getPassage().hasPathBetween(position, task.nextAction.actionTarget.getPosition())) {
                     //TODO add selecting nearest task.
                     return task;
@@ -83,33 +86,6 @@ public class TaskContainer implements ModelComponent {
      */
     public void claimTask(@NotNull Task task) {
         if(tasks.get(task.job).remove(task)) assignedTasks.add(task);
-    }
-
-    /**
-     * Validates designation and creates comprehensive task.
-     * All simple orders like digging and foraging submitted through this method.
-     */
-    public Task submitDesignation(Position position, DesignationTypeEnum type, int priority) {
-        if (!validator.validateDesignation(position, type)) return null; // no designation for invalid position
-        OrderDesignation designation = new OrderDesignation(position, type);
-        return addTask(taskCreator.createOrderTask(designation, priority));
-    }
-
-    /**
-     * Called from {@link BuildingDesignationSequence}.
-     * Adds designation and creates comprehensive task.
-     * All single-tile buildings are constructed through this method.
-     */
-    public void submitBuildingDesignation(BuildingOrder order, int priority) {
-        Position position = order.getPosition();
-        LocalMap localMap = GameMvc.instance().getModel().get(LocalMap.class);
-        if (!PlaceValidatorsEnum.getValidator(order.getBlueprint().placing).validate(localMap, position)) return;
-        BuildingDesignation designation = new BuildingDesignation(position, order.getBlueprint().building);
-        Task task = taskCreator.createBuildingTask(designation, order.getItemSelectors().values(), priority);
-
-        addTask(task);
-        designations.put(designation.position, designation);
-        Logger.TASKS.log(task.name + " designated");
     }
 
     /**
@@ -132,8 +108,11 @@ public class TaskContainer implements ModelComponent {
      * Removes task from container. Does nothing with task's performer.
      */
     public void removeTask(Task task) {
-        if(task.designation != null) designations.remove(task.designation.position);
         tasks.get(task.job).remove(task);
         assignedTasks.remove(task);
+    }
+
+    public void removeDesignation(Position position) {
+
     }
 }

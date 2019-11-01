@@ -10,9 +10,9 @@ import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.designations.DesignationTypeEnum;
 import stonering.game.GameMvc;
-import stonering.game.model.system.items.ItemContainer;
+import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.local_map.LocalMap;
-import stonering.game.model.system.tasks.TaskContainer;
+import stonering.game.model.system.task.TaskContainer;
 import stonering.generators.items.DiggingProductGenerator;
 import stonering.util.geometry.Position;
 
@@ -60,7 +60,7 @@ public class DigAction extends Action {
     private boolean validate() {
         LocalMap map = GameMvc.instance().getModel().get(LocalMap.class);
         BlockTypesEnum mapBlock = BlockTypesEnum.getType(map.getBlockType(actionTarget.getPosition()));
-        return GameMvc.instance().getModel().get(TaskContainer.class).validator.validateDigging(actionTarget.getPosition(), mapBlock, type);
+        return GameMvc.instance().getModel().get(TaskContainer.class).designationSystem.validator.validateDigging(actionTarget.getPosition(), mapBlock, type);
     }
 
     /**

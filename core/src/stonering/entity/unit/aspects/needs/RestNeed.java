@@ -6,7 +6,6 @@ import stonering.entity.building.aspects.RestFurnitureAspect;
 import stonering.entity.job.Task;
 import stonering.entity.job.action.Action;
 import stonering.entity.job.action.RestAction;
-import stonering.entity.job.action.TaskTypesEnum;
 import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.job.action.target.EntityActionTarget;
 import stonering.entity.unit.aspects.health.HealthAspect;
@@ -15,7 +14,7 @@ import stonering.enums.unit.health.HealthParameterEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.building.BuildingContainer;
-import stonering.game.model.system.units.CreatureHealthSystem;
+import stonering.game.model.system.unit.CreatureHealthSystem;
 
 import java.util.List;
 

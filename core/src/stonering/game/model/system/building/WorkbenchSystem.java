@@ -5,16 +5,15 @@ import stonering.entity.building.Building;
 import stonering.entity.building.aspects.WorkbenchAspect;
 import stonering.entity.building.aspects.WorkbenchAspect.OrderTaskEntry;
 import stonering.entity.crafting.ItemOrder;
-import stonering.entity.job.ItemOrderTask;
+import stonering.entity.job.Task;
 import stonering.entity.job.action.CraftItemAction;
+import stonering.enums.OrderStatusEnum;
+import stonering.enums.TaskStatusEnum;
 import stonering.game.GameMvc;
-import stonering.game.model.system.tasks.TaskContainer;
+import stonering.game.model.system.task.TaskContainer;
 import stonering.util.global.Logger;
 
 import java.util.LinkedList;
-
-import static stonering.enums.TaskStatusEnum.*;
-import static stonering.enums.TaskStatusEnum.PAUSED;
 
 /**
  * System for updating orders and tasks in {@link WorkbenchAspect}.
@@ -106,15 +105,16 @@ public class WorkbenchSystem {
         Logger.TASKS.logDebug("Setting order " + order.toString() + " in " + aspect.getEntity().toString() + " suspended: " + value);
         OrderTaskEntry entry = findEntry(aspect, order);
         if (entry != null) {
-            if (value && entry.task.status == ACTIVE) failEntryTask(entry); // interrupt currently executing order.
-            entry.order.status = (value ? PAUSED : OPEN);
+            if (value && entry.task.status == TaskStatusEnum.ACTIVE)
+                failEntryTask(entry); // interrupt currently executing order.
+            entry.order.status = (value ? OrderStatusEnum.PAUSED : OrderStatusEnum.OPEN);
         }
         aspect.updateActiveOrders();
     }
 
     private void failEntryTask(OrderTaskEntry entry) {
         if (entry.task != null)
-            entry.task.status = FAILED;
+            entry.task.status = TaskStatusEnum.FAILED;
     }
 
     /**
@@ -139,7 +139,7 @@ public class WorkbenchSystem {
     private void createTaskForOrder(OrderTaskEntry entry, Entity entity) {
         Logger.BUILDING.logDebug("Creating task for order " + entry.order.recipe.name);
         CraftItemAction action = new CraftItemAction(entry.order, entity);
-        entry.task = new ItemOrderTask(entry.order, action, 1);
+        entry.task = new Task(entry.order.recipe.name, action, 1);
         GameMvc.instance().getModel().get(TaskContainer.class).addTask(entry.task);
     }
 
@@ -151,7 +151,8 @@ public class WorkbenchSystem {
         LinkedList<OrderTaskEntry> entries = aspect.entries;
         if (entries.size() < 2 || !aspect.hasActiveOrders)
             return; // no roll on 1 or 0 entries, or if all orders suspended.
-        while (entries.getFirst().order.status == PAUSED) {
+        while (entries.getFirst().order.status == OrderStatusEnum.PAUSED ||
+                entries.getFirst().order.status == OrderStatusEnum.SUSPENDED) {
             entries.addLast(entries.removeFirst());
         }
     }

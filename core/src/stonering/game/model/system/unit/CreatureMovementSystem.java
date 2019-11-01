@@ -1,16 +1,15 @@
-package stonering.game.model.system.units;
+package stonering.game.model.system.unit;
 
 import com.badlogic.gdx.math.Vector3;
 import stonering.entity.FloatPositionEntity;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.MovementAspect;
 import stonering.entity.unit.aspects.PlanningAspect;
+import stonering.enums.OrderStatusEnum;
 import stonering.enums.TaskStatusEnum;
-import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
 import stonering.game.model.local_map.LocalMap;
-import stonering.game.model.system.tasks.CreaturePlanningSystem;
 import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
 import stonering.util.pathfinding.a_star.AStar;

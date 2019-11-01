@@ -8,7 +8,7 @@ import stonering.entity.plants.Plant;
 import stonering.entity.plants.PlantBlock;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.game.GameMvc;
-import stonering.game.model.system.items.ItemContainer;
+import stonering.game.model.system.item.ItemContainer;
 import stonering.generators.items.PlantProductGenerator;
 import stonering.util.global.Logger;
 
