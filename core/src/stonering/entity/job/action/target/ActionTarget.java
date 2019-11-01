@@ -34,6 +34,7 @@ public abstract class ActionTarget {
      */
     public ActionTargetStatusEnum check(Position currentPosition) {
         if(!GameMvc.instance().getModel().get(LocalMap.class).inMap(currentPosition)) return FAIL;
+        if(!GameMvc.instance().getModel().get(LocalMap.class).inMap(getPosition())) return FAIL;
         int distance = getDistance(currentPosition);
         if (distance > 1) return WAIT; // target not yet reached
         switch (targetPlacement) {
@@ -83,9 +84,5 @@ public abstract class ActionTarget {
 
     public void setAction(Action action) {
         this.action = action;
-    }
-
-    public int getTargetPlacement() {
-        return targetPlacement;
     }
 }

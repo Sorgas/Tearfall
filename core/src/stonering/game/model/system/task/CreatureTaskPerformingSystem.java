@@ -37,9 +37,8 @@ public class CreatureTaskPerformingSystem {
             case READY:
                 handleReachingTarget(task, aspect);
                 break;
-            case WAIT: // no handle required
-                break;
             case NEW: // will be handled on next update
+            case WAIT: // no handle required
                 break;
             case FAIL:
                 task.status = FAILED;
