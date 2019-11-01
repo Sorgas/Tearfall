@@ -45,20 +45,20 @@ public class CreatureMovementSystemTest {
 
     @Test
     public void testPathCreationForNewTask() {
-        system.updateUnitPosition(unit);
+        system.update(unit);
         assertEquals(planningAspect.getTarget(), movementAspect.target); // movement took target from planning
         assertNotNull(movementAspect.path); // path has been created
     }
 
     @Test
     public void testNewTarget() {
-        system.updateUnitPosition(unit);
+        system.update(unit);
         Position newTarget = new Position(0, 4, 0);
         planningAspect.task.addFirstPreAction(new MoveAction(newTarget));
         planningAspect.movementNeeded = true;
         assertEquals(planningAspect.getTarget(), newTarget); // new target taken by planning
         List<Position> oldPath = movementAspect.path;
-        system.updateUnitPosition(unit);
+        system.update(unit);
         assertEquals(newTarget, movementAspect.target); // movement took new target from planning
         assertNotNull(movementAspect.path); // path has been created
         assertNotEquals(movementAspect.path, oldPath); // path changed

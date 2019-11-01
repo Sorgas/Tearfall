@@ -34,7 +34,7 @@ public class CreatureMovementSystem {
     private UnitContainer unitContainer;
     private AStar aStar;
 
-    public void updateUnitPosition(Unit unit) {
+    public void update(Unit unit) {
         GameModel model = GameMvc.instance().getModel();
         localMap = model.get(LocalMap.class);
         unitContainer = model.get(UnitContainer.class);

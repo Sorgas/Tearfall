@@ -53,6 +53,7 @@ public class CreaturePlanningSystem {
     }
 
     private void findAndAssignNewTask(Unit unit) {
+        Logger.TASKS.logDebug("Selecting task for " + unit);
         Task task = selectTaskForUnit(unit);
         if (task != null && unitCanPerformTask(unit, task)) assignTaskToUnit(unit, task); // try assign new task
     }

@@ -23,7 +23,7 @@ public class CreatureNeedSystem {
      * Fetches untolerated needs in the order of their priority, tries to create task fo satisfaction.
      * First successfully created task is saved to aspect (and then considered in {@link PlanningAspect}).
      */
-    public void updateNeedForCreature(Unit unit) {
+    public void update(Unit unit) {
         NeedsAspect aspect = unit.getAspect(NeedsAspect.class);
         if(aspect == null || aspect.satisfyingTask != null) return; // creature has no needs, or already has a task for a need.
         List<Pair<NeedEnum, Integer>> needs = getUntoleratedNeeds(unit, aspect);

@@ -20,7 +20,7 @@ public class CreatureBuffSystem {
     /**
      * Updates counters on creature's buffs, removing expired ones.
      */
-    public void updateCreatureBuffs(Unit unit) {
+    public void update(Unit unit) {
         if (!unit.hasAspect(BuffAspect.class)) return;
         for (Iterator<Buff> iterator = unit.getAspect(BuffAspect.class).buffs.values().iterator(); iterator.hasNext(); ) {
             Buff buff = iterator.next();

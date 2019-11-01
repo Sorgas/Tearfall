@@ -33,7 +33,7 @@ public class CreatureHealthSystem {
     /**
      * Updates creatures health parameters to constant delta. Called by time.
      */
-    public void updateCreatureHealth(Entity entity) {
+    public void update(Entity entity) {
         HealthAspect aspect = entity.getAspect(HealthAspect.class);
         if (aspect == null) {
             Logger.UNITS.logError("Trying to update health of creature " + entity + " with no HealthAspect");

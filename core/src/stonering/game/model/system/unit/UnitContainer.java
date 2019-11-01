@@ -79,16 +79,15 @@ public class UnitContainer extends EntityContainer<Unit> implements Initable {
         if (unitsInOldPosition.isEmpty()) unitsMap.remove(unit.position);
     }
 
-    /**
-     * Calls turnUnit() for all units.
-     */
     public void turn() {
         for (Unit unit : entities) {
             unit.turn(); // TODO rework all aspects behaviour to systems
-            healthSystem.updateCreatureHealth(unit);
-            needSystem.updateNeedForCreature(unit);
-            buffSystem.updateCreatureBuffs(unit);
-            movementSystem.updateUnitPosition(unit);
+            healthSystem.update(unit);
+            needSystem.update(unit);
+            buffSystem.update(unit);
+            movementSystem.update(unit);
+            planningSystem.update(unit);
+            taskSystem.update(unit);
         }
     }
 
@@ -96,9 +95,9 @@ public class UnitContainer extends EntityContainer<Unit> implements Initable {
     public void turnUnit(TimeUnitEnum unit) {
         if(unit != TimeUnitEnum.MINUTE) return;
         for (Unit entity : entities) {
-            healthSystem.updateCreatureHealth(entity);
-            needSystem.updateNeedForCreature(entity);
-            buffSystem.updateCreatureBuffs(entity);
+            healthSystem.update(entity);
+            needSystem.update(entity);
+            buffSystem.update(entity);
         }
     }
 
