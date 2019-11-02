@@ -69,7 +69,10 @@ public class CreaturePlanningSystem {
         ArrayList<Task> tasks = new ArrayList<>();
         if (unit.hasAspect(NeedsAspect.class)) tasks.add(unit.getAspect(NeedsAspect.class).satisfyingTask);
         tasks.add(taskContainer().getActiveTask(unit)); // player/workbench created tasks
-        return tasks.stream().filter(Objects::nonNull).max(Comparator.comparingInt(task1 -> task1.priority)).orElse(null);
+        return tasks.stream()
+                .filter(Objects::nonNull)
+                .filter(task -> task.status == OPEN)
+                .max(Comparator.comparingInt(task1 -> task1.priority)).orElse(null);
     }
 
     /**
@@ -99,7 +102,7 @@ public class CreaturePlanningSystem {
         int result;
         while ((result = task.nextAction.check()) == Action.NEW) {
         } // can create sub actions
-        if(result == Action.OK) return true;
+        if (result == Action.OK) return true;
         task.reset();
         return false;
     }

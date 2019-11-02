@@ -9,6 +9,8 @@ import stonering.util.global.Pair;
 
 import java.util.*;
 
+import static stonering.enums.TaskStatusEnum.*;
+
 /**
  * System for generation needs satisfying tasks for units.
  * Works in {@link UnitContainer}.
@@ -25,13 +27,26 @@ public class CreatureNeedSystem {
      */
     public void update(Unit unit) {
         NeedsAspect aspect = unit.getAspect(NeedsAspect.class);
-        if(aspect == null || aspect.satisfyingTask != null) return; // creature has no needs, or already has a task for a need.
-        List<Pair<NeedEnum, Integer>> needs = getUntoleratedNeeds(unit, aspect);
-        if(needs.size() > 1) needs.sort(Comparator.comparingInt(Pair::getValue));
-        for (Pair<NeedEnum, Integer> need : needs) {
-            aspect.satisfyingTask = need.getKey().need.tryCreateTask(unit);
-            if(aspect.satisfyingTask != null) return;
+        if(aspect == null) return;
+        clearCompletedTask(aspect);
+        if (aspect.satisfyingTask == null) {
+            List<Pair<NeedEnum, Integer>> needs = getUntoleratedNeeds(unit, aspect);
+            if (needs.size() > 1) needs.sort(Comparator.comparingInt(Pair::getValue));
+            for (Pair<NeedEnum, Integer> need : needs) {
+                aspect.satisfyingTask = need.getKey().need.tryCreateTask(unit);
+                if (aspect.satisfyingTask != null) return;
+            }
         }
+    }
+
+    /**
+     * Checks state of need task.
+     */
+    private void clearCompletedTask(NeedsAspect aspect) {
+        if (aspect.satisfyingTask != null
+                && (aspect.satisfyingTask.status == FAILED
+                || aspect.satisfyingTask.status == COMPLETE))
+            aspect.satisfyingTask = null;
     }
 
     /**
@@ -41,7 +56,7 @@ public class CreatureNeedSystem {
         int priority;
         List<Pair<NeedEnum, Integer>> list = new ArrayList<>();
         for (NeedEnum need : aspect.needs) {
-            if((priority = need.need.countPriority(unit).VALUE) < 0) continue; // skip tolerated need
+            if ((priority = need.need.countPriority(unit).VALUE) < 0) continue; // skip tolerated need
             list.add(new Pair<>(need, priority));
         }
         return list;

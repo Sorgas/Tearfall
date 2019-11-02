@@ -15,6 +15,10 @@ public class Plant extends AbstractPlant {
         super(position, type, age);
     }
 
+    public Plant(PlantType type, int age) {
+        super(type, age);
+    }
+
     @Override
     public boolean isHarvestable() {
         return getCurrentStage().harvestProduct != null;

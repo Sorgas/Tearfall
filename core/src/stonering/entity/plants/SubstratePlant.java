@@ -14,6 +14,10 @@ public class SubstratePlant extends Plant {
         super(position, type, age);
     }
 
+    public SubstratePlant(PlantType type, int age) {
+        super(type, age);
+    }
+
     @Override
     public boolean isHarvestable() {
         return false;

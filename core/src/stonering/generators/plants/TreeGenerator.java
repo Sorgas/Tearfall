@@ -25,7 +25,7 @@ public class TreeGenerator {
 
     public Tree generateTree(String specimen, int age) throws DescriptionNotFoundException {
         PlantType type = PlantTypeMap.getInstance().getTreeType(specimen);
-        Tree tree = new Tree(null, type, age);
+        Tree tree = new Tree(type, age);
         tree.setBlocks(createTreeBlocks(tree));
         tree.addAspect(new PlantGrowthAspect(tree));
         return tree;

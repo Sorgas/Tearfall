@@ -23,7 +23,7 @@ public class PlantProductGenerator {
 
     /**
      * On cutting, both cut and harvest products are dropped.
-     * Single tile plants can have multiple cut products.
+     * Single tile plants can have multiple cut products, Trees drop cut product per block, depending on block type.
      */
     public ArrayList<Item> generateCutProduct(PlantBlock block) {
         ArrayList<Item> items = new ArrayList<>();

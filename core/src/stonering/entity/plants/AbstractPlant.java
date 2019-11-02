@@ -21,6 +21,13 @@ public abstract class AbstractPlant extends Entity {
         countStage();
     }
 
+    protected AbstractPlant(PlantType type, int age) {
+        super();
+        this.age = age;
+        this.type = type;
+        countStage();
+    }
+
     /**
      * Initializes stage number by plant name;
      */

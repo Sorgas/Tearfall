@@ -27,7 +27,7 @@ public class PlantGenerator {
     public Plant generatePlant(String specimen, int age) throws DescriptionNotFoundException {
         PlantType type = PlantTypeMap.getInstance().getPlantType(specimen);
         if (type == null) throw new DescriptionNotFoundException("Plant type " + specimen + " not found");
-        Plant plant = new Plant(null, type, age);
+        Plant plant = new Plant(type, age);
         plant.setBlock(createPlantBlock(plant));
         plant.addAspect(new PlantGrowthAspect(plant));
         return plant;
@@ -39,7 +39,7 @@ public class PlantGenerator {
     public SubstratePlant generateSubstrate(String specimen, int age) throws DescriptionNotFoundException {
         PlantType type = PlantTypeMap.getInstance().getSubstrateType(specimen);
         if (type == null) throw new DescriptionNotFoundException("Plant type " + specimen + " not found");
-        SubstratePlant plant = new SubstratePlant(null, type, age);
+        SubstratePlant plant = new SubstratePlant(type, age);
         plant.setBlock(createPlantBlock(plant));
         plant.addAspect(new PlantGrowthAspect(plant));
         return plant;
