@@ -133,6 +133,10 @@ public class Position implements Serializable, Cloneable {
         return z == position.z;
     }
 
+    public boolean equals(Vector3 vector) {
+        return x == vector.x && y == vector.y && z == vector.z;
+    }
+
     public boolean equals(int x, int y, int z) {
         return x == this.x && y == this.y && z == this.z;
     }

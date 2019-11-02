@@ -1,5 +1,6 @@
 package stonering.game.model.system.task;
 
+import stonering.entity.FloatPositionEntity;
 import stonering.entity.job.Task;
 import stonering.entity.job.action.Action;
 import stonering.entity.job.action.target.ActionTargetStatusEnum;
@@ -31,6 +32,7 @@ public class CreatureTaskPerformingSystem {
      * Checks if unit is in position for performing action, handles different cases of positioning.
      */
     private void checkTarget(PlanningAspect aspect, Task task) {
+        if(aspect.getEntity() instanceof FloatPositionEntity);
         ActionTargetStatusEnum checkResult = task.nextAction.actionTarget.check(aspect.getEntity().position);
         aspect.movementNeeded = checkResult == WAIT;
         switch (checkResult) {

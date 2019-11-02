@@ -14,7 +14,7 @@ import java.util.List;
 public class MovementAspect extends Aspect {
     public Position target; // last target taken from planning aspect
     public List<Position> path; // calculated path
-    public float speed = 0.01f;
+    public float speed = 0.03f;
 
     public MovementAspect(Entity entity) {
         super(entity);
