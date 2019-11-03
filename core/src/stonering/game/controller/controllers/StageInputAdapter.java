@@ -1,12 +1,11 @@
 package stonering.game.controller.controllers;
 
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import stonering.screen.GameView;
 
 /**
- * Dispatches input to {@link GameView} for invoking UI components.
+ * Passes input events to {@link GameView} stages in a sequence, until event is handled.
  *
  * @author Alexander
  */
@@ -19,14 +18,18 @@ public class StageInputAdapter extends InputAdapter {
 
     @Override
     public boolean keyDown(int keycode) {
-        return gameView.keyDown(keycode);
+        for (int i = gameView.stageList.size() - 1; i >= 0; i--) {
+            if(gameView.stageList.get(i).keyDown(keycode)) return true;
+        }
+        return false;
     }
 
     @Override
     public boolean keyTyped(char character) {
-        int keycode = charToKeycode(character);
-        if(keycode < 0 || keycode > 255) return true;
-        return gameView.keyDown(keycode);
+        for (int i = gameView.stageList.size() - 1; i >= 0; i--) {
+            if(gameView.stageList.get(i).keyTyped(character)) return true;
+        }
+        return false;
     }
 
     @Override
@@ -41,16 +44,5 @@ public class StageInputAdapter extends InputAdapter {
         Stage stage = gameView.getActiveStage();
         if(stage != null) return stage.touchUp(screenX, screenY, pointer, button);
         return false;
-    }
-
-    /**
-     * Translates typed character to corresponding keycode.
-     * //TODO test letters, numbers, symbols.
-     *
-     * @param character
-     * @return
-     */
-    private int charToKeycode(char character) {
-        return Input.Keys.valueOf(Character.valueOf(character).toString().toUpperCase());
     }
 }

@@ -10,6 +10,7 @@ import stonering.widget.util.Resizeable;
  * @author Alexander on 20.02.2019.
  */
 public class UiStage extends Stage implements Resizeable {
+    protected boolean interceptInput = false;
 
     public UiStage() {
         super();
@@ -24,5 +25,20 @@ public class UiStage extends Stage implements Resizeable {
 
     public void resize(int width, int height) {
         getViewport().update(width, height, true);
+    }
+
+    @Override
+    public boolean keyDown(int keyCode) {
+        return super.keyDown(keyCode) || interceptInput;
+    }
+
+    @Override
+    public boolean keyUp(int keyCode) {
+        return super.keyUp(keyCode) || interceptInput;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return super.keyTyped(character) || interceptInput;
     }
 }

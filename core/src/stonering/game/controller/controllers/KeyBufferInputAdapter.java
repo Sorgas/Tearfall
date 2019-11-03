@@ -6,8 +6,7 @@ import com.badlogic.gdx.InputAdapter;
 import java.util.*;
 
 /**
- * Transforms keyTyped event to keyDown for easier handling on stage ui actors.
- * Handles case of skipping keyTyped right after keyDown. Number of events remains same.
+ * Skips 1 keyTyped event right after keyDown. Both keyDown and keyTyped are passed further.
  *
  * @author Alexander on 06.09.2018.
  */
@@ -38,14 +37,9 @@ public class KeyBufferInputAdapter extends InputAdapter {
     /**
      * Translates typed character to corresponding keycode.
      * //TODO test letters, numbers, symbols.
-     *
-     * @param character
-     * @return
      */
     private int charToKeycode(char character) {
-        if (!keycodesMap.containsKey(character)) {
-            keycodesMap.put(Character.valueOf(character), Input.Keys.valueOf(Character.valueOf(character).toString().toUpperCase()));
-        }
+        keycodesMap.putIfAbsent(character, Input.Keys.valueOf(Character.valueOf(character).toString().toUpperCase()));
         return keycodesMap.get(character);
     }
 }

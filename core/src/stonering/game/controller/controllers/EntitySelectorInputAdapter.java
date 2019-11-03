@@ -1,10 +1,11 @@
 package stonering.game.controller.controllers;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import stonering.game.GameMvc;
 import stonering.game.model.EntitySelector;
+
+import static com.badlogic.gdx.Input.Keys.*;
 
 /**
  * Handles button presses for entitySelector navigation. Can be disabled.
@@ -22,71 +23,59 @@ public class EntitySelectorInputAdapter extends InputAdapter {
 
     @Override
     public boolean keyDown(int keycode) {
-        if (enabled) {
-            int offset = Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) ? 10 : 1;
-            switch (keycode) {
-                case Input.Keys.W:
-                    selector.moveSelector(0, offset, 0);
-                    return true;
-                case Input.Keys.A:
-                    selector.moveSelector(-offset, 0, 0);
-                    return true;
-                case Input.Keys.S:
-                    selector.moveSelector(0, -offset, 0);
-                    return true;
-                case Input.Keys.D:
-                    selector.moveSelector(offset, 0, 0);
-                    return true;
-                case Input.Keys.R:
-                    selector.moveSelector(0, 0, 1);
-                    return true;
-                case Input.Keys.F:
-                    selector.moveSelector(0, 0, -1);
-                    return true;
-            }
-        }
-        return false;
+        if (!enabled) return false;
+        int offset = Gdx.input.isKeyPressed(SHIFT_LEFT) ? 2 : 1;
+        return moveByKey(keycode, offset);
     }
 
     @Override
     public boolean keyTyped(char character) {
-        if (enabled) {
-            switch (charToKeycode(character)) {
-                case Input.Keys.W:
-                case Input.Keys.A:
-                case Input.Keys.S:
-                case Input.Keys.D:
-                    int offset = Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT) ? 10 : 1;
-                    if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-                        selector.moveSelector(0, offset, 0);
-                    }
-                    if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-                        selector.moveSelector(0, -offset, 0);
-                    }
-                    if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-                        selector.moveSelector(-offset, 0, 0);
-                    }
-                    if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-                        selector.moveSelector(offset, 0, 0);
-                    }
-                    return true;
-                case Input.Keys.R:
-                    selector.moveSelector(0, 0, 1);
-                    return true;
-                case Input.Keys.F:
-                    selector.moveSelector(0, 0, -1);
-                    return true;
-            }
+        if (!enabled) return false;
+        int keycode = charToKeycode(character);
+        int offset = Gdx.input.isKeyPressed(SHIFT_LEFT) ? 2 : 1;
+        return moveByKey(keycode, offset) && secondaryMove(keycode, offset);
+    }
+
+    private boolean moveByKey(int keycode, int offset) {
+        switch (keycode) {
+            case W:
+                selector.moveSelector(0, offset, 0);
+                return true;
+            case A:
+                selector.moveSelector(-offset, 0, 0);
+                return true;
+            case S:
+                selector.moveSelector(0, -offset, 0);
+                return true;
+            case D:
+                selector.moveSelector(offset, 0, 0);
+                return true;
+            case R:
+                selector.moveSelector(0, 0, 1);
+                return true;
+            case F:
+                selector.moveSelector(0, 0, -1);
         }
         return false;
     }
 
-    private int charToKeycode(char character) {
-        return Input.Keys.valueOf(Character.valueOf(character).toString().toUpperCase());
+    private boolean secondaryMove(int keycode, int offset) {
+        switch (keycode) {
+            case W:
+            case S:
+                if(Gdx.input.isKeyPressed(A)) moveByKey(A, offset);
+                if(Gdx.input.isKeyPressed(D)) moveByKey(D, offset);
+                break;
+            case A:
+            case D:
+                if(Gdx.input.isKeyPressed(W)) moveByKey(W, offset);
+                if(Gdx.input.isKeyPressed(S)) moveByKey(S, offset);
+        }
+        return true;
     }
 
-    public boolean isEnabled() {
-        return enabled;
+    private int charToKeycode(char character) {
+        return valueOf(Character.valueOf(character).toString().toUpperCase());
     }
 
     public void setEnabled(boolean enabled) {

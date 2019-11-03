@@ -18,6 +18,7 @@ public class ZoneMenuStage extends UiStage {
 
     public ZoneMenuStage(FarmZone zone) {
         createMenu(zone);
+        interceptInput = true;
     }
 
     private void createMenu(FarmZone zone) {

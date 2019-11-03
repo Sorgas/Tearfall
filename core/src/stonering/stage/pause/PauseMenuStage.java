@@ -14,6 +14,10 @@ import stonering.util.global.Initable;
 public class PauseMenuStage extends UiStage implements Initable {
     private PauseMenu pauseMenu;
 
+    public PauseMenuStage() {
+//        interceptInput = true;
+    }
+
     @Override
     public void init() {
         GameMvc.instance().getModel().setPaused(true);

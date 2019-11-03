@@ -1,5 +1,6 @@
 package stonering.test_chamber.screen;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
@@ -56,7 +57,7 @@ public class ModelSelectStage extends UiStage {
         GameMvc gameMvc = GameMvc.createInstance(getInstance(name));
         gameMvc.createViewAndController();
         gameMvc.init();
-        gameMvc.getView().getLocalWorldStage().getCamera().centerCameraToPosition(GameMvc.instance().getModel().get(EntitySelector.class).getPosition().clone());
+        gameMvc.getView().localWorldStage.getCamera().centerCameraToPosition(GameMvc.instance().getModel().get(EntitySelector.class).getPosition().clone());
         testChamberGame.setScreen(GameMvc.instance().getView());
         gameMvc.getModel().get(LocalMap.class).initAreas();
         gameMvc.getModel().setPaused(false);

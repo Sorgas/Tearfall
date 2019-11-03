@@ -48,7 +48,7 @@ public class ToolbarSubMenuMenu extends ToolbarButtonMenu {
 
     /**
      * Tries to add button with given text and listener to the end of given submenu sequence.
-     * Adds submenu or button to this menu .
+     * Adds submenu or button to this menu.
      */
     public void addItem(String lastButtonText, String iconName, ChangeListener listener, List<String> path) {
         if (path == null || path.isEmpty()) { //create button
