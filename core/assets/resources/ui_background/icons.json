@@ -3,16 +3,16 @@
 */
 [
     {
-        "name": "plants_menu",
+        "name": "digging_menu",
         "atlasXY": [0, 0]
     }, {
-    "name": "digging_menu",
-    "atlasXY": [0, 1]
+    "name": "plants_menu",
+    "atlasXY": [1, 0]
 }, {
     "name": "building_menu",
-    "atlasXY": [0, 2]
+    "atlasXY": [2, 0]
 }, {
     "name": "zones_menu",
-    "atlasXY": [0, 3]
+    "atlasXY": [3, 0]
 }
 ]

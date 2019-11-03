@@ -20,7 +20,7 @@ public class IconTextButton extends Button {
     public IconTextButton(Drawable drawable, String text) {
         super(StaticSkin.getSkin());
         if (drawable != null) imageCell = add(new Image(drawable));
-        if (text != null) labelCell = add(text);
+        if (text != null) labelCell = add(text).expandX().center();
     }
 
     public IconTextButton(String text) {
