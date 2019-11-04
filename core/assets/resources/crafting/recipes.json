@@ -79,5 +79,11 @@
     "title": "Make simple bed",
     "itemName": "simple_bed",
     "parts": [["bed", "any", "wood", "1"]]
+}, {
+    "name": "make_bow_saw",
+    "category": "Tools",
+    "title": "Make bow saw",
+    "itemName": "bow_saw",
+    "parts": [["blade", "bar", "metal", "1"], ["bow", "plank", "wood", "1"]]
 }
 ]

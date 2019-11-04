@@ -67,25 +67,6 @@
         }
     ]
 }, {
-    "name": "build_sawing_rack",
-    "title": "Sawing rack",
-    "building": "sawing_rack",
-    "menuPath": ["workbenches", "wood"],
-    "placing": "construction",
-    "components": [
-        {
-            "name": "table",
-            "variants": [
-                ["bar", "metal", "4", "1", "1"], ["log", "wood", "4", "1", "1"], ["plank", "wood", "4", "1", "1"]
-            ]
-        }, {
-            "name": "saw",
-            "variants": [
-                ["saw", "", "1", "1", "1"]
-            ]
-        }
-    ]
-}, {
     "name": "build_campfire",
     "title": "Campfire",
     "building": "campfire",
@@ -109,6 +90,18 @@
         {
             "name": "table",
             "variants": [["log", "wood", "2", "1", "1"], ["plank", "wood", "4", "1", "1"]]
+        }
+    ]
+}, {
+    "name": "build_sawing_rack",
+    "title": "Sawing rack",
+    "building": "sawing_rack",
+    "menuPath": ["workbenches", "wood"],
+    "placing": "floor",
+    "components": [
+        {
+            "name": "rack",
+            "variants": [["log", "wood", "2", "1", "1"]]
         }
     ]
 }

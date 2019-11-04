@@ -194,5 +194,26 @@
     ],
     "atlasXY": ["1", "0"],
     "color": "0xffffffff"
+}, {
+    "name": "bow_saw",
+    "description": "Used for sawing wood.",
+    "typeAspects" : [["value", "0"]],
+    "tool": {
+        "actions": [
+            {
+                "action": "saw",
+                "speedMod": "1"
+            }
+        ]
+    },
+    "parts": [
+        {
+            "title": "blade"
+        }, {
+            "title": "handle"
+        }
+    ],
+    "atlasXY": ["1", "0"],
+    "color": "0xffffffff"
 }
 ]
