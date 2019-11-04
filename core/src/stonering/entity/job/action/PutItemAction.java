@@ -51,7 +51,7 @@ public class PutItemAction extends Action {
 
     @Override
     public int check() {
-        if (targetEntity != null && targetEntity.getAspect(ItemContainerAspect.class) != null) return FAIL;
+        if (targetEntity != null && targetEntity.getAspect(ItemContainerAspect.class) == null) return FAIL;
         EquipmentAspect equipmentAspect = task.performer.getAspect(EquipmentAspect.class);
         if (equipmentAspect == null) return FAIL; // performer can't carry items
         if (equipmentAspect.hauledItems.contains(targetItem)) return OK; // performer already has item

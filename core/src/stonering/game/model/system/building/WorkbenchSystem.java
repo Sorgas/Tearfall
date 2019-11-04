@@ -5,15 +5,24 @@ import stonering.entity.building.Building;
 import stonering.entity.building.aspects.WorkbenchAspect;
 import stonering.entity.building.aspects.WorkbenchAspect.OrderTaskEntry;
 import stonering.entity.crafting.ItemOrder;
+import stonering.entity.item.Item;
 import stonering.entity.job.Task;
 import stonering.entity.job.action.CraftItemAction;
 import stonering.enums.OrderStatusEnum;
 import stonering.enums.TaskStatusEnum;
+import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.GameMvc;
+import stonering.game.model.GameModel;
+import stonering.game.model.local_map.LocalMap;
+import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.system.task.TaskContainer;
+import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
 
 /**
  * System for updating orders and tasks in {@link WorkbenchAspect}.
@@ -28,15 +37,17 @@ public class WorkbenchSystem {
      * i.e. rolls sequence of orders to unsuspended one, creates tasks for orders.
      */
     public void updateWorkbenchState(Building building) {
-        if (!building.hasAspect(WorkbenchAspect.class)) return;
         WorkbenchAspect aspect = building.getAspect(WorkbenchAspect.class);
+        if (aspect == null) return;
         if (aspect.entries.isEmpty() || !aspect.hasActiveOrders) return;
         OrderTaskEntry entry = aspect.entries.getFirst();
+        if(entry.order.status != OrderStatusEnum.ACTIVE) dropContainedItems(aspect); // clear workbench from items
         switch (entry.order.status) {
             case OPEN:  // newly added order with no task.
                 if (entry.task == null) createTaskForOrder(entry, building);
                 break;
             case PAUSED:
+            case SUSPENDED:
                 rollToNextNotSuspended(aspect); // try to move to the next task
                 break;
             case COMPLETE:
@@ -49,6 +60,7 @@ public class WorkbenchSystem {
 
     /**
      * Rolls or deletes completed tasks (depending on repeated).
+     * Drops any items from workbench, including product.
      */
     private void handleOrderCompletion(WorkbenchAspect aspect, OrderTaskEntry entry) {
         if (entry.order.isRepeated()) { // move repeated order to the bottom
@@ -61,6 +73,7 @@ public class WorkbenchSystem {
 
     /**
      * Suspends or deletes failed order (depending on setting).
+     * Drops any items from workbench.
      */
     private void handleOrderFail(WorkbenchAspect aspect, OrderTaskEntry entry) {
         if (aspect.deleteFailedTasks) { // delete failed order
@@ -151,6 +164,7 @@ public class WorkbenchSystem {
         LinkedList<OrderTaskEntry> entries = aspect.entries;
         if (entries.size() < 2 || !aspect.hasActiveOrders)
             return; // no roll on 1 or 0 entries, or if all orders suspended.
+
         while (entries.getFirst().order.status == OrderStatusEnum.PAUSED ||
                 entries.getFirst().order.status == OrderStatusEnum.SUSPENDED) {
             entries.addLast(entries.removeFirst());
@@ -168,5 +182,29 @@ public class WorkbenchSystem {
         WorkbenchAspect.OrderTaskEntry entry = aspect.entries.get(index);
         aspect.entries.set(index, aspect.entries.get(newIndex));
         aspect.entries.set(newIndex, entry);
+    }
+
+    /**
+     * Removes items from workbench's internal storage, and puts them to random positions on the ground.
+     * If workbench is blocked by walls, it cannot drop any items. Not a problem, because units cannot reach it to perform tasks as well.
+     */
+    private void dropContainedItems(WorkbenchAspect aspect) {
+        if(aspect.containedItems.isEmpty()) return;
+        List<Position> positions = getPositionsToDrop(aspect);
+        if(positions.isEmpty()) return;
+        ItemContainer container = GameMvc.instance().getModel().get(ItemContainer.class);
+        Random random = new Random();
+        for (Item item : aspect.containedItems) {
+            container.putItem(item, positions.get(random.nextInt(positions.size())));
+        }
+        aspect.containedItems.clear();
+    }
+
+    private List<Position> getPositionsToDrop(WorkbenchAspect aspect) {
+        LocalMap map = GameMvc.instance().getModel().get(LocalMap.class);
+        List<Position> positions = map.getAllNeighbourPositions(aspect.getEntity().position, BlockTypesEnum.PassageEnum.PASSABLE);
+        if (positions.isEmpty())
+            positions = map.getAllNeighbourPositions(aspect.getEntity().position, BlockTypesEnum.PassageEnum.FLY_ONLY);
+        return positions;
     }
 }

@@ -1,6 +1,7 @@
 package stonering.entity.building.aspects;
 
 import stonering.entity.building.Building;
+import stonering.entity.item.Item;
 import stonering.entity.job.Task;
 import stonering.entity.Aspect;
 import stonering.entity.Entity;
@@ -37,6 +38,7 @@ public class WorkbenchAspect extends Aspect {
     public final List<Recipe> recipes; // all available recipes
     public final LinkedList<OrderTaskEntry> entries; // entry may have no task.
     public boolean hasActiveOrders = false; // false on empty list or if all orders are suspended
+    public final List<Item> containedItems; // items for order can be brought here, and will be dropped if order changes.
 
     public boolean deleteFailedTasks = false; // setting for deleting or suspending failed tasks.
 
@@ -44,6 +46,7 @@ public class WorkbenchAspect extends Aspect {
         super(entity);
         entries = new LinkedList<>();
         recipes = new ArrayList<>();
+        containedItems = new ArrayList<>();
         ((Building) entity).getType().recipes.forEach(s -> recipes.add(RecipeMap.instance().getRecipe(s)));
     }
 
