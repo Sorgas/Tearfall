@@ -61,10 +61,12 @@ public class BuildingContainer implements ModelComponent, Turnable {
      * Adds building to container and places it on map.
      */
     public void addBuilding(Building building) {
+        Position position = building.getBlock().getPosition();
         building.init();
         buildings.add(building);
-        buildingBlocks.put(building.getBlock().getPosition(), building.getBlock());
-        tryMoveItems(building.getBlock().getPosition());
+        buildingBlocks.put(position, building.getBlock());
+        tryMoveItems(position);
+        GameMvc.instance().getModel().get(LocalMap.class).updateTile(position);
     }
 
     /**

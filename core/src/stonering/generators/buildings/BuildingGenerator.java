@@ -4,7 +4,9 @@ import stonering.entity.building.BuildingType;
 import stonering.entity.building.aspects.RestFurnitureAspect;
 import stonering.entity.building.aspects.WorkbenchAspect;
 import stonering.entity.item.aspects.ItemContainerAspect;
+import stonering.entity.unit.aspects.RenderAspect;
 import stonering.enums.buildings.BuildingTypeMap;
+import stonering.stage.renderer.AtlasesEnum;
 import stonering.util.geometry.Position;
 import stonering.entity.building.Building;
 import stonering.util.global.Logger;
@@ -27,8 +29,13 @@ public class BuildingGenerator {
         Building building = new Building(position, type);
         building.setMaterial(38); //TODO replace with material from task
         initAspects(building, type);
+        createRenderAspect(building, type);
         initBlocks(building, type);
         return building;
+    }
+
+    private void createRenderAspect(Building building, BuildingType type) {
+        building.addAspect(new RenderAspect(building, type.atlasXY, AtlasesEnum.buildings));
     }
 
     /**
@@ -59,6 +66,6 @@ public class BuildingGenerator {
 
     private void initBlocks(Building building, BuildingType type) {
         building.getBlock().setPosition(building.position);
-        building.getBlock().setPassage("wall");
+        building.getBlock().setPassage(type.passage);
     }
 }

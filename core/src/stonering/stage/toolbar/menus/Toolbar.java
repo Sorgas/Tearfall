@@ -1,6 +1,5 @@
 package stonering.stage.toolbar.menus;
 
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -32,7 +31,6 @@ public class Toolbar extends Container<Table> {
             public boolean keyDown(InputEvent event, int keycode) {
                 Actor target = menusGroup.getChildren().peek();
                 Logger.UI.logDebug("handling " + keycode + " in toolbar. Target menu is " + target.getClass().getSimpleName());
-                if (keycode == Input.Keys.E && target == parentMenu) return false;
                 return target.notify(event, false);
             }
         });

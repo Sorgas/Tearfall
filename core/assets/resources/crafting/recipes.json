@@ -85,5 +85,12 @@
     "title": "Make bow saw",
     "itemName": "bow_saw",
     "parts": [["blade", "bar", "metal", "1"], ["bow", "plank", "wood", "1"]]
+}, {
+    "name": "saw_log",
+    "category": "Resources",
+    "title": "Saw log into planks",
+    "itemName": "plank",
+    "parts": [["plank", "log", "wood", "1"]],
+    //TODO quantity
 }
 ]

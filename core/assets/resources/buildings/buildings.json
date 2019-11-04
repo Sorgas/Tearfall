@@ -6,7 +6,7 @@
         "aspects":[["workbench"], ["item_container", "solid", "100"]],
         "parts":["table", "saw"],
         "passage":"floor",
-        "atlasXY":["0", "0"],
+        "atlasXY":["2", "0"],
         "color":"0xffffffff"
     }, {
     "building":"forge",
@@ -42,7 +42,7 @@
     "aspects":[["workbench"], ["light_source"]],
     "parts":["campfire"],
     "passage":"wall",
-    "atlasXY":["0", "1"],
+    "atlasXY":["1", "0"],
     "color":"0xffffffff"
 }, {
     "building":"carpenter_workbench",

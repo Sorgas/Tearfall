@@ -5,6 +5,8 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.utils.Align;
 import stonering.game.GameMvc;
+import stonering.game.model.EntitySelector;
+import stonering.util.geometry.Position;
 import stonering.widget.ToolbarSubMenuMenu;
 
 /**
@@ -17,7 +19,7 @@ public class ParentMenu extends ToolbarSubMenuMenu {
     public ParentMenu(Toolbar toolbar) {
         super(toolbar);
         this.align(Align.bottom);
-        createEscapeListener();
+        createListener();
         createMenus();
     }
 
@@ -28,19 +30,26 @@ public class ParentMenu extends ToolbarSubMenuMenu {
         addMenu(new ZonesMenu(toolbar), Input.Keys.U, "zones", "zones_menu");
     }
 
-    private void createEscapeListener() {
+    private void createListener() {
         addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
-                if (keycode != Input.Keys.ESCAPE) return false;
-                GameMvc.instance().getView().showPauseMenu();
-                return true;
+                switch(keycode) {
+                    case Input.Keys.ESCAPE :
+                        GameMvc.instance().getView().showPauseMenu();
+                        return true;
+                    case Input.Keys.E :
+                        Position position = GameMvc.instance().getModel().get(EntitySelector.class).getPosition();
+                        GameMvc.instance().getView().showEntityStage(position);
+                        return true;
+                }
+                return false;
             }
         });
     }
 
     /**
-     * Overrode to prevent closing.
+     * Overridden to prevent closing.
      */
     @Override
     public void hide() {

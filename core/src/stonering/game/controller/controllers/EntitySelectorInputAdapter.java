@@ -1,6 +1,7 @@
 package stonering.game.controller.controllers;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import stonering.game.GameMvc;
 import stonering.game.model.EntitySelector;
@@ -24,6 +25,10 @@ public class EntitySelectorInputAdapter extends InputAdapter {
     @Override
     public boolean keyDown(int keycode) {
         if (!enabled) return false;
+        if(keycode == Input.Keys.E) {
+            GameMvc.instance().getView().showEntityStage(selector.getPosition());
+            return true;
+        }
         int offset = Gdx.input.isKeyPressed(SHIFT_LEFT) ? 2 : 1;
         return moveByKey(keycode, offset);
     }

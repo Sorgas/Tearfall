@@ -18,18 +18,20 @@ import stonering.util.geometry.Position;
  * @author Alexander_Kuzyakov on 25.06.2019.
  */
 public class WorkbenchModel extends TestModel {
+    private BuildingGenerator buildingGenerator;
+
+    public WorkbenchModel() {
+        buildingGenerator = new BuildingGenerator();
+    }
 
     @Override
     public void init() {
         super.init();
-        get(BuildingContainer.class).addBuilding(createBuilding());
+        get(BuildingContainer.class).addBuilding(buildingGenerator.generateBuilding("sawing_rack", new Position(2, 4, 2)));
+        get(BuildingContainer.class).addBuilding(buildingGenerator.generateBuilding("campfire", new Position(4, 4, 2)));
         get(UnitContainer.class).addUnit(createUnit());
         get(EntitySelector.class).setPosition(4, 4, 2);
         createItems();
-    }
-
-    private Building createBuilding() {
-        return new BuildingGenerator().generateBuilding("campfire", new Position(4, 4, 2));
     }
 
     private Unit createUnit() {

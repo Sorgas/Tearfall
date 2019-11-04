@@ -53,7 +53,7 @@ public class CreaturePlanningSystem {
     }
 
     private void findAndAssignNewTask(Unit unit) {
-        Logger.TASKS.logDebug("Selecting task for " + unit);
+//        Logger.TASKS.logDebug("Selecting task for " + unit);
         Task task = selectTaskForUnit(unit);
         if (task != null && unitCanPerformTask(unit, task)) assignTaskToUnit(unit, task); // try assign new task
     }
@@ -65,7 +65,7 @@ public class CreaturePlanningSystem {
      * TODO non possible tasks with high priority can block other tasks
      */
     private Task selectTaskForUnit(Unit unit) {
-        Logger.TASKS.logDebug("Looking for new task for unit " + unit);
+//        Logger.TASKS.logDebug("Looking for new task for unit " + unit);
         ArrayList<Task> tasks = new ArrayList<>();
         if (unit.hasAspect(NeedsAspect.class)) tasks.add(unit.getAspect(NeedsAspect.class).satisfyingTask);
         tasks.add(taskContainer().getActiveTask(unit)); // player/workbench created tasks

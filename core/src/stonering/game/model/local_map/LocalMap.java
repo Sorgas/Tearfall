@@ -129,6 +129,10 @@ public class LocalMap implements ModelComponent, Initable {
         if(passage != null) passage.updateCell(x, y, z);
     }
 
+    public void updateTile(Position position) {
+        updateTile(position.x, position.y, position.z);
+    }
+
     private void deletePlantsOnDeletedBlock(int x, int y, int z) {
         GameMvc.instance().getModel().get(SubstrateContainer.class).remove(cachePosition.set(x, y, z));
         GameMvc.instance().getModel().get(PlantContainer.class).handleBlockRemoval(cachePosition);

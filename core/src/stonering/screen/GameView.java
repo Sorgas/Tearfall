@@ -1,11 +1,8 @@
 package stonering.screen;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import stonering.game.GameMvc;
 import stonering.game.controller.controllers.StageInputAdapter;
-import stonering.game.model.EntitySelector;
 import stonering.stage.toolbar.MainUiStage;
 import stonering.stage.MapEntitySelectStage;
 import stonering.stage.pause.PauseMenuStage;
@@ -80,5 +77,9 @@ public class GameView extends SimpleScreen {
 
     public void showPauseMenu() {
         addStageToList(new PauseMenuStage());
+    }
+
+    public void showEntityStage(Position position) {
+        addStageToList(new MapEntitySelectStage(position, -1));
     }
 }

@@ -22,7 +22,7 @@ public class PauseInputAdapter extends InputAdapter {
     private void switchPause() {
         GameModel model = GameMvc.instance().getModel();
         model.setPaused(!model.isPaused());
-        Logger.GENERAL.logDebug(model.isPaused() ? "Pausing game" : "Unpausing game");
+//        Logger.GENERAL.logDebug(model.isPaused() ? "Pausing game" : "Unpausing game");
     }
 
     public boolean isEnabled() {

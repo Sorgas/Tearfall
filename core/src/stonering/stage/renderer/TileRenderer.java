@@ -104,7 +104,7 @@ public class TileRenderer extends Renderer {
             for (int y = cacheBounds.getMaxY(); y >= cacheBounds.getMinY(); y--) {
                 for (int x = cacheBounds.getMinX(); x <= cacheBounds.getMaxX(); x++) {
                     drawUnits(x, y, z);
-//                    drawAreaLabel(x, y, z); // for debug purposes
+                    drawAreaLabel(x, y, z); // for debug purposes
                 }
             }
             //TODO draw local light spots.
@@ -259,7 +259,9 @@ public class TileRenderer extends Renderer {
     }
 
     private void drawBuildingBlock(BuildingBlock block) {
-        if (block != null) util.drawSprite(buildings.getBlockTile(0, 0), buildings, cachePosition);
+        if(block == null) return;
+        RenderAspect aspect = block.getBuilding().getAspect(RenderAspect.class);
+        util.drawSprite(buildings.getBlockTile(aspect.atlasXY[0], aspect.atlasXY[1]), buildings, cachePosition);
     }
 
     private void drawPlantBlock(PlantBlock block) {
