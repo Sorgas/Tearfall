@@ -1,5 +1,6 @@
 package test.stonering.game.model.system.building;
 
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -28,6 +29,8 @@ import stonering.util.geometry.Position;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static stonering.enums.OrderStatusEnum.OPEN;
+import static stonering.enums.OrderStatusEnum.SUSPENDED;
 
 /**
  * @author Alexander on 04.11.2019.
@@ -40,6 +43,7 @@ public class WorkbenchSystemTest {
     private TaskContainer taskContainer;
     private WorkbenchAspect aspect;
     private WorkbenchSystem system;
+    private Building workbench;
 
     @BeforeEach
     void prepare() {
@@ -64,7 +68,7 @@ public class WorkbenchSystemTest {
         unit.addAspect(new PlanningAspect(unit));
         unit.addAspect(new JobsAspect(unit));
         GameMvc.instance().getModel().get(UnitContainer.class).addUnit(unit);
-        Building workbench = new Building(new Position(), new BuildingType());
+        workbench = new Building(new Position(), new BuildingType());
         workbench.addAspect(aspect = new WorkbenchAspect(workbench));
         aspect.recipes.add(createRecipe());
     }
@@ -81,19 +85,83 @@ public class WorkbenchSystemTest {
     @Test
     void testOrderCreation() {
         assert(aspect.entries.isEmpty());
+        assert(!aspect.hasActiveOrders);
         ItemOrder order = new ItemOrder(aspect.recipes.get(0));
         system.addOrder(aspect, order);
         assertEquals(1, aspect.entries.size());
         assertEquals(order, aspect.entries.get(0).order);
+        assert(aspect.hasActiveOrders);
     }
 
     @Test
     void failCreateOrderWithWrongRecipe() {
-
+        assert(aspect.entries.isEmpty());
+        assert(!aspect.hasActiveOrders);
+        ItemOrder order = new ItemOrder(new Recipe("qwer"));
+        system.addOrder(aspect, order);
+        assert(aspect.entries.isEmpty());
+        assert(!aspect.hasActiveOrders);
     }
 
     @Test
     void testTaskCreation() {
+        assert(aspect.entries.isEmpty());
+        assert(!aspect.hasActiveOrders);
+        ItemOrder order = new ItemOrder(aspect.recipes.get(0));
+        system.addOrder(aspect, order);
+        assertEquals(1, aspect.entries.size());
+        assertEquals(order, aspect.entries.get(0).order);
+        system.updateWorkbenchState(workbench);
+        assert(aspect.entries.get(0).task != null);
+        assert(aspect.hasActiveOrders);
+    }
 
+    @Test
+    void testRemoveOrder() {
+        ItemOrder order = new ItemOrder(aspect.recipes.get(0));
+        system.addOrder(aspect, order);
+        assertEquals(1, aspect.entries.size());
+        assertEquals(order, aspect.entries.get(0).order);
+        system.removeOrder(aspect, order);
+        assert(aspect.entries.isEmpty());
+        assert(!aspect.hasActiveOrders);
+    }
+
+    @Test
+    void testSetOrderSuspended() {
+        ItemOrder order = new ItemOrder(aspect.recipes.get(0));
+        system.addOrder(aspect, order);
+        assert(aspect.hasActiveOrders);
+        assertEquals(1, aspect.entries.size());
+        assertEquals(order, aspect.entries.get(0).order);
+
+        system.setOrderSuspended(aspect, order, true);
+        assert(!aspect.hasActiveOrders);
+        assertEquals(1, aspect.entries.size());
+        assertEquals(SUSPENDED, aspect.entries.get(0).order.status);
+
+        system.setOrderSuspended(aspect, order, false);
+        assert(aspect.hasActiveOrders);
+        assertEquals(1, aspect.entries.size());
+        assertEquals(OPEN, aspect.entries.get(0).order.status);
+    }
+
+    @Test
+    void testSetOrderRepeated() {
+        ItemOrder order = new ItemOrder(aspect.recipes.get(0));
+        system.addOrder(aspect, order);
+        assert(aspect.hasActiveOrders);
+        assertEquals(1, aspect.entries.size());
+        assertEquals(order, aspect.entries.get(0).order);
+
+        system.setOrderRepeated(aspect, order, true);
+        assert(aspect.hasActiveOrders);
+        assertEquals(1, aspect.entries.size());
+        assert(order.repeated);
+
+        system.setOrderRepeated(aspect, order, false);
+        assert(aspect.hasActiveOrders);
+        assertEquals(1, aspect.entries.size());
+        assert(!order.repeated);
     }
 }

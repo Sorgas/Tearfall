@@ -12,14 +12,12 @@ import stonering.enums.OrderStatusEnum;
 import stonering.enums.TaskStatusEnum;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.GameMvc;
-import stonering.game.model.GameModel;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.system.task.TaskContainer;
 import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -46,7 +44,6 @@ public class WorkbenchSystem {
             case OPEN:  // newly added order with no task.
                 if (entry.task == null) createTaskForOrder(entry, building);
                 break;
-            case PAUSED:
             case SUSPENDED:
                 rollToNextNotSuspended(aspect); // try to move to the next task
                 break;
@@ -63,7 +60,7 @@ public class WorkbenchSystem {
      * Drops any items from workbench, including product.
      */
     private void handleOrderCompletion(WorkbenchAspect aspect, OrderTaskEntry entry) {
-        if (entry.order.isRepeated()) { // move repeated order to the bottom
+        if (entry.order.repeated) { // move repeated order to the bottom
             aspect.entries.remove(entry);
             aspect.entries.addLast(entry);
         } else { // remove completed order
@@ -89,6 +86,10 @@ public class WorkbenchSystem {
      */
     public void addOrder(WorkbenchAspect aspect, ItemOrder order) {
         Logger.TASKS.logDebug("Adding order " + order.toString() + " to " + aspect.getEntity().toString());
+        if(!aspect.recipes.contains(order.recipe)) {
+            Logger.TASKS.logError("Order recipe is not allowed by wb.");
+            return;
+        }
         OrderTaskEntry entry = new OrderTaskEntry(order);
         aspect.entries.add(0, entry);
         aspect.updateActiveOrders();
@@ -118,9 +119,9 @@ public class WorkbenchSystem {
         Logger.TASKS.logDebug("Setting order " + order.toString() + " in " + aspect.getEntity().toString() + " suspended: " + value);
         OrderTaskEntry entry = findEntry(aspect, order);
         if (entry != null) {
-            if (value && entry.task.status == TaskStatusEnum.ACTIVE)
+            if (value && entry.task != null && entry.task.status == TaskStatusEnum.ACTIVE)
                 failEntryTask(entry); // interrupt currently executing order.
-            entry.order.status = (value ? OrderStatusEnum.PAUSED : OrderStatusEnum.OPEN);
+            entry.order.status = (value ? OrderStatusEnum.SUSPENDED : OrderStatusEnum.OPEN);
         }
         aspect.updateActiveOrders();
     }
@@ -137,7 +138,7 @@ public class WorkbenchSystem {
         Logger.TASKS.logDebug("Setting order " + order.toString() + " in " + aspect.getEntity().toString() + " repeated: " + value);
         OrderTaskEntry entry = findEntry(aspect, order);
         if (entry != null) {
-            entry.order.setRepeated(value);
+            entry.order.repeated = value;
         }
         aspect.updateActiveOrders();
     }
@@ -165,8 +166,7 @@ public class WorkbenchSystem {
         if (entries.size() < 2 || !aspect.hasActiveOrders)
             return; // no roll on 1 or 0 entries, or if all orders suspended.
 
-        while (entries.getFirst().order.status == OrderStatusEnum.PAUSED ||
-                entries.getFirst().order.status == OrderStatusEnum.SUSPENDED) {
+        while (entries.getFirst().order.status == OrderStatusEnum.SUSPENDED) {
             entries.addLast(entries.removeFirst());
         }
     }

@@ -20,7 +20,7 @@ public class ItemOrder {
     public final HashMap<String, IngredientOrder> parts; //item parts to their ingredients
     public final List<IngredientOrder> consumed;
     public OrderStatusEnum status;
-    private boolean repeated;
+    public boolean repeated;
     private int amount;
 
     public ItemOrder(Recipe recipe) {
@@ -48,13 +48,5 @@ public class ItemOrder {
 
     public void setAmount(int amount) {
         this.amount = amount;
-    }
-
-    public boolean isRepeated() {
-        return repeated;
-    }
-
-    public void setRepeated(boolean repeated) {
-        this.repeated = repeated;
     }
 }

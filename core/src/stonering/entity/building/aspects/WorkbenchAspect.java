@@ -19,10 +19,10 @@ import java.util.List;
 import static stonering.enums.OrderStatusEnum.*;
 
 /**
- * Aspect for workbenches. Manages (crafting) orders of workbench.
+ * Aspect for workbenches. Stores (crafting) orders of workbench.
  * Orders for workbench are stored in cycled list. When order becomes first in the list, {@link Task} is created and passed to {@link TaskContainer}.
  * Task conditions are checked when task is taken by performer.
- * Order status id updated when task changes status.
+ * Order status is updated when task changes status.
  * <p>
  * After creation, order can be cancelled, suspended, moved in the list, set for repeating.
  * After executing, order is removed from the list, or moved to the bottom, if it is repeated.

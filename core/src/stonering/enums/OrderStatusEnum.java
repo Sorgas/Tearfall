@@ -9,8 +9,7 @@ package stonering.enums;
 public enum OrderStatusEnum {
     OPEN,                   // newly created
     ACTIVE,                 // taken by performer
-    PAUSED,                 // paused by player
-    SUSPENDED,              // paused on fail
+    SUSPENDED,
     COMPLETE,               // complete (removed from workbench)
     FAILED                  // not complete (removed from workbench with warning to player)
 }
