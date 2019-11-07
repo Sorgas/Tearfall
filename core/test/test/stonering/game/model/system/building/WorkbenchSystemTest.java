@@ -132,17 +132,14 @@ public class WorkbenchSystemTest {
         ItemOrder order = new ItemOrder(aspect.recipes.get(0));
         system.addOrder(aspect, order);
         assert(aspect.hasActiveOrders);
-        assertEquals(1, aspect.entries.size());
         assertEquals(order, aspect.entries.get(0).order);
 
         system.setOrderSuspended(aspect, order, true);
         assert(!aspect.hasActiveOrders);
-        assertEquals(1, aspect.entries.size());
         assertEquals(SUSPENDED, aspect.entries.get(0).order.status);
 
         system.setOrderSuspended(aspect, order, false);
         assert(aspect.hasActiveOrders);
-        assertEquals(1, aspect.entries.size());
         assertEquals(OPEN, aspect.entries.get(0).order.status);
     }
 
@@ -151,17 +148,25 @@ public class WorkbenchSystemTest {
         ItemOrder order = new ItemOrder(aspect.recipes.get(0));
         system.addOrder(aspect, order);
         assert(aspect.hasActiveOrders);
-        assertEquals(1, aspect.entries.size());
         assertEquals(order, aspect.entries.get(0).order);
 
         system.setOrderRepeated(aspect, order, true);
         assert(aspect.hasActiveOrders);
-        assertEquals(1, aspect.entries.size());
         assert(order.repeated);
 
         system.setOrderRepeated(aspect, order, false);
         assert(aspect.hasActiveOrders);
-        assertEquals(1, aspect.entries.size());
         assert(!order.repeated);
+    }
+
+    @Test
+    void testHandleOpenOrder() {
+        ItemOrder order = new ItemOrder(aspect.recipes.get(0));
+        system.addOrder(aspect, order);
+        assert(aspect.hasActiveOrders);
+        assertEquals(1, aspect.entries.size());
+        assertEquals(order, aspect.entries.get(0).order);
+        system.updateWorkbenchState(workbench);
+
     }
 }

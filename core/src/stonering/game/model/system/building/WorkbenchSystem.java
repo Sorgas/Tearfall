@@ -56,6 +56,13 @@ public class WorkbenchSystem {
     }
 
     /**
+     * Handles statuses of order's task and changes order status accordingly.
+     */
+    private void checkTaskState() {
+
+    }
+
+    /**
      * Rolls or deletes completed tasks (depending on repeated).
      * Drops any items from workbench, including product.
      */
@@ -189,6 +196,7 @@ public class WorkbenchSystem {
      * If workbench is blocked by walls, it cannot drop any items. Not a problem, because units cannot reach it to perform tasks as well.
      */
     private void dropContainedItems(WorkbenchAspect aspect) {
+        Logger.BUILDING.logDebug("Dropping contained items from " + aspect.getEntity());
         if(aspect.containedItems.isEmpty()) return;
         List<Position> positions = getPositionsToDrop(aspect);
         if(positions.isEmpty()) return;
