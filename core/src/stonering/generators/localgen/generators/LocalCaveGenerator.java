@@ -19,7 +19,7 @@ public class LocalCaveGenerator extends LocalAbstractGenerator {
 
     public LocalCaveGenerator(LocalGenContainer container) {
         super(container);
-        localAreaSize = config.getAreaSize();
+        localAreaSize = config.areaSize;
         random = new Random();
     }
 
@@ -60,8 +60,10 @@ public class LocalCaveGenerator extends LocalAbstractGenerator {
     private void placePillars(float[][] noiseArray, int num) {
         random = new Random();
         while (num > 0) {
-            int x = random.nextInt(config.getAreaSize() - 2) + 1;
-            int y = random.nextInt(config.getAreaSize() - 2) + 1;
+            int x = random.nextInt(config.areaSize
+                    - 2) + 1;
+            int y = random.nextInt(config.areaSize
+                    - 2) + 1;
             if (noiseArray[x][y] > 0.4f) {
                 noiseArray[x - 1][y] = noiseArray[x][y] * ((random.nextInt(7) + 7) * 0.05f);
                 noiseArray[x + 1][y] = noiseArray[x][y] * ((random.nextInt(7) + 7) * 0.05f);
@@ -74,8 +76,10 @@ public class LocalCaveGenerator extends LocalAbstractGenerator {
     }
 
     private void appllyLayer(int[][] layer, int height) {
-        for (int x = 0; x < config.getAreaSize(); x++) {
-            for (int y = 0; y < config.getAreaSize(); y++) {
+        for (int x = 0; x < config.areaSize
+                ; x++) {
+            for (int y = 0; y < config.areaSize
+                    ; y++) {
                 for (int z = height - (layer[x][y] / 10); z < layer[x][y] + height; z++) {
                     localMap.setBlock(x, y, z, BlockTypesEnum.SPACE, 0);
                 }
@@ -89,8 +93,10 @@ public class LocalCaveGenerator extends LocalAbstractGenerator {
         int[] ys = new int[count];
         int rejects = 20;
         while (count > 0 && rejects > 0) {
-            int x = random.nextInt(config.getAreaSize() - 10) + 5;
-            int y = random.nextInt(config.getAreaSize() - 10) + 5;
+            int x = random.nextInt(config.areaSize
+                    - 10) + 5;
+            int y = random.nextInt(config.areaSize
+                    - 10) + 5;
             if (localMap.getBlockType(x, y, top) == BlockTypesEnum.SPACE.CODE) continue;
             if (localMap.getBlockType(x, y, bottom) == BlockTypesEnum.SPACE.CODE) continue;
 

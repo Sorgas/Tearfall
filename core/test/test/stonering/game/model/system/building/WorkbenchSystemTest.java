@@ -1,6 +1,5 @@
 package test.stonering.game.model.system.building;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
