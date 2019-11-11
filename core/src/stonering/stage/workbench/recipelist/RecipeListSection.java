@@ -51,7 +51,7 @@ public class RecipeListSection extends NavigableVerticalGroup implements Highlig
      */
     private void fillCategoryMap(WorkbenchAspect aspect) {
         recipeMap = new HashMap<>();
-        for (Recipe recipe : aspect.getRecipes()) {
+        for (Recipe recipe : aspect.recipes) {
             if (!recipeMap.containsKey(recipe.category)) recipeMap.put(recipe.category, new ArrayList<>());
             recipeMap.get(recipe.category).add(recipe.name);
         }

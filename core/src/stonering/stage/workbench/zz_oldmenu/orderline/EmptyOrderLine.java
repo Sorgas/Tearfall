@@ -30,7 +30,7 @@ public class EmptyOrderLine extends OrderLine {
     }
 
     private void createSelectBox() {
-        leftHG.addActor(selectBox = new RecipeSelectBox(menu.getWorkbenchAspect().getRecipes()));
+        leftHG.addActor(selectBox = new RecipeSelectBox(menu.getWorkbenchAspect().recipes));
         selectBox.setSelectListener(e -> {
             e.stop();
             if (selectBox.getList().getStage() != null) { // list is shown

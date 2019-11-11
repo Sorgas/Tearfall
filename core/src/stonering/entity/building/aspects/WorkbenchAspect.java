@@ -19,70 +19,24 @@ import java.util.List;
 import static stonering.enums.OrderStatusEnum.*;
 
 /**
- * Aspect for workbenches. Stores (crafting) orders of workbench.
- * Orders for workbench are stored in cycled list. When order becomes first in the list, {@link Task} is created and passed to {@link TaskContainer}.
- * Task conditions are checked when task is taken by performer.
- * Order status is updated when task changes status.
- * <p>
- * After creation, order can be cancelled, suspended, moved in the list, set for repeating.
- * After executing, order is removed from the list, or moved to the bottom, if it is repeated.
- * If execution is not possible, order is suspended or cancelled (TODO add config for this).
- * Suspended entries are skipped.
- * Orders are configured via {@link WorkbenchMenu}.
- * <p>
- * Fail on execution generates general warning for player.
+ * Aspect for workbenches. Stores {@link ItemOrder}s in a list and {@link Task} of a currently active order.
  *
  * @author Alexander on 01.11.2018.
  */
 public class WorkbenchAspect extends Aspect {
     public final List<Recipe> recipes; // all available recipes
-    public final LinkedList<OrderTaskEntry> entries; // entry may have no task.
-    public boolean hasActiveOrders = false; // false on empty list or if all orders are suspended
+    public final LinkedList<ItemOrder> orders; // entry may have no task.
     public final List<Item> containedItems; // items for order can be brought here, and will be dropped if order changes.
+
+    public Task currentTask;
 
     public boolean deleteFailedTasks = false; // setting for deleting or suspending failed tasks.
 
     public WorkbenchAspect(Entity entity) {
         super(entity);
-        entries = new LinkedList<>();
         recipes = new ArrayList<>();
+        orders = new LinkedList<>();
         containedItems = new ArrayList<>();
-        ((Building) entity).getType().recipes.forEach(s -> recipes.add(RecipeMap.instance().getRecipe(s)));
-    }
-
-    public static class OrderTaskEntry {
-        public ItemOrder order;
-        public Task task;
-
-        public OrderTaskEntry(ItemOrder order) {
-            this.order = order;
-        }
-    }
-
-    public int getOrderIndex(ItemOrder order) {
-        for (int i = 0; i < entries.size(); i++) {
-            if (entries.get(i).order.equals(order)) return i;
-        }
-        Logger.TASKS.logError("Getting index of item order " + order + " that is not in workbench " + toString());
-        return -1;
-    }
-
-    /**
-     * Recounts active orders.
-     */
-    public void updateActiveOrders() {
-        hasActiveOrders = entries.stream().anyMatch(entry -> entry.order.status == OPEN || entry.order.status == ACTIVE);
-    }
-
-    public boolean outOfBounds(int index) {
-        return index < 0 || index >= entries.size();
-    }
-
-    public List<OrderTaskEntry> getEntries() {
-        return entries;
-    }
-
-    public List<Recipe> getRecipes() {
-        return recipes;
+        ((Building) entity).getType().recipes.forEach(s -> recipes.add(RecipeMap.instance().getRecipe(s))); // load all recipes from building type
     }
 }

@@ -97,7 +97,7 @@ public class WorkbenchMenuq extends Window implements HintedActor {
      * Refills list of menus with existing orders.
      */
     private void refillWorkbenchOrders() {
-        workbenchAspect.getEntries().forEach(entry -> orderList.addActor(createOrderLine(entry.order)));
+        workbenchAspect.orders.forEach(order -> orderList.addActor(createOrderLine(order)));
     }
 
     private ItemCraftingOrderLine createOrderLine(ItemOrder order) {

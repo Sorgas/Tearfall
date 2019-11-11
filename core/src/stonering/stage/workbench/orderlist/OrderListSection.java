@@ -66,13 +66,10 @@ public class OrderListSection extends NavigableVerticalGroup {
      */
     public void fillOrderList() {
         this.clearChildren();
-        if (aspect.getEntries().isEmpty()) {
+        if (aspect.orders.isEmpty()) {
             addActor(emptyLabel);
         } else {
-            for (WorkbenchAspect.OrderTaskEntry entry : aspect.getEntries()) {
-                ItemOrder order = entry.order;
-                addActor(new OrderItem(order, this));
-            }
+            aspect.orders.forEach(order -> addActor(new OrderItem(order, this)));
         }
     }
 
@@ -147,6 +144,6 @@ public class OrderListSection extends NavigableVerticalGroup {
     }
 
     public boolean isEmpty() {
-        return aspect.getEntries().isEmpty();
+        return aspect.orders.isEmpty();
     }
 }
