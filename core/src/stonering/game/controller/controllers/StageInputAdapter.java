@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import stonering.screen.GameView;
 
 /**
- * Passes input events to {@link GameView} stages in a sequence, until event is handled.
+ * Passes input events to {@link GameView} stages in a sequence they are rendered, until event is handled.
  *
  * @author Alexander
  */

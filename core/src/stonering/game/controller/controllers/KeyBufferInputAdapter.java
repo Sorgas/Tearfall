@@ -6,7 +6,7 @@ import com.badlogic.gdx.InputAdapter;
 import java.util.*;
 
 /**
- * Skips 1 keyTyped event right after keyDown. Both keyDown and keyTyped are passed further.
+ * Consumes 1 keyTyped event right after keyDown. Both keyDown and keyTyped are passed further.
  *
  * @author Alexander on 06.09.2018.
  */

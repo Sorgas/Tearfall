@@ -19,16 +19,18 @@ public class GameController extends Controller {
 
     public void init() {
         super.init();
-        inputMultiplexer = new InputMultiplexer();
         designationsController = new DesignationsController();
-        pauseInputAdapter = new PauseInputAdapter();
-        entitySelectorInputAdapter = new EntitySelectorInputAdapter();
         designationsController.init();
-        inputMultiplexer.addProcessor(new KeyBufferInputAdapter());                 // only buffers events
-        inputMultiplexer.addProcessor(pauseInputAdapter);                           // handles pause
+        Gdx.input.setInputProcessor(createInputMultiplexer());
+    }
+
+    private InputMultiplexer createInputMultiplexer() {
+        inputMultiplexer = new InputMultiplexer();
+        inputMultiplexer.addProcessor(new KeyBufferInputAdapter());                                   // only buffers events
+        inputMultiplexer.addProcessor(pauseInputAdapter = new PauseInputAdapter());                   // handles pause
         inputMultiplexer.addProcessor(gameMvc.getView().stageInputAdapter);                           // calls stages
-        inputMultiplexer.addProcessor(entitySelectorInputAdapter);                  // calls entity selector (movement)
-        Gdx.input.setInputProcessor(inputMultiplexer);
+        inputMultiplexer.addProcessor(entitySelectorInputAdapter = new EntitySelectorInputAdapter()); // calls entity selector (movement)
+        return inputMultiplexer;
     }
 
     public void setCameraEnabled(boolean value) {
