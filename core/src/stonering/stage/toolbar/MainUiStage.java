@@ -25,6 +25,7 @@ public class MainUiStage extends UiStage {
         addActor(toolbar = new Toolbar());
         addActor(tileStatusBar = new TileStatusBar());
         setKeyboardFocus(toolbar);
+        interceptInput = false;
         setDebugAll(true);
     }
 

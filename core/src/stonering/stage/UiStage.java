@@ -6,12 +6,12 @@ import stonering.widget.util.Resizeable;
 
 /**
  * Stage with screen viewport. Added widgets do no scaling on window resize.
- * Can intercept input.
+ * Interception works for non-overridden methods (focused widget and mouse).
  *
  * @author Alexander on 20.02.2019.
  */
 public class UiStage extends Stage implements Resizeable {
-    protected boolean interceptInput = false;
+    protected boolean interceptInput = true;
 
     public UiStage() {
         super();
@@ -30,21 +30,41 @@ public class UiStage extends Stage implements Resizeable {
 
     @Override
     public boolean keyDown(int keyCode) {
-        return interceptInput || super.keyDown(keyCode);
+        return super.keyDown(keyCode) || interceptInput;
     }
 
     @Override
     public boolean keyUp(int keyCode) {
-        return interceptInput || super.keyUp(keyCode);
+        return super.keyUp(keyCode) || interceptInput;
     }
 
     @Override
     public boolean keyTyped(char character) {
-        return interceptInput || super.keyTyped(character);
+        return super.keyTyped(character) || interceptInput;
     }
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        return interceptInput || super.touchDown(screenX, screenY, pointer, button);
+        return super.touchDown(screenX, screenY, pointer, button) || interceptInput;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return super.touchDragged(screenX, screenY, pointer) || interceptInput;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        return super.touchUp(screenX, screenY, pointer, button) || interceptInput;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return super.mouseMoved(screenX, screenY) || interceptInput;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        return super.scrolled(amount) || interceptInput;
     }
 }

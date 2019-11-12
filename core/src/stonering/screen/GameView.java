@@ -47,7 +47,7 @@ public class GameView extends SimpleScreen {
     }
 
     public Stage getActiveStage() {
-        return stageList.isEmpty() ? null : stageList.get(stageList.size() - 1);
+        return stageList.get(stageList.size() - 1);
     }
 
     /**
