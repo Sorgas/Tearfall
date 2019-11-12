@@ -95,4 +95,9 @@ public enum Logger {
         logError(message);
         return value;
     }
+
+    public <T> T logDebug(String message, T value) {
+        logDebug(message);
+        return value;
+    }
 }
