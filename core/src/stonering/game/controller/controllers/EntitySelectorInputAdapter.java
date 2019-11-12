@@ -29,7 +29,7 @@ public class EntitySelectorInputAdapter extends InputAdapter {
             GameMvc.instance().getView().showEntityStage(selector.getPosition());
             return true;
         }
-        int offset = Gdx.input.isKeyPressed(SHIFT_LEFT) ? 2 : 1;
+        int offset = Gdx.input.isKeyPressed(SHIFT_LEFT) ? 10 : 1;
         return moveByKey(keycode, offset);
     }
 
@@ -37,7 +37,7 @@ public class EntitySelectorInputAdapter extends InputAdapter {
     public boolean keyTyped(char character) {
         if (!enabled) return false;
         int keycode = charToKeycode(character);
-        int offset = Gdx.input.isKeyPressed(SHIFT_LEFT) ? 2 : 1;
+        int offset = Gdx.input.isKeyPressed(SHIFT_LEFT) ? 10 : 1;
         return moveByKey(keycode, offset) && secondaryMove(keycode, offset);
     }
 

@@ -19,7 +19,7 @@ public class FarmValidator extends PositionValidator {
     public boolean validate(LocalMap localMap, Position position) {
         if ((localMap.getBlockType(position) == BlockTypesEnum.FLOOR.CODE ||
                 localMap.getBlockType(position) == BlockTypesEnum.FARM.CODE) && // tile is floor or farm
-                MaterialMap.instance().getMaterial(localMap.getMaterial(position)).getTags().contains(SOIL_TAG)) { // tile is soil
+                MaterialMap.instance().getMaterial(localMap.getMaterial(position)).tags.contains(SOIL_TAG)) { // tile is soil
             return true;
         }
         return false;

@@ -48,6 +48,11 @@ public class ItemContainer extends EntityContainer<Item> {
         putItem(item, item.position);
     }
 
+    public void addAndPut(Item item, Position position) {
+        item.position = position.clone();
+        addAndPut(item);
+    }
+
     public void removeItem(Item item) {
         if (!entities.contains(item)) Logger.ITEMS.logWarn("Removing not present item " + item.getName());
         entities.remove(item);

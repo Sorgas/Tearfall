@@ -48,7 +48,7 @@ public class MaterialMap {
         for (FileHandle file : FileLoader.getFile(FileLoader.MATERIALS_PATH).list()) {
             ArrayList<Material> elements = json.fromJson(ArrayList.class, Material.class, file);
             for (Material material : elements) {
-                material.setId(id);
+                material.id = id;
                 ids.put(material.getName(), id);
                 materials.put(id, material);
                 id++;
@@ -84,8 +84,8 @@ public class MaterialMap {
         HashSet<String> typesSet = new HashSet<>(types);
         HashSet<Integer> idsSet = new HashSet<>();
         materials.values().stream().
-                filter(material -> !Collections.disjoint(typesSet, material.getTags())).
-                forEach(material -> idsSet.add(material.getId()));
+                filter(material -> !Collections.disjoint(typesSet, material.tags)).
+                forEach(material -> idsSet.add(material.id));
         return idsSet;
     }
 
@@ -95,15 +95,15 @@ public class MaterialMap {
     public Set<Integer> getMaterialsByTag(String tag) {
         HashSet<Integer> idsSet = new HashSet<>();
         materials.values().stream().
-                filter(material -> material.getTags().contains(tag)).
-                forEach(material -> idsSet.add(material.getId()));
+                filter(material -> material.tags.contains(tag)).
+                forEach(material -> idsSet.add(material.id));
         return idsSet;
     }
 
     public List<String> getMaterialNamesByTag(String tag) {
         List<String> list = new ArrayList<>();
         materials.values().stream().
-                filter(material -> material.getTags().contains(tag)).
+                filter(material -> material.tags.contains(tag)).
                 forEach(material -> list.add(material.getName()));
         return list;
     }

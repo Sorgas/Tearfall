@@ -1,26 +1,31 @@
 package stonering.generators.items;
 
 import stonering.entity.item.Item;
+import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.materials.Material;
 import stonering.enums.materials.MaterialMap;
-import stonering.util.geometry.Position;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Generates stone, ore, gem, clay, sand item for leaving while tile is dug out.
+ * TODO add other item classes
  *
  * @author Alexander Kuzyakov on 08.01.2018.
  */
 public class DiggingProductGenerator {
+    private ItemGenerator itemGenerator = new ItemGenerator();
 
-    //TODO add other item classes
-    public Item generateDigProduct(int materialId, Position position) {
+    public List<Item> generateDigProduct(int materialId, BlockTypesEnum oldType, BlockTypesEnum newType) {
+        List<Item> items = new ArrayList<>();
         Material material = MaterialMap.instance().getMaterial(materialId);
-        if (!material.getTags().contains("stone") && !material.getTags().contains("ore")) return null;
-        return new ItemGenerator().generateItem("rock", materialId, position);
-    }
-
-    public boolean productRequired(int materialId) {
-        Material material = MaterialMap.instance().getMaterial(materialId);
-        return material != null && (material.getTags().contains("stone") || material.getTags().contains("ore"));
+        int stoneAmount = Math.max(0, oldType.PRODUCT - newType.PRODUCT);
+        if (material.tags.contains("stone") || material.tags.contains("ore")) { // create rock items for dug stone and ore.
+            for (int i = 0; i < stoneAmount; i++) {
+                items.add(itemGenerator.generateItem("rock", material.id, null));
+            }
+        }
+        return items;
     }
 }

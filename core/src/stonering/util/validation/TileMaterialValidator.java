@@ -19,6 +19,6 @@ public class TileMaterialValidator extends PositionValidator {
     @Override
     public boolean validate(LocalMap map, Position position) {
         return map.inMap(position) &&
-                MaterialMap.instance().getMaterial(map.getMaterial(position)).getTags().contains(materialTag);
+                MaterialMap.instance().getMaterial(map.getMaterial(position)).tags.contains(materialTag);
     }
 }

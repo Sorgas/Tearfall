@@ -14,7 +14,7 @@ import stonering.util.global.Logger;
 import stonering.util.global.StaticSkin;
 
 /**
- * Invisible component that selects rectangle. Accepts E/Q keys input like menu.
+ * Label that is shown in toolbae and can select rectangle. Accepts E/Q keys input like menu.
  * Selected zone can have multiple z-levels.
  * TODO remove invoke methods, keeping mouse input.
  *

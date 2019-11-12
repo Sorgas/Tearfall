@@ -20,9 +20,9 @@ import java.util.HashMap;
 // GLASS(7),
 // METAL(8);
 public class Material {
-    private int id;
+    public int id;
     private String name;
-    private ArrayList<String> tags;
+    public ArrayList<String> tags;
     private float density;
     private HashMap<String, ArrayList<Object>> reactions; // other aspects
     private int value;
@@ -32,28 +32,12 @@ public class Material {
 
     public Material() {}
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public ArrayList<String> getTags() {
-        return tags;
-    }
-
-    public void setTags(ArrayList<String> tags) {
-        this.tags = tags;
     }
 
     public float getDensity() {
