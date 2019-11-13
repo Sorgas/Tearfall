@@ -16,7 +16,7 @@ public abstract class ActionTarget {
     public static final int EXACT = 0;
     public static final int NEAR = 1;
     public static final int ANY = 2;
-    private int targetPlacement;
+    public int targetPlacement;
 
     protected Action action;
     private Random random;

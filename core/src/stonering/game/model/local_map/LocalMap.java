@@ -33,6 +33,7 @@ public class LocalMap implements ModelComponent, Initable {
 
     public LightMap light;
     public transient PassageMap passage;                                 // not saved to savegame,
+    public transient PassageUtil passageUtil;
     private transient LocalTileMapUpdater localTileMapUpdater;           // not saved to savegame,
 
     public final int xSize;
@@ -49,6 +50,7 @@ public class LocalMap implements ModelComponent, Initable {
         this.zSize = zSize;
         cachePosition = new Position();
         light = new LightMap(this);
+        passageUtil = new PassageUtil(this);
     }
 
     public void init() {

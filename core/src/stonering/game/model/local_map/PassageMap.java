@@ -41,9 +41,8 @@ import static stonering.enums.blocks.BlockTypesEnum.PassageEnum.PASSABLE;
 public class PassageMap {
     private LocalMap localMap;
     private AStar aStar;
-    private UtilByteArray area; // number of area
+    UtilByteArray area; // number of area
     private UtilByteArray passage; // see {@link BlockTypesEnum} for passage values.
-    private boolean started = false;
     private Map<Byte, Integer> areaNumbers; // counts number of cells in areas
     private Position cachePosition;
 
@@ -246,8 +245,7 @@ public class PassageMap {
      * Tiles should be adjacent.
      */
     public boolean hasPathBetween(int x1, int y1, int z1, int x2, int y2, int z2) {
-        if (!localMap.inMap(x1, y1, z1)) return false;
-        if (!localMap.inMap(x2, y2, z2)) return false;
+        if (!localMap.inMap(x1, y1, z1) || !localMap.inMap(x2, y2, z2)) return false; // out of map
         if (passage.getValue(x1, y1, z1) != PASSABLE.VALUE) return false; // cell not passable
         if (passage.getValue(x2, y2, z2) != PASSABLE.VALUE) return false; // cell not passable
         if (z1 == z2) return true; // passable tiles on same level
@@ -260,8 +258,8 @@ public class PassageMap {
         }
     }
 
-    public boolean hasPathBetween(Position pos1, Position pos2) {
-        return hasPathBetween(pos1.x, pos1.y, pos1.z, pos2.x, pos2.y, pos2.z);
+    public boolean hasPathBetween(Position from, Position to) {
+        return hasPathBetween(from.x, from.y, from.z, to.x, to.y, to.z);
     }
 
     /**
@@ -278,21 +276,6 @@ public class PassageMap {
         if (buildingContainer != null && buildingContainer.getBuildingBlocks().containsKey(position)
                 && !buildingContainer.getBuildingBlocks().get(position).isPassable()) return PassageEnum.IMPASSABLE.VALUE;
         return tilePassage.VALUE;
-    }
-
-    public boolean positionReachable(Position pos1, Position pos2) {
-        return area.getValue(pos1) == area.getValue(pos2);
-    }
-
-    public <T extends Entity> List<T> filterEntitiesByReachability(List<T> entities, Position target) {
-        return entities.stream().
-                filter(entity -> entity.position != null).
-                filter(entity -> area.getValue(entity.position) == area.getValue(target)).
-                collect(Collectors.toList());
-    }
-
-    public boolean entityReachable(Entity entity, Position position) {
-        return entity.position != null && area.getValue(position) == area.getValue(entity.position);
     }
 
     public byte getPassage(int x, int y, int z) {
