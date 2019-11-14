@@ -56,7 +56,7 @@ public class CreatureMovementSystem {
         Position target = planning.getTarget();
         if (!target.equals(movement.target) || movement.path == null) { // target has changed, or path is null for old target
             movement.target = target;
-            movement.path = aStar.makeShortestPath(unit.position, movement.target = planning.getTarget());
+            movement.path = aStar.makeShortestPath(unit.position, movement.target = planning.getTarget(), planning.isTargetExact());
             if (movement.path == null) {
                 planning.task.status = TaskStatusEnum.FAILED; // no path to target, fail task
                 return freeAspect(movement);
