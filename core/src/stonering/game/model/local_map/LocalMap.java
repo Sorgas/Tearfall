@@ -3,6 +3,7 @@ package stonering.game.model.local_map;
 import com.badlogic.gdx.math.Vector2;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.GameMvc;
+import stonering.game.model.local_map.passage.PassageMap;
 import stonering.game.model.system.ModelComponent;
 import stonering.game.model.system.PlantContainer;
 import stonering.game.model.system.SubstrateContainer;
@@ -116,12 +117,12 @@ public class LocalMap implements ModelComponent, Initable {
     private void setBlockType(int x, int y, int z, byte type) {
         if (type == BlockTypesEnum.SPACE.CODE) deletePlantsOnDeletedBlock(x, y, z);
         blockType[x][y][z] = type;
-        if (passage != null) passage.update(x, y, z);
+        if (passage != null) passage.updater.update(x, y, z);
         if (localTileMapUpdater != null) localTileMapUpdater.updateTile(x, y, z);
     }
 
     public void updateTile(int x, int y, int z) {
-        if(passage != null) passage.update(x, y, z);
+        if(passage != null) passage.updater.update(x, y, z);
     }
 
     public void updateTile(Position position) {

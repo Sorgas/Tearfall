@@ -1,13 +1,13 @@
-package stonering.game.model.local_map;
+package stonering.game.model.local_map.passage;
 
 import stonering.game.GameMvc;
+import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
 import stonering.util.pathfinding.a_star.AStar;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static stonering.enums.blocks.BlockTypesEnum.PassageEnum.PASSABLE;
 
@@ -21,13 +21,10 @@ public class PassageUpdater {
     private LocalMap map;
     private PassageMap passage;
     private AStar aStar;
-    private Position cachePosition;
-
 
     public PassageUpdater(LocalMap map, PassageMap passage) {
         this.map = map;
         this.passage = passage;
-        cachePosition = new Position();
         aStar = GameMvc.instance().getModel().get(AStar.class);
     }
 
@@ -35,39 +32,29 @@ public class PassageUpdater {
      * Called when local map passage is updated. If cell becomes non-passable, it may split area into two.
      */
     public void update(int x, int y, int z) {
-        int passing = passage.isTilePassable(cachePosition.set(x, y, z));
-        passage.passage.set(x, y, z, passing);
-        if (passing == PASSABLE.VALUE) { // areas should be merged
-            Set<Byte> areas = observeAreasAround(x, y, z);
-            if (areas.size() == 1) passage.area.set(x, y, z, areas.iterator().next());
+        Position center = new Position(x, y, z);
+        int passing = passage.isTilePassable(center);
+        passage.passage.set(center, passing);
+        if (passing == PASSABLE.VALUE) { // tile became passable, areas should be merged
+            Set<Byte> areas = new NeighbourPositionStream(center, passage)
+                    .filterByReachability()
+                    .filterByArea(0)
+                    .stream.map(position -> passage.area.get(position))
+                    .collect(Collectors.toSet());
+            passage.area.set(x, y, z, areas.iterator().next()); // set area value to current tile
             if (areas.size() > 1) mergeAreas(areas);
-        } else { // areas may split
-            Position position = new Position(x, y, z);
-            splitAreas(new NeighboursStream(position)
-                            .filterOutOfMap()
-                            .filterUnreachable()
-                            .mapByArea(), position);
+        } else { // tile became impassable, areas may split
+            splitAreas(center, new NeighbourPositionStream(center, passage)
+                    .filterByReachability()
+                    .stream.collect(Collectors.toMap(
+                            passage.area::get,
+                            Arrays::asList,
+                            (list1, list2) -> {
+                                list1.addAll(list2);
+                                return list1;
+                            }))
+            );
         }
-    }
-
-    /**
-     * Return area numbers around given position.
-     * Inaccessible tiles are skipped.
-     */
-    private Set<Byte> observeAreasAround(int cx, int cy, int cz) {
-
-        Set<Byte> neighbours = new HashSet<>();
-        for (int x = cx - 1; x < cx + 2; x++) {
-            for (int y = cy - 1; y < cy + 2; y++) {
-                for (int z = cz - 1; z < cz + 2; z++) {
-                    if (!map.inMap(x, y, z)) continue;
-                    byte areaValue = passage.area.get(x, y, z);
-                    if (areaValue == 0 || !passage.hasPathBetweenNeighbours(x, y, z, cx, cy, cz)) continue;
-                    neighbours.add(areaValue);
-                }
-            }
-        }
-        return neighbours;
     }
 
     /**
@@ -78,8 +65,6 @@ public class PassageUpdater {
         if (areas.isEmpty()) return;
         byte largestArea = areas.stream().max(Comparator.comparingInt(o -> passage.area.numbers.get(o).value)).get();
         areas.remove(largestArea);
-        HashMap<Byte, Integer> areaSizes = new HashMap<>();
-        areas.forEach(aByte -> areaSizes.put(aByte, passage.area.numbers.get(aByte).value));
         for (int x = 0; x < map.xSize; x++) {
             for (int y = 0; y < map.ySize; y++) {
                 for (int z = 0; z < map.zSize; z++) {
@@ -98,7 +83,7 @@ public class PassageUpdater {
      *
      * @param posMap area number is mapped to set of positions of this area.
      */
-    private void splitAreas(Map<Byte, List<Position>> posMap, Position center) {
+    private void splitAreas(Position center, Map<Byte, List<Position>> posMap) {
         Logger.PATH.logDebug("Splitting areas around " + center + " in positions " + posMap);
         for (Byte areaValue : posMap.keySet()) {
             List<Position> posList = posMap.get(areaValue);
@@ -139,10 +124,9 @@ public class PassageUpdater {
             Position center = openSet.iterator().next();
             openSet.remove(center);
             passage.area.set(center.x, center.y, center.z, value);
-            new NeighboursStream(center)
-                    .filterOutOfMap()
+            new NeighbourPositionStream(center, passage)
+                    .filterByReachability()
                     .filterByArea(value)
-                    .filterUnreachable()
                     .stream.forEach(openSet::add);
         }
         return counter;
@@ -151,49 +135,7 @@ public class PassageUpdater {
     private byte getUnusedAreaNumber() {
         for (byte i = 0; i < Byte.MAX_VALUE; i++)
             if (!passage.area.numbers.keySet().contains(i)) return i;
+        Logger.PATH.logError("Area numbers overflow");
         return 0;
-    }
-
-    private class NeighboursStream {
-        private Position center;
-        private Stream<Position> stream;
-
-        public NeighboursStream(Position center) {
-            this.center = center;
-            Set<Position> neighbours = new HashSet<>();
-            for (int x = center.x - 1; x < center.x + 2; x++) {
-                for (int y = center.y - 1; y < center.y + 2; y++) {
-                    for (int z = center.z - 1; z < center.z + 2; z++) {
-                        neighbours.add(new Position(center.x + x, center.y + y, center.z + z));
-                    }
-                }
-            }
-            stream = neighbours.stream();
-        }
-
-        private NeighboursStream filterOutOfMap() {
-            stream = stream.filter(map::inMap);
-            return this;
-        }
-
-        private NeighboursStream filterUnreachable() {
-            stream = stream.filter(position -> passage.hasPathBetweenNeighbours(position, center));
-            return this;
-        }
-
-        private NeighboursStream filterByArea(int value) {
-            stream = stream.filter(position -> passage.area.get(position) == value);
-            return this;
-        }
-
-        private Map<Byte, List<Position>> mapByArea() {
-            return stream.collect(Collectors.toMap(
-                    position -> passage.area.get(position),
-                    Arrays::asList,
-                    (list1, list2) -> {
-                        list1.addAll(list2);
-                        return list1;
-                    }));
-        }
     }
 }

@@ -100,4 +100,9 @@ public enum Logger {
         logDebug(message);
         return value;
     }
+
+    public <T> T logWarn(String message, T value) {
+        logWarn(message);
+        return value;
+    }
 }

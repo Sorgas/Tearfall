@@ -17,6 +17,7 @@ public class ByteArrayWithCounter extends UtilByteArray {
     public ByteArrayWithCounter(int xSize, int ySize, int zSize) {
         super(xSize, ySize, zSize);
         numbers = new HashMap<>();
+        numbers.put((byte) 0, new MutableInteger(xSize * ySize * zSize));
     }
 
     @Override

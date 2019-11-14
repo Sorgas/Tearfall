@@ -1,8 +1,8 @@
-package stonering.game.model.local_map;
+package stonering.game.model.local_map.passage;
 
-import stonering.game.model.util.UtilByteArray;
-import stonering.util.geometry.Position;
+import stonering.game.model.local_map.LocalMap;
 import stonering.util.global.Logger;
+import stonering.util.global.MutableInteger;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -98,7 +98,7 @@ public class AreaInitializer {
                     if (oldArea == 0) continue; // non passable tile
                     newArea = areaMapping.getOrDefault(oldArea, oldArea); // area number can be not mapped, if area is isolated.
                     passage.area.set(x, y, z, newArea); // set mapped value
-                    passage.area.numbers.put(newArea, passage.area.numbers.getOrDefault(newArea, 0) + 1); // increment counter
+                    passage.area.numbers.getOrDefault(newArea, new MutableInteger()).value++; // increment counter
                 }
             }
         }

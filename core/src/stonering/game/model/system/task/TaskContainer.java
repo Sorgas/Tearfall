@@ -10,7 +10,7 @@ import stonering.enums.TaskStatusEnum;
 import stonering.enums.time.TimeUnitEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.Turnable;
-import stonering.game.model.local_map.PassageMap;
+import stonering.game.model.local_map.passage.PassageMap;
 import stonering.game.model.system.ModelComponent;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
@@ -18,8 +18,6 @@ import stonering.entity.job.Task;
 import stonering.util.global.Logger;
 
 import java.util.*;
-
-import static stonering.enums.OrderStatusEnum.OPEN;
 
 /**
  * Contains all tasks for settlers on map and Designations for rendering.
@@ -75,7 +73,7 @@ public class TaskContainer implements ModelComponent, Turnable {
                 ActionTarget target = task.nextAction.actionTarget;
                 if (task.performer == null &&
                         task.status == TaskStatusEnum.OPEN &&
-                        map.positionReachable(position, target.getPosition(), target.targetPlacement != ActionTarget.EXACT)) {
+                        map.util.positionReachable(position, target.getPosition(), target.targetPlacement != ActionTarget.EXACT)) {
                     //TODO add selecting nearest task.
                     return task;
                 }

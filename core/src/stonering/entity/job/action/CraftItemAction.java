@@ -69,15 +69,15 @@ public class CraftItemAction extends Action {
      */
     @Override
     public int check() {
-        ItemContainerAspect containerAspect = workbench.getAspect(ItemContainerAspect.class); //TODO remove item container requirement (item in unit inventory, on the ground or in !nearby containers!).
-        if (workbench.getAspect(WorkbenchAspect.class) == null || containerAspect == null) {
-            Logger.TASKS.logWarn("Building " + workbench.toString() + " is not a workbench with item container.");
-            return FAIL;
-        }
+        //TODO add usage of items in unit inventory, on the ground or in !nearby containers!).
+        WorkbenchAspect aspect = workbench.getAspect(WorkbenchAspect.class);
+        if (workbench.getAspect(WorkbenchAspect.class) == null)
+            return Logger.TASKS.logWarn("Building " + workbench.toString() + " is not a workbench.", FAIL);
         if (!updateDesiredItems()) return FAIL; // desiredItems valid after this
-        if (!containerAspect.items.containsAll(desiredItems)) { // some item are out of WB.
+
+        if (!aspect.containedItems.containsAll(desiredItems)) { // some item are out of WB.
             List<Item> outOfWBItems = new ArrayList<>(desiredItems);
-            outOfWBItems.removeAll(containerAspect.items);
+            outOfWBItems.removeAll(aspect.containedItems);
             task.addFirstPreAction(new PutItemAction(outOfWBItems.get(0), workbench)); // create action to bring item
             return NEW;
         }
@@ -110,7 +110,7 @@ public class CraftItemAction extends Action {
         List<IngredientOrder> ingredientOrders = new ArrayList<>(itemOrder.parts.values());
         ingredientOrders.addAll(itemOrder.consumed);
         for (IngredientOrder ingredientOrder : ingredientOrders) {
-            List<Item> foundItems = container.util.getItemsAvailableBySelector(ingredientOrder.itemSelector, workbench.position);
+            List<Item> foundItems = container.util.getItemsAvailableBySelector(ingredientOrder.itemSelector, task.performer.position);
             foundItems.removeAll(desiredItems); // remove already added items
             if (foundItems.isEmpty()) { // no items found for ingredient
                 desiredItems.clear();

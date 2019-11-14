@@ -28,7 +28,7 @@ public class UtilByteArray implements Serializable {
         array[x][y][z] = (byte) value;
     }
 
-    public void set(Position position, byte value) {
+    public void set(Position position, int value) {
         set(position.x, position.y, position.z, value);
     }
 

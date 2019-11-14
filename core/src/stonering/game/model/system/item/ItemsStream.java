@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * Wrapping for {@link java.util.stream.Stream} to provide more specific methods.
+ * Wrapping for {@link Stream} to provide more specific methods.
  *
  * @author Alexander on 14.10.2019.
  */
@@ -48,7 +48,7 @@ public class ItemsStream {
     }
 
     public ItemsStream filterByReachability(Position position) {
-        stream = stream.filter(item -> GameMvc.instance().getModel().get(LocalMap.class).passage.entityReachable(item, position));
+        stream = stream.filter(item -> GameMvc.instance().getModel().get(LocalMap.class).passage.util.positionReachable(position, item.position, false));
         return this;
     }
 

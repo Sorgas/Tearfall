@@ -1,5 +1,6 @@
 package stonering.entity.job.action;
 
+import stonering.entity.building.aspects.WorkbenchAspect;
 import stonering.entity.job.action.aspects.ItemPickAction;
 import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.job.action.target.EntityActionTarget;
@@ -15,7 +16,7 @@ import stonering.util.geometry.Position;
 /**
  * Action for putting item to some target {@link Entity} or position on map. Item will be picked up.
  * Action performer should have {@link EquipmentAspect}.
- * Target entity should have {@link ItemContainerAspect}.
+ * Target entity should have {@link WorkbenchAspect}.
  *
  * Target can be either a position or a container(like chest).
  *
@@ -43,7 +44,8 @@ public class PutItemAction extends Action {
         EquipmentAspect equipmentAspect = task.performer.getAspect(EquipmentAspect.class);
         equipmentAspect.hauledItems.remove(targetItem);
         if (targetEntity != null) {
-            (targetEntity.getAspect(ItemContainerAspect.class)).items.add(targetItem); // put into container
+
+            (targetEntity.getAspect(WorkbenchAspect.class)).containedItems.add(targetItem); // put into container
         } else {
             GameMvc.instance().getModel().get(ItemContainer.class).putItem(targetItem, targetPosition); // put on position
         }
@@ -51,7 +53,7 @@ public class PutItemAction extends Action {
 
     @Override
     public int check() {
-        if (targetEntity != null && targetEntity.getAspect(ItemContainerAspect.class) == null) return FAIL;
+        if (targetEntity != null && targetEntity.getAspect(WorkbenchAspect.class) == null) return FAIL;
         EquipmentAspect equipmentAspect = task.performer.getAspect(EquipmentAspect.class);
         if (equipmentAspect == null) return FAIL; // performer can't carry items
         if (equipmentAspect.hauledItems.contains(targetItem)) return OK; // performer already has item

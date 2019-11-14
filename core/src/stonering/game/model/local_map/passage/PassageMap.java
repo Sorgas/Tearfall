@@ -1,26 +1,20 @@
-package stonering.game.model.local_map;
+package stonering.game.model.local_map.passage;
 
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
+import stonering.game.model.local_map.ByteArrayWithCounter;
+import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.building.BuildingContainer;
 import stonering.game.model.system.PlantContainer;
 import stonering.game.model.util.UtilByteArray;
 import stonering.util.geometry.Position;
-import stonering.util.pathfinding.a_star.AStar;
-
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import static stonering.enums.blocks.BlockTypesEnum.*;
 import static stonering.enums.blocks.BlockTypesEnum.PassageEnum.PASSABLE;
 
 /**
- * Subcomponent of {@link LocalMap}, is created on local map init.
+ * Sub-component of {@link LocalMap}, is created on local map init.
  * Manages isolated areas on localMap to prevent pathfinding between them.
  * Updates areas on local map change.
  * When tile becomes passable, some areas may merge.

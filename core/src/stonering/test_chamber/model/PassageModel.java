@@ -9,7 +9,7 @@ import stonering.game.model.EntitySelector;
 import stonering.game.model.system.unit.UnitContainer;
 import stonering.game.model.system.task.TaskContainer;
 import stonering.game.model.local_map.LocalMap;
-import stonering.game.model.local_map.PassageMap;
+import stonering.game.model.local_map.passage.PassageMap;
 import stonering.generators.creatures.CreatureGenerator;
 import stonering.util.geometry.Position;
 
