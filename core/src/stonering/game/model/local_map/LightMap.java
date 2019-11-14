@@ -55,7 +55,7 @@ public class LightMap {
         for (int x = 0; x < localMap.xSize; x++) {
             for (int y = 0; y < localMap.ySize; y++) {
                 for (int z = 0; z < localMap.zSize; z++) {
-                    localMap.light.localLight.setValue(x, y, z, -1);
+                    localMap.light.localLight.set(x, y, z, -1);
                     counter++;
                 }
             }
@@ -79,7 +79,7 @@ public class LightMap {
             closed.add(pos);
             if (maxRange != -1 && maxRange < start.getDistance(pos))
                 continue; // terminate filling, if max range reached
-            localLight.setValue(pos, (byte) 0); // reveal
+            localLight.set(pos, (byte) 0); // reveal
             if (localMap.getBlockType(pos) == WALL.CODE) continue; // walls always terminate filling
             Set<Position> observed = observe(pos);
             observed.removeAll(closed);
@@ -122,11 +122,11 @@ public class LightMap {
      * Checks that given tile is on map and hidden.
      */
     private boolean canReveal(Position pos) {
-        return localMap.inMap(pos) && localLight.getValue(pos) == -1;
+        return localMap.inMap(pos) && localLight.get(pos) == -1;
     }
 
 
     public byte getLightLevel(Position pos) {
-        return (byte) MathUtils.clamp(generalLight * generalLightMap.getValue(pos) + localLight.getValue(pos), 0, 7);
+        return (byte) MathUtils.clamp(generalLight * generalLightMap.get(pos) + localLight.get(pos), 0, 7);
     }
 }

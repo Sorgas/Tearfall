@@ -31,9 +31,9 @@ public class LocalMap implements ModelComponent, Initable {
     private byte[][][] temperature;
     private Position cachePosition;
 
+
     public LightMap light;
     public transient PassageMap passage;                                 // not saved to savegame,
-    public transient PassageUtil passageUtil;
     private transient LocalTileMapUpdater localTileMapUpdater;           // not saved to savegame,
 
     public final int xSize;
@@ -50,7 +50,6 @@ public class LocalMap implements ModelComponent, Initable {
         this.zSize = zSize;
         cachePosition = new Position();
         light = new LightMap(this);
-        passageUtil = new PassageUtil(this);
     }
 
     public void init() {
@@ -62,8 +61,7 @@ public class LocalMap implements ModelComponent, Initable {
 
     public void initAreas() {
         passage = new PassageMap(this);
-        passage.initPassage();
-        new AreaInitializer(this).formPassageMap(passage);
+        passage.init();
     }
 
     /**
@@ -118,17 +116,12 @@ public class LocalMap implements ModelComponent, Initable {
     private void setBlockType(int x, int y, int z, byte type) {
         if (type == BlockTypesEnum.SPACE.CODE) deletePlantsOnDeletedBlock(x, y, z);
         blockType[x][y][z] = type;
-        if (localTileMapUpdater != null) {
-            localTileMapUpdater.updateTile(x, y, z);
-        }
-        if (passage != null) {
-            passage.updateCell(x, y, z);
-        }
+        if (passage != null) passage.update(x, y, z);
         if (localTileMapUpdater != null) localTileMapUpdater.updateTile(x, y, z);
     }
 
     public void updateTile(int x, int y, int z) {
-        if(passage != null) passage.updateCell(x, y, z);
+        if(passage != null) passage.update(x, y, z);
     }
 
     public void updateTile(Position position) {

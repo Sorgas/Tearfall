@@ -94,7 +94,7 @@ public class TileRenderer extends Renderer {
             defineLayerBounds(z);
             for (int y = cacheBounds.getMaxY(); y >= cacheBounds.getMinY(); y--) {
                 for (int x = cacheBounds.getMinX(); x <= cacheBounds.getMaxX(); x++) {
-                    if (localMap.light.localLight.getValue(x, y, z) != -1) {
+                    if (localMap.light.localLight.get(x, y, z) != -1) {
                         drawTile(x, y, z);
                     } else {
                         util.drawScale(blackTile, cachePosition.set(x, y, z), BatchUtil.TILE_WIDTH, BatchUtil.TILE_DEPTH);
@@ -129,7 +129,7 @@ public class TileRenderer extends Renderer {
     private void drawTile(int x, int y, int z) {
         cachePosition.set(x, y, z);
         cacheVector.set(x, y, z); // not changed after
-//        byte lightLevel = q(byte) (localMap.getLight().getValue(x, y, z) + localMap.getGeneralLight().getValue(x, y, z));  //TODO limit light level
+//        byte lightLevel = q(byte) (localMap.getLight().get(x, y, z) + localMap.getGeneralLight().get(x, y, z));  //TODO limit light level
 //        util.shadeByLight(lightLevel);
         drawBlock(x, y, z);
         if (substrateContainer != null) drawSubstrate(x, y, z);
@@ -145,7 +145,7 @@ public class TileRenderer extends Renderer {
 
     private void drawAreaLabel(int x, int y, int z) {
         if (localMap.getBlockType(x, y, z) == BlockTypesEnum.SPACE.CODE) return;
-        String text = localMap.getPassage().getArea().getValue(x, y, z) + " " + localMap.getPassage().getPassage(x, y, z);
+        String text = localMap.getPassage().getArea().get(x, y, z) + " " + localMap.getPassage().getPassage(x, y, z);
         util.writeText(text, x, y + 1, z);
     }
 

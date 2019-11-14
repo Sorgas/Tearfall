@@ -16,27 +16,27 @@ public class UtilByteArray implements Serializable {
         array = new byte[xSize][ySize][zSize];
     }
 
-    public byte getValue(int x, int y, int z) {
+    public byte get(int x, int y, int z) {
         return array[x][y][z];
     }
 
-    public void setValue(int x, int y, int z, int value) {
-        this.array[x][y][z] = (byte) value;
+    public byte get(Position position) {
+        return get(position.x, position.y, position.z);
     }
 
-    public void changeValue(int x, int y, int z, byte delta) {
+    public void set(int x, int y, int z, int value) {
+        array[x][y][z] = (byte) value;
+    }
+
+    public void set(Position position, byte value) {
+        set(position.x, position.y, position.z, value);
+    }
+
+    public void change(int x, int y, int z, byte delta) {
         array[x][y][z] += delta;
     }
 
-    public byte getValue(Position position) {
-        return array[position.x][position.y][position.z];
-    }
-
-    public void setValue(Position position, byte value) {
-        this.array[position.x][position.y][position.z] = value;
-    }
-
-    public void changeValue(Position position, byte delta) {
-        array[position.x][position.y][position.z] += delta;
+    public void change(Position position, byte delta) {
+        change(position.x, position.y, position.z, delta);
     }
 }

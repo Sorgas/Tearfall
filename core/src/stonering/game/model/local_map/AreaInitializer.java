@@ -1,6 +1,5 @@
 package stonering.game.model.local_map;
 
-import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.model.util.UtilByteArray;
 import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
@@ -32,17 +31,13 @@ public class AreaInitializer {
     private PassageMap passage;
     private Set<Set<Byte>> synonyms; // sets contain numbers of connected areas
     private Map<Byte, Byte> areaMapping; // synonym values to synonym min
-    private Position cachePosition;
 
     public AreaInitializer(LocalMap localMap) {
         this.localMap = localMap;
-        cachePosition = new Position();
     }
 
     /**
      * Creates {@link PassageMap} based on localMap.
-     *
-     * @return
      */
     public void formPassageMap(PassageMap passage) {
         this.passage = passage;
@@ -61,14 +56,13 @@ public class AreaInitializer {
         for (int x = 0; x < localMap.xSize; x++) {
             for (int y = 0; y < localMap.ySize; y++) {
                 for (int z = 0; z < localMap.zSize; z++) {
-                    if (passage.getPassage(x, y, z) == PASSABLE.VALUE) { // not wall
+                    if (passage.getPassage(x, y, z) == PASSABLE.VALUE) { // not wall or space
                         Set<Byte> neighbours = getNeighbours(x, y, z);
-                        if (neighbours.isEmpty()) {
-                            // new area found
-                            passage.getArea().setValue(x, y, z, areaNum++);
-                        } else {
-                            if (neighbours.size() > 1) addSynonyms(neighbours); // multiple areas near.
-                            passage.getArea().setValue(x, y, z, neighbours.iterator().next());
+                        if (neighbours.isEmpty()) { // new area found
+                            passage.getArea().set(x, y, z, areaNum++);
+                        } else { // multiple areas near
+                            if (neighbours.size() > 1) addSynonyms(neighbours);
+                            passage.getArea().set(x, y, z, neighbours.iterator().next());
                         }
                     }
                 }
@@ -78,7 +72,6 @@ public class AreaInitializer {
 
     /**
      * Maps values from synonyms to lowest value from synonym
-     *
      */
     private void processSynonyms() {
         for (Set<Byte> synonym : synonyms) {
@@ -98,16 +91,14 @@ public class AreaInitializer {
     private void applyMapping() {
         byte oldArea;
         byte newArea;
-        Map<Byte, Integer> areaNumbers = passage.getAreaNumbers();
-        UtilByteArray area = passage.getArea();
         for (int x = 0; x < localMap.xSize; x++) {
             for (int y = 0; y < localMap.ySize; y++) {
                 for (int z = 0; z < localMap.zSize; z++) {
-                    oldArea = area.getValue(x, y, z); // unmapped value
+                    oldArea = passage.area.get(x, y, z); // unmapped value
                     if (oldArea == 0) continue; // non passable tile
                     newArea = areaMapping.getOrDefault(oldArea, oldArea); // area number can be not mapped, if area is isolated.
-                    area.setValue(x, y, z, newArea); // set mapped value
-                    areaNumbers.put(newArea, areaNumbers.getOrDefault(newArea, 0) + 1); // increment counter
+                    passage.area.set(x, y, z, newArea); // set mapped value
+                    passage.area.numbers.put(newArea, passage.area.numbers.getOrDefault(newArea, 0) + 1); // increment counter
                 }
             }
         }
@@ -140,17 +131,13 @@ public class AreaInitializer {
         for (int x = cx - 1; x < cx + 2; x++) {
             for (int y = cy - 1; y < cy + 2; y++) {
                 for (int z = cz - 1; z < cz + 2; z++) {
-                    if (!passage.hasPathBetween(x, y, z, cx, cy, cz)) continue;
-                    byte currentArea = passage.getArea().getValue(x, y, z);
+                    if (!passage.hasPathBetweenNeighbours(x, y, z, cx, cy, cz)) continue;
+                    byte currentArea = passage.getArea().get(x, y, z);
                     neighbours.add(currentArea);
                 }
             }
         }
         neighbours.remove((byte) 0);
         return neighbours;
-    }
-
-    public static void main(String[] args) {
-        System.out.println("qwer%3Aq|we%3Aasdf%3|Aasd%3Azxc|v%3Azxc".replace("%3A", ":"));
     }
 }

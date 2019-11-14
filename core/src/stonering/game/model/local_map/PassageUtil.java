@@ -9,7 +9,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * Class for checking paths existence.
+ * Class for checking paths existence by game entities.
  *
  * @author Alexander on 13.11.2019.
  */
@@ -24,19 +24,19 @@ public class PassageUtil {
 
 
     public boolean positionReachable(Position from, Position to, boolean acceptNearTarget) {
-        if (map.passage.area.getValue(to) == map.passage.area.getValue(from)) return true; // target in same area
-        return acceptNearTarget && getNeighbours(to).stream().anyMatch(position -> map.passage.area.getValue(position) == map.passage.area.getValue(from)); // near tile in same area
+        if (map.passage.area.get(to) == map.passage.area.get(from)) return true; // target in same area
+        return acceptNearTarget && getNeighbours(to).stream().anyMatch(position -> map.passage.area.get(position) == map.passage.area.get(from)); // near tile in same area
     }
 
     public <T extends Entity> List<T> filterEntitiesByReachability(List<T> entities, Position target) {
         return entities.stream().
                 filter(entity -> entity.position != null).
-                filter(entity -> area.getValue(entity.position) == area.getValue(target)).
+                filter(entity -> map.passage.area.get(entity.position) == map.passage.area.get(target)).
                 collect(Collectors.toList());
     }
 
     public boolean entityReachable(Entity entity, Position from) {
-        return entity.position != null && area.getValue(from) == area.getValue(entity.position);
+        return entity.position != null && map.passage.area.get(from) == map.passage.area.get(entity.position);
     }
 
     /**
