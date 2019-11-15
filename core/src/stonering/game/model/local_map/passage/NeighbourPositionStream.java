@@ -11,12 +11,12 @@ import java.util.stream.Stream;
  *
  * @author Alexander on 14.11.2019.
  */
-class NeighbourPositionStream {
-    Stream<Position> stream;
+public class NeighbourPositionStream {
+    public Stream<Position> stream;
     private PassageMap passage;
     private Position center;
 
-    NeighbourPositionStream(Position center, PassageMap passage) {
+    public NeighbourPositionStream(Position center, PassageMap passage) {
         this.passage = passage;
         this.center = center;
         Set<Position> neighbours = new HashSet<>();
@@ -31,12 +31,12 @@ class NeighbourPositionStream {
         stream = neighbours.stream();
     }
 
-    NeighbourPositionStream filterByReachability() {
+    public NeighbourPositionStream filterByReachability() {
         stream = stream.filter(position -> passage.hasPathBetweenNeighbours(position, center));
         return this;
     }
 
-    NeighbourPositionStream filterByArea(int value) {
+    public NeighbourPositionStream filterByArea(int value) {
         stream = stream.filter(position -> passage.area.get(position) == value);
         return this;
     }
