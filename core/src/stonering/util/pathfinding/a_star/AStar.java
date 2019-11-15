@@ -24,16 +24,14 @@ public class AStar implements ModelComponent {
     public List<Position> makeShortestPath(Position initialPos, Position targetPos, boolean exactTarget) {
         localMap = GameMvc.instance().getModel().get(LocalMap.class);
         Node initialNode = new Node(initialPos, targetPos);
-        //perform search and save the
-        Node pathNode = search(initialNode, targetPos);
+        Node pathNode = search(initialNode, targetPos, exactTarget); //perform search
         if (pathNode == null) return null;
 
-        //return shortest path according to AStar heuristics
         LinkedList<Position> path = new LinkedList<>();
-        path.add(pathNode.getPosition());
+        path.add(pathNode.position);
         while (pathNode.getParent() != null) {
             pathNode = pathNode.getParent();
-            path.add(0, pathNode.getPosition());
+            path.add(0, pathNode.position);
         }
         return path;
     }
@@ -41,23 +39,19 @@ public class AStar implements ModelComponent {
     /**
      * @param initialNode start of the search
      * @param targetPos   end of the search
-     * @return goal node from which you can reconstruct the path
+     * @param exactTarget if false, target can be impassable, and path can end next to it.
+     * @return goal node to restore path from
      */
-    private Node search(Node initialNode, Position targetPos) {
-        Logger.PATH.logDebug("searching path from " + initialNode.getPosition() + " to " + targetPos);
+    private Node search(Node initialNode, Position targetPos, boolean exactTarget) {
+        Logger.PATH.logDebug("searching path from " + initialNode.position + " to " + targetPos);
         HashPriorityQueue<Node, Node> openSet = new HashPriorityQueue(new NodeComparator());
         HashMap<Integer, Node> closedSet = new HashMap<>();
-
-        // current iteration of the search
-        int numSearchSteps = 0;
-
+        int numSearchSteps = 0; // current iteration of the search
         openSet.add(initialNode, initialNode);
         while (openSet.size() > 0 && (maxSteps < 0 || numSearchSteps < maxSteps)) {
-            //get element with the least sum of costs
-            Node currentNode = openSet.poll();
+            Node currentNode = openSet.poll(); //get element with the least sum of costs
 
-            //check if path is complete
-            if (targetPos.equals(currentNode.getPosition())) return currentNode;
+            if (targetPos.equals(currentNode.position)) return currentNode; //check if path is complete
 
             //get successor nodes
             ArrayList<Node> successorNodes = getSuccessors(currentNode, targetPos);
@@ -104,7 +98,7 @@ public class AStar implements ModelComponent {
      */
     private ArrayList<Node> getSuccessors(Node node, Position target) {
         ArrayList<Node> nodes = new ArrayList<>();
-        final Position nodePos = node.getPosition();
+        final Position nodePos = node.position;
         Position offset = new Position(0, 0, 0);
         for (offset.z = -1; offset.z <= 1; offset.z++) {
             for (offset.y = -1; offset.y <= 1; offset.y++) {

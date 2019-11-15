@@ -6,7 +6,7 @@ import stonering.util.geometry.Position;
  * @author Alexander Kuzyakov on 12.02.2018.
  */
 public class Node {
-    private Position position;
+    public Position position;
     private Node parent;
     private int pathLength;
     private float heuristic;
@@ -35,14 +35,6 @@ public class Node {
     @Override
     public int hashCode() {
         return position.hashCode();
-    }
-
-    public Position getPosition() {
-        return position;
-    }
-
-    public void setPosition(Position position) {
-        this.position = position;
     }
 
     public Node getParent() {
@@ -74,6 +66,6 @@ public class Node {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        return position.equals(((Node) o).getPosition());
+        return position.equals(((Node) o).position);
     }
 }
