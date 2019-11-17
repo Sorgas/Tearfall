@@ -2,7 +2,7 @@ package stonering.entity.unit.aspects.needs;
 
 import stonering.entity.Entity;
 import stonering.entity.job.Task;
-import stonering.enums.TaskPrioritiesEnum;
+import stonering.enums.action.TaskPrioritiesEnum;
 
 /**
  * Abstract class for needs.

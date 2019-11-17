@@ -6,7 +6,7 @@ import stonering.entity.job.Task;
 import stonering.entity.job.action.Action;
 import stonering.entity.job.action.EatAction;
 import stonering.entity.unit.aspects.health.HealthAspect;
-import stonering.enums.TaskPrioritiesEnum;
+import stonering.enums.action.TaskPrioritiesEnum;
 import stonering.enums.items.TagEnum;
 import stonering.enums.unit.health.HealthParameterEnum;
 import stonering.enums.unit.health.HungerParameter;

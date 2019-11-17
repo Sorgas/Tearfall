@@ -2,7 +2,7 @@ package stonering.enums.unit.health;
 
 import stonering.entity.unit.aspects.health.Buff;
 import stonering.entity.unit.aspects.health.HealthParameterState;
-import stonering.enums.TaskPrioritiesEnum;
+import stonering.enums.action.TaskPrioritiesEnum;
 import stonering.util.global.Logger;
 import stonering.util.math.MathUtil;
 

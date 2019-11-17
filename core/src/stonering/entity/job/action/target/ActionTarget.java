@@ -1,6 +1,7 @@
 package stonering.entity.job.action.target;
 
 import stonering.entity.job.action.MoveAction;
+import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
@@ -13,16 +14,13 @@ import java.util.Random;
 import static stonering.entity.job.action.target.ActionTargetStatusEnum.*;
 
 public abstract class ActionTarget {
-    public static final int EXACT = 0;
-    public static final int NEAR = 1;
-    public static final int ANY = 2;
-    public int targetPlacement;
+    public final ActionTargetTypeEnum targetType;
 
     protected Action action;
     private Random random;
 
-    public ActionTarget(int targetPlacement) {
-        this.targetPlacement = targetPlacement;
+    public ActionTarget(ActionTargetTypeEnum targetType) {
+        this.targetType = targetType;
         random = new Random();
     }
 
@@ -37,15 +35,15 @@ public abstract class ActionTarget {
         if(!GameMvc.instance().model().get(LocalMap.class).inMap(getPosition())) return FAIL;
         int distance = getDistance(currentPosition);
         if (distance > 1) return WAIT; // target not yet reached
-        switch (targetPlacement) {
+        switch (targetType) {
             case EXACT:
-                return distance == EXACT ? READY : WAIT;
+                return distance == 0 ? READY : WAIT;
             case NEAR:
-                return distance == NEAR ? READY : createActionToStepOff(currentPosition);
+                return distance == 1 ? READY : createActionToStepOff(currentPosition);
             case ANY:
                 return READY; // distance is 0 or 1 here
             default: { // should never be reached
-                Logger.PATH.logError("checking action target with " + targetPlacement + " and " + currentPosition + " to " + getPosition() + " failed.");
+                Logger.PATH.logError("checking action target with " + targetType + " and " + currentPosition + " to " + getPosition() + " failed.");
                 return FAIL;
             }
         }
@@ -73,8 +71,8 @@ public abstract class ActionTarget {
     //TODO check passing for neighbour
     private int getDistance(Position currentPosition) {
         Position targetPosition = getPosition();
-        if (currentPosition.equals(targetPosition)) return EXACT;
-        if (currentPosition.isNeighbour(targetPosition)) return NEAR;
+        if (currentPosition.equals(targetPosition)) return 0;
+        if (currentPosition.isNeighbour(targetPosition)) return 1;
         return 2;
     }
 

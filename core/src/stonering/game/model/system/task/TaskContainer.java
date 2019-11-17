@@ -6,7 +6,8 @@ import stonering.entity.job.designation.Designation;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.JobsAspect;
 import stonering.entity.unit.aspects.PlanningAspect;
-import stonering.enums.TaskStatusEnum;
+import stonering.enums.action.ActionTargetTypeEnum;
+import stonering.enums.action.TaskStatusEnum;
 import stonering.enums.time.TimeUnitEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.Turnable;
@@ -73,7 +74,7 @@ public class TaskContainer implements ModelComponent, Turnable {
                 ActionTarget target = task.nextAction.actionTarget;
                 if (task.performer == null &&
                         task.status == TaskStatusEnum.OPEN &&
-                        map.util.positionReachable(position, target.getPosition(), target.targetPlacement != ActionTarget.EXACT)) {
+                        map.util.positionReachable(position, target.getPosition(), target.targetType != ActionTargetTypeEnum.EXACT)) {
                     //TODO add selecting nearest task.
                     return task;
                 }

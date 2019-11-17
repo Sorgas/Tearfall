@@ -6,6 +6,7 @@ import stonering.entity.job.action.PlantingAction;
 import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.job.action.target.PositionActionTarget;
 import stonering.entity.plants.AbstractPlant;
+import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.model.system.PlantContainer;
 import stonering.util.global.Logger;
@@ -128,13 +129,13 @@ public class FarmZone extends Zone {
      */
     private Task createTaskForPlanting(Position tile, PlantType type) {
         Logger.ZONES.logDebug("Creating planting task on farm");
-        PlantingAction action = new PlantingAction(new PositionActionTarget(tile, ActionTarget.ANY), seedSelector);
+        PlantingAction action = new PlantingAction(new PositionActionTarget(tile, ActionTargetTypeEnum.ANY), seedSelector);
         Task task = new Task("plant " + type.name, action, 1);
         return task;
     }
 
     private Task createTaskForHoeing(Position tile) {
-        HoeingAction action = new HoeingAction(new PositionActionTarget(tile, ActionTarget.ANY));
+        HoeingAction action = new HoeingAction(new PositionActionTarget(tile, ActionTargetTypeEnum.ANY));
         Task task = new Task("hoe", action, 1);
         return task;
     }

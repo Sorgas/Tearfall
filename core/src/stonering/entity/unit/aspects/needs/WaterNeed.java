@@ -4,7 +4,7 @@ import stonering.entity.Entity;
 import stonering.entity.item.Item;
 import stonering.entity.job.Task;
 import stonering.entity.unit.aspects.health.HealthAspect;
-import stonering.enums.TaskPrioritiesEnum;
+import stonering.enums.action.TaskPrioritiesEnum;
 import stonering.enums.items.TagEnum;
 import stonering.enums.unit.health.HealthParameterEnum;
 import stonering.game.GameMvc;

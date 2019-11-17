@@ -9,7 +9,7 @@ import stonering.util.global.Pair;
 
 import java.util.*;
 
-import static stonering.enums.TaskStatusEnum.*;
+import static stonering.enums.action.TaskStatusEnum.*;
 
 /**
  * System for generation needs satisfying tasks for units.

@@ -7,7 +7,7 @@ import stonering.entity.item.Item;
 import stonering.entity.job.Task;
 import stonering.entity.job.action.CraftItemAction;
 import stonering.enums.OrderStatusEnum;
-import stonering.enums.TaskStatusEnum;
+import stonering.enums.action.TaskStatusEnum;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;

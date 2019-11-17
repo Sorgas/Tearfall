@@ -1,4 +1,4 @@
-package stonering.enums;
+package stonering.enums.action;
 
 /**
  * Enum of all professions.

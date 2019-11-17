@@ -20,7 +20,7 @@ import stonering.game.model.system.task.TaskContainer;
 import stonering.game.model.system.unit.UnitContainer;
 import stonering.util.geometry.Position;
 
-import static stonering.enums.TaskStatusEnum.*;
+import static stonering.enums.action.TaskStatusEnum.*;
 
 /**
  * @author Alexander on 30.10.2019.

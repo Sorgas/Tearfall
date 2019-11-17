@@ -5,7 +5,7 @@ import stonering.entity.job.designation.Designation;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.entity.job.action.Action;
 import stonering.entity.unit.Unit;
-import stonering.enums.TaskStatusEnum;
+import stonering.enums.action.TaskStatusEnum;
 import stonering.util.global.Logger;
 
 import java.util.ArrayList;

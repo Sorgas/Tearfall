@@ -9,6 +9,7 @@ import stonering.entity.building.aspects.WorkbenchAspect;
 import stonering.entity.crafting.ItemOrder;
 import stonering.entity.item.Item;
 import stonering.entity.item.aspects.ItemContainerAspect;
+import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.local_map.LocalMap;
@@ -33,7 +34,7 @@ public class CraftItemAction extends Action {
     private Item tool; //TODO
 
     public CraftItemAction(ItemOrder itemOrder, Entity workbench) {
-        super(new EntityActionTarget(workbench, ActionTarget.NEAR)); // unit will stand near wb while performing task
+        super(new EntityActionTarget(workbench, ActionTargetTypeEnum.NEAR)); // unit will stand near wb while performing task
         desiredItems = new ArrayList<>();
         this.itemOrder = itemOrder;
         this.workbench = workbench;

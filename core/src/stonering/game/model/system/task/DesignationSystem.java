@@ -13,8 +13,8 @@ import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
 
-import static stonering.enums.TaskStatusEnum.FAILED;
-import static stonering.enums.TaskStatusEnum.OPEN;
+import static stonering.enums.action.TaskStatusEnum.FAILED;
+import static stonering.enums.action.TaskStatusEnum.OPEN;
 
 /**
  * Creates tasks for designations, recreates failed tasks.

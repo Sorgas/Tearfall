@@ -8,7 +8,7 @@ import stonering.entity.item.selectors.ItemSelector;
 import stonering.entity.item.selectors.WearForSlotItemSelector;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.entity.unit.aspects.equipment.EquipmentSlot;
-import stonering.enums.TaskPrioritiesEnum;
+import stonering.enums.action.TaskPrioritiesEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.system.item.ItemContainer;
 

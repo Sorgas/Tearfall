@@ -1,4 +1,4 @@
-package stonering.enums;
+package stonering.enums.action;
 
 /**
  * This priorities are used for selecting tasks.

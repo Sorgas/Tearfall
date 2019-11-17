@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Objects;
 
-import static stonering.enums.TaskStatusEnum.*;
+import static stonering.enums.action.TaskStatusEnum.*;
 
 /**
  * System for giving {@link Task}s to {@link Unit}s.

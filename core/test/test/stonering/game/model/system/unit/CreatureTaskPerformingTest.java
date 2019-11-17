@@ -15,12 +15,11 @@ import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
 import stonering.game.model.MainGameModel;
 import stonering.game.model.local_map.LocalMap;
-import stonering.game.model.system.task.TaskContainer;
 import stonering.game.model.system.unit.UnitContainer;
 import stonering.util.geometry.Position;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static stonering.enums.TaskStatusEnum.*;
+import static stonering.enums.action.TaskStatusEnum.*;
 
 /**
  * @author Alexander on 01.11.2019.

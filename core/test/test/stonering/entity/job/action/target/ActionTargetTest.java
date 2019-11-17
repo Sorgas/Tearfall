@@ -9,6 +9,7 @@ import stonering.entity.job.action.MoveAction;
 import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.job.action.target.ActionTargetStatusEnum;
 import stonering.entity.job.action.target.PositionActionTarget;
+import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
@@ -56,7 +57,7 @@ public class ActionTargetTest {
 
     @Test
     void testExactTarget() {
-        actionTarget = new PositionActionTarget(targetPosition, ActionTarget.EXACT);
+        actionTarget = new PositionActionTarget(targetPosition, ActionTargetTypeEnum.EXACT);
         assertEquals(ActionTargetStatusEnum.READY, actionTarget.check(targetPosition));
         assertEquals(ActionTargetStatusEnum.WAIT, actionTarget.check(new Position(1, 0, 0)));
         assertEquals(ActionTargetStatusEnum.WAIT, actionTarget.check(new Position(0, 1, 0)));
@@ -65,7 +66,7 @@ public class ActionTargetTest {
 
     @Test
     void testNearTargetSuccess() {
-        actionTarget = new PositionActionTarget(targetPosition, ActionTarget.NEAR);
+        actionTarget = new PositionActionTarget(targetPosition, ActionTargetTypeEnum.NEAR);
         Action action = new MoveAction(new Position());
         Task task = new Task("test_task", action, 1);
         actionTarget.setAction(action);
@@ -77,7 +78,7 @@ public class ActionTargetTest {
 
     @Test
     void testNearTargetFailInWalls() {
-        actionTarget = new PositionActionTarget(targetPosition, ActionTarget.NEAR);
+        actionTarget = new PositionActionTarget(targetPosition, ActionTargetTypeEnum.NEAR);
         //surround target position with impassable walls
         localMap.setBlock(0, 1, 0, BlockTypesEnum.WALL, 1);
         localMap.setBlock(1, 0, 0, BlockTypesEnum.WALL, 1);
@@ -87,7 +88,7 @@ public class ActionTargetTest {
 
     @Test
     void testAnyTarget() {
-        actionTarget = new PositionActionTarget(targetPosition, ActionTarget.ANY);
+        actionTarget = new PositionActionTarget(targetPosition, ActionTargetTypeEnum.ANY);
         actionTarget.setAction(actionMock);
         assertEquals(ActionTargetStatusEnum.READY, actionTarget.check(targetPosition));
         assertEquals(ActionTargetStatusEnum.READY, actionTarget.check(new Position(1, 0, 1)));
@@ -96,7 +97,7 @@ public class ActionTargetTest {
     }
 
     void testOutOfMap() {
-        actionTarget = new PositionActionTarget(targetPosition, ActionTarget.ANY);
+        actionTarget = new PositionActionTarget(targetPosition, ActionTargetTypeEnum.ANY);
         assertEquals(ActionTargetStatusEnum.FAIL, actionTarget.check(new Position(-1, -1, 0)));
     }
 }

@@ -1,12 +1,12 @@
 package stonering.entity.job.action;
 
-import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.job.designation.OrderDesignation;
 import stonering.entity.job.action.target.PositionActionTarget;
 import stonering.entity.item.Item;
 import stonering.entity.item.selectors.ItemSelector;
 import stonering.entity.item.selectors.ToolWithActionItemSelector;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
+import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.designations.DesignationTypeEnum;
 import stonering.game.GameMvc;
@@ -27,7 +27,7 @@ public class DigAction extends Action {
     private ItemSelector toolItemSelector;
 
     public DigAction(OrderDesignation designation) {
-        super(new PositionActionTarget(designation.position, ActionTarget.NEAR));
+        super(new PositionActionTarget(designation.position, ActionTargetTypeEnum.NEAR));
         type = designation.getType();
         toolItemSelector = new ToolWithActionItemSelector("dig");
     }

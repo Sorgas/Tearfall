@@ -8,6 +8,7 @@ import stonering.entity.job.action.target.PositionActionTarget;
 import stonering.entity.Entity;
 import stonering.entity.item.Item;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
+import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.util.geometry.Position;
@@ -27,13 +28,13 @@ public class PutItemAction extends Action {
     private Position targetPosition;
 
     public PutItemAction(Item targetItem, Entity targetEntity) {
-        super(new EntityActionTarget(targetEntity, ActionTarget.ANY));
+        super(new EntityActionTarget(targetEntity, ActionTargetTypeEnum.ANY));
         this.targetItem = targetItem;
         this.targetEntity = targetEntity;
     }
 
     public PutItemAction(Item targetItem, Position targetPosition) {
-        super(new PositionActionTarget(targetPosition, ActionTarget.EXACT));
+        super(new PositionActionTarget(targetPosition, ActionTargetTypeEnum.EXACT));
         this.targetItem = targetItem;
         this.targetPosition = targetPosition;
     }

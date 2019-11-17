@@ -6,10 +6,10 @@ import stonering.entity.building.aspects.RestFurnitureAspect;
 import stonering.entity.job.Task;
 import stonering.entity.job.action.Action;
 import stonering.entity.job.action.RestAction;
-import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.job.action.target.EntityActionTarget;
 import stonering.entity.unit.aspects.health.HealthAspect;
-import stonering.enums.TaskPrioritiesEnum;
+import stonering.enums.action.ActionTargetTypeEnum;
+import stonering.enums.action.TaskPrioritiesEnum;
 import stonering.enums.unit.health.HealthParameterEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
@@ -57,7 +57,7 @@ public class RestNeed extends Need {
                 List<Building> buildings = GameMvc.instance().model().get(BuildingContainer.class).getBuildingsWithAspect(RestFurnitureAspect.class);
                 buildings = GameMvc.instance().model().get(LocalMap.class).passage.util.filterEntitiesByReachability(buildings, entity.position);
                 if (!buildings.isEmpty()) { // bed available, no sleep without bed at this level of exhaustion
-                    Action restAction = new RestAction(new EntityActionTarget(buildings.get(0), ActionTarget.EXACT));
+                    Action restAction = new RestAction(new EntityActionTarget(buildings.get(0), ActionTargetTypeEnum.EXACT));
                     return new Task("sleep", restAction, priority.VALUE);
                 }
                 break;

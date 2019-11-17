@@ -1,6 +1,7 @@
 package stonering.entity.job.action.target;
 
 import stonering.entity.Entity;
+import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.util.geometry.Position;
 
 /**
@@ -9,8 +10,8 @@ import stonering.util.geometry.Position;
 public class EntityActionTarget extends ActionTarget {
     public Entity entity;
 
-    public EntityActionTarget(Entity entity, int targetPlacement) {
-        super(targetPlacement);
+    public EntityActionTarget(Entity entity, ActionTargetTypeEnum placement) {
+        super(placement);
         this.entity = entity;
     }
 

@@ -9,6 +9,7 @@ import stonering.entity.job.action.aspects.ItemPickAction;
 import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.job.action.target.EntityActionTarget;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
+import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.system.item.ItemContainer;
 
@@ -21,7 +22,7 @@ public class FuelingAciton extends Action {
     public Item targetItem;
 
     protected FuelingAciton(Entity target) {
-        super(new EntityActionTarget(target, ActionTarget.NEAR));
+        super(new EntityActionTarget(target, ActionTargetTypeEnum.NEAR));
     }
 
     @Override

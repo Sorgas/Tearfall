@@ -6,6 +6,7 @@ import stonering.entity.item.selectors.ItemSelector;
 import stonering.entity.job.action.ItemConsumingAction;
 import stonering.entity.job.action.PutItemAction;
 import stonering.entity.job.designation.BuildingDesignation;
+import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.buildings.BuildingTypeMap;
 import stonering.game.GameMvc;
@@ -18,8 +19,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import static stonering.entity.job.action.target.ActionTarget.ANY;
-import static stonering.entity.job.action.target.ActionTarget.NEAR;
 import static stonering.enums.blocks.BlockTypesEnum.PassageEnum.IMPASSABLE;
 import static stonering.enums.blocks.BlockTypesEnum.PassageEnum.PASSABLE;
 
@@ -92,6 +91,6 @@ public abstract class GenericBuildingAction extends ItemConsumingAction {
 
     private static ActionTarget createTarget(BuildingDesignation designation) {
         BuildingType type = BuildingTypeMap.instance().getBuilding(designation.building);
-        return new PositionActionTarget(designation.position, BlockTypesEnum.getType(type.passage).PASSING == IMPASSABLE ? NEAR : ANY);
+        return new PositionActionTarget(designation.position, BlockTypesEnum.getType(type.passage).PASSING == IMPASSABLE ? ActionTargetTypeEnum.NEAR : ActionTargetTypeEnum.ANY);
     }
 }

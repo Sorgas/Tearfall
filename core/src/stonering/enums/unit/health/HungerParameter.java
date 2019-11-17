@@ -4,8 +4,8 @@ import stonering.entity.unit.aspects.health.Buff;
 import stonering.entity.unit.aspects.health.HealthBuff;
 import stonering.entity.unit.aspects.health.HealthTimedBuff;
 
-import static stonering.enums.TaskPrioritiesEnum.*;
-import static stonering.enums.TaskPrioritiesEnum.SAFETY;
+import static stonering.enums.action.TaskPrioritiesEnum.*;
+import static stonering.enums.action.TaskPrioritiesEnum.SAFETY;
 
 /**
  * @author Alexander on 06.10.2019.

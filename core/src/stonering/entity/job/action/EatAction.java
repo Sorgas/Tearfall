@@ -7,6 +7,7 @@ import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.entity.unit.aspects.health.HealthAspect;
 import stonering.entity.unit.aspects.needs.FoodNeed;
+import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.enums.items.TagEnum;
 
 /**
@@ -19,7 +20,7 @@ public class EatAction extends Action {
     private Item item;
 
     public EatAction(Item item) {
-        super(new EntityActionTarget(item, ActionTarget.ANY));
+        super(new EntityActionTarget(item, ActionTargetTypeEnum.ANY));
         this.item = item;
     }
 

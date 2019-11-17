@@ -8,7 +8,7 @@ import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.PlanningAspect;
 
 import static stonering.entity.job.action.target.ActionTargetStatusEnum.*;
-import static stonering.enums.TaskStatusEnum.*;
+import static stonering.enums.action.TaskStatusEnum.*;
 
 /**
  * System for performing tasks of units. Call perform() of task's actions, and updates task statuses.

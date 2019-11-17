@@ -1,6 +1,6 @@
 package stonering.util.pathfinding.a_star;
 
-import stonering.entity.job.action.target.ActionTarget;
+import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.local_map.passage.NeighbourPositionStream;
@@ -10,6 +10,9 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import static stonering.enums.action.ActionTargetTypeEnum.EXACT;
+import static stonering.enums.action.ActionTargetTypeEnum.NEAR;
+
 /**
  * Stores positions in which path can end and checks given position.
  *
@@ -17,15 +20,21 @@ import java.util.stream.Collectors;
  */
 public class PathFinishCondition {
     private Set<Position> neighbours;
-    private boolean exact;
 
-    public PathFinishCondition(Position target, int targetPlacement) {
-        this.exact = exact;
+    public PathFinishCondition(Position target, ActionTargetTypeEnum targetType) {
         neighbours = new HashSet<>();
-        if(targetPlacement != ActionTarget.NEAR) neighbours.add(target); // exact or any
-        if(targetPlacement != ActionTarget.EXACT) { // near or any
-            neighbours = new HashSet<>(new NeighbourPositionStream(target, GameMvc.instance().model().get(LocalMap.class).passage)
-                    .filterByPassability().stream.collect(Collectors.toSet()));
+        switch (targetType) {
+            case EXACT:
+                break;
+            case NEAR:
+                break;
+            case ANY:
+                break;
+        }
+        if(targetType != NEAR) neighbours.add(target); // exact or any
+        if(targetType != EXACT) { // near or any
+            neighbours = new NeighbourPositionStream(target, GameMvc.instance().model().get(LocalMap.class).passage)
+                    .filterByPassability().stream.collect(Collectors.toSet());
         }
     }
 

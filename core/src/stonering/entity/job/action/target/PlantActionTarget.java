@@ -1,5 +1,6 @@
 package stonering.entity.job.action.target;
 
+import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.util.geometry.Position;
 import stonering.entity.plants.AbstractPlant;
 
@@ -7,7 +8,7 @@ public class PlantActionTarget extends ActionTarget {
     protected AbstractPlant plant;
 
     public PlantActionTarget(AbstractPlant plant) {
-        super(ActionTarget.ANY);
+        super(ActionTargetTypeEnum.ANY);
         this.plant = plant;
     }
 

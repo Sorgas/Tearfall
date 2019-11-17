@@ -1,6 +1,7 @@
 package stonering.util.pathfinding.a_star;
 
 import stonering.entity.job.action.target.ActionTarget;
+import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.system.ModelComponent;
 import stonering.game.model.local_map.LocalMap;
@@ -18,10 +19,10 @@ public class AStar implements ModelComponent {
      * Returns the shortest Path from a start node to an end node according to
      * the A* heuristics (h must not overestimate). initialNode and last found node included.
      */
-    public List<Position> makeShortestPath(Position initialPos, Position targetPos, int targetPlacement) {
+    public List<Position> makeShortestPath(Position initialPos, Position targetPos, ActionTargetTypeEnum targetType) {
         localMap = GameMvc.instance().model().get(LocalMap.class);
         Node initialNode = new Node(initialPos, targetPos);
-        Node pathNode = search(initialNode, targetPos, targetPlacement); //perform search
+        Node pathNode = search(initialNode, targetPos, targetType); //perform search
         if (pathNode == null) return null;
 
         LinkedList<Position> path = new LinkedList<>();
@@ -34,20 +35,20 @@ public class AStar implements ModelComponent {
     }
 
     public List<Position> makeShortestPath(Position initialPos, Position targetPos) {
-        return makeShortestPath(initialPos, targetPos, ActionTarget.EXACT);
+        return makeShortestPath(initialPos, targetPos, ActionTargetTypeEnum.EXACT);
     }
 
     /**
      * @param initialNode start of the search
      * @param targetPos   end of the search
-     * @param targetPlacement see {@link ActionTarget}
+     * @param targetType see {@link ActionTarget}
      * @return goal node to restore path from
      */
-    private Node search(Node initialNode, Position targetPos, int targetPlacement) {
+    private Node search(Node initialNode, Position targetPos, ActionTargetTypeEnum targetType) {
         Logger.PATH.logDebug("searching path from " + initialNode.position + " to " + targetPos);
         HashPriorityQueue<Node, Node> openSet = new HashPriorityQueue(new NodeComparator());
         HashMap<Integer, Node> closedSet = new HashMap<>();
-        PathFinishCondition finishCondition = new PathFinishCondition(targetPos, targetPlacement);
+        PathFinishCondition finishCondition = new PathFinishCondition(targetPos, targetType);
         int numSearchSteps = 0; // current iteration of the search
         openSet.add(initialNode, initialNode);
         while (openSet.size() > 0 && (maxSteps < 0 || numSearchSteps < maxSteps)) {
