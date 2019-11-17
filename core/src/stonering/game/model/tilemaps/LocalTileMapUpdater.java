@@ -28,7 +28,7 @@ public class LocalTileMapUpdater {
      */
     public void flushLocalMap() {
         if (GameMvc.instance() == null) return;
-        localMap = GameMvc.instance().getModel().get(LocalMap.class);
+        localMap = GameMvc.instance().model().get(LocalMap.class);
         for (int x = 0; x < localMap.xSize; x++) {
             for (int y = 0; y < localMap.ySize; y++) {
                 for (int z = 0; z < localMap.zSize; z++) {
@@ -43,8 +43,8 @@ public class LocalTileMapUpdater {
      */
     public void updateTile(int x, int y, int z) {
         if (GameMvc.instance() == null) return;
-        localMap = GameMvc.instance().getModel().get(LocalMap.class);
-        localTileMap = GameMvc.instance().getModel().get(LocalTileMap.class);
+        localMap = GameMvc.instance().model().get(LocalMap.class);
+        localTileMap = GameMvc.instance().model().get(LocalTileMap.class);
         byte blockType = localMap.getBlockType(x, y, z);
         if (blockType == BlockTypesEnum.SPACE.CODE) {
             localTileMap.removeTile(x, y, z);

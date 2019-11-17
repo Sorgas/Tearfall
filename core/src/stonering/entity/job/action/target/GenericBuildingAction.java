@@ -56,7 +56,7 @@ public abstract class GenericBuildingAction extends ItemConsumingAction {
 
     @Override
     protected List<Item> getAvailableItems() {
-        return new ArrayList<>(GameMvc.instance().getModel().get(ItemContainer.class).getItemsInPosition(actionTarget.getPosition()));
+        return new ArrayList<>(GameMvc.instance().model().get(ItemContainer.class).getItemsInPosition(actionTarget.getPosition()));
     }
 
     /**
@@ -68,7 +68,7 @@ public abstract class GenericBuildingAction extends ItemConsumingAction {
     private int tryCreateBringingAction(ItemSelector itemSelector) {
         Logger.TASKS.logDebug("Creating action for bringing item.");
         Position position = actionTarget.getPosition();
-        ItemContainer itemContainer = GameMvc.instance().getModel().get(ItemContainer.class);
+        ItemContainer itemContainer = GameMvc.instance().model().get(ItemContainer.class);
         Item item = itemContainer.util.getItemAvailableBySelector(itemSelector, position);
         if (item == null) {
             Logger.TASKS.logDebug("No Item available.");
@@ -84,7 +84,7 @@ public abstract class GenericBuildingAction extends ItemConsumingAction {
      * Creates {@link PutItemAction} for placing blocking item out of target position(to neighbour one).
      */
     private int createSiteClearingAction(Item item) {
-        LocalMap localMap = GameMvc.instance().getModel().get(LocalMap.class);
+        LocalMap localMap = GameMvc.instance().model().get(LocalMap.class);
         PutItemAction putItemAction = new PutItemAction(item, localMap.getAnyNeighbourPosition(actionTarget.getPosition(), PASSABLE));
         task.addFirstPreAction(putItemAction);
         return NEW;

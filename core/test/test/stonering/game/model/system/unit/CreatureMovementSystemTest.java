@@ -72,9 +72,9 @@ public class CreatureMovementSystemTest {
             }
         }
         GameMvc.createInstance(new MainGameModel(localMap));
-        GameMvc.instance().getModel().put(unitContainer = new UnitContainer());
-        GameMvc.instance().getModel().put(taskContainer = new TaskContainer());
-        GameMvc.instance().getModel().put(new AStar());
+        GameMvc.instance().model().put(unitContainer = new UnitContainer());
+        GameMvc.instance().model().put(taskContainer = new TaskContainer());
+        GameMvc.instance().model().put(new AStar());
         localMap.initAreas();
         system = new CreatureMovementSystem();
     }
@@ -85,7 +85,7 @@ public class CreatureMovementSystemTest {
         unit = new Unit(new Position(0, 0, 0), type);
         unit.addAspect(movementAspect = new MovementAspect(unit));
         unit.addAspect(planningAspect = new PlanningAspect(unit));
-        GameMvc.instance().getModel().get(UnitContainer.class).addUnit(unit);
+        GameMvc.instance().model().get(UnitContainer.class).addUnit(unit);
     }
 
     private void createTask() {

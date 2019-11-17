@@ -119,7 +119,7 @@ public class FarmZoneMenu extends Window {
     }
 
     public void deleteZone() {
-        GameMvc.instance().getModel().get(ZonesContainer.class).deleteZone(farmZone);
+        GameMvc.instance().model().get(ZonesContainer.class).deleteZone(farmZone);
     }
 
     public void close() {

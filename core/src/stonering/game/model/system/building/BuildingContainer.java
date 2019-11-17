@@ -66,7 +66,7 @@ public class BuildingContainer implements ModelComponent, Turnable {
         buildings.add(building);
         buildingBlocks.put(position, building.getBlock());
         tryMoveItems(position);
-        GameMvc.instance().getModel().get(LocalMap.class).updateTile(position);
+        GameMvc.instance().model().get(LocalMap.class).updateTile(position);
     }
 
     /**
@@ -81,9 +81,9 @@ public class BuildingContainer implements ModelComponent, Turnable {
      * Moves item from the target tile to neighbour one.
      */
     private void tryMoveItems(Position target) {
-        ItemContainer container = GameMvc.instance().getModel().get(ItemContainer.class);
+        ItemContainer container = GameMvc.instance().model().get(ItemContainer.class);
         if (container.getItemsInPosition(target).isEmpty()) return; // no items in target position
-        Position newPosition = GameMvc.instance().getModel().get(LocalMap.class).getAnyNeighbourPosition(target, PASSABLE);
+        Position newPosition = GameMvc.instance().model().get(LocalMap.class).getAnyNeighbourPosition(target, PASSABLE);
         if (newPosition.equals(target)) return; // no moving, if no valid position found
         container.getItemsInPosition(target).forEach(item -> container.moveItem(item, newPosition));
     }

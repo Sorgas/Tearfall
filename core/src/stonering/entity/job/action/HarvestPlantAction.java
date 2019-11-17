@@ -38,12 +38,12 @@ public class HarvestPlantAction extends Action {
     public void performLogic() {
         PlantBlock plantBlock = ((Plant) ((PlantActionTarget) actionTarget).getPlant()).getBlock();
         Item item = new PlantProductGenerator().generateHarvestProduct(plantBlock);
-        GameMvc.instance().getModel().get(ItemContainer.class).addAndPut(item);
+        GameMvc.instance().model().get(ItemContainer.class).addAndPut(item);
         Logger.TASKS.logDebug("harvesting plant finished at " + actionTarget.getPosition() + " by " + task.performer);
     }
 
     private int addActionToTask() {
-        Item target = GameMvc.instance().getModel().get(ItemContainer.class).util.getItemAvailableBySelector(toolItemSelector, task.performer.position);
+        Item target = GameMvc.instance().model().get(ItemContainer.class).util.getItemAvailableBySelector(toolItemSelector, task.performer.position);
         if (target == null) return FAIL;
         EquipItemAction equipItemAction = new EquipItemAction(target, true);
         task.addFirstPreAction(equipItemAction);

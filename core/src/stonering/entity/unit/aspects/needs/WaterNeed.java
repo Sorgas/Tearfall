@@ -44,7 +44,7 @@ public class WaterNeed extends Need {
     }
 
     private Item findBestDrink(Entity entity) {
-        return GameMvc.instance().getModel().get(ItemContainer.class).util.getNearestItemWithTag(entity.position, TagEnum.DRINKABLE);
+        return GameMvc.instance().model().get(ItemContainer.class).util.getNearestItemWithTag(entity.position, TagEnum.DRINKABLE);
     }
 
     private int getThirstLevel(HealthAspect aspect) {

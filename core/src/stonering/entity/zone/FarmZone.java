@@ -55,12 +55,12 @@ public class FarmZone extends Zone {
      */
     public void turn() {
         if (plantType == null) return; // no plant set for farm
-        int currentMonth = GameMvc.instance().getModel().getCalendar().year.state;
+        int currentMonth = GameMvc.instance().model().getCalendar().year.state;
         boolean plantingEnabled = plantType.plantingStart.contains(currentMonth);
         boolean hoeingEnabled = plantingEnabled || plantType.plantingStart.contains((currentMonth + 1) % 12);
-        LocalMap localMap = GameMvc.instance().getModel().get(LocalMap.class);
-        TaskContainer taskContainer = GameMvc.instance().getModel().get(TaskContainer.class);
-        PlantContainer plantContainer = GameMvc.instance().getModel().get(PlantContainer.class);
+        LocalMap localMap = GameMvc.instance().model().get(LocalMap.class);
+        TaskContainer taskContainer = GameMvc.instance().model().get(TaskContainer.class);
+        PlantContainer plantContainer = GameMvc.instance().model().get(PlantContainer.class);
         PositionValidator validator = ZoneTypesEnum.FARM.getValidator();
         for (Position tile : tiles) {
             // can delete tile from zone
@@ -87,7 +87,7 @@ public class FarmZone extends Zone {
      */
     private boolean isTileValid(PositionValidator validator, Position tile, LocalMap localMap) {
         if (validator.validate(localMap, tile)) return true;
-        GameMvc.instance().getModel().get(ZonesContainer.class).updateZones(tile, tile, null); // remove invalid tile
+        GameMvc.instance().model().get(ZonesContainer.class).updateZones(tile, tile, null); // remove invalid tile
         return false;
     }
 
@@ -144,7 +144,7 @@ public class FarmZone extends Zone {
             Logger.ZONES.logError("Farm tries to allocate null task");
             return;
         }
-        GameMvc.instance().getModel().get(TaskContainer.class).addTask(task);
+        GameMvc.instance().model().get(TaskContainer.class).addTask(task);
         taskMap.put(tile, task);
     }
 

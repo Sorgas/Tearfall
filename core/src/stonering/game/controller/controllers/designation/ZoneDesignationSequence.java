@@ -33,7 +33,7 @@ public class ZoneDesignationSequence extends DesignationSequence {
     public ZoneDesignationSequence(ZoneTypesEnum type) {
         super();
         this.type = type;
-        model = GameMvc.instance().getModel();
+        model = GameMvc.instance().model();
         view = GameMvc.instance().getView();
         rectangleSelectComponent = new RectangleSelectComponent(null, event -> {
             EntitySelector selector = model.get(EntitySelector.class);
@@ -54,14 +54,14 @@ public class ZoneDesignationSequence extends DesignationSequence {
         super();
         rectangleSelectComponent = new RectangleSelectComponent(event -> { // updates toolbar text depending on start of selected frame
             EntitySelector selector = model.get(EntitySelector.class);
-            ZonesContainer zonesContainer = GameMvc.instance().getModel().get(ZonesContainer.class);
+            ZonesContainer zonesContainer = GameMvc.instance().model().get(ZonesContainer.class);
             Zone zone = zonesContainer.getZone(selector.getFrameStart());
             Toolbar toolbar = view.mainUiStage.toolbar;
             toolbar.setText(zone != null ? "Expanding zone " + zone.getName() + "." : "Deleting zones.");
             return true;
         }, event -> {
             EntitySelector selector = model.get(EntitySelector.class);
-            ZonesContainer zonesContainer = GameMvc.instance().getModel().get(ZonesContainer.class);
+            ZonesContainer zonesContainer = GameMvc.instance().model().get(ZonesContainer.class);
             Zone zone = zonesContainer.getZone(selector.getFrameStart()); // tiles in selected area will get this zone, and removed from previous.
             model.get(ZonesContainer.class).updateZones(selector.getFrameStart(), selector.getPosition(), zone);
             return true;

@@ -158,7 +158,7 @@ public class WorkbenchSystem {
         Logger.BUILDING.logDebug("Creating task for order " + order.recipe.name);
         CraftItemAction action = new CraftItemAction(order, aspect.getEntity());
         aspect.currentTask = new Task(order.recipe.name, action, 1);
-        GameMvc.instance().getModel().get(TaskContainer.class).addTask(aspect.currentTask);
+        GameMvc.instance().model().get(TaskContainer.class).addTask(aspect.currentTask);
     }
 
     /**
@@ -192,7 +192,7 @@ public class WorkbenchSystem {
         if (aspect.containedItems.isEmpty()) return;
         List<Position> positions = getPositionsToDrop(aspect);
         if (positions.isEmpty()) return;
-        ItemContainer container = GameMvc.instance().getModel().get(ItemContainer.class);
+        ItemContainer container = GameMvc.instance().model().get(ItemContainer.class);
         Random random = new Random();
         for (Item item : aspect.containedItems) {
             container.putItem(item, positions.get(random.nextInt(positions.size())));
@@ -201,7 +201,7 @@ public class WorkbenchSystem {
     }
 
     private List<Position> getPositionsToDrop(WorkbenchAspect aspect) {
-        LocalMap map = GameMvc.instance().getModel().get(LocalMap.class);
+        LocalMap map = GameMvc.instance().model().get(LocalMap.class);
         List<Position> positions = map.getAllNeighbourPositions(aspect.getEntity().position, BlockTypesEnum.PassageEnum.PASSABLE);
         if (positions.isEmpty())
             positions = map.getAllNeighbourPositions(aspect.getEntity().position, BlockTypesEnum.PassageEnum.FLY_ONLY);

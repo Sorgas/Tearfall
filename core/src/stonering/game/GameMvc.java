@@ -43,7 +43,7 @@ public class GameMvc implements Serializable {
         return instance;
     }
 
-    public GameModel getModel() {
+    public GameModel model() {
         return model;
     }
 

@@ -26,7 +26,7 @@ public class PlantGrowthAspect extends Aspect {
 
     public PlantGrowthAspect(Entity entity) {
         super(entity);
-        GameCalendar calendar = GameMvc.instance().getModel().getCalendar();
+        GameCalendar calendar = GameMvc.instance().model().getCalendar();
         weekSize = 7 * calendar.day.getSize() * calendar.hour.getSize();
     }
 
@@ -58,7 +58,7 @@ public class PlantGrowthAspect extends Aspect {
      * Changes plant loot and tree structure.
      */
     private void applyNewStage() {
-        PlantContainer plantContainer = GameMvc.instance().getModel().get(PlantContainer.class);
+        PlantContainer plantContainer = GameMvc.instance().model().get(PlantContainer.class);
         if (entity instanceof Tree) {
             Tree tree = (Tree) entity;
             plantContainer.removePlantBlocks(tree, false);
@@ -81,6 +81,6 @@ public class PlantGrowthAspect extends Aspect {
     private void die() {
         //TODO
         ((AbstractPlant) entity).setDead(true);
-        GameMvc.instance().getModel().get(PlantContainer.class).remove((AbstractPlant) entity, true);
+        GameMvc.instance().model().get(PlantContainer.class).remove((AbstractPlant) entity, true);
     }
 }

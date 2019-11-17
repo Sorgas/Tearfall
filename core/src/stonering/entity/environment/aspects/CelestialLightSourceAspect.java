@@ -33,7 +33,7 @@ public class CelestialLightSourceAspect extends AbstractLightSourceAspect implem
      */
     private void applyLightToMap() {
         byte forceDelta = (byte) ((force - previousForce) * Byte.MAX_VALUE);
-        LocalMap localMap = GameMvc.instance().getModel().get(LocalMap.class);
+        LocalMap localMap = GameMvc.instance().model().get(LocalMap.class);
         localMap.light.generalLight += forceDelta;
         saveCurrentSpot();
     }

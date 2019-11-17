@@ -45,7 +45,7 @@ public class PlantContainer extends EntityContainer<AbstractPlant> implements In
 
     @Override
     public void init() {
-        localMap = GameMvc.instance().getModel().get(LocalMap.class);
+        localMap = GameMvc.instance().model().get(LocalMap.class);
     }
 
     @Override
@@ -161,7 +161,7 @@ public class PlantContainer extends EntityContainer<AbstractPlant> implements In
      */
     private void leavePlantProduct(PlantBlock block) {
         ArrayList<Item> items = new PlantProductGenerator().generateCutProduct(block);
-        ItemContainer itemContainer = GameMvc.instance().getModel().get(ItemContainer.class);
+        ItemContainer itemContainer = GameMvc.instance().model().get(ItemContainer.class);
         items.forEach(itemContainer::addAndPut);
     }
 

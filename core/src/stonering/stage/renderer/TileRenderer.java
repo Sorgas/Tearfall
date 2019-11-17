@@ -62,7 +62,7 @@ public class TileRenderer extends Renderer {
     public TileRenderer(DrawingUtil drawingUtil, MovableCamera camera) {
         super(drawingUtil);
         this.camera = camera;
-        GameModel model = GameMvc.instance().getModel();
+        GameModel model = GameMvc.instance().model();
         localMap = model.get(LocalMap.class);
         localTileMap = model.get(LocalTileMap.class);
         buildingContainer = model.get(BuildingContainer.class);

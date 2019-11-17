@@ -27,14 +27,14 @@ public class ItemPickAction extends Action {
         Item targetItem = getTargetItem();
         Logger.TASKS.logDebug("Picking item " + targetItem.getTitle());
         task.performer.getAspect(EquipmentAspect.class).pickupItem(targetItem);
-        GameMvc.instance().getModel().get(ItemContainer.class).pickItem(targetItem);
+        GameMvc.instance().model().get(ItemContainer.class).pickItem(targetItem);
     }
 
     @Override
     public int check() {
         Logger.TASKS.logDebug("Checking picking action");
         if (task.performer.getAspect(EquipmentAspect.class) == null) return FAIL; // performer cannot pick up item
-        if (GameMvc.instance().getModel().get(ItemContainer.class).itemMap.get(item.position).contains(item)) return OK;
+        if (GameMvc.instance().model().get(ItemContainer.class).itemMap.get(item.position).contains(item)) return OK;
         return FAIL;
     }
 

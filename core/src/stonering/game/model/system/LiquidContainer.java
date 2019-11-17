@@ -46,7 +46,7 @@ public class LiquidContainer implements ModelComponent, Initable, Turnable {
 
     @Override
     public void init() {
-        localMap = GameMvc.instance().getModel().get(LocalMap.class);
+        localMap = GameMvc.instance().model().get(LocalMap.class);
         liquidTiles.keySet().forEach(position -> {
             localMap.setFlooding(position.x, position.y, position.z, liquidTiles.get(position).amount);
         });

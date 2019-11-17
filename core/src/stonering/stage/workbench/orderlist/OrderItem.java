@@ -74,7 +74,7 @@ public class OrderItem extends Container implements Highlightable {
     }
 
     private void createListeners() {
-        WorkbenchSystem system = GameMvc.instance().getModel().get(BuildingContainer.class).workbenchSystem;
+        WorkbenchSystem system = GameMvc.instance().model().get(BuildingContainer.class).workbenchSystem;
         cancelButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {

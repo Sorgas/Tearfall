@@ -62,7 +62,7 @@ public class EatAction extends Action {
 
     private boolean tryCreateActionForDishes() {
         //TODO by food type, select dish type
-//        GameMvc.instance().getModel().get(ItemContainer.class).getNearestItemWithTag(task.getPerformer().position, )
+//        GameMvc.instance().model().get(ItemContainer.class).getNearestItemWithTag(task.getPerformer().position, )
         return false;
     }
 

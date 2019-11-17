@@ -18,7 +18,7 @@ public class EntitySelectorInputAdapter extends InputAdapter {
     private boolean enabled;
 
     public EntitySelectorInputAdapter() {
-        selector = GameMvc.instance().getModel().get(EntitySelector.class);
+        selector = GameMvc.instance().model().get(EntitySelector.class);
         enabled = true;
     }
 

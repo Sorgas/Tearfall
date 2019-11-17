@@ -36,6 +36,11 @@ public class NeighbourPositionStream {
         return this;
     }
 
+    public NeighbourPositionStream filterByPassability() {
+        stream = stream.filter(position -> passage.isTilePassable(position) == 2);
+        return this;
+    }
+
     public NeighbourPositionStream filterByArea(int value) {
         stream = stream.filter(position -> passage.area.get(position) == value);
         return this;

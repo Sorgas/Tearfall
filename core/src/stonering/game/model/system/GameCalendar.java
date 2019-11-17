@@ -40,9 +40,9 @@ public class GameCalendar {
             return;
         }
         if (units[index].increment()) { // unit ended
-            GameMvc.instance().getModel().getTurnableComponents().forEach(component -> component.turnUnit(units[index].unit));
+            GameMvc.instance().model().getTurnableComponents().forEach(component -> component.turnUnit(units[index].unit));
             turnUnit(index + 1); // increase next unit (on minute end, hour gets +1)
-        } else if (index == 0) GameMvc.instance().getModel().getTurnableComponents().forEach(Turnable::turn); // regular turnUnit
+        } else if (index == 0) GameMvc.instance().model().getTurnableComponents().forEach(Turnable::turn); // regular turnUnit
     }
 
     public String getCurrentDate() {

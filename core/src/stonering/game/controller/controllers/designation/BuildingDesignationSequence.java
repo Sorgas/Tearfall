@@ -79,7 +79,7 @@ public class BuildingDesignationSequence extends DesignationSequence {
             GameMvc.instance().getController().setCameraEnabled(false);
             return;
         }
-        GameMvc.instance().getModel().get(TaskContainer.class).designationSystem.submitBuildingDesignation(order, 1);
+        GameMvc.instance().model().get(TaskContainer.class).designationSystem.submitBuildingDesignation(order, 1);
         GameMvc.instance().getController().setCameraEnabled(true);
         reset();
     }

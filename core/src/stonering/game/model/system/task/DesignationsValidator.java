@@ -22,7 +22,7 @@ public class DesignationsValidator {
      * Calls correct validation method for designation type.
      */
     public boolean validateDesignation(Position position, DesignationTypeEnum type) {
-        LocalMap localMap = GameMvc.instance().getModel().get(LocalMap.class);
+        LocalMap localMap = GameMvc.instance().model().get(LocalMap.class);
         BlockTypesEnum blockOnMap = getType(localMap.getBlockType(position));
         switch (type) {
             case DIG: //makes floor
@@ -47,14 +47,14 @@ public class DesignationsValidator {
         switch (type) {
             case CHOP: {
                 //TODO designate tree as whole
-                PlantContainer container = GameMvc.instance().getModel().get(PlantContainer.class);
+                PlantContainer container = GameMvc.instance().model().get(PlantContainer.class);
                 return ((SPACE.equals(blockOnMap) || FLOOR.equals(blockOnMap)))
                         && container.isPlantBlockExists(position)
                         && container.getPlantBlock(position).getPlant().getType().isTree();
             }
             case HARVEST:
                 //TODO add harvesting from trees
-                PlantBlock block = GameMvc.instance().getModel().get(PlantContainer.class).getPlantBlock(position);
+                PlantBlock block = GameMvc.instance().model().get(PlantContainer.class).getPlantBlock(position);
                 return block != null && !block.getPlant().getType().isTree() && !block.getPlant().getType().isSubstrate();
         }
         return false;

@@ -62,7 +62,7 @@ public class MapEntitySelectStage extends UiStage implements Initable {
             case PLANTS:
                 break;
             case BUILDINGS:
-                tryShowBuildingStage(gameMvc.getModel().get(BuildingContainer.class).getBuildingBlocks().get(currentPosition));
+                tryShowBuildingStage(gameMvc.model().get(BuildingContainer.class).getBuildingBlocks().get(currentPosition));
                 break;
             case ZONES:
                 break;
@@ -79,7 +79,7 @@ public class MapEntitySelectStage extends UiStage implements Initable {
      * If there are several, shows select list.
      */
     private void collectEntities(List<Entity> entities) {
-        GameModel model = GameMvc.instance().getModel();
+        GameModel model = GameMvc.instance().model();
         if(model.get(BuildingContainer.class).hasBuilding(currentPosition)) {
             entities.add(model.get(BuildingContainer.class).getBuiding(currentPosition));
         }

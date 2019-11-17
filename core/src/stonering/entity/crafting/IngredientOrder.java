@@ -44,7 +44,7 @@ public class IngredientOrder {
     void updateOptions(Position position) {
         Triple<String, String, String> cacheTriple = new Triple<>("","", "");
         options.clear();
-        for (Item item : GameMvc.instance().getModel().get(ItemContainer.class).util.getItemsForIngredient(ingredient, position)) {
+        for (Item item : GameMvc.instance().model().get(ItemContainer.class).util.getItemsForIngredient(ingredient, position)) {
             cacheTriple.set(item.getOrigin(), MaterialMap.instance().getMaterial(item.getMaterial()).getName(), item.getType().title);
             options.put(cacheTriple, options.getOrDefault(cacheTriple, 0));
         }

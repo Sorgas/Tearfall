@@ -46,7 +46,7 @@ public class CraftItemAction extends Action {
     @Override
     protected void performLogic() {
         ItemContainerAspect workbenchContainer = workbench.getAspect(ItemContainerAspect.class);
-        ItemContainer container = GameMvc.instance().getModel().get(ItemContainer.class);
+        ItemContainer container = GameMvc.instance().model().get(ItemContainer.class);
         Item product = new ItemGenerator().generateItemByOrder(null, itemOrder);
         if (workbenchContainer != null) {
             workbenchContainer.items.removeAll(desiredItems); // spend components
@@ -58,7 +58,7 @@ public class CraftItemAction extends Action {
             workbenchContainer.items.removeAll(desiredItems); // spend components
             container.removeItems(desiredItems);
 
-            product.position = GameMvc.instance().getModel().get(LocalMap.class).getAnyNeighbourPosition(workbench.position, PASSABLE);
+            product.position = GameMvc.instance().model().get(LocalMap.class).getAnyNeighbourPosition(workbench.position, PASSABLE);
             container.addAndPut(product);
         }
     }
@@ -74,14 +74,12 @@ public class CraftItemAction extends Action {
         if (workbench.getAspect(WorkbenchAspect.class) == null)
             return Logger.TASKS.logWarn("Building " + workbench.toString() + " is not a workbench.", FAIL);
         if (!updateDesiredItems()) return FAIL; // desiredItems valid after this
-
         if (!aspect.containedItems.containsAll(desiredItems)) { // some item are out of WB.
             List<Item> outOfWBItems = new ArrayList<>(desiredItems);
             outOfWBItems.removeAll(aspect.containedItems);
             task.addFirstPreAction(new PutItemAction(outOfWBItems.get(0), workbench)); // create action to bring item
             return NEW;
-        }
-        if (workbench.hasAspect(FuelConsumerAspect.class) && !workbench.getAspect(FuelConsumerAspect.class).isFueled()) { // workbench requires fuel
+        } else if (workbench.hasAspect(FuelConsumerAspect.class) && !workbench.getAspect(FuelConsumerAspect.class).isFueled()) { // workbench requires fuel
             task.addFirstPreAction(new FuelingAciton(workbench));
             return NEW;
         }
@@ -105,7 +103,7 @@ public class CraftItemAction extends Action {
      * Returns false if cannot find any items for at least one order part.
      */
     private boolean findDesiredItems() {
-        ItemContainer container = GameMvc.instance().getModel().get(ItemContainer.class);
+        ItemContainer container = GameMvc.instance().model().get(ItemContainer.class);
         desiredItems.clear();
         List<IngredientOrder> ingredientOrders = new ArrayList<>(itemOrder.parts.values());
         ingredientOrders.addAll(itemOrder.consumed);
@@ -122,7 +120,7 @@ public class CraftItemAction extends Action {
     }
 
     private boolean checkItemsAvailability(List<Item> items) {
-        ItemContainer container = GameMvc.instance().getModel().get(ItemContainer.class);
+        ItemContainer container = GameMvc.instance().model().get(ItemContainer.class);
         return items.stream().allMatch(item -> container.util.itemIsAvailable(item, task.performer.position));
     }
 

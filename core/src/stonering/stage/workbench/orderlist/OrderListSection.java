@@ -52,7 +52,7 @@ public class OrderListSection extends NavigableVerticalGroup {
 
     public void createOrder(Recipe recipe) {
         ItemOrder order = new ItemOrder(recipe);
-        GameMvc.instance().getModel().get(BuildingContainer.class).workbenchSystem.addOrder(aspect, order);
+        GameMvc.instance().model().get(BuildingContainer.class).workbenchSystem.addOrder(aspect, order);
         OrderItem orderItem = new OrderItem(order, this);
         removeActor(emptyLabel);
         addActorAt(0, orderItem);

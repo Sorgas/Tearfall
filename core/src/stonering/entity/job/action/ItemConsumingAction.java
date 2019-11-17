@@ -46,6 +46,6 @@ public abstract class ItemConsumingAction extends Action {
      * Removes items from game.
      */
     protected void consumeItems(List<Item> items) {
-        GameMvc.instance().getModel().get(ItemContainer.class).removeItems(items);
+        GameMvc.instance().model().get(ItemContainer.class).removeItems(items);
     }
 }

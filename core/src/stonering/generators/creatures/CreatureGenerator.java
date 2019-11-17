@@ -76,6 +76,6 @@ public class CreatureGenerator {
     }
 
     private void updateBuffs(Unit unit) {
-        GameMvc.instance().getModel().get(UnitContainer.class).healthSystem.resetCreatureHealth(unit);
+        GameMvc.instance().model().get(UnitContainer.class).healthSystem.resetCreatureHealth(unit);
     }
 }

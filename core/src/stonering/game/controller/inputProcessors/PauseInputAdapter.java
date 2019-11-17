@@ -3,7 +3,6 @@ package stonering.game.controller.inputProcessors;
 import com.badlogic.gdx.InputAdapter;
 import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
-import stonering.util.global.Logger;
 
 /**
  * Can be disabled.
@@ -20,7 +19,7 @@ public class PauseInputAdapter extends InputAdapter {
     }
 
     private void switchPause() {
-        GameModel model = GameMvc.instance().getModel();
+        GameModel model = GameMvc.instance().model();
         model.setPaused(!model.isPaused());
 //        Logger.GENERAL.logDebug(model.isPaused() ? "Pausing game" : "Unpausing game");
     }

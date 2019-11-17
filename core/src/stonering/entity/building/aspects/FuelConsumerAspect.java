@@ -37,7 +37,7 @@ public class FuelConsumerAspect extends Aspect {
     public void acceptFuel(Item item) {
         if (item.hasAspect(FuelAspect.class) && item.getAspect(FuelAspect.class).isEnabled()) {
             remainingTime += 30; //TODO calculate by item size.
-            GameMvc.instance().getModel().get(ItemContainer.class).removeItem(item); // item is destroyed immediately
+            GameMvc.instance().model().get(ItemContainer.class).removeItem(item); // item is destroyed immediately
         }
     }
 }

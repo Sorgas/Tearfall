@@ -46,6 +46,6 @@ public class FuelingAciton extends Action {
         Item foundItem = task.performer.getAspect(EquipmentAspect.class).hauledItems.stream().filter(item -> item.hasAspect(FuelAspect.class)
                 && item.getAspect(FuelAspect.class).isEnabled()).findFirst().orElse(null); // item from inventory
         if (foundItem != null) return foundItem;
-        return GameMvc.instance().getModel().get(ItemContainer.class).util.getItemAvailableBySelector(new FuelItemSelector(), task.performer.position);
+        return GameMvc.instance().model().get(ItemContainer.class).util.getItemAvailableBySelector(new FuelItemSelector(), task.performer.position);
     }
 }

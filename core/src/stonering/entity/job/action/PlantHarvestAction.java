@@ -23,7 +23,7 @@ public class PlantHarvestAction extends Action {
 
     @Override
     public int check() {
-        PlantContainer container = GameMvc.instance().getModel().get(PlantContainer.class);
+        PlantContainer container = GameMvc.instance().model().get(PlantContainer.class);
         EquipmentAspect aspect = task.performer.getAspect(EquipmentAspect.class);
         if (aspect == null) return FAIL;
         AbstractPlant targetPlant = ((PlantActionTarget) actionTarget).getPlant();
@@ -33,7 +33,7 @@ public class PlantHarvestAction extends Action {
     }
 
     private int addActionToTask() {
-        Item target = GameMvc.instance().getModel().get(ItemContainer.class).util.getItemAvailableBySelector(toolItemSelector, task.performer.position);
+        Item target = GameMvc.instance().model().get(ItemContainer.class).util.getItemAvailableBySelector(toolItemSelector, task.performer.position);
         if (target == null) return FAIL;
         EquipItemAction equipItemAction = new EquipItemAction(target, true);
         task.addFirstPreAction(equipItemAction);
@@ -43,8 +43,8 @@ public class PlantHarvestAction extends Action {
     @Override
     public void performLogic() {
         Logger.PLANTS.logDebug("harvesting plant");
-        PlantBlock block = GameMvc.instance().getModel().get(PlantContainer.class).getPlantBlock(actionTarget.getPosition());
+        PlantBlock block = GameMvc.instance().model().get(PlantContainer.class).getPlantBlock(actionTarget.getPosition());
         Item item = new PlantProductGenerator().generateHarvestProduct(block);
-        GameMvc.instance().getModel().get(ItemContainer.class).addAndPut(item);
+        GameMvc.instance().model().get(ItemContainer.class).addAndPut(item);
     }
 }

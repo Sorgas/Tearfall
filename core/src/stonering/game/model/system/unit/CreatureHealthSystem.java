@@ -76,7 +76,7 @@ public class CreatureHealthSystem {
         HealthParameterState state = unit.getAspect(HealthAspect.class).parameters.get(parameterEnum);
         HealthParameter parameter = parameterEnum.PARAMETER;
         int rangeIndex = parameter.getRangeIndex(state.current);
-        CreatureBuffSystem buffSystem = GameMvc.instance().getModel().get(UnitContainer.class).buffSystem;
+        CreatureBuffSystem buffSystem = GameMvc.instance().model().get(UnitContainer.class).buffSystem;
         buffSystem.removeBuff(unit, parameterEnum.TAG);
         buffSystem.addBuff(unit, parameter.getBuffForRange(rangeIndex));
     }

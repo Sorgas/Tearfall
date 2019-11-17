@@ -89,7 +89,7 @@ public class PassageMap {
      * TODO add water depth checking, etc.
      */
     public int isTilePassable(Position position) {
-        GameModel model = GameMvc.instance().getModel();
+        GameModel model = GameMvc.instance().model();
         PassageEnum tilePassage = getType(localMap.getBlockType(position)).PASSING;
         if(tilePassage == PassageEnum.IMPASSABLE) return PassageEnum.IMPASSABLE.VALUE;
         PlantContainer plantContainer = model.get(PlantContainer.class);

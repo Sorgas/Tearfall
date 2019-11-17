@@ -35,7 +35,7 @@ public class MaterialSelectList extends ItemsCountList implements Hideable {
      */
     public void fillForCraftingStep(BuildingComponent step, Position position) {
         clearChildren();
-        List<Item> items = GameMvc.instance().getModel().get(ItemContainer.class).util.getAvailableMaterialsForBuildingStep(step, position);
+        List<Item> items = GameMvc.instance().model().get(ItemContainer.class).util.getAvailableMaterialsForBuildingStep(step, position);
         if (items.isEmpty()) { // items not found
             addActor(new Label("No item available.", StaticSkin.getSkin()));
             active = false;

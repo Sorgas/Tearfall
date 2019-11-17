@@ -34,7 +34,7 @@ public class BuildingAction extends GenericBuildingAction {
                 + " by " + task.performer.toString());
         Position target = actionTarget.getPosition();
         List<Item> items = selectItemsToConsume();
-        BuildingContainer buildingContainer = GameMvc.instance().getModel().get(BuildingContainer.class);
+        BuildingContainer buildingContainer = GameMvc.instance().model().get(BuildingContainer.class);
         Building building = buildingContainer.buildingGenerator.generateBuilding(buildingType.building, target); //TODO use material
         buildingContainer.addBuilding(building);
         consumeItems(items);

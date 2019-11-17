@@ -65,7 +65,7 @@ public class TaskContainer implements ModelComponent, Turnable {
             return null;
         }
         final Position position = unit.position;
-        PassageMap map = GameMvc.instance().getModel().get(LocalMap.class).getPassage();
+        PassageMap map = GameMvc.instance().model().get(LocalMap.class).getPassage();
         for (String enabledJob : aspect.getEnabledJobs()) {
             if (!tasks.containsKey(enabledJob)) continue;
             for (Task task : tasks.get(enabledJob)) {

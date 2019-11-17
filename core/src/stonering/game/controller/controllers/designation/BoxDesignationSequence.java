@@ -21,9 +21,9 @@ public class BoxDesignationSequence extends DesignationSequence {
 
     public BoxDesignationSequence(DesignationTypeEnum designationType) {
         this.designationType = designationType;
-        container = GameMvc.instance().getModel().get(TaskContainer.class);
+        container = GameMvc.instance().model().get(TaskContainer.class);
         rectangleSelectComponent = new RectangleSelectComponent(null, event -> {
-            EntitySelector selector = GameMvc.instance().getModel().get(EntitySelector.class);
+            EntitySelector selector = GameMvc.instance().model().get(EntitySelector.class);
             submitSelectedFrame(selector.getFrameStart(), selector.getPosition());
             return true;
         });

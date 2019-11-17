@@ -19,7 +19,7 @@ public class AStar implements ModelComponent {
      * the A* heuristics (h must not overestimate). initialNode and last found node included.
      */
     public List<Position> makeShortestPath(Position initialPos, Position targetPos, int targetPlacement) {
-        localMap = GameMvc.instance().getModel().get(LocalMap.class);
+        localMap = GameMvc.instance().model().get(LocalMap.class);
         Node initialNode = new Node(initialPos, targetPos);
         Node pathNode = search(initialNode, targetPos, targetPlacement); //perform search
         if (pathNode == null) return null;

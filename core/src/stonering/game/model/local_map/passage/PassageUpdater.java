@@ -25,7 +25,7 @@ public class PassageUpdater {
     public PassageUpdater(LocalMap map, PassageMap passage) {
         this.map = map;
         this.passage = passage;
-        aStar = GameMvc.instance().getModel().get(AStar.class);
+        aStar = GameMvc.instance().model().get(AStar.class);
     }
 
     /**
@@ -45,7 +45,7 @@ public class PassageUpdater {
             if (areas.size() > 1) mergeAreas(areas);
         } else { // tile became impassable, areas may split
             splitAreas(center, new NeighbourPositionStream(center, passage)
-                    .filterByReachability()
+                    .filterByPassability()
                     .stream.collect(Collectors.toMap(
                             passage.area::get,
                             Arrays::asList,

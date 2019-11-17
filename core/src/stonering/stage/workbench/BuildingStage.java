@@ -29,8 +29,8 @@ public class BuildingStage extends UiStage implements Initable {
     @Override
     public void init() {
         gameMvc.getController().setCameraEnabled(false);
-        wasPaused = gameMvc.getModel().isPaused(); // used for unpausing when menu is closed
-        gameMvc.getModel().setPaused(true);
+        wasPaused = gameMvc.model().isPaused(); // used for unpausing when menu is closed
+        gameMvc.model().setPaused(true);
         gameMvc.getController().pauseInputAdapter.setEnabled(false);
         createWorkbenchMenu();
     }
@@ -51,8 +51,8 @@ public class BuildingStage extends UiStage implements Initable {
     @Override
     public void dispose() {
         gameMvc.getController().setCameraEnabled(true);
-        wasPaused = gameMvc.getModel().isPaused();
-        gameMvc.getModel().setPaused(wasPaused);
+        wasPaused = gameMvc.model().isPaused();
+        gameMvc.model().setPaused(wasPaused);
         gameMvc.getController().pauseInputAdapter.setEnabled(true);
         super.dispose();
     }

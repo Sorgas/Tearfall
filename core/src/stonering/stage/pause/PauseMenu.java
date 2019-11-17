@@ -32,7 +32,7 @@ public class PauseMenu extends ButtonMenu {
         createButton("Resume", Input.Keys.Q, new ChangeListener() { // this button intercepts input from
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                GameMvc.instance().getModel().setPaused(false);
+                GameMvc.instance().model().setPaused(false);
                 hide();
             }
         }, true);

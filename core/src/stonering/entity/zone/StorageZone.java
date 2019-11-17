@@ -49,7 +49,7 @@ public class StorageZone extends Zone {
      * Checks tile for having desired item in it.
      */
     private boolean tileIsEmpty(Position tile) {
-        List<Item> items = GameMvc.instance().getModel().get(ItemContainer.class).getItemsInPosition(tile);
+        List<Item> items = GameMvc.instance().model().get(ItemContainer.class).getItemsInPosition(tile);
         return items.stream().noneMatch(item -> selector.checkItem(item));
     }
 
@@ -60,14 +60,14 @@ public class StorageZone extends Zone {
         if (item == null) return;
         Action action = new PutItemAction(item, tile);
         Task task = new Task("Store " + item.getTitle(), action, 1);
-        GameMvc.instance().getModel().get(TaskContainer.class).addTask(task);
+        GameMvc.instance().model().get(TaskContainer.class).addTask(task);
     }
 
     /**
      * Gets items from map, Ensures it is not stored already.
      */
     private Item selectItem(Position position) {
-        GameModel model = GameMvc.instance().getModel();
+        GameModel model = GameMvc.instance().model();
         List<Item> items = model.get(ItemContainer.class).util.getItemsAvailableBySelector(selector, position);
         if (items.isEmpty()) return null;
         ZonesContainer zonesContainer = model.get(ZonesContainer.class);

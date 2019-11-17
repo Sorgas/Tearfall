@@ -113,11 +113,11 @@ public class CreaturePlanningSystem {
      */
     private void removeTask(Task task) {
         taskContainer().removeTask(task);
-        GameMvc.instance().getModel().get(ItemContainer.class).freeItems(task.lockedItems); // free items
+        GameMvc.instance().model().get(ItemContainer.class).freeItems(task.lockedItems); // free items
     }
 
     private TaskContainer taskContainer() {
-        return GameMvc.instance().getModel().get(TaskContainer.class);
+        return GameMvc.instance().model().get(TaskContainer.class);
     }
 
     /**

@@ -10,14 +10,11 @@ import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.designations.DesignationTypeEnum;
 import stonering.game.GameMvc;
-import stonering.game.model.GameModel;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.task.TaskContainer;
 import stonering.generators.items.DiggingProductGenerator;
 import stonering.util.geometry.Position;
-
-import java.util.List;
 
 import static stonering.enums.blocks.BlockTypesEnum.*;
 
@@ -45,7 +42,7 @@ public class DigAction extends Action {
     }
 
     private int addEquipAction() {
-        Item target = GameMvc.instance().getModel().get(ItemContainer.class).util.getItemAvailableBySelector(toolItemSelector, task.performer.position);
+        Item target = GameMvc.instance().model().get(ItemContainer.class).util.getItemAvailableBySelector(toolItemSelector, task.performer.position);
         if (target == null) return FAIL;
         task.addFirstPreAction(new EquipItemAction(target, true));
         return NEW;
@@ -53,7 +50,7 @@ public class DigAction extends Action {
 
     @Override
     protected void performLogic() {
-        BlockTypesEnum oldType = GameMvc.instance().getModel().get(LocalMap.class).getBlockTypeEnumValue(actionTarget.getPosition());
+        BlockTypesEnum oldType = GameMvc.instance().model().get(LocalMap.class).getBlockTypeEnumValue(actionTarget.getPosition());
         if (validate()) updateMap();
         leaveStone(oldType);
     }
@@ -62,16 +59,16 @@ public class DigAction extends Action {
      * Checks that target block can be changed to a target type.
      */
     private boolean validate() {
-        LocalMap map = GameMvc.instance().getModel().get(LocalMap.class);
+        LocalMap map = GameMvc.instance().model().get(LocalMap.class);
         BlockTypesEnum mapBlock = BlockTypesEnum.getType(map.getBlockType(actionTarget.getPosition()));
-        return GameMvc.instance().getModel().get(TaskContainer.class).designationSystem.validator.validateDigging(actionTarget.getPosition(), mapBlock, type);
+        return GameMvc.instance().model().get(TaskContainer.class).designationSystem.validator.validateDigging(actionTarget.getPosition(), mapBlock, type);
     }
 
     /**
      * Applies changes to local map. Some types of digging change not only target tile.
      */
     private void updateMap() {
-        LocalMap map = GameMvc.instance().getModel().get(LocalMap.class);
+        LocalMap map = GameMvc.instance().model().get(LocalMap.class);
         Position target = actionTarget.getPosition();
         switch (type) {
             case DIG:
@@ -102,8 +99,8 @@ public class DigAction extends Action {
      * Puts rock of dug material if needed.
      */
     private void leaveStone(BlockTypesEnum oldType) {
-        LocalMap map = GameMvc.instance().getModel().get(LocalMap.class);
-        ItemContainer container = GameMvc.instance().getModel().get(ItemContainer.class);
+        LocalMap map = GameMvc.instance().model().get(LocalMap.class);
+        ItemContainer container = GameMvc.instance().model().get(ItemContainer.class);
         Position target = actionTarget.getPosition();
         BlockTypesEnum newType = map.getBlockTypeEnumValue(target);
         int materialId = map.getMaterial(target);
@@ -113,7 +110,7 @@ public class DigAction extends Action {
     }
 
     private void updateAndRevealMap(Position position, BlockTypesEnum type) {
-        LocalMap map = GameMvc.instance().getModel().get(LocalMap.class);
+        LocalMap map = GameMvc.instance().model().get(LocalMap.class);
         map.setBlockType(position, type.CODE);
         map.light.handleDigging(position);
     }

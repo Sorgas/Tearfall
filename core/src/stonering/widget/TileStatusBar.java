@@ -4,7 +4,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
-import stonering.game.model.system.GameCalendar;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.GameMvc;
 import stonering.util.global.StaticSkin;
@@ -46,7 +45,7 @@ public class TileStatusBar extends Container<Table> {
     public void setData(Position camera, String material, int area, int blockType) {
         coordinates.setText("(" + camera.x + ", " + camera.y + ", " + camera.z + ") " + BlockTypesEnum.getType((byte) blockType));
         cellType.setText(material);
-        date.setText(GameMvc.instance().getModel().getCalendar().getCurrentDate());
+        date.setText(GameMvc.instance().model().getCalendar().getCurrentDate());
         this.area.setText(area);
     }
 }

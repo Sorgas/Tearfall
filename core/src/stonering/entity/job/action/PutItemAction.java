@@ -7,7 +7,6 @@ import stonering.entity.job.action.target.EntityActionTarget;
 import stonering.entity.job.action.target.PositionActionTarget;
 import stonering.entity.Entity;
 import stonering.entity.item.Item;
-import stonering.entity.item.aspects.ItemContainerAspect;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.game.GameMvc;
 import stonering.game.model.system.item.ItemContainer;
@@ -44,10 +43,9 @@ public class PutItemAction extends Action {
         EquipmentAspect equipmentAspect = task.performer.getAspect(EquipmentAspect.class);
         equipmentAspect.hauledItems.remove(targetItem);
         if (targetEntity != null) {
-
             (targetEntity.getAspect(WorkbenchAspect.class)).containedItems.add(targetItem); // put into container
         } else {
-            GameMvc.instance().getModel().get(ItemContainer.class).putItem(targetItem, targetPosition); // put on position
+            GameMvc.instance().model().get(ItemContainer.class).putItem(targetItem, targetPosition); // put on position
         }
     }
 

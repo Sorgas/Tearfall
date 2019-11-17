@@ -55,7 +55,7 @@ public class EmptyOrderLine extends OrderLine {
     private void replaceSelfWith(Recipe recipe) {
         hide();
         ItemOrder order = new ItemOrder(recipe);
-        GameMvc.instance().getModel().get(BuildingContainer.class).workbenchSystem.addOrder(menu.getWorkbenchAspect(), order);
+        GameMvc.instance().model().get(BuildingContainer.class).workbenchSystem.addOrder(menu.getWorkbenchAspect(), order);
         ItemCraftingOrderLine orderLine = new ItemCraftingOrderLine(menu, order);
         orderLine.show();
         orderLine.navigateToFirst();

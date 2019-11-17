@@ -5,7 +5,6 @@ import stonering.entity.FloatPositionEntity;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.MovementAspect;
 import stonering.entity.unit.aspects.PlanningAspect;
-import stonering.enums.OrderStatusEnum;
 import stonering.enums.TaskStatusEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
@@ -35,7 +34,7 @@ public class CreatureMovementSystem {
     private AStar aStar;
 
     public void update(Unit unit) {
-        GameModel model = GameMvc.instance().getModel();
+        GameModel model = GameMvc.instance().model();
         localMap = model.get(LocalMap.class);
         unitContainer = model.get(UnitContainer.class);
         aStar = model.get(AStar.class);

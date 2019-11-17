@@ -35,7 +35,7 @@ public class MainUiStage extends UiStage {
     }
 
     private void updateStatusBar() {
-        GameModel gameModel = GameMvc.instance().getModel();
+        GameModel gameModel = GameMvc.instance().model();
         Position focus = gameModel.get(EntitySelector.class).getPosition();
         Material material = MaterialMap.instance().getMaterial(gameModel.get(LocalMap.class).getMaterial(focus));
         tileStatusBar.setData(focus,

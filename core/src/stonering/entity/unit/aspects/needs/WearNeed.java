@@ -58,7 +58,7 @@ public class WearNeed extends Need {
      */
     private Task tryCreateEquipTask(Entity entity, EquipmentSlot equipmentSlot) {
         ItemSelector itemSelector = new WearForSlotItemSelector(equipmentSlot.name);
-        Item item = GameMvc.instance().getModel().get(ItemContainer.class).util.getItemAvailableBySelector(itemSelector, entity.position);
+        Item item = GameMvc.instance().model().get(ItemContainer.class).util.getItemAvailableBySelector(itemSelector, entity.position);
         if (item == null) return null;
         EquipItemAction equipItemAction = new EquipItemAction(item, true);
         return new Task("Equip item " + item.getTitle(), equipItemAction, GET_WEAR_PRIORITY);

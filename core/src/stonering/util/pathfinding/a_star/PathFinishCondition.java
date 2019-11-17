@@ -24,8 +24,8 @@ public class PathFinishCondition {
         neighbours = new HashSet<>();
         if(targetPlacement != ActionTarget.NEAR) neighbours.add(target); // exact or any
         if(targetPlacement != ActionTarget.EXACT) { // near or any
-            neighbours = new HashSet<>(new NeighbourPositionStream(target, GameMvc.instance().getModel().get(LocalMap.class).passage)
-                    .filterByReachability().stream.collect(Collectors.toSet()));
+            neighbours = new HashSet<>(new NeighbourPositionStream(target, GameMvc.instance().model().get(LocalMap.class).passage)
+                    .filterByPassability().stream.collect(Collectors.toSet()));
         }
     }
 

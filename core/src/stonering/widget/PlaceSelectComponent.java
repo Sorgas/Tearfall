@@ -28,7 +28,7 @@ public class PlaceSelectComponent extends Actor implements Hideable {
     public PlaceSelectComponent(EventListener eventListener) {
         gameMvc = GameMvc.instance();
         this.eventListener = eventListener;
-        selector = gameMvc.getModel().get(EntitySelector.class);
+        selector = gameMvc.model().get(EntitySelector.class);
         toolbar = gameMvc.getView().mainUiStage.toolbar;
         createDefaultListener();
     }
@@ -58,7 +58,7 @@ public class PlaceSelectComponent extends Actor implements Hideable {
      */
     private boolean validatePosition(Position position) {
         return positionValidator == null ||
-                positionValidator.validate(gameMvc.getModel().get(LocalMap.class), position);
+                positionValidator.validate(gameMvc.model().get(LocalMap.class), position);
     }
 
     @Override
