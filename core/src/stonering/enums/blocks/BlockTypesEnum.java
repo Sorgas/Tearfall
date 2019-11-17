@@ -12,18 +12,20 @@ import static stonering.enums.blocks.BlockTypesEnum.PassageEnum.*;
  * @author Alexander Kuzyakov on 10.06.2017.
  */
 public enum BlockTypesEnum {
-    SPACE(0, FLY_ONLY, 5, 0, "space"), //not passable for walkers, liquids fall
-    WALL(1, IMPASSABLE, 0, 3, "wall"), // not passable
-    FLOOR(2, PASSABLE, 3, 1, "floor"), // passable, liquids don't fall
-    STAIRS(3, PASSABLE, 2, 2, "stairs"), //DF-like stairs
-    DOWNSTAIRS(4, PASSABLE, 4, 1, "downstairs"),
-    RAMP(5, PASSABLE, 1, 2, "ramp"), // passable, liquids don't fall
-    FARM(6, PASSABLE, 3, 1, "farm plot"); // passable
+    SPACE(0, IMPASSABLE, 5, false, 0, "space"), //not passable for walkers, liquids fall
+    WALL(1, IMPASSABLE, 0, false, 3, "wall"), // not passable
+    FLOOR(2, PASSABLE, 3, true, 1, "floor"), // passable, liquids don't fall
+    STAIRS(3, PASSABLE, 2, false, 2, "stairs"), //DF-like stairs
+    DOWNSTAIRS(4, PASSABLE, 4, true, 1, "downstairs"),
+    RAMP(5, PASSABLE, 1, false, 2, "ramp"), // passable, liquids don't fall
+    FARM(6, PASSABLE, 3, true, 1, "farm plot"); // passable
 
     public final byte CODE;
     public final PassageEnum PASSING;
     public final byte OPENNESS; // blocks with lower openness can be dug to higher ones
     public final int PRODUCT;
+    // flat blocks rendered below other entities in a separate cycle
+    public final boolean FLAT;
     public final String NAME; // name of constructions.
 
     private static HashMap<Byte, BlockTypesEnum> map;
@@ -40,12 +42,13 @@ public enum BlockTypesEnum {
         }
     }
 
-    BlockTypesEnum(int code, PassageEnum passing, int open, int product, String name) {
+    BlockTypesEnum(int code, PassageEnum passing, int open, boolean flat, int product, String name) {
         CODE = (byte) code;
         PASSING = passing;
         OPENNESS = (byte) open;
-        NAME = name;
+        FLAT = flat;
         PRODUCT = product;
+        NAME = name;
     }
 
     public static BlockTypesEnum getType(byte code) {
@@ -57,8 +60,7 @@ public enum BlockTypesEnum {
     }
 
     public enum PassageEnum {
-        PASSABLE(2),
-        FLY_ONLY(1),
+        PASSABLE(1),
         IMPASSABLE(0);
 
         public byte VALUE;

@@ -40,7 +40,7 @@ public class MainUiStage extends UiStage {
         Material material = MaterialMap.instance().getMaterial(gameModel.get(LocalMap.class).getMaterial(focus));
         tileStatusBar.setData(focus,
                 material != null ? material.getName() : "",
-                gameModel.get(LocalMap.class).passage != null ? gameModel.get(LocalMap.class).passage.getArea().get(focus) : 0,
+                gameModel.get(LocalMap.class).passageMap != null ? gameModel.get(LocalMap.class).passageMap.area.get(focus) : 0,
                 gameModel.get(LocalMap.class).getBlockType(focus));
     }
 }

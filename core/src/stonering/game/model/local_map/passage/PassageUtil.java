@@ -26,7 +26,7 @@ public class PassageUtil {
 
     public boolean positionReachable(Position from, Position to, boolean acceptNearTarget) {
         if (passage.area.get(to) == passage.area.get(from)) return true; // target in same area
-        return acceptNearTarget && new NeighbourPositionStream(to, passage)
+        return acceptNearTarget && new NeighbourPositionStream(to)
                 .stream.map(passage.area::get)
                 .anyMatch(Predicate.isEqual(passage.area.get(from))); // near tile in same area
     }

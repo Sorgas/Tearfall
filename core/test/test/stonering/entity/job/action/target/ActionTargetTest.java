@@ -90,9 +90,11 @@ public class ActionTargetTest {
     void testAnyTarget() {
         actionTarget = new PositionActionTarget(targetPosition, ActionTargetTypeEnum.ANY);
         actionTarget.setAction(actionMock);
-        assertEquals(ActionTargetStatusEnum.READY, actionTarget.check(targetPosition));
-        assertEquals(ActionTargetStatusEnum.READY, actionTarget.check(new Position(1, 0, 1)));
-        assertEquals(ActionTargetStatusEnum.READY, actionTarget.check(new Position(0, 1, 1)));
+        assertEquals(ActionTargetStatusEnum.READY, actionTarget.check(targetPosition)); // same position
+        assertEquals(ActionTargetStatusEnum.READY, actionTarget.check(new Position(1, 0, 0))); // near target
+        assertEquals(ActionTargetStatusEnum.READY, actionTarget.check(new Position(1, 1, 0))); // near target
+        assertEquals(ActionTargetStatusEnum.WAIT, actionTarget.check(new Position(0, 0, 1))); // above target
+        assertEquals(ActionTargetStatusEnum.WAIT, actionTarget.check(new Position(1, 0, 1))); // above and near target
         assertEquals(ActionTargetStatusEnum.WAIT, actionTarget.check(new Position(3, 3, 1)));
     }
 

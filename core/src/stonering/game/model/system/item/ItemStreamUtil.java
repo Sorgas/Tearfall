@@ -77,6 +77,6 @@ public class ItemStreamUtil {
     public boolean itemIsAvailable(Item item, Position position) {
         //TODO check containers
         return item.position != null &&
-                GameMvc.instance().model().get(LocalMap.class).passage.util.positionReachable(position, item.position, false);
+                GameMvc.instance().model().get(LocalMap.class).passageMap.util.positionReachable(position, item.position, false);
     }
 }

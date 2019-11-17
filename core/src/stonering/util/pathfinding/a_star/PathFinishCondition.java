@@ -1,6 +1,7 @@
 package stonering.util.pathfinding.a_star;
 
 import stonering.enums.action.ActionTargetTypeEnum;
+import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.local_map.passage.NeighbourPositionStream;
@@ -25,16 +26,20 @@ public class PathFinishCondition {
         neighbours = new HashSet<>();
         switch (targetType) {
             case EXACT:
+                neighbours.add(target);
                 break;
             case NEAR:
+                neighbours.addAll(new NeighbourPositionStream(target)
+                        .filterSameZLevel()
+                        .filterByPassage(BlockTypesEnum.PassageEnum.PASSABLE)
+                        .stream.collect(Collectors.toSet()));
                 break;
             case ANY:
-                break;
-        }
-        if(targetType != NEAR) neighbours.add(target); // exact or any
-        if(targetType != EXACT) { // near or any
-            neighbours = new NeighbourPositionStream(target, GameMvc.instance().model().get(LocalMap.class).passage)
-                    .filterByPassability().stream.collect(Collectors.toSet());
+                neighbours.add(target);
+                neighbours.addAll(new NeighbourPositionStream(target)
+                        .filterSameZLevel()
+                        .filterByPassage(BlockTypesEnum.PassageEnum.PASSABLE)
+                        .stream.collect(Collectors.toSet()));
         }
     }
 

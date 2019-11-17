@@ -1,5 +1,8 @@
 package stonering.game.model.local_map.passage;
 
+import stonering.enums.blocks.BlockTypesEnum;
+import stonering.game.GameMvc;
+import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 
 import java.util.HashSet;
@@ -13,12 +16,14 @@ import java.util.stream.Stream;
  */
 public class NeighbourPositionStream {
     public Stream<Position> stream;
-    private PassageMap passage;
+    private PassageMap passageMap;
     private Position center;
+    private LocalMap localMap;
 
-    public NeighbourPositionStream(Position center, PassageMap passage) {
-        this.passage = passage;
+    public NeighbourPositionStream(Position center) {
         this.center = center;
+        localMap = GameMvc.instance().model().get(LocalMap.class);
+        passageMap = localMap.passageMap;
         Set<Position> neighbours = new HashSet<>();
         for (int x = center.x - 1; x < center.x + 2; x++) {
             for (int y = center.y - 1; y < center.y + 2; y++) {
@@ -28,21 +33,43 @@ public class NeighbourPositionStream {
                 }
             }
         }
-        stream = neighbours.stream();
+        stream = neighbours.stream().filter(localMap::inMap);
     }
 
-    public NeighbourPositionStream filterByReachability() {
-        stream = stream.filter(position -> passage.hasPathBetweenNeighbours(position, center));
+    /**
+     * Filters all tiles where walking creature cannot step into.
+     * Clears all, if center tile is not passable.
+     */
+    public NeighbourPositionStream filterByPassability() {
+        stream = stream.filter(position -> passageMap.hasPathBetweenNeighbours(position, center));
         return this;
     }
 
-    public NeighbourPositionStream filterByPassability() {
-        stream = stream.filter(position -> passage.isTilePassable(position) == 2);
+    /**
+     * Filters all tiles where center tile cannot be accessed from.
+     */
+    public NeighbourPositionStream filterByAccessability() {
+        stream = stream.filter(position -> passageMap.tileIsAccessibleFromNeighbour(center, position));
         return this;
     }
 
     public NeighbourPositionStream filterByArea(int value) {
-        stream = stream.filter(position -> passage.area.get(position) == value);
+        stream = stream.filter(position -> passageMap.area.get(position) != value);
+        return this;
+    }
+
+    public NeighbourPositionStream filterByPassage(BlockTypesEnum.PassageEnum passage) {
+        stream = stream.filter(position -> passageMap.passage.get(position) == passage.VALUE);
+        return this;
+    }
+
+    public NeighbourPositionStream filterByBlockType(BlockTypesEnum type) {
+        stream = stream.filter(position -> localMap.getBlockType(position) == type.CODE);
+        return this;
+    }
+
+    public NeighbourPositionStream filterSameZLevel() {
+        stream = stream.filter(position -> position.z == center.z);
         return this;
     }
 }

@@ -1,5 +1,6 @@
 package stonering.game.model.local_map.passage;
 
+import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
@@ -33,22 +34,22 @@ public class PassageUpdater {
      */
     public void update(int x, int y, int z) {
         Position center = new Position(x, y, z);
-        int passing = passage.isTilePassable(center);
-        passage.passage.set(center, passing);
-        if (passing == PASSABLE.VALUE) { // tile became passable, areas should be merged
-            Set<Byte> areas = new NeighbourPositionStream(center, passage)
-                    .filterByReachability()
+        BlockTypesEnum.PassageEnum passing = passage.getTilePassage(center);
+        passage.passage.set(center, passing.VALUE);
+        if (passing == PASSABLE) { // tile became passable, areas should be merged
+            Set<Byte> areas = new NeighbourPositionStream(center)
+                    .filterByPassability()
                     .filterByArea(0)
                     .stream.map(position -> passage.area.get(position))
                     .collect(Collectors.toSet());
             passage.area.set(x, y, z, areas.iterator().next()); // set area value to current tile
             if (areas.size() > 1) mergeAreas(areas);
         } else { // tile became impassable, areas may split
-            splitAreas(center, new NeighbourPositionStream(center, passage)
-                    .filterByPassability()
+            splitAreas(center, new NeighbourPositionStream(center)
+                    .filterByPassage(PASSABLE)
                     .stream.collect(Collectors.toMap(
                             passage.area::get,
-                            Arrays::asList,
+                            position -> new ArrayList<>(Arrays.asList(position)),
                             (list1, list2) -> {
                                 list1.addAll(list2);
                                 return list1;
@@ -124,8 +125,8 @@ public class PassageUpdater {
             Position center = openSet.iterator().next();
             openSet.remove(center);
             passage.area.set(center.x, center.y, center.z, value);
-            new NeighbourPositionStream(center, passage)
-                    .filterByReachability()
+            new NeighbourPositionStream(center)
+                    .filterByPassability()
                     .filterByArea(value)
                     .stream.forEach(openSet::add);
         }

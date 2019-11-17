@@ -38,21 +38,15 @@ public class DesignationSystem {
      * Resets failed designation tasks to open state.
      */
     public void update() {
-
-        container.designations.values().stream()
-                .filter(designation -> designation.task == null || designation.task.status == FAILED)
-                .forEach(designation -> {
-                    if(designation.task == null) {
-
-                    } else {
-                        designation.task.reset();
-                        designation.task.status = OPEN;
-                    }
-                });
+        container.designations.values().forEach(
+                designation -> {
+                    if (designation.task == null) createTaskForDesignation(designation);
+                }
+        );
     }
 
     private void createTaskForDesignation(Designation designation) {
-
+        Logger.TASKS.logError("write some code");
     }
 
     /**
@@ -80,5 +74,10 @@ public class DesignationSystem {
         container.addTask(task);
         container.designations.put(designation.position, designation);
         Logger.TASKS.log(task.name + " designated");
+    }
+
+    public void removeDesignation(Designation designation) {
+        container.designations.remove(designation.position); // remove designation to not render it
+        if (designation.task != null) designation.task.status = FAILED; // task will be removed by tasksStatusSystem
     }
 }

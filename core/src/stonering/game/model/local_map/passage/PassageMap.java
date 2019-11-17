@@ -11,6 +11,7 @@ import stonering.game.model.util.UtilByteArray;
 import stonering.util.geometry.Position;
 
 import static stonering.enums.blocks.BlockTypesEnum.*;
+import static stonering.enums.blocks.BlockTypesEnum.PassageEnum.IMPASSABLE;
 import static stonering.enums.blocks.BlockTypesEnum.PassageEnum.PASSABLE;
 
 /**
@@ -51,7 +52,7 @@ public class PassageMap {
         for (int x = 0; x < localMap.xSize; x++) {
             for (int y = 0; y < localMap.ySize; y++) {
                 for (int z = 0; z < localMap.zSize; z++) {
-                    passage.set(x, y, z, isTilePassable(cachePosition.set(x, y, z)));
+                    passage.set(x, y, z, getTilePassage(cachePosition.set(x, y, z)).VALUE);
                 }
             }
         }
@@ -64,8 +65,7 @@ public class PassageMap {
      */
     public boolean hasPathBetweenNeighbours(int x1, int y1, int z1, int x2, int y2, int z2) {
         if (!localMap.inMap(x1, y1, z1) || !localMap.inMap(x2, y2, z2)) return false; // out of map
-        if (passage.get(x1, y1, z1) != PASSABLE.VALUE) return false; // cell not passable
-        if (passage.get(x2, y2, z2) != PASSABLE.VALUE) return false; // cell not passable
+        if (passage.get(x1, y1, z1) == IMPASSABLE.VALUE || passage.get(x2, y2, z2) == IMPASSABLE.VALUE) return false;
         if (z1 == z2) return true; // passable tiles on same level
         BlockTypesEnum lower = BlockTypesEnum.getType(z1 < z2 ? localMap.getBlockType(x1, y1, z1) : localMap.getBlockType(x2, y2, z2));
         if (x1 != x2 || y1 != y2) { // check ramps
@@ -76,35 +76,40 @@ public class PassageMap {
         }
     }
 
-    public boolean hasPathBetweenNeighbours(Position from, Position to) {
-        return hasPathBetweenNeighbours(from.x, from.y, from.z, to.x, to.y, to.z);
+    /**
+     * Checks that unit, standing in position will have access (to dig, open a chest) to target tile.
+     * Only same Z-level tile can be accessible to each other.
+     */
+    public boolean tileIsAccessibleFromNeighbour(int targetX, int targetY, int targetZ, int x, int y, int z) {
+        return targetZ == z && localMap.inMap(targetX, targetY, targetZ) && localMap.inMap(x, y, z) && passage.get(x, y, z) == IMPASSABLE.VALUE;
     }
 
-    public boolean hasPathBetweenNeighbours(Position from, int x2, int y2, int z2) {
-        return hasPathBetweenNeighbours(from.x, from.y, from.z, x2, y2, z2);
+    public boolean tileIsAccessibleFromNeighbour(Position target, Position position) {
+        return tileIsAccessibleFromNeighbour(target.x, target.y, target.z, position.x, position.y, position.z);
+    }
+
+    public boolean hasPathBetweenNeighbours(Position from, Position to) {
+        return hasPathBetweenNeighbours(from.x, from.y, from.z, to.x, to.y, to.z);
     }
 
     /**
      * Tile is passable, if its block type allows walking(like floor, ramp, etc.), plant is passable(not tree trunk), building is passable.
      * TODO add water depth checking, etc.
      */
-    public int isTilePassable(Position position) {
+    public PassageEnum getTilePassage(Position position) {
         GameModel model = GameMvc.instance().model();
         PassageEnum tilePassage = getType(localMap.getBlockType(position)).PASSING;
-        if(tilePassage == PassageEnum.IMPASSABLE) return PassageEnum.IMPASSABLE.VALUE;
-        PlantContainer plantContainer = model.get(PlantContainer.class);
-        BuildingContainer buildingContainer = model.get(BuildingContainer.class);
-        if (plantContainer != null && !plantContainer.isPlantBlockPassable(position)) return PassageEnum.IMPASSABLE.VALUE;
-        if (buildingContainer != null && buildingContainer.getBuildingBlocks().containsKey(position)
-                && !buildingContainer.getBuildingBlocks().get(position).isPassable()) return PassageEnum.IMPASSABLE.VALUE;
-        return tilePassage.VALUE;
+        if (tilePassage == PASSABLE) { // tile still can be blocked by plants or buildings
+            PlantContainer plantContainer = model.get(PlantContainer.class);
+            if (plantContainer != null && !plantContainer.isPlantBlockPassable(position)) return IMPASSABLE;
+            BuildingContainer buildingContainer = model.get(BuildingContainer.class);
+            if (buildingContainer != null && buildingContainer.getBuildingBlocks().containsKey(position)
+                    && !buildingContainer.getBuildingBlocks().get(position).isPassable()) return IMPASSABLE;
+        }
+        return tilePassage;
     }
 
     public byte getPassage(int x, int y, int z) {
         return passage.get(x, y, z);
-    }
-
-    public UtilByteArray getArea() {
-        return area;
     }
 }

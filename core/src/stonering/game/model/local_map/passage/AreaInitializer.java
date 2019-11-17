@@ -59,10 +59,10 @@ public class AreaInitializer {
                     if (passage.getPassage(x, y, z) == PASSABLE.VALUE) { // not wall or space
                         Set<Byte> neighbours = getNeighbours(x, y, z);
                         if (neighbours.isEmpty()) { // new area found
-                            passage.getArea().set(x, y, z, areaNum++);
+                            passage.area.set(x, y, z, areaNum++);
                         } else { // multiple areas near
                             if (neighbours.size() > 1) addSynonyms(neighbours);
-                            passage.getArea().set(x, y, z, neighbours.iterator().next());
+                            passage.area.set(x, y, z, neighbours.iterator().next());
                         }
                     }
                 }
@@ -132,7 +132,7 @@ public class AreaInitializer {
             for (int y = cy - 1; y < cy + 2; y++) {
                 for (int z = cz - 1; z < cz + 2; z++) {
                     if (!passage.hasPathBetweenNeighbours(x, y, z, cx, cy, cz)) continue;
-                    byte currentArea = passage.getArea().get(x, y, z);
+                    byte currentArea = passage.area.get(x, y, z);
                     neighbours.add(currentArea);
                 }
             }

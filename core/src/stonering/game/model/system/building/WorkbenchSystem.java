@@ -11,6 +11,7 @@ import stonering.enums.action.TaskStatusEnum;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
+import stonering.game.model.local_map.passage.NeighbourPositionStream;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.system.task.TaskContainer;
 import stonering.util.geometry.Position;
@@ -18,12 +19,13 @@ import stonering.util.global.Logger;
 
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import static stonering.enums.OrderStatusEnum.*;
 
 /**
  * System for updating orders and tasks in {@link WorkbenchAspect}, also used to manage orders from ui.
- *
+ * <p>
  * Only one order of workbench can be active at a time.
  * When order becomes first in the list, {@link Task} is created and passed to {@link TaskContainer}.
  * Task conditions are checked when task is taken by performer.
@@ -185,7 +187,8 @@ public class WorkbenchSystem {
 
     /**
      * Removes items from workbench's internal storage, and puts them to random positions on the ground.
-     * If workbench is blocked by walls, it cannot drop any items. Not a problem, because units cannot reach it to perform tasks as well.
+     * If workbench has no passable tiles around, it cannot drop any items.
+     * Not a problem, because units cannot reach it to perform tasks as well.
      */
     private void dropContainedItems(WorkbenchAspect aspect) {
         Logger.BUILDING.logDebug("Dropping contained items from " + aspect.getEntity());
@@ -201,11 +204,10 @@ public class WorkbenchSystem {
     }
 
     private List<Position> getPositionsToDrop(WorkbenchAspect aspect) {
-        LocalMap map = GameMvc.instance().model().get(LocalMap.class);
-        List<Position> positions = map.getAllNeighbourPositions(aspect.getEntity().position, BlockTypesEnum.PassageEnum.PASSABLE);
-        if (positions.isEmpty())
-            positions = map.getAllNeighbourPositions(aspect.getEntity().position, BlockTypesEnum.PassageEnum.FLY_ONLY);
-        return positions;
+        return new NeighbourPositionStream(aspect.getEntity().position)
+                .filterSameZLevel()
+                .filterByPassage(BlockTypesEnum.PassageEnum.PASSABLE)
+                .stream.collect(Collectors.toList());
     }
 
     private void failAspectTask(WorkbenchAspect aspect) {

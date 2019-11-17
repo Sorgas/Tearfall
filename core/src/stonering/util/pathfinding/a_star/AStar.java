@@ -100,7 +100,7 @@ public class AStar implements ModelComponent {
                     if (offset.isZero()) continue; // skip same pos
                     Position newPos = Position.add(nodePos, offset);
                     if (!localMap.inMap(newPos)) continue; // skip out of map tile
-                    if (localMap.passage.hasPathBetweenNeighbours(nodePos, newPos)) nodes.add(new Node(newPos, target));
+                    if (localMap.passageMap.hasPathBetweenNeighbours(nodePos, newPos)) nodes.add(new Node(newPos, target));
                 }
             }
         }

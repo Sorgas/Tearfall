@@ -48,10 +48,9 @@ public class TaskContainer implements ModelComponent, Turnable {
     }
 
     @Override
-    public void turnUnit(TimeUnitEnum unit) {
-        if (unit != TimeUnitEnum.MINUTE) {
-            designationSystem.update();
-        }
+    public void turn() {
+        designationSystem.update();
+        taskStatusSystem.update();
     }
 
     /**
@@ -66,7 +65,7 @@ public class TaskContainer implements ModelComponent, Turnable {
             return null;
         }
         final Position position = unit.position;
-        PassageMap map = GameMvc.instance().model().get(LocalMap.class).getPassage();
+        PassageMap map = GameMvc.instance().model().get(LocalMap.class).passageMap;
         for (String enabledJob : aspect.getEnabledJobs()) {
             if (!tasks.containsKey(enabledJob)) continue;
             for (Task task : tasks.get(enabledJob)) {
@@ -105,17 +104,5 @@ public class TaskContainer implements ModelComponent, Turnable {
 
     public Designation getDesignation(int x, int y, int z) {
         return designations.get(cachePosition.set(x, y, z));
-    }
-
-    /**
-     * Removes task from container. Does nothing with task's performer.
-     */
-    public void removeTask(Task task) {
-        tasks.get(task.job).remove(task);
-        assignedTasks.remove(task);
-    }
-
-    public void removeDesignation(Position position) {
-
     }
 }

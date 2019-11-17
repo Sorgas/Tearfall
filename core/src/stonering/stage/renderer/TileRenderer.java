@@ -37,6 +37,7 @@ import static stonering.stage.renderer.AtlasesEnum.*;
 
 /**
  * Class for rendering tiles.
+ * // TODO add render order for buildings, to render flat carpets, pressure plates etc.
  *
  * @author Alexander on 06.02.2019.
  */
@@ -94,8 +95,13 @@ public class TileRenderer extends Renderer {
             defineLayerBounds(z);
             for (int y = cacheBounds.getMaxY(); y >= cacheBounds.getMinY(); y--) {
                 for (int x = cacheBounds.getMinX(); x <= cacheBounds.getMaxX(); x++) {
+                    if (localMap.light.localLight.get(x, y, z) != -1) drawFlatTiles(x, y, z);
+                }
+            }
+            for (int y = cacheBounds.getMaxY(); y >= cacheBounds.getMinY(); y--) {
+                for (int x = cacheBounds.getMinX(); x <= cacheBounds.getMaxX(); x++) {
                     if (localMap.light.localLight.get(x, y, z) != -1) {
-                        drawTile(x, y, z);
+                        drawBlockTiles(x, y, z);
                     } else {
                         util.drawScale(blackTile, cachePosition.set(x, y, z), BatchUtil.TILE_WIDTH, BatchUtil.TILE_DEPTH);
                     }
@@ -103,7 +109,6 @@ public class TileRenderer extends Renderer {
             }
             for (int y = cacheBounds.getMaxY(); y >= cacheBounds.getMinY(); y--) {
                 for (int x = cacheBounds.getMinX(); x <= cacheBounds.getMaxX(); x++) {
-                    drawUnits(x, y, z);
                     drawAreaLabel(x, y, z); // for debug purposes
                 }
             }
@@ -122,17 +127,24 @@ public class TileRenderer extends Renderer {
         cacheBounds.clamp(0, 0, localMap.xSize - 1, localMap.ySize - 1);
     }
 
-    /**
-     * Draws all content of the tile.
-     * Draw order: block, water, substrate plants, plants, building, unit, item, designation.
-     */
-    private void drawTile(int x, int y, int z) {
+    private void startTile(int x, int y, int z) {
         cachePosition.set(x, y, z);
         cacheVector.set(x, y, z); // not changed after
 //        byte lightLevel = q(byte) (localMap.getLight().get(x, y, z) + localMap.getGeneralLight().get(x, y, z));  //TODO limit light level
 //        util.shadeByLight(lightLevel);
-        drawBlock(x, y, z);
+    }
+
+    private void drawFlatTiles(int x, int y, int z) {
+        startTile(x, y, z);
+        drawFloor(x, y, z); // floors or toppings
         if (substrateContainer != null) drawSubstrate(x, y, z);
+        util.resetColor();
+    }
+
+    private void drawBlockTiles(int x, int y, int z) {
+        startTile(x, y, z);
+        drawUnits(x, y, z);
+        drawBlock(x, y, z); // all other
         drawWaterBlock(x, y, z);
         cachePosition.set(x, y, z);
         if (plantContainer != null) drawPlantBlock(plantContainer.getPlantBlock(cachePosition));
@@ -145,17 +157,29 @@ public class TileRenderer extends Renderer {
 
     private void drawAreaLabel(int x, int y, int z) {
         if (localMap.getBlockType(x, y, z) == BlockTypesEnum.SPACE.CODE) return;
-        String text = localMap.getPassage().getArea().get(x, y, z) + " " + localMap.getPassage().getPassage(x, y, z);
+        String text = localMap.passageMap.area.get(x, y, z) + " " + localMap.passageMap.getPassage(x, y, z);
         util.writeText(text, x, y + 1, z);
     }
 
-    /**
-     * Draws block parts. Rendering data is stored in {@link LocalTileMap}.
-     * Also draws topping part of lower block.
-     */
+    private void drawFloor(int x, int y, int z) {
+        BlockTypesEnum type = localMap.getBlockTypeEnumValue(x, y, z);
+        if(type == BlockTypesEnum.WALL)
+        if(type == BlockTypesEnum.FLOOR || type == BlockTypesEnum.DOWNSTAIRS || type == BlockTypesEnum.FARM) {
+            util.drawSprite(blocks.getBlockTile(getAtlasXForBlock(x, y, z), getAtlasYForBlock(x, y, z)), cacheVector);
+        }
+        if(type == BlockTypesEnum.SPACE) {
+            util.drawSprite(blocks.getToppingTile(getAtlasXForBlock(x, y, z - 1), getAtlasYForBlock(x, y, z - 1)), cacheVector);
+        }
+    }
+
     private void drawBlock(int x, int y, int z) {
-        TextureRegion region = selectSpriteForBlock(x, y, z);
-        if (region != null) util.drawSprite(region, cacheVector);
+        BlockTypesEnum type = localMap.getBlockTypeEnumValue(x, y, z);
+        if(type == BlockTypesEnum.RAMP ||
+                type == BlockTypesEnum.STAIRS ||
+                type == BlockTypesEnum.WALL) {
+            TextureRegion region = selectSpriteForBlock(x, y, z);
+            if (region != null) util.drawSprite(region, cacheVector);
+        }
     }
 
     /**
@@ -170,7 +194,7 @@ public class TileRenderer extends Renderer {
     }
 
     /**
-     * Returns atlas x for given block. Blocks and topings have similar coordinates.
+     * Returns atlas x for given block. Blocks and toppings have similar coordinates.
      */
     private int getAtlasXForBlock(int x, int y, int z) {
         byte blockType = localMap.getBlockType(x, y, z);

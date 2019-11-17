@@ -48,7 +48,7 @@ public class ItemsStream {
     }
 
     public ItemsStream filterByReachability(Position position) {
-        stream = stream.filter(item -> GameMvc.instance().model().get(LocalMap.class).passage.util.positionReachable(position, item.position, false));
+        stream = stream.filter(item -> GameMvc.instance().model().get(LocalMap.class).passageMap.util.positionReachable(position, item.position, false));
         return this;
     }
 

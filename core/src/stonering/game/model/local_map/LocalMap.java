@@ -3,6 +3,7 @@ package stonering.game.model.local_map;
 import com.badlogic.gdx.math.Vector2;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.GameMvc;
+import stonering.game.model.local_map.passage.NeighbourPositionStream;
 import stonering.game.model.local_map.passage.PassageMap;
 import stonering.game.model.system.ModelComponent;
 import stonering.game.model.system.PlantContainer;
@@ -34,7 +35,7 @@ public class LocalMap implements ModelComponent, Initable {
 
 
     public LightMap light;
-    public transient PassageMap passage;                                 // not saved to savegame,
+    public transient PassageMap passageMap;                                 // not saved to savegame,
     private transient LocalTileMapUpdater localTileMapUpdater;           // not saved to savegame,
 
     public final int xSize;
@@ -61,8 +62,8 @@ public class LocalMap implements ModelComponent, Initable {
     }
 
     public void initAreas() {
-        passage = new PassageMap(this);
-        passage.init();
+        passageMap = new PassageMap(this);
+        passageMap.init();
     }
 
     /**
@@ -117,12 +118,12 @@ public class LocalMap implements ModelComponent, Initable {
     private void setBlockType(int x, int y, int z, byte type) {
         if (type == BlockTypesEnum.SPACE.CODE) deletePlantsOnDeletedBlock(x, y, z);
         blockType[x][y][z] = type;
-        if (passage != null) passage.updater.update(x, y, z);
+        if (passageMap != null) passageMap.updater.update(x, y, z);
         if (localTileMapUpdater != null) localTileMapUpdater.updateTile(x, y, z);
     }
 
     public void updateTile(int x, int y, int z) {
-        if(passage != null) passage.updater.update(x, y, z);
+        if(passageMap != null) passageMap.updater.update(x, y, z);
     }
 
     public void updateTile(Position position) {
@@ -141,7 +142,7 @@ public class LocalMap implements ModelComponent, Initable {
     public Position getAnyNeighbourPosition(Position position, BlockTypesEnum.PassageEnum passing) {
         for (int x = position.x - 1; x < position.x + 2; x++) {
             for (int y = position.y - 1; y < position.y + 2; y++) {
-                if (inMap(position) && passage.getPassage(x, y, position.z) == passing.VALUE)
+                if (inMap(position) && passageMap.passage.get(x, y, position.z) == passing.VALUE)
                     return new Position(x, y, position.z);
             }
         }
@@ -152,7 +153,7 @@ public class LocalMap implements ModelComponent, Initable {
         List<Position> positions = new ArrayList<>();
         for (int x = position.x - 1; x < position.x + 2; x++) {
             for (int y = position.y - 1; y < position.y + 2; y++) {
-                if (inMap(position) && passage.getPassage(x, y, position.z) == passing.VALUE)
+                if (inMap(position) && passageMap.getPassage(x, y, position.z) == passing.VALUE)
                     positions.add(new Position(x, y, position.z));
             }
         }
@@ -165,7 +166,7 @@ public class LocalMap implements ModelComponent, Initable {
 
     public boolean isWalkPassable(int x, int y, int z) {
         //TODO reuse
-        return passage.getPassage(x, y, z) == PASSABLE.VALUE;
+        return passageMap.getPassage(x, y, z) == PASSABLE.VALUE;
     }
 
     private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
@@ -240,9 +241,5 @@ public class LocalMap implements ModelComponent, Initable {
 
     public void setBlock(int x, int y, int z, BlockTypesEnum blockType, int materialId) {
         setBlock(x, y, z, blockType.CODE, materialId);
-    }
-
-    public PassageMap getPassage() {
-        return passage;
     }
 }

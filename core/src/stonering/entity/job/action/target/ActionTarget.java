@@ -69,10 +69,10 @@ public abstract class ActionTarget {
     }
 
     //TODO check passing for neighbour
-    private int getDistance(Position currentPosition) {
-        Position targetPosition = getPosition();
-        if (currentPosition.equals(targetPosition)) return 0;
-        if (currentPosition.isNeighbour(targetPosition)) return 1;
+    private int getDistance(Position current) {
+        Position target = getPosition();
+        if (current.equals(target)) return 0;
+        if (current.z == target.z && current.isNeighbour(target)) return 1;
         return 2;
     }
 

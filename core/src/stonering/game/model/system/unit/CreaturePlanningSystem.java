@@ -6,7 +6,6 @@ import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.PlanningAspect;
 import stonering.entity.unit.aspects.needs.NeedsAspect;
 import stonering.game.GameMvc;
-import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.system.task.CreatureTaskPerformingSystem;
 import stonering.game.model.system.task.TaskContainer;
 import stonering.util.global.Logger;
@@ -43,6 +42,7 @@ public class CreaturePlanningSystem {
     private void checkTaskStatus(@NotNull PlanningAspect aspect, @NotNull Task task) {
         switch (task.status) {
             case OPEN:
+                Logger.TASKS.logError("claimed task with open status");
                 task.status = ACTIVE; // start claimed and open task
                 break;
             case FAILED:
@@ -53,9 +53,14 @@ public class CreaturePlanningSystem {
     }
 
     private void findAndAssignNewTask(Unit unit) {
-        Logger.TASKS.logDebug("Selecting task for " + unit);
+//        Logger.TASKS.logDebug("Selecting task for " + unit);
         Task task = selectTaskForUnit(unit);
-        if (task != null && unitCanPerformTask(unit, task)) assignTaskToUnit(unit, task); // try assign new task
+        if (task != null && unitCanPerformTask(unit, task)) {
+            Logger.TASKS.logDebug("Assigning task " + task + " to unit " + unit);
+            taskContainer().claimTask(task);
+            unit.getAspect(PlanningAspect.class).task = task;
+            task.status = ACTIVE;
+        }
     }
 
     /**
@@ -73,16 +78,6 @@ public class CreaturePlanningSystem {
                 .filter(Objects::nonNull)
                 .filter(task -> task.status == OPEN)
                 .max(Comparator.comparingInt(task1 -> task1.priority)).orElse(null);
-    }
-
-    /**
-     * Sets tasks to aspect. Task should be checked, or will fail short after assignment.
-     */
-    private void assignTaskToUnit(@NotNull Unit unit, @NotNull Task task) {
-        Logger.TASKS.logDebug("Assigning task " + task + " to unit " + unit);
-        taskContainer().claimTask(task);
-        unit.getAspect(PlanningAspect.class).task = task;
-        task.status = OPEN;
     }
 
     private void freeAspect(@NotNull PlanningAspect aspect) {
@@ -107,28 +102,7 @@ public class CreaturePlanningSystem {
         return false;
     }
 
-    /**
-     * Completely removes task from game. Used for finished and failed tasks. Repeated tasks in workbenches are handled separately.
-     * Task should be assigned in {@link TaskContainer} ans have performer.
-     */
-    private void removeTask(Task task) {
-        taskContainer().removeTask(task);
-        GameMvc.instance().model().get(ItemContainer.class).freeItems(task.lockedItems); // free items
-    }
-
     private TaskContainer taskContainer() {
         return GameMvc.instance().model().get(TaskContainer.class);
-    }
-
-    /**
-     * For cancelling task, caused by external factor (path blocking, enemy, player).
-     */
-    public void interrupt(PlanningAspect aspect) {
-        if (aspect.task == null) return;
-        Logger.TASKS.logDebug("Resetting planning aspect of " + toString());
-        Task task = aspect.task;
-
-//        assignTaskToUnit(null);
-        task.reset();
     }
 }
