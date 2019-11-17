@@ -1,8 +1,7 @@
 package stonering.entity.job.action;
 
 import stonering.entity.building.aspects.WorkbenchAspect;
-import stonering.entity.job.action.aspects.ItemPickAction;
-import stonering.entity.job.action.target.ActionTarget;
+import stonering.entity.job.action.aspects.ItemPickupAction;
 import stonering.entity.job.action.target.EntityActionTarget;
 import stonering.entity.job.action.target.PositionActionTarget;
 import stonering.entity.Entity;
@@ -17,7 +16,7 @@ import stonering.util.geometry.Position;
  * Action for putting item to some target {@link Entity} or position on map. Item will be picked up.
  * Action performer should have {@link EquipmentAspect}.
  * Target entity should have {@link WorkbenchAspect}.
- *
+ * <p>
  * Target can be either a position or a container(like chest).
  *
  * @author Alexander on 11.01.2019.
@@ -42,11 +41,13 @@ public class PutItemAction extends Action {
     @Override
     public void performLogic() {
         EquipmentAspect equipmentAspect = task.performer.getAspect(EquipmentAspect.class);
+        ItemContainer container = GameMvc.instance().model().get(ItemContainer.class);
         equipmentAspect.hauledItems.remove(targetItem);
-        if (targetEntity != null) {
-            (targetEntity.getAspect(WorkbenchAspect.class)).containedItems.add(targetItem); // put into container
-        } else {
-            GameMvc.instance().model().get(ItemContainer.class).putItem(targetItem, targetPosition); // put on position
+        container.equippedItemsSystem.itemUnequipped(targetItem);
+        if (targetEntity != null) { // put into wb
+            container.containedItemsSystem.addItemToWorkbench(targetItem, targetEntity.getAspect(WorkbenchAspect.class));
+        } else { // put on position
+            container.onMapItemsSystem.putItem(targetItem, targetPosition);
         }
     }
 
@@ -60,7 +61,7 @@ public class PutItemAction extends Action {
     }
 
     private int createPickingAction(Item item) {
-        task.addFirstPreAction(new ItemPickAction(item));
+        task.addFirstPreAction(new ItemPickupAction(item));
         return NEW;
     }
 

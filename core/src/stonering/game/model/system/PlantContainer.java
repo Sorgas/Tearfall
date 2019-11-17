@@ -162,7 +162,10 @@ public class PlantContainer extends EntityContainer<AbstractPlant> implements In
     private void leavePlantProduct(PlantBlock block) {
         ArrayList<Item> items = new PlantProductGenerator().generateCutProduct(block);
         ItemContainer itemContainer = GameMvc.instance().model().get(ItemContainer.class);
-        items.forEach(itemContainer::addAndPut);
+        for (Item item : items) {
+            itemContainer.addItem(item);
+            itemContainer.onMapItemsSystem.putItem(item, block.getPosition());
+        }
     }
 
     /**

@@ -106,7 +106,7 @@ public class DigAction extends Action {
         int materialId = map.getMaterial(target);
         new DiggingProductGenerator()
                 .generateDigProduct(materialId, oldType, newType)
-                .forEach(item -> container.addAndPut(item, target));
+                .forEach(item -> container.onMapItemsSystem.putNewItem(item, target));
     }
 
     private void updateAndRevealMap(Position position, BlockTypesEnum type) {

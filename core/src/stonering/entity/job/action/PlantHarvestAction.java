@@ -45,6 +45,6 @@ public class PlantHarvestAction extends Action {
         Logger.PLANTS.logDebug("harvesting plant");
         PlantBlock block = GameMvc.instance().model().get(PlantContainer.class).getPlantBlock(actionTarget.getPosition());
         Item item = new PlantProductGenerator().generateHarvestProduct(block);
-        GameMvc.instance().model().get(ItemContainer.class).addAndPut(item);
+        GameMvc.instance().model().get(ItemContainer.class).onMapItemsSystem.putNewItem(item, block.getPosition());
     }
 }

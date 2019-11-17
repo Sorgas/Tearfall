@@ -25,7 +25,7 @@ public class SingleTreeModel extends TestModel {
     public void init() {
         super.init();
         get(UnitContainer.class).addUnit(createUnit());
-        get(ItemContainer.class).addAndPut(createItem());
+        get(ItemContainer.class).onMapItemsSystem.putNewItem(createItem(), new Position(0, 0, 2));
         calendar.minute.setSize(1);
         calendar.hour.setSize(1);
         calendar.day.setSize(4);
@@ -48,7 +48,6 @@ public class SingleTreeModel extends TestModel {
     }
 
     private Item createItem() {
-        Item item = new ItemGenerator().generateItem("axe", "iron", new Position(0, 0, 2));
-        return item;
+        return new ItemGenerator().generateItem("axe", "iron", null);
     }
 }

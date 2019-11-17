@@ -25,9 +25,10 @@ public class EquipItemAction extends Action {
     @Override
     protected void performLogic() {
         ItemContainer container = GameMvc.instance().model().get(ItemContainer.class);
-        if (!(task.performer.getAspect(EquipmentAspect.class)).equipItem(item)) return; // equipping failed
-        container.equipped.put(item, task.performer.getAspect(EquipmentAspect.class));
-        container.pickItem(item);
+        EquipmentAspect aspect = task.performer.getAspect(EquipmentAspect.class);
+        if (!aspect.equipItem(item)) return; // equipping failed
+        container.onMapItemsSystem.removeItemFromMap(item);
+        container.equippedItemsSystem.itemEquipped(item, aspect);
     }
 
     @Override

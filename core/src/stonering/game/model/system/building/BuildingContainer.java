@@ -2,6 +2,7 @@ package stonering.game.model.system.building;
 
 import stonering.entity.Aspect;
 import stonering.entity.building.BuildingBlock;
+import stonering.entity.item.Item;
 import stonering.game.GameMvc;
 import stonering.game.model.Turnable;
 import stonering.game.model.local_map.LocalMap;
@@ -85,7 +86,7 @@ public class BuildingContainer implements ModelComponent, Turnable {
         if (container.getItemsInPosition(target).isEmpty()) return; // no items in target position
         Position newPosition = GameMvc.instance().model().get(LocalMap.class).getAnyNeighbourPosition(target, PASSABLE);
         if (newPosition.equals(target)) return; // no moving, if no valid position found
-        container.getItemsInPosition(target).forEach(item -> container.moveItem(item, newPosition));
+        container.getItemsInPosition(target).forEach(item -> container.onMapItemsSystem.changeItemPosition(item, newPosition));
     }
 
     public boolean hasBuilding(Position position) {

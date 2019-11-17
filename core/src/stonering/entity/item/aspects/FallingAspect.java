@@ -30,7 +30,7 @@ public class FallingAspect extends Aspect {
             boolean isLowerBlockWall = localMap.getBlockType(lowerPosition) == BlockTypesEnum.WALL.CODE;
 
             if (localMap.inMap(lowerPosition) && isCurrentBlockSpace && !isLowerBlockWall) {
-                GameMvc.instance().model().get(ItemContainer.class).moveItem((Item) entity, lowerPosition);
+                GameMvc.instance().model().get(ItemContainer.class).onMapItemsSystem.changeItemPosition((Item) entity, lowerPosition);
             }
         }
     }

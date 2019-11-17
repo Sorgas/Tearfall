@@ -17,6 +17,7 @@ import stonering.game.model.system.task.TaskContainer;
 import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -197,8 +198,9 @@ public class WorkbenchSystem {
         if (positions.isEmpty()) return;
         ItemContainer container = GameMvc.instance().model().get(ItemContainer.class);
         Random random = new Random();
-        for (Item item : aspect.containedItems) {
-            container.putItem(item, positions.get(random.nextInt(positions.size())));
+        for (Item item : new ArrayList<>(aspect.containedItems)) {
+            container.containedItemsSystem.removeItemFromWorkbench(item, aspect);
+            container.onMapItemsSystem.putItem(item, positions.get(random.nextInt(positions.size())));
         }
         aspect.containedItems.clear();
     }

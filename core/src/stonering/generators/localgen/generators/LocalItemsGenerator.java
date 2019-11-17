@@ -42,8 +42,8 @@ public class LocalItemsGenerator extends LocalAbstractGenerator {
         LocalMap localMap = container.model.get(LocalMap.class);
         Position position = new Position(localMap.xSize / 2 + xOffset, localMap.ySize / 2 + yOffset, 0);
         position.z = findSurfaceZ(position.x, position.y);
-        Item item = itemGenerator.generateItem(itemType, material, position);
-        container.model.get(ItemContainer.class).addAndPut(item);
+        Item item = itemGenerator.generateItem(itemType, material, null);
+        container.model.get(ItemContainer.class).onMapItemsSystem.putNewItem(item, position);
     }
 
     private int findSurfaceZ(int x, int y) {

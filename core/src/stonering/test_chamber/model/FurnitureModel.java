@@ -21,7 +21,7 @@ public class FurnitureModel extends TestModel {
         super.init();
         get(EntitySelector.class).setPosition(MAP_SIZE / 2, MAP_SIZE / 2, 2);
         get(UnitContainer.class).addUnit(createUnit());
-        get(ItemContainer.class).addAndPut(createItem());
+        get(ItemContainer.class).onMapItemsSystem.putNewItem(createItem(), new Position(7,7,2));
     }
 
     private Unit createUnit() {
@@ -30,6 +30,6 @@ public class FurnitureModel extends TestModel {
     }
 
     private Item createItem() {
-        return new ItemGenerator().generateItem("pants", "cotton", new Position(7,7,2));
+        return new ItemGenerator().generateItem("pants", "cotton", null);
     }
 }

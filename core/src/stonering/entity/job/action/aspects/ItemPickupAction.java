@@ -14,10 +14,10 @@ import stonering.util.global.Logger;
  *
  * @author Alexander on 12.01.2019.
  */
-public class ItemPickAction extends Action {
+public class ItemPickupAction extends Action {
     private Item item;
 
-    public ItemPickAction(Item targetItem) {
+    public ItemPickupAction(Item targetItem) {
         super(new ItemActionTarget(targetItem));
         item = targetItem;
     }
@@ -25,9 +25,13 @@ public class ItemPickAction extends Action {
     @Override
     public void performLogic() {
         Item targetItem = getTargetItem();
-        Logger.TASKS.logDebug("Picking item " + targetItem.getTitle());
-        task.performer.getAspect(EquipmentAspect.class).pickupItem(targetItem);
-        GameMvc.instance().model().get(ItemContainer.class).pickItem(targetItem);
+        Logger.TASKS.logDebug("Picking up item " + targetItem.getTitle());
+        EquipmentAspect equipment = task.performer.getAspect(EquipmentAspect.class);
+        ItemContainer container = GameMvc.instance().model().get(ItemContainer.class);
+
+        container.onMapItemsSystem.removeItemFromMap(targetItem);
+        equipment.pickupItem(targetItem);
+        container.equippedItemsSystem.itemEquipped(item, equipment);
     }
 
     @Override

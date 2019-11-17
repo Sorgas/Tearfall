@@ -23,7 +23,7 @@ public class DiggingModel extends TestModel {
         super.init();
         get(EntitySelector.class).setPosition(MAP_SIZE / 2, MAP_SIZE / 2, 10);
         get(UnitContainer.class).addUnit(createUnit());
-        get(ItemContainer.class).addAndPut(createHoe());
+        get(ItemContainer.class).onMapItemsSystem.putNewItem(createPickaxe(), new Position(0, 0, 10));
     }
 
     @Override
@@ -43,8 +43,7 @@ public class DiggingModel extends TestModel {
         return new CreatureGenerator().generateUnit(new Position(3, 3, 10), "human");
     }
 
-    private Item createHoe() {
-        Item item = new Item(new Position(0, 0, 10), ItemTypeMap.getInstance().getItemType("pickaxe"));
-        return item;
+    private Item createPickaxe() {
+        return new Item(null, ItemTypeMap.getInstance().getItemType("pickaxe"));
     }
 }

@@ -6,6 +6,7 @@ import stonering.util.geometry.Position;
 
 /**
  * Targets to some {@link Entity}. Can be used with any single-tiled entities.
+ * // TODO make generic
  */
 public class EntityActionTarget extends ActionTarget {
     public Entity entity;

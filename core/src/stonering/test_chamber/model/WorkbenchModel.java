@@ -1,6 +1,5 @@
 package stonering.test_chamber.model;
 
-import stonering.entity.building.Building;
 import stonering.entity.item.Item;
 import stonering.entity.unit.Unit;
 import stonering.game.model.EntitySelector;
@@ -40,15 +39,16 @@ public class WorkbenchModel extends TestModel {
 
     private void createItems() {
         ItemGenerator generator = new ItemGenerator();
-        get(ItemContainer.class).addAndPut(generator.generateItem("meat_piece", "meat", new Position(0, 0, 2)));
-        get(ItemContainer.class).addAndPut(generator.generateItem("log", "wood", new Position(1, 0, 2)));
-        get(ItemContainer.class).addAndPut(generator.generateItem("log", "wood", new Position(2, 0, 2)));
-        Item item = generator.generateItem("log", "wood", new Position(3, 0, 2));
+        ItemContainer container = get(ItemContainer.class);
+        container.onMapItemsSystem.putNewItem(generator.generateItem("meat_piece", "meat", null), new Position(0, 0, 2));
+        container.onMapItemsSystem.putNewItem(generator.generateItem("log", "wood", null), new Position(1, 0, 2));
+        container.onMapItemsSystem.putNewItem(generator.generateItem("log", "wood", null), new Position(2, 0, 2));
+        Item item = generator.generateItem("log", "wood", null);
         item.setOrigin("willow");
-        get(ItemContainer.class).addAndPut(item);
-        item = generator.generateItem("log", "wood", new Position(4, 0, 2));
+        container.onMapItemsSystem.putNewItem(item, new Position(3, 0, 2));
+        item = generator.generateItem("log", "wood", null);
         item.setOrigin("willow");
-        get(ItemContainer.class).addAndPut(item);
+        container.onMapItemsSystem.putNewItem(item, new Position(4, 0, 2));
     }
 
     @Override

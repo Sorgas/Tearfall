@@ -1,7 +1,7 @@
 package stonering.entity.job.action;
 
 import stonering.entity.item.selectors.SeedItemSelector;
-import stonering.entity.job.action.aspects.ItemPickAction;
+import stonering.entity.job.action.aspects.ItemPickupAction;
 import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.item.Item;
 import stonering.entity.item.aspects.SeedAspect;
@@ -48,7 +48,7 @@ public class PlantingAction extends Action {
     private int tryCreatePickingAction() {
         Item item = GameMvc.instance().model().get(ItemContainer.class).util.getItemAvailableBySelector(seedSelector, task.performer.position);
         if (item == null) return FAIL;
-        task.addFirstPreAction(new ItemPickAction(item));
+        task.addFirstPreAction(new ItemPickupAction(item));
         Logger.TASKS.logDebug("Creating pocking action for " + seedSelector.getSpecimen() + " seed.");
         return NEW;
     }

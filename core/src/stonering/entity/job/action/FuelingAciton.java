@@ -5,8 +5,7 @@ import stonering.entity.building.aspects.FuelConsumerAspect;
 import stonering.entity.item.Item;
 import stonering.entity.item.aspects.FuelAspect;
 import stonering.entity.item.selectors.FuelItemSelector;
-import stonering.entity.job.action.aspects.ItemPickAction;
-import stonering.entity.job.action.target.ActionTarget;
+import stonering.entity.job.action.aspects.ItemPickupAction;
 import stonering.entity.job.action.target.EntityActionTarget;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.enums.action.ActionTargetTypeEnum;
@@ -31,7 +30,7 @@ public class FuelingAciton extends Action {
             return Action.FAIL; // invalid entity
         if (targetItem == null && (targetItem = lookupFuelItem()) == null) return FAIL; // no fuel item available
         if (!task.performer.getAspect(EquipmentAspect.class).hauledItems.contains(targetItem)) {
-            task.addFirstPreAction(new ItemPickAction(targetItem));
+            task.addFirstPreAction(new ItemPickupAction(targetItem));
             return NEW;
         }
         return OK; // performer has item in inventory

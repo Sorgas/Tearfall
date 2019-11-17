@@ -1,7 +1,7 @@
 package stonering.game.model.system.item;
 
 import stonering.entity.Entity;
-import stonering.entity.item.aspects.ItemContainerAspect;
+import stonering.entity.building.aspects.WorkbenchAspect;
 import stonering.entity.job.action.Action;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.game.model.system.EntityContainer;
@@ -22,10 +22,20 @@ import java.util.*;
  */
 public class ItemContainer extends EntityContainer<Item> {
     public final Map<Position, ArrayList<Item>> itemMap = new HashMap<>(); // maps tiles position to list of item it that position.
-    public final Map<Item, ItemContainerAspect> contained = new HashMap<>(); // maps contained items to containers they are in.
-    public final Map<Item, EquipmentAspect> equipped = new HashMap<>(); // maps eqiopped and hauled items to units.
+    public final Map<Item, WorkbenchAspect> contained = new HashMap<>(); // maps contained items to containers they are in.
+    public final Map<Item, EquipmentAspect> equipped = new HashMap<>(); // maps equipped and hauled items to units.
     public final Set<Item> lockedItems = new HashSet<>();
     public final ItemStreamUtil util = new ItemStreamUtil(this);
+
+    public final ContainedItemsSystem containedItemsSystem;
+    public final EquippedItemsSystem equippedItemsSystem;
+    public final OnMapItemsSystem onMapItemsSystem;
+
+    public ItemContainer() {
+        containedItemsSystem = new ContainedItemsSystem(this);
+        equippedItemsSystem = new EquippedItemsSystem(this);
+        onMapItemsSystem = new OnMapItemsSystem(this);
+    }
 
     public void turn() {
         //TODO system for updating equipment
@@ -34,42 +44,25 @@ public class ItemContainer extends EntityContainer<Item> {
         //TODO rewrite items aspects to systems
     }
 
+    /**
+     * Adds item to container and inits it's aspects. Used for registering newly created items.
+     * After that item should be put somewhere.
+     */
     public void addItem(Item item) {
         entities.add(item);
-        item.init();
+        item.init(); // init item aspects
     }
 
     /**
-     * Registers item in container and puts on map by its position.
+     * Removes item from the game completely. Item should be removed from all other maps before this.
      */
-    public void addAndPut(Item item) {
-        if (item.position == null) Logger.ITEMS.logWarn("Putting item " + item + " with null position.");
-        addItem(item);
-        putItem(item, item.position);
-    }
-
-    public void addAndPut(Item item, Position position) {
-        item.position = position.clone();
-        addAndPut(item);
-    }
-
     public void removeItem(Item item) {
         if (!entities.contains(item)) Logger.ITEMS.logWarn("Removing not present item " + item.getName());
         entities.remove(item);
-        pickItem(item);
     }
 
     public void removeItems(List<Item> items) {
         items.forEach(this::removeItem);
-    }
-
-    public void moveItem(Item item, Position position) {
-        pickItem(item);
-        putItem(item, position);
-    }
-
-    public List<Item> getItemsInPosition(int x, int y, int z) {
-        return getItemsInPosition(new Position(x, y, z));
     }
 
     public List<Item> getItemsInPosition(Position position) {
@@ -78,45 +71,11 @@ public class ItemContainer extends EntityContainer<Item> {
         return items;
     }
 
-//collection management methods
-
-    public void pickItem(Item item) {
-        ArrayList<Item> list = itemMap.get(item.position);
-        if (!list.remove(item)) {
-            Logger.ITEMS.logWarn("Items inconsistency: item " + item + " is not on the map in position " + item.position);
-        }
-        if (list.isEmpty()) itemMap.remove(item.position); // last item on the tile
-        item.position = null;
+    public List<Item> getItemsInPosition(int x, int y, int z) {
+        return getItemsInPosition(new Position(x, y, z));
     }
 
-    public void putItem(Item item, Position pos) {
-        item.position = pos;
-        itemMap.putIfAbsent(pos, new ArrayList<>());
-        itemMap.get(pos).add(item);
-    }
-
-    public void itemAddedToContainer(Item item, ItemContainerAspect aspect) {
-        item.position = null;
-        aspect.items.add(item);
-        contained.put(item, aspect);
-    }
-
-    public void itemRemovedFromContainer(Item item, ItemContainerAspect aspect) {
-        if (contained.remove(item) == null)
-            Logger.ITEMS.logWarn("Items inconsistency: item " + item + " is not registered in ItemContainer as contained");
-    }
-
-    public void itemEquipped(Item item, EquipmentAspect aspect) {
-        item.position = null;
-        equipped.put(item, aspect);
-    }
-
-    public void itemUnequipped(Item item) {
-        if (equipped.remove(item) == null)
-            Logger.ITEMS.logWarn("Items inconsistency: item " + item + " is not registered in ItemContainer as equipped");
-    }
-
-    public void freeItems(Collection<Item> items) {
+    public void freeItems(Collection<Item> items) { //TODO
         lockedItems.removeAll(items);
         items.forEach(item -> item.locked = false);
     }

@@ -32,7 +32,7 @@ public class PlantProductGenerator {
         if (plant.getType().isPlant()) {
             List<String> productNames = block.getPlant().getCurrentStage().cutProducts;
             if (productNames != null)
-                productNames.forEach(name -> items.add(itemGenerator.generateItem(name, block.getMaterial(), block.getPosition())));
+                productNames.forEach(name -> items.add(itemGenerator.generateItem(name, block.getMaterial(), null)));
         } else if (plant.getType().isTree()) {
             Item cutItem = generateCutProductForTreePart(block);
             if (cutItem != null) items.add(cutItem);
@@ -50,7 +50,7 @@ public class PlantProductGenerator {
         if (block.isHarvested()) return null;
         PlantProduct product = block.getPlant().getCurrentStage().harvestProduct;
         if (product == null) return null;
-        Item productItem = itemGenerator.generateItem(product.name, block.getMaterial(), block.getPosition());
+        Item productItem = itemGenerator.generateItem(product.name, block.getMaterial(), null);
         for (String tag : product.tags) {
             productItem.tags.add(TagEnum.get(tag));
         }
@@ -66,6 +66,6 @@ public class PlantProductGenerator {
         if (itemName == null) return null;
         List<String> cutProducts = block.getPlant().getCurrentStage().cutProducts;
         if (cutProducts == null || !cutProducts.contains(itemName)) return null;
-        return itemGenerator.generateItem(itemName, block.getMaterial(), block.getPosition());
+        return itemGenerator.generateItem(itemName, block.getMaterial(), null);
     }
 }

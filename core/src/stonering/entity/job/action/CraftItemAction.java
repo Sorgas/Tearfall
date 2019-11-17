@@ -2,7 +2,6 @@ package stonering.entity.job.action;
 
 import stonering.entity.building.aspects.FuelConsumerAspect;
 import stonering.entity.crafting.IngredientOrder;
-import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.job.action.target.EntityActionTarget;
 import stonering.entity.Entity;
 import stonering.entity.building.aspects.WorkbenchAspect;
@@ -12,14 +11,11 @@ import stonering.entity.item.aspects.ItemContainerAspect;
 import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.system.item.ItemContainer;
-import stonering.game.model.local_map.LocalMap;
 import stonering.generators.items.ItemGenerator;
 import stonering.util.global.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static stonering.enums.blocks.BlockTypesEnum.PassageEnum.PASSABLE;
 
 /**
  * Action for crafting item by item order on workbench. Items for crafting will be brought to WB.
@@ -46,22 +42,15 @@ public class CraftItemAction extends Action {
      */
     @Override
     protected void performLogic() {
-        ItemContainerAspect workbenchContainer = workbench.getAspect(ItemContainerAspect.class);
         ItemContainer container = GameMvc.instance().model().get(ItemContainer.class);
+        WorkbenchAspect workbenchAspect = workbench.getAspect(WorkbenchAspect.class);
         Item product = new ItemGenerator().generateItemByOrder(null, itemOrder);
-        if (workbenchContainer != null) {
-            workbenchContainer.items.removeAll(desiredItems); // spend components
-            container.addItem(product);
-            workbenchContainer.items.add(product); // put product into wb
-            container.itemAddedToContainer(product, workbenchContainer);
-        } else {
-            //TODO
-            workbenchContainer.items.removeAll(desiredItems); // spend components
-            container.removeItems(desiredItems);
-
-            product.position = GameMvc.instance().model().get(LocalMap.class).getAnyNeighbourPosition(workbench.position, PASSABLE);
-            container.addAndPut(product);
-        }
+        // spend components
+        container.containedItemsSystem.removeItemsFromWorkbench(desiredItems, workbenchAspect);
+        container.removeItems(desiredItems);
+        // put product into wb
+        container.addItem(product);
+        container.containedItemsSystem.addItemToWorkbench(product, workbenchAspect);
     }
 
     /**

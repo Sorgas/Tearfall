@@ -20,10 +20,6 @@ import java.util.stream.Stream;
 public class ItemsStream {
     public Stream<Item> stream;
 
-    public ItemsStream(Stream<Item> stream) {
-        this.stream = stream;
-    }
-
     public ItemsStream(Collection<Item> items) {
         stream = items.stream();
     }

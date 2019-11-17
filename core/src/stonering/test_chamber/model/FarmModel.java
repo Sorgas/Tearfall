@@ -22,7 +22,7 @@ public class FarmModel extends TestModel {
         super.init();
         get(EntitySelector.class).setPosition(MAP_SIZE / 2, MAP_SIZE / 2, 2);
         get(UnitContainer.class).addUnit(createUnit());
-        get(ItemContainer.class).addAndPut(createHoe());
+        get(ItemContainer.class).onMapItemsSystem.putNewItem(createHoe(), new Position(0, 0, 2));
         putSeeds();
     }
 
@@ -32,17 +32,17 @@ public class FarmModel extends TestModel {
     }
 
     private Item createHoe() {
-        return new Item(new Position(0, 0, 2), ItemTypeMap.getInstance().getItemType("hoe"));
+        return new Item(null, ItemTypeMap.getInstance().getItemType("hoe"));
     }
 
     private void putSeeds() {
         for (int i = 0; i < 4; i++) {
-            get(ItemContainer.class).addAndPut(createSeed(i));
+            get(ItemContainer.class).onMapItemsSystem.putNewItem(createSeed(), new Position(1 + i, 0, 2));
         }
     }
 
-    private Item createSeed(int offset) {
-        Item item = new ItemGenerator().generateSeedItem("farm_test_plant", new Position(1 + offset, 0, 2));
+    private Item createSeed() {
+        Item item = new ItemGenerator().generateSeedItem("farm_test_plant", null);
         return item;
     }
 }
