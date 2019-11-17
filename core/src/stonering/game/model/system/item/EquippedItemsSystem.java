@@ -29,4 +29,8 @@ public class EquippedItemsSystem {
         if (container.equipped.remove(item) == null)
             Logger.ITEMS.logWarn("Items inconsistency: item " + item + " is not registered in ItemContainer as equipped");
     }
+
+    public boolean isItemEquipped(Item item) {
+        return container.equipped.containsKey(item);
+    }
 }

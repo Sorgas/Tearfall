@@ -16,8 +16,8 @@ import java.util.stream.Stream;
  */
 public class NeighbourPositionStream {
     public Stream<Position> stream;
-    private PassageMap passageMap;
     private Position center;
+    private PassageMap passageMap;
     private LocalMap localMap;
 
     public NeighbourPositionStream(Position center) {

@@ -1,6 +1,7 @@
 package stonering.game.model.system.item;
 
 import stonering.entity.item.Item;
+import stonering.entity.item.selectors.ItemSelector;
 import stonering.enums.items.TagEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
@@ -18,10 +19,15 @@ import java.util.stream.Stream;
  * @author Alexander on 14.10.2019.
  */
 public class ItemsStream {
+    private ItemContainer container = GameMvc.instance().model().get(ItemContainer.class);
     public Stream<Item> stream;
 
     public ItemsStream(Collection<Item> items) {
         stream = items.stream();
+    }
+
+    public ItemsStream() {
+        stream = container.entities.stream();
     }
 
     public ItemsStream filterByTag(TagEnum tag) {
@@ -54,6 +60,26 @@ public class ItemsStream {
 
     public ItemsStream getNearestTo(Position position, int number) {
         stream = stream.sorted(Comparator.comparingInt(item -> position.fastDistance(item.position))).limit(number);
+        return this;
+    }
+
+    public ItemsStream filterContained() {
+        stream = stream.filter(container.containedItemsSystem::itemIsContained);
+        return this;
+    }
+
+    public ItemsStream filterEquipped() {
+        stream = stream.filter(container.equippedItemsSystem::isItemEquipped);
+        return this;
+    }
+
+    public ItemsStream filterBySelector(ItemSelector selector) {
+        stream = stream.filter(selector::checkItem);
+        return this;
+    }
+
+    public ItemsStream filterOnMap() {
+        stream = stream.filter(item -> item.position != null);
         return this;
     }
 

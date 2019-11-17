@@ -11,6 +11,7 @@ import stonering.entity.item.aspects.ItemContainerAspect;
 import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.system.item.ItemContainer;
+import stonering.game.model.system.item.ItemsStream;
 import stonering.generators.items.ItemGenerator;
 import stonering.util.global.Logger;
 
@@ -98,7 +99,12 @@ public class CraftItemAction extends Action {
         List<IngredientOrder> ingredientOrders = new ArrayList<>(itemOrder.parts.values());
         ingredientOrders.addAll(itemOrder.consumed);
         for (IngredientOrder ingredientOrder : ingredientOrders) {
-            List<Item> foundItems = container.util.getItemsAvailableBySelector(ingredientOrder.itemSelector, task.performer.position);
+            List<Item> foundItems = new ItemsStream() // items from map that match the ingredient
+                    .filterOnMap()
+                    .filterBySelector(ingredientOrder.itemSelector)
+                    .filterByReachability(task.performer.position)
+                    .toList();
+            foundItems.addAll(workbench.getAspect(WorkbenchAspect.class).containedItems); // items that are already in wb
             foundItems.removeAll(desiredItems); // remove already added items
             if (foundItems.isEmpty()) { // no items found for ingredient
                 desiredItems.clear();

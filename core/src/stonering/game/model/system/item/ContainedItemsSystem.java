@@ -46,4 +46,8 @@ public class ContainedItemsSystem {
             removeItemFromWorkbench(item, aspect);
         }
     }
+
+    public boolean itemIsContained(Item item) {
+        return container.contained.containsKey(item);
+    }
 }

@@ -71,7 +71,7 @@ public class ItemGenerator {
      * TODO fetch item part orders and create corresponding item parts
      */
     public Item generateItemByOrder(Position position, ItemOrder order) {
-        Logger.ITEMS.logWarn("Generating creafted item " + order.recipe.itemName + " for " + order.recipe.title);
+        Logger.ITEMS.logDebug("Generating crafted item " + order.recipe.itemName + " for " + order.recipe.title);
         return new Item(position, ItemTypeMap.getInstance().getItemType("sickle"));
     }
 

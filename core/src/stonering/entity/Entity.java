@@ -20,12 +20,11 @@ public abstract class Entity implements Serializable, Initable, Turnable {
 
     protected Entity() {
         aspects = new HashMap<>();
-        position = new Position();
     }
 
     public Entity(Position position) {
         this();
-        this.position.set(position);
+        this.position = position != null ? position.clone() : null;
     }
 
     public <T extends Aspect> boolean hasAspect(Class<T> type) {
