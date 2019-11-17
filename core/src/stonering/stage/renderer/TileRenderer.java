@@ -15,6 +15,7 @@ import stonering.entity.unit.aspects.MovementAspect;
 import stonering.entity.unit.aspects.RenderAspect;
 import stonering.entity.zone.Zone;
 import stonering.enums.blocks.BlockTypesEnum;
+import stonering.enums.blocks.BlocksTileMapping;
 import stonering.enums.designations.DesignationsTileMapping;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.GameMvc;
@@ -163,34 +164,23 @@ public class TileRenderer extends Renderer {
 
     private void drawFloor(int x, int y, int z) {
         BlockTypesEnum type = localMap.getBlockTypeEnumValue(x, y, z);
-        if(type == BlockTypesEnum.WALL)
-        if(type == BlockTypesEnum.FLOOR || type == BlockTypesEnum.DOWNSTAIRS || type == BlockTypesEnum.FARM) {
-            util.drawSprite(blocks.getBlockTile(getAtlasXForBlock(x, y, z), getAtlasYForBlock(x, y, z)), cacheVector);
-        }
-        if(type == BlockTypesEnum.SPACE) {
+        if (type == BlockTypesEnum.SPACE) { // draw topping for ramps
+            if (z <= 0) return;
             util.drawSprite(blocks.getToppingTile(getAtlasXForBlock(x, y, z - 1), getAtlasYForBlock(x, y, z - 1)), cacheVector);
+            return;
+        }
+        if (type == BlockTypesEnum.STAIRS) type = BlockTypesEnum.DOWNSTAIRS; // downstairs rendered under stairs.
+        if (!type.FLAT) type = BlockTypesEnum.FLOOR; // floor is rendered under non-flat tiles.
+        if (type == BlockTypesEnum.FLOOR || type == BlockTypesEnum.DOWNSTAIRS || type == BlockTypesEnum.FARM) {
+            int atlasX = BlocksTileMapping.getType(type.CODE).ATLAS_X;
+            util.drawSprite(blocks.getBlockTile(atlasX, getAtlasYForBlock(x, y, z)), cacheVector);
         }
     }
 
     private void drawBlock(int x, int y, int z) {
         BlockTypesEnum type = localMap.getBlockTypeEnumValue(x, y, z);
-        if(type == BlockTypesEnum.RAMP ||
-                type == BlockTypesEnum.STAIRS ||
-                type == BlockTypesEnum.WALL) {
-            TextureRegion region = selectSpriteForBlock(x, y, z);
-            if (region != null) util.drawSprite(region, cacheVector);
-        }
-    }
-
-    /**
-     * Selects sprite to draw in given position, block or toping.
-     */
-    private TextureRegion selectSpriteForBlock(int x, int y, int z) {
-        int atlasX = getAtlasXForBlock(x, y, z);
-        if (atlasX != -1) return blocks.getBlockTile(atlasX, getAtlasYForBlock(x, y, z));
-        atlasX = getAtlasXForBlock(x, y, z - 1); // check tile lower
-        if (atlasX != -1) return blocks.getToppingTile(atlasX, getAtlasYForBlock(x, y, z - 1));
-        return null;
+        if (!type.FLAT)
+            util.drawSprite(blocks.getBlockTile(getAtlasXForBlock(x, y, z), getAtlasYForBlock(x, y, z)), cacheVector);
     }
 
     /**
@@ -283,7 +273,7 @@ public class TileRenderer extends Renderer {
     }
 
     private void drawBuildingBlock(BuildingBlock block) {
-        if(block == null) return;
+        if (block == null) return;
         RenderAspect aspect = block.getBuilding().getAspect(RenderAspect.class);
         util.drawSprite(buildings.getBlockTile(aspect.atlasXY[0], aspect.atlasXY[1]), buildings, cachePosition);
     }

@@ -12,7 +12,7 @@ import static stonering.enums.blocks.BlockTypesEnum.PassageEnum.*;
  * @author Alexander Kuzyakov on 10.06.2017.
  */
 public enum BlockTypesEnum {
-    SPACE(0, IMPASSABLE, 5, false, 0, "space"), //not passable for walkers, liquids fall
+    SPACE(0, IMPASSABLE, 5, true, 0, "space"), //not passable for walkers, liquids fall
     WALL(1, IMPASSABLE, 0, false, 3, "wall"), // not passable
     FLOOR(2, PASSABLE, 3, true, 1, "floor"), // passable, liquids don't fall
     STAIRS(3, PASSABLE, 2, false, 2, "stairs"), //DF-like stairs
