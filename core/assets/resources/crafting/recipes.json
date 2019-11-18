@@ -90,7 +90,7 @@
     "category": "Resources",
     "title": "Saw log into planks",
     "itemName": "plank",
-    "parts": [["plank", "log", "wood", "1"]],
+    "parts": [["plank", "log", "wood", "1"]]
     //TODO quantity
 }
 ]

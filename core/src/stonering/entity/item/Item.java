@@ -21,7 +21,6 @@ import java.util.List;
 public class Item extends Entity {
     private String name;
     private String title; // title combined of origin, material, and type
-    private String conditionPostfix; // put after title in a brackets. shows item's condition, like raw, spoiled, rusty
     private String origin; // set on item creation,
     private int material;
     public String materialString;
@@ -109,13 +108,5 @@ public class Item extends Entity {
     public void setOrigin(String origin) {
         this.origin = origin;
         updateTitle();
-    }
-
-    public String getConditionPostfix() {
-        return conditionPostfix;
-    }
-
-    public void setConditionPostfix(String conditionPostfix) {
-        this.conditionPostfix = conditionPostfix;
     }
 }
