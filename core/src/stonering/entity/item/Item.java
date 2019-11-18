@@ -19,12 +19,12 @@ import java.util.List;
  * @author Alexander Kuzyakov on 09.12.2017.
  */
 public class Item extends Entity {
+    public final ItemType type;
     private String name;
     private String title; // title combined of origin, material, and type
     private String origin; // set on item creation,
     private int material;
     public String materialString;
-    private ItemType type;
     public final List<TagEnum> tags;
     public boolean locked; // item consuming actions lock target items.
 
@@ -82,11 +82,6 @@ public class Item extends Entity {
 
     public ItemType getType() {
         return type;
-    }
-
-    public void setType(ItemType type) {
-        this.type = type;
-        updateTitle();
     }
 
     public String getName() {
