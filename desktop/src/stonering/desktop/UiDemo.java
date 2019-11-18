@@ -7,9 +7,9 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.utils.Align;
 import stonering.entity.item.Item;
 import stonering.enums.items.type.ItemType;
@@ -65,14 +65,25 @@ public class UiDemo extends Game {
         }
 
         private Container createContainer() {
-            ItemCardButton card = new ItemCardButton(createItem(), 3);
-            table = new Table();
-            Container container = new Container(table);
+            ScrollPane pane = new ScrollPane(new Table());
+            Table table2 = (Table) pane.getActor();
+            pane.setSize(100,100);
+            pane.setDebug(true, true);
+            for (int i = 0; i < 100; i++) {
+                table2.add(new ItemCardButton(createItem(), 3)).pad(5).row();
+            }
+            Container container = new Container(pane);
             container.align(Align.bottomLeft);
-            table.add(new ToolbarButton("qwer1")).left().top().expand(true, true).fill().size(200, 200);
-            table.add(new TextButton("qwer2", StaticSkin.getSkin())).right().top().expand(true, true);
-            table.add(card);
+
+//            ItemCardButton card = new ItemCardButton(createItem(), 3);
+//            table = new Table();
+//            Container container = new Container(table);
+//            container.align(Align.bottomLeft);
+//            table.add(new ToolbarButton("qwer1")).left().top().expand(true, true).fill().size(200, 200);
+//            table.add(new TextButton("qwer2", StaticSkin.getSkin())).right().top().expand(true, true);
+//            table.add(card);
             container.setDebug(true, true);
+            container.setFillParent(true);
             return container;
         }
     }

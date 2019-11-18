@@ -8,15 +8,14 @@ import java.util.List;
 
 /**
  * Determines ingredient for crafting. Is part of {@link Recipe}.
+ * Items that have one of item types, ha
  *
  * @author Alexander on 05.01.2019.
  */
 public class Ingredient {
-    // properties of ingredient
-    public final List<String> itemTypes;   // acceptable item types
+    public final List<String> itemTypes;    // acceptable item types
     public final TagEnum tag;               // acceptable item tags
-    private int quantity;                  // quantity
-    //TODO add weight to ingredients consumed as matter
+    private int quantity;                   // number of items
 
     private List<String> possibleMaterials;  // list of materials to display in ui
 

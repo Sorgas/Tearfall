@@ -16,6 +16,7 @@ import stonering.enums.items.recipe.Ingredient;
 public class IngredientOrder {
     public final ItemOrder order;
     public final Ingredient ingredient;
+
     public final ItemSelector itemSelector;
 
     public IngredientOrder(ItemOrder order, Ingredient ingredient) {
