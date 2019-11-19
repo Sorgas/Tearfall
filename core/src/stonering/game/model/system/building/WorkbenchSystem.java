@@ -10,7 +10,6 @@ import stonering.enums.OrderStatusEnum;
 import stonering.enums.action.TaskStatusEnum;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.GameMvc;
-import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.local_map.passage.NeighbourPositionStream;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.system.task.TaskContainer;

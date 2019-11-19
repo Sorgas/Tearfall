@@ -14,13 +14,14 @@ import java.util.Map;
  * @author Alexander on 19.11.2018.
  */
 public class Recipe {
-    public final String name;     // recipe NAME
-    public final String title;    // displayed name
-    public final String category; // recipes are divided into categories in workbench menu
-    public final String itemName; // item NAME, points to ItemType
-    public final String description;
-    public Map<String, Ingredient> parts = new HashMap<>(); // itemPart NAME to ingredients.
-    public List<Ingredient> consumed = new ArrayList<>();  // do not produce item parts.
+    public final String name;                               // recipe(id)
+    public final String title;                              // displayed name
+    public final String category;                           // recipes are divided into categories in workbench menu
+    public final String itemName;                           // name of produced item's itemType
+    public final String description;                        // recipe description.
+    public Map<String, Ingredient> parts = new HashMap<>(); // itemPart name to ingredients.
+    public List<Ingredient> consumed = new ArrayList<>();   // ingredients, that do not produce item parts.
+    public String newTag;                                   // this tag will be added to product
 
     public Recipe(String title) {
         this.title = title;

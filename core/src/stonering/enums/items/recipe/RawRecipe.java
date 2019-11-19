@@ -16,4 +16,5 @@ public class RawRecipe {
     public String description;
     public List<List<String>> parts;
     public List<List<String>> consumed = new ArrayList<>();
+    public String newTag;
 }

@@ -51,8 +51,9 @@
     "name": "roast_meal",
     "category": "Food",
     "title": "Make roasted meal",
-    "itemName": "piece",
-    "parts": [["meal", "any", "roastable", "1"]]
+    "itemName": "any",
+    "parts": [["meal", "any", "roastable", "1"]],
+    "newTag" : "roasted"
 }, {
     "name": "boil_meal",
     "category": "Food",
