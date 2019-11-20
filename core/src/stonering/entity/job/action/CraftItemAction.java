@@ -15,8 +15,8 @@ import stonering.game.model.system.item.ItemsStream;
 import stonering.generators.items.ItemGenerator;
 import stonering.util.global.Logger;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Action for crafting item by item order on workbench. Items for crafting will be brought to WB.
@@ -27,19 +27,15 @@ import java.util.List;
 public class CraftItemAction extends Action {
     private ItemOrder itemOrder;
     private Entity workbench;
-    private List<Item> desiredItems; // these item should be in WB.
-    private Item tool; //TODO
 
     public CraftItemAction(ItemOrder itemOrder, Entity workbench) {
         super(new EntityActionTarget(workbench, ActionTargetTypeEnum.NEAR)); // unit will stand near wb while performing task
-        desiredItems = new ArrayList<>();
         this.itemOrder = itemOrder;
         this.workbench = workbench;
     }
 
     /**
-     * Creates item, consumes ingredients.
-     * Puts item into workbench, if it has {@link ItemContainerAspect}, or on the ground near.
+     * Creates item, consumes ingredients. Product item is put to Workbench.
      */
     @Override
     protected void performLogic() {
@@ -47,8 +43,9 @@ public class CraftItemAction extends Action {
         WorkbenchAspect workbenchAspect = workbench.getAspect(WorkbenchAspect.class);
         Item product = new ItemGenerator().generateItemByOrder(null, itemOrder);
         // spend components
-        container.containedItemsSystem.removeItemsFromWorkbench(desiredItems, workbenchAspect);
-        container.removeItems(desiredItems);
+        List<Item> items = itemOrder.getAllIngredients().stream().map(IngredientOrder::getItem).collect(Collectors.toList());
+        container.containedItemsSystem.removeItemsFromWorkbench(items, workbenchAspect);
+        container.removeItems(items);
         // put product into wb
         container.addItem(product);
         container.containedItemsSystem.addItemToWorkbench(product, workbenchAspect);
@@ -64,13 +61,9 @@ public class CraftItemAction extends Action {
         WorkbenchAspect aspect = workbench.getAspect(WorkbenchAspect.class);
         if (workbench.getAspect(WorkbenchAspect.class) == null)
             return Logger.TASKS.logWarn("Building " + workbench.toString() + " is not a workbench.", FAIL);
-        if (!updateDesiredItems()) return FAIL; // desiredItems valid after this
-        if (!aspect.containedItems.containsAll(desiredItems)) { // some item are out of WB.
-            List<Item> outOfWBItems = new ArrayList<>(desiredItems);
-            outOfWBItems.removeAll(aspect.containedItems);
-            task.addFirstPreAction(new PutItemAction(outOfWBItems.get(0), workbench)); // create action to bring item
-            return NEW;
-        } else if (workbench.hasAspect(FuelConsumerAspect.class) && !workbench.getAspect(FuelConsumerAspect.class).isFueled()) { // workbench requires fuel
+        int orderCheckResult = checkIngredientItems(aspect);
+        if (orderCheckResult != OK) return orderCheckResult;
+        if (workbench.hasAspect(FuelConsumerAspect.class) && !workbench.getAspect(FuelConsumerAspect.class).isFueled()) { // workbench requires fuel
             task.addFirstPreAction(new FuelingAciton(workbench));
             return NEW;
         }
@@ -78,46 +71,37 @@ public class CraftItemAction extends Action {
     }
 
     /**
-     * Checks that desired item are still valid or tries to find new ones.
-     *
-     * @return true, if item exist or found.
+     * Checks that all ingredients have selected items.
+     * Creates actions for bringing items to WB. Clears ingredients with 'spoiled' items.
+     * Returns fail, if item for some ingredient cannot be found.
      */
-    private boolean updateDesiredItems() {
-        if (desiredItems.isEmpty() || !checkItemsAvailability(desiredItems)) { // items are not yet searched on map, or was removed from map
-            return findDesiredItems();
+    private int checkIngredientItems(WorkbenchAspect aspect) {
+        for (IngredientOrder order : itemOrder.getAllIngredients()) {
+            if (checkIngredient(order, aspect)) continue;
+            if (order.item != null) System.out.println("'spoiled' item in ingredient order"); // free item TODO locking
+            if ((order.item = selectItemForIngredientFromMap(order)) == null) return FAIL; // no valid item found
+            if (aspect.containedItems.contains(order.item)) continue; // item in WB, no actions required
+            task.addFirstPreAction(new PutItemAction(order.item, workbench)); // create action to bring item
+            return NEW; // new action is created
         }
-        return true;
+        return OK; // all ingredients have valid items
     }
 
     /**
-     * Searches desiredItems for each order part.
-     * Returns false if cannot find any items for at least one order part.
+     * Checks if ingredient item is valid (matches ingredient and stored in WB).
      */
-    private boolean findDesiredItems() {
-        ItemContainer container = GameMvc.instance().model().get(ItemContainer.class);
-        desiredItems.clear();
-        List<IngredientOrder> ingredientOrders = new ArrayList<>(itemOrder.parts.values());
-        ingredientOrders.addAll(itemOrder.consumed);
-        for (IngredientOrder ingredientOrder : ingredientOrders) {
-            List<Item> foundItems = new ItemsStream() // items from map that match the ingredient
-                    .filterOnMap()
-                    .filterBySelector(ingredientOrder.itemSelector)
-                    .filterByReachability(task.performer.position)
-                    .toList();
-            foundItems.addAll(workbench.getAspect(WorkbenchAspect.class).containedItems); // items that are already in wb
-            foundItems.removeAll(desiredItems); // remove already added items
-            if (foundItems.isEmpty()) { // no items found for ingredient
-                desiredItems.clear();
-                return false;
-            }
-            desiredItems.addAll(container.util.getNearestItems(foundItems, task.performer.position, 1)); // add nearest items to order
-        }
-        return true;
+    private boolean checkIngredient(IngredientOrder order, WorkbenchAspect aspect) {
+        return order.item != null && order.itemSelector.checkItem(order.item) && aspect.containedItems.contains(order.item);
     }
 
-    private boolean checkItemsAvailability(List<Item> items) {
+    private Item selectItemForIngredientFromMap(IngredientOrder ingredientOrder) {
         ItemContainer container = GameMvc.instance().model().get(ItemContainer.class);
-        return items.stream().allMatch(item -> container.util.itemIsAvailable(item, task.performer.position));
+        List<Item> foundItems = new ItemsStream()
+                .filterOnMap()
+                .filterBySelector(ingredientOrder.itemSelector)
+                .filterByReachability(task.performer.position)
+                .toList(); // items from map that match the ingredient
+        return foundItems.isEmpty() ? null : container.util.getNearestItems(foundItems, task.performer.position, 1).get(0);
     }
 
     @Override

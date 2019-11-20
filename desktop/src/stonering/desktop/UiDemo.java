@@ -67,13 +67,12 @@ public class UiDemo extends Game {
         private Container createContainer() {
             ScrollPane pane = new ScrollPane(new Table());
             Table table2 = (Table) pane.getActor();
-            pane.setSize(100,100);
             pane.setDebug(true, true);
             for (int i = 0; i < 100; i++) {
                 table2.add(new ItemCardButton(createItem(), 3)).pad(5).row();
             }
             Container container = new Container(pane);
-            container.align(Align.bottomLeft);
+            container.align(Align.right);
 
 //            ItemCardButton card = new ItemCardButton(createItem(), 3);
 //            table = new Table();

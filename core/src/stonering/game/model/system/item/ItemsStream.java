@@ -83,6 +83,11 @@ public class ItemsStream {
         return this;
     }
 
+    public ItemsStream filterNotInList(List<Item> list) {
+        stream = stream.filter(item -> !list.contains(item));
+        return this;
+    }
+
     public List<Item> toList() {
         return stream.collect(Collectors.toList());
     }

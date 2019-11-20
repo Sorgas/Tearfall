@@ -79,7 +79,7 @@ public class ItemCraftingOrderLine extends OrderLine implements Highlightable {
         repeatButton = addControlButton("R", new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                order.repeated = order.getAmount() <= 0;
+                order.repeated = order.amount <= 0;
                 //TODO set repeated status
             }
         });

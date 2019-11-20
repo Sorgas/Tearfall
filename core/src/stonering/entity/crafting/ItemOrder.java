@@ -21,7 +21,7 @@ public class ItemOrder {
     public final List<IngredientOrder> consumed;
     public OrderStatusEnum status;
     public boolean repeated;
-    private int amount;
+    public int amount;
 
     public ItemOrder(Recipe recipe) {
         this.recipe = recipe;
@@ -37,16 +37,15 @@ public class ItemOrder {
         }
     }
 
+
+    public List<IngredientOrder> getAllIngredients() {
+        List<IngredientOrder> ingredientOrders = new ArrayList<>(consumed);
+        ingredientOrders.addAll(parts.values());
+        return ingredientOrders;
+    }
+
     @Override
     public String toString() {
         return "ItemOrder{" + "recipe=" + recipe + '}';
-    }
-
-    public int getAmount() {
-        return amount;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
     }
 }
