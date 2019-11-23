@@ -32,7 +32,7 @@ public class FarmModel extends TestModel {
     }
 
     private Item createHoe() {
-        return new Item(null, ItemTypeMap.getInstance().getItemType("hoe"));
+        return new Item(null, ItemTypeMap.instance().getItemType("hoe"));
     }
 
     private void putSeeds() {

@@ -13,82 +13,68 @@
 [
     {
         "name": "make_pickaxe",
-        "category": "Tools",
         "title": "Metal pickaxe",
         "itemName": "pickaxe",
         "parts": [["head", "bar", "metal", "1"], ["handle", "log/plank", "wood", "1"]]
     }, {
     "name": "make_sickle",
-    "category": "Tools",
     "title": "Metal sickle",
     "itemName": "sickle",
     "parts": [["head", "bar", "metal", "1"], ["handle", "log/plank/branch", "wood", "1"]]
 }, {
     "name": "make_axe",
-    "category": "Tools",
     "title": "Metal axe",
     "itemName": "axe",
     "parts": [["head", "bar", "metal", "1"], ["handle", "log/plank", "wood", "1"]]
 }, {
     "name": "make_shirt",
-    "category": "Wear",
     "title": "Cloth shirt",
     "itemName": "shirt",
     "parts": [["shirt", "roll", "cloth", "1"]]
 }, {
     "name": "make_pants",
-    "category": "Wear",
     "title": "Cloth pants",
     "itemName": "pants",
     "parts": [["pants", "roll", "cloth", "1"]]
 }, {
     "name": "make_backpack",
-    "category": "Other",
     "title": "Cloth backpack",
     "itemName": "backpack",
     "parts": [["backpack", "roll", "cloth", "1"]]
 }, {
     "name": "roast_meal",
-    "category": "Food",
     "title": "Make roasted meal",
-    "itemName": "any",
-    "parts": [["meal", "any", "roastable", "1"]],
+    "main": ["any", "roastable", "1"],
     "newTag" : "roasted"
 }, {
     "name": "boil_meal",
-    "category": "Food",
     "title": "Cook soup",
     "itemName": "liquid",
     "parts": [["meal", "any", "boilable", "1"]],
     "consumed": [["any", "water", "1"]]
 }, {
     "name": "boil_water",
-    "category": "Drinks",
     "title": "Boil water",
     "itemName": "liquid",
     "parts": [["liquid", "any", "water", "1"]]
 }, {
     "name": "boil_drink",
-    "category": "Drinks",
     "title": "Boil drink",
     "itemName": "liquid",
     "parts": [["liquid", "any", "brewable", "1"]],
     "consumed": [["any", "water", "1"]]
 }, {
     "name": "make_simple_bed",
-    "category": "Futniture",
     "title": "Make simple bed",
     "itemName": "simple_bed",
     "parts": [["bed", "any", "wood", "1"]]
 }, {
     "name": "make_bow_saw",
-    "category": "Tools",
     "title": "Make bow saw",
     "itemName": "bow_saw",
     "parts": [["blade", "bar", "metal", "1"], ["bow", "plank", "wood", "1"]]
 }, {
     "name": "saw_log",
-    "category": "Resources",
     "title": "Saw log into planks",
     "itemName": "plank",
     "parts": [["plank", "log", "wood", "1"]]

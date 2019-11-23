@@ -7,6 +7,7 @@ import stonering.entity.item.aspects.ItemContainerAspect;
 import stonering.entity.item.aspects.SeedAspect;
 import stonering.enums.items.TagEnum;
 import stonering.entity.item.aspects.FallingAspect;
+import stonering.enums.items.recipe.RecipeType;
 import stonering.enums.items.type.ItemType;
 import stonering.enums.items.type.ItemTypeMap;
 import stonering.enums.materials.Material;
@@ -30,7 +31,7 @@ public class ItemGenerator {
     private Map<String, List<String>> defaultAspects;
 
     public ItemGenerator() {
-        itemTypeMap = ItemTypeMap.getInstance();
+        itemTypeMap = ItemTypeMap.instance();
         materialMap = MaterialMap.instance();
         defaultAspects = new HashMap<>();
         defaultAspects.put("falling", Arrays.asList("1"));
@@ -70,9 +71,23 @@ public class ItemGenerator {
      * Generates item by {@link ItemOrder} formed in workbench.
      * TODO fetch item part orders and create corresponding item parts
      */
-    public Item generateItemByOrder(Position position, ItemOrder order) {
+    public Item generateItemByOrder(ItemOrder order) {
         Logger.ITEMS.logDebug("Generating crafted item " + order.recipe.itemName + " for " + order.recipe.title);
-        return new Item(position, ItemTypeMap.getInstance().getItemType("sickle"));
+        Item item = null;
+        if(order.recipe.type == RecipeType.COMBINE) { // create new item and add p
+            String itemType = order.recipe.itemName;
+            item = new Item(null, ItemTypeMap.instance().getItemType(itemType));
+            for (String key : order.parts.keySet()) {
+                //TODO create part
+            }
+        } else if(order.recipe.type == RecipeType.TRANSFORM) {
+            item = order.main.item;
+            for (String key : order.parts.keySet()) {
+                //TODO add part
+            }
+            item.tags.add(order.recipe.newTag);
+        }
+        return item;
     }
 
     /**

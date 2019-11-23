@@ -19,6 +19,8 @@ public class ItemOrder {
     public final Recipe recipe;
     public final HashMap<String, IngredientOrder> parts; //item parts to their ingredients
     public final List<IngredientOrder> consumed;
+    public IngredientOrder main;
+
     public OrderStatusEnum status;
     public boolean repeated;
     public int amount;
@@ -29,6 +31,7 @@ public class ItemOrder {
         status = OrderStatusEnum.OPEN;
         parts = new HashMap<>();
         consumed = new ArrayList<>();
+        if(recipe.main != null) main = new IngredientOrder(this, recipe.main);
         for (String itemPart : recipe.parts.keySet()) { // create item partOrder for
             parts.put(itemPart, new IngredientOrder(this, recipe.parts.get(itemPart)));
         }
@@ -41,6 +44,7 @@ public class ItemOrder {
     public List<IngredientOrder> getAllIngredients() {
         List<IngredientOrder> ingredientOrders = new ArrayList<>(consumed);
         ingredientOrders.addAll(parts.values());
+        if (main != null) ingredientOrders.add(main);
         return ingredientOrders;
     }
 

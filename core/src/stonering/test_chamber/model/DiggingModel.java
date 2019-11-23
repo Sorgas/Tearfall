@@ -44,6 +44,6 @@ public class DiggingModel extends TestModel {
     }
 
     private Item createPickaxe() {
-        return new Item(null, ItemTypeMap.getInstance().getItemType("pickaxe"));
+        return new Item(null, ItemTypeMap.instance().getItemType("pickaxe"));
     }
 }

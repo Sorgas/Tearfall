@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import org.jetbrains.annotations.NotNull;
-import stonering.entity.building.aspects.WorkbenchAspect;
 import stonering.entity.crafting.IngredientOrder;
 import stonering.entity.crafting.ItemOrder;
 import stonering.enums.ControlActionsEnum;
@@ -107,7 +106,7 @@ public class ItemCraftingOrderLine extends OrderLine implements Highlightable {
      * Creates label with item name.
      */
     private Label createItemLabel() {
-        String itemTitle = ItemTypeMap.getInstance().getItemType(order.recipe.itemName).title;
+        String itemTitle = ItemTypeMap.instance().getItemType(order.recipe.itemName).title;
         return new Label(itemTitle, StaticSkin.getSkin()); // label with item type
     }
 

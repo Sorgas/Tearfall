@@ -41,7 +41,7 @@ public class CraftItemAction extends Action {
     protected void performLogic() {
         ItemContainer container = GameMvc.instance().model().get(ItemContainer.class);
         WorkbenchAspect workbenchAspect = workbench.getAspect(WorkbenchAspect.class);
-        Item product = new ItemGenerator().generateItemByOrder(null, itemOrder);
+        Item product = new ItemGenerator().generateItemByOrder(itemOrder);
         // spend components
         List<Item> items = itemOrder.getAllIngredients().stream().map(IngredientOrder::getItem).collect(Collectors.toList());
         container.containedItemsSystem.removeItemsFromWorkbench(items, workbenchAspect);
@@ -53,11 +53,11 @@ public class CraftItemAction extends Action {
 
     /**
      * Checks that action conditions are met. Creates sub action otherwise.
-     * TODO check ingredients and fuel availability before bringing something to workbench
+     * TODO check ingredients and fuel availability before bringing something to workbench.
+     * TODO add usage of items in nearby containers.
      */
     @Override
     public int check() {
-        //TODO add usage of items in unit inventory, on the ground or in !nearby containers!).
         WorkbenchAspect aspect = workbench.getAspect(WorkbenchAspect.class);
         if (workbench.getAspect(WorkbenchAspect.class) == null)
             return Logger.TASKS.logWarn("Building " + workbench.toString() + " is not a workbench.", FAIL);

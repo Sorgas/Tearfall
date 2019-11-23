@@ -69,7 +69,7 @@ public class OrderDetailsSection extends Table {
 
     private void showOrderDetails(OrderItem orderItem) {
         order = orderItem.order;
-        ItemType type = ItemTypeMap.getInstance().getItemType(order.recipe.itemName);
+        ItemType type = ItemTypeMap.instance().getItemType(order.recipe.itemName);
         itemName.setText(orderItem.order.recipe.title);
         itemDescription.setText(orderItem.order.recipe.description);
         for (String key : order.parts.keySet()) { // rows for parts

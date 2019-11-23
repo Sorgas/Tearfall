@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Shows recipes divided into categories.
@@ -51,10 +52,7 @@ public class RecipeListSection extends NavigableVerticalGroup implements Highlig
      */
     private void fillCategoryMap(WorkbenchAspect aspect) {
         recipeMap = new HashMap<>();
-        for (Recipe recipe : aspect.recipes) {
-            if (!recipeMap.containsKey(recipe.category)) recipeMap.put(recipe.category, new ArrayList<>());
-            recipeMap.get(recipe.category).add(recipe.name);
-        }
+        recipeMap.put("all", aspect.recipes.stream().map(recipe -> recipe.name).collect(Collectors.toList()));
     }
 
     /**

@@ -23,7 +23,7 @@ public class ItemTypeMap {
         loadItemTypes();
     }
 
-    public static ItemTypeMap getInstance() {
+    public static ItemTypeMap instance() {
         if (instance == null)
             instance = new ItemTypeMap();
         return instance;
