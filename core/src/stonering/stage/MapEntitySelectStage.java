@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import stonering.entity.Entity;
 import stonering.entity.building.Building;
 import stonering.entity.building.BuildingBlock;
+import stonering.entity.item.Item;
 import stonering.entity.plants.AbstractPlant;
 import stonering.entity.zone.FarmZone;
 import stonering.entity.zone.Zone;
@@ -13,6 +14,7 @@ import stonering.game.model.system.*;
 import stonering.game.model.system.building.BuildingContainer;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.system.unit.UnitContainer;
+import stonering.stage.item.ItemStage;
 import stonering.stage.workbench.BuildingStage;
 import stonering.stage.zone.ZoneMenuStage;
 import stonering.widget.lists.ObservingList;
@@ -56,16 +58,13 @@ public class MapEntitySelectStage extends UiStage implements Initable {
         GameMvc gameMvc = GameMvc.instance();
         switch (activeMode) {
             case ITEMS:
-                break;
             case UNITS:
-                break;
             case PLANTS:
                 break;
             case BUILDINGS:
                 tryShowBuildingStage(gameMvc.model().get(BuildingContainer.class).getBuildingBlocks().get(currentPosition));
                 break;
             case ZONES:
-                break;
             case NONE:
                 showEntitySelectList();
                 return;
@@ -107,6 +106,8 @@ public class MapEntitySelectStage extends UiStage implements Initable {
             tryShowBuildingStage(((Building) entity).getBlock());
         } else if (entity instanceof Zone) {
             tryShowZoneStage((Zone) entity);
+        } else if (entity instanceof Item) {
+            tryShowItemStage((Item) entity);
         }
         //TODO add other entity types
     }
@@ -126,6 +127,14 @@ public class MapEntitySelectStage extends UiStage implements Initable {
         Logger.UI.logDebug("showing zone stage for: " + zone.getName());
         gameMvc.getView().removeStage(this);
         if(zone instanceof FarmZone) gameMvc.getView().addStageToList(new ZoneMenuStage((FarmZone) zone));
+    }
+
+    private void tryShowItemStage(Item item) {
+        if (item == null) return;
+        GameMvc gameMvc = GameMvc.instance();
+        Logger.UI.logDebug("showing zone stage for: " + item.getTitle());
+        gameMvc.getView().removeStage(this);
+        gameMvc.getView().addStageToList(new ItemStage(item));
     }
 
     private void createObservingList(List<Entity> entities) {
