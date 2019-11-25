@@ -3,8 +3,12 @@ package stonering.game.controller.controllers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.math.Vector;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import stonering.game.GameMvc;
 import stonering.game.model.EntitySelector;
+import stonering.util.geometry.Position;
 
 import static com.badlogic.gdx.Input.Keys.*;
 
@@ -77,6 +81,18 @@ public class EntitySelectorInputAdapter extends InputAdapter {
                 if(Gdx.input.isKeyPressed(S)) moveByKey(S, offset);
         }
         return true;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        selector.moveSelector(0, 0, amount);
+        return true;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        System.out.println(GameMvc.instance().getView().localWorldStage.getCamera().unproject(new Vector3(screenX, screenY, 0)));
+        return false;
     }
 
     private int charToKeycode(char character) {

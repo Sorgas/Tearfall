@@ -18,8 +18,7 @@ import static stonering.stage.renderer.BatchUtil.TILE_WIDTH;
  * {@link OrthographicCamera} extension.
  * Camera has:
  * additional position in {@link LocalMap} unit
- * visible area used by renderers
- * area, where {@link EntitySelector} can move without moving camera.
+ * visible area used by renderers * area, where {@link EntitySelector} can move without moving camera.
  * If selector moves out of it's area, camera is moved.
  * When camera moves, both areas are updated.
  * Camera always moves when selector moves in z axis.
