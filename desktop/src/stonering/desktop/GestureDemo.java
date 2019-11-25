@@ -62,15 +62,17 @@ public class GestureDemo extends Game {
     }
 
     private static class DemoListener extends ActorGestureListener {
+        private boolean panStarted;
+        private boolean vertical;
 
         @Override
         public void touchDown(InputEvent event, float x, float y, int pointer, int button) {
-            System.out.println("touch down");
+
         }
 
         @Override
         public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-            System.out.println("touch up");
+            panStarted = false;
         }
 
         @Override
@@ -86,12 +88,20 @@ public class GestureDemo extends Game {
 
         @Override
         public void fling(InputEvent event, float velocityX, float velocityY, int button) {
-            System.out.println("fling");
         }
 
         @Override
         public void pan(InputEvent event, float x, float y, float deltaX, float deltaY) {
-            System.out.println("pan");
+            if(!panStarted) {
+                panStarted = true;
+                vertical = Math.abs(deltaY) > Math.abs(deltaX);
+            }
+            if(vertical) {
+                deltaX = 0;
+            } else {
+                deltaY = 0;
+            }
+            System.out.println(vertical ? "vertical" : "horizontal");
         }
 
         @Override
