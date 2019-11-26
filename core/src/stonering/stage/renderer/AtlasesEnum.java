@@ -36,6 +36,7 @@ public enum AtlasesEnum {
     public final int DEPTH;
     public final int HEIGHT;
     public final int BLOCK_HEIGHT; // depth and height
+    public final int TOPPING_HEIGHT;
     public final int TOPPING_BLOCK_HEIGHT; // depth and height
     public final int FULL_TILE_HEIGHT;
     public final int X_CORRECTION; // batch grid are 64x64, but some atlas tiles are smaller, correction is offset from left bottom corner of grid
@@ -49,7 +50,8 @@ public enum AtlasesEnum {
         DEPTH = depth;
         HEIGHT = height;
         BLOCK_HEIGHT = height + depth;
-        TOPPING_BLOCK_HEIGHT = hasToppings ? toppingHeight + depth : 0;
+        TOPPING_HEIGHT = toppingHeight;
+        TOPPING_BLOCK_HEIGHT = hasToppings ? TOPPING_HEIGHT + DEPTH : 0;
         FULL_TILE_HEIGHT = BLOCK_HEIGHT + TOPPING_BLOCK_HEIGHT;
         X_CORRECTION = (BatchUtil.TILE_WIDTH - WIDTH) / 2;
         Y_CORRECTION = (BatchUtil.TILE_DEPTH - DEPTH) / 2;
