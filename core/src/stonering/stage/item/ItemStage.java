@@ -1,11 +1,9 @@
 package stonering.stage.item;
 
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.utils.Align;
 import stonering.entity.item.Item;
 import stonering.stage.UiStage;
-import stonering.stage.zone.FarmZoneMenu;
 import stonering.util.global.Logger;
 
 
@@ -27,5 +25,6 @@ public class ItemStage extends UiStage {
         container.align(Align.center);
         addActor(container);
         setKeyboardFocus(menu);
+        interceptInput = true;
     }
 }

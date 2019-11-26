@@ -30,7 +30,7 @@ import java.util.List;
  * @author Alexander on 20.03.2019.
  */
 public class FarmZoneMenu extends Window {
-    private PlantTypeSelectList disabledPlants;
+    public PlantTypeSelectList disabledPlants;
     private Label selectedPlantLabel;
     private Label monthsLabel;
     private Label hintLabel;
@@ -124,9 +124,5 @@ public class FarmZoneMenu extends Window {
 
     public void close() {
         GameMvc.instance().getView().removeStage(getStage());
-    }
-
-    public NavigableList<PlantType> getDisabledPlants() {
-        return disabledPlants;
     }
 }

@@ -28,6 +28,6 @@ public class ZoneMenuStage extends UiStage {
         container.setFillParent(true);
         container.setDebug(true, true);
         this.addActor(container);
-        this.setKeyboardFocus(menu.getDisabledPlants());
+        this.setKeyboardFocus(menu.disabledPlants);
     }
 }

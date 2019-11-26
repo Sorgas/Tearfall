@@ -54,7 +54,7 @@ public class TileRenderer extends Renderer {
 
     private ZonesContainer zonesContainer;
     private MovableCamera camera;
-    private boolean disabled = true;
+    private boolean disabled = false;
 
     private Position cachePosition;
     private Vector3 cacheVector;
@@ -259,6 +259,7 @@ public class TileRenderer extends Renderer {
         }
     }
 
+    //TODO refactor to use render aspect
     private void drawItem(Item item) {
         util.drawSprite(items.getBlockTile(item.getType().atlasXY[0], item.getType().atlasXY[1]), items, item.position);
     }

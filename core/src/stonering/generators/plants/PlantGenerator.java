@@ -50,7 +50,7 @@ public class PlantGenerator {
      * Used for planting on farms.
      */
     public Plant generatePlant(SeedAspect aspect) throws DescriptionNotFoundException {
-        return generatePlant(aspect.getSpecimen(), 0);
+        return generatePlant(aspect.specimen, 0);
     }
 
     public void applyPlantGrowth(Plant plant) {
