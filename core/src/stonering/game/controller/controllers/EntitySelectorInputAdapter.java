@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.math.Vector3;
 import stonering.game.GameMvc;
 import stonering.game.model.EntitySelector;
+import stonering.game.model.local_map.LocalMap;
 import stonering.stage.renderer.AtlasesEnum;
 
 import static com.badlogic.gdx.Input.Keys.*;
@@ -90,13 +91,13 @@ public class EntitySelectorInputAdapter extends InputAdapter {
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
         Vector3 batchCoords = GameMvc.instance().getView().localWorldStage.getCamera().unproject(new Vector3(screenX, screenY, 0));
-        int selectorZ = selector.position.z;
         AtlasesEnum atlas = AtlasesEnum.blocks;
-        int heightToSkip = (selectorZ + 1) * atlas.HEIGHT + (atlas.hasToppings ? atlas.TOPPING_HEIGHT : 0);
+        int heightToSkip = (selector.position.z + 1) * atlas.HEIGHT + (atlas.hasToppings ? atlas.TOPPING_HEIGHT : 0);
         int x = (int) batchCoords.x / atlas.WIDTH;
         int y = ((int) batchCoords.y - heightToSkip) / atlas.DEPTH;
-        System.out.println(x + " " + y + " " + selectorZ);
-        return false;
+        selector.position.set(x,y, selector.position.z);
+        GameMvc.instance().model().get(LocalMap.class).normalizePosition(selector.position);
+        return true;
     }
 
     private int charToKeycode(char character) {
