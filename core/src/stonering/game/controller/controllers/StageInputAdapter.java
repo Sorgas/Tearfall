@@ -34,4 +34,24 @@ public class StageInputAdapter extends InputAdapter {
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         return gameView.getActiveStage().touchDown(screenX, screenY, pointer, button);
     }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        return gameView.getActiveStage().keyUp(keycode);
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return gameView.getActiveStage().touchDragged(screenX, screenY, pointer);
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return gameView.getActiveStage().mouseMoved(screenX, screenY);
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        return gameView.getActiveStage().scrolled(amount);
+    }
 }

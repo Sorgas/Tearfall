@@ -22,7 +22,7 @@ import stonering.util.global.Initable;
  */
 public class EntitySelector implements ModelComponent, Initable {
     private LocalMap localMap;
-    private Position position;
+    public final Position position;
     private TextureRegion selectorSprite; // shows selector position, and selected designation.
     private TextureRegion statusSprite;   // indicates position validity.
     private Position cachePosition;
@@ -35,11 +35,15 @@ public class EntitySelector implements ModelComponent, Initable {
 
     private Position frameStart; // if not null, frame from start to current position is drawn
 
+    public EntitySelector() {
+        position = new Position();
+    }
+
     @Override
     public void init() {
         localMap = GameMvc.instance().model().get(LocalMap.class);
         selectorSprite = new TextureRegion(new Texture("sprites/ui_tiles.png"), 0, 406, 64, 96);
-        position = new Position(localMap.xSize / 2, localMap.ySize / 2, localMap.zSize - 1);
+        position.set(localMap.xSize / 2, localMap.ySize / 2, localMap.zSize - 1);
         cachePosition = new Position();
     }
 
@@ -55,10 +59,6 @@ public class EntitySelector implements ModelComponent, Initable {
         GameMvc.instance().getView().localWorldStage.getCamera().centerCameraToPosition(position);
     }
 
-    public void setPosition(int x, int y, int z) {
-        position.set(x, y, z);
-    }
-
     public void moveSelector(int dx, int dy, int dz) {
         cachePosition.set(position);
         position.add(dx, dy, dz);
@@ -68,7 +68,7 @@ public class EntitySelector implements ModelComponent, Initable {
 
     private void selectorMoved() {
         updateStatusAndSprite();
-        GameMvc.instance().getView().localWorldStage.getCamera().selectorMoved();
+        GameMvc.instance().getView().localWorldStage.getCamera().handleSelectorMove();
     }
 
     /**
@@ -106,10 +106,6 @@ public class EntitySelector implements ModelComponent, Initable {
     public void setPositionValidator(PositionValidator positionValidator) {
         this.positionValidator = positionValidator;
         updateStatusAndSprite();
-    }
-
-    public Position getPosition() {
-        return position;
     }
 
     public int getStatus() {

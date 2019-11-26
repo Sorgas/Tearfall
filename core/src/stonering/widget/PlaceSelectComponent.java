@@ -39,8 +39,8 @@ public class PlaceSelectComponent extends Actor implements Hideable {
             public boolean keyDown(InputEvent event, int keycode) {
                 switch (keycode) {
                     case Input.Keys.E:
-                        if (validatePosition(selector.getPosition())) {
-                            position = selector.getPosition().clone();
+                        if (validatePosition(selector.position)) {
+                            position = selector.position.clone();
                             eventListener.handle(null);
                         }
                         return true;

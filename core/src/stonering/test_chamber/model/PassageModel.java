@@ -28,7 +28,7 @@ public class PassageModel extends TestModel {
         updateLocalMap();
         get(UnitContainer.class).addUnit(createUnit());
         get(TaskContainer.class).addTask(createTask());
-        get(EntitySelector.class).setPosition(MAP_SIZE / 2, MAP_SIZE / 2, 5);
+        get(EntitySelector.class).position.set(MAP_SIZE / 2, MAP_SIZE / 2, 5);
     }
 
     /**

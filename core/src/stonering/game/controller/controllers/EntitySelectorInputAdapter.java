@@ -3,8 +3,11 @@ package stonering.game.controller.controllers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.math.Vector3;
 import stonering.game.GameMvc;
 import stonering.game.model.EntitySelector;
+import stonering.game.model.local_map.LocalMap;
+import stonering.stage.renderer.AtlasesEnum;
 
 import static com.badlogic.gdx.Input.Keys.*;
 
@@ -26,7 +29,7 @@ public class EntitySelectorInputAdapter extends InputAdapter {
     public boolean keyDown(int keycode) {
         if (!enabled) return false;
         if(keycode == Input.Keys.E) {
-            GameMvc.instance().getView().showEntityStage(selector.getPosition());
+            GameMvc.instance().getView().showEntityStage(selector.position);
             return true;
         }
         int offset = Gdx.input.isKeyPressed(SHIFT_LEFT) ? 10 : 1;
@@ -76,6 +79,24 @@ public class EntitySelectorInputAdapter extends InputAdapter {
                 if(Gdx.input.isKeyPressed(W)) moveByKey(W, offset);
                 if(Gdx.input.isKeyPressed(S)) moveByKey(S, offset);
         }
+        return true;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        selector.moveSelector(0, 0, amount);
+        return true;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        Vector3 batchCoords = GameMvc.instance().getView().localWorldStage.getCamera().unproject(new Vector3(screenX, screenY, 0));
+        AtlasesEnum atlas = AtlasesEnum.blocks;
+        int heightToSkip = (selector.position.z + 1) * atlas.HEIGHT + (atlas.hasToppings ? atlas.TOPPING_HEIGHT : 0);
+        int x = (int) batchCoords.x / atlas.WIDTH;
+        int y = ((int) batchCoords.y - heightToSkip) / atlas.DEPTH;
+        selector.position.set(x,y, selector.position.z);
+        GameMvc.instance().model().get(LocalMap.class).normalizePosition(selector.position);
         return true;
     }
 

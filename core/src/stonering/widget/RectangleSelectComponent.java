@@ -51,7 +51,7 @@ public class RectangleSelectComponent extends Label implements Hideable, MouseIn
                 event.stop();
                 switch (keycode) {
                     case Input.Keys.E:
-                        handleConfirm(selector.getPosition());
+                        handleConfirm(selector.position);
                         return true;
                     case Input.Keys.Q:
                         handleCancel();

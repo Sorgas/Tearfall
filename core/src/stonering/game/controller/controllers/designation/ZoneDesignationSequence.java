@@ -38,7 +38,7 @@ public class ZoneDesignationSequence extends DesignationSequence {
         rectangleSelectComponent = new RectangleSelectComponent(null, event -> {
             EntitySelector selector = model.get(EntitySelector.class);
             if (validateZoneDesignation()) {
-                model.get(ZonesContainer.class).createNewZone(selector.getFrameStart(), selector.getPosition(), type);
+                model.get(ZonesContainer.class).createNewZone(selector.getFrameStart(), selector.position.clone(), type);
             } else {
                 view.mainUiStage.toolbar.setText("No valid tiles selected");
             }
@@ -63,7 +63,7 @@ public class ZoneDesignationSequence extends DesignationSequence {
             EntitySelector selector = model.get(EntitySelector.class);
             ZonesContainer zonesContainer = GameMvc.instance().model().get(ZonesContainer.class);
             Zone zone = zonesContainer.getZone(selector.getFrameStart()); // tiles in selected area will get this zone, and removed from previous.
-            model.get(ZonesContainer.class).updateZones(selector.getFrameStart(), selector.getPosition(), zone);
+            model.get(ZonesContainer.class).updateZones(selector.getFrameStart(), selector.position.clone(), zone);
             return true;
         });
     }
@@ -75,7 +75,7 @@ public class ZoneDesignationSequence extends DesignationSequence {
         EntitySelector selector = model.get(EntitySelector.class);
         LocalMap localMap = model.get(LocalMap.class);
         Position pos1 = selector.getFrameStart();
-        Position pos2 = selector.getPosition();
+        Position pos2 = selector.position.clone();
         Position cachePos = new Position(0, 0, 0);
         PositionValidator validator = type.getValidator();
         for (cachePos.x = Math.min(pos1.x, pos2.x); cachePos.x <= Math.max(pos1.x, pos2.x); cachePos.x++) {

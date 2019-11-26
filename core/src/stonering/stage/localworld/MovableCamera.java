@@ -18,8 +18,7 @@ import static stonering.stage.renderer.BatchUtil.TILE_WIDTH;
  * {@link OrthographicCamera} extension.
  * Camera has:
  * additional position in {@link LocalMap} unit
- * visible area used by renderers
- * area, where {@link EntitySelector} can move without moving camera.
+ * visible area used by renderers * area, where {@link EntitySelector} can move without moving camera.
  * If selector moves out of it's area, camera is moved.
  * When camera moves, both areas are updated.
  * Camera always moves when selector moves in z axis.
@@ -49,7 +48,7 @@ public class MovableCamera extends OrthographicCamera implements Resizeable {
     public void update() {
         super.update();
         if (frame == null) return;
-        Position selectorPosition = GameMvc.instance().model().get(EntitySelector.class).getPosition();
+        Position selectorPosition = GameMvc.instance().model().get(EntitySelector.class).position;
         Vector3 vector = getOutOfFrameVector(selectorPosition);
         if (vector.isZero()) return;
         position.add(vector.scl(CAMERA_SPEED));
@@ -78,8 +77,8 @@ public class MovableCamera extends OrthographicCamera implements Resizeable {
      * Notifies camera about {@link EntitySelector} moves.
      * If selector moves by z-axis, camera changes position by z.
      */
-    public void selectorMoved() {
-        Position selectorPosition = GameMvc.instance().model().get(EntitySelector.class).getPosition();
+    public void handleSelectorMove() {
+        Position selectorPosition = GameMvc.instance().model().get(EntitySelector.class).position;
         int delta = selectorPosition.z - cameraZ;
         if (delta == 0) return;
         position.y += getBatchY(0, delta);
