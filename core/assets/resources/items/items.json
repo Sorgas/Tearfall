@@ -97,13 +97,6 @@
     "atlasXY": ["11", "0"],
     "color": "0xffffffff"
 }, {
-    "name": "fruit",
-    "description": "Juicy fruit",
-    "typeAspects": [["value", "0"]],
-    "aspects": [["seed", "fruit"]],
-    "atlasXY": ["15", "0"],
-    "color": "0xffffffff"
-}, {
     "name": "meal",
     "description": "Edible meal",
     "typeAspects": [["value", "0"]],

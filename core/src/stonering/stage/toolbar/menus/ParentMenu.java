@@ -19,7 +19,6 @@ public class ParentMenu extends ToolbarSubMenuMenu {
     public ParentMenu(Toolbar toolbar) {
         super(toolbar);
         this.align(Align.bottom);
-        createListener();
         createMenus();
     }
 
@@ -28,24 +27,6 @@ public class ParentMenu extends ToolbarSubMenuMenu {
         addMenu(new DiggingMenu(toolbar), Input.Keys.O, "digging", "digging_menu");
         addMenu(new ToolbarBuildingMenu(toolbar), Input.Keys.I, "building", "building_menu");
         addMenu(new ZonesMenu(toolbar), Input.Keys.U, "zones", "zones_menu");
-    }
-
-    private void createListener() {
-        addListener(new InputListener() {
-            @Override
-            public boolean keyDown(InputEvent event, int keycode) {
-                switch(keycode) {
-                    case Input.Keys.ESCAPE :
-                        GameMvc.instance().getView().showPauseMenu();
-                        return true;
-                    case Input.Keys.E :
-                        Position position = GameMvc.instance().model().get(EntitySelector.class).position;
-                        GameMvc.instance().getView().showEntityStage(position);
-                        return true;
-                }
-                return false;
-            }
-        });
     }
 
     /**

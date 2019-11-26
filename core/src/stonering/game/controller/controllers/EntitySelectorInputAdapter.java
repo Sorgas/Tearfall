@@ -92,13 +92,15 @@ public class EntitySelectorInputAdapter extends InputAdapter {
     public boolean mouseMoved(int screenX, int screenY) {
         Vector3 batchCoords = GameMvc.instance().getView().localWorldStage.getCamera().unproject(new Vector3(screenX, screenY, 0));
         AtlasesEnum atlas = AtlasesEnum.blocks;
-        int heightToSkip = (selector.position.z + 1) * atlas.HEIGHT + (atlas.hasToppings ? atlas.TOPPING_HEIGHT : 0);
+        int heightToSkip = selector.position.z * atlas.HEIGHT + (atlas.hasToppings ? atlas.TOPPING_HEIGHT : 0);
         int x = (int) batchCoords.x / atlas.WIDTH;
         int y = ((int) batchCoords.y - heightToSkip) / atlas.DEPTH;
         selector.position.set(x,y, selector.position.z);
         GameMvc.instance().model().get(LocalMap.class).normalizePosition(selector.position);
         return true;
     }
+
+
 
     private int charToKeycode(char character) {
         return valueOf(Character.valueOf(character).toString().toUpperCase());
