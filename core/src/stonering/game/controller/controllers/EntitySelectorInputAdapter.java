@@ -3,12 +3,9 @@ package stonering.game.controller.controllers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.math.Vector;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import stonering.game.GameMvc;
 import stonering.game.model.EntitySelector;
-import stonering.util.geometry.Position;
 
 import static com.badlogic.gdx.Input.Keys.*;
 
@@ -30,7 +27,7 @@ public class EntitySelectorInputAdapter extends InputAdapter {
     public boolean keyDown(int keycode) {
         if (!enabled) return false;
         if(keycode == Input.Keys.E) {
-            GameMvc.instance().getView().showEntityStage(selector.getPosition());
+            GameMvc.instance().getView().showEntityStage(selector.position);
             return true;
         }
         int offset = Gdx.input.isKeyPressed(SHIFT_LEFT) ? 10 : 1;
@@ -92,6 +89,8 @@ public class EntitySelectorInputAdapter extends InputAdapter {
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
         System.out.println(GameMvc.instance().getView().localWorldStage.getCamera().unproject(new Vector3(screenX, screenY, 0)));
+        int selectorZ = selector.position.z;
+//        selector.setPosition();
         return false;
     }
 

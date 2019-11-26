@@ -21,7 +21,7 @@ public class DiggingModel extends TestModel {
     @Override
     public void init() {
         super.init();
-        get(EntitySelector.class).setPosition(MAP_SIZE / 2, MAP_SIZE / 2, 10);
+        get(EntitySelector.class).position.set(MAP_SIZE / 2, MAP_SIZE / 2, 10);
         get(UnitContainer.class).addUnit(createUnit());
         get(ItemContainer.class).onMapItemsSystem.putNewItem(createPickaxe(), new Position(0, 0, 10));
     }

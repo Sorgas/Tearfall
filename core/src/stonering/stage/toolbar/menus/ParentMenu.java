@@ -39,7 +39,7 @@ public class ParentMenu extends ToolbarSubMenuMenu {
                         GameMvc.instance().getView().showPauseMenu();
                         return true;
                     case Input.Keys.E :
-                        Position position = GameMvc.instance().model().get(EntitySelector.class).getPosition();
+                        Position position = GameMvc.instance().model().get(EntitySelector.class).position;
                         GameMvc.instance().getView().showEntityStage(position);
                         return true;
                 }

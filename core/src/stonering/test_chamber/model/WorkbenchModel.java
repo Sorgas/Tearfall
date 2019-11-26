@@ -29,7 +29,7 @@ public class WorkbenchModel extends TestModel {
         get(BuildingContainer.class).addBuilding(buildingGenerator.generateBuilding("sawing_rack", new Position(2, 4, 2)));
         get(BuildingContainer.class).addBuilding(buildingGenerator.generateBuilding("campfire", new Position(4, 4, 2)));
         get(UnitContainer.class).addUnit(createUnit());
-        get(EntitySelector.class).setPosition(4, 4, 2);
+        get(EntitySelector.class).position.set(4, 4, 2);
         createItems();
     }
 

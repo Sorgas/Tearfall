@@ -24,7 +24,7 @@ public class BoxDesignationSequence extends DesignationSequence {
         container = GameMvc.instance().model().get(TaskContainer.class);
         rectangleSelectComponent = new RectangleSelectComponent(null, event -> {
             EntitySelector selector = GameMvc.instance().model().get(EntitySelector.class);
-            submitSelectedFrame(selector.getFrameStart(), selector.getPosition());
+            submitSelectedFrame(selector.getFrameStart(), selector.position);
             return true;
         });
     }

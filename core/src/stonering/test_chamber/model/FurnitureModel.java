@@ -19,7 +19,7 @@ public class FurnitureModel extends TestModel {
     @Override
     public void init() {
         super.init();
-        get(EntitySelector.class).setPosition(MAP_SIZE / 2, MAP_SIZE / 2, 2);
+        get(EntitySelector.class).position.set(MAP_SIZE / 2, MAP_SIZE / 2, 2);
         get(UnitContainer.class).addUnit(createUnit());
         get(ItemContainer.class).onMapItemsSystem.putNewItem(createItem(), new Position(7,7,2));
     }

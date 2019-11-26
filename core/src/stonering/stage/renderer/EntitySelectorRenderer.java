@@ -30,19 +30,19 @@ public class EntitySelectorRenderer extends Renderer {
      * @param selector
      */
     public void drawSelector(EntitySelector selector) {
-        util.drawSprite(selector.getSelectorSprite(), selector.getPosition().toVector3());
+        util.drawSprite(selector.getSelectorSprite(), selector.position.toVector3());
         if (selector.getStatusSprite() != null) {
-            util.drawSprite(selector.getStatusSprite(), selector.getPosition().toVector3());
+            util.drawSprite(selector.getStatusSprite(), selector.position.toVector3());
         }
 
         //TODO add landscape dependant rendering
         if (selector.getFrameStart() != null) {
-            int minX = Math.min(selector.getFrameStart().x, selector.getPosition().x);
-            int maxX = Math.max(selector.getFrameStart().x, selector.getPosition().x);
-            int minY = Math.min(selector.getFrameStart().y, selector.getPosition().y);
-            int maxY = Math.max(selector.getFrameStart().y, selector.getPosition().y);
-            int minZ = Math.min(selector.getFrameStart().z, selector.getPosition().z);
-            int maxZ = selector.getPosition().z;
+            int minX = Math.min(selector.getFrameStart().x, selector.position.x);
+            int maxX = Math.max(selector.getFrameStart().x, selector.position.x);
+            int minY = Math.min(selector.getFrameStart().y, selector.position.y);
+            int maxY = Math.max(selector.getFrameStart().y, selector.position.y);
+            int minZ = Math.min(selector.getFrameStart().z, selector.position.z);
+            int maxZ = selector.position.z;
             for (int x = minX; x <= maxX; x++) {
                 for (int y = minY; y <= maxY; y++) {
                     for (int z = minZ; z <= maxZ; z++) {
