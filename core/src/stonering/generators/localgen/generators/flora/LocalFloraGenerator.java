@@ -1,7 +1,7 @@
 package stonering.generators.localgen.generators.flora;
 
 import stonering.entity.World;
-import stonering.enums.generation.PlantPlacingTags;
+import stonering.enums.generation.PlantPlacingTagEnum;
 import stonering.enums.plants.PlantTypeMap;
 import stonering.enums.plants.PlantType;
 import stonering.game.model.system.PlantContainer;
@@ -15,7 +15,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static stonering.enums.blocks.BlockTypesEnum.*;
-import static stonering.enums.generation.PlantPlacingTags.*;
+import static stonering.enums.generation.PlantPlacingTagEnum.*;
 
 /**
  * Parent class for local generators of different plant types.
@@ -33,9 +33,9 @@ public abstract class LocalFloraGenerator extends LocalAbstractGenerator {
     private float midTemp;
     private float rainfall;
 
-    private PlantPlacingTags[] waterTags = {WATER_FAR, WATER_NEAR, WATER_UNDER};
-    private PlantPlacingTags[] lighttags = {LIGHT_HIGH, LIGHT_LOW, LIGHT_UNDERGROUND};
-    private PlantPlacingTags[] soilTags = {SOIL_SOIL, SOIL_STONE, SOIL_WOOD};
+    private PlantPlacingTagEnum[] waterTags = {WATER_FAR, WATER_NEAR, WATER_UNDER};
+    private PlantPlacingTagEnum[] lighttags = {LIGHT_HIGH, LIGHT_LOW, LIGHT_UNDERGROUND};
+    private PlantPlacingTagEnum[] soilTags = {SOIL_SOIL, SOIL_STONE, SOIL_WOOD};
 
     protected List<Position> positions;
     protected Position cachePosition = new Position(0, 0, 0);
@@ -49,10 +49,10 @@ public abstract class LocalFloraGenerator extends LocalAbstractGenerator {
         countTemperature();
         Set<PlantType> commonPlantSet = filterPlantsByBounds(filterPlantsByType()); // get all plants that can grow here
         Set<Position> allPositions = gatherPositions();
-        for (PlantPlacingTags waterTag : waterTags) {
-            for (PlantPlacingTags lightTag : lighttags) {
-                for (PlantPlacingTags soilTag : soilTags) {
-                    List<PlantPlacingTags> tags = Arrays.asList(waterTag, lightTag, soilTag);
+        for (PlantPlacingTagEnum waterTag : waterTags) {
+            for (PlantPlacingTagEnum lightTag : lighttags) {
+                for (PlantPlacingTagEnum soilTag : soilTags) {
+                    List<PlantPlacingTagEnum> tags = Arrays.asList(waterTag, lightTag, soilTag);
                     Map<String, Float> filteredPlants = filterPlantsByTags(tags, commonPlantSet); // get all plants with two tags simultaneously
                     if (commonPlantSet.isEmpty()) continue;
                     Logger.GENERATION.logDebug("placing " + waterTag + " " + lightTag + " " + soilTag);
@@ -105,7 +105,7 @@ public abstract class LocalFloraGenerator extends LocalAbstractGenerator {
     /**
      * Filters out plants which cannot grow in given conditions.
      */
-    private Map<String, Float> filterPlantsByTags(List<PlantPlacingTags> tags, Set<PlantType> types) {
+    private Map<String, Float> filterPlantsByTags(List<PlantPlacingTagEnum> tags, Set<PlantType> types) {
         Map<String, Float> filteredPlants = new HashMap<>();
         types.stream().filter(type -> type.placingTags.containsAll(tags))
                 .forEach(type -> filteredPlants.put(type.name, getSpreadModifier(type)));
@@ -145,7 +145,7 @@ public abstract class LocalFloraGenerator extends LocalAbstractGenerator {
     /**
      * Collects all positions validates by both tags.
      */
-    private List<Position> gatherTagPositions(List<PlantPlacingTags> tags, Collection<Position> positions) {
+    private List<Position> gatherTagPositions(List<PlantPlacingTagEnum> tags, Collection<Position> positions) {
         return positions.stream()
                 .filter(position -> tags.stream().allMatch(tag -> tag.VALIDATOR.validate(localMap, position)))
                 .collect(Collectors.toList());

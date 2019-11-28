@@ -7,7 +7,7 @@ import stonering.enums.plants.PlantType;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static stonering.enums.generation.PlantPlacingTags.*;
+import static stonering.enums.generation.PlantPlacingTagEnum.*;
 
 /**
  * Utility class for processing data from json files.

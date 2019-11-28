@@ -1,6 +1,6 @@
 package stonering.enums.plants.raw;
 
-import stonering.enums.generation.PlantPlacingTags;
+import stonering.enums.generation.PlantPlacingTagEnum;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -22,7 +22,7 @@ public class RawPlantType {
     public int[] rainfallBounds = new int[2];  // min and max painfall
     public List<RawPlantLifeStage> lifeStages = new ArrayList<>();
     public List<String> placingTags = new ArrayList<>();
-    public Set<PlantPlacingTags> placingTagsSet = new HashSet<>();
+    public Set<PlantPlacingTagEnum> placingTagsSet = new HashSet<>();
     public List<Integer> plantingStart = new ArrayList<>();
     public int[] atlasXY = new int[2];
 }

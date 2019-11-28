@@ -15,8 +15,6 @@ import java.util.List;
 public class Tree extends AbstractPlant {
     private PlantBlock[][][] blocks; //TODO replace with map(vector from stomp, block)
 
-
-
     public Tree(PlantType type, int age) {
         super(type, age);
     }

@@ -8,6 +8,7 @@ import stonering.game.GameMvc;
 import stonering.game.model.EntitySelector;
 import stonering.game.model.local_map.LocalMap;
 import stonering.stage.renderer.AtlasesEnum;
+import stonering.util.geometry.Position;
 
 import static com.badlogic.gdx.Input.Keys.*;
 
@@ -100,7 +101,15 @@ public class EntitySelectorInputAdapter extends InputAdapter {
         return true;
     }
 
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        GameMvc.instance().getView().showEntityStage();
+        return true;
+    }
 
+    private Position castScrenToModel() {
+
+    }
 
     private int charToKeycode(char character) {
         return valueOf(Character.valueOf(character).toString().toUpperCase());

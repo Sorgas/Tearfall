@@ -13,6 +13,8 @@ import java.util.HashMap;
 
 /**
  * Singleton map for all {@link ItemType}s. Types should have unique names.
+ * Types are defined in json files in resources/items directory.
+ * Files content is split into separate files for convenience.
  */
 public class ItemTypeMap {
     private static ItemTypeMap instance;

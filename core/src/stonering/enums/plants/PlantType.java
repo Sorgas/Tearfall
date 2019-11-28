@@ -1,6 +1,6 @@
 package stonering.enums.plants;
 
-import stonering.enums.generation.PlantPlacingTags;
+import stonering.enums.generation.PlantPlacingTagEnum;
 import stonering.enums.plants.raw.RawPlantType;
 
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ public class PlantType {
     public int[] temperatureBounds = new int[2]; // min and max temperature
     public int[] rainfallBounds = new int[2];  // min and max painfall
     public List<PlantLifeStage> lifeStages = new ArrayList<>();
-    public List<PlantPlacingTags> placingTags = new ArrayList<>();
+    public List<PlantPlacingTagEnum> placingTags = new ArrayList<>();
     public List<Integer> plantingStart = new ArrayList<>(); // months, when plant can be planted on farms
     public int[] atlasXY = new int[2];
 
