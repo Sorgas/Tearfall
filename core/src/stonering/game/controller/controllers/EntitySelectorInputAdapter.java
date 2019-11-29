@@ -103,13 +103,13 @@ public class EntitySelectorInputAdapter extends InputAdapter {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        GameMvc.instance().getView().showEntityStage();
+//        GameMvc.instance().getView().showEntityStage();
         return true;
     }
 
-    private Position castScrenToModel() {
-
-    }
+//    private Position castScrenToModel() {
+//
+//    }
 
     private int charToKeycode(char character) {
         return valueOf(Character.valueOf(character).toString().toUpperCase());

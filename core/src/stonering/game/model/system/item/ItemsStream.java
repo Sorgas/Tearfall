@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * Wrapping for {@link Stream} to provide more specific methods.
+ * Wrapping for {@link Stream} to provide convenient methods for selecting items.
  *
  * @author Alexander on 14.10.2019.
  */

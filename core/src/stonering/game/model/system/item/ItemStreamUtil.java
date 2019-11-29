@@ -2,6 +2,7 @@ package stonering.game.model.system.item;
 
 import stonering.entity.crafting.BuildingComponent;
 import stonering.entity.crafting.BuildingComponentVariant;
+import stonering.entity.crafting.IngredientOrder;
 import stonering.entity.item.Item;
 import stonering.entity.item.selectors.ItemSelector;
 import stonering.enums.items.TagEnum;
@@ -78,5 +79,16 @@ public class ItemStreamUtil {
         //TODO check containers
         return item.position != null &&
                 GameMvc.instance().model().get(LocalMap.class).passageMap.util.positionReachable(position, item.position, false);
+    }
+
+    /**
+     * Gets single available item to be as crafting ingredient.
+     */
+    public Item getItemForIngredient(IngredientOrder order, Position position) {
+        return new ItemsStream()
+                .filterOnMap()
+                .filterBySelector(order.itemSelector)
+                .filterByReachability(position)
+                .getNearestTo(position);
     }
 }

@@ -11,7 +11,6 @@ import stonering.entity.item.aspects.ItemContainerAspect;
 import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.system.item.ItemContainer;
-import stonering.game.model.system.item.ItemsStream;
 import stonering.generators.items.ItemGenerator;
 import stonering.util.global.Logger;
 
@@ -78,8 +77,9 @@ public class CraftItemAction extends Action {
     private int checkIngredientItems(WorkbenchAspect aspect) {
         for (IngredientOrder order : itemOrder.getAllIngredients()) {
             if (checkIngredient(order, aspect)) continue;
-            if (order.item != null) System.out.println("'spoiled' item in ingredient order"); // free item TODO locking
-            if ((order.item = selectItemForIngredientFromMap(order)) == null) return FAIL; // no valid item found
+            if (order.item != null) System.out.println("'spoiled' item in ingredient order"); // free item TODO locking items in container
+            order.item = GameMvc.instance().model().get(ItemContainer.class).util.getItemForIngredient(order, task.performer.position);
+            if (order.item == null) return FAIL; // no valid item found
             if (aspect.containedItems.contains(order.item)) continue; // item in WB, no actions required
             task.addFirstPreAction(new PutItemAction(order.item, workbench)); // create action to bring item
             return NEW; // new action is created
@@ -91,17 +91,9 @@ public class CraftItemAction extends Action {
      * Checks if ingredient item is valid (matches ingredient and stored in WB).
      */
     private boolean checkIngredient(IngredientOrder order, WorkbenchAspect aspect) {
-        return order.item != null && order.itemSelector.checkItem(order.item) && aspect.containedItems.contains(order.item);
-    }
-
-    private Item selectItemForIngredientFromMap(IngredientOrder ingredientOrder) {
-        ItemContainer container = GameMvc.instance().model().get(ItemContainer.class);
-        List<Item> foundItems = new ItemsStream()
-                .filterOnMap()
-                .filterBySelector(ingredientOrder.itemSelector)
-                .filterByReachability(task.performer.position)
-                .toList(); // items from map that match the ingredient
-        return foundItems.isEmpty() ? null : container.util.getNearestItems(foundItems, task.performer.position, 1).get(0);
+        return order.item != null
+                && order.itemSelector.checkItem(order.item)
+                && aspect.containedItems.contains(order.item);
     }
 
     @Override
@@ -109,3 +101,4 @@ public class CraftItemAction extends Action {
         return "Crafting action: " + itemOrder.toString();
     }
 }
+
