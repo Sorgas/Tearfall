@@ -13,9 +13,9 @@ import stonering.widget.ToolbarSubMenuMenu;
  *
  * @author Alexander on 04.03.2019.
  */
-public class ZonesMenu extends ToolbarSubMenuMenu {
+public class ToolbarZonesMenu extends ToolbarSubMenuMenu {
 
-    public ZonesMenu(Toolbar toolbar) {
+    public ToolbarZonesMenu(Toolbar toolbar) {
         super(toolbar);
     }
 

@@ -8,42 +8,33 @@ import stonering.game.GameMvc;
 import stonering.game.controller.controllers.designation.BoxDesignationSequence;
 import stonering.game.controller.controllers.toolbar.DesignationsController;
 import stonering.widget.ToolbarSubMenuMenu;
-import stonering.util.global.Logger;
 
 import static stonering.enums.designations.DesignationTypeEnum.*;
 
 /**
- * Menu with orders related to plants
+ * ButtonMenu for selecting designation type.
+ * Starts sequence for selecting place.
  *
- * @author Alexander Kuzyakov on 28.05.2018.
+ * @author Alexander Kuzyakov
  */
-public class PlantsMenu extends ToolbarSubMenuMenu {
+public class ToolbarDiggingMenu extends ToolbarSubMenuMenu {
 
-    public PlantsMenu(Toolbar toolbar) {
+    public ToolbarDiggingMenu(Toolbar toolbar) {
         super(toolbar);
-        initMenu();
+        addButton("Y: dig", DIG, Input.Keys.Y);
+        addButton("U: ramp", RAMP, Input.Keys.U);
+        addButton("I: channel", CHANNEL, Input.Keys.I);
+        addButton("H: stairs", STAIRS, Input.Keys.H); // other types of stairs are handled automatically
+        addButton("K: downstairs", DOWNSTAIRS, Input.Keys.J);
+        addButton("N: clear", NONE, Input.Keys.N);
     }
 
-    @Override
-    public void init() {
-        super.init();
-    }
-
-    private void initMenu() {
-        addButtonToTable("P: chop trees", "",CHOP, Input.Keys.P);
-        addButtonToTable("O: harvest", "",HARVEST, Input.Keys.O);
-        addButtonToTable("I: cut", "",CUT, Input.Keys.I);
-        addButtonToTable("U: clear", "",NONE, Input.Keys.U);
-    }
-
-    private void addButtonToTable(String text, String iconName, DesignationTypeEnum designationType, int hotKey) {
-        createButton(text, iconName, hotKey, new ChangeListener() {
+    private void addButton(String text, DesignationTypeEnum type, int hotKey) {
+        super.createButton(text, hotKey, new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                event.stop();
-                Logger.UI.logDebug("Toggling button " + text);
                 DesignationsController controller = GameMvc.instance().getController().designationsController;
-                controller.setSequence(new BoxDesignationSequence(designationType));
+                controller.setSequence(new BoxDesignationSequence(type)); //no buildings here
                 controller.startSequence();
             }
         }, true);
