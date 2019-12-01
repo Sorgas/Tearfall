@@ -15,9 +15,11 @@ import stonering.util.global.Logger;
 
 public class PlantHarvestAction extends Action {
     private ItemSelector toolItemSelector;
+    private AbstractPlant targetPlant;
 
     public PlantHarvestAction(AbstractPlant plant) {
         super(new PlantActionTarget(plant));
+        targetPlant = plant;
         toolItemSelector = new ToolWithActionItemSelector("harvest_plants"); //TODO handle harvesting without tool.
     }
 
@@ -25,10 +27,9 @@ public class PlantHarvestAction extends Action {
     public int check() {
         PlantContainer container = GameMvc.instance().model().get(PlantContainer.class);
         EquipmentAspect aspect = task.performer.getAspect(EquipmentAspect.class);
-        if (aspect == null) return FAIL;
-        AbstractPlant targetPlant = ((PlantActionTarget) actionTarget).getPlant();
-        if (container.getPlantInPosition(actionTarget.getPosition()) != targetPlant) return FAIL;
-        if(toolItemSelector.checkItems(aspect.equippedItems)) return OK;
+        if (aspect == null) return FAIL; // performer has aspect
+        if (container.getPlantInPosition(actionTarget.getPosition()) != targetPlant) return FAIL; // plant not present anymore
+        if(toolItemSelector.checkItems(aspect.equippedItems)) return OK; // performer has tool
         return addActionToTask();
     }
 
@@ -42,6 +43,7 @@ public class PlantHarvestAction extends Action {
 
     @Override
     public void performLogic() {
+        //TODO add putting products into worn container
         Logger.PLANTS.logDebug("harvesting plant");
         PlantBlock block = GameMvc.instance().model().get(PlantContainer.class).getPlantBlock(actionTarget.getPosition());
         Item item = new PlantProductGenerator().generateHarvestProduct(block);

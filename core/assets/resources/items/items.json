@@ -36,12 +36,6 @@
     "atlasXY": ["9", "0"],
     "color": "0xffffffff"
 }, {
-    "name": "berry",
-    "description": ".",
-    "typeAspects": [["value", "0"]],
-    "atlasXY": ["8", "0"],
-    "color": "0xffffffff"
-}, {
     "name": "roll",
     "description": "Rolled cloth.",
     "typeAspects": [["value", "0"]],
@@ -90,13 +84,6 @@
     "atlasXY": ["15", "0"],
     "color": "0xffffffff"
 }, {
-    "name": "seed",
-    "description": "Can give birth to a plant",
-    "typeAspects": [["value", "0"]],
-    "aspects": [["seed"]],
-    "atlasXY": ["11", "0"],
-    "color": "0xffffffff"
-}, {
     "name": "meal",
     "description": "Edible meal",
     "typeAspects": [["value", "0"]],
@@ -121,13 +108,6 @@
     "description": "Can hold liquids.",
     "typeAspects": [["value", "0"]],
     "aspects": [["item_container", "liquid/solid/grain", "1"]],
-    "atlasXY": ["15", "0"],
-    "color": "0xffffffff"
-},{
-    "name": "leaf",
-    "description": "Tree leaf.",
-    "typeAspects": [["value", "0"]],
-    "aspects": [["slow_falling", "0.1"], ["wind_moved", "0.8"]],
     "atlasXY": ["15", "0"],
     "color": "0xffffffff"
 },{
@@ -168,13 +148,6 @@
 },{
     "name": "nail",
     "description": "Metal nail for building.",
-    "typeAspects": [["value", "0"]],
-    "aspects": [],
-    "atlasXY": ["15", "0"],
-    "color": "0xffffffff"
-},{
-    "name": "mushroom",
-    "description": "",
     "typeAspects": [["value", "0"]],
     "aspects": [],
     "atlasXY": ["15", "0"],

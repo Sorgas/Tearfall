@@ -15,9 +15,9 @@ import static stonering.enums.designations.DesignationTypeEnum.*;
  *
  * @author Alexander Kuzyakov
  */
-public class DiggingMenu extends ToolbarSubMenuMenu {
+public class ToolbarDiggingMenu extends ToolbarSubMenuMenu {
 
-    public DiggingMenu(Toolbar toolbar) {
+    public ToolbarDiggingMenu(Toolbar toolbar) {
         super(toolbar);
         addButton("Y: dig", DIG, Input.Keys.Y);
         addButton("U: ramp", RAMP, Input.Keys.U);

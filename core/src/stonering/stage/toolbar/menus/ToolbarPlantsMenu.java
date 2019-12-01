@@ -17,9 +17,9 @@ import static stonering.enums.designations.DesignationTypeEnum.*;
  *
  * @author Alexander Kuzyakov on 28.05.2018.
  */
-public class PlantsMenu extends ToolbarSubMenuMenu {
+public class ToolbarPlantsMenu extends ToolbarSubMenuMenu {
 
-    public PlantsMenu(Toolbar toolbar) {
+    public ToolbarPlantsMenu(Toolbar toolbar) {
         super(toolbar);
         initMenu();
     }

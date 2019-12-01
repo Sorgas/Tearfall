@@ -1,6 +1,5 @@
 package stonering.entity.job.action;
 
-import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.job.designation.Designation;
 import stonering.entity.job.action.target.PositionActionTarget;
 import stonering.entity.item.Item;
@@ -16,7 +15,7 @@ import stonering.game.model.system.PlantContainer;
 import stonering.util.global.Logger;
 
 /**
- * Action for chopping trees.
+ * Action for chopping trees. Trees leave logs for each trunk block.
  */
 public class ChopTreeAction extends Action {
     private ItemSelector toolItemSelector;
@@ -32,12 +31,13 @@ public class ChopTreeAction extends Action {
      */
     @Override
     public int check() {
-        Logger.TASKS.logDebug("Checking chopping action for " + actionTarget.getPosition());
-        if (!task.performer.hasAspect(EquipmentAspect.class)) return FAIL; // check aspect
+        Logger.TASKS.logDebug("Checking " + this);
+        EquipmentAspect aspect = task.performer.getAspect(EquipmentAspect.class);
+        if (aspect == null) return FAIL; // no aspect on performer
         PlantBlock block = GameMvc.instance().model().get(PlantContainer.class).getPlantBlock(actionTarget.getPosition());
         if (block == null || !block.getPlant().getType().isTree()) // check tree
             return Logger.TASKS.logDebug("No tree in target position", FAIL);
-        if (!toolItemSelector.checkItems(task.performer.getAspect(EquipmentAspect.class).equippedItems)) // check tool
+        if (!toolItemSelector.checkItems(aspect.equippedItems)) // check tool
             return createActionForGettingTool();
         return OK;
     }
@@ -61,6 +61,6 @@ public class ChopTreeAction extends Action {
 
     @Override
     public String toString() {
-        return "Chopping tree name";
+        return "Chopping tree on " + actionTarget.getPosition();
     }
 }

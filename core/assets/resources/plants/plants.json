@@ -24,7 +24,7 @@
         for single tiled plants sprite is taken with a number of life stage as x offset.
         stages with length, products, material.
     harvestProduct:
-        item,
+        item name // any item can be configured to grow on plants
         number formula (per block), // format: [min]-[max]/[divider] roll [min, max] will be lowered by divider and rounded up
         months // numbers of months (0,11) or 'all' keyword when product can be got.
         tags // list of tags to be copied to item.

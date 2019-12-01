@@ -14,14 +14,10 @@ public class ParentMenu extends ToolbarSubMenuMenu {
     public ParentMenu(Toolbar toolbar) {
         super(toolbar);
         this.align(Align.bottom);
-        createMenus();
-    }
-
-    private void createMenus() {
-        addMenu(new PlantsMenu(toolbar), Input.Keys.P, "plants", "plants_menu");
-        addMenu(new DiggingMenu(toolbar), Input.Keys.O, "digging", "digging_menu");
+        addMenu(new ToolbarPlantsMenu(toolbar), Input.Keys.P, "plants", "plants_menu");
+        addMenu(new ToolbarDiggingMenu(toolbar), Input.Keys.O, "digging", "digging_menu");
         addMenu(new ToolbarBuildingMenu(toolbar), Input.Keys.I, "building", "building_menu");
-        addMenu(new ZonesMenu(toolbar), Input.Keys.U, "zones", "zones_menu");
+        addMenu(new ToolbarZonesMenu(toolbar), Input.Keys.U, "zones", "zones_menu");
     }
 
     /**

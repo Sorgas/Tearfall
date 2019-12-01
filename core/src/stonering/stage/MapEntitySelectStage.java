@@ -5,7 +5,6 @@ import stonering.entity.Entity;
 import stonering.entity.building.Building;
 import stonering.entity.building.BuildingBlock;
 import stonering.entity.item.Item;
-import stonering.entity.plants.AbstractPlant;
 import stonering.entity.zone.FarmZone;
 import stonering.entity.zone.Zone;
 import stonering.game.GameMvc;
@@ -19,80 +18,28 @@ import stonering.stage.workbench.BuildingStage;
 import stonering.stage.zone.ZoneMenuStage;
 import stonering.widget.lists.ObservingList;
 import stonering.util.geometry.Position;
-import stonering.util.global.Initable;
 import stonering.util.global.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Stage for selecting entities on local map.
- * Has modes of selection for different entities groups.
  * Shows List of entities (unit, item) if there is more than one.
- * Single entity con be selected from list.
+ * Then stage for singe entity can be shown.
  *
  * @author Alexander on 11.11.2018.
  */
-public class MapEntitySelectStage extends UiStage implements Initable {
-    public static final int NONE = -1;
-    public static final int ITEMS = 0;
-    public static final int UNITS = 1;
-    public static final int PLANTS = 2;
-    public static final int BUILDINGS = 3;
-    public static final int ZONES = 4;
+public class MapEntitySelectStage extends UiStage {
 
-    private int activeMode;
-    private Position currentPosition;
-
-    public MapEntitySelectStage(Position currentPosition, int activeMode) {
+    public MapEntitySelectStage(Position currentPosition) {
         super();
-        this.currentPosition = currentPosition;
-        this.activeMode = activeMode;
+        showEntitySelectList(currentPosition);
     }
 
-    /**
-     * Fills list with entities on given position.
-     */
-    @Override
-    public void init() {
-        GameMvc gameMvc = GameMvc.instance();
-        switch (activeMode) {
-            case ITEMS:
-            case UNITS:
-            case PLANTS:
-                break;
-            case BUILDINGS:
-                tryShowBuildingStage(gameMvc.model().get(BuildingContainer.class).getBuildingBlocks().get(currentPosition));
-                break;
-            case ZONES:
-            case NONE:
-                showEntitySelectList();
-                return;
-        }
-        gameMvc.view().removeStage(this);
-    }
-
-    /**
-     * Observes map in current position.
-     * If there is only one entity, shows it's stage.
-     * If there are several, shows select list.
-     */
-    private void collectEntities(List<Entity> entities) {
-        GameModel model = GameMvc.instance().model();
-        if(model.get(BuildingContainer.class).hasBuilding(currentPosition)) {
-            entities.add(model.get(BuildingContainer.class).getBuiding(currentPosition));
-        }
-        AbstractPlant plant = model.get(PlantContainer.class).getPlantInPosition(currentPosition);
-        if(plant != null) entities.add(plant);
-        entities.addAll(model.get(ItemContainer.class).getItemsInPosition(currentPosition));
-        entities.addAll(model.get(UnitContainer.class).getUnitsInPosition(currentPosition));
-        Zone zone = model.get(ZonesContainer.class).getZone(currentPosition);
-        if (zone != null) entities.add(zone);
-    }
-
-    private void showEntitySelectList() {
-        List<Entity> entities = new ArrayList<>();
-        collectEntities(entities);
+    private void showEntitySelectList(Position position) {
+        List<Entity> entities = collectEntities(position);
         if (entities.size() == 1) {
             showEntityStage(entities.get(0));
         } else {
@@ -100,6 +47,36 @@ public class MapEntitySelectStage extends UiStage implements Initable {
         }
     }
 
+    /**
+     * Observes map in current position.
+     * If there is only one entity, shows it's stage.
+     * If there are several, shows select list.
+     */
+    private List<Entity> collectEntities(Position position) {
+        List<Entity> entities = new ArrayList<>();
+        GameModel model = GameMvc.instance().model();
+        entities.add(model.get(BuildingContainer.class).getBuiding(position));
+        entities.add(model.get(PlantContainer.class).getPlantInPosition(position));
+        entities.addAll(model.get(ItemContainer.class).getItemsInPosition(position));
+        entities.addAll(model.get(UnitContainer.class).getUnitsInPosition(position));
+        entities.add(model.get(ZonesContainer.class).getZone(position));
+        entities.removeIf(Objects::isNull);
+        return entities;
+    }
+
+    private void createObservingList(List<Entity> entities) {
+        Logger.UI.logDebug("Creating entity selection list.");
+        ObservingList observingList = new ObservingList(entities, this::showEntityStage); // list will show stage for selected entity
+        Container<ObservingList> container = new Container<>(observingList).center();
+        container.setFillParent(true);
+        container.setDebug(true, true);
+        addActor(container);
+        setKeyboardFocus(observingList);
+    }
+
+    /**
+     * Shows stage according to entity type.
+     */
     private void showEntityStage(Entity entity) {
         Logger.UI.logDebug("Showing stage for " + entity);
         if (entity instanceof Building) {
@@ -135,16 +112,5 @@ public class MapEntitySelectStage extends UiStage implements Initable {
         Logger.UI.logDebug("showing zone stage for: " + item.getTitle());
         gameMvc.view().removeStage(this);
         gameMvc.view().addStageToList(new ItemStage(item));
-    }
-
-    private void createObservingList(List<Entity> entities) {
-        Logger.UI.logDebug("Creating entity selection list.");
-        ObservingList observingList = new ObservingList(entities, aspectHolder -> showEntityStage(aspectHolder));
-        Container container = new Container().center();
-        container.setFillParent(true);
-        container.setDebug(true, true);
-        this.addActor(container);
-        container.setActor(observingList);
-        setKeyboardFocus(observingList);
     }
 }

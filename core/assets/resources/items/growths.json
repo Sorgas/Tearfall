@@ -1,0 +1,24 @@
+// items that are grown on plants are defined here.
+[
+    {
+        "name": "seed",
+        "description": "Can give birth to a plant",
+        "typeAspects": [["value", "0"]],
+        "aspects": [["seed"]],
+        "atlasXY": ["11", "0"],
+        "color": "0xffffffff"
+    }, {
+    "name": "berry",
+    "description": ".",
+    "typeAspects": [["value", "0"]],
+    "atlasXY": ["8", "0"],
+    "color": "0xffffffff"
+}, {
+    "name": "mushroom",
+    "description": "",
+    "typeAspects": [["value", "0"]],
+    "aspects": [],
+    "atlasXY": ["15", "0"],
+    "color": "0xffffffff"
+}
+]
