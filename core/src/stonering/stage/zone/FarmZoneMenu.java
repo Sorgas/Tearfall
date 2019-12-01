@@ -8,7 +8,6 @@ import stonering.enums.plants.PlantTypeMap;
 import stonering.enums.plants.PlantType;
 import stonering.game.GameMvc;
 import stonering.game.model.system.ZonesContainer;
-import stonering.widget.lists.NavigableList;
 import stonering.widget.HintedActor;
 import stonering.util.global.StaticSkin;
 
@@ -123,6 +122,6 @@ public class FarmZoneMenu extends Window {
     }
 
     public void close() {
-        GameMvc.instance().getView().removeStage(getStage());
+        GameMvc.instance().view().removeStage(getStage());
     }
 }

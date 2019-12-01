@@ -1,5 +1,6 @@
 package stonering.entity.job.action;
 
+import stonering.entity.building.BuildingOrder;
 import stonering.entity.job.action.target.GenericBuildingAction;
 import stonering.entity.job.designation.BuildingDesignation;
 import stonering.entity.item.Item;
@@ -23,8 +24,8 @@ import java.util.List;
 public class ConstructionAction extends GenericBuildingAction {
     private byte blockType;
 
-    public ConstructionAction(BuildingDesignation designation, Collection<ItemSelector> itemSelectors) {
-        super(designation, itemSelectors);
+    public ConstructionAction(BuildingOrder order) {
+        super(order);
         blockType = BlockTypesEnum.getType(designation.building).CODE;
     }
 

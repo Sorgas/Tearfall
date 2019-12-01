@@ -1,12 +1,7 @@
 package stonering.stage.toolbar.menus;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.utils.Align;
-import stonering.game.GameMvc;
-import stonering.game.model.EntitySelector;
-import stonering.util.geometry.Position;
 import stonering.widget.ToolbarSubMenuMenu;
 
 /**

@@ -19,12 +19,13 @@ import java.util.Map;
  *
  * @author Alexander
  */
-public class NavigableVerticalGroup extends VerticalGroup implements Highlightable, HintedActor {
+public class NavigableVerticalGroup extends VerticalGroup implements Highlightable {
     public final Map<Integer, ControlActionsEnum> keyMapping; // additional keys to actions mapping.
     private EventListener selectListener;
     private EventListener cancelListener;
     protected HighlightHandler highlightHandler;
     protected int selectedIndex = -1;
+    public boolean active; // if false, events aren't handled
 
     public NavigableVerticalGroup() {
         super();
@@ -44,10 +45,9 @@ public class NavigableVerticalGroup extends VerticalGroup implements Highlightab
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 Logger.UI.logDebug("handling " + Input.Keys.toString(keycode) + " on NavigableVerticalGroup");
-                ControlActionsEnum action = keyMapping.get(keycode);
-                if (action == null) action = ControlActionsEnum.getAction(keycode);
+                if (!active) return true;
                 event.stop();
-                switch (action) {
+                switch (keyMapping.getOrDefault(keycode, ControlActionsEnum.getAction(keycode))) {
                     case UP:
                         return navigate(-1);
                     case DOWN:
@@ -94,7 +94,7 @@ public class NavigableVerticalGroup extends VerticalGroup implements Highlightab
      * Sets selected index to given. If child with this index not exists, sets to last child.
      */
     public void setSelectedIndex(int newIndex) {
-        selectedIndex = MathUtil.toRange(newIndex, -1, getChildren().size -1);
+        selectedIndex = MathUtil.toRange(newIndex, -1, getChildren().size - 1);
     }
 
     public void setCancelListener(EventListener cancelListener) {
@@ -113,11 +113,6 @@ public class NavigableVerticalGroup extends VerticalGroup implements Highlightab
     @Override
     public HighlightHandler getHighlightHandler() {
         return highlightHandler;
-    }
-
-    @Override
-    public String getHint() {
-        return "WS: navigate, ED: select";
     }
 
     public int getSelectedIndex() {

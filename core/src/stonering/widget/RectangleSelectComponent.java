@@ -37,7 +37,7 @@ public class RectangleSelectComponent extends Label implements Hideable, MouseIn
         GameMvc gameMvc = GameMvc.instance();
         selector = gameMvc.model().get(EntitySelector.class);
         localMap = gameMvc.model().get(LocalMap.class);
-        toolbar = gameMvc.getView().mainUiStage.toolbar;
+        toolbar = gameMvc.view().mainUiStage.toolbar;
         createDefaultListener();
     }
 

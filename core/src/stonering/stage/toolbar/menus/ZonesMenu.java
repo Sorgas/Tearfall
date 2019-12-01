@@ -5,7 +5,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.enums.ZoneTypesEnum;
 import stonering.game.GameMvc;
 import stonering.game.controller.controllers.designation.ZoneDesignationSequence;
-import stonering.game.controller.controllers.toolbar.DesignationsController;
 import stonering.widget.ToolbarSubMenuMenu;
 
 /**
@@ -30,18 +29,18 @@ public class ZonesMenu extends ToolbarSubMenuMenu {
             addItem(type.toString(), type.iconName, new ChangeListener() {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    DesignationsController designationsController = GameMvc.instance().getController().designationsController;
-                    designationsController.setSequence(new ZoneDesignationSequence(type));
-                    designationsController.startSequence();
+                    if(toolbar.sequence != null) toolbar.sequence.end();
+                    toolbar.sequence = new ZoneDesignationSequence(type);
+                    toolbar.sequence.start();
                 }
             }, null);
         }
         addItem("Update zone", "update_zone", new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                DesignationsController designationsController = GameMvc.instance().getController().designationsController;
-                designationsController.setSequence(new ZoneDesignationSequence());
-                designationsController.startSequence();
+                if(toolbar.sequence != null) toolbar.sequence.end();
+                toolbar.sequence = new ZoneDesignationSequence();
+                toolbar.sequence.start();
             }
         }, null);
     }

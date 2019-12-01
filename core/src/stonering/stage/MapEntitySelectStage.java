@@ -69,7 +69,7 @@ public class MapEntitySelectStage extends UiStage implements Initable {
                 showEntitySelectList();
                 return;
         }
-        gameMvc.getView().removeStage(this);
+        gameMvc.view().removeStage(this);
     }
 
     /**
@@ -117,24 +117,24 @@ public class MapEntitySelectStage extends UiStage implements Initable {
         Building building = block.getBuilding();
         GameMvc gameMvc = GameMvc.instance();
         Logger.UI.logDebug("showing building stage for: " + building);
-        gameMvc.getView().removeStage(this);
-        gameMvc.getView().addStageToList(new BuildingStage(gameMvc, building));
+        gameMvc.view().removeStage(this);
+        gameMvc.view().addStageToList(new BuildingStage(gameMvc, building));
     }
 
     private void tryShowZoneStage(Zone zone) {
         if (zone == null) return;
         GameMvc gameMvc = GameMvc.instance();
         Logger.UI.logDebug("showing zone stage for: " + zone.getName());
-        gameMvc.getView().removeStage(this);
-        if(zone instanceof FarmZone) gameMvc.getView().addStageToList(new ZoneMenuStage((FarmZone) zone));
+        gameMvc.view().removeStage(this);
+        if(zone instanceof FarmZone) gameMvc.view().addStageToList(new ZoneMenuStage((FarmZone) zone));
     }
 
     private void tryShowItemStage(Item item) {
         if (item == null) return;
         GameMvc gameMvc = GameMvc.instance();
         Logger.UI.logDebug("showing zone stage for: " + item.getTitle());
-        gameMvc.getView().removeStage(this);
-        gameMvc.getView().addStageToList(new ItemStage(item));
+        gameMvc.view().removeStage(this);
+        gameMvc.view().addStageToList(new ItemStage(item));
     }
 
     private void createObservingList(List<Entity> entities) {

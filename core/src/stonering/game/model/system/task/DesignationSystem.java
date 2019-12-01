@@ -19,7 +19,8 @@ import static stonering.enums.action.TaskStatusEnum.OPEN;
 /**
  * Creates tasks for designations, recreates failed tasks.
  * When {@link Designation}'s {@link Task} is failed, it is removed from {@link TaskContainer},
- * but designation remains in container with failed task.
+ * but designation remains in container with failed task, in order to check designation state.
+ * TODO add delay for failed task recreation.
  *
  * @author Alexander on 01.11.2019.
  */
@@ -65,12 +66,10 @@ public class DesignationSystem {
      * All single-tile buildings are constructed through this method.
      */
     public void submitBuildingDesignation(BuildingOrder order, int priority) {
-        Position position = order.getPosition();
         LocalMap localMap = GameMvc.instance().model().get(LocalMap.class);
-        if (!PlaceValidatorsEnum.getValidator(order.getBlueprint().placing).validate(localMap, position)) return;
-        BuildingDesignation designation = new BuildingDesignation(position, order.getBlueprint().building);
-        Task task = taskCreator.createBuildingTask(designation, order.getItemSelectors().values(), priority);
-
+        if (!PlaceValidatorsEnum.getValidator(order.blueprint.placing).validate(localMap, order.getPosition())) return;
+        BuildingDesignation designation = new BuildingDesignation(order);
+        Task task = taskCreator.createBuildingTask(designation, priority);
         container.addTask(task);
         container.designations.put(designation.position, designation);
         Logger.TASKS.log(task.name + " designated");

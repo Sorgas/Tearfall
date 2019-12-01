@@ -4,9 +4,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.enums.designations.DesignationTypeEnum;
-import stonering.game.GameMvc;
 import stonering.game.controller.controllers.designation.BoxDesignationSequence;
-import stonering.game.controller.controllers.toolbar.DesignationsController;
 import stonering.widget.ToolbarSubMenuMenu;
 
 import static stonering.enums.designations.DesignationTypeEnum.*;
@@ -33,15 +31,15 @@ public class DiggingMenu extends ToolbarSubMenuMenu {
         super.createButton(text, hotKey, new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                DesignationsController controller = GameMvc.instance().getController().designationsController;
-                controller.setSequence(new BoxDesignationSequence(type)); //no buildings here
-                controller.startSequence();
+                if(toolbar.sequence != null) toolbar.sequence.end();
+                toolbar.sequence = new BoxDesignationSequence(type);
+                toolbar.sequence.start();
             }
         }, true);
     }
 
-    @Override
-    protected void onHide() {
-        GameMvc.instance().getController().designationsController.handleCancel();
-    }
+//    @Override
+//    protected void onHide() {
+//        GameMvc.instance().getController().designationsController.handleCancel();
+//    }
 }

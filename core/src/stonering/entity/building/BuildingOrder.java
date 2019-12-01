@@ -1,5 +1,6 @@
 package stonering.entity.building;
 
+import stonering.entity.crafting.IngredientOrder;
 import stonering.entity.job.designation.Designation;
 import stonering.entity.job.Task;
 import stonering.entity.item.selectors.ItemSelector;
@@ -12,13 +13,15 @@ import java.util.HashMap;
 /**
  * Order for building. Created in {@link BuildingDesignationSequence}.
  * Contains all information for creating {@link Task}task and {@link Designation}.
+ * TODO introduce ingredient order.
  *
  * @author Alexander on 06.03.2019.
  */
 public class BuildingOrder {
-    private Blueprint blueprint;
+    public Blueprint blueprint;
     private Position position;
-    private HashMap<String, ItemSelector> itemSelectors; // building part name to selected materials
+    private HashMap<String, ItemSelector> itemSelectors; // building part name to selector
+    public final HashMap<String, IngredientOrder> parts; //item parts to their ingredients
 
     public BuildingOrder(Blueprint blueprint, Position position) {
         this.blueprint = blueprint;
@@ -32,14 +35,6 @@ public class BuildingOrder {
             return;
         }
         itemSelectors.put(partName, selector);
-    }
-
-    public Blueprint getBlueprint() {
-        return blueprint;
-    }
-
-    public void setBlueprint(Blueprint blueprint) {
-        this.blueprint = blueprint;
     }
 
     public Position getPosition() {

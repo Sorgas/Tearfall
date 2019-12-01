@@ -17,19 +17,22 @@ import stonering.util.geometry.Position;
  *
  * @author Alexander Kuzyakov on 12.07.2018.
  */
-public class PlaceSelectComponent extends Actor implements Hideable {
+public class PlaceSelectComponent extends Actor implements Hideable, HintedActor {
     private GameMvc gameMvc;
     private PositionValidator positionValidator; // validates position on each move
     private EntitySelector selector; // points to position
     private EventListener eventListener; // fired on confirm
     private Toolbar toolbar;
     public Position position;
+    private String hint;
 
-    public PlaceSelectComponent(EventListener eventListener) {
+    public PlaceSelectComponent(EventListener eventListener, PositionValidator positionValidator, String hint) {
         gameMvc = GameMvc.instance();
         this.eventListener = eventListener;
         selector = gameMvc.model().get(EntitySelector.class);
-        toolbar = gameMvc.getView().mainUiStage.toolbar;
+        toolbar = gameMvc.view().mainUiStage.toolbar;
+        this.positionValidator = positionValidator;
+        this.hint = hint;
         createDefaultListener();
     }
 
@@ -75,7 +78,7 @@ public class PlaceSelectComponent extends Actor implements Hideable {
         toolbar.hideMenu(this);
     }
 
-    public void setPositionValidator(PositionValidator positionValidator) {
-        this.positionValidator = positionValidator;
+    public String getHint() {
+        return "Select place for " + hint;
     }
 }

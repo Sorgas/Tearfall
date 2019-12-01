@@ -163,7 +163,7 @@ public class WorkbenchMenuq extends Window implements HintedActor {
     }
 
     public boolean close() {
-        GameMvc.instance().getView().removeStage(getStage());
+        GameMvc.instance().view().removeStage(getStage());
         return true;
     }
 

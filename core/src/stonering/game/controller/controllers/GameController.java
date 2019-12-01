@@ -2,7 +2,6 @@ package stonering.game.controller.controllers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import stonering.game.controller.controllers.toolbar.DesignationsController;
 import stonering.game.controller.inputProcessors.*;
 import stonering.util.global.Logger;
 
@@ -12,7 +11,6 @@ import stonering.util.global.Logger;
  * @author Alexander Kuzyakov on 26.06.2017.
  */
 public class GameController extends Controller {
-    public DesignationsController designationsController;
     public InputMultiplexer inputMultiplexer;
     public EntitySelectorInputAdapter entitySelectorInputAdapter;
     public PauseInputAdapter pauseInputAdapter;
@@ -20,8 +18,6 @@ public class GameController extends Controller {
 
     public void init() {
         super.init();
-        designationsController = new DesignationsController();
-        designationsController.init();
         Gdx.input.setInputProcessor(createInputMultiplexer());
     }
 
@@ -29,7 +25,7 @@ public class GameController extends Controller {
         inputMultiplexer = new InputMultiplexer();
         inputMultiplexer.addProcessor(new KeyBufferInputAdapter());                                   // only buffers events
         inputMultiplexer.addProcessor(pauseInputAdapter = new PauseInputAdapter());                   // handles pause
-        inputMultiplexer.addProcessor(gameMvc.getView().stageInputAdapter);                           // calls stages (menus hotkeys)
+        inputMultiplexer.addProcessor(gameMvc.view().stageInputAdapter);                           // calls stages (menus hotkeys)
         inputMultiplexer.addProcessor(entitySelectorInputAdapter = new EntitySelectorInputAdapter()); // calls entity selector (movement)
         inputMultiplexer.addProcessor(mainMenuInputAdapter = new MainMenuInputAdapter());             // opens main menu
         return inputMultiplexer;

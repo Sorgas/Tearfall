@@ -34,13 +34,13 @@ public class ZoneDesignationSequence extends DesignationSequence {
         super();
         this.type = type;
         model = GameMvc.instance().model();
-        view = GameMvc.instance().getView();
+        view = GameMvc.instance().view();
         rectangleSelectComponent = new RectangleSelectComponent(null, event -> {
             EntitySelector selector = model.get(EntitySelector.class);
             if (validateZoneDesignation()) {
                 model.get(ZonesContainer.class).createNewZone(selector.getFrameStart(), selector.position.clone(), type);
             } else {
-                view.mainUiStage.toolbar.setText("No valid tiles selected");
+                view.mainUiStage.toolbar.status.setText("No valid tiles selected");
             }
             return true;
         });
@@ -57,7 +57,7 @@ public class ZoneDesignationSequence extends DesignationSequence {
             ZonesContainer zonesContainer = GameMvc.instance().model().get(ZonesContainer.class);
             Zone zone = zonesContainer.getZone(selector.getFrameStart());
             Toolbar toolbar = view.mainUiStage.toolbar;
-            toolbar.setText(zone != null ? "Expanding zone " + zone.getName() + "." : "Deleting zones.");
+            toolbar.status.setText(zone != null ? "Expanding zone " + zone.getName() + "." : "Deleting zones.");
             return true;
         }, event -> {
             EntitySelector selector = model.get(EntitySelector.class);
@@ -104,10 +104,5 @@ public class ZoneDesignationSequence extends DesignationSequence {
     public void reset() {
         Logger.ZONES.logDebug("resetting zone");
         end();
-    }
-
-    @Override
-    public String getText() {
-        return type != null ? "Select zone for " + type.name() + "." : "Modify zones.";
     }
 }

@@ -62,7 +62,7 @@ public class ItemMenu extends Window {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 Logger.UI.logDebug("Closing item menu.");
-                GameMvc.instance().getView().removeStage(getStage());
+                GameMvc.instance().view().removeStage(getStage());
             }
         })).row();
         //TODO add parts

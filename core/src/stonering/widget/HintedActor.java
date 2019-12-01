@@ -1,7 +1,7 @@
 package stonering.widget;
 
 /**
- * Shows that widget with this interface has hint about contr (to show its focused).
+ * Widgets with this interface provide text hint.
  *
  * @author Alexander
  */

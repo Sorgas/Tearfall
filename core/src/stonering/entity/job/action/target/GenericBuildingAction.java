@@ -1,9 +1,10 @@
 package stonering.entity.job.action.target;
 
+import stonering.entity.building.BuildingOrder;
 import stonering.entity.building.BuildingType;
 import stonering.entity.item.Item;
 import stonering.entity.item.selectors.ItemSelector;
-import stonering.entity.job.action.ItemConsumingAction;
+import stonering.entity.job.action.Action;
 import stonering.entity.job.action.PutItemAction;
 import stonering.entity.job.designation.BuildingDesignation;
 import stonering.enums.action.ActionTargetTypeEnum;
@@ -24,15 +25,20 @@ import static stonering.enums.blocks.BlockTypesEnum.PassageEnum.PASSABLE;
 
 /**
  * Action for creating constructions and buildings on map.
- * Creates action for bringing materials to and removing all other items from construction site.
+ * Target position should be clear from items.
+ * Building can be created in the same z-level cell next to a builder,
+ * or if builder can step into cell with construction after completing it (for constructions).
+ *
+ * Materials for construction should be brought to the cell where builder can stand.
  *
  * @author Alexander on 02.10.2019.
  */
-public abstract class GenericBuildingAction extends ItemConsumingAction {
+public abstract class GenericBuildingAction extends Action {
+    protected final BuildingOrder order;
 
-    protected GenericBuildingAction(BuildingDesignation designation, Collection<ItemSelector> itemSelectors) {
-        super(createTarget(designation));
-        selectors = new ArrayList<>(itemSelectors);
+    protected GenericBuildingAction(BuildingOrder order) {
+        super(new PositionActionTarget(order.getPosition(), ActionTargetTypeEnum.NEAR));
+        this.order = order;
     }
 
     /**
@@ -44,7 +50,7 @@ public abstract class GenericBuildingAction extends ItemConsumingAction {
     public int check() {
         Logger.TASKS.log("Checking " + this);
         List<Item> items = getAvailableItems();
-        for (ItemSelector itemSelector : selectors) {
+        for (ItemSelector itemSelector : ) {
             List<Item> selectedItems = itemSelector.selectItems(items);
             if (selectedItems.isEmpty()) return tryCreateBringingAction(itemSelector); // some selector has no items
             items.removeAll(selectedItems);
@@ -87,10 +93,5 @@ public abstract class GenericBuildingAction extends ItemConsumingAction {
         PutItemAction putItemAction = new PutItemAction(item, localMap.getAnyNeighbourPosition(actionTarget.getPosition(), PASSABLE));
         task.addFirstPreAction(putItemAction);
         return NEW;
-    }
-
-    private static ActionTarget createTarget(BuildingDesignation designation) {
-        BuildingType type = BuildingTypeMap.instance().getBuilding(designation.building);
-        return new PositionActionTarget(designation.position, BlockTypesEnum.getType(type.passage).PASSING == IMPASSABLE ? ActionTargetTypeEnum.NEAR : ActionTargetTypeEnum.ANY);
     }
 }

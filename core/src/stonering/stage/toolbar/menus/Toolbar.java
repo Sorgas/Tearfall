@@ -8,8 +8,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
+import stonering.game.controller.controllers.designation.DesignationSequence;
 import stonering.util.global.Logger;
 import stonering.util.global.StaticSkin;
+import stonering.widget.HintedActor;
 
 /**
  * Contains table with all general orders menus.
@@ -19,8 +21,9 @@ import stonering.util.global.StaticSkin;
  */
 public class Toolbar extends Container<Table> {
     public final HorizontalGroup menusGroup; // in first row
-    private Label status; // in second row
+    public Label status; // in second row
     private ParentMenu parentMenu; // always on the left end
+    public DesignationSequence sequence;
 
     public Toolbar() {
         menusGroup = new HorizontalGroup();
@@ -54,32 +57,33 @@ public class Toolbar extends Container<Table> {
 
     public void addMenu(Actor menu) {
         menusGroup.addActor(menu);
+        setStatusFromActorHint(menu);
         Logger.UI.logDebug("Menu " + menu.getClass().getSimpleName() + " added to toolbar");
     }
 
     /**
-     * Removes given menu and all actors to the left.
-     * Should be called before adding any other actors to toolbar.
+     * Removes given menu and all actors to the right. Updates status.
      */
     public void hideMenu(Actor menu) {
         while (menusGroup.getChildren().contains(menu, true)) {
             menusGroup.removeActor(menusGroup.getChildren().peek());
         }
+        setStatusFromActorHint(menusGroup.getChildren().peek());
         Logger.UI.logDebug("Menu " + menu.getClass().getSimpleName() + " removed from toolbar");
     }
 
     /**
-     * Removes all actors to the right from given menu, so it becomes last one.
+     * Removes all actors to the right from given menu, so it becomes last one. Updates status.
      */
     public void hideSubMenus(Actor menu) {
         while (menusGroup.getChildren().contains(menu, true) && menusGroup.getChildren().peek() != menu) {
             menusGroup.removeActor(menusGroup.getChildren().peek());
         }
+        setStatusFromActorHint(menusGroup.getChildren().peek());
         Logger.UI.logDebug("Submenus of " + menu.getClass().getSimpleName() + " removed from toolbar");
     }
 
-    public void setText(String text) {
-        Logger.UI.logDebug("Toolbar text set to " + text);
-        status.setText(text);
+    private void setStatusFromActorHint(Actor actor) {
+        status.setText(actor instanceof HintedActor ? ((HintedActor) actor).getHint() : "");
     }
 }

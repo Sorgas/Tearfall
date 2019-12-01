@@ -1,9 +1,11 @@
 package stonering.entity.crafting;
 
 import stonering.entity.building.Blueprint;
+import stonering.enums.items.recipe.Ingredient;
 
 /**
  * Variant for {@link BuildingComponent} of {@link Blueprint}.
+ * TODO replace with {@link Ingredient} due to similarity
  *
  * @author Alexander on 08.03.2019.
  */

@@ -1,5 +1,6 @@
 package stonering.game.model.system.task;
 
+import stonering.entity.building.BuildingOrder;
 import stonering.entity.item.selectors.ItemSelector;
 import stonering.entity.job.Task;
 import stonering.entity.job.action.*;
@@ -54,12 +55,12 @@ public class TaskCreator {
     /**
      * Creates tasks for building various buildings.
      */
-    public Task createBuildingTask(BuildingDesignation designation, Collection<ItemSelector> itemSelectors, int priority) {
+    public Task createBuildingTask(BuildingDesignation designation, int priority) {
         Action action;
-        if (BuildingTypeMap.instance().getBuilding(designation.building).construction) {
-            action = new ConstructionAction(designation, itemSelectors);
+        if (BuildingTypeMap.instance().getBuilding(designation.order.blueprint.building).construction) {
+            action = new ConstructionAction(designation.order);
         } else {
-            action = new BuildingAction(designation, itemSelectors);
+            action = new BuildingAction(designation.order);
         }
         return createTask(action, designation, priority);
     }

@@ -64,7 +64,7 @@ public class TearFall extends Game {
     }
 
     public void switchToGame() {
-        setScreen(GameMvc.instance().getView());
+        setScreen(GameMvc.instance().view());
     }
 
     @Override

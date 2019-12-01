@@ -124,7 +124,7 @@ public class OrderListSection extends NavigableVerticalGroup {
         setCancelListener(new InputListener() { // close menu
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
-                GameMvc.instance().getView().removeStage(getStage());
+                GameMvc.instance().view().removeStage(getStage());
                 return true;
             }
         });

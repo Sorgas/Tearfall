@@ -59,9 +59,4 @@ public class BoxDesignationSequence extends DesignationSequence {
         end();
         start();
     }
-
-    @Override
-    public String getText() {
-        return null;
-    }
 }

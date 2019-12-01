@@ -29,7 +29,7 @@ public class EntitySelectorInputAdapter extends InputAdapter {
     public boolean keyDown(int keycode) {
         if (!enabled) return false;
         if(keycode == Input.Keys.E) {
-            GameMvc.instance().getView().showEntityStage(selector.position);
+            GameMvc.instance().view().showEntityStage(selector.position);
             return true;
         }
         int offset = Gdx.input.isKeyPressed(SHIFT_LEFT) ? 10 : 1;
@@ -90,7 +90,7 @@ public class EntitySelectorInputAdapter extends InputAdapter {
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
-        Vector3 batchCoords = GameMvc.instance().getView().localWorldStage.getCamera().unproject(new Vector3(screenX, screenY, 0));
+        Vector3 batchCoords = GameMvc.instance().view().localWorldStage.getCamera().unproject(new Vector3(screenX, screenY, 0));
         AtlasesEnum atlas = AtlasesEnum.blocks;
         int heightToSkip = selector.position.z * atlas.HEIGHT + (atlas.hasToppings ? atlas.TOPPING_HEIGHT : 0);
         int x = (int) batchCoords.x / atlas.WIDTH;

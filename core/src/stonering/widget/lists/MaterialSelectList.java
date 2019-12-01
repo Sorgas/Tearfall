@@ -5,35 +5,36 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import stonering.entity.crafting.BuildingComponent;
 import stonering.game.GameMvc;
-import stonering.game.controller.controllers.toolbar.DesignationsController;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.util.global.StaticSkin;
 import stonering.widget.Hideable;
 import stonering.entity.item.Item;
 import stonering.util.geometry.Position;
+import stonering.widget.HintedActor;
 
 import java.util.List;
 
 /**
  * List that shows items, appropriate for building.
  * If no items found for building, shows indication line which cannot be selected.
- * Takes information from {@link DesignationsController}.
  * Uses {@link ItemCardButton}.
  *
  * @author Alexander on 03.07.2018.
  */
-public class MaterialSelectList extends ItemsCountList implements Hideable {
+public class MaterialSelectList extends ItemsCountList implements Hideable, HintedActor {
     public boolean active = true; // prevents clicking when no items found
+    private String hint;
 
-    public MaterialSelectList() {
+    public MaterialSelectList(String hint) {
         super();
+        this.hint = hint;
         createHighlightHandler();
     }
 
     /**
-     * Fills this list for given crafting or building step.
+     * Fills this list for given building step.
      */
-    public void fillForCraftingStep(BuildingComponent step, Position position) {
+    public void fillForBuildingComponent(BuildingComponent step, Position position) {
         clearChildren();
         List<Item> items = GameMvc.instance().model().get(ItemContainer.class).util.getAvailableMaterialsForBuildingStep(step, position);
         if (items.isEmpty()) { // items not found
@@ -60,11 +61,16 @@ public class MaterialSelectList extends ItemsCountList implements Hideable {
 
     @Override
     public void show() {
-        GameMvc.instance().getView().mainUiStage.toolbar.addMenu(this);
+        GameMvc.instance().view().mainUiStage.toolbar.addMenu(this);
     }
 
     @Override
     public void hide() {
-        GameMvc.instance().getView().mainUiStage.toolbar.hideMenu(this);
+        GameMvc.instance().view().mainUiStage.toolbar.hideMenu(this);
+    }
+
+    @Override
+    public String getHint() {
+        return hint;
     }
 }

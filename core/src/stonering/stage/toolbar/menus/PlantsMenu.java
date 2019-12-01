@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.enums.designations.DesignationTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.controller.controllers.designation.BoxDesignationSequence;
-import stonering.game.controller.controllers.toolbar.DesignationsController;
+import stonering.game.controller.controllers.designation.ZoneDesignationSequence;
 import stonering.widget.ToolbarSubMenuMenu;
 import stonering.util.global.Logger;
 
@@ -42,15 +42,16 @@ public class PlantsMenu extends ToolbarSubMenuMenu {
             public void changed(ChangeEvent event, Actor actor) {
                 event.stop();
                 Logger.UI.logDebug("Toggling button " + text);
-                DesignationsController controller = GameMvc.instance().getController().designationsController;
-                controller.setSequence(new BoxDesignationSequence(designationType));
-                controller.startSequence();
+
+                if(toolbar.sequence != null) toolbar.sequence.end();
+                toolbar.sequence = new BoxDesignationSequence(designationType);
+                toolbar.sequence.start();
             }
         }, true);
     }
 
-    @Override
-    protected void onHide() {
-        GameMvc.instance().getController().designationsController.handleCancel();
-    }
+//    @Override
+//    protected void onHide() {
+//        GameMvc.instance().getController().designationsController.handleCancel();
+//    }
 }
