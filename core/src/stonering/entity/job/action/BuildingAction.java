@@ -1,9 +1,11 @@
 package stonering.entity.job.action;
 
+import stonering.entity.building.BuildingOrder;
+import stonering.entity.job.action.target.BuildingActionTarget;
 import stonering.entity.job.action.target.GenericBuildingAction;
 import stonering.entity.job.designation.BuildingDesignation;
 import stonering.entity.building.Building;
-import stonering.entity.building.BuildingType;
+import stonering.enums.buildings.BuildingType;
 import stonering.entity.item.Item;
 import stonering.entity.item.selectors.ItemSelector;
 import stonering.enums.buildings.BuildingTypeMap;
@@ -22,22 +24,19 @@ import java.util.List;
 public class BuildingAction extends GenericBuildingAction {
     private BuildingType buildingType;
 
-    public BuildingAction(BuildingDesignation designation, Collection<ItemSelector> itemSelectors) {
-        super(designation, itemSelectors);
-        buildingType = BuildingTypeMap.instance().getBuilding(designation.building);
+    public BuildingAction(BuildingOrder order) {
+        super(order);
+        buildingType = BuildingTypeMap.instance().getBuilding(order.blueprint.building);
     }
 
     @Override
     public void performLogic() {
-        Logger.TASKS.logDebug("construction of " + buildingType.title
-                + " started at " + actionTarget.getPosition()
-                + " by " + task.performer.toString());
-        Position target = actionTarget.getPosition();
-        List<Item> items = selectItemsToConsume();
+        Logger.TASKS.logDebug(buildingType.title + " built at " + actionTarget.getPosition());
         BuildingContainer buildingContainer = GameMvc.instance().model().get(BuildingContainer.class);
-        Building building = buildingContainer.buildingGenerator.generateBuilding(buildingType.building, target); //TODO use material
+        BuildingActionTarget target = (BuildingActionTarget) actionTarget;
+        Building building = buildingContainer.buildingGenerator.generateBuilding(buildingType.building, target.center); //TODO use material
         buildingContainer.addBuilding(building);
-        consumeItems(items);
+        consumeItems();
     }
 
     @Override

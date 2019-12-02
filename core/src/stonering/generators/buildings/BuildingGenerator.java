@@ -1,6 +1,6 @@
 package stonering.generators.buildings;
 
-import stonering.entity.building.BuildingType;
+import stonering.enums.buildings.BuildingType;
 import stonering.entity.building.aspects.RestFurnitureAspect;
 import stonering.entity.building.aspects.WorkbenchAspect;
 import stonering.entity.item.aspects.ItemContainerAspect;

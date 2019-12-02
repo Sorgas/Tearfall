@@ -68,24 +68,33 @@ public class PassageMap {
         if (passage.get(x1, y1, z1) == IMPASSABLE.VALUE || passage.get(x2, y2, z2) == IMPASSABLE.VALUE) return false;
         if (z1 == z2) return true; // passable tiles on same level
         BlockTypesEnum lower = BlockTypesEnum.getType(z1 < z2 ? localMap.getBlockType(x1, y1, z1) : localMap.getBlockType(x2, y2, z2));
-        if (x1 != x2 || y1 != y2) { // check ramps
-            return lower == RAMP && (x1 == x2 || y1 == y2); // lower tile is ramp, and transition is not diagonal
-        } else { // check stairs
-            BlockTypesEnum upper = BlockTypesEnum.getType(z1 > z2 ? localMap.getBlockType(x1, y1, z1) : localMap.getBlockType(x2, y2, z2));
-            return (upper == STAIRS || upper == DOWNSTAIRS) && lower == STAIRS;
-        }
+        if((x1 == x2) != (y1 == y2)) return lower == RAMP;
+//        if (x1 != x2 || y1 != y2) { // check ramps
+//            return lower == RAMP && (x1 == x2 || y1 == y2); // lower tile is ramp, and transition is not diagonal
+        // check stairs
+        if(x1 != x2) return false;
+        BlockTypesEnum upper = BlockTypesEnum.getType(z1 > z2 ? localMap.getBlockType(x1, y1, z1) : localMap.getBlockType(x2, y2, z2));
+        return (upper == STAIRS || upper == DOWNSTAIRS) && lower == STAIRS;
     }
 
     /**
      * Checks that unit, standing in position will have access (to dig, open a chest) to target tile.
-     * Only same Z-level tile can be accessible to each other.
+     * Same Z-level tiles are always accessible.
+     * Tiles are accessible vertically with stairs or ramps.
      */
-    public boolean tileIsAccessibleFromNeighbour(int targetX, int targetY, int targetZ, int x, int y, int z) {
-        return targetZ == z && localMap.inMap(targetX, targetY, targetZ) && localMap.inMap(x, y, z) && passage.get(x, y, z) == IMPASSABLE.VALUE;
+    public boolean tileIsAccessibleFromNeighbour(int targetX, int targetY, int targetZ, int x, int y, int z, BlockTypesEnum targetType) {
+        if(!localMap.inMap(targetX, targetY, targetZ) || !localMap.inMap(x, y, z) || passage.get(x, y, z) == IMPASSABLE.VALUE) return false;
+        if(targetZ == z) return true;
+        BlockTypesEnum fromType = BlockTypesEnum.getType(localMap.getBlockType(x, y, z));
+        BlockTypesEnum lower = targetZ < z ? targetType : fromType;
+        if((targetX == x) != (targetY == y)) return lower == RAMP; // ramp near and lower
+        if(targetX != x) return false;
+        BlockTypesEnum upper = targetZ > z ? targetType : fromType;
+        return lower == STAIRS && (upper == STAIRS || upper == DOWNSTAIRS);
     }
 
-    public boolean tileIsAccessibleFromNeighbour(Position target, Position position) {
-        return tileIsAccessibleFromNeighbour(target.x, target.y, target.z, position.x, position.y, position.z);
+    public boolean tileIsAccessibleFromNeighbour(Position target, Position position, BlockTypesEnum type) {
+        return tileIsAccessibleFromNeighbour(target.x, target.y, target.z, position.x, position.y, position.z, type);
     }
 
     public boolean hasPathBetweenNeighbours(Position from, Position to) {

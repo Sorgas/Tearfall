@@ -14,7 +14,7 @@ import java.util.Random;
 import static stonering.entity.job.action.target.ActionTargetStatusEnum.*;
 
 public abstract class ActionTarget {
-    public final ActionTargetTypeEnum targetType;
+    public ActionTargetTypeEnum targetType;
 
     protected Action action;
     private Random random;

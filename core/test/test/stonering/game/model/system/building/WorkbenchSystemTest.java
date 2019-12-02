@@ -4,7 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import stonering.entity.building.Building;
-import stonering.entity.building.BuildingType;
+import stonering.enums.buildings.BuildingType;
 import stonering.entity.building.aspects.WorkbenchAspect;
 import stonering.entity.crafting.ItemOrder;
 import stonering.entity.job.action.CraftItemAction;

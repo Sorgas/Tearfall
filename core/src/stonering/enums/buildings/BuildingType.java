@@ -1,4 +1,4 @@
-package stonering.entity.building;
+package stonering.enums.buildings;
 
 import java.util.ArrayList;
 import java.util.List;

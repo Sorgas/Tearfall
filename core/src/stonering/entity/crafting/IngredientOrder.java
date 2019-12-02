@@ -15,13 +15,11 @@ import stonering.enums.items.recipe.Ingredient;
  * @author Alexander on 05.01.2019.
  */
 public class IngredientOrder {
-    public final ItemOrder order;
     public final Ingredient ingredient;
     public final ItemSelector itemSelector;
     public Item item;
 
-    public IngredientOrder(ItemOrder order, Ingredient ingredient) {
-        this.order = order;
+    public IngredientOrder(Ingredient ingredient) {
         this.ingredient = ingredient;
         itemSelector = new IngredientOrderItemSelector(this);
     }

@@ -1,8 +1,7 @@
-package stonering.entity.building;
+package stonering.enums.buildings.blueprint;
 
-import stonering.entity.crafting.BuildingComponent;
+import stonering.enums.items.recipe.Ingredient;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -16,7 +15,7 @@ public class Blueprint {
     public final String title; // button name
     public final String placing; // maps to position validator for place selecting and task checking.
     public final List<String> menuPath; // button path in toolbar
-    public final LinkedHashMap<String, BuildingComponent> mappedComponents; // components mapped to building parts
+    public final LinkedHashMap<String, Ingredient> parts; // components mapped to building parts
 
     public Blueprint(RawBlueprint rawBlueprint) {
         name = rawBlueprint.name;
@@ -24,11 +23,6 @@ public class Blueprint {
         title = rawBlueprint.title;
         placing = rawBlueprint.placing;
         menuPath = rawBlueprint.menuPath;
-        mappedComponents = new LinkedHashMap<>();
-        rawBlueprint.components.forEach(component -> {
-            component.init();
-            mappedComponents.put(component.name, component);
-        });
+        parts = new LinkedHashMap<>();
     }
-
 }

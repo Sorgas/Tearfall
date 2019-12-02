@@ -1,6 +1,7 @@
 package stonering.entity.building;
 
 import stonering.entity.Entity;
+import stonering.enums.buildings.BuildingType;
 import stonering.util.geometry.Position;
 
 /**

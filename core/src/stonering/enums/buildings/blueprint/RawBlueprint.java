@@ -1,9 +1,10 @@
-package stonering.entity.building;
+package stonering.enums.buildings.blueprint;
 
-import stonering.entity.crafting.BuildingComponent;
 import java.util.List;
 
 /**
+ * Blueprint class for reading json into.
+ *
  * @author Alexander on 18.09.2019.
  */
 public class RawBlueprint {
@@ -12,5 +13,5 @@ public class RawBlueprint {
     public String title; // button name
     public String placing; // maps to position validator for place selecting and task checking.
     public List<String> menuPath; // button path in toolbar
-    public List<BuildingComponent> components; // red from json
+    public List<List<String>> parts;
 }

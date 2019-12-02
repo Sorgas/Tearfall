@@ -2,7 +2,6 @@ package stonering.enums.buildings;
 
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
-import stonering.entity.building.BuildingType;
 import stonering.enums.plants.PlantType;
 import stonering.util.global.FileLoader;
 import stonering.util.global.Logger;

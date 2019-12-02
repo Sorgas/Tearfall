@@ -31,12 +31,12 @@ public class ItemOrder {
         status = OrderStatusEnum.OPEN;
         parts = new HashMap<>();
         consumed = new ArrayList<>();
-        if(recipe.main != null) main = new IngredientOrder(this, recipe.main);
+        if(recipe.main != null) main = new IngredientOrder(recipe.main);
         for (String itemPart : recipe.parts.keySet()) { // create item partOrder for
-            parts.put(itemPart, new IngredientOrder(this, recipe.parts.get(itemPart)));
+            parts.put(itemPart, new IngredientOrder(recipe.parts.get(itemPart)));
         }
         for (Ingredient ingredient : recipe.consumed) {
-            consumed.add(new IngredientOrder(this, ingredient));
+            consumed.add(new IngredientOrder(ingredient));
         }
     }
 

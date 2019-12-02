@@ -1,9 +1,7 @@
-package stonering.enums.buildings;
+package stonering.enums.buildings.blueprint;
 
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
-import stonering.entity.building.Blueprint;
-import stonering.entity.building.RawBlueprint;
 import stonering.util.global.FileLoader;
 import stonering.util.global.Logger;
 
@@ -34,8 +32,9 @@ public class BlueprintsMap {
     private void loadBlueprints() {
         Logger.LOADING.log("blueprints");
         ArrayList<RawBlueprint> elements = json.fromJson(ArrayList.class, RawBlueprint.class, FileLoader.getFile(FileLoader.BLUEPRINTS_PATH));
+        BlueprintProcessor processor = new BlueprintProcessor();
         for (RawBlueprint rawBlueprint : elements) {
-            blueprints.put(rawBlueprint.name, new Blueprint(rawBlueprint));
+            blueprints.put(rawBlueprint.name, processor.processRawBlueprint(rawBlueprint));
         }
         Logger.LOADING.log(blueprints.keySet().size() + " loaded from " + FileLoader.BLUEPRINTS_PATH);
     }

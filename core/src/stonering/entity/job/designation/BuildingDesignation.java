@@ -14,7 +14,7 @@ public class BuildingDesignation extends Designation {
     public final BuildingOrder order;
 
     public BuildingDesignation(BuildingOrder order) {
-        super(order.getPosition(), DesignationTypeEnum.BUILD);
+        super(order.position, DesignationTypeEnum.BUILD);
         this.order = order;
     }
 }

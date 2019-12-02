@@ -46,10 +46,10 @@ public class NeighbourPositionStream {
     }
 
     /**
-     * Filters all tiles where center tile cannot be accessed from.
+     * Considers center tile to have given type. Used for checking during building.
      */
-    public NeighbourPositionStream filterByAccessability() {
-        stream = stream.filter(position -> passageMap.tileIsAccessibleFromNeighbour(center, position));
+    public NeighbourPositionStream filterByAccessibilityWithFutureTile(BlockTypesEnum type) {
+        stream = stream.filter(position -> passageMap.tileIsAccessibleFromNeighbour(center, position, type));
         return this;
     }
 

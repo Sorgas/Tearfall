@@ -3,7 +3,7 @@ package stonering.widget.lists;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import stonering.entity.crafting.BuildingComponent;
+import stonering.enums.items.recipe.Ingredient;
 import stonering.game.GameMvc;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.util.global.StaticSkin;
@@ -32,11 +32,11 @@ public class MaterialSelectList extends ItemsCountList implements Hideable, Hint
     }
 
     /**
-     * Fills this list for given building step.
+     * Fills this list for given crafting/building ingredient.
      */
-    public void fillForBuildingComponent(BuildingComponent step, Position position) {
+    public void fillForIngredient(Ingredient ingredient, Position position) {
         clearChildren();
-        List<Item> items = GameMvc.instance().model().get(ItemContainer.class).util.getAvailableMaterialsForBuildingStep(step, position);
+        List<Item> items = GameMvc.instance().model().get(ItemContainer.class).util.getItemsForIngredient(ingredient, position);
         if (items.isEmpty()) { // items not found
             addActor(new Label("No item available.", StaticSkin.getSkin()));
             active = false;

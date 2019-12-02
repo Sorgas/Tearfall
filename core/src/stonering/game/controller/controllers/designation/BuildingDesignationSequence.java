@@ -1,15 +1,15 @@
 package stonering.game.controller.controllers.designation;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import stonering.entity.building.Blueprint;
+import stonering.enums.buildings.blueprint.Blueprint;
 import stonering.entity.building.BuildingOrder;
-import stonering.entity.crafting.BuildingComponent;
+import stonering.entity.crafting.IngredientOrder;
 import stonering.enums.designations.PlaceValidatorsEnum;
+import stonering.enums.items.recipe.Ingredient;
 import stonering.game.GameMvc;
 import stonering.game.model.system.task.TaskContainer;
 import stonering.stage.toolbar.menus.Toolbar;
 import stonering.util.global.Logger;
-import stonering.widget.lists.ItemCardButton;
 import stonering.widget.lists.MaterialSelectList;
 import stonering.widget.PlaceSelectComponent;
 
@@ -41,7 +41,7 @@ public class BuildingDesignationSequence extends DesignationSequence {
     private void createPlaceSelectComponent() {
         Logger.UI.logDebug("Creating placeSelectComponent for " + order.blueprint.building);
         placeSelectComponent = new PlaceSelectComponent(event -> {
-            order.setPosition(placeSelectComponent.position);
+            order.position = placeSelectComponent.position;
             showNextList();
             return true;
         }, PlaceValidatorsEnum.getValidator(order.blueprint.placing), order.blueprint.title);
@@ -50,17 +50,17 @@ public class BuildingDesignationSequence extends DesignationSequence {
     /**
      * Returns select list with items, available for given step.
      */
-    private Actor createSelectListForBuildingComponent(BuildingComponent step) {
-        Logger.UI.logDebug("Creating item list for step " + step.name);
+    private Actor createSelectListForIngredient(String partName) {
+        Logger.UI.logDebug("Creating item list for step " + partName);
+        Ingredient ingredient = order.blueprint.parts.get(partName);
         MaterialSelectList materialList = new MaterialSelectList("WS: navigate, E: select");
-        materialList.fillForBuildingComponent(step, order.getPosition());
+        materialList.fillForIngredient(ingredient, order.position);
         materialList.setSelectListener(event -> { // saves selection to map and creates next list
             Logger.UI.logDebug("Selecting " + materialList.getSelectedIndex());
             if (materialList.getSelectedIndex() >= 0) {
-                ItemCardButton selected = (ItemCardButton) materialList.getSelectedElement();
                 //TODO handle amount requirements more than 1
                 //TODO select real items instead of creating selector
-                order.addItemSelectorForPart(step.name, selected.selector);
+                order.parts.put(partName, new IngredientOrder(ingredient));
                 showNextList();
             }
             return true;
@@ -76,9 +76,9 @@ public class BuildingDesignationSequence extends DesignationSequence {
      * Shows list for unfilled step, or, if all steps completed, submits {@link BuildingOrder} to {@link TaskContainer}
      */
     private void showNextList() {
-        for (BuildingComponent component : order.blueprint.mappedComponents.values()) {
-            if (order.getItemSelectors().containsKey(component.name)) continue;  // skip already added component
-            GameMvc.instance().view().mainUiStage.toolbar.addMenu(createSelectListForBuildingComponent(component));
+        for (String partName : order.blueprint.parts.keySet()) {
+            if (order.parts.containsKey(partName)) continue;  // skip already added component
+            GameMvc.instance().view().mainUiStage.toolbar.addMenu(createSelectListForIngredient(partName));
             GameMvc.instance().getController().setCameraEnabled(false);
             return;
         }
@@ -93,7 +93,7 @@ public class BuildingDesignationSequence extends DesignationSequence {
     @Override
     public void reset() {
         Logger.UI.logDebug("Resetting BuildingDesignationSequence");
-        order.getItemSelectors().clear();
+        order.parts.clear();
         placeSelectComponent.hide(); // hides all select lists
         placeSelectComponent.show();
     }

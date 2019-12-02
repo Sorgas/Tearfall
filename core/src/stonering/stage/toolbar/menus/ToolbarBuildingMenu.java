@@ -2,8 +2,8 @@ package stonering.stage.toolbar.menus;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import stonering.entity.building.Blueprint;
-import stonering.enums.buildings.BlueprintsMap;
+import stonering.enums.buildings.blueprint.Blueprint;
+import stonering.enums.buildings.blueprint.BlueprintsMap;
 import stonering.game.controller.controllers.designation.BuildingDesignationSequence;
 import stonering.widget.ToolbarSubMenuMenu;
 

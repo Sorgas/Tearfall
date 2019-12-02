@@ -1,6 +1,6 @@
 package stonering.entity.crafting;
 
-import stonering.entity.building.Blueprint;
+import stonering.enums.buildings.blueprint.Blueprint;
 import stonering.enums.items.recipe.Ingredient;
 
 /**

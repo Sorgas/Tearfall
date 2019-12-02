@@ -21,7 +21,7 @@ import java.util.*;
  * @author Alexander Kuzyakov on 14.06.2017.
  */
 public class ItemContainer extends EntityContainer<Item> {
-    public final Map<Position, ArrayList<Item>> itemMap = new HashMap<>(); // maps tiles position to list of item it that position.
+    public final Map<Position, List<Item>> itemMap = new HashMap<>(); // maps tiles position to list of item it that position.
     public final Map<Item, WorkbenchAspect> contained = new HashMap<>(); // maps contained items to containers they are in.
     public final Map<Item, EquipmentAspect> equipped = new HashMap<>(); // maps equipped and hauled items to units.
     public final Set<Item> lockedItems = new HashSet<>();
@@ -66,9 +66,7 @@ public class ItemContainer extends EntityContainer<Item> {
     }
 
     public List<Item> getItemsInPosition(Position position) {
-        List<Item> items = new ArrayList<>();
-        if (itemMap.get(position) != null) items.addAll(itemMap.get(position));
-        return items;
+        return new ArrayList<>(itemMap.getOrDefault(position, Collections.emptyList()));
     }
 
     public List<Item> getItemsInPosition(int x, int y, int z) {

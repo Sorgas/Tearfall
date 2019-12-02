@@ -5,6 +5,7 @@ import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Updates items on map.
@@ -26,7 +27,7 @@ public class OnMapItemsSystem {
     }
 
     public void removeItemFromMap(Item item) {
-        ArrayList<Item> list = container.itemMap.get(item.position);
+        List<Item> list = container.itemMap.get(item.position);
         if (!list.remove(item)) Logger.ITEMS.logWarn("Items inconsistency: item " + item + " is not on the map in position " + item.position);
         if (list.isEmpty()) container.itemMap.remove(item.position); // last item on the tile
         item.position = null;
