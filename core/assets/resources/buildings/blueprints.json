@@ -2,12 +2,11 @@
     Blueprints determine what options are displayed in building menu, resources to spend, and building to create.
     Objects of buildings are described in separate files.
     Placing are keys from PlacingValidatorEnum. No validation applied otherwise.
-    variant format:
-        item type,
-        tag,
-        number,
-        atlas x,
-        atlas y
+    part format:
+        part name from building type,
+        accepted item types,
+        accepted tags,
+        quantity
 */
 [
     {
@@ -16,13 +15,8 @@
         "building": "wall",
         "menuPath": ["constructions"],
         "placing": "construction",
-        "components": [
-            {
-                "name": "wall",
-                "variants": [
-                    ["rock", "stone", "4", "1", "1"], ["brick", "clay", "4", "1", "1"], ["bar", "metal", "4", "1", "1"], ["log", "wood", "4", "1", "1"], ["plank", "wood", "4", "1", "1"]
-                ]
-            }
+        "parts": [
+            ["wall", "rock/brick/bar/log/plank", "stone/clay/metal/wood", "4"]
         ]
     }, {
     "name": "build_floor",
@@ -30,13 +24,8 @@
     "building": "floor",
     "menuPath": ["constructions"],
     "placing": "construction",
-    "components": [
-        {
-            "name": "floor",
-            "variants": [
-                ["rock", "stone", "4", "1", "1"], ["brick", "clay", "4", "1", "1"], ["bar", "metal", "4", "1", "1"], ["log", "wood", "4", "1", "1"], ["plank", "wood", "4", "1", "1"]
-            ]
-        }
+    "parts": [
+        ["floor", "rock/brick/bar/log/plank", "stone/clay/metal/wood", "4"]
     ]
 }, {
     "name": "build_ramp",
@@ -44,13 +33,8 @@
     "building": "ramp",
     "menuPath": ["constructions"],
     "placing": "construction",
-    "components": [
-        {
-            "name": "ramp",
-            "variants": [
-                ["rock", "stone", "4", "1", "1"], ["brick", "clay", "4", "1", "1"], ["bar", "metal", "4", "1", "1"], ["log", "wood", "4", "1", "1"], ["plank", "wood", "4", "1", "1"]
-            ]
-        }
+    "parts": [
+        ["ramp", "rock/brick/bar/log/plank", "stone/clay/metal/wood", "4"]
     ]
 }, {
     "name": "build_stairs",
@@ -58,13 +42,8 @@
     "building": "stairs",
     "menuPath": ["constructions"],
     "placing": "construction",
-    "components": [
-        {
-            "name": "stairs",
-            "variants": [
-                ["rock", "stone", "4", "1", "1"], ["brick", "clay", "4", "1", "1"], ["bar", "metal", "4", "1", "1"], ["log", "wood", "4", "1", "1"], ["plank", "wood", "4", "1", "1"]
-            ]
-        }
+    "parts": [
+        ["stairs", "rock/brick/bar/log/plank", "stone/clay/metal/wood", "4"]
     ]
 }, {
     "name": "build_campfire",
@@ -72,13 +51,8 @@
     "building": "campfire",
     "menuPath": ["start"],
     "placing": "floor",
-    "components": [
-        {
-            "name": "campfire",
-            "variants": [
-                ["log", "wood", "2", "1", "1"], ["plank", "wood", "4", "1", "1"], ["branch", "wood", "4", "1", "1"]
-            ]
-        }
+    "parts": [
+        ["campfire", "log/plank/branch/root", "wood", "4"]
     ]
 }, {
     "name": "build_carpenter_workbench",
@@ -86,11 +60,8 @@
     "building": "carpenter_workbench",
     "menuPath": ["workbenches", "wood"],
     "placing": "floor",
-    "components": [
-        {
-            "name": "table",
-            "variants": [["log", "wood", "2", "1", "1"], ["plank", "wood", "4", "1", "1"]]
-        }
+    "parts": [
+        ["campfire", "log/plank/branch/root", "wood", "4"]
     ]
 }, {
     "name": "build_sawing_rack",
@@ -98,11 +69,8 @@
     "building": "sawing_rack",
     "menuPath": ["workbenches", "wood"],
     "placing": "floor",
-    "components": [
-        {
-            "name": "rack",
-            "variants": [["log", "wood", "2", "1", "1"]]
-        }
+    "parts": [
+        ["campfire", "log/plank/", "wood", "4"]
     ]
 }
 ]
