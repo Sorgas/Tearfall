@@ -25,20 +25,20 @@ import static com.badlogic.gdx.Input.Keys.*;
 public class EntitySelectorInputAdapter extends InputAdapter {
     private EntitySelector selector;
     private boolean enabled;
-    public final Consumer<Position> defaultSelectHandler;
+    private final Consumer<Position> defaultSelectHandler;
     public Consumer<Position> selectHandler;
 
     public EntitySelectorInputAdapter() {
         selector = GameMvc.instance().model().get(EntitySelector.class);
         enabled = true;
-        defaultSelectHandler = (position) this::showEntityStage;
+        defaultSelectHandler = this::showEntityStage;
     }
 
     @Override
     public boolean keyDown(int keycode) {
         if (!enabled) return false;
         if(keycode == Input.Keys.E) {
-            GameMvc.instance().view().showEntityStage(selector.position);
+            (selectHandler != null ? selectHandler : defaultSelectHandler).accept(selector.position); // use dynamic handler if possible
             return true;
         }
         int offset = Gdx.input.isKeyPressed(SHIFT_LEFT) ? 10 : 1;
@@ -128,6 +128,6 @@ public class EntitySelectorInputAdapter extends InputAdapter {
     }
 
     private void showEntityStage(Position position) {
-
+        GameMvc.instance().view().showEntityStage(position);
     }
 }

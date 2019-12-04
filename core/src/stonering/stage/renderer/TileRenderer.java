@@ -58,7 +58,7 @@ public class TileRenderer extends Renderer {
 
     private ZonesContainer zonesContainer;
     private MovableCamera camera;
-    private boolean disabled = true;
+    private boolean disabled = false;
 
     private Position cachePosition;
     private Vector3 cacheVector;
@@ -131,7 +131,7 @@ public class TileRenderer extends Renderer {
     }
 
     private void renderFlatTile(int x, int y, int z) {
-        if (localMap.light.localLight.get(x, y, z) != -1) return;
+        if (localMap.light.localLight.get(x, y, z) == -1) return;
         startTile(x, y, z);
         drawFloor(x, y, z); // floors or toppings
         if (substrateContainer != null) drawSubstrate(x, y, z);
