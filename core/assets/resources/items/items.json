@@ -110,56 +110,56 @@
     "aspects": [["item_container", "liquid/solid/grain", "1"]],
     "atlasXY": ["15", "0"],
     "color": "0xffffffff"
-},{
+}, {
     "name": "bottle",
     "description": "Bottle for drinks.",
     "typeAspects": [["value", "0"]],
     "aspects": [],
     "atlasXY": ["15", "0"],
     "color": "0xffffffff"
-},{
+}, {
     "name": "chain",
     "description": "Strong metal chain.",
     "typeAspects": [["value", "0"]],
     "aspects": [],
     "atlasXY": ["15", "0"],
     "color": "0xffffffff"
-},{
+}, {
     "name": "book",
     "description": "Source of knowledge.",
     "typeAspects": [["value", "0"]],
     "aspects": [],
     "atlasXY": ["15", "0"],
     "color": "0xffffffff"
-},{
+}, {
     "name": "cup",
     "description": "Holds liquids.",
     "typeAspects": [["value", "0"]],
     "aspects": [],
     "atlasXY": ["15", "0"],
     "color": "0xffffffff"
-},{
+}, {
     "name": "pouch",
     "description": "Bag for small things.",
     "typeAspects": [["value", "0"]],
     "aspects": [],
     "atlasXY": ["15", "0"],
     "color": "0xffffffff"
-},{
+}, {
     "name": "nail",
     "description": "Metal nail for building.",
     "typeAspects": [["value", "0"]],
     "aspects": [],
     "atlasXY": ["15", "0"],
     "color": "0xffffffff"
-},{
+}, {
     "name": "arrow",
     "description": "Ammunition for bows.",
     "typeAspects": [["value", "0"]],
     "aspects": [],
     "atlasXY": ["15", "0"],
     "color": "0xffffffff"
-},{
+}, {
     "name": "bolt",
     "description": "Ammunition for crossbows.",
     "typeAspects": [["value", "0"]],

@@ -3,7 +3,6 @@ package stonering.game.model.local_map;
 import com.badlogic.gdx.math.Vector2;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.GameMvc;
-import stonering.game.model.local_map.passage.NeighbourPositionStream;
 import stonering.game.model.local_map.passage.PassageMap;
 import stonering.game.model.system.ModelComponent;
 import stonering.game.model.system.PlantContainer;
@@ -147,17 +146,6 @@ public class LocalMap implements ModelComponent, Initable {
             }
         }
         return position;
-    }
-
-    public List<Position> getAllNeighbourPositions(Position position, BlockTypesEnum.PassageEnum passing) {
-        List<Position> positions = new ArrayList<>();
-        for (int x = position.x - 1; x < position.x + 2; x++) {
-            for (int y = position.y - 1; y < position.y + 2; y++) {
-                if (inMap(position) && passageMap.getPassage(x, y, position.z) == passing.VALUE)
-                    positions.add(new Position(x, y, position.z));
-            }
-        }
-        return positions;
     }
 
     public boolean isWalkPassable(Position pos) {

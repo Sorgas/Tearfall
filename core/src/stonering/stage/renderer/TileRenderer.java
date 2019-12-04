@@ -179,8 +179,7 @@ public class TileRenderer extends Renderer {
 
     private void drawBlock(int x, int y, int z) {
         BlockTypesEnum type = localMap.getBlockTypeEnumValue(x, y, z);
-        if (!type.FLAT)
-            util.drawSprite(blocks.getBlockTile(getAtlasXForBlock(x, y, z), getAtlasYForBlock(x, y, z)), cacheVector);
+        if (!type.FLAT) util.drawSprite(blocks.getBlockTile(getAtlasXForBlock(x, y, z), getAtlasYForBlock(x, y, z)), cacheVector);
     }
 
     /**

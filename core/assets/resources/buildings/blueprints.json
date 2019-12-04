@@ -72,5 +72,14 @@
     "parts": [
         ["campfire", "log/plank/", "wood", "4"]
     ]
+}, {
+    "name": "build_bed",
+    "title": "Bed",
+    "building": "bed",
+    "menuPath": ["workbenches", "wood"],
+    "placing": "floor",
+    "parts": [
+        ["campfire", "bed_prefab", "furniture", "4"]
+    ]
 }
 ]

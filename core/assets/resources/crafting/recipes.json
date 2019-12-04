@@ -64,9 +64,9 @@
     "parts": [["liquid", "any", "brewable", "1"]],
     "consumed": [["any", "water", "1"]]
 }, {
-    "name": "make_simple_bed",
-    "title": "Make simple bed",
-    "itemName": "simple_bed",
+    "name": "make_bed",
+    "title": "Make bed",
+    "itemName": "bed_prefab",
     "parts": [["bed", "any", "wood", "1"]]
 }, {
     "name": "make_bow_saw",

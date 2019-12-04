@@ -7,7 +7,9 @@ import stonering.entity.job.action.Action;
 import stonering.entity.job.action.PutItemAction;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
+import stonering.game.model.local_map.passage.NeighbourPositionStream;
 import stonering.game.model.system.item.ItemContainer;
+import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
 
 import java.util.List;
@@ -27,9 +29,11 @@ import static stonering.enums.blocks.BlockTypesEnum.PassageEnum.PASSABLE;
  */
 public abstract class GenericBuildingAction extends Action {
     protected final BuildingOrder order;
+    private final BuildingActionTarget target;
 
     protected GenericBuildingAction(BuildingOrder order) {
         super(new BuildingActionTarget(order));
+        target = (BuildingActionTarget) actionTarget;
         this.order = order;
     }
 
@@ -41,7 +45,6 @@ public abstract class GenericBuildingAction extends Action {
     @Override
     public int check() {
         Logger.TASKS.log("Checking " + this);
-        BuildingActionTarget target = (BuildingActionTarget) actionTarget;
         if (target.builderPosition == null && !target.findPositionForBuilder(order, task.performer.position))
             return FAIL; // cannot find position for builder to stand
         ItemContainer itemContainer = GameMvc.instance().model().get(ItemContainer.class);
@@ -49,7 +52,7 @@ public abstract class GenericBuildingAction extends Action {
         if (!itemsOnSite.isEmpty()) return createSiteClearingAction(itemsOnSite.get(0)); // clear site
         List<Item> availableItems = itemContainer.getItemsInPosition(target.builderPosition);
         for (IngredientOrder order : order.parts.values()) {
-            if(order.item != null) availableItems.remove(order.item);
+            if (order.item != null) availableItems.remove(order.item);
             if (checkIngredient(order, availableItems)) continue; // ingredient order is fine
             if (order.item != null)
                 System.out.println("'spoiled' item in ingredient order"); // free item TODO locking items in container
@@ -70,19 +73,21 @@ public abstract class GenericBuildingAction extends Action {
      * Creates {@link PutItemAction} for placing blocking item out of target position(to neighbour one).
      */
     private int createSiteClearingAction(Item item) {
-        LocalMap localMap = GameMvc.instance().model().get(LocalMap.class);
-        PutItemAction putItemAction = new PutItemAction(item, localMap.getAnyNeighbourPosition(actionTarget.getPosition(), PASSABLE));
-        task.addFirstPreAction(putItemAction);
+        Position position = new NeighbourPositionStream(target.center).filterByPassability().stream.findAny().orElse(null);
+        if (position == null) {
+            target.reset();
+            return FAIL;
+        }
+        task.addFirstPreAction(new PutItemAction(item, position));
         return NEW;
     }
 
     protected void consumeItems() {
         ItemContainer itemContainer = GameMvc.instance().model().get(ItemContainer.class);
-        order.parts.values().stream().map(IngredientOrder::getItem).forEach(item ->
-                {
-                    itemContainer.onMapItemsSystem.removeItemFromMap(item);
-                    itemContainer.removeItem(item);
-                });
+        order.parts.values().stream().map(IngredientOrder::getItem).forEach(item -> {
+            itemContainer.onMapItemsSystem.removeItemFromMap(item);
+            itemContainer.removeItem(item);
+        });
     }
 
     /**

@@ -1,8 +1,8 @@
 [
     {
-        "name": "simple_bed_prefab",
-        "title": "Simple bed",
-        "description": "Simple bed, ready to take its place in someone's room.",
+        "name": "bed_prefab",
+        "title": "Bed",
+        "description": "Bed.",
         "typeAspects": [["value", "0"]],
         "aspects": [],
         "atlasXY": ["15", "0"],

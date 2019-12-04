@@ -19,7 +19,7 @@ public class BuildingType {
     public boolean construction;
 
     public int[] atlasXY;
-    public String color;
+    public String color = "0xffffffff";
 
     public List<String> recipes; // filled from crafting/lists.json
 

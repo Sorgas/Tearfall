@@ -9,7 +9,7 @@
         "color": "0xffffffff"
     }, {
     "name": "granite",
-    "tags": ["stone", "stone_intrusive"],
+    "tags": ["stone", "stone_intrusive", "natural"],
     "density": "2.7",
     "reactions": {
         "melt": ["1513"]
