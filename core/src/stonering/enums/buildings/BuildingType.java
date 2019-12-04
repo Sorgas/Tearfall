@@ -15,7 +15,7 @@ public class BuildingType {
     public String description;
     public List<List<String>> aspects;
     public List<String> parts;
-    public String passage; // points to block type
+    public String passage = "wall"; // points to block type
     public boolean construction;
 
     public int[] atlasXY;

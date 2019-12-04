@@ -4,11 +4,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import stonering.game.GameMvc;
 import stonering.game.model.EntitySelector;
 import stonering.game.model.local_map.LocalMap;
 import stonering.stage.renderer.AtlasesEnum;
 import stonering.util.geometry.Position;
+
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import static com.badlogic.gdx.Input.Keys.*;
 
@@ -20,10 +25,13 @@ import static com.badlogic.gdx.Input.Keys.*;
 public class EntitySelectorInputAdapter extends InputAdapter {
     private EntitySelector selector;
     private boolean enabled;
+    public final Consumer<Position> defaultSelectHandler;
+    public Consumer<Position> selectHandler;
 
     public EntitySelectorInputAdapter() {
         selector = GameMvc.instance().model().get(EntitySelector.class);
         enabled = true;
+        defaultSelectHandler = (position) this::showEntityStage;
     }
 
     @Override
@@ -117,5 +125,9 @@ public class EntitySelectorInputAdapter extends InputAdapter {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    private void showEntityStage(Position position) {
+
     }
 }
