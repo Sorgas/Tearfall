@@ -46,9 +46,7 @@ public class ItemGenerator {
         Item item = new Item(position, type);
         Material material = MaterialMap.instance().getMaterial(materialId);
         item.setMaterial(materialId);
-        for (String tag : material.tags) {
-            item.tags.add(TagEnum.get(tag));
-        }
+        item.tags.addAll(material.tags);
         generateItemAspects(item);
         return item;
     }

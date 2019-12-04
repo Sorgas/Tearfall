@@ -22,7 +22,7 @@ public class DrawingUtil {
     private BitmapFont font;
 
     private final float shadingStep = 0.06f;
-    public final float maxZLevels = 1f / shadingStep; // levels further are shaded to black
+    public final int maxZLevels = (int) (1f / shadingStep); // levels further are shaded to black
     private Color batchColor;               // default batch color without light or transparency
 
     public DrawingUtil(Batch batch) {

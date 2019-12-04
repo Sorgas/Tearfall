@@ -28,17 +28,21 @@ import stonering.game.model.system.unit.UnitContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.stage.localworld.MovableCamera;
 import stonering.game.model.tilemaps.LocalTileMap;
+import stonering.util.geometry.CoordFunction;
 import stonering.util.geometry.Int2dBounds;
 import stonering.util.geometry.Position;
 
 import java.util.List;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 import static com.badlogic.gdx.graphics.Pixmap.Format.RGBA8888;
 import static stonering.stage.renderer.AtlasesEnum.*;
 
 /**
  * Class for rendering tiles.
- * // TODO add render order for buildings, to render flat carpets, pressure plates etc.
+ * TODO add render order for buildings, to render flat carpets, pressure plates etc.
+ * TODO draw local light spots.
  *
  * @author Alexander on 06.02.2019.
  */
@@ -83,42 +87,33 @@ public class TileRenderer extends Renderer {
         blackTile = new TextureRegion(new Texture(pixmap));
     }
 
-    /**
-     * Renders tiles in visible area.
-     */
     @Override
     public void render() {
         if (disabled) return;
         int maxZ = camera.getCameraZ();
-        int minZ = (int) Math.max(maxZ - util.maxZLevels, 0);
-        for (int z = minZ; z <= maxZ; z++) {
+        for (int z = Math.max(maxZ - util.maxZLevels, 0); z <= maxZ; z++) {
             util.shadeByZ(maxZ - z);
             defineLayerBounds(z);
-            for (int y = cacheBounds.getMaxY(); y >= cacheBounds.getMinY(); y--) {
-                for (int x = cacheBounds.getMinX(); x <= cacheBounds.getMaxX(); x++) {
-                    if (localMap.light.localLight.get(x, y, z) != -1) drawFlatTiles(x, y, z);
-                }
-            }
-            for (int y = cacheBounds.getMaxY(); y >= cacheBounds.getMinY(); y--) {
-                for (int x = cacheBounds.getMinX(); x <= cacheBounds.getMaxX(); x++) {
-                    if (localMap.light.localLight.get(x, y, z) != -1) {
-                        drawBlockTiles(x, y, z);
-                    } else {
-                        util.drawScale(blackTile, cachePosition.set(x, y, z), BatchUtil.TILE_WIDTH, BatchUtil.TILE_DEPTH);
-                    }
-                }
-            }
-            for (int y = cacheBounds.getMaxY(); y >= cacheBounds.getMinY(); y--) {
-                for (int x = cacheBounds.getMinX(); x <= cacheBounds.getMaxX(); x++) {
-                    drawAreaLabel(x, y, z); // for debug purposes
-                }
-            }
-            //TODO draw local light spots.
+            iterateLayer(z, this::renderFlatTile);
+            iterateLayer(z, this::drawBlockTiles);
+            iterateLayer(z, this::drawAreaLabel);
         }
     }
 
     /**
-     * Calculates visible part of z level.
+     * Iterates over bounds of a single z-level and call some function for every tile.
+     */
+    private void iterateLayer(int z, CoordFunction function) {
+        for (int y = cacheBounds.getMaxY(); y >= cacheBounds.getMinY(); y--) {
+            for (int x = cacheBounds.getMinX(); x <= cacheBounds.getMaxX(); x++) {
+                function.apply(x, y, z);
+            }
+        }
+    }
+
+    /**
+     * Calculates visible part of current z-level. Upper levels are not rendered.
+     * Lower levels are rendered with same x and y bounds.
      */
     private void defineLayerBounds(int z) {
         cacheBounds.set(BatchUtil.getModelX(camera.getFrame().getMinX()) - 5,
@@ -135,7 +130,8 @@ public class TileRenderer extends Renderer {
 //        util.shadeByLight(lightLevel);
     }
 
-    private void drawFlatTiles(int x, int y, int z) {
+    private void renderFlatTile(int x, int y, int z) {
+        if (localMap.light.localLight.get(x, y, z) != -1) return;
         startTile(x, y, z);
         drawFloor(x, y, z); // floors or toppings
         if (substrateContainer != null) drawSubstrate(x, y, z);
@@ -143,6 +139,10 @@ public class TileRenderer extends Renderer {
     }
 
     private void drawBlockTiles(int x, int y, int z) {
+        if (localMap.light.localLight.get(x, y, z) == -1) { // draw black tile
+            util.drawScale(blackTile, cachePosition.set(x, y, z), BatchUtil.TILE_WIDTH, BatchUtil.TILE_DEPTH);
+            return;
+        }
         startTile(x, y, z);
         drawUnits(x, y, z);
         drawBlock(x, y, z); // all other
@@ -193,7 +193,7 @@ public class TileRenderer extends Renderer {
     }
 
     private int getAtlasYForBlock(int x, int y, int z) {
-        return MaterialMap.instance().getMaterial(localMap.getMaterial(x, y, z)).getAtlasY();
+        return MaterialMap.instance().getMaterial(localMap.getMaterial(x, y, z)).atlasY;
     }
 
     private void drawSubstrate(int x, int y, int z) {

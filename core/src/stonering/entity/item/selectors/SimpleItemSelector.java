@@ -20,7 +20,7 @@ public class SimpleItemSelector extends ItemSelector {
     public SimpleItemSelector(String title, int material, int amount) {
         this.title = title;
         this.material = material;
-        this.materialName = MaterialMap.instance().getMaterial(material).getName();
+        this.materialName = MaterialMap.instance().getMaterial(material).name;
         this.amount = amount;
     }
 

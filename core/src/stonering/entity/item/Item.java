@@ -68,7 +68,7 @@ public class Item extends Entity {
 
     public void setMaterial(int material) {
         this.material = material;
-        materialString = MaterialMap.instance().getMaterial(material).getName();
+        materialString = MaterialMap.instance().getMaterial(material).name;
         updateTitle();
     }
 

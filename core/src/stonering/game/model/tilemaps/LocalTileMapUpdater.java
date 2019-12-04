@@ -56,7 +56,7 @@ public class LocalTileMapUpdater {
             } else {
                 atlasX = BlocksTileMapping.getType(blockType).ATLAS_X;
             }
-            localTileMap.setTile(x, y, z, atlasX, material.getAtlasY(), 0);
+            localTileMap.setTile(x, y, z, atlasX, material.atlasY, 0);
         }
         updateRampsAround(x, y, z);
     }

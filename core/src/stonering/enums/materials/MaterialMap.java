@@ -46,19 +46,15 @@ public class MaterialMap {
         Logger.GENERAL.log("loading materials");
         int id = 0;
         for (FileHandle file : FileLoader.getFile(FileLoader.MATERIALS_PATH).list()) {
-            ArrayList<Material> elements = json.fromJson(ArrayList.class, Material.class, file);
-            for (Material material : elements) {
-                material.id = id;
-                ids.put(material.getName(), id);
+            ArrayList<RawMaterial> elements = json.fromJson(ArrayList.class, RawMaterial.class, file);
+            for (RawMaterial rawMaterial : elements) {
+                Material material = new Material(rawMaterial);
+                ids.put(material.name, id);
                 materials.put(id, material);
                 id++;
             }
             Logger.GENERAL.logDebug(elements.size() + " loaded from " + file.nameWithoutExtension());
         }
-    }
-
-    public boolean hasMaterial(int id) {
-        return materials.containsKey(id);
     }
 
     public Material getMaterial(int id) {
@@ -104,11 +100,7 @@ public class MaterialMap {
         List<String> list = new ArrayList<>();
         materials.values().stream().
                 filter(material -> material.tags.contains(tag)).
-                forEach(material -> list.add(material.getName()));
+                forEach(material -> list.add(material.name));
         return list;
-    }
-
-    public byte getAtlasY(int id) {
-        return materials.get(id).getAtlasY();
     }
 }

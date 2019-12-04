@@ -6,7 +6,7 @@
         "reactions": {},
         "value": "0",
         "atlasY": "-1",
-        "colorCode": "0xffffffff"
+        "color": "0xffffffff"
     }, {
     "name": "granite",
     "tags": ["stone", "stone_intrusive"],
@@ -16,7 +16,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "colorCode": "0xffffffff"
+    "color": "0xffffffff"
 }, {
     "name": "diorite",
     "tags": ["stone", "stone_intrusive"],
@@ -26,7 +26,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "colorCode": "0xffffffff"
+    "color": "0xffffffff"
 }, {
     "name": "gabbro",
     "tags": ["stone", "stone_intrusive"],
@@ -36,7 +36,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "colorCode": "0xffffffff"
+    "color": "0xffffffff"
 }, {
     "name": "rhyolite",
     "tags": ["stone", "stone_extrusive"],
@@ -46,7 +46,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "colorCode": "0xffffffff"
+    "color": "0xffffffff"
 }, {
     "name": "obsidian",
     "tags": ["stone", "stone_extrusive"],
@@ -56,7 +56,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "colorCode": "0xffffffff"
+    "color": "0xffffffff"
 }, {
     "name": "basalt",
     "tags": ["stone", "stone_extrusive"],
@@ -66,7 +66,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "colorCode": "0xffffffff"
+    "color": "0xffffffff"
 }, {
     "name": "quarzite",
     "tags": [
@@ -78,7 +78,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "colorCode": "0xffffffff"
+    "color": "0xffffffff"
 }, {
     "name": "gneiss",
     "tags": ["stone", "stone_metamorfic"],
@@ -88,7 +88,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "colorCode": "0xffffffff"
+    "color": "0xffffffff"
 }, {
     "name": "marble",
     "tags": ["stone", "stone_metamorfic"],
@@ -98,7 +98,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "colorCode": "0xffffffff"
+    "color": "0xffffffff"
 }, {
     "name": "shale",
     "tags": ["stone", "stone_sedimentary"],
@@ -108,7 +108,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "colorCode": "0xffffffff"
+    "color": "0xffffffff"
 }, {
     "name": "limestone",
     "tags": ["stone", "stone_sedimentary"],
@@ -118,7 +118,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "colorCode": "0xffffffff"
+    "color": "0xffffffff"
 }, {
     "name": "sandstone",
     "tags": ["stone", "stone_sedimentary", "solid"],
@@ -128,7 +128,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "colorCode": "0xffffffff"
+    "color": "0xffffffff"
 }, {
     "name": "dolomite",
     "tags": ["stone", "stone_sedimentary"],
@@ -138,7 +138,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "colorCode": "0xffffffff"
+    "color": "0xffffffff"
 }, {
     "name": "chalcopyrite ",
     "tags": ["ore"],
@@ -148,7 +148,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "colorCode": "0xffffffff"
+    "color": "0xffffffff"
 }, {
     "name": "tetrahedrite",
     "tags": ["ore"],
@@ -160,7 +160,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "colorCode": "0xffffffff"
+    "color": "0xffffffff"
 }, {
     "name": "magnetite",
     "tags": ["ore"],
@@ -170,7 +170,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "colorCode": "0xffffffff"
+    "color": "0xffffffff"
 }, {
     "name": "hematite",
     "tags": ["ore"],
@@ -180,7 +180,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "colorCode": "0xffffffff"
+    "color": "0xffffffff"
 }, {
     "name": "limonite",
     "tags": ["ore"],
@@ -190,7 +190,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "colorCode": "0xffffffff"
+    "color": "0xffffffff"
 }, {
     "name": "native aluminium",
     "tags": ["ore"],
@@ -202,7 +202,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "colorCode": "0xffffffff"
+    "color": "0xffffffff"
 }, {
     "name": "native gold",
     "tags": ["ore"],
@@ -212,7 +212,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "colorCode": "0xffffffff"
+    "color": "0xffffffff"
 }, {
     "name": "galena",
     "tags": ["ore"],
@@ -222,7 +222,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "colorCode": "0xffffffff"
+    "color": "0xffffffff"
 }, {
     "name": "sphalerite(blende)",
     "tags": ["ore"],
@@ -232,7 +232,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "colorCode": "0xffffffff"
+    "color": "0xffffffff"
 }, {
     "name": "garnierite",
     "tags": ["ore"],
@@ -242,7 +242,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "colorCode": "0xffffffff"
+    "color": "0xffffffff"
 }, {
     "name": "cassiterite",
     "tags": ["ore"],
@@ -252,7 +252,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "colorCode": "0xffffffff"
+    "color": "0xffffffff"
 }, {
     "name": "native silver",
     "tags": ["ore"],
@@ -262,7 +262,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "colorCode": "0xffffffff"
+    "color": "0xffffffff"
 }, {
     "name": "iron",
     "tags": ["metal"],
@@ -272,7 +272,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "colorCode": "0xffffffff"
+    "color": "0xffffffff"
 }, {
     "name": "steel",
     "tags": ["metal"],
@@ -282,7 +282,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "colorCode": "0xffffffff"
+    "color": "0xffffffff"
 }, {
     "name": "copper",
     "tags": ["metal"],
@@ -292,7 +292,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "colorCode": "0xffffffff"
+    "color": "0xffffffff"
 }, {
     "name": "silver",
     "tags": ["metal"],
@@ -304,7 +304,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "colorCode": "0xffffffff"
+    "color": "0xffffffff"
 }, {
     "name": "gold",
     "tags": ["metal"],
@@ -314,7 +314,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "colorCode": "0xffffffff"
+    "color": "0xffffffff"
 }, {
     "name": "zinc",
     "tags": ["metal"],
@@ -326,7 +326,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "colorCode": "0xffffffff"
+    "color": "0xffffffff"
 }, {
     "name": "lead",
     "tags": ["metal"],
@@ -338,7 +338,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "colorCode": "0xffffffff"
+    "color": "0xffffffff"
 }, {
     "name": "tin",
     "tags": ["metal"],
@@ -350,7 +350,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "colorCode": "0xffffffff"
+    "color": "0xffffffff"
 }, {
     "name": "wood",
     "tags": ["wood"],
@@ -360,7 +360,7 @@
     },
     "value": "10",
     "atlasY": "1",
-    "colorCode": "0xffffffff"
+    "color": "0xffffffff"
 }, {
     "name": "linen",
     "tags": ["cloth"],
@@ -370,7 +370,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "colorCode": "0xffffffff"
+    "color": "0xffffffff"
 }, {
     "name": "silk",
     "tags": ["cloth"],
@@ -380,7 +380,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "colorCode": "0xffffffff"
+    "color": "0xffffffff"
 }, {
     "name": "wool",
     "tags": ["cloth"],
@@ -390,7 +390,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "colorCode": "0xffffffff"
+    "color": "0xffffffff"
 }, {
     "name": "cotton",
     "tags": ["cloth"],
@@ -400,7 +400,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "colorCode": "0xffffffff"
+    "color": "0xffffffff"
 }, {
     "name": "hemp",
     "tags": ["cloth"],
@@ -410,7 +410,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "colorCode": "0xffffffff"
+    "color": "0xffffffff"
 }, {
     "name": "byssus",
     "tags": ["cloth"],
@@ -420,7 +420,7 @@
     },
     "value": "10",
     "atlasY": "0",
-    "colorCode": "0xffffffff"
+    "color": "0xffffffff"
 }, {
     "name": "soil",
     "tags": ["soil"],
@@ -430,7 +430,7 @@
     },
     "value": "0",
     "atlasY": "1",
-    "colorCode": "0xffffffff"
+    "color": "0xffffffff"
 }, {
     "name": "water",
     "tags": ["liquid", "water"],
@@ -438,7 +438,7 @@
     "reactions": {},
     "value": "0",
     "atlasY": "-1",
-    "colorCode": "0xffffffff"
+    "color": "0xffffffff"
 }, {
     "name": "generic_plant",
     "tags": ["biomass"],
@@ -448,6 +448,16 @@
     },
     "value": "0",
     "atlasY": "-1",
-    "colorCode": "0xffffffff"
+    "color": "0xffffffff"
+}, {
+    "name": "generic_plant",
+    "tags": ["biomass"],
+    "density": "1",
+    "reactions": {
+        "burn": ["2500"]
+    },
+    "value": "0",
+    "atlasY": "-1",
+    "color": "0xffffffff"
 }
 ]
