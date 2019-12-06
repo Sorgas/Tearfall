@@ -53,8 +53,13 @@ public class NeighbourPositionStream {
         return this;
     }
 
-    public NeighbourPositionStream filterByArea(int value) {
+    public NeighbourPositionStream filterNotInArea(int value) {
         stream = stream.filter(position -> passageMap.area.get(position) != value);
+        return this;
+    }
+
+    public NeighbourPositionStream filterInArea(int value) {
+        stream = stream.filter(position -> passageMap.area.get(position) == value);
         return this;
     }
 

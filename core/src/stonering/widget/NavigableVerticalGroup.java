@@ -25,7 +25,6 @@ public class NavigableVerticalGroup extends VerticalGroup implements Highlightab
     private EventListener cancelListener;
     protected HighlightHandler highlightHandler;
     protected int selectedIndex = -1;
-    public boolean active; // if false, events aren't handled
 
     public NavigableVerticalGroup() {
         super();
@@ -45,7 +44,6 @@ public class NavigableVerticalGroup extends VerticalGroup implements Highlightab
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 Logger.UI.logDebug("handling " + Input.Keys.toString(keycode) + " on NavigableVerticalGroup");
-                if (!active) return true;
                 event.stop();
                 switch (keyMapping.getOrDefault(keycode, ControlActionsEnum.getAction(keycode))) {
                     case UP:

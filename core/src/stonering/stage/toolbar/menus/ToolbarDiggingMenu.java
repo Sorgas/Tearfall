@@ -40,6 +40,6 @@ public class ToolbarDiggingMenu extends ToolbarSubMenuMenu {
 
 //    @Override
 //    protected void onHide() {
-//        GameMvc.instance().getController().designationsController.handleCancel();
+//        GameMvc.instance().controller().designationsController.handleCancel();
 //    }
 }

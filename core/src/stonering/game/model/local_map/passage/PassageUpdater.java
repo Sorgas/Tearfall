@@ -39,7 +39,7 @@ public class PassageUpdater {
         if (passing == PASSABLE) { // tile became passable, areas should be merged
             Set<Byte> areas = new NeighbourPositionStream(center)
                     .filterByPassability()
-                    .filterByArea(0)
+                    .filterNotInArea(0)
                     .stream.map(position -> passage.area.get(position))
                     .collect(Collectors.toSet());
             passage.area.set(x, y, z, areas.iterator().next()); // set area value to current tile
@@ -127,7 +127,7 @@ public class PassageUpdater {
             passage.area.set(center.x, center.y, center.z, value);
             new NeighbourPositionStream(center)
                     .filterByPassability()
-                    .filterByArea(value)
+                    .filterNotInArea(value)
                     .stream.forEach(openSet::add);
         }
         return counter;

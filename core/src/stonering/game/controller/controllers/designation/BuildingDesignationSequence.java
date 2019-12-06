@@ -73,17 +73,19 @@ public class BuildingDesignationSequence extends DesignationSequence {
     }
 
     /**
-     * Shows list for unfilled step, or, if all steps completed, submits {@link BuildingOrder} to {@link TaskContainer}
+     * Shows list of items for unfilled blueprint part. Player selects specific item for each part.
+     * Submits order to {@link TaskContainer} when all parts have selected items.
      */
     private void showNextList() {
         for (String partName : order.blueprint.parts.keySet()) {
             if (order.parts.containsKey(partName)) continue;  // skip already added component
+            GameMvc.instance().controller().entitySelectorInputAdapter.setEnabled(false);
             GameMvc.instance().view().mainUiStage.toolbar.addMenu(createSelectListForIngredient(partName));
-            GameMvc.instance().getController().setCameraEnabled(false);
+            GameMvc.instance().controller().setCameraEnabled(false);
             return;
         }
         GameMvc.instance().model().get(TaskContainer.class).designationSystem.submitBuildingDesignation(order, 1);
-        GameMvc.instance().getController().setCameraEnabled(true);
+        GameMvc.instance().controller().setCameraEnabled(true);
         reset();
     }
 
@@ -96,17 +98,20 @@ public class BuildingDesignationSequence extends DesignationSequence {
         order.parts.clear();
         placeSelectComponent.hide(); // hides all select lists
         placeSelectComponent.show();
+        GameMvc.instance().controller().entitySelectorInputAdapter.setEnabled(true);
     }
 
     @Override
     public void start() {
         Logger.UI.logDebug("Starting BuildingDesignationSequence");
         placeSelectComponent.show();
+        GameMvc.instance().controller().entitySelectorInputAdapter.setEnabled(true);
     }
 
     @Override
     public void end() {
         Logger.UI.logDebug("Ending BuildingDesignationSequence");
         placeSelectComponent.hide();
+        GameMvc.instance().controller().entitySelectorInputAdapter.setEnabled(true);
     }
 }

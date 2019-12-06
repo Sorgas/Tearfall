@@ -51,7 +51,7 @@ public class GameMvc implements Serializable {
         return view;
     }
 
-    public GameController getController() {
+    public GameController controller() {
         return controller;
     }
 }
