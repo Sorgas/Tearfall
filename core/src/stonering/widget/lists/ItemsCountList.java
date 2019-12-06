@@ -16,7 +16,7 @@ import java.util.List;
 public abstract class ItemsCountList extends NavigableVerticalGroup {
 
     /**
-     * Groups given item by title and stores them as ItemCards.
+     * Groups given items by title and stores them as ItemCards.
      */
     public void addItems(List<Item> items) {
         HashMap<String, ItemCardButton> map = new HashMap<>(); // item title to itemCard

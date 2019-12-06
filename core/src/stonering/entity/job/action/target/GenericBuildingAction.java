@@ -6,16 +6,12 @@ import stonering.entity.item.Item;
 import stonering.entity.job.action.Action;
 import stonering.entity.job.action.PutItemAction;
 import stonering.game.GameMvc;
-import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.local_map.passage.NeighbourPositionStream;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
 
 import java.util.List;
-import java.util.stream.Collectors;
-
-import static stonering.enums.blocks.BlockTypesEnum.PassageEnum.PASSABLE;
 
 /**
  * Action for creating constructions and buildings on map.
@@ -45,28 +41,36 @@ public abstract class GenericBuildingAction extends Action {
     @Override
     public int check() {
         Logger.TASKS.log("Checking " + this);
-        if (target.builderPosition == null && !target.findPositionForBuilder(order, task.performer.position))
-            return FAIL; // cannot find position for builder to stand
+        if (target.builderPosition == null && !target.findPositionForBuilder(order, task.performer.position)) return FAIL;
         ItemContainer itemContainer = GameMvc.instance().model().get(ItemContainer.class);
         List<Item> itemsOnSite = itemContainer.getItemsInPosition(target.center);
         if (!itemsOnSite.isEmpty()) return createSiteClearingAction(itemsOnSite.get(0)); // clear site
         List<Item> availableItems = itemContainer.getItemsInPosition(target.builderPosition);
-        for (IngredientOrder order : order.parts.values()) {
-            if (order.item != null) availableItems.remove(order.item);
-            if (checkIngredient(order, availableItems)) continue; // ingredient order is fine
-            if (order.item != null)
-                System.out.println("'spoiled' item in ingredient order"); // free item TODO locking items in container
-            order.item = itemContainer.util.getItemForIngredient(order, task.performer.position);
-            if (order.item == null) {
-                target.reset();
-                return FAIL; // no valid item found
+        for (IngredientOrder ingredientOrder : order.parts.values()) {
+            if (checkIngredient(ingredientOrder, availableItems)) continue; // ingredient order is fine
+            // select new item for ingredient
+            if ((ingredientOrder.item == null
+                    || !ingredientOrder.itemSelector.checkItem(ingredientOrder.item))
+                    && !findItemForIngredient(ingredientOrder)) return FAIL; // item not valid anymore and no new found
+            if (!availableItems.contains(ingredientOrder.item)) {
+                task.addFirstPreAction(new PutItemAction(ingredientOrder.item, target.builderPosition)); // create action to bring item
+                return NEW; // new action is created
             }
-            if (availableItems.contains(order.item)) continue; // item in WB, no actions required
-            task.addFirstPreAction(new PutItemAction(order.item, target.builderPosition)); // create action to bring item
-            return NEW; // new action is created
+            availableItems.remove(ingredientOrder.item);
         }
         return OK; // all ingredients have valid items
         //TODO reset target on fail
+    }
+
+    /**
+     * Finds item for ingredient's item selector.
+     * Updates ingredient order. Returns true, if item for ingredient successfully found.
+     */
+    private boolean findItemForIngredient(IngredientOrder ingredientOrder) {
+        ItemContainer itemContainer = GameMvc.instance().model().get(ItemContainer.class);
+        ingredientOrder.item = itemContainer.util.getItemForIngredient(ingredientOrder, task.performer.position);
+        if (ingredientOrder.item == null) target.reset();
+        return ingredientOrder.item != null;
     }
 
     /**
@@ -91,11 +95,11 @@ public abstract class GenericBuildingAction extends Action {
     }
 
     /**
-     * Checks if ingredient item is valid (matches ingredient and lies in target position).
+     * Checks if ingredient item is valid (exists, matches ingredient and lies in target position).
      */
     private boolean checkIngredient(IngredientOrder order, List<Item> availableItems) {
         return order.item != null
-                && order.itemSelector.checkItem(order.item)
-                && availableItems.contains(order.item);
+                && order.itemSelector.checkItem(order.item) // item matches ingredient
+                && availableItems.contains(order.item); // lies in target position
     }
 }

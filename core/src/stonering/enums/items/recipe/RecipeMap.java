@@ -45,4 +45,8 @@ public class RecipeMap {
     public Recipe getRecipe(String name) {
         return recipes.get(name);
     }
+
+    public boolean hasRecipe(String name) {
+        return recipes.containsKey(name);
+    }
 }

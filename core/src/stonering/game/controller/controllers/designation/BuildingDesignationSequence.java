@@ -10,6 +10,7 @@ import stonering.game.GameMvc;
 import stonering.game.model.system.task.TaskContainer;
 import stonering.stage.toolbar.menus.Toolbar;
 import stonering.util.global.Logger;
+import stonering.widget.lists.ItemCardButton;
 import stonering.widget.lists.MaterialSelectList;
 import stonering.widget.PlaceSelectComponent;
 
@@ -49,6 +50,7 @@ public class BuildingDesignationSequence extends DesignationSequence {
 
     /**
      * Returns select list with items, available for given step.
+     * On select, list adds selected item to order.
      */
     private Actor createSelectListForIngredient(String partName) {
         Logger.UI.logDebug("Creating item list for step " + partName);
@@ -60,8 +62,14 @@ public class BuildingDesignationSequence extends DesignationSequence {
             if (materialList.getSelectedIndex() >= 0) {
                 //TODO handle amount requirements more than 1
                 //TODO select real items instead of creating selector
-                order.parts.put(partName, new IngredientOrder(ingredient));
+//                ((ItemCardButton ) materialList.getSelectedElement()).
+                IngredientOrder ingredientOrder = new IngredientOrder(ingredient);
+                ingredientOrder.itemSelector = ((ItemCardButton) materialList.getSelectedElement()).selector;
+                order.parts.put(partName, ingredientOrder);
+                Logger.UI.logDebug("Part " + partName + " added to building order.");
                 showNextList();
+            } else {
+                Logger.UI.logWarn("Material select list handles select when no item is selected.");
             }
             return true;
         });
@@ -95,7 +103,6 @@ public class BuildingDesignationSequence extends DesignationSequence {
     @Override
     public void reset() {
         Logger.UI.logDebug("Resetting BuildingDesignationSequence");
-        order.parts.clear();
         placeSelectComponent.hide(); // hides all select lists
         placeSelectComponent.show();
         GameMvc.instance().controller().entitySelectorInputAdapter.setEnabled(true);
