@@ -1,4 +1,4 @@
-package stonering.entity;
+package stonering.entity.world;
 
 import stonering.util.geometry.Plane;
 import stonering.util.geometry.Position;

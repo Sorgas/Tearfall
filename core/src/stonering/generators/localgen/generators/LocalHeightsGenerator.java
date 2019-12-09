@@ -1,9 +1,9 @@
 package stonering.generators.localgen.generators;
 
-import stonering.entity.World;
+import stonering.entity.world.World;
 import stonering.generators.PerlinNoiseGenerator;
 import stonering.generators.localgen.LocalGenContainer;
-import stonering.entity.WorldMap;
+import stonering.entity.world.WorldMap;
 import stonering.util.global.Logger;
 
 import java.util.Arrays;

@@ -1,4 +1,4 @@
-package stonering.entity;
+package stonering.entity.world;
 
 import stonering.entity.environment.CelestialBody;
 import stonering.enums.time.TimeUnitEnum;

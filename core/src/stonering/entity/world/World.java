@@ -1,4 +1,4 @@
-package stonering.entity;
+package stonering.entity.world;
 
 import stonering.enums.time.TimeUnitEnum;
 import stonering.game.model.Turnable;

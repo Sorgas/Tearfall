@@ -2,9 +2,9 @@ package stonering.generators.worldgen.generators.elevation;
 
 import stonering.generators.worldgen.WorldGenContainer;
 import stonering.generators.worldgen.generators.AbstractGenerator;
-import stonering.entity.Edge;
-import stonering.entity.Mountain;
-import stonering.entity.Slope;
+import stonering.entity.world.Edge;
+import stonering.entity.world.Mountain;
+import stonering.entity.world.Slope;
 import stonering.util.geometry.Position;
 
 import java.util.Iterator;

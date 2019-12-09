@@ -12,13 +12,12 @@ import java.util.List;
 
 /**
  * Stores Entity's render information.
- * Used for rendering moving creatures 'between' the tiles.
+ *
  * //TODO add texture.
  */
 public class RenderAspect extends Aspect {
     public final int[] atlasXY;
     public final AtlasesEnum atlas;
-    public boolean needsVisible = true; // needs icons are visible only for controlled units.
     public final List<CreatureStatusIcon> icons = new ArrayList<>();
     public Drawable drawable;
 

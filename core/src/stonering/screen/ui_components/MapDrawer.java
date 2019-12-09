@@ -4,12 +4,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import stonering.entity.TectonicPlate;
+import stonering.entity.world.TectonicPlate;
 import stonering.screen.WorldGenScreen;
 import stonering.generators.worldgen.WorldGenContainer;
-import stonering.entity.WorldMap;
-import stonering.entity.Edge;
-import stonering.entity.Mountain;
+import stonering.entity.world.WorldMap;
+import stonering.entity.world.Edge;
+import stonering.entity.world.Mountain;
 import stonering.util.geometry.Position;
 
 import java.util.Iterator;

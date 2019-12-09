@@ -13,7 +13,7 @@ import com.badlogic.gdx.utils.Align;
 import stonering.TearFall;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import stonering.entity.World;
+import stonering.entity.world.World;
 import stonering.screen.ui_components.MiniMap;
 import stonering.screen.util.WorldCellInfo;
 import stonering.util.global.StaticSkin;
