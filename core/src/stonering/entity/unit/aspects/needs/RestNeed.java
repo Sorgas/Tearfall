@@ -15,8 +15,10 @@ import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.building.BuildingContainer;
 import stonering.game.model.system.unit.CreatureHealthSystem;
+import stonering.util.geometry.Position;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Need for rest. Part of {@link CreatureHealthSystem}.
@@ -51,16 +53,10 @@ public class RestNeed extends Need {
             case JOB:
             case HEALTH_NEEDS: // sleep in bed
             case SAFETY:
-                //TODO sleep at safe place (at home, under roof)f
+                //TODO sleep at safe place (at home, under roof)
             case LIFE:
                 //TODO fall asleep at current place
-                List<Building> buildings = GameMvc.instance().model().get(BuildingContainer.class).getBuildingsWithAspect(RestFurnitureAspect.class);
-                buildings = GameMvc.instance().model().get(LocalMap.class).passageMap.util.filterEntitiesByReachability(buildings, entity.position);
-                if (!buildings.isEmpty()) { // bed available, no sleep without bed at this level of exhaustion
-                    Action restAction = new RestAction(new EntityActionTarget(buildings.get(0), ActionTargetTypeEnum.EXACT));
-                    return new Task("sleep", restAction, priority.VALUE);
-                }
-                break;
+                return selectBuildingToSleep(entity.position).map(building -> createTaskToSleep(building, priority)).orElse(null);
         }
         return null;
     }
@@ -73,5 +69,16 @@ public class RestNeed extends Need {
         float relativeFatigue = aspect.parameters.get(HealthParameterEnum.FATIGUE).getRelativeValue();
         //TODO add day/night state to relativeFatigue
         return HealthParameterEnum.FATIGUE.PARAMETER.getRangeIndex(relativeFatigue);
+    }
+
+    private Optional<Building> selectBuildingToSleep(Position position) {
+        List<Building> buildings = GameMvc.instance().model().get(BuildingContainer.class).getBuildingsWithAspect(RestFurnitureAspect.class);
+        buildings = GameMvc.instance().model().get(LocalMap.class).passageMap.util.filterEntitiesByReachability(buildings, position);
+        return Optional.of(buildings.isEmpty() ? null : buildings.get(0));
+    }
+
+    private Task createTaskToSleep(Building building, TaskPrioritiesEnum priority) {
+        Action restAction = new RestAction(new EntityActionTarget(building, ActionTargetTypeEnum.EXACT));
+        return new Task("sleep", restAction, priority.VALUE);
     }
 }

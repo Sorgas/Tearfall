@@ -31,6 +31,7 @@ public class PassageUtil {
                 .anyMatch(Predicate.isEqual(passage.area.get(from))); // near tile in same area
     }
 
+    //TODO replace with util stream
     public <T extends Entity> List<T> filterEntitiesByReachability(List<T> entities, Position target) {
         return entities.stream().
                 filter(entity -> entity.position != null).
