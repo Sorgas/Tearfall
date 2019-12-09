@@ -29,7 +29,7 @@ public class TemperatureGenerator extends AbstractGenerator {
     }
 
     private void extractContainer(WorldGenContainer container) {
-        WorldGenConfig config = container.getConfig();
+        WorldGenConfig config = container.config;
         width = config.getWidth();
         height = config.getHeight();
         seaLevel = config.getSeaLevel();

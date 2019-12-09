@@ -28,13 +28,13 @@ public class MountainGenerator extends AbstractGenerator {
     }
 
     private void extractContainer() {
-        random = container.getConfig().getRandom();
+        random = container.random;
         edges = container.getEdges();
-        width = container.getConfig().getWidth();
-        height = container.getConfig().getHeight();
-        topsDensity = container.getConfig().getMountainsTopsDensity();
-        plateSpeedToHeightModifier = container.getConfig().getPlateSpeedToHeightModifier();
-        topOffsetModifier = container.getConfig().getTopOffsetModifier();
+        width = container.config.getWidth();
+        height = container.config.getHeight();
+        topsDensity = container.config.getMountainsTopsDensity();
+        plateSpeedToHeightModifier = container.config.getPlateSpeedToHeightModifier();
+        topOffsetModifier = container.config.getTopOffsetModifier();
     }
 
     @Override

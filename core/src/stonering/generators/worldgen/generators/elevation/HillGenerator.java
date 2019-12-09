@@ -22,11 +22,11 @@ public class HillGenerator  extends AbstractGenerator {
 
 	public HillGenerator(WorldGenContainer container) {
 		super(container);
-		random = container.getConfig().getRandom();
-		width = container.getConfig().getWidth();
-		height = container.getConfig().getHeight();
-		hillDensity = container.getConfig().getHillDensity();
-		hillMargin = container.getConfig().getHillMargin();
+		random = container.random;
+		width = container.config.getWidth();
+		height = container.config.getHeight();
+		hillDensity = container.config.getHillDensity();
+		hillMargin = container.config.getHillMargin();
 	}
 
 	public boolean execute() {

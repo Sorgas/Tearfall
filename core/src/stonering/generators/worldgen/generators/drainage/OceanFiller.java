@@ -17,10 +17,10 @@ public class OceanFiller extends AbstractGenerator {
 
 	public OceanFiller(WorldGenContainer container) {
 		super(container);
-		this.random = container.getConfig().getRandom();
-		this.width = container.getConfig().getWidth();
-		this.height = container.getConfig().getHeight();
-		seaLevel = container.getConfig().getSeaLevel();
+		this.random = container.random;
+		this.width = container.config.getWidth();
+		this.height = container.config.getHeight();
+		seaLevel = container.config.getSeaLevel();
 	}
 
 	public boolean execute() {

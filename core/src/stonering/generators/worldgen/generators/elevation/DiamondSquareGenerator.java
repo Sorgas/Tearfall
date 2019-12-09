@@ -39,7 +39,7 @@ public class DiamondSquareGenerator {
 
     private void init() {
         map = container.getMap();
-        random = container.getConfig().getRandom();
+        random = container.random;
         int bufferWidth = (map.getWidth() - 1) * bufferScale + 1;
         int bufferHeigth = (map.getHeight() - 1) * bufferScale + 1;
         int resultMapWidth = (map.getWidth() - 1) * bufferScale * resultMapScale + 1;

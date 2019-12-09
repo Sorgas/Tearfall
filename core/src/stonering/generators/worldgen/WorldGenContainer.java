@@ -7,6 +7,7 @@ import stonering.util.geometry.Position;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Contains intermediate and complete results of world generation.
@@ -14,7 +15,8 @@ import java.util.List;
  * @author Alexander Kuzyakov on 05.03.2017.
  */
 public class WorldGenContainer {
-    private WorldGenConfig config;
+    public final Random random;
+    public final WorldGenConfig config;
     private World world;
     private int width;
     private int height;
@@ -43,6 +45,7 @@ public class WorldGenContainer {
         this.width = config.getWidth();
         this.height = config.getHeight();
         this.config = config;
+        random = new Random(config.seed);
         reset();
     }
 
@@ -123,10 +126,6 @@ public class WorldGenContainer {
 
     public List<Mountain> getMountains() {
         return mountains;
-    }
-
-    public WorldGenConfig getConfig() {
-        return config;
     }
 
     public WorldMap getMap() {

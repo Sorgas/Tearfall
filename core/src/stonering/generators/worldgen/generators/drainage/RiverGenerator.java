@@ -31,16 +31,16 @@ public class RiverGenerator extends AbstractGenerator {
     }
 
     private void extractContainer(WorldGenContainer container) {
-        random = container.getConfig().getRandom();
-        width = container.getConfig().getWidth();
-        height = container.getConfig().getHeight();
+        random = container.random;
+        width = container.config.getWidth();
+        height = container.config.getHeight();
         slopeInclination = new Vector2[width][height];
         endPoints = new Vector2[width][height];
         inflows = new Vector2[width][height];
         riverVectors = new Vector2[width][height];
         waterAmount = new float[width][height];
-        seaLevel = container.getConfig().getSeaLevel();
-        riverStartLevel = container.getConfig().getLargeRiverStartLevel();
+        seaLevel = container.config.getSeaLevel();
+        riverStartLevel = container.config.getLargeRiverStartLevel();
     }
 
     @Override

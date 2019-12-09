@@ -1,4 +1,4 @@
-package stonering.entity.world;
+package stonering.entity.world.calendar;
 
 /**
  * Four seasons are always present, but their names and lengths are different.
@@ -8,6 +8,11 @@ package stonering.entity.world;
  * @author Alexander on 09.12.2019.
  */
 public class WorldCalendar {
-    public int[] months;
+    public final Month[] months;
+    public final String[] seasons; // spring, summer, autumn, winter
 
+    public WorldCalendar() {
+        months = new Month[12];
+        seasons = new String[4];
+    }
 }

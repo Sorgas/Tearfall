@@ -7,10 +7,4 @@ import com.badlogic.gdx.scenes.scene2d.ui.Container;
  */
 public class SingleAxsScrollable extends Container {
 
-
-    private void addListener() {
-        addListener() {
-
-        }
-    }
 }

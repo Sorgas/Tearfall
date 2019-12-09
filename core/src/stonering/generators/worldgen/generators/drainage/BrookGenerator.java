@@ -25,9 +25,9 @@ public class BrookGenerator extends AbstractGenerator {
     }
 
     private void extractContainer(WorldGenContainer container) {
-        width = container.getConfig().getWidth();
-        height = container.getConfig().getHeight();
-        seaLevel = container.getConfig().getSeaLevel();
+        width = container.config.getWidth();
+        height = container.config.getHeight();
+        seaLevel = container.config.getSeaLevel();
         slopes = new Vector2[width][height];
     }
 

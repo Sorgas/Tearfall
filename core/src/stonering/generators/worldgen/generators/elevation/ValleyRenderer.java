@@ -22,10 +22,10 @@ public class ValleyRenderer  extends AbstractGenerator {
 
 	public ValleyRenderer(WorldGenContainer container) {
 		super(container);
-		this.width = container.getConfig().getWidth();
-		this.height = container.getConfig().getHeight();
-		this.smoothIterations = container.getConfig().getSmoothIterations();
-		this.smoothRadius = container.getConfig().getSmoothRadius();
+		this.width = container.config.getWidth();
+		this.height = container.config.getHeight();
+		this.smoothIterations = container.config.getSmoothIterations();
+		this.smoothRadius = container.config.getSmoothRadius();
 		elevation = new float[width][height];
 	}
 

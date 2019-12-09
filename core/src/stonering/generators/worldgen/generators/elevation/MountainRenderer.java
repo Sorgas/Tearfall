@@ -42,8 +42,8 @@ public class MountainRenderer extends AbstractGenerator {
     }
 
     private void extractContainer() {
-        this.width = container.getConfig().getWidth();
-        this.height = container.getConfig().getHeight();
+        this.width = container.config.getWidth();
+        this.height = container.config.getHeight();
         elevation = new float[width][height];
         smoothElevation = new float[width][height];
     }

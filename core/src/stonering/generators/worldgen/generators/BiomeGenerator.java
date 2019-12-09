@@ -26,9 +26,9 @@ public class BiomeGenerator extends AbstractGenerator {
     }
 
     private void extractContainer() {
-        width = container.getConfig().getWidth();
-        height = container.getConfig().getHeight();
-        seaLevel = container.getConfig().getSeaLevel();
+        width = container.config.getWidth();
+        height = container.config.getHeight();
+        seaLevel = container.config.getSeaLevel();
     }
 
     private void fetchCells() {

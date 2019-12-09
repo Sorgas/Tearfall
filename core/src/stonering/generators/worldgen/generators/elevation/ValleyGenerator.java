@@ -31,8 +31,8 @@ public class ValleyGenerator extends AbstractGenerator {
     }
 
     private void extractContainer() {
-        WorldGenConfig config = container.getConfig();
-        random = config.getRandom();
+        WorldGenConfig config = container.config;
+        random = container.random;
         plateSpeedToDepthModifier = config.getPlateSpeedToDepthModifier();
         topOffsetModifier = config.getTopOffsetModifier();
         topsDensity = config.getValleysTopsDensity();

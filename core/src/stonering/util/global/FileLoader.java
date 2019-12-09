@@ -24,6 +24,7 @@ public class FileLoader {
     public final static String ICONS_PATH = "resources/ui_background/icons.json";
     public final static String TREES_PATH = "resources/plants/trees.json";
     public final static String SUBSTRATES_PATH = "resources/plants/substrates.json";
+    public final static String SEASONS_PATH = "resources/seasons.json";
 
     public static FileHandle getFile(String path) {
         return new FileHandle(path);

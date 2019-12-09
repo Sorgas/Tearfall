@@ -29,9 +29,8 @@ public class DrainageGenerator extends AbstractGenerator {
     }
 
     private void extractContainer() {
-        WorldGenConfig config = container.getConfig();
-        width = config.getWidth();
-        height = config.getHeight();
+        width = container.config.getWidth();
+        height = container.config.getHeight();
         evaporation = new float[width][height];
         slopesDrainage = new float[width][height];
         basinsDrainage = new float[width][height];
@@ -57,8 +56,8 @@ public class DrainageGenerator extends AbstractGenerator {
             for (int y = 0; y < height; y++) {
                 float temperature = (container.getSummerTemperature(x, y) + container.getWinterTemperature(x, y)) / 2f;
                 if (temperature > -10) {
-                    evaporation[x][y] = temperature / container.getConfig().getMaxTemperature();
-                    evaporation[x][y] *= 1-  container.getRainfall(x, y) / container.getConfig().getMaxRainfall();
+                    evaporation[x][y] = temperature / container.config.getMaxTemperature();
+                    evaporation[x][y] *= 1-  container.getRainfall(x, y) / container.config.getMaxRainfall();
                 }
             }
         }
@@ -67,7 +66,7 @@ public class DrainageGenerator extends AbstractGenerator {
     private void renderDrainage() {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                if (container.getElevation(x, y) > container.getConfig().getSeaLevel())
+                if (container.getElevation(x, y) > container.config.getSeaLevel())
                     container.setDrainage(x, y, evaporation[x][y] + slopesDrainage[x][y] + basinsDrainage[x][y]);
             }
         }

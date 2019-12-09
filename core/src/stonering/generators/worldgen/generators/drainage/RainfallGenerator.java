@@ -24,11 +24,11 @@ public class RainfallGenerator extends AbstractGenerator {
     }
 
     private void extractContainer() {
-        width = container.getConfig().getWidth();
-        height = container.getConfig().getHeight();
-        seaLevel = container.getConfig().getSeaLevel();
-        minRainfall = container.getConfig().getMinRainfall();
-        maxRainfall = container.getConfig().getMaxRainfall();
+        width = container.config.getWidth();
+        height = container.config.getHeight();
+        seaLevel = container.config.getSeaLevel();
+        minRainfall = container.config.getMinRainfall();
+        maxRainfall = container.config.getMaxRainfall();
         rainfallBuffer = new float[width][height];
         rainfallSet = new boolean[width][height];
     }

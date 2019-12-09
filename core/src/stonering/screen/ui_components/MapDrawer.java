@@ -128,7 +128,7 @@ public class MapDrawer {
         for (int x = 0; x < map.getWidth(); x++) {
             for (int y = 0; y < map.getHeight(); y++) {
                 float elevation = map.getElevation(x, y);
-                if (elevation < container.getConfig().getSeaLevel()) {
+                if (elevation < container.config.getSeaLevel()) {
                     if (useTiles) {
                         if (elevation > -5) {
                             drawTile(x, y, 0, 0);
@@ -149,7 +149,7 @@ public class MapDrawer {
         WorldMap map = container.getMap();
         for (int x = 0; x < map.getWidth(); x++) {
             for (int y = 0; y < map.getHeight(); y++) {
-                if (map.getElevation(x, y) < container.getConfig().getSeaLevel()) {
+                if (map.getElevation(x, y) < container.config.getSeaLevel()) {
                     shapeRenderer.setColor(0, 0, 0.005f * Math.abs((container.getSlopeAngles(x, y) % 360) - 180), 1);
                 } else {
                     shapeRenderer.setColor(0, 0.005f * Math.abs((container.getSlopeAngles(x, y) % 360) - 180), 0, 1);
@@ -176,8 +176,8 @@ public class MapDrawer {
     }
 
     private void drawTemperature() {
-        for (int x = 0; x < container.getConfig().getWidth(); x++) {
-            for (int y = 0; y < container.getConfig().getHeight(); y++) {
+        for (int x = 0; x < container.config.getWidth(); x++) {
+            for (int y = 0; y < container.config.getHeight(); y++) {
                 if (container.getSummerTemperature(x, y) < -12) {
                     shapeRenderer.setColor(1, 1, 1, 1); //
                 } else if (container.getSummerTemperature(x, y) < -0) {

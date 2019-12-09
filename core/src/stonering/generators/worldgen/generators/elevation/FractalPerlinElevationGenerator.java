@@ -20,7 +20,7 @@ public class FractalPerlinElevationGenerator extends AbstractGenerator {
     }
 
     private void extractContainer(WorldGenContainer container) {
-        config = container.getConfig();
+        config = container.config;
     }
 
 }

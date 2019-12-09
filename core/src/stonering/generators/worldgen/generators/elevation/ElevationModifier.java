@@ -17,8 +17,8 @@ public class ElevationModifier extends AbstractGenerator {
 
     public ElevationModifier(WorldGenContainer container) {
         super(container);
-        width = container.getConfig().getWidth();
-        height = container.getConfig().getHeight();
+        width = container.config.getWidth();
+        height = container.config.getHeight();
         elevation = new float[width][height];
     }
 

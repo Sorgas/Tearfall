@@ -21,8 +21,8 @@ public class HillRenderer  extends AbstractGenerator {
 
 	public HillRenderer(WorldGenContainer container) {
 		super(container);
-		this.width = container.getConfig().getWidth();
-		this.height = container.getConfig().getHeight();
+		this.width = container.config.getWidth();
+		this.height = container.config.getHeight();
 		elevation = new float[width][height];
 	}
 

@@ -35,13 +35,13 @@ public class ErosionGenerator extends AbstractGenerator {
     public ErosionGenerator(WorldGenContainer container) {
         super(container);
         drops = new ArrayList<>();
-        elevationBuffer = new float[container.getConfig().getWidth()][container.getConfig().getHeight()];
+        elevationBuffer = new float[container.config.getWidth()][container.config.getHeight()];
     }
 
     private void extractContainer() {
-        random = container.getConfig().getRandom();
-        width = container.getConfig().getWidth();
-        height = container.getConfig().getHeight();
+        random = container.random;
+        width = container.config.getWidth();
+        height = container.config.getHeight();
     }
 
     public boolean execute() {

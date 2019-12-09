@@ -20,8 +20,8 @@ public class ElevationGenerator extends AbstractGenerator {
     }
 
     private void extractContainer(WorldGenContainer container) {
-        width = container.getConfig().getWidth();
-        height = container.getConfig().getHeight();
+        width = container.config.getWidth();
+        height = container.config.getHeight();
         elevation = new float[width][height];
     }
 

@@ -42,7 +42,7 @@ public class LakeGenerator extends AbstractGenerator {
         int lakeSize = getLakeSize(position.x, position.y);
         for (int i = 0; i < lakeSize; i++) {
             Position newPosition = getLowestPosition(neighbours, lake.positions);
-            if (container.getElevation(newPosition) < container.getConfig().getSeaLevel()) {
+            if (container.getElevation(newPosition) < container.config.getSeaLevel()) {
                 break;
             }
             lake.positions.add(newPosition);

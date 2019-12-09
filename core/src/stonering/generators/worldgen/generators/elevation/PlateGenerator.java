@@ -48,8 +48,8 @@ public class PlateGenerator extends AbstractGenerator {
     }
 
     private void extractContainer() {
-        config = container.getConfig();
-        random = config.getRandom();
+        config = container.config;
+        random = container.random;
         plateNum = config.getPlateDensity();
         minPlateSpeed = config.getMinPlateSpeed();
         maxPlateSpeed = config.getMaxPlateSpeed();
@@ -60,8 +60,8 @@ public class PlateGenerator extends AbstractGenerator {
     }
 
     private void createPlates() {
-        int width = container.getConfig().getWidth();
-        int height = container.getConfig().getHeight();
+        int width = container.config.getWidth();
+        int height = container.config.getHeight();
 
         PowerDiagram diagram = new PowerDiagram();
 
@@ -79,8 +79,8 @@ public class PlateGenerator extends AbstractGenerator {
     }
 
     private ArrayList<Site> generatePlateCenters() {
-        int width = container.getConfig().getWidth();
-        int height = container.getConfig().getHeight();
+        int width = container.config.getWidth();
+        int height = container.config.getHeight();
         int widthMargin = (int) (width * centerMargin);
         int heightMargin = (int) (height * centerMargin);
         ArrayList<Site> sites = new ArrayList<Site>();
@@ -114,8 +114,8 @@ public class PlateGenerator extends AbstractGenerator {
 
     private void createAggregationCenters() {
         int centerNum = plateNum / 3;
-        int width = container.getConfig().getWidth();
-        int height = container.getConfig().getHeight();
+        int width = container.config.getWidth();
+        int height = container.config.getHeight();
         int widthMargin = (int) (width * centerMargin);
         int heightMargin = (int) (height * centerMargin);
         for (int i = 0; centers.size() < centerNum && i < plateNum * 2; i++) {
