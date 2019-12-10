@@ -4,8 +4,8 @@ import stonering.entity.unit.aspects.health.Buff;
 import stonering.entity.unit.aspects.health.HealthBuff;
 import stonering.entity.unit.aspects.health.HealthTimedBuff;
 
-import static stonering.enums.action.TaskPrioritiesEnum.*;
-import static stonering.enums.action.TaskPrioritiesEnum.SAFETY;
+import static stonering.enums.action.TaskPriorityEnum.*;
+import static stonering.enums.action.TaskPriorityEnum.SAFETY;
 
 /**
  * Buffs for thirst.

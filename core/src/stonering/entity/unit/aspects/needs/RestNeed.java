@@ -8,8 +8,10 @@ import stonering.entity.job.action.Action;
 import stonering.entity.job.action.RestAction;
 import stonering.entity.job.action.target.EntityActionTarget;
 import stonering.entity.unit.aspects.health.HealthAspect;
+import stonering.entity.unit.aspects.health.HealthParameterState;
 import stonering.enums.action.ActionTargetTypeEnum;
-import stonering.enums.action.TaskPrioritiesEnum;
+import stonering.enums.action.TaskPriorityEnum;
+import stonering.enums.unit.health.FatigueParameter;
 import stonering.enums.unit.health.HealthParameterEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
@@ -22,12 +24,13 @@ import java.util.Optional;
 
 /**
  * Need for rest. Part of {@link CreatureHealthSystem}.
+ * Uses {@link FatigueParameter} and {@link HealthParameterState} in {@link HealthAspect} for calculating task priority.
  * Generates tasks for:
  * stop activities on medium exhaustion,
  * sleeping in a bed or a safe place (50-70),
  * sleeping at safe place (70-90),
  * sleeping at any place (>90).
- * <p>
+ *
  * TODO add 'function' for getting suitable place to sleep: warm > cold, inside > outside, own > public.
  * TODO night shift
  *
@@ -35,9 +38,11 @@ import java.util.Optional;
  */
 public class RestNeed extends Need {
     @Override
-    public TaskPrioritiesEnum countPriority(Entity entity) {
+    public TaskPriorityEnum countPriority(Entity entity) {
         HealthAspect aspect = entity.getAspect(HealthAspect.class);
-        return HealthParameterEnum.FATIGUE.PARAMETER.priorities[getExhaustionLevel(aspect)];
+        float relativeFatigue = aspect.parameters.get(HealthParameterEnum.FATIGUE).getRelativeValue();
+
+        return HealthParameterEnum.FATIGUE.PARAMETER.getRangeIndex(relativeFatigue);
     }
 
     /**
@@ -45,7 +50,7 @@ public class RestNeed extends Need {
      */
     @Override
     public Task tryCreateTask(Entity entity) {
-        TaskPrioritiesEnum priority = countPriority(entity);
+        TaskPriorityEnum priority = countPriority(entity);
         switch (priority) {
             case NONE:
                 break;
@@ -61,23 +66,13 @@ public class RestNeed extends Need {
         return null;
     }
 
-    /**
-     * Counts creature's relative fatigue, and determines level of exhaustion.
-     * Used for defining place to sleep and rest task priority.
-     */
-    private int getExhaustionLevel(HealthAspect aspect) {
-        float relativeFatigue = aspect.parameters.get(HealthParameterEnum.FATIGUE).getRelativeValue();
-        //TODO add day/night state to relativeFatigue
-        return HealthParameterEnum.FATIGUE.PARAMETER.getRangeIndex(relativeFatigue);
-    }
-
     private Optional<Building> selectBuildingToSleep(Position position) {
         List<Building> buildings = GameMvc.instance().model().get(BuildingContainer.class).getBuildingsWithAspect(RestFurnitureAspect.class);
         buildings = GameMvc.instance().model().get(LocalMap.class).passageMap.util.filterEntitiesByReachability(buildings, position);
         return Optional.of(buildings.isEmpty() ? null : buildings.get(0));
     }
 
-    private Task createTaskToSleep(Building building, TaskPrioritiesEnum priority) {
+    private Task createTaskToSleep(Building building, TaskPriorityEnum priority) {
         Action restAction = new RestAction(new EntityActionTarget(building, ActionTargetTypeEnum.EXACT));
         return new Task("sleep", restAction, priority.VALUE);
     }

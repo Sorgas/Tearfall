@@ -12,9 +12,9 @@ import java.util.*;
 import static stonering.enums.action.TaskStatusEnum.*;
 
 /**
- * System for generation needs satisfying tasks for units.
+ * System for generation need satisfying tasks for units.
  * Works in {@link UnitContainer}.
- * On update, counts creature needs and creates {@link Task} in {@link NeedsAspect}.
+ * On update, counts creature needs and creates {@link Task} for strongest need in {@link NeedsAspect}.
  * This task is then considered by {@link PlanningAspect}.
  *
  * @author Alexander on 22.08.2019.

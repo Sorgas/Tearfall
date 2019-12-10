@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * @author Alexander Kuzyakov on 16.09.2018.
  */
 public class NeedsAspect extends Aspect {
-    public final ArrayList<NeedEnum> needs; // need names
+    public final ArrayList<NeedEnum> needs; // creature needs
     public Task satisfyingTask; // taken by planning
 
     public NeedsAspect(Entity entity) {

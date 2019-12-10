@@ -4,10 +4,10 @@ import stonering.entity.unit.aspects.health.Buff;
 import stonering.entity.unit.aspects.health.HealthBuff;
 import stonering.entity.unit.aspects.health.HealthTimedBuff;
 
-import static stonering.enums.action.TaskPrioritiesEnum.*;
+import static stonering.enums.action.TaskPriorityEnum.*;
 
 /**
- * Creates fatigue buffs.
+ * Checks value of Creates fatigue buffs.
  *
  * @author Alexander on 06.10.2019.
  */

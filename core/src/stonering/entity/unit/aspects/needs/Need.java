@@ -2,7 +2,7 @@ package stonering.entity.unit.aspects.needs;
 
 import stonering.entity.Entity;
 import stonering.entity.job.Task;
-import stonering.enums.action.TaskPrioritiesEnum;
+import stonering.enums.action.TaskPriorityEnum;
 
 /**
  * Abstract class for needs.
@@ -16,7 +16,7 @@ public abstract class Need {
     /**
      * Returns priority of need. Returns -1 if need can be tolerated.
      */
-    public abstract TaskPrioritiesEnum countPriority(Entity entity);
+    public abstract TaskPriorityEnum countPriority(Entity entity);
 
     public abstract Task tryCreateTask(Entity entity);
 }

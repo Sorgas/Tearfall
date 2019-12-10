@@ -2,7 +2,7 @@ package stonering.enums.unit.health;
 
 import stonering.entity.unit.aspects.health.Buff;
 import stonering.entity.unit.aspects.health.HealthParameterState;
-import stonering.enums.action.TaskPrioritiesEnum;
+import stonering.enums.action.TaskPriorityEnum;
 import stonering.util.global.Logger;
 import stonering.util.math.MathUtil;
 
@@ -17,12 +17,12 @@ import java.util.Arrays;
 public abstract class HealthParameter {
     public final int[] ranges;
     public final String tag; // used by buffs
-    public final TaskPrioritiesEnum[] priorities;
+    public final TaskPriorityEnum[] priorities;
 
     public HealthParameter(int[] ranges, String tag) {
         this.ranges = ranges;
         this.tag = tag;
-        priorities = new TaskPrioritiesEnum[ranges.length];
+        priorities = new TaskPriorityEnum[ranges.length];
         fillPriorities();
     }
 

@@ -11,6 +11,8 @@ import java.util.Map;
 
 /**
  * Stores health condition of a unit. See {@link CreatureHealthSystem}
+ *
+ *
  * TODO add calculation of max values based on creature's attributes.
  *
  * @author Alexander_Kuzyakov

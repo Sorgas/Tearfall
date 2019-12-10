@@ -4,7 +4,7 @@ import stonering.entity.Entity;
 import stonering.entity.item.Item;
 import stonering.entity.job.Task;
 import stonering.entity.unit.aspects.health.HealthAspect;
-import stonering.enums.action.TaskPrioritiesEnum;
+import stonering.enums.action.TaskPriorityEnum;
 import stonering.enums.items.TagEnum;
 import stonering.enums.unit.health.HealthParameterEnum;
 import stonering.game.GameMvc;
@@ -16,14 +16,14 @@ import stonering.game.model.system.item.ItemContainer;
 public class WaterNeed extends Need {
 
     @Override
-    public TaskPrioritiesEnum countPriority(Entity entity) {
+    public TaskPriorityEnum countPriority(Entity entity) {
         HealthAspect aspect = entity.getAspect(HealthAspect.class);
         return HealthParameterEnum.THIRST.PARAMETER.priorities[getThirstLevel(aspect)];
     }
 
     @Override
     public Task tryCreateTask(Entity entity) {
-        TaskPrioritiesEnum priority = countPriority(entity);
+        TaskPriorityEnum priority = countPriority(entity);
         Item item = findBestDrink(entity);
         if(item == null) {
             //TODO drink from water sources
