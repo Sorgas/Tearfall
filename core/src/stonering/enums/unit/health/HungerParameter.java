@@ -22,7 +22,7 @@ public class HungerParameter extends HealthParameter {
         ranges.add(new HealthParameterRange(0, 20, NONE, () -> createBuffWithDelta(10, 0)));
         ranges.add(new HealthParameterRange(20, 50, NONE, () -> null));
         ranges.add(new HealthParameterRange(50, 60, COMFORT, () -> createBuffWithDelta(-10, 2)));
-        ranges.add(new HealthParameterRange(60, 80, HEALTH_NEEDS, () -> createBuffWithDelta(-25, 3));
+        ranges.add(new HealthParameterRange(60, 80, HEALTH_NEEDS, () -> createBuffWithDelta(-25, 3)));
         ranges.add(new HealthParameterRange(80, 101, SAFETY, () -> new HealthTimedBuff(tag, -1, "hp", 4, iconY)));
     }
 
