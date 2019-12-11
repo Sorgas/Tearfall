@@ -7,6 +7,7 @@ import stonering.entity.unit.aspects.health.HealthAspect;
 import stonering.entity.unit.aspects.health.HealthParameterState;
 import stonering.enums.unit.health.HealthParameter;
 import stonering.enums.unit.health.HealthParameterEnum;
+import stonering.enums.unit.health.HealthParameterRange;
 import stonering.game.GameMvc;
 import stonering.util.global.Logger;
 
@@ -59,12 +60,13 @@ public class CreatureHealthSystem {
     private void changeParameter(Unit unit, HealthParameterEnum parameterEnum, float delta) {
         HealthParameterState state = unit.getAspect(HealthAspect.class).parameters.get(parameterEnum);
         HealthParameter parameter = parameterEnum.PARAMETER;
-        float old = state.current;
+        float oldValue = state.getRelativeValue();
         state.current += delta;
         if (state.current > state.max) {
             // TODO die
         }
-        if (parameter.isRangeChanged(old, state.current)) resetParameter(unit, parameterEnum);
+        HealthParameterRange oldRange = parameter.getRange(oldValue);
+        if(parameter.getRange(state.getRelativeValue()) != oldRange) resetParameter(unit, parameterEnum);
     }
 
     public void resetCreatureHealth(Unit unit) {
@@ -72,12 +74,11 @@ public class CreatureHealthSystem {
         resetParameter(unit, HealthParameterEnum.HUNGER);
     }
 
-    private void resetParameter(Unit unit, HealthParameterEnum parameterEnum) {
-        HealthParameterState state = unit.getAspect(HealthAspect.class).parameters.get(parameterEnum);
-        HealthParameter parameter = parameterEnum.PARAMETER;
-        int rangeIndex = parameter.getRangeIndex(state.current);
+    private void resetParameter(Unit unit, HealthParameterEnum parameter) {
+        HealthParameterState state = unit.getAspect(HealthAspect.class).parameters.get(parameter);
+        HealthParameterRange range = parameter.PARAMETER.getRange(state.getRelativeValue());
         CreatureBuffSystem buffSystem = GameMvc.instance().model().get(UnitContainer.class).buffSystem;
-        buffSystem.removeBuff(unit, parameterEnum.TAG);
-        buffSystem.addBuff(unit, parameter.getBuffForRange(rangeIndex));
+        buffSystem.removeBuff(unit, parameter.TAG);
+        buffSystem.addBuff(unit, range.produceBuff.get());
     }
 }

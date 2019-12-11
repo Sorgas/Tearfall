@@ -2,11 +2,9 @@ package stonering.enums.unit.health;
 
 import stonering.entity.unit.aspects.health.Buff;
 import stonering.entity.unit.aspects.health.HealthParameterState;
-import stonering.enums.action.TaskPriorityEnum;
-import stonering.util.global.Logger;
-import stonering.util.math.MathUtil;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Produces {@link Buff}s basing on {@link HealthParameterState} value.
@@ -15,30 +13,18 @@ import java.util.Arrays;
  * @author Alexander on 06.10.2019.
  */
 public abstract class HealthParameter {
-    public final int[] ranges;
+    public final List<HealthParameterRange> ranges;
     public final String tag; // used by buffs
-    public final TaskPriorityEnum[] priorities;
 
-    public HealthParameter(int[] ranges, String tag) {
-        this.ranges = ranges;
+    public HealthParameter(String tag) {
+        this.ranges = new ArrayList<>();
         this.tag = tag;
-        priorities = new TaskPriorityEnum[ranges.length];
-        fillPriorities();
+        fillRanges();
     }
 
-    public abstract Buff getBuffForRange(int rangeIndex);
+    protected abstract void fillRanges();
 
-    protected abstract void fillPriorities();
-
-    public boolean isRangeChanged(float newValue, float oldValue) {
-        return Arrays.stream(ranges).anyMatch(range -> MathUtil.onDifferentSides(oldValue, newValue, range));
-    }
-
-    public int getRangeIndex(float value) {
-        for (int i = 0; i < ranges.length; i++) {
-            if (value < ranges[i]) return i;
-        }
-        Logger.UNITS.logError("health parameter " + this + " value is out of range");
-        return 0;
+    public HealthParameterRange getRange(float relativeValue) {
+        return ranges.stream().filter(range -> range.checkRange(relativeValue)).findFirst().orElse(null);
     }
 }

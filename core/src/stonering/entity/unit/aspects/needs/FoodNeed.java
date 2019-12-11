@@ -23,7 +23,8 @@ public class FoodNeed extends Need {
     @Override
     public TaskPriorityEnum countPriority(Entity entity) {
         HealthAspect aspect = entity.getAspect(HealthAspect.class);
-        return HealthParameterEnum.HUNGER.PARAMETER.priorities[getHungerLevel(aspect)];
+        float relativeHunger = aspect.parameters.get(HealthParameterEnum.HUNGER).getRelativeValue();
+        return HealthParameterEnum.HUNGER.PARAMETER.getRange(relativeHunger).priority;
     }
 
     @Override
@@ -50,11 +51,6 @@ public class FoodNeed extends Need {
      * Bad decreases task priority. Substracted from hunger level, this will make units refuse to eat bad food even being very hungry.
      */
     private Item getBestAvailableFood() {
-        return null;
-    }
-
-    private int getHungerLevel(HealthAspect aspect) {
-        float relativeHunger = aspect.parameters.get(HealthParameterEnum.HUNGER).getRelativeValue();
-        return HealthParameterEnum.HUNGER.PARAMETER.getRangeIndex(relativeHunger);
+        return null; // TODO
     }
 }

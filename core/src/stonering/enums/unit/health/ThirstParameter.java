@@ -16,34 +16,18 @@ public class ThirstParameter extends HealthParameter {
     private final int iconY = 2;
 
     public ThirstParameter(String tag) {
-        super(new int[]{20, 50, 60, 80, 101}, tag);
+        super(tag);
     }
 
     @Override
-    protected void fillPriorities() {
-        priorities[0] = NONE;
-        priorities[1] = NONE;
-        priorities[2] = COMFORT;
-        priorities[3] = HEALTH_NEEDS;
-        priorities[4] = SAFETY;
+    protected void fillRanges() {
+        ranges.add(new HealthParameterRange(0, 20, NONE, () -> createBuffWithDelta(10, 0)));
+        ranges.add(new HealthParameterRange(20, 50, NONE, () -> null));
+        ranges.add(new HealthParameterRange(50, 60, COMFORT, () -> createBuffWithDelta(-10, 2)));
+        ranges.add(new HealthParameterRange(60, 80, HEALTH_NEEDS, () -> createBuffWithDelta(-25, 0)));
+        ranges.add(new HealthParameterRange(80, 101, SAFETY, () -> new HealthTimedBuff(tag, -1, "hp", 4, iconY)));
     }
 
-    @Override
-    public Buff getBuffForRange(int rangeIndex) {
-        switch (rangeIndex) {
-            case 0:
-                return createBuffWithDelta(10, 0);
-            case 1:
-                return null;
-            case 2:
-                return createBuffWithDelta(-10, 2);
-            case 3:
-                return createBuffWithDelta(-25, 3);
-            case 4:
-                return new HealthTimedBuff(tag, -1, "hp", 4, iconY);
-        }
-        return null;
-    }
 
     private Buff createBuffWithDelta(int delta, int iconX) {
         return new HealthBuff(tag, delta, "performance", iconX, iconY);

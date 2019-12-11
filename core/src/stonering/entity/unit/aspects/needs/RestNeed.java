@@ -41,8 +41,7 @@ public class RestNeed extends Need {
     public TaskPriorityEnum countPriority(Entity entity) {
         HealthAspect aspect = entity.getAspect(HealthAspect.class);
         float relativeFatigue = aspect.parameters.get(HealthParameterEnum.FATIGUE).getRelativeValue();
-
-        return HealthParameterEnum.FATIGUE.PARAMETER.getRangeIndex(relativeFatigue);
+        return HealthParameterEnum.FATIGUE.PARAMETER.getRange(relativeFatigue).priority;
     }
 
     /**
