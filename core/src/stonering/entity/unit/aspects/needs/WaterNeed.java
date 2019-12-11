@@ -18,7 +18,8 @@ public class WaterNeed extends Need {
     @Override
     public TaskPriorityEnum countPriority(Entity entity) {
         HealthAspect aspect = entity.getAspect(HealthAspect.class);
-        return HealthParameterEnum.THIRST.PARAMETER.priorities[getThirstLevel(aspect)];
+        float relativeValue = aspect.parameters.get(HealthParameterEnum.THIRST).getRelativeValue();
+        return HealthParameterEnum.THIRST.PARAMETER.getRange(relativeValue).priority;
     }
 
     @Override
@@ -45,10 +46,5 @@ public class WaterNeed extends Need {
 
     private Item findBestDrink(Entity entity) {
         return GameMvc.instance().model().get(ItemContainer.class).util.getNearestItemWithTag(entity.position, TagEnum.DRINKABLE);
-    }
-
-    private int getThirstLevel(HealthAspect aspect) {
-        float value = aspect.parameters.get(HealthParameterEnum.THIRST).getRelativeValue();
-        return HealthParameterEnum.THIRST.PARAMETER.getRangeIndex(value);
     }
 }
