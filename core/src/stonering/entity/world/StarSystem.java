@@ -1,7 +1,7 @@
 package stonering.entity.world;
 
 import stonering.entity.environment.CelestialBody;
-import stonering.game.model.Turnable;
+import stonering.game.model.Updatable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @author Alexander Kuzyakov
  */
-public class StarSystem implements Serializable, Turnable {
+public class StarSystem implements Serializable, Updatable {
     private List<CelestialBody> celestialBodies;
 
     public StarSystem() {
@@ -29,7 +29,7 @@ public class StarSystem implements Serializable, Turnable {
     }
 
     @Override
-    public void turn() {
-        celestialBodies.forEach(CelestialBody::turn);
+    public void update() {
+        celestialBodies.forEach(CelestialBody::update);
     }
 }

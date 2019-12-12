@@ -49,8 +49,13 @@ public class PlantContainer extends EntityContainer<AbstractPlant> implements In
     }
 
     @Override
+    public void update(TimeUnitEnum unit) {
+        if (unit == TimeUnitEnum.MINUTE) update();
+    }
+
+    @Override
     public void turnUnit(TimeUnitEnum unit) {
-        if (unit == TimeUnitEnum.MINUTE) turn();
+
     }
 
     /**

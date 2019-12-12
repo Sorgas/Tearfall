@@ -20,7 +20,7 @@ public class CelestialBody extends Entity implements Serializable {
     }
 
     @Override
-    public void turn() {
-        aspects.forEach((s, aspect) -> aspect.turn());
+    public void update() {
+        aspects.forEach((s, aspect) -> aspect.update());
     }
 }

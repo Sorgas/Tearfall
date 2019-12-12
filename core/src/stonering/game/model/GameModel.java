@@ -1,7 +1,6 @@
 package stonering.game.model;
 
 import com.badlogic.gdx.utils.Timer;
-import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.GameCalendar;
 import stonering.game.model.system.ModelComponent;
 import stonering.util.global.Initable;
@@ -18,14 +17,14 @@ import java.util.*;
  */
 public abstract class GameModel implements Initable, Serializable {
     private Map<Class, ModelComponent> components;
-    private List<Turnable> turnableComponents; // not all components are Turnable
+    private List<Updatable> updatableComponents; // not all components are Updatable
     protected GameCalendar calendar;
     private Timer timer;                 //makes turns for entity containers and calendar
     private boolean paused;
 
     public GameModel() {
         components = new HashMap<>();
-        turnableComponents = new ArrayList<>();
+        updatableComponents = new ArrayList<>();
         calendar = new GameCalendar();
     }
 
@@ -35,7 +34,7 @@ public abstract class GameModel implements Initable, Serializable {
 
     public <T extends ModelComponent> void put(T object) {
         components.put(object.getClass(), object);
-        if (object instanceof Turnable) turnableComponents.add((Turnable) object);
+        if (object instanceof Updatable) updatableComponents.add((Updatable) object);
     }
 
     /**
@@ -79,7 +78,7 @@ public abstract class GameModel implements Initable, Serializable {
         return calendar;
     }
 
-    public List<Turnable> getTurnableComponents() {
-        return turnableComponents;
+    public List<Updatable> getUpdatableComponents() {
+        return updatableComponents;
     }
 }

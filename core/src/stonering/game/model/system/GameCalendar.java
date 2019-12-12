@@ -3,7 +3,7 @@ package stonering.game.model.system;
 import stonering.enums.time.TimeUnit;
 import stonering.enums.time.TimeUnitEnum;
 import stonering.game.GameMvc;
-import stonering.game.model.Turnable;
+import stonering.game.model.Updatable;
 
 /**
  * Date and time storing class. Makes turns to roll time.
@@ -40,9 +40,9 @@ public class GameCalendar {
             return;
         }
         if (units[index].increment()) { // unit ended
-            GameMvc.instance().model().getTurnableComponents().forEach(component -> component.turnUnit(units[index].unit));
+            GameMvc.instance().model().getUpdatableComponents().forEach(component -> component.turnUnit(units[index].unit));
             turnUnit(index + 1); // increase next unit (on minute end, hour gets +1)
-        } else if (index == 0) GameMvc.instance().model().getTurnableComponents().forEach(Turnable::turn); // regular turnUnit
+        } else if (index == 0) GameMvc.instance().model().getUpdatableComponents().forEach(Updatable::update); // regular turnUnit
     }
 
     public String getCurrentDate() {

@@ -107,7 +107,7 @@ public class WorkbenchSystemTest {
         ItemOrder order = new ItemOrder(aspect.recipes.get(0));
         system.addOrder(aspect, order);
         assertEquals(order, aspect.orders.get(0)); // order added
-        system.updateWorkbenchState(workbench);
+        system.update(workbench);
         assertEquals(ACTIVE, order.status); // order became active
         assertNotNull(aspect.currentTask); // task is created
         assertEquals(TaskStatusEnum.OPEN, aspect.currentTask.status); // task is open
@@ -128,7 +128,7 @@ public class WorkbenchSystemTest {
         ItemOrder order = new ItemOrder(aspect.recipes.get(0));
         system.addOrder(aspect, order);
         assertEquals(order, aspect.orders.get(0)); // order is added
-        system.updateWorkbenchState(workbench);
+        system.update(workbench);
         assertNotNull(aspect.currentTask); // task is created
         system.removeOrder(aspect, order);
         assertNull(aspect.currentTask); // task is removed
@@ -151,7 +151,7 @@ public class WorkbenchSystemTest {
         ItemOrder order = new ItemOrder(aspect.recipes.get(0));
         system.addOrder(aspect, order);
         assertEquals(order, aspect.orders.get(0)); // order added
-        system.updateWorkbenchState(workbench);
+        system.update(workbench);
         assertNotNull(aspect.currentTask); // task is created
         system.setOrderSuspended(aspect, order, true);
         assertEquals(SUSPENDED, aspect.orders.get(0).status);
@@ -177,18 +177,18 @@ public class WorkbenchSystemTest {
     void testHandleActiveOrder() {
         ItemOrder order = new ItemOrder(aspect.recipes.get(0));
         system.addOrder(aspect, order);
-        system.updateWorkbenchState(workbench);
+        system.update(workbench);
         assertEquals(ACTIVE, order.status); // order became active
         assertNotNull(aspect.currentTask); // task is created
         aspect.currentTask.status = TaskStatusEnum.COMPLETE;
-        system.updateWorkbenchState(workbench);
+        system.update(workbench);
         assertEquals(COMPLETE, order.status); // order set to complete
 
         order.status = OPEN;
         system.addOrder(aspect, order);
-        system.updateWorkbenchState(workbench);
+        system.update(workbench);
         aspect.currentTask.status = TaskStatusEnum.FAILED;
-        system.updateWorkbenchState(workbench);
+        system.update(workbench);
         assertEquals(FAILED, order.status); // order set to failed
     }
 
@@ -197,7 +197,7 @@ public class WorkbenchSystemTest {
         ItemOrder order = new ItemOrder(aspect.recipes.get(0));
         system.addOrder(aspect, order);
         order.status = COMPLETE;
-        system.updateWorkbenchState(workbench);
+        system.update(workbench);
         assert(aspect.orders.isEmpty());
     }
 
@@ -207,7 +207,7 @@ public class WorkbenchSystemTest {
         system.addOrder(aspect, order);
         order.status = COMPLETE;
         order.repeated = true;
-        system.updateWorkbenchState(workbench);
+        system.update(workbench);
         assert(!aspect.orders.isEmpty());
         assertEquals(OPEN, order.status); // order reopened
     }
@@ -217,7 +217,7 @@ public class WorkbenchSystemTest {
         ItemOrder order = new ItemOrder(aspect.recipes.get(0));
         system.addOrder(aspect, order);
         order.status = FAILED;
-        system.updateWorkbenchState(workbench);
+        system.update(workbench);
         assertEquals(SUSPENDED, order.status); // order suspended
     }
 
@@ -227,7 +227,7 @@ public class WorkbenchSystemTest {
         system.addOrder(aspect, order);
         order.status = FAILED;
         order.repeated = true;
-        system.updateWorkbenchState(workbench);
+        system.update(workbench);
         assertEquals(SUSPENDED, order.status); // order suspended
     }
 }

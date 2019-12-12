@@ -19,7 +19,7 @@ public class WindMovingAspect extends Aspect {
     }
 
     @Override
-    public void turn() {
+    public void update() {
         // TODO get wind speed and move.
     }
 }

@@ -8,9 +8,8 @@ import stonering.entity.unit.aspects.JobsAspect;
 import stonering.entity.unit.aspects.PlanningAspect;
 import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.enums.action.TaskStatusEnum;
-import stonering.enums.time.TimeUnitEnum;
 import stonering.game.GameMvc;
-import stonering.game.model.Turnable;
+import stonering.game.model.Updatable;
 import stonering.game.model.local_map.passage.PassageMap;
 import stonering.game.model.system.ModelComponent;
 import stonering.game.model.local_map.LocalMap;
@@ -27,10 +26,11 @@ import java.util.*;
  * {@link Task} are orders for unit.
  * {@link Designation} are used for drawing given orders as tiles.
  * Tasks and designations are linked to each other if needed.
+ * TODO split to containers of tasks and designaions, and make them entityContainers
  *
  * @author Alexander Kuzyakov
  */
-public class TaskContainer implements ModelComponent, Turnable {
+public class TaskContainer implements ModelComponent, Updatable {
     public Map<String, List<Task>> tasks; // task job to all tasks with this job
     public final Set<Task> assignedTasks; // tasks, taken by some unit.
     public final HashMap<Position, Designation> designations; //this map is for rendering and modifying designations
@@ -48,7 +48,7 @@ public class TaskContainer implements ModelComponent, Turnable {
     }
 
     @Override
-    public void turn() {
+    public void update() {
         designationSystem.update();
         taskStatusSystem.update();
     }

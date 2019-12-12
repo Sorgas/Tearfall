@@ -4,6 +4,7 @@ import stonering.entity.unit.aspects.*;
 import stonering.enums.unit.CreatureType;
 import stonering.enums.unit.CreatureTypeMap;
 import stonering.game.GameMvc;
+import stonering.game.model.system.unit.CreatureHealthSystem;
 import stonering.game.model.system.unit.UnitContainer;
 import stonering.generators.creatures.needs.NeedAspectGenerator;
 import stonering.entity.unit.Unit;

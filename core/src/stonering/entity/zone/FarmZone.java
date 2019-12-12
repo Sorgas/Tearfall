@@ -54,7 +54,7 @@ public class FarmZone extends Zone {
      * 3. Designates prepared tiles(1) for planting enabled plantType.
      * Soil preparation begins one month before first plant can be planted, disregarding seed availability.
      */
-    public void turn() {
+    public void update() {
         if (plantType == null) return; // no plant set for farm
         int currentMonth = GameMvc.instance().model().getCalendar().year.state;
         boolean plantingEnabled = plantType.plantingStart.contains(currentMonth);

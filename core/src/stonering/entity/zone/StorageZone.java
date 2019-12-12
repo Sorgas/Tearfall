@@ -37,7 +37,7 @@ public class StorageZone extends Zone {
     }
 
     @Override
-    public void turn() {
+    public void update() {
         for (Position tile : tiles) {
             if (tileIsEmpty(tile)) {
                 createHaulingTask(selectItem(tile), tile);

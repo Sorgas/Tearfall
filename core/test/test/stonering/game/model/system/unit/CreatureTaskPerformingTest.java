@@ -15,6 +15,7 @@ import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
 import stonering.game.model.MainGameModel;
 import stonering.game.model.local_map.LocalMap;
+import stonering.game.model.system.task.CreatureTaskPerformingSystem;
 import stonering.game.model.system.unit.UnitContainer;
 import stonering.util.geometry.Position;
 

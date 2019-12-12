@@ -1,6 +1,6 @@
 package stonering.entity;
 
-import stonering.game.model.Turnable;
+import stonering.game.model.Updatable;
 
 import java.io.Serializable;
 
@@ -10,7 +10,7 @@ import java.io.Serializable;
  *
  * @author Alexander Kuzyakov on 10.10.2017.
  */
-public abstract class Aspect implements Serializable, Turnable {
+public abstract class Aspect implements Serializable, Updatable {
     protected Entity entity;
 
     public Aspect(Entity entity) {

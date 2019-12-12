@@ -37,10 +37,10 @@ public class ItemContainer extends EntityContainer<Item> {
         onMapItemsSystem = new OnMapItemsSystem(this);
     }
 
-    public void turn() {
+    public void update() {
         //TODO system for updating equipment
         //TODO system for updating ocntainers
-        entities.forEach(Entity::turn);
+        entities.forEach(Entity::update);
         //TODO rewrite items aspects to systems
     }
 

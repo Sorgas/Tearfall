@@ -19,17 +19,24 @@ import java.util.*;
  */
 public class UnitContainer extends EntityContainer<Unit> implements Initable {
     Map<Position, List<Unit>> unitsMap;
+    public final CreatureNeedSystem needSystem;
+    public final CreatureBuffSystem buffSystem;
+    public final CreatureHealthSystem healthSystem;
+    public final CreatureMovementSystem movementSystem;
+    public final CreaturePlanningSystem planningSystem;
+    public final CreatureTaskPerformingSystem taskSystem;
+
     private Position cachePosition; // used for faster getting unit from map
 
     public UnitContainer() {
         cachePosition = new Position();
         unitsMap = new HashMap<>();
-        putSystem(new CreatureNeedSystem());
-        putSystem(new CreatureBuffSystem());
-        putSystem(new CreatureHealthSystem());
-        putSystem(new CreatureMovementSystem());
-        putSystem(new CreaturePlanningSystem());
-        putSystem(new CreatureTaskPerformingSystem());
+        putSystem(needSystem = new CreatureNeedSystem());
+        putSystem(buffSystem = new CreatureBuffSystem());
+        putSystem(healthSystem = new CreatureHealthSystem());
+        putSystem(movementSystem = new CreatureMovementSystem());
+        putSystem(planningSystem = new CreaturePlanningSystem());
+        putSystem(taskSystem = new CreatureTaskPerformingSystem());
     }
 
     /**

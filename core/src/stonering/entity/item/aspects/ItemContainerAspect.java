@@ -30,8 +30,8 @@ public class ItemContainerAspect extends Aspect {
     }
 
     @Override
-    public void turn() {
-        items.forEach(Entity::turn);
+    public void update() {
+        items.forEach(Entity::update);
     }
 
     public int getVolume() {

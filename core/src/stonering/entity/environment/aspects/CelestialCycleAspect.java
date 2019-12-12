@@ -35,7 +35,7 @@ public class CelestialCycleAspect extends Aspect implements Initable {
      */
     //TODO add longitude
     @Override
-    public void turn() {
+    public void update() {
     }
 
     @Override

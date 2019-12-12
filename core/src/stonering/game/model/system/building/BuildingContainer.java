@@ -2,10 +2,11 @@ package stonering.game.model.system.building;
 
 import stonering.entity.Aspect;
 import stonering.entity.building.BuildingBlock;
-import stonering.entity.item.Item;
+import stonering.enums.time.TimeUnitEnum;
 import stonering.game.GameMvc;
-import stonering.game.model.Turnable;
+import stonering.game.model.Updatable;
 import stonering.game.model.local_map.LocalMap;
+import stonering.game.model.system.EntityContainer;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.system.ModelComponent;
 import stonering.generators.buildings.BuildingGenerator;
@@ -25,7 +26,7 @@ import static stonering.enums.blocks.BlockTypesEnum.PassageEnum.PASSABLE;
  *
  * @author Alexander Kuzyakov on 09.12.2017.
  */
-public class BuildingContainer implements ModelComponent, Turnable {
+public class BuildingContainer extends EntityContainer<Building> implements ModelComponent, Updatable {
     private List<Building> buildings;
     public final BuildingGenerator buildingGenerator;
     private HashMap<Position, BuildingBlock> buildingBlocks;
@@ -37,18 +38,13 @@ public class BuildingContainer implements ModelComponent, Turnable {
         buildingGenerator = new BuildingGenerator();
         this.buildings = new ArrayList<>();
         removedBuildings = new ArrayList<>();
-        workbenchSystem = new WorkbenchSystem();
+        putSystem(workbenchSystem = new WorkbenchSystem());
     }
 
-    /**
-     * Every tick.
-     */
-    public void turn() {
+    @Override
+    public void update(TimeUnitEnum unit) {
         removeMarkedForDelete();
-        for (Building building : buildings) {
-            building.turn();
-            workbenchSystem.updateWorkbenchState(building);
-        }
+        super.update(unit);
     }
 
     private void removeMarkedForDelete() {

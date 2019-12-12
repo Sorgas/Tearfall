@@ -48,7 +48,7 @@ public class CelestialLightSourceAspect extends AbstractLightSourceAspect implem
     }
 
     @Override
-    public void turn() {
+    public void update() {
         updateLigtOnMap();
     }
 }

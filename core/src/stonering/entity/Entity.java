@@ -1,7 +1,7 @@
 package stonering.entity;
 
 import stonering.enums.time.TimeUnitEnum;
-import stonering.game.model.Turnable;
+import stonering.game.model.Updatable;
 import stonering.util.geometry.Position;
 import stonering.util.global.Initable;
 
@@ -14,7 +14,7 @@ import java.util.HashMap;
  *
  * @author Alexander Kuzyakov on 25.01.2018.
  */
-public abstract class Entity implements Serializable, Initable, Turnable {
+public abstract class Entity implements Serializable, Initable, Updatable {
     protected HashMap<Class, Aspect> aspects;
     public Position position;
 
@@ -42,8 +42,8 @@ public abstract class Entity implements Serializable, Initable, Turnable {
     }
 
     @Override
-    public void turn() {
-        aspects.values().forEach(Aspect::turn);
+    public void update() {
+        aspects.values().forEach(Aspect::update);
     }
 
     @Override

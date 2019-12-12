@@ -10,6 +10,7 @@ import stonering.enums.designations.PlaceValidatorsEnum;
 import stonering.game.GameMvc;
 import stonering.game.controller.controllers.designation.BuildingDesignationSequence;
 import stonering.game.model.local_map.LocalMap;
+import stonering.game.model.system.EntitySystem;
 import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
 
@@ -35,9 +36,6 @@ public class DesignationSystem {
         validator = new DesignationsValidator();
     }
 
-    /**
-     * Resets failed designation tasks to open state.
-     */
     public void update() {
         container.designations.values().forEach(
                 designation -> {

@@ -1,6 +1,7 @@
 package stonering.game.model.system.task;
 
 import stonering.entity.job.Task;
+import stonering.game.model.system.EntitySystem;
 import stonering.util.global.Logger;
 
 import java.util.Iterator;
@@ -26,6 +27,7 @@ public class TaskStatusSystem {
     public TaskStatusSystem(TaskContainer container) {
         this.container = container;
     }
+
 
     public void update() {
         for (Iterator<Task> iterator = container.assignedTasks.iterator(); iterator.hasNext(); ) {

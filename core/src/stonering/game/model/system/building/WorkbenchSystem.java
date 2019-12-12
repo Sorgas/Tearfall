@@ -11,6 +11,7 @@ import stonering.enums.action.TaskStatusEnum;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.passage.NeighbourPositionStream;
+import stonering.game.model.system.EntitySystem;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.system.task.TaskContainer;
 import stonering.util.geometry.Position;
@@ -39,14 +40,17 @@ import static stonering.enums.OrderStatusEnum.*;
  *
  * @author Alexander on 25.09.2019.
  */
-public class WorkbenchSystem {
+public class WorkbenchSystem extends EntitySystem<Building> {
+
+
 
     /**
      * Checks state of workbench orders.
      * Tries to lead workbench to state when first order is not suspended and has task,
      * i.e. rolls sequence of orders to unsuspended one, creates tasks for orders.
      */
-    public void updateWorkbenchState(Building building) {
+    @Override
+    public void update(Building building) {
         WorkbenchAspect aspect = building.getAspect(WorkbenchAspect.class);
         if (aspect == null || aspect.orders.isEmpty()) return;
         ItemOrder order = aspect.orders.getFirst();

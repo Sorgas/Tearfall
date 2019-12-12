@@ -1,5 +1,6 @@
 package stonering.entity.job;
 
+import stonering.entity.Entity;
 import stonering.entity.item.Item;
 import stonering.entity.job.designation.Designation;
 import stonering.game.model.system.item.ItemContainer;
