@@ -6,6 +6,7 @@ import stonering.entity.job.action.Action;
 import stonering.entity.job.action.target.ActionTargetStatusEnum;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.PlanningAspect;
+import stonering.game.model.system.EntitySystem;
 
 import static stonering.entity.job.action.target.ActionTargetStatusEnum.*;
 import static stonering.enums.action.TaskStatusEnum.*;
@@ -15,12 +16,13 @@ import static stonering.enums.action.TaskStatusEnum.*;
  *
  * @author Alexander on 29.10.2019.
  */
-public class CreatureTaskPerformingSystem {
+public class CreatureTaskPerformingSystem extends EntitySystem<Unit> {
 
     /**
      * Updates state of given unit's active task. Selects new task, fails and finishes current.
      * Tasks logic is invoked from here.
      */
+    @Override
     public void update(Unit unit) {
         PlanningAspect aspect = unit.getAspect(PlanningAspect.class);
         if (aspect == null) return;

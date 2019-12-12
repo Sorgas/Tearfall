@@ -4,11 +4,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Enum for units of in-game time and their sizes in ticks.
+ * Enum for units of in-game time that are constant for all worlds.
+ *
  *
  * @author Alexander on 12.07.2019.
  */
 public enum TimeUnitEnum {
+    TICK("tick", 1),
     MINUTE("minute", 25),
     HOUR("hour", 60),
     DAY("day", 24),
@@ -16,7 +18,7 @@ public enum TimeUnitEnum {
     YEAR("year", 12);
 
     public final String NAME;
-    public final int LENGTH;
+    public final int LENGTH; // in previous level utits
 
     private static Map<String, Integer> map;
 

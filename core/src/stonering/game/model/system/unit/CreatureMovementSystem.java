@@ -9,6 +9,7 @@ import stonering.enums.action.TaskStatusEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
 import stonering.game.model.local_map.LocalMap;
+import stonering.game.model.system.EntitySystem;
 import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
 import stonering.util.pathfinding.a_star.AStar;
@@ -28,11 +29,12 @@ import stonering.util.pathfinding.a_star.AStar;
  *
  * @author Alexander on 21.10.2019.
  */
-public class CreatureMovementSystem {
+public class CreatureMovementSystem extends EntitySystem<Unit> {
     private LocalMap localMap;
     private UnitContainer unitContainer;
     private AStar aStar;
 
+    @Override
     public void update(Unit unit) {
         GameModel model = GameMvc.instance().model();
         localMap = model.get(LocalMap.class);

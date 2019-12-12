@@ -28,7 +28,6 @@ public class ThirstParameter extends HealthParameter {
         ranges.add(new HealthParameterRange(80, 101, SAFETY, () -> new HealthTimedBuff(tag, -1, "hp", 4, iconY)));
     }
 
-
     private Buff createBuffWithDelta(int delta, int iconX) {
         return new HealthBuff(tag, delta, "performance", iconX, iconY);
     }

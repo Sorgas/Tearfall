@@ -13,29 +13,23 @@ import java.util.*;
 /**
  * Contains all Units on localMap. Units are mapped with their positions(for faster rendering).
  * TODO add crud methods for unit.
+ * TODO rework all aspects behaviour to systems
  *
  * @author Alexander Kuzyakov on 03.12.2017.
  */
 public class UnitContainer extends EntityContainer<Unit> implements Initable {
     Map<Position, List<Unit>> unitsMap;
-    public final CreatureNeedSystem needSystem;
-    public final CreatureBuffSystem buffSystem;
-    public final CreatureHealthSystem healthSystem;
-    public final CreatureMovementSystem movementSystem;
-    public final CreaturePlanningSystem planningSystem;
-    public final CreatureTaskPerformingSystem taskSystem;
-
     private Position cachePosition; // used for faster getting unit from map
 
     public UnitContainer() {
         cachePosition = new Position();
         unitsMap = new HashMap<>();
-        needSystem = new CreatureNeedSystem();
-        buffSystem = new CreatureBuffSystem();
-        healthSystem = new CreatureHealthSystem();
-        movementSystem = new CreatureMovementSystem();
-        planningSystem = new CreaturePlanningSystem();
-        taskSystem = new CreatureTaskPerformingSystem();
+        putSystem(new CreatureNeedSystem());
+        putSystem(new CreatureBuffSystem());
+        putSystem(new CreatureHealthSystem());
+        putSystem(new CreatureMovementSystem());
+        putSystem(new CreaturePlanningSystem());
+        putSystem(new CreatureTaskPerformingSystem());
     }
 
     /**
@@ -77,28 +71,6 @@ public class UnitContainer extends EntityContainer<Unit> implements Initable {
         List<Unit> unitsInOldPosition = unitsMap.get(unit.position);
         unitsInOldPosition.remove(unit);
         if (unitsInOldPosition.isEmpty()) unitsMap.remove(unit.position);
-    }
-
-    public void turn() {
-        for (Unit unit : entities) {
-            unit.turn(); // TODO rework all aspects behaviour to systems
-            healthSystem.update(unit);
-            needSystem.update(unit);
-            buffSystem.update(unit);
-            movementSystem.update(unit);
-            planningSystem.update(unit);
-            taskSystem.update(unit);
-        }
-    }
-
-    @Override
-    public void turnUnit(TimeUnitEnum unit) {
-        if(unit != TimeUnitEnum.MINUTE) return;
-        for (Unit entity : entities) {
-            healthSystem.update(entity);
-            needSystem.update(entity);
-            buffSystem.update(entity);
-        }
     }
 
     /**

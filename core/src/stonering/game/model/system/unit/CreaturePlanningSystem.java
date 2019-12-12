@@ -6,6 +6,7 @@ import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.PlanningAspect;
 import stonering.entity.unit.aspects.needs.NeedsAspect;
 import stonering.game.GameMvc;
+import stonering.game.model.system.EntitySystem;
 import stonering.game.model.system.task.CreatureTaskPerformingSystem;
 import stonering.game.model.system.task.TaskContainer;
 import stonering.util.global.Logger;
@@ -26,9 +27,10 @@ import static stonering.enums.action.TaskStatusEnum.*;
  *
  * @author Alexander on 28.10.2019.
  */
-public class CreaturePlanningSystem {
+public class CreaturePlanningSystem extends EntitySystem<Unit> {
     public UnitContainer container;
 
+    @Override
     public void update(Unit unit) {
         PlanningAspect aspect = unit.getAspect(PlanningAspect.class);
         if (aspect == null) return;

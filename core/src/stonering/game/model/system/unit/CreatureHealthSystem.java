@@ -1,14 +1,15 @@
 package stonering.game.model.system.unit;
 
-import stonering.entity.Entity;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.entity.unit.aspects.health.HealthAspect;
 import stonering.entity.unit.aspects.health.HealthParameterState;
+import stonering.enums.time.TimeUnitEnum;
 import stonering.enums.unit.health.HealthParameter;
 import stonering.enums.unit.health.HealthParameterEnum;
 import stonering.enums.unit.health.HealthParameterRange;
 import stonering.game.GameMvc;
+import stonering.game.model.system.EntitySystem;
 import stonering.util.global.Logger;
 
 /**
@@ -27,21 +28,26 @@ import stonering.util.global.Logger;
  *
  * @author Alexander on 16.09.2019.
  */
-public class CreatureHealthSystem {
+public class CreatureHealthSystem extends EntitySystem<Unit> {
     public float moveParameterNoLoad = 0.05f;
     public float moveParameterFullLoad = 0.1f;
+
+    public CreatureHealthSystem() {
+        updateInterval = TimeUnitEnum.MINUTE;
+    }
 
     /**
      * Updates creatures health parameters to constant delta. Called by time.
      */
-    public void update(Entity entity) {
-        HealthAspect aspect = entity.getAspect(HealthAspect.class);
+    @Override
+    public void update(Unit unit) {
+        HealthAspect aspect = unit.getAspect(HealthAspect.class);
         if (aspect == null) {
-            Logger.UNITS.logError("Trying to update health of creature " + entity + " with no HealthAspect");
+            Logger.UNITS.logError("Trying to update health of creature " + unit + " with no HealthAspect");
             return;
         }
-        changeParameter((Unit) entity, HealthParameterEnum.FATIGUE, 0.01f);
-        changeParameter((Unit) entity, HealthParameterEnum.HUNGER, 0.01f);
+        changeParameter(unit, HealthParameterEnum.FATIGUE, 0.01f);
+        changeParameter(unit, HealthParameterEnum.HUNGER, 0.01f);
     }
 
     /**
@@ -66,7 +72,7 @@ public class CreatureHealthSystem {
             // TODO die
         }
         HealthParameterRange oldRange = parameter.getRange(oldValue);
-        if(parameter.getRange(state.getRelativeValue()) != oldRange) resetParameter(unit, parameterEnum);
+        if (parameter.getRange(state.getRelativeValue()) != oldRange) resetParameter(unit, parameterEnum);
     }
 
     public void resetCreatureHealth(Unit unit) {

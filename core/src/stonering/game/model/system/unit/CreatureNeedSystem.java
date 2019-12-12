@@ -5,6 +5,8 @@ import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.needs.NeedsAspect;
 import stonering.entity.unit.aspects.PlanningAspect;
 import stonering.entity.unit.aspects.needs.NeedEnum;
+import stonering.enums.time.TimeUnitEnum;
+import stonering.game.model.system.EntitySystem;
 import stonering.util.global.Pair;
 
 import java.util.*;
@@ -19,12 +21,17 @@ import static stonering.enums.action.TaskStatusEnum.*;
  *
  * @author Alexander on 22.08.2019.
  */
-public class CreatureNeedSystem {
+public class CreatureNeedSystem extends EntitySystem<Unit> {
+
+    public CreatureNeedSystem() {
+        updateInterval = TimeUnitEnum.MINUTE;
+    }
 
     /**
      * Fetches untolerated needs in the order of their priority, tries to create task fo satisfaction.
      * First successfully created task is saved to aspect (and then considered in {@link PlanningAspect}).
      */
+    @Override
     public void update(Unit unit) {
         NeedsAspect aspect = unit.getAspect(NeedsAspect.class);
         if(aspect == null) return;

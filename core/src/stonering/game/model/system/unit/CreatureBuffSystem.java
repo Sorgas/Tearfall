@@ -4,6 +4,8 @@ import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.BuffAspect;
 import stonering.entity.unit.aspects.RenderAspect;
 import stonering.entity.unit.aspects.health.Buff;
+import stonering.enums.time.TimeUnitEnum;
+import stonering.game.model.system.EntitySystem;
 import stonering.util.global.Logger;
 
 import java.util.Iterator;
@@ -15,11 +17,16 @@ import java.util.Iterator;
  *
  * @author Alexander on 16.09.2019.
  */
-public class CreatureBuffSystem {
+public class CreatureBuffSystem extends EntitySystem<Unit> {
+
+    public CreatureBuffSystem() {
+        updateInterval = TimeUnitEnum.MINUTE;
+    }
 
     /**
      * Updates counters on creature's buffs, removing expired ones.
      */
+    @Override
     public void update(Unit unit) {
         if (!unit.hasAspect(BuffAspect.class)) return;
         for (Iterator<Buff> iterator = unit.getAspect(BuffAspect.class).buffs.values().iterator(); iterator.hasNext(); ) {
