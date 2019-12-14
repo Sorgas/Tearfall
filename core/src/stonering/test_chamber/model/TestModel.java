@@ -76,7 +76,7 @@ public abstract class TestModel extends GameModel {
         sun.addAspect(new CelestialLightSourceAspect(sun));
         float orbitSpeed = 0.01f;
         sun.addAspect(new CelestialCycleAspect(orbitSpeed, sun));
-        world.getStarSystem().getCelestialBodies().add(sun);
+        world.getStarSystem().entities.add(sun);
         return world;
     }
 

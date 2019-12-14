@@ -2,6 +2,8 @@ package stonering.game.model.system.item;
 
 import stonering.entity.item.Item;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
+import stonering.enums.time.TimeUnitEnum;
+import stonering.game.model.system.EntitySystem;
 import stonering.util.global.Logger;
 
 /**
@@ -11,11 +13,17 @@ import stonering.util.global.Logger;
  *
  * @author Alexander on 17.11.2019.
  */
-public class EquippedItemsSystem {
+public class EquippedItemsSystem extends EntitySystem<Item> {
     private ItemContainer container;
 
     public EquippedItemsSystem(ItemContainer container) {
         this.container = container;
+        updateInterval = TimeUnitEnum.MINUTE;
+    }
+
+    @Override
+    public void update(Item entity) {
+
     }
 
     public void itemEquipped(Item item, EquipmentAspect aspect) {

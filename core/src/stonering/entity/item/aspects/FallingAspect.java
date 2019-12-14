@@ -21,8 +21,8 @@ public class FallingAspect extends Aspect {
         super(entity);
     }
 
-    @Override
     public void update() {
+        // TODO create system
         if (entity.position != null) { //TODO add aspect turnUnit on pickup
             LocalMap localMap = GameMvc.instance().model().get(LocalMap.class);
             Position lowerPosition = Position.add(entity.position, 0, 0, -1);

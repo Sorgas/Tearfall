@@ -3,6 +3,7 @@ package stonering.game.model.system;
 import stonering.entity.plants.AbstractPlant;
 import stonering.entity.plants.PlantBlock;
 import stonering.entity.plants.SubstratePlant;
+import stonering.enums.time.TimeUnitEnum;
 import stonering.util.geometry.Position;
 import stonering.util.global.Initable;
 
@@ -26,8 +27,8 @@ public class SubstrateContainer extends EntityContainer<SubstratePlant> implemen
     }
 
     @Override
-    public void update() {
-        entities.forEach(SubstratePlant::update);
+    public void update(TimeUnitEnum unit) {
+        // TODO move plant behaviour to systems
     }
 
     public void place(SubstratePlant plant, Position position) {

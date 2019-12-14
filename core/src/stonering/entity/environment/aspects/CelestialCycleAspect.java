@@ -34,12 +34,9 @@ public class CelestialCycleAspect extends Aspect implements Initable {
      * Updates brightness of celestial body. Should be called each minute.
      */
     //TODO add longitude
-    @Override
-    public void update() {
-    }
 
-    @Override
     public void turnUnit(TimeUnitEnum unit) {
+        //TODO move to system
         if (unit != TimeUnitEnum.MINUTE) return;
             orbitPos += orbitSpeed;
         if (orbitPos > 1) {

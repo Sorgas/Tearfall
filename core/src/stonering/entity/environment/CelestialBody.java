@@ -18,9 +18,4 @@ public class CelestialBody extends Entity implements Serializable {
         super(); //TODO redesign entity hierarchy
         addAspect(new CelestialLightSourceAspect(this));
     }
-
-    @Override
-    public void update() {
-        aspects.forEach((s, aspect) -> aspect.update());
-    }
 }

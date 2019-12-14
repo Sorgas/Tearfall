@@ -29,19 +29,16 @@ public class World implements Serializable, Initable, ModelComponent, Updatable 
         starSystem.init();
     }
 
-    @Override
-    public void update() {}
-
-    @Override
-    public void turnUnit(TimeUnitEnum unit) {
-        if(unit == TimeUnitEnum.HOUR) starSystem.update();
-    }
-
     public WorldMap getWorldMap() {
         return worldMap;
     }
 
     public StarSystem getStarSystem() {
         return starSystem;
+    }
+
+    @Override
+    public void update(TimeUnitEnum unit) {
+        if (unit == TimeUnitEnum.HOUR) starSystem.update(unit);
     }
 }

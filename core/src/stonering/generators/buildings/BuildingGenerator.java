@@ -51,7 +51,6 @@ public class BuildingGenerator {
                     }
                     case ItemContainerAspect.NAME: {
                         ItemContainerAspect itemContainerAspect = new ItemContainerAspect(building, aspect.get(1).split("/"));
-                        itemContainerAspect.setVolume(Integer.parseInt(aspect.get(2)));
                         building.addAspect(itemContainerAspect);
                         break;
                     }

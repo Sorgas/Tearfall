@@ -6,6 +6,7 @@ import stonering.entity.job.action.PlantingAction;
 import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.job.action.target.PositionActionTarget;
 import stonering.entity.plants.AbstractPlant;
+import stonering.entity.world.calendar.WorldCalendar;
 import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.model.system.PlantContainer;
@@ -56,7 +57,8 @@ public class FarmZone extends Zone {
      */
     public void update() {
         if (plantType == null) return; // no plant set for farm
-        int currentMonth = GameMvc.instance().model().getCalendar().year.state;
+        int currentMonth = GameMvc.instance().model().get(WorldCalendar.class).currentMonth;
+
         boolean plantingEnabled = plantType.plantingStart.contains(currentMonth);
         boolean hoeingEnabled = plantingEnabled || plantType.plantingStart.contains((currentMonth + 1) % 12);
         LocalMap localMap = GameMvc.instance().model().get(LocalMap.class);

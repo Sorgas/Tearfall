@@ -16,11 +16,14 @@ import java.util.List;
  */
 public abstract class EntityContainer<T extends Entity> implements ModelComponent, Updatable {
     public final List<T> entities;
-    private final HashMap<TimeUnitEnum, List<EntitySystem<T>>> updateMapping;
+    private final HashMap<TimeUnitEnum, List<EntitySystem<T>>> updateMapping; // entities are updated with systems from this map
 
     public EntityContainer() {
         entities = new ArrayList<>();
         updateMapping = new HashMap<>();
+        for (TimeUnitEnum value : TimeUnitEnum.values()) {
+            updateMapping.put(value, new ArrayList<>());
+        }
     }
 
     public void update(TimeUnitEnum unit) {
@@ -28,6 +31,6 @@ public abstract class EntityContainer<T extends Entity> implements ModelComponen
     }
 
     public <S extends EntitySystem<T>> void putSystem(S system) {
-        updateMapping.getOrDefault(system.updateInterval, new ArrayList<>()).add(system);
+        updateMapping.get(system.updateInterval).add(system);
     }
 }

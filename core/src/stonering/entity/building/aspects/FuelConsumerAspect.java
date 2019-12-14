@@ -21,8 +21,8 @@ public class FuelConsumerAspect extends Aspect {
         super(entity);
     }
 
-    @Override
     public void turnUnit(TimeUnitEnum unit) {
+        //TODO move to system
         if (isFueled() && unit == TimeUnitEnum.MINUTE) remainingTime--;
     }
 

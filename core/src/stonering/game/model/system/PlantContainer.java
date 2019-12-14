@@ -48,16 +48,6 @@ public class PlantContainer extends EntityContainer<AbstractPlant> implements In
         localMap = GameMvc.instance().model().get(LocalMap.class);
     }
 
-    @Override
-    public void update(TimeUnitEnum unit) {
-        if (unit == TimeUnitEnum.MINUTE) update();
-    }
-
-    @Override
-    public void turnUnit(TimeUnitEnum unit) {
-
-    }
-
     /**
      * Entry method for placing new plants and trees on map.
      */

@@ -1,6 +1,8 @@
 package stonering.game.model.system.item;
 
 import stonering.entity.item.Item;
+import stonering.enums.time.TimeUnitEnum;
+import stonering.game.model.system.EntitySystem;
 import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
 
@@ -13,11 +15,17 @@ import java.util.List;
  *
  * @author Alexander on 17.11.2019.
  */
-public class OnMapItemsSystem {
+public class OnMapItemsSystem extends EntitySystem<Item> {
     private ItemContainer container;
 
     public OnMapItemsSystem(ItemContainer container) {
         this.container = container;
+        updateInterval = TimeUnitEnum.MINUTE;
+    }
+
+    @Override
+    public void update(Item entity) {
+
     }
 
     public void putItem(Item item, Position pos) {

@@ -2,6 +2,7 @@ package stonering.game.model.system;
 
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.materials.MaterialMap;
+import stonering.enums.time.TimeUnitEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.Updatable;
 import stonering.game.model.local_map.LocalMap;
@@ -94,7 +95,8 @@ public class LiquidContainer implements ModelComponent, Initable, Updatable {
     /**
      * Once in turnDelay turns tries to move all liquids if possible
      */
-    public void update() {
+    @Override
+    public void update(TimeUnitEnum unit) {
         turnCount++;
         if (turnCount == turnDelay) {
             turnCount = 0;

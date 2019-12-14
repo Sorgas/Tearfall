@@ -8,6 +8,7 @@ import stonering.entity.unit.aspects.JobsAspect;
 import stonering.entity.unit.aspects.PlanningAspect;
 import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.enums.action.TaskStatusEnum;
+import stonering.enums.time.TimeUnitEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.Updatable;
 import stonering.game.model.local_map.passage.PassageMap;
@@ -48,7 +49,7 @@ public class TaskContainer implements ModelComponent, Updatable {
     }
 
     @Override
-    public void update() {
+    public void update(TimeUnitEnum unit) {
         designationSystem.update();
         taskStatusSystem.update();
     }

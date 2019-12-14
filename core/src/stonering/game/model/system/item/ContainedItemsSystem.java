@@ -2,6 +2,8 @@ package stonering.game.model.system.item;
 
 import stonering.entity.building.aspects.WorkbenchAspect;
 import stonering.entity.item.Item;
+import stonering.enums.time.TimeUnitEnum;
+import stonering.game.model.system.EntitySystem;
 import stonering.util.global.Logger;
 
 import java.util.ArrayList;
@@ -14,11 +16,18 @@ import java.util.List;
  *
  * @author Alexander on 17.11.2019.
  */
-public class ContainedItemsSystem {
+public class ContainedItemsSystem extends EntitySystem<Item> {
     private ItemContainer container;
 
     public ContainedItemsSystem(ItemContainer container) {
         this.container = container;
+        updateInterval = TimeUnitEnum.MINUTE;
+    }
+
+
+    @Override
+    public void update(Item entity) {
+
     }
 
     /**

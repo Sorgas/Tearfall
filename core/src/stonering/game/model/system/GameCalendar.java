@@ -1,51 +1,50 @@
 package stonering.game.model.system;
 
+import stonering.entity.world.calendar.WorldCalendar;
 import stonering.enums.time.TimeUnit;
 import stonering.enums.time.TimeUnitEnum;
 import stonering.game.GameMvc;
-import stonering.game.model.Updatable;
 
 /**
  * Date and time storing class. Makes turns to roll time.
- * All {@link ModelComponent}s are turned from here.
- * On creation, sizes of units are taken from {@link TimeUnitEnum}, then they can be altered.
+ * Game model is updated by this component to pass correct time unit.
+ * After day is over, {@link WorldCalendar} is notified to change game date.
  *
  * @author Alexander on 07.10.2018.
  */
 public class GameCalendar {
-    private int yearNumber;
-    public final TimeUnit minute; // for direct access while rendering
+    private final TimeUnit tick;
+    public final TimeUnit minute;
     public final TimeUnit hour;
     public final TimeUnit day;
-    public final TimeUnit month;
-    public final TimeUnit year;
     private TimeUnit[] units; // for storing 'next' relation between units
 
     public GameCalendar() {
-        minute = TimeUnitEnum.MINUTE.getTimeUnit();
-        hour = TimeUnitEnum.HOUR.getTimeUnit();
-        day = TimeUnitEnum.DAY.getTimeUnit();
-        month = TimeUnitEnum.MONTH.getTimeUnit();
-        year = TimeUnitEnum.YEAR.getTimeUnit();
-        units = new TimeUnit[]{minute, hour, day, month, year};
+        tick = new TimeUnit(TimeUnitEnum.TICK);
+        minute = new TimeUnit(TimeUnitEnum.MINUTE);
+        hour = new TimeUnit(TimeUnitEnum.HOUR);
+        day = new TimeUnit(TimeUnitEnum.DAY);
+        units = new TimeUnit[]{minute, hour, day};
     }
 
     public void turn() {
-        turnUnit(0); // turnUnit minute
+        turnUnit(1); // turnUnit minute
     }
 
     private void turnUnit(int index) {
-        if (index >= units.length) { // year ended in previous call
-            yearNumber++;
+        if (index >= units.length) { // day ended in previous call
+            //yearNumber++; // call world calendar
             return;
         }
         if (units[index].increment()) { // unit ended
-            GameMvc.instance().model().getUpdatableComponents().forEach(component -> component.turnUnit(units[index].unit));
             turnUnit(index + 1); // increase next unit (on minute end, hour gets +1)
-        } else if (index == 0) GameMvc.instance().model().getUpdatableComponents().forEach(Updatable::update); // regular turnUnit
+        } else {
+            GameMvc.instance().model().update(units[index - 1].unit);
+            //update with previous unit
+        }
     }
 
     public String getCurrentDate() {
-        return yearNumber + ":" + year.state + ":" + month.state + ":" + day.state + ":" + hour.state;
+        return day.progress + ":" + hour.progress;
     }
 }

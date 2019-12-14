@@ -46,9 +46,4 @@ public class CelestialLightSourceAspect extends AbstractLightSourceAspect implem
 //            entity.getAspect(CelestialCycleAspect.class).
         }
     }
-
-    @Override
-    public void update() {
-        updateLigtOnMap();
-    }
 }

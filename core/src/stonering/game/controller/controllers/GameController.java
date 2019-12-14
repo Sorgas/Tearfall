@@ -36,7 +36,7 @@ public class GameController extends Controller {
             Logger.UI.logDebug(value ? "Enabling" : "Disabling" + " EntitySelectorInputAdapter.");
             entitySelectorInputAdapter.setEnabled(value);
         } else {
-            Logger.UI.logDebug("Changing EntitySelectorInputAdapter state before GameController init.");
+            Logger.UI.logDebug("Changing EntitySelectorInputAdapter progress before GameController init.");
         }
     }
 }

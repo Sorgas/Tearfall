@@ -10,7 +10,7 @@ import java.io.Serializable;
  *
  * @author Alexander Kuzyakov on 10.10.2017.
  */
-public abstract class Aspect implements Serializable, Updatable {
+public abstract class Aspect implements Serializable {
     protected Entity entity;
 
     public Aspect(Entity entity) {

@@ -1,6 +1,7 @@
 package stonering.game.model;
 
 import com.badlogic.gdx.utils.Timer;
+import stonering.enums.time.TimeUnitEnum;
 import stonering.game.model.system.GameCalendar;
 import stonering.game.model.system.ModelComponent;
 import stonering.util.global.Initable;
@@ -15,7 +16,7 @@ import java.util.*;
  *
  * @author Alexander on 04.02.2019.
  */
-public abstract class GameModel implements Initable, Serializable {
+public abstract class GameModel implements Initable, Serializable, Updatable {
     private Map<Class, ModelComponent> components;
     private List<Updatable> updatableComponents; // not all components are Updatable
     protected GameCalendar calendar;
@@ -57,6 +58,11 @@ public abstract class GameModel implements Initable, Serializable {
                 if (!paused) calendar.turn(); // calendar turns other components
             }
         }, 0, 1f / 60);
+    }
+
+    @Override
+    public void update(TimeUnitEnum unit) {
+        updatableComponents.forEach(component -> component.update(unit));
     }
 
     public boolean isPaused() {

@@ -27,14 +27,14 @@ public class PlantGrowthAspect extends Aspect {
     public PlantGrowthAspect(Entity entity) {
         super(entity);
         GameCalendar calendar = GameMvc.instance().model().getCalendar();
-        weekSize = 7 * calendar.day.getSize() * calendar.hour.getSize();
+        weekSize = 7 * calendar.day.max * calendar.hour.max;
     }
 
     /**
      * Increases plant age if month has ended.
      */
-    @Override
     public void turnUnit(TimeUnitEnum unit) {
+        //TODO create system
         if (unit == TimeUnitEnum.MINUTE) update();
     }
 

@@ -26,9 +26,9 @@ public class SingleTreeModel extends TestModel {
         super.init();
         get(UnitContainer.class).addUnit(createUnit());
         get(ItemContainer.class).onMapItemsSystem.putNewItem(createItem(), new Position(0, 0, 2));
-        calendar.minute.setSize(1);
-        calendar.hour.setSize(1);
-        calendar.day.setSize(4);
+        calendar.minute.max = 1;
+        calendar.hour.max = 1;
+        calendar.day.max = 4;
         get(PlantContainer.class).place(createTree(), new Position(TREE_CENTER, TREE_CENTER, 2));
     }
 

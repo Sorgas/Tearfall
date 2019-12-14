@@ -3,6 +3,8 @@ package stonering.entity.item.aspects;
 import stonering.entity.Aspect;
 import stonering.entity.Entity;
 import stonering.entity.item.Item;
+import stonering.enums.time.TimeUnitEnum;
+import stonering.game.model.Updatable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,24 +23,10 @@ public class ItemContainerAspect extends Aspect {
     public static final String GRAIN = "grain"; // items with grain aspect
     public final List<String> itemTypes; // any combinaiton of above constants
     public final List<Item> items;
-    private int volume; // total items volume
 
     public ItemContainerAspect(Entity entity, String[] types) {
         super(entity);
         items = new ArrayList<>();
         itemTypes = new ArrayList<>();
-    }
-
-    @Override
-    public void update() {
-        items.forEach(Entity::update);
-    }
-
-    public int getVolume() {
-        return volume;
-    }
-
-    public void setVolume(int volume) {
-        this.volume = volume;
     }
 }

@@ -4,6 +4,7 @@ import stonering.entity.Entity;
 import stonering.entity.building.aspects.WorkbenchAspect;
 import stonering.entity.job.action.Action;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
+import stonering.enums.time.TimeUnitEnum;
 import stonering.game.model.system.EntityContainer;
 import stonering.util.geometry.Position;
 import stonering.entity.item.Item;
@@ -32,17 +33,15 @@ public class ItemContainer extends EntityContainer<Item> {
     public final OnMapItemsSystem onMapItemsSystem;
 
     public ItemContainer() {
-        containedItemsSystem = new ContainedItemsSystem(this);
-        equippedItemsSystem = new EquippedItemsSystem(this);
-        onMapItemsSystem = new OnMapItemsSystem(this);
+        putSystem(containedItemsSystem = new ContainedItemsSystem(this));
+        putSystem(equippedItemsSystem = new EquippedItemsSystem(this));
+        putSystem(onMapItemsSystem = new OnMapItemsSystem(this));
     }
 
-    public void update() {
-        //TODO system for updating equipment
-        //TODO system for updating ocntainers
-        entities.forEach(Entity::update);
-        //TODO rewrite items aspects to systems
-    }
+    //TODO system for updating equipment
+    //TODO system for updating ocntainers
+    //TODO rewrite items aspects to systems
+
 
     /**
      * Adds item to container and inits it's aspects. Used for registering newly created items.
