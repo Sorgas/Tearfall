@@ -40,7 +40,7 @@ public class CreatureNeedSystem extends EntitySystem<Unit> {
             List<Pair<NeedEnum, Integer>> needs = getUntoleratedNeeds(unit, aspect);
             if (needs.size() > 1) needs.sort(Comparator.comparingInt(Pair::getValue));
             for (Pair<NeedEnum, Integer> need : needs) {
-                aspect.satisfyingTask = need.getKey().need.tryCreateTask(unit);
+                aspect.satisfyingTask = need.getKey().NEED.tryCreateTask(unit);
                 if (aspect.satisfyingTask != null) return;
             }
         }
@@ -63,7 +63,7 @@ public class CreatureNeedSystem extends EntitySystem<Unit> {
         int priority;
         List<Pair<NeedEnum, Integer>> list = new ArrayList<>();
         for (NeedEnum need : aspect.needs) {
-            if ((priority = need.need.countPriority(unit).VALUE) < 0) continue; // skip tolerated need
+            if ((priority = need.NEED.countPriority(unit).VALUE) < 0) continue; // skip tolerated need
             list.add(new Pair<>(need, priority));
         }
         return list;

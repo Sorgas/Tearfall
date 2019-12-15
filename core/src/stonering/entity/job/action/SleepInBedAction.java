@@ -7,15 +7,15 @@ import stonering.entity.job.action.target.ActionTarget;
  * TODO
  * @author Alexander on 10.09.2019.
  */
-public class RestAction extends Action {
+public class SleepInBedAction extends PhasedAction {
 
-    public RestAction(ActionTarget actionTarget) {
+    public SleepInBedAction(ActionTarget actionTarget) {
         super(actionTarget);
     }
 
     @Override
     public int check() {
-        return 0;
+        return FAIL;
     }
 
     @Override

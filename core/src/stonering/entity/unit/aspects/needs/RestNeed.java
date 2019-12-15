@@ -5,7 +5,7 @@ import stonering.entity.building.Building;
 import stonering.entity.building.aspects.RestFurnitureAspect;
 import stonering.entity.job.Task;
 import stonering.entity.job.action.Action;
-import stonering.entity.job.action.RestAction;
+import stonering.entity.job.action.SleepInBedAction;
 import stonering.entity.job.action.target.EntityActionTarget;
 import stonering.entity.unit.aspects.health.HealthAspect;
 import stonering.entity.unit.aspects.health.HealthParameterState;
@@ -39,8 +39,8 @@ import java.util.Optional;
 public class RestNeed extends Need {
     @Override
     public TaskPriorityEnum countPriority(Entity entity) {
-        HealthAspect aspect = entity.getAspect(HealthAspect.class);
-        float relativeFatigue = aspect.parameters.get(HealthParameterEnum.FATIGUE).getRelativeValue();
+        HealthAspect health = entity.getAspect(HealthAspect.class);
+        float relativeFatigue = health.parameters.get(HealthParameterEnum.FATIGUE).getRelativeValue();
         return HealthParameterEnum.FATIGUE.PARAMETER.getRange(relativeFatigue).priority;
     }
 
@@ -72,7 +72,7 @@ public class RestNeed extends Need {
     }
 
     private Task createTaskToSleep(Building building, TaskPriorityEnum priority) {
-        Action restAction = new RestAction(new EntityActionTarget(building, ActionTargetTypeEnum.EXACT));
+        Action restAction = new SleepInBedAction(new EntityActionTarget(building, ActionTargetTypeEnum.EXACT));
         return new Task("sleep", restAction, priority.VALUE);
     }
 }

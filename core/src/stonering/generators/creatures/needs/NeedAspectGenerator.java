@@ -8,7 +8,8 @@ import stonering.entity.unit.aspects.needs.NeedEnum;
 import stonering.enums.unit.CreatureType;
 import stonering.entity.unit.aspects.needs.NeedsAspect;
 import stonering.util.global.FileLoader;
-import stonering.util.global.Logger;
+
+import java.util.Objects;
 
 /**
  * Generates needs for creatures.
@@ -33,17 +34,7 @@ public class NeedAspectGenerator {
 
     public NeedsAspect generateNeedAspect(CreatureType type) {
         NeedsAspect needsAspect = new NeedsAspect(null);
-        for (String need : type.bodyTemplate.needs) {
-            if(!NeedEnum.map.containsKey(need)) {
-                Logger.GENERATION.logError("Creature type " + type + " has invalid need " + need);
-            }
-            switch (need) {
-                case "wear": //TODO make enum of aspects
-                    needsAspect.needs.add(NeedEnum.WEAR);
-                    break;
-
-            }
-        }
+        type.bodyTemplate.needs.stream().map(NeedEnum::get).filter(Objects::nonNull).forEach(needsAspect.needs::add);
         return needsAspect;
     }
 }

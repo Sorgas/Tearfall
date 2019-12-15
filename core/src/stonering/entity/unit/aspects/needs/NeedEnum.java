@@ -1,10 +1,13 @@
 package stonering.entity.unit.aspects.needs;
 
+import stonering.util.global.Logger;
+
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Creatures needs ore enumerated here.
+ * TODO move need names to needs
  *
  * @author Alexander on 22.08.2019.
  */
@@ -21,10 +24,15 @@ public enum NeedEnum {
         }
     }
     public final String NAME;
-    public final Need need;
+    public final Need NEED;
 
     NeedEnum(String name, Need need) {
         NAME = name;
-        this.need = need;
+        this.NEED = need;
+    }
+
+    public static NeedEnum get(String needName) {
+        if(!map.containsKey(needName)) Logger.UNITS.logWarn("Getting invalid need " + needName);
+        return map.get(needName);
     }
 }

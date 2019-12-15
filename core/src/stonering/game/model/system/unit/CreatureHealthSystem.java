@@ -41,13 +41,14 @@ public class CreatureHealthSystem extends EntitySystem<Unit> {
      */
     @Override
     public void update(Unit unit) {
-        HealthAspect aspect = unit.getAspect(HealthAspect.class);
-        if (aspect == null) {
+        HealthAspect health = unit.getAspect(HealthAspect.class);
+        if (health == null) {
             Logger.UNITS.logError("Trying to update health of creature " + unit + " with no HealthAspect");
             return;
         }
-        changeParameter(unit, HealthParameterEnum.FATIGUE, 0.01f);
-        changeParameter(unit, HealthParameterEnum.HUNGER, 0.01f);
+        for (HealthParameterEnum parameter : health.parameters.keySet()) {
+            changeParameter(unit, parameter, 1f);
+        }
     }
 
     /**
@@ -76,10 +77,13 @@ public class CreatureHealthSystem extends EntitySystem<Unit> {
     }
 
     public void resetCreatureHealth(Unit unit) {
-        resetParameter(unit, HealthParameterEnum.FATIGUE);
-        resetParameter(unit, HealthParameterEnum.HUNGER);
+        for (HealthParameterEnum parameter : unit.getAspect(HealthAspect.class).parameters.keySet())
+            resetParameter(unit, parameter);
     }
 
+    /**
+     * Recreate buffs related to given parameter.
+     */
     private void resetParameter(Unit unit, HealthParameterEnum parameter) {
         HealthParameterState state = unit.getAspect(HealthAspect.class).parameters.get(parameter);
         HealthParameterRange range = parameter.PARAMETER.getRange(state.getRelativeValue());

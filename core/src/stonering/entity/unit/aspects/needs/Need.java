@@ -12,7 +12,6 @@ import stonering.enums.action.TaskPriorityEnum;
  * @author Alexander Kuzyakov on 21.09.2018.
  */
 public abstract class Need {
-
     /**
      * Returns priority of need. Returns -1 if need can be tolerated.
      */

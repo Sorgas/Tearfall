@@ -60,6 +60,7 @@ public class Task {
         Logger.TASKS.logDebug("Resetting task " + toString());
         preActions.clear();
         postActions.clear();
+
         performer = null;
     }
 

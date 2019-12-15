@@ -13,6 +13,7 @@ import stonering.util.global.Logger;
  * If action requirements are not met, Action and its task are failed.
  */
 public abstract class Action {
+    public static final float MAX_WORK_AMOUNT = 1f;
     public static final int OK = 1;
     public static final int NEW = 0;
     public static final int FAIL = -1;
@@ -65,6 +66,13 @@ public abstract class Action {
 
     public ActionTarget getActionTarget() {
         return actionTarget;
+    }
+
+    /**
+     * Resets counter of work left.
+     */
+    public void reset() {
+        workAmount = 1f;
     }
 
     @Override
