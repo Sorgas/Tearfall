@@ -1,8 +1,10 @@
 package stonering.game.controller.inputProcessors;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
+import stonering.util.global.Logger;
 
 /**
  * Can be disabled.
@@ -10,24 +12,18 @@ import stonering.game.model.GameModel;
  * @author Alexander Kuzyakov on 29.11.2017.
  */
 public class PauseInputAdapter extends InputAdapter {
-    private boolean enabled = true;
+    public boolean enabled = true;
 
     @Override
-    public boolean keyTyped(char character) {
-        if (enabled && character == ' ') switchPause();
-        return false;
+    public boolean keyDown(int keycode) {
+        if (keycode != Input.Keys.SPACE) return false;
+        Logger.INPUT.logDebug("Handling SPACE in" + (enabled ? "enabled" : "disabled") + " PauseInputAdapter");
+        if (enabled) switchPause();
+        return true;
     }
 
     private void switchPause() {
         GameModel model = GameMvc.instance().model();
         model.setPaused(!model.isPaused());
-    }
-
-    public boolean isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
     }
 }

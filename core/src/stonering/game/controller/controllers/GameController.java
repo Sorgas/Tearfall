@@ -31,9 +31,9 @@ public class GameController extends Controller {
         return inputMultiplexer;
     }
 
-    public void setCameraEnabled(boolean value) {
+    public void setSelectorEnabled(boolean value) {
         if(entitySelectorInputAdapter != null) {
-            Logger.UI.logDebug(value ? "Enabling" : "Disabling" + " EntitySelectorInputAdapter.");
+            Logger.UI.logDebug((value ? "Enabling" : "Disabling") + " EntitySelectorInputAdapter.");
             entitySelectorInputAdapter.setEnabled(value);
         } else {
             Logger.UI.logDebug("Changing EntitySelectorInputAdapter progress before GameController init.");

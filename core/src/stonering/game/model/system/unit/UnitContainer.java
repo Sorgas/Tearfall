@@ -7,6 +7,7 @@ import stonering.game.model.system.task.CreatureTaskPerformingSystem;
 import stonering.util.geometry.Position;
 import stonering.entity.unit.Unit;
 import stonering.util.global.Initable;
+import stonering.util.global.Logger;
 
 import java.util.*;
 

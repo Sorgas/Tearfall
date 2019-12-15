@@ -54,7 +54,7 @@ public class MaterialSelectList extends ItemsCountList implements Hideable, Hint
                 for (Actor child : getChildren()) {
                     child.setColor(Color.LIGHT_GRAY);
                 }
-                getSelectedElement().setColor(Color.RED);
+                getSelectedElement().setColor(Color.RED); // TODO npe for empty list
             }
         };
     }

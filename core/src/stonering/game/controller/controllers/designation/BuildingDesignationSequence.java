@@ -89,11 +89,11 @@ public class BuildingDesignationSequence extends DesignationSequence {
             if (order.parts.containsKey(partName)) continue;  // skip already added component
             GameMvc.instance().controller().entitySelectorInputAdapter.setEnabled(false);
             GameMvc.instance().view().mainUiStage.toolbar.addMenu(createSelectListForIngredient(partName));
-            GameMvc.instance().controller().setCameraEnabled(false);
+            GameMvc.instance().controller().setSelectorEnabled(false);
             return;
         }
         GameMvc.instance().model().get(TaskContainer.class).designationSystem.submitBuildingDesignation(order, 1);
-        GameMvc.instance().controller().setCameraEnabled(true);
+        GameMvc.instance().controller().setSelectorEnabled(true);
         reset();
     }
 

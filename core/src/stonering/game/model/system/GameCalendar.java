@@ -24,7 +24,7 @@ public class GameCalendar {
         minute = new TimeUnit(TimeUnitEnum.MINUTE);
         hour = new TimeUnit(TimeUnitEnum.HOUR);
         day = new TimeUnit(TimeUnitEnum.DAY);
-        units = new TimeUnit[]{minute, hour, day};
+        units = new TimeUnit[]{tick, minute, hour, day};
     }
 
     public void turn() {
@@ -39,8 +39,7 @@ public class GameCalendar {
         if (units[index].increment()) { // unit ended
             turnUnit(index + 1); // increase next unit (on minute end, hour gets +1)
         } else {
-            GameMvc.instance().model().update(units[index - 1].unit);
-            //update with previous unit
+            GameMvc.instance().model().update(units[index - 1].unit); //update with previous unit
         }
     }
 

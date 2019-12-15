@@ -61,7 +61,7 @@
     "menuPath": ["workbenches", "wood"],
     "placing": "floor",
     "parts": [
-        ["table", "log/plank/branch/root", "wood", "4"]
+        ["table", "log/plank/branch/root", "wood", "1"]
     ]
 }, {
     "name": "build_sawing_rack",
@@ -79,7 +79,7 @@
     "menuPath": ["workbenches", "wood"],
     "placing": "floor",
     "parts": [
-        ["campfire", "bed_prefab", "furniture", "4"]
+        ["bed", "bed_prefab", "furniture", "4"]
     ]
 }
 ]

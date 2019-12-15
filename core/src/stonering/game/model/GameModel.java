@@ -83,8 +83,4 @@ public abstract class GameModel implements Initable, Serializable, Updatable {
     public GameCalendar getCalendar() {
         return calendar;
     }
-
-    public List<Updatable> getUpdatableComponents() {
-        return updatableComponents;
-    }
 }

@@ -41,6 +41,6 @@
     "description":"Most wooden things can be made here.",
     "aspects":[["workbench"], ["item_container", "solid", "100"]],
     "parts":["table"],
-    "atlasXY":["0", "0"]
+    "atlasXY":["3", "0"]
 }
 ]
