@@ -50,7 +50,7 @@
         "description":"Bed",
         "aspects": [["furniture"], ["rest_furniture"]],
         "passage": "floor",
-        "atlasXY":["0", "0"],
+        "atlasXY":["4", "0"],
         "color":"0xffffffff"
     },
     {
