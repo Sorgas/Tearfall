@@ -80,6 +80,8 @@ public class GameView extends SimpleScreen {
     }
 
     public void showEntityStage(Position position) {
-        addStageToList(new MapEntitySelectStage(position));
+        MapEntitySelectStage stage = new MapEntitySelectStage();
+        addStageToList(stage);
+        stage.showEntitySelectList(position);
     }
 }

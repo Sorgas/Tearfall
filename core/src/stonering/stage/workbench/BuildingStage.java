@@ -21,8 +21,8 @@ public class BuildingStage extends UiStage implements Initable {
     private WorkbenchMenu menu;
     private boolean wasPaused;
 
-    public BuildingStage(GameMvc gameMvc, Building building) {
-        this.gameMvc = gameMvc;
+    public BuildingStage(Building building) {
+        this.gameMvc = GameMvc.instance();
         this.building = building;
     }
 

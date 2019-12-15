@@ -11,6 +11,7 @@ import stonering.game.model.EntitySelector;
 import stonering.game.model.local_map.LocalMap;
 import stonering.stage.renderer.AtlasesEnum;
 import stonering.util.geometry.Position;
+import stonering.util.global.Logger;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -38,6 +39,7 @@ public class EntitySelectorInputAdapter extends InputAdapter {
     public boolean keyDown(int keycode) {
         if (!enabled) return false;
         if(keycode == Input.Keys.E) {
+            Logger.INPUT.logDebug("handling E in EntitySelectorInputAdapter");
             (selectHandler != null ? selectHandler : defaultSelectHandler).accept(selector.position); // use dynamic handler if possible
             return true;
         }
@@ -115,9 +117,6 @@ public class EntitySelectorInputAdapter extends InputAdapter {
         return true;
     }
 
-//    private Position castScrenToModel() {
-//
-//    }
 
     private int charToKeycode(char character) {
         return valueOf(Character.valueOf(character).toString().toUpperCase());

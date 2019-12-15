@@ -33,13 +33,9 @@ import java.util.Objects;
  */
 public class MapEntitySelectStage extends UiStage {
 
-    public MapEntitySelectStage(Position currentPosition) {
-        super();
-        showEntitySelectList(currentPosition);
-    }
-
-    private void showEntitySelectList(Position position) {
+    public void showEntitySelectList(Position position) {
         List<Entity> entities = collectEntities(position);
+        // TODO close on empty list
         if (entities.size() == 1) {
             showEntityStage(entities.get(0));
         } else {
@@ -78,39 +74,37 @@ public class MapEntitySelectStage extends UiStage {
      * Shows stage according to entity type.
      */
     private void showEntityStage(Entity entity) {
-        Logger.UI.logDebug("Showing stage for " + entity);
         if (entity instanceof Building) {
             tryShowBuildingStage(((Building) entity).getBlock());
         } else if (entity instanceof Zone) {
             tryShowZoneStage((Zone) entity);
         } else if (entity instanceof Item) {
             tryShowItemStage((Item) entity);
+        } else {
+            //TODO add other entity types
+            Logger.UI.logWarn("entity " + entity + " is not supported in select stage");
         }
-        //TODO add other entity types
+        GameMvc.instance().view().removeStage(this);
     }
 
     private void tryShowBuildingStage(BuildingBlock block) {
         if (block == null) return;
         Building building = block.getBuilding();
-        GameMvc gameMvc = GameMvc.instance();
+        GameMvc.instance().view().addStageToList(new BuildingStage(building));
         Logger.UI.logDebug("showing building stage for: " + building);
-        gameMvc.view().removeStage(this);
-        gameMvc.view().addStageToList(new BuildingStage(gameMvc, building));
     }
 
     private void tryShowZoneStage(Zone zone) {
         if (zone == null) return;
         GameMvc gameMvc = GameMvc.instance();
         Logger.UI.logDebug("showing zone stage for: " + zone.getName());
-        gameMvc.view().removeStage(this);
         if(zone instanceof FarmZone) gameMvc.view().addStageToList(new ZoneMenuStage((FarmZone) zone));
     }
 
     private void tryShowItemStage(Item item) {
         if (item == null) return;
         GameMvc gameMvc = GameMvc.instance();
-        Logger.UI.logDebug("showing zone stage for: " + item.getTitle());
-        gameMvc.view().removeStage(this);
+        Logger.UI.logDebug("showing item stage for: " + item.getTitle());
         gameMvc.view().addStageToList(new ItemStage(item));
     }
 }
