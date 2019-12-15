@@ -42,8 +42,6 @@ import static stonering.enums.OrderStatusEnum.*;
  */
 public class WorkbenchSystem extends EntitySystem<Building> {
 
-
-
     /**
      * Checks state of workbench orders.
      * Tries to lead workbench to state when first order is not suspended and has task,

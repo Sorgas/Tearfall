@@ -76,7 +76,7 @@
     "name": "build_bed",
     "title": "Bed",
     "building": "bed",
-    "menuPath": ["workbenches", "wood"],
+    "menuPath": ["furniture"],
     "placing": "floor",
     "parts": [
         ["bed", "bed_prefab", "furniture", "4"]

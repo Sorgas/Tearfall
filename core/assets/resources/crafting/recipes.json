@@ -67,7 +67,7 @@
     "name": "make_bed",
     "title": "Make bed",
     "itemName": "bed_prefab",
-    "parts": [["bed", "any", "wood", "1"]]
+    "parts": [["bed", "log", "wood", "1"]]
 }, {
     "name": "make_bow_saw",
     "title": "Make bow saw",

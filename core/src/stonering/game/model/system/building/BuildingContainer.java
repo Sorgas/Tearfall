@@ -27,7 +27,6 @@ import static stonering.enums.blocks.BlockTypesEnum.PassageEnum.PASSABLE;
  * @author Alexander Kuzyakov on 09.12.2017.
  */
 public class BuildingContainer extends EntityContainer<Building> implements ModelComponent, Updatable {
-    private List<Building> buildings;
     public final BuildingGenerator buildingGenerator;
     private HashMap<Position, BuildingBlock> buildingBlocks;
     private List<Building> removedBuildings;
@@ -36,7 +35,6 @@ public class BuildingContainer extends EntityContainer<Building> implements Mode
     public BuildingContainer() {
         buildingBlocks = new HashMap<>();
         buildingGenerator = new BuildingGenerator();
-        this.buildings = new ArrayList<>();
         removedBuildings = new ArrayList<>();
         putSystem(workbenchSystem = new WorkbenchSystem());
     }
@@ -48,7 +46,7 @@ public class BuildingContainer extends EntityContainer<Building> implements Mode
     }
 
     private void removeMarkedForDelete() {
-        buildings.removeAll(removedBuildings);
+        entities.removeAll(removedBuildings);
         for (Building removedBuilding : removedBuildings) {
             buildingBlocks.remove(removedBuilding.getBlock().getPosition());
         }
@@ -60,7 +58,7 @@ public class BuildingContainer extends EntityContainer<Building> implements Mode
     public void addBuilding(Building building) {
         Position position = building.getBlock().getPosition();
         building.init();
-        buildings.add(building);
+        entities.add(building);
         buildingBlocks.put(position, building.getBlock());
         tryMoveItems(position);
         GameMvc.instance().model().get(LocalMap.class).updateTile(position);
@@ -70,7 +68,7 @@ public class BuildingContainer extends EntityContainer<Building> implements Mode
      * Removes building from container and from map.
      */
     public void removeBuilding(Building building) {
-        buildings.remove(building);
+        entities.remove(building);
         buildingBlocks.remove(building.getBlock().getPosition());
     }
 
@@ -99,6 +97,6 @@ public class BuildingContainer extends EntityContainer<Building> implements Mode
     }
 
     public List<Building> getBuildingsWithAspect(Class<? extends Aspect> T) {
-        return buildings.stream().filter(building -> building.hasAspect(T)).collect(Collectors.toList());
+        return entities.stream().filter(building -> building.hasAspect(T)).collect(Collectors.toList());
     }
 }
