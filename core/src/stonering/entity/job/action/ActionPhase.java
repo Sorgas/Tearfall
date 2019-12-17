@@ -30,14 +30,14 @@ public abstract class ActionPhase {
         finishGoal = () -> false;
     }
 
-    public void perform(float delta) {
+    public boolean perform(float delta) {
         if(progress == 0) onStart.execute();
         progressConsumer.accept(delta);
         progress += delta;
-        if(finishGoal.get() || progress >= requiredAmount) onFinish.execute();
-    }
-
-    public boolean isFinished() {
-        return progress >= requiredAmount;
+        if(finishGoal.get() || progress >= requiredAmount) {
+            onFinish.execute();
+            return true;
+        }
+        return false;
     }
 }

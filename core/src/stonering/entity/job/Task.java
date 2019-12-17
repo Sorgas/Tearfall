@@ -68,7 +68,7 @@ public class Task {
      * Task is finished, if initial action is finished, and no other action remain.
      */
     public boolean isFinished() {
-        return preActions.isEmpty() && initialAction.finished && postActions.isEmpty();
+        return preActions.isEmpty() && initialAction.isFinished() && postActions.isEmpty();
     }
 
     /**
@@ -108,10 +108,13 @@ public class Task {
         updateNextAction();
     }
 
+    /**
+     * Searches next action to perform and sets nextAction field.
+     */
     private void updateNextAction() {
         nextAction = null;
         if (!postActions.isEmpty()) nextAction = postActions.get(0);
-        if (!initialAction.finished) nextAction = initialAction;
+        if (!initialAction.isFinished()) nextAction = initialAction;
         nextAction = preActions.isEmpty() ? nextAction : preActions.get(0);
     }
 

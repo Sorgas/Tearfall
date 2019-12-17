@@ -1,6 +1,7 @@
 package stonering.entity.job.action;
 
 import stonering.entity.job.action.target.ActionTarget;
+import stonering.util.global.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,5 +17,31 @@ public abstract class PhasedAction extends Action {
     protected PhasedAction(ActionTarget actionTarget) {
         super(actionTarget);
         phases = new ArrayList<>();
+        recreatePhases();
+    }
+
+    @Override
+    protected void applyWork() {
+        if(phases.isEmpty()) {
+            Logger.TASKS.logWarn("trying to perform phased action with no phases. " + this);
+        } else {
+            if(phases.get(0).perform(getWorkDelta())) phases.remove(0);
+        }
+    }
+
+    @Override
+    public boolean isFinished() {
+        return super.isFinished();
+    }
+
+    /**
+     * Creates phases with initial state.
+     */
+    protected abstract void recreatePhases();
+
+    @Override
+    public void reset() {
+        super.reset();
+        recreatePhases();
     }
 }
