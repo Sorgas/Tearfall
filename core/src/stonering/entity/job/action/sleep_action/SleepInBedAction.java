@@ -1,17 +1,15 @@
 package stonering.entity.job.action.sleep_action;
 
 import stonering.entity.building.Building;
-import stonering.entity.job.action.PhasedAction;
+import stonering.entity.job.action.phase.PhasedAction;
 import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.job.action.target.EntityActionTarget;
-import stonering.entity.unit.aspects.TreatsAspect;
-import stonering.entity.unit.aspects.health.HealthAspect;
-import stonering.enums.unit.TreatEnum;
-import stonering.enums.unit.health.HealthParameterEnum;
+import stonering.enums.time.TimeUnitEnum;
 
 /**
  * Action for sleeping.
  * TODO
+ *
  * @author Alexander on 10.09.2019.
  */
 public class SleepInBedAction extends PhasedAction {
@@ -26,11 +24,11 @@ public class SleepInBedAction extends PhasedAction {
 
     @Override
     protected void recreatePhases() {
-        phases.add(new RestPhase()); // 5-240 min
+        phases.add(new RestPhase(this, getRequiredRestLength())); // 5-240 min
         //      +                 -
         // pain               tiredness
 
-        phases.add(new SleepPhase()); // 30-720 min
+        phases.add(new SleepPhase(this, getMaxSleepLength())); // 30-720 min
         //      +                 -
         // personal treat      pain
         // illness
@@ -60,15 +58,19 @@ public class SleepInBedAction extends PhasedAction {
         return 0.003125f; // applied every tick. gives 90 points over 8 hours
     }
 
-    private float getRequiredRestAmount() {
-        return 0;
+    /**
+     * Creatures should rest before sleeping.
+     * Having bad mood, pain or other negative conditions will prevent sleeping.
+     */
+    private int getRequiredRestLength() {
+        return 0; // TODO
     }
 
     /**
-     * Gets length of sleep (in work units). High tiredness, being ill
+     * Creatures cannot sleep more than 12 hours. Being sick or having an injury will decrease sleep length.
+     * TODO consider sickness and injures.
      */
-    private float getRequiredSleepAmount() {
-        return task.performer.getAspect(HealthAspect.class).parameters.get(HealthParameterEnum.FATIGUE).current / restSpeed;
-
+    private int getMaxSleepLength() {
+        return 12 * TimeUnitEnum.HOUR.LENGTH * TimeUnitEnum.MINUTE.LENGTH; // 12 hours max
     }
 }

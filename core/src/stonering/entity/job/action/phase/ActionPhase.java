@@ -1,4 +1,4 @@
-package stonering.entity.job.action;
+package stonering.entity.job.action.phase;
 
 import stonering.util.global.Executor;
 
@@ -7,9 +7,9 @@ import java.util.function.Supplier;
 
 /**
  * Phase of {@link PhasedAction}.
- * Accepts work amount passed from action to make progress.
+ * Accepts work passed from action to make progress.
  * Can perform some logic on start, finish and during process.
- * Has goal which can end phase, even before all required work amount is passed.
+ * Phase is ended, when the finish goal is reached.1
  *
  * @author Alexander on 15.12.2019.
  */
@@ -34,10 +34,14 @@ public abstract class ActionPhase {
         if(progress == 0) onStart.execute();
         progressConsumer.accept(delta);
         progress += delta;
-        if(finishGoal.get()) {
+        if(isFinished()) {
             onFinish.execute();
             return true;
         }
         return false;
+    }
+
+    protected boolean isFinished() {
+        return finishGoal.get();
     }
 }

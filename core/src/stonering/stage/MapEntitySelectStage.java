@@ -5,6 +5,7 @@ import stonering.entity.Entity;
 import stonering.entity.building.Building;
 import stonering.entity.building.BuildingBlock;
 import stonering.entity.item.Item;
+import stonering.entity.unit.Unit;
 import stonering.entity.zone.FarmZone;
 import stonering.entity.zone.Zone;
 import stonering.game.GameMvc;
@@ -14,6 +15,7 @@ import stonering.game.model.system.building.BuildingContainer;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.system.unit.UnitContainer;
 import stonering.stage.item.ItemStage;
+import stonering.stage.unit.UnitStage;
 import stonering.stage.workbench.BuildingStage;
 import stonering.stage.zone.ZoneMenuStage;
 import stonering.widget.lists.ObservingList;
@@ -80,6 +82,8 @@ public class MapEntitySelectStage extends UiStage {
             tryShowZoneStage((Zone) entity);
         } else if (entity instanceof Item) {
             tryShowItemStage((Item) entity);
+        } else if (entity instanceof Unit) {
+
         } else {
             //TODO add other entity types
             Logger.UI.logWarn("entity " + entity + " is not supported in select stage");
@@ -106,5 +110,13 @@ public class MapEntitySelectStage extends UiStage {
         GameMvc gameMvc = GameMvc.instance();
         Logger.UI.logDebug("showing item stage for: " + item.getTitle());
         gameMvc.view().addStageToList(new ItemStage(item));
+    }
+
+    private void tryShowUnitStage(Unit unit) {
+        if (unit == null) return;
+        GameMvc gameMvc = GameMvc.instance();
+        Logger.UI.logDebug("showing unit stage for: " + unit);
+        gameMvc.view().addStageToList(new UnitStage(unit));
+
     }
 }

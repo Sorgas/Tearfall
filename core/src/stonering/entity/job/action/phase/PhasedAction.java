@@ -1,5 +1,6 @@
-package stonering.entity.job.action;
+package stonering.entity.job.action.phase;
 
+import stonering.entity.job.action.Action;
 import stonering.entity.job.action.target.ActionTarget;
 import stonering.util.global.Logger;
 
