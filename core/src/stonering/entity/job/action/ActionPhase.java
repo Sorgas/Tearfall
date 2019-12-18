@@ -14,15 +14,15 @@ import java.util.function.Supplier;
  * @author Alexander on 15.12.2019.
  */
 public abstract class ActionPhase {
-    public final float requiredAmount; // max amount of work
-    public float progress; // current amount of added work
+    protected final PhasedAction action;
+    public float progress; // total added work
     public Executor onStart; // performed on phase start
     public Executor onFinish; // performed on phase finish
     public Consumer<Float> progressConsumer; // performs logic when phase is in progress
     public Supplier<Boolean> finishGoal; // when reached, phase ends
 
-    protected ActionPhase(float requiredAmount) {
-        this.requiredAmount = requiredAmount;
+    protected ActionPhase(PhasedAction action) {
+        this.action = action;
         progress = 0;
         onStart = () -> {};
         onFinish = () -> {};
@@ -34,7 +34,7 @@ public abstract class ActionPhase {
         if(progress == 0) onStart.execute();
         progressConsumer.accept(delta);
         progress += delta;
-        if(finishGoal.get() || progress >= requiredAmount) {
+        if(finishGoal.get()) {
             onFinish.execute();
             return true;
         }

@@ -7,7 +7,7 @@ import stonering.entity.unit.aspects.health.HealthTimedBuff;
 import static stonering.enums.action.TaskPriorityEnum.*;
 
 /**
- * Checks value of Creates fatigue buffs.
+ * Creates buffs according to relative value of fatigue.
  *
  * @author Alexander on 06.10.2019.
  */
@@ -20,7 +20,7 @@ public class FatigueParameter extends HealthParameter {
 
     @Override
     protected void fillRanges() {
-        ranges.add(new HealthParameterRange(0, 20, NONE, () -> createBuff(10, 0)));
+        ranges.add(new HealthParameterRange(-1, 20, NONE, () -> createBuff(10, 0)));
         ranges.add(new HealthParameterRange(20, 50, NONE, () -> null));
         ranges.add(new HealthParameterRange(50, 60, COMFORT, () -> createBuff(-10, 2)));
         ranges.add(new HealthParameterRange(60, 80, HEALTH_NEEDS, () -> createBuff(-25, 3)));

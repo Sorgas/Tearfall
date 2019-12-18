@@ -14,7 +14,6 @@ import stonering.util.global.Logger;
  * <p>
  */
 public abstract class Action {
-    public static final float MAX_WORK_AMOUNT = 1f;
     public static final int OK = 1;
     public static final int NEW = 0;
     public static final int FAIL = -1;
