@@ -7,7 +7,8 @@ import stonering.entity.job.action.target.EntityActionTarget;
 import stonering.enums.time.TimeUnitEnum;
 
 /**
- * Action for sleeping.
+ * Action for sleeping. Creature will first lie without sleep being able to see the surroundings,
+ * and then sleep with closed eyes. Lengths of both phases are influenced by creature
  * TODO
  *
  * @author Alexander on 10.09.2019.
@@ -25,14 +26,7 @@ public class SleepInBedAction extends PhasedAction {
     @Override
     protected void recreatePhases() {
         phases.add(new RestPhase(this, getRequiredRestLength())); // 5-240 min
-        //      +                 -
-        // pain               tiredness
-
         phases.add(new SleepPhase(this, getMaxSleepLength())); // 30-720 min
-        //      +                 -
-        // personal treat      pain
-        // illness
-        // tiredness
     }
 
     @Override

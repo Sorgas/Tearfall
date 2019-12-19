@@ -6,6 +6,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.utils.Align;
@@ -37,13 +38,10 @@ public class UiDemo extends Game {
 
     private class ScreenMock extends SimpleScreen {
         private UiStage stage;
-        private boolean panStarted;
-        private boolean vertical;
 
         public ScreenMock() {
             stage = new UiStage();
             stage.addActor(createContainer());
-//            stage.addActor(createGroupContainer());
             Gdx.input.setInputProcessor(stage);
         }
 
@@ -62,53 +60,55 @@ public class UiDemo extends Game {
         }
 
         private Container createContainer() {
-            ScrollPane pane = new ScrollPane(new Table());
-            Table table2 = (Table) pane.getActor();
-            EventListener listener = new ActorGestureListener() {
-                @Override
-                public void pan(InputEvent event, float x, float y, float deltaX, float deltaY) {
-                    if(!panStarted) {
-                        panStarted = true;
-                        vertical = Math.abs(deltaY) > Math.abs(deltaX);
-                        System.out.println(deltaX + " " + deltaY);
-                    }
-                    System.out.println(vertical ? "vertical" : "horizontal");
-                }
+            ScrollPane verticalPane = new ScrollPane(createTable());
+            verticalPane.setScrollingDisabled(true, false);
+            Container paneContainer = new Container<>(verticalPane);
+            paneContainer.align(Align.right);
+            paneContainer.addListener(createListener("pane"));
+            paneContainer.maxWidth(250);
 
-                @Override
-                public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-                    panStarted = false;
-                    System.out.println("up");
-                }
-            };
-            pane.setDebug(true, true);
-            for (int i = 0; i < 100; i++) {
-                ItemCardButton button = new ItemCardButton(createItem(), 3);
-                table2.add(button).pad(5).row();
-                button.addListener(listener);
-            }
-            Container container = new Container(pane);
-            container.align(Align.right);
-            pane.addListener(listener);
-            container.setDebug(true, true);
-            container.setFillParent(true);
-            return container;
-        }
+            Container wideContainer = new Container<>(paneContainer);
+            wideContainer.minWidth(400);
+            wideContainer.maxWidth(400);
+            wideContainer.align(Align.right);
+            wideContainer.addListener(createListener("wide"));
 
-        private Container createGroupContainer() {
-            ButtonGroup<CheckBox> group = new ButtonGroup<>();
-            Table table = new Table();
-            Container<Table> container = new Container<>(table);
-            for (int i = 0; i < 5; i++) {
-                CheckBox checkBox = new CheckBox("box " + i, StaticSkin.getSkin());
-                table.add(checkBox);
-                group.add(checkBox);
-            }
-            container.align(Align.left);
-            container.setDebug(true, true);
-            container.setFillParent(true);
-            return container;
+            ScrollPane horizontalPane = new ScrollPane(wideContainer);
+            horizontalPane.setScrollingDisabled(false, true);
+            horizontalPane.setOverscroll(false, false);
+            horizontalPane.setFlickScroll(true);
+
+            Container limitContainer = new Container<>(horizontalPane);
+            limitContainer.maxWidth(250);
+            limitContainer.align(Align.right);
+            limitContainer.addListener(createListener("limit"));
+
+            Container fillContainer = new Container<>(limitContainer);
+            fillContainer.setDebug(true, true);
+            fillContainer.setFillParent(true);
+            fillContainer.align(Align.right);
+            fillContainer.addListener(createListener("fill"));
+            return fillContainer;
         }
+    }
+
+    private InputListener createListener(String qwer) {
+        return new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                System.out.println(qwer);
+                return false;
+            }
+        };
+    }
+
+    private Table createTable() {
+        Table table2 = new Table();
+        for (int i = 0; i < 20; i++) {
+            ItemCardButton button = new ItemCardButton(createItem(), 3);
+            table2.add(button).pad(5).row();
+        }
+        return table2;
     }
 
     private Item createItem() {
