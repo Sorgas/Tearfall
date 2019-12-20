@@ -6,7 +6,8 @@ import stonering.util.global.StaticSkin;
 
 /**
  * Menu for unit.
- * Shows picture, name, current task, tool, enabled jobs, best skill, and needs state.
+ * Consists of quick info section and tabs of details.
+ *
  * Separate tabs allow to view:
  * 1.equipment,
  * 2.job list with skills for switching,
@@ -17,6 +18,7 @@ import stonering.util.global.StaticSkin;
  * @author Alexander on 18.12.2019.
  */
 public class UnitMenu extends Window {
+
 
     public UnitMenu(Unit unit) {
         super("", StaticSkin.getSkin());
