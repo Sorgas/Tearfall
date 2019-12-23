@@ -2,10 +2,8 @@ package stonering.stage.unit;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.utils.Align;
-import stonering.entity.item.Item;
 import stonering.entity.unit.Unit;
 import stonering.stage.UiStage;
-import stonering.stage.item.ItemMenu;
 import stonering.util.global.Logger;
 
 /**
@@ -18,7 +16,7 @@ public class UnitStage extends UiStage {
     public UnitStage(Unit unit) {
         super();
         Logger.UI.logDebug("Creating item menu stage.");
-        Container<ItemMenu> container = new Container(menu = new UnitMenu(unit));
+        Container<UnitMenu> container = new Container(menu = new UnitMenu(unit));
         container.getActor().align(Align.center);
         container.setFillParent(true);
         container.setDebug(true, true);

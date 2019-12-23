@@ -15,7 +15,6 @@ public class LabeledProgressBar extends Table {
     private Label label;
     private ProgressBar progressBar;
 
-
     public LabeledProgressBar(Skin skin) {
         super(skin);
         label = new Label("", skin);

@@ -10,16 +10,16 @@ import stonering.util.global.StaticSkin;
  *
  * @author Alexander on 20.12.2019.
  */
-public class LabeledProgressBar extends Stack {
-    private ProgressBar bar;
-    private RatioLabel label;
+public class RatioLabelProgressBar extends Stack {
+    protected ProgressBar bar;
+    protected RatioLabel label;
     private int max;
     private int min;
     private int current;
 
-    public LabeledProgressBar() {
-        add(bar = new ProgressBar(0,100, 1, false, StaticSkin.getSkin()));
-        add(label = new RatioLabel(0, 100));
+    public RatioLabelProgressBar(int min, int max) {
+        add(bar = new ProgressBar(min, max, 1, false, StaticSkin.getSkin()));
+        add(label = new RatioLabel(min, max));
     }
 
     public int getMax() {

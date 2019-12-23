@@ -83,7 +83,7 @@ public class MapEntitySelectStage extends UiStage {
         } else if (entity instanceof Item) {
             tryShowItemStage((Item) entity);
         } else if (entity instanceof Unit) {
-
+            tryShowUnitStage((Unit) entity);
         } else {
             //TODO add other entity types
             Logger.UI.logWarn("entity " + entity + " is not supported in select stage");
@@ -117,6 +117,5 @@ public class MapEntitySelectStage extends UiStage {
         GameMvc gameMvc = GameMvc.instance();
         Logger.UI.logDebug("showing unit stage for: " + unit);
         gameMvc.view().addStageToList(new UnitStage(unit));
-
     }
 }

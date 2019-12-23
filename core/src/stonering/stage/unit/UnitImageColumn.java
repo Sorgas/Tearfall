@@ -15,13 +15,15 @@ import stonering.util.global.StaticSkin;
 public class UnitImageColumn extends Table {
 
     public UnitImageColumn(Unit unit) {
-
+        createTable(unit);
     }
 
     private void createTable(Unit unit) {
         add(new Label("unit name", StaticSkin.getSkin())).row();
         add(new Image(unit.getAspect(RenderAspect.class).drawable)).row();
         //TODO equipped tool/weapon
-
+        add(new Label("current task", StaticSkin.getSkin())).row();
+        add(new Label("current task", StaticSkin.getSkin())).row();
+        add(new UnitNeedsWidget(unit));
     }
 }
