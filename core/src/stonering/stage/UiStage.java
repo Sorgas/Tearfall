@@ -11,7 +11,7 @@ import stonering.widget.util.Resizeable;
  * @author Alexander on 20.02.2019.
  */
 public class UiStage extends Stage implements Resizeable {
-    protected boolean interceptInput = true;
+    public boolean interceptInput = true;
 
     public UiStage() {
         super();

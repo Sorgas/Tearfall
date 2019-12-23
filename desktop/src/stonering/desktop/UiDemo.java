@@ -2,8 +2,10 @@ package stonering.desktop;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
 import stonering.desktop.sidebar.Sidebar;
@@ -13,6 +15,7 @@ import stonering.enums.items.type.raw.RawItemType;
 import stonering.enums.materials.MaterialMap;
 import stonering.stage.UiStage;
 import stonering.screen.SimpleScreen;
+import stonering.util.global.StaticSkin;
 import stonering.widget.lists.ItemCardButton;
 
 /**
@@ -28,27 +31,32 @@ public class UiDemo extends Game {
 
     @Override
     public void create() {
-        Screen screen = new SimpleScreen();
         setScreen(new SimpleScreen() {
-            private UiStage stage;
+            private UiStage stage1 = new UiStage();
+            private UiStage stage2 = new UiStage();
+
             {
-                stage = new UiStage();
-                stage.addActor(createContainer());
-                Gdx.input.setInputProcessor(stage);
+                stage1.interceptInput = false;
+                stage2.interceptInput = false;
+                stage1.addActor(createLabelContainer());
+                stage2.addActor(createButtonContainer());
+                Gdx.input.setInputProcessor(new InputMultiplexer(stage1, stage2));
             }
 
             @Override
             public void render(float delta) {
                 Gdx.gl.glClearColor(0, 0, 0, 1);
                 Gdx.gl.glClear(Gdx.gl20.GL_COLOR_BUFFER_BIT | Gdx.gl20.GL_DEPTH_BUFFER_BIT);
-                stage.act(delta);
-                stage.getViewport().apply();
-                stage.draw();
+                stage2.act(delta);
+                stage2.draw();
+                stage1.act(delta);
+                stage1.draw();
             }
 
             @Override
             public void resize(int width, int height) {
-                stage.resize(width, height);
+                stage1.resize(width, height);
+                stage2.resize(width, height);
             }
         });
     }
@@ -59,6 +67,37 @@ public class UiDemo extends Game {
         fillContainer.setFillParent(true);
         fillContainer.align(Align.right);
         return fillContainer;
+    }
+
+    private Container createButtonContainer() {
+        TextButton button = new TextButton("qwer", StaticSkin.getSkin());
+        button.addListener(new InputListener() {
+
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                System.out.println("qwer");
+                return false;
+            }
+        });
+        Container container = new Container<>(button);
+        container.align(Align.right).size(300, 300).setFillParent(true);
+        return container;
+    }
+
+    private Container createLabelContainer() {
+        Label label = new Label("asdf", StaticSkin.getSkin());
+        label.addListener(new InputListener() {
+
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                System.out.println("asdf");
+                return false;
+            }
+        });
+        Container container = new Container<>(label);
+        container.align(Align.right).size(200, 200).setFillParent(true);
+        container.setDebug(true, true);
+        return container;
     }
 
     private ScrollPane createList() {
