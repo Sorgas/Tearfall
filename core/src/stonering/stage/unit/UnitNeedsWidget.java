@@ -17,6 +17,6 @@ public class UnitNeedsWidget extends Table {
     }
 
     private void createBars() {
-        add(new ProgressBar())
+//        add(new ProgressBar());
     }
 }
