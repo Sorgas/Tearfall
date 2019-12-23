@@ -31,6 +31,9 @@ public abstract class PhasedAction extends Action {
     }
 
     @Override
+    protected final void performLogic() {}
+
+    @Override
     public boolean isFinished() {
         return super.isFinished();
     }

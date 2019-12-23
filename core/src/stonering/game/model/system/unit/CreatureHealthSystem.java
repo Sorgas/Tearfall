@@ -48,7 +48,7 @@ public class CreatureHealthSystem extends EntitySystem<Unit> {
             return;
         }
         for (HealthParameterEnum parameter : health.parameters.keySet()) {
-            changeParameter(unit, parameter, 1f);
+            changeParameter(unit, parameter, parameter.DEFAULT_DELTA);
         }
     }
 
@@ -71,7 +71,8 @@ public class CreatureHealthSystem extends EntitySystem<Unit> {
         float oldValue = state.getRelativeValue();
         state.current += delta;
         if (state.current > state.max) {
-            // TODO die
+            Logger.UNITS.logWarn("UNIT " + unit  + " DIED!"); // TODO
+            return;
         }
         HealthParameterRange oldRange = parameter.getRange(oldValue);
         if (parameter.getRange(state.getRelativeValue()) != oldRange) resetParameter(unit, parameterEnum);

@@ -5,6 +5,7 @@ import stonering.entity.job.action.phase.TimedActionPhase;
 import stonering.entity.unit.aspects.health.HealthAspect;
 import stonering.entity.unit.aspects.health.HealthParameterState;
 import stonering.enums.unit.health.HealthParameterEnum;
+import stonering.util.global.Logger;
 
 /**
  * Creature sleeps during this phase.
@@ -15,20 +16,26 @@ import stonering.enums.unit.health.HealthParameterEnum;
  * @author Alexander on 17.12.2019.
  */
 public class SleepPhase extends TimedActionPhase {
-    private final HealthParameterState targetParameter;
+    private HealthParameterState targetParameter;
 
     protected SleepPhase(PhasedAction action, int numberOfTicks) {
         super(action, numberOfTicks);
-        targetParameter = action.task.performer.getAspect(HealthAspect.class).parameters.get(HealthParameterEnum.FATIGUE);
+
         onStart = () -> {
+            targetParameter = action.task.performer.getAspect(HealthAspect.class).parameters.get(HealthParameterEnum.FATIGUE);
+            Logger.TASKS.logDebug("start sleep phase");
             // disable vision
             // decrease hearing
         };
         onFinish = () -> {
+            Logger.TASKS.logDebug("finish sleep phase");
             // restore vision and hearing
             // if fatigue is not restored completely, apply negative mood buff
         };
-        progressConsumer = (delta) -> targetParameter.current -= delta; // decrease fatigue
+        progressConsumer = (delta) -> {
+            targetParameter.current -= delta; // decrease fatigue
+            Logger.TASKS.logDebug("restoring fatigue for " + delta + " new value " + targetParameter.current);
+        };
         finishGoal = () -> targetParameter.current <= 0; // stop sleeping
     }
 }

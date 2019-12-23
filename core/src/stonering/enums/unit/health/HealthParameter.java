@@ -16,6 +16,7 @@ public abstract class HealthParameter {
     public final List<HealthParameterRange> ranges;
     public final String tag; // used by buffs
 
+
     public HealthParameter(String tag) {
         this.ranges = new ArrayList<>();
         this.tag = tag;
