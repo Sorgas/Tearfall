@@ -32,7 +32,7 @@ public class UnitMenu extends Window {
 
     private void createTable(Unit unit) {
         add(leftColumn = new UnitImageColumn(unit));
-        add(panel = new TabbedPanel<>());
+//        add(panel = new TabbedPanel<>());
     }
 
     private String generateWindowTitle(Unit unit) {

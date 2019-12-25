@@ -34,9 +34,11 @@ public class Sidebar<T extends Actor> extends Container<ScrollPane> {
     }
 
     private Container createWideContainer(Container<T> innerContainer) {
-        return new Container<>(innerContainer).size(
+        Container container = new Container<>(innerContainer);
+        container.size(
                 actor.getWidth() * (1 + (!vertical ? hideRatio : 0)), // expand for scrolling horizontally
                 actor.getHeight() * (1 + (vertical ? hideRatio : 0))); // expand for scrolling vertically
+        return container;
     }
 
     private ScrollPane createPane(Container innerContainer) {
@@ -44,6 +46,7 @@ public class Sidebar<T extends Actor> extends Container<ScrollPane> {
         pane.setOverscroll(false, false);
         pane.setScrollingDisabled(vertical, !vertical); // allow to scroll by one axis
         pane.setFlickScroll(true);
+        pane.getListeners().removeIndex(pane.getListeners().size - 1);
         return pane;
     }
 
