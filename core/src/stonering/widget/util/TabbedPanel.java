@@ -3,6 +3,8 @@ package stonering.widget.util;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import stonering.util.global.Pair;
+import stonering.util.global.StaticSkin;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,31 +15,44 @@ import java.util.Map;
  *
  * @author Alexander on 23.12.2019.
  */
-public abstract class TabbedPanel <T extends Actor> extends Table {
-    private Map<Button, T> buttonMapping;
+public abstract class TabbedPanel extends VerticalGroup {
+    private int contentWidth;
+    private int contantHeight;
+    private Map<Integer, Pair<Button, Container>> mapping;
     private HorizontalGroup group;
     ButtonGroup<Button> buttonGroup;
-    Container<T> container;
+    Container<Container> container; // contains dynamic content
 
     public TabbedPanel() {
-        buttonMapping = new HashMap<>();
+        mapping = new HashMap<>();
         createTable();
     }
 
-    public void mapButton(Button button, T content) {
-        buttonMapping.put(button, content);
+    private void createTable() {
+        addActor(group = new HorizontalGroup());
+        addActor(container = new Container<>());
+    }
+
+    /**
+     * Adds tab to panel. Content is added to wrapping container and always sized to panel's content size.
+     */
+    public void addTab(String caption, Container content, int hotkey) {
+        Button button = new TextButton(caption, StaticSkin.getSkin());
+        mapping.put(hotkey, new Pair<>(button, content));
         group.addActor(button);
         buttonGroup.add(button);
         button.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                container.setActor(buttonMapping.get(button));
+                selectTab(hotkey);
             }
         });
     }
 
-    private void createTable() {
-        add(group = new HorizontalGroup()).row();
-        add(container = new Container<>()).row();
+    public void selectTab(int hotkey) {
+        Pair<Button, Container> pair = mapping.get(hotkey);
+        if(pair == null) return;
+        container.setActor(mapping.get(hotkey).getValue());
+//        buttonGroup.setChecked();
     }
 }

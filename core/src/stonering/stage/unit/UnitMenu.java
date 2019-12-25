@@ -22,7 +22,7 @@ import stonering.widget.util.TabbedPanel;
  */
 public class UnitMenu extends Window {
     private UnitImageColumn leftColumn;
-    private TabbedPanel<Container> panel;
+    private TabbedPanel panel;
 
     public UnitMenu(Unit unit) {
         super("", StaticSkin.getSkin());

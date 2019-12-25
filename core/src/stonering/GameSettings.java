@@ -24,7 +24,7 @@ public class GameSettings {
         }
     }
 
-    public static String getProperty(String key) {
+    public static String get(String key) {
         return instance.getProperty(key);
     }
 }

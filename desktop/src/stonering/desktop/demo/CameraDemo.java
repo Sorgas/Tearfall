@@ -1,4 +1,4 @@
-package stonering.desktop;
+package stonering.desktop.demo;
 
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
@@ -11,7 +11,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import stonering.screen.SimpleScreen;
+import stonering.util.ui.SimpleScreen;
 import stonering.util.global.StaticSkin;
 
 /**

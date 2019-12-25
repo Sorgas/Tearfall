@@ -1,4 +1,4 @@
-package stonering.desktop;
+package stonering.desktop.demo;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.utils.Align;
-import stonering.screen.SimpleScreen;
+import stonering.util.ui.SimpleScreen;
 import stonering.util.global.StaticSkin;
 
 /**

@@ -1,4 +1,4 @@
-package stonering.desktop.sidebar;
+package stonering.desktop.demo.sidebar;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
