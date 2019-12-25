@@ -22,7 +22,7 @@ import stonering.widget.util.TabbedPanel;
  */
 public class UnitMenu extends Window {
     private UnitImageColumn leftColumn;
-    private TabbedPanel<Container> panel;
+    private TabbedPanel panel;
 
     public UnitMenu(Unit unit) {
         super("", StaticSkin.getSkin());
@@ -32,7 +32,7 @@ public class UnitMenu extends Window {
 
     private void createTable(Unit unit) {
         add(leftColumn = new UnitImageColumn(unit));
-        add(panel = new TabbedPanel<>());
+//        add(panel = new TabbedPanel<>());
     }
 
     private String generateWindowTitle(Unit unit) {

@@ -94,7 +94,7 @@ public class MapEntitySelectStage extends UiStage {
     private void tryShowBuildingStage(BuildingBlock block) {
         if (block == null) return;
         Building building = block.getBuilding();
-        GameMvc.instance().view().addStageToList(new BuildingStage(building));
+        GameMvc.instance().view().addStage(new BuildingStage(building));
         Logger.UI.logDebug("showing building stage for: " + building);
     }
 
@@ -102,20 +102,20 @@ public class MapEntitySelectStage extends UiStage {
         if (zone == null) return;
         GameMvc gameMvc = GameMvc.instance();
         Logger.UI.logDebug("showing zone stage for: " + zone.getName());
-        if(zone instanceof FarmZone) gameMvc.view().addStageToList(new ZoneMenuStage((FarmZone) zone));
+        if(zone instanceof FarmZone) gameMvc.view().addStage(new ZoneMenuStage((FarmZone) zone));
     }
 
     private void tryShowItemStage(Item item) {
         if (item == null) return;
         GameMvc gameMvc = GameMvc.instance();
         Logger.UI.logDebug("showing item stage for: " + item.getTitle());
-        gameMvc.view().addStageToList(new ItemStage(item));
+        gameMvc.view().addStage(new ItemStage(item));
     }
 
     private void tryShowUnitStage(Unit unit) {
         if (unit == null) return;
         GameMvc gameMvc = GameMvc.instance();
         Logger.UI.logDebug("showing unit stage for: " + unit);
-        gameMvc.view().addStageToList(new UnitStage(unit));
+        gameMvc.view().addStage(new UnitStage(unit));
     }
 }

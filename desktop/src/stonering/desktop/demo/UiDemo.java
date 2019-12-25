@@ -1,4 +1,4 @@
-package stonering.desktop;
+package stonering.desktop.demo;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -8,13 +8,13 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
-import stonering.desktop.sidebar.Sidebar;
+import stonering.desktop.demo.sidebar.Sidebar;
 import stonering.entity.item.Item;
 import stonering.enums.items.type.ItemType;
 import stonering.enums.items.type.raw.RawItemType;
 import stonering.enums.materials.MaterialMap;
 import stonering.stage.UiStage;
-import stonering.screen.SimpleScreen;
+import stonering.util.ui.SimpleScreen;
 import stonering.util.global.StaticSkin;
 import stonering.widget.lists.ItemCardButton;
 
