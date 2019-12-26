@@ -62,7 +62,7 @@ public class UiDemo extends Game {
     }
 
     private Container createContainer() {
-        Container fillContainer = new Container<>(new Sidebar<>(createList(), Align.right, 0.8f));
+        Container fillContainer = new Container(new Sidebar(createList(), Align.right, 0.8f));
         fillContainer.setDebug(true, true);
         fillContainer.setFillParent(true);
         fillContainer.align(Align.right);
@@ -100,14 +100,14 @@ public class UiDemo extends Game {
         return container;
     }
 
-    private ScrollPane createList() {
+    private Container createList() {
         Table table = new Table();
         for (int i = 0; i < 20; i++) {
             table.add(new ItemCardButton(createItem(), 3)).pad(5).row();
         }
         ScrollPane pane = new ScrollPane(table);
         pane.setScrollingDisabled(true, false);
-        return pane;
+        return new Container(pane);
     }
 
     private Item createItem() {

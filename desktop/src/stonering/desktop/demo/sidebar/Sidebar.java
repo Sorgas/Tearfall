@@ -10,12 +10,14 @@ import com.badlogic.gdx.utils.Align;
 /**
  * Sidebar is a widget that can be dragged in and out of the screen.
  * It consists from widget with size x, wrapped by container of larger size 1.8x, wrapped by scroll pane of size x.
+ * Every component is wrapped into {@link Container} to set explicit size.
  * Thus, widget is always visible for 20-100% and scroll pane allows to move it from and into the screen.
  *
  * @author Alexander on 23.12.2019.
  */
 public class Sidebar<T extends Actor> extends Container<ScrollPane> {
     private T actor;
+    private Container<T> actorWrapper;
     private float hideRatio; // part of widget that can be hidden.
     private boolean vertical;
 
@@ -23,22 +25,22 @@ public class Sidebar<T extends Actor> extends Container<ScrollPane> {
         this.actor = actor;
         this.hideRatio = hideRatio;
         align = normalizeAlign(align);
+        this.actorWrapper = new Container<>(actor).align(align);
         vertical = align == Align.top || align == Align.bottom;
-        setActor(createPane(createWideContainer(new Container<>(actor).align(align))));
-        size(actor.getWidth(), actor.getHeight()); // size the scroll pane
+        setActor(createPane(wrapActorWithWidening()));
+        adjustSize(this, 1);
         createInterceptListener();
+        align(align);
     }
 
-    public Sidebar(T actor, int align) {
-        this(actor, align, 0.8f);
+    private Container wrapActorWithWidening() {
+        return adjustSize(new Container<>(actorWrapper), 1 + hideRatio);
     }
 
-    private Container createWideContainer(Container<T> innerContainer) {
-        Container container = new Container<>(innerContainer);
-        container.size(
-                actor.getWidth() * (1 + (!vertical ? hideRatio : 0)), // expand for scrolling horizontally
-                actor.getHeight() * (1 + (vertical ? hideRatio : 0))); // expand for scrolling vertically
-        return container;
+    private Container adjustSize(Container container, float multiplier) {
+        return vertical
+                ? container.height(actorWrapper.getPrefHeight() * multiplier)
+                : container.width(actorWrapper.getPrefWidth() * multiplier);
     }
 
     private ScrollPane createPane(Container innerContainer) {
@@ -46,7 +48,7 @@ public class Sidebar<T extends Actor> extends Container<ScrollPane> {
         pane.setOverscroll(false, false);
         pane.setScrollingDisabled(vertical, !vertical); // allow to scroll by one axis
         pane.setFlickScroll(true);
-        pane.getListeners().removeIndex(pane.getListeners().size - 1);
+        pane.getListeners().removeIndex(pane.getListeners().size - 1); // remove mouse wheel listener
         return pane;
     }
 

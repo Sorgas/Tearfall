@@ -11,8 +11,6 @@ import stonering.util.geometry.Position;
 import stonering.util.global.Initable;
 import stonering.util.global.Logger;
 
-import java.util.ArrayList;
-
 /**
  * Main game screen.
  * Contains current stages sequence for rendering (localWorldStage and mainUiStage are always rendered).
