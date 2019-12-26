@@ -66,6 +66,6 @@ public class SleepInBedAction extends PhasedAction {
      * TODO consider sickness and injures.
      */
     private int getMaxSleepLength() {
-        return 12 * TimeUnitEnum.HOUR.LENGTH * TimeUnitEnum.MINUTE.LENGTH; // 12 hours max
+        return 12 * TimeUnitEnum.HOUR.SIZE * TimeUnitEnum.MINUTE.SIZE; // 12 hours max
     }
 }

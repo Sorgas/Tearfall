@@ -2,7 +2,7 @@ package stonering.entity.plants.aspects;
 
 import stonering.entity.Aspect;
 import stonering.entity.Entity;
-import stonering.game.model.system.GameCalendar;
+import stonering.game.model.system.GameTime;
 import stonering.entity.plants.AbstractPlant;
 import stonering.entity.plants.Plant;
 import stonering.entity.plants.Tree;
@@ -26,7 +26,7 @@ public class PlantGrowthAspect extends Aspect {
 
     public PlantGrowthAspect(Entity entity) {
         super(entity);
-        GameCalendar calendar = GameMvc.instance().model().getCalendar();
+        GameTime calendar = GameMvc.instance().model().getCalendar();
         weekSize = 7 * calendar.day.max * calendar.hour.max;
     }
 

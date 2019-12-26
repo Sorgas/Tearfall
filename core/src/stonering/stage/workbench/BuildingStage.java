@@ -29,7 +29,7 @@ public class BuildingStage extends UiStage implements Initable {
     @Override
     public void init() {
         gameMvc.controller().setSelectorEnabled(false);
-        wasPaused = gameMvc.model().isPaused(); // used for unpausing when menu is closed
+        wasPaused = gameMvc.model().paused; // used for unpausing when menu is closed
         gameMvc.model().setPaused(true);
         gameMvc.controller().pauseInputAdapter.enabled = false;
         createWorkbenchMenu();

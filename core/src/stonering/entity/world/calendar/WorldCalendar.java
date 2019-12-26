@@ -19,4 +19,6 @@ public class WorldCalendar implements ModelComponent {
         months = new Month[12];
         seasons = new String[4];
     }
+
+
 }

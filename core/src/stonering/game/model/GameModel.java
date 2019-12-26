@@ -2,7 +2,7 @@ package stonering.game.model;
 
 import com.badlogic.gdx.utils.Timer;
 import stonering.enums.time.TimeUnitEnum;
-import stonering.game.model.system.GameCalendar;
+import stonering.game.model.system.GameTime;
 import stonering.game.model.system.ModelComponent;
 import stonering.util.global.Initable;
 import stonering.util.global.Logger;
@@ -19,14 +19,14 @@ import java.util.*;
 public abstract class GameModel implements Initable, Serializable, Updatable {
     private Map<Class, ModelComponent> components;
     private List<Updatable> updatableComponents; // not all components are Updatable
-    protected GameCalendar calendar;
+    protected GameTime calendar;
     private Timer timer;                 //makes turns for entity containers and calendar
-    private boolean paused;
+    public boolean paused;
 
     public GameModel() {
         components = new HashMap<>();
         updatableComponents = new ArrayList<>();
-        calendar = new GameCalendar();
+        calendar = new GameTime();
     }
 
     public <T extends ModelComponent> T get(Class<T> type) {
@@ -55,7 +55,7 @@ public abstract class GameModel implements Initable, Serializable, Updatable {
         timer.scheduleTask(new Timer.Task() {
             @Override
             public void run() {
-                if (!paused) calendar.turn(); // calendar turns other components
+                if (!paused) calendar.update(); // calendar turns other components
             }
         }, 0, 1f / 60);
     }
@@ -63,10 +63,6 @@ public abstract class GameModel implements Initable, Serializable, Updatable {
     @Override
     public void update(TimeUnitEnum unit) {
         updatableComponents.forEach(component -> component.update(unit));
-    }
-
-    public boolean isPaused() {
-        return paused;
     }
 
     public void setPaused(boolean paused) {
@@ -80,7 +76,7 @@ public abstract class GameModel implements Initable, Serializable, Updatable {
         }
     }
 
-    public GameCalendar getCalendar() {
+    public GameTime getCalendar() {
         return calendar;
     }
 }

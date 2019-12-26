@@ -15,10 +15,10 @@ public enum TimeUnitEnum {
     YEAR("year", 12);
 
     public final String NAME;
-    public final int LENGTH; // in previous level utils
+    public final int SIZE; // in previous level utils
 
     TimeUnitEnum(String name, int length) {
         NAME = name;
-        LENGTH = length;
+        SIZE = length;
     }
 }

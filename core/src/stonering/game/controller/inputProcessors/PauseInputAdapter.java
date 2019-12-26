@@ -24,6 +24,6 @@ public class PauseInputAdapter extends InputAdapter {
 
     private void switchPause() {
         GameModel model = GameMvc.instance().model();
-        model.setPaused(!model.isPaused());
+        model.setPaused(!model.paused);
     }
 }
