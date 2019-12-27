@@ -55,7 +55,6 @@ public class CreatureMovementSystemTest {
         system.update(unit);
         Position newTarget = new Position(0, 4, 0);
         planningAspect.task.addFirstPreAction(new MoveAction(newTarget));
-        planningAspect.movementNeeded = true;
         assertEquals(planningAspect.getTarget(), newTarget); // new target taken by planning
         List<Position> oldPath = movementAspect.path;
         system.update(unit);
@@ -92,7 +91,6 @@ public class CreatureMovementSystemTest {
         MoveAction action = new MoveAction(new Position(4, 4, 0));
         Task task = new Task("test_task", action, 1);
         planningAspect.task = task;
-        planningAspect.movementNeeded = true;
         planningAspect.actionChecked = false;
     }
 }

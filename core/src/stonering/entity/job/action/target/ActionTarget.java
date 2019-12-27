@@ -30,26 +30,28 @@ public abstract class ActionTarget {
      * Checks if task performer has reached task target.
      * Returns fail if checked from out of map.
      */
-    public ActionTargetStatusEnum check(Position currentPosition) {
-        if(!GameMvc.instance().model().get(LocalMap.class).inMap(currentPosition)) return FAIL;
+    public ActionTargetStatusEnum check(Position performerPosition) {
+        Logger.TASKS.logDebug("Checking action target " + performerPosition + getPosition());
+        if(!GameMvc.instance().model().get(LocalMap.class).inMap(performerPosition)) return FAIL;
         if(!GameMvc.instance().model().get(LocalMap.class).inMap(getPosition())) return FAIL;
-        int distance = getDistance(currentPosition);
+        int distance = getDistance(performerPosition);
         if (distance > 1) return WAIT; // target not yet reached
         switch (targetType) {
             case EXACT:
                 return distance == 0 ? READY : WAIT;
             case NEAR:
-                return distance == 1 ? READY : createActionToStepOff(currentPosition);
+                return distance == 1 ? READY : createActionToStepOff(performerPosition);
             case ANY:
                 return READY; // distance is 0 or 1 here
             default: { // should never be reached
-                Logger.PATH.logError("checking action target with " + targetType + " and " + currentPosition + " to " + getPosition() + " failed.");
+                Logger.PATH.logError("checking action target with " + targetType + " and " + performerPosition + " to " + getPosition() + " failed.");
                 return FAIL;
             }
         }
     }
 
     public Position findPositionToStepOff(Position from) {
+        Logger.TASKS.logDebug("Looking for position to step off from " + from);
         List<Position> positions = GameMvc.instance().model().get(LocalMap.class).getFreeBlockNear(from);
         if (!positions.isEmpty()) {
             return positions.get(random.nextInt(positions.size()));

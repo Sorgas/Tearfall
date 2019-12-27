@@ -8,6 +8,6 @@ package stonering.entity.job.action.target;
 public enum ActionTargetStatusEnum {
     READY, // target position reached
     WAIT, // target position no reached
-    NEW, // new action created. planning aspect should update task
+    NEW, // new action created. planning system should update task
     FAIL // failed to create action
 }

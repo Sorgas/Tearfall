@@ -56,9 +56,7 @@ public class CreatureTaskPerformingTest {
         aspect.task = task;
         task.status = ACTIVE;
         task.performer = unit;
-        aspect.movementNeeded = false;
         unitContainer.taskSystem.update(unit); // target is reachable
-        assertTrue(aspect.movementNeeded);
     }
 
     @Test

@@ -2,6 +2,7 @@ package stonering.game.model.system.unit;
 
 import com.badlogic.gdx.math.Vector3;
 import stonering.entity.FloatPositionEntity;
+import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.MovementAspect;
 import stonering.entity.unit.aspects.PlanningAspect;
@@ -10,19 +11,22 @@ import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.EntitySystem;
+import stonering.game.model.system.task.CreatureTaskPerformingSystem;
 import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
 import stonering.util.pathfinding.a_star.AStar;
 
 /**
- * Moves all units across the map. General algorithm:
- * Update current target with target from {@link PlanningAspect}, update path if needed.
- * Change vectorPosition of a unit, by its speed parameter in direction of a next tile in the path (integer position will change, see {@link FloatPositionEntity}).
- * Algorithm:
- * Checks if target position in planning aspect has changed, creates new path if needed.
- * Moves unit to the next tile in the path, removes tile from the path if it's reached.
+ * Moves all units across the map.
+ * Works only with target and path defined in {@link MovementAspect} (target for movement is set in {@link CreatureTaskPerformingSystem}).
  * <p>
- * Stores action target position got from planning aspect, to avoid making path on every update.
+ * General algorithm:
+ * If there is no target do nothing.
+ * If there is a target but no path, create path, task is failed if no path is found.
+ * If there is a target and path, move, drop path if it is blocked. Path is recreated on next update.
+ * <p>
+ * Moves unit to the next tile in the path, removes tile from the path if it's reached.
+ * Change vectorPosition of a unit, by its speed parameter in direction of a next tile in the path (integer position will change, see {@link FloatPositionEntity}).
  * When no path is present, moves units to the 'center' of a tile, by updating their vector position to integer position.
  * Integer position of an entity is a result of rounding of it's vector position.
  * Planning aspect will update target when its reached.
@@ -40,11 +44,11 @@ public class CreatureMovementSystem extends EntitySystem<Unit> {
         localMap = model.get(LocalMap.class);
         unitContainer = model.get(UnitContainer.class);
         aStar = model.get(AStar.class);
-        MovementAspect aspect = unit.getAspect(MovementAspect.class);
-        if (checkPath(unit, aspect)) {
-            makeStep(unit, aspect);
+        MovementAspect movement = unit.getAspect(MovementAspect.class);
+        if (movement.target != null) {
+            if (checkPath(unit, movement)) makeStep(unit, movement);
         } else {
-            moveToTileCenter(unit, aspect);
+            moveToTileCenter(unit, movement);
         }
     }
 
@@ -53,17 +57,30 @@ public class CreatureMovementSystem extends EntitySystem<Unit> {
      */
     private boolean checkPath(Unit unit, MovementAspect movement) {
         PlanningAspect planning = unit.getAspect(PlanningAspect.class);
-        if (!planning.movementNeeded) return freeAspect(movement);
-        Position target = planning.getTarget();
-        if (!target.equals(movement.target) || movement.path == null) { // target has changed, or path is null for old target
-            movement.target = target;
-            movement.path = aStar.makeShortestPath(unit.position, movement.target = planning.getTarget(), planning.task.nextAction.actionTarget.targetType);
+        if (movement.path == null) { // path was blocked or not created
+            movement.path = aStar.makeShortestPath(unit.position, movement.target, planning.task.nextAction.actionTarget.targetType);
             if (movement.path == null) {
                 planning.task.status = TaskStatusEnum.FAILED; // no path to target, fail task
                 return freeAspect(movement);
             }
         }
-        return true; // target is old and path exists
+        return true; // path exists
+    }
+
+    /**
+     * Finds new movement target and path.
+     */
+    private void updateMovementAspect(Unit unit, MovementAspect movement, PlanningAspect planning) {
+        ActionTarget actionTarget = planning.task.nextAction.actionTarget;
+        switch (actionTarget.targetType) {
+            case EXACT:
+
+                break;
+            case NEAR:
+                break;
+            case ANY:
+                break;
+        }
     }
 
     /**
@@ -80,6 +97,7 @@ public class CreatureMovementSystem extends EntitySystem<Unit> {
             if (nextPosition.equals(unit.vectorPosition)) { // next tile reached
                 aspect.path.remove(0); // remove reached tile from path
                 unitContainer.healthSystem.applyMoveChange(unit);
+                if(aspect.path.isEmpty()) freeAspect(aspect); // path is finished
             }
         } else { // path blocked
             Logger.PATH.log("path was blocked in " + nextPosition);

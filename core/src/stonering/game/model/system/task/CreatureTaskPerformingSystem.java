@@ -4,14 +4,16 @@ import stonering.entity.job.Task;
 import stonering.entity.job.action.Action;
 import stonering.entity.job.action.target.ActionTargetStatusEnum;
 import stonering.entity.unit.Unit;
+import stonering.entity.unit.aspects.MovementAspect;
 import stonering.entity.unit.aspects.PlanningAspect;
+import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.game.model.system.EntitySystem;
 
-import static stonering.entity.job.action.target.ActionTargetStatusEnum.*;
 import static stonering.enums.action.TaskStatusEnum.*;
 
 /**
- * System for performing tasks of units. Call perform() of task's actions, and updates task statuses.
+ * System for performing tasks of units. Calls perform() of task's actions, and updates task statuses.
+ * Only tasks with status ACTIVE handled here. This system handles only active tasks.
  *
  * @author Alexander on 29.10.2019.
  */
@@ -23,24 +25,27 @@ public class CreatureTaskPerformingSystem extends EntitySystem<Unit> {
      */
     @Override
     public void update(Unit unit) {
-        PlanningAspect aspect = unit.getAspect(PlanningAspect.class);
-        if (aspect == null) return;
-        Task task = aspect.task;
-        if (task != null && task.status == ACTIVE) checkTarget(aspect, task);
+        PlanningAspect planning = unit.getAspect(PlanningAspect.class);
+        MovementAspect movement = unit.getAspect(MovementAspect.class);
+        if (planning == null) return;
+        Task task = planning.task;
+        // creature has active task but not moving
+        if (task != null && task.status == ACTIVE && movement.target == null) checkTarget(planning, movement, task);
     }
 
     /**
      * Checks if unit is in position for performing action, handles different cases of positioning.
      */
-    private void checkTarget(PlanningAspect aspect, Task task) {
-        ActionTargetStatusEnum checkResult = task.nextAction.actionTarget.check(aspect.getEntity().position);
-        aspect.movementNeeded = checkResult == WAIT;
+    private void checkTarget(PlanningAspect planning, MovementAspect movement, Task task) {
+        ActionTargetStatusEnum checkResult = task.nextAction.actionTarget.check(planning.getEntity().position);
         switch (checkResult) {
             case READY:
-                handleReachingTarget(task, aspect);
+                handleReachingTarget(task, planning);
                 break;
-            case NEW: // will be handled on next update
-            case WAIT: // no handle required
+            case NEW: // target check has created new action, will be handled on next update
+                break;
+            case WAIT: // set target for moving
+                movement.target = task.nextAction.actionTarget.getPosition();
                 break;
             case FAIL:
                 task.status = FAILED;
