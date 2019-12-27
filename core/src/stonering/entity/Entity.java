@@ -5,6 +5,7 @@ import stonering.util.global.Initable;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Optional;
 
 /**
  * Class for all game entities. Contains its aspects.
@@ -31,6 +32,10 @@ public abstract class Entity implements Serializable, Initable {
 
     public <T extends Aspect> T getAspect(Class<T> type) {
         return (T) aspects.get(type);
+    }
+
+    public <T extends Aspect> Optional<T> getOptionalAspect(Class<T> type) {
+        return (Optional<T>) Optional.of(aspects.get(type));
     }
 
     public <T extends Aspect> void addAspect(T aspect) {

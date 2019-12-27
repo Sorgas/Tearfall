@@ -42,14 +42,9 @@ public class CreatureHealthSystem extends EntitySystem<Unit> {
      */
     @Override
     public void update(Unit unit) {
-        HealthAspect health = unit.getAspect(HealthAspect.class);
-        if (health == null) {
-            Logger.UNITS.logError("Trying to update health of creature " + unit + " with no HealthAspect");
-            return;
-        }
-        for (HealthParameterEnum parameter : health.parameters.keySet()) {
-            changeParameter(unit, parameter, parameter.DEFAULT_DELTA);
-        }
+        unit.getOptionalAspect(HealthAspect.class)
+                .ifPresent(health -> health.parameters.keySet()
+                        .forEach(param -> changeParameter(unit, param, param.DEFAULT_DELTA)));
     }
 
     /**
@@ -71,7 +66,7 @@ public class CreatureHealthSystem extends EntitySystem<Unit> {
         float oldValue = state.getRelativeValue();
         state.current += delta;
         if (state.current > state.max) {
-            Logger.UNITS.logWarn("UNIT " + unit  + " DIED!"); // TODO
+            Logger.UNITS.logWarn("UNIT " + unit + " DIED!"); // TODO
             return;
         }
         HealthParameterRange oldRange = parameter.getRange(oldValue);
