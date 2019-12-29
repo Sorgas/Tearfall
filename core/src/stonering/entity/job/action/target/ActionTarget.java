@@ -32,6 +32,9 @@ public abstract class ActionTarget {
      */
     public ActionTargetStatusEnum check(Position performerPosition) {
         Logger.TASKS.logDebug("Checking action target " + performerPosition + getPosition());
+        if(getPosition() == null || performerPosition == null) {
+            System.out.println();
+        }
         if(!GameMvc.instance().model().get(LocalMap.class).inMap(performerPosition)) return FAIL;
         if(!GameMvc.instance().model().get(LocalMap.class).inMap(getPosition())) return FAIL;
         int distance = getDistance(performerPosition);

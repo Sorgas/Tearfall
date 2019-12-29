@@ -75,11 +75,14 @@ public class Task {
      * Removes pre and post action from task.
      */
     public void finishAction(Action action) {
+        Logger.TASKS.logDebug("Action " + action + " finished.");
         if (action != initialAction) { // remove non-initial finished action
             preActions.remove(action);
             postActions.remove(action);
+            Logger.TASKS.logDebug("Actions count pre: " + preActions.size() + " post: " + postActions.size());
         }
         updateNextAction();
+        Logger.TASKS.logDebug("Next action is: " + nextAction);
     }
 
     public void addFirstPreAction(Action action) {
@@ -106,6 +109,8 @@ public class Task {
         Logger.TASKS.logDebug("Action " + action + " added to task " + name);
         action.task = this;
         updateNextAction();
+        Logger.TASKS.logDebug("Actions count pre: " + preActions.size() + " post: " + postActions.size());
+        Logger.TASKS.logDebug("Next action is: " + nextAction);
     }
 
     /**

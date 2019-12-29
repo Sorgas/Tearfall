@@ -35,6 +35,7 @@ public class OnMapItemsSystem extends EntitySystem<Item> {
     }
 
     public void removeItemFromMap(Item item) {
+        Logger.ITEMS.logDebug("Removing item " + item + "from map");
         List<Item> list = container.itemMap.get(item.position);
         if (!list.remove(item)) Logger.ITEMS.logWarn("Items inconsistency: item " + item + " is not on the map in position " + item.position);
         if (list.isEmpty()) container.itemMap.remove(item.position); // last item on the tile

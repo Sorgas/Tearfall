@@ -46,7 +46,6 @@ public abstract class Action {
         applyWork();
         if(!isFinished()) return false;
         performLogic();
-        Logger.TASKS.logDebug("action " + this + " finished");
         task.finishAction(this);
         return true;
     }

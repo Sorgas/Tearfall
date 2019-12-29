@@ -25,7 +25,6 @@ public class ItemPickupAction extends Action {
     @Override
     public void performLogic() {
         Item targetItem = getTargetItem();
-        Logger.TASKS.logDebug("Picking up item " + targetItem.getTitle());
         EquipmentAspect equipment = task.performer.getAspect(EquipmentAspect.class);
         ItemContainer container = GameMvc.instance().model().get(ItemContainer.class);
 

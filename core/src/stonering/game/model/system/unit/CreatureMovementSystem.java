@@ -74,7 +74,6 @@ public class CreatureMovementSystem extends EntitySystem<Unit> {
         ActionTarget actionTarget = planning.task.nextAction.actionTarget;
         switch (actionTarget.targetType) {
             case EXACT:
-
                 break;
             case NEAR:
                 break;
