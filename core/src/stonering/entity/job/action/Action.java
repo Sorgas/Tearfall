@@ -3,7 +3,6 @@ package stonering.entity.job.action;
 import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.job.Task;
 import stonering.entity.unit.aspects.JobsAspect;
-import stonering.util.global.Logger;
 
 /**
  * Action of a unit. Actions are parts of {@link Task}.
@@ -14,10 +13,6 @@ import stonering.util.global.Logger;
  * <p>
  */
 public abstract class Action {
-    public static final int OK = 1;
-    public static final int NEW = 0;
-    public static final int FAIL = -1;
-
     protected String usedSkill;
     public Task task; // can be modified during execution
     public final ActionTarget actionTarget;
@@ -29,13 +24,7 @@ public abstract class Action {
         actionTarget.setAction(this);
     }
 
-    /**
-     * Returns:
-     * {@value FAIL} if unable perform action or create sub action.
-     * {@value NEW} if new sub action created and added to task.
-     * {@value OK} if checked successfully.
-     */
-    public abstract int check();
+    public abstract ActionConditionStatusEnum check();
 
     /**
      * Fetches remaining work amount and performs action.

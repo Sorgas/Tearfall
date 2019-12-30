@@ -4,6 +4,8 @@ import stonering.entity.job.action.target.PositionActionTarget;
 import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.util.geometry.Position;
 
+import static stonering.entity.job.action.ActionConditionStatusEnum.OK;
+
 /**
  * Action for moving to tile. Has no check or logic.
  */
@@ -14,7 +16,7 @@ public class MoveAction extends Action {
     }
 
     @Override
-    public int check() {
+    public ActionConditionStatusEnum check() {
         return OK;
     }
 

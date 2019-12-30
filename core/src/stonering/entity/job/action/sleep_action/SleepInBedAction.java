@@ -2,12 +2,16 @@ package stonering.entity.job.action.sleep_action;
 
 import stonering.entity.building.Building;
 import stonering.entity.building.aspects.RestFurnitureAspect;
+import stonering.entity.job.action.ActionConditionStatusEnum;
 import stonering.entity.job.action.phase.PhasedAction;
 import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.job.action.target.EntityActionTarget;
 import stonering.enums.time.TimeUnitEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.system.building.BuildingContainer;
+
+import static stonering.entity.job.action.ActionConditionStatusEnum.FAIL;
+import static stonering.entity.job.action.ActionConditionStatusEnum.OK;
 
 /**
  * Action for sleeping. Creature will first lie without sleep being able to see the surroundings,
@@ -33,7 +37,7 @@ public class SleepInBedAction extends PhasedAction {
     }
 
     @Override
-    public int check() {
+    public ActionConditionStatusEnum check() {
         if(GameMvc.instance().model().get(BuildingContainer.class).getBuiding(bed.position) == bed &&
                 bed.hasAspect(RestFurnitureAspect.class))
             return OK;

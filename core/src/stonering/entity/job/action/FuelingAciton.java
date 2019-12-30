@@ -12,6 +12,8 @@ import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.system.item.ItemContainer;
 
+import static stonering.entity.job.action.ActionConditionStatusEnum.*;
+
 /**
  * Action for putting fuel items to entities with {@link FuelConsumerAspect}.
  *
@@ -25,9 +27,9 @@ public class FuelingAciton extends Action {
     }
 
     @Override
-    public int check() {
+    public ActionConditionStatusEnum check() {
         if (!((EntityActionTarget) actionTarget).entity.hasAspect(FuelConsumerAspect.class))
-            return Action.FAIL; // invalid entity
+            return FAIL; // invalid entity
         if (targetItem == null && (targetItem = lookupFuelItem()) == null) return FAIL; // no fuel item available
         if (!task.performer.getAspect(EquipmentAspect.class).hauledItems.contains(targetItem)) {
             task.addFirstPreAction(new ItemPickupAction(targetItem));

@@ -9,6 +9,8 @@ import stonering.game.GameMvc;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.util.global.Logger;
 
+import static stonering.entity.job.action.ActionConditionStatusEnum.*;
+
 /**
  * Action for equipping wear and tool items, and hauling other items.
  */
@@ -32,20 +34,20 @@ public class EquipItemAction extends Action {
     }
 
     @Override
-    public int check() {
+    public ActionConditionStatusEnum check() {
         if (!task.performer.hasAspect(EquipmentAspect.class))
-            return failWithLog("unit " + task.performer + " has no Equipment Aspect.");
+            return Logger.TASKS.logError("unit " + task.performer + " has no Equipment Aspect.", FAIL);
         EquipmentSlot slot = task.performer.getAspect(EquipmentAspect.class).getSlotForItem(item);
-        if (slot == null) return failWithLog("unit " + task.performer + " has no appropriate slots for item " + item);
+        if (slot == null) return Logger.TASKS.logError("unit " + task.performer + " has no appropriate slots for item " + item, FAIL);
         Item blockingItem = slot.getBlockingItem(item);
         if (blockingItem == null) return OK; // slot is not blocked
-        if (!force) return failWithLog("unit " + task.performer + " cannot equip item " + item + " no empty slots.");
+        if (!force) return Logger.TASKS.logError("unit " + task.performer + " cannot equip item " + item + " no empty slots.", FAIL);
         if (item.hasAspect(WearAspect.class)) {
             return createUnequipWearAction(blockingItem); // wear can block only wear items
         } else if (item.isTool()) {
             return createUnequipToolAction(blockingItem);
         }
-        return failWithLog("Invalid case in EquipItemAction:check()");
+        return Logger.TASKS.logError("Invalid case in EquipItemAction:check()", FAIL);
     }
 
     /**
@@ -56,7 +58,7 @@ public class EquipItemAction extends Action {
      * @param item item(high-layer), that blocks equipping of main item(low-layer)
      * @return false if action are impossible or item is invalid.
      */
-    private int createUnequipWearAction(Item item) {
+    private ActionConditionStatusEnum createUnequipWearAction(Item item) {
         // unequip action
         UnequipItemAction action = new UnequipItemAction(item);
         task.addFirstPreAction(action);
@@ -71,15 +73,10 @@ public class EquipItemAction extends Action {
      * Creates action only for unequipping item. Used to unequip tool when equipping another tool, as tools are highest layer,
      * and two tools cannot be held simultaneously.
      */
-    private int createUnequipToolAction(Item item) {
+    private ActionConditionStatusEnum createUnequipToolAction(Item item) {
         UnequipItemAction unequipItemAction = new UnequipItemAction(item);
         task.addFirstPreAction(unequipItemAction);
         return NEW;
-    }
-
-    private int failWithLog(String message) {
-        Logger.ITEMS.logError(message);
-        return FAIL;
     }
 
     @Override

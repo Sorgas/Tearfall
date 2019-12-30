@@ -16,6 +16,7 @@ import stonering.game.model.system.task.TaskContainer;
 import stonering.generators.items.DiggingProductGenerator;
 import stonering.util.geometry.Position;
 
+import static stonering.entity.job.action.ActionConditionStatusEnum.*;
 import static stonering.enums.blocks.BlockTypesEnum.*;
 
 /**
@@ -33,7 +34,7 @@ public class DigAction extends Action {
     }
 
     @Override
-    public int check() {
+    public ActionConditionStatusEnum check() {
         if (!validate()) return FAIL;
         EquipmentAspect aspect = task.performer.getAspect(EquipmentAspect.class);
         if (aspect == null) return FAIL;
@@ -41,7 +42,7 @@ public class DigAction extends Action {
         return addEquipAction();
     }
 
-    private int addEquipAction() {
+    private ActionConditionStatusEnum addEquipAction() {
         Item target = GameMvc.instance().model().get(ItemContainer.class).util.getItemAvailableBySelector(toolItemSelector, task.performer.position);
         if (target == null) return FAIL;
         task.addFirstPreAction(new EquipItemAction(target, true));

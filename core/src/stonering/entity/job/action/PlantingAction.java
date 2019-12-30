@@ -16,6 +16,8 @@ import stonering.util.global.Logger;
 
 import java.util.List;
 
+import static stonering.entity.job.action.ActionConditionStatusEnum.*;
+
 /**
  * Action for planting seed to a farm.
  * Planting always use single seed item.
@@ -30,7 +32,7 @@ public class PlantingAction extends Action {
     }
 
     @Override
-    public int check() {
+    public ActionConditionStatusEnum check() {
         Logger.TASKS.logDebug("Checking planting action");
         if(getSeedFromEquipment() != null) return OK;
         return tryCreatePickingAction();
@@ -45,7 +47,7 @@ public class PlantingAction extends Action {
     /**
      * Tries to pick seed item if none is available in performer's inventory.
      */
-    private int tryCreatePickingAction() {
+    private ActionConditionStatusEnum tryCreatePickingAction() {
         Item item = GameMvc.instance().model().get(ItemContainer.class).util.getItemAvailableBySelector(seedSelector, task.performer.position);
         if (item == null) return FAIL;
         task.addFirstPreAction(new ItemPickupAction(item));

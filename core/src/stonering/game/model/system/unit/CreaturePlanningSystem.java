@@ -2,6 +2,7 @@ package stonering.game.model.system.unit;
 
 import stonering.entity.job.Task;
 import stonering.entity.job.action.Action;
+import stonering.entity.job.action.ActionConditionStatusEnum;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.PlanningAspect;
 import stonering.entity.unit.aspects.needs.NeedsAspect;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Objects;
 
+import static stonering.entity.job.action.ActionConditionStatusEnum.*;
 import static stonering.enums.action.TaskStatusEnum.*;
 
 /**
@@ -97,10 +99,10 @@ public class CreaturePlanningSystem extends EntitySystem<Unit> {
     private boolean unitCanPerformTask(@NotNull Unit unit, @NotNull Task task) {
         Logger.TASKS.logDebug("Checking task " + task + " for unit " + unit);
         task.performer = unit; // performer is required for checking
-        int result;
-        while ((result = task.nextAction.check()) == Action.NEW) {
+        ActionConditionStatusEnum result;
+        while ((result = task.nextAction.check()) == NEW) {
         } // can create sub actions
-        if (result == Action.OK) return true;
+        if (result == OK) return true;
         task.reset();
         return false;
     }

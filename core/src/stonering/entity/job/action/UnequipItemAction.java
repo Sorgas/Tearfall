@@ -6,6 +6,8 @@ import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.entity.unit.aspects.equipment.EquipmentSlot;
 import stonering.util.global.Logger;
 
+import static stonering.entity.job.action.ActionConditionStatusEnum.*;
+
 /**
  * Action for unequipping item from unit.
  * Does nothing, if unit doesn't have this item.
@@ -19,18 +21,18 @@ public class UnequipItemAction extends Action {
     }
 
     @Override
-    public int check() {
+    public ActionConditionStatusEnum check() {
         EquipmentAspect equipmentAspect = task.performer.getAspect(EquipmentAspect.class);
-        if (equipmentAspect == null) return failWithLog("unit " + task.performer + " has no Equipment Aspect.");
+        if (equipmentAspect == null) return Logger.TASKS.logError("unit " + task.performer + " has no Equipment Aspect.", FAIL);
         EquipmentSlot slot = equipmentAspect.getSlotWithItem(item);
-        if (slot == null) return failWithLog("item " + item + " is not equipped by unit " + task.performer);
+        if (slot == null) return Logger.TASKS.logError("item " + item + " is not equipped by unit " + task.performer, FAIL);
         if (!slot.canUnequip(item)) {
             return tryAddUnequipAction(slot.getBlockingItem(item));
         }
         return OK;
     }
 
-    private int tryAddUnequipAction(Item item) {
+    private ActionConditionStatusEnum tryAddUnequipAction(Item item) {
         UnequipItemAction unequipItemAction = new UnequipItemAction(item);
         task.addFirstPreAction(unequipItemAction);
         return NEW;
@@ -46,10 +48,5 @@ public class UnequipItemAction extends Action {
     @Override
     public String toString() {
         return "Unequipping name: " + item.getTitle();
-    }
-
-    private int failWithLog(String message) {
-        Logger.ITEMS.logError(message);
-        return FAIL;
     }
 }

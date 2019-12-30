@@ -79,13 +79,13 @@ public class CreatureTaskPerformingSystem extends EntitySystem<Unit> {
      */
     private void checkAction(Task task, PlanningAspect aspect) {
         switch (task.nextAction.check()) {
-            case Action.OK:
+            case OK:
                 aspect.actionChecked = true;
                 return;
-            case Action.NEW:
+            case NEW:
                 aspect.actionChecked = false; // new action is not yet checked
                 return;
-            case Action.FAIL:
+            case FAIL:
                 task.status = FAILED;
                 aspect.actionChecked = false; // task will be removed
         }

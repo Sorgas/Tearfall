@@ -17,6 +17,8 @@ import stonering.util.global.Logger;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static stonering.entity.job.action.ActionConditionStatusEnum.*;
+
 /**
  * Action for crafting item by item order on workbench. Items for crafting will be brought to WB.
  * WB should have {@link WorkbenchAspect} and {@link ItemContainerAspect}.
@@ -56,11 +58,11 @@ public class CraftItemAction extends Action {
      * TODO add usage of items in nearby containers.
      */
     @Override
-    public int check() {
+    public ActionConditionStatusEnum check() {
         WorkbenchAspect aspect = workbench.getAspect(WorkbenchAspect.class);
         if (workbench.getAspect(WorkbenchAspect.class) == null)
             return Logger.TASKS.logWarn("Building " + workbench.toString() + " is not a workbench.", FAIL);
-        int orderCheckResult = checkIngredientItems(aspect);
+        ActionConditionStatusEnum orderCheckResult = checkIngredientItems(aspect);
         if (orderCheckResult != OK) return orderCheckResult;
         if (workbench.hasAspect(FuelConsumerAspect.class) && !workbench.getAspect(FuelConsumerAspect.class).isFueled()) { // workbench requires fuel
             task.addFirstPreAction(new FuelingAciton(workbench));
@@ -74,7 +76,7 @@ public class CraftItemAction extends Action {
      * Creates actions for bringing items to WB. Clears ingredients with 'spoiled' items.
      * Returns fail, if item for some ingredient cannot be found.
      */
-    private int checkIngredientItems(WorkbenchAspect aspect) {
+    private ActionConditionStatusEnum checkIngredientItems(WorkbenchAspect aspect) {
         for (IngredientOrder order : itemOrder.getAllIngredients()) {
             if (checkIngredient(order, aspect)) continue;
             if (order.item != null) System.out.println("'spoiled' item in ingredient order"); // free item TODO locking items in container

@@ -10,6 +10,9 @@ import stonering.entity.unit.aspects.needs.FoodNeed;
 import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.enums.items.TagEnum;
 
+import static stonering.entity.job.action.ActionConditionStatusEnum.FAIL;
+import static stonering.entity.job.action.ActionConditionStatusEnum.OK;
+
 /**
  * Action for consuming edible items and satisfying {@link FoodNeed}.
  * Edible is an item tag, see {@link TagEnum}.
@@ -28,7 +31,7 @@ public class EatAction extends Action {
      * TODO create action to put food to table and use dishes.
      */
     @Override
-    public int check() {
+    public ActionConditionStatusEnum check() {
         if(!item.tags.contains(TagEnum.EDIBLE)) return FAIL; // item is not edible
         if(checkBetterFood()) return FAIL; // better food is available, recreate.
         //TODO if tables available, use

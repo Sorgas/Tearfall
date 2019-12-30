@@ -12,6 +12,8 @@ import stonering.game.GameMvc;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.util.geometry.Position;
 
+import static stonering.entity.job.action.ActionConditionStatusEnum.*;
+
 /**
  * Action for putting item to some target {@link Entity} or position on map. Item will be picked up.
  * Action performer should have {@link EquipmentAspect}.
@@ -52,7 +54,7 @@ public class PutItemAction extends Action {
     }
 
     @Override
-    public int check() {
+    public ActionConditionStatusEnum check() {
         if (targetEntity != null && targetEntity.getAspect(WorkbenchAspect.class) == null) return FAIL;
         EquipmentAspect equipmentAspect = task.performer.getAspect(EquipmentAspect.class);
         if (equipmentAspect == null) return FAIL; // performer can't carry items
@@ -60,7 +62,7 @@ public class PutItemAction extends Action {
         return createPickingAction(targetItem);
     }
 
-    private int createPickingAction(Item item) {
+    private ActionConditionStatusEnum createPickingAction(Item item) {
         task.addFirstPreAction(new ItemPickupAction(item));
         return NEW;
     }

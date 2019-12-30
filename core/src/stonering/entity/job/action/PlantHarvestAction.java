@@ -13,6 +13,8 @@ import stonering.game.model.system.PlantContainer;
 import stonering.generators.items.PlantProductGenerator;
 import stonering.util.global.Logger;
 
+import static stonering.entity.job.action.ActionConditionStatusEnum.*;
+
 public class PlantHarvestAction extends Action {
     private ItemSelector toolItemSelector;
     private AbstractPlant targetPlant;
@@ -24,7 +26,7 @@ public class PlantHarvestAction extends Action {
     }
 
     @Override
-    public int check() {
+    public ActionConditionStatusEnum check() {
         PlantContainer container = GameMvc.instance().model().get(PlantContainer.class);
         EquipmentAspect aspect = task.performer.getAspect(EquipmentAspect.class);
         if (aspect == null) return FAIL; // performer has aspect
@@ -33,7 +35,7 @@ public class PlantHarvestAction extends Action {
         return addActionToTask();
     }
 
-    private int addActionToTask() {
+    private ActionConditionStatusEnum addActionToTask() {
         Item target = GameMvc.instance().model().get(ItemContainer.class).util.getItemAvailableBySelector(toolItemSelector, task.performer.position);
         if (target == null) return FAIL;
         EquipItemAction equipItemAction = new EquipItemAction(target, true);

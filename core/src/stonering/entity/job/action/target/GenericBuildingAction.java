@@ -4,6 +4,7 @@ import stonering.entity.building.BuildingOrder;
 import stonering.entity.crafting.IngredientOrder;
 import stonering.entity.item.Item;
 import stonering.entity.job.action.Action;
+import stonering.entity.job.action.ActionConditionStatusEnum;
 import stonering.entity.job.action.PutItemAction;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.passage.NeighbourPositionStream;
@@ -12,6 +13,8 @@ import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
 
 import java.util.List;
+
+import static stonering.entity.job.action.ActionConditionStatusEnum.*;
 
 /**
  * Action for creating constructions and buildings on map.
@@ -39,7 +42,7 @@ public abstract class GenericBuildingAction extends Action {
      * Creates action for removing blocking items from target position
      */
     @Override
-    public int check() {
+    public ActionConditionStatusEnum check() {
         Logger.TASKS.log("Checking " + this);
         if (target.builderPosition == null && !target.findPositionForBuilder(order, task.performer.position)) return FAIL;
         ItemContainer itemContainer = GameMvc.instance().model().get(ItemContainer.class);
@@ -76,7 +79,7 @@ public abstract class GenericBuildingAction extends Action {
     /**
      * Creates {@link PutItemAction} for placing blocking item out of target position(to neighbour one).
      */
-    private int createSiteClearingAction(Item item) {
+    private ActionConditionStatusEnum createSiteClearingAction(Item item) {
         Position position = new NeighbourPositionStream(target.center).filterByPassability().stream.findAny().orElse(null);
         if (position == null) {
             target.reset();

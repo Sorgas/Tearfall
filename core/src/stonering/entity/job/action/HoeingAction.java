@@ -14,6 +14,9 @@ import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
 
+import static stonering.entity.job.action.ActionConditionStatusEnum.FAIL;
+import static stonering.entity.job.action.ActionConditionStatusEnum.OK;
+
 /**
  * @author Alexander on 20.03.2019.
  */
@@ -31,7 +34,7 @@ public class HoeingAction extends Action {
      * Creates sub name only for equipping hoe, other cases handled by player.
      */
     @Override
-    public int check() {
+    public ActionConditionStatusEnum check() {
 //        Logger.TASKS.logDebug("Checking hoeing of " + actionTarget.getPosition());
         Position target = actionTarget.getPosition();
         LocalMap localMap = GameMvc.instance().model().get(LocalMap.class);
@@ -49,7 +52,7 @@ public class HoeingAction extends Action {
         localMap.setBlockType(actionTarget.getPosition(), BlockTypesEnum.FARM.CODE);
     }
 
-    private int tryCreateEquippingAction() {
+    private ActionConditionStatusEnum tryCreateEquippingAction() {
         Logger.TASKS.logDebug("Creating equipping action of hoe");
         ItemSelector toolItemSelector = new ToolWithActionItemSelector("hoe");
         ItemContainer itemContainer = GameMvc.instance().model().get(ItemContainer.class);

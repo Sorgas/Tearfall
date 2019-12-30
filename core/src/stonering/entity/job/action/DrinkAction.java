@@ -6,6 +6,9 @@ import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.enums.items.TagEnum;
 
+import static stonering.entity.job.action.ActionConditionStatusEnum.FAIL;
+import static stonering.entity.job.action.ActionConditionStatusEnum.OK;
+
 /**
  * Action from drinking items that are drinkable ({@link TagEnum}).
  *
@@ -20,7 +23,7 @@ public class DrinkAction extends Action{
     }
 
     @Override
-    public int check() {
+    public ActionConditionStatusEnum check() {
         if(!item.tags.contains(TagEnum.DRINKABLE)) return FAIL; // item is not edible
         if(checkBetterDrink()) return FAIL; // better food is available, recreate.
         //TODO if tables available, use

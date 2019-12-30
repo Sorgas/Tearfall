@@ -14,6 +14,8 @@ import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.system.PlantContainer;
 import stonering.util.global.Logger;
 
+import static stonering.entity.job.action.ActionConditionStatusEnum.*;
+
 /**
  * Action for chopping trees. Trees leave logs for each trunk block.
  */
@@ -30,7 +32,7 @@ public class ChopTreeAction extends Action {
      * Checks that performer has chopping tool, creates equipping action if needed.
      */
     @Override
-    public int check() {
+    public ActionConditionStatusEnum check() {
         Logger.TASKS.logDebug("Checking " + this);
         EquipmentAspect aspect = task.performer.getAspect(EquipmentAspect.class);
         if (aspect == null) return FAIL; // no aspect on performer
@@ -42,7 +44,7 @@ public class ChopTreeAction extends Action {
         return OK;
     }
 
-    private int createActionForGettingTool() {
+    private ActionConditionStatusEnum createActionForGettingTool() {
         Logger.TASKS.logDebug("No tool equipped by performer for chopTreeAction");
         Item target = GameMvc.instance().model().get(ItemContainer.class).util.getItemAvailableBySelector(toolItemSelector, task.performer.position);
         if (target == null) Logger.TASKS.logDebug("No tool item found for chopTreeAction", FAIL);
