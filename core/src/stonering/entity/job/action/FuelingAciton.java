@@ -24,24 +24,21 @@ public class FuelingAciton extends Action {
 
     protected FuelingAciton(Entity target) {
         super(new EntityActionTarget(target, ActionTargetTypeEnum.NEAR));
-    }
+        startCondition = () -> {
+            if (!((EntityActionTarget) actionTarget).entity.hasAspect(FuelConsumerAspect.class))
+                return FAIL; // invalid entity
+            if (targetItem == null && (targetItem = lookupFuelItem()) == null) return FAIL; // no fuel item available
+            if (!task.performer.getAspect(EquipmentAspect.class).hauledItems.contains(targetItem)) {
+                task.addFirstPreAction(new ItemPickupAction(targetItem));
+                return NEW;
+            }
+            return OK; // performer has item in inventory
+        };
 
-    @Override
-    public ActionConditionStatusEnum check() {
-        if (!((EntityActionTarget) actionTarget).entity.hasAspect(FuelConsumerAspect.class))
-            return FAIL; // invalid entity
-        if (targetItem == null && (targetItem = lookupFuelItem()) == null) return FAIL; // no fuel item available
-        if (!task.performer.getAspect(EquipmentAspect.class).hauledItems.contains(targetItem)) {
-            task.addFirstPreAction(new ItemPickupAction(targetItem));
-            return NEW;
-        }
-        return OK; // performer has item in inventory
-    }
-
-    @Override
-    protected void performLogic() {
-        task.performer.getAspect(EquipmentAspect.class).dropItem(targetItem);
-        ((EntityActionTarget) actionTarget).entity.getAspect(FuelConsumerAspect.class).acceptFuel(targetItem);
+        onFinish = () -> {
+            task.performer.getAspect(EquipmentAspect.class).dropItem(targetItem);
+            ((EntityActionTarget) actionTarget).entity.getAspect(FuelConsumerAspect.class).acceptFuel(targetItem);
+        };
     }
 
     private Item lookupFuelItem() {

@@ -27,16 +27,15 @@ public class BuildingAction extends GenericBuildingAction {
     public BuildingAction(BuildingOrder order) {
         super(order);
         buildingType = BuildingTypeMap.instance().getBuilding(order.blueprint.building);
-    }
 
-    @Override
-    public void performLogic() {
-        Logger.TASKS.logDebug(buildingType.title + " built at " + actionTarget.getPosition());
-        BuildingContainer buildingContainer = GameMvc.instance().model().get(BuildingContainer.class);
-        BuildingActionTarget target = (BuildingActionTarget) actionTarget;
-        Building building = buildingContainer.buildingGenerator.generateBuilding(buildingType.building, target.center); //TODO use material
-        buildingContainer.addBuilding(building);
-        consumeItems();
+        onFinish = () -> {
+            Logger.TASKS.logDebug(buildingType.title + " built at " + actionTarget.getPosition());
+            BuildingContainer buildingContainer = GameMvc.instance().model().get(BuildingContainer.class);
+            BuildingActionTarget target = (BuildingActionTarget) actionTarget;
+            Building building = buildingContainer.buildingGenerator.generateBuilding(buildingType.building, target.center); //TODO use material
+            buildingContainer.addBuilding(building);
+            consumeItems();
+        };
     }
 
     @Override

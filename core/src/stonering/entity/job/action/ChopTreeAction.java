@@ -25,23 +25,37 @@ public class ChopTreeAction extends Action {
     public ChopTreeAction(Designation designation) {
         super(new PositionActionTarget(designation.position, ActionTargetTypeEnum.NEAR));
         toolItemSelector = new ToolWithActionItemSelector("chop");
+
+
+        // Checks that tree exists on target position, fails if it doesn't.
+        // Checks that performer has chopping tool, creates equipping action if needed.
+        startCondition = () -> {
+            Logger.TASKS.logDebug("Checking " + this);
+            EquipmentAspect aspect = task.performer.getAspect(EquipmentAspect.class);
+            if (aspect == null) return FAIL; // no aspect on performer
+            if(!checkTree()) return FAIL;
+            if (!toolItemSelector.checkItems(aspect.equippedItems)) // check tool
+                return createActionForGettingTool();
+            return OK;
+        };
+
+        onFinish = () -> {
+            Logger.TASKS.logDebug("tree chopping started at " + actionTarget.getPosition().toString() + " by " + task.performer.toString());
+            if (!checkTree()) return; // tree died during chopping. rare case // TODO move to progress acceptor
+            PlantContainer container = GameMvc.instance().model().get(PlantContainer.class);
+            AbstractPlant plant = container.getPlantInPosition(actionTarget.getPosition());
+            if (plant.getType().isTree()) container.remove(plant, true);
+        };
     }
 
     /**
-     * Checks that tree exists on target position, fails if it doesn't.
-     * Checks that performer has chopping tool, creates equipping action if needed.
+     * Checks that tree still exists.
      */
-    @Override
-    public ActionConditionStatusEnum check() {
-        Logger.TASKS.logDebug("Checking " + this);
-        EquipmentAspect aspect = task.performer.getAspect(EquipmentAspect.class);
-        if (aspect == null) return FAIL; // no aspect on performer
+    public boolean checkTree() {
         PlantBlock block = GameMvc.instance().model().get(PlantContainer.class).getPlantBlock(actionTarget.getPosition());
-        if (block == null || !block.getPlant().getType().isTree()) // check tree
-            return Logger.TASKS.logDebug("No tree in target position", FAIL);
-        if (!toolItemSelector.checkItems(aspect.equippedItems)) // check tool
-            return createActionForGettingTool();
-        return OK;
+        if (block != null && block.getPlant().getType().isTree()) return true;
+        Logger.TASKS.logDebug("No tree in target position");
+        return false;
     }
 
     private ActionConditionStatusEnum createActionForGettingTool() {
@@ -50,15 +64,6 @@ public class ChopTreeAction extends Action {
         if (target == null) Logger.TASKS.logDebug("No tool item found for chopTreeAction", FAIL);
         task.addFirstPreAction(new EquipItemAction(target, true));
         return NEW;
-    }
-
-    @Override
-    public void performLogic() {
-        Logger.TASKS.logDebug("tree chopping started at " + actionTarget.getPosition().toString() + " by " + task.performer.toString());
-        if (check() != OK) return; // tree died during chopping. rare case
-        PlantContainer container = GameMvc.instance().model().get(PlantContainer.class);
-        AbstractPlant plant = container.getPlantInPosition(actionTarget.getPosition());
-        if (plant.getType().isTree()) container.remove(plant, true);
     }
 
     @Override

@@ -1,6 +1,5 @@
 package stonering.entity.job;
 
-import stonering.entity.Entity;
 import stonering.entity.item.Item;
 import stonering.entity.job.designation.Designation;
 import stonering.game.model.system.item.ItemContainer;
@@ -13,6 +12,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import static stonering.enums.action.ActionStatusEnum.COMPLETE;
 import static stonering.enums.unit.job.JobsEnum.NONE;
 
 /**
@@ -67,8 +67,8 @@ public class Task {
     /**
      * Task is finished, if initial action is finished, and no other action remain.
      */
-    public boolean isFinished() {
-        return preActions.isEmpty() && initialAction.isFinished() && postActions.isEmpty();
+    public boolean isNoActionsLeft() {
+        return preActions.isEmpty() && initialAction.status == COMPLETE && postActions.isEmpty();
     }
 
     /**
@@ -119,7 +119,7 @@ public class Task {
     private void updateNextAction() {
         nextAction = null;
         if (!postActions.isEmpty()) nextAction = postActions.get(0);
-        if (!initialAction.isFinished()) nextAction = initialAction;
+        if (initialAction.status != COMPLETE) nextAction = initialAction;
         nextAction = preActions.isEmpty() ? nextAction : preActions.get(0);
     }
 

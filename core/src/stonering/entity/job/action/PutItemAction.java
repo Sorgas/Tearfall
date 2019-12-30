@@ -32,34 +32,31 @@ public class PutItemAction extends Action {
         super(new EntityActionTarget(targetEntity, ActionTargetTypeEnum.ANY));
         this.targetItem = targetItem;
         this.targetEntity = targetEntity;
+        startCondition = () -> {
+            if (targetEntity != null && targetEntity.getAspect(WorkbenchAspect.class) == null) return FAIL;
+            EquipmentAspect equipmentAspect = task.performer.getAspect(EquipmentAspect.class);
+            if (equipmentAspect == null) return FAIL; // performer can't carry items
+            if (equipmentAspect.hauledItems.contains(targetItem)) return OK; // performer already has item
+            return createPickingAction(targetItem);
+        };
+
+        onFinish = () -> {
+            EquipmentAspect equipmentAspect = task.performer.getAspect(EquipmentAspect.class);
+            ItemContainer container = GameMvc.instance().model().get(ItemContainer.class);
+            equipmentAspect.hauledItems.remove(targetItem);
+            container.equippedItemsSystem.itemUnequipped(targetItem);
+            if (targetEntity != null) { // put into wb
+                container.containedItemsSystem.addItemToWorkbench(targetItem, targetEntity.getAspect(WorkbenchAspect.class));
+            } else { // put on position
+                container.onMapItemsSystem.putItem(targetItem, targetPosition);
+            }
+        };
     }
 
     public PutItemAction(Item targetItem, Position targetPosition) {
         super(new PositionActionTarget(targetPosition, ActionTargetTypeEnum.EXACT));
         this.targetItem = targetItem;
         this.targetPosition = targetPosition;
-    }
-
-    @Override
-    public void performLogic() {
-        EquipmentAspect equipmentAspect = task.performer.getAspect(EquipmentAspect.class);
-        ItemContainer container = GameMvc.instance().model().get(ItemContainer.class);
-        equipmentAspect.hauledItems.remove(targetItem);
-        container.equippedItemsSystem.itemUnequipped(targetItem);
-        if (targetEntity != null) { // put into wb
-            container.containedItemsSystem.addItemToWorkbench(targetItem, targetEntity.getAspect(WorkbenchAspect.class));
-        } else { // put on position
-            container.onMapItemsSystem.putItem(targetItem, targetPosition);
-        }
-    }
-
-    @Override
-    public ActionConditionStatusEnum check() {
-        if (targetEntity != null && targetEntity.getAspect(WorkbenchAspect.class) == null) return FAIL;
-        EquipmentAspect equipmentAspect = task.performer.getAspect(EquipmentAspect.class);
-        if (equipmentAspect == null) return FAIL; // performer can't carry items
-        if (equipmentAspect.hauledItems.contains(targetItem)) return OK; // performer already has item
-        return createPickingAction(targetItem);
     }
 
     private ActionConditionStatusEnum createPickingAction(Item item) {

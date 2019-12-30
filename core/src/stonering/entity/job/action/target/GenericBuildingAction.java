@@ -34,35 +34,31 @@ public abstract class GenericBuildingAction extends Action {
         super(new BuildingActionTarget(order));
         target = (BuildingActionTarget) actionTarget;
         this.order = order;
-    }
 
-    /**
-     * Checks that all ingredients have corresponding item in building position.
-     * Creates action for bringing missing item to target position.
-     * Creates action for removing blocking items from target position
-     */
-    @Override
-    public ActionConditionStatusEnum check() {
-        Logger.TASKS.log("Checking " + this);
-        if (target.builderPosition == null && !target.findPositionForBuilder(order, task.performer.position)) return FAIL;
-        ItemContainer itemContainer = GameMvc.instance().model().get(ItemContainer.class);
-        List<Item> itemsOnSite = itemContainer.getItemsInPosition(target.center);
-        if (!itemsOnSite.isEmpty()) return createSiteClearingAction(itemsOnSite.get(0)); // clear site
-        List<Item> availableItems = itemContainer.getItemsInPosition(target.builderPosition);
-        for (IngredientOrder ingredientOrder : order.parts.values()) {
-            if (checkIngredient(ingredientOrder, availableItems)) continue; // ingredient order is fine
-            // select new item for ingredient
-            if ((ingredientOrder.item == null
-                    || !ingredientOrder.itemSelector.checkItem(ingredientOrder.item))
-                    && !findItemForIngredient(ingredientOrder)) return FAIL; // item not valid anymore and no new found
-            if (!availableItems.contains(ingredientOrder.item)) {
-                task.addFirstPreAction(new PutItemAction(ingredientOrder.item, target.builderPosition)); // create action to bring item
-                return NEW; // new action is created
+        startCondition = () -> {
+            Logger.TASKS.log("Checking " + this);
+            if (target.builderPosition == null && !target.findPositionForBuilder(order, task.performer.position))
+                return FAIL;
+            ItemContainer itemContainer = GameMvc.instance().model().get(ItemContainer.class);
+            List<Item> itemsOnSite = itemContainer.getItemsInPosition(target.center);
+            if (!itemsOnSite.isEmpty()) return createSiteClearingAction(itemsOnSite.get(0)); // clear site
+            List<Item> availableItems = itemContainer.getItemsInPosition(target.builderPosition);
+            for (IngredientOrder ingredientOrder : order.parts.values()) {
+                if (checkIngredient(ingredientOrder, availableItems)) continue; // ingredient order is fine
+                // select new item for ingredient
+                if ((ingredientOrder.item == null
+                        || !ingredientOrder.itemSelector.checkItem(ingredientOrder.item))
+                        && !findItemForIngredient(ingredientOrder))
+                    return FAIL; // item not valid anymore and no new found
+                if (!availableItems.contains(ingredientOrder.item)) {
+                    task.addFirstPreAction(new PutItemAction(ingredientOrder.item, target.builderPosition)); // create action to bring item
+                    return NEW; // new action is created
+                }
+                availableItems.remove(ingredientOrder.item);
             }
-            availableItems.remove(ingredientOrder.item);
-        }
-        return OK; // all ingredients have valid items
-        //TODO reset target on fail
+            return OK; // all ingredients have valid items
+            //TODO reset target on fail}
+        };
     }
 
     /**

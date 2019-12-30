@@ -20,26 +20,19 @@ public class DrinkAction extends Action{
     public DrinkAction(Item item) {
         super(new ItemActionTarget(item));
         this.item = item;
-    }
+        startCondition = () -> {
+            if(!item.tags.contains(TagEnum.DRINKABLE)) return FAIL; // item is not edible
+            if(checkBetterDrink()) return FAIL; // better food is available, recreate.
+            //TODO if tables available, use
+            //TODO if dishes available, use
+            Unit performer = task.performer;
+            if(performer.hasAspect(EquipmentAspect.class)) {
+                if(performer.getAspect(EquipmentAspect.class).hauledItems.contains(item)) return OK;
+            } else {
 
-    @Override
-    public ActionConditionStatusEnum check() {
-        if(!item.tags.contains(TagEnum.DRINKABLE)) return FAIL; // item is not edible
-        if(checkBetterDrink()) return FAIL; // better food is available, recreate.
-        //TODO if tables available, use
-        //TODO if dishes available, use
-        Unit performer = task.performer;
-        if(performer.hasAspect(EquipmentAspect.class)) {
-            if(performer.getAspect(EquipmentAspect.class).hauledItems.contains(item)) return OK;
-        } else {
-
-        }
-        return OK;
-    }
-
-    @Override
-    protected void performLogic() {
-
+            }
+            return OK;
+        };
     }
 
     private boolean checkBetterDrink() {

@@ -31,29 +31,27 @@ public class DigAction extends Action {
         super(new PositionActionTarget(designation.position, ActionTargetTypeEnum.NEAR));
         type = designation.getType();
         toolItemSelector = new ToolWithActionItemSelector("dig");
+        startCondition = () -> {
+            if (!validate()) return FAIL;
+            EquipmentAspect aspect = task.performer.getAspect(EquipmentAspect.class);
+            if (aspect == null) return FAIL;
+            if (toolItemSelector.checkItems(aspect.equippedItems)) return OK;
+            return addEquipAction();
+        };
+
+        onFinish = () -> {
+            BlockTypesEnum oldType = GameMvc.instance().model().get(LocalMap.class).getBlockTypeEnumValue(actionTarget.getPosition());
+            if (validate()) updateMap();
+            leaveStone(oldType);
+        };
     }
 
-    @Override
-    public ActionConditionStatusEnum check() {
-        if (!validate()) return FAIL;
-        EquipmentAspect aspect = task.performer.getAspect(EquipmentAspect.class);
-        if (aspect == null) return FAIL;
-        if (toolItemSelector.checkItems(aspect.equippedItems)) return OK;
-        return addEquipAction();
-    }
 
     private ActionConditionStatusEnum addEquipAction() {
         Item target = GameMvc.instance().model().get(ItemContainer.class).util.getItemAvailableBySelector(toolItemSelector, task.performer.position);
         if (target == null) return FAIL;
         task.addFirstPreAction(new EquipItemAction(target, true));
         return NEW;
-    }
-
-    @Override
-    protected void performLogic() {
-        BlockTypesEnum oldType = GameMvc.instance().model().get(LocalMap.class).getBlockTypeEnumValue(actionTarget.getPosition());
-        if (validate()) updateMap();
-        leaveStone(oldType);
     }
 
     /**

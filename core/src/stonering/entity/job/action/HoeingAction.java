@@ -24,32 +24,27 @@ public class HoeingAction extends Action {
 
     public HoeingAction(ActionTarget actionTarget) {
         super(actionTarget);
-    }
 
-    /**
-     * Checks that:
-     * 1. target tile is soil FLOOR
-     * 2. target tile is farm zone
-     * 3. performer has hoe tool
-     * Creates sub name only for equipping hoe, other cases handled by player.
-     */
-    @Override
-    public ActionConditionStatusEnum check() {
-//        Logger.TASKS.logDebug("Checking hoeing of " + actionTarget.getPosition());
-        Position target = actionTarget.getPosition();
-        LocalMap localMap = GameMvc.instance().model().get(LocalMap.class);
-        if (!ZoneTypesEnum.FARM.getValidator().validate(localMap, target)) return FAIL; // 1
-        if (GameMvc.instance().model().get(ZonesContainer.class).getZone(target) == null) return FAIL; // 2
-        EquipmentAspect equipmentAspect = task.performer.getAspect(EquipmentAspect.class);
-        if(equipmentAspect.toolWithActionEquipped("hoe")) return OK;
-        return tryCreateEquippingAction();
-    }
+        // target tile is soil FLOOR
+        // target tile is farm zone
+        // performer has hoe tool
+        // Creates sub name only for equipping hoe, other cases handled by player.
+        startCondition = () -> {
+            //        Logger.TASKS.logDebug("Checking hoeing of " + actionTarget.getPosition());
+            Position target = actionTarget.getPosition();
+            LocalMap localMap = GameMvc.instance().model().get(LocalMap.class);
+            if (!ZoneTypesEnum.FARM.getValidator().validate(localMap, target)) return FAIL; // 1
+            if (GameMvc.instance().model().get(ZonesContainer.class).getZone(target) == null) return FAIL; // 2
+            EquipmentAspect equipmentAspect = task.performer.getAspect(EquipmentAspect.class);
+            if(equipmentAspect.toolWithActionEquipped("hoe")) return OK;
+            return tryCreateEquippingAction();
+        };
 
-    @Override
-    protected void performLogic() {
-        Logger.TASKS.logDebug("Hoeing tile " + actionTarget.getPosition());
-        LocalMap localMap = GameMvc.instance().model().get(LocalMap.class);
-        localMap.setBlockType(actionTarget.getPosition(), BlockTypesEnum.FARM.CODE);
+        onFinish = () -> {
+            Logger.TASKS.logDebug("Hoeing tile " + actionTarget.getPosition());
+            LocalMap localMap = GameMvc.instance().model().get(LocalMap.class);
+            localMap.setBlockType(actionTarget.getPosition(), BlockTypesEnum.FARM.CODE);
+        };
     }
 
     private ActionConditionStatusEnum tryCreateEquippingAction() {

@@ -33,42 +33,36 @@ public class CraftItemAction extends Action {
         super(new EntityActionTarget(workbench, ActionTargetTypeEnum.NEAR)); // unit will stand near wb while performing task
         this.itemOrder = itemOrder;
         this.workbench = workbench;
-    }
 
-    /**
-     * Creates item, consumes ingredients. Product item is put to Workbench.
-     */
-    @Override
-    protected void performLogic() {
-        ItemContainer container = GameMvc.instance().model().get(ItemContainer.class);
-        WorkbenchAspect workbenchAspect = workbench.getAspect(WorkbenchAspect.class);
-        Item product = new ItemGenerator().generateItemByOrder(itemOrder);
-        // spend components
-        List<Item> items = itemOrder.getAllIngredients().stream().map(IngredientOrder::getItem).collect(Collectors.toList());
-        container.containedItemsSystem.removeItemsFromWorkbench(items, workbenchAspect);
-        container.removeItems(items);
-        // put product into wb
-        container.addItem(product);
-        container.containedItemsSystem.addItemToWorkbench(product, workbenchAspect);
-    }
+        //Checks that action conditions are met. Creates sub action otherwise.
+        //TODO check ingredients and fuel availability before bringing something to workbench.
+        //TODO add usage of items in nearby containers.
+        startCondition = () -> {
+            WorkbenchAspect aspect = workbench.getAspect(WorkbenchAspect.class);
+            if (workbench.getAspect(WorkbenchAspect.class) == null)
+                return Logger.TASKS.logWarn("Building " + workbench.toString() + " is not a workbench.", FAIL);
+            ActionConditionStatusEnum orderCheckResult = checkIngredientItems(aspect);
+            if (orderCheckResult != OK) return orderCheckResult;
+            if (workbench.hasAspect(FuelConsumerAspect.class) && !workbench.getAspect(FuelConsumerAspect.class).isFueled()) { // workbench requires fuel
+                task.addFirstPreAction(new FuelingAciton(workbench));
+                return NEW;
+            }
+            return OK;
+        };
 
-    /**
-     * Checks that action conditions are met. Creates sub action otherwise.
-     * TODO check ingredients and fuel availability before bringing something to workbench.
-     * TODO add usage of items in nearby containers.
-     */
-    @Override
-    public ActionConditionStatusEnum check() {
-        WorkbenchAspect aspect = workbench.getAspect(WorkbenchAspect.class);
-        if (workbench.getAspect(WorkbenchAspect.class) == null)
-            return Logger.TASKS.logWarn("Building " + workbench.toString() + " is not a workbench.", FAIL);
-        ActionConditionStatusEnum orderCheckResult = checkIngredientItems(aspect);
-        if (orderCheckResult != OK) return orderCheckResult;
-        if (workbench.hasAspect(FuelConsumerAspect.class) && !workbench.getAspect(FuelConsumerAspect.class).isFueled()) { // workbench requires fuel
-            task.addFirstPreAction(new FuelingAciton(workbench));
-            return NEW;
-        }
-        return OK;
+        // Creates item, consumes ingredients. Product item is put to Workbench.
+        onFinish = () -> {
+            ItemContainer container = GameMvc.instance().model().get(ItemContainer.class);
+            WorkbenchAspect workbenchAspect = workbench.getAspect(WorkbenchAspect.class);
+            Item product = new ItemGenerator().generateItemByOrder(itemOrder);
+            // spend components
+            List<Item> items = itemOrder.getAllIngredients().stream().map(IngredientOrder::getItem).collect(Collectors.toList());
+            container.containedItemsSystem.removeItemsFromWorkbench(items, workbenchAspect);
+            container.removeItems(items);
+            // put product into wb
+            container.addItem(product);
+            container.containedItemsSystem.addItemToWorkbench(product, workbenchAspect);
+        };
     }
 
     /**
@@ -79,7 +73,8 @@ public class CraftItemAction extends Action {
     private ActionConditionStatusEnum checkIngredientItems(WorkbenchAspect aspect) {
         for (IngredientOrder order : itemOrder.getAllIngredients()) {
             if (checkIngredient(order, aspect)) continue;
-            if (order.item != null) System.out.println("'spoiled' item in ingredient order"); // free item TODO locking items in container
+            if (order.item != null)
+                System.out.println("'spoiled' item in ingredient order"); // free item TODO locking items in container
             order.item = GameMvc.instance().model().get(ItemContainer.class).util.getItemForIngredient(order, task.performer.position);
             if (order.item == null) return FAIL; // no valid item found
             if (aspect.containedItems.contains(order.item)) continue; // item in WB, no actions required

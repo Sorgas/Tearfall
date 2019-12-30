@@ -2,8 +2,7 @@ package stonering.entity.job.action.sleep_action;
 
 import stonering.entity.building.Building;
 import stonering.entity.building.aspects.RestFurnitureAspect;
-import stonering.entity.job.action.ActionConditionStatusEnum;
-import stonering.entity.job.action.phase.PhasedAction;
+import stonering.entity.job.action.Action;
 import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.job.action.target.EntityActionTarget;
 import stonering.enums.time.TimeUnitEnum;
@@ -20,7 +19,7 @@ import static stonering.entity.job.action.ActionConditionStatusEnum.OK;
  *
  * @author Alexander on 10.09.2019.
  */
-public class SleepInBedAction extends PhasedAction {
+public class SleepInBedAction extends Action {
     Building bed;
     private float restSpeed;
 
@@ -28,25 +27,17 @@ public class SleepInBedAction extends PhasedAction {
         super(actionTarget);
         bed = (Building) ((EntityActionTarget) actionTarget).entity;
         restSpeed = countRestSpeed();
+        startCondition = () -> {
+            if(GameMvc.instance().model().get(BuildingContainer.class).getBuiding(bed.position) == bed &&
+                    bed.hasAspect(RestFurnitureAspect.class))
+                return OK;
+            return FAIL;
+        };
     }
 
-    @Override
     protected void recreatePhases() {
-        phases.add(new RestPhase(this, getRequiredRestLength())); // 5-240 min
-        phases.add(new SleepPhase(this, getMaxSleepLength())); // 30-720 min
-    }
-
-    @Override
-    public ActionConditionStatusEnum check() {
-        if(GameMvc.instance().model().get(BuildingContainer.class).getBuiding(bed.position) == bed &&
-                bed.hasAspect(RestFurnitureAspect.class))
-            return OK;
-        return FAIL;
-    }
-
-    @Override
-    protected float getWorkDelta() {
-        return restSpeed;
+//        phases.add(new RestPhase(this, getRequiredRestLength())); // 5-240 min
+//        phases.add(new SleepPhase(this, getMaxSleepLength())); // 30-720 min
     }
 
     private float countRestSpeed() {

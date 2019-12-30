@@ -23,16 +23,23 @@ public class PlantHarvestAction extends Action {
         super(new PlantActionTarget(plant));
         targetPlant = plant;
         toolItemSelector = new ToolWithActionItemSelector("harvest_plants"); //TODO handle harvesting without tool.
-    }
 
-    @Override
-    public ActionConditionStatusEnum check() {
-        PlantContainer container = GameMvc.instance().model().get(PlantContainer.class);
-        EquipmentAspect aspect = task.performer.getAspect(EquipmentAspect.class);
-        if (aspect == null) return FAIL; // performer has aspect
-        if (container.getPlantInPosition(actionTarget.getPosition()) != targetPlant) return FAIL; // plant not present anymore
-        if(toolItemSelector.checkItems(aspect.equippedItems)) return OK; // performer has tool
-        return addActionToTask();
+        startCondition = () -> {
+            PlantContainer container = GameMvc.instance().model().get(PlantContainer.class);
+            EquipmentAspect aspect = task.performer.getAspect(EquipmentAspect.class);
+            if (aspect == null) return FAIL; // performer has aspect
+            if (container.getPlantInPosition(actionTarget.getPosition()) != targetPlant) return FAIL; // plant not present anymore
+            if(toolItemSelector.checkItems(aspect.equippedItems)) return OK; // performer has tool
+            return addActionToTask();
+        };
+
+        onFinish = () -> {
+            //TODO add putting products into worn container
+            Logger.PLANTS.logDebug("harvesting plant");
+            PlantBlock block = GameMvc.instance().model().get(PlantContainer.class).getPlantBlock(actionTarget.getPosition());
+            Item item = new PlantProductGenerator().generateHarvestProduct(block);
+            GameMvc.instance().model().get(ItemContainer.class).onMapItemsSystem.putNewItem(item, block.getPosition());
+        };
     }
 
     private ActionConditionStatusEnum addActionToTask() {
@@ -41,14 +48,5 @@ public class PlantHarvestAction extends Action {
         EquipItemAction equipItemAction = new EquipItemAction(target, true);
         task.addFirstPreAction(equipItemAction);
         return NEW;
-    }
-
-    @Override
-    public void performLogic() {
-        //TODO add putting products into worn container
-        Logger.PLANTS.logDebug("harvesting plant");
-        PlantBlock block = GameMvc.instance().model().get(PlantContainer.class).getPlantBlock(actionTarget.getPosition());
-        Item item = new PlantProductGenerator().generateHarvestProduct(block);
-        GameMvc.instance().model().get(ItemContainer.class).onMapItemsSystem.putNewItem(item, block.getPosition());
     }
 }

@@ -25,32 +25,21 @@ public class EatAction extends Action {
     public EatAction(Item item) {
         super(new EntityActionTarget(item, ActionTargetTypeEnum.ANY));
         this.item = item;
-    }
+        //TODO create action to put food to table and use dishes.
+        startCondition = () -> {
+            if(!item.tags.contains(TagEnum.EDIBLE)) return FAIL; // item is not edible
+            if(checkBetterFood()) return FAIL; // better food is available, recreate.
+            //TODO if tables available, use
+            //TODO if dishes available, use
+            Unit performer = task.performer;
+            if(performer.hasAspect(EquipmentAspect.class)) {
+                if(performer.getAspect(EquipmentAspect.class).hauledItems.contains(item)) return OK;
+            } else {
 
-    /**
-     * TODO create action to put food to table and use dishes.
-     */
-    @Override
-    public ActionConditionStatusEnum check() {
-        if(!item.tags.contains(TagEnum.EDIBLE)) return FAIL; // item is not edible
-        if(checkBetterFood()) return FAIL; // better food is available, recreate.
-        //TODO if tables available, use
-        //TODO if dishes available, use
-        Unit performer = task.performer;
-        if(performer.hasAspect(EquipmentAspect.class)) {
-            if(performer.getAspect(EquipmentAspect.class).hauledItems.contains(item)) return OK;
-        } else {
+            }
+            return OK;
+        };
 
-        }
-        return OK;
-    }
-
-    /**
-     * Consumes item, restores hunger in {@link HealthAspect}.
-     */
-    @Override
-    protected void performLogic() {
-        //TODO
     }
 
     /**

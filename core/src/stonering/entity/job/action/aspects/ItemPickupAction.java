@@ -19,33 +19,24 @@ import static stonering.entity.job.action.ActionConditionStatusEnum.OK;
  * @author Alexander on 12.01.2019.
  */
 public class ItemPickupAction extends Action {
-    private Item item;
 
-    public ItemPickupAction(Item targetItem) {
-        super(new ItemActionTarget(targetItem));
-        item = targetItem;
-    }
+    public ItemPickupAction(Item item) {
+        super(new ItemActionTarget(item));
 
-    @Override
-    public void performLogic() {
-        Item targetItem = getTargetItem();
-        EquipmentAspect equipment = task.performer.getAspect(EquipmentAspect.class);
-        ItemContainer container = GameMvc.instance().model().get(ItemContainer.class);
+        startCondition = () -> {
+            Logger.TASKS.logDebug("Checking picking action");
+            if (task.performer.getAspect(EquipmentAspect.class) == null) return FAIL; // performer cannot pick up item
+            if (GameMvc.instance().model().get(ItemContainer.class).itemMap.get(item.position).contains(item)) return OK;
+            return FAIL;
+        };
 
-        container.onMapItemsSystem.removeItemFromMap(targetItem);
-        equipment.pickupItem(targetItem);
-        container.equippedItemsSystem.itemEquipped(item, equipment);
-    }
+        onFinish = () -> {
+            EquipmentAspect equipment = task.performer.getAspect(EquipmentAspect.class);
+            ItemContainer container = GameMvc.instance().model().get(ItemContainer.class);
 
-    @Override
-    public ActionConditionStatusEnum check() {
-        Logger.TASKS.logDebug("Checking picking action");
-        if (task.performer.getAspect(EquipmentAspect.class) == null) return FAIL; // performer cannot pick up item
-        if (GameMvc.instance().model().get(ItemContainer.class).itemMap.get(item.position).contains(item)) return OK;
-        return FAIL;
-    }
-
-    private Item getTargetItem() {
-        return ((ItemActionTarget) actionTarget).getItem();
+            container.onMapItemsSystem.removeItemFromMap(item);
+            equipment.pickupItem(item);
+            container.equippedItemsSystem.itemEquipped(item, equipment);
+        };
     }
 }

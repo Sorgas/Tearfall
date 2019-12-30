@@ -100,7 +100,7 @@ public class CreaturePlanningSystem extends EntitySystem<Unit> {
         Logger.TASKS.logDebug("Checking task " + task + " for unit " + unit);
         task.performer = unit; // performer is required for checking
         ActionConditionStatusEnum result;
-        while ((result = task.nextAction.check()) == NEW) {
+        while ((result = task.nextAction.startCondition.get()) == NEW) {
         } // can create sub actions
         if (result == OK) return true;
         task.reset();

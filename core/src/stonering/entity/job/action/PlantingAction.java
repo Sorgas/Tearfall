@@ -29,19 +29,16 @@ public class PlantingAction extends Action {
     public PlantingAction(ActionTarget actionTarget, SeedItemSelector seedSelector) {
         super(actionTarget);
         this.seedSelector = seedSelector;
-    }
+        startCondition = () -> {
+            Logger.TASKS.logDebug("Checking planting action");
+            if(getSeedFromEquipment() != null) return OK;
+            return tryCreatePickingAction();
+        };
 
-    @Override
-    public ActionConditionStatusEnum check() {
-        Logger.TASKS.logDebug("Checking planting action");
-        if(getSeedFromEquipment() != null) return OK;
-        return tryCreatePickingAction();
-    }
-
-    @Override
-    protected void performLogic() {
-        Logger.TASKS.logDebug("Planting seed of " + seedSelector.getSpecimen() + " to " + actionTarget.getPosition());
-        createPlant(spendSeed());
+        onFinish = () -> {
+            Logger.TASKS.logDebug("Planting seed of " + seedSelector.getSpecimen() + " to " + actionTarget.getPosition());
+            createPlant(spendSeed());
+        };
     }
 
     /**

@@ -22,20 +22,18 @@ public class ConstructionAction extends GenericBuildingAction {
     public ConstructionAction(BuildingOrder order) {
         super(order);
         blockType = BlockTypesEnum.getType(order.blueprint.building).CODE;
-    }
+        onFinish = () -> {
+            Logger.TASKS.logDebug(BlockTypesEnum.getType(blockType).NAME + " built at " + actionTarget.getPosition());
+            Position target = ((BuildingActionTarget) actionTarget).center;
+            int material = order.parts.values().iterator().next().item.getMaterial();
 
-    @Override
-    public void performLogic() {
-        Logger.TASKS.logDebug(BlockTypesEnum.getType(blockType).NAME + " built at " + actionTarget.getPosition());
-        Position target = ((BuildingActionTarget) actionTarget).center;
-        int material = order.parts.values().iterator().next().item.getMaterial();
-
-        GameMvc.instance().model().get(LocalMap.class).setBlock(target, blockType, material); // create block
-        PlantContainer container = GameMvc.instance().model().get(PlantContainer.class);
-        container.remove(container.getPlantInPosition(target), true); // remove plant
-        SubstrateContainer substrateContainer = GameMvc.instance().model().get(SubstrateContainer.class);
-        substrateContainer.remove(substrateContainer.getSubstrateInPosition(target)); // remove substrate
-        consumeItems();
+            GameMvc.instance().model().get(LocalMap.class).setBlock(target, blockType, material); // create block
+            PlantContainer container = GameMvc.instance().model().get(PlantContainer.class);
+            container.remove(container.getPlantInPosition(target), true); // remove plant
+            SubstrateContainer substrateContainer = GameMvc.instance().model().get(SubstrateContainer.class);
+            substrateContainer.remove(substrateContainer.getSubstrateInPosition(target)); // remove substrate
+            consumeItems();
+        };
     }
 
     @Override

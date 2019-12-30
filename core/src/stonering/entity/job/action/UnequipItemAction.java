@@ -18,18 +18,21 @@ public class UnequipItemAction extends Action {
     public UnequipItemAction(Item item) {
         super(new ItemActionTarget(item));
         this.item = item;
-    }
-
-    @Override
-    public ActionConditionStatusEnum check() {
-        EquipmentAspect equipmentAspect = task.performer.getAspect(EquipmentAspect.class);
-        if (equipmentAspect == null) return Logger.TASKS.logError("unit " + task.performer + " has no Equipment Aspect.", FAIL);
-        EquipmentSlot slot = equipmentAspect.getSlotWithItem(item);
-        if (slot == null) return Logger.TASKS.logError("item " + item + " is not equipped by unit " + task.performer, FAIL);
-        if (!slot.canUnequip(item)) {
-            return tryAddUnequipAction(slot.getBlockingItem(item));
-        }
-        return OK;
+        startCondition = () -> {
+            EquipmentAspect equipmentAspect = task.performer.getAspect(EquipmentAspect.class);
+            if (equipmentAspect == null) return Logger.TASKS.logError("unit " + task.performer + " has no Equipment Aspect.", FAIL);
+            EquipmentSlot slot = equipmentAspect.getSlotWithItem(item);
+            if (slot == null) return Logger.TASKS.logError("item " + item + " is not equipped by unit " + task.performer, FAIL);
+            if (!slot.canUnequip(item)) {
+                return tryAddUnequipAction(slot.getBlockingItem(item));
+            }
+            return OK;
+        };
+        onFinish = () -> {
+            //TODO count work amount based on item weight and creature stats
+            //TODO implement with slots
+            task.performer.getAspect(EquipmentAspect.class).unequipItem(item);
+        };
     }
 
     private ActionConditionStatusEnum tryAddUnequipAction(Item item) {
@@ -39,14 +42,7 @@ public class UnequipItemAction extends Action {
     }
 
     @Override
-    public void performLogic() {
-        //TODO count work amount based on item weight and creature stats
-        //TODO implement with slots
-        task.performer.getAspect(EquipmentAspect.class).unequipItem(item);
-    }
-
-    @Override
     public String toString() {
-        return "Unequipping name: " + item.getTitle();
+        return "UnequipItemAction for: " + item.getTitle();
     }
 }

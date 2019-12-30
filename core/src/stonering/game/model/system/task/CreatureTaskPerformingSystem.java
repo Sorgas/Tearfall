@@ -1,12 +1,11 @@
 package stonering.game.model.system.task;
 
 import stonering.entity.job.Task;
-import stonering.entity.job.action.Action;
 import stonering.entity.job.action.target.ActionTargetStatusEnum;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.MovementAspect;
 import stonering.entity.unit.aspects.PlanningAspect;
-import stonering.enums.action.ActionTargetTypeEnum;
+import stonering.enums.action.ActionStatusEnum;
 import stonering.game.model.system.EntitySystem;
 
 import static stonering.enums.action.TaskStatusEnum.*;
@@ -64,8 +63,9 @@ public class CreatureTaskPerformingSystem extends EntitySystem<Unit> {
             checkAction(task, aspect); // check before performing
             return;
         }
-        if (task.nextAction.perform()) {
-            if (task.isFinished()) { // was last action in task
+        task.nextAction.perform();
+        if(task.nextAction.status == ActionStatusEnum.COMPLETE) {
+            if (task.isNoActionsLeft()) { // was last action in task
                 task.status = COMPLETE;
             } else {
                 checkAction(task, aspect); // check next action after completion previous
@@ -78,7 +78,7 @@ public class CreatureTaskPerformingSystem extends EntitySystem<Unit> {
      * Checks current action of task. Updates aspect flag of aspect and can fail task.
      */
     private void checkAction(Task task, PlanningAspect aspect) {
-        switch (task.nextAction.check()) {
+        switch (task.nextAction.startCondition.get()) {
             case OK:
                 aspect.actionChecked = true;
                 return;

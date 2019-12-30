@@ -22,32 +22,30 @@ public class EquipItemAction extends Action {
         super(new ItemActionTarget(item));
         this.item = item;
         this.force = force;
-    }
 
-    @Override
-    protected void performLogic() {
-        ItemContainer container = GameMvc.instance().model().get(ItemContainer.class);
-        EquipmentAspect aspect = task.performer.getAspect(EquipmentAspect.class);
-        if (!aspect.equipItem(item)) return; // equipping failed
-        container.onMapItemsSystem.removeItemFromMap(item);
-        container.equippedItemsSystem.itemEquipped(item, aspect);
-    }
+        startCondition = () -> {
+            if (!task.performer.hasAspect(EquipmentAspect.class))
+                return Logger.TASKS.logError("unit " + task.performer + " has no Equipment Aspect.", FAIL);
+            EquipmentSlot slot = task.performer.getAspect(EquipmentAspect.class).getSlotForItem(item);
+            if (slot == null) return Logger.TASKS.logError("unit " + task.performer + " has no appropriate slots for item " + item, FAIL);
+            Item blockingItem = slot.getBlockingItem(item);
+            if (blockingItem == null) return OK; // slot is not blocked
+            if (!force) return Logger.TASKS.logError("unit " + task.performer + " cannot equip item " + item + " no empty slots.", FAIL);
+            if (item.hasAspect(WearAspect.class)) {
+                return createUnequipWearAction(blockingItem); // wear can block only wear items
+            } else if (item.isTool()) {
+                return createUnequipToolAction(blockingItem);
+            }
+            return Logger.TASKS.logError("Invalid case in EquipItemAction:check()", FAIL);
+        };
 
-    @Override
-    public ActionConditionStatusEnum check() {
-        if (!task.performer.hasAspect(EquipmentAspect.class))
-            return Logger.TASKS.logError("unit " + task.performer + " has no Equipment Aspect.", FAIL);
-        EquipmentSlot slot = task.performer.getAspect(EquipmentAspect.class).getSlotForItem(item);
-        if (slot == null) return Logger.TASKS.logError("unit " + task.performer + " has no appropriate slots for item " + item, FAIL);
-        Item blockingItem = slot.getBlockingItem(item);
-        if (blockingItem == null) return OK; // slot is not blocked
-        if (!force) return Logger.TASKS.logError("unit " + task.performer + " cannot equip item " + item + " no empty slots.", FAIL);
-        if (item.hasAspect(WearAspect.class)) {
-            return createUnequipWearAction(blockingItem); // wear can block only wear items
-        } else if (item.isTool()) {
-            return createUnequipToolAction(blockingItem);
-        }
-        return Logger.TASKS.logError("Invalid case in EquipItemAction:check()", FAIL);
+        onFinish = () -> {
+            ItemContainer container = GameMvc.instance().model().get(ItemContainer.class);
+            EquipmentAspect aspect = task.performer.getAspect(EquipmentAspect.class);
+            if (!aspect.equipItem(item)) return; // equipping failed
+            container.onMapItemsSystem.removeItemFromMap(item);
+            container.equippedItemsSystem.itemEquipped(item, aspect);
+        };
     }
 
     /**

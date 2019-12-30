@@ -3,7 +3,6 @@ package stonering.entity.zone;
 import stonering.entity.job.Task;
 import stonering.entity.job.action.HoeingAction;
 import stonering.entity.job.action.PlantingAction;
-import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.job.action.target.PositionActionTarget;
 import stonering.entity.plants.AbstractPlant;
 import stonering.entity.world.calendar.WorldCalendar;
@@ -101,7 +100,7 @@ public class FarmZone extends Zone {
      * @return true, if task can be created after this method.
      */
     private boolean isTaskExist(Position tile) {
-        if (taskMap.containsKey(tile) && taskMap.get(tile).isFinished())
+        if (taskMap.containsKey(tile) && taskMap.get(tile).isNoActionsLeft())
             taskMap.remove(tile); // finished task, remove. tasks are removed from container on finish
         return taskMap.containsKey(tile);
     }

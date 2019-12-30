@@ -2,21 +2,42 @@ package stonering.entity.job.action;
 
 import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.job.Task;
-import stonering.entity.unit.aspects.JobsAspect;
+import stonering.enums.action.ActionStatusEnum;
+import stonering.util.global.Executor;
+
+import java.util.function.Consumer;
+import java.util.function.Supplier;
+
+import static stonering.enums.action.ActionStatusEnum.*;
 
 /**
- * Action of a unit. Actions are parts of {@link Task}.
- * Actions do some changes in game model(digging, crafting).
- * Actions have target where unit should be to perform action.
- * Actions have requirements and create sub action and add them to task if possible.
- * If action requirements are not met, Action and its task are failed.
+ * Action of a unit. All units behaviour except moving are defined in actions. Actions are parts of {@link Task}.
+ * During performing unit adds certain amount of 'work' to an action. Skills, health and other conditions may influence unit's work speed.
  * <p>
+ * Action consist of several parts:
+ * Target where unit should be to perform action.
+ * Start condition - to be met before performing is started, can create additional actions.
+ * Start function - executed once.
+ * Progress consumer function - executed many times. Does additive changes to model during action performing.
+ * Finish condition - action finishes, when condition is met.
+ * Finish function - executed once.
+ * <p>
+ * Additional actions are created and added to task, when start condition is not met, but could be after additional action(equip tool, bring items).
+ * If start condition is not met, action and its task are failed.
+ * Default implementation is an action with no requirements nor effect, which finished immediately;
  */
 public abstract class Action {
-    protected String usedSkill;
     public Task task; // can be modified during execution
+    protected String usedSkill;
     public final ActionTarget actionTarget;
-    public float workAmount = 1f;
+    public Supplier<ActionConditionStatusEnum> startCondition;
+    public Executor onStart; // performed on phase start
+    public Consumer<Float> progressConsumer; // performs logic
+    public Supplier<Boolean> finishCondition; // when reached, action ends
+    public Executor onFinish; // performed on phase finish
+    public ActionStatusEnum status;
+
+    //TODO remove
     public float baseSpeed = 0.01f; // distracted from workAmount to make action progress.
 
     protected Action(ActionTarget actionTarget) {
@@ -24,48 +45,36 @@ public abstract class Action {
         actionTarget.setAction(this);
     }
 
-    public abstract ActionConditionStatusEnum check();
-
     /**
-     * Fetches remaining work amount and performs action.
-     *
-     * @return true, when action is finished.
+     * Performs action logic. Changes status.
      */
-    public final boolean perform() {
-        applyWork();
-        if(!isFinished()) return false;
-        performLogic();
+    public final void perform() {
+        if(status == OPEN) start();
+        progressConsumer.accept(0.01f);
+        if(finishCondition.get()) finish();
+    }
+
+    private void start() {
+        onStart.execute();
+        status = ACTIVE;
+    }
+
+    private void finish() {
+        onFinish.execute();
+        status = COMPLETE;
         task.finishAction(this);
-        return true;
     }
-
-    public boolean isFinished() {
-        return workAmount <= 0;
-    }
-
-    protected void applyWork() {
-        workAmount -= getWorkDelta();
-    }
-
-    /**
-     * Count delta for left work amount on one tick. Higher values means faster work.
-     * TODO different work amount for action. consider stats when counting speed. add experience.
-     */
-    protected float getWorkDelta() {
-        float skillModifier = task.performer.getAspect(JobsAspect.class).getSkillModifier(usedSkill);
-        return baseSpeed * skillModifier;
-    }
-
-    /**
-     * Applies action logic to model.
-     */
-    protected abstract void performLogic();
 
     /**
      * Resets task state as it had not been started.
      */
     public void reset() {
-        workAmount = 1f;
+        startCondition = () -> ActionConditionStatusEnum.OK;
+        onStart = () -> {};
+        progressConsumer = (amount) -> {};
+        finishCondition = () -> true;
+        onFinish = () -> {};
+        status = OPEN;
     }
 
     @Override
