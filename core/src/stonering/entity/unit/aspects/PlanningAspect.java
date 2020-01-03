@@ -3,6 +3,7 @@ package stonering.entity.unit.aspects;
 import stonering.entity.job.Task;
 import stonering.entity.Aspect;
 import stonering.entity.Entity;
+import stonering.entity.job.action.Action;
 import stonering.util.geometry.Position;
 
 /**
@@ -21,5 +22,9 @@ public class PlanningAspect extends Aspect {
 
     public Position getTarget() {
         return task != null ? task.nextAction.actionTarget.getPosition() : null;
+    }
+
+    public Action getNextAction() {
+        return task != null ? task.nextAction : null;
     }
 }

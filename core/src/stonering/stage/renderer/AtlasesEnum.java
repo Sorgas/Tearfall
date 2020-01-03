@@ -3,15 +3,13 @@ package stonering.stage.renderer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import stonering.util.global.Logger;
-import stonering.util.global.Pair;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Contains all textures used for render. See {@link TileRenderer}, {@link DrawingUtil}.
+ * Contains all textures used for render. See {@link TileRenderer}, {@link SpriteDrawingUtil}.
  * Logical tile (in game model) has width, height and depth. Texture tile has width and height(height + depth).
  * Also, for blocks, toppings are needed. Toppings has width and depth same as main tile, and reduced height.
  * TODO create sprite descriptor for key (x, y, color).

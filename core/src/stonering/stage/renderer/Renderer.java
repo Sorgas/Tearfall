@@ -7,9 +7,9 @@ package stonering.stage.renderer;
  * @author Alexander on 06.02.2019.
  */
 public abstract class Renderer {
-    protected DrawingUtil util;
+    protected SpriteDrawingUtil util;
 
-    public Renderer(DrawingUtil util) {
+    public Renderer(SpriteDrawingUtil util) {
         this.util = util;
     }
 

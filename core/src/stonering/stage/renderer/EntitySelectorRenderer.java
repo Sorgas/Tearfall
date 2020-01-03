@@ -14,8 +14,8 @@ import static stonering.stage.renderer.AtlasesEnum.ui_tiles;
 public class EntitySelectorRenderer extends Renderer {
     private Position cachePosition;
 
-    public EntitySelectorRenderer(DrawingUtil drawingUtil) {
-        super(drawingUtil);
+    public EntitySelectorRenderer(SpriteDrawingUtil spriteDrawingUtil) {
+        super(spriteDrawingUtil);
         cachePosition = new Position();
     }
 

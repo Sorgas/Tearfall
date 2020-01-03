@@ -3,7 +3,7 @@ package stonering.stage.localworld;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import stonering.stage.UiStage;
-import stonering.stage.renderer.DrawingUtil;
+import stonering.stage.renderer.SpriteDrawingUtil;
 import stonering.stage.renderer.EntitySelectorRenderer;
 import stonering.stage.renderer.TileRenderer;
 
@@ -20,7 +20,7 @@ import stonering.stage.renderer.TileRenderer;
  * @author Alexander Kuzyakov on 13.06.2017.21
  */
 public class LocalWorldStage extends UiStage {
-    private DrawingUtil drawingUtil;
+    private SpriteDrawingUtil spriteDrawingUtil;
     private TileRenderer tileRenderer;
     private EntitySelectorRenderer entitySelectorRenderer;
     private MovableCamera camera;
@@ -28,9 +28,9 @@ public class LocalWorldStage extends UiStage {
     public LocalWorldStage() {
         super();
         camera = new MovableCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        drawingUtil = new DrawingUtil(getBatch());
-        tileRenderer = new TileRenderer(drawingUtil, camera);
-        entitySelectorRenderer = new EntitySelectorRenderer(drawingUtil);
+        spriteDrawingUtil = new SpriteDrawingUtil(getBatch());
+        tileRenderer = new TileRenderer(spriteDrawingUtil, camera);
+        entitySelectorRenderer = new EntitySelectorRenderer(spriteDrawingUtil);
     }
 
     /**
@@ -40,10 +40,10 @@ public class LocalWorldStage extends UiStage {
         handleInput();
         camera.update();
         getBatch().setProjectionMatrix(camera.combined);
-        drawingUtil.begin();
+        spriteDrawingUtil.begin();
         tileRenderer.render();
         entitySelectorRenderer.render();
-        drawingUtil.end();
+        spriteDrawingUtil.end();
     }
 
     /**

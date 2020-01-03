@@ -16,8 +16,8 @@ public class ZoneRenderer extends Renderer {
     private UnitContainer unitContainer;
     private Int3dBounds visibleArea;
 
-    public ZoneRenderer(DrawingUtil drawingUtil, Int3dBounds visibleArea) {
-        super(drawingUtil);
+    public ZoneRenderer(SpriteDrawingUtil spriteDrawingUtil, Int3dBounds visibleArea) {
+        super(spriteDrawingUtil);
         this.visibleArea = visibleArea;
     }
 

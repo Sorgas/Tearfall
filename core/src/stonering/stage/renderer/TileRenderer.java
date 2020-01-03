@@ -12,6 +12,7 @@ import stonering.entity.plants.PlantBlock;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.CreatureStatusIcon;
 import stonering.entity.unit.aspects.MovementAspect;
+import stonering.entity.unit.aspects.PlanningAspect;
 import stonering.entity.unit.aspects.RenderAspect;
 import stonering.entity.zone.Zone;
 import stonering.enums.blocks.BlockTypesEnum;
@@ -33,8 +34,6 @@ import stonering.util.geometry.Int2dBounds;
 import stonering.util.geometry.Position;
 
 import java.util.List;
-import java.util.function.BiFunction;
-import java.util.function.Function;
 
 import static com.badlogic.gdx.graphics.Pixmap.Format.RGBA8888;
 import static stonering.stage.renderer.AtlasesEnum.*;
@@ -47,6 +46,8 @@ import static stonering.stage.renderer.AtlasesEnum.*;
  * @author Alexander on 06.02.2019.
  */
 public class TileRenderer extends Renderer {
+    private UnitRenderer unitRenderer;
+
     private LocalMap localMap;
     private LocalTileMap localTileMap;
     private PlantContainer plantContainer;
@@ -55,8 +56,8 @@ public class TileRenderer extends Renderer {
     private UnitContainer unitContainer;
     private TaskContainer taskContainer;
     private ItemContainer itemContainer;
-
     private ZonesContainer zonesContainer;
+
     private MovableCamera camera;
     private boolean disabled = false;
 
@@ -65,10 +66,11 @@ public class TileRenderer extends Renderer {
     private Int2dBounds cacheBounds;
     private TextureRegion blackTile;
 
-    public TileRenderer(DrawingUtil drawingUtil, MovableCamera camera) {
-        super(drawingUtil);
+    public TileRenderer(SpriteDrawingUtil spriteDrawingUtil, MovableCamera camera) {
+        super(spriteDrawingUtil);
         this.camera = camera;
         GameModel model = GameMvc.instance().model();
+        unitRenderer = new UnitRenderer();
         localMap = model.get(LocalMap.class);
         localTileMap = model.get(LocalTileMap.class);
         buildingContainer = model.get(BuildingContainer.class);
@@ -245,15 +247,21 @@ public class TileRenderer extends Renderer {
     private void drawUnits(int x, int y, int z) {
         if (unitContainer == null) return;
         for (Unit unit : unitContainer.getUnitsInPosition(x, y, z)) {
-            if (!unit.hasAspect(MovementAspect.class)) {
-                //TODO static units?
-            } else {
+
+            if (unit.hasAspect(MovementAspect.class)) {
                 RenderAspect aspect = unit.getAspect(RenderAspect.class);
                 util.drawSprite(aspect.getTile(), unit.vectorPosition);
                 List<CreatureStatusIcon> icons = aspect.icons;
                 for (int i = 0; i < icons.size(); i++) {
                     util.drawIcon(creature_icons.getBlockTile(icons.get(i).x, icons.get(i).y), unit.vectorPosition, i);
                 }
+
+                if(unit.hasAspect(PlanningAspect.class)) {
+                    unit.getAspect(PlanningAspect.class).getNextAction() != null
+                    if()
+                }
+            } else {
+                //TODO static units?
             }
         }
     }

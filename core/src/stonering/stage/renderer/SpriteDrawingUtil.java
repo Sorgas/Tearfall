@@ -7,17 +7,14 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import stonering.util.geometry.Position;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import static stonering.stage.renderer.BatchUtil.*;
 
 /**
- * Provides utility methods and rules for drawing scene.
+ * Provides utility methods and rules for drawing sprites.
  *
  * @author Alexander on 06.02.2019.
  */
-public class DrawingUtil {
+public class SpriteDrawingUtil {
     private Batch batch;
     private BitmapFont font;
 
@@ -25,7 +22,7 @@ public class DrawingUtil {
     public final int maxZLevels = (int) (1f / shadingStep); // levels further are shaded to black
     private Color batchColor;               // default batch color without light or transparency
 
-    public DrawingUtil(Batch batch) {
+    public SpriteDrawingUtil(Batch batch) {
         this.batch = batch;
         font = new BitmapFont();
         batch.enableBlending();
