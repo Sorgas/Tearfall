@@ -1,7 +1,6 @@
 package stonering.entity.job.action;
 
 import stonering.entity.item.selectors.SeedItemSelector;
-import stonering.entity.job.action.aspects.ItemPickupAction;
 import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.item.Item;
 import stonering.entity.item.aspects.SeedAspect;

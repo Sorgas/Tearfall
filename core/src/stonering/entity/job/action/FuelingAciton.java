@@ -5,7 +5,6 @@ import stonering.entity.building.aspects.FuelConsumerAspect;
 import stonering.entity.item.Item;
 import stonering.entity.item.aspects.FuelAspect;
 import stonering.entity.item.selectors.FuelItemSelector;
-import stonering.entity.job.action.aspects.ItemPickupAction;
 import stonering.entity.job.action.target.EntityActionTarget;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.enums.action.ActionTargetTypeEnum;

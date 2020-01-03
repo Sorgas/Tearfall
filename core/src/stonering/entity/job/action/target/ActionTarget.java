@@ -31,7 +31,7 @@ public abstract class ActionTarget {
      * Returns fail if checked from out of map.
      */
     public ActionTargetStatusEnum check(Position performerPosition) {
-        Logger.TASKS.logDebug("Checking action target " + performerPosition + getPosition());
+        Logger.TASKS.logDebug("Checking action target " + performerPosition + " " + getPosition());
         if(getPosition() == null || performerPosition == null) {
             System.out.println();
         }

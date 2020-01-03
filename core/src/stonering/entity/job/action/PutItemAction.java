@@ -1,7 +1,6 @@
 package stonering.entity.job.action;
 
 import stonering.entity.building.aspects.WorkbenchAspect;
-import stonering.entity.job.action.aspects.ItemPickupAction;
 import stonering.entity.job.action.target.EntityActionTarget;
 import stonering.entity.job.action.target.PositionActionTarget;
 import stonering.entity.Entity;

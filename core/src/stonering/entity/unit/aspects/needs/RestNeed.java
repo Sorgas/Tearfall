@@ -5,7 +5,7 @@ import stonering.entity.building.Building;
 import stonering.entity.building.aspects.RestFurnitureAspect;
 import stonering.entity.job.Task;
 import stonering.entity.job.action.Action;
-import stonering.entity.job.action.sleep_action.SleepInBedAction;
+import stonering.entity.job.action.SleepInBedAction;
 import stonering.entity.job.action.target.EntityActionTarget;
 import stonering.entity.unit.aspects.health.HealthAspect;
 import stonering.entity.unit.aspects.health.HealthParameterState;

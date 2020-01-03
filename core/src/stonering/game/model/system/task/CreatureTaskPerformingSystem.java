@@ -13,10 +13,16 @@ import static stonering.enums.action.TaskStatusEnum.*;
 /**
  * System for performing tasks of units. Calls perform() of task's actions, and updates task statuses.
  * Only tasks with status ACTIVE handled here. This system handles only active tasks.
+ * //TODO handle cases when creature cannon move. all actions with distant target are failed.
  *
  * @author Alexander on 29.10.2019.
  */
 public class CreatureTaskPerformingSystem extends EntitySystem<Unit> {
+
+    public CreatureTaskPerformingSystem() {
+        targetAspects.add(PlanningAspect.class);
+        targetAspects.add(MovementAspect.class);
+    }
 
     /**
      * Updates state of given unit's active task. Selects new task, fails and finishes current.
@@ -26,27 +32,25 @@ public class CreatureTaskPerformingSystem extends EntitySystem<Unit> {
     public void update(Unit unit) {
         PlanningAspect planning = unit.getAspect(PlanningAspect.class);
         MovementAspect movement = unit.getAspect(MovementAspect.class);
-        if (planning == null) return;
         Task task = planning.task;
-        // creature has active task but not moving
+        // creature has active task but is not moving
         if (task != null && task.status == ACTIVE && movement.target == null) checkTarget(planning, movement, task);
     }
 
     /**
      * Checks if unit is in position for performing action, handles different cases of positioning.
+     * Creating new action during target check, will be handled on next update.
      */
     private void checkTarget(PlanningAspect planning, MovementAspect movement, Task task) {
         ActionTargetStatusEnum checkResult = task.nextAction.actionTarget.check(planning.getEntity().position);
         switch (checkResult) {
             case READY:
-                handleReachingTarget(task, planning);
-                break;
-            case NEW: // target check has created new action, will be handled on next update
+                handleReachingActionTarget(task, planning);
                 break;
             case WAIT: // set target for moving
                 movement.target = task.nextAction.actionTarget.getPosition();
                 break;
-            case FAIL:
+            case FAIL: // target unreachable
                 task.status = FAILED;
                 break;
         }
@@ -58,7 +62,7 @@ public class CreatureTaskPerformingSystem extends EntitySystem<Unit> {
      * Action is checked before performing, and right after previous action is finished.
      * Result of after check is not saved to repeat check when unit reaches target of new action.
      */
-    private void handleReachingTarget(Task task, PlanningAspect aspect) {
+    private void handleReachingActionTarget(Task task, PlanningAspect aspect) {
         if (!aspect.actionChecked) {
             checkAction(task, aspect); // check before performing
             return;

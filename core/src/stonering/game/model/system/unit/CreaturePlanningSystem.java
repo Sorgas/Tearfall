@@ -1,7 +1,6 @@
 package stonering.game.model.system.unit;
 
 import stonering.entity.job.Task;
-import stonering.entity.job.action.Action;
 import stonering.entity.job.action.ActionConditionStatusEnum;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.PlanningAspect;
@@ -32,10 +31,13 @@ import static stonering.enums.action.TaskStatusEnum.*;
 public class CreaturePlanningSystem extends EntitySystem<Unit> {
     public UnitContainer container;
 
+    public CreaturePlanningSystem() {
+        targetAspects.add(PlanningAspect.class);
+    }
+
     @Override
     public void update(Unit unit) {
         PlanningAspect aspect = unit.getAspect(PlanningAspect.class);
-        if (aspect == null) return;
         if (aspect.task == null) {
             findAndAssignNewTask(unit);
         } else {

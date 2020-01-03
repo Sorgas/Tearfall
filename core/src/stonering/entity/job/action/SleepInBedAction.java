@@ -1,13 +1,17 @@
-package stonering.entity.job.action.sleep_action;
+package stonering.entity.job.action;
 
 import stonering.entity.building.Building;
 import stonering.entity.building.aspects.RestFurnitureAspect;
 import stonering.entity.job.action.Action;
 import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.job.action.target.EntityActionTarget;
+import stonering.entity.unit.aspects.health.HealthAspect;
+import stonering.entity.unit.aspects.health.HealthParameterState;
 import stonering.enums.time.TimeUnitEnum;
+import stonering.enums.unit.health.HealthParameterEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.system.building.BuildingContainer;
+import stonering.util.global.Logger;
 
 import static stonering.entity.job.action.ActionConditionStatusEnum.FAIL;
 import static stonering.entity.job.action.ActionConditionStatusEnum.OK;
@@ -22,22 +26,34 @@ import static stonering.entity.job.action.ActionConditionStatusEnum.OK;
 public class SleepInBedAction extends Action {
     Building bed;
     private float restSpeed;
+    private HealthParameterState targetParameter;
 
     public SleepInBedAction(ActionTarget actionTarget) {
         super(actionTarget);
         bed = (Building) ((EntityActionTarget) actionTarget).entity;
         restSpeed = countRestSpeed();
+        onStart = () -> {
+            targetParameter = task.performer.getAspect(HealthAspect.class).parameters.get(HealthParameterEnum.FATIGUE);
+            // lie to bed
+            // disable vision
+            // decrease hearing
+        };
         startCondition = () -> {
-            if(GameMvc.instance().model().get(BuildingContainer.class).getBuiding(bed.position) == bed &&
+            if (GameMvc.instance().model().get(BuildingContainer.class).getBuiding(bed.position) == bed &&
                     bed.hasAspect(RestFurnitureAspect.class))
                 return OK;
             return FAIL;
         };
-    }
-
-    protected void recreatePhases() {
-//        phases.add(new RestPhase(this, getRequiredRestLength())); // 5-240 min
-//        phases.add(new SleepPhase(this, getMaxSleepLength())); // 30-720 min
+        progressConsumer = (delta) -> {
+            targetParameter.current -= delta; // decrease fatigue
+            Logger.TASKS.logDebug("restoring fatigue for " + delta + " new value " + targetParameter.current);
+        };
+        finishCondition = () -> targetParameter.current <= 0; // stop sleeping
+        onFinish = () -> {
+            // restore vision and hearing
+            // stand up
+            // if fatigue is not restored completely, apply negative mood buff
+        };
     }
 
     private float countRestSpeed() {

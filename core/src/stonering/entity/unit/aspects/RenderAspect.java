@@ -20,12 +20,14 @@ public class RenderAspect extends Aspect {
     public final AtlasesEnum atlas;
     public final List<CreatureStatusIcon> icons = new ArrayList<>();
     public Drawable drawable;
+    public float actionProgress;
 
     public RenderAspect(Entity entity, int[] xy, AtlasesEnum atlas) {
         super(entity);
         atlasXY = xy;
         this.atlas = atlas;
         drawable = new TextureRegionDrawable(getTile());
+        actionProgress = 0;
     }
 
     public TextureRegion getTile() {

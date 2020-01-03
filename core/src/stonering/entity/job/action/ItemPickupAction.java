@@ -1,4 +1,4 @@
-package stonering.entity.job.action.aspects;
+package stonering.entity.job.action;
 
 import stonering.entity.job.action.Action;
 import stonering.entity.job.action.ActionConditionStatusEnum;
@@ -23,14 +23,14 @@ public class ItemPickupAction extends Action {
     public ItemPickupAction(Item item) {
         super(new ItemActionTarget(item));
 
-        startCondition = () -> {
+        startCondition = () -> { // unit is able to carry items, item persists
             Logger.TASKS.logDebug("Checking picking action");
             if (task.performer.getAspect(EquipmentAspect.class) == null) return FAIL; // performer cannot pick up item
             if (GameMvc.instance().model().get(ItemContainer.class).itemMap.get(item.position).contains(item)) return OK;
             return FAIL;
         };
 
-        onFinish = () -> {
+        onFinish = () -> { // add item to unit
             EquipmentAspect equipment = task.performer.getAspect(EquipmentAspect.class);
             ItemContainer container = GameMvc.instance().model().get(ItemContainer.class);
 

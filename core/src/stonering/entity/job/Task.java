@@ -17,10 +17,11 @@ import static stonering.enums.unit.job.JobsEnum.NONE;
 
 /**
  * Task object for unit behavior in the game.
- * Basically is a sequence of {@link Action}s, which consists of:
- *   preActions - performed before initial action,
- *   initialAction,
- *   postActions - performed after initial action.
+ * Basically is a sequence of {@link Action}s, organized into:
+ * 1. preActions - performed before initial action,
+ * 2. initialAction,
+ * 3. postActions - performed after initial action.
+ * <p>
  * Created with one action as initial. Actions are checked before performing, and can create additional pre- and post- actions.
  * Actions can consume some items during performing, this items are locked, when action is successfully checked first time.
  * Locked items are stored in task and {@link ItemContainer}.
@@ -73,6 +74,7 @@ public class Task {
 
     /**
      * Removes pre and post action from task.
+     * Changes task status.
      */
     public void finishAction(Action action) {
         Logger.TASKS.logDebug("Action " + action + " finished.");
@@ -117,10 +119,9 @@ public class Task {
      * Searches next action to perform and sets nextAction field.
      */
     private void updateNextAction() {
-        nextAction = null;
         if (!postActions.isEmpty()) nextAction = postActions.get(0);
         if (initialAction.status != COMPLETE) nextAction = initialAction;
-        nextAction = preActions.isEmpty() ? nextAction : preActions.get(0);
+        if (!preActions.isEmpty()) nextAction = preActions.get(0);
     }
 
     @Override

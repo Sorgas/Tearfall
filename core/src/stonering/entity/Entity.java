@@ -14,7 +14,7 @@ import java.util.Optional;
  * @author Alexander Kuzyakov on 25.01.2018.
  */
 public abstract class Entity implements Serializable, Initable {
-    protected HashMap<Class, Aspect> aspects;
+    public final HashMap<Class, Aspect> aspects;
     public Position position;
 
     protected Entity() {

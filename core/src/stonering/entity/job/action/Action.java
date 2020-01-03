@@ -8,6 +8,7 @@ import stonering.util.global.Executor;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+import static stonering.entity.job.action.ActionConditionStatusEnum.OK;
 import static stonering.enums.action.ActionStatusEnum.*;
 
 /**
@@ -24,7 +25,7 @@ import static stonering.enums.action.ActionStatusEnum.*;
  * <p>
  * Additional actions are created and added to task, when start condition is not met, but could be after additional action(equip tool, bring items).
  * If start condition is not met, action and its task are failed.
- * Default implementation is an action with no requirements nor effect, which finished immediately;
+ * Default implementation is an action with no requirements nor effect, which is finished immediately;
  */
 public abstract class Action {
     public Task task; // can be modified during execution
@@ -43,33 +44,34 @@ public abstract class Action {
     protected Action(ActionTarget actionTarget) {
         this.actionTarget = actionTarget;
         actionTarget.setAction(this);
+        startCondition = () -> OK;
+        onStart = () -> {};
+        progressConsumer = (delta) -> {};
+        finishCondition = () -> true;
+        onFinish = () -> {};
     }
 
     /**
      * Performs action logic. Changes status.
      */
     public final void perform() {
-        if(status == OPEN) start();
-        progressConsumer.accept(0.01f);
-        if(finishCondition.get()) finish();
-    }
-
-    private void start() {
-        onStart.execute();
-        status = ACTIVE;
-    }
-
-    private void finish() {
-        onFinish.execute();
-        status = COMPLETE;
-        task.finishAction(this);
+        if(status == OPEN) { // first execution of perform()
+            status = ACTIVE;
+            onStart.execute();
+        }
+        progressConsumer.accept(0.01f); //
+        if(finishCondition.get()) { // last execution of perform()
+            status = COMPLETE;
+            onFinish.execute();
+            task.finishAction(this);
+        }
     }
 
     /**
      * Resets task state as it had not been started.
      */
     public void reset() {
-        startCondition = () -> ActionConditionStatusEnum.OK;
+        startCondition = () -> OK;
         onStart = () -> {};
         progressConsumer = (amount) -> {};
         finishCondition = () -> true;

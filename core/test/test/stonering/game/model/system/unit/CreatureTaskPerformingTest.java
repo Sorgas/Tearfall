@@ -70,20 +70,6 @@ public class CreatureTaskPerformingTest {
         assertEquals(FAILED, task.status);
     }
 
-    @Test
-    void testPerformingAction() {
-        Action action = new MoveAction(new Position(0, 0, 0));
-        Task task = new Task("test_task", action, 1);
-        task.performer = unit;
-        task.status = ACTIVE;
-        aspect.task = task;
-        unitContainer.taskSystem.update(unit); // ok check before performing
-        assertTrue(aspect.actionChecked);
-        float oldWorkAmount = task.nextAction.workAmount;
-        unitContainer.taskSystem.update(unit);
-        assertNotEquals(oldWorkAmount, task.nextAction.workAmount);
-    }
-
     /**
      * Actions are checked by system right before performing,
      * and when unit starts to move to next action(after finishing previous one).
@@ -93,7 +79,6 @@ public class CreatureTaskPerformingTest {
         Action action = new MoveAction(new Position(0, 0, 0));
         Task task = new Task("test_task", action, 1);
         task.addFirstPostAction(new MoveAction(new Position(4, 4, 0)));
-        task.nextAction.workAmount = 0.01f; // to finish action in 1 perform()
         task.nextAction.baseSpeed = 0.02f;
         task.performer = unit;
         task.status = ACTIVE;
