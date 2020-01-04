@@ -79,6 +79,10 @@ public abstract class Action {
         status = OPEN;
     }
 
+    public float getProgress() {
+        return 0;
+    }
+
     @Override
     public String toString() {
         return this.getClass().getSimpleName();

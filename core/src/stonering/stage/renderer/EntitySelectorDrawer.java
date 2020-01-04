@@ -11,15 +11,14 @@ import static stonering.stage.renderer.AtlasesEnum.ui_tiles;
  *
  * @author Alexander on 06.02.2019.
  */
-public class EntitySelectorRenderer extends Renderer {
+public class EntitySelectorDrawer extends Drawer {
     private Position cachePosition;
 
-    public EntitySelectorRenderer(SpriteDrawingUtil spriteDrawingUtil) {
-        super(spriteDrawingUtil);
+    public EntitySelectorDrawer(SpriteDrawingUtil spriteDrawingUtil, ShapeDrawingUtil shapeDrawingUtil) {
+        super(spriteDrawingUtil, shapeDrawingUtil);
         cachePosition = new Position();
     }
 
-    @Override
     public void render() {
         drawSelector(GameMvc.instance().model().get(EntitySelector.class));
     }
@@ -30,9 +29,9 @@ public class EntitySelectorRenderer extends Renderer {
      * @param selector
      */
     public void drawSelector(EntitySelector selector) {
-        util.drawSprite(selector.getSelectorSprite(), selector.position.toVector3());
+        spriteUtil.drawSprite(selector.getSelectorSprite(), selector.position.toVector3());
         if (selector.getStatusSprite() != null) {
-            util.drawSprite(selector.getStatusSprite(), selector.position.toVector3());
+            spriteUtil.drawSprite(selector.getStatusSprite(), selector.position.toVector3());
         }
 
         //TODO add landscape dependant rendering
@@ -58,11 +57,11 @@ public class EntitySelectorRenderer extends Renderer {
 
                         if (x == minX && z > minZ && y == minY) drawSprite(8);
                         if (x == maxX && z > minZ && y == minY) drawSprite(9);
-                        util.updateColorA(0.5f);
+                        spriteUtil.updateColorA(0.5f);
                         if (z == maxZ) drawSprite(10); // top side transparent background
                         if (y == minY) drawSprite(11); // front side transparent background
                         if (z > minZ && y == minY) drawSprite(12);
-                        util.updateColorA(1f);
+                        spriteUtil.updateColorA(1f);
                     }
                 }
             }
@@ -70,6 +69,6 @@ public class EntitySelectorRenderer extends Renderer {
     }
 
     private void drawSprite(int x) {
-        util.drawSprite(ui_tiles.getBlockTile(x, 1), ui_tiles, cachePosition);
+        spriteUtil.drawSprite(ui_tiles.getBlockTile(x, 1), ui_tiles, cachePosition);
     }
 }

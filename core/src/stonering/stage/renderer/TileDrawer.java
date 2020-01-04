@@ -9,10 +9,6 @@ import stonering.entity.job.designation.Designation;
 import stonering.entity.building.BuildingBlock;
 import stonering.entity.item.Item;
 import stonering.entity.plants.PlantBlock;
-import stonering.entity.unit.Unit;
-import stonering.entity.unit.aspects.CreatureStatusIcon;
-import stonering.entity.unit.aspects.MovementAspect;
-import stonering.entity.unit.aspects.PlanningAspect;
 import stonering.entity.unit.aspects.RenderAspect;
 import stonering.entity.zone.Zone;
 import stonering.enums.blocks.BlockTypesEnum;
@@ -33,19 +29,17 @@ import stonering.util.geometry.CoordFunction;
 import stonering.util.geometry.Int2dBounds;
 import stonering.util.geometry.Position;
 
-import java.util.List;
-
 import static com.badlogic.gdx.graphics.Pixmap.Format.RGBA8888;
 import static stonering.stage.renderer.AtlasesEnum.*;
 
 /**
- * Class for rendering tiles.
+ * Class for drawing tiles. Contains renderers for different entities.
  * TODO add render order for buildings, to render flat carpets, pressure plates etc.
  * TODO draw local light spots.
  *
  * @author Alexander on 06.02.2019.
  */
-public class TileRenderer extends Renderer {
+public class TileDrawer extends Drawer {
     private UnitRenderer unitRenderer;
 
     private LocalMap localMap;
@@ -53,7 +47,6 @@ public class TileRenderer extends Renderer {
     private PlantContainer plantContainer;
     private SubstrateContainer substrateContainer;
     private BuildingContainer buildingContainer;
-    private UnitContainer unitContainer;
     private TaskContainer taskContainer;
     private ItemContainer itemContainer;
     private ZonesContainer zonesContainer;
@@ -66,15 +59,14 @@ public class TileRenderer extends Renderer {
     private Int2dBounds cacheBounds;
     private TextureRegion blackTile;
 
-    public TileRenderer(SpriteDrawingUtil spriteDrawingUtil, MovableCamera camera) {
-        super(spriteDrawingUtil);
+    public TileDrawer(SpriteDrawingUtil spriteDrawingUtil, ShapeDrawingUtil shapeDrawingUtil, MovableCamera camera) {
+        super(spriteDrawingUtil, shapeDrawingUtil);
         this.camera = camera;
         GameModel model = GameMvc.instance().model();
-        unitRenderer = new UnitRenderer();
         localMap = model.get(LocalMap.class);
         localTileMap = model.get(LocalTileMap.class);
         buildingContainer = model.get(BuildingContainer.class);
-        unitContainer = model.get(UnitContainer.class);
+        unitRenderer = new UnitRenderer(spriteDrawingUtil, shapeDrawingUtil);
         taskContainer = model.get(TaskContainer.class);
         plantContainer = model.get(PlantContainer.class);
         substrateContainer = model.get(SubstrateContainer.class);
@@ -89,12 +81,11 @@ public class TileRenderer extends Renderer {
         blackTile = new TextureRegion(new Texture(pixmap));
     }
 
-    @Override
     public void render() {
         if (disabled) return;
         int maxZ = camera.getCameraZ();
-        for (int z = Math.max(maxZ - util.maxZLevels, 0); z <= maxZ; z++) {
-            util.shadeByZ(maxZ - z);
+        for (int z = Math.max(maxZ - spriteUtil.maxZLevels, 0); z <= maxZ; z++) {
+            spriteUtil.shadeByZ(maxZ - z);
             defineLayerBounds(z);
             iterateLayer(z, this::renderFlatTile);
             iterateLayer(z, this::drawBlockTiles);
@@ -137,16 +128,16 @@ public class TileRenderer extends Renderer {
         startTile(x, y, z);
         drawFloor(x, y, z); // floors or toppings
         if (substrateContainer != null) drawSubstrate(x, y, z);
-        util.resetColor();
+        spriteUtil.resetColor();
     }
 
     private void drawBlockTiles(int x, int y, int z) {
         if (localMap.light.localLight.get(x, y, z) == -1) { // draw black tile
-            util.drawScale(blackTile, cachePosition.set(x, y, z), BatchUtil.TILE_WIDTH, BatchUtil.TILE_DEPTH);
+            spriteUtil.drawScale(blackTile, cachePosition.set(x, y, z), BatchUtil.TILE_WIDTH, BatchUtil.TILE_DEPTH);
             return;
         }
         startTile(x, y, z);
-        drawUnits(x, y, z);
+        unitRenderer.drawUnits(x, y, z);
         drawBlock(x, y, z); // all other
         drawWaterBlock(x, y, z);
         cachePosition.set(x, y, z);
@@ -155,33 +146,33 @@ public class TileRenderer extends Renderer {
         if (itemContainer != null) itemContainer.getItemsInPosition(x, y, z).forEach(this::drawItem);
         if (taskContainer != null) drawDesignation(taskContainer.getDesignation(x, y, z));
         if (zonesContainer != null) drawZone(zonesContainer.getZone(cachePosition));
-        util.resetColor();
+        spriteUtil.resetColor();
     }
 
     private void drawAreaLabel(int x, int y, int z) {
         if (localMap.getBlockType(x, y, z) == BlockTypesEnum.SPACE.CODE) return;
         String text = localMap.passageMap.area.get(x, y, z) + " " + localMap.passageMap.getPassage(x, y, z);
-        util.writeText(text, x, y + 1, z);
+        spriteUtil.writeText(text, x, y + 1, z);
     }
 
     private void drawFloor(int x, int y, int z) {
         BlockTypesEnum type = localMap.getBlockTypeEnumValue(x, y, z);
         if (type == BlockTypesEnum.SPACE) { // draw topping for ramps
             if (z <= 0) return;
-            util.drawSprite(blocks.getToppingTile(getAtlasXForBlock(x, y, z - 1), getAtlasYForBlock(x, y, z - 1)), cacheVector);
+            spriteUtil.drawSprite(blocks.getToppingTile(getAtlasXForBlock(x, y, z - 1), getAtlasYForBlock(x, y, z - 1)), cacheVector);
             return;
         }
         if (type == BlockTypesEnum.STAIRS) type = BlockTypesEnum.DOWNSTAIRS; // downstairs rendered under stairs.
         if (!type.FLAT) type = BlockTypesEnum.FLOOR; // floor is rendered under non-flat tiles.
         if (type == BlockTypesEnum.FLOOR || type == BlockTypesEnum.DOWNSTAIRS || type == BlockTypesEnum.FARM) {
             int atlasX = BlocksTileMapping.getType(type.CODE).ATLAS_X;
-            util.drawSprite(blocks.getBlockTile(atlasX, getAtlasYForBlock(x, y, z)), cacheVector);
+            spriteUtil.drawSprite(blocks.getBlockTile(atlasX, getAtlasYForBlock(x, y, z)), cacheVector);
         }
     }
 
     private void drawBlock(int x, int y, int z) {
         BlockTypesEnum type = localMap.getBlockTypeEnumValue(x, y, z);
-        if (!type.FLAT) util.drawSprite(blocks.getBlockTile(getAtlasXForBlock(x, y, z), getAtlasYForBlock(x, y, z)), cacheVector);
+        if (!type.FLAT) spriteUtil.drawSprite(blocks.getBlockTile(getAtlasXForBlock(x, y, z), getAtlasYForBlock(x, y, z)), cacheVector);
     }
 
     /**
@@ -199,7 +190,7 @@ public class TileRenderer extends Renderer {
 
     private void drawSubstrate(int x, int y, int z) {
         TextureRegion region = selectSpriteForSubstrate(x, y, z);
-        if (region != null) util.drawSprite(region, cacheVector);
+        if (region != null) spriteUtil.drawSprite(region, cacheVector);
     }
 
     /**
@@ -225,9 +216,9 @@ public class TileRenderer extends Renderer {
     private void drawWaterBlock(int x, int y, int z) {
         TextureRegion sprite = selectSpriteForFlooding(x, y, z);
         if (sprite == null) return;
-        util.updateColorA(0.6f);
-        util.drawSprite(sprite, cachePosition.toVector3());
-        util.updateColorA(1f);
+        spriteUtil.updateColorA(0.6f);
+        spriteUtil.drawSprite(sprite, cachePosition.toVector3());
+        spriteUtil.updateColorA(1f);
     }
 
     /**
@@ -240,54 +231,28 @@ public class TileRenderer extends Renderer {
         return null;
     }
 
-    /**
-     * Draws units in given cell. Calculates position to draw unit, basing on unit's movement progress.
-     * Units in motion are drawn 'between' tiles.
-     */
-    private void drawUnits(int x, int y, int z) {
-        if (unitContainer == null) return;
-        for (Unit unit : unitContainer.getUnitsInPosition(x, y, z)) {
-
-            if (unit.hasAspect(MovementAspect.class)) {
-                RenderAspect aspect = unit.getAspect(RenderAspect.class);
-                util.drawSprite(aspect.getTile(), unit.vectorPosition);
-                List<CreatureStatusIcon> icons = aspect.icons;
-                for (int i = 0; i < icons.size(); i++) {
-                    util.drawIcon(creature_icons.getBlockTile(icons.get(i).x, icons.get(i).y), unit.vectorPosition, i);
-                }
-
-                if(unit.hasAspect(PlanningAspect.class)) {
-                    unit.getAspect(PlanningAspect.class).getNextAction() != null
-                    if()
-                }
-            } else {
-                //TODO static units?
-            }
-        }
-    }
-
     //TODO refactor to use render aspect
     private void drawItem(Item item) {
-        util.drawSprite(items.getBlockTile(item.getType().atlasXY[0], item.getType().atlasXY[1]), items, item.position);
+        spriteUtil.drawSprite(items.getBlockTile(item.getType().atlasXY[0], item.getType().atlasXY[1]), items, item.position);
     }
 
     private void drawDesignation(Designation designation) {
         if (designation != null)
-            util.drawSprite(ui_tiles.getBlockTile(DesignationsTileMapping.getAtlasX(designation.getType().CODE), 0), ui_tiles, designation.position);
+            spriteUtil.drawSprite(ui_tiles.getBlockTile(DesignationsTileMapping.getAtlasX(designation.getType().CODE), 0), ui_tiles, designation.position);
     }
 
     private void drawZone(Zone zone) {
-        if (zone != null) util.drawSprite(zone.getType().sprite, cachePosition.toVector3());
+        if (zone != null) spriteUtil.drawSprite(zone.getType().sprite, cachePosition.toVector3());
     }
 
     private void drawBuildingBlock(BuildingBlock block) {
         if (block == null) return;
         RenderAspect aspect = block.getBuilding().getAspect(RenderAspect.class);
-        util.drawSprite(buildings.getBlockTile(aspect.atlasXY[0], aspect.atlasXY[1]), buildings, cachePosition);
+        spriteUtil.drawSprite(buildings.getBlockTile(aspect.atlasXY[0], aspect.atlasXY[1]), buildings, cachePosition);
     }
 
     private void drawPlantBlock(PlantBlock block) {
         if (block != null)
-            util.drawSprite(plants.getBlockTile(block.getAtlasXY()[0], block.getAtlasXY()[1]), cacheVector);
+            spriteUtil.drawSprite(plants.getBlockTile(block.getAtlasXY()[0], block.getAtlasXY()[1]), cacheVector);
     }
 }

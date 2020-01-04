@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Contains all textures used for render. See {@link TileRenderer}, {@link SpriteDrawingUtil}.
+ * Contains all textures used for render. See {@link TileDrawer}, {@link SpriteDrawingUtil}.
  * Logical tile (in game model) has width, height and depth. Texture tile has width and height(height + depth).
  * Also, for blocks, toppings are needed. Toppings has width and depth same as main tile, and reduced height.
  * TODO create sprite descriptor for key (x, y, color).

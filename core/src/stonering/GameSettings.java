@@ -11,8 +11,16 @@ import java.util.Properties;
  *
  * @author Alexander on 12.11.2019.
  */
-public class GameSettings {
+public enum GameSettings {
+    DRAW_ACTION_PROGRESS("draw_action_progress");
+
+    private String VALUE;
+
     private static Properties instance;
+
+    GameSettings(String value) {
+        VALUE = value;
+    }
 
     public static void load() {
         instance = new Properties();
@@ -24,7 +32,7 @@ public class GameSettings {
         }
     }
 
-    public static String get(String key) {
-        return instance.getProperty(key);
+    public static String get(GameSettings setting) {
+        return instance.getProperty(setting.VALUE);
     }
 }

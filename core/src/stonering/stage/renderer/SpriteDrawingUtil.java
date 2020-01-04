@@ -86,12 +86,4 @@ public class SpriteDrawingUtil {
         float mod = lightLevel / (float) Byte.MAX_VALUE;
         batch.setColor(batchColor.r * mod, batchColor.g * mod, batchColor.b * mod, batchColor.a);
     }
-
-    public void begin() {
-        batch.begin();
-    }
-
-    public void end() {
-        batch.end();
-    }
 }

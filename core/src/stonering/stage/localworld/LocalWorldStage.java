@@ -3,12 +3,13 @@ package stonering.stage.localworld;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import stonering.stage.UiStage;
+import stonering.stage.renderer.ShapeDrawingUtil;
 import stonering.stage.renderer.SpriteDrawingUtil;
-import stonering.stage.renderer.EntitySelectorRenderer;
-import stonering.stage.renderer.TileRenderer;
+import stonering.stage.renderer.EntitySelectorDrawer;
+import stonering.stage.renderer.TileDrawer;
 
 /**
- * Contains renderers for drawing local world and launches them in a sequence.
+ * Contains {@link Drawer} for drawing local world and launches them in a sequence.
  * <p>
  * Draws LocalMap. Blocks and plants are taken from LocalTileMap,
  * Buildings, unit, and item are taken from LocalMap.
@@ -20,17 +21,20 @@ import stonering.stage.renderer.TileRenderer;
  * @author Alexander Kuzyakov on 13.06.2017.21
  */
 public class LocalWorldStage extends UiStage {
-    private SpriteDrawingUtil spriteDrawingUtil;
-    private TileRenderer tileRenderer;
-    private EntitySelectorRenderer entitySelectorRenderer;
+    private final SpriteDrawingUtil spriteDrawingUtil;
+    private final ShapeDrawingUtil shapeDrawingUtil;
+    private TileDrawer tileDrawer;
+    //TODO zone renderer.
+    private EntitySelectorDrawer entitySelectorRenderer;
     private MovableCamera camera;
 
     public LocalWorldStage() {
         super();
         camera = new MovableCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         spriteDrawingUtil = new SpriteDrawingUtil(getBatch());
-        tileRenderer = new TileRenderer(spriteDrawingUtil, camera);
-        entitySelectorRenderer = new EntitySelectorRenderer(spriteDrawingUtil);
+        shapeDrawingUtil = new ShapeDrawingUtil(getBatch());
+        tileDrawer = new TileDrawer(spriteDrawingUtil, shapeDrawingUtil, camera);
+        entitySelectorRenderer = new EntitySelectorDrawer(spriteDrawingUtil, shapeDrawingUtil);
     }
 
     /**
@@ -40,10 +44,10 @@ public class LocalWorldStage extends UiStage {
         handleInput();
         camera.update();
         getBatch().setProjectionMatrix(camera.combined);
-        spriteDrawingUtil.begin();
-        tileRenderer.render();
+        getBatch().begin();
+        tileDrawer.render();
         entitySelectorRenderer.render();
-        spriteDrawingUtil.end();
+        getBatch().end();
     }
 
     /**
