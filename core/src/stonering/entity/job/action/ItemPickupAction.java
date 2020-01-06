@@ -1,7 +1,5 @@
 package stonering.entity.job.action;
 
-import stonering.entity.job.action.Action;
-import stonering.entity.job.action.ActionConditionStatusEnum;
 import stonering.entity.job.action.target.ItemActionTarget;
 import stonering.entity.item.Item;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
@@ -38,5 +36,10 @@ public class ItemPickupAction extends Action {
             equipment.pickupItem(item);
             container.equippedItemsSystem.itemEquipped(item, equipment);
         };
+    }
+
+    @Override
+    public float getProgressDelta() {
+        return 0.01f;
     }
 }

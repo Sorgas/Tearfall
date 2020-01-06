@@ -3,6 +3,7 @@ package stonering.stage.localworld;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import stonering.stage.UiStage;
+import stonering.stage.renderer.Drawer;
 import stonering.stage.renderer.ShapeDrawingUtil;
 import stonering.stage.renderer.SpriteDrawingUtil;
 import stonering.stage.renderer.EntitySelectorDrawer;
@@ -13,20 +14,23 @@ import stonering.stage.renderer.TileDrawer;
  * <p>
  * Draws LocalMap. Blocks and plants are taken from LocalTileMap,
  * Buildings, unit, and item are taken from LocalMap.
+ *
  * <p>
  * TODO move color from batch to sprites.
  * <p>
- * Only this component does zooming.
+ * Zooming is made with {@link MovableCamera}.
+ * Has util classes for drawing sprites and shapes. Sprite and shape batches updated with camera projection matrix.
  *
  * @author Alexander Kuzyakov on 13.06.2017.21
  */
 public class LocalWorldStage extends UiStage {
-    private final SpriteDrawingUtil spriteDrawingUtil;
-    private final ShapeDrawingUtil shapeDrawingUtil;
+    private MovableCamera camera;
     private TileDrawer tileDrawer;
     //TODO zone renderer.
     private EntitySelectorDrawer entitySelectorRenderer;
-    private MovableCamera camera;
+
+    private final SpriteDrawingUtil spriteDrawingUtil;
+    private final ShapeDrawingUtil shapeDrawingUtil;
 
     public LocalWorldStage() {
         super();
@@ -44,6 +48,7 @@ public class LocalWorldStage extends UiStage {
         handleInput();
         camera.update();
         getBatch().setProjectionMatrix(camera.combined);
+        shapeDrawingUtil.shapeRenderer.setProjectionMatrix(camera.combined);
         getBatch().begin();
         tileDrawer.render();
         entitySelectorRenderer.render();

@@ -37,17 +37,15 @@ public abstract class Action {
     public Supplier<Boolean> finishCondition; // when reached, action ends
     public Executor onFinish; // performed on phase finish
     public ActionStatusEnum status;
-
-    //TODO remove
-    public float baseSpeed = 0.01f; // distracted from workAmount to make action progress.
+    public float progress = 0;
 
     protected Action(ActionTarget actionTarget) {
         this.actionTarget = actionTarget;
         actionTarget.setAction(this);
         startCondition = () -> OK;
         onStart = () -> {};
-        progressConsumer = (delta) -> {};
-        finishCondition = () -> true;
+        progressConsumer = (delta) -> progress += delta;
+        finishCondition = () -> progress >= 1f;
         onFinish = () -> {};
     }
 
@@ -59,7 +57,7 @@ public abstract class Action {
             status = ACTIVE;
             onStart.execute();
         }
-        progressConsumer.accept(0.01f); //
+        progressConsumer.accept(getProgressDelta()); //
         if(finishCondition.get()) { // last execution of perform()
             status = COMPLETE;
             onFinish.execute();
@@ -79,8 +77,8 @@ public abstract class Action {
         status = OPEN;
     }
 
-    public float getProgress() {
-        return 0;
+    public float getProgressDelta() {
+        return 1f;
     }
 
     @Override

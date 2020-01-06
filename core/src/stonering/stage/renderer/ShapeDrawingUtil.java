@@ -14,15 +14,16 @@ import static stonering.stage.renderer.BatchUtil.*;
  */
 public class ShapeDrawingUtil {
     public Batch batch;
-    ShapeRenderer shapeRenderer;
+    public ShapeRenderer shapeRenderer;
 
     public ShapeDrawingUtil(Batch batch) {
         this.batch = batch;
+        shapeRenderer = new ShapeRenderer();
     }
 
     public void drawRectangle(Vector3 modelPosition, int x, int y, int width, int height, Color color) {
         batch.end();
-        shapeRenderer.begin();
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(color);
         int batchX = (int) getBatchX(modelPosition.x) + x;
         int batchY = (int) getBatchY(modelPosition.y, modelPosition.z) + y;

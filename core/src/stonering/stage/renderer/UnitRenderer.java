@@ -48,8 +48,8 @@ public class UnitRenderer extends Drawer {
         if ("1".equals(GameSettings.get(GameSettings.DRAW_ACTION_PROGRESS))
                 && unit.hasAspect(PlanningAspect.class)
                 && (action = unit.getAspect(PlanningAspect.class).getNextAction()) != null
-                && action.getProgress() > 0) {
-            shapeUtil.drawRectangle(unit.vectorPosition, 4, 32, (int) (progressBarWidth * action.getProgress()), 10, Color.YELLOW);
+                && action.progress > 0) {
+            shapeUtil.drawRectangle(unit.vectorPosition, 4, 16, (int) (progressBarWidth * action.progress), 8, Color.YELLOW);
         }
     }
 }
