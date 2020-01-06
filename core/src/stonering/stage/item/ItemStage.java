@@ -18,13 +18,13 @@ public class ItemStage extends UiStage {
     public ItemStage(Item item) {
         super();
         Logger.UI.logDebug("Creating item menu stage.");
-        Container<ItemMenu> container = new Container(menu = new ItemMenu(item));
+        Container<ItemMenu> container = new Container<>(menu = new ItemMenu(item));
         container.getActor().align(Align.center);
         container.setFillParent(true);
         container.setDebug(true, true);
         container.align(Align.center);
         addActor(container);
         setKeyboardFocus(menu);
-        interceptInput = true;
+        interceptInput = false;
     }
 }

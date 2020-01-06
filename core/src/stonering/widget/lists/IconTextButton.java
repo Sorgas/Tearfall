@@ -22,12 +22,4 @@ public class IconTextButton extends Button {
         if (drawable != null) imageCell = add(new Image(drawable));
         if (text != null) labelCell = add(text).expandX().center();
     }
-
-    public IconTextButton(String text) {
-        this(null, text);
-    }
-
-    public IconTextButton(Drawable drawable) {
-        this(drawable, null);
-    }
 }

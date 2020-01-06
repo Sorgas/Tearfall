@@ -2,8 +2,6 @@ package stonering.util.ui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import stonering.util.global.Initable;
-import stonering.util.global.Logger;
 import stonering.widget.util.Resizeable;
 
 import java.util.ArrayList;
@@ -37,10 +35,6 @@ public class MultiStageScreen extends SimpleScreen {
     @Override
     public void dispose() {
         stageList.forEach(Stage::dispose);
-    }
-
-    public void addStage(Stage stage, int index) {
-
     }
 
     public void addStage(Stage stage) {

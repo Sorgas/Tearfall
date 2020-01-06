@@ -40,6 +40,6 @@ public class ItemPickupAction extends Action {
 
     @Override
     public float getProgressDelta() {
-        return 0.01f;
+        return 0.1f;
     }
 }

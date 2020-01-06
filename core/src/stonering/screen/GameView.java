@@ -34,7 +34,7 @@ public class GameView extends MultiStageScreen {
     }
 
     /**
-     * Inits added stage
+     * Inits added stage.
      */
     @Override
     public void addStage(Stage stage) {

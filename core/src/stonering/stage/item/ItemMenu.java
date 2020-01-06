@@ -31,7 +31,7 @@ public class ItemMenu extends Window {
     private void createTable() {
         add(createLeftColumn()).align(Align.top);
         add(createCenterColumn()).align(Align.top);
-        add(createRightColumn()).align(Align.top);
+        add(createRightColumn()).align(Align.top).row();
     }
 
     private Table createLeftColumn() {
@@ -58,13 +58,14 @@ public class ItemMenu extends Window {
 
     private Table createRightColumn() {
         Table table = new Table();
-        table.add(new WrappedTextButton("X", new ChangeListener() {
+        WrappedTextButton button = new WrappedTextButton("X", new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 Logger.UI.logDebug("Closing item menu.");
                 GameMvc.instance().view().removeStage(getStage());
             }
-        })).row();
+        });
+        table.add(button).row();
         //TODO add parts
         return table;
     }

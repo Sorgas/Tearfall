@@ -18,12 +18,6 @@ public class UiStage extends Stage implements Resizeable {
         setViewport(new ScreenViewport());
     }
 
-    @Override
-    public void draw() {
-        act();
-        super.draw();
-    }
-
     public void resize(int width, int height) {
         getViewport().update(width, height, true);
     }
@@ -45,17 +39,17 @@ public class UiStage extends Stage implements Resizeable {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        return super.touchDown(screenX, screenY, pointer, button) || interceptInput;
+        return super.touchDown(screenX, screenY, pointer, button);
     }
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return super.touchDragged(screenX, screenY, pointer) || interceptInput;
+        return super.touchDragged(screenX, screenY, pointer);
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return super.touchUp(screenX, screenY, pointer, button) || interceptInput;
+        return super.touchUp(screenX, screenY, pointer, button);
     }
 
     @Override

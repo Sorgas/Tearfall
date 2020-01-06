@@ -38,9 +38,10 @@ public class MainUiStage extends UiStage {
         GameModel gameModel = GameMvc.instance().model();
         Position focus = gameModel.get(EntitySelector.class).position;
         Material material = MaterialMap.instance().getMaterial(gameModel.get(LocalMap.class).getMaterial(focus));
-        tileStatusBar.setData(focus,
-                material != null ? material.name : "",
-                gameModel.get(LocalMap.class).passageMap != null ? gameModel.get(LocalMap.class).passageMap.area.get(focus) : 0,
-                gameModel.get(LocalMap.class).getBlockType(focus));
+        if (tileStatusBar != null)
+            tileStatusBar.setData(focus,
+                    material != null ? material.name : "",
+                    gameModel.get(LocalMap.class).passageMap != null ? gameModel.get(LocalMap.class).passageMap.area.get(focus) : 0,
+                    gameModel.get(LocalMap.class).getBlockType(focus));
     }
 }

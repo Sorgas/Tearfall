@@ -39,7 +39,6 @@ public class PauseMenu extends ButtonMenu {
         createButton("Options", Input.Keys.O, new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-
             }
         }, true);
         createButton("Save", Input.Keys.S, new ChangeListener() {
@@ -63,11 +62,6 @@ public class PauseMenu extends ButtonMenu {
 
     private void quitGame() {
         Gdx.app.exit();
-    }
-
-    @Override
-    public void reset() {
-
     }
 
     @Override

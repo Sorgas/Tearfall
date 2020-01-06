@@ -79,7 +79,6 @@ public class CreatureTaskPerformingTest {
         Action action = new MoveAction(new Position(0, 0, 0));
         Task task = new Task("test_task", action, 1);
         task.addFirstPostAction(new MoveAction(new Position(4, 4, 0)));
-        task.nextAction.baseSpeed = 0.02f;
         task.performer = unit;
         task.status = ACTIVE;
         aspect.task = task;

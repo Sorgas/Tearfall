@@ -40,7 +40,6 @@ public class ToolbarPlantsMenu extends ToolbarSubMenuMenu {
         createButton(text, iconName, hotKey, new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                event.stop();
                 Logger.UI.logDebug("Toggling button " + text);
 
                 if(toolbar.sequence != null) toolbar.sequence.end();
