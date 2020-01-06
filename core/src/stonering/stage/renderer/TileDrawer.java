@@ -33,7 +33,7 @@ import static com.badlogic.gdx.graphics.Pixmap.Format.RGBA8888;
 import static stonering.stage.renderer.AtlasesEnum.*;
 
 /**
- * Class for drawing tiles. Contains renderers for different entities.
+ * Class for drawing tiles. Contains renderers for different entities. (todo)
  * TODO add render order for buildings, to render flat carpets, pressure plates etc.
  * TODO draw local light spots.
  *

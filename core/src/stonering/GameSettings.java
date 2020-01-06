@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 /**
- * Loads gameplay settings.
+ * Loads gameplay settings. Settings can be changed in menu and saved to file.
  * TODO add difficulties
  *
  * @author Alexander on 12.11.2019.
@@ -18,18 +18,18 @@ public enum GameSettings {
 
     private static Properties instance;
 
-    GameSettings(String value) {
-        VALUE = value;
-    }
-
-    public static void load() {
+    static {
         instance = new Properties();
-        FileHandle file = new FileHandle("init.properties");
+        FileHandle file = new FileHandle("resources/init.properties");
         try {
             instance.load(file.read());
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    GameSettings(String value) {
+        VALUE = value;
     }
 
     public static String get(GameSettings setting) {

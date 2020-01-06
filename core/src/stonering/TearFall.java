@@ -27,7 +27,6 @@ public class TearFall extends Game {
 
     @Override
     public void create() {
-        GameSettings.load();
         switchMainMenu();
     }
 
