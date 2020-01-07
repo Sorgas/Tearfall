@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
+import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.utils.Align;
 
 /**
@@ -16,10 +17,11 @@ import com.badlogic.gdx.utils.Align;
  * @author Alexander on 23.12.2019.
  */
 public class Sidebar<T extends Actor> extends Container<ScrollPane> {
-    private T actor;
-    private Container<T> actorWrapper;
-    private float hideRatio; // part of widget that can be hidden.
-    private boolean vertical;
+    protected T actor;
+    protected Container<T> actorWrapper;
+    protected float hideRatio; // part of widget that can be hidden.
+    protected boolean vertical;
+    protected ScrollPane pane;
 
     public Sidebar(T actor, int align, float hideRatio) {
         this.actor = actor;
@@ -44,7 +46,7 @@ public class Sidebar<T extends Actor> extends Container<ScrollPane> {
     }
 
     private ScrollPane createPane(Container innerContainer) {
-        ScrollPane pane = new ScrollPane(innerContainer);
+        pane = new ScrollPane(innerContainer);
         pane.setOverscroll(false, false);
         pane.setScrollingDisabled(vertical, !vertical); // allow to scroll by one axis
         pane.setFlickScroll(true);
