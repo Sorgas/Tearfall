@@ -61,6 +61,6 @@ public class WearNeed extends Need {
         Item item = GameMvc.instance().model().get(ItemContainer.class).util.getItemAvailableBySelector(itemSelector, entity.position);
         if (item == null) return null;
         EquipItemAction equipItemAction = new EquipItemAction(item, true);
-        return new Task("Equip item " + item.getTitle(), equipItemAction, GET_WEAR_PRIORITY);
+        return new Task("Equip item " + item.title, equipItemAction, GET_WEAR_PRIORITY);
     }
 }

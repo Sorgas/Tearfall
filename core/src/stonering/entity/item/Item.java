@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * In game item. Consists of parts.
+ * In-game item. Consists of parts.
  * Some items can have origin (cow meat, apple (fruit)).
  * Origin is set on item creation, and not mentioned on item definition and {@link ItemType}, instead of this, sources of items (animals, plants), give them origin.
  * Different effects, like poisonous, are provided with {@link Aspect}s.
@@ -20,8 +20,8 @@ import java.util.List;
  */
 public class Item extends Entity {
     public final ItemType type;
-    private String name;
-    private String title; // title combined of origin, material, and type
+    public String name;
+    public String title; // title combined of origin, material, and type
     private String origin; // set on item creation,
     private int material;
     public String materialString;
@@ -55,11 +55,6 @@ public class Item extends Entity {
         return super.getAspect(type);
     }
 
-    @Override
-    public String toString() {
-        return "name: " + title + " position: " + position;
-    }
-
     public String updateTitle() {
         return title = (origin != null ? origin + " " : "") +
                 materialString + " " +
@@ -72,24 +67,8 @@ public class Item extends Entity {
         updateTitle();
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public ItemType getType() {
         return type;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public int getMaterial() {
@@ -103,5 +82,10 @@ public class Item extends Entity {
     public void setOrigin(String origin) {
         this.origin = origin;
         updateTitle();
+    }
+
+    @Override
+    public String toString() {
+        return "name: " + title + " position: " + position;
     }
 }

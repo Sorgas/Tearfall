@@ -16,6 +16,7 @@ import javax.validation.constraints.NotNull;
 
 /**
  * Menu for observing and managing single item.
+ * Has two columns with item image and name, parts and effects.
  *
  * @author Alexander on 24.11.2019.
  */
@@ -23,7 +24,7 @@ public class ItemMenu extends Window {
     private Item item;
 
     public ItemMenu(@NotNull Item item) {
-        super(item.getTitle(), StaticSkin.getSkin());
+        super(item.title, StaticSkin.getSkin());
         this.item = item;
         createTable();
     }
@@ -49,7 +50,7 @@ public class ItemMenu extends Window {
 
     private Table createCenterColumn() {
         Table table = new Table();
-        table.add(new Label(item.getTitle(), StaticSkin.getSkin())).align(Align.left).row();
+        table.add(new Label(item.title, StaticSkin.getSkin())).align(Align.left).row();
         table.add(new Label(item.type.description, StaticSkin.getSkin())).align(Align.left).row();
         table.add(new Label(item.type.name, StaticSkin.getSkin())).align(Align.left);
         //TODO add parts

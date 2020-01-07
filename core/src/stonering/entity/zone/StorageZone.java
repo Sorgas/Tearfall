@@ -59,7 +59,7 @@ public class StorageZone extends Zone {
     private void createHaulingTask(Item item, Position tile) {
         if (item == null) return;
         Action action = new PutItemAction(item, tile);
-        Task task = new Task("Store " + item.getTitle(), action, 1);
+        Task task = new Task("Store " + item.title, action, 1);
         GameMvc.instance().model().get(TaskContainer.class).addTask(task);
     }
 

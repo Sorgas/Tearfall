@@ -60,7 +60,7 @@ public class ItemGenerator {
      */
     public Item generateSeedItem(String specimen, Position position) {
         Item item = new Item(position, itemTypeMap.getItemType("seed"));
-        item.setTitle(specimen.substring(0,1).toUpperCase() + specimen.substring(1).toLowerCase() + " seed");
+        item.title = specimen.substring(0,1).toUpperCase() + specimen.substring(1).toLowerCase() + " seed";
         generateItemAspects(item);
         item.addAspect(new SeedAspect(item));
         item.getAspect(SeedAspect.class).specimen = specimen;

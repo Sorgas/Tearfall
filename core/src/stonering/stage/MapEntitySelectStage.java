@@ -108,7 +108,7 @@ public class MapEntitySelectStage extends UiStage {
     private void tryShowItemStage(Item item) {
         if (item == null) return;
         GameMvc gameMvc = GameMvc.instance();
-        Logger.UI.logDebug("showing item stage for: " + item.getTitle());
+        Logger.UI.logDebug("showing item stage for: " + item.title);
         gameMvc.view().addStage(new ItemStage(item));
     }
 

@@ -79,6 +79,6 @@ public class EquipItemAction extends Action {
 
     @Override
     public String toString() {
-        return "Equipping action: " + item.getTitle();
+        return "Equipping action: " + item.title;
     }
 }
