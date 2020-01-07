@@ -1,7 +1,5 @@
 package stonering.entity.unit.aspects;
 
-import jdk.nashorn.internal.ir.annotations.Immutable;
-
 import java.util.Objects;
 
 /**
@@ -9,7 +7,6 @@ import java.util.Objects;
  *
  * @author Alexander on 05.10.2019.
  */
-@Immutable
 public class CreatureStatusIcon {
     public final int x;
     public final int y;

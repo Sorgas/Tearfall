@@ -1,15 +1,16 @@
 package stonering.test_chamber;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import stonering.test_chamber.screen.TestChamberScreen;
+import stonering.widget.GameWithCustomCursor;
 
-public class TestChamberGame extends Game {
+public class TestChamberGame extends GameWithCustomCursor {
     private TestChamberScreen screen;
     private BitmapFont font;
 
     @Override
     public void create() {
+        super.create();
         createFont();
         showTestSelectScreen();
     }

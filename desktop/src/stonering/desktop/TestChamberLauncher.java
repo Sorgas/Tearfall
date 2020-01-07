@@ -1,8 +1,15 @@
 package stonering.desktop;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import com.badlogic.gdx.backends.lwjgl.LwjglFrame;
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Cursor;
+import com.badlogic.gdx.graphics.Pixmap;
+import org.lwjgl.LWJGLException;
+import org.lwjgl.input.Mouse;
 import stonering.test_chamber.TestChamberGame;
 import stonering.util.global.Logger;
 
@@ -11,10 +18,10 @@ import stonering.util.global.Logger;
  */
 public class TestChamberLauncher {
 
-    public static void main(String[] arg) {
+    public static void main(String[] arg) throws LWJGLException {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-        config.width = 1600;
-        config.height = 900;
+        config.width = 1920;
+        config.height = 1080;
         config.title = "TearFall";
         config.foregroundFPS = 30;
         Game game = new TestChamberGame();

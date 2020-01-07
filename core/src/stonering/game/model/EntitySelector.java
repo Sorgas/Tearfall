@@ -11,7 +11,7 @@ import stonering.util.geometry.Position;
 import stonering.util.global.Initable;
 
 /**
- * Object selector and center for rendering.
+ * Selects objects on local map. Moved by mouse or WASDRF. When is moved by mouse sprite is not shown
  * Selector can have additional sprite to indicate whether position suits for building or not.
  * If positionValidator exists, position will be validated on move, updating sprite.
  * <p>

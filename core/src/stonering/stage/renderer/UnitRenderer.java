@@ -49,7 +49,7 @@ public class UnitRenderer extends Drawer {
                 && unit.hasAspect(PlanningAspect.class)
                 && (action = unit.getAspect(PlanningAspect.class).getNextAction()) != null
                 && action.progress > 0) {
-            shapeUtil.drawRectangle(unit.vectorPosition, 4, 16, (int) (progressBarWidth * action.progress), 8, Color.YELLOW);
+            shapeUtil.drawRectangle(unit.vectorPosition, 4, 16, (int) (progressBarWidth * action.progress), 8, Color.WHITE);
         }
     }
 }

@@ -2,6 +2,7 @@ package stonering;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import stonering.entity.world.World;
 import stonering.game.GameMvc;
 import stonering.screen.MainMenuScreen;
@@ -11,22 +12,25 @@ import stonering.screen.SelectLocationMenu;
 import stonering.screen.SelectWorldScreen;
 import stonering.util.geometry.Position;
 import stonering.screen.WorldGenScreen;
+import stonering.widget.GameWithCustomCursor;
 
 /**
  * Game object. Container of screens.
  *
  * @author Alexander Kuzyakov on 08.04.2017.
  */
-public class TearFall extends Game {
+public class TearFall extends GameWithCustomCursor {
     private MainMenuScreen mainMenuScreen;
     private WorldGenScreen worldGenScreen;
     private SelectWorldScreen selectWorldScreen;
     private SelectLocationMenu selectLocationMenu;
     private PrepareExpeditionMenu prepareExpeditionMenuMvc;
     private LocalGenerationScreen localGenerationScreen;
+    private Texture cursor;
 
     @Override
     public void create() {
+        super.create();
         switchMainMenu();
     }
 
@@ -65,11 +69,6 @@ public class TearFall extends Game {
 
     public void switchToGame() {
         setScreen(GameMvc.instance().view());
-    }
-
-    @Override
-    public void resize(int width, int height) {
-        super.resize(width, height);
     }
 
     @Override

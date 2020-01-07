@@ -1,6 +1,5 @@
 package stonering.util.global;
 
-import jdk.nashorn.internal.ir.annotations.Immutable;
 
 import java.io.Serializable;
 
@@ -9,7 +8,6 @@ import java.io.Serializable;
  *
  * @author Alexander on 19.07.2018.
  */
-@Immutable
 public class Pair<K, V> implements Serializable {
     private K key;
     private V value;

@@ -36,7 +36,6 @@ public class ModelSelectStage extends UiStage {
         container.setFillParent(true);
         addActor(container);
         container.setDebug(true, true);
-        addActor(debugButton());
     }
 
     private Table createTable() {
@@ -87,12 +86,5 @@ public class ModelSelectStage extends UiStage {
         classMap.put(LightingModel.class.getSimpleName(), LightingModel.class);
         classMap.put(DiggingModel.class.getSimpleName(), DiggingModel.class);
         classMap.put(FurnitureModel.class.getSimpleName(), FurnitureModel.class);
-    }
-
-    private Container debugButton() {
-        Container container = new Container<>(new TextButton("qwer", StaticSkin.getSkin()));
-        container.setFillParent(true);
-        container.size(200, 200);
-        return container;
     }
 }
