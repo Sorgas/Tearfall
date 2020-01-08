@@ -8,7 +8,9 @@ import stonering.enums.materials.MaterialMap;
 import stonering.util.geometry.Position;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * In-game item. Consists of parts.
@@ -19,18 +21,15 @@ import java.util.List;
  * @author Alexander Kuzyakov on 09.12.2017.
  */
 public class Item extends Entity {
+    public String name; // id
     public final ItemType type;
-    public String name;
     public String title; // title combined of origin, material, and type
     private String origin; // set on item creation,
-    private int material;
     public String materialString;
     public final List<TagEnum> tags;
     public boolean locked; // item consuming actions lock target items.
-
-    //TODO commented as non-MVP feature
-    //    private HashMap<String, ItemPart> parts;
-    //    private String mainPart;
+    public final Map<String, ItemPart> parts;
+    public ItemPart mainPart;
 
     public Item(Position position, ItemType type) {
         super(position);
@@ -38,6 +37,7 @@ public class Item extends Entity {
         this.name = type.name;
         this.title = type.title;
         tags = new ArrayList<>();
+        parts = new HashMap<>();
     }
 
     public boolean isTool() {
@@ -61,18 +61,8 @@ public class Item extends Entity {
                 type.title;
     }
 
-    public void setMaterial(int material) {
-        this.material = material;
-        materialString = MaterialMap.instance().getMaterial(material).name;
-        updateTitle();
-    }
-
     public ItemType getType() {
         return type;
-    }
-
-    public int getMaterial() {
-        return material;
     }
 
     public String getOrigin() {

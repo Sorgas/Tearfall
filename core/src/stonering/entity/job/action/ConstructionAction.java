@@ -25,7 +25,7 @@ public class ConstructionAction extends GenericBuildingAction {
         onFinish = () -> {
             Logger.TASKS.logDebug(BlockTypesEnum.getType(blockType).NAME + " built at " + actionTarget.getPosition());
             Position target = ((BuildingActionTarget) actionTarget).center;
-            int material = order.parts.values().iterator().next().item.getMaterial();
+            int material = order.parts.values().iterator().next().item.mainPart.material;
 
             GameMvc.instance().model().get(LocalMap.class).setBlock(target, blockType, material); // create block
             PlantContainer container = GameMvc.instance().model().get(PlantContainer.class);

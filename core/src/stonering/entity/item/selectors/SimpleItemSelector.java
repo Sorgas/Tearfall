@@ -6,7 +6,7 @@ import stonering.entity.item.Item;
 import java.util.Objects;
 
 /**
- * Selects item by their name and material.
+ * Selects item by their name and material of main part.
  * //TODO handle amount of item.
  *
  * @author Alexander Kuzyakov on 21.07.2018.
@@ -25,7 +25,7 @@ public class SimpleItemSelector extends ItemSelector {
     }
 
     public boolean checkItem(Item item) {
-        return item.getType().name.equals(title) && item.getMaterial() == material;
+        return item.getType().name.equals(title) && item.mainPart.material == material;
     }
 
     @Override
