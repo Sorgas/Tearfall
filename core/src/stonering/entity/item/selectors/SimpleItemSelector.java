@@ -25,7 +25,7 @@ public class SimpleItemSelector extends ItemSelector {
     }
 
     public boolean checkItem(Item item) {
-        return item.getType().name.equals(title) && item.mainPart.material == material;
+        return item.getType().name.equals(title) && item.material == material;
     }
 
     @Override

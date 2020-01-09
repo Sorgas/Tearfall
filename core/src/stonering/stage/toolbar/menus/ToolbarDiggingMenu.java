@@ -11,11 +11,14 @@ import static stonering.enums.designations.DesignationTypeEnum.*;
 
 /**
  * ButtonMenu for selecting designation type.
+ * When this menu is shown, designation type is set to dig. Player can designate digging, or change designation type.
+ * If designation type is changed during area selection, area is updated with rules of new designation.
  * Starts sequence for selecting place.
  *
  * @author Alexander Kuzyakov
  */
 public class ToolbarDiggingMenu extends ToolbarSubMenuMenu {
+    private BoxDesignationSequence sequence;
 
     public ToolbarDiggingMenu(Toolbar toolbar) {
         super(toolbar);
@@ -25,21 +28,28 @@ public class ToolbarDiggingMenu extends ToolbarSubMenuMenu {
         addButton("H: stairs", STAIRS, Input.Keys.H); // other types of stairs are handled automatically
         addButton("K: downstairs", DOWNSTAIRS, Input.Keys.J);
         addButton("N: clear", NONE, Input.Keys.N);
+        sequence = new BoxDesignationSequence(DIG);
     }
 
     private void addButton(String text, DesignationTypeEnum type, int hotKey) {
         super.createButton(text, hotKey, new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                if(toolbar.sequence != null) toolbar.sequence.end();
-                toolbar.sequence = new BoxDesignationSequence(type);
-                toolbar.sequence.start();
+                sequence.designationType = type;
+
             }
         }, true);
     }
 
-//    @Override
-//    protected void onHide() {
-//        GameMvc.instance().controller().designationsController.handleCancel();
-//    }
+    @Override
+    public void show() {
+        super.show();
+        sequence.designationType = DIG; // DIG is default designation
+        sequence.start();
+    }
+
+    @Override
+    protected void onHide() {
+        sequence.reset();
+    }
 }

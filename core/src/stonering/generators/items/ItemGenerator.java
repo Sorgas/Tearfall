@@ -47,9 +47,10 @@ public class ItemGenerator {
         if (type == null) return null;
         Item item = new Item(position, type);
         // create all item parts with default material
-        type.parts.forEach(part -> item.parts.put(part.title, new ItemPart(part.title, DEFAULT_MATERIAL)));
-        item.mainPart = new ItemPart(type.parts.isEmpty() ? type.title : type.parts.get(0).title, materialId); // create main part with specified material
+//        type.parts.forEach(part -> item.parts.put(part.title, new ItemPart(part.title, DEFAULT_MATERIAL)));
+//        item.mainPart = new ItemPart(type.parts.isEmpty() ? type.title : type.parts.get(0).title, materialId); // create main part with specified material
         Material material = MaterialMap.instance().getMaterial(materialId);
+        item.material = material.id;
         item.tags.addAll(material.tags);
         generateItemAspects(item);
         return item;
@@ -65,6 +66,7 @@ public class ItemGenerator {
     public Item generateSeedItem(String specimen, Position position) {
         Item item = new Item(position, itemTypeMap.getItemType("seed"));
         item.title = specimen.substring(0, 1).toUpperCase() + specimen.substring(1).toLowerCase() + " seed";
+        item.material = MaterialMap.instance().getId("generic_plant");
         generateItemAspects(item);
         item.addAspect(new SeedAspect(item));
         item.getAspect(SeedAspect.class).specimen = specimen;

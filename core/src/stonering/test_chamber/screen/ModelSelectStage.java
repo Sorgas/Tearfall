@@ -2,14 +2,12 @@ package stonering.test_chamber.screen;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 import stonering.game.GameMvc;
-import stonering.game.model.EntitySelector;
+import stonering.game.model.entity_selector.EntitySelector;
 import stonering.game.model.GameModel;
 import stonering.game.model.local_map.LocalMap;
 import stonering.stage.UiStage;
-import stonering.util.global.StaticSkin;
 import stonering.widget.lists.PlaceHolderSelectBox;
 import stonering.test_chamber.TestChamberGame;
 import stonering.test_chamber.model.*;

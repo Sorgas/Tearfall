@@ -2,7 +2,8 @@ package stonering.game.controller.controllers.designation;
 
 import stonering.enums.designations.DesignationTypeEnum;
 import stonering.game.GameMvc;
-import stonering.game.model.EntitySelector;
+import stonering.game.model.entity_selector.EntitySelector;
+import stonering.game.model.system.EntitySelectorSystem;
 import stonering.game.model.system.task.TaskContainer;
 import stonering.widget.RectangleSelectComponent;
 import stonering.util.geometry.Position;
@@ -10,20 +11,18 @@ import stonering.util.global.Logger;
 
 /**
  * Designation sequence for one-step orders like digging and harvesting plants.
- * Simply allows to select area (3d box) for designation.
+ * Simply allows to select area (3d box) for designation of a certain type.
  *
  * @author Alexander on 21.01.2019.
  */
 public class BoxDesignationSequence extends DesignationSequence {
-    private DesignationTypeEnum designationType;
+    public DesignationTypeEnum designationType;
     private RectangleSelectComponent rectangleSelectComponent;
-    private TaskContainer container;
 
     public BoxDesignationSequence(DesignationTypeEnum designationType) {
         this.designationType = designationType;
-        container = GameMvc.instance().model().get(TaskContainer.class);
         rectangleSelectComponent = new RectangleSelectComponent(null, event -> {
-            EntitySelector selector = GameMvc.instance().model().get(EntitySelector.class);
+            EntitySelector selector = GameMvc.instance().model().get(EntitySelectorSystem.class).selector;
             submitSelectedFrame(selector.getFrameStart(), selector.position);
             return true;
         });
@@ -34,6 +33,7 @@ public class BoxDesignationSequence extends DesignationSequence {
      */
     private void submitSelectedFrame(Position start, Position end) {
         Logger.TASKS.logDebug("Submitting box " + start + ", " + end + " of designation " + designationType);
+        TaskContainer container = GameMvc.instance().model().get(TaskContainer.class);
         for (int x = Math.min(end.x, start.x); x <= Math.max(end.x, start.x); x++) {
             for (int y = Math.min(end.y, start.y); y <= Math.max(end.y, start.y); y++) {
                 for (int z = Math.min(end.z, start.z); z <= Math.max(end.z, start.z); z++) {

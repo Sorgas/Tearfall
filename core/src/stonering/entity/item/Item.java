@@ -19,9 +19,9 @@ import java.util.List;
  * @author Alexander Kuzyakov on 09.12.2017.
  */
 public class Item extends Entity {
-    public String name; // id
     public final ItemType type;
     public String title; // title combined of origin, material, and type
+    public int material;
     public String materialString;
     public final List<TagEnum> tags;
     public boolean locked; // item consuming actions lock target items.
@@ -34,7 +34,6 @@ public class Item extends Entity {
     public Item(Position position, ItemType type) {
         super(position);
         this.type = type;
-        this.name = type.name;
         this.title = type.title;
         tags = new ArrayList<>();
     }

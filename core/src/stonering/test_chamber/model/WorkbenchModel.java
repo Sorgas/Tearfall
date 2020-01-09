@@ -2,7 +2,7 @@ package stonering.test_chamber.model;
 
 import stonering.entity.item.Item;
 import stonering.entity.unit.Unit;
-import stonering.game.model.EntitySelector;
+import stonering.game.model.entity_selector.EntitySelector;
 import stonering.game.model.system.building.BuildingContainer;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.system.unit.UnitContainer;
@@ -46,10 +46,8 @@ public class WorkbenchModel extends TestModel {
         container.onMapItemsSystem.putNewItem(generator.generateItem("log", "wood", null), new Position(1, 0, 2));
         container.onMapItemsSystem.putNewItem(generator.generateItem("log", "wood", null), new Position(2, 0, 2));
         Item item = generator.generateItem("log", "wood", null);
-        item.setOrigin("willow");
         container.onMapItemsSystem.putNewItem(item, new Position(3, 0, 2));
         item = generator.generateItem("log", "wood", null);
-        item.setOrigin("willow");
         container.onMapItemsSystem.putNewItem(item, new Position(4, 0, 2));
     }
 

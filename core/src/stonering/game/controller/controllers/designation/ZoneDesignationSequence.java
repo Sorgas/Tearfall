@@ -7,7 +7,7 @@ import stonering.util.validation.PositionValidator;
 import stonering.entity.zone.Zone;
 import stonering.enums.ZoneTypesEnum;
 import stonering.game.GameMvc;
-import stonering.game.model.EntitySelector;
+import stonering.game.model.entity_selector.EntitySelector;
 import stonering.game.model.system.ZonesContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.stage.toolbar.menus.Toolbar;

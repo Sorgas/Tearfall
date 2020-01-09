@@ -2,7 +2,7 @@ package stonering.test_chamber.model;
 
 import stonering.entity.item.Item;
 import stonering.entity.unit.Unit;
-import stonering.game.model.EntitySelector;
+import stonering.game.model.entity_selector.EntitySelector;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.system.unit.UnitContainer;
 import stonering.generators.creatures.CreatureGenerator;

@@ -1,6 +1,7 @@
 package stonering.game.model;
 
 import stonering.entity.world.World;
+import stonering.game.model.entity_selector.EntitySelector;
 import stonering.game.model.system.*;
 import stonering.game.model.system.building.BuildingContainer;
 import stonering.game.model.system.item.ItemContainer;
@@ -44,7 +45,7 @@ public class MainGameModel extends GameModel {
         put(new ItemContainer());
         put(new TaskContainer());
         put(new LiquidContainer());
-        put(new EntitySelector());          // local map camera
+        put(new EntitySelectorSystem());          // local map camera
         put(new AStar());
     }
 }

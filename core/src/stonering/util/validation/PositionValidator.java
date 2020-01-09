@@ -1,14 +1,22 @@
 package stonering.util.validation;
 
-import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
+
+import java.util.function.Consumer;
 
 /**
  * Used to validate position with some logic.
  *
  * @author Alexander on 23.11.2018.
  */
-public abstract class PositionValidator {
+@FunctionalInterface
+public interface PositionValidator {
 
-    public abstract boolean validate(LocalMap map, Position position);
+    boolean validate(Position position);
+
+    default boolean validateAnd(Position position, Consumer<Boolean> resultConsumer) {
+        boolean result = validate(position);
+        if(resultConsumer != null) resultConsumer.accept(result);
+        return result;
+    }
 }

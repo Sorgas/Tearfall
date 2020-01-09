@@ -3,8 +3,9 @@ package stonering.stage.localworld;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
 import stonering.game.GameMvc;
-import stonering.game.model.EntitySelector;
+import stonering.game.model.entity_selector.EntitySelector;
 import stonering.game.model.local_map.LocalMap;
+import stonering.game.model.system.EntitySelectorSystem;
 import stonering.stage.renderer.BatchUtil;
 import stonering.widget.util.Resizeable;
 import stonering.util.geometry.Float2dBounds;
@@ -48,7 +49,7 @@ public class MovableCamera extends OrthographicCamera implements Resizeable {
     public void update() {
         super.update();
         if (frame == null) return;
-        Position selectorPosition = GameMvc.instance().model().get(EntitySelector.class).position;
+        Position selectorPosition = GameMvc.instance().model().get(EntitySelectorSystem.class).selector.position;
         Vector3 vector = getOutOfFrameVector(selectorPosition);
         if (vector.isZero()) return;
         position.add(vector.scl(CAMERA_SPEED));
@@ -78,7 +79,7 @@ public class MovableCamera extends OrthographicCamera implements Resizeable {
      * If selector moves by z-axis, camera changes position by z.
      */
     public void handleSelectorMove() {
-        Position selectorPosition = GameMvc.instance().model().get(EntitySelector.class).position;
+        Position selectorPosition = GameMvc.instance().model().get(EntitySelectorSystem.class).selector.position;
         int delta = selectorPosition.z - cameraZ;
         if (delta == 0) return;
         position.y += getBatchY(0, delta);

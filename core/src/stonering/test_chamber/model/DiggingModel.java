@@ -5,7 +5,7 @@ import stonering.entity.unit.Unit;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.items.type.ItemTypeMap;
 import stonering.enums.materials.MaterialMap;
-import stonering.game.model.EntitySelector;
+import stonering.game.model.entity_selector.EntitySelector;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.system.unit.UnitContainer;
 import stonering.game.model.local_map.LocalMap;

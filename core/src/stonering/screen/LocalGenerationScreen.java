@@ -12,7 +12,7 @@ import com.badlogic.gdx.utils.Align;
 import stonering.TearFall;
 import stonering.entity.world.World;
 import stonering.game.GameMvc;
-import stonering.game.model.EntitySelector;
+import stonering.game.model.entity_selector.EntitySelector;
 import stonering.generators.localgen.LocalGenConfig;
 import stonering.generators.localgen.LocalGeneratorContainer;
 import stonering.game.model.local_map.LocalMap;

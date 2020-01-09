@@ -3,7 +3,7 @@ package stonering.stage.toolbar;
 import stonering.enums.materials.Material;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.GameMvc;
-import stonering.game.model.EntitySelector;
+import stonering.game.model.entity_selector.EntitySelector;
 import stonering.game.model.GameModel;
 import stonering.game.model.local_map.LocalMap;
 import stonering.stage.UiStage;

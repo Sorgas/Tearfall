@@ -3,7 +3,7 @@ package stonering.stage.zone;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.utils.Align;
 import stonering.entity.zone.FarmZone;
-import stonering.game.model.EntitySelector;
+import stonering.game.model.entity_selector.EntitySelector;
 import stonering.stage.UiStage;
 
 /**

@@ -6,7 +6,6 @@ import stonering.entity.environment.CelestialBody;
 import stonering.entity.world.World;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.materials.MaterialMap;
-import stonering.game.model.EntitySelector;
 import stonering.game.model.GameModel;
 import stonering.game.model.system.*;
 import stonering.game.model.system.building.BuildingContainer;
@@ -45,7 +44,7 @@ public abstract class TestModel extends GameModel {
         put(new BuildingContainer());
         put(new ItemContainer());
         put(new LocalTileMap());
-        put(new EntitySelector());
+        put(new EntitySelectorSystem());
         put(new UnitContainer());
         put(new ZonesContainer());
         put(new TaskContainer());

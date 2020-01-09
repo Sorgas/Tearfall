@@ -1,7 +1,7 @@
 package stonering.stage.renderer;
 
 import stonering.game.GameMvc;
-import stonering.game.model.EntitySelector;
+import stonering.game.model.entity_selector.EntitySelector;
 import stonering.util.geometry.Position;
 
 import static stonering.stage.renderer.AtlasesEnum.ui_tiles;

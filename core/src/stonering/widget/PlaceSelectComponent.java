@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import stonering.util.validation.PositionValidator;
 import stonering.game.GameMvc;
-import stonering.game.model.EntitySelector;
+import stonering.game.model.entity_selector.EntitySelector;
 import stonering.game.model.local_map.LocalMap;
 import stonering.stage.toolbar.menus.Toolbar;
 import stonering.util.geometry.Position;
