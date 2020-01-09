@@ -4,19 +4,17 @@ import stonering.entity.Aspect;
 import stonering.entity.Entity;
 import stonering.enums.items.TagEnum;
 import stonering.enums.items.type.ItemType;
-import stonering.enums.materials.MaterialMap;
 import stonering.util.geometry.Position;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
- * In-game item. Consists of parts.
- * Some items can have origin (cow meat, apple (fruit)).
- * Origin is set on item creation, and not mentioned on item definition and {@link ItemType}, instead of this, sources of items (animals, plants), give them origin.
+ * In-game item.
  * Different effects, like poisonous, are provided with {@link Aspect}s.
+ * TODO Consists of parts (post mvp).
+ * TODO Some items can have origin (cow meat, apple (fruit)).
+ * TODO Origin is set on item creation, and not mentioned on item definition and {@link ItemType}, instead of this, sources of items (animals, plants), give them origin.
  *
  * @author Alexander Kuzyakov on 09.12.2017.
  */
@@ -24,12 +22,14 @@ public class Item extends Entity {
     public String name; // id
     public final ItemType type;
     public String title; // title combined of origin, material, and type
-    private String origin; // set on item creation,
     public String materialString;
     public final List<TagEnum> tags;
     public boolean locked; // item consuming actions lock target items.
-    public final Map<String, ItemPart> parts;
-    public ItemPart mainPart;
+
+//TODO post mvp
+//    private String origin; // set on item creation,
+//    public final Map<String, ItemPart> parts;
+//    public ItemPart mainPart;
 
     public Item(Position position, ItemType type) {
         super(position);
@@ -37,7 +37,6 @@ public class Item extends Entity {
         this.name = type.name;
         this.title = type.title;
         tags = new ArrayList<>();
-        parts = new HashMap<>();
     }
 
     public boolean isTool() {
@@ -56,22 +55,11 @@ public class Item extends Entity {
     }
 
     public String updateTitle() {
-        return title = (origin != null ? origin + " " : "") +
-                materialString + " " +
-                type.title;
+        return title = materialString + " " + type.title;
     }
 
     public ItemType getType() {
         return type;
-    }
-
-    public String getOrigin() {
-        return origin;
-    }
-
-    public void setOrigin(String origin) {
-        this.origin = origin;
-        updateTitle();
     }
 
     @Override
