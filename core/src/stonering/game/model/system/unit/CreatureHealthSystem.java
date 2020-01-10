@@ -42,7 +42,7 @@ public class CreatureHealthSystem extends EntitySystem<Unit> {
      */
     @Override
     public void update(Unit unit) {
-        unit.getOptionalAspect(HealthAspect.class)
+        unit.getAspectOptional(HealthAspect.class)
                 .ifPresent(health -> health.parameters.keySet()
                         .forEach(param -> changeParameter(unit, param, param.DEFAULT_DELTA)));
     }

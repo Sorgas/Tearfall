@@ -1,6 +1,6 @@
 package stonering.entity.unit;
 
-import stonering.entity.FloatPositionEntity;
+import stonering.entity.VectorPositionEntity;
 import stonering.enums.unit.CreatureType;
 import stonering.util.geometry.Position;
 
@@ -9,7 +9,7 @@ import stonering.util.geometry.Position;
  * <p>
  * Represents living creatures
  */
-public class Unit extends FloatPositionEntity {
+public class Unit extends VectorPositionEntity {
     CreatureType type;
 
     public Unit(Position position, CreatureType type) {

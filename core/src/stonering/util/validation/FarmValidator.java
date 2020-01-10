@@ -2,6 +2,7 @@ package stonering.util.validation;
 
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.materials.MaterialMap;
+import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 
@@ -12,11 +13,12 @@ import stonering.util.geometry.Position;
  *
  * @author Alexander_Kuzyakov on 05.07.2019.
  */
-public class FarmValidator extends PositionValidator {
+public class FarmValidator implements PositionValidator {
     private static final String SOIL_TAG = "soil";
 
     @Override
-    public boolean validate(LocalMap localMap, Position position) {
+    public boolean validate(Position position) {
+        LocalMap localMap = GameMvc.instance().model().get(LocalMap.class);
         if ((localMap.getBlockType(position) == BlockTypesEnum.FLOOR.CODE ||
                 localMap.getBlockType(position) == BlockTypesEnum.FARM.CODE) && // tile is floor or farm
                 MaterialMap.instance().getMaterial(localMap.getMaterial(position)).tags.contains(SOIL_TAG)) { // tile is soil

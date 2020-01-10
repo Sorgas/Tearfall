@@ -9,15 +9,15 @@ import stonering.util.geometry.Position;
  *
  * @author Alexander on 21.10.2019.
  */
-public abstract class FloatPositionEntity extends Entity {
+public abstract class VectorPositionEntity extends Entity {
     public Vector3 vectorPosition;
 
-    protected FloatPositionEntity() {
+    protected VectorPositionEntity() {
         super();
         vectorPosition = new Vector3();
     }
 
-    public FloatPositionEntity(Position position) {
+    public VectorPositionEntity(Position position) {
         super(position);
         vectorPosition = new Vector3(position.x, position.y, position.z);
     }

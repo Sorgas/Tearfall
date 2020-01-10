@@ -9,7 +9,6 @@ import java.util.Optional;
 
 /**
  * Class for all game entities. Contains its aspects.
- * TODO remove turns from all entities(move to systems).
  *
  * @author Alexander Kuzyakov on 25.01.2018.
  */
@@ -34,7 +33,7 @@ public abstract class Entity implements Serializable, Initable {
         return (T) aspects.get(type);
     }
 
-    public <T extends Aspect> Optional<T> getOptionalAspect(Class<T> type) {
+    public <T extends Aspect> Optional<T> getAspectOptional(Class<T> type) {
         return (Optional<T>) Optional.of(aspects.get(type));
     }
 

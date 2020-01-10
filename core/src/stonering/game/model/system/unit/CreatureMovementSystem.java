@@ -1,7 +1,7 @@
 package stonering.game.model.system.unit;
 
 import com.badlogic.gdx.math.Vector3;
-import stonering.entity.FloatPositionEntity;
+import stonering.entity.VectorPositionEntity;
 import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.MovementAspect;
@@ -26,7 +26,7 @@ import stonering.util.pathfinding.a_star.AStar;
  * If there is a target and path, move, drop path if it is blocked. Path is recreated on next update.
  * <p>
  * Moves unit to the next tile in the path, removes tile from the path if it's reached.
- * Change vectorPosition of a unit, by its speed parameter in direction of a next tile in the path (integer position will change, see {@link FloatPositionEntity}).
+ * Change vectorPosition of a unit, by its speed parameter in direction of a next tile in the path (integer position will change, see {@link VectorPositionEntity}).
  * When no path is present, moves units to the 'center' of a tile, by updating their vector position to integer position.
  * Integer position of an entity is a result of rounding of it's vector position.
  * Planning aspect will update target when its reached.

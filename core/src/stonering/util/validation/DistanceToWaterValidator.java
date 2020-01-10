@@ -1,19 +1,21 @@
 package stonering.util.validation;
 
 import stonering.enums.generation.PlantPlacingTagEnum;
+import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 
 /**
  * Checks that distance to water is within bounds.
  */
-public class DistanceToWaterValidator extends PositionValidator {
+public class DistanceToWaterValidator implements PositionValidator {
     public static final int XY_DISTANCE = 5;
     public static final int Z_DISTANCE = 1;
     private PlantPlacingTagEnum tag;
 
     @Override
-    public boolean validate(LocalMap map, Position position) {
+    public boolean validate(Position position) {
+        LocalMap map = GameMvc.instance().model().get(LocalMap.class);
         if(!map.inMap(position) || tag == null) return false;
         switch (tag) {
             case WATER_NEAR: {

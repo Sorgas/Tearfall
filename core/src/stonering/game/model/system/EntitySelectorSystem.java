@@ -20,7 +20,7 @@ public class EntitySelectorSystem implements ModelComponent {
     private Position cachePosition;
 
     public EntitySelectorSystem() {
-        selector = new EntitySelector();
+        selector = new EntitySelector(null);
         cachePosition = new Position();
     }
 
