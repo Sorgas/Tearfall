@@ -12,8 +12,8 @@ import stonering.util.global.Executor;
  * @author Alexander on 10.01.2020
  */
 public class SelectionAspect extends Aspect {
-    public Executor selectHandler;
-    public Executor defaultSelectHandler;
+    public Executor selectHandler; // for giving orders
+    public Executor defaultSelectHandler; // for selecting entities
     public Executor cancelHandler;
 
     public SelectionAspect(Entity entity) {

@@ -10,7 +10,7 @@ import stonering.entity.zone.Zone;
 import stonering.enums.ZoneTypesEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.EntitySelector;
-import stonering.game.model.system.ZonesContainer;
+import stonering.game.model.system.ZoneContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.stage.toolbar.menus.Toolbar;
 import stonering.widget.RectangleSelectComponent;
@@ -18,7 +18,7 @@ import stonering.util.geometry.Position;
 
 /**
  * Shows {@link RectangleSelectComponent} for selecting place for a new zone.
- * After this sequence, new {@link Zone} is created in {@link ZonesContainer}.
+ * After this sequence, new {@link Zone} is created in {@link ZoneContainer}.
  * No other widgets are shown, so zone should be configured with zone menu.
  *
  * @author Alexander on 04.03.2019.
@@ -40,9 +40,9 @@ public class ZoneDesignationSequence extends DesignationSequence {
         rectangleSelectComponent = new RectangleSelectComponent(null, event -> {
             EntitySelector selector = model.get(EntitySelectorSystem.class).selector;
             if (validateZoneDesignation()) {
-                model.get(ZonesContainer.class).createNewZone(selector.getAspect(SelectorBoxAspect.class).boxStart, selector.position.clone(), type);
+                model.get(ZoneContainer.class).createNewZone(selector.getAspect(SelectorBoxAspect.class).boxStart, selector.position.clone(), type);
             } else {
-                view.mainUiStage.toolbar.status.setText("No valid tiles selected");
+                view.toolbarStage.toolbar.status.setText("No valid tiles selected");
             }
             return true;
         });
@@ -56,16 +56,16 @@ public class ZoneDesignationSequence extends DesignationSequence {
         super();
         rectangleSelectComponent = new RectangleSelectComponent(event -> { // updates toolbar text depending on start of selected frame
             EntitySelector selector = model.get(EntitySelectorSystem.class).selector;
-            ZonesContainer zonesContainer = GameMvc.instance().model().get(ZonesContainer.class);
-            Zone zone = zonesContainer.getZone(selector.getAspect(SelectorBoxAspect.class).boxStart);
-            Toolbar toolbar = view.mainUiStage.toolbar;
+            ZoneContainer zoneContainer = GameMvc.instance().model().get(ZoneContainer.class);
+            Zone zone = zoneContainer.getZone(selector.getAspect(SelectorBoxAspect.class).boxStart);
+            Toolbar toolbar = view.toolbarStage.toolbar;
             toolbar.status.setText(zone != null ? "Expanding zone " + zone.getName() + "." : "Deleting zones.");
             return true;
         }, event -> {
             EntitySelector selector = model.get(EntitySelectorSystem.class).selector;
-            ZonesContainer zonesContainer = GameMvc.instance().model().get(ZonesContainer.class);
-            Zone zone = zonesContainer.getZone(selector.getAspect(SelectorBoxAspect.class).boxStart); // tiles in selected area will get this zone, and removed from previous.
-            model.get(ZonesContainer.class).updateZones(selector.getAspect(SelectorBoxAspect.class).boxStart, selector.position.clone(), zone);
+            ZoneContainer zoneContainer = GameMvc.instance().model().get(ZoneContainer.class);
+            Zone zone = zoneContainer.getZone(selector.getAspect(SelectorBoxAspect.class).boxStart); // tiles in selected area will get this zone, and removed from previous.
+            model.get(ZoneContainer.class).updateZones(selector.getAspect(SelectorBoxAspect.class).boxStart, selector.position.clone(), zone);
             return true;
         });
     }

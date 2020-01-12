@@ -2,7 +2,7 @@ package stonering.screen;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import stonering.game.controller.controllers.StageInputAdapter;
-import stonering.stage.toolbar.MainUiStage;
+import stonering.stage.toolbar.ToolbarStage;
 import stonering.stage.MapEntitySelectStage;
 import stonering.stage.pause.PauseMenuStage;
 import stonering.stage.localworld.LocalWorldStage;
@@ -20,12 +20,12 @@ import stonering.util.global.Logger;
  */
 public class GameView extends MultiStageScreen {
     public final LocalWorldStage localWorldStage;
-    public final MainUiStage mainUiStage;
+    public final ToolbarStage toolbarStage;
     public final StageInputAdapter stageInputAdapter;
 
     public GameView() {
         stageList.add(localWorldStage = new LocalWorldStage());
-        stageList.add(mainUiStage = new MainUiStage());
+        stageList.add(toolbarStage = new ToolbarStage());
         stageInputAdapter = new StageInputAdapter(this);
     }
 

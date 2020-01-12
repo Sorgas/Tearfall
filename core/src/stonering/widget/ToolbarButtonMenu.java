@@ -26,7 +26,7 @@ public abstract class ToolbarButtonMenu extends ButtonMenu implements Highlighta
     @Override
     public void act(float delta) {
         super.act(delta);
-        updateHighlighting(GameMvc.instance().view().mainUiStage.toolbar.menusGroup.getChildren().peek() == this);
+        updateHighlighting(GameMvc.instance().view().toolbarStage.toolbar.menusGroup.getChildren().peek() == this);
     }
 
     private void createHighlightHandler() {

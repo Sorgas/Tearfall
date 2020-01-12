@@ -16,6 +16,7 @@ public class UiStage extends Stage implements Resizeable {
     public UiStage() {
         super();
         setViewport(new ScreenViewport());
+        setDebugAll(true);
     }
 
     public void resize(int width, int height) {

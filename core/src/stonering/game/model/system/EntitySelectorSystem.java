@@ -13,6 +13,7 @@ import stonering.game.model.entity_selector.aspect.ValidationAspect;
 import stonering.game.model.local_map.LocalMap;
 import stonering.stage.renderer.AtlasesEnum;
 import stonering.util.geometry.Position;
+import stonering.util.global.Executor;
 import stonering.util.validation.PositionValidator;
 
 /**
@@ -23,7 +24,7 @@ import stonering.util.validation.PositionValidator;
  *
  * @author Alexander on 10.01.2020
  */
-public class EntitySelectorSystem implements ModelComponent, Updatable {
+public class EntitySelectorSystem implements ModelComponent {
     public final EntitySelector selector;
     private Position cachePosition;
 
@@ -36,18 +37,10 @@ public class EntitySelectorSystem implements ModelComponent, Updatable {
         cachePosition = new Position();
     }
 
-    @Override
-    public void update(TimeUnitEnum unit) {
-        validateAndUpdate();
-    }
-
-    /**
-     * Validates and updates render aspect of selector.
-     */
     public void validateAndUpdate() {
-        //TODO update renderq
+        //TODO update render
         ValidationAspect aspect = selector.getAspect(ValidationAspect.class);
-        if(aspect.validator != null) aspect.validator.validateAnd(selector.position, aspect.validationConsumer);
+        if (aspect.validator != null) aspect.validator.validateAnd(selector.position, aspect.validationConsumer);
     }
 
     public void handleSelection() {
@@ -55,9 +48,11 @@ public class EntitySelectorSystem implements ModelComponent, Updatable {
         (aspect.selectHandler != null ? aspect.selectHandler : aspect.defaultSelectHandler).execute(); // use dynamic handler if possible
     }
 
-    /**
-     * Moves selector by deltas
-     */
+    public void handleCancel() {
+        SelectionAspect aspect = selector.getAspect(SelectionAspect.class);
+        aspect.selectHandler = null;
+    }
+
     public void moveSelector(int dx, int dy, int dz) {
         cachePosition.set(selector.position);
         selector.position.add(dx, dy, dz);
@@ -74,12 +69,8 @@ public class EntitySelectorSystem implements ModelComponent, Updatable {
      * Places selector to the tile under given screen coordinates without changing z-level.
      */
     public void updateSelectorPositionByScreenCoords(int screenX, int screenY) {
-        Vector3 batchCoords = GameMvc.instance().view().localWorldStage.getCamera().unproject(new Vector3(screenX, screenY, 0));
-        AtlasesEnum atlas = AtlasesEnum.blocks; // use blocks sizes
-        int heightToSkip = selector.position.z * atlas.HEIGHT + (atlas.hasToppings ? atlas.TOPPING_HEIGHT : 0);
-        int x = (int) batchCoords.x / atlas.WIDTH;
-        int y = ((int) batchCoords.y - heightToSkip) / atlas.DEPTH;
-        selector.position.set(x, y, selector.position.z);
+        Vector3 modelCoords = castScreenPositionToModel(screenX, screenY);
+        selector.position.set((int) modelCoords.x, (int) modelCoords.y, selector.position.z);
         GameMvc.instance().model().get(LocalMap.class).normalizePosition(selector.position);
     }
 
@@ -97,5 +88,44 @@ public class EntitySelectorSystem implements ModelComponent, Updatable {
             selector.position.z = z;
         }
         selectorMoved();
+    }
+
+    public void handleEKeyDown() {
+        SelectorBoxAspect aspect = selector.getAspect(SelectorBoxAspect.class);
+        if (aspect.enabled) {
+            if(aspect.boxStart == null) {
+                aspect.boxStart = selector.position.clone();
+                GameMvc.instance().model().get(LocalMap.class).normalizePosition(aspect.boxStart);
+            } else {
+                handleSelection();
+            }
+        } else {
+            aspect.boxStart = null;
+            cancelSelectionBox();
+        }
+    }
+
+    public void handleLeftTouchDown(int screenX, int screenY) {
+        SelectorBoxAspect aspect = selector.getAspect(SelectorBoxAspect.class);
+        if (aspect.enabled) {
+            Vector3 modelCoords = castScreenPositionToModel(screenX, screenY);
+            aspect.boxStart = new Position(modelCoords.x, modelCoords.y, selector.position.z);
+            GameMvc.instance().model().get(LocalMap.class).normalizePosition(aspect.boxStart);
+        } else {
+            cancelSelectionBox();
+        }
+    }
+
+    public void cancelSelectionBox() {
+        selector.getAspect(SelectorBoxAspect.class).boxStart = null;
+    }
+
+    private Vector3 castScreenPositionToModel(int screenX, int screenY) {
+        Vector3 batchCoords = GameMvc.instance().view().localWorldStage.getCamera().unproject(new Vector3(screenX, screenY, 0));
+        AtlasesEnum atlas = AtlasesEnum.blocks; // use blocks sizes
+        int heightToSkip = selector.position.z * atlas.HEIGHT + (atlas.hasToppings ? atlas.TOPPING_HEIGHT : 0);
+        batchCoords.x /= atlas.WIDTH;
+        batchCoords.y = (batchCoords.y - heightToSkip) / atlas.DEPTH;
+        return batchCoords;
     }
 }

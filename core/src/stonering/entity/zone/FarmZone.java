@@ -17,7 +17,7 @@ import stonering.enums.designations.DesignationTypeEnum;
 import stonering.enums.plants.PlantType;
 import stonering.game.GameMvc;
 import stonering.game.model.system.task.TaskContainer;
-import stonering.game.model.system.ZonesContainer;
+import stonering.game.model.system.ZoneContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 
@@ -89,7 +89,7 @@ public class FarmZone extends Zone {
      */
     private boolean isTileValid(PositionValidator validator, Position tile, LocalMap localMap) {
         if (validator.validate(tile)) return true;
-        GameMvc.instance().model().get(ZonesContainer.class).updateZones(tile, tile, null); // remove invalid tile
+        GameMvc.instance().model().get(ZoneContainer.class).updateZones(tile, tile, null); // remove invalid tile
         return false;
     }
 

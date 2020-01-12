@@ -29,8 +29,7 @@ public class BuildingDesignationSequence extends DesignationSequence {
     private Toolbar toolbar;
 
     public BuildingDesignationSequence(Blueprint blueprint) {
-        order = new BuildingOrder(blueprint, null);
-        toolbar = GameMvc.instance().view().mainUiStage.toolbar;
+        toolbar = GameMvc.instance().view().toolbarStage.toolbar;
         createPlaceSelectComponent();
         reset();
     }
@@ -88,7 +87,7 @@ public class BuildingDesignationSequence extends DesignationSequence {
         for (String partName : order.blueprint.parts.keySet()) {
             if (order.parts.containsKey(partName)) continue;  // skip already added component
             GameMvc.instance().controller().setSelectorEnabled(false);
-            GameMvc.instance().view().mainUiStage.toolbar.addMenu(createSelectListForIngredient(partName));
+            GameMvc.instance().view().toolbarStage.toolbar.addMenu(createSelectListForIngredient(partName));
             GameMvc.instance().controller().setSelectorEnabled(false);
             return;
         }

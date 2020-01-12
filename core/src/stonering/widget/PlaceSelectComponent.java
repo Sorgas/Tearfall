@@ -8,8 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import stonering.game.model.system.EntitySelectorSystem;
 import stonering.util.validation.PositionValidator;
 import stonering.game.GameMvc;
-import stonering.game.model.entity_selector.EntitySelector;
-import stonering.game.model.local_map.LocalMap;
 import stonering.stage.toolbar.menus.Toolbar;
 import stonering.util.geometry.Position;
 
@@ -29,7 +27,7 @@ public class PlaceSelectComponent extends Actor implements Hideable, HintedActor
     public PlaceSelectComponent(EventListener eventListener, PositionValidator positionValidator, String hint) {
         this.eventListener = eventListener;
         selectorSystem = GameMvc.instance().model().get(EntitySelectorSystem.class);
-        toolbar = GameMvc.instance().view().mainUiStage.toolbar;
+        toolbar = GameMvc.instance().view().toolbarStage.toolbar;
         this.positionValidator = positionValidator;
         this.hint = hint;
         createDefaultListener();

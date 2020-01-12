@@ -57,7 +57,7 @@ public class MapEntitySelectStage extends UiStage {
         entities.add(model.get(PlantContainer.class).getPlantInPosition(position));
         entities.addAll(model.get(ItemContainer.class).getItemsInPosition(position));
         entities.addAll(model.get(UnitContainer.class).getUnitsInPosition(position));
-        entities.add(model.get(ZonesContainer.class).getZone(position));
+        entities.add(model.get(ZoneContainer.class).getZone(position));
         entities.removeIf(Objects::isNull);
         return entities;
     }

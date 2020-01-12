@@ -30,22 +30,26 @@ public class EntitySelectorInputAdapter extends InputAdapter {
         if (!enabled) return false;
         if(keycode == Input.Keys.E) {
             Logger.INPUT.logDebug("handling E in EntitySelectorInputAdapter");
-            system.handleSelection();
+            system.handleEKeyDown();
             return true;
         }
-        int offset = Gdx.input.isKeyPressed(SHIFT_LEFT) ? 10 : 1;
-        return moveByKey(keycode, offset);
+        if(keycode == Input.Keys.Q) {
+            Logger.INPUT.logDebug("handling Q in EntitySelectorInputAdapter");
+            system.cancelSelectionBox();
+            return true;
+        }
+        return moveByKey(keycode);
     }
 
     @Override
     public boolean keyTyped(char character) {
         if (!enabled) return false;
         int keycode = charToKeycode(character);
-        int offset = Gdx.input.isKeyPressed(SHIFT_LEFT) ? 10 : 1;
-        return moveByKey(keycode, offset) && secondaryMove(keycode, offset); // supports diagonal move when two keys are pressed
+        return moveByKey(keycode) && secondaryMove(keycode); // supports diagonal move when two keys are pressed
     }
 
-    private boolean moveByKey(int keycode, int offset) {
+    private boolean moveByKey(int keycode) {
+        int offset = Gdx.input.isKeyPressed(SHIFT_LEFT) ? 10 : 1;
         switch (keycode) {
             case W:
                 system.moveSelector(0, offset, 0);
@@ -68,17 +72,17 @@ public class EntitySelectorInputAdapter extends InputAdapter {
         return false;
     }
 
-    private boolean secondaryMove(int keycode, int offset) {
+    private boolean secondaryMove(int keycode) {
         switch (keycode) {
             case W:
             case S:
-                if(Gdx.input.isKeyPressed(A)) moveByKey(A, offset);
-                if(Gdx.input.isKeyPressed(D)) moveByKey(D, offset);
+                if(Gdx.input.isKeyPressed(A)) moveByKey(A);
+                if(Gdx.input.isKeyPressed(D)) moveByKey(D);
                 break;
             case A:
             case D:
-                if(Gdx.input.isKeyPressed(W)) moveByKey(W, offset);
-                if(Gdx.input.isKeyPressed(S)) moveByKey(S, offset);
+                if(Gdx.input.isKeyPressed(W)) moveByKey(W);
+                if(Gdx.input.isKeyPressed(S)) moveByKey(S);
         }
         return true;
     }
@@ -99,17 +103,26 @@ public class EntitySelectorInputAdapter extends InputAdapter {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if (!enabled) return false;
-        system.updateSelectorPositionByScreenCoords(screenX, screenY);
-        system.handleSelection();
-        return true;
+        if (enabled && button == Input.Buttons.LEFT) {
+            system.handleLeftTouchDown(screenX, screenY);
+            return true;
+        }
+        return false;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        if (!enabled) return false;
-        //TODO if selection box was started, it is finishes on touchUp
-        return true;
+        if (enabled) {
+            if (button == Input.Buttons.LEFT) {
+                system.handleSelection(); // finish box or tile selection
+                return true;
+            }
+            if (button == Input.Buttons.RIGHT) {
+                system.handleCancel();
+                return true;
+            }
+        }
+        return false;
     }
 
     private int charToKeycode(char character) {

@@ -15,10 +15,10 @@ import java.util.*;
  * <p>
  * Each tile can belong to one zone. //TODO give multiple zones to tiles.
  */
-public class ZonesContainer extends EntityContainer<Zone> {
+public class ZoneContainer extends EntityContainer<Zone> {
     private Map<Position, Zone> zoneMap;
 
-    public ZonesContainer() {
+    public ZoneContainer() {
         zoneMap = new HashMap<>();
     }
 

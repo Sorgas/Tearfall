@@ -9,7 +9,7 @@ import stonering.enums.ZoneTypesEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
 import stonering.game.model.system.item.ItemContainer;
-import stonering.game.model.system.ZonesContainer;
+import stonering.game.model.system.ZoneContainer;
 import stonering.game.model.system.task.TaskContainer;
 import stonering.util.geometry.Position;
 
@@ -70,9 +70,9 @@ public class StorageZone extends Zone {
         GameModel model = GameMvc.instance().model();
         List<Item> items = model.get(ItemContainer.class).util.getItemsAvailableBySelector(selector, position);
         if (items.isEmpty()) return null;
-        ZonesContainer zonesContainer = model.get(ZonesContainer.class);
+        ZoneContainer zoneContainer = model.get(ZoneContainer.class);
         for (Item item : items) {
-            Zone zone = zonesContainer.getZone(item.position);
+            Zone zone = zoneContainer.getZone(item.position);
             if (zone == null || zone.type != ZoneTypesEnum.STORAGE || !((StorageZone) zone).selector.checkItem(item)) // item is not stored on appropriate storage.
                 return item;
         }

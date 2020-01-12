@@ -34,11 +34,10 @@ public class BoxDesignationSequence extends DesignationSequence {
      */
     private void submitSelectedFrame(Position start, Position end) {
         Logger.TASKS.logDebug("Submitting box " + start + ", " + end + " of designation " + designationType);
-        TaskContainer container = GameMvc.instance().model().get(TaskContainer.class);
         for (int x = Math.min(end.x, start.x); x <= Math.max(end.x, start.x); x++) {
             for (int y = Math.min(end.y, start.y); y <= Math.max(end.y, start.y); y++) {
                 for (int z = Math.min(end.z, start.z); z <= Math.max(end.z, start.z); z++) {
-                    container.designationSystem.submitDesignation(new Position(x, y, z), designationType, 1);
+
                 }
             }
         }

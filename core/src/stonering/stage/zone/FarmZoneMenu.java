@@ -7,7 +7,7 @@ import stonering.entity.zone.FarmZone;
 import stonering.enums.plants.PlantTypeMap;
 import stonering.enums.plants.PlantType;
 import stonering.game.GameMvc;
-import stonering.game.model.system.ZonesContainer;
+import stonering.game.model.system.ZoneContainer;
 import stonering.widget.HintedActor;
 import stonering.util.global.StaticSkin;
 
@@ -118,7 +118,7 @@ public class FarmZoneMenu extends Window {
     }
 
     public void deleteZone() {
-        GameMvc.instance().model().get(ZonesContainer.class).deleteZone(farmZone);
+        GameMvc.instance().model().get(ZoneContainer.class).deleteZone(farmZone);
     }
 
     public void close() {

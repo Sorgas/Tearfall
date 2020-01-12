@@ -5,7 +5,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import stonering.enums.blocks.BlockTypesEnum;
+import stonering.enums.materials.Material;
+import stonering.enums.materials.MaterialMap;
 import stonering.game.GameMvc;
+import stonering.game.model.GameModel;
+import stonering.game.model.local_map.LocalMap;
+import stonering.game.model.system.EntitySelectorSystem;
 import stonering.util.global.StaticSkin;
 import stonering.util.geometry.Position;
 
@@ -40,6 +45,16 @@ public class TileStatusBar extends Container<Table> {
         table.add(area = new Label("", StaticSkin.getSkin()));
         setDebug(true, true);
         return table;
+    }
+
+    public void update() {
+        GameModel gameModel = GameMvc.instance().model();
+        Position focus = gameModel.get(EntitySelectorSystem.class).selector.position;
+        Material material = MaterialMap.instance().getMaterial(gameModel.get(LocalMap.class).getMaterial(focus));
+        setData(focus,
+                material != null ? material.name : "",
+                gameModel.get(LocalMap.class).passageMap != null ? gameModel.get(LocalMap.class).passageMap.area.get(focus) : 0,
+                gameModel.get(LocalMap.class).getBlockType(focus));
     }
 
     public void setData(Position camera, String material, int area, int blockType) {

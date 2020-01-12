@@ -18,17 +18,18 @@ import java.util.function.Consumer;
  */
 public class SelectorBoxAspect extends Aspect {
     public Position boxStart;
-    public Consumer<Executor> boxIterator;
+    public boolean enabled;
+    public Consumer<Consumer<Position>> boxIterator;
 
     public SelectorBoxAspect(Entity entity) {
         super(entity);
-        boxIterator = executor -> {
-            if(entity.position == null) return;
+        boxIterator = consumer -> {
+            if (entity.position == null) return;
             Position internalBoxStart = boxStart != null ? boxStart : entity.position;
             for (int x = Math.min(internalBoxStart.x, entity.position.x); x <= Math.max(internalBoxStart.x, entity.position.x); x++) {
                 for (int y = Math.min(internalBoxStart.y, entity.position.y); y <= Math.max(internalBoxStart.y, entity.position.y); y++) {
                     for (int z = Math.min(internalBoxStart.z, entity.position.z); z <= Math.max(internalBoxStart.z, entity.position.z); z++) {
-                        executor.execute();
+                        consumer.accept(new Position(x, y, z));
                     }
                 }
             }

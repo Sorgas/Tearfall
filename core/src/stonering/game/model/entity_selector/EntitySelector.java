@@ -2,8 +2,6 @@ package stonering.game.model.entity_selector;
 
 import stonering.entity.Aspect;
 import stonering.entity.Entity;
-import stonering.game.GameMvc;
-import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 
 /**
@@ -21,11 +19,5 @@ public class EntitySelector extends Entity {
 
     public EntitySelector(Position position) {
         super(position);
-    }
-
-    @Override
-    public void init() {
-        LocalMap localMap = GameMvc.instance().model().get(LocalMap.class);
-        position.set(localMap.xSize / 2, localMap.ySize / 2, localMap.zSize - 1);
     }
 }

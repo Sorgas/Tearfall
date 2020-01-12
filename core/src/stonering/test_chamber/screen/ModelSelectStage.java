@@ -13,6 +13,7 @@ import stonering.widget.lists.PlaceHolderSelectBox;
 import stonering.test_chamber.TestChamberGame;
 import stonering.test_chamber.model.*;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -65,8 +66,8 @@ public class ModelSelectStage extends UiStage {
 
     private GameModel getInstance(String name) {
         try {
-            return (GameModel) classMap.get(name).newInstance();
-        } catch (InstantiationException | IllegalAccessException e) {
+            return (GameModel) classMap.get(name).getConstructor(null).newInstance();
+        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
             e.printStackTrace();
             return null;
         }

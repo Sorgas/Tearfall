@@ -21,7 +21,6 @@ import stonering.game.model.system.*;
 import stonering.game.model.system.building.BuildingContainer;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.system.task.TaskContainer;
-import stonering.game.model.system.unit.UnitContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.stage.localworld.MovableCamera;
 import stonering.game.model.tilemaps.LocalTileMap;
@@ -49,7 +48,7 @@ public class TileDrawer extends Drawer {
     private BuildingContainer buildingContainer;
     private TaskContainer taskContainer;
     private ItemContainer itemContainer;
-    private ZonesContainer zonesContainer;
+    private ZoneContainer zoneContainer;
 
     private MovableCamera camera;
     private boolean disabled = false;
@@ -71,7 +70,7 @@ public class TileDrawer extends Drawer {
         plantContainer = model.get(PlantContainer.class);
         substrateContainer = model.get(SubstrateContainer.class);
         itemContainer = model.get(ItemContainer.class);
-        zonesContainer = model.get(ZonesContainer.class);
+        zoneContainer = model.get(ZoneContainer.class);
         cachePosition = new Position();
         cacheVector = new Vector3();
         cacheBounds = new Int2dBounds();
@@ -145,7 +144,7 @@ public class TileDrawer extends Drawer {
         if (buildingContainer != null) drawBuildingBlock(buildingContainer.getBuildingBlocks().get(cachePosition));
         if (itemContainer != null) itemContainer.getItemsInPosition(x, y, z).forEach(this::drawItem);
         if (taskContainer != null) drawDesignation(taskContainer.getDesignation(x, y, z));
-        if (zonesContainer != null) drawZone(zonesContainer.getZone(cachePosition));
+        if (zoneContainer != null) drawZone(zoneContainer.getZone(cachePosition));
         spriteUtil.resetColor();
     }
 

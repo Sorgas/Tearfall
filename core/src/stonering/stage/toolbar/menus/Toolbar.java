@@ -8,27 +8,26 @@ import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
-import stonering.game.controller.controllers.designation.DesignationSequence;
+import stonering.stage.toolbar.ToolbarStage;
 import stonering.util.global.Logger;
 import stonering.util.global.StaticSkin;
 import stonering.widget.HintedActor;
 
 /**
- * Contains table with all general orders menus.
- * TODO refactor event handling.
+ * Contains table with all general orders menus. Toolbar is focused on {@link ToolbarStage} and passes key presses to last(right) menu.
  *
  * @author Alexander Kuzyakov on 17.06.2018.
  */
 public class Toolbar extends Container<Table> {
-    public final HorizontalGroup menusGroup; // in first row
+    public final HorizontalGroup menusGroup = new HorizontalGroup(); // in first row
     public Label status; // in second row
     private ParentMenu parentMenu; // always on the left end
-    public DesignationSequence sequence;
 
     public Toolbar() {
-        menusGroup = new HorizontalGroup();
-        setFillParent(true);
-        align(Align.bottomLeft);
+        layoutToolbar();
+        parentMenu = new ParentMenu(this);
+        parentMenu.show();
+        parentMenu.init();
         addListener(new InputListener() { // passes events to last menu in toolbar
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
@@ -37,22 +36,20 @@ public class Toolbar extends Container<Table> {
                 return target.notify(event, false);
             }
         });
-        setActor(createToolbarTable());
-        parentMenu = new ParentMenu(this);
-        parentMenu.show();
-        parentMenu.init();
     }
 
     /**
      * Creates menus row and status row.
      */
-    private Table createToolbarTable() {
+    private void layoutToolbar() {
+        setFillParent(true);
+        align(Align.bottomLeft);
         Table table = new Table(StaticSkin.getSkin());
         menusGroup.align(Align.bottomRight);
         menusGroup.rowAlign(Align.bottom);
         table.add(menusGroup).row();
         table.add(status = new Label("", StaticSkin.getSkin())).left();
-        return table;
+        setActor(table);
     }
 
     public void addMenu(Actor menu) {

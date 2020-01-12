@@ -91,11 +91,11 @@ public class RectangleSelectComponent extends Label implements Hideable {
 
     @Override
     public void show() {
-        GameMvc.instance().view().mainUiStage.toolbar.addMenu(this);
+        GameMvc.instance().view().toolbarStage.toolbar.addMenu(this);
     }
 
     @Override
     public void hide() {
-        GameMvc.instance().view().mainUiStage.toolbar.hideMenu(this);
+        GameMvc.instance().view().toolbarStage.toolbar.hideMenu(this);
     }
 }
