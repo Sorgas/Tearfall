@@ -88,7 +88,7 @@ public class FarmZone extends Zone {
      * Building or digging in zones are allowed, non-floor tiles are removed on every iteration.
      */
     private boolean isTileValid(PositionValidator validator, Position tile, LocalMap localMap) {
-        if (validator.validate(localMap, tile)) return true;
+        if (validator.validate(tile)) return true;
         GameMvc.instance().model().get(ZonesContainer.class).updateZones(tile, tile, null); // remove invalid tile
         return false;
     }

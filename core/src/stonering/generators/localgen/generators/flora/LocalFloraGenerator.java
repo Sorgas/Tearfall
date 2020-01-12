@@ -147,7 +147,7 @@ public abstract class LocalFloraGenerator extends LocalAbstractGenerator {
      */
     private List<Position> gatherTagPositions(List<PlantPlacingTagEnum> tags, Collection<Position> positions) {
         return positions.stream()
-                .filter(position -> tags.stream().allMatch(tag -> tag.VALIDATOR.validate(localMap, position)))
+                .filter(position -> tags.stream().allMatch(tag -> tag.VALIDATOR.validate(position)))
                 .collect(Collectors.toList());
     }
 

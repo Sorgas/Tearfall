@@ -7,6 +7,7 @@ import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.EntitySelector;
 import stonering.game.model.GameModel;
 import stonering.game.model.local_map.LocalMap;
+import stonering.game.model.system.EntitySelectorSystem;
 import stonering.stage.UiStage;
 import stonering.widget.lists.PlaceHolderSelectBox;
 import stonering.test_chamber.TestChamberGame;
@@ -56,7 +57,7 @@ public class ModelSelectStage extends UiStage {
         GameMvc gameMvc = GameMvc.createInstance(getInstance(name));
         gameMvc.createViewAndController();
         gameMvc.init();
-        gameMvc.view().localWorldStage.getCamera().centerCameraToPosition(GameMvc.instance().model().get(EntitySelector.class).position.clone());
+        gameMvc.view().localWorldStage.getCamera().centerCameraToPosition(gameMvc.model().get(EntitySelectorSystem.class).selector.position.clone());
         testChamberGame.setScreen(GameMvc.instance().view());
         gameMvc.model().get(LocalMap.class).initAreas();
         gameMvc.model().setPaused(false);

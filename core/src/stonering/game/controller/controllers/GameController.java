@@ -34,7 +34,7 @@ public class GameController {
     public void setSelectorEnabled(boolean value) {
         if(entitySelectorInputAdapter != null) {
             Logger.UI.logDebug((value ? "Enabling" : "Disabling") + " EntitySelectorInputAdapter.");
-            entitySelectorInputAdapter.setEnabled(value);
+            entitySelectorInputAdapter.enabled = value;
         } else {
             Logger.UI.logDebug("Changing EntitySelectorInputAdapter progress before GameController init.");
         }

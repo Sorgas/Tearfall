@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.EntitySelector;
+import stonering.game.model.entity_selector.aspect.SelectorBoxAspect;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.EntitySelectorSystem;
 import stonering.stage.toolbar.menus.Toolbar;
@@ -21,7 +22,7 @@ import stonering.util.global.StaticSkin;
  *
  * @author Alexander on 22.11.2018.
  */
-public class RectangleSelectComponent extends Label implements Hideable, MouseInvocable {
+public class RectangleSelectComponent extends Label implements Hideable {
     private LocalMap localMap;
     private Toolbar toolbar;
     private EntitySelector selector;
@@ -38,7 +39,6 @@ public class RectangleSelectComponent extends Label implements Hideable, MouseIn
         GameMvc gameMvc = GameMvc.instance();
         selector = gameMvc.model().get(EntitySelectorSystem.class).selector;
         localMap = gameMvc.model().get(LocalMap.class);
-        toolbar = gameMvc.view().mainUiStage.toolbar;
         createDefaultListener();
     }
 
@@ -63,31 +63,18 @@ public class RectangleSelectComponent extends Label implements Hideable, MouseIn
         });
     }
 
-    @Override // TODO for mouse input
-    public boolean invoke(int modelX, int modelY, int button, int action) {
-//        Position position = new Position(modelX, modelY, selector.getPosition().getZ());
-//        switch (name) {
-//            case GameInputProcessor.DOWN_CODE:
-//            case GameInputProcessor.UP_CODE: {
-//                handleConfirm(position);
-//                return true;
-//            }
-//        }
-        return false;
-    }
-
     /**
      * Finishes handling or adds position to select box
      */
     private void handleConfirm(Position eventPosition) {
         Logger.UI.logDebug("confirming " + eventPosition + "in RectangleSelectComponent");
         localMap.normalizePosition(eventPosition);             // when mouse dragged out of map
-        if (selector.getFrameStart() == null) {                // box not started, start
-            selector.setFrameStart(eventPosition.clone());
+        if (selector.getAspect(SelectorBoxAspect.class).boxStart == null) {                // box not started, start
+            selector.getAspect(SelectorBoxAspect.class).boxStart = eventPosition.clone();
             if (startListener != null) startListener.handle(null);
         } else {                                               // box started, finish
             if (finishListener != null) finishListener.handle(null);
-            selector.setFrameStart(null);                      // ready for new rectangle after this.
+            selector.getAspect(SelectorBoxAspect.class).boxStart = null;                      // ready for new rectangle after this.
         }
     }
 
@@ -95,8 +82,8 @@ public class RectangleSelectComponent extends Label implements Hideable, MouseIn
      * Closes component or discards last position from select box.
      */
     private void handleCancel() {
-        if (selector.getFrameStart() != null) {
-            selector.setFrameStart(null);
+        if (selector.getAspect(SelectorBoxAspect.class).boxStart != null) {
+            selector.getAspect(SelectorBoxAspect.class).boxStart = null;
         } else {
             hide();
         }
@@ -104,11 +91,11 @@ public class RectangleSelectComponent extends Label implements Hideable, MouseIn
 
     @Override
     public void show() {
-        toolbar.addMenu(this);
+        GameMvc.instance().view().mainUiStage.toolbar.addMenu(this);
     }
 
     @Override
     public void hide() {
-        toolbar.hideMenu(this);
+        GameMvc.instance().view().mainUiStage.toolbar.hideMenu(this);
     }
 }

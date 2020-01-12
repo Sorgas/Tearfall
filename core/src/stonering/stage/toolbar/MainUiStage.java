@@ -6,6 +6,7 @@ import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.EntitySelector;
 import stonering.game.model.GameModel;
 import stonering.game.model.local_map.LocalMap;
+import stonering.game.model.system.EntitySelectorSystem;
 import stonering.stage.UiStage;
 import stonering.widget.TileStatusBar;
 import stonering.stage.toolbar.menus.Toolbar;
@@ -36,7 +37,7 @@ public class MainUiStage extends UiStage {
 
     private void updateStatusBar() {
         GameModel gameModel = GameMvc.instance().model();
-        Position focus = gameModel.get(EntitySelector.class).position;
+        Position focus = gameModel.get(EntitySelectorSystem.class).selector.position;
         Material material = MaterialMap.instance().getMaterial(gameModel.get(LocalMap.class).getMaterial(focus));
         if (tileStatusBar != null)
             tileStatusBar.setData(focus,

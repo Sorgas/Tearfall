@@ -65,7 +65,7 @@ public class DesignationSystem {
      */
     public void submitBuildingDesignation(BuildingOrder order, int priority) {
         LocalMap localMap = GameMvc.instance().model().get(LocalMap.class);
-        if (!PlaceValidatorsEnum.getValidator(order.blueprint.placing).validate(localMap, order.position)) return;
+        if (!PlaceValidatorsEnum.getValidator(order.blueprint.placing).validate(order.position)) return;
         BuildingDesignation designation = new BuildingDesignation(order);
         Task task = taskCreator.createBuildingTask(designation, priority);
         container.addTask(task);

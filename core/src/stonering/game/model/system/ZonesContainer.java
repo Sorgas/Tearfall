@@ -40,12 +40,11 @@ public class ZonesContainer extends EntityContainer<Zone> {
 
     private void addPositionsToZone(Position pos1, Position pos2, Zone zone) {
         Position cachePos = new Position(0, 0, 0);
-        LocalMap localMap = GameMvc.instance().model().get(LocalMap.class);
         PositionValidator validator = zone.getType().getValidator();
         for (cachePos.x = Math.min(pos1.x, pos2.x); cachePos.x <= Math.max(pos1.x, pos2.x); cachePos.x++) {
             for (cachePos.y = Math.min(pos1.y, pos2.y); cachePos.y <= Math.max(pos1.y, pos2.y); cachePos.y++) {
                 for (cachePos.z = Math.min(pos1.z, pos2.z); cachePos.z <= Math.max(pos1.z, pos2.z); cachePos.z++) {
-                    if (validator.validate(localMap, cachePos)) {
+                    if (validator.validate(cachePos)) {
                         zone.getTiles().add(cachePos.clone());
                         zoneMap.put(cachePos.clone(), zone);
                     }
@@ -61,12 +60,11 @@ public class ZonesContainer extends EntityContainer<Zone> {
      */
     public void updateZones(Position pos1, Position pos2, Zone zone) {
         Position cachePos = new Position(0, 0, 0);
-        LocalMap localMap = GameMvc.instance().model().get(LocalMap.class);
         if (zone != null) {
             for (cachePos.x = Math.min(pos1.x, pos2.x); cachePos.x <= Math.max(pos1.x, pos2.x); cachePos.x++) {
                 for (cachePos.y = Math.min(pos1.y, pos2.y); cachePos.y <= Math.max(pos1.y, pos2.y); cachePos.y++) {
                     for (cachePos.z = Math.min(pos1.z, pos2.z); cachePos.z <= Math.max(pos1.z, pos2.z); cachePos.z++) {
-                        if (zone.getType().getValidator().validate(localMap, cachePos)) setTile(cachePos.clone(), zone);
+                        if (zone.getType().getValidator().validate(cachePos)) setTile(cachePos.clone(), zone);
                     }
                 }
             }

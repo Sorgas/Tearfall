@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import stonering.game.model.system.EntitySelectorSystem;
 import stonering.util.validation.PositionValidator;
 import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.EntitySelector;
@@ -18,19 +19,17 @@ import stonering.util.geometry.Position;
  * @author Alexander Kuzyakov on 12.07.2018.
  */
 public class PlaceSelectComponent extends Actor implements Hideable, HintedActor {
-    private GameMvc gameMvc;
     private PositionValidator positionValidator; // validates position on each move
-    private EntitySelector selector; // points to position
+    private EntitySelectorSystem selectorSystem;
     private EventListener eventListener; // fired on confirm
     private Toolbar toolbar;
     public Position position;
     private String hint;
 
     public PlaceSelectComponent(EventListener eventListener, PositionValidator positionValidator, String hint) {
-        gameMvc = GameMvc.instance();
         this.eventListener = eventListener;
-        selector = gameMvc.model().get(EntitySelector.class);
-        toolbar = gameMvc.view().mainUiStage.toolbar;
+        selectorSystem = GameMvc.instance().model().get(EntitySelectorSystem.class);
+        toolbar = GameMvc.instance().view().mainUiStage.toolbar;
         this.positionValidator = positionValidator;
         this.hint = hint;
         createDefaultListener();
@@ -42,8 +41,8 @@ public class PlaceSelectComponent extends Actor implements Hideable, HintedActor
             public boolean keyDown(InputEvent event, int keycode) {
                 switch (keycode) {
                     case Input.Keys.E:
-                        if (validatePosition(selector.position)) {
-                            position = selector.position.clone();
+                        if (validatePosition(selectorSystem.selector.position)) {
+                            position = selectorSystem.selector.position.clone();
                             eventListener.handle(null);
                         }
                         return true;
@@ -61,20 +60,20 @@ public class PlaceSelectComponent extends Actor implements Hideable, HintedActor
      */
     private boolean validatePosition(Position position) {
         return positionValidator == null ||
-                positionValidator.validate(gameMvc.model().get(LocalMap.class), position);
+                positionValidator.validate(position);
     }
 
     @Override
     public void show() {
         toolbar.addMenu(this);
-        selector.setPositionValidator(positionValidator);
-        selector.updateStatusAndSprite();
+        selectorSystem.setPositionValidator(positionValidator);
+        selectorSystem.validateAndUpdate();
     }
 
     @Override
     public void hide() {
-        selector.setPositionValidator(null);
-        selector.updateStatusAndSprite();
+        selectorSystem.setPositionValidator(null);
+        selectorSystem.validateAndUpdate();
         toolbar.hideMenu(this);
     }
 

@@ -6,6 +6,7 @@ import stonering.entity.unit.Unit;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.model.entity_selector.EntitySelector;
+import stonering.game.model.system.EntitySelectorSystem;
 import stonering.game.model.system.unit.UnitContainer;
 import stonering.game.model.system.task.TaskContainer;
 import stonering.game.model.local_map.LocalMap;
@@ -28,7 +29,7 @@ public class PassageModel extends TestModel {
         updateLocalMap();
         get(UnitContainer.class).addUnit(createUnit());
         get(TaskContainer.class).addTask(createTask());
-        get(EntitySelector.class).position.set(MAP_SIZE / 2, MAP_SIZE / 2, 5);
+        get(EntitySelectorSystem.class).selector.position.set(MAP_SIZE / 2, MAP_SIZE / 2, 5);
     }
 
     /**

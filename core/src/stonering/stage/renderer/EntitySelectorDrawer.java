@@ -1,7 +1,11 @@
 package stonering.stage.renderer;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import stonering.entity.unit.aspects.RenderAspect;
 import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.EntitySelector;
+import stonering.game.model.entity_selector.aspect.SelectorBoxAspect;
+import stonering.game.model.system.EntitySelectorSystem;
 import stonering.util.geometry.Position;
 
 import static stonering.stage.renderer.AtlasesEnum.ui_tiles;
@@ -20,7 +24,7 @@ public class EntitySelectorDrawer extends Drawer {
     }
 
     public void render() {
-        drawSelector(GameMvc.instance().model().get(EntitySelector.class));
+        drawSelector(GameMvc.instance().model().get(EntitySelectorSystem.class).selector);
     }
 
     /**
@@ -29,18 +33,18 @@ public class EntitySelectorDrawer extends Drawer {
      * @param selector
      */
     public void drawSelector(EntitySelector selector) {
-        spriteUtil.drawSprite(selector.getSelectorSprite(), selector.position.toVector3());
-        if (selector.getStatusSprite() != null) {
-            spriteUtil.drawSprite(selector.getStatusSprite(), selector.position.toVector3());
-        }
-
+        TextureRegion region = selector.getAspect(RenderAspect.class).region;
+        if(region != null) spriteUtil.drawSprite(region, selector.position.toVector3());
+        //TODO add additional status sprite for selector
         //TODO add landscape dependant rendering
-        if (selector.getFrameStart() != null) {
-            int minX = Math.min(selector.getFrameStart().x, selector.position.x);
-            int maxX = Math.max(selector.getFrameStart().x, selector.position.x);
-            int minY = Math.min(selector.getFrameStart().y, selector.position.y);
-            int maxY = Math.max(selector.getFrameStart().y, selector.position.y);
-            int minZ = Math.min(selector.getFrameStart().z, selector.position.z);
+        SelectorBoxAspect aspect = selector.getAspect(SelectorBoxAspect.class);
+        if (aspect.boxStart != null) {
+            Position start = aspect.boxStart;
+            int minX = Math.min(start.x, selector.position.x);
+            int maxX = Math.max(start.x, selector.position.x);
+            int minY = Math.min(start.y, selector.position.y);
+            int maxY = Math.max(start.y, selector.position.y);
+            int minZ = Math.min(start.z, selector.position.z);
             int maxZ = selector.position.z;
             for (int x = minX; x <= maxX; x++) {
                 for (int y = minY; y <= maxY; y++) {

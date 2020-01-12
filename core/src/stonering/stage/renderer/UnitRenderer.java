@@ -34,7 +34,7 @@ public class UnitRenderer extends Drawer {
         if (unitContainer == null) return;
         for (Unit unit : unitContainer.getUnitsInPosition(x, y, z)) {
             RenderAspect aspect = unit.getAspect(RenderAspect.class);
-            spriteUtil.drawSprite(aspect.getTile(), unit.vectorPosition);
+            spriteUtil.drawSprite(aspect.region, unit.vectorPosition);
             List<CreatureStatusIcon> icons = aspect.icons;
             for (int i = 0; i < icons.size(); i++) {
                 spriteUtil.drawIcon(creature_icons.getBlockTile(icons.get(i).x, icons.get(i).y), unit.vectorPosition, i);

@@ -87,7 +87,7 @@ public class BuildingDesignationSequence extends DesignationSequence {
     private void showNextList() {
         for (String partName : order.blueprint.parts.keySet()) {
             if (order.parts.containsKey(partName)) continue;  // skip already added component
-            GameMvc.instance().controller().entitySelectorInputAdapter.setEnabled(false);
+            GameMvc.instance().controller().setSelectorEnabled(false);
             GameMvc.instance().view().mainUiStage.toolbar.addMenu(createSelectListForIngredient(partName));
             GameMvc.instance().controller().setSelectorEnabled(false);
             return;
@@ -105,20 +105,20 @@ public class BuildingDesignationSequence extends DesignationSequence {
         Logger.UI.logDebug("Resetting BuildingDesignationSequence");
         placeSelectComponent.hide(); // hides all select lists
         placeSelectComponent.show();
-        GameMvc.instance().controller().entitySelectorInputAdapter.setEnabled(true);
+        GameMvc.instance().controller().setSelectorEnabled(true);
     }
 
     @Override
     public void start() {
         Logger.UI.logDebug("Starting BuildingDesignationSequence");
         placeSelectComponent.show();
-        GameMvc.instance().controller().entitySelectorInputAdapter.setEnabled(true);
+        GameMvc.instance().controller().setSelectorEnabled(true);
     }
 
     @Override
     public void end() {
         Logger.UI.logDebug("Ending BuildingDesignationSequence");
         placeSelectComponent.hide();
-        GameMvc.instance().controller().entitySelectorInputAdapter.setEnabled(true);
+        GameMvc.instance().controller().setSelectorEnabled(true);
     }
 }

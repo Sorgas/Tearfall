@@ -1,6 +1,7 @@
 package stonering.util.validation;
 
 import stonering.enums.materials.MaterialMap;
+import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 
@@ -9,7 +10,7 @@ import stonering.util.geometry.Position;
  *
  * @author Alexander on 05.05.2019.
  */
-public class TileMaterialValidator extends PositionValidator {
+public class TileMaterialValidator implements PositionValidator {
     private String materialTag;
 
     public TileMaterialValidator(String materialTag) {
@@ -17,7 +18,8 @@ public class TileMaterialValidator extends PositionValidator {
     }
 
     @Override
-    public boolean validate(LocalMap map, Position position) {
+    public boolean validate(Position position) {
+        LocalMap map = GameMvc.instance().model().get(LocalMap.class);
         return map.inMap(position) &&
                 MaterialMap.instance().getMaterial(map.getMaterial(position)).tags.contains(materialTag);
     }

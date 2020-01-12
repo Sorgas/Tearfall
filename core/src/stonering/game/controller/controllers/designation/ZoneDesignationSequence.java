@@ -1,6 +1,8 @@
 package stonering.game.controller.controllers.designation;
 
 import stonering.game.model.GameModel;
+import stonering.game.model.entity_selector.aspect.SelectorBoxAspect;
+import stonering.game.model.system.EntitySelectorSystem;
 import stonering.screen.GameView;
 import stonering.util.global.Logger;
 import stonering.util.validation.PositionValidator;
@@ -36,9 +38,9 @@ public class ZoneDesignationSequence extends DesignationSequence {
         model = GameMvc.instance().model();
         view = GameMvc.instance().view();
         rectangleSelectComponent = new RectangleSelectComponent(null, event -> {
-            EntitySelector selector = model.get(EntitySelector.class);
+            EntitySelector selector = model.get(EntitySelectorSystem.class).selector;
             if (validateZoneDesignation()) {
-                model.get(ZonesContainer.class).createNewZone(selector.getFrameStart(), selector.position.clone(), type);
+                model.get(ZonesContainer.class).createNewZone(selector.getAspect(SelectorBoxAspect.class).boxStart, selector.position.clone(), type);
             } else {
                 view.mainUiStage.toolbar.status.setText("No valid tiles selected");
             }
@@ -53,17 +55,17 @@ public class ZoneDesignationSequence extends DesignationSequence {
     public ZoneDesignationSequence() {
         super();
         rectangleSelectComponent = new RectangleSelectComponent(event -> { // updates toolbar text depending on start of selected frame
-            EntitySelector selector = model.get(EntitySelector.class);
+            EntitySelector selector = model.get(EntitySelectorSystem.class).selector;
             ZonesContainer zonesContainer = GameMvc.instance().model().get(ZonesContainer.class);
-            Zone zone = zonesContainer.getZone(selector.getFrameStart());
+            Zone zone = zonesContainer.getZone(selector.getAspect(SelectorBoxAspect.class).boxStart);
             Toolbar toolbar = view.mainUiStage.toolbar;
             toolbar.status.setText(zone != null ? "Expanding zone " + zone.getName() + "." : "Deleting zones.");
             return true;
         }, event -> {
-            EntitySelector selector = model.get(EntitySelector.class);
+            EntitySelector selector = model.get(EntitySelectorSystem.class).selector;
             ZonesContainer zonesContainer = GameMvc.instance().model().get(ZonesContainer.class);
-            Zone zone = zonesContainer.getZone(selector.getFrameStart()); // tiles in selected area will get this zone, and removed from previous.
-            model.get(ZonesContainer.class).updateZones(selector.getFrameStart(), selector.position.clone(), zone);
+            Zone zone = zonesContainer.getZone(selector.getAspect(SelectorBoxAspect.class).boxStart); // tiles in selected area will get this zone, and removed from previous.
+            model.get(ZonesContainer.class).updateZones(selector.getAspect(SelectorBoxAspect.class).boxStart, selector.position.clone(), zone);
             return true;
         });
     }
@@ -72,16 +74,16 @@ public class ZoneDesignationSequence extends DesignationSequence {
      * Checks that zone has at least one valid tile.
      */
     private boolean validateZoneDesignation() {
-        EntitySelector selector = model.get(EntitySelector.class);
+        EntitySelector selector = model.get(EntitySelectorSystem.class).selector;
         LocalMap localMap = model.get(LocalMap.class);
-        Position pos1 = selector.getFrameStart();
+        Position pos1 = selector.getAspect(SelectorBoxAspect.class).boxStart;
         Position pos2 = selector.position.clone();
         Position cachePos = new Position(0, 0, 0);
         PositionValidator validator = type.getValidator();
         for (cachePos.x = Math.min(pos1.x, pos2.x); cachePos.x <= Math.max(pos1.x, pos2.x); cachePos.x++) {
             for (cachePos.y = Math.min(pos1.y, pos2.y); cachePos.y <= Math.max(pos1.y, pos2.y); cachePos.y++) {
                 for (cachePos.z = Math.min(pos1.z, pos2.z); cachePos.z <= Math.max(pos1.z, pos2.z); cachePos.z++) {
-                    if (validator.validate(localMap, cachePos)) return true;
+                    if (validator.validate(cachePos)) return true;
                 }
             }
         }

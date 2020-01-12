@@ -1,10 +1,7 @@
 package stonering.game.model.entity_selector;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import stonering.entity.Aspect;
 import stonering.entity.Entity;
-import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
@@ -21,9 +18,6 @@ import stonering.util.geometry.Position;
  * @author Alexander Kuzyakov on 10.12.2017.
  */
 public class EntitySelector extends Entity {
-    private TextureRegion selectorSprite; // shows selector position, and selected designation.
-    private TextureRegion statusSprite;   // indicates position validity.
-    private Position frameStart; // if not null, frame from start to current position is drawn
 
     public EntitySelector(Position position) {
         super(position);
@@ -32,23 +26,6 @@ public class EntitySelector extends Entity {
     @Override
     public void init() {
         LocalMap localMap = GameMvc.instance().model().get(LocalMap.class);
-        selectorSprite = new TextureRegion(new Texture("sprites/ui_tiles.png"), 0, 406, 64, 96);
         position.set(localMap.xSize / 2, localMap.ySize / 2, localMap.zSize - 1);
-    }
-
-    public Position getFrameStart() {
-        return frameStart;
-    }
-
-    public void setFrameStart(Position frameStart) {
-        this.frameStart = frameStart;
-    }
-
-    public TextureRegion getSelectorSprite() {
-        return selectorSprite;
-    }
-
-    public TextureRegion getStatusSprite() {
-        return statusSprite;
     }
 }

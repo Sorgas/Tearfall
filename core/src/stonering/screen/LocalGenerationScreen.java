@@ -13,6 +13,7 @@ import stonering.TearFall;
 import stonering.entity.world.World;
 import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.EntitySelector;
+import stonering.game.model.system.EntitySelectorSystem;
 import stonering.generators.localgen.LocalGenConfig;
 import stonering.generators.localgen.LocalGeneratorContainer;
 import stonering.game.model.local_map.LocalMap;
@@ -65,13 +66,13 @@ public class LocalGenerationScreen extends SingleStageScreen {
         proceedButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                GameMvc.instance().createViewAndController();
-                GameMvc.instance().init(); // for initing V & C
-                GameMvc.instance().view().localWorldStage.getCamera().centerCameraToPosition(GameMvc.instance().model().get(EntitySelector.class).position.clone());
-                GameMvc.instance().model().get(EntitySelector.class).setToMapCenter();
-                GameMvc.instance().model().get(LocalMap.class).initAreas(); // to avoid recalculations on map generation
+                GameMvc gameMvc = GameMvc.instance();
+                gameMvc.createViewAndController();
+                gameMvc.init(); // for initing V & C
+                gameMvc.model().get(EntitySelectorSystem.class).placeSelectorAtMapCenter();
+                gameMvc.model().get(LocalMap.class).initAreas(); // to avoid recalculations on map generation
                 game.switchToGame(); // show game screen
-                GameMvc.instance().model().setPaused(false);
+                gameMvc.model().setPaused(false);
             }
         });
 //        stage.addActor(table);

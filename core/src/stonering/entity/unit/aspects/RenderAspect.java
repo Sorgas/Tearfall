@@ -1,8 +1,6 @@
 package stonering.entity.unit.aspects;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import stonering.entity.Aspect;
 import stonering.entity.Entity;
 import stonering.stage.renderer.AtlasesEnum;
@@ -19,18 +17,18 @@ public class RenderAspect extends Aspect {
     public final int[] atlasXY;
     public final AtlasesEnum atlas;
     public final List<CreatureStatusIcon> icons = new ArrayList<>();
-    public Drawable drawable;
+    public TextureRegion region;
     public float actionProgress;
 
     public RenderAspect(Entity entity, int[] xy, AtlasesEnum atlas) {
         super(entity);
         atlasXY = xy;
         this.atlas = atlas;
-        drawable = new TextureRegionDrawable(getTile());
+        region = atlas.getBlockTile(atlasXY);
         actionProgress = 0;
     }
 
-    public TextureRegion getTile() {
-        return atlas.getBlockTile(atlasXY);
+    public RenderAspect(Entity entity, int x, int y, AtlasesEnum atlas) {
+        this(entity, new int[]{x, y}, atlas);
     }
 }
