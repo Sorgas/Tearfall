@@ -1,17 +1,21 @@
 package stonering.game.controller.controllers;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.math.Vector3;
 import stonering.game.GameMvc;
+import stonering.game.model.entity_selector.aspect.SelectorBoxAspect;
+import stonering.game.model.system.EntitySelectorInputHandler;
 import stonering.game.model.system.EntitySelectorSystem;
+import stonering.stage.renderer.AtlasesEnum;
+import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
 
 import static com.badlogic.gdx.Input.Keys.*;
 
 /**
  * Handles button presses and mouse movement for entitySelector navigation and activation.
- * Calls {@link EntitySelectorSystem} for handling events.
+ * Calls {@link EntitySelectorInputHandler} for handling events.
  * Can be disabled.
  *
  * @author Alexander Kuzyakov
@@ -19,92 +23,61 @@ import static com.badlogic.gdx.Input.Keys.*;
 public class EntitySelectorInputAdapter extends InputAdapter {
     private EntitySelectorSystem system;
     public boolean enabled;
-    
+    private Position cachePosition;
+
     public EntitySelectorInputAdapter() {
         system = GameMvc.instance().model().get(EntitySelectorSystem.class);
         enabled = true;
+        cachePosition = new Position();
     }
 
     @Override
     public boolean keyDown(int keycode) {
         if (!enabled) return false;
         if(keycode == Input.Keys.E) {
-            Logger.INPUT.logDebug("handling E in EntitySelectorInputAdapter");
-            system.handleEKeyDown();
+            if(system.selector.getAspect(SelectorBoxAspect.class).boxStart != null) {
+                Logger.INPUT.logDebug("committing selection box on E key");
+                system.inputHandler.commitSelection();
+            } else {
+                Logger.INPUT.logDebug("starting selection box on E key");
+                system.inputHandler.startSelection(null); // start box at current position
+            }
             return true;
         }
         if(keycode == Input.Keys.Q) {
-            Logger.INPUT.logDebug("handling Q in EntitySelectorInputAdapter");
-            system.cancelSelectionBox();
+            Logger.INPUT.logDebug("cancelling selection box on Q key");
+            system.inputHandler.cancelSelection();
             return true;
         }
-        return moveByKey(keycode);
+        return system.inputHandler.moveByKey(keycode);
     }
 
     @Override
     public boolean keyTyped(char character) {
         if (!enabled) return false;
         int keycode = charToKeycode(character);
-        return moveByKey(keycode) && secondaryMove(keycode); // supports diagonal move when two keys are pressed
-    }
-
-    private boolean moveByKey(int keycode) {
-        int offset = Gdx.input.isKeyPressed(SHIFT_LEFT) ? 10 : 1;
-        switch (keycode) {
-            case W:
-                system.moveSelector(0, offset, 0);
-                return true;
-            case A:
-                system.moveSelector(-offset, 0, 0);
-                return true;
-            case S:
-                system.moveSelector(0, -offset, 0);
-                return true;
-            case D:
-                system.moveSelector(offset, 0, 0);
-                return true;
-            case R:
-                system.moveSelector(0, 0, 1);
-                return true;
-            case F:
-                system.moveSelector(0, 0, -1);
-        }
-        return false;
-    }
-
-    private boolean secondaryMove(int keycode) {
-        switch (keycode) {
-            case W:
-            case S:
-                if(Gdx.input.isKeyPressed(A)) moveByKey(A);
-                if(Gdx.input.isKeyPressed(D)) moveByKey(D);
-                break;
-            case A:
-            case D:
-                if(Gdx.input.isKeyPressed(W)) moveByKey(W);
-                if(Gdx.input.isKeyPressed(S)) moveByKey(S);
-        }
-        return true;
+        return system.inputHandler.moveByKey(keycode) && system.inputHandler.secondaryMove(keycode); // supports diagonal move when two keys are pressed
     }
 
     @Override
     public boolean scrolled(int amount) {
         if (!enabled) return false;
-        system.moveSelector(0, 0, amount);
+        system.inputHandler.moveSelector(0, 0, amount);
         return true;
     }
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
         if (!enabled) return false;
-        system.updateSelectorPositionByScreenCoords(screenX, screenY);
+        system.inputHandler.setSelectorPosition(cachePosition.set(castScreenToModelCoords(screenX, screenY)));
         return true;
     }
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         if (enabled && button == Input.Buttons.LEFT) {
-            system.handleLeftTouchDown(screenX, screenY);
+            Logger.INPUT.logDebug("starting selection box on LMB press");
+            system.inputHandler.startSelection(cachePosition.set(castScreenToModelCoords(screenX, screenY)));
             return true;
         }
         return false;
@@ -114,15 +87,26 @@ public class EntitySelectorInputAdapter extends InputAdapter {
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         if (enabled) {
             if (button == Input.Buttons.LEFT) {
-                system.handleSelection(); // finish box or tile selection
+                Logger.INPUT.logDebug("committing selection box on lMB release");
+                system.inputHandler.commitSelection();
                 return true;
             }
             if (button == Input.Buttons.RIGHT) {
-                system.handleCancel();
+                Logger.INPUT.logDebug("cancelling selection box on RMB release");
+                system.inputHandler.cancelSelection();
                 return true;
             }
         }
         return false;
+    }
+
+    private Vector3 castScreenToModelCoords(int screenX, int screenY) {
+        Vector3 batchCoords = GameMvc.instance().view().localWorldStage.getCamera().unproject(new Vector3(screenX, screenY, 0));
+        AtlasesEnum atlas = AtlasesEnum.blocks; // use blocks sizes
+        int heightToSkip = system.selector.position.z * atlas.HEIGHT + (atlas.hasToppings ? atlas.TOPPING_HEIGHT : 0);
+        batchCoords.x /= atlas.WIDTH;
+        batchCoords.y = (batchCoords.y - heightToSkip) / atlas.DEPTH;
+        return batchCoords;
     }
 
     private int charToKeycode(char character) {

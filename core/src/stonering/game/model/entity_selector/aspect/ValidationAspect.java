@@ -9,7 +9,7 @@ import stonering.util.validation.PositionValidator;
 import java.util.function.Consumer;
 
 /**
- * Validates single position of {@link EntitySelector}. Does not validates box.
+ * Validates single position of {@link EntitySelector}.
  * After validation can update {@link RenderAspect} of selector.
  *
  * @author Alexander on 10.01.2020

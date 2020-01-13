@@ -28,7 +28,7 @@ public class ToolbarBuildingMenu extends ToolbarSubMenuMenu {
                     EntitySelectorSystem system = GameMvc.instance().model().get(EntitySelectorSystem.class);
                     system.setPositionValidator(PlaceValidatorsEnum.getValidator(blueprint.placing));
                     system.selector.getAspect(SelectionAspect.class).selectHandler =
-                            () -> {}; //TODO show list with materials
+                            (position) -> {}; //TODO show list with materials
                 }
             }, blueprint.menuPath);
         }

@@ -1,11 +1,8 @@
 package stonering.game.model.system;
 
-import com.badlogic.gdx.math.Vector3;
 import stonering.entity.unit.aspects.RenderAspect;
 import stonering.enums.blocks.BlockTypesEnum;
-import stonering.enums.time.TimeUnitEnum;
 import stonering.game.GameMvc;
-import stonering.game.model.Updatable;
 import stonering.game.model.entity_selector.EntitySelector;
 import stonering.game.model.entity_selector.aspect.SelectionAspect;
 import stonering.game.model.entity_selector.aspect.SelectorBoxAspect;
@@ -13,7 +10,6 @@ import stonering.game.model.entity_selector.aspect.ValidationAspect;
 import stonering.game.model.local_map.LocalMap;
 import stonering.stage.renderer.AtlasesEnum;
 import stonering.util.geometry.Position;
-import stonering.util.global.Executor;
 import stonering.util.validation.PositionValidator;
 
 /**
@@ -26,6 +22,7 @@ import stonering.util.validation.PositionValidator;
  */
 public class EntitySelectorSystem implements ModelComponent {
     public final EntitySelector selector;
+    public final EntitySelectorInputHandler inputHandler;
     private Position cachePosition;
 
     public EntitySelectorSystem() {
@@ -34,6 +31,7 @@ public class EntitySelectorSystem implements ModelComponent {
         selector.addAspect(new SelectorBoxAspect(selector));
         selector.addAspect(new SelectionAspect(selector));
         selector.addAspect(new RenderAspect(selector, 0, 2, AtlasesEnum.ui_tiles));
+        inputHandler = new EntitySelectorInputHandler(this);
         cachePosition = new Position();
     }
 
@@ -43,35 +41,23 @@ public class EntitySelectorSystem implements ModelComponent {
         if (aspect.validator != null) aspect.validator.validateAnd(selector.position, aspect.validationConsumer);
     }
 
+    /**
+     * Calls selectHandler for all tiles in selection box that are valid with {@link ValidationAspect}'s validator.
+     */
     public void handleSelection() {
         SelectionAspect aspect = selector.getAspect(SelectionAspect.class);
-        (aspect.selectHandler != null ? aspect.selectHandler : aspect.defaultSelectHandler).execute(); // use dynamic handler if possible
+        selector.getAspect(SelectorBoxAspect.class).boxIterator.accept(aspect.selectHandler != null ? aspect.selectHandler : aspect.defaultSelectHandler);
     }
 
     public void handleCancel() {
-        SelectionAspect aspect = selector.getAspect(SelectionAspect.class);
-        aspect.selectHandler = null;
+        selector.getAspect(SelectorBoxAspect.class).boxStart = null;
+        selector.getAspect(SelectionAspect.class).cancelHandler.accept(selector.position);
+        //TODO close toolbar menus
     }
 
-    public void moveSelector(int dx, int dy, int dz) {
-        cachePosition.set(selector.position);
-        selector.position.add(dx, dy, dz);
-        GameMvc.instance().model().get(LocalMap.class).normalizePosition(selector.position);
-        if (!cachePosition.equals(selector.position)) selectorMoved();
-    }
-
-    private void selectorMoved() {
+    public void selectorMoved() {
         validateAndUpdate();
         GameMvc.instance().view().localWorldStage.getCamera().handleSelectorMove();
-    }
-
-    /**
-     * Places selector to the tile under given screen coordinates without changing z-level.
-     */
-    public void updateSelectorPositionByScreenCoords(int screenX, int screenY) {
-        Vector3 modelCoords = castScreenPositionToModel(screenX, screenY);
-        selector.position.set((int) modelCoords.x, (int) modelCoords.y, selector.position.z);
-        GameMvc.instance().model().get(LocalMap.class).normalizePosition(selector.position);
     }
 
     public void setPositionValidator(PositionValidator validator) {
@@ -88,44 +74,5 @@ public class EntitySelectorSystem implements ModelComponent {
             selector.position.z = z;
         }
         selectorMoved();
-    }
-
-    public void handleEKeyDown() {
-        SelectorBoxAspect aspect = selector.getAspect(SelectorBoxAspect.class);
-        if (aspect.enabled) {
-            if(aspect.boxStart == null) {
-                aspect.boxStart = selector.position.clone();
-                GameMvc.instance().model().get(LocalMap.class).normalizePosition(aspect.boxStart);
-            } else {
-                handleSelection();
-            }
-        } else {
-            aspect.boxStart = null;
-            cancelSelectionBox();
-        }
-    }
-
-    public void handleLeftTouchDown(int screenX, int screenY) {
-        SelectorBoxAspect aspect = selector.getAspect(SelectorBoxAspect.class);
-        if (aspect.enabled) {
-            Vector3 modelCoords = castScreenPositionToModel(screenX, screenY);
-            aspect.boxStart = new Position(modelCoords.x, modelCoords.y, selector.position.z);
-            GameMvc.instance().model().get(LocalMap.class).normalizePosition(aspect.boxStart);
-        } else {
-            cancelSelectionBox();
-        }
-    }
-
-    public void cancelSelectionBox() {
-        selector.getAspect(SelectorBoxAspect.class).boxStart = null;
-    }
-
-    private Vector3 castScreenPositionToModel(int screenX, int screenY) {
-        Vector3 batchCoords = GameMvc.instance().view().localWorldStage.getCamera().unproject(new Vector3(screenX, screenY, 0));
-        AtlasesEnum atlas = AtlasesEnum.blocks; // use blocks sizes
-        int heightToSkip = selector.position.z * atlas.HEIGHT + (atlas.hasToppings ? atlas.TOPPING_HEIGHT : 0);
-        batchCoords.x /= atlas.WIDTH;
-        batchCoords.y = (batchCoords.y - heightToSkip) / atlas.DEPTH;
-        return batchCoords;
     }
 }

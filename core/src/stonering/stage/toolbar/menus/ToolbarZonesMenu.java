@@ -12,7 +12,10 @@ import stonering.game.model.entity_selector.aspect.SelectorBoxAspect;
 import stonering.game.model.system.EntitySelectorSystem;
 import stonering.game.model.system.ZoneContainer;
 import stonering.util.geometry.Position;
+import stonering.util.global.Pair;
 import stonering.widget.ToolbarSubMenuMenu;
+
+import java.util.Optional;
 
 /**
  * Contains buttons for designating zones.
@@ -38,8 +41,14 @@ public class ToolbarZonesMenu extends ToolbarSubMenuMenu {
                 public void changed(ChangeEvent event, Actor actor) {
                     GameModel model = GameMvc.instance().model();
                     EntitySelector selector = model.get(EntitySelectorSystem.class).selector;
-                    selector.getAspect(SelectionAspect.class).selectHandler =
-                            () -> model.get(ZoneContainer.class).createNewZone(selector.getAspect(SelectorBoxAspect.class).boxStart, selector.position.clone(), type);
+                    ZoneContainer container = model.get(ZoneContainer.class);
+                    SelectionAspect aspect = selector.getAspect(SelectionAspect.class);
+                    aspect.selectPreHandler = () -> {
+                        aspect.selectionScope.put("zone", container.createZone(selector.position, type));
+                    };
+                    selector.getAspect(SelectionAspect.class).selectHandler = position -> {
+                        container.addPositionToZone((Zone) aspect.selectionScope.get("zone"), position);
+                    };
                 }
             }, null);
         }

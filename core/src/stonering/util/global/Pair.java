@@ -9,8 +9,8 @@ import java.io.Serializable;
  * @author Alexander on 19.07.2018.
  */
 public class Pair<K, V> implements Serializable {
-    private K key;
-    private V value;
+    public K key;
+    public V value;
 
     public Pair(K key, V value) {
         this.key = key;

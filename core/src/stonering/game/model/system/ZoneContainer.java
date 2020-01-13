@@ -23,14 +23,15 @@ public class ZoneContainer extends EntityContainer<Zone> {
     }
 
     /**
-     * Creates new zone with given type and tiles between given positions.
+     * Creates zone with single tile.
      */
-    public void createNewZone(Position pos1, Position pos2, ZoneTypesEnum type) {
+    public Zone createZone(Position position, ZoneTypesEnum type) {
         Zone zone = type.createZone();
-        addPositionsToZone(pos1, pos2, zone);
+        addPositionToZone(zone, position);
         entities.add(zone);
         Logger.ZONES.logDebug("Zone " + zone + " created");
         recountZones();
+        return zone;
     }
 
     public void deleteZone(Zone zone) {
@@ -38,20 +39,12 @@ public class ZoneContainer extends EntityContainer<Zone> {
         entities.remove(zone);
     }
 
-    private void addPositionsToZone(Position pos1, Position pos2, Zone zone) {
-        Position cachePos = new Position(0, 0, 0);
+    public void addPositionToZone(Zone zone, Position position) {
         PositionValidator validator = zone.getType().getValidator();
-        for (cachePos.x = Math.min(pos1.x, pos2.x); cachePos.x <= Math.max(pos1.x, pos2.x); cachePos.x++) {
-            for (cachePos.y = Math.min(pos1.y, pos2.y); cachePos.y <= Math.max(pos1.y, pos2.y); cachePos.y++) {
-                for (cachePos.z = Math.min(pos1.z, pos2.z); cachePos.z <= Math.max(pos1.z, pos2.z); cachePos.z++) {
-                    if (validator.validate(cachePos)) {
-                        zone.getTiles().add(cachePos.clone());
-                        zoneMap.put(cachePos.clone(), zone);
-                    }
-                }
-            }
+        if (validator.validate(position)) {
+            zone.getTiles().add(position.clone());
+            zoneMap.put(position.clone(), zone);
         }
-        recountZones();
     }
 
     /**
