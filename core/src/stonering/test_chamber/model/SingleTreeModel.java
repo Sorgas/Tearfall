@@ -6,7 +6,7 @@ import stonering.entity.plant.Tree;
 import stonering.entity.unit.Unit;
 import stonering.exceptions.DescriptionNotFoundException;
 import stonering.game.model.system.item.ItemContainer;
-import stonering.game.model.system.PlantContainer;
+import stonering.game.model.system.plant.PlantContainer;
 import stonering.game.model.system.unit.UnitContainer;
 import stonering.generators.creatures.CreatureGenerator;
 import stonering.generators.items.ItemGenerator;

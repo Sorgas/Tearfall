@@ -4,7 +4,7 @@ import stonering.entity.world.World;
 import stonering.enums.generation.PlantPlacingTagEnum;
 import stonering.enums.plants.PlantTypeMap;
 import stonering.enums.plants.PlantType;
-import stonering.game.model.system.PlantContainer;
+import stonering.game.model.system.plant.PlantContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.generators.localgen.generators.LocalAbstractGenerator;

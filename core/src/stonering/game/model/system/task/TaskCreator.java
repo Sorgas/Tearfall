@@ -8,7 +8,7 @@ import stonering.entity.job.designation.OrderDesignation;
 import stonering.entity.plant.PlantBlock;
 import stonering.enums.buildings.BuildingTypeMap;
 import stonering.game.GameMvc;
-import stonering.game.model.system.PlantContainer;
+import stonering.game.model.system.plant.PlantContainer;
 
 /**
  * Factory class for creating {@link Task}s based on {@link Designation}s.

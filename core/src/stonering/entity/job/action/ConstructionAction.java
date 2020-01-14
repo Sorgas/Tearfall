@@ -5,7 +5,7 @@ import stonering.entity.job.action.target.BuildingActionTarget;
 import stonering.entity.job.action.target.GenericBuildingAction;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.GameMvc;
-import stonering.game.model.system.PlantContainer;
+import stonering.game.model.system.plant.PlantContainer;
 import stonering.game.model.system.SubstrateContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;

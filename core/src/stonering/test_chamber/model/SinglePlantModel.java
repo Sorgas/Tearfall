@@ -3,7 +3,7 @@ package stonering.test_chamber.model;
 import stonering.entity.plant.AbstractPlant;
 import stonering.entity.plant.Plant;
 import stonering.exceptions.DescriptionNotFoundException;
-import stonering.game.model.system.PlantContainer;
+import stonering.game.model.system.plant.PlantContainer;
 import stonering.generators.plants.PlantGenerator;
 import stonering.util.geometry.Position;
 

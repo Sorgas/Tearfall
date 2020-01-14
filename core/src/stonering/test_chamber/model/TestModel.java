@@ -10,6 +10,7 @@ import stonering.game.model.GameModel;
 import stonering.game.model.system.*;
 import stonering.game.model.system.building.BuildingContainer;
 import stonering.game.model.system.item.ItemContainer;
+import stonering.game.model.system.plant.PlantContainer;
 import stonering.game.model.system.task.TaskContainer;
 import stonering.game.model.system.unit.UnitContainer;
 import stonering.game.model.local_map.LocalMap;

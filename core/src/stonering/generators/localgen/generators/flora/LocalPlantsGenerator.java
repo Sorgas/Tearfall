@@ -4,7 +4,7 @@ import stonering.entity.plant.Plant;
 import stonering.enums.plants.PlantTypeMap;
 import stonering.enums.plants.PlantType;
 import stonering.exceptions.DescriptionNotFoundException;
-import stonering.game.model.system.PlantContainer;
+import stonering.game.model.system.plant.PlantContainer;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.generators.plants.PlantGenerator;
 import stonering.util.geometry.Position;

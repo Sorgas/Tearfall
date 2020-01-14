@@ -1,12 +1,16 @@
-package stonering.game.model.system;
+package stonering.game.model.system.plant;
 
 import com.badlogic.gdx.math.Matrix3;
 import com.badlogic.gdx.math.Vector3;
 import stonering.entity.plant.*;
+import stonering.entity.plant.aspects.PlantGrowthAspect;
 import stonering.enums.OrientationEnum;
 import stonering.enums.blocks.BlockTypesEnum;
+import stonering.enums.plants.PlantType;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
+import stonering.game.model.system.EntityContainer;
+import stonering.game.model.system.ModelComponent;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.generators.items.PlantProductGenerator;
 import stonering.util.geometry.Position;
@@ -35,11 +39,9 @@ public class PlantContainer extends EntityContainer<AbstractPlant> implements In
     private final int WALL_CODE = BlockTypesEnum.WALL.CODE;
 
     public PlantContainer() {
-        this(new ArrayList<>());
-    }
-
-    public PlantContainer(List<AbstractPlant> plants) {
         plantBlocks = new HashMap<>();
+        putSystem(new PlantSeedSystem());
+        putSystem(new PlantGrowthSystem());
     }
 
     @Override
@@ -51,8 +53,8 @@ public class PlantContainer extends EntityContainer<AbstractPlant> implements In
      * Entry method for placing new plants and trees on map.
      */
     public void place(AbstractPlant plant, Position position) {
-        if (plant.getType().isTree()) placeTree((Tree) plant, position);
-        if (plant.getType().isPlant()) placePlant((Plant) plant, position);
+        if (plant.type.isTree()) placeTree((Tree) plant, position);
+        if (plant.type.isPlant()) placePlant((Plant) plant, position);
     }
 
     /**
@@ -182,7 +184,8 @@ public class PlantContainer extends EntityContainer<AbstractPlant> implements In
     public void fellTree(Tree tree, OrientationEnum orientation) {
         if (orientation == OrientationEnum.N) {
             Position treePosition = tree.position;
-            int stompZ = tree.getCurrentStage().treeForm.get(2);
+            PlantType type = tree.type;
+            int stompZ = type.lifeStages.get(tree.getAspect(PlantGrowthAspect.class).currentStage).treeForm.get(2);
             PlantBlock[][][] treeParts = tree.getBlocks();
             for (int x = 0; x < treeParts.length; x++) {
                 for (int y = 0; y < treeParts[x].length; y++) {
@@ -233,9 +236,9 @@ public class PlantContainer extends EntityContainer<AbstractPlant> implements In
     public void handleBlockRemoval(Position position) {
         if(!plantBlocks.containsKey(position)) return;
         PlantBlock block = plantBlocks.get(position);
-        if(block.getPlant().getType().isTree()) {
+        if(block.getPlant().type.isTree()) {
             //TODO trees should have underground roots, and stay while enough root blocks are in the soil
-        } else if(block.getPlant().getType().isPlant()) {
+        } else if(block.getPlant().type.isPlant()) {
             remove(block.getPlant(), true);
         }
     }

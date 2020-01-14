@@ -4,7 +4,7 @@ import stonering.entity.plant.PlantBlock;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.designations.DesignationTypeEnum;
 import stonering.game.GameMvc;
-import stonering.game.model.system.PlantContainer;
+import stonering.game.model.system.plant.PlantContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
