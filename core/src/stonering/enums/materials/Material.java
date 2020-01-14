@@ -1,7 +1,7 @@
 package stonering.enums.materials;
 
 import com.badlogic.gdx.graphics.Color;
-import stonering.enums.items.TagEnum;
+import stonering.enums.items.ItemTagEnum;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class Material {
     public final int id;
     public final String name;
-    public final List<TagEnum> tags;
+    public final List<ItemTagEnum> tags;
     public final float density;
     public final HashMap<String, ArrayList<Object>> reactions; // other aspects
     public final int value;
@@ -27,7 +27,7 @@ public class Material {
     public Material(RawMaterial raw) {
         id = raw.id;
         name = raw.name;
-        tags = raw.tags.stream().map(TagEnum::get).collect(Collectors.toList());
+        tags = raw.tags.stream().map(ItemTagEnum::get).collect(Collectors.toList());
         density = raw.density;
         reactions = raw.reactions;
         value = raw.value;

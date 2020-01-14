@@ -1,7 +1,5 @@
 package stonering.enums.plants;
 
-import stonering.util.geometry.Position;
-
 import java.util.List;
 
 /**
@@ -13,22 +11,9 @@ import java.util.List;
 public class PlantLifeStage {
     public String[] titlePrefixSuffix;
     public int stageLength;
-    public int stageEnd;
-    public PlantProduct harvestProduct;
+    public int stageEnd; // calculated for faster checking
+    public PlantProduct harvestProduct; // products differ between stages
     public List<String> cutProducts;
-    public int xOffset;
     public String color;
     public List<Integer> treeForm; // is null for non-trees
-
-    public int getTreeRadius() {
-        return Math.max(treeForm.get(0), treeForm.get(3));
-    }
-
-    public Position getStompPosition() {
-        return new Position(treeForm.get(0), treeForm.get(0), treeForm.get(2));
-    }
-
-    public int getStageEnd() {
-        return stageEnd;
-    }
 }

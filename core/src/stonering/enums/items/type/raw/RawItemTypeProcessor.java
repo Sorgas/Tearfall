@@ -2,7 +2,6 @@ package stonering.enums.items.type.raw;
 
 import stonering.entity.Aspect;
 import stonering.entity.item.aspects.FuelAspect;
-import stonering.entity.item.aspects.ItemContainerAspect;
 import stonering.entity.item.aspects.ValueAspect;
 import stonering.entity.item.aspects.WearAspect;
 import stonering.enums.items.type.ItemPartType;

@@ -14,6 +14,7 @@ public class PlantProduct {
     private Integer[] formulaArgs;
     public Set<Integer> months;
     public List<String> tags;
+    public Map<String, String> aspectParams; // used to generate aspects of items/
 
     public PlantProduct() {
         tags = new ArrayList<>();

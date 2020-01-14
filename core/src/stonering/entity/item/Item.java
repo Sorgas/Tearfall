@@ -2,7 +2,7 @@ package stonering.entity.item;
 
 import stonering.entity.Aspect;
 import stonering.entity.Entity;
-import stonering.enums.items.TagEnum;
+import stonering.enums.items.ItemTagEnum;
 import stonering.enums.items.type.ItemType;
 import stonering.util.geometry.Position;
 
@@ -23,7 +23,7 @@ public class Item extends Entity {
     public String title; // title combined of origin, material, and type
     public int material;
     public String materialString;
-    public final List<TagEnum> tags;
+    public final List<ItemTagEnum> tags;
     public boolean locked; // item consuming actions lock target items.
 
 //TODO post mvp

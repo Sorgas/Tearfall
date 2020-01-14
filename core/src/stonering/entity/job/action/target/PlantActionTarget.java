@@ -2,7 +2,7 @@ package stonering.entity.job.action.target;
 
 import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.util.geometry.Position;
-import stonering.entity.plants.AbstractPlant;
+import stonering.entity.plant.AbstractPlant;
 
 public class PlantActionTarget extends ActionTarget {
     protected AbstractPlant plant;

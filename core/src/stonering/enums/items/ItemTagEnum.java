@@ -8,7 +8,7 @@ import java.util.Map;
  *
  * @author Alexander on 02.09.2019.
  */
-public enum TagEnum {
+public enum ItemTagEnum {
     STONE(false), // gabbro(material) stone(type) // stones have no origin
     STONE_EXTRUSIVE(false), // used for stone layers generation
     STONE_INTRUSIVE(false),
@@ -30,19 +30,19 @@ public enum TagEnum {
 
     private static boolean debug = true;
     private boolean displayable; // tags with true are displayed in items titles.
-    private static Map<String, TagEnum> map = new HashMap<>();
+    private static Map<String, ItemTagEnum> map = new HashMap<>();
 
     static {
-        for (TagEnum tag : values()) {
+        for (ItemTagEnum tag : values()) {
             map.put(tag.name().toLowerCase(), tag);
         }
     }
 
-    TagEnum(boolean displayable) {
+    ItemTagEnum(boolean displayable) {
         this.displayable = displayable;
     }
 
-    public static TagEnum get(String name) {
+    public static ItemTagEnum get(String name) {
         return map.getOrDefault(name, DEFAULT_TAG);
     }
 

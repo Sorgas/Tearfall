@@ -4,8 +4,8 @@ import stonering.entity.job.action.target.PlantActionTarget;
 import stonering.entity.item.Item;
 import stonering.entity.item.selectors.ItemSelector;
 import stonering.entity.item.selectors.ToolWithActionItemSelector;
-import stonering.entity.plants.AbstractPlant;
-import stonering.entity.plants.PlantBlock;
+import stonering.entity.plant.AbstractPlant;
+import stonering.entity.plant.PlantBlock;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.game.GameMvc;
 import stonering.game.model.system.item.ItemContainer;
@@ -15,6 +15,10 @@ import stonering.util.global.Logger;
 
 import static stonering.entity.job.action.ActionConditionStatusEnum.*;
 
+/**
+ * This action harvests products from harvestable plants.
+ *
+ */
 public class PlantHarvestAction extends Action {
     private ItemSelector toolItemSelector;
     private AbstractPlant targetPlant;

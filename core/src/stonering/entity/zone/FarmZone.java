@@ -4,7 +4,7 @@ import stonering.entity.job.Task;
 import stonering.entity.job.action.HoeingAction;
 import stonering.entity.job.action.PlantingAction;
 import stonering.entity.job.action.target.PositionActionTarget;
-import stonering.entity.plants.AbstractPlant;
+import stonering.entity.plant.AbstractPlant;
 import stonering.entity.world.calendar.WorldCalendar;
 import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.enums.blocks.BlockTypesEnum;

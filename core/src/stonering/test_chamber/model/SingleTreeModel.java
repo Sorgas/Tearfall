@@ -1,8 +1,8 @@
 package stonering.test_chamber.model;
 
 import stonering.entity.item.Item;
-import stonering.entity.plants.AbstractPlant;
-import stonering.entity.plants.Tree;
+import stonering.entity.plant.AbstractPlant;
+import stonering.entity.plant.Tree;
 import stonering.entity.unit.Unit;
 import stonering.exceptions.DescriptionNotFoundException;
 import stonering.game.model.system.item.ItemContainer;

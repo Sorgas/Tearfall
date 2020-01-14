@@ -24,10 +24,11 @@
         for single tiled plants sprite is taken with a number of life stage as x offset.
         stages with length, products, material.
     harvestProduct:
-        item name // any item can be configured to grow on plants
+        item title // all item products are plant_product items.
         number formula (per block), // format: [min]-[max]/[divider] roll [min, max] will be lowered by divider and rounded up
         months // numbers of months (0,11) or 'all' keyword when product can be got.
         tags // list of tags to be copied to item.
+        aspects // list of aspects and parameters
         // for trees, products got only from crone.
     productTags: tags of products
 
@@ -104,7 +105,7 @@
     {
         "name":"cattail",
         "title":"Сattail",
-        "description":"Сattail is a long plant, often found near Water",
+        "description":"Сattail is a long plant, often found near water",
         "materialName":"generic_plant",
         "temperatureBounds":["-40", "40"],
         "rainfallBounds":["0", "100"],
@@ -141,7 +142,6 @@
                 "stageLength":"3"
             },
             {
-                "titlePrefixSuffix":["", ""],
                 "stageLength":"1"
             }
         ]
@@ -164,7 +164,7 @@
             {
                 "titlePrefixSuffix":["", ""],
                 "stageLength":"1",
-                "harvestProduct":["seed", "1-1-1", "all"]
+                "harvestProduct":["seed", "1-1-1", "all", null, "seed(farm_test_plant)"]
             }
         ]
     }

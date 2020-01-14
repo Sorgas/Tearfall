@@ -1,4 +1,4 @@
-package stonering.entity.plants.aspects;
+package stonering.entity.plant.aspects;
 
 /**
  * Aspect for checking growing conditions for plants.

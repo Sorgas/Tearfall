@@ -1,4 +1,4 @@
-package stonering.entity.plants;
+package stonering.entity.plant;
 
 import stonering.entity.Entity;
 import stonering.enums.plants.PlantLifeStage;
@@ -48,7 +48,7 @@ public abstract class AbstractPlant extends Entity {
     public int increaceAge() {
         if (dead) return -1;
         age++;
-        if (type.lifeStages.get(currentStage).getStageEnd() > age) return 0;
+        if (type.lifeStages.get(currentStage).stageEnd > age) return 0;
         currentStage++;
         return currentStage == type.lifeStages.size() ? -1 : 1;
     }

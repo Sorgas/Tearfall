@@ -1,6 +1,6 @@
 package stonering.game.model.system.task;
 
-import stonering.entity.plants.PlantBlock;
+import stonering.entity.plant.PlantBlock;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.designations.DesignationTypeEnum;
 import stonering.game.GameMvc;

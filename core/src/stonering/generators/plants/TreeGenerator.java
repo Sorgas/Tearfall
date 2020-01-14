@@ -1,6 +1,6 @@
 package stonering.generators.plants;
 
-import stonering.entity.plants.aspects.PlantGrowthAspect;
+import stonering.entity.plant.aspects.PlantGrowthAspect;
 import stonering.enums.materials.MaterialMap;
 import stonering.enums.plants.PlantTypeMap;
 import stonering.enums.plants.PlantBlocksTypeEnum;
@@ -8,8 +8,8 @@ import stonering.enums.plants.PlantType;
 import stonering.enums.plants.TreeTileMapping;
 import stonering.exceptions.DescriptionNotFoundException;
 import stonering.util.geometry.Position;
-import stonering.entity.plants.PlantBlock;
-import stonering.entity.plants.Tree;
+import stonering.entity.plant.PlantBlock;
+import stonering.entity.plant.Tree;
 
 import java.util.Arrays;
 import java.util.List;

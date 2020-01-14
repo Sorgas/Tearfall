@@ -1,18 +1,14 @@
 package stonering.game.model.system.task;
 
-import stonering.entity.building.BuildingOrder;
-import stonering.entity.item.selectors.ItemSelector;
 import stonering.entity.job.Task;
 import stonering.entity.job.action.*;
 import stonering.entity.job.designation.BuildingDesignation;
 import stonering.entity.job.designation.Designation;
 import stonering.entity.job.designation.OrderDesignation;
-import stonering.entity.plants.PlantBlock;
+import stonering.entity.plant.PlantBlock;
 import stonering.enums.buildings.BuildingTypeMap;
 import stonering.game.GameMvc;
 import stonering.game.model.system.PlantContainer;
-
-import java.util.Collection;
 
 /**
  * Factory class for creating {@link Task}s based on {@link Designation}s.

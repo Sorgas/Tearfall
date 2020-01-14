@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.StringBuilder;
 import stonering.entity.crafting.IngredientOrder;
-import stonering.enums.items.TagEnum;
+import stonering.enums.items.ItemTagEnum;
 import stonering.util.global.StaticSkin;
 
 import java.util.List;
@@ -34,7 +34,7 @@ public class ItemPartRow extends Table {
     private String getDescriptionText() {
         String text = "any " + (ingredientOrder.ingredient.tag.isDisplayable() ? ingredientOrder.ingredient.tag.toString().toLowerCase() : "");
         if(ingredientOrder.ingredient.itemTypes.contains("any")) {
-            return text + (ingredientOrder.ingredient.tag != TagEnum.WATER ? " item" : ""); // TODO move condition to TagEnum
+            return text + (ingredientOrder.ingredient.tag != ItemTagEnum.WATER ? " item" : ""); // TODO move condition to TagEnum
         } else {
             return text + " " + enumerateList(ingredientOrder.ingredient.itemTypes, ", ", " or ");
         }

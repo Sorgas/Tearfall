@@ -1,4 +1,4 @@
-package stonering.entity.plants;
+package stonering.entity.plant;
 
 import stonering.enums.plants.PlantType;
 import stonering.game.model.system.PlantContainer;

@@ -1,11 +1,11 @@
-package stonering.entity.plants.aspects;
+package stonering.entity.plant.aspects;
 
 import stonering.entity.Aspect;
 import stonering.entity.Entity;
 import stonering.game.model.system.GameTime;
-import stonering.entity.plants.AbstractPlant;
-import stonering.entity.plants.Plant;
-import stonering.entity.plants.Tree;
+import stonering.entity.plant.AbstractPlant;
+import stonering.entity.plant.Plant;
+import stonering.entity.plant.Tree;
 import stonering.enums.plants.PlantType;
 import stonering.enums.time.TimeUnitEnum;
 import stonering.game.GameMvc;

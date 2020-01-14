@@ -1,21 +1,19 @@
 package stonering.entity.job.action;
 
 import stonering.entity.item.Item;
-import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.job.action.target.EntityActionTarget;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
-import stonering.entity.unit.aspects.health.HealthAspect;
 import stonering.entity.unit.aspects.needs.FoodNeed;
 import stonering.enums.action.ActionTargetTypeEnum;
-import stonering.enums.items.TagEnum;
+import stonering.enums.items.ItemTagEnum;
 
 import static stonering.entity.job.action.ActionConditionStatusEnum.FAIL;
 import static stonering.entity.job.action.ActionConditionStatusEnum.OK;
 
 /**
  * Action for consuming edible items and satisfying {@link FoodNeed}.
- * Edible is an item tag, see {@link TagEnum}.
+ * Edible is an item tag, see {@link ItemTagEnum}.
  *
  * @author Alexander on 30.09.2019.
  */
@@ -27,7 +25,7 @@ public class EatAction extends Action {
         this.item = item;
         //TODO create action to put food to table and use dishes.
         startCondition = () -> {
-            if(!item.tags.contains(TagEnum.EDIBLE)) return FAIL; // item is not edible
+            if(!item.tags.contains(ItemTagEnum.EDIBLE)) return FAIL; // item is not edible
             if(checkBetterFood()) return FAIL; // better food is available, recreate.
             //TODO if tables available, use
             //TODO if dishes available, use

@@ -1,6 +1,6 @@
 package stonering.generators.localgen.generators.flora;
 
-import stonering.entity.plants.SubstratePlant;
+import stonering.entity.plant.SubstratePlant;
 import stonering.enums.plants.PlantTypeMap;
 import stonering.enums.plants.PlantType;
 import stonering.exceptions.DescriptionNotFoundException;

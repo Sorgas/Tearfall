@@ -35,7 +35,7 @@ public class PlantType {
     }
 
     public int getMaxAge() {
-        return lifeStages.get(lifeStages.size() - 1).getStageEnd();
+        return lifeStages.get(lifeStages.size() - 1).stageEnd;
     }
 
     public boolean isTree() {
