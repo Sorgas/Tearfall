@@ -1,8 +1,7 @@
 package stonering.entity.item.selectors;
 
 import stonering.entity.item.Item;
-import stonering.enums.items.TagEnum;
-import stonering.enums.materials.MaterialMap;
+import stonering.enums.items.ItemTagEnum;
 
 /**
  * Selects any item with given type name and tag.
@@ -11,9 +10,9 @@ import stonering.enums.materials.MaterialMap;
  */
 public class AnyMaterialTagItemSelector extends ItemSelector {
     private String name;         // item type name
-    private TagEnum tag;
+    private ItemTagEnum tag;
 
-    public AnyMaterialTagItemSelector(String name, TagEnum tag) {
+    public AnyMaterialTagItemSelector(String name, ItemTagEnum tag) {
         this.name = name;
         this.tag = tag;
     }

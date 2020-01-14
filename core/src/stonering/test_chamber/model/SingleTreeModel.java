@@ -1,12 +1,12 @@
 package stonering.test_chamber.model;
 
 import stonering.entity.item.Item;
-import stonering.entity.plants.AbstractPlant;
-import stonering.entity.plants.Tree;
+import stonering.entity.plant.AbstractPlant;
+import stonering.entity.plant.Tree;
 import stonering.entity.unit.Unit;
 import stonering.exceptions.DescriptionNotFoundException;
 import stonering.game.model.system.item.ItemContainer;
-import stonering.game.model.system.PlantContainer;
+import stonering.game.model.system.plant.PlantContainer;
 import stonering.game.model.system.unit.UnitContainer;
 import stonering.generators.creatures.CreatureGenerator;
 import stonering.generators.items.ItemGenerator;

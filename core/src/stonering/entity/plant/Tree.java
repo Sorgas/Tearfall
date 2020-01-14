@@ -1,7 +1,8 @@
-package stonering.entity.plants;
+package stonering.entity.plant;
 
+import stonering.entity.plant.aspects.PlantGrowthAspect;
 import stonering.enums.plants.PlantType;
-import stonering.game.model.system.PlantContainer;
+import stonering.game.model.system.plant.PlantContainer;
 import stonering.util.geometry.Position;
 
 import java.util.List;
@@ -15,8 +16,8 @@ import java.util.List;
 public class Tree extends AbstractPlant {
     private PlantBlock[][][] blocks; //TODO replace with map(vector from stomp, block)
 
-    public Tree(PlantType type, int age) {
-        super(type, age);
+    public Tree(PlantType type) {
+        super(type);
     }
 
     public PlantBlock[][][] getBlocks() {
@@ -25,11 +26,6 @@ public class Tree extends AbstractPlant {
 
     public void setBlocks(PlantBlock[][][] blocks) {
         this.blocks = blocks;
-    }
-
-    @Override
-    public boolean isHarvestable() {
-        return getCurrentStage().harvestProduct != null;
     }
 
     public PlantBlock getBlock(Position position) {
@@ -41,7 +37,7 @@ public class Tree extends AbstractPlant {
      * @return position of [0,0,0] block of tree on the map.
      */
     public Position getArrayStartPosition() {
-        List<Integer> treeForm = getCurrentStage().treeForm;
+        List<Integer> treeForm = getAspect(PlantGrowthAspect.class).getCurrentStage().treeForm;
         int radius = treeForm.get(0);
         return Position.sub(position, radius, radius, treeForm.get(2));
     }

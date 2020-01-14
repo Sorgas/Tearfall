@@ -1,10 +1,10 @@
 package stonering.generators.items;
 
-import stonering.enums.items.TagEnum;
+import stonering.enums.items.ItemTagEnum;
 import stonering.enums.plants.PlantBlocksTypeEnum;
 import stonering.entity.item.Item;
-import stonering.entity.plants.AbstractPlant;
-import stonering.entity.plants.PlantBlock;
+import stonering.entity.plant.AbstractPlant;
+import stonering.entity.plant.PlantBlock;
 import stonering.enums.plants.PlantProduct;
 import stonering.util.global.Logger;
 
@@ -52,7 +52,7 @@ public class PlantProductGenerator {
         if (product == null) return null;
         Item productItem = itemGenerator.generateItem(product.name, block.getMaterial(), null);
         for (String tag : product.tags) {
-            productItem.tags.add(TagEnum.get(tag));
+            productItem.tags.add(ItemTagEnum.get(tag));
         }
         return productItem;
     }

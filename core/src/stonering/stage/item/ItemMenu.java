@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import stonering.entity.item.Item;
 import stonering.entity.unit.aspects.RenderAspect;
-import stonering.enums.items.TagEnum;
+import stonering.enums.items.ItemTagEnum;
 import stonering.game.GameMvc;
 import stonering.util.global.Logger;
 import stonering.util.global.StaticSkin;
@@ -39,7 +39,7 @@ public class ItemMenu extends Window {
         Table table = new Table();
         table.add(new Image(item.getAspect(RenderAspect.class).region)).row();
         VerticalGroup tags = new VerticalGroup();
-        for (TagEnum tag : item.tags) {
+        for (ItemTagEnum tag : item.tags) {
             if (tag.isDisplayable()) tags.addActor(new Label(tag.name(), StaticSkin.getSkin()));
         }
         tags.columnAlign(Align.left);

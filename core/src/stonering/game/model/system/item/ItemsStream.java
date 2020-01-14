@@ -2,7 +2,7 @@ package stonering.game.model.system.item;
 
 import stonering.entity.item.Item;
 import stonering.entity.item.selectors.ItemSelector;
-import stonering.enums.items.TagEnum;
+import stonering.enums.items.ItemTagEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
@@ -30,13 +30,13 @@ public class ItemsStream {
         stream = container.entities.stream();
     }
 
-    public ItemsStream filterByTag(TagEnum tag) {
+    public ItemsStream filterByTag(ItemTagEnum tag) {
         stream = stream.filter(item -> item.tags.contains(tag));
         return this;
     }
 
     public ItemsStream filterByTag(String tag) {
-        return filterByTag(TagEnum.get(tag));
+        return filterByTag(ItemTagEnum.get(tag));
     }
 
     public ItemsStream filterByType(String type) {

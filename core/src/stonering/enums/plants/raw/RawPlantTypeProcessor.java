@@ -14,7 +14,7 @@ import static stonering.enums.generation.PlantPlacingTagEnum.*;
  *
  * @author Alexander_Kuzyakov on 30.04.2019.
  */
-public class PlantTypeProcessor {
+public class RawPlantTypeProcessor {
     private Set<Integer> allMonthsSet = new HashSet<>(Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11));
 
     public PlantType processRawType(RawPlantType rawType) {
@@ -53,10 +53,8 @@ public class PlantTypeProcessor {
         PlantLifeStage stage = new PlantLifeStage();
         stage.titlePrefixSuffix = rawStage.titlePrefixSuffix;
         stage.stageLength = rawStage.stageLength;
-        if (rawStage.harvestProduct != null)
-            stage.harvestProduct = processHarvestProduct(rawStage.harvestProduct);
+        if (rawStage.harvestProduct != null) stage.harvestProduct = processHarvestProduct(rawStage.harvestProduct);
         stage.cutProducts = rawStage.cutProducts;
-        stage.xOffset = rawStage.xOffset;
         stage.color = rawStage.color;
         stage.treeForm = rawStage.treeForm;
         return stage;
@@ -81,11 +79,20 @@ public class PlantTypeProcessor {
     private PlantProduct processHarvestProduct(List<String> productArgs) {
         PlantProduct product = new PlantProduct();
         product.name = productArgs.get(0);
-        product.setFormulaArgs(Arrays.stream(productArgs.get(1).split("-")).map(s -> Integer.valueOf(s)).collect(Collectors.toList()).toArray(new Integer[3]));
+        product.setFormulaArgs(Arrays.stream(productArgs.get(1).split("-")).map(Integer::valueOf).collect(Collectors.toList()).toArray(new Integer[3]));
         if ("all".equals(productArgs.get(2))) {
             product.months = allMonthsSet;
         } else {
-            product.months = Arrays.stream(productArgs.get(2).split(",")).map(s -> Integer.valueOf(s)).collect(Collectors.toSet());
+            product.months = Arrays.stream(productArgs.get(2).split(",")).map(Integer::valueOf).collect(Collectors.toSet());
+        }
+        if (productArgs.size() > 3 && productArgs.get(3) != null) {
+            product.tags.addAll(Arrays.asList(productArgs.get(3).split("/")));
+        }
+        if (productArgs.size() > 4 && productArgs.get(4) != null) { // maps params of aspects put in '()' to names of aspects put before '('
+            Arrays.asList(productArgs.get(4).split("/")).forEach(aspect -> {
+                String[] aspectParts = aspect.split("\\(");
+                product.aspectParams.put(aspectParts[0], aspectParts.length > 1 ? aspectParts[1].replace(")", "") : null);
+            });
         }
         return product;
     }

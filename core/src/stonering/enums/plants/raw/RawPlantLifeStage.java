@@ -14,5 +14,4 @@ public class RawPlantLifeStage {
     public List<String> cutProducts;
     public String color = "0xffffffff"; // white is default
     public List<Integer> treeForm; // not null only for trees
-    public int xOffset;
 }

@@ -1,8 +1,8 @@
 package stonering.game.model.system;
 
-import stonering.entity.plants.AbstractPlant;
-import stonering.entity.plants.PlantBlock;
-import stonering.entity.plants.SubstratePlant;
+import stonering.entity.plant.AbstractPlant;
+import stonering.entity.plant.PlantBlock;
+import stonering.entity.plant.SubstratePlant;
 import stonering.enums.time.TimeUnitEnum;
 import stonering.util.geometry.Position;
 import stonering.util.global.Initable;

@@ -7,7 +7,7 @@ import stonering.entity.job.action.Action;
 import stonering.entity.job.action.EatAction;
 import stonering.entity.unit.aspects.health.HealthAspect;
 import stonering.enums.action.TaskPriorityEnum;
-import stonering.enums.items.TagEnum;
+import stonering.enums.items.ItemTagEnum;
 import stonering.enums.unit.health.HealthParameterEnum;
 import stonering.enums.unit.health.HungerParameter;
 import stonering.game.model.system.unit.CreatureHealthSystem;
@@ -39,7 +39,7 @@ public class FoodNeed extends Need {
             case HEALTH_NEEDS: // eat prepared items and raw vegetables
             case SAFETY: // eat raw items
             case LIFE: // eat spoiled items
-                if (item.tags.contains(TagEnum.SPOILED) || item.tags.contains(TagEnum.RAW)) return null;
+                if (item.tags.contains(ItemTagEnum.SPOILED) || item.tags.contains(ItemTagEnum.RAW)) return null;
                 Action eatAction = new EatAction(item);
                 return new Task("eat", eatAction, priority.VALUE);
         }

@@ -5,7 +5,7 @@ import stonering.entity.item.Item;
 import stonering.entity.job.Task;
 import stonering.entity.unit.aspects.health.HealthAspect;
 import stonering.enums.action.TaskPriorityEnum;
-import stonering.enums.items.TagEnum;
+import stonering.enums.items.ItemTagEnum;
 import stonering.enums.unit.health.HealthParameterEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.system.item.ItemContainer;
@@ -45,6 +45,6 @@ public class WaterNeed extends Need {
     }
 
     private Item findBestDrink(Entity entity) {
-        return GameMvc.instance().model().get(ItemContainer.class).util.getNearestItemWithTag(entity.position, TagEnum.DRINKABLE);
+        return GameMvc.instance().model().get(ItemContainer.class).util.getNearestItemWithTag(entity.position, ItemTagEnum.DRINKABLE);
     }
 }

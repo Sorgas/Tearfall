@@ -1,8 +1,8 @@
 package stonering.entity.job.action.target;
 
 import stonering.util.geometry.Position;
-import stonering.entity.plants.AbstractPlant;
-import stonering.entity.plants.Plant;
+import stonering.entity.plant.AbstractPlant;
+import stonering.entity.plant.Plant;
 
 /**
  * If target plant is tree, refreshes target position as some tree parts are harvested.

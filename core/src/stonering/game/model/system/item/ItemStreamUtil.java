@@ -5,7 +5,7 @@ import stonering.entity.crafting.BuildingComponentVariant;
 import stonering.entity.crafting.IngredientOrder;
 import stonering.entity.item.Item;
 import stonering.entity.item.selectors.ItemSelector;
-import stonering.enums.items.TagEnum;
+import stonering.enums.items.ItemTagEnum;
 import stonering.enums.items.recipe.Ingredient;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
@@ -69,7 +69,7 @@ public class ItemStreamUtil {
                 .toList();
     }
 
-    public Item getNearestItemWithTag(Position position, TagEnum tag) {
+    public Item getNearestItemWithTag(Position position, ItemTagEnum tag) {
         return new ItemsStream(container.entities)
                 .filterByTag(tag)
                 .getNearestTo(position);

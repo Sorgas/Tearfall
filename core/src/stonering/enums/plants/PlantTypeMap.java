@@ -2,7 +2,7 @@ package stonering.enums.plants;
 
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
-import stonering.enums.plants.raw.PlantTypeProcessor;
+import stonering.enums.plants.raw.RawPlantTypeProcessor;
 import stonering.enums.plants.raw.RawPlantType;
 import stonering.exceptions.DescriptionNotFoundException;
 import stonering.util.global.FileLoader;
@@ -46,11 +46,8 @@ public class PlantTypeMap {
      */
     private void loadTypesFileToMap(String filePath, Map<String, PlantType> map) {
         List<RawPlantType> elements = json.fromJson(ArrayList.class, RawPlantType.class, FileLoader.getFile(filePath));
-        PlantTypeProcessor processor = new PlantTypeProcessor();
-        for (RawPlantType rawType : elements) {
-            PlantType type = processor.processRawType(rawType);
-            map.put(rawType.name, type);
-        }
+        RawPlantTypeProcessor processor = new RawPlantTypeProcessor();
+        elements.forEach(rawType -> map.put(rawType.name, processor.processRawType(rawType)));
         Logger.LOADING.logDebug(map.keySet().size() + " loaded from " + filePath);
     }
 
