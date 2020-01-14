@@ -11,11 +11,7 @@ import stonering.game.model.entity_selector.aspect.SelectionAspect;
 import stonering.game.model.entity_selector.aspect.SelectorBoxAspect;
 import stonering.game.model.system.EntitySelectorSystem;
 import stonering.game.model.system.ZoneContainer;
-import stonering.util.geometry.Position;
-import stonering.util.global.Pair;
 import stonering.widget.ToolbarSubMenuMenu;
-
-import java.util.Optional;
 
 /**
  * Contains buttons for designating zones.
@@ -43,10 +39,10 @@ public class ToolbarZonesMenu extends ToolbarSubMenuMenu {
                     EntitySelector selector = model.get(EntitySelectorSystem.class).selector;
                     ZoneContainer container = model.get(ZoneContainer.class);
                     SelectionAspect aspect = selector.getAspect(SelectionAspect.class);
-                    aspect.selectPreHandler = () -> {
+                    aspect.selectPreHandler = () -> { // creates new zone in context
                         aspect.selectionScope.put("zone", container.createZone(selector.position, type));
                     };
-                    selector.getAspect(SelectionAspect.class).selectHandler = position -> {
+                    aspect.selectHandler = position -> { // adds each tile to zone from context
                         container.addPositionToZone((Zone) aspect.selectionScope.get("zone"), position);
                     };
                 }
@@ -59,10 +55,12 @@ public class ToolbarZonesMenu extends ToolbarSubMenuMenu {
                 GameModel model = GameMvc.instance().model();
                 EntitySelector selector = model.get(EntitySelectorSystem.class).selector;
                 ZoneContainer container = model.get(ZoneContainer.class);
-                selector.getAspect(SelectionAspect.class).selectHandler = () -> {
-                    Position boxStart = selector.getAspect(SelectorBoxAspect.class).boxStart;
-                    Zone zone = container.getZone(boxStart); // tiles in selected area will get this zone, and removed from previous.
-                    container.updateZones(boxStart, selector.position.clone(), zone);
+                SelectionAspect aspect = selector.getAspect(SelectionAspect.class);
+                aspect.selectPreHandler = () -> { // saves zone in box start to context
+                    aspect.selectionScope.put("zone", container.getZone(selector.getAspect(SelectorBoxAspect.class).boxStart));
+                };
+                aspect.selectHandler = position -> { // sets each tile in box to zone from context
+                    container.updateZone(position, (Zone) aspect.selectionScope.get("zone"));
                 };
 
             }

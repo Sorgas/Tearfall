@@ -4,8 +4,6 @@ import stonering.util.global.Logger;
 import stonering.util.validation.PositionValidator;
 import stonering.entity.zone.Zone;
 import stonering.enums.ZoneTypesEnum;
-import stonering.game.GameMvc;
-import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 
 import java.util.*;
@@ -47,55 +45,24 @@ public class ZoneContainer extends EntityContainer<Zone> {
         }
     }
 
-    /**
-     * Sets all tiles between positions to given zone.
-     * Tiles, invalid for new zone will be fried too.
-     */
-    public void updateZones(Position pos1, Position pos2, Zone zone) {
-        Position cachePos = new Position(0, 0, 0);
+    public void updateZone(Position position, Zone zone) {
+        Zone oldZone = zoneMap.remove(position);
+        if (oldZone != null) zone.getTiles().remove(position);
         if (zone != null) {
-            for (cachePos.x = Math.min(pos1.x, pos2.x); cachePos.x <= Math.max(pos1.x, pos2.x); cachePos.x++) {
-                for (cachePos.y = Math.min(pos1.y, pos2.y); cachePos.y <= Math.max(pos1.y, pos2.y); cachePos.y++) {
-                    for (cachePos.z = Math.min(pos1.z, pos2.z); cachePos.z <= Math.max(pos1.z, pos2.z); cachePos.z++) {
-                        if (zone.getType().getValidator().validate(cachePos)) setTile(cachePos.clone(), zone);
-                    }
-                }
-            }
-        } else {
-            for (cachePos.x = Math.min(pos1.x, pos2.x); cachePos.x <= Math.max(pos1.x, pos2.x); cachePos.x++) {
-                for (cachePos.y = Math.min(pos1.y, pos2.y); cachePos.y <= Math.max(pos1.y, pos2.y); cachePos.y++) {
-                    for (cachePos.z = Math.min(pos1.z, pos2.z); cachePos.z <= Math.max(pos1.z, pos2.z); cachePos.z++) {
-                        freeTile(cachePos);
-                    }
-                }
-            }
+            zoneMap.put(position, zone);
+            zone.getTiles().add(position.clone());
         }
         Logger.ZONES.logDebug("Zone " + zone + " updated");
         recountZones();
     }
 
     private void recountZones() {
-        for(Iterator<Zone> iterator = entities.iterator(); iterator.hasNext();) {
+        for (Iterator<Zone> iterator = entities.iterator(); iterator.hasNext(); ) {
             Zone zone = iterator.next();
-            if(!zone.getTiles().isEmpty()) continue;
+            if (!zone.getTiles().isEmpty()) continue;
             iterator.remove();
             Logger.ZONES.logDebug("Zone " + zone + " deleted");
         }
-    }
-
-    /**
-     * Frees tile from any zones.
-     * @param pos
-     */
-    public void freeTile(Position pos) {
-        Zone zone = zoneMap.remove(pos);
-        if (zone != null) zone.getTiles().remove(pos);
-    }
-
-    private void setTile(Position pos, Zone zone) {
-        freeTile(pos);
-        zoneMap.put(pos, zone);
-        zone.getTiles().add(pos);
     }
 
     public Zone getZone(Position pos) {

@@ -89,7 +89,7 @@ public class FarmZone extends Zone {
      */
     private boolean isTileValid(PositionValidator validator, Position tile, LocalMap localMap) {
         if (validator.validate(tile)) return true;
-        GameMvc.instance().model().get(ZoneContainer.class).updateZones(tile, tile, null); // remove invalid tile
+        GameMvc.instance().model().get(ZoneContainer.class).updateZone(tile, null); // remove invalid tile
         return false;
     }
 
