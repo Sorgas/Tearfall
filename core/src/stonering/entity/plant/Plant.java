@@ -14,7 +14,7 @@ public class Plant extends AbstractPlant {
     public Plant(Position position, PlantType type, int age) {
         super(position, type, age);
     }
-
+t
     public Plant(PlantType type, int age) {
         super(type, age);
     }

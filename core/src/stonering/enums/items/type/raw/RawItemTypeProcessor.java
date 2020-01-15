@@ -12,14 +12,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Processes {@link RawItemType} into {@link ItemType} (creates type Aspect).
+ * Processes {@link RawItemType} into {@link ItemType} (creates type aspects).
+ * In definition files, aspects configured as strings with format : "wear(humanoid,foot,medium)".
  * @author Alexander on 09.09.2019.
  */
 public class RawItemTypeProcessor {
 
     public ItemType process(RawItemType rawType) {
         ItemType type = new ItemType(rawType);
-        createParts(type, rawType);
+//        createParts(type, rawType);
         fillAspects(type, rawType); // item aspects
         rawType.typeAspects.forEach(args -> type.addAspect(provideAspect(args, type))); // type aspects
         return type;
@@ -43,20 +44,21 @@ public class RawItemTypeProcessor {
      */
     private void fillAspects(ItemType type, RawItemType rawType) {
         if (rawType.aspects == null || rawType.aspects.isEmpty()) return;
-        for (List<String> rawAspect : rawType.aspects) {
-            type.aspects.put(rawAspect.remove(0), rawAspect);
+        for (String aspectString : rawType.aspects) {
+            String [] aspectStringParts = aspectString.split("\\(");
+
+
         }
     }
 
-    private Aspect provideAspect(List<String> aspectDescription, ItemType type) {
-        if (aspectDescription.isEmpty()) {
-            Logger.LOADING.logWarn("Invalid type aspect description for item type" + type.name);
-            return null;
-        }
-        List<String> args = aspectDescription.subList(1, aspectDescription.size());
-        switch (aspectDescription.get(0)) {
+    private Aspect createAspect(String aspectString, ItemType type) {
+        String[] aspectParts = aspectString.split("\\(");
+        String aspectName = aspectParts[0];
+        String[] aspectParams = aspectParts[1].replace(")", "").split(",");
+
+        switch (aspectName) {
             case "value": {
-                return new ValueAspect(type, Float.valueOf(aspectDescription.get(1)));
+                return new ValueAspect(type, Float.parseFloat(aspectParams[0]));
             }
             case "fuel": {
                 return new FuelAspect(type);
@@ -64,7 +66,11 @@ public class RawItemTypeProcessor {
             case "wear": {
                 return new WearAspect(type, args);
             }
+            default: {
+                Logger.LOADING.logWarn("Item type aspect with name " + type.name);
+                return null;
+
+            }
         }
-        return null;
     }
 }

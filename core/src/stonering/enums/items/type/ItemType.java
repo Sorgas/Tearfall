@@ -20,7 +20,7 @@ public class ItemType extends Entity {
     public final String title;                               // displayable name
     public final String description;                         // displayable description
     public final ToolItemType tool;                          // is set if this item could be used as tool
-    public final List<ItemPartType> parts;              // defines parts of item. first one is main
+//    public final List<ItemPartType> parts;              // defines parts of item. first one is main
     public Map<String, List<String>> aspects;           // other aspects, item aspects filled from this on generation.
 
     // render
@@ -34,7 +34,7 @@ public class ItemType extends Entity {
         description = rawType.description;
         tool = rawType.tool;
         atlasXY = rawType.atlasXY;
-        parts = new ArrayList<>();
+//        parts = new ArrayList<>();
         aspects = new HashMap<>();
     }
 

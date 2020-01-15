@@ -89,7 +89,7 @@ public class ItemGenerator {
         }
         item.tags.add(order.recipe.newTag);
         for (String key : order.parts.keySet()) {
-            //TODO add part
+            //TODO add part(non MVP)
         }
         if (order.recipe.newTag != null) item.tags.add(order.recipe.newTag);
         generateItemAspects(item);

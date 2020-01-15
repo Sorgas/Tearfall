@@ -79,5 +79,47 @@
             "treeForm": ["2", "5", "2", "1", "5"]
         }
     ]
+}, {
+    "name": "apple_tree",
+    "title": "Apple tree",
+    "description": "---",
+    "materialName": "wood",
+    "temperatureBounds": ["-40", "40"],
+    "rainfallBounds": ["0", "100"],
+    "placingTags": ["water_near", "water_far"],
+    "atlasXY": ["0", "1"],
+    "lifeStages": [
+        {
+            "titlePrefixSuffix": ["", "sapling"],
+            "stageLength": "12",
+            "cutProducts": ["branch", "root"],
+            "color": "0xffffffff",
+            "treeForm": ["0", "1", "1", "0", "0"]
+        }, {
+            "titlePrefixSuffix": ["young", ""],
+            "stageLength": "60",
+            "cutProducts": ["branch", "root", "log"],
+            "color": "0xffffffff",
+            "treeForm": ["1", "3", "2", "1", "0"],
+            "harvestProduct":["seed", "1-1-1", "all", null, "seed(farm_test_plant)"],
+            "seedItem": {
+                "baseItem": "generic_seed",
+                "title": "Test seed",
+                "atlasXY": ["11", "0"]
+            },
+            "seedsPerMonth": "2"
+        }, {
+            "stageLength": "180",
+            "cutProducts": ["branch", "root", "log"],
+            "color": "0xffffffff",
+            "treeForm": ["2", "5", "2", "1", "5"]
+        }, {
+            "titlePrefixSuffix": ["old", ""],
+            "stageLength": "240",
+            "cutProducts": ["branch", "root", "log"],
+            "color": "0xffffffff",
+            "treeForm": ["2", "5", "2", "1", "5"]
+        }
+    ]
 }
 ]

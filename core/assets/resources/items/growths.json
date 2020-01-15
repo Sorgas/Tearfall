@@ -1,13 +1,18 @@
 // items that are grown on plants are defined here.
 [
     {
-        "name": "seed",
-        "description": "Can give birth to a plant",
-        "typeAspects": [["value", "0"]],
-        "aspects": [["seed"]],
+        "name": "generic_seed",
+        "description": "Replace this description in plant definition.",
+        "aspects" : [],
         "atlasXY": ["11", "0"],
         "color": "0xffffffff"
     }, {
+    "name": "pine_cone",
+    "description": "Grows on pine.",
+
+    "atlasXY": ["11", "0"],
+    "color": "0xffffffff"
+}, {
     "name": "berry",
     "description": ".",
     "typeAspects": [["value", "0"]],
