@@ -15,11 +15,17 @@ import java.util.function.Consumer;
  * @author Alexander on 10.01.2020
  */
 public class ValidationAspect extends Aspect {
+    public PositionValidator defaultValidator;
     public PositionValidator validator;
     public Consumer<Boolean> validationConsumer;
 
     public ValidationAspect(Entity entity) {
         super(entity);
         validationConsumer = (status) -> {};
+        defaultValidator = position -> true;
+    }
+
+    public PositionValidator getValidator() {
+        return validator == null ? defaultValidator : validator;
     }
 }

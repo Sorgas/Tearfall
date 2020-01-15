@@ -27,7 +27,7 @@ public class SelectorBoxAspect extends Aspect {
         boxIterator = consumer -> {
             if (entity.position == null) return;
             Position internalBoxStart = boxStart != null ? boxStart : entity.position;
-            PositionValidator validator = entity.getAspect(ValidationAspect.class).validator;
+            PositionValidator validator = entity.getAspect(ValidationAspect.class).getValidator();
             for (int x = Math.min(internalBoxStart.x, entity.position.x); x <= Math.max(internalBoxStart.x, entity.position.x); x++) {
                 for (int y = Math.min(internalBoxStart.y, entity.position.y); y <= Math.max(internalBoxStart.y, entity.position.y); y++) {
                     for (int z = Math.min(internalBoxStart.z, entity.position.z); z <= Math.max(internalBoxStart.z, entity.position.z); z++) {
