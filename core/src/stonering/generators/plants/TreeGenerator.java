@@ -25,7 +25,8 @@ public class TreeGenerator {
 
     public Tree generateTree(String specimen, int age) throws DescriptionNotFoundException {
         PlantType type = PlantTypeMap.getInstance().getTreeType(specimen);
-        Tree tree = new Tree(type, age);
+        Tree tree = new Tree(type);
+        //TODO set age
         tree.setBlocks(createTreeBlocks(tree));
         tree.addAspect(new PlantGrowthAspect(tree));
         return tree;
@@ -42,8 +43,8 @@ public class TreeGenerator {
      * Creates tree blocks array
      */
     private PlantBlock[][][] createTreeBlocks(Tree tree) {
-        List<Integer> treeForm = tree.getCurrentStage().treeForm;
-        int material = MaterialMap.instance().getId(tree.getType().materialName);
+        List<Integer> treeForm = tree.type.lifeStages.get(tree.getAspect(PlantGrowthAspect.class).currentStage).treeForm;
+        int material = MaterialMap.instance().getId(tree.type.materialName);
         Random random = new Random();
         int center = treeForm.get(0);
         int rootsDepth = treeForm.get(2);
@@ -94,7 +95,7 @@ public class TreeGenerator {
 
     private PlantBlock createTreePart(int material, PlantBlocksTypeEnum blockType, Tree tree) {
         PlantBlock block = new PlantBlock(material, blockType.getCode());
-        int[] atlasXY = Arrays.copyOf(tree.getType().atlasXY, 2);
+        int[] atlasXY = Arrays.copyOf(tree.type.atlasXY, 2);
         atlasXY[0] += TreeTileMapping.getType(blockType.getCode()).getAtlasX();
         block.setAtlasXY(atlasXY);
         block.setPlant(tree);

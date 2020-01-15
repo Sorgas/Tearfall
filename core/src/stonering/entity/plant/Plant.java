@@ -11,17 +11,12 @@ import stonering.util.geometry.Position;
 public class Plant extends AbstractPlant {
     private PlantBlock block;
 
-    public Plant(Position position, PlantType type, int age) {
-        super(position, type, age);
-    }
-t
-    public Plant(PlantType type, int age) {
-        super(type, age);
+    public Plant(Position position, PlantType type) {
+        super(position, type);
     }
 
-    @Override
-    public boolean isHarvestable() {
-        return getCurrentStage().harvestProduct != null;
+    public Plant(PlantType type) {
+        super(type);
     }
 
     public PlantBlock getBlock() {

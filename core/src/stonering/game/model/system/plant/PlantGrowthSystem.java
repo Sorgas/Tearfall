@@ -19,13 +19,11 @@ import stonering.util.geometry.Position;
  * @author Alexander on 14.01.2020.
  */
 public class PlantGrowthSystem extends EntitySystem<AbstractPlant> {
-    public final int weekSize; // week size in hours
+    public int weekSize; // week size in hours
 
     public PlantGrowthSystem() {
         targetAspects.add(PlantGrowthAspect.class);
         updateInterval = TimeUnitEnum.HOUR;
-        GameTime calendar = GameMvc.instance().model().getCalendar();
-        weekSize = 7 * calendar.day.max;
     }
 
     /**
@@ -36,12 +34,12 @@ public class PlantGrowthSystem extends EntitySystem<AbstractPlant> {
     @Override
     public void update(AbstractPlant plant) {
         PlantGrowthAspect aspect = plant.getAspect(PlantGrowthAspect.class);
-        if (aspect.counter++ < weekSize) return; // week not ended
+        if (aspect.counter++ < getWeekSize()) return; // week not ended
         aspect.counter = 0;
         aspect.age++;
         if (aspect.age < plant.type.lifeStages.get(aspect.currentStage).stageEnd) return; // current stage not ended
         aspect.currentStage++;
-        if(aspect.currentStage >= plant.type.lifeStages.size()) {
+        if (aspect.currentStage >= plant.type.lifeStages.size()) {
             killPlant(plant, aspect); // last stage ended
         } else {
             applyNewStage(plant); // new stage started
@@ -72,5 +70,9 @@ public class PlantGrowthSystem extends EntitySystem<AbstractPlant> {
     private void killPlant(AbstractPlant plant, PlantGrowthAspect aspect) {
         aspect.dead = true; // TODO
         GameMvc.instance().model().get(PlantContainer.class).remove(plant, true);
+    }
+
+    private int getWeekSize() {
+        return weekSize == 0 ? (weekSize = 7 * GameMvc.instance().model().getCalendar().day.max) : weekSize;
     }
 }

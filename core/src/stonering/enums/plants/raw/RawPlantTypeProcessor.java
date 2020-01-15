@@ -1,11 +1,14 @@
 package stonering.enums.plants.raw;
 
+import stonering.enums.generation.PlantPlacingTagEnum;
+import stonering.enums.items.type.raw.RawItemTypeProcessor;
 import stonering.enums.plants.PlantLifeStage;
-import stonering.enums.plants.PlantProduct;
 import stonering.enums.plants.PlantType;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 import static stonering.enums.generation.PlantPlacingTagEnum.*;
 
@@ -16,20 +19,13 @@ import static stonering.enums.generation.PlantPlacingTagEnum.*;
  */
 public class RawPlantTypeProcessor {
     private Set<Integer> allMonthsSet = new HashSet<>(Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11));
+    private RawItemTypeProcessor processor = new RawItemTypeProcessor();
 
     public PlantType processRawType(RawPlantType rawType) {
-        PlantType type = new PlantType();
-        type.name = rawType.name;
-        type.title = rawType.title;
-        type.materialName = rawType.materialName;
-        type.description = rawType.description;
-        type.temperatureBounds = rawType.temperatureBounds; // min and max temperature
-        type.rainfallBounds = rawType.rainfallBounds;  // min and max painfall
-        type.plantingStart = rawType.plantingStart;
-        type.atlasXY = rawType.atlasXY;
+        PlantType type = new PlantType(rawType);
         processPlacingTags(rawType, type);
         processRawLifeStages(rawType, type);
-        type.setTypeFlags(); // should be after th setting of life stages
+        type.setTypeFlags();
         return type;
     }
 
@@ -39,7 +35,9 @@ public class RawPlantTypeProcessor {
     private void processRawLifeStages(RawPlantType rawType, PlantType type) {
         int totalAge = 0;
         for (RawPlantLifeStage rawStage : rawType.lifeStages) {
-            PlantLifeStage stage = processRawLifeStage(rawStage);
+            PlantLifeStage stage = new PlantLifeStage(rawStage);
+            if (rawStage.harvestProduct != null)
+                stage.harvestProduct = processor.processExtendedType(rawStage.harvestProduct, type.name);
             totalAge += rawStage.stageLength;
             stage.stageEnd = totalAge;
             type.lifeStages.add(stage);
@@ -47,53 +45,18 @@ public class RawPlantTypeProcessor {
     }
 
     /**
-     * Creates {@link PlantLifeStage} from {@link RawPlantLifeStage}
-     */
-    private PlantLifeStage processRawLifeStage(RawPlantLifeStage rawStage) {
-        PlantLifeStage stage = new PlantLifeStage();
-        stage.titlePrefixSuffix = rawStage.titlePrefixSuffix;
-        stage.stageLength = rawStage.stageLength;
-        if (rawStage.harvestProduct != null) stage.harvestProduct = processHarvestProduct(rawStage.harvestProduct);
-        stage.cutProducts = rawStage.cutProducts;
-        stage.color = rawStage.color;
-        stage.treeForm = rawStage.treeForm;
-        return stage;
-    }
-
-    /**
      * Creates list of enum elements based on raw list of string.
      * Adds default values.
      */
     private void processPlacingTags(RawPlantType rawType, PlantType type) {
-        for (String placingTag : rawType.placingTags) {
-            type.placingTags.addAll(getTag(placingTag));
-        }
-        if (Collections.disjoint(type.placingTags, WATER_GROUP)) type.placingTags.add(WATER_FAR);
-        if (Collections.disjoint(type.placingTags, SOIL_GROUP)) type.placingTags.add(SOIL_SOIL);
-        if (Collections.disjoint(type.placingTags, LIGHT_GROUP)) {
+        rawType.placingTags.stream().map(PlantPlacingTagEnum::getTag).forEach(type.placingTags::addAll);
+        if (Collections.disjoint(type.placingTags, WATER_GROUP))
+            type.placingTags.add(WATER_FAR); // water placement not defined
+        if (Collections.disjoint(type.placingTags, SOIL_GROUP))
+            type.placingTags.add(SOIL_SOIL); // soil type not defined
+        if (Collections.disjoint(type.placingTags, LIGHT_GROUP)) { // light requirements nod defined
             type.placingTags.add(LIGHT_HIGH);
             type.placingTags.add(LIGHT_LOW);
         }
-    }
-
-    private PlantProduct processHarvestProduct(List<String> productArgs) {
-        PlantProduct product = new PlantProduct();
-        product.name = productArgs.get(0);
-        product.setFormulaArgs(Arrays.stream(productArgs.get(1).split("-")).map(Integer::valueOf).collect(Collectors.toList()).toArray(new Integer[3]));
-        if ("all".equals(productArgs.get(2))) {
-            product.months = allMonthsSet;
-        } else {
-            product.months = Arrays.stream(productArgs.get(2).split(",")).map(Integer::valueOf).collect(Collectors.toSet());
-        }
-        if (productArgs.size() > 3 && productArgs.get(3) != null) {
-            product.tags.addAll(Arrays.asList(productArgs.get(3).split("/")));
-        }
-        if (productArgs.size() > 4 && productArgs.get(4) != null) { // maps params of aspects put in '()' to names of aspects put before '('
-            Arrays.asList(productArgs.get(4).split("/")).forEach(aspect -> {
-                String[] aspectParts = aspect.split("\\(");
-                product.aspectParams.put(aspectParts[0], aspectParts.length > 1 ? aspectParts[1].replace(")", "") : null);
-            });
-        }
-        return product;
     }
 }

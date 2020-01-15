@@ -1,5 +1,8 @@
 package stonering.enums.plants;
 
+import stonering.enums.items.type.ItemType;
+import stonering.enums.plants.raw.RawPlantLifeStage;
+
 import java.util.List;
 
 /**
@@ -12,8 +15,18 @@ public class PlantLifeStage {
     public String[] titlePrefixSuffix;
     public int stageLength;
     public int stageEnd; // calculated for faster checking
-    public PlantProduct harvestProduct; // products differ between stages
+    public ItemType harvestProduct; // products differ between stages
     public List<String> cutProducts;
     public String color;
     public List<Integer> treeForm; // is null for non-trees
+    public int productDropRatio;
+
+    public PlantLifeStage(RawPlantLifeStage rawStage) {
+        titlePrefixSuffix = rawStage.titlePrefixSuffix;
+        stageLength = rawStage.stageLength;
+        cutProducts = rawStage.cutProducts;
+        color = rawStage.color;
+        treeForm = rawStage.treeForm;
+        productDropRatio = rawStage.productDropRatio;
+    }
 }

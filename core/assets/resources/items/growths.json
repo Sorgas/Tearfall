@@ -3,25 +3,31 @@
     {
         "name": "generic_seed",
         "description": "Replace this description in plant definition.",
-        "aspects" : [],
+        "aspects" : ["seed()"],
         "atlasXY": ["11", "0"],
         "color": "0xffffffff"
     }, {
     "name": "pine_cone",
     "description": "Grows on pine.",
-
     "atlasXY": ["11", "0"],
     "color": "0xffffffff"
 }, {
     "name": "berry",
     "description": ".",
-    "typeAspects": [["value", "0"]],
+    "typeAspects": ["value(0)"],
     "atlasXY": ["8", "0"],
     "color": "0xffffffff"
 }, {
     "name": "mushroom",
     "description": "",
-    "typeAspects": [["value", "0"]],
+    "typeAspects": ["value(0)"],
+    "aspects": [],
+    "atlasXY": ["15", "0"],
+    "color": "0xffffffff"
+}, {
+    "name": "generic_fruit",
+    "description": "Replace this description in plant definition.",
+    "typeAspects": ["value(0)"],
     "aspects": [],
     "atlasXY": ["15", "0"],
     "color": "0xffffffff"

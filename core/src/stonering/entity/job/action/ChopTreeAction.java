@@ -44,7 +44,7 @@ public class ChopTreeAction extends Action {
             if (!checkTree()) return; // tree died during chopping. rare case // TODO move to progress acceptor
             PlantContainer container = GameMvc.instance().model().get(PlantContainer.class);
             AbstractPlant plant = container.getPlantInPosition(actionTarget.getPosition());
-            if (plant.type.isTree()) container.remove(plant, true);
+            if (plant.type.isTree) container.remove(plant, true);
         };
     }
 
@@ -53,7 +53,7 @@ public class ChopTreeAction extends Action {
      */
     public boolean checkTree() {
         PlantBlock block = GameMvc.instance().model().get(PlantContainer.class).getPlantBlock(actionTarget.getPosition());
-        if (block != null && block.getPlant().type.isTree()) return true;
+        if (block != null && block.getPlant().type.isTree) return true;
         Logger.TASKS.logDebug("No tree in target position");
         return false;
     }

@@ -101,13 +101,11 @@
             "cutProducts": ["branch", "root", "log"],
             "color": "0xffffffff",
             "treeForm": ["1", "3", "2", "1", "0"],
-            "harvestProduct":["seed", "1-1-1", "all", null, "seed(farm_test_plant)"],
-            "seedItem": {
-                "baseItem": "generic_seed",
-                "title": "Test seed",
-                "atlasXY": ["11", "0"]
-            },
-            "seedsPerMonth": "2"
+            "harvestProduct": {
+                "baseItem": "generic_fruit",
+                "title": "apple",
+                "description": "Juicy apple."
+            }
         }, {
             "stageLength": "180",
             "cutProducts": ["branch", "root", "log"],

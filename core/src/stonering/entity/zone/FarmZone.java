@@ -114,14 +114,15 @@ public class FarmZone extends Zone {
      */
     private boolean checkExistingPlant(AbstractPlant plant, Position tile, TaskContainer container) {
         if (plant == null) return true;
-        if (!plantType.equals(plant.getType())) { // cut unwanted plants
+        if (!plantType.equals(plant.type)) { // cut unwanted plants
             addTask(container.designationSystem.submitDesignation(tile, DesignationTypeEnum.CUT, 1), tile);
             return false;
         }
-        if (plant.isHarvestable()) { // harvest if ready
-            addTask(container.designationSystem.submitDesignation(tile, DesignationTypeEnum.HARVEST, 1), tile);
-            return false;
-        }
+        //TODO add produc aspect to plants
+//        if (plant.) { // harvest if ready
+//            addTask(container.designationSystem.submitDesignation(tile, DesignationTypeEnum.HARVEST, 1), tile);
+//            return false;
+//        }
         return true;
     }
 

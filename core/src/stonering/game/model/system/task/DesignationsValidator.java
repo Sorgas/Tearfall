@@ -50,12 +50,12 @@ public class DesignationsValidator {
                 PlantContainer container = GameMvc.instance().model().get(PlantContainer.class);
                 return ((SPACE.equals(blockOnMap) || FLOOR.equals(blockOnMap)))
                         && container.isPlantBlockExists(position)
-                        && container.getPlantBlock(position).getPlant().getType().isTree();
+                        && container.getPlantBlock(position).getPlant().type.isTree;
             }
             case HARVEST:
                 //TODO add harvesting from trees
                 PlantBlock block = GameMvc.instance().model().get(PlantContainer.class).getPlantBlock(position);
-                return block != null && !block.getPlant().getType().isTree() && !block.getPlant().getType().isSubstrate();
+                return block != null && !block.getPlant().type.isTree && !block.getPlant().type.isSubstrate;
         }
         return false;
     }

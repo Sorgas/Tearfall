@@ -34,7 +34,7 @@ public class LocalSubstrateGenerator extends LocalFloraGenerator {
     @Override
     protected Set<PlantType> filterPlantsByType() {
         Logger.GENERATION.log("generating small plants");
-        return PlantTypeMap.getInstance().getSubstrateTypes().values().stream().filter(PlantType::isSubstrate).collect(Collectors.toSet());
+        return PlantTypeMap.getInstance().getSubstrateTypes().values().stream().filter(type -> type.isSubstrate).collect(Collectors.toSet());
     }
 
     @Override

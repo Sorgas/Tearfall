@@ -57,7 +57,7 @@ public class PlantTypeMap {
 
     private void fillDomesticTypes() {
         domesticTypes = new HashMap<>();
-        plantTypes.values().stream().filter(type -> type.isPlant()).forEach(type -> domesticTypes.put(type.name, type));
+        plantTypes.values().stream().filter(type -> type.isPlant).forEach(type -> domesticTypes.put(type.name, type));
     }
 
     public PlantType getPlantType(String specimen) throws DescriptionNotFoundException {

@@ -1,6 +1,8 @@
 package stonering.entity.plant;
 
 import stonering.entity.Entity;
+import stonering.entity.plant.aspects.PlantGrowthAspect;
+import stonering.enums.plants.PlantLifeStage;
 import stonering.enums.plants.PlantType;
 import stonering.util.geometry.Position;
 
@@ -18,5 +20,9 @@ public abstract class AbstractPlant extends Entity {
     protected AbstractPlant(PlantType type) {
         super();
         this.type = type;
+    }
+
+    public PlantLifeStage getCurrentLifeStage() {
+        return getAspectOptional(PlantGrowthAspect.class).map(aspect -> type.lifeStages.get(aspect.currentStage)).orElse(null);
     }
 }

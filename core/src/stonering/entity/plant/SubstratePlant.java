@@ -10,16 +10,11 @@ import stonering.util.geometry.Position;
  */
 public class SubstratePlant extends Plant {
 
-    public SubstratePlant(Position position, PlantType type, int age) {
-        super(position, type, age);
+    public SubstratePlant(Position position, PlantType type) {
+        super(position, type);
     }
 
-    public SubstratePlant(PlantType type, int age) {
-        super(type, age);
-    }
-
-    @Override
-    public boolean isHarvestable() {
-        return false;
+    public SubstratePlant(PlantType type) {
+        super(type);
     }
 }

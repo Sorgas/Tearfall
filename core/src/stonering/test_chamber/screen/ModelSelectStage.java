@@ -21,7 +21,7 @@ import java.util.Map;
 public class ModelSelectStage extends UiStage {
     private TestChamberGame testChamberGame;
     private PlaceHolderSelectBox<String> selectBox;
-    private Map<String, Class> classMap;
+    private Map<String, Class<? extends GameModel>> classMap;
 
     public ModelSelectStage(TestChamberGame testChamberGame) {
         this.testChamberGame = testChamberGame;
@@ -66,7 +66,7 @@ public class ModelSelectStage extends UiStage {
 
     private GameModel getInstance(String name) {
         try {
-            return (GameModel) classMap.get(name).getConstructor(null).newInstance();
+            return classMap.get(name).getConstructor().newInstance();
         } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
             e.printStackTrace();
             return null;

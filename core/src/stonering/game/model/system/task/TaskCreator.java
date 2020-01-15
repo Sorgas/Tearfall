@@ -40,7 +40,10 @@ public class TaskCreator {
             case HARVEST: {
                 //TODO probably create multiple tasks for all tree blocks
                 PlantBlock block = GameMvc.instance().model().get(PlantContainer.class).getPlantBlock(designation.position);
-                if (block.getPlant().isHarvestable()) action = new PlantHarvestAction(block.getPlant());
+
+                //TODO add product aspect to plants
+//                if (block.getPlant().isHarvestable()) action = new PlantHarvestAction(block.getPlant());
+
                 break;
             }
         }

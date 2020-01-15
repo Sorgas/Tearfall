@@ -12,7 +12,7 @@ import java.util.Optional;
  *
  * @author Alexander Kuzyakov on 25.01.2018.
  */
-public abstract class Entity implements Serializable, Initable {
+public abstract class Entity implements Serializable, Initable, Cloneable {
     public final HashMap<Class, Aspect> aspects;
     public Position position;
 
@@ -23,6 +23,11 @@ public abstract class Entity implements Serializable, Initable {
     public Entity(Position position) {
         this();
         this.position = position != null ? position.clone() : null;
+    }
+
+    public Entity(Entity entity) {
+        this.position = entity.position;
+        this.aspects = new HashMap<>(entity.aspects); // add aspects cloning
     }
 
     public <T extends Aspect> boolean hasAspect(Class<T> type) {

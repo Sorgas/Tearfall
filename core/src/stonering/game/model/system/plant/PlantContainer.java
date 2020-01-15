@@ -53,8 +53,8 @@ public class PlantContainer extends EntityContainer<AbstractPlant> implements In
      * Entry method for placing new plants and trees on map.
      */
     public void place(AbstractPlant plant, Position position) {
-        if (plant.type.isTree()) placeTree((Tree) plant, position);
-        if (plant.type.isPlant()) placePlant((Plant) plant, position);
+        if (plant.type.isTree) placeTree((Tree) plant, position);
+        if (plant.type.isPlant) placePlant((Plant) plant, position);
     }
 
     /**
@@ -236,9 +236,9 @@ public class PlantContainer extends EntityContainer<AbstractPlant> implements In
     public void handleBlockRemoval(Position position) {
         if(!plantBlocks.containsKey(position)) return;
         PlantBlock block = plantBlocks.get(position);
-        if(block.getPlant().type.isTree()) {
+        if(block.getPlant().type.isTree) {
             //TODO trees should have underground roots, and stay while enough root blocks are in the soil
-        } else if(block.getPlant().type.isPlant()) {
+        } else if(block.getPlant().type.isPlant) {
             remove(block.getPlant(), true);
         }
     }

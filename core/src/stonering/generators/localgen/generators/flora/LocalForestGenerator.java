@@ -2,6 +2,8 @@ package stonering.generators.localgen.generators.flora;
 
 import stonering.entity.plant.PlantBlock;
 import stonering.entity.plant.Tree;
+import stonering.entity.plant.aspects.PlantGrowthAspect;
+import stonering.enums.plants.PlantLifeStage;
 import stonering.enums.plants.PlantTypeMap;
 import stonering.enums.plants.PlantType;
 import stonering.exceptions.DescriptionNotFoundException;
@@ -32,7 +34,7 @@ public class LocalForestGenerator extends LocalFloraGenerator {
     @Override
     protected Set<PlantType> filterPlantsByType() {
         Logger.GENERATION.log("generating trees");
-        return PlantTypeMap.getInstance().getTreeTypes().values().stream().filter(PlantType::isTree).collect(Collectors.toSet());
+        return PlantTypeMap.getInstance().getTreeTypes().values().stream().filter(type -> type.isTree).collect(Collectors.toSet());
     }
 
     @Override
@@ -63,8 +65,9 @@ public class LocalForestGenerator extends LocalFloraGenerator {
      */
     private boolean checkTreePlacing(Tree tree, int cx, int cy, int cz) {
         PlantBlock[][][] treeParts = tree.getBlocks();
-        int treeCenterZ = tree.getCurrentStage().treeForm.get(2);
-        int treeRadius = tree.getCurrentStage().treeForm.get(0);
+        PlantLifeStage stage = tree.type.lifeStages.get(tree.getAspect(PlantGrowthAspect.class).currentStage);
+        int treeCenterZ = stage.treeForm.get(2);
+        int treeRadius = stage.treeForm.get(0);
         for (int x = 0; x < treeParts.length; x++) {
             for (int y = 0; y < treeParts[x].length; y++) {
                 for (int z = 0; z < treeParts[x][y].length; z++) {

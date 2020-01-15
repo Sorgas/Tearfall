@@ -11,7 +11,11 @@
         "lifeStages":[
             {
                 "stageLength":"1",
-                "harvestProduct":["red_moss", "1-1-1", "all", ""]
+                "harvestProduct": {
+                    "baseItem": "berry",
+                    "title": "Red moss",
+                    "description": "Used for healing."
+                }
             }
         ]
     }, {
@@ -41,7 +45,11 @@
     "lifeStages":[
         {
             "stageLength":"1",
-            "harvestProduct":["blueberry", "1-1-1", "4,5,6"]
+            "harvestProduct": {
+                "baseItem": "berry",
+                "title": "blueberry",
+                "description": "Berry."
+            }
         }
     ]
 },
@@ -128,14 +136,12 @@
             {
                 "titlePrefixSuffix":["", ""],
                 "stageLength":"1",
-                "harvestProduct":["seed", "1-1-1", "all", null, "seed(farm_test_plant)"],
-                "seedItem": {
+                "harvestProduct": {
                     "baseItem": "generic_seed",
-                    "title": "Test seed",
-                    "atlasXY": ["11", "0"]
+                    "title": "test_seed",
+                    "description": "Description of test seed."
                 },
-                "seedsPerMonth": "2",
-                //TODO add drop products
+                "productDropRatio": "1"
             }
         ]
     }

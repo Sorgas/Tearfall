@@ -2,7 +2,7 @@
     {
         "name": "pickaxe",
         "description": "Tool for digging through rock and ore.",
-        "typeAspects" : [["value", "0"]],
+        "typeAspects" : ["value(0)"],
         "tool": {
             "actions": [
                 {
@@ -32,7 +32,7 @@
     }, {
     "name": "hoe",
     "description": "Tool for preparing soil for farming.",
-    "typeAspects" : [["value", "0"]],
+    "typeAspects" : ["value(0)"],
     "tool": {
         "actions": [
             {
@@ -62,7 +62,7 @@
 }, {
     "name": "sickle",
     "description": "Tool for harvesting plants.",
-    "typeAspects" : [["value", "0"]],
+    "typeAspects" : ["value(0)"],
     "tool": {
         "actions": [
             {
@@ -90,7 +90,7 @@
 }, {
     "name": "axe",
     "description": "Tool for chopping down trees.",
-    "typeAspects" : [["value", "0"]],
+    "typeAspects" : ["value(0)"],
     "tool": {
         "actions": [
             {
@@ -111,7 +111,7 @@
 }, {
     "name": "hammer",
     "description": "Smith tool.",
-    "typeAspects" : [["value", "0"]],
+    "typeAspects" : ["value(0)"],
     "tool": {
         "actions": [
             {
@@ -139,7 +139,7 @@
 }, {
     "name": "Kettle",
     "description": "Holds liquids and is used for cooking and alchemy.",
-    "typeAspects" : [["value", "0"]],
+    "typeAspects" : ["value(0)"],
     "tool": {
         "actions": [
             {
@@ -169,7 +169,7 @@
 }, {
     "name": "pan",
     "description": "Cooking tool.",
-    "typeAspects" : [["value", "0"]],
+    "typeAspects" : ["value(0)"],
     "tool": {
         "actions": [
             {
@@ -197,7 +197,7 @@
 }, {
     "name": "bow_saw",
     "description": "Used for sawing wood.",
-    "typeAspects" : [["value", "0"]],
+    "typeAspects" : ["value(0)"],
     "tool": {
         "actions": [
             {

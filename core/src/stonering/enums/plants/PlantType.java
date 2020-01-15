@@ -24,9 +24,20 @@ public class PlantType {
     public List<Integer> plantingStart = new ArrayList<>(); // months, when plant can be planted on farms
     public int[] atlasXY = new int[2];
 
-    private boolean isPlant;
-    private boolean isTree;
-    private boolean isSubstrate;
+    public boolean isPlant;
+    public boolean isTree;
+    public boolean isSubstrate;
+
+    public PlantType(RawPlantType rawType) {
+        name = rawType.name;
+        title = rawType.title;
+        materialName = rawType.materialName;
+        description = rawType.description;
+        temperatureBounds = rawType.temperatureBounds; // min and max temperature
+        rainfallBounds = rawType.rainfallBounds;  // min and max painfall
+        plantingStart = rawType.plantingStart;
+        atlasXY = rawType.atlasXY;
+    }
 
     public void setTypeFlags() {
         isTree = lifeStages.get(0).treeForm != null;
@@ -36,18 +47,6 @@ public class PlantType {
 
     public int getMaxAge() {
         return lifeStages.get(lifeStages.size() - 1).stageEnd;
-    }
-
-    public boolean isTree() {
-        return isTree;
-    }
-
-    public boolean isSubstrate() {
-        return isSubstrate;
-    }
-
-    public boolean isPlant() {
-        return isPlant;
     }
 
     @Override

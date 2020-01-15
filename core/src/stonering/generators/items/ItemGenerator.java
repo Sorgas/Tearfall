@@ -3,12 +3,10 @@ package stonering.generators.items;
 
 import stonering.entity.Aspect;
 import stonering.entity.crafting.ItemOrder;
-import stonering.entity.item.ItemPart;
 import stonering.entity.item.aspects.ItemContainerAspect;
 import stonering.entity.item.aspects.SeedAspect;
 import stonering.entity.unit.aspects.RenderAspect;
 import stonering.entity.item.aspects.FallingAspect;
-import stonering.enums.items.type.ItemPartType;
 import stonering.enums.items.type.ItemType;
 import stonering.enums.items.type.ItemTypeMap;
 import stonering.enums.materials.Material;
@@ -103,11 +101,11 @@ public class ItemGenerator {
         ItemType type = item.getType();
         item.addAspect(new RenderAspect(item, item.type.atlasXY, AtlasesEnum.items));
         for (String aspectName : defaultAspects.keySet()) {
-            if (!type.aspects.containsKey(aspectName))
+            if (!type.itemAspects.containsKey(aspectName))
                 item.addAspect(createItemAspect(aspectName, defaultAspects.get(aspectName)));
         }
-        for (String aspectName : type.aspects.keySet()) {
-            item.addAspect(createItemAspect(aspectName, type.aspects.get(aspectName)));
+        for (String aspectName : type.itemAspects.keySet()) {
+            item.addAspect(createItemAspect(aspectName, type.itemAspects.get(aspectName)));
         }
     }
 

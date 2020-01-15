@@ -1,5 +1,7 @@
 package stonering.enums.plants.raw;
 
+import stonering.enums.items.type.raw.RawItemType;
+
 import java.util.List;
 
 /**
@@ -10,8 +12,9 @@ import java.util.List;
 public class RawPlantLifeStage {
     public String[] titlePrefixSuffix;
     public int stageLength;
-    public List<String> harvestProduct;
+    public RawItemType harvestProduct;
     public List<String> cutProducts;
     public String color = "0xffffffff"; // white is default
     public List<Integer> treeForm; // not null only for trees
+    public int productDropRatio;
 }
