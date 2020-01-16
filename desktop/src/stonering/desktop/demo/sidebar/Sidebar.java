@@ -5,7 +5,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
 import com.badlogic.gdx.utils.Align;
 
 /**
@@ -26,13 +25,12 @@ public class Sidebar<T extends Actor> extends Container<ScrollPane> {
     public Sidebar(T actor, int align, float hideRatio) {
         this.actor = actor;
         this.hideRatio = hideRatio;
-        align = normalizeAlign(align);
-        this.actorWrapper = new Container<>(actor).align(align);
-        vertical = align == Align.top || align == Align.bottom;
+        align(normalizeAlign(align));
+        this.actorWrapper = new Container<>(actor).align(getAlign());
+        vertical = getAlign() == Align.top || getAlign() == Align.bottom;
         setActor(createPane(wrapActorWithWidening()));
         adjustSize(this, 1);
         createInterceptListener();
-        align(align);
     }
 
     private Container wrapActorWithWidening() {
@@ -62,6 +60,12 @@ public class Sidebar<T extends Actor> extends Container<ScrollPane> {
                 return false;
             }
         });
+    }
+
+    @Override
+    public Container<ScrollPane> align(int align) {
+        //TODO align all content
+        return super.align(normalizeAlign(align));
     }
 
     /**

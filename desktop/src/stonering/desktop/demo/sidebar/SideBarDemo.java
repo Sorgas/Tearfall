@@ -81,7 +81,7 @@ public class SideBarDemo extends Game {
             }
 
             private Container createContainer(int align) {
-                Container container = new Container(new AutoClosedSidebar<>(new ScrollList(align), align, 0.8f));
+                Container container = new Container(new AutoClosingSidebar<>(new ScrollList(align), align, 0.8f));
                 container.setFillParent(true);
                 container.align(align);
                 container.fillY();
