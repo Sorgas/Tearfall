@@ -39,6 +39,7 @@ public class EntitySelectorDrawer extends Drawer {
         //TODO add landscape dependant rendering
         SelectorBoxAspect aspect = selector.getAspect(SelectorBoxAspect.class);
         if (aspect.boxStart != null) {
+            System.out.println("drawing box");
             Position start = aspect.boxStart;
             int minX = Math.min(start.x, selector.position.x);
             int maxX = Math.max(start.x, selector.position.x);

@@ -49,7 +49,7 @@ public class SideBarDemo extends Game {
                 Container container = new Container<>(button);
                 container.align(Align.right).size(300, 300).setFillParent(true);
                 stage2.addActor(container);
-                stages = Stream.of(Align.right, Align.left, Align.bottom, Align.top)
+                stages = Stream.of(Align.right)
                         .map(this::createContainer)
                         .map(container1 -> {
                                     UiStage stageq = new UiStage();
