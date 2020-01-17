@@ -4,7 +4,10 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.enums.designations.DesignationTypeEnum;
+import stonering.game.GameMvc;
 import stonering.game.controller.controllers.designation.BoxDesignationSequence;
+import stonering.game.model.entity_selector.aspect.SelectionAspect;
+import stonering.game.model.system.EntitySelectorSystem;
 import stonering.widget.ToolbarSubMenuMenu;
 
 import static stonering.enums.designations.DesignationTypeEnum.*;
@@ -35,8 +38,10 @@ public class ToolbarDiggingMenu extends ToolbarSubMenuMenu {
         super.createButton(text, hotKey, new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                sequence.designationType = type;
+                SelectionAspect aspect = GameMvc.instance().model().get(EntitySelectorSystem.class).selector.getAspect(SelectionAspect.class);
+                aspect.selectHandler = position ->
 
+                sequence.designationType = type;
             }
         }, true);
     }

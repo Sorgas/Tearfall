@@ -8,13 +8,13 @@ import stonering.enums.plants.PlantLifeStage;
 import stonering.enums.time.TimeUnitEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.system.EntitySystem;
-import stonering.game.model.system.GameTime;
 import stonering.generators.plants.PlantGenerator;
 import stonering.generators.plants.TreeGenerator;
 import stonering.util.geometry.Position;
 
 /**
  * Rolls time for plants, increasing their age and changing {@link PlantLifeStage}.
+ *
  *
  * @author Alexander on 14.01.2020.
  */

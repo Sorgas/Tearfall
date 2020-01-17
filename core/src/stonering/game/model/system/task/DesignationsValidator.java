@@ -44,17 +44,14 @@ public class DesignationsValidator {
     }
 
     private boolean validatePlantDesignations(Position position, BlockTypesEnum blockOnMap, DesignationTypeEnum type) {
+        PlantContainer container = GameMvc.instance().model().get(PlantContainer.class);
         switch (type) {
-            case CHOP: {
-                //TODO designate tree as whole
-                PlantContainer container = GameMvc.instance().model().get(PlantContainer.class);
+            case CHOP: //TODO designate tree as whole
                 return ((SPACE.equals(blockOnMap) || FLOOR.equals(blockOnMap)))
                         && container.isPlantBlockExists(position)
                         && container.getPlantBlock(position).getPlant().type.isTree;
-            }
-            case HARVEST:
-                //TODO add harvesting from trees
-                PlantBlock block = GameMvc.instance().model().get(PlantContainer.class).getPlantBlock(position);
+            case HARVEST: //TODO add harvesting from trees
+                PlantBlock block = container.getPlantBlock(position);
                 return block != null && !block.getPlant().type.isTree && !block.getPlant().type.isSubstrate;
         }
         return false;

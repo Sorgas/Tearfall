@@ -19,6 +19,7 @@ public class PlantLifeStage {
     public List<String> cutProducts;
     public String color;
     public List<Integer> treeForm; // is null for non-trees
+    public int productGrowRatio;
     public int productDropRatio;
 
     public PlantLifeStage(RawPlantLifeStage rawStage) {
@@ -28,5 +29,6 @@ public class PlantLifeStage {
         color = rawStage.color;
         treeForm = rawStage.treeForm;
         productDropRatio = rawStage.productDropRatio;
+        productGrowRatio = rawStage.productGrowRatio;
     }
 }

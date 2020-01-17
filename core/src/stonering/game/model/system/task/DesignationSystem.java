@@ -10,12 +10,10 @@ import stonering.enums.designations.PlaceValidatorsEnum;
 import stonering.game.GameMvc;
 import stonering.game.controller.controllers.designation.BuildingDesignationSequence;
 import stonering.game.model.local_map.LocalMap;
-import stonering.game.model.system.EntitySystem;
 import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
 
 import static stonering.enums.action.TaskStatusEnum.FAILED;
-import static stonering.enums.action.TaskStatusEnum.OPEN;
 
 /**
  * Creates tasks for designations, recreates failed tasks.
@@ -45,7 +43,7 @@ public class DesignationSystem {
     }
 
     private void createTaskForDesignation(Designation designation) {
-        Logger.TASKS.logError("write some code");
+        Logger.TASKS.logError("write some code"); //TODO
     }
 
     /**

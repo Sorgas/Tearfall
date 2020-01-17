@@ -80,6 +80,10 @@ public class Toolbar extends Container<Table> {
         Logger.UI.logDebug("Submenus of " + menu.getClass().getSimpleName() + " removed from toolbar");
     }
 
+    public void hideAllMenus() {
+        menusGroup.clearChildren();
+    }
+
     private void setStatusFromActorHint(Actor actor) {
         status.setText(actor instanceof HintedActor ? ((HintedActor) actor).getHint() : "");
     }

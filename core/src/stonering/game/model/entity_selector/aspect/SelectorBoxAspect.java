@@ -20,19 +20,17 @@ import java.util.function.Consumer;
 public class SelectorBoxAspect extends Aspect {
     public Position boxStart;
     public boolean enabled;
-    public Consumer<Consumer<Position>> boxIterator;
+    public final Consumer<Consumer<Position>> boxIterator;
 
     public SelectorBoxAspect(Entity entity) {
         super(entity);
         boxIterator = consumer -> {
             if (entity.position == null) return;
             Position internalBoxStart = boxStart != null ? boxStart : entity.position;
-            PositionValidator validator = entity.getAspect(ValidationAspect.class).getValidator();
             for (int x = Math.min(internalBoxStart.x, entity.position.x); x <= Math.max(internalBoxStart.x, entity.position.x); x++) {
                 for (int y = Math.min(internalBoxStart.y, entity.position.y); y <= Math.max(internalBoxStart.y, entity.position.y); y++) {
                     for (int z = Math.min(internalBoxStart.z, entity.position.z); z <= Math.max(internalBoxStart.z, entity.position.z); z++) {
-                        Position position = new Position(x, y, z);
-                        if(validator.validate(position)) consumer.accept(position);
+                        consumer.accept(new Position(x, y, z));
                     }
                 }
             }
