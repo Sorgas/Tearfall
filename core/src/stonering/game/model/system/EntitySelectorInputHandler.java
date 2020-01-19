@@ -36,7 +36,9 @@ public class EntitySelectorInputHandler {
         SelectorBoxAspect aspect = selector.getAspect(SelectorBoxAspect.class);
         if (aspect.enabled) {
             aspect.boxStart = position;
+            System.out.println("Selection started at " + aspect.boxStart);
             GameMvc.instance().model().get(LocalMap.class).normalizePosition(aspect.boxStart);
+
             // update render
         } else {
             commitSelection();
@@ -62,8 +64,7 @@ public class EntitySelectorInputHandler {
     }
 
     public void setSelectorPosition(Position position) {
-        selector.position.set(position.x, position.y, selector.position.z);
-        GameMvc.instance().model().get(LocalMap.class).normalizePosition(selector.position);
+        GameMvc.instance().model().get(LocalMap.class).normalizePosition(selector.position.set(position.x, position.y, position.z));
     }
 
     public boolean moveByKey(int keycode) {

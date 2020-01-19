@@ -8,6 +8,7 @@ import stonering.game.model.entity_selector.aspect.SelectionAspect;
 import stonering.game.model.entity_selector.aspect.SelectorBoxAspect;
 import stonering.game.model.local_map.LocalMap;
 import stonering.stage.renderer.AtlasesEnum;
+import stonering.stage.toolbar.menus.Toolbar;
 import stonering.util.geometry.Position;
 import stonering.util.validation.PositionValidator;
 
@@ -46,7 +47,7 @@ public class EntitySelectorSystem implements ModelComponent {
         SelectionAspect aspect = selector.getAspect(SelectionAspect.class);
         PositionValidator validator = aspect.getValidator(); // validates each position in box
         Consumer<Position> handler = aspect.selectHandler != null ? aspect.selectHandler : aspect.defaultSelectHandler; // called for each position
-        aspect.selectPreHandler.run();
+        if(aspect.selectPreHandler != null) aspect.selectPreHandler.run();
         selector.getAspect(SelectorBoxAspect.class).boxIterator.accept(position -> {
             if (validator.validate(position)) handler.accept(position);
         });
@@ -55,9 +56,10 @@ public class EntitySelectorSystem implements ModelComponent {
 
     public void handleCancel() {
         selector.getAspect(SelectorBoxAspect.class).boxStart = null;
-        selector.getAspect(SelectionAspect.class).cancelHandler.accept(selector.position);
-
-        GameMvc.instance().view().toolbarStage.toolbar.hideAllMenus();
+        SelectionAspect aspect = selector.getAspect(SelectionAspect.class);
+        if(aspect.cancelHandler != null) aspect.cancelHandler.accept(selector.position);
+        Toolbar toolbar = GameMvc.instance().view().toolbarStage.toolbar;
+        toolbar.hideSubMenus(toolbar.parentMenu);
     }
 
     public void selectorMoved() {

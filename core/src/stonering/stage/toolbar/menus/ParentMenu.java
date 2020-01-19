@@ -20,10 +20,7 @@ public class ParentMenu extends ToolbarSubMenuMenu {
         addMenu(new ToolbarZonesMenu(toolbar), Input.Keys.U, "zones", "zones_menu");
     }
 
-    /**
-     * Overridden to prevent closing.
-     */
-    @Override
+    @Override // overridden to prevent closing
     public void hide() {
     }
 }

@@ -10,6 +10,7 @@ import stonering.game.model.system.EntitySelectorSystem;
 import stonering.stage.renderer.AtlasesEnum;
 import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
+import stonering.util.ui.EnableableInputAdapter;
 
 import static com.badlogic.gdx.Input.Keys.*;
 
@@ -20,96 +21,104 @@ import static com.badlogic.gdx.Input.Keys.*;
  *
  * @author Alexander Kuzyakov
  */
-public class EntitySelectorInputAdapter extends InputAdapter {
-    private EntitySelectorSystem system;
-    public boolean enabled;
-    private Position cachePosition;
+public class EntitySelectorInputAdapter extends EnableableInputAdapter {
 
     public EntitySelectorInputAdapter() {
-        system = GameMvc.instance().model().get(EntitySelectorSystem.class);
-        enabled = true;
-        cachePosition = new Position();
+        super(new EntitySelectorInnerAdapter());
     }
 
-    @Override
-    public boolean keyDown(int keycode) {
-        if (!enabled) return false;
-        if(keycode == Input.Keys.E) {
-            if(system.selector.getAspect(SelectorBoxAspect.class).boxStart != null) {
-                Logger.INPUT.logDebug("committing selection box on E key");
-                system.inputHandler.commitSelection();
-            } else {
-                Logger.INPUT.logDebug("starting selection box on E key");
-                system.inputHandler.startSelection(null); // start box at current position
+    private static class EntitySelectorInnerAdapter extends InputAdapter {
+        private EntitySelectorSystem system;
+        private Position cachePosition;
+
+        public EntitySelectorInnerAdapter() {
+            system = GameMvc.instance().model().get(EntitySelectorSystem.class);
+            cachePosition = new Position();
+        }
+
+        @Override
+        public boolean keyDown(int keycode) {
+            switch (keycode) {
+                case Input.Keys.E:
+                    if (system.selector.getAspect(SelectorBoxAspect.class).boxStart != null) { // finish started box at current position
+                        Logger.INPUT.logDebug("committing selection box on E key");
+                        system.inputHandler.commitSelection();
+                    } else { // start box at current position
+                        Logger.INPUT.logDebug("starting selection box on E key");
+                        system.inputHandler.startSelection(null);
+                    }
+                    return true;
+                case Input.Keys.Q:
+                    Logger.INPUT.logDebug("cancelling selection box on Q key");
+                    system.inputHandler.cancelSelection();
+                    return true;
+                default: // move selector if navigation key is pressed
+                    return system.inputHandler.moveByKey(keycode);
             }
+        }
+
+        @Override
+        public boolean keyTyped(char character) {
+            int keycode = charToKeycode(character);
+            return system.inputHandler.moveByKey(keycode) && system.inputHandler.secondaryMove(keycode); // supports diagonal move when two keys are pressed
+        }
+
+        @Override
+        public boolean scrolled(int amount) {
+            system.inputHandler.moveSelector(0, 0, amount);
             return true;
         }
-        if(keycode == Input.Keys.Q) {
-            Logger.INPUT.logDebug("cancelling selection box on Q key");
-            system.inputHandler.cancelSelection();
+
+        @Override
+        public boolean mouseMoved(int screenX, int screenY) {
+            system.inputHandler.setSelectorPosition(cachePosition.set(castScreenToModelCoords(screenX, screenY)).clone());
             return true;
         }
-        return system.inputHandler.moveByKey(keycode);
-    }
 
-    @Override
-    public boolean keyTyped(char character) {
-        if (!enabled) return false;
-        int keycode = charToKeycode(character);
-        return system.inputHandler.moveByKey(keycode) && system.inputHandler.secondaryMove(keycode); // supports diagonal move when two keys are pressed
-    }
+        @Override
+        public boolean touchDragged(int screenX, int screenY, int pointer) {
+            system.inputHandler.setSelectorPosition(cachePosition.set(castScreenToModelCoords(screenX, screenY)).clone());
+            return true;
+        }
 
-    @Override
-    public boolean scrolled(int amount) {
-        if (!enabled) return false;
-        system.inputHandler.moveSelector(0, 0, amount);
-        return true;
-    }
-
-    @Override
-    public boolean mouseMoved(int screenX, int screenY) {
-        if (!enabled) return false;
-        system.inputHandler.setSelectorPosition(cachePosition.set(castScreenToModelCoords(screenX, screenY)));
-        return true;
-    }
-
-    @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if (enabled && button == Input.Buttons.LEFT) {
+        @Override
+        public boolean touchDown(int screenX, int screenY, int pointer, int button) { // lmb press starts selection
+            if (button != Input.Buttons.LEFT) return false;
             Logger.INPUT.logDebug("starting selection box on LMB press");
-            system.inputHandler.startSelection(cachePosition.set(castScreenToModelCoords(screenX, screenY)));
+            system.inputHandler.startSelection(cachePosition.set(castScreenToModelCoords(screenX, screenY)).clone());
             return true;
         }
-        return false;
-    }
 
-    @Override
-    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        if (enabled) {
-            if (button == Input.Buttons.LEFT) {
-                Logger.INPUT.logDebug("committing selection box on lMB release");
-                system.inputHandler.commitSelection();
-                return true;
-            }
-            if (button == Input.Buttons.RIGHT) {
-                Logger.INPUT.logDebug("cancelling selection box on RMB release");
-                system.inputHandler.cancelSelection();
-                return true;
+        @Override
+        public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+            switch (button) {
+                case Input.Buttons.LEFT:
+                    Logger.INPUT.logDebug("committing selection box on lMB release");
+                    system.inputHandler.commitSelection();
+                    return true;
+                case Input.Buttons.RIGHT:
+                    Logger.INPUT.logDebug("cancelling selection box on RMB release");
+                    system.inputHandler.cancelSelection();
+                    return true;
+                default:
+                    return false;
             }
         }
-        return false;
-    }
 
-    private Vector3 castScreenToModelCoords(int screenX, int screenY) {
-        Vector3 batchCoords = GameMvc.instance().view().localWorldStage.getCamera().unproject(new Vector3(screenX, screenY, 0));
-        AtlasesEnum atlas = AtlasesEnum.blocks; // use blocks sizes
-        int heightToSkip = system.selector.position.z * atlas.HEIGHT + (atlas.hasToppings ? atlas.TOPPING_HEIGHT : 0);
-        batchCoords.x /= atlas.WIDTH;
-        batchCoords.y = (batchCoords.y - heightToSkip) / atlas.DEPTH;
-        return batchCoords;
-    }
+        /**
+         * Used on clicks and mouse moves. Uses current z-level as output z.
+         */
+        private Position castScreenToModelCoords(int screenX, int screenY) {
+            Vector3 batchCoords = GameMvc.instance().view().localWorldStage.getCamera().unproject(new Vector3(screenX, screenY, 0));
+            AtlasesEnum atlas = AtlasesEnum.blocks; // use blocks sizes
+            int heightToSkip = system.selector.position.z * atlas.HEIGHT + (atlas.hasToppings ? atlas.TOPPING_HEIGHT : 0);
+            return new Position(batchCoords.x / atlas.WIDTH,
+                    (batchCoords.y - heightToSkip) / atlas.DEPTH,
+                    system.selector.position.z);
+        }
 
-    private int charToKeycode(char character) {
-        return valueOf(Character.valueOf(character).toString().toUpperCase());
+        private int charToKeycode(char character) {
+            return valueOf(Character.valueOf(character).toString().toUpperCase());
+        }
     }
 }

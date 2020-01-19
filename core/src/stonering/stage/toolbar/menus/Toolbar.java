@@ -21,7 +21,7 @@ import stonering.widget.HintedActor;
 public class Toolbar extends Container<Table> {
     public final HorizontalGroup menusGroup = new HorizontalGroup(); // in first row
     public Label status; // in second row
-    private ParentMenu parentMenu; // always on the left end
+    public final ParentMenu parentMenu; // always on the left end
 
     public Toolbar() {
         layoutToolbar();
@@ -78,10 +78,6 @@ public class Toolbar extends Container<Table> {
         }
         setStatusFromActorHint(menusGroup.getChildren().peek());
         Logger.UI.logDebug("Submenus of " + menu.getClass().getSimpleName() + " removed from toolbar");
-    }
-
-    public void hideAllMenus() {
-        menusGroup.clearChildren();
     }
 
     private void setStatusFromActorHint(Actor actor) {

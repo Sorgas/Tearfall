@@ -24,6 +24,7 @@ public class SelectorBoxAspect extends Aspect {
 
     public SelectorBoxAspect(Entity entity) {
         super(entity);
+        enabled = true;
         boxIterator = consumer -> {
             if (entity.position == null) return;
             Position internalBoxStart = boxStart != null ? boxStart : entity.position;
