@@ -46,7 +46,7 @@ public class EntitySelectorSystem implements ModelComponent {
     public void handleSelection() {
         SelectionAspect aspect = selector.getAspect(SelectionAspect.class);
         PositionValidator validator = aspect.getValidator(); // validates each position in box
-        Consumer<Position> handler = aspect.selectHandler != null ? aspect.selectHandler : aspect.defaultSelectHandler; // called for each position
+        Consumer<Position> handler = aspect.getHandler(); // called for each position
         if(aspect.selectPreHandler != null) aspect.selectPreHandler.run();
         selector.getAspect(SelectorBoxAspect.class).boxIterator.accept(position -> {
             if (validator.validate(position)) handler.accept(position);

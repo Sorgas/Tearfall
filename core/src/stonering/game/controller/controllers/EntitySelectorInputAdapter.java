@@ -71,13 +71,13 @@ public class EntitySelectorInputAdapter extends EnableableInputAdapter {
 
         @Override
         public boolean mouseMoved(int screenX, int screenY) {
-            system.inputHandler.setSelectorPosition(cachePosition.set(castScreenToModelCoords(screenX, screenY)).clone());
+            system.inputHandler.setSelectorPosition(castScreenToModelCoords(screenX, screenY));
             return true;
         }
 
         @Override
         public boolean touchDragged(int screenX, int screenY, int pointer) {
-            system.inputHandler.setSelectorPosition(cachePosition.set(castScreenToModelCoords(screenX, screenY)).clone());
+            system.inputHandler.setSelectorPosition(castScreenToModelCoords(screenX, screenY));
             return true;
         }
 
@@ -112,8 +112,8 @@ public class EntitySelectorInputAdapter extends EnableableInputAdapter {
             Vector3 batchCoords = GameMvc.instance().view().localWorldStage.getCamera().unproject(new Vector3(screenX, screenY, 0));
             AtlasesEnum atlas = AtlasesEnum.blocks; // use blocks sizes
             int heightToSkip = system.selector.position.z * atlas.HEIGHT + (atlas.hasToppings ? atlas.TOPPING_HEIGHT : 0);
-            return new Position(batchCoords.x / atlas.WIDTH,
-                    (batchCoords.y - heightToSkip) / atlas.DEPTH,
+            return new Position((int) batchCoords.x / atlas.WIDTH, // int casts is mandatory
+                    (int) (batchCoords.y - heightToSkip) / atlas.DEPTH,
                     system.selector.position.z);
         }
 
