@@ -1,9 +1,18 @@
 package stonering.enums.designations;
 
+import stonering.entity.plant.PlantBlock;
+import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.unit.job.JobsEnum;
+import stonering.game.GameMvc;
+import stonering.game.model.system.plant.PlantContainer;
+import stonering.util.geometry.Position;
+import stonering.util.validation.DiggingValidator;
+import stonering.util.validation.PositionValidator;
+import stonering.util.validation.TreeChoppingValidator;
 
 import java.util.HashMap;
 
+import static stonering.enums.blocks.BlockTypesEnum.*;
 import static stonering.enums.unit.job.JobsEnum.*;
 
 /**
@@ -12,22 +21,23 @@ import static stonering.enums.unit.job.JobsEnum.*;
  * @author Alexander Kuzyakov
  */
 public enum DesignationTypeEnum {
-    NONE(0, "none", JobsEnum.NONE), // for removing simple designations
-    DIG(1, "digging", MINER), // removes walls and ramps. leaves floor
-    STAIRS(2, "cutting stairs", MINER), // cuts stairs from wall.
-    DOWNSTAIRS(4, "cutting downstairs", MINER), // cuts combined stairs from wall. assigned automatically.
-    RAMP(5, "cutting ramp", MINER), // digs ramp and upper cell.
-    CHANNEL(6, "digging channel", MINER), // digs cell and ramp on lower level
-    CHOP(2, "chopping trees", LUMBERJACK), // chop trees in th area
-    CUT(3, "cutting plants", HARVESTER), // cut plants
-    HARVEST(4, "harvesting plants", HARVESTER), // harvest plants
-    BUILD(5, "building", BUILDER), // build construction or building
+    D_NONE(0, "none", JobsEnum.NONE, position -> true), // for removing simple designations
+    D_DIG(1, "digging", MINER, new DiggingValidator(FLOOR)), // removes walls and ramps. leaves floor
+    D_STAIRS(2, "cutting stairs", MINER, new DiggingValidator(STAIRS)), // cuts stairs from wall.
+    D_DOWNSTAIRS(4, "cutting downstairs", MINER, new DiggingValidator(DOWNSTAIRS)), // cuts combined stairs from wall. assigned automatically.
+    D_RAMP(5, "cutting ramp", MINER, new DiggingValidator(RAMP)), // digs ramp and upper cell.
+    D_CHANNEL(6, "digging channel", MINER, new DiggingValidator(SPACE)), // digs cell and ramp on lower level
+    D_CHOP(2, "chopping trees", LUMBERJACK, new TreeChoppingValidator()), // chop trees in th area
+    D_CUT(3, "cutting plants", HARVESTER, position -> true), // cut plants
+    D_HARVEST(4, "harvesting plants", HARVESTER, position -> true), // harvest plants
+    D_BUILD(5, "building", BUILDER, position -> true), // build construction or building
     ;
 
-    private static HashMap<Byte, DesignationTypeEnum> map;
-    public final byte CODE;
+    private static HashMap<Integer, DesignationTypeEnum> map;
+    public final int CODE;
     public final String iconName = null;
-    private String text;
+    public final String text;
+    public final PositionValidator validator;
     private String job;
 
     static {
@@ -37,17 +47,26 @@ public enum DesignationTypeEnum {
         }
     }
 
-    DesignationTypeEnum(int code, String text, JobsEnum job) {
+    DesignationTypeEnum(int code, String text, JobsEnum job, PositionValidator validator) {
         this.CODE = (byte) code;
         this.text = text;
         this.job = job.NAME;
-    }
-
-    public String getText() {
-        return text;
+        this.validator = validator;
     }
 
     public DesignationTypeEnum getType(int code) {
         return map.get(code);
+    }
+
+    private boolean validatePlantDesignations(Position position, BlockTypesEnum blockOnMap, DesignationTypeEnum type) {
+        PlantContainer container = GameMvc.model().get(PlantContainer.class);
+        switch (type) {
+            case D_CHOP: //TODO designate tree as whole
+
+            case D_HARVEST: //TODO add harvesting from trees
+                PlantBlock block = container.getPlantBlock(position);
+                return block != null && !block.getPlant().type.isTree && !block.getPlant().type.isSubstrate;
+        }
+        return false;
     }
 }

@@ -63,10 +63,9 @@ public class FarmZone extends Zone {
         LocalMap localMap = GameMvc.instance().model().get(LocalMap.class);
         TaskContainer taskContainer = GameMvc.instance().model().get(TaskContainer.class);
         PlantContainer plantContainer = GameMvc.instance().model().get(PlantContainer.class);
-        PositionValidator validator = ZoneTypesEnum.FARM.getValidator();
         for (Position tile : tiles) {
             // can delete tile from zone
-            if (!isTileValid(validator, tile, localMap)) continue;
+            if (!isTileValid(ZoneTypesEnum.FARM.validator, tile, localMap)) continue;
             // can delete task from zone
             if (isTaskExist(tile)) continue;
             // can create task for cutting or harvesting
@@ -89,7 +88,7 @@ public class FarmZone extends Zone {
      */
     private boolean isTileValid(PositionValidator validator, Position tile, LocalMap localMap) {
         if (validator.validate(tile)) return true;
-        GameMvc.instance().model().get(ZoneContainer.class).updateZone(tile, null); // remove invalid tile
+        GameMvc.instance().model().get(ZoneContainer.class).setTileToZone(null, tile); // remove invalid tile
         return false;
     }
 
@@ -115,7 +114,7 @@ public class FarmZone extends Zone {
     private boolean checkExistingPlant(AbstractPlant plant, Position tile, TaskContainer container) {
         if (plant == null) return true;
         if (!plantType.equals(plant.type)) { // cut unwanted plants
-            addTask(container.designationSystem.submitDesignation(tile, DesignationTypeEnum.CUT, 1), tile);
+            addTask(container.designationSystem.submitDesignation(tile, DesignationTypeEnum.D_CUT, 1), tile);
             return false;
         }
         //TODO add produc aspect to plants

@@ -8,6 +8,7 @@ import stonering.game.GameMvc;
 import stonering.game.controller.controllers.designation.BoxDesignationSequence;
 import stonering.game.model.entity_selector.aspect.SelectionAspect;
 import stonering.game.model.system.EntitySelectorSystem;
+import stonering.game.model.system.task.TaskContainer;
 import stonering.widget.ToolbarSubMenuMenu;
 
 import static stonering.enums.designations.DesignationTypeEnum.*;
@@ -25,23 +26,23 @@ public class ToolbarDiggingMenu extends ToolbarSubMenuMenu {
 
     public ToolbarDiggingMenu(Toolbar toolbar) {
         super(toolbar);
-        addButton("Y: dig", DIG, Input.Keys.Y);
-        addButton("U: ramp", RAMP, Input.Keys.U);
-        addButton("I: channel", CHANNEL, Input.Keys.I);
-        addButton("H: stairs", STAIRS, Input.Keys.H); // other types of stairs are handled automatically
-        addButton("K: downstairs", DOWNSTAIRS, Input.Keys.J);
-        addButton("N: clear", NONE, Input.Keys.N);
-        sequence = new BoxDesignationSequence(DIG);
+        addButton("Y: dig", D_DIG, Input.Keys.Y);
+        addButton("U: ramp", D_RAMP, Input.Keys.U);
+        addButton("I: channel", D_CHANNEL, Input.Keys.I);
+        addButton("H: stairs", D_STAIRS, Input.Keys.H); // other types of stairs are handled automatically
+        addButton("K: downstairs", D_DOWNSTAIRS, Input.Keys.J);
+        addButton("N: clear", D_NONE, Input.Keys.N);
+        sequence = new BoxDesignationSequence(D_DIG);
     }
 
     private void addButton(String text, DesignationTypeEnum type, int hotKey) {
         super.createButton(text, hotKey, new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                SelectionAspect aspect = GameMvc.instance().model().get(EntitySelectorSystem.class).selector.getAspect(SelectionAspect.class);
-                aspect.selectHandler = position ->
-
-                sequence.designationType = type;
+                SelectionAspect aspect = GameMvc.model().get(EntitySelectorSystem.class).selector.getAspect(SelectionAspect.class);
+                TaskContainer container = GameMvc.model().get(TaskContainer.class);
+                aspect.validator = type.validator;
+                aspect.selectHandler = box -> aspect.boxIterator.accept(position -> container.designationSystem.submitDesignation(position, type, 1));
             }
         }, true);
     }
@@ -49,7 +50,7 @@ public class ToolbarDiggingMenu extends ToolbarSubMenuMenu {
     @Override
     public void show() {
         super.show();
-        sequence.designationType = DIG; // DIG is default designation
+        sequence.designationType = D_DIG; // DIG is default designation
         sequence.start();
     }
 

@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import stonering.entity.unit.aspects.RenderAspect;
 import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.EntitySelector;
-import stonering.game.model.entity_selector.aspect.SelectorBoxAspect;
+import stonering.game.model.entity_selector.aspect.SelectionAspect;
 import stonering.game.model.system.EntitySelectorSystem;
 import stonering.util.geometry.Position;
 
@@ -35,7 +35,7 @@ public class EntitySelectorDrawer extends Drawer {
         if(region != null) spriteUtil.drawSprite(region, selector.position.toVector3());
         //TODO add additional status sprite for selector
         //TODO add landscape dependant rendering
-        SelectorBoxAspect aspect = selector.getAspect(SelectorBoxAspect.class);
+        SelectionAspect aspect = selector.getAspect(SelectionAspect.class);
         if (aspect.boxStart != null) {
             Position start = aspect.boxStart;
             int minX = Math.min(start.x, selector.position.x);

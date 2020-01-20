@@ -4,7 +4,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.math.Vector3;
 import stonering.game.GameMvc;
-import stonering.game.model.entity_selector.aspect.SelectorBoxAspect;
+import stonering.game.model.entity_selector.aspect.SelectionAspect;
 import stonering.game.model.system.EntitySelectorInputHandler;
 import stonering.game.model.system.EntitySelectorSystem;
 import stonering.stage.renderer.AtlasesEnum;
@@ -32,7 +32,7 @@ public class EntitySelectorInputAdapter extends EnableableInputAdapter {
         private Position cachePosition;
 
         public EntitySelectorInnerAdapter() {
-            system = GameMvc.instance().model().get(EntitySelectorSystem.class);
+            system = GameMvc.model().get(EntitySelectorSystem.class);
             cachePosition = new Position();
         }
 
@@ -40,7 +40,7 @@ public class EntitySelectorInputAdapter extends EnableableInputAdapter {
         public boolean keyDown(int keycode) {
             switch (keycode) {
                 case Input.Keys.E:
-                    if (system.selector.getAspect(SelectorBoxAspect.class).boxStart != null) { // finish started box at current position
+                    if (system.selector.getAspect(SelectionAspect.class).boxStart != null) { // finish started box at current position
                         Logger.INPUT.logDebug("committing selection box on E key");
                         system.inputHandler.commitSelection();
                     } else { // start box at current position
@@ -109,7 +109,7 @@ public class EntitySelectorInputAdapter extends EnableableInputAdapter {
          * Used on clicks and mouse moves. Uses current z-level as output z.
          */
         private Position castScreenToModelCoords(int screenX, int screenY) {
-            Vector3 batchCoords = GameMvc.instance().view().localWorldStage.getCamera().unproject(new Vector3(screenX, screenY, 0));
+            Vector3 batchCoords = GameMvc.view().localWorldStage.getCamera().unproject(new Vector3(screenX, screenY, 0));
             AtlasesEnum atlas = AtlasesEnum.blocks; // use blocks sizes
             int heightToSkip = system.selector.position.z * atlas.HEIGHT + (atlas.hasToppings ? atlas.TOPPING_HEIGHT : 0);
             return new Position((int) batchCoords.x / atlas.WIDTH, // int casts is mandatory

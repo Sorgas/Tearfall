@@ -1,5 +1,6 @@
 package stonering.game.model.system;
 
+import com.sun.istack.Nullable;
 import stonering.util.global.Logger;
 import stonering.util.validation.PositionValidator;
 import stonering.entity.zone.Zone;
@@ -25,7 +26,7 @@ public class ZoneContainer extends EntityContainer<Zone> {
      */
     public Zone createZone(Position position, ZoneTypesEnum type) {
         Zone zone = type.createZone();
-        addPositionToZone(zone, position);
+        setTileToZone(zone, position);
         entities.add(zone);
         Logger.ZONES.logDebug("Zone " + zone + " created");
         recountZones();
@@ -37,22 +38,18 @@ public class ZoneContainer extends EntityContainer<Zone> {
         entities.remove(zone);
     }
 
-    public void addPositionToZone(Zone zone, Position position) {
-        PositionValidator validator = zone.getType().getValidator();
-        if (validator.validate(position)) {
-            zone.getTiles().add(position.clone());
-            zoneMap.put(position.clone(), zone);
-        }
-    }
-
-    public void updateZone(Position position, Zone zone) {
+    public void setTileToZone(@Nullable Zone zone, Position position) {
         Zone oldZone = zoneMap.remove(position);
         if (oldZone != null) zone.getTiles().remove(position);
         if (zone != null) {
+            PositionValidator validator = zone.getType().validator;
+            if (validator.validate(position)) {
+                zone.getTiles().add(position.clone());
+                zoneMap.put(position.clone(), zone);
+            }
             zoneMap.put(position, zone);
             zone.getTiles().add(position.clone());
         }
-        Logger.ZONES.logDebug("Zone " + zone + " updated");
         recountZones();
     }
 

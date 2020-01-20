@@ -21,13 +21,9 @@ import stonering.util.global.Logger;
 import java.util.*;
 
 /**
- * Contains all tasks for settlers on map and Designations for rendering.
- * Tasks are created by player or by buildings and zones(farms, storages, workbenches).
- * <p>
- * {@link Task} are orders for unit.
- * {@link Designation} are used for drawing given orders as tiles.
+ * Contains all {@link Task} for settlers on map and {@link Designation}s for rendering.
+ * Tasks are orders for unit. Tasks are created by player, buildings or zones(farms, storages, workbenches).
  * Tasks and designations are linked to each other if needed.
- * TODO split to containers of tasks and designaions, and make them entityContainers
  *
  * @author Alexander Kuzyakov
  */

@@ -33,7 +33,7 @@ public class HoeingAction extends Action {
             //        Logger.TASKS.logDebug("Checking hoeing of " + actionTarget.getPosition());
             Position target = actionTarget.getPosition();
             LocalMap localMap = GameMvc.instance().model().get(LocalMap.class);
-            if (!ZoneTypesEnum.FARM.getValidator().validate(target)) return FAIL; // 1
+            if (!ZoneTypesEnum.FARM.validator.validate(target)) return FAIL; // 1
             if (GameMvc.instance().model().get(ZoneContainer.class).getZone(target) == null) return FAIL; // 2
             EquipmentAspect equipmentAspect = task.performer.getAspect(EquipmentAspect.class);
             if(equipmentAspect.toolWithActionEquipped("hoe")) return OK;

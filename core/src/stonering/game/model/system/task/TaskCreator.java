@@ -22,22 +22,22 @@ public class TaskCreator {
     public Task createOrderTask(OrderDesignation designation, int priority) {
         Action action = null;
         switch (designation.getType()) {
-            case NONE:
+            case D_NONE:
                 return null;
-            case DIG:
-            case RAMP:
-            case STAIRS:
-            case CHANNEL: {
+            case D_DIG:
+            case D_RAMP:
+            case D_STAIRS:
+            case D_CHANNEL: {
                 action = new DigAction(designation);
                 break;
             }
-            case CUT:
-            case CHOP: {
+            case D_CUT:
+            case D_CHOP: {
                 //TODO split actions
                 action = new ChopTreeAction(designation);
                 break;
             }
-            case HARVEST: {
+            case D_HARVEST: {
                 //TODO probably create multiple tasks for all tree blocks
                 PlantBlock block = GameMvc.instance().model().get(PlantContainer.class).getPlantBlock(designation.position);
 

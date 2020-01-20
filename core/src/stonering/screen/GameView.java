@@ -6,8 +6,8 @@ import stonering.stage.toolbar.ToolbarStage;
 import stonering.stage.MapEntitySelectStage;
 import stonering.stage.pause.PauseMenuStage;
 import stonering.stage.localworld.LocalWorldStage;
+import stonering.util.geometry.Int3dBounds;
 import stonering.util.ui.MultiStageScreen;
-import stonering.util.geometry.Position;
 import stonering.util.global.Initable;
 import stonering.util.global.Logger;
 
@@ -47,9 +47,9 @@ public class GameView extends MultiStageScreen {
         addStage(new PauseMenuStage());
     }
 
-    public void showEntityStage(Position position) {
+    public void showEntityStage(Int3dBounds box) {
         MapEntitySelectStage stage = new MapEntitySelectStage();
         addStage(stage);
-        stage.showEntitySelectList(position);
+        stage.showEntitySelectList(box);
     }
 }

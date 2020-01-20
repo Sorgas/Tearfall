@@ -70,23 +70,23 @@ public class DigAction extends Action {
         LocalMap map = GameMvc.instance().model().get(LocalMap.class);
         Position target = actionTarget.getPosition();
         switch (type) {
-            case DIG:
+            case D_DIG:
                 updateAndRevealMap(target, FLOOR);
                 break;
-            case STAIRS:
+            case D_STAIRS:
                 if (map.getBlockType(target) == WALL.CODE) {
                     updateAndRevealMap(target, STAIRS);
                 } else {
                     updateAndRevealMap(target, DOWNSTAIRS);
                 }
                 break;
-            case RAMP:
+            case D_RAMP:
                 updateAndRevealMap(target, RAMP);
                 Position upperPosition = new Position(target.x, target.y, target.z + 1);
                 if (map.inMap(upperPosition))
                     updateAndRevealMap(upperPosition, SPACE);
                 break;
-            case CHANNEL:
+            case D_CHANNEL:
                 updateAndRevealMap(target, SPACE);
                 Position lowerPosition = new Position(target.x, target.y, target.z - 1);
                 if (map.inMap(lowerPosition) && map.getBlockType(lowerPosition) == WALL.CODE)

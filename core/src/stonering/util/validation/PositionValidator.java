@@ -19,4 +19,8 @@ public interface PositionValidator {
         if(resultConsumer != null) resultConsumer.accept(result);
         return result;
     }
+
+    default void doIfSuccess(Position position, Consumer<Position> consumer) {
+        if(validate(position)) consumer.accept(position);
+    }
 }

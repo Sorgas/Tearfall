@@ -25,34 +25,20 @@ public class DesignationsValidator {
         LocalMap localMap = GameMvc.instance().model().get(LocalMap.class);
         BlockTypesEnum blockOnMap = getType(localMap.getBlockType(position));
         switch (type) {
-            case DIG: //makes floor
-            case CHANNEL: //makes space and ramp lower
-            case DOWNSTAIRS:
-            case RAMP:
-            case STAIRS:
+            case D_DIG: //makes floor
+            case D_CHANNEL: //makes space and ramp lower
+            case D_DOWNSTAIRS:
+            case D_RAMP:
+            case D_STAIRS:
                 return validateDigging(position, blockOnMap, type);
-            case CHOP:
-            case HARVEST:
-            case CUT:
+            case D_CHOP:
+            case D_HARVEST:
+            case D_CUT:
                 return validatePlantDesignations(position, blockOnMap, type);
-            case BUILD:
+            case D_BUILD:
                 //TODO
-            case NONE:
+            case D_NONE:
                 return true;
-        }
-        return false;
-    }
-
-    private boolean validatePlantDesignations(Position position, BlockTypesEnum blockOnMap, DesignationTypeEnum type) {
-        PlantContainer container = GameMvc.instance().model().get(PlantContainer.class);
-        switch (type) {
-            case CHOP: //TODO designate tree as whole
-                return ((SPACE.equals(blockOnMap) || FLOOR.equals(blockOnMap)))
-                        && container.isPlantBlockExists(position)
-                        && container.getPlantBlock(position).getPlant().type.isTree;
-            case HARVEST: //TODO add harvesting from trees
-                PlantBlock block = container.getPlantBlock(position);
-                return block != null && !block.getPlant().type.isTree && !block.getPlant().type.isSubstrate;
         }
         return false;
     }
@@ -68,15 +54,15 @@ public class DesignationsValidator {
      */
     public BlockTypesEnum getTargetBlockType(DesignationTypeEnum designationType) {
         switch (designationType) {
-            case DIG:
+            case D_DIG:
                 return FLOOR;
-            case STAIRS:
+            case D_STAIRS:
                 return STAIRS;
-            case DOWNSTAIRS:
+            case D_DOWNSTAIRS:
                 return DOWNSTAIRS;
-            case RAMP:
+            case D_RAMP:
                 return RAMP;
-            case CHANNEL:
+            case D_CHANNEL:
                 return SPACE;
         }
         Logger.TASKS.logError("Digging type not handled in mapping method.");

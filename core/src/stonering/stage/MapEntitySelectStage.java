@@ -1,6 +1,7 @@
 package stonering.stage;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.sun.istack.NotNull;
 import stonering.entity.Entity;
 import stonering.entity.building.Building;
 import stonering.entity.building.BuildingBlock;
@@ -19,6 +20,7 @@ import stonering.stage.item.ItemStage;
 import stonering.stage.unit.UnitStage;
 import stonering.stage.workbench.BuildingStage;
 import stonering.stage.zone.ZoneMenuStage;
+import stonering.util.geometry.Int3dBounds;
 import stonering.widget.lists.ObservingList;
 import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
@@ -36,29 +38,27 @@ import java.util.Objects;
  */
 public class MapEntitySelectStage extends UiStage {
 
-    public void showEntitySelectList(Position position) {
-        List<Entity> entities = collectEntities(position);
-        // TODO close on empty list
-        if (entities.size() == 1) {
+    public void showEntitySelectList(Int3dBounds box) {
+        List<Entity> entities = collectEntities(box);
+        if(entities.isEmpty()) { // hide stage immediately
+            GameMvc.instance().view().removeStage(this);
+        } else if (entities.size() == 1) { // show entity stage
             showEntityStage(entities.get(0));
-        } else {
+        } else { // show list with all entities
             createObservingList(entities);
         }
     }
 
-    /**
-     * Observes map in current position.
-     * If there is only one entity, shows it's stage.
-     * If there are several, shows select list.
-     */
-    private List<Entity> collectEntities(Position position) {
+    private List<Entity> collectEntities(Int3dBounds box) {
         List<Entity> entities = new ArrayList<>();
         GameModel model = GameMvc.instance().model();
-        entities.add(model.get(BuildingContainer.class).getBuiding(position));
-        entities.add(model.get(PlantContainer.class).getPlantInPosition(position));
-        entities.addAll(model.get(ItemContainer.class).getItemsInPosition(position));
-        entities.addAll(model.get(UnitContainer.class).getUnitsInPosition(position));
-        entities.add(model.get(ZoneContainer.class).getZone(position));
+        box.iterator.accept(position -> {
+            entities.add(model.get(BuildingContainer.class).getBuiding(position));
+            entities.add(model.get(PlantContainer.class).getPlantInPosition(position));
+            entities.addAll(model.get(ItemContainer.class).getItemsInPosition(position));
+            entities.addAll(model.get(UnitContainer.class).getUnitsInPosition(position));
+            entities.add(model.get(ZoneContainer.class).getZone(position));
+        });
         entities.removeIf(Objects::isNull);
         return entities;
     }
@@ -73,9 +73,6 @@ public class MapEntitySelectStage extends UiStage {
         setKeyboardFocus(observingList);
     }
 
-    /**
-     * Shows stage according to entity type.
-     */
     private void showEntityStage(Entity entity) {
         if (entity instanceof Building) {
             tryShowBuildingStage(((Building) entity).getBlock());
@@ -86,37 +83,24 @@ public class MapEntitySelectStage extends UiStage {
         } else if (entity instanceof Unit) {
             tryShowUnitStage((Unit) entity);
         } else {
-            //TODO add other entity types
-            Logger.UI.logWarn("entity " + entity + " is not supported in select stage");
+            Logger.UI.logWarn("entity " + entity + " is not supported in select stage"); //TODO add other entity types
         }
         GameMvc.instance().view().removeStage(this);
     }
 
-    private void tryShowBuildingStage(BuildingBlock block) {
-        if (block == null) return;
-        Building building = block.getBuilding();
-        GameMvc.instance().view().addStage(new BuildingStage(building));
-        Logger.UI.logDebug("showing building stage for: " + building);
+    private void tryShowBuildingStage(@NotNull BuildingBlock block) {
+        GameMvc.instance().view().addStage(new BuildingStage(block.getBuilding()));
     }
 
-    private void tryShowZoneStage(Zone zone) {
-        if (zone == null) return;
-        GameMvc gameMvc = GameMvc.instance();
-        Logger.UI.logDebug("showing zone stage for: " + zone.getName());
-        if(zone instanceof FarmZone) gameMvc.view().addStage(new ZoneMenuStage((FarmZone) zone));
+    private void tryShowZoneStage(@NotNull Zone zone) {
+        if(zone instanceof FarmZone) GameMvc.instance().view().addStage(new ZoneMenuStage((FarmZone) zone));
     }
 
-    private void tryShowItemStage(Item item) {
-        if (item == null) return;
-        GameMvc gameMvc = GameMvc.instance();
-        Logger.UI.logDebug("showing item stage for: " + item.title);
-        gameMvc.view().addStage(new ItemStage(item));
+    private void tryShowItemStage(@NotNull Item item) {
+        GameMvc.instance().view().addStage(new ItemStage(item));
     }
 
-    private void tryShowUnitStage(Unit unit) {
-        if (unit == null) return;
-        GameMvc gameMvc = GameMvc.instance();
-        Logger.UI.logDebug("showing unit stage for: " + unit);
-        gameMvc.view().addStage(new UnitStage(unit));
+    private void tryShowUnitStage(@NotNull Unit unit) {
+        GameMvc.instance().view().addStage(new UnitStage(unit));
     }
 }

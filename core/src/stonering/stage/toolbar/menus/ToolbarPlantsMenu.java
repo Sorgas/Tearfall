@@ -6,7 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.enums.designations.DesignationTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.aspect.SelectionAspect;
-import stonering.game.model.entity_selector.aspect.SelectorBoxAspect;
 import stonering.game.model.system.EntitySelectorSystem;
 import stonering.game.model.system.task.TaskContainer;
 import stonering.widget.ToolbarSubMenuMenu;
@@ -27,20 +26,20 @@ public class ToolbarPlantsMenu extends ToolbarSubMenuMenu {
     }
 
     private void initMenu() {
-        addButtonToTable("P: chop trees", "", CHOP, Input.Keys.P);
-        addButtonToTable("O: harvest", "", HARVEST, Input.Keys.O);
-        addButtonToTable("I: cut", "", CUT, Input.Keys.I);
-        addButtonToTable("U: clear", "", NONE, Input.Keys.U);
+        addButtonToTable("P: chop trees", "", D_CHOP, Input.Keys.P);
+        addButtonToTable("O: harvest", "", D_HARVEST, Input.Keys.O);
+        addButtonToTable("I: cut", "", D_CUT, Input.Keys.I);
+        addButtonToTable("U: clear", "", D_NONE, Input.Keys.U);
     }
 
     private void addButtonToTable(String text, String iconName, DesignationTypeEnum designationType, int hotKey) {
         createButton(text, iconName, hotKey, new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                TaskContainer container = GameMvc.instance().model().get(TaskContainer.class);
+                TaskContainer container = GameMvc.model().get(TaskContainer.class);
                 Logger.UI.logDebug("Toggling button " + text);
-                SelectionAspect aspect = GameMvc.instance().model().get(EntitySelectorSystem.class).selector.getAspect(SelectionAspect.class);
-                aspect.selectHandler = position -> container.designationSystem.submitDesignation(position, designationType, 1);
+                SelectionAspect aspect = GameMvc.model().get(EntitySelectorSystem.class).selector.getAspect(SelectionAspect.class);
+                aspect.selectHandler = box -> aspect.boxIterator.accept(position -> container.designationSystem.submitDesignation(position, designationType, 1));
             }
         }, true);
     }

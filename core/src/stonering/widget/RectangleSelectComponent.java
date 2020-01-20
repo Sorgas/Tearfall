@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.EntitySelector;
-import stonering.game.model.entity_selector.aspect.SelectorBoxAspect;
+import stonering.game.model.entity_selector.aspect.SelectionAspect;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.EntitySelectorSystem;
 import stonering.stage.toolbar.menus.Toolbar;
@@ -36,9 +36,8 @@ public class RectangleSelectComponent extends Label implements Hideable {
         super("rectangle", StaticSkin.getSkin());
         this.finishListener = finishListener;
         this.startListener = startListener;
-        GameMvc gameMvc = GameMvc.instance();
-        selector = gameMvc.model().get(EntitySelectorSystem.class).selector;
-        localMap = gameMvc.model().get(LocalMap.class);
+        selector = GameMvc.model().get(EntitySelectorSystem.class).selector;
+        localMap = GameMvc.model().get(LocalMap.class);
         createDefaultListener();
     }
 
@@ -69,12 +68,13 @@ public class RectangleSelectComponent extends Label implements Hideable {
     private void handleConfirm(Position eventPosition) {
         Logger.UI.logDebug("confirming " + eventPosition + "in RectangleSelectComponent");
         localMap.normalizePosition(eventPosition);             // when mouse dragged out of map
-        if (selector.getAspect(SelectorBoxAspect.class).boxStart == null) {                // box not started, start
-            selector.getAspect(SelectorBoxAspect.class).boxStart = eventPosition.clone();
+        SelectionAspect aspect = selector.getAspect(SelectionAspect.class);
+        if (aspect.boxStart == null) {                // box not started, start
+            aspect.boxStart = eventPosition.clone();
             if (startListener != null) startListener.handle(null);
         } else {                                               // box started, finish
             if (finishListener != null) finishListener.handle(null);
-            selector.getAspect(SelectorBoxAspect.class).boxStart = null;                      // ready for new rectangle after this.
+            aspect.boxStart = null;                      // ready for new rectangle after this.
         }
     }
 
@@ -82,8 +82,9 @@ public class RectangleSelectComponent extends Label implements Hideable {
      * Closes component or discards last position from select box.
      */
     private void handleCancel() {
-        if (selector.getAspect(SelectorBoxAspect.class).boxStart != null) {
-            selector.getAspect(SelectorBoxAspect.class).boxStart = null;
+        SelectionAspect aspect = selector.getAspect(SelectionAspect.class);
+        if (aspect.boxStart != null) {
+            aspect.boxStart = null;
         } else {
             hide();
         }

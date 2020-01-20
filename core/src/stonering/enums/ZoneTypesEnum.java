@@ -17,7 +17,7 @@ public enum ZoneTypesEnum {
     FARM(new FarmValidator(), new TextureRegion(new Texture("sprites/zones.png"), 0, 70, 64, 96), "farm icon"),
     STORAGE(new FreeFloorValidator(), new TextureRegion(new Texture("sprites/zones.png"), 0, 70, 64, 96), "storage_icon");
 
-    private PositionValidator validator;
+    public final PositionValidator validator;
     public final TextureRegion sprite;
     public final String iconName;
 
@@ -37,9 +37,5 @@ public enum ZoneTypesEnum {
             default:
                 return null;
         }
-    }
-
-    public PositionValidator getValidator() {
-        return validator;
     }
 }

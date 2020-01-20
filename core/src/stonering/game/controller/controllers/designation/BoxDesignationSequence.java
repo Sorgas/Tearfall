@@ -3,9 +3,8 @@ package stonering.game.controller.controllers.designation;
 import stonering.enums.designations.DesignationTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.EntitySelector;
-import stonering.game.model.entity_selector.aspect.SelectorBoxAspect;
+import stonering.game.model.entity_selector.aspect.SelectionAspect;
 import stonering.game.model.system.EntitySelectorSystem;
-import stonering.game.model.system.task.TaskContainer;
 import stonering.widget.RectangleSelectComponent;
 import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
@@ -24,7 +23,7 @@ public class BoxDesignationSequence extends DesignationSequence {
         this.designationType = designationType;
         rectangleSelectComponent = new RectangleSelectComponent(null, event -> {
             EntitySelector selector = GameMvc.instance().model().get(EntitySelectorSystem.class).selector;
-            submitSelectedFrame(selector.getAspect(SelectorBoxAspect.class).boxStart, selector.position);
+            submitSelectedFrame(selector.getAspect(SelectionAspect.class).boxStart, selector.position);
             return true;
         });
     }

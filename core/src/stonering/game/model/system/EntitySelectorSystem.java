@@ -5,10 +5,10 @@ import stonering.enums.blocks.BlockTypesEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.EntitySelector;
 import stonering.game.model.entity_selector.aspect.SelectionAspect;
-import stonering.game.model.entity_selector.aspect.SelectorBoxAspect;
 import stonering.game.model.local_map.LocalMap;
 import stonering.stage.renderer.AtlasesEnum;
 import stonering.stage.toolbar.menus.Toolbar;
+import stonering.util.geometry.Int3dBounds;
 import stonering.util.geometry.Position;
 import stonering.util.validation.PositionValidator;
 
@@ -28,7 +28,6 @@ public class EntitySelectorSystem implements ModelComponent {
 
     public EntitySelectorSystem() {
         selector = new EntitySelector(new Position());
-        selector.addAspect(new SelectorBoxAspect(selector));
         selector.addAspect(new SelectionAspect(selector));
         selector.addAspect(new RenderAspect(selector, 0, 2, AtlasesEnum.ui_tiles));
         inputHandler = new EntitySelectorInputHandler(this);
@@ -37,7 +36,7 @@ public class EntitySelectorSystem implements ModelComponent {
     public void validateAndUpdate() {
         //TODO update render
         SelectionAspect aspect = selector.getAspect(SelectionAspect.class);
-        if (aspect.validator != null) aspect.validator.validateAnd(selector.position, aspect.validationConsumer);
+        if (aspect.validator != null) aspect.validator.validateAnd(selector.position, bool -> {});
     }
 
     /**
@@ -45,17 +44,13 @@ public class EntitySelectorSystem implements ModelComponent {
      */
     public void handleSelection() {
         SelectionAspect aspect = selector.getAspect(SelectionAspect.class);
-        PositionValidator validator = aspect.getValidator(); // validates each position in box
-        Consumer<Position> handler = aspect.getHandler(); // called for each position
-        if(aspect.selectPreHandler != null) aspect.selectPreHandler.run();
-        selector.getAspect(SelectorBoxAspect.class).boxIterator.accept(position -> {
-            if (validator.validate(position)) handler.accept(position);
-        });
-        aspect.postHandler.run();
+        PositionValidator validator = aspect.validator; // validates each position in box
+        Consumer<Int3dBounds> handler = aspect.selectHandler; // called for each position
+        handler.accept(aspect.getBox());
     }
 
     public void handleCancel() {
-        selector.getAspect(SelectorBoxAspect.class).boxStart = null;
+        selector.getAspect(SelectionAspect.class).boxStart = null;
         SelectionAspect aspect = selector.getAspect(SelectionAspect.class);
         if(aspect.cancelHandler != null) aspect.cancelHandler.accept(selector.position);
         Toolbar toolbar = GameMvc.instance().view().toolbarStage.toolbar;

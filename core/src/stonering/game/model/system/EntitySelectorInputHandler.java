@@ -3,7 +3,7 @@ package stonering.game.model.system;
 import com.badlogic.gdx.Gdx;
 import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.EntitySelector;
-import stonering.game.model.entity_selector.aspect.SelectorBoxAspect;
+import stonering.game.model.entity_selector.aspect.SelectionAspect;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 
@@ -33,11 +33,11 @@ public class EntitySelectorInputHandler {
      */
     public void startSelection(@Nullable Position position) {
         if (position == null) position = selector.position;
-        SelectorBoxAspect aspect = selector.getAspect(SelectorBoxAspect.class);
+        SelectionAspect aspect = selector.getAspect(SelectionAspect.class);
         if (aspect.enabled) {
             aspect.boxStart = position;
             System.out.println("Selection started at " + aspect.boxStart);
-            GameMvc.instance().model().get(LocalMap.class).normalizePosition(aspect.boxStart);
+            GameMvc.model().get(LocalMap.class).normalizePosition(aspect.boxStart);
 
             // update render
         } else {
@@ -49,7 +49,7 @@ public class EntitySelectorInputHandler {
      * Clears selection box if it exists.
      */
     public void cancelSelection() {
-        selector.getAspect(SelectorBoxAspect.class).boxStart = null;
+        selector.getAspect(SelectionAspect.class).boxStart = null;
         system.handleCancel();
     }
 
@@ -57,14 +57,14 @@ public class EntitySelectorInputHandler {
      * Commits selection box to {@link EntitySelectorSystem} for further handling.
      */
     public void commitSelection() {
-        SelectorBoxAspect aspect = selector.getAspect(SelectorBoxAspect.class);
+        SelectionAspect aspect = selector.getAspect(SelectionAspect.class);
         if (aspect.boxStart == null) aspect.boxStart = selector.position;
         system.handleSelection();
         aspect.boxStart = null;
     }
 
     public void setSelectorPosition(Position position) {
-        GameMvc.instance().model().get(LocalMap.class).normalizePosition(selector.position.set(position.x, position.y, position.z));
+        GameMvc.model().get(LocalMap.class).normalizePosition(selector.position.set(position.x, position.y, position.z));
     }
 
     public boolean moveByKey(int keycode) {
@@ -109,7 +109,7 @@ public class EntitySelectorInputHandler {
     public void moveSelector(int dx, int dy, int dz) {
         cachePosition.set(selector.position);
         selector.position.add(dx, dy, dz);
-        GameMvc.instance().model().get(LocalMap.class).normalizePosition(selector.position);
+        GameMvc.model().get(LocalMap.class).normalizePosition(selector.position);
         if (!cachePosition.equals(selector.position)) system.selectorMoved();
     }
 }

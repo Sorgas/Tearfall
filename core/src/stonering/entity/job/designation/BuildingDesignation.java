@@ -2,7 +2,6 @@ package stonering.entity.job.designation;
 
 import stonering.entity.building.BuildingOrder;
 import stonering.enums.designations.DesignationTypeEnum;
-import stonering.util.geometry.Position;
 
 /**
  * Stores building order.
@@ -14,7 +13,7 @@ public class BuildingDesignation extends Designation {
     public final BuildingOrder order;
 
     public BuildingDesignation(BuildingOrder order) {
-        super(order.position, DesignationTypeEnum.BUILD);
+        super(order.position, DesignationTypeEnum.D_BUILD);
         this.order = order;
     }
 }

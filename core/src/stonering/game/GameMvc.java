@@ -43,15 +43,15 @@ public class GameMvc implements Serializable {
         return instance;
     }
 
-    public GameModel model() {
-        return model;
+    public static GameModel model() {
+        return instance.model;
     }
 
-    public GameView view() {
-        return view;
+    public static GameView view() {
+        return instance.view;
     }
 
-    public GameController controller() {
-        return controller;
+    public static GameController controller() {
+        return instance.controller;
     }
 }
