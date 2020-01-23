@@ -238,7 +238,7 @@ public class TileDrawer extends Drawer {
 
     private void drawDesignation(Designation designation) {
         if (designation != null)
-            spriteUtil.drawSprite(ui_tiles.getBlockTile(DesignationsTileMapping.getAtlasX(designation.getType().CODE), 0), ui_tiles, designation.position);
+            spriteUtil.drawSprite(ui_tiles.getBlockTile(DesignationsTileMapping.getAtlasX(designation.type.CODE), 0), ui_tiles, designation.position);
     }
 
     private void drawZone(Zone zone) {

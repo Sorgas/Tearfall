@@ -38,7 +38,6 @@ public class EntitySelectorInputHandler {
             aspect.boxStart = position;
             System.out.println("Selection started at " + aspect.boxStart);
             GameMvc.model().get(LocalMap.class).normalizePosition(aspect.boxStart);
-
             // update render
         } else {
             commitSelection();

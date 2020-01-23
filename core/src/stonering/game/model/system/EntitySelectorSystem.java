@@ -34,9 +34,8 @@ public class EntitySelectorSystem implements ModelComponent {
     }
 
     public void validateAndUpdate() {
-        //TODO update render
         SelectionAspect aspect = selector.getAspect(SelectionAspect.class);
-        if (aspect.validator != null) aspect.validator.validateAnd(selector.position, bool -> {});
+        if (aspect.validator != null) aspect.validator.validateAnd(selector.position, bool -> {}); //TODO update render
     }
 
     /**
@@ -44,22 +43,20 @@ public class EntitySelectorSystem implements ModelComponent {
      */
     public void handleSelection() {
         SelectionAspect aspect = selector.getAspect(SelectionAspect.class);
-        PositionValidator validator = aspect.validator; // validates each position in box
-        Consumer<Int3dBounds> handler = aspect.selectHandler; // called for each position
-        handler.accept(aspect.getBox());
+        if(aspect.selectHandler != null) aspect.selectHandler.accept(aspect.getBox());
     }
 
     public void handleCancel() {
         selector.getAspect(SelectionAspect.class).boxStart = null;
         SelectionAspect aspect = selector.getAspect(SelectionAspect.class);
         if(aspect.cancelHandler != null) aspect.cancelHandler.accept(selector.position);
-        Toolbar toolbar = GameMvc.instance().view().toolbarStage.toolbar;
+        Toolbar toolbar = GameMvc.view().toolbarStage.toolbar;
         toolbar.hideSubMenus(toolbar.parentMenu);
     }
 
     public void selectorMoved() {
         validateAndUpdate();
-        GameMvc.instance().view().localWorldStage.getCamera().handleSelectorMove();
+        GameMvc.view().localWorldStage.getCamera().handleSelectorMove();
     }
 
     public void setPositionValidator(PositionValidator validator) {
@@ -67,7 +64,7 @@ public class EntitySelectorSystem implements ModelComponent {
     }
 
     public void placeSelectorAtMapCenter() {
-        LocalMap localMap = GameMvc.instance().model().get(LocalMap.class);
+        LocalMap localMap = GameMvc.model().get(LocalMap.class);
         selector.position.x = localMap.xSize / 2;
         selector.position.y = localMap.ySize / 2;
         for (int z = localMap.zSize - 1; z >= 0; z--) {

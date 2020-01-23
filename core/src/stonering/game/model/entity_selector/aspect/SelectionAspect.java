@@ -20,8 +20,8 @@ import java.util.function.Consumer;
  * @author Alexander on 10.01.2020
  */
 public class SelectionAspect extends Aspect {
-    public Position boxStart;
-    public boolean enabled;
+    public Position boxStart; // this with selector's position are opposite corners of selection box
+    public boolean enabled; //
     public Consumer<Int3dBounds> selectHandler; // called once for the whole selection box
     public final Consumer<Consumer<Position>> boxIterator; // iterates over selection box, can be used in selection handler
 
@@ -32,6 +32,7 @@ public class SelectionAspect extends Aspect {
         super(entity);
         enabled = true;
         boxIterator = consumer -> getBox().iterator.accept(position -> validator.doIfSuccess(position, consumer));
+        reset();
     }
 
     public Int3dBounds getBox() {

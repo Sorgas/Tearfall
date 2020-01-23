@@ -17,13 +17,11 @@ public class StageInputAdapter extends InputAdapter {
 
     @Override
     public boolean keyDown(int keycode) {
-        System.out.println("keydown");
         return gameView.getActiveStage().keyDown(keycode);
     }
 
     @Override
     public boolean keyTyped(char character) {
-        System.out.println("keytyped");
         return gameView.getActiveStage().keyTyped(character);
     }
 

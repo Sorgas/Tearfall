@@ -21,7 +21,7 @@ public class TaskCreator {
      */
     public Task createOrderTask(OrderDesignation designation, int priority) {
         Action action = null;
-        switch (designation.getType()) {
+        switch (designation.type) {
             case D_NONE:
                 return null;
             case D_DIG:

@@ -26,12 +26,10 @@ import static stonering.enums.action.TaskStatusEnum.FAILED;
 public class DesignationSystem {
     private TaskContainer container;
     private TaskCreator taskCreator;
-    public final DesignationsValidator validator;
 
     public DesignationSystem(TaskContainer container) {
         this.container = container;
         taskCreator = new TaskCreator();
-        validator = new DesignationsValidator();
     }
 
     public void update() {
@@ -51,7 +49,7 @@ public class DesignationSystem {
      * All simple orders like digging and foraging submitted through this method.
      */
     public Task submitDesignation(Position position, DesignationTypeEnum type, int priority) {
-        if (!validator.validateDesignation(position, type)) return null; // no designation for invalid position
+        if (!type.validator.validate(position)) return null; // no designation for invalid position
         OrderDesignation designation = new OrderDesignation(position, type);
         return container.addTask(taskCreator.createOrderTask(designation, priority));
     }

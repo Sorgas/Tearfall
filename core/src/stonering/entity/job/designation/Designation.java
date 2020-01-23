@@ -14,14 +14,10 @@ import stonering.entity.job.Task;
 public abstract class Designation {
     public final Position position;
     public Task task;
-    private DesignationTypeEnum type;
+    public DesignationTypeEnum type;
 
     public Designation(Position position, DesignationTypeEnum type) {
         this.position = position;
         this.type = type;
-    }
-
-    public DesignationTypeEnum getType() {
-        return type;
     }
 }

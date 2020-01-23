@@ -39,7 +39,9 @@ public class ToolbarPlantsMenu extends ToolbarSubMenuMenu {
                 TaskContainer container = GameMvc.model().get(TaskContainer.class);
                 Logger.UI.logDebug("Toggling button " + text);
                 SelectionAspect aspect = GameMvc.model().get(EntitySelectorSystem.class).selector.getAspect(SelectionAspect.class);
-                aspect.selectHandler = box -> aspect.boxIterator.accept(position -> container.designationSystem.submitDesignation(position, designationType, 1));
+
+                aspect.selectHandler = box -> aspect.boxIterator.accept(
+                        position -> container.designationSystem.submitDesignation(position, designationType, 1));
             }
         }, true);
     }
