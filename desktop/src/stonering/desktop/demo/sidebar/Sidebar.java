@@ -22,19 +22,21 @@ public class Sidebar<T extends Actor> extends Container<ScrollPane> {
     protected boolean vertical;
     protected ScrollPane pane;
 
+
     public Sidebar(T actor, int align, float hideRatio) {
         this.actor = actor;
         this.hideRatio = hideRatio;
         align(normalizeAlign(align));
-        this.actorWrapper = new Container<>(actor).align(getAlign());
         vertical = getAlign() == Align.top || getAlign() == Align.bottom;
+        this.actorWrapper = new Container<>(actor).align(getAlign());
         setActor(createPane(wrapActorWithWidening()));
         adjustSize(this, 1);
         createInterceptListener();
+
     }
 
     private Container wrapActorWithWidening() {
-        return adjustSize(new Container<>(actorWrapper), 1 + hideRatio);
+        return adjustSize(new Container(actorWrapper), 1 + hideRatio);
     }
 
     private Container adjustSize(Container container, float multiplier) {
@@ -86,5 +88,9 @@ public class Sidebar<T extends Actor> extends Container<ScrollPane> {
                 return Align.right;
         }
         throw new IllegalArgumentException("Value " + align + " is not part of com.badlogic.gdx.utils.Align");
+    }
+
+    public float getScrollAmount() {
+        return vertical ? pane.getScrollY() : pane.getScrollX();
     }
 }

@@ -9,13 +9,13 @@ import stonering.util.global.FileLoader;
 import stonering.util.global.Logger;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
- * Load all {@link PlantType}s from jsons, and inits them.
+ * Load all {@link PlantType}s from jsons.
+ * //TODO add json validation
  */
 public class PlantTypeMap {
     private static PlantTypeMap instance;
@@ -26,14 +26,13 @@ public class PlantTypeMap {
     private Json json;
 
     private PlantTypeMap() {
+        Logger.LOADING.log("plant types");
+        json = new Json();
+        json.setOutputType(JsonWriter.OutputType.json);
         plantTypes = new HashMap<>();
         treeTypes = new HashMap<>();
         substrateTypes = new HashMap<>();
         domesticTypes = new HashMap<>();
-        json = new Json();
-        json.setOutputType(JsonWriter.OutputType.json);
-        Logger.LOADING.log("plant types");
-        //TODO add json validation
         loadTypesFileToMap(FileLoader.PLANTS_PATH, plantTypes);
         loadTypesFileToMap(FileLoader.TREES_PATH, treeTypes);
         loadTypesFileToMap(FileLoader.SUBSTRATES_PATH, substrateTypes);

@@ -4,10 +4,8 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import stonering.desktop.sidebar.ScrollList;
 import stonering.util.ui.SimpleScreen;
@@ -34,23 +32,19 @@ public class SideBarDemo extends Game {
 
         setScreen(new SimpleScreen() {
             private List<UiStage> stages;
+            private Label label;
+            private AutoClosingSidebar<ScrollList> sidebar;
 
             @Override
             public void show() {
                 UiStage stage2 = new UiStage();
                 stage2.interceptInput = false;
-                TextButton button = new TextButton("qwer", StaticSkin.getSkin());
-                button.addListener(new ChangeListener() {
-                    @Override
-                    public void changed(ChangeEvent event, Actor actor) {
-                        System.out.println("qwer");
-                    }
-                });
-                Container container = new Container<>(button);
+                label = new Label("", StaticSkin.getSkin());
+                Container container = new Container<>(label);
                 container.align(Align.right).size(300, 300).setFillParent(true);
                 stage2.addActor(container);
-                stages = Stream.of(Align.right)
-                        .map(this::createContainer)
+                stages = Stream.of(Align.right, Align.top, Align.bottom, Align.left)
+                        .map(this::wrapWithContainer)
                         .map(container1 -> {
                                     UiStage stageq = new UiStage();
                                     stageq.interceptInput = false;
@@ -68,6 +62,12 @@ public class SideBarDemo extends Game {
                 Gdx.gl.glClear(Gdx.gl20.GL_COLOR_BUFFER_BIT | Gdx.gl20.GL_DEPTH_BUFFER_BIT);
                 for (int i = stages.size() - 1; i >= 0; i--) {
                     UiStage stage = stages.get(i);
+                    float current = sidebar.pane.getScrollX();
+                    float toClose = current - sidebar.closedScrollValue;
+                    float toOpen = current - sidebar.openedScrollValue;
+                    label.setText("to close: " + toClose+ " \n" +
+                            "to open:" + toOpen+ " \n"+
+                            "current: " + current);
                     stage.act();
                     stage.draw();
                 }
@@ -80,8 +80,9 @@ public class SideBarDemo extends Game {
                 }
             }
 
-            private Container createContainer(int align) {
-                Container container = new Container(new AutoClosingSidebar<>(new ScrollList(align), align, 0.8f));
+            private Container<AutoClosingSidebar<ScrollList>> wrapWithContainer(int align) {
+                sidebar = new AutoClosingSidebar<>(new ScrollList(align), align, 0.8f);
+                Container<AutoClosingSidebar<ScrollList>> container = new Container<>(sidebar);
                 container.setFillParent(true);
                 container.align(align);
                 container.fillY();
