@@ -34,7 +34,7 @@ public class LocalForestGenerator extends LocalFloraGenerator {
     @Override
     protected Set<PlantType> filterPlantsByType() {
         Logger.GENERATION.log("generating trees");
-        return PlantTypeMap.getInstance().getTreeTypes().values().stream().filter(type -> type.isTree).collect(Collectors.toSet());
+        return PlantTypeMap.getInstance().treeTypes.values().stream().filter(type -> type.isTree).collect(Collectors.toSet());
     }
 
     @Override

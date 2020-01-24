@@ -19,16 +19,17 @@ import java.util.Map;
  */
 public class PlantTypeMap {
     private static PlantTypeMap instance;
-    private Map<String, PlantType> plantTypes;
-    private Map<String, PlantType> treeTypes;
-    private Map<String, PlantType> substrateTypes;
-    private Map<String, PlantType> domesticTypes;
+    public final Map<String, PlantType> plantTypes;
+    public final Map<String, PlantType> treeTypes;
+    public final Map<String, PlantType> substrateTypes;
+    public final Map<String, PlantType> domesticTypes;
     private Json json;
 
     private PlantTypeMap() {
         plantTypes = new HashMap<>();
         treeTypes = new HashMap<>();
         substrateTypes = new HashMap<>();
+        domesticTypes = new HashMap<>();
         json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
         Logger.LOADING.log("plant types");
@@ -56,7 +57,6 @@ public class PlantTypeMap {
     }
 
     private void fillDomesticTypes() {
-        domesticTypes = new HashMap<>();
         plantTypes.values().stream().filter(type -> type.isPlant).forEach(type -> domesticTypes.put(type.name, type));
     }
 
@@ -76,21 +76,5 @@ public class PlantTypeMap {
         if (!substrateTypes.containsKey(specimen))
             throw new DescriptionNotFoundException("Plant type with name " + specimen + " not found.");
         return substrateTypes.get(specimen);
-    }
-
-    public Collection<PlantType> getDomesticTypes() {
-        return domesticTypes.values();
-    }
-
-    public Map<String, PlantType> getPlantTypes() {
-        return plantTypes;
-    }
-
-    public Map<String, PlantType> getTreeTypes() {
-        return treeTypes;
-    }
-
-    public Map<String, PlantType> getSubstrateTypes() {
-        return substrateTypes;
     }
 }

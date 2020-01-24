@@ -131,7 +131,7 @@
         "lifeStages":[
             {
                 "titlePrefixSuffix":["", "sapling"],
-                "stageLength":"1",
+                "stageLength":"1"
             },
             {
                 "titlePrefixSuffix":["", ""],

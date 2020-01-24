@@ -1,11 +1,6 @@
 package stonering.enums.designations;
 
-import stonering.entity.plant.PlantBlock;
-import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.unit.job.JobsEnum;
-import stonering.game.GameMvc;
-import stonering.game.model.system.plant.PlantContainer;
-import stonering.util.geometry.Position;
 import stonering.util.validation.DiggingValidator;
 import stonering.util.validation.PositionValidator;
 import stonering.util.validation.TreeChoppingValidator;
@@ -17,6 +12,8 @@ import static stonering.enums.unit.job.JobsEnum.*;
 
 /**
  * Enum of designation types for simple orders like digging, cutting plants, etc.
+ * Has validators to check designation creation and performing
+ *
  * TODO add icons for designations
  * @author Alexander Kuzyakov
  */
@@ -56,17 +53,5 @@ public enum DesignationTypeEnum {
 
     public DesignationTypeEnum getType(int code) {
         return map.get(code);
-    }
-
-    private boolean validatePlantDesignations(Position position, BlockTypesEnum blockOnMap, DesignationTypeEnum type) {
-        PlantContainer container = GameMvc.model().get(PlantContainer.class);
-        switch (type) {
-            case D_CHOP: //TODO designate tree as whole
-
-            case D_HARVEST: //TODO add harvesting from trees
-                PlantBlock block = container.getPlantBlock(position);
-                return block != null && !block.getPlant().type.isTree && !block.getPlant().type.isSubstrate;
-        }
-        return false;
     }
 }
