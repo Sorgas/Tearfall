@@ -2,6 +2,7 @@ package stonering.desktop.sidebar;
 
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
+import stonering.desktop.demo.sidebar.DelayedScrollPane;
 import stonering.util.global.StaticSkin;
 
 /**

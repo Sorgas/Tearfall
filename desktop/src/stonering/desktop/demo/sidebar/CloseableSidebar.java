@@ -55,4 +55,20 @@ public class CloseableSidebar<T extends Actor> extends Sidebar<T> {
                 closedScrollValue = actorWrapper.getPrefWidth() * hideRatio;
         }
     }
+
+    public void close() {
+        if (vertical) {
+            pane.setScrollY(closedScrollValue);
+        } else {
+            pane.setScrollX(closedScrollValue);
+        }
+    }
+
+    public void open() {
+        if (vertical) {
+            pane.setScrollY(openedScrollValue);
+        } else {
+            pane.setScrollX(openedScrollValue);
+        }
+    }
 }

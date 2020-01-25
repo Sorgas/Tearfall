@@ -1,5 +1,6 @@
 package stonering.desktop.demo.sidebar;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -21,7 +22,6 @@ public class Sidebar<T extends Actor> extends Container<ScrollPane> {
     protected float hideRatio; // part of widget that can be hidden.
     protected boolean vertical;
     protected ScrollPane pane;
-
 
     public Sidebar(T actor, int align, float hideRatio) {
         this.actor = actor;
@@ -46,7 +46,7 @@ public class Sidebar<T extends Actor> extends Container<ScrollPane> {
     }
 
     private ScrollPane createPane(Container innerContainer) {
-        pane = new ScrollPane(innerContainer);
+        pane = new DelayedScrollPane(innerContainer, 10);
         pane.setOverscroll(false, false);
         pane.setScrollingDisabled(vertical, !vertical); // allow to scroll by one axis
         pane.setFlickScroll(true);

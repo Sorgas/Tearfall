@@ -35,7 +35,7 @@ public class EntitySelectorInputHandler {
         if (position == null) position = selector.position;
         SelectionAspect aspect = selector.getAspect(SelectionAspect.class);
         if (aspect.enabled) {
-            aspect.boxStart = position;
+            aspect.boxStart = position.clone();
             System.out.println("Selection started at " + aspect.boxStart);
             GameMvc.model().get(LocalMap.class).normalizePosition(aspect.boxStart);
             // update render
