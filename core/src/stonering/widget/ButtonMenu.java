@@ -14,6 +14,8 @@ import java.util.HashMap;
 
 /**
  * Table that stores buttons, and maps hotkeys to buttons.
+ * Toggles buttons when receives hotkey presses. Behavior logic is written in their buttons.
+ * Keys sets of menus should not overlap.
  * Hides itself on Q.
  */
 public abstract class ButtonMenu extends Table implements Hideable {

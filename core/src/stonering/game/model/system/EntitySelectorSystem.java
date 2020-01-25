@@ -49,7 +49,7 @@ public class EntitySelectorSystem implements ModelComponent {
     public void handleCancel() {
         selector.getAspect(SelectionAspect.class).boxStart = null;
         SelectionAspect aspect = selector.getAspect(SelectionAspect.class);
-        if(aspect.cancelHandler != null) aspect.cancelHandler.accept(selector.position);
+        if(aspect.cancelHandler != null) aspect.cancelHandler.run();
         Toolbar toolbar = GameMvc.view().toolbarStage.toolbar;
         toolbar.hideSubMenus(toolbar.parentMenu);
     }

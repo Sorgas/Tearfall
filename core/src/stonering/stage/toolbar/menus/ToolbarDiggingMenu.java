@@ -5,10 +5,10 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.enums.designations.DesignationTypeEnum;
 import stonering.game.GameMvc;
-import stonering.game.controller.controllers.designation.BoxDesignationSequence;
 import stonering.game.model.entity_selector.aspect.SelectionAspect;
 import stonering.game.model.system.EntitySelectorSystem;
 import stonering.game.model.system.task.TaskContainer;
+import stonering.util.global.Logger;
 import stonering.widget.ToolbarSubMenuMenu;
 
 import static stonering.enums.designations.DesignationTypeEnum.*;
@@ -22,7 +22,6 @@ import static stonering.enums.designations.DesignationTypeEnum.*;
  * @author Alexander Kuzyakov
  */
 public class ToolbarDiggingMenu extends ToolbarSubMenuMenu {
-    private BoxDesignationSequence sequence;
 
     public ToolbarDiggingMenu(Toolbar toolbar) {
         super(toolbar);
@@ -32,30 +31,19 @@ public class ToolbarDiggingMenu extends ToolbarSubMenuMenu {
         addButton("H: stairs", D_STAIRS, Input.Keys.H); // other types of stairs are handled automatically
         addButton("K: downstairs", D_DOWNSTAIRS, Input.Keys.J);
         addButton("N: clear", D_NONE, Input.Keys.N);
-        sequence = new BoxDesignationSequence(D_DIG);
     }
 
     private void addButton(String text, DesignationTypeEnum type, int hotKey) {
         super.createButton(text, hotKey, new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                Logger.UI.logDebug("EntitySelector handlers changed");
                 SelectionAspect aspect = GameMvc.model().get(EntitySelectorSystem.class).selector.getAspect(SelectionAspect.class);
                 TaskContainer container = GameMvc.model().get(TaskContainer.class);
                 aspect.validator = type.validator;
                 aspect.selectHandler = box -> aspect.boxIterator.accept(position -> container.designationSystem.submitDesignation(position, type, 1));
+                aspect.cancelHandler = aspect::reset;
             }
         }, true);
-    }
-
-    @Override
-    public void show() {
-        super.show();
-        sequence.designationType = D_DIG; // DIG is default designation
-        sequence.start();
-    }
-
-    @Override
-    protected void onHide() {
-        sequence.reset();
     }
 }

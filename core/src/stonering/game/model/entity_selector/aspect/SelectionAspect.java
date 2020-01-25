@@ -6,6 +6,7 @@ import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.EntitySelector;
 import stonering.util.geometry.Int3dBounds;
 import stonering.util.geometry.Position;
+import stonering.util.global.Logger;
 import stonering.util.validation.PositionValidator;
 
 import java.util.function.Consumer;
@@ -25,7 +26,7 @@ public class SelectionAspect extends Aspect {
     public Consumer<Int3dBounds> selectHandler; // called once for the whole selection box
     public final Consumer<Consumer<Position>> boxIterator; // iterates over selection box, can be used in selection handler
 
-    public Consumer<Position> cancelHandler;
+    public Runnable cancelHandler;
     public PositionValidator validator; // validates each position
 
     public SelectionAspect(Entity entity) {
@@ -40,6 +41,7 @@ public class SelectionAspect extends Aspect {
     }
 
     public void reset() {
+        Logger.UI.logDebug("EntitySelector reset.");
         selectHandler = position -> GameMvc.instance().view().showEntityStage(getBox());
         validator = position -> true;
     }
