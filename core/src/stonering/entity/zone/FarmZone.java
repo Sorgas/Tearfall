@@ -56,13 +56,13 @@ public class FarmZone extends Zone {
      */
     public void update() {
         if (plantType == null) return; // no plant set for farm
-        int currentMonth = GameMvc.instance().model().get(WorldCalendar.class).currentMonth;
+        int currentMonth = GameMvc.model().get(WorldCalendar.class).currentMonth;
 
         boolean plantingEnabled = plantType.plantingStart.contains(currentMonth);
         boolean hoeingEnabled = plantingEnabled || plantType.plantingStart.contains((currentMonth + 1) % 12);
-        LocalMap localMap = GameMvc.instance().model().get(LocalMap.class);
-        TaskContainer taskContainer = GameMvc.instance().model().get(TaskContainer.class);
-        PlantContainer plantContainer = GameMvc.instance().model().get(PlantContainer.class);
+        LocalMap localMap = GameMvc.model().get(LocalMap.class);
+        TaskContainer taskContainer = GameMvc.model().get(TaskContainer.class);
+        PlantContainer plantContainer = GameMvc.model().get(PlantContainer.class);
         for (Position tile : tiles) {
             // can delete tile from zone
             if (!isTileValid(ZoneTypesEnum.FARM.validator, tile, localMap)) continue;
@@ -88,7 +88,7 @@ public class FarmZone extends Zone {
      */
     private boolean isTileValid(PositionValidator validator, Position tile, LocalMap localMap) {
         if (validator.validate(tile)) return true;
-        GameMvc.instance().model().get(ZoneContainer.class).setTileToZone(null, tile); // remove invalid tile
+        GameMvc.model().get(ZoneContainer.class).setTileToZone(null, tile); // remove invalid tile
         return false;
     }
 
@@ -114,7 +114,7 @@ public class FarmZone extends Zone {
     private boolean checkExistingPlant(AbstractPlant plant, Position tile, TaskContainer container) {
         if (plant == null) return true;
         if (!plantType.equals(plant.type)) { // cut unwanted plants
-            addTask(container.designationSystem.submitDesignation(tile, DesignationTypeEnum.D_CUT, 1), tile);
+            container.designationSystem.submitDesignation(tile, DesignationTypeEnum.D_CUT, 1);
             return false;
         }
         //TODO add produc aspect to plants
@@ -146,7 +146,7 @@ public class FarmZone extends Zone {
             Logger.ZONES.logError("Farm tries to allocate null task");
             return;
         }
-        GameMvc.instance().model().get(TaskContainer.class).addTask(task);
+        GameMvc.model().get(TaskContainer.class).addTask(task);
         taskMap.put(tile, task);
     }
 

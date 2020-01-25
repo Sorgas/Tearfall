@@ -7,9 +7,7 @@ import stonering.entity.job.designation.Designation;
 import stonering.entity.job.designation.OrderDesignation;
 import stonering.enums.designations.DesignationTypeEnum;
 import stonering.enums.designations.PlaceValidatorsEnum;
-import stonering.game.GameMvc;
 import stonering.game.controller.controllers.designation.BuildingDesignationSequence;
-import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
 
@@ -41,17 +39,19 @@ public class DesignationSystem {
     }
 
     private void createTaskForDesignation(Designation designation) {
-        Logger.TASKS.logError("write some code"); //TODO
+        container.addTask(taskCreator.createTaskForDesignation(designation, 1));
     }
 
     /**
      * Validates designation and creates comprehensive task.
      * All simple orders like digging and foraging submitted through this method.
      */
-    public Task submitDesignation(Position position, DesignationTypeEnum type, int priority) {
-        if (!type.validator.validate(position)) return null; // no designation for invalid position
-        OrderDesignation designation = new OrderDesignation(position, type);
-        return container.addTask(taskCreator.createOrderTask(designation, priority));
+    public void submitDesignation(Position position, DesignationTypeEnum type, int priority) {
+        if(type == DesignationTypeEnum.D_NONE) {
+            removeDesignation(container.designations.get(position));
+        } else {
+            if (type.validator.validate(position)) container.designations.put(position, new OrderDesignation(position, type));
+        }
     }
 
     /**
@@ -60,7 +60,6 @@ public class DesignationSystem {
      * All single-tile buildings are constructed through this method.
      */
     public void submitBuildingDesignation(BuildingOrder order, int priority) {
-        LocalMap localMap = GameMvc.instance().model().get(LocalMap.class);
         if (!PlaceValidatorsEnum.getValidator(order.blueprint.placing).validate(order.position)) return;
         BuildingDesignation designation = new BuildingDesignation(order);
         Task task = taskCreator.createBuildingTask(designation, priority);
@@ -70,6 +69,7 @@ public class DesignationSystem {
     }
 
     public void removeDesignation(Designation designation) {
+        if(designation == null) return;
         container.designations.remove(designation.position); // remove designation to not render it
         if (designation.task != null) designation.task.status = FAILED; // task will be removed by tasksStatusSystem
     }
