@@ -1,12 +1,14 @@
 package stonering.enums.unit.job;
 
+import stonering.entity.unit.aspects.job.JobsAspect;
+
 import java.util.HashSet;
 import java.util.Set;
 
 /**
  * Holds all possible jobs.
  * Some {@link stonering.entity.job.Task}s require related job to be enabled.
- * They can be enabled for units with {@link stonering.entity.unit.aspects.JobsAspect}.
+ * They can be enabled for units with {@link JobsAspect}.
  *
  *
  * @author Alexander on 08.08.2019.

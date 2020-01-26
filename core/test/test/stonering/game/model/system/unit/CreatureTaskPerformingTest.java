@@ -7,7 +7,7 @@ import stonering.entity.job.Task;
 import stonering.entity.job.action.Action;
 import stonering.entity.job.action.MoveAction;
 import stonering.entity.unit.Unit;
-import stonering.entity.unit.aspects.JobsAspect;
+import stonering.entity.unit.aspects.job.JobsAspect;
 import stonering.entity.unit.aspects.PlanningAspect;
 import stonering.enums.blocks.BlockTypesEnum;
 import stonering.enums.unit.CreatureType;
@@ -15,7 +15,6 @@ import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
 import stonering.game.model.MainGameModel;
 import stonering.game.model.local_map.LocalMap;
-import stonering.game.model.system.task.CreatureTaskPerformingSystem;
 import stonering.game.model.system.unit.UnitContainer;
 import stonering.util.geometry.Position;
 

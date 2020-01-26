@@ -1,4 +1,4 @@
-package stonering.entity.unit.aspects;
+package stonering.entity.unit.aspects.job;
 
 import stonering.entity.Aspect;
 import stonering.entity.Entity;
@@ -15,22 +15,17 @@ import java.util.*;
  * @author Alexander Kuzyakov on 31.01.2018.
  */
 public class JobsAspect extends Aspect {
-    private Set<String> enabledJobs;
-    private Map<String, Integer> skills; // skill name to level.
-    private Map<String, Integer> experience;
+    private Set<JobsEnum> enabledJobs;
+    private Map<JobsEnum, LeveledValue> skills; // skill name to level.
 
     public JobsAspect(Entity entity) {
         super(entity);
         enabledJobs = new HashSet<>();
         skills = new HashMap<>();
-        enabledJobs.add(JobsEnum.NONE.NAME);
+        enabledJobs.add(JobsEnum.NONE);
     }
 
-    public float getSkillModifier(String skillName) {
-        return 1f;
-    }
-
-    public Set<String> getEnabledJobs() {
+    public Set<JobsEnum> getEnabledJobs() {
         return enabledJobs;
     }
 }

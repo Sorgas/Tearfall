@@ -12,7 +12,6 @@ import stonering.enums.designations.DesignationTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.local_map.LocalMap;
-import stonering.game.model.system.task.TaskContainer;
 import stonering.generators.items.DiggingProductGenerator;
 import stonering.util.geometry.Position;
 
@@ -32,16 +31,17 @@ public class DigAction extends Action {
         type = designation.type;
         toolItemSelector = new ToolWithActionItemSelector("dig");
         startCondition = () -> {
-            if (!validate()) return FAIL;
-            EquipmentAspect aspect = task.performer.getAspect(EquipmentAspect.class);
-            if (aspect == null) return FAIL;
-            if (toolItemSelector.checkItems(aspect.equippedItems)) return OK;
+            if (!type.validator.validate(actionTarget.getPosition())) return FAIL;
+            EquipmentAspect equipment = task.performer.getAspect(EquipmentAspect.class);
+            if (equipment == null) return FAIL;
+            if (toolItemSelector.checkItems(equipment.equippedItems)) return OK;
             return addEquipAction();
         };
         onFinish = () -> {
             BlockTypesEnum oldType = GameMvc.model().get(LocalMap.class).getBlockTypeEnumValue(actionTarget.getPosition());
-            if (validate()) updateMap();
+            if (type.validator.validate(actionTarget.getPosition())) updateMap();
             leaveStone(oldType);
+            //TODO add experience
         };
     }
 
@@ -51,13 +51,6 @@ public class DigAction extends Action {
         if (target == null) return FAIL;
         task.addFirstPreAction(new EquipItemAction(target, true));
         return NEW;
-    }
-
-    /**
-     * Checks that target block can be changed to a target type.
-     */
-    private boolean validate() {
-        return type.validator.validate(actionTarget.getPosition());
     }
 
     /**

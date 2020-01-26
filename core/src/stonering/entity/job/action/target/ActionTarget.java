@@ -32,11 +32,8 @@ public abstract class ActionTarget {
      */
     public ActionTargetStatusEnum check(Position performerPosition) {
         Logger.TASKS.logDebug("Checking action target " + performerPosition + " " + getPosition());
-        if(getPosition() == null || performerPosition == null) {
-            System.out.println();
-        }
-        if(!GameMvc.instance().model().get(LocalMap.class).inMap(performerPosition)) return FAIL;
-        if(!GameMvc.instance().model().get(LocalMap.class).inMap(getPosition())) return FAIL;
+        if(!GameMvc.model().get(LocalMap.class).inMap(performerPosition)) return FAIL;
+        if(!GameMvc.model().get(LocalMap.class).inMap(getPosition())) return FAIL;
         int distance = getDistance(performerPosition);
         if (distance > 1) return WAIT; // target not yet reached
         switch (targetType) {
@@ -55,7 +52,7 @@ public abstract class ActionTarget {
 
     public Position findPositionToStepOff(Position from) {
         Logger.TASKS.logDebug("Looking for position to step off from " + from);
-        List<Position> positions = GameMvc.instance().model().get(LocalMap.class).getFreeBlockNear(from);
+        List<Position> positions = GameMvc.model().get(LocalMap.class).getFreeBlockNear(from);
         if (!positions.isEmpty()) {
             return positions.get(random.nextInt(positions.size()));
         }

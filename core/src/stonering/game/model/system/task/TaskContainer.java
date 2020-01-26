@@ -4,11 +4,12 @@ import org.jetbrains.annotations.NotNull;
 import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.job.designation.Designation;
 import stonering.entity.unit.Unit;
-import stonering.entity.unit.aspects.JobsAspect;
+import stonering.entity.unit.aspects.job.JobsAspect;
 import stonering.entity.unit.aspects.PlanningAspect;
 import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.enums.action.TaskStatusEnum;
 import stonering.enums.time.TimeUnitEnum;
+import stonering.enums.unit.job.JobsEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.Updatable;
 import stonering.game.model.local_map.passage.PassageMap;
@@ -28,7 +29,7 @@ import java.util.*;
  * @author Alexander Kuzyakov
  */
 public class TaskContainer implements ModelComponent, Updatable {
-    public Map<String, List<Task>> tasks; // task job to all tasks with this job
+    public Map<JobsEnum, List<Task>> tasks; // task job to all tasks with this job
     public final Set<Task> assignedTasks; // tasks, taken by some unit.
     public final HashMap<Position, Designation> designations; //this map is for rendering and modifying designations
     private Position cachePosition; // state is not maintained. should be set before use
@@ -62,8 +63,8 @@ public class TaskContainer implements ModelComponent, Updatable {
             return null;
         }
         final Position position = unit.position;
-        PassageMap map = GameMvc.instance().model().get(LocalMap.class).passageMap;
-        for (String enabledJob : aspect.getEnabledJobs()) {
+        PassageMap map = GameMvc.model().get(LocalMap.class).passageMap;
+        for (JobsEnum enabledJob : aspect.getEnabledJobs()) {
             if (!tasks.containsKey(enabledJob)) continue;
             for (Task task : tasks.get(enabledJob)) {
                 if (task.performer != null) Logger.TASKS.logError("Task " + task + " with performer is in open map.");
