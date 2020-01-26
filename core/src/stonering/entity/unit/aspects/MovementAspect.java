@@ -19,4 +19,12 @@ public class MovementAspect extends Aspect {
     public MovementAspect(Entity entity) {
         super(entity);
     }
+
+    /**
+     * Deletes target and path making unit to stop immediately.
+     */
+    public void reset() {
+        path = null;
+        target = null;
+    }
 }

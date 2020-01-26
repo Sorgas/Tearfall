@@ -32,16 +32,16 @@ public class ToolbarPlantsMenu extends ToolbarSubMenuMenu {
         addButtonToTable("U: clear", "", D_NONE, Input.Keys.U);
     }
 
-    private void addButtonToTable(String text, String iconName, DesignationTypeEnum designationType, int hotKey) {
+    private void addButtonToTable(String text, String iconName, DesignationTypeEnum type, int hotKey) {
         createButton(text, iconName, hotKey, new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 TaskContainer container = GameMvc.model().get(TaskContainer.class);
                 Logger.UI.logDebug("Toggling button " + text);
                 SelectionAspect aspect = GameMvc.model().get(EntitySelectorSystem.class).selector.getAspect(SelectionAspect.class);
-
-                aspect.selectHandler = box -> aspect.boxIterator.accept(
-                        position -> container.designationSystem.submitDesignation(position, designationType, 1));
+                aspect.validator = type.validator;
+                aspect.selectHandler = box -> aspect.boxIterator.accept(position -> container.designationSystem.submitDesignation(position, type, 1));
+                aspect.cancelHandler = aspect::reset;
             }
         }, true);
     }

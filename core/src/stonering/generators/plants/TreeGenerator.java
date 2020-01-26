@@ -27,8 +27,8 @@ public class TreeGenerator {
         PlantType type = PlantTypeMap.getInstance().getTreeType(specimen);
         Tree tree = new Tree(type);
         //TODO set age
+        tree.addAspect(new PlantGrowthAspect(tree, age));
         tree.setBlocks(createTreeBlocks(tree));
-        tree.addAspect(new PlantGrowthAspect(tree));
         return tree;
     }
 

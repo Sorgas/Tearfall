@@ -26,19 +26,23 @@ import java.util.List;
 public class PlantGrowthAspect extends Aspect {
     public int age; // in weeks
     public int currentStage;
-    public boolean dead ;
+    public boolean dead;
     public int counter;
 
     public PlantGrowthAspect(Entity entity) {
-        super(entity);
-        age = 0;
+        this(entity, 0);
         currentStage = 0;
         dead = false;
         counter = 0;
     }
 
+    public PlantGrowthAspect(Entity entity, int age) {
+        super(entity);
+        this.age = age;
+    }
+
     public PlantLifeStage getCurrentStage() {
-        if(dead) return null;
+        if (dead) return null;
         List<PlantLifeStage> stages = ((AbstractPlant) entity).type.lifeStages;
         return stages.size() > currentStage ? stages.get(currentStage) : null;
     }

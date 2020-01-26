@@ -3,6 +3,7 @@ package stonering.game.model.system.unit;
 import stonering.entity.job.Task;
 import stonering.entity.job.action.ActionConditionStatusEnum;
 import stonering.entity.unit.Unit;
+import stonering.entity.unit.aspects.MovementAspect;
 import stonering.entity.unit.aspects.PlanningAspect;
 import stonering.entity.unit.aspects.needs.NeedsAspect;
 import stonering.game.GameMvc;
@@ -24,7 +25,6 @@ import static stonering.enums.action.TaskStatusEnum.*;
  * Looks for new task for unit if it hasn't one.
  * Removes finished, failed and paused tasks from units.
  * Considers only task statuses, see {@link CreatureTaskPerformingSystem}.
- * TODO add target aspects to systems
  *
  * @author Alexander on 28.10.2019.
  */
@@ -37,23 +37,26 @@ public class CreaturePlanningSystem extends EntitySystem<Unit> {
 
     @Override
     public void update(Unit unit) {
-        PlanningAspect aspect = unit.getAspect(PlanningAspect.class);
-        if (aspect.task == null) {
+        if (unit.getAspect(PlanningAspect.class).task == null) {
             findAndAssignNewTask(unit);
         } else {
-            checkTaskStatus(aspect, aspect.task);
+            checkTaskStatus(unit);
         }
     }
 
-    private void checkTaskStatus(@NotNull PlanningAspect aspect, @NotNull Task task) {
+    private void checkTaskStatus(Unit unit) {
+        PlanningAspect planning = unit.getAspect(PlanningAspect.class);
+        Task task = planning.task;
         switch (task.status) {
             case OPEN:
-                Logger.TASKS.logError("claimed task with open status");
+                Logger.TASKS.logWarn("claimed task with open status");
                 task.status = ACTIVE; // start claimed and open task
                 break;
             case FAILED:
             case COMPLETE:
-                freeAspect(aspect);
+            case CANCELED:
+                unit.getAspect(MovementAspect.class).reset();
+                planning.task = null; // free this aspect
                 task.reset();
         }
     }
@@ -87,11 +90,6 @@ public class CreaturePlanningSystem extends EntitySystem<Unit> {
                 .max(Comparator.comparingInt(task1 -> task1.priority)).orElse(null);
     }
 
-    private void freeAspect(@NotNull PlanningAspect aspect) {
-        aspect.task = null; // free this aspect
-//        aspect.movementNeeded = false;
-    }
-
     /**
      * Checks if task (with all sub-actions) can be performed by unit.
      * In this method requirement aspects of actions create additional actions.
@@ -110,6 +108,6 @@ public class CreaturePlanningSystem extends EntitySystem<Unit> {
     }
 
     private TaskContainer taskContainer() {
-        return GameMvc.instance().model().get(TaskContainer.class);
+        return GameMvc.model().get(TaskContainer.class);
     }
 }

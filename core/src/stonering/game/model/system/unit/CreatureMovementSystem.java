@@ -40,7 +40,7 @@ public class CreatureMovementSystem extends EntitySystem<Unit> {
 
     @Override
     public void update(Unit unit) {
-        GameModel model = GameMvc.instance().model();
+        GameModel model = GameMvc.model();
         localMap = model.get(LocalMap.class);
         unitContainer = model.get(UnitContainer.class);
         aStar = model.get(AStar.class);

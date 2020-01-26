@@ -11,7 +11,7 @@ import stonering.game.controller.controllers.designation.BuildingDesignationSequ
 import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
 
-import static stonering.enums.action.TaskStatusEnum.FAILED;
+import static stonering.enums.action.TaskStatusEnum.*;
 
 /**
  * Creates tasks for designations, recreates failed tasks.
@@ -47,10 +47,12 @@ public class DesignationSystem {
      * All simple orders like digging and foraging submitted through this method.
      */
     public void submitDesignation(Position position, DesignationTypeEnum type, int priority) {
-        if(type == DesignationTypeEnum.D_NONE) {
-            removeDesignation(container.designations.get(position));
+        if (type == DesignationTypeEnum.D_NONE) {
+            Designation designation = container.designations.get(position);
+            if (designation != null && designation.task != null) designation.task.status = CANCELED;
         } else {
-            if (type.validator.validate(position)) container.designations.put(position, new OrderDesignation(position, type));
+            if (type.validator.validate(position))
+                container.designations.put(position, new OrderDesignation(position, type));
         }
     }
 
@@ -66,11 +68,5 @@ public class DesignationSystem {
         container.addTask(task);
         container.designations.put(designation.position, designation);
         Logger.TASKS.log(task.name + " designated");
-    }
-
-    public void removeDesignation(Designation designation) {
-        if(designation == null) return;
-        container.designations.remove(designation.position); // remove designation to not render it
-        if (designation.task != null) designation.task.status = FAILED; // task will be removed by tasksStatusSystem
     }
 }
