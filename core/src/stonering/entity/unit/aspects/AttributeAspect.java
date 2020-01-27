@@ -37,10 +37,6 @@ public class AttributeAspect extends Aspect {
         valid = false;
     }
 
-    private void updateSpeed() {
-        entity.getAspect(MovementAspect.class).speed = BASIC_SPEED + attributes.get(AGILITY) * AGILITY_SPEED_MODIFIER;
-    }
-
     public void update(AttributesEnum attribute, int delta) {
         attributes.put(attribute, attributes.get(attribute) + delta);
     }

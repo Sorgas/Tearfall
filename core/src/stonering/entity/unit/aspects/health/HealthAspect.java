@@ -11,14 +11,16 @@ import java.util.Map;
 
 /**
  * Stores health condition of a unit. See {@link CreatureHealthSystem}
+ * Properties are values that can influence creature in a various way.
+ * Default values are 0, and only buff modifiers are stored. Buffs apply additive changes, which is removed when buff fades.
  *
- *
+ * Parameters are values of creatures health conditions, like hunger of fatigue. Parameters can produce buffs which influence properties.
  * TODO add calculation of max values based on creature's attributes.
  *
  * @author Alexander_Kuzyakov
  */
 public class HealthAspect extends Aspect {
-    public final Map<String, Float> properties;
+    public final Map<String, Float> properties; // make properties enumeration
     public final Map<HealthParameterEnum, HealthParameterState> parameters;
 
     public HealthAspect(Entity entity) {

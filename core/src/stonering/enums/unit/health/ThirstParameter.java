@@ -21,14 +21,14 @@ public class ThirstParameter extends HealthParameter {
 
     @Override
     protected void fillRanges() {
-        ranges.add(new HealthParameterRange(0, 20, NONE, () -> createBuffWithDelta(10, 0)));
+        ranges.add(new HealthParameterRange(0, 20, NONE, () -> createBuffWithDelta(0.1f, 0)));
         ranges.add(new HealthParameterRange(20, 50, NONE, () -> null));
-        ranges.add(new HealthParameterRange(50, 60, COMFORT, () -> createBuffWithDelta(-10, 2)));
-        ranges.add(new HealthParameterRange(60, 80, HEALTH_NEEDS, () -> createBuffWithDelta(-25, 0)));
+        ranges.add(new HealthParameterRange(50, 60, COMFORT, () -> createBuffWithDelta(-0.1f, 2)));
+        ranges.add(new HealthParameterRange(60, 80, HEALTH_NEEDS, () -> createBuffWithDelta(-0.25f, 0)));
         ranges.add(new HealthParameterRange(80, 101, SAFETY, () -> new HealthTimedBuff(tag, -1, "hp", 4, iconY)));
     }
 
-    private Buff createBuffWithDelta(int delta, int iconX) {
+    private Buff createBuffWithDelta(float delta, int iconX) {
         return new HealthBuff(tag, delta, "performance", iconX, iconY);
     }
 }

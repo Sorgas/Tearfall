@@ -1,6 +1,6 @@
 package stonering.generators.localgen.generators;
 
-import stonering.enums.blocks.BlockTypesEnum;
+import stonering.enums.blocks.BlockTypeEnum;
 import stonering.game.model.local_map.LocalMap;
 import stonering.generators.PerlinNoiseGenerator;
 import stonering.generators.localgen.LocalGenContainer;
@@ -81,7 +81,7 @@ public class LocalCaveGenerator extends LocalAbstractGenerator {
             for (int y = 0; y < config.areaSize
                     ; y++) {
                 for (int z = height - (layer[x][y] / 10); z < layer[x][y] + height; z++) {
-                    localMap.setBlock(x, y, z, BlockTypesEnum.SPACE, 0);
+                    localMap.setBlock(x, y, z, BlockTypeEnum.SPACE, 0);
                 }
             }
         }
@@ -97,8 +97,8 @@ public class LocalCaveGenerator extends LocalAbstractGenerator {
                     - 10) + 5;
             int y = random.nextInt(config.areaSize
                     - 10) + 5;
-            if (localMap.getBlockType(x, y, top) == BlockTypesEnum.SPACE.CODE) continue;
-            if (localMap.getBlockType(x, y, bottom) == BlockTypesEnum.SPACE.CODE) continue;
+            if (localMap.getBlockType(x, y, top) == BlockTypeEnum.SPACE.CODE) continue;
+            if (localMap.getBlockType(x, y, bottom) == BlockTypeEnum.SPACE.CODE) continue;
 
             boolean reject = false;
             for (int i = xs.length - 1; i > count - 1; i--) {
@@ -125,7 +125,7 @@ public class LocalCaveGenerator extends LocalAbstractGenerator {
             for (int y = yc - r; y <= yc + r; y++) {
                 if (Math.pow((float) (x - xc), 2) + Math.pow((float) (y - yc), 2) < r * r) {
                     for (int z = bottom; z <= top; z++) {
-                        localMap.setBlock(x, y, z, BlockTypesEnum.SPACE, 0);
+                        localMap.setBlock(x, y, z, BlockTypeEnum.SPACE, 0);
                     }
                 }
             }

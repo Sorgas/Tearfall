@@ -16,14 +16,13 @@ public class HealthAspectGenerator {
 
     public HealthAspect generateHealthAspect(Unit unit) {
         HealthAspect aspect = new HealthAspect(unit);
-        aspect.properties.put("performance", 100f);
-        aspect.properties.put("hp", 100f);
+        aspect.properties.put("performance", 0f);
+        aspect.properties.put("hp", 0f);
         aspect.parameters.put(FATIGUE, generateStateForFatigue());
         aspect.parameters.put(HUNGER, new HealthParameterState(HUNGER));
         aspect.parameters.put(THIRST, new HealthParameterState(THIRST));
         return aspect;
     }
-
 
     public HealthParameterState generateStateForFatigue() {
         //TODO adjust max fatigue

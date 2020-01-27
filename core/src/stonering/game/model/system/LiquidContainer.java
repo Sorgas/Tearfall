@@ -1,6 +1,6 @@
 package stonering.game.model.system;
 
-import stonering.enums.blocks.BlockTypesEnum;
+import stonering.enums.blocks.BlockTypeEnum;
 import stonering.enums.materials.MaterialMap;
 import stonering.enums.time.TimeUnitEnum;
 import stonering.game.GameMvc;
@@ -84,12 +84,12 @@ public class LiquidContainer implements ModelComponent, Initable, Updatable {
     }
 
     private void cacheConstants() {
-        spaceCode = BlockTypesEnum.SPACE.CODE;
-        wallCode = BlockTypesEnum.WALL.CODE;
-        floorCode = BlockTypesEnum.FLOOR.CODE;
-        rampCode = BlockTypesEnum.RAMP.CODE;
-        stairsCode = BlockTypesEnum.STAIRS.CODE;
-        stairfloorCode = BlockTypesEnum.DOWNSTAIRS.CODE;
+        spaceCode = BlockTypeEnum.SPACE.CODE;
+        wallCode = BlockTypeEnum.WALL.CODE;
+        floorCode = BlockTypeEnum.FLOOR.CODE;
+        rampCode = BlockTypeEnum.RAMP.CODE;
+        stairsCode = BlockTypeEnum.STAIRS.CODE;
+        stairfloorCode = BlockTypeEnum.DOWNSTAIRS.CODE;
     }
 
     /**

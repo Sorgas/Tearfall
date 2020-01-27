@@ -6,7 +6,7 @@ import stonering.entity.item.selectors.ItemSelector;
 import stonering.entity.item.selectors.ToolWithActionItemSelector;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.enums.ZoneTypesEnum;
-import stonering.enums.blocks.BlockTypesEnum;
+import stonering.enums.blocks.BlockTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.system.ZoneContainer;
@@ -43,7 +43,7 @@ public class HoeingAction extends Action {
         onFinish = () -> {
             Logger.TASKS.logDebug("Hoeing tile " + actionTarget.getPosition());
             LocalMap localMap = GameMvc.instance().model().get(LocalMap.class);
-            localMap.setBlockType(actionTarget.getPosition(), BlockTypesEnum.FARM.CODE);
+            localMap.setBlockType(actionTarget.getPosition(), BlockTypeEnum.FARM.CODE);
         };
     }
 

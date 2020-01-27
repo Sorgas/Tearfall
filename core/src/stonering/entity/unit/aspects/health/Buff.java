@@ -15,21 +15,19 @@ import stonering.game.model.system.unit.CreatureBuffSystem;
  */
 public abstract class Buff implements Cloneable {
     public final String tag;
-    public final int delta; // some creature property is changed by this value
-
-    public CreatureStatusIcon icon; // optional
-
+    public final float delta; // some creature property is changed by this value
     public int ticksLeft = -1; // decreases every tick. buff is removed, when reaches zero. -1 for infinite buffs
+    public CreatureStatusIcon icon; // optional
 
     /**
      * Buff with no icon.
      */
-    public Buff(String tag, int delta) {
+    public Buff(String tag, float delta) {
         this.tag = tag;
         this.delta = delta;
     }
 
-    public Buff(String tag, int delta, int x, int y) {
+    public Buff(String tag, float delta, int x, int y) {
         this(tag, delta);
         icon = new CreatureStatusIcon(x, y);
     }

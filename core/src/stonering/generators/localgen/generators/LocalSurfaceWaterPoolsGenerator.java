@@ -1,6 +1,6 @@
 package stonering.generators.localgen.generators;
 
-import stonering.enums.blocks.BlockTypesEnum;
+import stonering.enums.blocks.BlockTypeEnum;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.model.local_map.LocalMap;
 import stonering.generators.PerlinNoiseGenerator;
@@ -71,7 +71,7 @@ public class LocalSurfaceWaterPoolsGenerator extends LocalAbstractGenerator {
             MaterialMap materialMap = MaterialMap.instance();
             for (Point point : points) {
                 for (int z = highestPoint; z >= lowestPoint; z--) {
-                    localMap.setBlock(point.x, point.y, z, BlockTypesEnum.SPACE, materialMap.getId("air"));
+                    localMap.setBlock(point.x, point.y, z, BlockTypeEnum.SPACE, materialMap.getId("air"));
                 }
                 heightMap[point.x][point.y] = lowestPoint;
             }

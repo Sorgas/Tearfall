@@ -34,7 +34,7 @@ public class AttributeBuff extends Buff {
             Logger.UNITS.logError("Trying to apply buff " + this + " to unit " + unit + " with no AttributeAspect");
             return false;
         }
-        aspect.update(attribute, delta * multiplier); // will call other systems to update characteristics
+        aspect.update(attribute, (int) delta * multiplier); // will call other systems to update characteristics
         return true;
     }
 }

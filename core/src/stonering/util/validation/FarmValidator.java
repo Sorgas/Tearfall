@@ -1,6 +1,6 @@
 package stonering.util.validation;
 
-import stonering.enums.blocks.BlockTypesEnum;
+import stonering.enums.blocks.BlockTypeEnum;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
@@ -19,8 +19,8 @@ public class FarmValidator implements PositionValidator {
     @Override
     public boolean validate(Position position) {
         LocalMap localMap = GameMvc.instance().model().get(LocalMap.class);
-        if ((localMap.getBlockType(position) == BlockTypesEnum.FLOOR.CODE ||
-                localMap.getBlockType(position) == BlockTypesEnum.FARM.CODE) && // tile is floor or farm
+        if ((localMap.getBlockType(position) == BlockTypeEnum.FLOOR.CODE ||
+                localMap.getBlockType(position) == BlockTypeEnum.FARM.CODE) && // tile is floor or farm
                 MaterialMap.instance().getMaterial(localMap.getMaterial(position)).tags.contains(SOIL_TAG)) { // tile is soil
             return true;
         }

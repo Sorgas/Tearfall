@@ -7,8 +7,7 @@
     {
         "name": "miner",
         "levels": [40, 90, 180, 300, 500],
-        "speed": 0.04,
-        "quality": 0.1 // reduces damage to dug out items
+        "speed": 0.04
     }, {
     "name": "woodcutter",
     "levels": [40, 90, 180, 300, 500],

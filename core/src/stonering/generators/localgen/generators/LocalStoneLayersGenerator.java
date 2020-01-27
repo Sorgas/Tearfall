@@ -1,6 +1,6 @@
 package stonering.generators.localgen.generators;
 
-import stonering.enums.blocks.BlockTypesEnum;
+import stonering.enums.blocks.BlockTypeEnum;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.model.local_map.LocalMap;
 import stonering.generators.localgen.LocalGenContainer;
@@ -56,7 +56,7 @@ public class LocalStoneLayersGenerator extends LocalAbstractGenerator {
                     if (z <= heigtsMap[x][y]) { //non space sell
                         id = z - (heigtsMap[x][y] - (layerIds.length - 1));
                         id = id < 0 ? 0 : id;
-                        map.setBlock(x, y, z, BlockTypesEnum.WALL, layerIds[id]);
+                        map.setBlock(x, y, z, BlockTypeEnum.WALL, layerIds[id]);
                     }
                 }
             }

@@ -5,10 +5,14 @@ import stonering.entity.job.action.target.PositionActionTarget;
 import stonering.entity.item.Item;
 import stonering.entity.item.selectors.ItemSelector;
 import stonering.entity.item.selectors.ToolWithActionItemSelector;
+import stonering.entity.unit.aspects.BuffAspect;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
+import stonering.entity.unit.aspects.health.HealthAspect;
+import stonering.entity.unit.aspects.job.SkillAspect;
 import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.enums.blocks.BlockTypeEnum;
 import stonering.enums.designations.DesignationTypeEnum;
+import stonering.enums.unit.SkillsMap;
 import stonering.game.GameMvc;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.local_map.LocalMap;
@@ -19,24 +23,28 @@ import static stonering.entity.job.action.ActionConditionStatusEnum.*;
 import static stonering.enums.blocks.BlockTypeEnum.*;
 
 /**
- * This action requires digging tool in performer's hands.
+ * Action for digging up tiles of map. Tile opennes(part of space not occupied by solid material) can be only increased by digging.
+ * Requires digging tool in performer's hands.
+ * Uses mining skill increasing digging speed.
  * Should be only created with digging designation types.
  */
-public class DigAction extends Action {
+public class DigAction extends SkillAction {
     private DesignationTypeEnum type;
     private ItemSelector toolItemSelector;
 
     public DigAction(OrderDesignation designation) {
-        super(new PositionActionTarget(designation.position, ActionTargetTypeEnum.NEAR));
+        super(new PositionActionTarget(designation.position, ActionTargetTypeEnum.NEAR), "miner");
         type = designation.type;
         toolItemSelector = new ToolWithActionItemSelector("dig");
+        speedUpdater = () -> (1 + getSpeedBonus()) * (1 + getUnitPerformance());
         startCondition = () -> {
-            if (!type.validator.validate(actionTarget.getPosition())) return FAIL;
+            if (!type.validator.validate(actionTarget.getPosition())) return FAIL; // tile did not change
             EquipmentAspect equipment = task.performer.getAspect(EquipmentAspect.class);
             if (equipment == null) return FAIL;
-            if (toolItemSelector.checkItems(equipment.equippedItems)) return OK;
+            if (toolItemSelector.checkItems(equipment.equippedItems)) return OK; // tool equipped
             return addEquipAction();
         };
+        finishCondition = () -> progress >= 250; // 10 in-game minutes on speed 1.
         onFinish = () -> {
             BlockTypeEnum oldType = GameMvc.model().get(LocalMap.class).getBlockTypeEnumValue(actionTarget.getPosition());
             if (type.validator.validate(actionTarget.getPosition())) updateMap();
@@ -45,10 +53,9 @@ public class DigAction extends Action {
         };
     }
 
-
     private ActionConditionStatusEnum addEquipAction() {
         Item target = GameMvc.model().get(ItemContainer.class).util.getItemAvailableBySelector(toolItemSelector, task.performer.position);
-        if (target == null) return FAIL;
+        if (target == null) return FAIL; // no tool available
         task.addFirstPreAction(new EquipItemAction(target, true));
         return NEW;
     }

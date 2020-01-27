@@ -11,7 +11,7 @@ import stonering.util.global.Logger;
 public class HealthBuff extends Buff {
     public final String propertyName;
 
-    public HealthBuff(String tag, int delta, String propertyName, int x, int y) {
+    public HealthBuff(String tag, float delta, String propertyName, int x, int y) {
         super(tag, delta, x, y);
         this.propertyName = propertyName;
     }
@@ -39,10 +39,5 @@ public class HealthBuff extends Buff {
             return Logger.UNITS.logError("HealthAspect of unit " + unit + " has no property " + propertyName, false);
         aspect.properties.put(propertyName, aspect.properties.get(propertyName) + delta * multiplier); // success
         return true;
-    }
-
-    private boolean logAndFail(String message) {
-        Logger.UNITS.logError(message);
-        return false;
     }
 }

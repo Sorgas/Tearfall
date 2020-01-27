@@ -24,22 +24,17 @@ public class ItemPickupAction extends Action {
         startCondition = () -> { // unit is able to carry items, item persists
             Logger.TASKS.logDebug("Checking picking action");
             if (task.performer.getAspect(EquipmentAspect.class) == null) return FAIL; // performer cannot pick up item
-            if (GameMvc.instance().model().get(ItemContainer.class).itemMap.get(item.position).contains(item)) return OK;
+            if (GameMvc.model().get(ItemContainer.class).itemMap.get(item.position).contains(item)) return OK;
             return FAIL;
         };
 
         onFinish = () -> { // add item to unit
             EquipmentAspect equipment = task.performer.getAspect(EquipmentAspect.class);
-            ItemContainer container = GameMvc.instance().model().get(ItemContainer.class);
+            ItemContainer container = GameMvc.model().get(ItemContainer.class);
 
             container.onMapItemsSystem.removeItemFromMap(item);
             equipment.pickupItem(item);
             container.equippedItemsSystem.itemEquipped(item, equipment);
         };
-    }
-
-    @Override
-    public float getProgressDelta() {
-        return 0.1f;
     }
 }

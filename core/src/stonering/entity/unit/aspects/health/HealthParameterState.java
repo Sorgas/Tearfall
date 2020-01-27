@@ -10,7 +10,6 @@ import stonering.enums.unit.health.HealthParameterEnum;
 public class HealthParameterState {
     public final HealthParameterEnum parameter;
     public float current = 0;
-
     public float max = 100;
 
     public HealthParameterState(HealthParameterEnum parameter) {

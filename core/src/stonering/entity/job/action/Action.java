@@ -3,7 +3,6 @@ package stonering.entity.job.action;
 import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.job.Task;
 import stonering.enums.action.ActionStatusEnum;
-import stonering.util.global.Executor;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -19,6 +18,7 @@ import static stonering.enums.action.ActionStatusEnum.*;
  * Target where unit should be to perform action.
  * Start condition - to be met before performing is started, can create additional actions.
  * Start function - executed once.
+ * Speed updater - calculates performing speed when performing starts.
  * Progress consumer function - executed many times. Does additive changes to model during action performing.
  * Finish condition - action finishes, when condition is met.
  * Finish function - executed once.
@@ -29,14 +29,17 @@ import static stonering.enums.action.ActionStatusEnum.*;
  */
 public abstract class Action {
     public Task task; // can be modified during execution
-    protected String usedSkill;
     public final ActionTarget actionTarget;
+    public ActionStatusEnum status;
+
     public Supplier<ActionConditionStatusEnum> startCondition;
-    public Executor onStart; // performed on phase start
+    public Runnable onStart; // performed on phase start
+    public Supplier<Float> speedUpdater; // calculates speed of performing
     public Consumer<Float> progressConsumer; // performs logic
     public Supplier<Boolean> finishCondition; // when reached, action ends
-    public Executor onFinish; // performed on phase finish
-    public ActionStatusEnum status;
+    public Runnable onFinish; // performed on phase finish
+
+    public float speed = -1;
     public float progress = 0;
 
     protected Action(ActionTarget actionTarget) {
@@ -45,6 +48,7 @@ public abstract class Action {
         startCondition = () -> OK;
         onStart = () -> {};
         progressConsumer = (delta) -> progress += delta;
+        speedUpdater = () -> 1f;
         finishCondition = () -> progress >= 1f;
         onFinish = () -> {};
     }
@@ -55,12 +59,13 @@ public abstract class Action {
     public final void perform() {
         if(status == OPEN) { // first execution of perform()
             status = ACTIVE;
-            onStart.execute();
+            onStart.run();
+            speed = speedUpdater.get();
         }
-        progressConsumer.accept(getProgressDelta()); //
+        progressConsumer.accept(speedUpdater.get());
         if(finishCondition.get()) { // last execution of perform()
             status = COMPLETE;
-            onFinish.execute();
+            onFinish.run();
             task.finishAction(this);
         }
     }
@@ -75,10 +80,6 @@ public abstract class Action {
         finishCondition = () -> true;
         onFinish = () -> {};
         status = OPEN;
-    }
-
-    public float getProgressDelta() {
-        return 1f;
     }
 
     @Override

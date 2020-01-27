@@ -84,7 +84,7 @@ public class CreatureHealthSystem extends EntitySystem<Unit> {
     private void resetParameter(Unit unit, HealthParameterEnum parameter) {
         HealthParameterState state = unit.getAspect(HealthAspect.class).parameters.get(parameter);
         HealthParameterRange range = parameter.PARAMETER.getRange(state.getRelativeValue());
-        CreatureBuffSystem buffSystem = GameMvc.instance().model().get(UnitContainer.class).buffSystem;
+        CreatureBuffSystem buffSystem = GameMvc.model().get(UnitContainer.class).buffSystem;
         buffSystem.removeBuff(unit, parameter.TAG);
         buffSystem.addBuff(unit, range.produceBuff.get());
     }
