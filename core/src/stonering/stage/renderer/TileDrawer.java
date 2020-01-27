@@ -11,7 +11,7 @@ import stonering.entity.item.Item;
 import stonering.entity.plant.PlantBlock;
 import stonering.entity.unit.aspects.RenderAspect;
 import stonering.entity.zone.Zone;
-import stonering.enums.blocks.BlockTypesEnum;
+import stonering.enums.blocks.BlockTypeEnum;
 import stonering.enums.blocks.BlocksTileMapping;
 import stonering.enums.designations.DesignationsTileMapping;
 import stonering.enums.materials.MaterialMap;
@@ -150,28 +150,28 @@ public class TileDrawer extends Drawer {
     }
 
     private void drawAreaLabel(int x, int y, int z) {
-        if (localMap.getBlockType(x, y, z) == BlockTypesEnum.SPACE.CODE) return;
+        if (localMap.getBlockType(x, y, z) == BlockTypeEnum.SPACE.CODE) return;
         String text = localMap.passageMap.area.get(x, y, z) + " " + localMap.passageMap.getPassage(x, y, z);
         spriteUtil.writeText(text, x, y + 1, z);
     }
 
     private void drawFloor(int x, int y, int z) {
-        BlockTypesEnum type = localMap.getBlockTypeEnumValue(x, y, z);
-        if (type == BlockTypesEnum.SPACE) { // draw topping for ramps
+        BlockTypeEnum type = localMap.getBlockTypeEnumValue(x, y, z);
+        if (type == BlockTypeEnum.SPACE) { // draw topping for ramps
             if (z <= 0) return;
             spriteUtil.drawSprite(blocks.getToppingTile(getAtlasXForBlock(x, y, z - 1), getAtlasYForBlock(x, y, z - 1)), cacheVector);
             return;
         }
-        if (type == BlockTypesEnum.STAIRS) type = BlockTypesEnum.DOWNSTAIRS; // downstairs rendered under stairs.
-        if (!type.FLAT) type = BlockTypesEnum.FLOOR; // floor is rendered under non-flat tiles.
-        if (type == BlockTypesEnum.FLOOR || type == BlockTypesEnum.DOWNSTAIRS || type == BlockTypesEnum.FARM) {
+        if (type == BlockTypeEnum.STAIRS) type = BlockTypeEnum.DOWNSTAIRS; // downstairs rendered under stairs.
+        if (!type.FLAT) type = BlockTypeEnum.FLOOR; // floor is rendered under non-flat tiles.
+        if (type == BlockTypeEnum.FLOOR || type == BlockTypeEnum.DOWNSTAIRS || type == BlockTypeEnum.FARM) {
             int atlasX = BlocksTileMapping.getType(type.CODE).ATLAS_X;
             spriteUtil.drawSprite(blocks.getBlockTile(atlasX, getAtlasYForBlock(x, y, z)), cacheVector);
         }
     }
 
     private void drawBlock(int x, int y, int z) {
-        BlockTypesEnum type = localMap.getBlockTypeEnumValue(x, y, z);
+        BlockTypeEnum type = localMap.getBlockTypeEnumValue(x, y, z);
         if (!type.FLAT) spriteUtil.drawSprite(blocks.getBlockTile(getAtlasXForBlock(x, y, z), getAtlasYForBlock(x, y, z)), cacheVector);
     }
 
@@ -180,7 +180,7 @@ public class TileDrawer extends Drawer {
      */
     private int getAtlasXForBlock(int x, int y, int z) {
         byte blockType = localMap.getBlockType(x, y, z);
-        if (blockType == BlockTypesEnum.SPACE.CODE) return -1;
+        if (blockType == BlockTypeEnum.SPACE.CODE) return -1;
         return localTileMap.get(x, y, z).getVal1();
     }
 

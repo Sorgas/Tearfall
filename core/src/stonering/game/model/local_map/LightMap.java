@@ -1,7 +1,7 @@
 package stonering.game.model.local_map;
 
 import com.badlogic.gdx.math.MathUtils;
-import stonering.enums.blocks.BlockTypesEnum;
+import stonering.enums.blocks.BlockTypeEnum;
 import stonering.game.model.util.UtilByteArray;
 import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import static stonering.enums.blocks.BlockTypesEnum.*;
+import static stonering.enums.blocks.BlockTypeEnum.*;
 
 /**
  * Holds lighting of map tiles, visible and not visible tiles(undiscovered by player).
@@ -113,8 +113,8 @@ public class LightMap {
      * Check that tiles can be revealed from each other.
      */
     private boolean checkZPairForReveal(Position lower, Position upper) {
-        BlockTypesEnum lowerType = BlockTypesEnum.getType(localMap.getBlockType(lower));
-        BlockTypesEnum upperType = BlockTypesEnum.getType(localMap.getBlockType(upper));
+        BlockTypeEnum lowerType = BlockTypeEnum.getType(localMap.getBlockType(lower));
+        BlockTypeEnum upperType = BlockTypeEnum.getType(localMap.getBlockType(upper));
         return upperType == SPACE || (lowerType == STAIRS && (upperType == STAIRS || upperType == DOWNSTAIRS));
     }
 

@@ -7,7 +7,7 @@ import stonering.entity.job.action.target.PositionActionTarget;
 import stonering.entity.plant.AbstractPlant;
 import stonering.entity.world.calendar.WorldCalendar;
 import stonering.enums.action.ActionTargetTypeEnum;
-import stonering.enums.blocks.BlockTypesEnum;
+import stonering.enums.blocks.BlockTypeEnum;
 import stonering.game.model.system.plant.PlantContainer;
 import stonering.util.global.Logger;
 import stonering.util.validation.PositionValidator;
@@ -71,7 +71,7 @@ public class FarmZone extends Zone {
             // can create task for cutting or harvesting
             AbstractPlant plant = plantContainer.getPlantInPosition(tile);
             if (!checkExistingPlant(plant, tile, taskContainer)) continue;
-            if (localMap.getBlockType(tile) != BlockTypesEnum.FARM.CODE) {
+            if (localMap.getBlockType(tile) != BlockTypeEnum.FARM.CODE) {
                 Logger.ZONES.logDebug("Creating hoeing task on farm");
                 if (hoeingEnabled)
                     addTask(createTaskForHoeing(tile), tile);

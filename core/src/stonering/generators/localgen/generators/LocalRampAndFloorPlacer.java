@@ -1,6 +1,6 @@
 package stonering.generators.localgen.generators;
 
-import stonering.enums.blocks.BlockTypesEnum;
+import stonering.enums.blocks.BlockTypeEnum;
 import stonering.game.model.local_map.LocalMap;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.util.global.Logger;
@@ -12,9 +12,9 @@ import stonering.util.global.Logger;
  */
 public class LocalRampAndFloorPlacer extends LocalAbstractGenerator {
     private LocalMap localMap;
-    private int wallCode = BlockTypesEnum.WALL.CODE;
-    private int spaceCode = BlockTypesEnum.SPACE.CODE;
-    private int rampCode = BlockTypesEnum.RAMP.CODE;
+    private int wallCode = BlockTypeEnum.WALL.CODE;
+    private int spaceCode = BlockTypeEnum.SPACE.CODE;
+    private int rampCode = BlockTypeEnum.RAMP.CODE;
 
     public LocalRampAndFloorPlacer(LocalGenContainer container) {
         super(container);
@@ -44,7 +44,7 @@ public class LocalRampAndFloorPlacer extends LocalAbstractGenerator {
             for (int y = 0; y < localMap.ySize; y++) {
                 for (int z = localMap.zSize - 1; z > 0; z--) {
                     if (isFloorCell(x, y, z)) { //non space sell
-                        localMap.setBlock(x, y, z, BlockTypesEnum.FLOOR.CODE, localMap.getMaterial(x, y, z - 1));
+                        localMap.setBlock(x, y, z, BlockTypeEnum.FLOOR.CODE, localMap.getMaterial(x, y, z - 1));
                     }
                 }
             }
@@ -82,7 +82,7 @@ public class LocalRampAndFloorPlacer extends LocalAbstractGenerator {
     }
 
     private boolean isFloorCell(int x, int y, int z) {
-        return localMap.getBlockType(x, y, z) == BlockTypesEnum.SPACE.CODE &&
-                localMap.getBlockType(x, y, z - 1) == BlockTypesEnum.WALL.CODE;
+        return localMap.getBlockType(x, y, z) == BlockTypeEnum.SPACE.CODE &&
+                localMap.getBlockType(x, y, z - 1) == BlockTypeEnum.WALL.CODE;
     }
 }

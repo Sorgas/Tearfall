@@ -14,7 +14,7 @@ import stonering.util.global.Logger;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static stonering.enums.blocks.BlockTypesEnum.*;
+import static stonering.enums.blocks.BlockTypeEnum.*;
 import static stonering.enums.generation.PlantPlacingTagEnum.*;
 
 /**

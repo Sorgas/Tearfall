@@ -1,6 +1,6 @@
 package stonering.entity.building;
 
-import stonering.enums.blocks.BlockTypesEnum;
+import stonering.enums.blocks.BlockTypeEnum;
 import stonering.util.geometry.Position;
 
 /**
@@ -14,7 +14,7 @@ public class BuildingBlock {
     private String passage;
 
     public boolean isPassable() {
-        return BlockTypesEnum.getType(passage).PASSING == BlockTypesEnum.PassageEnum.PASSABLE;
+        return BlockTypeEnum.getType(passage).PASSING == BlockTypeEnum.PassageEnum.PASSABLE;
     }
 
     public BuildingBlock(Building building) {

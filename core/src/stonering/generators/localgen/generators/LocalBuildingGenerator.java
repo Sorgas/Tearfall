@@ -1,7 +1,7 @@
 package stonering.generators.localgen.generators;
 
 import stonering.entity.building.Building;
-import stonering.enums.blocks.BlockTypesEnum;
+import stonering.enums.blocks.BlockTypeEnum;
 import stonering.game.model.system.building.BuildingContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.generators.buildings.BuildingGenerator;
@@ -39,7 +39,7 @@ public class LocalBuildingGenerator extends LocalAbstractGenerator {
         int x = localMap.xSize /2;
         int y = localMap.ySize /2;
         for (int z = localMap.zSize - 1; z > 0; z--) {
-            if (localMap.getBlockType(x, y, z) != BlockTypesEnum.SPACE.CODE) {
+            if (localMap.getBlockType(x, y, z) != BlockTypeEnum.SPACE.CODE) {
                 return new Position(x, y, z);
             }
         }

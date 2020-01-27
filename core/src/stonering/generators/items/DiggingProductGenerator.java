@@ -1,7 +1,7 @@
 package stonering.generators.items;
 
 import stonering.entity.item.Item;
-import stonering.enums.blocks.BlockTypesEnum;
+import stonering.enums.blocks.BlockTypeEnum;
 import stonering.enums.materials.Material;
 import stonering.enums.materials.MaterialMap;
 
@@ -17,7 +17,7 @@ import java.util.List;
 public class DiggingProductGenerator {
     private ItemGenerator itemGenerator = new ItemGenerator();
 
-    public List<Item> generateDigProduct(int materialId, BlockTypesEnum oldType, BlockTypesEnum newType) {
+    public List<Item> generateDigProduct(int materialId, BlockTypeEnum oldType, BlockTypeEnum newType) {
         List<Item> items = new ArrayList<>();
         Material material = MaterialMap.instance().getMaterial(materialId);
         int stoneAmount = Math.max(0, oldType.PRODUCT - newType.PRODUCT);

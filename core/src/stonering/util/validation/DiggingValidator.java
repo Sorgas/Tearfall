@@ -1,6 +1,6 @@
 package stonering.util.validation;
 
-import stonering.enums.blocks.BlockTypesEnum;
+import stonering.enums.blocks.BlockTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
@@ -11,15 +11,15 @@ import stonering.util.geometry.Position;
  * @author Alexander on 20.01.2020.
  */
 public class DiggingValidator implements PositionValidator {
-    BlockTypesEnum targetBlockType;
+    BlockTypeEnum targetBlockType;
 
-    public DiggingValidator(BlockTypesEnum targetBlockType) {
+    public DiggingValidator(BlockTypeEnum targetBlockType) {
         this.targetBlockType = targetBlockType;
     }
 
     @Override
     public boolean validate(Position position) {
-        BlockTypesEnum block = GameMvc.model().get(LocalMap.class).getBlockTypeEnumValue(position);
+        BlockTypeEnum block = GameMvc.model().get(LocalMap.class).getBlockTypeEnumValue(position);
         return targetBlockType.OPENNESS > block.OPENNESS;
     }
 }

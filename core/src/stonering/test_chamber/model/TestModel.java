@@ -4,7 +4,7 @@ import stonering.entity.environment.aspects.CelestialCycleAspect;
 import stonering.entity.environment.aspects.CelestialLightSourceAspect;
 import stonering.entity.environment.CelestialBody;
 import stonering.entity.world.World;
-import stonering.enums.blocks.BlockTypesEnum;
+import stonering.enums.blocks.BlockTypeEnum;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.model.GameModel;
 import stonering.game.model.system.*;
@@ -61,9 +61,9 @@ public abstract class TestModel extends GameModel {
         LocalMap localMap = get(LocalMap.class);
         for (int x = 0; x < getMapSize(); x++) {
             for (int y = 0; y < getMapSize(); y++) {
-                localMap.setBlock(x, y, 0, BlockTypesEnum.WALL, MaterialMap.instance().getId("soil"));
-                localMap.setBlock(x, y, 1, BlockTypesEnum.WALL, MaterialMap.instance().getId("soil"));
-                localMap.setBlock(x, y, 2, BlockTypesEnum.FLOOR, MaterialMap.instance().getId("soil"));
+                localMap.setBlock(x, y, 0, BlockTypeEnum.WALL, MaterialMap.instance().getId("soil"));
+                localMap.setBlock(x, y, 1, BlockTypeEnum.WALL, MaterialMap.instance().getId("soil"));
+                localMap.setBlock(x, y, 2, BlockTypeEnum.FLOOR, MaterialMap.instance().getId("soil"));
             }
         }
     }

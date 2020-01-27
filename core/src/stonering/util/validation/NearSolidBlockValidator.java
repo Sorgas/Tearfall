@@ -1,6 +1,6 @@
 package stonering.util.validation;
 
-import stonering.enums.blocks.BlockTypesEnum;
+import stonering.enums.blocks.BlockTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.system.building.BuildingContainer;
 import stonering.game.model.local_map.LocalMap;
@@ -15,12 +15,12 @@ public class NearSolidBlockValidator implements PositionValidator {
     public boolean validate(Position position) {
         LocalMap map = GameMvc.instance().model().get(LocalMap.class);
         return GameMvc.instance().model().get(BuildingContainer.class).getBuildingBlocks().get(position) == null && // building-free
-                (map.getBlockType(position) == BlockTypesEnum.FLOOR.CODE ||          // floor or space
+                (map.getBlockType(position) == BlockTypeEnum.FLOOR.CODE ||          // floor or space
                         ((map.getBlockType(position.x + 1, position.y, position.z) != 0 ||        // not empty blocks near
                                 map.getBlockType(position.x - 1, position.y, position.z) != 0 ||
                                 map.getBlockType(position.x, position.y + 1, position.z) != 0 ||
                                 map.getBlockType(position.x, position.y - 1, position.z) != 0) &&
-                                map.getBlockType(position) == BlockTypesEnum.SPACE.CODE
+                                map.getBlockType(position) == BlockTypeEnum.SPACE.CODE
                         )
                 );
     }

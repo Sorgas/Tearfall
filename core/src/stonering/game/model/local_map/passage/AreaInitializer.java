@@ -7,7 +7,7 @@ import stonering.util.global.MutableInteger;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static stonering.enums.blocks.BlockTypesEnum.PassageEnum.PASSABLE;
+import static stonering.enums.blocks.BlockTypeEnum.PassageEnum.PASSABLE;
 
 /**
  * Utility for initializing area numbers on game startup.

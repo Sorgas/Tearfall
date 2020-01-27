@@ -1,18 +1,15 @@
 package stonering.game.model.system;
 
 import stonering.entity.unit.aspects.RenderAspect;
-import stonering.enums.blocks.BlockTypesEnum;
+import stonering.enums.blocks.BlockTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.EntitySelector;
 import stonering.game.model.entity_selector.aspect.SelectionAspect;
 import stonering.game.model.local_map.LocalMap;
 import stonering.stage.renderer.AtlasesEnum;
 import stonering.stage.toolbar.menus.Toolbar;
-import stonering.util.geometry.Int3dBounds;
 import stonering.util.geometry.Position;
 import stonering.util.validation.PositionValidator;
-
-import java.util.function.Consumer;
 
 /**
  * System that handles input passed to {@link EntitySelector}, does movement, validation and activation of selector.
@@ -68,7 +65,7 @@ public class EntitySelectorSystem implements ModelComponent {
         selector.position.x = localMap.xSize / 2;
         selector.position.y = localMap.ySize / 2;
         for (int z = localMap.zSize - 1; z >= 0; z--) {
-            if (localMap.getBlockType(selector.position.x, selector.position.y, z) != BlockTypesEnum.SPACE.CODE) {
+            if (localMap.getBlockType(selector.position.x, selector.position.y, z) != BlockTypeEnum.SPACE.CODE) {
                 selector.position.z = z;
                 break;
             }

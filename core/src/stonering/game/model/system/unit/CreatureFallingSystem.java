@@ -2,7 +2,7 @@ package stonering.game.model.system.unit;
 
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.MovementAspect;
-import stonering.enums.blocks.BlockTypesEnum;
+import stonering.enums.blocks.BlockTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
@@ -25,7 +25,7 @@ public class CreatureFallingSystem {
      */
     private boolean canFall(Unit unit) {
         Position pos = unit.position;
-        return map.getBlockTypeEnumValue(pos) == BlockTypesEnum.SPACE && // can fall through SPACE
+        return map.getBlockTypeEnumValue(pos) == BlockTypeEnum.SPACE && // can fall through SPACE
                 pos.z > 0 && // not the bottom of a map
                 map.isFlyPassable(pos.x, pos.y, pos.z - 1); // lower tile is open
     }

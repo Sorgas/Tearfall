@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static stonering.enums.blocks.BlockTypesEnum.PassageEnum.PASSABLE;
+import static stonering.enums.blocks.BlockTypeEnum.PassageEnum.PASSABLE;
 
 /**
  * Contains all Buildings on localMap.

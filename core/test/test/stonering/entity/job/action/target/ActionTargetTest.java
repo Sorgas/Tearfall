@@ -10,7 +10,7 @@ import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.job.action.target.ActionTargetStatusEnum;
 import stonering.entity.job.action.target.PositionActionTarget;
 import stonering.enums.action.ActionTargetTypeEnum;
-import stonering.enums.blocks.BlockTypesEnum;
+import stonering.enums.blocks.BlockTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
 import stonering.game.model.MainGameModel;
@@ -50,7 +50,7 @@ public class ActionTargetTest {
         localMap = new LocalMap(5, 5, 3);
         for (int x = 0; x < 5; x++) {
             for (int y = 0; y < 5; y++) {
-                localMap.setBlock(x, y, 0, BlockTypesEnum.FLOOR, 1);
+                localMap.setBlock(x, y, 0, BlockTypeEnum.FLOOR, 1);
             }
         }
     }
@@ -80,9 +80,9 @@ public class ActionTargetTest {
     void testNearTargetFailInWalls() {
         actionTarget = new PositionActionTarget(targetPosition, ActionTargetTypeEnum.NEAR);
         //surround target position with impassable walls
-        localMap.setBlock(0, 1, 0, BlockTypesEnum.WALL, 1);
-        localMap.setBlock(1, 0, 0, BlockTypesEnum.WALL, 1);
-        localMap.setBlock(1, 1, 0, BlockTypesEnum.WALL, 1);
+        localMap.setBlock(0, 1, 0, BlockTypeEnum.WALL, 1);
+        localMap.setBlock(1, 0, 0, BlockTypeEnum.WALL, 1);
+        localMap.setBlock(1, 1, 0, BlockTypeEnum.WALL, 1);
         assertEquals(ActionTargetStatusEnum.FAIL, actionTarget.check(targetPosition));
     }
 

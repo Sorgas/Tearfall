@@ -1,6 +1,6 @@
 package stonering.game.model.local_map.passage;
 
-import stonering.enums.blocks.BlockTypesEnum;
+import stonering.enums.blocks.BlockTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
@@ -48,7 +48,7 @@ public class NeighbourPositionStream {
     /**
      * Considers center tile to have given type. Used for checking during building.
      */
-    public NeighbourPositionStream filterByAccessibilityWithFutureTile(BlockTypesEnum type) {
+    public NeighbourPositionStream filterByAccessibilityWithFutureTile(BlockTypeEnum type) {
         stream = stream.filter(position -> passageMap.tileIsAccessibleFromNeighbour(center, position, type));
         return this;
     }
@@ -63,12 +63,12 @@ public class NeighbourPositionStream {
         return this;
     }
 
-    public NeighbourPositionStream filterByPassage(BlockTypesEnum.PassageEnum passage) {
+    public NeighbourPositionStream filterByPassage(BlockTypeEnum.PassageEnum passage) {
         stream = stream.filter(position -> passageMap.passage.get(position) == passage.VALUE);
         return this;
     }
 
-    public NeighbourPositionStream filterByBlockType(BlockTypesEnum type) {
+    public NeighbourPositionStream filterByBlockType(BlockTypeEnum type) {
         stream = stream.filter(position -> localMap.getBlockType(position) == type.CODE);
         return this;
     }

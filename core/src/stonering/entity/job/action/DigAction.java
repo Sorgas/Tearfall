@@ -7,7 +7,7 @@ import stonering.entity.item.selectors.ItemSelector;
 import stonering.entity.item.selectors.ToolWithActionItemSelector;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.enums.action.ActionTargetTypeEnum;
-import stonering.enums.blocks.BlockTypesEnum;
+import stonering.enums.blocks.BlockTypeEnum;
 import stonering.enums.designations.DesignationTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.system.item.ItemContainer;
@@ -16,7 +16,7 @@ import stonering.generators.items.DiggingProductGenerator;
 import stonering.util.geometry.Position;
 
 import static stonering.entity.job.action.ActionConditionStatusEnum.*;
-import static stonering.enums.blocks.BlockTypesEnum.*;
+import static stonering.enums.blocks.BlockTypeEnum.*;
 
 /**
  * This action requires digging tool in performer's hands.
@@ -38,7 +38,7 @@ public class DigAction extends Action {
             return addEquipAction();
         };
         onFinish = () -> {
-            BlockTypesEnum oldType = GameMvc.model().get(LocalMap.class).getBlockTypeEnumValue(actionTarget.getPosition());
+            BlockTypeEnum oldType = GameMvc.model().get(LocalMap.class).getBlockTypeEnumValue(actionTarget.getPosition());
             if (type.validator.validate(actionTarget.getPosition())) updateMap();
             leaveStone(oldType);
             //TODO add experience
@@ -87,18 +87,18 @@ public class DigAction extends Action {
     /**
      * Puts rock of dug material if needed.
      */
-    private void leaveStone(BlockTypesEnum oldType) {
+    private void leaveStone(BlockTypeEnum oldType) {
         LocalMap map = GameMvc.model().get(LocalMap.class);
         ItemContainer container = GameMvc.model().get(ItemContainer.class);
         Position target = actionTarget.getPosition();
-        BlockTypesEnum newType = map.getBlockTypeEnumValue(target);
+        BlockTypeEnum newType = map.getBlockTypeEnumValue(target);
         int materialId = map.getMaterial(target);
         new DiggingProductGenerator()
                 .generateDigProduct(materialId, oldType, newType)
                 .forEach(item -> container.onMapItemsSystem.putNewItem(item, target));
     }
 
-    private void updateAndRevealMap(Position position, BlockTypesEnum type) {
+    private void updateAndRevealMap(Position position, BlockTypeEnum type) {
         LocalMap map = GameMvc.model().get(LocalMap.class);
         map.setBlockType(position, type.CODE);
         map.light.handleDigging(position);

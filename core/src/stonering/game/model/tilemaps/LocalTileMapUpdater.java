@@ -1,6 +1,6 @@
 package stonering.game.model.tilemaps;
 
-import stonering.enums.blocks.BlockTypesEnum;
+import stonering.enums.blocks.BlockTypeEnum;
 import stonering.enums.blocks.BlocksTileMapping;
 import stonering.enums.materials.Material;
 import stonering.enums.materials.MaterialMap;
@@ -46,12 +46,12 @@ public class LocalTileMapUpdater {
         localMap = GameMvc.instance().model().get(LocalMap.class);
         localTileMap = GameMvc.instance().model().get(LocalTileMap.class);
         byte blockType = localMap.getBlockType(x, y, z);
-        if (blockType == BlockTypesEnum.SPACE.CODE) {
+        if (blockType == BlockTypeEnum.SPACE.CODE) {
             localTileMap.removeTile(x, y, z);
         } else { // non space
             Material material = materialMap.getMaterial(localMap.getMaterial(x, y, z));
             int atlasX;
-            if (blockType == BlockTypesEnum.RAMP.CODE) {
+            if (blockType == BlockTypeEnum.RAMP.CODE) {
                 atlasX = countRamp(x, y, z);
             } else {
                 atlasX = BlocksTileMapping.getType(blockType).ATLAS_X;
@@ -67,7 +67,7 @@ public class LocalTileMapUpdater {
     private void updateRampsAround(int xc, int yc, int z) {
         for (int y = yc - 1; y < yc + 2; y++) {
             for (int x = xc - 1; x < xc + 2; x++) {
-                if (!localMap.inMap(x, y, z) || localMap.getBlockType(x, y, z) != BlockTypesEnum.RAMP.CODE) continue;
+                if (!localMap.inMap(x, y, z) || localMap.getBlockType(x, y, z) != BlockTypeEnum.RAMP.CODE) continue;
                 IntTriple triple = localTileMap.get(x, y, z);
                 localTileMap.setTile(x, y, z, countRamp(x, y, z), triple.getVal2(), triple.getVal3());
             }
@@ -120,7 +120,7 @@ public class LocalTileMapUpdater {
         for (int y = cy - 1; y <= cy + 1; y++) {
             for (int x = cx - 1; x <= cx + 1; x++) {
                 if ((x == cx) && (y == cy)) continue;
-                if (localMap.getBlockType(x, y, cz) == BlockTypesEnum.WALL.CODE) walls |= bitpos;
+                if (localMap.getBlockType(x, y, cz) == BlockTypeEnum.WALL.CODE) walls |= bitpos;
                 bitpos *= 2; // shift to 1 bit
             }
         }

@@ -8,7 +8,7 @@ import stonering.entity.job.Task;
 import stonering.entity.job.action.CraftItemAction;
 import stonering.enums.OrderStatusEnum;
 import stonering.enums.action.TaskStatusEnum;
-import stonering.enums.blocks.BlockTypesEnum;
+import stonering.enums.blocks.BlockTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.passage.NeighbourPositionStream;
 import stonering.game.model.system.EntitySystem;
@@ -209,7 +209,7 @@ public class WorkbenchSystem extends EntitySystem<Building> {
     private List<Position> getPositionsToDrop(WorkbenchAspect aspect) {
         return new NeighbourPositionStream(aspect.getEntity().position)
                 .filterSameZLevel()
-                .filterByPassage(BlockTypesEnum.PassageEnum.PASSABLE)
+                .filterByPassage(BlockTypeEnum.PassageEnum.PASSABLE)
                 .stream.collect(Collectors.toList());
     }
 

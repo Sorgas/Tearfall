@@ -3,7 +3,7 @@ package stonering.entity.job.action;
 import stonering.entity.building.BuildingOrder;
 import stonering.entity.job.action.target.BuildingActionTarget;
 import stonering.entity.job.action.target.GenericBuildingAction;
-import stonering.enums.blocks.BlockTypesEnum;
+import stonering.enums.blocks.BlockTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.system.plant.PlantContainer;
 import stonering.game.model.system.SubstrateContainer;
@@ -21,9 +21,9 @@ public class ConstructionAction extends GenericBuildingAction {
 
     public ConstructionAction(BuildingOrder order) {
         super(order);
-        blockType = BlockTypesEnum.getType(order.blueprint.building).CODE;
+        blockType = BlockTypeEnum.getType(order.blueprint.building).CODE;
         onFinish = () -> {
-            Logger.TASKS.logDebug(BlockTypesEnum.getType(blockType).NAME + " built at " + actionTarget.getPosition());
+            Logger.TASKS.logDebug(BlockTypeEnum.getType(blockType).NAME + " built at " + actionTarget.getPosition());
             Position target = ((BuildingActionTarget) actionTarget).center;
             int material = order.parts.values().iterator().next().item.material;
 
@@ -38,6 +38,6 @@ public class ConstructionAction extends GenericBuildingAction {
 
     @Override
     public String toString() {
-        return "Construction name: " + BlockTypesEnum.getType(blockType).NAME;
+        return "Construction name: " + BlockTypeEnum.getType(blockType).NAME;
     }
 }

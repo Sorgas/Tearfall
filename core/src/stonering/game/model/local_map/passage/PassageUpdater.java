@@ -1,6 +1,6 @@
 package stonering.game.model.local_map.passage;
 
-import stonering.enums.blocks.BlockTypesEnum;
+import stonering.enums.blocks.BlockTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
@@ -10,7 +10,7 @@ import stonering.util.pathfinding.a_star.AStar;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static stonering.enums.blocks.BlockTypesEnum.PassageEnum.PASSABLE;
+import static stonering.enums.blocks.BlockTypeEnum.PassageEnum.PASSABLE;
 
 /**
  * Updates area and passage values in local map when tiles are changed.
@@ -34,7 +34,7 @@ public class PassageUpdater {
      */
     public void update(int x, int y, int z) {
         Position center = new Position(x, y, z);
-        BlockTypesEnum.PassageEnum passing = passage.getTilePassage(center);
+        BlockTypeEnum.PassageEnum passing = passage.getTilePassage(center);
         passage.passage.set(center, passing.VALUE);
         if (passing == PASSABLE) { // tile became passable, areas should be merged
             Set<Byte> areas = new NeighbourPositionStream(center)

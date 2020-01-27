@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector3;
 import stonering.entity.plant.*;
 import stonering.entity.plant.aspects.PlantGrowthAspect;
 import stonering.enums.OrientationEnum;
-import stonering.enums.blocks.BlockTypesEnum;
+import stonering.enums.blocks.BlockTypeEnum;
 import stonering.enums.plants.PlantType;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
@@ -20,7 +20,6 @@ import stonering.util.global.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Contains plants. {@link Plant}s and {@link Tree}s are stored in list. One tile can have one plant block.
@@ -36,7 +35,7 @@ public class PlantContainer extends EntityContainer<AbstractPlant> implements In
     private HashMap<Position, PlantBlock> plantBlocks; // trees and plants blocks
 
     private LocalMap localMap;
-    private final int WALL_CODE = BlockTypesEnum.WALL.CODE;
+    private final int WALL_CODE = BlockTypeEnum.WALL.CODE;
 
     public PlantContainer() {
         plantBlocks = new HashMap<>();

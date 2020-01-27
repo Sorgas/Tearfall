@@ -8,7 +8,7 @@ import stonering.entity.job.action.MoveAction;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.MovementAspect;
 import stonering.entity.unit.aspects.PlanningAspect;
-import stonering.enums.blocks.BlockTypesEnum;
+import stonering.enums.blocks.BlockTypeEnum;
 import stonering.enums.unit.CreatureType;
 import stonering.game.GameMvc;
 import stonering.game.model.MainGameModel;
@@ -67,7 +67,7 @@ public class CreatureMovementSystemTest {
         localMap = new LocalMap(5, 5, 1);
         for (int x = 0; x < 5; x++) {
             for (int y = 0; y < 5; y++) {
-                localMap.setBlock(x, y, 0, BlockTypesEnum.FLOOR, 1);
+                localMap.setBlock(x, y, 0, BlockTypeEnum.FLOOR, 1);
             }
         }
         GameMvc.createInstance(new MainGameModel(localMap));

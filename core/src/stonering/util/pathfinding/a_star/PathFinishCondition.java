@@ -1,18 +1,13 @@
 package stonering.util.pathfinding.a_star;
 
 import stonering.enums.action.ActionTargetTypeEnum;
-import stonering.enums.blocks.BlockTypesEnum;
-import stonering.game.GameMvc;
-import stonering.game.model.local_map.LocalMap;
+import stonering.enums.blocks.BlockTypeEnum;
 import stonering.game.model.local_map.passage.NeighbourPositionStream;
 import stonering.util.geometry.Position;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import static stonering.enums.action.ActionTargetTypeEnum.EXACT;
-import static stonering.enums.action.ActionTargetTypeEnum.NEAR;
 
 /**
  * Stores positions in which path can end and checks given position.
@@ -31,14 +26,14 @@ public class PathFinishCondition {
             case NEAR:
                 neighbours.addAll(new NeighbourPositionStream(target)
                         .filterSameZLevel()
-                        .filterByPassage(BlockTypesEnum.PassageEnum.PASSABLE)
+                        .filterByPassage(BlockTypeEnum.PassageEnum.PASSABLE)
                         .stream.collect(Collectors.toSet()));
                 break;
             case ANY:
                 neighbours.add(target);
                 neighbours.addAll(new NeighbourPositionStream(target)
                         .filterSameZLevel()
-                        .filterByPassage(BlockTypesEnum.PassageEnum.PASSABLE)
+                        .filterByPassage(BlockTypeEnum.PassageEnum.PASSABLE)
                         .stream.collect(Collectors.toSet()));
         }
     }

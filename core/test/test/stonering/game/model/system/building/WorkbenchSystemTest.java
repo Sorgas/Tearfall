@@ -12,7 +12,7 @@ import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.job.JobsAspect;
 import stonering.entity.unit.aspects.PlanningAspect;
 import stonering.enums.action.TaskStatusEnum;
-import stonering.enums.blocks.BlockTypesEnum;
+import stonering.enums.blocks.BlockTypeEnum;
 import stonering.enums.items.recipe.Ingredient;
 import stonering.enums.items.recipe.RawRecipe;
 import stonering.enums.items.recipe.Recipe;
@@ -50,7 +50,7 @@ public class WorkbenchSystemTest {
         LocalMap map = new LocalMap(5, 5, 1);
         for (int x = 0; x < 5; x++) {
             for (int y = 0; y < 5; y++) {
-                map.setBlock(x, y, 0, BlockTypesEnum.FLOOR, 1);
+                map.setBlock(x, y, 0, BlockTypeEnum.FLOOR, 1);
             }
         }
         GameModel model = new MainGameModel(map);

@@ -1,6 +1,19 @@
+/*
+    All in-game skills. Specifies experience values for level ups, and bonuses per level.
+    Default bonus value is 1%, giving 5% advantage of each type on level 5.
+    Exact usage of bonus values are defined in actions.
+*/
 [
     {
-        "name" : "woodcutter",
-        "difficultyMod" : "1"
-    }
+        "name": "miner",
+        "levels": [40, 90, 180, 300, 500],
+        "speed": 0.04,
+        "quality": 0.1 // reduces damage to dug out items
+    }, {
+    "name": "woodcutter",
+    "levels": [40, 90, 180, 300, 500],
+    "speed": 0.04,
+    "quantity": 0.01,
+    "quality": 0.01
+}
 ]

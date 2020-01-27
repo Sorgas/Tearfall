@@ -2,7 +2,7 @@ package stonering.enums.blocks;
 
 import java.util.HashMap;
 
-import static stonering.enums.blocks.BlockTypesEnum.PassageEnum.*;
+import static stonering.enums.blocks.BlockTypeEnum.PassageEnum.*;
 
 /**
  * Enum of all block types.
@@ -11,7 +11,7 @@ import static stonering.enums.blocks.BlockTypesEnum.PassageEnum.*;
  *
  * @author Alexander Kuzyakov on 10.06.2017.
  */
-public enum BlockTypesEnum {
+public enum BlockTypeEnum {
     SPACE(0, IMPASSABLE, 5, true, 0, "space"), //not passable for walkers, liquids fall
     WALL(1, IMPASSABLE, 0, false, 3, "wall"), // not passable
     FLOOR(2, PASSABLE, 3, true, 1, "floor"), // passable, liquids don't fall
@@ -28,21 +28,21 @@ public enum BlockTypesEnum {
     public final boolean FLAT;
     public final String NAME; // name of constructions.
 
-    private static HashMap<Byte, BlockTypesEnum> map;
-    private static HashMap<String, BlockTypesEnum> nameMap;
+    private static HashMap<Byte, BlockTypeEnum> map;
+    private static HashMap<String, BlockTypeEnum> nameMap;
 
     static {
         map = new HashMap<>();
-        for (BlockTypesEnum type : BlockTypesEnum.values()) {
+        for (BlockTypeEnum type : BlockTypeEnum.values()) {
             map.put(type.CODE, type);
         }
         nameMap = new HashMap<>();
-        for (BlockTypesEnum type : BlockTypesEnum.values()) {
+        for (BlockTypeEnum type : BlockTypeEnum.values()) {
             nameMap.put(type.NAME, type);
         }
     }
 
-    BlockTypesEnum(int code, PassageEnum passing, int open, boolean flat, int product, String name) {
+    BlockTypeEnum(int code, PassageEnum passing, int open, boolean flat, int product, String name) {
         CODE = (byte) code;
         PASSING = passing;
         OPENNESS = (byte) open;
@@ -51,11 +51,11 @@ public enum BlockTypesEnum {
         NAME = name;
     }
 
-    public static BlockTypesEnum getType(byte code) {
+    public static BlockTypeEnum getType(byte code) {
         return map.get(code);
     }
 
-    public static BlockTypesEnum getType(String name) {
+    public static BlockTypeEnum getType(String name) {
         return nameMap.get(name);
     }
 

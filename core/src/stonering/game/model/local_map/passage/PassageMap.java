@@ -1,6 +1,6 @@
 package stonering.game.model.local_map.passage;
 
-import stonering.enums.blocks.BlockTypesEnum;
+import stonering.enums.blocks.BlockTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
 import stonering.game.model.local_map.ByteArrayWithCounter;
@@ -10,9 +10,9 @@ import stonering.game.model.system.plant.PlantContainer;
 import stonering.game.model.util.UtilByteArray;
 import stonering.util.geometry.Position;
 
-import static stonering.enums.blocks.BlockTypesEnum.*;
-import static stonering.enums.blocks.BlockTypesEnum.PassageEnum.IMPASSABLE;
-import static stonering.enums.blocks.BlockTypesEnum.PassageEnum.PASSABLE;
+import static stonering.enums.blocks.BlockTypeEnum.*;
+import static stonering.enums.blocks.BlockTypeEnum.PassageEnum.IMPASSABLE;
+import static stonering.enums.blocks.BlockTypeEnum.PassageEnum.PASSABLE;
 
 /**
  * Sub-component of {@link LocalMap}, is created on local map init.
@@ -67,13 +67,13 @@ public class PassageMap {
         if (!localMap.inMap(x1, y1, z1) || !localMap.inMap(x2, y2, z2)) return false; // out of map
         if (passage.get(x1, y1, z1) == IMPASSABLE.VALUE || passage.get(x2, y2, z2) == IMPASSABLE.VALUE) return false;
         if (z1 == z2) return true; // passable tiles on same level
-        BlockTypesEnum lower = BlockTypesEnum.getType(z1 < z2 ? localMap.getBlockType(x1, y1, z1) : localMap.getBlockType(x2, y2, z2));
+        BlockTypeEnum lower = BlockTypeEnum.getType(z1 < z2 ? localMap.getBlockType(x1, y1, z1) : localMap.getBlockType(x2, y2, z2));
         if((x1 == x2) != (y1 == y2)) return lower == RAMP;
 //        if (x1 != x2 || y1 != y2) { // check ramps
 //            return lower == RAMP && (x1 == x2 || y1 == y2); // lower tile is ramp, and transition is not diagonal
         // check stairs
         if(x1 != x2) return false;
-        BlockTypesEnum upper = BlockTypesEnum.getType(z1 > z2 ? localMap.getBlockType(x1, y1, z1) : localMap.getBlockType(x2, y2, z2));
+        BlockTypeEnum upper = BlockTypeEnum.getType(z1 > z2 ? localMap.getBlockType(x1, y1, z1) : localMap.getBlockType(x2, y2, z2));
         return (upper == STAIRS || upper == DOWNSTAIRS) && lower == STAIRS;
     }
 
@@ -82,18 +82,18 @@ public class PassageMap {
      * Same Z-level tiles are always accessible.
      * Tiles are accessible vertically with stairs or ramps.
      */
-    public boolean tileIsAccessibleFromNeighbour(int targetX, int targetY, int targetZ, int x, int y, int z, BlockTypesEnum targetType) {
+    public boolean tileIsAccessibleFromNeighbour(int targetX, int targetY, int targetZ, int x, int y, int z, BlockTypeEnum targetType) {
         if(!localMap.inMap(targetX, targetY, targetZ) || !localMap.inMap(x, y, z) || passage.get(x, y, z) == IMPASSABLE.VALUE) return false;
         if(targetZ == z) return true;
-        BlockTypesEnum fromType = BlockTypesEnum.getType(localMap.getBlockType(x, y, z));
-        BlockTypesEnum lower = targetZ < z ? targetType : fromType;
+        BlockTypeEnum fromType = BlockTypeEnum.getType(localMap.getBlockType(x, y, z));
+        BlockTypeEnum lower = targetZ < z ? targetType : fromType;
         if((targetX == x) != (targetY == y)) return lower == RAMP; // ramp near and lower
         if(targetX != x) return false;
-        BlockTypesEnum upper = targetZ > z ? targetType : fromType;
+        BlockTypeEnum upper = targetZ > z ? targetType : fromType;
         return lower == STAIRS && (upper == STAIRS || upper == DOWNSTAIRS);
     }
 
-    public boolean tileIsAccessibleFromNeighbour(Position target, Position position, BlockTypesEnum type) {
+    public boolean tileIsAccessibleFromNeighbour(Position target, Position position, BlockTypeEnum type) {
         return tileIsAccessibleFromNeighbour(target.x, target.y, target.z, position.x, position.y, position.z, type);
     }
 

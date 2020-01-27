@@ -1,6 +1,6 @@
 package stonering.util.validation;
 
-import stonering.enums.blocks.BlockTypesEnum;
+import stonering.enums.blocks.BlockTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
 import stonering.game.model.system.building.BuildingContainer;
@@ -18,7 +18,7 @@ public class FreeFloorValidator implements PositionValidator {
     @Override
     public boolean validate(Position position) {
         GameModel model = GameMvc.instance().model();
-        return model.get(LocalMap.class).getBlockType(position) == BlockTypesEnum.FLOOR.CODE &&
+        return model.get(LocalMap.class).getBlockType(position) == BlockTypeEnum.FLOOR.CODE &&
                 model.get(BuildingContainer.class).getBuildingBlocks().get(position) == null;
     }
 }

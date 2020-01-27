@@ -7,7 +7,7 @@ package stonering.entity.unit.aspects.job;
  * @author Alexander on 26.01.2020
  */
 public class LeveledValue {
-    private int value;
+    private float value;
     private int level;
     private int[] levelBounds; // min value of a level, [0] is level 1
 
@@ -26,11 +26,11 @@ public class LeveledValue {
         }
     }
 
-    public int getValue() {
+    public float getValue() {
         return value;
     }
 
-    public void setValue(int value) {
+    public void setValue(float value) {
         this.value = value;
         updateLevel();
     }

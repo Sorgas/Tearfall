@@ -2,7 +2,7 @@ package stonering.entity.job.action.target;
 
 import stonering.entity.building.BuildingOrder;
 import stonering.enums.action.ActionTargetTypeEnum;
-import stonering.enums.blocks.BlockTypesEnum;
+import stonering.enums.blocks.BlockTypeEnum;
 import stonering.enums.buildings.BuildingTypeMap;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
@@ -34,7 +34,7 @@ public class BuildingActionTarget extends ActionTarget {
     }
 
     public boolean findPositionForBuilder(BuildingOrder order, Position currentBuilderPosition) {
-        BlockTypesEnum type = BlockTypesEnum.getType(BuildingTypeMap.instance().getBuilding(order.blueprint.building).passage);
+        BlockTypeEnum type = BlockTypeEnum.getType(BuildingTypeMap.instance().getBuilding(order.blueprint.building).passage);
         builderPosition = new NeighbourPositionStream(center)
                 .filterByAccessibilityWithFutureTile(type)
                 .filterInArea(GameMvc.instance().model().get(LocalMap.class).passageMap.area.get(currentBuilderPosition))

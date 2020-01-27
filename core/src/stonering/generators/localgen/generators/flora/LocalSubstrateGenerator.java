@@ -13,8 +13,8 @@ import stonering.util.global.Logger;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static stonering.enums.blocks.BlockTypesEnum.FLOOR;
-import static stonering.enums.blocks.BlockTypesEnum.RAMP;
+import static stonering.enums.blocks.BlockTypeEnum.FLOOR;
+import static stonering.enums.blocks.BlockTypeEnum.RAMP;
 
 public class LocalSubstrateGenerator extends LocalFloraGenerator {
     private SubstrateContainer substrateContainer;

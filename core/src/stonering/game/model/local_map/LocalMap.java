@@ -1,7 +1,7 @@
 package stonering.game.model.local_map;
 
 import com.badlogic.gdx.math.Vector2;
-import stonering.enums.blocks.BlockTypesEnum;
+import stonering.enums.blocks.BlockTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.passage.PassageMap;
 import stonering.game.model.system.ModelComponent;
@@ -17,8 +17,8 @@ import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import static stonering.enums.blocks.BlockTypesEnum.PassageEnum.IMPASSABLE;
-import static stonering.enums.blocks.BlockTypesEnum.PassageEnum.PASSABLE;
+import static stonering.enums.blocks.BlockTypeEnum.PassageEnum.IMPASSABLE;
+import static stonering.enums.blocks.BlockTypeEnum.PassageEnum.PASSABLE;
 
 /**
  * Contains blocks, and physical parameters, and proxies to entity.
@@ -115,7 +115,7 @@ public class LocalMap implements ModelComponent, Initable {
     }
 
     private void setBlockType(int x, int y, int z, byte type) {
-        if (type == BlockTypesEnum.SPACE.CODE) deletePlantsOnDeletedBlock(x, y, z);
+        if (type == BlockTypeEnum.SPACE.CODE) deletePlantsOnDeletedBlock(x, y, z);
         blockType[x][y][z] = type;
         if (passageMap != null) passageMap.updater.update(x, y, z);
         if (localTileMapUpdater != null) localTileMapUpdater.updateTile(x, y, z);
@@ -138,7 +138,7 @@ public class LocalMap implements ModelComponent, Initable {
      * Returns tile adjacent to given and with walk passing.
      * Returns same position if no neighbour found.
      */
-    public Position getAnyNeighbourPosition(Position position, BlockTypesEnum.PassageEnum passing) {
+    public Position getAnyNeighbourPosition(Position position, BlockTypeEnum.PassageEnum passing) {
         for (int x = position.x - 1; x < position.x + 2; x++) {
             for (int y = position.y - 1; y < position.y + 2; y++) {
                 if (inMap(position) && passageMap.passage.get(x, y, position.z) == passing.VALUE)
@@ -168,7 +168,7 @@ public class LocalMap implements ModelComponent, Initable {
 
     public boolean isFlyPassable(int x, int y, int z) {
         //TODO
-        return inMap(x, y, z) && BlockTypesEnum.getType(getBlockType(x, y, z)).PASSING != IMPASSABLE;
+        return inMap(x, y, z) && BlockTypeEnum.getType(getBlockType(x, y, z)).PASSING != IMPASSABLE;
     }
 
     public byte getTemperature(int x, int y, int z) {
@@ -183,12 +183,12 @@ public class LocalMap implements ModelComponent, Initable {
         return material[x][y][z];
     }
 
-    public BlockTypesEnum getBlockTypeEnumValue(Position position) {
-        return BlockTypesEnum.getType(getBlockType(position.x, position.y, position.z));
+    public BlockTypeEnum getBlockTypeEnumValue(Position position) {
+        return BlockTypeEnum.getType(getBlockType(position.x, position.y, position.z));
     }
 
-    public BlockTypesEnum getBlockTypeEnumValue(int x, int y, int z) {
-        return BlockTypesEnum.getType(getBlockType(x, y, z));
+    public BlockTypeEnum getBlockTypeEnumValue(int x, int y, int z) {
+        return BlockTypeEnum.getType(getBlockType(x, y, z));
     }
 
     public byte getBlockType(Position pos) {
@@ -196,7 +196,7 @@ public class LocalMap implements ModelComponent, Initable {
     }
 
     public byte getBlockType(int x, int y, int z) {
-        return inMap(x, y, z) ? blockType[x][y][z] : BlockTypesEnum.SPACE.CODE;
+        return inMap(x, y, z) ? blockType[x][y][z] : BlockTypeEnum.SPACE.CODE;
     }
 
     public void setBlockType(Position pos, byte type) {
@@ -219,7 +219,7 @@ public class LocalMap implements ModelComponent, Initable {
         setFlooding(position.x, position.y, position.z, value);
     }
 
-    public void setBlock(Position pos, BlockTypesEnum blockType, int materialId) {
+    public void setBlock(Position pos, BlockTypeEnum blockType, int materialId) {
         setBlock(pos.x, pos.y, pos.z, blockType.CODE, materialId);
     }
 
@@ -227,7 +227,7 @@ public class LocalMap implements ModelComponent, Initable {
         setBlock(pos.x, pos.y, pos.z, blockType, materialId);
     }
 
-    public void setBlock(int x, int y, int z, BlockTypesEnum blockType, int materialId) {
+    public void setBlock(int x, int y, int z, BlockTypeEnum blockType, int materialId) {
         setBlock(x, y, z, blockType.CODE, materialId);
     }
 }

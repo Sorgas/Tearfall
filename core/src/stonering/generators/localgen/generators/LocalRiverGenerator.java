@@ -3,7 +3,7 @@ package stonering.generators.localgen.generators;
 import com.badlogic.gdx.math.CatmullRomSpline;
 import com.badlogic.gdx.math.Vector2;
 import stonering.entity.world.World;
-import stonering.enums.blocks.BlockTypesEnum;
+import stonering.enums.blocks.BlockTypeEnum;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.model.local_map.LocalMap;
 import stonering.generators.localgen.LocalGenContainer;
@@ -250,7 +250,7 @@ public class LocalRiverGenerator extends LocalAbstractGenerator {
      */
     private void updateLocalMapAndRoundedHeightMap(int x, int y, int elevation, boolean isWaterSource) {
         for (int z = elevation; z <= container.roundedHeightsMap[x][y]; z++) {
-            localMap.setBlock(x, y, z, BlockTypesEnum.SPACE, materialMap.getId("air"));
+            localMap.setBlock(x, y, z, BlockTypeEnum.SPACE, materialMap.getId("air"));
             if (z <= elevation) {
 //                localMap.setFlooding(x, y, z, 8);
                 container.waterTiles.add(new Position(x,y,z));

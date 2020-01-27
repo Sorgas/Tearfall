@@ -2,10 +2,9 @@ package stonering.test_chamber.model;
 
 import stonering.entity.item.Item;
 import stonering.entity.unit.Unit;
-import stonering.enums.blocks.BlockTypesEnum;
+import stonering.enums.blocks.BlockTypeEnum;
 import stonering.enums.items.type.ItemTypeMap;
 import stonering.enums.materials.MaterialMap;
-import stonering.game.model.entity_selector.EntitySelector;
 import stonering.game.model.system.EntitySelectorSystem;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.system.unit.UnitContainer;
@@ -33,9 +32,9 @@ public class DiggingModel extends TestModel {
         for (int x = 0; x < localMap.xSize; x++) {
             for (int y = 0; y < localMap.ySize; y++) {
                 for (int z = 0; z < 10; z++) {
-                    localMap.setBlock(x, y, z, BlockTypesEnum.WALL, MaterialMap.instance().getId("soil"));
+                    localMap.setBlock(x, y, z, BlockTypeEnum.WALL, MaterialMap.instance().getId("soil"));
                 }
-                localMap.setBlock(x, y, 10, BlockTypesEnum.FLOOR, MaterialMap.instance().getId("soil"));
+                localMap.setBlock(x, y, 10, BlockTypeEnum.FLOOR, MaterialMap.instance().getId("soil"));
             }
         }
     }
