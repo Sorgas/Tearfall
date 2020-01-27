@@ -51,7 +51,7 @@ public class LeveledValue {
             level = 0;
             value = 0;
         } else {
-            value = levelBounds[newLevel - 1];
+            value = levelBounds[level - 1];
         }
     }
 }
