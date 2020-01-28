@@ -5,17 +5,14 @@ import stonering.entity.job.action.target.PositionActionTarget;
 import stonering.entity.item.Item;
 import stonering.entity.item.selectors.ItemSelector;
 import stonering.entity.item.selectors.ToolWithActionItemSelector;
-import stonering.entity.unit.aspects.BuffAspect;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
-import stonering.entity.unit.aspects.health.HealthAspect;
-import stonering.entity.unit.aspects.job.SkillAspect;
 import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.enums.blocks.BlockTypeEnum;
 import stonering.enums.designations.DesignationTypeEnum;
-import stonering.enums.unit.SkillsMap;
 import stonering.game.GameMvc;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.local_map.LocalMap;
+import stonering.game.model.system.unit.UnitContainer;
 import stonering.generators.items.DiggingProductGenerator;
 import stonering.util.geometry.Position;
 
@@ -49,7 +46,7 @@ public class DigAction extends SkillAction {
             BlockTypeEnum oldType = GameMvc.model().get(LocalMap.class).getBlockTypeEnumValue(actionTarget.getPosition());
             if (type.validator.validate(actionTarget.getPosition())) updateMap();
             leaveStone(oldType);
-            //TODO add experience
+            GameMvc.model().get(UnitContainer.class).experienceSystem.giveExperience(task.performer, SKILL_NAME);
         };
     }
 

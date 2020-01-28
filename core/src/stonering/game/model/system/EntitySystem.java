@@ -10,7 +10,7 @@ import java.util.function.Predicate;
 
 /**
  * Superclass for all systems that work with entities.
- * Is updated by specified time interval. Entities to update are filtered by target aspects.
+ * Is updated by specified time interval (every tick by default). Entities to update are filtered by target aspects.
  *
  * @author Alexander on 01.11.2019.
  */

@@ -26,6 +26,7 @@ public class UnitContainer extends EntityContainer<Unit> implements Initable {
     public final CreatureMovementSystem movementSystem;
     public final CreaturePlanningSystem planningSystem;
     public final CreatureTaskPerformingSystem taskSystem;
+    public final CreatureExperienceSystem experienceSystem;
 
     private Position cachePosition; // used for faster getting unit from map
 
@@ -38,6 +39,7 @@ public class UnitContainer extends EntityContainer<Unit> implements Initable {
         putSystem(movementSystem = new CreatureMovementSystem());
         putSystem(planningSystem = new CreaturePlanningSystem());
         putSystem(taskSystem = new CreatureTaskPerformingSystem());
+        putSystem(experienceSystem = new CreatureExperienceSystem());
     }
 
     /**
