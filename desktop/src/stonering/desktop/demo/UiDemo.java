@@ -60,6 +60,7 @@ public class UiDemo extends Game {
     }
 
     private Container createLabelContainer() {
+
         Container<ScrollPane> container = new Container(pane = new ScrollPane(createList()));
         container.size(300, 300);
         container.setFillParent(true);

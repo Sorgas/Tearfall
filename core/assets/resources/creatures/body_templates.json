@@ -3,7 +3,7 @@
     slots:
         slot name, slot limbs
     slots include only mandatory limbs. all covered limbs are defined in item.
-    slots are mirrored, if they use mirrored limbs (giving two slots). if both mirrored and single limbs are used, one slot is created.
+    slots are mirrored, if they use mirrored limbs (giving two slots). if both mirrored and single limbs are used in one slot, it is not mirrored.
 */
 [
     {

@@ -1,7 +1,5 @@
 package stonering.stage.unit;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import stonering.entity.unit.Unit;
 import stonering.util.global.StaticSkin;
@@ -32,7 +30,6 @@ public class UnitMenu extends Window {
 
     private void createTable(Unit unit) {
         add(leftColumn = new UnitImageColumn(unit));
-//        add(panel = new TabbedPanel<>());
     }
 
     private String generateWindowTitle(Unit unit) {

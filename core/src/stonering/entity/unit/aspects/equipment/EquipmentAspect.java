@@ -5,12 +5,10 @@ import stonering.entity.item.aspects.WearAspect;
 import stonering.entity.job.action.Action;
 import stonering.entity.Aspect;
 import stonering.entity.item.Item;
+import stonering.enums.items.type.ToolItemType;
 import stonering.util.global.Logger;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -102,9 +100,15 @@ public class EquipmentAspect extends Aspect {
     }
 
     public boolean toolWithActionEquipped(String action) {
-        return equippedItems.stream().anyMatch(item ->
-                item.getType().tool.getActions().stream().anyMatch(toolAction ->
-                        toolAction.action.equals(action)));
+        return equippedItems.stream()
+                .map(item -> item.type.tool)
+                .filter(Objects::nonNull)
+                .flatMap(toolType -> toolType.getActions().stream())
+                .anyMatch(toolAction -> Objects.equals(toolAction.action, action));
+    }
+
+    public List<Item> getEquippedTools() {
+        return equippedItems.stream().filter(item -> item.type.tool != null).collect(Collectors.toList());
     }
 
     /**

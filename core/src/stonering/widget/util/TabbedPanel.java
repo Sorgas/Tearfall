@@ -17,7 +17,7 @@ import java.util.Map;
  */
 public abstract class TabbedPanel extends VerticalGroup {
     private int contentWidth;
-    private int contantHeight;
+    private int contentHeight;
     private Map<Integer, Pair<Button, Container>> mapping;
     private HorizontalGroup group;
     ButtonGroup<Button> buttonGroup;
