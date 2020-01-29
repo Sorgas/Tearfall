@@ -103,4 +103,14 @@ public class DrawableMap {
         IconDescriptor descriptor = icons.get(name);
         return new TextureRegionDrawable(AtlasesEnum.icons.getBlockTile(descriptor.atlasXY[0], descriptor.atlasXY[1]));
     }
+
+    public Drawable getFileDrawable(String path) {
+        textures.putIfAbsent(path, new Texture("sprites/" + path));
+        Texture texture = textures.get(path);
+        if(texture == null) {
+            Logger.LOADING.logWarn("Texture [" + path + "] not found, check /core/assets/sprites");
+            return getDrawable("default");
+        }
+        return new TextureRegionDrawable(texture);
+    }
 }

@@ -24,15 +24,14 @@ public class UnitImageColumn extends Table {
     }
 
     private void createTable(Unit unit) {
-        add(new Label("unit name", StaticSkin.getSkin())).row();
-        add(new Image(unit.getAspect(RenderAspect.class).region)).row();
+        add(new Label("unit name", StaticSkin.getSkin())).colspan(2).row();
+        add(new Image(unit.getAspect(RenderAspect.class).region)).colspan(2).row();
         //TODO equipped tool/weapon
         add(new Label("activity:", StaticSkin.getSkin()));
         add(new Label(getUnitCurrentTask(unit), StaticSkin.getSkin())).row();
 
         add(new Label("tools:", StaticSkin.getSkin()));
-        unit.getAspect(EquipmentAspect.class).getEquippedTools().forEach(item -> add(new ItemLabel(item)));
-        row();
+        unit.getAspect(EquipmentAspect.class).getEquippedTools().forEach(item -> add(new ItemLabel(item)).colspan(2).row());
 
         add(new Label(getUnitBestSkill(unit), StaticSkin.getSkin())).row();
 

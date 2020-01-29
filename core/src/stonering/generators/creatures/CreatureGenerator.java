@@ -2,6 +2,7 @@ package stonering.generators.creatures;
 
 import stonering.entity.unit.aspects.*;
 import stonering.entity.unit.aspects.job.JobsAspect;
+import stonering.entity.unit.aspects.job.SkillAspect;
 import stonering.enums.unit.CreatureType;
 import stonering.enums.unit.CreatureTypeMap;
 import stonering.game.GameMvc;
@@ -59,6 +60,7 @@ public class CreatureGenerator {
         unit.addAspect(new RenderAspect(unit, type.atlasXY, AtlasesEnum.units));
         unit.addAspect(new BuffAspect(unit));
         unit.addAspect(healthAspectGenerator.generateHealthAspect(unit));
+        unit.addAspect(new SkillAspect(unit));
     }
 
     private void addOptionalAspects(Unit unit) {
