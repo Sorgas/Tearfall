@@ -2,21 +2,14 @@ package stonering.desktop.demo;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
-import stonering.desktop.demo.sidebar.Sidebar;
-import stonering.entity.item.Item;
-import stonering.enums.items.type.ItemType;
-import stonering.enums.items.type.raw.RawItemType;
-import stonering.enums.materials.MaterialMap;
+import stonering.enums.images.DrawableMap;
 import stonering.stage.UiStage;
 import stonering.util.global.StaticSkin;
 import stonering.util.ui.SimpleScreen;
-import stonering.widget.lists.ItemCardButton;
 
 /**
  * Demo with some UI elements.
@@ -24,7 +17,6 @@ import stonering.widget.lists.ItemCardButton;
  * @author Alexander on 19.02.2019.
  */
 public class UiDemo extends Game {
-    private ScrollPane pane;
 
     public static void main(String[] args) {
         new LwjglApplication(new UiDemo());
@@ -37,7 +29,7 @@ public class UiDemo extends Game {
 
             {
                 stage.interceptInput = false;
-                stage.addActor(createLabelContainer());
+                stage.addActor(createContainer());
                 Gdx.input.setInputProcessor(stage);
             }
 
@@ -46,7 +38,6 @@ public class UiDemo extends Game {
                 Gdx.gl.glClearColor(0, 0, 0, 1);
                 Gdx.gl.glClear(Gdx.gl20.GL_COLOR_BUFFER_BIT | Gdx.gl20.GL_DEPTH_BUFFER_BIT);
 //                pane.scrollTo(0, 0, 0,100);
-                pane.scrollTo(500, 0, 100, 0, true, false);
                 stage.act(delta);
                 stage.draw();
 
@@ -59,26 +50,22 @@ public class UiDemo extends Game {
         });
     }
 
-    private Container createLabelContainer() {
-
-        Container<ScrollPane> container = new Container(pane = new ScrollPane(createList()));
-        container.size(300, 300);
+    private Container createContainer() {
+        Container<Image> container = new Container();
         container.setFillParent(true);
-        container.fill();
-        container.align(Align.right);
+        Drawable drawable = DrawableMap.getTextureDrawable("ui/item_slot.png");
+        drawable.setMinHeight(200);
+        drawable.setMinWidth(200);
+        Image image = new Image(drawable);
+//        image.setSize(200, 200);
+//        image.invalidateHierarchy();
+//        image.sizeBy(100);
+//        image.setScale(3);
+//        image.pack();
+
+        container.setActor(image);
+//        container.size(200, 300);
         container.setDebug(true, true);
         return container;
-    }
-
-    private Container createList() {
-        Table table = new Table();
-        for (int i = 0; i < 20; i++) {
-
-            table.add(new TextButton(String.valueOf(i), StaticSkin.getSkin())).size(50, 50).fillX();
-        }
-        ScrollPane pane = new ScrollPane(table);
-        pane.setScrollingDisabled(true, false);
-        table.debugAll();
-        return new Container(pane);
     }
 }

@@ -38,10 +38,7 @@ public enum DrawableMap {
             null),
     ICON(desc -> AtlasesEnum.icons.getBlockTile(desc.bounds[0], desc.bounds[1]),
             DRAWABLE_DESCRIPTORS_PATH + "icons",
-            "sprites/icons.png"),
-    TEXTURE(desc -> new TextureRegion(getTexture(desc.texture)),
-            DRAWABLE_DESCRIPTORS_PATH + "textures",
-            null); //TODO
+            "sprites/icons.png");
 
     private static final Map<String, Texture> textures = new HashMap<>(); // all textures in game
     private static final DrawableDescriptor DEFAULT_DESCRIPTOR = new DrawableDescriptor("default", "default.png", new int[]{0, 0, 64, 64});
@@ -55,6 +52,7 @@ public enum DrawableMap {
         descriptors = new HashMap<>();
         drawables = new HashMap<>();
         loadDescriptors(path);
+        if(textureOverride != null)descriptors.values().forEach(descriptor -> descriptor.texture = textureOverride); // override textures
     }
 
     private void loadDescriptors(String path) {
@@ -69,6 +67,11 @@ public enum DrawableMap {
         textures.putIfAbsent(descriptor.texture, new Texture("sprites/" + descriptor.texture)); // load new texture if needed
         drawables.putIfAbsent(key, new TextureRegionDrawable(regionProducer.apply(descriptor))); // lazy load drawable
         return drawables.get(key);
+    }
+
+    public static Drawable getTextureDrawable(String path) {
+        textures.putIfAbsent(path, new Texture("sprites/" + path)); // load new texture if needed
+        return new TextureRegionDrawable(new TextureRegion(textures.get(path)));
     }
 
     private static Texture getTexture(String key) {

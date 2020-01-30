@@ -101,10 +101,26 @@
         }, {
             "name": "foot",
             "root": "lower leg"
+        }, {
+            "name": "first finger",
+            "root": "hand"
+        },{
+            "name": "second finger",
+            "root": "hand"
+        },{
+            "name": "third finger",
+            "root": "hand"
+        },{
+            "name": "forth finger",
+            "root": "hand"
+        },{
+            "name": "fifth finger",
+            "root": "hand"
         }
     ],
     "slots": [
-        ["head", "head"], ["neck", "neck"], ["hand", "hand"], ["lower arm", "lower arm"], ["body", "upper torso", "upper arm"], ["legs", "lower torso", "upper leg"], ["foot", "foot"]
+        ["head", "head"], ["neck", "neck"], ["hand", "hand"], ["lower arm", "lower arm"], ["body", "upper torso", "upper arm"],
+        ["legs", "lower torso", "upper leg"], ["foot", "foot"], ["finger", "second finger"], ["belt", "lower torso"], ["cloak", "neck"], ["backpack", "upper torso"]
     ]
 },
     {

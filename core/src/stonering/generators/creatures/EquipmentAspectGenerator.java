@@ -34,9 +34,7 @@ public class EquipmentAspectGenerator {
             EquipmentSlot slot = isGrabSlot(name, type)
                     ? new GrabEquipmentSlot(name, slotLimbs.get(name))
                     : new EquipmentSlot(name, slotLimbs.get(name));
-            if (slot instanceof GrabEquipmentSlot) {
-                aspect.grabSlots.put(name, (GrabEquipmentSlot) slot);
-            }
+            if (slot instanceof GrabEquipmentSlot) aspect.grabSlots.put(name, (GrabEquipmentSlot) slot);
             aspect.slots.put(name, slot);
         }
     }

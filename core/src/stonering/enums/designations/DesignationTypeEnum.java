@@ -12,7 +12,7 @@ import static stonering.enums.blocks.BlockTypeEnum.*;
  * Enum of designation types for simple orders like digging, cutting plants, etc.
  * Has validators to check designation creation and performing. Job requirements are hard-coded in comprehensive {@link stonering.entity.job.action.Action}.
  *
- * TODO add icons for designations
+ * TODO add tiles for designations
  * @author Alexander Kuzyakov
  */
 public enum DesignationTypeEnum {

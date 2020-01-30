@@ -47,7 +47,7 @@ public class EquipmentAspect extends Aspect {
         //TODO haul in containers
         Logger.UNITS.logDebug("Picking up item " + item);
         Optional<GrabEquipmentSlot> optional = grabSlots.values().stream().filter(slot -> slot.grabbedItem == null).findFirst();
-        if (!optional.isPresent()) return false; // no free slot found
+        if (!optional.isPresent()) return false; // should have grab slot to equip new item
         optional.get().grabbedItem = item;
         hauledItems.add(item);
         Logger.UNITS.logDebug("");

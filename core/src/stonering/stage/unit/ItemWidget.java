@@ -3,6 +3,7 @@ package stonering.stage.unit;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.sun.istack.NotNull;
 import stonering.entity.item.Item;
 import stonering.entity.unit.aspects.RenderAspect;
@@ -20,7 +21,10 @@ public class ItemWidget extends Stack {
     private Image itemIcon;
 
     public ItemWidget(Item item) {
-        addActor(background = new Image(DrawableMap.TEXTURE.getDrawable("ui/item_slot.png")));
+        Drawable drawable = DrawableMap.getTextureDrawable("ui/item_slot.png");
+        drawable.setMinWidth(80);
+        drawable.setMinHeight(80);
+        addActor(background = new Image(drawable));
         if(item != null) setIcon(item);
     }
 
