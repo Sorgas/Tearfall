@@ -35,7 +35,7 @@ public class ItemTypeMap {
         Logger.LOADING.logDebug("loading item types");
         Json json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
-        FileHandle itemsDirectory = FileLoader.getFile(FileLoader.ITEMS_PATH);
+        FileHandle itemsDirectory = FileLoader.get(FileLoader.ITEMS_PATH);
         RawItemTypeProcessor processor = new RawItemTypeProcessor();
         for (FileHandle fileHandle : itemsDirectory.list()) {
             if(fileHandle.isDirectory()) continue;

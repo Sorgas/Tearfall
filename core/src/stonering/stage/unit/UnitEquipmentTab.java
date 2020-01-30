@@ -8,7 +8,6 @@ import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.entity.unit.aspects.equipment.EquipmentSlot;
 import stonering.enums.images.DrawableMap;
 
-import java.util.DoubleSummaryStatistics;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,12 +31,12 @@ public class UnitEquipmentTab extends Container<Group> {
         setActor(group = new Group());
         EquipmentAspect equipmentAspect = unit.getAspect(EquipmentAspect.class);
         equipmentAspect.slots.values().stream().map(this::createSlotWidget).forEach(group::addActor);
-        setBackground(DrawableMap.instance().getFileDrawable("ui/equipment_background.png"));
+        setBackground(DrawableMap.TEXTURE.getDrawable("ui/equipment_background.png"));
         size(600, 800);
     }
 
-    private ItemSlotWidget createSlotWidget(EquipmentSlot slot) {
-        ItemSlotWidget widget = new ItemSlotWidget(slot.item);
+    private ItemWidget createSlotWidget(EquipmentSlot slot) {
+        ItemWidget widget = new ItemWidget(slot.item);
         Vector2 widgetPosition = positionMap.getOrDefault(slot.name, new Vector2(50, 50));
         widget.setPosition(widgetPosition.x, widgetPosition.y);
         System.out.println(widget.getPrefHeight());

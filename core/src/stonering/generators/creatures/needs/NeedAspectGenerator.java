@@ -29,7 +29,7 @@ public class NeedAspectGenerator {
         reader = new JsonReader();
         json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
-        templates = reader.parse(FileLoader.getFile(FileLoader.BODY_TEMPLATE_PATH));
+        templates = reader.parse(FileLoader.get(FileLoader.BODY_TEMPLATE_PATH));
     }
 
     public NeedsAspect generateNeedAspect(CreatureType type) {

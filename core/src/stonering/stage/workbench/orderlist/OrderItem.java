@@ -67,7 +67,7 @@ public class OrderItem extends Container implements Highlightable {
 
     private void createElements() {
         image = new Image(); //TODO select/generate item tile.
-        image.setDrawable(DrawableMap.instance().getDrawable("order_status_icon:suspended"));
+        image.setDrawable(DrawableMap.REGION.getDrawable("order_status_icon:suspended"));
         image.setSize(90, 150);
         recipeTitle = new Label(order.recipe.title, StaticSkin.getSkin());
         updateText();
@@ -117,7 +117,7 @@ public class OrderItem extends Container implements Highlightable {
         highlightHandler = new CheckHighlightHandler(this) {
             @Override
             public void handle(boolean value) {
-                setBackground(DrawableMap.instance().getDrawable("workbench_order_line" +
+                setBackground(DrawableMap.REGION.getDrawable("workbench_order_line" +
                         (value ? ":focused" : "")));
                 section.menu.hintLabel.setText(section.getChildren().size > 1 ? MULTIPLE_HINT_TEXT : "" + HINT_TEXT);
             }
@@ -125,10 +125,9 @@ public class OrderItem extends Container implements Highlightable {
     }
 
     private Button createButton(String drawableName) {
-        DrawableMap map = DrawableMap.instance();
-        return new Button(map.getDrawable(drawableName),
-                map.getDrawable(drawableName + ":down"),
-                map.getDrawable(drawableName + ":checked"));
+        return new Button(DrawableMap.REGION.getDrawable(drawableName),
+                DrawableMap.REGION.getDrawable(drawableName + ":down"),
+                DrawableMap.REGION.getDrawable(drawableName + ":checked"));
     }
 
     /**

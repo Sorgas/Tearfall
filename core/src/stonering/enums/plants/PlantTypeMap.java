@@ -49,7 +49,7 @@ public class PlantTypeMap {
      * Loads {@link PlantType} from given file into given file.
      */
     private void loadTypesFileToMap(String filePath, Map<String, PlantType> map) {
-        List<RawPlantType> elements = json.fromJson(ArrayList.class, RawPlantType.class, FileLoader.getFile(filePath));
+        List<RawPlantType> elements = json.fromJson(ArrayList.class, RawPlantType.class, FileLoader.get(filePath));
         RawPlantTypeProcessor processor = new RawPlantTypeProcessor();
         elements.forEach(rawType -> map.put(rawType.name, processor.processRawType(rawType)));
         Logger.LOADING.logDebug(map.keySet().size() + " loaded from " + filePath);

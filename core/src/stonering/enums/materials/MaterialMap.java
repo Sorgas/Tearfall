@@ -45,7 +45,7 @@ public class MaterialMap {
     private void loadMaterials() {
         Logger.GENERAL.log("loading materials");
         int id = 0;
-        for (FileHandle file : FileLoader.getFile(FileLoader.MATERIALS_PATH).list()) {
+        for (FileHandle file : FileLoader.get(FileLoader.MATERIALS_PATH).list()) {
             ArrayList<RawMaterial> elements = json.fromJson(ArrayList.class, RawMaterial.class, file);
             for (RawMaterial rawMaterial : elements) {
                 Material material = new Material(rawMaterial);

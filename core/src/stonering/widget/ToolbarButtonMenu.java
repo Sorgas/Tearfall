@@ -32,7 +32,7 @@ public abstract class ToolbarButtonMenu extends ButtonMenu implements Highlighta
 
             @Override
             public void handle(boolean value) {
-                Drawable drawable = DrawableMap.instance().getDrawable("toolbar_menu" + (value ? ":focused" : ""));
+                Drawable drawable = DrawableMap.REGION.getDrawable("toolbar_menu" + (value ? ":focused" : ""));
                 drawable.setMinWidth(getWidth());
                 drawable.setMinHeight(getHeight());
                 setBackground(drawable);

@@ -31,7 +31,7 @@ public class BlueprintsMap {
 
     private void loadBlueprints() {
         Logger.LOADING.log("blueprints");
-        ArrayList<RawBlueprint> elements = json.fromJson(ArrayList.class, RawBlueprint.class, FileLoader.getFile(FileLoader.BLUEPRINTS_PATH));
+        ArrayList<RawBlueprint> elements = json.fromJson(ArrayList.class, RawBlueprint.class, FileLoader.get(FileLoader.BLUEPRINTS_PATH));
         BlueprintProcessor processor = new BlueprintProcessor();
         for (RawBlueprint rawBlueprint : elements) {
             blueprints.put(rawBlueprint.name, processor.processRawBlueprint(rawBlueprint));

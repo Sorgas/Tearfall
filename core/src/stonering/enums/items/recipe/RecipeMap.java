@@ -34,7 +34,7 @@ public class RecipeMap {
 
     private void loadRecipes() {
         Logger.LOADING.log("recipes");
-        ArrayList<RawRecipe> elements = json.fromJson(ArrayList.class, RawRecipe.class, FileLoader.getFile(FileLoader.RECIPES_PATH));
+        ArrayList<RawRecipe> elements = json.fromJson(ArrayList.class, RawRecipe.class, FileLoader.get(FileLoader.RECIPES_PATH));
         RecipeProcessor processor = new RecipeProcessor();
         for (RawRecipe rawRecipe : elements) {
             recipes.put(rawRecipe.name, processor.processRawRecipe(rawRecipe));

@@ -4,15 +4,15 @@
 [
     {
         "name": "digging_menu",
-        "atlasXY": [0, 0]
+        "bounds": [0, 0]
     }, {
     "name": "plants_menu",
-    "atlasXY": [1, 0]
+    "bounds": [1, 0]
 }, {
     "name": "building_menu",
-    "atlasXY": [2, 0]
+    "bounds": [2, 0]
 }, {
     "name": "zones_menu",
-    "atlasXY": [3, 0]
+    "bounds": [3, 0]
 }
 ]

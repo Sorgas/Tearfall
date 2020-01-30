@@ -43,7 +43,7 @@ public class BuildingTypeMap {
      * Loads {@link PlantType} from given file into given file.
      */
     private void loadTypesFileToMap(String filePath, Map<String, BuildingType> map) {
-        List<BuildingType> elements = json.fromJson(ArrayList.class, BuildingType.class, FileLoader.getFile(filePath));
+        List<BuildingType> elements = json.fromJson(ArrayList.class, BuildingType.class, FileLoader.get(filePath));
         for (BuildingType buildingType : elements) {
             buildings.put(buildingType.building, buildingType);
         }
@@ -56,7 +56,7 @@ public class BuildingTypeMap {
     private void loadLists() {
         Logger.LOADING.log("building recipes");
         RecipeMap recipeMap = RecipeMap.instance();
-        ArrayList<ArrayList<String>> elements = json.fromJson(ArrayList.class, ArrayList.class, FileLoader.getFile(FileLoader.RECIPE_LISTS_PATH));
+        ArrayList<ArrayList<String>> elements = json.fromJson(ArrayList.class, ArrayList.class, FileLoader.get(FileLoader.RECIPE_LISTS_PATH));
         for (List<String> recipeList : elements) {
             String buildingName = recipeList.remove(0);
             if(buildings.containsKey(buildingName)) {

@@ -20,13 +20,12 @@ public class FileLoader {
     public final static String ITEMS_PATH = "resources/items";
     public final static String RECIPE_LISTS_PATH = "resources/crafting/lists.json";
     public final static String RECIPES_PATH = "resources/crafting/recipes.json";
-    public final static String REGIONS_PATH = "resources/ui_background/regions.json";
-    public final static String ICONS_PATH = "resources/ui_background/icons.json";
+    public final static String DRAWABLE_DESCRIPTORS_PATH = "resources/drawable/";
     public final static String TREES_PATH = "resources/plants/trees.json";
     public final static String SUBSTRATES_PATH = "resources/plants/substrates.json";
     public final static String SEASONS_PATH = "resources/seasons.json";
 
-    public static FileHandle getFile(String path) {
+    public static FileHandle get(String path) {
         return new FileHandle(path);
     }
 }

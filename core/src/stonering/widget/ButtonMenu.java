@@ -60,7 +60,7 @@ public abstract class ButtonMenu extends Table implements Hideable {
      * Creates button with listener and hotkey. Will overwrite buttons with same hotkey.
      */
     protected void createButton(String text, String iconName, int hotKey, ChangeListener listener, boolean appendHotkey) {
-        Drawable drawable = iconName != null ? DrawableMap.instance().getIconDrawable(iconName) : null;
+        Drawable drawable = iconName != null ? DrawableMap.ICON.getDrawable(iconName) : null;
         IconTextButton button = new IconTextButton(drawable, (appendHotkey ? Input.Keys.toString(hotKey) + ": " : "") + text);
         button.addListener(listener);
         buttons.put(hotKey, button);

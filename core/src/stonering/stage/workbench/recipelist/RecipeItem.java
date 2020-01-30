@@ -50,8 +50,8 @@ public class RecipeItem extends WrappedTextButton implements Highlightable {
 
     private void createHighlightHandler() {
         highlightHandler = new Highlightable.CheckHighlightHandler(this) {
-            private Drawable normal = DrawableMap.instance().getDrawable(BACKGROUND_NAME);
-            private Drawable focused = DrawableMap.instance().getDrawable(BACKGROUND_NAME + ":focused");
+            private Drawable normal = DrawableMap.REGION.getDrawable(BACKGROUND_NAME);
+            private Drawable focused = DrawableMap.REGION.getDrawable(BACKGROUND_NAME + ":focused");
 
             @Override
             public void handle(boolean value) {

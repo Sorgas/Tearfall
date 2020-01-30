@@ -31,7 +31,7 @@ public class SkillsMap {
 
     private void loadTemplates() {
         Json json = new Json();
-        ArrayList<Skill> skills = json.fromJson(ArrayList.class, Skill.class, FileLoader.getFile(FileLoader.SKILLS_PATH));
+        ArrayList<Skill> skills = json.fromJson(ArrayList.class, Skill.class, FileLoader.get(FileLoader.SKILLS_PATH));
         for (Skill skill : skills) {
             this.skills.put(skill.name, skill);
         }

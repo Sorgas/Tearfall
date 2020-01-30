@@ -16,6 +16,6 @@ public class StatusIcon extends Image {
     }
 
     public void update(OrderStatusEnum status) {
-        setDrawable(DrawableMap.instance().getDrawable("order_status_icon:" + status.toString().toLowerCase()));
+        setDrawable(DrawableMap.REGION.getDrawable("order_status_icon:" + status.toString().toLowerCase()));
     }
 }

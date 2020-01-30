@@ -131,7 +131,7 @@ public class OrderListSection extends NavigableVerticalGroup {
         setHighlightHandler(new CheckHighlightHandler(this) {
             @Override
             public void handle(boolean value) {
-                menu.ordersHeader.setBackground(DrawableMap.instance().getDrawable("workbench_order_line" +
+                menu.ordersHeader.setBackground(DrawableMap.REGION.getDrawable("workbench_order_line" +
                         (value ? ":focused" : "")));
             }
         });

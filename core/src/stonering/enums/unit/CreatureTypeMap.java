@@ -38,7 +38,7 @@ public class CreatureTypeMap {
         Logger.LOADING.logDebug("loading body templates");
         Json json = new Json();
         BodyTemplateProcessor processor = new BodyTemplateProcessor();
-        ArrayList<RawBodyTemplate> types = json.fromJson(ArrayList.class, RawBodyTemplate.class, FileLoader.getFile(FileLoader.BODY_TEMPLATE_PATH));
+        ArrayList<RawBodyTemplate> types = json.fromJson(ArrayList.class, RawBodyTemplate.class, FileLoader.get(FileLoader.BODY_TEMPLATE_PATH));
         for (RawBodyTemplate type : types) {
             if (validateTemplate(type)) bodyTemplates.put(type.name, processor.process(type));
         }
@@ -46,7 +46,7 @@ public class CreatureTypeMap {
 
     private void loadCreatures() {
         Json json = new Json();
-        ArrayList<RawCreatureType> types = json.fromJson(ArrayList.class, RawCreatureType.class, FileLoader.getFile(FileLoader.CREATURES_PATH));
+        ArrayList<RawCreatureType> types = json.fromJson(ArrayList.class, RawCreatureType.class, FileLoader.get(FileLoader.CREATURES_PATH));
         for (RawCreatureType rawType : types) {
             CreatureType type = processRawCreatureType(rawType);
             if(type != null) creatureTypes.put(rawType.name, processRawCreatureType(rawType));

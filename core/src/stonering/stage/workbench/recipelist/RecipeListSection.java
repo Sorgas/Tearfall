@@ -104,7 +104,7 @@ public class RecipeListSection extends NavigableVerticalGroup implements Highlig
 
             @Override
             public void handle(boolean value) {
-                menu.recipesHeader.setBackground(DrawableMap.instance().getDrawable("workbench_order_line" +
+                menu.recipesHeader.setBackground(DrawableMap.REGION.getDrawable("workbench_order_line" +
                         (value ? ":focused" : "")));
             }
         });
