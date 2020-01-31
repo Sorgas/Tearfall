@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.sun.istack.NotNull;
 import stonering.entity.item.Item;
 import stonering.entity.unit.aspects.RenderAspect;
+import stonering.entity.unit.aspects.equipment.EquipmentSlot;
 import stonering.enums.images.DrawableMap;
 
 /**
@@ -26,6 +27,10 @@ public class ItemWidget extends Stack {
         drawable.setMinHeight(80);
         addActor(background = new Image(drawable));
         if(item != null) setIcon(item);
+    }
+
+    public ItemWidget(EquipmentSlot slot) {
+        this(slot != null ? slot.item : null);
     }
 
     private void setIcon(@NotNull Item item) {

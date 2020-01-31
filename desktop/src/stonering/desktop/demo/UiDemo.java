@@ -57,14 +57,7 @@ public class UiDemo extends Game {
         drawable.setMinHeight(200);
         drawable.setMinWidth(200);
         Image image = new Image(drawable);
-//        image.setSize(200, 200);
-//        image.invalidateHierarchy();
-//        image.sizeBy(100);
-//        image.setScale(3);
-//        image.pack();
-
         container.setActor(image);
-//        container.size(200, 300);
         container.setDebug(true, true);
         return container;
     }
