@@ -13,7 +13,7 @@ public enum TaskPriorityEnum {
     SAFETY(10), // avoiding health harm (heavy need level)
     LIFE(11); // avoiding death
 
-    public int VALUE;
+    public int VALUE; // numeric value for comparing priorities
 
     TaskPriorityEnum(int value) {
         VALUE = value;

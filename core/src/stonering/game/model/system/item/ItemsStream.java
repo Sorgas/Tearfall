@@ -19,7 +19,7 @@ import java.util.stream.Stream;
  * @author Alexander on 14.10.2019.
  */
 public class ItemsStream {
-    private ItemContainer container = GameMvc.instance().model().get(ItemContainer.class);
+    private ItemContainer container = GameMvc.model().get(ItemContainer.class);
     public Stream<Item> stream;
 
     public ItemsStream(Collection<Item> items) {
@@ -30,13 +30,18 @@ public class ItemsStream {
         stream = container.entities.stream();
     }
 
-    public ItemsStream filterByTag(ItemTagEnum tag) {
+    public ItemsStream filterHasTag(ItemTagEnum tag) {
         stream = stream.filter(item -> item.tags.contains(tag));
         return this;
     }
 
-    public ItemsStream filterByTag(String tag) {
-        return filterByTag(ItemTagEnum.get(tag));
+    public ItemsStream filterHasTag(String tag) {
+        return filterHasTag(ItemTagEnum.get(tag));
+    }
+
+    public ItemsStream filterNoTag(ItemTagEnum tag) {
+        stream = stream.filter(item -> !item.tags.contains(tag));
+        return this;
     }
 
     public ItemsStream filterByType(String type) {
@@ -50,7 +55,7 @@ public class ItemsStream {
     }
 
     public ItemsStream filterByReachability(Position position) {
-        stream = stream.filter(item -> GameMvc.instance().model().get(LocalMap.class).passageMap.util.positionReachable(position, item.position, false));
+        stream = stream.filter(item -> GameMvc.model().get(LocalMap.class).passageMap.util.positionReachable(position, item.position, false));
         return this;
     }
 

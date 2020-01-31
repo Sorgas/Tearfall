@@ -33,7 +33,7 @@ public class ItemStreamUtil {
         List<Item> items = new ArrayList<>();
         for (BuildingComponentVariant variant : step.componentVariants) {
             items.addAll(new ItemsStream(container.entities)
-                    .filterByTag(variant.tag)
+                    .filterHasTag(variant.tag)
                     .filterByType(variant.itemType)
                     .filterByReachability(position)
                     .toList());
@@ -46,7 +46,7 @@ public class ItemStreamUtil {
      */
     public List<Item> getItemsForIngredient(Ingredient ingredient, Position position) {
         return new ItemsStream(container.entities)
-                .filterByTag(ingredient.tag)
+                .filterHasTag(ingredient.tag)
                 .filterByTypes(ingredient.itemTypes)
                 .filterByReachability(position)
                 .toList();
@@ -71,7 +71,7 @@ public class ItemStreamUtil {
 
     public Item getNearestItemWithTag(Position position, ItemTagEnum tag) {
         return new ItemsStream(container.entities)
-                .filterByTag(tag)
+                .filterHasTag(tag)
                 .getNearestTo(position);
     }
 

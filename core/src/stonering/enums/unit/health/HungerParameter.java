@@ -8,6 +8,8 @@ import static stonering.enums.action.TaskPriorityEnum.*;
 import static stonering.enums.action.TaskPriorityEnum.SAFETY;
 
 /**
+ * Parameter for hunger. Provides {@link stonering.game.model.system.unit.CreatureHealthSystem} with ranges, need priorities, and buffs.
+ *
  * @author Alexander on 06.10.2019.
  */
 public class HungerParameter extends HealthParameter {

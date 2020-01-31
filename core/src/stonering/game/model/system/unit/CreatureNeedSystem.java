@@ -11,6 +11,7 @@ import stonering.util.global.Pair;
 
 import java.util.*;
 
+import static stonering.enums.action.TaskPriorityEnum.NONE;
 import static stonering.enums.action.TaskStatusEnum.*;
 
 /**
@@ -63,8 +64,7 @@ public class CreatureNeedSystem extends EntitySystem<Unit> {
         int priority;
         List<Pair<NeedEnum, Integer>> list = new ArrayList<>();
         for (NeedEnum need : aspect.needs) {
-            if ((priority = need.NEED.countPriority(unit).VALUE) < 0) continue; // skip tolerated need
-            list.add(new Pair<>(need, priority));
+            if ((priority = need.NEED.countPriority(unit).VALUE) >= NONE.VALUE) list.add(new Pair<>(need, priority));
         }
         return list;
     }

@@ -38,7 +38,7 @@ public class CreaturePlanningSystem extends EntitySystem<Unit> {
     @Override
     public void update(Unit unit) {
         if (unit.getAspect(PlanningAspect.class).task == null) {
-            findAndAssignNewTask(unit);
+            findNewTask(unit);
         } else {
             checkTaskStatus(unit);
         }
@@ -64,7 +64,7 @@ public class CreaturePlanningSystem extends EntitySystem<Unit> {
     /**
      * Assigns task to unit, removing it from container.
      */
-    private void findAndAssignNewTask(Unit unit) {
+    private void findNewTask(Unit unit) {
         Task task = selectTaskForUnit(unit);
         if (task != null && unitCanPerformTask(unit, task)) {
             Logger.TASKS.logDebug("Assigning task " + task + " to unit " + unit);
