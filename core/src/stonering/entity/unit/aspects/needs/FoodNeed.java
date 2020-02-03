@@ -15,6 +15,9 @@ import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.system.item.ItemsStream;
 import stonering.game.model.system.unit.CreatureHealthSystem;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Need for eating. Part of {@link CreatureHealthSystem}.
  * See also {@link HungerParameter}.
@@ -22,6 +25,11 @@ import stonering.game.model.system.unit.CreatureHealthSystem;
  * @author Alexander on 30.09.2019.
  */
 public class FoodNeed extends Need {
+    private Map<ItemTagEnum, Integer> itemsSelectionPriority = new HashMap<>();
+
+    {
+
+    }
 
     @Override
     public TaskPriorityEnum countPriority(Entity entity) {

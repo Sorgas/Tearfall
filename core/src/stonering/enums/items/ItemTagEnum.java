@@ -5,6 +5,11 @@ import java.util.Map;
 
 /**
  * Enumeration of all tags for items.
+ * Food tags - food tags influence, which food item will be taken for eating.
+ * RAW - gives penalty on eating. Lower selection priority.
+ * SPOILED - gives penalty on eating. Lower selection priority.
+ * PREPARED - gives bonus on eating. Increased selection priority.
+ *
  *
  * @author Alexander on 02.09.2019.
  */
@@ -16,13 +21,16 @@ public enum ItemTagEnum {
     METAL(false), // brass(material) bar(type) // bars have no origin
     WOOD(false), // birch(material) log
     MEAT(false), // fox(origin) meat(material) piece(type)
-    EDIBLE(false),
-    DRINKABLE(false),
-    RAW(true), // raw cow meat piece
+
+    EDIBLE(false), // can be eaten
+    DRINKABLE(false), // can be drunk
+    RAW(true), // raw cow meat piece,
     SPOILED(true), // spoiled raw cow meat peace
-    BOILABLE(false),
-    ROASTABLE(false),
-    BREWABLE(false),
+    PREPARED(true), // cow meat stew
+
+    BREWABLE(false), // item can be prepared into drink
+
+
     WATER(false),
     CLOTH(false),
     CRAFTING_MATERIAL(false),

@@ -9,7 +9,9 @@ import stonering.enums.time.TimeUnitEnum;
 import stonering.game.model.system.EntitySystem;
 import stonering.util.global.Pair;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static stonering.enums.action.TaskPriorityEnum.NONE;
 import static stonering.enums.action.TaskStatusEnum.*;
@@ -26,6 +28,7 @@ public class CreatureNeedSystem extends EntitySystem<Unit> {
 
     public CreatureNeedSystem() {
         updateInterval = TimeUnitEnum.MINUTE;
+        targetAspects.add(NeedsAspect.class);
     }
 
     /**
@@ -35,37 +38,26 @@ public class CreatureNeedSystem extends EntitySystem<Unit> {
     @Override
     public void update(Unit unit) {
         NeedsAspect aspect = unit.getAspect(NeedsAspect.class);
-        if(aspect == null) return;
-        clearCompletedTask(aspect);
-        if (aspect.satisfyingTask == null) {
-            List<Pair<NeedEnum, Integer>> needs = getUntoleratedNeeds(unit, aspect);
-            if (needs.size() > 1) needs.sort(Comparator.comparingInt(Pair::getValue));
-            for (Pair<NeedEnum, Integer> need : needs) {
-                aspect.satisfyingTask = need.getKey().NEED.tryCreateTask(unit);
-                if (aspect.satisfyingTask != null) return;
-            }
-        }
+        if(clearCompletedTask(aspect)) tryAssignNewTask(unit, aspect);
     }
 
-    /**
-     * Checks state of need task.
-     */
-    private void clearCompletedTask(NeedsAspect aspect) {
-        if (aspect.satisfyingTask != null
-                && (aspect.satisfyingTask.status == FAILED
-                || aspect.satisfyingTask.status == COMPLETE))
+    private boolean clearCompletedTask(NeedsAspect aspect) {
+        if (aspect.satisfyingTask != null && (aspect.satisfyingTask.status == FAILED || aspect.satisfyingTask.status == COMPLETE))
             aspect.satisfyingTask = null;
+        return aspect.satisfyingTask == null;
     }
 
-    /**
-     * Collects creature needs that cannot be tolerated. Returns them ordered by priorities.
-     */
-    private List<Pair<NeedEnum, Integer>> getUntoleratedNeeds(Unit unit, NeedsAspect aspect) {
-        int priority;
-        List<Pair<NeedEnum, Integer>> list = new ArrayList<>();
-        for (NeedEnum need : aspect.needs) {
-            if ((priority = need.NEED.countPriority(unit).VALUE) >= NONE.VALUE) list.add(new Pair<>(need, priority));
+    private void tryAssignNewTask(Unit unit, NeedsAspect aspect) {
+        List<Pair<NeedEnum, Integer>> needs = getUntoleratedNeeds(unit, aspect);
+        needs.sort(Comparator.comparingInt(Pair::getValue));
+        for (Pair<NeedEnum, Integer> need : needs) {
+            aspect.satisfyingTask = need.getKey().NEED.tryCreateTask(unit);
+            if (aspect.satisfyingTask != null) return;
         }
-        return list;
+    }
+
+    private List<Pair<NeedEnum, Integer>> getUntoleratedNeeds(Unit unit, NeedsAspect aspect) {
+        return aspect.needs.stream().map(need -> new Pair<>(need, need.NEED.countPriority(unit).VALUE))
+                .filter(pair -> pair.value >= NONE.VALUE).collect(Collectors.toList());
     }
 }
