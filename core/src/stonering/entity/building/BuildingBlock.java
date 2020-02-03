@@ -9,9 +9,9 @@ import stonering.util.geometry.Position;
  * @author Alexander Kuzyakov on 09.12.2017.
  */
 public class BuildingBlock {
-    private Building building;
-    private Position position;
-    private String passage;
+    public Building building;
+    public Position position;
+    public String passage;
 
     public boolean isPassable() {
         return BlockTypeEnum.getType(passage).PASSING == BlockTypeEnum.PassageEnum.PASSABLE;
@@ -19,29 +19,5 @@ public class BuildingBlock {
 
     public BuildingBlock(Building building) {
         this.building = building;
-    }
-
-    public Building getBuilding() {
-        return building;
-    }
-
-    public void setBuilding(Building building) {
-        this.building = building;
-    }
-
-    public Position getPosition() {
-        return position;
-    }
-
-    public void setPosition(Position position) {
-        this.position = position;
-    }
-
-    public String getPassage() {
-        return passage;
-    }
-
-    public void setPassage(String passage) {
-        this.passage = passage;
     }
 }

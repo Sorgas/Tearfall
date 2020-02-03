@@ -106,14 +106,14 @@ public class PassageMap {
      * TODO add water depth checking, etc.
      */
     public PassageEnum getTilePassage(Position position) {
-        GameModel model = GameMvc.instance().model();
+        GameModel model = GameMvc.model();
         PassageEnum tilePassage = getType(localMap.getBlockType(position)).PASSING;
         if (tilePassage == PASSABLE) { // tile still can be blocked by plants or buildings
             PlantContainer plantContainer = model.get(PlantContainer.class);
             if (plantContainer != null && !plantContainer.isPlantBlockPassable(position)) return IMPASSABLE;
             BuildingContainer buildingContainer = model.get(BuildingContainer.class);
-            if (buildingContainer != null && buildingContainer.getBuildingBlocks().containsKey(position)
-                    && !buildingContainer.getBuildingBlocks().get(position).isPassable()) return IMPASSABLE;
+            if (buildingContainer != null && buildingContainer.buildingBlocks.containsKey(position)
+                    && !buildingContainer.buildingBlocks.get(position).isPassable()) return IMPASSABLE;
         }
         return tilePassage;
     }

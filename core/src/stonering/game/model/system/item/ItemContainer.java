@@ -1,16 +1,21 @@
 package stonering.game.model.system.item;
 
-import stonering.entity.Entity;
 import stonering.entity.building.aspects.WorkbenchAspect;
 import stonering.entity.job.action.Action;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
-import stonering.enums.time.TimeUnitEnum;
 import stonering.game.model.system.EntityContainer;
 import stonering.util.geometry.Position;
 import stonering.entity.item.Item;
 import stonering.util.global.Logger;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Manages all item in game, including ones in containers, and equipped on units.
@@ -23,7 +28,7 @@ import java.util.*;
  */
 public class ItemContainer extends EntityContainer<Item> {
     public final Map<Position, List<Item>> itemMap = new HashMap<>(); // maps tiles position to list of item it that position.
-    public final Map<Item, WorkbenchAspect> contained = new HashMap<>(); // maps contained items to containers they are in.
+    public final Map<Item, WorkbenchAspect> contained = new HashMap<>(); // maps contained items to containers they are in. // todo replace to container aspect
     public final Map<Item, EquipmentAspect> equipped = new HashMap<>(); // maps equipped and hauled items to units.
     public final Set<Item> lockedItems = new HashSet<>();
     public final ItemStreamUtil util = new ItemStreamUtil(this);

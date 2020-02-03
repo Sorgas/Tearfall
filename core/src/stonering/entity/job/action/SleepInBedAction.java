@@ -39,7 +39,7 @@ public class SleepInBedAction extends Action {
             // decrease hearing
         };
         startCondition = () -> {
-            if (GameMvc.instance().model().get(BuildingContainer.class).getBuiding(bed.position) == bed &&
+            if (GameMvc.model().get(BuildingContainer.class).getBuiding(bed.position) == bed &&
                     bed.hasAspect(RestFurnitureAspect.class))
                 return OK;
             return FAIL;

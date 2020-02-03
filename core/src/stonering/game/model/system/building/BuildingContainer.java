@@ -28,7 +28,7 @@ import static stonering.enums.blocks.BlockTypeEnum.PassageEnum.PASSABLE;
  */
 public class BuildingContainer extends EntityContainer<Building> implements ModelComponent, Updatable {
     public final BuildingGenerator buildingGenerator;
-    private HashMap<Position, BuildingBlock> buildingBlocks;
+    public final HashMap<Position, BuildingBlock> buildingBlocks;
     private List<Building> removedBuildings;
     public final WorkbenchSystem workbenchSystem;
 
@@ -48,7 +48,7 @@ public class BuildingContainer extends EntityContainer<Building> implements Mode
     private void removeMarkedForDelete() {
         entities.removeAll(removedBuildings);
         for (Building removedBuilding : removedBuildings) {
-            buildingBlocks.remove(removedBuilding.getBlock().getPosition());
+            buildingBlocks.remove(removedBuilding.getBlock().position);
         }
     }
 
@@ -56,7 +56,7 @@ public class BuildingContainer extends EntityContainer<Building> implements Mode
      * Adds building to container and places it on map.
      */
     public void addBuilding(Building building) {
-        Position position = building.getBlock().getPosition();
+        Position position = building.getBlock().position;
         building.init();
         entities.add(building);
         buildingBlocks.put(position, building.getBlock());
@@ -69,7 +69,7 @@ public class BuildingContainer extends EntityContainer<Building> implements Mode
      */
     public void removeBuilding(Building building) {
         entities.remove(building);
-        buildingBlocks.remove(building.getBlock().getPosition());
+        buildingBlocks.remove(building.getBlock().position);
     }
 
     /**
@@ -89,11 +89,7 @@ public class BuildingContainer extends EntityContainer<Building> implements Mode
 
     public Building getBuiding(Position position) {
         if (!hasBuilding(position)) return null;
-        return buildingBlocks.get(position).getBuilding();
-    }
-
-    public HashMap<Position, BuildingBlock> getBuildingBlocks() {
-        return buildingBlocks;
+        return buildingBlocks.get(position).building;
     }
 
     public List<Building> getBuildingsWithAspect(Class<? extends Aspect> T) {

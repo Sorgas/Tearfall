@@ -11,8 +11,9 @@ import stonering.util.geometry.Position;
  */
 public class Building extends Entity {
     private int material;
-    private BuildingType type;
+    public BuildingType type;
     private BuildingBlock block; //TODO ad multiple blocks for buildings
+    public boolean occupied = false;
 
     public Building(Position position, BuildingType type) {
         super(position);
@@ -34,10 +35,6 @@ public class Building extends Entity {
 
     public void setBlock(BuildingBlock block) {
         this.block = block;
-    }
-
-    public BuildingType getType() {
-        return type;
     }
 
     @Override
