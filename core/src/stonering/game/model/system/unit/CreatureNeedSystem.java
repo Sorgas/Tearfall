@@ -14,13 +14,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static stonering.enums.action.TaskPriorityEnum.NONE;
-import static stonering.enums.action.TaskStatusEnum.*;
+import static stonering.enums.action.TaskStatusEnum.COMPLETE;
+import static stonering.enums.action.TaskStatusEnum.FAILED;
 
 /**
  * System for generation need satisfying tasks for units.
  * Works in {@link UnitContainer}.
  * On update, counts creature needs and creates {@link Task} for strongest need in {@link NeedsAspect}.
- * This task is then considered by {@link PlanningAspect}.
+ * This task is stored in needs aspect and considered by {@link CreaturePlanningSystem}.
  *
  * @author Alexander on 22.08.2019.
  */

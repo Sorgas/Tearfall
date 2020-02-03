@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Produces {@link Buff}s basing on {@link HealthParameterState} value.
+ * Produces {@link Buff}s basing on {@link HealthParameterState} relative value.
  * Stores priorities for needs tasks.
  *
  * @author Alexander on 06.10.2019.

@@ -10,6 +10,7 @@ import stonering.util.geometry.Position;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -60,7 +61,7 @@ public class ItemsStream {
     }
 
     public Item getNearestTo(Position position) {
-        return stream.min((item1, item2) -> Math.round(item1.position.getDistance(position))).orElse(null);
+        return stream.min(Comparator.comparingInt(item -> item.position.fastDistance(position))).orElse(null);
     }
 
     public ItemsStream getNearestTo(Position position, int number) {
@@ -90,6 +91,16 @@ public class ItemsStream {
 
     public ItemsStream filterNotInList(List<Item> list) {
         stream = stream.filter(item -> !list.contains(item));
+        return this;
+    }
+
+    public ItemsStream sorted(Comparator<Item> comparator) {
+        stream = stream.sorted(comparator);
+        return this;
+    }
+
+    public ItemsStream filter(Predicate<Item> predicate) {
+        stream = stream.filter(predicate);
         return this;
     }
 

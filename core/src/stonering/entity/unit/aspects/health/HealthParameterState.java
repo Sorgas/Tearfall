@@ -16,9 +16,6 @@ public class HealthParameterState {
         this.parameter = parameter;
     }
 
-    /**
-     * Relative value in percents;
-     */
     public float getRelativeValue() {
         return max == 0 ? 0 : current / max * 100f;
     }
