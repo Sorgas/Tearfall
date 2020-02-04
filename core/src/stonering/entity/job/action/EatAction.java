@@ -3,7 +3,6 @@ package stonering.entity.job.action;
 import stonering.entity.item.Item;
 import stonering.entity.job.Task;
 import stonering.entity.job.action.target.EntityActionTarget;
-import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.entity.unit.aspects.needs.FoodNeed;
 import stonering.enums.action.ActionTargetTypeEnum;
@@ -56,9 +55,5 @@ public class EatAction extends Action {
                 .filter(block -> !block.building.occupied) // get free tables
                 .filter(block -> map.passageMap.area.get(block.position) == map.passageMap.area.get(task.performer.position));
         return null;
-    }
-
-    public Task addActionToOpenContainer() {
-
     }
 }

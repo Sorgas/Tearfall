@@ -27,26 +27,40 @@ public class EquipItemAction extends Action {
 
         startCondition = () -> {
             EquipmentAspect equipment = task.performer.getAspect(EquipmentAspect.class);
-            if (equipment == null) return Logger.TASKS.logError("unit " + task.performer + " has no Equipment Aspect.", FAIL);
+            if (equipment == null)
+                return Logger.TASKS.logError("unit " + task.performer + " has no Equipment Aspect.", FAIL);
+
             EquipmentSlot slot = equipment.getSlotForItem(item);
-            if (slot == null) return Logger.TASKS.logError("unit " + task.performer + " has no appropriate slots for item " + item, FAIL);
+            if (slot == null)
+                return Logger.TASKS.logError("unit " + task.performer + " has no appropriate slots for item " + item, FAIL);
+
             Item blockingItem = slot.getBlockingItem(item);
-            if (blockingItem == null) return OK; // slot is not blocked
-            if (!force) return Logger.TASKS.logError("unit " + task.performer + " cannot equip item " + item + " no empty slots.", FAIL);
-            if(!equipment.hauledItems.contains(item)) { // take item in hands before equipping
-                task.addFirstPreAction(new ObtainItemAction(item));
-                return NEW;
-            }
-            if (item.hasAspect(WearAspect.class)) {
-                return createUnequipWearAction(blockingItem); // wear can block only wear items
-            } else if (item.isTool()) {
-                return createUnequipToolAction(blockingItem);
+            if (blockingItem == null) { // slot is not blocked
+                if (equipment.hauledItems.contains(item)) {
+                    return OK;
+                } else { // take item in hands before equipping
+                    task.addFirstPreAction(new ObtainItemAction(item));
+                    return NEW;
+                }
+            } else {
+                if (!force)
+                    return Logger.TASKS.logError("unit " + task.performer + " cannot equip item " + item + " no empty slots.", FAIL);
+                if (equipment.hauledItems.contains(item)) {
+                    if (item.hasAspect(WearAspect.class)) {
+                        return createUnequipWearAction(blockingItem); // wear can block only wear items
+                    } else if (item.isTool()) {
+                        return createUnequipToolAction(blockingItem);
+                    }
+                } else { // take item in hands before equipping
+                    task.addFirstPreAction(new ObtainItemAction(item));
+                    return NEW;
+                }
             }
             return Logger.TASKS.logError("Invalid case in EquipItemAction:check()", FAIL);
         };
 
         onFinish = () -> {
-            ItemContainer container = GameMvc.instance().model().get(ItemContainer.class);
+            ItemContainer container = GameMvc.model().get(ItemContainer.class);
             EquipmentAspect aspect = task.performer.getAspect(EquipmentAspect.class);
             if (!aspect.equipItem(item)) return; // equipping failed
             container.onMapItemsSystem.removeItemFromMap(item);

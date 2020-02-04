@@ -26,12 +26,15 @@ public class GetItemFromContainerAction extends Action {
     public GetItemFromContainerAction(Item item, Entity container) {
         super(new EntityActionTarget(container, ActionTargetTypeEnum.NEAR));
         startCondition = () -> {
-            if(task.performer.hasAspect(EquipmentAspect.class)) return FAIL;
+            EquipmentAspect equipment = task.performer.getAspect(EquipmentAspect.class);
+            if(equipment == null) return FAIL;
             ItemContainerAspect aspect = container.getAspect(ItemContainerAspect.class);
             if(aspect == null) return FAIL;
             if(!aspect.items.contains(item)) return FAIL;
             LocalMap map = GameMvc.model().get(LocalMap.class);
             if(!map.passageMap.inSameArea(containerEntity.position, item.position)) return FAIL;
+            equipment.
+            // create action to free grab slots
             return OK;
         };
         onFinish = () -> {

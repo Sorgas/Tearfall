@@ -24,10 +24,11 @@ import java.util.stream.Collectors;
  */
 public class EquipmentAspect extends Aspect {
     public static String NAME = "equipment";
-    public final HashMap<String, EquipmentSlot> slots;            // all slots of a creature
-    public final HashMap<String, GrabEquipmentSlot> grabSlots;    // equipped item
-    public final List<Item> hauledItems;                     // hauled item list for faster checking
-    public final List<Item> equippedItems;                   // equipped item list for faster checking
+    public final HashMap<String, EquipmentSlot> slots;            // all slots of a creature (for wears)
+    public final HashMap<String, GrabEquipmentSlot> grabSlots;    // slots for tools and hauled items (subset of all slots)
+
+    public final List<Item> hauledItems;                     // hauled item list for faster checking (hauled in hands and worn containers)
+    public final List<Item> equippedItems;                   // equipped item list for faster checking (worn items)
     public final List<EquipmentSlot> desiredSlots;           // uncovered limbs give comfort penalty
 
     public EquipmentAspect(Entity entity) {
@@ -69,7 +70,7 @@ public class EquipmentAspect extends Aspect {
             return false; // slot is full
         }
         equippedItems.add(item);
-        Logger.ITEMS.logDebug("Item " + item + " equipped by " + entity + " into slot " + slot);
+        Logger.ITEMS.logDebug("Item " + item + " equipped by " + entity + " into slot " + slot.name);
         return true;
     }
 

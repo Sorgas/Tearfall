@@ -58,10 +58,10 @@ public class ModelSelectStage extends UiStage {
         GameMvc gameMvc = GameMvc.createInstance(getInstance(name));
         gameMvc.createViewAndController();
         gameMvc.init();
-        gameMvc.view().localWorldStage.getCamera().centerCameraToPosition(gameMvc.model().get(EntitySelectorSystem.class).selector.position.clone());
-        testChamberGame.setScreen(GameMvc.instance().view());
-        gameMvc.model().get(LocalMap.class).initAreas();
-        gameMvc.model().setPaused(false);
+        GameMvc.view().localWorldStage.getCamera().centerCameraToPosition(GameMvc.model().get(EntitySelectorSystem.class).selector.position.clone());
+        testChamberGame.setScreen(GameMvc.view());
+        GameMvc.model().get(LocalMap.class).initAreas();
+        GameMvc.model().setPaused(false);
     }
 
     private GameModel getInstance(String name) {

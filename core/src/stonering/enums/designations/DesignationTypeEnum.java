@@ -30,9 +30,8 @@ public enum DesignationTypeEnum {
 
     private static HashMap<Integer, DesignationTypeEnum> map;
     public final int CODE;
-    public final String iconName = null;
-    public final String text;
-    public final PositionValidator validator;
+    public final String TEXT;
+    public final PositionValidator VALIDATOR;
 
     static {
         map = new HashMap<>();
@@ -43,8 +42,8 @@ public enum DesignationTypeEnum {
 
     DesignationTypeEnum(int code, String text, PositionValidator validator) {
         this.CODE = (byte) code;
-        this.text = text;
-        this.validator = validator;
+        this.TEXT = text;
+        this.VALIDATOR = validator;
     }
 
     public DesignationTypeEnum getType(int code) {

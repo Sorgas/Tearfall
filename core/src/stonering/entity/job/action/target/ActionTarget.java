@@ -28,17 +28,13 @@ public abstract class ActionTarget {
     public abstract Position getPosition();
 
     /**
-     * Checks if task performer has reached task target.
+     * Checks if task performer has reached task target. Does not check target availability (map area).
      * Returns fail if checked from out of map.
      */
     public ActionTargetStatusEnum check(Entity performer) {
         Position performerPosition = performer.position;
         Logger.TASKS.logDebug("Checking action target " + performerPosition + " " + getPosition());
         Position targetPosition = getPosition();
-        LocalMap map = GameMvc.model().get(LocalMap.class);
-        if (!map.inMap(performerPosition) ||
-                !map.inMap(targetPosition) ||
-                map.passageMap.area.get(performerPosition) != map.passageMap.area.get(targetPosition)) return FAIL;
         int distance = getDistance(performerPosition);
         if (distance > 1) return WAIT; // target not yet reached
         switch (targetType) {

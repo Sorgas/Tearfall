@@ -14,10 +14,11 @@ import java.util.Map;
  */
 public class SkillsMap {
     private static SkillsMap instance;
-    private Map<String, Skill> skills;
+    private final Map<String, Skill> skills;
 
     private SkillsMap() {
         skills = new HashMap<>();
+        loadTemplates();
     }
 
     public static SkillsMap instance() {

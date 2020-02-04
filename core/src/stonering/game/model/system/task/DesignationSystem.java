@@ -51,7 +51,7 @@ public class DesignationSystem {
             Designation designation = container.designations.get(position);
             if (designation != null && designation.task != null) designation.task.status = CANCELED;
         } else {
-            if (type.validator.validate(position))
+            if (type.VALIDATOR.validate(position))
                 container.designations.put(position, new OrderDesignation(position, type));
         }
     }

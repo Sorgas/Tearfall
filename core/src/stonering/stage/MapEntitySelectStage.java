@@ -89,7 +89,7 @@ public class MapEntitySelectStage extends UiStage {
     }
 
     private void tryShowBuildingStage(@NotNull BuildingBlock block) {
-        GameMvc.instance().view().addStage(new BuildingStage(block.getBuilding()));
+        GameMvc.instance().view().addStage(new BuildingStage(block.building));
     }
 
     private void tryShowZoneStage(@NotNull Zone zone) {

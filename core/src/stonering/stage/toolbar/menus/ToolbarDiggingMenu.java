@@ -40,7 +40,7 @@ public class ToolbarDiggingMenu extends ToolbarSubMenuMenu {
                 Logger.UI.logDebug("EntitySelector handlers changed");
                 SelectionAspect aspect = GameMvc.model().get(EntitySelectorSystem.class).selector.getAspect(SelectionAspect.class);
                 TaskContainer container = GameMvc.model().get(TaskContainer.class);
-                aspect.validator = type.validator;
+                aspect.validator = type.VALIDATOR;
                 aspect.selectHandler = box -> aspect.boxIterator.accept(position -> container.designationSystem.submitDesignation(position, type, 1));
                 aspect.cancelHandler = aspect::reset;
             }

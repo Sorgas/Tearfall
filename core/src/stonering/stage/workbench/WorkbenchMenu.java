@@ -26,7 +26,7 @@ public class WorkbenchMenu extends Window {
     public final WrappedLabel hintLabel;
 
     public WorkbenchMenu(Building workbench) {
-        super(workbench.getType().title, StaticSkin.getSkin());
+        super(workbench.type.title, StaticSkin.getSkin());
         defaults().size(300, 700).pad(5);
         add(recipesHeader = new WrappedLabel("Recipes:")).height(20);
         add(ordersHeader = new WrappedLabel("Orders:")).height(20);

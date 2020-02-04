@@ -39,7 +39,7 @@ public class ToolbarPlantsMenu extends ToolbarSubMenuMenu {
                 TaskContainer container = GameMvc.model().get(TaskContainer.class);
                 Logger.UI.logDebug("Toggling button " + text);
                 SelectionAspect aspect = GameMvc.model().get(EntitySelectorSystem.class).selector.getAspect(SelectionAspect.class);
-                aspect.validator = type.validator;
+                aspect.validator = type.VALIDATOR;
                 aspect.selectHandler = box -> aspect.boxIterator.accept(position -> container.designationSystem.submitDesignation(position, type, 1));
                 aspect.cancelHandler = aspect::reset;
             }

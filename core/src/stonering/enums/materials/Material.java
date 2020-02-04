@@ -32,7 +32,6 @@ public class Material {
         reactions = raw.reactions;
         value = raw.value;
         atlasY = raw.atlasY;
-        System.out.println(name);
         color = Color.valueOf(raw.color);
     }
 

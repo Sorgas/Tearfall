@@ -37,35 +37,4 @@ public abstract class AbstractLightSourceAspect extends Aspect {
     public void setForce(float force) {
         this.force = force;
     }
-
-//    private void unapplyPreviousSpot() {
-//        LocalMap localMap = gameContainer.getLocalMap();
-//        for (int x = spot.position.getX() - spot.radius; x <= spot.position.getX() + spot.radius; x++) {
-//            for (int y = spot.position.getY() - spot.radius; y <= spot.position.getY() + spot.radius; y++) {
-//                for (int z = spot.position.getY() - spot.radius; z <= spot.position.getY() + spot.radius; z--) {
-//                    if (localMap.inMap(x, y, z)) {
-////                        localMap.setLightLevel(z, y, z, (byte) (localMap.getLightLevel(z, y, z) - force * Byte.MAX_VALUE));
-//                    }
-//
-//                    if (localMap.getBlockType(z, y, z) != BlockTypesEnum.SPACE.getCode()) {
-//                        break;
-//                    }
-//                }
-//            }
-//        }
-//    }
-//
-//    private void addLightInArea() {
-//        //TODO add lighting with ray tracing. Every source update cells lighted by source are stored.
-//    }
-//
-//    /**
-//     * Light spot emitted by this source is stored, to be removed on next source update (moving, changing).
-//     */
-//    private class LightSpot {
-//        private int radius;
-//        private float force;          // [0,1]
-//        private Position position;
-
-//    }
 }

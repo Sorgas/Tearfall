@@ -42,7 +42,7 @@ public class CreatureTaskPerformingSystem extends EntitySystem<Unit> {
      * Creating new action during target check, will be handled on next update.
      */
     private void checkTarget(PlanningAspect planning, MovementAspect movement, Task task) {
-        ActionTargetStatusEnum checkResult = task.nextAction.actionTarget.check(planning.entity.position);
+        ActionTargetStatusEnum checkResult = task.nextAction.actionTarget.check(planning.entity);
         switch (checkResult) {
             case READY:
                 handleReachingActionTarget(task, planning);

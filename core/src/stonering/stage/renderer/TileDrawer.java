@@ -62,7 +62,7 @@ public class TileDrawer extends Drawer {
     public TileDrawer(SpriteDrawingUtil spriteDrawingUtil, ShapeDrawingUtil shapeDrawingUtil, MovableCamera camera) {
         super(spriteDrawingUtil, shapeDrawingUtil);
         this.camera = camera;
-        GameModel model = GameMvc.instance().model();
+        GameModel model = GameMvc.model();
         localMap = model.get(LocalMap.class);
         localTileMap = model.get(LocalTileMap.class);
         buildingContainer = model.get(BuildingContainer.class);
@@ -142,7 +142,7 @@ public class TileDrawer extends Drawer {
         drawWaterBlock(x, y, z);
         cachePosition.set(x, y, z);
         if (plantContainer != null) drawPlantBlock(plantContainer.getPlantBlock(cachePosition));
-        if (buildingContainer != null) drawBuildingBlock(buildingContainer.getBuildingBlocks().get(cachePosition));
+        if (buildingContainer != null) drawBuildingBlock(buildingContainer.buildingBlocks.get(cachePosition));
         if (itemContainer != null) itemContainer.getItemsInPosition(x, y, z).forEach(this::drawItem);
         if (taskContainer != null) drawDesignation(taskContainer.getDesignation(x, y, z));
         if (zoneContainer != null) drawZone(zoneContainer.getZone(cachePosition));
@@ -247,7 +247,7 @@ public class TileDrawer extends Drawer {
 
     private void drawBuildingBlock(BuildingBlock block) {
         if (block == null) return;
-        RenderAspect aspect = block.getBuilding().getAspect(RenderAspect.class);
+        RenderAspect aspect = block.building.getAspect(RenderAspect.class);
         spriteUtil.drawSprite(buildings.getBlockTile(aspect.atlasXY[0], aspect.atlasXY[1]), buildings, cachePosition);
     }
 

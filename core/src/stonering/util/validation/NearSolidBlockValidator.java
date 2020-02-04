@@ -13,8 +13,8 @@ import stonering.util.geometry.Position;
 public class NearSolidBlockValidator implements PositionValidator {
     @Override
     public boolean validate(Position position) {
-        LocalMap map = GameMvc.instance().model().get(LocalMap.class);
-        return GameMvc.instance().model().get(BuildingContainer.class).getBuildingBlocks().get(position) == null && // building-free
+        LocalMap map = GameMvc.model().get(LocalMap.class);
+        return GameMvc.model().get(BuildingContainer.class).buildingBlocks.get(position) == null && // building-free
                 (map.getBlockType(position) == BlockTypeEnum.FLOOR.CODE ||          // floor or space
                         ((map.getBlockType(position.x + 1, position.y, position.z) != 0 ||        // not empty blocks near
                                 map.getBlockType(position.x - 1, position.y, position.z) != 0 ||

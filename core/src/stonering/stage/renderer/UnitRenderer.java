@@ -27,7 +27,7 @@ public class UnitRenderer extends Drawer {
 
     public UnitRenderer(SpriteDrawingUtil spriteUtil, ShapeDrawingUtil shapeUtil) {
         super(spriteUtil, shapeUtil);
-        unitContainer = GameMvc.instance().model().get(UnitContainer.class);
+        unitContainer = GameMvc.model().get(UnitContainer.class);
     }
 
     public void drawUnits(int x, int y, int z) {
@@ -49,7 +49,7 @@ public class UnitRenderer extends Drawer {
                 && unit.hasAspect(PlanningAspect.class)
                 && (action = unit.getAspect(PlanningAspect.class).getNextAction()) != null
                 && action.progress > 0) {
-            shapeUtil.drawRectangle(unit.vectorPosition, 4, 16, (int) (progressBarWidth * action.progress), 8, Color.WHITE);
+            shapeUtil.drawRectangle(unit.vectorPosition, 4, 16, (int) (progressBarWidth * (action.progress / action.maxProgress)), 8, Color.WHITE);
         }
     }
 }

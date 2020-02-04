@@ -8,6 +8,7 @@ import stonering.entity.job.action.ItemPickupAction;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.game.GameMvc;
+import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.item.ItemContainer;
 
 import static stonering.entity.job.action.ActionConditionStatusEnum.FAIL;
@@ -16,7 +17,6 @@ import static stonering.entity.job.action.ActionConditionStatusEnum.NEW;
 /**
  * Fictive action to handle different cases of item placement.
  * Checks item placement an creates corresponding pre-action.
- * Does not check item availability or performer condition. // TODO change this to speed up checking?
  * Does not check its own progress, only if target item is equipped to performer.
  *
  * @author Alexander on 04.02.2020.

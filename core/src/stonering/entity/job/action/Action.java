@@ -41,6 +41,7 @@ public abstract class Action {
 
     public float speed = -1;
     public float progress = 0;
+    public float maxProgress = 1;
 
     protected Action(ActionTarget actionTarget) {
         this.actionTarget = actionTarget;
@@ -49,7 +50,7 @@ public abstract class Action {
         onStart = () -> {};
         progressConsumer = (delta) -> progress += delta;
         speedUpdater = () -> 1f;
-        finishCondition = () -> progress >= 1f;
+        finishCondition = () -> progress >= maxProgress;
         onFinish = () -> {};
     }
 

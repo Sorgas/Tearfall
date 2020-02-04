@@ -19,8 +19,8 @@ import java.util.List;
 public class ItemStreamUtil {
     private final ItemContainer container;
 
-    public ItemStreamUtil() {
-        this.container = GameMvc.model().get(ItemContainer.class);
+    public ItemStreamUtil(ItemContainer container) {
+        this.container = container;
     }
 
     /**
@@ -64,7 +64,7 @@ public class ItemStreamUtil {
     }
 
     /**
-     * Gets single available item to be as crafting ingredient.
+     * Gets single available item to be crafting ingredient.
      */
     public Item getItemForIngredient(IngredientOrder order, Position position) {
         return new ItemsStream()

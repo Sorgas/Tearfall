@@ -3,6 +3,7 @@ package test.stonering.entity.job.action.target;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import stonering.entity.Entity;
 import stonering.entity.job.Task;
 import stonering.entity.job.action.Action;
 import stonering.entity.job.action.MoveAction;
@@ -29,6 +30,7 @@ public class ActionTargetTest {
     private LocalMap localMap;
     private GameModel gameModel;
     private Action actionMock;
+    private Entity dummy;
 
     private Position targetPosition = new Position(0, 0, 0);
 
@@ -36,6 +38,7 @@ public class ActionTargetTest {
     void prepare() {
         createGameModel();
         actionMock = new MoveAction(targetPosition);
+        dummy = new Entity(){};
     }
 
     private void createGameModel() {
@@ -58,10 +61,14 @@ public class ActionTargetTest {
     @Test
     void testExactTarget() {
         actionTarget = new PositionActionTarget(targetPosition, ActionTargetTypeEnum.EXACT);
-        assertEquals(ActionTargetStatusEnum.READY, actionTarget.check(targetPosition));
-        assertEquals(ActionTargetStatusEnum.WAIT, actionTarget.check(new Position(1, 0, 0)));
-        assertEquals(ActionTargetStatusEnum.WAIT, actionTarget.check(new Position(0, 1, 0)));
-        assertEquals(ActionTargetStatusEnum.WAIT, actionTarget.check(new Position(4, 4, 0)));
+        dummy.position = targetPosition;
+        assertEquals(ActionTargetStatusEnum.READY, actionTarget.check(dummy));
+        dummy.position = new Position(1, 0, 0);
+        assertEquals(ActionTargetStatusEnum.WAIT, actionTarget.check(dummy));
+        dummy.position = new Position(0, 1, 0);
+        assertEquals(ActionTargetStatusEnum.WAIT, actionTarget.check(dummy));
+        dummy.position = new Position(4, 4, 0);
+        assertEquals(ActionTargetStatusEnum.WAIT, actionTarget.check(dummy));
     }
 
     @Test
@@ -70,10 +77,14 @@ public class ActionTargetTest {
         Action action = new MoveAction(new Position());
         Task task = new Task("test_task", action, 1);
         actionTarget.setAction(action);
-        assertEquals(ActionTargetStatusEnum.NEW, actionTarget.check(targetPosition)); // new action should be created when checking from same position
-        assertEquals(ActionTargetStatusEnum.READY, actionTarget.check(new Position(1, 0, 0)));
-        assertEquals(ActionTargetStatusEnum.READY, actionTarget.check(new Position(0, 1, 0)));
-        assertEquals(ActionTargetStatusEnum.WAIT, actionTarget.check(new Position(3, 3, 0)));
+        dummy.position = targetPosition;
+        assertEquals(ActionTargetStatusEnum.NEW, actionTarget.check(dummy)); // new action should be created when checking from same position
+        dummy.position = new Position(1, 0, 0);
+        assertEquals(ActionTargetStatusEnum.READY, actionTarget.check(dummy));
+        dummy.position = new Position(0, 1, 0);
+        assertEquals(ActionTargetStatusEnum.READY, actionTarget.check(dummy));
+        dummy.position = new Position(3, 3, 0);
+        assertEquals(ActionTargetStatusEnum.WAIT, actionTarget.check(dummy));
     }
 
     @Test
@@ -83,23 +94,31 @@ public class ActionTargetTest {
         localMap.setBlock(0, 1, 0, BlockTypeEnum.WALL, 1);
         localMap.setBlock(1, 0, 0, BlockTypeEnum.WALL, 1);
         localMap.setBlock(1, 1, 0, BlockTypeEnum.WALL, 1);
-        assertEquals(ActionTargetStatusEnum.FAIL, actionTarget.check(targetPosition));
+        dummy.position = targetPosition;
+        assertEquals(ActionTargetStatusEnum.FAIL, actionTarget.check(dummy));
     }
 
     @Test
     void testAnyTarget() {
         actionTarget = new PositionActionTarget(targetPosition, ActionTargetTypeEnum.ANY);
         actionTarget.setAction(actionMock);
-        assertEquals(ActionTargetStatusEnum.READY, actionTarget.check(targetPosition)); // same position
-        assertEquals(ActionTargetStatusEnum.READY, actionTarget.check(new Position(1, 0, 0))); // near target
-        assertEquals(ActionTargetStatusEnum.READY, actionTarget.check(new Position(1, 1, 0))); // near target
-        assertEquals(ActionTargetStatusEnum.WAIT, actionTarget.check(new Position(0, 0, 1))); // above target
-        assertEquals(ActionTargetStatusEnum.WAIT, actionTarget.check(new Position(1, 0, 1))); // above and near target
-        assertEquals(ActionTargetStatusEnum.WAIT, actionTarget.check(new Position(3, 3, 1)));
+        dummy.position = targetPosition;
+        assertEquals(ActionTargetStatusEnum.READY, actionTarget.check(dummy)); // same position
+        dummy.position = new Position(1, 0, 0);
+        assertEquals(ActionTargetStatusEnum.READY, actionTarget.check(dummy)); // near target
+        dummy.position = new Position(1, 1, 0);
+        assertEquals(ActionTargetStatusEnum.READY, actionTarget.check(dummy)); // near target
+        dummy.position = new Position(0, 0, 1);
+        assertEquals(ActionTargetStatusEnum.WAIT, actionTarget.check(dummy)); // above target
+        dummy.position = new Position(1, 0, 1);
+        assertEquals(ActionTargetStatusEnum.WAIT, actionTarget.check(dummy)); // above and near target
+        dummy.position = new Position(3, 3, 1);
+        assertEquals(ActionTargetStatusEnum.WAIT, actionTarget.check(dummy));
     }
 
     void testOutOfMap() {
         actionTarget = new PositionActionTarget(targetPosition, ActionTargetTypeEnum.ANY);
-        assertEquals(ActionTargetStatusEnum.FAIL, actionTarget.check(new Position(-1, -1, 0)));
+        dummy.position = new Position(-1, -1, 0);
+        assertEquals(ActionTargetStatusEnum.FAIL, actionTarget.check(dummy));
     }
 }

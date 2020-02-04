@@ -11,7 +11,7 @@ import stonering.util.geometry.Position;
  * @author Alexander on 20.01.2020.
  */
 public class DiggingValidator implements PositionValidator {
-    BlockTypeEnum targetBlockType;
+    public final BlockTypeEnum targetBlockType;
 
     public DiggingValidator(BlockTypeEnum targetBlockType) {
         this.targetBlockType = targetBlockType;

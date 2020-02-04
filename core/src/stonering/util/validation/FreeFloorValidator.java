@@ -17,8 +17,8 @@ public class FreeFloorValidator implements PositionValidator {
 
     @Override
     public boolean validate(Position position) {
-        GameModel model = GameMvc.instance().model();
+        GameModel model = GameMvc.model();
         return model.get(LocalMap.class).getBlockType(position) == BlockTypeEnum.FLOOR.CODE &&
-                model.get(BuildingContainer.class).getBuildingBlocks().get(position) == null;
+                model.get(BuildingContainer.class).buildingBlocks.get(position) == null;
     }
 }
