@@ -34,7 +34,7 @@ public class ContainedItemsSystem extends EntitySystem<Item> {
      * Adds item to wb. Item should be removed from map and units.
      */
     public void addItemToWorkbench(Item item, WorkbenchAspect aspect) {
-        if(container.equipped.keySet().contains(item)) Logger.ITEMS.logError("Adding to wb item not removed from unit");
+        if(container.equipped.containsKey(item)) Logger.ITEMS.logError("Adding to wb item not removed from unit");
         if(item.position != null) Logger.ITEMS.logError("Adding to wb item not removed from map");
         aspect.containedItems.add(item);
         container.contained.put(item, aspect);

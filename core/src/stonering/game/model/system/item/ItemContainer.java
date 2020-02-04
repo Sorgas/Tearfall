@@ -31,7 +31,7 @@ public class ItemContainer extends EntityContainer<Item> {
     public final Map<Item, WorkbenchAspect> contained = new HashMap<>(); // maps contained items to containers they are in. // todo replace to container aspect
     public final Map<Item, EquipmentAspect> equipped = new HashMap<>(); // maps equipped and hauled items to units.
     public final Set<Item> lockedItems = new HashSet<>();
-    public final ItemStreamUtil util = new ItemStreamUtil(this);
+    public final ItemStreamUtil util = new ItemStreamUtil();
 
     public final ContainedItemsSystem containedItemsSystem;
     public final EquippedItemsSystem equippedItemsSystem;

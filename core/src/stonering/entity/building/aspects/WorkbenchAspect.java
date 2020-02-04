@@ -32,6 +32,6 @@ public class WorkbenchAspect extends Aspect {
         recipes = new ArrayList<>();
         orders = new LinkedList<>();
         containedItems = new ArrayList<>();
-        ((Building) entity).getType().recipes.forEach(s -> recipes.add(RecipeMap.instance().getRecipe(s))); // load all recipes from building type
+        ((Building) entity).type.recipes.forEach(s -> recipes.add(RecipeMap.instance().getRecipe(s))); // load all recipes from building type
     }
 }

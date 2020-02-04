@@ -5,6 +5,7 @@ import stonering.entity.item.Item;
 import stonering.entity.item.aspects.ItemContainerAspect;
 import stonering.entity.job.action.target.EntityActionTarget;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
+import stonering.entity.unit.aspects.health.HealthAspect;
 import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
@@ -13,6 +14,8 @@ import static stonering.entity.job.action.ActionConditionStatusEnum.FAIL;
 import static stonering.entity.job.action.ActionConditionStatusEnum.OK;
 
 /**
+ * Action for extraction items from {@link ItemContainerAspect}.
+ *
  * @author Alexander on 03.02.2020.
  */
 public class GetItemFromContainerAction extends Action {
@@ -20,25 +23,26 @@ public class GetItemFromContainerAction extends Action {
     private Entity containerEntity;
     private boolean takeIntoInventory;
 
-    protected GetItemFromContainerAction(Item item, Entity entity) {
-        super(new EntityActionTarget(entity, ActionTargetTypeEnum.NEAR));
+    public GetItemFromContainerAction(Item item, Entity container) {
+        super(new EntityActionTarget(container, ActionTargetTypeEnum.NEAR));
         startCondition = () -> {
             if(task.performer.hasAspect(EquipmentAspect.class)) return FAIL;
-            ItemContainerAspect aspect = entity.getAspect(ItemContainerAspect.class);
+            ItemContainerAspect aspect = container.getAspect(ItemContainerAspect.class);
             if(aspect == null) return FAIL;
             if(!aspect.items.contains(item)) return FAIL;
             LocalMap map = GameMvc.model().get(LocalMap.class);
-            if(map.passageMap.area.get(containerEntity.position) != map.passageMap.area.get(item.position)) return FAIL;
+            if(!map.passageMap.inSameArea(containerEntity.position, item.position)) return FAIL;
             return OK;
         };
         onFinish = () -> {
             if(takeIntoInventory) {
-                entity.getAspect(ItemContainerAspect.class).items.remove(item);
-                task.performer.getAspect(EquipmentAspect.class).equipItem(item);
+                container.getAspect(ItemContainerAspect.class).items.remove(item);
+                task.performer.getAspect(EquipmentAspect.class).pickupItem(item);
             }
         };
         speedUpdater = () -> {
             // TODO consider performer 'performance', container material and type
+            float performanceBonus = task.performer.getAspectOptional(HealthAspect.class).map(aspect -> aspect.properties.get("performance")).orElse(0f);
             return 0.1f;
         };
     }

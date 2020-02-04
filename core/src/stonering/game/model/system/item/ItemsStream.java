@@ -17,6 +17,14 @@ import java.util.stream.Stream;
 public class ItemsStream extends EntityStream<Item> {
     private ItemContainer container = getContainer();
 
+    public ItemsStream(List<Item> entities) {
+        super(entities);
+    }
+
+    public ItemsStream() {
+        super();
+    }
+
     public ItemsStream filterHasTag(ItemTagEnum tag) {
         stream = stream.filter(item -> item.tags.contains(tag));
         return this;

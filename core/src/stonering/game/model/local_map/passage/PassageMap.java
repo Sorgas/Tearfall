@@ -121,4 +121,8 @@ public class PassageMap {
     public byte getPassage(int x, int y, int z) {
         return passage.get(x, y, z);
     }
+
+    public boolean inSameArea(Position pos1, Position pos2) {
+        return localMap.inMap(pos1) && localMap.inMap(pos2) && area.get(pos1) == area.get(pos2);
+    }
 }

@@ -118,7 +118,7 @@ public class WorkbenchSystem extends EntitySystem<Building> {
      * Adds order to WB. Orders are always added to the beginning of the list.
      */
     public void addOrder(WorkbenchAspect aspect, ItemOrder order) {
-        Logger.TASKS.logDebug("Adding order " + order.toString() + " to " + aspect.getEntity().toString());
+        Logger.TASKS.logDebug("Adding order " + order.toString() + " to " + aspect.entity.toString());
         if (aspect.recipes.contains(order.recipe)) {
             order.status = OPEN;
             aspect.orders.add(0, order);
@@ -131,12 +131,12 @@ public class WorkbenchSystem extends EntitySystem<Building> {
      * Removes order from workbench. If order was in progress, task is failed.
      */
     public void removeOrder(WorkbenchAspect aspect, ItemOrder order) {
-        Logger.TASKS.logDebug("Removing order " + order.toString() + " from " + aspect.getEntity().toString());
+        Logger.TASKS.logDebug("Removing order " + order.toString() + " from " + aspect.entity.toString());
         if (aspect.orders.contains(order)) {
             if (order.status == ACTIVE) failAspectTask(aspect);
             aspect.orders.remove(order);
         } else {
-            Logger.TASKS.logWarn("Trying to remove unknown order " + order.toString() + " from " + aspect.getEntity().toString());
+            Logger.TASKS.logWarn("Trying to remove unknown order " + order.toString() + " from " + aspect.entity.toString());
         }
     }
 
@@ -144,13 +144,13 @@ public class WorkbenchSystem extends EntitySystem<Building> {
      * Suspends order. If order was in progress, task is failed.
      */
     public void setOrderSuspended(WorkbenchAspect aspect, ItemOrder order, boolean value) {
-        Logger.TASKS.logDebug("Setting order " + order.toString() + " in " + aspect.getEntity().toString() + " suspended: " + value);
+        Logger.TASKS.logDebug("Setting order " + order.toString() + " in " + aspect.entity.toString() + " suspended: " + value);
         if (order.status == ACTIVE) failAspectTask(aspect);
         order.status = (value ? OrderStatusEnum.SUSPENDED : OrderStatusEnum.OPEN);
     }
 
     public void setOrderRepeated(WorkbenchAspect aspect, ItemOrder order, boolean value) {
-        Logger.TASKS.logDebug("Setting order " + order.toString() + " in " + aspect.getEntity().toString() + " repeated: " + value);
+        Logger.TASKS.logDebug("Setting order " + order.toString() + " in " + aspect.entity.toString() + " repeated: " + value);
         order.repeated = value;
     }
 
@@ -160,7 +160,7 @@ public class WorkbenchSystem extends EntitySystem<Building> {
     private void createTaskForOrder(ItemOrder order, WorkbenchAspect aspect) {
         failAspectTask(aspect);
         Logger.BUILDING.logDebug("Creating task for order " + order.recipe.name);
-        CraftItemAction action = new CraftItemAction(order, aspect.getEntity());
+        CraftItemAction action = new CraftItemAction(order, aspect.entity);
         aspect.currentTask = new Task(order.recipe.name, action, 1);
         GameMvc.instance().model().get(TaskContainer.class).addTask(aspect.currentTask);
     }
@@ -193,7 +193,7 @@ public class WorkbenchSystem extends EntitySystem<Building> {
      * Not a problem, because units cannot reach it to perform tasks as well.
      */
     private void dropContainedItems(WorkbenchAspect aspect) {
-        Logger.BUILDING.logDebug("Dropping contained items from " + aspect.getEntity());
+        Logger.BUILDING.logDebug("Dropping contained items from " + aspect.entity);
         if (aspect.containedItems.isEmpty()) return;
         List<Position> positions = getPositionsToDrop(aspect);
         if (positions.isEmpty()) return;
@@ -207,7 +207,7 @@ public class WorkbenchSystem extends EntitySystem<Building> {
     }
 
     private List<Position> getPositionsToDrop(WorkbenchAspect aspect) {
-        return new NeighbourPositionStream(aspect.getEntity().position)
+        return new NeighbourPositionStream(aspect.entity.position)
                 .filterSameZLevel()
                 .filterByPassage(BlockTypeEnum.PassageEnum.PASSABLE)
                 .stream.collect(Collectors.toList());

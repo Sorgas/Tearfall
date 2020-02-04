@@ -1,7 +1,5 @@
 package stonering.game.model.system.item;
 
-import stonering.entity.crafting.BuildingComponent;
-import stonering.entity.crafting.BuildingComponentVariant;
 import stonering.entity.crafting.IngredientOrder;
 import stonering.entity.item.Item;
 import stonering.entity.item.selectors.ItemSelector;
@@ -11,7 +9,6 @@ import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,23 +19,8 @@ import java.util.List;
 public class ItemStreamUtil {
     private final ItemContainer container;
 
-    public ItemStreamUtil(ItemContainer container) {
-        this.container = container;
-    }
-
-    /**
-     * Gets all materials for all variants of crafting step. Used for filling materialSelectList.
-     */
-    public List<Item> getAvailableMaterialsForBuildingStep(BuildingComponent step, Position position) {
-        List<Item> items = new ArrayList<>();
-        for (BuildingComponentVariant variant : step.componentVariants) {
-            items.addAll(new ItemsStream(container.entities)
-                    .filterHasTag(variant.tag)
-                    .filterByType(variant.itemType)
-                    .filterByReachability(position)
-                    .toList());
-        }
-        return items;
+    public ItemStreamUtil() {
+        this.container = GameMvc.model().get(ItemContainer.class);
     }
 
     /**
@@ -78,7 +60,7 @@ public class ItemStreamUtil {
     public boolean itemIsAvailable(Item item, Position position) {
         //TODO check containers
         return item.position != null &&
-                GameMvc.instance().model().get(LocalMap.class).passageMap.util.positionReachable(position, item.position, false);
+                GameMvc.model().get(LocalMap.class).passageMap.util.positionReachable(position, item.position, false);
     }
 
     /**

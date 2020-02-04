@@ -87,9 +87,10 @@ public class Task {
         Logger.TASKS.logDebug("Next action is: " + nextAction);
     }
 
-    public void addFirstPreAction(Action action) {
+    public Action addFirstPreAction(Action action) {
         preActions.add(0, action);
         actionAdded(action);
+        return action;
     }
 
     public void addLastPreAction(Action action) {

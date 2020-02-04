@@ -1,5 +1,6 @@
 package stonering.entity.job.action.target;
 
+import stonering.entity.Entity;
 import stonering.entity.job.action.MoveAction;
 import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.game.GameMvc;
@@ -30,10 +31,14 @@ public abstract class ActionTarget {
      * Checks if task performer has reached task target.
      * Returns fail if checked from out of map.
      */
-    public ActionTargetStatusEnum check(Position performerPosition) {
+    public ActionTargetStatusEnum check(Entity performer) {
+        Position performerPosition = performer.position;
         Logger.TASKS.logDebug("Checking action target " + performerPosition + " " + getPosition());
-        if(!GameMvc.model().get(LocalMap.class).inMap(performerPosition)) return FAIL;
-        if(!GameMvc.model().get(LocalMap.class).inMap(getPosition())) return FAIL;
+        Position targetPosition = getPosition();
+        LocalMap map = GameMvc.model().get(LocalMap.class);
+        if (!map.inMap(performerPosition) ||
+                !map.inMap(targetPosition) ||
+                map.passageMap.area.get(performerPosition) != map.passageMap.area.get(targetPosition)) return FAIL;
         int distance = getDistance(performerPosition);
         if (distance > 1) return WAIT; // target not yet reached
         switch (targetType) {
@@ -44,7 +49,7 @@ public abstract class ActionTarget {
             case ANY:
                 return READY; // distance is 0 or 1 here
             default: { // should never be reached
-                Logger.PATH.logError("checking action target with " + targetType + " and " + performerPosition + " to " + getPosition() + " failed.");
+                Logger.PATH.logError("checking action target with " + targetType + " and " + performerPosition + " to " + targetPosition + " failed.");
                 return FAIL;
             }
         }

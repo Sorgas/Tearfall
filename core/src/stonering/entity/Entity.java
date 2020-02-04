@@ -44,7 +44,7 @@ public abstract class Entity implements Serializable, Initable, Cloneable {
 
     public <T extends Aspect> void addAspect(T aspect) {
         if (aspect == null) return;
-        aspect.setEntity(this);
+        aspect.entity = this;
         aspects.put(aspect.getClass(), aspect);
     }
 

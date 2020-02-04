@@ -3,6 +3,7 @@ package stonering.entity.job.action;
 import stonering.entity.item.aspects.WearAspect;
 import stonering.entity.job.action.target.ItemActionTarget;
 import stonering.entity.item.Item;
+import stonering.entity.job.action.target.ObtainItemAction;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.entity.unit.aspects.equipment.EquipmentSlot;
 import stonering.game.GameMvc;
@@ -12,7 +13,8 @@ import stonering.util.global.Logger;
 import static stonering.entity.job.action.ActionConditionStatusEnum.*;
 
 /**
- * Action for equipping wear and tool items, and hauling other items.
+ * Action for equipping wear and tool items.
+ * Item should be hauled first.
  */
 public class EquipItemAction extends Action {
     private Item item;
@@ -24,13 +26,17 @@ public class EquipItemAction extends Action {
         this.force = force;
 
         startCondition = () -> {
-            if (!task.performer.hasAspect(EquipmentAspect.class))
-                return Logger.TASKS.logError("unit " + task.performer + " has no Equipment Aspect.", FAIL);
-            EquipmentSlot slot = task.performer.getAspect(EquipmentAspect.class).getSlotForItem(item);
+            EquipmentAspect equipment = task.performer.getAspect(EquipmentAspect.class);
+            if (equipment == null) return Logger.TASKS.logError("unit " + task.performer + " has no Equipment Aspect.", FAIL);
+            EquipmentSlot slot = equipment.getSlotForItem(item);
             if (slot == null) return Logger.TASKS.logError("unit " + task.performer + " has no appropriate slots for item " + item, FAIL);
             Item blockingItem = slot.getBlockingItem(item);
             if (blockingItem == null) return OK; // slot is not blocked
             if (!force) return Logger.TASKS.logError("unit " + task.performer + " cannot equip item " + item + " no empty slots.", FAIL);
+            if(!equipment.hauledItems.contains(item)) { // take item in hands before equipping
+                task.addFirstPreAction(new ObtainItemAction(item));
+                return NEW;
+            }
             if (item.hasAspect(WearAspect.class)) {
                 return createUnequipWearAction(blockingItem); // wear can block only wear items
             } else if (item.isTool()) {

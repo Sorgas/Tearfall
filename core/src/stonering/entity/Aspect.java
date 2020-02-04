@@ -1,7 +1,5 @@
 package stonering.entity;
 
-import stonering.game.model.Updatable;
-
 import java.io.Serializable;
 
 /**
@@ -11,17 +9,9 @@ import java.io.Serializable;
  * @author Alexander Kuzyakov on 10.10.2017.
  */
 public abstract class Aspect implements Serializable {
-    protected Entity entity;
+    public Entity entity;
 
     public Aspect(Entity entity) {
-        this.entity = entity;
-    }
-
-    public Entity getEntity() {
-        return entity;
-    }
-
-    public void setEntity(Entity entity) {
         this.entity = entity;
     }
 }

@@ -66,8 +66,8 @@ public class RestNeed extends Need {
     }
 
     private Optional<Building> selectBuildingToSleep(Position position) {
-        List<Building> buildings = GameMvc.instance().model().get(BuildingContainer.class).getBuildingsWithAspect(RestFurnitureAspect.class);
-        buildings = GameMvc.instance().model().get(LocalMap.class).passageMap.util.filterEntitiesByReachability(buildings, position);
+        List<Building> buildings = GameMvc.model().get(BuildingContainer.class).getBuildingsWithAspect(RestFurnitureAspect.class);
+        buildings = GameMvc.model().get(LocalMap.class).passageMap.util.filterEntitiesByReachability(buildings, position);
         return Optional.of(buildings.isEmpty() ? null : buildings.get(0));
     }
 
