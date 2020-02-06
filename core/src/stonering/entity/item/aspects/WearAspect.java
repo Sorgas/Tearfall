@@ -19,7 +19,7 @@ public class WearAspect extends Aspect {
     public final String bodyTemplate; // creatures with this template can use item
     public final WearLayers layer;
     public final List<String> additionalLimbs; // body parts, covered by item
-    public final String slot;
+    public final String slot; // 
 
     public WearAspect(Entity entity, List<String> arguments) {
         super(entity);

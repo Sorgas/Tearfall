@@ -8,13 +8,16 @@ import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.entity.unit.aspects.equipment.EquipmentSlot;
 import stonering.game.GameMvc;
 import stonering.game.model.system.item.ItemContainer;
+import stonering.game.model.system.unit.CreatureEquipmentSystem;
+import stonering.game.model.system.unit.UnitContainer;
 import stonering.util.global.Logger;
 
 import static stonering.entity.job.action.ActionConditionStatusEnum.*;
 
 /**
  * Action for equipping wear and tool items.
- * Item should be hauled first.
+ * MVP: items are equipped into slot at once.
+ * Target: creatures should have free grab slot to be able to equip item.
  */
 public class EquipItemAction extends Action {
     private Item item;
@@ -26,11 +29,10 @@ public class EquipItemAction extends Action {
         this.force = force;
 
         startCondition = () -> {
+            CreatureEquipmentSystem system = GameMvc.model().get(UnitContainer.class).equipmentSystem;
             EquipmentAspect equipment = task.performer.getAspect(EquipmentAspect.class);
-            if (equipment == null)
-                return Logger.TASKS.logError("unit " + task.performer + " has no Equipment Aspect.", FAIL);
-
-            EquipmentSlot slot = equipment.getSlotForItem(item);
+            if (equipment == null) return Logger.TASKS.logError("unit " + task.performer + " has no Equipment Aspect.", FAIL);
+            EquipmentSlot slot = system.getSlotForEquipping(equipment, item);
             if (slot == null)
                 return Logger.TASKS.logError("unit " + task.performer + " has no appropriate slots for item " + item, FAIL);
 
@@ -62,7 +64,7 @@ public class EquipItemAction extends Action {
         onFinish = () -> {
             ItemContainer container = GameMvc.model().get(ItemContainer.class);
             EquipmentAspect aspect = task.performer.getAspect(EquipmentAspect.class);
-            if (!aspect.equipItem(item)) return; // equipping failed
+            if (!GameMvc.model().get(UnitContainer.class).equipmentSystem.equipItem(aspect, item)) return; // equipping failed
             container.onMapItemsSystem.removeItemFromMap(item);
             container.equippedItemsSystem.itemEquipped(item, aspect);
         };

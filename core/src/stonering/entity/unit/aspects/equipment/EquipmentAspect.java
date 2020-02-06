@@ -12,21 +12,18 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * Stores all item equipped and hauled by unit.
- * Equipped item are ones in slots. Hauled items are ones in the grab slots and worn containers.
- * Equipping and unequipping can require additional actions, this logic should be implemented in {@link Action}s.
- * Does not takes or puts item to map, this should be done by {@link Action}s.
- * TODO add ears and fingers.
- * <p>
- * MVP: items have no layers, all slots mentioned in item type are occupied. Items can be hauled only in hands
- *
+ * Stores all item equipped and hauled by unit. See {@link stonering.game.model.system.unit.CreatureEquipmentSystem}.
+ * 
+ * 
+ * TODO add all slots mentioned in {@link stonering.stage.unit.UnitEquipmentTab}.
+ * 
  * @author Alexander Kuzyakov on 03.01.2018.
  */
 public class EquipmentAspect extends Aspect {
-    public static String NAME = "equipment";
-    public final HashMap<String, EquipmentSlot> slots;            // all slots of a creature (for wears)
-    public final HashMap<String, GrabEquipmentSlot> grabSlots;    // slots for tools and hauled items (subset of all slots)
-
+    public final HashMap<String, EquipmentSlot> slots;            // all slots of a creature (for wear)
+    public final HashMap<String, GrabEquipmentSlot> grabSlots;    // slots for tools (subset of all slots)
+    public Item hauledItem;                                       // in-hand hauling item (mvp)
+    
     public final List<Item> hauledItems;                     // hauled item list for faster checking (hauled in hands and worn containers)
     public final List<Item> equippedItems;                   // equipped item list for faster checking (worn items)
     public final List<EquipmentSlot> desiredSlots;           // uncovered limbs give comfort penalty
@@ -54,26 +51,7 @@ public class EquipmentAspect extends Aspect {
         Logger.UNITS.logDebug("");
         return true;
     }
-
-    /**
-     * Equips wear on body and tools into hands.
-     * Validity should be fully checked by action (slots should be free), otherwise action will fail.
-     *
-     * @return false, if equipping failed.
-     */
-    public boolean equipItem(Item item) {
-        //TODO check hauling
-        if (item == null || equippedItems.contains(item)) return false;
-        EquipmentSlot slot = getSlotForItem(item);
-        if (slot == null || !slot.addItem(item)) {
-            Logger.ITEMS.logDebug(entity + " failed to equip item " + item + " into slot " + slot);
-            return false; // slot is full
-        }
-        equippedItems.add(item);
-        Logger.ITEMS.logDebug("Item " + item + " equipped by " + entity + " into slot " + slot.name);
-        return true;
-    }
-
+    
     /**
      * Removes given item from slot disregarding other item in this slot (even if overlapping is present).
      * Item should not be blocked by other items. This should be checked by action.
@@ -85,21 +63,7 @@ public class EquipmentAspect extends Aspect {
         slot.removeItem(item);
         return true;
     }
-
-    /**
-     * Returns slot for item to be equipped.
-     * TODO select emptiest from appropriate slots.
-     *
-     * @return null if no slots available.
-     */
-    public EquipmentSlot getSlotForItem(Item item) {
-        if (item.hasAspect(WearAspect.class) && slots.get(item.getAspect(WearAspect.class).slot) != null)
-            return slots.get(item.getAspect(WearAspect.class).slot); // item is wear and slot exists
-        if (item.isTool() && !grabSlots.isEmpty())
-            return grabSlots.values().stream().filter(slot -> slot.canEquip(item)).findFirst().orElse(grabSlots.get(0)); // item is tool and grab slot exists.
-        return null;
-    }
-
+    
     public boolean toolWithActionEquipped(String action) {
         return equippedItems.stream()
                 .map(item -> item.type.tool)

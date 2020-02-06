@@ -8,6 +8,8 @@ import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 
 /**
+ * System, that makes creatures in SPACE tiles fall down.
+ * 
  * @author Alexander on 23.10.2019.
  */
 public class CreatureFallingSystem {

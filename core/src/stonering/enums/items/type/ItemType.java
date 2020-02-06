@@ -15,7 +15,7 @@ public class ItemType extends Entity implements Cloneable {
     public final String name;                                // id
     public final String title;                               // displayable name
     public final String description;                         // displayable description
-    public final ToolItemType tool;                          // is set if this item could be used as tool
+    public final ToolItemType tool;                          // is set if this item could be used as tool TODO replace with type aspect
     public Map<String, List<String>> itemAspects;           // other aspects, item aspects filled from this on generation.
     public int[] atlasXY;
     public String color;
