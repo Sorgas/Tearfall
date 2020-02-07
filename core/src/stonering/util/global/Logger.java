@@ -22,6 +22,7 @@ public enum Logger {
     CRAFTING("crafting"),
     RENDER("render"),
     INPUT("input"),
+    EQUIPMENT("equipment"),
     PLANTS("plants");
 
     private static TaggedLogger logger = new TaggedLogger();

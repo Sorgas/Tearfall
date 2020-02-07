@@ -42,8 +42,8 @@ public class GrabEquipmentSlot extends EquipmentSlot {
     }
 
     @Override
-    public boolean canEquip(Item item) {
-        return isEquippableTool(item) || super.canEquip(item);
+    public boolean isSuitableFor(Item item) {
+        return isEquippableTool(item) || super.isSuitableFor(item);
     }
 
     private boolean isEquippableTool(Item item) {
