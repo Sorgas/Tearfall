@@ -1,11 +1,12 @@
 package stonering.entity.unit.aspects.needs;
 
-import stonering.entity.job.action.EquipItemAction;
+import stonering.entity.job.action.EquipToolItemAction;
 import stonering.entity.job.Task;
 import stonering.entity.Entity;
 import stonering.entity.item.Item;
 import stonering.entity.item.selectors.ItemSelector;
 import stonering.entity.item.selectors.WearForSlotItemSelector;
+import stonering.entity.job.action.EquipWearItemAction;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.entity.unit.aspects.equipment.EquipmentSlot;
 import stonering.enums.action.TaskPriorityEnum;
@@ -60,7 +61,7 @@ public class WearNeed extends Need {
         ItemSelector itemSelector = new WearForSlotItemSelector(equipmentSlot.name);
         Item item = GameMvc.model().get(ItemContainer.class).util.getItemAvailableBySelector(itemSelector, entity.position);
         if (item == null) return null;
-        EquipItemAction equipItemAction = new EquipItemAction(item, true);
-        return new Task("Equip item " + item.title, equipItemAction, GET_WEAR_PRIORITY);
+        EquipWearItemAction equipWearItemAction = new EquipWearItemAction(item);
+        return new Task("Equip item " + item.title, equipWearItemAction, GET_WEAR_PRIORITY);
     }
 }

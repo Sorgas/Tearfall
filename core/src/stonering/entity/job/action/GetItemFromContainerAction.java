@@ -33,7 +33,6 @@ public class GetItemFromContainerAction extends Action {
             if(!aspect.items.contains(item)) return FAIL;
             LocalMap map = GameMvc.model().get(LocalMap.class);
             if(!map.passageMap.inSameArea(containerEntity.position, item.position)) return FAIL;
-            equipment.
             // create action to free grab slots
             return OK;
         };

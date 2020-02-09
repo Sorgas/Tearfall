@@ -25,7 +25,8 @@ public class EquipmentSlot {
      * Checks that item is appropriate for slot. Does not check slot status. 
      */
     public boolean isSuitableFor(Item item) {
-        return item != null && item.getAspectOptional(WearAspect.class).map(wear -> wear.slot.equals(name)).orElse(false);
+        return item != null
+                && item.getAspectOptional(WearAspect.class).map(wear -> wear.slot.equals(name)).orElse(false);
     }
 
     /**

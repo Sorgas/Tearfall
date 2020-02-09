@@ -54,7 +54,7 @@ public class ItemsStream extends EntityStream<Item> {
     }
 
     public ItemsStream filterContained() {
-        stream = stream.filter(container.containedItemsSystem::itemIsContained);
+        stream = stream.filter(container.containedItemsSystem::isItemContained);
         return this;
     }
 

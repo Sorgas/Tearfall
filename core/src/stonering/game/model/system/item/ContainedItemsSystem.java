@@ -56,7 +56,7 @@ public class ContainedItemsSystem extends EntitySystem<Item> {
         }
     }
 
-    public boolean itemIsContained(Item item) {
+    public boolean isItemContained(Item item) {
         return container.contained.containsKey(item);
     }
 }

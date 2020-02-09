@@ -2,7 +2,6 @@ package stonering.entity.job.action;
 
 import stonering.entity.building.BuildingOrder;
 import stonering.entity.job.action.target.BuildingActionTarget;
-import stonering.entity.job.action.target.GenericBuildingAction;
 import stonering.enums.blocks.BlockTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.system.plant.PlantContainer;

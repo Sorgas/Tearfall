@@ -18,8 +18,6 @@ import stonering.game.model.system.unit.UnitContainer;
 import stonering.generators.items.DiggingProductGenerator;
 import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
-import stonering.util.validation.DiggingValidator;
-import stonering.util.validation.PositionValidator;
 
 import static stonering.entity.job.action.ActionConditionStatusEnum.*;
 import static stonering.enums.blocks.BlockTypeEnum.*;
@@ -60,7 +58,7 @@ public class DigAction extends SkillAction {
     private ActionConditionStatusEnum addEquipAction() {
         Item target = GameMvc.model().get(ItemContainer.class).util.getItemAvailableBySelector(toolItemSelector, task.performer.position);
         if (target == null) return FAIL; // no tool available
-        task.addFirstPreAction(new EquipItemAction(target, true));
+        task.addFirstPreAction(new EquipToolItemAction(target));
         return NEW;
     }
 

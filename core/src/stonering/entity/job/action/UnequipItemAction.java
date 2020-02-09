@@ -24,7 +24,7 @@ public class UnequipItemAction extends Action {
             EquipmentSlot slot = equipmentAspect.getSlotWithItem(item);
             if (slot == null) return Logger.TASKS.logError("item " + item + " is not equipped by unit " + task.performer, FAIL);
             if (!slot.canUnequip(item)) {
-                return tryAddUnequipAction(slot.getBlockingItem(item));
+//                return tryAddUnequipAction(slot.getBlockingItem(item));
             }
             return OK;
         };

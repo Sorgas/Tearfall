@@ -26,7 +26,9 @@ public abstract class EntityStream<T extends Entity> {
     }
 
     public EntityStream<T> filterByReachability(Position position) {
-        stream = stream.filter(item -> GameMvc.model().get(LocalMap.class).passageMap.util.positionReachable(position, item.position, false));
+        LocalMap map = GameMvc.model().get(LocalMap.class);
+        stream = stream.filter(item -> item.position != null)
+                .filter(item -> map.passageMap.util.positionReachable(position, item.position, false));
         return this;
     }
 

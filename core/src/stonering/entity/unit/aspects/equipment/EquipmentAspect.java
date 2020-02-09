@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public class EquipmentAspect extends Aspect {
     public final HashMap<String, EquipmentSlot> slots;            // all slots of a creature (for wear)
     public final HashMap<String, GrabEquipmentSlot> grabSlots;    // slots for tools (subset of all slots)
-    public Item hauledItem;                                       // in-hand hauling item (mvp)
+//    public Item hauledItem;                                       // in-hand hauling item (mvp)
     
     public final List<Item> hauledItems;                     // hauled item list for faster checking (hauled in hands and worn containers)
     public final List<Item> equippedItems;                   // equipped item list for faster checking (worn items)
@@ -60,7 +60,7 @@ public class EquipmentAspect extends Aspect {
         EquipmentSlot slot = getSlotWithItem(item);
         if (slot == null) return false;
         equippedItems.remove(item);
-        slot.removeItem(item);
+//        slot.removeItem(item);
         return true;
     }
     
@@ -103,6 +103,10 @@ public class EquipmentAspect extends Aspect {
 
     public EquipmentSlot getSlotWithItem(Item item) {
         if (!equippedItems.contains(item)) return null; // item not equipped
-        return slots.values().stream().filter(slot -> slot.hasItem(item)).findFirst().orElse(null); // find slot with item
+        return slots.values().stream().filter(slot -> slot.item == item).findFirst().orElse(null); // find slot with item
+    }
+
+    public boolean isItemInGrabSlots(Item item) {
+        return grabSlots.values().stream().anyMatch(slot -> slot.grabbedItem == item);
     }
 }

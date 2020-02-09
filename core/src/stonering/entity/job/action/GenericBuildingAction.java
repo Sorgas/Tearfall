@@ -1,4 +1,4 @@
-package stonering.entity.job.action.target;
+package stonering.entity.job.action;
 
 import stonering.entity.building.BuildingOrder;
 import stonering.entity.crafting.IngredientOrder;
@@ -6,6 +6,7 @@ import stonering.entity.item.Item;
 import stonering.entity.job.action.Action;
 import stonering.entity.job.action.ActionConditionStatusEnum;
 import stonering.entity.job.action.PutItemAction;
+import stonering.entity.job.action.target.BuildingActionTarget;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.passage.NeighbourPositionStream;
 import stonering.game.model.system.item.ItemContainer;

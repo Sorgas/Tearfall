@@ -32,9 +32,9 @@ public class HoeingAction extends Action {
         startCondition = () -> {
             //        Logger.TASKS.logDebug("Checking hoeing of " + actionTarget.getPosition());
             Position target = actionTarget.getPosition();
-            LocalMap localMap = GameMvc.instance().model().get(LocalMap.class);
+            LocalMap localMap = GameMvc.model().get(LocalMap.class);
             if (!ZoneTypesEnum.FARM.validator.validate(target)) return FAIL; // 1
-            if (GameMvc.instance().model().get(ZoneContainer.class).getZone(target) == null) return FAIL; // 2
+            if (GameMvc.model().get(ZoneContainer.class).getZone(target) == null) return FAIL; // 2
             EquipmentAspect equipmentAspect = task.performer.getAspect(EquipmentAspect.class);
             if(equipmentAspect.toolWithActionEquipped("hoe")) return OK;
             return tryCreateEquippingAction();
@@ -42,7 +42,7 @@ public class HoeingAction extends Action {
 
         onFinish = () -> {
             Logger.TASKS.logDebug("Hoeing tile " + actionTarget.getPosition());
-            LocalMap localMap = GameMvc.instance().model().get(LocalMap.class);
+            LocalMap localMap = GameMvc.model().get(LocalMap.class);
             localMap.setBlockType(actionTarget.getPosition(), BlockTypeEnum.FARM.CODE);
         };
     }
@@ -50,10 +50,10 @@ public class HoeingAction extends Action {
     private ActionConditionStatusEnum tryCreateEquippingAction() {
         Logger.TASKS.logDebug("Creating equipping action of hoe");
         ItemSelector toolItemSelector = new ToolWithActionItemSelector("hoe");
-        ItemContainer itemContainer = GameMvc.instance().model().get(ItemContainer.class);
+        ItemContainer itemContainer = GameMvc.model().get(ItemContainer.class);
         Item item = itemContainer.util.getItemAvailableBySelector(toolItemSelector, actionTarget.getPosition());
         if(item == null) return FAIL;
-        task.addFirstPreAction(new EquipItemAction(item, true));
+        task.addFirstPreAction(new EquipToolItemAction(item));
         return OK;
     }
 }

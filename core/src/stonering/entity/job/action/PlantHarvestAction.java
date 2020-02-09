@@ -29,7 +29,7 @@ public class PlantHarvestAction extends Action {
         toolItemSelector = new ToolWithActionItemSelector("harvest_plants"); //TODO handle harvesting without tool.
 
         startCondition = () -> {
-            PlantContainer container = GameMvc.instance().model().get(PlantContainer.class);
+            PlantContainer container = GameMvc.model().get(PlantContainer.class);
             EquipmentAspect aspect = task.performer.getAspect(EquipmentAspect.class);
             if (aspect == null) return FAIL; // performer has aspect
             if (container.getPlantInPosition(actionTarget.getPosition()) != targetPlant) return FAIL; // plant not present anymore
@@ -40,17 +40,17 @@ public class PlantHarvestAction extends Action {
         onFinish = () -> {
             //TODO add putting products into worn container
             Logger.PLANTS.logDebug("harvesting plant");
-            PlantBlock block = GameMvc.instance().model().get(PlantContainer.class).getPlantBlock(actionTarget.getPosition());
+            PlantBlock block = GameMvc.model().get(PlantContainer.class).getPlantBlock(actionTarget.getPosition());
             Item item = new PlantProductGenerator().generateHarvestProduct(block);
-            GameMvc.instance().model().get(ItemContainer.class).onMapItemsSystem.putNewItem(item, block.getPosition());
+            GameMvc.model().get(ItemContainer.class).onMapItemsSystem.putNewItem(item, block.getPosition());
         };
     }
 
     private ActionConditionStatusEnum addActionToTask() {
-        Item target = GameMvc.instance().model().get(ItemContainer.class).util.getItemAvailableBySelector(toolItemSelector, task.performer.position);
+        Item target = GameMvc.model().get(ItemContainer.class).util.getItemAvailableBySelector(toolItemSelector, task.performer.position);
         if (target == null) return FAIL;
-        EquipItemAction equipItemAction = new EquipItemAction(target, true);
-        task.addFirstPreAction(equipItemAction);
+        EquipToolItemAction equipToolItemAction = new EquipToolItemAction(target);
+        task.addFirstPreAction(equipToolItemAction);
         return NEW;
     }
 }

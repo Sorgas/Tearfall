@@ -62,7 +62,7 @@ public class ChopTreeAction extends Action {
         Logger.TASKS.logDebug("No tool equipped by performer for chopTreeAction");
         Item target = GameMvc.instance().model().get(ItemContainer.class).util.getItemAvailableBySelector(toolItemSelector, task.performer.position);
         if (target == null) Logger.TASKS.logDebug("No tool item found for chopTreeAction", FAIL);
-        task.addFirstPreAction(new EquipItemAction(target, true));
+        task.addFirstPreAction(new EquipToolItemAction(target));
         return NEW;
     }
 
