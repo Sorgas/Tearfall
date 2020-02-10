@@ -6,13 +6,17 @@ import stonering.entity.item.aspects.ItemContainerAspect;
 import stonering.entity.job.action.Action;
 import stonering.entity.job.action.target.EntityActionTarget;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
+import stonering.entity.unit.aspects.equipment.GrabEquipmentSlot;
 import stonering.entity.unit.aspects.health.HealthAspect;
 import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
+import stonering.game.model.system.item.ItemContainer;
+import stonering.game.model.system.unit.CreatureEquipmentSystem;
+import stonering.game.model.system.unit.UnitContainer;
+import stonering.util.global.Logger;
 
-import static stonering.entity.job.action.ActionConditionStatusEnum.FAIL;
-import static stonering.entity.job.action.ActionConditionStatusEnum.OK;
+import static stonering.entity.job.action.ActionConditionStatusEnum.*;
 
 /**
  * Action for extraction items from {@link ItemContainerAspect}.
@@ -22,27 +26,37 @@ import static stonering.entity.job.action.ActionConditionStatusEnum.OK;
 public class GetItemFromContainerAction extends Action {
     private Item item;
     private Entity containerEntity;
-    private boolean takeIntoInventory;
 
     public GetItemFromContainerAction(Item item, Entity container) {
         super(new EntityActionTarget(container, ActionTargetTypeEnum.NEAR));
+        CreatureEquipmentSystem system = GameMvc.model().get(UnitContainer.class).equipmentSystem;
+        LocalMap map = GameMvc.model().get(LocalMap.class);
+        ItemContainer itemContainer = GameMvc.model().get(ItemContainer.class);
+        ItemContainerAspect containerAspect = container.getAspect(ItemContainerAspect.class);
+
         startCondition = () -> {
             EquipmentAspect equipment = task.performer.getAspect(EquipmentAspect.class);
             if(equipment == null) return FAIL;
-            ItemContainerAspect aspect = container.getAspect(ItemContainerAspect.class);
-            if(aspect == null) return FAIL;
-            if(!aspect.items.contains(item)) return FAIL;
-            LocalMap map = GameMvc.model().get(LocalMap.class);
-            if(!map.passageMap.inSameArea(containerEntity.position, item.position)) return FAIL;
-            // create action to free grab slots
+            if(containerAspect == null) return FAIL;
+            if(!containerAspect.items.contains(item)) return FAIL;
+            if(!map.passageMap.inSameArea(containerEntity.position, item.position)) return FAIL; // container is available
+            if (!system.canPickUpItem(equipment, item)) { // if no empty grab slots
+                task.addFirstPreAction(new FreeGrabSlotAction()); // free another slot
+                return NEW;
+            }
             return OK;
         };
         onFinish = () -> {
-            if(takeIntoInventory) {
-                container.getAspect(ItemContainerAspect.class).items.remove(item);
-                task.performer.getAspect(EquipmentAspect.class).pickupItem(item);
+            EquipmentAspect equipment = task.performer.getAspect(EquipmentAspect.class);
+            GrabEquipmentSlot slot = system.getSlotForPickingUpItem(equipment, item);
+            if (slot != null) {
+                itemContainer.containedItemsSystem.removeFromContainer(item, containerAspect);
+                system.fillGrabSlot(equipment, slot, item);
+                return;
             }
+            Logger.EQUIPMENT.logError("Slot for picking up item " + item + " not found");
         };
+
         speedUpdater = () -> {
             // TODO consider performer 'performance', container material and type
             float performanceBonus = task.performer.getAspectOptional(HealthAspect.class).map(aspect -> aspect.properties.get("performance")).orElse(0f);

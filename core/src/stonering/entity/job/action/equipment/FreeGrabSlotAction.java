@@ -26,14 +26,10 @@ public class FreeGrabSlotAction extends Action {
         super(new SelfActionTarget());
         CreatureEquipmentSystem system = GameMvc.model().get(UnitContainer.class).equipmentSystem;
         ItemContainer container = GameMvc.model().get(ItemContainer.class);
-        startCondition = () -> {
-            return findSlot() == null ? FAIL : OK; // fail if unable to free any more slots
-        };
+        startCondition = () -> findSlot() == null ? FAIL : OK; // fail if unable to free any more slots
         onFinish = () -> {
             GrabEquipmentSlot slot = findSlot(); // should never be null
-            Item item = slot.grabbedItem;
-            slot.grabbedItem = null;
-            container.equippedItemsSystem.itemUnequipped(item); // notify
+            Item item = system.freeGrabSlot(slot);
             container.onMapItemsSystem.putItem(item, task.performer.position); // put to map
         };
     }

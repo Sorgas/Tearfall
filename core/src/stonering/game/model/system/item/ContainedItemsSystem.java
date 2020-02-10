@@ -2,6 +2,7 @@ package stonering.game.model.system.item;
 
 import stonering.entity.building.aspects.WorkbenchAspect;
 import stonering.entity.item.Item;
+import stonering.entity.item.aspects.ItemContainerAspect;
 import stonering.enums.time.TimeUnitEnum;
 import stonering.game.model.system.EntitySystem;
 import stonering.util.global.Logger;
@@ -54,6 +55,20 @@ public class ContainedItemsSystem extends EntitySystem<Item> {
         for (Item item : new ArrayList<>(items)) {
             removeItemFromWorkbench(item, aspect);
         }
+    }
+
+    public void addItemToContainer(Item item, ItemContainerAspect aspect) {
+        if(container.equipped.containsKey(item)) Logger.ITEMS.logError("Adding to container item not removed from unit");
+        if(item.position != null) Logger.ITEMS.logError("Adding to wb item not removed from map");
+        aspect.items.add(item);
+//        container.contained.put(item, aspect);
+    }
+
+    public void removeFromContainer(Item item, ItemContainerAspect aspect) {
+        if(!aspect.items.remove(item))
+            Logger.ITEMS.logWarn("Items inconsistency: item " + item + " is not stored in container aspect");
+        if (container.contained.remove(item) == null)
+            Logger.ITEMS.logWarn("Items inconsistency: item " + item + " is not registered in ItemContainer as contained");
     }
 
     public boolean isItemContained(Item item) {
