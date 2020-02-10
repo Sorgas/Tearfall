@@ -43,10 +43,8 @@ public class ItemContainer extends EntityContainer<Item> {
         putSystem(onMapItemsSystem = new OnMapItemsSystem(this));
     }
 
-    //TODO system for updating equipment
-    //TODO system for updating ocntainers
+    //TODO system for updating containers
     //TODO rewrite items aspects to systems
-
 
     /**
      * Adds item to container and inits it's aspects. Used for registering newly created items.

@@ -27,7 +27,7 @@ public class EquippedItemsSystem extends EntitySystem<Item> {
     }
 
     public void itemEquipped(Item item, EquipmentAspect aspect) {
-        if(container.contained.keySet().contains(item)) Logger.ITEMS.logError("Adding to unit item not removed from wb");
+        if(container.contained.containsKey(item)) Logger.ITEMS.logError("Adding to unit item not removed from wb");
         if(item.position != null) Logger.ITEMS.logError("Adding to unit item not removed from map");
         item.position = null;
         container.equipped.put(item, aspect);

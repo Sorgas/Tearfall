@@ -1,5 +1,6 @@
 package stonering.entity.job.action;
 
+import stonering.entity.job.action.equipment.EquipToolItemAction;
 import stonering.entity.job.designation.Designation;
 import stonering.entity.job.action.target.PositionActionTarget;
 import stonering.entity.item.Item;

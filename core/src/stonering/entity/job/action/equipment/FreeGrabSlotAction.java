@@ -1,6 +1,7 @@
-package stonering.entity.job.action;
+package stonering.entity.job.action.equipment;
 
 import stonering.entity.item.Item;
+import stonering.entity.job.action.Action;
 import stonering.entity.job.action.target.SelfActionTarget;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.entity.unit.aspects.equipment.GrabEquipmentSlot;

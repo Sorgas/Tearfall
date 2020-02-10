@@ -19,7 +19,7 @@ import stonering.util.global.Logger;
  * <p>
  * Creature have slots for wear with different layers of wears, slots for tools and other items(grab slots).
  * To equip some wear item or do any other manipulation with equipment, unit should has at least one grab slot free.
- * Unit hauls items in grab slots.
+ * Unit hauls items in grab slots. 
  *
  * @author Alexander on 06.02.2020.
  */

@@ -1,6 +1,8 @@
-package stonering.entity.job.action;
+package stonering.entity.job.action.equipment;
 
 import stonering.entity.building.aspects.WorkbenchAspect;
+import stonering.entity.job.action.Action;
+import stonering.entity.job.action.ActionConditionStatusEnum;
 import stonering.entity.job.action.target.EntityActionTarget;
 import stonering.entity.job.action.target.PositionActionTarget;
 import stonering.entity.Entity;
@@ -41,7 +43,7 @@ public class PutItemAction extends Action {
 
         onFinish = () -> {
             EquipmentAspect equipmentAspect = task.performer.getAspect(EquipmentAspect.class);
-            ItemContainer container = GameMvc.instance().model().get(ItemContainer.class);
+            ItemContainer container = GameMvc.model().get(ItemContainer.class);
             equipmentAspect.hauledItems.remove(targetItem);
             container.equippedItemsSystem.itemUnequipped(targetItem);
             if (targetEntity != null) { // put into wb

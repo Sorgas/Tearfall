@@ -1,12 +1,12 @@
-package stonering.entity.job.action;
+package stonering.entity.job.action.equipment;
 
 import stonering.entity.item.Item;
 import stonering.entity.item.aspects.WearAspect;
+import stonering.entity.job.action.Action;
 import stonering.entity.job.action.target.SelfActionTarget;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.entity.unit.aspects.equipment.EquipmentSlot;
 import stonering.game.GameMvc;
-import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.system.unit.CreatureEquipmentSystem;
 import stonering.game.model.system.unit.UnitContainer;
 import stonering.util.global.Logger;
