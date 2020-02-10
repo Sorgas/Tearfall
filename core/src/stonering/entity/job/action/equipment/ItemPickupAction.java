@@ -31,10 +31,10 @@ public class ItemPickupAction extends Action {
 
         startCondition = () -> {
             EquipmentAspect equipment = task.performer.getAspect(EquipmentAspect.class);
-            Logger.TASKS.logDebug("Checking picking action");
             if (!itemContainer.itemMap.get(item.position).contains(item) || !map.passageMap.inSameArea(item.position, task.performer.position))
                 return FAIL; // item not available
-            if (!system.canPickUpItem(equipment, item)) {
+
+            if (!system.canPickUpItem(equipment, item)) { // if no empty grab slots
                 task.addFirstPreAction(new FreeGrabSlotAction()); // free another slot
                 return NEW;
             }
@@ -42,7 +42,14 @@ public class ItemPickupAction extends Action {
         };
 
         onFinish = () -> { // add item to unit
-            system.pickUpItem(task.performer.getAspect(EquipmentAspect.class), item);
+            EquipmentAspect equipment = task.performer.getAspect(EquipmentAspect.class);
+            GrabEquipmentSlot slot = system.getSlotForPickingUpItem(equipment, item);
+            if (slot != null) {
+                itemContainer.onMapItemsSystem.removeItemFromMap(item);
+                system.fillGrabSlot(equipment, slot, item);
+                return;
+            }
+            Logger.EQUIPMENT.logError("Slot for picking up item " + item + " not found");
         };
     }
 }
