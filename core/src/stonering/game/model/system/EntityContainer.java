@@ -28,6 +28,7 @@ public abstract class EntityContainer<T extends Entity> implements ModelComponen
 
     public void update(TimeUnitEnum unit) {
         updateMapping.get(unit).forEach(system -> entities.stream().filter(system.filteringPredicate).forEach(system::update));
+
     }
 
     public <S extends EntitySystem<T>> void putSystem(S system) {

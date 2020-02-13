@@ -12,11 +12,11 @@ import stonering.entity.unit.aspects.equipment.EquipmentAspect;
  *
  * @author Alexander on 28.01.2020.
  */
-public class UnitEquipmentTab extends Container<HorizontalGroup> {
+public class UnitEquipmentIconTab extends Container<HorizontalGroup> {
     private Table[] columns;
     private EquipmentAspect aspect;
 
-    public UnitEquipmentTab(Unit unit) {
+    public UnitEquipmentIconTab(Unit unit) {
         aspect = unit.getAspect(EquipmentAspect.class);
         columns = new Table[5];
         HorizontalGroup group = new HorizontalGroup();

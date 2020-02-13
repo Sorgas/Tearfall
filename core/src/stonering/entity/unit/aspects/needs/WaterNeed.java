@@ -27,6 +27,7 @@ public class WaterNeed extends Need {
         TaskPriorityEnum priority = countPriority(entity);
         Item item = findBestDrink(entity);
         if(item == null) {
+            
             //TODO drink from water sources
         }
         switch(priority) {
@@ -45,6 +46,6 @@ public class WaterNeed extends Need {
     }
 
     private Item findBestDrink(Entity entity) {
-        return GameMvc.instance().model().get(ItemContainer.class).util.getNearestItemWithTag(entity.position, ItemTagEnum.DRINKABLE);
+        return GameMvc.model().get(ItemContainer.class).util.getNearestItemWithTag(entity.position, ItemTagEnum.DRINKABLE);
     }
 }

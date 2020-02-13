@@ -1,11 +1,9 @@
 package stonering.entity.unit.aspects.equipment;
 
 import stonering.entity.Entity;
-import stonering.entity.item.aspects.WearAspect;
-import stonering.entity.job.action.Action;
 import stonering.entity.Aspect;
 import stonering.entity.item.Item;
-import stonering.enums.items.type.ToolItemType;
+import stonering.stage.unit.UnitEquipmentIconTab;
 import stonering.util.global.Logger;
 
 import java.util.*;
@@ -15,7 +13,7 @@ import java.util.stream.Collectors;
  * Stores all item equipped and hauled by unit. See {@link stonering.game.model.system.unit.CreatureEquipmentSystem}.
  * 
  * 
- * TODO add all slots mentioned in {@link stonering.stage.unit.UnitEquipmentTab}.
+ * TODO add all slots mentioned in {@link UnitEquipmentIconTab}.
  * 
  * @author Alexander Kuzyakov on 03.01.2018.
  */

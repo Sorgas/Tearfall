@@ -31,8 +31,8 @@ public class ItemPickupAction extends Action {
 
         startCondition = () -> {
             EquipmentAspect equipment = task.performer.getAspect(EquipmentAspect.class);
-            if (!itemContainer.itemMap.get(item.position).contains(item) || !map.passageMap.inSameArea(item.position, task.performer.position))
-                return FAIL; // item not available
+            if (!itemContainer.itemMap.get(item.position).contains(item)
+                    || !map.passageMap.inSameArea(item.position, task.performer.position)) return FAIL; // item not available
 
             if (!system.canPickUpItem(equipment, item)) { // if no empty grab slots
                 task.addFirstPreAction(new FreeGrabSlotAction()); // free another slot
