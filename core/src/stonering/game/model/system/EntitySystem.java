@@ -14,8 +14,7 @@ import java.util.function.Predicate;
  *
  * @author Alexander on 01.11.2019.
  */
-public abstract class EntitySystem<T extends Entity> {
-    public TimeUnitEnum updateInterval = TimeUnitEnum.TICK;
+public abstract class EntitySystem<T extends Entity> extends System {
     public final Set<Class<? extends Aspect>> targetAspects = new HashSet<>();
     public final Predicate<Entity> filteringPredicate = (entity) -> entity.aspects.keySet().containsAll(targetAspects);
 

@@ -6,5 +6,7 @@ package stonering.game.model.system;
  *  
  * @author Alexander on 13.02.2020.
  */
-public class UtilitySystem {
+public abstract class UtilitySystem extends System {
+
+    public abstract void update();
 }

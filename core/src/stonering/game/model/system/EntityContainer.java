@@ -16,22 +16,29 @@ import java.util.List;
  */
 public abstract class EntityContainer<T extends Entity> implements ModelComponent, Updatable {
     public final List<T> entities;
-    private final HashMap<TimeUnitEnum, List<EntitySystem<T>>> updateMapping; // entities are updated with systems from this map
+    private final HashMap<TimeUnitEnum, List<EntitySystem<T>>> entitySystems; // entities are updated with systems from this map
+    private final HashMap<TimeUnitEnum, List<UtilitySystem>> utilitySystems;
 
     public EntityContainer() {
         entities = new ArrayList<>();
-        updateMapping = new HashMap<>();
+        entitySystems = new HashMap<>();
+        utilitySystems = new HashMap<>();
         for (TimeUnitEnum value : TimeUnitEnum.values()) {
-            updateMapping.put(value, new ArrayList<>());
+            entitySystems.put(value, new ArrayList<>());
+            utilitySystems.put(value, new ArrayList<>());
         }
     }
 
     public void update(TimeUnitEnum unit) {
-        updateMapping.get(unit).forEach(system -> entities.stream().filter(system.filteringPredicate).forEach(system::update));
-
+        entitySystems.get(unit).forEach(system -> entities.stream().filter(system.filteringPredicate).forEach(system::update));
+        utilitySystems.get(unit).forEach(UtilitySystem::update);
     }
 
     public <S extends EntitySystem<T>> void putSystem(S system) {
-        updateMapping.get(system.updateInterval).add(system);
+        entitySystems.get(system.updateInterval).add(system);
+    }
+
+    public void putSystem(UtilitySystem system) {
+        utilitySystems.get(system.updateInterval).add(system);
     }
 }
