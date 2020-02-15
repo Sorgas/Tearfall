@@ -13,7 +13,6 @@ import stonering.util.geometry.Position;
  * @author Alexander on 23.11.2018.
  */
 public class FreeFloorValidator implements PositionValidator {
-    public static final String NAME = "floor";
 
     @Override
     public boolean validate(Position position) {

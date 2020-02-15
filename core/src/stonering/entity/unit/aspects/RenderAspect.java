@@ -1,5 +1,6 @@
 package stonering.entity.unit.aspects;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import stonering.entity.Aspect;
 import stonering.entity.Entity;
@@ -18,6 +19,7 @@ public class RenderAspect extends Aspect {
     public final AtlasesEnum atlas;
     public final List<CreatureStatusIcon> icons = new ArrayList<>();
     public TextureRegion region;
+    public Color color;
     public float actionProgress;
 
     public RenderAspect(Entity entity, int[] xy, AtlasesEnum atlas) {

@@ -12,7 +12,8 @@ import static stonering.stage.renderer.AtlasesEnum.ui_tiles;
 
 /**
  * Renders {@link EntitySelector} sprite and frame.
- *
+ * TODO add drawing of building sprites on designating buildings.
+ * 
  * @author Alexander on 06.02.2019.
  */
 public class EntitySelectorDrawer extends Drawer {

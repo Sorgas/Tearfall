@@ -12,7 +12,7 @@ import java.util.HashMap;
  * TODO add validators from plants.
  */
 public enum PlaceValidatorsEnum {
-    FLOOR(FreeFloorValidator.NAME, new FreeFloorValidator()),
+    FLOOR("floor", new FreeFloorValidator()),
     CONSTRUCTION("construction", new NearSolidBlockValidator());
 
     private static HashMap<String, PositionValidator> map;

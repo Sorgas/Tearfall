@@ -70,7 +70,7 @@
     "menuPath": ["workbenches", "wood"],
     "placing": "floor",
     "parts": [
-        ["campfire", "log/plank/", "wood", "4"]
+        ["campfire", "log/plank", "wood", "4"]
     ]
 }, {
     "name": "build_bed",

@@ -33,6 +33,7 @@ public class SelectionAspect extends Aspect {
         super(entity);
         enabled = true;
         boxIterator = consumer -> getBox().iterator.accept(position -> validator.doIfSuccess(position, consumer));
+        cancelHandler = this::reset;
         reset();
     }
 
@@ -42,7 +43,7 @@ public class SelectionAspect extends Aspect {
 
     public void reset() {
         Logger.UI.logDebug("EntitySelector reset.");
-        selectHandler = position -> GameMvc.instance().view().showEntityStage(getBox());
+        selectHandler = position -> GameMvc.view().showEntityStage(getBox());
         validator = position -> true;
     }
 }

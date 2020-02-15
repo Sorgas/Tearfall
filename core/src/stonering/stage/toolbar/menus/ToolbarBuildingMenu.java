@@ -14,7 +14,9 @@ import stonering.widget.ToolbarSubMenuMenu;
  * ButtonMenu for selecting building.
  * Translates all blueprints from {@link BlueprintsMap} to buttons.
  * Constructions are treated the same as buildings here.
- *
+ * On selection, handler defines how many buildings will be created and their places, 
+ * and then shows menu for selecting materials to build.
+ * 
  * @author Alexander Kuzyakov on 25.01.2018.
  */
 public class ToolbarBuildingMenu extends ToolbarSubMenuMenu {
@@ -25,10 +27,13 @@ public class ToolbarBuildingMenu extends ToolbarSubMenuMenu {
             addItem(blueprint.title, null, new ChangeListener() { //TODO add blueprint.icon
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    EntitySelectorSystem system = GameMvc.instance().model().get(EntitySelectorSystem.class);
+                    EntitySelectorSystem system = GameMvc.model().get(EntitySelectorSystem.class);
+                    //TODO add building sprite to selector
                     system.setPositionValidator(PlaceValidatorsEnum.getValidator(blueprint.placing));
                     system.selector.getAspect(SelectionAspect.class).selectHandler =
-                            (position) -> {}; //TODO show list with materials
+                            (box) -> {
+                                
+                            }; //TODO show list with materials
                 }
             }, blueprint.menuPath);
         }
