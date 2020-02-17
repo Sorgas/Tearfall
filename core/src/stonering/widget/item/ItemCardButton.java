@@ -1,4 +1,4 @@
-package stonering.widget.lists;
+package stonering.widget.item;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
@@ -7,6 +7,7 @@ import stonering.entity.item.selectors.ItemSelector;
 import stonering.entity.item.selectors.SimpleItemSelector;
 import stonering.stage.renderer.AtlasesEnum;
 import stonering.util.global.StaticSkin;
+import stonering.widget.lists.IconTextButton;
 
 /**
  * Item card to display in lists. Has item image, name and number label.

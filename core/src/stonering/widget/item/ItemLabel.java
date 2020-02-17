@@ -1,4 +1,4 @@
-package stonering.widget;
+package stonering.widget.item;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;

@@ -11,6 +11,7 @@ import stonering.widget.Hideable;
 import stonering.entity.item.Item;
 import stonering.util.geometry.Position;
 import stonering.widget.HintedActor;
+import stonering.widget.item.ItemCardButton;
 
 import java.util.List;
 

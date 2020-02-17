@@ -15,7 +15,7 @@ import java.util.List;
 public class Ingredient {
     public final List<String> itemTypes;    // acceptable item types
     public final ItemTagEnum tag;               // acceptable item tags
-    private int quantity;                   // number of items
+    public final int quantity = 1;                   // number of items
     public final String text;
 
     private List<String> possibleMaterials;  // list of materials to display in ui
