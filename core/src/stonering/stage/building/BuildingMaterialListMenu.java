@@ -10,6 +10,7 @@ import stonering.util.global.StaticSkin;
  */
 public class BuildingMaterialListMenu extends Window {
     public BuildingMaterialListMenu() {
-        super("Select materials", StaticSkin.getSkin());
+        super("", StaticSkin.getSkin());
+
     }
 }
