@@ -41,9 +41,8 @@ public class ToolbarBuildingMenu extends ToolbarSubMenuMenu {
                         aspect.boxIterator.accept(position -> {
                             positions.add(position); // todo replace with orientation beans.
                         });
+                        GameMvc.view().addStage(new BuildingMaterialListStage(positions, blueprint));
                     };
-                    GameMvc.view().addStage(new BuildingMaterialListStage(positions, blueprint));
-                    //TODO show list with materials
                 }
             }, blueprint.menuPath);
         }

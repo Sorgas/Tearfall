@@ -2,7 +2,10 @@ package stonering.stage.building;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import stonering.enums.buildings.blueprint.Blueprint;
+import stonering.util.geometry.Position;
 import stonering.util.global.StaticSkin;
+
+import java.util.List;
 
 /**
  * Has left section with number and type(one) designated buildings, required and selected materials,
@@ -15,10 +18,11 @@ import stonering.util.global.StaticSkin;
 public class BuildingMaterialListMenu extends Window {
     private LeftSection leftSection;
     private RightSection rightSection;
-    
-    public BuildingMaterialListMenu(Blueprint blueprint, int number) {
+
+    public BuildingMaterialListMenu(Blueprint blueprint, List<Position> positions) {
         super("", StaticSkin.getSkin());
-        add(leftSection = new LeftSection(blueprint, number));
+        add(leftSection = new LeftSection(blueprint, positions.size()));
         add(rightSection = new RightSection());
+        rightSection.grid.fillFromIngredient(leftSection.list.get(0).ingredient, positions.get(0));
     }
 }

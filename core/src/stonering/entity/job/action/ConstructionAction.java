@@ -26,10 +26,10 @@ public class ConstructionAction extends GenericBuildingAction {
             Position target = ((BuildingActionTarget) actionTarget).center;
             int material = order.parts.values().iterator().next().item.material;
 
-            GameMvc.instance().model().get(LocalMap.class).setBlock(target, blockType, material); // create block
-            PlantContainer container = GameMvc.instance().model().get(PlantContainer.class);
+            GameMvc.model().get(LocalMap.class).setBlock(target, blockType, material); // create block
+            PlantContainer container = GameMvc.model().get(PlantContainer.class);
             container.remove(container.getPlantInPosition(target), true); // remove plant
-            SubstrateContainer substrateContainer = GameMvc.instance().model().get(SubstrateContainer.class);
+            SubstrateContainer substrateContainer = GameMvc.model().get(SubstrateContainer.class);
             substrateContainer.remove(substrateContainer.getSubstrateInPosition(target)); // remove substrate
             consumeItems();
         };

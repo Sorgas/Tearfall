@@ -6,6 +6,7 @@ import stonering.enums.items.type.raw.RawItemType;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Descriptor class of item. Stores all aspects, valid to the whole type of item, not for specific ones.
@@ -46,5 +47,18 @@ public class ItemType extends Entity implements Cloneable {
 
     private String capitalize(String text) {
         return (text.substring(0, 1).toUpperCase() + text.substring(1).toLowerCase()).replace('_', ' ');
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ItemType itemType = (ItemType) o;
+        return name.equals(itemType.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 }

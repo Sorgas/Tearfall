@@ -19,7 +19,7 @@ import java.util.Map;
  */
 public class SelectedMaterialsWidget extends Table {
     private Label quantityLabel;
-    private final Ingredient ingredient;
+    public final Ingredient ingredient;
     private int number = 0;
     private final int targetNumber;
     HorizontalGroup group;
