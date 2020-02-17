@@ -8,15 +8,20 @@ import stonering.enums.designations.PlaceValidatorsEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.aspect.SelectionAspect;
 import stonering.game.model.system.EntitySelectorSystem;
+import stonering.stage.building.BuildingMaterialListStage;
+import stonering.util.geometry.Position;
 import stonering.widget.ToolbarSubMenuMenu;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * ButtonMenu for selecting building.
  * Translates all blueprints from {@link BlueprintsMap} to buttons.
  * Constructions are treated the same as buildings here.
- * On selection, handler defines how many buildings will be created and their places, 
+ * On selection, handler defines how many buildings will be created and their places,
  * and then shows menu for selecting materials to build.
- * 
+ *
  * @author Alexander Kuzyakov on 25.01.2018.
  */
 public class ToolbarBuildingMenu extends ToolbarSubMenuMenu {
@@ -30,10 +35,15 @@ public class ToolbarBuildingMenu extends ToolbarSubMenuMenu {
                     EntitySelectorSystem system = GameMvc.model().get(EntitySelectorSystem.class);
                     //TODO add building sprite to selector
                     system.setPositionValidator(PlaceValidatorsEnum.getValidator(blueprint.placing));
-                    system.selector.getAspect(SelectionAspect.class).selectHandler =
-                            (box) -> {
-                                
-                            }; //TODO show list with materials
+                    SelectionAspect aspect = system.selector.getAspect(SelectionAspect.class);
+                    List<Position> positions = new ArrayList<>();
+                    aspect.selectHandler = box -> {
+                        aspect.boxIterator.accept(position -> {
+                            positions.add(position); // todo replace with orientation beans.
+                        });
+                    };
+                    GameMvc.view().addStage(new BuildingMaterialListStage(positions, blueprint));
+                    //TODO show list with materials
                 }
             }, blueprint.menuPath);
         }
