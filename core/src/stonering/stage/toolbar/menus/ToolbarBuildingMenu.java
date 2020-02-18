@@ -8,7 +8,8 @@ import stonering.enums.designations.PlaceValidatorsEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.aspect.SelectionAspect;
 import stonering.game.model.system.EntitySelectorSystem;
-import stonering.stage.building.BuildingMaterialListStage;
+import stonering.stage.SingleWindowStage;
+import stonering.stage.building.BuildingMaterialListMenu;
 import stonering.util.geometry.Position;
 import stonering.widget.ToolbarSubMenuMenu;
 
@@ -38,10 +39,8 @@ public class ToolbarBuildingMenu extends ToolbarSubMenuMenu {
                     SelectionAspect aspect = system.selector.getAspect(SelectionAspect.class);
                     List<Position> positions = new ArrayList<>();
                     aspect.selectHandler = box -> {
-                        aspect.boxIterator.accept(position -> {
-                            positions.add(position); // todo replace with orientation beans.
-                        });
-                        GameMvc.view().addStage(new BuildingMaterialListStage(positions, blueprint));
+                        aspect.boxIterator.accept(positions::add); // todo replace with orientation beans.
+                        new SingleWindowStage<>(new BuildingMaterialListMenu(blueprint, positions), true).show();
                     };
                 }
             }, blueprint.menuPath);

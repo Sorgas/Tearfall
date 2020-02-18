@@ -40,17 +40,17 @@ public class UiStage extends Stage implements Resizeable {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        return super.touchDown(screenX, screenY, pointer, button);
+        return super.touchDown(screenX, screenY, pointer, button) || interceptInput;
     }
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return super.touchDragged(screenX, screenY, pointer);
+        return super.touchDragged(screenX, screenY, pointer) || interceptInput;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return super.touchUp(screenX, screenY, pointer, button);
+        return super.touchUp(screenX, screenY, pointer, button) || interceptInput;
     }
 
     @Override

@@ -6,6 +6,7 @@ import stonering.game.model.entity_selector.EntitySelector;
 import stonering.game.model.entity_selector.aspect.SelectionAspect;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
+import stonering.util.global.Logger;
 
 import javax.annotation.Nullable;
 
@@ -36,7 +37,7 @@ public class EntitySelectorInputHandler {
         SelectionAspect aspect = selector.getAspect(SelectionAspect.class);
         if (aspect.enabled) {
             aspect.boxStart = position.clone();
-            System.out.println("Selection started at " + aspect.boxStart);
+            Logger.INPUT.logDebug("Selection started at " + aspect.boxStart);
             GameMvc.model().get(LocalMap.class).normalizePosition(aspect.boxStart);
             // update render
         } else {

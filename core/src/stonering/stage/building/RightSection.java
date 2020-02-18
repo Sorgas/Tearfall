@@ -43,10 +43,12 @@ public class RightSection extends Table {
     private static class ItemsListEntry {
         String name;
         List<Item> items;
+        int number;
 
         public ItemsListEntry(String name, List<Item> items) {
             this.name = name;
             this.items = items;
+            number = items.size();
         }
     }
 }

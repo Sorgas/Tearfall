@@ -52,13 +52,12 @@ public class UiDemo extends Game {
     }
 
     private Container createContainer() {
-        Container<Window> container = new Container();
+        Container<List<String>> container = new Container();
         container.setFillParent(true);
-        Window window = new Window("qwer", StaticSkin.getSkin());
-        window.defaults().height(800);
-        window.add(table = createTable()).width(300).align(Align.topLeft);
-        window.add(createTable()).width(600);
-        container.setActor(window);
+        List<String> list = new List<String>(StaticSkin.getSkin());
+        list.setItems("qwer1","qwer2","qwer3","qwer4");
+
+        container.setActor(list);
         container.setDebug(true, true);
         return container;
     }
