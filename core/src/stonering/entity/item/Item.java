@@ -11,6 +11,7 @@ import java.util.List;
 
 /**
  * In-game item.
+ * 
  * Different effects, like poisonous, are provided with {@link Aspect}s.
  * TODO Consists of parts (post mvp).
  * TODO Some items can have origin (cow meat, apple (fruit)).
@@ -20,10 +21,11 @@ import java.util.List;
  */
 public class Item extends Entity {
     public final ItemType type;
-    public String title; // title combined of origin, material, and type
     public int material;
-    public String materialString;
     public final List<ItemTagEnum> tags;
+    
+    public String title; // title combined of origin, material, and type
+    public String materialString;
     public boolean locked; // item consuming actions lock target items.
 
 //TODO post mvp
