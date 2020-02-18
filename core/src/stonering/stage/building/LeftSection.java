@@ -1,10 +1,15 @@
 package stonering.stage.building;
 
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import stonering.enums.buildings.blueprint.Blueprint;
 import stonering.enums.items.recipe.Ingredient;
+import stonering.util.geometry.Position;
 import stonering.util.global.StaticSkin;
+import stonering.widget.NavigableVerticalGroup;
 import stonering.widget.item.SelectedMaterialsWidget;
 
 import java.util.ArrayList;
@@ -17,35 +22,50 @@ import java.util.List;
  * @author Alexander on 17.02.2020
  */
 public class LeftSection extends Table {
+    private BuildingMaterialListMenu menu;
     List<SelectedMaterialsWidget> list;
+    NavigableVerticalGroup<SelectedMaterialsWidget> group;
 
-    public LeftSection(Blueprint blueprint, int number) {
+    public LeftSection(BuildingMaterialListMenu menu, Blueprint blueprint, int number) {
+        this.menu = menu;
         list = new ArrayList<>();
-        createTitle(blueprint, number);
+        defaults().align(Align.topLeft).expandX().fillX();
+        add(new Label(createTitle(blueprint, number), StaticSkin.getSkin())).row();
+        add(group = createIngredientGroup(blueprint, number));
+        align(Align.topLeft);
     }
 
-    private void createTitle(Blueprint blueprint, int number) {
-        defaults().left();
-        String text = "Building " + (number > 1 ? number + " " + blueprint.title + "s" : blueprint.title);
-        add(new Label(text, StaticSkin.getSkin())).row();
-        add(createIngredientList(blueprint, number));
+    private String createTitle(Blueprint blueprint, int number) {
+        return "Building " + (number > 1 ? number + " " + blueprint.title + "s" : blueprint.title);
     }
 
     /**
      * Creates widgets for each part of a building.
      */
-    private Table createIngredientList(Blueprint blueprint, int number) {
-        Table table = new Table();
+    private NavigableVerticalGroup<SelectedMaterialsWidget> createIngredientGroup(Blueprint blueprint, int number) {
+        NavigableVerticalGroup<SelectedMaterialsWidget> group = new NavigableVerticalGroup<>();
+        group.grow();
         blueprint.parts.keySet().forEach(part -> {
             Ingredient ingredient = blueprint.parts.get(part);
-            SelectedMaterialsWidget selectedMaterialsWidget = new SelectedMaterialsWidget(ingredient, ingredient.quantity * number, part);
-            list.add(selectedMaterialsWidget);
-            table.add(selectedMaterialsWidget);
+            SelectedMaterialsWidget widget = new SelectedMaterialsWidget(ingredient, ingredient.quantity * number, part);
+            list.add(widget);
+            group.addActor(widget);
+            widget.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    setSelected(ingredient, menu.position);
+                }
+            });
         });
-        return table;
+        return group;
     }
 
-    void setSelected(String string) {
+    void setSelected(Ingredient ingredient, Position position) {
+        menu.rightSection.fillForIngredient(ingredient, position);
+        //TODO highlight
+    }
 
+    void setSelected(int index) {
+        setSelected(group.getChildAtIndex(index).ingredient, menu.position);
     }
 }

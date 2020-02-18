@@ -28,7 +28,7 @@ public class ItemsSelectGrid extends VerticalGroup {
         for (int y = 0; y < ySize; y++) {
             HorizontalGroup group = new HorizontalGroup();
             for (int x = 0; x < xSize; x++) {
-                group.addActor();
+//                group.addActor(null);
             }
             addActor(group);
         }

@@ -19,7 +19,7 @@ import java.util.Map;
  *
  * @author Alexander
  */
-public class NavigableVerticalGroup extends VerticalGroup implements Highlightable {
+public class NavigableVerticalGroup<T extends Actor> extends VerticalGroup implements Highlightable {
     public final Map<Integer, ControlActionsEnum> keyMapping; // additional keys to actions mapping.
     private EventListener selectListener;
     private EventListener cancelListener;
@@ -72,7 +72,7 @@ public class NavigableVerticalGroup extends VerticalGroup implements Highlightab
     /**
      * Tries to move given actor on specified delta positions.
      */
-    public void moveItem(Actor actor, int delta) {
+    public void moveItem(T actor, int delta) {
         int currentIndex = getChildren().indexOf(actor, true);
         if (currentIndex >= 0) {
             int size = getChildren().size; // size is never 0 here
@@ -83,9 +83,13 @@ public class NavigableVerticalGroup extends VerticalGroup implements Highlightab
         }
     }
 
-    public Actor getSelectedElement() {
+    public T getSelectedElement() {
         if (selectedIndex < 0 || selectedIndex >= getChildren().size) return null;
-        return getChildren().get(selectedIndex);
+        return getChildAtIndex(selectedIndex);
+    }
+
+    public T getChildAtIndex(int index) {
+        return (T) getChildren().get(index);
     }
 
     /**

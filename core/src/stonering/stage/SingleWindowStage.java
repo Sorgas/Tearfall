@@ -14,7 +14,7 @@ public class SingleWindowStage<T extends Window> extends UiStage {
 
     public SingleWindowStage(T menu) {
         this.menu = menu;
-        Container<BuildingMaterialListMenu> container = new Container<>();
+        Container<T> container = new Container<>();
         container.setActor(menu);
         container.setFillParent(true);
         addActor(container);

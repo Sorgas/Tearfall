@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
+import com.badlogic.gdx.utils.Array;
 import stonering.widget.Highlightable;
 import stonering.util.global.Logger;
 import stonering.util.global.StaticSkin;
@@ -81,6 +82,15 @@ public class NavigableList<T> extends List<T> implements Highlightable {
         if (hideListener != null) {
             hideListener.handle(event);
         }
+    }
+
+    /**
+     * Should not be used in loop.
+     */
+    public void addItem(T item) {
+        Array<T> items = getItems();
+        items.add(item);
+        setItems(items);
     }
 
     /**

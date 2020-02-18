@@ -16,13 +16,16 @@ import java.util.List;
  * @author Alexander on 17.02.2020
  */
 public class BuildingMaterialListMenu extends Window {
-    private LeftSection leftSection;
-    private RightSection rightSection;
+    LeftSection leftSection;
+    RightSection rightSection;
+    Position position;
 
     public BuildingMaterialListMenu(Blueprint blueprint, List<Position> positions) {
         super("", StaticSkin.getSkin());
-        add(leftSection = new LeftSection(blueprint, positions.size()));
+        position = positions.get(0);
+        defaults().height(800).fill().expand();
+        add(leftSection = new LeftSection(this, blueprint, positions.size())).width(300);
         add(rightSection = new RightSection());
-        rightSection.grid.fillFromIngredient(leftSection.list.get(0).ingredient, positions.get(0));
+        leftSection.setSelected(0);
     }
 }
