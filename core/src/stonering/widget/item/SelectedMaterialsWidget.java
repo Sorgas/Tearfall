@@ -39,7 +39,7 @@ public class SelectedMaterialsWidget extends Table {
     public void addItem(Item item) {
         String typeName = item.type.name;
         if (!ingredient.itemTypes.contains(typeName) || !item.tags.contains(ingredient.tag)) return;
-        buttonMap.putIfAbsent(typeName, new StackedItemSquareButton(item.type));
+        buttonMap.putIfAbsent(typeName, new StackedItemSquareButton(item.type, 10));
         StackedItemSquareButton button = buttonMap.get(typeName);
         button.number++;
         number++;

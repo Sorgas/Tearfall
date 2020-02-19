@@ -7,9 +7,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import stonering.enums.images.DrawableMap;
+import stonering.enums.items.type.ItemTypeMap;
 import stonering.stage.UiStage;
 import stonering.util.global.StaticSkin;
 import stonering.util.ui.SimpleScreen;
+import stonering.widget.item.StackedItemSquareButton;
 
 import java.awt.event.WindowEvent;
 
@@ -52,24 +54,11 @@ public class UiDemo extends Game {
     }
 
     private Container createContainer() {
-        Container<List<String>> container = new Container();
+        Container container = new Container();
         container.setFillParent(true);
-        List<String> list = new List<String>(StaticSkin.getSkin());
-        list.setItems("qwer1","qwer2","qwer3","qwer4");
-        
-        container.setActor(list);
+        StackedItemSquareButton button = new StackedItemSquareButton(ItemTypeMap.instance().getItemType("pickaxe"), 17);
+        container.setActor(button);
         container.setDebug(true, true);
         return container;
-    }
-
-    private Table createTable() {
-        Table table = new Table();
-        table.defaults().expandX().fillX();
-        table.add(new TextButton("qwer", StaticSkin.getSkin()));
-        table.add(new TextButton("qwer", StaticSkin.getSkin())).row();
-        table.add(new TextButton("qwer", StaticSkin.getSkin()));
-        table.add(new TextButton("qwer", StaticSkin.getSkin()));
-        table.align(Align.topLeft);
-        return table;
     }
 }

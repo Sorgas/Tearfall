@@ -27,7 +27,6 @@ public class Toolbar extends Container<Table> {
         createLayout();
         parentMenu = new ParentMenu(this);
         parentMenu.show();
-        parentMenu.init();
         addListener(new InputListener() { // passes events to last menu in toolbar
             @Override
             public boolean keyDown(InputEvent event, int keycode) {

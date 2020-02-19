@@ -13,9 +13,10 @@ import stonering.widget.lists.IconTextButton;
 import java.util.HashMap;
 
 /**
- * Table that stores buttons, and maps hotkeys to buttons.
+ * Menu with buttons. 
+ * Maps hotkeys to buttons.
  * Toggles buttons when receives hotkey presses. Behavior logic is written in their buttons.
- * Keys sets of menus should not overlap.
+ * Keys sets of same-level menus should not overlap.
  * Hides itself on Q.
  */
 public abstract class ButtonMenu extends Table implements Hideable {
@@ -46,16 +47,10 @@ public abstract class ButtonMenu extends Table implements Hideable {
         });
     }
 
-    /**
-     * Creates button with listener and hotkey. Will overwrite buttons with same hotkey.
-     */
     protected void createButton(String text, int hotKey, ChangeListener listener, boolean appendHotkey) {
         createButton(text, null, hotKey, listener, appendHotkey);
     }
 
-    /**
-     * Creates button with listener and hotkey. Will overwrite buttons with same hotkey.
-     */
     protected void createButton(String text, String iconName, int hotKey, ChangeListener listener, boolean appendHotkey) {
         Drawable drawable = iconName != null ? DrawableMap.ICON.getDrawable(iconName) : null;
         IconTextButton button = new IconTextButton(drawable, (appendHotkey ? Input.Keys.toString(hotKey) + ": " : "") + text);

@@ -50,7 +50,7 @@ public class ItemsSelectGrid extends VerticalGroup {
                 });
     }
 
-    public void fillFromIngredient(Ingredient ingredient, Position position) {
+    public void fillForIngredient(Ingredient ingredient, Position position) {
         fillItems(new ItemsStream()
                 .filterByReachability(position)
                 .filterHasTag(ingredient.tag)

@@ -6,7 +6,7 @@ import stonering.enums.images.DrawableMap;
 import stonering.stage.toolbar.menus.Toolbar;
 
 /**
- * Abstract menu for toolbar. Removes itself from {@link Toolbar} on hide.
+ * Abstract menu for {@link Toolbar}. Can add and remove itself in toolbar.
  *
  * @author Alexander Kuzyakov on 27.12.2017.
  */
@@ -24,7 +24,7 @@ public abstract class ToolbarButtonMenu extends ButtonMenu implements Highlighta
     @Override
     public void act(float delta) {
         super.act(delta);
-        updateHighlighting(GameMvc.instance().view().toolbarStage.toolbar.menusGroup.getChildren().peek() == this);
+        updateHighlighting(GameMvc.view().toolbarStage.toolbar.menusGroup.getChildren().peek() == this);
     }
 
     private void createHighlightHandler() {

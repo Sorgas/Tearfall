@@ -15,7 +15,7 @@ import java.util.List;
  * @author Alexander on 22.10.2018.
  */
 public class ToolbarSubMenuMenu extends ToolbarButtonMenu {
-    protected HashMap<String, ToolbarSubMenuMenu> menus;   // strings from item paths to submenus
+    protected HashMap<String, ToolbarButtonMenu> menus;   // strings from item paths to submenus
     private HotkeySequence sequence;
 
     public ToolbarSubMenuMenu(Toolbar toolbar) {
@@ -25,16 +25,9 @@ public class ToolbarSubMenuMenu extends ToolbarButtonMenu {
     }
 
     /**
-     * Builds menu widget and inits child menus.
-     */
-    public void init() {
-        menus.values().forEach(ToolbarSubMenuMenu::init);
-    }
-
-    /**
      * Creates button, submenu, and links them via button listener.
      */
-    public void addMenu(ToolbarSubMenuMenu menu, int hotkey, String identifier, String iconName) {
+    public void addMenu(ToolbarButtonMenu menu, int hotkey, String identifier, String iconName) {
         Actor thisMenu = this;
         createButton(identifier, iconName, hotkey, new ChangeListener() {
             @Override
@@ -58,7 +51,7 @@ public class ToolbarSubMenuMenu extends ToolbarButtonMenu {
             if (!menus.keySet().contains(currentStep)) {    // no submenu for this step, create submenu
                 addMenu(new ToolbarSubMenuMenu(toolbar), sequence.getNext(), currentStep, iconName); //TODO generalize
             }
-            menus.get(currentStep).addItem(lastButtonText, iconName, listener, path); // proceed to submenu with reduced path
+            ((ToolbarSubMenuMenu) menus.get(currentStep)).addItem(lastButtonText, iconName, listener, path); // proceed to submenu with reduced path
         }
     }
 }
