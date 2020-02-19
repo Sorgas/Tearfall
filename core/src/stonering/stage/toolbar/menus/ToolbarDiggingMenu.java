@@ -9,7 +9,7 @@ import stonering.game.model.entity_selector.aspect.SelectionAspect;
 import stonering.game.model.system.EntitySelectorSystem;
 import stonering.game.model.system.task.TaskContainer;
 import stonering.util.global.Logger;
-import stonering.widget.ToolbarSubMenuMenu;
+import stonering.widget.ToolbarButtonMenu;
 
 import static stonering.enums.designations.DesignationTypeEnum.*;
 
@@ -21,7 +21,7 @@ import static stonering.enums.designations.DesignationTypeEnum.*;
  *
  * @author Alexander Kuzyakov
  */
-public class ToolbarDiggingMenu extends ToolbarSubMenuMenu {
+public class ToolbarDiggingMenu extends ToolbarButtonMenu {
 
     public ToolbarDiggingMenu(Toolbar toolbar) {
         super(toolbar);

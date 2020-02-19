@@ -48,7 +48,7 @@ public class EntitySelectorSystem implements ModelComponent {
         SelectionAspect aspect = selector.getAspect(SelectionAspect.class);
         if(aspect.cancelHandler != null) aspect.cancelHandler.run();
         Toolbar toolbar = GameMvc.view().toolbarStage.toolbar;
-        toolbar.hideSubMenus(toolbar.parentMenu);
+        toolbar.removeSubMenus(toolbar.parentMenu);
     }
 
     public void selectorMoved() {

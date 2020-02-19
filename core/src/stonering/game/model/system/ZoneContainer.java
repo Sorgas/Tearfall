@@ -44,7 +44,7 @@ public class ZoneContainer extends EntityContainer<Zone> {
         Zone oldZone = zoneMap.remove(position);
         if (oldZone != null) zone.getTiles().remove(position);
         if (zone != null) {
-            PositionValidator validator = zone.getType().validator;
+            PositionValidator validator = zone.getType().VALIDATOR;
             if (validator.validate(position)) {
                 zone.getTiles().add(position.clone());
                 zoneMap.put(position.clone(), zone);

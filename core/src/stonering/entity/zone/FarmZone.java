@@ -65,7 +65,7 @@ public class FarmZone extends Zone {
         PlantContainer plantContainer = GameMvc.model().get(PlantContainer.class);
         for (Position tile : tiles) {
             // can delete tile from zone
-            if (!isTileValid(ZoneTypesEnum.FARM.validator, tile, localMap)) continue;
+            if (!isTileValid(ZoneTypesEnum.FARM.VALIDATOR, tile, localMap)) continue;
             // can delete task from zone
             if (isTaskExist(tile)) continue;
             // can create task for cutting or harvesting

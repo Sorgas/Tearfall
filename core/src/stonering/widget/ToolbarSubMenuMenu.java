@@ -39,7 +39,7 @@ public class ToolbarSubMenuMenu extends ToolbarButtonMenu {
         createButton(identifier, iconName, hotkey, new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                GameMvc.view().toolbarStage.toolbar.hideSubMenus(thisMenu);
+                GameMvc.view().toolbarStage.toolbar.removeSubMenus(thisMenu);
                 menu.show();
             }
         }, true);

@@ -11,76 +11,59 @@ import com.badlogic.gdx.utils.Align;
 import stonering.stage.toolbar.ToolbarStage;
 import stonering.util.global.Logger;
 import stonering.util.global.StaticSkin;
-import stonering.widget.HintedActor;
 
 /**
  * Contains table with all general orders menus. Toolbar is focused on {@link ToolbarStage} and passes key presses to last(right) menu.
+ * Most menus add its sub-menus into toolbar. Sub-menus are always displayed to the right from their parents.
  *
  * @author Alexander Kuzyakov on 17.06.2018.
  */
 public class Toolbar extends Container<Table> {
-    public final HorizontalGroup menusGroup = new HorizontalGroup(); // in first row
+    public HorizontalGroup menusGroup; // in first row
     public Label status; // in second row
     public final ParentMenu parentMenu; // always on the left end
 
     public Toolbar() {
-        layoutToolbar();
+        createLayout();
         parentMenu = new ParentMenu(this);
         parentMenu.show();
         parentMenu.init();
         addListener(new InputListener() { // passes events to last menu in toolbar
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
-                Actor target = menusGroup.getChildren().peek();
-                Logger.UI.logDebug("handling " + keycode + " in toolbar. Target menu is " + target.getClass().getSimpleName());
-                return target.notify(event, false);
+                Logger.UI.logDebug("handling " + keycode + " in toolbar");
+                return menusGroup.getChildren().peek().notify(event, false);
             }
         });
     }
 
-    /**
-     * Creates menus row and status row.
-     */
-    private void layoutToolbar() {
+    private void createLayout() {
         setFillParent(true);
+        Table table = new Table();
         align(Align.bottomLeft);
-        Table table = new Table(StaticSkin.getSkin());
-        menusGroup.align(Align.bottomRight);
+        table.add(menusGroup = new HorizontalGroup()).row();
+        menusGroup.align(Align.bottomLeft);
         menusGroup.rowAlign(Align.bottom);
-        table.add(menusGroup).row();
         table.add(status = new Label("", StaticSkin.getSkin())).left();
         setActor(table);
     }
 
     public void addMenu(Actor menu) {
         menusGroup.addActor(menu);
-        setStatusFromActorHint(menu);
         Logger.UI.logDebug("Menu " + menu.getClass().getSimpleName() + " added to toolbar");
     }
 
-    /**
-     * Removes given menu and all actors to the right. Updates status.
-     */
-    public void hideMenu(Actor menu) {
+    public void removeMenu(Actor menu) {
         while (menusGroup.getChildren().contains(menu, true)) {
             menusGroup.removeActor(menusGroup.getChildren().peek());
         }
-        setStatusFromActorHint(menusGroup.getChildren().peek());
         Logger.UI.logDebug("Menu " + menu.getClass().getSimpleName() + " removed from toolbar");
     }
 
-    /**
-     * Removes all actors to the right from given menu, so it becomes last one. Updates status.
-     */
-    public void hideSubMenus(Actor menu) {
+    public void removeSubMenus(Actor menu) {
         while (menusGroup.getChildren().contains(menu, true) && menusGroup.getChildren().peek() != menu) {
             menusGroup.removeActor(menusGroup.getChildren().peek());
         }
-        setStatusFromActorHint(menusGroup.getChildren().peek());
         Logger.UI.logDebug("Submenus of " + menu.getClass().getSimpleName() + " removed from toolbar");
-    }
-
-    private void setStatusFromActorHint(Actor actor) {
-        status.setText(actor instanceof HintedActor ? ((HintedActor) actor).getHint() : "");
     }
 }

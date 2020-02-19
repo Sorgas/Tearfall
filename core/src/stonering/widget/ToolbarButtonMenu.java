@@ -47,7 +47,7 @@ public abstract class ToolbarButtonMenu extends ButtonMenu implements Highlighta
 
     @Override
     public void hide() {
-        toolbar.hideMenu(this);
+        toolbar.removeMenu(this);
     }
 
     @Override

@@ -242,7 +242,7 @@ public class TileDrawer extends Drawer {
     }
 
     private void drawZone(Zone zone) {
-        if (zone != null) spriteUtil.drawSprite(zone.getType().sprite, cachePosition.toVector3());
+        if (zone != null) spriteUtil.drawSprite(zone.getType().SPRITE, cachePosition.toVector3());
     }
 
     private void drawBuildingBlock(BuildingBlock block) {

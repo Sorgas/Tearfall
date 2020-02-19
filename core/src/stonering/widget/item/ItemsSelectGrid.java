@@ -34,25 +34,32 @@ public class ItemsSelectGrid extends VerticalGroup {
         }
     }
 
-    public void fillFromIngredient(Ingredient ingredient, Position position) {
-        List<StackedItemSquareButton> buttons = new ArrayList<>();
-        new ItemsStream()
-                .filterByReachability(position)
-                .filterHasTag(ingredient.tag)
-                .filterByTypes(ingredient.itemTypes)
-                .stream.collect(Collectors.groupingBy(item -> item.type)) // split by type
+    /**
+     * Divides items into groups by type and material and creates button for each group.
+     */
+    public void fillItems(List<Item> items) {
+        items.stream().collect(Collectors.groupingBy(item -> item.type)) // split by type
                 .values().stream() // lists of items with same type
                 .map(Collection::stream)
                 .map(stream -> stream.collect(Collectors.groupingBy(item -> item.material)).values()) // split by material
                 .flatMap(Collection::stream) // lists of items with same type and material
                 .filter(list -> !list.isEmpty())
-                .forEach(items -> { // create buttons
-                    Item item = items.get(0);
-                    addItemButton(item.type, item.material, items.size());
+                .forEach(buttonItems -> { // create buttons
+                    Item item = buttonItems.get(0);
+                    addItemButton(item.type, item.material, buttonItems.size());
                 });
+    }
+
+    public void fillFromIngredient(Ingredient ingredient, Position position) {
+        fillItems(new ItemsStream()
+                .filterByReachability(position)
+                .filterHasTag(ingredient.tag)
+                .filterByTypes(ingredient.itemTypes).toList());
     }
 
     private void addItemButton(ItemType type, int material, int number) {
 
     }
+    
+    
 }

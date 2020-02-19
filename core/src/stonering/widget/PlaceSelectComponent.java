@@ -72,7 +72,7 @@ public class PlaceSelectComponent extends Actor implements Hideable, HintedActor
     public void hide() {
         selectorSystem.setPositionValidator(null);
         selectorSystem.validateAndUpdate();
-        toolbar.hideMenu(this);
+        toolbar.removeMenu(this);
     }
 
     public String getHint() {

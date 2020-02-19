@@ -56,7 +56,7 @@ public class UiDemo extends Game {
         container.setFillParent(true);
         List<String> list = new List<String>(StaticSkin.getSkin());
         list.setItems("qwer1","qwer2","qwer3","qwer4");
-
+        
         container.setActor(list);
         container.setDebug(true, true);
         return container;

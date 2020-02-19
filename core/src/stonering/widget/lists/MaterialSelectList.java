@@ -67,7 +67,7 @@ public class MaterialSelectList extends ItemsCountList implements Hideable, Hint
 
     @Override
     public void hide() {
-        GameMvc.instance().view().toolbarStage.toolbar.hideMenu(this);
+        GameMvc.instance().view().toolbarStage.toolbar.removeMenu(this);
     }
 
     @Override

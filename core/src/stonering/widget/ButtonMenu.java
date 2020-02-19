@@ -40,10 +40,7 @@ public abstract class ButtonMenu extends Table implements Hideable {
                 if (buttons.containsKey(keycode)) {
                     Logger.UI.logDebug("Pressing " + Input.Keys.toString(keycode) + " button in " + this);
                     buttons.get(keycode).toggle();
-                } else if (keycode == Input.Keys.Q) {
-                    hide();
-                    onHide();
-                }
+                } else if (keycode == Input.Keys.Q) hide();
                 return forbidEventPass;
             }
         });
@@ -65,11 +62,5 @@ public abstract class ButtonMenu extends Table implements Hideable {
         button.addListener(listener);
         buttons.put(hotKey, button);
         add(button).row();
-    }
-
-    /**
-     * Cancels all inputs, like selected tools.
-     */
-    protected void onHide() {
     }
 }

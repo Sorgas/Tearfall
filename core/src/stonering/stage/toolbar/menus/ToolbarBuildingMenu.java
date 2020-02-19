@@ -46,9 +46,4 @@ public class ToolbarBuildingMenu extends ToolbarSubMenuMenu {
             }, blueprint.menuPath);
         }
     }
-
-    @Override
-    protected void onHide() {
-        super.onHide();
-    }
 }

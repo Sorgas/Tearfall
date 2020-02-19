@@ -97,6 +97,6 @@ public class RectangleSelectComponent extends Label implements Hideable {
 
     @Override
     public void hide() {
-        GameMvc.instance().view().toolbarStage.toolbar.hideMenu(this);
+        GameMvc.instance().view().toolbarStage.toolbar.removeMenu(this);
     }
 }

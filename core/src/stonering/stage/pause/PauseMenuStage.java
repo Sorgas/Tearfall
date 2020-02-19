@@ -15,9 +15,9 @@ public class PauseMenuStage extends UiStage implements Initable {
 
     @Override
     public void init() {
-        GameMvc.instance().model().setPaused(true);
+        GameMvc.model().setPaused(true);
         pauseMenu = new PauseMenu();
-        Container container = new Container<>(pauseMenu).center();
+        Container<PauseMenu> container = new Container<>(pauseMenu).center();
         container.setFillParent(true);
         container.setDebug(true, true);
         this.addActor(container);
