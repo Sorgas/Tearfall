@@ -29,7 +29,7 @@ public class BuildingDesignationSequence extends DesignationSequence {
     private Toolbar toolbar;
 
     public BuildingDesignationSequence(Blueprint blueprint) {
-        toolbar = GameMvc.instance().view().toolbarStage.toolbar;
+        toolbar = GameMvc.view().toolbarStage.toolbar;
         createPlaceSelectComponent();
         reset();
     }
@@ -86,13 +86,13 @@ public class BuildingDesignationSequence extends DesignationSequence {
     private void showNextList() {
         for (String partName : order.blueprint.parts.keySet()) {
             if (order.parts.containsKey(partName)) continue;  // skip already added component
-            GameMvc.instance().controller().setSelectorEnabled(false);
-            GameMvc.instance().view().toolbarStage.toolbar.addMenu(createSelectListForIngredient(partName));
-            GameMvc.instance().controller().setSelectorEnabled(false);
+            GameMvc.controller().setSelectorEnabled(false);
+            GameMvc.view().toolbarStage.toolbar.addMenu(createSelectListForIngredient(partName));
+            GameMvc.controller().setSelectorEnabled(false);
             return;
         }
-        GameMvc.instance().model().get(TaskContainer.class).designationSystem.submitBuildingDesignation(order, 1);
-        GameMvc.instance().controller().setSelectorEnabled(true);
+        GameMvc.model().get(TaskContainer.class).designationSystem.submitBuildingDesignation(order, 1);
+        GameMvc.controller().setSelectorEnabled(true);
         reset();
     }
 
@@ -104,20 +104,20 @@ public class BuildingDesignationSequence extends DesignationSequence {
         Logger.UI.logDebug("Resetting BuildingDesignationSequence");
         placeSelectComponent.hide(); // hides all select lists
         placeSelectComponent.show();
-        GameMvc.instance().controller().setSelectorEnabled(true);
+        GameMvc.controller().setSelectorEnabled(true);
     }
 
     @Override
     public void start() {
         Logger.UI.logDebug("Starting BuildingDesignationSequence");
         placeSelectComponent.show();
-        GameMvc.instance().controller().setSelectorEnabled(true);
+        GameMvc.controller().setSelectorEnabled(true);
     }
 
     @Override
     public void end() {
         Logger.UI.logDebug("Ending BuildingDesignationSequence");
         placeSelectComponent.hide();
-        GameMvc.instance().controller().setSelectorEnabled(true);
+        GameMvc.controller().setSelectorEnabled(true);
     }
 }

@@ -1,37 +1,28 @@
 package stonering.widget.item;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import stonering.entity.item.Item;
 import stonering.enums.items.recipe.Ingredient;
-import stonering.enums.items.type.ItemType;
 import stonering.game.model.system.item.ItemsStream;
 import stonering.util.geometry.Position;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
  * Shows buttons of items. Buttons are organized in a rows.
- * Is a table of {@link HorizontalGroup}s.
+ * Is a {@link VerticalGroup} of {@link HorizontalGroup}s.
  *
  * @author Alexander on 17.02.2020
  */
 public class ItemsSelectGrid extends VerticalGroup {
     private int xSize;
-    private int ySize;
 
-    public ItemsSelectGrid(int xSize, int ySize) {
+    public ItemsSelectGrid(int xSize) {
         this.xSize = xSize;
-        this.ySize = ySize;
-        for (int y = 0; y < ySize; y++) {
-            HorizontalGroup group = new HorizontalGroup();
-            for (int x = 0; x < xSize; x++) {
-//                group.addActor(null);
-            }
-            addActor(group);
-        }
     }
 
     /**
@@ -44,10 +35,7 @@ public class ItemsSelectGrid extends VerticalGroup {
                 .map(stream -> stream.collect(Collectors.groupingBy(item -> item.material)).values()) // split by material
                 .flatMap(Collection::stream) // lists of items with same type and material
                 .filter(list -> !list.isEmpty())
-                .forEach(buttonItems -> { // create buttons
-                    Item item = buttonItems.get(0);
-                    addItemButton(item.type, item.material, buttonItems.size());
-                });
+                .forEach(this::addItemButton);
     }
 
     public void fillForIngredient(Ingredient ingredient, Position position) {
@@ -57,9 +45,22 @@ public class ItemsSelectGrid extends VerticalGroup {
                 .filterByTypes(ingredient.itemTypes).toList());
     }
 
-    private void addItemButton(ItemType type, int material, int number) {
-
+    private void addItemButton(List<Item> items) {
+        getGroupForAdding().addActor(new StackedItemSquareButton(items));
     }
     
+    private HorizontalGroup getGroupForAdding() {
+        Actor[] groups = getChildren().items;
+        if(groups.length > 0) {
+            HorizontalGroup lastGroup = (HorizontalGroup) groups[groups.length - 1];
+            if (lastGroup.getChildren().size != xSize) return lastGroup;
+        }
+        return addRow();
+    }
     
+    private HorizontalGroup addRow() {
+        HorizontalGroup group = new HorizontalGroup();
+        addActor(group);
+        return group;
+    }
 }

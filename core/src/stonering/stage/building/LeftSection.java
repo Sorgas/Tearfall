@@ -3,6 +3,7 @@ package stonering.stage.building;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import stonering.enums.buildings.blueprint.Blueprint;
@@ -22,16 +23,20 @@ import java.util.List;
  * @author Alexander on 17.02.2020
  */
 public class LeftSection extends Table {
-    private BuildingMaterialListMenu menu;
+    private BuildingMaterialSelectMenu menu;
     List<SelectedMaterialsWidget> list;
     NavigableVerticalGroup<SelectedMaterialsWidget> group;
-
-    public LeftSection(BuildingMaterialListMenu menu, Blueprint blueprint, int number) {
+    TextButton cancelButton;
+    TextButton confirmButton;
+    
+    public LeftSection(BuildingMaterialSelectMenu menu, Blueprint blueprint, int number) {
         this.menu = menu;
         list = new ArrayList<>();
         defaults().align(Align.topLeft).expandX().fillX();
         add(new Label(createTitle(blueprint, number), StaticSkin.getSkin())).row();
         add(group = createIngredientGroup(blueprint, number));
+        add(confirmButton = new TextButton("Confirm", StaticSkin.getSkin()));
+        add(cancelButton = new TextButton("Cancel", StaticSkin.getSkin()));
         align(Align.topLeft);
     }
 
@@ -61,7 +66,7 @@ public class LeftSection extends Table {
     }
 
     void setSelected(Ingredient ingredient, Position position) {
-        menu.rightSection.fillForIngredient(ingredient, position);
+        menu.rightSection.fill(ingredient, position);
         //TODO highlight
     }
 

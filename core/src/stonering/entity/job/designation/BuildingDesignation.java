@@ -4,7 +4,8 @@ import stonering.entity.building.BuildingOrder;
 import stonering.enums.designations.DesignationTypeEnum;
 
 /**
- * Stores building order.
+ * Stores building order. Rendered on localMap as transparent sprite of a building.
+ * Task for building is instantly created on creation of designation, and selected items are locked.
  *
  * /TODO render building tile instead of stock one.
  * @author Alexander Kuzyakov
