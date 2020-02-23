@@ -38,7 +38,7 @@ public class GameTime {
         if (units[index].increment()) { // unit ended
             turnUnit(index + 1); // increase next unit (on minute end, hour gets +1)
         } else {
-            GameMvc.instance().model().update(units[index - 1].unit); //update with previous unit
+            GameMvc.model().update(units[index - 1].unit); //update with previous unit
         }
     }
 

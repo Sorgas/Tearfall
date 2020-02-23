@@ -18,14 +18,16 @@ import java.util.Map;
  * @author Alexander on 17.02.2020
  */
 public class SelectedMaterialsWidget extends Table {
+    public final String partName;
     private Label quantityLabel;
     public final Ingredient ingredient;
-    private int number = 0;
-    private final int targetNumber;
+    public int number = 0;
+    public final int targetNumber;
     HorizontalGroup group;
     private final Map<String, StackedItemSquareButton> buttonMap;
     
     public SelectedMaterialsWidget(Ingredient ingredient, int targetNumber, String partName) {
+        this.partName = partName;
         this.ingredient = ingredient;
         this.targetNumber = targetNumber;
         buttonMap = new HashMap<>();
@@ -36,14 +38,14 @@ public class SelectedMaterialsWidget extends Table {
         add(group = new HorizontalGroup().left()).fillX();
     }
 
-    public void addItem(Item item) {
+    public boolean addItem(Item item) {
         String typeName = item.type.name;
-        if (!ingredient.itemTypes.contains(typeName) || !item.tags.contains(ingredient.tag)) return;
+        if (!ingredient.itemTypes.contains(typeName) || !item.tags.contains(ingredient.tag)) return false;
         buttonMap.putIfAbsent(typeName, new StackedItemSquareButton(item));
         StackedItemSquareButton button = buttonMap.get(typeName);
-        button.number++;
         number++;
         updateNumberLabel();
+        return number >= targetNumber;
     }
     
     private void updateNumberLabel() {

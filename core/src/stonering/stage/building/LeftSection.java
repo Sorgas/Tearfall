@@ -3,7 +3,6 @@ package stonering.stage.building;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import stonering.enums.buildings.blueprint.Blueprint;
@@ -24,19 +23,16 @@ import java.util.List;
  */
 public class LeftSection extends Table {
     private BuildingMaterialSelectMenu menu;
-    List<SelectedMaterialsWidget> list;
+    final List<SelectedMaterialsWidget> widgets;
     NavigableVerticalGroup<SelectedMaterialsWidget> group;
-    TextButton cancelButton;
-    TextButton confirmButton;
-    
+    SelectedMaterialsWidget selectedWidget;
+
     public LeftSection(BuildingMaterialSelectMenu menu, Blueprint blueprint, int number) {
         this.menu = menu;
-        list = new ArrayList<>();
+        widgets = new ArrayList<>();
         defaults().align(Align.topLeft).expandX().fillX();
-        add(new Label(createTitle(blueprint, number), StaticSkin.getSkin())).row();
-        add(group = createIngredientGroup(blueprint, number));
-        add(confirmButton = new TextButton("Confirm", StaticSkin.getSkin()));
-        add(cancelButton = new TextButton("Cancel", StaticSkin.getSkin()));
+        add(new Label(createTitle(blueprint, number), StaticSkin.getSkin())).colspan(2).row();
+        add(group = createIngredientGroup(blueprint, number)).expandY().colspan(2).row();
         align(Align.topLeft);
     }
 
@@ -51,26 +47,24 @@ public class LeftSection extends Table {
         NavigableVerticalGroup<SelectedMaterialsWidget> group = new NavigableVerticalGroup<>();
         group.grow();
         blueprint.parts.keySet().forEach(part -> {
+            System.out.println("creating widget for building part ");
             Ingredient ingredient = blueprint.parts.get(part);
             SelectedMaterialsWidget widget = new SelectedMaterialsWidget(ingredient, ingredient.quantity * number, part);
-            list.add(widget);
+            widgets.add(widget);
             group.addActor(widget);
             widget.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    setSelected(ingredient, menu.position);
+                    setSelected(widget);
                 }
             });
         });
         return group;
     }
 
-    void setSelected(Ingredient ingredient, Position position) {
-        menu.rightSection.fill(ingredient, position);
-        //TODO highlight
-    }
-
-    void setSelected(int index) {
-        setSelected(group.getChildAtIndex(index).ingredient, menu.position);
+    void setSelected(SelectedMaterialsWidget widget) {
+        menu.rightSection.fill(widget.ingredient, menu.position);
+        menu.hintLabel.setText("Selecting items for " + widget.partName);
+        selectedWidget = widget;
     }
 }

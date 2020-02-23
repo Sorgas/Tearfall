@@ -24,6 +24,7 @@ import java.awt.event.WindowEvent;
  */
 public class UiDemo extends Game {
     Table table;
+    StackedItemSquareButton button;
 
     public static void main(String[] args) {
         new LwjglApplication(new UiDemo());
@@ -38,6 +39,7 @@ public class UiDemo extends Game {
                 stage.interceptInput = false;
                 stage.addActor(createContainer());
                 Gdx.input.setInputProcessor(stage);
+                stage.setDebugAll(true);
             }
 
             @Override
@@ -59,7 +61,9 @@ public class UiDemo extends Game {
         Container container = new Container();
         container.setFillParent(true);
         Item item = new Item(new Position(), ItemTypeMap.instance().getItemType("pickaxe"));
-        StackedItemSquareButton button = new StackedItemSquareButton(item);
+        button = new StackedItemSquareButton(item);
+        button.pad(30);
+        container.pad(50);
         container.setActor(button);
         return container;
     }

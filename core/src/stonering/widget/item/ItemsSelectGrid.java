@@ -3,26 +3,40 @@ package stonering.widget.item;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Align;
 import stonering.entity.item.Item;
 import stonering.enums.items.recipe.Ingredient;
 import stonering.game.model.system.item.ItemsStream;
 import stonering.util.geometry.Position;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**
  * Shows buttons of items. Buttons are organized in a rows.
  * Is a {@link VerticalGroup} of {@link HorizontalGroup}s.
+ * TODO add item stats tooltip
  *
  * @author Alexander on 17.02.2020
  */
 public class ItemsSelectGrid extends VerticalGroup {
     private int xSize;
+    private HorizontalGroup group;
+    private List<StackedItemSquareButton> buttons;
 
     public ItemsSelectGrid(int xSize) {
         this.xSize = xSize;
+        addActor(group = new HorizontalGroup());
+        buttons = new ArrayList<>();
+        expand();
+        fill();
+        align(Align.top);
+        this.columnAlign(Align.left);
+        group.align(Align.left);
     }
 
     /**
@@ -45,22 +59,22 @@ public class ItemsSelectGrid extends VerticalGroup {
                 .filterByTypes(ingredient.itemTypes).toList());
     }
 
+    /**
+     * Sets handler for button presses. All button logic should be in handler.
+     */
+    public void setListener(Consumer<List<Item>> consumer) {
+        buttons.forEach(button -> button.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                consumer.accept(button.items);
+            }
+        }));
+    }
+
     private void addItemButton(List<Item> items) {
-        getGroupForAdding().addActor(new StackedItemSquareButton(items));
-    }
-    
-    private HorizontalGroup getGroupForAdding() {
-        Actor[] groups = getChildren().items;
-        if(groups.length > 0) {
-            HorizontalGroup lastGroup = (HorizontalGroup) groups[groups.length - 1];
-            if (lastGroup.getChildren().size != xSize) return lastGroup;
-        }
-        return addRow();
-    }
-    
-    private HorizontalGroup addRow() {
-        HorizontalGroup group = new HorizontalGroup();
-        addActor(group);
-        return group;
+        StackedItemSquareButton button = new StackedItemSquareButton(items);
+        button.pad(5);
+        buttons.add(button);
+        group.addActor(button);
     }
 }

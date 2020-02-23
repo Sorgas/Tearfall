@@ -37,8 +37,8 @@ public class ToolbarBuildingMenu extends ToolbarSubMenuMenu {
                     //TODO add building sprite to selector
                     system.setPositionValidator(PlaceValidatorsEnum.getValidator(blueprint.placing));
                     SelectionAspect aspect = system.selector.getAspect(SelectionAspect.class);
-                    List<Position> positions = new ArrayList<>();
                     aspect.selectHandler = box -> {
+                        List<Position> positions = new ArrayList<>();
                         aspect.boxIterator.accept(positions::add); // todo replace with orientation beans.
                         new SingleWindowStage<>(new BuildingMaterialSelectMenu(blueprint, positions), true).show();
                     };

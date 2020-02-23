@@ -68,7 +68,7 @@ public class TearFall extends GameWithCustomCursor {
     }
 
     public void switchToGame() {
-        setScreen(GameMvc.instance().view());
+        setScreen(GameMvc.view());
     }
 
     @Override
