@@ -25,6 +25,13 @@
     "atlasXY": ["15", "0"],
     "color": "0xffffffff"
 }, {
+    "name": "pumpkin",
+    "description": "",
+    "typeAspects": ["value(0)"],
+    "aspects": [],
+    "atlasXY": ["15", "0"],
+    "color": "0xffffffff"
+}, {
     "name": "generic_fruit",
     "description": "Replace this description in plant definition.",
     "typeAspects": ["value(0)"],

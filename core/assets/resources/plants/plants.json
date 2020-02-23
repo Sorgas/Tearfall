@@ -144,5 +144,35 @@
                 "productDropRatio": "1"
             }
         ]
+    },
+    {
+        "name":"pumpkin",
+        "title":"Pumpkin",
+        "description":"Large orange vegetable.",
+        "materialName":"generic_plant",
+        "temperatureBounds":["-40", "40"],
+        "rainfallBounds":["0", "100"],
+        "placingTags":[],
+        "plantingStart":["4", "5", "6", "7"],
+        "atlasXY":["9", "0"],
+        "lifeStages":[
+            {
+                "titlePrefixSuffix":["", "sapling"],
+                "stageLength":"1"
+            },
+            {
+                "titlePrefixSuffix":["small", ""],
+                "stageLength":"1",
+            },
+            {
+                "titlePrefixSuffix":["grown", ""],
+                "stageLength":"1",
+                "harvestProduct": {
+                    "baseItem": "pumpkin",
+                    "title": "Pumpkin"
+                },
+                "productDropRatio": "1"
+            }
+        ]
     }
 ]

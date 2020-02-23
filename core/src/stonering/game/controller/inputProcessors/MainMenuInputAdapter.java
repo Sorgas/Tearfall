@@ -13,7 +13,7 @@ public class MainMenuInputAdapter extends InputAdapter {
     @Override
     public boolean keyDown(int keycode) {
         if (keycode != Input.Keys.ESCAPE) return false;
-        GameMvc.instance().view().showPauseMenu();
+        GameMvc.view().showPauseMenu();
         return true;
     }
 }

@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * For reading from json.
+ *
  * @author Alexander_Kuzyakov on 13.06.2019.
  */
 public class RawItemType {

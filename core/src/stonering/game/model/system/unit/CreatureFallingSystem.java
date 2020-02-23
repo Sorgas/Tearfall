@@ -17,8 +17,8 @@ public class CreatureFallingSystem {
     private LocalMap map;
 
     public void update(Unit unit) {
-        container = GameMvc.instance().model().get(UnitContainer.class);
-        map = GameMvc.instance().model().get(LocalMap.class);
+        container = GameMvc.model().get(UnitContainer.class);
+        map = GameMvc.model().get(LocalMap.class);
         if(canFall(unit)) fall(unit);
     }
 
