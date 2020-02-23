@@ -6,9 +6,11 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
+import stonering.entity.item.Item;
 import stonering.enums.images.DrawableMap;
 import stonering.enums.items.type.ItemTypeMap;
 import stonering.stage.UiStage;
+import stonering.util.geometry.Position;
 import stonering.util.global.StaticSkin;
 import stonering.util.ui.SimpleScreen;
 import stonering.widget.item.StackedItemSquareButton;
@@ -56,9 +58,9 @@ public class UiDemo extends Game {
     private Container createContainer() {
         Container container = new Container();
         container.setFillParent(true);
-        StackedItemSquareButton button = new StackedItemSquareButton(ItemTypeMap.instance().getItemType("pickaxe"), 17);
+        Item item = new Item(new Position(), ItemTypeMap.instance().getItemType("pickaxe"));
+        StackedItemSquareButton button = new StackedItemSquareButton(item);
         container.setActor(button);
-        container.setDebug(true, true);
         return container;
     }
 }

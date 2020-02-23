@@ -64,14 +64,19 @@ public enum DrawableMap {
 
     public Drawable getDrawable(String key) {
         DrawableDescriptor descriptor = descriptors.getOrDefault(key, DEFAULT_DESCRIPTOR); // resolve descriptor
-        textures.putIfAbsent(descriptor.texture, new Texture("sprites/" + descriptor.texture)); // load new texture if needed
+        loadTexture(descriptor.texture);
         drawables.putIfAbsent(key, new TextureRegionDrawable(regionProducer.apply(descriptor))); // lazy load drawable
         return drawables.get(key);
     }
 
     public static Drawable getTextureDrawable(String path) {
-        textures.putIfAbsent(path, new Texture("sprites/" + path)); // load new texture if needed
+        loadTexture(path);
+        textures.get(path).setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         return new TextureRegionDrawable(new TextureRegion(textures.get(path)));
+    }
+
+    private static void loadTexture(String path) {
+        textures.putIfAbsent(path, new Texture("sprites/" + path));
     }
 
     private static Texture getTexture(String key) {

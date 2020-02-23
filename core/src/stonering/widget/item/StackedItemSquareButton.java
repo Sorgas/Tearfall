@@ -31,18 +31,19 @@ import java.util.List;
 public class StackedItemSquareButton extends Button {
     public static final int SHADING_COLOR = new Color(0.5f, 0.5f, 0.5f, 0.5f).toIntBits();
     public static final Texture SHADING_TEXTURE;
+    public static final int SIZE = 80;
     public final Stack stack = new Stack();
     public final List<Item> items = new ArrayList<>();
     public final ItemType type;
     public int number;
     private final Image shadingImage;
-    
+
     static {
-        Pixmap map = new Pixmap(1, 1, null);
+        Pixmap map = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         map.drawPixel(0, 0, SHADING_COLOR);
         SHADING_TEXTURE = new Texture(map);
     }
-    
+
     public StackedItemSquareButton(List<Item> items) {
         this(items.get(0).type, items.size());
         this.items.addAll(items);
@@ -58,11 +59,11 @@ public class StackedItemSquareButton extends Button {
         this.type = type;
         this.number = number;
         this.add(stack);
-        stack.add(wrapWithContainer(new Image(DrawableMap.getTextureDrawable("ui/item_slot.png")), 40)); // TODO use another background
+        stack.add(wrapWithContainer(new Image(DrawableMap.getTextureDrawable("ui/item_slot.png")), SIZE)); // TODO use another background
         stack.add(wrapWithContainer(new Image(AtlasesEnum.items.getBlockTile(type.atlasXY)))); // item icon
-        stack.add(wrapWithContainer(shadingImage = new Image(SHADING_TEXTURE), 40)); // foreground
+        stack.add(wrapWithContainer(shadingImage = new Image(SHADING_TEXTURE), SIZE)); // foreground
         shadingImage.setVisible(false);
-        if(number <= 1) return; // no label for single item 
+        if(number <= 1) return; // no label for single item
         Label label = new Label(String.valueOf(number), StaticSkin.getSkin());
         label.setFillParent(true);
         label.setAlignment(Align.bottomLeft);
