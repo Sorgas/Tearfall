@@ -2,6 +2,7 @@ package stonering.widget.item;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
@@ -17,8 +18,9 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**
- * Shows buttons of items. Buttons are organized in a rows.
+ * Widget that shows buttons of items organized in grid.
  * Is a {@link VerticalGroup} of {@link HorizontalGroup}s.
+ * Items can only be added to this widget.
  * TODO add item stats tooltip
  *
  * @author Alexander on 17.02.2020
