@@ -1,5 +1,6 @@
 package stonering.enums.items.recipe;
 
+import stonering.entity.item.Item;
 import stonering.enums.items.ItemTagEnum;
 import stonering.enums.materials.MaterialMap;
 
@@ -44,5 +45,9 @@ public class Ingredient {
 
     public List<String> getPossibleMaterials() {
         return possibleMaterials;
+    }
+    
+    public boolean checkItem(Item item) {
+        return item.tags.contains(tag) && itemTypes.contains(item.type.name);
     }
 }
