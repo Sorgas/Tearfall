@@ -1,6 +1,7 @@
 package stonering.widget.item;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
@@ -25,20 +26,14 @@ import java.util.stream.Collectors;
  *
  * @author Alexander on 17.02.2020
  */
-public class ItemsSelectGrid extends VerticalGroup {
-    private int xSize;
-    private HorizontalGroup group;
-    private List<StackedItemSquareButton> buttons;
-
-    public ItemsSelectGrid(int xSize) {
-        this.xSize = xSize;
-        addActor(group = new HorizontalGroup());
-        buttons = new ArrayList<>();
-        expand();
-        fill();
-        align(Align.top);
-        this.columnAlign(Align.left);
-        group.align(Align.left);
+public class ItemsSelectGrid extends ActorGrid<StackedItemSquareButton> {
+    public Consumer<StackedItemSquareButton> commonHandler; // handles all buttons
+    
+    public ItemsSelectGrid(int cellWidth, int cellHeight) {
+        super(cellWidth, cellHeight);
+        commonHandler = button -> {};
+        defaults().pad(5).size(40, 40);
+        // set table background
     }
 
     /**
@@ -60,23 +55,15 @@ public class ItemsSelectGrid extends VerticalGroup {
                 .filterHasTag(ingredient.tag)
                 .filterByTypes(ingredient.itemTypes).toList());
     }
-
-    /**
-     * Sets handler for button presses. All button logic should be in handler.
-     */
-    public void setListener(Consumer<List<Item>> consumer) {
-        buttons.forEach(button -> button.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                consumer.accept(button.items);
-            }
-        }));
-    }
-
+    
     private void addItemButton(List<Item> items) {
         StackedItemSquareButton button = new StackedItemSquareButton(items);
-        button.pad(5);
-        buttons.add(button);
-        group.addActor(button);
+        addActorToGrid(button);
+        button.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                commonHandler.accept(button);
+            }
+        });
     }
 }

@@ -25,13 +25,16 @@ public class RightSection extends Table {
 
     public RightSection(BuildingMaterialSelectMenu menu) {
         this.menu = menu;
-        add(grid = new ItemsSelectGrid(8)).fill().expand();
+        add(grid = new ItemsSelectGrid(8, 8)).fill().expand();
     }
 
     public void fill(Ingredient ingredient, Position position) {
         grid.fillForIngredient(ingredient, position);
-        grid.setListener(items -> {
+        // moves some items from button to widget
+        // 
+        grid.commonHandler = button -> {
             SelectedMaterialsWidget widget = menu.leftSection.selectedWidget;
+            List<Item> items = button.items;
             if(items.stream().allMatch(item -> item.tags.contains(ingredient.tag) && ingredient.itemTypes.contains(item.type.name)));
             List<Item> itemsToMove = new ArrayList<>();
             if(Gdx.input.isButtonPressed(Input.Keys.CONTROL_LEFT)) {
@@ -42,6 +45,6 @@ public class RightSection extends Table {
             for (Item item : itemsToMove) {
                 widget.addItem(item);
             }
-        });
+        };
     }
 }
