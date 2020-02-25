@@ -50,6 +50,7 @@ public class GameWithCustomCursor extends Game {
 
     @Override
     public void resize(int width, int height) {
+        super.resize(width, height);
         camera.setToOrtho(false, width, height);
         batch.setProjectionMatrix(camera.combined);
     }

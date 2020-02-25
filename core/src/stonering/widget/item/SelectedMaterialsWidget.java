@@ -8,7 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.entity.item.Item;
 import stonering.entity.item.ItemGroupingKey;
 import stonering.enums.items.recipe.Ingredient;
-import stonering.util.global.Pair;
 import stonering.util.global.StaticSkin;
 
 import java.util.HashMap;

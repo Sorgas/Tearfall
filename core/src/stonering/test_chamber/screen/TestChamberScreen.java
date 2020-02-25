@@ -28,6 +28,7 @@ public class TestChamberScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
+        System.out.println("resize screen");
         selectStage.resize(width, height);
     }
 

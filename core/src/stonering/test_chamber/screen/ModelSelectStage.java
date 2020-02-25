@@ -1,6 +1,7 @@
 package stonering.test_chamber.screen;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import stonering.game.GameMvc;
@@ -30,7 +31,7 @@ public class ModelSelectStage extends UiStage {
     }
 
     private void createStage() {
-        Container<Table> container = new Container<>();
+        Container<PlaceHolderSelectBox> container = new Container<>();
         container.align(Align.topLeft);
         container.setActor(createTable());
         container.setFillParent(true);
@@ -38,12 +39,8 @@ public class ModelSelectStage extends UiStage {
         container.setDebug(true, true);
     }
 
-    private Table createTable() {
-        Table table = new Table();
-        table.defaults().pad(10);
-        table.setWidth(300);
-        table.setHeight(300);
-        table.add(selectBox = new PlaceHolderSelectBox<>("Select Model")).row();
+    private PlaceHolderSelectBox<String> createTable() {
+        selectBox = new PlaceHolderSelectBox<>("Select Model");
         selectBox.setItems(new ArrayList<>(classMap.keySet()));
         selectBox.getSelection().setProgrammaticChangeEvents(false);
         selectBox.setSelectListener(e -> {
@@ -51,7 +48,7 @@ public class ModelSelectStage extends UiStage {
             return true;
         });
         setKeyboardFocus(selectBox);
-        return table;
+        return selectBox;
     }
 
     private void switchToModel(String name) {

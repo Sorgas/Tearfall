@@ -4,18 +4,12 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.utils.Align;
 import stonering.entity.item.Item;
-import stonering.enums.images.DrawableMap;
 import stonering.enums.items.type.ItemTypeMap;
 import stonering.stage.UiStage;
 import stonering.util.geometry.Position;
-import stonering.util.global.StaticSkin;
 import stonering.util.ui.SimpleScreen;
 import stonering.widget.item.StackedItemSquareButton;
-
-import java.awt.event.WindowEvent;
 
 /**
  * Demo with some UI elements.
@@ -52,6 +46,7 @@ public class UiDemo extends Game {
 
             @Override
             public void resize(int width, int height) {
+                System.out.println("resize screen");
                 stage.resize(width, height);
             }
         });

@@ -19,6 +19,7 @@ public class UiStage extends Stage implements Resizeable {
     }
 
     public void resize(int width, int height) {
+        System.out.println("resized");
         getViewport().update(width, height, true);
     }
 
