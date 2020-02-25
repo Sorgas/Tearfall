@@ -46,7 +46,6 @@ public class UiDemo extends Game {
 
             @Override
             public void resize(int width, int height) {
-                System.out.println("resize screen");
                 stage.resize(width, height);
             }
         });

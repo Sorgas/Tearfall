@@ -22,6 +22,9 @@ public class ActorGrid<T extends Actor> extends Table {
         this.cellWidth = cellWidth;
         this.cellHeight = cellHeight;
         gridCells = new Cell[cellWidth][cellHeight];
+    }
+
+    public void init() {
         for (int y = 0; y < cellHeight; y++) {
             for (int x = 0; x < cellWidth; x++) {
                 gridCells[x][y] = add(); // create table cell and save its reference
@@ -29,7 +32,7 @@ public class ActorGrid<T extends Actor> extends Table {
             row();
         }
     }
-    
+
     public boolean addActorToGrid(T actor) {
         Cell<T> cell = findFirstFreeCell();
         if(cell == null) return false; // grid is full

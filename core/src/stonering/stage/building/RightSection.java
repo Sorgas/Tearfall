@@ -6,11 +6,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import stonering.entity.item.Item;
 import stonering.enums.items.recipe.Ingredient;
 import stonering.util.geometry.Position;
-import stonering.util.global.Logger;
 import stonering.widget.item.ItemsSelectGrid;
 import stonering.widget.item.SelectedMaterialsWidget;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,7 +24,7 @@ public class RightSection extends Table {
 
     public RightSection(BuildingMaterialSelectMenu menu) {
         this.menu = menu;
-        add(grid = new ItemsSelectGrid(8, 8)).fill().expand();
+        add(grid = new ItemsSelectGrid(8, 8)).fill().expand().top().left();
     }
 
     public void fill(Ingredient ingredient, Position position) {
@@ -39,7 +37,10 @@ public class RightSection extends Table {
             List<Item> itemsToMove = button.items.subList(0, number);
             button.items.removeAll(itemsToMove);
             button.updateLabel();
-            itemsToMove.forEach(widget::addItem);
+            for (int i = 0; i < itemsToMove.size(); i++) {
+                Item item = itemsToMove.get(i);
+                widget.addItem(item);
+            }
             if(widget.targetNumber == widget.number) grid.setAllButtonsDisabled(true); // ingredient is full
         };
     }

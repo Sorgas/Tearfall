@@ -33,7 +33,9 @@ public class ItemsSelectGrid extends ActorGrid<StackedItemSquareButton> {
         super(cellWidth, cellHeight);
         buttonMap = new HashMap<>();
         commonHandler = button -> {};
-        defaults().pad(5).size(40, 40);
+        defaults().pad(5).size(StackedItemSquareButton.SIZE, StackedItemSquareButton.SIZE);
+        top().left();
+        super.init();
         // set table background
     }
 

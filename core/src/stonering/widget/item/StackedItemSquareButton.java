@@ -33,7 +33,7 @@ import java.util.List;
 public class StackedItemSquareButton extends Button {
     public static final int SHADING_COLOR = new Color(0.5f, 0.5f, 0.5f, 0.5f).toIntBits();
     public static final Texture SHADING_TEXTURE;
-    public static final int SIZE = 40;
+    public static final int SIZE = 64;
 
     public final List<Item> items = new ArrayList<>();
     private Image itemImage;
@@ -59,7 +59,7 @@ public class StackedItemSquareButton extends Button {
     private void createLayout() {
         this.add(new Stack(
                 wrapWithContainer(new Image(DrawableMap.getTextureDrawable("ui/item_slot.png")), SIZE), // TODO use another background
-                wrapWithContainer(itemImage = new Image()), // item icon
+                wrapWithContainer(itemImage = new Image(), (int) (SIZE * 0.8f)), // item icon
                 wrapWithContainer(shadingImage = new Image(SHADING_TEXTURE), SIZE), // foreground
                 numberLabel = new Label("", StaticSkin.getSkin())));
         shadingImage.setVisible(false);
