@@ -11,23 +11,25 @@ import stonering.enums.items.recipe.Ingredient;
 import stonering.util.global.StaticSkin;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
  * Widget for selecting items for {@link Ingredient}.
  * Shows some title, number and category of required items, and number and types of selected items.
  * Shows selected items in a row of {@link StackedItemSquareButton}. Clicks on a button remove items from selection.
- * Groups selected items into buttons by type and material.
+ * Items themselves are stored in buttons. Groups selected items into buttons by type and material.
  *
  * @author Alexander on 17.02.2020
  */
-public class SelectedMaterialsWidget extends Table {
-    public final String partName;
-    private Label quantityLabel;
+public class SelectedMaterialsWidget extends Table implements ItemButtonWidget {
     public final Ingredient ingredient;
-    public int number = 0;
+    public final String partName;
     public final int targetNumber;
-    HorizontalGroup group;
+    public int number = 0;
+
+    public HorizontalGroup group;
+    private Label quantityLabel;
     private final Map<ItemGroupingKey, StackedItemSquareButton> buttonMap;
     
     public SelectedMaterialsWidget(Ingredient ingredient, int targetNumber, String partName) {
@@ -40,6 +42,16 @@ public class SelectedMaterialsWidget extends Table {
         add(quantityLabel = new Label("", StaticSkin.getSkin())).left().row();
         updateNumberLabel();
         add(group = new HorizontalGroup().left()).fillX();
+    }
+
+    @Override
+    public void buttonEmpty(StackedItemSquareButton button) {
+
+    }
+
+    @Override
+    public void processButtonPress(StackedItemSquareButton button) {
+
     }
 
     public void addItem(Item item) {
@@ -55,7 +67,7 @@ public class SelectedMaterialsWidget extends Table {
                 }
             });
             buttonMap.put(key, button);
-            group.addActor(button);
+            
         } else { // add another item to existing button
             button.items.add(item);
             button.updateLabel();
@@ -63,8 +75,22 @@ public class SelectedMaterialsWidget extends Table {
         number++;
         updateNumberLabel();
     }
-    
+
     private void updateNumberLabel() {
         quantityLabel.setText(number + " / " + targetNumber);
+    }
+
+    public void addItems(List<Item> items) {
+        items.forEach(this::addItem);
+    }
+
+    @Override
+    public Map<ItemGroupingKey, StackedItemSquareButton> getButtonMap() {
+        return buttonMap;
+    }
+
+    @Override
+    public void buttonAdded(StackedItemSquareButton button) {
+        group.addActor(button);
     }
 }

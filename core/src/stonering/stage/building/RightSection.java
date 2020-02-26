@@ -35,12 +35,9 @@ public class RightSection extends Table {
                     ? 1 // add by one
                     : Math.min(widget.targetNumber - widget.number, button.items.size()); // add max possible
             List<Item> itemsToMove = button.items.subList(0, number);
-            button.items.removeAll(itemsToMove);
+            button.items.removeAll(itemsToMove); // remove from button
             button.updateLabel();
-            for (int i = 0; i < itemsToMove.size(); i++) {
-                Item item = itemsToMove.get(i);
-                widget.addItem(item);
-            }
+            widget.addItems(itemsToMove); // add to widget
             if(widget.targetNumber == widget.number) grid.setAllButtonsDisabled(true); // ingredient is full
         };
     }
