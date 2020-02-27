@@ -5,13 +5,15 @@ import stonering.entity.job.designation.Designation;
 import stonering.entity.job.Task;
 import stonering.enums.buildings.blueprint.Blueprint;
 import stonering.game.controller.controllers.designation.BuildingDesignationSequence;
+import stonering.stage.building.BuildingMaterialSelectMenu;
 import stonering.util.geometry.Position;
 
 import java.util.HashMap;
 
 /**
- * Order for building. Created in {@link BuildingDesignationSequence}.
+ * Order for building. Created in {@link BuildingMaterialSelectMenu}. 
  * Contains all information for creating {@link Task}task and {@link Designation}.
+ * {@link IngredientOrder}s are created for all building parts, defined in {@link Blueprint}.
  * TODO introduce ingredient order.
  *
  * @author Alexander on 06.03.2019.
@@ -25,5 +27,6 @@ public class BuildingOrder {
         this.blueprint = blueprint;
         this.position = position;
         parts = new HashMap<>();
+        blueprint.parts.forEach((partName, ingredient) -> parts.put(partName, new IngredientOrder(ingredient)));
     }
 }
