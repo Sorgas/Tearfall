@@ -114,14 +114,14 @@ public class OrderListSection extends NavigableVerticalGroup {
                 return true;
             }
         });
-        setSelectListener(new InputListener() { // configure order.
+        selectListener = (new InputListener() { // configure order.
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 getStage().setKeyboardFocus(menu.orderDetailsSection);
                 return true;
             }
         });
-        setCancelListener(new InputListener() { // close menu
+        cancelListener = (new InputListener() { // close menu
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
                 GameMvc.instance().view().removeStage(getStage());

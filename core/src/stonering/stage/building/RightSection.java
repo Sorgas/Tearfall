@@ -9,6 +9,7 @@ import stonering.util.geometry.Position;
 import stonering.widget.item.ItemsSelectGrid;
 import stonering.widget.item.SelectedMaterialsWidget;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,8 +20,8 @@ import java.util.List;
  * @author Alexander on 17.02.2020
  */
 public class RightSection extends Table {
-    BuildingMaterialSelectMenu menu;
-    ItemsSelectGrid grid;
+    public final BuildingMaterialSelectMenu menu;
+    public final ItemsSelectGrid grid;
 
     public RightSection(BuildingMaterialSelectMenu menu) {
         this.menu = menu;
@@ -30,14 +31,20 @@ public class RightSection extends Table {
     public void fill(Ingredient ingredient, Position position) {
         grid.fillForIngredient(ingredient, position);
         grid.commonHandler = button -> { // handler for item buttons
-            SelectedMaterialsWidget widget = menu.leftSection.selectedWidget;
-            int number = Gdx.input.isButtonPressed(Input.Keys.CONTROL_LEFT)
+            SelectedMaterialsWidget widget = menu.leftSection.group.getSelectedElement();
+            int number = Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)
                     ? 1 // add by one
                     : Math.min(widget.targetNumber - widget.number, button.items.size()); // add max possible
-            List<Item> itemsToMove = button.items.subList(0, number);
+            System.out.println("number to select: " + number);
+            List<Item> itemsToMove = new ArrayList<>(button.items.subList(0, number));
             button.items.removeAll(itemsToMove); // remove from button
             button.updateLabel();
-            widget.addItems(itemsToMove); // add to widget
+
+            for (int i = 0; i < itemsToMove.size(); i++) {
+                Item item = itemsToMove.get(i);
+                widget.addItem(item);
+            }
+
             if(widget.targetNumber == widget.number) {
                 grid.setAllButtonsDisabled(true); // ingredient is full
                 menu.leftSection.updateState();

@@ -5,6 +5,9 @@ import stonering.entity.item.selectors.IngredientOrderItemSelector;
 import stonering.entity.item.selectors.ItemSelector;
 import stonering.enums.items.recipe.Ingredient;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Part of {@link ItemOrder}.
  * Tag and item type taken from recipe. Material and origin are set to any on creation and then can be changed by player. //TODO
@@ -17,14 +20,11 @@ import stonering.enums.items.recipe.Ingredient;
 public class IngredientOrder {
     public final Ingredient ingredient;
     public ItemSelector itemSelector;
-    public Item item;
+    public List<Item> items;
 
     public IngredientOrder(Ingredient ingredient) {
         this.ingredient = ingredient;
+        items = new ArrayList<>();
         itemSelector = new IngredientOrderItemSelector(this);
-    }
-
-    public Item getItem() {
-        return item;
     }
 }

@@ -1,15 +1,17 @@
 package stonering.widget.item;
 
-import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.entity.item.Item;
 import stonering.entity.item.ItemGroupingKey;
 import stonering.enums.items.recipe.Ingredient;
+import stonering.stage.building.BuildingMaterialSelectMenu;
 import stonering.util.global.StaticSkin;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +25,7 @@ import java.util.Map;
  * @author Alexander on 17.02.2020
  */
 public class SelectedMaterialsWidget extends Table implements ItemButtonWidget {
+    private final BuildingMaterialSelectMenu menu;
     public final Ingredient ingredient;
     public final String partName;
     public final int targetNumber;
@@ -31,11 +34,12 @@ public class SelectedMaterialsWidget extends Table implements ItemButtonWidget {
     public HorizontalGroup group;
     private Label quantityLabel;
     private final Map<ItemGroupingKey, StackedItemSquareButton> buttonMap;
-    
-    public SelectedMaterialsWidget(Ingredient ingredient, int targetNumber, String partName) {
+
+    public SelectedMaterialsWidget(Ingredient ingredient, int targetNumber, String partName, BuildingMaterialSelectMenu menu) {
         this.partName = partName;
         this.ingredient = ingredient;
         this.targetNumber = targetNumber;
+        this.menu = menu;
         buttonMap = new HashMap<>();
         add(new Label(partName + ":", StaticSkin.getSkin()));
         add(new Label(ingredient.text, StaticSkin.getSkin())).right().expandX().row();
@@ -46,42 +50,30 @@ public class SelectedMaterialsWidget extends Table implements ItemButtonWidget {
 
     @Override
     public void buttonEmpty(StackedItemSquareButton button) {
-
+        group.removeActor(button);
     }
 
     @Override
     public void processButtonPress(StackedItemSquareButton button) {
-
+        System.out.println("press on button in left widget");
+        int numberToDeselect = Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)
+                ? 1 // add by one
+                : Math.min(targetNumber - number, button.items.size()); // add max possible
+        List<Item> itemsToMove = new ArrayList<>(button.items.subList(0, numberToDeselect));
+        button.items.removeAll(itemsToMove); // remove from button
+        button.updateLabel();
+        itemsToMove.forEach(menu.rightSection.grid::addItem);
+        number -= itemsToMove.size();
     }
 
-    public void addItem(Item item) {
-        ItemGroupingKey key = new ItemGroupingKey(item);
-        StackedItemSquareButton button = buttonMap.get(key);
-        if (button == null) { // create new button
-            button = new StackedItemSquareButton(item);
-            button.addListener(new ChangeListener() {
-
-                @Override
-                public void changed(ChangeEvent event, Actor actor) {
-                    
-                }
-            });
-            buttonMap.put(key, button);
-            
-        } else { // add another item to existing button
-            button.items.add(item);
-            button.updateLabel();
-        }
-        number++;
-        updateNumberLabel();
+    @Override
+    public void addButton(StackedItemSquareButton button) {
+        ItemButtonWidget.super.addButton(button);
+        group.addActor(button);
     }
 
     private void updateNumberLabel() {
         quantityLabel.setText(number + " / " + targetNumber);
-    }
-
-    public void addItems(List<Item> items) {
-        items.forEach(this::addItem);
     }
 
     @Override
@@ -89,8 +81,15 @@ public class SelectedMaterialsWidget extends Table implements ItemButtonWidget {
         return buttonMap;
     }
 
-    @Override
-    public void addButton(StackedItemSquareButton button) {
-        group.addActor(button);
+    public List<Item> removeItemsFromButtons(int requestedNumber) {
+        List<Item> items = new ArrayList<>();
+        while(items.size() < requestedNumber || this.number > 0) {
+            int neededNumber = requestedNumber - items.size();
+            StackedItemSquareButton firstButton = ((StackedItemSquareButton) group.getChildren().items[0]);
+            List<Item> itemsToMove = firstButton.items.subList(0, neededNumber);
+            items.addAll(itemsToMove);
+            firstButton.items.removeAll(itemsToMove);
+        }
+        return items;
     }
 }

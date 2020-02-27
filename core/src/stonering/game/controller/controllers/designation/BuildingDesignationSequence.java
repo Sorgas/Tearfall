@@ -56,9 +56,9 @@ public class BuildingDesignationSequence extends DesignationSequence {
         Ingredient ingredient = order.blueprint.parts.get(partName);
         MaterialSelectList materialList = new MaterialSelectList("WS: navigate, E: select");
         materialList.fillForIngredient(ingredient, order.position);
-        materialList.setSelectListener(event -> { // saves selection to map and creates next list
-            Logger.UI.logDebug("Selecting " + materialList.getSelectedIndex());
-            if (materialList.getSelectedIndex() >= 0) {
+        materialList.selectListener = (event -> { // saves selection to map and creates next list
+            Logger.UI.logDebug("Selecting " + materialList.selectedIndex);
+            if (materialList.selectedIndex >= 0) {
                 //TODO handle amount requirements more than 1
                 //TODO select real items instead of creating selector
 //                ((ItemCardButton ) materialList.getSelectedElement()).
@@ -72,7 +72,7 @@ public class BuildingDesignationSequence extends DesignationSequence {
             }
             return true;
         });
-        materialList.setCancelListener(event -> { // cancels selection ad hides list
+        materialList.cancelListener = (event -> { // cancels selection ad hides list
             materialList.hide();
             return true;
         });

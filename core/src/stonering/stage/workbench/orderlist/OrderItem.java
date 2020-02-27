@@ -78,7 +78,7 @@ public class OrderItem extends Container implements Highlightable {
         cancelButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                int selected = section.getSelectedIndex();
+                int selected = section.selectedIndex;
                 system.removeOrder(section.aspect, order);
                 section.fillOrderList();
                 section.setSelectedIndex(selected);

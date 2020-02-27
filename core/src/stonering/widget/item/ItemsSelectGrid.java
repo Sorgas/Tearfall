@@ -51,6 +51,7 @@ public class ItemsSelectGrid extends ActorGrid<StackedItemSquareButton> implemen
 
     @Override
     public void addButton(StackedItemSquareButton button) {
+        ItemButtonWidget.super.addButton(button);
         addActorToGrid(button);
     }
 

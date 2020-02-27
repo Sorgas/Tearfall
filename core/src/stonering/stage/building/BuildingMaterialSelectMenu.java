@@ -30,11 +30,11 @@ import java.util.List;
  * @author Alexander on 17.02.2020
  */
 public class BuildingMaterialSelectMenu extends Window {
-    LeftSection leftSection;
-    RightSection rightSection;
-    Label hintLabel;
-    TextButton cancelButton;
-    TextButton confirmButton;
+    public final LeftSection leftSection;
+    public final RightSection rightSection;
+    public final Label hintLabel;
+    public final TextButton cancelButton;
+    public final TextButton confirmButton;
 
     List<Position> positions;
 
@@ -66,14 +66,18 @@ public class BuildingMaterialSelectMenu extends Window {
                 // TODO create building designations
             }
         });
+        leftSection.group.selectListener = event -> {
+            rightSection.fill(leftSection.group.getSelectedElement().ingredient, positions.get(0));
+            return true;
+        };
         leftSection.group.setSelectedIndex(0);
         setDebug(true, true);
     }
 
     private BuildingOrder createOrder(Blueprint blueprint, Position position) {
         BuildingOrder order = new BuildingOrder(blueprint, position);
-        order.parts.forEach((partName, ingredientOrder) -> {
-            leftSection.widgetMap.get(partName).
-        });
+        order.parts
+                .forEach((partName, ingredientOrder) -> ingredientOrder.items.addAll(leftSection.widgetMap.get(partName).removeItemsFromButtons(ingredientOrder.ingredient.quantity)));
+        return order;
     }
 }

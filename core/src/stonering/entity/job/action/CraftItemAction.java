@@ -15,8 +15,10 @@ import stonering.game.model.system.item.ItemContainer;
 import stonering.generators.items.ItemGenerator;
 import stonering.util.global.Logger;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static stonering.entity.job.action.ActionConditionStatusEnum.*;
 
@@ -57,7 +59,10 @@ public class CraftItemAction extends Action {
             WorkbenchAspect workbenchAspect = workbench.getAspect(WorkbenchAspect.class);
             Item product = new ItemGenerator().generateItemByOrder(itemOrder);
             // spend components
-            List<Item> items = itemOrder.getAllIngredients().stream().map(IngredientOrder::getItem).collect(Collectors.toList());
+            List<Item> items = itemOrder.getAllIngredients().stream()
+                    .map(ingredientOrder -> ingredientOrder.items)
+                    .flatMap(Collection::stream)
+                    .collect(Collectors.toList());
             container.containedItemsSystem.removeItemsFromWorkbench(items, workbenchAspect);
             container.removeItems(items);
             // put product into wb
@@ -73,25 +78,19 @@ public class CraftItemAction extends Action {
      */
     private ActionConditionStatusEnum checkIngredientItems(WorkbenchAspect aspect) {
         for (IngredientOrder order : itemOrder.getAllIngredients()) {
-            if (checkIngredient(order, aspect)) continue;
-            if (order.item != null)
-                System.out.println("'spoiled' item in ingredient order"); // free item TODO locking items in container
-            order.item = GameMvc.instance().model().get(ItemContainer.class).util.getItemForIngredient(order, task.performer.position);
-            if (order.item == null) return FAIL; // no valid item found
-            if (aspect.containedItems.contains(order.item)) continue; // item in WB, no actions required
-            task.addFirstPreAction(new PutItemAction(order.item, workbench)); // create action to bring item
-            return NEW; // new action is created
+            for (int i = 0; i < order.items.size(); i++) {
+                Item item = order.items.get(i);
+                if (item != null && order.itemSelector.checkItem(item) && aspect.containedItems.contains(item)) continue; // item ok
+                if (item != null) System.out.println("'spoiled' item in ingredient order"); // free item TODO locking items in container
+                item = GameMvc.model().get(ItemContainer.class).util.getItemForIngredient(order, task.performer.position);
+                if (item == null) return FAIL; // no valid item found
+                order.items.set(i, item);
+                if (aspect.containedItems.contains(item)) continue; // item in WB, no actions required
+                task.addFirstPreAction(new PutItemAction(item, workbench)); // create action to bring item
+                return NEW; // new action is created
+            }
         }
         return OK; // all ingredients have valid items
-    }
-
-    /**
-     * Checks if ingredient item is valid (matches ingredient and stored in WB).
-     */
-    private boolean checkIngredient(IngredientOrder order, WorkbenchAspect aspect) {
-        return order.item != null
-                && order.itemSelector.checkItem(order.item)
-                && aspect.containedItems.contains(order.item);
     }
 
     @Override

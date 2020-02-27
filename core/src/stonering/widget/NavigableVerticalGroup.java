@@ -10,8 +10,8 @@ import stonering.enums.ControlActionsEnum;
 import stonering.util.global.Logger;
 import stonering.util.math.MathUtil;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Vertical group which can handle input to change selected element.
@@ -21,10 +21,10 @@ import java.util.Map;
  */
 public class NavigableVerticalGroup<T extends Actor> extends VerticalGroup implements Highlightable {
     public final Map<Integer, ControlActionsEnum> keyMapping; // additional keys to actions mapping.
-    private EventListener selectListener;
-    private EventListener cancelListener;
+    public EventListener selectListener;
+    public EventListener cancelListener;
     protected HighlightHandler highlightHandler;
-    protected int selectedIndex = -1;
+    public int selectedIndex = -1;
 
     public NavigableVerticalGroup() {
         super();
@@ -57,6 +57,16 @@ public class NavigableVerticalGroup<T extends Actor> extends VerticalGroup imple
                 }
                 return true;
             }
+
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                for (Actor child : getChildren()) {
+                    if (!child.isAscendantOf(hit(x, y, false))) continue;
+                    setSelectedIndex(getChildren().indexOf(child, true));
+                    return true;
+                }
+                return false;
+            }
         });
     }
 
@@ -69,25 +79,6 @@ public class NavigableVerticalGroup<T extends Actor> extends VerticalGroup imple
         return true;
     }
 
-    /**
-     * Tries to move given actor on specified delta positions.
-     */
-    public void moveItem(T actor, int delta) {
-        int currentIndex = getChildren().indexOf(actor, true);
-        if (currentIndex >= 0) {
-            int size = getChildren().size; // size is never 0 here
-            removeActor(actor, false);
-            int newIndex = (currentIndex + (delta % size) + size) % size;
-            addActorAt(newIndex, actor);
-            getStage().setKeyboardFocus(actor);
-        }
-    }
-
-    public T getSelectedElement() {
-        if (selectedIndex < 0 || selectedIndex >= getChildren().size) return null;
-        return getChildAtIndex(selectedIndex);
-    }
-
     public T getChildAtIndex(int index) {
         return (T) getChildren().get(index);
     }
@@ -97,14 +88,7 @@ public class NavigableVerticalGroup<T extends Actor> extends VerticalGroup imple
      */
     public void setSelectedIndex(int newIndex) {
         selectedIndex = MathUtil.toRange(newIndex, -1, getChildren().size - 1);
-    }
-
-    public void setCancelListener(EventListener cancelListener) {
-        this.cancelListener = cancelListener;
-    }
-
-    public void setSelectListener(EventListener selectListener) {
-        this.selectListener = selectListener;
+        if(selectListener != null) selectListener.handle(null);
     }
 
     @Override
@@ -117,7 +101,16 @@ public class NavigableVerticalGroup<T extends Actor> extends VerticalGroup imple
         return highlightHandler;
     }
 
-    public int getSelectedIndex() {
-        return selectedIndex;
+    public T getSelectedElement() {
+        if (selectedIndex < 0 || selectedIndex >= getChildren().size) return null;
+        return getChildAtIndex(selectedIndex);
+    }
+
+    public void setSelectedElement(T element) {
+        selectedIndex = getChildren().indexOf(element, true);
+    }
+
+    public List<T> getElements() {
+        return Arrays.stream(getChildren().items).map(child -> (T) child).collect(Collectors.toList());
     }
 }

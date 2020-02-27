@@ -11,6 +11,7 @@ import stonering.game.model.system.item.ItemContainer;
 import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
 
+import java.util.Collection;
 import java.util.List;
 
 import static stonering.entity.job.action.ActionConditionStatusEnum.*;
@@ -36,27 +37,28 @@ public abstract class GenericBuildingAction extends Action {
 
         startCondition = () -> {
             Logger.TASKS.log("Checking " + this);
-            if (target.builderPosition == null && !target.findPositionForBuilder(order, task.performer.position))
-                return FAIL;
-            ItemContainer itemContainer = GameMvc.instance().model().get(ItemContainer.class);
+            if (target.builderPosition == null && !target.findPositionForBuilder(order, task.performer.position)) return FAIL;
+            ItemContainer itemContainer = GameMvc.model().get(ItemContainer.class);
             List<Item> itemsOnSite = itemContainer.getItemsInPosition(target.center);
             if (!itemsOnSite.isEmpty()) return createSiteClearingAction(itemsOnSite.get(0)); // clear site
             List<Item> availableItems = itemContainer.getItemsInPosition(target.builderPosition);
             for (IngredientOrder ingredientOrder : order.parts.values()) {
-                if (checkIngredient(ingredientOrder, availableItems)) continue; // ingredient order is fine
-                // select new item for ingredient
-                if ((ingredientOrder.item == null
-                        || !ingredientOrder.itemSelector.checkItem(ingredientOrder.item))
-                        && !findItemForIngredient(ingredientOrder))
-                    return FAIL; // item not valid anymore and no new found
-                if (!availableItems.contains(ingredientOrder.item)) {
-                    task.addFirstPreAction(new PutItemAction(ingredientOrder.item, target.builderPosition)); // create action to bring item
-                    return NEW; // new action is created
+                for (int i = 0; i < ingredientOrder.items.size(); i++) {
+                    Item item = ingredientOrder.items.get(i);
+                    if (!ingredientOrder.itemSelector.checkItem(item)) {
+                        Item newItem = findItemForIngredient(ingredientOrder);
+                        if (newItem == null) return FAIL;
+                        ingredientOrder.items.set(i, newItem);
+                    }
+                    if (!availableItems.contains(item)) {
+                        task.addFirstPreAction(new PutItemAction(item, target.builderPosition)); // create action to bring item
+                        return NEW; // new action is created
+                    }
+                    availableItems.remove(item);
                 }
-                availableItems.remove(ingredientOrder.item);
             }
             return OK; // all ingredients have valid items
-            //TODO reset target on fail}
+            //TODO reset target on fail
         };
     }
 
@@ -64,11 +66,8 @@ public abstract class GenericBuildingAction extends Action {
      * Finds item for ingredient's item selector.
      * Updates ingredient order. Returns true, if item for ingredient successfully found.
      */
-    private boolean findItemForIngredient(IngredientOrder ingredientOrder) {
-        ItemContainer itemContainer = GameMvc.instance().model().get(ItemContainer.class);
-        ingredientOrder.item = itemContainer.util.getItemForIngredient(ingredientOrder, task.performer.position);
-        if (ingredientOrder.item == null) target.reset();
-        return ingredientOrder.item != null;
+    private Item findItemForIngredient(IngredientOrder ingredientOrder) {
+        return GameMvc.model().get(ItemContainer.class).util.getItemForIngredient(ingredientOrder, task.performer.position);
     }
 
     /**
@@ -85,19 +84,10 @@ public abstract class GenericBuildingAction extends Action {
     }
 
     protected void consumeItems() {
-        ItemContainer itemContainer = GameMvc.instance().model().get(ItemContainer.class);
-        order.parts.values().stream().map(IngredientOrder::getItem).forEach(item -> {
+        ItemContainer itemContainer = GameMvc.model().get(ItemContainer.class);
+        order.parts.values().stream().map(order -> order.items).flatMap(Collection::stream).forEach(item -> {
             itemContainer.onMapItemsSystem.removeItemFromMap(item);
             itemContainer.removeItem(item);
         });
-    }
-
-    /**
-     * Checks if ingredient item is valid (exists, matches ingredient and lies in target position).
-     */
-    private boolean checkIngredient(IngredientOrder order, List<Item> availableItems) {
-        return order.item != null
-                && order.itemSelector.checkItem(order.item) // item matches ingredient
-                && availableItems.contains(order.item); // lies in target position
     }
 }

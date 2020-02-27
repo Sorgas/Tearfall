@@ -25,7 +25,6 @@ public class LeftSection extends Table {
     private BuildingMaterialSelectMenu menu;
     public final Map<String, SelectedMaterialsWidget> widgetMap; // building part name to widget that selects items for this part 
     NavigableVerticalGroup<SelectedMaterialsWidget> group;
-    String selectedWidget;
     private Position position; // position of any building used for items lookup
     
     public LeftSection(BuildingMaterialSelectMenu menu, Blueprint blueprint, int number, Position position) {
@@ -51,23 +50,23 @@ public class LeftSection extends Table {
         blueprint.parts.keySet().forEach(part -> {
             System.out.println("creating widget for building part ");
             Ingredient ingredient = blueprint.parts.get(part);
-            SelectedMaterialsWidget widget = new SelectedMaterialsWidget(ingredient, ingredient.quantity * number, part);
+            SelectedMaterialsWidget widget = new SelectedMaterialsWidget(ingredient, ingredient.quantity * number, part, menu);
             widgetMap.put(part, widget);
             group.addActor(widget);
             widget.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    setSelected(part);
+                    setSelected(widget);
                 }
             });
         });
         return group;
     }
 
-    void setSelected(String partName) {
-        menu.rightSection.fill(widgetMap.get(partName).ingredient, position);
-        menu.hintLabel.setText("Selecting items for " + partName);
-        selectedWidget = partName;
+    void setSelected(SelectedMaterialsWidget widget) {
+        menu.rightSection.fill(widget.ingredient, position);
+        menu.hintLabel.setText("Selecting items for " + widget.partName);
+        group.setSelectedElement(widget);
     }
 
     /**
@@ -80,7 +79,7 @@ public class LeftSection extends Table {
         if(nextWidget == null) {
             menu.confirmButton.setDisabled(false);
         } else {
-            setSelected(nextWidget.partName);
+            setSelected(nextWidget);
         }
     }
 }

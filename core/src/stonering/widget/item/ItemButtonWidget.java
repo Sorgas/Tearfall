@@ -46,6 +46,7 @@ public interface ItemButtonWidget {
     }
 
     default void addButton(StackedItemSquareButton button) {
+        System.out.println("creating button for items");
         getButtonMap().put(new ItemGroupingKey(button.items), button);
         button.addListener(new ChangeListener() {
             @Override
