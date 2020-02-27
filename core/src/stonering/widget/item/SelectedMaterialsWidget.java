@@ -90,7 +90,7 @@ public class SelectedMaterialsWidget extends Table implements ItemButtonWidget {
     }
 
     @Override
-    public void buttonAdded(StackedItemSquareButton button) {
+    public void addButton(StackedItemSquareButton button) {
         group.addActor(button);
     }
 }

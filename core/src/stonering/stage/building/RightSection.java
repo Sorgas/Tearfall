@@ -29,7 +29,7 @@ public class RightSection extends Table {
 
     public void fill(Ingredient ingredient, Position position) {
         grid.fillForIngredient(ingredient, position);
-        grid.commonHandler = button -> {
+        grid.commonHandler = button -> { // handler for item buttons
             SelectedMaterialsWidget widget = menu.leftSection.selectedWidget;
             int number = Gdx.input.isButtonPressed(Input.Keys.CONTROL_LEFT)
                     ? 1 // add by one
@@ -38,7 +38,10 @@ public class RightSection extends Table {
             button.items.removeAll(itemsToMove); // remove from button
             button.updateLabel();
             widget.addItems(itemsToMove); // add to widget
-            if(widget.targetNumber == widget.number) grid.setAllButtonsDisabled(true); // ingredient is full
+            if(widget.targetNumber == widget.number) {
+                grid.setAllButtonsDisabled(true); // ingredient is full
+                menu.leftSection.updateState();
+            }
         };
     }
 }

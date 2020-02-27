@@ -10,6 +10,7 @@ import java.util.ArrayList;
  * Table extension, that provides convenient methods for filling and modifying greed like structure.
  * Stores all added actors both in cells and two dimensional array for supporting modifying behavior.
  * Size in cells is specified on creation. TODO recreate table to allow changing size.
+ * Table::defaults() should be set before fill().
  * 
  * @author Alexander on 25.02.2020.
  */

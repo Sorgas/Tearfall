@@ -13,7 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import stonering.entity.item.Item;
 import stonering.enums.images.DrawableMap;
-import stonering.enums.items.type.ItemType;
 import stonering.stage.renderer.AtlasesEnum;
 import stonering.util.global.StaticSkin;
 
@@ -40,7 +39,7 @@ public class StackedItemSquareButton extends Button {
     private Image shadingImage;
     public Label numberLabel;
 
-    static {
+    static { // TODO move static util objects to some static enum
         Pixmap map = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         map.drawPixel(0, 0, SHADING_COLOR);
         SHADING_TEXTURE = new Texture(map);
@@ -72,7 +71,7 @@ public class StackedItemSquareButton extends Button {
         itemImage.setDrawable(new TextureRegionDrawable(AtlasesEnum.items.getBlockTile(items.get(0).type.atlasXY)));
         updateLabel();
     }
-
+    
     private Container<Actor> wrapWithContainer(Actor actor, int size) {
         return wrapWithContainer(actor).size(size, size);
     }

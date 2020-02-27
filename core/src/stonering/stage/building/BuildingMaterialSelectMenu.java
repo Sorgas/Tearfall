@@ -37,7 +37,7 @@ public class BuildingMaterialSelectMenu extends Window {
         position = positions.get(0);
         defaults().fill().expand();
         add(leftSection = new LeftSection(this, blueprint, positions.size())).size(300, 800);
-        add(rightSection = new RightSection(this)).size(900, 800).fill().expand().row();
+        add(rightSection = new RightSection(this)).height(800).fill().expand().row();
         add(hintLabel = new Label("", StaticSkin.getSkin())).colspan(2).expandX().fillX().row();
         HorizontalGroup buttonGroup = new HorizontalGroup();
         buttonGroup.addActor(confirmButton = new TextButton("Confirm", StaticSkin.getSkin()));

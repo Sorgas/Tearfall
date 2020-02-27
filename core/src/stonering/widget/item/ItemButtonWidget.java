@@ -5,28 +5,56 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.entity.item.Item;
 import stonering.entity.item.ItemGroupingKey;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
  * Interface for widgets that holds logic for grouping items into buttons by types and materials.
- * Can accept items and create new buttons for them. Can have logic for handling button presses, and 
+ * Can accept items and create new buttons for them. Can have logic for handling button presses, and
  *
  * @author Alexander on 26.02.2020.
  */
 public interface ItemButtonWidget {
 
     /**
-     * Implementing class should have field for button mapping.
+     * Adds single item. Finds appropriate button or creates a new one.
      */
-    Map<ItemGroupingKey, StackedItemSquareButton> getButtonMap();
+    default void addItem(Item item) {
+        ItemGroupingKey key = new ItemGroupingKey(item);
+        Map<ItemGroupingKey, StackedItemSquareButton> map = getButtonMap();
+        if (map.containsKey(key)) { // update button
+            StackedItemSquareButton button = map.get(key);
+            button.items.add(item);
+            button.updateLabel();
+        } else { // create new button
+            addButton(new StackedItemSquareButton(item));
+        }
+    }
 
     /**
-     * Called, when new button is created.
+     * Divides items into groups by type and material and creates button for each group.
+     * Considers that no buttons are added yet.
      */
-    void buttonAdded(StackedItemSquareButton button);
+    default void refillItems(List<Item> items) {
+        Map<ItemGroupingKey, StackedItemSquareButton> map = getButtonMap();
+        items.stream()
+                .collect(Collectors.groupingBy(ItemGroupingKey::new)) // group by keys
+                .values().stream()
+                .map(StackedItemSquareButton::new)
+                .forEach(this::addButton);
+    }
+
+    default void addButton(StackedItemSquareButton button) {
+        getButtonMap().put(new ItemGroupingKey(button.items), button);
+        button.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                processButtonPress(button);
+                if (button.items.isEmpty()) buttonEmpty(button);
+            }
+        });
+    }
 
     /**
      * Called, when button goes empty.
@@ -37,56 +65,9 @@ public interface ItemButtonWidget {
      * Called on button press.
      */
     void processButtonPress(StackedItemSquareButton button);
-    
-    default void addItem(Item item) {
-        ItemGroupingKey key = new ItemGroupingKey(item);
-        Map<ItemGroupingKey, StackedItemSquareButton> map = getButtonMap();
-        if(map.containsKey(key)) { // update button
-            StackedItemSquareButton button = map.get(key);
-            button.items.add(item);
-            button.updateLabel();
-        } else { // create new button
-            StackedItemSquareButton button = new StackedItemSquareButton(item);
-            button.addListener(new ChangeListener() {
-                @Override
-                public void changed(ChangeEvent event, Actor actor) {
-                    processButtonPress(button);
-                    if(button.items.isEmpty()) buttonEmpty(button);
-                }
-            });
-            map.put(key, button);
-            buttonAdded(button);
-        }
-    }
-    
-    /**
-     * Divides items into groups by type and material and creates button for each group.
-     * Considers that no buttons are added yet. 
-     */
-    default void fillItems(List<Item> items) {
-        items.stream().collect(Collectors.groupingBy(item -> item.type)) // split by type
-                .values().stream() // lists of items with same type
-                .map(Collection::stream)
-                .map(stream -> stream.collect(Collectors.groupingBy(item -> item.material)).values()) // split by material
-                .flatMap(Collection::stream) // lists of items with same type and material
-                .filter(list -> !list.isEmpty())
-                .forEach(this::addItemButton);
-    }
 
     /**
-     * Adds list of items to widget. Always creates new button.
-     * All items should have save type and material.
+     * Implementation should have field for button mapping.
      */
-    private void addItemButton(List<Item> items) {
-        StackedItemSquareButton button = new StackedItemSquareButton(items);
-        getButtonMap().put(new ItemGroupingKey(items), button);
-        button.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                processButtonPress(button);
-                if(button.items.isEmpty()) buttonEmpty(button);
-            }
-        });
-        buttonAdded(button);
-    }
+    Map<ItemGroupingKey, StackedItemSquareButton> getButtonMap();
 }

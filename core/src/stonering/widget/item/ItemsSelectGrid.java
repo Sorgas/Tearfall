@@ -36,7 +36,7 @@ public class ItemsSelectGrid extends ActorGrid<StackedItemSquareButton> implemen
     }
 
     public void fillForIngredient(Ingredient ingredient, Position position) {
-        fillItems(new ItemsStream()
+        refillItems(new ItemsStream()
                 .filterByReachability(position)
                 .stream.filter(ingredient::checkItem).collect(Collectors.toList()));
     }
@@ -50,22 +50,22 @@ public class ItemsSelectGrid extends ActorGrid<StackedItemSquareButton> implemen
     }
 
     @Override
-    public Map<ItemGroupingKey, StackedItemSquareButton> getButtonMap() {
-        return null;
-    }
-
-    @Override
-    public void buttonAdded(StackedItemSquareButton button) {
+    public void addButton(StackedItemSquareButton button) {
         addActorToGrid(button);
     }
 
     @Override
     public void buttonEmpty(StackedItemSquareButton button) {
-
+        // remove item or disable it?
     }
 
     @Override
     public void processButtonPress(StackedItemSquareButton button) {
+        commonHandler.accept(button);
+    }
 
+    @Override
+    public Map<ItemGroupingKey, StackedItemSquareButton> getButtonMap() {
+        return buttonMap;
     }
 }

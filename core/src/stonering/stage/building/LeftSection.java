@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import stonering.enums.buildings.blueprint.Blueprint;
 import stonering.enums.items.recipe.Ingredient;
-import stonering.util.geometry.Position;
+import stonering.util.global.Pair;
 import stonering.util.global.StaticSkin;
 import stonering.widget.NavigableVerticalGroup;
 import stonering.widget.item.SelectedMaterialsWidget;
@@ -66,5 +66,19 @@ public class LeftSection extends Table {
         menu.rightSection.fill(widget.ingredient, menu.position);
         menu.hintLabel.setText("Selecting items for " + widget.partName);
         selectedWidget = widget;
+    }
+
+    /**
+     * Selects next unfilled widget for filling, or enables confirmation button.
+     */
+    public void updateState() {
+        SelectedMaterialsWidget nextWidget = widgets.stream()
+                .filter(widget -> widget.targetNumber <= widget.number)
+                .findFirst().orElse(null);
+        if(nextWidget == null) {
+            // enable confirmation
+        } else {
+            setSelected(nextWidget);
+        }
     }
 }
