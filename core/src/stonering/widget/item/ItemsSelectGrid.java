@@ -14,7 +14,7 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**
- * Widget that shows buttons of items organized in grid.
+ * {@link ItemButtonWidget} that shows buttons of items organized in grid.
  * Is a {@link VerticalGroup} of {@link HorizontalGroup}s.
  * Items can only be added to this widget.
  * TODO add item stats tooltip

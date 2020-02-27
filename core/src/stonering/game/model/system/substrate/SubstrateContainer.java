@@ -1,9 +1,11 @@
-package stonering.game.model.system;
+package stonering.game.model.system.substrate;
 
 import stonering.entity.plant.AbstractPlant;
 import stonering.entity.plant.PlantBlock;
 import stonering.entity.plant.SubstratePlant;
 import stonering.enums.time.TimeUnitEnum;
+import stonering.game.model.system.EntityContainer;
+import stonering.game.model.system.ModelComponent;
 import stonering.util.geometry.Position;
 import stonering.util.global.Initable;
 
@@ -20,6 +22,7 @@ public class SubstrateContainer extends EntityContainer<SubstratePlant> implemen
 
     public SubstrateContainer() {
         substrateBlocks = new HashMap<>();
+        putSystem(new SubstrateGrowingSystem(this));
     }
 
     @Override
