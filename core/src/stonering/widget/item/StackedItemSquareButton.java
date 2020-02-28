@@ -1,19 +1,12 @@
 package stonering.widget.item;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Container;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Stack;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import stonering.entity.item.Item;
-import stonering.enums.images.DrawableMap;
 import stonering.stage.renderer.AtlasesEnum;
+import stonering.stage.unit.SingleItemSquareButton;
 import stonering.util.global.StaticSkin;
 
 import java.util.ArrayList;
@@ -29,57 +22,31 @@ import java.util.List;
  *
  * @author Alexander on 17.02.2020.
  */
-public class StackedItemSquareButton extends Button {
-    public static final int SHADING_COLOR = new Color(0.5f, 0.5f, 0.5f, 0.5f).toIntBits();
-    public static final Texture SHADING_TEXTURE;
-    public static final int SIZE = 64;
-
+public class StackedItemSquareButton extends SingleItemSquareButton {
     public final List<Item> items = new ArrayList<>();
-    private Image itemImage;
-    private Image shadingImage;
+    
     public Label numberLabel;
 
-    static { // TODO move static util objects to some static enum
-        Pixmap map = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
-        map.drawPixel(0, 0, SHADING_COLOR);
-        SHADING_TEXTURE = new Texture(map);
-    }
-
-    public StackedItemSquareButton(Item item) {
-        this(Arrays.asList(item));
-    }
-
-    public StackedItemSquareButton(List<Item> items) {
-        super(StaticSkin.getSkin());
-        createLayout();
+    public StackedItemSquareButton(List<Item> items, Drawable background) {
+        super(items.get(0), background);
+        numberLabel = new Label(String.valueOf(items.size()), StaticSkin.getSkin());
+        numberLabel.setFillParent(true);
+        numberLabel.setAlignment(Align.bottomLeft);
+        stack.add(numberLabel);
         setItems(items);
     }
 
-    private void createLayout() {
-        this.add(new Stack(
-                wrapWithContainer(new Image(DrawableMap.getTextureDrawable("ui/item_slot.png")), SIZE), // TODO use another background
-                wrapWithContainer(itemImage = new Image(), (int) (SIZE * 0.8f)), // item icon
-                wrapWithContainer(shadingImage = new Image(SHADING_TEXTURE), SIZE), // foreground
-                numberLabel = new Label("", StaticSkin.getSkin())));
-        shadingImage.setVisible(false);
-        numberLabel.setFillParent(true);
-        numberLabel.setAlignment(Align.bottomLeft);
+    public StackedItemSquareButton(Item item, Drawable background) {
+        this(Arrays.asList(item), background);
     }
 
     public void setItems(List<Item> items) {
+        super.setItem(items.get(0));
+        this.items.clear();
         this.items.addAll(items);
-        itemImage.setDrawable(new TextureRegionDrawable(AtlasesEnum.items.getBlockTile(items.get(0).type.atlasXY)));
         updateLabel();
     }
     
-    private Container<Actor> wrapWithContainer(Actor actor, int size) {
-        return wrapWithContainer(actor).size(size, size);
-    }
-
-    private Container<Actor> wrapWithContainer(Actor actor) {
-        return new Container<>(actor);
-    }
-
     public void updateLabel() {
         numberLabel.setText(items.size());
     }

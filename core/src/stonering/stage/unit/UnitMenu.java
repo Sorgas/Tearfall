@@ -30,7 +30,7 @@ public class UnitMenu extends Window {
 
     private void createTable(Unit unit) {
         add(leftColumn = new UnitImageColumn(unit));
-        add(new UnitEquipmentIconTab(unit));
+        add(new UnitEquipmentTab(unit));
     }
 
     private String generateWindowTitle(Unit unit) {

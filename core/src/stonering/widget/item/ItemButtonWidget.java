@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.entity.item.Item;
 import stonering.entity.item.ItemGroupingKey;
+import stonering.enums.images.DrawableMap;
 
 import java.util.List;
 import java.util.Map;
@@ -28,7 +29,7 @@ public interface ItemButtonWidget {
             button.items.add(item);
             button.updateLabel();
         } else { // create new button
-            addButton(new StackedItemSquareButton(item));
+            addButton(new StackedItemSquareButton(item, DrawableMap.getTextureDrawable("ui/item_slot.png")));
         }
     }
 
@@ -41,7 +42,7 @@ public interface ItemButtonWidget {
         items.stream()
                 .collect(Collectors.groupingBy(ItemGroupingKey::new)) // group by keys
                 .values().stream()
-                .map(StackedItemSquareButton::new)
+                .map(item -> new StackedItemSquareButton(item, DrawableMap.getTextureDrawable("ui/item_slot.png")))
                 .forEach(this::addButton);
     }
 
