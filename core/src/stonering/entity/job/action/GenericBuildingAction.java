@@ -18,11 +18,13 @@ import static stonering.entity.job.action.ActionConditionStatusEnum.*;
 
 /**
  * Action for creating constructions and buildings on map.
+ * Building is designated with {@link stonering.entity.job.designation.BuildingDesignation} with {@link BuildingOrder}.
  * Target position should be clear from items.
  * Building can be created in the same z-level cell next to a builder,
- * or if builder can step into cell with construction after completing it (for constructions).
+ * or if builder can step into cell with construction after completing it (for constructing stairs and floors on SPACE cells).
  * <p>
- * Materials for construction should be brought to the cell where builder can stand.
+ * Position for builder to stand during building is selected in the beginning of an action. This selection can fail action.
+ * Materials for construction should be brought to selected builder position.
  *
  * @author Alexander on 02.10.2019.
  */
@@ -37,19 +39,25 @@ public abstract class GenericBuildingAction extends Action {
 
         startCondition = () -> {
             Logger.TASKS.log("Checking " + this);
-            if (target.builderPosition == null && !target.findPositionForBuilder(order, task.performer.position)) return FAIL;
+            if (target.builderPosition == null && !target.findPositionForBuilder(order, task.performer.position)) return FAIL; // cannot find position for builder
             ItemContainer itemContainer = GameMvc.model().get(ItemContainer.class);
+            
+            // check site is clear
             List<Item> itemsOnSite = itemContainer.getItemsInPosition(target.center);
-            if (!itemsOnSite.isEmpty()) return createSiteClearingAction(itemsOnSite.get(0)); // clear site
+            if (!itemsOnSite.isEmpty()) return createSiteClearingAction(itemsOnSite.get(0));
+            
+            // check material items
             List<Item> availableItems = itemContainer.getItemsInPosition(target.builderPosition);
             for (IngredientOrder ingredientOrder : order.parts.values()) {
                 for (int i = 0; i < ingredientOrder.items.size(); i++) {
                     Item item = ingredientOrder.items.get(i);
+                    // check item is fine
                     if (!ingredientOrder.itemSelector.checkItem(item)) {
-                        Item newItem = findItemForIngredient(ingredientOrder);
-                        if (newItem == null) return FAIL;
-                        ingredientOrder.items.set(i, newItem);
+                        item = findItemForIngredient(ingredientOrder);
+                        if (item == null) return FAIL;
+                        ingredientOrder.items.set(i, item);
                     }
+                    // check item is brought
                     if (!availableItems.contains(item)) {
                         task.addFirstPreAction(new PutItemAction(item, target.builderPosition)); // create action to bring item
                         return NEW; // new action is created
@@ -61,7 +69,7 @@ public abstract class GenericBuildingAction extends Action {
             //TODO reset target on fail
         };
     }
-
+    
     /**
      * Finds item for ingredient's item selector.
      * Updates ingredient order. Returns true, if item for ingredient successfully found.

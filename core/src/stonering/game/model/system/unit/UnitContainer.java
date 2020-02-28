@@ -1,13 +1,11 @@
 package stonering.game.model.system.unit;
 
 import com.badlogic.gdx.math.Vector3;
-import stonering.enums.time.TimeUnitEnum;
 import stonering.game.model.system.EntityContainer;
-import stonering.game.model.system.task.CreatureTaskPerformingSystem;
+import stonering.game.model.system.task.CreatureActionPerformingSystem;
 import stonering.util.geometry.Position;
 import stonering.entity.unit.Unit;
 import stonering.util.global.Initable;
-import stonering.util.global.Logger;
 
 import java.util.*;
 
@@ -25,7 +23,7 @@ public class UnitContainer extends EntityContainer<Unit> implements Initable {
     public final CreatureHealthSystem healthSystem;
     public final CreatureMovementSystem movementSystem;
     public final CreaturePlanningSystem planningSystem;
-    public final CreatureTaskPerformingSystem taskSystem;
+    public final CreatureActionPerformingSystem taskSystem;
     public final CreatureExperienceSystem experienceSystem;
     public final CreatureEquipmentSystem equipmentSystem;
     
@@ -39,7 +37,7 @@ public class UnitContainer extends EntityContainer<Unit> implements Initable {
         putSystem(healthSystem = new CreatureHealthSystem());
         putSystem(movementSystem = new CreatureMovementSystem());
         putSystem(planningSystem = new CreaturePlanningSystem());
-        putSystem(taskSystem = new CreatureTaskPerformingSystem());
+        putSystem(taskSystem = new CreatureActionPerformingSystem());
         putSystem(experienceSystem = new CreatureExperienceSystem());
         putSystem(equipmentSystem = new CreatureEquipmentSystem());
     }

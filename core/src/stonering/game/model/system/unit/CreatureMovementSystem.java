@@ -11,14 +11,14 @@ import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.EntitySystem;
-import stonering.game.model.system.task.CreatureTaskPerformingSystem;
+import stonering.game.model.system.task.CreatureActionPerformingSystem;
 import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
 import stonering.util.pathfinding.a_star.AStar;
 
 /**
  * Moves all units across the map.
- * Works only with target and path defined in {@link MovementAspect} (target for movement is set in {@link CreatureTaskPerformingSystem}).
+ * Works only with target and path defined in {@link MovementAspect} (target for movement is set in {@link CreatureActionPerformingSystem}).
  * <p>
  * General algorithm:
  * If there is no target do nothing.

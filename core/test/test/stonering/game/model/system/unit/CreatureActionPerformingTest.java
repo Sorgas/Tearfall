@@ -25,7 +25,7 @@ import static stonering.enums.action.TaskStatusEnum.*;
  * @author Alexander on 01.11.2019.
  */
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class CreatureTaskPerformingTest {
+public class CreatureActionPerformingTest {
     private Unit unit;
     private UnitContainer unitContainer;
     private PlanningAspect aspect;

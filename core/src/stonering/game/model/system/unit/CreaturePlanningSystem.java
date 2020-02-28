@@ -8,7 +8,7 @@ import stonering.entity.unit.aspects.PlanningAspect;
 import stonering.entity.unit.aspects.needs.NeedsAspect;
 import stonering.game.GameMvc;
 import stonering.game.model.system.EntitySystem;
-import stonering.game.model.system.task.CreatureTaskPerformingSystem;
+import stonering.game.model.system.task.CreatureActionPerformingSystem;
 import stonering.game.model.system.task.TaskContainer;
 import stonering.util.global.Logger;
 
@@ -24,7 +24,7 @@ import static stonering.enums.action.TaskStatusEnum.*;
  * System for giving {@link Task}s to {@link Unit}s.
  * Looks for new task for unit if it hasn't one.
  * Removes finished, failed and paused tasks from units.
- * Considers only task statuses, see {@link CreatureTaskPerformingSystem}.
+ * Considers only task statuses, see {@link CreatureActionPerformingSystem}.
  *
  * @author Alexander on 28.10.2019.
  */

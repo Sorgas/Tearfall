@@ -37,7 +37,7 @@ public class BuildingActionTarget extends ActionTarget {
         BlockTypeEnum type = BlockTypeEnum.getType(BuildingTypeMap.instance().getBuilding(order.blueprint.building).passage);
         builderPosition = new NeighbourPositionStream(center)
                 .filterByAccessibilityWithFutureTile(type)
-                .filterInArea(GameMvc.instance().model().get(LocalMap.class).passageMap.area.get(currentBuilderPosition))
+                .filterInArea(GameMvc.model().get(LocalMap.class).passageMap.area.get(currentBuilderPosition))
                 .stream.findFirst().orElse(null);
         if(builderPosition != null) targetType = EXACT;
         return builderPosition != null;

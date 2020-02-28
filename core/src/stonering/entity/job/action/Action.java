@@ -32,7 +32,7 @@ public abstract class Action {
     public final ActionTarget actionTarget;
     public ActionStatusEnum status;
 
-    public Supplier<ActionConditionStatusEnum> startCondition;
+    public Supplier<ActionConditionStatusEnum> startCondition; // called before performing, can create sub actions
     public Runnable onStart; // performed on phase start
     public Supplier<Float> speedUpdater; // calculates speed of performing
     public Consumer<Float> progressConsumer; // performs logic
@@ -70,19 +70,7 @@ public abstract class Action {
             task.finishAction(this);
         }
     }
-
-    /**
-     * Resets task state as it had not been started.
-     */
-    public void reset() {
-        startCondition = () -> OK;
-        onStart = () -> {};
-        progressConsumer = (amount) -> {};
-        finishCondition = () -> true;
-        onFinish = () -> {};
-        status = OPEN;
-    }
-
+    
     @Override
     public String toString() {
         return this.getClass().getSimpleName();

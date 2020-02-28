@@ -1,10 +1,10 @@
 package stonering.entity.job.action;
 
-import stonering.game.model.system.task.CreatureTaskPerformingSystem;
+import stonering.game.model.system.task.CreatureActionPerformingSystem;
 
 /**
  * Enumeration of {@link Action} check results.
- * Actions are checked by {@link CreatureTaskPerformingSystem}.
+ * Actions are checked by {@link CreatureActionPerformingSystem}.
  *
  * @author Alexander on 30.12.2019.
  */
