@@ -38,4 +38,12 @@ public class ItemGroupingKey {
     public int hashCode() {
         return Objects.hash(material, type);
     }
+
+    @Override
+    public String toString() {
+        return "ItemGroupingKey{" +
+                "material=" + material +
+                ", type='" + type + '\'' +
+                '}';
+    }
 }

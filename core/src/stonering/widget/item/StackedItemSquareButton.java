@@ -2,11 +2,8 @@ package stonering.widget.item;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import stonering.entity.item.Item;
-import stonering.stage.renderer.AtlasesEnum;
-import stonering.stage.unit.SingleItemSquareButton;
 import stonering.util.global.StaticSkin;
 
 import java.util.ArrayList;
@@ -24,8 +21,7 @@ import java.util.List;
  */
 public class StackedItemSquareButton extends SingleItemSquareButton {
     public final List<Item> items = new ArrayList<>();
-    
-    public Label numberLabel;
+    public final Label numberLabel;
 
     public StackedItemSquareButton(List<Item> items, Drawable background) {
         super(items.get(0), background);

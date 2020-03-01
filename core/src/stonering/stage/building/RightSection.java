@@ -28,7 +28,7 @@ public class RightSection extends Table {
         add(grid = new ItemsSelectGrid(8, 8)).fill().expand().top().left();
     }
 
-    public void fill(Ingredient ingredient, Position position) {
+    public void fillGrid(Ingredient ingredient, Position position) {
         grid.fillForIngredient(ingredient, position);
         grid.commonHandler = button -> { // handler for item buttons
             SelectedMaterialsWidget widget = menu.leftSection.group.getSelectedElement();
@@ -46,9 +46,14 @@ public class RightSection extends Table {
             }
 
             if(widget.targetNumber == widget.number) {
+                System.out.println("disabling all buttons");
                 grid.setAllButtonsDisabled(true); // ingredient is full
                 menu.leftSection.updateState();
             }
         };
+    }
+
+    public void clearGrid() {
+        grid.clearGrid();
     }
 }

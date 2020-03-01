@@ -67,7 +67,7 @@ public class BuildingMaterialSelectMenu extends Window {
             }
         });
         leftSection.group.selectListener = event -> {
-            rightSection.fill(leftSection.group.getSelectedElement().ingredient, positions.get(0));
+            rightSection.fillGrid(leftSection.group.getSelectedElement().ingredient, positions.get(0));
             return true;
         };
         leftSection.group.setSelectedIndex(0);

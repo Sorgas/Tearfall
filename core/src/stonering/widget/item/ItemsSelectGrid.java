@@ -3,6 +3,7 @@ package stonering.widget.item;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
+import stonering.entity.item.Item;
 import stonering.entity.item.ItemGroupingKey;
 import stonering.enums.items.recipe.Ingredient;
 import stonering.game.model.system.item.ItemsStream;
@@ -24,11 +25,12 @@ import java.util.stream.Collectors;
 public class ItemsSelectGrid extends ActorGrid<StackedItemSquareButton> implements ItemButtonWidget {
     private Map<ItemGroupingKey, StackedItemSquareButton> buttonMap;
     public Consumer<StackedItemSquareButton> commonHandler; // handles all buttons
-    
+
     public ItemsSelectGrid(int cellWidth, int cellHeight) {
         super(cellWidth, cellHeight);
         buttonMap = new HashMap<>();
-        commonHandler = button -> {};
+        commonHandler = button -> {
+        };
         defaults().pad(5).size(StackedItemSquareButton.SIZE, StackedItemSquareButton.SIZE);
         top().left();
         super.init();
@@ -40,13 +42,19 @@ public class ItemsSelectGrid extends ActorGrid<StackedItemSquareButton> implemen
                 .filterByReachability(position)
                 .stream.filter(ingredient::checkItem).collect(Collectors.toList()));
     }
-    
+
     public void setAllButtonsDisabled(boolean disabled) {
         for (Cell<StackedItemSquareButton>[] row : gridCells) {
             for (Cell<StackedItemSquareButton> cell : row) {
-                if(cell != null) cell.getActor().setDisabled(disabled);
+                if (cell != null && cell.getActor() != null) cell.getActor().setDisabled(disabled);
             }
         }
+    }
+
+    @Override
+    public void clearGrid() {
+        super.clearGrid();
+        buttonMap.clear();
     }
 
     @Override
@@ -58,6 +66,10 @@ public class ItemsSelectGrid extends ActorGrid<StackedItemSquareButton> implemen
     @Override
     public void buttonEmpty(StackedItemSquareButton button) {
         // remove item or disable it?
+    }
+
+    @Override
+    public void itemAdded(Item item) {
     }
 
     @Override

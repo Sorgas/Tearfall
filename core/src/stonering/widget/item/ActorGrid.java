@@ -4,10 +4,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
-import java.util.ArrayList;
-
 /**
- * Table extension, that provides convenient methods for filling and modifying greed like structure.
+ * Table extension, that provides convenient methods for filling and modifying grid-like structure.
  * Stores all added actors both in cells and two dimensional array for supporting modifying behavior.
  * Size in cells is specified on creation. TODO recreate table to allow changing size.
  * Table::defaults() should be set before fill().
@@ -52,5 +50,13 @@ public class ActorGrid<T extends Actor> extends Table {
             }
         }
         return null;
+    }
+
+    public void clearGrid() {
+        for (int y = 0; y < cellHeight; y++) {
+            for (int x = 0; x < cellWidth; x++) {
+                gridCells[x][y].setActor(null);
+            }
+        }
     }
 }

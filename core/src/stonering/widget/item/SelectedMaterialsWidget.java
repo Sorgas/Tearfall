@@ -49,6 +49,12 @@ public class SelectedMaterialsWidget extends Table implements ItemButtonWidget {
     }
 
     @Override
+    public void itemAdded(Item item) {
+        number++;
+        updateNumberLabel();
+    }
+
+    @Override
     public void buttonEmpty(StackedItemSquareButton button) {
         group.removeActor(button);
     }
@@ -58,11 +64,16 @@ public class SelectedMaterialsWidget extends Table implements ItemButtonWidget {
         System.out.println("press on button in left widget");
         int numberToDeselect = Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)
                 ? 1 // add by one
-                : Math.min(targetNumber - number, button.items.size()); // add max possible
+                : button.items.size(); // add max possible
         List<Item> itemsToMove = new ArrayList<>(button.items.subList(0, numberToDeselect));
         button.items.removeAll(itemsToMove); // remove from button
         button.updateLabel();
-        itemsToMove.forEach(menu.rightSection.grid::addItem);
+        ItemsSelectGrid itemsSelectGrid = menu.rightSection.grid;
+        updateNumberLabel();
+        for (int i = 0; i < itemsToMove.size(); i++) {
+            Item item = itemsToMove.get(i);
+            itemsSelectGrid.addItem(item);
+        }
         number -= itemsToMove.size();
     }
 

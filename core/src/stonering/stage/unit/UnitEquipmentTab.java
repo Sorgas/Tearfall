@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.enums.images.DrawableMap;
+import stonering.widget.item.SingleItemSquareButton;
 
 /**
  * Group with several columns of {@link SingleItemSquareButton}.

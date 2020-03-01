@@ -56,7 +56,8 @@ public class LeftSection extends Table {
             widget.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    setSelected(widget);
+//                    System.out.println("widget clicked");
+//                    setSelected(widget);
                 }
             });
         });
@@ -64,7 +65,8 @@ public class LeftSection extends Table {
     }
 
     void setSelected(SelectedMaterialsWidget widget) {
-        menu.rightSection.fill(widget.ingredient, position);
+        menu.rightSection.clearGrid();
+        menu.rightSection.fillGrid(widget.ingredient, position);
         menu.hintLabel.setText("Selecting items for " + widget.partName);
         group.setSelectedElement(widget);
     }
@@ -74,11 +76,13 @@ public class LeftSection extends Table {
      */
     public void updateState() {
         SelectedMaterialsWidget nextWidget = widgetMap.values().stream()
-                .filter(widget-> widget.targetNumber <= widget.number)
+                .filter(widget-> widget.targetNumber < widget.number)
                 .findFirst().orElse(null);
         if(nextWidget == null) {
+            System.out.println("all widgets filled");
             menu.confirmButton.setDisabled(false);
         } else {
+            System.out.println("next widget selected");
             setSelected(nextWidget);
         }
     }

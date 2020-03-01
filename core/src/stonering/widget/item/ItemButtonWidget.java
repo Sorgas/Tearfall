@@ -24,13 +24,16 @@ public interface ItemButtonWidget {
     default void addItem(Item item) {
         ItemGroupingKey key = new ItemGroupingKey(item);
         Map<ItemGroupingKey, StackedItemSquareButton> map = getButtonMap();
+        System.out.println(key);
         if (map.containsKey(key)) { // update button
+            System.out.println("updating button");
             StackedItemSquareButton button = map.get(key);
             button.items.add(item);
             button.updateLabel();
         } else { // create new button
             addButton(new StackedItemSquareButton(item, DrawableMap.getTextureDrawable("ui/item_slot.png")));
         }
+        itemAdded(item);
     }
 
     /**
@@ -38,7 +41,6 @@ public interface ItemButtonWidget {
      * Considers that no buttons are added yet.
      */
     default void refillItems(List<Item> items) {
-        Map<ItemGroupingKey, StackedItemSquareButton> map = getButtonMap();
         items.stream()
                 .collect(Collectors.groupingBy(ItemGroupingKey::new)) // group by keys
                 .values().stream()
@@ -58,18 +60,11 @@ public interface ItemButtonWidget {
         });
     }
 
-    /**
-     * Called, when button goes empty.
-     */
     void buttonEmpty(StackedItemSquareButton button);
 
-    /**
-     * Called on button press.
-     */
+    void itemAdded(Item item);
+
     void processButtonPress(StackedItemSquareButton button);
 
-    /**
-     * Implementation should have field for button mapping.
-     */
     Map<ItemGroupingKey, StackedItemSquareButton> getButtonMap();
 }
