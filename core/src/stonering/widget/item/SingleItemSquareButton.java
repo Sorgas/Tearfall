@@ -47,11 +47,6 @@ public class SingleItemSquareButton extends Button {
         setItem(item);
     }
     
-    public void setItem(Item item) {
-        this.item = item;
-        itemImage.setDrawable(new TextureRegionDrawable(item.getAspect(RenderAspect.class).region));
-    }
-    
     protected Container<Actor> wrapWithContainer(Actor actor, int size) {
         return wrapWithContainer(actor).size(size, size);
     }
@@ -64,5 +59,14 @@ public class SingleItemSquareButton extends Button {
     public void setDisabled(boolean isDisabled) {
         super.setDisabled(isDisabled);
         shadingImage.setVisible(!isDisabled);
+    }
+
+    public void setItem(Item item) {
+        this.item = item;
+        itemImage.setDrawable(new TextureRegionDrawable(item.getAspect(RenderAspect.class).region));
+    }
+
+    public Item getItem() {
+        return item;
     }
 }

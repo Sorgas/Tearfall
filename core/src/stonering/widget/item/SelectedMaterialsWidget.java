@@ -45,7 +45,7 @@ public class SelectedMaterialsWidget extends Table implements ItemButtonWidget {
         add(new Label(ingredient.text, StaticSkin.getSkin())).right().expandX().row();
         add(quantityLabel = new Label("", StaticSkin.getSkin())).left().row();
         updateNumber(0);
-        add(group = new HorizontalGroup().left()).fillX();
+        add(group = new HorizontalGroup().left()).fillX().colspan(2);
     }
 
     @Override
@@ -55,6 +55,7 @@ public class SelectedMaterialsWidget extends Table implements ItemButtonWidget {
 
     @Override
     public void buttonAdded(StackedItemSquareButton button) {
+        ItemButtonWidget.super.removeButton(button);
         group.addActor(button);
     }
 

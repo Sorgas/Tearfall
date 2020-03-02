@@ -63,6 +63,10 @@ public interface ItemButtonWidget {
         if(button.items.isEmpty()) buttonEmpty(button);
     }
 
+    default void removeButton(StackedItemSquareButton button) {
+        getButtonMap().remove(new ItemGroupingKey(button.getItem()));
+    }
+
     default void itemAdded(StackedItemSquareButton button, Item item) {
     }
 
