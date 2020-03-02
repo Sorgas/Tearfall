@@ -19,7 +19,7 @@ import java.util.Map;
 /**
  * Widget for selecting items for {@link Ingredient}.
  * Shows some title, number and category of required items, and number and types of selected items.
- * Shows selected items in a row of {@link StackedItemSquareButton}. Clicks on a button remove items from selection.
+ * Shows selected items in a row of {@link StackedItemSquareButton}. Clicks on a button removes items from selection.
  * Items themselves are stored in buttons. Groups selected items into buttons by type and material.
  *
  * @author Alexander on 17.02.2020
@@ -31,8 +31,8 @@ public class SelectedMaterialsWidget extends Table implements ItemButtonWidget {
     public final int targetNumber;
     public int number = 0;
 
-    public HorizontalGroup group;
-    private Label quantityLabel;
+    private final Label quantityLabel;
+    public final HorizontalGroup group;
     private final Map<ItemGroupingKey, StackedItemSquareButton> buttonMap;
 
     public SelectedMaterialsWidget(Ingredient ingredient, int targetNumber, String partName, BuildingMaterialSelectMenu menu) {
@@ -44,14 +44,18 @@ public class SelectedMaterialsWidget extends Table implements ItemButtonWidget {
         add(new Label(partName + ":", StaticSkin.getSkin()));
         add(new Label(ingredient.text, StaticSkin.getSkin())).right().expandX().row();
         add(quantityLabel = new Label("", StaticSkin.getSkin())).left().row();
-        updateNumberLabel();
+        updateNumber(0);
         add(group = new HorizontalGroup().left()).fillX();
     }
 
     @Override
-    public void itemAdded(Item item) {
-        number++;
-        updateNumberLabel();
+    public void itemAdded(StackedItemSquareButton button, Item item) {
+        updateNumber(1);
+    }
+
+    @Override
+    public void buttonAdded(StackedItemSquareButton button) {
+        group.addActor(button);
     }
 
     @Override
@@ -68,22 +72,16 @@ public class SelectedMaterialsWidget extends Table implements ItemButtonWidget {
         List<Item> itemsToMove = new ArrayList<>(button.items.subList(0, numberToDeselect));
         button.items.removeAll(itemsToMove); // remove from button
         button.updateLabel();
-        ItemsSelectGrid itemsSelectGrid = menu.rightSection.grid;
-        updateNumberLabel();
+        ItemSelectGrid itemSelectGrid = menu.rightSection.grid;
         for (int i = 0; i < itemsToMove.size(); i++) {
             Item item = itemsToMove.get(i);
-            itemsSelectGrid.addItem(item);
+            itemSelectGrid.addItem(item);
         }
-        number -= itemsToMove.size();
+        updateNumber(-itemsToMove.size());
     }
 
-    @Override
-    public void addButton(StackedItemSquareButton button) {
-        ItemButtonWidget.super.addButton(button);
-        group.addActor(button);
-    }
-
-    private void updateNumberLabel() {
+    private void updateNumber(int delta) {
+        number += delta;
         quantityLabel.setText(number + " / " + targetNumber);
     }
 
@@ -94,7 +92,7 @@ public class SelectedMaterialsWidget extends Table implements ItemButtonWidget {
 
     public List<Item> removeItemsFromButtons(int requestedNumber) {
         List<Item> items = new ArrayList<>();
-        while(items.size() < requestedNumber || this.number > 0) {
+        while (items.size() < requestedNumber || this.number > 0) {
             int neededNumber = requestedNumber - items.size();
             StackedItemSquareButton firstButton = ((StackedItemSquareButton) group.getChildren().items[0]);
             List<Item> itemsToMove = firstButton.items.subList(0, neededNumber);

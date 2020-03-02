@@ -12,7 +12,10 @@ import java.util.stream.Collectors;
 
 /**
  * Interface for widgets that holds logic for grouping items into buttons by types and materials.
- * Can accept items and create new buttons for them. Can have logic for handling button presses, and
+ * Controls map of buttons, provided by implementation.
+ * Items can be added or removed from widget. Adding can create or update a button.
+ * Removing can update a button or trigger buttonEmpty method.
+ * Has method, called for button presses. If button goes empty after press,
  *
  * @author Alexander on 26.02.2020.
  */
@@ -24,16 +27,15 @@ public interface ItemButtonWidget {
     default void addItem(Item item) {
         ItemGroupingKey key = new ItemGroupingKey(item);
         Map<ItemGroupingKey, StackedItemSquareButton> map = getButtonMap();
-        System.out.println(key);
+        StackedItemSquareButton button;
         if (map.containsKey(key)) { // update button
-            System.out.println("updating button");
-            StackedItemSquareButton button = map.get(key);
-            button.items.add(item);
-            button.updateLabel();
+            button = map.get(key);
+            button.addItem(item);
         } else { // create new button
-            addButton(new StackedItemSquareButton(item, DrawableMap.getTextureDrawable("ui/item_slot.png")));
+            button = new StackedItemSquareButton(item, DrawableMap.getTextureDrawable("ui/item_slot.png")); 
+            addButton(button);
         }
-        itemAdded(item);
+        itemAdded(button, item);
     }
 
     /**
@@ -44,12 +46,11 @@ public interface ItemButtonWidget {
         items.stream()
                 .collect(Collectors.groupingBy(ItemGroupingKey::new)) // group by keys
                 .values().stream()
-                .map(item -> new StackedItemSquareButton(item, DrawableMap.getTextureDrawable("ui/item_slot.png")))
+                .map(list -> new StackedItemSquareButton(list, DrawableMap.getTextureDrawable("ui/item_slot.png")))
                 .forEach(this::addButton);
     }
 
     default void addButton(StackedItemSquareButton button) {
-        System.out.println("creating button for items");
         getButtonMap().put(new ItemGroupingKey(button.items), button);
         button.addListener(new ChangeListener() {
             @Override
@@ -58,13 +59,21 @@ public interface ItemButtonWidget {
                 if (button.items.isEmpty()) buttonEmpty(button);
             }
         });
+        buttonAdded(button); // for adding to layout
+        if(button.items.isEmpty()) buttonEmpty(button);
     }
 
-    void buttonEmpty(StackedItemSquareButton button);
+    default void itemAdded(StackedItemSquareButton button, Item item) {
+    }
 
-    void itemAdded(Item item);
+    default void buttonAdded(StackedItemSquareButton button) {
+    }
 
-    void processButtonPress(StackedItemSquareButton button);
+    default void buttonEmpty(StackedItemSquareButton button) {
+    }
+
+    default void processButtonPress(StackedItemSquareButton button) {
+    }
 
     Map<ItemGroupingKey, StackedItemSquareButton> getButtonMap();
 }

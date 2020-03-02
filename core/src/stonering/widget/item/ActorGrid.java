@@ -38,7 +38,7 @@ public class ActorGrid<T extends Actor> extends Table {
         cell.setActor(actor);
         return true;
     }
-
+    
     public T getActor(int x, int y) {
         return gridCells[x][y].getActor();
     }

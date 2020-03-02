@@ -3,7 +3,6 @@ package stonering.widget.item;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
-import stonering.entity.item.Item;
 import stonering.entity.item.ItemGroupingKey;
 import stonering.enums.items.recipe.Ingredient;
 import stonering.game.model.system.item.ItemsStream;
@@ -16,25 +15,23 @@ import java.util.stream.Collectors;
 
 /**
  * {@link ItemButtonWidget} that shows buttons of items organized in grid.
- * Is a {@link VerticalGroup} of {@link HorizontalGroup}s.
- * Items can only be added to this widget.
+ * When all items from some button are removed, this button is disabled.
  * TODO add item stats tooltip
  *
  * @author Alexander on 17.02.2020
  */
-public class ItemsSelectGrid extends ActorGrid<StackedItemSquareButton> implements ItemButtonWidget {
+public class ItemSelectGrid extends ActorGrid<StackedItemSquareButton> implements ItemButtonWidget {
     private Map<ItemGroupingKey, StackedItemSquareButton> buttonMap;
     public Consumer<StackedItemSquareButton> commonHandler; // handles all buttons
 
-    public ItemsSelectGrid(int cellWidth, int cellHeight) {
+    public ItemSelectGrid(int cellWidth, int cellHeight) {
         super(cellWidth, cellHeight);
         buttonMap = new HashMap<>();
-        commonHandler = button -> {
-        };
+        commonHandler = button -> {};
         defaults().pad(5).size(StackedItemSquareButton.SIZE, StackedItemSquareButton.SIZE);
         top().left();
         super.init();
-        // set table background
+        //TODO add table background
     }
 
     public void fillForIngredient(Ingredient ingredient, Position position) {
@@ -58,18 +55,13 @@ public class ItemsSelectGrid extends ActorGrid<StackedItemSquareButton> implemen
     }
 
     @Override
-    public void addButton(StackedItemSquareButton button) {
-        ItemButtonWidget.super.addButton(button);
-        addActorToGrid(button);
-    }
-
-    @Override
     public void buttonEmpty(StackedItemSquareButton button) {
-        // remove item or disable it?
+        button.setDisabled(true);
     }
 
     @Override
-    public void itemAdded(Item item) {
+    public void buttonAdded(StackedItemSquareButton button) {
+        addActorToGrid(button);
     }
 
     @Override

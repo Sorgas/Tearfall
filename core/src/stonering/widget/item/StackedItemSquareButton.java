@@ -21,7 +21,7 @@ import java.util.List;
  */
 public class StackedItemSquareButton extends SingleItemSquareButton {
     public final List<Item> items = new ArrayList<>();
-    public final Label numberLabel;
+    private Label numberLabel;
 
     public StackedItemSquareButton(List<Item> items, Drawable background) {
         super(items.get(0), background);
@@ -41,6 +41,17 @@ public class StackedItemSquareButton extends SingleItemSquareButton {
         this.items.clear();
         this.items.addAll(items);
         updateLabel();
+    }
+    
+    public void addItem(Item item) {
+        items.add(item);
+        updateLabel();
+    }
+    
+    public boolean removeItem(Item item) {
+        boolean result = items.remove(item);
+        updateLabel();
+        return result;
     }
     
     public void updateLabel() {

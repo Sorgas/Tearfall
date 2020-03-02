@@ -60,5 +60,9 @@ public class SingleItemSquareButton extends Button {
         return new Container<>(actor);
     }
 
-
+    @Override
+    public void setDisabled(boolean isDisabled) {
+        super.setDisabled(isDisabled);
+        shadingImage.setVisible(!isDisabled);
+    }
 }

@@ -53,7 +53,7 @@ public class LeftSection extends Table {
             SelectedMaterialsWidget widget = new SelectedMaterialsWidget(ingredient, ingredient.quantity * number, part, menu);
             widgetMap.put(part, widget);
             group.addActor(widget);
-            widget.addListener(new ClickListener() {
+            widget.addCaptureListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
 //                    System.out.println("widget clicked");

@@ -12,13 +12,9 @@ public class ItemGroupingKey {
     public int material;
     public String type;
 
-    public ItemGroupingKey(int material, String type) {
-        this.material = material;
-        this.type = type;
-    }
-
     public ItemGroupingKey(Item item) {
-        this(item.material, item.type.name);
+        this.material = item.material;
+        this.type = item.type.name;
     }
 
     public ItemGroupingKey(List<Item> items) {

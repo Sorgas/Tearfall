@@ -4,17 +4,14 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import stonering.entity.item.Item;
-import stonering.enums.images.DrawableMap;
-import stonering.enums.items.type.ItemTypeMap;
-import stonering.generators.items.ItemGenerator;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import stonering.stage.UiStage;
-import stonering.util.geometry.Position;
 import stonering.util.global.StaticSkin;
 import stonering.util.ui.SimpleScreen;
-import stonering.widget.item.ItemsSelectGrid;
 import stonering.widget.item.StackedItemSquareButton;
 
 /**
@@ -60,15 +57,16 @@ public class UiDemo extends Game {
     private Container createContainer() {
         Container container = new Container();
         container.setFillParent(true);
-        Button button = new TextButton("qwer", StaticSkin.getSkin());
-        button.addListener(new ChangeListener() {
+        Actor inner = new Actor();
+        inner.addListener(new ClickListener() {
             @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                System.out.println("qwer");
+            public void clicked(InputEvent event, float x, float y) {
+                System.out.println("click");
+                
             }
         });
-        container.pad(50);
-        container.setActor(button);
+        container.pad(50).size(100, 200);
+        container.setActor(inner);
         return container;
     }
 }
