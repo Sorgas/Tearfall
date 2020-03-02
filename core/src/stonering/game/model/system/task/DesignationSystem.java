@@ -7,7 +7,6 @@ import stonering.entity.job.designation.Designation;
 import stonering.entity.job.designation.OrderDesignation;
 import stonering.enums.designations.DesignationTypeEnum;
 import stonering.enums.designations.PlaceValidatorsEnum;
-import stonering.game.controller.controllers.designation.BuildingDesignationSequence;
 import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
 
@@ -57,7 +56,6 @@ public class DesignationSystem {
     }
 
     /**
-     * Called from {@link BuildingDesignationSequence}.
      * Adds designation and creates comprehensive task.
      * All single-tile buildings are constructed through this method.
      */

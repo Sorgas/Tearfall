@@ -8,32 +8,18 @@ import java.util.function.Consumer;
 public class Int3dBounds extends Int2dBounds {
     public int minZ;
     public int maxZ;
-    public final Consumer<Consumer<Position>> iterator;
+    public Consumer<Consumer<Position>> iterator;
 
     public Int3dBounds(Position pos1, Position pos2) {
-        this(Math.min(pos1.x, pos2.x),
-                Math.min(pos1.y, pos2.y),
-                Math.min(pos1.z, pos2.z),
-                Math.max(pos1.x, pos2.x),
-                Math.max(pos1.y, pos2.y),
-                Math.max(pos1.z, pos2.z));
+        set(pos1, pos2);
     }
 
     public Int3dBounds() {
-        this(0, 0, 0, 0, 0, 0);
+        set(0, 0, 0, 0, 0, 0);
     }
 
     public Int3dBounds(int minX, int minY, int minZ, int maxX, int maxY, int maxZ) {
         set(minX, minY, minZ, maxX, maxY, maxZ);
-        iterator = consumer -> {
-            for (int x = minX; x <= maxX; x++) {
-                for (int y = minY; y <= maxY; y++) {
-                    for (int z = minZ; z <= maxZ; z++) {
-                        consumer.accept(new Position(x, y, z));
-                    }
-                }
-            }
-        };
     }
 
     public boolean isIn(Position position) {
@@ -44,6 +30,24 @@ public class Int3dBounds extends Int2dBounds {
         super.set(minX, minY, maxX, maxY);
         this.minZ = minZ;
         this.maxZ = maxZ;
+        iterator = consumer -> {
+            for (int x = minX; x <= maxX; x++) {
+                for (int y = maxY; y >= minY; y--) {
+                    for (int z = minZ; z <= maxZ; z++) {
+                        consumer.accept(new Position(x, y, z));
+                    }
+                }
+            }
+        };
+    }
+
+    public void set(Position pos1, Position pos2) {
+        set(Math.min(pos1.x, pos2.x),
+                Math.min(pos1.y, pos2.y),
+                Math.min(pos1.z, pos2.z),
+                Math.max(pos1.x, pos2.x),
+                Math.max(pos1.y, pos2.y),
+                Math.max(pos1.z, pos2.z));
     }
 
     public void clamp(int minX, int minY, int minZ, int maxX, int maxY, int maxZ) {

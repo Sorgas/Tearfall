@@ -4,7 +4,6 @@ import stonering.entity.crafting.IngredientOrder;
 import stonering.entity.job.designation.Designation;
 import stonering.entity.job.Task;
 import stonering.enums.buildings.blueprint.Blueprint;
-import stonering.game.controller.controllers.designation.BuildingDesignationSequence;
 import stonering.stage.building.BuildingMaterialSelectMenu;
 import stonering.util.geometry.Position;
 

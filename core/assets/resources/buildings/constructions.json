@@ -39,13 +39,13 @@
     "passage": "stairs",
     "color": "0xffffffff"
 }, {
-    "building": "stair_floor",
+    "building": "downstairs",
     "title": "Stair floor",
     "description": "Stair floor",
     "construction": true,
     "aspects": [],
-    "parts": ["stair_floor"],
-    "passage": "stair_floor",
+    "parts": ["downstairs"],
+    "passage": "downstairs",
     "color": "0xffffffff"
 }
 ]

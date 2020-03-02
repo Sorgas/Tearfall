@@ -41,7 +41,6 @@ public class ToolbarPlantsMenu extends ToolbarSubMenuMenu {
                 SelectionAspect aspect = GameMvc.model().get(EntitySelectorSystem.class).selector.getAspect(SelectionAspect.class);
                 aspect.validator = type.VALIDATOR;
                 aspect.selectHandler = box -> aspect.boxIterator.accept(position -> container.designationSystem.submitDesignation(position, type, 1));
-                aspect.cancelHandler = aspect::reset;
             }
         }, true);
     }

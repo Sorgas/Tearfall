@@ -15,12 +15,12 @@ public enum BlockTypeEnum {
     SPACE(0, IMPASSABLE, 16, true, 0, "space"), //not passable for walkers, liquids fall
     WALL(1, IMPASSABLE, 0, false, 3, "wall"), // not passable
     FLOOR(2, PASSABLE, 12, true, 1, "floor"), // passable, liquids don't fall
-    STAIRS(3, PASSABLE, 8, false, 2, "stairs"), //DF-like stairs
+    STAIRS(3, PASSABLE, 8, false, 2, "stairs"), // DF-like stairs
     DOWNSTAIRS(4, PASSABLE, 14, true, 1, "downstairs"),
     RAMP(5, PASSABLE, 6, false, 2, "ramp"), // passable, liquids don't fall
-    FARM(6, PASSABLE, 12, true, 1, "farm plot"); // passable
+    FARM(17, PASSABLE, 12, true, 1, "farm plot"); // passable
 
-    public final byte CODE;
+    public final byte CODE; // stored on map
     public final PassageEnum PASSING;
     public final byte OPENNESS; // blocks with lower openness can be dug to higher ones
     public final int PRODUCT;

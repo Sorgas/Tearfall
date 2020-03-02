@@ -12,7 +12,7 @@ import stonering.entity.plant.PlantBlock;
 import stonering.entity.unit.aspects.RenderAspect;
 import stonering.entity.zone.Zone;
 import stonering.enums.blocks.BlockTypeEnum;
-import stonering.enums.blocks.BlocksTileMapping;
+import stonering.enums.blocks.BlockTileMapping;
 import stonering.enums.designations.DesignationsTileMapping;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.GameMvc;
@@ -98,8 +98,8 @@ public class TileDrawer extends Drawer {
      * Iterates over bounds of a single z-level and call some function for every tile.
      */
     private void iterateLayer(int z, CoordFunction function) {
-        for (int y = cacheBounds.getMaxY(); y >= cacheBounds.getMinY(); y--) {
-            for (int x = cacheBounds.getMinX(); x <= cacheBounds.getMaxX(); x++) {
+        for (int y = cacheBounds.maxY; y >= cacheBounds.minY; y--) {
+            for (int x = cacheBounds.minX; x <= cacheBounds.maxX; x++) {
                 function.apply(x, y, z);
             }
         }
@@ -166,7 +166,7 @@ public class TileDrawer extends Drawer {
         if (type == BlockTypeEnum.STAIRS) type = BlockTypeEnum.DOWNSTAIRS; // downstairs rendered under stairs.
         if (!type.FLAT) type = BlockTypeEnum.FLOOR; // floor is rendered under non-flat tiles.
         if (type == BlockTypeEnum.FLOOR || type == BlockTypeEnum.DOWNSTAIRS || type == BlockTypeEnum.FARM) {
-            int atlasX = BlocksTileMapping.getType(type.CODE).ATLAS_X;
+            int atlasX = BlockTileMapping.getType(type.CODE).ATLAS_X;
             spriteUtil.drawSprite(blocks.getBlockTile(atlasX, getAtlasYForBlock(x, y, z)), cacheVector);
         }
     }

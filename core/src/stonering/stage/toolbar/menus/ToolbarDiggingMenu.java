@@ -42,7 +42,6 @@ public class ToolbarDiggingMenu extends ToolbarButtonMenu {
                 TaskContainer container = GameMvc.model().get(TaskContainer.class);
                 aspect.validator = type.VALIDATOR;
                 aspect.selectHandler = box -> aspect.boxIterator.accept(position -> container.designationSystem.submitDesignation(position, type, 1));
-                aspect.cancelHandler = aspect::reset;
             }
         }, true);
     }

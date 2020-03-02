@@ -21,6 +21,7 @@ public class EntitySelectorInputHandler {
     private EntitySelectorSystem system;
     private EntitySelector selector;
     private Position cachePosition;
+    public boolean allowChangingZLevelOnSelection = true;
 
     public EntitySelectorInputHandler(EntitySelectorSystem system) {
         this.system = system;
@@ -69,6 +70,7 @@ public class EntitySelectorInputHandler {
 
     public boolean moveByKey(int keycode) {
         int offset = Gdx.input.isKeyPressed(SHIFT_LEFT) ? 10 : 1;
+        boolean noSelection = selector.getAspect(SelectionAspect.class).boxStart == null;
         switch (keycode) {
             case W:
                 moveSelector(0, offset, 0);
@@ -83,15 +85,16 @@ public class EntitySelectorInputHandler {
                 moveSelector(offset, 0, 0);
                 return true;
             case R:
-                moveSelector(0, 0, 1);
+                if(noSelection || allowChangingZLevelOnSelection) moveSelector(0, 0, 1);
                 return true;
             case F:
-                moveSelector(0, 0, -1);
+                if(noSelection || allowChangingZLevelOnSelection) moveSelector(0, 0, -1);
+                return true;
         }
         return false;
     }
 
-    public boolean secondaryMove(int keycode) {
+    public boolean secondaryMove(int keycode) { // same z-level only
         switch (keycode) {
             case W:
             case S:

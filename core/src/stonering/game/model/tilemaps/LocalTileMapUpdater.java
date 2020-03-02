@@ -1,7 +1,7 @@
 package stonering.game.model.tilemaps;
 
 import stonering.enums.blocks.BlockTypeEnum;
-import stonering.enums.blocks.BlocksTileMapping;
+import stonering.enums.blocks.BlockTileMapping;
 import stonering.enums.materials.Material;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.GameMvc;
@@ -28,7 +28,7 @@ public class LocalTileMapUpdater {
      */
     public void flushLocalMap() {
         if (GameMvc.instance() == null) return;
-        localMap = GameMvc.instance().model().get(LocalMap.class);
+        localMap = GameMvc.model().get(LocalMap.class);
         for (int x = 0; x < localMap.xSize; x++) {
             for (int y = 0; y < localMap.ySize; y++) {
                 for (int z = 0; z < localMap.zSize; z++) {
@@ -43,8 +43,8 @@ public class LocalTileMapUpdater {
      */
     public void updateTile(int x, int y, int z) {
         if (GameMvc.instance() == null) return;
-        localMap = GameMvc.instance().model().get(LocalMap.class);
-        localTileMap = GameMvc.instance().model().get(LocalTileMap.class);
+        localMap = GameMvc.model().get(LocalMap.class);
+        localTileMap = GameMvc.model().get(LocalTileMap.class);
         byte blockType = localMap.getBlockType(x, y, z);
         if (blockType == BlockTypeEnum.SPACE.CODE) {
             localTileMap.removeTile(x, y, z);
@@ -54,7 +54,7 @@ public class LocalTileMapUpdater {
             if (blockType == BlockTypeEnum.RAMP.CODE) {
                 atlasX = countRamp(x, y, z);
             } else {
-                atlasX = BlocksTileMapping.getType(blockType).ATLAS_X;
+                atlasX = BlockTileMapping.getType(blockType).ATLAS_X;
             }
             localTileMap.setTile(x, y, z, atlasX, material.atlasY, 0);
         }
@@ -82,31 +82,31 @@ public class LocalTileMapUpdater {
     private byte countRamp(int x, int y, int z) {
         int walls = observeWalls(x, y, z);
         if ((walls & 0b00001010) == 0b00001010) {
-            return BlocksTileMapping.RAMP_SW.ATLAS_X;
+            return BlockTileMapping.RAMP_SW.ATLAS_X;
         } else if ((walls & 0b01010000) == 0b01010000) {
-            return BlocksTileMapping.RAMP_NE.ATLAS_X;
+            return BlockTileMapping.RAMP_NE.ATLAS_X;
         } else if ((walls & 0b00010010) == 0b00010010) {
-            return BlocksTileMapping.RAMP_SE.ATLAS_X;
+            return BlockTileMapping.RAMP_SE.ATLAS_X;
         } else if ((walls & 0b01001000) == 0b01001000) {
-            return BlocksTileMapping.RAMP_NW.ATLAS_X;
+            return BlockTileMapping.RAMP_NW.ATLAS_X;
         } else if ((walls & 0b00010000) != 0) {
-            return BlocksTileMapping.RAMP_E.ATLAS_X;
+            return BlockTileMapping.RAMP_E.ATLAS_X;
         } else if ((walls & 0b01000000) != 0) {
-            return BlocksTileMapping.RAMP_N.ATLAS_X;
+            return BlockTileMapping.RAMP_N.ATLAS_X;
         } else if ((walls & 0b00000010) != 0) {
-            return BlocksTileMapping.RAMP_S.ATLAS_X;
+            return BlockTileMapping.RAMP_S.ATLAS_X;
         } else if ((walls & 0b00001000) != 0) {
-            return BlocksTileMapping.RAMP_W.ATLAS_X;
+            return BlockTileMapping.RAMP_W.ATLAS_X;
         } else if ((walls & 0b10000000) != 0) {
-            return BlocksTileMapping.RAMP_NEO.ATLAS_X;
+            return BlockTileMapping.RAMP_NEO.ATLAS_X;
         } else if ((walls & 0b00000100) != 0) {
-            return BlocksTileMapping.RAMP_SEO.ATLAS_X;
+            return BlockTileMapping.RAMP_SEO.ATLAS_X;
         } else if ((walls & 0b00100000) != 0) {
-            return BlocksTileMapping.RAMP_NWO.ATLAS_X;
+            return BlockTileMapping.RAMP_NWO.ATLAS_X;
         } else if ((walls & 0b00000001) != 0) {
-            return BlocksTileMapping.RAMP_SWO.ATLAS_X;
+            return BlockTileMapping.RAMP_SWO.ATLAS_X;
         } else
-            return BlocksTileMapping.FLOOR.ATLAS_X;
+            return BlockTileMapping.FLOOR.ATLAS_X;
     }
 
     /**

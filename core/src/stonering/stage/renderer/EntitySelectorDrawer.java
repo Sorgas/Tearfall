@@ -6,72 +6,66 @@ import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.EntitySelector;
 import stonering.game.model.entity_selector.aspect.SelectionAspect;
 import stonering.game.model.system.EntitySelectorSystem;
+import stonering.util.geometry.Int3dBounds;
 import stonering.util.geometry.Position;
 
 import static stonering.stage.renderer.AtlasesEnum.ui_tiles;
 
 /**
  * Renders {@link EntitySelector} sprite and frame.
- * TODO add drawing of building sprites on designating buildings.
- * 
+ * Draws sprite only if frame not started.
+ * TODO add additional status sprite for selector
+ * TODO add landscape dependant rendering
+ * TODO support multitile sprites
+ *
  * @author Alexander on 06.02.2019.
  */
 public class EntitySelectorDrawer extends Drawer {
-    private Position cachePosition;
+    private Int3dBounds bounds;
 
     public EntitySelectorDrawer(SpriteDrawingUtil spriteDrawingUtil, ShapeDrawingUtil shapeDrawingUtil) {
         super(spriteDrawingUtil, shapeDrawingUtil);
-        cachePosition = new Position();
+        bounds = new Int3dBounds();
     }
 
     public void render() {
-        drawSelector(GameMvc.instance().model().get(EntitySelectorSystem.class).selector);
+        drawSelector(GameMvc.model().get(EntitySelectorSystem.class).selector);
+        drawFrame(GameMvc.model().get(EntitySelectorSystem.class).selector);
     }
 
-    /**
-     * Draws {@link EntitySelector} and selection frame;
-     */
     public void drawSelector(EntitySelector selector) {
-        TextureRegion region = selector.getAspect(RenderAspect.class).region;
-        if(region != null) spriteUtil.drawSprite(region, selector.position.toVector3());
-        //TODO add additional status sprite for selector
-        //TODO add landscape dependant rendering
         SelectionAspect aspect = selector.getAspect(SelectionAspect.class);
-        if (aspect.boxStart != null) {
-            Position start = aspect.boxStart;
-            int minX = Math.min(start.x, selector.position.x);
-            int maxX = Math.max(start.x, selector.position.x);
-            int minY = Math.min(start.y, selector.position.y);
-            int maxY = Math.max(start.y, selector.position.y);
-            int minZ = Math.min(start.z, selector.position.z);
-            int maxZ = selector.position.z;
-            for (int x = minX; x <= maxX; x++) {
-                for (int y = minY; y <= maxY; y++) {
-                    for (int z = minZ; z <= maxZ; z++) {
-                        cachePosition.set(x, y, z);
-                        if (y == maxY && z == maxZ) drawSprite(0);
-                        if (y == minY && z == maxZ) drawSprite(1);
-                        if (x == minX && z == maxZ) drawSprite(2);
-                        if (x == maxX && z == maxZ) drawSprite(3);
-                        if (y == minY && z == minZ) drawSprite(4);
-                        if (y == minY && x == minX) drawSprite(5);
-                        if (y == minY && x == maxX) drawSprite(6);
-                        if (y == maxY && z == minZ) drawSprite(7);
-
-                        if (x == minX && z > minZ && y == minY) drawSprite(8);
-                        if (x == maxX && z > minZ && y == minY) drawSprite(9);
-                        spriteUtil.updateColorA(0.5f);
-                        if (z == maxZ) drawSprite(10); // top side transparent background
-                        if (y == minY) drawSprite(11); // front side transparent background
-                        if (z > minZ && y == minY) drawSprite(12);
-                        spriteUtil.updateColorA(1f);
-                    }
-                }
-            }
-        }
+        TextureRegion region = selector.getAspect(RenderAspect.class).region;
+        if (region == null || aspect.boxStart != null) return;
+        spriteUtil.drawSprite(region, selector.position.toVector3());
     }
 
-    private void drawSprite(int x) {
-        spriteUtil.drawSprite(ui_tiles.getBlockTile(x, 1), ui_tiles, cachePosition);
+    private void drawFrame(EntitySelector selector) {
+        SelectionAspect aspect = selector.getAspect(SelectionAspect.class);
+        if (aspect.boxStart == null) return;
+        bounds.set(aspect.boxStart, selector.position);
+        bounds.maxZ = selector.position.z;
+        bounds.iterator.accept(pos -> {
+            if (pos.y == bounds.maxY && pos.z == bounds.maxZ) drawSprite(0, pos);
+            if (pos.y == bounds.minY && pos.z == bounds.maxZ) drawSprite(1, pos);
+            if (pos.x == bounds.minX && pos.z == bounds.maxZ) drawSprite(2, pos);
+            if (pos.x == bounds.maxX && pos.z == bounds.maxZ) drawSprite(3, pos);
+            if (pos.y == bounds.minY && pos.z == bounds.minZ) drawSprite(4, pos);
+            if (pos.y == bounds.minY && pos.x == bounds.minX) drawSprite(5, pos);
+            if (pos.y == bounds.minY && pos.x == bounds.maxX) drawSprite(6, pos);
+            if (pos.y == bounds.maxY && pos.z == bounds.minZ) drawSprite(7, pos);
+
+            if (pos.x == bounds.minX && pos.z > bounds.minZ && pos.y == bounds.minY) drawSprite(8, pos);
+            if (pos.x == bounds.maxX && pos.z > bounds.minZ && pos.y == bounds.minY) drawSprite(9, pos);
+            spriteUtil.updateColorA(0.5f);
+            if (pos.z == bounds.maxZ) drawSprite(10, pos); // top side transparent background
+            if (pos.y == bounds.minY) drawSprite(11, pos); // front side transparent background
+            if (pos.z > bounds.minZ && pos.y == bounds.minY) drawSprite(12, pos);
+            spriteUtil.updateColorA(1f);
+        });
+    }
+
+    private void drawSprite(int x, Position position) {
+        spriteUtil.drawSprite(ui_tiles.getBlockTile(x, 1), ui_tiles, position);
     }
 }

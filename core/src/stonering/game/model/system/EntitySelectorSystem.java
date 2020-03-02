@@ -9,6 +9,7 @@ import stonering.game.model.local_map.LocalMap;
 import stonering.stage.renderer.AtlasesEnum;
 import stonering.stage.toolbar.menus.Toolbar;
 import stonering.util.geometry.Position;
+import stonering.util.global.Logger;
 import stonering.util.validation.PositionValidator;
 
 /**
@@ -49,6 +50,15 @@ public class EntitySelectorSystem implements ModelComponent {
         if(aspect.cancelHandler != null) aspect.cancelHandler.run();
         Toolbar toolbar = GameMvc.view().toolbarStage.toolbar;
         toolbar.removeSubMenus(toolbar.parentMenu);
+    }
+
+    public void resetSelector() {
+        Logger.UI.logDebug("EntitySelector reset.");
+        selector.getAspect(RenderAspect.class).region = AtlasesEnum.ui_tiles.getBlockTile(0, 2);
+        SelectionAspect aspect = selector.getAspect(SelectionAspect.class);
+        aspect.selectHandler = position -> GameMvc.view().showEntityStage(aspect.getBox());
+        aspect.validator = position -> true;
+        inputHandler.allowChangingZLevelOnSelection = true;
     }
 
     public void selectorMoved() {

@@ -26,8 +26,8 @@ public class PlaceSelectComponent extends Actor implements Hideable, HintedActor
 
     public PlaceSelectComponent(EventListener eventListener, PositionValidator positionValidator, String hint) {
         this.eventListener = eventListener;
-        selectorSystem = GameMvc.instance().model().get(EntitySelectorSystem.class);
-        toolbar = GameMvc.instance().view().toolbarStage.toolbar;
+        selectorSystem = GameMvc.model().get(EntitySelectorSystem.class);
+        toolbar = GameMvc.view().toolbarStage.toolbar;
         this.positionValidator = positionValidator;
         this.hint = hint;
         createDefaultListener();

@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.entity.unit.aspects.RenderAspect;
+import stonering.enums.blocks.BlockTypeEnum;
+import stonering.enums.buildings.BuildingType;
 import stonering.enums.buildings.BuildingTypeMap;
 import stonering.enums.buildings.blueprint.Blueprint;
 import stonering.enums.buildings.blueprint.BlueprintsMap;
@@ -26,6 +28,7 @@ import java.util.List;
  * Constructions are treated the same as buildings here.
  * On selection, handler defines how many buildings will be created and their places,
  * and then shows menu for selecting materials to build.
+ * TODO add various designation sprites for ramps.
  *
  * @author Alexander Kuzyakov on 25.01.2018.
  */
@@ -38,11 +41,11 @@ public class ToolbarBuildingMenu extends ToolbarSubMenuMenu {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
                     EntitySelectorSystem system = GameMvc.model().get(EntitySelectorSystem.class);
-                    TextureRegion region = AtlasesEnum.buildings.getBlockTile(BuildingTypeMap.instance().getBuilding(blueprint.building).atlasXY);
-                    system.selector.getAspect(RenderAspect.class).region = region;
-                    //TODO add building sprite to selector
+                    setSpriteToSelector(system, BuildingTypeMap.instance().getBuilding(blueprint.building));
                     system.setPositionValidator(PlaceValidatorsEnum.getValidator(blueprint.placing));
                     SelectionAspect aspect = system.selector.getAspect(SelectionAspect.class);
+                    aspect.validator = PlaceValidatorsEnum.getValidator(blueprint.placing);
+                    system.inputHandler.allowChangingZLevelOnSelection = false;
                     aspect.selectHandler = box -> {
                         List<Position> positions = new ArrayList<>();
                         aspect.boxIterator.accept(positions::add); // todo replace with orientation beans.
@@ -51,5 +54,16 @@ public class ToolbarBuildingMenu extends ToolbarSubMenuMenu {
                 }
             }, blueprint.menuPath);
         }
+    }
+
+    private void setSpriteToSelector(EntitySelectorSystem system, BuildingType type) {
+        TextureRegion region;
+        if (type.construction) { // special sprites for constructions
+            int x = ConstructionTileSelector.select(BlockTypeEnum.getType(type.passage));
+            region = AtlasesEnum.ui_tiles.getBlockTile(x, 0);
+        } else { // building sprite for buildings
+            region = AtlasesEnum.buildings.getBlockTile(type.atlasXY);
+        }
+        system.selector.getAspect(RenderAspect.class).region = region;
     }
 }

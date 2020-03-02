@@ -4,6 +4,7 @@ import stonering.entity.Aspect;
 import stonering.entity.Entity;
 import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.EntitySelector;
+import stonering.game.model.system.EntitySelectorSystem;
 import stonering.util.geometry.Int3dBounds;
 import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
@@ -33,17 +34,10 @@ public class SelectionAspect extends Aspect {
         super(entity);
         enabled = true;
         boxIterator = consumer -> getBox().iterator.accept(position -> validator.doIfSuccess(position, consumer));
-        cancelHandler = this::reset;
-        reset();
+        cancelHandler = () -> GameMvc.model().get(EntitySelectorSystem.class).resetSelector();
     }
 
     public Int3dBounds getBox() {
         return new Int3dBounds(entity.position, boxStart != null ? boxStart : entity.position);
-    }
-
-    public void reset() {
-        Logger.UI.logDebug("EntitySelector reset.");
-        selectHandler = position -> GameMvc.view().showEntityStage(getBox());
-        validator = position -> true;
     }
 }

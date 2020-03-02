@@ -4,10 +4,10 @@ package stonering.util.geometry;
  * @author Alexander_Kuzyakov on 10.06.2019.
  */
 public class Int2dBounds {
-    protected int minX;
-    protected int minY;
-    protected int maxX;
-    protected int maxY;
+    public int minX;
+    public int minY;
+    public int maxX;
+    public int maxY;
 
     public Int2dBounds() {
         this(0, 0, 0, 0);
@@ -36,22 +36,6 @@ public class Int2dBounds {
         this.minY = Math.max(this.minY, minY);
         this.maxX = Math.min(this.maxX, maxX);
         this.maxY = Math.min(this.maxY, maxY);
-    }
-
-    public int getMinX() {
-        return minX;
-    }
-
-    public int getMinY() {
-        return minY;
-    }
-
-    public int getMaxX() {
-        return maxX;
-    }
-
-    public int getMaxY() {
-        return maxY;
     }
 
     @Override
