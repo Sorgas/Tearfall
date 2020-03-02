@@ -22,7 +22,7 @@ import stonering.util.validation.PositionValidator;
 public class EntitySelectorSystem implements ModelComponent {
     public final EntitySelector selector;
     public final EntitySelectorInputHandler inputHandler;
-
+    
     public EntitySelectorSystem() {
         selector = new EntitySelector(new Position());
         selector.addAspect(new SelectionAspect(selector));

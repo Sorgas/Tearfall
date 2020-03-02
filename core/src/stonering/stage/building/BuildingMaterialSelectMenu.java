@@ -63,7 +63,6 @@ public class BuildingMaterialSelectMenu extends Window {
                 for (Position position : positions) {
                     system.submitBuildingDesignation(createOrder(blueprint, position), 1);
                 }
-                // TODO create building designations
             }
         });
         leftSection.group.selectListener = event -> {
@@ -76,8 +75,7 @@ public class BuildingMaterialSelectMenu extends Window {
 
     private BuildingOrder createOrder(Blueprint blueprint, Position position) {
         BuildingOrder order = new BuildingOrder(blueprint, position);
-        order.parts
-                .forEach((partName, ingredientOrder) -> ingredientOrder.items.addAll(leftSection.widgetMap.get(partName).removeItemsFromButtons(ingredientOrder.ingredient.quantity)));
+        order.parts.forEach((partName, ingredientOrder) -> ingredientOrder.items.addAll(leftSection.widgetMap.get(partName).removeItemsFromButtons(ingredientOrder.ingredient.quantity)));
         return order;
     }
 }

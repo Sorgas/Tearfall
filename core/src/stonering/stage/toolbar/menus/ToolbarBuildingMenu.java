@@ -1,7 +1,10 @@
 package stonering.stage.toolbar.menus;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import stonering.entity.unit.aspects.RenderAspect;
+import stonering.enums.buildings.BuildingTypeMap;
 import stonering.enums.buildings.blueprint.Blueprint;
 import stonering.enums.buildings.blueprint.BlueprintsMap;
 import stonering.enums.designations.PlaceValidatorsEnum;
@@ -10,6 +13,7 @@ import stonering.game.model.entity_selector.aspect.SelectionAspect;
 import stonering.game.model.system.EntitySelectorSystem;
 import stonering.stage.SingleWindowStage;
 import stonering.stage.building.BuildingMaterialSelectMenu;
+import stonering.stage.renderer.AtlasesEnum;
 import stonering.util.geometry.Position;
 import stonering.widget.ToolbarSubMenuMenu;
 
@@ -34,6 +38,8 @@ public class ToolbarBuildingMenu extends ToolbarSubMenuMenu {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
                     EntitySelectorSystem system = GameMvc.model().get(EntitySelectorSystem.class);
+                    TextureRegion region = AtlasesEnum.buildings.getBlockTile(BuildingTypeMap.instance().getBuilding(blueprint.building).atlasXY);
+                    system.selector.getAspect(RenderAspect.class).region = region;
                     //TODO add building sprite to selector
                     system.setPositionValidator(PlaceValidatorsEnum.getValidator(blueprint.placing));
                     SelectionAspect aspect = system.selector.getAspect(SelectionAspect.class);
