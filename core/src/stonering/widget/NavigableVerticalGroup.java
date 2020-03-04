@@ -87,6 +87,7 @@ public class NavigableVerticalGroup<T extends Actor> extends VerticalGroup imple
      * Sets selected index to given. If child with this index not exists, sets to last child.
      */
     public void setSelectedIndex(int newIndex) {
+        if(selectedIndex == newIndex) return;
         selectedIndex = MathUtil.toRange(newIndex, -1, getChildren().size - 1);
         if(selectListener != null) selectListener.handle(null);
     }

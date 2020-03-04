@@ -43,14 +43,13 @@ public class SelectedMaterialsWidget extends Table implements ItemButtonWidget {
         buttonMap = new HashMap<>();
         add(new Label(partName + ":", StaticSkin.getSkin()));
         add(new Label(ingredient.text, StaticSkin.getSkin())).right().expandX().row();
-        add(quantityLabel = new Label("", StaticSkin.getSkin())).left().row();
-        updateNumber(0);
+        add(quantityLabel = new Label("0 / " + targetNumber, StaticSkin.getSkin())).left().row();
         add(group = new HorizontalGroup().left()).fillX().colspan(2);
     }
 
     @Override
     public void itemAdded(StackedItemSquareButton button, Item item) {
-        updateNumber(1);
+        updateMenuState(1);
     }
 
     @Override
@@ -66,7 +65,6 @@ public class SelectedMaterialsWidget extends Table implements ItemButtonWidget {
 
     @Override
     public void processButtonPress(StackedItemSquareButton button) {
-        System.out.println("press on button in left widget");
         int numberToDeselect = Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)
                 ? 1 // add by one
                 : button.items.size(); // add max possible
@@ -78,12 +76,13 @@ public class SelectedMaterialsWidget extends Table implements ItemButtonWidget {
             Item item = itemsToMove.get(i);
             itemSelectGrid.addItem(item);
         }
-        updateNumber(-itemsToMove.size());
+        updateMenuState(-itemsToMove.size());
     }
 
-    private void updateNumber(int delta) {
+    private void updateMenuState(int delta) {
         number += delta;
-        quantityLabel.setText(number + " / " + targetNumber);
+        quantityLabel.setText(number + " / " + targetNumber); // update label
+        menu.rightSection.grid.setAllButtonsDisabled(number == targetNumber); // lock grid if widget is full
     }
 
     @Override
@@ -91,6 +90,9 @@ public class SelectedMaterialsWidget extends Table implements ItemButtonWidget {
         return buttonMap;
     }
 
+    /**
+     * Used for order creation. Selects first found items from buttons.
+     */
     public List<Item> removeItemsFromButtons(int requestedNumber) {
         List<Item> items = new ArrayList<>();
         while (items.size() < requestedNumber || this.number > 0) {

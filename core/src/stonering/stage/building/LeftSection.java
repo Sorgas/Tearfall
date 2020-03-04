@@ -1,9 +1,7 @@
 package stonering.stage.building;
 
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import stonering.enums.buildings.blueprint.Blueprint;
 import stonering.enums.items.recipe.Ingredient;
@@ -53,13 +51,6 @@ public class LeftSection extends Table {
             SelectedMaterialsWidget widget = new SelectedMaterialsWidget(ingredient, ingredient.quantity * number, part, menu);
             widgetMap.put(part, widget);
             group.addActor(widget);
-            widget.addCaptureListener(new ClickListener() {
-                @Override
-                public void clicked(InputEvent event, float x, float y) {
-//                    System.out.println("widget clicked");
-//                    setSelected(widget);
-                }
-            });
         });
         return group;
     }
@@ -79,10 +70,8 @@ public class LeftSection extends Table {
                 .filter(widget-> widget.targetNumber < widget.number)
                 .findFirst().orElse(null);
         if(nextWidget == null) {
-            System.out.println("all widgets filled");
             menu.confirmButton.setDisabled(false);
         } else {
-            System.out.println("next widget selected");
             setSelected(nextWidget);
         }
     }

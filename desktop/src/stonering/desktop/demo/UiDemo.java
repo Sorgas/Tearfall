@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import stonering.stage.UiStage;
 import stonering.util.global.StaticSkin;
 import stonering.util.ui.SimpleScreen;
+import stonering.widget.NavigableVerticalGroup;
 import stonering.widget.item.StackedItemSquareButton;
 
 /**
@@ -57,16 +58,12 @@ public class UiDemo extends Game {
     private Container createContainer() {
         Container container = new Container();
         container.setFillParent(true);
-        Actor inner = new Actor();
-        inner.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                System.out.println("click");
-                
-            }
-        });
+        NavigableVerticalGroup group = new NavigableVerticalGroup<Label>();
+        for (int i = 0; i < 5; i++) {
+            group.addActor(new Label("qwer " + i, StaticSkin.getSkin()));
+        }
+
         container.pad(50).size(100, 200);
-        container.setActor(inner);
         return container;
     }
 }

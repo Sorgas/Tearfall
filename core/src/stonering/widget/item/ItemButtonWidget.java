@@ -32,7 +32,7 @@ public interface ItemButtonWidget {
             button = map.get(key);
             button.addItem(item);
         } else { // create new button
-            button = new StackedItemSquareButton(item, DrawableMap.getTextureDrawable("ui/item_slot.png")); 
+            button = new StackedItemSquareButton(item, DrawableMap.getTextureDrawable("ui/item_slot.png"));
             addButton(button);
         }
         itemAdded(button, item);
