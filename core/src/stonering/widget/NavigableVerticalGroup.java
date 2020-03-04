@@ -11,17 +11,20 @@ import stonering.util.global.Logger;
 import stonering.util.math.MathUtil;
 
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**
  * Vertical group which can handle input to change selected element.
+ * Navigation listener is called on pressing select key or clicking on selected element.
  * Also has listeners for selecting element and closing list.
  *
  * @author Alexander
  */
 public class NavigableVerticalGroup<T extends Actor> extends VerticalGroup implements Highlightable {
     public final Map<Integer, ControlActionsEnum> keyMapping; // additional keys to actions mapping.
-    public EventListener selectListener;
+    public Consumer<T> selectListener = actor -> {};
+    public Consumer<T> navigationListener = actor -> {};
     public EventListener cancelListener;
     protected HighlightHandler highlightHandler;
     public int selectedIndex = -1;
@@ -40,6 +43,19 @@ public class NavigableVerticalGroup<T extends Actor> extends VerticalGroup imple
     }
 
     private void createDefaultListener() {
+        // changes selected element, or clicks
+        addCaptureListener(new InputListener() {
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                for (Actor child : getChildren()) {
+                    if (!child.isAscendantOf(hit(x, y, false))) continue;
+                    setSelectedIndex(getChildren().indexOf(child, true));
+                    return true;
+                }
+                return false;
+            }
+        });
+
         addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
@@ -51,21 +67,12 @@ public class NavigableVerticalGroup<T extends Actor> extends VerticalGroup imple
                     case DOWN:
                         return navigate(1);
                     case SELECT:
-                        return selectListener != null && selectListener.handle(event);
+                        selectListener.accept(getSelectedElement());
+                        break;
                     case CANCEL:
                         return cancelListener != null && cancelListener.handle(event);
                 }
                 return true;
-            }
-
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                for (Actor child : getChildren()) {
-                    if (!child.isAscendantOf(hit(x, y, false))) continue;
-                    setSelectedIndex(getChildren().indexOf(child, true));
-                    return true;
-                }
-                return false;
             }
         });
     }
@@ -87,9 +94,9 @@ public class NavigableVerticalGroup<T extends Actor> extends VerticalGroup imple
      * Sets selected index to given. If child with this index not exists, sets to last child.
      */
     public void setSelectedIndex(int newIndex) {
-        if(selectedIndex == newIndex) return;
+        if (selectedIndex == newIndex) return;
         selectedIndex = MathUtil.toRange(newIndex, -1, getChildren().size - 1);
-        if(selectListener != null) selectListener.handle(null);
+        selectListener.accept(getSelectedElement());
     }
 
     @Override

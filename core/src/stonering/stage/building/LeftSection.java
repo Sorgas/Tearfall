@@ -1,5 +1,6 @@
 package stonering.stage.building;
 
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
@@ -39,9 +40,6 @@ public class LeftSection extends Table {
         return "Building " + (number > 1 ? number + " " + blueprint.title + "s" : blueprint.title);
     }
 
-    /**
-     * Creates widgets for each part of a building.
-     */
     private NavigableVerticalGroup<SelectedMaterialsWidget> createIngredientGroup(Blueprint blueprint, int number) {
         NavigableVerticalGroup<SelectedMaterialsWidget> group = new NavigableVerticalGroup<>();
         group.grow();
@@ -52,6 +50,9 @@ public class LeftSection extends Table {
             widgetMap.put(part, widget);
             group.addActor(widget);
         });
+        group.selectListener = new EventListener() {
+
+        }
         return group;
     }
 

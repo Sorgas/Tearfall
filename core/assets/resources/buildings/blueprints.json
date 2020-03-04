@@ -16,7 +16,8 @@
         "menuPath": ["constructions"],
         "placing": "construction",
         "parts": [
-            ["wall", "log", "wood", "4"]
+            ["wall", "log", "wood", "4"],
+            ["wall2", "log", "wood", "4"]
         ]
     }, {
     "name": "build_floor",

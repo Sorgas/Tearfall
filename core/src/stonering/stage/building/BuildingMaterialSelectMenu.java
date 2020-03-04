@@ -8,15 +8,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.entity.building.BuildingOrder;
 import stonering.entity.crafting.IngredientOrder;
-import stonering.entity.item.Item;
 import stonering.enums.buildings.blueprint.Blueprint;
 import stonering.game.GameMvc;
 import stonering.game.model.system.task.DesignationSystem;
 import stonering.game.model.system.task.TaskContainer;
 import stonering.util.geometry.Position;
 import stonering.util.global.StaticSkin;
-import stonering.widget.item.SelectedMaterialsWidget;
-import stonering.widget.item.StackedItemSquareButton;
 
 import java.util.List;
 
