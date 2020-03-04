@@ -23,10 +23,10 @@ import java.util.stream.Collectors;
  */
 public class NavigableVerticalGroup<T extends Actor> extends VerticalGroup implements Highlightable {
     public final Map<Integer, ControlActionsEnum> keyMapping; // additional keys to actions mapping.
-    public Consumer<T> selectListener = actor -> {};
-    public Consumer<T> navigationListener = actor -> {};
-    public EventListener cancelListener;
-    protected HighlightHandler highlightHandler;
+    public Consumer<T> selectListener = actor -> {}; // called on selection confirmation
+    public Consumer<T> navigationListener = actor -> {}; // called when selection changes
+    public Runnable cancelListener = () -> {}; // called on Q
+    public HighlightHandler highlightHandler;
     public int selectedIndex = -1;
 
     public NavigableVerticalGroup() {
@@ -63,27 +63,26 @@ public class NavigableVerticalGroup<T extends Actor> extends VerticalGroup imple
                 event.stop();
                 switch (keyMapping.getOrDefault(keycode, ControlActionsEnum.getAction(keycode))) {
                     case UP:
-                        return navigate(-1);
+                        navigate(-1);
+                        break;
                     case DOWN:
-                        return navigate(1);
+                        navigate(1);
+                        break;
                     case SELECT:
                         selectListener.accept(getSelectedElement());
                         break;
                     case CANCEL:
-                        return cancelListener != null && cancelListener.handle(event);
+                        cancelListener.run();
+                        break;
                 }
                 return true;
             }
         });
     }
 
-    /**
-     * Navigates through children.
-     */
-    public boolean navigate(int delta) {
+    public void navigate(int delta) {
         int size = getChildren().size;
         setSelectedIndex(size != 0 ? (selectedIndex + delta + size) % size : -1);
-        return true;
     }
 
     public T getChildAtIndex(int index) {

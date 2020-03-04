@@ -7,9 +7,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import stonering.entity.item.Item;
 import stonering.entity.item.ItemGroupingKey;
+import stonering.enums.images.DrawableMap;
 import stonering.enums.items.recipe.Ingredient;
 import stonering.stage.building.BuildingMaterialSelectMenu;
 import stonering.util.global.StaticSkin;
+import stonering.widget.Highlightable;
+import stonering.widget.util.HighlightHandler;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,20 +34,36 @@ public class SelectedMaterialsWidget extends Table implements ItemButtonWidget {
     public final int targetNumber;
     public int number = 0;
 
+    public final Label titleLabel;
     private final Label quantityLabel;
     public final HorizontalGroup group;
     private final Map<ItemGroupingKey, StackedItemSquareButton> buttonMap;
+    private final HighlightHandler highlightHandler;
 
     public SelectedMaterialsWidget(Ingredient ingredient, int targetNumber, String partName, BuildingMaterialSelectMenu menu) {
+        super(StaticSkin.getSkin());
         this.partName = partName;
         this.ingredient = ingredient;
         this.targetNumber = targetNumber;
         this.menu = menu;
         buttonMap = new HashMap<>();
-        add(new Label(partName + ":", StaticSkin.getSkin()));
+        pad(5);
+        add(titleLabel = new Label(partName + ":", StaticSkin.getSkin()));
         add(new Label(ingredient.text, StaticSkin.getSkin())).right().expandX().row();
         add(quantityLabel = new Label("0 / " + targetNumber, StaticSkin.getSkin())).left().row();
-        add(group = new HorizontalGroup().left()).fillX().colspan(2);
+        add(group = new HorizontalGroup().left()).height(SingleItemSquareButton.SIZE).fillX().colspan(2);
+        highlightHandler = new HighlightHandler() {
+            @Override
+            protected void apply(boolean value) {
+                setBackground(DrawableMap.REGION.getDrawable("materials_select_widget" + (value ? ":focused" : "")));
+            }
+        };
+    }
+
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+        highlightHandler.accept(menu.leftSection.group.getSelectedElement() == this);
     }
 
     @Override

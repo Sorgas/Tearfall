@@ -56,7 +56,7 @@ public class BuildingDesignationSequence extends DesignationSequence {
         Ingredient ingredient = order.blueprint.parts.get(partName);
         MaterialSelectList materialList = new MaterialSelectList("WS: navigate, E: select");
         materialList.fillForIngredient(ingredient, order.position);
-        materialList.selectListener = (event -> { // saves selection to map and creates next list
+        materialList.selectListener = (actor -> { // saves selection to map and creates next list
             Logger.UI.logDebug("Selecting " + materialList.selectedIndex);
             if (materialList.selectedIndex >= 0) {
                 //TODO handle amount requirements more than 1
@@ -70,12 +70,8 @@ public class BuildingDesignationSequence extends DesignationSequence {
             } else {
                 Logger.UI.logWarn("Material select list handles select when no item is selected.");
             }
-            return true;
         });
-        materialList.cancelListener = (event -> { // cancels selection ad hides list
-            materialList.hide();
-            return true;
-        });
+        materialList.cancelListener = materialList::hide; // cancels selection ad hides list
         return materialList;
     }
 

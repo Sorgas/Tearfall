@@ -71,12 +71,11 @@ public class WorkbenchMenuq extends Window implements HintedActor {
         orderList.grow();
         orderList.keyMapping.put(Input.Keys.D, ControlActionsEnum.SELECT); // add additional control key, so pressing D-D on menu will get player to order.
         orderList.keyMapping.put(Input.Keys.A, ControlActionsEnum.CANCEL); // add additional control key, so pressing A-A on order will get player to menu.
-        orderList.selectListener = (event -> {                             // go to order line or menu (invalid case)
+        orderList.selectListener = (actor) -> {                             // go to order line or menu (invalid case)
             Actor selected = orderList.getSelectedElement();
             ((ItemCraftingOrderLine) selected).navigateToFirst();
             getStage().setKeyboardFocus(selected != null ? selected : this);
-            return true;
-        });
+        };
         orderList.setHighlightHandler(new Highlightable.HighlightHandler(this) {
             @Override
             public void handle(boolean value) {                              // highlight selected element
@@ -86,10 +85,7 @@ public class WorkbenchMenuq extends Window implements HintedActor {
                 }
             }
         });
-        orderList.cancelListener = (event -> {                            // go to menu
-            getStage().setKeyboardFocus(this);
-            return true;
-        });
+        orderList.cancelListener = () -> getStage().setKeyboardFocus(this);
         return orderList;
     }
 

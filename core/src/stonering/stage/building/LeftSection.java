@@ -1,6 +1,5 @@
 package stonering.stage.building;
 
-import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
@@ -23,9 +22,9 @@ import java.util.Map;
 public class LeftSection extends Table {
     private BuildingMaterialSelectMenu menu;
     public final Map<String, SelectedMaterialsWidget> widgetMap; // building part name to widget that selects items for this part 
-    NavigableVerticalGroup<SelectedMaterialsWidget> group;
+    public final NavigableVerticalGroup<SelectedMaterialsWidget> group;
     private Position position; // position of any building used for items lookup
-    
+
     public LeftSection(BuildingMaterialSelectMenu menu, Blueprint blueprint, int number, Position position) {
         this.menu = menu;
         this.position = position;
@@ -50,9 +49,8 @@ public class LeftSection extends Table {
             widgetMap.put(part, widget);
             group.addActor(widget);
         });
-        group.selectListener = new EventListener() {
-
-        }
+        if (blueprint.parts.size() == 1)
+            widgetMap.values().forEach(widget -> widget.titleLabel.setText("")); // remove title for single part
         return group;
     }
 
@@ -68,9 +66,9 @@ public class LeftSection extends Table {
      */
     public void updateState() {
         SelectedMaterialsWidget nextWidget = widgetMap.values().stream()
-                .filter(widget-> widget.targetNumber < widget.number)
+                .filter(widget -> widget.targetNumber < widget.number)
                 .findFirst().orElse(null);
-        if(nextWidget == null) {
+        if (nextWidget == null) {
             menu.confirmButton.setDisabled(false);
         } else {
             setSelected(nextWidget);

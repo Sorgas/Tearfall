@@ -88,12 +88,11 @@ public class RecipeListSection extends NavigableVerticalGroup implements Highlig
     }
 
     private void createListeners() {
-        selectListener = (event -> { // toggles categories and recipes buttons
+        selectListener = (actor -> { // toggles categories and recipes buttons
                     if(getSelectedElement() != null) ((WrappedTextButton) getSelectedElement()).toggle();
-                    return true;
                 }
         );
-        cancelListener = (event -> getStage().setKeyboardFocus(menu.orderListSection)); // quits to order list from any item
+        cancelListener = () -> getStage().setKeyboardFocus(menu.orderListSection); // quits to order list from any item
         addListener(new InputListener() { // for collapsing
             @Override
             public boolean keyDown(InputEvent event, int keycode) {

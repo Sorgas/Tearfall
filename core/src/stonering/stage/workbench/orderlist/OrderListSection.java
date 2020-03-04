@@ -114,20 +114,8 @@ public class OrderListSection extends NavigableVerticalGroup {
                 return true;
             }
         });
-        selectListener = (new InputListener() { // configure order.
-            @Override
-            public boolean keyDown(InputEvent event, int keycode) {
-                getStage().setKeyboardFocus(menu.orderDetailsSection);
-                return true;
-            }
-        });
-        cancelListener = (new InputListener() { // close menu
-            @Override
-            public boolean keyDown(InputEvent event, int keycode) {
-                GameMvc.instance().view().removeStage(getStage());
-                return true;
-            }
-        });
+        selectListener = actor -> getStage().setKeyboardFocus(menu.orderDetailsSection); // configure order
+        cancelListener = () -> GameMvc.view().removeStage(getStage());
         setHighlightHandler(new CheckHighlightHandler(this) {
             @Override
             public void handle(boolean value) {
