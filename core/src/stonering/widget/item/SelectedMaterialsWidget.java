@@ -74,6 +74,7 @@ public class SelectedMaterialsWidget extends Table implements ItemButtonWidget {
         ItemSelectGrid itemSelectGrid = menu.rightSection.grid;
         for (int i = 0; i < itemsToMove.size(); i++) {
             Item item = itemsToMove.get(i);
+            item.locked = false;
             itemSelectGrid.addItem(item);
         }
         updateMenuState(-itemsToMove.size());

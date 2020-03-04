@@ -30,7 +30,6 @@ public class ItemContainer extends EntityContainer<Item> {
     public final Map<Position, List<Item>> itemMap = new HashMap<>(); // maps tiles position to list of item it that position.
     public final Map<Item, WorkbenchAspect> contained = new HashMap<>(); // maps contained items to containers they are in. // todo replace to container aspect
     public final Map<Item, EquipmentAspect> equipped = new HashMap<>(); // maps equipped and hauled items to units.
-    public final Set<Item> lockedItems = new HashSet<>();
     public final ItemStreamUtil util = new ItemStreamUtil(this);
 
     public final ContainedItemsSystem containedItemsSystem;
@@ -73,10 +72,5 @@ public class ItemContainer extends EntityContainer<Item> {
 
     public List<Item> getItemsInPosition(int x, int y, int z) {
         return getItemsInPosition(new Position(x, y, z));
-    }
-
-    public void freeItems(Collection<Item> items) { //TODO
-        lockedItems.removeAll(items);
-        items.forEach(item -> item.locked = false);
     }
 }

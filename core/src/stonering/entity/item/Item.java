@@ -37,6 +37,7 @@ public class Item extends Entity {
         super(position);
         this.type = type;
         this.title = type.title;
+        locked = false;
         tags = new ArrayList<>();
     }
 

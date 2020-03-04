@@ -42,6 +42,7 @@ public class RightSection extends Table {
 
             for (int i = 0; i < itemsToMove.size(); i++) {
                 Item item = itemsToMove.get(i);
+                item.locked = true;
                 widget.addItem(item);
             }
 
