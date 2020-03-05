@@ -4,7 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import stonering.entity.item.Item;
-import stonering.entity.unit.aspects.RenderAspect;
+import stonering.entity.RenderAspect;
 import stonering.util.global.StaticSkin;
 
 /**

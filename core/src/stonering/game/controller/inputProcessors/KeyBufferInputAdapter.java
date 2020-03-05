@@ -1,4 +1,4 @@
-package stonering.game.controller.controllers;
+package stonering.game.controller.inputProcessors;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;

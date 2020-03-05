@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 import stonering.entity.item.Item;
-import stonering.entity.unit.aspects.RenderAspect;
+import stonering.entity.RenderAspect;
 import stonering.enums.items.ItemTagEnum;
 import stonering.game.GameMvc;
 import stonering.util.global.Logger;

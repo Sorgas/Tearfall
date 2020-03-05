@@ -1,5 +1,6 @@
 package stonering.generators.creatures;
 
+import stonering.entity.RenderAspect;
 import stonering.entity.unit.aspects.*;
 import stonering.entity.unit.aspects.job.JobsAspect;
 import stonering.entity.unit.aspects.job.SkillAspect;

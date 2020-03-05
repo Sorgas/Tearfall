@@ -11,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import stonering.entity.item.Item;
-import stonering.entity.unit.aspects.RenderAspect;
+import stonering.entity.RenderAspect;
 import stonering.util.global.StaticSkin;
 
 /**

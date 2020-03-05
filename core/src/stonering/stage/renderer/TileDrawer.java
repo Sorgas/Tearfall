@@ -9,7 +9,7 @@ import stonering.entity.job.designation.Designation;
 import stonering.entity.building.BuildingBlock;
 import stonering.entity.item.Item;
 import stonering.entity.plant.PlantBlock;
-import stonering.entity.unit.aspects.RenderAspect;
+import stonering.entity.RenderAspect;
 import stonering.entity.zone.Zone;
 import stonering.enums.blocks.BlockTypeEnum;
 import stonering.enums.blocks.BlockTileMapping;

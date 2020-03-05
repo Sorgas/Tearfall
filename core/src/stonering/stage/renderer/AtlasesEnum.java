@@ -39,7 +39,7 @@ public enum AtlasesEnum {
     public final int FULL_TILE_HEIGHT;
     public final int X_CORRECTION; // batch grid are 64x64, but some atlas tiles are smaller, correction is offset from left bottom corner of grid
     public final int Y_CORRECTION;
-    public final Map<SpriteDescriptor, TextureRegion> spriteCache;
+    public final Map<TileSpriteDescriptor, TextureRegion> spriteCache;
 
     AtlasesEnum(Texture texture, boolean hasToppings, int width, int depth, int height, int toppingHeight) {
         atlas = texture;
@@ -60,7 +60,7 @@ public enum AtlasesEnum {
      * Cuts main part of a block tile from x y position in specified atlas.
      */
     public TextureRegion getBlockTile(int x, int y) {
-        SpriteDescriptor key = new SpriteDescriptor(x, y, Color.WHITE.toIntBits(), false);
+        TileSpriteDescriptor key = new TileSpriteDescriptor(x, y, Color.WHITE.toIntBits(), false);
         if (!spriteCache.containsKey(key)) {
             int atlasY = y * FULL_TILE_HEIGHT + (hasToppings ? TOPPING_BLOCK_HEIGHT : 0); // consider toppings or not
             spriteCache.put(key, new TextureRegion(atlas, x * WIDTH, atlasY, WIDTH, BLOCK_HEIGHT));
@@ -81,7 +81,7 @@ public enum AtlasesEnum {
             Logger.RENDER.logError("Attempt to get topping from atlas without toppings.");
             return null;
         }
-        SpriteDescriptor key = new SpriteDescriptor(x, y, Color.WHITE.toIntBits(), true);
+        TileSpriteDescriptor key = new TileSpriteDescriptor(x, y, Color.WHITE.toIntBits(), true);
         spriteCache.putIfAbsent(key, new TextureRegion(atlas, x * WIDTH, y * FULL_TILE_HEIGHT, WIDTH, TOPPING_BLOCK_HEIGHT));
         return spriteCache.get(key);
     }

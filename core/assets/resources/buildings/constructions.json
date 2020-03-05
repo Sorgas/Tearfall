@@ -7,45 +7,35 @@
         "title": "Wall",
         "description": "Wall",
         "construction": true,
-        "aspects": [],
         "parts": ["wall"],
-        "passage": "wall",
-        "color": "0xffffffff"
+        "passage": "wall"
     }, {
     "building": "floor",
     "title": "Floor",
     "description": "Floor",
     "construction": true,
-    "aspects": [],
     "parts": ["floor"],
-    "passage": "floor",
-    "color": "0xffffffff"
+    "passage": "floor"
 }, {
     "building": "ramp",
     "title": "Ramp",
     "description": "Ramp",
     "construction": true,
-    "aspects": [],
     "parts": ["ramp"],
-    "passage": "ramp",
-    "color": "0xffffffff"
+    "passage": "ramp"
 }, {
     "building": "stairs",
     "title": "Stairs",
     "description": "Stairs",
     "construction": true,
-    "aspects": [],
     "parts": ["stairs"],
-    "passage": "stairs",
-    "color": "0xffffffff"
+    "passage": "stairs"
 }, {
     "building": "downstairs",
     "title": "Stair floor",
     "description": "Stair floor",
     "construction": true,
-    "aspects": [],
     "parts": ["downstairs"],
-    "passage": "downstairs",
-    "color": "0xffffffff"
+    "passage": "downstairs"
 }
 ]

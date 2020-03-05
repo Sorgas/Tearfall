@@ -6,7 +6,7 @@ import stonering.entity.job.action.Action;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.CreatureStatusIcon;
 import stonering.entity.unit.aspects.PlanningAspect;
-import stonering.entity.unit.aspects.RenderAspect;
+import stonering.entity.RenderAspect;
 import stonering.game.GameMvc;
 import stonering.game.model.system.unit.UnitContainer;
 

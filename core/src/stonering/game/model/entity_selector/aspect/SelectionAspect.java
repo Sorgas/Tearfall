@@ -2,12 +2,12 @@ package stonering.game.model.entity_selector.aspect;
 
 import stonering.entity.Aspect;
 import stonering.entity.Entity;
+import stonering.enums.buildings.BuildingType;
 import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.EntitySelector;
 import stonering.game.model.system.EntitySelectorSystem;
 import stonering.util.geometry.Int3dBounds;
 import stonering.util.geometry.Position;
-import stonering.util.global.Logger;
 import stonering.util.validation.PositionValidator;
 
 import java.util.function.Consumer;
@@ -26,9 +26,9 @@ public class SelectionAspect extends Aspect {
     public boolean enabled; //
     public Consumer<Int3dBounds> selectHandler; // called once for the whole selection box
     public final Consumer<Consumer<Position>> boxIterator; // iterates over selection box, can be used in selection handler
-
+    public BuildingType type;
     public Runnable cancelHandler;
-    public PositionValidator validator; // validates each position
+    public PositionValidator validator = position -> true; // validates each position
 
     public SelectionAspect(Entity entity) {
         super(entity);

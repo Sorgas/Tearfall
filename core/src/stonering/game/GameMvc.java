@@ -1,6 +1,6 @@
 package stonering.game;
 
-import stonering.game.controller.controllers.GameController;
+import stonering.game.controller.GameController;
 import stonering.game.model.GameModel;
 import stonering.screen.GameView;
 import stonering.util.global.Logger;

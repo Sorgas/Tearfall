@@ -5,7 +5,7 @@ import stonering.entity.Aspect;
 import stonering.entity.crafting.ItemOrder;
 import stonering.entity.item.aspects.ItemContainerAspect;
 import stonering.entity.item.aspects.SeedAspect;
-import stonering.entity.unit.aspects.RenderAspect;
+import stonering.entity.RenderAspect;
 import stonering.entity.item.aspects.FallingAspect;
 import stonering.enums.items.type.ItemType;
 import stonering.enums.items.type.ItemTypeMap;

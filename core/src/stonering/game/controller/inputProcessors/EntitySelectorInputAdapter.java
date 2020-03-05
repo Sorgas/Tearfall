@@ -1,5 +1,6 @@
-package stonering.game.controller.controllers;
+package stonering.game.controller.inputProcessors;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.math.Vector3;
@@ -52,6 +53,9 @@ public class EntitySelectorInputAdapter extends EnableableInputAdapter {
                     Logger.INPUT.logDebug("cancelling selection box on Q key");
                     system.inputHandler.cancelSelection();
                     return true;
+                case Input.Keys.T:
+                    Logger.INPUT.logDebug("rotating entity selector");
+                    system.rotateSelector(!Gdx.input.isKeyPressed(SHIFT_LEFT)); // counter clockwise with Shift + T
                 default: // move selector if navigation key is pressed
                     return system.inputHandler.moveByKey(keycode);
             }

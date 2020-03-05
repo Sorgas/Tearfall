@@ -1,6 +1,8 @@
 package stonering.game.model.system;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import stonering.entity.unit.aspects.OrientationAspect;
 import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.EntitySelector;
 import stonering.game.model.entity_selector.aspect.SelectionAspect;
@@ -64,6 +66,10 @@ public class EntitySelectorInputHandler {
         aspect.boxStart = null;
     }
 
+    public void rotateSelector(boolean clockwise) {
+        
+    }
+    
     public void setSelectorPosition(Position position) {
         GameMvc.model().get(LocalMap.class).normalizePosition(selector.position.set(position.x, position.y, position.z));
     }

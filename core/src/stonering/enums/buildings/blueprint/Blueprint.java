@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class Blueprint {
     public final String name; // blueprint id.
-    public final String building; //building id
+    public final String building; //building id, points to BuildingType
     public final String title; // button name
     public final String placing; // maps to position validator for place selecting and task checking.
     public final List<String> menuPath; // button path in toolbar

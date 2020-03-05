@@ -4,7 +4,7 @@ import com.badlogic.gdx.InputAdapter;
 
 /**
  * Wrapper for input adapter that adds switching functionality to it.
- * If enabled passes events to inner adapter, if disabled, returns false to all events.
+ * If enabled, passes events to inner adapter, if disabled, returns false to all events.
  *
  * @author Alexander on 20.01.2020
  */

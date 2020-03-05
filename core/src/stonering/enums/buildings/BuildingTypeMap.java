@@ -21,14 +21,16 @@ import java.util.stream.Collectors;
 public class BuildingTypeMap {
     private static BuildingTypeMap instance;
     private HashMap<String, BuildingType> buildings;
+    private HashMap<String, BuildingType> constructions;
     private Json json;
 
     private BuildingTypeMap() {
         buildings = new HashMap<>();
+        constructions = new HashMap<>();
         json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
         loadTypesFileToMap(FileLoader.BUILDINGS_PATH, buildings);
-        loadTypesFileToMap(FileLoader.CONSTRUCTIONS_PATH, buildings);
+        loadTypesFileToMap(FileLoader.CONSTRUCTIONS_PATH, constructions);
         loadTypesFileToMap(FileLoader.FURNITURE_PATH, buildings);
         loadLists();
     }
@@ -73,7 +75,7 @@ public class BuildingTypeMap {
     public BuildingType getBuilding(String name) {
         return buildings.get(name);
     }
-
+    
     public boolean hasBuilding(String name) {
         return buildings.containsKey(name);
     }

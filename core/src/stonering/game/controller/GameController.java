@@ -1,4 +1,4 @@
-package stonering.game.controller.controllers;
+package stonering.game.controller;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;

@@ -1,10 +1,12 @@
 package stonering.generators.buildings;
 
+import com.badlogic.gdx.Input;
+import stonering.enums.OrientationEnum;
 import stonering.enums.buildings.BuildingType;
 import stonering.entity.building.aspects.RestFurnitureAspect;
 import stonering.entity.building.aspects.WorkbenchAspect;
 import stonering.entity.item.aspects.ItemContainerAspect;
-import stonering.entity.unit.aspects.RenderAspect;
+import stonering.entity.RenderAspect;
 import stonering.enums.buildings.BuildingTypeMap;
 import stonering.stage.renderer.AtlasesEnum;
 import stonering.util.geometry.Position;
@@ -13,6 +15,8 @@ import stonering.util.global.Logger;
 
 import java.util.List;
 
+import static stonering.enums.OrientationEnum.N;
+
 /**
  * Generates BuildingType entity from descriptors
  *
@@ -20,7 +24,7 @@ import java.util.List;
  */
 public class BuildingGenerator {
 
-    public Building generateBuilding(String name, Position position) {
+    public Building generateBuilding(String name, Position position, OrientationEnum orientation) {
         BuildingType type = BuildingTypeMap.instance().getBuilding(name);
         if (type == null) {
             Logger.BUILDING.logWarn("No building with name '" + name + "' found.");
@@ -29,13 +33,13 @@ public class BuildingGenerator {
         Building building = new Building(position, type);
         building.setMaterial(38); //TODO replace with material from task
         initAspects(building, type);
-        createRenderAspect(building, type);
+        createRenderAspect(building, type, orientation);
         initBlocks(building, type);
         return building;
     }
 
-    private void createRenderAspect(Building building, BuildingType type) {
-        building.addAspect(new RenderAspect(building, type.atlasXY, AtlasesEnum.buildings));
+    private void createRenderAspect(Building building, BuildingType type, OrientationEnum orientation) {
+        building.addAspect(new RenderAspect(building, type.sprites.get(orientation), AtlasesEnum.buildings));
     }
 
     /**

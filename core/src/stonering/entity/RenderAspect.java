@@ -1,9 +1,8 @@
-package stonering.entity.unit.aspects;
+package stonering.entity;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import stonering.entity.Aspect;
-import stonering.entity.Entity;
+import stonering.entity.unit.aspects.CreatureStatusIcon;
 import stonering.stage.renderer.AtlasesEnum;
 
 import java.util.ArrayList;

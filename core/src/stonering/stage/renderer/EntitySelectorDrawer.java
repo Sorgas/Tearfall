@@ -1,7 +1,7 @@
 package stonering.stage.renderer;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import stonering.entity.unit.aspects.RenderAspect;
+import stonering.entity.RenderAspect;
 import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.EntitySelector;
 import stonering.game.model.entity_selector.aspect.SelectionAspect;

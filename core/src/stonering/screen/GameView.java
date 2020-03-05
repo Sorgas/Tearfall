@@ -1,7 +1,7 @@
 package stonering.screen;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import stonering.game.controller.controllers.StageInputAdapter;
+import stonering.game.controller.inputProcessors.StageInputAdapter;
 import stonering.stage.toolbar.ToolbarStage;
 import stonering.stage.MapEntitySelectStage;
 import stonering.stage.pause.PauseMenuStage;

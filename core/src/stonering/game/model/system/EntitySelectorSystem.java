@@ -1,7 +1,10 @@
 package stonering.game.model.system;
 
-import stonering.entity.unit.aspects.RenderAspect;
+import com.badlogic.gdx.graphics.Color;
+import stonering.entity.RenderAspect;
+import stonering.entity.unit.aspects.OrientationAspect;
 import stonering.enums.blocks.BlockTypeEnum;
+import stonering.enums.buildings.BuildingType;
 import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.EntitySelector;
 import stonering.game.model.entity_selector.aspect.SelectionAspect;
@@ -12,6 +15,8 @@ import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
 import stonering.util.validation.PositionValidator;
 
+import static stonering.enums.OrientationEnum.N;
+
 /**
  * System that handles input passed to {@link EntitySelector}, does movement, validation and activation of selector.
  * On movement validation and render aspects are updated.
@@ -21,19 +26,23 @@ import stonering.util.validation.PositionValidator;
  * @author Alexander on 10.01.2020
  */
 public class EntitySelectorSystem implements ModelComponent {
+    private final Color selectionInvalidColor = new Color(1, 0, 0, 0.5f);
     public final EntitySelector selector;
     public final EntitySelectorInputHandler inputHandler;
-    
+
     public EntitySelectorSystem() {
         selector = new EntitySelector(new Position());
         selector.addAspect(new SelectionAspect(selector));
         selector.addAspect(new RenderAspect(selector, 0, 2, AtlasesEnum.ui_tiles));
+        selector.addAspect(new OrientationAspect(selector, N));
         inputHandler = new EntitySelectorInputHandler(this);
     }
 
     public void validateAndUpdate() {
         SelectionAspect aspect = selector.getAspect(SelectionAspect.class);
-        if (aspect.validator != null) aspect.validator.validateAnd(selector.position, bool -> {}); //TODO update render
+        aspect.validator.validateAnd(selector.position, bool -> {
+            if (!bool) selector.getAspect(RenderAspect.class).color = selectionInvalidColor;
+        }); //TODO update render
     }
 
     /**
@@ -41,13 +50,13 @@ public class EntitySelectorSystem implements ModelComponent {
      */
     public void handleSelection() {
         SelectionAspect aspect = selector.getAspect(SelectionAspect.class);
-        if(aspect.selectHandler != null) aspect.selectHandler.accept(aspect.getBox());
+        if (aspect.selectHandler != null) aspect.selectHandler.accept(aspect.getBox());
     }
 
     public void handleCancel() {
         selector.getAspect(SelectionAspect.class).boxStart = null;
         SelectionAspect aspect = selector.getAspect(SelectionAspect.class);
-        if(aspect.cancelHandler != null) aspect.cancelHandler.run();
+        if (aspect.cancelHandler != null) aspect.cancelHandler.run();
         Toolbar toolbar = GameMvc.view().toolbarStage.toolbar;
         toolbar.removeSubMenus(toolbar.parentMenu);
     }
@@ -81,5 +90,12 @@ public class EntitySelectorSystem implements ModelComponent {
             }
         }
         selectorMoved();
+    }
+    
+    public void rotateSelector(boolean clockwise) {
+        BuildingType type = selector.getAspect(SelectionAspect.class).type;
+        if(type == null) return;
+        selector.getAspect(OrientationAspect.class).rotate(clockwise);
+        selector.getAspect(RenderAspect.class).region = AtlasesEnum.buildings.getBlockTile(type.) 
     }
 }
