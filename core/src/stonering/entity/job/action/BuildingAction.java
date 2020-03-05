@@ -3,6 +3,7 @@ package stonering.entity.job.action;
 import stonering.entity.building.BuildingOrder;
 import stonering.entity.job.action.target.BuildingActionTarget;
 import stonering.entity.building.Building;
+import stonering.enums.OrientationEnum;
 import stonering.enums.buildings.BuildingType;
 import stonering.enums.buildings.BuildingTypeMap;
 import stonering.game.GameMvc;
@@ -24,7 +25,7 @@ public class BuildingAction extends GenericBuildingAction {
             Logger.TASKS.logDebug(buildingType.title + " built at " + actionTarget.getPosition());
             BuildingContainer buildingContainer = GameMvc.model().get(BuildingContainer.class);
             BuildingActionTarget target = (BuildingActionTarget) actionTarget;
-            Building building = buildingContainer.buildingGenerator.generateBuilding(buildingType.building, target.center); //TODO use material
+            Building building = buildingContainer.buildingGenerator.generateBuilding(buildingType.building, target.center, OrientationEnum.N); //TODO use material
             buildingContainer.addBuilding(building);
             consumeItems();
         };

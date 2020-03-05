@@ -4,9 +4,7 @@ import stonering.entity.building.Building;
 import stonering.enums.OrientationEnum;
 import stonering.stage.renderer.TileSpriteDescriptor;
 
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.List;
+import java.util.*;
 
 import static stonering.enums.OrientationEnum.*;
 
@@ -27,8 +25,8 @@ public class BuildingType {
     public String passage = "wall"; // points to block type
     public boolean construction = false;
     public List<String> recipes; // filled from crafting/lists.json
-    public int[] size = {1, 1}; // width/height
-    public EnumMap<OrientationEnum, int[]> sprites;
+    public int[] size = {1, 1}; // width/height for N orientation
+    public int[][] sprites = {};
     public int[] atlasXY;
     public String color = "0xffffffff";
 
@@ -36,12 +34,5 @@ public class BuildingType {
         aspects = new ArrayList<>();
         parts = new ArrayList<>();
         recipes = new ArrayList<>();
-        sprites = new EnumMap<>(OrientationEnum.class);
-        sprites.put(N, new int[]{0, 0});
-        sprites.put(S, new int[]{1, 0});
-        sprites.put(W, new int[]{0, 1});
-        sprites.put(E, new int[]{1, 1});
     }
-    
-    public TileSpriteDescriptor
 }

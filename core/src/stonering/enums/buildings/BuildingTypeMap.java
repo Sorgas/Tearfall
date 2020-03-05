@@ -48,8 +48,16 @@ public class BuildingTypeMap {
         List<BuildingType> elements = json.fromJson(ArrayList.class, BuildingType.class, FileLoader.get(filePath));
         for (BuildingType buildingType : elements) {
             buildings.put(buildingType.building, buildingType);
+            initSprites(buildingType);
         }
         Logger.LOADING.logDebug(map.keySet().size() + " loaded from " + filePath);
+    }
+
+    private void initSprites(BuildingType type) {
+        for (int[] value : type.sprites) {
+            value[0] += type.atlasXY[0];
+            value[1] += type.atlasXY[1];
+        }
     }
 
     /**

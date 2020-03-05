@@ -1,6 +1,7 @@
 package stonering.generators.localgen.generators;
 
 import stonering.entity.building.Building;
+import stonering.enums.OrientationEnum;
 import stonering.enums.blocks.BlockTypeEnum;
 import stonering.game.model.system.building.BuildingContainer;
 import stonering.game.model.local_map.LocalMap;
@@ -26,7 +27,7 @@ public class LocalBuildingGenerator extends LocalAbstractGenerator {
         Logger.GENERATION.log("generating buildings");
         Position position = findSurfacePosition();
         if(position == null) return;
-        Building building = buildingGenerator.generateBuilding("forge", position);
+        Building building = buildingGenerator.generateBuilding("forge", position, OrientationEnum.N);
         container.model.get(BuildingContainer.class).addBuilding(building);
     }
 

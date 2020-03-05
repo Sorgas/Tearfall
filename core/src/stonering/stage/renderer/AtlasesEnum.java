@@ -85,4 +85,18 @@ public enum AtlasesEnum {
         spriteCache.putIfAbsent(key, new TextureRegion(atlas, x * WIDTH, y * FULL_TILE_HEIGHT, WIDTH, TOPPING_BLOCK_HEIGHT));
         return spriteCache.get(key);
     }
+
+    /**
+     * Supports multi-tile regions.
+     */
+    public TextureRegion getRegion(int x, int y, int width, int heigth) {
+        TileSpriteDescriptor key = new TileSpriteDescriptor(x, y, Color.WHITE.toIntBits(), true);
+        spriteCache.putIfAbsent(key, new TextureRegion(atlas, x * WIDTH, y * FULL_TILE_HEIGHT,
+                WIDTH * width, DEPTH * heigth + HEIGHT));
+        return spriteCache.get(key);
+    }
+
+    public TextureRegion getRegion(int[] xy, int[] size) {
+        return getRegion(xy[0], xy[1], size[0], size[1]);
+    }
 }

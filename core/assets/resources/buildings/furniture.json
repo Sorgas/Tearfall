@@ -5,12 +5,8 @@
         "description": "Chair",
         "aspects": [["furniture"]],
         "passage": "floor",
-        "sprites": {
-            "N": [0, 0],
-            "S": [1, 0],
-            "W": [0, 1],
-            "E": [1, 1]
-        },
+        "sprites": [[0, 0], [1, 0], [0, 1], [1, 1]],
+        "atlasXY": [0,0],
         "color": "0xffffffff"
     }, {
     "building": "table",
@@ -18,12 +14,8 @@
     "description": "Table",
     "aspects": [["furniture"]],
     "passage": "floor",
-    "sprites": {
-        "N": [0, 0],
-        "S": [1, 0],
-        "W": [0, 1],
-        "E": [1, 1]
-    },
+    "sprites": [[0, 0], [1, 0], [0, 1], [1, 1]],
+    "atlasXY": [0,0],
     "color": "0xffffffff"
 }, {
     "building": "bed",
@@ -31,12 +23,8 @@
     "description": "Bed",
     "aspects": [["furniture"], ["rest_furniture"]],
     "passage": "floor",
-    "sprites": {
-        "N": [0, 0],
-        "S": [1, 0],
-        "W": [0, 1],
-        "E": [1, 1]
-    },
+    "sprites": [[0, 0], [1, 0], [0, 1], [1, 1]],
+    "atlasXY": [0,0],
     "color": "0xffffffff"
 }, {
     "building": "cupboard",
@@ -44,12 +32,8 @@
     "description": "Cupboard",
     "aspects": [["furniture"]],
     "passage": "floor",
-    "sprites": {
-        "N": [0, 0],
-        "S": [1, 0],
-        "W": [0, 1],
-        "E": [1, 1]
-    },
+    "sprites": [[0, 0], [1, 0], [0, 1], [1, 1]],
+    "atlasXY": [0,0],
     "color": "0xffffffff"
 }, {
     "building": "Chair",
@@ -57,12 +41,8 @@
     "description": "Chair",
     "aspects": [["furniture"]],
     "passage": "floor",
-    "sprites": {
-        "N": [0, 0],
-        "S": [1, 0],
-        "W": [0, 1],
-        "E": [1, 1]
-    },
+    "sprites": [[0, 0], [1, 0], [0, 1], [1, 1]],
+    "atlasXY": [0,0],
     "color": "0xffffffff"
 }
 ]

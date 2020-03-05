@@ -16,8 +16,7 @@
         "menuPath": ["constructions"],
         "placing": "construction",
         "parts": [
-            ["wall", "log", "wood", "4"],
-            ["wall2", "log", "wood", "4"]
+            ["wall", "log", "wood", "4"]
         ]
     }, {
     "name": "build_floor",
@@ -51,7 +50,6 @@
     "title": "Campfire",
     "building": "campfire",
     "menuPath": ["start"],
-    "placing": "floor",
     "parts": [
         ["campfire", "log/plank/branch/root", "wood", "4"]
     ]
@@ -60,7 +58,6 @@
     "title": "Carpenter workbench",
     "building": "carpenter_workbench",
     "menuPath": ["workbenches", "wood"],
-    "placing": "floor",
     "parts": [
         ["table", "log/plank/branch/root", "wood", "1"]
     ]
@@ -69,7 +66,6 @@
     "title": "Sawing rack",
     "building": "sawing_rack",
     "menuPath": ["workbenches", "wood"],
-    "placing": "floor",
     "parts": [
         ["campfire", "log/plank", "wood", "4"]
     ]
@@ -78,7 +74,6 @@
     "title": "Bed",
     "building": "bed",
     "menuPath": ["furniture"],
-    "placing": "floor",
     "parts": [
         ["bed", "bed_prefab", "furniture", "4"]
     ]

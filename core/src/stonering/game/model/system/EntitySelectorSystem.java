@@ -75,10 +75,6 @@ public class EntitySelectorSystem implements ModelComponent {
         GameMvc.view().localWorldStage.getCamera().handleSelectorMove();
     }
 
-    public void setPositionValidator(PositionValidator validator) {
-        selector.getAspect(SelectionAspect.class).validator = validator;
-    }
-
     public void placeSelectorAtMapCenter() {
         LocalMap localMap = GameMvc.model().get(LocalMap.class);
         selector.position.x = localMap.xSize / 2;
@@ -94,8 +90,9 @@ public class EntitySelectorSystem implements ModelComponent {
     
     public void rotateSelector(boolean clockwise) {
         BuildingType type = selector.getAspect(SelectionAspect.class).type;
-        if(type == null) return;
-        selector.getAspect(OrientationAspect.class).rotate(clockwise);
-        selector.getAspect(RenderAspect.class).region = AtlasesEnum.buildings.getBlockTile(type.) 
+        if(type == null || type.construction) return; // no rotation for constructions
+        OrientationAspect orientationAspect = selector.getAspect(OrientationAspect.class);
+        orientationAspect.rotate(clockwise);
+        selector.getAspect(RenderAspect.class).region = AtlasesEnum.buildings.getBlockTile(type.sprites[orientationAspect.current.ordinal()]);
     }
 }

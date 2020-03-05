@@ -16,6 +16,7 @@ public class Blueprint {
     public final String placing; // maps to position validator for place selecting and task checking.
     public final List<String> menuPath; // button path in toolbar
     public final LinkedHashMap<String, Ingredient> parts; // components mapped to building parts
+    public final boolean construction; // blueprint has no building type
 
     public Blueprint(RawBlueprint rawBlueprint) {
         name = rawBlueprint.name;
@@ -24,5 +25,6 @@ public class Blueprint {
         placing = rawBlueprint.placing;
         menuPath = rawBlueprint.menuPath;
         parts = new LinkedHashMap<>();
+        construction = "construction".equals(placing);
     }
 }

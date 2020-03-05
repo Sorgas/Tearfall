@@ -1,6 +1,5 @@
 package stonering.generators.buildings;
 
-import com.badlogic.gdx.Input;
 import stonering.enums.OrientationEnum;
 import stonering.enums.buildings.BuildingType;
 import stonering.entity.building.aspects.RestFurnitureAspect;
@@ -14,8 +13,6 @@ import stonering.entity.building.Building;
 import stonering.util.global.Logger;
 
 import java.util.List;
-
-import static stonering.enums.OrientationEnum.N;
 
 /**
  * Generates BuildingType entity from descriptors
@@ -34,12 +31,12 @@ public class BuildingGenerator {
         building.setMaterial(38); //TODO replace with material from task
         initAspects(building, type);
         createRenderAspect(building, type, orientation);
-        initBlocks(building, type);
+        initBlocks(building, type, orientation);
         return building;
     }
 
     private void createRenderAspect(Building building, BuildingType type, OrientationEnum orientation) {
-        building.addAspect(new RenderAspect(building, type.sprites.get(orientation), AtlasesEnum.buildings));
+        building.addAspect(new RenderAspect(building, type.sprites[orientation.ordinal()], AtlasesEnum.buildings));
     }
 
     /**
@@ -67,7 +64,7 @@ public class BuildingGenerator {
         }
     }
 
-    private void initBlocks(Building building, BuildingType type) {
+    private void initBlocks(Building building, BuildingType type, OrientationEnum orientation) {
         building.getBlock().position = building.position;
         building.getBlock().passage = type.passage;
     }

@@ -4,72 +4,47 @@
         "title": "Sawing rack",
         "description": "Small rack for sawing logs into planks.",
         "aspects": [["workbench"], ["item_container", "solid", "100"]],
-        "arts": ["table", "saw"],
-        "sprites": {
-            "N": [0, 0],
-            "S": [1, 0],
-            "W": [0, 1],
-            "E": [1, 1]
-        }
+        "parts": ["table", "saw"],
+        "sprites": [[0, 0], [1, 0], [0, 1], [1, 1]], "atlasXY": [0,0]
     }, {
     "building": "forge",
     "title": "Forge",
     "description": "Forge for blacksmithing",
     "aspects": [["workbench"], ["item_container", "solid", "100"]],
-    "part": ["anvil", "forge", "pool"],
-    "sprites": {
-        "N": [0, 0],
-        "S": [1, 0],
-        "W": [0, 1],
-        "E": [1, 1]
-    }
+    "parts": ["anvil", "forge", "pool"],
+    "sprites": [[0, 0], [1, 0], [0, 1], [1, 1]],
+    "atlasXY": [0,0]
 }, {
     "building": "tailor_shop",
     "title": "Tailor's workbench",
     "description": "Workbench for sewing clothes",
     "aspects": [["workbench"], ["item_container", "solid", "100"]],
-    "part": ["table", "chair"],
-    "sprites": {
-        "N": [0, 0],
-        "S": [1, 0],
-        "W": [0, 1],
-        "E": [1, 1]
-    }
+    "parts": ["table", "chair"],
+    "sprites": [[0, 0], [1, 0], [0, 1], [1, 1]],
+    "atlasXY": [0,0]
 }, {
     "building": "kitchen",
     "title": "Kitchen",
     "description": "Used to cook food.",
     "aspects": [["workbench"], ["item_container", "solid", "100"]],
     "parts": ["table", "chair"],
-    "sprites": {
-        "N": [0, 0],
-        "S": [1, 0],
-        "W": [0, 1],
-        "E": [1, 1]
-    }
+    "sprites": [[0, 0], [1, 0], [0, 1], [1, 1]],
+    "atlasXY": [0,0]
 }, {
     "building": "campfire",
     "title": "Campfire",
     "description": "Used for heating and cooking.",
     "aspects": [["workbench"], ["light_source"]],
-    "part": ["campfire"],
-    "sprites": {
-        "N": [0, 0],
-        "S": [1, 0],
-        "W": [0, 1],
-        "E": [1, 1]
-    }
+    "parts": ["campfire"],
+    "sprites": [[0, 0], [1, 0], [0, 1], [1, 1]],
+    "atlasXY": [0,0]
 }, {
     "building": "carpenter_workbench",
     "title": "Carpenter workbench",
     "description": "Most wooden things can be made here.",
     "aspects": [["workbench"], ["item_container", "solid", "100"]],
-    "part": ["table"],
-    "sprites": {
-        "N": [0, 0],
-        "S": [1, 0],
-        "W": [0, 1],
-        "E": [1, 1]
-    }
+    "parts": ["table"],
+    "sprites": [[0, 0], [1, 0], [0, 1], [1, 1]],
+    "atlasXY": [0,0]
 }
 ]

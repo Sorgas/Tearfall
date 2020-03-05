@@ -247,7 +247,7 @@ public class TileDrawer extends Drawer {
     }
 
     private void drawBuildingBlock(BuildingBlock block) {
-        if (block == null) return;
+        if (block == null || !block.building.position.equals(block.position)) return;
         RenderAspect aspect = block.building.getAspect(RenderAspect.class);
         spriteUtil.drawSprite(buildings.getBlockTile(aspect.atlasXY[0], aspect.atlasXY[1]), buildings, cachePosition);
     }

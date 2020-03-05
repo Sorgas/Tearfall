@@ -2,6 +2,7 @@ package stonering.test_chamber.model;
 
 import stonering.entity.item.Item;
 import stonering.entity.unit.Unit;
+import stonering.enums.OrientationEnum;
 import stonering.game.model.entity_selector.EntitySelector;
 import stonering.game.model.system.EntitySelectorSystem;
 import stonering.game.model.system.building.BuildingContainer;
@@ -27,10 +28,10 @@ public class WorkbenchModel extends TestModel {
     @Override
     public void init() {
         super.init();
-        get(BuildingContainer.class).addBuilding(buildingGenerator.generateBuilding("sawing_rack", new Position(2, 4, 2)));
-        get(BuildingContainer.class).addBuilding(buildingGenerator.generateBuilding("campfire", new Position(4, 4, 2)));
-        get(BuildingContainer.class).addBuilding(buildingGenerator.generateBuilding("carpenter_workbench", new Position(6, 4, 2)));
-        get(BuildingContainer.class).addBuilding(buildingGenerator.generateBuilding("bed", new Position(8, 4, 2)));
+        get(BuildingContainer.class).addBuilding(buildingGenerator.generateBuilding("sawing_rack", new Position(2, 4, 2), OrientationEnum.N));
+        get(BuildingContainer.class).addBuilding(buildingGenerator.generateBuilding("campfire", new Position(4, 4, 2), OrientationEnum.N));
+        get(BuildingContainer.class).addBuilding(buildingGenerator.generateBuilding("carpenter_workbench", new Position(6, 4, 2), OrientationEnum.N));
+        get(BuildingContainer.class).addBuilding(buildingGenerator.generateBuilding("bed", new Position(8, 4, 2), OrientationEnum.N));
         get(UnitContainer.class).addUnit(createUnit());
         get(EntitySelectorSystem.class).selector.position.set(4, 4, 2);
         createItems();
