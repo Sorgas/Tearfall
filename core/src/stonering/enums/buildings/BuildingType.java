@@ -1,5 +1,7 @@
 package stonering.enums.buildings;
 
+import stonering.stage.renderer.SpriteDescriptor;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +19,7 @@ public class BuildingType {
     public List<String> parts;
     public String passage = "wall"; // points to block type
     public boolean construction;
-
+    public SpriteDescriptor sprites;
     public int[] atlasXY;
     public String color = "0xffffffff";
 

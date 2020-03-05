@@ -11,6 +11,7 @@ import stonering.enums.buildings.blueprint.Blueprint;
 import stonering.enums.buildings.blueprint.BlueprintsMap;
 import stonering.enums.designations.PlaceValidatorsEnum;
 import stonering.game.GameMvc;
+import stonering.game.model.entity_selector.EntitySelector;
 import stonering.game.model.entity_selector.aspect.SelectionAspect;
 import stonering.game.model.system.EntitySelectorSystem;
 import stonering.stage.SingleWindowStage;
@@ -23,11 +24,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * ButtonMenu for selecting building.
+ * ButtonMenu for selecting buildings and constructions to build.
  * Translates all blueprints from {@link BlueprintsMap} to buttons.
- * Constructions are treated the same as buildings here.
- * On selection, handler defines how many buildings will be created and their places,
- * and then shows menu for selecting materials to build.
+ * On button press, {@link EntitySelector} goes into designating mod, allowing to select a box.
+ * When box is selected, {@link BuildingMaterialSelectMenu} is shown, where player can chose materials for building.
+ * After confirmation in menu, designations for building are created.
+ *
  * TODO add various designation sprites for ramps.
  *
  * @author Alexander Kuzyakov on 25.01.2018.
@@ -41,14 +43,13 @@ public class ToolbarBuildingMenu extends ToolbarSubMenuMenu {
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
                     EntitySelectorSystem system = GameMvc.model().get(EntitySelectorSystem.class);
+                    SelectionAspect selection = system.selector.getAspect(SelectionAspect.class);
                     setSpriteToSelector(system, BuildingTypeMap.instance().getBuilding(blueprint.building));
                     system.setPositionValidator(PlaceValidatorsEnum.getValidator(blueprint.placing));
-                    SelectionAspect aspect = system.selector.getAspect(SelectionAspect.class);
-                    aspect.validator = PlaceValidatorsEnum.getValidator(blueprint.placing);
                     system.inputHandler.allowChangingZLevelOnSelection = false;
-                    aspect.selectHandler = box -> {
+                    selection.selectHandler = box -> {
                         List<Position> positions = new ArrayList<>();
-                        aspect.boxIterator.accept(positions::add); // todo replace with orientation beans.
+                        selection.boxIterator.accept(positions::add); // todo replace with orientation beans.
                         new SingleWindowStage<>(new BuildingMaterialSelectMenu(blueprint, positions), true).show();
                     };
                 }
@@ -61,7 +62,7 @@ public class ToolbarBuildingMenu extends ToolbarSubMenuMenu {
         if (type.construction) { // special sprites for constructions
             int x = ConstructionTileSelector.select(BlockTypeEnum.getType(type.passage));
             region = AtlasesEnum.ui_tiles.getBlockTile(x, 0);
-        } else { // building sprite for buildings
+        } else { // building sprites for buildings
             region = AtlasesEnum.buildings.getBlockTile(type.atlasXY);
         }
         system.selector.getAspect(RenderAspect.class).region = region;
