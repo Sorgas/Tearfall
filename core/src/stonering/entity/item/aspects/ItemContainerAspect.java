@@ -17,7 +17,6 @@ import java.util.List;
  * @author Alexander_Kuzyakov
  */
 public class ItemContainerAspect extends Aspect {
-    public static final String NAME = "item_container";
     public static final String SOLID = "solid";
     public static final String LIQUID = "liquid"; // items with liquid aspect
     public static final String GRAIN = "grain"; // items with grain aspect

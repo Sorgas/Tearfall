@@ -50,7 +50,7 @@ public class BuildingGenerator {
                         building.addAspect(new WorkbenchAspect(building));
                         break;
                     }
-                    case ItemContainerAspect.NAME: {
+                    case "item_container": {
                         ItemContainerAspect itemContainerAspect = new ItemContainerAspect(building, aspect.get(1).split("/"));
                         building.addAspect(itemContainerAspect);
                         break;

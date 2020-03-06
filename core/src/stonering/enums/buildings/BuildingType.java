@@ -1,12 +1,8 @@
 package stonering.enums.buildings;
 
 import stonering.entity.building.Building;
-import stonering.enums.OrientationEnum;
-import stonering.stage.renderer.TileSpriteDescriptor;
 
 import java.util.*;
-
-import static stonering.enums.OrientationEnum.*;
 
 /**
  * Type of {@link Building}.
@@ -26,7 +22,7 @@ public class BuildingType {
     public boolean construction = false;
     public List<String> recipes; // filled from crafting/lists.json
     public int[] size = {1, 1}; // width/height for N orientation
-    public int[][] sprites = {};
+    public int[][] sprites = {{0, 0}, {0, 1}, {1, 0}, {1, 1}};
     public int[] atlasXY;
     public String color = "0xffffffff";
 
