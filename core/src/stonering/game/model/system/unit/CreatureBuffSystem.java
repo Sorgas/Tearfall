@@ -12,7 +12,7 @@ import java.util.Iterator;
 
 /**
  * System for updating creatures {@link Buff}s.
- * All buff changes should be performed through this system.
+ * Buff adding and removing be performed with this system.
  * No buffs should have same icons.
  *
  * @author Alexander on 16.09.2019.

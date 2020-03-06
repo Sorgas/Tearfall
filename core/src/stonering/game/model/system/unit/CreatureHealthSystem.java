@@ -14,7 +14,7 @@ import stonering.util.global.Logger;
 
 /**
  * Updates health condition of a unit ({@link HealthAspect}).
- * Iterates health parameters of a creature, adding some constant value (delta) to them.
+ * Iterates health parameters of a creature, adding some constant (delta) to them.
  * Health condition buffs depend on relative value of health parameter.
  * MVP: constant parameter ranges, increase/restore speeds, no treats.
  * <p>

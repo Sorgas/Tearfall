@@ -7,9 +7,9 @@ import stonering.game.model.system.unit.CreatureBuffSystem;
 
 /**
  * Can be applied to creature by {@link CreatureBuffSystem}.
- * Is part of {@link BuffAspect}. Has optional item.
+ * Is part of {@link BuffAspect}. Has optional icon.
  * Has counter of ticks to expiration. Expired buffs are unapplied from unit by {@link CreatureBuffSystem}.
- * If counter is set to negative, buff is infinite and should be removed externally.
+ * If counter is negative, buff is infinite and should be removed externally.
  *
  * @author Alexander on 16.09.2019.
  */

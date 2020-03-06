@@ -44,7 +44,7 @@ public class CreatureNeedSystem extends EntitySystem<Unit> {
 
     private boolean clearCompletedTask(NeedsAspect aspect) {
         if (aspect.satisfyingTask != null && (aspect.satisfyingTask.status == FAILED || aspect.satisfyingTask.status == COMPLETE))
-            aspect.satisfyingTask = null;
+            aspect.satisfyingTask = null; // remove ended task from aspect
         return aspect.satisfyingTask == null;
     }
 
