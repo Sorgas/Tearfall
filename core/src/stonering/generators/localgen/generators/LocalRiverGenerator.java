@@ -23,7 +23,7 @@ import java.util.Collections;
  *
  * @author Alexander Kuzyakov on 10.07.2017.
  */
-public class LocalRiverGenerator extends LocalAbstractGenerator {
+public class LocalRiverGenerator extends LocalGenerator {
     private WorldMap worldMap;
     private LocalMap localMap;
     private Position location;

@@ -12,7 +12,7 @@ import stonering.util.geometry.Position;
  *
  * @author Alexander Kuzyakov on 03.12.2017.
  */
-public class LocalFaunaGenerator extends LocalAbstractGenerator {
+public class LocalFaunaGenerator extends LocalGenerator {
     private CreatureGenerator creatureGenerator;
     private LocalMap localMap;
 

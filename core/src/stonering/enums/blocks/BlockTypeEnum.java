@@ -2,7 +2,7 @@ package stonering.enums.blocks;
 
 import java.util.HashMap;
 
-import static stonering.enums.blocks.BlockTypeEnum.PassageEnum.*;
+import static stonering.enums.blocks.PassageEnum.*;
 
 /**
  * Enum of all block types.
@@ -57,16 +57,5 @@ public enum BlockTypeEnum {
 
     public static BlockTypeEnum getType(String name) {
         return nameMap.get(name);
-    }
-
-    public enum PassageEnum {
-        PASSABLE(1),
-        IMPASSABLE(0);
-
-        public byte VALUE;
-
-        PassageEnum(int value) {
-            VALUE = (byte) value;
-        }
     }
 }

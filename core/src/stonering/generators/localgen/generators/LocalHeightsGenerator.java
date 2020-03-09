@@ -15,7 +15,7 @@ import java.util.Random;
  *
  * @author Alexander Kuzyakov on 21.08.2017.
  */
-public class LocalHeightsGenerator extends LocalAbstractGenerator {
+public class LocalHeightsGenerator extends LocalGenerator {
     private WorldMap worldMap;
     private int localAreaSize;
     private float[][] localHightMap;

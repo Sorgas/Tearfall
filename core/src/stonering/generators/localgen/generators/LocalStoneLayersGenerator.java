@@ -15,7 +15,7 @@ import java.util.*;
  *
  * @author Alexander Kuzyakov on 01.08.2017.
  */
-public class LocalStoneLayersGenerator extends LocalAbstractGenerator {
+public class LocalStoneLayersGenerator extends LocalGenerator {
     private LocalMap map;
     private int[][] heigtsMap;
     private int surfaceLevel;

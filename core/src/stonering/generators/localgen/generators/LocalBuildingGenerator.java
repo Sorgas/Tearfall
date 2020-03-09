@@ -15,7 +15,7 @@ import stonering.util.global.Logger;
  *
  * @author Alexander Kuzyakov on 07.12.2017.
  */
-public class LocalBuildingGenerator extends LocalAbstractGenerator {
+public class LocalBuildingGenerator extends LocalGenerator {
     private BuildingGenerator buildingGenerator;
 
     public LocalBuildingGenerator(LocalGenContainer container) {

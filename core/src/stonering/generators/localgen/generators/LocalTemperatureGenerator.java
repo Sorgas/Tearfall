@@ -12,7 +12,7 @@ import stonering.util.global.Logger;
  *
  * @author Alexander Kuzyakov on 14.03.2018.
  */
-public class LocalTemperatureGenerator extends LocalAbstractGenerator {
+public class LocalTemperatureGenerator extends LocalGenerator {
 
     public LocalTemperatureGenerator(LocalGenContainer container) {
         super(container);

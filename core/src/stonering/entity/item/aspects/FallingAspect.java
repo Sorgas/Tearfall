@@ -15,7 +15,6 @@ import stonering.entity.item.Item;
  * @author Savva Kodeikin
  */
 public class FallingAspect extends Aspect {
-    public static final String NAME = "falling";
 
     public FallingAspect(Entity entity) {
         super(entity);

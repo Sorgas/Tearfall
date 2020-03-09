@@ -46,7 +46,7 @@ public class ToolbarBuildingMenu extends ToolbarSubMenuMenu {
                 public void changed(ChangeEvent event, Actor actor) {
                     EntitySelectorSystem system = GameMvc.model().get(EntitySelectorSystem.class);
                     SelectionAspect selection = system.selector.getAspect(SelectionAspect.class);
-                    BuildingType type = BuildingTypeMap.instance().getBuilding(blueprint.building);
+                    BuildingType type = BuildingTypeMap.getBuilding(blueprint.building);
                     selection.type = type;
                     setSpriteToSelector(system, type);
                     selection.validator = PlaceValidatorsEnum.getValidator(blueprint.placing);

@@ -3,11 +3,11 @@ package stonering.generators.localgen.generators;
 import stonering.generators.localgen.LocalGenConfig;
 import stonering.generators.localgen.LocalGenContainer;
 
-public abstract class LocalAbstractGenerator {
+public abstract class LocalGenerator {
     protected LocalGenContainer container;
     protected LocalGenConfig config;
 
-    public LocalAbstractGenerator(LocalGenContainer container) {
+    public LocalGenerator(LocalGenContainer container) {
         this.container = container;
         config = container.config;
     }

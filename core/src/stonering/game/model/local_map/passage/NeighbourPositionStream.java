@@ -1,6 +1,7 @@
 package stonering.game.model.local_map.passage;
 
 import stonering.enums.blocks.BlockTypeEnum;
+import stonering.enums.blocks.PassageEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
@@ -63,7 +64,7 @@ public class NeighbourPositionStream {
         return this;
     }
 
-    public NeighbourPositionStream filterByPassage(BlockTypeEnum.PassageEnum passage) {
+    public NeighbourPositionStream filterByPassage(PassageEnum passage) {
         stream = stream.filter(position -> passageMap.passage.get(position) == passage.VALUE);
         return this;
     }

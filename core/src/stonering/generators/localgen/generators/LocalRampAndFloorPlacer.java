@@ -10,7 +10,7 @@ import stonering.util.global.Logger;
  *
  * @author Alexander Kuzyakov on 17.10.2017.
  */
-public class LocalRampAndFloorPlacer extends LocalAbstractGenerator {
+public class LocalRampAndFloorPlacer extends LocalGenerator {
     private LocalMap localMap;
     private int wallCode = BlockTypeEnum.WALL.CODE;
     private int spaceCode = BlockTypeEnum.SPACE.CODE;

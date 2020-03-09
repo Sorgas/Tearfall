@@ -10,7 +10,7 @@ import stonering.generators.localgen.LocalGenContainer;
  *
  * @author Alexander Kuzyakov on 28.02.2019.
  */
-public class LocalClimateGenerator extends LocalAbstractGenerator {
+public class LocalClimateGenerator extends LocalGenerator {
     private LocalGenContainer container;
     private LocalGenConfig config;
     private LocalMap localMap;

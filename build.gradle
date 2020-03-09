@@ -62,7 +62,8 @@ project(":core") {
         testImplementation "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
         testImplementation project(":core")
         testRuntimeOnly project(":core")
-        
+
+        compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
         compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"

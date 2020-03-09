@@ -114,11 +114,11 @@ public class ItemGenerator {
      */
     private Aspect createItemAspect(String name, List<String> params) {
         switch (name) {
-            case FallingAspect.NAME:
+            case "falling":
                 return new FallingAspect(null);
-            case SeedAspect.NAME:
+            case "seed":
                 return new SeedAspect(null);
-            case ItemContainerAspect.NAME:
+            case "item_container":
                 return new ItemContainerAspect(null, params.get(0).split("/"));
             default:
                 return null;

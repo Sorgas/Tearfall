@@ -18,7 +18,7 @@ import java.util.HashSet;
  *
  * @author Alexander Kuzyakov
  */
-public class LocalSurfaceWaterPoolsGenerator extends LocalAbstractGenerator {
+public class LocalSurfaceWaterPoolsGenerator extends LocalGenerator {
     private LocalMap localMap;
 
     public LocalSurfaceWaterPoolsGenerator(LocalGenContainer container) {

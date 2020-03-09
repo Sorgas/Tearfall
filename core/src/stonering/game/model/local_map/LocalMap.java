@@ -2,6 +2,7 @@ package stonering.game.model.local_map;
 
 import com.badlogic.gdx.math.Vector2;
 import stonering.enums.blocks.BlockTypeEnum;
+import stonering.enums.blocks.PassageEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.passage.PassageMap;
 import stonering.game.model.system.ModelComponent;
@@ -17,8 +18,8 @@ import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import static stonering.enums.blocks.BlockTypeEnum.PassageEnum.IMPASSABLE;
-import static stonering.enums.blocks.BlockTypeEnum.PassageEnum.PASSABLE;
+import static stonering.enums.blocks.PassageEnum.IMPASSABLE;
+import static stonering.enums.blocks.PassageEnum.PASSABLE;
 
 /**
  * Contains blocks, and physical parameters, and proxies to entity.
@@ -138,7 +139,7 @@ public class LocalMap implements ModelComponent, Initable {
      * Returns tile adjacent to given and with walk passing.
      * Returns same position if no neighbour found.
      */
-    public Position getAnyNeighbourPosition(Position position, BlockTypeEnum.PassageEnum passing) {
+    public Position getAnyNeighbourPosition(Position position, PassageEnum passing) {
         for (int x = position.x - 1; x < position.x + 2; x++) {
             for (int y = position.y - 1; y < position.y + 2; y++) {
                 if (inMap(position) && passageMap.passage.get(x, y, position.z) == passing.VALUE)

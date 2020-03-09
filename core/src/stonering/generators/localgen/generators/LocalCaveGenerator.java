@@ -12,7 +12,7 @@ import java.util.Random;
 /**
  * @author Alexander Kuzyakov on 22.10.2017.
  */
-public class LocalCaveGenerator extends LocalAbstractGenerator {
+public class LocalCaveGenerator extends LocalGenerator {
     private int localAreaSize;
     private LocalMap localMap;
     private Random random;

@@ -1,6 +1,7 @@
 package stonering.game.model.local_map.passage;
 
 import stonering.enums.blocks.BlockTypeEnum;
+import stonering.enums.blocks.PassageEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
 import stonering.game.model.local_map.ByteArrayWithCounter;
@@ -11,8 +12,8 @@ import stonering.game.model.util.UtilByteArray;
 import stonering.util.geometry.Position;
 
 import static stonering.enums.blocks.BlockTypeEnum.*;
-import static stonering.enums.blocks.BlockTypeEnum.PassageEnum.IMPASSABLE;
-import static stonering.enums.blocks.BlockTypeEnum.PassageEnum.PASSABLE;
+import static stonering.enums.blocks.PassageEnum.IMPASSABLE;
+import static stonering.enums.blocks.PassageEnum.PASSABLE;
 
 /**
  * Sub-component of {@link LocalMap}, is created on local map init.

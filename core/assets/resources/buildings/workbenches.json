@@ -46,7 +46,12 @@
     "title": "Kitchen",
     "description": "",
     "aspects": [["workbench"], ["item_container", "solid", "100"]],
-    "parts": ["table", "saw"],
+    "size": [2, 1],
+    "sprites": [
+        [0, 0], [0, 1], [2, 0], [3, 0]
+    ],
+    "parts": ["table"],
+    "passage": "XX",
     "atlasXY": [0, 0]
 }, {
     "building": "loom",
@@ -62,5 +67,5 @@
     "aspects": [["workbench"], ["item_container", "solid", "100"]],
     "parts": ["table", "saw"],
     "atlasXY": [0, 0]
-} 
+}
 ]

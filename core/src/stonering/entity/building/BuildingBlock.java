@@ -1,7 +1,10 @@
 package stonering.entity.building;
 
 import stonering.enums.blocks.BlockTypeEnum;
+import stonering.enums.blocks.PassageEnum;
 import stonering.util.geometry.Position;
+
+import static stonering.enums.blocks.PassageEnum.PASSABLE;
 
 /**
  * As buildings can have multiple tiles, block represent single tile from a building.
@@ -9,15 +12,17 @@ import stonering.util.geometry.Position;
  * @author Alexander Kuzyakov on 09.12.2017.
  */
 public class BuildingBlock {
-    public Building building;
-    public Position position;
-    public String passage;
+    public Building building; // building of this block
+    public Position position; // block position on map
+    public PassageEnum passage; // passage of this block
 
     public boolean isPassable() {
-        return BlockTypeEnum.getType(passage).PASSING == BlockTypeEnum.PassageEnum.PASSABLE;
+        return passage == PASSABLE;
     }
 
-    public BuildingBlock(Building building) {
+    public BuildingBlock(Building building, Position position, PassageEnum passage) {
         this.building = building;
+        this.position = position;
+        this.passage = passage;
     }
 }

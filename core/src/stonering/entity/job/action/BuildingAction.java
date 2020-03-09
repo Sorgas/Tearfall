@@ -19,7 +19,7 @@ public class BuildingAction extends GenericBuildingAction {
 
     public BuildingAction(BuildingOrder order) {
         super(order);
-        buildingType = BuildingTypeMap.instance().getBuilding(order.blueprint.building);
+        buildingType = BuildingTypeMap.getBuilding(order.blueprint.building);
 
         onFinish = () -> {
             Logger.TASKS.logDebug(buildingType.title + " built at " + actionTarget.getPosition());

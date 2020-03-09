@@ -34,7 +34,7 @@ public class BuildingActionTarget extends ActionTarget {
     }
 
     public boolean findPositionForBuilder(BuildingOrder order, Position currentBuilderPosition) {
-        BlockTypeEnum type = BlockTypeEnum.getType(BuildingTypeMap.instance().getBuilding(order.blueprint.building).passage);
+        BlockTypeEnum type = BlockTypeEnum.getType(BuildingTypeMap.getBuilding(order.blueprint.building).passage);
         builderPosition = new NeighbourPositionStream(center)
                 .filterByAccessibilityWithFutureTile(type)
                 .filterInArea(GameMvc.model().get(LocalMap.class).passageMap.area.get(currentBuilderPosition))

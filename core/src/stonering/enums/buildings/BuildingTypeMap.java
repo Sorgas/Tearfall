@@ -2,6 +2,7 @@ package stonering.enums.buildings;
 
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
+import stonering.enums.blocks.PassageEnum;
 import stonering.enums.items.recipe.RecipeMap;
 import stonering.enums.plants.PlantType;
 import stonering.util.global.FileLoader;
@@ -30,15 +31,8 @@ public class BuildingTypeMap {
         json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
         loadTypesFileToMap(FileLoader.BUILDINGS_PATH, buildings);
-        loadTypesFileToMap(FileLoader.CONSTRUCTIONS_PATH, constructions);
         loadTypesFileToMap(FileLoader.FURNITURE_PATH, buildings);
         loadLists();
-    }
-
-    public static BuildingTypeMap instance() {
-        if (instance == null)
-            instance = new BuildingTypeMap();
-        return instance;
     }
 
     /**
@@ -48,7 +42,8 @@ public class BuildingTypeMap {
         List<BuildingType> elements = json.fromJson(ArrayList.class, BuildingType.class, FileLoader.get(filePath));
         for (BuildingType buildingType : elements) {
             buildings.put(buildingType.building, buildingType);
-            initSprites(buildingType);
+            initSprites(buildingType); // adds offset to sprites
+            parsePassage(buildingType);
         }
         Logger.LOADING.logDebug(map.keySet().size() + " loaded from " + filePath);
     }
@@ -57,6 +52,17 @@ public class BuildingTypeMap {
         for (int[] value : type.sprites) {
             value[0] += type.atlasXY[0];
             value[1] += type.atlasXY[1];
+        }
+    }
+
+    private void parsePassage(BuildingType type) {
+        type.passageArray = new PassageEnum[type.size[0]][type.size[1]];
+        char[] chars = type.passage.toCharArray();
+        for (int x = 0; x < type.size[0]; x++) {
+            for (int y = 0; y < type.size[1]; y++) {
+                int i = y * type.size[0] + x;
+                type.passageArray[x][y] = PassageEnum.get(chars[i]);
+            }
         }
     }
 
@@ -76,15 +82,12 @@ public class BuildingTypeMap {
         }
     }
 
-    public boolean hasMaterial(String title) {
-        return buildings.containsKey(title);
+    public static BuildingType getBuilding(String name) {
+        return instance().buildings.get(name);
     }
 
-    public BuildingType getBuilding(String name) {
-        return buildings.get(name);
-    }
-    
-    public boolean hasBuilding(String name) {
-        return buildings.containsKey(name);
+    private static BuildingTypeMap instance() {
+        if (instance == null) instance = new BuildingTypeMap();
+        return instance;
     }
 }

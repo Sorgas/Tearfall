@@ -2,6 +2,7 @@ package stonering.game.model.system.building;
 
 import stonering.entity.Aspect;
 import stonering.entity.building.BuildingBlock;
+import stonering.enums.blocks.PassageEnum;
 import stonering.enums.time.TimeUnitEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.Updatable;
@@ -12,13 +13,12 @@ import stonering.game.model.system.ModelComponent;
 import stonering.generators.buildings.BuildingGenerator;
 import stonering.entity.building.Building;
 import stonering.util.geometry.Position;
+import stonering.util.global.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static stonering.enums.blocks.BlockTypeEnum.PassageEnum.PASSABLE;
 
 /**
  * Contains all Buildings on localMap.
@@ -47,40 +47,54 @@ public class BuildingContainer extends EntityContainer<Building> implements Mode
 
     private void removeMarkedForDelete() {
         entities.removeAll(removedBuildings);
-        for (Building removedBuilding : removedBuildings) {
-            buildingBlocks.remove(removedBuilding.getBlock().position);
+        for (Building building : removedBuildings) {
+            for (BuildingBlock[] blocks : building.blocks) {
+                for (BuildingBlock block : blocks) {
+                    buildingBlocks.remove(block.position);
+                }
+            }
         }
     }
 
     /**
-     * Adds building to container and places it on map.
+     * Adds building and all its blocks to container. Checks only intersections with existing buildings.
      */
     public void addBuilding(Building building) {
-        Position position = building.getBlock().position;
-        building.init();
+        for (BuildingBlock[] blocks : building.blocks) {
+            for (BuildingBlock block : blocks) {
+                if (!buildingBlocks.containsKey(block.position)) continue;
+                Logger.BUILDING.logError("Building is placed on another building in " + block.position);
+                return; // adding failed
+            }
+        }
+        for (BuildingBlock[] blocks : building.blocks) {
+            for (BuildingBlock block : blocks) {
+                buildingBlocks.put(block.position, block); // add block
+            }
+        }
+        for (BuildingBlock[] blocks : building.blocks) {
+            for (BuildingBlock block : blocks) {
+                GameMvc.model().get(LocalMap.class).updateTile(building.position);
+            }
+        }
         entities.add(building);
-        buildingBlocks.put(position, building.getBlock());
-        tryMoveItems(position);
-        GameMvc.instance().model().get(LocalMap.class).updateTile(position);
-    }
-
-    /**
-     * Removes building from container and from map.
-     */
-    public void removeBuilding(Building building) {
-        entities.remove(building);
-        buildingBlocks.remove(building.getBlock().position);
+        tryMoveItems(building);
     }
 
     /**
      * Moves item from the target tile to neighbour one.
      */
-    private void tryMoveItems(Position target) {
-        ItemContainer container = GameMvc.instance().model().get(ItemContainer.class);
-        if (container.getItemsInPosition(target).isEmpty()) return; // no items in target position
-        Position newPosition = GameMvc.instance().model().get(LocalMap.class).getAnyNeighbourPosition(target, PASSABLE);
-        if (newPosition.equals(target)) return; // no moving, if no valid position found
-        container.getItemsInPosition(target).forEach(item -> container.onMapItemsSystem.changeItemPosition(item, newPosition));
+    private void tryMoveItems(Building building) {
+        ItemContainer container = GameMvc.model().get(ItemContainer.class);
+        for (BuildingBlock[] blocks : building.blocks) {
+            for (BuildingBlock block : blocks) {
+                Position target = block.position;
+                if (container.getItemsInPosition(target).isEmpty()) return; // no items in target position
+                Position newPosition = GameMvc.model().get(LocalMap.class).getAnyNeighbourPosition(target, PassageEnum.PASSABLE);
+                if (newPosition.equals(target)) return; // no moving, if no valid position found
+                container.getItemsInPosition(target).forEach(item -> container.onMapItemsSystem.changeItemPosition(item, newPosition));
+            }
+        }
     }
 
     public boolean hasBuilding(Position position) {

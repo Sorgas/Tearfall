@@ -22,7 +22,6 @@ import stonering.stage.workbench.BuildingStage;
 import stonering.stage.zone.ZoneMenuStage;
 import stonering.util.geometry.Int3dBounds;
 import stonering.widget.lists.ObservingList;
-import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
 
 import java.util.ArrayList;
@@ -75,7 +74,7 @@ public class MapEntitySelectStage extends UiStage {
 
     private void showEntityStage(Entity entity) {
         if (entity instanceof Building) {
-            tryShowBuildingStage(((Building) entity).getBlock());
+            tryShowBuildingStage(((Building) entity).blocks[0][0]);
         } else if (entity instanceof Zone) {
             tryShowZoneStage((Zone) entity);
         } else if (entity instanceof Item) {

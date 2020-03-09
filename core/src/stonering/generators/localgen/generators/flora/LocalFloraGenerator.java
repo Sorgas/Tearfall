@@ -7,7 +7,7 @@ import stonering.enums.plants.PlantType;
 import stonering.game.model.system.plant.PlantContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.generators.localgen.LocalGenContainer;
-import stonering.generators.localgen.generators.LocalAbstractGenerator;
+import stonering.generators.localgen.generators.LocalGenerator;
 import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
 
@@ -25,7 +25,7 @@ import static stonering.enums.generation.PlantPlacingTagEnum.*;
  *
  * @author Alexander Kuzyakov on 10.04.2018.
  */
-public abstract class LocalFloraGenerator extends LocalAbstractGenerator {
+public abstract class LocalFloraGenerator extends LocalGenerator {
     protected LocalMap localMap;
     protected PlantContainer plantContainer;
     private float maxTemp;

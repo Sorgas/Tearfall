@@ -12,7 +12,7 @@ import stonering.entity.item.Item;
  *
  * @author Alexander Kuzyakov on 26.01.2018.
  */
-public class LocalItemsGenerator extends LocalAbstractGenerator {
+public class LocalItemsGenerator extends LocalGenerator {
     private ItemGenerator itemGenerator;
     private LocalMap localMap;
 

@@ -2,3 +2,4 @@ apply plugin: "java"
 
 sourceCompatibility = 1.10
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+

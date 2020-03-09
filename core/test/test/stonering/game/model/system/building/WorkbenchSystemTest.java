@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import stonering.entity.building.Building;
+import stonering.enums.OrientationEnum;
 import stonering.enums.buildings.BuildingType;
 import stonering.entity.building.aspects.WorkbenchAspect;
 import stonering.entity.crafting.ItemOrder;
@@ -67,8 +68,8 @@ public class WorkbenchSystemTest {
         unit = new Unit(new Position(), new CreatureType());
         unit.addAspect(new PlanningAspect(unit));
         unit.addAspect(new JobsAspect(unit));
-        GameMvc.instance().model().get(UnitContainer.class).addUnit(unit);
-        workbench = new Building(new Position(), new BuildingType());
+        GameMvc.model().get(UnitContainer.class).addUnit(unit);
+        workbench = new Building(new Position(), new BuildingType(), OrientationEnum.N);
         workbench.addAspect(aspect = new WorkbenchAspect(workbench));
         aspect.recipes.add(createRecipe());
     }
