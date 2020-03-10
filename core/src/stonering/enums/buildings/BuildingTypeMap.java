@@ -4,14 +4,12 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import stonering.enums.blocks.PassageEnum;
 import stonering.enums.items.recipe.RecipeMap;
-import stonering.enums.plants.PlantType;
-import stonering.util.global.FileLoader;
+import stonering.util.global.FileUtil;
 import stonering.util.global.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -22,30 +20,24 @@ import java.util.stream.Collectors;
 public class BuildingTypeMap {
     private static BuildingTypeMap instance;
     private HashMap<String, BuildingType> buildings;
-    private HashMap<String, BuildingType> constructions;
     private Json json;
 
     private BuildingTypeMap() {
         buildings = new HashMap<>();
-        constructions = new HashMap<>();
         json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
-        loadTypesFileToMap(FileLoader.BUILDINGS_PATH, buildings);
-        loadTypesFileToMap(FileLoader.FURNITURE_PATH, buildings);
+        FileUtil.iterate(FileUtil.BUILDINGS_PATH, file -> {
+            int counter = 0;
+            List<BuildingType> elements = json.fromJson(ArrayList.class, BuildingType.class, file);
+            for (BuildingType buildingType : elements) {
+                buildings.put(buildingType.building, buildingType);
+                initSprites(buildingType); // adds offset to sprites
+                parsePassage(buildingType); // parse passage string into map of passage
+                counter ++;
+            }
+            Logger.LOADING.logDebug(counter + " loaded from " + file.path());
+        });
         loadLists();
-    }
-
-    /**
-     * Loads {@link PlantType} from given file into given file.
-     */
-    private void loadTypesFileToMap(String filePath, Map<String, BuildingType> map) {
-        List<BuildingType> elements = json.fromJson(ArrayList.class, BuildingType.class, FileLoader.get(filePath));
-        for (BuildingType buildingType : elements) {
-            buildings.put(buildingType.building, buildingType);
-            initSprites(buildingType); // adds offset to sprites
-            parsePassage(buildingType);
-        }
-        Logger.LOADING.logDebug(map.keySet().size() + " loaded from " + filePath);
     }
 
     private void initSprites(BuildingType type) {
@@ -72,12 +64,26 @@ public class BuildingTypeMap {
     private void loadLists() {
         Logger.LOADING.log("building recipes");
         RecipeMap recipeMap = RecipeMap.instance();
-        ArrayList<ArrayList<String>> elements = json.fromJson(ArrayList.class, ArrayList.class, FileLoader.get(FileLoader.RECIPE_LISTS_PATH));
+        FileUtil.iterate(FileUtil.RECIPE_LISTS_PATH, file -> {
+            ArrayList<ArrayList<String>> elements = json.fromJson(ArrayList.class, ArrayList.class, file);
+            for (List<String> recipeList : elements) {
+                String buildingName = recipeList.remove(0);
+                if(buildings.containsKey(buildingName)) {
+                    BuildingType type = buildings.get(buildingName);
+                    type.recipes = recipeList.stream().filter(recipeMap::hasRecipe).collect(Collectors.toList());
+                } else {
+                    Logger.LOADING.logWarn("Recipes for unknown building " + buildingName + " ignored.");
+                }
+            }
+        });
+        ArrayList<ArrayList<String>> elements = json.fromJson(ArrayList.class, ArrayList.class, FileUtil.get(FileUtil.RECIPE_LISTS_PATH));
         for (List<String> recipeList : elements) {
             String buildingName = recipeList.remove(0);
             if(buildings.containsKey(buildingName)) {
                 BuildingType type = buildings.get(buildingName);
                 type.recipes = recipeList.stream().filter(recipeMap::hasRecipe).collect(Collectors.toList());
+            } else {
+                Logger.LOADING.logWarn("Recipes for unknown building " + buildingName + " ignored.");
             }
         }
     }

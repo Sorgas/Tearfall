@@ -1,7 +1,7 @@
 package stonering.enums.unit;
 
 import com.badlogic.gdx.utils.Json;
-import stonering.util.global.FileLoader;
+import stonering.util.global.FileUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,7 +32,7 @@ public class SkillsMap {
 
     private void loadTemplates() {
         Json json = new Json();
-        ArrayList<Skill> skills = json.fromJson(ArrayList.class, Skill.class, FileLoader.get(FileLoader.SKILLS_PATH));
+        ArrayList<Skill> skills = json.fromJson(ArrayList.class, Skill.class, FileUtil.get(FileUtil.SKILLS_PATH));
         for (Skill skill : skills) {
             this.skills.put(skill.name, skill);
         }

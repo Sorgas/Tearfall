@@ -105,7 +105,7 @@ public class PlantContainer extends EntityContainer<AbstractPlant> implements In
         }
         Position blockPosition = block.getPosition();
         plantBlocks.put(block.getPosition(), block);
-        localMap.updateTile(blockPosition.x, blockPosition.y, blockPosition.z);
+        localMap.updatePassage(blockPosition.x, blockPosition.y, blockPosition.z);
         return true;
     }
 
@@ -147,7 +147,7 @@ public class PlantContainer extends EntityContainer<AbstractPlant> implements In
             Position blockPosition = block.getPosition();
             plantBlocks.remove(blockPosition);
             if (leaveProduct) leavePlantProduct(block);
-            localMap.updateTile(blockPosition.x, blockPosition.y, blockPosition.z);
+            localMap.updatePassage(blockPosition.x, blockPosition.y, blockPosition.z);
         }
     }
 

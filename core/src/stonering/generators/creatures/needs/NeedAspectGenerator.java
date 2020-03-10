@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.JsonWriter;
 import stonering.entity.unit.aspects.needs.NeedEnum;
 import stonering.enums.unit.CreatureType;
 import stonering.entity.unit.aspects.needs.NeedsAspect;
-import stonering.util.global.FileLoader;
+import stonering.util.global.FileUtil;
 
 import java.util.Objects;
 
@@ -29,7 +29,7 @@ public class NeedAspectGenerator {
         reader = new JsonReader();
         json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
-        templates = reader.parse(FileLoader.get(FileLoader.BODY_TEMPLATE_PATH));
+        templates = reader.parse(FileUtil.get(FileUtil.BODY_TEMPLATE_PATH));
     }
 
     public NeedsAspect generateNeedAspect(CreatureType type) {

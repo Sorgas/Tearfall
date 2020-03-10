@@ -60,6 +60,10 @@ public class BuildingContainer extends EntityContainer<Building> implements Mode
      * Adds building and all its blocks to container. Checks only intersections with existing buildings.
      */
     public void addBuilding(Building building) {
+        if(building == null) {
+            Logger.BUILDING.logWarn("Attempt to add null building to container.");
+            return;
+        }
         for (BuildingBlock[] blocks : building.blocks) {
             for (BuildingBlock block : blocks) {
                 if (!buildingBlocks.containsKey(block.position)) continue;
@@ -67,16 +71,10 @@ public class BuildingContainer extends EntityContainer<Building> implements Mode
                 return; // adding failed
             }
         }
-        for (BuildingBlock[] blocks : building.blocks) {
-            for (BuildingBlock block : blocks) {
-                buildingBlocks.put(block.position, block); // add block
-            }
-        }
-        for (BuildingBlock[] blocks : building.blocks) {
-            for (BuildingBlock block : blocks) {
-                GameMvc.model().get(LocalMap.class).updateTile(building.position);
-            }
-        }
+        building.iterateBlocks(block -> { // put blocks into container
+            buildingBlocks.put(block.position, block);
+        });
+        building.iterateBlocks(block -> GameMvc.model().get(LocalMap.class).updatePassage(block.position));
         entities.add(building);
         tryMoveItems(building);
     }

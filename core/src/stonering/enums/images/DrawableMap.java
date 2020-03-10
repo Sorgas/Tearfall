@@ -17,7 +17,7 @@ import java.util.function.Function;
 import java.util.stream.Stream;
 
 import static com.badlogic.gdx.utils.JsonWriter.OutputType.json;
-import static stonering.util.global.FileLoader.*;
+import static stonering.util.global.FileUtil.*;
 
 /**
  * Implements lazy-loading for {@link Drawable}s.

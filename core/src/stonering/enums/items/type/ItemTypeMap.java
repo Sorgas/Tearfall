@@ -5,7 +5,7 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import stonering.enums.items.type.raw.RawItemType;
 import stonering.enums.items.type.raw.RawItemTypeProcessor;
-import stonering.util.global.FileLoader;
+import stonering.util.global.FileUtil;
 import stonering.util.global.Logger;
 
 import java.util.ArrayList;
@@ -35,14 +35,12 @@ public class ItemTypeMap {
         Logger.LOADING.logDebug("loading item types");
         Json json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
-        FileHandle itemsDirectory = FileLoader.get(FileLoader.ITEMS_PATH);
         RawItemTypeProcessor processor = new RawItemTypeProcessor();
-        for (FileHandle fileHandle : itemsDirectory.list()) {
-            if(fileHandle.isDirectory()) continue;
-            ArrayList<RawItemType> elements = json.fromJson(ArrayList.class, RawItemType.class, fileHandle);
+        FileUtil.iterate(FileUtil.ITEMS_PATH, file -> {
+            ArrayList<RawItemType> elements = json.fromJson(ArrayList.class, RawItemType.class, file);
             elements.forEach(rawItemType -> types.put(rawItemType.name, processor.process(rawItemType)));
-            Logger.LOADING.logDebug(elements.size() + " loaded from " + fileHandle.path());
-        }
+            Logger.LOADING.logDebug(elements.size() + " loaded from " + file.path());
+        });
     }
 
     public ItemType getItemType(String name) {

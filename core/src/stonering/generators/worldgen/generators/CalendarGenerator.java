@@ -2,11 +2,10 @@ package stonering.generators.worldgen.generators;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
-import stonering.entity.world.calendar.Month;
 import stonering.entity.world.calendar.SeasonData;
 import stonering.entity.world.calendar.WorldCalendar;
 import stonering.generators.worldgen.WorldGenContainer;
-import stonering.util.global.FileLoader;
+import stonering.util.global.FileUtil;
 
 import java.util.List;
 
@@ -26,7 +25,7 @@ public class CalendarGenerator extends AbstractGenerator {
     public boolean execute() {
         WorldCalendar calendar = new WorldCalendar();
         Json json = new Json();
-        List<SeasonData> seasons = json.fromJson(List.class, SeasonData.class, new FileHandle(FileLoader.SEASONS_PATH));
+        List<SeasonData> seasons = json.fromJson(List.class, SeasonData.class, new FileHandle(FileUtil.SEASONS_PATH));
         for (SeasonData season : seasons) {
 
         }

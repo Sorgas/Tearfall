@@ -2,7 +2,6 @@ package stonering.generators.buildings;
 
 import stonering.entity.building.BuildingBlock;
 import stonering.enums.OrientationEnum;
-import stonering.enums.blocks.PassageEnum;
 import stonering.enums.buildings.BuildingType;
 import stonering.entity.building.aspects.RestFurnitureAspect;
 import stonering.entity.building.aspects.WorkbenchAspect;
@@ -17,6 +16,7 @@ import stonering.util.global.Logger;
 import java.util.List;
 
 /**
+ * Generates {@link Building} objects  
  * Generates BuildingType entity from descriptors
  * Fills positions for blocks.
  *
@@ -34,6 +34,10 @@ public class BuildingGenerator {
         return building;
     }
 
+    public static void main(String[] args) {
+        new BuildingGenerator().generateBuilding("kitchen", new Position(), OrientationEnum.N);
+    }
+    
     /**
      * Fills array of building blocks. Passage map of building type is rotated to building orientation.
      */

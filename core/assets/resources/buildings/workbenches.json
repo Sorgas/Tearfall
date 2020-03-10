@@ -5,6 +5,11 @@
         "description": "Small rack for sawing logs into planks.",
         "aspects": [["workbench"], ["item_container", "solid", "100"]],
         "parts": ["table", "saw"],
+        "size": [3, 2],
+        "passage": "_o_XXX",
+        "sprites": [
+            [0, 0], [0, 1], [2, 0], [3, 0]
+        ],
         "atlasXY": [0, 0]
     }, {
     "building": "carpenter_workbench",
@@ -12,20 +17,23 @@
     "description": "Most wooden things can be made here.",
     "aspects": [["workbench"], ["item_container", "solid", "100"]],
     "parts": ["table"],
+    "size": [2, 2],
+    "passage": "ooXX",
+    "sprites": [
+        [0, 0], [2, 0], [4, 0], [6, 0]
+    ],
     "atlasXY": [7, 0]
-}, {
-    "building": "furniture_shop",
-    "title": "Furniture workbench",
-    "description": "Workbench for making furniture.",
-    "aspects": [["workbench"], ["item_container", "solid", "100"]],
-    "parts": ["table", "saw"],
-    "atlasXY": [0, 0]
 }, {
     "building": "mason_workbench",
     "title": "Mason workbench",
     "description": "Small rack for sawing logs into planks.",
     "aspects": [["workbench"], ["item_container", "solid", "100"]],
     "parts": ["table", "saw"],
+    "size": [2, 2],
+    "passage": "ooXX",
+    "sprites": [
+        [0, 0], [2, 0], [4, 0], [6, 0]
+    ],
     "atlasXY": [0, 0]
 }, {
     "building": "smelter",
@@ -33,6 +41,11 @@
     "description": "Kiln for melting metals out of ores.",
     "aspects": [["workbench"], ["item_container", "solid", "100"]],
     "parts": ["table", "saw"],
+    "size": [2, 2],
+    "passage": "XXXX",
+    "sprites": [
+        [0, 0], [2, 0], [4, 0], [6, 0]
+    ],
     "atlasXY": [0, 0]
 }, {
     "building": "forge",
@@ -40,18 +53,23 @@
     "description": "Blacksmiths make common metal items.",
     "aspects": [["workbench"], ["item_container", "solid", "100"]],
     "parts": ["table", "saw"],
+    "size": [2, 2],
+    "passage": "ooXX",
+    "sprites": [
+        [0, 0], [2, 0], [4, 0], [6, 0]
+    ],
     "atlasXY": [0, 0]
 }, {
     "building": "kitchen",
     "title": "Kitchen",
     "description": "",
     "aspects": [["workbench"], ["item_container", "solid", "100"]],
-    "size": [2, 1],
-    "sprites": [
-        [0, 0], [0, 1], [2, 0], [3, 0]
-    ],
     "parts": ["table"],
-    "passage": "XX",
+    "size": [2, 2],
+    "passage": "ooXX",
+    "sprites": [
+        [0, 0], [2, 0], [4, 0], [6, 0]
+    ],
     "atlasXY": [0, 0]
 }, {
     "building": "loom",
@@ -59,6 +77,11 @@
     "description": "",
     "aspects": [["workbench"], ["item_container", "solid", "100"]],
     "parts": ["table", "saw"],
+    "size": [2, 2],
+    "passage": "ooXX",
+    "sprites": [
+        [0, 0], [2, 0], [4, 0], [6, 0]
+    ],
     "atlasXY": [0, 0]
 }, {
     "building": "tailor_table",
@@ -66,6 +89,11 @@
     "description": "",
     "aspects": [["workbench"], ["item_container", "solid", "100"]],
     "parts": ["table", "saw"],
+    "size": [2, 2],
+    "passage": "ooXX",
+    "sprites": [
+        [0, 0], [2, 0], [4, 0], [6, 0]
+    ],
     "atlasXY": [0, 0]
 }
 ]

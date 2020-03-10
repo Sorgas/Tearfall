@@ -14,7 +14,8 @@ import java.util.Map;
  */
 public enum PassageEnum {
     PASSABLE(1, '_'),
-    IMPASSABLE(0, 'X');
+    IMPASSABLE(0, 'X'),
+    TARGET(2, 'o'); // tile for worker to stand near workbench
 
     public final byte VALUE;
     public final char CHARACTER;

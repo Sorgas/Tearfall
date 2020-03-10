@@ -5,7 +5,7 @@ import com.badlogic.gdx.utils.JsonWriter;
 import stonering.enums.plants.raw.RawPlantTypeProcessor;
 import stonering.enums.plants.raw.RawPlantType;
 import stonering.exceptions.DescriptionNotFoundException;
-import stonering.util.global.FileLoader;
+import stonering.util.global.FileUtil;
 import stonering.util.global.Logger;
 
 import java.util.ArrayList;
@@ -33,9 +33,9 @@ public class PlantTypeMap {
         treeTypes = new HashMap<>();
         substrateTypes = new HashMap<>();
         domesticTypes = new HashMap<>();
-        loadTypesFileToMap(FileLoader.PLANTS_PATH, plantTypes);
-        loadTypesFileToMap(FileLoader.TREES_PATH, treeTypes);
-        loadTypesFileToMap(FileLoader.SUBSTRATES_PATH, substrateTypes);
+        loadTypesFileToMap(FileUtil.PLANTS_PATH, plantTypes);
+        loadTypesFileToMap(FileUtil.TREES_PATH, treeTypes);
+        loadTypesFileToMap(FileUtil.SUBSTRATES_PATH, substrateTypes);
         fillDomesticTypes();
     }
 
@@ -49,7 +49,7 @@ public class PlantTypeMap {
      * Loads {@link PlantType} from given file into given file.
      */
     private void loadTypesFileToMap(String filePath, Map<String, PlantType> map) {
-        List<RawPlantType> elements = json.fromJson(ArrayList.class, RawPlantType.class, FileLoader.get(filePath));
+        List<RawPlantType> elements = json.fromJson(ArrayList.class, RawPlantType.class, FileUtil.get(filePath));
         RawPlantTypeProcessor processor = new RawPlantTypeProcessor();
         elements.forEach(rawType -> map.put(rawType.name, processor.processRawType(rawType)));
         Logger.LOADING.logDebug(map.keySet().size() + " loaded from " + filePath);

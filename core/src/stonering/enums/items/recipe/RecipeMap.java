@@ -2,7 +2,7 @@ package stonering.enums.items.recipe;
 
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
-import stonering.util.global.FileLoader;
+import stonering.util.global.FileUtil;
 import stonering.util.global.Logger;
 
 import java.util.ArrayList;
@@ -34,12 +34,12 @@ public class RecipeMap {
 
     private void loadRecipes() {
         Logger.LOADING.log("recipes");
-        ArrayList<RawRecipe> elements = json.fromJson(ArrayList.class, RawRecipe.class, FileLoader.get(FileLoader.RECIPES_PATH));
+        ArrayList<RawRecipe> elements = json.fromJson(ArrayList.class, RawRecipe.class, FileUtil.get(FileUtil.RECIPES_PATH));
         RecipeProcessor processor = new RecipeProcessor();
         for (RawRecipe rawRecipe : elements) {
             recipes.put(rawRecipe.name, processor.processRawRecipe(rawRecipe));
         }
-        Logger.LOADING.logDebug(recipes.keySet().size() + " loaded from " + FileLoader.RECIPES_PATH);
+        Logger.LOADING.logDebug(recipes.keySet().size() + " loaded from " + FileUtil.RECIPES_PATH);
     }
 
     public Recipe getRecipe(String name) {

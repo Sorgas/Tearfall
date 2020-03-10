@@ -2,7 +2,7 @@ package stonering.enums.buildings.blueprint;
 
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
-import stonering.util.global.FileLoader;
+import stonering.util.global.FileUtil;
 import stonering.util.global.Logger;
 
 import java.util.ArrayList;
@@ -31,12 +31,12 @@ public class BlueprintsMap {
 
     private void loadBlueprints() {
         Logger.LOADING.log("blueprints");
-        ArrayList<RawBlueprint> elements = json.fromJson(ArrayList.class, RawBlueprint.class, FileLoader.get(FileLoader.BLUEPRINTS_PATH));
+        ArrayList<RawBlueprint> elements = json.fromJson(ArrayList.class, RawBlueprint.class, FileUtil.get(FileUtil.BLUEPRINTS_PATH));
         BlueprintProcessor processor = new BlueprintProcessor();
         for (RawBlueprint rawBlueprint : elements) {
             blueprints.put(rawBlueprint.name, processor.processRawBlueprint(rawBlueprint));
         }
-        Logger.LOADING.log(blueprints.keySet().size() + " loaded from " + FileLoader.BLUEPRINTS_PATH);
+        Logger.LOADING.log(blueprints.keySet().size() + " loaded from " + FileUtil.BLUEPRINTS_PATH);
     }
 
     public Blueprint getBlueprint(String name) {

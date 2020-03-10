@@ -1,6 +1,5 @@
 package stonering.entity.building;
 
-import stonering.enums.blocks.BlockTypeEnum;
 import stonering.enums.blocks.PassageEnum;
 import stonering.util.geometry.Position;
 

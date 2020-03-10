@@ -49,18 +49,20 @@ public enum OrientationEnum {
      * Gives coordinate in N orientation for given coordinate in this orientation;
      */
     public int[] unrotate(int x, int y) {
+        int newX = x;
+        int newY = y;
         switch(this) {
-            case N:
-                return new int[] {x, y};
             case S: // 180 rotation
-                return new int[] {-x, -y};
-            case E: // -90 rotation
-                return new int[] {y, -x};
-            case W: // 90 rotation
-                return new int[] {-y, x};
-            default:
-                Logger.BUILDING.logError("qweqweqwe");
-                return new int[] {x, y};
+                newX = -x;
+                newY = -y;
+                break;
+            case E: // 90 rotation
+                newY = -x;
+                break;
+            case W: // -90 rotation
+                newX = -y;
+                break;
         }
+        return new int[] {newX, newY};
     }
 }

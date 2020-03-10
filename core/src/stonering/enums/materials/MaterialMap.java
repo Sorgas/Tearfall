@@ -4,7 +4,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
-import stonering.util.global.FileLoader;
+import stonering.util.global.FileUtil;
 import stonering.util.global.Logger;
 
 import java.util.ArrayList;
@@ -45,7 +45,7 @@ public class MaterialMap {
     private void loadMaterials() {
         Logger.GENERAL.log("loading materials");
         int id = 0;
-        for (FileHandle file : FileLoader.get(FileLoader.MATERIALS_PATH).list()) {
+        for (FileHandle file : FileUtil.get(FileUtil.MATERIALS_PATH).list()) {
             ArrayList<RawMaterial> elements = json.fromJson(ArrayList.class, RawMaterial.class, file);
             for (RawMaterial rawMaterial : elements) {
                 Material material = new Material(rawMaterial);

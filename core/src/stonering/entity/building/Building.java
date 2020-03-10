@@ -6,6 +6,8 @@ import stonering.enums.buildings.BuildingType;
 import stonering.generators.buildings.BuildingGenerator;
 import stonering.util.geometry.Position;
 
+import java.util.function.Consumer;
+
 /**
  * Represents furniture, workbenches and other built game entities.
  * First block points to SE corner of a building in any orientation.
@@ -30,6 +32,14 @@ public class Building extends Entity {
         blocks = new BuildingBlock[size[0]][size[1]]; // rotated blocks
     }
 
+    public void iterateBlocks(Consumer<BuildingBlock> consumer) {
+        for (BuildingBlock[] row : blocks) {
+            for (BuildingBlock block : row) {
+                consumer.accept(block);
+            }
+        }
+    }
+    
     @Override
     public String toString() {
         return type.title;
