@@ -2,6 +2,7 @@ package stonering.generators.buildings;
 
 import stonering.entity.building.BuildingBlock;
 import stonering.enums.OrientationEnum;
+import stonering.enums.blocks.PassageEnum;
 import stonering.enums.buildings.BuildingType;
 import stonering.entity.building.aspects.RestFurnitureAspect;
 import stonering.entity.building.aspects.WorkbenchAspect;
@@ -9,15 +10,18 @@ import stonering.entity.item.aspects.ItemContainerAspect;
 import stonering.entity.RenderAspect;
 import stonering.enums.buildings.BuildingTypeMap;
 import stonering.stage.renderer.AtlasesEnum;
+import stonering.util.geometry.IntVector2;
 import stonering.util.geometry.Position;
 import stonering.entity.building.Building;
+import stonering.util.geometry.RotationUtil;
 import stonering.util.global.Logger;
 
 import java.util.List;
 
 /**
- * Generates {@link Building} objects  
- * Generates BuildingType entity from descriptors
+ * Generates {@link Building} objects.
+ * Building type contains building properties(size, passage) without orientation.
+ * Generator changes size, if building is rotated, selects sprite, rotates passage map and puts passage info into blocks.
  * Fills positions for blocks.
  *
  * @author Alexander Kuzyakov on 07.12.2017.
@@ -27,34 +31,31 @@ public class BuildingGenerator {
     public Building generateBuilding(String name, Position position, OrientationEnum orientation) {
         BuildingType type = BuildingTypeMap.getBuilding(name);
         if (type == null) return Logger.BUILDING.logWarn("No building with name '" + name + "' found.", null);
+
         Building building = new Building(position, type, orientation);
+
         initAspects(building, type); // fill aspects of a building
         createRenderAspect(building, type, orientation); // find sprite
-        initBlocks(building, type);
+        initSizeAndBlocks(building);
         return building;
     }
 
-    public static void main(String[] args) {
-        new BuildingGenerator().generateBuilding("kitchen", new Position(), OrientationEnum.N);
-    }
-    
     /**
      * Fills array of building blocks. Passage map of building type is rotated to building orientation.
      */
-    private void initBlocks(Building building, BuildingType type) {
-        int width = building.blocks.length;
-        int height = building.blocks[0].length;
-        for (int x = 0; x < width; x++) {
+    private void initSizeAndBlocks(Building building) {
+        IntVector2 size = RotationUtil.orientSize(building.type.size, building.orientation); // rotate size
+        building.blocks = new BuildingBlock[size.x][size.y];
+        for (int x = 0; x < size.x; x++) {
             for (int y = 0; y < building.blocks[x].length; y++) {
-                Position position = Position.add(building.position, x, y, 0); // on map position
-                int[] coord = building.orientation.unrotate(x,y);
-                coord[0] = (coord[0] + width - 1) % width;
-                coord[1] = (coord[1] + height - 1) % height;
-                building.blocks[x][y] = new BuildingBlock(building, position, type.passageArray[coord[0]][coord[1]]);
+                Position position = Position.add(building.position, x, y, 0); // map position of block
+                IntVector2 coord = RotationUtil.unrotateVector(x, y, building.orientation); 
+                coord = RotationUtil.normalizeWithSize(coord, size);
+                building.blocks[x][y] = new BuildingBlock(building, position, building.type.passageArray[coord.x][coord.y]);
             }
         }
     }
-
+    
     private void createRenderAspect(Building building, BuildingType type, OrientationEnum orientation) {
         building.addAspect(new RenderAspect(building, type.sprites[orientation.ordinal()], AtlasesEnum.buildings));
     }

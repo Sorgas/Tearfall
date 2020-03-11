@@ -12,6 +12,7 @@ import stonering.game.model.local_map.LocalMap;
 import stonering.stage.renderer.AtlasesEnum;
 import stonering.stage.toolbar.menus.Toolbar;
 import stonering.util.geometry.Position;
+import stonering.util.geometry.RotationUtil;
 import stonering.util.global.Logger;
 import stonering.util.validation.PositionValidator;
 
@@ -92,7 +93,7 @@ public class EntitySelectorSystem implements ModelComponent {
         BuildingType type = selector.getAspect(SelectionAspect.class).type;
         if(type == null || type.construction) return; // no rotation for constructions
         OrientationAspect orientationAspect = selector.getAspect(OrientationAspect.class);
-        orientationAspect.rotate(clockwise);
+        orientationAspect.current = RotationUtil.rotate(orientationAspect.current, clockwise);
         selector.getAspect(RenderAspect.class).region = AtlasesEnum.buildings.getBlockTile(type.sprites[orientationAspect.current.ordinal()]);
     }
 }

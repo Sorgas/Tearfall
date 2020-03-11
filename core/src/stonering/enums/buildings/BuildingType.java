@@ -1,7 +1,11 @@
 package stonering.enums.buildings;
 
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import stonering.entity.building.Building;
+import stonering.enums.OrientationEnum;
 import stonering.enums.blocks.PassageEnum;
+import stonering.stage.renderer.AtlasesEnum;
+import stonering.util.geometry.RotationUtil;
 
 import java.util.*;
 
@@ -33,5 +37,9 @@ public class BuildingType {
         aspects = new ArrayList<>();
         parts = new ArrayList<>();
         recipes = new ArrayList<>();
+    }
+
+    public TextureRegion getSprite(OrientationEnum orientation) {
+        return AtlasesEnum.buildings.getRegion(sprites[orientation.ordinal()], RotationUtil.orientSize(size, orientation));
     }
 }

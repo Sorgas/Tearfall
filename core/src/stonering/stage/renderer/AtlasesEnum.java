@@ -3,6 +3,7 @@ package stonering.stage.renderer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import stonering.util.geometry.IntVector2;
 import stonering.util.global.Logger;
 
 import java.util.HashMap;
@@ -96,7 +97,7 @@ public enum AtlasesEnum {
         return spriteCache.get(key);
     }
 
-    public TextureRegion getRegion(int[] xy, int[] size) {
-        return getRegion(xy[0], xy[1], size[0], size[1]);
+    public TextureRegion getRegion(int[] xy, IntVector2 size) {
+        return getRegion(xy[0], xy[1], size.x, size.y);
     }
 }

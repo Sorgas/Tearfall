@@ -1,0 +1,96 @@
+package stonering.util.geometry;
+
+import stonering.enums.OrientationEnum;
+
+import static stonering.enums.OrientationEnum.*;
+
+/**
+ * Contains game-specific rotation operations.
+ *
+ * @author Alexander on 11.03.2020.
+ */
+public class RotationUtil {
+
+    /**
+     * Flips size values for E and W orientations.
+     */
+    public static IntVector2 orientSize(int[] size, OrientationEnum orientation) {
+        if(orientation == E || orientation == W) {
+            return new IntVector2(size[1], size[0]);
+        } else {
+            return new IntVector2(size[0], size[1]);
+        }
+    }
+    
+    public static OrientationEnum rotate(OrientationEnum orientation, boolean clockwise) {
+        switch (orientation) {
+            case N:
+                orientation = clockwise ? E : W;
+                break;
+            case E:
+                orientation = clockwise ? S : N;
+                break;
+            case S:
+                orientation = clockwise ? W : E;
+                break;
+            case W:
+                orientation = clockwise ? N : S;
+                break;
+        }
+        return orientation;
+    }
+
+    /**
+     * Rotates given vector from N orientation to given one.
+     */
+    public static IntVector2 rotateVector(IntVector2 vector, OrientationEnum to) {
+        IntVector2 newVector = new IntVector2(vector);
+        switch (to) {
+            case S: // 180 rotation
+                newVector.x = -vector.x;
+                newVector.y = -vector.y;
+                break;
+            case E: // cw 90 rotation
+                newVector.x = vector.y;
+                newVector.y = -vector.x;
+                break;
+            case W: // ccw 90 rotation
+                newVector.x = -vector.y;
+                newVector.y = vector.x;
+                break;
+        }
+        return newVector;
+    }
+
+    /**
+     * Rotates vector to N orientation from given one.
+     */
+    public static IntVector2 unrotateVector(int x, int y, OrientationEnum from) {
+        IntVector2 newVector = new IntVector2(x, y);
+        switch (from) {
+            case S: // 180 rotation
+                newVector.x = -x;
+                newVector.y = -y;
+                break;
+            case E: // ccw 90 rotation
+                newVector.x = -y;
+                newVector.y = x;
+                break;
+            case W: // cw 90 rotation
+                newVector.x = y;
+                newVector.y = -x;
+                break;
+        }
+        return newVector;
+    }
+
+
+    /**
+     * Normalizes vector to have all components positive and still point to same point in a rectangle of given size.
+     */
+    public static IntVector2 normalizeWithSize(IntVector2 vector, IntVector2 size) {
+        vector.x = (vector.x + size.x - 1) % size.x;
+        vector.y = (vector.y + size.y - 1) % size.y;
+        return vector;
+    }
+}

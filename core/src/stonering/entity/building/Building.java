@@ -10,7 +10,7 @@ import java.util.function.Consumer;
 
 /**
  * Represents furniture, workbenches and other built game entities.
- * First block points to SE corner of a building in any orientation.
+ * [0,0] block points to SE corner of a building in any orientation.
  * All blocks are created in {@link BuildingGenerator};
  * Building position is position of its [0, 0] block.
  *
@@ -28,8 +28,6 @@ public class Building extends Entity {
         super(position);
         this.type = type;
         this.orientation = orientation;
-        int[] size = orientation.defineSize(type.size); // rotated size;
-        blocks = new BuildingBlock[size[0]][size[1]]; // rotated blocks
     }
 
     public void iterateBlocks(Consumer<BuildingBlock> consumer) {

@@ -8,14 +8,15 @@ import stonering.enums.OrientationEnum;
 import static stonering.enums.OrientationEnum.*;
 
 /**
- * Holds direction creature is facing to. Is updated by {@link stonering.game.model.system.unit.CreatureMovementSystem}.
+ * Holds of some entity.
  * Updates {@link RenderAspect}
  *
  * @author Alexander on 05.03.2020.
  */
 public class OrientationAspect extends Aspect {
     public OrientationEnum current;
-
+    public Runnable renderUpdater;
+    
     public OrientationAspect(Entity entity, OrientationEnum current) {
         super(entity);
         this.current = current;
@@ -36,6 +37,5 @@ public class OrientationAspect extends Aspect {
                 current = clockwise ? N : S;
                 break;
         }
-
     }
 }
