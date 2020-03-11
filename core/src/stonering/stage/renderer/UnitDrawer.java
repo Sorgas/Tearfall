@@ -21,11 +21,11 @@ import static stonering.stage.renderer.AtlasesEnum.creature_icons;
  *
  * @author Alexander on 03.01.2020.
  */
-public class UnitRenderer extends Drawer {
+public class UnitDrawer extends Drawer {
     private UnitContainer unitContainer;
     private int progressBarWidth = 56;
 
-    public UnitRenderer(SpriteDrawingUtil spriteUtil, ShapeDrawingUtil shapeUtil) {
+    public UnitDrawer(SpriteDrawingUtil spriteUtil, ShapeDrawingUtil shapeUtil) {
         super(spriteUtil, shapeUtil);
         unitContainer = GameMvc.model().get(UnitContainer.class);
     }

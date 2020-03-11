@@ -6,10 +6,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import stonering.entity.job.designation.Designation;
-import stonering.entity.building.BuildingBlock;
 import stonering.entity.item.Item;
 import stonering.entity.plant.PlantBlock;
-import stonering.entity.RenderAspect;
 import stonering.entity.zone.Zone;
 import stonering.enums.blocks.BlockTypeEnum;
 import stonering.enums.blocks.BlockTileMapping;
@@ -18,7 +16,6 @@ import stonering.enums.materials.MaterialMap;
 import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
 import stonering.game.model.system.*;
-import stonering.game.model.system.building.BuildingContainer;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.system.plant.PlantContainer;
 import stonering.game.model.system.substrate.SubstrateContainer;
@@ -41,13 +38,13 @@ import static stonering.stage.renderer.AtlasesEnum.*;
  * @author Alexander on 06.02.2019.
  */
 public class TileDrawer extends Drawer {
-    private UnitRenderer unitRenderer;
-
+    private UnitDrawer unitDrawer;
+    private BuildingDrawer buildingDrawer;
+    
     private LocalMap localMap;
     private LocalTileMap localTileMap;
     private PlantContainer plantContainer;
     private SubstrateContainer substrateContainer;
-    private BuildingContainer buildingContainer;
     private TaskContainer taskContainer;
     private ItemContainer itemContainer;
     private ZoneContainer zoneContainer;
@@ -66,8 +63,8 @@ public class TileDrawer extends Drawer {
         GameModel model = GameMvc.model();
         localMap = model.get(LocalMap.class);
         localTileMap = model.get(LocalTileMap.class);
-        buildingContainer = model.get(BuildingContainer.class);
-        unitRenderer = new UnitRenderer(spriteDrawingUtil, shapeDrawingUtil);
+        unitDrawer = new UnitDrawer(spriteDrawingUtil, shapeDrawingUtil);
+        buildingDrawer = new BuildingDrawer(spriteDrawingUtil, shapeDrawingUtil);
         taskContainer = model.get(TaskContainer.class);
         plantContainer = model.get(PlantContainer.class);
         substrateContainer = model.get(SubstrateContainer.class);
@@ -138,12 +135,12 @@ public class TileDrawer extends Drawer {
             return;
         }
         startTile(x, y, z);
-        unitRenderer.drawUnits(x, y, z);
+        unitDrawer.drawUnits(x, y, z);
         drawBlock(x, y, z); // all other
         drawWaterBlock(x, y, z);
         cachePosition.set(x, y, z);
         if (plantContainer != null) drawPlantBlock(plantContainer.getPlantBlock(cachePosition));
-        if (buildingContainer != null) drawBuildingBlock(buildingContainer.buildingBlocks.get(cachePosition));
+        buildingDrawer.drawBuilding(cachePosition);
         if (itemContainer != null) itemContainer.getItemsInPosition(x, y, z).forEach(this::drawItem);
         if (taskContainer != null) drawDesignation(taskContainer.getDesignation(x, y, z));
         if (zoneContainer != null) drawZone(zoneContainer.getZone(cachePosition));
@@ -245,13 +242,7 @@ public class TileDrawer extends Drawer {
     private void drawZone(Zone zone) {
         if (zone != null) spriteUtil.drawSprite(zone.getType().SPRITE, cachePosition.toVector3());
     }
-
-    private void drawBuildingBlock(BuildingBlock block) {
-        if (block == null || !block.building.position.equals(block.position)) return;
-        RenderAspect aspect = block.building.getAspect(RenderAspect.class);
-        spriteUtil.drawSprite(buildings.getBlockTile(aspect.atlasXY[0], aspect.atlasXY[1]), buildings, cachePosition);
-    }
-
+    
     private void drawPlantBlock(PlantBlock block) {
         if (block != null)
             spriteUtil.drawSprite(plants.getBlockTile(block.getAtlasXY()[0], block.getAtlasXY()[1]), cacheVector);

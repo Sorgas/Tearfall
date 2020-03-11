@@ -14,7 +14,8 @@ public class BuildingBlock {
     public Building building; // building of this block
     public Position position; // block position on map
     public PassageEnum passage; // passage of this block
-
+    public boolean drawn = false;
+    
     public boolean isPassable() {
         return passage == PASSABLE;
     }
