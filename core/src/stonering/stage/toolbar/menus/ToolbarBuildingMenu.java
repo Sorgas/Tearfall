@@ -17,6 +17,7 @@ import stonering.game.model.system.EntitySelectorSystem;
 import stonering.stage.SingleWindowStage;
 import stonering.stage.building.BuildingMaterialSelectMenu;
 import stonering.stage.renderer.AtlasesEnum;
+import stonering.util.geometry.IntVector2;
 import stonering.util.geometry.Position;
 import stonering.widget.ToolbarSubMenuMenu;
 
@@ -67,7 +68,7 @@ public class ToolbarBuildingMenu extends ToolbarSubMenuMenu {
             int x = ConstructionTileSelector.select(BlockTypeEnum.getType(type.passage));
             render.region = AtlasesEnum.ui_tiles.getBlockTile(x, 0);
         } else { // building sprites for buildings
-            render.region = AtlasesEnum.buildings.getRegion(type.sprites[N.ordinal()], type.size);
+            render.region = AtlasesEnum.buildings.getRegion(type.sprites[N.ordinal()], new IntVector2(type.size));
             system.selector.getAspect(OrientationAspect.class).current = N;
         }
     }

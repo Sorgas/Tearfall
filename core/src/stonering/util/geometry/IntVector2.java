@@ -18,4 +18,8 @@ public class IntVector2 {
     public IntVector2(IntVector2 source) {
         this(source.x, source.y);
     }
+    
+    public IntVector2(int[] source) {
+        this(source[0], source[1]);
+    }
 }

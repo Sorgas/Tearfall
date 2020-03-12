@@ -9,8 +9,10 @@ import java.util.Map;
  * RAW - gives penalty on eating. Lower selection priority.
  * SPOILED - gives penalty on eating. Lower selection priority.
  * PREPARED - gives bonus on eating. Increased selection priority.
+ * Fruits and vegetables have no RAW tag and no penalties on eating. 
  *
- *
+ * 
+ * 
  * @author Alexander on 02.09.2019.
  */
 public enum ItemTagEnum {
