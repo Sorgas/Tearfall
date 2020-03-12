@@ -10,15 +10,20 @@ import java.util.Objects;
 public class TileSpriteDescriptor {
     public final int x;
     public final int y;
+    public final int width;
+    public final int height;
     public final int color;
     public final boolean topping;
 
-    public TileSpriteDescriptor(int x, int y, int color, boolean topping) {
+    public TileSpriteDescriptor(int x, int y, int width, int height, int color, boolean topping) {
         this.x = x;
         this.y = y;
+        this.width = width;
+        this.height = height;
         this.color = color;
         this.topping = topping;
     }
+
 
     @Override
     public boolean equals(Object o) {
@@ -27,12 +32,14 @@ public class TileSpriteDescriptor {
         TileSpriteDescriptor that = (TileSpriteDescriptor) o;
         return x == that.x &&
                 y == that.y &&
+                width == that.width &&
+                height == that.height &&
                 color == that.color &&
                 topping == that.topping;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(x, y, color, topping);
+        return Objects.hash(x, y, width, height, color, topping);
     }
 }

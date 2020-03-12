@@ -58,19 +58,17 @@ public enum AtlasesEnum {
     }
 
     /**
-     * Cuts main part of a block tile from x y position in specified atlas.
+     * Supports multi-tile regions.
      */
-    public TextureRegion getBlockTile(int x, int y) {
-        TileSpriteDescriptor key = new TileSpriteDescriptor(x, y, Color.WHITE.toIntBits(), false);
-        if (!spriteCache.containsKey(key)) {
-            int atlasY = y * FULL_TILE_HEIGHT + (hasToppings ? TOPPING_BLOCK_HEIGHT : 0); // consider toppings or not
-            spriteCache.put(key, new TextureRegion(atlas, x * WIDTH, atlasY, WIDTH, BLOCK_HEIGHT));
-        }
+    public TextureRegion getRegion(int x, int y, int width, int height) {
+        TileSpriteDescriptor key = new TileSpriteDescriptor(x, y, width, height, Color.WHITE.toIntBits(), false);
+        int atlasY = y * FULL_TILE_HEIGHT + (hasToppings ? TOPPING_BLOCK_HEIGHT : 0); // consider toppings or not
+        spriteCache.putIfAbsent(key, new TextureRegion(atlas,
+                x * WIDTH,
+                atlasY,
+                WIDTH * width,
+                DEPTH * height + HEIGHT));
         return spriteCache.get(key);
-    }
-
-    public TextureRegion getBlockTile(int[] xy) {
-        return getBlockTile(xy[0], xy[1]);
     }
 
     /**
@@ -78,23 +76,29 @@ public enum AtlasesEnum {
      * Atlas should have toppings.
      */
     public TextureRegion getToppingTile(int x, int y) {
-        if (!hasToppings) {
-            Logger.RENDER.logError("Attempt to get topping from atlas without toppings.");
-            return null;
-        }
-        TileSpriteDescriptor key = new TileSpriteDescriptor(x, y, Color.WHITE.toIntBits(), true);
-        spriteCache.putIfAbsent(key, new TextureRegion(atlas, x * WIDTH, y * FULL_TILE_HEIGHT, WIDTH, TOPPING_BLOCK_HEIGHT));
+        if (!hasToppings) return Logger.RENDER.logError("Attempt to get topping from atlas without toppings.", null);
+        TileSpriteDescriptor key = new TileSpriteDescriptor(x, y, 1, 1, Color.WHITE.toIntBits(), true);
+        spriteCache.putIfAbsent(key, new TextureRegion(atlas,
+                x * WIDTH,
+                y * FULL_TILE_HEIGHT,
+                WIDTH,
+                TOPPING_BLOCK_HEIGHT));
         return spriteCache.get(key);
     }
 
     /**
-     * Supports multi-tile regions.
+     * Cuts main part of a block tile from x y position in specified atlas.
      */
-    public TextureRegion getRegion(int x, int y, int width, int heigth) {
-        TileSpriteDescriptor key = new TileSpriteDescriptor(x, y, Color.WHITE.toIntBits(), true);
-        spriteCache.putIfAbsent(key, new TextureRegion(atlas, x * WIDTH, y * FULL_TILE_HEIGHT,
-                WIDTH * width, DEPTH * heigth + HEIGHT));
-        return spriteCache.get(key);
+    public TextureRegion getBlockTile(int x, int y) {
+        return getRegion(x, y, 1, 1);
+    }
+
+    public TextureRegion getBlockTile(int[] xy) {
+        return getBlockTile(xy[0], xy[1]);
+    }
+
+    public TextureRegion getBlockTile(IntVector2 vector) {
+        return getBlockTile(vector.x, vector.y);
     }
 
     public TextureRegion getRegion(int[] xy, IntVector2 size) {

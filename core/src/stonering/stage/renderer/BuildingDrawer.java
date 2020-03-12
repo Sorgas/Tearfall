@@ -16,7 +16,6 @@ import static stonering.stage.renderer.AtlasesEnum.buildings;
  * @author Alexander on 11.03.2020.
  */
 public class BuildingDrawer extends Drawer {
-    private final Position cachePosition = new Position();
     private BuildingContainer container;
     
     public BuildingDrawer(SpriteDrawingUtil spriteUtil, ShapeDrawingUtil shapeUtil) {
@@ -28,6 +27,6 @@ public class BuildingDrawer extends Drawer {
         BuildingBlock block = container.buildingBlocks.get(position);
         if (block == null || !block.drawn) return; // skip if no drawn block found in position
         RenderAspect aspect = block.building.getAspect(RenderAspect.class);
-        spriteUtil.drawSprite(aspect.region, buildings, cachePosition);
+        spriteUtil.drawSprite(aspect.region, buildings, block.position);
     }
 }

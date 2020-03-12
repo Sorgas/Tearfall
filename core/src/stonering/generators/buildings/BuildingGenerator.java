@@ -49,15 +49,17 @@ public class BuildingGenerator {
         for (int x = 0; x < size.x; x++) {
             for (int y = 0; y < building.blocks[x].length; y++) {
                 Position position = Position.add(building.position, x, y, 0); // map position of block
-                IntVector2 coord = RotationUtil.unrotateVector(x, y, building.orientation); 
+                IntVector2 coord = RotationUtil.unrotateVector(x, y, building.orientation);
                 coord = RotationUtil.normalizeWithSize(coord, size);
                 building.blocks[x][y] = new BuildingBlock(building, position, building.type.passageArray[coord.x][coord.y]);
             }
         }
+        building.blocks[0][0].drawn = true;
     }
-    
+
     private void createRenderAspect(Building building, BuildingType type, OrientationEnum orientation) {
-        building.addAspect(new RenderAspect(building, type.sprites[orientation.ordinal()], AtlasesEnum.buildings));
+        int[] sprite = type.sprites[orientation.ordinal()];
+        building.addAspect(new RenderAspect(building, sprite[0], sprite[1], type.size[0], type.size[1], AtlasesEnum.buildings));
     }
 
     /**

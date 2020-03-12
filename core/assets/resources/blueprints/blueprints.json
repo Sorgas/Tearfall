@@ -77,5 +77,13 @@
     "parts": [
         ["bed", "bed_prefab", "furniture", "4"]
     ]
+}, {
+    "name": "build_kitchen",
+    "title": "Kitchen",
+    "building": "kitchen",
+    "menuPath": ["workbenches"],
+    "parts": [
+        ["kitchen", "log", "wood", "4"]
+    ]
 }
 ]
