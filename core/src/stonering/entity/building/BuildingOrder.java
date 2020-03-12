@@ -3,6 +3,7 @@ package stonering.entity.building;
 import stonering.entity.crafting.IngredientOrder;
 import stonering.entity.job.designation.Designation;
 import stonering.entity.job.Task;
+import stonering.enums.OrientationEnum;
 import stonering.enums.buildings.blueprint.Blueprint;
 import stonering.stage.building.BuildingMaterialSelectMenu;
 import stonering.util.geometry.Position;
@@ -20,6 +21,7 @@ import java.util.HashMap;
 public class BuildingOrder {
     public final Blueprint blueprint;
     public Position position;
+    public OrientationEnum orientation;
     public final HashMap<String, IngredientOrder> parts; // building parts to their ingredients
 
     public BuildingOrder(Blueprint blueprint, Position position) {

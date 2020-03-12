@@ -34,8 +34,8 @@ public class BuildingSelectionAspect extends Aspect {
 
     public void setBuildingType(BuildingType type) {
         this.type = type;
-        northCenter = new IntVector2(type.size[0] / 2, type.size[1] / 2);
-        northBounds = new Int2dBounds(northCenter.x, - northCenter.y, type.size[0] - northCenter.x, type.size[1] - northCenter.y);
+        northCenter = new IntVector2(type.size.x / 2, type.size.y / 2);
+        northBounds = new Int2dBounds(northCenter.x, - northCenter.y, type.size.x - northCenter.x, type.size.y - northCenter.y);
         setOrientation(OrientationEnum.N);
         region = type.getSprite(OrientationEnum.N);
     } 

@@ -49,7 +49,7 @@ public class ToolbarBuildingMenu extends ToolbarSubMenuMenu {
                     SelectionAspect selection = system.selector.getAspect(SelectionAspect.class);
                     BuildingType type = BuildingTypeMap.getBuilding(blueprint.building);
                     selection.type = type;
-                    setSpriteToSelector(system, type);
+                    setSpriteToSelector(system, blueprint);
                     selection.validator = PlaceValidatorsEnum.getValidator(blueprint.placing);
                     system.inputHandler.allowChangingZLevelOnSelection = false;
                     selection.selectHandler = box -> {
@@ -62,13 +62,13 @@ public class ToolbarBuildingMenu extends ToolbarSubMenuMenu {
         }
     }
 
-    private void setSpriteToSelector(EntitySelectorSystem system, BuildingType type) {
+    private void setSpriteToSelector(EntitySelectorSystem system, Blueprint blueprint) {
         RenderAspect render = system.selector.getAspect(RenderAspect.class);
-        if (type.construction) { // special sprites for constructions
-            int x = ConstructionTileSelector.select(BlockTypeEnum.getType(type.passage));
+        if (blueprint.construction) { // special sprites for constructions
+            int x = ConstructionTileSelector.select(BlockTypeEnum.getType(blueprint.building));
             render.region = AtlasesEnum.ui_tiles.getBlockTile(x, 0);
         } else { // building sprites for buildings
-            render.region = AtlasesEnum.buildings.getRegion(type.sprites[N.ordinal()], new IntVector2(type.size));
+            render.region = BuildingTypeMap.getBuilding(blueprint.building).getSprite(N);
             system.selector.getAspect(OrientationAspect.class).current = N;
         }
     }

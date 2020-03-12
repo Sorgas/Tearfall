@@ -26,36 +26,17 @@ public class BuildingTypeMap {
         buildings = new HashMap<>();
         json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
+        RawBuildingTypeProcessor processor = new RawBuildingTypeProcessor();
         FileUtil.iterate(FileUtil.BUILDINGS_PATH, file -> {
             int counter = 0;
-            List<BuildingType> elements = json.fromJson(ArrayList.class, BuildingType.class, file);
-            for (BuildingType buildingType : elements) {
-                buildings.put(buildingType.building, buildingType);
-                initSprites(buildingType); // adds offset to sprites
-                parsePassage(buildingType); // parse passage string into map of passage
+            List<RawBuildingType> rawTypes = json.fromJson(ArrayList.class, RawBuildingType.class, file);
+            for (RawBuildingType rawType : rawTypes) {
+                buildings.put(rawType.building, processor.process(rawType));
                 counter ++;
             }
             Logger.LOADING.logDebug(counter + " loaded from " + file.path());
         });
         loadLists();
-    }
-
-    private void initSprites(BuildingType type) {
-        for (int[] value : type.sprites) {
-            value[0] += type.atlasXY[0];
-            value[1] += type.atlasXY[1];
-        }
-    }
-
-    private void parsePassage(BuildingType type) {
-        type.passageArray = new PassageEnum[type.size[0]][type.size[1]];
-        char[] chars = type.passage.toCharArray();
-        for (int x = 0; x < type.size[0]; x++) {
-            for (int y = 0; y < type.size[1]; y++) {
-                int i = y * type.size[0] + x;
-                type.passageArray[x][y] = PassageEnum.get(chars[i]);
-            }
-        }
     }
 
     /**

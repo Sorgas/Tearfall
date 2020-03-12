@@ -58,8 +58,8 @@ public class BuildingGenerator {
     }
 
     private void createRenderAspect(Building building, BuildingType type, OrientationEnum orientation) {
-        int[] sprite = type.sprites[orientation.ordinal()];
-        building.addAspect(new RenderAspect(building, sprite[0], sprite[1], type.size[0], type.size[1], AtlasesEnum.buildings));
+        IntVector2 sprite = type.sprites[orientation.ordinal()];
+        building.addAspect(new RenderAspect(building, sprite.x, sprite.y, type.size.x, type.size.y, AtlasesEnum.buildings));
     }
 
     /**

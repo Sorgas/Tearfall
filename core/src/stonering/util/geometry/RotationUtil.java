@@ -14,11 +14,11 @@ public class RotationUtil {
     /**
      * Flips size values for E and W orientations.
      */
-    public static IntVector2 orientSize(int[] size, OrientationEnum orientation) {
+    public static IntVector2 orientSize(IntVector2 size, OrientationEnum orientation) {
         if(orientation == E || orientation == W) {
-            return new IntVector2(size[1], size[0]);
+            return new IntVector2(size.y, size.x);
         } else {
-            return new IntVector2(size[0], size[1]);
+            return new IntVector2(size.x, size.y);
         }
     }
     

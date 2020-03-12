@@ -101,7 +101,7 @@ public enum AtlasesEnum {
         return getBlockTile(vector.x, vector.y);
     }
 
-    public TextureRegion getRegion(int[] xy, IntVector2 size) {
-        return getRegion(xy[0], xy[1], size.x, size.y);
+    public TextureRegion getRegion(IntVector2 xy, IntVector2 size) {
+        return getRegion(xy.x, xy.y, size.x, size.y);
     }
 }
