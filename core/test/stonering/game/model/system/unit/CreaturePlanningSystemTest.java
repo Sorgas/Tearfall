@@ -1,4 +1,4 @@
-package test.stonering.game.model.system.unit;
+package stonering.game.model.system.unit;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,7 +17,6 @@ import stonering.game.model.GameModel;
 import stonering.game.model.MainGameModel;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.task.TaskContainer;
-import stonering.game.model.system.unit.UnitContainer;
 import stonering.util.geometry.Position;
 
 import static stonering.enums.action.TaskStatusEnum.*;

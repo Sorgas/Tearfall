@@ -49,8 +49,12 @@ public class BuildingActionTarget extends ActionTarget {
             builderPosition = inBuildingPosition;
         } else {
             Int2dBounds bounds = defineBuildingBounds(order);
+            bounds.extend(1);
+            for (IntVector2 collectBorder : bounds.collectBorders()) {
+                
+            }
             builderPosition = new NeighbourPositionStream(center)
-                    .filterByAccessibilityWithFutureTile(type)
+//                    .filterByAccessibilityWithFutureTile(type)
                     .filterInArea(GameMvc.model().get(LocalMap.class).passageMap.area.get(currentBuilderPosition))
                     .stream.findFirst().orElse(null);
             if(builderPosition != null) targetType = EXACT;

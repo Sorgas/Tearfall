@@ -1,5 +1,7 @@
 package stonering.util.geometry;
 
+import java.util.Objects;
+
 /**
  * @author Alexander on 11.03.2020.
  */
@@ -29,5 +31,19 @@ public class IntVector2 {
 
     public void set(IntVector2 vector) {
         set(vector.x, vector.y);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        IntVector2 that = (IntVector2) o;
+        return x == that.x &&
+                y == that.y;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
     }
 }

@@ -15,13 +15,13 @@ public class RotationUtil {
      * Flips size values for E and W orientations.
      */
     public static IntVector2 orientSize(IntVector2 size, OrientationEnum orientation) {
-        if(orientation == E || orientation == W) {
+        if (orientation == E || orientation == W) {
             return new IntVector2(size.y, size.x);
         } else {
             return new IntVector2(size.x, size.y);
         }
     }
-    
+
     public static OrientationEnum rotate(OrientationEnum orientation, boolean clockwise) {
         switch (orientation) {
             case N:
@@ -65,6 +65,10 @@ public class RotationUtil {
     /**
      * Rotates vector to N orientation from given one.
      */
+    public static IntVector2 unrotateVector(IntVector2 vector, OrientationEnum from) {
+        return unrotateVector(vector.x, vector.y, from);
+    }
+
     public static IntVector2 unrotateVector(int x, int y, OrientationEnum from) {
         IntVector2 newVector = new IntVector2(x, y);
         switch (from) {
@@ -83,8 +87,7 @@ public class RotationUtil {
         }
         return newVector;
     }
-
-
+    
     /**
      * Normalizes vector to have all components positive and still point to same point in a rectangle of given size.
      */

@@ -7,7 +7,6 @@ import stonering.enums.OrientationEnum;
 import stonering.enums.buildings.BuildingType;
 import stonering.util.geometry.Int2dBounds;
 import stonering.util.geometry.IntVector2;
-import stonering.util.geometry.Position;
 import stonering.util.geometry.RotationUtil;
 
 /**
@@ -15,7 +14,7 @@ import stonering.util.geometry.RotationUtil;
  * Contains type of selected building,
  * current orientation and sprite,
  * defines center of its sprite to use as offset,
- * contains relative bounds of area to validate.
+ * contains relative bounds of area to validate(building size).
  *
  * @author Alexander on 11.03.2020.
  */
@@ -32,6 +31,10 @@ public class BuildingSelectionAspect extends Aspect {
         super(entity);
     }
 
+    /**
+     * Updstes sprite, size, center, 
+     * @param type
+     */
     public void setBuildingType(BuildingType type) {
         this.type = type;
         northCenter = new IntVector2(type.size.x / 2, type.size.y / 2);

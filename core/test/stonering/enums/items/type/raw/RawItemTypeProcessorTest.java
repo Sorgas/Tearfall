@@ -1,9 +1,7 @@
-package test.stonering.enums.items.type.raw;
+package stonering.enums.items.type.raw;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.TestInstance;
-import stonering.enums.items.type.raw.RawItemType;
-import stonering.enums.items.type.raw.RawItemTypeProcessor;
 
 /**
  * @author Alexander on 24.01.2020.

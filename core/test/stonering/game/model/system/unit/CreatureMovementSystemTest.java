@@ -1,4 +1,4 @@
-package test.stonering.game.model.system.unit;
+package stonering.game.model.system.unit;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -14,8 +14,6 @@ import stonering.game.GameMvc;
 import stonering.game.model.MainGameModel;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.task.TaskContainer;
-import stonering.game.model.system.unit.CreatureMovementSystem;
-import stonering.game.model.system.unit.UnitContainer;
 import stonering.util.geometry.Position;
 import stonering.util.pathfinding.a_star.AStar;
 

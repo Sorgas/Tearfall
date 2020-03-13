@@ -1,10 +1,9 @@
-package test.stonering.entity.unit.aspects.job;
+package stonering.entity.unit.aspects.job;
 
 import junit.framework.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import stonering.entity.unit.aspects.job.LeveledValue;
 
 /**
  * @author Alexander on 27.01.2020.

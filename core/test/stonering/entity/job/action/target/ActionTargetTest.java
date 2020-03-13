@@ -1,4 +1,4 @@
-package test.stonering.entity.job.action.target;
+package stonering.entity.job.action.target;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -7,9 +7,6 @@ import stonering.entity.Entity;
 import stonering.entity.job.Task;
 import stonering.entity.job.action.Action;
 import stonering.entity.job.action.MoveAction;
-import stonering.entity.job.action.target.ActionTarget;
-import stonering.entity.job.action.target.ActionTargetStatusEnum;
-import stonering.entity.job.action.target.PositionActionTarget;
 import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.enums.blocks.BlockTypeEnum;
 import stonering.game.GameMvc;

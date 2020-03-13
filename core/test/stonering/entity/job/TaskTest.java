@@ -1,9 +1,8 @@
-package test.stonering.entity.job;
+package stonering.entity.job;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
-import stonering.entity.job.Task;
 import stonering.entity.job.action.Action;
 import stonering.entity.job.action.MoveAction;
 import stonering.util.geometry.Position;

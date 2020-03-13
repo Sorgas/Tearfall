@@ -1,4 +1,4 @@
-package test.stonering.game.model.system.building;
+package stonering.game.model.system.building;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,8 +22,6 @@ import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
 import stonering.game.model.MainGameModel;
 import stonering.game.model.local_map.LocalMap;
-import stonering.game.model.system.building.BuildingContainer;
-import stonering.game.model.system.building.WorkbenchSystem;
 import stonering.game.model.system.task.TaskContainer;
 import stonering.game.model.system.unit.UnitContainer;
 import stonering.util.geometry.Position;
@@ -69,6 +67,7 @@ public class WorkbenchSystemTest {
         unit.addAspect(new PlanningAspect(unit));
         unit.addAspect(new JobsAspect(unit));
         GameMvc.model().get(UnitContainer.class).addUnit(unit);
+        
         workbench = new Building(new Position(), new BuildingType(), OrientationEnum.N);
         workbench.addAspect(aspect = new WorkbenchAspect(workbench));
         aspect.recipes.add(createRecipe());

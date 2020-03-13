@@ -20,17 +20,21 @@ import java.util.*;
  * @author Alexander Kuzyakov on 28.06.2018
  */
 public class BuildingType {
-    public final String building; // id
-    public final String title;
-    public final String description;
+    public String building; // id
+    public String title;
+    public String description;
     public List<List<String>> aspects;
     public List<String> parts;
     public List<String> recipes; // filled from crafting/lists.json
     public IntVector2 size; // width/height for N orientation
     public PassageEnum[][] passageArray; // array for N orientation
-    public final IntVector2[] sprites; // NSEW
+    public IntVector2[] sprites; // NSEW
     public boolean construction = false; // TODO to remove
     public String color = "0xffffffff";
+
+    public BuildingType() {
+        
+    }
 
     public BuildingType(RawBuildingType raw) {
         building = raw.building;
@@ -44,6 +48,7 @@ public class BuildingType {
         sprites = new IntVector2[4]; // for four orientations
     }
 
+    
     public TextureRegion getSprite(OrientationEnum orientation) {
         return AtlasesEnum.buildings.getRegion(sprites[orientation.ordinal()], RotationUtil.orientSize(size, orientation));
     }
