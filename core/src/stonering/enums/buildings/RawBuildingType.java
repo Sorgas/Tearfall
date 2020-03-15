@@ -1,5 +1,6 @@
 package stonering.enums.buildings;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,11 +12,11 @@ public class RawBuildingType {
     public String building; // id
     public String title;
     public String description;
-    public List<List<String>> aspects;
-    public List<String> parts;
+    public List<List<String>> aspects = new ArrayList<>();
+    public List<String> parts = new ArrayList<>();
     public String passage = "X";
     public boolean construction = false;
-    public List<String> recipes; // filled from crafting/lists.json
+    public List<String> recipes = new ArrayList<>(); // filled from crafting/lists.json
     public int[] size = {1, 1}; // width/height for N orientation
     public int[][] sprites = {{0, 0}, {0, 1}, {1, 0}, {1, 1}}; // NSEW
     public int[] atlasXY = {0, 0};

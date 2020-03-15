@@ -46,4 +46,12 @@ public class IntVector2 {
     public int hashCode() {
         return Objects.hash(x, y);
     }
+
+    @Override
+    public String toString() {
+        return "IntVector2{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
+    }
 }

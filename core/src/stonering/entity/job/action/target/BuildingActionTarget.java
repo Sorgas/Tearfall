@@ -9,6 +9,7 @@ import stonering.enums.buildings.BuildingTypeMap;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.local_map.passage.NeighbourPositionStream;
+import stonering.game.model.util.UtilByteArray;
 import stonering.util.geometry.Int2dBounds;
 import stonering.util.geometry.IntVector2;
 import stonering.util.geometry.Position;
@@ -19,8 +20,10 @@ import static stonering.enums.action.ActionTargetTypeEnum.NEAR;
 
 /**
  * Action target for buildings.
- * Can be switched to active state to hold additional position for builder
- * to ensure that items are brought to and building is built from same position.
+ * When action is taken, additional position for builder is defined.
+ * If building is ordered, builder can stand in any adjacent cell, or upper and lower, if construction is ramp or stairs.
+ * If building is ordered, builder will stand in the passable tile of a building, or in any near tile on the same z-level.
+ * Items will be brought to building position.
  *
  * @author Alexander on 02.12.2019.
  */
@@ -43,22 +46,29 @@ public class BuildingActionTarget extends ActionTarget {
      * TODO find nearest position.
      */
     public boolean findPositionForBuilder(BuildingOrder order, Position currentBuilderPosition) {
-        BuildingType type = BuildingTypeMap.getBuilding(order.blueprint.building);
-        Position inBuildingPosition = getPassableBuildingTile(order);
-        if(inBuildingPosition != null) {
-            builderPosition = inBuildingPosition;
-        } else {
-            Int2dBounds bounds = defineBuildingBounds(order);
-            bounds.extend(1);
-            for (IntVector2 collectBorder : bounds.collectBorders()) {
-                
-            }
-            builderPosition = new NeighbourPositionStream(center)
-//                    .filterByAccessibilityWithFutureTile(type)
-                    .filterInArea(GameMvc.model().get(LocalMap.class).passageMap.area.get(currentBuilderPosition))
+        UtilByteArray area = GameMvc.model().get(LocalMap.class).passageMap.area;
+        if(order.blueprint.construction) {
+            BlockTypeEnum blockType = BlockTypeEnum.getType(order.blueprint.building);
+            builderPosition = new NeighbourPositionStream(order.position) // position near target tile
+                    .filterInArea(area.get(currentBuilderPosition))
+                    .filterByAccessibilityWithFutureTile(blockType)
                     .stream.findFirst().orElse(null);
-            if(builderPosition != null) targetType = EXACT;
+        } else {
+            Position inBuildingPosition = getPassableBuildingTile(order);
+
+            if(inBuildingPosition != null) { // position found inside future building
+                builderPosition = inBuildingPosition;
+            } else { // look for position near building
+                Int2dBounds bounds = defineBuildingBounds(order);
+                bounds.extend(1);
+                int builderArea = area.get(currentBuilderPosition);
+                builderPosition = bounds.collectBorders().stream() // near position with same area
+                        .map(vector -> new Position(vector.x, vector.y, order.position.z))
+                        .filter(position -> area.get(position) == builderArea)
+                        .findFirst().orElse(null);
+            }
         }
+        if(builderPosition != null) targetType = EXACT;
         return builderPosition != null;
     }
 

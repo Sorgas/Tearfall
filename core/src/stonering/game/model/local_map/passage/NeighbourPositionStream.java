@@ -23,7 +23,7 @@ public class NeighbourPositionStream {
 
     public NeighbourPositionStream(Position center) {
         this.center = center;
-        localMap = GameMvc.instance().model().get(LocalMap.class);
+        localMap = GameMvc.model().get(LocalMap.class);
         passageMap = localMap.passageMap;
         Set<Position> neighbours = new HashSet<>();
         for (int x = center.x - 1; x < center.x + 2; x++) {

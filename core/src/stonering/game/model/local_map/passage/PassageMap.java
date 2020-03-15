@@ -113,8 +113,9 @@ public class PassageMap {
             PlantContainer plantContainer = model.get(PlantContainer.class);
             if (plantContainer != null && !plantContainer.isPlantBlockPassable(position)) return IMPASSABLE;
             BuildingContainer buildingContainer = model.get(BuildingContainer.class);
-            if (buildingContainer != null && buildingContainer.buildingBlocks.containsKey(position)
-                    && !buildingContainer.buildingBlocks.get(position).isPassable()) return IMPASSABLE;
+            if (buildingContainer != null
+                    && buildingContainer.buildingBlocks.containsKey(position)
+                    && buildingContainer.buildingBlocks.get(position).passage == IMPASSABLE) return IMPASSABLE;
         }
         return tilePassage;
     }

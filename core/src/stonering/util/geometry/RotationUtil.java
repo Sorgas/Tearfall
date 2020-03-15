@@ -92,8 +92,8 @@ public class RotationUtil {
      * Normalizes vector to have all components positive and still point to same point in a rectangle of given size.
      */
     public static IntVector2 normalizeWithSize(IntVector2 vector, IntVector2 size) {
-        vector.x = (vector.x + size.x - 1) % size.x;
-        vector.y = (vector.y + size.y - 1) % size.y;
+        while(vector.x < 0) vector.x += size.x; // TODO replace with formula
+        while(vector.y < 0) vector.y += size.y;
         return vector;
     }
 }
