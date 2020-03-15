@@ -58,8 +58,10 @@ public class CreatureMovementSystem extends EntitySystem<Unit> {
     private boolean checkPath(Unit unit, MovementAspect movement) {
         PlanningAspect planning = unit.getAspect(PlanningAspect.class);
         if (movement.path == null) { // path was blocked or not created
+            Logger.PATH.logDebug("searching path from " + unit.position + " to " + movement.target);
             movement.path = aStar.makeShortestPath(unit.position, movement.target, planning.task.nextAction.actionTarget.targetType);
             if (movement.path == null) {
+                System.out.println("task " + planning.task + " failed no path");
                 planning.task.status = TaskStatusEnum.FAILED; // no path to target, fail task
                 return freeAspect(movement);
             }

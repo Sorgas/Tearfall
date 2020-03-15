@@ -20,7 +20,7 @@ public class AStar implements ModelComponent {
      * the A* heuristics (h must not overestimate). initialNode and last found node included.
      */
     public List<Position> makeShortestPath(Position initialPos, Position targetPos, ActionTargetTypeEnum targetType) {
-        localMap = GameMvc.instance().model().get(LocalMap.class);
+        localMap = GameMvc.model().get(LocalMap.class);
         Node initialNode = new Node(initialPos, targetPos);
         Node pathNode = search(initialNode, targetPos, targetType); //perform search
         if (pathNode == null) return null;
@@ -45,7 +45,6 @@ public class AStar implements ModelComponent {
      * @return goal node to restore path from
      */
     private Node search(Node initialNode, Position targetPos, ActionTargetTypeEnum targetType) {
-        Logger.PATH.logDebug("searching path from " + initialNode.position + " to " + targetPos);
         HashPriorityQueue<Node, Node> openSet = new HashPriorityQueue(new NodeComparator());
         HashMap<Integer, Node> closedSet = new HashMap<>();
         PathFinishCondition finishCondition = new PathFinishCondition(targetPos, targetType);

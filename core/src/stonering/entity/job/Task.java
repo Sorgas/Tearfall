@@ -56,10 +56,9 @@ public class Task {
 
     /**
      * Resets this task to the state after creation.
-     * Also interrupts performance, if it was taken.
      */
     public void reset() {
-        Logger.TASKS.logDebug("Resetting task " + toString());
+        Logger.TASKS.logDebug("Resetting task " + this);
         preActions.clear();
         postActions.clear();
         performer = null;

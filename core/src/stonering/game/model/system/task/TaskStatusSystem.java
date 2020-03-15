@@ -1,6 +1,7 @@
 package stonering.game.model.system.task;
 
 import stonering.entity.job.Task;
+import stonering.entity.unit.aspects.PlanningAspect;
 import stonering.util.global.Logger;
 
 import java.util.Iterator;
@@ -39,9 +40,10 @@ public class TaskStatusSystem {
                     iterator.remove();
                     if (task.designation != null) container.designations.remove(task.designation.position); // remove designation
                     break;
-                case FAILED: // failed designations are reset to be taken again
+                case FAILED: // failed tasks are reset to be taken again
                     iterator.remove();
                     if (task.designation != null) { // designation tasks are reopened
+                        task.performer.getAspect(PlanningAspect.class).task = null;
                         task.reset();
                         task.status = OPEN;
                         container.addTask(task);
