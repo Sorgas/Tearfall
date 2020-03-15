@@ -61,9 +61,6 @@ public class CreaturePlanningSystem extends EntitySystem<Unit> {
         }
     }
 
-    /**
-     * Assigns task to unit, removing it from container.
-     */
     private void findNewTask(Unit unit) {
         Task task = selectTaskForUnit(unit);
         if (task != null && unitCanPerformTask(unit, task)) {

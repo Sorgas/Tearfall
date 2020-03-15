@@ -65,11 +65,6 @@ public class PauseMenu extends ButtonMenu {
     }
 
     @Override
-    public void show() {
-
-    }
-
-    @Override
     public void hide() {
         GameMvc.view().removeStage(getStage());
     }

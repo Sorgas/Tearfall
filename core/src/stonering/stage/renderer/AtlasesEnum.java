@@ -3,6 +3,7 @@ package stonering.stage.renderer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import org.jetbrains.annotations.NotNull;
 import stonering.util.geometry.IntVector2;
 import stonering.util.global.Logger;
 
@@ -62,10 +63,9 @@ public enum AtlasesEnum {
      */
     public TextureRegion getRegion(int x, int y, int width, int height) {
         TileSpriteDescriptor key = new TileSpriteDescriptor(x, y, width, height, Color.WHITE.toIntBits(), false);
-        int atlasY = y * FULL_TILE_HEIGHT + (hasToppings ? TOPPING_BLOCK_HEIGHT : 0); // consider toppings or not
         spriteCache.putIfAbsent(key, new TextureRegion(atlas,
                 x * WIDTH,
-                atlasY,
+                y * FULL_TILE_HEIGHT + (hasToppings ? TOPPING_BLOCK_HEIGHT : 0), // consider toppings or not
                 WIDTH * width,
                 DEPTH * height + HEIGHT));
         return spriteCache.get(key);
@@ -93,15 +93,15 @@ public enum AtlasesEnum {
         return getRegion(x, y, 1, 1);
     }
 
-    public TextureRegion getBlockTile(int[] xy) {
+    public TextureRegion getBlockTile(@NotNull int[] xy) {
         return getBlockTile(xy[0], xy[1]);
     }
 
-    public TextureRegion getBlockTile(IntVector2 vector) {
+    public TextureRegion getBlockTile(@NotNull IntVector2 vector) {
         return getBlockTile(vector.x, vector.y);
     }
 
-    public TextureRegion getRegion(IntVector2 xy, IntVector2 size) {
+    public TextureRegion getRegion(@NotNull IntVector2 xy, @NotNull IntVector2 size) {
         return getRegion(xy.x, xy.y, size.x, size.y);
     }
 }

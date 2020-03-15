@@ -3,7 +3,7 @@ package stonering.widget;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import stonering.game.GameMvc;
 import stonering.enums.images.DrawableMap;
-import stonering.stage.toolbar.menus.Toolbar;
+import stonering.stage.toolbar.Toolbar;
 
 /**
  * Abstract menu for {@link Toolbar}. Can add and remove itself in toolbar.
@@ -38,11 +38,6 @@ public abstract class ToolbarButtonMenu extends ButtonMenu implements Highlighta
                 setBackground(drawable);
             }
         };
-    }
-
-    @Override
-    public void show() {
-        toolbar.addMenu(this);
     }
 
     @Override

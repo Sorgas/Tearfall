@@ -7,7 +7,6 @@ import stonering.enums.items.recipe.Ingredient;
 import stonering.game.GameMvc;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.util.global.StaticSkin;
-import stonering.widget.Hideable;
 import stonering.entity.item.Item;
 import stonering.util.geometry.Position;
 import stonering.widget.HintedActor;
@@ -22,7 +21,7 @@ import java.util.List;
  *
  * @author Alexander on 03.07.2018.
  */
-public class MaterialSelectList extends ItemsCountList implements Hideable, HintedActor {
+public class MaterialSelectList extends ItemsCountList implements HintedActor {
     public boolean active = true; // prevents clicking when no items found
     private String hint;
 
@@ -60,14 +59,8 @@ public class MaterialSelectList extends ItemsCountList implements Hideable, Hint
         };
     }
 
-    @Override
-    public void show() {
-        GameMvc.instance().view().toolbarStage.toolbar.addMenu(this);
-    }
-
-    @Override
     public void hide() {
-        GameMvc.instance().view().toolbarStage.toolbar.removeMenu(this);
+        GameMvc.view().toolbarStage.toolbar.removeMenu(this);
     }
 
     @Override

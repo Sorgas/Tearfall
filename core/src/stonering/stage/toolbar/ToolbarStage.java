@@ -2,7 +2,6 @@ package stonering.stage.toolbar;
 
 import stonering.stage.UiStage;
 import stonering.widget.TileStatusBar;
-import stonering.stage.toolbar.menus.Toolbar;
 
 /**
  * Contains toolbar and status bar.

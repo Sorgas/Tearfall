@@ -1,4 +1,4 @@
-package stonering.stage.toolbar.menus;
+package stonering.stage.toolbar;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -8,9 +8,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
+import stonering.enums.images.DrawableMap;
 import stonering.stage.toolbar.ToolbarStage;
+import stonering.stage.toolbar.menus.ParentMenu;
 import stonering.util.global.Logger;
 import stonering.util.global.StaticSkin;
+import stonering.widget.ButtonMenu;
 
 /**
  * Contains table with all general orders menus. Toolbar is focused on {@link ToolbarStage} and passes key presses to last(right) menu.
@@ -22,11 +25,13 @@ public class Toolbar extends Container<Table> {
     public HorizontalGroup menusGroup; // in first row
     public Label status; // in second row
     public final ParentMenu parentMenu; // always on the left end
+    public boolean enabled = true;
+    public final ToolSetter setter;
 
     public Toolbar() {
         createLayout();
-        parentMenu = new ParentMenu(this);
-        parentMenu.show();
+        addMenu(parentMenu = new ParentMenu(this));
+        setter = new ToolSetter();
         addListener(new InputListener() { // passes events to last menu in toolbar
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
@@ -47,7 +52,7 @@ public class Toolbar extends Container<Table> {
         setActor(table);
     }
 
-    public void addMenu(Actor menu) {
+    public void addMenu(ButtonMenu menu) {
         menusGroup.addActor(menu);
         Logger.UI.logDebug("Menu " + menu.getClass().getSimpleName() + " added to toolbar");
     }
@@ -64,5 +69,16 @@ public class Toolbar extends Container<Table> {
             menusGroup.removeActor(menusGroup.getChildren().peek());
         }
         Logger.UI.logDebug("Submenus of " + menu.getClass().getSimpleName() + " removed from toolbar");
+    }
+
+    public void setEnabled(boolean status) {
+        enabled = status;
+        if(enabled) {
+            for (Actor child : menusGroup.getChildren()) {
+                ((ButtonMenu) child).setBackground(DrawableMap.REGION.getDrawable("default:focused"));
+            }
+        } else {
+
+        }
     }
 }

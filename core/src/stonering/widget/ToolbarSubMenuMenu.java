@@ -3,8 +3,7 @@ package stonering.widget;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.enums.HotkeySequence;
-import stonering.game.GameMvc;
-import stonering.stage.toolbar.menus.Toolbar;
+import stonering.stage.toolbar.Toolbar;
 
 import java.util.HashMap;
 import java.util.List;
@@ -32,8 +31,8 @@ public class ToolbarSubMenuMenu extends ToolbarButtonMenu {
         createButton(identifier, iconName, hotkey, new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                GameMvc.view().toolbarStage.toolbar.removeSubMenus(thisMenu);
-                menu.show();
+                toolbar.removeSubMenus(thisMenu);
+                toolbar.addMenu(menu);
             }
         }, true);
         menus.put(identifier, menu);

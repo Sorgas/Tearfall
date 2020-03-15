@@ -8,7 +8,7 @@ import static com.badlogic.gdx.Input.Keys.*;
  * @author Alexander on 20.10.2018.
  */
 public class HotkeySequence {
-    private static final int[] hotkeys = {T, Y, U, I, O, P,};
+    private static final int[] hotkeys = {Y, U, I, O, P, H, J, K, L};
     private int index;
 
     public int getNext() {

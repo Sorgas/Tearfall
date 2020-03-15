@@ -1,6 +1,7 @@
 package stonering.util.ui;
 
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.InputProcessor;
 
 /**
  * Wrapper for input adapter that adds switching functionality to it.
@@ -8,7 +9,7 @@ import com.badlogic.gdx.InputAdapter;
  *
  * @author Alexander on 20.01.2020
  */
-public abstract class EnableableInputAdapter extends InputAdapter {
+public abstract class EnableableInputAdapter implements InputProcessor {
     public final InputAdapter inner;
     public boolean enabled = true;
 

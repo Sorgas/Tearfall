@@ -53,12 +53,15 @@ public class CreatureActionPerformingSystem extends EntitySystem<Unit> {
         ActionTargetStatusEnum checkResult = task.nextAction.actionTarget.check(planning.entity);
         switch (checkResult) {
             case READY: // creature is in target, perform
+                System.out.println("target ok");
                 handleReachingActionTarget(task, planning);
                 break;
             case WAIT: // unit is far from reachable target
+                System.out.println("target far");
                 handleStartMovement(task, planning, movement);
                 break;
             case FAIL: // target unreachable
+                System.out.println("target fail");
                 task.status = FAILED;
                 break;
         }
@@ -90,6 +93,7 @@ public class CreatureActionPerformingSystem extends EntitySystem<Unit> {
      * If sub action is created during check, it will be checked on next update.
      */
     private boolean checkAction(Task task, PlanningAspect planning) {
+        System.out.println("checking action of " + task);
         ActionConditionStatusEnum result = task.nextAction.startCondition.get();
         planning.actionChecked = result == OK; // action is checked and did not generate sub actions
         if(result == FAIL) task.status = FAILED; // task will be removed

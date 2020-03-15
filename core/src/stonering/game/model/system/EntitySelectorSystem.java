@@ -10,11 +10,10 @@ import stonering.game.model.entity_selector.EntitySelector;
 import stonering.game.model.entity_selector.aspect.SelectionAspect;
 import stonering.game.model.local_map.LocalMap;
 import stonering.stage.renderer.AtlasesEnum;
-import stonering.stage.toolbar.menus.Toolbar;
+import stonering.stage.toolbar.Toolbar;
 import stonering.util.geometry.Position;
 import stonering.util.geometry.RotationUtil;
 import stonering.util.global.Logger;
-import stonering.util.validation.PositionValidator;
 
 import static stonering.enums.OrientationEnum.N;
 
@@ -46,9 +45,6 @@ public class EntitySelectorSystem implements ModelComponent {
         }); //TODO update render
     }
 
-    /**
-     * Calls selectHandler for all tiles in selection box that are valid with validator.
-     */
     public void handleSelection() {
         SelectionAspect aspect = selector.getAspect(SelectionAspect.class);
         if (aspect.selectHandler != null) aspect.selectHandler.accept(aspect.getBox());
@@ -88,12 +84,15 @@ public class EntitySelectorSystem implements ModelComponent {
         }
         selectorMoved();
     }
-    
+
     public void rotateSelector(boolean clockwise) {
+        Logger.UI.logDebug("rotating selector " + (clockwise ? "" : "counter") + " clockwise");
         BuildingType type = selector.getAspect(SelectionAspect.class).type;
-        if(type == null || type.construction) return; // no rotation for constructions
+        if (type == null || type.construction) return; // no rotation for constructions
         OrientationAspect orientationAspect = selector.getAspect(OrientationAspect.class);
         orientationAspect.current = RotationUtil.rotate(orientationAspect.current, clockwise);
         selector.getAspect(RenderAspect.class).region = AtlasesEnum.buildings.getBlockTile(type.sprites[orientationAspect.current.ordinal()]);
     }
+
+
 }

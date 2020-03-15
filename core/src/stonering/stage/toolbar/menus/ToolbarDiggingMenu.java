@@ -8,6 +8,7 @@ import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.aspect.SelectionAspect;
 import stonering.game.model.system.EntitySelectorSystem;
 import stonering.game.model.system.task.TaskContainer;
+import stonering.stage.toolbar.Toolbar;
 import stonering.util.global.Logger;
 import stonering.widget.ToolbarButtonMenu;
 

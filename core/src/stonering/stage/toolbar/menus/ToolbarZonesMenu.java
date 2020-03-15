@@ -11,6 +11,7 @@ import stonering.game.model.entity_selector.EntitySelector;
 import stonering.game.model.entity_selector.aspect.SelectionAspect;
 import stonering.game.model.system.EntitySelectorSystem;
 import stonering.game.model.system.ZoneContainer;
+import stonering.stage.toolbar.Toolbar;
 import stonering.widget.ToolbarButtonMenu;
 
 import java.util.Arrays;

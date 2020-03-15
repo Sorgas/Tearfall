@@ -12,7 +12,6 @@ import stonering.enums.ControlActionsEnum;
 import stonering.enums.OrderStatusEnum;
 import stonering.stage.workbench.zz_oldmenu.WorkbenchMenuq;
 import stonering.enums.images.DrawableMap;
-import stonering.widget.Hideable;
 import stonering.widget.Highlightable;
 import stonering.widget.HintedActor;
 import stonering.util.global.StaticSkin;
@@ -23,7 +22,7 @@ import stonering.util.global.StaticSkin;
  *
  * @author Alexander_Kuzyakov on 24.06.2019.
  */
-public class OrderLine extends Table implements Hideable, HintedActor, Highlightable {
+public class OrderLine extends Table implements HintedActor, Highlightable {
     private static final String BACKGROUND_NAME = "workbench_order_line";
     protected String hint;
     protected WorkbenchMenuq menu;
@@ -109,7 +108,6 @@ public class OrderLine extends Table implements Hideable, HintedActor, Highlight
     /**
      * Shows this line in its screen.
      */
-    @Override
     public void show() {
         menu.getOrderList().addActorAt(0, this);
     }
