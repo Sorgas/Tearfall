@@ -39,8 +39,8 @@ public class PlantContainer extends EntityContainer<AbstractPlant> implements In
 
     public PlantContainer() {
         plantBlocks = new HashMap<>();
-        putSystem(new PlantSeedSystem());
-        putSystem(new PlantGrowthSystem());
+        put(new PlantSeedSystem());
+        put(new PlantGrowthSystem());
     }
 
     @Override
@@ -62,7 +62,7 @@ public class PlantContainer extends EntityContainer<AbstractPlant> implements In
      */
     private void placePlant(Plant plant, Position position) {
         plant.setPosition(position);
-        if (placeBlock(plant.getBlock())) entities.add(plant);
+        if (placeBlock(plant.getBlock())) objects.add(plant);
     }
 
     /**
@@ -74,7 +74,7 @@ public class PlantContainer extends EntityContainer<AbstractPlant> implements In
      * @param tree Tree object with not null tree field
      */
     private void placeTree(Tree tree, Position position) {
-        entities.add(tree);
+        objects.add(tree);
         tree.setPosition(position);
         Position vector = tree.getArrayStartPosition();
         PlantBlock[][][] treeParts = tree.getBlocks();
@@ -113,7 +113,7 @@ public class PlantContainer extends EntityContainer<AbstractPlant> implements In
      * Removes plant from map completely. Can leave products.
      */
     public void remove(AbstractPlant plant, boolean leaveProduct) {
-        if (plant != null && entities.remove(plant)) removePlantBlocks(plant, leaveProduct);
+        if (plant != null && objects.remove(plant)) removePlantBlocks(plant, leaveProduct);
     }
 
     /**

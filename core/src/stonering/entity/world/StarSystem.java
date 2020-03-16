@@ -16,6 +16,6 @@ import java.io.Serializable;
 public class StarSystem extends EntityContainer<CelestialBody> implements Serializable, Updatable {
 
     public void init() {
-        entities.forEach(Entity::init);
+        objects.forEach(Entity::init);
     }
 }

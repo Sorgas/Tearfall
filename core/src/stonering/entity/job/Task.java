@@ -38,7 +38,7 @@ public class Task {
     public final List<Item> lockedItems;
     public int priority; // Unit selects task with max priority (e.g. labor vs needs)
 
-    private final Action initialAction;
+    public final Action initialAction;
     private final LinkedList<Action> preActions = new LinkedList<>();
     private final LinkedList<Action> postActions = new LinkedList<>();
     public Action nextAction; // points to first action in whole task

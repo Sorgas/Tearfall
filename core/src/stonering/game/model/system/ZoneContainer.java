@@ -20,7 +20,7 @@ public class ZoneContainer extends EntityContainer<Zone> {
 
     public ZoneContainer() {
         zoneMap = new HashMap<>();
-        putSystem(new FarmTileWitherSystem());
+        put(new FarmTileWitherSystem());
     }
 
     /**
@@ -29,7 +29,7 @@ public class ZoneContainer extends EntityContainer<Zone> {
     public Zone createZone(Position position, ZoneTypesEnum type) {
         Zone zone = type.createZone();
         setTileToZone(zone, position);
-        entities.add(zone);
+        objects.add(zone);
         Logger.ZONES.logDebug("Zone " + zone + " created");
         recountZones();
         return zone;
@@ -37,7 +37,7 @@ public class ZoneContainer extends EntityContainer<Zone> {
 
     public void deleteZone(Zone zone) {
         zone.getTiles().forEach(position -> zoneMap.remove(position));
-        entities.remove(zone);
+        objects.remove(zone);
     }
 
     public void setTileToZone(@Nullable Zone zone, Position position) {
@@ -56,7 +56,7 @@ public class ZoneContainer extends EntityContainer<Zone> {
     }
 
     private void recountZones() {
-        for (Iterator<Zone> iterator = entities.iterator(); iterator.hasNext(); ) {
+        for (Iterator<Zone> iterator = objects.iterator(); iterator.hasNext(); ) {
             Zone zone = iterator.next();
             if (!zone.getTiles().isEmpty()) continue;
             iterator.remove();

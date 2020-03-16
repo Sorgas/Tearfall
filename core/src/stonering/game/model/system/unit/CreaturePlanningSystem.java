@@ -63,7 +63,9 @@ public class CreaturePlanningSystem extends EntitySystem<Unit> {
 
     private void findNewTask(Unit unit) {
         Task task = selectTaskForUnit(unit);
-        if (task != null && unitCanPerformTask(unit, task)) {
+        if (task == null) return;
+        task.performer = unit;
+        if (task.initialAction.takingCondition.get()) {
             Logger.TASKS.logDebug("Assigning task " + task + " to unit " + unit);
             taskContainer().claimTask(task);
             unit.getAspect(PlanningAspect.class).task = task;
@@ -79,8 +81,8 @@ public class CreaturePlanningSystem extends EntitySystem<Unit> {
      */
     private Task selectTaskForUnit(Unit unit) {
         ArrayList<Task> tasks = new ArrayList<>();
-        if (unit.hasAspect(NeedsAspect.class)) tasks.add(unit.getAspect(NeedsAspect.class).satisfyingTask);
-        tasks.add(taskContainer().getActiveTask(unit)); // player/workbench created tasks
+        if (unit.hasAspect(NeedsAspect.class)) tasks.add(unit.getAspect(NeedsAspect.class).satisfyingTask); // add need task
+        tasks.add(taskContainer().getActiveTask(unit)); // get task from container
         return tasks.stream()
                 .filter(Objects::nonNull)
                 .filter(task -> task.status == OPEN)

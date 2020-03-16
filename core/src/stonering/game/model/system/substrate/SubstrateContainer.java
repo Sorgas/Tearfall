@@ -22,7 +22,7 @@ public class SubstrateContainer extends EntityContainer<SubstratePlant> implemen
 
     public SubstrateContainer() {
         substrateBlocks = new HashMap<>();
-        putSystem(new SubstrateGrowingSystem(this));
+        put(new SubstrateGrowingSystem(this));
     }
 
     @Override
@@ -37,7 +37,7 @@ public class SubstrateContainer extends EntityContainer<SubstratePlant> implemen
     public void place(SubstratePlant plant, Position position) {
         if (substrateBlocks.containsKey(plant.getPosition())) return;
         plant.setPosition(position);
-        entities.add(plant);
+        objects.add(plant);
         substrateBlocks.put(plant.getPosition(), plant.getBlock());
     }
 
@@ -47,7 +47,7 @@ public class SubstrateContainer extends EntityContainer<SubstratePlant> implemen
     public void remove(AbstractPlant plant) {
         if (plant == null) return;
         if (!substrateBlocks.containsKey(plant.position)) return;
-        entities.remove(plant);
+        objects.remove(plant);
         substrateBlocks.remove(plant.position);
     }
 

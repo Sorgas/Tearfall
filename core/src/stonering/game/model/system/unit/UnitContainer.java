@@ -32,14 +32,14 @@ public class UnitContainer extends EntityContainer<Unit> implements Initable {
     public UnitContainer() {
         cachePosition = new Position();
         unitsMap = new HashMap<>();
-        putSystem(needSystem = new CreatureNeedSystem());
-        putSystem(buffSystem = new CreatureBuffSystem());
-        putSystem(healthSystem = new CreatureHealthSystem());
-        putSystem(movementSystem = new CreatureMovementSystem());
-        putSystem(planningSystem = new CreaturePlanningSystem());
-        putSystem(taskSystem = new CreatureActionPerformingSystem());
-        putSystem(experienceSystem = new CreatureExperienceSystem());
-        putSystem(equipmentSystem = new CreatureEquipmentSystem());
+        put(needSystem = new CreatureNeedSystem());
+        put(buffSystem = new CreatureBuffSystem());
+        put(healthSystem = new CreatureHealthSystem());
+        put(movementSystem = new CreatureMovementSystem());
+        put(planningSystem = new CreaturePlanningSystem());
+        put(taskSystem = new CreatureActionPerformingSystem());
+        put(experienceSystem = new CreatureExperienceSystem());
+        put(equipmentSystem = new CreatureEquipmentSystem());
     }
 
     /**
@@ -47,7 +47,7 @@ public class UnitContainer extends EntityContainer<Unit> implements Initable {
      */
     public void addUnit(Unit unit) {
         addUnitToMap(unit);
-        entities.add(unit);
+        objects.add(unit);
         unit.init();
     }
 
@@ -56,7 +56,7 @@ public class UnitContainer extends EntityContainer<Unit> implements Initable {
      */
     private void removeUnit(Unit unit) {
         removeUnitFromMap(unit);
-        entities.remove(unit);
+        objects.remove(unit);
     }
 
     public void updateUnitPosiiton(Unit unit, Vector3 vector) {

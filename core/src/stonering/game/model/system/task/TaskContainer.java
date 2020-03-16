@@ -5,7 +5,7 @@ import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.job.designation.Designation;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.job.JobsAspect;
-import stonering.entity.unit.aspects.PlanningAspect;
+import stonering.entity.unit.aspects.needs.NeedsAspect;
 import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.enums.action.TaskStatusEnum;
 import stonering.enums.time.TimeUnitEnum;
@@ -22,8 +22,9 @@ import stonering.util.global.Logger;
 import java.util.*;
 
 /**
- * Contains all {@link Task} for settlers on map and {@link Designation}s for rendering.
+ * Contains all {@link Task} for player's units on map and {@link Designation}s for rendering.
  * Tasks are orders for unit. Tasks are created by player, buildings or zones(farms, storages, workbenches).
+ * Tasks for units needs stored on each unit's {@link NeedsAspect}.
  * Tasks and designations are linked to each other if needed.
  *
  * @author Alexander Kuzyakov
@@ -32,15 +33,14 @@ public class TaskContainer implements ModelComponent, Updatable {
     public Map<JobsEnum, List<Task>> tasks; // task job to all tasks with this job
     public final Set<Task> assignedTasks; // tasks, taken by some unit.
     public final HashMap<Position, Designation> designations; //this map is for rendering and modifying designations
-    private Position cachePosition; // state is not maintained. should be set before use
     public final DesignationSystem designationSystem;
     public final TaskStatusSystem taskStatusSystem;
 
     public TaskContainer() {
         tasks = new HashMap<>();
+        Arrays.stream(JobsEnum.values()).forEach(value -> tasks.put(value, new ArrayList<>()));
         assignedTasks = new HashSet<>();
         designations = new HashMap<>();
-        cachePosition = new Position();
         designationSystem = new DesignationSystem(this);
         taskStatusSystem = new TaskStatusSystem(this);
     }
@@ -53,25 +53,20 @@ public class TaskContainer implements ModelComponent, Updatable {
 
     /**
      * Gets tasks for unit. Filters task by units's allowed jobs.
-     * Does not assign task to unit, because after this method is compared to unit's other tasks, see {@link PlanningAspect}.
+     * Does not assign task to unit, because after this method is compared to unit's other tasks, see {@link stonering.game.model.system.unit.CreaturePlanningSystem}.
      */
     public Task getActiveTask(Unit unit) {
         // TODO consider task priority
         JobsAspect aspect = unit.getAspect(JobsAspect.class);
-        if (aspect == null) {
-            Logger.TASKS.logError("Creature " + unit + " without jobs aspect gets task from container");
-            return null;
-        }
-        final Position position = unit.position;
+        if (aspect == null) return Logger.TASKS.logError("Creature " + unit + " without jobs aspect gets task from container", null);
         PassageMap map = GameMvc.model().get(LocalMap.class).passageMap;
         for (JobsEnum enabledJob : aspect.getEnabledJobs()) {
-            if (!tasks.containsKey(enabledJob)) continue;
             for (Task task : tasks.get(enabledJob)) {
                 if (task.performer != null) Logger.TASKS.logError("Task " + task + " with performer is in open map.");
                 ActionTarget target = task.nextAction.actionTarget;
                 if (task.performer == null &&
                         task.status == TaskStatusEnum.OPEN &&
-                        map.util.positionReachable(position, target.getPosition(), target.targetType != ActionTargetTypeEnum.EXACT)) {
+                        map.util.positionReachable(unit.position, target.getPosition(), target.targetType != ActionTargetTypeEnum.EXACT)) {
                     //TODO add selecting nearest task.
                     return task;
                 }
@@ -88,19 +83,10 @@ public class TaskContainer implements ModelComponent, Updatable {
         if (tasks.containsKey(task.job) && tasks.get(task.job).remove(task)) assignedTasks.add(task);
     }
 
-    /**
-     * For adding simple tasks (w/o designation).
-     */
-    public Task addTask(Task task) {
-        if (task == null) return null;
-        tasks.putIfAbsent(task.job, new ArrayList<>()); // new list for job
+    public void addTask(Task task) {
+        if (task == null) return;
         tasks.get(task.job).add(task);
         if (task.designation != null) designations.put(task.designation.position, task.designation);
         Logger.TASKS.logDebug("Task " + task + " added to TaskContainer.");
-        return task;
-    }
-
-    public Designation getDesignation(int x, int y, int z) {
-        return designations.get(cachePosition.set(x, y, z));
     }
 }

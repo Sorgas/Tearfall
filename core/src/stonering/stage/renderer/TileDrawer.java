@@ -142,7 +142,7 @@ public class TileDrawer extends Drawer {
         if (plantContainer != null) drawPlantBlock(plantContainer.getPlantBlock(cachePosition));
         buildingDrawer.drawBuilding(cachePosition);
         if (itemContainer != null) itemContainer.getItemsInPosition(x, y, z).forEach(this::drawItem);
-        if (taskContainer != null) drawDesignation(taskContainer.getDesignation(x, y, z));
+        if (taskContainer != null) drawDesignation(taskContainer.designations.get(cachePosition));
         if (zoneContainer != null) drawZone(zoneContainer.getZone(cachePosition));
         spriteUtil.resetColor();
     }

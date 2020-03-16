@@ -17,11 +17,11 @@ import java.util.List;
 import static stonering.entity.job.action.ActionConditionStatusEnum.*;
 
 /**
- * Action for creating constructions and buildings on map.
+ * Abstract action for creating constructions and buildings on map.
  * Building is designated with {@link stonering.entity.job.designation.BuildingDesignation} with {@link BuildingOrder}.
- * Target position should be clear from items.
+ * Target area should be clear from items.
  * Building can be created in the same z-level cell next to a builder,
- * or if builder can step into cell with construction after completing it (for constructing stairs and floors on SPACE cells).
+ * or if builder can step into cell with construction after completing it (for constructing floors on SPACE cells, constructing ramps on lower level, constructing stairs).
  * <p>
  * Position for builder to stand during building is selected in the beginning of an action. This selection can fail action.
  * Materials for construction should be brought to selected builder position.

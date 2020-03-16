@@ -37,9 +37,9 @@ public class ItemContainer extends EntityContainer<Item> {
     public final OnMapItemsSystem onMapItemsSystem;
 
     public ItemContainer() {
-        putSystem(containedItemsSystem = new ContainedItemsSystem(this));
-        putSystem(equippedItemsSystem = new EquippedItemsSystem(this));
-        putSystem(onMapItemsSystem = new OnMapItemsSystem(this));
+        put(containedItemsSystem = new ContainedItemsSystem(this));
+        put(equippedItemsSystem = new EquippedItemsSystem(this));
+        put(onMapItemsSystem = new OnMapItemsSystem(this));
     }
 
     //TODO system for updating containers
@@ -50,7 +50,7 @@ public class ItemContainer extends EntityContainer<Item> {
      * After that item should be put somewhere.
      */
     public void addItem(Item item) {
-        entities.add(item);
+        objects.add(item);
         item.init(); // init item aspects
     }
 
@@ -58,8 +58,8 @@ public class ItemContainer extends EntityContainer<Item> {
      * Removes item from the game completely. Item should be removed from all other maps before this.
      */
     public void removeItem(Item item) {
-        if (!entities.contains(item)) Logger.ITEMS.logWarn("Removing not present item " + item.type.name);
-        entities.remove(item);
+        if (!objects.contains(item)) Logger.ITEMS.logWarn("Removing not present item " + item.type.name);
+        objects.remove(item);
     }
 
     public void removeItems(List<Item> items) {

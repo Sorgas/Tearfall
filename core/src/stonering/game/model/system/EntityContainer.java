@@ -2,9 +2,9 @@ package stonering.game.model.system;
 
 import stonering.entity.Entity;
 import stonering.enums.time.TimeUnitEnum;
-import stonering.game.model.Updatable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -14,31 +14,24 @@ import java.util.List;
  *
  * @author Alexander on 17.07.2019.
  */
-public abstract class EntityContainer<T extends Entity> implements ModelComponent, Updatable {
-    public final List<T> entities;
+public abstract class EntityContainer<T extends Entity> extends AbstractContainer<T> {
     private final HashMap<TimeUnitEnum, List<EntitySystem<T>>> entitySystems; // entities are updated with systems from this map
-    private final HashMap<TimeUnitEnum, List<UtilitySystem>> utilitySystems;
 
     public EntityContainer() {
-        entities = new ArrayList<>();
+        super();
         entitySystems = new HashMap<>();
-        utilitySystems = new HashMap<>();
-        for (TimeUnitEnum value : TimeUnitEnum.values()) {
-            entitySystems.put(value, new ArrayList<>());
-            utilitySystems.put(value, new ArrayList<>());
-        }
+        Arrays.stream(TimeUnitEnum.values()).forEach(value -> entitySystems.put(value, new ArrayList<>()));
     }
 
+    @Override
     public void update(TimeUnitEnum unit) {
-        entitySystems.get(unit).forEach(system -> entities.stream().filter(system.filteringPredicate).forEach(system::update));
-        utilitySystems.get(unit).forEach(UtilitySystem::update);
+        super.update(unit);
+        entitySystems.get(unit).forEach(system -> objects.stream().filter(system.filteringPredicate).forEach(system::update));
     }
 
-    public <S extends EntitySystem<T>> void putSystem(S system) {
-        entitySystems.get(system.updateInterval).add(system);
-    }
-
-    public void putSystem(UtilitySystem system) {
-        utilitySystems.get(system.updateInterval).add(system);
+    @Override
+    public <S extends System> void put(S system) {
+        super.put(system);
+        if(system instanceof EntitySystem) entitySystems.get(system.updateInterval).add((EntitySystem) system);
     }
 }

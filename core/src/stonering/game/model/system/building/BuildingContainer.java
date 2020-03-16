@@ -36,7 +36,7 @@ public class BuildingContainer extends EntityContainer<Building> implements Mode
         buildingBlocks = new HashMap<>();
         buildingGenerator = new BuildingGenerator();
         removedBuildings = new ArrayList<>();
-        putSystem(workbenchSystem = new WorkbenchSystem());
+        put(workbenchSystem = new WorkbenchSystem());
     }
 
     @Override
@@ -46,7 +46,7 @@ public class BuildingContainer extends EntityContainer<Building> implements Mode
     }
 
     private void removeMarkedForDelete() {
-        entities.removeAll(removedBuildings);
+        objects.removeAll(removedBuildings);
         for (Building building : removedBuildings) {
             for (BuildingBlock[] blocks : building.blocks) {
                 for (BuildingBlock block : blocks) {
@@ -75,7 +75,7 @@ public class BuildingContainer extends EntityContainer<Building> implements Mode
             buildingBlocks.put(block.position, block);
         });
         building.iterateBlocks(block -> GameMvc.model().get(LocalMap.class).updatePassage(block.position));
-        entities.add(building);
+        objects.add(building);
         tryMoveItems(building);
     }
 
@@ -105,6 +105,6 @@ public class BuildingContainer extends EntityContainer<Building> implements Mode
     }
 
     public List<Building> getBuildingsWithAspect(Class<? extends Aspect> T) {
-        return entities.stream().filter(building -> building.hasAspect(T)).collect(Collectors.toList());
+        return objects.stream().filter(building -> building.hasAspect(T)).collect(Collectors.toList());
     }
 }
