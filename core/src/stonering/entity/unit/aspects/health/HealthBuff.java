@@ -32,7 +32,7 @@ public class HealthBuff extends Buff {
     }
 
     protected boolean applyDeltaToProperty(Unit unit, int multiplier) {
-        HealthAspect aspect = unit.getAspect(HealthAspect.class);
+        HealthAspect aspect = unit.get(HealthAspect.class);
         if (aspect == null)
             return Logger.UNITS.logError("Trying to apply HealthBuff " + this + " to creature " + unit + " with no HealthAspect", false);
         if (!aspect.properties.containsKey(propertyName))

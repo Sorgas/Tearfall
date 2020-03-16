@@ -2,7 +2,6 @@ package stonering.entity.job.action;
 
 import stonering.entity.building.Building;
 import stonering.entity.building.aspects.RestFurnitureAspect;
-import stonering.entity.job.action.Action;
 import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.job.action.target.EntityActionTarget;
 import stonering.entity.unit.aspects.health.HealthAspect;
@@ -33,14 +32,14 @@ public class SleepInBedAction extends Action {
         bed = (Building) ((EntityActionTarget) actionTarget).entity;
         restSpeed = countRestSpeed();
         onStart = () -> {
-            targetParameter = task.performer.getAspect(HealthAspect.class).parameters.get(HealthParameterEnum.FATIGUE);
+            targetParameter = task.performer.get(HealthAspect.class).parameters.get(HealthParameterEnum.FATIGUE);
             // lie to bed
             // disable vision
             // decrease hearing
         };
         startCondition = () -> {
             if (GameMvc.model().get(BuildingContainer.class).getBuiding(bed.position) == bed &&
-                    bed.hasAspect(RestFurnitureAspect.class))
+                    bed.has(RestFurnitureAspect.class))
                 return OK;
             return FAIL;
         };

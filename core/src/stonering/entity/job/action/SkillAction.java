@@ -35,10 +35,10 @@ public class SkillAction extends Action {
     }
 
     protected float getUnitPerformance() {
-        return task.performer.getAspect(HealthAspect.class).properties.get("performance");
+        return task.performer.get(HealthAspect.class).properties.get("performance");
     }
 
     private int getPerformerLevel() {
-        return task.performer.getAspect(SkillAspect.class).getSkill(SKILL_NAME).state.getLevel();
+        return task.performer.get(SkillAspect.class).getSkill(SKILL_NAME).state.getLevel();
     }
 }

@@ -52,7 +52,7 @@ public class CreatureEquipmentSystem extends EntitySystem<Unit> {
 
     //TODO add layers
     public void fillSlot(EquipmentAspect equipment, EquipmentSlot slot, @NotNull Item item) {
-        if(item.type.hasAspect(WearAspect.class)) {
+        if(item.type.has(WearAspect.class)) {
             slot.item = item; // add to wear slot
             getItemContainer().equippedItemsSystem.itemEquipped(item, equipment);
         } else {

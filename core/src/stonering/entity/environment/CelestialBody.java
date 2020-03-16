@@ -16,6 +16,6 @@ public class CelestialBody extends Entity implements Serializable {
 
     public CelestialBody() {
         super(); //TODO redesign entity hierarchy
-        addAspect(new CelestialLightSourceAspect(this));
+        add(new CelestialLightSourceAspect(this));
     }
 }

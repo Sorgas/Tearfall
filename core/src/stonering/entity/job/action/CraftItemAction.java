@@ -18,7 +18,6 @@ import stonering.util.global.Logger;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static stonering.entity.job.action.ActionConditionStatusEnum.*;
 
@@ -41,12 +40,12 @@ public class CraftItemAction extends Action {
         //TODO check ingredients and fuel availability before bringing something to workbench.
         //TODO add usage of items in nearby containers.
         startCondition = () -> {
-            WorkbenchAspect aspect = workbench.getAspect(WorkbenchAspect.class);
-            if (workbench.getAspect(WorkbenchAspect.class) == null)
+            WorkbenchAspect aspect = workbench.get(WorkbenchAspect.class);
+            if (workbench.get(WorkbenchAspect.class) == null)
                 return Logger.TASKS.logWarn("Building " + workbench.toString() + " is not a workbench.", FAIL);
             ActionConditionStatusEnum orderCheckResult = checkIngredientItems(aspect);
             if (orderCheckResult != OK) return orderCheckResult;
-            if (workbench.hasAspect(FuelConsumerAspect.class) && !workbench.getAspect(FuelConsumerAspect.class).isFueled()) { // workbench requires fuel
+            if (workbench.has(FuelConsumerAspect.class) && !workbench.get(FuelConsumerAspect.class).isFueled()) { // workbench requires fuel
                 task.addFirstPreAction(new FuelingAciton(workbench));
                 return NEW;
             }
@@ -56,7 +55,7 @@ public class CraftItemAction extends Action {
         // Creates item, consumes ingredients. Product item is put to Workbench.
         onFinish = () -> {
             ItemContainer container = GameMvc.instance().model().get(ItemContainer.class);
-            WorkbenchAspect workbenchAspect = workbench.getAspect(WorkbenchAspect.class);
+            WorkbenchAspect workbenchAspect = workbench.get(WorkbenchAspect.class);
             Item product = new ItemGenerator().generateItemByOrder(itemOrder);
             // spend components
             List<Item> items = itemOrder.getAllIngredients().stream()

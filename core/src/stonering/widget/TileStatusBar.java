@@ -10,7 +10,7 @@ import stonering.enums.materials.MaterialMap;
 import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
 import stonering.game.model.local_map.LocalMap;
-import stonering.game.model.system.EntitySelectorSystem;
+import stonering.game.model.entity_selector.EntitySelectorSystem;
 import stonering.util.global.StaticSkin;
 import stonering.util.geometry.Position;
 

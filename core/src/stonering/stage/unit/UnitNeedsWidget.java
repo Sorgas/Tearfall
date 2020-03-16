@@ -24,7 +24,7 @@ public class UnitNeedsWidget extends Table {
     }
 
     private void createBars(Unit unit) {
-        HealthAspect aspect = unit.getAspect(HealthAspect.class);
+        HealthAspect aspect = unit.get(HealthAspect.class);
         add(new Image(DrawableMap.ICON.getDrawable("hunger:")));
         add(new HealthParameterStateProgressBar(aspect.parameters.get(HealthParameterEnum.HUNGER))).row();
         add(new Image(DrawableMap.ICON.getDrawable("thirst:")));

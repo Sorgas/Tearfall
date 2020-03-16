@@ -1,4 +1,4 @@
-package stonering.game.model.system;
+package stonering.game.model.entity_selector;
 
 import com.badlogic.gdx.graphics.Color;
 import stonering.entity.RenderAspect;
@@ -6,9 +6,10 @@ import stonering.entity.unit.aspects.OrientationAspect;
 import stonering.enums.blocks.BlockTypeEnum;
 import stonering.enums.buildings.BuildingType;
 import stonering.game.GameMvc;
-import stonering.game.model.entity_selector.EntitySelector;
+import stonering.game.model.entity_selector.aspect.BoxSelectionAspect;
 import stonering.game.model.entity_selector.aspect.SelectionAspect;
 import stonering.game.model.local_map.LocalMap;
+import stonering.game.model.system.ModelComponent;
 import stonering.stage.renderer.AtlasesEnum;
 import stonering.stage.toolbar.Toolbar;
 import stonering.util.geometry.Position;
@@ -32,27 +33,28 @@ public class EntitySelectorSystem implements ModelComponent {
 
     public EntitySelectorSystem() {
         selector = new EntitySelector(new Position());
-        selector.addAspect(new SelectionAspect(selector));
-        selector.addAspect(new RenderAspect(selector, 0, 2, AtlasesEnum.ui_tiles));
-        selector.addAspect(new OrientationAspect(selector, N));
+        selector.add(new SelectionAspect(selector));
+        selector.add(new BoxSelectionAspect(selector));
+        selector.add(new RenderAspect(selector, 0, 2, AtlasesEnum.ui_tiles));
+        selector.add(new OrientationAspect(selector, N));
         inputHandler = new EntitySelectorInputHandler(this);
     }
 
     public void validateAndUpdate() {
-        SelectionAspect aspect = selector.getAspect(SelectionAspect.class);
+        SelectionAspect aspect = selector.get(SelectionAspect.class);
         aspect.validator.validateAnd(selector.position, bool -> {
-            if (!bool) selector.getAspect(RenderAspect.class).color = selectionInvalidColor;
+            if (!bool) selector.get(RenderAspect.class).color = selectionInvalidColor;
         }); //TODO update render
     }
 
     public void handleSelection() {
-        SelectionAspect aspect = selector.getAspect(SelectionAspect.class);
+        SelectionAspect aspect = selector.get(SelectionAspect.class);
         if (aspect.selectHandler != null) aspect.selectHandler.accept(aspect.getBox());
     }
 
     public void handleCancel() {
-        selector.getAspect(SelectionAspect.class).boxStart = null;
-        SelectionAspect aspect = selector.getAspect(SelectionAspect.class);
+        selector.get(SelectionAspect.class).boxStart = null;
+        SelectionAspect aspect = selector.get(SelectionAspect.class);
         if (aspect.cancelHandler != null) aspect.cancelHandler.run();
         Toolbar toolbar = GameMvc.view().toolbarStage.toolbar;
         toolbar.removeSubMenus(toolbar.parentMenu);
@@ -60,8 +62,8 @@ public class EntitySelectorSystem implements ModelComponent {
 
     public void resetSelector() {
         Logger.UI.logDebug("EntitySelector reset.");
-        selector.getAspect(RenderAspect.class).region = AtlasesEnum.ui_tiles.getBlockTile(0, 2);
-        SelectionAspect aspect = selector.getAspect(SelectionAspect.class);
+        selector.get(RenderAspect.class).region = AtlasesEnum.ui_tiles.getBlockTile(0, 2);
+        SelectionAspect aspect = selector.get(SelectionAspect.class);
         aspect.selectHandler = position -> GameMvc.view().showEntityStage(aspect.getBox());
         aspect.validator = position -> true;
         inputHandler.allowChangingZLevelOnSelection = true;
@@ -87,10 +89,10 @@ public class EntitySelectorSystem implements ModelComponent {
 
     public void rotateSelector(boolean clockwise) {
         Logger.UI.logDebug("rotating selector " + (clockwise ? "" : "counter") + " clockwise");
-        BuildingType type = selector.getAspect(SelectionAspect.class).type;
+        BuildingType type = selector.get(SelectionAspect.class).type;
         if (type == null || type.construction) return; // no rotation for constructions
-        OrientationAspect orientationAspect = selector.getAspect(OrientationAspect.class);
+        OrientationAspect orientationAspect = selector.get(OrientationAspect.class);
         orientationAspect.current = RotationUtil.rotate(orientationAspect.current, clockwise);
-        selector.getAspect(RenderAspect.class).region = AtlasesEnum.buildings.getBlockTile(type.sprites[orientationAspect.current.ordinal()]);
+        selector.get(RenderAspect.class).region = AtlasesEnum.buildings.getBlockTile(type.sprites[orientationAspect.current.ordinal()]);
     }
 }

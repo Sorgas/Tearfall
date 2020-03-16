@@ -42,7 +42,7 @@ public class CelestialLightSourceAspect extends AbstractLightSourceAspect implem
      *
      */
     private void updateForce() {
-        if(entity.hasAspect(CelestialCycleAspect.class)) {
+        if(entity.has(CelestialCycleAspect.class)) {
 //            entity.getAspect(CelestialCycleAspect.class).
         }
     }

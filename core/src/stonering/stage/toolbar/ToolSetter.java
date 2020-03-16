@@ -9,7 +9,7 @@ import stonering.enums.buildings.blueprint.Blueprint;
 import stonering.enums.designations.PlaceValidatorsEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.aspect.SelectionAspect;
-import stonering.game.model.system.EntitySelectorSystem;
+import stonering.game.model.entity_selector.EntitySelectorSystem;
 import stonering.stage.SingleWindowStage;
 import stonering.stage.building.BuildingMaterialSelectMenu;
 import stonering.stage.renderer.AtlasesEnum;
@@ -31,7 +31,7 @@ public class ToolSetter {
 
     public void setBlueprintForBuilding(Blueprint blueprint) {
         EntitySelectorSystem system = GameMvc.model().get(EntitySelectorSystem.class);
-        SelectionAspect selection = system.selector.getAspect(SelectionAspect.class);
+        SelectionAspect selection = system.selector.get(SelectionAspect.class);
         BuildingType type = BuildingTypeMap.getBuilding(blueprint.building);
         selection.type = type;
         setSpriteToSelector(system, blueprint);
@@ -45,13 +45,13 @@ public class ToolSetter {
     }
 
     private void setSpriteToSelector(EntitySelectorSystem system, Blueprint blueprint) {
-        RenderAspect render = system.selector.getAspect(RenderAspect.class);
+        RenderAspect render = system.selector.get(RenderAspect.class);
         if (blueprint.construction) { // special sprites for constructions
             int x = ConstructionTileSelector.select(BlockTypeEnum.getType(blueprint.building));
             render.region = AtlasesEnum.ui_tiles.getBlockTile(x, 0);
         } else { // building sprites for buildings
             render.region = BuildingTypeMap.getBuilding(blueprint.building).getSprite(N);
-            system.selector.getAspect(OrientationAspect.class).current = N;
+            system.selector.get(OrientationAspect.class).current = N;
         }
     }
 }

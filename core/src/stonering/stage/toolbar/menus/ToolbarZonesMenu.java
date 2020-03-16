@@ -9,7 +9,7 @@ import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
 import stonering.game.model.entity_selector.EntitySelector;
 import stonering.game.model.entity_selector.aspect.SelectionAspect;
-import stonering.game.model.system.EntitySelectorSystem;
+import stonering.game.model.entity_selector.EntitySelectorSystem;
 import stonering.game.model.system.ZoneContainer;
 import stonering.stage.toolbar.Toolbar;
 import stonering.widget.ToolbarButtonMenu;
@@ -37,7 +37,7 @@ public class ToolbarZonesMenu extends ToolbarButtonMenu {
                 GameModel model = GameMvc.model();
                 EntitySelector selector = model.get(EntitySelectorSystem.class).selector;
                 ZoneContainer container = model.get(ZoneContainer.class);
-                SelectionAspect aspect = selector.getAspect(SelectionAspect.class);
+                SelectionAspect aspect = selector.get(SelectionAspect.class);
                 aspect.selectHandler = box -> {
                     Zone zone = container.getZone(aspect.boxStart); // get target zone or null
                     aspect.validator = zone != null ? zone.getType().VALIDATOR : position -> true; // set validator if zone is extended
@@ -54,7 +54,7 @@ public class ToolbarZonesMenu extends ToolbarButtonMenu {
                 GameModel model = GameMvc.model();
                 EntitySelector selector = model.get(EntitySelectorSystem.class).selector;
                 ZoneContainer container = model.get(ZoneContainer.class);
-                SelectionAspect aspect = selector.getAspect(SelectionAspect.class);
+                SelectionAspect aspect = selector.get(SelectionAspect.class);
                 aspect.validator = type.VALIDATOR;
                 aspect.selectHandler = box -> {
                     Zone zone = container.createZone(selector.position, type);

@@ -38,7 +38,7 @@ public class CreatureNeedSystem extends EntitySystem<Unit> {
      */
     @Override
     public void update(Unit unit) {
-        NeedsAspect aspect = unit.getAspect(NeedsAspect.class);
+        NeedsAspect aspect = unit.get(NeedsAspect.class);
         if(clearCompletedTask(aspect)) tryAssignNewTask(unit, aspect);
     }
 

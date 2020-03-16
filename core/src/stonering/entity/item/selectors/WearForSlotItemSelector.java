@@ -17,6 +17,6 @@ public class WearForSlotItemSelector extends ItemSelector {
 
     @Override
     public boolean checkItem(Item item) {
-        return item.hasAspect(WearAspect.class) && item.getAspect(WearAspect.class).slot.equals(slotName);
+        return item.has(WearAspect.class) && item.get(WearAspect.class).slot.equals(slotName);
     }
 }

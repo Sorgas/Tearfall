@@ -30,19 +30,19 @@ public abstract class Entity implements Serializable, Initable, Cloneable {
         this.aspects = new HashMap<>(entity.aspects); // add aspects cloning
     }
 
-    public <T extends Aspect> boolean hasAspect(Class<T> type) {
+    public <T extends Aspect> boolean has(Class<T> type) {
         return aspects.containsKey(type);
     }
 
-    public <T extends Aspect> T getAspect(Class<T> type) {
+    public <T extends Aspect> T get(Class<T> type) {
         return (T) aspects.get(type);
     }
 
-    public <T extends Aspect> Optional<T> getAspectOptional(Class<T> type) {
+    public <T extends Aspect> Optional<T> getOptional(Class<T> type) {
         return (Optional<T>) Optional.of(aspects.get(type));
     }
 
-    public <T extends Aspect> void addAspect(T aspect) {
+    public <T extends Aspect> void add(T aspect) {
         if (aspect == null) return;
         aspect.entity = this;
         aspects.put(aspect.getClass(), aspect);

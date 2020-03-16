@@ -39,7 +39,7 @@ import java.util.Optional;
 public class RestNeed extends Need {
     @Override
     public TaskPriorityEnum countPriority(Entity entity) {
-        HealthAspect health = entity.getAspect(HealthAspect.class);
+        HealthAspect health = entity.get(HealthAspect.class);
         float relativeFatigue = health.parameters.get(HealthParameterEnum.FATIGUE).getRelativeValue();
         return HealthParameterEnum.FATIGUE.PARAMETER.getRange(relativeFatigue).priority;
     }

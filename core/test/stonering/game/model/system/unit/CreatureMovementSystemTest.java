@@ -80,8 +80,8 @@ public class CreatureMovementSystemTest {
         CreatureType type = new CreatureType();
         type.title = "test_unit";
         unit = new Unit(new Position(0, 0, 0), type);
-        unit.addAspect(movementAspect = new MovementAspect(unit));
-        unit.addAspect(planningAspect = new PlanningAspect(unit));
+        unit.add(movementAspect = new MovementAspect(unit));
+        unit.add(planningAspect = new PlanningAspect(unit));
         GameMvc.instance().model().get(UnitContainer.class).addUnit(unit);
     }
 

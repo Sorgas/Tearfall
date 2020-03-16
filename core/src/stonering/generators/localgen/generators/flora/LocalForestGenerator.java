@@ -65,7 +65,7 @@ public class LocalForestGenerator extends LocalFloraGenerator {
      */
     private boolean checkTreePlacing(Tree tree, int cx, int cy, int cz) {
         PlantBlock[][][] treeParts = tree.getBlocks();
-        PlantLifeStage stage = tree.type.lifeStages.get(tree.getAspect(PlantGrowthAspect.class).currentStage);
+        PlantLifeStage stage = tree.type.lifeStages.get(tree.get(PlantGrowthAspect.class).currentStage);
         int treeCenterZ = stage.treeForm.get(2);
         int treeRadius = stage.treeForm.get(0);
         for (int x = 0; x < treeParts.length; x++) {

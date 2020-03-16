@@ -33,7 +33,7 @@ public class PlantGrowthSystem extends EntitySystem<AbstractPlant> {
      */
     @Override
     public void update(AbstractPlant plant) {
-        PlantGrowthAspect aspect = plant.getAspect(PlantGrowthAspect.class);
+        PlantGrowthAspect aspect = plant.get(PlantGrowthAspect.class);
         if (aspect.counter++ < getWeekSize()) return; // week not ended
         aspect.counter = 0;
         aspect.age++;

@@ -184,7 +184,7 @@ public class PlantContainer extends EntityContainer<AbstractPlant> implements In
         if (orientation == OrientationEnum.N) {
             Position treePosition = tree.position;
             PlantType type = tree.type;
-            int stompZ = type.lifeStages.get(tree.getAspect(PlantGrowthAspect.class).currentStage).treeForm.get(2);
+            int stompZ = type.lifeStages.get(tree.get(PlantGrowthAspect.class).currentStage).treeForm.get(2);
             PlantBlock[][][] treeParts = tree.getBlocks();
             for (int x = 0; x < treeParts.length; x++) {
                 for (int y = 0; y < treeParts[x].length; y++) {

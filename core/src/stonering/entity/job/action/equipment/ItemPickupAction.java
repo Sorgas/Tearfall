@@ -30,7 +30,7 @@ public class ItemPickupAction extends Action {
         LocalMap map = GameMvc.model().get(LocalMap.class);
 
         startCondition = () -> {
-            EquipmentAspect equipment = task.performer.getAspect(EquipmentAspect.class);
+            EquipmentAspect equipment = task.performer.get(EquipmentAspect.class);
             if (!itemContainer.itemMap.get(item.position).contains(item)
                     || !map.passageMap.inSameArea(item.position, task.performer.position)) return FAIL; // item not available
 
@@ -42,7 +42,7 @@ public class ItemPickupAction extends Action {
         };
 
         onFinish = () -> { // add item to unit
-            EquipmentAspect equipment = task.performer.getAspect(EquipmentAspect.class);
+            EquipmentAspect equipment = task.performer.get(EquipmentAspect.class);
             GrabEquipmentSlot slot = system.getSlotForPickingUpItem(equipment, item);
             if (slot != null) {
                 itemContainer.onMapItemsSystem.removeItemFromMap(item);

@@ -8,7 +8,6 @@ import stonering.entity.job.Task;
 import stonering.entity.job.action.CraftItemAction;
 import stonering.enums.OrderStatusEnum;
 import stonering.enums.action.TaskStatusEnum;
-import stonering.enums.blocks.BlockTypeEnum;
 import stonering.enums.blocks.PassageEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.passage.NeighbourPositionStream;
@@ -50,7 +49,7 @@ public class WorkbenchSystem extends EntitySystem<Building> {
      */
     @Override
     public void update(Building building) {
-        WorkbenchAspect aspect = building.getAspect(WorkbenchAspect.class);
+        WorkbenchAspect aspect = building.get(WorkbenchAspect.class);
         if (aspect == null || aspect.orders.isEmpty()) return;
         ItemOrder order = aspect.orders.getFirst();
         switch (order.status) {

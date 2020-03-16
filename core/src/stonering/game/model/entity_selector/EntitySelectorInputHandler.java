@@ -1,10 +1,7 @@
-package stonering.game.model.system;
+package stonering.game.model.entity_selector;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import stonering.entity.unit.aspects.OrientationAspect;
 import stonering.game.GameMvc;
-import stonering.game.model.entity_selector.EntitySelector;
 import stonering.game.model.entity_selector.aspect.SelectionAspect;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
@@ -37,7 +34,7 @@ public class EntitySelectorInputHandler {
      */
     public void startSelection(@Nullable Position position) {
         if (position == null) position = selector.position;
-        SelectionAspect aspect = selector.getAspect(SelectionAspect.class);
+        SelectionAspect aspect = selector.get(SelectionAspect.class);
         if (aspect.enabled) {
             aspect.boxStart = position.clone();
             Logger.INPUT.logDebug("Selection started at " + aspect.boxStart);
@@ -52,7 +49,7 @@ public class EntitySelectorInputHandler {
      * Clears selection box if it exists.
      */
     public void cancelSelection() {
-        selector.getAspect(SelectionAspect.class).boxStart = null;
+        selector.get(SelectionAspect.class).boxStart = null;
         system.handleCancel();
     }
 
@@ -60,7 +57,7 @@ public class EntitySelectorInputHandler {
      * Commits selection box to {@link EntitySelectorSystem} for further handling.
      */
     public void commitSelection() {
-        SelectionAspect aspect = selector.getAspect(SelectionAspect.class);
+        SelectionAspect aspect = selector.get(SelectionAspect.class);
         if (aspect.boxStart == null) aspect.boxStart = selector.position;
         system.handleSelection();
         aspect.boxStart = null;
@@ -73,7 +70,7 @@ public class EntitySelectorInputHandler {
 
     public boolean moveByKey(int keycode) {
         int offset = Gdx.input.isKeyPressed(SHIFT_LEFT) ? 10 : 1;
-        boolean noSelection = selector.getAspect(SelectionAspect.class).boxStart == null;
+        boolean noSelection = selector.get(SelectionAspect.class).boxStart == null;
         switch (keycode) {
             case W:
                 moveSelector(0, offset, 0);

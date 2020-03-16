@@ -41,7 +41,7 @@ public class FoodNeed extends Need {
 
     @Override
     public TaskPriorityEnum countPriority(Entity entity) {
-        HealthAspect aspect = entity.getAspect(HealthAspect.class);
+        HealthAspect aspect = entity.get(HealthAspect.class);
         float relativeHunger = aspect.parameters.get(HealthParameterEnum.HUNGER).getRelativeValue();
         return HealthParameterEnum.HUNGER.PARAMETER.getRange(relativeHunger).priority;
     }
@@ -68,7 +68,7 @@ public class FoodNeed extends Need {
      */
     private Item getBestAvailableFood(Entity entity, Predicate<Item> additionalFilter) {
         ItemContainer container = GameMvc.model().get(ItemContainer.class);
-        EquipmentAspect aspect = entity.getAspect(EquipmentAspect.class);
+        EquipmentAspect aspect = entity.get(EquipmentAspect.class);
         return new ItemsStream()
                 .filterHasTag(EDIBLE)
                 .filter(item -> !container.equipped.containsKey(item) || container.equipped.get(item) == aspect)

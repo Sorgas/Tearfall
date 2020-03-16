@@ -30,7 +30,7 @@ public class PlantGenerator {
         Plant plant = new Plant(type);
         //TODO set age
         plant.setBlock(createPlantBlock(plant));
-        plant.addAspect(new PlantGrowthAspect(plant));
+        plant.add(new PlantGrowthAspect(plant));
         return plant;
     }
 
@@ -43,7 +43,7 @@ public class PlantGenerator {
         SubstratePlant plant = new SubstratePlant(type);
         //TODO set age
         plant.setBlock(createPlantBlock(plant));
-        plant.addAspect(new PlantGrowthAspect(plant));
+        plant.add(new PlantGrowthAspect(plant));
         return plant;
     }
 
@@ -64,7 +64,7 @@ public class PlantGenerator {
         if (materialName == null) materialName = "generic_plant";
         PlantBlock block = new PlantBlock(MaterialMap.instance().getId(materialName), PlantBlocksTypeEnum.SINGLE_PASSABLE.getCode());
         int[] atlasXY = Arrays.copyOf(plant.type.atlasXY, 2);
-        atlasXY[0] += plant.getAspect(PlantGrowthAspect.class).currentStage;
+        atlasXY[0] += plant.get(PlantGrowthAspect.class).currentStage;
         block.setAtlasXY(atlasXY);
         block.setHarvested(false);
         return block;

@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.enums.designations.DesignationTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.aspect.SelectionAspect;
-import stonering.game.model.system.EntitySelectorSystem;
+import stonering.game.model.entity_selector.EntitySelectorSystem;
 import stonering.game.model.system.task.TaskContainer;
 import stonering.stage.toolbar.Toolbar;
 import stonering.widget.ToolbarSubMenuMenu;
@@ -39,7 +39,7 @@ public class ToolbarPlantsMenu extends ToolbarSubMenuMenu {
             public void changed(ChangeEvent event, Actor actor) {
                 TaskContainer container = GameMvc.model().get(TaskContainer.class);
                 Logger.UI.logDebug("Toggling button " + text);
-                SelectionAspect aspect = GameMvc.model().get(EntitySelectorSystem.class).selector.getAspect(SelectionAspect.class);
+                SelectionAspect aspect = GameMvc.model().get(EntitySelectorSystem.class).selector.get(SelectionAspect.class);
                 aspect.validator = type.VALIDATOR;
                 aspect.selectHandler = box -> aspect.boxIterator.accept(position -> container.designationSystem.submitDesignation(position, type, 1));
             }

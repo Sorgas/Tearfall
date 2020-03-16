@@ -42,7 +42,7 @@ public class CreatureHealthSystem extends EntitySystem<Unit> {
      */
     @Override
     public void update(Unit unit) {
-        unit.getAspectOptional(HealthAspect.class)
+        unit.getOptional(HealthAspect.class)
                 .ifPresent(health -> health.parameters.keySet()
                         .forEach(param -> changeParameter(unit, param, param.DEFAULT_DELTA)));
     }
@@ -52,16 +52,16 @@ public class CreatureHealthSystem extends EntitySystem<Unit> {
      * TODO check other effects (illness, )
      */
     public void applyMoveChange(Unit unit) {
-        HealthAspect aspect = unit.getAspect(HealthAspect.class);
+        HealthAspect aspect = unit.get(HealthAspect.class);
         if (aspect == null) {
             Logger.UNITS.logError("Trying to add move fatigue to creature " + unit + " with no HealthAspect");
             return;
         }
-        changeParameter(unit, HealthParameterEnum.FATIGUE, moveParameterNoLoad + moveParameterFullLoad * unit.getAspect(EquipmentAspect.class).getRelativeLoad());
+        changeParameter(unit, HealthParameterEnum.FATIGUE, moveParameterNoLoad + moveParameterFullLoad * unit.get(EquipmentAspect.class).getRelativeLoad());
     }
 
     private void changeParameter(Unit unit, HealthParameterEnum parameterEnum, float delta) {
-        HealthParameterState state = unit.getAspect(HealthAspect.class).parameters.get(parameterEnum);
+        HealthParameterState state = unit.get(HealthAspect.class).parameters.get(parameterEnum);
         HealthParameter parameter = parameterEnum.PARAMETER;
         float oldValue = state.getRelativeValue();
         state.current += delta;
@@ -74,7 +74,7 @@ public class CreatureHealthSystem extends EntitySystem<Unit> {
     }
 
     public void resetCreatureHealth(Unit unit) {
-        for (HealthParameterEnum parameter : unit.getAspect(HealthAspect.class).parameters.keySet())
+        for (HealthParameterEnum parameter : unit.get(HealthAspect.class).parameters.keySet())
             resetParameter(unit, parameter);
     }
 
@@ -82,7 +82,7 @@ public class CreatureHealthSystem extends EntitySystem<Unit> {
      * Recreate buffs related to given parameter.
      */
     private void resetParameter(Unit unit, HealthParameterEnum parameter) {
-        HealthParameterState state = unit.getAspect(HealthAspect.class).parameters.get(parameter);
+        HealthParameterState state = unit.get(HealthAspect.class).parameters.get(parameter);
         HealthParameterRange range = parameter.PARAMETER.getRange(state.getRelativeValue());
         CreatureBuffSystem buffSystem = GameMvc.model().get(UnitContainer.class).buffSystem;
         buffSystem.removeBuff(unit, parameter.TAG);

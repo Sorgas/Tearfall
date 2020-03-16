@@ -43,7 +43,7 @@ public class TaskStatusSystem {
                 case FAILED: // failed tasks are reset to be taken again
                     iterator.remove();
                     if (task.designation != null) { // designation tasks are reopened
-                        task.performer.getAspect(PlanningAspect.class).task = null;
+                        task.performer.get(PlanningAspect.class).task = null;
                         task.reset();
                         task.status = OPEN;
                         container.addTask(task);

@@ -38,8 +38,8 @@ public class CreatureActionPerformingSystem extends EntitySystem<Unit> {
 
     @Override
     public void update(Unit unit) {
-        PlanningAspect planning = unit.getAspect(PlanningAspect.class);
-        MovementAspect movement = unit.getAspect(MovementAspect.class);
+        PlanningAspect planning = unit.get(PlanningAspect.class);
+        MovementAspect movement = unit.get(MovementAspect.class);
         Task task = planning.task;
         // creature has active task but is not moving
         if (task != null && task.status == ACTIVE && movement.target == null) checkTarget(planning, movement, task);

@@ -25,10 +25,10 @@ public class FuelingAciton extends Action {
     protected FuelingAciton(Entity target) {
         super(new EntityActionTarget(target, ActionTargetTypeEnum.NEAR));
         startCondition = () -> {
-            if (!((EntityActionTarget) actionTarget).entity.hasAspect(FuelConsumerAspect.class))
+            if (!((EntityActionTarget) actionTarget).entity.has(FuelConsumerAspect.class))
                 return FAIL; // invalid entity
             if (targetItem == null && (targetItem = lookupFuelItem()) == null) return FAIL; // no fuel item available
-            if (!task.performer.getAspect(EquipmentAspect.class).hauledItems.contains(targetItem)) {
+            if (!task.performer.get(EquipmentAspect.class).hauledItems.contains(targetItem)) {
                 task.addFirstPreAction(new ItemPickupAction(targetItem));
                 return NEW;
             }
@@ -36,14 +36,14 @@ public class FuelingAciton extends Action {
         };
 
         onFinish = () -> {
-            task.performer.getAspect(EquipmentAspect.class).dropItem(targetItem);
-            ((EntityActionTarget) actionTarget).entity.getAspect(FuelConsumerAspect.class).acceptFuel(targetItem);
+            task.performer.get(EquipmentAspect.class).dropItem(targetItem);
+            ((EntityActionTarget) actionTarget).entity.get(FuelConsumerAspect.class).acceptFuel(targetItem);
         };
     }
 
     private Item lookupFuelItem() {
-        Item foundItem = task.performer.getAspect(EquipmentAspect.class).hauledItems.stream().filter(item -> item.hasAspect(FuelAspect.class)
-                && item.getAspect(FuelAspect.class).isEnabled()).findFirst().orElse(null); // item from inventory
+        Item foundItem = task.performer.get(EquipmentAspect.class).hauledItems.stream().filter(item -> item.has(FuelAspect.class)
+                && item.get(FuelAspect.class).isEnabled()).findFirst().orElse(null); // item from inventory
         if (foundItem != null) return foundItem;
         return GameMvc.instance().model().get(ItemContainer.class).util.getItemAvailableBySelector(new FuelItemSelector(), task.performer.position);
     }

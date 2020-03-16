@@ -29,7 +29,7 @@ public class AttributeBuff extends Buff {
     }
 
     private boolean updateAttribute(Unit unit, int multiplier) {
-        AttributeAspect aspect = unit.getAspect(AttributeAspect.class);
+        AttributeAspect aspect = unit.get(AttributeAspect.class);
         if (aspect == null) {
             Logger.UNITS.logError("Trying to apply buff " + this + " to unit " + unit + " with no AttributeAspect");
             return false;

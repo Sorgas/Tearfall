@@ -32,7 +32,7 @@ public class ChopTreeAction extends Action {
         // Checks that performer has chopping tool, creates equipping action if needed.
         startCondition = () -> {
             Logger.TASKS.logDebug("Checking " + this);
-            EquipmentAspect aspect = task.performer.getAspect(EquipmentAspect.class);
+            EquipmentAspect aspect = task.performer.get(EquipmentAspect.class);
             if (aspect == null) return FAIL; // no aspect on performer
             if(!checkTree()) return FAIL;
             if (!toolItemSelector.checkItems(aspect.equippedItems)) // check tool

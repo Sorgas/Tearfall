@@ -21,7 +21,7 @@ public class UnequipItemAction extends Action {
         super(new ItemActionTarget(item));
         this.item = item;
         startCondition = () -> {
-            EquipmentAspect equipmentAspect = task.performer.getAspect(EquipmentAspect.class);
+            EquipmentAspect equipmentAspect = task.performer.get(EquipmentAspect.class);
             if (equipmentAspect == null) return Logger.TASKS.logError("unit " + task.performer + " has no Equipment Aspect.", FAIL);
             EquipmentSlot slot = equipmentAspect.getSlotWithItem(item);
             if (slot == null) return Logger.TASKS.logError("item " + item + " is not equipped by unit " + task.performer, FAIL);
@@ -33,7 +33,7 @@ public class UnequipItemAction extends Action {
         onFinish = () -> {
             //TODO count work amount based on item weight and creature stats
             //TODO implement with slots
-            task.performer.getAspect(EquipmentAspect.class).unequipItem(item);
+            task.performer.get(EquipmentAspect.class).unequipItem(item);
         };
     }
 

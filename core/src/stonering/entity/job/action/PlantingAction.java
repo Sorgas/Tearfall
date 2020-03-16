@@ -57,7 +57,7 @@ public class PlantingAction extends Action {
      */
     private Item spendSeed() {
         Item seed = getSeedFromEquipment(); // seed should never be null after check()
-        task.performer.getAspect(EquipmentAspect.class).dropItem(seed);
+        task.performer.get(EquipmentAspect.class).dropItem(seed);
         return seed;
     }
 
@@ -65,7 +65,7 @@ public class PlantingAction extends Action {
      * Looks for seed item in performer's inventory.
      */
     private Item getSeedFromEquipment() {
-        EquipmentAspect equipmentAspect = task.performer.getAspect(EquipmentAspect.class);
+        EquipmentAspect equipmentAspect = task.performer.get(EquipmentAspect.class);
         List<Item> items = equipmentAspect.hauledItems;
         Item foundItem = seedSelector.selectItem(items);
         return foundItem;
@@ -78,7 +78,7 @@ public class PlantingAction extends Action {
         try {
             PlantContainer plantContainer = GameMvc.instance().model().get(PlantContainer.class);
             PlantGenerator plantGenerator = new PlantGenerator();
-            Plant plant = plantGenerator.generatePlant(seed.getAspect(SeedAspect.class));
+            Plant plant = plantGenerator.generatePlant(seed.get(SeedAspect.class));
             plantContainer.place(plant, actionTarget.getPosition());
         } catch (DescriptionNotFoundException e) {
             e.printStackTrace();

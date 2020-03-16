@@ -42,7 +42,7 @@ public class WorkbenchMenuq extends Window implements HintedActor {
      */
     public WorkbenchMenuq(Building building) {
         super(building.toString(), StaticSkin.getSkin());
-        workbenchAspect = building.getAspect(WorkbenchAspect.class);
+        workbenchAspect = building.get(WorkbenchAspect.class);
         setKeepWithinStage(true);
         createTable();
         this.addListener(new MenuKeyInputListener());

@@ -28,10 +28,10 @@ public class EquipWearItemAction extends Action {
         this.item = item;
         CreatureEquipmentSystem system = GameMvc.model().get(UnitContainer.class).equipmentSystem;
         ItemContainer itemContainer = GameMvc.model().get(ItemContainer.class);
-        WearAspect wear = item.getAspect(WearAspect.class);
+        WearAspect wear = item.get(WearAspect.class);
 
         startCondition = () -> {
-            EquipmentAspect equipment = task.performer.getAspect(EquipmentAspect.class);
+            EquipmentAspect equipment = task.performer.get(EquipmentAspect.class);
             if (wear == null) return Logger.TASKS.logError("Target item is not wear", FAIL);
             if (equipment == null)
                 return Logger.TASKS.logError("unit " + task.performer + " has no Equipment Aspect.", FAIL);
@@ -45,7 +45,7 @@ public class EquipWearItemAction extends Action {
         };
 
         onFinish = () -> {
-            EquipmentAspect equipment = task.performer.getAspect(EquipmentAspect.class);
+            EquipmentAspect equipment = task.performer.get(EquipmentAspect.class);
             EquipmentSlot targetSlot = equipment.slots.get(wear.slot);
 
             Item previousItem = system.freeSlot(targetSlot);

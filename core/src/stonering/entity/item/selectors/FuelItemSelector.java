@@ -10,6 +10,6 @@ public class FuelItemSelector extends ItemSelector {
 
     @Override
     public boolean checkItem(Item item) {
-        return item.hasAspect(FuelAspect.class) && item.getAspect(FuelAspect.class).isEnabled();
+        return item.has(FuelAspect.class) && item.get(FuelAspect.class).isEnabled();
     }
 }

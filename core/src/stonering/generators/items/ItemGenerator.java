@@ -66,8 +66,8 @@ public class ItemGenerator {
         item.title = specimen.substring(0, 1).toUpperCase() + specimen.substring(1).toLowerCase() + " seed";
         item.material = MaterialMap.instance().getId("generic_plant");
         generateItemAspects(item);
-        item.addAspect(new SeedAspect(item));
-        item.getAspect(SeedAspect.class).specimen = specimen;
+        item.add(new SeedAspect(item));
+        item.get(SeedAspect.class).specimen = specimen;
         return item;
     }
 
@@ -99,13 +99,13 @@ public class ItemGenerator {
      */
     private void generateItemAspects(Item item) {
         ItemType type = item.getType();
-        item.addAspect(new RenderAspect(item, item.type.atlasXY, AtlasesEnum.items));
+        item.add(new RenderAspect(item, item.type.atlasXY, AtlasesEnum.items));
         for (String aspectName : defaultAspects.keySet()) {
             if (!type.itemAspects.containsKey(aspectName))
-                item.addAspect(createItemAspect(aspectName, defaultAspects.get(aspectName)));
+                item.add(createItemAspect(aspectName, defaultAspects.get(aspectName)));
         }
         for (String aspectName : type.itemAspects.keySet()) {
-            item.addAspect(createItemAspect(aspectName, type.itemAspects.get(aspectName)));
+            item.add(createItemAspect(aspectName, type.itemAspects.get(aspectName)));
         }
     }
 

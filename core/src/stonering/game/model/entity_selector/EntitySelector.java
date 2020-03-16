@@ -6,7 +6,8 @@ import stonering.util.geometry.IntVector2;
 import stonering.util.geometry.Position;
 
 /**
- * Players 'mouse' in the game. Selects objects on local map. Moved by mouse or WASDRF. When is moved by mouse sprite is not shown.
+ * Players 'mouse' in the game. Selects objects on local map. Moved by mouse or WASDRF. 
+ * When is moved by mouse sprite is not shown.
  * Selector can have tool selected (like designating digging) for creating in-game orders (tools implemented with {@link Aspect}).
  * Selector can have additional sprite to indicate whether position suits for building or not.
  * If positionValidator exists, position will be validated on move, updating sprite.

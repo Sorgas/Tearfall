@@ -26,7 +26,7 @@ public class BuildingDrawer extends Drawer {
     public void drawBuilding(Position position) {
         BuildingBlock block = container.buildingBlocks.get(position);
         if (block == null || !block.drawn) return; // skip if no drawn block found in position
-        RenderAspect aspect = block.building.getAspect(RenderAspect.class);
+        RenderAspect aspect = block.building.get(RenderAspect.class);
         spriteUtil.drawSprite(aspect.region, buildings, block.position);
     }
 }

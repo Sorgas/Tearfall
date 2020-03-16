@@ -2,7 +2,6 @@ package stonering.generators.buildings;
 
 import stonering.entity.building.BuildingBlock;
 import stonering.enums.OrientationEnum;
-import stonering.enums.blocks.PassageEnum;
 import stonering.enums.buildings.BuildingType;
 import stonering.entity.building.aspects.RestFurnitureAspect;
 import stonering.entity.building.aspects.WorkbenchAspect;
@@ -59,7 +58,7 @@ public class BuildingGenerator {
 
     private void createRenderAspect(Building building, BuildingType type, OrientationEnum orientation) {
         IntVector2 sprite = type.sprites[orientation.ordinal()];
-        building.addAspect(new RenderAspect(building, sprite.x, sprite.y, type.size.x, type.size.y, AtlasesEnum.buildings));
+        building.add(new RenderAspect(building, sprite.x, sprite.y, type.size.x, type.size.y, AtlasesEnum.buildings));
     }
 
     /**
@@ -70,16 +69,16 @@ public class BuildingGenerator {
             if (!aspect.isEmpty()) {
                 switch (aspect.get(0)) {
                     case "workbench": {
-                        building.addAspect(new WorkbenchAspect(building));
+                        building.add(new WorkbenchAspect(building));
                         break;
                     }
                     case "item_container": {
                         ItemContainerAspect itemContainerAspect = new ItemContainerAspect(building, aspect.get(1).split("/"));
-                        building.addAspect(itemContainerAspect);
+                        building.add(itemContainerAspect);
                         break;
                     }
                     case "rest_furniture": {
-                        building.addAspect(new RestFurnitureAspect(building));
+                        building.add(new RestFurnitureAspect(building));
                         break;
                     }
                 }

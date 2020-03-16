@@ -21,7 +21,7 @@ public class CreatureExperienceSystem extends EntitySystem<Unit> {
     }
 
     public void giveExperience(Unit unit, String skillName) {
-        unit.getAspect(SkillAspect.class).getSkill(skillName).state.changeValue(1);
+        unit.get(SkillAspect.class).getSkill(skillName).state.changeValue(1);
         //TODO give mood buff on level up
         //TODO upgrade attributes
     }

@@ -34,20 +34,20 @@ public class PutItemAction extends Action {
         this.targetItem = targetItem;
         this.targetEntity = targetEntity;
         startCondition = () -> {
-            if (targetEntity != null && targetEntity.getAspect(WorkbenchAspect.class) == null) return FAIL;
-            EquipmentAspect equipmentAspect = task.performer.getAspect(EquipmentAspect.class);
+            if (targetEntity != null && targetEntity.get(WorkbenchAspect.class) == null) return FAIL;
+            EquipmentAspect equipmentAspect = task.performer.get(EquipmentAspect.class);
             if (equipmentAspect == null) return FAIL; // performer can't carry items
             if (equipmentAspect.hauledItems.contains(targetItem)) return OK; // performer already has item
             return createPickingAction(targetItem);
         };
 
         onFinish = () -> {
-            EquipmentAspect equipmentAspect = task.performer.getAspect(EquipmentAspect.class);
+            EquipmentAspect equipmentAspect = task.performer.get(EquipmentAspect.class);
             ItemContainer container = GameMvc.model().get(ItemContainer.class);
             equipmentAspect.hauledItems.remove(targetItem);
             container.equippedItemsSystem.itemUnequipped(targetItem);
             if (targetEntity != null) { // put into wb
-                container.containedItemsSystem.addItemToWorkbench(targetItem, targetEntity.getAspect(WorkbenchAspect.class));
+                container.containedItemsSystem.addItemToWorkbench(targetItem, targetEntity.get(WorkbenchAspect.class));
             } else { // put on position
                 container.onMapItemsSystem.putItem(targetItem, targetPosition);
             }

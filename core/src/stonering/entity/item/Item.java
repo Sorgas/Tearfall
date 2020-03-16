@@ -46,14 +46,14 @@ public class Item extends Entity {
     }
 
     @Override
-    public <T extends Aspect> boolean hasAspect(Class<T> type) {
-        return super.hasAspect(type) || this.type.hasAspect(type);
+    public <T extends Aspect> boolean has(Class<T> type) {
+        return super.has(type) || this.type.has(type);
     }
 
     @Override
-    public <T extends Aspect> T getAspect(Class<T> type) {
-        if (this.type.hasAspect(type)) return this.type.getAspect(type);
-        return super.getAspect(type);
+    public <T extends Aspect> T get(Class<T> type) {
+        if (this.type.has(type)) return this.type.get(type);
+        return super.get(type);
     }
 
     public String updateTitle() {

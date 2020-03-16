@@ -41,7 +41,7 @@ public class DigAction extends SkillAction {
         speedUpdater = () -> (1 + getSpeedBonus()) * (1 + getUnitPerformance()); // 1 for non-trained not tired miner
         startCondition = () -> {
             if (!type.VALIDATOR.apply(actionTarget.getPosition())) return FAIL; // tile did not change
-            EquipmentAspect equipment = task.performer.getAspect(EquipmentAspect.class);
+            EquipmentAspect equipment = task.performer.get(EquipmentAspect.class);
             if (equipment == null) return FAIL;
             if (toolItemSelector.checkItems(equipment.equippedItems)) return OK; // tool equipped
             return addEquipAction();

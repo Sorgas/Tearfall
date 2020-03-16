@@ -64,12 +64,12 @@ public class WorkbenchSystemTest {
 
     private void createEntities() {
         unit = new Unit(new Position(), new CreatureType());
-        unit.addAspect(new PlanningAspect(unit));
-        unit.addAspect(new JobsAspect(unit));
+        unit.add(new PlanningAspect(unit));
+        unit.add(new JobsAspect(unit));
         GameMvc.model().get(UnitContainer.class).addUnit(unit);
         
         workbench = new Building(new Position(), new BuildingType(), OrientationEnum.N);
-        workbench.addAspect(aspect = new WorkbenchAspect(workbench));
+        workbench.add(aspect = new WorkbenchAspect(workbench));
         aspect.recipes.add(createRecipe());
     }
 

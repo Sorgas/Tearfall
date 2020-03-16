@@ -35,7 +35,7 @@ public class FreeGrabSlotAction extends Action {
     }
 
     private GrabEquipmentSlot findSlot() {
-        return task.performer.getAspect(EquipmentAspect.class).grabSlots.values().stream()
+        return task.performer.get(EquipmentAspect.class).grabSlots.values().stream()
                 .filter(slot -> slot.grabbedItem != null)
                 .findFirst().orElse(null);
     }

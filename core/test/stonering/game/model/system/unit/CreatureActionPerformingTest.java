@@ -41,8 +41,8 @@ public class CreatureActionPerformingTest {
         GameMvc.createInstance(model);
         model.put(unitContainer = new UnitContainer());
         unit = new Unit(new Position(), new CreatureType());
-        unit.addAspect(aspect = new PlanningAspect(unit));
-        unit.addAspect(new JobsAspect(unit));
+        unit.add(aspect = new PlanningAspect(unit));
+        unit.add(new JobsAspect(unit));
         model.get(UnitContainer.class).addUnit(unit);
         map.initAreas();
     }

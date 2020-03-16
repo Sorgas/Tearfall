@@ -10,8 +10,6 @@ import stonering.game.model.system.unit.CreatureEquipmentSystem;
 import stonering.game.model.system.unit.UnitContainer;
 import stonering.util.global.Logger;
 
-import java.util.Objects;
-
 import static stonering.entity.job.action.ActionConditionStatusEnum.*;
 
 /**
@@ -29,7 +27,7 @@ public class EquipToolItemAction extends Action {
         CreatureEquipmentSystem system = GameMvc.model().get(UnitContainer.class).equipmentSystem;
             
         startCondition = () -> { // check that item is on hands for equipping
-            EquipmentAspect equipment = task.performer.getAspect(EquipmentAspect.class);
+            EquipmentAspect equipment = task.performer.get(EquipmentAspect.class);
             if (!item.isTool()) return Logger.TASKS.logError("Target item is not tool", FAIL);
             if (equipment == null)
                 return Logger.TASKS.logError("unit " + task.performer + " has no Equipment Aspect.", FAIL);
@@ -39,7 +37,7 @@ public class EquipToolItemAction extends Action {
         };
 
         onFinish = () -> {
-            EquipmentAspect equipment = task.performer.getAspect(EquipmentAspect.class);
+            EquipmentAspect equipment = task.performer.get(EquipmentAspect.class);
             ItemContainer container = GameMvc.model().get(ItemContainer.class); 
 
             equipment.grabSlots.values().stream() // drop all other tools

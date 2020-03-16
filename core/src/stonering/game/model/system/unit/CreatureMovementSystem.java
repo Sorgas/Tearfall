@@ -44,7 +44,7 @@ public class CreatureMovementSystem extends EntitySystem<Unit> {
         localMap = model.get(LocalMap.class);
         unitContainer = model.get(UnitContainer.class);
         aStar = model.get(AStar.class);
-        MovementAspect movement = unit.getAspect(MovementAspect.class);
+        MovementAspect movement = unit.get(MovementAspect.class);
         if (movement.target != null) {
             if (checkPath(unit, movement)) makeStep(unit, movement);
         } else {
@@ -56,7 +56,7 @@ public class CreatureMovementSystem extends EntitySystem<Unit> {
      * Checks that path to target exists. Creates new path if needed. Can fail task in {@link PlanningAspect}.
      */
     private boolean checkPath(Unit unit, MovementAspect movement) {
-        PlanningAspect planning = unit.getAspect(PlanningAspect.class);
+        PlanningAspect planning = unit.get(PlanningAspect.class);
         if (movement.path == null) { // path was blocked or not created
             Logger.PATH.logDebug("searching path from " + unit.position + " to " + movement.target);
             movement.path = aStar.makeShortestPath(unit.position, movement.target, planning.task.nextAction.actionTarget.targetType);

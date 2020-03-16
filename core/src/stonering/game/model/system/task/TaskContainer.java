@@ -57,7 +57,7 @@ public class TaskContainer implements ModelComponent, Updatable {
      */
     public Task getActiveTask(Unit unit) {
         // TODO consider task priority
-        JobsAspect aspect = unit.getAspect(JobsAspect.class);
+        JobsAspect aspect = unit.get(JobsAspect.class);
         if (aspect == null) return Logger.TASKS.logError("Creature " + unit + " without jobs aspect gets task from container", null);
         PassageMap map = GameMvc.model().get(LocalMap.class).passageMap;
         for (JobsEnum enabledJob : aspect.getEnabledJobs()) {

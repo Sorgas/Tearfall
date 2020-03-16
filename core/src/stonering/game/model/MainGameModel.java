@@ -1,6 +1,7 @@
 package stonering.game.model;
 
 import stonering.entity.world.World;
+import stonering.game.model.entity_selector.EntitySelectorSystem;
 import stonering.game.model.system.*;
 import stonering.game.model.system.building.BuildingContainer;
 import stonering.game.model.system.item.ItemContainer;

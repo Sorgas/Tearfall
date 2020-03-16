@@ -37,7 +37,7 @@ public class ItemMenu extends Window {
 
     private Table createLeftColumn() {
         Table table = new Table();
-        table.add(new Image(item.getAspect(RenderAspect.class).region)).row();
+        table.add(new Image(item.get(RenderAspect.class).region)).row();
         VerticalGroup tags = new VerticalGroup();
         for (ItemTagEnum tag : item.tags) {
             if (tag.isDisplayable()) tags.addActor(new Label(tag.name(), StaticSkin.getSkin()));

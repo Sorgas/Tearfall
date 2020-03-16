@@ -17,7 +17,7 @@ public class WaterNeed extends Need {
 
     @Override
     public TaskPriorityEnum countPriority(Entity entity) {
-        HealthAspect aspect = entity.getAspect(HealthAspect.class);
+        HealthAspect aspect = entity.get(HealthAspect.class);
         float relativeValue = aspect.parameters.get(HealthParameterEnum.THIRST).getRelativeValue();
         return HealthParameterEnum.THIRST.PARAMETER.getRange(relativeValue).priority;
     }

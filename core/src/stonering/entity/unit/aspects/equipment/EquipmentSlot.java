@@ -26,7 +26,7 @@ public class EquipmentSlot {
      */
     public boolean isSuitableFor(Item item) {
         return item != null
-                && item.getAspectOptional(WearAspect.class).map(wear -> wear.slot.equals(name)).orElse(false);
+                && item.getOptional(WearAspect.class).map(wear -> wear.slot.equals(name)).orElse(false);
     }
 
     /**

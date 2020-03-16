@@ -105,6 +105,6 @@ public class BuildingContainer extends EntityContainer<Building> implements Mode
     }
 
     public List<Building> getBuildingsWithAspect(Class<? extends Aspect> T) {
-        return objects.stream().filter(building -> building.hasAspect(T)).collect(Collectors.toList());
+        return objects.stream().filter(building -> building.has(T)).collect(Collectors.toList());
     }
 }

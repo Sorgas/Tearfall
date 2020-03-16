@@ -19,7 +19,7 @@ public class UnitEquipmentTab extends Table {
     private EquipmentAspect aspect;
 
     public UnitEquipmentTab(Unit unit) {
-        aspect = unit.getAspect(EquipmentAspect.class);
+        aspect = unit.get(EquipmentAspect.class);
         columns = new VerticalGroup[3];
         for (int i = 0; i < 3; i++) {
             add(columns[i] = new VerticalGroup()).expand().fill();

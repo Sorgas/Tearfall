@@ -1,14 +1,12 @@
 package stonering.generators.items;
 
 import stonering.entity.plant.aspects.PlantGrowthAspect;
-import stonering.enums.items.ItemTagEnum;
 import stonering.enums.items.type.ItemType;
 import stonering.enums.plants.PlantBlocksTypeEnum;
 import stonering.entity.item.Item;
 import stonering.entity.plant.AbstractPlant;
 import stonering.entity.plant.PlantBlock;
 import stonering.enums.plants.PlantLifeStage;
-import stonering.enums.plants.PlantProduct;
 import stonering.util.global.Logger;
 
 import java.util.ArrayList;
@@ -33,7 +31,7 @@ public class PlantProductGenerator {
         AbstractPlant plant = block.getPlant();
         Logger.PLANTS.logDebug("generating cut products for " + plant.type.title);
         if (plant.type.isPlant) {
-            List<String> productNames = plant.type.lifeStages.get(plant.getAspect(PlantGrowthAspect.class).currentStage).cutProducts;
+            List<String> productNames = plant.type.lifeStages.get(plant.get(PlantGrowthAspect.class).currentStage).cutProducts;
             if (productNames != null)
                 productNames.forEach(name -> items.add(itemGenerator.generateItem(name, block.getMaterial(), null)));
         } else if (plant.type.isTree) {

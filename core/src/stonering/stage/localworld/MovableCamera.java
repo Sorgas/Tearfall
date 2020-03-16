@@ -5,7 +5,7 @@ import com.badlogic.gdx.math.Vector3;
 import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.EntitySelector;
 import stonering.game.model.local_map.LocalMap;
-import stonering.game.model.system.EntitySelectorSystem;
+import stonering.game.model.entity_selector.EntitySelectorSystem;
 import stonering.stage.renderer.BatchUtil;
 import stonering.widget.util.Resizeable;
 import stonering.util.geometry.Float2dBounds;

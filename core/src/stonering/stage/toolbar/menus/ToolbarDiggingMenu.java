@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.enums.designations.DesignationTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.aspect.SelectionAspect;
-import stonering.game.model.system.EntitySelectorSystem;
+import stonering.game.model.entity_selector.EntitySelectorSystem;
 import stonering.game.model.system.task.TaskContainer;
 import stonering.stage.toolbar.Toolbar;
 import stonering.util.global.Logger;
@@ -39,7 +39,7 @@ public class ToolbarDiggingMenu extends ToolbarButtonMenu {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 Logger.UI.logDebug("EntitySelector handlers changed");
-                SelectionAspect aspect = GameMvc.model().get(EntitySelectorSystem.class).selector.getAspect(SelectionAspect.class);
+                SelectionAspect aspect = GameMvc.model().get(EntitySelectorSystem.class).selector.get(SelectionAspect.class);
                 TaskContainer container = GameMvc.model().get(TaskContainer.class);
                 aspect.validator = type.VALIDATOR;
                 aspect.selectHandler = box -> aspect.boxIterator.accept(position -> container.designationSystem.submitDesignation(position, type, 1));

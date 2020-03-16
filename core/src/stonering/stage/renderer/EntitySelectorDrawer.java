@@ -5,7 +5,7 @@ import stonering.entity.RenderAspect;
 import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.EntitySelector;
 import stonering.game.model.entity_selector.aspect.SelectionAspect;
-import stonering.game.model.system.EntitySelectorSystem;
+import stonering.game.model.entity_selector.EntitySelectorSystem;
 import stonering.util.geometry.Int3dBounds;
 import stonering.util.geometry.Position;
 
@@ -34,14 +34,14 @@ public class EntitySelectorDrawer extends Drawer {
     }
 
     public void drawSelector(EntitySelector selector) {
-        SelectionAspect aspect = selector.getAspect(SelectionAspect.class);
-        TextureRegion region = selector.getAspect(RenderAspect.class).region;
+        SelectionAspect aspect = selector.get(SelectionAspect.class);
+        TextureRegion region = selector.get(RenderAspect.class).region;
         if (region == null || aspect.boxStart != null) return;
         spriteUtil.drawSprite(region, selector.position.toVector3());
     }
 
     private void drawFrame(EntitySelector selector) {
-        SelectionAspect aspect = selector.getAspect(SelectionAspect.class);
+        SelectionAspect aspect = selector.get(SelectionAspect.class);
         if (aspect.boxStart == null) return;
         bounds.set(aspect.boxStart, selector.position);
         bounds.maxZ = selector.position.z;

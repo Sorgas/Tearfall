@@ -38,7 +38,7 @@ public class EatAction extends Action {
             if(container.contained.containsKey(item)) {
 
             }
-            EquipmentAspect equipment = task.performer.getAspect(EquipmentAspect.class);
+            EquipmentAspect equipment = task.performer.get(EquipmentAspect.class);
             if (equipment != null && equipment.hauledItems.contains(item)) return OK;
             return OK;
         };

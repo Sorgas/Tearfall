@@ -31,7 +31,7 @@ public class PlantHarvestAction extends Action {
 
         startCondition = () -> {
             PlantContainer container = GameMvc.model().get(PlantContainer.class);
-            EquipmentAspect aspect = task.performer.getAspect(EquipmentAspect.class);
+            EquipmentAspect aspect = task.performer.get(EquipmentAspect.class);
             if (aspect == null) return FAIL; // performer has aspect
             if (container.getPlantInPosition(actionTarget.getPosition()) != targetPlant) return FAIL; // plant not present anymore
             if(toolItemSelector.checkItems(aspect.equippedItems)) return OK; // performer has tool

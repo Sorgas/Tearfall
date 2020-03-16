@@ -46,8 +46,8 @@ public class CelestialCycleAspect extends Aspect implements Initable {
     }
 
     private void updateOtherAspects() {
-        if (entity.getAspect(CelestialLightSourceAspect.class) == null) return;
-        entity.getAspect(CelestialLightSourceAspect.class).setForce(countLightForce());
+        if (entity.get(CelestialLightSourceAspect.class) == null) return;
+        entity.get(CelestialLightSourceAspect.class).setForce(countLightForce());
     }
 
     public float getOrbitPos() {

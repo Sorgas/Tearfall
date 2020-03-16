@@ -32,10 +32,10 @@ public class GetItemFromContainerAction extends Action {
         CreatureEquipmentSystem system = GameMvc.model().get(UnitContainer.class).equipmentSystem;
         LocalMap map = GameMvc.model().get(LocalMap.class);
         ItemContainer itemContainer = GameMvc.model().get(ItemContainer.class);
-        ItemContainerAspect containerAspect = container.getAspect(ItemContainerAspect.class);
+        ItemContainerAspect containerAspect = container.get(ItemContainerAspect.class);
 
         startCondition = () -> {
-            EquipmentAspect equipment = task.performer.getAspect(EquipmentAspect.class);
+            EquipmentAspect equipment = task.performer.get(EquipmentAspect.class);
             if(equipment == null) return FAIL;
             if(containerAspect == null) return FAIL;
             if(!containerAspect.items.contains(item)) return FAIL;
@@ -47,7 +47,7 @@ public class GetItemFromContainerAction extends Action {
             return OK;
         };
         onFinish = () -> {
-            EquipmentAspect equipment = task.performer.getAspect(EquipmentAspect.class);
+            EquipmentAspect equipment = task.performer.get(EquipmentAspect.class);
             GrabEquipmentSlot slot = system.getSlotForPickingUpItem(equipment, item);
             if (slot != null) {
                 itemContainer.containedItemsSystem.removeFromContainer(item, containerAspect);
@@ -59,7 +59,7 @@ public class GetItemFromContainerAction extends Action {
 
         speedUpdater = () -> {
             // TODO consider performer 'performance', container material and type
-            float performanceBonus = task.performer.getAspectOptional(HealthAspect.class).map(aspect -> aspect.properties.get("performance")).orElse(0f);
+            float performanceBonus = task.performer.getOptional(HealthAspect.class).map(aspect -> aspect.properties.get("performance")).orElse(0f);
             return 0.1f;
         };
     }

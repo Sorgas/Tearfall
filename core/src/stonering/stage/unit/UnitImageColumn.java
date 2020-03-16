@@ -25,13 +25,13 @@ public class UnitImageColumn extends Table {
 
     private void createTable(Unit unit) {
         add(new Label("unit name", StaticSkin.getSkin())).colspan(2).row();
-        add(new Image(unit.getAspect(RenderAspect.class).region)).colspan(2).row();
+        add(new Image(unit.get(RenderAspect.class).region)).colspan(2).row();
         //TODO equipped tool/weapon
         add(new Label("activity:", StaticSkin.getSkin()));
         add(new Label(getUnitCurrentTask(unit), StaticSkin.getSkin())).row();
 
         add(new Label("tools:", StaticSkin.getSkin()));
-        unit.getAspect(EquipmentAspect.class).getEquippedTools().forEach(item -> add(new ItemLabel(item)).colspan(2).row());
+        unit.get(EquipmentAspect.class).getEquippedTools().forEach(item -> add(new ItemLabel(item)).colspan(2).row());
 
         add(new Label(getUnitBestSkill(unit), StaticSkin.getSkin())).row();
 
@@ -40,12 +40,12 @@ public class UnitImageColumn extends Table {
     }
 
     private String getUnitCurrentTask(Unit unit) {
-        Task task = unit.getAspect(PlanningAspect.class).task;
+        Task task = unit.get(PlanningAspect.class).task;
         return task != null ? task.name : "Doing nothing";
     }
 
     private String getUnitBestSkill(Unit unit) {
-        return unit.getAspect(SkillAspect.class).skills.values().stream()
+        return unit.get(SkillAspect.class).skills.values().stream()
                 .max(Comparator.comparingInt(skill -> skill.state.getLevel())).map(skillValue -> skillValue.skill).orElse("Peasant");
     }
 }

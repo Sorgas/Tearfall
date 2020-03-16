@@ -16,7 +16,7 @@ import stonering.util.global.StaticSkin;
 public class ItemLabel extends Table {
 
     public ItemLabel(Item item) {
-        add(new Image(item.getAspect(RenderAspect.class).region));
+        add(new Image(item.get(RenderAspect.class).region));
         add(new Label(item.title, StaticSkin.getSkin()));
     }
 }

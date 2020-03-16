@@ -31,7 +31,7 @@ public class RawItemTypeProcessor {
     }
 
     private ItemType addAspectsFromRawType(ItemType type, RawItemType rawType) {
-        rawType.typeAspects.forEach(s -> type.addAspect(createAspect(s, type))); // create type aspects
+        rawType.typeAspects.forEach(s -> type.add(createAspect(s, type))); // create type aspects
         rawType.aspects.stream().map(this::parseAspectString).forEach(pair -> type.itemAspects.put(pair.key, pair.value));
         return type;
     }

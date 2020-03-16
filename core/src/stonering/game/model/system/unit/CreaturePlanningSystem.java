@@ -34,7 +34,7 @@ public class CreaturePlanningSystem extends EntitySystem<Unit> {
 
     @Override
     public void update(Unit unit) {
-        if (unit.getAspect(PlanningAspect.class).task == null) {
+        if (unit.get(PlanningAspect.class).task == null) {
             findNewTask(unit);
         } else {
             checkTaskStatus(unit);
@@ -42,7 +42,7 @@ public class CreaturePlanningSystem extends EntitySystem<Unit> {
     }
 
     private void checkTaskStatus(Unit unit) {
-        PlanningAspect planning = unit.getAspect(PlanningAspect.class);
+        PlanningAspect planning = unit.get(PlanningAspect.class);
         Task task = planning.task;
         switch (task.status) {
             case OPEN:
@@ -52,7 +52,7 @@ public class CreaturePlanningSystem extends EntitySystem<Unit> {
             case FAILED:
             case COMPLETE:
             case CANCELED:
-                unit.getAspect(MovementAspect.class).reset();
+                unit.get(MovementAspect.class).reset();
                 planning.task = null; // free this aspect
                 task.reset();
         }
@@ -65,7 +65,7 @@ public class CreaturePlanningSystem extends EntitySystem<Unit> {
         if (!task.initialAction.takingCondition.get()) return;
         Logger.TASKS.logDebug("Assigning task " + task + " to unit " + unit);
         taskContainer().claimTask(task);
-        unit.getAspect(PlanningAspect.class).task = task;
+        unit.get(PlanningAspect.class).task = task;
         task.status = ACTIVE;
     }
 
@@ -77,7 +77,7 @@ public class CreaturePlanningSystem extends EntitySystem<Unit> {
      */
     private Task selectTaskForUnit(Unit unit) {
         ArrayList<Task> tasks = new ArrayList<>();
-        if (unit.hasAspect(NeedsAspect.class)) tasks.add(unit.getAspect(NeedsAspect.class).satisfyingTask); // add need task
+        if (unit.has(NeedsAspect.class)) tasks.add(unit.get(NeedsAspect.class).satisfyingTask); // add need task
         tasks.add(taskContainer().getActiveTask(unit)); // get task from container
         return tasks.stream()
                 .filter(Objects::nonNull)

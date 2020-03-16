@@ -7,6 +7,7 @@ import stonering.entity.world.World;
 import stonering.enums.blocks.BlockTypeEnum;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.model.GameModel;
+import stonering.game.model.entity_selector.EntitySelectorSystem;
 import stonering.game.model.system.*;
 import stonering.game.model.system.building.BuildingContainer;
 import stonering.game.model.system.item.ItemContainer;
@@ -75,9 +76,9 @@ public abstract class TestModel extends GameModel {
     protected World createWorld() {
         World world = new World(1, 1);
         CelestialBody sun = new CelestialBody();
-        sun.addAspect(new CelestialLightSourceAspect(sun));
+        sun.add(new CelestialLightSourceAspect(sun));
         float orbitSpeed = 0.01f;
-        sun.addAspect(new CelestialCycleAspect(orbitSpeed, sun));
+        sun.add(new CelestialCycleAspect(orbitSpeed, sun));
         world.getStarSystem().objects.add(sun);
         return world;
     }

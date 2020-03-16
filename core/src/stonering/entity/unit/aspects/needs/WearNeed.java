@@ -27,7 +27,7 @@ public class WearNeed extends Need {
      */
     @Override
     public TaskPriorityEnum countPriority(Entity entity) {
-        EquipmentAspect equipmentAspect = entity.getAspect(EquipmentAspect.class);
+        EquipmentAspect equipmentAspect = entity.get(EquipmentAspect.class);
         if (equipmentAspect != null) {
             if (!equipmentAspect.getEmptyDesiredSlots().isEmpty()) {
                 return TaskPriorityEnum.HEALTH_NEEDS;
@@ -42,7 +42,7 @@ public class WearNeed extends Need {
      */
     @Override
     public Task tryCreateTask(Entity entity) {
-        EquipmentAspect equipmentAspect = entity.getAspect(EquipmentAspect.class);
+        EquipmentAspect equipmentAspect = entity.get(EquipmentAspect.class);
         if (equipmentAspect == null) return null;
         if (equipmentAspect.getEmptyDesiredSlots().isEmpty()) return null;
         for (EquipmentSlot equipmentSlot : equipmentAspect.desiredSlots) {

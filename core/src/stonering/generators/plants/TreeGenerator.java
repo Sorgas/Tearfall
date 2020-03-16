@@ -27,7 +27,7 @@ public class TreeGenerator {
         PlantType type = PlantTypeMap.getInstance().getTreeType(specimen);
         Tree tree = new Tree(type);
         //TODO set age
-        tree.addAspect(new PlantGrowthAspect(tree, age));
+        tree.add(new PlantGrowthAspect(tree, age));
         tree.setBlocks(createTreeBlocks(tree));
         return tree;
     }
@@ -43,7 +43,7 @@ public class TreeGenerator {
      * Creates tree blocks array
      */
     private PlantBlock[][][] createTreeBlocks(Tree tree) {
-        List<Integer> treeForm = tree.type.lifeStages.get(tree.getAspect(PlantGrowthAspect.class).currentStage).treeForm;
+        List<Integer> treeForm = tree.type.lifeStages.get(tree.get(PlantGrowthAspect.class).currentStage).treeForm;
         int material = MaterialMap.instance().getId(tree.type.materialName);
         Random random = new Random();
         int center = treeForm.get(0);
