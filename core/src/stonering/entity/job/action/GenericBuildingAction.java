@@ -5,14 +5,23 @@ import stonering.entity.crafting.IngredientOrder;
 import stonering.entity.item.Item;
 import stonering.entity.job.action.equipment.PutItemAction;
 import stonering.entity.job.action.target.BuildingActionTarget;
+import stonering.enums.buildings.BuildingType;
+import stonering.enums.buildings.BuildingTypeMap;
+import stonering.enums.designations.PlaceValidatorsEnum;
 import stonering.game.GameMvc;
+import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.local_map.passage.NeighbourPositionStream;
+import stonering.game.model.local_map.passage.PassageMap;
 import stonering.game.model.system.item.ItemContainer;
+import stonering.util.geometry.IntVector2;
 import stonering.util.geometry.Position;
+import stonering.util.geometry.RotationUtil;
 import stonering.util.global.Logger;
+import stonering.util.validation.PositionValidator;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Function;
 
 import static stonering.entity.job.action.ActionConditionStatusEnum.*;
 
@@ -37,15 +46,20 @@ public abstract class GenericBuildingAction extends Action {
         target = (BuildingActionTarget) actionTarget;
         this.order = order;
 
+        takingCondition = () -> {
+            return iterateSite(PlaceValidatorsEnum.getValidator(order.blueprint.placing)) // site not blocked with walls
+                    && checkItemsAreAvailable(); // items are in the same area with performer
+        };
+
         startCondition = () -> {
             Logger.TASKS.log("Checking " + this);
             if (target.builderPosition == null && !target.findPositionForBuilder(order, task.performer.position)) return FAIL; // cannot find position for builder
             ItemContainer itemContainer = GameMvc.model().get(ItemContainer.class);
-            
+
             // check site is clear
             List<Item> itemsOnSite = itemContainer.getItemsInPosition(target.center);
             if (!itemsOnSite.isEmpty()) return createSiteClearingAction(itemsOnSite.get(0));
-            
+
             // check material items
             List<Item> availableItems = itemContainer.getItemsInPosition(target.builderPosition);
             for (IngredientOrder ingredientOrder : order.parts.values()) {
@@ -69,7 +83,7 @@ public abstract class GenericBuildingAction extends Action {
             //TODO reset target on fail
         };
     }
-    
+
     /**
      * Finds item for ingredient's item selector.
      * Updates ingredient order. Returns true, if item for ingredient successfully found.
@@ -89,6 +103,27 @@ public abstract class GenericBuildingAction extends Action {
         }
         task.addFirstPreAction(new PutItemAction(item, position));
         return NEW;
+    }
+
+    private boolean checkItemsAreAvailable() {
+        PassageMap map = GameMvc.model().get(LocalMap.class).passageMap;
+        for (IngredientOrder value : order.parts.values()) {
+            for (Item item : value.items) {
+                if (!map.inSameArea(item.position, task.performer.position)) return false; // some item not available
+            }
+        }
+        return true;
+    }
+
+    private boolean iterateSite(Function<Position, Boolean> function) {
+        BuildingType type = BuildingTypeMap.getBuilding(order.blueprint.building);
+        IntVector2 size = RotationUtil.orientSize(type.size, order.orientation);
+        for (int x = 0; x < size.x; x++) {
+            for (int y = 0; y < size.y; y++) {
+                if (!function.apply(Position.add(order.position, x, y, 0))) return false;
+            }
+        }
+        return true;
     }
 
     protected void consumeItems() {

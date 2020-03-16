@@ -40,7 +40,7 @@ public class DigAction extends SkillAction {
         toolItemSelector = new ToolWithActionItemSelector("dig");
         speedUpdater = () -> (1 + getSpeedBonus()) * (1 + getUnitPerformance()); // 1 for non-trained not tired miner
         startCondition = () -> {
-            if (!type.VALIDATOR.validate(actionTarget.getPosition())) return FAIL; // tile did not change
+            if (!type.VALIDATOR.apply(actionTarget.getPosition())) return FAIL; // tile did not change
             EquipmentAspect equipment = task.performer.getAspect(EquipmentAspect.class);
             if (equipment == null) return FAIL;
             if (toolItemSelector.checkItems(equipment.equippedItems)) return OK; // tool equipped
@@ -50,7 +50,7 @@ public class DigAction extends SkillAction {
         System.out.println("max progress " + maxProgress);
         onFinish = () -> {
             BlockTypeEnum oldType = GameMvc.model().get(LocalMap.class).getBlockTypeEnumValue(actionTarget.getPosition());
-            if (type.VALIDATOR.validate(actionTarget.getPosition())) updateMap();
+            if (type.VALIDATOR.apply(actionTarget.getPosition())) updateMap();
             leaveStone(oldType);
             GameMvc.model().get(UnitContainer.class).experienceSystem.giveExperience(task.performer, SKILL_NAME);
         };

@@ -11,11 +11,10 @@ import stonering.util.geometry.Position;
  * @author Alexander on 18.03.2019.
  */
 public class FreeSoilFloorValidator extends FreeFloorValidator {
-    private static final String SOIL_TAG = "soil";
 
     @Override
-    public boolean validate(Position position) {
-        LocalMap localMap = GameMvc.instance().model().get(LocalMap.class);
-        return super.validate(position) && MaterialMap.instance().getMaterial(localMap.getMaterial(position)).tags.contains(SOIL_TAG);
+    public Boolean apply(Position position) {
+        LocalMap localMap = GameMvc.model().get(LocalMap.class);
+        return super.apply(position) && "soil".equals(MaterialMap.instance().getMaterial(localMap.getMaterial(position)).name);
     }
 }

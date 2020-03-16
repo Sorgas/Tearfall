@@ -18,7 +18,7 @@ public class TileMaterialValidator implements PositionValidator {
     }
 
     @Override
-    public boolean validate(Position position) {
+    public Boolean apply(Position position) {
         LocalMap map = GameMvc.instance().model().get(LocalMap.class);
         return map.inMap(position) &&
                 MaterialMap.instance().getMaterial(map.getMaterial(position)).tags.contains(materialTag);

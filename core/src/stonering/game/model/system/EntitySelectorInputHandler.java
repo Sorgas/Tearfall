@@ -66,9 +66,6 @@ public class EntitySelectorInputHandler {
         aspect.boxStart = null;
     }
 
-    public void rotateSelector(boolean clockwise) {
-        
-    }
     
     public void setSelectorPosition(Position position) {
         GameMvc.model().get(LocalMap.class).normalizePosition(selector.position.set(position.x, position.y, position.z));
@@ -118,7 +115,7 @@ public class EntitySelectorInputHandler {
     public void moveSelector(int dx, int dy, int dz) {
         cachePosition.set(selector.position);
         selector.position.add(dx, dy, dz);
-        GameMvc.model().get(LocalMap.class).normalizePosition(selector.position);
+        GameMvc.model().get(LocalMap.class).normalizeRectangle(selector.position, selector.size.x, selector.size.y);
         if (!cachePosition.equals(selector.position)) system.selectorMoved();
     }
 }

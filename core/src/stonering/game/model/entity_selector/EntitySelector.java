@@ -2,6 +2,7 @@ package stonering.game.model.entity_selector;
 
 import stonering.entity.Aspect;
 import stonering.entity.Entity;
+import stonering.util.geometry.IntVector2;
 import stonering.util.geometry.Position;
 
 /**
@@ -13,8 +14,10 @@ import stonering.util.geometry.Position;
  * @author Alexander Kuzyakov on 10.12.2017.
  */
 public class EntitySelector extends Entity {
-
+    public final IntVector2 size;
+    
     public EntitySelector(Position position) {
         super(position);
+        size = new IntVector2(1, 1);
     }
 }

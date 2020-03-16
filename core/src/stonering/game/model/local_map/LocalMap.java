@@ -9,6 +9,7 @@ import stonering.game.model.system.ModelComponent;
 import stonering.game.model.system.plant.PlantContainer;
 import stonering.game.model.system.substrate.SubstrateContainer;
 import stonering.game.model.tilemaps.LocalTileMapUpdater;
+import stonering.util.geometry.IntVector2;
 import stonering.util.geometry.Position;
 import stonering.util.global.Initable;
 import stonering.util.global.Logger;
@@ -32,7 +33,6 @@ public class LocalMap implements ModelComponent, Initable {
     private byte[][][] flooding;
     private byte[][][] temperature;
     private Position cachePosition;
-
 
     public LightMap light;
     public transient PassageMap passageMap;                                 // not saved to savegame,
@@ -108,11 +108,14 @@ public class LocalMap implements ModelComponent, Initable {
         return isBorder(position.x, position.y);
     }
 
-    public Position normalizePosition(Position position) {
-        position.x = Math.min(Math.max(0, position.x), xSize - 1);
-        position.y = Math.min(Math.max(0, position.y), ySize - 1);
+    public void normalizePosition(Position position) {
+        normalizeRectangle(position, 1, 1);
+    }
+
+    public void normalizeRectangle(Position position, int width, int height) {
+        position.x = Math.min(Math.max(0, position.x), xSize - width);
+        position.y = Math.min(Math.max(0, position.y), ySize - height);
         position.z = Math.min(Math.max(0, position.z), zSize - 1);
-        return position;
     }
 
     private void setBlockType(int x, int y, int z, byte type) {
@@ -123,7 +126,7 @@ public class LocalMap implements ModelComponent, Initable {
     }
 
     public void updatePassage(int x, int y, int z) {
-        if(passageMap != null) passageMap.updater.update(x, y, z);
+        if (passageMap != null) passageMap.updater.update(x, y, z);
     }
 
     public void updatePassage(Position position) {

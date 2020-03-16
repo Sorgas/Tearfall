@@ -15,7 +15,7 @@ import stonering.util.geometry.Position;
 public class FreeFloorValidator implements PositionValidator {
 
     @Override
-    public boolean validate(Position position) {
+    public Boolean apply(Position position) {
         GameModel model = GameMvc.model();
         return model.get(LocalMap.class).getBlockType(position) == BlockTypeEnum.FLOOR.CODE &&
                 model.get(BuildingContainer.class).buildingBlocks.get(position) == null;

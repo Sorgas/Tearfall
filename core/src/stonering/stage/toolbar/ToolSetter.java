@@ -29,7 +29,6 @@ import static stonering.enums.OrientationEnum.N;
  */
 public class ToolSetter {
 
-
     public void setBlueprintForBuilding(Blueprint blueprint) {
         EntitySelectorSystem system = GameMvc.model().get(EntitySelectorSystem.class);
         SelectionAspect selection = system.selector.getAspect(SelectionAspect.class);

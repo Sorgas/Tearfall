@@ -50,7 +50,7 @@ public class DesignationSystem {
             Designation designation = container.designations.get(position);
             if (designation != null && designation.task != null) designation.task.status = CANCELED;
         } else {
-            if (type.VALIDATOR.validate(position))
+            if (type.VALIDATOR.apply(position))
                 container.designations.put(position, new OrderDesignation(position, type));
         }
     }
@@ -60,7 +60,7 @@ public class DesignationSystem {
      * All single-tile buildings are constructed through this method.
      */
     public void submitBuildingDesignation(BuildingOrder order, int priority) {
-        if (!PlaceValidatorsEnum.getValidator(order.blueprint.placing).validate(order.position)) return;
+        if (!PlaceValidatorsEnum.getValidator(order.blueprint.placing).apply(order.position)) return;
         BuildingDesignation designation = new BuildingDesignation(order);
         Task task = taskCreator.createBuildingTask(designation, priority);
         container.addTask(task);

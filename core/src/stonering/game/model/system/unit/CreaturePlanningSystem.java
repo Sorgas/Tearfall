@@ -1,7 +1,6 @@
 package stonering.game.model.system.unit;
 
 import stonering.entity.job.Task;
-import stonering.entity.job.action.ActionConditionStatusEnum;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.MovementAspect;
 import stonering.entity.unit.aspects.PlanningAspect;
@@ -12,12 +11,10 @@ import stonering.game.model.system.task.CreatureActionPerformingSystem;
 import stonering.game.model.system.task.TaskContainer;
 import stonering.util.global.Logger;
 
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Objects;
 
-import static stonering.entity.job.action.ActionConditionStatusEnum.*;
 import static stonering.enums.action.TaskStatusEnum.*;
 
 /**
@@ -65,12 +62,11 @@ public class CreaturePlanningSystem extends EntitySystem<Unit> {
         Task task = selectTaskForUnit(unit);
         if (task == null) return;
         task.performer = unit;
-        if (task.initialAction.takingCondition.get()) {
-            Logger.TASKS.logDebug("Assigning task " + task + " to unit " + unit);
-            taskContainer().claimTask(task);
-            unit.getAspect(PlanningAspect.class).task = task;
-            task.status = ACTIVE;
-        }
+        if (!task.initialAction.takingCondition.get()) return;
+        Logger.TASKS.logDebug("Assigning task " + task + " to unit " + unit);
+        taskContainer().claimTask(task);
+        unit.getAspect(PlanningAspect.class).task = task;
+        task.status = ACTIVE;
     }
 
     /**
@@ -87,23 +83,6 @@ public class CreaturePlanningSystem extends EntitySystem<Unit> {
                 .filter(Objects::nonNull)
                 .filter(task -> task.status == OPEN)
                 .max(Comparator.comparingInt(task1 -> task1.priority)).orElse(null);
-    }
-
-    /**
-     * Checks if task (with all sub-actions) can be performed by unit.
-     * In this method requirement aspects of actions create additional actions.
-     *
-     * @return false, if some action in sequence cannot be performed.
-     */
-    private boolean unitCanPerformTask(@NotNull Unit unit, @NotNull Task task) {
-        Logger.TASKS.logDebug("Checking task " + task + " for unit " + unit);
-        task.performer = unit; // performer is required for checking
-        ActionConditionStatusEnum result;
-        while ((result = task.nextAction.startCondition.get()) == NEW) {
-        } // can create sub actions
-        if (result == OK) return true;
-        task.reset();
-        return false;
     }
 
     private TaskContainer taskContainer() {

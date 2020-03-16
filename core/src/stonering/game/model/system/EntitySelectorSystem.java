@@ -93,6 +93,4 @@ public class EntitySelectorSystem implements ModelComponent {
         orientationAspect.current = RotationUtil.rotate(orientationAspect.current, clockwise);
         selector.getAspect(RenderAspect.class).region = AtlasesEnum.buildings.getBlockTile(type.sprites[orientationAspect.current.ordinal()]);
     }
-
-
 }

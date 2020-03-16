@@ -8,11 +8,12 @@ import stonering.util.geometry.Position;
 
 /**
  * Checks that near target position exists at least one non-SPACE block, and target position is free from buildings.
- * Used for constructions.
+ * Diagonal tiles do not count. Used for constructions.
  */
 public class NearSolidBlockValidator implements PositionValidator {
+
     @Override
-    public boolean validate(Position position) {
+    public Boolean apply(Position position) {
         LocalMap map = GameMvc.model().get(LocalMap.class);
         return GameMvc.model().get(BuildingContainer.class).buildingBlocks.get(position) == null && // building-free
                 (map.getBlockType(position) == BlockTypeEnum.FLOOR.CODE ||          // floor or space

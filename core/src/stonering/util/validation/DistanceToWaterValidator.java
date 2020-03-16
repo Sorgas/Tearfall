@@ -14,8 +14,8 @@ public class DistanceToWaterValidator implements PositionValidator {
     private PlantPlacingTagEnum tag;
 
     @Override
-    public boolean validate(Position position) {
-        LocalMap map = GameMvc.instance().model().get(LocalMap.class);
+    public Boolean apply(Position position) {
+        LocalMap map = GameMvc.model().get(LocalMap.class);
         if(!map.inMap(position) || tag == null) return false;
         switch (tag) {
             case WATER_NEAR: {
