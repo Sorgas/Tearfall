@@ -104,10 +104,11 @@ public class Position implements Serializable, Cloneable {
         return this;
     }
 
-    public void add(int dx, int dy, int dz) {
+    public Position add(int dx, int dy, int dz) {
         x += dx;
         y += dy;
         z += dz;
+        return this;
     }
 
     public Vector3 toVector3() {

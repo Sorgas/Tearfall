@@ -5,7 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.math.Vector3;
 import stonering.game.GameMvc;
-import stonering.game.model.entity_selector.aspect.SelectionAspect;
+import stonering.game.model.entity_selector.aspect.BoxSelectionAspect;
 import stonering.game.model.entity_selector.EntitySelectorInputHandler;
 import stonering.game.model.entity_selector.EntitySelectorSystem;
 import stonering.stage.renderer.AtlasesEnum;
@@ -17,6 +17,7 @@ import static com.badlogic.gdx.Input.Keys.*;
 
 /**
  * Handles button presses and mouse movement for entitySelector navigation and activation.
+ * Also contains logic for starting and finishing selection box.
  * Calls {@link EntitySelectorInputHandler} for handling events.
  * Can be disabled.
  *
@@ -41,7 +42,7 @@ public class EntitySelectorInputAdapter extends EnableableInputAdapter {
         public boolean keyDown(int keycode) {
             switch (keycode) {
                 case Input.Keys.E:
-                    if (system.selector.get(SelectionAspect.class).boxStart != null) { // finish started box at current position
+                    if (system.selector.get(BoxSelectionAspect.class).boxStart != null) { // finish started box at current position
                         Logger.INPUT.logDebug("committing selection box on E key");
                         system.inputHandler.commitSelection();
                     } else { // start box at current position

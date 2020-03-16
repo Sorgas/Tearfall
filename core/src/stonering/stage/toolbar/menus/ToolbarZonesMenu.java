@@ -34,6 +34,7 @@ public class ToolbarZonesMenu extends ToolbarButtonMenu {
         createButton("Update zone", Input.Keys.U, new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                
                 GameModel model = GameMvc.model();
                 EntitySelector selector = model.get(EntitySelectorSystem.class).selector;
                 ZoneContainer container = model.get(ZoneContainer.class);

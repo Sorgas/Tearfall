@@ -26,12 +26,10 @@ public class Toolbar extends Container<Table> {
     public Label status; // in second row
     public final ParentMenu parentMenu; // always on the left end
     public boolean enabled = true;
-    public final ToolSetter setter;
 
     public Toolbar() {
         createLayout();
         addMenu(parentMenu = new ParentMenu(this));
-        setter = new ToolSetter();
         addListener(new InputListener() { // passes events to last menu in toolbar
             @Override
             public boolean keyDown(InputEvent event, int keycode) {

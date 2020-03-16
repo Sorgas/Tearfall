@@ -1,13 +1,11 @@
-package stonering.game.model.entity_selector;
-
-import stonering.game.model.entity_selector.tool.SelectEntitySelectionTool;
-import stonering.game.model.entity_selector.tool.SelectionTool;
+package stonering.game.model.entity_selector.tool;
 
 /**
  * @author Alexander_Kuzyakov on 16.03.2020.
  */
 public enum SelectionToolEnum {
     SELECT(new SelectEntitySelectionTool()),
+    BUILDING(new DesignateBuildingSelectionTool())
     ;
     
     public final SelectionTool TOOL;
