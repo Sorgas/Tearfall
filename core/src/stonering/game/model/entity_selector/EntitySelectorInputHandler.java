@@ -3,7 +3,6 @@ package stonering.game.model.entity_selector;
 import com.badlogic.gdx.Gdx;
 import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.aspect.BoxSelectionAspect;
-import stonering.game.model.entity_selector.aspect.SelectionAspect;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
@@ -20,55 +19,49 @@ import static com.badlogic.gdx.Input.Keys.*;
 public class EntitySelectorInputHandler {
     private EntitySelectorSystem system;
     private EntitySelector selector;
-    private Position cachePosition;
+    private BoxSelectionAspect box;
+    private Position cachePosition = new Position();
     public boolean allowChangingZLevelOnSelection = true;
 
     public EntitySelectorInputHandler(EntitySelectorSystem system) {
         this.system = system;
         selector = system.selector;
-        cachePosition = new Position();
-    }
-
-    public void handleSelection() {
-
+        box = selector.get(BoxSelectionAspect.class);
     }
 
     /**
-     * Starts selection box if it's enabled, instantly commits box with single tile otherwise.
-     * If position is null, uses selector's current position.
+     * Starts box in selector's position. Commits it if box selection is disabled.
      */
-    public void startSelection(@Nullable Position position) {
-        if (position == null) position = selector.position;
-        BoxSelectionAspect box = selector.get(BoxSelectionAspect.class);
-        if (box.enabled) {
-            box.boxStart = position.clone();
-            Logger.INPUT.logDebug("Selection started at " + box.boxStart);
-            GameMvc.model().get(LocalMap.class).normalizePosition(box.boxStart);
-            // TODO update render for tools
+    public void startSelection() {
+        if(box.boxStart != null) {
+            commitSelection(); // finish started selection
         } else {
-            commitSelection();
+            box.boxStart = selector.position.clone(); // start box
+            if (!box.enabled) commitSelection(); // end selection with single tile box
         }
     }
 
     /**
-     * Clears selection box if it exists.
+     * Calls handling of selected area. Does nothing if box start not set (was cancelled).
      */
-    public void cancelSelection() {
-        selector.get(BoxSelectionAspect.class).boxStart = null;
-        system.handleCancel();
+    public void commitSelection() {
+        if (box.boxStart == null) return;
+        system.handleSelection();
+        box.boxStart = null;
     }
 
     /**
-     * Commits selection box to {@link EntitySelectorSystem} for further handling.
+     * Clears selection box start, preventing it from commit.
+     * If box start is clear, calls cancellation in system for resetting tool.
      */
-    public void commitSelection() {
-        BoxSelectionAspect aspect = selector.get(BoxSelectionAspect.class);
-        if (aspect.boxStart == null) aspect.boxStart = selector.position;
-        system.handleSelection();
-        aspect.boxStart = null;
+    public void cancelSelection() {
+        if(box.boxStart == null) {
+            system.handleCancel();
+        } else {
+            box.boxStart = null;
+        }
     }
-
-
+    
     public void setSelectorPosition(Position position) {
         GameMvc.model().get(LocalMap.class).normalizePosition(selector.position.set(position.x, position.y, position.z));
     }

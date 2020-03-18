@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.math.Vector3;
 import stonering.game.GameMvc;
+import stonering.game.model.entity_selector.EntitySelector;
 import stonering.game.model.entity_selector.aspect.BoxSelectionAspect;
 import stonering.game.model.entity_selector.EntitySelectorInputHandler;
 import stonering.game.model.entity_selector.EntitySelectorSystem;
@@ -16,8 +17,13 @@ import stonering.util.ui.EnableableInputAdapter;
 import static com.badlogic.gdx.Input.Keys.*;
 
 /**
- * Handles button presses and mouse movement for entitySelector navigation and activation.
- * Also contains logic for starting and finishing selection box.
+ * Handles keyboard and mouse input for {@link EntitySelector} navigation and activation.
+ * LMB press - start selection.
+ * LMB release - confirm selection.
+ * RMB press - cancel selection.
+ * E press - start or confirm selection.
+ * Q press - cancel selection.
+ * WASDRF(Shift) - navigation.
  * Calls {@link EntitySelectorInputHandler} for handling events.
  * Can be disabled.
  *
@@ -42,20 +48,12 @@ public class EntitySelectorInputAdapter extends EnableableInputAdapter {
         public boolean keyDown(int keycode) {
             switch (keycode) {
                 case Input.Keys.E:
-                    if (system.selector.get(BoxSelectionAspect.class).boxStart != null) { // finish started box at current position
-                        Logger.INPUT.logDebug("committing selection box on E key");
-                        system.inputHandler.commitSelection();
-                    } else { // start box at current position
-                        Logger.INPUT.logDebug("starting selection box on E key");
-                        system.inputHandler.startSelection(null);
-                    }
+                    system.inputHandler.startSelection();
                     return true;
                 case Input.Keys.Q:
-                    Logger.INPUT.logDebug("cancelling selection box on Q key");
                     system.inputHandler.cancelSelection();
                     return true;
                 case Input.Keys.T:
-                    Logger.INPUT.logDebug("rotating entity selector");
                     system.rotateSelector(!Gdx.input.isKeyPressed(SHIFT_LEFT)); // counter clockwise with Shift + T
                 default: // move selector if navigation key is pressed
                     return system.inputHandler.moveByKey(keycode);
@@ -89,8 +87,7 @@ public class EntitySelectorInputAdapter extends EnableableInputAdapter {
         @Override
         public boolean touchDown(int screenX, int screenY, int pointer, int button) { // lmb press starts selection
             if (button != Input.Buttons.LEFT) return false;
-            Logger.INPUT.logDebug("starting selection box on LMB press");
-            system.inputHandler.startSelection(cachePosition.set(castScreenToModelCoords(screenX, screenY)).clone());
+            system.inputHandler.startSelection();
             return true;
         }
 
@@ -98,11 +95,9 @@ public class EntitySelectorInputAdapter extends EnableableInputAdapter {
         public boolean touchUp(int screenX, int screenY, int pointer, int button) {
             switch (button) {
                 case Input.Buttons.LEFT:
-                    Logger.INPUT.logDebug("committing selection box on lMB release");
                     system.inputHandler.commitSelection();
                     return true;
                 case Input.Buttons.RIGHT:
-                    Logger.INPUT.logDebug("cancelling selection box on RMB release");
                     system.inputHandler.cancelSelection();
                     return true;
                 default:

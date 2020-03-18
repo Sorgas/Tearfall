@@ -23,7 +23,6 @@ public class KeyBufferInputAdapter extends InputAdapter {
 
     @Override
     public boolean keyDown(int keycode) {
-        Logger.INPUT.logDebug("keyDown " + Input.Keys.toString(keycode));
         keyBuffer.add(keycode);           // next keyType with this will be skipped.
         return false;                     // continue
     }
@@ -35,11 +34,7 @@ public class KeyBufferInputAdapter extends InputAdapter {
     public boolean keyTyped(char character) {
         int keycode = charToKeycode(character);
         if(keycode == -1) return true; // do not pass invalid characters
-        if(keyBuffer.remove(keycode)) { // stop processing if key was in buffer
-            return Logger.INPUT.logDebug(Input.Keys.toString(keycode) + " removed from buffer.", true);
-        }
-        Logger.INPUT.logDebug("keyTyped " + Input.Keys.toString(keycode));
-        return false; // pass event further
+        return keyBuffer.remove(keycode); // stop processing if key was in buffer
     }
 
     /**
