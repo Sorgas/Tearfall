@@ -45,7 +45,7 @@ public class DesignationSystem {
      * Validates designation and creates comprehensive task.
      * All simple orders like digging and foraging submitted through this method.
      */
-    public void submitDesignation(Position position, DesignationTypeEnum type, int priority) {
+    public void submitDesignation(Position position, DesignationTypeEnum type) {
         if (type == DesignationTypeEnum.D_NONE) {
             Designation designation = container.designations.get(position);
             if (designation != null && designation.task != null) designation.task.status = CANCELED;

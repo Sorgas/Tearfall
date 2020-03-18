@@ -63,7 +63,7 @@ public class SingleItemSquareButton extends Button {
 
     public void setItem(Item item) {
         this.item = item;
-        itemImage.setDrawable(new TextureRegionDrawable(item.get(RenderAspect.class).region));
+        if(item != null) itemImage.setDrawable(new TextureRegionDrawable(item.get(RenderAspect.class).region));
     }
 
     public Item getItem() {

@@ -57,11 +57,6 @@ public class DesignateBuildingSelectionTool extends SelectionTool {
         new SingleWindowStage<>(new BuildingMaterialSelectMenu(blueprint, positions), true).show();
     }
 
-    @Override
-    public void cancelSelection() {
-        selector().get(SelectionAspect.class).set(SelectionToolEnum.SELECT);
-    }
-
     public void setBlueprintForBuilding(Blueprint blueprint) {
         EntitySelectorSystem system = GameMvc.model().get(EntitySelectorSystem.class);
         setSpriteToSelector(system, blueprint);

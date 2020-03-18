@@ -4,7 +4,12 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.enums.buildings.blueprint.Blueprint;
 import stonering.enums.buildings.blueprint.BlueprintsMap;
+import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.EntitySelector;
+import stonering.game.model.entity_selector.EntitySelectorSystem;
+import stonering.game.model.entity_selector.aspect.SelectionAspect;
+import stonering.game.model.entity_selector.tool.DesignateBuildingSelectionTool;
+import stonering.game.model.entity_selector.tool.SelectionTools;
 import stonering.stage.building.BuildingMaterialSelectMenu;
 import stonering.stage.toolbar.Toolbar;
 import stonering.widget.ToolbarSubMenuMenu;
@@ -28,7 +33,8 @@ public class ToolbarBuildingMenu extends ToolbarSubMenuMenu {
             addItem(blueprint.title, null, new ChangeListener() { //TODO add blueprint.icon
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    toolbar.setter.setBlueprintForBuilding(blueprint);
+                    SelectionTools.BUILDING.resetFor(blueprint);
+                    GameMvc.model().get(EntitySelectorSystem.class).selector.get(SelectionAspect.class).set(SelectionTools.BUILDING);
                 }
             }, blueprint.menuPath);
         }

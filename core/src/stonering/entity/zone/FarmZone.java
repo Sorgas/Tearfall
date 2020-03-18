@@ -114,7 +114,7 @@ public class FarmZone extends Zone {
     private boolean checkExistingPlant(AbstractPlant plant, Position tile, TaskContainer container) {
         if (plant == null) return true;
         if (!plantType.equals(plant.type)) { // cut unwanted plants
-            container.designationSystem.submitDesignation(tile, DesignationTypeEnum.D_CUT, 1);
+            container.designationSystem.submitDesignation(tile, DesignationTypeEnum.D_CUT);
             return false;
         }
         //TODO add produc aspect to plants

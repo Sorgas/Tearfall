@@ -4,6 +4,7 @@ import stonering.enums.OrientationEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.EntitySelector;
 import stonering.game.model.entity_selector.EntitySelectorSystem;
+import stonering.game.model.entity_selector.aspect.SelectionAspect;
 import stonering.util.geometry.Int3dBounds;
 import stonering.util.geometry.RotationUtil;
 
@@ -18,15 +19,15 @@ public abstract class SelectionTool {
     
     public abstract void handleSelection(Int3dBounds bounds); // called once for the whole selection box
 
-    public abstract void cancelSelection(); // called on Q/RMB
+    public void cancelSelection() {
+        GameMvc.model().get(EntitySelectorSystem.class).selector.get(SelectionAspect.class).set(SelectionTools.SELECT);
+    }
 
     public void rotate(boolean clockwise) {
         orientation = RotationUtil.rotate(orientation, clockwise);
     } // should be overridden for tools with rotation
 
     protected EntitySelector selector() {
-        return selector != null ? selector : GameMvc.model().get(EntitySelectorSystem.class).selector;
+        return selector != null ? selector : (selector = GameMvc.model().get(EntitySelectorSystem.class).selector);
     }
-
-
 }

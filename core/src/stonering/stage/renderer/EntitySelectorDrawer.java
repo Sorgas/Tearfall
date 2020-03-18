@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import stonering.entity.RenderAspect;
 import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.EntitySelector;
+import stonering.game.model.entity_selector.aspect.BoxSelectionAspect;
 import stonering.game.model.entity_selector.aspect.SelectionAspect;
 import stonering.game.model.entity_selector.EntitySelectorSystem;
 import stonering.util.geometry.Int3dBounds;
@@ -34,16 +35,16 @@ public class EntitySelectorDrawer extends Drawer {
     }
 
     public void drawSelector(EntitySelector selector) {
-        SelectionAspect aspect = selector.get(SelectionAspect.class);
+        BoxSelectionAspect box = selector.get(BoxSelectionAspect.class);
         TextureRegion region = selector.get(RenderAspect.class).region;
-        if (region == null || aspect.boxStart != null) return;
+        if (region == null || box.boxStart != null) return;
         spriteUtil.drawSprite(region, selector.position.toVector3());
     }
 
     private void drawFrame(EntitySelector selector) {
-        SelectionAspect aspect = selector.get(SelectionAspect.class);
-        if (aspect.boxStart == null) return;
-        bounds.set(aspect.boxStart, selector.position);
+        BoxSelectionAspect box = selector.get(BoxSelectionAspect.class);
+        if (box.boxStart == null) return;
+        bounds.set(box.boxStart, selector.position);
         bounds.maxZ = selector.position.z;
         bounds.iterator.accept(pos -> {
             if (pos.y == bounds.maxY && pos.z == bounds.maxZ) drawSprite(0, pos);

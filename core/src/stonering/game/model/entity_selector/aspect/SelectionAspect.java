@@ -2,7 +2,7 @@ package stonering.game.model.entity_selector.aspect;
 
 import stonering.entity.Aspect;
 import stonering.entity.Entity;
-import stonering.game.model.entity_selector.tool.SelectionToolEnum;
+import stonering.game.model.entity_selector.tool.SelectionTools;
 import stonering.game.model.entity_selector.tool.SelectionTool;
 
 /**
@@ -11,13 +11,13 @@ import stonering.game.model.entity_selector.tool.SelectionTool;
  * @author Alexander on 10.01.2020
  */
 public class SelectionAspect extends Aspect {
-    public SelectionTool tool;
+    public SelectionTool tool = SelectionTools.SELECT;
     
     public SelectionAspect(Entity entity) {
         super(entity);
     }
     
-    public void set(SelectionToolEnum tool) {
-        this.tool = tool.TOOL;
+    public void set(SelectionTool tool) {
+        this.tool = tool;
     }
 }

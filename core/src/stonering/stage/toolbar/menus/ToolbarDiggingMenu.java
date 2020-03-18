@@ -7,9 +7,8 @@ import stonering.enums.designations.DesignationTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.aspect.SelectionAspect;
 import stonering.game.model.entity_selector.EntitySelectorSystem;
-import stonering.game.model.system.task.TaskContainer;
+import stonering.game.model.entity_selector.tool.SelectionTools;
 import stonering.stage.toolbar.Toolbar;
-import stonering.util.global.Logger;
 import stonering.widget.ToolbarButtonMenu;
 
 import static stonering.enums.designations.DesignationTypeEnum.*;
@@ -38,11 +37,8 @@ public class ToolbarDiggingMenu extends ToolbarButtonMenu {
         super.createButton(text, hotKey, new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                Logger.UI.logDebug("EntitySelector handlers changed");
-                SelectionAspect aspect = GameMvc.model().get(EntitySelectorSystem.class).selector.get(SelectionAspect.class);
-                TaskContainer container = GameMvc.model().get(TaskContainer.class);
-                aspect.validator = type.VALIDATOR;
-                aspect.selectHandler = box -> aspect.boxIterator.accept(position -> container.designationSystem.submitDesignation(position, type, 1));
+                SelectionTools.DESIGNATION.type = type;
+                GameMvc.model().get(EntitySelectorSystem.class).selector.get(SelectionAspect.class).set(SelectionTools.DESIGNATION);
             }
         }, true);
     }
