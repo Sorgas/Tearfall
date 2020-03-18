@@ -17,7 +17,7 @@ import java.util.function.Consumer;
  * @author Alexander on 16.03.2020.
  */
 public class BoxSelectionAspect extends Aspect {
-    public boolean enabled;
+    public boolean enabled = true;
     public Position boxStart; // this with selector's position are opposite corners of selection box
     public final Consumer<Consumer<Position>> boxIterator;
 

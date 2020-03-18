@@ -33,7 +33,6 @@ public class Toolbar extends Container<Table> {
         addListener(new InputListener() { // passes events to last menu in toolbar
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
-                Logger.UI.logDebug("handling " + keycode + " in toolbar");
                 return menusGroup.getChildren().peek().notify(event, false);
             }
         });
