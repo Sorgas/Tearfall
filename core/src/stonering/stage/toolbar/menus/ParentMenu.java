@@ -22,6 +22,7 @@ public class ParentMenu extends ToolbarSubMenuMenu {
     }
 
     @Override // overridden to prevent closing
-    public void hide() {
+    public boolean hide() {
+        return false;
     }
 }

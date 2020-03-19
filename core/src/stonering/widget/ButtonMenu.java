@@ -32,10 +32,9 @@ public abstract class ButtonMenu extends Table {
                 if (buttons.containsKey(keycode)) {
                     Logger.UI.logDebug("Pressing " + Input.Keys.toString(keycode) + " button in " + this);
                     buttons.get(keycode).toggle();
-                    event.handle();
+                    return true;
                 } else if (keycode == Input.Keys.Q) {
-                    hide();
-                    event.handle();
+                    return hide();
                 }
                 return forbidEventPass;
             }
@@ -54,5 +53,5 @@ public abstract class ButtonMenu extends Table {
         add(button).row();
     }
 
-    public abstract void hide();
+    public abstract boolean hide();
 }

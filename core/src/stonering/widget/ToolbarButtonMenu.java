@@ -15,6 +15,7 @@ public abstract class ToolbarButtonMenu extends ButtonMenu implements Highlighta
     private HighlightHandler handler;
 
     public ToolbarButtonMenu(Toolbar toolbar) {
+        super();
         this.toolbar = toolbar;
         defaults().size(120, 30).pad(5).padBottom(10);
         bottom();
@@ -41,8 +42,9 @@ public abstract class ToolbarButtonMenu extends ButtonMenu implements Highlighta
     }
 
     @Override
-    public void hide() {
+    public boolean hide() {
         toolbar.removeMenu(this);
+        return true;
     }
 
     @Override
