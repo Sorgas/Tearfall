@@ -53,12 +53,9 @@ public class EntitySelectorInputHandler {
      * If box start is clear, calls cancellation in system for resetting tool.
      */
     public void cancelSelection() {
-        System.out.println("cancelling");
         if (box.boxStart == null) {
-            System.out.println("null");
             system.handleCancel();
         } else {
-            System.out.println("not null");
             box.boxStart = null;
         }
     }
