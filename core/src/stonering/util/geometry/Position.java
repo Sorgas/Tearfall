@@ -110,6 +110,12 @@ public class Position implements Serializable, Cloneable {
         z += dz;
         return this;
     }
+    
+    public Position add(IntVector2 vector) {
+        x+= vector.x;
+        y+= vector.y;
+        return this;
+    }
 
     public Vector3 toVector3() {
         return new Vector3(x, y, z);

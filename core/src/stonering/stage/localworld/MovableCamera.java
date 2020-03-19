@@ -48,9 +48,11 @@ public class MovableCamera extends OrthographicCamera implements Resizeable {
     @Override
     public void update() {
         super.update();
-        if (frame == null) return;
-        Position selectorPosition = GameMvc.instance().model().get(EntitySelectorSystem.class).selector.position;
-        Vector3 vector = getOutOfFrameVector(selectorPosition);
+        if (frame == null) {
+            System.out.println("camera frame is null");
+            return;
+        }
+        Vector3 vector = getOutOfFrameVector(GameMvc.model().get(EntitySelectorSystem.class).selector);
         if (vector.isZero()) return;
         position.add(vector.scl(CAMERA_SPEED));
         updateFrame();
@@ -79,7 +81,7 @@ public class MovableCamera extends OrthographicCamera implements Resizeable {
      * If selector moves by z-axis, camera changes position by z.
      */
     public void handleSelectorMove() {
-        Position selectorPosition = GameMvc.instance().model().get(EntitySelectorSystem.class).selector.position;
+        Position selectorPosition = GameMvc.model().get(EntitySelectorSystem.class).selector.position;
         int delta = selectorPosition.z - cameraZ;
         if (delta == 0) return;
         position.y += getBatchY(0, delta);
@@ -88,12 +90,13 @@ public class MovableCamera extends OrthographicCamera implements Resizeable {
     }
 
     /**
-     * Checks that floor part of tile in given position is fully shown in frame.
+     * Checks that floor part of entity selector tiles are fully shown in frame.
      * Forms a vector to show direction to that tile.
      * Tile should be on the same z-level with camera.
      */
-    private Vector3 getOutOfFrameVector(Position position) {
-        return frame.getOutVector(BatchUtil.getBottomLeftCorner(position), BatchUtil.getRightTopCorner(position));
+    private Vector3 getOutOfFrameVector(EntitySelector selector) {
+        return frame.getOutVector(BatchUtil.getBottomLeftCorner(selector.position),
+                BatchUtil.getRightTopCorner(selector.position.x + selector.size.x, selector.position.y + selector.size.y, selector.position.z));
     }
 
     /**
@@ -111,10 +114,10 @@ public class MovableCamera extends OrthographicCamera implements Resizeable {
      * Updates visible frame of camera.
      */
     private void updateFrame() {
-        frame.set(position.x - viewportWidth / 2,
-                position.y - viewportHeight / 2,
-                position.x + viewportWidth / 2,
-                position.y + viewportHeight / 2);
+        frame.set(position.x - viewportWidth / 2 + 64,
+                position.y - viewportHeight / 2 + 64,
+                position.x + viewportWidth / 2 - 64,
+                position.y + viewportHeight / 2 - 64);
     }
 
     /**

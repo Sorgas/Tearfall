@@ -113,8 +113,8 @@ public class LocalMap implements ModelComponent, Initable {
     }
 
     public void normalizeRectangle(Position position, int width, int height) {
-        position.x = Math.min(Math.max(0, position.x), xSize - width);
-        position.y = Math.min(Math.max(0, position.y), ySize - height);
+        position.x = Math.min(Math.max(0, position.x), xSize - width - 1);
+        position.y = Math.min(Math.max(0, position.y), ySize - height - 1);
         position.z = Math.min(Math.max(0, position.z), zSize - 1);
     }
 

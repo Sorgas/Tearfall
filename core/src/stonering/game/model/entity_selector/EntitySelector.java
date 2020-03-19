@@ -6,7 +6,8 @@ import stonering.util.geometry.IntVector2;
 import stonering.util.geometry.Position;
 
 /**
- * Players 'mouse' in the game. Selects objects on local map. Moved by mouse or WASDRF. 
+ * Players 'mouse' in the game. Selects objects on local map. Moved by mouse or WASDRF.
+ * Has size that can be larger than 1 tile.
  * When is moved by mouse sprite is not shown.
  * Selector can have tool selected (like designating digging) for creating in-game orders (tools implemented with {@link Aspect}).
  * Selector can have additional sprite to indicate whether position suits for building or not.
@@ -16,9 +17,9 @@ import stonering.util.geometry.Position;
  */
 public class EntitySelector extends Entity {
     public final IntVector2 size;
-    
+
     public EntitySelector(Position position) {
         super(position);
-        size = new IntVector2(1, 1);
+        size = new IntVector2(0, 0);
     }
 }

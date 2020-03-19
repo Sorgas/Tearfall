@@ -51,7 +51,7 @@ public class MapEntitySelectStage extends UiStage {
     private List<Entity> collectEntities(Int3dBounds box) {
         List<Entity> entities = new ArrayList<>();
         GameModel model = GameMvc.instance().model();
-        box.iterator.accept(position -> {
+        box.iterate(position -> {
             entities.add(model.get(BuildingContainer.class).getBuiding(position));
             entities.add(model.get(PlantContainer.class).getPlantInPosition(position));
             entities.addAll(model.get(ItemContainer.class).getItemsInPosition(position));

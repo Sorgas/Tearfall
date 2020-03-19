@@ -62,10 +62,9 @@ public class BatchUtil {
     }
 
     /**
-     * @param position model position.
      * @return Coordinates of right top corner of sprite.
      */
-    public static Vector2 getRightTopCorner(Position position) {
-        return new Vector2(getBatchX(position.x + 1) - 1, getBatchY(position.y + 1, position.z) - 1);
+    public static Vector2 getRightTopCorner(int x, int y, int z) {
+        return new Vector2(getBatchX(x + 1) - 1, getBatchY(y + 1, z) - 1);
     }
 }

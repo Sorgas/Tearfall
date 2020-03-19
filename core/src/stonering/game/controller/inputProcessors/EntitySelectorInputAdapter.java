@@ -48,9 +48,11 @@ public class EntitySelectorInputAdapter extends EnableableInputAdapter {
         public boolean keyDown(int keycode) {
             switch (keycode) {
                 case Input.Keys.E:
+                    System.out.println("handling 3");
                     system.inputHandler.startSelection();
                     return true;
                 case Input.Keys.Q:
+                    System.out.println("handling q");
                     system.inputHandler.cancelSelection();
                     return true;
                 case Input.Keys.T:

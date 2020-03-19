@@ -5,9 +5,6 @@ import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.aspect.BoxSelectionAspect;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
-import stonering.util.global.Logger;
-
-import javax.annotation.Nullable;
 
 import static com.badlogic.gdx.Input.Keys.*;
 
@@ -22,6 +19,7 @@ public class EntitySelectorInputHandler {
     private BoxSelectionAspect box;
     private Position cachePosition = new Position();
     public boolean allowChangingZLevelOnSelection = true;
+    public int shiftOffset = 10;
 
     public EntitySelectorInputHandler(EntitySelectorSystem system) {
         this.system = system;
@@ -33,11 +31,11 @@ public class EntitySelectorInputHandler {
      * Starts box in selector's position. Commits it if box selection is disabled.
      */
     public void startSelection() {
-        if(box.boxStart != null) {
+        if (box.boxStart != null) {
             commitSelection(); // finish started selection
         } else {
             box.boxStart = selector.position.clone(); // start box
-            if (!box.enabled) commitSelection(); // end selection with single tile box
+            if (!box.boxEnabled) commitSelection(); // end selection with single tile box
         }
     }
 
@@ -55,19 +53,22 @@ public class EntitySelectorInputHandler {
      * If box start is clear, calls cancellation in system for resetting tool.
      */
     public void cancelSelection() {
-        if(box.boxStart == null) {
+        System.out.println("cancelling");
+        if (box.boxStart == null) {
+            System.out.println("null");
             system.handleCancel();
         } else {
+            System.out.println("not null");
             box.boxStart = null;
         }
     }
-    
+
     public void setSelectorPosition(Position position) {
         GameMvc.model().get(LocalMap.class).normalizePosition(selector.position.set(position.x, position.y, position.z));
     }
 
     public boolean moveByKey(int keycode) {
-        int offset = Gdx.input.isKeyPressed(SHIFT_LEFT) ? 10 : 1;
+        int offset = Gdx.input.isKeyPressed(SHIFT_LEFT) ? shiftOffset : 1;
         boolean noSelection = selector.get(BoxSelectionAspect.class).boxStart == null;
         switch (keycode) {
             case W:
@@ -92,6 +93,9 @@ public class EntitySelectorInputHandler {
         return false;
     }
 
+    /**
+     * For moving diagonally when to keys are pressed.
+     */
     public boolean secondaryMove(int keycode) { // same z-level only
         switch (keycode) {
             case W:
@@ -107,22 +111,27 @@ public class EntitySelectorInputHandler {
         return true;
     }
 
+    /**
+     * General logic for moving selector. Selector can move to any position within map(considering selector size), see {@link LocalMap#normalizeRectangle}.
+     * When box started, selector can move by number of tiles, multiple to selector size.
+     */
     public void moveSelector(int dx, int dy, int dz) {
-        BoxSelectionAspect box = selector.get(BoxSelectionAspect.class);
-        cachePosition.set(selector.position);
         LocalMap map = GameMvc.model().get(LocalMap.class);
-        if (box.boxStart != null) { // box size should always stay multiple to selector size
-            if(selector.size.x > 0) dx = defineMoveDelta(selector.size.x, dx); // update delta for non 1-tile selector
-            if(selector.size.y > 0) dy = defineMoveDelta(selector.size.y, dy);
-            // move selector if it will stay within map
-            if(map.inMap(selector.position.x + dx, selector.position.y, selector.position.z + dz)) selector.position.add(dx, dy, dz);
-        } else { // regular move to any position
-            map.normalizeRectangle(selector.position.add(dx, dy, dz), selector.size.x, selector.size.y);
+        cachePosition.set(selector.position);
+        if (box.boxStart != null) {
+            if (selector.size.x > 0) dx = defineMoveDelta(dx, selector.size.x); // update delta for non 1-tile selector and non 1-tile move
+            if (selector.size.y > 0) dy = defineMoveDelta(dy, selector.size.y);
         }
-        if (!cachePosition.equals(selector.position)) system.selectorMoved();
+        selector.position.add(dx, dy, dz);
+        map.normalizeRectangle(selector.position, selector.size.x, selector.size.y); // selector should not move out of map
+        if (!cachePosition.equals(selector.position)) system.selectorMoved(); // updates if selector did move
     }
 
-    public int defineMoveDelta(int size, int delta) {
-        return (delta / size + (int) Math.signum(delta)) * size;
+    public int defineMoveDelta(int delta, int size) {
+        if (delta == 0) return 0;
+        size += 1;
+        return size * (delta > 0
+                ? (delta - 1) / size + 1
+                : (delta + 1) / size - 1);
     }
 }

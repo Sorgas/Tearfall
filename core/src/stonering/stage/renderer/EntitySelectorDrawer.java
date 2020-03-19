@@ -5,7 +5,6 @@ import stonering.entity.RenderAspect;
 import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.EntitySelector;
 import stonering.game.model.entity_selector.aspect.BoxSelectionAspect;
-import stonering.game.model.entity_selector.aspect.SelectionAspect;
 import stonering.game.model.entity_selector.EntitySelectorSystem;
 import stonering.util.geometry.Int3dBounds;
 import stonering.util.geometry.Position;
@@ -22,11 +21,13 @@ import static stonering.stage.renderer.AtlasesEnum.ui_tiles;
  * @author Alexander on 06.02.2019.
  */
 public class EntitySelectorDrawer extends Drawer {
+    private Position cachePosition;
     private Int3dBounds bounds;
 
     public EntitySelectorDrawer(SpriteDrawingUtil spriteDrawingUtil, ShapeDrawingUtil shapeDrawingUtil) {
         super(spriteDrawingUtil, shapeDrawingUtil);
         bounds = new Int3dBounds();
+        cachePosition = new Position(); 
     }
 
     public void render() {
@@ -41,12 +42,19 @@ public class EntitySelectorDrawer extends Drawer {
         spriteUtil.drawSprite(region, selector.position.toVector3());
     }
 
+    private void defineBounds(EntitySelector selector) {
+        BoxSelectionAspect box = selector.get(BoxSelectionAspect.class);
+        bounds.set(selector.position, cachePosition.set(selector.position).add(selector.size));
+        bounds.extendTo(box.boxStart);
+        bounds.extendTo(cachePosition.set(box.boxStart).add(selector.size));
+    }
+    
     private void drawFrame(EntitySelector selector) {
         BoxSelectionAspect box = selector.get(BoxSelectionAspect.class);
         if (box.boxStart == null) return;
-        bounds.set(box.boxStart, selector.position);
+        defineBounds(selector);
         bounds.maxZ = selector.position.z;
-        bounds.iterator.accept(pos -> {
+        bounds.iterate(pos -> {
             if (pos.y == bounds.maxY && pos.z == bounds.maxZ) drawSprite(0, pos);
             if (pos.y == bounds.minY && pos.z == bounds.maxZ) drawSprite(1, pos);
             if (pos.x == bounds.minX && pos.z == bounds.maxZ) drawSprite(2, pos);
