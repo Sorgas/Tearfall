@@ -34,7 +34,7 @@ public class DesignateBuildingSelectionTool extends SelectionTool {
     private Blueprint blueprint;
     private BuildingType type;
     private OrientationEnum orientation;
-    private PositionValidator validator;
+    public PositionValidator validator;
 
     public void resetFor(Blueprint blueprint) {
         this.blueprint = blueprint;

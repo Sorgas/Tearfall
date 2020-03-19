@@ -1,13 +1,18 @@
 package stonering.stage.renderer;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.utils.Selection;
 import stonering.entity.RenderAspect;
 import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.EntitySelector;
 import stonering.game.model.entity_selector.aspect.BoxSelectionAspect;
 import stonering.game.model.entity_selector.EntitySelectorSystem;
+import stonering.game.model.entity_selector.aspect.SelectionAspect;
+import stonering.game.model.entity_selector.tool.SelectionTool;
 import stonering.util.geometry.Int3dBounds;
 import stonering.util.geometry.Position;
+import stonering.util.validation.PositionValidator;
 
 import static stonering.stage.renderer.AtlasesEnum.ui_tiles;
 
@@ -23,16 +28,20 @@ import static stonering.stage.renderer.AtlasesEnum.ui_tiles;
 public class EntitySelectorDrawer extends Drawer {
     private Position cachePosition;
     private Int3dBounds bounds;
+    private Color INVALID = new Color(1, 0.8f, 0.8f, 0.5f);
+    private Color VALID = new Color(0.8f, 1, 0.8f, 0.5f);
 
     public EntitySelectorDrawer(SpriteDrawingUtil spriteDrawingUtil, ShapeDrawingUtil shapeDrawingUtil) {
         super(spriteDrawingUtil, shapeDrawingUtil);
         bounds = new Int3dBounds();
-        cachePosition = new Position(); 
+        cachePosition = new Position();
     }
 
     public void render() {
-        drawSelector(GameMvc.model().get(EntitySelectorSystem.class).selector);
-        drawFrame(GameMvc.model().get(EntitySelectorSystem.class).selector);
+        EntitySelector selector = GameMvc.model().get(EntitySelectorSystem.class).selector;
+        drawValidationBackground(selector);
+        drawSelector(selector);
+        drawFrame(selector);
     }
 
     public void drawSelector(EntitySelector selector) {
@@ -42,13 +51,25 @@ public class EntitySelectorDrawer extends Drawer {
         spriteUtil.drawSprite(region, selector.position.toVector3());
     }
 
+    private void drawValidationBackground(EntitySelector selector) {
+        PositionValidator validator = selector.get(SelectionAspect.class).tool.validator;
+        if(validator == null) return;
+        for (int x = selector.position.x; x <= selector.position.x + selector.size.x; x++) {
+            for (int y = selector.position.y; y <= selector.position.y + selector.size.y; y++) {
+                cachePosition.set(x, y, selector.position.z);
+                spriteUtil.setColor(validator.apply(cachePosition) ? VALID : INVALID);
+                drawSprite(10, cachePosition); // top side transparent background
+            }
+        }
+    }
+
     private void defineBounds(EntitySelector selector) {
         BoxSelectionAspect box = selector.get(BoxSelectionAspect.class);
         bounds.set(selector.position, cachePosition.set(selector.position).add(selector.size));
         bounds.extendTo(box.boxStart);
         bounds.extendTo(cachePosition.set(box.boxStart).add(selector.size));
     }
-    
+
     private void drawFrame(EntitySelector selector) {
         BoxSelectionAspect box = selector.get(BoxSelectionAspect.class);
         if (box.boxStart == null) return;

@@ -78,6 +78,10 @@ public class SpriteDrawingUtil {
         resetColor();
     }
 
+    public void setColor(Color color) {
+        batch.setColor(color);
+    }
+    
     public void resetColor() {
         batch.setColor(batchColor);
     }

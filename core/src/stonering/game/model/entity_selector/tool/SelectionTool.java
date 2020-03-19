@@ -7,15 +7,18 @@ import stonering.game.model.entity_selector.EntitySelectorSystem;
 import stonering.game.model.entity_selector.aspect.SelectionAspect;
 import stonering.util.geometry.Int3dBounds;
 import stonering.util.geometry.RotationUtil;
+import stonering.util.validation.PositionValidator;
 
 /**
  * Tool, that provide some logic to {@link EntitySelector}.
+ * Validator can be defined to add validation to both rendering and applying tool.
  *
  * @author Alexander on 16.03.2020.
  */
 public abstract class SelectionTool {
     private EntitySelector selector;
     protected OrientationEnum orientation;
+    public PositionValidator validator;  
     
     public abstract void handleSelection(Int3dBounds bounds); // called once for the whole selection box
 
