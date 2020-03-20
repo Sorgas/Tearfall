@@ -10,26 +10,6 @@
     "name": "default_icon:down",
     "texture": "ui_back.png",
     "bounds": [0, 30, 0, 30]
-}, {
-    "name": "order_status_icon:open",
-    "texture": "icons.png",
-    "bounds": [0, 0, 32, 32]
-}, {
-    "name": "order_status_icon:active",
-    "texture": "icons.png",
-    "bounds": [32, 0, 32, 32]
-}, {
-    "name": "order_status_icon:paused",
-    "texture": "icons.png",
-    "bounds": [64, 0, 32, 32]
-}, {
-    "name": "order_status_icon:suspended",
-    "texture": "icons.png",
-    "bounds": [32, 0, 32, 32]
-}, {
-    "name": "order_selection:focused",
-    "texture": "icons.png",
-    "bounds": [0, 32, 60, 16]
 },{
     "name": "default",
     "texture": "ui_back.png",
@@ -38,5 +18,13 @@
     "name": "default:focused",
     "texture": "ui_back.png",
     "bounds": [0, 30, 30, 30]
+}, {
+    "name": "selector_validation:valid",
+    "texture": "ui_tile.png",
+    "bounds": [0, 30, 30, 30] // todo green tile
+}, {
+    "name": "selector_validation:invalid",
+    "texture": "ui_tile.png",
+    "bounds": [0, 30, 30, 30] // todo red tile
 }
 ]

@@ -40,9 +40,13 @@ public class SpriteDrawingUtil {
      * Draws sprite by vector. Values can be fractional, sprite will be rendered between cells.
      */
     public void drawSprite(TextureRegion sprite, Vector3 vector) {
-        batch.draw(sprite, getBatchX(vector.x), getBatchY(vector.y, vector.z));
+        drawSprite(sprite, vector.x, vector.y, vector.z);
     }
 
+    public void drawSprite(TextureRegion sprite, float x, float y, float z) {
+        batch.draw(sprite, getBatchX(x), getBatchY(y, z));
+    }
+    
     public void drawScale(TextureRegion sprite, Position position, int width, int height) {
         batch.draw(sprite, getBatchX(position.x), getBatchY(position.y, position.z), width, height);
     }

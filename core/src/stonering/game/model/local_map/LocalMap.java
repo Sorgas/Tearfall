@@ -9,7 +9,6 @@ import stonering.game.model.system.ModelComponent;
 import stonering.game.model.system.plant.PlantContainer;
 import stonering.game.model.system.substrate.SubstrateContainer;
 import stonering.game.model.tilemaps.LocalTileMapUpdater;
-import stonering.util.geometry.IntVector2;
 import stonering.util.geometry.Position;
 import stonering.util.global.Initable;
 import stonering.util.global.Logger;
@@ -107,17 +106,20 @@ public class LocalMap implements ModelComponent, Initable {
     public boolean isBorder(Position position) {
         return isBorder(position.x, position.y);
     }
-
+    
     public void normalizePosition(Position position) {
-        normalizeRectangle(position, 1, 1);
-    }
-
-    public void normalizeRectangle(Position position, int width, int height) {
-        position.x = Math.min(Math.max(0, position.x), xSize - width - 1);
-        position.y = Math.min(Math.max(0, position.y), ySize - height - 1);
+        position.x = Math.min(Math.max(0, position.x), xSize - 1);
+        position.y = Math.min(Math.max(0, position.y), ySize - 1);
         position.z = Math.min(Math.max(0, position.z), zSize - 1);
     }
 
+    /**
+     * Checks that given rectangle is fully in map.
+     */
+    public boolean rectangleInMap(Position position, int width, int height) {
+        return inMap(position) && inMap(position.x + width, position.y + height, position.z);
+    }
+    
     private void setBlockType(int x, int y, int z, byte type) {
         if (type == BlockTypeEnum.SPACE.CODE) deletePlantsOnDeletedBlock(x, y, z);
         blockType[x][y][z] = type;
@@ -173,10 +175,6 @@ public class LocalMap implements ModelComponent, Initable {
     public boolean isFlyPassable(int x, int y, int z) {
         //TODO
         return inMap(x, y, z) && BlockTypeEnum.getType(getBlockType(x, y, z)).PASSING != IMPASSABLE;
-    }
-
-    public byte getTemperature(int x, int y, int z) {
-        return temperature[x][y][z];
     }
 
     public int getMaterial(Position pos) {

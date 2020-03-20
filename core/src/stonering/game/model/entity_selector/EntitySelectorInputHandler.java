@@ -109,25 +109,24 @@ public class EntitySelectorInputHandler {
     }
 
     /**
-     * General logic for moving selector. Selector can move to any position within map(considering selector size), see {@link LocalMap#normalizeRectangle}.
+     * General logic for moving selector. Selector can move to any position within map(considering selector size).
      * When box started, selector can move by number of tiles, multiple to selector size.
      */
     public void moveSelector(int dx, int dy, int dz) {
         LocalMap map = GameMvc.model().get(LocalMap.class);
-        cachePosition.set(selector.position);
         if (box.boxStart != null) {
-            if (selector.size.x > 0) dx = defineMoveDelta(dx, selector.size.x); // update delta for non 1-tile selector and non 1-tile move
-            if (selector.size.y > 0) dy = defineMoveDelta(dy, selector.size.y);
+            if (selector.size.x > 1) dx = defineMoveDelta(dx, selector.size.x); // update delta for non 1-tile selector and non 1-tile move
+            if (selector.size.y > 1) dy = defineMoveDelta(dy, selector.size.y);
         }
-        selector.position.add(dx, dy, dz);
-        map.normalizeRectangle(selector.position, selector.size.x, selector.size.y); // selector should not move out of map
-        if (!cachePosition.equals(selector.position)) system.selectorMoved(); // updates if selector did move
+        cachePosition.set(selector.position).add(dx, dy, dz);
+        if(!map.inMap(cachePosition) || !map.inMap(selector.getOppositePosition())) return; // no move, if moved out of map
+        selector.position.set(cachePosition); // move selector
+        system.selectorMoved();
     }
 
     public int defineMoveDelta(int delta, int size) {
         if (delta == 0) return 0;
-        size += 1;
-        return size * (delta > 0
+        return size * (delta > 0 // how many times size 'fit' in delta
                 ? (delta - 1) / size + 1
                 : (delta + 1) / size - 1);
     }
