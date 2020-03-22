@@ -1,10 +1,7 @@
 package stonering.stage.building;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.entity.building.BuildingOrder;
 import stonering.entity.crafting.IngredientOrder;
@@ -15,6 +12,7 @@ import stonering.game.model.system.task.TaskContainer;
 import stonering.util.geometry.Position;
 import stonering.util.global.StaticSkin;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -35,7 +33,6 @@ public class BuildingMaterialSelectMenu extends Window {
     public final Label hintLabel;
     public final TextButton cancelButton;
     public final TextButton confirmButton;
-
     List<Position> positions;
 
     public BuildingMaterialSelectMenu(Blueprint blueprint, List<Position> positions) {
@@ -75,6 +72,10 @@ public class BuildingMaterialSelectMenu extends Window {
         };
         leftSection.group.setSelectedIndex(0);
         setDebug(true, true);
+    }
+
+    public BuildingMaterialSelectMenu(Blueprint blueprint, Position position) {
+        this(blueprint, Collections.singletonList(position));
     }
 
     private BuildingOrder createOrder(Blueprint blueprint, Position position) {

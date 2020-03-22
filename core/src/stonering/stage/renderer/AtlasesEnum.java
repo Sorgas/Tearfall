@@ -20,7 +20,7 @@ import java.util.Map;
  */
 public enum AtlasesEnum {
     blocks(new Texture("sprites/blocks.png"), true, 64, 64, 32, 6), // regular map blocks
-    ui_tiles(new Texture("sprites/ui_tiles.png"), true, 64, 64, 32, 6), // frame, selector, zones TODO move designation to icons
+    ui_tiles(new Texture("sprites/ui_tiles.png"), false, 64, 64, 32, 0), // frame, selector, zones TODO move designation to icons
     substrates(new Texture("sprites/substrates.png"), true, 64, 64, 32, 6), // flat plants like mosses TODO remove toppings
     liquids(new Texture("sprites/liquids.png"), true, 64, 64, 32, 6),
     plants(new Texture("sprites/plants.png"), false, 64, 64, 32, 0), // all trees is plants TODO remove toppings
@@ -67,7 +67,7 @@ public enum AtlasesEnum {
                 x * WIDTH,
                 y * FULL_TILE_HEIGHT + (hasToppings ? TOPPING_BLOCK_HEIGHT : 0), // consider toppings or not
                 WIDTH * width,
-                DEPTH * height + HEIGHT));
+                BLOCK_HEIGHT * height));
         return spriteCache.get(key);
     }
 

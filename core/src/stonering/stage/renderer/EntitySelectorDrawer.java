@@ -53,21 +53,22 @@ public class EntitySelectorDrawer extends Drawer {
 
     private void drawValidationBackground(EntitySelector selector) {
         PositionValidator validator = selector.get(SelectionAspect.class).tool.validator;
-        if(validator == null) return;
-        for (int x = selector.position.x; x <= selector.position.x + selector.size.x; x++) {
-            for (int y = selector.position.y; y <= selector.position.y + selector.size.y; y++) {
+        if (validator == null) return;
+        for (int x = selector.position.x; x < selector.position.x + selector.size.x; x++) {
+            for (int y = selector.position.y; y < selector.position.y + selector.size.y; y++) {
                 cachePosition.set(x, y, selector.position.z);
                 spriteUtil.setColor(validator.apply(cachePosition) ? VALID : INVALID);
-                drawSprite(10, cachePosition); // top side transparent background
+                spriteUtil.drawSprite(ui_tiles.getBlockTile(0, 3), ui_tiles, cachePosition);
             }
         }
     }
 
     private void defineBounds(EntitySelector selector) {
         BoxSelectionAspect box = selector.get(BoxSelectionAspect.class);
-        bounds.set(selector.position, cachePosition.set(selector.position).add(selector.size));
+        Position pos = selector.position;
+        bounds.set(pos, cachePosition.set(pos).add(selector.size.x - 1, selector.size.y - 1, 0)); // size of selector itself
         bounds.extendTo(box.boxStart);
-        bounds.extendTo(cachePosition.set(box.boxStart).add(selector.size));
+        bounds.extendTo(cachePosition.set(box.boxStart).add(selector.size.x - 1, selector.size.y - 1, 0));
     }
 
     private void drawFrame(EntitySelector selector) {

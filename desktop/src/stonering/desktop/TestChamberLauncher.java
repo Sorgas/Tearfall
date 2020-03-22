@@ -20,8 +20,8 @@ public class TestChamberLauncher {
 
     public static void main(String[] arg) throws LWJGLException {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-        config.width = 800;
-        config.height = 600;
+        config.width = 1920;
+        config.height = 1080;
         config.title = "TearFall";
         config.foregroundFPS = 30;
         Game game = new TestChamberGame();

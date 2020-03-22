@@ -65,10 +65,10 @@
     "description": "",
     "aspects": [["workbench"], ["item_container", "solid", "100"]],
     "parts": ["table"],
-    "size": [2, 2],
-    "passage": "ooXX",
+    "size": [2, 1],
+    "passage": "XX",
     "sprites": [
-        [0, 0], [2, 0], [4, 0], [6, 0]
+        [0, 0], [0, 1], [2, 0], [3, 0]
     ],
     "atlasXY": [0, 0]
 }, {

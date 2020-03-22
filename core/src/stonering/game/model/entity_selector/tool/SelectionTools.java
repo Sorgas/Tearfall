@@ -9,5 +9,5 @@ public class SelectionTools {
     public static final DesignateBuildingSelectionTool BUILDING = new DesignateBuildingSelectionTool();
     public static final ZoneSelectionTool ZONE = new ZoneSelectionTool();
     public static final ZoneUpdateSelectionTool ZONE_UPDATE = new ZoneUpdateSelectionTool();
-
+    public static final ConstructionDesignationTool CONSTRUCTION = new ConstructionDesignationTool();
 }

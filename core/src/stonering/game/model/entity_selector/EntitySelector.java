@@ -20,6 +20,6 @@ public class EntitySelector extends Entity {
 
     public EntitySelector(Position position) {
         super(position);
-        size = new IntVector2(0, 0);
+        size = new IntVector2(1, 1);
     }
 }
