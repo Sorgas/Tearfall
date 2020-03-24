@@ -1,5 +1,6 @@
 package stonering.util.geometry;
 
+import com.sun.istack.NotNull;
 import stonering.enums.OrientationEnum;
 
 import static stonering.enums.OrientationEnum.*;
@@ -22,7 +23,7 @@ public class RotationUtil {
         }
     }
 
-    public static OrientationEnum rotate(OrientationEnum orientation, boolean clockwise) {
+    public static OrientationEnum rotate(@NotNull OrientationEnum orientation, boolean clockwise) {
         switch (orientation) {
             case N:
                 orientation = clockwise ? E : W;

@@ -1,5 +1,7 @@
 package stonering.game.model.entity_selector.tool;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import stonering.entity.RenderAspect;
 import stonering.enums.buildings.BuildingType;
 import stonering.enums.buildings.BuildingTypeMap;
@@ -43,6 +45,9 @@ public class DesignateBuildingSelectionTool extends SelectionTool {
 
     @Override
     public void handleSelection(Int3dBounds bounds) {
+        if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
+            // TODO add multiple buildings
+        }
         new SingleWindowStage<>(new BuildingMaterialSelectMenu(blueprint, Collections.singletonList(selector().position)), true).show();
     }
 

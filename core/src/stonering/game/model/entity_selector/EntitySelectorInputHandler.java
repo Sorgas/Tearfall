@@ -60,31 +60,27 @@ public class EntitySelectorInputHandler {
         }
     }
 
-    public void setSelectorPosition(Position position) {
-        GameMvc.model().get(LocalMap.class).normalizePosition(selector.position.set(position.x, position.y, position.z));
-    }
-
     public boolean moveByKey(int keycode) {
         int offset = Gdx.input.isKeyPressed(SHIFT_LEFT) ? shiftOffset : 1;
         boolean noSelection = selector.get(BoxSelectionAspect.class).boxStart == null;
         switch (keycode) {
             case W:
-                moveSelector(0, offset, 0);
+                system.moveSelector(0, offset, 0);
                 return true;
             case A:
-                moveSelector(-offset, 0, 0);
+                system.moveSelector(-offset, 0, 0);
                 return true;
             case S:
-                moveSelector(0, -offset, 0);
+                system.moveSelector(0, -offset, 0);
                 return true;
             case D:
-                moveSelector(offset, 0, 0);
+                system.moveSelector(offset, 0, 0);
                 return true;
             case R:
-                if (noSelection || allowChangingZLevelOnSelection) moveSelector(0, 0, 1);
+                if (noSelection || allowChangingZLevelOnSelection) system.moveSelector(0, 0, 1);
                 return true;
             case F:
-                if (noSelection || allowChangingZLevelOnSelection) moveSelector(0, 0, -1);
+                if (noSelection || allowChangingZLevelOnSelection) system.moveSelector(0, 0, -1);
                 return true;
         }
         return false;
@@ -106,29 +102,5 @@ public class EntitySelectorInputHandler {
                 if (Gdx.input.isKeyPressed(S)) moveByKey(S);
         }
         return true;
-    }
-
-    /**
-     * General logic for moving selector. Selector can move to any position within map(considering selector size), see {@link LocalMap#normalizeRectangle}.
-     * When box started, selector can move by number of tiles, multiple to selector size.
-     */
-    public void moveSelector(int dx, int dy, int dz) {
-        LocalMap map = GameMvc.model().get(LocalMap.class);
-        cachePosition.set(selector.position);
-        if (box.boxStart != null) {
-            if (selector.size.x > 0) dx = defineMoveDelta(dx, selector.size.x); // update delta for non 1-tile selector and non 1-tile move
-            if (selector.size.y > 0) dy = defineMoveDelta(dy, selector.size.y);
-        }
-        selector.position.add(dx, dy, dz);
-        map.normalizeRectangle(selector.position, selector.size.x, selector.size.y); // selector should not move out of map
-        if (!cachePosition.equals(selector.position)) system.selectorMoved(); // updates if selector did move
-    }
-
-    public int defineMoveDelta(int delta, int size) {
-        if (delta == 0) return 0;
-        size += 1;
-        return size * (delta > 0
-                ? (delta - 1) / size + 1
-                : (delta + 1) / size - 1);
     }
 }

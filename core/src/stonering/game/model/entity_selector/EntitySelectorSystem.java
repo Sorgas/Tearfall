@@ -23,6 +23,7 @@ import stonering.util.global.Logger;
 public class EntitySelectorSystem implements ModelComponent {
     public final EntitySelector selector;
     public final EntitySelectorInputHandler inputHandler;
+    private final Position cachePosition;
 
     public EntitySelectorSystem() {
         selector = new EntitySelector(new Position());
@@ -30,6 +31,7 @@ public class EntitySelectorSystem implements ModelComponent {
         selector.add(new BoxSelectionAspect(selector));
         selector.add(new RenderAspect(selector, 0, 2, AtlasesEnum.ui_tiles));
         inputHandler = new EntitySelectorInputHandler(this);
+        cachePosition = new Position();
     }
 
     public void handleSelection() {
@@ -49,14 +51,25 @@ public class EntitySelectorSystem implements ModelComponent {
     }
 
     public void rotateSelector(boolean clockwise) {
-        Logger.UI.logDebug("rotating selector " + (clockwise ? "" : "counter") + " clockwise");
         selector.get(SelectionAspect.class).tool.rotate(clockwise);
+        setSelectorPosition(selector.position);
     }
 
     private void updateRender() {
         
     }
     
+    public void moveSelector(int dx, int dy, int dz) {
+        setSelectorPosition(cachePosition.set(selector.position).add(dx, dy, dz));
+    }
+
+    public void setSelectorPosition(Position position) {
+        GameMvc.model().get(LocalMap.class).normalizeRectangle(position, selector.size.x, selector.size.y); // selector should not move out of map
+        if(position.equals(selector.position)) return; // no move happens
+        selector.position.set(position);
+        selectorMoved(); // updates if selector did move
+    }
+
     public void placeSelectorAtMapCenter() {
         LocalMap localMap = GameMvc.model().get(LocalMap.class);
         selector.position.x = localMap.xSize / 2;

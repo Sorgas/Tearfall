@@ -9,6 +9,7 @@ import stonering.game.model.entity_selector.EntitySelector;
 import stonering.game.model.entity_selector.aspect.BoxSelectionAspect;
 import stonering.game.model.entity_selector.EntitySelectorInputHandler;
 import stonering.game.model.entity_selector.EntitySelectorSystem;
+import stonering.game.model.entity_selector.aspect.SelectionAspect;
 import stonering.stage.renderer.AtlasesEnum;
 import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
@@ -54,7 +55,8 @@ public class EntitySelectorInputAdapter extends EnableableInputAdapter {
                     system.inputHandler.cancelSelection();
                     return true;
                 case Input.Keys.T:
-                    system.rotateSelector(!Gdx.input.isKeyPressed(SHIFT_LEFT)); // counter clockwise with Shift + T
+                    system.rotateSelector(!Gdx.input.isKeyPressed(SHIFT_LEFT)); // co unter clockwise with Shift + T
+
                 default: // move selector if navigation key is pressed
                     return system.inputHandler.moveByKey(keycode);
             }
@@ -63,24 +65,25 @@ public class EntitySelectorInputAdapter extends EnableableInputAdapter {
         @Override
         public boolean keyTyped(char character) {
             int keycode = charToKeycode(character);
+            if(keycode == Input.Keys.T) system.rotateSelector(!Gdx.input.isKeyPressed(SHIFT_LEFT)); // co unter clockwise with Shift + T
             return system.inputHandler.moveByKey(keycode) && system.inputHandler.secondaryMove(keycode); // supports diagonal move when two keys are pressed
         }
 
         @Override
         public boolean scrolled(int amount) {
-            system.inputHandler.moveSelector(0, 0, amount);
+            system.moveSelector(0, 0, amount);
             return true;
         }
 
         @Override
         public boolean mouseMoved(int screenX, int screenY) {
-            system.inputHandler.setSelectorPosition(castScreenToModelCoords(screenX, screenY));
+            system.setSelectorPosition(castScreenToModelCoords(screenX, screenY));
             return true;
         }
 
         @Override
         public boolean touchDragged(int screenX, int screenY, int pointer) {
-            system.inputHandler.setSelectorPosition(castScreenToModelCoords(screenX, screenY));
+            system.setSelectorPosition(castScreenToModelCoords(screenX, screenY));
             return true;
         }
 

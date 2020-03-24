@@ -27,7 +27,7 @@ public abstract class SelectionTool {
     }
 
     public void rotate(boolean clockwise) {
-        orientation = RotationUtil.rotate(orientation, clockwise);
+        if(orientation != null) orientation = RotationUtil.rotate(orientation, clockwise);
     } // should be overridden for tools with rotation
 
     protected EntitySelector selector() {

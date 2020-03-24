@@ -1,6 +1,9 @@
 package stonering.stage.building;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.entity.building.BuildingOrder;
@@ -12,7 +15,6 @@ import stonering.game.model.system.task.TaskContainer;
 import stonering.util.geometry.Position;
 import stonering.util.global.StaticSkin;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -42,10 +44,11 @@ public class BuildingMaterialSelectMenu extends Window {
         add(leftSection = new LeftSection(this, blueprint, positions.size(), positions.get(0))).size(300, 800);
         add(rightSection = new RightSection(this)).height(800).fill().expand().row();
         add(hintLabel = new Label("", StaticSkin.getSkin())).colspan(2).expandX().fillX().row();
-        HorizontalGroup buttonGroup = new HorizontalGroup();
-        buttonGroup.addActor(confirmButton = new TextButton("Confirm", StaticSkin.getSkin()));
-        buttonGroup.addActor(cancelButton = new TextButton("Cancel", StaticSkin.getSkin()));
-        add(buttonGroup).colspan(2);
+        Table buttonTable = new Table();
+        buttonTable.center().pad(10);
+        buttonTable.add(confirmButton = new TextButton("Confirm", StaticSkin.getSkin())).size(200, 20);
+        buttonTable.add(cancelButton = new TextButton("Q: Cancel", StaticSkin.getSkin())).size(100, 20);
+        add(buttonTable).colspan(2).fill().center();
         cancelButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -72,10 +75,18 @@ public class BuildingMaterialSelectMenu extends Window {
         };
         leftSection.group.setSelectedIndex(0);
         setDebug(true, true);
-    }
-
-    public BuildingMaterialSelectMenu(Blueprint blueprint, Position position) {
-        this(blueprint, Collections.singletonList(position));
+        addListener(new InputListener() {
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                switch(keycode) {
+                    case Input.Keys.Q: {
+                        cancelButton.toggle();
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
     }
 
     private BuildingOrder createOrder(Blueprint blueprint, Position position) {
