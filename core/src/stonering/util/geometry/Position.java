@@ -90,6 +90,10 @@ public class Position implements Serializable, Cloneable {
         return set(position.x, position.y, position.z);
     }
 
+    public Position set(Vector3 vector) {
+        return set(Math.round(vector.x), Math.round(vector.y), Math.round(vector.z));
+    }
+
     public Position set(int x, int y, int z) {
         this.x = x;
         this.y = y;
@@ -97,28 +101,15 @@ public class Position implements Serializable, Cloneable {
         return this;
     }
 
-    public Position set(Vector3 vector) {
-        x = Math.round(vector.x);
-        y = Math.round(vector.y);
-        z = Math.round(vector.z);
-        return this;
+    public Position add(IntVector2 vector) {
+        return add(vector.x, vector.y, 0);
     }
-
+    
     public Position add(int dx, int dy, int dz) {
         x += dx;
         y += dy;
         z += dz;
         return this;
-    }
-    
-    public Position add(IntVector2 vector) {
-        x+= vector.x;
-        y+= vector.y;
-        return this;
-    }
-
-    public Vector3 toVector3() {
-        return new Vector3(x, y, z);
     }
 
     @Override
@@ -151,6 +142,10 @@ public class Position implements Serializable, Cloneable {
 
     public Position clone() {
         return new Position(x, y, z);
+    }
+
+    public Vector3 toVector3() {
+        return new Vector3(x, y, z);
     }
 
     public String toString() {

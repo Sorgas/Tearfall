@@ -2,14 +2,12 @@ package stonering.stage.renderer;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.utils.Selection;
 import stonering.entity.RenderAspect;
 import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.EntitySelector;
 import stonering.game.model.entity_selector.aspect.BoxSelectionAspect;
 import stonering.game.model.entity_selector.EntitySelectorSystem;
 import stonering.game.model.entity_selector.aspect.SelectionAspect;
-import stonering.game.model.entity_selector.tool.SelectionTool;
 import stonering.util.geometry.Int3dBounds;
 import stonering.util.geometry.Position;
 import stonering.util.validation.PositionValidator;
@@ -40,18 +38,28 @@ public class EntitySelectorDrawer extends Drawer {
     public void render() {
         EntitySelector selector = GameMvc.model().get(EntitySelectorSystem.class).selector;
         drawValidationBackground(selector);
-        drawSelector(selector);
+        drawSelectorSprites(selector);
         drawFrame(selector);
     }
 
-    public void drawSelector(EntitySelector selector) {
-        BoxSelectionAspect box = selector.get(BoxSelectionAspect.class);
+    /**
+     * Draws sprite defined in selector position. If selection frame exists, it is filled with sprites.
+     */
+    private void drawSelectorSprites(EntitySelector selector) {
+        defineBounds(selector);
         TextureRegion region = selector.get(RenderAspect.class).region;
-        if (region == null || box.boxStart != null) return;
-        spriteUtil.drawSprite(region, selector.position.toVector3());
+        for (int x = bounds.minX; x <= bounds.maxX; x += selector.size.x) {
+            for (int y = bounds.maxY - selector.size.y + 1; y >= bounds.minY; y -= selector.size.y) {
+                spriteUtil.drawSprite(region, x, y, selector.position.z);
+            }
+        }
     }
 
+    /**
+     * Draws background validation tiles for selection area if position validator is specified.
+     */
     private void drawValidationBackground(EntitySelector selector) {
+        //TODO add sprites
         PositionValidator validator = selector.get(SelectionAspect.class).tool.validator;
         if (validator == null) return;
         for (int x = selector.position.x; x < selector.position.x + selector.size.x; x++) {
@@ -94,6 +102,17 @@ public class EntitySelectorDrawer extends Drawer {
             if (pos.z > bounds.minZ && pos.y == bounds.minY) drawSprite(12, pos);
             spriteUtil.updateColorA(1f);
         });
+    }
+
+    /**
+     * Updates bounds to draw in. As selector can have non-1 size, and its position and box start position point to lower left corner of selector.
+     */
+    private void defineBounds(EntitySelector selector) {
+        bounds.set(selector.position, selector.getOppositePosition());
+        BoxSelectionAspect box = selector.get(BoxSelectionAspect.class);
+        if(box.boxStart == null) return;
+        bounds.extendTo(box.boxStart);
+        bounds.extendTo(cachePosition.set(box.boxStart).add(selector.size.x - 1, selector.size.y - 1, 0));
     }
 
     private void drawSprite(int x, Position position) {
