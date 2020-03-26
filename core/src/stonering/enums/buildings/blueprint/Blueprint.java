@@ -26,5 +26,6 @@ public class Blueprint {
         menuPath = rawBlueprint.menuPath;
         parts = new LinkedHashMap<>();
         construction = "construction".equals(placing);
+
     }
 }

@@ -11,6 +11,8 @@ import stonering.util.geometry.Int3dBounds;
 public class DesignationSelectionTool extends SelectionTool {
     public DesignationTypeEnum type;
 
+
+
     @Override
     public void handleSelection(Int3dBounds bounds) {
         TaskContainer container = GameMvc.model().get(TaskContainer.class);

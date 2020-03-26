@@ -38,11 +38,9 @@ public class EntitySelectorInputAdapter extends EnableableInputAdapter {
 
     private static class EntitySelectorInnerAdapter extends InputAdapter {
         private EntitySelectorSystem system;
-        private Position cachePosition;
 
         public EntitySelectorInnerAdapter() {
             system = GameMvc.model().get(EntitySelectorSystem.class);
-            cachePosition = new Position();
         }
 
         @Override

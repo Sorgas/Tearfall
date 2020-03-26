@@ -11,8 +11,6 @@ import java.util.Map;
  * PREPARED - gives bonus on eating. Increased selection priority.
  * Fruits and vegetables have no RAW tag and no penalties on eating. 
  *
- * 
- * 
  * @author Alexander on 02.09.2019.
  */
 public enum ItemTagEnum {
@@ -32,10 +30,10 @@ public enum ItemTagEnum {
 
     BREWABLE(false), // item can be prepared into drink
 
-
     WATER(false),
     CLOTH(false),
-    CRAFTING_MATERIAL(false),
+    CRAFTING_MATERIAL(false), // tag of item type
+    BUILDING_MATERIAL(false), // tag of item type
     DEFAULT_TAG(false);
 
     private static boolean debug = true;

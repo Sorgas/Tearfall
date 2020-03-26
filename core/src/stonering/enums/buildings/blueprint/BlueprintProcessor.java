@@ -25,8 +25,7 @@ public class BlueprintProcessor {
     private Ingredient processIngredient(List<String> args) {
         if (!validateIngredient(args)) return null;
         List<String> itemTypes = Arrays.asList(args.get(0).split("/"));
-        return new Ingredient(itemTypes, args.get(1));
-        //TODO quantity
+        return new Ingredient(itemTypes, args.get(1), Integer.parseInt(args.get(2)));
     }
 
     /**

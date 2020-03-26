@@ -5,10 +5,16 @@
     part format:
         part name from building type,
         accepted item types,
-        accepted tags,
-        quantity
+        required tags(all),
+        material value
 
-    construction buildings point to block type
+    blueprints with 'construction' placing point to block types. buildings are not specified for them.
+
+    show list before place selection
+        count items on whole map / count items on stocks
+        group by material and type
+        add 'any' option
+        save selection
 */
 [
     {
@@ -18,7 +24,7 @@
         "menuPath": ["constructions"],
         "placing": "construction",
         "parts": [
-            ["wall", "log", "wood", "4"]
+            ["wall", "log/plank/bar/rock/brick", "", "80"]
         ]
     }, {
     "name": "build_floor",

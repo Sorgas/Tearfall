@@ -8,6 +8,7 @@ import stonering.game.model.entity_selector.EntitySelector;
 import stonering.game.model.entity_selector.aspect.BoxSelectionAspect;
 import stonering.game.model.entity_selector.EntitySelectorSystem;
 import stonering.game.model.entity_selector.aspect.SelectionAspect;
+import stonering.game.model.entity_selector.tool.SelectionTool;
 import stonering.util.geometry.Int3dBounds;
 import stonering.util.geometry.Position;
 import stonering.util.validation.PositionValidator;
@@ -16,10 +17,10 @@ import static stonering.stage.renderer.AtlasesEnum.ui_tiles;
 
 /**
  * Renders {@link EntitySelector} sprite and frame.
- * Draws sprite only if frame not started.
- * TODO add additional status sprite for selector
+ * Draws selector sprite in selector position. Sprite can be larger than 1 tile. Sprite not drawn if selection frame exists.
+ * Draws selection frame if it exists. Selector size is always 1 when frame started.
+ * Draws validation background if {@link SelectionTool#validator} exists. Validation layer drawn both for frame and single place selection.
  * TODO add landscape dependant rendering
- * TODO support multitile sprites
  *
  * @author Alexander on 06.02.2019.
  */
@@ -74,9 +75,11 @@ public class EntitySelectorDrawer extends Drawer {
     private void defineBounds(EntitySelector selector) {
         BoxSelectionAspect box = selector.get(BoxSelectionAspect.class);
         Position pos = selector.position;
-        bounds.set(pos, cachePosition.set(pos).add(selector.size.x - 1, selector.size.y - 1, 0)); // size of selector itself
-        bounds.extendTo(box.boxStart);
-        bounds.extendTo(cachePosition.set(box.boxStart).add(selector.size.x - 1, selector.size.y - 1, 0));
+        if(box.boxStart != null) { // frame
+            bounds.set(pos, box.boxStart);
+        } else { // single selection
+            bounds.set(pos, cachePosition.set(pos).add(selector.size.x - 1, selector.size.y - 1, 0)); // size of selector itself
+        }
     }
 
     private void drawFrame(EntitySelector selector) {
@@ -102,17 +105,6 @@ public class EntitySelectorDrawer extends Drawer {
             if (pos.z > bounds.minZ && pos.y == bounds.minY) drawSprite(12, pos);
             spriteUtil.updateColorA(1f);
         });
-    }
-
-    /**
-     * Updates bounds to draw in. As selector can have non-1 size, and its position and box start position point to lower left corner of selector.
-     */
-    private void defineBounds(EntitySelector selector) {
-        bounds.set(selector.position, selector.getOppositePosition());
-        BoxSelectionAspect box = selector.get(BoxSelectionAspect.class);
-        if(box.boxStart == null) return;
-        bounds.extendTo(box.boxStart);
-        bounds.extendTo(cachePosition.set(box.boxStart).add(selector.size.x - 1, selector.size.y - 1, 0));
     }
 
     private void drawSprite(int x, Position position) {

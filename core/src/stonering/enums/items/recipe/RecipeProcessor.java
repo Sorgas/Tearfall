@@ -28,7 +28,7 @@ public class RecipeProcessor {
     private Ingredient processIngredient(List<String> args) {
         if (!validateIngredient(args)) return null;
         List<String> itemTypes = Arrays.asList(args.get(0).split("/"));
-        return new Ingredient(itemTypes, args.get(1));
+        return new Ingredient(itemTypes, args.get(1), Integer.parseInt(args.get(2)));
         //TODO quantity
     }
 

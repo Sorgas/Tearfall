@@ -18,6 +18,7 @@ public class RawItemType {
     public String description; // displayable description
     public ToolItemType tool; // is set if this item could be used as tool
     public List<ItemPartType> parts; // defines parts of item. first one is main
+    public List<String> tags; // tags will be copied to items
 
     // first element of lists is aspect name
     public List<String> typeAspects = new ArrayList<>(); // constant aspects. stored in type (value, resource)

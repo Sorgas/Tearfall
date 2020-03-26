@@ -49,7 +49,7 @@ public class SelectedMaterialsWidget extends Table implements ItemButtonWidget {
         buttonMap = new HashMap<>();
         pad(5);
         add(titleLabel = new Label(partName + ":", StaticSkin.getSkin()));
-        add(new Label(ingredient.text, StaticSkin.getSkin())).right().expandX().row();
+        add(new Label("ingredient title here", StaticSkin.getSkin())).right().expandX().row();
         add(quantityLabel = new Label("0 / " + targetNumber, StaticSkin.getSkin())).left().row();
         add(group = new HorizontalGroup().left()).height(SingleItemSquareButton.SIZE).fillX().colspan(2);
         highlightHandler = new HighlightHandler() {
