@@ -23,8 +23,8 @@ public enum AtlasesEnum {
     ui_tiles(new Texture("sprites/ui_tiles.png"), false, 64, 64, 32, 0), // frame, selector, zones TODO move designation to icons
     substrates(new Texture("sprites/substrates.png"), true, 64, 64, 32, 6), // flat plants like mosses TODO remove toppings
     liquids(new Texture("sprites/liquids.png"), true, 64, 64, 32, 6),
-    plants(new Texture("sprites/plants.png"), false, 64, 64, 32, 0), // all trees is plants TODO remove toppings
-    units(new Texture("sprites/units.png"), false, 64, 64, 0, 0), //TODO remove toppings
+    plants(new Texture("sprites/plants.png"), false, 64, 64, 32, 0), // all trees is plants
+    units(new Texture("sprites/units.png"), false, 64, 64, 0, 0),
     buildings(new Texture("sprites/buildings.png"), false, 64, 64, 32, 0), // buildings and furniture
     items(new Texture("sprites/items.png"), false, 32, 32, 0, 0),
     creature_icons(new Texture("sprites/creature_icons.png"), false, 16, 16, 0, 0),
