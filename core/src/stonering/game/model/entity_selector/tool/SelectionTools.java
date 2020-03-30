@@ -6,8 +6,8 @@ package stonering.game.model.entity_selector.tool;
 public class SelectionTools {
     public static final SelectEntitySelectionTool SELECT = new SelectEntitySelectionTool();
     public static final DesignationSelectionTool DESIGNATION = new DesignationSelectionTool();
-    public static final DesignateBuildingSelectionTool BUILDING = new DesignateBuildingSelectionTool();
+    public static final BuildingSelectionTool BUILDING = new BuildingSelectionTool();
     public static final ZoneSelectionTool ZONE = new ZoneSelectionTool();
     public static final ZoneUpdateSelectionTool ZONE_UPDATE = new ZoneUpdateSelectionTool();
-    public static final ConstructionDesignationTool CONSTRUCTION = new ConstructionDesignationTool();
+    public static final ConstructionSelectionTool CONSTRUCTION = new ConstructionSelectionTool();
 }

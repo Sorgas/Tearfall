@@ -1,5 +1,8 @@
 apply plugin: "java"
 
-sourceCompatibility = 1.10
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+dependencies {
+    compile 'com.github.raeleus.TenPatch:tenpatch:5.0.0'
+}
 

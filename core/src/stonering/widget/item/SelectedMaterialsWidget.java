@@ -11,7 +11,6 @@ import stonering.enums.images.DrawableMap;
 import stonering.enums.items.recipe.Ingredient;
 import stonering.stage.building.BuildingMaterialSelectMenu;
 import stonering.util.global.StaticSkin;
-import stonering.widget.Highlightable;
 import stonering.widget.util.HighlightHandler;
 
 import java.util.ArrayList;
@@ -90,11 +89,11 @@ public class SelectedMaterialsWidget extends Table implements ItemButtonWidget {
         List<Item> itemsToMove = new ArrayList<>(button.items.subList(0, numberToDeselect));
         button.items.removeAll(itemsToMove); // remove from button
         button.updateLabel();
-        ItemSelectGrid itemSelectGrid = menu.rightSection.grid;
+        GroupedItemSelectGrid groupedItemSelectGrid = menu.rightSection.grid;
         for (int i = 0; i < itemsToMove.size(); i++) {
             Item item = itemsToMove.get(i);
             item.locked = false;
-            itemSelectGrid.addItem(item);
+            groupedItemSelectGrid.addItem(item);
         }
         updateMenuState(-itemsToMove.size());
     }

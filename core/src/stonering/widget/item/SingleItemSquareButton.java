@@ -47,12 +47,8 @@ public class SingleItemSquareButton extends Button {
         setItem(item);
     }
     
-    protected Container<Actor> wrapWithContainer(Actor actor, int size) {
-        return wrapWithContainer(actor).size(size, size);
-    }
-
-    protected Container<Actor> wrapWithContainer(Actor actor) {
-        return new Container<>(actor);
+    protected <T extends Actor> Container<T> wrapWithContainer(T actor, int size) {
+        return new Container<>(actor).size(size, size);
     }
 
     @Override

@@ -34,6 +34,7 @@ public class ToolbarBuildingMenu extends ToolbarSubMenuMenu {
                 public void changed(ChangeEvent event, Actor actor) {
                     SelectionTools.BUILDING.setFor(blueprint);
                     GameMvc.model().get(EntitySelectorSystem.class).selector.get(SelectionAspect.class).set(SelectionTools.BUILDING);
+                    GameMvc.view().toolbarStage.showBuildingTab(blueprint);
                 }
             }, blueprint.menuPath);
         }

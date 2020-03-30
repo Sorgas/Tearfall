@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * @author Alexander on 22.03.2020
  */
-public class ConstructionDesignationTool extends SelectionTool {
+public class ConstructionSelectionTool extends SelectionTool {
     private Blueprint blueprint;
 
     public void setFor(Blueprint blueprint) {

@@ -27,7 +27,7 @@ import static stonering.enums.OrientationEnum.N;
  *
  * @author Alexander on 16.03.2020.
  */
-public class DesignateBuildingSelectionTool extends SelectionTool {
+public class BuildingSelectionTool extends SelectionTool {
     private Blueprint blueprint;
     private BuildingType type;
 
@@ -51,10 +51,10 @@ public class DesignateBuildingSelectionTool extends SelectionTool {
     @Override
     public void handleSelection(Int3dBounds bounds) {
         if(Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)) {
-            new SingleWindowStage<>(new BuildingMaterialSelectMenu(blueprint, Collections.singletonList(selector().position)), true).show();
         } else {
             // create designation with default settings
         }
+        new SingleWindowStage<>(new BuildingMaterialSelectMenu(blueprint, Collections.singletonList(selector().position)), true).show();
     }
 
     /**

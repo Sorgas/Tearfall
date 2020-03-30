@@ -1,12 +1,10 @@
 package stonering.enums.items.type;
 
 import stonering.entity.Entity;
+import stonering.enums.items.ItemTagEnum;
 import stonering.enums.items.type.raw.RawItemType;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Descriptor class of item. Stores all aspects, valid to the whole type of item, not for specific ones.
@@ -20,6 +18,7 @@ public class ItemType extends Entity implements Cloneable {
     public Map<String, List<String>> itemAspects;           // other aspects, item aspects filled from this on generation.
     public int[] atlasXY;
     public String color;
+    public Set<ItemTagEnum> tags;
 
     public ItemType(RawItemType rawType) {
         super();
@@ -29,6 +28,10 @@ public class ItemType extends Entity implements Cloneable {
         tool = rawType.tool;
         atlasXY = rawType.atlasXY;
         itemAspects = new HashMap<>();
+        tags = new HashSet<>();
+        for (String tag : rawType.tags) {
+            tags.add(ItemTagEnum.get(tag));
+        }
     }
 
     /**

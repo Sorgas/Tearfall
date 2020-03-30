@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import stonering.entity.item.Item;
 import stonering.enums.items.recipe.Ingredient;
 import stonering.util.geometry.Position;
-import stonering.widget.item.ItemSelectGrid;
+import stonering.widget.item.GroupedItemSelectGrid;
 import stonering.widget.item.SelectedMaterialsWidget;
 
 import java.util.ArrayList;
@@ -21,11 +21,11 @@ import java.util.List;
  */
 public class RightSection extends Table {
     public final BuildingMaterialSelectMenu menu;
-    public final ItemSelectGrid grid;
+    public final GroupedItemSelectGrid grid;
 
     public RightSection(BuildingMaterialSelectMenu menu) {
         this.menu = menu;
-        add(grid = new ItemSelectGrid(8, 8)).fill().expand().top().left();
+        add(grid = new GroupedItemSelectGrid(8, 8)).fill().expand().top().left();
     }
 
     public void fillGrid(Ingredient ingredient, Position position) {

@@ -9,10 +9,15 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import stonering.entity.item.Item;
+import stonering.enums.images.DrawableMap;
+import stonering.generators.items.ItemGenerator;
 import stonering.stage.UiStage;
+import stonering.util.geometry.Position;
 import stonering.util.global.StaticSkin;
 import stonering.util.ui.SimpleScreen;
 import stonering.widget.NavigableVerticalGroup;
+import stonering.widget.item.CheckableSingleItemSquareButton;
 import stonering.widget.item.StackedItemSquareButton;
 
 /**
@@ -58,12 +63,11 @@ public class UiDemo extends Game {
     private Container createContainer() {
         Container container = new Container();
         container.setFillParent(true);
-        NavigableVerticalGroup group = new NavigableVerticalGroup<Label>();
-        for (int i = 0; i < 5; i++) {
-            group.addActor(new Label("qwer " + i, StaticSkin.getSkin()));
-        }
-
-        container.pad(50).size(100, 200);
+        container.center();
+        Item item = new ItemGenerator().generateItem("pickaxe", "iron", new Position());
+        CheckableSingleItemSquareButton button = new CheckableSingleItemSquareButton(item, DrawableMap.getTextureDrawable("ui/item_slot.png"));
+        container.setActor(button);
+        container.pad(50);
         return container;
     }
 }
