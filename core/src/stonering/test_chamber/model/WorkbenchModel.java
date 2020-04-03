@@ -47,10 +47,20 @@ public class WorkbenchModel extends TestModel {
         container.onMapItemsSystem.putNewItem(generator.generateItem("meat_piece", "meat", null), new Position(0, 0, 2));
         container.onMapItemsSystem.putNewItem(generator.generateItem("log", "wood", null), new Position(1, 0, 2));
         container.onMapItemsSystem.putNewItem(generator.generateItem("log", "wood", null), new Position(2, 0, 2));
-        Item item = generator.generateItem("log", "wood", null);
-        container.onMapItemsSystem.putNewItem(item, new Position(3, 0, 2));
-        item = generator.generateItem("log", "wood", null);
-        container.onMapItemsSystem.putNewItem(item, new Position(4, 0, 2));
+        container.onMapItemsSystem.putNewItem(generator.generateItem("log", "wood", null), new Position(3, 0, 2));
+        container.onMapItemsSystem.putNewItem(generator.generateItem("log", "wood", null), new Position(4, 0, 2));
+        container.onMapItemsSystem.putNewItem(generator.generateItem("bar", "copper", null), new Position(5, 0, 2));
+        container.onMapItemsSystem.putNewItem(generator.generateItem("bar", "copper", null), new Position(6, 0, 2));
+        container.onMapItemsSystem.putNewItem(generator.generateItem("bar", "copper", null), new Position(7, 0, 2));
+        container.onMapItemsSystem.putNewItem(generator.generateItem("bar", "copper", null), new Position(8, 0, 2));
+        container.onMapItemsSystem.putNewItem(generator.generateItem("bar", "copper", null), new Position(9, 0, 2));
+        container.onMapItemsSystem.putNewItem(generator.generateItem("bar", "iron", null), new Position(0, 1, 2));
+        container.onMapItemsSystem.putNewItem(generator.generateItem("bar", "iron", null), new Position(1, 1, 2));
+        container.onMapItemsSystem.putNewItem(generator.generateItem("bar", "iron", null), new Position(2, 1, 2));
+        container.onMapItemsSystem.putNewItem(generator.generateItem("bar", "iron", null), new Position(3, 1, 2));
+        container.onMapItemsSystem.putNewItem(generator.generateItem("bar", "iron", null), new Position(4, 1, 2));
+        container.onMapItemsSystem.putNewItem(generator.generateItem("bar", "iron", null), new Position(6, 1, 2));
+
     }
 
     @Override

@@ -20,46 +20,63 @@ import static com.badlogic.gdx.scenes.scene2d.ui.Tree.*;
 /**
  * Part of {@link BuildingMaterialTab}.
  * Collects all items for given ingredient, groups them by type and material, and shows in a tree structure.
+ * TODO when dragging over checkboxes or material type nodes, they should change their state.
  *
  * @author Alexander on 25.03.2020
  */
 public class MaterialItemsSelectSection extends Container<Table> {
-    private final Tree tree;
+    private final int WIDTH = 200;
+    private Table table;
+    private Tree tree;
 
     public MaterialItemsSelectSection(Ingredient ingredient, String title) {
-        Table table = new Table();
+        setActor(table = new Table());
         table.defaults().growX().left();
         table.add(new Label(title, StaticSkin.getSkin())).colspan(2).row();
-        table.add(createButton("allow all", true));
-        table.add(createButton("clear all", false)).row();
-        table.add(new ScrollPane(tree = createTree(ingredient))).colspan(2).growY();
-        width(200);
-        setActor(table);
-        this.fill();
+        table.add(createEnablingButton("allow all", true));
+        table.add(createEnablingButton("clear all", false)).row();
+        tree = createTree(ingredient);
+        if(tree.getChildren().isEmpty()) {
+            table.add(new Label("No items found", StaticSkin.getSkin()));
+        } else {
+            table.add(new ScrollPane(tree)).colspan(2);
+        }
         table.setDebug(true, true);
-        setBackground(DrawableMap.REGION.getDrawable("default"));
+        table.top();
+        fill().top();
+        table.setBackground(DrawableMap.REGION.getDrawable("default"));
     }
 
+    /**
+     * Finds items for ingredient, groups them by type and material and put into tree.
+     * If no items of certain type were found, type node is not added.
+     */
     private Tree createTree(Ingredient ingredient) {
         Tree tree = new Tree(StaticSkin.getSkin());
-        ingredient.itemTypes.forEach(type -> {
-            TypeNode typeRow = new TypeNode(type, 0); // create widget for item type
-            tree.add(typeRow); // add node into tree
+        for (String type : ingredient.itemTypes) {
             Map<Integer, List<Item>> map = new HashMap<>();
             new ItemsStream().filterByType(type).stream.forEach(item -> { // group items by material
                 map.putIfAbsent(item.material, new ArrayList<>());
                 map.get(item.material).add(item);
             });
-            map.keySet().forEach(materialId -> {
-                String material = MaterialMap.instance().getMaterial(materialId).name;
-                MaterialTypeNode materialRow = new MaterialTypeNode(type, material); // create widget for material
-                typeRow.add(materialRow); // add node into tree
-            });
-        });
+            if (!map.isEmpty()) { // create regular tree
+                TypeNode typeRow = new TypeNode(type, map.values().stream().map(List::size).reduce(Integer::sum).orElse(0)); // create widget for item type
+                tree.add(typeRow); // add node into tree
+                ((Container) typeRow.getActor()).width(WIDTH); // tree cannot size its nodes
+                map.forEach((materialId, list) -> {
+                    String material = MaterialMap.instance().getMaterial(materialId).name;
+                    MaterialTypeNode materialRow = new MaterialTypeNode(type, material, ingredient.quantity, list.size()); // create widget for material
+                    typeRow.add(materialRow); // add node into tree
+                    ((Container) materialRow.getActor()).width(WIDTH - tree.getIndentSpacing()); // tree cannot size its nodes
+                    materialRow.table.layout();
+                });
+            }
+        }
+        tree.setDebug(true, true);
         return tree;
     }
 
-    private TextButton createButton(String text, boolean enable) {
+    private TextButton createEnablingButton(String text, boolean enable) {
         TextButton button = new TextButton(text, StaticSkin.getSkin());
         button.addListener(new ChangeListener() {
             @Override

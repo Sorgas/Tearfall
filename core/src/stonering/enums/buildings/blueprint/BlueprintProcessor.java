@@ -1,5 +1,6 @@
 package stonering.enums.buildings.blueprint;
 
+import org.apache.commons.lang3.StringUtils;
 import stonering.enums.items.recipe.Ingredient;
 import stonering.util.global.Logger;
 
@@ -16,33 +17,35 @@ public class BlueprintProcessor {
     public Blueprint processRawBlueprint(RawBlueprint rawBlueprint) {
         Logger.LOADING.logDebug("Processing blueprint " + rawBlueprint.name);
         Blueprint blueprint = new Blueprint(rawBlueprint);
-        rawBlueprint.parts.forEach(ingredient -> // map parts to ingredients
-                blueprint.parts.put(ingredient.get(0), processIngredient(ingredient.subList(1, ingredient.size())))
+        rawBlueprint.parts.forEach(ingredientArgs -> // map parts to ingredients
+                blueprint.parts.put(ingredientArgs.get(0), processIngredient(ingredientArgs, blueprint))
         );
         return blueprint;
     }
 
-    private Ingredient processIngredient(List<String> args) {
-        if (!validateIngredient(args)) return null;
-        List<String> itemTypes = Arrays.asList(args.get(0).split("/"));
-        return new Ingredient(itemTypes, args.get(1), Integer.parseInt(args.get(2)));
+    private Ingredient processIngredient(List<String> args, Blueprint blueprint) {
+        if (!validateIngredient(args, blueprint)) return null;
+        List<String> itemTypes = Arrays.asList(args.get(1).split("/"));
+        return new Ingredient(itemTypes, args.get(2), Integer.parseInt(args.get(3)));
     }
 
     /**
-     * Checks that ingredient definition has 3 non-null arguments
+     * Ingredient arguments are:
+     * Item types separated with '/'
+     * Required tags separeted with '/'. Can be empty.
+     * Quantity of items. TODO consider as material amount for material item types (logs, bars, rocks etc.)
      */
-    private boolean validateIngredient(List<String> args) {
-        if (args == null && args.size() < 3) {
-            Logger.LOADING.logError("Ingredient is empty or missing args.");
-            return false;
-        } else {
-            for (String arg : args) {
-                if (arg == null || arg.isEmpty()) {
-                    Logger.LOADING.logError("Argument of ingredient has empty argument.");
-                    return false;
-                }
-            }
-        }
+    private boolean validateIngredient(List<String> args, Blueprint blueprint) {
+        if (args == null && args.size() < 4)
+            return Logger.LOADING.logError(ingredientLog(args, blueprint) + " is empty or is missing args.", false);
+        if (StringUtils.isEmpty(args.get(1)))
+            return Logger.LOADING.logError(ingredientLog(args, blueprint) + " has empty 'item types' argument.", false);
+        if (StringUtils.isEmpty(args.get(3)))
+            return Logger.LOADING.logError(ingredientLog(args, blueprint) + " has empty 'quantity' argument.", false);
         return true;
+    }
+
+    private String ingredientLog(List<String> args, Blueprint blueprint) {
+        return "Ingredient " + args.get(0) + " of blueprint " + blueprint.name;
     }
 }

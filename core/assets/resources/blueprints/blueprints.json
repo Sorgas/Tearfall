@@ -91,7 +91,7 @@
     "building": "kitchen",
     "menuPath": ["workbenches"],
     "parts": [
-        ["kitchen", "log", "wood", "4"]
+        ["kitchen", "log/bar", "", "4"]
     ]
 }
 ]

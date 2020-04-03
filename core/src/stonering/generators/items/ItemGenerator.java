@@ -48,7 +48,7 @@ public class ItemGenerator {
 //        type.parts.forEach(part -> item.parts.put(part.title, new ItemPart(part.title, DEFAULT_MATERIAL)));
 //        item.mainPart = new ItemPart(type.parts.isEmpty() ? type.title : type.parts.get(0).title, materialId); // create main part with specified material
         Material material = MaterialMap.instance().getMaterial(materialId);
-        item.material = material.id;
+        item.material = materialId;
         item.tags.addAll(material.tags);
         generateItemAspects(item);
         return item;

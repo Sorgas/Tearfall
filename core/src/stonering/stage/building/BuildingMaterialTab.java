@@ -27,7 +27,6 @@ public class BuildingMaterialTab extends Container<Table> {
         sectionsTable.left();
         sectionsTable.defaults().growY().left();
         size(800, 500);
-        pad(100);
         fill();
         sectionsTable.setDebug(true, true);
         table.setDebug(true, true);
@@ -45,6 +44,5 @@ public class BuildingMaterialTab extends Container<Table> {
                 sectionsTable.add(new UniqueItemsSelectSection(ingredient));
             }
         });
-        sectionsTable.add(new Label("qwer", StaticSkin.getSkin()));
     }
 }

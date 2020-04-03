@@ -78,7 +78,7 @@ public class WorkbenchSystemTest {
         raw.name = "make_axe";
         raw.itemName = "axe";
         Recipe recipe = new Recipe(raw);
-        recipe.parts.put("head", new Ingredient(Arrays.asList("bar"), "metal"));
+        recipe.parts.put("head", new Ingredient(Arrays.asList("bar"), "metal", 1));
         return recipe;
     }
 

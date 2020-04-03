@@ -9,7 +9,6 @@ import java.util.HashMap;
  * @author Alexander on 04.12.2019.
  */
 public class RawMaterial {
-    public int id;
     public String name;
     public ArrayList<String> tags;
     public float density;

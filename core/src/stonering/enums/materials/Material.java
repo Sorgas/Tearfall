@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 /**
  * Descriptor of material. Tags are copied to item on creation.
+ * Ids of materials are set on loading.
  *
  * @author Alexander Kuzyakov on 04.06.2017.
  */
@@ -24,8 +25,8 @@ public class Material {
     public final byte atlasY;
     public final Color color;
 
-    public Material(RawMaterial raw) {
-        id = raw.id;
+    public Material(int id, RawMaterial raw) {
+        this.id = id;
         name = raw.name;
         tags = raw.tags.stream().map(ItemTagEnum::get).collect(Collectors.toList());
         density = raw.density;

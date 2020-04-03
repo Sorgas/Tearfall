@@ -1,10 +1,8 @@
 package stonering.stage.building;
 
-import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.Tree;
-import stonering.util.global.StaticSkin;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 /**
  * {@link Tree.Node} for all items of certain type.
@@ -12,25 +10,28 @@ import stonering.util.global.StaticSkin;
  *
  * @author Alexander on 25.03.2020
  */
-public class TypeNode extends Tree.Node {
-    private final Table table;
-    private String itemType;
-    private CheckBox checkbox;
-    private int number;
+public class TypeNode extends ItemSelectionNode {
 
     public TypeNode(String itemType, int number) {
-        super(new Table());
-        table = (Table) getActor();
-        table.add(new Label(itemType, StaticSkin.getSkin()));
-        table.add(new Label(number + "", StaticSkin.getSkin()));
-        table.add(checkbox = new CheckBox("", StaticSkin.getSkin())).growX().right();
-        checkbox.setProgrammaticChangeEvents(false); // this checkbox is updated by children nodes, and should not fire recursive event
+        super(itemType, number + "");
+        checkbox.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                toggleAll(checkbox.isChecked());
+            }
+        });
     }
 
+    /**
+     * Toggles all children of this node.
+     */
     public void toggleAll(boolean enable) {
         getChildren().forEach(node -> ((MaterialTypeNode) node).set(enable));
     }
 
+    /**
+     * Updates state of this node, based on states of its children.
+     */
     public void update() {
         checkbox.setChecked(true);
         getChildren().forEach(node -> {

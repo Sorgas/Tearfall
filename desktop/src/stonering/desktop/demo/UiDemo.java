@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Layout;
 import stonering.entity.item.Item;
 import stonering.enums.images.DrawableMap;
 import stonering.generators.items.ItemGenerator;
@@ -61,13 +62,25 @@ public class UiDemo extends Game {
     }
 
     private Container createContainer() {
-        Container container = new Container();
+
+        Table table = new Table();
+        for (int i = 0; i < 4; i++) {
+            Table table2 = new Table();
+            table2.add(new Label("qwer1123", StaticSkin.getSkin()));
+            table2.add(new Label("qwer2", StaticSkin.getSkin())).expandX();
+            table2.add(new Label("qwer3", StaticSkin.getSkin()));
+            Container<Table> tableContainer = new Container<>(table2).fill();
+//            tableContainer.size(600, 100);
+            tableContainer.debugAll();
+        }
+
+        table.add(new Label("qwer", StaticSkin.getSkin()));
+        table.add(new Label("123", StaticSkin.getSkin()));
+        CheckBox checkBox = new CheckBox("", StaticSkin.getSkin());
+        table.add(checkBox).expandX().right();
+        Container<Table> container = new Container<>(table);
+        container.width(200).fillX();
         container.setFillParent(true);
-        container.center();
-        Item item = new ItemGenerator().generateItem("pickaxe", "iron", new Position());
-        CheckableSingleItemSquareButton button = new CheckableSingleItemSquareButton(item, DrawableMap.getTextureDrawable("ui/item_slot.png"));
-        container.setActor(button);
-        container.pad(50);
         return container;
     }
 }

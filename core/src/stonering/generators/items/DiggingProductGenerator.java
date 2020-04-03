@@ -23,7 +23,7 @@ public class DiggingProductGenerator {
         int stoneAmount = Math.max(0, oldType.PRODUCT - newType.PRODUCT);
         if (material.tags.contains("stone") || material.tags.contains("ore")) { // create rock items for dug stone and ore.
             for (int i = 0; i < stoneAmount; i++) {
-                items.add(itemGenerator.generateItem("rock", material.id, null));
+                items.add(itemGenerator.generateItem("rock", materialId, null));
             }
         }
         return items;

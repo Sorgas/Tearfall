@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Singleton map of material types. Types are stored by their names.
+ * Singleton map of material types. Types are stored by their names and ids.
  * TODO add id-independent game saving
  *
  * @author Alexander Kuzyakov on 02.08.2017.
@@ -48,10 +48,9 @@ public class MaterialMap {
         for (FileHandle file : FileUtil.get(FileUtil.MATERIALS_PATH).list()) {
             ArrayList<RawMaterial> elements = json.fromJson(ArrayList.class, RawMaterial.class, file);
             for (RawMaterial rawMaterial : elements) {
-                Material material = new Material(rawMaterial);
+                Material material = new Material(id++, rawMaterial);
                 ids.put(material.name, id);
                 materials.put(id, material);
-                id++;
             }
             Logger.GENERAL.logDebug(elements.size() + " loaded from " + file.nameWithoutExtension());
         }
@@ -68,39 +67,5 @@ public class MaterialMap {
     public int getId(String name) {
         if (!ids.containsKey(name)) Logger.ITEMS.logError("no material with name " + name + " exist");
         return ids.get(name);
-    }
-
-    /**
-     * Filters all materials having types from given list.
-     *
-     * @param types
-     * @return HashSet of material ids
-     */
-    public HashSet<Integer> getMaterialsByTypes(List<String> types) {
-        HashSet<String> typesSet = new HashSet<>(types);
-        HashSet<Integer> idsSet = new HashSet<>();
-        materials.values().stream().
-                filter(material -> !Collections.disjoint(typesSet, material.tags)).
-                forEach(material -> idsSet.add(material.id));
-        return idsSet;
-    }
-
-    /**
-     * Filters all materials having given tag.
-     */
-    public Set<Integer> getMaterialsByTag(String tag) {
-        HashSet<Integer> idsSet = new HashSet<>();
-        materials.values().stream().
-                filter(material -> material.tags.contains(tag)).
-                forEach(material -> idsSet.add(material.id));
-        return idsSet;
-    }
-
-    public List<String> getMaterialNamesByTag(String tag) {
-        List<String> list = new ArrayList<>();
-        materials.values().stream().
-                filter(material -> material.tags.contains(tag)).
-                forEach(material -> list.add(material.name));
-        return list;
     }
 }
