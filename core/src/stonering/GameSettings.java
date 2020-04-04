@@ -12,9 +12,11 @@ import java.util.Properties;
  * @author Alexander on 12.11.2019.
  */
 public enum GameSettings {
-    DRAW_ACTION_PROGRESS("draw_action_progress");
+    DRAW_ACTION_PROGRESS("draw_action_progress"),
+    UI_SCALE("ui_scale");
 
-    private String VALUE;
+    private String PROPERTY_NAME;
+    public String VALUE;
 
     private static Properties instance;
 
@@ -29,10 +31,10 @@ public enum GameSettings {
     }
 
     GameSettings(String value) {
-        VALUE = value;
+        PROPERTY_NAME = value;
     }
 
-    public static String get(GameSettings setting) {
-        return instance.getProperty(setting.VALUE);
+    public String get() {
+        return instance.getProperty(PROPERTY_NAME);
     }
 }

@@ -1,25 +1,36 @@
 package stonering.stage;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import stonering.GameSettings;
 import stonering.widget.util.Resizeable;
 
 /**
- * Stage with screen viewport. Added widgets do no scaling on window resize.
+ * Stage with screen viewport.
+ * Widgets are scaled with {@link GameSettings#UI_SCALE} and do no scaling on window resize..
  * Interception works for non-overridden methods (focused widget and mouse).
  *
  * @author Alexander on 20.02.2019.
  */
 public class UiStage extends Stage implements Resizeable {
+    private ScreenViewport viewport;
     public boolean interceptInput = true;
+    private float uiScale;
 
     public UiStage() {
         super();
-        setViewport(new ScreenViewport());
+        uiScale = Float.parseFloat(GameSettings.UI_SCALE.get());
+        setViewport(viewport = new ScreenViewport());
     }
 
     public void resize(int width, int height) {
-        getViewport().update(width, height, true);
+        viewport.update(width, height, true);
+    }
+
+    public void setUiScale(float value) {
+        viewport.setUnitsPerPixel(1 / value);
+        getViewport().update(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
     }
 
     @Override

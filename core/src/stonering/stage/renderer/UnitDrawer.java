@@ -45,7 +45,7 @@ public class UnitDrawer extends Drawer {
 
     private void drawActionProgressBar(int x, int y, int z, Unit unit) {
         Action action;
-        if ("1".equals(GameSettings.get(GameSettings.DRAW_ACTION_PROGRESS))
+        if ("1".equals(GameSettings.DRAW_ACTION_PROGRESS.get())
                 && unit.has(PlanningAspect.class)
                 && (action = unit.get(PlanningAspect.class).getNextAction()) != null
                 && action.progress > 0) {
