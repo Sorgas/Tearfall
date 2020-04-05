@@ -48,9 +48,10 @@ public class MaterialMap {
         for (FileHandle file : FileUtil.get(FileUtil.MATERIALS_PATH).list()) {
             ArrayList<RawMaterial> elements = json.fromJson(ArrayList.class, RawMaterial.class, file);
             for (RawMaterial rawMaterial : elements) {
-                Material material = new Material(id++, rawMaterial);
+                Material material = new Material(id, rawMaterial);
                 ids.put(material.name, id);
                 materials.put(id, material);
+                id++;
             }
             Logger.GENERAL.logDebug(elements.size() + " loaded from " + file.nameWithoutExtension());
         }

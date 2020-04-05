@@ -9,6 +9,7 @@ import stonering.util.geometry.IntVector2;
 import stonering.util.geometry.RotationUtil;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Type of {@link Building}.
@@ -27,6 +28,7 @@ public class BuildingType {
     public List<String> parts;
     public List<String> recipes; // filled from crafting/lists.json
     public IntVector2 size; // width/height for N orientation
+    public List<IntVector2> access;
     public PassageEnum[][] passageArray; // array for N orientation
     public IntVector2[] sprites; // NSEW
     public boolean construction = false; // TODO to remove
@@ -40,6 +42,7 @@ public class BuildingType {
         building = raw.building;
         title = raw.title;
         description = raw.description;
+        access = Arrays.stream(raw.access).map(IntVector2::new).collect(Collectors.toList());
         aspects = new ArrayList<>(raw.aspects);
         parts = new ArrayList<>(raw.parts);
         recipes = new ArrayList<>(raw.recipes);

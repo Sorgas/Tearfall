@@ -18,6 +18,7 @@ public class RawBuildingType {
     public boolean construction = false;
     public List<String> recipes = new ArrayList<>(); // filled from crafting/lists.json
     public int[] size = {1, 1}; // width/height for N orientation
+    public int[][] access = {}; // most buildings have no access point
     public int[][] sprites = {{0, 0}, {0, 1}, {1, 0}, {1, 1}}; // NSEW
     public int[] atlasXY = {0, 0};
     public String color = "0xffffffff";

@@ -9,14 +9,14 @@ class RotationUtilTest {
 
     @Test
     void testRotation() {
-        assertEquals(RotationUtil.rotate(N, true), E);
-        assertEquals(RotationUtil.rotate(N, false), W);
-        assertEquals(RotationUtil.rotate(E, true), S);
-        assertEquals(RotationUtil.rotate(E, false), N);
-        assertEquals(RotationUtil.rotate(S, true), W);
-        assertEquals(RotationUtil.rotate(S, false), E);
-        assertEquals(RotationUtil.rotate(W, true), N);
-        assertEquals(RotationUtil.rotate(W, false), S);
+        assertEquals(RotationUtil.rotateOrientation(N, true), E);
+        assertEquals(RotationUtil.rotateOrientation(N, false), W);
+        assertEquals(RotationUtil.rotateOrientation(E, true), S);
+        assertEquals(RotationUtil.rotateOrientation(E, false), N);
+        assertEquals(RotationUtil.rotateOrientation(S, true), W);
+        assertEquals(RotationUtil.rotateOrientation(S, false), E);
+        assertEquals(RotationUtil.rotateOrientation(W, true), N);
+        assertEquals(RotationUtil.rotateOrientation(W, false), S);
     }
 
     @Test

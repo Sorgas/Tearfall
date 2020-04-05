@@ -8,9 +8,13 @@ import stonering.game.model.entity_selector.EntitySelector;
 import stonering.game.model.entity_selector.aspect.BoxSelectionAspect;
 import stonering.game.model.entity_selector.EntitySelectorSystem;
 import stonering.game.model.entity_selector.aspect.SelectionAspect;
+import stonering.game.model.entity_selector.tool.BuildingSelectionTool;
 import stonering.game.model.entity_selector.tool.SelectionTool;
+import stonering.game.model.entity_selector.tool.SelectionTools;
 import stonering.util.geometry.Int3dBounds;
+import stonering.util.geometry.IntVector2;
 import stonering.util.geometry.Position;
+import stonering.util.global.Pair;
 import stonering.util.validation.PositionValidator;
 
 import static stonering.stage.renderer.AtlasesEnum.ui_tiles;
@@ -40,6 +44,7 @@ public class EntitySelectorDrawer extends Drawer {
         EntitySelector selector = GameMvc.model().get(EntitySelectorSystem.class).selector;
         drawValidationBackground(selector);
         drawSelectorSprites(selector);
+        drawSelectorAdditionalSprites(selector);
         drawFrame(selector);
     }
 
@@ -52,6 +57,19 @@ public class EntitySelectorDrawer extends Drawer {
         for (int x = bounds.minX; x <= bounds.maxX; x += selector.size.x) {
             for (int y = bounds.maxY - selector.size.y + 1; y >= bounds.minY; y -= selector.size.y) {
                 spriteUtil.drawSprite(region, x, y, selector.position.z);
+            }
+        }
+    }
+
+    private void drawSelectorAdditionalSprites(EntitySelector selector) {
+        SelectionTool tool = selector.get(SelectionAspect.class).tool;
+        if(tool instanceof BuildingSelectionTool) {
+            PositionValidator validator = selector.get(SelectionAspect.class).tool.validator;
+            BuildingSelectionTool buildingTool = (BuildingSelectionTool) tool;
+            for (IntVector2 offset : buildingTool.additionalSprites) {
+                cachePosition.set(selector.position).add(offset);
+                spriteUtil.setColor(validator.apply(cachePosition) ? VALID : INVALID);
+                spriteUtil.drawSprite(buildingTool.workbenchAccessSprite, ui_tiles, cachePosition);
             }
         }
     }

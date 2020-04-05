@@ -23,7 +23,7 @@ public class RotationUtil {
         }
     }
 
-    public static OrientationEnum rotate(@NotNull OrientationEnum orientation, boolean clockwise) {
+    public static OrientationEnum rotateOrientation(@NotNull OrientationEnum orientation, boolean clockwise) {
         switch (orientation) {
             case N:
                 orientation = clockwise ? E : W;

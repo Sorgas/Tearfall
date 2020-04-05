@@ -70,7 +70,10 @@ public class UiScaleDemo extends Game{
         Table table = new Table();
         table.defaults().grow();
         table.add(new TextButton("qwer", StaticSkin.getSkin()));
+
         table.add(new Label("qwer", StaticSkin.getSkin())).row();
+//        StaticSkin.getSkin().
+//        new Label("qwer", StaticSkin.getSkin()).setStyle();
         table.add(new CheckBox("check", StaticSkin.getSkin()));
         Container<Table> container = new Container<>(table);
         container.size(200, 200).fill().align(align);
