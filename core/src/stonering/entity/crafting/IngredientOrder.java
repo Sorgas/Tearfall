@@ -7,12 +7,11 @@ import stonering.enums.items.recipe.Ingredient;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Part of {@link ItemOrder}.
  * Tag and item type taken from recipe. Material and origin are set to any on creation and then can be changed by player. //TODO
- *
- * On creation, all items are observed, combined by material and type, and added to dropdown.
  *
  * //TODO add checkboxes for item types.
  * @author Alexander on 05.01.2019.
@@ -20,11 +19,16 @@ import java.util.List;
 public class IngredientOrder {
     public final Ingredient ingredient;
     public ItemSelector itemSelector;
-    public List<Item> items;
+    public final List<Item> items = new ArrayList<>();
 
     public IngredientOrder(Ingredient ingredient) {
         this.ingredient = ingredient;
-        items = new ArrayList<>();
+
         itemSelector = new IngredientOrderItemSelector(this);
+    }
+
+    public IngredientOrder(Ingredient ingredient, ItemSelector selector) {
+        this.ingredient = ingredient;
+        itemSelector = selector;
     }
 }

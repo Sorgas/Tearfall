@@ -40,12 +40,12 @@ public enum DrawableMap {
             DRAWABLE_DESCRIPTORS_PATH + "icons",
             "sprites/icons.png");
 
-    private static final Map<String, Texture> textures = new HashMap<>(); // all textures in game
-    private static final DrawableDescriptor DEFAULT_DESCRIPTOR = new DrawableDescriptor("default", "default.png", new int[]{0, 0, 64, 64});
-
     private Map<String, DrawableDescriptor> descriptors; // all descriptors
     private Map<String, Drawable> drawables; // loaded drawables
     private Function<DrawableDescriptor, TextureRegion> regionProducer; // contains logic for using data from descriptor
+
+    private static final Map<String, Texture> textures = new HashMap<>(); // all textures in game
+    private static final DrawableDescriptor DEFAULT_DESCRIPTOR = new DrawableDescriptor("default", "default.png", new int[]{0, 0, 64, 64});
 
     DrawableMap(Function<DrawableDescriptor, TextureRegion> producer, String path, String textureOverride) {
         regionProducer = producer;

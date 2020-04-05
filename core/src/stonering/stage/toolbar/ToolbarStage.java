@@ -16,7 +16,7 @@ public class ToolbarStage extends UiStage {
     public Toolbar toolbar;
     private TileStatusBar tileStatusBar;
     private final Container tabContainer;
-    private BuildingMaterialTab buildingTab;
+    public BuildingMaterialTab buildingTab;
 
     public ToolbarStage() {
         super();

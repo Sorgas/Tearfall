@@ -1,27 +1,29 @@
 package stonering.game.model.entity_selector.tool;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import stonering.entity.RenderAspect;
+import stonering.entity.building.BuildingOrder;
+import stonering.entity.crafting.IngredientOrder;
 import stonering.entity.job.designation.BuildingDesignation;
 import stonering.enums.buildings.BuildingType;
 import stonering.enums.buildings.BuildingTypeMap;
 import stonering.enums.buildings.blueprint.Blueprint;
 import stonering.enums.designations.PlaceValidatorsEnum;
+import stonering.enums.items.recipe.Ingredient;
+import stonering.game.GameMvc;
+import stonering.game.model.entity_selector.EntitySelector;
 import stonering.game.model.entity_selector.aspect.BoxSelectionAspect;
-import stonering.stage.SingleWindowStage;
-import stonering.stage.building.BuildingMaterialSelectMenu;
+import stonering.game.model.system.task.TaskContainer;
+import stonering.stage.building.MaterialItemsSelectSection;
 import stonering.util.geometry.Int3dBounds;
 import stonering.util.geometry.IntVector2;
+import stonering.util.geometry.Position;
 import stonering.util.geometry.RotationUtil;
-import stonering.util.global.Pair;
+import stonering.util.global.Logger;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import static stonering.enums.OrientationEnum.*;
 import static stonering.stage.renderer.AtlasesEnum.ui_tiles;
@@ -31,8 +33,7 @@ import static stonering.stage.renderer.AtlasesEnum.ui_tiles;
  * On selecting place, new {@link BuildingDesignation} is created.
  * Materials set for last designation of this building or default materials will be set for designation.
  * If player holds lCtrl while confirming building, material selection menu appears.
- *
- * Has list of additional sprites with offsets to selector's position. Currently used for workbenches access points.
+ * <p>
  * TODO If player holds lShift while confirming place, multiple buildings are added.
  *
  * @author Alexander on 16.03.2020.
@@ -40,7 +41,7 @@ import static stonering.stage.renderer.AtlasesEnum.ui_tiles;
 public class BuildingSelectionTool extends SelectionTool {
     private Blueprint blueprint;
     private BuildingType type;
-    public List<IntVector2> additionalSprites = new ArrayList<>();
+    public List<IntVector2> accessPoints = new ArrayList<>();
     public TextureRegion workbenchAccessSprite;
 
     public void setFor(Blueprint blueprint) {
@@ -63,11 +64,19 @@ public class BuildingSelectionTool extends SelectionTool {
 
     @Override
     public void handleSelection(Int3dBounds bounds) {
-        if(Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)) {
-        } else {
-            // create designation with default settings
+        EntitySelector selector = selector();
+        Position cachePosition = new Position();
+        for (int x = 0; x < selector.size.x; x++) {
+            for (int y = 0; y < selector.size.y; y++) {
+                if (!validator.apply(cachePosition.set(selector.position).add(x, y, 0))) {
+                    Logger.BUILDING.logWarn("Place invalid.");
+                    return;
+                }
+            }
         }
-        new SingleWindowStage<>(new BuildingMaterialSelectMenu(blueprint, Collections.singletonList(selector().position)), true).show();
+
+        GameMvc.model().get(TaskContainer.class).designationSystem.submitBuildingDesignation(createOrder(),1);
+        // lock unique items
     }
 
     /**
@@ -76,15 +85,26 @@ public class BuildingSelectionTool extends SelectionTool {
     private void updateSpriteAndSize() {
         IntVector2 rotatedSize = RotationUtil.rotateVector(type.size, orientation);
         IntVector2 correction = rotatedSize.invertToPositive();
-        if(correction.x > 0) correction.x--;
-        if(correction.y > 0) correction.y--;
+        if (correction.x > 0) correction.x--;
+        if (correction.y > 0) correction.y--;
         selector().size.set(rotatedSize);
         selector().get(RenderAspect.class).region = blueprint != null
                 ? BuildingTypeMap.getBuilding(blueprint.building).getSprite(orientation)
                 : null;
-        additionalSprites.clear();
+        accessPoints.clear();
         type.access.stream()
                 .map(vector -> RotationUtil.rotateVector(vector, orientation).add(correction))
-                .forEach(additionalSprites::add);
+                .forEach(accessPoints::add);
+    }
+
+    private BuildingOrder createOrder() {
+        BuildingOrder order = new BuildingOrder(blueprint, selector().position.clone());
+        blueprint.parts.forEach((part, ingredient) -> {
+            Actor actor = GameMvc.view().toolbarStage.buildingTab.sectionMap.get(part);
+            if(actor instanceof MaterialItemsSelectSection) {
+                order.parts.put(part, new IngredientOrder(ingredient, ((MaterialItemsSelectSection) actor).getItemSelector()));
+            }
+        });
+        return order;
     }
 }

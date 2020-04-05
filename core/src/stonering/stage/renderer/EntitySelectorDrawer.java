@@ -10,11 +10,9 @@ import stonering.game.model.entity_selector.EntitySelectorSystem;
 import stonering.game.model.entity_selector.aspect.SelectionAspect;
 import stonering.game.model.entity_selector.tool.BuildingSelectionTool;
 import stonering.game.model.entity_selector.tool.SelectionTool;
-import stonering.game.model.entity_selector.tool.SelectionTools;
 import stonering.util.geometry.Int3dBounds;
 import stonering.util.geometry.IntVector2;
 import stonering.util.geometry.Position;
-import stonering.util.global.Pair;
 import stonering.util.validation.PositionValidator;
 
 import static stonering.stage.renderer.AtlasesEnum.ui_tiles;
@@ -66,7 +64,7 @@ public class EntitySelectorDrawer extends Drawer {
         if(tool instanceof BuildingSelectionTool) {
             PositionValidator validator = selector.get(SelectionAspect.class).tool.validator;
             BuildingSelectionTool buildingTool = (BuildingSelectionTool) tool;
-            for (IntVector2 offset : buildingTool.additionalSprites) {
+            for (IntVector2 offset : buildingTool.accessPoints) {
                 cachePosition.set(selector.position).add(offset);
                 spriteUtil.setColor(validator.apply(cachePosition) ? VALID : INVALID);
                 spriteUtil.drawSprite(buildingTool.workbenchAccessSprite, ui_tiles, cachePosition);

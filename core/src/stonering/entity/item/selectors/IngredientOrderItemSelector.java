@@ -11,15 +11,16 @@ import stonering.entity.item.Item;
  */
 public class IngredientOrderItemSelector extends ItemSelector {
     private IngredientOrder order;
+    private final boolean acceptAny;
 
     public IngredientOrderItemSelector(IngredientOrder order) {
         this.order = order;
+        acceptAny = order.ingredient.itemTypes.contains("any");
     }
 
     @Override
     public boolean checkItem(Item item) {
         return item.tags.contains(order.ingredient.tag)
-                && (order.ingredient.itemTypes.contains("any")
-                || order.ingredient.itemTypes.contains(item.getType().name));
+                && (acceptAny || order.ingredient.itemTypes.contains(item.getType().name));
     }
 }

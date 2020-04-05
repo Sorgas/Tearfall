@@ -1,5 +1,6 @@
 package stonering.stage.building;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -7,6 +8,9 @@ import stonering.enums.buildings.blueprint.Blueprint;
 import stonering.enums.items.ItemTagEnum;
 import stonering.enums.items.type.ItemTypeMap;
 import stonering.util.global.StaticSkin;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Allows selection of item for building.
@@ -18,6 +22,7 @@ import stonering.util.global.StaticSkin;
  */
 public class BuildingMaterialTab extends Container<Table> {
     private Table sectionsTable;
+    public final Map<String, Actor> sectionMap = new HashMap<>();
 
     public BuildingMaterialTab() {
         Table table;
@@ -38,11 +43,14 @@ public class BuildingMaterialTab extends Container<Table> {
             boolean allItemTypesAreMaterial = ingredient.itemTypes.stream()
                     .map(typeName -> ItemTypeMap.instance().getItemType(typeName))
                     .allMatch(type -> type.tags.contains(ItemTagEnum.BUILDING_MATERIAL));
+            Actor actor; // TODO create super type for sections
             if (allItemTypesAreMaterial) {
-                sectionsTable.add(new MaterialItemsSelectSection(ingredient, part));
+                actor = new MaterialItemsSelectSection(ingredient, part);
             } else {
-                sectionsTable.add(new UniqueItemsSelectSection(ingredient));
+                actor = new UniqueItemsSelectSection(ingredient);
             }
+            sectionsTable.add(actor);
+            sectionMap.put(part, actor);
         });
     }
 }

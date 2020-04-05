@@ -24,4 +24,8 @@ public class ItemSelectionNode extends Tree.Node {
         table.add(checkbox = new CheckBox("", StaticSkin.getSkin()));
         checkbox.setProgrammaticChangeEvents(false); // this checkbox is updated by parent node, and should not fire recursive event
     }
+
+    public boolean checked() {
+        return checkbox.isChecked();
+    }
 }

@@ -19,12 +19,12 @@
     "texture": "ui_back.png",
     "bounds": [0, 30, 30, 30]
 }, {
-    "name": "selector_validation:valid",
-    "texture": "ui_tile.png",
-    "bounds": [0, 30, 30, 30] // todo green tile
+    "name": "square_full",
+    "texture": "ui_back.png",
+    "bounds": [0, 30, 30, 30]
 }, {
-    "name": "selector_validation:invalid",
-    "texture": "ui_tile.png",
-    "bounds": [0, 30, 30, 30] // todo red tile
+    "name": "default:focused",
+    "texture": "ui_back.png",
+    "bounds": [0, 30, 30, 30]
 }
 ]
