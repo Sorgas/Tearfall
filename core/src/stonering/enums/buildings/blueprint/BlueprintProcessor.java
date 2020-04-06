@@ -20,6 +20,7 @@ public class BlueprintProcessor {
         rawBlueprint.parts.forEach(ingredientArgs -> // map parts to ingredients
                 blueprint.parts.put(ingredientArgs.get(0), processIngredient(ingredientArgs, blueprint))
         );
+        blueprint.initConfig();
         return blueprint;
     }
 

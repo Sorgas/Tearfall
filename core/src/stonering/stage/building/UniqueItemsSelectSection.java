@@ -1,8 +1,8 @@
 package stonering.stage.building;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import stonering.entity.item.Item;
+import stonering.entity.item.selectors.ItemSelector;
 import stonering.enums.images.DrawableMap;
 import stonering.enums.items.recipe.Ingredient;
 import stonering.game.model.system.item.ItemsStream;
@@ -16,15 +16,32 @@ import java.util.List;
  *
  * @author Alexander on 27.03.2020
  */
-public class UniqueItemsSelectSection extends Container<ItemSelectGrid> {
+public class UniqueItemsSelectSection extends ItemsSelectSection {
     private ItemSelectGrid grid;
 
-    public UniqueItemsSelectSection(Ingredient ingredient) {
+    public UniqueItemsSelectSection(Ingredient ingredient, String title) {
+        super(title);
         List<Item> items = new ItemsStream().filterByTypes(ingredient.itemTypes).filterHasTag(ingredient.tag).toList();
         grid = new ItemSelectGrid(5, items.size() / 5 + 1);
         Drawable background = DrawableMap.getTextureDrawable("ui/item_slot.png");
         for (Item item : items) {
             grid.addActorToGrid(new SingleItemSquareButton(item, background));
         }
+    }
+
+    @Override
+    public ItemSelector getItemSelector() {
+        // create multyitem selector
+        return null;
+    }
+
+    @Override
+    protected void setAllEnabled(boolean enable) {
+
+    }
+
+    @Override
+    public boolean isAtLeastOneSelected() {
+        return false;
     }
 }

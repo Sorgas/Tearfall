@@ -47,9 +47,12 @@ public class BuildingSelectionTool extends SelectionTool {
     public void setFor(Blueprint blueprint) {
         this.blueprint = blueprint;
         type = BuildingTypeMap.getBuilding(blueprint.building);
+    }
+
+    @Override
+    public void apply() {
         selector().get(BoxSelectionAspect.class).boxEnabled = false;
-        selector().size.x = type.size.x;
-        selector().size.y = type.size.y;
+        selector().size.set(type.size);
         validator = PlaceValidatorsEnum.getValidator(blueprint.placing);
         orientation = N; // reset orientation
         workbenchAccessSprite = ui_tiles.getBlockTile(1, 3);
@@ -74,7 +77,6 @@ public class BuildingSelectionTool extends SelectionTool {
                 }
             }
         }
-
         GameMvc.model().get(TaskContainer.class).designationSystem.submitBuildingDesignation(createOrder(),1);
         // lock unique items
     }

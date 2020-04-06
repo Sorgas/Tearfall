@@ -1,9 +1,11 @@
 package stonering.game.model.entity_selector.aspect;
 
+import com.sun.istack.NotNull;
 import stonering.entity.Aspect;
 import stonering.entity.Entity;
 import stonering.game.model.entity_selector.tool.SelectionTools;
 import stonering.game.model.entity_selector.tool.SelectionTool;
+import stonering.util.global.Logger;
 
 /**
  * Contains {@link SelectionTool} picked for selector.
@@ -17,7 +19,8 @@ public class SelectionAspect extends Aspect {
         super(entity);
     }
     
-    public void set(SelectionTool tool) {
+    public void set(@NotNull SelectionTool tool) {
+        if(tool == null) Logger.UI.logError("Assigning null tool to entity selector.");
         this.tool = tool;
     }
 }

@@ -40,17 +40,19 @@ public class BuildingMaterialTab extends Container<Table> {
     public void fillFor(Blueprint blueprint) {
         sectionsTable.clearChildren();
         blueprint.parts.forEach((part, ingredient) -> {
-            boolean allItemTypesAreMaterial = ingredient.itemTypes.stream()
-                    .map(typeName -> ItemTypeMap.instance().getItemType(typeName))
-                    .allMatch(type -> type.tags.contains(ItemTagEnum.BUILDING_MATERIAL));
-            Actor actor; // TODO create super type for sections
-            if (allItemTypesAreMaterial) {
-                actor = new MaterialItemsSelectSection(ingredient, part);
-            } else {
-                actor = new UniqueItemsSelectSection(ingredient);
+            ItemsSelectSection section;
+            if(blueprint.configMap.containsKey(part)) { // create section from config
+                section = new MaterialItemsSelectSection(ingredient, part, blueprint.configMap.get(part));
+            } else { // create section for unique items
+                section = new UniqueItemsSelectSection(ingredient, part);
+                section.setAllEnabled(true);
             }
-            sectionsTable.add(actor);
-            sectionMap.put(part, actor);
+            sectionsTable.add(section);
+            sectionMap.put(part, section);
         });
+    }
+
+    public void initBlueprint(Blueprint blueprint) {
+
     }
 }

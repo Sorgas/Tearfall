@@ -46,7 +46,6 @@ public class EntitySelectorSystem implements ModelComponent {
     }
 
     public void selectorMoved() {
-        updateRender();
         GameMvc.view().localWorldStage.getCamera().handleSelectorMove();
     }
 
@@ -55,10 +54,6 @@ public class EntitySelectorSystem implements ModelComponent {
         setSelectorPosition(selector.position);
     }
 
-    private void updateRender() {
-        
-    }
-    
     public void moveSelector(int dx, int dy, int dz) {
         setSelectorPosition(cachePosition.set(selector.position).add(dx, dy, dz));
     }

@@ -11,11 +11,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
  * @author Alexander on 25.03.2020
  */
 public class TypeNode extends ItemSelectionNode {
-    private final String type;
 
     public TypeNode(String itemType, int number) {
         super(itemType, number + "");
-        type = itemType;
         checkbox.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -28,6 +26,7 @@ public class TypeNode extends ItemSelectionNode {
      * Toggles all children of this node.
      */
     public void toggleAll(boolean enable) {
+        checkbox.setChecked(enable);
         getChildren().forEach(node -> ((MaterialTypeNode) node).set(enable));
     }
 

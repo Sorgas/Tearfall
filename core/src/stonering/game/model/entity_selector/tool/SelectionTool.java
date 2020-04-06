@@ -1,9 +1,11 @@
 package stonering.game.model.entity_selector.tool;
 
 import stonering.enums.OrientationEnum;
+import stonering.enums.designations.PlaceValidatorsEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.EntitySelector;
 import stonering.game.model.entity_selector.EntitySelectorSystem;
+import stonering.game.model.entity_selector.aspect.BoxSelectionAspect;
 import stonering.game.model.entity_selector.aspect.SelectionAspect;
 import stonering.util.geometry.Int3dBounds;
 import stonering.util.geometry.RotationUtil;
@@ -18,8 +20,13 @@ import stonering.util.validation.PositionValidator;
 public abstract class SelectionTool {
     private EntitySelector selector;
     protected OrientationEnum orientation;
-    public PositionValidator validator;  
-    
+    public PositionValidator validator;
+
+    /**
+     * Called by {@link SelectionAspect} when tool is 'taken'.
+     */
+    public abstract void apply();
+
     public abstract void handleSelection(Int3dBounds bounds); // called once for the whole selection box
 
     public void cancelSelection() {

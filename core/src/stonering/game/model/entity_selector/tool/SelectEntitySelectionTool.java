@@ -1,6 +1,9 @@
 package stonering.game.model.entity_selector.tool;
 
+import stonering.entity.RenderAspect;
 import stonering.game.GameMvc;
+import stonering.game.model.entity_selector.aspect.BoxSelectionAspect;
+import stonering.stage.renderer.AtlasesEnum;
 import stonering.util.geometry.Int3dBounds;
 import stonering.util.global.Logger;
 
@@ -10,6 +13,13 @@ import stonering.util.global.Logger;
  * @author Alexander on 16.03.2020.
  */
 public class SelectEntitySelectionTool extends SelectionTool {
+
+    @Override
+    public void apply() {
+        selector().get(BoxSelectionAspect.class).boxEnabled = true;
+        selector().size.set(1, 1);
+        selector().get(RenderAspect.class).region = AtlasesEnum.ui_tiles.getBlockTile(0, 2);
+    }
 
     @Override
     public void handleSelection(Int3dBounds bounds) {
