@@ -22,5 +22,6 @@ public class SelectionAspect extends Aspect {
     public void set(@NotNull SelectionTool tool) {
         if(tool == null) Logger.UI.logError("Assigning null tool to entity selector.");
         this.tool = tool;
+        tool.apply();
     }
 }

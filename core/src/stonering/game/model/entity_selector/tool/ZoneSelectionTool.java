@@ -15,7 +15,13 @@ import stonering.util.geometry.Int3dBounds;
 public class ZoneSelectionTool extends SelectionTool {
     public ZoneTypesEnum type;
     // TODO add validation
-    
+
+    @Override
+    public void apply() {
+        // set selector sprite and cursor
+        selector().size.set(1, 1);
+    }
+
     @Override
     public void handleSelection(Int3dBounds bounds) {
         ZoneContainer container = GameMvc.model().get(ZoneContainer.class);

@@ -11,7 +11,12 @@ import stonering.util.geometry.Int3dBounds;
  */
 public class ZoneUpdateSelectionTool extends SelectionTool {
     //TODO add validation
-    
+
+    @Override
+    public void apply() {
+        // set sprite and cursor
+    }
+
     @Override
     public void handleSelection(Int3dBounds bounds) {
         ZoneContainer container = GameMvc.model().get(ZoneContainer.class);

@@ -21,16 +21,18 @@ import static com.badlogic.gdx.scenes.scene2d.ui.Tree.*;
  * Produces {@link ItemSelector} of current section state.
  * Saves player's selection in {@link MaterialSelectionConfig} and restores it when same blueprint is selected again.
  * TODO when dragging over checkboxes or material type nodes, they should change their state.
+ * TODO add option to see all possible materials for item type (with checkbox).
+ * TODO sort material nodes by amount on stocks.
  *
  * @author Alexander on 25.03.2020
  */
-public class MaterialItemsSelectSection extends ItemsSelectSection {
+public class MaterialItemSelectSection extends ItemSelectSection {
     private Tree tree;
     private Ingredient ingredient;
     public Map<String, List<MaterialTypeNode>> nodeMap = new HashMap<>();
     public final MaterialSelectionConfig config;
 
-    public MaterialItemsSelectSection(Ingredient ingredient, String title, MaterialSelectionConfig config) {
+    public MaterialItemSelectSection(Ingredient ingredient, String title, MaterialSelectionConfig config) {
         super(title);
         this.ingredient = ingredient;
         this.config = config;
@@ -53,31 +55,45 @@ public class MaterialItemsSelectSection extends ItemsSelectSection {
      */
     private void createTree() {
         for (String type : ingredient.itemTypes) {
+            // collect items
             Map<Integer, List<Item>> map = new HashMap<>(); // items grouped by material
             new ItemsStream().filterByType(type).stream.forEach(item -> { // collect items from map
                 map.putIfAbsent(item.material, new ArrayList<>());
                 map.get(item.material).add(item); // group items by material
             });
             if (map.isEmpty()) continue; // no rows for no items
+
+            // create nodes
             TypeNode typeRow = addTypeNode(type, map);
+            List<MaterialTypeNode> materialNodes = new ArrayList<>();
             map.forEach((material, list) -> {
-                MaterialTypeNode materialRow = new MaterialTypeNode(type, material, ingredient.quantity, list.size()); // create widget for material
-                typeRow.add(materialRow); // add node into tree
+                MaterialTypeNode materialRow = new MaterialTypeNode(type, material, ingredient.quantity, list.size(), config); // create widget for material
+                typeRow.addMaterialNode(materialRow); // add node into tree
                 nodeMap.putIfAbsent(type, new ArrayList<>());
                 nodeMap.get(type).add(materialRow);
                 materialRow.width(WIDTH - tree.getIndentSpacing()); // tree cannot size its nodes
-                if (config.map.containsKey(type) && config.map.get(type).contains(material)) materialRow.set(true);
             });
-            if (config.types.contains(type)) typeRow.toggleAll(true); // overrides material settings
+            initNodes();
         }
         tree.setDebug(true, true);
     }
 
     private TypeNode addTypeNode(String type, Map<Integer, List<Item>> map) {
-        TypeNode node = new TypeNode(type, map.values().stream().map(List::size).reduce(Integer::sum).orElse(0)); // create widget for item type
+        TypeNode node = new TypeNode(type, map.values().stream().map(List::size).reduce(Integer::sum).orElse(0), config); // create widget for item type
         tree.add(node); // add node into tree
         node.width(WIDTH); // tree cannot size its nodes
         return node;
+    }
+
+    private void initNodes() {
+        for (Node rootNode : tree.getRootNodes()) {
+            TypeNode typeRow = (TypeNode) rootNode;
+            if(config.types.contains(typeRow.type)) {
+                typeRow.set(true); // overrides material settings
+            } else if (config.map.containsKey(typeRow.type)){
+                typeRow.nodes.stream().filter(node -> config.map.get(typeRow.type).contains(node.material)).forEach(node -> node.set(true));
+            }
+        }
     }
 
     /**
@@ -96,7 +112,7 @@ public class MaterialItemsSelectSection extends ItemsSelectSection {
     @Override
     protected void setAllEnabled(boolean enable) {
         for (Node node : tree.getRootNodes()) {
-            ((TypeNode) node).toggleAll(enable);
+            ((TypeNode) node).set(enable);
         }
     }
 

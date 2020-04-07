@@ -5,8 +5,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import stonering.enums.buildings.blueprint.Blueprint;
-import stonering.enums.items.ItemTagEnum;
-import stonering.enums.items.type.ItemTypeMap;
 import stonering.util.global.StaticSkin;
 
 import java.util.HashMap;
@@ -40,11 +38,11 @@ public class BuildingMaterialTab extends Container<Table> {
     public void fillFor(Blueprint blueprint) {
         sectionsTable.clearChildren();
         blueprint.parts.forEach((part, ingredient) -> {
-            ItemsSelectSection section;
+            ItemSelectSection section;
             if(blueprint.configMap.containsKey(part)) { // create section from config
-                section = new MaterialItemsSelectSection(ingredient, part, blueprint.configMap.get(part));
+                section = new MaterialItemSelectSection(ingredient, part, blueprint.configMap.get(part));
             } else { // create section for unique items
-                section = new UniqueItemsSelectSection(ingredient, part);
+                section = new UniqueItemSelectSection(ingredient, part);
                 section.setAllEnabled(true);
             }
             sectionsTable.add(section);

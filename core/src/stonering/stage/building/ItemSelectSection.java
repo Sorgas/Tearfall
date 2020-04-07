@@ -15,11 +15,11 @@ import stonering.util.global.StaticSkin;
  *
  * @author Alexander on 06.04.2020
  */
-public abstract class ItemsSelectSection extends Container<Table> {
+public abstract class ItemSelectSection extends Container<Table> {
     protected final int WIDTH = 200;
     protected Table table;
 
-    public ItemsSelectSection(String title) {
+    public ItemSelectSection(String title) {
         setActor(table = new Table());
         table.defaults().growX().left();
         table.add(new Label(title, StaticSkin.getSkin())).colspan(2).row();

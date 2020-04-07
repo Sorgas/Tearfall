@@ -10,12 +10,11 @@ import stonering.enums.buildings.BuildingType;
 import stonering.enums.buildings.BuildingTypeMap;
 import stonering.enums.buildings.blueprint.Blueprint;
 import stonering.enums.designations.PlaceValidatorsEnum;
-import stonering.enums.items.recipe.Ingredient;
 import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.EntitySelector;
 import stonering.game.model.entity_selector.aspect.BoxSelectionAspect;
 import stonering.game.model.system.task.TaskContainer;
-import stonering.stage.building.MaterialItemsSelectSection;
+import stonering.stage.building.MaterialItemSelectSection;
 import stonering.util.geometry.Int3dBounds;
 import stonering.util.geometry.IntVector2;
 import stonering.util.geometry.Position;
@@ -101,10 +100,11 @@ public class BuildingSelectionTool extends SelectionTool {
 
     private BuildingOrder createOrder() {
         BuildingOrder order = new BuildingOrder(blueprint, selector().position.clone());
+        order.orientation = orientation;
         blueprint.parts.forEach((part, ingredient) -> {
             Actor actor = GameMvc.view().toolbarStage.buildingTab.sectionMap.get(part);
-            if(actor instanceof MaterialItemsSelectSection) {
-                order.parts.put(part, new IngredientOrder(ingredient, ((MaterialItemsSelectSection) actor).getItemSelector()));
+            if(actor instanceof MaterialItemSelectSection) {
+                order.parts.put(part, new IngredientOrder(ingredient, ((MaterialItemSelectSection) actor).getItemSelector()));
             }
         });
         return order;

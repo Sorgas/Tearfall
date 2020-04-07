@@ -24,7 +24,12 @@ public class ConstructionSelectionTool extends SelectionTool {
     public void setFor(Blueprint blueprint) {
         this.blueprint = blueprint;
         validator = PlaceValidatorsEnum.getValidator(blueprint.placing);
-        updateSprite();
+    }
+
+    @Override
+    public void apply() {
+        int x = ConstructionTileSelector.select(BlockTypeEnum.getType(blueprint.building));
+        selector().get(RenderAspect.class).region = AtlasesEnum.ui_tiles.getBlockTile(x, 0);
     }
 
     @Override
@@ -32,10 +37,5 @@ public class ConstructionSelectionTool extends SelectionTool {
         List<Position> positions = new ArrayList<>();
         selector().get(BoxSelectionAspect.class).boxIterator.accept(positions::add);
         new SingleWindowStage<>(new BuildingMaterialSelectMenu(blueprint, positions), true).show();
-    }
-
-    private void updateSprite() {
-        int x = ConstructionTileSelector.select(BlockTypeEnum.getType(blueprint.building));
-        selector().get(RenderAspect.class).region = AtlasesEnum.ui_tiles.getBlockTile(x, 0);
     }
 }

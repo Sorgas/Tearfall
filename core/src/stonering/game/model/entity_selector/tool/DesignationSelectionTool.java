@@ -13,13 +13,13 @@ import stonering.util.geometry.Int3dBounds;
 public class DesignationSelectionTool extends SelectionTool {
     private DesignationTypeEnum type;
 
-    public void setType(DesignationTypeEnum type) {
-        this.type = type;
-        updateSpite();
+    @Override
+    public void apply() {
+        selector().get(RenderAspect.class).region = AtlasesEnum.ui_tiles.getBlockTile(type.TOOL_SPRITE, 2);
     }
 
-    private void updateSpite() {
-        selector().get(RenderAspect.class).region = AtlasesEnum.ui_tiles.getBlockTile(type.TOOL_SPRITE, 2);
+    public void setType(DesignationTypeEnum type) {
+        this.type = type;
     }
 
     @Override

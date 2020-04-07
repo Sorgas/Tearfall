@@ -16,10 +16,10 @@ import java.util.List;
  *
  * @author Alexander on 27.03.2020
  */
-public class UniqueItemsSelectSection extends ItemsSelectSection {
+public class UniqueItemSelectSection extends ItemSelectSection {
     private ItemSelectGrid grid;
 
-    public UniqueItemsSelectSection(Ingredient ingredient, String title) {
+    public UniqueItemSelectSection(Ingredient ingredient, String title) {
         super(title);
         List<Item> items = new ItemsStream().filterByTypes(ingredient.itemTypes).filterHasTag(ingredient.tag).toList();
         grid = new ItemSelectGrid(5, items.size() / 5 + 1);
