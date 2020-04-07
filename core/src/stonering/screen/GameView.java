@@ -2,6 +2,7 @@ package stonering.screen;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import stonering.game.controller.inputProcessors.StageInputAdapter;
+import stonering.stage.UiStage;
 import stonering.stage.toolbar.ToolbarStage;
 import stonering.stage.MapEntitySelectStage;
 import stonering.stage.pause.PauseMenuStage;
@@ -51,5 +52,12 @@ public class GameView extends MultiStageScreen {
         MapEntitySelectStage stage = new MapEntitySelectStage();
         addStage(stage);
         stage.showEntitySelectList(box);
+    }
+
+    public void updateStagesScale(float value, Stage exceptStage) {
+        for (Stage stage : stageList) {
+            if(stage == exceptStage) continue;
+            if(stage instanceof UiStage) ((UiStage) stage).setUiScale(value);
+        }
     }
 }

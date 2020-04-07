@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.game.GameMvc;
+import stonering.stage.SingleWindowStage;
 import stonering.widget.ButtonMenu;
 import stonering.util.saving.GameSaver;
 
@@ -39,6 +40,7 @@ public class PauseMenu extends ButtonMenu {
         createButton("Options", Input.Keys.O, new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                GameMvc.view().addStage(new SingleWindowStage<>(new SettingsMenu(), true));
             }
         }, true);
         createButton("Save", Input.Keys.S, new ChangeListener() {

@@ -37,4 +37,8 @@ public enum GameSettings {
     public String get() {
         return instance.getProperty(PROPERTY_NAME);
     }
+
+    public void set(String value) {
+        instance.setProperty(PROPERTY_NAME, value);
+    }
 }
