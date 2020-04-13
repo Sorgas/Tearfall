@@ -4,6 +4,7 @@ import stonering.entity.building.Building;
 import stonering.entity.building.aspects.WorkbenchAspect;
 import stonering.entity.crafting.ItemOrder;
 import stonering.entity.item.Item;
+import stonering.entity.item.aspects.ItemContainerAspect;
 import stonering.entity.job.Task;
 import stonering.entity.job.action.CraftItemAction;
 import stonering.enums.OrderStatusEnum;
@@ -162,7 +163,7 @@ public class WorkbenchSystem extends EntitySystem<Building> {
         Logger.BUILDING.logDebug("Creating task for order " + order.recipe.name);
         CraftItemAction action = new CraftItemAction(order, aspect.entity);
         aspect.currentTask = new Task(order.recipe.name, action, 1);
-        GameMvc.instance().model().get(TaskContainer.class).addTask(aspect.currentTask);
+        GameMvc.model().get(TaskContainer.class).addTask(aspect.currentTask);
     }
 
     /**
@@ -197,10 +198,11 @@ public class WorkbenchSystem extends EntitySystem<Building> {
         if (aspect.containedItems.isEmpty()) return;
         List<Position> positions = getPositionsToDrop(aspect);
         if (positions.isEmpty()) return;
-        ItemContainer container = GameMvc.instance().model().get(ItemContainer.class);
+        ItemContainer container = GameMvc.model().get(ItemContainer.class);
         Random random = new Random();
+        ItemContainerAspect containerAspect = aspect.entity.get(ItemContainerAspect.class);
         for (Item item : new ArrayList<>(aspect.containedItems)) {
-            container.containedItemsSystem.removeItemFromWorkbench(item, aspect);
+            container.containedItemsSystem.removeItemFromContainer(item, containerAspect);
             container.onMapItemsSystem.putItem(item, positions.get(random.nextInt(positions.size())));
         }
         aspect.containedItems.clear();

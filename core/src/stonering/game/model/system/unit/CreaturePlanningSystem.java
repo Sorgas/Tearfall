@@ -45,7 +45,7 @@ public class CreaturePlanningSystem extends EntitySystem<Unit> {
         PlanningAspect planning = unit.get(PlanningAspect.class);
         Task task = planning.task;
         switch (task.status) {
-            case OPEN:
+            case OPEN: // invalid case
                 Logger.TASKS.logWarn("claimed task with open status");
                 task.status = ACTIVE; // start claimed and open task
                 break;

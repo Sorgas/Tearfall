@@ -4,6 +4,8 @@ import stonering.enums.blocks.BlockTypeEnum;
 import stonering.enums.blocks.PassageEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
+import stonering.util.geometry.Int2dBounds;
+import stonering.util.geometry.Int3dBounds;
 import stonering.util.geometry.Position;
 
 import java.util.HashSet;
@@ -33,6 +35,24 @@ public class NeighbourPositionStream {
                     if(!position.equals(center)) neighbours.add(position);
                 }
             }
+        }
+        stream = neighbours.stream().filter(localMap::inMap);
+    }
+
+    /**
+     * Gives neighbours by x and y, having provided z
+     */
+    public NeighbourPositionStream(Int2dBounds bounds, int z) {
+        localMap = GameMvc.model().get(LocalMap.class);
+        passageMap = localMap.passageMap;
+        Set<Position> neighbours = new HashSet<>();
+        for (int x = bounds.minX - 1; x < bounds.maxX + 2; x++) {
+            neighbours.add(new Position(x, bounds.minY - 1, z));
+            neighbours.add(new Position(x, bounds.maxY + 1, z));
+        }
+        for (int y = bounds.minY - 1; y < bounds.maxY + 2; y++) {
+            neighbours.add(new Position(bounds.minX - 1, y, z));
+            neighbours.add(new Position(bounds.maxX + 1, y, z));
         }
         stream = neighbours.stream().filter(localMap::inMap);
     }

@@ -2,7 +2,7 @@ package stonering.entity.job.action;
 
 import stonering.entity.building.aspects.FuelConsumerAspect;
 import stonering.entity.crafting.IngredientOrder;
-import stonering.entity.job.action.equipment.PutItemAction;
+import stonering.entity.job.action.item.PutItemToContainerAction;
 import stonering.entity.job.action.target.EntityActionTarget;
 import stonering.entity.Entity;
 import stonering.entity.building.aspects.WorkbenchAspect;
@@ -54,19 +54,19 @@ public class CraftItemAction extends Action {
 
         // Creates item, consumes ingredients. Product item is put to Workbench.
         onFinish = () -> {
-            ItemContainer container = GameMvc.instance().model().get(ItemContainer.class);
-            WorkbenchAspect workbenchAspect = workbench.get(WorkbenchAspect.class);
+            ItemContainer container = GameMvc.model().get(ItemContainer.class);
+            ItemContainerAspect containerAspect = workbench.get(ItemContainerAspect.class);
             Item product = new ItemGenerator().generateItemByOrder(itemOrder);
             // spend components
             List<Item> items = itemOrder.getAllIngredients().stream()
                     .map(ingredientOrder -> ingredientOrder.items)
                     .flatMap(Collection::stream)
                     .collect(Collectors.toList());
-            container.containedItemsSystem.removeItemsFromWorkbench(items, workbenchAspect);
+            items.forEach(item -> container.containedItemsSystem.removeItemFromContainer(item, containerAspect));
             container.removeItems(items);
             // put product into wb
             container.addItem(product);
-            container.containedItemsSystem.addItemToWorkbench(product, workbenchAspect);
+            container.containedItemsSystem.addItemToContainer(product, containerAspect);
         };
     }
 
@@ -85,7 +85,8 @@ public class CraftItemAction extends Action {
                 if (item == null) return FAIL; // no valid item found
                 order.items.set(i, item);
                 if (aspect.containedItems.contains(item)) continue; // item in WB, no actions required
-                task.addFirstPreAction(new PutItemAction(item, workbench)); // create action to bring item
+
+                task.addFirstPreAction(new PutItemToContainerAction(aspect.entity.get(ItemContainerAspect.class), item)); // create action to bring item
                 return NEW; // new action is created
             }
         }

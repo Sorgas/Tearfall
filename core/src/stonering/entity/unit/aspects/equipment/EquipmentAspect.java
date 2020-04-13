@@ -20,9 +20,8 @@ import java.util.stream.Collectors;
 public class EquipmentAspect extends Aspect {
     public final HashMap<String, EquipmentSlot> slots;            // all slots of a creature (for wear)
     public final HashMap<String, GrabEquipmentSlot> grabSlots;    // slots for tools (subset of all slots)
-//    public Item hauledItem;                                       // in-hand hauling item (mvp)
-    
-    public final List<Item> hauledItems;                     // hauled item list for faster checking (hauled in hands and worn containers)
+
+    public List<Item> hauledItems;                           // fast check list
     public final List<Item> equippedItems;                   // equipped item list for faster checking (worn items)
     public final List<EquipmentSlot> desiredSlots;           // uncovered limbs give comfort penalty
 
@@ -31,23 +30,7 @@ public class EquipmentAspect extends Aspect {
         slots = new HashMap<>();
         grabSlots = new HashMap<>();
         equippedItems = new ArrayList<>();
-        hauledItems = new ArrayList<>();
         desiredSlots = new ArrayList<>();
-    }
-
-    /**
-     * For hauling items in hands. Validity should be fully checked by action (slots should be free).
-     * //TODO add hauling of large items in two hands.
-     */
-    public boolean pickupItem(Item item) {
-        //TODO haul in containers
-        Logger.UNITS.logDebug("Picking up item " + item);
-        Optional<GrabEquipmentSlot> optional = grabSlots.values().stream().filter(slot -> slot.grabbedItem == null).findFirst();
-        if (!optional.isPresent()) return false; // should have grab slot to equip new item
-        optional.get().grabbedItem = item;
-        hauledItems.add(item);
-        Logger.UNITS.logDebug("");
-        return true;
     }
     
     /**
@@ -78,8 +61,6 @@ public class EquipmentAspect extends Aspect {
      * Removes given item from all grab slots. TODO handle containers, like backpacks
      */
     public void dropItem(Item item) {
-        if (!hauledItems.contains(item)) return;
-        hauledItems.remove(item);
         grabSlots.forEach((s, slot) -> {
             if (slot.grabbedItem == item) slot.grabbedItem = null;
         });

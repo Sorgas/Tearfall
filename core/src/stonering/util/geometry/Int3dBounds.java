@@ -50,12 +50,16 @@ public class Int3dBounds extends Int2dBounds {
      * Extends bounds so given position becomes included.
      */
     public void extendTo(Position position) {
-        maxX = Math.max(maxX, position.x);
-        minX = Math.min(minX, position.x);
-        maxY = Math.max(maxY, position.y);
-        minY = Math.min(minY, position.y);
-        maxZ = Math.max(maxZ, position.z);
-        minZ = Math.min(minZ, position.z);
+        extendTo(position.x, position.y, position.z);
+    }
+
+    public void extendTo(int x, int y, int z) {
+        maxX = Math.max(maxX, x);
+        minX = Math.min(minX, x);
+        maxY = Math.max(maxY, y);
+        minY = Math.min(minY, y);
+        maxZ = Math.max(maxZ, z);
+        minZ = Math.min(minZ, z);
     }
 
     public void iterate(Consumer<Position> consumer) {

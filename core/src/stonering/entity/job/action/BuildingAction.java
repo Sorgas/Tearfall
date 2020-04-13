@@ -12,7 +12,7 @@ import stonering.util.global.Logger;
 
 /**
  * Action for creating buildings on map.
- * Creates name for bringing materials to construction site.
+ * Creates action for bringing materials to construction site.
  */
 public class BuildingAction extends GenericBuildingAction {
     private BuildingType buildingType;

@@ -19,6 +19,7 @@ public class SelectEntitySelectionTool extends SelectionTool {
         selector().get(BoxSelectionAspect.class).boxEnabled = true;
         selector().size.set(1, 1);
         selector().get(RenderAspect.class).region = AtlasesEnum.ui_tiles.getBlockTile(0, 2);
+        GameMvc.view().toolbarStage.hideTab();
     }
 
     @Override

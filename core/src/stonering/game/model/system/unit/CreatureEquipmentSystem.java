@@ -54,7 +54,7 @@ public class CreatureEquipmentSystem extends EntitySystem<Unit> {
     public void fillSlot(EquipmentAspect equipment, EquipmentSlot slot, @NotNull Item item) {
         if(item.type.has(WearAspect.class)) {
             slot.item = item; // add to wear slot
-            getItemContainer().equippedItemsSystem.itemEquipped(item, equipment);
+            itemContainer().equippedItemsSystem.itemEquipped(item, equipment);
         } else {
             Logger.EQUIPMENT.logError("Target item " + item + "is not wear ");
         }
@@ -62,25 +62,25 @@ public class CreatureEquipmentSystem extends EntitySystem<Unit> {
 
     public void fillGrabSlot(EquipmentAspect equipment, GrabEquipmentSlot slot, @NotNull Item item) {
         slot.grabbedItem = item; // add to wear slot
-        getItemContainer().equippedItemsSystem.itemEquipped(item, equipment);
+        itemContainer().equippedItemsSystem.itemEquipped(item, equipment);
     }
 
     //TODO add layers
     public Item freeSlot(EquipmentSlot slot) {
         Item item = slot.item;
         slot.item = null;
-        if (item != null) getItemContainer().equippedItemsSystem.itemUnequipped(item);
+        if (item != null) itemContainer().equippedItemsSystem.itemUnequipped(item);
         return item;
     }
 
     public Item freeGrabSlot(GrabEquipmentSlot slot) {
         Item item = slot.grabbedItem;
         slot.grabbedItem = null;
-        if (item != null) getItemContainer().equippedItemsSystem.itemUnequipped(item);
+        if (item != null) itemContainer().equippedItemsSystem.itemUnequipped(item);
         return item;
     }
 
-    private ItemContainer getItemContainer() {
+    private ItemContainer itemContainer() {
         return container == null ? container = GameMvc.model().get(ItemContainer.class) : container;
     }
 }

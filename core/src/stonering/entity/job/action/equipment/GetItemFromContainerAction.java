@@ -50,7 +50,7 @@ public class GetItemFromContainerAction extends Action {
             EquipmentAspect equipment = task.performer.get(EquipmentAspect.class);
             GrabEquipmentSlot slot = system.getSlotForPickingUpItem(equipment, item);
             if (slot != null) {
-                itemContainer.containedItemsSystem.removeFromContainer(item, containerAspect);
+                itemContainer.containedItemsSystem.removeItemFromContainer(item, containerAspect);
                 system.fillGrabSlot(equipment, slot, item);
                 return;
             }

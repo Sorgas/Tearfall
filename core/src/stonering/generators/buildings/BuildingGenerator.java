@@ -70,11 +70,11 @@ public class BuildingGenerator {
                 switch (aspect.get(0)) {
                     case "workbench": {
                         building.add(new WorkbenchAspect(building));
+                        building.add(new ItemContainerAspect(building, aspect.get(1).split("/"))); // all workbenches are containers
                         break;
                     }
                     case "item_container": {
-                        ItemContainerAspect itemContainerAspect = new ItemContainerAspect(building, aspect.get(1).split("/"));
-                        building.add(itemContainerAspect);
+                        building.add(new ItemContainerAspect(building, aspect.get(1).split("/")));
                         break;
                     }
                     case "rest_furniture": {

@@ -1,6 +1,5 @@
 package stonering.stage.building;
 
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -20,7 +19,7 @@ import java.util.Map;
  */
 public class BuildingMaterialTab extends Container<Table> {
     private Table sectionsTable;
-    public final Map<String, Actor> sectionMap = new HashMap<>();
+    public final Map<String, ItemSelectSection> sectionMap = new HashMap<>();
 
     public BuildingMaterialTab() {
         Table table;

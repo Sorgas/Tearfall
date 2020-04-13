@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import stonering.entity.RenderAspect;
 import stonering.entity.building.BuildingOrder;
 import stonering.entity.crafting.IngredientOrder;
+import stonering.entity.item.selectors.ItemSelector;
 import stonering.entity.job.designation.BuildingDesignation;
 import stonering.enums.buildings.BuildingType;
 import stonering.enums.buildings.BuildingTypeMap;
@@ -14,7 +15,9 @@ import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.EntitySelector;
 import stonering.game.model.entity_selector.aspect.BoxSelectionAspect;
 import stonering.game.model.system.task.TaskContainer;
+import stonering.stage.building.ItemSelectSection;
 import stonering.stage.building.MaterialItemSelectSection;
+import stonering.stage.building.UniqueItemSelectSection;
 import stonering.util.geometry.Int3dBounds;
 import stonering.util.geometry.IntVector2;
 import stonering.util.geometry.Position;
@@ -30,6 +33,7 @@ import static stonering.stage.renderer.AtlasesEnum.ui_tiles;
 /**
  * Tool for selecting place for new building. Buildings are placed one by one and can be rotated.
  * On selecting place, new {@link BuildingDesignation} is created.
+ * Selector for building materials are created basing on {@link stonering.stage.building.BuildingMaterialTab}.
  * Materials set for last designation of this building or default materials will be set for designation.
  * If player holds lCtrl while confirming building, material selection menu appears.
  * <p>
@@ -54,7 +58,7 @@ public class BuildingSelectionTool extends SelectionTool {
         selector().size.set(type.size);
         validator = PlaceValidatorsEnum.getValidator(blueprint.placing);
         orientation = N; // reset orientation
-        workbenchAccessSprite = ui_tiles.getBlockTile(1, 3);
+        workbenchAccessSprite = ui_tiles.getBlockTile(11, 3);
         updateSpriteAndSize();
     }
 
@@ -68,6 +72,7 @@ public class BuildingSelectionTool extends SelectionTool {
     public void handleSelection(Int3dBounds bounds) {
         EntitySelector selector = selector();
         Position cachePosition = new Position();
+        // validate position
         for (int x = 0; x < selector.size.x; x++) {
             for (int y = 0; y < selector.size.y; y++) {
                 if (!validator.apply(cachePosition.set(selector.position).add(x, y, 0))) {
@@ -76,7 +81,8 @@ public class BuildingSelectionTool extends SelectionTool {
                 }
             }
         }
-        GameMvc.model().get(TaskContainer.class).designationSystem.submitBuildingDesignation(createOrder(),1);
+
+        GameMvc.model().get(TaskContainer.class).designationSystem.submitBuildingDesignation(createOrder(), 1);
         // lock unique items
     }
 
@@ -102,10 +108,10 @@ public class BuildingSelectionTool extends SelectionTool {
         BuildingOrder order = new BuildingOrder(blueprint, selector().position.clone());
         order.orientation = orientation;
         blueprint.parts.forEach((part, ingredient) -> {
-            Actor actor = GameMvc.view().toolbarStage.buildingTab.sectionMap.get(part);
-            if(actor instanceof MaterialItemSelectSection) {
-                order.parts.put(part, new IngredientOrder(ingredient, ((MaterialItemSelectSection) actor).getItemSelector()));
-            }
+            ItemSelectSection section = GameMvc.view().toolbarStage.buildingTab.sectionMap.get(part);
+            ItemSelector itemSelector = section.getItemSelector();
+            System.out.println(itemSelector.toString());
+            order.parts.put(part, new IngredientOrder(ingredient, itemSelector));
         });
         return order;
     }

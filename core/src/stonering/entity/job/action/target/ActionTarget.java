@@ -33,7 +33,7 @@ public abstract class ActionTarget {
      */
     public ActionTargetStatusEnum check(Entity performer) {
         Position performerPosition = performer.position;
-        Logger.TASKS.logDebug("Checking action target " + performerPosition + " " + getPosition());
+        Logger.TASKS.logDebug("Checking action target performer: " + performerPosition + ", target: " + getPosition());
         Position targetPosition = getPosition();
         int distance = getDistance(performerPosition);
         if (distance > 1) return WAIT; // target not yet reached
@@ -75,6 +75,9 @@ public abstract class ActionTarget {
     private int getDistance(Position current) {
         Position target = getPosition();
         if (current.equals(target)) return 0;
+        if(current == null || target == null) {
+            System.out.println();
+        }
         if (current.z == target.z && current.isNeighbour(target)) return 1;
         return 2;
     }

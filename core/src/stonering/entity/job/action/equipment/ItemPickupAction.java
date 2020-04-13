@@ -22,9 +22,11 @@ import static stonering.entity.job.action.ActionConditionStatusEnum.*;
  * @author Alexander on 12.01.2019.
  */
 public class ItemPickupAction extends Action {
+    private Item item;
 
     public ItemPickupAction(Item item) {
         super(new ItemActionTarget(item));
+        this.item = item;
         CreatureEquipmentSystem system = GameMvc.model().get(UnitContainer.class).equipmentSystem;
         ItemContainer itemContainer = GameMvc.model().get(ItemContainer.class);
         LocalMap map = GameMvc.model().get(LocalMap.class);
@@ -33,7 +35,6 @@ public class ItemPickupAction extends Action {
             EquipmentAspect equipment = task.performer.get(EquipmentAspect.class);
             if (!itemContainer.itemMap.get(item.position).contains(item)
                     || !map.passageMap.inSameArea(item.position, task.performer.position)) return FAIL; // item not available
-
             if (!system.canPickUpItem(equipment, item)) { // if no empty grab slots
                 task.addFirstPreAction(new FreeGrabSlotAction()); // free another slot
                 return NEW;
@@ -43,13 +44,20 @@ public class ItemPickupAction extends Action {
 
         onFinish = () -> { // add item to unit
             EquipmentAspect equipment = task.performer.get(EquipmentAspect.class);
-            GrabEquipmentSlot slot = system.getSlotForPickingUpItem(equipment, item);
-            if (slot != null) {
-                itemContainer.onMapItemsSystem.removeItemFromMap(item);
-                system.fillGrabSlot(equipment, slot, item);
-                return;
-            }
+            itemContainer.onMapItemsSystem.removeItemFromMap(item);
+            equipment.hauledItems.contains(item);
+            itemContainer.equippedItemsSystem.itemEquipped(item, equipment);
+            //            GrabEquipmentSlot slot = system.getSlotForPickingUpItem(equipment, item);
+//            if (slot != null) {
+//                system.fillGrabSlot(equipment, slot, item);
+//                return;
+//            }
             Logger.EQUIPMENT.logError("Slot for picking up item " + item + " not found");
         };
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + "pick up " + item;
     }
 }

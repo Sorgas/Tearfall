@@ -47,51 +47,24 @@ public class BuildingActionTarget extends ActionTarget {
      */
     public boolean findPositionForBuilder(BuildingOrder order, Position currentBuilderPosition) {
         UtilByteArray area = GameMvc.model().get(LocalMap.class).passageMap.area;
-        if(order.blueprint.construction) {
+        if (order.blueprint.construction) {
             BlockTypeEnum blockType = BlockTypeEnum.getType(order.blueprint.building);
             builderPosition = new NeighbourPositionStream(order.position) // position near target tile
                     .filterInArea(area.get(currentBuilderPosition))
                     .filterByAccessibilityWithFutureTile(blockType)
                     .stream.findFirst().orElse(null);
         } else {
-            Position inBuildingPosition = getPassableBuildingTile(order);
-
-            if(inBuildingPosition != null) { // position found inside future building
-                builderPosition = inBuildingPosition;
-            } else { // look for position near building
-                Int2dBounds bounds = defineBuildingBounds(order);
-                bounds.extend(1);
-                int builderArea = area.get(currentBuilderPosition);
-                builderPosition = bounds.collectBorders().stream() // near position with same area
-                        .map(vector -> new Position(vector.x, vector.y, order.position.z))
-                        .filter(position -> area.get(position) == builderArea)
-                        .findFirst().orElse(null);
-            }
+            BuildingType type = BuildingTypeMap.getBuilding(order.blueprint.building);
+            Int2dBounds bounds = new Int2dBounds(order.position, RotationUtil.orientSize(type.size, order.orientation));
+            bounds.extend(1);
+            int builderArea = area.get(currentBuilderPosition);
+            builderPosition = bounds.collectBorders().stream() // near position with same area
+                    .map(vector -> new Position(vector.x, vector.y, order.position.z))
+                    .filter(position -> area.get(position) == builderArea)
+                    .findFirst().orElse(null);
         }
-        if(builderPosition != null) targetType = EXACT;
+        if (builderPosition != null) targetType = EXACT;
         return builderPosition != null;
-    }
-
-    private Int2dBounds defineBuildingBounds(BuildingOrder order) {
-        BuildingType type = BuildingTypeMap.getBuilding(order.blueprint.building);
-        IntVector2 orientedSize = RotationUtil.orientSize(type.size, order.orientation);
-        Position position = order.position;
-        return new Int2dBounds(position.x, position.y, position.x + orientedSize.x, position.y + orientedSize.y);
-    }
-
-    private Position getPassableBuildingTile(BuildingOrder order) {
-        BuildingType type = BuildingTypeMap.getBuilding(order.blueprint.building);
-        IntVector2 orientedSize = RotationUtil.orientSize(type.size, order.orientation);
-        for (int x = 0; x < type.size.x; x++) {
-            for (int y = 0; y < type.size.y; y++) {
-                if(type.passageArray[x][y] == PassageEnum.PASSABLE) {
-                    IntVector2 rotatedVector = RotationUtil.rotateVector(new IntVector2(x,y), order.orientation);
-                    RotationUtil.normalizeWithSize(rotatedVector, orientedSize);
-                    return Position.add(order.position, rotatedVector.x, rotatedVector.y, 0); // return first found passable position
-                }
-            }
-        }
-        return null;
     }
 
     public void reset() {

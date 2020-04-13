@@ -30,9 +30,14 @@ public class DesignationSystem {
     }
 
     public void update() {
-        container.designations.values().forEach(
-                designation -> {
+        container.designations.values().forEach(designation -> {
                     if (designation.task == null) createTaskForDesignation(designation);
+                    if(designation instanceof BuildingDesignation) {
+                        if(!((BuildingDesignation) designation).checkSite()) {
+                            Logger.BUILDING.logWarn("Place for building became invalid.");
+                            designation.task.status = CANCELED;
+                        }
+                    }
                 }
         );
     }

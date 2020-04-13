@@ -2,6 +2,8 @@ package stonering.util.geometry;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 /**
  * @author Alexander_Kuzyakov on 10.06.2019.
@@ -18,6 +20,10 @@ public class Int2dBounds {
 
     public Int2dBounds(int minX, int minY, int maxX, int maxY) {
         set(minX, minY, maxX, maxY);
+    }
+
+    public Int2dBounds(Position start, IntVector2 size) {
+        this(start.x, start.y, start.x + size.x - 1, start.y + size.y - 1);
     }
 
     public boolean isIn(Position position) {
@@ -46,6 +52,27 @@ public class Int2dBounds {
         minY -= value;
         maxX += value;
         maxY += value;
+    }
+
+    public void extendTo(IntVector2 vector) {
+        extendTo(vector.x, vector.y);
+    }
+
+    public void extendTo(int x, int y) {
+        if (x > 0) maxX += x;
+        if (x < 0) minX += x;
+        if (y > 0) maxY += y;
+        if (y < 0) minY += y;
+    }
+
+    public Stream<IntVector2> stream() {
+        List<IntVector2> list = new ArrayList<>();
+        for (int x = minX; x <= maxX; x++) {
+            for (int y = minY; y <= maxY; y++) {
+                list.add(new IntVector2(x, y));
+            }
+        }
+        return list.stream();
     }
 
     public List<IntVector2> collectBorders() {

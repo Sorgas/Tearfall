@@ -8,6 +8,7 @@ import stonering.entity.unit.aspects.MovementAspect;
 import stonering.entity.unit.aspects.PlanningAspect;
 import stonering.enums.action.ActionStatusEnum;
 import stonering.game.model.system.EntitySystem;
+import stonering.util.global.Logger;
 
 import static stonering.entity.job.action.ActionConditionStatusEnum.FAIL;
 import static stonering.entity.job.action.ActionConditionStatusEnum.OK;
@@ -42,7 +43,8 @@ public class CreatureActionPerformingSystem extends EntitySystem<Unit> {
         MovementAspect movement = unit.get(MovementAspect.class);
         Task task = planning.task;
         // creature has active task but is not moving
-        if (task != null && task.status == ACTIVE && movement.target == null) checkTarget(planning, movement, task);
+        if (task != null && task.status == ACTIVE && movement.target == null)
+            checkTarget(planning, movement, task);
     }
 
     /**
@@ -50,18 +52,18 @@ public class CreatureActionPerformingSystem extends EntitySystem<Unit> {
      * Creating new action during target check, will be handled on next update.
      */
     private void checkTarget(PlanningAspect planning, MovementAspect movement, Task task) {
-        ActionTargetStatusEnum checkResult = task.nextAction.actionTarget.check(planning.entity);
-        switch (checkResult) {
+        Logger.TASKS.logDebug("Checking target of " + task.nextAction);
+        switch (task.nextAction.actionTarget.check(planning.entity)) {
             case READY: // creature is in target, perform
-                System.out.println("target ok");
+                Logger.TASKS.logDebug("check OK");
                 handleReachingActionTarget(task, planning);
                 break;
             case WAIT: // unit is far from reachable target
-                System.out.println("target far");
+                Logger.TASKS.logDebug("check WAIT");
                 handleStartMovement(task, planning, movement);
                 break;
             case FAIL: // target unreachable
-                System.out.println("target fail");
+                Logger.TASKS.logDebug("check FAIL");
                 task.status = FAILED;
                 break;
         }
@@ -97,8 +99,7 @@ public class CreatureActionPerformingSystem extends EntitySystem<Unit> {
         ActionConditionStatusEnum result = task.nextAction.startCondition.get();
         System.out.println(result);
         planning.actionChecked = result == OK; // action is checked and did not generate sub actions
-        if(result == FAIL)
-            task.status = FAILED; // task will be removed
+        if(result == FAIL) task.status = FAILED; // task will be removed
         return planning.actionChecked;
     }
 }

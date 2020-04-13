@@ -30,4 +30,5 @@ public class BuildingOrder {
         parts = new HashMap<>();
         blueprint.parts.forEach((partName, ingredient) -> parts.put(partName, new IngredientOrder(ingredient)));
     }
+
 }

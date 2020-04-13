@@ -1,5 +1,6 @@
 package stonering.entity.crafting;
 
+import stonering.entity.building.BuildingOrder;
 import stonering.entity.item.Item;
 import stonering.entity.item.selectors.IngredientOrderItemSelector;
 import stonering.entity.item.selectors.ItemSelector;
@@ -10,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Part of {@link ItemOrder}.
+ * Part of {@link ItemOrder} or {@link BuildingOrder}.
  * Tag and item type taken from recipe. Material and origin are set to any on creation and then can be changed by player. //TODO
  *
  * //TODO add checkboxes for item types.

@@ -108,11 +108,11 @@ public class Task {
     }
 
     private void actionAdded(Action action) {
-        Logger.TASKS.logDebug("Action " + action + " added to task " + name);
+//        Logger.TASKS.logDebug("Action " + action + " added to task " + name);
         action.task = this;
         updateNextAction();
-        Logger.TASKS.logDebug("Actions count pre: " + preActions.size() + " post: " + postActions.size());
-        Logger.TASKS.logDebug("Next action is: " + nextAction);
+//        Logger.TASKS.logDebug("Actions count pre: " + preActions.size() + " post: " + postActions.size());
+//        Logger.TASKS.logDebug("Next action is: " + nextAction);
     }
 
     /**
