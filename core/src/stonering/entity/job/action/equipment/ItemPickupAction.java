@@ -45,19 +45,14 @@ public class ItemPickupAction extends Action {
         onFinish = () -> { // add item to unit
             EquipmentAspect equipment = task.performer.get(EquipmentAspect.class);
             itemContainer.onMapItemsSystem.removeItemFromMap(item);
-            equipment.hauledItems.contains(item);
+            equipment.hauledItems.add(item);
             itemContainer.equippedItemsSystem.itemEquipped(item, equipment);
-            //            GrabEquipmentSlot slot = system.getSlotForPickingUpItem(equipment, item);
-//            if (slot != null) {
-//                system.fillGrabSlot(equipment, slot, item);
-//                return;
-//            }
             Logger.EQUIPMENT.logError("Slot for picking up item " + item + " not found");
         };
     }
 
     @Override
     public String toString() {
-        return super.toString() + "pick up " + item;
+        return super.toString() + "pick up " + item.title;
     }
 }

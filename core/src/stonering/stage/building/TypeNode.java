@@ -47,10 +47,8 @@ public class TypeNode extends ItemSelectionNode {
         checkbox.setChecked(state);
         if(state) {
             config.types.add(type);
-            System.out.println("type " + type + " added");
         } else {
             config.types.remove(type);
-            System.out.println("type " + type + " removed");
         }
     }
 

@@ -52,7 +52,7 @@ public class HoeingAction extends Action {
         Logger.TASKS.logDebug("Creating equipping action of hoe");
         ItemSelector toolItemSelector = new ToolWithActionItemSelector("hoe");
         ItemContainer itemContainer = GameMvc.model().get(ItemContainer.class);
-        Item item = itemContainer.util.getItemAvailableBySelector(toolItemSelector, actionTarget.getPosition());
+        Item item = itemContainer.util.getItemAvailableBySelector(toolItemSelector, target.getPosition());
         if(item == null) return FAIL;
         task.addFirstPreAction(new EquipToolItemAction(item));
         return OK;

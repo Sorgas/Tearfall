@@ -71,19 +71,10 @@ public class Task {
         return preActions.isEmpty() && initialAction.status == COMPLETE && postActions.isEmpty();
     }
 
-    /**
-     * Removes pre and post action from task.
-     * Changes task status.
-     */
-    public void finishAction(Action action) {
-        Logger.TASKS.logDebug("Action " + action + " finished.");
-        if (action != initialAction) { // remove non-initial finished action
-            preActions.remove(action);
-            postActions.remove(action);
-            Logger.TASKS.logDebug("Actions count pre: " + preActions.size() + " post: " + postActions.size());
-        }
+    public void removeAction(Action action) {
+        preActions.remove(action);
+        postActions.remove(action);
         updateNextAction();
-        Logger.TASKS.logDebug("Next action is: " + nextAction);
     }
 
     public Action addFirstPreAction(Action action) {

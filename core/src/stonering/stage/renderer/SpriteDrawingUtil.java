@@ -30,10 +30,14 @@ public class SpriteDrawingUtil {
     }
 
     /**
-     * Draws sprite on localMap position.
+     * Draws sprite on localMap position. Handles sprites of non-standard sizes.
      */
     public void drawSprite(TextureRegion sprite, AtlasesEnum atlas, Position position) {
         batch.draw(sprite, getBatchX(position.x) + atlas.X_CORRECTION, getBatchY(position.y, position.z) + atlas.Y_CORRECTION);
+    }
+
+    public void drawSprite(TextureRegion sprite, Position position) {
+        drawSprite(sprite, position.x, position.y, position.z);
     }
 
     /**
@@ -46,7 +50,7 @@ public class SpriteDrawingUtil {
     public void drawSprite(TextureRegion sprite, float x, float y, float z) {
         batch.draw(sprite, getBatchX(x), getBatchY(y, z));
     }
-    
+
     public void drawScale(TextureRegion sprite, Position position, int width, int height) {
         batch.draw(sprite, getBatchX(position.x), getBatchY(position.y, position.z), width, height);
     }

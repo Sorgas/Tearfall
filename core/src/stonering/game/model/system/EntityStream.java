@@ -46,7 +46,7 @@ public abstract class EntityStream<T extends Entity> {
         return this;
     }
 
-    public EntityStream<T> filterNotInList(List<Entity> list) {
+    public EntityStream<T> filterNotInList(List<T> list) {
         stream = stream.filter(entity -> !list.contains(entity));
         return this;
     }

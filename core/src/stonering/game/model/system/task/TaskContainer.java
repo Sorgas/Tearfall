@@ -63,7 +63,7 @@ public class TaskContainer implements ModelComponent, Updatable {
         for (JobsEnum enabledJob : aspect.getEnabledJobs()) {
             for (Task task : tasks.get(enabledJob)) {
                 if (task.performer != null) Logger.TASKS.logError("Task " + task + " with performer is in open map.");
-                ActionTarget target = task.nextAction.actionTarget;
+                ActionTarget target = task.nextAction.target;
                 if (task.performer == null &&
                         task.status == TaskStatusEnum.OPEN &&
                         map.util.positionReachable(unit.position, target.getPosition(), target.targetType != ActionTargetTypeEnum.EXACT)) {

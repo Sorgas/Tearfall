@@ -45,6 +45,10 @@ public class TaggedLogger implements ApplicationLogger {
         System.out.println(tag + DEBUG_TAG + message);
     }
 
+    public void debugn(String tag, String message) {
+        System.out.print(tag + DEBUG_TAG + message);
+    }
+
     @Override
     public void debug(String tag, String message, Throwable exception) {
         System.out.println(tag + DEBUG_TAG + message + exception.getMessage());

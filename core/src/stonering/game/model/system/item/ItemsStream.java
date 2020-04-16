@@ -89,11 +89,6 @@ public class ItemsStream extends EntityStream<Item> {
     }
 
     @Override
-    public ItemsStream filterNotInList(List<Entity> list) {
-        return (ItemsStream) super.filterNotInList(list);
-    }
-
-    @Override
     public ItemsStream sorted(Comparator<Entity> comparator) {
         return (ItemsStream) super.sorted(comparator);
     }
@@ -111,5 +106,10 @@ public class ItemsStream extends EntityStream<Item> {
     @Override
     protected ItemContainer getContainer() {
         return GameMvc.model().get(ItemContainer.class);
+    }
+
+    @Override
+    public ItemsStream filterNotInList(List<Item> list) {
+        return (ItemsStream) super.filterNotInList(list);
     }
 }

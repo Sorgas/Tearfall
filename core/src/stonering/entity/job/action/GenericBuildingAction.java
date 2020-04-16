@@ -1,25 +1,23 @@
 package stonering.entity.job.action;
 
-import stonering.entity.Entity;
 import stonering.entity.building.BuildingOrder;
 import stonering.entity.crafting.IngredientOrder;
 import stonering.entity.item.Item;
 import stonering.entity.item.selectors.ConfiguredItemSelector;
-import stonering.entity.item.selectors.ItemSelector;
 import stonering.entity.job.action.item.PutItemToPositionAction;
 import stonering.entity.job.action.target.BuildingActionTarget;
 import stonering.entity.job.designation.BuildingDesignation;
 import stonering.enums.buildings.BuildingType;
 import stonering.enums.buildings.BuildingTypeMap;
 import stonering.game.GameMvc;
+import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.system.item.ItemsStream;
 import stonering.util.geometry.*;
-import stonering.util.global.Logger;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static stonering.entity.job.action.ActionConditionStatusEnum.*;
@@ -38,87 +36,91 @@ import static stonering.entity.job.action.ActionConditionStatusEnum.*;
  */
 public abstract class GenericBuildingAction extends Action {
     protected final BuildingOrder order;
-    private final BuildingActionTarget target;
+    private final BuildingActionTarget buildingTarget;
     private ItemContainer itemContainer;
 
     protected GenericBuildingAction(BuildingOrder order) {
         super(new BuildingActionTarget(order));
-        target = (BuildingActionTarget) actionTarget;
+        buildingTarget = (BuildingActionTarget) target;
         this.order = order;
 
-        takingCondition = () -> {
-            return ((BuildingDesignation) task.designation).checkSite();
-//            return siteValid && checkItemsAreAvailable(); // items are in the same area with performer
-        };
+        takingCondition = () -> ((BuildingDesignation) task.designation).checkSite(); // TODO delete designation on fail
 
         startCondition = () -> {
-            Logger.TASKS.log("Checking " + this);
-            System.out.println("checking position");
             if (!checkBuilderPosition()) return failAction(); // cannot find position for builder
-            System.out.println("looking for items");
-            if (!findItems()) return failAction(); // not enough items for building
+
+            // check saved items
+            if(!updateItems()) return failAction();
             lockItems();
-            System.out.println("checking items positions");
             if (checkBringingItems()) return NEW; // bring material items
-            System.out.println("checking excess items");
             if (checkClearingSite()) return NEW; // remove other items
             return OK; // build
         };
     }
 
     private boolean checkBuilderPosition() {
-        return target.builderPosition != null || target.findPositionForBuilder(order, task.performer.position);
+        return buildingTarget.builderPosition != null || buildingTarget.findPositionForBuilder(order, task.performer.position);
     }
 
     /**
-     * Looks for items in {@link ItemContainer}, and saves them to {@link IngredientOrder}s.
-     * Doesn't saves items if their number is insufficient.
-     * Does not locks items.
-     * TODO add variants of {@link stonering.entity.item.selectors.ConfiguredItemSelector}
-     *
-     * @return true, if all ingredients have items.
+     * Checks items of all ingredients. If items became invalid, clears them.
+     * Then, finds items for all cleared ingredients.
      */
-    private boolean findItems() {
-        boolean ok = true;
-        List<Entity> addedItems = new ArrayList<>();
-        for (IngredientOrder ingredientOrder : order.parts.values()) {
-            ItemSelector selector = ingredientOrder.itemSelector;
-            ItemsStream itemsStream = new ItemsStream()
-                    .filterNotInList(addedItems)
-                    .filterBySelector(ingredientOrder.itemSelector)
-                    .filterByReachability(target.builderPosition);
-            List<Item> items;
-            if (selector instanceof ConfiguredItemSelector) {
-                items = ((ConfiguredItemSelector) selector).selectVariant(itemsStream.toList(), ingredientOrder.ingredient.quantity, target.builderPosition);
-            } else {
-                items = itemsStream.getNearestTo(target.getPosition(), ingredientOrder.ingredient.quantity).toList();
-            }
-            if (items.size() < ingredientOrder.ingredient.quantity) { // check quantity of found items
-                order.parts.values().forEach(value -> value.items.clear()); // reset ingredient orders
-                return false;
-            }
-            ingredientOrder.items.addAll(items);
-            addedItems.addAll(items);
+    private boolean updateItems() {
+        List<IngredientOrder> invalidIngredients = order.parts.values().stream()
+                .filter(ingredientOrder -> !ingredientOrderValid(ingredientOrder))
+                .collect(Collectors.toList());
+        invalidIngredients.forEach(this::clearIngredientItems); // clear all invalid ingredients
+        for (IngredientOrder invalidOrder : invalidIngredients) {
+            if(!findItemsForIngredient(invalidOrder)) return false; // no items found for some ingredient
         }
-        if (!ok) order.parts.values().forEach(value -> value.items.clear()); // reset ingredient orders
-        return ok;
+        return true;
     }
 
-    /**
-     * Checks positions of items and creates actions for bringing them.
-     *
-     * @return true, if at least one action was created.
-     */
+    private void clearIngredientItems(IngredientOrder ingredientOrder) {
+        ingredientOrder.items.clear();
+        // unlock items
+    }
+
+    private boolean findItemsForIngredient(IngredientOrder ingredientOrder) {
+        List<Item> otherItems = order.parts.values().stream()
+                .flatMap(ingredientOrder1 -> ingredientOrder1.items.stream())
+                .collect(Collectors.toList()); // saved items in other ingredients should not be selected
+        ItemsStream validItems = new ItemsStream()
+                .filterNotInList(otherItems)
+                .filterBySelector(ingredientOrder.itemSelector)
+                .filterByReachability(target.getPosition());
+        List<Item> items;
+        if (ingredientOrder.itemSelector instanceof ConfiguredItemSelector) { // select items of one type/material of allowed ones
+            items = ((ConfiguredItemSelector) ingredientOrder.itemSelector)
+                    .selectVariant(validItems.toList(), ingredientOrder.ingredient.quantity, buildingTarget.builderPosition);
+        } else { // select nearest of unique items
+            items = validItems.getNearestTo(target.getPosition(), ingredientOrder.ingredient.quantity).toList();
+        }
+        if (items.size() < ingredientOrder.ingredient.quantity) return false; // not enough items found
+        ingredientOrder.items.addAll(items); // save found items to order
+        return true;
+    }
+
+    private boolean ingredientOrderValid(IngredientOrder ingredientOrder) {
+        LocalMap map = GameMvc.model().get(LocalMap.class);
+        byte performerArea = map.passageMap.area.get(task.performer.position);
+        return ingredientOrder.items.stream()
+                .filter(item -> ingredientOrder.itemSelector.checkItem(item)) // item is still ok
+                .map(item -> item.position)
+                .map(map.passageMap.area::get)
+                .filter(area -> area == performerArea) // item is still reachable
+                .count() == ingredientOrder.ingredient.quantity;
+    }
+
     private boolean checkBringingItems() {
-        List<Item> items =  order.parts.values().stream()
+        List<Item> items = order.parts.values().stream() // all ingredients
                 .map(ingredientOrder -> ingredientOrder.items)
                 .flatMap(Collection::stream)
-                .filter(item -> !item.position.equals(target.builderPosition)) // item is far from construction site
+                .filter(item -> !item.position.equals(target.getPosition())) // item is far from construction site
                 .collect(Collectors.toList());
-        for (Item item1 : items) {
-            task.addFirstPreAction(new PutItemToPositionAction(item1, target.builderPosition));
-            System.out.println("put item action created " + item1.position);
-        }
+        // create action for each item
+        for (Item item : items) task.addFirstPreAction(new PutItemToPositionAction(item, target.getPosition()));
         return !items.isEmpty();
     }
 
@@ -130,10 +132,10 @@ public abstract class GenericBuildingAction extends Action {
     private boolean checkClearingSite() {
         List<Item> materialItems = getSavedMaterialItems();
         return getBuildingBounds().stream()
-                .map(vector -> itemContainer().getItemsInPosition(vector.x, vector.y, target.center.z))
+                .map(vector -> itemContainer().getItemsInPosition(vector.x, vector.y, target.getPosition().z))
                 .flatMap(Collection::stream)
                 .filter(item -> !materialItems.contains(item)) // not material items
-                .map(item -> new PutItemToPositionAction(item, target.builderPosition)) // create actions
+                .map(item -> new PutItemToPositionAction(item, target.getPosition())) // create actions
                 .map(task::addFirstPreAction) // add to task
                 .count() > 0;
     }
@@ -151,27 +153,21 @@ public abstract class GenericBuildingAction extends Action {
     }
 
     protected void consumeItems() {
-        ItemContainer itemContainer = GameMvc.model().get(ItemContainer.class);
         order.parts.values().stream().map(order -> order.items).flatMap(Collection::stream).forEach(item -> {
-            itemContainer.onMapItemsSystem.removeItemFromMap(item);
-            itemContainer.removeItem(item);
+            itemContainer().onMapItemsSystem.removeItemFromMap(item);
+            itemContainer().removeItem(item);
         });
     }
 
     private ActionConditionStatusEnum failAction() {
-        target.reset();
+        buildingTarget.reset();
         unlockItems();
         clearSavedItems();
         return FAIL;
     }
 
-
-    private ItemContainer itemContainer() {
-        return itemContainer == null ? itemContainer = GameMvc.model().get(ItemContainer.class) : itemContainer;
-    }
-
     private Int2dBounds getBuildingBounds() {
-        Int2dBounds bounds = new Int2dBounds(target.center.x, target.center.y, target.center.x, target.center.y);
+        Int2dBounds bounds = new Int2dBounds(order.position, 1, 1); // construction are 1x1
         if (!order.blueprint.construction) {
             BuildingType type = BuildingTypeMap.getBuilding(order.blueprint.building);
             IntVector2 size = RotationUtil.orientSize(type.size, order.orientation);
@@ -190,6 +186,10 @@ public abstract class GenericBuildingAction extends Action {
     private void clearSavedItems() {
         order.parts.values().stream()
                 .map(ingredientOrder -> ingredientOrder.items)
-                .forEach(List::clear);
+                .forEach(Set::clear);
+    }
+
+    private ItemContainer itemContainer() {
+        return itemContainer == null ? itemContainer = GameMvc.model().get(ItemContainer.class) : itemContainer;
     }
 }

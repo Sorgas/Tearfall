@@ -23,7 +23,11 @@ public class Int2dBounds {
     }
 
     public Int2dBounds(Position start, IntVector2 size) {
-        this(start.x, start.y, start.x + size.x - 1, start.y + size.y - 1);
+        this(start, size.x, size.y);
+    }
+
+    public Int2dBounds(Position start, int width, int height) {
+        this(start.x, start.y, start.x + width - 1, start.y + height - 1);
     }
 
     public boolean isIn(Position position) {

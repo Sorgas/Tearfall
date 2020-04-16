@@ -11,8 +11,6 @@ import java.util.stream.Collectors;
 
 /**
  * Stores all item equipped and hauled by unit. See {@link stonering.game.model.system.unit.CreatureEquipmentSystem}.
- * 
- * 
  * TODO add all slots mentioned in {@link UnitEquipmentTab}.
  * 
  * @author Alexander Kuzyakov on 03.01.2018.
@@ -23,12 +21,14 @@ public class EquipmentAspect extends Aspect {
 
     public List<Item> hauledItems;                           // fast check list
     public final List<Item> equippedItems;                   // equipped item list for faster checking (worn items)
+
     public final List<EquipmentSlot> desiredSlots;           // uncovered limbs give comfort penalty
 
     public EquipmentAspect(Entity entity) {
         super(entity);
         slots = new HashMap<>();
         grabSlots = new HashMap<>();
+        hauledItems = new ArrayList<>();
         equippedItems = new ArrayList<>();
         desiredSlots = new ArrayList<>();
     }

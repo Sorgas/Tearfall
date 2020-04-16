@@ -59,7 +59,7 @@ public class CreatureMovementSystem extends EntitySystem<Unit> {
         PlanningAspect planning = unit.get(PlanningAspect.class);
         if (movement.path == null) { // path was blocked or not created
             Logger.PATH.logDebug("searching path from " + unit.position + " to " + movement.target);
-            movement.path = aStar.makeShortestPath(unit.position, movement.target, planning.task.nextAction.actionTarget.targetType);
+            movement.path = aStar.makeShortestPath(unit.position, movement.target, planning.task.nextAction.target.targetType);
             if (movement.path == null) {
                 System.out.println("task " + planning.task + " failed no path");
                 planning.task.status = TaskStatusEnum.FAILED; // no path to target, fail task
@@ -73,7 +73,7 @@ public class CreatureMovementSystem extends EntitySystem<Unit> {
      * Finds new movement target and path.
      */
     private void updateMovementAspect(Unit unit, MovementAspect movement, PlanningAspect planning) {
-        ActionTarget actionTarget = planning.task.nextAction.actionTarget;
+        ActionTarget actionTarget = planning.task.nextAction.target;
         switch (actionTarget.targetType) {
             case EXACT:
                 break;

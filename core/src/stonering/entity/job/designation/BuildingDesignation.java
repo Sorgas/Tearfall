@@ -1,5 +1,6 @@
 package stonering.entity.job.designation;
 
+import stonering.entity.RenderAspect;
 import stonering.entity.building.BuildingOrder;
 import stonering.enums.buildings.BuildingType;
 import stonering.enums.buildings.BuildingTypeMap;
@@ -24,8 +25,14 @@ public class BuildingDesignation extends Designation {
     public BuildingDesignation(BuildingOrder order) {
         super(order.position, DesignationTypeEnum.D_BUILD);
         this.order = order;
+
+        BuildingType type = BuildingTypeMap.getBuilding(order.blueprint.building);
+        get(RenderAspect.class).region = type.getSprite(order.orientation); // set sprite of a building
     }
 
+    /**
+     * Checks that tiles did not become invalid since designation.
+     */
     public boolean checkSite() {
         return iterateSite(PlaceValidatorsEnum.getValidator(order.blueprint.placing));
     }

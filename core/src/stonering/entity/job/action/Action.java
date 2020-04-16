@@ -31,7 +31,7 @@ import static stonering.enums.action.ActionStatusEnum.*;
  */
 public abstract class Action {
     public Task task; // can be modified during execution
-    public final ActionTarget actionTarget;
+    public final ActionTarget target;
     public ActionStatusEnum status;
 
     /**
@@ -51,9 +51,9 @@ public abstract class Action {
     public float progress = 0;
     public float maxProgress = 1;
 
-    protected Action(ActionTarget actionTarget) {
-        this.actionTarget = actionTarget;
-        actionTarget.setAction(this);
+    protected Action(ActionTarget target) {
+        this.target = target;
+        target.setAction(this);
         takingCondition = () -> true;
         startCondition = () -> OK;
         onStart = () -> {
@@ -78,7 +78,6 @@ public abstract class Action {
         if (finishCondition.get()) { // last execution of perform()
             status = COMPLETE;
             onFinish.run();
-            task.finishAction(this);
         }
     }
 

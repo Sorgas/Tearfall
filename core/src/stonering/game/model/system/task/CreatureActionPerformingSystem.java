@@ -52,18 +52,17 @@ public class CreatureActionPerformingSystem extends EntitySystem<Unit> {
      * Creating new action during target check, will be handled on next update.
      */
     private void checkTarget(PlanningAspect planning, MovementAspect movement, Task task) {
-        Logger.TASKS.logDebug("Checking target of " + task.nextAction);
-        switch (task.nextAction.actionTarget.check(planning.entity)) {
+        Logger.TASKS.logDebugn("Checking target of " + task.nextAction + ": ");
+        ActionTargetStatusEnum check = task.nextAction.target.check(planning.entity);
+        System.out.println(" " + check.toString());
+        switch (check) {
             case READY: // creature is in target, perform
-                Logger.TASKS.logDebug("check OK");
                 handleReachingActionTarget(task, planning);
                 break;
             case WAIT: // unit is far from reachable target
-                Logger.TASKS.logDebug("check WAIT");
                 handleStartMovement(task, planning, movement);
                 break;
             case FAIL: // target unreachable
-                Logger.TASKS.logDebug("check FAIL");
                 task.status = FAILED;
                 break;
         }
@@ -76,30 +75,30 @@ public class CreatureActionPerformingSystem extends EntitySystem<Unit> {
      * Result of after check is not saved to repeat check when unit reaches target of new action.
      */
     private void handleReachingActionTarget(Task task, PlanningAspect aspect) {
-        if (aspect.actionChecked) {
-            task.nextAction.perform(); // perform action
-            if (task.nextAction.status == ActionStatusEnum.COMPLETE && task.isNoActionsLeft())
-                task.status = COMPLETE; // was last action in task
-        } else {
-            checkAction(task, aspect); // check before performing, can create new actions
+        if(aspect.actionChecked || checkAction(task, aspect)) {
+            System.out.println("perform");
+            task.nextAction.perform(); // perform checked action
+            if(task.nextAction.status == ActionStatusEnum.COMPLETE) { // action completed
+                task.removeAction(task.nextAction); // remove non initial complete action
+                aspect.actionChecked = false; // checked action has been removed
+                if(task.isNoActionsLeft()) task.status = COMPLETE; // all actions completed
+            }
         }
     }
 
     private void handleStartMovement(Task task, PlanningAspect planning, MovementAspect movement) {
-        if(checkAction(task, planning)) movement.target = task.nextAction.actionTarget.getPosition();
-        planning.actionChecked = false;
+        if (checkAction(task, planning))
+            movement.target = task.nextAction.target.getPosition(); // enable moving to target of successfully checked action
+        planning.actionChecked = false; // reset to check again on target reach
     }
-    
+
     /**
      * Checks current action of task. Updates aspect flag of aspect and can fail task.
      * If sub action is created during check, it will be checked on next update.
      */
     private boolean checkAction(Task task, PlanningAspect planning) {
-        System.out.println("checking action of " + task);
         ActionConditionStatusEnum result = task.nextAction.startCondition.get();
-        System.out.println(result);
-        planning.actionChecked = result == OK; // action is checked and did not generate sub actions
-        if(result == FAIL) task.status = FAILED; // task will be removed
-        return planning.actionChecked;
+        if (result == FAIL) task.status = FAILED; // task will be removed
+        return planning.actionChecked = (result == OK); // action is checked and did not generate sub actions
     }
 }

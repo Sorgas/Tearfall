@@ -40,7 +40,7 @@ public class DigAction extends SkillAction {
         toolItemSelector = new ToolWithActionItemSelector("dig");
         speedUpdater = () -> (1 + getSpeedBonus()) * (1 + getUnitPerformance()); // 1 for non-trained not tired miner
         startCondition = () -> {
-            if (!type.VALIDATOR.apply(actionTarget.getPosition())) return FAIL; // tile did not change
+            if (!type.VALIDATOR.apply(target.getPosition())) return FAIL; // tile did not change
             EquipmentAspect equipment = task.performer.get(EquipmentAspect.class);
             if (equipment == null) return FAIL;
             if (toolItemSelector.checkItems(equipment.equippedItems)) return OK; // tool equipped
@@ -49,8 +49,8 @@ public class DigAction extends SkillAction {
         maxProgress = getWorkAmount(designation) * workAmountModifier; // 480 for wall to floor in marble
         System.out.println("max progress " + maxProgress);
         onFinish = () -> {
-            BlockTypeEnum oldType = GameMvc.model().get(LocalMap.class).getBlockTypeEnumValue(actionTarget.getPosition());
-            if (type.VALIDATOR.apply(actionTarget.getPosition())) updateMap();
+            BlockTypeEnum oldType = GameMvc.model().get(LocalMap.class).getBlockTypeEnumValue(target.getPosition());
+            if (type.VALIDATOR.apply(target.getPosition())) updateMap();
             leaveStone(oldType);
             GameMvc.model().get(UnitContainer.class).experienceSystem.giveExperience(task.performer, SKILL_NAME);
         };
@@ -68,7 +68,7 @@ public class DigAction extends SkillAction {
      */
     private void updateMap() {
         LocalMap map = GameMvc.model().get(LocalMap.class);
-        Position target = actionTarget.getPosition();
+        Position target = this.target.getPosition();
         switch (type) {
             case D_DIG:
                 updateAndRevealMap(target, FLOOR);
@@ -100,7 +100,7 @@ public class DigAction extends SkillAction {
     private void leaveStone(BlockTypeEnum oldType) {
         LocalMap map = GameMvc.model().get(LocalMap.class);
         ItemContainer container = GameMvc.model().get(ItemContainer.class);
-        Position target = actionTarget.getPosition();
+        Position target = this.target.getPosition();
         BlockTypeEnum newType = map.getBlockTypeEnumValue(target);
         int materialId = map.getMaterial(target);
         new DiggingProductGenerator()

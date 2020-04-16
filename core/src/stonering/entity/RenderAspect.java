@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import stonering.entity.unit.aspects.CreatureStatusIcon;
 import stonering.stage.renderer.AtlasesEnum;
-import stonering.util.geometry.IntVector2;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,19 +14,17 @@ import java.util.List;
  * //TODO add texture.
  */
 public class RenderAspect extends Aspect {
-    public final AtlasesEnum atlas;
-    public final IntVector2 atlasXY;
-    public final IntVector2 size;
     public final List<CreatureStatusIcon> icons = new ArrayList<>();
     public TextureRegion region;
     public Color color;
 
-    public RenderAspect(Entity entity, int x, int y, int width, int height, AtlasesEnum atlas) {
+    public RenderAspect(Entity entity, TextureRegion region) {
         super(entity);
-        this.atlas = atlas;
-        atlasXY = new IntVector2(x, y);
-        size = new IntVector2(width, height);
-        region = atlas.getRegion(x, y, width, height);
+        this.region = region;
+    }
+
+    public RenderAspect(Entity entity, int x, int y, int width, int height, AtlasesEnum atlas) {
+        this(entity, atlas.getRegion(x, y, width, height));
     }
 
     public RenderAspect(Entity entity, int x, int y, AtlasesEnum atlas) {

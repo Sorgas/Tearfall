@@ -42,10 +42,8 @@ public class MaterialTypeNode extends ItemSelectionNode {
         if(state) {
             config.map.putIfAbsent(parent.type, new HashSet<>());
             config.map.get(parent.type).add(material);
-            System.out.println("material " + material + " added to " + parent.type);
         } else {
             config.map.get(parent.type).remove(material);
-            System.out.println("material " + material + " removed from " + parent.type);
         }
     }
 }

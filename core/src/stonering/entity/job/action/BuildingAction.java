@@ -22,10 +22,10 @@ public class BuildingAction extends GenericBuildingAction {
         buildingType = BuildingTypeMap.getBuilding(order.blueprint.building);
 
         onFinish = () -> {
-            Logger.TASKS.logDebug(buildingType.title + " built at " + actionTarget.getPosition());
+            Logger.TASKS.logDebug(buildingType.title + " built at " + this.target.getPosition());
             BuildingContainer buildingContainer = GameMvc.model().get(BuildingContainer.class);
-            BuildingActionTarget target = (BuildingActionTarget) actionTarget;
-            Building building = buildingContainer.buildingGenerator.generateBuilding(buildingType.building, target.center, OrientationEnum.N); //TODO use material
+            BuildingActionTarget target = (BuildingActionTarget) this.target;
+            Building building = buildingContainer.buildingGenerator.generateBuilding(buildingType.building, target.center, order.orientation); //TODO use material
             buildingContainer.addBuilding(building);
             consumeItems();
         };

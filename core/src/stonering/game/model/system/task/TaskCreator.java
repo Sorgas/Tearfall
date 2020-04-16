@@ -71,7 +71,7 @@ public class TaskCreator {
     }
 
     private Task createTask(Action action, Designation designation, int priority) {
-        Task task = new Task("designation", action, priority);
+        Task task = new Task(designation.type.TEXT + " task", action, priority);
         task.designation = designation;
         designation.task = task;
         return task;

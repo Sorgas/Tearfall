@@ -20,7 +20,6 @@ public class ContainedItemsSystem extends EntitySystem<Item> {
         updateInterval = TimeUnitEnum.MINUTE;
     }
 
-
     @Override
     public void update(Item entity) {
         // update items in containers

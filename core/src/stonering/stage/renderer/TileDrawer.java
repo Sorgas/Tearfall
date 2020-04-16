@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
+import stonering.entity.RenderAspect;
 import stonering.entity.job.designation.Designation;
 import stonering.entity.item.Item;
 import stonering.entity.plant.PlantBlock;
@@ -142,7 +143,9 @@ public class TileDrawer extends Drawer {
         if (plantContainer != null) drawPlantBlock(plantContainer.getPlantBlock(cachePosition));
         buildingDrawer.drawBuilding(cachePosition);
         if (itemContainer != null) itemContainer.getItemsInPosition(x, y, z).forEach(this::drawItem);
+        spriteUtil.updateColorA(0.6f);
         if (taskContainer != null) drawDesignation(taskContainer.designations.get(cachePosition));
+        spriteUtil.updateColorA(1f);
         if (zoneContainer != null) drawZone(zoneContainer.getZone(cachePosition));
         spriteUtil.resetColor();
     }
@@ -235,8 +238,9 @@ public class TileDrawer extends Drawer {
     }
 
     private void drawDesignation(Designation designation) {
-        if (designation != null)
-            spriteUtil.drawSprite(ui_tiles.getBlockTile(DesignationsTileMapping.getAtlasX(designation.type.CODE), 0), ui_tiles, designation.position);
+        if(designation == null) return;
+        RenderAspect aspect = designation.get(RenderAspect.class);
+        spriteUtil.drawSprite(aspect.region, designation.position);
     }
 
     private void drawZone(Zone zone) {

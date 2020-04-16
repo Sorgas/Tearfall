@@ -21,7 +21,7 @@ public class PlanningAspect extends Aspect {
     }
 
     public Position getTarget() {
-        return task != null ? task.nextAction.actionTarget.getPosition() : null;
+        return task != null ? task.nextAction.target.getPosition() : null;
     }
 
     public Action getNextAction() {

@@ -8,7 +8,7 @@
         required tags(all),
         material value
 
-    blueprints with 'construction' placing point to block types. buildings are not specified for them.
+    blueprints with 'construction' placing point to block types. building types are not specified for them.
 
     show list before place selection
         count items on whole map / count items on stocks

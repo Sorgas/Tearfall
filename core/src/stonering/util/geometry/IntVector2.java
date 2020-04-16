@@ -69,9 +69,6 @@ public class IntVector2 implements Cloneable {
 
     @Override
     public String toString() {
-        return "IntVector2{" +
-                "x=" + x +
-                ", y=" + y +
-                '}';
+        return "vector[" + x + ";" + y + "]";
     }
 }

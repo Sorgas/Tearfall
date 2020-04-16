@@ -149,6 +149,6 @@ public class Position implements Serializable, Cloneable {
     }
 
     public String toString() {
-        return (x + " " + y + " " + z);
+        return ("[" + x + " " + y + " " + z + "]");
     }
 }

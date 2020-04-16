@@ -22,6 +22,7 @@ public class PutItemToPositionAction extends PutItemAction {
         super(new PositionActionTarget(targetPosition, ActionTargetTypeEnum.NEAR), targetItem);
 
         onFinish = () -> {
+            System.out.println("put item to position finish");
             EquipmentAspect equipmentAspect = task.performer.get(EquipmentAspect.class);
             ItemContainer container = GameMvc.model().get(ItemContainer.class);
             equipmentAspect.hauledItems.remove(targetItem); // remove item from unit
@@ -32,6 +33,6 @@ public class PutItemToPositionAction extends PutItemAction {
 
     @Override
     public String toString() {
-        return super.toString() + " put to position " + targetItem.title;
+        return super.toString() + "Put " + targetItem.title + " to position";
     }
 }

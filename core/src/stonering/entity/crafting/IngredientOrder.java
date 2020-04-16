@@ -6,9 +6,7 @@ import stonering.entity.item.selectors.IngredientOrderItemSelector;
 import stonering.entity.item.selectors.ItemSelector;
 import stonering.enums.items.recipe.Ingredient;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Part of {@link ItemOrder} or {@link BuildingOrder}.
@@ -20,7 +18,7 @@ import java.util.Map;
 public class IngredientOrder {
     public final Ingredient ingredient;
     public ItemSelector itemSelector;
-    public final List<Item> items = new ArrayList<>();
+    public final Set<Item> items = new HashSet<>();
 
     public IngredientOrder(Ingredient ingredient) {
         this.ingredient = ingredient;

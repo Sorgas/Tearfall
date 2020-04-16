@@ -27,9 +27,15 @@ public enum Logger {
 
     private static TaggedLogger logger = new TaggedLogger();
 
-    private String tag;
-    private String tagWord;
+    private String TAG;
+    private final String TAG_WORD;
     private boolean enabled;
+
+    Logger(String tag) {
+        TAG = tag;
+        TAG_WORD = "[" + tag.toUpperCase() + "]";
+        enabled = false;
+    }
 
     /**
      * Updates statuses of loggers. Only loggers specified in tag list will be enabled after this.
@@ -39,7 +45,7 @@ public enum Logger {
     public static void enableTags(List<String> tags) {
         if (tags != null && !tags.isEmpty()) {
             for (Logger logger : Logger.values()) {
-                logger.setEnabled(tags.contains(logger.getTag()));
+                logger.setEnabled(tags.contains(logger.TAG));
             }
         }
     }
@@ -53,16 +59,6 @@ public enum Logger {
         }
     }
 
-    Logger(String tag) {
-        this.tag = tag;
-        tagWord = "[" + tag.toUpperCase() + "]";
-        enabled = false;
-    }
-
-    public String getTag() {
-        return tag;
-    }
-
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
@@ -73,7 +69,7 @@ public enum Logger {
      * @param message
      */
     public void log(String message) {
-        if (enabled) logger.log(tagWord, message);
+        if (enabled) logger.log(TAG_WORD, message);
     }
 
     /**
@@ -82,15 +78,19 @@ public enum Logger {
      * @param message
      */
     public void logDebug(String message) {
-        if (enabled) logger.debug(tagWord, message);
+        if (enabled) logger.debug(TAG_WORD, message);
+    }
+
+    public void logDebugn(String message) {
+        if (enabled) logger.debugn(TAG_WORD, message);
     }
 
     public void logWarn(String message) {
-        if (enabled) logger.warn(tagWord, message);
+        if (enabled) logger.warn(TAG_WORD, message);
     }
 
     public void logError(String message) {
-        if (enabled) logger.error(tagWord, message);
+        if (enabled) logger.error(TAG_WORD, message);
     }
 
     public <T> T logError(String message, T value) {

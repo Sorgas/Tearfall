@@ -26,7 +26,6 @@ public abstract class PutItemAction extends Action {
         startCondition = () -> {
             EquipmentAspect equipmentAspect = task.performer.get(EquipmentAspect.class);
             if (equipmentAspect == null) return FAIL; // performer can't carry items
-
             if (equipmentAspect.hauledItems.contains(targetItem)) return OK; // performer already has item
             task.addFirstPreAction(new ItemPickupAction(targetItem));
             System.out.println("pick item action created");

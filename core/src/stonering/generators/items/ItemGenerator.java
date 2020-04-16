@@ -83,7 +83,7 @@ public class ItemGenerator {
                 item = new Item(null, ItemTypeMap.instance().getItemType(order.recipe.itemName));
                 break;
             case TRANSFORM: // new parts from recipe are added to existing main item
-                item = order.main.items.get(0);
+                item = order.main.items.iterator().next();
         }
         item.tags.add(order.recipe.newTag);
         for (String key : order.parts.keySet()) {

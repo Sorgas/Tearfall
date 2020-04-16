@@ -33,7 +33,7 @@ public class PlantHarvestAction extends Action {
             PlantContainer container = GameMvc.model().get(PlantContainer.class);
             EquipmentAspect aspect = task.performer.get(EquipmentAspect.class);
             if (aspect == null) return FAIL; // performer has aspect
-            if (container.getPlantInPosition(actionTarget.getPosition()) != targetPlant) return FAIL; // plant not present anymore
+            if (container.getPlantInPosition(target.getPosition()) != targetPlant) return FAIL; // plant not present anymore
             if(toolItemSelector.checkItems(aspect.equippedItems)) return OK; // performer has tool
             return addActionToTask();
         };
@@ -41,7 +41,7 @@ public class PlantHarvestAction extends Action {
         onFinish = () -> {
             //TODO add putting products into worn container
             Logger.PLANTS.logDebug("harvesting plant");
-            PlantBlock block = GameMvc.model().get(PlantContainer.class).getPlantBlock(actionTarget.getPosition());
+            PlantBlock block = GameMvc.model().get(PlantContainer.class).getPlantBlock(target.getPosition());
             Item item = new PlantProductGenerator().generateHarvestProduct(block);
             GameMvc.model().get(ItemContainer.class).onMapItemsSystem.putNewItem(item, block.getPosition());
         };

@@ -25,7 +25,7 @@ public class FuelingAciton extends Action {
     protected FuelingAciton(Entity target) {
         super(new EntityActionTarget(target, ActionTargetTypeEnum.NEAR));
         startCondition = () -> {
-            if (!((EntityActionTarget) actionTarget).entity.has(FuelConsumerAspect.class))
+            if (!((EntityActionTarget) this.target).entity.has(FuelConsumerAspect.class))
                 return FAIL; // invalid entity
             if (targetItem == null && (targetItem = lookupFuelItem()) == null) return FAIL; // no fuel item available
             if (!task.performer.get(EquipmentAspect.class).hauledItems.contains(targetItem)) {
@@ -37,7 +37,7 @@ public class FuelingAciton extends Action {
 
         onFinish = () -> {
             task.performer.get(EquipmentAspect.class).dropItem(targetItem);
-            ((EntityActionTarget) actionTarget).entity.get(FuelConsumerAspect.class).acceptFuel(targetItem);
+            ((EntityActionTarget) this.target).entity.get(FuelConsumerAspect.class).acceptFuel(targetItem);
         };
     }
 

@@ -67,6 +67,7 @@ public class DesignationSystem {
     public void submitBuildingDesignation(BuildingOrder order, int priority) {
         if (!PlaceValidatorsEnum.getValidator(order.blueprint.placing).apply(order.position)) return;
         BuildingDesignation designation = new BuildingDesignation(order);
+
         Task task = taskCreator.createBuildingTask(designation, priority);
         container.addTask(task);
         container.designations.put(designation.position, designation);

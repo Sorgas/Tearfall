@@ -17,13 +17,13 @@ public class PauseInputAdapter extends InputAdapter {
     @Override
     public boolean keyDown(int keycode) {
         if (keycode != Input.Keys.SPACE) return false;
-        Logger.INPUT.logDebug("Handling SPACE in" + (enabled ? "enabled" : "disabled") + " PauseInputAdapter");
+        Logger.INPUT.logDebug("Handling SPACE in " + (enabled ? "enabled" : "disabled") + " PauseInputAdapter");
         if (enabled) switchPause();
         return true;
     }
 
     private void switchPause() {
-        GameModel model = GameMvc.instance().model();
+        GameModel model = GameMvc.model();
         model.setPaused(!model.paused);
     }
 }

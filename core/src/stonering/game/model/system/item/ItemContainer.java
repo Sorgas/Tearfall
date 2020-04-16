@@ -33,13 +33,11 @@ public class ItemContainer extends EntityContainer<Item> {
     public final ContainedItemsSystem containedItemsSystem;
     public final EquippedItemsSystem equippedItemsSystem;
     public final OnMapItemsSystem onMapItemsSystem;
-    public final ItemTransitionUtil itemTransitionUtil;
 
     public ItemContainer() {
         put(containedItemsSystem = new ContainedItemsSystem(this));
         put(equippedItemsSystem = new EquippedItemsSystem(this));
         put(onMapItemsSystem = new OnMapItemsSystem(this));
-        itemTransitionUtil = new ItemTransitionUtil(this);
     }
 
     //TODO system for updating containers
