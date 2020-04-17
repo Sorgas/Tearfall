@@ -5,8 +5,7 @@
         "description": "Small rack for sawing logs into planks.",
         "aspects": [["workbench"], ["item_container", "solid", "100"]],
         "parts": ["table", "saw"],
-        "size": [3, 2],
-        "passage": "_o_XXX",
+        "size": [3, 1],
         "sprites": [
             [0, 0], [0, 1], [2, 0], [3, 0]
         ],
@@ -17,8 +16,7 @@
     "description": "Most wooden things can be made here.",
     "aspects": [["workbench"], ["item_container", "solid", "100"]],
     "parts": ["table"],
-    "size": [2, 2],
-    "passage": "ooXX",
+    "size": [2, 1],
     "sprites": [
         [0, 0], [2, 0], [4, 0], [6, 0]
     ],
@@ -29,8 +27,7 @@
     "description": "Small rack for sawing logs into planks.",
     "aspects": [["workbench"], ["item_container", "solid", "100"]],
     "parts": ["table", "saw"],
-    "size": [2, 2],
-    "passage": "ooXX",
+    "size": [2, 1],
     "sprites": [
         [0, 0], [2, 0], [4, 0], [6, 0]
     ],
@@ -42,7 +39,6 @@
     "aspects": [["workbench"], ["item_container", "solid", "100"]],
     "parts": ["table", "saw"],
     "size": [2, 2],
-    "passage": "XXXX",
     "sprites": [
         [0, 0], [2, 0], [4, 0], [6, 0]
     ],
@@ -53,8 +49,7 @@
     "description": "Blacksmiths make common metal items.",
     "aspects": [["workbench"], ["item_container", "solid", "100"]],
     "parts": ["table", "saw"],
-    "size": [2, 2],
-    "passage": "ooXX",
+    "size": [2, 1],
     "sprites": [
         [0, 0], [2, 0], [4, 0], [6, 0]
     ],
@@ -66,7 +61,6 @@
     "aspects": [["workbench"], ["item_container", "solid", "100"]],
     "parts": ["table"],
     "size": [2, 1],
-    "passage": "XX",
     "access": [[0, -1], [1, -1]],
     "sprites": [
         [0, 0], [0, 1], [2, 0], [3, 0]
@@ -78,8 +72,7 @@
     "description": "",
     "aspects": [["workbench"], ["item_container", "solid", "100"]],
     "parts": ["table", "saw"],
-    "size": [2, 2],
-    "passage": "ooXX",
+    "size": [2, 1],
     "sprites": [
         [0, 0], [2, 0], [4, 0], [6, 0]
     ],
@@ -90,8 +83,7 @@
     "description": "",
     "aspects": [["workbench"], ["item_container", "solid", "100"]],
     "parts": ["table", "saw"],
-    "size": [2, 2],
-    "passage": "ooXX",
+    "size": [2, 1],
     "sprites": [
         [0, 0], [2, 0], [4, 0], [6, 0]
     ],

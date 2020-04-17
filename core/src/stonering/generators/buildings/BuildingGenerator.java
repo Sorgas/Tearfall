@@ -44,27 +44,17 @@ public class BuildingGenerator {
      */
     private void initSizeAndBlocks(Building building) {
         IntVector2 size = RotationUtil.orientSize(building.type.size, building.orientation); // rotate size
-        System.out.println("new building size : " + size);
         building.blocks = new BuildingBlock[size.x][size.y];
         for (int x = 0; x < size.x; x++) {
             for (int y = 0; y < size.y; y++) {
                 Position position = Position.add(building.position, x, y, 0); // map position of block
-                System.out.println("block position : " + position);
-
-                //TODO count block passage correctly
-                IntVector2 coord = RotationUtil.unrotateVector(x, y, building.orientation);
-                coord = RotationUtil.normalizeWithSize(coord, size);
-
-                System.out.println("passage map coord : " + coord);
-                building.blocks[x][y] = new BuildingBlock(building, position, building.type.passageArray[0][0]);
+                building.blocks[x][y] = new BuildingBlock(building, position, building.type.passage);
             }
         }
-        building.blocks[0][0].drawn = true;
     }
 
     private void createRenderAspect(Building building, BuildingType type, OrientationEnum orientation) {
-        IntVector2 sprite = type.sprites[orientation.ordinal()];
-        building.add(new RenderAspect(building, sprite.x, sprite.y, type.size.x, type.size.y, AtlasesEnum.buildings));
+        building.add(new RenderAspect(building, type.getSprite(orientation)));
     }
 
     /**

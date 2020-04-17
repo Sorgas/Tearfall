@@ -14,7 +14,7 @@ public class RawBuildingType {
     public String description;
     public List<List<String>> aspects = new ArrayList<>();
     public List<String> parts = new ArrayList<>();
-    public String passage = "X";
+    public String passage = "wall";
     public boolean construction = false;
     public List<String> recipes = new ArrayList<>(); // filled from crafting/lists.json
     public int[] size = {1, 1}; // width/height for N orientation
