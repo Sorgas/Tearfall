@@ -17,11 +17,6 @@ import stonering.util.global.IntTriple;
 public class LocalTileMapUpdater {
     private LocalMap localMap;
     private LocalTileMap localTileMap;
-    private transient MaterialMap materialMap;
-
-    public LocalTileMapUpdater() {
-        materialMap = MaterialMap.instance();
-    }
 
     /**
      * Updates all tiles on local map.
@@ -42,21 +37,24 @@ public class LocalTileMapUpdater {
      * Updates single tile. Called from {@link LocalMap} when tile is changed.
      */
     public void updateTile(int x, int y, int z) {
-        if (GameMvc.instance() == null) return;
         localMap = GameMvc.model().get(LocalMap.class);
         localTileMap = GameMvc.model().get(LocalTileMap.class);
-        byte blockType = localMap.getBlockType(x, y, z);
-        if (blockType == BlockTypeEnum.SPACE.CODE) {
-            localTileMap.removeTile(x, y, z);
-        } else { // non space
-            Material material = materialMap.getMaterial(localMap.getMaterial(x, y, z));
-            int atlasX;
-            if (blockType == BlockTypeEnum.RAMP.CODE) {
-                atlasX = countRamp(x, y, z);
-            } else {
-                atlasX = BlockTileMapping.getType(blockType).ATLAS_X;
-            }
-            localTileMap.setTile(x, y, z, atlasX, material.atlasY, 0);
+        MaterialMap materialMap = MaterialMap.instance();
+        BlockTypeEnum blockType = localMap.getBlockTypeEnumValue(x, y, z);
+        switch (blockType) {
+            case SPACE: // remove tile sprite
+                localTileMap.removeTile(x, y, z);
+                break;
+            case RAMP: // select sprite basing on surrounding tiles
+                localTileMap.setTile(x, y, z,
+                        countRamp(x, y, z),
+                        materialMap.getMaterial(localMap.getMaterial(x, y, z)).atlasY,
+                        0);
+                break;
+            default: // set sprite of the tile
+                localTileMap.setTile(x, y, z,
+                        BlockTileMapping.getType(blockType.CODE).ATLAS_X,
+                        materialMap.getMaterial(localMap.getMaterial(x, y, z)).atlasY, 0);
         }
         updateRampsAround(x, y, z);
     }

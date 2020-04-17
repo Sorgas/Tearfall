@@ -24,7 +24,7 @@
         "menuPath": ["constructions"],
         "placing": "construction",
         "parts": [
-            ["wall", "log/plank/bar/rock/brick", "", "80"]
+            ["wall", "log/plank/bar/rock/brick", "", "4"]
         ]
     }, {
     "name": "build_floor",
@@ -33,7 +33,7 @@
     "menuPath": ["constructions"],
     "placing": "construction",
     "parts": [
-        ["floor", "log", "wood", "4"]
+        ["floor", "log/plank/bar/rock/brick", "", "2"]
     ]
 }, {
     "name": "build_ramp",
@@ -42,7 +42,7 @@
     "menuPath": ["constructions"],
     "placing": "construction",
     "parts": [
-        ["ramp", "log", "wood", "4"]
+        ["ramp", "log/plank/bar/rock/brick", "", "3"]
     ]
 }, {
     "name": "build_stairs",
@@ -51,7 +51,7 @@
     "menuPath": ["constructions"],
     "placing": "construction",
     "parts": [
-        ["stairs", "log", "wood", "4"]
+        ["stairs", "log/plank/bar/rock/brick", "", "3"]
     ]
 }, {
     "name": "build_campfire",

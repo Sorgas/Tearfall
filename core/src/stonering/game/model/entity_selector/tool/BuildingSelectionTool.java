@@ -47,9 +47,10 @@ public class BuildingSelectionTool extends SelectionTool {
     public List<IntVector2> accessPoints = new ArrayList<>();
     public TextureRegion workbenchAccessSprite;
 
-    public void setFor(Blueprint blueprint) {
+    public SelectionTool setFor(Blueprint blueprint) {
         this.blueprint = blueprint;
         type = BuildingTypeMap.getBuilding(blueprint.building);
+        return this;
     }
 
     @Override

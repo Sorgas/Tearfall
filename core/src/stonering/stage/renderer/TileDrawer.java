@@ -158,8 +158,7 @@ public class TileDrawer extends Drawer {
 
     private void drawFloor(int x, int y, int z) {
         BlockTypeEnum type = localMap.getBlockTypeEnumValue(x, y, z);
-        if (type == BlockTypeEnum.SPACE) { // draw topping for ramps
-            if (z <= 0) return;
+        if (type == BlockTypeEnum.SPACE && z > 0) { // draw topping for ramps below
             spriteUtil.drawSprite(blocks.getToppingTile(getAtlasXForBlock(x, y, z - 1), getAtlasYForBlock(x, y, z - 1)), cacheVector);
             return;
         }
