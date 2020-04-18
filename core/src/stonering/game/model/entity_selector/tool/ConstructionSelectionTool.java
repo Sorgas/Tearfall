@@ -114,6 +114,7 @@ public class ConstructionSelectionTool extends SelectionTool {
     private BuildingOrder createOrder(Position position) {
         BuildingOrder order = new BuildingOrder(blueprint, position);
         blueprint.parts.forEach((part, ingredient) -> {
+            System.out.println("creating ingredient for " + part);
             ItemSelectSection section = GameMvc.view().toolbarStage.buildingTab.sectionMap.get(part);
             ItemSelector itemSelector = section.getItemSelector();
             order.parts.put(part, new IngredientOrder(ingredient, itemSelector));

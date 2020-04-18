@@ -56,7 +56,8 @@
     "description": "Building brick made of clay.",
     "typeAspects": ["value(0)"],
     "atlasXY": ["12", "0"],
-    "color": "0xffffffff"
+    "color": "0xffffffff",
+    "tags": ["building_material"]
 }, {
     "name": "pot",
     "description": "For storing things or growing small plants.",
