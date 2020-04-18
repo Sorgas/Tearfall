@@ -1,16 +1,16 @@
 package stonering.game.model.entity_selector;
 
+import stonering.GameSettings;
 import stonering.entity.RenderAspect;
 import stonering.enums.blocks.BlockTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.aspect.BoxSelectionAspect;
 import stonering.game.model.entity_selector.aspect.SelectionAspect;
+import stonering.game.model.entity_selector.tool.SelectionTools;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.ModelComponent;
 import stonering.stage.renderer.AtlasesEnum;
-import stonering.stage.toolbar.Toolbar;
 import stonering.util.geometry.Position;
-import stonering.util.global.Logger;
 
 /**
  * System that handles input passed to {@link EntitySelector}, does movement, validation and activation of selector.
@@ -24,6 +24,8 @@ public class EntitySelectorSystem implements ModelComponent {
     public final EntitySelector selector;
     public final EntitySelectorInputHandler inputHandler;
     private final Position cachePosition;
+    public boolean allowChangingZLevelOnSelection = true;
+    public boolean allowTwoDimensionsOnSelection = true;
 
     public EntitySelectorSystem() {
         selector = new EntitySelector(new Position());
@@ -36,13 +38,6 @@ public class EntitySelectorSystem implements ModelComponent {
 
     public void handleSelection() {
         selector.get(SelectionAspect.class).tool.handleSelection(selector.get(BoxSelectionAspect.class).getBox());
-    }
-
-    public void handleCancel() {
-        selector.get(SelectionAspect.class).tool.cancelSelection();
-        selector.get(BoxSelectionAspect.class).boxStart = null; // reset box
-        Toolbar toolbar = GameMvc.view().toolbarStage.toolbar;
-        toolbar.removeSubMenus(toolbar.parentMenu);
     }
 
     public void selectorMoved() {
@@ -60,8 +55,10 @@ public class EntitySelectorSystem implements ModelComponent {
 
     public void setSelectorPosition(Position position) {
         GameMvc.model().get(LocalMap.class).normalizeRectangle(position, selector.size.x, selector.size.y); // selector should not move out of map
-        if(position.equals(selector.position)) return; // no move happens
+
+        if (position.equals(selector.position)) return; // no move happens
         selector.position.set(position);
+        ensureMovementRestrictions();
         selectorMoved(); // updates if selector did move
     }
 
@@ -76,5 +73,43 @@ public class EntitySelectorSystem implements ModelComponent {
             }
         }
         selectorMoved();
+    }
+
+    /**
+     * Cancels selection box or sets tool to SELECTION.
+     * @return false, if there were SELECTION tool with no selection box already
+     */
+    public boolean cancelSelection() {
+        BoxSelectionAspect boxAspect = selector.get(BoxSelectionAspect.class);
+        if (boxAspect.boxStart != null) { // cancel selection if box started
+            boxAspect.boxStart = null;
+            return true;
+        }
+        SelectionAspect selectionAspect = selector.get(SelectionAspect.class);
+        if (selectionAspect.tool != SelectionTools.SELECT) { // set tool to default
+            selectionAspect.set(SelectionTools.SELECT);
+            if ("1".equals(GameSettings.CLOSE_TOOLBAR_ON_TOOL_CANCEL.VALUE)) GameMvc.view().toolbarStage.toolbar.reset();
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Corrects selector position if selection is active.
+     */
+    private void ensureMovementRestrictions() {
+        Position boxStart = selector.get(BoxSelectionAspect.class).boxStart;
+        if (boxStart == null) return; // no correction for no selection
+        if (!allowChangingZLevelOnSelection) selector.position.z = boxStart.z; // should stay on same z level
+        if (!allowTwoDimensionsOnSelection) { // set min delta to 0
+            int dx = Math.abs(boxStart.x - selector.position.x);
+            int dy = Math.abs(boxStart.y - selector.position.y);
+            if (dx == 0 || dy == 0) return;
+            if (dx < dy) {
+                selector.position.x = boxStart.x;
+            } else {
+                selector.position.y = boxStart.y;
+            }
+        }
     }
 }

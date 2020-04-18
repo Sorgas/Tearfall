@@ -29,10 +29,6 @@ public abstract class SelectionTool {
 
     public abstract void handleSelection(Int3dBounds bounds); // called once for the whole selection box
 
-    public void cancelSelection() {
-        GameMvc.model().get(EntitySelectorSystem.class).selector.get(SelectionAspect.class).set(SelectionTools.SELECT);
-    }
-
     public void rotate(boolean clockwise) {
         if(orientation != null) orientation = RotationUtil.rotateOrientation(orientation, clockwise);
     } // should be overridden for tools with rotation

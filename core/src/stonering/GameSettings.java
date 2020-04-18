@@ -13,7 +13,8 @@ import java.util.Properties;
  */
 public enum GameSettings {
     DRAW_ACTION_PROGRESS("draw_action_progress"),
-    UI_SCALE("ui_scale");
+    UI_SCALE("ui_scale"),
+    CLOSE_TOOLBAR_ON_TOOL_CANCEL("close_toolbar_on_tool_cancel");
 
     private String PROPERTY_NAME;
     public String VALUE;

@@ -9,7 +9,7 @@ import stonering.util.global.Logger;
 
 /**
  * Tool for selecting entities on localmap.
- * 
+ *
  * @author Alexander on 16.03.2020.
  */
 public class SelectEntitySelectionTool extends SelectionTool {
@@ -27,7 +27,4 @@ public class SelectEntitySelectionTool extends SelectionTool {
         Logger.INPUT.logDebug("selecting entities in " + bounds);
         GameMvc.view().showEntityStage(bounds);
     }
-
-    @Override
-    public void cancelSelection() {}
 }

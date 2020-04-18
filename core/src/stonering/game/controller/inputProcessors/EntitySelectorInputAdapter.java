@@ -50,8 +50,7 @@ public class EntitySelectorInputAdapter extends EnableableInputAdapter {
                     system.inputHandler.startSelection();
                     return true;
                 case Input.Keys.Q:
-                    system.inputHandler.cancelSelection();
-                    return true;
+                    return system.cancelSelection();
                 case Input.Keys.T:
                     system.rotateSelector(!Gdx.input.isKeyPressed(SHIFT_LEFT)); // co unter clockwise with Shift + T
 

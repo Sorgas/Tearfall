@@ -4,16 +4,20 @@ import stonering.enums.blocks.BlockTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.system.building.BuildingContainer;
 import stonering.game.model.local_map.LocalMap;
+import stonering.util.geometry.IntVector2;
 import stonering.util.geometry.Position;
 
 /**
- * Checks that near target position exists at least one non-SPACE block, and target position is free from buildings.
- * Diagonal tiles do not count. Used for constructions.
+ * Checks that:
+ * 1. target is adjacent to non-SPACE block, or another designated construction,
+ * 2. target is not occupied with other buildings.
+ * Diagonal tiles do not count.
  */
-public class NearSolidBlockValidator implements PositionValidator {
+public class ConstructionValidator implements PositionValidator {
 
     @Override
     public Boolean apply(Position position) {
+
         LocalMap map = GameMvc.model().get(LocalMap.class);
         return GameMvc.model().get(BuildingContainer.class).buildingBlocks.get(position) == null && // building-free
                 (map.getBlockType(position) == BlockTypeEnum.FLOOR.CODE ||          // floor or space

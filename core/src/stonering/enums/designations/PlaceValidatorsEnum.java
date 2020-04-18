@@ -1,7 +1,7 @@
 package stonering.enums.designations;
 
 import stonering.util.validation.FreeFloorValidator;
-import stonering.util.validation.NearSolidBlockValidator;
+import stonering.util.validation.ConstructionValidator;
 import stonering.util.validation.PositionValidator;
 
 import java.util.HashMap;
@@ -13,7 +13,7 @@ import java.util.HashMap;
  */
 public enum PlaceValidatorsEnum {
     FLOOR("floor", new FreeFloorValidator()),
-    CONSTRUCTION("construction", new NearSolidBlockValidator());
+    CONSTRUCTION("construction", new ConstructionValidator());
 
     private static HashMap<String, PositionValidator> map;
 

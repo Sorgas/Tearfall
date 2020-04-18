@@ -78,4 +78,8 @@ public class Toolbar extends Container<Table> {
 
         }
     }
+
+    public void reset() {
+        removeSubMenus(parentMenu);
+    }
 }

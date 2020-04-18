@@ -1,8 +1,11 @@
 package stonering.game.model.entity_selector;
 
 import com.badlogic.gdx.Gdx;
+import stonering.GameSettings;
 import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.aspect.BoxSelectionAspect;
+import stonering.game.model.entity_selector.aspect.SelectionAspect;
+import stonering.game.model.entity_selector.tool.SelectionTools;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 
@@ -17,8 +20,6 @@ public class EntitySelectorInputHandler {
     private EntitySelectorSystem system;
     private EntitySelector selector;
     private BoxSelectionAspect box;
-    private Position cachePosition = new Position();
-    public boolean allowChangingZLevelOnSelection = true;
     public int shiftOffset = 10;
 
     public EntitySelectorInputHandler(EntitySelectorSystem system) {
@@ -53,16 +54,18 @@ public class EntitySelectorInputHandler {
      * If box start is clear, calls cancellation in system for resetting tool.
      */
     public void cancelSelection() {
-        if (box.boxStart == null) {
-            system.handleCancel();
-        } else {
+        if (box.boxStart != null) { // cancel selection if box started
             box.boxStart = null;
+        } else { // cancel tool if box not started
+            selector.get(SelectionAspect.class).set(SelectionTools.SELECT);
+            if("1".equals(GameSettings.CLOSE_TOOLBAR_ON_TOOL_CANCEL.VALUE)) GameMvc.view().toolbarStage.toolbar.reset();
         }
     }
 
     public boolean moveByKey(int keycode) {
         int offset = Gdx.input.isKeyPressed(SHIFT_LEFT) ? shiftOffset : 1;
-        boolean noSelection = selector.get(BoxSelectionAspect.class).boxStart == null;
+        Position boxStart = selector.get(BoxSelectionAspect.class).boxStart;
+        boolean noSelection = boxStart == null;;
         switch (keycode) {
             case W:
                 system.moveSelector(0, offset, 0);
@@ -77,10 +80,10 @@ public class EntitySelectorInputHandler {
                 system.moveSelector(offset, 0, 0);
                 return true;
             case R:
-                if (noSelection || allowChangingZLevelOnSelection) system.moveSelector(0, 0, 1);
+                system.moveSelector(0, 0, 1);
                 return true;
             case F:
-                if (noSelection || allowChangingZLevelOnSelection) system.moveSelector(0, 0, -1);
+                system.moveSelector(0, 0, -1);
                 return true;
         }
         return false;
