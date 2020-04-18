@@ -65,9 +65,10 @@ public class DesignationSystem {
      * All single-tile buildings are constructed through this method.
      */
     public void submitBuildingDesignation(BuildingOrder order, int priority) {
+        System.out.println("submitting designation");
         if (!PlaceValidatorsEnum.getValidator(order.blueprint.placing).apply(order.position)) return;
+        System.out.println("validation passed");
         BuildingDesignation designation = new BuildingDesignation(order);
-
         Task task = taskCreator.createBuildingTask(designation, priority);
         container.addTask(task);
         container.designations.put(designation.position, designation);

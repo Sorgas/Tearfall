@@ -8,8 +8,10 @@ import stonering.util.geometry.Int2dBounds;
 import stonering.util.geometry.Int3dBounds;
 import stonering.util.geometry.Position;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 /**
@@ -24,9 +26,8 @@ public class NeighbourPositionStream {
     private LocalMap localMap;
 
     public NeighbourPositionStream(Position center) {
+        this();
         this.center = center;
-        localMap = GameMvc.model().get(LocalMap.class);
-        passageMap = localMap.passageMap;
         Set<Position> neighbours = new HashSet<>();
         for (int x = center.x - 1; x < center.x + 2; x++) {
             for (int y = center.y - 1; y < center.y + 2; y++) {
@@ -39,12 +40,22 @@ public class NeighbourPositionStream {
         stream = neighbours.stream().filter(localMap::inMap);
     }
 
+    public NeighbourPositionStream(Position center, boolean orthogonal) {
+        this();
+        Set<Position> neighbours = new HashSet<>();
+        Collections.addAll(neighbours,
+                Position.add(center, 1, 0, 0),
+                Position.add(center, -1, 0, 0),
+                Position.add(center, 0, 1, 0),
+                Position.add(center, 0, -1, 0));
+        stream = neighbours.stream().filter(localMap::inMap);
+    }
+
     /**
      * Gives neighbours by x and y, having provided z
      */
     public NeighbourPositionStream(Int2dBounds bounds, int z) {
-        localMap = GameMvc.model().get(LocalMap.class);
-        passageMap = localMap.passageMap;
+        this();
         Set<Position> neighbours = new HashSet<>();
         for (int x = bounds.minX - 1; x < bounds.maxX + 2; x++) {
             neighbours.add(new Position(x, bounds.minY - 1, z));
@@ -55,6 +66,11 @@ public class NeighbourPositionStream {
             neighbours.add(new Position(bounds.maxX + 1, y, z));
         }
         stream = neighbours.stream().filter(localMap::inMap);
+    }
+
+    private NeighbourPositionStream() {
+        localMap = GameMvc.model().get(LocalMap.class);
+        passageMap = localMap.passageMap;
     }
 
     /**
@@ -96,6 +112,11 @@ public class NeighbourPositionStream {
 
     public NeighbourPositionStream filterSameZLevel() {
         stream = stream.filter(position -> position.z == center.z);
+        return this;
+    }
+
+    public NeighbourPositionStream filter(Predicate<Position> predicate) {
+        stream = stream.filter(predicate);
         return this;
     }
 }

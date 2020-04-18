@@ -17,6 +17,10 @@ public class Int3dBounds extends Int2dBounds {
         this(0, 0, 0, 0, 0, 0);
     }
 
+    public Int3dBounds(Int3dBounds source) {
+        this(source.minX, source.minY, source.minZ, source.maxX, source.maxY, source.maxZ);
+    }
+
     public Int3dBounds(int minX, int minY, int minZ, int maxX, int maxY, int maxZ) {
         set(minX, minY, minZ, maxX, maxY, maxZ);
     }
@@ -27,17 +31,12 @@ public class Int3dBounds extends Int2dBounds {
 
     public void set(int minX, int minY, int minZ, int maxX, int maxY, int maxZ) {
         super.set(minX, minY, maxX, maxY);
-        this.minZ = minZ;
-        this.maxZ = maxZ;
+        this.minZ = Math.min(minZ, maxZ);
+        this.maxZ = Math.max(minZ, maxZ);
     }
 
     public void set(Position pos1, Position pos2) {
-        set(Math.min(pos1.x, pos2.x),
-                Math.min(pos1.y, pos2.y),
-                Math.min(pos1.z, pos2.z),
-                Math.max(pos1.x, pos2.x),
-                Math.max(pos1.y, pos2.y),
-                Math.max(pos1.z, pos2.z));
+        set(pos1.x, pos1.y, pos1.z, pos2.x, pos2.y, pos2.z);
     }
 
     public void clamp(int minX, int minY, int minZ, int maxX, int maxY, int maxZ) {
@@ -71,7 +70,12 @@ public class Int3dBounds extends Int2dBounds {
             }
         }
     }
-    
+
+    @Override
+    public Int3dBounds clone() {
+        return new Int3dBounds(this);
+    }
+
     @Override
     public String toString() {
         return "Int3dBounds{" + " " + minX + " " + minY + " " + minZ + " " + maxX + " " + maxY + " " + maxZ + '}';

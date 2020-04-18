@@ -61,6 +61,7 @@ public class BuildingSelectionTool extends SelectionTool {
         orientation = N; // reset orientation
         workbenchAccessSprite = ui_tiles.getBlockTile(11, 3);
         updateSpriteAndSize();
+        GameMvc.view().toolbarStage.showBuildingTab(blueprint);
     }
 
     @Override
@@ -111,7 +112,6 @@ public class BuildingSelectionTool extends SelectionTool {
         blueprint.parts.forEach((part, ingredient) -> {
             ItemSelectSection section = GameMvc.view().toolbarStage.buildingTab.sectionMap.get(part);
             ItemSelector itemSelector = section.getItemSelector();
-            System.out.println(itemSelector.toString());
             order.parts.put(part, new IngredientOrder(ingredient, itemSelector));
         });
         return order;

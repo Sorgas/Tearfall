@@ -62,7 +62,7 @@ public class TaskCreator {
      */
     public Task createBuildingTask(BuildingDesignation designation, int priority) {
         Action action;
-        if (BuildingTypeMap.getBuilding(designation.order.blueprint.building).construction) {
+        if (designation.order.blueprint.construction) {
             action = new ConstructionAction(designation.order);
         } else {
             action = new BuildingAction(designation.order);

@@ -38,10 +38,10 @@ public class Int2dBounds {
     }
 
     public void set(int minX, int minY, int maxX, int maxY) {
-        this.minX = minX;
-        this.minY = minY;
-        this.maxX = maxX;
-        this.maxY = maxY;
+        this.minX = Math.min(minX, maxX);
+        this.maxX = Math.max(minX, maxX);
+        this.minY = Math.min(minY, maxY);
+        this.maxY = Math.max(minY, maxY);
     }
 
     public void clamp(int minX, int minY, int maxX, int maxY) {
@@ -90,6 +90,10 @@ public class Int2dBounds {
             vectors.add(new IntVector2(maxX, y));
         }
         return vectors;
+    }
+
+    public boolean isCorner(int x, int y) {
+        return (x == minX || x == maxX) && (y == minY || y == maxY);
     }
 
     @Override
