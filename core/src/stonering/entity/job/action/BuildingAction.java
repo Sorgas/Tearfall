@@ -8,6 +8,9 @@ import stonering.enums.buildings.BuildingType;
 import stonering.enums.buildings.BuildingTypeMap;
 import stonering.game.GameMvc;
 import stonering.game.model.system.building.BuildingContainer;
+import stonering.game.model.system.plant.PlantContainer;
+import stonering.util.geometry.IntVector2;
+import stonering.util.geometry.RotationUtil;
 import stonering.util.global.Logger;
 
 /**
@@ -27,6 +30,8 @@ public class BuildingAction extends GenericBuildingAction {
             BuildingActionTarget target = (BuildingActionTarget) this.target;
             Building building = buildingContainer.buildingGenerator.generateBuilding(buildingType.building, target.center, order.orientation); //TODO use material
             buildingContainer.addBuilding(building);
+            PlantContainer plantContainer = GameMvc.model().get(PlantContainer.class);
+            getBuildingBounds().stream().forEach(vector -> plantContainer.remove(vector.x, vector.y, order.position.z));
             consumeItems();
         };
     }

@@ -166,7 +166,7 @@ public abstract class GenericBuildingAction extends Action {
         return FAIL;
     }
 
-    private Int2dBounds getBuildingBounds() {
+    protected Int2dBounds getBuildingBounds() {
         Int2dBounds bounds = new Int2dBounds(order.position, 1, 1); // construction are 1x1
         if (!order.blueprint.construction) {
             BuildingType type = BuildingTypeMap.getBuilding(order.blueprint.building);
