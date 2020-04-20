@@ -121,8 +121,8 @@ public class LiquidContainer implements ModelComponent, Initable, Updatable {
         Position lowerPos = new Position(position.x, position.y, position.z - 1);
         int currentWater = localMap.getFlooding(position);
         if (localMap.inMap(lowerPos)) { // check to flow lower
-            byte currentBlockType = localMap.getBlockType(position);
-            byte lowerBlockType = localMap.getBlockType(lowerPos);
+            byte currentBlockType = localMap.blockType.get(position);
+            byte lowerBlockType = localMap.blockType.get(lowerPos);
             if ((currentBlockType == spaceCode || currentBlockType == stairfloorCode || // liquid falls from space and stairfloor
                     currentBlockType == stairsCode && lowerBlockType == stairfloorCode) && // liquid falls downstairs
                     lowerBlockType != wallCode && // can't fall into wall, bug case

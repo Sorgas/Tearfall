@@ -38,7 +38,7 @@ public class FarmTileWitherSystem extends UtilitySystem {
             Position position = iterator.next();
             positions.put(position, positions.get(position) -1);
             if (positions.get(position) > 0) continue;
-            map.setBlockType(position, FLOOR.CODE);
+            map.blockType.set(position, FLOOR);
             iterator.remove();
         }
     }

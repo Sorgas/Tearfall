@@ -27,7 +27,7 @@ public class CreatureFallingSystem {
      */
     private boolean canFall(Unit unit) {
         Position pos = unit.position;
-        return map.getBlockTypeEnumValue(pos) == BlockTypeEnum.SPACE && // can fall through SPACE
+        return map.blockType.getEnumValue(pos) == BlockTypeEnum.SPACE && // can fall through SPACE
                 pos.z > 0 && // not the bottom of a map
                 map.isFlyPassable(pos.x, pos.y, pos.z - 1); // lower tile is open
     }

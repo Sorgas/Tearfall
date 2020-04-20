@@ -67,7 +67,7 @@ public class EntitySelectorSystem implements ModelComponent {
         selector.position.x = localMap.xSize / 2;
         selector.position.y = localMap.ySize / 2;
         for (int z = localMap.zSize - 1; z >= 0; z--) {
-            if (localMap.getBlockType(selector.position.x, selector.position.y, z) != BlockTypeEnum.SPACE.CODE) {
+            if (localMap.blockType.get(selector.position.x, selector.position.y, z) != BlockTypeEnum.SPACE.CODE) {
                 selector.position.z = z;
                 break;
             }

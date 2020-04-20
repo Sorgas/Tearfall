@@ -29,7 +29,7 @@ public class SingleTreeModel extends TestModel {
         calendar.minute.max = 1;
         calendar.hour.max = 1;
         calendar.day.max = 4;
-        get(PlantContainer.class).place(createTree(), new Position(TREE_CENTER, TREE_CENTER, 2));
+        get(PlantContainer.class).add(createTree(), new Position(TREE_CENTER, TREE_CENTER, 2));
     }
 
     private AbstractPlant createTree() {

@@ -44,7 +44,7 @@ public class HoeingAction extends Action {
         onFinish = () -> {
             Logger.TASKS.logDebug("Hoeing tile " + actionTarget.getPosition());
             LocalMap localMap = GameMvc.model().get(LocalMap.class);
-            localMap.setBlockType(actionTarget.getPosition(), BlockTypeEnum.FARM.CODE);
+            localMap.blockType.set(actionTarget.getPosition(), BlockTypeEnum.FARM.CODE);
         };
     }
 

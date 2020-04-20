@@ -7,6 +7,8 @@ import stonering.generators.localgen.LocalGenContainer;
 import stonering.entity.unit.Unit;
 import stonering.util.geometry.Position;
 
+import static stonering.enums.blocks.BlockTypeEnum.SPACE;
+
 /**
  * Generates wild animals on LocalMap.
  *
@@ -37,7 +39,7 @@ public class LocalFaunaGenerator extends LocalGenerator {
 
     private int findSurfaceZ(int x, int y) {
         for (int z = localMap.zSize - 1; z >= 0; z--) {
-            if (localMap.getBlockType(x, y, z) != 0) {
+            if (localMap.blockType.get(x, y, z) != SPACE.CODE) {
                 return z;
             }
         }

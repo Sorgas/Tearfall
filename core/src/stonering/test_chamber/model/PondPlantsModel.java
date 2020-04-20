@@ -23,13 +23,13 @@ public class PondPlantsModel extends TestModel {
         MaterialMap materialMap = MaterialMap.instance();
         for (int x = 0; x < localMap.xSize; x++) {
             for (int y = 0; y < localMap.ySize; y++) {
-                localMap.setBlock(x, y, 0, BlockTypeEnum.WALL, materialMap.getId("soil"));
+                localMap.blockType.setBlock(x, y, 0, BlockTypeEnum.WALL, materialMap.getId("soil"));
                 if (Math.pow(x - MAP_CENTER, 2) + Math.pow(y - MAP_CENTER, 2) <= 9) {
-                    localMap.setBlock(x, y, 1, BlockTypeEnum.FLOOR, materialMap.getId("soil"));
+                    localMap.blockType.setBlock(x, y, 1, BlockTypeEnum.FLOOR, materialMap.getId("soil"));
                     localMap.setFlooding(x, y, 1, 7);
                 } else {
-                    localMap.setBlock(x, y, 1, BlockTypeEnum.WALL, materialMap.getId("soil"));
-                    localMap.setBlock(x, y, 2, BlockTypeEnum.FLOOR, materialMap.getId("soil"));
+                    localMap.blockType.setBlock(x, y, 1, BlockTypeEnum.WALL, materialMap.getId("soil"));
+                    localMap.blockType.setBlock(x, y, 2, BlockTypeEnum.FLOOR, materialMap.getId("soil"));
                 }
             }
         }

@@ -18,7 +18,7 @@ public class SinglePlantModel extends TestModel {
     @Override
     public void init() {
         super.init();
-        get(PlantContainer.class).place(createPlant(), new Position(5, 5, 2));
+        get(PlantContainer.class).add(createPlant(), new Position(5, 5, 2));
     }
 
     private AbstractPlant createPlant() {

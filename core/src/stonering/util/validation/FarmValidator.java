@@ -19,9 +19,9 @@ public class FarmValidator implements PositionValidator {
     @Override
     public Boolean apply(Position position) {
         LocalMap localMap = GameMvc.instance().model().get(LocalMap.class);
-        if ((localMap.getBlockType(position) == BlockTypeEnum.FLOOR.CODE ||
-                localMap.getBlockType(position) == BlockTypeEnum.FARM.CODE) && // tile is floor or farm
-                MaterialMap.instance().getMaterial(localMap.getMaterial(position)).tags.contains(SOIL_TAG)) { // tile is soil
+        if ((localMap.blockType.get(position) == BlockTypeEnum.FLOOR.CODE ||
+                localMap.blockType.get(position) == BlockTypeEnum.FARM.CODE) && // tile is floor or farm
+                MaterialMap.instance().getMaterial(localMap.blockType.getMaterial(position)).tags.contains(SOIL_TAG)) { // tile is soil
             return true;
         }
         return false;

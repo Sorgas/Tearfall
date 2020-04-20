@@ -134,7 +134,7 @@ public abstract class LocalFloraGenerator extends LocalGenerator {
             for (int y = 0; y < localMap.ySize; y++) {
                 for (int z = 0; z < localMap.zSize; z++) {
                     if (plantContainer.isPlantBlockExists(cachePosition.set(x, y, z))) continue;
-                    if (localMap.getBlockType(x, y, z) != FLOOR.CODE) continue;
+                    if (localMap.blockType.get(x, y, z) != FLOOR.CODE) continue;
                     positions.add(new Position(x, y, z));
                 }
             }

@@ -151,13 +151,13 @@ public class TileDrawer extends Drawer {
     }
 
     private void drawAreaLabel(int x, int y, int z) {
-        if (localMap.getBlockType(x, y, z) == BlockTypeEnum.SPACE.CODE) return;
+        if (localMap.blockType.get(x, y, z) == BlockTypeEnum.SPACE.CODE) return;
         String text = localMap.passageMap.area.get(x, y, z) + " " + localMap.passageMap.getPassage(x, y, z);
         spriteUtil.writeText(text, x, y + 1, z);
     }
 
     private void drawFloor(int x, int y, int z) {
-        BlockTypeEnum type = localMap.getBlockTypeEnumValue(x, y, z);
+        BlockTypeEnum type = localMap.blockType.getEnumValue(x, y, z);
         if (type == BlockTypeEnum.SPACE && z > 0) { // draw topping for ramps below
             spriteUtil.drawSprite(blocks.getToppingTile(getAtlasXForBlock(x, y, z - 1), getAtlasYForBlock(x, y, z - 1)), cacheVector);
             return;
@@ -171,7 +171,7 @@ public class TileDrawer extends Drawer {
     }
 
     private void drawBlock(int x, int y, int z) {
-        BlockTypeEnum type = localMap.getBlockTypeEnumValue(x, y, z);
+        BlockTypeEnum type = localMap.blockType.getEnumValue(x, y, z);
         if (!type.FLAT) spriteUtil.drawSprite(blocks.getBlockTile(getAtlasXForBlock(x, y, z), getAtlasYForBlock(x, y, z)), cacheVector);
     }
 
@@ -179,13 +179,13 @@ public class TileDrawer extends Drawer {
      * Returns atlas x for given block. Blocks and toppings have similar coordinates.
      */
     private int getAtlasXForBlock(int x, int y, int z) {
-        byte blockType = localMap.getBlockType(x, y, z);
+        byte blockType = localMap.blockType.get(x, y, z);
         if (blockType == BlockTypeEnum.SPACE.CODE) return -1;
         return localTileMap.get(x, y, z).getVal1();
     }
 
     private int getAtlasYForBlock(int x, int y, int z) {
-        return MaterialMap.instance().getMaterial(localMap.getMaterial(x, y, z)).atlasY;
+        return MaterialMap.instance().getMaterial(localMap.blockType.getMaterial(x, y, z)).atlasY;
     }
 
     private void drawSubstrate(int x, int y, int z) {

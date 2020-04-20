@@ -19,7 +19,7 @@ public class PlantCuttingValidator implements PositionValidator {
     @Override
     public Boolean apply(Position position) {
         PlantContainer container = GameMvc.model().get(PlantContainer.class);
-        BlockTypeEnum blockOnMap = GameMvc.model().get(LocalMap.class).getBlockTypeEnumValue(position);
+        BlockTypeEnum blockOnMap = GameMvc.model().get(LocalMap.class).blockType.getEnumValue(position);
         return ((SPACE.equals(blockOnMap) || FLOOR.equals(blockOnMap))) && container.isPlantBlockExists(position);
     }
 }

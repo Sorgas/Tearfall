@@ -70,7 +70,7 @@ public class ConstructionSelectionTool extends SelectionTool {
         if(!valid) return;
         for (int x = bounds.minX; x <= bounds.maxX; x++) {
             for (int y = bounds.maxY; y >= bounds.minY; y--) {
-                BlockTypeEnum blockType = map.getBlockTypeEnumValue(x, y, bounds.maxZ);
+                BlockTypeEnum blockType = map.blockType.getEnumValue(x, y, bounds.maxZ);
                 if (blockType == WALL) continue;
                 designationSystem.submitBuildingDesignation(createOrder(new Position(x, y, bounds.maxZ)), 1);
             }
@@ -86,7 +86,7 @@ public class ConstructionSelectionTool extends SelectionTool {
         extendedBounds.extend(1);
         for (int x = extendedBounds.minX; x <= extendedBounds.maxX; x++) {
             for (int y = extendedBounds.maxY; y >= extendedBounds.minY; y--) {
-                if (extendedBounds.isCorner(x, y) && map.getBlockTypeEnumValue(x, y, extendedBounds.maxZ).PASSING == PassageEnum.PASSABLE)
+                if (extendedBounds.isCorner(x, y) && map.blockType.getEnumValue(x, y, extendedBounds.maxZ).PASSING == PassageEnum.PASSABLE)
                     return true;
             }
         }

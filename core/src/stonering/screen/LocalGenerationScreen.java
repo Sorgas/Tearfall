@@ -68,10 +68,10 @@ public class LocalGenerationScreen extends SingleStageScreen {
                 GameMvc gameMvc = GameMvc.instance();
                 gameMvc.createViewAndController();
                 gameMvc.init(); // for initing V & C
-                gameMvc.model().get(EntitySelectorSystem.class).placeSelectorAtMapCenter();
-                gameMvc.model().get(LocalMap.class).initAreas(); // to avoid recalculations on map generation
+                GameMvc.model().get(EntitySelectorSystem.class).placeSelectorAtMapCenter();
+                GameMvc.model().get(LocalMap.class).initAreas(); // to avoid recalculations on map generation
                 game.switchToGame(); // show game screen
-                gameMvc.model().setPaused(false);
+                GameMvc.model().setPaused(false);
             }
         });
 //        stage.addActor(table);

@@ -22,7 +22,7 @@ import stonering.util.pathfinding.a_star.AStar;
 /**
  * Game model for testing features without starting the game.
  *
- * @author Alexander_Kuzyakov on 02.07.2019.
+ * @author Alexander Kuzyakov on 02.07.2019.
  */
 public abstract class TestModel extends GameModel {
     public static final int MAP_SIZE = 11;
@@ -34,6 +34,7 @@ public abstract class TestModel extends GameModel {
     @Override
     public void init() {
         super.init();
+        updateLocalMap();
     }
 
     /**
@@ -53,7 +54,6 @@ public abstract class TestModel extends GameModel {
         put(new TaskContainer());
         put(new EntitySelectorSystem());
         put(new AStar());
-        updateLocalMap();
     }
 
     /**
@@ -63,9 +63,9 @@ public abstract class TestModel extends GameModel {
         LocalMap localMap = get(LocalMap.class);
         for (int x = 0; x < getMapSize(); x++) {
             for (int y = 0; y < getMapSize(); y++) {
-                localMap.setBlock(x, y, 0, BlockTypeEnum.WALL, MaterialMap.instance().getId("soil"));
-                localMap.setBlock(x, y, 1, BlockTypeEnum.WALL, MaterialMap.instance().getId("soil"));
-                localMap.setBlock(x, y, 2, BlockTypeEnum.FLOOR, MaterialMap.instance().getId("soil"));
+                localMap.blockType.setBlock(x, y, 0, BlockTypeEnum.WALL.CODE, MaterialMap.instance().getId("soil"));
+                localMap.blockType.setBlock(x, y, 1, BlockTypeEnum.WALL.CODE, MaterialMap.instance().getId("soil"));
+                localMap.blockType.setBlock(x, y, 2, BlockTypeEnum.FLOOR.CODE, MaterialMap.instance().getId("soil"));
             }
         }
     }

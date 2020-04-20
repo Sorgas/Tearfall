@@ -7,6 +7,7 @@ import stonering.enums.time.TimeUnitEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.Updatable;
 import stonering.game.model.local_map.LocalMap;
+import stonering.game.model.local_map.passage.NeighbourPositionStream;
 import stonering.game.model.system.EntityContainer;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.system.ModelComponent;
@@ -88,8 +89,10 @@ public class BuildingContainer extends EntityContainer<Building> implements Mode
             for (BuildingBlock block : blocks) {
                 Position target = block.position;
                 if (container.getItemsInPosition(target).isEmpty()) return; // no items in target position
-                Position newPosition = GameMvc.model().get(LocalMap.class).getAnyNeighbourPosition(target, PassageEnum.PASSABLE);
-                if (newPosition.equals(target)) return; // no moving, if no valid position found
+                Position newPosition = new NeighbourPositionStream(target)
+                        .filterSameZLevel()
+                        .filterByPassage(PassageEnum.PASSABLE)
+                        .stream.findAny().orElse(null);
                 container.getItemsInPosition(target).forEach(item -> container.onMapItemsSystem.changeItemPosition(item, newPosition));
             }
         }

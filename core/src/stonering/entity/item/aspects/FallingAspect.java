@@ -25,8 +25,8 @@ public class FallingAspect extends Aspect {
         if (entity.position != null) { //TODO add aspect turnUnit on pickup
             LocalMap localMap = GameMvc.model().get(LocalMap.class);
             Position lowerPosition = Position.add(entity.position, 0, 0, -1);
-            boolean isCurrentBlockSpace = localMap.getBlockType(entity.position) == BlockTypeEnum.SPACE.CODE;
-            boolean isLowerBlockWall = localMap.getBlockType(lowerPosition) == BlockTypeEnum.WALL.CODE;
+            boolean isCurrentBlockSpace = localMap.blockType.get(entity.position) == BlockTypeEnum.SPACE.CODE;
+            boolean isLowerBlockWall = localMap.blockType.get(lowerPosition) == BlockTypeEnum.WALL.CODE;
 
             if (localMap.inMap(lowerPosition) && isCurrentBlockSpace && !isLowerBlockWall) {
                 GameMvc.model().get(ItemContainer.class).onMapItemsSystem.changeItemPosition((Item) entity, lowerPosition);

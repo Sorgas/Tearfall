@@ -2,21 +2,16 @@ package stonering.game.model.local_map;
 
 import com.badlogic.gdx.math.Vector2;
 import stonering.enums.blocks.BlockTypeEnum;
-import stonering.enums.blocks.PassageEnum;
-import stonering.game.GameMvc;
 import stonering.game.model.local_map.passage.PassageMap;
 import stonering.game.model.system.ModelComponent;
-import stonering.game.model.system.plant.PlantContainer;
-import stonering.game.model.system.substrate.SubstrateContainer;
 import stonering.game.model.tilemaps.LocalTileMapUpdater;
+import stonering.game.model.util.UtilByteArray;
 import stonering.util.geometry.Position;
 import stonering.util.global.Initable;
 import stonering.util.global.Logger;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 import static stonering.enums.blocks.PassageEnum.IMPASSABLE;
 import static stonering.enums.blocks.PassageEnum.PASSABLE;
@@ -27,8 +22,7 @@ import static stonering.enums.blocks.PassageEnum.PASSABLE;
  * @author Alexander Kuzyakov on 10.06.2017.
  */
 public class LocalMap implements ModelComponent, Initable {
-    private int[][][] material;
-    private byte[][][] blockType;
+    public final BlockTypeMap blockType;
     private byte[][][] flooding;
     private byte[][][] temperature;
     private Position cachePosition;
@@ -42,8 +36,7 @@ public class LocalMap implements ModelComponent, Initable {
     public final int zSize;
 
     public LocalMap(int xSize, int ySize, int zSize) {
-        material = new int[xSize][ySize][zSize];
-        blockType = new byte[xSize][ySize][zSize];
+        blockType = new BlockTypeMap(xSize, ySize, zSize);
         flooding = new byte[xSize][ySize][zSize];
         temperature = new byte[xSize][ySize][zSize];
         this.xSize = xSize;
@@ -63,28 +56,6 @@ public class LocalMap implements ModelComponent, Initable {
     public void initAreas() {
         passageMap = new PassageMap(this);
         passageMap.init();
-    }
-
-    /**
-     * Updates material and type of given block.
-     * Is called from localgen, digging.
-     */
-    public void setBlock(int x, int y, int z, byte type, int materialId) {
-        material[x][y][z] = materialId;
-        setBlockType(x, y, z, type);
-    }
-
-    public List<Position> getFreeBlockNear(Position position) {
-        List<Position> positions = new ArrayList<>();
-        for (int x = position.x - 1; x < position.x + 2; x++) {
-            for (int y = position.y - 1; y < position.y + 2; y++) {
-                if (x == position.x && y == position.y) continue;
-                if (inMap(x, y, position.z) && isWalkPassable(x, y, position.z)) {
-                    positions.add(new Position(x, y, position.z));
-                }
-            }
-        }
-        return positions;
     }
 
     public boolean inMap(int x, int y, int z) {
@@ -117,40 +88,6 @@ public class LocalMap implements ModelComponent, Initable {
         position.z = Math.min(Math.max(0, position.z), zSize - 1);
     }
 
-    private void setBlockType(int x, int y, int z, byte type) {
-        if (type == BlockTypeEnum.SPACE.CODE) deletePlantsOnDeletedBlock(x, y, z);
-        blockType[x][y][z] = type;
-        if (passageMap != null) passageMap.updater.update(x, y, z);
-        if (localTileMapUpdater != null) localTileMapUpdater.updateTile(x, y, z);
-    }
-
-    public void updatePassage(int x, int y, int z) {
-        if (passageMap != null) passageMap.updater.update(x, y, z);
-    }
-
-    public void updatePassage(Position position) {
-        updatePassage(position.x, position.y, position.z);
-    }
-
-    private void deletePlantsOnDeletedBlock(int x, int y, int z) {
-        GameMvc.model().get(SubstrateContainer.class).remove(cachePosition.set(x, y, z));
-        GameMvc.model().get(PlantContainer.class).handleBlockRemoval(cachePosition);
-    }
-
-    /**
-     * Returns tile adjacent to given and with walk passing.
-     * Returns same position if no neighbour found.
-     */
-    public Position getAnyNeighbourPosition(Position position, PassageEnum passing) {
-        for (int x = position.x - 1; x < position.x + 2; x++) {
-            for (int y = position.y - 1; y < position.y + 2; y++) {
-                if (inMap(position) && passageMap.passage.get(x, y, position.z) == passing.VALUE)
-                    return new Position(x, y, position.z);
-            }
-        }
-        return position;
-    }
-
     public boolean isWalkPassable(Position pos) {
         return isWalkPassable(pos.x, pos.y, pos.z);
     }
@@ -160,46 +97,13 @@ public class LocalMap implements ModelComponent, Initable {
         return passageMap.getPassage(x, y, z) == PASSABLE.VALUE;
     }
 
-    private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
-        stream.defaultReadObject();
-        init();
-    }
-
     public boolean isFlyPassable(Position pos) {
         return isFlyPassable(pos.x, pos.y, pos.z);
     }
 
     public boolean isFlyPassable(int x, int y, int z) {
         //TODO
-        return inMap(x, y, z) && BlockTypeEnum.getType(getBlockType(x, y, z)).PASSING != IMPASSABLE;
-    }
-
-    public int getMaterial(Position pos) {
-        return material[pos.x][pos.y][pos.z];
-    }
-
-    public int getMaterial(int x, int y, int z) {
-        return material[x][y][z];
-    }
-
-    public BlockTypeEnum getBlockTypeEnumValue(Position position) {
-        return BlockTypeEnum.getType(getBlockType(position.x, position.y, position.z));
-    }
-
-    public BlockTypeEnum getBlockTypeEnumValue(int x, int y, int z) {
-        return BlockTypeEnum.getType(getBlockType(x, y, z));
-    }
-
-    public byte getBlockType(Position pos) {
-        return getBlockType(pos.x, pos.y, pos.z);
-    }
-
-    public byte getBlockType(int x, int y, int z) {
-        return inMap(x, y, z) ? blockType[x][y][z] : BlockTypeEnum.SPACE.CODE;
-    }
-
-    public void setBlockType(Position pos, byte type) {
-        setBlockType(pos.x, pos.y, pos.z, type);
+        return inMap(x, y, z) && blockType.getEnumValue(x, y, z).PASSING != IMPASSABLE;
     }
 
     public byte getFlooding(int x, int y, int z) {
@@ -218,15 +122,17 @@ public class LocalMap implements ModelComponent, Initable {
         setFlooding(position.x, position.y, position.z, value);
     }
 
-    public void setBlock(Position pos, BlockTypeEnum blockType, int materialId) {
-        setBlock(pos.x, pos.y, pos.z, blockType.CODE, materialId);
+    private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
+        stream.defaultReadObject();
+        init();
     }
 
-    public void setBlock(Position pos, byte blockType, int materialId) {
-        setBlock(pos.x, pos.y, pos.z, blockType, materialId);
+    public void updateTile(Position position) {
+        updatePassage(position);
+        if (localTileMapUpdater != null) localTileMapUpdater.updateTile(position.x, position.y, position.z);
     }
 
-    public void setBlock(int x, int y, int z, BlockTypeEnum blockType, int materialId) {
-        setBlock(x, y, z, blockType.CODE, materialId);
+    public void updatePassage(Position position) {
+        if (passageMap != null) passageMap.updater.update(position.x, position.y, position.z);
     }
 }

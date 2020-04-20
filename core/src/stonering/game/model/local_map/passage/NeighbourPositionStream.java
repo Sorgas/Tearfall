@@ -77,7 +77,7 @@ public class NeighbourPositionStream {
      * Filters all tiles where walking creature cannot step into.
      * Clears all, if center tile is not passable.
      */
-    public NeighbourPositionStream filterByPassability() {
+    public NeighbourPositionStream filterConnectedToCenter() {
         stream = stream.filter(position -> passageMap.hasPathBetweenNeighbours(position, center));
         return this;
     }
@@ -106,7 +106,7 @@ public class NeighbourPositionStream {
     }
 
     public NeighbourPositionStream filterByBlockType(BlockTypeEnum type) {
-        stream = stream.filter(position -> localMap.getBlockType(position) == type.CODE);
+        stream = stream.filter(position -> localMap.blockType.get(position) == type.CODE);
         return this;
     }
 

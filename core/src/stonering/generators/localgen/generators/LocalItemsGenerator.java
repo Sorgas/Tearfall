@@ -7,6 +7,8 @@ import stonering.generators.localgen.LocalGenContainer;
 import stonering.util.geometry.Position;
 import stonering.entity.item.Item;
 
+import static stonering.enums.blocks.BlockTypeEnum.SPACE;
+
 /**
  * Creates item and puts them on map.
  *
@@ -48,7 +50,7 @@ public class LocalItemsGenerator extends LocalGenerator {
 
     private int findSurfaceZ(int x, int y) {
         for (int z = localMap.zSize - 1; z >= 0; z--) {
-            if (localMap.getBlockType(x, y, z) != 0) {
+            if (localMap.blockType.get(x, y, z) != SPACE.CODE) {
                 return z;
             }
         }

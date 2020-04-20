@@ -56,14 +56,14 @@ public class PlantGrowthSystem extends EntitySystem<AbstractPlant> {
             plantContainer.removePlantBlocks(tree, false);
             TreeGenerator treeGenerator = new TreeGenerator();
             treeGenerator.applyTreeGrowth(tree);
-            plantContainer.place(tree, tree.position);
+            plantContainer.add(tree, tree.position);
         } else if (entity instanceof Plant) {
             Plant plant = (Plant) entity;
             Position oldPosition = plant.getPosition();
             plantContainer.removePlantBlocks(plant, false);
             PlantGenerator plantGenerator = new PlantGenerator();
             plantGenerator.applyPlantGrowth(plant);
-            plantContainer.place(plant, oldPosition);
+            plantContainer.add(plant, oldPosition);
         }
     }
 

@@ -32,9 +32,9 @@ public class DiggingModel extends TestModel {
         for (int x = 0; x < localMap.xSize; x++) {
             for (int y = 0; y < localMap.ySize; y++) {
                 for (int z = 0; z < 10; z++) {
-                    localMap.setBlock(x, y, z, BlockTypeEnum.WALL, MaterialMap.instance().getId("soil"));
+                    localMap.blockType.setBlock(x, y, z, BlockTypeEnum.WALL, MaterialMap.instance().getId("soil"));
                 }
-                localMap.setBlock(x, y, 10, BlockTypeEnum.FLOOR, MaterialMap.instance().getId("soil"));
+                localMap.blockType.setBlock(x, y, 10, BlockTypeEnum.FLOOR, MaterialMap.instance().getId("soil"));
             }
         }
     }

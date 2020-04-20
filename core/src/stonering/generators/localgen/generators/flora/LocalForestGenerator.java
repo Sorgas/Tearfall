@@ -50,7 +50,7 @@ public class LocalForestGenerator extends LocalFloraGenerator {
                 Position position = positions.remove(0);
                 Tree tree = treeGenerator.generateTree(specimen, random.nextInt(maxAge));
                 if (!checkTreePlacing(tree, position.x, position.y, position.z)) continue;
-                container.model.get(PlantContainer.class).place(tree, position);
+                container.model.get(PlantContainer.class).add(tree, position);
                 counter++;
             }
         } catch (DescriptionNotFoundException e) {

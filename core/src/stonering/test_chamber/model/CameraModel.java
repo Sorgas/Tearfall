@@ -31,8 +31,8 @@ public class CameraModel extends TestModel {
         for (int i = 0; i < 200; i++) {
             int x = random.nextInt(localMap.xSize);
             int y = random.nextInt(localMap.ySize);
-            localMap.setBlock(x, y, 2, BlockTypeEnum.WALL, materialMap.getId("soil"));
-            localMap.setBlock(x, y, 3, BlockTypeEnum.FLOOR, materialMap.getId("soil"));
+            localMap.blockType.setBlock(x, y, 2, BlockTypeEnum.WALL, materialMap.getId("soil"));
+            localMap.blockType.setBlock(x, y, 3, BlockTypeEnum.FLOOR, materialMap.getId("soil"));
         }
     }
 

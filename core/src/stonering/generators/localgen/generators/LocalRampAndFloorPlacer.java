@@ -32,7 +32,7 @@ public class LocalRampAndFloorPlacer extends LocalGenerator {
             for (int y = 0; y < localMap.xSize; y++) {
                 for (int z = 1; z < localMap.zSize; z++) {
                     if (isGround(x, y, z) && hasAdjacentWall(x,y,z)) {
-                        localMap.setBlock(x, y, z, (byte) rampCode, adjacentWallMaterial(x, y, z));
+                        localMap.blockType.setBlock(x, y, z, (byte) rampCode, adjacentWallMaterial(x, y, z));
                     }
                 }
             }
@@ -44,7 +44,7 @@ public class LocalRampAndFloorPlacer extends LocalGenerator {
             for (int y = 0; y < localMap.ySize; y++) {
                 for (int z = localMap.zSize - 1; z > 0; z--) {
                     if (isFloorCell(x, y, z)) { //non space sell
-                        localMap.setBlock(x, y, z, BlockTypeEnum.FLOOR.CODE, localMap.getMaterial(x, y, z - 1));
+                        localMap.blockType.setBlock(x, y, z, BlockTypeEnum.FLOOR.CODE, localMap.blockType.getMaterial(x, y, z - 1));
                     }
                 }
             }
@@ -52,14 +52,14 @@ public class LocalRampAndFloorPlacer extends LocalGenerator {
     }
 
     private boolean isGround(int x, int y, int z) {
-        return localMap.getBlockType(x, y, z) == spaceCode && localMap.getBlockType(x, y, z - 1) == wallCode;
+        return localMap.blockType.get(x, y, z) == spaceCode && localMap.blockType.get(x, y, z - 1) == wallCode;
     }
 
     private boolean hasAdjacentWall(int xc, int yc, int z) {
         for (int x = xc - 1; x <= xc + 1; x++) {
             for (int y = yc - 1; y <= yc + 1; y++) {
                 if (localMap.inMap(x, y, z)) {
-                    if (localMap.getBlockType(x, y, z) == wallCode) {
+                    if (localMap.blockType.get(x, y, z) == wallCode) {
                         return true;
                     }
                 }
@@ -72,8 +72,8 @@ public class LocalRampAndFloorPlacer extends LocalGenerator {
         for (int x = xc - 1; x <= xc + 1; x++) {
             for (int y = yc - 1; y <= yc + 1; y++) {
                 if (localMap.inMap(x, y, z)) {
-                    if (localMap.getBlockType(x, y, z) == wallCode) {
-                        return localMap.getMaterial(x, y, z);
+                    if (localMap.blockType.get(x, y, z) == wallCode) {
+                        return localMap.blockType.getMaterial(x, y, z);
                     }
                 }
             }
@@ -82,7 +82,7 @@ public class LocalRampAndFloorPlacer extends LocalGenerator {
     }
 
     private boolean isFloorCell(int x, int y, int z) {
-        return localMap.getBlockType(x, y, z) == BlockTypeEnum.SPACE.CODE &&
-                localMap.getBlockType(x, y, z - 1) == BlockTypeEnum.WALL.CODE;
+        return localMap.blockType.get(x, y, z) == BlockTypeEnum.SPACE.CODE &&
+                localMap.blockType.get(x, y, z - 1) == BlockTypeEnum.WALL.CODE;
     }
 }

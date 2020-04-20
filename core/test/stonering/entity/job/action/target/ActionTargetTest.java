@@ -50,7 +50,7 @@ public class ActionTargetTest {
         localMap = new LocalMap(5, 5, 3);
         for (int x = 0; x < 5; x++) {
             for (int y = 0; y < 5; y++) {
-                localMap.setBlock(x, y, 0, BlockTypeEnum.FLOOR, 1);
+                localMap.blockType.setBlock(x, y, 0, BlockTypeEnum.FLOOR, 1);
             }
         }
     }
@@ -88,9 +88,9 @@ public class ActionTargetTest {
     void testNearTargetFailInWalls() {
         actionTarget = new PositionActionTarget(targetPosition, ActionTargetTypeEnum.NEAR);
         //surround target position with impassable walls
-        localMap.setBlock(0, 1, 0, BlockTypeEnum.WALL, 1);
-        localMap.setBlock(1, 0, 0, BlockTypeEnum.WALL, 1);
-        localMap.setBlock(1, 1, 0, BlockTypeEnum.WALL, 1);
+        localMap.blockType.setBlock(0, 1, 0, BlockTypeEnum.WALL, 1);
+        localMap.blockType.setBlock(1, 0, 0, BlockTypeEnum.WALL, 1);
+        localMap.blockType.setBlock(1, 1, 0, BlockTypeEnum.WALL, 1);
         dummy.position = targetPosition;
         assertEquals(ActionTargetStatusEnum.FAIL, actionTarget.check(dummy));
     }

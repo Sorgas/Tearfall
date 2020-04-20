@@ -1,6 +1,5 @@
 package stonering.game.model.local_map.passage;
 
-import stonering.enums.blocks.BlockTypeEnum;
 import stonering.enums.blocks.PassageEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
@@ -39,7 +38,7 @@ public class PassageUpdater {
         passage.passage.set(center, passing.VALUE);
         if (passing == PASSABLE) { // tile became passable, areas should be merged
             Set<Byte> areas = new NeighbourPositionStream(center)
-                    .filterByPassability()
+                    .filterConnectedToCenter()
                     .filterNotInArea(0)
                     .stream.map(position -> passage.area.get(position))
                     .collect(Collectors.toSet());
@@ -127,7 +126,7 @@ public class PassageUpdater {
             openSet.remove(center);
             passage.area.set(center.x, center.y, center.z, value);
             new NeighbourPositionStream(center)
-                    .filterByPassability()
+                    .filterConnectedToCenter()
                     .filterNotInArea(value)
                     .stream.forEach(openSet::add);
         }

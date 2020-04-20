@@ -250,7 +250,7 @@ public class LocalRiverGenerator extends LocalGenerator {
      */
     private void updateLocalMapAndRoundedHeightMap(int x, int y, int elevation, boolean isWaterSource) {
         for (int z = elevation; z <= container.roundedHeightsMap[x][y]; z++) {
-            localMap.setBlock(x, y, z, BlockTypeEnum.SPACE, materialMap.getId("air"));
+            localMap.blockType.setBlock(x, y, z, BlockTypeEnum.SPACE.CODE, materialMap.getId("air"));
             if (z <= elevation) {
 //                localMap.setFlooding(x, y, z, 8);
                 container.waterTiles.add(new Position(x,y,z));

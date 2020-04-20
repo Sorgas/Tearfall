@@ -40,7 +40,7 @@ public class LocalBuildingGenerator extends LocalGenerator {
         int x = localMap.xSize /2;
         int y = localMap.ySize /2;
         for (int z = localMap.zSize - 1; z > 0; z--) {
-            if (localMap.getBlockType(x, y, z) != BlockTypeEnum.SPACE.CODE) {
+            if (localMap.blockType.get(x, y, z) != BlockTypeEnum.SPACE.CODE) {
                 return new Position(x, y, z);
             }
         }

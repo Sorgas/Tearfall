@@ -56,7 +56,7 @@ public class LocalStoneLayersGenerator extends LocalGenerator {
                     if (z <= heigtsMap[x][y]) { //non space sell
                         id = z - (heigtsMap[x][y] - (layerIds.length - 1));
                         id = id < 0 ? 0 : id;
-                        map.setBlock(x, y, z, BlockTypeEnum.WALL, layerIds[id]);
+                        map.blockType.setBlock(x, y, z, BlockTypeEnum.WALL.CODE, layerIds[id]);
                     }
                 }
             }

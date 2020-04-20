@@ -50,11 +50,11 @@ public class TileStatusBar extends Container<Table> {
     public void update() {
         GameModel gameModel = GameMvc.instance().model();
         Position focus = gameModel.get(EntitySelectorSystem.class).selector.position;
-        Material material = MaterialMap.instance().getMaterial(gameModel.get(LocalMap.class).getMaterial(focus));
+        Material material = MaterialMap.instance().getMaterial(gameModel.get(LocalMap.class).blockType.getMaterial(focus));
         setData(focus,
                 material != null ? material.name : "",
                 gameModel.get(LocalMap.class).passageMap != null ? gameModel.get(LocalMap.class).passageMap.area.get(focus) : 0,
-                gameModel.get(LocalMap.class).getBlockType(focus));
+                gameModel.get(LocalMap.class).blockType.get(focus));
     }
 
     public void setData(Position camera, String material, int area, int blockType) {

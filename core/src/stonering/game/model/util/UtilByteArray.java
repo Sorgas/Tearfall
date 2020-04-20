@@ -10,9 +10,11 @@ import java.io.Serializable;
  * @author Alexander Kuzyakov
  */
 public class UtilByteArray implements Serializable {
-    private byte[][][] array;
+    protected byte[][][] array;
+    Position size;
 
     public UtilByteArray(int xSize, int ySize, int zSize) {
+        size = new Position(xSize, ySize, zSize);
         array = new byte[xSize][ySize][zSize];
     }
 
@@ -38,5 +40,9 @@ public class UtilByteArray implements Serializable {
 
     public void change(Position position, byte delta) {
         change(position.x, position.y, position.z, delta);
+    }
+
+    public boolean withinBounds(int x, int y, int z) {
+        return x >= 0 && y >= 0 && z >= 0 && x < size.x && y < size.y && z < size.z;
     }
 }

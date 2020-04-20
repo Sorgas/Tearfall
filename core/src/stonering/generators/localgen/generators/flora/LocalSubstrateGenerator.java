@@ -67,7 +67,7 @@ public class LocalSubstrateGenerator extends LocalFloraGenerator {
         for (int x = 0; x < localMap.xSize; x++) {
             for (int y = 0; y < localMap.ySize; y++) {
                 for (int z = 0; z < localMap.zSize; z++) {
-                    if (!substrateBlockTypes.contains(localMap.getBlockType(x, y, z))) continue;
+                    if (!substrateBlockTypes.contains(localMap.blockType.get(x, y, z))) continue;
                     if (substrateContainer.isSubstrateBlockExists(cachePosition.set(x, y, z))) continue;
                     positions.add(new Position(x, y, z));
                 }

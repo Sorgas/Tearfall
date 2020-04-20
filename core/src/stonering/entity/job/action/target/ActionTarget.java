@@ -5,12 +5,14 @@ import stonering.entity.job.action.MoveAction;
 import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
+import stonering.game.model.local_map.passage.NeighbourPositionStream;
 import stonering.util.geometry.Position;
 import stonering.entity.job.action.Action;
 import stonering.util.global.Logger;
 
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import static stonering.entity.job.action.target.ActionTargetStatusEnum.*;
 
@@ -53,12 +55,12 @@ public abstract class ActionTarget {
 
     public Position findPositionToStepOff(Position from) {
         Logger.TASKS.logDebug("Looking for position to step off from " + from);
-        List<Position> positions = GameMvc.model().get(LocalMap.class).getFreeBlockNear(from);
-        if (!positions.isEmpty()) {
-            return positions.get(random.nextInt(positions.size()));
-        }
-        Logger.PATH.logWarn("Cant find tile to step out from " + from);
-        return null;
+        Position position =  new NeighbourPositionStream(from)
+                .filterSameZLevel()
+                .filterConnectedToCenter()
+                .stream.findAny().orElse(null);
+        if(position == null) Logger.PATH.logWarn("Cant find tile to step out from " + from);
+        return position;
     }
 
     /**

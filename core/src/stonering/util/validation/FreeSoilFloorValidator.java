@@ -15,6 +15,6 @@ public class FreeSoilFloorValidator extends FreeFloorValidator {
     @Override
     public Boolean apply(Position position) {
         LocalMap localMap = GameMvc.model().get(LocalMap.class);
-        return super.apply(position) && "soil".equals(MaterialMap.instance().getMaterial(localMap.getMaterial(position)).name);
+        return super.apply(position) && "soil".equals(MaterialMap.instance().getMaterial(localMap.blockType.getMaterial(position)).name);
     }
 }

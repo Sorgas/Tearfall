@@ -19,7 +19,7 @@ public class DiggingValidator implements PositionValidator {
 
     @Override
     public Boolean apply(Position position) {
-        BlockTypeEnum block = GameMvc.model().get(LocalMap.class).getBlockTypeEnumValue(position);
+        BlockTypeEnum block = GameMvc.model().get(LocalMap.class).blockType.getEnumValue(position);
         return targetBlockType.OPENNESS > block.OPENNESS;
     }
 }

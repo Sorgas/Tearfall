@@ -71,7 +71,7 @@ public class FarmZone extends Zone {
             // can create task for cutting or harvesting
             AbstractPlant plant = plantContainer.getPlantInPosition(tile);
             if (!checkExistingPlant(plant, tile, taskContainer)) continue;
-            if (localMap.getBlockType(tile) != BlockTypeEnum.FARM.CODE) {
+            if (localMap.blockType.get(tile) != BlockTypeEnum.FARM.CODE) {
                 Logger.ZONES.logDebug("Creating hoeing task on farm");
                 if (hoeingEnabled)
                     addTask(createTaskForHoeing(tile), tile);

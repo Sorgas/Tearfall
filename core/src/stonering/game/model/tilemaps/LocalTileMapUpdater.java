@@ -40,7 +40,7 @@ public class LocalTileMapUpdater {
         localMap = GameMvc.model().get(LocalMap.class);
         localTileMap = GameMvc.model().get(LocalTileMap.class);
         MaterialMap materialMap = MaterialMap.instance();
-        BlockTypeEnum blockType = localMap.getBlockTypeEnumValue(x, y, z);
+        BlockTypeEnum blockType = localMap.blockType.getEnumValue(x, y, z);
         switch (blockType) {
             case SPACE: // remove tile sprite
                 localTileMap.removeTile(x, y, z);
@@ -48,13 +48,13 @@ public class LocalTileMapUpdater {
             case RAMP: // select sprite basing on surrounding tiles
                 localTileMap.setTile(x, y, z,
                         countRamp(x, y, z),
-                        materialMap.getMaterial(localMap.getMaterial(x, y, z)).atlasY,
+                        materialMap.getMaterial(localMap.blockType.getMaterial(x, y, z)).atlasY,
                         0);
                 break;
             default: // set sprite of the tile
                 localTileMap.setTile(x, y, z,
                         BlockTileMapping.getType(blockType.CODE).ATLAS_X,
-                        materialMap.getMaterial(localMap.getMaterial(x, y, z)).atlasY, 0);
+                        materialMap.getMaterial(localMap.blockType.getMaterial(x, y, z)).atlasY, 0);
         }
         updateRampsAround(x, y, z);
     }
@@ -65,7 +65,7 @@ public class LocalTileMapUpdater {
     private void updateRampsAround(int xc, int yc, int z) {
         for (int y = yc - 1; y < yc + 2; y++) {
             for (int x = xc - 1; x < xc + 2; x++) {
-                if (!localMap.inMap(x, y, z) || localMap.getBlockType(x, y, z) != BlockTypeEnum.RAMP.CODE) continue;
+                if (!localMap.inMap(x, y, z) || localMap.blockType.get(x, y, z) != BlockTypeEnum.RAMP.CODE) continue;
                 IntTriple triple = localTileMap.get(x, y, z);
                 localTileMap.setTile(x, y, z, countRamp(x, y, z), triple.getVal2(), triple.getVal3());
             }
@@ -118,7 +118,7 @@ public class LocalTileMapUpdater {
         for (int y = cy - 1; y <= cy + 1; y++) {
             for (int x = cx - 1; x <= cx + 1; x++) {
                 if ((x == cx) && (y == cy)) continue;
-                if (localMap.getBlockType(x, y, cz) == BlockTypeEnum.WALL.CODE) walls |= bitpos;
+                if (localMap.blockType.get(x, y, cz) == BlockTypeEnum.WALL.CODE) walls |= bitpos;
                 bitpos *= 2; // shift to 1 bit
             }
         }

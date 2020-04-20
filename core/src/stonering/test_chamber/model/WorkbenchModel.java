@@ -1,10 +1,7 @@
 package stonering.test_chamber.model;
 
-import stonering.entity.item.Item;
 import stonering.entity.unit.Unit;
-import stonering.enums.OrientationEnum;
 import stonering.game.model.entity_selector.EntitySelectorSystem;
-import stonering.game.model.system.building.BuildingContainer;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.system.unit.UnitContainer;
 import stonering.generators.buildings.BuildingGenerator;

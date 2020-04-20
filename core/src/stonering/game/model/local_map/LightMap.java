@@ -80,7 +80,7 @@ public class LightMap {
             if (maxRange != -1 && maxRange < start.getDistance(pos))
                 continue; // terminate filling, if max range reached
             localLight.set(pos, (byte) 0); // reveal
-            if (localMap.getBlockType(pos) == WALL.CODE) continue; // walls always terminate filling
+            if (localMap.blockType.get(pos) == WALL.CODE) continue; // walls always terminate filling
             Set<Position> observed = observe(pos);
             observed.removeAll(closed);
             open.addAll(observed);
@@ -113,8 +113,8 @@ public class LightMap {
      * Check that tiles can be revealed from each other.
      */
     private boolean checkZPairForReveal(Position lower, Position upper) {
-        BlockTypeEnum lowerType = BlockTypeEnum.getType(localMap.getBlockType(lower));
-        BlockTypeEnum upperType = BlockTypeEnum.getType(localMap.getBlockType(upper));
+        BlockTypeEnum lowerType = BlockTypeEnum.getType(localMap.blockType.get(lower));
+        BlockTypeEnum upperType = BlockTypeEnum.getType(localMap.blockType.get(upper));
         return upperType == SPACE || (lowerType == STAIRS && (upperType == STAIRS || upperType == DOWNSTAIRS));
     }
 

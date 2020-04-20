@@ -20,12 +20,12 @@ public class ConstructionValidator implements PositionValidator {
 
         LocalMap map = GameMvc.model().get(LocalMap.class);
         return GameMvc.model().get(BuildingContainer.class).buildingBlocks.get(position) == null && // building-free
-                (map.getBlockType(position) == BlockTypeEnum.FLOOR.CODE ||          // floor or space
-                        ((map.getBlockType(position.x + 1, position.y, position.z) != 0 ||        // not empty blocks near
-                                map.getBlockType(position.x - 1, position.y, position.z) != 0 ||
-                                map.getBlockType(position.x, position.y + 1, position.z) != 0 ||
-                                map.getBlockType(position.x, position.y - 1, position.z) != 0) &&
-                                map.getBlockType(position) == BlockTypeEnum.SPACE.CODE
+                (map.blockType.get(position) == BlockTypeEnum.FLOOR.CODE ||          // floor or space
+                        ((map.blockType.get(position.x + 1, position.y, position.z) != 0 ||        // not empty blocks near
+                                map.blockType.get(position.x - 1, position.y, position.z) != 0 ||
+                                map.blockType.get(position.x, position.y + 1, position.z) != 0 ||
+                                map.blockType.get(position.x, position.y - 1, position.z) != 0) &&
+                                map.blockType.get(position) == BlockTypeEnum.SPACE.CODE
                         )
                 );
     }

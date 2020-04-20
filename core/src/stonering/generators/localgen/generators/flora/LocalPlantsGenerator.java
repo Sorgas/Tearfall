@@ -41,7 +41,7 @@ public class LocalPlantsGenerator extends LocalFloraGenerator {
                 Position position = positions.remove(0);
                 if(plantContainer.isPlantBlockExists(position)) continue;
                 Plant plant = plantGenerator.generatePlant(specimen, 0);
-                container.model.get(PlantContainer.class).place(plant, position);
+                container.model.get(PlantContainer.class).add(plant, position);
             }
         } catch (DescriptionNotFoundException e) {
             Logger.GENERATION.logError("material for plant " + specimen + " not found");

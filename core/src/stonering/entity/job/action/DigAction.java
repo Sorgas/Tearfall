@@ -49,7 +49,7 @@ public class DigAction extends SkillAction {
         maxProgress = getWorkAmount(designation) * workAmountModifier; // 480 for wall to floor in marble
         System.out.println("max progress " + maxProgress);
         onFinish = () -> {
-            BlockTypeEnum oldType = GameMvc.model().get(LocalMap.class).getBlockTypeEnumValue(target.getPosition());
+            BlockTypeEnum oldType = GameMvc.model().get(LocalMap.class).blockType.getEnumValue(target.getPosition());
             if (type.VALIDATOR.apply(target.getPosition())) updateMap();
             leaveStone(oldType);
             GameMvc.model().get(UnitContainer.class).experienceSystem.giveExperience(task.performer, SKILL_NAME);
@@ -74,7 +74,7 @@ public class DigAction extends SkillAction {
                 updateAndRevealMap(target, FLOOR);
                 break;
             case D_STAIRS:
-                if (map.getBlockType(target) == WALL.CODE) {
+                if (map.blockType.get(target) == WALL.CODE) {
                     updateAndRevealMap(target, STAIRS);
                 } else {
                     updateAndRevealMap(target, DOWNSTAIRS);
@@ -89,7 +89,7 @@ public class DigAction extends SkillAction {
             case D_CHANNEL:
                 updateAndRevealMap(target, SPACE);
                 Position lowerPosition = new Position(target.x, target.y, target.z - 1);
-                if (map.inMap(lowerPosition) && map.getBlockType(lowerPosition) == WALL.CODE)
+                if (map.inMap(lowerPosition) && map.blockType.get(lowerPosition) == WALL.CODE)
                     updateAndRevealMap(lowerPosition, RAMP);
         }
     }
@@ -101,8 +101,8 @@ public class DigAction extends SkillAction {
         LocalMap map = GameMvc.model().get(LocalMap.class);
         ItemContainer container = GameMvc.model().get(ItemContainer.class);
         Position target = this.target.getPosition();
-        BlockTypeEnum newType = map.getBlockTypeEnumValue(target);
-        int materialId = map.getMaterial(target);
+        BlockTypeEnum newType = map.blockType.getEnumValue(target);
+        int materialId = map.blockType.getMaterial(target);
         new DiggingProductGenerator()
                 .generateDigProduct(materialId, oldType, newType)
                 .forEach(item -> container.onMapItemsSystem.putNewItem(item, target));
@@ -110,7 +110,7 @@ public class DigAction extends SkillAction {
 
     private void updateAndRevealMap(Position position, BlockTypeEnum type) {
         LocalMap map = GameMvc.model().get(LocalMap.class);
-        map.setBlockType(position, type.CODE);
+        map.blockType.set(position, type);
         map.light.handleDigging(position);
     }
 
@@ -140,8 +140,8 @@ public class DigAction extends SkillAction {
     }
 
     private float getWorkAmountForTile(Position position, LocalMap map, BlockTypeEnum targetType) {
-        return MaterialMap.instance().getMaterial(map.getMaterial(position)).density *
-                (targetType.OPENNESS - map.getBlockTypeEnumValue(position).OPENNESS);
+        return MaterialMap.instance().getMaterial(map.blockType.get(position)).density *
+                (targetType.OPENNESS - map.blockType.getEnumValue(position).OPENNESS);
     }
 
     @Override
