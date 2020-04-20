@@ -9,8 +9,8 @@ import stonering.util.geometry.Position;
  * @author Alexander Kuzyakov on 30.11.2017.
  */
 public class PlantBlock {
-    private AbstractPlant plant;
-    private Position position; // position on map
+    public AbstractPlant plant;
+    public Position position; // position on map
     private int material;
     private int blockType; // type from enum
     private int[] atlasXY;
@@ -55,14 +55,6 @@ public class PlantBlock {
 
     public void setPlant(AbstractPlant plant) {
         this.plant = plant;
-    }
-
-    public Position getPosition() {
-        return position;
-    }
-
-    public void setPosition(Position position) {
-        this.position = position;
     }
 
     public AbstractPlant getPlant() {

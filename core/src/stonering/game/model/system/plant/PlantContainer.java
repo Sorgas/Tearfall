@@ -14,11 +14,8 @@ import stonering.game.model.system.ModelComponent;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.generators.items.PlantProductGenerator;
 import stonering.util.geometry.Position;
-import stonering.entity.item.Item;
-import stonering.util.global.Initable;
 import stonering.util.global.Logger;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -31,48 +28,34 @@ import java.util.HashMap;
  *
  * @author Alexander Kuzyakov on 09.11.2017.
  */
-public class PlantContainer extends EntityContainer<AbstractPlant> implements Initable, ModelComponent {
+public class PlantContainer extends EntityContainer<AbstractPlant> implements ModelComponent {
     private HashMap<Position, PlantBlock> plantBlocks; // trees and plants blocks
-
-    private LocalMap localMap;
     private final int WALL_CODE = BlockTypeEnum.WALL.CODE;
+    private PlantProductGenerator plantProductGenerator;
+    private LocalMap localMap;
 
     public PlantContainer() {
         plantBlocks = new HashMap<>();
+        plantProductGenerator = new PlantProductGenerator();
         put(new PlantSeedSystem());
         put(new PlantGrowthSystem());
     }
 
-    @Override
-    public void init() {
-        localMap = GameMvc.instance().model().get(LocalMap.class);
-    }
-
     /**
-     * Entry method for placing new plants and trees on map.
+     * Adds plant to container. Plant position should be set.
      */
     public void place(AbstractPlant plant, Position position) {
         if (plant.type.isTree) placeTree((Tree) plant, position);
         if (plant.type.isPlant) placePlant((Plant) plant, position);
     }
 
-    /**
-     * Places single-tile plant block into map to be rendered and accessed by other entities.
-     * Block position should be set.
-     */
     private void placePlant(Plant plant, Position position) {
         plant.setPosition(position);
         if (placeBlock(plant.getBlock())) objects.add(plant);
     }
 
-    /**
-     * Places tree on local map.
-     * Tree should have position, pointing on its stomp (for growing from sapling).
-     * //TODO checking space for placing
-     * //TODO merging overlaps with other trees.
-     *
-     * @param tree Tree object with not null tree field
-     */
+    //TODO checking space for placing
+    //TODO merging overlaps with other trees.
     private void placeTree(Tree tree, Position position) {
         objects.add(tree);
         tree.setPosition(position);
@@ -83,10 +66,10 @@ public class PlantContainer extends EntityContainer<AbstractPlant> implements In
                 for (int z = 0; z < treeParts[x][y].length; z++) {
                     if (treeParts[x][y][z] == null) continue;
                     Position onMapPosition = Position.add(vector, x, y, z);
-                    if (!localMap.inMap(onMapPosition)) {
+                    if (!localMap().inMap(onMapPosition)) {
                         treeParts[x][y][z] = null; // remove block that is out of map
                     } else {
-                        treeParts[x][y][z].setPosition(onMapPosition);
+                        treeParts[x][y][z].position = onMapPosition;
                         placeBlock(treeParts[x][y][z]);
                     }
                 }
@@ -94,33 +77,21 @@ public class PlantContainer extends EntityContainer<AbstractPlant> implements In
         }
     }
 
-
-    /**
-     * Puts block to blocks map by position from it.
-     */
     private boolean placeBlock(PlantBlock block) {
-        if (plantBlocks.containsKey(block.getPosition())) {
-            Logger.PLANTS.logDebug(block.getPlant() + " is blocked by " + plantBlocks.get(block.getPosition()).getPlant());
-            return false; // tile is occupied
-        }
-        Position blockPosition = block.getPosition();
-        plantBlocks.put(block.getPosition(), block);
-        localMap.updatePassage(blockPosition.x, blockPosition.y, blockPosition.z);
+        Position position = block.position;
+        if (plantBlocks.containsKey(position))
+            return Logger.PLANTS.logDebug(block.plant + " is blocked by " + plantBlocks.get(position).plant, false);
+        plantBlocks.put(position, block);
+        localMap().updatePassage(position);
         return true;
     }
 
-    /**
-     * Removes plant from map completely. Can leave products.
-     */
     public void remove(AbstractPlant plant, boolean leaveProduct) {
         if (plant != null && objects.remove(plant)) removePlantBlocks(plant, leaveProduct);
     }
 
-    /**
-     * Removes blocks of given plant or tree from map. Can leave products.
-     */
     public void removePlantBlocks(AbstractPlant plant, boolean leaveProduct) {
-        if (plant instanceof Tree) {
+        if (plant instanceof Tree) { // remove all tree blocks
             Tree tree = (Tree) plant;
             PlantBlock[][][] treeParts = tree.getBlocks();
             for (int x = 0; x < treeParts.length; x++) {
@@ -130,7 +101,7 @@ public class PlantContainer extends EntityContainer<AbstractPlant> implements In
                     }
                 }
             }
-        } else if (plant instanceof Plant) {
+        } else if (plant instanceof Plant) { // remove plant block
             removeBlock(((Plant) plant).getBlock(), leaveProduct);
         }
     }
@@ -140,40 +111,22 @@ public class PlantContainer extends EntityContainer<AbstractPlant> implements In
      * If plant was single-tiled, it is destroyed.
      */
     private void removeBlock(PlantBlock block, boolean leaveProduct) {
-        if (plantBlocks.get(block.getPosition()) != block) {
-            //TODO debug
-            Logger.PLANTS.logError("Plant block with position " + block.getPosition() + " not stored in its position.");
+        if (plantBlocks.get(block.position) != block) {
+            Logger.PLANTS.logError("Plant block with position " + block.position + " not stored in its position.");
         } else {
-            Position blockPosition = block.getPosition();
+            Position blockPosition = block.position;
             plantBlocks.remove(blockPosition);
             if (leaveProduct) leavePlantProduct(block);
-            localMap.updatePassage(blockPosition.x, blockPosition.y, blockPosition.z);
+            localMap().updatePassage(blockPosition.x, blockPosition.y, blockPosition.z);
         }
     }
 
-    /**
-     * Creates block's products in block's position.
-     */
     private void leavePlantProduct(PlantBlock block) {
-        ArrayList<Item> items = new PlantProductGenerator().generateCutProduct(block);
-        ItemContainer itemContainer = GameMvc.instance().model().get(ItemContainer.class);
-        for (Item item : items) {
+        ItemContainer itemContainer = GameMvc.model().get(ItemContainer.class);
+        plantProductGenerator.generateCutProduct(block).forEach(item -> {
             itemContainer.addItem(item);
-            itemContainer.onMapItemsSystem.putItem(item, block.getPosition());
-        }
-    }
-
-    /**
-     * Method for all interactions that damages tree parts(chopping, braking branches, partial burning).
-     * Handles different effects of this removing.
-     * //TODO implementing out of mvp.
-     */
-    public void removeBlockFromTree(PlantBlock block, Tree tree) {
-//        fellTree(tree, OrientationEnum.N);
-//        Position relPos = tree.getRelativePosition(block.getPosition());
-//        tree.getBlocks()[relPos.getX()][relPos.getY()][relPos.getZ()] = null;
-//        localMap.setPlantBlock(block.getPosition(), null);
-        //TODO manage case for separating tree parts from each other
+            itemContainer.onMapItemsSystem.putItem(item, block.position);
+        });
     }
 
     /**
@@ -191,10 +144,10 @@ public class PlantContainer extends EntityContainer<AbstractPlant> implements In
                     for (int z = stompZ; z < treeParts[x][y].length; z++) {
                         PlantBlock block = treeParts[x][y][z];
                         if (block == null) continue;
-                        Position newPosition = translatePosition(block.getPosition().toVector3(), treePosition.toVector3(), orientation);
-                        if (localMap.getBlockType(newPosition) != WALL_CODE) {
-                            plantBlocks.remove(block.getPosition());
-                            block.setPosition(newPosition);
+                        Position newPosition = translatePosition(block.position.toVector3(), treePosition.toVector3(), orientation);
+                        if (localMap().getBlockType(newPosition) != WALL_CODE) {
+                            plantBlocks.remove(block.position);
+                            block.position = newPosition;
                             placeBlock(block);
                         } else {
                             treeParts[x][y][z] = null;
@@ -233,12 +186,39 @@ public class PlantContainer extends EntityContainer<AbstractPlant> implements In
     }
 
     public void handleBlockRemoval(Position position) {
-        if(!plantBlocks.containsKey(position)) return;
+        if (!plantBlocks.containsKey(position)) return;
         PlantBlock block = plantBlocks.get(position);
-        if(block.getPlant().type.isTree) {
+        if (block.getPlant().type.isTree) {
             //TODO trees should have underground roots, and stay while enough root blocks are in the soil
-        } else if(block.getPlant().type.isPlant) {
+        } else if (block.getPlant().type.isPlant) {
             remove(block.getPlant(), true);
         }
+    }
+
+    public void removePlantBlock(Position position) {
+        PlantBlock block = plantBlocks.get(position);
+        if (block == null) return;
+        if (block.getPlant() instanceof Plant) {
+//            removeBlock();
+        } else if (block.getPlant() instanceof Tree) {
+
+        }
+    }
+
+    /**
+     * Method for all interactions that damages tree parts(chopping, braking branches, partial burning).
+     * Handles different effects of this removing.
+     * //TODO implementing out of mvp.
+     */
+    public void removeBlockFromTree(PlantBlock block, Tree tree) {
+//        fellTree(tree, OrientationEnum.N);
+//        Position relPos = tree.getRelativePosition(block.position);
+//        tree.getBlocks()[relPos.getX()][relPos.getY()][relPos.getZ()] = null;
+//        localMap.setPlantBlock(block.position, null);
+        //TODO manage case for separating tree parts from each other
+    }
+
+    private LocalMap localMap() {
+        return localMap == null ? localMap = GameMvc.model().get(LocalMap.class) : localMap;
     }
 }

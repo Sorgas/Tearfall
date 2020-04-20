@@ -12,6 +12,7 @@ import stonering.util.global.Logger;
 
 /**
  * Action for creating constructions on map. Constructions are just blocks of material.
+ * Extends action which finds item for building and brings them to construction site.
  *
  * @author Alexander on 12.03.2019.
  */
@@ -24,13 +25,15 @@ public class ConstructionAction extends GenericBuildingAction {
         onFinish = () -> {
             Logger.TASKS.logDebug(BlockTypeEnum.getType(blockType).NAME + " built at " + this.target.getPosition());
             Position target = ((BuildingActionTarget) this.target).center;
-            int material = order.parts.values().iterator().next().items.iterator().next().material;
+            int material = order.parts.values().iterator().next().items.iterator().next().material; // all items have same material
 
             GameMvc.model().get(LocalMap.class).setBlock(target, blockType, material); // create block
+
             PlantContainer container = GameMvc.model().get(PlantContainer.class);
             container.remove(container.getPlantInPosition(target), true); // remove plant
-            SubstrateContainer substrateContainer = GameMvc.model().get(SubstrateContainer.class);
-            substrateContainer.remove(substrateContainer.getSubstrateInPosition(target)); // remove substrate
+
+            GameMvc.model().get(SubstrateContainer.class).remove(target); // remove substrates
+
             consumeItems();
         };
     }

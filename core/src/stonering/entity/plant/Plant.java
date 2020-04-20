@@ -26,15 +26,15 @@ public class Plant extends AbstractPlant {
     public void setBlock(PlantBlock block) {
         this.block = block;
         block.setPlant(this);
-        block.setPosition(getPosition());
+        block.position = getPosition();
     }
 
     public Position getPosition() {
-        return block.getPosition();
+        return block.position;
     }
 
     public void setPosition(Position position) {
         super.setPosition(position);
-        block.setPosition(position);
+        block.position = position;
     }
 }

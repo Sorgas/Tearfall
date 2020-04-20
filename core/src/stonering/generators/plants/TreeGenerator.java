@@ -86,7 +86,7 @@ public class TreeGenerator {
         for (int x = 0; x < blocks.length; x++) {
             for (int y = 0; y < blocks[0].length; y++) {
                 for (int z = branchesStart; z < blocks[0][0].length; z++) {
-                    if (blocks[x][y][z] != null) blocks[x][y][z].setPosition(new Position(x,y,z));
+                    if (blocks[x][y][z] != null) blocks[x][y][z].position = new Position(x,y,z);
                 }
             }
         }
