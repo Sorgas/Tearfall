@@ -31,7 +31,7 @@ public class BuildingAction extends GenericBuildingAction {
             Building building = buildingContainer.buildingGenerator.generateBuilding(buildingType.building, target.center, order.orientation); //TODO use material
             buildingContainer.addBuilding(building);
             PlantContainer plantContainer = GameMvc.model().get(PlantContainer.class);
-            getBuildingBounds().stream().forEach(vector -> plantContainer.remove(vector.x, vector.y, order.position.z));
+            getBuildingBounds().stream().forEach(vector -> plantContainer.removeBlock(vector.x, vector.y, order.position.z, false));
             consumeItems();
         };
     }

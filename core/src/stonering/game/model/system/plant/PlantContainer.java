@@ -30,12 +30,14 @@ public class PlantContainer extends EntityContainer<AbstractPlant> implements Mo
     private HashMap<Position, PlantBlock> plantBlocks; // trees and plants blocks
     private PlantProductGenerator plantProductGenerator;
     private LocalMap localMap;
+    private final Position cachePosition;
 
     public PlantContainer() {
         plantBlocks = new HashMap<>();
         plantProductGenerator = new PlantProductGenerator();
         put(new PlantSeedSystem());
         put(new PlantGrowthSystem());
+        cachePosition = new Position();
     }
 
     public void add(AbstractPlant plant, Position position) {
@@ -109,6 +111,10 @@ public class PlantContainer extends EntityContainer<AbstractPlant> implements Mo
             if (leaveProduct) leavePlantProduct(block);
             localMap().updatePassage(block.position);
         }
+    }
+
+    public void removeBlock(int x, int y, int z, boolean leaveProduct) {
+        removeBlock(cachePosition.set(x, y, z), leaveProduct);
     }
 
     public void removeBlock(Position position, boolean leaveProduct) {
