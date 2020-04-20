@@ -6,6 +6,8 @@ import stonering.game.model.system.plant.PlantContainer;
 import stonering.game.model.util.UtilByteArray;
 import stonering.util.geometry.Position;
 
+import static stonering.enums.blocks.BlockTypeEnum.*;
+
 /**
  * Byte array extension to store block types of {@link LocalMap}.
  *
@@ -24,6 +26,9 @@ public class BlockTypeMap extends UtilByteArray {
     @Override
     public void set(int x, int y, int z, int value) {
         super.set(x, y, z, value);
+        if (value == WALL.CODE && withinBounds(x, y, z + 1) && get(x, y, z + 1) == SPACE.CODE) {
+            setBlock(x, y, z + 1, FLOOR.CODE, material[x][y][z]);
+        }
         cachePosition.set(x, y, z);
         GameMvc.model().get(PlantContainer.class).removeBlock(cachePosition, false); // remove plants on block change
         // TODO destroy buildings if type != floor
@@ -53,8 +58,8 @@ public class BlockTypeMap extends UtilByteArray {
     }
 
     public void setBlock(int x, int y, int z, int type, int material) {
-        set(x, y, z, type);
         this.material[x][y][z] = material;
+        set(x, y, z, type);
     }
 
     public int getMaterial(Position pos) {

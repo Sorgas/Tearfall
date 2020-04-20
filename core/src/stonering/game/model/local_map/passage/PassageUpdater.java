@@ -26,7 +26,7 @@ public class PassageUpdater {
     public PassageUpdater(LocalMap map, PassageMap passage) {
         this.map = map;
         this.passage = passage;
-        aStar = GameMvc.instance().model().get(AStar.class);
+        aStar = GameMvc.model().get(AStar.class);
     }
 
     /**
@@ -42,7 +42,9 @@ public class PassageUpdater {
                     .filterNotInArea(0)
                     .stream.map(position -> passage.area.get(position))
                     .collect(Collectors.toSet());
-            passage.area.set(x, y, z, areas.iterator().next()); // set area value to current tile
+            // take new area number, if new tile is not connected to any area
+            byte areaNumber = areas.isEmpty() ? getUnusedAreaNumber() : areas.iterator().next();
+            passage.area.set(x, y, z, areaNumber); // set area value to current tile
             if (areas.size() > 1) mergeAreas(areas);
         } else { // tile became impassable, areas may split
             splitAreas(center, new NeighbourPositionStream(center)
