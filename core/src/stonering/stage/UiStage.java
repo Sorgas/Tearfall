@@ -20,7 +20,7 @@ public class UiStage extends Stage implements Resizeable {
 
     public UiStage() {
         super();
-        uiScale = Float.parseFloat(GameSettings.UI_SCALE.get());
+        uiScale = GameSettings.UI_SCALE.VALUE;
         setViewport(viewport = new ScreenViewport());
     }
 

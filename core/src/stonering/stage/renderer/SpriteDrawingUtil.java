@@ -1,10 +1,15 @@
 package stonering.stage.renderer;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Align;
+
+import stonering.GameSettings;
 import stonering.util.geometry.Position;
 
 import static stonering.stage.renderer.BatchUtil.*;
@@ -16,17 +21,23 @@ import static stonering.stage.renderer.BatchUtil.*;
  */
 public class SpriteDrawingUtil {
     private Batch batch;
-    private BitmapFont font;
-
+    public final BitmapFont font;
+    public final float FONT_HEIGHT;
     private final float shadingStep = 0.06f;
     public final int maxZLevels = (int) (1f / shadingStep); // levels further are shaded to black
     private Color batchColor;               // default batch color without light or transparency
 
     public SpriteDrawingUtil(Batch batch) {
+        // TODO replace with skin with custom font
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("font/SMW_Text_2_NC.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = Math.round(24 * GameSettings.UI_SCALE.VALUE);
+        font = generator.generateFont(parameter);
+        generator.dispose();
         this.batch = batch;
-        font = new BitmapFont();
         batch.enableBlending();
         batchColor = new Color();
+        FONT_HEIGHT = font.getCapHeight();
     }
 
     /**
@@ -55,10 +66,22 @@ public class SpriteDrawingUtil {
         batch.draw(sprite, getBatchX(position.x), getBatchY(position.y, position.z), width, height);
     }
 
-    public void writeText(String text, int x, int y, int z) {
+    public void writeText(String text, Vector3 vector) {
+        writeText(text, vector.x, vector.y, vector.z);
+    }
+
+    public void writeText(String text, Vector3 vector, int targetWidth, int align) {
+        writeText(text, vector.x, vector.y, vector.z, targetWidth, align);
+    }
+
+    public void writeText(String text, float x, float y, float z) {
+        writeText(text, x, y, z, 0, Align.left);
+    }
+
+    public void writeText(String text, float x, float y, float z, int targetWidth, int align) {
         float screenX = getBatchX(x);
         float screenY = getBatchY(y, z);
-        font.draw(batch, text, screenX, screenY);
+        font.draw(batch, text, screenX, screenY, targetWidth, align, false);
     }
 
     /**

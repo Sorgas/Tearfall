@@ -1,6 +1,7 @@
 package stonering.game.model.system.task;
 
 import org.jetbrains.annotations.NotNull;
+
 import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.job.designation.Designation;
 import stonering.entity.unit.Unit;
@@ -30,7 +31,7 @@ import java.util.*;
  * @author Alexander Kuzyakov
  */
 public class TaskContainer implements ModelComponent, Updatable {
-    public Map<JobsEnum, List<Task>> tasks; // task job to all tasks with this job
+    public Map<JobsEnum, LinkedList<Task>> tasks; // task job to all tasks with this job
     public final Set<Task> assignedTasks; // tasks, taken by some unit.
     public final HashMap<Position, Designation> designations; //this map is for rendering and modifying designations
     public final DesignationSystem designationSystem;
@@ -38,7 +39,7 @@ public class TaskContainer implements ModelComponent, Updatable {
 
     public TaskContainer() {
         tasks = new HashMap<>();
-        Arrays.stream(JobsEnum.values()).forEach(value -> tasks.put(value, new ArrayList<>()));
+        Arrays.stream(JobsEnum.values()).forEach(value -> tasks.put(value, new LinkedList<>()));
         assignedTasks = new HashSet<>();
         designations = new HashMap<>();
         designationSystem = new DesignationSystem(this);
@@ -58,7 +59,8 @@ public class TaskContainer implements ModelComponent, Updatable {
     public Task getActiveTask(Unit unit) {
         // TODO consider task priority
         JobsAspect aspect = unit.get(JobsAspect.class);
-        if (aspect == null) return Logger.TASKS.logError("Creature " + unit + " without jobs aspect gets task from container", null);
+        if (aspect == null)
+            return Logger.TASKS.logError("Creature " + unit + " without jobs aspect gets task from container", null);
         PassageMap map = GameMvc.model().get(LocalMap.class).passageMap;
         for (JobsEnum enabledJob : aspect.getEnabledJobs()) {
             for (Task task : tasks.get(enabledJob)) {
@@ -85,7 +87,17 @@ public class TaskContainer implements ModelComponent, Updatable {
 
     public void addTask(Task task) {
         if (task == null) return;
-        tasks.get(task.job).add(task);
+        LinkedList<Task> list = tasks.get(task.job);
+        int index = 0;
+        if(!list.isEmpty()) { // index for task insertion is based on priority
+            for (int i = 0; i < list.size(); i++) {
+                if (list.get(i).priority <= task.priority) {
+                    index = i;
+                    break;
+                }
+            }
+        }
+        list.add(index, task);
         if (task.designation != null) designations.put(task.designation.position, task.designation);
         Logger.TASKS.logDebug("Task " + task + " added to TaskContainer.");
     }

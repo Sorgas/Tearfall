@@ -90,7 +90,7 @@ public class TileDrawer extends Drawer {
             defineLayerBounds(z);
             iterateLayer(z, this::renderFlatTile);
             iterateLayer(z, this::drawBlockTiles);
-            iterateLayer(z, this::drawAreaLabel);
+//            iterateLayer(z, this::drawAreaLabel);
         }
     }
 

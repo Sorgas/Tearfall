@@ -3,6 +3,7 @@ package stonering.stage.renderer;
 import java.util.List;
 
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Align;
 
 import stonering.entity.RenderAspect;
 import stonering.entity.item.Item;
@@ -19,6 +20,7 @@ public class ItemDrawer extends Drawer {
     private final ItemContainer container;
     private final Vector3 cacheVector;
     private final float FLOOR_CORRECTION = AtlasesEnum.blocks.TOPPING_HEIGHT / (float) AtlasesEnum.blocks.DEPTH;
+    private final float FONT_CORRECTION = (spriteUtil.FONT_HEIGHT + 5 + AtlasesEnum.blocks.TOPPING_HEIGHT) / (float) AtlasesEnum.blocks.DEPTH;
 
     public ItemDrawer(SpriteDrawingUtil spriteUtil, ShapeDrawingUtil shapeUtil) {
         super(spriteUtil, shapeUtil);
@@ -28,9 +30,9 @@ public class ItemDrawer extends Drawer {
 
     public void draw(Position position) {
         List<Item> items = container.getItemsInPosition(position);
-        if(items.isEmpty()) return;
+        if (items.isEmpty()) return;
         cacheVector.set(position.x, position.y + FLOOR_CORRECTION, position.z);
-        switch(items.size()) {
+        switch (items.size()) {
             case 1:
                 draw1(items.get(0));
                 break;
@@ -40,7 +42,9 @@ public class ItemDrawer extends Drawer {
             default:
                 drawMany(items.get(0), items.get(1), items.get(2));
         }
-        if(items.size() > 3) spriteUtil.writeText("...", position.x, position.y, position.z);
+        cacheVector.set(position.x, position.y + 1, position.z);
+        cacheVector.set(position.x, position.y + FONT_CORRECTION, position.z);
+        if (items.size() > 3) spriteUtil.writeText(Integer.toString(items.size()), cacheVector, AtlasesEnum.blocks.WIDTH, Align.center);
     }
 
     private void draw1(Item item) {

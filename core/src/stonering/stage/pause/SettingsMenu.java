@@ -31,7 +31,7 @@ public class SettingsMenu extends Window {
     private void addSettings() {
         table.add(new Label("UI scale: ", StaticSkin.getSkin()));
         Slider slider = new Slider(1f, 2f, 0.2f, false, StaticSkin.getSkin());
-        slider.setValue(Float.parseFloat(GameSettings.UI_SCALE.get()));
+        slider.setValue(GameSettings.UI_SCALE.VALUE);
         table.add(slider);
         ValueFormatLabel label = new ValueFormatLabel("%.1f", new Object[]{slider.getValue()});
         table.add(label);
