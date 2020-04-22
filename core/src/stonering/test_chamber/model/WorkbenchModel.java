@@ -44,7 +44,13 @@ public class WorkbenchModel extends TestModel {
         container.onMapItemsSystem.putNewItem(generator.generateItem("meat_piece", "meat", null), new Position(0, 0, 2));
         container.onMapItemsSystem.putNewItem(generator.generateItem("log", "wood", null), new Position(1, 0, 2));
         container.onMapItemsSystem.putNewItem(generator.generateItem("log", "wood", null), new Position(2, 0, 2));
+        container.onMapItemsSystem.putNewItem(generator.generateItem("log", "wood", null), new Position(2, 0, 2));
         container.onMapItemsSystem.putNewItem(generator.generateItem("log", "wood", null), new Position(3, 0, 2));
+        container.onMapItemsSystem.putNewItem(generator.generateItem("log", "wood", null), new Position(3, 0, 2));
+        container.onMapItemsSystem.putNewItem(generator.generateItem("log", "wood", null), new Position(3, 0, 2));
+        container.onMapItemsSystem.putNewItem(generator.generateItem("log", "wood", null), new Position(4, 0, 2));
+        container.onMapItemsSystem.putNewItem(generator.generateItem("log", "wood", null), new Position(4, 0, 2));
+        container.onMapItemsSystem.putNewItem(generator.generateItem("log", "wood", null), new Position(4, 0, 2));
         container.onMapItemsSystem.putNewItem(generator.generateItem("log", "wood", null), new Position(4, 0, 2));
         container.onMapItemsSystem.putNewItem(generator.generateItem("bar", "copper", null), new Position(5, 0, 2));
         container.onMapItemsSystem.putNewItem(generator.generateItem("bar", "copper", null), new Position(6, 0, 2));

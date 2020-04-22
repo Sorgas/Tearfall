@@ -31,6 +31,8 @@ import stonering.util.geometry.Position;
 import static com.badlogic.gdx.graphics.Pixmap.Format.RGBA8888;
 import static stonering.stage.renderer.AtlasesEnum.*;
 
+import java.util.List;
+
 /**
  * Class for drawing tiles. Contains renderers for different entities. (todo)
  * TODO add render order for buildings, to render flat carpets, pressure plates etc.
@@ -41,13 +43,13 @@ import static stonering.stage.renderer.AtlasesEnum.*;
 public class TileDrawer extends Drawer {
     private UnitDrawer unitDrawer;
     private BuildingDrawer buildingDrawer;
-    
+    private ItemDrawer itemDrawer;
+
     private LocalMap localMap;
     private LocalTileMap localTileMap;
     private PlantContainer plantContainer;
     private SubstrateContainer substrateContainer;
     private TaskContainer taskContainer;
-    private ItemContainer itemContainer;
     private ZoneContainer zoneContainer;
 
     private MovableCamera camera;
@@ -66,10 +68,10 @@ public class TileDrawer extends Drawer {
         localTileMap = model.get(LocalTileMap.class);
         unitDrawer = new UnitDrawer(spriteDrawingUtil, shapeDrawingUtil);
         buildingDrawer = new BuildingDrawer(spriteDrawingUtil, shapeDrawingUtil);
+        itemDrawer = new ItemDrawer(spriteDrawingUtil, shapeDrawingUtil);
         taskContainer = model.get(TaskContainer.class);
         plantContainer = model.get(PlantContainer.class);
         substrateContainer = model.get(SubstrateContainer.class);
-        itemContainer = model.get(ItemContainer.class);
         zoneContainer = model.get(ZoneContainer.class);
         cachePosition = new Position();
         cacheVector = new Vector3();
@@ -142,7 +144,7 @@ public class TileDrawer extends Drawer {
         cachePosition.set(x, y, z);
         if (plantContainer != null) drawPlantBlock(plantContainer.getPlantBlock(cachePosition));
         buildingDrawer.drawBuilding(cachePosition);
-        if (itemContainer != null) itemContainer.getItemsInPosition(x, y, z).forEach(this::drawItem);
+        itemDrawer.draw(cachePosition);
         spriteUtil.updateColorA(0.6f);
         if (taskContainer != null) drawDesignation(taskContainer.designations.get(cachePosition));
         spriteUtil.updateColorA(1f);
@@ -229,11 +231,6 @@ public class TileDrawer extends Drawer {
         if (flooding != 0) return liquids.getBlockTile(flooding - 1, 0);
         if (z > 0 && localMap.getFlooding(x, y, z - 1) >= 7) return liquids.getToppingTile(6, 0);
         return null;
-    }
-
-    //TODO refactor to use render aspect
-    private void drawItem(Item item) {
-        spriteUtil.drawSprite(items.getBlockTile(item.getType().atlasXY[0], item.getType().atlasXY[1]), items, item.position);
     }
 
     private void drawDesignation(Designation designation) {
