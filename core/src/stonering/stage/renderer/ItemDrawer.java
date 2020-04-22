@@ -18,6 +18,7 @@ import stonering.util.geometry.Position;
 public class ItemDrawer extends Drawer {
     private final ItemContainer container;
     private final Vector3 cacheVector;
+    private final float FLOOR_CORRECTION = AtlasesEnum.blocks.TOPPING_HEIGHT / (float) AtlasesEnum.blocks.DEPTH;
 
     public ItemDrawer(SpriteDrawingUtil spriteUtil, ShapeDrawingUtil shapeUtil) {
         super(spriteUtil, shapeUtil);
@@ -28,7 +29,7 @@ public class ItemDrawer extends Drawer {
     public void draw(Position position) {
         List<Item> items = container.getItemsInPosition(position);
         if(items.isEmpty()) return;
-        Vector3 vector = position.toVector3();
+        cacheVector.set(position.x, position.y + FLOOR_CORRECTION, position.z);
         switch(items.size()) {
             case 1:
                 draw1(items.get(0));
@@ -43,11 +44,11 @@ public class ItemDrawer extends Drawer {
     }
 
     private void draw1(Item item) {
-        spriteUtil.drawSprite(item.get(RenderAspect.class).region, AtlasesEnum.items, item.position);
+        cacheVector.add(0.25f, 0.25f, 0);
+        spriteUtil.drawSprite(item.get(RenderAspect.class).region, cacheVector);
     }
 
     private void draw2(Item item1, Item item2) {
-        cacheVector.set(item1.position.x, item1.position.y, item1.position.z);
         cacheVector.add(0, 0.25f, 0);
         spriteUtil.drawSprite(item1.get(RenderAspect.class).region, cacheVector);
         cacheVector.add(0.5f, 0, 0);
@@ -55,7 +56,6 @@ public class ItemDrawer extends Drawer {
     }
 
     private void drawMany(Item item1, Item item2, Item item3) {
-        cacheVector.set(item1.position.x, item1.position.y, item1.position.z);
         spriteUtil.drawSprite(item1.get(RenderAspect.class).region, cacheVector);
         cacheVector.add(0.5f, 0, 0);
         spriteUtil.drawSprite(item2.get(RenderAspect.class).region, cacheVector);
