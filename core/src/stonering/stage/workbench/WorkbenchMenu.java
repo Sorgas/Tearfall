@@ -1,6 +1,7 @@
 package stonering.stage.workbench;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.utils.Align;
 import stonering.entity.building.Building;
@@ -17,7 +18,7 @@ import stonering.util.global.StaticSkin;
  *
  * @author Alexander on 12.08.2019.
  */
-public class WorkbenchMenu extends Window {
+public class WorkbenchMenu extends Table {
     public final RecipeListSection recipeListSection;
     public final OrderListSection orderListSection;
     public final OrderDetailsSection orderDetailsSection;
@@ -27,7 +28,6 @@ public class WorkbenchMenu extends Window {
     public final WrappedLabel hintLabel;
 
     public WorkbenchMenu(Building workbench) {
-        super(workbench.type.title, StaticSkin.getSkin());
         defaults().size(300, 700).pad(5);
         add(recipesHeader = new WrappedLabel("Recipes:")).height(20);
         add(ordersHeader = new WrappedLabel("Orders:")).height(20);
