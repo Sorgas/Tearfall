@@ -34,6 +34,7 @@ public abstract class ButtonMenu extends Table {
                     buttons.get(keycode).toggle();
                     return true;
                 } else if (keycode == Input.Keys.Q) {
+
                     return hide();
                 }
                 return forbidEventPass;

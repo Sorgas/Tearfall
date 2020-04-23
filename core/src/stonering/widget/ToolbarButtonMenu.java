@@ -3,6 +3,7 @@ package stonering.widget;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import stonering.game.GameMvc;
 import stonering.enums.images.DrawableMap;
+import stonering.game.model.entity_selector.EntitySelectorSystem;
 import stonering.stage.toolbar.Toolbar;
 
 /**
@@ -43,7 +44,7 @@ public abstract class ToolbarButtonMenu extends ButtonMenu implements Highlighta
 
     @Override
     public boolean hide() {
-        toolbar.removeMenu(this);
+        if(!GameMvc.model().get(EntitySelectorSystem.class).cancelSelection()) toolbar.removeMenu(this);
         return true;
     }
 

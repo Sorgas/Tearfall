@@ -88,7 +88,7 @@ public class EntitySelectorSystem implements ModelComponent {
         SelectionAspect selectionAspect = selector.get(SelectionAspect.class);
         if (selectionAspect.tool != SelectionTools.SELECT) { // set tool to default
             selectionAspect.set(SelectionTools.SELECT);
-            if ("1".equals(GameSettings.CLOSE_TOOLBAR_ON_TOOL_CANCEL.VALUE)) GameMvc.view().toolbarStage.toolbar.reset();
+            if (GameSettings.CLOSE_TOOLBAR_ON_TOOL_CANCEL.VALUE == 1) GameMvc.view().toolbarStage.toolbar.reset();
             return true;
         }
         return false;
