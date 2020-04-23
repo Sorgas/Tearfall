@@ -31,6 +31,7 @@ import stonering.util.geometry.Position;
 import static com.badlogic.gdx.graphics.Pixmap.Format.RGBA8888;
 import static stonering.stage.renderer.AtlasesEnum.*;
 
+import java.lang.System;
 import java.util.List;
 
 /**
@@ -44,6 +45,7 @@ public class TileDrawer extends Drawer {
     private UnitDrawer unitDrawer;
     private BuildingDrawer buildingDrawer;
     private ItemDrawer itemDrawer;
+    private BlockDrawer blockDrawer;
 
     private LocalMap localMap;
     private LocalTileMap localTileMap;
@@ -66,6 +68,7 @@ public class TileDrawer extends Drawer {
         GameModel model = GameMvc.model();
         localMap = model.get(LocalMap.class);
         localTileMap = model.get(LocalTileMap.class);
+        blockDrawer = new BlockDrawer(spriteDrawingUtil, shapeDrawingUtil);
         unitDrawer = new UnitDrawer(spriteDrawingUtil, shapeDrawingUtil);
         buildingDrawer = new BuildingDrawer(spriteDrawingUtil, shapeDrawingUtil);
         itemDrawer = new ItemDrawer(spriteDrawingUtil, shapeDrawingUtil);
@@ -127,8 +130,9 @@ public class TileDrawer extends Drawer {
     private void renderFlatTile(int x, int y, int z) {
         if (localMap.light.localLight.get(x, y, z) == -1) return;
         startTile(x, y, z);
-        drawFloor(x, y, z); // floors or toppings
-        if (substrateContainer != null) drawSubstrate(x, y, z);
+        blockDrawer.drawFloor(x, y, z); // floors or toppings
+        if (substrateContainer != null) drawSubstrate(x, y, z); // grass and moss
+        itemDrawer.draw(x, y, z); // items on the ground
         spriteUtil.resetColor();
     }
 
@@ -139,55 +143,21 @@ public class TileDrawer extends Drawer {
         }
         startTile(x, y, z);
         unitDrawer.drawUnits(x, y, z);
-        drawBlock(x, y, z); // all other
-        drawWaterBlock(x, y, z);
-        cachePosition.set(x, y, z);
         if (plantContainer != null) drawPlantBlock(plantContainer.getPlantBlock(cachePosition));
         buildingDrawer.drawBuilding(cachePosition);
-        itemDrawer.draw(cachePosition);
         spriteUtil.updateColorA(0.6f);
         if (taskContainer != null) drawDesignation(taskContainer.designations.get(cachePosition));
         spriteUtil.updateColorA(1f);
         if (zoneContainer != null) drawZone(zoneContainer.getZone(cachePosition));
         spriteUtil.resetColor();
+        blockDrawer.drawBlock(x, y, z); // all other
+        drawWaterBlock(x, y, z);
     }
 
     private void drawAreaLabel(int x, int y, int z) {
         if (localMap.blockType.get(x, y, z) == BlockTypeEnum.SPACE.CODE) return;
         String text = localMap.passageMap.area.get(x, y, z) + " " + localMap.passageMap.getPassage(x, y, z);
         spriteUtil.writeText(text, x, y + 1, z);
-    }
-
-    private void drawFloor(int x, int y, int z) {
-        BlockTypeEnum type = localMap.blockType.getEnumValue(x, y, z);
-        if (type == BlockTypeEnum.SPACE && z > 0) { // draw topping for ramps below
-            spriteUtil.drawSprite(blocks.getToppingTile(getAtlasXForBlock(x, y, z - 1), getAtlasYForBlock(x, y, z - 1)), cacheVector);
-            return;
-        }
-        if (type == BlockTypeEnum.STAIRS) type = BlockTypeEnum.DOWNSTAIRS; // downstairs rendered under stairs.
-        if (!type.FLAT) type = BlockTypeEnum.FLOOR; // floor is rendered under non-flat tiles.
-        if (type == BlockTypeEnum.FLOOR || type == BlockTypeEnum.DOWNSTAIRS || type == BlockTypeEnum.FARM) {
-            int atlasX = BlockTileMapping.getType(type.CODE).ATLAS_X;
-            spriteUtil.drawSprite(blocks.getBlockTile(atlasX, getAtlasYForBlock(x, y, z)), cacheVector);
-        }
-    }
-
-    private void drawBlock(int x, int y, int z) {
-        BlockTypeEnum type = localMap.blockType.getEnumValue(x, y, z);
-        if (!type.FLAT) spriteUtil.drawSprite(blocks.getBlockTile(getAtlasXForBlock(x, y, z), getAtlasYForBlock(x, y, z)), cacheVector);
-    }
-
-    /**
-     * Returns atlas x for given block. Blocks and toppings have similar coordinates.
-     */
-    private int getAtlasXForBlock(int x, int y, int z) {
-        byte blockType = localMap.blockType.get(x, y, z);
-        if (blockType == BlockTypeEnum.SPACE.CODE) return -1;
-        return localTileMap.get(x, y, z).getVal1();
-    }
-
-    private int getAtlasYForBlock(int x, int y, int z) {
-        return MaterialMap.instance().getMaterial(localMap.blockType.getMaterial(x, y, z)).atlasY;
     }
 
     private void drawSubstrate(int x, int y, int z) {
@@ -205,8 +175,7 @@ public class TileDrawer extends Drawer {
         if (block != null)
             return substrates.getBlockTile(localTileMap.get(cachePosition).getVal1(), block.getAtlasXY()[1]);
         if (z == 0) return null;
-        cachePosition.set(x, y, z - 1);
-        block = substrateContainer.getSubstrateBlock(cachePosition);
+        block = substrateContainer.getSubstrateBlock(x, y, z - 1);
         if (block != null)
             return substrates.getToppingTile(localTileMap.get(cachePosition).getVal1(), block.getAtlasXY()[1]);
         return null;

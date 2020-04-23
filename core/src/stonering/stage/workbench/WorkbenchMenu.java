@@ -13,6 +13,7 @@ import stonering.util.global.StaticSkin;
 
 /**
  * Contains three sections: {@link RecipeListSection}, {@link OrderListSection}, {@link OrderDetailsSection}.
+ * One section can be focused at a time.
  *
  * @author Alexander on 12.08.2019.
  */

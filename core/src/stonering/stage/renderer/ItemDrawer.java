@@ -28,10 +28,10 @@ public class ItemDrawer extends Drawer {
         cacheVector = new Vector3();
     }
 
-    public void draw(Position position) {
-        List<Item> items = container.getItemsInPosition(position);
+    public void draw(int x, int y, int z) {
+        List<Item> items = container.getItemsInPosition(x, y, z);
         if (items.isEmpty()) return;
-        cacheVector.set(position.x, position.y + FLOOR_CORRECTION, position.z);
+        cacheVector.set(x, y + FLOOR_CORRECTION, z);
         switch (items.size()) {
             case 1:
                 draw1(items.get(0));
@@ -42,8 +42,8 @@ public class ItemDrawer extends Drawer {
             default:
                 drawMany(items.get(0), items.get(1), items.get(2));
         }
-        cacheVector.set(position.x, position.y + 1, position.z);
-        cacheVector.set(position.x, position.y + FONT_CORRECTION, position.z);
+        cacheVector.set(x, y + 1, z);
+        cacheVector.set(x, y + FONT_CORRECTION, z);
         if (items.size() > 3) spriteUtil.writeText(Integer.toString(items.size()), cacheVector, AtlasesEnum.blocks.WIDTH, Align.center);
     }
 

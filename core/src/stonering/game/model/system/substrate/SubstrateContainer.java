@@ -13,16 +13,18 @@ import java.util.HashMap;
 
 /**
  * Container for substrates
- *  TODO add deletion list
+ * TODO add deletion list
  *
  * @author Alexander_Kuzyakov on 18.06.2019.
  */
 public class SubstrateContainer extends EntityContainer<SubstratePlant> implements Initable, ModelComponent {
     private HashMap<Position, PlantBlock> substrateBlocks;
+    private Position cachePosition;
 
     public SubstrateContainer() {
         substrateBlocks = new HashMap<>();
         put(new SubstrateGrowingSystem(this));
+        cachePosition = new Position();
     }
 
     @Override
@@ -56,6 +58,10 @@ public class SubstrateContainer extends EntityContainer<SubstratePlant> implemen
      */
     public void remove(Position pos) {
         if (substrateBlocks.containsKey(pos)) remove(substrateBlocks.get(pos).getPlant());
+    }
+
+    public PlantBlock getSubstrateBlock(int x, int y, int z) {
+        return getSubstrateBlock(cachePosition.set(x, y, z));
     }
 
     public PlantBlock getSubstrateBlock(Position position) {

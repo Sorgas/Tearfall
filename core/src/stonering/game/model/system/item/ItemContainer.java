@@ -33,11 +33,13 @@ public class ItemContainer extends EntityContainer<Item> {
     public final ContainedItemsSystem containedItemsSystem;
     public final EquippedItemsSystem equippedItemsSystem;
     public final OnMapItemsSystem onMapItemsSystem;
+    private Position cachePosition;
 
     public ItemContainer() {
         put(containedItemsSystem = new ContainedItemsSystem(this));
         put(equippedItemsSystem = new EquippedItemsSystem(this));
         put(onMapItemsSystem = new OnMapItemsSystem(this));
+        cachePosition = new Position();
     }
 
     //TODO system for updating containers
@@ -69,6 +71,6 @@ public class ItemContainer extends EntityContainer<Item> {
     }
 
     public List<Item> getItemsInPosition(int x, int y, int z) {
-        return getItemsInPosition(new Position(x, y, z));
+        return getItemsInPosition(cachePosition.set(x, y, z));
     }
 }

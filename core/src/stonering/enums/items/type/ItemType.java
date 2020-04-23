@@ -9,6 +9,7 @@ import java.util.*;
 /**
  * Descriptor class of item. Stores all aspects, valid to the whole type of item, not for specific ones.
  * (e.g. wear, fuel, but not material, condition, ownership)
+ * //TODO add icons to item types and type tags, to be used in crafting ui
  */
 public class ItemType extends Entity implements Cloneable {
     public final String name;                                // id
