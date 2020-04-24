@@ -38,7 +38,7 @@ public enum DrawableMap {
             null),
     ICON(desc -> AtlasesEnum.icons.getBlockTile(desc.bounds[0], desc.bounds[1]),
             DRAWABLE_DESCRIPTORS_PATH + "icons",
-            "sprites/icons.png");
+            "icons.png");
 
     private Map<String, DrawableDescriptor> descriptors; // all descriptors
     private Map<String, Drawable> drawables; // loaded drawables

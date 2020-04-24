@@ -1,7 +1,9 @@
 package stonering.test_chamber.model;
 
 import stonering.entity.unit.Unit;
+import stonering.enums.OrientationEnum;
 import stonering.game.model.entity_selector.EntitySelectorSystem;
+import stonering.game.model.system.building.BuildingContainer;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.system.unit.UnitContainer;
 import stonering.generators.buildings.BuildingGenerator;
@@ -28,7 +30,7 @@ public class WorkbenchModel extends TestModel {
 //        get(BuildingContainer.class).addBuilding(buildingGenerator.generateBuilding("campfire", new Position(4, 4, 2), OrientationEnum.N));
 //        get(BuildingContainer.class).addBuilding(buildingGenerator.generateBuilding("carpenter_workbench", new Position(6, 4, 2), OrientationEnum.N));
 //        get(BuildingContainer.class).addBuilding(buildingGenerator.generateBuilding("bed", new Position(8, 4, 2), OrientationEnum.N));
-//        get(BuildingContainer.class).addBuilding(buildingGenerator.generateBuilding("kitchen", new Position(4, 2, 2), OrientationEnum.N));
+        get(BuildingContainer.class).addBuilding(buildingGenerator.generateBuilding("kitchen", new Position(4, 2, 2), OrientationEnum.N));
         get(UnitContainer.class).addUnit(createUnit());
         get(EntitySelectorSystem.class).selector.position.set(4, 4, 2);
         createItems();
