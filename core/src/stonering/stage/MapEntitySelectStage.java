@@ -5,6 +5,7 @@ import com.sun.istack.NotNull;
 import stonering.entity.Entity;
 import stonering.entity.building.Building;
 import stonering.entity.building.BuildingBlock;
+import stonering.entity.building.aspects.WorkbenchAspect;
 import stonering.entity.item.Item;
 import stonering.entity.unit.Unit;
 import stonering.entity.zone.FarmZone;
@@ -19,6 +20,7 @@ import stonering.game.model.system.unit.UnitContainer;
 import stonering.stage.item.ItemStage;
 import stonering.stage.unit.UnitStage;
 import stonering.stage.workbench.BuildingStage;
+import stonering.stage.workbench.WorkbenchMenu;
 import stonering.stage.zone.ZoneMenuStage;
 import stonering.util.geometry.Int3dBounds;
 import stonering.widget.lists.ObservingList;
@@ -40,7 +42,7 @@ public class MapEntitySelectStage extends UiStage {
     public void showEntitySelectList(Int3dBounds box) {
         List<Entity> entities = collectEntities(box);
         if(entities.isEmpty()) { // hide stage immediately
-            GameMvc.instance().view().removeStage(this);
+            GameMvc.view().removeStage(this);
         } else if (entities.size() == 1) { // show entity stage
             showEntityStage(entities.get(0));
         } else { // show list with all entities
@@ -50,7 +52,7 @@ public class MapEntitySelectStage extends UiStage {
 
     private List<Entity> collectEntities(Int3dBounds box) {
         List<Entity> entities = new ArrayList<>();
-        GameModel model = GameMvc.instance().model();
+        GameModel model = GameMvc.model();
         box.iterate(position -> {
             entities.add(model.get(BuildingContainer.class).getBuiding(position));
             entities.add(model.get(PlantContainer.class).getPlantInPosition(position));
@@ -84,22 +86,24 @@ public class MapEntitySelectStage extends UiStage {
         } else {
             Logger.UI.logWarn("entity " + entity + " is not supported in select stage"); //TODO add other entity types
         }
-        GameMvc.instance().view().removeStage(this);
+        GameMvc.view().removeStage(this);
     }
 
     private void tryShowBuildingStage(@NotNull BuildingBlock block) {
-        GameMvc.instance().view().addStage(new BuildingStage(block.building));
+        if(block.building.get(WorkbenchAspect.class) != null) {
+            new SingleWindowStage<>(new WorkbenchMenu(block.building), false, true).show();
+        }
     }
 
     private void tryShowZoneStage(@NotNull Zone zone) {
-        if(zone instanceof FarmZone) GameMvc.instance().view().addStage(new ZoneMenuStage((FarmZone) zone));
+        if(zone instanceof FarmZone) GameMvc.view().addStage(new ZoneMenuStage((FarmZone) zone));
     }
 
     private void tryShowItemStage(@NotNull Item item) {
-        GameMvc.instance().view().addStage(new ItemStage(item));
+        GameMvc.view().addStage(new ItemStage(item));
     }
 
     private void tryShowUnitStage(@NotNull Unit unit) {
-        GameMvc.instance().view().addStage(new UnitStage(unit));
+        GameMvc.view().addStage(new UnitStage(unit));
     }
 }

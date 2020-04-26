@@ -40,7 +40,7 @@ public class PauseMenu extends ButtonMenu {
         createButton("Options", Input.Keys.O, new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                GameMvc.view().addStage(new SingleWindowStage<>(new SettingsMenu(), true));
+                GameMvc.view().addStage(new SingleWindowStage<>(new SettingsMenu(), true, false));
             }
         }, true);
         createButton("Save", Input.Keys.S, new ChangeListener() {

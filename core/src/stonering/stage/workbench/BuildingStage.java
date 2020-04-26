@@ -16,22 +16,20 @@ import stonering.util.global.Logger;
  * @author Alexander on 09.11.2018.
  */
 public class BuildingStage extends UiStage implements Initable {
-    private GameMvc gameMvc;
     private Building building;
     private WorkbenchMenu menu;
     private boolean wasPaused;
 
     public BuildingStage(Building building) {
-        this.gameMvc = GameMvc.instance();
         this.building = building;
     }
 
     @Override
     public void init() {
-        gameMvc.controller().setSelectorEnabled(false);
-        wasPaused = gameMvc.model().paused; // used for unpausing when menu is closed
-        gameMvc.model().setPaused(true);
-        gameMvc.controller().pauseInputAdapter.enabled = false;
+        GameMvc.controller().setSelectorEnabled(false);
+        wasPaused = GameMvc.model().paused; // used for unpausing when menu is closed
+        GameMvc.model().setPaused(true);
+        GameMvc.controller().pauseInputAdapter.enabled = false;
         createWorkbenchMenu();
     }
 
@@ -50,9 +48,9 @@ public class BuildingStage extends UiStage implements Initable {
 
     @Override
     public void dispose() {
-        gameMvc.controller().setSelectorEnabled(true);
-        gameMvc.model().setPaused(wasPaused);
-        gameMvc.controller().pauseInputAdapter.enabled = true;
+        GameMvc.controller().setSelectorEnabled(true);
+        GameMvc.model().setPaused(wasPaused);
+        GameMvc.controller().pauseInputAdapter.enabled = true;
         super.dispose();
     }
 

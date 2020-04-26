@@ -1,6 +1,7 @@
 package stonering.stage.workbench;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.utils.Align;
@@ -18,8 +19,9 @@ import stonering.util.global.StaticSkin;
  *
  * @author Alexander on 12.08.2019.
  */
-public class WorkbenchMenu extends Table {
+public class WorkbenchMenu extends Container<Table> {
     private final int HEADER_HEIGHT = 100;
+    private final Table table;
     public final RecipeListSection recipeListSection;
     public final OrderListSection orderListSection;
     public final OrderDetailsSection orderDetailsSection;
@@ -29,15 +31,16 @@ public class WorkbenchMenu extends Table {
     public final WrappedLabel hintLabel;
 
     public WorkbenchMenu(Building workbench) {
-        setBackground(StaticSkin.generator.generate(StaticSkin.background));
-        defaults().size(300, 700).pad(5);
-        add(recipesHeader = new WrappedLabel("Recipes:")).height(HEADER_HEIGHT);
-        add(ordersHeader = new WrappedLabel("Orders:")).height(HEADER_HEIGHT);
-        add(detailsHeader = new WrappedLabel("Details:")).height(HEADER_HEIGHT).row();
-        add(recipeListSection = new RecipeListSection(workbench.get(WorkbenchAspect.class), this));
-        add(orderListSection = new OrderListSection(workbench.get(WorkbenchAspect.class), this));
-        add(orderDetailsSection = new OrderDetailsSection(workbench.get(WorkbenchAspect.class), this)).row();
-        add(hintLabel = new WrappedLabel("")).colspan(3).size(900, 30).height(30).align(Align.left);
+        setActor(table = new Table());
+        table.setBackground(StaticSkin.generator.generate(StaticSkin.background));
+        table.defaults().size(300, 700).pad(5);
+        table.add(recipesHeader = new WrappedLabel("Recipes:")).height(HEADER_HEIGHT);
+        table.add(ordersHeader = new WrappedLabel("Orders:")).height(HEADER_HEIGHT);
+        table.add(detailsHeader = new WrappedLabel("Details:")).height(HEADER_HEIGHT).row();
+        table.add(recipeListSection = new RecipeListSection(workbench.get(WorkbenchAspect.class), this));
+        table.add(orderListSection = new OrderListSection(workbench.get(WorkbenchAspect.class), this));
+        table.add(orderDetailsSection = new OrderDetailsSection(workbench.get(WorkbenchAspect.class), this)).row();
+        table.add(hintLabel = new WrappedLabel("")).colspan(3).size(900, 30).height(30).align(Align.left);
     }
 
     public void initFocus() {

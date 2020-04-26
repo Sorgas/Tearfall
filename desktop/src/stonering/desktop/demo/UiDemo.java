@@ -42,10 +42,11 @@ public class UiDemo extends Game {
     public void create() {
         setScreen(new SimpleScreen() {
             private UiStage stage = new UiStage();
+            private Container container;
 
             {
                 stage.interceptInput = false;
-                stage.addActor(createContainer());
+                stage.addActor(container = createContainer());
                 stage.addListener(new InputListener() {
                     @Override
                     public boolean keyDown(InputEvent event, int keycode) {
@@ -59,7 +60,7 @@ public class UiDemo extends Game {
 
             @Override
             public void render(float delta) {
-                Gdx.gl.glClearColor(0, 0, 0, 1);
+                Gdx.gl.glClearColor(1, 0, 0, 1);
                 Gdx.gl.glClear(Gdx.gl20.GL_COLOR_BUFFER_BIT | Gdx.gl20.GL_DEPTH_BUFFER_BIT);
                 stage.act(delta);
                 stage.draw();
@@ -68,13 +69,18 @@ public class UiDemo extends Game {
             @Override
             public void resize(int width, int height) {
                 stage.resize(width, height);
+                container.height(height / 2);
             }
         });
     }
 
     private Container createContainer() {
+        Container inner = new Container();
+        Container container = new Container<>(inner);
+        inner.setBackground(StaticSkin.generator.generate(StaticSkin.shade));
+        container.setFillParent(true);
+        container.fillX().height(20);
         RecipeCategoryNode node = new RecipeCategoryNode("Dishes");
-        Container container = new Container<>(filledTree());
         container.setFillParent(true);
         return container;
     }
