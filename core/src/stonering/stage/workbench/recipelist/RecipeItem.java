@@ -33,12 +33,6 @@ public class RecipeItem extends WrappedTextButton implements Highlightable {
         size(270, 35).pad(5).padLeft(25);
     }
 
-    @Override
-    public void act(float delta) {
-        super.act(delta);
-        updateHighlighting(this.equals(recipeListSection.getSelectedElement()));
-    }
-
     private void createDefaultListener() {
         button.addListener(new ChangeListener() {
             @Override

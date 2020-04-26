@@ -19,6 +19,7 @@ import stonering.util.global.StaticSkin;
  * @author Alexander on 12.08.2019.
  */
 public class WorkbenchMenu extends Table {
+    private final int HEADER_HEIGHT = 100;
     public final RecipeListSection recipeListSection;
     public final OrderListSection orderListSection;
     public final OrderDetailsSection orderDetailsSection;
@@ -28,10 +29,11 @@ public class WorkbenchMenu extends Table {
     public final WrappedLabel hintLabel;
 
     public WorkbenchMenu(Building workbench) {
+        setBackground(StaticSkin.generator.generate(StaticSkin.background));
         defaults().size(300, 700).pad(5);
-        add(recipesHeader = new WrappedLabel("Recipes:")).height(20);
-        add(ordersHeader = new WrappedLabel("Orders:")).height(20);
-        add(detailsHeader = new WrappedLabel("Details:")).height(20).row();
+        add(recipesHeader = new WrappedLabel("Recipes:")).height(HEADER_HEIGHT);
+        add(ordersHeader = new WrappedLabel("Orders:")).height(HEADER_HEIGHT);
+        add(detailsHeader = new WrappedLabel("Details:")).height(HEADER_HEIGHT).row();
         add(recipeListSection = new RecipeListSection(workbench.get(WorkbenchAspect.class), this));
         add(orderListSection = new OrderListSection(workbench.get(WorkbenchAspect.class), this));
         add(orderDetailsSection = new OrderDetailsSection(workbench.get(WorkbenchAspect.class), this)).row();

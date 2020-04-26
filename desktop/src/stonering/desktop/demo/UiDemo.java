@@ -2,6 +2,7 @@ package stonering.desktop.demo;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -16,6 +17,7 @@ import stonering.entity.item.Item;
 import stonering.enums.images.DrawableMap;
 import stonering.generators.items.ItemGenerator;
 import stonering.stage.UiStage;
+import stonering.stage.workbench.recipelist.RecipeCategoryNode;
 import stonering.util.geometry.Position;
 import stonering.util.global.StaticSkin;
 import stonering.util.ui.SimpleScreen;
@@ -44,8 +46,15 @@ public class UiDemo extends Game {
             {
                 stage.interceptInput = false;
                 stage.addActor(createContainer());
+                stage.addListener(new InputListener() {
+                    @Override
+                    public boolean keyDown(InputEvent event, int keycode) {
+                        if(keycode == Input.Keys.ESCAPE) Gdx.app.exit();
+                        return true;
+                    }
+                });
                 Gdx.input.setInputProcessor(stage);
-//                stage.setDebugAll(true);
+                stage.setDebugAll(true);
             }
 
             @Override
@@ -64,13 +73,22 @@ public class UiDemo extends Game {
     }
 
     private Container createContainer() {
-        TextButton button = new TextButton("qwer", StaticSkin.getSkin());
-        Container<TextButton> inner = new Container<>(button);
-        Container<Container> container = new Container<>(inner);
-        BackgroundGenerator generator = new BackgroundGenerator();
-        inner.size(100).setBackground(generator.generate(0.3f, 0.3f, 0.3f, 0.4f));
-        container.size(200).setBackground(DrawableMap.REGION.getDrawable("default"));
+        RecipeCategoryNode node = new RecipeCategoryNode("Dishes");
+        Container container = new Container<>(filledTree());
         container.setFillParent(true);
         return container;
+    }
+
+    private Tree filledTree() {
+        Tree tree = new Tree(StaticSkin.getSkin());
+        for (int i = 0; i < 5; i++) {
+            RecipeCategoryNode recipe = new RecipeCategoryNode("Dishes");
+            Label label = new Label("category " + (i + 1), StaticSkin.getSkin());
+            tree.add(recipe);
+            for (int j = 0; j < 5; j++) {
+                recipe.add(new RecipeCategoryNode("Dishes"));
+            }
+        }
+        return tree;
     }
 }

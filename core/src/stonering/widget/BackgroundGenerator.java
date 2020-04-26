@@ -13,6 +13,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
  */
 public class BackgroundGenerator {
 
+    public Drawable generate(Color color) {
+        return generate(color.r, color.g, color.b, color.a);
+    }
+
     public Drawable generate(float r, float g, float b, float a) {
         Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         pixmap.setColor(new Color(r, g, b, a));
