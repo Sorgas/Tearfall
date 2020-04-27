@@ -23,7 +23,7 @@ public class TestChamberLauncher {
         config.width = 1920;
         config.height = 1080;
         config.title = "TearFall";
-        config.foregroundFPS = 30;
+        config.foregroundFPS = 60;
         Game game = new TestChamberGame();
         Logger.enableAll();
         new LwjglApplication(game, config);

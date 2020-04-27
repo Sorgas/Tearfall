@@ -2,6 +2,8 @@ package stonering.util.ui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+
+import stonering.screen.util.FpsCounter;
 import stonering.widget.util.Resizeable;
 
 import java.util.ArrayList;
@@ -16,7 +18,8 @@ import java.util.List;
  */
 public class MultiStageScreen extends SimpleScreen {
     protected List<Stage> stageList = new ArrayList<>();
-
+    protected FpsCounter fpsCounter = new FpsCounter();;
+    
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -25,6 +28,7 @@ public class MultiStageScreen extends SimpleScreen {
             stage.act(delta);
             stage.draw();
         });
+        fpsCounter.render();
     }
 
     @Override
@@ -45,5 +49,6 @@ public class MultiStageScreen extends SimpleScreen {
     public void removeStage(Stage stage) {
         stageList.remove(stage);
         stage.dispose();
+        fpsCounter.dispose();
     }
 }

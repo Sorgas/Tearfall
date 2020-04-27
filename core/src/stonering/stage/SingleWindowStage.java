@@ -46,7 +46,7 @@ public class SingleWindowStage<T extends Actor> extends UiStage {
     @Override
     public void resize(int width, int height) {
         System.out.println("resize " + (shade != null) + " " + height);
-        if(shade != null) shade.height(Math.max(800, height - 400));
+        if(shade != null) shade.height(Math.max(860, height - 400));
         super.resize(width, height);
     }
 }

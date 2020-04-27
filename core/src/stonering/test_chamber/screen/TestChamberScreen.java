@@ -6,7 +6,7 @@ import stonering.test_chamber.TestChamberGame;
 
 public class TestChamberScreen implements Screen {
     private TestChamberGame testChamberGame;
-    private ModelSelectStage selectStage;
+    private TestModelSelectStage selectStage;
 
     public TestChamberScreen(TestChamberGame testChamberGame) {
         this.testChamberGame = testChamberGame;
@@ -14,7 +14,7 @@ public class TestChamberScreen implements Screen {
 
     @Override
     public void show() {
-        selectStage = new ModelSelectStage(testChamberGame);
+        selectStage = new TestModelSelectStage(testChamberGame);
         Gdx.input.setInputProcessor(selectStage);
     }
 

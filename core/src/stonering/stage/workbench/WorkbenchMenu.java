@@ -41,6 +41,7 @@ public class WorkbenchMenu extends Container<Table> {
         table.add(orderListSection = new OrderListSection(workbench.get(WorkbenchAspect.class), this));
         table.add(orderDetailsSection = new OrderDetailsSection(workbench.get(WorkbenchAspect.class), this)).row();
         table.add(hintLabel = new WrappedLabel("")).colspan(3).size(900, 30).height(30).align(Align.left);
+        table.setDebug(true, true);
     }
 
     public void initFocus() {

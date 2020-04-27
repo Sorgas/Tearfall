@@ -16,12 +16,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ModelSelectStage extends UiStage {
+public class TestModelSelectStage extends UiStage {
     private TestChamberGame testChamberGame;
     private PlaceHolderSelectBox<String> selectBox;
     private Map<String, Class<? extends GameModel>> classMap;
 
-    public ModelSelectStage(TestChamberGame testChamberGame) {
+    public TestModelSelectStage(TestChamberGame testChamberGame) {
         this.testChamberGame = testChamberGame;
         fillModels();
         createStage();
@@ -80,5 +80,6 @@ public class ModelSelectStage extends UiStage {
         classMap.put(LightingModel.class.getSimpleName(), LightingModel.class);
         classMap.put(DiggingModel.class.getSimpleName(), DiggingModel.class);
         classMap.put(FurnitureModel.class.getSimpleName(), FurnitureModel.class);
+        classMap.put(ConstructionBuildingPlaytestModel.class.getSimpleName(), ConstructionBuildingPlaytestModel.class);
     }
 }
