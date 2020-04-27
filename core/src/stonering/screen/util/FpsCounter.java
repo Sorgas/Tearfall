@@ -12,16 +12,21 @@ public class FpsCounter implements Disposable {
     private long lastSecond;
     private int counter;
     private int fps;
+    private boolean enabled = true;
     
     public FpsCounter() {
         batch = new SpriteBatch();
         font = new BitmapFont();
+    }
+
+    public void init() {
         lastSecond = TimeUtils.millis();
         counter = 0;
         fps = 0;
     }
-
+    
     public void render() {
+        if(!enabled) return;
         update();
         batch.begin();
         font.draw(batch, "FPS: " + fps, 0, Gdx.graphics.getHeight() - 10);
