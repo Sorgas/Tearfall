@@ -30,11 +30,13 @@ public class RecipeListSection extends MenuSection {
     private Map<String, List<Recipe>> recipeMap; // category name to recipe names
     public final WorkbenchMenu menu;
 
-    public RecipeListSection(WorkbenchAspect aspect, WorkbenchMenu menu) {
+    public RecipeListSection(String title, WorkbenchAspect aspect, WorkbenchMenu menu) {
+        super(title);
         this.menu = menu;
         recipeMap = new HashMap<>();
         recipeMap.put("all", aspect.recipes); // TODO divide recipes into categories
         fillTree();
+        // create listeners
         align(Align.topLeft);
     }
 

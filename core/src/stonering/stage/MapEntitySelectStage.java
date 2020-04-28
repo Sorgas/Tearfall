@@ -19,7 +19,6 @@ import stonering.game.model.system.plant.PlantContainer;
 import stonering.game.model.system.unit.UnitContainer;
 import stonering.stage.item.ItemStage;
 import stonering.stage.unit.UnitStage;
-import stonering.stage.workbench.BuildingStage;
 import stonering.stage.workbench.WorkbenchMenu;
 import stonering.stage.zone.ZoneMenuStage;
 import stonering.util.geometry.Int3dBounds;

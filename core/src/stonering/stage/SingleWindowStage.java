@@ -7,16 +7,15 @@ import stonering.util.global.StaticSkin;
 
 /**
  * Stage for displaying one ui window in the center of the screen. 
- * 
+ * Guideline for windows is 900 px height.
+ *
  * @author Alexander on 18.02.2020.
  */
 public class SingleWindowStage<T extends Actor> extends UiStage {
-    private T window;
     private Container<Container> shade;
 
     public SingleWindowStage(T window, boolean interceptInput, boolean shadeBackground) {
         super();
-        this.window = window;
         this.interceptInput = interceptInput;
         if(shadeBackground) {
             Container inner = new Container();
@@ -46,7 +45,7 @@ public class SingleWindowStage<T extends Actor> extends UiStage {
     @Override
     public void resize(int width, int height) {
         System.out.println("resize " + (shade != null) + " " + height);
-        if(shade != null) shade.height(Math.max(860, height - 400));
+        if(shade != null) shade.height(Math.max(900, height - 400));
         super.resize(width, height);
     }
 }

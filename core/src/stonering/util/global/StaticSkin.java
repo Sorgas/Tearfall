@@ -13,12 +13,12 @@ import stonering.widget.BackgroundGenerator;
  * General class for access to Skin.
  */
 public class StaticSkin {
-    public static final Color background = new Color(85 / 256f, 85 / 256f, 85 / 256f, 1);
+    public static final Color background = new Color(85 / 256f, 85 / 256f, 85 / 256f, 0.5f);
     public static final Color shade = new Color(120 / 256f, 120 / 256f, 120 / 256f, 0.25f);
-    public static final Color backgroundFocused = new Color(115 / 256f, 115 / 256f, 115 / 256f, 1);
-    public static final Color element = new Color(143 / 256f, 143 / 256f, 143 / 256f, 1);
-    public static final Color elementFocused = new Color(170 / 256f, 159 / 256f, 111 / 256f, 1);
-    public static final Color fontColor = new Color(240 / 256f, 240 / 256f, 240 / 256f, 1);
+    public static final Color backgroundFocused = new Color(115 / 256f, 115 / 256f, 115 / 256f, 0.5f);
+    public static final Color element = new Color(143 / 256f, 143 / 256f, 143 / 256f, 0.5f);
+    public static final Color elementFocused = new Color(170 / 256f, 159 / 256f, 111 / 256f, 0.5f);
+    public static final Color fontColor = new Color(240 / 256f, 240 / 256f, 240 / 256f, 0.5f);
 
     public static final BackgroundGenerator generator = new BackgroundGenerator();
 

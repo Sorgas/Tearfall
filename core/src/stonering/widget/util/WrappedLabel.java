@@ -7,7 +7,7 @@ import stonering.util.global.StaticSkin;
 /**
  * @author Alexander on 24.08.2019.
  */
-public class WrappedLabel extends Container {
+public class WrappedLabel extends Container<Label> {
     public final Label label;
 
     public WrappedLabel(String text) {
