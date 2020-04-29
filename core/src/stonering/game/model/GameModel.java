@@ -2,6 +2,7 @@ package stonering.game.model;
 
 import com.badlogic.gdx.utils.Timer;
 import stonering.enums.time.TimeUnitEnum;
+import stonering.game.GameMvc;
 import stonering.game.model.system.GameTime;
 import stonering.game.model.system.ModelComponent;
 import stonering.util.global.Initable;
@@ -63,6 +64,7 @@ public abstract class GameModel implements Initable, Serializable, Updatable {
     @Override
     public void update(TimeUnitEnum unit) {
         updatableComponents.forEach(component -> component.update(unit));
+        if(unit == TimeUnitEnum.TICK) GameMvc.view().overlayStage.update(); // count model updates
     }
 
     public void setPaused(boolean paused) {
