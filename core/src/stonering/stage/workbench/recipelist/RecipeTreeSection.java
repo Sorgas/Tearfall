@@ -25,12 +25,13 @@ import java.util.Map;
  *
  * @author Alexander on 12.08.2019.
  */
-public class RecipeListSection extends MenuSection {
+public class RecipeTreeSection extends MenuSection {
+    private static final float sectionWidth = 300;
     private Tree recipeTree;
     private Map<String, List<Recipe>> recipeMap; // category name to recipe names
     public final WorkbenchMenu menu;
 
-    public RecipeListSection(String title, WorkbenchAspect aspect, WorkbenchMenu menu) {
+    public RecipeTreeSection(String title, WorkbenchAspect aspect, WorkbenchMenu menu) {
         super(title);
         this.menu = menu;
         recipeMap = new HashMap<>();
@@ -45,11 +46,13 @@ public class RecipeListSection extends MenuSection {
      */
     private void fillTree() {
         recipeTree = new Tree(StaticSkin.getSkin());
+        float categoryNodeWidth = sectionWidth - recipeTree.getStyle().plus.getMinWidth();
+        float recipeNodeWidth = categoryNodeWidth - recipeTree.getIndentSpacing();
         for (String category : recipeMap.keySet()) {
-            RecipeCategoryNode categoryNode = new RecipeCategoryNode(category);
+            RecipeCategoryNode categoryNode = new RecipeCategoryNode(category, categoryNodeWidth);
             recipeTree.add(categoryNode);
             for (Recipe recipe : recipeMap.get(category)) {
-                categoryNode.add(new RecipeNode(recipe, this));
+                categoryNode.add(new RecipeNode(recipe, this, recipeNodeWidth));
             }
         }
         this.add(recipeTree);

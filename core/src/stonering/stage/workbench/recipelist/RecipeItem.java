@@ -10,7 +10,7 @@ import stonering.widget.Highlightable;
 import stonering.widget.util.WrappedTextButton;
 
 /**
- * Item for recipe in the {@link RecipeListSection}.
+ * Item for recipe in the {@link RecipeTreeSection}.
  * Keys input is handled in recipe list. Clicked as normal button.
  *
  * @author Alexander on 12.08.2019.
@@ -19,14 +19,14 @@ public class RecipeItem extends WrappedTextButton implements Highlightable {
     private static final String BACKGROUND_NAME = "recipe_category_item";
     private static final String HINT_TEXT = "WS: navigate recipes ED: add order A: to category Q: to orders";
     public final Recipe recipe;
-    private RecipeListSection recipeListSection;
+    private RecipeTreeSection recipeTreeSection;
     private HighlightHandler highlightHandler;
     public final RecipeCategoryItem category;
 
-    public RecipeItem(Recipe recipe, RecipeListSection recipeListSection, RecipeCategoryItem category) {
+    public RecipeItem(Recipe recipe, RecipeTreeSection recipeTreeSection, RecipeCategoryItem category) {
         super(recipe.title);
         this.recipe = recipe;
-        this.recipeListSection = recipeListSection;
+        this.recipeTreeSection = recipeTreeSection;
         this.category = category;
         createDefaultListener();
         createHighlightHandler();
@@ -37,7 +37,7 @@ public class RecipeItem extends WrappedTextButton implements Highlightable {
         button.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                recipeListSection.createNewOrder(recipe);
+                recipeTreeSection.createNewOrder(recipe);
             }
         });
     }
@@ -50,8 +50,8 @@ public class RecipeItem extends WrappedTextButton implements Highlightable {
             @Override
             public void handle(boolean value) {
                 if (value) {
-                    recipeListSection.menu.hintLabel.setText(HINT_TEXT);
-                    recipeListSection.menu.orderDetailsSection.showItem(owner);
+                    recipeTreeSection.menu.hintLabel.setText(HINT_TEXT);
+                    recipeTreeSection.menu.orderDetailsSection.showItem(owner);
                 }
 //                setBackground(value ? focused : normal);
                 button.setColor(value ? Color.RED : Color.LIGHT_GRAY);

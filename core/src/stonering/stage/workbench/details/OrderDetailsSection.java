@@ -9,6 +9,7 @@ import stonering.entity.crafting.ItemOrder;
 import stonering.enums.items.recipe.Recipe;
 import stonering.enums.items.type.ItemType;
 import stonering.enums.items.type.ItemTypeMap;
+import stonering.stage.workbench.MenuSection;
 import stonering.stage.workbench.WorkbenchMenu;
 import stonering.stage.workbench.orderlist.OrderItem;
 import stonering.stage.workbench.recipelist.RecipeItem;
@@ -21,7 +22,7 @@ import stonering.util.global.StaticSkin;
  *
  * @author Alexander on 14.08.2019.
  */
-public class OrderDetailsSection extends Table {
+public class OrderDetailsSection extends MenuSection {
     public final WorkbenchMenu menu;
     public final WorkbenchAspect aspect;
     private ItemOrder order;
@@ -30,7 +31,8 @@ public class OrderDetailsSection extends Table {
     private Image image;
     private VerticalGroup itemParts;
 
-    public OrderDetailsSection(WorkbenchAspect aspect, WorkbenchMenu menu) {
+    public OrderDetailsSection(String title, WorkbenchAspect aspect, WorkbenchMenu menu) {
+        super(title);
         this.menu = menu;
         this.aspect = aspect;
         align(Align.topLeft);

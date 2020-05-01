@@ -2,6 +2,7 @@ package stonering.screen.util;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.Timer;
 
 import stonering.util.global.StaticSkin;
 
@@ -18,13 +19,13 @@ public class CounterLabel extends Label {
         counter = 0;
     }
     
-    public void update() {
+    public void add() {
         counter++;
-        if((TimeUtils.millis() - lastSecond) >= 1000) {
-            System.out.println(TimeUtils.millis() - lastSecond);
-            lastSecond += 1000;
-            setText(prefix + counter);
-            counter = 0;
-        }
+
+    }
+
+    public void flush() {
+        setText(prefix + counter);
+        counter = 0;
     }
 }

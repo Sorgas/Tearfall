@@ -12,17 +12,12 @@ import stonering.widget.BackgroundGenerator;
  * @author Alexander on 25.04.2020
  */
 public class RecipeCategoryNode extends Tree.Node {
-    private final int NODE_WIDTH = 270;
-
-    public RecipeCategoryNode(String category) {
+    public RecipeCategoryNode(String category, float width) {
         super(new Table());
-        fillTable((Table) getActor(), category);
-    }
-
-    private void fillTable(Table table, String category) {
         Label label = new Label(category, StaticSkin.getSkin());
         label.setAlignment(Align.left);
-        table.add(label).size(NODE_WIDTH, 50).padLeft(20);
+        Table table = (Table) getActor();
+        table.add(label).size(width - 20, 50).padLeft(20);
         table.setBackground(new BackgroundGenerator().generate(1,1,1,1));
     }
 }

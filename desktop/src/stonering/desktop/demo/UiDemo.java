@@ -42,11 +42,10 @@ public class UiDemo extends Game {
     public void create() {
         setScreen(new SimpleScreen() {
             private UiStage stage = new UiStage();
-            private Container container;
 
             {
                 stage.interceptInput = false;
-                stage.addActor(container = createContainer());
+                stage.addActor(createContainer2());
                 stage.addListener(new InputListener() {
                     @Override
                     public boolean keyDown(InputEvent event, int keycode) {
@@ -69,30 +68,44 @@ public class UiDemo extends Game {
             @Override
             public void resize(int width, int height) {
                 stage.resize(width, height);
-                container.height(height / 2);
             }
         });
     }
 
     private Container createContainer() {
-        Container inner = new Container();
-        Container container = new Container<>(inner);
-        inner.setBackground(StaticSkin.generator.generate(StaticSkin.shade));
-        container.setFillParent(true);
-        container.fillX().height(20);
-        RecipeCategoryNode node = new RecipeCategoryNode("Dishes");
+        Table table = new Table();
+        Container<Table> container = new Container<>(table);
+        Label label = new Label("qwer", StaticSkin.getSkin());
+        TextButton addButton = new TextButton(">", StaticSkin.getSkin());
+
+        table.add(label).padLeft(20).expand();
+        table.add(addButton).width(42).pad(4).expandY().fill();
+        table.setBackground(new BackgroundGenerator().generate(1, 1, 1, 1));
+
+        container.size(300, 50);
         container.setFillParent(true);
         return container;
     }
 
-    private Tree filledTree() {
+    private Container createContainer2() {
+        Tree tree = createTree();
+        tree.setIndentSpacing(40);
+        tree.setYSpacing(10);
+        Container container = new Container(tree);
+        container.setFillParent(true);
+        return container;
+    }
+
+    private Tree createTree() {
         Tree tree = new Tree(StaticSkin.getSkin());
         for (int i = 0; i < 5; i++) {
-            RecipeCategoryNode recipe = new RecipeCategoryNode("Dishes");
             Label label = new Label("category " + (i + 1), StaticSkin.getSkin());
-            tree.add(recipe);
+            Tree.Node node = new Tree.Node(label);
+            tree.add(node);
             for (int j = 0; j < 5; j++) {
-                recipe.add(new RecipeCategoryNode("Dishes"));
+                Label label2 = new Label("item " + (i + 1), StaticSkin.getSkin());
+                Tree.Node node2 = new Tree.Node(label2);
+                node.add(node2);
             }
         }
         return tree;

@@ -1,23 +1,17 @@
 package stonering.stage.workbench.orderlist;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import stonering.entity.building.aspects.WorkbenchAspect;
 import stonering.entity.crafting.ItemOrder;
-import stonering.enums.ControlActionsEnum;
 import stonering.enums.items.recipe.Recipe;
 import stonering.game.GameMvc;
 import stonering.game.model.system.building.BuildingContainer;
+import stonering.stage.workbench.MenuSection;
 import stonering.stage.workbench.WorkbenchMenu;
-import stonering.enums.images.DrawableMap;
 import stonering.widget.NavigableVerticalGroup;
 import stonering.util.global.StaticSkin;
 
-import static com.badlogic.gdx.Input.Keys.SHIFT_LEFT;
-import static stonering.enums.ControlActionsEnum.LEFT;
 import static stonering.enums.ControlActionsEnum.SELECT;
 
 /**
@@ -35,24 +29,25 @@ import static stonering.enums.ControlActionsEnum.SELECT;
  *
  * @author Alexander on 13.08.2019.
  */
-public class OrderListSection extends NavigableVerticalGroup {
+public class OrderListSection extends MenuSection {
     public final WorkbenchMenu menu;
     public final WorkbenchAspect aspect;
     private final Label emptyLabel;
+    private NavigableVerticalGroup<OrderItem> orderList;
 
-    public OrderListSection(WorkbenchAspect aspect, WorkbenchMenu menu) {
-        super();
+    public OrderListSection(String title, WorkbenchAspect aspect, WorkbenchMenu menu) {
+        super(title);
         this.aspect = aspect;
         this.menu = menu;
-        keyMapping.put(Input.Keys.D, SELECT);
+        orderList = new NavigableVerticalGroup<>();
+        orderList.keyMapping.put(Input.Keys.D, SELECT);
         emptyLabel = new Label("This workbench has no orders.", StaticSkin.getSkin());
         fillOrderList();
-        createListener();
     }
 
     public void createOrder(Recipe recipe) {
         ItemOrder order = new ItemOrder(recipe);
-        GameMvc.instance().model().get(BuildingContainer.class).workbenchSystem.addOrder(aspect, order);
+        GameMvc.model().get(BuildingContainer.class).workbenchSystem.addOrder(aspect, order);
         OrderItem orderItem = new OrderItem(order, this);
         removeActor(emptyLabel);
         addActorAt(0, orderItem);
@@ -73,65 +68,7 @@ public class OrderListSection extends NavigableVerticalGroup {
         }
     }
 
-    private void createListener() {
-        getListeners().insert(0, new InputListener() {
-            @Override
-            public boolean keyDown(InputEvent event, int keycode) {
-                ControlActionsEnum action = ControlActionsEnum.getAction(keycode);
-                if (action == LEFT) {
-                    getStage().setKeyboardFocus(menu.recipeListSection);
-                    setSelectedIndex(-1);
-                    return true;
-                }
-                if (getSelectedElement() == null || !(getSelectedElement() instanceof OrderItem)) return true;
-                OrderItem target = ((OrderItem) getSelectedElement());
-                switch (action) {
-                    case Z_UP: {
-                        target.repeatButton.toggle();
-                        return true;
-                    }
-                    case Z_DOWN: {
-                        target.suspendButton.toggle();
-                        return true;
-                    }
-                    case DELETE: {
-                        target.cancelButton.toggle();
-                        return true;
-                    }
-                    case UP:
-                        if (Gdx.input.isKeyPressed(SHIFT_LEFT) || Gdx.input.isKeyPressed(SHIFT_LEFT)) {
-                            target.upButton.toggle();
-                            return true;
-                        }
-                        return false;
-                    case DOWN:
-                        if (Gdx.input.isKeyPressed(SHIFT_LEFT) || Gdx.input.isKeyPressed(SHIFT_LEFT)) {
-                            target.downButton.toggle();
-                            return true;
-                        }
-                        return false;
-                }
-                return true;
-            }
-        });
-        selectListener = actor -> getStage().setKeyboardFocus(menu.orderDetailsSection); // configure order
-        cancelListener = () -> GameMvc.view().removeStage(getStage());
-        setHighlightHandler(new CheckHighlightHandler(this) {
-            @Override
-            public void handle(boolean value) {
-                menu.ordersHeader.setBackground(DrawableMap.REGION.getDrawable("workbench_order_line" +
-                        (value ? ":focused" : "")));
-            }
-        });
-    }
-
-    @Override
-    public void setSelectedIndex(int newIndex) {
-        super.setSelectedIndex(newIndex);
-        menu.orderDetailsSection.showItem(getSelectedElement());
-    }
-
     public boolean isEmpty() {
-        return aspect.orders.isEmpty();
+        return orderList.getChildren().isEmpty();
     }
 }

@@ -15,7 +15,7 @@ public class MenuSection extends Table {
     protected WrappedLabel header;
 
     public MenuSection(String title) {
-        add(header = new WrappedLabel(title)).height(100);
+        add(header = new WrappedLabel(title)).height(100).fillX().row();
         MenuSection section = this;
         header.addListener(new InputListener() {
             @Override

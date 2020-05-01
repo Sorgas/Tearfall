@@ -17,10 +17,9 @@ import stonering.util.global.StaticSkin;
  *
  * @author Alexander on 13.08.2019.
  */
-public class OrderItem extends Container implements Highlightable {
+public class OrderItem extends Container {
     private static final String HINT_TEXT = "A: new order ED: configure order R:repeat F: pause X: cancel order Q:close";
     private static final String MULTIPLE_HINT_TEXT = "WS: navigate orders ";
-    private HighlightHandler highlightHandler;
     public final ItemOrder order;
     private OrderListSection section;
     private Image image;
@@ -43,12 +42,6 @@ public class OrderItem extends Container implements Highlightable {
         size(300, 64);
 
         setDebug(true, true);
-    }
-
-    @Override
-    public void act(float delta) {
-        super.act(delta);
-        updateHighlighting(section.getSelectedElement() == this);
     }
 
     /**
@@ -74,14 +67,14 @@ public class OrderItem extends Container implements Highlightable {
     }
 
     private void createListeners() {
-        WorkbenchSystem system = GameMvc.instance().model().get(BuildingContainer.class).workbenchSystem;
+        WorkbenchSystem system = GameMvc.model().get(BuildingContainer.class).workbenchSystem;
         cancelButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                int selected = section.selectedIndex;
-                system.removeOrder(section.aspect, order);
-                section.fillOrderList();
-                section.setSelectedIndex(selected);
+//                int selected = section.selectedIndex;
+//                system.removeOrder(section.aspect, order);
+//                section.fillOrderList();
+//                section.setSelectedIndex(selected);
             }
         });
         suspendButton.addListener(new ChangeListener() {
@@ -114,14 +107,6 @@ public class OrderItem extends Container implements Highlightable {
 //                section.setSelectedIndex(selected); // order moved down
             }
         });
-        highlightHandler = new CheckHighlightHandler(this) {
-            @Override
-            public void handle(boolean value) {
-                setBackground(DrawableMap.REGION.getDrawable("workbench_order_line" +
-                        (value ? ":focused" : "")));
-                section.menu.hintLabel.setText(section.getChildren().size > 1 ? MULTIPLE_HINT_TEXT : "" + HINT_TEXT);
-            }
-        };
     }
 
     private Button createButton(String drawableName) {
@@ -135,10 +120,5 @@ public class OrderItem extends Container implements Highlightable {
      */
     private void updateText() {
         // TODO generate quotes description.
-    }
-
-    @Override
-    public HighlightHandler getHighlightHandler() {
-        return highlightHandler;
     }
 }

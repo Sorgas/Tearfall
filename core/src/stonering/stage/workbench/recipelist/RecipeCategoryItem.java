@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Item for category of recipes in {@link RecipeListSection}.
+ * Item for category of recipes in {@link RecipeTreeSection}.
  * When activated expands or collapses list of it's recipes;
  * Keys input is handled in recipe list. Clicked as normal button.
  *
@@ -22,15 +22,15 @@ public class RecipeCategoryItem extends WrappedTextButton {
     private static final String COLLAPSED_HINT_TEXT = "WS: navigate recipes ED: expand Q: to orders";
     private static final String BACKGROUND_NAME = "recipe_category_item";
     public final String categoryName;
-    private RecipeListSection recipeListSection;
+    private RecipeTreeSection recipeTreeSection;
     private List<RecipeItem> recipeItems;
     private List<String> recipeNames;
     private boolean expanded = false;
 
-    public RecipeCategoryItem(String categoryName, RecipeListSection recipeListSection, List<String> recipeNames) {
+    public RecipeCategoryItem(String categoryName, RecipeTreeSection recipeTreeSection, List<String> recipeNames) {
         super(categoryName);
         this.categoryName = categoryName;
-        this.recipeListSection = recipeListSection;
+        this.recipeTreeSection = recipeTreeSection;
         this.recipeNames = recipeNames;
         recipeItems = new ArrayList<>();
         button.addListener(new ChangeListener() {
@@ -45,7 +45,7 @@ public class RecipeCategoryItem extends WrappedTextButton {
     }
 
     /**
-     * Expands/collapses this category in {@link RecipeListSection}.
+     * Expands/collapses this category in {@link RecipeTreeSection}.
      */
     public void update(boolean toValue) {
         expanded = toValue;
@@ -57,7 +57,7 @@ public class RecipeCategoryItem extends WrappedTextButton {
         RecipeMap map = RecipeMap.instance();
         for (String recipeName : recipeNames) {
             if ((recipe = map.getRecipe(recipeName)) == null) continue;
-            recipeItems.add(new RecipeItem(recipe, recipeListSection, this));
+            recipeItems.add(new RecipeItem(recipe, recipeTreeSection, this));
         }
     }
 
