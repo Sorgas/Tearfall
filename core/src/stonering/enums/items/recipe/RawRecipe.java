@@ -12,6 +12,7 @@ public class RawRecipe {
     public String name;
     public String title;
     public String itemName;
+    public String iconName;
     public String description;
     public List<List<String>> parts = new ArrayList<>();
     public List<List<String>> consumed = new ArrayList<>();

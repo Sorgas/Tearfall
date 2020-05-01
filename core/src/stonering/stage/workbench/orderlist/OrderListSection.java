@@ -53,7 +53,6 @@ public class OrderListSection extends MenuSection {
         addActorAt(0, orderItem);
         menu.orderDetailsSection.showItem(orderItem);
         getStage().setKeyboardFocus(this);
-        System.out.println("refocus");
     }
 
     /**

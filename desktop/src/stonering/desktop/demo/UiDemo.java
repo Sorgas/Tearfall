@@ -45,7 +45,7 @@ public class UiDemo extends Game {
 
             {
                 stage.interceptInput = false;
-                stage.addActor(createContainer2());
+                stage.addActor(createContainer());
                 stage.addListener(new InputListener() {
                     @Override
                     public boolean keyDown(InputEvent event, int keycode) {
@@ -73,16 +73,11 @@ public class UiDemo extends Game {
     }
 
     private Container createContainer() {
-        Table table = new Table();
-        Container<Table> container = new Container<>(table);
-        Label label = new Label("qwer", StaticSkin.getSkin());
-        TextButton addButton = new TextButton(">", StaticSkin.getSkin());
-
-        table.add(label).padLeft(20).expand();
-        table.add(addButton).width(42).pad(4).expandY().fill();
-        table.setBackground(new BackgroundGenerator().generate(1, 1, 1, 1));
-
-        container.size(300, 50);
+        Container container = new Container();
+        Image image = new Image();
+        image.setDrawable(DrawableMap.ICON.getDrawable("roast_mealqwer"));
+        container.setActor(image);
+        container.size(200, 200);
         container.setFillParent(true);
         return container;
     }

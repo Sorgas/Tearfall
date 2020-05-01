@@ -22,6 +22,7 @@ public class Recipe {
     public final String name;                               // recipe(id)
     public final String title;                              // displayed name
     public final String itemName;                           // name of produced item's itemType
+    public final String iconName;                           // if itemName is empty, icon is used in workbenches
     public final String description;                        // recipe description.
     public final ItemTagEnum newTag;                             // this tag will be added to product
     public RecipeType type;
@@ -33,6 +34,7 @@ public class Recipe {
         this.title = title;
         name = "";
         itemName = "";
+        iconName = "default";
         description = "";
         newTag = null;
         type = COMBINE;
@@ -42,6 +44,7 @@ public class Recipe {
         name = raw.name;
         title = raw.title;
         itemName = raw.itemName;
+        iconName = raw.iconName;
         description = raw.description;
         newTag = ItemTagEnum.get(raw.newTag);
         type = raw.main == null ? COMBINE : TRANSFORM;

@@ -3,16 +3,22 @@
 */
 [
     {
-        "name": "digging_menu",
+        "name": "default",
         "bounds": [0, 0]
     }, {
-    "name": "plants_menu",
+    "name": "digging_menu",
     "bounds": [1, 0]
 }, {
-    "name": "building_menu",
+    "name": "plants_menu",
     "bounds": [2, 0]
 }, {
-    "name": "zones_menu",
+    "name": "building_menu",
     "bounds": [3, 0]
+}, {
+    "name": "zones_menu",
+    "bounds": [4, 0]
+}, {
+    "name": "roast_meal",
+    "bounds": [0, 1]
 }
 ]
