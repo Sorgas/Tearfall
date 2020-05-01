@@ -46,6 +46,10 @@ public class RecipeTreeSection extends MenuSection {
      */
     private void fillTree() {
         recipeTree = new Tree(StaticSkin.getSkin());
+        recipeTree.getStyle().plus.setMinHeight(50);
+        recipeTree.getStyle().plus.setMinWidth(50);
+        recipeTree.getStyle().minus.setMinHeight(50);
+        recipeTree.getStyle().minus.setMinWidth(50);
         float categoryNodeWidth = sectionWidth - recipeTree.getStyle().plus.getMinWidth();
         float recipeNodeWidth = categoryNodeWidth - recipeTree.getIndentSpacing();
         for (String category : recipeMap.keySet()) {
