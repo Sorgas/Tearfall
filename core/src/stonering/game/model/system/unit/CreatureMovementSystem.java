@@ -5,7 +5,7 @@ import stonering.entity.VectorPositionEntity;
 import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.MovementAspect;
-import stonering.entity.unit.aspects.PlanningAspect;
+import stonering.entity.unit.aspects.TaskAspect;
 import stonering.enums.action.TaskStatusEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
@@ -53,10 +53,10 @@ public class CreatureMovementSystem extends EntitySystem<Unit> {
     }
 
     /**
-     * Checks that path to target exists. Creates new path if needed. Can fail task in {@link PlanningAspect}.
+     * Checks that path to target exists. Creates new path if needed. Can fail task in {@link TaskAspect}.
      */
     private boolean checkPath(Unit unit, MovementAspect movement) {
-        PlanningAspect planning = unit.get(PlanningAspect.class);
+        TaskAspect planning = unit.get(TaskAspect.class);
         if (movement.path == null) { // path was blocked or not created
             Logger.PATH.logDebug("searching path from " + unit.position + " to " + movement.target);
             movement.path = aStar.makeShortestPath(unit.position, movement.target, planning.task.nextAction.target.targetType);
@@ -72,7 +72,7 @@ public class CreatureMovementSystem extends EntitySystem<Unit> {
     /**
      * Finds new movement target and path.
      */
-    private void updateMovementAspect(Unit unit, MovementAspect movement, PlanningAspect planning) {
+    private void updateMovementAspect(Unit unit, MovementAspect movement, TaskAspect planning) {
         ActionTarget actionTarget = planning.task.nextAction.target;
         switch (actionTarget.targetType) {
             case EXACT:

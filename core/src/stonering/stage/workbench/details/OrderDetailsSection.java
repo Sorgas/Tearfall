@@ -35,7 +35,6 @@ public class OrderDetailsSection extends MenuSection {
         super(title);
         this.menu = menu;
         this.aspect = aspect;
-        align(Align.topLeft);
         defaults().align(Align.left).expandX();
         add(image = new Image());
         VerticalGroup group = new VerticalGroup();

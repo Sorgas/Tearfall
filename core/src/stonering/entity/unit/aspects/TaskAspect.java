@@ -12,11 +12,11 @@ import stonering.util.geometry.Position;
  *
  * @author Alexander Kuzyakov on 10.10.2017.
  */
-public class PlanningAspect extends Aspect {
+public class TaskAspect extends Aspect {
     public Task task;
     public boolean actionChecked;
 
-    public PlanningAspect(Entity entity) {
+    public TaskAspect(Entity entity) {
         super(entity);
     }
 

@@ -8,6 +8,7 @@ import stonering.game.model.system.unit.CreaturePlanningSystem;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+import static stonering.entity.job.action.ActionConditionStatusEnum.FAIL;
 import static stonering.entity.job.action.ActionConditionStatusEnum.OK;
 import static stonering.enums.action.ActionStatusEnum.*;
 
@@ -54,15 +55,13 @@ public abstract class Action {
     protected Action(ActionTarget target) {
         this.target = target;
         target.setAction(this);
-        takingCondition = () -> true;
-        startCondition = () -> OK;
-        onStart = () -> {
-        };
+        takingCondition = () -> false; // prevent taking from container
+        startCondition = () -> FAIL; // prevent starting
+        onStart = () -> {};
         progressConsumer = (delta) -> progress += delta;
         speedUpdater = () -> 1f;
         finishCondition = () -> progress >= maxProgress;
-        onFinish = () -> {
-        };
+        onFinish = () -> {};
     }
 
     /**

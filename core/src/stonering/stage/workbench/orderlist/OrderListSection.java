@@ -33,13 +33,13 @@ public class OrderListSection extends MenuSection {
     public final WorkbenchMenu menu;
     public final WorkbenchAspect aspect;
     private final Label emptyLabel;
-    private NavigableVerticalGroup<OrderItem> orderList;
+    public final NavigableVerticalGroup<OrderItem> orderList;
 
     public OrderListSection(String title, WorkbenchAspect aspect, WorkbenchMenu menu) {
         super(title);
         this.aspect = aspect;
         this.menu = menu;
-        orderList = new NavigableVerticalGroup<>();
+        add(orderList = new NavigableVerticalGroup<>());
         orderList.keyMapping.put(Input.Keys.D, SELECT);
         emptyLabel = new Label("This workbench has no orders.", StaticSkin.getSkin());
         fillOrderList();
@@ -49,8 +49,8 @@ public class OrderListSection extends MenuSection {
         ItemOrder order = new ItemOrder(recipe);
         GameMvc.model().get(BuildingContainer.class).workbenchSystem.addOrder(aspect, order);
         OrderItem orderItem = new OrderItem(order, this);
-        removeActor(emptyLabel);
-        addActorAt(0, orderItem);
+        orderList.removeActor(emptyLabel);
+        orderList.addActorAt(0, orderItem);
         menu.orderDetailsSection.showItem(orderItem);
         getStage().setKeyboardFocus(this);
     }
@@ -59,11 +59,11 @@ public class OrderListSection extends MenuSection {
      * Fetches orders from workbench aspect and creates order items for them.
      */
     public void fillOrderList() {
-        this.clearChildren();
+        orderList.clearChildren();
         if (aspect.orders.isEmpty()) {
-            addActor(emptyLabel);
+            orderList.addActor(emptyLabel);
         } else {
-            aspect.orders.forEach(order -> addActor(new OrderItem(order, this)));
+            aspect.orders.forEach(order -> orderList.addActor(new OrderItem(order, this)));
         }
     }
 

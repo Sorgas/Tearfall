@@ -3,7 +3,7 @@ package stonering.game.model.system.unit;
 import stonering.entity.job.Task;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.needs.NeedsAspect;
-import stonering.entity.unit.aspects.PlanningAspect;
+import stonering.entity.unit.aspects.TaskAspect;
 import stonering.entity.unit.aspects.needs.NeedEnum;
 import stonering.enums.time.TimeUnitEnum;
 import stonering.game.model.system.EntitySystem;
@@ -34,7 +34,7 @@ public class CreatureNeedSystem extends EntitySystem<Unit> {
 
     /**
      * Fetches untolerated needs in the order of their priority, tries to create task fo satisfaction.
-     * First successfully created task is saved to aspect (and then considered in {@link PlanningAspect}).
+     * First successfully created task is saved to aspect (and then considered in {@link TaskAspect}).
      */
     @Override
     public void update(Unit unit) {

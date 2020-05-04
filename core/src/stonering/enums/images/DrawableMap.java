@@ -45,7 +45,7 @@ public enum DrawableMap {
     private Function<DrawableDescriptor, TextureRegion> regionProducer; // contains logic for using data from descriptor
 
     private static final Map<String, Texture> textures = new HashMap<>(); // all textures in game
-    private static final DrawableDescriptor DEFAULT_DESCRIPTOR = new DrawableDescriptor("default", "default.png", new int[]{0, 0, 64, 64});
+    private static final DrawableDescriptor DEFAULT_DESCRIPTOR = new DrawableDescriptor("default", "ui_back.png", new int[]{0, 0, 30, 30});
 
     DrawableMap(Function<DrawableDescriptor, TextureRegion> producer, String path, String textureOverride) {
         regionProducer = producer;
@@ -64,6 +64,7 @@ public enum DrawableMap {
 
     public Drawable getDrawable(String key) {
         DrawableDescriptor descriptor = descriptors.getOrDefault(key, DEFAULT_DESCRIPTOR); // resolve descriptor
+        if(descriptor == DEFAULT_DESCRIPTOR) Logger.UI.logWarn("default drawable used instead of " + key);
         loadTexture(descriptor.texture);
         drawables.putIfAbsent(key, new TextureRegionDrawable(regionProducer.apply(descriptor))); // lazy load drawable
         return drawables.get(key);

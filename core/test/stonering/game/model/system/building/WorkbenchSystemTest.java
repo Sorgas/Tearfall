@@ -11,7 +11,7 @@ import stonering.entity.crafting.ItemOrder;
 import stonering.entity.job.action.CraftItemAction;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.job.JobsAspect;
-import stonering.entity.unit.aspects.PlanningAspect;
+import stonering.entity.unit.aspects.TaskAspect;
 import stonering.enums.action.TaskStatusEnum;
 import stonering.enums.blocks.BlockTypeEnum;
 import stonering.enums.items.recipe.Ingredient;
@@ -64,7 +64,7 @@ public class WorkbenchSystemTest {
 
     private void createEntities() {
         unit = new Unit(new Position(), new CreatureType());
-        unit.add(new PlanningAspect(unit));
+        unit.add(new TaskAspect(unit));
         unit.add(new JobsAspect(unit));
         GameMvc.model().get(UnitContainer.class).addUnit(unit);
         

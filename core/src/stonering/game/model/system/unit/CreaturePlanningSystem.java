@@ -3,7 +3,7 @@ package stonering.game.model.system.unit;
 import stonering.entity.job.Task;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.MovementAspect;
-import stonering.entity.unit.aspects.PlanningAspect;
+import stonering.entity.unit.aspects.TaskAspect;
 import stonering.entity.unit.aspects.needs.NeedsAspect;
 import stonering.game.GameMvc;
 import stonering.game.model.system.EntitySystem;
@@ -29,12 +29,12 @@ public class CreaturePlanningSystem extends EntitySystem<Unit> {
     public UnitContainer container;
 
     public CreaturePlanningSystem() {
-        targetAspects.add(PlanningAspect.class);
+        targetAspects.add(TaskAspect.class);
     }
 
     @Override
     public void update(Unit unit) {
-        if (unit.get(PlanningAspect.class).task == null) {
+        if (unit.get(TaskAspect.class).task == null) {
             findNewTask(unit);
         } else {
             checkTaskStatus(unit);
@@ -42,7 +42,7 @@ public class CreaturePlanningSystem extends EntitySystem<Unit> {
     }
 
     private void checkTaskStatus(Unit unit) {
-        PlanningAspect planning = unit.get(PlanningAspect.class);
+        TaskAspect planning = unit.get(TaskAspect.class);
         Task task = planning.task;
         switch (task.status) {
             case OPEN: // invalid case
@@ -65,7 +65,7 @@ public class CreaturePlanningSystem extends EntitySystem<Unit> {
         if (!task.initialAction.takingCondition.get()) return;
         Logger.TASKS.logDebug("Assigning task " + task + " to unit " + unit);
         taskContainer().claimTask(task);
-        unit.get(PlanningAspect.class).task = task;
+        unit.get(TaskAspect.class).task = task;
         task.status = ACTIVE;
     }
 

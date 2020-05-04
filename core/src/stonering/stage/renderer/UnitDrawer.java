@@ -5,7 +5,7 @@ import stonering.GameSettings;
 import stonering.entity.job.action.Action;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.CreatureStatusIcon;
-import stonering.entity.unit.aspects.PlanningAspect;
+import stonering.entity.unit.aspects.TaskAspect;
 import stonering.entity.RenderAspect;
 import stonering.game.GameMvc;
 import stonering.game.model.system.unit.UnitContainer;
@@ -46,8 +46,8 @@ public class UnitDrawer extends Drawer {
     private void drawActionProgressBar(int x, int y, int z, Unit unit) {
         Action action;
         if ("1".equals(GameSettings.DRAW_ACTION_PROGRESS.VALUE)
-                && unit.has(PlanningAspect.class)
-                && (action = unit.get(PlanningAspect.class).getNextAction()) != null
+                && unit.has(TaskAspect.class)
+                && (action = unit.get(TaskAspect.class).getNextAction()) != null
                 && action.progress > 0) {
             shapeUtil.drawRectangle(unit.vectorPosition, 4, 16, (int) (progressBarWidth * (action.progress / action.maxProgress)), 8, Color.WHITE);
         }

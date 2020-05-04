@@ -2,6 +2,7 @@ package stonering.stage.workbench;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import stonering.entity.building.Building;
@@ -16,6 +17,9 @@ import stonering.util.global.StaticSkin;
  * Contains three sections: {@link RecipeTreeSection}, {@link OrderListSection}, {@link OrderDetailsSection}.
  * One section can be focused at a time.
  *
+ * TODO remove order list label on adding order, update hint label
+ *
+ *
  * @author Alexander on 12.08.2019.
  */
 public class WorkbenchMenu extends Container<Table> {
@@ -23,21 +27,20 @@ public class WorkbenchMenu extends Container<Table> {
     public final RecipeTreeSection recipeTreeSection;
     public final OrderListSection orderListSection;
     public final OrderDetailsSection orderDetailsSection;
-    public final WrappedLabel hintLabel;
+    public final Label hintLabel;
 
     public WorkbenchMenu(Building workbench) {
         WorkbenchAspect workbenchAspect = workbench.get(WorkbenchAspect.class);
         setActor(table = new Table());
 
         table.setBackground(StaticSkin.generator.generate(StaticSkin.background));
-//        table.pad(10);
 
         table.defaults().size(300, 850);
-        table.add(recipeTreeSection = new RecipeTreeSection("Recipes", workbenchAspect, this));
-        table.add(orderListSection = new OrderListSection("Orders", workbenchAspect, this));
+        table.add(recipeTreeSection = new RecipeTreeSection("Recipes", workbenchAspect, this)).padRight(10);
+        table.add(orderListSection = new OrderListSection("Orders", workbenchAspect, this)).padRight(10);
         table.add(orderDetailsSection = new OrderDetailsSection("Details", workbenchAspect, this)).row();
 
-        table.add(hintLabel = new WrappedLabel("")).colspan(3).size(900, 30).height(30).align(Align.left);
+        table.add(hintLabel = new Label("", StaticSkin.getSkin())).colspan(3).height(30).growX().align(Align.center);
         table.setDebug(true, true);
     }
 

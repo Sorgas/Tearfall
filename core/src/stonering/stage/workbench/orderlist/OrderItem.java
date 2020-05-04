@@ -27,13 +27,11 @@ public class OrderItem extends Container<Table> {
     private static final String MULTIPLE_HINT_TEXT = "WS: navigate orders ";
     public final ItemOrder order;
     private OrderListSection section;
-    private Image image;
+    private Stack stack;
     private Label recipeTitle;
     public Button cancelButton;
     public Button suspendButton;
     public Button repeatButton;
-    public Button downButton;
-    public Button upButton;
 
     public OrderItem(ItemOrder order, OrderListSection section) {
         this.order = order;
@@ -42,25 +40,29 @@ public class OrderItem extends Container<Table> {
         createLayout();
         createListeners();
         size(300, 100);
-        setDebug(true, true);
+//        setDebug(true, true);
     }
 
     private void createWidgets() {
         cancelButton = createButton("cancel_order");
         suspendButton = createButton("suspend_order");
         repeatButton = createButton("repeat_order");
-        downButton = createButton("down_order");
-        upButton = createButton("up_order");
         recipeTitle = new Label(order.recipe.title, StaticSkin.getSkin());
-        image = new Image();
+        stack = new Stack();
+        Image backgroundImage = new Image(StaticSkin.getColorDrawable(StaticSkin.backgroundFocused));
+        backgroundImage.getDrawable().setMinHeight(IMAGE_SIZE);
+        backgroundImage.getDrawable().setMinWidth(IMAGE_SIZE);
+        stack.add(backgroundImage);
+        Image image = new Image();
         if(order.recipe.itemName != null) {
             int[] xy = ItemTypeMap.instance().getItemType(order.recipe.itemName).atlasXY;
             image.setDrawable(new TextureRegionDrawable(AtlasesEnum.items.getRegion(xy[0], xy[1], 1, 1)));
         } else {
             image.setDrawable(DrawableMap.ICON.getDrawable(order.recipe.iconName));
         }
-        image.getDrawable().setMinHeight(64);
-        image.getDrawable().setMinWidth(64);
+        image.getDrawable().setMinHeight(IMAGE_SIZE);
+        image.getDrawable().setMinWidth(IMAGE_SIZE);
+        stack.add(image);
     }
 
     private void createLayout() {
@@ -71,8 +73,9 @@ public class OrderItem extends Container<Table> {
         table.add(repeatButton).size(BUTTON_SIZE);
         table.add(suspendButton).size(BUTTON_SIZE);
         table.add(cancelButton).size(BUTTON_SIZE).row();
-        table.add(image).size(IMAGE_SIZE);
+        table.add(stack).size(IMAGE_SIZE);
         table.add(recipeTitle).colspan(4);
+        table.setBackground(StaticSkin.getColorDrawable(StaticSkin.element));
         setActor(table);
     }
 
@@ -81,10 +84,10 @@ public class OrderItem extends Container<Table> {
         cancelButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-//                int selected = section.selectedIndex;
-//                system.removeOrder(section.aspect, order);
-//                section.fillOrderList();
-//                section.setSelectedIndex(selected);
+                int selected = section.orderList.selectedIndex;
+                system.removeOrder(section.aspect, order);
+                section.fillOrderList();
+                section.orderList.setSelectedIndex(selected);
             }
         });
         suspendButton.addListener(new ChangeListener() {
@@ -97,24 +100,6 @@ public class OrderItem extends Container<Table> {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 system.setOrderRepeated(section.aspect, order, repeatButton.isChecked());
-            }
-        });
-        upButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-//                int selected = section.getSelectedIndex();
-                system.swapOrders(section.aspect, order, -1);
-                section.fillOrderList();
-//                section.setSelectedIndex(selected); // order moved up
-            }
-        });
-        downButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-//                int selected = section.getSelectedIndex();
-                system.swapOrders(section.aspect, order, 1);
-                section.fillOrderList();
-//                section.setSelectedIndex(selected); // order moved down
             }
         });
     }

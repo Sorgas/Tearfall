@@ -8,7 +8,7 @@ import stonering.entity.job.action.Action;
 import stonering.entity.job.action.MoveAction;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.job.JobsAspect;
-import stonering.entity.unit.aspects.PlanningAspect;
+import stonering.entity.unit.aspects.TaskAspect;
 import stonering.enums.blocks.BlockTypeEnum;
 import stonering.enums.unit.CreatureType;
 import stonering.game.GameMvc;
@@ -27,7 +27,7 @@ import static stonering.enums.action.TaskStatusEnum.*;
 public class CreatureActionPerformingTest {
     private Unit unit;
     private UnitContainer unitContainer;
-    private PlanningAspect aspect;
+    private TaskAspect aspect;
 
     @BeforeEach
     void prepare() {
@@ -41,7 +41,7 @@ public class CreatureActionPerformingTest {
         GameMvc.createInstance(model);
         model.put(unitContainer = new UnitContainer());
         unit = new Unit(new Position(), new CreatureType());
-        unit.add(aspect = new PlanningAspect(unit));
+        unit.add(aspect = new TaskAspect(unit));
         unit.add(new JobsAspect(unit));
         model.get(UnitContainer.class).addUnit(unit);
         map.initAreas();

@@ -8,7 +8,7 @@ import stonering.entity.job.action.Action;
 import stonering.entity.job.action.MoveAction;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.job.JobsAspect;
-import stonering.entity.unit.aspects.PlanningAspect;
+import stonering.entity.unit.aspects.TaskAspect;
 import stonering.enums.blocks.BlockTypeEnum;
 import stonering.enums.unit.CreatureType;
 import stonering.enums.unit.job.JobsEnum;
@@ -29,7 +29,7 @@ class CreaturePlanningSystemTest {
     private Unit unit;
     private UnitContainer unitContainer;
     private TaskContainer taskContainer;
-    private PlanningAspect aspect;
+    private TaskAspect aspect;
 
     @BeforeEach
     void prepare() {
@@ -44,7 +44,7 @@ class CreaturePlanningSystemTest {
         model.put(unitContainer = new UnitContainer());
         model.put(taskContainer = new TaskContainer());
         unit = new Unit(new Position(), new CreatureType());
-        unit.add(aspect = new PlanningAspect(unit));
+        unit.add(aspect = new TaskAspect(unit));
         unit.add(new JobsAspect(unit));
         model.get(UnitContainer.class).addUnit(unit);
         map.initAreas();

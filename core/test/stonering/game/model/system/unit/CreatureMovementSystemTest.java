@@ -7,7 +7,7 @@ import stonering.entity.job.Task;
 import stonering.entity.job.action.MoveAction;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.MovementAspect;
-import stonering.entity.unit.aspects.PlanningAspect;
+import stonering.entity.unit.aspects.TaskAspect;
 import stonering.enums.blocks.BlockTypeEnum;
 import stonering.enums.unit.CreatureType;
 import stonering.game.GameMvc;
@@ -32,7 +32,7 @@ public class CreatureMovementSystemTest {
     private LocalMap localMap;
     private UnitContainer unitContainer;
     private TaskContainer taskContainer;
-    public PlanningAspect planningAspect;
+    public TaskAspect taskAspect;
 
     @BeforeAll
     public void prepare() {
@@ -44,7 +44,7 @@ public class CreatureMovementSystemTest {
     @Test
     public void testPathCreationForNewTask() {
         system.update(unit);
-        assertEquals(planningAspect.getTarget(), movementAspect.target); // movement took target from planning
+        assertEquals(taskAspect.getTarget(), movementAspect.target); // movement took target from planning
         assertNotNull(movementAspect.path); // path has been created
     }
 
@@ -52,8 +52,8 @@ public class CreatureMovementSystemTest {
     public void testNewTarget() {
         system.update(unit);
         Position newTarget = new Position(0, 4, 0);
-        planningAspect.task.addFirstPreAction(new MoveAction(newTarget));
-        assertEquals(planningAspect.getTarget(), newTarget); // new target taken by planning
+        taskAspect.task.addFirstPreAction(new MoveAction(newTarget));
+        assertEquals(taskAspect.getTarget(), newTarget); // new target taken by planning
         List<Position> oldPath = movementAspect.path;
         system.update(unit);
         assertEquals(newTarget, movementAspect.target); // movement took new target from planning
@@ -81,14 +81,14 @@ public class CreatureMovementSystemTest {
         type.title = "test_unit";
         unit = new Unit(new Position(0, 0, 0), type);
         unit.add(movementAspect = new MovementAspect(unit));
-        unit.add(planningAspect = new PlanningAspect(unit));
+        unit.add(taskAspect = new TaskAspect(unit));
         GameMvc.model().get(UnitContainer.class).addUnit(unit);
     }
 
     private void createTask() {
         MoveAction action = new MoveAction(new Position(4, 4, 0));
         Task task = new Task("test_task", action, 1);
-        planningAspect.task = task;
-        planningAspect.actionChecked = false;
+        taskAspect.task = task;
+        taskAspect.actionChecked = false;
     }
 }

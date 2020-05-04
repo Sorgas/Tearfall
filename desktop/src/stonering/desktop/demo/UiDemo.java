@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Layout;
+import com.badlogic.gdx.utils.Align;
 
 import stonering.entity.item.Item;
 import stonering.enums.images.DrawableMap;
@@ -29,6 +30,7 @@ import stonering.widget.item.StackedItemSquareButton;
 
 /**
  * Demo with some UI elements.
+ * TODO make tree with expanding on hover
  *
  * @author Alexander on 19.02.2019.
  */
@@ -41,15 +43,18 @@ public class UiDemo extends Game {
     @Override
     public void create() {
         setScreen(new SimpleScreen() {
+            private Tree tree;
             private UiStage stage = new UiStage();
 
             {
                 stage.interceptInput = false;
-                stage.addActor(createContainer());
+                Container<Tree> container = createContainer2();
+                stage.addActor(container);
+                tree = container.getActor();
                 stage.addListener(new InputListener() {
                     @Override
                     public boolean keyDown(InputEvent event, int keycode) {
-                        if(keycode == Input.Keys.ESCAPE) Gdx.app.exit();
+                        if (keycode == Input.Keys.ESCAPE) Gdx.app.exit();
                         return true;
                     }
                 });
@@ -61,6 +66,7 @@ public class UiDemo extends Game {
             public void render(float delta) {
                 Gdx.gl.glClearColor(1, 0, 0, 1);
                 Gdx.gl.glClear(Gdx.gl20.GL_COLOR_BUFFER_BIT | Gdx.gl20.GL_DEPTH_BUFFER_BIT);
+                System.out.println(getOverNodeIndex());
                 stage.act(delta);
                 stage.draw();
             }
@@ -68,6 +74,14 @@ public class UiDemo extends Game {
             @Override
             public void resize(int width, int height) {
                 stage.resize(width, height);
+            }
+
+            public int getOverNodeIndex() {
+                for (int i = 0; i < tree.getNodes().size; i++) {
+                    Tree.Node node = tree.getNodes().get(i);
+                    if (node == tree.getOverNode()) return i;
+                }
+                return -1;
             }
         });
     }
@@ -82,20 +96,40 @@ public class UiDemo extends Game {
         return container;
     }
 
-    private Container createContainer2() {
+    private Container<Tree> createContainer2() {
         Tree tree = createTree();
         tree.setIndentSpacing(40);
         tree.setYSpacing(10);
         Container container = new Container(tree);
+        container.align(Align.topLeft);
         container.setFillParent(true);
         return container;
     }
 
     private Tree createTree() {
         Tree tree = new Tree(StaticSkin.getSkin());
+        tree.getStyle().plus.setMinWidth(0);
+        tree.getStyle().plus.setMinHeight(0);
+        tree.getStyle().minus.setMinWidth(0);
+        tree.getStyle().minus.setMinHeight(0);
+//        tree.getStyle().minus = null;
         for (int i = 0; i < 5; i++) {
             Label label = new Label("category " + (i + 1), StaticSkin.getSkin());
+
             Tree.Node node = new Tree.Node(label);
+            label.addListener(new InputListener() {
+                @Override
+                public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                    tree.collapseAll();
+                    node.setExpanded(true);
+                }
+
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    node.setExpanded(!node.isExpanded());
+                    return true;
+                }
+            });
             tree.add(node);
             for (int j = 0; j < 5; j++) {
                 Label label2 = new Label("item " + (i + 1), StaticSkin.getSkin());

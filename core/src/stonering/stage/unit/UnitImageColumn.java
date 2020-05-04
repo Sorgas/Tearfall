@@ -3,7 +3,7 @@ package stonering.stage.unit;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import stonering.entity.job.Task;
 import stonering.entity.unit.Unit;
-import stonering.entity.unit.aspects.PlanningAspect;
+import stonering.entity.unit.aspects.TaskAspect;
 import stonering.entity.RenderAspect;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.entity.unit.aspects.job.SkillAspect;
@@ -40,7 +40,7 @@ public class UnitImageColumn extends Table {
     }
 
     private String getUnitCurrentTask(Unit unit) {
-        Task task = unit.get(PlanningAspect.class).task;
+        Task task = unit.get(TaskAspect.class).task;
         return task != null ? task.name : "Doing nothing";
     }
 
