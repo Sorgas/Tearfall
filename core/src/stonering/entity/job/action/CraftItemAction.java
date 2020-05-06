@@ -14,6 +14,7 @@ import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.generators.items.ItemGenerator;
+import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
 
 import java.util.Collection;
@@ -44,14 +45,16 @@ public class CraftItemAction extends ItemConsumingAction {
         //TODO check ingredients and fuel availability before bringing something to workbench.
         //TODO add usage of items in nearby containers.
         startCondition = () -> {
-            if (workbenchAspect == null)
-                return Logger.TASKS.logWarn("Building " + workbench.toString() + " is not a workbench.", FAIL);
-            ActionConditionStatusEnum orderCheckResult = checkIngredientItems(containerAspect);
-            if (orderCheckResult != OK) return orderCheckResult;
-            if (fuelAspect != null && !fuelAspect.isFueled()) { // workbench requires fuel
-                task.addFirstPreAction(new FuelingAciton(workbench));
-                return NEW;
+            if (workbenchAspect == null) return Logger.TASKS.logWarn("Building " + workbench.toString() + " is not a workbench.", FAIL);
+            if (!ingredientOrdersValid()) {
+                return FAIL;
             }
+//            ActionConditionStatusEnum orderCheckResult = checkIngredientItems(containerAspect);
+//            if (orderCheckResult != OK) return orderCheckResult;
+//            if (fuelAspect != null && !fuelAspect.isFueled()) { // workbench requires fuel
+//                task.addFirstPreAction(new FuelingAciton(workbench));
+//                return NEW;
+//            }
             return OK;
         };
 
@@ -72,50 +75,14 @@ public class CraftItemAction extends ItemConsumingAction {
         };
     }
 
-    /**
-     * Checks that all ingredients have selected items.
-     * Creates actions for bringing items to WB. Clears ingredients with 'spoiled' items.
-     * Returns fail, if item for some ingredient cannot be found.
-     */
-    private ActionConditionStatusEnum checkIngredientItems(ItemContainerAspect containerAspect) {
-        for (IngredientOrder allIngredient : itemOrder.getAllIngredients()) {
-
-        }
-        itemOrder.getAllIngredients().forEach(order -> {
-            order.items.stream()
-                    .filter(order.itemSelector::checkItem)
-                    .containerAspect
-
-
-            for (int i = 0; i < order.items.size(); i++) {
-                Item item = order.items.iterator().next();
-
-                if (item != null && order.itemSelector.checkItem(item) && aspect.containedItems.contains(item))
-                    continue; // item ok
-
-                if (item != null)
-                    System.out.println("'spoiled' item in ingredient order"); // free item TODO locking items in container
-                item = GameMvc.model().get(ItemContainer.class).util.getItemForIngredient(order, task.performer.position);
-                if (item == null) return FAIL; // no valid item found
-                order.items.set(i, item);
-                if (aspect.containedItems.contains(item)) continue; // item in WB, no actions required
-
-                task.addFirstPreAction(new PutItemToContainerAction(aspect.entity.get(ItemContainerAspect.class), item)); // create action to bring item
-                return NEW; // new action is created
-            }
-        }
-        return OK; // all ingredients have valid items
+    @Override
+    protected Position getPositionForItems() {
+        return workbench.position;
     }
 
-    private void updateItems() {
-        List<IngredientOrder> invalidIngredients = itemOrder.parts.values().stream() // find invalid ingredients
-                .filter(ingredientOrder -> !ingredientOrderValid(ingredientOrder))
-                .collect(Collectors.toList());
-        invalidIngredients.forEach(this::clearIngredientItems); // clear all invalid ingredients
-        for (IngredientOrder invalidOrder : invalidIngredients) {
-            if (!findItemsForIngredient(invalidOrder)) return false; // no items found for some ingredient
-        }
-        return true;
+    @Override
+    protected void createBringingAction(Item item) {
+        task.addFirstPreAction(new PutItemToContainerAction(workbench.get(ItemContainerAspect.class), item));
     }
 
     private boolean ingredientOrderValid(IngredientOrder ingredientOrder) {
@@ -128,8 +95,6 @@ public class CraftItemAction extends ItemConsumingAction {
                 .filter(area -> area == performerArea) // item is still reachable
                 .count() == ingredientOrder.ingredient.quantity;
     }
-
-    private void clearIngredientItems
 
     @Override
     public String toString() {

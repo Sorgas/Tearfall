@@ -48,12 +48,11 @@ public class ConfiguredItemSelector extends ItemSelector {
                 .filter(entry -> entry.getValue().size() >= number) // filter items with sufficient number
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         if(itemMap.isEmpty()) return new ArrayList<>(); // no group has enough items
-        // find nearest group
+        // find group with nearest item
         List<Item> itemList = itemMap.values().stream()
                 .min(Comparator.comparingInt(list -> list.stream()
-                        .map(item -> position.fastDistance(item.position))
-                        .min(Comparator.comparingInt(Integer::intValue)).get()))
-                .get();
+                        .map(item -> position.fastDistance(item.position)) // map to distance
+                        .min(Comparator.comparingInt(Integer::intValue)).get())).get();
         itemList.sort(Comparator.comparingInt(item -> position.fastDistance(item.position)));
         return itemList.subList(0, number); // return nearest items of nearest group
     }

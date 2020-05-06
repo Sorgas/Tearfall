@@ -15,7 +15,7 @@ import java.util.stream.Stream;
 
 /**
  * Wrapping for {@link Stream} to provide convenient methods for selecting items.
- *
+ * TODO add contained items
  * @author Alexander on 14.10.2019.
  */
 public class ItemsStream extends EntityStream<Item> {

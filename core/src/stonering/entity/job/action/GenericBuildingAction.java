@@ -1,18 +1,13 @@
 package stonering.entity.job.action;
 
 import stonering.entity.building.BuildingOrder;
-import stonering.entity.crafting.IngredientOrder;
 import stonering.entity.item.Item;
-import stonering.entity.item.selectors.ConfiguredItemSelector;
 import stonering.entity.job.action.item.PutItemToPositionAction;
 import stonering.entity.job.action.target.BuildingActionTarget;
 import stonering.entity.job.designation.BuildingDesignation;
 import stonering.enums.buildings.BuildingType;
 import stonering.enums.buildings.BuildingTypeMap;
-import stonering.game.GameMvc;
-import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.item.ItemContainer;
-import stonering.game.model.system.item.ItemsStream;
 import stonering.util.geometry.*;
 
 import java.util.Collection;
@@ -49,9 +44,10 @@ public abstract class GenericBuildingAction extends ItemConsumingAction {
         startCondition = () -> {
             if (!checkBuilderPosition()) return failAction(); // cannot find position for builder
             // check saved items
-            if(!updateItems()) return failAction();
-            order.allIngredients.forEach(this::lockItems);
-            lockItems();
+            if(!ingredientOrdersValid()) return failAction();
+            order.allIngredients.forEach(ingredientOrder -> {
+                itemContainer().setItemsLocked(ingredientOrder.items, true);
+            });
             if (checkBringingItems()) return NEW; // bring material items
             if (checkClearingSite()) return NEW; // remove other items
             return OK; // build
@@ -63,7 +59,7 @@ public abstract class GenericBuildingAction extends ItemConsumingAction {
     }
 
     private boolean checkBringingItems() {
-        List<Item> items = buildingOrder.parts.values().stream() // all ingredients
+        List<Item> items = buildingOrder.allIngredients().stream() // all ingredients
                 .map(ingredientOrder -> ingredientOrder.items)
                 .flatMap(Collection::stream)
                 .filter(item -> !item.position.equals(target.getPosition())) // item is far from construction site
@@ -91,7 +87,7 @@ public abstract class GenericBuildingAction extends ItemConsumingAction {
 
     private ActionConditionStatusEnum failAction() {
         buildingTarget.reset();
-        unlockItems();
+        order.allIngredients.forEach(ingredientOrder -> itemContainer().setItemsLocked(ingredientOrder.items, true));
         clearSavedItems();
         return FAIL;
     }

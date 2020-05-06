@@ -27,6 +27,7 @@ public class Item extends Entity {
     public String title; // title combined of origin, material, and type
     public String materialString;
     public boolean locked; // item consuming actions lock target items.
+    public boolean destroyed; // items removed from item container considered destroyed
 
 //TODO post mvp
 //    private String origin; // set on item creation,

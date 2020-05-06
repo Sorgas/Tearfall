@@ -1,11 +1,13 @@
 package stonering.entity.job.action;
 
 import stonering.entity.building.BuildingOrder;
+import stonering.entity.item.Item;
 import stonering.enums.blocks.BlockTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.system.plant.PlantContainer;
 import stonering.game.model.system.substrate.SubstrateContainer;
 import stonering.game.model.local_map.LocalMap;
+import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
 
 /**
@@ -34,5 +36,15 @@ public class ConstructionAction extends GenericBuildingAction {
     @Override
     public String toString() {
         return "Construction name: " + BlockTypeEnum.getType(blockType).NAME;
+    }
+
+    @Override
+    protected Position getPositionForItems() {
+        return null;
+    }
+
+    @Override
+    protected void createBringingAction(Item item) {
+
     }
 }

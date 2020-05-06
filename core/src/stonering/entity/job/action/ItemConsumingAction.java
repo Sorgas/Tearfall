@@ -17,15 +17,16 @@ import stonering.util.geometry.Position;
 
 /**
  * Superclass for {@link CraftItemAction} and {@link BuildingAction}.
- * Provides methods for finding items for order's ingredients.
- * Removes ingredient items from container when finished.
+ * Finds items for order's ingredient, using {@link ItemConsumingAction#getPositionForItems} to check availability. 
+ * Updates lists of items in ingredient orders.
  *
  * @author Alexander on 05.05.2020
  */
 public abstract class ItemConsumingAction extends Action {
     public ItemConsumingOrder order;
     private ItemContainer itemContainer;
-
+    private LocalMap map;
+    
     protected ItemConsumingAction(ActionTarget target) {
         super(target);
     }
@@ -35,15 +36,24 @@ public abstract class ItemConsumingAction extends Action {
      * Then, finds items for all cleared ingredients.
      * @return true, if all ingredients have valid items.
      */
-    protected boolean updateItems() {
-        List<IngredientOrder> invalidIngredients = order.allIngredients().stream()
-                .filter(ingredientOrder -> !ingredientOrderValid(ingredientOrder))
+    protected boolean ingredientOrdersValid() {
+        List<IngredientOrder> invalidIngredients = order.allIngredients().stream() // collect invalid ingredients
+                .filter(ingredientOrder -> !isIngredientOrderValid(ingredientOrder))
                 .collect(Collectors.toList());
         invalidIngredients.forEach(this::clearIngredientItems); // clear all invalid ingredients
         for (IngredientOrder invalidOrder : invalidIngredients) {
-            if(!findItemsForIngredient(invalidOrder)) return false; // no items found for some ingredient
+            if(!findItemsForIngredient(invalidOrder)) return false; // search for items for ingredient
         }
         return true;
+    }
+
+    /**
+     * Checks that all items are accessible and not spoiled, destroyed or locked.
+     */
+    private boolean isIngredientOrderValid(IngredientOrder ingredientOrder) {
+        return ingredientOrder.items.stream()
+                .allMatch(item -> !item.destroyed && !item.locked &&
+                        itemContainer().itemAccessible(item, task.performer.position));
     }
 
     private boolean findItemsForIngredient(IngredientOrder ingredientOrder) {
@@ -67,17 +77,6 @@ public abstract class ItemConsumingAction extends Action {
         return true;
     }
 
-    private boolean ingredientOrderValid(IngredientOrder ingredientOrder) {
-        LocalMap map = GameMvc.model().get(LocalMap.class);
-        byte performerArea = map.passageMap.area.get(task.performer.position);
-        return ingredientOrder.items.stream()
-                .filter(item -> ingredientOrder.itemSelector.checkItem(item)) // item is still ok
-                .map(item -> item.position)
-                .map(map.passageMap.area::get)
-                .filter(area -> area == performerArea) // item is still reachable
-                .count() == ingredientOrder.ingredient.quantity;
-    }
-
     private void clearIngredientItems(IngredientOrder ingredientOrder) {
         itemContainer().setItemsLocked(ingredientOrder.items, false);
         ingredientOrder.items.clear();
@@ -90,9 +89,14 @@ public abstract class ItemConsumingAction extends Action {
         });
     }
 
+    
     protected ItemContainer itemContainer() {
         return itemContainer == null ? itemContainer = GameMvc.model().get(ItemContainer.class) : itemContainer;
     }
-
+    
+    protected LocalMap map() {
+        return map == null ? map = GameMvc.model().get(LocalMap.class) : map;
+    }
+    
     protected abstract Position getPositionForItems();
 }

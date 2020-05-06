@@ -3,6 +3,8 @@ package stonering.game.model.system.item;
 import stonering.entity.item.aspects.ItemContainerAspect;
 import stonering.entity.job.action.Action;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
+import stonering.game.GameMvc;
+import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.EntityContainer;
 import stonering.util.geometry.Position;
 import stonering.entity.item.Item;
@@ -30,7 +32,8 @@ public class ItemContainer extends EntityContainer<Item> {
     public final EquippedItemsSystem equippedItemsSystem;
     public final OnMapItemsSystem onMapItemsSystem;
     private Position cachePosition;
-
+    private LocalMap map;
+        
     public ItemContainer() {
         put(containedItemsSystem = new ContainedItemsSystem(this));
         put(equippedItemsSystem = new EquippedItemsSystem(this));
@@ -55,6 +58,7 @@ public class ItemContainer extends EntityContainer<Item> {
      */
     public void removeItem(Item item) {
         if (!objects.contains(item)) Logger.ITEMS.logWarn("Removing not present item " + item.type.name);
+        item.destroyed = true;
         objects.remove(item);
     }
 
@@ -71,7 +75,16 @@ public class ItemContainer extends EntityContainer<Item> {
     }
 
     public void setItemsLocked(Collection<Item> items, boolean locked) {
-
+        
         // TODO
+    }
+    
+    public boolean itemAccessible(Item item, Position position) {
+        //TODO handle items in containers
+        return map().passageMap.area.get(position) == map().passageMap.area.get(item.position);
+    }
+    
+    private LocalMap map() {
+        return map == null ? map = GameMvc.model().get(LocalMap.class) : map;
     }
 }
