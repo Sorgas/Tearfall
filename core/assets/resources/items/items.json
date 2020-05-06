@@ -104,8 +104,8 @@
     "color": "0xffffffff"
 }, {
     "name": "meat_piece",
-    "description": "Should be replaced with dynamic description.",
     "typeAspects": ["value(0)"],
+    "tags"
     "atlasXY": ["12", "0"],
     "color": "0xffffffff"
 }, {

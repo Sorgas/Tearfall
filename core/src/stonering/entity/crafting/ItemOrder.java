@@ -15,22 +15,18 @@ import java.util.*;
  *
  * @author Alexander on 27.10.2018.
  */
-public class ItemOrder {
+public class ItemOrder extends ItemConsumingOrder {
     public final Recipe recipe;
-    public final HashMap<String, IngredientOrder> parts; //item parts to their ingredients
-    public final List<IngredientOrder> consumed;
-    public IngredientOrder main;
 
     public OrderStatusEnum status;
     public boolean repeated;
     public int amount;
 
     public ItemOrder(Recipe recipe) {
+        super();
         this.recipe = recipe;
         amount = 1;
         status = OrderStatusEnum.OPEN;
-        parts = new HashMap<>();
-        consumed = new ArrayList<>();
         if(recipe.main != null) main = new IngredientOrder(recipe.main);
         for (String itemPart : recipe.parts.keySet()) { // create item partOrder for
             parts.put(itemPart, new IngredientOrder(recipe.parts.get(itemPart)));

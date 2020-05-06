@@ -8,11 +8,7 @@ import stonering.util.geometry.Position;
 import stonering.entity.item.Item;
 import stonering.util.global.Logger;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Manages all items in game, including ones in containers, and equipped on units.
@@ -72,5 +68,10 @@ public class ItemContainer extends EntityContainer<Item> {
 
     public List<Item> getItemsInPosition(int x, int y, int z) {
         return getItemsInPosition(cachePosition.set(x, y, z));
+    }
+
+    public void setItemsLocked(Collection<Item> items, boolean locked) {
+
+        // TODO
     }
 }

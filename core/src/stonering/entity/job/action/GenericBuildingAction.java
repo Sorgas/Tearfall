@@ -34,23 +34,23 @@ import static stonering.entity.job.action.ActionConditionStatusEnum.*;
  *
  * @author Alexander on 02.10.2019.
  */
-public abstract class GenericBuildingAction extends Action {
-    protected final BuildingOrder order;
+public abstract class GenericBuildingAction extends ItemConsumingAction {
+    protected final BuildingOrder buildingOrder;
     private final BuildingActionTarget buildingTarget;
     private ItemContainer itemContainer;
 
-    protected GenericBuildingAction(BuildingOrder order) {
-        super(new BuildingActionTarget(order));
+    protected GenericBuildingAction(BuildingOrder buildingOrder) {
+        super(new BuildingActionTarget(buildingOrder));
         buildingTarget = (BuildingActionTarget) target;
-        this.order = order;
+        this.buildingOrder = buildingOrder;
 
         takingCondition = () -> ((BuildingDesignation) task.designation).checkSite(); // TODO delete designation on fail
 
         startCondition = () -> {
             if (!checkBuilderPosition()) return failAction(); // cannot find position for builder
-
             // check saved items
             if(!updateItems()) return failAction();
+            order.allIngredients.forEach(this::lockItems);
             lockItems();
             if (checkBringingItems()) return NEW; // bring material items
             if (checkClearingSite()) return NEW; // remove other items
@@ -59,62 +59,11 @@ public abstract class GenericBuildingAction extends Action {
     }
 
     private boolean checkBuilderPosition() {
-        return buildingTarget.builderPosition != null || buildingTarget.findPositionForBuilder(order, task.performer.position);
-    }
-
-    /**
-     * Checks items of all ingredients. If items became invalid, clears them.
-     * Then, finds items for all cleared ingredients.
-     */
-    private boolean updateItems() {
-        List<IngredientOrder> invalidIngredients = order.parts.values().stream()
-                .filter(ingredientOrder -> !ingredientOrderValid(ingredientOrder))
-                .collect(Collectors.toList());
-        invalidIngredients.forEach(this::clearIngredientItems); // clear all invalid ingredients
-        for (IngredientOrder invalidOrder : invalidIngredients) {
-            if(!findItemsForIngredient(invalidOrder)) return false; // no items found for some ingredient
-        }
-        return true;
-    }
-
-    private void clearIngredientItems(IngredientOrder ingredientOrder) {
-        ingredientOrder.items.clear();
-        // unlock items
-    }
-
-    private boolean findItemsForIngredient(IngredientOrder ingredientOrder) {
-        List<Item> otherItems = order.parts.values().stream()
-                .flatMap(ingredientOrder1 -> ingredientOrder1.items.stream())
-                .collect(Collectors.toList()); // saved items in other ingredients should not be selected
-        ItemsStream validItems = new ItemsStream()
-                .filterNotInList(otherItems)
-                .filterBySelector(ingredientOrder.itemSelector)
-                .filterByReachability(target.getPosition());
-        List<Item> items;
-        if (ingredientOrder.itemSelector instanceof ConfiguredItemSelector) { // select items of one type/material of allowed ones
-            items = ((ConfiguredItemSelector) ingredientOrder.itemSelector)
-                    .selectVariant(validItems.toList(), ingredientOrder.ingredient.quantity, buildingTarget.builderPosition);
-        } else { // select nearest of unique items
-            items = validItems.getNearestTo(target.getPosition(), ingredientOrder.ingredient.quantity).toList();
-        }
-        if (items.size() < ingredientOrder.ingredient.quantity) return false; // not enough items found
-        ingredientOrder.items.addAll(items); // save found items to order
-        return true;
-    }
-
-    private boolean ingredientOrderValid(IngredientOrder ingredientOrder) {
-        LocalMap map = GameMvc.model().get(LocalMap.class);
-        byte performerArea = map.passageMap.area.get(task.performer.position);
-        return ingredientOrder.items.stream()
-                .filter(item -> ingredientOrder.itemSelector.checkItem(item)) // item is still ok
-                .map(item -> item.position)
-                .map(map.passageMap.area::get)
-                .filter(area -> area == performerArea) // item is still reachable
-                .count() == ingredientOrder.ingredient.quantity;
+        return buildingTarget.builderPosition != null || buildingTarget.findPositionForBuilder(buildingOrder, task.performer.position);
     }
 
     private boolean checkBringingItems() {
-        List<Item> items = order.parts.values().stream() // all ingredients
+        List<Item> items = buildingOrder.parts.values().stream() // all ingredients
                 .map(ingredientOrder -> ingredientOrder.items)
                 .flatMap(Collection::stream)
                 .filter(item -> !item.position.equals(target.getPosition())) // item is far from construction site
@@ -140,25 +89,6 @@ public abstract class GenericBuildingAction extends Action {
                 .count() > 0;
     }
 
-    private void lockItems() {
-        for (IngredientOrder value : order.parts.values()) {
-            for (Item item : value.items) {
-                // itemContainer() lock item
-            }
-        }
-    }
-
-    private void unlockItems() {
-
-    }
-
-    protected void consumeItems() {
-        order.parts.values().stream().map(order -> order.items).flatMap(Collection::stream).forEach(item -> {
-            itemContainer().onMapItemsSystem.removeItemFromMap(item);
-            itemContainer().removeItem(item);
-        });
-    }
-
     private ActionConditionStatusEnum failAction() {
         buildingTarget.reset();
         unlockItems();
@@ -167,29 +97,25 @@ public abstract class GenericBuildingAction extends Action {
     }
 
     protected Int2dBounds getBuildingBounds() {
-        Int2dBounds bounds = new Int2dBounds(order.position, 1, 1); // construction are 1x1
-        if (!order.blueprint.construction) {
-            BuildingType type = BuildingTypeMap.getBuilding(order.blueprint.building);
-            IntVector2 size = RotationUtil.orientSize(type.size, order.orientation);
+        Int2dBounds bounds = new Int2dBounds(buildingOrder.position, 1, 1); // construction are 1x1
+        if (!buildingOrder.blueprint.construction) {
+            BuildingType type = BuildingTypeMap.getBuilding(buildingOrder.blueprint.building);
+            IntVector2 size = RotationUtil.orientSize(type.size, buildingOrder.orientation);
             bounds.extendTo(size.x - 1, size.y - 1);
         }
         return bounds;
     }
 
     private List<Item> getSavedMaterialItems() {
-        return order.parts.values().stream()
+        return buildingOrder.parts.values().stream()
                 .map(ingredientOrder -> ingredientOrder.items)
                 .flatMap(Collection::stream)
                 .collect(Collectors.toList());
     }
 
     private void clearSavedItems() {
-        order.parts.values().stream()
+        buildingOrder.parts.values().stream()
                 .map(ingredientOrder -> ingredientOrder.items)
                 .forEach(Set::clear);
-    }
-
-    private ItemContainer itemContainer() {
-        return itemContainer == null ? itemContainer = GameMvc.model().get(ItemContainer.class) : itemContainer;
     }
 }

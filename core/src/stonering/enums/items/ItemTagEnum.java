@@ -22,6 +22,7 @@ public enum ItemTagEnum {
     WOOD(false), // birch(material) log
     MEAT(false), // fox(origin) meat(material) piece(type)
 
+    COOKABLE(false), // can be boiled or roasted
     EDIBLE(false), // can be eaten
     DRINKABLE(false), // can be drunk
     RAW(true), // raw cow meat piece,

@@ -1,6 +1,7 @@
 package stonering.entity.building;
 
 import stonering.entity.crafting.IngredientOrder;
+import stonering.entity.crafting.ItemConsumingOrder;
 import stonering.entity.job.designation.Designation;
 import stonering.entity.job.Task;
 import stonering.enums.OrientationEnum;
@@ -18,16 +19,15 @@ import java.util.HashMap;
  *
  * @author Alexander on 06.03.2019.
  */
-public class BuildingOrder {
+public class BuildingOrder extends ItemConsumingOrder {
     public final Blueprint blueprint;
     public Position position;
     public OrientationEnum orientation;
-    public final HashMap<String, IngredientOrder> parts; // building parts to their ingredients
 
     public BuildingOrder(Blueprint blueprint, Position position) {
+        super();
         this.blueprint = blueprint;
         this.position = position;
-        parts = new HashMap<>();
         blueprint.parts.forEach((partName, ingredient) -> parts.put(partName, new IngredientOrder(ingredient)));
     }
 
