@@ -44,7 +44,11 @@ public class ItemDrawer extends Drawer {
         }
         cacheVector.set(x, y + 1, z);
         cacheVector.set(x, y + FONT_CORRECTION, z);
-        if (items.size() > 3) spriteUtil.writeText(Integer.toString(items.size()), cacheVector, AtlasesEnum.blocks.WIDTH, Align.center);
+        String text = "";
+        if (items.size() > 3) text = text.concat(Integer.toString(items.size()));
+        int numberOfLocked = (int) items.stream().filter(item -> item.locked).count();
+        if(items.stream().anyMatch(item -> item.locked)) text += " L" + numberOfLocked + "/" + items.size();
+        spriteUtil.writeText(text, cacheVector, AtlasesEnum.blocks.WIDTH, Align.center);
     }
 
     private void draw1(Item item) {
@@ -64,6 +68,6 @@ public class ItemDrawer extends Drawer {
         cacheVector.add(0.5f, 0, 0);
         spriteUtil.drawSprite(item2.get(RenderAspect.class).region, cacheVector);
         cacheVector.add(-0.25f, 0.5f, 0);
-        spriteUtil.drawSprite(item2.get(RenderAspect.class).region, cacheVector);
+        spriteUtil.drawSprite(item3.get(RenderAspect.class).region, cacheVector);
     }
 }

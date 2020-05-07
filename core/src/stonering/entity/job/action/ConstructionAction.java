@@ -42,9 +42,4 @@ public class ConstructionAction extends GenericBuildingAction {
     protected Position getPositionForItems() {
         return null;
     }
-
-    @Override
-    protected void createBringingAction(Item item) {
-
-    }
 }

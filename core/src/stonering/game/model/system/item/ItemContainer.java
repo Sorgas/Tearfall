@@ -73,11 +73,6 @@ public class ItemContainer extends EntityContainer<Item> {
     public List<Item> getItemsInPosition(int x, int y, int z) {
         return getItemsInPosition(cachePosition.set(x, y, z));
     }
-
-    public void setItemsLocked(Collection<Item> items, boolean locked) {
-        
-        // TODO
-    }
     
     public boolean itemAccessible(Item item, Position position) {
         //TODO handle items in containers

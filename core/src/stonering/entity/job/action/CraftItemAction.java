@@ -34,7 +34,7 @@ public class CraftItemAction extends ItemConsumingAction {
     private Entity workbench;
 
     public CraftItemAction(ItemOrder itemOrder, Entity workbench) {
-        super(new EntityActionTarget(workbench, ActionTargetTypeEnum.NEAR)); // unit will stand near wb while performing task
+        super(itemOrder, new EntityActionTarget(workbench, ActionTargetTypeEnum.NEAR)); // unit will stand near wb while performing task
         this.itemOrder = itemOrder;
         this.workbench = workbench;
         ItemContainerAspect containerAspect = workbench.get(ItemContainerAspect.class);
@@ -46,15 +46,12 @@ public class CraftItemAction extends ItemConsumingAction {
         //TODO add usage of items in nearby containers.
         startCondition = () -> {
             if (workbenchAspect == null) return Logger.TASKS.logWarn("Building " + workbench.toString() + " is not a workbench.", FAIL);
-            if (!ingredientOrdersValid()) {
-                return FAIL;
+            if (!ingredientOrdersValid()) return FAIL; // check/find items for order
+            if(checkBringingItems(containerAspect)) return NEW; // bring ingredient items
+            if (fuelAspect != null && !fuelAspect.isFueled()) { // workbench requires fuel
+                task.addFirstPreAction(new FuelingAciton(workbench));
+                return NEW;
             }
-//            ActionConditionStatusEnum orderCheckResult = checkIngredientItems(containerAspect);
-//            if (orderCheckResult != OK) return orderCheckResult;
-//            if (fuelAspect != null && !fuelAspect.isFueled()) { // workbench requires fuel
-//                task.addFirstPreAction(new FuelingAciton(workbench));
-//                return NEW;
-//            }
             return OK;
         };
 
@@ -75,25 +72,17 @@ public class CraftItemAction extends ItemConsumingAction {
         };
     }
 
+    private boolean checkBringingItems(ItemContainerAspect containerAspect) {
+        List<Item> items = getIngredientItems().stream()
+                .filter(item -> !containerAspect.items.contains(item)) // item is not in WB
+                .collect(Collectors.toList());
+        items.forEach(item -> task.addFirstPreAction(new PutItemToContainerAction(containerAspect, item))); // create action
+        return !items.isEmpty();
+    }
+
     @Override
     protected Position getPositionForItems() {
         return workbench.position;
-    }
-
-    @Override
-    protected void createBringingAction(Item item) {
-        task.addFirstPreAction(new PutItemToContainerAction(workbench.get(ItemContainerAspect.class), item));
-    }
-
-    private boolean ingredientOrderValid(IngredientOrder ingredientOrder) {
-        LocalMap map = GameMvc.model().get(LocalMap.class);
-        byte performerArea = map.passageMap.area.get(task.performer.position);
-        return ingredientOrder.items.stream()
-                .filter(item -> ingredientOrder.itemSelector.checkItem(item)) // item is still ok
-                .map(item -> item.position)
-                .map(map.passageMap.area::get)
-                .filter(area -> area == performerArea) // item is still reachable
-                .count() == ingredientOrder.ingredient.quantity;
     }
 
     @Override

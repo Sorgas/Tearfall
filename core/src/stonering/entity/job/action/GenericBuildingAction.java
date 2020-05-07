@@ -35,19 +35,16 @@ public abstract class GenericBuildingAction extends ItemConsumingAction {
     private ItemContainer itemContainer;
 
     protected GenericBuildingAction(BuildingOrder buildingOrder) {
-        super(new BuildingActionTarget(buildingOrder));
+        super(buildingOrder, new BuildingActionTarget(buildingOrder));
         buildingTarget = (BuildingActionTarget) target;
         this.buildingOrder = buildingOrder;
 
         takingCondition = () -> ((BuildingDesignation) task.designation).checkSite(); // TODO delete designation on fail
 
         startCondition = () -> {
-            if (!checkBuilderPosition()) return failAction(); // cannot find position for builder
-            // check saved items
-            if(!ingredientOrdersValid()) return failAction();
-            order.allIngredients.forEach(ingredientOrder -> {
-                itemContainer().setItemsLocked(ingredientOrder.items, true);
-            });
+            if (!checkBuilderPosition()) return failAction(); // find position for builder
+            if(!ingredientOrdersValid()) return failAction(); // check/find items for order
+            lockItems(); // lock valid items
             if (checkBringingItems()) return NEW; // bring material items
             if (checkClearingSite()) return NEW; // remove other items
             return OK; // build
@@ -59,13 +56,11 @@ public abstract class GenericBuildingAction extends ItemConsumingAction {
     }
 
     private boolean checkBringingItems() {
-        List<Item> items = buildingOrder.allIngredients().stream() // all ingredients
-                .map(ingredientOrder -> ingredientOrder.items)
-                .flatMap(Collection::stream)
-                .filter(item -> !item.position.equals(target.getPosition())) // item is far from construction site
+        List<Item> items = getIngredientItems().stream()
+                .filter(item -> !item.position.equals(target.getPosition())) // item is not on construction site
                 .collect(Collectors.toList());
         // create action for each item
-        for (Item item : items) task.addFirstPreAction(new PutItemToPositionAction(item, target.getPosition()));
+        items.forEach(item -> task.addFirstPreAction(new PutItemToPositionAction(item, target.getPosition())));
         return !items.isEmpty();
     }
 
@@ -75,21 +70,15 @@ public abstract class GenericBuildingAction extends ItemConsumingAction {
      * @return true, if at least one action has been created
      */
     private boolean checkClearingSite() {
-        List<Item> materialItems = getSavedMaterialItems();
-        return getBuildingBounds().stream()
-                .map(vector -> itemContainer().getItemsInPosition(vector.x, vector.y, target.getPosition().z))
-                .flatMap(Collection::stream)
+        List<Item> materialItems = getIngredientItems();
+        List<Item> excessItems = getBuildingBounds().stream()
+                .flatMap(vector -> itemContainer().getItemsInPosition(vector.x, vector.y, target.getPosition().z).stream())
                 .filter(item -> !materialItems.contains(item)) // not material items
+                .collect(Collectors.toList());
+        excessItems.stream()
                 .map(item -> new PutItemToPositionAction(item, target.getPosition())) // create actions
-                .map(task::addFirstPreAction) // add to task
-                .count() > 0;
-    }
-
-    private ActionConditionStatusEnum failAction() {
-        buildingTarget.reset();
-        order.allIngredients.forEach(ingredientOrder -> itemContainer().setItemsLocked(ingredientOrder.items, true));
-        clearSavedItems();
-        return FAIL;
+                .forEach(task::addFirstPreAction); // add to task
+        return !excessItems.isEmpty();
     }
 
     protected Int2dBounds getBuildingBounds() {
@@ -102,16 +91,9 @@ public abstract class GenericBuildingAction extends ItemConsumingAction {
         return bounds;
     }
 
-    private List<Item> getSavedMaterialItems() {
-        return buildingOrder.parts.values().stream()
-                .map(ingredientOrder -> ingredientOrder.items)
-                .flatMap(Collection::stream)
-                .collect(Collectors.toList());
-    }
-
-    private void clearSavedItems() {
-        buildingOrder.parts.values().stream()
-                .map(ingredientOrder -> ingredientOrder.items)
-                .forEach(Set::clear);
+    private ActionConditionStatusEnum failAction() {
+        buildingTarget.reset();
+        clearOrderItems();
+        return FAIL;
     }
 }

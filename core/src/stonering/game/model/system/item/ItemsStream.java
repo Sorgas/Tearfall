@@ -70,6 +70,7 @@ public class ItemsStream extends EntityStream<Item> {
 
     @Override
     public ItemsStream filterByReachability(Position position) {
+        //TODO add contained items
         return (ItemsStream) super.filterByReachability(position);
     }
 
