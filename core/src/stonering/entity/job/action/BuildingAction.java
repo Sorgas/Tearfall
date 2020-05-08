@@ -42,9 +42,4 @@ public class BuildingAction extends GenericBuildingAction {
     public String toString() {
         return "Building name: " + buildingType.title;
     }
-
-    @Override
-    protected Position getPositionForItems() {
-        return null;
-    }
 }

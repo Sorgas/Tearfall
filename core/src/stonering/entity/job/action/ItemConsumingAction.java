@@ -50,15 +50,17 @@ public abstract class ItemConsumingAction extends Action {
     }
 
     /**
-     * Checks that all items are accessible and not spoiled, destroyed or locked.
+     * Checks that ingredient has correct quantity of items and all items are accessible and not spoiled, destroyed or locked.
      */
     private boolean isIngredientOrderValid(IngredientOrder ingredientOrder) {
-        return ingredientOrder.items.stream()
+        return ingredientOrder.items.size() == ingredientOrder.ingredient.quantity
+                && ingredientOrder.items.stream()
                 .allMatch(item -> !item.destroyed &&
                         itemContainer().itemAccessible(item, task.performer.position));
     }
 
     private boolean findItemsForIngredient(IngredientOrder ingredientOrder) {
+        System.out.println("looking for items for ingredients");
         List<Item> otherItems = order.allIngredients().stream()
                 .flatMap(ingOrder -> ingOrder.items.stream())
                 .collect(Collectors.toList()); // items saved in other ingredients should not be selected
@@ -76,7 +78,7 @@ public abstract class ItemConsumingAction extends Action {
 
         if (items.size() < ingredientOrder.ingredient.quantity) return false; // not enough items found
         ingredientOrder.items.addAll(items); // save found items to order
-
+        System.out.println(items.size());
         return true;
     }
 

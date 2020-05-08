@@ -96,4 +96,8 @@ public abstract class GenericBuildingAction extends ItemConsumingAction {
         clearOrderItems();
         return FAIL;
     }
+    
+    protected Position getPositionForItems() {
+        return buildingTarget.getPosition(); 
+    }
 }
