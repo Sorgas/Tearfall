@@ -44,7 +44,7 @@
 }, {
     "name": "roast_meal",
     "title": "Make roasted meal",
-    "main": ["any", "roastable", "1"],
+    "main": ["any", "cookable", "1"],
     "newTag" : "roasted",
     "iconName": "roast_meal"
 }, {

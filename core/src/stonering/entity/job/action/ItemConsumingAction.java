@@ -60,7 +60,6 @@ public abstract class ItemConsumingAction extends Action {
     }
 
     private boolean findItemsForIngredient(IngredientOrder ingredientOrder) {
-        System.out.println("looking for items for ingredients");
         List<Item> otherItems = order.allIngredients().stream()
                 .flatMap(ingOrder -> ingOrder.items.stream())
                 .collect(Collectors.toList()); // items saved in other ingredients should not be selected
@@ -97,8 +96,6 @@ public abstract class ItemConsumingAction extends Action {
         return map == null ? map = GameMvc.model().get(LocalMap.class) : map;
     }
 
-    protected abstract Position getPositionForItems();
-
     protected void clearOrderItems() {
         order.allIngredients().forEach(this::clearIngredientItems);
     }
@@ -123,4 +120,6 @@ public abstract class ItemConsumingAction extends Action {
                 .flatMap(ingredientOrder -> ingredientOrder.items.stream())
                 .collect(Collectors.toList());
     }
+
+    protected abstract Position getPositionForItems();
 }

@@ -10,9 +10,7 @@ import stonering.enums.buildings.BuildingTypeMap;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.util.geometry.*;
 
-import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import static stonering.entity.job.action.ActionConditionStatusEnum.*;
