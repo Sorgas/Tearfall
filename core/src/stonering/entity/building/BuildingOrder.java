@@ -30,5 +30,4 @@ public class BuildingOrder extends ItemConsumingOrder {
         this.position = position;
         blueprint.parts.forEach((partName, ingredient) -> parts.put(partName, new IngredientOrder(ingredient)));
     }
-
 }

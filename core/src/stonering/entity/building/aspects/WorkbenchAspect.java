@@ -8,10 +8,13 @@ import stonering.entity.Entity;
 import stonering.entity.crafting.ItemOrder;
 import stonering.enums.items.recipe.Recipe;
 import stonering.enums.items.recipe.RecipeMap;
+import stonering.util.global.Logger;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+
+import com.badlogic.gdx.math.MathUtils;
 
 /**
  * Aspect for workbenches. Stores {@link ItemOrder}s in a list and {@link Task} of a currently active order.
@@ -33,5 +36,14 @@ public class WorkbenchAspect extends Aspect {
         orders = new LinkedList<>();
         containedItems = new ArrayList<>();
         ((Building) entity).type.recipes.forEach(s -> recipes.add(RecipeMap.instance().getRecipe(s))); // load all recipes from building type
+    }
+
+    public boolean moveOrder(int index, boolean up) {
+        if (index < 0 || index >= orders.size())
+            return Logger.CRAFTING.logWarn("Attempt to move order with invalid index " + index, false);
+        ItemOrder order = orders.remove(index);
+        index += up ? 1 : -1;
+        orders.add(MathUtils.clamp(index, 0, orders.size()), order);
+        return true;
     }
 }

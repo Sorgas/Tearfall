@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Tree;
 import stonering.entity.building.aspects.WorkbenchAspect;
 import stonering.enums.ControlActionsEnum;
 import stonering.enums.items.recipe.Recipe;
+import stonering.game.GameMvc;
 import stonering.stage.workbench.MenuSection;
 import stonering.stage.workbench.WorkbenchMenu;
 import stonering.util.global.StaticSkin;

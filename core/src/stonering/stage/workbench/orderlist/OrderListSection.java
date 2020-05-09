@@ -1,9 +1,13 @@
 package stonering.stage.workbench.orderlist;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import stonering.entity.building.aspects.WorkbenchAspect;
 import stonering.entity.crafting.ItemOrder;
+import stonering.enums.ControlActionsEnum;
 import stonering.enums.items.recipe.Recipe;
 import stonering.game.GameMvc;
 import stonering.game.model.system.building.BuildingContainer;
@@ -45,6 +49,51 @@ public class OrderListSection extends MenuSection {
         fillOrderList();
     }
 
+    private void createListeners() {
+        addListener(new InputListener() {
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                switch(keycode) {
+                    case Input.Keys.W:
+                        orderList.navigate(-1); // up
+                        return true;
+                    case Input.Keys.S:
+                        orderList.navigate(1); // down
+                        return true;
+                    case Input.Keys.Q:
+                        GameMvc.view().removeStage(getStage());
+                        return true;
+                    case Input.Keys.A:
+                        getStage().setKeyboardFocus(menu.recipeTreeSection); // to recipes
+                        return true;
+                    case Input.Keys.X:
+                        if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
+                            // cancel order
+                        } else {
+                            // suspend order
+                        }
+                        return true;
+                    case Input.Keys.E:
+                        // move up
+                        break;
+                    case Input.Keys.D:
+                        // move down
+                        break;
+                    case Input.Keys.R:
+                        // increase quantity
+                        break;
+                    case Input.Keys.F:
+                        // decrease quantity
+                        break;
+                    case Input.Keys.C:
+                        // configure
+                        break;
+                }
+                return false;
+            }
+        });
+    }
+
     public void createOrder(Recipe recipe) {
         ItemOrder order = new ItemOrder(recipe);
         GameMvc.model().get(BuildingContainer.class).workbenchSystem.addOrder(aspect, order);
@@ -65,6 +114,15 @@ public class OrderListSection extends MenuSection {
         } else {
             aspect.orders.forEach(order -> orderList.addActor(new OrderItem(order, this)));
         }
+    }
+
+    private ItemOrder getSelectedOrder() {
+        return orderList.getSelectedElement().order;
+    }
+
+    private void moveOrder(ItemOrder order, boolean up) {
+        int oldIndex = aspect.orders.indexOf(order);
+        orderList.getSelectedElement();
     }
 
     public boolean isEmpty() {
