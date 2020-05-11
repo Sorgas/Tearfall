@@ -7,17 +7,12 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 import stonering.entity.RenderAspect;
 import stonering.entity.job.designation.Designation;
-import stonering.entity.item.Item;
 import stonering.entity.plant.PlantBlock;
 import stonering.entity.zone.Zone;
 import stonering.enums.blocks.BlockTypeEnum;
-import stonering.enums.blocks.BlockTileMapping;
-import stonering.enums.designations.DesignationsTileMapping;
-import stonering.enums.materials.MaterialMap;
 import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
 import stonering.game.model.system.*;
-import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.system.plant.PlantContainer;
 import stonering.game.model.system.substrate.SubstrateContainer;
 import stonering.game.model.system.task.TaskContainer;
@@ -30,9 +25,6 @@ import stonering.util.geometry.Position;
 
 import static com.badlogic.gdx.graphics.Pixmap.Format.RGBA8888;
 import static stonering.stage.renderer.AtlasesEnum.*;
-
-import java.lang.System;
-import java.util.List;
 
 /**
  * Class for drawing tiles. Contains renderers for different entities. (todo)

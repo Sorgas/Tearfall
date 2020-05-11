@@ -1,12 +1,16 @@
 package stonering.stage.renderer;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector3;
+
 import stonering.GameSettings;
+import stonering.entity.item.Item;
 import stonering.entity.job.action.Action;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.CreatureStatusIcon;
 import stonering.entity.unit.aspects.TaskAspect;
 import stonering.entity.RenderAspect;
+import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.game.GameMvc;
 import stonering.game.model.system.unit.UnitContainer;
 
@@ -24,10 +28,12 @@ import static stonering.stage.renderer.AtlasesEnum.creature_icons;
 public class UnitDrawer extends Drawer {
     private UnitContainer unitContainer;
     private int progressBarWidth = 56;
+    private Vector3 cacheVector;
 
     public UnitDrawer(SpriteDrawingUtil spriteUtil, ShapeDrawingUtil shapeUtil) {
         super(spriteUtil, shapeUtil);
         unitContainer = GameMvc.model().get(UnitContainer.class);
+        cacheVector = new Vector3();
     }
 
     public void drawUnits(int x, int y, int z) {
@@ -39,6 +45,12 @@ public class UnitDrawer extends Drawer {
             for (int i = 0; i < icons.size(); i++) {
                 spriteUtil.drawIcon(creature_icons.getBlockTile(icons.get(i).x, icons.get(i).y), unit.vectorPosition, i);
             }
+            unit.getOptional(EquipmentAspect.class).ifPresent(equipment -> {
+                if(equipment.hauledItems.isEmpty()) return;
+                cacheVector.set(unit.vectorPosition).add(0.25f, 0.25f, 0);
+                Item item = equipment.hauledItems.get(0);
+                spriteUtil.drawSprite(item.get(RenderAspect.class).region,cacheVector);
+            });
             drawActionProgressBar(x, y, z, unit);
         }
     }

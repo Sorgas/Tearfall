@@ -104,7 +104,7 @@ public class SpriteDrawingUtil {
      * Shades batch color to correspond lowering z coord.
      */
     public void shadeByZ(int dz) {
-        float shadedColorChannel = 1 - (dz - 4) * shadingStep;
+        float shadedColorChannel = 1 - (dz == 0 ? dz : dz + 3) * shadingStep;
         batchColor.set(shadedColorChannel, shadedColorChannel, shadedColorChannel, 1f);
         resetColor();
     }
