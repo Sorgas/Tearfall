@@ -3,6 +3,7 @@ package stonering.util.ui;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
+import stonering.util.global.Initable;
 import stonering.widget.util.Resizeable;
 
 import java.util.ArrayList;
@@ -41,6 +42,7 @@ public class MultiStageScreen extends SimpleScreen {
     public void addStage(Stage stage) {
         stageList.add(stage);
         if (stage instanceof Resizeable) ((Resizeable) stage).resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        if (stage instanceof Initable) ((Initable) stage).init(); // keyboard focus cannot be set before adding to screen
     }
 
     public void removeStage(Stage stage) {

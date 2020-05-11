@@ -10,7 +10,6 @@ import stonering.stage.pause.PauseMenuStage;
 import stonering.stage.localworld.LocalWorldStage;
 import stonering.util.geometry.Int3dBounds;
 import stonering.util.ui.MultiStageScreen;
-import stonering.util.global.Initable;
 import stonering.util.global.Logger;
 
 /**
@@ -54,7 +53,7 @@ public class GameView extends MultiStageScreen {
     public void addStage(Stage stage) {
         Logger.UI.logDebug("adding stage " + stage.toString() + " to view.");
         super.addStage(stage);
-        if (stage instanceof Initable) ((Initable) stage).init();
+
     }
 
     public void showPauseMenu() {

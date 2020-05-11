@@ -5,9 +5,10 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Stack;
+
 import stonering.entity.building.aspects.WorkbenchAspect;
 import stonering.entity.crafting.ItemOrder;
-import stonering.enums.ControlActionsEnum;
 import stonering.enums.items.recipe.Recipe;
 import stonering.game.GameMvc;
 import stonering.game.model.system.building.BuildingContainer;
@@ -36,6 +37,7 @@ import static stonering.enums.ControlActionsEnum.SELECT;
 public class OrderListSection extends MenuSection {
     public final WorkbenchMenu menu;
     public final WorkbenchAspect aspect;
+    private final Stack stack;
     private final Label emptyLabel;
     public final NavigableVerticalGroup<OrderItem> orderList;
 
@@ -43,16 +45,21 @@ public class OrderListSection extends MenuSection {
         super(title);
         this.aspect = aspect;
         this.menu = menu;
-        add(orderList = new NavigableVerticalGroup<>());
+        stack = new Stack();
+        stack.add(orderList = new NavigableVerticalGroup<>());
+        stack.add(emptyLabel = new Label("This workbench has no orders.", StaticSkin.getSkin()));
+        emptyLabel.setVisible(false);
         orderList.keyMapping.put(Input.Keys.D, SELECT);
-        emptyLabel = new Label("This workbench has no orders.", StaticSkin.getSkin());
         fillOrderList();
+        update();
+        createListeners();
     }
 
     private void createListeners() {
         addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
+                OrderItem orderItem = orderList.getSelectedElement();
                 switch(keycode) {
                     case Input.Keys.W:
                         orderList.navigate(-1); // up
@@ -68,9 +75,9 @@ public class OrderListSection extends MenuSection {
                         return true;
                     case Input.Keys.X:
                         if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
-                            // cancel order
+                            orderItem.cancelButton.toggle();
                         } else {
-                            // suspend order
+                            orderItem.suspendButton.toggle();
                         }
                         return true;
                     case Input.Keys.E:
@@ -110,7 +117,7 @@ public class OrderListSection extends MenuSection {
     public void fillOrderList() {
         orderList.clearChildren();
         if (aspect.orders.isEmpty()) {
-            orderList.addActor(emptyLabel);
+            stack.add(emptyLabel);
         } else {
             aspect.orders.forEach(order -> orderList.addActor(new OrderItem(order, this)));
         }
@@ -127,5 +134,9 @@ public class OrderListSection extends MenuSection {
 
     public boolean isEmpty() {
         return orderList.getChildren().isEmpty();
+    }
+
+    private void update() {
+        emptyLabel.setVisible(isEmpty());
     }
 }

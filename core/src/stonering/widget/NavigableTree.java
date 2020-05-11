@@ -1,5 +1,6 @@
 package stonering.widget;
 
+import java.util.Optional;
 import java.util.function.Consumer;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -12,17 +13,17 @@ import stonering.enums.ControlActionsEnum;
  * @author Alexander on 04.05.2020
  */
 public class NavigableTree extends Tree {
-    public Consumer<Node> selectionConsumer;
+    private Consumer<Node> selectionConsumer;
 
     public NavigableTree(Skin skin) {
         super(skin);
         getSelection().setMultiple(false);
+        selectionConsumer = node -> {}; // placeholder consumer
     }
 
     public void accept(ControlActionsEnum action) {
-        if(getRootNodes().isEmpty()) return; // no handling for empty tree
-        if(getSelection().isEmpty()) getSelection().set(getRootNodes().get(0)); // init selection
-        Node node = getSelection().first();
+        if (getRootNodes().isEmpty()) return; // no handling for empty tree
+        if (getSelection().isEmpty()) getSelection().set(getRootNodes().get(0)); // init selection
         switch (action) {
             case UP:
                 navigate(-1);
@@ -31,30 +32,45 @@ public class NavigableTree extends Tree {
                 navigate(1);
                 break;
             case LEFT:
-                if (node.isExpanded()) {
-                    node.setExpanded(false); // collapse expanded node
-                } else if (node.getParent() != null) {
-                    getSelection().set(node.getParent()); // navigate to parent
-                }
+                navigateLevel(-1);
                 break;
             case RIGHT:
-                if (node.isExpanded() || node.getChildren().isEmpty()) {
-                    navigate(1);
-                } else {
-                    node.setExpanded(true);
-                }
+                navigateLevel(1);
                 break;
             case SELECT:
-                if(selectionConsumer != null) selectionConsumer.accept(getSelection().first());
+                Optional.ofNullable(ensureSelection()).ifPresent(selectionConsumer);
         }
     }
 
     public void navigate(int delta) {
-        Node node = getSelection().first();
+        Node node = ensureSelection();
+        if (node == null) return; // tree is empty
         if (delta > 0) {
             getSelection().set(getNextNode(node));
         } else {
             getSelection().set(getPreviousNode(node));
+        }
+    }
+
+    public void navigateLevel(int delta) {
+        Node node = ensureSelection();
+        if (node == null) return; // tree is empty
+        if (delta > 0) {
+            if (node.getChildren().isEmpty()) {
+                navigate(1); // go to next node
+            } else {
+                if (node.isExpanded()) {
+                    getSelection().set(node.getChildren().get(0)); // go to first child
+                } else {
+                    node.setExpanded(true); // expand
+                }
+            }
+        } else {
+            if (!node.getChildren().isEmpty() && node.isExpanded()) {
+                node.setExpanded(false); // collapse
+            } else {
+                getSelection().set(node.getParent() != null ? node.getParent() : getRootNodes().get(0));
+            }
         }
     }
 
@@ -97,5 +113,20 @@ public class NavigableTree extends Tree {
 
     private Array<Node> getSiblings(Node node) {
         return node.getParent() != null ? node.getParent().getChildren() : getRootNodes();
+    }
+
+    public Node getSelectedNode() {
+        return getSelection().getLastSelected();
+    }
+
+    private Node ensureSelection() {
+        if (getRootNodes().isEmpty()) return null;
+        if (!getSelection().isEmpty()) return getSelection().getLastSelected();
+        getSelection().set(getRootNodes().get(0));
+        return getRootNodes().get(0);
+    }
+
+    public void setSelectionConsumer(Consumer<Node> consumer) {
+        if(consumer != null) selectionConsumer = consumer;
     }
 }

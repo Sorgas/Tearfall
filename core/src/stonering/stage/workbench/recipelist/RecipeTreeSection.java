@@ -1,5 +1,8 @@
 package stonering.stage.workbench.recipelist;
 
+import static stonering.enums.ControlActionsEnum.CANCEL;
+
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Tree;
@@ -7,9 +10,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Tree;
 import stonering.entity.building.aspects.WorkbenchAspect;
 import stonering.enums.ControlActionsEnum;
 import stonering.enums.items.recipe.Recipe;
-import stonering.game.GameMvc;
 import stonering.stage.workbench.MenuSection;
 import stonering.stage.workbench.WorkbenchMenu;
+import stonering.util.global.Logger;
 import stonering.util.global.StaticSkin;
 import stonering.widget.NavigableTree;
 
@@ -40,14 +43,14 @@ public class RecipeTreeSection extends MenuSection {
         this.menu = menu;
         recipeMap = new HashMap<>();
         recipeMap.put("all", aspect.recipes); // TODO divide recipes into categories
-        fillTree();
+        createTree();
         createListeners();
     }
 
     /**
      * Creates buttons for categories. These cannot be hidden.
      */
-    private void fillTree() {
+    private void createTree() {
         recipeTree = new NavigableTree(StaticSkin.getSkin());
         recipeTree.getStyle().plus.setMinHeight(50);
         recipeTree.getStyle().plus.setMinWidth(50);
@@ -62,6 +65,16 @@ public class RecipeTreeSection extends MenuSection {
                 categoryNode.add(new RecipeNode(recipe, this, recipeNodeWidth));
             }
         }
+        recipeTree.setSelectionConsumer(node -> {
+            if(node instanceof RecipeCategoryNode) {
+                RecipeCategoryNode categoryNode = (RecipeCategoryNode) node;
+                categoryNode.setExpanded(!categoryNode.isExpanded()); // expand/collapse categories
+            } else if(node instanceof RecipeNode) {
+                createNewOrder(((RecipeNode) node).recipe);
+            } else {
+                Logger.UI.logError("Invalid node type in recipe tree.");
+            }
+        });
         this.add(recipeTree);
     }
 
@@ -69,20 +82,13 @@ public class RecipeTreeSection extends MenuSection {
         addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
-                switch (ControlActionsEnum.getAction(keycode)) {
-                    case UP:
-                    case DOWN:
-                    case LEFT:
-                    case RIGHT:
-                    case SELECT:
-                        recipeTree.accept(ControlActionsEnum.getAction(keycode));
-                        return true;
-                    case CANCEL:
-                        getStage().setKeyboardFocus(menu.orderListSection); // go to order list
-                        return true;
-                    default:
-                        return false;
+                ControlActionsEnum action = ControlActionsEnum.getAction(keycode);
+                if(action == CANCEL) {
+                    getStage().setKeyboardFocus(menu.orderListSection); // go to order list
+                } else {
+                    recipeTree.accept(action);
                 }
+                return true;
             }
         });
     }
@@ -90,9 +96,5 @@ public class RecipeTreeSection extends MenuSection {
     public void createNewOrder(Recipe recipe) {
         recipeTree.setOverNode(null);
         menu.orderListSection.createOrder(recipe);
-    }
-
-    private void navigateTree() {
-
     }
 }
