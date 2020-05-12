@@ -11,15 +11,13 @@ import stonering.util.geometry.Position;
 /**
  * Action for putting item to position on map. Item will be picked up.
  * Action performer should have {@link EquipmentAspect}.
- * <p>
- * TODO generalize with PutToContaienr, PutAction
  *
  * @author Alexander on 11.01.2019.
  */
 public class PutItemToPositionAction extends PutItemAction {
 
     public PutItemToPositionAction(Item targetItem, Position targetPosition) {
-        super(new PositionActionTarget(targetPosition, ActionTargetTypeEnum.NEAR), targetItem);
+        super(new PositionActionTarget(targetPosition, ActionTargetTypeEnum.ANY), targetItem);
 
         onFinish = () -> {
             System.out.println("put item to position finish");

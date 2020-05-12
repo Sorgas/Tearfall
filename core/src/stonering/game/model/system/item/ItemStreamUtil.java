@@ -1,12 +1,9 @@
 package stonering.game.model.system.item;
 
-import stonering.entity.crafting.IngredientOrder;
 import stonering.entity.item.Item;
 import stonering.entity.item.selectors.ItemSelector;
 import stonering.enums.items.ItemTagEnum;
 import stonering.enums.items.recipe.Ingredient;
-import stonering.game.GameMvc;
-import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 
 import java.util.List;
@@ -46,31 +43,9 @@ public class ItemStreamUtil {
                 .toList();
     }
 
-    public List<Item> getNearestItems(List<Item> items, Position target, int number) {
-        return new ItemsStream(items).getNearestTo(target, number)
-                .toList();
-    }
-
     public Item getNearestItemWithTag(Position position, ItemTagEnum tag) {
         return new ItemsStream(container.objects)
                 .filterHasTag(tag)
-                .getNearestTo(position);
-    }
-
-    public boolean itemIsAvailable(Item item, Position position) {
-        //TODO check containers
-        return item.position != null &&
-                GameMvc.model().get(LocalMap.class).passageMap.util.positionReachable(position, item.position, false);
-    }
-
-    /**
-     * Gets single available item to be crafting ingredient.
-     */
-    public Item getItemForIngredient(IngredientOrder order, Position position) {
-        return new ItemsStream()
-                .filterOnMap()
-                .filterBySelector(order.itemSelector)
-                .filterByReachability(position)
                 .getNearestTo(position);
     }
 }

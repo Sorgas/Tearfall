@@ -21,6 +21,7 @@ import stonering.util.geometry.Position;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Need for rest. Part of {@link CreatureHealthSystem}.
@@ -66,9 +67,11 @@ public class RestNeed extends Need {
     }
 
     private Optional<Building> selectBuildingToSleep(Position position) {
-        List<Building> buildings = GameMvc.model().get(BuildingContainer.class).getBuildingsWithAspect(RestFurnitureAspect.class);
-        buildings = GameMvc.model().get(LocalMap.class).passageMap.util.filterEntitiesByReachability(buildings, position);
-        return buildings.isEmpty() ? Optional.empty() : Optional.of(buildings.get(0));
+        LocalMap map = GameMvc.model().get(LocalMap.class);
+        return GameMvc.model().get(BuildingContainer.class).getBuildingsWithAspect(RestFurnitureAspect.class).stream()
+                .filter(building -> building.position != null)
+                .filter(building -> map.passageMap.inSameArea(building.position, position))
+                .findFirst();
     }
 
     private Task createTaskToSleep(Building building, TaskPriorityEnum priority) {

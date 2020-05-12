@@ -19,6 +19,7 @@ import static stonering.enums.action.ActionStatusEnum.*;
  * Action consist of several parts:
  * <p>
  * Target where unit should be to perform action.
+ * Taking condition - to be met before task is taken from container. 
  * Start condition - to be met before performing is started, can create additional actions e.g. bringing materials to workbench.
  * Start function - executed once.
  * Speed updater - calculates performing speed when performing starts.
@@ -55,7 +56,7 @@ public abstract class Action {
     protected Action(ActionTarget target) {
         this.target = target;
         target.setAction(this);
-        takingCondition = () -> false; // prevent taking from container
+        takingCondition = () -> true;
         startCondition = () -> FAIL; // prevent starting
         onStart = () -> {};
         progressConsumer = (delta) -> progress += delta;

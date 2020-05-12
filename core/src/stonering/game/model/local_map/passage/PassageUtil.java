@@ -25,17 +25,10 @@ public class PassageUtil {
     }
 
     public boolean positionReachable(Position from, Position to, boolean acceptNearTarget) {
+        if (from == null || to == null) return false;
         if (passage.area.get(to) == passage.area.get(from)) return true; // target in same area
         return acceptNearTarget && new NeighbourPositionStream(to)
                 .stream.map(passage.area::get)
                 .anyMatch(Predicate.isEqual(passage.area.get(from))); // near tile in same area
-    }
-
-    //TODO replace with util stream
-    public <T extends Entity> List<T> filterEntitiesByReachability(List<T> entities, Position target) {
-        return entities.stream().
-                filter(entity -> entity.position != null).
-                filter(entity -> passage.area.get(entity.position) == passage.area.get(target)).
-                collect(Collectors.toList());
     }
 }
