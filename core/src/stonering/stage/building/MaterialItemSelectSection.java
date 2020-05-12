@@ -6,7 +6,7 @@ import stonering.entity.item.selectors.ConfiguredItemSelector;
 import stonering.entity.item.selectors.ItemSelector;
 import stonering.enums.buildings.blueprint.MaterialSelectionConfig;
 import stonering.enums.items.recipe.Ingredient;
-import stonering.game.model.system.item.ItemsStream;
+import stonering.game.model.system.item.OnMapItemsStream;
 import stonering.util.global.StaticSkin;
 
 import java.util.*;
@@ -57,7 +57,7 @@ public class MaterialItemSelectSection extends ItemSelectSection {
         for (String type : ingredient.itemTypes) {
             // collect items
             Map<Integer, List<Item>> map = new HashMap<>(); // items grouped by material
-            new ItemsStream().filterByType(type).stream.forEach(item -> { // collect items from map
+            new OnMapItemsStream().filterByType(type).stream.forEach(item -> { // collect items from map
                 map.putIfAbsent(item.material, new ArrayList<>());
                 map.get(item.material).add(item); // group items by material
             });

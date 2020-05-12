@@ -13,7 +13,7 @@ import stonering.enums.unit.health.HealthParameterEnum;
 import stonering.enums.unit.health.HungerParameter;
 import stonering.game.GameMvc;
 import stonering.game.model.system.item.ItemContainer;
-import stonering.game.model.system.item.ItemsStream;
+import stonering.game.model.system.item.OnMapItemsStream;
 import stonering.game.model.system.unit.CreatureHealthSystem;
 
 import java.util.Comparator;
@@ -69,7 +69,7 @@ public class FoodNeed extends Need {
     private Item getBestAvailableFood(Entity entity, Predicate<Item> additionalFilter) {
         ItemContainer container = GameMvc.model().get(ItemContainer.class);
         EquipmentAspect aspect = entity.get(EquipmentAspect.class);
-        return new ItemsStream()
+        return new OnMapItemsStream()
                 .filterHasTag(EDIBLE)
                 .filter(item -> !container.equipped.containsKey(item) || container.equipped.get(item) == aspect)
                 .filter(additionalFilter != null ? additionalFilter : item -> true)

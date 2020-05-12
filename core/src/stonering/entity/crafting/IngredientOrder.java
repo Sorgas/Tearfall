@@ -22,7 +22,6 @@ public class IngredientOrder {
 
     public IngredientOrder(Ingredient ingredient) {
         this.ingredient = ingredient;
-
         itemSelector = new IngredientOrderItemSelector(this);
     }
 

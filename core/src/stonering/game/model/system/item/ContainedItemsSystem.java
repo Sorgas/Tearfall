@@ -30,6 +30,7 @@ public class ContainedItemsSystem extends EntitySystem<Item> {
         if(item.position != null) Logger.ITEMS.logError("Adding to wb item not removed from map");
         aspect.items.add(item);
         container.contained.put(item, aspect);
+        item.position = aspect.entity.position;
     }
 
     public void removeItemFromContainer(Item item, ItemContainerAspect aspect) {

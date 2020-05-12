@@ -20,6 +20,7 @@ public class IngredientOrderItemSelector extends ItemSelector {
 
     @Override
     public boolean checkItem(Item item) {
+        System.out.println("checking item " + item + " " + item.tags + " " + acceptAny);
         return item.tags.contains(order.ingredient.tag)
                 && (acceptAny || order.ingredient.itemTypes.contains(item.getType().name));
     }

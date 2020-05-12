@@ -3,7 +3,7 @@ package stonering.widget.item;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import stonering.entity.item.ItemGroupingKey;
 import stonering.enums.items.recipe.Ingredient;
-import stonering.game.model.system.item.ItemsStream;
+import stonering.game.model.system.item.OnMapItemsStream;
 import stonering.util.geometry.Position;
 
 import java.util.HashMap;
@@ -34,7 +34,7 @@ public class GroupedItemSelectGrid extends ActorGrid<StackedItemSquareButton> im
     }
 
     public void fillForIngredient(Ingredient ingredient, Position position) {
-        refillItems(new ItemsStream()
+        refillItems(new OnMapItemsStream()
                 .filterByReachability(position)
                 .stream.filter(ingredient::checkItem).collect(Collectors.toList()));
     }

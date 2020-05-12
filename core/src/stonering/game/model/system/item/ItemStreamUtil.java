@@ -24,7 +24,7 @@ public class ItemStreamUtil {
      * Returns list of items from map, that can be used for given recipe.
      */
     public List<Item> getItemsForIngredient(Ingredient ingredient, Position position) {
-        return new ItemsStream(container.objects)
+        return new OnMapItemsStream(container.objects)
                 .filterHasTag(ingredient.tag)
                 .filterByTypes(ingredient.itemTypes)
                 .filterByReachability(position)
@@ -32,19 +32,19 @@ public class ItemStreamUtil {
     }
 
     public Item getItemAvailableBySelector(ItemSelector itemSelector, Position position) {
-        return new ItemsStream(itemSelector.selectItems(container.objects))
+        return new OnMapItemsStream(itemSelector.selectItems(container.objects))
                 .filterByReachability(position)
                 .getNearestTo(position);
     }
 
     public List<Item> getItemsAvailableBySelector(ItemSelector itemSelector, Position position) {
-        return new ItemsStream(itemSelector.selectItems(container.objects))
+        return new OnMapItemsStream(itemSelector.selectItems(container.objects))
                 .filterByReachability(position)
                 .toList();
     }
 
     public Item getNearestItemWithTag(Position position, ItemTagEnum tag) {
-        return new ItemsStream(container.objects)
+        return new OnMapItemsStream(container.objects)
                 .filterHasTag(tag)
                 .getNearestTo(position);
     }

@@ -11,8 +11,9 @@ import stonering.entity.item.selectors.ConfiguredItemSelector;
 import stonering.entity.job.action.target.ActionTarget;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
+import stonering.game.model.system.item.ContainedItemsStream;
 import stonering.game.model.system.item.ItemContainer;
-import stonering.game.model.system.item.ItemsStream;
+import stonering.game.model.system.item.OnMapItemsStream;
 import stonering.util.geometry.Position;
 
 /**
@@ -63,21 +64,27 @@ public abstract class ItemConsumingAction extends Action {
         List<Item> otherItems = order.allIngredients().stream()
                 .flatMap(ingOrder -> ingOrder.items.stream())
                 .collect(Collectors.toList()); // items saved in other ingredients should not be selected
-        ItemsStream validItems = new ItemsStream()
+        List<Item> validItems = new OnMapItemsStream() // items from map
                 .filterNotInList(otherItems)
                 .filterBySelector(ingredientOrder.itemSelector)
-                .filterByReachability(target.getPosition());
-        List<Item> items;
+                .filterByReachability(target)
+                .toList();
+        validItems.addAll(new ContainedItemsStream() // items from containers
+                .filterNotInList(otherItems)
+                .filterBySelector(ingredientOrder.itemSelector)
+                .filterByReachability(target)
+                .filterLockedContainers()
+                .filterOwnedContainers()
+                .toList());
+        // select items of one type/material of allowed ones
+        if (ingredientOrder.itemSelector instanceof ConfiguredItemSelector)
+            validItems = ((ConfiguredItemSelector) ingredientOrder.itemSelector).selectVariant(validItems, ingredientOrder.ingredient.quantity, getPositionForItems());
 
-        if (ingredientOrder.itemSelector instanceof ConfiguredItemSelector) { // select items of one type/material of allowed ones
-            items = ((ConfiguredItemSelector) ingredientOrder.itemSelector).selectVariant(validItems.toList(), ingredientOrder.ingredient.quantity, getPositionForItems());
-        } else { // select nearest of unique items
-            items = validItems.getNearestTo(target.getPosition(), ingredientOrder.ingredient.quantity).toList();
-        }
+        // select nearest items
+        validItems = new OnMapItemsStream(validItems).getNearestTo(target.getPosition(), ingredientOrder.ingredient.quantity).toList();
 
-        if (items.size() < ingredientOrder.ingredient.quantity) return false; // not enough items found
-        ingredientOrder.items.addAll(items); // save found items to order
-        System.out.println(items.size());
+        if (validItems.size() < ingredientOrder.ingredient.quantity) return false; // not enough items found
+        ingredientOrder.items.addAll(validItems); // save found items to order
         return true;
     }
 

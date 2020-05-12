@@ -15,7 +15,7 @@ import java.util.*;
 /**
  * Manages all items in game, including ones in containers, and equipped on units.
  * Items can lay on map tiles, be stored in containers, or equipped by units. There are three separate maps for storing items (for pathfinding).
- * Items have positions, when they are on map. When items are equipped or in containers, their position is null.
+ * When item is equipped, its position is null.
  * There are methods for moving items in and out of these maps. Other logic should be made by {@link Action}s or systems.
  * TODO make containers and equipment consistent
  *

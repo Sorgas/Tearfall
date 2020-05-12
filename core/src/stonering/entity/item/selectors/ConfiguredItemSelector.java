@@ -36,24 +36,22 @@ public class ConfiguredItemSelector extends ItemSelector {
     }
 
     /**
-     * Selects some number of items with same type, nearest to given position.
-     * Given items should fit selector.
+     * Splits given items into groups by type and material.
+     * Filters out groups with insufficient number of items.
+     * Returns group with item, nearest to position.
+     *
+     * @param items items should fit to selector.
      */
     public List<Item> selectVariant(List<Item> items, int number, Position position) {
-        // group by type and material considering mixing
-        // check group number
         Map<ItemGroupingKey, List<Item>> itemMap = items.stream()
                 .collect(Collectors.groupingBy(ItemGroupingKey::new)) // group by type and material
                 .entrySet().stream()
                 .filter(entry -> entry.getValue().size() >= number) // filter items with sufficient number
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         if(itemMap.isEmpty()) return new ArrayList<>(); // no group has enough items
-        // find group with nearest item
-        List<Item> itemList = itemMap.values().stream()
+        return itemMap.values().stream() // find group with nearest item
                 .min(Comparator.comparingInt(list -> list.stream()
                         .map(item -> position.fastDistance(item.position)) // map to distance
                         .min(Comparator.comparingInt(Integer::intValue)).get())).get();
-        itemList.sort(Comparator.comparingInt(item -> position.fastDistance(item.position)));
-        return itemList.subList(0, number); // return nearest items of nearest group
     }
 }
