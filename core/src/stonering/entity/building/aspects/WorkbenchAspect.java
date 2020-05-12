@@ -38,12 +38,13 @@ public class WorkbenchAspect extends Aspect {
         ((Building) entity).type.recipes.forEach(s -> recipes.add(RecipeMap.instance().getRecipe(s))); // load all recipes from building type
     }
 
-    public boolean moveOrder(int index, boolean up) {
+    public boolean moveOrder(int index, int delta) {
         if (index < 0 || index >= orders.size())
             return Logger.CRAFTING.logWarn("Attempt to move order with invalid index " + index, false);
+        int newIndex = MathUtils.clamp(index + delta, 0, orders.size());
+        if (newIndex == index) return false;
         ItemOrder order = orders.remove(index);
-        index += up ? 1 : -1;
-        orders.add(MathUtils.clamp(index, 0, orders.size()), order);
+        orders.add(newIndex, order);
         return true;
     }
 }

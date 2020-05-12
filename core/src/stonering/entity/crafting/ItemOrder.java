@@ -36,14 +36,6 @@ public class ItemOrder extends ItemConsumingOrder {
         }
     }
 
-
-    public List<IngredientOrder> getAllIngredients() {
-        List<IngredientOrder> ingredientOrders = new ArrayList<>(consumed);
-        ingredientOrders.addAll(parts.values());
-        if (main != null) ingredientOrders.add(main);
-        return ingredientOrders;
-    }
-
     @Override
     public String toString() {
         return "ItemOrder{" + "recipe=" + recipe + '}';

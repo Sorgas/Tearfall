@@ -41,6 +41,7 @@ public class CraftItemAction extends ItemConsumingAction {
         WorkbenchAspect workbenchAspect = workbench.get(WorkbenchAspect.class);
         FuelConsumerAspect fuelAspect = workbench.get(FuelConsumerAspect.class);
 
+        takingCondition = () -> true;
         //Checks that action conditions are met. Creates sub action otherwise.
         //TODO check ingredients and fuel availability before bringing something to workbench.
         //TODO add usage of items in nearby containers.
@@ -60,7 +61,7 @@ public class CraftItemAction extends ItemConsumingAction {
             ItemContainer container = GameMvc.model().get(ItemContainer.class);
             Item product = new ItemGenerator().generateItemByOrder(itemOrder);
             // spend components
-            List<Item> items = itemOrder.getAllIngredients().stream()
+            List<Item> items = itemOrder.allIngredients().stream()
                     .map(ingredientOrder -> ingredientOrder.items)
                     .flatMap(Collection::stream)
                     .collect(Collectors.toList());

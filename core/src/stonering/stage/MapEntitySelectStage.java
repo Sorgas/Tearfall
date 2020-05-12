@@ -3,6 +3,7 @@ package stonering.stage;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.sun.istack.NotNull;
+
 import stonering.entity.Entity;
 import stonering.entity.building.Building;
 import stonering.entity.building.BuildingBlock;
@@ -41,7 +42,7 @@ public class MapEntitySelectStage extends UiStage {
 
     public void showEntitySelectList(Int3dBounds box) {
         List<Entity> entities = collectEntities(box);
-        if(entities.isEmpty()) { // hide stage immediately
+        if (entities.isEmpty()) { // hide stage immediately
             GameMvc.view().removeStage(this);
         } else if (entities.size() == 1) { // show entity stage
             showEntityStage(entities.get(0));
@@ -90,13 +91,13 @@ public class MapEntitySelectStage extends UiStage {
     }
 
     private void tryShowBuildingStage(@NotNull BuildingBlock block) {
-        if(block.building.get(WorkbenchAspect.class) != null) {
-            new SingleWindowStage<>(new WorkbenchMenu(block.building), false, true).show();
+        if (block.building.get(WorkbenchAspect.class) != null) {
+            GameMvc.view().addStage(new SingleWindowStage<>(new WorkbenchMenu(block.building), false, true));
         }
     }
 
     private void tryShowZoneStage(@NotNull Zone zone) {
-        if(zone instanceof FarmZone) GameMvc.view().addStage(new ZoneMenuStage((FarmZone) zone));
+        if (zone instanceof FarmZone) GameMvc.view().addStage(new ZoneMenuStage((FarmZone) zone));
     }
 
     private void tryShowItemStage(@NotNull Item item) {

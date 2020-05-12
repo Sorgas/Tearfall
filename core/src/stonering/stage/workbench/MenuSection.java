@@ -12,7 +12,7 @@ import stonering.widget.util.WrappedLabel;
  *
  * @author Alexander on 25.04.2020
  */
-public class MenuSection extends Table {
+public abstract class MenuSection extends Table {
     protected WrappedLabel header;
 
     public MenuSection(String title) {
@@ -27,4 +27,6 @@ public class MenuSection extends Table {
             }
         });
     }
+
+    public abstract String getHint();
 }

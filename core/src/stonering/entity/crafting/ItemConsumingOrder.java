@@ -26,6 +26,7 @@ public class ItemConsumingOrder {
         if(allIngredients.isEmpty()) {
             allIngredients.addAll(consumed);
             allIngredients.addAll(parts.values());
+            if(main != null) allIngredients.add(main);
         }
         return allIngredients;
     }

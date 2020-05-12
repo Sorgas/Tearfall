@@ -23,14 +23,13 @@ import static stonering.enums.ControlActionsEnum.SELECT;
  * Displays list of orders of workbench, and their statuses.
  * Allows to navigate the list, select order for configuring, pausing/unpausing, setting for repeat, switching to recipe list for creating new order.
  * Controls:
- * R: toggle order repeated.
- * F: toggle order paused.
- * A: new order.
- * X: cancel order.
- * W: S: navigation.
- * Q: close menu.
- * E, D: configure order.
- * W, S: navigation.
+ * WS: navigation.
+ * ED: move order.
+ * R: toggle repeated.
+ * F: configure order.
+ * Xx: cancel/suspend order.
+ * A: to recipes.
+ * Q: quit menu
  *
  * @author Alexander on 13.08.2019.
  */
@@ -53,6 +52,7 @@ public class OrderListSection extends MenuSection {
         fillOrderList();
         update();
         createListeners();
+        add(stack);
     }
 
     private void createListeners() {
@@ -63,37 +63,36 @@ public class OrderListSection extends MenuSection {
                 switch(keycode) {
                     case Input.Keys.W:
                         orderList.navigate(-1); // up
+                        menu.orderDetailsSection.showItem(orderList.getSelectedElement());
                         return true;
                     case Input.Keys.S:
                         orderList.navigate(1); // down
+                        menu.orderDetailsSection.showItem(orderList.getSelectedElement());
                         return true;
                     case Input.Keys.Q:
-                        GameMvc.view().removeStage(getStage());
+                        getStage().dispose();
                         return true;
                     case Input.Keys.A:
                         getStage().setKeyboardFocus(menu.recipeTreeSection); // to recipes
                         return true;
                     case Input.Keys.X:
                         if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
-                            orderItem.cancelButton.toggle();
+                            orderItem.cancelButton.toggle(); // cancel order
                         } else {
-                            orderItem.suspendButton.toggle();
+                            orderItem.suspendButton.toggle(); // suspend order
                         }
                         return true;
+                    case Input.Keys.R:
+                        orderItem.repeatButton.toggle(); // repeat order
+                        break;
                     case Input.Keys.E:
-                        // move up
+                        moveOrder(orderList.selectedIndex, -1);
                         break;
                     case Input.Keys.D:
-                        // move down
-                        break;
-                    case Input.Keys.R:
-                        // increase quantity
+                        moveOrder(orderList.selectedIndex, 1);
                         break;
                     case Input.Keys.F:
-                        // decrease quantity
-                        break;
-                    case Input.Keys.C:
-                        // configure
+                        menu.setFocus(menu.orderDetailsSection);
                         break;
                 }
                 return false;
@@ -105,10 +104,9 @@ public class OrderListSection extends MenuSection {
         ItemOrder order = new ItemOrder(recipe);
         GameMvc.model().get(BuildingContainer.class).workbenchSystem.addOrder(aspect, order);
         OrderItem orderItem = new OrderItem(order, this);
-        orderList.removeActor(emptyLabel);
         orderList.addActorAt(0, orderItem);
         menu.orderDetailsSection.showItem(orderItem);
-        getStage().setKeyboardFocus(this);
+        menu.setFocus(this);
     }
 
     /**
@@ -127,9 +125,12 @@ public class OrderListSection extends MenuSection {
         return orderList.getSelectedElement().order;
     }
 
-    private void moveOrder(ItemOrder order, boolean up) {
-        int oldIndex = aspect.orders.indexOf(order);
-        orderList.getSelectedElement();
+    private void moveOrder(int index, int delta) {
+        if (!aspect.moveOrder(index, delta)) return;
+        OrderItem orderItem = orderList.getChildAtIndex(index);
+        orderList.removeActor(orderItem);
+        orderList.addActorAt(index + delta, orderItem);
+        orderList.setSelectedIndex(index + delta);
     }
 
     public boolean isEmpty() {
@@ -138,5 +139,10 @@ public class OrderListSection extends MenuSection {
 
     private void update() {
         emptyLabel.setVisible(isEmpty());
+    }
+
+    @Override
+    public String getHint() {
+        return "WS: navigate, A: to recipes, ED: move, Xx: cancel/suspend, R: repeat, F: configure";
     }
 }

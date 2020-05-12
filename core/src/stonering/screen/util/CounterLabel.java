@@ -21,7 +21,6 @@ public class CounterLabel extends Label {
     
     public void add() {
         counter++;
-
     }
 
     public void flush() {

@@ -89,4 +89,10 @@ public class OrderDetailsSection extends MenuSection {
         image.setDrawable(null);
         itemParts.clear();
     }
+
+
+    @Override
+    public String getHint() {
+        return "Q: to orders";
+    }
 }

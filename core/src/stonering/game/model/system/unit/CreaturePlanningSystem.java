@@ -62,7 +62,10 @@ public class CreaturePlanningSystem extends EntitySystem<Unit> {
         Task task = selectTaskForUnit(unit);
         if (task == null) return;
         task.performer = unit;
-        if (!task.initialAction.takingCondition.get()) return;
+        if (!task.initialAction.takingCondition.get()) {
+            task.reset();
+            return;
+        }
         Logger.TASKS.logDebug("Assigning task " + task + " to unit " + unit);
         taskContainer().claimTask(task);
         unit.get(TaskAspect.class).task = task;

@@ -37,6 +37,10 @@ public class RecipeMap {
         ArrayList<RawRecipe> elements = json.fromJson(ArrayList.class, RawRecipe.class, FileUtil.get(FileUtil.RECIPES_PATH));
         RecipeProcessor processor = new RecipeProcessor();
         for (RawRecipe rawRecipe : elements) {
+            if(rawRecipe.main == null && rawRecipe.parts.isEmpty()) {
+                Logger.LOADING.logWarn("Recipe " + rawRecipe.name + " has no part or main ingredients");
+                continue;
+            }
             recipes.put(rawRecipe.name, processor.processRawRecipe(rawRecipe));
         }
         Logger.LOADING.logDebug(recipes.keySet().size() + " loaded from " + FileUtil.RECIPES_PATH);

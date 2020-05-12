@@ -46,16 +46,6 @@ public class GameView extends MultiStageScreen {
         }
     }
 
-    /**
-     * Inits added stage.
-     */
-    @Override
-    public void addStage(Stage stage) {
-        Logger.UI.logDebug("adding stage " + stage.toString() + " to view.");
-        super.addStage(stage);
-
-    }
-
     public void showPauseMenu() {
         addStage(new PauseMenuStage());
     }

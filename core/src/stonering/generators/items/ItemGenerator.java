@@ -44,6 +44,7 @@ public class ItemGenerator {
         ItemType type = itemTypeMap.getItemType(name);
         if (type == null) return null;
         Item item = new Item(position, type);
+//        item.tags.addAll(type.tags);
         // create all item parts with default material
 //        type.parts.forEach(part -> item.parts.put(part.title, new ItemPart(part.title, DEFAULT_MATERIAL)));
 //        item.mainPart = new ItemPart(type.parts.isEmpty() ? type.title : type.parts.get(0).title, materialId); // create main part with specified material
@@ -83,6 +84,7 @@ public class ItemGenerator {
                 item = new Item(null, ItemTypeMap.instance().getItemType(order.recipe.itemName));
                 break;
             case TRANSFORM: // new parts from recipe are added to existing main item
+
                 item = order.main.items.iterator().next();
         }
         item.tags.add(order.recipe.newTag);

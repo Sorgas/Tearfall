@@ -13,12 +13,14 @@ import stonering.util.global.StaticSkin;
  *
  * @author Alexander on 18.02.2020.
  */
-public class SingleWindowStage<T extends Actor> extends UiStage {
+public class SingleWindowStage<T extends Actor> extends UiStage implements Initable {
+    private final T window;
     private Container<Container> shade;
     private boolean wasPaused;
 
     public SingleWindowStage(T window, boolean interceptInput, boolean shadeBackground) {
         super();
+        this.window = window;
         this.interceptInput = interceptInput;
         if(shadeBackground) {
             Container inner = new Container();
@@ -32,19 +34,19 @@ public class SingleWindowStage<T extends Actor> extends UiStage {
         container.setActor(window);
         container.setFillParent(true);
         addActor(container);
-        if(window instanceof Initable) ((Initable) window).init();
     }
 
-    public void show() {
-        GameMvc.view().addStage(this);
+    @Override
+    public void init() {
         GameMvc.controller().setSelectorEnabled(false);
         wasPaused = GameMvc.model().paused; // used for unpausing when menu is closed
         GameMvc.model().setPaused(true);
         GameMvc.controller().pauseInputAdapter.enabled = false;
+        if(window instanceof Initable) ((Initable) window).init();
     }
 
-    public void hide() {
-        GameMvc.view().removeStage(this);
+    @Override
+    public void dispose() {
         GameMvc.controller().setSelectorEnabled(true);
         GameMvc.model().setPaused(wasPaused);
         GameMvc.controller().pauseInputAdapter.enabled = true;

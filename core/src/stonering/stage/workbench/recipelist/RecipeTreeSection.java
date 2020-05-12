@@ -25,9 +25,8 @@ import java.util.Map;
  * Creates new orders.
  * <p>
  * Controls:
- * W, S: navigation in tree.
- * E, D: expand category, create new order.
- * A: collapse {@see handleCollapse}.
+ * WASD: navigation in tree.
+ * E: expand category / create new order.
  * Q: quit to order list.
  *
  * @author Alexander on 12.08.2019.
@@ -96,5 +95,9 @@ public class RecipeTreeSection extends MenuSection {
     public void createNewOrder(Recipe recipe) {
         recipeTree.setOverNode(null);
         menu.orderListSection.createOrder(recipe);
+    }
+
+    public String getHint() {
+        return "WASD: navigate, E: create order, Q: to order list.";
     }
 }
