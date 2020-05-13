@@ -3,7 +3,6 @@ package stonering.stage.unit;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import stonering.entity.unit.Unit;
 import stonering.util.global.StaticSkin;
-import stonering.widget.util.TabbedPanel;
 
 /**
  * Menu for unit.
@@ -20,7 +19,6 @@ import stonering.widget.util.TabbedPanel;
  */
 public class UnitMenu extends Window {
     private UnitImageColumn leftColumn;
-    private TabbedPanel panel;
 
     public UnitMenu(Unit unit) {
         super("", StaticSkin.getSkin());

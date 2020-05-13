@@ -67,6 +67,6 @@ public class ObservingList extends Window {
     }
 
     private void close() {
-        GameMvc.instance().view().removeStage(getStage());
+        GameMvc.view().removeStage(getStage());
     }
 }

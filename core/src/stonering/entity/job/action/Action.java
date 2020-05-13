@@ -47,11 +47,11 @@ public abstract class Action {
     public Supplier<Boolean> finishCondition; // when reached, action ends
     public Runnable onFinish; // performed on phase finish
 
-    public float progress = 0;
+    public float progress;
     
     // should be set before performing
-    public float speed = -1;
-    public float maxProgress = 1; 
+    public float speed;
+    public float maxProgress;
 
     protected Action(ActionTarget target) {
         this.target = target;
@@ -81,7 +81,7 @@ public abstract class Action {
     }
 
     public void reset() {
-        speed = -1;
+        speed = 1;
         progress = 0;
         maxProgress = 1;
     }

@@ -31,6 +31,7 @@ public class WorkbenchMenu extends Container<Table> implements Initable {
     public final RecipeTreeSection recipeTreeSection;
     public final OrderListSection orderListSection;
     public final OrderDetailsSection orderDetailsSection;
+
     public final List<MenuSection> sections;
     public final Label hintLabel;
 

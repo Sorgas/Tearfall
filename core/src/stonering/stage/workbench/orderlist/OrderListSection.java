@@ -70,7 +70,7 @@ public class OrderListSection extends MenuSection {
                         menu.orderDetailsSection.showItem(orderList.getSelectedElement());
                         return true;
                     case Input.Keys.Q:
-                        getStage().dispose();
+                        GameMvc.view().removeStage(getStage());
                         return true;
                     case Input.Keys.A:
                         getStage().setKeyboardFocus(menu.recipeTreeSection); // to recipes

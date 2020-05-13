@@ -9,7 +9,7 @@ package stonering.enums.time;
 public enum TimeUnitEnum {
     TICK("tick", 1), // 0/60 real second
     MINUTE("minute", 25), // 5/12 real second 
-    HOUR("hour", 60), // 25 real seconds
+    HOUR("hour", 60), // 1500 ticks, 25 real seconds
     DAY("day", 24), // 10 real minutes
     MONTH("month", 20), // TODO make month and seasons with different lengths and names.
     YEAR("year", 12);

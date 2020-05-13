@@ -27,7 +27,7 @@ public class ContainedItemsSystem extends EntitySystem<Item> {
 
     public void addItemToContainer(Item item, ItemContainerAspect aspect) {
         if(container.equipped.containsKey(item)) Logger.ITEMS.logError("Adding to container item not removed from unit");
-        if(item.position != null) Logger.ITEMS.logError("Adding to wb item not removed from map");
+        if(container.contained.containsKey(item)) Logger.ITEMS.logError("Adding to container item not removed from another item container");
         aspect.items.add(item);
         container.contained.put(item, aspect);
         item.position = aspect.entity.position;

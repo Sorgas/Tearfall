@@ -47,6 +47,7 @@ public class CraftItemAction extends ItemConsumingAction {
         //TODO check ingredients and fuel availability before bringing something to workbench.
         //TODO add usage of items in nearby containers.
         startCondition = () -> {
+            System.out.println("start check action craft");
             if (workbenchAspect == null) return Logger.TASKS.logWarn("Building " + workbench.toString() + " is not a workbench.", FAIL);
             if (!ingredientOrdersValid()) return FAIL; // check/find items for order
             if(checkBringingItems(containerAspect)) return NEW; // bring ingredient items
@@ -58,6 +59,7 @@ public class CraftItemAction extends ItemConsumingAction {
         };
 
         onStart = () -> {
+            System.out.println("start action craft");
             maxProgress = itemOrder.recipe.workAmount * (1 + getMaterialWorkAmountMultiplier());
             Skill skill = SkillsMap.instance().getSkill(this.skill);
             speed = skill.speed * (1 + task.performer.get(SkillAspect.class).getSkill(this.skill).state.getLevel());
@@ -65,6 +67,7 @@ public class CraftItemAction extends ItemConsumingAction {
         
         // Creates item, consumes ingredients. Product item is put to Workbench.
         onFinish = () -> {
+            System.out.println("finish action craft");
             Item product = new ItemGenerator().generateItemByOrder(itemOrder);
             // spend components
             List<Item> items = itemOrder.allIngredients().stream()

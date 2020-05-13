@@ -46,7 +46,8 @@
     "title": "Make roasted meal",
     "main": ["any", "cookable", "1"],
     "newTag" : "roasted",
-    "iconName": "roast_meal"
+    "iconName": "roast_meal",
+    "workAmount": "500"
 }, {
     "name": "boil_meal",
     "title": "Cook soup",

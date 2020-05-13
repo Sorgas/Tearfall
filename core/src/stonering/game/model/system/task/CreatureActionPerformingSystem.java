@@ -53,9 +53,9 @@ public class CreatureActionPerformingSystem extends EntitySystem<Unit> {
      * TODO update RenderAspect
      */
     private void checkTarget(TaskAspect planning, MovementAspect movement, Task task) {
-        Logger.TASKS.logDebugn("Checking target of " + task.nextAction + ": ");
+//        Logger.TASKS.logDebugn("Checking target of " + task.nextAction + ": ");
         ActionTargetStatusEnum check = task.nextAction.target.check(planning.entity);
-        System.out.println(" " + check.toString());
+//        System.out.println(" " + check.toString());
         switch (check) {
             case READY: // creature is in target, perform
                 handleReachingActionTarget(task, planning);
@@ -77,7 +77,6 @@ public class CreatureActionPerformingSystem extends EntitySystem<Unit> {
      */
     private void handleReachingActionTarget(Task task, TaskAspect aspect) {
         if(aspect.actionChecked || checkAction(task, aspect)) {
-            System.out.println("perform");
             task.nextAction.perform(); // perform checked action
             if(task.nextAction.status == ActionStatusEnum.COMPLETE) { // action completed
                 task.removeAction(task.nextAction); // remove non initial complete action

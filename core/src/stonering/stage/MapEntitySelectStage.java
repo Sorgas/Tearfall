@@ -1,6 +1,5 @@
 package stonering.stage;
 
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.sun.istack.NotNull;
 

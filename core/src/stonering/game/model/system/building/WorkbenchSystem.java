@@ -68,14 +68,12 @@ public class WorkbenchSystem extends EntitySystem<Building> {
                 handleOrderCompletion(aspect, order); // remove, suspend or move to bottom
                 break;
             case FAILED:
-                dropContainedItems(aspect);
                 handleOrderFail(aspect, order);
                 break;
         }
     }
 
     private void handleOpenOrder(ItemOrder order, WorkbenchAspect aspect) {
-        dropContainedItems(aspect);
         createTaskForOrder(order, aspect);
         order.status = ACTIVE;
     }
@@ -96,7 +94,6 @@ public class WorkbenchSystem extends EntitySystem<Building> {
     }
 
     private void handleOrderCompletion(WorkbenchAspect aspect, ItemOrder order) {
-        dropContainedItems(aspect);
         if (order.repeated) { // move repeated order to the bottom
             aspect.orders.remove(order);
             aspect.orders.addLast(order);
@@ -107,7 +104,6 @@ public class WorkbenchSystem extends EntitySystem<Building> {
     }
 
     private void handleOrderFail(WorkbenchAspect aspect, ItemOrder order) {
-        dropContainedItems(aspect);
         if (aspect.deleteFailedTasks) { // delete failed order
             removeOrder(aspect, order);
         } else { // suspend failed order
@@ -186,26 +182,6 @@ public class WorkbenchSystem extends EntitySystem<Building> {
         if (index < 0 || index >= aspect.orders.size() || newIndex < 0 || newIndex >= aspect.orders.size()) return;
         aspect.orders.set(index, aspect.orders.get(newIndex));
         aspect.orders.set(newIndex, order);
-    }
-
-    /**
-     * Removes items from workbench's internal storage, and puts them to random positions on the ground.
-     * If workbench has no passable tiles around, it cannot drop any items.
-     * Not a problem, because units cannot reach it to perform tasks as well.
-     */
-    private void dropContainedItems(WorkbenchAspect aspect) {
-        Logger.BUILDING.logDebug("Dropping contained items from " + aspect.entity);
-        if (aspect.containedItems.isEmpty()) return;
-        List<Position> positions = getPositionsToDrop(aspect);
-        if (positions.isEmpty()) return;
-        ItemContainer container = GameMvc.model().get(ItemContainer.class);
-        Random random = new Random();
-        ItemContainerAspect containerAspect = aspect.entity.get(ItemContainerAspect.class);
-        for (Item item : new ArrayList<>(aspect.containedItems)) {
-            container.containedItemsSystem.removeItemFromContainer(item, containerAspect);
-            container.onMapItemsSystem.putItem(item, positions.get(random.nextInt(positions.size())));
-        }
-        aspect.containedItems.clear();
     }
 
     private List<Position> getPositionsToDrop(WorkbenchAspect aspect) {
