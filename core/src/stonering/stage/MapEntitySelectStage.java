@@ -8,6 +8,7 @@ import stonering.entity.building.Building;
 import stonering.entity.building.BuildingBlock;
 import stonering.entity.building.aspects.WorkbenchAspect;
 import stonering.entity.item.Item;
+import stonering.entity.item.aspects.ItemContainerAspect;
 import stonering.entity.unit.Unit;
 import stonering.entity.zone.FarmZone;
 import stonering.entity.zone.Zone;
@@ -20,9 +21,11 @@ import stonering.game.model.system.plant.PlantContainer;
 import stonering.game.model.system.unit.UnitContainer;
 import stonering.stage.item.ItemStage;
 import stonering.stage.unit.UnitStage;
+import stonering.stage.workbench.ContainerMenu;
 import stonering.stage.workbench.WorkbenchMenu;
 import stonering.stage.zone.ZoneMenuStage;
 import stonering.util.geometry.Int3dBounds;
+import stonering.widget.TabbedPane;
 import stonering.widget.lists.ObservingList;
 import stonering.util.global.Logger;
 
@@ -90,9 +93,15 @@ public class MapEntitySelectStage extends UiStage {
     }
 
     private void tryShowBuildingStage(@NotNull BuildingBlock block) {
+        TabbedPane pane = new TabbedPane(900);
+        //TODO building description
         if (block.building.get(WorkbenchAspect.class) != null) {
-            GameMvc.view().addStage(new SingleWindowStage<>(new WorkbenchMenu(block.building), false, true));
+            pane.add("Orders", new WorkbenchMenu(block.building));
         }
+        if (block.building.get(ItemContainerAspect.class) != null) {
+            pane.add("Items", new ContainerMenu(block.building.get(ItemContainerAspect.class)));
+        }
+        GameMvc.view().addStage(new SingleWindowStage<>(pane, false, true));
     }
 
     private void tryShowZoneStage(@NotNull Zone zone) {

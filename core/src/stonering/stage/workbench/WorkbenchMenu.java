@@ -3,7 +3,6 @@ package stonering.stage.workbench;
 import java.util.Arrays;
 import java.util.List;
 
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -15,7 +14,7 @@ import stonering.stage.workbench.details.OrderDetailsSection;
 import stonering.stage.workbench.orderlist.OrderListSection;
 import stonering.stage.workbench.recipelist.RecipeTreeSection;
 import stonering.util.global.Initable;
-import stonering.widget.util.WrappedLabel;
+import stonering.widget.Restoreable;
 import stonering.util.global.StaticSkin;
 
 /**
@@ -26,7 +25,7 @@ import stonering.util.global.StaticSkin;
  *
  * @author Alexander on 12.08.2019.
  */
-public class WorkbenchMenu extends Container<Table> implements Initable {
+public class WorkbenchMenu extends Container<Table> implements Initable, Restoreable {
     private final Table table;
     public final RecipeTreeSection recipeTreeSection;
     public final OrderListSection orderListSection;
@@ -34,6 +33,7 @@ public class WorkbenchMenu extends Container<Table> implements Initable {
 
     public final List<MenuSection> sections;
     public final Label hintLabel;
+    private MenuSection focused;
 
     public WorkbenchMenu(Building workbench) {
         WorkbenchAspect workbenchAspect = workbench.get(WorkbenchAspect.class);
@@ -58,7 +58,16 @@ public class WorkbenchMenu extends Container<Table> implements Initable {
 
     public void setFocus(MenuSection section) {
         getStage().setKeyboardFocus(section);
+        focused = section;
         sections.forEach(menuSection -> menuSection.setBackground(StaticSkin.getColorDrawable(StaticSkin.background))); // reset backgrounds
         section.setBackground(StaticSkin.getColorDrawable(StaticSkin.backgroundFocused)); // highlight focused section
+    }
+
+    @Override
+    public void saveState() {}
+
+    @Override
+    public void restoreState() {
+        if(focused != null) setFocus(focused);
     }
 }
