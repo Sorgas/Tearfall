@@ -38,7 +38,9 @@ public class DigAction extends SkillAction {
         super(new PositionActionTarget(designation.position, ActionTargetTypeEnum.NEAR), "miner");
         type = designation.type;
         toolItemSelector = new ToolWithActionItemSelector("dig");
-        speedUpdater = () -> (1 + getSpeedBonus()) * (1 + getUnitPerformance()); // 1 for non-trained not tired miner
+        onStart = () -> {
+            speed = (1 + getSpeedBonus()) * (1 + getUnitPerformance()); // 1 for non-trained not tired miner
+        };
         startCondition = () -> {
             if (!type.VALIDATOR.apply(target.getPosition())) return FAIL; // tile did not change
             EquipmentAspect equipment = task.performer.get(EquipmentAspect.class);

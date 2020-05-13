@@ -18,4 +18,6 @@ public class RawRecipe {
     public List<List<String>> consumed = new ArrayList<>();
     public List<String> main;
     public String newTag;
+    public float workAmount; // increases crafting time
+    public String skill;
 }

@@ -24,7 +24,8 @@ public class Material {
     public final int value;
     public final byte atlasY;
     public final Color color;
-
+    public final float workAmountModifier; // changes time of building and crafting
+    
     public Material(int id, RawMaterial raw) {
         this.id = id;
         name = raw.name;
@@ -34,6 +35,7 @@ public class Material {
         value = raw.value;
         atlasY = raw.atlasY;
         color = Color.valueOf(raw.color);
+        workAmountModifier = raw.workAmountModifier;
     }
 
     @Override

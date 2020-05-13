@@ -9,7 +9,6 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import static stonering.entity.job.action.ActionConditionStatusEnum.FAIL;
-import static stonering.entity.job.action.ActionConditionStatusEnum.OK;
 import static stonering.enums.action.ActionStatusEnum.*;
 
 /**
@@ -44,14 +43,15 @@ public abstract class Action {
     public Supplier<Boolean> takingCondition;
     public Supplier<ActionConditionStatusEnum> startCondition; // called before performing, can create sub actions
     public Runnable onStart; // performed on phase start
-    public Supplier<Float> speedUpdater; // calculates speed of performing
     public Consumer<Float> progressConsumer; // performs logic
     public Supplier<Boolean> finishCondition; // when reached, action ends
     public Runnable onFinish; // performed on phase finish
 
-    public float speed = -1;
     public float progress = 0;
-    public float maxProgress = 1;
+    
+    // should be set before performing
+    public float speed = -1;
+    public float maxProgress = 1; 
 
     protected Action(ActionTarget target) {
         this.target = target;
@@ -60,9 +60,9 @@ public abstract class Action {
         startCondition = () -> FAIL; // prevent starting
         onStart = () -> {};
         progressConsumer = (delta) -> progress += delta;
-        speedUpdater = () -> 1f;
         finishCondition = () -> progress >= maxProgress;
         onFinish = () -> {};
+        reset();
     }
 
     /**
@@ -72,17 +72,17 @@ public abstract class Action {
         if (status == OPEN) { // first execution of perform()
             status = ACTIVE;
             onStart.run();
-            speed = speedUpdater.get();
         }
-        progressConsumer.accept(speedUpdater.get());
+        progressConsumer.accept(speed);
         if (finishCondition.get()) { // last execution of perform()
             status = COMPLETE;
             onFinish.run();
         }
     }
 
-    @Override
-    public String toString() {
-        return "Action: ";
+    public void reset() {
+        speed = -1;
+        progress = 0;
+        maxProgress = 1;
     }
 }

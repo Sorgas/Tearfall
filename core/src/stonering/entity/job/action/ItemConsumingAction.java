@@ -9,6 +9,8 @@ import stonering.entity.crafting.ItemConsumingOrder;
 import stonering.entity.item.Item;
 import stonering.entity.item.selectors.ConfiguredItemSelector;
 import stonering.entity.job.action.target.ActionTarget;
+import stonering.enums.materials.Material;
+import stonering.enums.materials.MaterialMap;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.item.ContainedItemsStream;
@@ -126,6 +128,20 @@ public abstract class ItemConsumingAction extends Action {
         return order.allIngredients().stream()
                 .flatMap(ingredientOrder -> ingredientOrder.items.stream())
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * Some high-tier materials should increase time for building or crafting when used.
+     * Modifiers of each used item materials are stacked and applied to recipe work amount with formula:
+     * (1 + modifiers) * base
+     */
+    protected float getMaterialWorkAmountMultiplier() {
+        return order.allIngredients().stream()
+                .flatMap(ingredientOrder -> ingredientOrder.items.stream())
+                .map(item -> item.material)
+                .map(MaterialMap.instance()::getMaterial)
+                .map(material -> material.workAmountModifier)
+                .reduce(Float::sum).orElse(0f);
     }
 
     protected abstract Position getPositionForItems();

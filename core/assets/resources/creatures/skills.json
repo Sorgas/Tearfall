@@ -14,5 +14,17 @@
     "speed": 0.04,
     "quantity": 0.01,
     "quality": 0.01
+}, {
+    "name": "builder",
+    "levels": [40, 90, 180, 300, 500],
+    "speed": 0.04,
+    "quantity": 0.01,
+    "quality": 0.01
+}, {
+    "name": "cook",
+    "levels": [40, 90, 180, 300, 500],
+    "speed": 0.04,
+    "quantity": 0.01,
+    "quality": 0.01
 }
 ]

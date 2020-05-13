@@ -46,6 +46,13 @@ public class GetItemFromContainerAction extends Action {
             }
             return OK;
         };
+
+        onStart = () -> {
+            // TODO consider performer 'performance', container material and type
+            float performanceBonus = task.performer.getOptional(HealthAspect.class).map(aspect -> aspect.properties.get("performance")).orElse(0f);
+            speed = 0.1f;
+        };
+        
         onFinish = () -> {
             EquipmentAspect equipment = task.performer.get(EquipmentAspect.class);
             GrabEquipmentSlot slot = system.getSlotForPickingUpItem(equipment, item);
@@ -57,10 +64,5 @@ public class GetItemFromContainerAction extends Action {
             Logger.EQUIPMENT.logError("Slot for picking up item " + item + " not found");
         };
 
-        speedUpdater = () -> {
-            // TODO consider performer 'performance', container material and type
-            float performanceBonus = task.performer.getOptional(HealthAspect.class).map(aspect -> aspect.properties.get("performance")).orElse(0f);
-            return 0.1f;
-        };
     }
 }

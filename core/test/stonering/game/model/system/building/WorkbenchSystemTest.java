@@ -93,13 +93,13 @@ public class WorkbenchSystemTest {
         assertNull(aspect.currentTask); // task not created
     }
 
-    @Test
-    void failCreateOrderWithWrongRecipe() {
-        assert(aspect.orders.isEmpty());
-        ItemOrder order = new ItemOrder(new Recipe("qwer")); // invalid recipe
-        system.addOrder(aspect, order);
-        assert(aspect.orders.isEmpty()); // order not added
-    }
+//    @Test
+//    void failCreateOrderWithWrongRecipe() {
+//        assert(aspect.orders.isEmpty());
+//        ItemOrder order = new ItemOrder(new Recipe("qwer")); // invalid recipe
+//        system.addOrder(aspect, order);
+//        assert(aspect.orders.isEmpty()); // order not added
+//    }
 
     @Test
     void testTaskCreation() {

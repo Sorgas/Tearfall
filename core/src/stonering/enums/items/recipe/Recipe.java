@@ -1,6 +1,7 @@
 package stonering.enums.items.recipe;
 
 import stonering.enums.items.ItemTagEnum;
+import stonering.enums.unit.SkillsMap;
 import stonering.util.global.Logger;
 
 import java.util.ArrayList;
@@ -24,22 +25,14 @@ public class Recipe {
     public final String itemName;                           // name of produced item's itemType
     public final String iconName;                           // if itemName is empty, icon is used in workbenches
     public final String description;                        // recipe description.
-    public final ItemTagEnum newTag;                             // this tag will be added to product
+    public final ItemTagEnum newTag;                        // this tag will be added to product
     public RecipeType type;
-    public Ingredient main;                       // for transform recipes
+    public Ingredient main;                                 // for transform recipes
     public Map<String, Ingredient> parts = new HashMap<>(); // itemPart name to ingredients. item parts are created on result item
     public List<Ingredient> consumed = new ArrayList<>();   // ingredients, that do not produce item parts.
-
-    public Recipe(String title) {
-        this.title = title;
-        name = "";
-        itemName = "";
-        iconName = "default";
-        description = "";
-        newTag = null;
-        type = COMBINE;
-    }
-
+    public final float workAmount;                          // increases crafting time
+    public final String skill;                              // can be null
+    
     public Recipe(RawRecipe raw) {
         name = raw.name;
         title = raw.title;
@@ -48,6 +41,8 @@ public class Recipe {
         description = raw.description;
         newTag = ItemTagEnum.get(raw.newTag);
         type = raw.main == null ? COMBINE : TRANSFORM;
+        workAmount = raw.workAmount != 0 ? raw.workAmount : 1f;
+        skill = raw.skill;
     }
 
     /**
