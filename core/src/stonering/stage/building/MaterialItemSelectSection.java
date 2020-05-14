@@ -27,7 +27,7 @@ import static com.badlogic.gdx.scenes.scene2d.ui.Tree.*;
  * @author Alexander on 25.03.2020
  */
 public class MaterialItemSelectSection extends ItemSelectSection {
-    private Tree tree;
+    private Tree<ItemSelectionNode, String> tree;
     private Ingredient ingredient;
     public Map<String, List<MaterialTypeNode>> nodeMap = new HashMap<>();
     public final MaterialSelectionConfig config;

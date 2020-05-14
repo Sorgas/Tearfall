@@ -10,7 +10,7 @@ import stonering.util.global.StaticSkin;
  *
  * @author Alexander on 03.04.2020
  */
-public abstract class ItemSelectionNode extends Tree.Node {
+public abstract class ItemSelectionNode extends Tree.Node<ItemSelectionNode, String, Container<Table>> {
     private final Container<Table> container;
     public final Table table;
     public final Label leftLabel;
@@ -21,7 +21,7 @@ public abstract class ItemSelectionNode extends Tree.Node {
     public ItemSelectionNode(String leftText, String rightText, MaterialSelectionConfig config) {
         super(new Container<Table>().fill().height(22));
         this.config = config;
-        container = (Container<Table>) getActor();
+        container = getActor();
         container.setActor(table = new Table());
         table.add(leftLabel = new Label(leftText, StaticSkin.getSkin()));
         table.add(rightLabel = new Label(rightText, StaticSkin.getSkin())).expandX().right().padRight(5);

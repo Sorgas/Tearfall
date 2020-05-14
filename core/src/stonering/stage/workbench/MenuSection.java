@@ -16,7 +16,7 @@ public abstract class MenuSection extends Table {
     protected WrappedLabel header;
 
     public MenuSection(String title) {
-        add(header = new WrappedLabel(title)).height(100).growX().row();
+        add(header = new WrappedLabel(title)).height(100).row();
         MenuSection section = this;
         align(Align.topLeft);
         header.addListener(new InputListener() {

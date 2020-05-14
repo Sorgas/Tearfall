@@ -74,7 +74,7 @@ public class RecipeTreeSection extends MenuSection {
                 Logger.UI.logError("Invalid node type in recipe tree.");
             }
         });
-        this.add(recipeTree);
+        this.add(recipeTree).left().maxWidth(300);
     }
 
     private void createListeners() {

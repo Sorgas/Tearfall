@@ -11,10 +11,9 @@ import stonering.util.global.StaticSkin;
  *
  * @author Alexander on 5/13/2020
  */
-public class ContainerMenu extends Table {
+public class ItemContainerMenu extends Table {
 
-    public ContainerMenu(ItemContainerAspect containerAspect) {
+    public ItemContainerMenu(ItemContainerAspect containerAspect) {
         add(new Label("This is container menu.", StaticSkin.getSkin()));
     }
 }
-

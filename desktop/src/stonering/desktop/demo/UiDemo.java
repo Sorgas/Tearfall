@@ -8,7 +8,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Tree;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Layout;
@@ -64,9 +67,8 @@ public class UiDemo extends Game {
 
             @Override
             public void render(float delta) {
-                Gdx.gl.glClearColor(1, 0, 0, 1);
+                Gdx.gl.glClearColor(0, 0, 0, 1);
                 Gdx.gl.glClear(Gdx.gl20.GL_COLOR_BUFFER_BIT | Gdx.gl20.GL_DEPTH_BUFFER_BIT);
-                System.out.println(getOverNodeIndex());
                 stage.act(delta);
                 stage.draw();
             }
@@ -74,14 +76,6 @@ public class UiDemo extends Game {
             @Override
             public void resize(int width, int height) {
                 stage.resize(width, height);
-            }
-
-            public int getOverNodeIndex() {
-                for (int i = 0; i < tree.getNodes().size; i++) {
-                    Tree.Node node = tree.getNodes().get(i);
-                    if (node == tree.getOverNode()) return i;
-                }
-                return -1;
             }
         });
     }
@@ -99,7 +93,9 @@ public class UiDemo extends Game {
     private Container<Tree> createContainer2() {
         Tree tree = createTree();
         tree.setIndentSpacing(40);
-        tree.setYSpacing(10);
+        tree.setIconSpacing(0,0);
+        tree.setPadding(0);
+//        tree.setYSpacing(10);
         Container container = new Container(tree);
         container.align(Align.topLeft);
         container.setFillParent(true);
@@ -107,34 +103,32 @@ public class UiDemo extends Game {
     }
 
     private Tree createTree() {
-        Tree tree = new Tree(StaticSkin.getSkin());
-        tree.getStyle().plus.setMinWidth(0);
-        tree.getStyle().plus.setMinHeight(0);
-        tree.getStyle().minus.setMinWidth(0);
-        tree.getStyle().minus.setMinHeight(0);
-//        tree.getStyle().minus = null;
+        Tree<Tree.Node, String> tree = new Tree(StaticSkin.getSkin());
+        tree.getStyle().plus.setMinWidth(30);
+        tree.getStyle().plus.setMinHeight(30);
+        tree.getStyle().minus.setMinWidth(30);
+        tree.getStyle().minus.setMinHeight(30);
+        tree.getStyle().background = DrawableMap.REGION.getDrawable("default");
+        tree.setPadding(5);
+        Tree.Node node = null;
         for (int i = 0; i < 5; i++) {
             Label label = new Label("category " + (i + 1), StaticSkin.getSkin());
-
-            Tree.Node node = new Tree.Node(label);
-            label.addListener(new InputListener() {
-                @Override
-                public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                    tree.collapseAll();
-                    node.setExpanded(true);
-                }
-
-                @Override
-                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                    node.setExpanded(!node.isExpanded());
-                    return true;
-                }
-            });
+            node = new Tree.Node<>(label) {};
             tree.add(node);
+            Tree.Node node2 = null;
             for (int j = 0; j < 5; j++) {
-                Label label2 = new Label("item " + (i + 1), StaticSkin.getSkin());
-                Tree.Node node2 = new Tree.Node(label2);
+                Label label2 = new Label("item " + (j + 1), StaticSkin.getSkin());
+                Container<Label> container = new Container<>(label2);
+                container.width(200);
+                node2 = new Tree.Node(container) {};
                 node.add(node2);
+            }
+            for (int k = 0; k < 5; k++) {
+                Label label3 = new Label("item " + (k + 1), StaticSkin.getSkin());
+                Container<Label> container2 = new Container<>(label3);
+                container2.width(200);
+                Tree.Node node3 = new Tree.Node(container2) {};
+                node2.add(node3);
             }
         }
         return tree;

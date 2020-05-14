@@ -3,6 +3,7 @@ package stonering.widget;
 import java.util.Optional;
 import java.util.function.Consumer;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Tree;
 import com.badlogic.gdx.utils.Array;
@@ -12,7 +13,7 @@ import stonering.enums.ControlActionsEnum;
 /**
  * @author Alexander on 04.05.2020
  */
-public class NavigableTree extends Tree {
+public class NavigableTree<T extends Tree.Node<T, String, Actor>> extends Tree<T, String> {
     private Consumer<Node> selectionConsumer;
 
     public NavigableTree(Skin skin) {
@@ -43,7 +44,7 @@ public class NavigableTree extends Tree {
     }
 
     public void navigate(int delta) {
-        Node node = ensureSelection();
+        T node = ensureSelection();
         if (node == null) return; // tree is empty
         if (delta > 0) {
             getSelection().set(getNextNode(node));
@@ -53,7 +54,7 @@ public class NavigableTree extends Tree {
     }
 
     public void navigateLevel(int delta) {
-        Node node = ensureSelection();
+        T node = ensureSelection();
         if (node == null) return; // tree is empty
         if (delta > 0) {
             if (node.getChildren().isEmpty()) {
@@ -74,20 +75,20 @@ public class NavigableTree extends Tree {
         }
     }
 
-    private int getNodeIndex(Array<Node> array, Node node) {
+    private int getNodeIndex(Array<T> array, T node) {
         for (int i = 0; i < array.size; i++) {
             if (node == array.get(i)) return i;
         }
         return -1;
     }
 
-    private Node getNextNode(Node node) {
+    private T getNextNode(T node) {
         if (node.isExpanded()) {
             return node.getChildren().get(0);
         } else {
-            Node node2 = node;
+            T node2 = node;
             while (node2 != null) {
-                Array<Node> array = getSiblings(node2);
+                Array<T> array = getSiblings(node2);
                 int index = getNodeIndex(array, node2);
                 if (index < array.size - 1) return array.get(index + 1); // return next sibling
                 node2 = node2.getParent(); // 1 level up
@@ -96,30 +97,30 @@ public class NavigableTree extends Tree {
         }
     }
 
-    private Node getPreviousNode(Node node) {
-        Array<Node> array = getSiblings(node);
+    private T getPreviousNode(T node) {
+        Array<T> array = getSiblings(node);
         int index = getNodeIndex(array, node);
         if (index == 0) {
             return node.getParent() != null ? node.getParent() : node; // return parent or first node
         } else {
-            Node targetNode = array.get(index - 1);
+            T targetNode = array.get(index - 1);
             while (targetNode.isExpanded()) {
-                Array<Node> children = targetNode.getChildren();
+                Array<T> children = targetNode.getChildren();
                 targetNode = children.get(children.size - 1);
             }
             return targetNode;
         }
     }
 
-    private Array<Node> getSiblings(Node node) {
+    private Array<T> getSiblings(T node) {
         return node.getParent() != null ? node.getParent().getChildren() : getRootNodes();
     }
 
-    public Node getSelectedNode() {
+    public T getSelectedNode() {
         return getSelection().getLastSelected();
     }
 
-    private Node ensureSelection() {
+    private T ensureSelection() {
         if (getRootNodes().isEmpty()) return null;
         if (!getSelection().isEmpty()) return getSelection().getLastSelected();
         getSelection().set(getRootNodes().get(0));
