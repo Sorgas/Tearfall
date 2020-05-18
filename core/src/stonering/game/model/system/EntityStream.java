@@ -5,6 +5,7 @@ import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
@@ -17,7 +18,7 @@ import java.util.stream.Stream;
 public abstract class EntityStream<T extends Entity> {
     public Stream<T> stream;
 
-    public EntityStream(List<T> entities) {
+    public EntityStream(Collection<T> entities) {
         stream = entities.stream();
     }
 

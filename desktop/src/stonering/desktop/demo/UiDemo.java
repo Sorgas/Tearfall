@@ -29,6 +29,7 @@ import stonering.widget.BackgroundGenerator;
 import stonering.widget.ButtonMenu;
 import stonering.widget.NavigableVerticalGroup;
 import stonering.widget.item.CheckableSingleItemSquareButton;
+import stonering.widget.item.SingleItemSquareButton;
 import stonering.widget.item.StackedItemSquareButton;
 
 /**
@@ -46,14 +47,12 @@ public class UiDemo extends Game {
     @Override
     public void create() {
         setScreen(new SimpleScreen() {
-            private Tree tree;
             private UiStage stage = new UiStage();
 
             {
                 stage.interceptInput = false;
-                Container<Tree> container = createContainer2();
+                Container<Tree> container = createContainer();
                 stage.addActor(container);
-                tree = container.getActor();
                 stage.addListener(new InputListener() {
                     @Override
                     public boolean keyDown(InputEvent event, int keycode) {
@@ -84,7 +83,9 @@ public class UiDemo extends Game {
         Container container = new Container();
         Image image = new Image();
         image.setDrawable(DrawableMap.ICON.getDrawable("roast_mealqwer"));
-        container.setActor(image);
+        Item item = new ItemGenerator().generateItem("pickaxe", "iron", null);
+        SingleItemSquareButton button = new SingleItemSquareButton(item, StaticSkin.getColorDrawable(StaticSkin.background));
+        container.setActor(button);
         container.size(200, 200);
         container.setFillParent(true);
         return container;
@@ -95,7 +96,6 @@ public class UiDemo extends Game {
         tree.setIndentSpacing(40);
         tree.setIconSpacing(0,0);
         tree.setPadding(0);
-//        tree.setYSpacing(10);
         Container container = new Container(tree);
         container.align(Align.topLeft);
         container.setFillParent(true);

@@ -24,6 +24,7 @@ public class StaticSkin {
     public static final Color button = Color.valueOf("C6B774ff"); // dark yellow
     public static final Color button2 = Color.valueOf("E2CE79ff"); // yellow
     public static final Color fontColor = Color.valueOf("f0f0f0ff"); // white
+    public static final Color buttonShade = Color.valueOf("8080808"); // grey 50% transparency
 
     public static final BackgroundGenerator generator = new BackgroundGenerator();
 

@@ -1,5 +1,8 @@
 package stonering.widget.item;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -8,54 +11,37 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
  * Table extension, that provides convenient methods for filling and modifying grid-like structure.
  * Stores all added actors both in cells and two dimensional array for supporting modifying behavior.
  * Size in cells is specified on creation. TODO recreate table to allow changing size.
- * Table::defaults() should be set before fill().
- * 
+ * Table::defaults() should be set before createGrid().
+ *
  * @author Alexander on 25.02.2020.
  */
 public class ActorGrid<T extends Actor> extends Table {
-    protected Cell<T>[][] gridCells;
+    protected List<List<Cell<T>>> rows;
     protected int cellWidth;
-    protected int cellHeight;
 
-    public ActorGrid(int cellWidth, int cellHeight) {
-        this.cellWidth = cellWidth;
-        this.cellHeight = cellHeight;
-        gridCells = new Cell[cellWidth][cellHeight];
+    public ActorGrid(int sellWidth) {
+        this.cellWidth = sellWidth;
     }
 
-    public void init() {
-        for (int y = 0; y < cellHeight; y++) {
-            for (int x = 0; x < cellWidth; x++) {
-                gridCells[x][y] = add(); // create table cell and save its reference
-            }
-            row();
+    public void addActorToGrid(T actor) {
+        List<Cell<T>> row = rows.get(rows.size());
+        if(row.size() == cellWidth) {
+            row = startNewRow();
         }
+        row.add(add(actor));
     }
 
-    public boolean addActorToGrid(T actor) {
-        Cell<T> cell = findFirstFreeCell();
-        if(cell == null) return false; // grid is full
-        cell.setActor(actor);
-        return true;
-    }
-    
-    public T getActor(int x, int y) {
-        return gridCells[x][y].getActor();
-    }
-    
-    private Cell<T> findFirstFreeCell() {
-        for (int y = 0; y < cellHeight; y++) {
-            for (int x = 0; x < cellWidth; x++) {
-                if(gridCells[x][y].getActor() == null) return gridCells[x][y]; 
-            }
-        }
-        return null;
+    private List<Cell<T>> startNewRow() {
+        row();
+        List<Cell<T>> row = new ArrayList<>();
+        rows.add(row);
+        return row;
     }
 
     public void clearGrid() {
-        for (int y = 0; y < cellHeight; y++) {
-            for (int x = 0; x < cellWidth; x++) {
-                gridCells[x][y].setActor(null);
+        for (List<Cell<T>> row : rows) {
+            for (Cell<T> cell : row) {
+                cell.setActor(null);
             }
         }
     }

@@ -1,8 +1,5 @@
 package stonering.widget.item;
 
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
@@ -15,38 +12,35 @@ import stonering.entity.RenderAspect;
 import stonering.util.global.StaticSkin;
 
 /**
- * Button that shows single item.
+ * Button that shows single item. Can be set empty.
+ * TODO create custom skin.
  *
  * @author Alexander on 29.01.2020
  */
 public class SingleItemSquareButton extends Button {
-    public static final int SHADING_COLOR = new Color(0.5f, 0.5f, 0.5f, 0.5f).toIntBits();
-    public static final Texture SHADING_TEXTURE;
     public static final int SIZE = 64;
-    
+
     private Item item;
     
     public final Stack stack;
     public final Image backgroundImage;
     public final Image itemImage;
     public final Image shadingImage;
-    
-    static { // TODO move static util objects to some static enum
-        Pixmap map = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
-        map.drawPixel(0, 0, SHADING_COLOR);
-        SHADING_TEXTURE = new Texture(map);
-    }
-    
-    public SingleItemSquareButton(Item item, Drawable background) {
+
+    public SingleItemSquareButton(Item item, Drawable background, int size) {
         super(StaticSkin.getSkin());
         this.add(stack = new Stack(
-                wrapWithContainer(backgroundImage = new Image(background), SIZE), // TODO use another background
-                wrapWithContainer(itemImage = new Image(), (int) (SIZE * 0.8f)), // item icon
-                wrapWithContainer(shadingImage = new Image(SHADING_TEXTURE), SIZE))); // foreground
+                wrapWithContainer(backgroundImage = new Image(background), size), // TODO use another background
+                wrapWithContainer(itemImage = new Image(), (int) (size * 0.8f)), // item icon
+                wrapWithContainer(shadingImage = new Image(StaticSkin.getColorDrawable(StaticSkin.buttonShade)), size))); // foreground
         shadingImage.setVisible(false);
         setItem(item);
     }
-    
+
+    public SingleItemSquareButton(Item item, Drawable background) {
+        this(item, background, SIZE);
+    }
+
     protected <T extends Actor> Container<T> wrapWithContainer(T actor, int size) {
         return new Container<>(actor).size(size, size);
     }
