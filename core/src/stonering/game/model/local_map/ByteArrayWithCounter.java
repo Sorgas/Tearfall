@@ -1,6 +1,6 @@
 package stonering.game.model.local_map;
 
-import stonering.game.model.util.UtilByteArray;
+import stonering.util.UtilByteArray;
 import stonering.util.global.MutableInteger;
 
 import java.util.HashMap;

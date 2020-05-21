@@ -33,7 +33,7 @@ import static stonering.enums.action.ActionStatusEnum.*;
 public abstract class Action {
     public Task task; // can be modified during execution
     public final ActionTarget target;
-    public ActionStatusEnum status;
+    public ActionStatusEnum status = OPEN;
 
     /**
      * Condition to be met before task with this action is assigned to unit.
@@ -59,7 +59,7 @@ public abstract class Action {
         takingCondition = () -> true;
         startCondition = () -> FAIL; // prevent starting
         onStart = () -> {};
-        progressConsumer = (delta) -> progress += delta;
+        progressConsumer = delta -> progress += delta;
         finishCondition = () -> progress >= maxProgress;
         onFinish = () -> {};
         reset();

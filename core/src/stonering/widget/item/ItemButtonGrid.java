@@ -22,10 +22,10 @@ public class ItemButtonGrid extends ActorGrid<SingleItemSquareButton> {
 
     public void fill(Collection<Item> items) {
         Map<ItemGroupingKey, List<Item>> itemMap = new ItemsStream(items).groupByTypeAndMaterial();
-        itemMap.entrySet().forEach();
-        items.forEach(item -> {
-            super.addActorToGrid(new SingleItemSquareButton);
-                }
-        );
+//        itemMap.entrySet().forEach();
+//        items.forEach(item -> {
+//            super.addActorToGrid(new SingleItemSquareButton());
+//                }
+//        );
     }
 }

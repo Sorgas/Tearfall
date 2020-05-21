@@ -1,5 +1,7 @@
 package stonering.entity.unit.aspects.needs;
 
+import static stonering.enums.unit.health.HealthParameterEnum.*;
+
 import stonering.entity.Entity;
 import stonering.entity.building.Building;
 import stonering.entity.building.aspects.RestFurnitureAspect;
@@ -18,6 +20,7 @@ import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.building.BuildingContainer;
 import stonering.game.model.system.unit.CreatureHealthSystem;
 import stonering.util.geometry.Position;
+import stonering.util.global.Logger;
 
 import java.util.List;
 import java.util.Optional;
@@ -41,8 +44,8 @@ public class RestNeed extends Need {
     @Override
     public TaskPriorityEnum countPriority(Entity entity) {
         HealthAspect health = entity.get(HealthAspect.class);
-        float relativeFatigue = health.parameters.get(HealthParameterEnum.FATIGUE).getRelativeValue();
-        return HealthParameterEnum.FATIGUE.PARAMETER.getRange(relativeFatigue).priority;
+        float relativeFatigue = health.parameters.get(FATIGUE).getRelativeValue();
+        return FATIGUE.PARAMETER.getRange(relativeFatigue).priority;
     }
 
     /**
@@ -53,12 +56,13 @@ public class RestNeed extends Need {
         TaskPriorityEnum priority = countPriority(entity);
         switch (priority) {
             case NONE:
-                break;
+                return Logger.NEED.logWarn("Attempt to create sleep task with none priority", null);
             case COMFORT:
             case JOB:
             case HEALTH_NEEDS: // sleep in bed
+                //TODO sleep at home only
             case SAFETY:
-                //TODO sleep at safe place (at home, under roof)
+                //TODO sleep in any bed
             case LIFE:
                 //TODO fall asleep at current place
                 return selectBuildingToSleep(entity.position).map(building -> createTaskToSleep(building, priority)).orElse(null);

@@ -1,4 +1,4 @@
-package stonering.game.model.util;
+package stonering.util;
 
 import stonering.util.geometry.Position;
 

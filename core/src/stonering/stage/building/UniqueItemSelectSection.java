@@ -22,7 +22,7 @@ public class UniqueItemSelectSection extends ItemSelectSection {
     public UniqueItemSelectSection(Ingredient ingredient, String title) {
         super(title);
         List<Item> items = new OnMapItemsStream().filterByTypes(ingredient.itemTypes).filterHasTag(ingredient.tag).toList();
-        grid = new ItemButtonGrid(5, items.size() / 5 + 1);
+        grid = new ItemButtonGrid(5);
         Drawable background = DrawableMap.getTextureDrawable("ui/item_slot.png");
         for (Item item : items) {
             grid.addActorToGrid(new SingleItemSquareButton(item, background));

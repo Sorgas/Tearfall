@@ -53,7 +53,13 @@ public class LocalGenerationScreen extends SingleStageScreen {
         rootTable.pad(10).align(Align.bottomLeft);
         rootTable.add(createMenuTable());
         stage.addActor(rootTable);
-        stage.addListener(createKeyListener());
+        stage.addListener(new InputListener() {
+            @Override
+            public boolean keyUp(InputEvent event, int keycode) {
+                proceedButton.toggle();
+                return true;
+            }
+        });
     }
 
     private Table createMenuTable() {
@@ -76,16 +82,6 @@ public class LocalGenerationScreen extends SingleStageScreen {
         });
 //        stage.addActor(table);
         return table;
-    }
-
-    private InputListener createKeyListener() {
-        return new InputListener() {
-            @Override
-            public boolean keyUp(InputEvent event, int keycode) {
-                proceedButton.toggle();
-                return true;
-            }
-        };
     }
 
     @Override

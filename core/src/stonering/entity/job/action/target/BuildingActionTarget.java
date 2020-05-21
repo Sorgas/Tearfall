@@ -3,15 +3,13 @@ package stonering.entity.job.action.target;
 import stonering.entity.building.BuildingOrder;
 import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.enums.blocks.BlockTypeEnum;
-import stonering.enums.blocks.PassageEnum;
 import stonering.enums.buildings.BuildingType;
 import stonering.enums.buildings.BuildingTypeMap;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.local_map.passage.NeighbourPositionStream;
-import stonering.game.model.util.UtilByteArray;
+import stonering.util.UtilByteArray;
 import stonering.util.geometry.Int2dBounds;
-import stonering.util.geometry.IntVector2;
 import stonering.util.geometry.Position;
 import stonering.util.geometry.RotationUtil;
 

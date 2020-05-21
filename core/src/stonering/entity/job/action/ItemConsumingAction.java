@@ -9,7 +9,6 @@ import stonering.entity.crafting.ItemConsumingOrder;
 import stonering.entity.item.Item;
 import stonering.entity.item.selectors.ConfiguredItemSelector;
 import stonering.entity.job.action.target.ActionTarget;
-import stonering.enums.materials.Material;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;

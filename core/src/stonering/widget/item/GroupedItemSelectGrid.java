@@ -1,6 +1,5 @@
 package stonering.widget.item;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import stonering.entity.item.ItemGroupingKey;
 import stonering.enums.items.recipe.Ingredient;
 import stonering.game.model.system.item.OnMapItemsStream;
@@ -24,12 +23,11 @@ public class GroupedItemSelectGrid extends ActorGrid<StackedItemSquareButton> im
     public Consumer<StackedItemSquareButton> commonHandler; // handles all buttons
 
     public GroupedItemSelectGrid(int cellWidth, int cellHeight) {
-        super(cellWidth, cellHeight);
+        super(cellWidth);
         buttonMap = new HashMap<>();
         commonHandler = button -> {};
         defaults().pad(5).size(StackedItemSquareButton.SIZE, StackedItemSquareButton.SIZE);
         top().left();
-        super.init();
         //TODO add table background
     }
 
@@ -40,11 +38,11 @@ public class GroupedItemSelectGrid extends ActorGrid<StackedItemSquareButton> im
     }
 
     public void setAllButtonsDisabled(boolean disabled) {
-        for (Cell<StackedItemSquareButton>[] row : gridCells) {
-            for (Cell<StackedItemSquareButton> cell : row) {
-                if (cell != null && cell.getActor() != null) cell.getActor().setDisabled(disabled);
-            }
-        }
+//        for (Cell<StackedItemSquareButton>[] row : gridCells) {
+//            for (Cell<StackedItemSquareButton> cell : row) {
+//                if (cell != null && cell.getActor() != null) cell.getActor().setDisabled(disabled);
+//            }
+//        }
     }
 
     @Override

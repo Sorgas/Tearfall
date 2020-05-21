@@ -1,6 +1,5 @@
 package stonering;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import stonering.entity.world.World;
 import stonering.game.GameMvc;
@@ -14,7 +13,7 @@ import stonering.screen.WorldGenScreen;
 import stonering.widget.GameWithCustomCursor;
 
 /**
- * Game object. Container of screens.
+ * Game object. Switches screens of a game.
  *
  * @author Alexander Kuzyakov on 08.04.2017.
  */
@@ -24,7 +23,7 @@ public class TearFall extends GameWithCustomCursor {
     private SelectWorldScreen selectWorldScreen;
     private SelectLocationMenu selectLocationMenu;
     private PrepareExpeditionMenu prepareExpeditionMenuMvc;
-    private LocalGenerationScreen localGenerationScreen;
+    private LocalGenerationScreen localGenScreen;
     private Texture cursor;
 
     @Override
@@ -62,18 +61,11 @@ public class TearFall extends GameWithCustomCursor {
     }
 
     public void switchToLocalGen(World world, Position location) {
-        if (localGenerationScreen == null) localGenerationScreen = new LocalGenerationScreen(this, world, location);
-        setScreen(localGenerationScreen);
+        if (localGenScreen == null) localGenScreen = new LocalGenerationScreen(this, world, location);
+        setScreen(localGenScreen);
     }
 
     public void switchToGame() {
         setScreen(GameMvc.view());
-    }
-
-    @Override
-    public void render() {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(Gdx.gl20.GL_COLOR_BUFFER_BIT | Gdx.gl20.GL_DEPTH_BUFFER_BIT);
-        super.render();
     }
 }

@@ -8,7 +8,7 @@ import stonering.game.model.local_map.ByteArrayWithCounter;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.building.BuildingContainer;
 import stonering.game.model.system.plant.PlantContainer;
-import stonering.game.model.util.UtilByteArray;
+import stonering.util.UtilByteArray;
 import stonering.util.geometry.Position;
 
 import static stonering.enums.blocks.BlockTypeEnum.*;

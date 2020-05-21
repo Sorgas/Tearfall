@@ -2,7 +2,7 @@ package stonering.game.model.local_map;
 
 import com.badlogic.gdx.math.MathUtils;
 import stonering.enums.blocks.BlockTypeEnum;
-import stonering.game.model.util.UtilByteArray;
+import stonering.util.UtilByteArray;
 import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
 

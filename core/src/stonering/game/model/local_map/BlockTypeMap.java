@@ -3,7 +3,7 @@ package stonering.game.model.local_map;
 import stonering.enums.blocks.BlockTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.system.plant.PlantContainer;
-import stonering.game.model.util.UtilByteArray;
+import stonering.util.UtilByteArray;
 import stonering.util.geometry.Position;
 
 import static stonering.enums.blocks.BlockTypeEnum.*;

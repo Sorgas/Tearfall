@@ -11,8 +11,8 @@ import java.util.Map;
 
 /**
  * Stores health condition of a unit. See {@link CreatureHealthSystem}
- * Properties are values that can influence creature in a various way.
- * Default values are 0, and only buff modifiers are stored. Buffs apply additive changes, which is removed when buff fades.
+ * Properties are values that can influence creature in a various way (speed, performance, etc).
+ * Default values are 0, and only buff modifiers are stored. Buffs apply additive changes, which is removed when buff fades (10% == 0.1f).
  *
  * Parameters are values of creatures health conditions, like hunger of fatigue. Parameters can produce buffs which influence properties.
  * TODO add calculation of max values based on creature's attributes.

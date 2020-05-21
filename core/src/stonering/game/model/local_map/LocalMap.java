@@ -1,11 +1,10 @@
 package stonering.game.model.local_map;
 
 import com.badlogic.gdx.math.Vector2;
-import stonering.enums.blocks.BlockTypeEnum;
+
 import stonering.game.model.local_map.passage.PassageMap;
 import stonering.game.model.system.ModelComponent;
 import stonering.game.model.tilemaps.LocalTileMapUpdater;
-import stonering.game.model.util.UtilByteArray;
 import stonering.util.geometry.Position;
 import stonering.util.global.Initable;
 import stonering.util.global.Logger;
