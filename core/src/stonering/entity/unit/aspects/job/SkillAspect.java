@@ -19,8 +19,7 @@ public class SkillAspect extends Aspect {
     }
 
     public SkillValue getSkill(String skill) {
-        skills.putIfAbsent(skill, new SkillValue(skill)); // create new skill with 0 experience
-        return skills.get(skill);
+        return skills.computeIfAbsent(skill, SkillValue::new); // create new skill with 0 experience
     }
 
     /**

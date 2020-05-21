@@ -19,5 +19,5 @@ public class RawRecipe {
     public List<String> main;
     public String newTag;
     public float workAmount; // increases crafting time
-    public String skill;
+    public String job;
 }
