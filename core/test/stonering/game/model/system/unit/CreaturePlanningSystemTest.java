@@ -11,7 +11,7 @@ import stonering.entity.unit.aspects.job.JobsAspect;
 import stonering.entity.unit.aspects.TaskAspect;
 import stonering.enums.blocks.BlockTypeEnum;
 import stonering.enums.unit.CreatureType;
-import stonering.enums.unit.job.JobsEnum;
+import stonering.enums.unit.JobsEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
 import stonering.game.model.MainGameModel;

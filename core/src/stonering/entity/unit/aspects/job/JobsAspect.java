@@ -2,7 +2,7 @@ package stonering.entity.unit.aspects.job;
 
 import stonering.entity.Aspect;
 import stonering.entity.Entity;
-import stonering.enums.unit.job.JobsEnum;
+import stonering.enums.unit.JobsEnum;
 
 import java.util.*;
 

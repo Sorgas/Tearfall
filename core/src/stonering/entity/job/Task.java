@@ -2,7 +2,7 @@ package stonering.entity.job;
 
 import stonering.entity.item.Item;
 import stonering.entity.job.designation.Designation;
-import stonering.enums.unit.job.JobsEnum;
+import stonering.enums.unit.JobsEnum;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.entity.job.action.Action;
 import stonering.entity.unit.Unit;
@@ -14,7 +14,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static stonering.enums.action.ActionStatusEnum.COMPLETE;
-import static stonering.enums.unit.job.JobsEnum.NONE;
+import static stonering.enums.unit.JobsEnum.NONE;
 
 /**
  * Task object for unit behavior in the game.

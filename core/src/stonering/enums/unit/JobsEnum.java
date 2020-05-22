@@ -1,16 +1,14 @@
-package stonering.enums.unit.job;
+package stonering.enums.unit;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-import stonering.entity.job.Task;
 import stonering.entity.unit.aspects.job.JobsAspect;
 
 /**
- * Holds all possible jobs and experience values for level-ups.
- * Some {@link Task}s require enabled job, preventing unit to take task, if it hasn't this job.
+ * Holds all possible jobs. Jobs can be enabled for units, allowing them to take tasks.
  * Unit's jobs stored in {@link JobsAspect}.
- * Performing tasks of some jobs can give experience in certain skills (defined in {@link stonering.entity.job.action.Action})
+ * See {@link SkillsMap}
  * TODO replace with set of loaded strings.
  *
  * @author Alexander on 08.08.2019.

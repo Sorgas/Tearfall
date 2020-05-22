@@ -10,7 +10,7 @@ import stonering.entity.unit.aspects.needs.NeedsAspect;
 import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.enums.action.TaskStatusEnum;
 import stonering.enums.time.TimeUnitEnum;
-import stonering.enums.unit.job.JobsEnum;
+import stonering.enums.unit.JobsEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.Updatable;
 import stonering.game.model.local_map.passage.PassageMap;

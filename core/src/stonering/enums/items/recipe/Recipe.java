@@ -1,13 +1,13 @@
 package stonering.enums.items.recipe;
 
 import stonering.enums.items.ItemTagEnum;
-import stonering.enums.unit.job.JobsEnum;
+import stonering.enums.unit.JobsEnum;
 import stonering.util.global.Logger;
 
 import java.util.*;
 
 import static stonering.enums.items.recipe.RecipeType.*;
-import static stonering.enums.unit.job.JobsEnum.NONE;
+import static stonering.enums.unit.JobsEnum.NONE;
 
 /**
  * Recipe for crafting.
@@ -30,7 +30,8 @@ public class Recipe {
     public List<Ingredient> consumed = new ArrayList<>();   // ingredients, that do not produce item parts.
     public final float workAmount;                          // increases crafting time
     public final JobsEnum job;                              // if null,
-    
+    public final String skill;                              // if set, crafting gets bonus and gives experience in that skill
+
     public Recipe(RawRecipe raw) {
         name = raw.name;
         title = raw.title;
@@ -41,8 +42,10 @@ public class Recipe {
         type = raw.main == null ? COMBINE : TRANSFORM;
         workAmount = raw.workAmount != 0 ? raw.workAmount : 1f;
         job = Optional.ofNullable(raw.job)
+                .map(String::toUpperCase)
                 .map(JobsEnum.map::get)
                 .orElse(NONE);
+        skill = raw.skill;
     }
 
     /**

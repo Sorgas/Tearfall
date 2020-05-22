@@ -9,6 +9,8 @@ import java.util.Map;
 
 /**
  * Map for all skills in the game. Skills are loaded from json.
+ * Some actions can benefit from skills, and give experience in that skill.
+ * Default experience delta is 10 (mining, harvesting, crafting simple items or cooking).
  *
  * @author Alexander_Kuzyakov on 03.07.2019.
  */
@@ -26,8 +28,8 @@ public class SkillsMap {
         return instance;
     }
 
-    public Skill getSkill(String skillName) {
-        return skills.get(skillName);
+    public static Skill getSkill(String skillName) {
+        return skillName != null ? instance().skills.get(skillName) : null;
     }
 
     private void loadTemplates() {
