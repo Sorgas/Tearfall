@@ -12,11 +12,12 @@ public class RawRecipe {
     public String name;
     public String title;
     public String itemName;
+    public String newMaterial;
     public String iconName;
     public String description;
     public List<List<String>> parts = new ArrayList<>();
-    public List<List<String>> consumed = new ArrayList<>();
-    public List<String> main;
+    public List<String> consumed = new ArrayList<>();
+    public String main;
     public String newTag;
     public float workAmount; // increases crafting time
     public String job;

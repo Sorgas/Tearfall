@@ -1,7 +1,10 @@
-package stonering.enums.materials;
+package stonering.entity.material;
 
 import com.badlogic.gdx.graphics.Color;
+
+import stonering.entity.Entity;
 import stonering.enums.items.ItemTagEnum;
+import stonering.enums.materials.RawMaterial;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,7 +18,7 @@ import java.util.stream.Collectors;
  * @author Alexander Kuzyakov on 04.06.2017.
  */
 
-public class Material {
+public class Material extends Entity {
     public final int id;
     public final String name;
     public final List<ItemTagEnum> tags;
@@ -27,6 +30,7 @@ public class Material {
     public final float workAmountModifier; // changes time of building and crafting
     
     public Material(int id, RawMaterial raw) {
+        super();
         this.id = id;
         name = raw.name;
         tags = raw.tags.stream().map(ItemTagEnum::get).collect(Collectors.toList());

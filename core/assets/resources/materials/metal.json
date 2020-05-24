@@ -1,0 +1,91 @@
+[
+    {
+        "name": "iron",
+        "tags": ["metal"],
+        "density": "7.7",
+        "reactions": {
+            "melt": ["1538"]
+        },
+        "value": "10",
+        "atlasY": "0",
+        "color": "ffffffff"
+    }, {
+    "name": "steel",
+    "tags": ["metal"],
+    "density": "8",
+    "reactions": {
+        "melt": ["1510"]
+    },
+    "value": "10",
+    "atlasY": "0",
+    "color": "ffffffff"
+}, {
+    "name": "copper",
+    "tags": ["metal"],
+    "density": "9",
+    "reactions": {
+        "melt": ["1084"]
+    },
+    "value": "10",
+    "atlasY": "0",
+    "color": "ffffffff"
+}, {
+    "name": "silver",
+    "tags": ["metal"],
+    "density": "10.5",
+    "reactions": {
+        "melt": [
+            "961"
+        ]
+    },
+    "value": "10",
+    "atlasY": "0",
+    "color": "ffffffff"
+}, {
+    "name": "gold",
+    "tags": ["metal"],
+    "density": "19.3",
+    "reactions": {
+        "melt": ["1064"]
+    },
+    "value": "10",
+    "atlasY": "0",
+    "color": "ffffffff"
+}, {
+    "name": "zinc",
+    "tags": ["metal"],
+    "density": "7.1",
+    "reactions": {
+        "melt": [
+            "419"
+        ]
+    },
+    "value": "10",
+    "atlasY": "0",
+    "color": "ffffffff"
+}, {
+    "name": "lead",
+    "tags": ["metal"],
+    "density": "11.4",
+    "reactions": {
+        "melt": [
+            "327"
+        ]
+    },
+    "value": "10",
+    "atlasY": "0",
+    "color": "ffffffff"
+}, {
+    "name": "tin",
+    "tags": ["metal"],
+    "density": "7.3",
+    "reactions": {
+        "melt": [
+            "232"
+        ]
+    },
+    "value": "10",
+    "atlasY": "0",
+    "color": "ffffffff"
+}
+]

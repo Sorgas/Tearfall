@@ -28,6 +28,7 @@ public class LocalGeneratorContainer {
     private LocalItemsGenerator localItemsGenerator;
     private LocalTemperatureGenerator localTemperatureGenerator;
     private LocalSurfaceWaterPoolsGenerator localSurfaceWaterPoolsGenerator;
+    private LocalOresGenerator localOresGenerator;
     private LocalGenConfig config;
 
     public LocalGeneratorContainer(LocalGenConfig config, World world) {
@@ -39,6 +40,7 @@ public class LocalGeneratorContainer {
     private void createGenerators() {
         localHeightsGenerator = new LocalHeightsGenerator(localGenContainer);
         localStoneLayersGenerator = new LocalStoneLayersGenerator(localGenContainer);
+//        localOresGenerator = new
         localCaveGenerator = new LocalCaveGenerator(localGenContainer);
         localRampAndFloorPlacer = new LocalRampAndFloorPlacer(localGenContainer);
         localTemperatureGenerator = new LocalTemperatureGenerator(localGenContainer);

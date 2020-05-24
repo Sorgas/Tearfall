@@ -2,7 +2,6 @@ package stonering.game.model.tilemaps;
 
 import stonering.enums.blocks.BlockTypeEnum;
 import stonering.enums.blocks.BlockTileMapping;
-import stonering.enums.materials.Material;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;

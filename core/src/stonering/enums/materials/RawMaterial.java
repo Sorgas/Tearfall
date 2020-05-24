@@ -2,6 +2,9 @@ package stonering.enums.materials;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
+import stonering.entity.material.Material;
 
 /**
  * Bean to be red from json and processed into {@link Material}.
@@ -17,4 +20,5 @@ public class RawMaterial {
     public byte atlasY;
     public String color;
     public float workAmountModifier = 0;
+    public List<String> aspects; // "aspect(params)"
 }

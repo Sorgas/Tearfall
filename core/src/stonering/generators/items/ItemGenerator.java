@@ -9,7 +9,7 @@ import stonering.entity.RenderAspect;
 import stonering.entity.item.aspects.FallingAspect;
 import stonering.enums.items.type.ItemType;
 import stonering.enums.items.type.ItemTypeMap;
-import stonering.enums.materials.Material;
+import stonering.entity.material.Material;
 import stonering.enums.materials.MaterialMap;
 import stonering.entity.item.Item;
 import stonering.stage.renderer.AtlasesEnum;
@@ -78,22 +78,15 @@ public class ItemGenerator {
      */
     public Item generateItemByOrder(ItemOrder order) {
         Logger.ITEMS.logDebug("Generating crafted item " + order.recipe.itemName + " for " + order.recipe.title);
-        Item item = null;
+        if(order.recipe.newMaterial.equals("ore_to_metal")) {
+
+        }
         switch (order.recipe.type) {
             case COMBINE: // new item is created with parts, specified in recipe.
-                item = new Item(null, ItemTypeMap.instance().getItemType(order.recipe.itemName));
-                break;
+                return generateFromCombineRecipe(order);
             case TRANSFORM: // new parts from recipe are added to existing main item
-
-                item = order.main.items.iterator().next();
+                return generateFromTransformRecipe(order);
         }
-        item.tags.add(order.recipe.newTag);
-        for (String key : order.parts.keySet()) {
-            //TODO add part(non MVP)
-        }
-        if (order.recipe.newTag != null) item.tags.add(order.recipe.newTag);
-        generateItemAspects(item);
-        return item;
     }
 
     /**
@@ -125,5 +118,23 @@ public class ItemGenerator {
             default:
                 return null;
         }
+    }
+
+    private Item generateFromTransformRecipe(ItemOrder order) {
+        Item item = order.main.items.iterator().next(); // transformed item
+        Optional.ofNullable(order.recipe.newTag).ifPresent(item.tags::add); // add tag
+        generateItemAspects(item);
+        return item;
+    }
+
+    private Item generateFromCombineRecipe(ItemOrder order) {
+        Item item = new Item(null, ItemTypeMap.instance().getItemType(order.recipe.itemName)); // new item of specified type
+        Optional.ofNullable(order.recipe.newTag).ifPresent(item.tags::add); // add tag
+        generateItemAspects(item);
+        return item;
+    }
+
+    private Item setItemMaterial(ItemOrder order, Item item) {
+
     }
 }

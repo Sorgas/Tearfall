@@ -4,15 +4,13 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
+
+import stonering.entity.material.Material;
 import stonering.util.global.FileUtil;
 import stonering.util.global.Logger;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 /**
  * Singleton map of material types. Types are stored by their names and ids.
@@ -57,16 +55,16 @@ public class MaterialMap {
         }
     }
 
-    public Material getMaterial(int id) {
-        return materials.get(id);
+    public static Material getMaterial(int id) {
+        return instance().materials.get(id);
     }
 
-    public Material getMaterial(String name) {
+    public static Material getMaterial(String name) {
         return getMaterial(getId(name));
     }
 
-    public int getId(String name) {
-        if (!ids.containsKey(name)) Logger.ITEMS.logError("no material with name " + name + " exist");
-        return ids.get(name);
+    public static int getId(String name) {
+        if (!instance().ids.containsKey(name)) Logger.ITEMS.logError("no material with name " + name + " exist");
+        return instance().ids.get(name);
     }
 }

@@ -2,7 +2,7 @@ package stonering.generators.items;
 
 import stonering.entity.item.Item;
 import stonering.enums.blocks.BlockTypeEnum;
-import stonering.enums.materials.Material;
+import stonering.entity.material.Material;
 import stonering.enums.materials.MaterialMap;
 
 import java.util.ArrayList;

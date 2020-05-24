@@ -28,7 +28,7 @@ public class LocalStoneLayersGenerator extends LocalGenerator {
     private int[] layerIds;
     private String[][] stoneTypes = {
             {"rhyolite", "obsidian", "basalt"}, //extrusive
-            {"limestone", "sandstone", "dolomite"}, //sedimentary
+            {"limestone", "sandstone", "dolomite", "shale"}, //sedimentary
             {"quarzite", "gneiss", "marble"}, //metamorfic
             {"granite", "diorite", "gabbro"}}; //intrusive
 

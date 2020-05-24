@@ -81,5 +81,10 @@
     "itemName": "plank",
     "parts": [["plank", "log", "wood", "1"]]
     //TODO quantity
+}, {
+    "name": "melt_ore",
+    "title": "Melt ore to metal bar",
+    "itemName": "bar",
+    "parts": [["bar", "rock", "ore", "1"]]
 }
 ]
