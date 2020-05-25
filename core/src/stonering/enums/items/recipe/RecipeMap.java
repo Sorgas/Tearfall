@@ -8,6 +8,7 @@ import stonering.util.global.Logger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Loads from json and stores {@link Recipe}.
@@ -36,13 +37,10 @@ public class RecipeMap {
         Logger.LOADING.log("recipes");
         ArrayList<RawRecipe> elements = json.fromJson(ArrayList.class, RawRecipe.class, FileUtil.get(FileUtil.RECIPES_PATH));
         RecipeProcessor processor = new RecipeProcessor();
-        for (RawRecipe rawRecipe : elements) {
-            if(rawRecipe.main == null && rawRecipe.parts.isEmpty()) {
-                Logger.LOADING.logWarn("Recipe " + rawRecipe.name + " has no part or main ingredients");
-                continue;
-            }
-            recipes.put(rawRecipe.name, processor.processRawRecipe(rawRecipe));
-        }
+        elements.stream()
+                .map(processor::processRawRecipe)
+                .filter(Objects::nonNull)
+                .forEach(recipe -> recipes.put(recipe.name, recipe));
         Logger.LOADING.logDebug(recipes.keySet().size() + " loaded from " + FileUtil.RECIPES_PATH);
     }
 

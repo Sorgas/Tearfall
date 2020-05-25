@@ -12,23 +12,31 @@ import static stonering.enums.unit.JobsEnum.NONE;
 /**
  * Recipe for crafting.
  * Contains info about result and required materials.
- * Recipes can be used to create new item (type COMBINE) or add new parts, tags, or change properties of existing ones (type TRANSFORM).
+ * Recipes use {@link Ingredient} to specify items for crafting.
+ * Ingredients stored in a map and are mapped to item part names, or words 'consumed' or 'main'.
+ * There are two types of recipes ({@link RecipeType}):
+ *    COMBINE:
+ *        Create new item from ingredients. Part ingredients create part of new item. Consumed ingredients are consumed (give no parts).
+ *    TRANSFORM:
+ *        Modify existing item, specified in main ingredient. Part ingredients add parts to item. Consumed ingredients are consumed.
+ *
  * Default value for type is combine.
  *
  * @author Alexander on 19.11.2018.
  */
 public class Recipe {
+    public RecipeType type;
     public final String name;                               // recipe(id)
     public final String title;                              // displayed name
-    public final String itemName;                           // name of produced item's itemType
-    public final String newMaterial;                        // material of crafted item.
     public final String iconName;                           // if itemName is empty, icon is used in workbenches
     public final String description;                        // recipe description.
+
+    public final String itemName;                           // name of produced item's itemType
+    public final String newMaterial;                        // material of crafted item.
     public final ItemTagEnum newTag;                        // this tag will be added to product
-    public RecipeType type;
-    public Ingredient main;                                 // for transform recipes
-    public Map<String, Ingredient> parts = new HashMap<>(); // itemPart name to ingredients. item parts are created on result item
-    public List<Ingredient> consumed = new ArrayList<>();   // ingredients, that do not produce item parts.
+
+    public final Map<String, List<Ingredient>> ingredients = new HashMap<>(); // all ingredients, mapped to parts, 'consumed' or 'main'
+
     public final float workAmount;                          // increases crafting time
     public final JobsEnum job;                              // if null,
     public final String skill;                              // if set, crafting gets bonus and gives experience in that skill
@@ -41,24 +49,12 @@ public class Recipe {
         iconName = raw.iconName;
         description = raw.description;
         newTag = ItemTagEnum.get(raw.newTag);
-        type = raw.main == null ? COMBINE : TRANSFORM;
         workAmount = raw.workAmount != 0 ? raw.workAmount : 1f;
         job = Optional.ofNullable(raw.job)
                 .map(String::toUpperCase)
                 .map(JobsEnum.map::get)
                 .orElse(NONE);
         skill = raw.skill;
-    }
-
-    /**
-     * Looks for {@link Ingredient} by name of item part.
-     */
-    public Ingredient getItemPartRecipe(String itemPartName) {
-        if(parts.containsKey(itemPartName)) {
-            return parts.get(itemPartName);
-        }
-        Logger.CRAFTING.logWarn("Item part with name " + itemPartName + " not found in recipe " + name);
-        return null;
     }
 
     @Override

@@ -33,8 +33,7 @@ public enum ItemTagEnum {
 
     WATER(false),
     CLOTH(false),
-    CRAFTING_MATERIAL(false), // tag of item type
-    BUILDING_MATERIAL(false), // tag of item type
+    MATERIAL(false), // item is raw material for building and crafting
     DEFAULT_TAG(false);
 
     private static boolean debug = true;

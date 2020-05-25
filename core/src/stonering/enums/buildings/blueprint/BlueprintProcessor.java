@@ -1,11 +1,18 @@
 package stonering.enums.buildings.blueprint;
 
+import static stonering.enums.items.ItemTagEnum.MATERIAL;
+
 import org.apache.commons.lang3.StringUtils;
+
+import stonering.enums.items.ItemTagEnum;
 import stonering.enums.items.recipe.Ingredient;
+import stonering.enums.items.recipe.IngredientProcessor;
+import stonering.enums.items.type.ItemTypeMap;
 import stonering.util.global.Logger;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Validates {@link RawBlueprint}, and processes it into {@link Blueprint}.
@@ -13,40 +20,25 @@ import java.util.List;
  * @author Alexander on 02.12.2019.
  */
 public class BlueprintProcessor {
+    private IngredientProcessor ingredientProcessor = new IngredientProcessor();
 
     public Blueprint processRawBlueprint(RawBlueprint rawBlueprint) {
         Logger.LOADING.logDebug("Processing blueprint " + rawBlueprint.name);
         Blueprint blueprint = new Blueprint(rawBlueprint);
-        rawBlueprint.parts.forEach(ingredientArgs -> // map parts to ingredients
-                blueprint.parts.put(ingredientArgs.get(0), processIngredient(ingredientArgs, blueprint))
-        );
-        blueprint.initConfig();
+        rawBlueprint.ingredients.stream()
+                .map(ingredientProcessor::parseIngredient)
+                .filter(Objects::nonNull)
+                .forEach(ingredient -> blueprint.ingredients.put(ingredient.key, ingredient));
+        blueprint.ingredients.forEach((part, ingredient) -> {
+            boolean allItemTypesAreMaterial = ingredient.itemTypes.stream()
+                    .map(typeName -> ItemTypeMap.instance().getItemType(typeName))
+                    .allMatch(type -> type.tags.contains(MATERIAL));
+            if (allItemTypesAreMaterial) {
+                MaterialSelectionConfig config = new MaterialSelectionConfig();
+                config.types.add(ingredient.itemTypes.get(0)); // only first item type is enabled initially
+                blueprint.configMap.put(part, config);
+            }
+        });
         return blueprint;
-    }
-
-    private Ingredient processIngredient(List<String> args, Blueprint blueprint) {
-        if (!validateIngredient(args, blueprint)) return null;
-        List<String> itemTypes = Arrays.asList(args.get(1).split("/"));
-        return new Ingredient(itemTypes, args.get(2), Integer.parseInt(args.get(3)));
-    }
-
-    /**
-     * Ingredient arguments are:
-     * Item types separated with '/'
-     * Required tags separeted with '/'. Can be empty.
-     * Quantity of items. TODO consider as material amount for material item types (logs, bars, rocks etc.)
-     */
-    private boolean validateIngredient(List<String> args, Blueprint blueprint) {
-        if (args == null && args.size() < 4)
-            return Logger.LOADING.logError(ingredientLog(args, blueprint) + " is empty or is missing args.", false);
-        if (StringUtils.isEmpty(args.get(1)))
-            return Logger.LOADING.logError(ingredientLog(args, blueprint) + " has empty 'item types' argument.", false);
-        if (StringUtils.isEmpty(args.get(3)))
-            return Logger.LOADING.logError(ingredientLog(args, blueprint) + " has empty 'quantity' argument.", false);
-        return true;
-    }
-
-    private String ingredientLog(List<String> args, Blueprint blueprint) {
-        return "Ingredient " + args.get(0) + " of blueprint " + blueprint.name;
     }
 }

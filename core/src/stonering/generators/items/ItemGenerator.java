@@ -25,16 +25,12 @@ import java.util.*;
  */
 public class ItemGenerator {
     private ItemTypeMap itemTypeMap;
-    private MaterialMap materialMap;
     private Map<String, List<String>> defaultAspects;
-    private final int DEFAULT_MATERIAL;
 
     public ItemGenerator() {
         itemTypeMap = ItemTypeMap.instance();
-        materialMap = MaterialMap.instance();
         defaultAspects = new HashMap<>();
-        defaultAspects.put("falling", Arrays.asList("1"));
-        DEFAULT_MATERIAL = MaterialMap.instance().getId("iron");
+        defaultAspects.put("falling", Arrays.asList("1")); // most items fall down
     }
 
     /**
@@ -48,7 +44,7 @@ public class ItemGenerator {
         // create all item parts with default material
 //        type.parts.forEach(part -> item.parts.put(part.title, new ItemPart(part.title, DEFAULT_MATERIAL)));
 //        item.mainPart = new ItemPart(type.parts.isEmpty() ? type.title : type.parts.get(0).title, materialId); // create main part with specified material
-        Material material = MaterialMap.instance().getMaterial(materialId);
+        Material material = MaterialMap.getMaterial(materialId);
         item.material = materialId;
         item.tags.addAll(material.tags);
         generateItemAspects(item);
@@ -56,7 +52,7 @@ public class ItemGenerator {
     }
 
     public Item generateItem(String name, String material, Position position) {
-        return generateItem(name, materialMap.getId(material), position);
+        return generateItem(name, MaterialMap.getId(material), position);
     }
 
     /**
@@ -65,7 +61,7 @@ public class ItemGenerator {
     public Item generateSeedItem(String specimen, Position position) {
         Item item = new Item(position, itemTypeMap.getItemType("seed"));
         item.title = specimen.substring(0, 1).toUpperCase() + specimen.substring(1).toLowerCase() + " seed";
-        item.material = MaterialMap.instance().getId("generic_plant");
+        item.material = MaterialMap.getId("generic_plant");
         generateItemAspects(item);
         item.add(new SeedAspect(item));
         item.get(SeedAspect.class).specimen = specimen;

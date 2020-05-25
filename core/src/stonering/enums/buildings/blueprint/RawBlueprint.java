@@ -1,5 +1,6 @@
 package stonering.enums.buildings.blueprint;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,6 +13,6 @@ public class RawBlueprint {
     public String building; //building id
     public String title; // button name
     public String placing = "floor"; // maps to position validator for place selecting and task checking.
-    public List<String> menuPath; // button path in toolbar
-    public List<List<String>> parts;
+    public List<String> menuPath = new ArrayList<>(); // button path in toolbar
+    public List<String> ingredients = new ArrayList<>();
 }

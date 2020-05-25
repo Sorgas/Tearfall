@@ -13,13 +13,15 @@ import java.util.List;
  * @author Alexander on 05.01.2019.
  */
 public class Ingredient {
-    public final List<String> itemTypes;    // acceptable item types
-    public final ItemTagEnum tag;               // acceptable item tags
+    public final String key;                     // item/building part name, 'consumed', 'main'
+    public final List<String> itemTypes;         // acceptable item types
+    public final ItemTagEnum tag;                // acceptable item tags
     public final int quantity;                   // number of items
 
-    public Ingredient(List<String> itemTypes, String tag, int quantity) {
+    public Ingredient(String key, List<String> itemTypes, ItemTagEnum tag, int quantity) {
+        this.key = key;
         this.itemTypes = new ArrayList<>(itemTypes);
-        this.tag = ItemTagEnum.get(tag);
+        this.tag = tag;
         this.quantity = quantity;
     }
 

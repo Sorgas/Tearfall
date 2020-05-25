@@ -1,6 +1,6 @@
 /*
     Arguments of part ingredients:
-        1. item part name. null for consuming ingredient with no part produced. unspecified item parts will not be created.
+        1. item part name. null for consuming ingredient with no part produced. unspecified item ingredients will not be created.
         2. item type.
         3. tag.
         4. number of items.
@@ -15,36 +15,36 @@
         "name": "make_pickaxe",
         "title": "Metal pickaxe",
         "itemName": "pickaxe",
-        "parts": [["head", "bar", "metal", "1"], ["handle", "log/plank", "wood", "1"]]
+        "ingredients": ["head:bar:metal:1", "handle:log/plank:wood:1"]
     }, {
     "name": "make_sickle",
     "title": "Metal sickle",
     "itemName": "sickle",
-    "parts": [["head", "bar", "metal", "1"], ["handle", "log/plank/branch", "wood", "1"]]
+    "ingredients": ["head:bar:metal:1", "handle:log/plank/branch:wood:1"]
 }, {
     "name": "make_axe",
     "title": "Metal axe",
     "itemName": "axe",
-    "parts": [["head", "bar", "metal", "1"], ["handle", "log/plank", "wood", "1"]]
+    "ingredients": ["head:bar:metal:1", "handle:log/plank:wood:1"]
 }, {
     "name": "make_shirt",
     "title": "Cloth shirt",
     "itemName": "shirt",
-    "parts": [["shirt", "roll", "cloth", "1"]]
+    "ingredients": ["shirt:roll:cloth:1"]
 }, {
     "name": "make_pants",
     "title": "Cloth pants",
     "itemName": "pants",
-    "parts": [["pants", "roll", "cloth", "1"]]
+    "ingredients": ["pants:roll:cloth:1"]
 }, {
     "name": "make_backpack",
     "title": "Cloth backpack",
     "itemName": "backpack",
-    "parts": [["backpack", "roll", "cloth", "1"]]
+    "ingredients": ["backpack:roll:cloth:1"]
 }, {
     "name": "roast_meal",
     "title": "Make roasted meal",
-    "main": ["any", "cookable", "1"],
+    "ingredients": ["main:any:cookable:1"],
     "newTag" : "roasted",
     "iconName": "roast_meal",
     "workAmount": "500"
@@ -52,39 +52,37 @@
     "name": "boil_meal",
     "title": "Cook soup",
     "itemName": "liquid",
-    "parts": [["meal", "any", "boilable", "1"]],
-    "consumed": [["any", "water", "1"]]
+    "ingredients": ["meal:any:boilable:1", "consumed:any:water:1"]
 }, {
     "name": "boil_water",
     "title": "Boil water",
     "itemName": "liquid",
-    "parts": [["liquid", "any", "water", "1"]]
+    "ingredients": ["liquid:any:water:1"]
 }, {
     "name": "boil_drink",
     "title": "Boil drink",
     "itemName": "liquid",
-    "parts": [["liquid", "any", "brewable", "1"]],
-    "consumed": [["any", "water", "1"]]
+    "ingredients": ["liquid:any:brewable:1", "consumed:any:water:1"]
 }, {
     "name": "make_bed",
     "title": "Make bed",
     "itemName": "bed_prefab",
-    "parts": [["bed", "log", "wood", "1"]]
+    "ingredients": ["bed:log:wood:1"]
 }, {
     "name": "make_bow_saw",
     "title": "Make bow saw",
     "itemName": "bow_saw",
-    "parts": [["blade", "bar", "metal", "1"], ["bow", "plank", "wood", "1"]]
+    "ingredients": ["blade:bar:metal:1", "bow:plank:wood:1"]
 }, {
     "name": "saw_log",
     "title": "Saw log into planks",
     "itemName": "plank",
-    "parts": [["plank", "log", "wood", "1"]]
+    "ingredients": ["plank:log:wood:1"]
     //TODO quantity
 }, {
     "name": "melt_ore",
     "title": "Melt ore to metal bar",
     "itemName": "bar",
-    "parts": [["bar", "rock", "ore", "1"]]
+    "ingredients": ["bar:rock:ore:1"]
 }
 ]

@@ -25,10 +25,9 @@ public class Blueprint {
     public final String title; // button name
     public final String placing; // maps to position validator for place selecting and task checking.
     public final List<String> menuPath; // button path in toolbar
-    public final LinkedHashMap<String, Ingredient> parts; // components mapped to building parts
+    public final Map<String, List<Ingredient>> ingredients = new HashMap<>();
     public final Map<String, MaterialSelectionConfig> configMap;
     public final boolean construction; // blueprint has no building type
-
 
     public Blueprint(RawBlueprint rawBlueprint) {
         name = rawBlueprint.name;
@@ -36,21 +35,7 @@ public class Blueprint {
         title = rawBlueprint.title;
         placing = rawBlueprint.placing;
         menuPath = rawBlueprint.menuPath;
-        parts = new LinkedHashMap<>();
         configMap = new HashMap<>();
         construction = "construction".equals(placing);
-    }
-
-    public void initConfig() {
-        parts.forEach((part, ingredient) -> {
-            boolean allItemTypesAreMaterial = ingredient.itemTypes.stream()
-                    .map(typeName -> ItemTypeMap.instance().getItemType(typeName))
-                    .allMatch(type -> type.tags.contains(ItemTagEnum.BUILDING_MATERIAL));
-            if (allItemTypesAreMaterial) {
-                MaterialSelectionConfig config = new MaterialSelectionConfig();
-                config.types.add(ingredient.itemTypes.get(0)); // only first item type is enabled initially
-                configMap.put(part, config);
-            }
-        });
     }
 }

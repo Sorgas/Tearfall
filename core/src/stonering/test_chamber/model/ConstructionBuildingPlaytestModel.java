@@ -1,9 +1,6 @@
 package stonering.test_chamber.model;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import stonering.entity.building.BuildingOrder;
 import stonering.entity.crafting.IngredientOrder;
@@ -13,6 +10,7 @@ import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.MovementAspect;
 import stonering.enums.buildings.blueprint.Blueprint;
 import stonering.enums.buildings.blueprint.BlueprintsMap;
+import stonering.enums.items.recipe.Ingredient;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.model.entity_selector.EntitySelectorSystem;
 import stonering.game.model.system.item.ItemContainer;
@@ -74,14 +72,17 @@ public class ConstructionBuildingPlaytestModel extends TestModel {
     private BuildingOrder createConstructionOrder(String blueprintName, Position position) {
         Blueprint blueprint = BlueprintsMap.getInstance().getBlueprint(blueprintName);
         BuildingOrder order = new BuildingOrder(blueprint, position);
-        blueprint.parts.forEach((part, ingredient) -> {
-            System.out.println("creating ingredient for " + part);
-            Map<String, Set<Integer>> materialsMap = new HashMap<>();
-            Set<Integer> materials = new HashSet<>();
-            materials.add(MaterialMap.instance().getId("wood"));
-            materialsMap.put("log", materials);
-            ItemSelector woodSelector = new ConfiguredItemSelector(materialsMap);
-            order.parts.put(part, new IngredientOrder(ingredient, woodSelector));
+        blueprint.ingredients.forEach((key, ingredientList) -> {
+            System.out.println("creating ingredient for " + key);
+            order.ingredientOrders.put(key, new ArrayList<>());
+            for (Ingredient ingredient : ingredientList) {
+                Map<String, Set<Integer>> materialsMap = new HashMap<>();
+                Set<Integer> materials = new HashSet<>();
+                materials.add(MaterialMap.getId("wood"));
+                materialsMap.put("log", materials);
+                ItemSelector woodSelector = new ConfiguredItemSelector(materialsMap);
+                order.ingredientOrders.get(key).add(new IngredientOrder(ingredient, woodSelector));
+            }
         });
         return order;
     }

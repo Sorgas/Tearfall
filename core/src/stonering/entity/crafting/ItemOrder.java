@@ -5,6 +5,7 @@ import stonering.enums.items.recipe.Ingredient;
 import stonering.enums.items.recipe.Recipe;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Contains recipe, item name, material id and list of {@link IngredientOrder} for each item part.
@@ -27,13 +28,8 @@ public class ItemOrder extends ItemConsumingOrder {
         this.recipe = recipe;
         amount = 1;
         status = OrderStatusEnum.OPEN;
-        if(recipe.main != null) main = new IngredientOrder(recipe.main);
-        for (String itemPart : recipe.parts.keySet()) { // create item partOrder for
-            parts.put(itemPart, new IngredientOrder(recipe.parts.get(itemPart)));
-        }
-        for (Ingredient ingredient : recipe.consumed) {
-            consumed.add(new IngredientOrder(ingredient));
-        }
+        recipe.ingredients.forEach((key, ingredientList) ->
+                ingredientOrders.put(key, ingredientList.stream().map(IngredientOrder::new).collect(Collectors.toList())));
     }
 
     @Override

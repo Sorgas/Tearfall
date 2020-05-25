@@ -23,75 +23,57 @@
         "building": "wall",
         "menuPath": ["constructions"],
         "placing": "construction",
-        "parts": [
-            ["wall", "log/plank/bar/rock/brick", "", "4"]
-        ]
+        "ingredients": ["wall:log/plank/bar/rock/brick:any:4"]
     }, {
     "name": "build_floor",
     "title": "Floor",
     "building": "floor",
     "menuPath": ["constructions"],
     "placing": "construction",
-    "parts": [
-        ["floor", "log/plank/bar/rock/brick", "", "2"]
-    ]
+    "ingredients": ["floor:log/plank/bar/rock/brick:any:2"]
 }, {
     "name": "build_ramp",
     "title": "Ramp",
     "building": "ramp",
     "menuPath": ["constructions"],
     "placing": "construction",
-    "parts": [
-        ["ramp", "log/plank/bar/rock/brick", "", "3"]
-    ]
+    "ingredients": ["ramp:log/plank/bar/rock/brick:any:3"]
 }, {
     "name": "build_stairs",
     "title": "Stairs",
     "building": "stairs",
     "menuPath": ["constructions"],
     "placing": "construction",
-    "parts": [
-        ["stairs", "log/plank/bar/rock/brick", "", "3"]
-    ]
+    "ingredients": ["stairs:log/plank/bar/rock/brick:any:3"]
 }, {
     "name": "build_campfire",
     "title": "Campfire",
     "building": "campfire",
     "menuPath": ["start"],
-    "parts": [
-        ["campfire", "log/plank/branch/root", "wood", "4"]
-    ]
+    "ingredients": ["campfire:log/plank/branch/root:wood:4"]
 }, {
     "name": "build_carpenter_workbench",
     "title": "Carpenter workbench",
     "building": "carpenter_workbench",
-    "menuPath": ["workbenches", "wood"],
-    "parts": [
-        ["table", "log/plank/branch/root", "wood", "1"]
-    ]
+    "menuPath": ["workbenches:wood"],
+    "ingredients": ["table:log/plank/branch/root:wood:1"]
 }, {
     "name": "build_sawing_rack",
     "title": "Sawing rack",
     "building": "sawing_rack",
-    "menuPath": ["workbenches", "wood"],
-    "parts": [
-        ["campfire", "log/plank", "wood", "4"]
-    ]
+    "menuPath": ["workbenches:wood"],
+    "ingredients": ["campfire:log/plank:wood:4"]
 }, {
     "name": "build_bed",
     "title": "Bed",
     "building": "bed",
     "menuPath": ["furniture"],
-    "parts": [
-        ["bed", "bed_prefab", "furniture", "4"]
-    ]
+    "ingredients": ["bed:bed_prefab:furniture:4"]
 }, {
     "name": "build_kitchen",
     "title": "Kitchen",
     "building": "kitchen",
     "menuPath": ["workbenches"],
-    "parts": [
-        ["kitchen", "log/bar", "", "4"]
-    ]
+    "ingredients": ["kitchen:log/bar:any:4"]
 }
 ]

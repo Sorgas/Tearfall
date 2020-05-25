@@ -5,7 +5,7 @@
         "typeAspects": ["value(0)", "fuel(1)"],
         "atlasXY": ["2", "0"],
         "color": "0xffffffff",
-        "tags": ["building_material"]
+        "tags": ["material"]
     }, {
     "name": "branch",
     "description": "Small part of a tree.",
@@ -24,21 +24,21 @@
     "typeAspects": ["value(0)", "fuel(0)"],
     "atlasXY": ["3", "0"],
     "color": "0xffffffff",
-    "tags": ["building_material"]
+    "tags": ["material"]
 }, {
     "name": "rock",
     "description": "Rock.",
     "typeAspects": ["value(0)"],
     "atlasXY": ["4", "0"],
     "color": "0xffffffff",
-    "tags": ["building_material"]
+    "tags": ["material"]
 }, {
     "name": "bar",
     "description": "Piece of metal, formed for further use.",
     "typeAspects": ["value(0)"],
     "atlasXY": ["9", "0"],
     "color": "0xffffffff",
-    "tags": ["building_material"]
+    "tags": ["material"]
 }, {
     "name": "roll",
     "description": "Rolled cloth.",
@@ -57,7 +57,7 @@
     "typeAspects": ["value(0)"],
     "atlasXY": ["12", "0"],
     "color": "0xffffffff",
-    "tags": ["building_material"]
+    "tags": ["material"]
 }, {
     "name": "pot",
     "description": "For storing things or growing small plants.",

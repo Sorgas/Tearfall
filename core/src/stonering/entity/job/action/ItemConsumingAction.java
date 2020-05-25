@@ -138,7 +138,7 @@ public abstract class ItemConsumingAction extends Action {
         return order.allIngredients().stream()
                 .flatMap(ingredientOrder -> ingredientOrder.items.stream())
                 .map(item -> item.material)
-                .map(MaterialMap.instance()::getMaterial)
+                .map(MaterialMap::getMaterial)
                 .map(material -> material.workAmountModifier)
                 .reduce(Float::sum).orElse(0f);
     }

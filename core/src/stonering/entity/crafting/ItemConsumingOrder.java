@@ -1,8 +1,9 @@
 package stonering.entity.crafting;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Superclass for {@link ItemOrder} and {@link stonering.entity.building.BuildingOrder}.
@@ -11,23 +12,16 @@ import java.util.List;
  * @author Alexander on 05.05.2020
  */
 public class ItemConsumingOrder {
-    public final HashMap<String, IngredientOrder> parts; //item parts to their ingredients
-    public final List<IngredientOrder> consumed;
-    public final List<IngredientOrder> allIngredients;
-    public IngredientOrder main;
+    public final Map<String, List<IngredientOrder>> ingredientOrders;
+    private List<IngredientOrder> allIngredients;
 
     public ItemConsumingOrder() {
-        parts = new HashMap<>();
-        consumed = new ArrayList<>();
-        allIngredients = new ArrayList<>();
+        ingredientOrders = new HashMap<>();
     }
 
     public List<IngredientOrder> allIngredients() {
-        if(allIngredients.isEmpty()) {
-            allIngredients.addAll(consumed);
-            allIngredients.addAll(parts.values());
-            if(main != null) allIngredients.add(main);
-        }
-        return allIngredients;
+        return allIngredients != null
+                ? allIngredients
+                : (allIngredients = ingredientOrders.values().stream().flatMap(List::stream).collect(Collectors.toList()));
     }
 }
