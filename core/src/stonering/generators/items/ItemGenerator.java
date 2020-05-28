@@ -78,11 +78,17 @@ public class ItemGenerator {
     public Item generateItemByOrder(ItemOrder order) {
         Logger.ITEMS.logDebug("Generating crafted item " + order.recipe.newType + " for " + order.recipe.title);
         IngredientOrder mainIngredient = order.ingredientOrders.get("main");
-        Item item = mainIngredient != null
-                ? mainIngredient.items.stream().findFirst().get() // new item of specified type
-                : new Item(null, ItemTypeMap.instance().getItemType(order.recipe.newType)); // item will be updated with new parts
+        Item item; // item will be updated with new parts
+        // new item of specified type
+        if (mainIngredient != null) {
+            item = mainIngredient.items.stream().findFirst().get();
+        } else {
+            item = new Item(null, ItemTypeMap.instance().getItemType(order.recipe.newType));
+            item.material =
+        }
         order.ingredientOrders.values().stream()
-                .filter(ingredientOrder -> ingredientOrder.ingredient.key.equals("consume"))
+                .filter(ingredientOrder -> !ingredientOrder.ingredient.key.equals("consume"))
+                .filter(ingredientOrder -> !ingredientOrder.ingredient.key.equals("main"))
                 .map(ingredientOrder -> createItemPart(ingredientOrder, item))
                 .filter(Objects::nonNull)
                 .forEach(itemPart -> item.parts.put(itemPart.name, itemPart));
@@ -93,7 +99,7 @@ public class ItemGenerator {
 
     private ItemPart createItemPart(IngredientOrder ingredientOrder, Item item) {
         Item materialItem = ingredientOrder.items.stream().findFirst().orElse(null);
-        if(materialItem != null) {
+        if (materialItem != null) {
             return new ItemPart(item, ingredientOrder.ingredient.key, materialItem.material);
         } else {
             return Logger.ITEMS.logError("ingredient order " + ingredientOrder.ingredient.key + " for item " + item + " has no items set.", null);

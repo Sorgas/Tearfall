@@ -26,6 +26,7 @@ public class Item extends Entity {
     public int material;
     public final List<ItemTagEnum> tags;
     public final Map<String, ItemPart> parts = new HashMap<>();
+    public final String mainPart;
 
     public String title; // title combined of origin, material, and type
     public String materialString;
