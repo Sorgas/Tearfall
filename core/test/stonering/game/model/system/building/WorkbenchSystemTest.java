@@ -14,6 +14,7 @@ import stonering.entity.unit.aspects.job.JobsAspect;
 import stonering.entity.unit.aspects.TaskAspect;
 import stonering.enums.action.TaskStatusEnum;
 import stonering.enums.blocks.BlockTypeEnum;
+import stonering.enums.items.ItemTagEnum;
 import stonering.enums.items.recipe.Ingredient;
 import stonering.enums.items.recipe.RawRecipe;
 import stonering.enums.items.recipe.Recipe;
@@ -78,7 +79,7 @@ public class WorkbenchSystemTest {
         raw.name = "make_axe";
         raw.itemName = "axe";
         Recipe recipe = new Recipe(raw);
-        recipe.parts.put("head", new Ingredient(Arrays.asList("bar"), "metal", 1));
+        recipe.ingredients.put("head", new Ingredient("head", Arrays.asList("bar"), ItemTagEnum.METAL, 1));
         return recipe;
     }
 

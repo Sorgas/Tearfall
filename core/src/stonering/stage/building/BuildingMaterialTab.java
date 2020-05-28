@@ -36,7 +36,7 @@ public class BuildingMaterialTab extends Container<Table> {
 
     public void fillFor(Blueprint blueprint) {
         sectionsTable.clearChildren();
-        blueprint.parts.forEach((part, ingredient) -> {
+        blueprint.ingredients.forEach((part, ingredient) -> {
             ItemSelectSection section;
             if(blueprint.configMap.containsKey(part)) { // create section from config
                 section = new MaterialItemSelectSection(ingredient, part, blueprint.configMap.get(part));

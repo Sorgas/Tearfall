@@ -91,7 +91,7 @@ public class BuildingMaterialSelectMenu extends Window {
 
     private BuildingOrder createOrder(Blueprint blueprint, Position position) {
         BuildingOrder order = new BuildingOrder(blueprint, position);
-        order.parts.forEach((partName, ingredientOrder) -> ingredientOrder.items.addAll(leftSection.widgetMap.get(partName).removeItemsFromButtons(ingredientOrder.ingredient.quantity)));
+        order.ingredientOrders.forEach((partName, ingredientOrder) -> ingredientOrder.items.addAll(leftSection.widgetMap.get(partName).removeItemsFromButtons(ingredientOrder.ingredient.quantity)));
         return order;
     }
 }

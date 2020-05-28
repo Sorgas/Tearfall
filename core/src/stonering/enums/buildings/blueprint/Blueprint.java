@@ -25,7 +25,7 @@ public class Blueprint {
     public final String title; // button name
     public final String placing; // maps to position validator for place selecting and task checking.
     public final List<String> menuPath; // button path in toolbar
-    public final Map<String, List<Ingredient>> ingredients = new HashMap<>();
+    public final Map<String, Ingredient> ingredients = new HashMap<>();
     public final Map<String, MaterialSelectionConfig> configMap;
     public final boolean construction; // blueprint has no building type
 

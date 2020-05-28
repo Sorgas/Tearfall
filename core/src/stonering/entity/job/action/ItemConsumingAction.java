@@ -41,9 +41,9 @@ public abstract class ItemConsumingAction extends Action {
      * @return true, if all ingredients have valid items.
      */
     protected boolean ingredientOrdersValid() {
-        List<IngredientOrder> orders = order.allIngredients(); 
+        Collection<IngredientOrder> orders = order.allIngredients();
         if(orders.isEmpty()) return false;
-        List<IngredientOrder> invalidIngredients = order.allIngredients().stream() // collect invalid ingredients
+        List<IngredientOrder> invalidIngredients = orders.stream() // collect invalid ingredients
                 .filter(ingredientOrder -> !isIngredientOrderValid(ingredientOrder))
                 .collect(Collectors.toList());
         invalidIngredients.forEach(this::clearIngredientItems); // clear all invalid ingredients
@@ -93,7 +93,6 @@ public abstract class ItemConsumingAction extends Action {
 
     protected void consumeItems() {
         order.ingredientOrders.values().stream()
-                .flatMap(List::stream) // all ingredient orders
                 .filter(order -> !"main".equals(order.ingredient.key))
                 .flatMap(order -> order.items.stream()) // all items from not 'main' ingredient
                 .forEach(item -> {

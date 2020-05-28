@@ -7,7 +7,9 @@ import stonering.enums.items.type.ItemType;
 import stonering.util.geometry.Position;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * In-game item.
@@ -23,7 +25,8 @@ public class Item extends Entity {
     public final ItemType type;
     public int material;
     public final List<ItemTagEnum> tags;
-    
+    public final Map<String, ItemPart> parts = new HashMap<>();
+
     public String title; // title combined of origin, material, and type
     public String materialString;
     public boolean locked; // item consuming actions lock target items.

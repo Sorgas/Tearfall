@@ -2,11 +2,14 @@
 package stonering.generators.items;
 
 import stonering.entity.Aspect;
+import stonering.entity.crafting.IngredientOrder;
 import stonering.entity.crafting.ItemOrder;
+import stonering.entity.item.ItemPart;
 import stonering.entity.item.aspects.ItemContainerAspect;
 import stonering.entity.item.aspects.SeedAspect;
 import stonering.entity.RenderAspect;
 import stonering.entity.item.aspects.FallingAspect;
+import stonering.enums.items.recipe.Ingredient;
 import stonering.enums.items.type.ItemType;
 import stonering.enums.items.type.ItemTypeMap;
 import stonering.entity.material.Material;
@@ -73,15 +76,27 @@ public class ItemGenerator {
      * TODO fetch item part orders and create corresponding item parts
      */
     public Item generateItemByOrder(ItemOrder order) {
-        Logger.ITEMS.logDebug("Generating crafted item " + order.recipe.itemName + " for " + order.recipe.title);
-        if(order.recipe.newMaterial.equals("ore_to_metal")) {
+        Logger.ITEMS.logDebug("Generating crafted item " + order.recipe.newType + " for " + order.recipe.title);
+        IngredientOrder mainIngredient = order.ingredientOrders.get("main");
+        Item item = mainIngredient != null
+                ? mainIngredient.items.stream().findFirst().get() // new item of specified type
+                : new Item(null, ItemTypeMap.instance().getItemType(order.recipe.newType)); // item will be updated with new parts
+        order.ingredientOrders.values().stream()
+                .filter(ingredientOrder -> ingredientOrder.ingredient.key.equals("consume"))
+                .map(ingredientOrder -> createItemPart(ingredientOrder, item))
+                .filter(Objects::nonNull)
+                .forEach(itemPart -> item.parts.put(itemPart.name, itemPart));
+        Optional.ofNullable(order.recipe.newTag).ifPresent(item.tags::add); // add tag
+        generateItemAspects(item);
+        return item;
+    }
 
-        }
-        switch (order.recipe.type) {
-            case COMBINE: // new item is created with parts, specified in recipe.
-                return generateFromCombineRecipe(order);
-            case TRANSFORM: // new parts from recipe are added to existing main item
-                return generateFromTransformRecipe(order);
+    private ItemPart createItemPart(IngredientOrder ingredientOrder, Item item) {
+        Item materialItem = ingredientOrder.items.stream().findFirst().orElse(null);
+        if(materialItem != null) {
+            return new ItemPart(item, ingredientOrder.ingredient.key, materialItem.material);
+        } else {
+            return Logger.ITEMS.logError("ingredient order " + ingredientOrder.ingredient.key + " for item " + item + " has no items set.", null);
         }
     }
 
@@ -114,23 +129,5 @@ public class ItemGenerator {
             default:
                 return null;
         }
-    }
-
-    private Item generateFromTransformRecipe(ItemOrder order) {
-        Item item = order.main.items.iterator().next(); // transformed item
-        Optional.ofNullable(order.recipe.newTag).ifPresent(item.tags::add); // add tag
-        generateItemAspects(item);
-        return item;
-    }
-
-    private Item generateFromCombineRecipe(ItemOrder order) {
-        Item item = new Item(null, ItemTypeMap.instance().getItemType(order.recipe.itemName)); // new item of specified type
-        Optional.ofNullable(order.recipe.newTag).ifPresent(item.tags::add); // add tag
-        generateItemAspects(item);
-        return item;
-    }
-
-    private Item setItemMaterial(ItemOrder order, Item item) {
-
     }
 }

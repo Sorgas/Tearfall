@@ -3,6 +3,7 @@ package stonering.enums.items.type;
 import stonering.entity.Entity;
 import stonering.enums.items.ItemTagEnum;
 import stonering.enums.items.type.raw.RawItemType;
+import stonering.util.global.Pair;
 
 import java.util.*;
 
@@ -20,6 +21,7 @@ public class ItemType extends Entity implements Cloneable {
     public int[] atlasXY;
     public String color;
     public Set<ItemTagEnum> tags;
+    public List<Pair<String, String>> parts;                 // names and default materials of mandatory item parts
 
     public ItemType(RawItemType rawType) {
         super();
@@ -30,6 +32,7 @@ public class ItemType extends Entity implements Cloneable {
         atlasXY = rawType.atlasXY;
         itemAspects = new HashMap<>();
         tags = new HashSet<>();
+        parts = new ArrayList<>();
         for (String tag : rawType.tags) {
             tags.add(ItemTagEnum.get(tag));
         }

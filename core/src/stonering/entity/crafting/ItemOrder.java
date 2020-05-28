@@ -28,8 +28,8 @@ public class ItemOrder extends ItemConsumingOrder {
         this.recipe = recipe;
         amount = 1;
         status = OrderStatusEnum.OPEN;
-        recipe.ingredients.forEach((key, ingredientList) ->
-                ingredientOrders.put(key, ingredientList.stream().map(IngredientOrder::new).collect(Collectors.toList())));
+        recipe.ingredients.forEach((key, ingredient) ->
+                ingredientOrders.put(key, new IngredientOrder(ingredient)));
     }
 
     @Override

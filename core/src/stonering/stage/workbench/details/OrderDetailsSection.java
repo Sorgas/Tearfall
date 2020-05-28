@@ -3,6 +3,7 @@ package stonering.stage.workbench.details;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
+
 import stonering.entity.building.aspects.WorkbenchAspect;
 import stonering.entity.crafting.IngredientOrder;
 import stonering.entity.crafting.ItemOrder;
@@ -70,16 +71,18 @@ public class OrderDetailsSection extends MenuSection {
 
     private void showOrderDetails(OrderItem orderItem) {
         order = orderItem.order;
-        ItemType type = ItemTypeMap.instance().getItemType(order.recipe.itemName);
+        ItemType type = ItemTypeMap.instance().getItemType(order.recipe.newType);
         itemName.setText(orderItem.order.recipe.title);
         itemDescription.setText(orderItem.order.recipe.description);
-        for (String key : order.parts.keySet()) { // rows for parts
-            itemParts.addActor(new ItemPartRow(order.parts.get(key), order.parts.keySet().size() > 1 ? key : null, this));
-        }
-//        itemParts.addActor(new Label("Consumed:", StaticSkin.getSkin()));
-        for (IngredientOrder ingredientOrder : order.consumed) { // rows for consumed items
-            itemParts.addActor(new ItemPartRow(ingredientOrder, null, this));
-        }
+        order.ingredientOrders.values().stream()
+                .filter(order -> !order.ingredient.key.equals("consumed"))
+                .map(order -> new ItemPartRow(order, this.order.ingredientOrders.keySet().size() > 1 ? order.ingredient.key : null, this))
+                .forEach(itemParts::addActor); // rows for parts
+        itemParts.addActor(new Label("Consumed:", StaticSkin.getSkin()));
+        order.ingredientOrders.values().stream()
+                .filter(order -> order.ingredient.key.equals("consumed"))
+                .map(order -> new ItemPartRow(order, null, this))
+                .forEach(itemParts::addActor); // rows for consumed items
     }
 
     private void clearSection() {

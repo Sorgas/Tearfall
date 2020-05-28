@@ -62,7 +62,7 @@ public class ItemCraftingOrderLine extends OrderLine implements Highlightable {
 
     private void createSelections() {
         leftHG.addActor(createItemLabel());
-        for (IngredientOrder ingredientOrder : order.parts.values()) {
+        for (IngredientOrder ingredientOrder : order.ingredientOrders.values()) {
             addPartSelection(ingredientOrder);
         }
     }
@@ -106,7 +106,7 @@ public class ItemCraftingOrderLine extends OrderLine implements Highlightable {
      * Creates label with item name.
      */
     private Label createItemLabel() {
-        String itemTitle = ItemTypeMap.instance().getItemType(order.recipe.itemName).title;
+        String itemTitle = ItemTypeMap.instance().getItemType(order.recipe.newType).title;
         return new Label(itemTitle, StaticSkin.getSkin()); // label with item type
     }
 

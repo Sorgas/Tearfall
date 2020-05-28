@@ -109,10 +109,10 @@ public class BuildingSelectionTool extends SelectionTool {
     private BuildingOrder createOrder() {
         BuildingOrder order = new BuildingOrder(blueprint, selector().position.clone());
         order.orientation = orientation;
-        blueprint.parts.forEach((part, ingredient) -> {
-            ItemSelectSection section = GameMvc.view().toolbarStage.buildingTab.sectionMap.get(part);
+        blueprint.ingredients.forEach((key, ingredient) -> {
+            ItemSelectSection section = GameMvc.view().toolbarStage.buildingTab.sectionMap.get(key);
             ItemSelector itemSelector = section.getItemSelector();
-            order.parts.put(part, new IngredientOrder(ingredient, itemSelector));
+            order.ingredientOrders.put(key, new IngredientOrder(ingredient, itemSelector));
         });
         return order;
     }

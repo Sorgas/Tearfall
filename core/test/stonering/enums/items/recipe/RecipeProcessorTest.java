@@ -1,7 +1,5 @@
 package stonering.enums.items.recipe;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
@@ -15,6 +13,5 @@ class RecipeProcessorTest {
     void testIngredientParsing() {
         RawRecipe raw = new RawRecipe();
         raw.name = "test_recipe";
-        raw.
     }
 }

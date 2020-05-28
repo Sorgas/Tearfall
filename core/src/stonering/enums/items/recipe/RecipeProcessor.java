@@ -1,11 +1,12 @@
 package stonering.enums.items.recipe;
 
-import static stonering.enums.items.recipe.RecipeType.COMBINE;
-import static stonering.enums.items.recipe.RecipeType.TRANSFORM;
+import java.util.List;
+import java.util.stream.Collectors;
 
+import stonering.enums.items.type.ItemType;
+import stonering.enums.items.type.ItemTypeMap;
 import stonering.util.global.Logger;
-
-import java.util.ArrayList;
+import stonering.util.global.Pair;
 
 /**
  * Processes {@link RawRecipe} into {@link Recipe}.
@@ -21,8 +22,21 @@ public class RecipeProcessor {
         rawRecipe.ingredients.stream()
                 .filter(ingredientProcessor::validateIngredient)
                 .map(ingredientProcessor::parseIngredient)
-                .forEach(ingredient -> recipe.ingredients.computeIfAbsent(ingredient.key, key -> new ArrayList<>()).add(ingredient));
-        recipe.type = recipe.ingredients.containsKey("main") ? TRANSFORM : COMBINE;
-        return recipe;
+                .forEach(ingredient -> recipe.ingredients.put(ingredient.key, ingredient));
+        // combine recipes should specify all required item parts
+        if (recipe.ingredients.keySet().contains("main") || validateCombineRecipe(recipe)) return recipe;
+        return null;
+    }
+
+    private boolean validateCombineRecipe(Recipe recipe) {
+        ItemType type =  ItemTypeMap.instance().getItemType(recipe.newType);
+        if(type == null)
+            return Logger.LOADING.logWarn("Recipe " + recipe.name + " has invalid item type " + recipe.newType, false);
+        List<String> requiredParts = type.parts.stream()
+                .map(Pair::getKey)
+                .collect(Collectors.toList());
+        if (!recipe.ingredients.keySet().containsAll(requiredParts))
+            return Logger.LOADING.logWarn("Recipe " + recipe.name + " specifies not all part of type " + type.name, false);
+        return true;
     }
 }

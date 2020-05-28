@@ -2,11 +2,9 @@ package stonering.enums.items.recipe;
 
 import stonering.enums.items.ItemTagEnum;
 import stonering.enums.unit.JobsEnum;
-import stonering.util.global.Logger;
 
 import java.util.*;
 
-import static stonering.enums.items.recipe.RecipeType.*;
 import static stonering.enums.unit.JobsEnum.NONE;
 
 /**
@@ -14,9 +12,9 @@ import static stonering.enums.unit.JobsEnum.NONE;
  * Contains info about result and required materials.
  * Recipes use {@link Ingredient} to specify items for crafting.
  * Ingredients stored in a map and are mapped to item part names, or words 'consumed' or 'main'.
- * There are two types of recipes ({@link RecipeType}):
- *    COMBINE:
- *        Create new item from ingredients. Part ingredients create part of new item. Consumed ingredients are consumed (give no parts).
+ *
+ * TODO rewrite
+ * If recipe has no main ingredient, then new item of type and material will be created (part ingredients create part of new item. Consumed ingredients are consumed (give no parts)).
  *    TRANSFORM:
  *        Modify existing item, specified in main ingredient. Part ingredients add parts to item. Consumed ingredients are consumed.
  *
@@ -25,17 +23,16 @@ import static stonering.enums.unit.JobsEnum.NONE;
  * @author Alexander on 19.11.2018.
  */
 public class Recipe {
-    public RecipeType type;
     public final String name;                               // recipe(id)
     public final String title;                              // displayed name
     public final String iconName;                           // if itemName is empty, icon is used in workbenches
     public final String description;                        // recipe description.
 
-    public final String itemName;                           // name of produced item's itemType
+    public final String newType;                            // type of crafted item
     public final String newMaterial;                        // material of crafted item.
     public final ItemTagEnum newTag;                        // this tag will be added to product
 
-    public final Map<String, List<Ingredient>> ingredients = new HashMap<>(); // all ingredients, mapped to parts, 'consumed' or 'main'
+    public final Map<String, Ingredient> ingredients = new HashMap<>(); // all ingredients, mapped to parts, 'consumed' or 'main'
 
     public final float workAmount;                          // increases crafting time
     public final JobsEnum job;                              // if null,
@@ -44,7 +41,7 @@ public class Recipe {
     public Recipe(RawRecipe raw) {
         name = raw.name;
         title = raw.title;
-        itemName = raw.itemName;
+        newType = raw.itemName;
         newMaterial = raw.newMaterial;
         iconName = raw.iconName;
         description = raw.description;

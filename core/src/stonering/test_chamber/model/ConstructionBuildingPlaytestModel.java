@@ -72,17 +72,14 @@ public class ConstructionBuildingPlaytestModel extends TestModel {
     private BuildingOrder createConstructionOrder(String blueprintName, Position position) {
         Blueprint blueprint = BlueprintsMap.getInstance().getBlueprint(blueprintName);
         BuildingOrder order = new BuildingOrder(blueprint, position);
-        blueprint.ingredients.forEach((key, ingredientList) -> {
+        blueprint.ingredients.forEach((key, ingredient) -> {
             System.out.println("creating ingredient for " + key);
-            order.ingredientOrders.put(key, new ArrayList<>());
-            for (Ingredient ingredient : ingredientList) {
-                Map<String, Set<Integer>> materialsMap = new HashMap<>();
-                Set<Integer> materials = new HashSet<>();
-                materials.add(MaterialMap.getId("wood"));
-                materialsMap.put("log", materials);
-                ItemSelector woodSelector = new ConfiguredItemSelector(materialsMap);
-                order.ingredientOrders.get(key).add(new IngredientOrder(ingredient, woodSelector));
-            }
+            Map<String, Set<Integer>> materialsMap = new HashMap<>();
+            Set<Integer> materials = new HashSet<>();
+            materials.add(MaterialMap.getId("wood"));
+            materialsMap.put("log", materials);
+            ItemSelector woodSelector = new ConfiguredItemSelector(materialsMap);
+            order.ingredientOrders.put(key, new IngredientOrder(ingredient, woodSelector));
         });
         return order;
     }

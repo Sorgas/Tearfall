@@ -10,6 +10,7 @@ import stonering.enums.items.recipe.IngredientProcessor;
 import stonering.enums.items.type.ItemTypeMap;
 import stonering.util.global.Logger;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -29,6 +30,7 @@ public class BlueprintProcessor {
                 .map(ingredientProcessor::parseIngredient)
                 .filter(Objects::nonNull)
                 .forEach(ingredient -> blueprint.ingredients.put(ingredient.key, ingredient));
+        // if all item types for part are materials,
         blueprint.ingredients.forEach((part, ingredient) -> {
             boolean allItemTypesAreMaterial = ingredient.itemTypes.stream()
                     .map(typeName -> ItemTypeMap.instance().getItemType(typeName))

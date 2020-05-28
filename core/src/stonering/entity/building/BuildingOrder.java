@@ -30,7 +30,8 @@ public class BuildingOrder extends ItemConsumingOrder {
         this.blueprint = blueprint;
         this.position = position;
         // TODO move to superclass
-        blueprint.ingredients.forEach((key, ingredientList) ->
-                ingredientOrders.put(key, ingredientList.stream().map(IngredientOrder::new).collect(Collectors.toList())));
+        blueprint.ingredients.values().stream()
+                .map(IngredientOrder::new)
+                .forEach(ingredientOrder -> ingredientOrders.put(ingredientOrder.ingredient.key, ingredientOrder));
     }
 }

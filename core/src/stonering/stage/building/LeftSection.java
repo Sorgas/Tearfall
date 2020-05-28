@@ -42,14 +42,14 @@ public class LeftSection extends Table {
     private NavigableVerticalGroup<SelectedMaterialsWidget> createIngredientGroup(Blueprint blueprint, int number) {
         NavigableVerticalGroup<SelectedMaterialsWidget> group = new NavigableVerticalGroup<>();
         group.grow();
-        blueprint.parts.keySet().forEach(part -> {
+        blueprint.ingredients.keySet().forEach(key -> {
             System.out.println("creating widget for building part ");
-            Ingredient ingredient = blueprint.parts.get(part);
-            SelectedMaterialsWidget widget = new SelectedMaterialsWidget(ingredient, ingredient.quantity * number, part, menu);
-            widgetMap.put(part, widget);
+            Ingredient ingredient = blueprint.ingredients.get(key);
+            SelectedMaterialsWidget widget = new SelectedMaterialsWidget(ingredient, ingredient.quantity * number, key, menu);
+            widgetMap.put(key, widget);
             group.addActor(widget);
         });
-        if (blueprint.parts.size() == 1)
+        if (blueprint.ingredients.size() == 1)
             widgetMap.values().forEach(widget -> widget.titleLabel.setText("")); // remove title for single part
         return group;
     }
