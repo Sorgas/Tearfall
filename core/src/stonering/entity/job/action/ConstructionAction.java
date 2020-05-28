@@ -23,13 +23,16 @@ public class ConstructionAction extends GenericBuildingAction {
         super(order);
         blockType = BlockTypeEnum.getType(order.blueprint.building).CODE;
         onFinish = () -> {
-            Logger.TASKS.logDebug(BlockTypeEnum.getType(blockType).NAME + " built at " + this.target.getPosition());
             int material = order.parts.values().iterator().next().items.iterator().next().material; // all items have same material
+
+            order.ingredientOrders.values().stream().findFirst().stream().findFirst().get().;
+
             GameMvc.model().get(LocalMap.class).blockType.setBlock(order.position, blockType, material); // create block
             PlantContainer container = GameMvc.model().get(PlantContainer.class);
             container.remove(container.getPlantInPosition(order.position), true); // remove plant
             GameMvc.model().get(SubstrateContainer.class).remove(order.position); // remove substrates
             consumeItems();
+            Logger.TASKS.logDebug(BlockTypeEnum.getType(blockType).NAME + " built at " + this.target.getPosition());
         };
     }
 

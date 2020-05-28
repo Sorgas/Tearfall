@@ -30,7 +30,6 @@ import static stonering.entity.job.action.ActionConditionStatusEnum.*;
 public abstract class GenericBuildingAction extends ItemConsumingAction {
     protected final BuildingOrder buildingOrder;
     private final BuildingActionTarget buildingTarget;
-    private ItemContainer itemContainer;
 
     protected GenericBuildingAction(BuildingOrder buildingOrder) {
         super(buildingOrder, new BuildingActionTarget(buildingOrder));
@@ -41,6 +40,7 @@ public abstract class GenericBuildingAction extends ItemConsumingAction {
 
         startCondition = () -> {
             if (!checkBuilderPosition()) return failAction(); // find position for builder
+            if(order.ingredientOrders.containsKey("main")) return failAction(); // buildings cannot have main ingredient
             if(!ingredientOrdersValid()) return failAction(); // check/find items for order
             lockItems(); // lock valid items
             if (checkBringingItems()) return NEW; // bring material items
