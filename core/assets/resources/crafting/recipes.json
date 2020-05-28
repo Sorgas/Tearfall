@@ -83,7 +83,7 @@
     "name": "melt_ore",
     "title": "Melt ore to metal bar",
     "itemName": "bar",
-    "newMaterial": "",
+    "newMaterial": "_smelt:bar", // process reaction of bar material will be set
     "ingredients": ["bar:rock:ore:1"]
 }
 ]

@@ -14,13 +14,14 @@ import java.util.Map;
  * @author Alexander on 02.09.2019.
  */
 public enum ItemTagEnum {
-    STONE(false), // gabbro(material) stone(type) // stones have no origin
+    STONE(false), // gabbro(material) rock(type) // stones have no origin
     STONE_EXTRUSIVE(false), // used for stone layers generation
     STONE_INTRUSIVE(false),
     STONE_SEDIMENTARY(false),
-    METAL(false), // brass(material) bar(type) // bars have no origin
-    WOOD(false), // birch(material) log
+    METAL(false), // brass(material) bar(type)
+    WOOD(false), // birch(material) log(type)
     MEAT(false), // fox(origin) meat(material) piece(type)
+    ORE(false), // magnetite(material) rock(type)
 
     COOKABLE(false), // can be boiled or roasted
     EDIBLE(false), // can be eaten

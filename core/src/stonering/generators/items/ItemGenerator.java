@@ -9,6 +9,7 @@ import stonering.entity.item.aspects.ItemContainerAspect;
 import stonering.entity.item.aspects.SeedAspect;
 import stonering.entity.RenderAspect;
 import stonering.entity.item.aspects.FallingAspect;
+import stonering.enums.items.ItemTagEnum;
 import stonering.enums.items.recipe.Ingredient;
 import stonering.enums.items.type.ItemType;
 import stonering.enums.items.type.ItemTypeMap;
@@ -84,7 +85,6 @@ public class ItemGenerator {
             item = mainIngredient.items.stream().findFirst().get();
         } else {
             item = new Item(null, ItemTypeMap.instance().getItemType(order.recipe.newType));
-            item.material =
         }
         order.ingredientOrders.values().stream()
                 .filter(ingredientOrder -> !ingredientOrder.ingredient.key.equals("consume"))
@@ -94,16 +94,29 @@ public class ItemGenerator {
                 .forEach(itemPart -> item.parts.put(itemPart.name, itemPart));
         Optional.ofNullable(order.recipe.newTag).ifPresent(item.tags::add); // add tag
         generateItemAspects(item);
+        setItemMaterial(item, order);
         return item;
+    }
+
+    private void setItemMaterial(Item item, ItemOrder order) {
+        if (!order.ingredientOrders.containsKey("main")) {
+            item.material = item.parts.get(item.type.name).material;
+            String materialString = order.recipe.newMaterial;
+            if(materialString != null) { // use material specified in recipe
+                if(materialString.startsWith("_")) { // use reaction material
+                    String[] args = materialString.split(":");
+                    materialString = (String) MaterialMap.getMaterial(item.parts.get(args[0]).material).reactions.get(args[0]).get(0);
+                }
+                item.material = MaterialMap.getId(materialString);
+            }
+        }
     }
 
     private ItemPart createItemPart(IngredientOrder ingredientOrder, Item item) {
         Item materialItem = ingredientOrder.items.stream().findFirst().orElse(null);
-        if (materialItem != null) {
-            return new ItemPart(item, ingredientOrder.ingredient.key, materialItem.material);
-        } else {
-            return Logger.ITEMS.logError("ingredient order " + ingredientOrder.ingredient.key + " for item " + item + " has no items set.", null);
-        }
+        return materialItem != null
+                ? new ItemPart(item, ingredientOrder.ingredient.key, materialItem.material)
+                : Logger.ITEMS.logError("ingredient order " + ingredientOrder.ingredient.key + " for item " + item + " has no items set.", null);
     }
 
     /**

@@ -4,7 +4,8 @@
         "tags": ["ore"],
         "density": "4.2",
         "reactions": {
-            "melt": ["1223"]
+            "melt": ["1223"],
+            "_smelt": ["copper"]
         },
         "value": "10",
         "atlasY": "0",
@@ -14,9 +15,8 @@
     "tags": ["ore"],
     "density": "5",
     "reactions": {
-        "melt": [
-            "890"
-        ]
+        "melt": ["890"],
+        "_smelt": ["copper"]
     },
     "value": "10",
     "atlasY": "0",
@@ -26,7 +26,8 @@
     "tags": ["ore"],
     "density": "5.2",
     "reactions": {
-        "melt": ["1867"]
+        "melt": ["1867"],
+        "_smelt": ["iron"]
     },
     "value": "10",
     "atlasY": "0",
@@ -36,27 +37,8 @@
     "tags": ["ore"],
     "density": "5.2",
     "reactions": {
-        "melt": ["1838"]
-    },
-    "value": "10",
-    "atlasY": "0",
-    "color": "ffffffff"
-}, {
-    "name": "limonite",
-    "tags": ["ore"],
-    "density": "4",
-    "reactions": {
-        "melt": ["1523"]
-    },
-    "value": "10",
-    "atlasY": "0",
-    "color": "ffffffff"
-}, {
-    "name": "native aluminium",
-    "tags": ["ore"],
-    "density": "2.7",
-    "reactions": {
-        "melt": ["933"]
+        "melt": ["1838"],
+        "_smelt": ["iron"]
     },
     "value": "10",
     "atlasY": "0",
@@ -66,7 +48,8 @@
     "tags": ["ore"],
     "density": "19",
     "reactions": {
-        "melt": ["1337"]
+        "melt": ["1337"],
+        "_smelt": ["gold"]
     },
     "value": "10",
     "atlasY": "0",
@@ -76,7 +59,8 @@
     "tags": ["ore"],
     "density": "7.4",
     "reactions": {
-        "melt": ["1386"]
+        "melt": ["1386"],
+        "_smelt": ["copper"]
     },
     "value": "10",
     "atlasY": "0",
@@ -86,7 +70,8 @@
     "tags": ["ore"],
     "density": "4.1",
     "reactions": {
-        "melt": ["1973"]
+        "melt": ["1973"],
+        "_smelt": ["copper"]
     },
     "value": "10",
     "atlasY": "0",
@@ -96,7 +81,8 @@
     "tags": ["ore"],
     "density": "2.4",
     "reactions": {
-        "melt": ["1010"]
+        "melt": ["1010"],
+        "_smelt": ["copper"]
     },
     "value": "10",
     "atlasY": "0",
@@ -106,7 +92,8 @@
     "tags": ["ore"],
     "density": "6.9",
     "reactions": {
-        "melt": ["1395"]
+        "melt": ["1395"],
+        "_smelt": ["copper"]
     },
     "value": "10",
     "atlasY": "0",
@@ -117,7 +104,8 @@
     "aspects": ["ore(silver, 1)"],
     "density": "10.5",
     "reactions": {
-        "melt": ["1235"]
+        "melt": ["1235"],
+        "_smelt": ["silver"]
     },
     "value": "10",
     "atlasY": "0",

@@ -25,8 +25,7 @@ public class Item extends Entity {
     public final ItemType type;
     public int material;
     public final List<ItemTagEnum> tags;
-    public final Map<String, ItemPart> parts = new HashMap<>();
-    public final String mainPart;
+    public final Map<String, ItemPart> parts = new HashMap<>(); // part with type name is main
 
     public String title; // title combined of origin, material, and type
     public String materialString;
@@ -67,6 +66,10 @@ public class Item extends Entity {
 
     public ItemType getType() {
         return type;
+    }
+
+    public void initMaterial() {
+        material = parts.get(type.name).material;
     }
 
     @Override
