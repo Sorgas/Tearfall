@@ -1,9 +1,12 @@
 package stonering.widget.lists;
 
+import java.util.Optional;
+
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+
 import stonering.enums.ControlActionsEnum;
 import stonering.util.global.StaticSkin;
 
@@ -23,30 +26,34 @@ public class NavigableSelectBox<T> extends ListSelectBox<T> {
 
     private void createDefaultListener() {
         addListener(new InputListener() { // handles key presses
+
             @Override
-            public boolean keyDown(InputEvent event, int keycode) {
+            public boolean keyTyped(InputEvent event, char character) {
                 event.stop();
-                switch (ControlActionsEnum.getAction(keycode)) {
-                    case UP: {
+                switch (character) {
+                    case 'W':
+                    case 'w': {
                         return handleNavigation(-1);
                     }
-                    case DOWN: {
+                    case 'S':
+                    case 's': {
                         return handleNavigation(1);
                     }
-                    case SELECT: {
-                        if (getList().getStage() == null) {
-                            showList();
-                            return true;
-                        }
-                        return selectListener == null || selectListener.handle(event);
+                    case 'E':
+                    case 'e': {
+                        if (getList().getStage() != null) return selectListener == null || selectListener.handle(event);
+                        showList();
+                        return true;
                     }
-                    case CANCEL: {
+                    case 'Q':
+                    case 'q': {
                         return cancelListener == null || cancelListener.handle(event);
                     }
                 }
                 return false;
             }
         });
+
         getList().addListener(new ClickListener() { // tries to select item after clicking
             @Override
             public void clicked(InputEvent event, float x, float y) {
