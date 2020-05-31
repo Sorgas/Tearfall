@@ -11,6 +11,7 @@ import stonering.util.global.StaticSkin;
 import stonering.widget.item.ItemLabel;
 
 import java.util.Comparator;
+import java.util.Optional;
 
 /**
  * Shows picture, name, current task, tool, best skill, and needs state.
@@ -24,8 +25,9 @@ public class UnitImageColumn extends Table {
     }
 
     private void createTable(Unit unit) {
+        defaults().growX();
         add(new Label("unit name", StaticSkin.getSkin())).colspan(2).row();
-        add(new Image(unit.get(RenderAspect.class).region)).colspan(2).row();
+        add(createImageContainer(unit)).colspan(2).expandY().row();
         //TODO equipped tool/weapon
         add(new Label("activity:", StaticSkin.getSkin()));
         add(new Label(getUnitCurrentTask(unit), StaticSkin.getSkin())).row();
@@ -35,17 +37,27 @@ public class UnitImageColumn extends Table {
 
         add(new Label(getUnitBestSkill(unit), StaticSkin.getSkin())).row();
 
-        add(new UnitNeedsWidget(unit));
+        add(new UnitNeedsWidget(unit)).colspan(2);
         setWidth(300);
     }
 
     private String getUnitCurrentTask(Unit unit) {
-        Task task = unit.get(TaskAspect.class).task;
-        return task != null ? task.name : "Doing nothing";
+        return Optional.ofNullable(unit.get(TaskAspect.class))
+                .map(aspect -> aspect.task)
+                .map(task -> task.name)
+                .orElse("Doing nothing");
     }
 
     private String getUnitBestSkill(Unit unit) {
-        return unit.get(SkillAspect.class).skills.values().stream()
-                .max(Comparator.comparingInt(skill -> skill.state.getLevel())).map(skillValue -> skillValue.skill).orElse("Peasant");
+        return Optional.ofNullable(unit.get(SkillAspect.class))
+                .map(aspect -> aspect.skills.values().stream())
+                .flatMap(stream -> stream.max(Comparator.comparingInt(skill -> skill.state.getLevel())))
+                .map(skillValue -> skillValue.skill)
+                .orElse("Peasant");
+    }
+
+    private Container<Image> createImageContainer(Unit unit) {
+        Image image = new Image(unit.get(RenderAspect.class).region);
+        return new Container<>(image).size(200);
     }
 }
