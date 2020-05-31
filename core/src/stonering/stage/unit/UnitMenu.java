@@ -30,6 +30,5 @@ public class UnitMenu extends Container<Table> {
         table.add(summaryColumn = new UnitImageColumn(unit)).size(300, 900);
         table.add(pane = new TabbedPane(900));
         pane.add("equipment", new UnitEquipmentTab(unit));
-        summaryColumn.setBackground(StaticSkin.getColorDrawable(StaticSkin.backgroundFocused));
     }
 }

@@ -29,7 +29,6 @@ public class UnitNeedsWidget extends Table {
         addBar("hunger:", HealthParameterEnum.HUNGER, aspect);
         addBar("thirst:", HealthParameterEnum.THIRST, aspect);
         addBar("fatigue:", HealthParameterEnum.FATIGUE, aspect);
-
     }
 
     private void addBar(String drawableName, HealthParameterEnum parameter, HealthAspect aspect) {

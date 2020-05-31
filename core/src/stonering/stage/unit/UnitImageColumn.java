@@ -29,16 +29,17 @@ public class UnitImageColumn extends Table {
         add(new Label("unit name", StaticSkin.getSkin())).colspan(2).row();
         add(createImageContainer(unit)).colspan(2).expandY().row();
         //TODO equipped tool/weapon
-        add(new Label("activity:", StaticSkin.getSkin()));
-        add(new Label(getUnitCurrentTask(unit), StaticSkin.getSkin())).row();
+        add(new Label("activity:", StaticSkin.getSkin())).height(80);
+        add(new Label(getUnitCurrentTask(unit), StaticSkin.getSkin())).height(80).row();
 
-        add(new Label("tools:", StaticSkin.getSkin()));
-        unit.get(EquipmentAspect.class).getEquippedTools().forEach(item -> add(new ItemLabel(item)).colspan(2).row());
+        add(new Label("tools:", StaticSkin.getSkin())).colspan(2).row();
+        add(createToolsList(unit.get(EquipmentAspect.class))).height(120).colspan(2).row();
 
-        add(new Label(getUnitBestSkill(unit), StaticSkin.getSkin())).row();
+        add(new Label(getUnitBestSkill(unit), StaticSkin.getSkin())).colspan(2).row();
 
         add(new UnitNeedsWidget(unit)).colspan(2);
         setWidth(300);
+        setBackground(StaticSkin.getColorDrawable(StaticSkin.backgroundFocused));
     }
 
     private String getUnitCurrentTask(Unit unit) {
@@ -59,5 +60,13 @@ public class UnitImageColumn extends Table {
     private Container<Image> createImageContainer(Unit unit) {
         Image image = new Image(unit.get(RenderAspect.class).region);
         return new Container<>(image).size(200);
+    }
+
+    private ScrollPane createToolsList(EquipmentAspect aspect) {
+        Table table = new Table();
+        ScrollPane pane = new ScrollPane(table);
+        aspect.getEquippedTools()
+                .forEach(item -> table.add(new ItemLabel(item)).growX().row());
+        return pane;
     }
 }
