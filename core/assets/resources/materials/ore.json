@@ -110,5 +110,12 @@
     "value": "10",
     "atlasY": "0",
     "color": "ffffffff"
+}, {
+    "name": "coal",
+    "tags": ["ore", "fuel"],
+    "density": "10.5",
+    "value": "10",
+    "atlasY": "0",
+    "color": "ffffffff"
 }
 ]

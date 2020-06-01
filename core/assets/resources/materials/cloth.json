@@ -1,0 +1,63 @@
+[
+    {
+        "name": "linen",
+        "tags": ["cloth"],
+        "density": "200",
+        "reactions": {
+            "burn": ["3000"]
+        },
+        "value": "10",
+        "atlasY": "0",
+        "color": "ffffffff"
+    }, {
+    "name": "silk",
+    "tags": ["cloth"],
+    "density": "200",
+    "reactions": {
+        "burn": ["3000"]
+    },
+    "value": "10",
+    "atlasY": "0",
+    "color": "ffffffff"
+}, {
+    "name": "wool",
+    "tags": ["cloth"],
+    "density": "200",
+    "reactions": {
+        "burn": ["3000"]
+    },
+    "value": "10",
+    "atlasY": "0",
+    "color": "ffffffff"
+}, {
+    "name": "cotton",
+    "tags": ["cloth"],
+    "density": "200",
+    "reactions": {
+        "burn": ["3000"]
+    },
+    "value": "10",
+    "atlasY": "0",
+    "color": "ffffffff"
+}, {
+    "name": "hemp",
+    "tags": ["cloth"],
+    "density": "200",
+    "reactions": {
+        "burn": ["3000"]
+    },
+    "value": "10",
+    "atlasY": "0",
+    "color": "ffffffff"
+}, {
+    "name": "byssus",
+    "tags": ["cloth"],
+    "density": "200",
+    "reactions": {
+        "burn": ["3000"]
+    },
+    "value": "10",
+    "atlasY": "0",
+    "color": "ffffffff"
+}
+]

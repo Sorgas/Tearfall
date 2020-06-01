@@ -75,5 +75,11 @@
     "building": "kitchen",
     "menuPath": ["workbenches"],
     "ingredients": ["kitchen:log/bar:any:4"]
+}, {
+    "name": "build_smelter",
+    "title": "Smelter",
+    "building": "smelter",
+    "menuPath": ["workbenches"],
+    "ingredients": ["smelter:rock:any:18"]
 }
 ]

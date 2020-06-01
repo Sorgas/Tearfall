@@ -42,7 +42,7 @@
     "sprites": [
         [0, 0], [2, 0], [4, 0], [6, 0]
     ],
-    "atlasXY": [0, 0]
+    "atlasXY": [4, 0]
 }, {
     "building": "forge",
     "title": "Forge",
