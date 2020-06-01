@@ -8,5 +8,6 @@
     ["campfire", "roast_meal", "boil_meal", "boil_water", "boil_drink"],
     ["kitchen", "roast_meal", "boil_meal", "boil_water", "boil_drink"],
     ["carpenter_workbench", "make_bed"],
-    ["sawing_rack", "saw_log"]
+    ["sawing_rack", "saw_log"],
+    ["smelter", "melt_ore"]
 ]

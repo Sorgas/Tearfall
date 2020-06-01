@@ -65,7 +65,10 @@ public class WorkbenchModel extends TestModel {
         container.onMapItemsSystem.putNewItem(generator.generateItem("bar", "iron", null), new Position(3, 1, 2));
         container.onMapItemsSystem.putNewItem(generator.generateItem("bar", "iron", null), new Position(4, 1, 2));
         container.onMapItemsSystem.putNewItem(generator.generateItem("bar", "iron", null), new Position(6, 1, 2));
-
+        for (int i = 0; i < 10; i++) {
+            container.onMapItemsSystem.putNewItem(generator.generateItem("rock", "diorite", null), new Position(7, 1, 2));
+        }
+        container.onMapItemsSystem.putNewItem(generator.generateItem("rock", "magnetite", null), new Position(8, 1, 2));
     }
 
     @Override

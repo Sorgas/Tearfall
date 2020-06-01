@@ -22,8 +22,8 @@ import java.util.stream.Collectors;
  */
 public class BuildingOrder extends ItemConsumingOrder {
     public final Blueprint blueprint;
-    public Position position;
-    public OrientationEnum orientation;
+    public Position position; // building site
+    public OrientationEnum orientation; // building orientation
 
     public BuildingOrder(Blueprint blueprint, Position position) {
         super();

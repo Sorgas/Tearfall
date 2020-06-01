@@ -80,6 +80,6 @@
     "title": "Smelter",
     "building": "smelter",
     "menuPath": ["workbenches"],
-    "ingredients": ["smelter:rock:any:18"]
+    "ingredients": ["smelter:rock:any:8"]
 }
 ]

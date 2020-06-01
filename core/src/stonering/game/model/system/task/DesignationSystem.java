@@ -70,6 +70,7 @@ public class DesignationSystem {
         System.out.println("validation passed");
         BuildingDesignation designation = new BuildingDesignation(order);
         Task task = taskCreator.createBuildingTask(designation, priority);
+        designation.task = task;
         container.addTask(task);
         container.designations.put(designation.position, designation);
         Logger.TASKS.log(task.name + " designated");

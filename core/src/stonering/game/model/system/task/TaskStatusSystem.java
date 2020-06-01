@@ -2,6 +2,7 @@ package stonering.game.model.system.task;
 
 import stonering.entity.job.Task;
 import stonering.entity.unit.aspects.TaskAspect;
+import stonering.enums.designations.DesignationTypeEnum;
 import stonering.util.global.Logger;
 
 import java.util.Iterator;
@@ -43,6 +44,11 @@ public class TaskStatusSystem {
                 case FAILED: // failed tasks are reset to be taken again
                     iterator.remove();
                     if (task.designation != null) { // designation tasks are reopened
+                        if(task.designation.type == DesignationTypeEnum.D_BUILD) {
+                            task.suspend
+                        }
+                        task.designation
+                        // suspend order
                         task.performer.get(TaskAspect.class).task = null;
                         task.reset();
                         task.status = OPEN;

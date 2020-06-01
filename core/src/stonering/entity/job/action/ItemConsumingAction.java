@@ -48,7 +48,9 @@ public abstract class ItemConsumingAction extends Action {
                 .collect(Collectors.toList());
         invalidIngredients.forEach(this::clearIngredientItems); // clear all invalid ingredients
         for (IngredientOrder invalidOrder : invalidIngredients) {
-            if (!findItemsForIngredient(invalidOrder)) return false; // search for items for ingredient
+            if (!findItemsForIngredient(invalidOrder)) { // search for items for ingredient
+                return false; 
+            }
         }
         return true;
     }
