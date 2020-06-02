@@ -1,9 +1,13 @@
 package stonering.game.model.entity_selector;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import stonering.entity.Aspect;
 import stonering.entity.Entity;
 import stonering.util.geometry.IntVector2;
 import stonering.util.geometry.Position;
+import stonering.util.global.Logger;
 
 /**
  * Players 'mouse' in the game. Selects objects on local map. Moved by mouse or WASDRF.
@@ -20,5 +24,15 @@ public class EntitySelector extends Entity {
     public EntitySelector(Position position) {
         super(position);
         size = new IntVector2(1, 1);
+    }
+    
+    public List<Position> getSelectorPositions() {
+        List<Position> positions = new ArrayList<>();
+        for (int x = 0; x < size.x; x++) {
+            for (int y = 0; y < size.y; y++) {
+                positions.add(Position.add(position, x, y, 0));
+            }
+        }
+        return positions;
     }
 }

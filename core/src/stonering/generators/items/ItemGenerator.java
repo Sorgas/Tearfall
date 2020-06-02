@@ -105,7 +105,7 @@ public class ItemGenerator {
             if(materialString != null) { // use material specified in recipe
                 if(materialString.startsWith("_")) { // use reaction material
                     String[] args = materialString.split(":");
-                    materialString = (String) MaterialMap.getMaterial(item.parts.get(args[0]).material).reactions.get(args[0]).get(0);
+                    materialString = MaterialMap.getMaterial(item.parts.get(args[1]).material).reactions.get(args[0]).get(0);
                 }
                 item.material = MaterialMap.getId(materialString);
             }

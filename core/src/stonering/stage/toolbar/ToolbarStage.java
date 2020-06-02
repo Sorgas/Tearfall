@@ -1,5 +1,6 @@
 package stonering.stage.toolbar;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.utils.Align;
 import stonering.enums.buildings.blueprint.Blueprint;
@@ -15,14 +16,14 @@ import stonering.widget.TileStatusBar;
 public class ToolbarStage extends UiStage {
     public Toolbar toolbar;
     private TileStatusBar tileStatusBar;
-    private final Container tabContainer;
+    private final Container<Actor> tabContainer;
     public BuildingMaterialTab buildingTab;
 
     public ToolbarStage() {
         super();
         addActor(toolbar = new Toolbar());
         addActor(tileStatusBar = new TileStatusBar());
-        addActor(tabContainer = new Container());
+        addActor(tabContainer = new Container<>());
         tabContainer.setFillParent(true);
         tabContainer.align(Align.bottomRight);
         setKeyboardFocus(toolbar);

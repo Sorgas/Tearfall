@@ -15,7 +15,7 @@ public class RawMaterial {
     public String name;
     public ArrayList<String> tags;
     public float density;
-    public HashMap<String, ArrayList<Object>> reactions; // other aspects
+    public HashMap<String, ArrayList<String>> reactions; // other aspects
     public int value;
     public byte atlasY;
     public String color;

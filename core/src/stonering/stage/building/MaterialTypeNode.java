@@ -18,7 +18,7 @@ public class MaterialTypeNode extends ItemSelectionNode {
     public final int material; // id
 
     public MaterialTypeNode(String type, int material, int required, int all, MaterialSelectionConfig config) {
-        super(MaterialMap.instance().getMaterial(material).name + " " + type, required + "/" + all, config);
+        super(MaterialMap.getMaterial(material).name + " " + type, required + "/" + all, config);
         this.material = material;
         checkbox.addListener(new ChangeListener() {
 

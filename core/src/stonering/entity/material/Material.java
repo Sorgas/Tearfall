@@ -23,7 +23,7 @@ public class Material extends Entity {
     public final String name;
     public final List<ItemTagEnum> tags;
     public final float density;
-    public final HashMap<String, ArrayList<Object>> reactions; // other aspects
+    public final HashMap<String, ArrayList<String>> reactions; // other aspects
     public final int value;
     public final byte atlasY;
     public final Color color;

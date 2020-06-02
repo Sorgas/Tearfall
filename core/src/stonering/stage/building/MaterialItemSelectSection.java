@@ -20,6 +20,8 @@ import static com.badlogic.gdx.scenes.scene2d.ui.Tree.*;
  * Collects all items for given ingredient, groups them by type and material, and shows in a tree structure.
  * Produces {@link ItemSelector} of current section state.
  * Saves player's selection in {@link MaterialSelectionConfig} and restores it when same blueprint is selected again.
+ * Shows nodes for selection, even if there are insufficient items available.
+ * 
  * TODO when dragging over checkboxes or material type nodes, they should change their state.
  * TODO add option to see all possible materials for item type (with checkbox).
  * TODO sort material nodes by amount on stocks.
@@ -57,15 +59,12 @@ public class MaterialItemSelectSection extends ItemSelectSection {
         for (String type : ingredient.itemTypes) {
             // collect items
             Map<Integer, List<Item>> map = new HashMap<>(); // items grouped by material
-            new OnMapItemsStream().filterByType(type).stream.forEach(item -> { // collect items from map
-                map.putIfAbsent(item.material, new ArrayList<>());
-                map.get(item.material).add(item); // group items by material
-            });
+            new OnMapItemsStream().filterByType(type).stream // collect items from map
+                    .forEach(item -> map.computeIfAbsent(item.material, material -> new ArrayList<>()).add(item)); // group items by material
             if (map.isEmpty()) continue; // no rows for no items
 
             // create nodes
             TypeNode typeRow = addTypeNode(type, map);
-            List<MaterialTypeNode> materialNodes = new ArrayList<>();
             map.forEach((material, list) -> {
                 MaterialTypeNode materialRow = new MaterialTypeNode(type, material, ingredient.quantity, list.size(), config); // create widget for material
                 typeRow.addMaterialNode(materialRow); // add node into tree
