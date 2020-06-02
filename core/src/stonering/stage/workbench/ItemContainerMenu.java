@@ -27,11 +27,11 @@ public class ItemContainerMenu extends Table {
     
     public ItemContainerMenu(ItemContainerAspect containerAspect) {
         this.containerAspect = containerAspect;
-        this.add(scrollPane = new ScrollPane(null)).size(600, 900);
+        this.add(scrollPane = new ScrollPane(null)).size(600, 900).fill();
         scrollPane.setActor(listTable = new Table());
         containerAspect.items.forEach(this::createRowForItem);
         this.setBackground(StaticSkin.getColorDrawable(StaticSkin.backgroundFocused));
-        this.add(details = new ItemDetailSection());
+        this.add(details = new ItemDetailSection()).size(300, 900).fill();
         setDebug(true, true);
     }
     
