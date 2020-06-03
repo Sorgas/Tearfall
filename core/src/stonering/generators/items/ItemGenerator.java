@@ -94,6 +94,7 @@ public class ItemGenerator {
                 .filter(Objects::nonNull)
                 .forEach(itemPart -> item.parts.put(itemPart.name, itemPart));
         Optional.ofNullable(order.recipe.newTag).ifPresent(item.tags::add); // add tag
+        Optional.ofNullable(order.recipe.removeTag).ifPresent(item.tags::remove); // add tag
         generateItemAspects(item);
         setItemMaterial(item, order);
         updateItemTitle(item);
@@ -138,7 +139,13 @@ public class ItemGenerator {
     }
 
     private void updateItemTitle(Item item) {
-        item.title = capitalize(MaterialMap.getMaterial(item.material).name + " " + item.type.title);
+        StringBuilder builder = new StringBuilder();
+        item.tags.stream()
+                .filter(ItemTagEnum::isDisplayable)
+                .map(tag -> tag.toString() + " ")
+                .forEach(builder::append);
+        builder.append(MaterialMap.getMaterial(item.material).name).append(" ").append(item.type.title);
+        item.title = capitalize(builder.toString());
     }
 
     private String capitalize(String text) {

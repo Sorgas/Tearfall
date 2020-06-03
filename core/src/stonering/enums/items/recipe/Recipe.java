@@ -31,6 +31,7 @@ public class Recipe {
     public final String newType;                            // type of crafted item
     public final String newMaterial;                        // material of crafted item.
     public final ItemTagEnum newTag;                        // this tag will be added to product
+    public final ItemTagEnum removeTag;                     // this tag will be removed from main ingredient item
 
     public final Map<String, Ingredient> ingredients = new HashMap<>(); // all ingredients, mapped to parts, 'consumed' or 'main'
 
@@ -46,6 +47,7 @@ public class Recipe {
         iconName = raw.iconName;
         description = raw.description;
         newTag = ItemTagEnum.get(raw.newTag);
+        removeTag = ItemTagEnum.get(raw.removeTag);
         workAmount = raw.workAmount != 0 ? raw.workAmount : 1f;
         job = Optional.ofNullable(raw.job)
                 .map(String::toUpperCase)

@@ -36,7 +36,7 @@ public enum ItemTagEnum {
     CLOTH(false),
     MATERIAL(false); // item is raw material for building and crafting
 
-    private static boolean debug = true;
+    private static boolean debug = false;
     private boolean displayable; // tags with true are displayed in items titles.
     private static Map<String, ItemTagEnum> map = new HashMap<>();
 

@@ -18,6 +18,7 @@ public class RawRecipe {
 
     public List<String> ingredients = new ArrayList<>();
     public String newTag;
+    public String removeTag;
     public float workAmount; // increases crafting time
     public String job;
     public String skill;
