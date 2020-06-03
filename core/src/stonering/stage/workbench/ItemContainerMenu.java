@@ -1,6 +1,7 @@
 package stonering.stage.workbench;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -23,16 +24,27 @@ public class ItemContainerMenu extends Table {
     private final ItemDetailSection details;
     private MenuSection focused;
     private ScrollPane scrollPane;
-    private final Table listTable;
+    private final Table listTable; // contains rows of items
     
     public ItemContainerMenu(ItemContainerAspect containerAspect) {
         this.containerAspect = containerAspect;
-        this.add(scrollPane = new ScrollPane(null)).size(600, 900).fill();
-        scrollPane.setActor(listTable = new Table());
-        containerAspect.items.forEach(this::createRowForItem);
-        this.setBackground(StaticSkin.getColorDrawable(StaticSkin.backgroundFocused));
+        scrollPane = new ScrollPane(listTable = new Table());
+        Container<ScrollPane> container = new Container<>(scrollPane).fill();
+        container.size(600, 900);
+        add(container).size(600, 900).fill();
+        this.setBackground(StaticSkin.getColorDrawable(StaticSkin.background));
         this.add(details = new ItemDetailSection()).size(300, 900).fill();
+        details.setBackground(StaticSkin.getColorDrawable(StaticSkin.backgroundFocused));
+        fillItems();
         setDebug(true, true);
+    }
+    
+    private void fillItems() {
+        if(containerAspect.items.isEmpty()) {
+            listTable.add(new Label("No items here", StaticSkin.skin())).fillX();
+        } else {
+            containerAspect.items.forEach(this::createRowForItem);
+        }
     }
     
     private void createRowForItem(Item item) {

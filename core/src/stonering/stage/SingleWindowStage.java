@@ -43,6 +43,7 @@ public class SingleWindowStage<T extends Actor> extends UiStage implements Inita
         GameMvc.model().setPaused(true);
         GameMvc.controller().pauseInputAdapter.enabled = false;
         if(window instanceof Initable) ((Initable) window).init();
+        setKeyboardFocus(window);   
     }
 
     @Override

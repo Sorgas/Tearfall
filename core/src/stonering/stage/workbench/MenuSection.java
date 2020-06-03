@@ -1,5 +1,6 @@
 package stonering.stage.workbench;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -8,15 +9,16 @@ import com.badlogic.gdx.utils.Align;
 import stonering.widget.util.WrappedLabel;
 
 /**
- * Section of menu.
+ * Section of menu. Has title. 
  *
  * @author Alexander on 25.04.2020
  */
 public abstract class MenuSection extends Table {
     protected WrappedLabel header;
-
-    public MenuSection(String title) {
-        add(header = new WrappedLabel(title)).height(100).row();
+    public Runnable tabulation = () -> {};
+    
+    public MenuSection(String title, int columns) {
+        add(header = new WrappedLabel(title)).height(100).colspan(columns).row();
         MenuSection section = this;
         align(Align.topLeft);
         header.addListener(new InputListener() {
@@ -28,5 +30,9 @@ public abstract class MenuSection extends Table {
         });
     }
 
+    public MenuSection(String title) {
+        this(title, 1);
+    }
+    
     public abstract String getHint();
 }

@@ -3,6 +3,8 @@ package stonering.stage.workbench;
 import java.util.Arrays;
 import java.util.List;
 
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -16,6 +18,7 @@ import stonering.stage.workbench.recipelist.RecipeTreeSection;
 import stonering.util.global.Initable;
 import stonering.widget.Restoreable;
 import stonering.util.global.StaticSkin;
+import stonering.widget.util.KeyNotifierListener;
 
 /**
  * Contains three sections: {@link RecipeTreeSection}, {@link OrderListSection}, {@link OrderDetailsSection}.
@@ -41,14 +44,15 @@ public class WorkbenchMenu extends Container<Table> implements Initable, Restore
 
         table.setBackground(StaticSkin.generator.generate(StaticSkin.background));
 
-        table.defaults().size(300, 850);
-        table.add(recipeTreeSection = new RecipeTreeSection("Recipes", workbenchAspect, this)).padRight(10);
-        table.add(orderListSection = new OrderListSection("Orders", workbenchAspect, this)).padRight(10);
+        table.defaults().size(300, 870);
+        table.add(recipeTreeSection = new RecipeTreeSection("Recipes", workbenchAspect, this));
+        table.add(orderListSection = new OrderListSection("Orders", workbenchAspect, this));
         table.add(orderDetailsSection = new OrderDetailsSection("Details", workbenchAspect, this)).row();
         sections = Arrays.asList(recipeTreeSection, orderListSection, orderDetailsSection);
 
         table.add(hintLabel = new Label("", StaticSkin.getSkin())).colspan(3).height(30).growX().align(Align.center);
         table.setDebug(true, true);
+        addListener(new KeyNotifierListener(() -> this.focused));
     }
 
     @Override
@@ -57,7 +61,6 @@ public class WorkbenchMenu extends Container<Table> implements Initable, Restore
     }
 
     public void setFocus(MenuSection section) {
-        getStage().setKeyboardFocus(section);
         focused = section;
         sections.forEach(menuSection -> menuSection.setBackground(StaticSkin.getColorDrawable(StaticSkin.background))); // reset backgrounds
         section.setBackground(StaticSkin.getColorDrawable(StaticSkin.backgroundFocused)); // highlight focused section
