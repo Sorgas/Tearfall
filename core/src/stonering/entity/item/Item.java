@@ -44,11 +44,7 @@ public class Item extends Entity {
         locked = false;
         tags = new ArrayList<>();
     }
-
-    public boolean isTool() {
-        return type.tool != null;
-    }
-
+ 
     @Override
     public <T extends Aspect> boolean has(Class<T> type) {
         return super.has(type) || this.type.has(type);

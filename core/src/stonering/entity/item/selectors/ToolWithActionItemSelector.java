@@ -19,6 +19,8 @@ public class ToolWithActionItemSelector extends ItemSelector {
      */
     @Override
     public boolean checkItem(Item item) {
-        return item.isTool() && item.type.tool.getActions().stream().anyMatch(action -> action.action.equals(actionName));
+        return item.type.tool != null && item.type.tool.getActions().stream()
+                .map(action -> action.action)
+                .anyMatch(actionName::equals);
     }
 }
