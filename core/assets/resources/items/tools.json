@@ -20,13 +20,7 @@
                 }
             ]
         },
-        "parts": [
-            {
-                "title": "head"
-            }, {
-                "title": "handle"
-            }
-        ],
+        "requiredParts" : ["head", "handle"],
         "atlasXY": ["0", "0"],
         "color": "0xffffffff"
     }, {
@@ -50,13 +44,7 @@
             }
         ]
     },
-    "parts": [
-        {
-            "title": "head"
-        }, {
-            "title": "handle"
-        }
-    ],
+    "requiredParts" : ["head", "handle"],
     "atlasXY": ["10", "0"],
     "color": "0xffffffff"
 }, {
@@ -78,13 +66,7 @@
             }
         ]
     },
-    "parts": [
-        {
-            "title": "head"
-        }, {
-            "title": "handle"
-        }
-    ],
+    "requiredParts" : ["head", "handle"],
     "atlasXY": ["7", "0"],
     "color": "0xffffffff"
 }, {
@@ -106,6 +88,7 @@
             }
         ]
     },
+    "requiredParts" : ["head", "handle"],
     "atlasXY": ["1", "0"],
     "color": "0xffffffff"
 }, {
@@ -127,13 +110,7 @@
             }
         ]
     },
-    "parts": [
-        {
-            "title": "head"
-        }, {
-            "title": "handle"
-        }
-    ],
+    "requiredParts" : ["head", "handle"],
     "atlasXY": ["1", "0"],
     "color": "0xffffffff"
 }, {
@@ -155,15 +132,7 @@
             }
         ]
     },
-    "parts": [
-        {
-            "title": "head"
-        }, {
-            "title": "handle"
-        }, {
-            "title": "feet"
-        }
-    ],
+    "requiredParts" : ["head", "handle", "feet"],
     "atlasXY": ["1", "0"],
     "color": "0xffffffff"
 }, {
@@ -185,13 +154,7 @@
             }
         ]
     },
-    "parts": [
-        {
-            "title": "plate"
-        }, {
-            "title": "handle"
-        }
-    ],
+    "requiredParts" : ["head", "handle"],
     "atlasXY": ["1", "0"],
     "color": "0xffffffff"
 }, {
@@ -206,13 +169,7 @@
             }
         ]
     },
-    "parts": [
-        {
-            "title": "blade"
-        }, {
-            "title": "handle"
-        }
-    ],
+    "requiredParts" : ["head", "handle"],
     "atlasXY": ["1", "0"],
     "color": "0xffffffff"
 }

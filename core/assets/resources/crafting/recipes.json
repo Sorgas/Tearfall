@@ -45,7 +45,7 @@
     "name": "roast_meal",
     "title": "Make roasted meal",
     "ingredients": ["main:any:cookable:1"],
-    "newTag" : "roasted",
+    "newTag" : "prepared",
     "iconName": "roast_meal",
     "workAmount": "500"
 }, {

@@ -21,7 +21,7 @@ public class GrabEquipmentSlot extends EquipmentSlot {
      */
     @Override
     public boolean isSuitableFor(Item item) {
-        return super.isSuitableFor(item) || item.isTool();
+        return super.isSuitableFor(item) || item.type.tool != null;
     }
 
     @Override

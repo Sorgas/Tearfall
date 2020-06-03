@@ -1,12 +1,8 @@
 package stonering.enums.items.recipe;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import stonering.enums.items.type.ItemType;
 import stonering.enums.items.type.ItemTypeMap;
 import stonering.util.global.Logger;
-import stonering.util.global.Pair;
 
 /**
  * Processes {@link RawRecipe} into {@link Recipe}.
@@ -32,11 +28,8 @@ public class RecipeProcessor {
         ItemType type =  ItemTypeMap.instance().getItemType(recipe.newType);
         if(type == null)
             return Logger.LOADING.logWarn("Recipe " + recipe.name + " has invalid item type " + recipe.newType, false);
-        List<String> requiredParts = type.parts.stream()
-                .map(Pair::getKey)
-                .collect(Collectors.toList());
-        if (!recipe.ingredients.keySet().containsAll(requiredParts))
-            return Logger.LOADING.logWarn("Recipe " + recipe.name + " specifies not all part of type " + type.name, false);
+        if (!recipe.ingredients.keySet().containsAll(type.requiredParts))
+            return Logger.LOADING.logWarn("Recipe " + recipe.name + " specifies not all required parts of type " + type.name, false);
         return true;
     }
 }

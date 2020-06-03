@@ -26,7 +26,7 @@ public class IngredientProcessor {
         if (args.length < 4) return Logger.LOADING.logError("Ingredient has empty or missing args.", false);
         if (Arrays.stream(args).anyMatch(string -> string == null || string.isEmpty()))
             return Logger.LOADING.logError("Ingredient has empty argument.", false);
-        if (!"any".equals(args[2]) && ItemTagEnum.get(args[2]) == ItemTagEnum.DEFAULT_TAG)
+        if (!"any".equals(args[2]) && ItemTagEnum.get(args[2]) == null)
             return Logger.LOADING.logWarn("Ingredient tag is invalid", false);
         return true;
     }

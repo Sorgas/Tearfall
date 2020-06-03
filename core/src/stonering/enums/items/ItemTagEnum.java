@@ -34,8 +34,7 @@ public enum ItemTagEnum {
 
     WATER(false),
     CLOTH(false),
-    MATERIAL(false), // item is raw material for building and crafting
-    DEFAULT_TAG(false);
+    MATERIAL(false); // item is raw material for building and crafting
 
     private static boolean debug = true;
     private boolean displayable; // tags with true are displayed in items titles.
@@ -52,11 +51,7 @@ public enum ItemTagEnum {
     }
 
     public static ItemTagEnum get(String name) {
-        return map.getOrDefault(name, DEFAULT_TAG);
-    }
-
-    public static boolean isTag(String name) {
-        return map.containsKey(name);
+        return map.get(name);
     }
 
     public boolean isDisplayable() {

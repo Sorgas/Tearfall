@@ -35,7 +35,7 @@ public class OnMapItemsStream extends EntityStream<Item> {
     }
 
     public OnMapItemsStream filterHasTag(ItemTagEnum tag) {
-        stream = stream.filter(item -> item.tags.contains(tag));
+        if(tag != null) stream = stream.filter(item -> item.tags.contains(tag));
         return this;
     }
 
@@ -44,7 +44,7 @@ public class OnMapItemsStream extends EntityStream<Item> {
     }
 
     public OnMapItemsStream filterNoTag(ItemTagEnum tag) {
-        stream = stream.filter(item -> !item.tags.contains(tag));
+        if(tag != null) stream = stream.filter(item -> !item.tags.contains(tag));
         return this;
     }
 

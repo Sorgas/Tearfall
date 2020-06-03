@@ -9,6 +9,7 @@ import stonering.enums.materials.RawMaterial;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -33,7 +34,10 @@ public class Material extends Entity {
         super();
         this.id = id;
         name = raw.name;
-        tags = raw.tags.stream().map(ItemTagEnum::get).collect(Collectors.toList());
+        tags = raw.tags.stream()
+                .map(ItemTagEnum::get)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
         density = raw.density;
         reactions = raw.reactions;
         value = raw.value;

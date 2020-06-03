@@ -28,7 +28,7 @@ public class EquipToolItemAction extends Action {
             
         startCondition = () -> { // check that item is on hands for equipping
             EquipmentAspect equipment = task.performer.get(EquipmentAspect.class);
-            if (!item.isTool()) return Logger.TASKS.logError("Target item is not tool", FAIL);
+            if (item.type.tool == null) return Logger.TASKS.logError("Target item is not tool", FAIL);
             if (equipment == null)
                 return Logger.TASKS.logError("unit " + task.performer + " has no Equipment Aspect.", FAIL);
             if(equipment.isItemInGrabSlots(item)) return OK; // item is already in some grab slot
@@ -41,7 +41,7 @@ public class EquipToolItemAction extends Action {
             ItemContainer container = GameMvc.model().get(ItemContainer.class); 
 
             equipment.grabSlots.values().stream() // drop all other tools
-                    .filter(slot -> slot.grabbedItem != null && slot.grabbedItem.isTool() && slot.grabbedItem != item)
+                    .filter(slot -> slot.grabbedItem != null && slot.grabbedItem.type.tool != null && slot.grabbedItem != item)
                     .forEach(slot -> {
                         Item wornItem = system.freeGrabSlot(slot); // remove from hands
                         container.onMapItemsSystem.putItem(wornItem, task.performer.position); // put to map

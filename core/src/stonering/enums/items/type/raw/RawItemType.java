@@ -1,6 +1,5 @@
 package stonering.enums.items.type.raw;
 
-import stonering.enums.items.type.ItemPartType;
 import stonering.enums.items.type.ToolItemType;
 
 import java.util.ArrayList;
@@ -17,7 +16,7 @@ public class RawItemType {
     public String title = ""; // displayable name
     public String description; // displayable description
     public ToolItemType tool; // is set if this item could be used as tool
-    public List<ItemPartType> parts; // defines parts of item. first one is main
+    public List<String> requiredParts; // defines parts of item. first one is main
     public List<String> tags = new ArrayList<>(); // tags will be copied to items
 
     // first element of lists is aspect name

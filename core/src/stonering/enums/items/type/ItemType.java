@@ -17,11 +17,12 @@ public class ItemType extends Entity implements Cloneable {
     public final String title;                               // displayable name
     public final String description;                         // displayable description
     public final ToolItemType tool;                          // is set if this item could be used as tool TODO replace with type aspect
-    public Map<String, List<String>> itemAspects;           // other aspects, item aspects filled from this on generation.
+    public Map<String, List<String>> itemAspects;            // other aspects, item aspects filled from this on generation.
     public int[] atlasXY;
     public String color;
     public Set<ItemTagEnum> tags;
-    public List<Pair<String, String>> parts;                 // names and default materials of mandatory item parts
+    public List<String> requiredParts;
+    public List<String> optionalParts;
 
     public ItemType(RawItemType rawType) {
         super();
@@ -32,10 +33,12 @@ public class ItemType extends Entity implements Cloneable {
         atlasXY = rawType.atlasXY;
         itemAspects = new HashMap<>();
         tags = new HashSet<>();
-        parts = new ArrayList<>();
-        for (String tag : rawType.tags) {
-            tags.add(ItemTagEnum.get(tag));
-        }
+        requiredParts = new ArrayList<>();
+        optionalParts = new ArrayList<>();
+        rawType.tags.stream()
+                .map(ItemTagEnum::get)
+                .filter(Objects::nonNull)
+                .forEach(tags::add);
     }
 
     /**
