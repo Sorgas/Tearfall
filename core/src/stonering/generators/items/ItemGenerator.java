@@ -44,10 +44,7 @@ public class ItemGenerator {
         ItemType type = itemTypeMap.getItemType(name);
         if (type == null) return null;
         Item item = new Item(position, type);
-//        item.tags.addAll(type.tags);
-        // create all item parts with default material
-//        type.parts.forEach(part -> item.parts.put(part.title, new ItemPart(part.title, DEFAULT_MATERIAL)));
-//        item.mainPart = new ItemPart(type.parts.isEmpty() ? type.title : type.parts.get(0).title, materialId); // create main part with specified material
+        type.requiredParts.forEach(part -> item.parts.put(part, new ItemPart(item, part, materialId)));
         Material material = MaterialMap.getMaterial(materialId);
         item.material = materialId;
         item.tags.addAll(material.tags);
@@ -74,6 +71,8 @@ public class ItemGenerator {
 
     /**
      * Generates item by {@link ItemOrder} formed in workbench.
+     * Item parts are created with materials of ingredient items.
+     * If recipe specifies another material, main part of item is set to that material.
      * TODO fetch item part orders and create corresponding item parts
      */
     public Item generateItemByOrder(ItemOrder order) {
@@ -100,15 +99,16 @@ public class ItemGenerator {
 
     private void setItemMaterial(Item item, ItemOrder order) {
         if (!order.ingredientOrders.containsKey("main")) {
-            item.material = item.parts.get(item.type.name).material;
-            String materialString = order.recipe.newMaterial;
-            if(materialString != null) { // use material specified in recipe
-                if(materialString.startsWith("_")) { // use reaction material
+            ItemPart mainPart = item.parts.get(item.type.requiredParts.get(0));
+            item.material = mainPart.material; // get material of main part
+            Optional.ofNullable(order.recipe.newMaterial).ifPresent(materialString -> { // use recipe material
+                if (materialString.startsWith("_")) { // use reaction material
                     String[] args = materialString.split(":");
                     materialString = MaterialMap.getMaterial(item.parts.get(args[1]).material).reactions.get(args[0]).get(0);
                 }
-                item.material = MaterialMap.getId(materialString);
-            }
+                mainPart.material = MaterialMap.getId(materialString);
+                item.material = mainPart.material;
+            });
         }
     }
 

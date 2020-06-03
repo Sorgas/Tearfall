@@ -104,6 +104,7 @@
     "color": "0xffffffff"
 }, {
     "name": "meat_piece",
+    "title": "Piece",
     "typeAspects": ["value(0)"],
     "tags": ["cookable"],
     "atlasXY": ["12", "0"],

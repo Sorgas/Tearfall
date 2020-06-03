@@ -15,11 +15,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Supplier;
 
 public class TestModelSelectStage extends UiStage {
     private TestChamberGame testChamberGame;
     private PlaceHolderSelectBox<String> selectBox;
-    private Map<String, Class<? extends GameModel>> classMap;
+    private Map<String, Supplier<GameModel>> classMap;
 
     public TestModelSelectStage(TestChamberGame testChamberGame) {
         this.testChamberGame = testChamberGame;
@@ -49,7 +50,7 @@ public class TestModelSelectStage extends UiStage {
     }
 
     private void switchToModel(String name) {
-        GameMvc gameMvc = GameMvc.createInstance(getInstance(name));
+        GameMvc gameMvc = GameMvc.createInstance(classMap.get(name).get());
         gameMvc.createViewAndController();
         gameMvc.init();
         GameMvc.view().localWorldStage.getCamera().centerCameraToPosition(GameMvc.model().get(EntitySelectorSystem.class).selector.position.clone());
@@ -58,28 +59,19 @@ public class TestModelSelectStage extends UiStage {
         GameMvc.model().setPaused(false);
     }
 
-    private GameModel getInstance(String name) {
-        try {
-            return classMap.get(name).getConstructor().newInstance();
-        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
     private void fillModels() {
         classMap = new HashMap<>();
-        classMap.put(SingleTreeModel.class.getSimpleName(), SingleTreeModel.class);
-        classMap.put(SingleTreeModel.class.getSimpleName(), SingleTreeModel.class);
-        classMap.put(SinglePlantModel.class.getSimpleName(), SinglePlantModel.class);
-        classMap.put(PondPlantsModel.class.getSimpleName(), PondPlantsModel.class);
-        classMap.put(PassageModel.class.getSimpleName(), PassageModel.class);
-        classMap.put(CameraModel.class.getSimpleName(), CameraModel.class);
-        classMap.put(WorkbenchModel.class.getSimpleName(), WorkbenchModel.class);
-        classMap.put(FarmModel.class.getSimpleName(), FarmModel.class);
-        classMap.put(LightingModel.class.getSimpleName(), LightingModel.class);
-        classMap.put(DiggingModel.class.getSimpleName(), DiggingModel.class);
-        classMap.put(FurnitureModel.class.getSimpleName(), FurnitureModel.class);
-        classMap.put(ConstructionBuildingPlaytestModel.class.getSimpleName(), ConstructionBuildingPlaytestModel.class);
+        classMap.put(SingleTreeModel.class.getSimpleName(), SingleTreeModel::new);
+        classMap.put(SingleTreeModel.class.getSimpleName(), SingleTreeModel::new);
+        classMap.put(SinglePlantModel.class.getSimpleName(), SinglePlantModel::new);
+        classMap.put(PondPlantsModel.class.getSimpleName(), PondPlantsModel::new);
+        classMap.put(PassageModel.class.getSimpleName(), PassageModel::new);
+        classMap.put(CameraModel.class.getSimpleName(), CameraModel::new);
+        classMap.put(WorkbenchModel.class.getSimpleName(), WorkbenchModel::new);
+        classMap.put(FarmModel.class.getSimpleName(), FarmModel::new);
+        classMap.put(LightingModel.class.getSimpleName(), LightingModel::new);
+        classMap.put(DiggingModel.class.getSimpleName(), DiggingModel::new);
+        classMap.put(FurnitureModel.class.getSimpleName(), FurnitureModel::new);
+        classMap.put(ConstructionBuildingPlaytestModel.class.getSimpleName(), ConstructionBuildingPlaytestModel::new);
     }
 }

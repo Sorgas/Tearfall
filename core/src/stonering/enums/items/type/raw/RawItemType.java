@@ -16,7 +16,8 @@ public class RawItemType {
     public String title = ""; // displayable name
     public String description; // displayable description
     public ToolItemType tool; // is set if this item could be used as tool
-    public List<String> requiredParts; // defines parts of item. first one is main
+    public List<String> requiredParts = new ArrayList<>(); // defines parts of item. first one is main
+    public List<String> optionalParts = new ArrayList<>(); // defines parts of item. first one is main
     public List<String> tags = new ArrayList<>(); // tags will be copied to items
 
     // first element of lists is aspect name

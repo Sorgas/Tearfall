@@ -34,7 +34,12 @@ public class ItemType extends Entity implements Cloneable {
         itemAspects = new HashMap<>();
         tags = new HashSet<>();
         requiredParts = new ArrayList<>();
-        optionalParts = new ArrayList<>();
+        if(rawType.requiredParts.isEmpty()) {
+            requiredParts.add(name);
+        } else {
+            requiredParts.addAll(rawType.requiredParts);
+        }
+        optionalParts = new ArrayList<>(rawType.optionalParts);
         rawType.tags.stream()
                 .map(ItemTagEnum::get)
                 .filter(Objects::nonNull)

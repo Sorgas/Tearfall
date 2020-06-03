@@ -9,7 +9,7 @@ package stonering.entity.item;
 public class ItemPart {
     private final Item item;
     public final String name;
-    public final int material;
+    public int material;
 
     public ItemPart(Item item, String name, int material) {
         this.item = item;
