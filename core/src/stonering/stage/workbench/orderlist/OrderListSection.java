@@ -73,7 +73,7 @@ public class OrderListSection extends MenuSection {
                         GameMvc.view().removeStage(getStage());
                         return true;
                     case Input.Keys.A:
-                        getStage().setKeyboardFocus(menu.recipeTreeSection); // to recipes
+                        menu.setFocus(menu.recipeTreeSection); // to recipes
                         return true;
                     case Input.Keys.X:
                         if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {

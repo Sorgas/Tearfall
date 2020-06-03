@@ -3,8 +3,6 @@ package stonering.stage.workbench;
 import java.util.Arrays;
 import java.util.List;
 
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -23,7 +21,7 @@ import stonering.widget.util.KeyNotifierListener;
 /**
  * Contains three sections: {@link RecipeTreeSection}, {@link OrderListSection}, {@link OrderDetailsSection}.
  * One section can be focused at a time.
- * <p>
+ * 
  * TODO remove order list label on adding order, update hint label
  *
  * @author Alexander on 12.08.2019.
@@ -43,14 +41,13 @@ public class WorkbenchMenu extends Container<Table> implements Initable, Restore
         setActor(table = new Table());
 
         table.setBackground(StaticSkin.generator.generate(StaticSkin.background));
-
         table.defaults().size(300, 870);
         table.add(recipeTreeSection = new RecipeTreeSection("Recipes", workbenchAspect, this));
         table.add(orderListSection = new OrderListSection("Orders", workbenchAspect, this));
         table.add(orderDetailsSection = new OrderDetailsSection("Details", workbenchAspect, this)).row();
         sections = Arrays.asList(recipeTreeSection, orderListSection, orderDetailsSection);
 
-        table.add(hintLabel = new Label("", StaticSkin.getSkin())).colspan(3).height(30).growX().align(Align.center);
+        table.add(hintLabel = new Label("", StaticSkin.getSkin())).colspan(3).height(30).growX().align(Align.left);
         table.setDebug(true, true);
         addListener(new KeyNotifierListener(() -> this.focused));
     }
@@ -64,6 +61,7 @@ public class WorkbenchMenu extends Container<Table> implements Initable, Restore
         focused = section;
         sections.forEach(menuSection -> menuSection.setBackground(StaticSkin.getColorDrawable(StaticSkin.background))); // reset backgrounds
         section.setBackground(StaticSkin.getColorDrawable(StaticSkin.backgroundFocused)); // highlight focused section
+        hintLabel.setText(section.getHint());
     }
 
     @Override

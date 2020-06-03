@@ -81,7 +81,7 @@ public class RecipeTreeSection extends MenuSection {
             public boolean keyDown(InputEvent event, int keycode) {
                 ControlActionsEnum action = ControlActionsEnum.getAction(keycode);
                 if(action == CANCEL) {
-                    getStage().setKeyboardFocus(menu.orderListSection); // go to order list
+                    menu.setFocus(menu.orderListSection); // go to order list
                 } else {
                     recipeTree.accept(action);
                 }

@@ -11,7 +11,6 @@ import stonering.entity.item.Item;
 import stonering.entity.item.aspects.ItemContainerAspect;
 import stonering.stage.container.ItemDetailSection;
 import stonering.util.global.StaticSkin;
-import stonering.widget.item.ItemButtonGrid;
 
 /**
  * Menu for observing items stored in {@link ItemContainerAspect}.
@@ -30,6 +29,7 @@ public class ItemContainerMenu extends Table {
         this.containerAspect = containerAspect;
         scrollPane = new ScrollPane(listTable = new Table());
         Container<ScrollPane> container = new Container<>(scrollPane).fill();
+        listTable.top();
         container.size(600, 900);
         add(container).size(600, 900).fill();
         this.setBackground(StaticSkin.getColorDrawable(StaticSkin.background));

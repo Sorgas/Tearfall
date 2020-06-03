@@ -18,7 +18,7 @@ public class AnyMaterialTagItemSelector extends ItemSelector {
     }
 
     public boolean checkItem(Item item) {
-        return item.getType().name.equals(name) && item.tags.contains(tag);
+        return item.type.name.equals(name) && item.tags.contains(tag);
     }
 
     @Override

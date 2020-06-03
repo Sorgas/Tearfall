@@ -123,7 +123,7 @@ public class ItemGenerator {
      * Creates item aspects by map of aspects names and arguments from {@link ItemType} and default aspects.
      */
     private void generateItemAspects(Item item) {
-        ItemType type = item.getType();
+        ItemType type = item.type;
         item.add(new RenderAspect(item, item.type.atlasXY, AtlasesEnum.items));
         for (String aspectName : defaultAspects.keySet()) {
             if (!type.itemAspects.containsKey(aspectName))

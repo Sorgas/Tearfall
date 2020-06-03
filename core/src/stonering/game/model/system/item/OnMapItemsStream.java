@@ -49,12 +49,12 @@ public class OnMapItemsStream extends EntityStream<Item> {
     }
 
     public OnMapItemsStream filterByType(String type) {
-        stream = stream.filter(item -> item.getType().name.equals(type));
+        stream = stream.filter(item -> item.type.name.equals(type));
         return this;
     }
 
     public OnMapItemsStream filterByTypes(List<String> types) {
-        stream = stream.filter(item -> types.contains(item.getType().name));
+        stream = stream.filter(item -> types.contains(item.type.name));
         return this;
     }
 

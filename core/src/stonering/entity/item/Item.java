@@ -64,14 +64,6 @@ public class Item extends Entity {
         return title = materialString + " " + type.title;
     }
 
-    public ItemType getType() {
-        return type;
-    }
-
-    public void initMaterial() {
-        material = parts.get(type.name).material;
-    }
-
     @Override
     public String toString() {
         return "name: " + title + " position: " + position;
