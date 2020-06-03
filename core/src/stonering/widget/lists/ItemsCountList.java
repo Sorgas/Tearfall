@@ -23,7 +23,7 @@ public abstract class ItemsCountList extends NavigableVerticalGroup {
         HashMap<String, ItemCardButton> map = new HashMap<>(); // item title to itemCard
         Logger.BUILDING.logDebug("Grouping " + items.size() + " to numbered list.");
         items.forEach(item -> { // groups item
-            String title = item.updateTitle();
+            String title = item.title;
             map.put(title, map.getOrDefault(title, new ItemCardButton(item, 0)).increment()); // count items of same type and material
         });
         map.values().forEach(this::addActor);

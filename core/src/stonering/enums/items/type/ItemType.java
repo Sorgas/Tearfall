@@ -27,7 +27,7 @@ public class ItemType extends Entity implements Cloneable {
     public ItemType(RawItemType rawType) {
         super();
         name = rawType.name;
-        title = rawType.title.isEmpty() ? capitalize(rawType.name) : rawType.title;
+        title = rawType.title.isEmpty() ? rawType.name : rawType.title;
         description = rawType.description;
         tool = rawType.tool;
         atlasXY = rawType.atlasXY;
@@ -52,16 +52,12 @@ public class ItemType extends Entity implements Cloneable {
     public ItemType(ItemType type, RawItemType rawType, String namePrefix) {
         super();
         name = namePrefix + type.name;
-        title = rawType.title.isEmpty() ? capitalize(name) : rawType.title;
+        title = rawType.title.isEmpty() ? name : rawType.title;
         description = rawType.description != null ? rawType.description : type.description;
         tool = rawType.tool != null ? rawType.tool : type.tool;
         itemAspects = new HashMap<>(type.itemAspects); // TODO clone aspects
         atlasXY = rawType.atlasXY != null ? rawType.atlasXY.clone() : type.atlasXY.clone();
         color = rawType.color != null ? rawType.color : type.color;
-    }
-
-    private String capitalize(String text) {
-        return (text.substring(0, 1).toUpperCase() + text.substring(1).toLowerCase()).replace('_', ' ');
     }
 
     @Override

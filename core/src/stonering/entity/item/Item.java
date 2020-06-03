@@ -28,7 +28,6 @@ public class Item extends Entity {
     public final Map<String, ItemPart> parts = new HashMap<>(); // part with type name is main
 
     public String title; // title combined of origin, material, and type
-    public String materialString;
     public boolean locked; // item consuming actions lock target items.
     public boolean destroyed; // items removed from item container considered destroyed
 
@@ -54,10 +53,6 @@ public class Item extends Entity {
     public <T extends Aspect> T get(Class<T> type) {
         if (this.type.has(type)) return this.type.get(type);
         return super.get(type);
-    }
-
-    public String updateTitle() {
-        return title = materialString + " " + type.title;
     }
 
     @Override

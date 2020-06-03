@@ -48,7 +48,7 @@ public class ItemContainerMenu extends Table {
     }
     
     private void createRowForItem(Item item) {
-        Label label = new Label(item.updateTitle(), StaticSkin.getSkin());
+        Label label = new Label(item.title, StaticSkin.getSkin());
         listTable.add(label).growX().row();
         label.addListener(new ClickListener() {
             @Override

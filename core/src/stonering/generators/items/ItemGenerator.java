@@ -49,6 +49,7 @@ public class ItemGenerator {
         item.material = materialId;
         item.tags.addAll(material.tags);
         generateItemAspects(item);
+        updateItemTitle(item);
         return item;
     }
 
@@ -66,6 +67,7 @@ public class ItemGenerator {
         generateItemAspects(item);
         item.add(new SeedAspect(item));
         item.get(SeedAspect.class).specimen = specimen;
+        updateItemTitle(item);
         return item;
     }
 
@@ -94,6 +96,7 @@ public class ItemGenerator {
         Optional.ofNullable(order.recipe.newTag).ifPresent(item.tags::add); // add tag
         generateItemAspects(item);
         setItemMaterial(item, order);
+        updateItemTitle(item);
         return item;
     }
 
@@ -132,6 +135,14 @@ public class ItemGenerator {
         for (String aspectName : type.itemAspects.keySet()) {
             item.add(createItemAspect(aspectName, type.itemAspects.get(aspectName)));
         }
+    }
+
+    private void updateItemTitle(Item item) {
+        item.title = capitalize(MaterialMap.getMaterial(item.material).name + " " + item.type.title);
+    }
+
+    private String capitalize(String text) {
+        return (text.substring(0, 1).toUpperCase() + text.substring(1).toLowerCase()).replace('_', ' ');
     }
 
     /**
