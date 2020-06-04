@@ -26,7 +26,6 @@ import static stonering.entity.job.action.ActionConditionStatusEnum.OK;
  * @author Alexander on 10.09.2019.
  */
 public class SleepInBedAction extends Action {
-    Building bed;
     private float restSpeed;
     private HealthParameterState targetParameter;
 
@@ -41,8 +40,8 @@ public class SleepInBedAction extends Action {
             // decrease hearing
         };
         startCondition = () -> {
-            if (GameMvc.model().get(BuildingContainer.class).getBuiding(bed.position) == bed &&
-                    bed.has(RestFurnitureAspect.class))
+            if (GameMvc.model().get(BuildingContainer.class).getBuiding(bed.position) == bed
+                    && bed.has(RestFurnitureAspect.class))
                 return OK;
             return FAIL;
         };
@@ -53,7 +52,7 @@ public class SleepInBedAction extends Action {
         finishCondition = () -> targetParameter.current <= 0; // stop sleeping
         onFinish = () -> {
             // restore vision and hearing
-            // stand up
+            task.performer.get(RenderAspect.class).rotation = 0;
             // if fatigue is not restored completely, apply negative mood buff
         };
     }

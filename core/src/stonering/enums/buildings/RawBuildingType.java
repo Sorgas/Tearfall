@@ -12,7 +12,7 @@ public class RawBuildingType {
     public String building; // id
     public String title;
     public String description;
-    public List<List<String>> aspects = new ArrayList<>();
+    public List<String> aspects = new ArrayList<>();
     public List<String> parts = new ArrayList<>();
     public String passage = "wall";
     public boolean construction = false;

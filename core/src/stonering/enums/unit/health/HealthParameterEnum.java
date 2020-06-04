@@ -11,7 +11,7 @@ import stonering.game.model.system.unit.CreatureHealthSystem;
  * @author Alexander on 06.10.2019.
  */
 public enum HealthParameterEnum {
-    FATIGUE(new FatigueParameter("fatigue"), 0.0625f), // applied every minute. gives 60 points over 16 hours
+    FATIGUE(new FatigueParameter("fatigue"), 0.5625f), // applied every minute. gives 60 points over 16 hours
     HUNGER(new HungerParameter("hunger"), 0.0625f),
     THIRST(new ThirstParameter("thirst"), 0.0625f);
 

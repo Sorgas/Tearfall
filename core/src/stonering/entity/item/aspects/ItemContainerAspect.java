@@ -23,7 +23,7 @@ public class ItemContainerAspect extends Aspect {
     public final List<String> itemTypes; // any combinaiton of above constants
     public final List<Item> items;
 
-    public ItemContainerAspect(Entity entity, String[] types) {
+    public ItemContainerAspect(Entity entity) {
         super(entity);
         items = new ArrayList<>();
         itemTypes = new ArrayList<>();

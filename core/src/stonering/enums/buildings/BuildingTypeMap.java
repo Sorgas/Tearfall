@@ -25,7 +25,7 @@ public class BuildingTypeMap {
         buildings = new HashMap<>();
         json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);
-        RawBuildingTypeProcessor processor = new RawBuildingTypeProcessor();
+        BuildingTypeProcessor processor = new BuildingTypeProcessor();
         FileUtil.iterate(FileUtil.BUILDINGS_PATH, file -> {
             int counter = 0;
             List<RawBuildingType> rawTypes = json.fromJson(ArrayList.class, RawBuildingType.class, file);

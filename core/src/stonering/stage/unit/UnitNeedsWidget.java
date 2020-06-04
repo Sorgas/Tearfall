@@ -35,6 +35,6 @@ public class UnitNeedsWidget extends Table {
         Drawable drawable = DrawableMap.ICON.getDrawable(drawableName);
         Image image = new Image(drawable);
         add(image).size(40);
-        add(new HealthParameterStateProgressBar(aspect.parameters.get(HealthParameterEnum.HUNGER))).growX().row();
+        add(new HealthParameterStateProgressBar(aspect.parameters.get(parameter))).growX().row();
     }
 }
