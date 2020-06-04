@@ -22,6 +22,7 @@ import stonering.game.model.system.unit.CreatureHealthSystem;
 import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -34,7 +35,7 @@ import java.util.stream.Collectors;
  * sleeping in a bed or a safe place (50-70),
  * sleeping at safe place (70-90),
  * sleeping at any place (>90).
- *
+ * <p>
  * TODO add 'function' for getting suitable place to sleep: warm > cold, inside > outside, own > public.
  * TODO night shift
  *
@@ -65,21 +66,24 @@ public class RestNeed extends Need {
                 //TODO sleep in any bed
             case LIFE:
                 //TODO fall asleep at current place
-                return selectBuildingToSleep(entity.position).map(building -> createTaskToSleep(building, priority)).orElse(null);
+                return selectBuildingToSleep(entity.position)
+                        .map(building -> createTaskToSleep(building, priority))
+                        .orElse(null);
         }
         return null;
     }
 
     private Optional<Building> selectBuildingToSleep(Position position) {
         LocalMap map = GameMvc.model().get(LocalMap.class);
-        return GameMvc.model().get(BuildingContainer.class).getBuildingsWithAspect(RestFurnitureAspect.class).stream()
+        return GameMvc.model().get(BuildingContainer.class).stream()
                 .filter(building -> building.position != null)
+                .filter(building -> building.has(RestFurnitureAspect.class))
                 .filter(building -> map.passageMap.inSameArea(building.position, position))
-                .findFirst();
+                .min(Comparator.comparingInt(building -> position.fastDistance(building.position)));
     }
 
     private Task createTaskToSleep(Building building, TaskPriorityEnum priority) {
-        Action restAction = new SleepInBedAction(new EntityActionTarget(building, ActionTargetTypeEnum.EXACT));
+        Action restAction = new SleepInBedAction(building);
         return new Task("sleep", restAction, priority.VALUE);
     }
 }

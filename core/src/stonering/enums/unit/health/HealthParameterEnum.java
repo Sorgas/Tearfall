@@ -3,7 +3,8 @@ package stonering.enums.unit.health;
 import stonering.game.model.system.unit.CreatureHealthSystem;
 
 /**
- * All possible health parameters.
+ * All possible health parameters. Default range for all health parameters is [0, 100], and can differ between creatures.
+ * Buffs and tasks are based on relative value of parameter.
  * Also stores ranges and corresponding buffs for ranges.
  * See {@link CreatureHealthSystem} for delta application details.
  *

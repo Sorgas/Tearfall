@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import stonering.util.global.Initable;
+import stonering.util.global.Logger;
 import stonering.widget.util.Resizeable;
 
 import java.util.ArrayList;
@@ -46,6 +47,10 @@ public class MultiStageScreen extends SimpleScreen {
     }
 
     public void removeStage(Stage stage) {
+        if(stage == null) {
+            Logger.UI.logError("Attempt to remove null stage.");
+            return;
+        }
         stageList.remove(stage);
         stage.dispose();
     }

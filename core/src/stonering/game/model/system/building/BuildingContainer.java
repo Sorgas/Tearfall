@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Contains all Buildings on localMap.
@@ -105,9 +106,5 @@ public class BuildingContainer extends EntityContainer<Building> implements Mode
     public Building getBuiding(Position position) {
         if (!hasBuilding(position)) return null;
         return buildingBlocks.get(position).building;
-    }
-
-    public List<Building> getBuildingsWithAspect(Class<? extends Aspect> T) {
-        return objects.stream().filter(building -> building.has(T)).collect(Collectors.toList());
     }
 }

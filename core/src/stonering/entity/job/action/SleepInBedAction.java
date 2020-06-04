@@ -1,12 +1,15 @@
 package stonering.entity.job.action;
 
+import stonering.entity.RenderAspect;
 import stonering.entity.building.Building;
 import stonering.entity.building.aspects.RestFurnitureAspect;
 import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.job.action.target.EntityActionTarget;
 import stonering.entity.unit.aspects.health.HealthAspect;
 import stonering.entity.unit.aspects.health.HealthParameterState;
+import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.enums.time.TimeUnitEnum;
+import stonering.enums.unit.health.FatigueParameter;
 import stonering.enums.unit.health.HealthParameterEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.system.building.BuildingContainer;
@@ -16,9 +19,9 @@ import static stonering.entity.job.action.ActionConditionStatusEnum.FAIL;
 import static stonering.entity.job.action.ActionConditionStatusEnum.OK;
 
 /**
- * Action for sleeping. Creature will first lie without sleep being able to see the surroundings,
- * and then sleep with closed eyes. Lengths of both phases are influenced by creature
- * TODO
+ * Action for sleeping. Progress in this action replenished fatigue (see {@link FatigueParameter})
+ * This action lasts till creature is fully rested, instead of fixed length as for {@link ChopTreeAction}.
+ * TODO Creature will first lie without sleep being able to see the surroundings, and then sleep with closed eyes. Lengths of both phases are influenced by creature
  *
  * @author Alexander on 10.09.2019.
  */
@@ -27,12 +30,12 @@ public class SleepInBedAction extends Action {
     private float restSpeed;
     private HealthParameterState targetParameter;
 
-    public SleepInBedAction(ActionTarget actionTarget) {
-        super(actionTarget);
-        bed = (Building) ((EntityActionTarget) actionTarget).entity;
+    public SleepInBedAction(Building bed) {
+        super(new EntityActionTarget(bed, ActionTargetTypeEnum.EXACT));
         restSpeed = countRestSpeed();
         onStart = () -> {
             targetParameter = task.performer.get(HealthAspect.class).parameters.get(HealthParameterEnum.FATIGUE);
+            task.performer.get(RenderAspect.class).rotation = -90;
             // lie to bed
             // disable vision
             // decrease hearing

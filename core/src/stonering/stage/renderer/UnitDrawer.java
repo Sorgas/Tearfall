@@ -40,7 +40,11 @@ public class UnitDrawer extends Drawer {
         if (unitContainer == null) return;
         for (Unit unit : unitContainer.getUnitsInPosition(x, y, z)) {
             RenderAspect aspect = unit.get(RenderAspect.class);
-            spriteUtil.drawSprite(aspect.region, unit.vectorPosition);
+            if(aspect.rotation != 0) {
+                spriteUtil.drawSpriteWithRotation(aspect.region, unit.vectorPosition, aspect.rotation);
+            } else {
+                spriteUtil.drawSprite(aspect.region, unit.vectorPosition);
+            }
             List<CreatureStatusIcon> icons = aspect.icons;
             for (int i = 0; i < icons.size(); i++) {
                 spriteUtil.drawIcon(creature_icons.getBlockTile(icons.get(i).x, icons.get(i).y), unit.vectorPosition, i);

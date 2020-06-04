@@ -60,10 +60,20 @@ public class SpriteDrawingUtil {
 
     public void drawSprite(TextureRegion sprite, float x, float y, float z) {
         batch.draw(sprite, getBatchX(x), getBatchY(y, z));
+        batch.draw(sprite, x, y, 0, 0, 1, 1, 1, 1, 90);
     }
 
     public void drawScale(TextureRegion sprite, Position position, int width, int height) {
         batch.draw(sprite, getBatchX(position.x), getBatchY(position.y, position.z), width, height);
+    }
+
+    /**
+     * Draws sprite with rotation around sprite center.
+     */
+    public void drawSpriteWithRotation(TextureRegion sprite, Vector3 vector, float rotation) {
+        int width = sprite.getRegionWidth();
+        int height = sprite.getRegionHeight();
+        batch.draw(sprite, getBatchX(vector.x), getBatchY(vector.y, vector.z), width / 2f, height / 2f, width, height, 1, 1, rotation);
     }
 
     public void writeText(String text, Vector3 vector) {
@@ -112,7 +122,7 @@ public class SpriteDrawingUtil {
     public void setColor(Color color) {
         batch.setColor(color);
     }
-    
+
     public void resetColor() {
         batch.setColor(batchColor);
     }

@@ -6,6 +6,7 @@ import stonering.entity.Entity;
 /**
  * Buildings with this aspect provide rest places.
  * Building should be passable.
+ * TODO add this to seats with penalty to resting time
  *
  * @author Alexander on 05.09.2019.
  */

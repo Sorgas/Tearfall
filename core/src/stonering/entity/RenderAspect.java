@@ -16,6 +16,7 @@ import java.util.List;
 public class RenderAspect extends Aspect {
     public final List<CreatureStatusIcon> icons = new ArrayList<>();
     public TextureRegion region;
+    public float rotation = 0;
     public Color color;
 
     public RenderAspect(Entity entity, TextureRegion region) {

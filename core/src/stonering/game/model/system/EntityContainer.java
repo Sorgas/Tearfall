@@ -1,12 +1,14 @@
 package stonering.game.model.system;
 
 import stonering.entity.Entity;
+import stonering.entity.building.Building;
 import stonering.enums.time.TimeUnitEnum;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * Container for {@link Entity}. Updates its entities via calling {@link EntitySystem}s.
@@ -33,5 +35,9 @@ public abstract class EntityContainer<T extends Entity> extends AbstractContaine
     public <S extends System> void put(S system) {
         super.put(system);
         if(system instanceof EntitySystem) entitySystems.get(system.updateInterval).add((EntitySystem) system);
+    }
+
+    public Stream<T> stream() {
+        return objects.stream();
     }
 }

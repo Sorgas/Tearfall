@@ -43,8 +43,8 @@ public class CreatureHealthSystem extends EntitySystem<Unit> {
     @Override
     public void update(Unit unit) {
         unit.getOptional(HealthAspect.class)
-                .ifPresent(health -> health.parameters.keySet()
-                        .forEach(param -> changeParameter(unit, param, param.DEFAULT_DELTA)));
+                .map(health -> health.parameters.keySet()).get()
+                .forEach(param -> changeParameter(unit, param, param.DEFAULT_DELTA));
     }
 
     /**
@@ -60,17 +60,8 @@ public class CreatureHealthSystem extends EntitySystem<Unit> {
         changeParameter(unit, HealthParameterEnum.FATIGUE, moveParameterNoLoad + moveParameterFullLoad * unit.get(EquipmentAspect.class).getRelativeLoad());
     }
 
-    private void changeParameter(Unit unit, HealthParameterEnum parameterEnum, float delta) {
-        HealthParameterState state = unit.get(HealthAspect.class).parameters.get(parameterEnum);
-        HealthParameter parameter = parameterEnum.PARAMETER;
-        float oldValue = state.getRelativeValue();
-        state.current += delta;
-        if (state.current > state.max) {
-            Logger.UNITS.logWarn("UNIT " + unit + " DIED!"); // TODO
-            return;
-        }
-        HealthParameterRange oldRange = parameter.getRange(oldValue);
-        if (parameter.getRange(state.getRelativeValue()) != oldRange) resetParameter(unit, parameterEnum);
+    private void changeParameter(Unit unit, HealthParameterEnum parameter, float delta) {
+        if(unit.get(HealthAspect.class).parameters.get(parameter).applyDelta(delta)) resetParameter(unit, parameter);
     }
 
     public void resetCreatureHealth(Unit unit) {
