@@ -17,6 +17,8 @@ import stonering.util.global.Logger;
 
 import java.util.List;
 
+import org.apache.commons.lang3.math.NumberUtils;
+
 /**
  * Generates {@link Building} objects.
  * Building type contains building properties(size, passage) without orientation.
@@ -61,23 +63,28 @@ public class BuildingGenerator {
      * Creates aspects from description in type.
      */
     private void initAspects(Building building, BuildingType type) {
-        for (List<String> aspect : type.aspects) {
-            if (!aspect.isEmpty()) {
-                switch (aspect.get(0)) {
-                    case "workbench": {
-                        building.add(new WorkbenchAspect(building));
-                        break;
+        type.aspects.keySet().forEach(aspectName -> {
+            List<String> args = type.aspects.get(aspectName);
+            switch (aspectName) {
+                case "workbench": {
+                    building.add(new WorkbenchAspect(building));
+                    break;
+                }
+                case "item_container": {
+                    building.add(new ItemContainerAspect(building)); // TODO use parameters
+                    break;
+                }
+                case "rest_furniture": {
+                    float spriteRotation = 0;
+                    if(NumberUtils.isNumber(args.get(0))) {
+                        spriteRotation = Float.parseFloat(args.get(0));
+                    } else {
+                        Logger.GENERATION.logError("Sprite rotation value for building " + type.title + " is invalid");
                     }
-                    case "item_container": {
-                        building.add(new ItemContainerAspect(building, aspect.get(1).split("/")));
-                        break;
-                    }
-                    case "rest_furniture": {
-                        building.add(new RestFurnitureAspect(building));
-                        break;
-                    }
+                    building.add(new RestFurnitureAspect(building, spriteRotation));
+                    break;
                 }
             }
-        }
+        });
     }
 }

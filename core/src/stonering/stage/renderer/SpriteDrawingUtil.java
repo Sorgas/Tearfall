@@ -60,7 +60,6 @@ public class SpriteDrawingUtil {
 
     public void drawSprite(TextureRegion sprite, float x, float y, float z) {
         batch.draw(sprite, getBatchX(x), getBatchY(y, z));
-        batch.draw(sprite, x, y, 0, 0, 1, 1, 1, 1, 90);
     }
 
     public void drawScale(TextureRegion sprite, Position position, int width, int height) {

@@ -162,7 +162,7 @@ public class ItemGenerator {
             case "seed":
                 return new SeedAspect(null);
             case "item_container":
-                return new ItemContainerAspect(null, params.get(0).split("/"));
+                return new ItemContainerAspect(null);
             default:
                 return null;
         }

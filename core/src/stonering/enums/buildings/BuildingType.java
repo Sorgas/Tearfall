@@ -25,7 +25,7 @@ public class BuildingType {
     public String building; // id
     public String title;
     public String description;
-    public List<List<String>> aspects;
+    public Map<String, List<String>> aspects;
     public List<String> parts;
     public List<String> recipes; // filled from crafting/lists.json
     public IntVector2 size; // width/height for N orientation
@@ -44,7 +44,7 @@ public class BuildingType {
         title = raw.title;
         description = raw.description;
         access = Arrays.stream(raw.access).map(IntVector2::new).collect(Collectors.toList());
-        aspects = new ArrayList<>(raw.aspects);
+        aspects = new HashMap<>();
         parts = new ArrayList<>(raw.parts);
         passage = BlockTypeEnum.getType(raw.passage).PASSING;
         recipes = new ArrayList<>(raw.recipes);

@@ -134,9 +134,9 @@ public class TileDrawer extends Drawer {
             return;
         }
         startTile(x, y, z);
-        unitDrawer.drawUnits(x, y, z);
         if (plantContainer != null) drawPlantBlock(plantContainer.getPlantBlock(cachePosition));
         buildingDrawer.drawBuilding(cachePosition);
+        unitDrawer.drawUnits(x, y, z);
         spriteUtil.updateColorA(0.6f);
         if (taskContainer != null) drawDesignation(taskContainer.designations.get(cachePosition));
         spriteUtil.updateColorA(1f);

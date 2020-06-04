@@ -12,9 +12,11 @@ import stonering.entity.Entity;
  */
 public class RestFurnitureAspect extends Aspect {
     public float restModifier; //TODO use to increase resting time.
+    public float spriteRotation; // creature sprite is rotated while resting
 
-    public RestFurnitureAspect(Entity entity) {
+    public RestFurnitureAspect(Entity entity, float spriteRotation) {
         super(entity);
         restModifier = 1;
+        this.spriteRotation = spriteRotation;
     }
 }
