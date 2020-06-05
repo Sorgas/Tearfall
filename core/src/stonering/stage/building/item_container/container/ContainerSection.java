@@ -1,4 +1,4 @@
-package stonering.stage.workbench.container;
+package stonering.stage.building.item_container.container;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -8,7 +8,7 @@ import stonering.entity.crafting.ItemOrder;
 import stonering.entity.item.Item;
 import stonering.entity.item.aspects.ItemContainerAspect;
 import stonering.enums.ControlActionsEnum;
-import stonering.stage.workbench.WorkbenchMenu;
+import stonering.stage.building.workbench.WorkbenchMenu;
 import stonering.util.global.CompatibleArray;
 import stonering.util.global.StaticSkin;
 

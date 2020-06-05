@@ -3,8 +3,6 @@ package stonering.game.model.system.building;
 import stonering.entity.building.Building;
 import stonering.entity.building.aspects.WorkbenchAspect;
 import stonering.entity.crafting.ItemOrder;
-import stonering.entity.item.Item;
-import stonering.entity.item.aspects.ItemContainerAspect;
 import stonering.entity.job.Task;
 import stonering.entity.job.action.CraftItemAction;
 import stonering.enums.OrderStatusEnum;
@@ -13,14 +11,11 @@ import stonering.enums.blocks.PassageEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.passage.NeighbourPositionStream;
 import stonering.game.model.system.EntitySystem;
-import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.system.task.TaskContainer;
 import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 import static stonering.enums.OrderStatusEnum.*;
@@ -36,7 +31,7 @@ import static stonering.enums.OrderStatusEnum.*;
  * After executing, order is removed from the list, or moved to the bottom, if it is repeated.
  * If execution is not possible, order is suspended or cancelled (TODO add config for this).
  * Suspended orders are skipped.
- * Orders are configured via {@link stonering.stage.workbench.WorkbenchMenu}.
+ * Orders are configured via {@link stonering.stage.building.workbench.WorkbenchMenu}.
  * Fail on execution generates general warning for player.
  *
  * @author Alexander on 25.09.2019.

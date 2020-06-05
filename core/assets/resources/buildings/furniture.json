@@ -22,6 +22,7 @@
     "aspects": ["furniture", "rest_furniture(-90)"],
     "passage": "floor",
     "size": [1, 2],
+    "access": [[0, 1]],
     "sprites": [
         [0, 0], [1, 0], [2, 0], [2, 1]
     ],

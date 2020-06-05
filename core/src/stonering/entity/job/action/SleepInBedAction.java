@@ -31,6 +31,7 @@ public class SleepInBedAction extends Action {
 
     public SleepInBedAction(Building bed) {
         super(new EntityActionTarget(bed, ActionTargetTypeEnum.EXACT));
+
         restSpeed = countRestSpeed();
         onStart = () -> {
             targetParameter = task.performer.get(HealthAspect.class).parameters.get(HealthParameterEnum.FATIGUE);

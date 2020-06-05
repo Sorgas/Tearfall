@@ -1,4 +1,4 @@
-package stonering.stage.workbench.recipelist;
+package stonering.stage.building.workbench.recipelist;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;

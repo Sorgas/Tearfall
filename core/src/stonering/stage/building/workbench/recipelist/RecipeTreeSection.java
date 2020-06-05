@@ -1,4 +1,4 @@
-package stonering.stage.workbench.recipelist;
+package stonering.stage.building.workbench.recipelist;
 
 import static stonering.enums.ControlActionsEnum.CANCEL;
 
@@ -8,8 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import stonering.entity.building.aspects.WorkbenchAspect;
 import stonering.enums.ControlActionsEnum;
 import stonering.enums.items.recipe.Recipe;
-import stonering.stage.workbench.MenuSection;
-import stonering.stage.workbench.WorkbenchMenu;
+import stonering.stage.building.MenuSection;
+import stonering.stage.building.workbench.WorkbenchMenu;
 import stonering.util.global.Logger;
 import stonering.util.global.StaticSkin;
 import stonering.widget.NavigableTree;

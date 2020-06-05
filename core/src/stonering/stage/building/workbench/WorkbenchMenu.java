@@ -1,4 +1,4 @@
-package stonering.stage.workbench;
+package stonering.stage.building.workbench;
 
 import java.util.Arrays;
 import java.util.List;
@@ -10,9 +10,10 @@ import com.badlogic.gdx.utils.Align;
 
 import stonering.entity.building.Building;
 import stonering.entity.building.aspects.WorkbenchAspect;
-import stonering.stage.workbench.details.OrderDetailsSection;
-import stonering.stage.workbench.orderlist.OrderListSection;
-import stonering.stage.workbench.recipelist.RecipeTreeSection;
+import stonering.stage.building.MenuSection;
+import stonering.stage.building.workbench.details.OrderDetailsSection;
+import stonering.stage.building.workbench.orderlist.OrderListSection;
+import stonering.stage.building.workbench.recipelist.RecipeTreeSection;
 import stonering.util.global.Initable;
 import stonering.widget.Restoreable;
 import stonering.util.global.StaticSkin;

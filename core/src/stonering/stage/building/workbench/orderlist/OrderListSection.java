@@ -1,4 +1,4 @@
-package stonering.stage.workbench.orderlist;
+package stonering.stage.building.workbench.orderlist;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -12,8 +12,8 @@ import stonering.entity.crafting.ItemOrder;
 import stonering.enums.items.recipe.Recipe;
 import stonering.game.GameMvc;
 import stonering.game.model.system.building.BuildingContainer;
-import stonering.stage.workbench.MenuSection;
-import stonering.stage.workbench.WorkbenchMenu;
+import stonering.stage.building.MenuSection;
+import stonering.stage.building.workbench.WorkbenchMenu;
 import stonering.widget.NavigableVerticalGroup;
 import stonering.util.global.StaticSkin;
 

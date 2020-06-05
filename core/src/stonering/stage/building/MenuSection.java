@@ -1,4 +1,4 @@
-package stonering.stage.workbench;
+package stonering.stage.building;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;

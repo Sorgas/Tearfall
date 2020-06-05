@@ -6,8 +6,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import stonering.entity.RenderAspect;
 import stonering.entity.item.Item;
-import stonering.stage.workbench.ItemContainerMenu;
-import stonering.stage.workbench.MenuSection;
+import stonering.stage.building.item_container.ItemContainerMenu;
+import stonering.stage.building.MenuSection;
 import stonering.util.global.StaticSkin;
 
 /**

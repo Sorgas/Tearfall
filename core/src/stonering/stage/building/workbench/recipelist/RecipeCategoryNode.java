@@ -1,4 +1,4 @@
-package stonering.stage.workbench.recipelist;
+package stonering.stage.building.workbench.recipelist;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;

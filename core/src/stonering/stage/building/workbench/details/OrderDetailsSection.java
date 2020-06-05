@@ -1,19 +1,18 @@
-package stonering.stage.workbench.details;
+package stonering.stage.building.workbench.details;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
 
 import stonering.entity.building.aspects.WorkbenchAspect;
-import stonering.entity.crafting.IngredientOrder;
 import stonering.entity.crafting.ItemOrder;
 import stonering.enums.items.recipe.Recipe;
 import stonering.enums.items.type.ItemType;
 import stonering.enums.items.type.ItemTypeMap;
-import stonering.stage.workbench.MenuSection;
-import stonering.stage.workbench.WorkbenchMenu;
-import stonering.stage.workbench.orderlist.OrderItem;
-import stonering.stage.workbench.recipelist.RecipeItem;
+import stonering.stage.building.MenuSection;
+import stonering.stage.building.workbench.WorkbenchMenu;
+import stonering.stage.building.workbench.orderlist.OrderItem;
+import stonering.stage.building.workbench.recipelist.RecipeItem;
 import stonering.util.global.Logger;
 import stonering.util.global.StaticSkin;
 

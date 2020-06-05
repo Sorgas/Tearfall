@@ -19,10 +19,11 @@ import stonering.game.model.system.building.BuildingContainer;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.system.plant.PlantContainer;
 import stonering.game.model.system.unit.UnitContainer;
+import stonering.stage.building.overview.BuildingOverviewMenu;
 import stonering.stage.item.ItemStage;
 import stonering.stage.unit.UnitStage;
-import stonering.stage.workbench.ItemContainerMenu;
-import stonering.stage.workbench.WorkbenchMenu;
+import stonering.stage.building.item_container.ItemContainerMenu;
+import stonering.stage.building.workbench.WorkbenchMenu;
 import stonering.stage.zone.ZoneMenuStage;
 import stonering.util.geometry.Int3dBounds;
 import stonering.widget.TabbedPane;
@@ -101,6 +102,7 @@ public class MapEntitySelectStage extends UiStage {
         if (block.building.get(ItemContainerAspect.class) != null) {
             pane.add("Items", new ItemContainerMenu(block.building.get(ItemContainerAspect.class)));
         }
+        pane.add("Overview", new BuildingOverviewMenu(block.building));
         GameMvc.view().addStage(new SingleWindowStage<>(pane, false, true));
     }
 

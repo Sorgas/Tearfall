@@ -4,33 +4,21 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Tree;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Layout;
 import com.badlogic.gdx.utils.Align;
 
 import stonering.entity.item.Item;
 import stonering.enums.images.DrawableMap;
 import stonering.generators.items.ItemGenerator;
 import stonering.stage.UiStage;
-import stonering.stage.workbench.recipelist.RecipeCategoryNode;
-import stonering.util.geometry.Position;
 import stonering.util.global.StaticSkin;
 import stonering.util.ui.SimpleScreen;
-import stonering.widget.BackgroundGenerator;
-import stonering.widget.ButtonMenu;
-import stonering.widget.NavigableVerticalGroup;
-import stonering.widget.item.CheckableSingleItemSquareButton;
 import stonering.widget.item.SingleItemSquareButton;
-import stonering.widget.item.StackedItemSquareButton;
 
 /**
  * Demo with some UI elements.

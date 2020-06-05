@@ -1,4 +1,4 @@
-package stonering.stage.workbench.details;
+package stonering.stage.building.workbench.details;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import stonering.enums.items.recipe.Recipe;

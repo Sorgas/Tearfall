@@ -1,4 +1,4 @@
-package stonering.stage.workbench;
+package stonering.stage.building.item_container;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import stonering.entity.item.Item;
 import stonering.entity.item.aspects.ItemContainerAspect;
+import stonering.stage.building.MenuSection;
 import stonering.stage.container.ItemDetailSection;
 import stonering.util.global.StaticSkin;
 
