@@ -1,11 +1,11 @@
 package stonering.stage.renderer;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+
 import org.jetbrains.annotations.NotNull;
+
 import stonering.util.geometry.IntVector2;
-import stonering.util.global.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +14,6 @@ import java.util.Map;
  * Contains all textures used for render. See {@link TileDrawer}, {@link SpriteDrawingUtil}.
  * Logical tile (in game model) has width, height and depth. Texture tile has width and height(height + depth).
  * Also, for blocks, toppings are needed. Toppings has width and depth same as main tile, and reduced height.
- * TODO create sprite descriptor for key (x, y, color).
  *
  * @author Alexander on 03.08.2019.
  */
@@ -25,12 +24,15 @@ public enum AtlasesEnum {
     liquids(new Texture("sprites/liquids.png"), true, 64, 64, 32, 6),
     plants(new Texture("sprites/plants.png"), false, 64, 64, 32, 0), // all trees is plants
     units(new Texture("sprites/units.png"), false, 64, 64, 0, 0),
-    buildings(new Texture("sprites/buildings.png"), false, 64, 64, 32, 0), // buildings and furniture
+    buildings("sprites/buildings", false, 64, 64, 32, 0), // buildings and furniture
     items(new Texture("sprites/items.png"), false, 32, 32, 0, 0),
     creature_icons(new Texture("sprites/creature_icons.png"), false, 16, 16, 0, 0),
     icons(new Texture("sprites/icons.png"), false, 64, 64, 0, 0); // ui and designation icons
 
-    public final Texture atlas;
+    public TextureCache cache;
+    public Map<String, TextureCache> caches = new HashMap<>();
+
+    public String texturePath; // path to folder with texture files
     public final boolean hasToppings;
     public final int WIDTH;
     public final int DEPTH;
@@ -41,10 +43,8 @@ public enum AtlasesEnum {
     public final int FULL_TILE_HEIGHT;
     public final int X_CORRECTION; // batch grid are 64x64, but some atlas tiles are smaller, correction is offset from left bottom corner of grid
     public final int Y_CORRECTION;
-    public final Map<TileSpriteDescriptor, TextureRegion> spriteCache;
 
-    AtlasesEnum(Texture texture, boolean hasToppings, int width, int depth, int height, int toppingHeight) {
-        atlas = texture;
+    AtlasesEnum(boolean hasToppings, int width, int depth, int height, int toppingHeight) {
         this.hasToppings = hasToppings;
         WIDTH = width;
         DEPTH = depth;
@@ -55,20 +55,26 @@ public enum AtlasesEnum {
         FULL_TILE_HEIGHT = BLOCK_HEIGHT + TOPPING_BLOCK_HEIGHT;
         X_CORRECTION = (BatchUtil.TILE_WIDTH - WIDTH) / 2;
         Y_CORRECTION = (BatchUtil.TILE_DEPTH - DEPTH) / 2;
-        spriteCache = new HashMap<>();
     }
 
-    /**
-     * Supports multi-tile regions.
-     */
+    AtlasesEnum(Texture atlas, boolean hasToppings, int width, int depth, int height, int toppingHeight) {
+        this(hasToppings, width, depth, height, toppingHeight);
+        cache = new TextureCache(atlas, this);
+    }
+
+    AtlasesEnum(String texturePath, boolean hasToppings, int width, int depth, int height, int toppingHeight) {
+        this(hasToppings, width, depth, height, toppingHeight);
+        this.texturePath = texturePath;
+        caches = new HashMap<>();
+    }
+
     public TextureRegion getRegion(int x, int y, int width, int height) {
-        TileSpriteDescriptor key = new TileSpriteDescriptor(x, y, width, height, Color.WHITE.toIntBits(), false);
-        spriteCache.putIfAbsent(key, new TextureRegion(atlas,
-                x * WIDTH,
-                y * FULL_TILE_HEIGHT + (hasToppings ? TOPPING_BLOCK_HEIGHT : 0), // consider toppings or not
-                WIDTH * width,
-                BLOCK_HEIGHT * height));
-        return spriteCache.get(key);
+        return cache.getRegion(x, y, width, height);
+    }
+
+    public TextureRegion getRegion(String atlasName, int x, int y, int width, int height) {
+        return caches.computeIfAbsent(atlasName, name -> new TextureCache(new Texture(texturePath + "/" + atlasName + ".png"), this))
+                .getRegion(x, y, width, height);
     }
 
     /**
@@ -76,14 +82,12 @@ public enum AtlasesEnum {
      * Atlas should have toppings.
      */
     public TextureRegion getToppingTile(int x, int y) {
-        if (!hasToppings) return Logger.RENDER.logError("Attempt to get topping from atlas without toppings.", null);
-        TileSpriteDescriptor key = new TileSpriteDescriptor(x, y, 1, 1, Color.WHITE.toIntBits(), true);
-        spriteCache.putIfAbsent(key, new TextureRegion(atlas,
-                x * WIDTH,
-                y * FULL_TILE_HEIGHT,
-                WIDTH,
-                TOPPING_BLOCK_HEIGHT));
-        return spriteCache.get(key);
+        return cache.getToppingTile(x, y);
+    }
+
+    public TextureRegion getToppingTile(String atlasName, int x, int y) {
+        return caches.computeIfAbsent(atlasName, name -> new TextureCache(new Texture(texturePath + "/" + atlasName + ".png"), this))
+                .getToppingTile(x, y);
     }
 
     /**
@@ -103,5 +107,9 @@ public enum AtlasesEnum {
 
     public TextureRegion getRegion(@NotNull IntVector2 xy, @NotNull IntVector2 size) {
         return getRegion(xy.x, xy.y, size.x, size.y);
+    }
+
+    public TextureRegion getRegion(@NotNull String atlasName, @NotNull IntVector2 xy, @NotNull IntVector2 size) {
+        return getRegion(atlasName, xy.x, xy.y, size.x, size.y);
     }
 }

@@ -5,7 +5,7 @@
         "description": "Chair",
         "aspects": ["furniture"],
         "passage": "floor",
-        "atlasXY": [0,0],
+        "atlasXY": [0, 0],
         "color": "0xffffffff"
     }, {
     "building": "table",
@@ -13,7 +13,7 @@
     "description": "Table",
     "aspects": ["furniture"],
     "passage": "floor",
-    "atlasXY": [1,0],
+    "atlasXY": [1, 0],
     "color": "0xffffffff"
 }, {
     "building": "bed",
@@ -21,15 +21,19 @@
     "description": "Bed",
     "aspects": ["furniture", "rest_furniture(-90)"],
     "passage": "floor",
-    "atlasXY": [2,0],
+    "size": [1, 2],
+    "sprites": [
+        [0, 0], [1, 0], [2, 0], [2, 1]
+    ],
+    "atlasXY": [0, 0],
     "color": "0xffffffff"
-},{
+}, {
     "building": "chest",
     "title": "Chest",
     "description": "Chest",
     "aspects": ["furniture", "item_container(solid,100)"],
     "passage": "floor",
-    "atlasXY": [4,0],
+    "atlasXY": [4, 0],
     "color": "0xffffffff"
 }
 ]

@@ -31,8 +31,9 @@ public class BuildingType {
     public IntVector2 size; // width/height for N orientation
     public List<IntVector2> access;
     public PassageEnum passage;
-    public IntVector2[] sprites; // NSEW
     public boolean construction = false; // TODO to remove
+    public String atlasName;
+    public IntVector2[] sprites; // NSEW
     public String color = "0xffffffff";
 
     public BuildingType() {
@@ -52,8 +53,7 @@ public class BuildingType {
         sprites = new IntVector2[4]; // for four orientations
     }
 
-    
     public TextureRegion getSprite(OrientationEnum orientation) {
-        return AtlasesEnum.buildings.getRegion(sprites[orientation.ordinal()], RotationUtil.orientSize(size, orientation));
+        return AtlasesEnum.buildings.getRegion(atlasName, sprites[orientation.ordinal()], RotationUtil.orientSize(size, orientation));
     }
 }

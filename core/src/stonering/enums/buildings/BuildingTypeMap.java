@@ -30,7 +30,9 @@ public class BuildingTypeMap {
             int counter = 0;
             List<RawBuildingType> rawTypes = json.fromJson(ArrayList.class, RawBuildingType.class, file);
             for (RawBuildingType rawType : rawTypes) {
-                buildings.put(rawType.building, processor.process(rawType));
+                BuildingType type = processor.process(rawType);
+                type.atlasName = file.nameWithoutExtension();
+                buildings.put(rawType.building, type);
                 counter ++;
             }
             Logger.LOADING.logDebug(counter + " loaded from " + file.path());
