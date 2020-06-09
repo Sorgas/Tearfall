@@ -91,7 +91,7 @@ public class FarmZoneMenu extends Window {
 
     private void fillList() {
         disabledPlants.clearItems();
-        List<PlantType> allTypes = new ArrayList<>(PlantTypeMap.getInstance().domesticTypes.values());
+        List<PlantType> allTypes = new ArrayList<>(PlantTypeMap.instance().domesticTypes.values());
         PlantType selectedType = farmZone.getPlantType();
         allTypes.stream().filter(type -> !type.equals(selectedType)).forEach(type -> disabledPlants.getItems().add(type));
     }

@@ -9,7 +9,7 @@ import stonering.entity.item.Item;
 import stonering.entity.item.ItemGroupingKey;
 import stonering.enums.images.DrawableMap;
 import stonering.enums.items.recipe.Ingredient;
-import stonering.stage.building.BuildingMaterialSelectMenu;
+import stonering.stage.entity_menu.building.BuildingMaterialSelectMenu;
 import stonering.util.global.StaticSkin;
 import stonering.widget.util.HighlightHandler;
 

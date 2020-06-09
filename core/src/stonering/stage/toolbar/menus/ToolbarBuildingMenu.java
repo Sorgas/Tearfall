@@ -10,7 +10,7 @@ import stonering.game.model.entity_selector.EntitySelectorSystem;
 import stonering.game.model.entity_selector.aspect.SelectionAspect;
 import stonering.game.model.entity_selector.tool.SelectionTool;
 import stonering.game.model.entity_selector.tool.SelectionTools;
-import stonering.stage.building.BuildingMaterialSelectMenu;
+import stonering.stage.entity_menu.building.BuildingMaterialSelectMenu;
 import stonering.stage.toolbar.Toolbar;
 import stonering.widget.ToolbarSubMenuMenu;
 

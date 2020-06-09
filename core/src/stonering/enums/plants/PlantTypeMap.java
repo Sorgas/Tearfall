@@ -39,10 +39,8 @@ public class PlantTypeMap {
         fillDomesticTypes();
     }
 
-    public static PlantTypeMap getInstance() {
-        if (instance == null)
-            instance = new PlantTypeMap();
-        return instance;
+    public static PlantTypeMap instance() {
+        return instance == null ? instance = new PlantTypeMap() : instance;
     }
 
     /**
@@ -59,21 +57,19 @@ public class PlantTypeMap {
         plantTypes.values().stream().filter(type -> type.isPlant).forEach(type -> domesticTypes.put(type.name, type));
     }
 
-    public PlantType getPlantType(String specimen) throws DescriptionNotFoundException {
-        if (!plantTypes.containsKey(specimen))
-            throw new DescriptionNotFoundException("Plant type with name " + specimen + " not found.");
-        return plantTypes.get(specimen);
+    public static PlantType getPlantType(String specimen) {
+        return instance().plantTypes.get(specimen);
     }
 
-    public PlantType getTreeType(String specimen) throws DescriptionNotFoundException {
-        if (!treeTypes.containsKey(specimen))
+    public static PlantType getTreeType(String specimen) throws DescriptionNotFoundException {
+        if (!instance().treeTypes.containsKey(specimen))
             throw new DescriptionNotFoundException("Plant type with name " + specimen + " not found.");
-        return treeTypes.get(specimen);
+        return instance().treeTypes.get(specimen);
     }
 
-    public PlantType getSubstrateType(String specimen) throws DescriptionNotFoundException {
-        if (!substrateTypes.containsKey(specimen))
+    public static PlantType getSubstrateType(String specimen) throws DescriptionNotFoundException {
+        if (!instance().substrateTypes.containsKey(specimen))
             throw new DescriptionNotFoundException("Plant type with name " + specimen + " not found.");
-        return substrateTypes.get(specimen);
+        return instance().substrateTypes.get(specimen);
     }
 }

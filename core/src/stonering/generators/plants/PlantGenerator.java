@@ -25,7 +25,7 @@ public class PlantGenerator {
      * Generates {@link Plant} object by name of its type and initial age.
      */
     public Plant generatePlant(String specimen, int age) throws DescriptionNotFoundException {
-        PlantType type = PlantTypeMap.getInstance().getPlantType(specimen);
+        PlantType type = PlantTypeMap.getPlantType(specimen);
         if (type == null) throw new DescriptionNotFoundException("Plant type " + specimen + " not found");
         Plant plant = new Plant(type);
         //TODO set age
@@ -38,7 +38,7 @@ public class PlantGenerator {
      * Generates {@link SubstratePlant} object by name of its type and initial age.
      */
     public SubstratePlant generateSubstrate(String specimen, int age) throws DescriptionNotFoundException {
-        PlantType type = PlantTypeMap.getInstance().getSubstrateType(specimen);
+        PlantType type = PlantTypeMap.getSubstrateType(specimen);
         if (type == null) throw new DescriptionNotFoundException("Plant type " + specimen + " not found");
         SubstratePlant plant = new SubstratePlant(type);
         //TODO set age
@@ -62,7 +62,7 @@ public class PlantGenerator {
     private PlantBlock createPlantBlock(Plant plant) {
         String materialName = plant.type.materialName;
         if (materialName == null) materialName = "generic_plant";
-        PlantBlock block = new PlantBlock(MaterialMap.instance().getId(materialName), PlantBlocksTypeEnum.SINGLE_PASSABLE.getCode());
+        PlantBlock block = new PlantBlock(MaterialMap.getId(materialName), PlantBlocksTypeEnum.SINGLE_PASSABLE.getCode());
         int[] atlasXY = Arrays.copyOf(plant.type.atlasXY, 2);
         atlasXY[0] += plant.get(PlantGrowthAspect.class).currentStage;
         block.setAtlasXY(atlasXY);

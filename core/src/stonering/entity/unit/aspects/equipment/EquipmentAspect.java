@@ -3,8 +3,7 @@ package stonering.entity.unit.aspects.equipment;
 import stonering.entity.Entity;
 import stonering.entity.Aspect;
 import stonering.entity.item.Item;
-import stonering.stage.unit.UnitEquipmentTab;
-import stonering.util.global.Logger;
+import stonering.stage.entity_menu.unit.UnitEquipmentTab;
 
 import java.util.*;
 import java.util.stream.Collectors;

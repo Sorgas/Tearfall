@@ -31,7 +31,7 @@ import static stonering.enums.OrderStatusEnum.*;
  * After executing, order is removed from the list, or moved to the bottom, if it is repeated.
  * If execution is not possible, order is suspended or cancelled (TODO add config for this).
  * Suspended orders are skipped.
- * Orders are configured via {@link stonering.stage.building.workbench.WorkbenchMenu}.
+ * Orders are configured via {@link stonering.stage.entity_menu.building.workbench.WorkbenchMenu}.
  * Fail on execution generates general warning for player.
  *
  * @author Alexander on 25.09.2019.

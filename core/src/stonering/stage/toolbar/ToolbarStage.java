@@ -5,7 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.utils.Align;
 import stonering.enums.buildings.blueprint.Blueprint;
 import stonering.stage.UiStage;
-import stonering.stage.building.BuildingMaterialTab;
+import stonering.stage.entity_menu.building.BuildingMaterialTab;
 import stonering.widget.TileStatusBar;
 
 /**

@@ -34,7 +34,7 @@ public class LocalForestGenerator extends LocalFloraGenerator {
     @Override
     protected Set<PlantType> filterPlantsByType() {
         Logger.GENERATION.log("generating trees");
-        return PlantTypeMap.getInstance().treeTypes.values().stream().filter(type -> type.isTree).collect(Collectors.toSet());
+        return PlantTypeMap.instance().treeTypes.values().stream().filter(type -> type.isTree).collect(Collectors.toSet());
     }
 
     @Override
@@ -44,7 +44,7 @@ public class LocalForestGenerator extends LocalFloraGenerator {
             amount /= 20; // amount is lowered for trees.
             Collections.shuffle(positions);
             TreeGenerator treeGenerator = new TreeGenerator();
-            int maxAge = PlantTypeMap.getInstance().getTreeType(specimen).getMaxAge();
+            int maxAge = PlantTypeMap.instance().getTreeType(specimen).getMaxAge();
             for (int i = 0; i < amount; i++) {
                 if (positions.isEmpty()) return;
                 Position position = positions.remove(0);

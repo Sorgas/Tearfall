@@ -6,12 +6,8 @@ import stonering.entity.job.designation.Designation;
 import stonering.entity.job.Task;
 import stonering.enums.OrientationEnum;
 import stonering.enums.buildings.blueprint.Blueprint;
-import stonering.stage.building.BuildingMaterialSelectMenu;
+import stonering.stage.entity_menu.building.BuildingMaterialSelectMenu;
 import stonering.util.geometry.Position;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.stream.Collectors;
 
 /**
  * Order for building. Created in {@link BuildingMaterialSelectMenu}. 

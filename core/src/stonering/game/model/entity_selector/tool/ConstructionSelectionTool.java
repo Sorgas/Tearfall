@@ -14,7 +14,7 @@ import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.local_map.passage.NeighbourPositionStream;
 import stonering.game.model.system.task.DesignationSystem;
 import stonering.game.model.system.task.TaskContainer;
-import stonering.stage.building.ItemSelectSection;
+import stonering.stage.entity_menu.building.ItemSelectSection;
 import stonering.stage.renderer.AtlasesEnum;
 import stonering.util.geometry.Int3dBounds;
 import stonering.util.geometry.Position;

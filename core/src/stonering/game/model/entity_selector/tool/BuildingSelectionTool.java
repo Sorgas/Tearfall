@@ -1,7 +1,7 @@
 package stonering.game.model.entity_selector.tool;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
+
 import stonering.entity.RenderAspect;
 import stonering.entity.building.BuildingOrder;
 import stonering.entity.crafting.IngredientOrder;
@@ -15,12 +15,9 @@ import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.EntitySelector;
 import stonering.game.model.entity_selector.aspect.BoxSelectionAspect;
 import stonering.game.model.system.task.TaskContainer;
-import stonering.stage.building.ItemSelectSection;
-import stonering.stage.building.MaterialItemSelectSection;
-import stonering.stage.building.UniqueItemSelectSection;
+import stonering.stage.entity_menu.building.ItemSelectSection;
 import stonering.util.geometry.Int3dBounds;
 import stonering.util.geometry.IntVector2;
-import stonering.util.geometry.Position;
 import stonering.util.geometry.RotationUtil;
 import stonering.util.global.Logger;
 
@@ -33,7 +30,7 @@ import static stonering.stage.renderer.AtlasesEnum.ui_tiles;
 /**
  * Tool for selecting place for new building. Buildings are placed one by one and can be rotated.
  * On selecting place, new {@link BuildingDesignation} is created.
- * Selector for building materials are created basing on {@link stonering.stage.building.BuildingMaterialTab}.
+ * Selector for building materials are created basing on {@link stonering.stage.entity_menu.building.BuildingMaterialTab}.
  * Materials set for last designation of this building or default materials will be set for designation.
  * If player holds lCtrl while confirming building, material selection menu appears.
  * <p>

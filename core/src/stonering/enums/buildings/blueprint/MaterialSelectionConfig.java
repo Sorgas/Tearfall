@@ -1,6 +1,6 @@
 package stonering.enums.buildings.blueprint;
 
-import stonering.stage.building.MaterialItemSelectSection;
+import stonering.stage.entity_menu.building.MaterialItemSelectSection;
 
 import java.util.HashMap;
 import java.util.HashSet;
