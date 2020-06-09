@@ -1,19 +1,14 @@
 package stonering.stage.entity_menu.item;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
+
 import stonering.entity.item.Item;
-import stonering.entity.RenderAspect;
-import stonering.enums.items.ItemTagEnum;
 import stonering.game.GameMvc;
-import stonering.util.global.Logger;
 import stonering.util.global.StaticSkin;
-import stonering.widget.util.WrappedTextButton;
 
 import javax.validation.constraints.NotNull;
 
@@ -28,21 +23,23 @@ public class ItemMenu extends Container<Table> {
     private Table table;
     private ItemOverviewSection overviewSection;
     private ItemAspectSection aspectSection;
-    
+
     public ItemMenu(@NotNull Item item) {
         super(new Table());
         this.item = item;
         this.table = getActor();
         table.add(overviewSection = new ItemOverviewSection(item)).align(Align.top).size(300, 900);
         table.add(aspectSection = new ItemAspectSection(item)).align(Align.top).size(600, 900);
+        overviewSection.setBackground(StaticSkin.generator.generate(StaticSkin.backgroundFocused));
+        aspectSection.setBackground(StaticSkin.generator.generate(StaticSkin.background));
         createListeners();
     }
-    
+
     private void createListeners() {
         addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
-                if(keycode != Input.Keys.Q) return false;
+                if (keycode != Input.Keys.Q) return false;
                 GameMvc.view().removeStage(getStage());
                 return true;
             }

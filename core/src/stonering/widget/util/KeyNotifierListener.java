@@ -6,9 +6,11 @@ import java.util.function.Supplier;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 
 /**
- * Extension of {@link InputListener} that passes key events(up, down, typed) to some {@link Actor} defined in supplier.   
+ * Extension of {@link InputListener} that passes key events(up, down, typed) to some {@link Actor} defined in supplier.
+ * Made for implementing {@link Stage} keyboardFocus logic on actor level. 
  * 
  * @author Alexander on 03.06.2020.
  */

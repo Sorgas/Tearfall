@@ -2,8 +2,6 @@ package stonering.stage.entity_menu.item;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
-import com.badlogic.gdx.utils.Align;
 
 import stonering.entity.RenderAspect;
 import stonering.entity.item.Item;
@@ -18,15 +16,12 @@ public class ItemOverviewSection extends MenuSection {
     
     public ItemOverviewSection(Item item) {
         super("Item");
-        add(new Label(item.title, StaticSkin.skin())).row();
+        add(new Label(item.title, StaticSkin.skin())).left().row();
         add(new Image(item.get(RenderAspect.class).region)).row();
-        add(new Label(item.type.description, StaticSkin.skin()));
-        VerticalGroup tags = new VerticalGroup();
-        for (ItemTagEnum tag : item.tags) {
-            if (tag.isDisplayable()) tags.addActor(new Label(tag.name(), StaticSkin.getSkin()));
-        }
-        tags.columnAlign(Align.left);
-        tags.align(Align.top);
+        add(new Label(item.type.description, StaticSkin.skin())).padBottom(10);
+        item.tags.stream()
+                .filter(ItemTagEnum::isDisplayable)
+                .forEach(tag -> add(new Label(tag.toString(), StaticSkin.skin())).row());
     }
 
     @Override
