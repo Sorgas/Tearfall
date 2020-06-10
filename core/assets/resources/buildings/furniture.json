@@ -11,7 +11,7 @@
     "building": "table",
     "title": "Table",
     "description": "Table",
-    "aspects": ["furniture"],
+    "aspects": ["furniture", "dinning_table"],
     "passage": "floor",
     "atlasXY": [1, 0],
     "color": "0xffffffff"

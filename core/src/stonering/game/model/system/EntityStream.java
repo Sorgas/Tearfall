@@ -23,7 +23,7 @@ public abstract class EntityStream<T extends Entity> {
     }
 
     public EntityStream() {
-        stream = getContainer().objects.stream();
+        stream = container().objects.stream();
     }
 
     public EntityStream<T> filterByReachability(Position position) {
@@ -74,5 +74,5 @@ public abstract class EntityStream<T extends Entity> {
     }
 
 
-    protected abstract EntityContainer<T> getContainer();
+    protected abstract EntityContainer<T> container();
 }

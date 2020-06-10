@@ -21,7 +21,7 @@ public class ItemsStream extends EntityStream<Item> {
     }
 
     @Override
-    protected ItemContainer getContainer() {
+    protected ItemContainer container() {
         return container != null ? container : (container = GameMvc.model().get(ItemContainer.class));
     }
 

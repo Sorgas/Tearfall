@@ -1,5 +1,6 @@
 package stonering.game.model.system.item;
 
+import stonering.entity.Aspect;
 import stonering.entity.Entity;
 import stonering.entity.item.Item;
 import stonering.entity.item.selectors.ItemSelector;
@@ -26,12 +27,12 @@ public class OnMapItemsStream extends EntityStream<Item> {
 
     public OnMapItemsStream(List<Item> entities) {
         super(entities);
-        container = getContainer();
+        container = container();
     }
 
     public OnMapItemsStream() {
-        stream = getContainer().itemMap.values().stream().flatMap(Collection::stream);
-        container = getContainer();
+        container = container();
+        stream = container().itemMap.values().stream().flatMap(Collection::stream);
     }
 
     public OnMapItemsStream filterHasTag(ItemTagEnum tag) {
@@ -65,6 +66,11 @@ public class OnMapItemsStream extends EntityStream<Item> {
 
     public OnMapItemsStream filterBySelector(ItemSelector selector) {
         stream = stream.filter(selector::checkItem);
+        return this;
+    }
+
+    public <T extends Aspect> OnMapItemsStream filterHasAspect(Class<T> type) {
+        stream = stream.filter(item -> item.has(type));
         return this;
     }
 
@@ -114,7 +120,7 @@ public class OnMapItemsStream extends EntityStream<Item> {
     }
 
     @Override
-    protected ItemContainer getContainer() {
+    protected ItemContainer container() {
         return container != null ? container : GameMvc.model().get(ItemContainer.class);
     }
 }

@@ -12,7 +12,7 @@ import java.util.stream.Stream;
  * @author Alexander on 03.02.2020.
  */
 public class BuildingsStream extends EntityStream<Building> {
-    private BuildingContainer container = getContainer();
+    private BuildingContainer container = container();
     public Stream<Building> stream;
 
     public BuildingsStream filterByType(String type) {
@@ -26,7 +26,7 @@ public class BuildingsStream extends EntityStream<Building> {
     }
 
     @Override
-    protected BuildingContainer getContainer() {
+    protected BuildingContainer container() {
         return GameMvc.model().get(BuildingContainer.class);
     }
 }

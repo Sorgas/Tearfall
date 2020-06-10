@@ -24,7 +24,6 @@ public enum ItemTagEnum {
     ORE, // magnetite(material) rock(type)
 
     COOKABLE, // can be boiled or roasted
-    EDIBLE, // can be eaten
     DRINKABLE, // can be drunk
     RAW(true), // raw cow meat piece,
     SPOILED(true), // spoiled raw cow meat peace
