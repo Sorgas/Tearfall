@@ -4,7 +4,7 @@ import stonering.enums.blocks.BlockTypeEnum;
 import stonering.enums.materials.MaterialMap;
 import stonering.enums.time.TimeUnitEnum;
 import stonering.game.GameMvc;
-import stonering.game.model.Updatable;
+import stonering.util.global.Updatable;
 import stonering.game.model.local_map.LocalMap;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.util.geometry.Position;

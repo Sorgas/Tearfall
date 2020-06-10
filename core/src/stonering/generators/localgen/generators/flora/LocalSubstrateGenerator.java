@@ -1,12 +1,9 @@
 package stonering.generators.localgen.generators.flora;
 
-import stonering.entity.plant.SubstratePlant;
 import stonering.enums.plants.PlantTypeMap;
 import stonering.enums.plants.PlantType;
-import stonering.exceptions.DescriptionNotFoundException;
 import stonering.game.model.system.substrate.SubstrateContainer;
 import stonering.generators.localgen.LocalGenContainer;
-import stonering.generators.plants.PlantGenerator;
 import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
 
@@ -39,22 +36,13 @@ public class LocalSubstrateGenerator extends LocalFloraGenerator {
 
     @Override
     protected void placePlants(String specimen, float amount) {
-        int counter = 0;
-        try {
-            Collections.shuffle(positions);
-            PlantGenerator plantGenerator = new PlantGenerator();
-            for (int i = 0; i < amount; i++) {
-                if (positions.isEmpty()) return;
-                Position position = positions.remove(0);
-                if (substrateContainer.isSubstrateBlockExists(position)) continue;
-                SubstratePlant plant = plantGenerator.generateSubstrate(specimen, 0);
-                container.model.get(SubstrateContainer.class).place(plant, position);
-                counter++;
-            }
-        } catch (DescriptionNotFoundException e) {
-            System.out.println("material for plant " + specimen + " not found");
-        } finally {
-            Logger.GENERATION.logDebug(counter + " substrates placed.");
+        if (PlantTypeMap.getSubstrateType(specimen) == null) return;
+        Collections.shuffle(positions);
+        SubstrateContainer substrateContainer = container.model.get(SubstrateContainer.class);
+        for (int i = 0; i < amount && !positions.isEmpty(); i++) {
+            Position position = positions.remove(0);
+            if (!substrateContainer.isSubstrateBlockExists(position))
+                substrateContainer.place(generator.generateSubstrate(specimen, 0), position);
         }
     }
 
@@ -64,15 +52,10 @@ public class LocalSubstrateGenerator extends LocalFloraGenerator {
     @Override
     protected Set<Position> gatherPositions() {
         Set<Position> positions = new HashSet<>();
-        for (int x = 0; x < localMap.xSize; x++) {
-            for (int y = 0; y < localMap.ySize; y++) {
-                for (int z = 0; z < localMap.zSize; z++) {
-                    if (!substrateBlockTypes.contains(localMap.blockType.get(x, y, z))) continue;
-                    if (substrateContainer.isSubstrateBlockExists(cachePosition.set(x, y, z))) continue;
-                    positions.add(new Position(x, y, z));
-                }
-            }
-        }
+        localMap.getBounds().iterate((x, y, z) -> {
+            if (!substrateBlockTypes.contains(localMap.blockType.get(x, y, z))) return;
+            if (!substrateContainer.isSubstrateBlockExists(cachePosition.set(x, y, z))) positions.add(new Position(x, y, z));
+        });
         return positions;
     }
 }

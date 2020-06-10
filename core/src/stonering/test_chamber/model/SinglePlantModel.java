@@ -2,7 +2,6 @@ package stonering.test_chamber.model;
 
 import stonering.entity.plant.AbstractPlant;
 import stonering.entity.plant.Plant;
-import stonering.exceptions.DescriptionNotFoundException;
 import stonering.game.model.system.plant.PlantContainer;
 import stonering.generators.plants.PlantGenerator;
 import stonering.util.geometry.Position;
@@ -22,14 +21,9 @@ public class SinglePlantModel extends TestModel {
     }
 
     private AbstractPlant createPlant() {
-        try {
-            PlantGenerator plantGenerator = new PlantGenerator();
-            Plant plant = plantGenerator.generatePlant("puffball_mushroom", 0);
-            plant.setPosition(new Position(CENTER, CENTER, 2));
-            return plant;
-        } catch (DescriptionNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        }
+        PlantGenerator plantGenerator = new PlantGenerator();
+        Plant plant = plantGenerator.generatePlant("puffball_mushroom", 0);
+        plant.setPosition(new Position(CENTER, CENTER, 2));
+        return plant;
     }
 }

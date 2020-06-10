@@ -2,9 +2,9 @@ package stonering.enums.plants;
 
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
+
 import stonering.enums.plants.raw.RawPlantTypeProcessor;
 import stonering.enums.plants.raw.RawPlantType;
-import stonering.exceptions.DescriptionNotFoundException;
 import stonering.util.global.FileUtil;
 import stonering.util.global.Logger;
 
@@ -61,15 +61,15 @@ public class PlantTypeMap {
         return instance().plantTypes.get(specimen);
     }
 
-    public static PlantType getTreeType(String specimen) throws DescriptionNotFoundException {
-        if (!instance().treeTypes.containsKey(specimen))
-            throw new DescriptionNotFoundException("Plant type with name " + specimen + " not found.");
-        return instance().treeTypes.get(specimen);
+    public static PlantType getTreeType(String specimen) {
+        return !instance().treeTypes.containsKey(specimen) 
+                ? Logger.LOADING.logError("Tree type with name " + specimen + " not found.", null) 
+                : instance().treeTypes.get(specimen);
     }
 
-    public static PlantType getSubstrateType(String specimen) throws DescriptionNotFoundException {
-        if (!instance().substrateTypes.containsKey(specimen))
-            throw new DescriptionNotFoundException("Plant type with name " + specimen + " not found.");
-        return instance().substrateTypes.get(specimen);
+    public static PlantType getSubstrateType(String specimen) {
+        return !instance().substrateTypes.containsKey(specimen)
+                ? Logger.LOADING.logError("Substrate type with name " + specimen + " not found.", null)
+                : instance().substrateTypes.get(specimen);
     }
 }

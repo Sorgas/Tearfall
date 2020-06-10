@@ -2,6 +2,8 @@ package stonering.util.geometry;
 
 import java.util.function.Consumer;
 
+import stonering.util.global.TriConsumer;
+
 /**
  * Represents 3d box.
  */
@@ -62,10 +64,14 @@ public class Int3dBounds extends Int2dBounds {
     }
 
     public void iterate(Consumer<Position> consumer) {
+        iterate((x, y, z) -> consumer.accept(new Position(x, y, z)));
+    }
+
+    public void iterate(TriConsumer<Integer, Integer, Integer> consumer) {
         for (int x = minX; x <= maxX; x++) {
             for (int y = maxY; y >= minY; y--) {
                 for (int z = minZ; z <= maxZ; z++) {
-                    consumer.accept(new Position(x, y, z));
+                    consumer.accept(x, y, z);
                 }
             }
         }

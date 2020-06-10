@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import stonering.game.model.local_map.passage.PassageMap;
 import stonering.game.model.system.ModelComponent;
 import stonering.game.model.tilemaps.LocalTileMapUpdater;
+import stonering.util.geometry.Int3dBounds;
 import stonering.util.geometry.Position;
 import stonering.util.global.Initable;
 import stonering.util.global.Logger;
@@ -25,7 +26,8 @@ public class LocalMap implements ModelComponent, Initable {
     private byte[][][] flooding;
     private byte[][][] temperature;
     private Position cachePosition;
-
+    private final Int3dBounds bounds;
+    
     public LightMap light;
     public transient PassageMap passageMap;                                 // not saved to savegame,
     private transient LocalTileMapUpdater localTileMapUpdater;           // not saved to savegame,
@@ -43,6 +45,7 @@ public class LocalMap implements ModelComponent, Initable {
         this.zSize = zSize;
         cachePosition = new Position();
         light = new LightMap(this);
+        bounds = new Int3dBounds(0, 0, 0, xSize, ySize, zSize);
     }
 
     public void init() {
@@ -133,5 +136,9 @@ public class LocalMap implements ModelComponent, Initable {
 
     public void updatePassage(Position position) {
         if (passageMap != null) passageMap.updater.update(position.x, position.y, position.z);
+    }
+    
+    public Int3dBounds getBounds() {
+        return bounds;
     }
 }

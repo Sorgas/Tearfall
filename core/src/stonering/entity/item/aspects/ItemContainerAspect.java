@@ -3,8 +3,6 @@ package stonering.entity.item.aspects;
 import stonering.entity.Aspect;
 import stonering.entity.Entity;
 import stonering.entity.item.Item;
-import stonering.enums.time.TimeUnitEnum;
-import stonering.game.model.Updatable;
 
 import java.util.ArrayList;
 import java.util.List;

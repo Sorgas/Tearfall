@@ -19,7 +19,7 @@ import stonering.game.model.system.task.TaskContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.stage.localworld.MovableCamera;
 import stonering.game.model.tilemaps.LocalTileMap;
-import stonering.util.geometry.CoordFunction;
+import stonering.util.geometry.VectorFunction;
 import stonering.util.geometry.Int2dBounds;
 import stonering.util.geometry.Position;
 
@@ -92,7 +92,7 @@ public class TileDrawer extends Drawer {
     /**
      * Iterates over bounds of a single z-level and call some function for every tile.
      */
-    private void iterateLayer(int z, CoordFunction function) {
+    private void iterateLayer(int z, VectorFunction function) {
         for (int y = cacheBounds.maxY; y >= cacheBounds.minY; y--) {
             for (int x = cacheBounds.minX; x <= cacheBounds.maxX; x++) {
                 function.apply(x, y, z);

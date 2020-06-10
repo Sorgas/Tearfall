@@ -7,11 +7,11 @@ import stonering.enums.materials.MaterialMap;
 import stonering.enums.plants.PlantTypeMap;
 import stonering.enums.plants.PlantBlocksTypeEnum;
 import stonering.enums.plants.PlantType;
-import stonering.exceptions.DescriptionNotFoundException;
 import stonering.entity.plant.Plant;
 import stonering.entity.plant.PlantBlock;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 /**
  * Generates single tile plants (not trees).
@@ -24,42 +24,40 @@ public class PlantGenerator {
     /**
      * Generates {@link Plant} object by name of its type and initial age.
      */
-    public Plant generatePlant(String specimen, int age) throws DescriptionNotFoundException {
-        PlantType type = PlantTypeMap.getPlantType(specimen);
-        if (type == null) throw new DescriptionNotFoundException("Plant type " + specimen + " not found");
-        Plant plant = new Plant(type);
+    public Plant generatePlant(String specimen, int age) {
         //TODO set age
-        plant.setBlock(createPlantBlock(plant));
-        plant.add(new PlantGrowthAspect(plant));
-        return plant;
+        return Optional.ofNullable(PlantTypeMap.getPlantType(specimen))
+                .map(Plant::new)
+                .map(this::createPlantBlock)
+                .map(this::createPlantAspects)
+                .orElse(null);
     }
 
     /**
      * Generates {@link SubstratePlant} object by name of its type and initial age.
      */
-    public SubstratePlant generateSubstrate(String specimen, int age) throws DescriptionNotFoundException {
-        PlantType type = PlantTypeMap.getSubstrateType(specimen);
-        if (type == null) throw new DescriptionNotFoundException("Plant type " + specimen + " not found");
-        SubstratePlant plant = new SubstratePlant(type);
+    public SubstratePlant generateSubstrate(String specimen, int age) {
         //TODO set age
-        plant.setBlock(createPlantBlock(plant));
-        plant.add(new PlantGrowthAspect(plant));
-        return plant;
+        return Optional.ofNullable(PlantTypeMap.getSubstrateType(specimen))
+                .map(SubstratePlant::new)
+                .map(this::createPlantBlock)
+                .map(this::createPlantAspects)
+                .orElse(null);
     }
 
     /**
      * Generates plant by seed aspect of item.
      * Used for planting on farms.
      */
-    public Plant generatePlant(SeedAspect aspect) throws DescriptionNotFoundException {
+    public Plant generatePlant(SeedAspect aspect) {
         return generatePlant(aspect.specimen, 0);
     }
 
     public void applyPlantGrowth(Plant plant) {
-        plant.setBlock(createPlantBlock(plant));
+        createPlantBlock(plant);
     }
 
-    private PlantBlock createPlantBlock(Plant plant) {
+    private <T extends Plant> T createPlantBlock(T plant) {
         String materialName = plant.type.materialName;
         if (materialName == null) materialName = "generic_plant";
         PlantBlock block = new PlantBlock(MaterialMap.getId(materialName), PlantBlocksTypeEnum.SINGLE_PASSABLE.getCode());
@@ -67,6 +65,12 @@ public class PlantGenerator {
         atlasXY[0] += plant.get(PlantGrowthAspect.class).currentStage;
         block.setAtlasXY(atlasXY);
         block.setHarvested(false);
-        return block;
+        plant.setBlock(block);
+        return plant;
+    }
+    
+    private <T extends Plant> T createPlantAspects(T plant) {
+        plant.add(new PlantGrowthAspect(plant));
+        return plant;
     }
 }

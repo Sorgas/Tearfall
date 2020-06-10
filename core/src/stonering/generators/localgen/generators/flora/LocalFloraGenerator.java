@@ -8,6 +8,7 @@ import stonering.game.model.system.plant.PlantContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.generators.localgen.generators.LocalGenerator;
+import stonering.generators.plants.PlantGenerator;
 import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
 
@@ -28,6 +29,7 @@ import static stonering.enums.generation.PlantPlacingTagEnum.*;
 public abstract class LocalFloraGenerator extends LocalGenerator {
     protected LocalMap localMap;
     protected PlantContainer plantContainer;
+    protected PlantGenerator generator;
     private float maxTemp;
     private float minTemp;
     private float midTemp;
@@ -42,6 +44,7 @@ public abstract class LocalFloraGenerator extends LocalGenerator {
 
     public LocalFloraGenerator(LocalGenContainer container) {
         super(container);
+        generator = new PlantGenerator();
     }
 
     public void execute() {
@@ -84,8 +87,8 @@ public abstract class LocalFloraGenerator extends LocalGenerator {
         maxTemp = minTemp;
         midTemp = 0;
         for (float temp : container.monthlyTemperatures) {
-            minTemp = temp < minTemp ? temp : minTemp;
-            maxTemp = temp > maxTemp ? temp : maxTemp;
+            minTemp = Math.min(temp, minTemp);
+            maxTemp = Math.max(temp, maxTemp);
             midTemp += temp;
         }
         midTemp /= container.monthlyTemperatures.length;

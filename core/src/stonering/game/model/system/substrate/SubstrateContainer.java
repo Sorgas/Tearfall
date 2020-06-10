@@ -8,6 +8,7 @@ import stonering.game.model.system.EntityContainer;
 import stonering.game.model.system.ModelComponent;
 import stonering.util.geometry.Position;
 import stonering.util.global.Initable;
+import stonering.util.global.Logger;
 
 import java.util.HashMap;
 
@@ -37,7 +38,14 @@ public class SubstrateContainer extends EntityContainer<SubstratePlant> implemen
     }
 
     public void place(SubstratePlant plant, Position position) {
-        if (substrateBlocks.containsKey(plant.getPosition())) return;
+        if(plant == null) {
+            Logger.PLANTS.logWarn("Attempt to place null substrate plant.");
+            return;
+        }
+        if (substrateBlocks.containsKey(plant.getPosition())) {
+            Logger.PLANTS.logWarn("Attempt to place substrate plant upon existing one.");
+            return;
+        }
         plant.setPosition(position);
         objects.add(plant);
         substrateBlocks.put(plant.getPosition(), plant.getBlock());

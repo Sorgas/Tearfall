@@ -4,7 +4,6 @@ import stonering.entity.item.Item;
 import stonering.entity.plant.AbstractPlant;
 import stonering.entity.plant.Tree;
 import stonering.entity.unit.Unit;
-import stonering.exceptions.DescriptionNotFoundException;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.system.plant.PlantContainer;
 import stonering.game.model.system.unit.UnitContainer;
@@ -33,14 +32,9 @@ public class SingleTreeModel extends TestModel {
     }
 
     private AbstractPlant createTree() {
-        try {
-            TreeGenerator treeGenerator = new TreeGenerator();
-            Tree tree = treeGenerator.generateTree("willow", 0);
-            return tree;
-        } catch (DescriptionNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        }
+        TreeGenerator treeGenerator = new TreeGenerator();
+        Tree tree = treeGenerator.generateTree("willow", 0);
+        return tree;
     }
 
     private Unit createUnit() {

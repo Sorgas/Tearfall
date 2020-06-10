@@ -1,22 +1,21 @@
 package stonering.entity.job.action;
 
+import static stonering.entity.job.action.ActionConditionStatusEnum.*;
+
+import java.util.List;
+
+import stonering.entity.item.Item;
+import stonering.entity.item.aspects.SeedAspect;
 import stonering.entity.item.selectors.SeedItemSelector;
 import stonering.entity.job.action.equipment.ItemPickupAction;
 import stonering.entity.job.action.target.ActionTarget;
-import stonering.entity.item.Item;
-import stonering.entity.item.aspects.SeedAspect;
 import stonering.entity.plant.Plant;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
-import stonering.exceptions.DescriptionNotFoundException;
 import stonering.game.GameMvc;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.system.plant.PlantContainer;
 import stonering.generators.plants.PlantGenerator;
 import stonering.util.global.Logger;
-
-import java.util.List;
-
-import static stonering.entity.job.action.ActionConditionStatusEnum.*;
 
 /**
  * Action for planting seed to a farm.
@@ -31,7 +30,7 @@ public class PlantingAction extends Action {
         this.seedSelector = seedSelector;
         startCondition = () -> {
             Logger.TASKS.logDebug("Checking planting action");
-            if(getSeedFromEquipment() != null) return OK;
+            if (getSeedFromEquipment() != null) return OK;
             return tryCreatePickingAction();
         };
 
@@ -45,7 +44,7 @@ public class PlantingAction extends Action {
      * Tries to pick seed item if none is available in performer's inventory.
      */
     private ActionConditionStatusEnum tryCreatePickingAction() {
-        Item item = GameMvc.instance().model().get(ItemContainer.class).util.getItemAvailableBySelector(seedSelector, task.performer.position);
+        Item item = GameMvc.model().get(ItemContainer.class).util.getItemAvailableBySelector(seedSelector, task.performer.position);
         if (item == null) return FAIL;
         task.addFirstPreAction(new ItemPickupAction(item));
         Logger.TASKS.logDebug("Creating pocking action for " + seedSelector.getSpecimen() + " seed.");
@@ -75,13 +74,9 @@ public class PlantingAction extends Action {
      * Creates new plant from seed item in target position.
      */
     private void createPlant(Item seed) {
-        try {
-            PlantContainer plantContainer = GameMvc.instance().model().get(PlantContainer.class);
-            PlantGenerator plantGenerator = new PlantGenerator();
-            Plant plant = plantGenerator.generatePlant(seed.get(SeedAspect.class));
-            plantContainer.add(plant, target.getPosition());
-        } catch (DescriptionNotFoundException e) {
-            e.printStackTrace();
-        }
+        PlantContainer plantContainer = GameMvc.model().get(PlantContainer.class);
+        PlantGenerator plantGenerator = new PlantGenerator();
+        Plant plant = plantGenerator.generatePlant(seed.get(SeedAspect.class));
+        plantContainer.add(plant, target.getPosition());
     }
 }

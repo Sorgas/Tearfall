@@ -12,7 +12,7 @@ import stonering.enums.action.TaskStatusEnum;
 import stonering.enums.time.TimeUnitEnum;
 import stonering.enums.unit.JobsEnum;
 import stonering.game.GameMvc;
-import stonering.game.model.Updatable;
+import stonering.util.global.Updatable;
 import stonering.game.model.local_map.passage.PassageMap;
 import stonering.game.model.system.ModelComponent;
 import stonering.game.model.local_map.LocalMap;

@@ -4,15 +4,14 @@ import stonering.entity.plant.aspects.PlantGrowthAspect;
 import stonering.enums.materials.MaterialMap;
 import stonering.enums.plants.PlantTypeMap;
 import stonering.enums.plants.PlantBlocksTypeEnum;
-import stonering.enums.plants.PlantType;
 import stonering.enums.plants.TreeTileMapping;
-import stonering.exceptions.DescriptionNotFoundException;
 import stonering.util.geometry.Position;
 import stonering.entity.plant.PlantBlock;
 import stonering.entity.plant.Tree;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 /**
@@ -23,26 +22,25 @@ import java.util.Random;
  */
 public class TreeGenerator {
 
-    public Tree generateTree(String specimen, int age) throws DescriptionNotFoundException {
-        PlantType type = PlantTypeMap.instance().getTreeType(specimen);
-        Tree tree = new Tree(type);
-        //TODO set age
-        tree.add(new PlantGrowthAspect(tree, age));
-        tree.setBlocks(createTreeBlocks(tree));
-        return tree;
+    public Tree generateTree(String specimen, int age) {
+        return Optional.ofNullable(PlantTypeMap.getTreeType(specimen))
+                .map(Tree::new)
+                .map(tree -> createTreeAspects(tree, age))
+                .map(this::createTreeBlocks)
+                .orElse(null);
     }
 
     /**
      * Changes tree structure.
      */
     public void applyTreeGrowth(Tree tree) {
-        tree.setBlocks(createTreeBlocks(tree));
+        createTreeBlocks(tree);
     }
 
     /**
      * Creates tree blocks array
      */
-    private PlantBlock[][][] createTreeBlocks(Tree tree) {
+    private Tree createTreeBlocks(Tree tree) {
         List<Integer> treeForm = tree.type.lifeStages.get(tree.get(PlantGrowthAspect.class).currentStage).treeForm;
         int material = MaterialMap.instance().getId(tree.type.materialName);
         Random random = new Random();
@@ -63,7 +61,7 @@ public class TreeGenerator {
             blocks[center][center][i] = createTreePart(material, PlantBlocksTypeEnum.ROOT, tree);
         }
         // branches
-        if(blocks[center][center][blocks[0][0].length - 1] == null)blocks[center][center][blocks[0][0].length - 1] = createTreePart(material, PlantBlocksTypeEnum.BRANCH, tree);
+        if (blocks[center][center][blocks[0][0].length - 1] == null) blocks[center][center][blocks[0][0].length - 1] = createTreePart(material, PlantBlocksTypeEnum.BRANCH, tree);
         for (int z = branchesStart; z < blocks[0][0].length - 1; z++) {
             for (int x = center - 1; x <= center + 1; x++) {
                 for (int y = center - 1; y <= center + 1; y++) {
@@ -86,13 +84,19 @@ public class TreeGenerator {
         for (int x = 0; x < blocks.length; x++) {
             for (int y = 0; y < blocks[0].length; y++) {
                 for (int z = branchesStart; z < blocks[0][0].length; z++) {
-                    if (blocks[x][y][z] != null) blocks[x][y][z].position = new Position(x,y,z);
+                    if (blocks[x][y][z] != null) blocks[x][y][z].position = new Position(x, y, z);
                 }
             }
         }
-        return blocks;
+        tree.setBlocks(blocks);
+        return tree;
     }
 
+    private Tree createTreeAspects(Tree tree, int age) {
+        tree.add(new PlantGrowthAspect(tree, age));
+        return tree;
+    }
+    
     private PlantBlock createTreePart(int material, PlantBlocksTypeEnum blockType, Tree tree) {
         PlantBlock block = new PlantBlock(material, blockType.getCode());
         int[] atlasXY = Arrays.copyOf(tree.type.atlasXY, 2);

@@ -1,11 +1,10 @@
 package stonering.game.model.system.building;
 
-import stonering.entity.Aspect;
 import stonering.entity.building.BuildingBlock;
 import stonering.enums.blocks.PassageEnum;
 import stonering.enums.time.TimeUnitEnum;
 import stonering.game.GameMvc;
-import stonering.game.model.Updatable;
+import stonering.util.global.Updatable;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.local_map.passage.NeighbourPositionStream;
 import stonering.game.model.system.EntityContainer;
@@ -19,8 +18,6 @@ import stonering.util.global.Logger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Contains all Buildings on localMap.

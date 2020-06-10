@@ -6,7 +6,6 @@ import stonering.entity.plant.aspects.PlantGrowthAspect;
 import stonering.enums.plants.PlantLifeStage;
 import stonering.enums.plants.PlantTypeMap;
 import stonering.enums.plants.PlantType;
-import stonering.exceptions.DescriptionNotFoundException;
 import stonering.game.model.system.plant.PlantContainer;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.generators.plants.TreeGenerator;
@@ -40,24 +39,19 @@ public class LocalForestGenerator extends LocalFloraGenerator {
     @Override
     protected void placePlants(String specimen, float amount) {
         int counter = 0;
-        try {
-            amount /= 20; // amount is lowered for trees.
-            Collections.shuffle(positions);
-            TreeGenerator treeGenerator = new TreeGenerator();
-            int maxAge = PlantTypeMap.instance().getTreeType(specimen).getMaxAge();
-            for (int i = 0; i < amount; i++) {
-                if (positions.isEmpty()) return;
-                Position position = positions.remove(0);
-                Tree tree = treeGenerator.generateTree(specimen, random.nextInt(maxAge));
-                if (!checkTreePlacing(tree, position.x, position.y, position.z)) continue;
-                container.model.get(PlantContainer.class).add(tree, position);
-                counter++;
-            }
-        } catch (DescriptionNotFoundException e) {
-            e.printStackTrace();
-        } finally {
-            Logger.GENERATION.logDebug(counter + " trees placed.");
+        amount /= 20; // amount is lowered for trees.
+        Collections.shuffle(positions);
+        TreeGenerator treeGenerator = new TreeGenerator();
+        int maxAge = PlantTypeMap.getTreeType(specimen).getMaxAge();
+        for (int i = 0; i < amount; i++) {
+            if (positions.isEmpty()) return;
+            Position position = positions.remove(0);
+            Tree tree = treeGenerator.generateTree(specimen, random.nextInt(maxAge));
+            if (!checkTreePlacing(tree, position.x, position.y, position.z)) continue;
+            container.model.get(PlantContainer.class).add(tree, position);
+            counter++;
         }
+        Logger.GENERATION.logDebug(counter + " trees placed.");
     }
 
     /**
