@@ -72,7 +72,7 @@ public class Position implements Serializable, Cloneable {
      * For using in comparators. Coordinates should be positive.
      */
     public int fastDistance(Position p) {
-        return Math.abs(x + y + z - p.x - p.z - p.z);
+        return Math.abs(x - p.x) + Math.abs(y - p.y) + Math.abs(z - p.z);
     }
 
     public boolean isNeighbour(Position position) {
@@ -104,7 +104,7 @@ public class Position implements Serializable, Cloneable {
     public Position add(IntVector2 vector) {
         return add(vector.x, vector.y, 0);
     }
-    
+
     public Position add(int dx, int dy, int dz) {
         x += dx;
         y += dy;

@@ -24,13 +24,12 @@ public enum ItemTagEnum {
     ORE, // magnetite(material) rock(type)
 
     COOKABLE, // can be boiled or roasted
-    DRINKABLE, // can be drunk
+    BREWABLE, // item can be prepared into drink
+    DRINKABLE, // TODO replace with aspect
     RAW(true), // raw cow meat piece,
     SPOILED(true), // spoiled raw cow meat peace
     PREPARED(true), // cow meat stew
-
-    BREWABLE, // item can be prepared into drink
-
+    
     WATER,
     CLOTH,
     MATERIAL; // item is raw material for building and crafting

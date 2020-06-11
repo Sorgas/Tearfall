@@ -1,33 +1,25 @@
 package stonering.entity.unit.aspects.needs;
 
-import stonering.entity.Entity;
 import stonering.entity.building.Building;
 import stonering.entity.building.aspects.DinningTableFurnitureAspect;
 import stonering.entity.item.Item;
 import stonering.entity.item.aspects.FoodItemAspect;
 import stonering.entity.job.Task;
-import stonering.entity.job.action.Action;
 import stonering.entity.job.action.EatAction;
 import stonering.entity.unit.Unit;
-import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.entity.unit.aspects.health.HealthAspect;
 import stonering.enums.action.TaskPriorityEnum;
 import stonering.enums.items.ItemTagEnum;
-import stonering.enums.unit.health.HealthParameterEnum;
 import stonering.enums.unit.health.HungerParameter;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.building.BuildingContainer;
 import stonering.game.model.system.item.ItemContainer;
-import stonering.game.model.system.item.OnMapItemsStream;
 import stonering.game.model.system.unit.CreatureHealthSystem;
 import stonering.util.geometry.Position;
 import stonering.util.global.Pair;
 
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.function.Predicate;
 
 import static stonering.enums.action.TaskPriorityEnum.NONE;
@@ -44,7 +36,7 @@ import static stonering.enums.unit.health.HealthParameterEnum.HUNGER;
  */
 public class FoodNeed extends Need {
     private Map<ItemTagEnum, Integer> itemsSelectionPriority; // effects of food items tags
-    private int priorityToDistanceMultiplier = 60;
+    private int priorityToDistanceMultiplier = 40; //TODO
 
     {
         itemsSelectionPriority = new HashMap<>();
@@ -106,8 +98,8 @@ public class FoodNeed extends Need {
                 .filter(item -> item.has(FoodItemAspect.class))
                 .filter(predicate)
                 .filter(item -> map.passageMap.util.positionReachable(unit.position, item.position, false))
-                .sorted(Comparator.comparing(item -> countItemPriority(item, unit)))
-                .findFirst().orElse(null);
+                .min(Comparator.comparingInt(item -> countItemPriority(item, unit)))
+                .orElse(null);
     }
 
     /**
@@ -117,17 +109,23 @@ public class FoodNeed extends Need {
         GameMvc.model().get(BuildingContainer.class).stream()
                 .filter(building -> building.has(DinningTableFurnitureAspect.class))
                 .filter(building -> GameMvc.model().get(LocalMap.class).passageMap.inSameArea(building.position, position))
-                .filter(building -> {
+                
+                        filter(building -> {
 
                 });
         return null;
     }
 
+    /**
+     * Calculated item 'priority'. Priority is higher for near and prepared items, and lower for raw and spoiled items.
+     */
     private int countItemPriority(Item item, Unit unit) {
-        return item.tags.stream()
-                .filter(itemsSelectionPriority.keySet()::contains)
-                .map(itemsSelectionPriority::get)
-                .reduce(Integer::sum).orElse(0);
+        return (int) item.position.getDistance(unit.position) -
+                item.tags.stream()
+                        .map(itemsSelectionPriority::get)
+                        .filter(Objects::nonNull)
+                        .map(value -> value * priorityToDistanceMultiplier)
+                        .reduce(0, Integer::sum);
     }
 
     private void getChairNearBuiliding() {
