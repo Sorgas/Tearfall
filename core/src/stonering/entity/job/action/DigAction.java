@@ -142,7 +142,7 @@ public class DigAction extends SkillAction {
     }
 
     private float getWorkAmountForTile(Position position, LocalMap map, BlockTypeEnum targetType) {
-        return MaterialMap.instance().getMaterial(map.blockType.get(position)).density *
+        return MaterialMap.getMaterial(map.blockType.get(position)).density *
                 (targetType.OPENNESS - map.blockType.getEnumValue(position).OPENNESS);
     }
 

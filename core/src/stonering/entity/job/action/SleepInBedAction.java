@@ -3,7 +3,6 @@ package stonering.entity.job.action;
 import stonering.entity.RenderAspect;
 import stonering.entity.building.Building;
 import stonering.entity.building.aspects.RestFurnitureAspect;
-import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.job.action.target.EntityActionTarget;
 import stonering.entity.unit.aspects.health.HealthAspect;
 import stonering.entity.unit.aspects.health.HealthParameterState;
@@ -33,18 +32,18 @@ public class SleepInBedAction extends Action {
         super(new EntityActionTarget(bed, ActionTargetTypeEnum.EXACT));
 
         restSpeed = countRestSpeed();
+        startCondition = () -> {
+            if (GameMvc.model().get(BuildingContainer.class).getBuilding(bed.position) == bed
+                    && bed.has(RestFurnitureAspect.class))
+                return OK;
+            return FAIL;
+        };
         onStart = () -> {
             targetParameter = task.performer.get(HealthAspect.class).parameters.get(HealthParameterEnum.FATIGUE);
             task.performer.get(RenderAspect.class).rotation = -90;
             // lie to bed
             // disable vision
             // decrease hearing
-        };
-        startCondition = () -> {
-            if (GameMvc.model().get(BuildingContainer.class).getBuiding(bed.position) == bed
-                    && bed.has(RestFurnitureAspect.class))
-                return OK;
-            return FAIL;
         };
         progressConsumer = (delta) -> {
             targetParameter.current -= delta; // decrease fatigue

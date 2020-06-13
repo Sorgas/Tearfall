@@ -40,7 +40,7 @@ public class EquipmentAspect extends Aspect {
         EquipmentSlot slot = getSlotWithItem(item);
         if (slot == null) return false;
         equippedItems.remove(item);
-//        slot.removeItem(item);
+        slot.item = null;
         return true;
     }
     

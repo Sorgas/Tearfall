@@ -9,6 +9,7 @@ import stonering.entity.Entity;
  * @author Alexander on 6/5/2020
  */
 public class DinningTableFurnitureAspect extends Aspect {
+
     public DinningTableFurnitureAspect(Entity entity) {
         super(entity);
     }

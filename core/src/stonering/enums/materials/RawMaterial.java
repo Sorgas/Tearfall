@@ -19,6 +19,6 @@ public class RawMaterial {
     public int value;
     public byte atlasY;
     public String color;
-    public float workAmountModifier = 0;
+    public float workAmountModifier = 1;
     public List<String> aspects; // "aspect(params)"
 }

@@ -9,6 +9,7 @@ import stonering.entity.job.Task;
 import stonering.entity.job.action.Action;
 import stonering.entity.job.action.SleepInBedAction;
 import stonering.entity.job.action.target.EntityActionTarget;
+import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.health.HealthAspect;
 import stonering.entity.unit.aspects.health.HealthParameterState;
 import stonering.enums.action.ActionTargetTypeEnum;
@@ -43,8 +44,8 @@ import java.util.stream.Collectors;
  */
 public class RestNeed extends Need {
     @Override
-    public TaskPriorityEnum countPriority(Entity entity) {
-        HealthAspect health = entity.get(HealthAspect.class);
+    public TaskPriorityEnum countPriority(Unit unit) {
+        HealthAspect health = unit.get(HealthAspect.class);
         float relativeFatigue = health.parameters.get(FATIGUE).getRelativeValue();
         return FATIGUE.PARAMETER.getRange(relativeFatigue).priority;
     }
@@ -53,8 +54,8 @@ public class RestNeed extends Need {
      * Returns null, if no bed available on medium exhaustion, Returns task to sleep on the floor on strong exhaustion.
      */
     @Override
-    public Task tryCreateTask(Entity entity) {
-        TaskPriorityEnum priority = countPriority(entity);
+    public Task tryCreateTask(Unit unit) {
+        TaskPriorityEnum priority = countPriority(unit);
         switch (priority) {
             case NONE:
                 return Logger.NEED.logWarn("Attempt to create sleep task with none priority", null);
@@ -66,7 +67,7 @@ public class RestNeed extends Need {
                 //TODO sleep in any bed
             case LIFE:
                 //TODO fall asleep at current place
-                return selectBuildingToSleep(entity.position)
+                return selectBuildingToSleep(unit.position)
                         .map(building -> createTaskToSleep(building, priority))
                         .orElse(null);
         }

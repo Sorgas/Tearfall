@@ -9,6 +9,7 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import static stonering.entity.job.action.ActionConditionStatusEnum.FAIL;
+import static stonering.entity.job.action.ActionConditionStatusEnum.NEW;
 import static stonering.enums.action.ActionStatusEnum.*;
 
 /**
@@ -84,5 +85,10 @@ public abstract class Action {
         speed = 1;
         progress = 0;
         maxProgress = 1;
+    }
+
+    protected ActionConditionStatusEnum addPreAction(Action action) {
+        task.addFirstPreAction(action);
+        return NEW;
     }
 }

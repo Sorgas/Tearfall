@@ -2,8 +2,11 @@ package stonering.util.geometry;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
+
+import stonering.util.global.TriConsumer;
 
 /**
  * @author Alexander_Kuzyakov on 10.06.2019.
@@ -56,6 +59,14 @@ public class Int2dBounds {
         minY -= value;
         maxX += value;
         maxY += value;
+    }
+
+    public void iterate(BiConsumer<Integer, Integer> consumer) {
+        for (int x = minX; x <= maxX; x++) {
+            for (int y = maxY; y >= minY; y--) {
+                consumer.accept(x, y);
+            }
+        }
     }
 
     public void extendTo(IntVector2 vector) {

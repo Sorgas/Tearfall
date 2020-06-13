@@ -6,6 +6,7 @@ import stonering.entity.item.Item;
 import stonering.entity.item.selectors.ItemSelector;
 import stonering.entity.item.selectors.WearForSlotItemSelector;
 import stonering.entity.job.action.equipment.EquipWearItemAction;
+import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.entity.unit.aspects.equipment.EquipmentSlot;
 import stonering.enums.action.TaskPriorityEnum;
@@ -26,8 +27,8 @@ public class WearNeed extends Need {
      * TODO add prioritizing based on environment temperature
      */
     @Override
-    public TaskPriorityEnum countPriority(Entity entity) {
-        EquipmentAspect equipmentAspect = entity.get(EquipmentAspect.class);
+    public TaskPriorityEnum countPriority(Unit unit) {
+        EquipmentAspect equipmentAspect = unit.get(EquipmentAspect.class);
         if (equipmentAspect != null) {
             if (!equipmentAspect.getEmptyDesiredSlots().isEmpty()) {
                 return TaskPriorityEnum.HEALTH_NEEDS;
@@ -41,12 +42,12 @@ public class WearNeed extends Need {
      * Creates task to equip wear if needed.
      */
     @Override
-    public Task tryCreateTask(Entity entity) {
-        EquipmentAspect equipmentAspect = entity.get(EquipmentAspect.class);
+    public Task tryCreateTask(Unit unit) {
+        EquipmentAspect equipmentAspect = unit.get(EquipmentAspect.class);
         if (equipmentAspect == null) return null;
         if (equipmentAspect.getEmptyDesiredSlots().isEmpty()) return null;
         for (EquipmentSlot equipmentSlot : equipmentAspect.desiredSlots) {
-            Task task = tryCreateEquipTask(entity, equipmentSlot);
+            Task task = tryCreateEquipTask(unit, equipmentSlot);
             if (task != null) return task;
         }
         return null;

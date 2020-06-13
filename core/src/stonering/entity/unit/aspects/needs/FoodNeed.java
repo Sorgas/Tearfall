@@ -1,13 +1,16 @@
 package stonering.entity.unit.aspects.needs;
 
 import stonering.entity.building.Building;
+import stonering.entity.building.BuildingBlock;
 import stonering.entity.building.aspects.DinningTableFurnitureAspect;
+import stonering.entity.building.aspects.SitFurnitureAspect;
 import stonering.entity.item.Item;
 import stonering.entity.item.aspects.FoodItemAspect;
 import stonering.entity.job.Task;
 import stonering.entity.job.action.EatAction;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.health.HealthAspect;
+import stonering.enums.OrientationEnum;
 import stonering.enums.action.TaskPriorityEnum;
 import stonering.enums.items.ItemTagEnum;
 import stonering.enums.unit.health.HungerParameter;
@@ -16,11 +19,13 @@ import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.building.BuildingContainer;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.system.unit.CreatureHealthSystem;
+import stonering.util.geometry.Int2dBounds;
 import stonering.util.geometry.Position;
 import stonering.util.global.Pair;
 
 import java.util.*;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 import static stonering.enums.action.TaskPriorityEnum.NONE;
 import static stonering.enums.items.ItemTagEnum.*;
@@ -103,20 +108,6 @@ public class FoodNeed extends Need {
     }
 
     /**
-     * Looks for table with adjacent chair on map.
-     */
-    private Pair<Building, Building> findTableWithChair(Position position) {
-        GameMvc.model().get(BuildingContainer.class).stream()
-                .filter(building -> building.has(DinningTableFurnitureAspect.class))
-                .filter(building -> GameMvc.model().get(LocalMap.class).passageMap.inSameArea(building.position, position))
-                
-                        filter(building -> {
-
-                });
-        return null;
-    }
-
-    /**
      * Calculated item 'priority'. Priority is higher for near and prepared items, and lower for raw and spoiled items.
      */
     private int countItemPriority(Item item, Unit unit) {
@@ -126,9 +117,5 @@ public class FoodNeed extends Need {
                         .filter(Objects::nonNull)
                         .map(value -> value * priorityToDistanceMultiplier)
                         .reduce(0, Integer::sum);
-    }
-
-    private void getChairNearBuiliding() {
-
     }
 }

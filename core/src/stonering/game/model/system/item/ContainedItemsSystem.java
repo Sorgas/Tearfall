@@ -33,8 +33,8 @@ public class ContainedItemsSystem extends EntitySystem<Item> {
         item.position = aspect.entity.position;
     }
 
-    public void removeItemFromContainer(Item item, ItemContainerAspect aspect) {
-        if(!aspect.items.remove(item))
+    public void removeItemFromContainer(Item item) {
+        if(!container.contained.get(item).items.remove(item))
             Logger.ITEMS.logWarn("Items inconsistency: item " + item + " is not stored in container aspect");
         if (container.contained.remove(item) == null)
             Logger.ITEMS.logWarn("Items inconsistency: item " + item + " is not registered in ItemContainer as contained");

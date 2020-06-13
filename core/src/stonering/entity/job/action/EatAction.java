@@ -1,59 +1,117 @@
 package stonering.entity.job.action;
 
+import static stonering.entity.job.action.ActionConditionStatusEnum.*;
+
+import stonering.entity.building.Building;
+import stonering.entity.building.BuildingBlock;
+import stonering.entity.building.aspects.DinningTableFurnitureAspect;
+import stonering.entity.building.aspects.SitFurnitureAspect;
 import stonering.entity.item.Item;
-import stonering.entity.job.Task;
+import stonering.entity.item.aspects.FoodItemAspect;
+import stonering.entity.job.action.equipment.ObtainItemAction;
 import stonering.entity.job.action.target.EntityActionTarget;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
+import stonering.entity.unit.aspects.health.HealthAspect;
+import stonering.entity.unit.aspects.health.HealthParameterState;
 import stonering.entity.unit.aspects.needs.FoodNeed;
+import stonering.enums.OrientationEnum;
 import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.enums.items.ItemTagEnum;
+import stonering.enums.unit.health.HealthParameterEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.building.BuildingContainer;
 import stonering.game.model.system.item.ItemContainer;
+import stonering.util.geometry.Position;
+import stonering.util.global.Logger;
+import stonering.util.global.Pair;
 
-import static stonering.entity.job.action.ActionConditionStatusEnum.FAIL;
-import static stonering.entity.job.action.ActionConditionStatusEnum.OK;
+import java.util.Arrays;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 /**
  * Action for consuming edible items and satisfying {@link FoodNeed}.
  * Will create pre actions for using table, chair, dishes, if some available.
- * Action target is always food item, but putting it onto table can be created as pre-action,
- * as well as putting dishes on the table.
  * If table is occupied by dirty dishes, it will be put off.
- * Edible is an item tag, see {@link ItemTagEnum}.
  * TODO all dishes and table behaviour is post-MVP
  *
  * @author Alexander on 30.09.2019.
  */
 public class EatAction extends Action {
-    private Item item;
+    private EntityActionTarget entityTarget;
+    public Item item;
+    private BuildingContainer container = GameMvc.model().get(BuildingContainer.class);
+    public BuildingBlock tableBlock;
+    public Building chair;
+    public boolean started = false; // used in unit drawer
 
     public EatAction(Item item) {
         super(new EntityActionTarget(item, ActionTargetTypeEnum.ANY));
+        entityTarget = (EntityActionTarget) target;
         this.item = item;
         startCondition = () -> {
-            if(!item.tags.contains(ItemTagEnum.EDIBLE)) return FAIL; // item is not edible
-            ItemContainer container = GameMvc.model().get(ItemContainer.class);
-            if(container.contained.containsKey(item)) {
+            if(!item.has(FoodItemAspect.class)) return FAIL; // item is not food
 
+            if(!task.performer.get(EquipmentAspect.class).hauledItems.contains(item))
+                return addPreAction(new ObtainItemAction(item)); // find item
+
+            // find and move to chair
+            Pair<BuildingBlock, Building> pair = findTableWithChair();
+            if(pair != null) {
+                tableBlock = pair.key;
+                chair = pair.value;
+                if(!task.performer.position.equals(chair.position)) return addPreAction(new MoveAction(chair.position));
             }
+
             EquipmentAspect equipment = task.performer.get(EquipmentAspect.class);
             if (equipment != null && equipment.hauledItems.contains(item)) return OK;
             return OK;
         };
 
+        onStart = () -> {
+            if (chair != null && tableBlock != null) chair.occupied = true;
+            speed = 1f * task.performer.get(HealthAspect.class).properties.get("performance");
+            maxProgress = 400;
+        };
 
+        onFinish = () -> {
+            if(chair != null && tableBlock != null) chair.occupied = false;
+            task.performer.get(HealthAspect.class).parameters.get(HealthParameterEnum.HUNGER).current += item.get(FoodItemAspect.class).nutrition;
+            GameMvc.model().get(ItemContainer.class).removeItem(item);
+        };
     }
 
-    //TODO
-    private Task findTable() {
-        BuildingContainer container = GameMvc.model().get(BuildingContainer.class);
+    /**
+     * Looks for table with adjacent chair on map.
+     */
+    private Pair<BuildingBlock, Building> findTableWithChair() {
         LocalMap map = GameMvc.model().get(LocalMap.class);
-        container.buildingBlocks.values().stream()
-                .filter(block -> block.building.type.building.equals("table")) // get tables
-                .filter(block -> !block.building.occupied) // get free tables
-                .filter(block -> map.passageMap.area.get(block.position) == map.passageMap.area.get(task.performer.position));
-        return null;
+        return container.stream()
+                .filter(building -> building.has(DinningTableFurnitureAspect.class)) // building is table
+                .filter(table -> map.passageMap.inSameArea(table.position, task.performer.position)) // table accessible
+                .flatMap(building -> Arrays.stream(building.blocks).flatMap(Arrays::stream)) // get table blocks
+                .map(tableBlock -> new Pair<>(tableBlock, getChairNearTable(tableBlock))) // get free chair
+                .filter(pair -> pair.getValue() != null) // chair exists
+                .findFirst().orElse(null);
+    }
+
+    private Building getChairNearTable(BuildingBlock tableBlock) {
+        return Stream.of(
+                checkChairAtPosition(Position.add(tableBlock.position, 1, 0, 0), OrientationEnum.W),
+                checkChairAtPosition(Position.add(tableBlock.position, -1, 0, 0), OrientationEnum.E),
+                checkChairAtPosition(Position.add(tableBlock.position, 0, 1, 0), OrientationEnum.S),
+                checkChairAtPosition(Position.add(tableBlock.position, 0, -1, 0), OrientationEnum.N))
+                .filter(Objects::nonNull)
+                .findFirst().orElse(null);
+    }
+
+    private Building checkChairAtPosition(Position position, OrientationEnum orientation) {
+        return Optional.ofNullable(container.getBuilding(position))
+                .filter(building -> building.has(SitFurnitureAspect.class))
+                .filter(building -> !building.occupied)
+                .filter(building -> building.orientation == orientation)
+                .orElse(null);
     }
 }

@@ -18,6 +18,7 @@ import stonering.util.global.Logger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Contains all Buildings on localMap.
@@ -30,12 +31,14 @@ public class BuildingContainer extends EntityContainer<Building> implements Mode
     public final HashMap<Position, BuildingBlock> buildingBlocks;
     private List<Building> removedBuildings;
     public final WorkbenchSystem workbenchSystem;
+    private final Position cachePosition;
 
     public BuildingContainer() {
         buildingBlocks = new HashMap<>();
         buildingGenerator = new BuildingGenerator();
         removedBuildings = new ArrayList<>();
         put(workbenchSystem = new WorkbenchSystem());
+        cachePosition = new Position();
     }
 
     @Override
@@ -96,12 +99,13 @@ public class BuildingContainer extends EntityContainer<Building> implements Mode
         }
     }
 
-    public boolean hasBuilding(Position position) {
-        return buildingBlocks.containsKey(position);
+    public Building getBuilding(Position position) {
+        return Optional.ofNullable(buildingBlocks.get(position))
+                .map(block -> block.building)
+                .orElse(null);
     }
 
-    public Building getBuiding(Position position) {
-        if (!hasBuilding(position)) return null;
-        return buildingBlocks.get(position).building;
+    public Building getBuilding(int x, int y, int z) {
+        return getBuilding(cachePosition.set(x, y, z));
     }
 }

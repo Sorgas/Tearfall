@@ -38,6 +38,13 @@ public class EquippedItemsSystem extends EntitySystem<Item> {
             Logger.ITEMS.logWarn("Items inconsistency: item " + item + " is not registered in ItemContainer as equipped");
     }
 
+    public void removeItemFromEquipment(Item item) {
+        if(!container.equipped.get(item).unequipItem(item))
+            Logger.ITEMS.logWarn("Items inconsistency: item " + item + " is not stored in container aspect");
+        if (container.contained.remove(item) == null)
+            Logger.ITEMS.logWarn("Items inconsistency: item " + item + " is not registered in ItemContainer as contained");
+    }
+
     public boolean isItemEquipped(Item item) {
         return container.equipped.containsKey(item);
     }
