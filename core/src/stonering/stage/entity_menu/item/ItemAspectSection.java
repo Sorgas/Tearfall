@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 import stonering.entity.item.Item;
+import stonering.entity.item.aspects.FoodItemAspect;
 import stonering.entity.item.aspects.SeedAspect;
 import stonering.enums.materials.MaterialMap;
 import stonering.enums.plants.PlantTypeMap;
@@ -49,6 +50,15 @@ public class ItemAspectSection extends MenuSection {
                     table.defaults().left();
                     table.add(new Label("Seed:", StaticSkin.skin())).row();
                     table.add(new Label("Is seed for " + title, StaticSkin.skin())).padLeft(20);
+                    add(table);
+                    detailsShown = true;
+                });
+        Optional.ofNullable(item.get(FoodItemAspect.class))
+                .ifPresent(foodAspect -> {
+                    Table table = new Table();
+                    table.defaults().left();
+                    table.add(new Label("Edible item:", StaticSkin.skin())).row();
+                    table.add(new Label("Nutrition: " + foodAspect.nutrition, StaticSkin.skin())).padLeft(20);
                     add(table);
                     detailsShown = true;
                 });

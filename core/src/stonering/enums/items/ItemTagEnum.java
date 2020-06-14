@@ -2,6 +2,10 @@ package stonering.enums.items;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Consumer;
+
+import stonering.entity.item.Item;
+import stonering.entity.item.aspects.FoodItemAspect;
 
 /**
  * Enumeration of all tags for items.
@@ -27,8 +31,8 @@ public enum ItemTagEnum {
     BREWABLE, // item can be prepared into drink
     DRINKABLE, // TODO replace with aspect
     RAW(true), // raw cow meat piece,
-    SPOILED(true), // spoiled raw cow meat peace
-    PREPARED(true), // cow meat stew
+    SPOILED(true, item -> item.getOptional(FoodItemAspect.class).ifPresent(aspect -> aspect.nutrition = 10)), // spoiled raw cow meat peace
+    PREPARED(true, item -> item.getOptional(FoodItemAspect.class).ifPresent(aspect -> aspect.nutrition += 20)), // cow meat stew
     
     WATER,
     CLOTH,
@@ -36,6 +40,7 @@ public enum ItemTagEnum {
 
     private static boolean debug = false;
     private boolean displayable; // tags with true are displayed in items titles.
+    public Consumer<Item> onAdd;
     private static Map<String, ItemTagEnum> map = new HashMap<>();
 
     static {
@@ -50,6 +55,11 @@ public enum ItemTagEnum {
 
     ItemTagEnum() {
         this(false);
+    }
+
+    ItemTagEnum(boolean displayable, Consumer<Item> onAdd) {
+        this(displayable);
+        this.onAdd = onAdd;
     }
 
     public static ItemTagEnum get(String name) {

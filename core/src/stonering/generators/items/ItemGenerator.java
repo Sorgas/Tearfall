@@ -94,7 +94,11 @@ public class ItemGenerator {
                 .map(ingredientOrder -> createItemPart(ingredientOrder, item))
                 .filter(Objects::nonNull)
                 .forEach(itemPart -> item.parts.put(itemPart.name, itemPart));
-        Optional.ofNullable(order.recipe.newTag).ifPresent(item.tags::add); // add tag
+        Optional.ofNullable(order.recipe.newTag)
+                .ifPresent(tag -> {
+                    item.tags.add(tag);
+                    if(tag.onAdd != null) tag.onAdd.accept(item);
+                }); // add tag
         Optional.ofNullable(order.recipe.removeTag).ifPresent(item.tags::remove); // add tag
         generateItemAspects(item);
         setItemMaterial(item, order);

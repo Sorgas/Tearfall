@@ -106,7 +106,7 @@
     "name": "meat_piece",
     "title": "Piece",
     "typeAspects": ["value(0)"],
-    "aspects": ["food(50)"],
+    "aspects": ["food(30)"],
     "tags": ["cookable"],
     "atlasXY": ["12", "0"],
     "color": "0xffffffff"
