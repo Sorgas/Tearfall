@@ -23,7 +23,7 @@ public class HealthParameterState {
 
     public boolean applyDelta(float delta) {
         float oldValue = getRelativeValue();
-        current += delta;
+        current = Math.max(current + delta, 0);
         if (current > max) return true;
         HealthParameterRange oldRange = parameter.PARAMETER.getRange(oldValue);
         return parameter.PARAMETER.getRange(getRelativeValue()) != oldRange; // return true, if range is changed

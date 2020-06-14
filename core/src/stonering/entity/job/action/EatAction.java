@@ -10,6 +10,7 @@ import stonering.entity.item.Item;
 import stonering.entity.item.aspects.FoodItemAspect;
 import stonering.entity.job.action.equipment.ObtainItemAction;
 import stonering.entity.job.action.target.EntityActionTarget;
+import stonering.entity.job.action.target.ItemActionTarget;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.entity.unit.aspects.health.HealthAspect;
 import stonering.entity.unit.aspects.health.HealthParameterState;
@@ -48,7 +49,7 @@ public class EatAction extends Action {
     public boolean started = false; // used in unit drawer
 
     public EatAction(Item item) {
-        super(new EntityActionTarget(item, ActionTargetTypeEnum.ANY));
+        super(new ItemActionTarget(item));
         entityTarget = (EntityActionTarget) target;
         this.item = item;
         startCondition = () -> {
@@ -78,7 +79,7 @@ public class EatAction extends Action {
 
         onFinish = () -> {
             if(chair != null && tableBlock != null) chair.occupied = false;
-            task.performer.get(HealthAspect.class).parameters.get(HealthParameterEnum.HUNGER).current += item.get(FoodItemAspect.class).nutrition;
+            task.performer.get(HealthAspect.class).parameters.get(HealthParameterEnum.HUNGER).applyDelta(-item.get(FoodItemAspect.class).nutrition);
             GameMvc.model().get(ItemContainer.class).removeItem(item);
         };
     }

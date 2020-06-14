@@ -62,8 +62,8 @@ public class CreatureNeedSystem extends EntitySystem<Unit> {
     private List<Pair<NeedEnum, Integer>> getUntoleratedNeeds(Unit unit, NeedsAspect aspect) {
         return aspect.needs.stream()
                 .map(need -> new Pair<>(need, need.NEED.countPriority(unit).VALUE)) // count priority
-                .filter(pair -> pair.value > NONE.VALUE) // filter tolerated needs
-                .sorted(Comparator.comparingInt(Pair::getValue)) // sort by priority
+                .filter(pair -> pair.value > NONE.VALUE)
+                .sorted(Comparator.comparingInt(pair -> ((Pair<NeedEnum, Integer>) pair).value).reversed())
                 .collect(Collectors.toList());
     }
 }

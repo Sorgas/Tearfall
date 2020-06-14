@@ -1,6 +1,8 @@
 package stonering.generators.buildings;
 
 import stonering.entity.building.BuildingBlock;
+import stonering.entity.building.aspects.DinningTableFurnitureAspect;
+import stonering.entity.building.aspects.SitFurnitureAspect;
 import stonering.enums.OrientationEnum;
 import stonering.enums.buildings.BuildingType;
 import stonering.entity.building.aspects.RestFurnitureAspect;
@@ -76,13 +78,19 @@ public class BuildingGenerator {
                 }
                 case "rest_furniture": {
                     float spriteRotation = 0;
-                    if(NumberUtils.isNumber(args.get(0))) {
+                    if (NumberUtils.isNumber(args.get(0))) {
                         spriteRotation = Float.parseFloat(args.get(0));
                     } else {
                         Logger.GENERATION.logError("Sprite rotation value for building " + type.title + " is invalid");
                     }
                     building.add(new RestFurnitureAspect(building, spriteRotation));
                     break;
+                }
+                case "dinning_table": {
+                    building.add(new DinningTableFurnitureAspect(building));
+                }
+                case "sit_furniture": {
+                    building.add(new SitFurnitureAspect(building));
                 }
             }
         });

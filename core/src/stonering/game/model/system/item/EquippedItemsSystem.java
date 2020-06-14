@@ -28,7 +28,6 @@ public class EquippedItemsSystem extends EntitySystem<Item> {
 
     public void itemEquipped(Item item, EquipmentAspect aspect) {
         if(container.contained.containsKey(item)) Logger.ITEMS.logError("Adding to unit item not removed from container");
-        if(item.position != null) Logger.ITEMS.logError("Adding to unit item not removed from map");
         item.position = null;
         container.equipped.put(item, aspect);
     }
@@ -39,10 +38,8 @@ public class EquippedItemsSystem extends EntitySystem<Item> {
     }
 
     public void removeItemFromEquipment(Item item) {
-        if(!container.equipped.get(item).unequipItem(item))
-            Logger.ITEMS.logWarn("Items inconsistency: item " + item + " is not stored in container aspect");
-        if (container.contained.remove(item) == null)
-            Logger.ITEMS.logWarn("Items inconsistency: item " + item + " is not registered in ItemContainer as contained");
+        if(!container.equipped.get(item).removeItem(item))
+            Logger.ITEMS.logWarn("Items inconsistency: item " + item + " is not stored in equipment aspect");
     }
 
     public boolean isItemEquipped(Item item) {

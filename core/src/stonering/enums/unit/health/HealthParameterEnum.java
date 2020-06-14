@@ -11,9 +11,9 @@ import stonering.game.model.system.unit.CreatureHealthSystem;
  * @author Alexander on 06.10.2019.
  */
 public enum HealthParameterEnum {
-    FATIGUE(new FatigueParameter("fatigue"), 0.5625f), // applied every minute. gives 60 points over 16 hours
-    HUNGER(new HungerParameter("hunger"), 0.0625f),
-    THIRST(new ThirstParameter("thirst"), 0.0625f);
+    FATIGUE(new FatigueParameter("fatigue"), 1f / 16), // applied every minute. gives 60 points over 16 hours
+    HUNGER(new HungerParameter("hunger"), 1f / 16),
+    THIRST(new ThirstParameter("thirst"), 1f / 16);
 
     public final HealthParameter PARAMETER;
     public final float DEFAULT_DELTA;
@@ -21,7 +21,7 @@ public enum HealthParameterEnum {
 
     HealthParameterEnum(HealthParameter parameter, float defaultDelta) {
         PARAMETER = parameter;
-        TAG = parameter.tag;
+        TAG = parameter.TAG;
         DEFAULT_DELTA = defaultDelta;
     }
 }

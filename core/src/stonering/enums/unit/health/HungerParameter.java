@@ -20,11 +20,11 @@ public class HungerParameter extends HealthParameter {
 
     @Override
     protected void fillRanges() {
-        ranges.add(new HealthParameterRange(0, 20, NONE, () -> createBuffWithDelta(0.1f, 0))); // no task
-        ranges.add(new HealthParameterRange(20, 50, NONE, () -> null)); // no task
-        ranges.add(new HealthParameterRange(50, 60, COMFORT, () -> createBuffWithDelta(-0.1f, 2))); // task to eat good food
-        ranges.add(new HealthParameterRange(60, 80, COMFORT, () -> createBuffWithDelta(-0.25f, 3))); // task to eat good food
-        ranges.add(new HealthParameterRange(80, 101, HEALTH_NEEDS, () -> new HealthTimedBuff(tag, -1, "hp", 4, iconY))); // task to eat any food
+        RANGES.add(new HealthParameterRange(-1, 20, NONE, () -> createBuffWithDelta(0.1f, 0))); // no task
+        RANGES.add(new HealthParameterRange(20, 50, NONE, () -> null)); // no task
+        RANGES.add(new HealthParameterRange(50, 60, COMFORT, () -> createBuffWithDelta(-0.1f, 2))); // task to eat good food
+        RANGES.add(new HealthParameterRange(60, 80, COMFORT, () -> createBuffWithDelta(-0.25f, 3))); // task to eat good food
+        RANGES.add(new HealthParameterRange(80, -1, HEALTH_NEEDS, () -> new HealthTimedBuff(TAG, -1, "hp", 4, iconY))); // task to eat any food
     }
 
     private Buff createBuffWithDelta(float delta, int iconX) {

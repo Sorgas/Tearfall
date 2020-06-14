@@ -3,23 +3,26 @@
         "building": "chair",
         "title": "Chair",
         "description": "Chair",
-        "aspects": ["furniture"],
+        "aspects": ["sit_furniture"],
         "passage": "floor",
-        "atlasXY": [0, 0],
+        "sprites": [
+            [0, 0], [0, 1], [1, 0], [1, 1]
+        ],
+        "atlasXY": [4, 0],
         "color": "0xffffffff"
     }, {
-    "building": "table",
-    "title": "Table",
-    "description": "Table",
-    "aspects": ["furniture", "dinning_table"],
+    "building": "tiny_table",
+    "title": "Tiny table",
+    "description": "",
+    "aspects": ["dinning_table"],
     "passage": "floor",
-    "atlasXY": [1, 0],
+    "atlasXY": [6, 0],
     "color": "0xffffffff"
 }, {
     "building": "bed",
     "title": "Bed",
     "description": "Bed",
-    "aspects": ["furniture", "rest_furniture(-90)"],
+    "aspects": ["rest_furniture(-90)"],
     "passage": "floor",
     "size": [1, 2],
     "access": [[0, 1]],
@@ -32,7 +35,7 @@
     "building": "chest",
     "title": "Chest",
     "description": "Chest",
-    "aspects": ["furniture", "item_container(solid,100)"],
+    "aspects": ["item_container(solid,100)"],
     "passage": "floor",
     "atlasXY": [4, 0],
     "color": "0xffffffff"

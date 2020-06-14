@@ -74,5 +74,6 @@ public class TestModelSelectStage extends UiStage {
         classMap.put(FurnitureModel.class.getSimpleName(), FurnitureModel::new);
         classMap.put(ConstructionBuildingPlaytestModel.class.getSimpleName(), ConstructionBuildingPlaytestModel::new);
         classMap.put(MeltingOrePlayTestModel.class.getSimpleName(), MeltingOrePlayTestModel::new);
+        classMap.put(FoodPlayTestModel.class.getSimpleName(), FoodPlayTestModel::new);
     }
 }

@@ -26,6 +26,7 @@ public class HealthParameterRange {
     }
 
     public boolean checkRange(float relativeValue) {
-        return relativeValue < max && relativeValue >= min;
+        return (max == -1 || relativeValue < max)
+                && (min == -1 || relativeValue >= min);
     }
 }

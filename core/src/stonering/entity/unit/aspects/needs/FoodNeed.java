@@ -1,40 +1,30 @@
 package stonering.entity.unit.aspects.needs;
 
-import stonering.entity.building.Building;
-import stonering.entity.building.BuildingBlock;
-import stonering.entity.building.aspects.DinningTableFurnitureAspect;
-import stonering.entity.building.aspects.SitFurnitureAspect;
+import static stonering.enums.action.TaskPriorityEnum.NONE;
+import static stonering.enums.items.ItemTagEnum.*;
+import static stonering.enums.unit.health.HealthParameterEnum.HUNGER;
+
+import java.util.*;
+import java.util.function.Predicate;
+
 import stonering.entity.item.Item;
 import stonering.entity.item.aspects.FoodItemAspect;
 import stonering.entity.job.Task;
 import stonering.entity.job.action.EatAction;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.health.HealthAspect;
-import stonering.enums.OrientationEnum;
 import stonering.enums.action.TaskPriorityEnum;
 import stonering.enums.items.ItemTagEnum;
 import stonering.enums.unit.health.HungerParameter;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
-import stonering.game.model.system.building.BuildingContainer;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.system.unit.CreatureHealthSystem;
-import stonering.util.geometry.Int2dBounds;
-import stonering.util.geometry.Position;
-import stonering.util.global.Pair;
-
-import java.util.*;
-import java.util.function.Predicate;
-import java.util.stream.Stream;
-
-import static stonering.enums.action.TaskPriorityEnum.NONE;
-import static stonering.enums.items.ItemTagEnum.*;
-import static stonering.enums.unit.health.HealthParameterEnum.HUNGER;
 
 /**
  * Need for eating. Part of {@link CreatureHealthSystem}.
  * Checks if unit is hungry, and creates task for eating.
- * Item condition affects distance, unit will be ready to travel to it.
+ * Item condition affects distance which unit will be ready to travel to it.
  * See also {@link HungerParameter}.
  *
  * @author Alexander on 30.09.2019.
@@ -43,7 +33,7 @@ public class FoodNeed extends Need {
     private Map<ItemTagEnum, Integer> itemsSelectionPriority; // effects of food items tags
     private int priorityToDistanceMultiplier = 40; //TODO
 
-    {
+    public FoodNeed() {
         itemsSelectionPriority = new HashMap<>();
         itemsSelectionPriority.put(PREPARED, 1);
         itemsSelectionPriority.put(RAW, -1);
@@ -54,8 +44,7 @@ public class FoodNeed extends Need {
     public TaskPriorityEnum countPriority(Unit unit) {
         return unit.getOptional(HealthAspect.class)
                 .map(aspect -> aspect.parameters.get(HUNGER).getRelativeValue())
-                .map(HUNGER.PARAMETER::getRange)
-                .map(range -> range.priority)
+                .map(relValue -> HUNGER.PARAMETER.getRange(relValue).priority)
                 .orElse(NONE);
     }
 

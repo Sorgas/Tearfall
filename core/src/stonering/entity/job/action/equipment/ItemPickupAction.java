@@ -47,7 +47,7 @@ public class ItemPickupAction extends Action {
             itemContainer.onMapItemsSystem.removeItemFromMap(item);
             equipment.hauledItems.add(item);
             itemContainer.equippedItemsSystem.itemEquipped(item, equipment);
-            Logger.EQUIPMENT.logError("Slot for picking up item " + item + " not found");
+            Logger.EQUIPMENT.logDebug("Item " + item + " has been picked up.");
         };
     }
 

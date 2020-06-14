@@ -30,8 +30,7 @@ public class OnMapItemsSystem extends EntitySystem<Item> {
 
     public void putItem(Item item, Position pos) {
         item.position = pos;
-        container.itemMap.putIfAbsent(pos, new ArrayList<>());
-        container.itemMap.get(pos).add(item);
+        container.itemMap.computeIfAbsent(pos, pos1 -> new ArrayList<>()).add(item);
     }
 
     public void removeItemFromMap(Item item) {
@@ -39,6 +38,7 @@ public class OnMapItemsSystem extends EntitySystem<Item> {
         List<Item> list = container.itemMap.get(item.position);
         if (!list.remove(item)) Logger.ITEMS.logWarn("Items inconsistency: item " + item + " is not on the map in position " + item.position);
         if (list.isEmpty()) container.itemMap.remove(item.position); // last item on the tile
+        item.position = null;
     }
 
     public void changeItemPosition(Item item, Position position) {

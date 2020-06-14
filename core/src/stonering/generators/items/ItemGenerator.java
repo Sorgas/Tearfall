@@ -5,6 +5,7 @@ import stonering.entity.Aspect;
 import stonering.entity.crafting.IngredientOrder;
 import stonering.entity.crafting.ItemOrder;
 import stonering.entity.item.ItemPart;
+import stonering.entity.item.aspects.FoodItemAspect;
 import stonering.entity.item.aspects.ItemContainerAspect;
 import stonering.entity.item.aspects.SeedAspect;
 import stonering.entity.RenderAspect;
@@ -163,6 +164,8 @@ public class ItemGenerator {
                 return new SeedAspect(null);
             case "item_container":
                 return new ItemContainerAspect(null);
+            case "food":
+                return new FoodItemAspect(null, Integer.parseInt(params.get(0)));
             default:
                 return null;
         }

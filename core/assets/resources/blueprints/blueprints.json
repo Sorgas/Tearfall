@@ -68,7 +68,7 @@
     "title": "Bed",
     "building": "bed",
     "menuPath": ["furniture"],
-    "ingredients": ["bed:bed_prefab:furniture:4"]
+    "ingredients": ["bed:log/plank:furniture:4"]
 }, {
     "name": "build_kitchen",
     "title": "Kitchen",
@@ -81,5 +81,17 @@
     "building": "smelter",
     "menuPath": ["workbenches"],
     "ingredients": ["smelter:rock:any:8"]
+}, {
+    "name": "build_table",
+    "title": "Table 1x1",
+    "building": "tiny_table",
+    "menuPath": ["furniture"],
+    "ingredients": ["table:log/bar/rock/plank:any:4"]
+}, {
+    "name": "build_chair",
+    "title": "Chair",
+    "building": "chair",
+    "menuPath": ["furniture"],
+    "ingredients": ["chair:log/bar/rock/plank:any:4"]
 }
 ]

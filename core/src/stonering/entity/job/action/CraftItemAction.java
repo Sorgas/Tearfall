@@ -87,7 +87,7 @@ public class CraftItemAction extends ItemConsumingAction {
                     .map(ingredientOrder -> ingredientOrder.items)
                     .flatMap(Collection::stream)
                     .collect(Collectors.toList());
-            items.forEach(item -> itemContainer().containedItemsSystem.removeItemFromContainer(item));
+            items.forEach(itemContainer().containedItemsSystem::removeItemFromContainer);
             itemContainer().removeItems(items);
             storeProduct(product);
         };

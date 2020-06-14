@@ -87,4 +87,24 @@ public class EquipmentAspect extends Aspect {
     public boolean isItemInGrabSlots(Item item) {
         return grabSlots.values().stream().anyMatch(slot -> slot.grabbedItem == item);
     }
+
+    public boolean removeItem(Item item) {
+        EquipmentSlot itemSlot = slots.values().stream()
+                .filter(slot -> slot.item == item)
+                .findFirst()
+                .orElse(null);
+        if(itemSlot != null) {
+            itemSlot.item = null;
+            return true;
+        }
+        GrabEquipmentSlot grabItemSlot = grabSlots.values().stream()
+                .filter(slot -> slot.grabbedItem == item)
+                .findFirst()
+                .orElse(null);
+        if(grabItemSlot != null) {
+            grabItemSlot.grabbedItem = null;
+            return true;
+        }
+        return false;
+    }
 }

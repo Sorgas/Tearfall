@@ -57,7 +57,11 @@ public class ItemContainer extends EntityContainer<Item> {
      * Removes item from the game completely. Item should be removed from all other maps before this.
      */
     public void removeItem(Item item) {
-        if (!objects.contains(item)) Logger.ITEMS.logWarn("Removing not present item " + item.type.name);
+        if (!objects.contains(item)) {
+            Logger.ITEMS.logWarn("Removing not present item " + item.type.name);
+        } else {
+            Logger.ITEMS.logDebug("Removing item " + item.type.name);
+        }
         if(contained.containsKey(item)) containedItemsSystem.removeItemFromContainer(item);
         if(equipped.containsKey(item)) equippedItemsSystem.removeItemFromEquipment(item);
         item.destroyed = true;

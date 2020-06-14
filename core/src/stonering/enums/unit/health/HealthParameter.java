@@ -13,19 +13,21 @@ import java.util.List;
  * @author Alexander on 06.10.2019.
  */
 public abstract class HealthParameter {
-    public final List<HealthParameterRange> ranges;
-    public final String tag; // used by buffs
-
+    public final List<HealthParameterRange> RANGES;
+    public final String TAG; // used by buffs
 
     public HealthParameter(String tag) {
-        this.ranges = new ArrayList<>();
-        this.tag = tag;
+        this.RANGES = new ArrayList<>();
+        this.TAG = tag;
         fillRanges();
     }
 
     protected abstract void fillRanges();
 
     public HealthParameterRange getRange(float relativeValue) {
-        return ranges.stream().filter(range -> range.checkRange(relativeValue)).findFirst().orElse(null);
+        return RANGES.stream()
+                .filter(range -> range.checkRange(relativeValue))
+                .findFirst()
+                .orElse(null);
     }
 }

@@ -9,11 +9,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import stonering.enums.images.DrawableMap;
-import stonering.stage.toolbar.ToolbarStage;
 import stonering.stage.toolbar.menus.ParentMenu;
 import stonering.util.global.Logger;
 import stonering.util.global.StaticSkin;
 import stonering.widget.ButtonMenu;
+import stonering.widget.util.KeyNotifierListener;
 
 /**
  * Contains table with all general orders menus. Toolbar is focused on {@link ToolbarStage} and passes key presses to last(right) menu.
@@ -30,12 +30,7 @@ public class Toolbar extends Container<Table> {
     public Toolbar() {
         createLayout();
         addMenu(parentMenu = new ParentMenu(this));
-        addListener(new InputListener() { // passes events to last menu in toolbar
-            @Override
-            public boolean keyDown(InputEvent event, int keycode) {
-                return menusGroup.getChildren().peek().notify(event, false);
-            }
-        });
+        addListener(new KeyNotifierListener(menusGroup.getChildren()::peek));
     }
 
     private void createLayout() {
