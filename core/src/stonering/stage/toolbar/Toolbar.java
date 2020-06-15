@@ -1,5 +1,7 @@
 package stonering.stage.toolbar;
 
+import java.util.Optional;
+
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -7,7 +9,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
+
 import stonering.enums.images.DrawableMap;
 import stonering.stage.toolbar.menus.ParentMenu;
 import stonering.util.global.Logger;
@@ -41,28 +45,33 @@ public class Toolbar extends Container<HorizontalGroup> {
     }
 
     public void addMenu(ButtonMenu menu) {
+        highlightLast(false);
         menusGroup.addActor(menu);
         Logger.UI.logDebug("Menu " + menu.getClass().getSimpleName() + " added to toolbar");
-        menusGroup.invalidate();
+        highlightLast(true);
     }
 
     public void removeMenu(Actor menu) {
+        highlightLast(false);
         while (menusGroup.getChildren().contains(menu, true)) {
             menusGroup.removeActor(menusGroup.getChildren().peek());
         }
         Logger.UI.logDebug("Menu " + menu.getClass().getSimpleName() + " removed from toolbar");
+        highlightLast(true);
     }
 
     public void removeSubMenus(Actor menu) {
+        highlightLast(false);
         while (menusGroup.getChildren().contains(menu, true) && menusGroup.getChildren().peek() != menu) {
             menusGroup.removeActor(menusGroup.getChildren().peek());
         }
         Logger.UI.logDebug("Submenus of " + menu.getClass().getSimpleName() + " removed from toolbar");
+        highlightLast(true);
     }
 
     public void setEnabled(boolean status) {
         enabled = status;
-        if(enabled) {
+        if (enabled) {
             for (Actor child : menusGroup.getChildren()) {
                 ((ButtonMenu) child).setBackground(DrawableMap.REGION.getDrawable("default:focused"));
             }
@@ -73,5 +82,11 @@ public class Toolbar extends Container<HorizontalGroup> {
 
     public void reset() {
         removeSubMenus(parentMenu);
+    }
+
+    private void highlightLast(boolean value) {
+        if(menusGroup.getChildren().isEmpty()) return;
+        ((ButtonMenu) menusGroup.getChildren().peek())
+                .setBackground(DrawableMap.REGION.getDrawable("toolbar_menu" + (value ? ":focused" : "")));
     }
 }

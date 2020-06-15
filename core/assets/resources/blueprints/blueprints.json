@@ -91,7 +91,7 @@
     "name": "build_chair",
     "title": "Chair",
     "building": "chair",
-    "menuPath": ["furniture", "qwer", "qwer"],
+    "menuPath": ["furniture"],
     "ingredients": ["chair:log/bar/rock/plank:any:4"]
 }
 ]

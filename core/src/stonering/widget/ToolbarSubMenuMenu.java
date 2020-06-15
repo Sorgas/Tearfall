@@ -1,7 +1,6 @@
 package stonering.widget;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 import stonering.enums.HotkeySequence;
 import stonering.stage.toolbar.Toolbar;
