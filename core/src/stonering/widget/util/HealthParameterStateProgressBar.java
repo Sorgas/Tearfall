@@ -13,7 +13,7 @@ public class HealthParameterStateProgressBar extends RatioLabelProgressBar {
     public HealthParameterStateProgressBar(HealthParameterState state) {
         super(0, (int) state.max);
         this.state = state;
-        bar.setValue(state.current);
-        label.setDividend((int) state.current);
+        bar.setValue(state.get());
+        label.setDividend((int) state.get());
     }
 }

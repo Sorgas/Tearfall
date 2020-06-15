@@ -28,6 +28,7 @@ public class GameController {
         inputMultiplexer.addProcessor(GameMvc.view().stageInputAdapter);                              // calls stages (menus hotkeys)
         inputMultiplexer.addProcessor(entitySelectorInputAdapter = new EntitySelectorInputAdapter()); // calls entity selector (movement & selection)
         inputMultiplexer.addProcessor(mainMenuInputAdapter = new MainMenuInputAdapter());             // opens main menu
+        inputMultiplexer.addProcessor(new GameSpeedInputAdapter());
         return inputMultiplexer;
     }
 

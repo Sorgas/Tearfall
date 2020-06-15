@@ -5,7 +5,6 @@ import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.entity.unit.aspects.health.HealthAspect;
 import stonering.entity.unit.aspects.health.HealthParameterState;
 import stonering.enums.time.TimeUnitEnum;
-import stonering.enums.unit.health.HealthParameter;
 import stonering.enums.unit.health.HealthParameterEnum;
 import stonering.enums.unit.health.HealthParameterRange;
 import stonering.game.GameMvc;
@@ -62,7 +61,7 @@ public class CreatureHealthSystem extends EntitySystem<Unit> {
     }
 
     public void changeParameter(Unit unit, HealthParameterEnum parameter, float delta) {
-        if(unit.get(HealthAspect.class).parameters.get(parameter).applyDelta(delta)) resetParameter(unit, parameter);
+        if(unit.get(HealthAspect.class).parameters.get(parameter).changeValue(delta)) resetParameter(unit, parameter);
     }
 
     public void resetCreatureHealth(Unit unit) {

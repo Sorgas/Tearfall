@@ -12,7 +12,6 @@ import stonering.enums.unit.health.FatigueParameter;
 import stonering.enums.unit.health.HealthParameterEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.system.building.BuildingContainer;
-import stonering.util.global.Logger;
 
 import static stonering.entity.job.action.ActionConditionStatusEnum.FAIL;
 import static stonering.entity.job.action.ActionConditionStatusEnum.OK;
@@ -26,7 +25,7 @@ import static stonering.entity.job.action.ActionConditionStatusEnum.OK;
  */
 public class SleepInBedAction extends Action {
     private float restSpeed;
-    private HealthParameterState targetParameter;
+    private HealthParameterState fatigue;
 
     public SleepInBedAction(Building bed) {
         super(new EntityActionTarget(bed, ActionTargetTypeEnum.EXACT));
@@ -39,17 +38,16 @@ public class SleepInBedAction extends Action {
             return FAIL;
         };
         onStart = () -> {
-            targetParameter = task.performer.get(HealthAspect.class).parameters.get(HealthParameterEnum.FATIGUE);
+            fatigue = task.performer.get(HealthAspect.class).parameters.get(HealthParameterEnum.FATIGUE);
             task.performer.get(RenderAspect.class).rotation = -90;
             // lie to bed
             // disable vision
             // decrease hearing
         };
         progressConsumer = (delta) -> {
-            targetParameter.current -= delta; // decrease fatigue
-            Logger.TASKS.logDebug("restoring fatigue for " + delta + " new value " + targetParameter.current);
+            fatigue.changeValue(-delta); // decrease fatigue
         };
-        finishCondition = () -> targetParameter.current <= 0; // stop sleeping
+        finishCondition = () -> fatigue.get() <= 0; // stop sleeping
         onFinish = () -> {
             // restore vision and hearing
             task.performer.get(RenderAspect.class).rotation = 0;

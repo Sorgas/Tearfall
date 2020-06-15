@@ -46,7 +46,7 @@ public class ConstructionBuildingPlaytestModel extends TestModel {
 
     private Unit createUnit() {
         Unit unit = new CreatureGenerator().generateUnit(new Position(getMapSize() / 2, getMapSize() / 2, 2), "human");
-        unit.get(MovementAspect.class).speed = 0.2f;
+//        unit.get(MovementAspect.class).speed = 0.2f;
         return unit;
     }
 

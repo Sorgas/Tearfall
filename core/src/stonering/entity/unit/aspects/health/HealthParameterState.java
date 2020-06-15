@@ -20,12 +20,23 @@ public class HealthParameterState {
     public float getRelativeValue() {
         return max == 0 ? 0 : current / max * 100f;
     }
-    
-    public boolean applyDelta(float delta) {
+
+    /**
+     * @return true, if range has been changed.
+     */
+    public boolean setValue(float value) {
         float oldValue = getRelativeValue();
-        current = Math.max(current + delta, 0);
+        current = Math.max(0, value);
         if (current > max) return true;
         HealthParameterRange oldRange = parameter.PARAMETER.getRange(oldValue);
         return parameter.PARAMETER.getRange(getRelativeValue()) != oldRange; // return true, if range is changed
+    }
+
+    public boolean changeValue(float delta) {
+        return setValue(current + delta);
+    }
+
+    public float get() {
+        return current;
     }
 }

@@ -21,7 +21,7 @@ public class FoodPlayTestModel extends TestModel {
     public void init() {
         super.init();
         Unit unit = new CreatureGenerator().generateUnit(new Position(0, 0, 2), "human");
-        unit.get(HealthAspect.class).parameters.get(HUNGER).current = 65;
+        unit.get(HealthAspect.class).parameters.get(HUNGER).setValue(65);
         get(UnitContainer.class).addUnit(unit);
 
         ItemContainer container = get(ItemContainer.class);
@@ -40,6 +40,5 @@ public class FoodPlayTestModel extends TestModel {
         container.onMapItemsSystem.putNewItem(rawMeat, new Position(6, 1, 2));
         container.onMapItemsSystem.putNewItem(spoiledMeat, new Position(7, 1, 2));
         container.onMapItemsSystem.putNewItem(preparedMeat, new Position(8, 1, 2));
-
     }
 }

@@ -24,6 +24,7 @@ public abstract class GameModel implements Initable, Serializable, Updatable {
     protected GameTime calendar;
     private Timer timer;                 //makes turns for entity containers and calendar
     public boolean paused;
+    private int gameSpeed = 1;
 
     public GameModel() {
         components = new HashMap<>();
@@ -54,12 +55,7 @@ public abstract class GameModel implements Initable, Serializable, Updatable {
         });
         timer = new Timer();
         paused = true;
-        timer.scheduleTask(new Timer.Task() {
-            @Override
-            public void run() {
-                if (!paused) calendar.update(); // calendar turns other components
-            }
-        }, 0, 1f / 60);
+        initTimer();
     }
 
     @Override
@@ -81,5 +77,20 @@ public abstract class GameModel implements Initable, Serializable, Updatable {
 
     public GameTime getCalendar() {
         return calendar;
+    }
+
+    public void setGameSpeed(int speed) {
+        gameSpeed = speed;
+        timer.clear();
+        initTimer();
+    }
+
+    private void initTimer() {
+        timer.scheduleTask(new Timer.Task() {
+            @Override
+            public void run() {
+                if (!paused) calendar.update(); // calendar turns other components
+            }
+        }, 0, 1f / 60 / gameSpeed);
     }
 }
