@@ -16,19 +16,15 @@ public class FatigueParameter extends HealthParameter {
 
     public FatigueParameter(String tag) {
         super(tag);
-    }
-
-    @Override
-    protected void fillRanges() {
-        RANGES.add(new HealthParameterRange(-1, 20, NONE, () -> createBuff(10, 0)));
-        RANGES.add(new HealthParameterRange(20, 50, NONE, () -> null));
-        RANGES.add(new HealthParameterRange(50, 60, COMFORT, () -> createBuff(-10, 2)));
-        RANGES.add(new HealthParameterRange(60, 80, HEALTH_NEEDS, () -> createBuff(-25, 3)));
-        RANGES.add(new HealthParameterRange(80, 101, SAFETY,
+        RANGES.add(new HealthParameterRange(null, 20f, NONE, () -> createPerformanceBuff(10, 0)));
+        RANGES.add(new HealthParameterRange(20f, 50f, NONE, () -> null));
+        RANGES.add(new HealthParameterRange(50f, 60f, COMFORT, () -> createPerformanceBuff(-10, 2)));
+        RANGES.add(new HealthParameterRange(60f, 80f, HEALTH_NEEDS, () -> createPerformanceBuff(-25, 3)));
+        RANGES.add(new HealthParameterRange(80f, null, SAFETY,
                 () -> new HealthTimedBuff(HealthParameterEnum.HUNGER.TAG, -1, "hp", 4, iconY)));
     }
 
-    private Buff createBuff(int delta, int iconX) {
+    private Buff createPerformanceBuff(int delta, int iconX) {
         return new HealthBuff(TAG, delta, "performance", iconX, iconY);
     }
 }

@@ -17,18 +17,14 @@ public class ThirstParameter extends HealthParameter {
 
     public ThirstParameter(String tag) {
         super(tag);
+        RANGES.add(new HealthParameterRange(null, 20f, NONE, () -> createPerformanceBuff(0.1f, 0)));
+        RANGES.add(new HealthParameterRange(20f, 50f, NONE, () -> null));
+        RANGES.add(new HealthParameterRange(50f, 60f, COMFORT, () -> createPerformanceBuff(-0.1f, 2)));
+        RANGES.add(new HealthParameterRange(60f, 80f, HEALTH_NEEDS, () -> createPerformanceBuff(-0.25f, 0)));
+        RANGES.add(new HealthParameterRange(80f, null, SAFETY, () -> new HealthTimedBuff(TAG, -1, "hp", 4, iconY)));
     }
 
-    @Override
-    protected void fillRanges() {
-        RANGES.add(new HealthParameterRange(0, 20, NONE, () -> createBuffWithDelta(0.1f, 0)));
-        RANGES.add(new HealthParameterRange(20, 50, NONE, () -> null));
-        RANGES.add(new HealthParameterRange(50, 60, COMFORT, () -> createBuffWithDelta(-0.1f, 2)));
-        RANGES.add(new HealthParameterRange(60, 80, HEALTH_NEEDS, () -> createBuffWithDelta(-0.25f, 0)));
-        RANGES.add(new HealthParameterRange(80, 101, SAFETY, () -> new HealthTimedBuff(TAG, -1, "hp", 4, iconY)));
-    }
-
-    private Buff createBuffWithDelta(float delta, int iconX) {
+    private Buff createPerformanceBuff(float delta, int iconX) {
         return new HealthBuff(TAG, delta, "performance", iconX, iconY);
     }
 }

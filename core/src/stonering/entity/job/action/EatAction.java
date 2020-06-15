@@ -1,6 +1,7 @@
 package stonering.entity.job.action;
 
 import static stonering.entity.job.action.ActionConditionStatusEnum.*;
+import static stonering.enums.unit.health.HealthParameterEnum.*;
 
 import stonering.entity.building.Building;
 import stonering.entity.building.BuildingBlock;
@@ -23,6 +24,7 @@ import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.building.BuildingContainer;
 import stonering.game.model.system.item.ItemContainer;
+import stonering.game.model.system.unit.UnitContainer;
 import stonering.util.geometry.Position;
 import stonering.util.global.Logger;
 import stonering.util.global.Pair;
@@ -79,7 +81,7 @@ public class EatAction extends Action {
 
         onFinish = () -> {
             if(chair != null && tableBlock != null) chair.occupied = false;
-            task.performer.get(HealthAspect.class).parameters.get(HealthParameterEnum.HUNGER).applyDelta(-item.get(FoodItemAspect.class).nutrition);
+            GameMvc.model().get(UnitContainer.class).healthSystem.changeParameter(task.performer, HUNGER, -item.get(FoodItemAspect.class).nutrition);
             GameMvc.model().get(ItemContainer.class).removeItem(item);
         };
     }

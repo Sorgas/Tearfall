@@ -3,6 +3,7 @@ package stonering.enums.unit.health;
 import stonering.entity.unit.aspects.health.Buff;
 import stonering.entity.unit.aspects.health.HealthParameterState;
 import stonering.enums.action.TaskPriorityEnum;
+import stonering.util.math.ValueRange;
 
 import java.util.function.Supplier;
 
@@ -12,21 +13,13 @@ import java.util.function.Supplier;
  *
  * @author Alexander on 10.12.2019.
  */
-public class HealthParameterRange {
-    public final int min;
-    public final int max;
+public class HealthParameterRange extends ValueRange {
     public final TaskPriorityEnum priority;
     public final Supplier<Buff> produceBuff;
 
-    public HealthParameterRange(int min, int max, TaskPriorityEnum priority, Supplier<Buff> produceBuff) {
-        this.min = min;
-        this.max = max;
+    public HealthParameterRange(Float min, Float max, TaskPriorityEnum priority, Supplier<Buff> produceBuff) {
+        super(min, max);
         this.priority = priority;
         this.produceBuff = produceBuff;
-    }
-
-    public boolean checkRange(float relativeValue) {
-        return (max == -1 || relativeValue < max)
-                && (min == -1 || relativeValue >= min);
     }
 }

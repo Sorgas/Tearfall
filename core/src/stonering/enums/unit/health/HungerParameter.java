@@ -16,18 +16,14 @@ public class HungerParameter extends HealthParameter {
 
     public HungerParameter(String tag) {
         super(tag);
+        RANGES.add(new HealthParameterRange(null, 20f, NONE, () -> createPerformanceBuff(0.1f, 0))); // no task
+        RANGES.add(new HealthParameterRange(20f, 50f, NONE, () -> null)); // no task
+        RANGES.add(new HealthParameterRange(50f, 60f, COMFORT, () -> createPerformanceBuff(-0.1f, 2))); // task to eat good food
+        RANGES.add(new HealthParameterRange(60f, 80f, COMFORT, () -> createPerformanceBuff(-0.25f, 3))); // task to eat good food
+        RANGES.add(new HealthParameterRange(80f, null, HEALTH_NEEDS, () -> new HealthTimedBuff(TAG, -1, "hp", 4, iconY))); // task to eat any food
     }
 
-    @Override
-    protected void fillRanges() {
-        RANGES.add(new HealthParameterRange(-1, 20, NONE, () -> createBuffWithDelta(0.1f, 0))); // no task
-        RANGES.add(new HealthParameterRange(20, 50, NONE, () -> null)); // no task
-        RANGES.add(new HealthParameterRange(50, 60, COMFORT, () -> createBuffWithDelta(-0.1f, 2))); // task to eat good food
-        RANGES.add(new HealthParameterRange(60, 80, COMFORT, () -> createBuffWithDelta(-0.25f, 3))); // task to eat good food
-        RANGES.add(new HealthParameterRange(80, -1, HEALTH_NEEDS, () -> new HealthTimedBuff(TAG, -1, "hp", 4, iconY))); // task to eat any food
-    }
-
-    private Buff createBuffWithDelta(float delta, int iconX) {
+    private Buff createPerformanceBuff(float delta, int iconX) {
         return new HealthBuff(HealthParameterEnum.HUNGER.TAG, delta, "performance", iconX, iconY);
     }
 }

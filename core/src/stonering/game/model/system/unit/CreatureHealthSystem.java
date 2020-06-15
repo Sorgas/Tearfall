@@ -15,6 +15,7 @@ import stonering.util.global.Logger;
 /**
  * Updates health condition of a unit ({@link HealthAspect}).
  * Iterates health parameters of a creature, adding some constant (delta) to them.
+ * Updates buffs if needed.
  * Health condition buffs depend on relative value of health parameter.
  * MVP: constant parameter ranges, increase/restore speeds, no treats.
  * <p>
@@ -60,7 +61,7 @@ public class CreatureHealthSystem extends EntitySystem<Unit> {
         changeParameter(unit, HealthParameterEnum.FATIGUE, moveParameterNoLoad + moveParameterFullLoad * unit.get(EquipmentAspect.class).getRelativeLoad());
     }
 
-    private void changeParameter(Unit unit, HealthParameterEnum parameter, float delta) {
+    public void changeParameter(Unit unit, HealthParameterEnum parameter, float delta) {
         if(unit.get(HealthAspect.class).parameters.get(parameter).applyDelta(delta)) resetParameter(unit, parameter);
     }
 
