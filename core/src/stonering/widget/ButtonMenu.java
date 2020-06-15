@@ -1,6 +1,7 @@
 package stonering.widget;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -19,13 +20,15 @@ import java.util.HashMap;
  * Keys sets of same-level menus should not overlap.
  * Hides itself on Q.
  */
-public abstract class ButtonMenu extends Table {
+public abstract class ButtonMenu extends Container<Table> {
+    protected Table table;
     private HashMap<Integer, Button> buttons;
     protected boolean forbidEventPass = false; // if true, key events will be handled further
 
     public ButtonMenu() {
+        setActor(table = new Table());
         buttons = new HashMap<>();
-        defaults().right().expandX().fill();
+        table.defaults().right().expandX().fillX();
         addListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
@@ -34,7 +37,6 @@ public abstract class ButtonMenu extends Table {
                     buttons.get(keycode).toggle();
                     return true;
                 } else if (keycode == Input.Keys.Q) {
-
                     return hide();
                 }
                 return forbidEventPass;
@@ -42,16 +44,21 @@ public abstract class ButtonMenu extends Table {
         });
     }
 
-    protected void createButton(String text, int hotKey, ChangeListener listener, boolean appendHotkey) {
-        createButton(text, null, hotKey, listener, appendHotkey);
+    protected void createButton(String text, int hotKey, Runnable action, boolean appendHotkey) {
+        createButton(text, null, hotKey, action, appendHotkey);
     }
 
-    protected void createButton(String text, String iconName, int hotKey, ChangeListener listener, boolean appendHotkey) {
+    protected void createButton(String text, String iconName, int hotKey, Runnable action, boolean appendHotkey) {
         Drawable drawable = iconName != null ? DrawableMap.ICON.getDrawable(iconName) : null;
         IconTextButton button = new IconTextButton(drawable, (appendHotkey ? Input.Keys.toString(hotKey) + ": " : "") + text);
-        button.addListener(listener);
+        button.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                action.run();
+            }
+        });
         buttons.put(hotKey, button);
-        add(button).row();
+        table.add(button).row();
     }
 
     public abstract boolean hide();

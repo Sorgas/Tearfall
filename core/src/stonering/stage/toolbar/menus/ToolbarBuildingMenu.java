@@ -2,6 +2,7 @@ package stonering.stage.toolbar.menus;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+
 import stonering.enums.buildings.blueprint.Blueprint;
 import stonering.enums.buildings.blueprint.BlueprintsMap;
 import stonering.game.GameMvc;
@@ -30,17 +31,11 @@ public class ToolbarBuildingMenu extends ToolbarSubMenuMenu {
     public ToolbarBuildingMenu(Toolbar toolbar) {
         super(toolbar);
         for (Blueprint blueprint : BlueprintsMap.getInstance().blueprints.values()) {
-            addItem(blueprint.title, null, new ChangeListener() { //TODO add blueprint.icon
-                @Override
-                public void changed(ChangeEvent event, Actor actor) {
-                    SelectionTool tool;
-                    if (blueprint.construction) {
-                        tool = SelectionTools.CONSTRUCTION.setFor(blueprint);
-                    } else {
-                        tool = SelectionTools.BUILDING.setFor(blueprint);
-                    }
-                    GameMvc.model().get(EntitySelectorSystem.class).selector.get(SelectionAspect.class).set(tool);
-                }
+            addItem(blueprint.title, null, () -> { //TODO add blueprint.icon
+                SelectionTool tool = blueprint.construction
+                        ? SelectionTools.CONSTRUCTION.setFor(blueprint)
+                        : SelectionTools.BUILDING.setFor(blueprint);
+                GameMvc.model().get(EntitySelectorSystem.class).selector.get(SelectionAspect.class).set(tool);
             }, blueprint.menuPath);
         }
     }

@@ -21,32 +21,29 @@ import stonering.widget.util.KeyNotifierListener;
  *
  * @author Alexander Kuzyakov on 17.06.2018.
  */
-public class Toolbar extends Container<Table> {
+public class Toolbar extends Container<HorizontalGroup> {
     public HorizontalGroup menusGroup; // in first row
-    public Label status; // in second row
     public final ParentMenu parentMenu; // always on the left end
     public boolean enabled = true;
 
     public Toolbar() {
+        super();
         createLayout();
         addMenu(parentMenu = new ParentMenu(this));
         addListener(new KeyNotifierListener(menusGroup.getChildren()::peek));
     }
 
     private void createLayout() {
-        setFillParent(true);
-        Table table = new Table();
-        align(Align.bottomLeft);
-        table.add(menusGroup = new HorizontalGroup()).row();
+        setActor(menusGroup = new HorizontalGroup());
+        align(Align.bottomLeft).setFillParent(true);
         menusGroup.align(Align.bottomLeft);
         menusGroup.rowAlign(Align.bottom);
-        table.add(status = new Label("", StaticSkin.getSkin())).left();
-        setActor(table);
     }
 
     public void addMenu(ButtonMenu menu) {
         menusGroup.addActor(menu);
         Logger.UI.logDebug("Menu " + menu.getClass().getSimpleName() + " added to toolbar");
+        menusGroup.invalidate();
     }
 
     public void removeMenu(Actor menu) {

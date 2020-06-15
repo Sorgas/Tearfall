@@ -6,10 +6,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.ui.Container;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Tree;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
 
 import stonering.entity.item.Item;
@@ -19,6 +16,7 @@ import stonering.stage.UiStage;
 import stonering.util.global.StaticSkin;
 import stonering.util.ui.SimpleScreen;
 import stonering.widget.item.SingleItemSquareButton;
+import stonering.widget.util.WrappedLabel;
 
 /**
  * Demo with some UI elements.
@@ -39,7 +37,7 @@ public class UiDemo extends Game {
 
             {
                 stage.interceptInput = false;
-                Container<Tree> container = createContainer();
+                Container<Tree> container = createContainer3();
                 stage.addActor(container);
                 stage.addListener(new InputListener() {
                     @Override
@@ -85,6 +83,23 @@ public class UiDemo extends Game {
         tree.setIconSpacing(0,0);
         tree.setPadding(0);
         Container container = new Container(tree);
+        container.align(Align.topLeft);
+        container.setFillParent(true);
+        return container;
+    }
+
+    private Container createContainer3() {
+        HorizontalGroup group = new HorizontalGroup();
+        WrappedLabel label = new WrappedLabel("qwer");
+        label.size(100);
+        group.addActor(label);
+        WrappedLabel label2 = new WrappedLabel("qwer");
+        label2.size(200);
+        group.addActor(label2);
+        WrappedLabel label3 = new WrappedLabel("qwer");
+        label3.size(300);
+        group.addActor(label3);
+        Container container = new Container(group);
         container.align(Align.topLeft);
         container.setFillParent(true);
         return container;

@@ -2,6 +2,7 @@ package stonering.widget;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+
 import stonering.enums.HotkeySequence;
 import stonering.stage.toolbar.Toolbar;
 
@@ -28,12 +29,9 @@ public class ToolbarSubMenuMenu extends ToolbarButtonMenu {
      */
     public void addMenu(ToolbarButtonMenu menu, int hotkey, String identifier, String iconName) {
         Actor thisMenu = this;
-        createButton(identifier, iconName, hotkey, new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                toolbar.removeSubMenus(thisMenu);
-                toolbar.addMenu(menu);
-            }
+        createButton(identifier, iconName, hotkey, () -> {
+            toolbar.removeSubMenus(thisMenu);
+            toolbar.addMenu(menu);
         }, true);
         menus.put(identifier, menu);
     }
@@ -42,15 +40,15 @@ public class ToolbarSubMenuMenu extends ToolbarButtonMenu {
      * Tries to add button with given text and listener to the end of given submenu sequence.
      * Adds submenu or button to this menu.
      */
-    public void addItem(String lastButtonText, String iconName, ChangeListener listener, List<String> path) {
+    public void addItem(String lastButtonText, String iconName, Runnable action, List<String> path) {
         if (path == null || path.isEmpty()) { //create button
-            createButton(lastButtonText, iconName, sequence.getNext(), listener, true);
+            createButton(lastButtonText, iconName, sequence.getNext(), action, true);
         } else { // create submenu
             String currentStep = path.remove(0);
-            if (!menus.keySet().contains(currentStep)) {    // no submenu for this step, create submenu
+            if (!menus.containsKey(currentStep)) {    // no submenu for this step, create submenu
                 addMenu(new ToolbarSubMenuMenu(toolbar), sequence.getNext(), currentStep, iconName); //TODO generalize
             }
-            ((ToolbarSubMenuMenu) menus.get(currentStep)).addItem(lastButtonText, iconName, listener, path); // proceed to submenu with reduced path
+            ((ToolbarSubMenuMenu) menus.get(currentStep)).addItem(lastButtonText, iconName, action, path); // proceed to submenu with reduced path
         }
     }
 }

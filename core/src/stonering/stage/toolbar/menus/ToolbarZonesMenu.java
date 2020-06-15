@@ -3,6 +3,7 @@ package stonering.stage.toolbar.menus;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+
 import stonering.entity.zone.Zone;
 import stonering.enums.ZoneTypesEnum;
 import stonering.game.GameMvc;
@@ -32,21 +33,15 @@ public class ToolbarZonesMenu extends ToolbarButtonMenu {
 
     private void createButtons() {
         Arrays.stream(ZoneTypesEnum.values()).forEach(this::createButtonForZone);
-        createButton("Update zone", Input.Keys.U, new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                GameMvc.model().get(EntitySelectorSystem.class).selector.get(SelectionAspect.class).set(SelectionTools.ZONE_UPDATE);
-            }
+        createButton("Update zone", Input.Keys.U, () -> {
+            GameMvc.model().get(EntitySelectorSystem.class).selector.get(SelectionAspect.class).set(SelectionTools.ZONE_UPDATE);
         }, true);
     }
 
     private void createButtonForZone(ZoneTypesEnum type) {
-        super.createButton(type.toString(), type.HOTKEY, new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                SelectionTools.ZONE.type = type;
-                GameMvc.model().get(EntitySelectorSystem.class).selector.get(SelectionAspect.class).set(SelectionTools.ZONE);
-            }
+        super.createButton(type.toString(), type.HOTKEY, () -> {
+            SelectionTools.ZONE.type = type;
+            GameMvc.model().get(EntitySelectorSystem.class).selector.get(SelectionAspect.class).set(SelectionTools.ZONE);
         }, true);
     }
 }

@@ -3,6 +3,7 @@ package stonering.stage.toolbar.menus;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+
 import stonering.enums.designations.DesignationTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.aspect.SelectionAspect;
@@ -34,12 +35,9 @@ public class ToolbarDiggingMenu extends ToolbarButtonMenu {
     }
 
     private void addButton(String text, DesignationTypeEnum type, int hotKey) {
-        super.createButton(text, hotKey, new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                SelectionTools.DESIGNATION.setType(type);
-                GameMvc.model().get(EntitySelectorSystem.class).selector.get(SelectionAspect.class).set(SelectionTools.DESIGNATION);
-            }
+        super.createButton(text, hotKey, () -> {
+            SelectionTools.DESIGNATION.setType(type);
+            GameMvc.model().get(EntitySelectorSystem.class).selector.get(SelectionAspect.class).set(SelectionTools.DESIGNATION);
         }, true);
     }
 }

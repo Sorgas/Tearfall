@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+
 import stonering.game.GameMvc;
 import stonering.stage.SingleWindowStage;
 import stonering.widget.ButtonMenu;
@@ -26,35 +27,21 @@ public class PauseMenu extends ButtonMenu {
         setDebug(true, true);
         setWidth(600);
         setHeight(400);
-        defaults().center().top().height(50).width(600).padBottom(15);
+        table.defaults().center().top().height(50).width(600).padBottom(15);
     }
 
     private void addButtons() {
-        createButton("Resume", Input.Keys.Q, new ChangeListener() { // this button intercepts input from
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                GameMvc.model().setPaused(false);
-                hide();
-            }
+        createButton("Resume", Input.Keys.Q, () -> {
+            GameMvc.model().setPaused(false);
+            hide();
         }, true);
-        createButton("Options", Input.Keys.O, new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                GameMvc.view().addStage(new SingleWindowStage<>(new SettingsMenu(), true, false));
-            }
+        createButton("Options", Input.Keys.O, () -> {
+            GameMvc.view().addStage(new SingleWindowStage<>(new SettingsMenu(), true, false));
         }, true);
-        createButton("Save", Input.Keys.S, new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                saveGame();
-            }
-        }, true);
-        createButton("Save & Quit", Input.Keys.ESCAPE, new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                saveGame();
-                quitGame();
-            }
+        createButton("Save", Input.Keys.S, this::saveGame, true);
+        createButton("Save & Quit", Input.Keys.ESCAPE, () -> {
+            saveGame();
+            quitGame();
         }, true);
     }
 
