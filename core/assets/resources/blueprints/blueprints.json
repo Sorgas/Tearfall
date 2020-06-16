@@ -83,7 +83,7 @@
     "ingredients": ["smelter:rock:any:8"]
 }, {
     "name": "build_table",
-    "title": "Table 1x1",
+    "title": "Tiny t    able 1x1",
     "building": "tiny_table",
     "menuPath": ["furniture"],
     "ingredients": ["table:log/bar/rock/plank:any:4"]

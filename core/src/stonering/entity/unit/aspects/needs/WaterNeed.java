@@ -10,6 +10,7 @@ import stonering.enums.items.ItemTagEnum;
 import stonering.enums.unit.health.HealthParameterEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.system.item.ItemContainer;
+import stonering.util.geometry.Position;
 
 /**
  * @author Alexander on 08.10.2019.
@@ -48,5 +49,9 @@ public class WaterNeed extends Need {
 
     private Item findBestDrink(Entity entity) {
         return GameMvc.model().get(ItemContainer.class).util.getNearestItemWithTag(entity.position, ItemTagEnum.DRINKABLE);
+    }
+
+    private Position findWater() {
+        return null;
     }
 }

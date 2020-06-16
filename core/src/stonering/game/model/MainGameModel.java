@@ -5,6 +5,7 @@ import stonering.game.model.entity_selector.EntitySelectorSystem;
 import stonering.game.model.system.*;
 import stonering.game.model.system.building.BuildingContainer;
 import stonering.game.model.system.item.ItemContainer;
+import stonering.game.model.system.liquid.LiquidContainer;
 import stonering.game.model.system.plant.PlantContainer;
 import stonering.game.model.system.substrate.SubstrateContainer;
 import stonering.game.model.system.task.TaskContainer;

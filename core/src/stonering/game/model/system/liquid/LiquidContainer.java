@@ -1,23 +1,24 @@
-package stonering.game.model.system;
+package stonering.game.model.system.liquid;
 
 import stonering.enums.blocks.BlockTypeEnum;
 import stonering.enums.materials.MaterialMap;
 import stonering.enums.time.TimeUnitEnum;
 import stonering.game.GameMvc;
+import stonering.game.model.system.ModelComponent;
 import stonering.util.global.Updatable;
 import stonering.game.model.local_map.LocalMap;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.util.geometry.Position;
 import stonering.util.global.Initable;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Container for all liquid actors. These actors modify localMap array.
  * Values from this array are taken in account by other actors.
+ * //TODO support other liquids
+ * //TODO add intensity based on river/brook water amount
+ * //TODO put water sources out of map borders
  *
  * @author Alexander on 22.08.2018.
  */
@@ -35,22 +36,18 @@ public class LiquidContainer implements ModelComponent, Initable, Updatable {
     private byte rampCode;
     private byte stairsCode;
     private byte stairfloorCode;
-    MaterialMap materialMap;
 
     public LiquidContainer() {
         liquidTiles = new HashMap<>();
         liquidSources = new HashMap<>();
         tempLiquidTiles = new HashMap<>();
-        materialMap = MaterialMap.instance();
         random = new Random();
     }
 
     @Override
     public void init() {
-        localMap = GameMvc.instance().model().get(LocalMap.class);
-        liquidTiles.keySet().forEach(position -> {
-            localMap.setFlooding(position.x, position.y, position.z, liquidTiles.get(position).amount);
-        });
+        localMap = GameMvc.model().get(LocalMap.class);
+        liquidTiles.keySet().forEach(position -> localMap.setFlooding(position, liquidTiles.get(position).amount));
     }
 
     /**
@@ -59,21 +56,17 @@ public class LiquidContainer implements ModelComponent, Initable, Updatable {
      * @param container LocalGenContainer.
      */
     public LiquidContainer loadWater(LocalGenContainer container) {
-        //TODO support other liquids
-        container.waterTiles.forEach(position -> {
-            createLiquidTile(position, "water", 7);
-        });
+        container.waterTiles.forEach(position -> createLiquidTile(position, "water", 7));
         flushTempTiles();
-        //TODO add intensity based on river/brook water amount
         container.waterSources.forEach(position -> {
-            liquidSources.put(position, new LiquidSource(position, materialMap.getId("water"), 1));
+            liquidSources.put(position, new LiquidSource(position, MaterialMap.getId("water"), 1));
         });
         cacheConstants();
         return this;
     }
 
     private LiquidTile createLiquidTile(Position position, String liquid, int amount) {
-        LiquidTile liquidTile = new LiquidTile(materialMap.getId(liquid), amount);
+        LiquidTile liquidTile = new LiquidTile(MaterialMap.getId(liquid), amount);
         tempLiquidTiles.put(position, liquidTile);
         return liquidTile;
     }
@@ -100,19 +93,11 @@ public class LiquidContainer implements ModelComponent, Initable, Updatable {
         turnCount++;
         if (turnCount == turnDelay) {
             turnCount = 0;
-            for (Iterator<Position> iterator = liquidTiles.keySet().iterator(); iterator.hasNext(); ) {
-                Position position = iterator.next();
-                LiquidTile liquidTile = liquidTiles.get(position);
-                if (liquidTile.amount > 0) { // can spread. tiles with
-                    trySpreadTile(position);
-                } else { // destroy zero tile
-                    iterator.remove();
-                }
-            }
-            liquidSources.keySet().forEach(position -> {
-                if (liquidTiles.get(position) != null && liquidTiles.get(position).amount < 7)
-                    transferLiquid(null, position, 1);
-            });
+            liquidTiles.entrySet().removeIf(entry -> entry.getValue().amount == 0); // remove empty liquid tiles
+            liquidTiles.keySet().forEach(this::trySpreadTile); // move liquids
+            liquidSources.values().stream() // generate liquid in sources
+                    .filter(source -> getLiquidAmount(source.position) < 7)
+                    .forEach(source -> transferLiquid(null, source.position, 1));
             flushTempTiles();
         }
     }
@@ -130,7 +115,7 @@ public class LiquidContainer implements ModelComponent, Initable, Updatable {
                 transferLiquid(position, lowerPos, 1);
                 return;
             } else { // can't fall directly down
-                ArrayList<Position> positions = observeTilesAround(lowerPos, currentWater, true);
+                ArrayList<Position> positions = observeTilesAround(lowerPos, currentWater);
                 if (!positions.isEmpty()) { // flow lower
                     transferLiquid(position, positions.get(random.nextInt(positions.size())), 1);
                     return;
@@ -138,28 +123,34 @@ public class LiquidContainer implements ModelComponent, Initable, Updatable {
             }
         }
         if (currentWater > 1) {
-            ArrayList<Position> positions = observeTilesAround(position, currentWater, false);
-            if (!positions.isEmpty()) {
-                transferLiquid(position, positions.get(random.nextInt(positions.size())), 1);
-            }
+            aroundTiles(position).stream()
+                    .filter(localMap::inMap)
+                    .filter(localMap::isFlyPassable)
+                    .filter(nearPosition -> localMap.getFlooding(nearPosition) < currentWater)
+                    .findAny()
+                    .ifPresent(foundPosition -> transferLiquid(position, foundPosition, 1));
         }
     }
 
-    private ArrayList<Position> observeTilesAround(Position position, int currentAmountOfWater, boolean onLowerLevel) {
+    /**
+     * Collects 8 tiles around given position.
+     */
+    private List<Position> aroundTiles(Position position) {
+        return new ArrayList<>();
+    }
+    
+    private ArrayList<Position> observeTilesAround(Position position, int currentAmountOfWater) {
         ArrayList<Position> positions = new ArrayList<>();
         for (int x = position.x - 1; x < position.x + 2; x++) {
             for (int y = position.y - 1; y < position.y + 2; y++) {
-                if (!(x == 0 && y == 0) && // not same point
+                // not same point
+                if (!(x == 0 && y == 0) &&
                         localMap.inMap(x, y, position.z) &&
                         localMap.isFlyPassable(x, y, position.z) &&
-                        (localMap.getFlooding(x, y, position.z) < currentAmountOfWater || onLowerLevel) &&
                         localMap.getFlooding(x, y, position.z) < 7) { // can take liquid
                     positions.add(new Position(x, y, position.z));
                 }
             }
-        }
-        if (localMap.isBorder(position) && !liquidSources.keySet().contains(position) && !onLowerLevel) {
-            positions.add(new Position(-1, -1, -1)); // out of the map
         }
         return positions;
     }
@@ -184,7 +175,7 @@ public class LiquidContainer implements ModelComponent, Initable, Updatable {
     /**
      * Class for single tile of liquid. Position is taken from keyset of hashMap.
      */
-    private class LiquidTile {
+    private static class LiquidTile {
         int liquid;
         int amount;
 
@@ -194,7 +185,7 @@ public class LiquidContainer implements ModelComponent, Initable, Updatable {
         }
     }
 
-    private class LiquidSource {
+    private static class LiquidSource {
         Position position;
         int liquid;
         int intensity;
@@ -204,5 +195,11 @@ public class LiquidContainer implements ModelComponent, Initable, Updatable {
             this.liquid = liquid;
             this.intensity = intensity;
         }
+    }
+
+    private int getLiquidAmount(Position position) {
+        return Optional.ofNullable(liquidTiles.get(position))
+                .map(tile -> tile.amount)
+                .orElse(0);
     }
 }
