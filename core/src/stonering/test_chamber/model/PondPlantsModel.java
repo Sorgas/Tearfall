@@ -26,7 +26,7 @@ public class PondPlantsModel extends TestModel {
                 localMap.blockType.setBlock(x, y, 0, BlockTypeEnum.WALL, soilId);
                 if (Math.pow(x - MAP_CENTER, 2) + Math.pow(y - MAP_CENTER, 2) <= 9) {
                     localMap.blockType.setBlock(x, y, 1, BlockTypeEnum.FLOOR, soilId);
-                    localMap.flooding.set(x, y, 1, 7);
+//                    localMap.flooding.set(x, y, 1, 7);
                 } else {
                     localMap.blockType.setBlock(x, y, 1, BlockTypeEnum.WALL, soilId);
                     localMap.blockType.setBlock(x, y, 2, BlockTypeEnum.FLOOR, soilId);

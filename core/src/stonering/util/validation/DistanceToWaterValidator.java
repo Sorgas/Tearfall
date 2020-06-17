@@ -3,6 +3,7 @@ package stonering.util.validation;
 import stonering.enums.generation.PlantPlacingTagEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
+import stonering.game.model.system.liquid.LiquidContainer;
 import stonering.util.geometry.Position;
 
 /**
@@ -16,27 +17,28 @@ public class DistanceToWaterValidator implements PositionValidator {
     @Override
     public Boolean apply(Position position) {
         LocalMap map = GameMvc.model().get(LocalMap.class);
+        LiquidContainer container = GameMvc.model().get(LiquidContainer.class);
         if(!map.inMap(position) || tag == null) return false;
         switch (tag) {
             case WATER_NEAR: {
-                return hasWaterInDistance(map, position);
+                return hasWaterInDistance(container, position);
             }
             case WATER_FAR: {
-                return !hasWaterInDistance(map, position);
+                return !hasWaterInDistance(container, position);
             }
             case WATER_UNDER: {
-                return map.flooding.get(position) == 7;
+                return container.getAmount(position) == 7;
             }
             // TODO case WATER_ON: {}
         }
         return false;
     }
 
-    private boolean hasWaterInDistance(LocalMap map, Position pos) {
+    private boolean hasWaterInDistance(LiquidContainer container, Position pos) {
         for (int x = pos.x - XY_DISTANCE; x < pos.x + XY_DISTANCE; x++) {
             for (int y = pos.y - XY_DISTANCE; y < pos.y + XY_DISTANCE; y++) {
                 for (int z = pos.z - Z_DISTANCE; z < pos.z + Z_DISTANCE; z++) {
-                    if(map.inMap(x,y,z) && map.flooding.get(x,y,z) > 0) return true;
+                    if(container.getAmount(x,y,z) > 0) return true;
                 }
             }
         }

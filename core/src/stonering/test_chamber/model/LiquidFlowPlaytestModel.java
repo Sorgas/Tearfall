@@ -23,7 +23,7 @@ public class LiquidFlowPlaytestModel extends TestModel {
             localMap.blockType.setBlock(x, 9,2, BlockTypeEnum.SPACE, MaterialMap.getId("air"));
             localMap.blockType.setBlock(x, 9,1, BlockTypeEnum.FLOOR, MaterialMap.getId("soil"));
         }
-        get(LiquidContainer.class).createLiquidSource(new Position(1, 9, 1), MaterialMap.getId("water"), 1);
+        get(LiquidContainer.class).createLiquidSource(new Position(1, 9, 5), MaterialMap.getId("water"), 1);
         get(EntitySelectorSystem.class).setSelectorPosition(new Position(5, 5, 2));
     }
 }

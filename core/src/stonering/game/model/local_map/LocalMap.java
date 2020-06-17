@@ -24,9 +24,7 @@ import static stonering.enums.blocks.PassageEnum.PASSABLE;
  */
 public class LocalMap implements ModelComponent, Initable {
     public final BlockTypeMap blockType;
-    public final UtilByteArray flooding;
     private byte[][][] temperature;
-    private Position cachePosition;
     private final Int3dBounds bounds;
     
     public LightMap light;
@@ -39,12 +37,10 @@ public class LocalMap implements ModelComponent, Initable {
 
     public LocalMap(int xSize, int ySize, int zSize) {
         blockType = new BlockTypeMap(xSize, ySize, zSize);
-        flooding = new UtilByteArray(xSize, ySize, zSize);
         temperature = new byte[xSize][ySize][zSize];
         this.xSize = xSize;
         this.ySize = ySize;
         this.zSize = zSize;
-        cachePosition = new Position();
         light = new LightMap(this);
         bounds = new Int3dBounds(0, 0, 0, xSize, ySize, zSize);
     }

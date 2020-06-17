@@ -40,11 +40,12 @@ public class Int2dBounds {
                 position.y <= maxY;
     }
 
-    public void set(int minX, int minY, int maxX, int maxY) {
+    public Int2dBounds set(int minX, int minY, int maxX, int maxY) {
         this.minX = Math.min(minX, maxX);
         this.maxX = Math.max(minX, maxX);
         this.minY = Math.min(minY, maxY);
         this.maxY = Math.max(minY, maxY);
+        return this;
     }
 
     public void clamp(int minX, int minY, int maxX, int maxY) {
