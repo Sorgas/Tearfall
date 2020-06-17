@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
+
 import stonering.entity.RenderAspect;
 import stonering.entity.job.designation.Designation;
 import stonering.entity.plant.PlantBlock;
@@ -19,12 +20,13 @@ import stonering.game.model.system.task.TaskContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.stage.localworld.MovableCamera;
 import stonering.game.model.tilemaps.LocalTileMap;
-import stonering.util.geometry.VectorFunction;
 import stonering.util.geometry.Int2dBounds;
 import stonering.util.geometry.Position;
 
 import static com.badlogic.gdx.graphics.Pixmap.Format.RGBA8888;
 import static stonering.stage.renderer.AtlasesEnum.*;
+
+import java.util.Optional;
 
 /**
  * Class for drawing tiles. Contains renderers for different entities. (todo)
@@ -38,7 +40,8 @@ public class TileDrawer extends Drawer {
     private BuildingDrawer buildingDrawer;
     private ItemDrawer itemDrawer;
     private BlockDrawer blockDrawer;
-
+    private LiquidDrawer liquidDrawer;
+    
     private LocalMap localMap;
     private LocalTileMap localTileMap;
     private PlantContainer plantContainer;
@@ -64,6 +67,7 @@ public class TileDrawer extends Drawer {
         unitDrawer = new UnitDrawer(spriteDrawingUtil, shapeDrawingUtil);
         buildingDrawer = new BuildingDrawer(spriteDrawingUtil, shapeDrawingUtil);
         itemDrawer = new ItemDrawer(spriteDrawingUtil, shapeDrawingUtil);
+        liquidDrawer = new LiquidDrawer(spriteDrawingUtil, shapeDrawingUtil);
         taskContainer = model.get(TaskContainer.class);
         plantContainer = model.get(PlantContainer.class);
         substrateContainer = model.get(SubstrateContainer.class);
@@ -83,20 +87,10 @@ public class TileDrawer extends Drawer {
         for (int z = Math.max(maxZ - spriteUtil.maxZLevels, 0); z <= maxZ; z++) {
             spriteUtil.shadeByZ(maxZ - z);
             defineLayerBounds(z);
-            iterateLayer(z, this::renderFlatTile);
-            iterateLayer(z, this::drawBlockTiles);
+            int zz = z;
+            cacheBounds.iterate((x, y) -> drawFlatTile(x, y, zz));
+            cacheBounds.iterate((x, y) -> drawBlockTiles(x, y, zz));
 //            iterateLayer(z, this::drawAreaLabel);
-        }
-    }
-
-    /**
-     * Iterates over bounds of a single z-level and call some function for every tile.
-     */
-    private void iterateLayer(int z, VectorFunction function) {
-        for (int y = cacheBounds.maxY; y >= cacheBounds.minY; y--) {
-            for (int x = cacheBounds.minX; x <= cacheBounds.maxX; x++) {
-                function.apply(x, y, z);
-            }
         }
     }
 
@@ -119,12 +113,13 @@ public class TileDrawer extends Drawer {
 //        util.shadeByLight(lightLevel);
     }
 
-    private void renderFlatTile(int x, int y, int z) {
+    private void drawFlatTile(int x, int y, int z) {
         if (localMap.light.localLight.get(x, y, z) == -1) return;
         startTile(x, y, z);
         blockDrawer.drawFloor(x, y, z); // floors or toppings
         if (substrateContainer != null) drawSubstrate(x, y, z); // grass and moss
         itemDrawer.draw(x, y, z); // items on the ground
+        liquidDrawer.drawFlat(x, y, z);
         spriteUtil.resetColor();
     }
 
@@ -143,7 +138,7 @@ public class TileDrawer extends Drawer {
         if (zoneContainer != null) drawZone(zoneContainer.getZone(cachePosition));
         spriteUtil.resetColor();
         blockDrawer.drawBlock(x, y, z); // all other
-        drawWaterBlock(x, y, z);
+        liquidDrawer.drawBlock(x, y, z);
     }
 
     private void drawAreaLabel(int x, int y, int z) {
@@ -173,29 +168,8 @@ public class TileDrawer extends Drawer {
         return null;
     }
 
-    /**
-     * Draws water in this tile if needed.
-     */
-    private void drawWaterBlock(int x, int y, int z) {
-        TextureRegion sprite = selectSpriteForFlooding(x, y, z);
-        if (sprite == null) return;
-        spriteUtil.updateColorA(0.6f);
-        spriteUtil.drawSprite(sprite, cachePosition.toVector3());
-        spriteUtil.updateColorA(1f);
-    }
-
-    /**
-     * Selects sprite for water in given tile, or toping for water in lower cell.
-     */
-    private TextureRegion selectSpriteForFlooding(int x, int y, int z) {
-        int flooding = localMap.getFlooding(x, y, z);
-        if (flooding != 0) return liquids.getBlockTile(flooding - 1, 0);
-        if (z > 0 && localMap.getFlooding(x, y, z - 1) >= 7) return liquids.getToppingTile(6, 0);
-        return null;
-    }
-
     private void drawDesignation(Designation designation) {
-        if(designation == null) return;
+        if (designation == null) return;
         RenderAspect aspect = designation.get(RenderAspect.class);
         spriteUtil.drawSprite(aspect.region, designation.position);
     }
@@ -203,7 +177,7 @@ public class TileDrawer extends Drawer {
     private void drawZone(Zone zone) {
         if (zone != null) spriteUtil.drawSprite(zone.getType().SPRITE, cachePosition.toVector3());
     }
-    
+
     private void drawPlantBlock(PlantBlock block) {
         if (block != null)
             spriteUtil.drawSprite(plants.getBlockTile(block.getAtlasXY()[0], block.getAtlasXY()[1]), cacheVector);

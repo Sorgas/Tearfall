@@ -25,7 +25,7 @@ public class DistanceToWaterValidator implements PositionValidator {
                 return !hasWaterInDistance(map, position);
             }
             case WATER_UNDER: {
-                return map.getFlooding(position) == 7;
+                return map.flooding.get(position) == 7;
             }
             // TODO case WATER_ON: {}
         }
@@ -36,7 +36,7 @@ public class DistanceToWaterValidator implements PositionValidator {
         for (int x = pos.x - XY_DISTANCE; x < pos.x + XY_DISTANCE; x++) {
             for (int y = pos.y - XY_DISTANCE; y < pos.y + XY_DISTANCE; y++) {
                 for (int z = pos.z - Z_DISTANCE; z < pos.z + Z_DISTANCE; z++) {
-                    if(map.inMap(x,y,z) && map.getFlooding(x,y,z) > 0) return true;
+                    if(map.inMap(x,y,z) && map.flooding.get(x,y,z) > 0) return true;
                 }
             }
         }

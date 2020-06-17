@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import stonering.game.model.local_map.passage.PassageMap;
 import stonering.game.model.system.ModelComponent;
 import stonering.game.model.tilemaps.LocalTileMapUpdater;
+import stonering.util.UtilByteArray;
 import stonering.util.geometry.Int3dBounds;
 import stonering.util.geometry.Position;
 import stonering.util.global.Initable;
@@ -23,7 +24,7 @@ import static stonering.enums.blocks.PassageEnum.PASSABLE;
  */
 public class LocalMap implements ModelComponent, Initable {
     public final BlockTypeMap blockType;
-    private byte[][][] flooding;
+    public final UtilByteArray flooding;
     private byte[][][] temperature;
     private Position cachePosition;
     private final Int3dBounds bounds;
@@ -38,7 +39,7 @@ public class LocalMap implements ModelComponent, Initable {
 
     public LocalMap(int xSize, int ySize, int zSize) {
         blockType = new BlockTypeMap(xSize, ySize, zSize);
-        flooding = new byte[xSize][ySize][zSize];
+        flooding = new UtilByteArray(xSize, ySize, zSize);
         temperature = new byte[xSize][ySize][zSize];
         this.xSize = xSize;
         this.ySize = ySize;
@@ -106,22 +107,6 @@ public class LocalMap implements ModelComponent, Initable {
     public boolean isFlyPassable(int x, int y, int z) {
         //TODO
         return inMap(x, y, z) && blockType.getEnumValue(x, y, z).PASSING != IMPASSABLE;
-    }
-
-    public byte getFlooding(int x, int y, int z) {
-        return flooding[x][y][z];
-    }
-
-    public byte getFlooding(Position position) {
-        return getFlooding(position.x, position.y, position.z);
-    }
-
-    public void setFlooding(int x, int y, int z, int value) {
-        flooding[x][y][z] = (byte) value;
-    }
-
-    public void setFlooding(Position position, int value) {
-        setFlooding(position.x, position.y, position.z, value);
     }
 
     private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
