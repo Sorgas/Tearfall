@@ -27,11 +27,8 @@ public class LiquidDrawer extends Drawer {
     }
 
     public void drawBlock(int x, int y, int z) {
-        Optional.ofNullable(liquidContainer.getTile(x, y, z))
-                .map(tile -> tile.amount)
-                .filter(amount -> amount != 0)
-                .map(amount -> liquids.getBlockTile(amount - 1, 0)) // get sprite
-                .ifPresent(sprite -> drawSprite(x, y, z, sprite));
+        int amount = liquidContainer.getAmount(x, y, z);
+        if(amount > 0) drawSprite(x, y, z, liquids.getBlockTile(amount - 1, 0));
     }
 
     private void drawSprite(int x, int y, int z, TextureRegion sprite) {

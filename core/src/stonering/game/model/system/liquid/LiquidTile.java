@@ -6,7 +6,7 @@ package stonering.game.model.system.liquid;
 public class LiquidTile {
     public int liquid;
     public int amount;
-    public boolean stable;
+    public boolean stable = false;
 
     public LiquidTile(int liquid, int amount) {
         this.liquid = liquid;

@@ -39,6 +39,7 @@ public class LiquidContainer implements ModelComponent, Initable, Updatable {
     private LocalMap localMap;
     private final HashMap<Position, LiquidTile> liquidTiles;
     private final HashMap<Position, LiquidSource> liquidSources;
+    private final HashMap<Position, Integer> deltaMap;
     private int turnDelay = 10;
     private int turnCount = 0;
     private Set<Position> cache;
@@ -53,6 +54,7 @@ public class LiquidContainer implements ModelComponent, Initable, Updatable {
         cacheBounds = new Int2dBounds();
         cachePosition = new Position();
         random = new Random();
+        deltaMap = new HashMap<>();
     }
 
     @Override
@@ -85,6 +87,7 @@ public class LiquidContainer implements ModelComponent, Initable, Updatable {
     }
 
     private void updateLiquids() {
+        deltaMap.clear();
         liquidTiles.entrySet().removeIf(entry -> entry.getValue().amount == 0); // remove empty liquid tiles
 
         liquidTiles.entrySet().stream()
@@ -93,7 +96,7 @@ public class LiquidContainer implements ModelComponent, Initable, Updatable {
                 .collect(Collectors.toList())
                 .forEach(pos -> {
                     if (tryFallLower(pos)) {
-                        getTile(pos.x, pos.y, pos.z - 1).stable = false; // set lower tile unstable
+//                        getTile(pos.x, pos.y, pos.z - 1).stable = false; // set lower tile unstable
                     } else if (tryFlowToSide(pos)) {
                         cacheBounds.set(pos.x - 1, pos.y - 1, pos.x + 1, pos.y + 1)
                                 .iterate((x, y) -> {
@@ -109,7 +112,8 @@ public class LiquidContainer implements ModelComponent, Initable, Updatable {
                 .map(source -> source.position)
                 .filter(position -> getAmount(position) < 7)
                 .collect(Collectors.toList())
-                .forEach(position -> transferLiquid(null, position, 1));
+                .forEach(position -> createLiquidDelta(null, position, 1));
+        flushDelta();
     }
 
     private boolean tryFallLower(Position position) {
@@ -120,7 +124,7 @@ public class LiquidContainer implements ModelComponent, Initable, Updatable {
             if ((currentType == SPACE || currentType == DOWNSTAIRS)
                     && lowerType != WALL
                     && getAmount(lowerPosition) < 7) { // can fall lower
-                transferLiquid(position, lowerPosition, 1);
+                createLiquidDelta(position, lowerPosition, 1);
                 return true;
             }
         }
@@ -132,7 +136,7 @@ public class LiquidContainer implements ModelComponent, Initable, Updatable {
         List<Position> positions = freeTilesAround(position, getAmount(position));
         if (positions.isEmpty()) return false;
         Position foundPosition = positions.get(random.nextInt(positions.size()));
-        transferLiquid(position, foundPosition, 1);
+        createLiquidDelta(position, foundPosition, 1);
         return true;
     }
 
@@ -154,9 +158,15 @@ public class LiquidContainer implements ModelComponent, Initable, Updatable {
         return positions;
     }
 
-    private void transferLiquid(@Nullable Position from, @Nullable Position to, int amount) {
-        if (to != null && localMap.inMap(to)) setAmount(to, getAmount(to) + amount);
-        if (from != null && localMap.inMap(from)) setAmount(from, getAmount(to) - amount);
+    private void createLiquidDelta(@Nullable Position from, @Nullable Position to, int amount) {
+        if (to != null && localMap.inMap(to)) deltaMap.put(to, deltaMap.getOrDefault(to, 0) + amount);
+        if (from != null && localMap.inMap(from)) deltaMap.put(from, deltaMap.getOrDefault(from, 0) - amount);
+    }
+
+    private void flushDelta() {
+        for (Map.Entry<Position, Integer> entry : deltaMap.entrySet()) {
+            setAmount(entry.getKey(), getAmount(entry.getKey()) + entry.getValue());
+        }
     }
 
     public int getAmount(Position position) {
@@ -170,7 +180,9 @@ public class LiquidContainer implements ModelComponent, Initable, Updatable {
     }
 
     public void setAmount(Position position, int amount) {
-        liquidTiles.computeIfAbsent(position.clone(), pos -> new LiquidTile(MaterialMap.getId("water"), 0)).amount = amount;
+        LiquidTile tile = liquidTiles.computeIfAbsent(position.clone(), pos -> new LiquidTile(MaterialMap.getId("water"), 0));
+        tile.amount = amount;
+        tile.stable = false;
     }
 
     public LiquidTile getTile(Position position) {
