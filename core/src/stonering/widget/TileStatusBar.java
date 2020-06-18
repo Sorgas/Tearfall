@@ -1,5 +1,7 @@
 package stonering.widget;
 
+import java.util.Optional;
+
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -11,6 +13,8 @@ import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.entity_selector.EntitySelectorSystem;
+import stonering.game.model.system.liquid.LiquidContainer;
+import stonering.game.model.system.liquid.LiquidTile;
 import stonering.util.global.StaticSkin;
 import stonering.util.geometry.Position;
 
@@ -24,6 +28,7 @@ public class TileStatusBar extends Container<Table> {
     private Label cellType;
     private Label coordinates;
     private Label area;
+    private Label liquid;
 
     public TileStatusBar() {
         super();
@@ -42,15 +47,17 @@ public class TileStatusBar extends Container<Table> {
         table.add(new Label("Coordinates: ", StaticSkin.getSkin()));
         table.add(coordinates = new Label("", StaticSkin.getSkin())).row();
         table.add(new Label("Area: ", StaticSkin.getSkin()));
-        table.add(area = new Label("", StaticSkin.getSkin()));
+        table.add(area = new Label("", StaticSkin.getSkin())).row();
+        table.add(new Label("Liquid: ", StaticSkin.getSkin()));
+        table.add(liquid = new Label("", StaticSkin.getSkin()));
         setDebug(true, true);
         return table;
     }
 
     public void update() {
-        GameModel gameModel = GameMvc.instance().model();
+        GameModel gameModel = GameMvc.model();
         Position focus = gameModel.get(EntitySelectorSystem.class).selector.position;
-        Material material = MaterialMap.instance().getMaterial(gameModel.get(LocalMap.class).blockType.getMaterial(focus));
+        Material material = MaterialMap.getMaterial(gameModel.get(LocalMap.class).blockType.getMaterial(focus));
         setData(focus,
                 material != null ? material.name : "",
                 gameModel.get(LocalMap.class).passageMap != null ? gameModel.get(LocalMap.class).passageMap.area.get(focus) : 0,
@@ -60,7 +67,10 @@ public class TileStatusBar extends Container<Table> {
     public void setData(Position camera, String material, int area, int blockType) {
         coordinates.setText("(" + camera.x + ", " + camera.y + ", " + camera.z + ") " + BlockTypeEnum.getType((byte) blockType));
         cellType.setText(material);
-        date.setText(GameMvc.instance().model().getCalendar().getCurrentTime());
+        date.setText(GameMvc.model().getCalendar().getCurrentTime());
         this.area.setText(area);
+        Optional.ofNullable(GameMvc.model().get(LiquidContainer.class).getTile(camera))
+                .ifPresentOrElse(tile -> liquid.setText(tile.amount + " stable: " + tile.stable),
+                        () -> liquid.setText(""));
     }
 }

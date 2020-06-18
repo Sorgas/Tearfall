@@ -8,7 +8,6 @@ import stonering.enums.time.TimeUnitEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.system.ModelComponent;
 import stonering.util.geometry.Int2dBounds;
-import stonering.util.global.Pair;
 import stonering.util.global.Updatable;
 import stonering.game.model.local_map.LocalMap;
 import stonering.generators.localgen.LocalGenContainer;
@@ -16,7 +15,6 @@ import stonering.util.geometry.Position;
 import stonering.util.global.Initable;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 import com.sun.istack.Nullable;
@@ -42,13 +40,45 @@ public class LiquidContainer implements ModelComponent, Initable, Updatable {
     private LocalMap localMap;
     private final Map<Position, LiquidTile> liquidTiles;
     private final HashMap<Position, LiquidSource> liquidSources;
-    private final HashMap<Position, Integer> deltaMap;
     private int turnDelay = 10;
     private int turnCount = 0;
     private Set<Position> cache;
     private final Int2dBounds cacheBounds;
     private final Position cachePosition;
     private final Random random;
+    private final int MAX_AMOUNT = 7;
+
+    List<Position> neighbourDeltas = Arrays.asList(
+            new Position(1, 0, 0),
+            new Position(0, 1, 0),
+            new Position(-1, 0, 0),
+            new Position(0, -1, 0)
+    );
+
+    List<Position> allNeighbourDeltas = Arrays.asList(
+            new Position(0, 1, 0),
+            new Position(0, -1, 0),
+            new Position(1, 0, 0),
+            new Position(1, 1, 0),
+            new Position(1, -1, 0),
+            new Position(-1, 0, 0),
+            new Position(-1, 1, 0),
+            new Position(-1, -1, 0)
+    );
+
+    List<Position> lowerAndSameNeighbourDeltas = Arrays.asList(
+            new Position(0, 1, 0),
+            new Position(0, -1, 0),
+            new Position(1, 0, 0),
+            new Position(1, 1, 0),
+            new Position(1, -1, 0),
+            new Position(-1, 0, 0),
+            new Position(-1, 1, 0),
+            new Position(-1, -1, 0),
+            new Position(0, 0, -1),
+            new Position(0, 0, 1)
+    );
+
 
     public LiquidContainer() {
         liquidTiles = new HashMap<>();
@@ -57,7 +87,6 @@ public class LiquidContainer implements ModelComponent, Initable, Updatable {
         cacheBounds = new Int2dBounds();
         cachePosition = new Position();
         random = new Random();
-        deltaMap = new HashMap<>();
     }
 
     @Override
@@ -90,7 +119,6 @@ public class LiquidContainer implements ModelComponent, Initable, Updatable {
     }
 
     private void updateLiquids() {
-        deltaMap.clear();
         liquidTiles.entrySet().removeIf(entry -> entry.getValue().amount == 0); // remove empty liquid tiles
 
         liquidTiles.entrySet().stream()
@@ -98,19 +126,7 @@ public class LiquidContainer implements ModelComponent, Initable, Updatable {
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList())
                 .forEach(pos -> {
-                    if (tryFallDown(pos)) {
-//                        getTile(pos.x, pos.y, pos.z - 1).stable = false; // set lower tile unstable
-                    } else if(tryFallOver(pos)) {
-                        
-                    } else if (tryFlowToSide(pos)) {
-                        cacheBounds.set(pos.x - 1, pos.y - 1, pos.x + 1, pos.y + 1)
-                                .iterate((x, y) -> {
-                                    Optional.ofNullable(getTile(x, y, pos.z))
-                                            .ifPresent(tile -> tile.stable = false);
-                                }); // set near tiles unstable
-                    } else {
-                        liquidTiles.get(pos).stable = true; // set current tile stable
-                    }
+                    if (!tryFallDown(pos) && !tryFallOver(pos) && !tryFlowToSide(pos)) getTile(pos).stable = true; // tile did not fall
                 });
 
         liquidSources.values().stream() // generate liquid in sources
@@ -118,103 +134,98 @@ public class LiquidContainer implements ModelComponent, Initable, Updatable {
                 .filter(position -> getAmount(position) < 7)
                 .collect(Collectors.toList())
                 .forEach(position -> createLiquidDelta(null, position, 1));
-        flushDelta();
     }
 
     private boolean tryFallDown(Position position) {
-        if (position.z > 0) {
-            Position lowerPosition = Position.add(position, 0, 0, -1);
-            BlockTypeEnum currentType = localMap.blockType.getEnumValue(position);
-            BlockTypeEnum lowerType = localMap.blockType.getEnumValue(lowerPosition);
-            if ((currentType == SPACE || currentType == DOWNSTAIRS)
-                    && lowerType != WALL
-                    && getAmount(lowerPosition) < 7) { // can fall lower
+        if (position.z <= 0) return false;
+        Position lowerPosition = Position.add(position, 0, 0, -1);
+        BlockTypeEnum currentType = localMap.blockType.getEnumValue(position);
+        BlockTypeEnum lowerType = localMap.blockType.getEnumValue(lowerPosition);
+        if ((currentType == SPACE || currentType == DOWNSTAIRS) && lowerType != WALL)
+            if (getAmount(lowerPosition) < MAX_AMOUNT) { // can fall lower
                 createLiquidDelta(position, lowerPosition, 1);
                 return true;
+            } else {
+                Position pos = findPositionToTeleport(position);
+                if(pos != null) {
+                    createLiquidDelta(position, pos, 1);
+                    return true;
+                }
             }
-        }
         return false;
     }
 
     private boolean tryFallOver(Position position) {
-        if (position.z > 0) {
-            List<Pair<Integer, Integer>> pairs = Arrays.asList(
-                    new Pair<>(1, 0),
-                    new Pair<>(0, 1),
-                    new Pair<>(-1, 0),
-                    new Pair<>(0, -1)
-            );
-            List<Position> positions = pairs.stream()
-                    .map(pair -> Position.add(position, pair.getKey(), pair.getValue(), 0))
-                    .filter(pos -> {
-                        BlockTypeEnum type = localMap.blockType.getEnumValue(pos);
-                        return type == SPACE || type == DOWNSTAIRS;
-                    })
-                    .peek(pos -> pos.add(0,0, -1))
-                    .filter(pos -> localMap.blockType.getEnumValue(pos) != WALL)
-                    .filter(pos -> getAmount(pos) < 7)
-                    .collect(Collectors.toList());
-            if (positions.isEmpty()) return false;
-            Position foundPosition = positions.get(random.nextInt(positions.size()));
-            int amountToMove = Math.min(7 - getAmount(foundPosition), getAmount(position));
-            createLiquidDelta(position, foundPosition, amountToMove);
-            return true;
-        }
-        return false;
-    }
-
-    private boolean tryFlowToSide(Position position) {
-        if (getTile(position).amount < 2) return false;
-        int currentAmount = getAmount(position);
-        List<Position> positions = freeTilesAround(position, currentAmount);
-        if (positions.isEmpty()) return false;
-        int min = positions.stream()
-                .min(Comparator.comparingInt(this::getAmount))
-                .map(this::getAmount)
-                .orElse(-1);
-        positions = positions.stream()
-                .filter(pos -> getAmount(pos) == min)
+        if (position.z <= 0) return false;
+        List<Position> positions = neighbourDeltas.stream()
+                .map(delta -> Position.add(position, delta))
+                .filter(localMap::inMap)
+                .filter(pos -> localMap.blockType.getEnumValue(pos).PASS_LIQUID_DOWN) // tile can pass liquid down
+                .peek(pos -> pos.add(0, 0, -1)) // get lower positions
+                .filter(pos -> localMap.blockType.getEnumValue(pos) != WALL) // tile can contain liquids
+                .filter(pos -> getAmount(pos) < MAX_AMOUNT) // tile not full
                 .collect(Collectors.toList());
-        Position foundPosition = positions.get(random.nextInt(positions.size()));
-        int amountToMove = (currentAmount - min == 1)
-                ? 1
-                : (currentAmount - min) / 2;
-        createLiquidDelta(position, foundPosition, amountToMove);
+        if (positions.isEmpty()) return false;
+        Position foundPosition = positions.size() == 1
+                ? positions.get(0)
+                : positions.get(random.nextInt(positions.size()));
+        createLiquidDelta(position, foundPosition, 1);
         return true;
     }
 
-    /**
-     * Collects 8 tiles around position on same z-level which are open and contain less than maxWater
-     */
-    private List<Position> freeTilesAround(Position position, int maxWater) {
-        ArrayList<Position> positions = new ArrayList<>();
-        for (int x = position.x - 1; x < position.x + 2; x++) {
-            for (int y = position.y - 1; y < position.y + 2; y++) {
-                if (!(x == 0 && y == 0)
-                        && localMap.inMap(x, y, position.z)
-                        && localMap.isFlyPassable(x, y, position.z)
-                        && getAmount(x, y, position.z) < maxWater) { // can take liquid
-                    positions.add(new Position(x, y, position.z));
+    private boolean tryFlowToSide(Position position) {
+        int currentAmount = getAmount(position);
+        if (currentAmount < 2) return false;
+        List<Position> positions = allNeighbourDeltas.stream()
+                .map(pos -> Position.add(position, pos)) // add deltas
+                .filter(localMap::inMap) // in map
+                .filter(pos -> localMap.blockType.getEnumValue(pos) != WALL) // non wall
+                .filter(pos -> getAmount(pos) < currentAmount) // not full
+                .collect(Collectors.toList());
+        if (positions.isEmpty()) return false;
+        Position foundPosition = positions.get(random.nextInt(positions.size()));
+        createLiquidDelta(position, foundPosition, 1);
+        allNeighbourDeltas.stream()
+                .map(pos -> Position.add(position, pos)) // add deltas
+                .map(this::getTile)
+                .filter(Objects::nonNull)
+                .forEach(tile -> tile.stable = false);
+        return true;
+    }
+
+    private Position findPositionToTeleport(Position from) {
+        System.out.println("teleporting from " + from);
+        List<Position> open = new ArrayList<>();
+        Set<Position> closed = new HashSet<>();
+        open.add(from);
+        while (!open.isEmpty()) {
+            Position position = open.remove(0);
+            List<Position> positions = lowerAndSameNeighbourDeltas.stream()
+                    .map(pos -> Position.add(position, pos))
+                    .filter(pos -> pos.z <= from.z)
+                    .filter(localMap::inMap)
+                    .filter(pos -> !closed.contains(pos))
+                    .filter(pos -> localMap.blockType.getEnumValue(pos) != WALL)
+                    .collect(Collectors.toList());
+            for (Position pos : positions) {
+                int amount = getAmount(pos);
+                if (amount < MAX_AMOUNT) {
+                    System.out.println("to " + pos);
+                    return pos; // tp here
+                }
+                if (amount == MAX_AMOUNT) {
+                    if (!closed.contains(pos)) open.add(pos); // new unchecked tile
                 }
             }
+            closed.add(position); // position checked
         }
-        return positions;
+        System.out.println("not found");
+        return null;
     }
 
     private void createLiquidDelta(@Nullable Position from, @Nullable Position to, int amount) {
-        if (to != null && localMap.inMap(to)) deltaMap.put(to, deltaMap.getOrDefault(to, 0) + amount);
-        if (from != null && localMap.inMap(from)) deltaMap.put(from, deltaMap.getOrDefault(from, 0) - amount);
-        
-//        if (to != null && localMap.inMap(to))
-//            setAmount(to, getAmount(to) + amount);
-//        if (from != null && localMap.inMap(from))
-//            setAmount(from, getAmount(from) + amount);
-    }
-
-    private void flushDelta() {
-        for (Map.Entry<Position, Integer> entry : deltaMap.entrySet()) {
-            setAmount(entry.getKey(), getAmount(entry.getKey()) + entry.getValue());
-        }
+        if (to != null && localMap.inMap(to)) setAmount(to, getAmount(to) + amount);
+        if (from != null && localMap.inMap(from)) setAmount(from, getAmount(from) - amount);
     }
 
     public int getAmount(Position position) {

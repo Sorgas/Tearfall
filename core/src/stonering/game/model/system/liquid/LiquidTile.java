@@ -7,7 +7,7 @@ public class LiquidTile {
     public int liquid;
     public int amount;
     public boolean stable = false;
-
+    
     public LiquidTile(int liquid, int amount) {
         this.liquid = liquid;
         this.amount = amount;
