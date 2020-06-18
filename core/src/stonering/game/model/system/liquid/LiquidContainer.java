@@ -8,6 +8,7 @@ import stonering.enums.time.TimeUnitEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.system.ModelComponent;
 import stonering.util.geometry.Int2dBounds;
+import stonering.util.global.Pair;
 import stonering.util.global.Updatable;
 import stonering.game.model.local_map.LocalMap;
 import stonering.generators.localgen.LocalGenContainer;
@@ -15,6 +16,7 @@ import stonering.util.geometry.Position;
 import stonering.util.global.Initable;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 import com.sun.istack.Nullable;
@@ -32,12 +34,13 @@ import com.sun.istack.Nullable;
  * //TODO support other liquids
  * //TODO add intensity based on river/brook water amount
  * //TODO put water sources out of map borders
+ * TODO add U-shaped behaviour
  *
  * @author Alexander on 22.08.2018.
  */
 public class LiquidContainer implements ModelComponent, Initable, Updatable {
     private LocalMap localMap;
-    private final HashMap<Position, LiquidTile> liquidTiles;
+    private final Map<Position, LiquidTile> liquidTiles;
     private final HashMap<Position, LiquidSource> liquidSources;
     private final HashMap<Position, Integer> deltaMap;
     private int turnDelay = 10;
@@ -95,8 +98,10 @@ public class LiquidContainer implements ModelComponent, Initable, Updatable {
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList())
                 .forEach(pos -> {
-                    if (tryFallLower(pos)) {
+                    if (tryFallDown(pos)) {
 //                        getTile(pos.x, pos.y, pos.z - 1).stable = false; // set lower tile unstable
+                    } else if(tryFallOver(pos)) {
+                        
                     } else if (tryFlowToSide(pos)) {
                         cacheBounds.set(pos.x - 1, pos.y - 1, pos.x + 1, pos.y + 1)
                                 .iterate((x, y) -> {
@@ -116,7 +121,7 @@ public class LiquidContainer implements ModelComponent, Initable, Updatable {
         flushDelta();
     }
 
-    private boolean tryFallLower(Position position) {
+    private boolean tryFallDown(Position position) {
         if (position.z > 0) {
             Position lowerPosition = Position.add(position, 0, 0, -1);
             BlockTypeEnum currentType = localMap.blockType.getEnumValue(position);
@@ -131,12 +136,50 @@ public class LiquidContainer implements ModelComponent, Initable, Updatable {
         return false;
     }
 
+    private boolean tryFallOver(Position position) {
+        if (position.z > 0) {
+            List<Pair<Integer, Integer>> pairs = Arrays.asList(
+                    new Pair<>(1, 0),
+                    new Pair<>(0, 1),
+                    new Pair<>(-1, 0),
+                    new Pair<>(0, -1)
+            );
+            List<Position> positions = pairs.stream()
+                    .map(pair -> Position.add(position, pair.getKey(), pair.getValue(), 0))
+                    .filter(pos -> {
+                        BlockTypeEnum type = localMap.blockType.getEnumValue(pos);
+                        return type == SPACE || type == DOWNSTAIRS;
+                    })
+                    .peek(pos -> pos.add(0,0, -1))
+                    .filter(pos -> localMap.blockType.getEnumValue(pos) != WALL)
+                    .filter(pos -> getAmount(pos) < 7)
+                    .collect(Collectors.toList());
+            if (positions.isEmpty()) return false;
+            Position foundPosition = positions.get(random.nextInt(positions.size()));
+            int amountToMove = Math.min(7 - getAmount(foundPosition), getAmount(position));
+            createLiquidDelta(position, foundPosition, amountToMove);
+            return true;
+        }
+        return false;
+    }
+
     private boolean tryFlowToSide(Position position) {
         if (getTile(position).amount < 2) return false;
-        List<Position> positions = freeTilesAround(position, getAmount(position));
+        int currentAmount = getAmount(position);
+        List<Position> positions = freeTilesAround(position, currentAmount);
         if (positions.isEmpty()) return false;
+        int min = positions.stream()
+                .min(Comparator.comparingInt(this::getAmount))
+                .map(this::getAmount)
+                .orElse(-1);
+        positions = positions.stream()
+                .filter(pos -> getAmount(pos) == min)
+                .collect(Collectors.toList());
         Position foundPosition = positions.get(random.nextInt(positions.size()));
-        createLiquidDelta(position, foundPosition, 1);
+        int amountToMove = (currentAmount - min == 1)
+                ? 1
+                : (currentAmount - min) / 2;
+        createLiquidDelta(position, foundPosition, amountToMove);
         return true;
     }
 
@@ -161,6 +204,11 @@ public class LiquidContainer implements ModelComponent, Initable, Updatable {
     private void createLiquidDelta(@Nullable Position from, @Nullable Position to, int amount) {
         if (to != null && localMap.inMap(to)) deltaMap.put(to, deltaMap.getOrDefault(to, 0) + amount);
         if (from != null && localMap.inMap(from)) deltaMap.put(from, deltaMap.getOrDefault(from, 0) - amount);
+        
+//        if (to != null && localMap.inMap(to))
+//            setAmount(to, getAmount(to) + amount);
+//        if (from != null && localMap.inMap(from))
+//            setAmount(from, getAmount(from) + amount);
     }
 
     private void flushDelta() {

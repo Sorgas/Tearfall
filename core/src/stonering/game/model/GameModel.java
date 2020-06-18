@@ -93,4 +93,8 @@ public abstract class GameModel implements Initable, Serializable, Updatable {
             }
         }, 0, 1f / 60 / gameSpeed);
     }
+    
+    public void singleUpdate() {
+        if(paused) calendar.update();
+    }
 }

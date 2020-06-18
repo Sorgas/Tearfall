@@ -22,6 +22,9 @@ public class GameSpeedInputAdapter extends InputAdapter {
             case Input.Keys.NUM_3:
                 GameMvc.model().setGameSpeed(4);
                 return true;
+            case Input.Keys.PERIOD:
+                GameMvc.model().singleUpdate();
+                return true;
         }
         return false;
     }
