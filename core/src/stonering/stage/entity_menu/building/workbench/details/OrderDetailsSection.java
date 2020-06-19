@@ -13,7 +13,7 @@ import stonering.stage.entity_menu.building.MenuSection;
 import stonering.stage.entity_menu.building.workbench.WorkbenchMenu;
 import stonering.stage.entity_menu.building.workbench.orderlist.OrderItem;
 import stonering.stage.entity_menu.building.workbench.recipelist.RecipeItem;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 import stonering.util.global.StaticSkin;
 
 /**

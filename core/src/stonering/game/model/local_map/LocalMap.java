@@ -5,11 +5,10 @@ import com.badlogic.gdx.math.Vector2;
 import stonering.game.model.local_map.passage.PassageMap;
 import stonering.game.model.system.ModelComponent;
 import stonering.game.model.tilemaps.LocalTileMapUpdater;
-import stonering.util.UtilByteArray;
 import stonering.util.geometry.Int3dBounds;
 import stonering.util.geometry.Position;
 import stonering.util.global.Initable;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -112,7 +111,7 @@ public class LocalMap implements ModelComponent, Initable {
 
     public void updateTile(Position position) {
         updatePassage(position);
-        if (localTileMapUpdater != null) localTileMapUpdater.updateTile(position.x, position.y, position.z);
+        if (localTileMapUpdater != null) localTileMapUpdater.updateTile(position);
     }
 
     public void updatePassage(Position position) {

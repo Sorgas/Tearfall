@@ -10,7 +10,7 @@ import stonering.generators.localgen.LocalGenContainer;
 import stonering.generators.localgen.generators.LocalGenerator;
 import stonering.generators.plants.PlantGenerator;
 import stonering.util.geometry.Position;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 import java.util.*;
 import java.util.stream.Collectors;

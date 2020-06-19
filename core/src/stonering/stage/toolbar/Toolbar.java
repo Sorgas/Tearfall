@@ -1,21 +1,13 @@
 package stonering.stage.toolbar;
 
-import java.util.Optional;
-
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 
 import stonering.enums.images.DrawableMap;
 import stonering.stage.toolbar.menus.ParentMenu;
-import stonering.util.global.Logger;
-import stonering.util.global.StaticSkin;
+import stonering.util.logging.Logger;
 import stonering.widget.ButtonMenu;
 import stonering.widget.util.KeyNotifierListener;
 

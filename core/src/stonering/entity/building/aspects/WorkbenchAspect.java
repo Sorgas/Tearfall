@@ -8,7 +8,7 @@ import stonering.entity.Entity;
 import stonering.entity.crafting.ItemOrder;
 import stonering.enums.items.recipe.Recipe;
 import stonering.enums.items.recipe.RecipeMap;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

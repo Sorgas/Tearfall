@@ -10,7 +10,7 @@ import stonering.game.model.system.plant.PlantContainer;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.generators.plants.TreeGenerator;
 import stonering.util.geometry.Position;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 import java.util.Collections;
 import java.util.Random;

@@ -9,7 +9,7 @@ import stonering.enums.unit.health.HealthParameterEnum;
 import stonering.enums.unit.health.HealthParameterRange;
 import stonering.game.GameMvc;
 import stonering.game.model.system.EntitySystem;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 /**
  * Updates health condition of a unit ({@link HealthAspect}).

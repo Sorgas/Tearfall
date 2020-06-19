@@ -15,7 +15,7 @@ import stonering.game.model.MainGameModel;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.task.TaskContainer;
 import stonering.util.geometry.Position;
-import stonering.util.pathfinding.a_star.AStar;
+import stonering.util.pathfinding.AStar;
 
 import java.util.List;
 

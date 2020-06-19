@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import stonering.enums.items.ItemTagEnum;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 /**
  * Validate and creates {@link Ingredient} from string arguments.

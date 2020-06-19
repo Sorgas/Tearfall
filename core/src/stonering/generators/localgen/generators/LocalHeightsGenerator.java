@@ -4,7 +4,7 @@ import stonering.entity.world.World;
 import stonering.generators.PerlinNoiseGenerator;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.entity.world.WorldMap;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 import java.util.Arrays;
 import java.util.Random;

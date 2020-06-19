@@ -5,7 +5,7 @@ import stonering.enums.plants.PlantType;
 import stonering.game.model.system.substrate.SubstrateContainer;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.util.geometry.Position;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 import java.util.*;
 import java.util.stream.Collectors;

@@ -5,7 +5,7 @@ import stonering.game.model.local_map.LocalMap;
 import stonering.generators.PerlinNoiseGenerator;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.util.geometry.Position;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 import java.util.Random;
 

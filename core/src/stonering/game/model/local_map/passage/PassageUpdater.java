@@ -4,8 +4,8 @@ import stonering.enums.blocks.PassageEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
-import stonering.util.global.Logger;
-import stonering.util.pathfinding.a_star.AStar;
+import stonering.util.logging.Logger;
+import stonering.util.pathfinding.AStar;
 
 import java.util.*;
 import java.util.stream.Collectors;

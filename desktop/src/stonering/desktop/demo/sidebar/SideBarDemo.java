@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import stonering.desktop.sidebar.ScrollList;
-import stonering.util.ui.SimpleScreen;
+import stonering.util.view.SimpleScreen;
 import stonering.stage.UiStage;
 import stonering.util.global.StaticSkin;
 

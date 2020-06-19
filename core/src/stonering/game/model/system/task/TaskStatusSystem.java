@@ -2,8 +2,7 @@ package stonering.game.model.system.task;
 
 import stonering.entity.job.Task;
 import stonering.entity.unit.aspects.TaskAspect;
-import stonering.enums.designations.DesignationTypeEnum;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 import java.util.Iterator;
 import java.util.List;

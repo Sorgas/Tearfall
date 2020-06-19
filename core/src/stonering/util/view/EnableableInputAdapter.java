@@ -1,4 +1,4 @@
-package stonering.util.ui;
+package stonering.util.view;
 
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputProcessor;

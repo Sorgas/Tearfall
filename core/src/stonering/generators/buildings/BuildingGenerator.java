@@ -10,12 +10,11 @@ import stonering.entity.building.aspects.WorkbenchAspect;
 import stonering.entity.item.aspects.ItemContainerAspect;
 import stonering.entity.RenderAspect;
 import stonering.enums.buildings.BuildingTypeMap;
-import stonering.stage.renderer.AtlasesEnum;
 import stonering.util.geometry.IntVector2;
 import stonering.util.geometry.Position;
 import stonering.entity.building.Building;
 import stonering.util.geometry.RotationUtil;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 import java.util.List;
 

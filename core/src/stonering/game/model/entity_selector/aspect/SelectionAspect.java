@@ -5,7 +5,7 @@ import stonering.entity.Aspect;
 import stonering.entity.Entity;
 import stonering.game.model.entity_selector.tool.SelectionTools;
 import stonering.game.model.entity_selector.tool.SelectionTool;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 /**
  * Contains {@link SelectionTool} picked for selector.

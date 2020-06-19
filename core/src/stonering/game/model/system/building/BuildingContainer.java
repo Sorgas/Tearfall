@@ -13,7 +13,7 @@ import stonering.game.model.system.ModelComponent;
 import stonering.generators.buildings.BuildingGenerator;
 import stonering.entity.building.Building;
 import stonering.util.geometry.Position;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;

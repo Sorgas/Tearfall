@@ -8,7 +8,6 @@ import stonering.entity.unit.aspects.MovementAspect;
 import stonering.entity.unit.aspects.TaskAspect;
 import stonering.enums.action.ActionStatusEnum;
 import stonering.game.model.system.EntitySystem;
-import stonering.util.global.Logger;
 
 import static stonering.entity.job.action.ActionConditionStatusEnum.FAIL;
 import static stonering.entity.job.action.ActionConditionStatusEnum.OK;

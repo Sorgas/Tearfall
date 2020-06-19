@@ -4,7 +4,7 @@ import stonering.enums.blocks.BlockTypeEnum;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.model.local_map.LocalMap;
 import stonering.generators.localgen.LocalGenContainer;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 import java.util.*;
 

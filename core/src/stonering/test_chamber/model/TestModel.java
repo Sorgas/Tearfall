@@ -18,7 +18,7 @@ import stonering.game.model.system.task.TaskContainer;
 import stonering.game.model.system.unit.UnitContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.tilemaps.LocalTileMap;
-import stonering.util.pathfinding.a_star.AStar;
+import stonering.util.pathfinding.AStar;
 
 /**
  * Game model for testing features without starting the game.

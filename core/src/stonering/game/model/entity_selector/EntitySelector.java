@@ -7,7 +7,6 @@ import stonering.entity.Aspect;
 import stonering.entity.Entity;
 import stonering.util.geometry.IntVector2;
 import stonering.util.geometry.Position;
-import stonering.util.global.Logger;
 
 /**
  * Players 'mouse' in the game. Selects objects on local map. Moved by mouse or WASDRF.

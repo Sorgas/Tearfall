@@ -8,7 +8,7 @@ import stonering.entity.job.designation.OrderDesignation;
 import stonering.enums.designations.DesignationTypeEnum;
 import stonering.enums.designations.PlaceValidatorsEnum;
 import stonering.util.geometry.Position;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 import static stonering.enums.action.TaskStatusEnum.*;
 

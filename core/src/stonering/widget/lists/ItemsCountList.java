@@ -1,7 +1,7 @@
 package stonering.widget.lists;
 
 import stonering.entity.item.Item;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 import stonering.widget.NavigableVerticalGroup;
 import stonering.widget.item.ItemCardButton;
 

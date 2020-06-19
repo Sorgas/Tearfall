@@ -4,7 +4,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import stonering.game.GameMvc;
 import stonering.game.model.GameModel;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 /**
  * Can be disabled.

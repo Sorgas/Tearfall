@@ -2,7 +2,6 @@ package stonering.game.controller.inputProcessors;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
-import stonering.util.global.Logger;
 
 import java.util.*;
 

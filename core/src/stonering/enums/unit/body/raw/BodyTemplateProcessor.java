@@ -2,7 +2,7 @@ package stonering.enums.unit.body.raw;
 
 import stonering.enums.unit.body.BodyPart;
 import stonering.enums.unit.body.BodyTemplate;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 import java.util.*;
 import java.util.stream.Collectors;

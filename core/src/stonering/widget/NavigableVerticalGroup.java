@@ -6,7 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import stonering.enums.ControlActionsEnum;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 import stonering.util.math.MathUtil;
 
 import java.util.*;

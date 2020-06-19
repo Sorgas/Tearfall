@@ -6,7 +6,7 @@ import com.badlogic.gdx.utils.JsonWriter;
 import stonering.enums.plants.raw.RawPlantTypeProcessor;
 import stonering.enums.plants.raw.RawPlantType;
 import stonering.util.global.FileUtil;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;

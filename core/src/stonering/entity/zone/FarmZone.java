@@ -9,7 +9,7 @@ import stonering.entity.world.calendar.WorldCalendar;
 import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.enums.blocks.BlockTypeEnum;
 import stonering.game.model.system.plant.PlantContainer;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 import stonering.util.validation.PositionValidator;
 import stonering.entity.item.selectors.SeedItemSelector;
 import stonering.enums.ZoneTypesEnum;

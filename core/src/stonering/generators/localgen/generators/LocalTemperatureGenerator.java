@@ -4,7 +4,7 @@ import stonering.entity.world.World;
 import stonering.entity.world.WorldMap;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.util.geometry.Position;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 /**
  * Calculates month specific temperature. summer and winter temps are max and min.

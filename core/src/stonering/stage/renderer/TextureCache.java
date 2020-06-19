@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 /**
  * @author Alexander on 05.06.2020.

@@ -11,7 +11,7 @@ import stonering.enums.time.TimeUnitEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.system.EntitySystem;
 import stonering.game.model.system.item.ItemContainer;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 /**
  * System for updating items in creature equipment, and modifying equipment.

@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import stonering.enums.images.DrawableMap;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 import stonering.widget.lists.IconTextButton;
 
 import java.util.HashMap;

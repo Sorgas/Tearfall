@@ -12,7 +12,7 @@ import stonering.generators.creatures.needs.NeedAspectGenerator;
 import stonering.entity.unit.Unit;
 import stonering.stage.renderer.AtlasesEnum;
 import stonering.util.geometry.Position;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 /**
  * Creates creatures from json files by specimen name.

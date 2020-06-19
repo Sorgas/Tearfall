@@ -1,4 +1,4 @@
-package stonering.util.pathfinding.a_star;
+package stonering.util.pathfinding;
 
 import stonering.util.geometry.Position;
 

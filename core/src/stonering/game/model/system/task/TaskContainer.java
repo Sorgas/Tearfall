@@ -18,7 +18,7 @@ import stonering.game.model.system.ModelComponent;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 import stonering.entity.job.Task;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 import java.util.*;
 

@@ -18,7 +18,7 @@ import stonering.stage.entity_menu.building.ItemSelectSection;
 import stonering.stage.renderer.AtlasesEnum;
 import stonering.util.geometry.Int3dBounds;
 import stonering.util.geometry.Position;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 import java.util.*;
 

@@ -1,4 +1,4 @@
-package stonering.util.pathfinding.a_star;
+package stonering.util.pathfinding;
 
 import stonering.entity.job.action.target.ActionTarget;
 import stonering.enums.action.ActionTargetTypeEnum;
@@ -7,7 +7,7 @@ import stonering.game.model.system.ModelComponent;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.HashPriorityQueue;
 import stonering.util.geometry.Position;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 import java.util.*;
 

@@ -3,7 +3,7 @@ package stonering.entity.unit.aspects.health;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.AttributeAspect;
 import stonering.enums.unit.AttributesEnum;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 /**
  * Holds delta value for attribute.

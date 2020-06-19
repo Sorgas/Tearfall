@@ -11,16 +11,14 @@ import stonering.entity.item.aspects.ItemContainerAspect;
 import stonering.entity.unit.aspects.health.HealthAspect;
 import stonering.entity.unit.aspects.job.SkillAspect;
 import stonering.enums.action.ActionTargetTypeEnum;
-import stonering.enums.unit.Skill;
 import stonering.enums.unit.SkillsMap;
 import stonering.generators.items.ItemGenerator;
 import stonering.util.geometry.Position;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static stonering.entity.job.action.ActionConditionStatusEnum.*;

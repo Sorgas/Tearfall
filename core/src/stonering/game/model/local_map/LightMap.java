@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.MathUtils;
 import stonering.enums.blocks.BlockTypeEnum;
 import stonering.util.UtilByteArray;
 import stonering.util.geometry.Position;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 import java.util.HashSet;
 import java.util.LinkedHashSet;

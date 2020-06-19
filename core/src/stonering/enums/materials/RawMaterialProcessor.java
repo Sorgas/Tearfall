@@ -5,7 +5,7 @@ import java.util.List;
 
 import stonering.entity.Aspect;
 import stonering.entity.material.Material;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 import stonering.util.global.Pair;
 
 /**

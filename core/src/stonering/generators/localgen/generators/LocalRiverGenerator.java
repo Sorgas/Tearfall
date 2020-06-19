@@ -10,7 +10,7 @@ import stonering.generators.localgen.LocalGenContainer;
 import stonering.entity.world.WorldMap;
 import stonering.util.geometry.Position;
 import stonering.entity.environment.WaterSource;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 import java.util.ArrayList;
 import java.util.Arrays;

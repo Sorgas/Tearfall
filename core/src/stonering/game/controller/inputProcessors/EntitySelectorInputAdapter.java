@@ -6,14 +6,11 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.math.Vector3;
 import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.EntitySelector;
-import stonering.game.model.entity_selector.aspect.BoxSelectionAspect;
 import stonering.game.model.entity_selector.EntitySelectorInputHandler;
 import stonering.game.model.entity_selector.EntitySelectorSystem;
-import stonering.game.model.entity_selector.aspect.SelectionAspect;
 import stonering.stage.renderer.AtlasesEnum;
 import stonering.util.geometry.Position;
-import stonering.util.global.Logger;
-import stonering.util.ui.EnableableInputAdapter;
+import stonering.util.view.EnableableInputAdapter;
 
 import static com.badlogic.gdx.Input.Keys.*;
 

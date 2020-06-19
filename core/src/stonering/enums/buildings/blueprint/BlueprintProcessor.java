@@ -2,17 +2,10 @@ package stonering.enums.buildings.blueprint;
 
 import static stonering.enums.items.ItemTagEnum.MATERIAL;
 
-import org.apache.commons.lang3.StringUtils;
-
-import stonering.enums.items.ItemTagEnum;
-import stonering.enums.items.recipe.Ingredient;
 import stonering.enums.items.recipe.IngredientProcessor;
 import stonering.enums.items.type.ItemTypeMap;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 
 /**

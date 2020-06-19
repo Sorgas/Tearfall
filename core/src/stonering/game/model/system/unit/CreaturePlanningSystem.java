@@ -9,7 +9,7 @@ import stonering.game.GameMvc;
 import stonering.game.model.system.EntitySystem;
 import stonering.game.model.system.task.CreatureActionPerformingSystem;
 import stonering.game.model.system.task.TaskContainer;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 import java.util.ArrayList;
 import java.util.Comparator;

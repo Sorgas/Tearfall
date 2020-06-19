@@ -10,7 +10,7 @@ import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.system.unit.CreatureEquipmentSystem;
 import stonering.game.model.system.unit.UnitContainer;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 import static stonering.entity.job.action.ActionConditionStatusEnum.*;
 

@@ -7,7 +7,7 @@ import stonering.entity.item.Item;
 import stonering.entity.plant.AbstractPlant;
 import stonering.entity.plant.PlantBlock;
 import stonering.enums.plants.PlantLifeStage;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 import java.util.ArrayList;
 import java.util.List;

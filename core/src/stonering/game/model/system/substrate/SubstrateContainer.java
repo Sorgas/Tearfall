@@ -8,7 +8,7 @@ import stonering.game.model.system.EntityContainer;
 import stonering.game.model.system.ModelComponent;
 import stonering.util.geometry.Position;
 import stonering.util.global.Initable;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 import java.util.HashMap;
 

@@ -4,7 +4,7 @@ import stonering.entity.item.Item;
 import stonering.enums.time.TimeUnitEnum;
 import stonering.game.model.system.EntitySystem;
 import stonering.util.geometry.Position;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 import java.util.ArrayList;
 import java.util.List;

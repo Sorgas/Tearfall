@@ -1,10 +1,10 @@
-package stonering.util.ui;
+package stonering.util.view;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import stonering.util.global.Initable;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 import stonering.widget.util.Resizeable;
 
 import java.util.ArrayList;

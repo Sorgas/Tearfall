@@ -1,12 +1,11 @@
 package stonering.enums.items.type;
 
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import stonering.enums.items.type.raw.RawItemType;
 import stonering.enums.items.type.raw.RawItemTypeProcessor;
 import stonering.util.global.FileUtil;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Properties;
 
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 /**
  * Loads game settings. Settings can be changed in menu and saved to file.

@@ -4,7 +4,6 @@ import stonering.entity.plant.AbstractPlant;
 import stonering.entity.plant.Plant;
 import stonering.entity.plant.PlantBlock;
 import stonering.entity.plant.Tree;
-import stonering.enums.blocks.BlockTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.EntityContainer;
@@ -12,7 +11,7 @@ import stonering.game.model.system.ModelComponent;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.generators.items.PlantProductGenerator;
 import stonering.util.geometry.Position;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 import java.util.HashMap;
 

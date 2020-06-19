@@ -1,4 +1,4 @@
-package stonering.util.global;
+package stonering.util.logging;
 
 
 import java.util.List;

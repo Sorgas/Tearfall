@@ -6,7 +6,7 @@ import stonering.enums.unit.body.BodyTemplate;
 import stonering.enums.unit.body.raw.BodyTemplateProcessor;
 import stonering.enums.unit.body.raw.RawBodyTemplate;
 import stonering.util.global.FileUtil;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;

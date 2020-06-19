@@ -1,6 +1,6 @@
 package stonering.entity.unit.aspects.needs;
 
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 import java.util.HashMap;
 import java.util.Map;

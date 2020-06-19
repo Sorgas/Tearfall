@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import stonering.TearFall;
 import stonering.stage.UiStage;
 import stonering.util.global.StaticSkin;
-import stonering.util.ui.SimpleScreen;
+import stonering.util.view.SimpleScreen;
 
 import java.io.File;
 

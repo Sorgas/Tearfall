@@ -9,8 +9,7 @@ import stonering.stage.MapEntitySelectStage;
 import stonering.stage.pause.PauseMenuStage;
 import stonering.stage.localworld.LocalWorldStage;
 import stonering.util.geometry.Int3dBounds;
-import stonering.util.ui.MultiStageScreen;
-import stonering.util.global.Logger;
+import stonering.util.view.MultiStageScreen;
 
 /**
  * Main game screen.

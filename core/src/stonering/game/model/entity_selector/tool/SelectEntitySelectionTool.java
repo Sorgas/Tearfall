@@ -5,7 +5,7 @@ import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.aspect.BoxSelectionAspect;
 import stonering.stage.renderer.AtlasesEnum;
 import stonering.util.geometry.Int3dBounds;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 /**
  * Tool for selecting entities on localmap.

@@ -1,7 +1,7 @@
 package stonering.entity.unit.aspects.health;
 
 import stonering.entity.unit.Unit;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 /**
  * Modifies property in {@link HealthAspect}.

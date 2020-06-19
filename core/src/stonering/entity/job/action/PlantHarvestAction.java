@@ -12,7 +12,7 @@ import stonering.game.GameMvc;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.system.plant.PlantContainer;
 import stonering.generators.items.PlantProductGenerator;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 import static stonering.entity.job.action.ActionConditionStatusEnum.*;
 

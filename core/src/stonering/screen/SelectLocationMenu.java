@@ -17,7 +17,7 @@ import stonering.entity.world.World;
 import stonering.screen.ui_components.MiniMap;
 import stonering.screen.util.WorldCellInfo;
 import stonering.util.global.StaticSkin;
-import stonering.util.ui.SimpleScreen;
+import stonering.util.view.SimpleScreen;
 
 /**
  * Screen for selecting location for settlement on game start.

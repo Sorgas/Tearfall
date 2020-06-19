@@ -57,10 +57,10 @@ public class BlockDrawer extends Drawer {
     private int getAtlasXForBlock(int x, int y, int z) {
         byte blockType = localMap.blockType.get(x, y, z);
         if (blockType == BlockTypeEnum.SPACE.CODE) return -1;
-        return localTileMap.get(x, y, z).getVal1();
+        return localTileMap.get(x, y, z).x;
     }
 
     private int getAtlasYForBlock(int x, int y, int z) {
-        return MaterialMap.instance().getMaterial(localMap.blockType.getMaterial(x, y, z)).atlasY;
+        return MaterialMap.getMaterial(localMap.blockType.getMaterial(x, y, z)).atlasY;
     }
 }

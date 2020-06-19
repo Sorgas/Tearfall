@@ -6,10 +6,9 @@ import stonering.entity.job.designation.BuildingDesignation;
 import stonering.entity.job.designation.Designation;
 import stonering.entity.job.designation.OrderDesignation;
 import stonering.entity.plant.PlantBlock;
-import stonering.enums.buildings.BuildingTypeMap;
 import stonering.game.GameMvc;
 import stonering.game.model.system.plant.PlantContainer;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 /**
  * Factory class for creating {@link Task}s based on {@link Designation}s.

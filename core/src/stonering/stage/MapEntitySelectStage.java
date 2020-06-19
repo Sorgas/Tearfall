@@ -28,7 +28,7 @@ import stonering.stage.zone.ZoneMenuStage;
 import stonering.util.geometry.Int3dBounds;
 import stonering.widget.TabbedPane;
 import stonering.widget.lists.ObservingList;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -15,7 +15,7 @@ import stonering.game.GameMvc;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.system.plant.PlantContainer;
 import stonering.generators.plants.PlantGenerator;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 /**
  * Action for planting seed to a farm.

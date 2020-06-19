@@ -14,7 +14,7 @@ import stonering.enums.images.DrawableMap;
 import stonering.generators.items.ItemGenerator;
 import stonering.stage.UiStage;
 import stonering.util.global.StaticSkin;
-import stonering.util.ui.SimpleScreen;
+import stonering.util.view.SimpleScreen;
 import stonering.widget.item.SingleItemSquareButton;
 import stonering.widget.util.WrappedLabel;
 

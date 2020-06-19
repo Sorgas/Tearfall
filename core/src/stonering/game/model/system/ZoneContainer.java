@@ -2,7 +2,7 @@ package stonering.game.model.system;
 
 import com.sun.istack.Nullable;
 import stonering.game.model.system.zone.FarmTileWitherSystem;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 import stonering.util.validation.PositionValidator;
 import stonering.entity.zone.Zone;
 import stonering.enums.ZoneTypesEnum;

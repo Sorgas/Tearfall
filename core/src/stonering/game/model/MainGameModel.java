@@ -12,8 +12,8 @@ import stonering.game.model.system.task.TaskContainer;
 import stonering.game.model.system.unit.UnitContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.tilemaps.LocalTileMap;
-import stonering.util.global.Logger;
-import stonering.util.pathfinding.a_star.AStar;
+import stonering.util.logging.Logger;
+import stonering.util.pathfinding.AStar;
 
 /**
  * Model of game, contains LocalMap and sub-Containers. Inits all components after creation.

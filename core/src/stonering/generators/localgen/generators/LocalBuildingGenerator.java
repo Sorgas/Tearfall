@@ -8,7 +8,7 @@ import stonering.game.model.local_map.LocalMap;
 import stonering.generators.buildings.BuildingGenerator;
 import stonering.generators.localgen.LocalGenContainer;
 import stonering.util.geometry.Position;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 /**
  * Generates buildings on local generation

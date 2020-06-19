@@ -3,7 +3,7 @@ package stonering.generators.localgen.generators;
 import stonering.enums.blocks.BlockTypeEnum;
 import stonering.game.model.local_map.LocalMap;
 import stonering.generators.localgen.LocalGenContainer;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 /**
  * fills local map with ramps on z-layer borders.

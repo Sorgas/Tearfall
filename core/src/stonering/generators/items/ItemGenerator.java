@@ -11,7 +11,6 @@ import stonering.entity.item.aspects.SeedAspect;
 import stonering.entity.RenderAspect;
 import stonering.entity.item.aspects.FallingAspect;
 import stonering.enums.items.ItemTagEnum;
-import stonering.enums.items.recipe.Ingredient;
 import stonering.enums.items.type.ItemType;
 import stonering.enums.items.type.ItemTypeMap;
 import stonering.entity.material.Material;
@@ -19,7 +18,7 @@ import stonering.enums.materials.MaterialMap;
 import stonering.entity.item.Item;
 import stonering.stage.renderer.AtlasesEnum;
 import stonering.util.geometry.Position;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 import java.util.*;
 

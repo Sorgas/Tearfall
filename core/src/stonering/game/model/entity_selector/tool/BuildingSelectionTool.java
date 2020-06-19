@@ -19,7 +19,7 @@ import stonering.stage.entity_menu.building.ItemSelectSection;
 import stonering.util.geometry.Int3dBounds;
 import stonering.util.geometry.IntVector2;
 import stonering.util.geometry.RotationUtil;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 import java.util.ArrayList;
 import java.util.List;

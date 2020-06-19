@@ -14,7 +14,7 @@ import stonering.game.model.GameModel;
 import stonering.game.model.MainGameModel;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
-import stonering.util.pathfinding.a_star.AStar;
+import stonering.util.pathfinding.AStar;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

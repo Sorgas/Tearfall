@@ -18,7 +18,7 @@ import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.unit.UnitContainer;
 import stonering.generators.items.DiggingProductGenerator;
 import stonering.util.geometry.Position;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 import static stonering.entity.job.action.ActionConditionStatusEnum.*;
 import static stonering.enums.blocks.BlockTypeEnum.*;
@@ -38,15 +38,15 @@ public class DigAction extends SkillAction {
         super(new PositionActionTarget(designation.position, ActionTargetTypeEnum.NEAR), "miner");
         type = designation.type;
         toolItemSelector = new ToolWithActionItemSelector("dig");
-        onStart = () -> {
-            speed = (1 + getSpeedBonus()) * (1 + getUnitPerformance()); // 1 for non-trained not tired miner
-        };
         startCondition = () -> {
             if (!type.VALIDATOR.apply(target.getPosition())) return FAIL; // tile did not change
             EquipmentAspect equipment = task.performer.get(EquipmentAspect.class);
             if (equipment == null) return FAIL;
             if (toolItemSelector.checkItems(equipment.equippedItems)) return OK; // tool equipped
             return addEquipAction();
+        };
+        onStart = () -> {
+            speed = (1 + getSpeedBonus()) * (1 + getUnitPerformance()); // 1 for non-trained not tired miner
         };
         maxProgress = getWorkAmount(designation) * workAmountModifier; // 480 for wall to floor in marble
         System.out.println("max progress " + maxProgress);

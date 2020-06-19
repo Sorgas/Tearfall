@@ -6,7 +6,7 @@ import stonering.entity.RenderAspect;
 import stonering.entity.unit.aspects.health.Buff;
 import stonering.enums.time.TimeUnitEnum;
 import stonering.game.model.system.EntitySystem;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 import java.util.Iterator;
 

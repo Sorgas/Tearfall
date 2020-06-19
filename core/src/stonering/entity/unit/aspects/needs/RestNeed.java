@@ -2,31 +2,25 @@ package stonering.entity.unit.aspects.needs;
 
 import static stonering.enums.unit.health.HealthParameterEnum.*;
 
-import stonering.entity.Entity;
 import stonering.entity.building.Building;
 import stonering.entity.building.aspects.RestFurnitureAspect;
 import stonering.entity.job.Task;
 import stonering.entity.job.action.Action;
 import stonering.entity.job.action.SleepInBedAction;
-import stonering.entity.job.action.target.EntityActionTarget;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.health.HealthAspect;
 import stonering.entity.unit.aspects.health.HealthParameterState;
-import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.enums.action.TaskPriorityEnum;
 import stonering.enums.unit.health.FatigueParameter;
-import stonering.enums.unit.health.HealthParameterEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.building.BuildingContainer;
 import stonering.game.model.system.unit.CreatureHealthSystem;
 import stonering.util.geometry.Position;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 import java.util.Comparator;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * Need for rest. Part of {@link CreatureHealthSystem}.

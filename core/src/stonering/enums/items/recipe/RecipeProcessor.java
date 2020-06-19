@@ -2,7 +2,7 @@ package stonering.enums.items.recipe;
 
 import stonering.enums.items.type.ItemType;
 import stonering.enums.items.type.ItemTypeMap;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 /**
  * Processes {@link RawRecipe} into {@link Recipe}.

@@ -13,8 +13,8 @@ import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.EntitySystem;
 import stonering.game.model.system.task.CreatureActionPerformingSystem;
 import stonering.util.geometry.Position;
-import stonering.util.global.Logger;
-import stonering.util.pathfinding.a_star.AStar;
+import stonering.util.logging.Logger;
+import stonering.util.pathfinding.AStar;
 
 /**
  * Moves all units across the map.

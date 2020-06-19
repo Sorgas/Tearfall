@@ -6,7 +6,7 @@ import stonering.entity.job.action.target.ItemActionTarget;
 import stonering.entity.item.Item;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.entity.unit.aspects.equipment.EquipmentSlot;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 import static stonering.entity.job.action.ActionConditionStatusEnum.*;
 

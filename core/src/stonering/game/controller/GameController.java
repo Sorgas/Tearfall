@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import stonering.game.GameMvc;
 import stonering.game.controller.inputProcessors.*;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 /**
  * Container for all controllers. Also creates and registers all InputProcessors.

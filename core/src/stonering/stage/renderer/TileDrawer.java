@@ -160,11 +160,11 @@ public class TileDrawer extends Drawer {
         cachePosition.set(x, y, z);
         PlantBlock block = substrateContainer.getSubstrateBlock(cachePosition);
         if (block != null)
-            return substrates.getBlockTile(localTileMap.get(cachePosition).getVal1(), block.getAtlasXY()[1]);
+            return substrates.getBlockTile(localTileMap.get(cachePosition).x, block.getAtlasXY()[1]);
         if (z == 0) return null;
         block = substrateContainer.getSubstrateBlock(x, y, z - 1);
         if (block != null)
-            return substrates.getToppingTile(localTileMap.get(cachePosition).getVal1(), block.getAtlasXY()[1]);
+            return substrates.getToppingTile(localTileMap.get(cachePosition).x, block.getAtlasXY()[1]);
         return null;
     }
 

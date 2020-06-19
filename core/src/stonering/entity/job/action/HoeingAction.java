@@ -13,7 +13,7 @@ import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.system.ZoneContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 import static stonering.entity.job.action.ActionConditionStatusEnum.FAIL;
 import static stonering.entity.job.action.ActionConditionStatusEnum.OK;

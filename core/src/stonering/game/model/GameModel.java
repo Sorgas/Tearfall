@@ -6,7 +6,7 @@ import stonering.game.GameMvc;
 import stonering.game.model.system.GameTime;
 import stonering.game.model.system.ModelComponent;
 import stonering.util.global.Initable;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 import stonering.util.global.Updatable;
 
 import java.io.Serializable;

@@ -13,7 +13,7 @@ import stonering.game.model.local_map.passage.NeighbourPositionStream;
 import stonering.game.model.system.EntitySystem;
 import stonering.game.model.system.task.TaskContainer;
 import stonering.util.geometry.Position;
-import stonering.util.global.Logger;
+import stonering.util.logging.Logger;
 
 import java.util.List;
 import java.util.stream.Collectors;

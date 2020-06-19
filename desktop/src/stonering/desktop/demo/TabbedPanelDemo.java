@@ -13,7 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Tree;
 
 import stonering.stage.UiStage;
 import stonering.util.global.StaticSkin;
-import stonering.util.ui.SimpleScreen;
+import stonering.util.view.SimpleScreen;
 import stonering.widget.TabbedPane;
 
 /**
