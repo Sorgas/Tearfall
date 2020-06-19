@@ -21,7 +21,7 @@ import static stonering.entity.job.action.ActionConditionStatusEnum.*;
  * @author Alexander
  */
 public class EquipWearItemAction extends Action {
-    private Item item;
+    public Item item;
 
     public EquipWearItemAction(Item item) {
         super(new SelfActionTarget());

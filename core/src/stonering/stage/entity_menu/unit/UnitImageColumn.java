@@ -11,6 +11,7 @@ import stonering.util.global.StaticSkin;
 import stonering.widget.item.ItemLabel;
 
 import java.util.Comparator;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -65,8 +66,7 @@ public class UnitImageColumn extends Table {
     private ScrollPane createToolsList(EquipmentAspect aspect) {
         Table table = new Table();
         ScrollPane pane = new ScrollPane(table);
-        aspect.getEquippedTools()
-                .forEach(item -> table.add(new ItemLabel(item)).growX().row());
+        aspect.getEquippedTools().forEach(item -> table.add(new ItemLabel(item)).growX().row());
         return pane;
     }
 }
