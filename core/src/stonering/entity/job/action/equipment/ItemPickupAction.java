@@ -1,6 +1,5 @@
 package stonering.entity.job.action.equipment;
 
-import stonering.entity.job.action.ItemAction;
 import stonering.entity.job.action.target.ItemActionTarget;
 import stonering.entity.item.Item;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
@@ -20,7 +19,7 @@ import static stonering.entity.job.action.ActionConditionStatusEnum.*;
  *
  * @author Alexander on 12.01.2019.
  */
-public class ItemPickupAction extends ItemAction {
+public class ItemPickupAction extends EquipmentAction {
     private Item item;
 
     public ItemPickupAction(Item item) {
@@ -41,10 +40,12 @@ public class ItemPickupAction extends ItemAction {
         };
 
         onFinish = () -> { // add item to unit
-            EquipmentAspect equipment = task.performer.get(EquipmentAspect.class);
             container.onMapItemsSystem.removeItemFromMap(item);
-            equipment.hauledItems.add(item);
-            container.equippedItemsSystem.itemEquipped(item, equipment);
+            equipment().items.add(item);
+            equipment().grabSlotStream()
+                    .filter(slot -> slot.grabbedItem == null)
+                    .findFirst()
+                    .ifPresent(slot -> system.fillGrabSlot(equipment(), slot, item));
             Logger.EQUIPMENT.logDebug("Item " + item + " has been picked up.");
         };
     }

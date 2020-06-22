@@ -23,7 +23,7 @@ public class PutItemToPositionAction extends PutItemAction {
             System.out.println("put item to position finish");
             EquipmentAspect equipmentAspect = task.performer.get(EquipmentAspect.class);
             ItemContainer container = GameMvc.model().get(ItemContainer.class);
-            equipmentAspect.hauledItems.remove(targetItem); // remove item from unit
+            equipmentAspect.items.remove(targetItem); // remove item from unit
             container.equippedItemsSystem.itemUnequipped(targetItem);
             container.onMapItemsSystem.putItem(targetItem, targetPosition);
         };

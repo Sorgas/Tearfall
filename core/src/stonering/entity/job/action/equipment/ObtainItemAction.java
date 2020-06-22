@@ -20,7 +20,7 @@ public class ObtainItemAction extends ItemAction {
     public ObtainItemAction(Item item) {
         super(new SelfActionTarget());
         startCondition = () -> {
-            if(task.performer.get(EquipmentAspect.class).hauledItems.contains(item)) return OK;
+            if(task.performer.get(EquipmentAspect.class).items.contains(item)) return OK;
             if (container.equippedItemsSystem.isItemEquipped(item)) return FAIL; // item is equipped on another unit
             Action action = container.containedItemsSystem.isItemContained(item) 
                     ? new GetItemFromContainerAction(item, container.contained.get(item).entity) // pickup from ground 

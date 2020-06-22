@@ -14,7 +14,8 @@ public class ToolItemType {
     private ArrayList<ToolAction> actions;  // some job, (mining, lumbering) require tools with specific name.
     private ArrayList<ToolAttack> attacks;  // creatures will choose tools with best attack characteristics to use in combat.
     private String usedSkill; //TODO replace with enum
-
+    
+    
     public ToolItemType() {
         actions = new ArrayList<>();
         attacks = new ArrayList<>();

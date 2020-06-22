@@ -12,8 +12,8 @@ import java.util.List;
 public class GrabEquipmentSlot extends EquipmentSlot {
     public Item grabbedItem; // null, if free
 
-    public GrabEquipmentSlot(String name, List<String> limbs) {
-        super(name, limbs);
+    public GrabEquipmentSlot(String name, List<String> limbs, EquipmentAspect aspect) {
+        super(name, limbs, aspect);
     }
 
     /**

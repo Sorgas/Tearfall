@@ -39,7 +39,7 @@ public abstract class Entity implements Serializable, Initable, Cloneable {
     }
 
     public <T extends Aspect> Optional<T> getOptional(Class<T> type) {
-        return (Optional<T>) Optional.of(aspects.get(type));
+        return Optional.ofNullable((T) aspects.get(type));
     }
 
     public <T extends Aspect> void add(T aspect) {

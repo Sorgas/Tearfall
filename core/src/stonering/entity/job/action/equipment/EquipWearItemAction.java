@@ -2,11 +2,8 @@ package stonering.entity.job.action.equipment;
 
 import stonering.entity.item.Item;
 import stonering.entity.item.aspects.WearAspect;
-import stonering.entity.job.action.ItemAction;
 import stonering.entity.job.action.target.SelfActionTarget;
-import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.entity.unit.aspects.equipment.EquipmentSlot;
-import stonering.entity.unit.aspects.equipment.GrabEquipmentSlot;
 import stonering.game.GameMvc;
 import stonering.game.model.system.unit.CreatureEquipmentSystem;
 import stonering.game.model.system.unit.UnitContainer;
@@ -14,12 +11,14 @@ import stonering.util.logging.Logger;
 
 import static stonering.entity.job.action.ActionConditionStatusEnum.*;
 
+import java.util.Optional;
+
 /**
  * Action for equipping wear items.
  *
  * @author Alexander
  */
-public class EquipWearItemAction extends ItemAction {
+public class EquipWearItemAction extends EquipmentAction {
     public Item item;
 
     public EquipWearItemAction(Item item) {
@@ -29,34 +28,38 @@ public class EquipWearItemAction extends ItemAction {
         WearAspect wear = item.get(WearAspect.class);
 
         startCondition = () -> {
-            EquipmentAspect equipment = task.performer.get(EquipmentAspect.class);
-            if (wear == null) return Logger.TASKS.logError("Target item is not wear", FAIL);
-            if (equipment == null)
-                return Logger.TASKS.logError("unit " + task.performer + " has no Equipment Aspect.", FAIL);
-            if (equipment.slots.get(wear.slot) == null)
-                return Logger.TASKS.logError("unit " + task.performer + " has no appropriate slots for item " + item, FAIL);
-            if (!equipment.isItemInGrabSlots(item)) { // pick up needed item
-                task.addFirstPreAction(new ObtainItemAction(item));
-                return NEW;
+            if (!validate()) return FAIL;
+            if (equipment().grabSlotStream().noneMatch(slot -> slot.grabbedItem == item)) { // item not in hands
+                return addPreAction(new ObtainItemAction(item)); // get item
             }
             return OK;
         };
 
         onFinish = () -> {
-            EquipmentAspect equipment = task.performer.get(EquipmentAspect.class);
-            EquipmentSlot targetSlot = equipment.slots.get(wear.slot);
+            EquipmentSlot targetSlot = equipment().slots.get(wear.slot);
+            // TODO wrap with layer condition
+            Optional.ofNullable(targetSlot)
+                    .map(system::freeSlot) // remove item from slot
+                    .ifPresent(previousItem -> container.onMapItemsSystem.putItem(previousItem, task.performer.position)); // put to map
 
-            Item previousItem = system.freeSlot(targetSlot);
-            if(previousItem != null) container.onMapItemsSystem.putItem(previousItem, task.performer.position);// drop previous item
-
-            GrabEquipmentSlot grabSlot = equipment.grabSlots.values().stream().filter(slot -> slot.grabbedItem == item).findFirst().orElse(null); // should never be null
-            if (grabSlot != null) {
-                system.freeGrabSlot(grabSlot); // free hand
-                system.fillSlot(equipment, targetSlot, item); // put on wear
-                return;
-            }
-            Logger.EQUIPMENT.logError("Target item is not in hands before equipping.");
+            // move item from hand to slot
+            equipment().grabSlotStream()
+                    .filter(slot -> slot.grabbedItem == item)
+                    .findFirst() // find slot with item
+                    .ifPresent(slot -> {
+                        system.freeGrabSlot(slot); // free hand
+                        system.fillSlot(equipment(), targetSlot, item); // put on wear
+                    });
         };
+    }
+
+    protected boolean validate() {
+        if (!super.validate()) return false;
+        WearAspect wear = item.get(WearAspect.class);
+        if (wear == null) return Logger.TASKS.logError("Target item is not wear", false);
+        if (equipment().slots.get(wear.slot) == null)
+            return Logger.TASKS.logError("unit " + task.performer + " has no appropriate slots for item " + item, false);
+        return true;
     }
 
     @Override

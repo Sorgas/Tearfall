@@ -31,23 +31,21 @@ import static stonering.enums.blocks.BlockTypeEnum.*;
  */
 public class DigAction extends SkillAction {
     private DesignationTypeEnum type;
-    private ItemSelector toolItemSelector;
     private final float workAmountModifier = 10f;
+    private final String toolActionName = "dig";
     
     public DigAction(OrderDesignation designation) {
         super(new PositionActionTarget(designation.position, ActionTargetTypeEnum.NEAR), "miner");
         type = designation.type;
-        toolItemSelector = new ToolWithActionItemSelector("dig");
+        
         startCondition = () -> {
             if (!type.VALIDATOR.apply(target.getPosition())) return FAIL; // tile did not change
             EquipmentAspect equipment = task.performer.get(EquipmentAspect.class);
             if (equipment == null) return FAIL;
-            if (toolItemSelector.checkItems(equipment.equippedItems)) return OK; // tool equipped
+            if(equipment.toolWithActionEquipped(toolActionName)) return OK; // tool already equipped
             return addEquipAction();
         };
-        onStart = () -> {
-            speed = (1 + getSpeedBonus()) * (1 + getUnitPerformance()); // 1 for non-trained not tired miner
-        };
+        
         maxProgress = getWorkAmount(designation) * workAmountModifier; // 480 for wall to floor in marble
         System.out.println("max progress " + maxProgress);
         onFinish = () -> {
@@ -59,10 +57,9 @@ public class DigAction extends SkillAction {
     }
 
     private ActionConditionStatusEnum addEquipAction() {
-        Item target = GameMvc.model().get(ItemContainer.class).util.getItemAvailableBySelector(toolItemSelector, task.performer.position);
+        Item target = GameMvc.model().get(ItemContainer.class).util.getItemAvailableBySelector(new ToolWithActionItemSelector(toolActionName), task.performer.position);
         if (target == null) return FAIL; // no tool available
-        task.addFirstPreAction(new EquipToolItemAction(target));
-        return NEW;
+        return addPreAction(new EquipToolItemAction(target));
     }
 
     /**
@@ -130,19 +127,17 @@ public class DigAction extends SkillAction {
             case D_DOWNSTAIRS:
                 return getWorkAmountForTile(designation.position, map, DOWNSTAIRS);
             case D_RAMP:
-                Position upperPosition = designation.position.clone();
-                upperPosition.z++;
+                Position upperPosition = Position.add(designation.position, 0, 0, 1);
                 return getWorkAmountForTile(designation.position, map, RAMP) + Math.max(getWorkAmountForTile(upperPosition, map, SPACE), 0);
             case D_CHANNEL:
-                Position lowerPosition = designation.position.clone();
-                lowerPosition.z--;
+                Position lowerPosition = Position.add(designation.position, 0, 0, -1);
                 return getWorkAmountForTile(designation.position, map, SPACE) + Math.max(getWorkAmountForTile(lowerPosition, map, RAMP), 0);
         }
         return Logger.TASKS.logError("Non-digging designation type in DigAction", 0);
     }
 
     private float getWorkAmountForTile(Position position, LocalMap map, BlockTypeEnum targetType) {
-        return MaterialMap.getMaterial(map.blockType.get(position)).density *
+        return MaterialMap.getMaterial(map.blockType.getMaterial(position)).density *
                 (targetType.OPENNESS - map.blockType.getEnumValue(position).OPENNESS);
     }
 

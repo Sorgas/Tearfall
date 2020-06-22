@@ -19,16 +19,14 @@ import java.util.stream.Stream;
 public class EquipmentAspect extends Aspect {
     public final HashMap<String, EquipmentSlot> slots;            // all slots of a creature (for wear)
     public final HashMap<String, GrabEquipmentSlot> grabSlots;    // slots for tools (subset of all slots)
-    public final Set<Item> equippedItems;                         // equipped item list for faster checking (worn items)
-    public final Set<Item> hauledItems;                           // fast check list
+    public final Set<Item> items;                           // items in worn containers and in hands
     public final List<EquipmentSlot> desiredSlots;                // uncovered limbs give comfort penalty
 
     public EquipmentAspect(Entity entity) {
         super(entity);
         slots = new HashMap<>();
         grabSlots = new HashMap<>();
-        hauledItems = new HashSet<>();
-        equippedItems = new HashSet<>();
+        items = new HashSet<>();
         desiredSlots = new ArrayList<>();
     }
 
@@ -43,7 +41,6 @@ public class EquipmentAspect extends Aspect {
                 .map(wear -> slots.get(wear.slot))
                 .map(slot -> {
                     Item previousItem = slot.item; // TODO collect from layers here
-                    equippedItems.add(item);
                     slot.item = item;
                     return Arrays.asList(previousItem);
                 })
@@ -58,7 +55,6 @@ public class EquipmentAspect extends Aspect {
         return getSlotWithItem(item)
                 .map(slot -> {
                     Item qwer = slot.item;
-                    equippedItems.remove(item);
                     slot.item = null;
                     return qwer;
                 })
@@ -71,8 +67,8 @@ public class EquipmentAspect extends Aspect {
                 .min((slot1, slot2) -> Boolean.compare(slot1.grabbedItem == null, slot2.grabbedItem == null)) // select empty slots first
                 .ifPresent(slot -> {
                     replacedItems.add(slot.item);
-                    hauledItems.remove(slot.item);
-                    hauledItems.add(slot.item = item);
+                    items.remove(slot.item);
+                    items.add(slot.item = item);
                 });
         return replacedItems;
     }
@@ -85,7 +81,7 @@ public class EquipmentAspect extends Aspect {
                 .filter(slot -> slot.grabbedItem == item)
                 .map(slot -> {
                     slot.grabbedItem = null;
-                    hauledItems.remove(item);
+                    items.remove(item);
                     return item;
                 })
                 .findFirst()
@@ -106,10 +102,6 @@ public class EquipmentAspect extends Aspect {
         return desiredSlots.stream().filter(equipmentSlot -> equipmentSlot.item == null);
     }
 
-    public boolean isItemInGrabSlots(Item item) {
-        return grabSlots.values().stream().anyMatch(slot -> slot.grabbedItem == item);
-    }
-
     public boolean removeItem(Item item) {
         EquipmentSlot itemSlot = getSlotWithItem(item).orElse(null);
         if (itemSlot != null) {
@@ -128,7 +120,7 @@ public class EquipmentAspect extends Aspect {
     }
 
     public boolean toolWithActionEquipped(String action) {
-        return equippedItems.stream()
+        return items.stream()
                 .map(item -> item.type.tool)
                 .filter(Objects::nonNull)
                 .flatMap(toolType -> toolType.getActions().stream())
@@ -136,12 +128,20 @@ public class EquipmentAspect extends Aspect {
     }
 
     public List<Item> getEquippedTools() {
-        return equippedItems.stream().filter(item -> item.type.tool != null).collect(Collectors.toList());
+        return items.stream().filter(item -> item.type.tool != null).collect(Collectors.toList());
     }
 
     public Optional<EquipmentSlot> getSlotWithItem(Item item) {
         return slots.values().stream()
                 .filter(slot -> slot.item == item)
                 .findFirst();
+    }
+    
+    public Stream<EquipmentSlot> slotStream() {
+        return slots.values().stream();
+    }
+    
+    public Stream<GrabEquipmentSlot> grabSlotStream() {
+        return grabSlots.values().stream();
     }
 }

@@ -32,8 +32,8 @@ public class EquipmentAspectGenerator {
         Map<String, List<String>> slotLimbs = type.bodyTemplate.slots;
         for (String name : slotLimbs.keySet()) {
             EquipmentSlot slot = isGrabSlot(name, type)
-                    ? new GrabEquipmentSlot(name, slotLimbs.get(name))
-                    : new EquipmentSlot(name, slotLimbs.get(name));
+                    ? new GrabEquipmentSlot(name, slotLimbs.get(name), aspect)
+                    : new EquipmentSlot(name, slotLimbs.get(name), aspect);
             if (slot instanceof GrabEquipmentSlot) aspect.grabSlots.put(name, (GrabEquipmentSlot) slot);
             aspect.slots.put(name, slot);
         }

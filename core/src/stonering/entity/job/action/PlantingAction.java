@@ -2,8 +2,6 @@ package stonering.entity.job.action;
 
 import static stonering.entity.job.action.ActionConditionStatusEnum.*;
 
-import java.util.List;
-
 import stonering.entity.item.Item;
 import stonering.entity.item.aspects.SeedAspect;
 import stonering.entity.item.selectors.SeedItemSelector;
@@ -65,7 +63,7 @@ public class PlantingAction extends Action {
      */
     private Item getSeedFromEquipment() {
         EquipmentAspect equipmentAspect = task.performer.get(EquipmentAspect.class);
-        return seedSelector.selectItem(equipmentAspect.hauledItems);
+        return seedSelector.selectItem(equipmentAspect.items);
     }
 
     /**

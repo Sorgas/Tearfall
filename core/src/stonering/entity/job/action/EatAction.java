@@ -52,7 +52,7 @@ public class EatAction extends Action {
         startCondition = () -> {
             if(!item.has(FoodItemAspect.class)) return FAIL; // item is not food
 
-            if(!task.performer.get(EquipmentAspect.class).hauledItems.contains(item))
+            if(!task.performer.get(EquipmentAspect.class).items.contains(item))
                 return addPreAction(new ObtainItemAction(item)); // find item
 
             // find and move to chair
@@ -64,7 +64,7 @@ public class EatAction extends Action {
             }
 
             EquipmentAspect equipment = task.performer.get(EquipmentAspect.class);
-            if (equipment != null && equipment.hauledItems.contains(item)) return OK;
+            if (equipment != null && equipment.items.contains(item)) return OK;
             return OK;
         };
 

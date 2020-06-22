@@ -52,7 +52,7 @@
 }, {
     "name": "basalt",
     "tags": ["stone", "stone_extrusive"],
-    "density": "42918",
+    "density": "3",
     "reactions": {
         "melt": ["1450"]
     },
@@ -64,7 +64,7 @@
     "tags": [
         "stone", "stone_metamorfic"
     ],
-    "density": "42888",
+    "density": "2.7",
     "reactions": {
         "melt": ["1713"]
     },
@@ -74,7 +74,7 @@
 }, {
     "name": "gneiss",
     "tags": ["stone", "stone_metamorfic"],
-    "density": "42888",
+    "density": "1.6",
     "reactions": {
         "melt": ["4000"]
     },
@@ -84,7 +84,7 @@
 }, {
     "name": "marble",
     "tags": ["stone", "stone_metamorfic"],
-    "density": "42857",
+    "density": "2.7",
     "reactions": {
         "melt": ["4000"]
     },
@@ -94,7 +94,7 @@
 }, {
     "name": "shale",
     "tags": ["stone", "stone_sedimentary"],
-    "density": "42888",
+    "density": "1.9",
     "reactions": {
         "melt": ["4000"]
     },
@@ -104,7 +104,7 @@
 }, {
     "name": "limestone",
     "tags": ["stone", "stone_sedimentary"],
-    "density": "42888",
+    "density": "2.4",
     "reactions": {
         "melt": ["1515"]
     },
@@ -114,7 +114,7 @@
 }, {
     "name": "sandstone",
     "tags": ["stone", "stone_sedimentary", "solid"],
-    "density": "42827",
+    "density": "2.6",
     "reactions": {
         "melt": ["1673"]
     },

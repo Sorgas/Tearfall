@@ -19,7 +19,11 @@ public class SkillAction extends Action {
     protected SkillAction(ActionTarget actionTarget, String skillName) {
         super(actionTarget);
         SKILL_NAME = skillName;
-        skill = SkillsMap.instance().getSkill(SKILL_NAME);
+        skill = SkillsMap.getSkill(SKILL_NAME);
+
+        onStart = () -> {
+            speed = 1 + getSpeedBonus() + getUnitPerformance(); // 1 for non-trained not tired worker
+        };
     }
 
     protected float getSpeedBonus() {

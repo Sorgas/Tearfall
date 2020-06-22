@@ -27,7 +27,7 @@ public class DrinkAction extends Action{
             //TODO if dishes available, use
             Unit performer = task.performer;
             if(performer.has(EquipmentAspect.class)) {
-                if(performer.get(EquipmentAspect.class).hauledItems.contains(item)) return OK;
+                if(performer.get(EquipmentAspect.class).items.contains(item)) return OK;
             } else {
 
             }

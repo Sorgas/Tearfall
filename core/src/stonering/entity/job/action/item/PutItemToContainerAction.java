@@ -21,7 +21,7 @@ public class PutItemToContainerAction extends PutItemAction {
         onFinish = () -> {
             EquipmentAspect equipmentAspect = task.performer.get(EquipmentAspect.class);
             ItemContainer container = GameMvc.model().get(ItemContainer.class);
-            equipmentAspect.hauledItems.remove(targetItem); // remove item from unit
+            equipmentAspect.items.remove(targetItem); // remove item from unit
             container.equippedItemsSystem.itemUnequipped(targetItem);
 
             container.containedItemsSystem.addItemToContainer(targetItem, containerAspect);

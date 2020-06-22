@@ -35,7 +35,7 @@ public class ChopTreeAction extends Action {
             EquipmentAspect aspect = task.performer.get(EquipmentAspect.class);
             if (aspect == null) return FAIL; // no aspect on performer
             if(!checkTree()) return FAIL;
-            if (!toolItemSelector.checkItems(aspect.equippedItems)) // check tool
+            if (!toolItemSelector.checkItems(aspect.items)) // check tool
                 return createActionForGettingTool();
             return OK;
         };

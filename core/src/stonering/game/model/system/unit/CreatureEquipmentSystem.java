@@ -1,6 +1,9 @@
 package stonering.game.model.system.unit;
 
+import java.util.Optional;
+
 import com.sun.istack.NotNull;
+
 import stonering.entity.item.Item;
 import stonering.entity.item.aspects.WearAspect;
 import stonering.entity.unit.Unit;
@@ -23,7 +26,7 @@ import stonering.util.logging.Logger;
  * Unit hauls items in grab slots.
  * TODO add item requirements (1/2 hands)
  * TODO add layers
- * 
+ *
  * @author Alexander on 06.02.2020.
  */
 public class CreatureEquipmentSystem extends EntitySystem<Unit> {
@@ -42,39 +45,44 @@ public class CreatureEquipmentSystem extends EntitySystem<Unit> {
     public boolean canPickUpItem(EquipmentAspect equipment, Item item) {
         return equipment.grabSlots.values().stream().filter(GrabEquipmentSlot::grabFree).count() >= 1;
     }
-    
+
     public GrabEquipmentSlot getSlotForPickingUpItem(EquipmentAspect equipment, Item item) {
         return equipment.grabSlots.values().stream().filter(GrabEquipmentSlot::grabFree).findFirst().orElse(null);
     }
-    
+
     public void fillSlot(EquipmentAspect equipment, EquipmentSlot slot, @NotNull Item item) {
-        if(item.type.has(WearAspect.class)) {
+        if (item.type.has(WearAspect.class)) {
             slot.item = item; // add to wear slot
             itemContainer().equippedItemsSystem.itemEquipped(item, equipment);
+            slot.aspect.items.add(item);
         } else {
             Logger.EQUIPMENT.logError("Target item " + item + "is not wear ");
         }
     }
 
     public void fillGrabSlot(EquipmentAspect equipment, GrabEquipmentSlot slot, @NotNull Item item) {
+        if(slot.grabbedItem != null) Logger.EQUIPMENT.logError("filling not empty grab slot");
+        slot.aspect.items.add(item);
         slot.grabbedItem = item; // add to wear slot
         itemContainer().equippedItemsSystem.itemEquipped(item, equipment);
     }
-    
+
     public Item freeSlot(EquipmentSlot slot) {
-        Item item = slot.item;
-        slot.item = null;
-        if (item != null) itemContainer().equippedItemsSystem.itemUnequipped(item);
-        return item;
+        return Optional.ofNullable(slot.item).stream()
+                .peek(itemContainer().equippedItemsSystem::itemUnequipped)
+                .peek(item -> slot.item = null)
+                .peek(slot.aspect.items::remove)
+                .findFirst().orElse(null);
     }
 
     public Item freeGrabSlot(GrabEquipmentSlot slot) {
-        Item item = slot.grabbedItem;
-        slot.grabbedItem = null;
-        if (item != null) itemContainer().equippedItemsSystem.itemUnequipped(item);
-        return item;
+        return Optional.ofNullable(slot.grabbedItem).stream()
+                .peek(itemContainer().equippedItemsSystem::itemUnequipped)
+                .peek(item -> slot.grabbedItem = null)
+                .peek(slot.aspect.items::remove) // tool items are in
+                .findFirst().orElse(null);
     }
-
+    
     private ItemContainer itemContainer() {
         return container == null ? container = GameMvc.model().get(ItemContainer.class) : container;
     }
