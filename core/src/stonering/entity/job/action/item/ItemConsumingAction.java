@@ -1,4 +1,4 @@
-package stonering.entity.job.action;
+package stonering.entity.job.action.item;
 
 import java.util.Collection;
 import java.util.List;
@@ -8,12 +8,13 @@ import stonering.entity.crafting.IngredientOrder;
 import stonering.entity.crafting.ItemConsumingOrder;
 import stonering.entity.item.Item;
 import stonering.entity.item.selectors.ConfiguredItemSelector;
+import stonering.entity.job.action.BuildingAction;
+import stonering.entity.job.action.ItemAction;
 import stonering.entity.job.action.target.ActionTarget;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.item.ContainedItemsStream;
-import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.system.item.OnMapItemsStream;
 import stonering.util.geometry.Position;
 
@@ -24,9 +25,8 @@ import stonering.util.geometry.Position;
  *
  * @author Alexander on 05.05.2020
  */
-public abstract class ItemConsumingAction extends Action {
+public abstract class ItemConsumingAction extends ItemAction {
     public ItemConsumingOrder order;
-    private ItemContainer itemContainer;
     private LocalMap map;
 
     protected ItemConsumingAction(ItemConsumingOrder order, ActionTarget target) {
@@ -62,7 +62,7 @@ public abstract class ItemConsumingAction extends Action {
         return ingredientOrder.items.size() == ingredientOrder.ingredient.quantity
                 && ingredientOrder.items.stream()
                 .allMatch(item -> !item.destroyed &&
-                        itemContainer().itemAccessible(item, task.performer.position));
+                        container.itemAccessible(item, task.performer.position));
     }
 
     private boolean findItemsForIngredient(IngredientOrder ingredientOrder) {
@@ -98,13 +98,9 @@ public abstract class ItemConsumingAction extends Action {
                 .filter(order -> !"main".equals(order.ingredient.key))
                 .flatMap(order -> order.items.stream()) // all items from not 'main' ingredient
                 .forEach(item -> {
-                    itemContainer().onMapItemsSystem.removeItemFromMap(item);
-                    itemContainer().removeItem(item);
+                    container.onMapItemsSystem.removeItemFromMap(item);
+                    container.removeItem(item);
                 });
-    }
-
-    protected ItemContainer itemContainer() {
-        return itemContainer == null ? itemContainer = GameMvc.model().get(ItemContainer.class) : itemContainer;
     }
 
     protected LocalMap map() {

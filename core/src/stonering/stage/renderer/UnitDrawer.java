@@ -67,7 +67,7 @@ public class UnitDrawer extends Drawer {
     private void drawHauledItem(Unit unit) {
         unit.getOptional(EquipmentAspect.class)
                 .filter(equipment -> !equipment.hauledItems.isEmpty())
-                .map(equipment -> equipment.hauledItems.get(0))
+                .flatMap(equipment -> equipment.hauledItems.stream().findFirst())
                 .ifPresent(item -> {
                     cacheVector.set(unit.vectorPosition).add(0.25f, 0.25f, 0);
                     spriteUtil.drawSprite(item.get(RenderAspect.class).region, cacheVector);

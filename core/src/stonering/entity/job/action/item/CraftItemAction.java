@@ -1,6 +1,8 @@
-package stonering.entity.job.action;
+package stonering.entity.job.action.item;
 
 import stonering.entity.building.aspects.FuelConsumerAspect;
+import stonering.entity.job.action.FuelingAciton;
+import stonering.entity.job.action.item.ItemConsumingAction;
 import stonering.entity.job.action.item.PutItemToContainerAction;
 import stonering.entity.job.action.target.EntityActionTarget;
 import stonering.entity.Entity;
@@ -85,8 +87,8 @@ public class CraftItemAction extends ItemConsumingAction {
                     .map(ingredientOrder -> ingredientOrder.items)
                     .flatMap(Collection::stream)
                     .collect(Collectors.toList());
-            items.forEach(itemContainer().containedItemsSystem::removeItemFromContainer);
-            itemContainer().removeItems(items);
+            items.forEach(container.containedItemsSystem::removeItemFromContainer);
+            container.removeItems(items);
             storeProduct(product);
         };
     }
@@ -102,8 +104,8 @@ public class CraftItemAction extends ItemConsumingAction {
     private void storeProduct(Item product) {
         //TODO put product into WB's bound container
         ItemContainerAspect containerAspect = workbench.get(ItemContainerAspect.class);
-        itemContainer().addItem(product);
-        itemContainer().containedItemsSystem.addItemToContainer(product, containerAspect);
+        container.addItem(product);
+        container.containedItemsSystem.addItemToContainer(product, containerAspect);
     }
 
     @Override

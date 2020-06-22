@@ -2,7 +2,7 @@ package stonering.entity.item.selectors;
 
 import stonering.entity.item.Item;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Selects single specific item.
@@ -22,7 +22,7 @@ public class ExactItemSelector extends SingleItemSelector {
     }
 
     @Override
-    public Item selectItem(List<Item> items) {
+    public Item selectItem(Collection<Item> items) {
         return checkItems(items) ? item : null;
     }
 }

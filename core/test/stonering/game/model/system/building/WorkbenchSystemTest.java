@@ -8,7 +8,7 @@ import stonering.enums.OrientationEnum;
 import stonering.enums.buildings.BuildingType;
 import stonering.entity.building.aspects.WorkbenchAspect;
 import stonering.entity.crafting.ItemOrder;
-import stonering.entity.job.action.CraftItemAction;
+import stonering.entity.job.action.item.CraftItemAction;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.job.JobsAspect;
 import stonering.entity.unit.aspects.TaskAspect;

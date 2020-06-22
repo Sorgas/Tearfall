@@ -8,30 +8,30 @@ import java.util.Map;
  *
  * @author Alexander_Kuzyakov on 09.09.2019.
  */
-public enum WearLayers {
+public enum WearLayerEnum {
     UNDER(0, "under"),
     MEDIUM(1, "medium"),
     UPPER(2, "upper"),
     ARMOR(3, "armor"),
     ABOVE(4, "above");
 
-    public final int index;
-    public final String name;
+    public final int INDEX;
+    public final String NAME;
 
-    public static Map<String, WearLayers> map = new HashMap();
+    public static Map<String, WearLayerEnum> map = new HashMap();
 
     static {
-        for (WearLayers value : WearLayers.values()) {
-            map.put(value.name, value);
+        for (WearLayerEnum value : WearLayerEnum.values()) {
+            map.put(value.NAME, value);
         }
     }
 
-    WearLayers(int index, String name) {
-        this.index = index;
-        this.name = name;
+    WearLayerEnum(int index, String name) {
+        this.INDEX = index;
+        this.NAME = name;
     }
 
-    public static WearLayers getByName(String name) {
+    public static WearLayerEnum getByName(String name) {
         return map.get(name);
     }
 }

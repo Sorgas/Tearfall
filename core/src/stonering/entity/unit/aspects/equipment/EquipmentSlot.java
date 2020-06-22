@@ -30,7 +30,8 @@ public class EquipmentSlot {
     }
 
     /**
-     * Checks that item can be equipped. 
+     * Checks that item can be equipped.
+     * TODO handle layers, item can be equipped, if upper layers are 
      */
     public boolean canEquip(Item item) {
         return this.item == null;
@@ -42,5 +43,9 @@ public class EquipmentSlot {
      */
     public boolean canUnequip(Item item) {
         return item == this.item;
+    }
+    
+    public boolean has(Item item) {
+        return this.item == item;
     }
 }

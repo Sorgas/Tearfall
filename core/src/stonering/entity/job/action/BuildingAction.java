@@ -1,6 +1,7 @@
 package stonering.entity.job.action;
 
 import stonering.entity.building.BuildingOrder;
+import stonering.entity.job.action.item.GenericBuildingAction;
 import stonering.entity.job.action.target.BuildingActionTarget;
 import stonering.entity.building.Building;
 import stonering.enums.buildings.BuildingType;

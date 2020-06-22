@@ -3,7 +3,7 @@ package stonering.entity.item.aspects;
 import stonering.entity.Aspect;
 import stonering.entity.Entity;
 import stonering.entity.item.Item;
-import stonering.entity.unit.aspects.equipment.WearLayers;
+import stonering.entity.unit.aspects.equipment.WearLayerEnum;
 import stonering.enums.items.type.ItemType;
 
 import java.util.List;
@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class WearAspect extends Aspect {
     public final String bodyTemplate; // creatures with this template can use item
-    public final WearLayers layer;
+    public final WearLayerEnum layer;
     public final List<String> additionalLimbs; // body parts, covered by item
     public final String slot; // 
 
@@ -25,7 +25,7 @@ public class WearAspect extends Aspect {
         super(entity);
         bodyTemplate = arguments.get(0);
         slot = arguments.get(1);
-        layer = WearLayers.getByName(arguments.get(2));
+        layer = WearLayerEnum.getByName(arguments.get(2));
         additionalLimbs = arguments.subList(3, arguments.size());
     }
 }

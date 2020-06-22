@@ -19,9 +19,9 @@ import java.util.stream.Stream;
 public class EquipmentAspect extends Aspect {
     public final HashMap<String, EquipmentSlot> slots;            // all slots of a creature (for wear)
     public final HashMap<String, GrabEquipmentSlot> grabSlots;    // slots for tools (subset of all slots)
-    public final Set<Item> equippedItems;                   // equipped item list for faster checking (worn items)
+    public final Set<Item> equippedItems;                         // equipped item list for faster checking (worn items)
     public final Set<Item> hauledItems;                           // fast check list
-    public final List<EquipmentSlot> desiredSlots;           // uncovered limbs give comfort penalty
+    public final List<EquipmentSlot> desiredSlots;                // uncovered limbs give comfort penalty
 
     public EquipmentAspect(Entity entity) {
         super(entity);
@@ -111,10 +111,7 @@ public class EquipmentAspect extends Aspect {
     }
 
     public boolean removeItem(Item item) {
-        EquipmentSlot itemSlot = slots.values().stream()
-                .filter(slot -> slot.item == item)
-                .findFirst()
-                .orElse(null);
+        EquipmentSlot itemSlot = getSlotWithItem(item).orElse(null);
         if (itemSlot != null) {
             itemSlot.item = null;
             return true;
@@ -142,7 +139,7 @@ public class EquipmentAspect extends Aspect {
         return equippedItems.stream().filter(item -> item.type.tool != null).collect(Collectors.toList());
     }
 
-    private Optional<EquipmentSlot> getSlotWithItem(Item item) {
+    public Optional<EquipmentSlot> getSlotWithItem(Item item) {
         return slots.values().stream()
                 .filter(slot -> slot.item == item)
                 .findFirst();

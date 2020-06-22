@@ -1,13 +1,14 @@
-package stonering.entity.job.action;
+package stonering.entity.job.action.item;
 
 import stonering.entity.building.BuildingOrder;
 import stonering.entity.item.Item;
+import stonering.entity.job.action.ActionConditionStatusEnum;
+import stonering.entity.job.action.item.ItemConsumingAction;
 import stonering.entity.job.action.item.PutItemToPositionAction;
 import stonering.entity.job.action.target.BuildingActionTarget;
 import stonering.entity.job.designation.BuildingDesignation;
 import stonering.enums.buildings.BuildingType;
 import stonering.enums.buildings.BuildingTypeMap;
-import stonering.game.model.system.item.ItemContainer;
 import stonering.util.geometry.*;
 
 import java.util.List;
@@ -73,7 +74,7 @@ public abstract class GenericBuildingAction extends ItemConsumingAction {
     private boolean checkClearingSite() {
         List<Item> materialItems = getIngredientItems();
         List<Item> excessItems = getBuildingBounds().stream()
-                .flatMap(vector -> itemContainer().getItemsInPosition(vector.x, vector.y, target.getPosition().z).stream())
+                .flatMap(vector -> container.getItemsInPosition(vector.x, vector.y, target.getPosition().z).stream())
                 .filter(item -> !materialItems.contains(item)) // not material items
                 .collect(Collectors.toList());
         excessItems.stream()

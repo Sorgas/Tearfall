@@ -1,13 +1,12 @@
 package stonering.entity.job.action.equipment;
 
-import stonering.entity.job.action.Action;
+import stonering.entity.job.action.ItemAction;
 import stonering.entity.job.action.target.ItemActionTarget;
 import stonering.entity.item.Item;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.entity.unit.aspects.equipment.GrabEquipmentSlot;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
-import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.system.unit.CreatureEquipmentSystem;
 import stonering.game.model.system.unit.UnitContainer;
 import stonering.util.logging.Logger;
@@ -21,19 +20,18 @@ import static stonering.entity.job.action.ActionConditionStatusEnum.*;
  *
  * @author Alexander on 12.01.2019.
  */
-public class ItemPickupAction extends Action {
+public class ItemPickupAction extends ItemAction {
     private Item item;
 
     public ItemPickupAction(Item item) {
         super(new ItemActionTarget(item));
         this.item = item;
         CreatureEquipmentSystem system = GameMvc.model().get(UnitContainer.class).equipmentSystem;
-        ItemContainer itemContainer = GameMvc.model().get(ItemContainer.class);
         LocalMap map = GameMvc.model().get(LocalMap.class);
 
         startCondition = () -> {
             EquipmentAspect equipment = task.performer.get(EquipmentAspect.class);
-            if (!itemContainer.itemMap.get(item.position).contains(item)
+            if (!container.itemMap.get(item.position).contains(item)
                     || !map.passageMap.inSameArea(item.position, task.performer.position)) return FAIL; // item not available
             if (!system.canPickUpItem(equipment, item)) { // if no empty grab slots
                 task.addFirstPreAction(new FreeGrabSlotAction()); // free another slot
@@ -44,9 +42,9 @@ public class ItemPickupAction extends Action {
 
         onFinish = () -> { // add item to unit
             EquipmentAspect equipment = task.performer.get(EquipmentAspect.class);
-            itemContainer.onMapItemsSystem.removeItemFromMap(item);
+            container.onMapItemsSystem.removeItemFromMap(item);
             equipment.hauledItems.add(item);
-            itemContainer.equippedItemsSystem.itemEquipped(item, equipment);
+            container.equippedItemsSystem.itemEquipped(item, equipment);
             Logger.EQUIPMENT.logDebug("Item " + item + " has been picked up.");
         };
     }

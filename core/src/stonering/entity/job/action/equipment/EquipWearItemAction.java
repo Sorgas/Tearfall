@@ -2,13 +2,12 @@ package stonering.entity.job.action.equipment;
 
 import stonering.entity.item.Item;
 import stonering.entity.item.aspects.WearAspect;
-import stonering.entity.job.action.Action;
+import stonering.entity.job.action.ItemAction;
 import stonering.entity.job.action.target.SelfActionTarget;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.entity.unit.aspects.equipment.EquipmentSlot;
 import stonering.entity.unit.aspects.equipment.GrabEquipmentSlot;
 import stonering.game.GameMvc;
-import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.system.unit.CreatureEquipmentSystem;
 import stonering.game.model.system.unit.UnitContainer;
 import stonering.util.logging.Logger;
@@ -20,14 +19,13 @@ import static stonering.entity.job.action.ActionConditionStatusEnum.*;
  *
  * @author Alexander
  */
-public class EquipWearItemAction extends Action {
+public class EquipWearItemAction extends ItemAction {
     public Item item;
 
     public EquipWearItemAction(Item item) {
         super(new SelfActionTarget());
         this.item = item;
         CreatureEquipmentSystem system = GameMvc.model().get(UnitContainer.class).equipmentSystem;
-        ItemContainer itemContainer = GameMvc.model().get(ItemContainer.class);
         WearAspect wear = item.get(WearAspect.class);
 
         startCondition = () -> {
@@ -49,7 +47,7 @@ public class EquipWearItemAction extends Action {
             EquipmentSlot targetSlot = equipment.slots.get(wear.slot);
 
             Item previousItem = system.freeSlot(targetSlot);
-            if(previousItem != null) itemContainer.onMapItemsSystem.putItem(previousItem, task.performer.position);// drop previous item
+            if(previousItem != null) container.onMapItemsSystem.putItem(previousItem, task.performer.position);// drop previous item
 
             GrabEquipmentSlot grabSlot = equipment.grabSlots.values().stream().filter(slot -> slot.grabbedItem == item).findFirst().orElse(null); // should never be null
             if (grabSlot != null) {

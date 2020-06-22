@@ -4,7 +4,7 @@ import stonering.entity.building.Building;
 import stonering.entity.building.aspects.WorkbenchAspect;
 import stonering.entity.crafting.ItemOrder;
 import stonering.entity.job.Task;
-import stonering.entity.job.action.CraftItemAction;
+import stonering.entity.job.action.item.CraftItemAction;
 import stonering.enums.OrderStatusEnum;
 import stonering.enums.action.TaskStatusEnum;
 import stonering.enums.blocks.PassageEnum;

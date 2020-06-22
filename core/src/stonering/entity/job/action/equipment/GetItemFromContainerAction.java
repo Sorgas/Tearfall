@@ -4,6 +4,7 @@ import stonering.entity.Entity;
 import stonering.entity.item.Item;
 import stonering.entity.item.aspects.ItemContainerAspect;
 import stonering.entity.job.action.Action;
+import stonering.entity.job.action.ItemAction;
 import stonering.entity.job.action.target.EntityActionTarget;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.entity.unit.aspects.equipment.GrabEquipmentSlot;
@@ -23,23 +24,22 @@ import static stonering.entity.job.action.ActionConditionStatusEnum.*;
  *
  * @author Alexander on 03.02.2020.
  */
-public class GetItemFromContainerAction extends Action {
-    private Item item;
+public class GetItemFromContainerAction extends ItemAction {
     private Entity containerEntity;
 
-    public GetItemFromContainerAction(Item item, Entity container) {
-        super(new EntityActionTarget(container, ActionTargetTypeEnum.NEAR));
+    public GetItemFromContainerAction(Item item, Entity containerEntity) {
+        super(new EntityActionTarget(containerEntity, ActionTargetTypeEnum.NEAR));
+        this.containerEntity = containerEntity;
         CreatureEquipmentSystem system = GameMvc.model().get(UnitContainer.class).equipmentSystem;
         LocalMap map = GameMvc.model().get(LocalMap.class);
-        ItemContainer itemContainer = GameMvc.model().get(ItemContainer.class);
-        ItemContainerAspect containerAspect = container.get(ItemContainerAspect.class);
+        ItemContainerAspect containerAspect = containerEntity.get(ItemContainerAspect.class);
 
         startCondition = () -> {
             EquipmentAspect equipment = task.performer.get(EquipmentAspect.class);
             if(equipment == null) return FAIL;
             if(containerAspect == null) return FAIL;
             if(!containerAspect.items.contains(item)) return FAIL;
-            if(!map.passageMap.inSameArea(containerEntity.position, item.position)) return FAIL; // container is available
+            if(!map.passageMap.inSameArea(this.containerEntity.position, item.position)) return FAIL; // container is available
             if (!system.canPickUpItem(equipment, item)) { // if no empty grab slots
                 task.addFirstPreAction(new FreeGrabSlotAction()); // free another slot
                 return NEW;
@@ -57,7 +57,7 @@ public class GetItemFromContainerAction extends Action {
             EquipmentAspect equipment = task.performer.get(EquipmentAspect.class);
             GrabEquipmentSlot slot = system.getSlotForPickingUpItem(equipment, item);
             if (slot != null) {
-                itemContainer.containedItemsSystem.removeItemFromContainer(item);
+                container.containedItemsSystem.removeItemFromContainer(item);
                 system.fillGrabSlot(equipment, slot, item);
                 return;
             }

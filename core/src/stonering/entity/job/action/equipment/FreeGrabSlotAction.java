@@ -2,6 +2,7 @@ package stonering.entity.job.action.equipment;
 
 import stonering.entity.item.Item;
 import stonering.entity.job.action.Action;
+import stonering.entity.job.action.ItemAction;
 import stonering.entity.job.action.target.SelfActionTarget;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.entity.unit.aspects.equipment.GrabEquipmentSlot;
@@ -20,12 +21,11 @@ import static stonering.entity.job.action.ActionConditionStatusEnum.OK;
  *
  * @author Alexander on 09.02.2020
  */
-public class FreeGrabSlotAction extends Action {
+public class FreeGrabSlotAction extends ItemAction {
 
     protected FreeGrabSlotAction() {
         super(new SelfActionTarget());
         CreatureEquipmentSystem system = GameMvc.model().get(UnitContainer.class).equipmentSystem;
-        ItemContainer container = GameMvc.model().get(ItemContainer.class);
         startCondition = () -> findSlot() == null ? FAIL : OK; // fail if unable to free any more slots
         onFinish = () -> {
             GrabEquipmentSlot slot = findSlot(); // should never be null

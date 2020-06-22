@@ -21,7 +21,9 @@ import stonering.util.logging.Logger;
  * Creature have slots for wear with different layers of wears, slots for tools and other items(grab slots).
  * To equip some wear item or do any other manipulation with equipment, unit should has at least one grab slot free.
  * Unit hauls items in grab slots.
- *
+ * TODO add item requirements (1/2 hands)
+ * TODO add layers
+ * 
  * @author Alexander on 06.02.2020.
  */
 public class CreatureEquipmentSystem extends EntitySystem<Unit> {
@@ -37,20 +39,14 @@ public class CreatureEquipmentSystem extends EntitySystem<Unit> {
         //TODO roll time for equipped items
     }
 
-    /**
-     * Checks if creature can pick up given item with grab slots.
-     * TODO add item requirements (1/2 hands)
-     */
     public boolean canPickUpItem(EquipmentAspect equipment, Item item) {
         return equipment.grabSlots.values().stream().filter(GrabEquipmentSlot::grabFree).count() >= 1;
     }
-
-    //TODO add item requirements (1/2 hands)
+    
     public GrabEquipmentSlot getSlotForPickingUpItem(EquipmentAspect equipment, Item item) {
         return equipment.grabSlots.values().stream().filter(GrabEquipmentSlot::grabFree).findFirst().orElse(null);
     }
-
-    //TODO add layers
+    
     public void fillSlot(EquipmentAspect equipment, EquipmentSlot slot, @NotNull Item item) {
         if(item.type.has(WearAspect.class)) {
             slot.item = item; // add to wear slot
@@ -64,8 +60,7 @@ public class CreatureEquipmentSystem extends EntitySystem<Unit> {
         slot.grabbedItem = item; // add to wear slot
         itemContainer().equippedItemsSystem.itemEquipped(item, equipment);
     }
-
-    //TODO add layers
+    
     public Item freeSlot(EquipmentSlot slot) {
         Item item = slot.item;
         slot.item = null;

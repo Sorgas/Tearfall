@@ -22,7 +22,7 @@ import static stonering.entity.job.action.ActionConditionStatusEnum.*;
 public class FuelingAciton extends Action {
     public Item targetItem;
 
-    protected FuelingAciton(Entity target) {
+    public FuelingAciton(Entity target) {
         super(new EntityActionTarget(target, ActionTargetTypeEnum.NEAR));
         startCondition = () -> {
             if (!((EntityActionTarget) this.target).entity.has(FuelConsumerAspect.class))
@@ -45,6 +45,6 @@ public class FuelingAciton extends Action {
         Item foundItem = task.performer.get(EquipmentAspect.class).hauledItems.stream().filter(item -> item.has(FuelAspect.class)
                 && item.get(FuelAspect.class).isEnabled()).findFirst().orElse(null); // item from inventory
         if (foundItem != null) return foundItem;
-        return GameMvc.instance().model().get(ItemContainer.class).util.getItemAvailableBySelector(new FuelItemSelector(), task.performer.position);
+        return GameMvc.model().get(ItemContainer.class).util.getItemAvailableBySelector(new FuelItemSelector(), task.performer.position);
     }
 }
