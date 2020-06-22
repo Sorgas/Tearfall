@@ -13,7 +13,7 @@ import static stonering.enums.action.TaskStatusEnum.OPEN;
  * System for handling different statuses of tasks in {@link TaskContainer}.
  * <p>
  * Unassigned tasks should not be ACTIVE or COMPLETE.
- * Unassigned FAILED tasks are cancelled by player and removed with their designations.
+ * Unassigned CANCELLED tasks are cancelled by player and removed with their designations.
  * <p>
  * Assigned tasks should not be OPEN.
  * Assigned COMPLETE and CANCELED tasks are removed with their designations.
@@ -46,8 +46,7 @@ public class TaskStatusSystem {
 //                        if(task.designation.type == DesignationTypeEnum.D_BUILD) {
 //                            task.suspend
 //                        }
-                        // suspend order
-                        task.performer.get(TaskAspect.class).task = null;
+                        // suspend order 
                         task.reset();
                         task.status = OPEN;
                         container.addTask(task);
@@ -62,7 +61,7 @@ public class TaskStatusSystem {
                     case ACTIVE:
                     case COMPLETE:
                     case FAILED:
-                        Logger.TASKS.logError(task.status + " task in unassigned tasks");
+                        Logger.TASKS.logError(task + " with status " + task.status + " in unassigned tasks");
                         break;
                     case CANCELED:
                         iterator.remove();

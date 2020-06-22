@@ -1,5 +1,7 @@
 package stonering.game.model.system.task;
 
+import static stonering.enums.action.TaskStatusEnum.*;
+
 import org.jetbrains.annotations.NotNull;
 
 import stonering.entity.job.action.target.ActionTarget;
@@ -21,6 +23,7 @@ import stonering.entity.job.Task;
 import stonering.util.logging.Logger;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * Contains all {@link Task} for player's units on map and {@link Designation}s for rendering.
@@ -62,13 +65,25 @@ public class TaskContainer implements ModelComponent, Updatable {
         if (aspect == null)
             return Logger.TASKS.logError("Creature " + unit + " without jobs aspect gets task from container", null);
         PassageMap map = GameMvc.model().get(LocalMap.class).passageMap;
-        for (JobsEnum enabledJob : aspect.getEnabledJobs()) {
+        aspect.enabledJobs.stream()
+                .flatMap(job -> tasks.get(job).stream())
+                .forEach(task -> {
+                    
+                })
+                
+                
+        for (JobsEnum enabledJob : aspect.enabledJobs) {
             for (Task task : tasks.get(enabledJob)) {
-                if (task.performer != null) Logger.TASKS.logError("Task " + task + " with performer is in open map.");
+                if (task.performer != null) {
+                    Logger.TASKS.logError("Task " + task + " with performer is in open map.");
+                    continue;
+                }
+                if(task.status != OPEN) {
+                    Logger.TASKS.logError("Task " + task + " with status " + task.status + " is in open map.");
+                    continue;
+                } 
                 ActionTarget target = task.nextAction.target;
-                if (task.performer == null &&
-                        task.status == TaskStatusEnum.OPEN &&
-                        map.util.positionReachable(unit.position, target.getPosition(), target.targetType != ActionTargetTypeEnum.EXACT)) {
+                if (map.util.positionReachable(unit.position, target.getPosition(), target.targetType != ActionTargetTypeEnum.EXACT)) {
                     //TODO add selecting nearest task.
                     return task;
                 }

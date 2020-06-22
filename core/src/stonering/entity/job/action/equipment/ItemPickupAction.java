@@ -32,10 +32,8 @@ public class ItemPickupAction extends EquipmentAction {
             EquipmentAspect equipment = task.performer.get(EquipmentAspect.class);
             if (!container.itemMap.get(item.position).contains(item)
                     || !map.passageMap.inSameArea(item.position, task.performer.position)) return FAIL; // item not available
-            if (!system.canPickUpItem(equipment, item)) { // if no empty grab slots
-                task.addFirstPreAction(new FreeGrabSlotAction()); // free another slot
-                return NEW;
-            }
+            if (equipment().grabSlotStream().noneMatch(slot -> slot.grabbedItem == null)) // if no empty grab slots
+                return addPreAction(new FreeGrabSlotAction()); // free another slot
             return OK;
         };
 

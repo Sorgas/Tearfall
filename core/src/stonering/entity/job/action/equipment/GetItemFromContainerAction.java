@@ -24,7 +24,7 @@ import static stonering.entity.job.action.ActionConditionStatusEnum.*;
  *
  * @author Alexander on 03.02.2020.
  */
-public class GetItemFromContainerAction extends ItemAction {
+public class GetItemFromContainerAction extends EquipmentAction {
     private Entity containerEntity;
 
     public GetItemFromContainerAction(Item item, Entity containerEntity) {
@@ -35,15 +35,12 @@ public class GetItemFromContainerAction extends ItemAction {
         ItemContainerAspect containerAspect = containerEntity.get(ItemContainerAspect.class);
 
         startCondition = () -> {
-            EquipmentAspect equipment = task.performer.get(EquipmentAspect.class);
-            if(equipment == null) return FAIL;
+            if(!validate()) return FAIL;
             if(containerAspect == null) return FAIL;
             if(!containerAspect.items.contains(item)) return FAIL;
             if(!map.passageMap.inSameArea(this.containerEntity.position, item.position)) return FAIL; // container is available
-            if (!system.canPickUpItem(equipment, item)) { // if no empty grab slots
-                task.addFirstPreAction(new FreeGrabSlotAction()); // free another slot
-                return NEW;
-            }
+            if (equipment().grabSlotStream().noneMatch(slot -> slot.grabbedItem == null)) // if no empty grab slots
+                return addPreAction(new FreeGrabSlotAction()); // free another slot
             return OK;
         };
 
@@ -54,13 +51,13 @@ public class GetItemFromContainerAction extends ItemAction {
         };
         
         onFinish = () -> {
-            EquipmentAspect equipment = task.performer.get(EquipmentAspect.class);
-            GrabEquipmentSlot slot = system.getSlotForPickingUpItem(equipment, item);
-            if (slot != null) {
-                container.containedItemsSystem.removeItemFromContainer(item);
-                system.fillGrabSlot(equipment, slot, item);
-                return;
-            }
+            equipment().grabSlotStream()
+                    .filter(slot -> slot.grabbedItem == null)
+                    .findFirst()
+                    .ifPresent(slot -> {
+                        container.containedItemsSystem.removeItemFromContainer(item); // remove from container
+                        system.fillGrabSlot(equipment(), slot, item); // add to equipment
+                    });
             Logger.EQUIPMENT.logError("Slot for picking up item " + item + " not found");
         };
 

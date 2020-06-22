@@ -42,14 +42,6 @@ public class CreatureEquipmentSystem extends EntitySystem<Unit> {
         //TODO roll time for equipped items
     }
 
-    public boolean canPickUpItem(EquipmentAspect equipment, Item item) {
-        return equipment.grabSlots.values().stream().filter(GrabEquipmentSlot::grabFree).count() >= 1;
-    }
-
-    public GrabEquipmentSlot getSlotForPickingUpItem(EquipmentAspect equipment, Item item) {
-        return equipment.grabSlots.values().stream().filter(GrabEquipmentSlot::grabFree).findFirst().orElse(null);
-    }
-
     public void fillSlot(EquipmentAspect equipment, EquipmentSlot slot, @NotNull Item item) {
         if (item.type.has(WearAspect.class)) {
             slot.item = item; // add to wear slot
@@ -81,6 +73,21 @@ public class CreatureEquipmentSystem extends EntitySystem<Unit> {
                 .peek(item -> slot.grabbedItem = null)
                 .peek(slot.aspect.items::remove) // tool items are in
                 .findFirst().orElse(null);
+    }
+    
+    public boolean removeItem(EquipmentAspect equipment, Item item) {
+        EquipmentSlot itemSlot = equipment.getSlotWithItem(item).orElse(null);
+        if (itemSlot != null) {
+            itemSlot.item = null;
+            return true;
+        }
+        GrabEquipmentSlot grabItemSlot = equipment.getGrabSlotWithItem(item).orElse(null);
+        if (grabItemSlot != null) {
+            grabItemSlot.grabbedItem = null;
+            return true;
+        }
+        return false;
+        //TODO remove item from worn containers
     }
     
     private ItemContainer itemContainer() {

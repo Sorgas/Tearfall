@@ -33,21 +33,21 @@ public class DigAction extends SkillAction {
     private DesignationTypeEnum type;
     private final float workAmountModifier = 10f;
     private final String toolActionName = "dig";
-    
+
     public DigAction(OrderDesignation designation) {
         super(new PositionActionTarget(designation.position, ActionTargetTypeEnum.NEAR), "miner");
         type = designation.type;
-        
+
         startCondition = () -> {
             if (!type.VALIDATOR.apply(target.getPosition())) return FAIL; // tile did not change
             EquipmentAspect equipment = task.performer.get(EquipmentAspect.class);
             if (equipment == null) return FAIL;
-            if(equipment.toolWithActionEquipped(toolActionName)) return OK; // tool already equipped
+            if (equipment.toolWithActionEquipped(toolActionName)) return OK; // tool already equipped
             return addEquipAction();
         };
-        
+
         maxProgress = getWorkAmount(designation) * workAmountModifier; // 480 for wall to floor in marble
-        System.out.println("max progress " + maxProgress);
+
         onFinish = () -> {
             BlockTypeEnum oldType = GameMvc.model().get(LocalMap.class).blockType.getEnumValue(target.getPosition());
             if (type.VALIDATOR.apply(target.getPosition())) updateMap();

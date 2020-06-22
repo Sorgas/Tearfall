@@ -28,8 +28,4 @@ public class GrabEquipmentSlot extends EquipmentSlot {
     public boolean canUnequip(Item item) {
         return grabbedItem == item || super.canUnequip(item);
     }
-
-    public boolean grabFree() {
-        return grabbedItem == null;
-    }
 }

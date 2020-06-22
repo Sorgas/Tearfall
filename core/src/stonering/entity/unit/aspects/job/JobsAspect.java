@@ -15,7 +15,7 @@ import java.util.*;
  * @author Alexander Kuzyakov on 31.01.2018.
  */
 public class JobsAspect extends Aspect {
-    private Set<JobsEnum> enabledJobs;
+    public Set<JobsEnum> enabledJobs;
     private Map<JobsEnum, LeveledValue> skills; // skill name to level.
 
     public JobsAspect(Entity entity) {
@@ -23,9 +23,5 @@ public class JobsAspect extends Aspect {
         enabledJobs = new HashSet<>();
         skills = new HashMap<>();
         enabledJobs.add(JobsEnum.NONE);
-    }
-
-    public Set<JobsEnum> getEnabledJobs() {
-        return enabledJobs;
     }
 }

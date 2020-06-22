@@ -1,9 +1,13 @@
 package stonering.game.model.system.item;
 
+import java.util.Optional;
+
 import stonering.entity.item.Item;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.enums.time.TimeUnitEnum;
+import stonering.game.GameMvc;
 import stonering.game.model.system.EntitySystem;
+import stonering.game.model.system.unit.UnitContainer;
 import stonering.util.logging.Logger;
 
 /**
@@ -27,7 +31,7 @@ public class EquippedItemsSystem extends EntitySystem<Item> {
     }
 
     public void itemEquipped(Item item, EquipmentAspect aspect) {
-        if(container.contained.containsKey(item)) Logger.ITEMS.logError("Adding to unit item not removed from container");
+        if (container.contained.containsKey(item)) Logger.ITEMS.logError("Adding to unit item not removed from container");
         item.position = null;
         container.equipped.put(item, aspect);
     }
@@ -38,8 +42,10 @@ public class EquippedItemsSystem extends EntitySystem<Item> {
     }
 
     public void removeItemFromEquipment(Item item) {
-        if(!container.equipped.get(item).removeItem(item))
-            Logger.ITEMS.logWarn("Items inconsistency: item " + item + " is not stored in equipment aspect");
+        Optional.ofNullable(container.equipped.get(item))
+                .ifPresentOrElse(
+                        aspect -> GameMvc.model().get(UnitContainer.class).equipmentSystem.removeItem(aspect, item),
+                        () -> Logger.ITEMS.logWarn("Items inconsistency: item " + item + " is not stored in equipment aspect"));
     }
 
     public boolean isItemEquipped(Item item) {

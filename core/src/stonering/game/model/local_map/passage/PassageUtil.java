@@ -1,12 +1,9 @@
 package stonering.game.model.local_map.passage;
 
-import stonering.entity.Entity;
 import stonering.game.model.local_map.LocalMap;
 import stonering.util.geometry.Position;
 
-import java.util.List;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 /**
  * Class for checking paths existence by game entities.
@@ -14,21 +11,18 @@ import java.util.stream.Collectors;
  * @author Alexander on 13.11.2019.
  */
 public class PassageUtil {
-    private LocalMap map;
     private PassageMap passage;
-    private Position cachePosition;
 
     public PassageUtil(LocalMap map, PassageMap passage) {
-        this.map = map;
         this.passage = passage;
-        cachePosition = new Position();
     }
 
     public boolean positionReachable(Position from, Position to, boolean acceptNearTarget) {
         if (from == null || to == null) return false;
-        if (passage.area.get(to) == passage.area.get(from)) return true; // target in same area
+        int fromArea = passage.area.get(from);
+        if (passage.area.get(to) == fromArea) return true; // target in same area
         return acceptNearTarget && new NeighbourPositionStream(to)
                 .stream.map(passage.area::get)
-                .anyMatch(Predicate.isEqual(passage.area.get(from))); // near tile in same area
+                .anyMatch(Predicate.isEqual(fromArea)); // near tile in same area
     }
 }

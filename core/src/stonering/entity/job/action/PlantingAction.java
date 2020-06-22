@@ -2,16 +2,21 @@ package stonering.entity.job.action;
 
 import static stonering.entity.job.action.ActionConditionStatusEnum.*;
 
+import java.util.Optional;
+
 import stonering.entity.item.Item;
 import stonering.entity.item.aspects.SeedAspect;
 import stonering.entity.item.selectors.SeedItemSelector;
+import stonering.entity.job.action.equipment.EquipmentAction;
 import stonering.entity.job.action.equipment.ItemPickupAction;
+import stonering.entity.job.action.equipment.ObtainItemAction;
 import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.plant.Plant;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.game.GameMvc;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.system.plant.PlantContainer;
+import stonering.game.model.system.unit.UnitContainer;
 import stonering.generators.plants.PlantGenerator;
 import stonering.util.logging.Logger;
 
@@ -20,7 +25,7 @@ import stonering.util.logging.Logger;
  * Planting always use single seed item.
  * Seed item should have {@link SeedAspect}
  */
-public class PlantingAction extends Action {
+public class PlantingAction extends EquipmentAction {
     private SeedItemSelector seedSelector;
 
     public PlantingAction(ActionTarget actionTarget, SeedItemSelector seedSelector) {
@@ -29,7 +34,9 @@ public class PlantingAction extends Action {
         startCondition = () -> {
             Logger.TASKS.logDebug("Checking planting action");
             if (getSeedFromEquipment() != null) return OK;
-            return tryCreatePickingAction();
+            return Optional.ofNullable(GameMvc.model().get(ItemContainer.class).util.getItemAvailableBySelector(seedSelector, task.performer.position))
+                    .map(item -> addPreAction(new ObtainItemAction(item)))
+                    .orElse(FAIL);
         };
 
         onFinish = () -> {
@@ -39,22 +46,11 @@ public class PlantingAction extends Action {
     }
 
     /**
-     * Tries to pick seed item if none is available in performer's inventory.
-     */
-    private ActionConditionStatusEnum tryCreatePickingAction() {
-        Item item = GameMvc.model().get(ItemContainer.class).util.getItemAvailableBySelector(seedSelector, task.performer.position);
-        if (item == null) return FAIL;
-        task.addFirstPreAction(new ItemPickupAction(item));
-        Logger.TASKS.logDebug("Creating pocking action for " + seedSelector.getSpecimen() + " seed.");
-        return NEW;
-    }
-
-    /**
      * Seeks seed item in performers inventory.
      */
     private Item spendSeed() {
         Item seed = getSeedFromEquipment(); // seed should never be null after check()
-        task.performer.get(EquipmentAspect.class).dropItem(seed);
+        GameMvc.model().get(UnitContainer.class).equipmentSystem.removeItem(equipment(), seed);
         return seed;
     }
 
@@ -62,8 +58,7 @@ public class PlantingAction extends Action {
      * Looks for seed item in performer's inventory.
      */
     private Item getSeedFromEquipment() {
-        EquipmentAspect equipmentAspect = task.performer.get(EquipmentAspect.class);
-        return seedSelector.selectItem(equipmentAspect.items);
+        return seedSelector.selectItem(equipment().items);
     }
 
     /**
