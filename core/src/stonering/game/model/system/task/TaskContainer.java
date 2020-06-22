@@ -65,13 +65,6 @@ public class TaskContainer implements ModelComponent, Updatable {
         if (aspect == null)
             return Logger.TASKS.logError("Creature " + unit + " without jobs aspect gets task from container", null);
         PassageMap map = GameMvc.model().get(LocalMap.class).passageMap;
-        aspect.enabledJobs.stream()
-                .flatMap(job -> tasks.get(job).stream())
-                .forEach(task -> {
-                    
-                })
-                
-                
         for (JobsEnum enabledJob : aspect.enabledJobs) {
             for (Task task : tasks.get(enabledJob)) {
                 if (task.performer != null) {

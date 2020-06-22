@@ -38,12 +38,12 @@ public class CreatureActionPerformingSystem extends EntitySystem<Unit> {
 
     @Override
     public void update(Unit unit) {
-        TaskAspect planning = unit.get(TaskAspect.class);
+        TaskAspect taskAspect = unit.get(TaskAspect.class);
         MovementAspect movement = unit.get(MovementAspect.class);
-        Task task = planning.task;
+        Task task = taskAspect.task;
         // creature has active task but is not moving
         if (task != null && task.status == ACTIVE && movement.target == null)
-            checkTarget(planning, movement, task);
+            checkTarget(taskAspect, movement, task);
     }
 
     /**
@@ -54,7 +54,6 @@ public class CreatureActionPerformingSystem extends EntitySystem<Unit> {
     private void checkTarget(TaskAspect planning, MovementAspect movement, Task task) {
 //        Logger.TASKS.logDebugn("Checking target of " + task.nextAction + ": ");
         ActionTargetStatusEnum check = task.nextAction.target.check(planning.entity);
-//        System.out.println(" " + check.toString());
         switch (check) {
             case READY: // creature is in target, perform
                 handleReachingActionTarget(task, planning);

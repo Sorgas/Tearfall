@@ -6,12 +6,10 @@ import stonering.entity.unit.aspects.MovementAspect;
 import stonering.entity.unit.aspects.TaskAspect;
 import stonering.entity.unit.aspects.needs.NeedsAspect;
 import stonering.game.GameMvc;
-import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.EntitySystem;
 import stonering.game.model.system.task.CreatureActionPerformingSystem;
 import stonering.game.model.system.task.TaskContainer;
-import stonering.util.geometry.Position;
-import stonering.util.geometry.PositionUtil;
+import stonering.game.model.system.task.TaskStatusSystem;
 import stonering.util.logging.Logger;
 
 import java.util.ArrayList;
@@ -24,7 +22,7 @@ import static stonering.enums.action.TaskStatusEnum.*;
 /**
  * System for giving {@link Task}s to {@link Unit}s.
  * Looks for new task for unit if it hasn't one.
- * Removes finished, failed and paused tasks from units.
+ * If unit's task is not active, it is unset from unit. Need tasks then collected by gc, others are handled in {@link TaskStatusSystem}.
  * Considers only task statuses, see {@link CreatureActionPerformingSystem}.
  *
  * @author Alexander on 28.10.2019.
@@ -38,28 +36,13 @@ public class CreaturePlanningSystem extends EntitySystem<Unit> {
 
     @Override
     public void update(Unit unit) {
-        if (unit.get(TaskAspect.class).task == null) {
-            findNewTask(unit);
-        } else {
-            checkTaskStatus(unit);
-        }
+        unit.getOptional(TaskAspect.class)
+                .map(aspect -> aspect.task)
+                .ifPresentOrElse(task -> handleTaskStatus(unit), () -> findNewTask(unit));
     }
 
-    private void checkTaskStatus(Unit unit) {
-        TaskAspect taskAspect = unit.get(TaskAspect.class);
-        Task task = taskAspect.task;
-        switch (task.status) {
-            case OPEN: // invalid case
-                Logger.TASKS.logWarn("claimed task with open status");
-                task.status = ACTIVE; // start claimed and open task
-                break;
-            case FAILED:
-            case COMPLETE:
-            case CANCELED:
-                unit.get(MovementAspect.class).reset();
-                taskAspect.task = null; // free this aspect
-                task.reset();
-        }
+    private void handleTaskStatus(Unit unit) {
+        if (unit.get(TaskAspect.class).task.status != ACTIVE) removeTaskFromUnit(unit);
     }
 
     private void findNewTask(Unit unit) {
@@ -72,7 +55,12 @@ public class CreaturePlanningSystem extends EntitySystem<Unit> {
                     task.status = ACTIVE;
                 });
     }
-    
+
+    public void removeTaskFromUnit(Unit unit) {
+        unit.get(MovementAspect.class).reset();
+        unit.get(TaskAspect.class).task = null;
+    }
+
     /**
      * Finds appropriate task for unit.
      * Checks priorities of all available tasks.
@@ -83,23 +71,16 @@ public class CreaturePlanningSystem extends EntitySystem<Unit> {
         ArrayList<Task> tasks = new ArrayList<>();
         if (unit.has(NeedsAspect.class)) tasks.add(unit.get(NeedsAspect.class).satisfyingTask); // add need task
         tasks.add(taskContainer().getActiveTask(unit)); // get task from container
-        LocalMap map = GameMvc.model().get(LocalMap.class);
         return tasks.stream()
                 .filter(Objects::nonNull)
                 .filter(task -> task.status == OPEN)
-                .filter(task -> {
-                    if(task.designation == null) return true;
-                    return PositionUtil.allNeighbourDeltas.stream()
-                            .map(pos -> Position.add(pos, task.designation.position))
-                            .map(pos -> map.passageMap.area.get(task.designation.position))
-                            .anyMatch(area -> area == map.passageMap.area.get(unit.position));
-                })
                 .max(Comparator.comparingInt(task1 -> task1.priority)).orElse(null);
     }
 
     private boolean checkTaskForUnit(Task task, Unit unit) {
         task.performer = unit;
         if (!task.initialAction.takingCondition.get()) {
+            System.out.println("checking task for unit");
             task.reset();
             return false;
         }

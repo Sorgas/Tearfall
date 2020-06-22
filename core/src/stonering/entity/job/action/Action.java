@@ -87,7 +87,7 @@ public abstract class Action {
         maxProgress = 1;
     }
 
-    protected ActionConditionStatusEnum addPreAction(Action action) {
+    public ActionConditionStatusEnum addPreAction(Action action) {
         task.addFirstPreAction(action);
         return NEW;
     }

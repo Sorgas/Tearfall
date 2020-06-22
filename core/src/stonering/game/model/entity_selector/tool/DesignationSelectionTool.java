@@ -25,8 +25,6 @@ public class DesignationSelectionTool extends SelectionTool {
     @Override
     public void handleSelection(Int3dBounds bounds) {
         TaskContainer container = GameMvc.model().get(TaskContainer.class);
-        bounds.iterate(position -> {
-            container.designationSystem.submitDesignation(position, type);
-        });
+        bounds.iterate(position -> container.designationSystem.submitDesignation(position, type));
     }
 }

@@ -12,6 +12,8 @@ import stonering.util.logging.Logger;
 
 import static stonering.enums.action.TaskStatusEnum.*;
 
+import java.util.Optional;
+
 /**
  * Creates tasks for designations, recreates failed tasks.
  * When {@link Designation}'s {@link Task} is failed, it is removed from {@link TaskContainer},
@@ -51,13 +53,22 @@ public class DesignationSystem {
      * All simple orders like digging and foraging submitted through this method.
      */
     public void submitDesignation(Position position, DesignationTypeEnum type) {
-        if (type == DesignationTypeEnum.D_NONE) {
-            Designation designation = container.designations.get(position);
-            if (designation != null && designation.task != null) designation.task.status = CANCELED;
-        } else {
-            if (type.VALIDATOR.apply(position))
-                container.designations.put(position, new OrderDesignation(position, type));
-        }
+        removeDesignation(position); // remove previous designation
+        if (type != DesignationTypeEnum.D_NONE && type.VALIDATOR.apply(position))
+            container.designations.put(position, new OrderDesignation(position, type));
+    }
+
+    public void removeDesignation(Designation designation) {
+        Optional.ofNullable(container.designations.get(designation.position)) // cancel previous designation
+                .filter(foundDesignation -> foundDesignation == designation) // designation still present on map
+                .map(foundDesignation -> foundDesignation.task)
+                .ifPresent(task -> task.status = CANCELED);
+    }
+
+    private void removeDesignation(Position position) {
+        Optional.ofNullable(container.designations.get(position)) // cancel previous designation
+                .map(foundDesignation -> foundDesignation.task)
+                .ifPresent(task -> task.status = CANCELED);
     }
 
     /**

@@ -2,10 +2,13 @@ package stonering.game.model.system.task;
 
 import stonering.entity.job.Task;
 import stonering.entity.unit.aspects.TaskAspect;
+import stonering.game.GameMvc;
+import stonering.game.model.system.unit.UnitContainer;
 import stonering.util.logging.Logger;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 import static stonering.enums.action.TaskStatusEnum.OPEN;
 
@@ -38,15 +41,12 @@ public class TaskStatusSystem {
                 case COMPLETE: // complete designations are removed
                 case CANCELED:
                     iterator.remove();
-                    if (task.designation != null) container.designations.remove(task.designation.position); // remove designation
+                    Optional.ofNullable(task.designation).ifPresent(container.designationSystem::removeDesignation); // remove designation
                     break;
                 case FAILED: // failed tasks are reset to be taken again
                     iterator.remove();
                     if (task.designation != null) { // designation tasks are reopened
-//                        if(task.designation.type == DesignationTypeEnum.D_BUILD) {
-//                            task.suspend
-//                        }
-                        // suspend order 
+                        GameMvc.model().get(UnitContainer.class).planningSystem.removeTaskFromUnit(task.performer); // free performer from task
                         task.reset();
                         task.status = OPEN;
                         container.addTask(task);
