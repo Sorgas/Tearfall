@@ -2,6 +2,7 @@ package stonering.game.model.entity_selector.tool;
 
 import stonering.entity.zone.Zone;
 import stonering.game.GameMvc;
+import stonering.game.model.entity_selector.EntitySelectorSystem;
 import stonering.game.model.entity_selector.aspect.BoxSelectionAspect;
 import stonering.game.model.system.ZoneContainer;
 import stonering.util.geometry.Int3dBounds;
@@ -15,6 +16,9 @@ public class ZoneUpdateSelectionTool extends SelectionTool {
     @Override
     public void apply() {
         // set sprite and cursor
+        EntitySelectorSystem system = GameMvc.model().get(EntitySelectorSystem.class);
+        system.allowChangingZLevelOnSelection = true;
+        system.allowTwoDimensionsOnSelection = true;
     }
 
     @Override

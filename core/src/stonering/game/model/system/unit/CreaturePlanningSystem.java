@@ -73,7 +73,6 @@ public class CreaturePlanningSystem extends EntitySystem<Unit> {
      * TODO combat tasks
      * TODO non possible tasks with high priority can block other tasks
      */
-
     private boolean checkTaskForUnit(Task task, Unit unit) {
         task.performer = unit;
         if (!task.initialAction.takingCondition.get()) {

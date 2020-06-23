@@ -13,6 +13,7 @@ import stonering.enums.buildings.blueprint.Blueprint;
 import stonering.enums.designations.PlaceValidatorsEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.entity_selector.EntitySelector;
+import stonering.game.model.entity_selector.EntitySelectorSystem;
 import stonering.game.model.entity_selector.aspect.BoxSelectionAspect;
 import stonering.game.model.system.task.TaskContainer;
 import stonering.stage.entity_menu.building.ItemSelectSection;
@@ -58,6 +59,9 @@ public class BuildingSelectionTool extends SelectionTool {
         workbenchAccessSprite = ui_tiles.getBlockTile(11, 3);
         updateSpriteAndSize();
         GameMvc.view().toolbarStage.showBuildingTab(blueprint);
+        EntitySelectorSystem system = GameMvc.model().get(EntitySelectorSystem.class);
+        system.allowChangingZLevelOnSelection = true;
+        system.allowTwoDimensionsOnSelection = true;
     }
 
     @Override

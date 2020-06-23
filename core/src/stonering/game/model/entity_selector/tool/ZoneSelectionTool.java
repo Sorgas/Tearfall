@@ -3,6 +3,7 @@ package stonering.game.model.entity_selector.tool;
 import stonering.entity.zone.Zone;
 import stonering.enums.ZoneTypesEnum;
 import stonering.game.GameMvc;
+import stonering.game.model.entity_selector.EntitySelectorSystem;
 import stonering.game.model.entity_selector.aspect.BoxSelectionAspect;
 import stonering.game.model.system.ZoneContainer;
 import stonering.util.geometry.Int3dBounds;
@@ -20,6 +21,9 @@ public class ZoneSelectionTool extends SelectionTool {
     public void apply() {
         // set selector sprite and cursor
         selector().size.set(1, 1);
+        EntitySelectorSystem system = GameMvc.model().get(EntitySelectorSystem.class);
+        system.allowChangingZLevelOnSelection = true;
+        system.allowTwoDimensionsOnSelection = true;
     }
 
     @Override

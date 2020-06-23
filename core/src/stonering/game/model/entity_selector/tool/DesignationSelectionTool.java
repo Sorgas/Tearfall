@@ -3,6 +3,7 @@ package stonering.game.model.entity_selector.tool;
 import stonering.entity.RenderAspect;
 import stonering.enums.designations.DesignationTypeEnum;
 import stonering.game.GameMvc;
+import stonering.game.model.entity_selector.EntitySelectorSystem;
 import stonering.game.model.system.task.TaskContainer;
 import stonering.stage.renderer.AtlasesEnum;
 import stonering.util.geometry.Int3dBounds;
@@ -16,6 +17,9 @@ public class DesignationSelectionTool extends SelectionTool {
     @Override
     public void apply() {
         selector().get(RenderAspect.class).region = AtlasesEnum.ui_tiles.getBlockTile(type.TOOL_SPRITE, 2);
+        EntitySelectorSystem system = GameMvc.model().get(EntitySelectorSystem.class);
+        system.allowChangingZLevelOnSelection = true;
+        system.allowTwoDimensionsOnSelection = true;
     }
 
     public void setType(DesignationTypeEnum type) {
