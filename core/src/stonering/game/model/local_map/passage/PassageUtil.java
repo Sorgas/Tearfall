@@ -11,8 +11,10 @@ import stonering.util.geometry.PositionUtil;
  */
 public class PassageUtil {
     private PassageMap passage;
-
+    private LocalMap map;
+    
     public PassageUtil(LocalMap map, PassageMap passage) {
+        this.map = map;
         this.passage = passage;
     }
 
@@ -20,9 +22,10 @@ public class PassageUtil {
         if (from == null || to == null) return false;
         byte fromArea = passage.area.get(from);
         if (passage.area.get(to) == fromArea) return true; // target in same area
-        ;
+        
         return acceptNearTarget && PositionUtil.allNeighbourDeltas.stream()
                 .map(pos -> Position.add(to, pos))
+                .filter(map::inMap)
                 .map(passage.area::get)
                 .anyMatch(area -> area == fromArea);
     }

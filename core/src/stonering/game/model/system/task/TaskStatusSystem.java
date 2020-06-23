@@ -38,10 +38,9 @@ public class TaskStatusSystem {
                 case OPEN:
                     Logger.TASKS.logError(task.status + " task in assigned tasks");
                     break;
-                case COMPLETE: // complete designations are removed
-                case CANCELED:
+                case COMPLETE: // complete designations are removed by actions
+                case CANCELED: // canceled designation are removed in designations system
                     iterator.remove();
-                    Optional.ofNullable(task.designation).ifPresent(container.designationSystem::removeDesignation); // remove designation
                     break;
                 case FAILED: // failed tasks are reset to be taken again
                     iterator.remove();

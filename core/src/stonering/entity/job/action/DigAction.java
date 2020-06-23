@@ -15,6 +15,7 @@ import stonering.enums.materials.MaterialMap;
 import stonering.game.GameMvc;
 import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.local_map.LocalMap;
+import stonering.game.model.system.task.TaskContainer;
 import stonering.game.model.system.unit.UnitContainer;
 import stonering.generators.items.DiggingProductGenerator;
 import stonering.util.geometry.Position;
@@ -53,6 +54,7 @@ public class DigAction extends SkillAction {
             if (type.VALIDATOR.apply(target.getPosition())) updateMap();
             leaveStone(oldType);
             GameMvc.model().get(UnitContainer.class).experienceSystem.giveExperience(task.performer, SKILL_NAME);
+            GameMvc.model().get(TaskContainer.class).designationSystem.removeDesignation(designation.position);
         };
     }
 
@@ -92,7 +94,7 @@ public class DigAction extends SkillAction {
                     updateAndRevealMap(lowerPosition, RAMP);
         }
     }
-
+ 
     /**
      * Puts rock of dug material if needed.
      */

@@ -46,8 +46,14 @@ public class CreaturePlanningSystem extends EntitySystem<Unit> {
     }
 
     private void findNewTask(Unit unit) {
-        Optional.ofNullable(selectTaskForUnit(unit))
+        ArrayList<Task> tasks = new ArrayList<>();
+        if (unit.has(NeedsAspect.class)) tasks.add(unit.get(NeedsAspect.class).satisfyingTask); // add need task
+        tasks.add(taskContainer().getActiveTask(unit)); // get task from container
+        tasks.stream()
+                .filter(Objects::nonNull)
+                .filter(task -> task.status == OPEN)
                 .filter(task -> checkTaskForUnit(task, unit))
+                .max(Comparator.comparingInt(task1 -> task1.priority))
                 .ifPresent(task -> {
                     Logger.TASKS.logDebug("Assigning task " + task + " to unit " + unit);
                     taskContainer().claimTask(task);
@@ -67,15 +73,6 @@ public class CreaturePlanningSystem extends EntitySystem<Unit> {
      * TODO combat tasks
      * TODO non possible tasks with high priority can block other tasks
      */
-    private Task selectTaskForUnit(Unit unit) {
-        ArrayList<Task> tasks = new ArrayList<>();
-        if (unit.has(NeedsAspect.class)) tasks.add(unit.get(NeedsAspect.class).satisfyingTask); // add need task
-        tasks.add(taskContainer().getActiveTask(unit)); // get task from container
-        return tasks.stream()
-                .filter(Objects::nonNull)
-                .filter(task -> task.status == OPEN)
-                .max(Comparator.comparingInt(task1 -> task1.priority)).orElse(null);
-    }
 
     private boolean checkTaskForUnit(Task task, Unit unit) {
         task.performer = unit;

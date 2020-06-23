@@ -54,6 +54,7 @@ public class CreatureActionPerformingSystem extends EntitySystem<Unit> {
     private void checkTarget(TaskAspect planning, MovementAspect movement, Task task) {
 //        Logger.TASKS.logDebugn("Checking target of " + task.nextAction + ": ");
         ActionTargetStatusEnum check = task.nextAction.target.check(planning.entity);
+        System.out.println( " ---> " + check);
         switch (check) {
             case READY: // creature is in target, perform
                 handleReachingActionTarget(task, planning);

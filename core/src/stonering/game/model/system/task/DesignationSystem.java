@@ -53,22 +53,21 @@ public class DesignationSystem {
      * All simple orders like digging and foraging submitted through this method.
      */
     public void submitDesignation(Position position, DesignationTypeEnum type) {
-        removeDesignation(position); // remove previous designation
-        if (type != DesignationTypeEnum.D_NONE && type.VALIDATOR.apply(position))
-            container.designations.put(position, new OrderDesignation(position, type));
+        if (type.VALIDATOR.apply(position)) {
+            removeDesignation(position); // remove previous designation
+            if (type != DesignationTypeEnum.D_NONE) {
+                container.designations.put(position, new OrderDesignation(position, type)); // put new designation
+            }
+        }
     }
 
-    public void removeDesignation(Designation designation) {
-        Optional.ofNullable(container.designations.get(designation.position)) // cancel previous designation
-                .filter(foundDesignation -> foundDesignation == designation) // designation still present on map
-                .map(foundDesignation -> foundDesignation.task)
-                .ifPresent(task -> task.status = CANCELED);
-    }
-
-    private void removeDesignation(Position position) {
+    public void removeDesignation(Position position) {
         Optional.ofNullable(container.designations.get(position)) // cancel previous designation
                 .map(foundDesignation -> foundDesignation.task)
-                .ifPresent(task -> task.status = CANCELED);
+                .ifPresent(task -> {
+                    task.status = CANCELED;
+                    container.designations.remove(position);
+                });
     }
 
     /**
