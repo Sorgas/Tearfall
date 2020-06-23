@@ -1,5 +1,7 @@
 package stonering.game.model.system.task;
 
+import java.util.Optional;
+
 import stonering.entity.job.Task;
 import stonering.entity.job.action.*;
 import stonering.entity.job.designation.BuildingDesignation;
@@ -19,8 +21,9 @@ public class TaskCreator {
 
     public Task createTaskForDesignation(Designation designation, int priority) {
         if(designation instanceof OrderDesignation) {
-            Action action = selectActionByDesignation((OrderDesignation) designation);
-            return action == null ? null : createTask(action, designation, priority);
+            return Optional.ofNullable(selectActionByDesignation((OrderDesignation) designation))
+                    .map(action -> createTask(action, designation, priority))
+                    .orElse(null);
         } else if(designation instanceof BuildingDesignation) {
             return createBuildingTask((BuildingDesignation) designation, priority);
         } else {

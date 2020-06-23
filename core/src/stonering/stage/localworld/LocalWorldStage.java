@@ -41,7 +41,6 @@ public class LocalWorldStage extends UiStage {
         spriteDrawingUtil = new SpriteDrawingUtil(getBatch());
         shapeDrawingUtil = new ShapeDrawingUtil(getBatch());
         tileDrawer = new TileDrawer(spriteDrawingUtil, shapeDrawingUtil, camera);
-        entitySelectorRenderer = new EntitySelectorDrawer(spriteDrawingUtil, shapeDrawingUtil);
     }
 
     /**
@@ -54,7 +53,6 @@ public class LocalWorldStage extends UiStage {
         shapeDrawingUtil.shapeRenderer.setProjectionMatrix(camera.combined);
         getBatch().begin();
         tileDrawer.render();
-        entitySelectorRenderer.render();
         getBatch().end();
     }
 

@@ -1,5 +1,6 @@
 package stonering.enums.designations;
 
+import stonering.util.validation.DiggingChannelValidator;
 import stonering.util.validation.DiggingValidator;
 import stonering.util.validation.PositionValidator;
 import stonering.util.validation.TreeChoppingValidator;
@@ -16,16 +17,16 @@ import static stonering.enums.blocks.BlockTypeEnum.*;
  * @author Alexander Kuzyakov
  */
 public enum DesignationTypeEnum {
-    D_NONE(0, "none", position -> true, 1), // for removing simple designations
-    D_DIG(1, "digging", new DiggingValidator(FLOOR), 2), // removes walls and ramps. leaves floor
-    D_STAIRS(2, "cutting stairs", new DiggingValidator(STAIRS), 3), // cuts stairs from wall.
+    D_NONE(0, "none", position -> true, 1),                                     // for removing simple designations
+    D_DIG(1, "digging", new DiggingValidator(FLOOR), 2),                        // removes walls and ramps. leaves floor
+    D_STAIRS(2, "cutting stairs", new DiggingValidator(STAIRS), 3),             // cuts stairs from wall.
     D_DOWNSTAIRS(4, "cutting downstairs", new DiggingValidator(DOWNSTAIRS), 4), // cuts combined stairs from wall. assigned automatically.
-    D_RAMP(5, "cutting ramp", new DiggingValidator(RAMP), 5), // digs ramp and upper cell.
-    D_CHANNEL(6, "digging channel", new DiggingValidator(SPACE), 6), // digs cell and ramp on lower level
-    D_CHOP(2, "chopping trees", new TreeChoppingValidator(), 7), // chop trees in th area
-    D_CUT(3, "cutting plants", position -> true, 8), // cut plants
-    D_HARVEST(4, "harvesting plants", position -> true, 9), // harvest plants
-    D_BUILD(5, "building", position -> true, 10), // build construction or building
+    D_RAMP(5, "cutting ramp", new DiggingValidator(RAMP), 5),                   // digs ramp and upper cell.
+    D_CHANNEL(6, "digging channel", new DiggingChannelValidator(), 6),          // digs cell and ramp on lower level
+    D_CHOP(2, "chopping trees", new TreeChoppingValidator(), 7),                // chop trees in th area
+    D_CUT(3, "cutting plants", position -> true, 8),                            // cut plants
+    D_HARVEST(4, "harvesting plants", position -> true, 9),                     // harvest plants
+    D_BUILD(5, "building", position -> true, 10),                               // build construction or building
     ;
 
     private static HashMap<Integer, DesignationTypeEnum> map;

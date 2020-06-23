@@ -21,6 +21,8 @@ import stonering.util.validation.PositionValidator;
 
 import static stonering.stage.renderer.AtlasesEnum.ui_tiles;
 
+import java.util.Optional;
+
 /**
  * Renders {@link EntitySelector} sprite and frame.
  * Draws selector sprite in selector position. Sprite can be larger than 1 tile. Sprite not drawn if selection frame exists.
@@ -32,6 +34,7 @@ import static stonering.stage.renderer.AtlasesEnum.ui_tiles;
  */
 public class EntitySelectorDrawer extends Drawer {
     private LocalMap map;
+    private EntitySelector selector;
     private Position cachePosition;
     private Int3dBounds bounds;
     private Color INVALID = new Color(1, 0.8f, 0.8f, 0.5f);
@@ -44,45 +47,40 @@ public class EntitySelectorDrawer extends Drawer {
         bounds = new Int3dBounds();
         cachePosition = new Position();
         map = GameMvc.model().get(LocalMap.class);
+        selector = GameMvc.model().get(EntitySelectorSystem.class).selector;
     }
 
-    public void render() {
-        EntitySelector selector = GameMvc.model().get(EntitySelectorSystem.class).selector;
-        drawSelectorSprites(selector);
-        drawValidationBackground(selector);
-        drawSelectorAdditionalSprites(selector);
-        drawFrame(selector);
+    public void draw() {
+        drawSelectorAdditionalSprites();
+        drawFrame();
+    }
+
+    public void render(int x, int y, int z) {
+        drawSelectorSprites(x, y, z);
+        drawValidationBackground(x, y, z);
     }
 
     /**
      * Draws sprite defined in selector position. If selection frame exists, it is filled with sprites.
      */
-    private void drawSelectorSprites(EntitySelector selector) {
-        defineBounds(selector);
+    private void drawSelectorSprites(int x, int y, int z) {
+        if (!bounds.isIn(x, y, z)) return;
         SelectionTool tool = selector.get(SelectionAspect.class).tool;
         if (tool == SelectionTools.DESIGNATION) {
-            for (int x = bounds.minX; x <= bounds.maxX; x += selector.size.x) {
-                for (int y = bounds.maxY - selector.size.y + 1; y >= bounds.minY; y -= selector.size.y) {
-                    byte blockType = map.blockType.get(x, y, selector.position.z);
-                    int atlasY = blockType == BlockTypeEnum.FLOOR.CODE || blockType == BlockTypeEnum.DOWNSTAIRS.CODE || blockType == BlockTypeEnum.FARM.CODE
-                            ? 3 : 2;
-                    TextureRegion region = ui_tiles.getBlockTile(SelectionTools.DESIGNATION.type.TOOL_SPRITE, atlasY);
-                    spriteUtil.drawSprite(region, x, y, selector.position.z);
-                }
-            }
+            byte blockType = map.blockType.get(x, y, selector.position.z);
+            int atlasY = blockType == BlockTypeEnum.FLOOR.CODE || blockType == BlockTypeEnum.DOWNSTAIRS.CODE
+                    || blockType == BlockTypeEnum.FARM.CODE || blockType == BlockTypeEnum.SPACE.CODE ? 3 : 2;
+            TextureRegion region = ui_tiles.getBlockTile(SelectionTools.DESIGNATION.type.TOOL_SPRITE, atlasY);
+            spriteUtil.drawSprite(region, x, y, selector.position.z);
         } else {
             boolean buildingToolActive = selector.get(SelectionAspect.class).tool == SelectionTools.BUILDING;
             spriteUtil.setColor(buildingToolActive ? TRANSPARENT_WHITE : WHITE);
-            for (int x = bounds.minX; x <= bounds.maxX; x += selector.size.x) {
-                for (int y = bounds.maxY - selector.size.y + 1; y >= bounds.minY; y -= selector.size.y) {
-                    TextureRegion region = selector.get(RenderAspect.class).region;
-                    spriteUtil.drawSprite(region, x, y, selector.position.z);
-                }
-            }
+            TextureRegion region = selector.get(RenderAspect.class).region;
+            spriteUtil.drawSprite(region, x, y, selector.position.z);
         }
     }
 
-    private void drawSelectorAdditionalSprites(EntitySelector selector) {
+    private void drawSelectorAdditionalSprites() {
         SelectionTool tool = selector.get(SelectionAspect.class).tool;
         if (tool instanceof BuildingSelectionTool) { // draw access positions for buildings
             PositionValidator validator = selector.get(SelectionAspect.class).tool.validator;
@@ -98,20 +96,16 @@ public class EntitySelectorDrawer extends Drawer {
     /**
      * Draws background validation tiles for selection area if position validator is specified.
      */
-    private void drawValidationBackground(EntitySelector selector) {
-        //TODO add sprites
+    private void drawValidationBackground(int x, int y, int z) {
+        if (!bounds.isIn(x, y, z)) return;
         PositionValidator validator = selector.get(SelectionAspect.class).tool.validator;
         if (validator == null) return;
-        for (int x = selector.position.x; x < selector.position.x + selector.size.x; x++) {
-            for (int y = selector.position.y; y < selector.position.y + selector.size.y; y++) {
-                cachePosition.set(x, y, selector.position.z);
-                spriteUtil.setColor(validator.apply(cachePosition) ? VALID : INVALID);
-                spriteUtil.drawSprite(ui_tiles.getBlockTile(0, 4), ui_tiles, cachePosition);
-            }
-        }
+        cachePosition.set(x, y, selector.position.z);
+        spriteUtil.setColor(validator.apply(cachePosition) ? VALID : INVALID);
+        spriteUtil.drawSprite(ui_tiles.getBlockTile(0, 4), ui_tiles, cachePosition);
     }
 
-    private void defineBounds(EntitySelector selector) {
+    public void defineBounds() {
         BoxSelectionAspect box = selector.get(BoxSelectionAspect.class);
         Position pos = selector.position;
         if (box.boxStart != null) { // frame
@@ -121,10 +115,10 @@ public class EntitySelectorDrawer extends Drawer {
         }
     }
 
-    private void drawFrame(EntitySelector selector) {
+    private void drawFrame() {
         BoxSelectionAspect box = selector.get(BoxSelectionAspect.class);
         if (box.boxStart == null) return;
-        defineBounds(selector);
+        defineBounds();
         bounds.maxZ = selector.position.z;
         bounds.iterate(pos -> {
             if (pos.y == bounds.maxY && pos.z == bounds.maxZ) drawSprite(0, pos);

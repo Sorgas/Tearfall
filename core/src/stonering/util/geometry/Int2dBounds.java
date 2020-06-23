@@ -34,12 +34,13 @@ public class Int2dBounds {
     }
 
     public boolean isIn(Position position) {
-        return position.x >= minX &&
-                position.x <= maxX &&
-                position.y >= minY &&
-                position.y <= maxY;
+        return isIn(position.x, position.y);
     }
 
+    public boolean isIn(int x, int y) {
+        return x >= minX && x <= maxX && y >= minY && y <= maxY;
+    }
+    
     public Int2dBounds set(int minX, int minY, int maxX, int maxY) {
         this.minX = Math.min(minX, maxX);
         this.maxX = Math.max(minX, maxX);

@@ -28,9 +28,13 @@ public class Int3dBounds extends Int2dBounds {
     }
 
     public boolean isIn(Position position) {
-        return super.isIn(position) && position.z <= maxZ && position.z >= minZ;
+        return isIn(position.x, position.y, position.z);
     }
 
+    public boolean isIn(int x, int y, int z) {
+        return super.isIn(x, y) && z <= maxZ && z >= minZ;
+    }
+    
     public void set(int minX, int minY, int minZ, int maxX, int maxY, int maxZ) {
         super.set(minX, minY, maxX, maxY);
         this.minZ = Math.min(minZ, maxZ);

@@ -41,6 +41,7 @@ public class TileDrawer extends Drawer {
     private ItemDrawer itemDrawer;
     private BlockDrawer blockDrawer;
     private LiquidDrawer liquidDrawer;
+    private EntitySelectorDrawer selectorDrawer;
     
     private LocalMap localMap;
     private LocalTileMap localTileMap;
@@ -68,6 +69,7 @@ public class TileDrawer extends Drawer {
         buildingDrawer = new BuildingDrawer(spriteDrawingUtil, shapeDrawingUtil);
         itemDrawer = new ItemDrawer(spriteDrawingUtil, shapeDrawingUtil);
         liquidDrawer = new LiquidDrawer(spriteDrawingUtil, shapeDrawingUtil);
+        selectorDrawer = new EntitySelectorDrawer(spriteDrawingUtil, shapeDrawingUtil);
         taskContainer = model.get(TaskContainer.class);
         plantContainer = model.get(PlantContainer.class);
         substrateContainer = model.get(SubstrateContainer.class);
@@ -92,6 +94,7 @@ public class TileDrawer extends Drawer {
             cacheBounds.iterate((x, y) -> drawBlockTiles(x, y, zz));
 //            iterateLayer(z, this::drawAreaLabel);
         }
+        selectorDrawer.draw();
     }
 
     /**
@@ -104,6 +107,7 @@ public class TileDrawer extends Drawer {
                 BatchUtil.getModelX(camera.getFrame().getMaxX()) + 5,
                 BatchUtil.getModelY(z, camera.getFrame().getMaxY()) + 5);
         cacheBounds.clamp(0, 0, localMap.xSize - 1, localMap.ySize - 1);
+        selectorDrawer.defineBounds();
     }
 
     private void startTile(int x, int y, int z) {
@@ -114,7 +118,7 @@ public class TileDrawer extends Drawer {
     }
 
     private void drawFlatTile(int x, int y, int z) {
-        if (localMap.light.localLight.get(x, y, z) == -1) return;
+        if (localMap.light.localLight.get(x, y, z) == -1) return; // tile is hidden
         startTile(x, y, z);
         blockDrawer.drawFloor(x, y, z); // floors or toppings
         if (substrateContainer != null) drawSubstrate(x, y, z); // grass and moss
@@ -139,6 +143,7 @@ public class TileDrawer extends Drawer {
         if (zoneContainer != null) drawZone(zoneContainer.getZone(cachePosition));
         spriteUtil.resetColor();
         liquidDrawer.drawBlock(x, y, z);
+        selectorDrawer.render(x, y, z);
     }
 
     private void drawAreaLabel(int x, int y, int z) {
