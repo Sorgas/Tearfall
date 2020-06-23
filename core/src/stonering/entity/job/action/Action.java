@@ -51,13 +51,13 @@ public abstract class Action {
     public float progress;
     
     // should be set before performing
-    public float speed;
-    public float maxProgress;
+    public float speed = 1;
+    public float maxProgress = 300;
 
     protected Action(ActionTarget target) {
         this.target = target;
         target.setAction(this);
-        takingCondition = () -> true;
+        takingCondition = () -> true; // most actions have no special taking conditions
         startCondition = () -> FAIL; // prevent starting
         onStart = () -> {};
         progressConsumer = delta -> progress += delta;
@@ -76,15 +76,15 @@ public abstract class Action {
         }
         progressConsumer.accept(speed);
         if (finishCondition.get()) { // last execution of perform()
-            status = COMPLETE;
             onFinish.run();
+            status = COMPLETE;
         }
     }
 
     public void reset() {
         speed = 1;
         progress = 0;
-        maxProgress = 1;
+        maxProgress = 300;
     }
 
     public ActionConditionStatusEnum addPreAction(Action action) {

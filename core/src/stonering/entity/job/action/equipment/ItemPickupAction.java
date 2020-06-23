@@ -37,6 +37,8 @@ public class ItemPickupAction extends EquipmentAction {
             return OK;
         };
 
+        onStart = () -> maxProgress = 20;
+
         onFinish = () -> { // add item to unit
             container.onMapItemsSystem.removeItemFromMap(item);
             equipment().items.add(item);

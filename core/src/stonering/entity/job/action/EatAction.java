@@ -70,8 +70,8 @@ public class EatAction extends Action {
 
         onStart = () -> {
             if (chair != null && tableBlock != null) chair.occupied = true;
-            speed = 1f * task.performer.get(HealthAspect.class).properties.get("performance");
-            maxProgress = 400;
+//            speed = 1f * task.performer.get(HealthAspect.class).properties.get("performance");
+//            maxProgress = 400;
         };
 
         onFinish = () -> {

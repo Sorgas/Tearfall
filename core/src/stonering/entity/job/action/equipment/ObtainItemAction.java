@@ -27,5 +27,7 @@ public class ObtainItemAction extends ItemAction {
                     : new ItemPickupAction(item); // take from container
             return addPreAction(action);
         };
+
+        onStart = () -> maxProgress = 0;
     }
 }
