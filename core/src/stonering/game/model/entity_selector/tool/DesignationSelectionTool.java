@@ -11,7 +11,7 @@ import stonering.util.geometry.Int3dBounds;
  * @author Alexander on 17.03.2020
  */
 public class DesignationSelectionTool extends SelectionTool {
-    private DesignationTypeEnum type;
+    public DesignationTypeEnum type;
 
     @Override
     public void apply() {

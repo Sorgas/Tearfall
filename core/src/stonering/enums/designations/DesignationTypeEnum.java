@@ -32,7 +32,7 @@ public enum DesignationTypeEnum {
     public final int CODE;
     public final String TEXT;
     public final PositionValidator VALIDATOR;
-    public final int TOOL_SPRITE;
+    public final int TOOL_SPRITE; // atlas x for sprite
 
     static {
         map = new HashMap<>();

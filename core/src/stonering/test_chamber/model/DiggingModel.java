@@ -1,5 +1,8 @@
 package stonering.test_chamber.model;
 
+import static stonering.enums.blocks.BlockTypeEnum.*;
+import static stonering.enums.blocks.BlockTypeEnum.RAMP;
+
 import stonering.entity.item.Item;
 import stonering.entity.unit.Unit;
 import stonering.enums.blocks.BlockTypeEnum;
@@ -18,7 +21,7 @@ import stonering.util.geometry.Position;
  * @author Alexander_Kuzyakov on 04.07.2019.
  */
 public class DiggingModel extends TestModel {
-    
+
     @Override
     public void init() {
         super.init();
@@ -34,10 +37,17 @@ public class DiggingModel extends TestModel {
         for (int x = 0; x < localMap.xSize; x++) {
             for (int y = 0; y < localMap.ySize; y++) {
                 for (int z = 0; z < 10; z++) {
-                    localMap.blockType.setBlock(x, y, z, BlockTypeEnum.WALL, MaterialMap.getId("soil"));
+                    localMap.blockType.setBlock(x, y, z, WALL, MaterialMap.getId("soil"));
                 }
-                localMap.blockType.setBlock(x, y, 10, BlockTypeEnum.FLOOR, MaterialMap.getId("soil"));
+                localMap.blockType.setBlock(x, y, 10, FLOOR, MaterialMap.getId("soil"));
             }
+        }
+        for (int y = 0; y < localMap.ySize; y++) {
+            for (int x = 7; x < localMap.xSize; x++) {
+                localMap.blockType.setBlock(x, y, 10, WALL, MaterialMap.getId("soil"));
+                localMap.blockType.setBlock(x, y, 11, FLOOR, MaterialMap.getId("soil"));
+            }
+            localMap.blockType.setBlock(6, y, 10, RAMP, MaterialMap.getId("soil"));
         }
     }
 
