@@ -18,6 +18,7 @@ import stonering.game.model.system.task.TaskContainer;
 import stonering.game.model.system.unit.UnitContainer;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.tilemaps.LocalTileMap;
+import stonering.util.geometry.Position;
 import stonering.util.pathfinding.AStar;
 
 /**
@@ -36,6 +37,7 @@ public abstract class TestModel extends GameModel {
     public void init() {
         super.init();
         updateLocalMap();
+        get(EntitySelectorSystem.class).setSelectorPosition(new Position(MAP_SIZE / 2, MAP_SIZE / 2, 2));
     }
 
     /**
@@ -65,9 +67,9 @@ public abstract class TestModel extends GameModel {
         LocalMap localMap = get(LocalMap.class);
         for (int x = 0; x < getMapSize(); x++) {
             for (int y = 0; y < getMapSize(); y++) {
-                localMap.blockType.setBlock(x, y, 0, BlockTypeEnum.WALL.CODE, MaterialMap.instance().getId("soil"));
-                localMap.blockType.setBlock(x, y, 1, BlockTypeEnum.WALL.CODE, MaterialMap.instance().getId("soil"));
-                localMap.blockType.setBlock(x, y, 2, BlockTypeEnum.FLOOR.CODE, MaterialMap.instance().getId("soil"));
+                localMap.blockType.setBlock(x, y, 0, BlockTypeEnum.WALL.CODE, MaterialMap.getId("soil"));
+                localMap.blockType.setBlock(x, y, 1, BlockTypeEnum.WALL.CODE, MaterialMap.getId("soil"));
+                localMap.blockType.setBlock(x, y, 2, BlockTypeEnum.FLOOR.CODE, MaterialMap.getId("soil"));
             }
         }
     }

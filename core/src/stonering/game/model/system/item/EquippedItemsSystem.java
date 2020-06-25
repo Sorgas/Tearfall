@@ -42,10 +42,13 @@ public class EquippedItemsSystem extends EntitySystem<Item> {
     }
 
     public void removeItemFromEquipment(Item item) {
-        Optional.ofNullable(container.equipped.get(item))
-                .ifPresentOrElse(
-                        aspect -> GameMvc.model().get(UnitContainer.class).equipmentSystem.removeItem(aspect, item),
-                        () -> Logger.ITEMS.logWarn("Items inconsistency: item " + item + " is not stored in equipment aspect"));
+        EquipmentAspect aspect = container.equipped.get(item);
+        if(aspect != null) {
+            GameMvc.model().get(UnitContainer.class).equipmentSystem.removeItem(aspect, item);
+            itemUnequipped(item);
+        } else {
+            Logger.ITEMS.logWarn("Items inconsistency: item " + item + " is not stored in equipment aspect");
+        }
     }
 
     public boolean isItemEquipped(Item item) {

@@ -79,11 +79,13 @@ public class CreatureEquipmentSystem extends EntitySystem<Unit> {
         EquipmentSlot itemSlot = equipment.getSlotWithItem(item).orElse(null);
         if (itemSlot != null) {
             itemSlot.item = null;
+            equipment.items.remove(item);
             return true;
         }
         GrabEquipmentSlot grabItemSlot = equipment.getGrabSlotWithItem(item).orElse(null);
         if (grabItemSlot != null) {
             grabItemSlot.grabbedItem = null;
+            equipment.items.remove(item);
             return true;
         }
         return false;

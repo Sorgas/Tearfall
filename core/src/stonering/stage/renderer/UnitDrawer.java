@@ -15,7 +15,9 @@ import stonering.game.GameMvc;
 import stonering.game.model.system.unit.UnitContainer;
 import stonering.util.geometry.Position;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import static stonering.stage.renderer.AtlasesEnum.creature_icons;
@@ -65,9 +67,12 @@ public class UnitDrawer extends Drawer {
     }
 
     private void drawHauledItem(Unit unit) {
-        unit.getOptional(EquipmentAspect.class)
-                .filter(equipment -> !equipment.items.isEmpty())
-                .flatMap(equipment -> equipment.items.stream().findFirst())
+        unit.getOptional(EquipmentAspect.class).stream()
+                .map(aspect -> aspect.grabSlots.values())
+                .flatMap(Collection::stream)
+                .map(slot -> slot.grabbedItem)
+                .filter(Objects::nonNull)
+                .findFirst()
                 .ifPresent(item -> {
                     cacheVector.set(unit.vectorPosition).add(0.25f, 0.25f, 0);
                     spriteUtil.drawSprite(item.get(RenderAspect.class).region, cacheVector);
