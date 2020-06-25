@@ -2,7 +2,7 @@ package stonering.entity.job.action.item;
 
 import stonering.entity.item.Item;
 import stonering.entity.job.action.Action;
-import stonering.entity.job.action.equipment.ItemPickupAction;
+import stonering.entity.job.action.equipment.ObtainItemAction;
 import stonering.entity.job.action.target.ActionTarget;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 
@@ -26,7 +26,7 @@ public abstract class PutItemAction extends Action {
             EquipmentAspect equipmentAspect = task.performer.get(EquipmentAspect.class);
             if (equipmentAspect == null) return FAIL; // performer can't carry items
             if (equipmentAspect.items.contains(targetItem)) return OK; // performer already has item
-            task.addFirstPreAction(new ItemPickupAction(targetItem));
+            task.addFirstPreAction(new ObtainItemAction(targetItem));
             System.out.println("pick item action created");
             return NEW;
         };

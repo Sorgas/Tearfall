@@ -42,7 +42,8 @@ public class TileDrawer extends Drawer {
     private BlockDrawer blockDrawer;
     private LiquidDrawer liquidDrawer;
     private EntitySelectorDrawer selectorDrawer;
-    
+    private ZoneDrawer zoneDrawer;
+
     private LocalMap localMap;
     private LocalTileMap localTileMap;
     private PlantContainer plantContainer;
@@ -70,6 +71,8 @@ public class TileDrawer extends Drawer {
         itemDrawer = new ItemDrawer(spriteDrawingUtil, shapeDrawingUtil);
         liquidDrawer = new LiquidDrawer(spriteDrawingUtil, shapeDrawingUtil);
         selectorDrawer = new EntitySelectorDrawer(spriteDrawingUtil, shapeDrawingUtil);
+        zoneDrawer = new ZoneDrawer(spriteDrawingUtil, shapeDrawingUtil);
+
         taskContainer = model.get(TaskContainer.class);
         plantContainer = model.get(PlantContainer.class);
         substrateContainer = model.get(SubstrateContainer.class);
@@ -124,6 +127,7 @@ public class TileDrawer extends Drawer {
         if (substrateContainer != null) drawSubstrate(x, y, z); // grass and moss
         itemDrawer.draw(x, y, z); // items on the ground
         liquidDrawer.drawFlat(x, y, z);
+        zoneDrawer.draw(x, y, z);
         spriteUtil.resetColor();
     }
 
@@ -140,7 +144,6 @@ public class TileDrawer extends Drawer {
         spriteUtil.updateColorA(0.6f);
         if (taskContainer != null) drawDesignation(taskContainer.designations.get(cachePosition));
         spriteUtil.updateColorA(1f);
-        if (zoneContainer != null) drawZone(zoneContainer.getZone(cachePosition));
         spriteUtil.resetColor();
         liquidDrawer.drawBlock(x, y, z);
         selectorDrawer.render(x, y, z);
@@ -177,10 +180,6 @@ public class TileDrawer extends Drawer {
         if (designation == null) return;
         RenderAspect aspect = designation.get(RenderAspect.class);
         spriteUtil.drawSprite(aspect.region, designation.position);
-    }
-
-    private void drawZone(Zone zone) {
-        if (zone != null) spriteUtil.drawSprite(zone.type.SPRITE, cachePosition.toVector3());
     }
 
     private void drawPlantBlock(PlantBlock block) {

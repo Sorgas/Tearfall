@@ -6,6 +6,8 @@ import stonering.util.geometry.Position;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.badlogic.gdx.graphics.Color;
+
 /**
  * Contains resolved sprite data of blocks as they are updated rarely.
  * Ramps are main reason, because their resolving require observation of neighbour tiles.
@@ -13,22 +15,21 @@ import java.util.Map;
  * @author Alexander Kuzyakov on 02.08.2017.
  */
 public class LocalTileMap implements ModelComponent {
-    private transient Map<Position, Position> map; // x, y, color(post MVP)
-    private Position zeroTriple;
+    private transient Map<Position, SpriteDescriptor> map; // x, y, color(post MVP)
+//    private transient Map<Position, SpriteDescriptor> zoneTiles;
     private Position cachePosition;
 
     public LocalTileMap() {
         this.map = new HashMap<>();
         cachePosition = new Position();
-        zeroTriple = new Position(0, 0, 0);
     }
 
-    public void setTile(int x, int y, int z, int atlasX, int atlasY, int color) {
+    public void setTile(int x, int y, int z, int atlasX, int atlasY, Color color) {
         setTile(cachePosition.set(x, y, z), atlasX, atlasY, color);
     }
 
-    public void setTile(Position pos, int atlasX, int atlasY, int color) {
-        map.computeIfAbsent(pos.clone(), pos1 -> new Position()).set(atlasX, atlasY, color);
+    public void setTile(Position pos, int atlasX, int atlasY, Color color) {
+        map.computeIfAbsent(pos.clone(), pos1 -> new SpriteDescriptor()).set(atlasX, atlasY, color);
     }
 
     public void removeTile(int x, int y, int z) {
@@ -39,11 +40,11 @@ public class LocalTileMap implements ModelComponent {
         map.remove(position);
     }
 
-    public Position get(int x, int y, int z) {
-        return map.getOrDefault(cachePosition.set(x, y, z), zeroTriple);
+    public SpriteDescriptor get(int x, int y, int z) {
+        return map.get(cachePosition.set(x, y, z));
     }
 
-    public Position get(Position position) {
+    public SpriteDescriptor get(Position position) {
         return map.get(position);
     }
 }

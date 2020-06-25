@@ -27,6 +27,7 @@ public enum AtlasesEnum {
     buildings("sprites/buildings", false, 64, 64, 32, 0), // buildings and furniture
     items(new Texture("sprites/items.png"), false, 32, 32, 0, 0),
     creature_icons(new Texture("sprites/creature_icons.png"), false, 16, 16, 0, 0),
+    zones(new Texture("sprites/zones.png"), false, 64, 64, 32, 0),
     icons(new Texture("sprites/icons.png"), false, 64, 64, 0, 0); // ui and designation icons
 
     public TextureCache cache;

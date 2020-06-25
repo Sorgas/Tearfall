@@ -3,6 +3,8 @@ package stonering.game.model.tilemaps;
 import static stonering.enums.blocks.BlockTypeEnum.RAMP;
 import static stonering.enums.blocks.BlockTypeEnum.SPACE;
 
+import com.badlogic.gdx.graphics.Color;
+
 import stonering.enums.blocks.BlockTypeEnum;
 import stonering.enums.blocks.BlockTileMapping;
 import stonering.enums.materials.MaterialMap;
@@ -50,7 +52,7 @@ public class LocalTileMapUpdater {
             int tileX = blockType == RAMP
                     ? countRamp(position) // select ramp tile
                     : BlockTileMapping.getType(blockType.CODE).ATLAS_X; // select tile from block type
-            localTileMap.setTile(position, tileX, MaterialMap.getMaterial(localMap.blockType.getMaterial(position)).atlasY, 0);
+            localTileMap.setTile(position, tileX, MaterialMap.getMaterial(localMap.blockType.getMaterial(position)).atlasY, Color.WHITE);
         }
         updateRampsAround(position);
     }
@@ -64,8 +66,8 @@ public class LocalTileMapUpdater {
                 .filter(localMap::inMap)
                 .filter(pos -> localMap.blockType.get(pos) == BlockTypeEnum.RAMP.CODE)
                 .forEach(pos -> {
-                    Position triple = localTileMap.get(pos);
-                    localTileMap.setTile(pos, countRamp(pos), triple.y, triple.z);
+                    SpriteDescriptor triple = localTileMap.get(pos);
+                    localTileMap.setTile(pos, countRamp(pos), triple.y, triple.color);
                 });
     }
 

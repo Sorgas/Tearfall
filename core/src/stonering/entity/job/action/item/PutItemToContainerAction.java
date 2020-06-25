@@ -7,6 +7,7 @@ import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.system.item.ItemContainer;
+import stonering.game.model.system.unit.UnitContainer;
 
 /**
  * {@link PutItemAction} for putting item into {@link ItemContainerAspect}s.
@@ -21,9 +22,9 @@ public class PutItemToContainerAction extends PutItemAction {
         onFinish = () -> {
             EquipmentAspect equipmentAspect = task.performer.get(EquipmentAspect.class);
             ItemContainer container = GameMvc.model().get(ItemContainer.class);
-            equipmentAspect.items.remove(targetItem); // remove item from unit
+            GameMvc.model().get(UnitContainer.class).equipmentSystem.removeItem(equipmentAspect, targetItem);
+            GameMvc.model().get(ItemContainer.class).equippedItemsSystem.itemUnequipped(targetItem); // remove item from unit
             container.equippedItemsSystem.itemUnequipped(targetItem);
-
             container.containedItemsSystem.addItemToContainer(targetItem, containerAspect);
         };
     }

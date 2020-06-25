@@ -1,7 +1,5 @@
 package stonering.game.model.system.item;
 
-import java.util.Optional;
-
 import stonering.entity.item.Item;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.enums.time.TimeUnitEnum;

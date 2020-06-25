@@ -36,7 +36,7 @@ public abstract class EntityStream<T extends Entity> {
     public EntityStream<T> filterByReachability(Position position, boolean acceptNearTarget) {
         LocalMap map = GameMvc.model().get(LocalMap.class);
         stream = stream.filter(item -> item.position != null)
-                .filter(item -> map.passageMap.util.positionReachable(position, item.position, acceptNearTarget));
+                .filter(item -> map.passageMap.util.positionReachable(item.position, position, acceptNearTarget));
         return this;
     }
 
