@@ -15,10 +15,10 @@ public class BuildingTypeProcessor {
         raw.aspects.stream()
                 .map(this::parseAspectString)
                 .forEach(pair -> type.aspects.put(pair.key, pair.value));
-        for (int i = 0; i < type.sprites.length; i++) {
-            type.sprites[i] = new IntVector2(
-                    raw.atlasXY[0] + raw.sprites[i][0],
-                    raw.atlasXY[1] + raw.sprites[i][1]);
+        for (int i = 0; i < type.NSEWsprites.length; i++) {
+            type.NSEWsprites[i] = new IntVector2(
+                    raw.atlasXY[0] + raw.NSEWsprites[i][0],
+                    raw.atlasXY[1] + raw.NSEWsprites[i][1]);
         }
         return type;
     }

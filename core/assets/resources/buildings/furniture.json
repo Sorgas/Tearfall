@@ -5,7 +5,7 @@
         "description": "Chair",
         "aspects": ["sit_furniture"],
         "passage": "floor",
-        "sprites": [
+        "NSEWsprites": [
             [0, 0], [0, 1], [1, 0], [1, 1]
         ],
         "atlasXY": [4, 0],
@@ -26,7 +26,7 @@
     "passage": "floor",
     "size": [1, 2],
     "access": [[0, 1]],
-    "sprites": [
+    "NSEWsprites": [
         [0, 0], [1, 0], [2, 0], [2, 1]
     ],
     "atlasXY": [0, 0],
@@ -37,7 +37,7 @@
     "description": "Chest",
     "aspects": ["item_container(solid,100)"],
     "passage": "floor",
-    "atlasXY": [4, 0],
+    "atlasXY": [7, 0],
     "color": "0xffffffff"
 }
 ]

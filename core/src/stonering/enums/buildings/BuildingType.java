@@ -33,7 +33,7 @@ public class BuildingType {
     public PassageEnum passage;
     public boolean construction = false; // TODO to remove
     public String atlasName;
-    public IntVector2[] sprites; // NSEW
+    public IntVector2[] NSEWsprites;
     public String color = "0xffffffff";
 
     public BuildingType() {
@@ -50,10 +50,10 @@ public class BuildingType {
         passage = BlockTypeEnum.getType(raw.passage).PASSING;
         recipes = new ArrayList<>(raw.recipes);
         size = new IntVector2(raw.size[0], raw.size[1]);
-        sprites = new IntVector2[4]; // for four orientations
+        NSEWsprites = new IntVector2[4]; // for four orientations
     }
 
     public TextureRegion getSprite(OrientationEnum orientation) {
-        return AtlasesEnum.buildings.getRegion(atlasName, sprites[orientation.ordinal()], RotationUtil.orientSize(size, orientation));
+        return AtlasesEnum.buildings.getRegion(atlasName, NSEWsprites[orientation.ordinal()], RotationUtil.orientSize(size, orientation));
     }
 }

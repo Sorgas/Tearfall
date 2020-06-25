@@ -18,14 +18,13 @@ import static stonering.enums.action.ActionStatusEnum.*;
  * <p>
  * Action consist of several parts:
  * <p>
- * Target where unit should be to perform action.
- * Taking condition - to be met before task is taken from container. 
+ * 1. Target where unit should be to perform action. Before taking action from container, target reachability is checked.
+ * 2. Taking condition - to be met before task is taken from container. 
  * Start condition - to be met before performing is started, can create additional actions e.g. bringing materials to workbench.
- * Start function - executed once.
- * Speed updater - calculates performing speed when performing starts.
+ * OnStart function - executed once.
  * Progress consumer function - executed many times. Does additive changes to model during action performing.
  * Finish condition - action finishes, when condition is met.
- * Finish function - executed once.
+ * OnFinish function - executed once.
  * <p>
  * Additional actions are created and added to task, when start condition is not met, but could be after additional action(equip tool, bring items).
  * If start condition is not met, action and its task are failed.

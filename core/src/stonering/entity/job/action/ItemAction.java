@@ -1,6 +1,5 @@
 package stonering.entity.job.action;
 
-import stonering.entity.job.action.Action;
 import stonering.entity.job.action.target.ActionTarget;
 import stonering.game.GameMvc;
 import stonering.game.model.system.item.ItemContainer;
