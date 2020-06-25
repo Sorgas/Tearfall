@@ -180,7 +180,7 @@ public class TileDrawer extends Drawer {
     }
 
     private void drawZone(Zone zone) {
-        if (zone != null) spriteUtil.drawSprite(zone.getType().SPRITE, cachePosition.toVector3());
+        if (zone != null) spriteUtil.drawSprite(zone.type.SPRITE, cachePosition.toVector3());
     }
 
     private void drawPlantBlock(PlantBlock block) {

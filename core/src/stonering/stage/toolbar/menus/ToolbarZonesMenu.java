@@ -1,18 +1,13 @@
 package stonering.stage.toolbar.menus;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
-import stonering.entity.zone.Zone;
 import stonering.enums.ZoneTypesEnum;
 import stonering.game.GameMvc;
-import stonering.game.model.GameModel;
 import stonering.game.model.entity_selector.EntitySelector;
 import stonering.game.model.entity_selector.aspect.SelectionAspect;
 import stonering.game.model.entity_selector.EntitySelectorSystem;
 import stonering.game.model.entity_selector.tool.SelectionTools;
-import stonering.game.model.system.ZoneContainer;
 import stonering.stage.toolbar.Toolbar;
 import stonering.widget.ToolbarButtonMenu;
 

@@ -3,6 +3,8 @@ package stonering.enums;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+
+import stonering.entity.zone.StorageZone;
 import stonering.util.validation.FarmValidator;
 import stonering.util.validation.FreeFloorValidator;
 import stonering.util.validation.PositionValidator;
@@ -38,6 +40,8 @@ public enum ZoneTypesEnum {
         switch (this) {
             case FARM:
                 return new FarmZone(name());
+            case STORAGE:
+                return new StorageZone(name());
             default:
                 return null;
         }

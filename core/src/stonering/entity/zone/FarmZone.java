@@ -41,12 +41,10 @@ public class FarmZone extends Zone {
     private Map<Position, Task> taskMap; // farm stores its tasks in this map to avoid committing duplicating tasks to container. tasks are removed when finished.
 
     public FarmZone(String name) {
-        super(name);
-        type = ZoneTypesEnum.FARM;
+        super(name, ZoneTypesEnum.FARM);
         taskMap = new HashMap<>();
     }
-
-
+    
     /**
      * Observes all tiles and creates tasks.
      * 1. Designates unprepared soil floor tiles for hoeing.

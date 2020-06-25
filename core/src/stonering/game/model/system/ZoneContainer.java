@@ -9,9 +9,10 @@ import stonering.enums.ZoneTypesEnum;
 import stonering.util.geometry.Position;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
- * Contains and manages all zones(farms, stocks).
+ * Contains and manages all zones(farms, stocks). Maps positions to zones they are belong to.
  * <p>
  * Each tile can belong to one zone. //TODO give multiple zones to tiles.
  */
@@ -28,40 +29,41 @@ public class ZoneContainer extends EntityContainer<Zone> {
      */
     public Zone createZone(Position position, ZoneTypesEnum type) {
         Zone zone = type.createZone();
-        setTileToZone(zone, position);
-        objects.add(zone);
-        Logger.ZONES.logDebug("Zone " + zone + " created");
-        recountZones();
+        if(zone != null) {
+            setTileToZone(zone, position);
+            objects.add(zone);
+            Logger.ZONES.logDebug("Zone " + zone + " created");
+            recountZones();
+        }
         return zone;
     }
 
     public void deleteZone(Zone zone) {
-        zone.getTiles().forEach(position -> zoneMap.remove(position));
+        zone.tiles.forEach(position -> zoneMap.remove(position));
         objects.remove(zone);
     }
 
     public void setTileToZone(@Nullable Zone zone, Position position) {
-        Zone oldZone = zoneMap.remove(position);
-        if (oldZone != null) zone.getTiles().remove(position);
-        if (zone != null) {
-            PositionValidator validator = zone.getType().VALIDATOR;
-            if (validator.apply(position)) {
-                zone.getTiles().add(position.clone());
-                zoneMap.put(position.clone(), zone);
-            }
+        if(zone == null) { // delete previous zone from tile
+            removeTileFromZones(position);
+            recountZones();
+        } else if (zone.type.VALIDATOR.apply(position)) { // replace zone if tile is valid for new zone 
+            removeTileFromZones(position);
+            zone.tiles.add(position);
             zoneMap.put(position, zone);
-            zone.getTiles().add(position.clone());
+            recountZones();
         }
-        recountZones();
     }
 
+    private void removeTileFromZones(Position position) {
+        Optional.ofNullable(zoneMap.remove(position)).ifPresent(zone -> zone.tiles.remove(position));
+    }
+    
     private void recountZones() {
-        for (Iterator<Zone> iterator = objects.iterator(); iterator.hasNext(); ) {
-            Zone zone = iterator.next();
-            if (!zone.getTiles().isEmpty()) continue;
-            iterator.remove();
-            Logger.ZONES.logDebug("Zone " + zone + " deleted");
-        }
+        List<Zone> emptyZones = objects.stream()
+                .filter(zone -> zone.tiles.isEmpty())
+                .collect(Collectors.toList());
+        objects.removeAll(emptyZones);
     }
 
     public Zone getZone(Position pos) {

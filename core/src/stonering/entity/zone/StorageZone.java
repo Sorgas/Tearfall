@@ -14,7 +14,6 @@ import stonering.game.model.system.task.TaskContainer;
 import stonering.util.geometry.Position;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * Zone that generates tasks for hauling items and dropping them into it.
@@ -29,11 +28,7 @@ public class StorageZone extends Zone {
     private ItemSelector selector;
 
     public StorageZone(String name) {
-        super(name);
-    }
-
-    public StorageZone(String name, Set<Position> tiles) {
-        super(name, tiles);
+        super(name, ZoneTypesEnum.STORAGE);
     }
 
     public void update() {
@@ -49,7 +44,7 @@ public class StorageZone extends Zone {
      * Checks tile for having desired item in it.
      */
     private boolean tileIsEmpty(Position tile) {
-        List<Item> items = GameMvc.instance().model().get(ItemContainer.class).getItemsInPosition(tile);
+        List<Item> items = GameMvc.model().get(ItemContainer.class).getItemsInPosition(tile);
         return items.stream().noneMatch(item -> selector.checkItem(item));
     }
 
@@ -60,14 +55,14 @@ public class StorageZone extends Zone {
         if (item == null) return;
         Action action = new PutItemToPositionAction(item, tile);
         Task task = new Task("Store " + item.title, action, 1);
-        GameMvc.instance().model().get(TaskContainer.class).addTask(task);
+        GameMvc.model().get(TaskContainer.class).addTask(task);
     }
 
     /**
      * Gets items from map, Ensures it is not stored already.
      */
     private Item selectItem(Position position) {
-        GameModel model = GameMvc.instance().model();
+        GameModel model = GameMvc.model();
         List<Item> items = model.get(ItemContainer.class).util.getItemsAvailableBySelector(selector, position);
         if (items.isEmpty()) return null;
         ZoneContainer zoneContainer = model.get(ZoneContainer.class);

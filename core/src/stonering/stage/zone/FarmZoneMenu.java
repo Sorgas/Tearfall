@@ -36,7 +36,7 @@ public class FarmZoneMenu extends Window {
     private FarmZone farmZone;
 
     public FarmZoneMenu(FarmZone farmZone) {
-        super(farmZone.getName(), StaticSkin.getSkin());
+        super(farmZone.name, StaticSkin.getSkin());
         this.farmZone = farmZone;
         createTable();
         fillList();
