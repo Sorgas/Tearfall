@@ -24,17 +24,22 @@ public class TaskList implements Updatable {
     @Override
     public void update(TimeUnitEnum unit) {
         if(unit == TimeUnitEnum.MINUTE) checkTaskStatuses();
+
         for (Task task : reopenedTasks) {
+            System.out.println(task + " is reopened");
             add(task);
         }
     }
 
     public void add(Task task) {
-        if(tasks.size() == 0) tasks.add(task);
-        for (int i = 0; i < tasks.size(); i++) {
-            if (tasks.get(i).priority <= task.priority) {
-                tasks.add(i, task);
-                return;
+        if(tasks.size() == 0) {
+            tasks.add(task);
+        } else {
+            for (int i = 0; i < tasks.size(); i++) {
+                if (tasks.get(i).priority <= task.priority) {
+                    tasks.add(i, task);
+                    return;
+                }
             }
         }
     }

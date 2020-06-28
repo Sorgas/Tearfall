@@ -51,7 +51,7 @@ public abstract class Action {
     
     // should be set before performing
     public float speed = 1;
-    public float maxProgress = 300;
+    public float maxProgress = 0;
 
     protected Action(ActionTarget target) {
         this.target = target;
@@ -83,7 +83,7 @@ public abstract class Action {
     public void reset() {
         speed = 1;
         progress = 0;
-        maxProgress = 300;
+        maxProgress = 0;
     }
 
     public ActionConditionStatusEnum addPreAction(Action action) {

@@ -28,7 +28,10 @@ public class SingleItemSquareButton extends Button {
     public final Image shadingImage;
 
     public SingleItemSquareButton(Item item, Drawable background, int size) {
-        super(StaticSkin.getSkin());
+        super(StaticSkin.skin());
+        getStyle().up = null;
+        getStyle().down = null;
+        getStyle().checked = null;
         this.add(stack = new Stack(
                 wrapWithContainer(backgroundImage = new Image(background), size), // TODO use another background
                 wrapWithContainer(itemImage = new Image(), (int) (size * 0.8f)), // item icon
