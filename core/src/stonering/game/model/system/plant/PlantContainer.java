@@ -14,6 +14,7 @@ import stonering.util.geometry.Position;
 import stonering.util.logging.Logger;
 
 import java.util.HashMap;
+import java.util.Optional;
 
 /**
  * Contains plants. {@link Plant}s and {@link Tree}s are stored in list. One tile can have one plant block.
@@ -151,6 +152,14 @@ public class PlantContainer extends EntityContainer<AbstractPlant> implements Mo
 
     public AbstractPlant getPlantInPosition(Position position) {
         return plantBlocks.containsKey(position) ? plantBlocks.get(position).getPlant() : null;
+    }
+
+    public void removePlant(Position position) {
+        Optional.ofNullable(plantBlocks.get(position))
+                .ifPresent(block -> {
+                    plantBlocks.remove(position);
+                    // TODO check tree damage
+                });
     }
 
     private LocalMap localMap() {

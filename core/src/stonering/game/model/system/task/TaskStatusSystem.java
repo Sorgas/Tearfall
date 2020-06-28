@@ -53,8 +53,9 @@ public class TaskStatusSystem {
                     break;
             }
         }
-        for (List<Task> value : container.tasks.values()) {
-            for (Iterator<Task> iterator = value.iterator(); iterator.hasNext(); ) {
+        // only OPEN tasks are valid here
+        for (TaskList list : container.tasks.values()) {
+            for (Iterator<Task> iterator = list.tasks.iterator(); iterator.hasNext(); ) {
                 Task task = iterator.next();
                 switch (task.status) {
                     case ACTIVE:

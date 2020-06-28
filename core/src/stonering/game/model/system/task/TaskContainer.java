@@ -10,7 +10,6 @@ import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.job.JobsAspect;
 import stonering.entity.unit.aspects.needs.NeedsAspect;
 import stonering.enums.action.ActionTargetTypeEnum;
-import stonering.enums.action.TaskStatusEnum;
 import stonering.enums.time.TimeUnitEnum;
 import stonering.enums.unit.JobsEnum;
 import stonering.game.GameMvc;
@@ -27,13 +26,14 @@ import java.util.*;
 /**
  * Contains all {@link Task} for player's units on map and {@link Designation}s for rendering.
  * Tasks are orders for unit. Tasks are created by player, buildings or zones(farms, storages, workbenches).
+ * Tasks for different jobs stored separately.
  * Tasks for units needs stored on each unit's {@link NeedsAspect}.
  * Tasks and designations are linked to each other if needed.
  *
  * @author Alexander Kuzyakov
  */
 public class TaskContainer implements ModelComponent, Updatable {
-    public Map<JobsEnum, LinkedList<Task>> tasks; // task job to all tasks with this job
+    public Map<JobsEnum, TaskList> tasks; // task job to all tasks with this job
     public final Set<Task> assignedTasks; // tasks, taken by some unit.
     public final HashMap<Position, Designation> designations; //this map is for rendering and modifying designations
     public final DesignationSystem designationSystem;
@@ -41,7 +41,7 @@ public class TaskContainer implements ModelComponent, Updatable {
 
     public TaskContainer() {
         tasks = new HashMap<>();
-        Arrays.stream(JobsEnum.values()).forEach(value -> tasks.put(value, new LinkedList<>()));
+        Arrays.stream(JobsEnum.values()).forEach(value -> tasks.put(value, new TaskList()));
         assignedTasks = new HashSet<>();
         designations = new HashMap<>();
         designationSystem = new DesignationSystem(this);
@@ -65,15 +65,7 @@ public class TaskContainer implements ModelComponent, Updatable {
             return Logger.TASKS.logError("Creature " + unit + " without jobs aspect gets task from container", null);
         PassageMap map = GameMvc.model().get(LocalMap.class).passageMap;
         for (JobsEnum enabledJob : aspect.enabledJobs) {
-            for (Task task : tasks.get(enabledJob)) {
-                if (task.performer != null) {
-                    Logger.TASKS.logError("Task " + task + " with performer is in open map.");
-                    continue;
-                }
-                if(task.status != OPEN) {
-                    Logger.TASKS.logError("Task " + task + " with status " + task.status + " is in open map.");
-                    continue;
-                } 
+            for (Task task : tasks.get(enabledJob).tasks) {
                 ActionTarget target = task.nextAction.target;
                 if (map.util.positionReachable(unit.position, target.getPosition(), target.targetType != ActionTargetTypeEnum.EXACT)) {
                     //TODO add selecting nearest task.
@@ -93,22 +85,25 @@ public class TaskContainer implements ModelComponent, Updatable {
     }
 
     public void addTask(Task task) {
-        if (task == null) return;
-        LinkedList<Task> list = tasks.get(task.job);
-        int index = 0;
-        if(!list.isEmpty()) { // index for task insertion is based on priority
-            for (int i = 0; i < list.size(); i++) {
-                if (list.get(i).priority <= task.priority) {
-                    index = i;
-                    break;
-                }
-            }
-        }
-        list.add(index, task);
-        if (task.designation != null) designations.put(task.designation.position, task.designation);
-        Logger.TASKS.logDebug("Task " + task + " added to TaskContainer.");
+        Optional.ofNullable(task)
+                .map(task1 -> tasks.get(task1.job))
+                .ifPresent(list -> {
+                    list.add(task);
+                    if (task.designation != null) designations.put(task.designation.position, task.designation);
+                    Logger.TASKS.logDebug("Task " + task + " added to TaskContainer.");
+                });
     }
-    
+
+    public void addReopenedTask(Task task) {
+        Optional.ofNullable(task)
+                .map(task1 -> tasks.get(task1.job))
+                .ifPresent(list -> {
+                    list.addReopenedTask(task);
+                    if (task.designation != null) designations.put(task.designation.position, task.designation);
+                    Logger.TASKS.logDebug("Reopened task " + task + " added to TaskContainer.");
+                });
+    }
+
     public boolean removeTask(Task task) {
         return assignedTasks.remove(task) || tasks.get(task.job).remove(task);
     }

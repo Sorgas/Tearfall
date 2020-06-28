@@ -1,9 +1,14 @@
 package stonering.stage.entity_menu.unit;
 
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.utils.Align;
+
+import stonering.entity.item.Item;
 import stonering.entity.unit.Unit;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.enums.images.DrawableMap;
+import stonering.util.global.StaticSkin;
+import stonering.widget.item.ItemLabel;
 import stonering.widget.item.SingleItemSquareButton;
 
 /**
@@ -14,33 +19,29 @@ import stonering.widget.item.SingleItemSquareButton;
  * @author Alexander on 28.01.2020.
  */
 public class UnitEquipmentTab extends Table {
-    private VerticalGroup[] columns;
-    private HorizontalGroup footRow;
     private EquipmentAspect aspect;
+    private SlotsWidget slotsWidget;
 
     public UnitEquipmentTab(Unit unit) {
         aspect = unit.get(EquipmentAspect.class);
-        columns = new VerticalGroup[3];
-        for (int i = 0; i < 3; i++) {
-            add(columns[i] = new VerticalGroup()).expand().fill();
-        }
-        row();
-        add(footRow = new HorizontalGroup()).expandX().fill().colspan(3);
-        setSize(600, 800);
-        fillSlots();
+        defaults().width(300).top().left();
+        Label label = new Label("Equipped items" , StaticSkin.skin());
+        label.setAlignment(Align.center);
+        add(label).height(100).center();
+        label = new Label("Hauled items" , StaticSkin.skin());
+        label.setAlignment(Align.center);
+        add(label).height(100).center().row();
+        add(slotsWidget = new SlotsWidget(aspect)).left().height(775);
+        slotsWidget.top();
+        add(createHauledList()).height(775);
+        left();
     }
 
-    private void fillSlots() {
-        columns[0].addActor(getButtonForSlot("right hand"));
-        columns[1].addActor(getButtonForSlot("head"));
-        columns[1].addActor(getButtonForSlot("body"));
-        columns[1].addActor(getButtonForSlot("legs"));
-        columns[2].addActor(getButtonForSlot("left hand"));
-        footRow.addActor(getButtonForSlot("right foot"));
-        footRow.addActor(getButtonForSlot("left foot"));
-    }
-    
-    private SingleItemSquareButton getButtonForSlot(String slotName) {
-        return new SingleItemSquareButton(aspect.slots.get(slotName).item, DrawableMap.getTextureDrawable("ui/item_slot.png"));
+    private Table createHauledList() {
+        Table table = new Table().align(Align.topLeft);
+        for (Item item : aspect.items) {
+            table.add(new ItemLabel(item)).row();
+        }
+        return table;
     }
 }

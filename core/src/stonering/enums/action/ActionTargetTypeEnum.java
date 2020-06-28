@@ -4,7 +4,7 @@ package stonering.enums.action;
  * @author Alexander on 17.11.2019.
  */
 public enum ActionTargetTypeEnum {
-    EXACT,
-    NEAR,
-    ANY
+    EXACT, // performer should stand in same position
+    NEAR, // performer should stand in adjacent tile
+    ANY // any of above
 }

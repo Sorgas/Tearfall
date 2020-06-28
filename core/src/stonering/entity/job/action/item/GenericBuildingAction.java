@@ -49,6 +49,8 @@ public abstract class GenericBuildingAction extends ItemConsumingAction {
             lockItems(); // lock valid items
             if (checkBringingItems()) return NEW; // bring material items
             if (checkClearingSite()) return NEW; // remove other items
+//            if(buildingTarget.builderPosition.equals(task.performer.position))
+//                addPreAction(new )
             return OK; // build
         };
     }

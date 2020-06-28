@@ -19,6 +19,8 @@ public class PutItemToPositionAction extends PutItemAction {
     public PutItemToPositionAction(Item targetItem, Position targetPosition) {
         super(new PositionActionTarget(targetPosition, ActionTargetTypeEnum.ANY), targetItem);
 
+        onStart = () -> maxProgress = 20;
+
         onFinish = () -> {
             System.out.println("put item to position finish");
             EquipmentAspect equipmentAspect = task.performer.get(EquipmentAspect.class);

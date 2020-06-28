@@ -29,7 +29,7 @@ import stonering.widget.util.KeyNotifierListener;
 public class TabbedPane extends Table implements Initable {
     public final Table buttonTable;
     public final Image separator;
-    private Container<Actor> contentContainer;
+    public final Container<Actor> contentContainer;
     private Map<String, Pair<TextButton, Actor>> contentMap;
     private List<String> tabList;
     private ButtonGroup<TextButton> buttonGroup;
@@ -40,6 +40,8 @@ public class TabbedPane extends Table implements Initable {
         add(buttonTable = new Table()).left().row();
         add(separator = new Image()).fillX().row();
         add(contentContainer = new Container<>());
+        buttonTable.defaults().size(100, 25).fill();
+        buttonTable.left();
         contentMap = new HashMap<>();
         tabList = new ArrayList<>();
         buttonGroup = new ButtonGroup<>();
