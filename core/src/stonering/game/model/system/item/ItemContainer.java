@@ -6,8 +6,10 @@ import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
 import stonering.game.model.system.EntityContainer;
+import stonering.game.model.system.unit.UnitContainer;
 import stonering.util.geometry.Position;
 import stonering.entity.item.Item;
+import stonering.util.geometry.PositionUtil;
 import stonering.util.logging.Logger;
 
 import java.util.*;
@@ -42,29 +44,20 @@ public class ItemContainer extends EntityContainer<Item> {
         cachePosition = new Position();
     }
 
-    //TODO system for updating containers
-    //TODO rewrite items aspects to systems
-
-    /**
-     * Adds item to container and inits it's aspects. Used for registering newly created items.
-     * After that item should be put somewhere.
-     */
     public void addItem(Item item) {
         objects.add(item);
         item.init(); // init item aspects
     }
 
-    /**
-     * Removes item from the game completely. Item should be removed from all other maps before this.
-     */
     public void removeItem(Item item) {
         if (!objects.contains(item)) {
             Logger.ITEMS.logWarn("Removing not present item " + item.type.name);
         } else {
             Logger.ITEMS.logDebug("Removing item " + item.type.name);
         }
-        if (contained.containsKey(item)) containedItemsSystem.removeItemFromContainer(item);
-        if (equipped.containsKey(item)) equippedItemsSystem.removeItemFromEquipment(item);
+        if (isItemOnMap(item)) onMapItemsSystem.removeItemFromMap(item);
+        if (isItemInContainer(item)) containedItemsSystem.removeItemFromContainer(item);
+        if (isItemEquipped(item)) equippedItemsSystem.removeItemFromEquipment(item);
         item.destroyed = true;
         objects.remove(item);
     }
@@ -83,6 +76,17 @@ public class ItemContainer extends EntityContainer<Item> {
 
     public boolean itemAccessible(Item item, Position position) {
         //TODO handle items in containers
+
+        if(isItemInContainer(item)) {
+            Position containerPosition = contained.get(item).entity.position;
+            LocalMap map = map();
+            byte area = map.passageMap.area.get(position);
+            return PositionUtil.allNeighbourDeltas.stream()
+                    .map(pos -> Position.add(pos, containerPosition))
+                    .filter(map::inMap)
+                    .map(map.passageMap.area::get)
+                    .anyMatch(area1 -> area1 == area);
+        }
         return map().passageMap.area.get(position) == map().passageMap.area.get(item.position);
     }
 

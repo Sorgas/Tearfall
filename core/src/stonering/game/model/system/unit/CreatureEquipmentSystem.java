@@ -80,18 +80,20 @@ public class CreatureEquipmentSystem extends EntitySystem<Unit> {
         if (itemSlot != null) {
             itemSlot.item = null;
             equipment.items.remove(item);
+            itemContainer().equippedItemsSystem.itemUnequipped(item);
             return true;
         }
         GrabEquipmentSlot grabItemSlot = equipment.getGrabSlotWithItem(item).orElse(null);
         if (grabItemSlot != null) {
             grabItemSlot.grabbedItem = null;
             equipment.items.remove(item);
+            itemContainer().equippedItemsSystem.itemUnequipped(item);
             return true;
         }
         return false;
         //TODO remove item from worn containers
     }
-    
+
     private ItemContainer itemContainer() {
         return container == null ? container = GameMvc.model().get(ItemContainer.class) : container;
     }

@@ -29,14 +29,14 @@ public class EquippedItemsSystem extends EntitySystem<Item> {
     }
     
     public void itemEquipped(Item item, EquipmentAspect aspect) {
-        if (container.contained.containsKey(item)) Logger.ITEMS.logError("Adding to unit item not removed from container");
+        validateBeforeAdding(item);
         item.position = null;
         container.equipped.put(item, aspect);
     }
 
     public void itemUnequipped(Item item) {
-        if (container.equipped.remove(item) == null)
-            Logger.ITEMS.logWarn("Items inconsistency: item " + item + " is not registered in ItemContainer as equipped");
+        validateBeforeRemoving(item);
+        container.equipped.remove(item);
     }
 
     public void removeItemFromEquipment(Item item) {
@@ -51,5 +51,20 @@ public class EquippedItemsSystem extends EntitySystem<Item> {
 
     public boolean isItemEquipped(Item item) {
         return container.equipped.containsKey(item);
+    }
+
+    private void validateBeforeAdding(Item item) {
+        validateOther(item);
+        if(container.isItemEquipped(item)) Logger.ITEMS.logError("Items inconsistency: item " + item + " is equipped");
+    }
+
+    private void validateBeforeRemoving(Item item) {
+        validateOther(item);
+        if(!container.isItemEquipped(item)) Logger.ITEMS.logError("Items inconsistency: item " + item + " is not equipped");
+    }
+
+    private void validateOther(Item item) {
+        if(container.isItemOnMap(item)) Logger.ITEMS.logError("Items inconsistency: item " + item + " is on map");
+        if(container.isItemInContainer(item)) Logger.ITEMS.logError("Items inconsistency: item " + item + " is in container");
     }
 }

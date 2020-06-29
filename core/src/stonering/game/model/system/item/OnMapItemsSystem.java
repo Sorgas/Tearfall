@@ -56,17 +56,19 @@ public class OnMapItemsSystem extends EntitySystem<Item> {
        container.addItem(item);
        addItemToMap(item, position);
     }
-    
+
+    private void validateBeforeAdding(Item item) {
+        validateOther(item);
+        if(container.isItemOnMap(item)) Logger.ITEMS.logError("Items inconsistency: item " + item + " is already on map");
+    }
+
     private void validateBeforeRemoving(Item item) {
-        if(container.isItemEquipped(item)) Logger.ITEMS.logError("Items inconsistency: item " + item + " is equipped");
-        if(container.isItemInContainer(item)) Logger.ITEMS.logError("Items inconsistency: item " + item + " is in container");
+        validateOther(item);
         if(!container.isItemOnMap(item)) Logger.ITEMS.logError("Items inconsistency: item " + item + " is not on map");
     }
-    
-    private void validateBeforeAdding(Item item) {
+
+    private void validateOther(Item item) {
         if(container.isItemEquipped(item)) Logger.ITEMS.logError("Items inconsistency: item " + item + " is equipped");
         if(container.isItemInContainer(item)) Logger.ITEMS.logError("Items inconsistency: item " + item + " is in container");
-        if(container.isItemOnMap(item)) Logger.ITEMS.logError("Items inconsistency: item " + item + " is already on map");
-
     }
 }

@@ -34,12 +34,24 @@ public class ContainedItemsSystem extends EntitySystem<Item> {
     }
 
     public void removeItemFromContainer(Item item) {
-        if(!container.contained.get(item).items.remove(item)) Logger.ITEMS.logWarn("Items inconsistency: item " + item + " is not stored in container aspect");
-        if (container.contained.remove(item) == null) Logger.ITEMS.logWarn("Items inconsistency: item " + item + " is not registered in ItemContainer as contained");
+        validateForRemoving(item);
+        container.contained.get(item).items.remove(item);
         item.position = null; // clear item position
     }
 
-    public boolean isItemContained(Item item) {
-        return container.contained.containsKey(item);
+    private void validateForAdding(Item item) {
+        validateOther(item);
+        if(container.isItemInContainer(item)) Logger.ITEMS.logError("Items inconsistency: item " + item + " is already contained");
+    }
+
+    private void validateForRemoving(Item item) {
+        validateOther(item);
+        if(!container.isItemInContainer(item)) Logger.ITEMS.logError("Items inconsistency: item " + item + " is not contained");
+        if(!container.contained.get(item).items.contains(item)) Logger.ITEMS.logError("Items inconsistency: item " + item + " is not in registered container");
+    }
+
+    private void validateOther(Item item) {
+        if(container.isItemEquipped(item)) Logger.ITEMS.logError("Items inconsistency: item " + item + " is equipped");
+        if(container.isItemOnMap(item)) Logger.ITEMS.logError("Items inconsistency: item " + item + " is on map");
     }
 }
