@@ -50,6 +50,7 @@ public abstract class GenericBuildingAction extends ItemConsumingAction {
             if (checkClearingSite()) return NEW; // remove other items
 //            if(buildingTarget.builderPosition.equals(task.performer.position))
 //                addPreAction(new )
+            System.out.println("build action ok");
             return OK; // build
         };
     }
