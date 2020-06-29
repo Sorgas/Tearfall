@@ -5,7 +5,6 @@ import static stonering.enums.blocks.BlockTypeEnum.RAMP;
 
 import stonering.entity.item.Item;
 import stonering.entity.unit.Unit;
-import stonering.enums.blocks.BlockTypeEnum;
 import stonering.enums.materials.MaterialMap;
 import stonering.game.model.entity_selector.EntitySelectorSystem;
 import stonering.game.model.system.item.ItemContainer;
@@ -28,7 +27,7 @@ public class DiggingModel extends TestModel {
         get(EntitySelectorSystem.class).selector.position.set(MAP_SIZE / 2, MAP_SIZE / 2, 10);
         get(UnitContainer.class).addUnit(createUnit());
         Item pickaxe = new ItemGenerator().generateItem("pickaxe", "iron", null);
-        get(ItemContainer.class).onMapItemsSystem.putNewItem(pickaxe, new Position(0, 0, 10));
+        get(ItemContainer.class).onMapItemsSystem.addNewItemToMap(pickaxe, new Position(0, 0, 10));
     }
 
     @Override

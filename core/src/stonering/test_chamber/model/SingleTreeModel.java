@@ -24,7 +24,7 @@ public class SingleTreeModel extends TestModel {
     public void init() {
         super.init();
         get(UnitContainer.class).addUnit(createUnit());
-        get(ItemContainer.class).onMapItemsSystem.putNewItem(createItem(), new Position(0, 0, 2));
+        get(ItemContainer.class).onMapItemsSystem.addNewItemToMap(createItem(), new Position(0, 0, 2));
         calendar.minute.max = 1;
         calendar.hour.max = 1;
         calendar.day.max = 4;

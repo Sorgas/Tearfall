@@ -10,10 +10,10 @@ import stonering.game.model.system.item.ItemContainer;
  * @author Alexander on 22.06.2020.
  */
 public abstract class ItemAction extends Action {
-    protected ItemContainer container;
+    protected ItemContainer itemContainer;
 
     protected ItemAction(ActionTarget target) {
         super(target);
-        container = GameMvc.model().get(ItemContainer.class);
+        itemContainer = GameMvc.model().get(ItemContainer.class);
     }
 }

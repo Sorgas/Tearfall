@@ -22,7 +22,7 @@ public class ContainedItemsSystem extends EntitySystem<Item> {
 
     @Override
     public void update(Item entity) {
-        // TODO update items in containers
+        // update items in containers
     }
 
     public void addItemToContainer(Item item, ItemContainerAspect aspect) {

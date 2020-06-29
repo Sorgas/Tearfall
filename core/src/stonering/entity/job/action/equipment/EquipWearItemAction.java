@@ -40,7 +40,7 @@ public class EquipWearItemAction extends EquipmentAction {
             // TODO wrap with layer condition
             Optional.ofNullable(targetSlot)
                     .map(system::freeSlot) // remove item from slot
-                    .ifPresent(previousItem -> container.onMapItemsSystem.putItem(previousItem, task.performer.position)); // put to map
+                    .ifPresent(previousItem -> itemContainer.onMapItemsSystem.addItemToMap(previousItem, task.performer.position)); // put to map
 
             // move item from hand to slot
             equipment().grabSlotStream()

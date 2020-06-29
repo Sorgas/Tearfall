@@ -25,32 +25,48 @@ public class OnMapItemsSystem extends EntitySystem<Item> {
 
     @Override
     public void update(Item entity) {
-
+        // update items
     }
 
-    public void putItem(Item item, Position pos) {
-        item.position = pos;
-        container.itemMap.computeIfAbsent(pos, pos1 -> new ArrayList<>()).add(item);
+    public void addItemToMap(Item item, Position position) {
+        Logger.ITEMS.logDebug("Putting item " + item + " to map");
+        validateBeforeAdding(item);
+        item.position = position;
+        container.itemMap.computeIfAbsent(position, pos -> new ArrayList<>()).add(item);
     }
 
     public void removeItemFromMap(Item item) {
-        Logger.ITEMS.logDebug("Removing item " + item + "from map");
+        Logger.ITEMS.logDebug("Removing item " + item + " from map");
+        validateBeforeRemoving(item);
         List<Item> list = container.itemMap.get(item.position);
-        if (!list.remove(item)) Logger.ITEMS.logWarn("Items inconsistency: item " + item + " is not on the map in position " + item.position);
+        list.remove(item);
         if (list.isEmpty()) container.itemMap.remove(item.position); // last item on the tile
         item.position = null;
     }
 
     public void changeItemPosition(Item item, Position position) {
         removeItemFromMap(item);
-        putItem(item, position);
+        addItemToMap(item, position);
     }
 
     /**
      * Adds item to container and then puts it to given position.
      */
-    public void putNewItem(Item item, Position position) {
+    public void addNewItemToMap(Item item, Position position) {
        container.addItem(item);
-       putItem(item, position);
+       addItemToMap(item, position);
+    }
+    
+    private void validateBeforeRemoving(Item item) {
+        if(container.isItemEquipped(item)) Logger.ITEMS.logError("Items inconsistency: item " + item + " is equipped");
+        if(container.isItemInContainer(item)) Logger.ITEMS.logError("Items inconsistency: item " + item + " is in container");
+        if(!container.isItemOnMap(item)) Logger.ITEMS.logError("Items inconsistency: item " + item + " is not on map");
+    }
+    
+    private void validateBeforeAdding(Item item) {
+        if(container.isItemEquipped(item)) Logger.ITEMS.logError("Items inconsistency: item " + item + " is equipped");
+        if(container.isItemInContainer(item)) Logger.ITEMS.logError("Items inconsistency: item " + item + " is in container");
+        if(container.isItemOnMap(item)) Logger.ITEMS.logError("Items inconsistency: item " + item + " is already on map");
+
     }
 }

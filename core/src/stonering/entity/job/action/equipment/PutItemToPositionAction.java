@@ -1,4 +1,4 @@
-package stonering.entity.job.action.item;
+package stonering.entity.job.action.equipment;
 
 import stonering.entity.job.action.target.PositionActionTarget;
 import stonering.entity.item.Item;
@@ -27,7 +27,7 @@ public class PutItemToPositionAction extends PutItemAction {
             ItemContainer container = GameMvc.model().get(ItemContainer.class);
             equipmentAspect.items.remove(targetItem); // remove item from unit
             container.equippedItemsSystem.itemUnequipped(targetItem);
-            container.onMapItemsSystem.putItem(targetItem, targetPosition);
+            container.onMapItemsSystem.addItemToMap(targetItem, targetPosition);
         };
     }
 

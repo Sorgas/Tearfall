@@ -62,7 +62,7 @@ public abstract class ItemConsumingAction extends ItemAction {
         return ingredientOrder.items.size() == ingredientOrder.ingredient.quantity
                 && ingredientOrder.items.stream()
                 .allMatch(item -> !item.destroyed &&
-                        container.itemAccessible(item, task.performer.position));
+                        itemContainer.itemAccessible(item, task.performer.position));
     }
 
     private boolean findItemsForIngredient(IngredientOrder ingredientOrder) {
@@ -98,8 +98,8 @@ public abstract class ItemConsumingAction extends ItemAction {
                 .filter(order -> !"main".equals(order.ingredient.key))
                 .flatMap(order -> order.items.stream()) // all items from not 'main' ingredient
                 .forEach(item -> {
-                    container.onMapItemsSystem.removeItemFromMap(item);
-                    container.removeItem(item);
+                    itemContainer.onMapItemsSystem.removeItemFromMap(item);
+                    itemContainer.removeItem(item);
                 });
     }
 

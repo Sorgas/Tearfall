@@ -3,16 +3,10 @@ package stonering.entity.job.action.equipment;
 import stonering.entity.Entity;
 import stonering.entity.item.Item;
 import stonering.entity.item.aspects.ItemContainerAspect;
-import stonering.entity.job.action.Action;
-import stonering.entity.job.action.ItemAction;
 import stonering.entity.job.action.target.EntityActionTarget;
-import stonering.entity.unit.aspects.equipment.EquipmentAspect;
-import stonering.entity.unit.aspects.equipment.GrabEquipmentSlot;
-import stonering.entity.unit.aspects.health.HealthAspect;
 import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.local_map.LocalMap;
-import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.system.unit.CreatureEquipmentSystem;
 import stonering.game.model.system.unit.UnitContainer;
 import stonering.util.logging.Logger;
@@ -51,7 +45,7 @@ public class GetItemFromContainerAction extends EquipmentAction {
                     .filter(slot -> slot.grabbedItem == null)
                     .findFirst()
                     .ifPresent(slot -> {
-                        container.containedItemsSystem.removeItemFromContainer(item); // remove from container
+                        itemContainer.containedItemsSystem.removeItemFromContainer(item); // remove from container
                         system.fillGrabSlot(equipment(), slot, item); // add to equipment
                     });
             Logger.EQUIPMENT.logError("Slot for picking up item " + item + " not found");

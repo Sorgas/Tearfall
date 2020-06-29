@@ -1,4 +1,4 @@
-package stonering.entity.job.action.item;
+package stonering.entity.job.action.equipment;
 
 import stonering.entity.item.Item;
 import stonering.entity.job.action.Action;

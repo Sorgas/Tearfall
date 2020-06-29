@@ -18,7 +18,8 @@ import java.util.Map;
  * TODO Consists of parts (post mvp).
  * TODO Some items can have origin (cow meat, apple (fruit)).
  * TODO Origin is set on item creation, and not mentioned on item definition and {@link ItemType}, instead of this, sources of items (animals, plants), give them origin.
- *
+ * equals() not overrode for purpose.  
+ * 
  * @author Alexander Kuzyakov on 09.12.2017.
  */
 public class Item extends Entity {

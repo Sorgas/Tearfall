@@ -43,32 +43,32 @@ public class WorkbenchModel extends TestModel {
     private void createItems() {
         ItemGenerator generator = new ItemGenerator();
         ItemContainer container = get(ItemContainer.class);
-        container.onMapItemsSystem.putNewItem(generator.generateItem("meat_piece", "meat", null), new Position(0, 0, 2));
-        container.onMapItemsSystem.putNewItem(generator.generateItem("log", "wood", null), new Position(1, 0, 2));
-        container.onMapItemsSystem.putNewItem(generator.generateItem("log", "wood", null), new Position(2, 0, 2));
-        container.onMapItemsSystem.putNewItem(generator.generateItem("log", "wood", null), new Position(2, 0, 2));
-        container.onMapItemsSystem.putNewItem(generator.generateItem("log", "wood", null), new Position(3, 0, 2));
-        container.onMapItemsSystem.putNewItem(generator.generateItem("log", "wood", null), new Position(3, 0, 2));
-        container.onMapItemsSystem.putNewItem(generator.generateItem("log", "wood", null), new Position(3, 0, 2));
-        container.onMapItemsSystem.putNewItem(generator.generateItem("log", "wood", null), new Position(4, 0, 2));
-        container.onMapItemsSystem.putNewItem(generator.generateItem("log", "wood", null), new Position(4, 0, 2));
-        container.onMapItemsSystem.putNewItem(generator.generateItem("log", "wood", null), new Position(4, 0, 2));
-        container.onMapItemsSystem.putNewItem(generator.generateItem("log", "wood", null), new Position(4, 0, 2));
-        container.onMapItemsSystem.putNewItem(generator.generateItem("bar", "copper", null), new Position(5, 0, 2));
-        container.onMapItemsSystem.putNewItem(generator.generateItem("bar", "copper", null), new Position(6, 0, 2));
-        container.onMapItemsSystem.putNewItem(generator.generateItem("bar", "copper", null), new Position(7, 0, 2));
-        container.onMapItemsSystem.putNewItem(generator.generateItem("bar", "copper", null), new Position(8, 0, 2));
-        container.onMapItemsSystem.putNewItem(generator.generateItem("bar", "copper", null), new Position(9, 0, 2));
-        container.onMapItemsSystem.putNewItem(generator.generateItem("bar", "iron", null), new Position(0, 1, 2));
-        container.onMapItemsSystem.putNewItem(generator.generateItem("bar", "iron", null), new Position(1, 1, 2));
-        container.onMapItemsSystem.putNewItem(generator.generateItem("bar", "iron", null), new Position(2, 1, 2));
-        container.onMapItemsSystem.putNewItem(generator.generateItem("bar", "iron", null), new Position(3, 1, 2));
-        container.onMapItemsSystem.putNewItem(generator.generateItem("bar", "iron", null), new Position(4, 1, 2));
-        container.onMapItemsSystem.putNewItem(generator.generateItem("bar", "iron", null), new Position(6, 1, 2));
+        container.onMapItemsSystem.addNewItemToMap(generator.generateItem("meat_piece", "meat", null), new Position(0, 0, 2));
+        container.onMapItemsSystem.addNewItemToMap(generator.generateItem("log", "wood", null), new Position(1, 0, 2));
+        container.onMapItemsSystem.addNewItemToMap(generator.generateItem("log", "wood", null), new Position(2, 0, 2));
+        container.onMapItemsSystem.addNewItemToMap(generator.generateItem("log", "wood", null), new Position(2, 0, 2));
+        container.onMapItemsSystem.addNewItemToMap(generator.generateItem("log", "wood", null), new Position(3, 0, 2));
+        container.onMapItemsSystem.addNewItemToMap(generator.generateItem("log", "wood", null), new Position(3, 0, 2));
+        container.onMapItemsSystem.addNewItemToMap(generator.generateItem("log", "wood", null), new Position(3, 0, 2));
+        container.onMapItemsSystem.addNewItemToMap(generator.generateItem("log", "wood", null), new Position(4, 0, 2));
+        container.onMapItemsSystem.addNewItemToMap(generator.generateItem("log", "wood", null), new Position(4, 0, 2));
+        container.onMapItemsSystem.addNewItemToMap(generator.generateItem("log", "wood", null), new Position(4, 0, 2));
+        container.onMapItemsSystem.addNewItemToMap(generator.generateItem("log", "wood", null), new Position(4, 0, 2));
+        container.onMapItemsSystem.addNewItemToMap(generator.generateItem("bar", "copper", null), new Position(5, 0, 2));
+        container.onMapItemsSystem.addNewItemToMap(generator.generateItem("bar", "copper", null), new Position(6, 0, 2));
+        container.onMapItemsSystem.addNewItemToMap(generator.generateItem("bar", "copper", null), new Position(7, 0, 2));
+        container.onMapItemsSystem.addNewItemToMap(generator.generateItem("bar", "copper", null), new Position(8, 0, 2));
+        container.onMapItemsSystem.addNewItemToMap(generator.generateItem("bar", "copper", null), new Position(9, 0, 2));
+        container.onMapItemsSystem.addNewItemToMap(generator.generateItem("bar", "iron", null), new Position(0, 1, 2));
+        container.onMapItemsSystem.addNewItemToMap(generator.generateItem("bar", "iron", null), new Position(1, 1, 2));
+        container.onMapItemsSystem.addNewItemToMap(generator.generateItem("bar", "iron", null), new Position(2, 1, 2));
+        container.onMapItemsSystem.addNewItemToMap(generator.generateItem("bar", "iron", null), new Position(3, 1, 2));
+        container.onMapItemsSystem.addNewItemToMap(generator.generateItem("bar", "iron", null), new Position(4, 1, 2));
+        container.onMapItemsSystem.addNewItemToMap(generator.generateItem("bar", "iron", null), new Position(6, 1, 2));
         for (int i = 0; i < 10; i++) {
-            container.onMapItemsSystem.putNewItem(generator.generateItem("rock", "diorite", null), new Position(7, 1, 2));
+            container.onMapItemsSystem.addNewItemToMap(generator.generateItem("rock", "diorite", null), new Position(7, 1, 2));
         }
-        container.onMapItemsSystem.putNewItem(generator.generateItem("rock", "magnetite", null), new Position(8, 1, 2));
+        container.onMapItemsSystem.addNewItemToMap(generator.generateItem("rock", "magnetite", null), new Position(8, 1, 2));
     }
 
     @Override

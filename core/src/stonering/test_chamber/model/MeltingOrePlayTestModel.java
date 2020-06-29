@@ -53,7 +53,7 @@ public class MeltingOrePlayTestModel extends TestModel {
         ItemGenerator generator = new ItemGenerator();
         ItemContainer container = get(ItemContainer.class);
         for (int i = 0; i < 40; i++) {
-            container.onMapItemsSystem.putNewItem(generator.generateItem("log", "wood", null), new Position(0, 0, 2));
+            container.onMapItemsSystem.addNewItemToMap(generator.generateItem("log", "wood", null), new Position(0, 0, 2));
         }
     }
 

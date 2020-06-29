@@ -47,10 +47,10 @@ public class FoodPlayTestModel extends TestModel {
         Building chest = buildingGenerator.generateBuilding("chest", new Position(8, 3, 2), OrientationEnum.N);
         buildingContainer.addBuilding(chest);
         
-        itemContainer.onMapItemsSystem.putNewItem(rawMeat, new Position(6, 1, 2));
-        itemContainer.onMapItemsSystem.putNewItem(spoiledMeat, new Position(7, 1, 2));
+        itemContainer.onMapItemsSystem.addNewItemToMap(rawMeat, new Position(6, 1, 2));
+        itemContainer.onMapItemsSystem.addNewItemToMap(spoiledMeat, new Position(7, 1, 2));
         itemContainer.addItem(preparedMeat);
         itemContainer.containedItemsSystem.addItemToContainer(preparedMeat, chest.get(ItemContainerAspect.class));
-        itemContainer.onMapItemsSystem.putNewItem(preparedMeat, new Position(8, 1, 2));
+        itemContainer.onMapItemsSystem.addNewItemToMap(preparedMeat, new Position(8, 1, 2));
     }
 }

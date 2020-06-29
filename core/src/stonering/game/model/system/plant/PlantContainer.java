@@ -129,7 +129,7 @@ public class PlantContainer extends EntityContainer<AbstractPlant> implements Mo
         ItemContainer itemContainer = GameMvc.model().get(ItemContainer.class);
         plantProductGenerator.generateCutProduct(block).forEach(item -> {
             itemContainer.addItem(item);
-            itemContainer.onMapItemsSystem.putItem(item, block.position);
+            itemContainer.onMapItemsSystem.addItemToMap(item, block.position);
         });
     }
 

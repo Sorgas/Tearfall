@@ -5,7 +5,6 @@ import stonering.entity.job.designation.Designation;
 import stonering.entity.job.designation.OrderDesignation;
 import stonering.entity.job.action.target.PositionActionTarget;
 import stonering.entity.item.Item;
-import stonering.entity.item.selectors.ItemSelector;
 import stonering.entity.item.selectors.ToolWithActionItemSelector;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.enums.action.ActionTargetTypeEnum;
@@ -106,7 +105,7 @@ public class DigAction extends SkillAction {
         int materialId = map.blockType.getMaterial(target);
         new DiggingProductGenerator()
                 .generateDigProduct(materialId, oldType, newType)
-                .forEach(item -> container.onMapItemsSystem.putNewItem(item, target));
+                .forEach(item -> container.onMapItemsSystem.addNewItemToMap(item, target));
     }
 
     private void updateAndRevealMap(Position position, BlockTypeEnum type) {

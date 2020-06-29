@@ -2,7 +2,6 @@ package stonering.entity.job.action.equipment;
 
 import stonering.entity.item.Item;
 import stonering.entity.job.action.target.SelfActionTarget;
-import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.util.logging.Logger;
 
 import static stonering.entity.job.action.ActionConditionStatusEnum.*;
@@ -33,7 +32,7 @@ public class EquipToolItemAction extends EquipmentAction {
                     .filter(slot -> slot.grabbedItem != null && slot.grabbedItem.type.tool != null && slot.grabbedItem != item)
                     .forEach(slot -> {
                         Item wornItem = system.freeGrabSlot(slot); // remove from hands
-                        container.onMapItemsSystem.putItem(wornItem, task.performer.position); // put to map
+                        itemContainer.onMapItemsSystem.addItemToMap(wornItem, task.performer.position); // put to map
                     });
             equipment().grabSlotStream()
                     .filter(slot -> slot.grabbedItem == null)

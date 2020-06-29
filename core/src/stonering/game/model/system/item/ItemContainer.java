@@ -23,6 +23,7 @@ import java.util.*;
  */
 public class ItemContainer extends EntityContainer<Item> {
     public final Map<Position, List<Item>> itemMap = new HashMap<>(); // maps tiles position to list of item it that position.
+    public final Set<Item> onMapItemsSet = new HashSet<>(); // set for faster checking
     public final Map<Item, ItemContainerAspect> contained = new HashMap<>(); // maps contained items to containers they are in.
     public final Map<Item, EquipmentAspect> equipped = new HashMap<>(); // maps equipped and hauled items to units.
 
@@ -33,7 +34,7 @@ public class ItemContainer extends EntityContainer<Item> {
     public final OnMapItemsSystem onMapItemsSystem;
     private Position cachePosition;
     private LocalMap map;
-        
+
     public ItemContainer() {
         put(containedItemsSystem = new ContainedItemsSystem(this));
         put(equippedItemsSystem = new EquippedItemsSystem(this));
@@ -62,8 +63,8 @@ public class ItemContainer extends EntityContainer<Item> {
         } else {
             Logger.ITEMS.logDebug("Removing item " + item.type.name);
         }
-        if(contained.containsKey(item)) containedItemsSystem.removeItemFromContainer(item);
-        if(equipped.containsKey(item)) equippedItemsSystem.removeItemFromEquipment(item);
+        if (contained.containsKey(item)) containedItemsSystem.removeItemFromContainer(item);
+        if (equipped.containsKey(item)) equippedItemsSystem.removeItemFromEquipment(item);
         item.destroyed = true;
         objects.remove(item);
     }
@@ -79,13 +80,25 @@ public class ItemContainer extends EntityContainer<Item> {
     public List<Item> getItemsInPosition(int x, int y, int z) {
         return getItemsInPosition(cachePosition.set(x, y, z));
     }
-    
+
     public boolean itemAccessible(Item item, Position position) {
         //TODO handle items in containers
         return map().passageMap.area.get(position) == map().passageMap.area.get(item.position);
     }
-    
+
     private LocalMap map() {
         return map == null ? map = GameMvc.model().get(LocalMap.class) : map;
+    }
+
+    public boolean isItemOnMap(Item item) {
+        return onMapItemsSet.contains(item);
+    }
+
+    public boolean isItemInContainer(Item item) {
+        return contained.containsKey(item);
+    }
+
+    public boolean isItemEquipped(Item item) {
+        return equipped.containsKey(item);
     }
 }

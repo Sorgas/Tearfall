@@ -1,13 +1,11 @@
 package stonering.entity.job.action.equipment;
 
 import stonering.entity.item.Item;
-import stonering.entity.job.action.Action;
 import stonering.entity.job.action.ItemAction;
 import stonering.entity.job.action.target.SelfActionTarget;
 import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.entity.unit.aspects.equipment.GrabEquipmentSlot;
 import stonering.game.GameMvc;
-import stonering.game.model.system.item.ItemContainer;
 import stonering.game.model.system.unit.CreatureEquipmentSystem;
 import stonering.game.model.system.unit.UnitContainer;
 
@@ -30,7 +28,7 @@ public class FreeGrabSlotAction extends ItemAction {
         onFinish = () -> {
             GrabEquipmentSlot slot = findSlot(); // should never be null
             Item item = system.freeGrabSlot(slot);
-            container.onMapItemsSystem.putItem(item, task.performer.position); // put to map
+            itemContainer.onMapItemsSystem.addItemToMap(item, task.performer.position); // put to map
         };
     }
 

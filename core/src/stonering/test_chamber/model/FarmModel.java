@@ -22,7 +22,7 @@ public class FarmModel extends TestModel {
         super.init();
         get(EntitySelectorSystem.class).selector.position.set(MAP_SIZE / 2, MAP_SIZE / 2, 2);
         get(UnitContainer.class).addUnit(createUnit());
-        get(ItemContainer.class).onMapItemsSystem.putNewItem(createHoe(), new Position(0, 0, 2));
+        get(ItemContainer.class).onMapItemsSystem.addNewItemToMap(createHoe(), new Position(0, 0, 2));
         putSeeds();
     }
 
@@ -37,7 +37,7 @@ public class FarmModel extends TestModel {
 
     private void putSeeds() {
         for (int i = 0; i < 4; i++) {
-            get(ItemContainer.class).onMapItemsSystem.putNewItem(createSeed(), new Position(1 + i, 0, 2));
+            get(ItemContainer.class).onMapItemsSystem.addNewItemToMap(createSeed(), new Position(1 + i, 0, 2));
         }
     }
 
