@@ -24,7 +24,7 @@ public class ObtainItemAction extends ItemAction {
             if (itemContainer.equippedItemsSystem.isItemEquipped(item)) return FAIL; // item is equipped on another unit
             Action action = itemContainer.isItemInContainer(item)
                     ? new GetItemFromContainerAction(item, itemContainer.contained.get(item).entity) // pickup from ground 
-                    : new ItemPickupAction(item); // take from container
+                    : new GetItemFromGroundAction(item); // take from container
             return addPreAction(action);
         };
 

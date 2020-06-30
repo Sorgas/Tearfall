@@ -93,8 +93,22 @@ public class CreatureEquipmentSystem extends EntitySystem<Unit> {
         return false;
         //TODO remove item from worn containers
     }
-
+    
+    public void putItemToBuffer(Item item, EquipmentAspect equipment) {
+        itemContainer().equippedItemsSystem.itemEquipped(item, equipment);
+        equipment.items.add(item);
+        equipment.itemBuffer = item;
+    }
+    
+    public void removeItemFromBuffer(EquipmentAspect equipment) {
+        Item item = equipment.itemBuffer;
+        equipment.itemBuffer = null;
+        equipment.items.remove(item);
+        itemContainer().equippedItemsSystem.itemUnequipped(item);
+    }
+    
     private ItemContainer itemContainer() {
         return container == null ? container = GameMvc.model().get(ItemContainer.class) : container;
     }
 }
+ 

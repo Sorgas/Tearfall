@@ -12,24 +12,16 @@ import static stonering.entity.job.action.ActionConditionStatusEnum.*;
  * All other tools in grab slots are unequipped.
  * TODO make two handed tools, probably making main-hand and off-hand, and adding comprehensive requirements to tools.
  */
-public class EquipToolItemAction extends EquipmentAction {
+public class EquipToolItemAction extends PutItemToDestinationAction {
     private Item item;
 
-    public EquipToolItemAction(Item item) {
-        super(new SelfActionTarget());
-        this.item = item;
-
-        startCondition = () -> { // check that item is on hands for equipping
-            if (!validate()) return FAIL;
-            boolean toolEquipped = equipment().grabSlotStream().anyMatch(slot -> slot.grabbedItem == item);
-            return toolEquipped
-                    ? OK // item is already in some grab slot
-                    : addPreAction(new ObtainItemAction(item)); // create action for getting target item 
-        };
-
+    public EquipToolItemAction(Item targetItem) {
+        super(new SelfActionTarget(), targetItem);
+        this.item = targetItem;
+        
         onFinish = () -> {
             equipment().grabSlotStream()
-                    .filter(slot -> slot.grabbedItem != null && slot.grabbedItem.type.tool != null && slot.grabbedItem != item)
+                    .filter(slot -> slot.grabbedItem != null && slot.grabbedItem.type.tool != null && slot.grabbedItem != targetItem)
                     .forEach(slot -> {
                         Item wornItem = system.freeGrabSlot(slot); // remove from hands
                         itemContainer.onMapItemsSystem.addItemToMap(wornItem, task.performer.position); // put to map
@@ -38,7 +30,7 @@ public class EquipToolItemAction extends EquipmentAction {
                     .filter(slot -> slot.grabbedItem == null)
                     .findFirst()
                     .ifPresentOrElse(
-                            slot -> system.fillGrabSlot(equipment(), slot, item), 
+                            slot -> system.fillGrabSlot(equipment(), slot, targetItem),
                             () -> Logger.EQUIPMENT.logError("no free slot after removing other tools."));
             //TODO move target item between hands, to maintain main/off hand logic
         };

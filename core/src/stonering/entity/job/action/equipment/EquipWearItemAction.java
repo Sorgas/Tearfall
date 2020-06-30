@@ -9,8 +9,6 @@ import stonering.game.model.system.unit.CreatureEquipmentSystem;
 import stonering.game.model.system.unit.UnitContainer;
 import stonering.util.logging.Logger;
 
-import static stonering.entity.job.action.ActionConditionStatusEnum.*;
-
 import java.util.Optional;
 
 /**
@@ -18,22 +16,12 @@ import java.util.Optional;
  *
  * @author Alexander
  */
-public class EquipWearItemAction extends EquipmentAction {
-    public Item item;
+public class EquipWearItemAction extends PutItemToDestinationAction {
 
     public EquipWearItemAction(Item item) {
-        super(new SelfActionTarget());
-        this.item = item;
+        super(new SelfActionTarget(), item);
         CreatureEquipmentSystem system = GameMvc.model().get(UnitContainer.class).equipmentSystem;
         WearAspect wear = item.get(WearAspect.class);
-
-        startCondition = () -> {
-            if (!validate()) return FAIL;
-            if (equipment().grabSlotStream().noneMatch(slot -> slot.grabbedItem == item)) { // item not in hands
-                return addPreAction(new ObtainItemAction(item)); // get item
-            }
-            return OK;
-        };
 
         onFinish = () -> {
             EquipmentSlot targetSlot = equipment().slots.get(wear.slot);
@@ -55,15 +43,15 @@ public class EquipWearItemAction extends EquipmentAction {
 
     protected boolean validate() {
         if (!super.validate()) return false;
-        WearAspect wear = item.get(WearAspect.class);
+        WearAspect wear = targetItem.get(WearAspect.class);
         if (wear == null) return Logger.TASKS.logError("Target item is not wear", false);
         if (equipment().slots.get(wear.slot) == null)
-            return Logger.TASKS.logError("unit " + task.performer + " has no appropriate slots for item " + item, false);
+            return Logger.TASKS.logError("unit " + task.performer + " has no appropriate slots for item " + targetItem, false);
         return true;
     }
 
     @Override
     public String toString() {
-        return "Equipping wear item " + item.title + " action: ";
+        return "Equipping wear item " + targetItem.title + " action: ";
     }
 }

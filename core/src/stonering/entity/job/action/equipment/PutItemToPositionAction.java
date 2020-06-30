@@ -6,6 +6,7 @@ import stonering.entity.unit.aspects.equipment.EquipmentAspect;
 import stonering.enums.action.ActionTargetTypeEnum;
 import stonering.game.GameMvc;
 import stonering.game.model.system.item.ItemContainer;
+import stonering.game.model.system.unit.UnitContainer;
 import stonering.util.geometry.Position;
 
 /**
@@ -14,7 +15,7 @@ import stonering.util.geometry.Position;
  *
  * @author Alexander on 11.01.2019.
  */
-public class PutItemToPositionAction extends PutItemAction {
+public class PutItemToPositionAction extends PutItemToDestinationAction {
 
     public PutItemToPositionAction(Item targetItem, Position targetPosition) {
         super(new PositionActionTarget(targetPosition, ActionTargetTypeEnum.ANY), targetItem);
@@ -22,12 +23,8 @@ public class PutItemToPositionAction extends PutItemAction {
         onStart = () -> maxProgress = 20;
 
         onFinish = () -> {
-            System.out.println("put item to position finish");
-            EquipmentAspect equipmentAspect = task.performer.get(EquipmentAspect.class);
-            ItemContainer container = GameMvc.model().get(ItemContainer.class);
-            equipmentAspect.items.remove(targetItem); // remove item from unit
-            container.equippedItemsSystem.itemUnequipped(targetItem);
-            container.onMapItemsSystem.addItemToMap(targetItem, targetPosition);
+            GameMvc.model().get(UnitContainer.class).equipmentSystem.removeItemFromBuffer(equipment());
+            GameMvc.model().get(ItemContainer.class).onMapItemsSystem.addItemToMap(targetItem, targetPosition);
         };
     }
 

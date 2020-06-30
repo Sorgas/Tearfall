@@ -13,27 +13,33 @@ import stonering.util.logging.Logger;
 import static stonering.entity.job.action.ActionConditionStatusEnum.*;
 
 /**
- * Action for picking and hauling item.
- * Performer should have {@link EquipmentAspect} and {@link GrabEquipmentSlot} free.
- * Item should be on the ground (see {@link ObtainItemAction}).
+ * Action for picking up item. Performer should have {@link EquipmentAspect}.
+ * Item is put to special {@link EquipmentAspect#itemBuffer} field.
+ * Item should be on the ground, (see {@link ObtainItemAction}).
  *
  * @author Alexander on 12.01.2019.
  */
-public class ItemPickupAction extends EquipmentAction {
+public class GetItemFromGroundAction extends EquipmentAction {
     private Item item;
 
-    public ItemPickupAction(Item item) {
+    public GetItemFromGroundAction(Item item) {
         super(new ItemActionTarget(item));
         this.item = item;
         CreatureEquipmentSystem system = GameMvc.model().get(UnitContainer.class).equipmentSystem;
         LocalMap map = GameMvc.model().get(LocalMap.class);
 
         startCondition = () -> {
-            EquipmentAspect equipment = task.performer.get(EquipmentAspect.class);
             if (!itemContainer.itemMap.get(item.position).contains(item)
                     || !map.passageMap.inSameArea(item.position, task.performer.position)) return FAIL; // item not available
+            
             if (equipment().grabSlotStream().noneMatch(slot -> slot.grabbedItem == null)) // if no empty grab slots
+            {
                 return addPreAction(new FreeGrabSlotAction()); // free another slot
+            }
+            if(equipment().itemBuffer != null) {
+                Logger.EQUIPMENT.logError("item buffer not empty before getting item from ground");
+                
+            }
             return OK;
         };
 
@@ -41,6 +47,7 @@ public class ItemPickupAction extends EquipmentAction {
 
         onFinish = () -> { // add item to unit
             itemContainer.onMapItemsSystem.removeItemFromMap(item);
+            equipment().itemBuffer = item;
             equipment().items.add(item);
             equipment().grabSlotStream()
                     .filter(slot -> slot.grabbedItem == null)

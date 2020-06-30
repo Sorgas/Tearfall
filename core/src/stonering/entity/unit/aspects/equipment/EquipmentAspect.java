@@ -3,7 +3,6 @@ package stonering.entity.unit.aspects.equipment;
 import stonering.entity.Entity;
 import stonering.entity.Aspect;
 import stonering.entity.item.Item;
-import stonering.entity.item.aspects.WearAspect;
 import stonering.stage.entity_menu.unit.UnitEquipmentTab;
 
 import java.util.*;
@@ -21,7 +20,8 @@ public class EquipmentAspect extends Aspect {
     public final HashMap<String, GrabEquipmentSlot> grabSlots;    // slots for tools (subset of all slots)
     public final Set<Item> items;                           // items in worn containers and in hands
     public final List<EquipmentSlot> desiredSlots;                // uncovered limbs give comfort penalty
-
+    public Item itemBuffer;
+    
     public EquipmentAspect(Entity entity) {
         super(entity);
         slots = new HashMap<>();
